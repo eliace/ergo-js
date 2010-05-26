@@ -1,0 +1,266 @@
+/**
+ * Здесь определяется пространство имен Dino и вспомогательные функции.
+ * 
+ * 
+ * 
+ */
+
+var Dino = (function(){
+	
+	var D = {};
+
+	//Копирование свойств одного объекта в другой (создание примеси)
+	D.override = function(obj, overrides) {
+		for(var i in overrides)
+			obj[i] = overrides[i];
+		return obj;
+	};
+	
+	// псевдоним для override
+	D.merge = D.override;
+	
+	// создание расширенного класса
+	D.extend = function(p_ctor, ctor, overrides) {
+		
+		if(typeof ctor == 'object') {
+			overrides = ctor;
+			ctor = function(){ p_ctor.apply(this, arguments); };
+		}
+		
+		
+		var F = function(){};
+		F.prototype = p_ctor.prototype;
+		ctor.prototype = new F();
+		ctor.prototype.constructor = ctor;
+		ctor.superclass = p_ctor.prototype;
+		ctor.super_ctor = p_ctor;
+		
+		D.override(ctor.prototype, overrides);
+
+		return ctor;
+	};
+	
+	
+	var _dtypes = {};
+	
+	D.declare = function(class_name, base_class, overrides, dtype) {
+		
+		var clazz = D.extend(base_class, overrides);
+		
+		// создаем пространство имен для класса
+		var cp_a = class_name.split('.');
+		var cp = 'window';
+		for(var i = 0; i < cp_a.length; i++){
+			cp += '.'+cp_a[i];
+			eval( 'if(!'+cp+') '+cp+' = {};' );
+		}		
+		eval(cp + ' = clazz;');
+		
+		// регистрируем DTYPE класса (если он есть)
+		if(dtype){
+			clazz.prototype.dtype = dtype;
+			_dtypes[dtype] = clazz;
+		}
+		
+		return clazz;
+	};
+	
+//	D.ctor_for_dtype = function(dtype) {
+//		return _dtypes[dtype];
+//	};
+//	
+	
+	D.object = function(options, defaultType) {
+		
+		if(options instanceof Dino.BaseObject) return options;
+		
+		var dtype = options.dtype || defaultType;
+		
+		var ctor = _dtypes[dtype];
+		
+		if(!ctor ){
+			Dino.error_log('Class for dtype "'+dtype+'" not found');
+			return null;
+		}
+				
+		return new ctor(options);	
+	};
+
+	D.widget = D.object;
+	
+	
+/*	
+	D.isFunction = function(obj) { return obj instanceof Function; };
+	D.isArray = function(obj) {return obj instanceof Array;}
+	D.isNumber = function(obj) {return typeof obj == 'number';};
+	D.isBoolean = function(obj) {return typeof obj == 'boolean';};
+	D.isString = function(obj) {return typeof obj == 'string';};
+	D.isObject = function(obj) { return obj.constructor == Object; };
+*/
+	
+	D.isFunction = $.isFunction;
+	D.isArray = $.isArray;
+	D.isObject = $.isPlainObject;
+	
+	D.each = function(obj, fn) {
+		for(var i in obj) fn.call(obj, obj[i], i);
+	};
+	
+	D.select = function(obj, fn){
+		var a = D.isArray(obj) ? [] : {};
+		for(var i in obj)
+			if(fn.call(obj, obj[i])) a[i] = obj[i];
+		return a;
+	};
+	
+	D.map = function(obj, fn) {
+		var a = D.isArray(obj) ? [] : {};
+		for(var i in obj) a[i] = fn.call(obj, obj[i], i);
+		return a;	
+	};
+	
+	D.find = function(obj, fn) {
+		if(!D.isFunction(fn)){
+			var x = fn;
+			fn = function(it) { return it == x; };
+		}
+		for(var i in obj)
+			if(fn.call(obj, obj[i])) return i;
+		
+		return -1;
+	};
+
+
+	D.pretty_print = function(obj, indent) {
+		
+		if(obj == undefined) return undefined;
+		
+		indent = indent || 0;
+		var tabs = '';
+		for(var i = 0; i < indent; i++) tabs += '\t';
+		
+		if(obj.pretty_print) return obj.pretty_print(indent);
+		
+		if($.isString(obj))
+			return '"'+obj.replace(/\n/g, '\\n')+'"';
+		else if($.isNumber(obj) || $.isBoolean(obj))
+			return obj;
+		else if(D.isArray(obj)){
+			var items = [];
+			D.each(obj, function(item){
+				items.push(D.pretty_print(item, indent));
+			});
+			return '[' + items.join(', ') + ']';
+		}
+		else if(D.isFunction(obj)){
+			return 'function()';
+		}
+		else if(D.isObject(obj) || !indent){
+			var items = [];
+			D.each(obj, function(item, key){
+				items.push(tabs + '\t' + key + ':' + D.pretty_print(item, indent+1));					
+			});
+			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
+		}
+		else
+			return obj
+		
+	};
+/*	
+	
+	D.serialize = function(obj, indent) {
+		
+		if(obj == undefined) return obj;
+		
+		indent = indent || 0;
+		var tabs = '';
+		for(var i = 0; i < indent; i++) tabs += '\t';
+		
+		if(obj.pretty_print) return obj.pretty_print(indent);
+		
+		switch(typeof obj){
+			case 'string':
+				return '"'+obj.replace(/\n/g, '\\n')+'"';
+			case 'object':
+				var items = [];
+				if(D.isArray(obj)){
+					D.each(obj, function(item){
+						items.push(D.pretty_print(item, indent));
+					});
+					return '[' + items.join(', ') + ']';
+				}
+				else{
+					D.each(obj, function(item, key){
+						items.push(tabs + '\t"' + key + '":' + D.pretty_print(item, indent+1));					
+					});
+					return '{\n' + items.join(',\n') + '\n' + tabs + '}';
+				}
+			default:
+				return obj;
+		}
+	};
+*/	
+	
+	
+/*	
+	D.deep_copy = function(src) {
+		if(typeof src == 'string') return src;
+		if(typeof src == 'number') return src;
+		if(D.isObject(src) || D.isArray(src)){
+			var obj = (D.isArray(src))? [] : {};
+			for(var i in src)
+				obj[i] = D.deep_copy(src[i]);
+			return obj;
+		}
+		
+		return src;
+	};
+*/	
+		
+	// Добавление карринга к классу Function	
+	Function.prototype.curry = function(arg) {
+		var F = this;
+		return function(){
+			var args = [];
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+
+	
+	
+	D.BaseObject = function() {
+		this.initialize.apply(this, arguments);
+	};
+	
+	D.BaseObject.prototype.initialize = function() {};
+	D.BaseObject.prototype.destroy = function() {};
+	
+	
+	
+	D.error_log = function(msg) {
+		// Если установлен Firebug, то используем его консоль
+		if(console) console.error(msg);
+	};
+	
+	
+	
+	return D;
+})();
+
+
+
+jQuery.isString = function(obj) {
+	return typeof obj == 'string';
+};
+
+jQuery.isBoolean = function(obj) {
+	return typeof obj == 'boolean';
+};
+
+jQuery.isNumber = function(obj) {
+	return typeof obj == 'number';
+};
+
+

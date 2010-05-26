@@ -1,0 +1,33 @@
+
+
+.button1 {
+	background-image: url(../img/emoticon_unhappy.png);
+	width: 16px;
+	height: 16px;
+}
+
+.button1:hover {
+	background-image: url(../img/emoticon_smile.png);	
+}
+
+
+.button2 {
+	background-image: url(../img/emoticon_unhappy.png);
+	width: 16px;
+	height: 16px;
+}
+
+.button2-toggled {
+	background-image: url(../img/emoticon_smile.png);
+}
+
+
+.button3 {
+	background-image: url(../img/001_01_grey.png);
+	width: 24px;
+	height: 24px;
+}
+
+.button3:hover {
+	background-image: url(../img/001_01.png);
+}
