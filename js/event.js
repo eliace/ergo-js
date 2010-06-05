@@ -3,11 +3,13 @@
 
 Dino.declare('Dino.events.Event', Dino.BaseObject, {
 	
-	initialize: function(e) {
-		Dino.events.Event.superclass.initialize.call(this);
+	_initialize: function(overrides, baseEvent) {
+		Dino.events.Event.superclass._initialize.call(this);
+		
+		if(overrides) Dino.override(this, overrides);
 		
 //		this.is_stopped = false;
-		this.baseEvent = e;
+		this.baseEvent = baseEvent;
 	}
 	
 //	preventDefault: function() {
@@ -22,8 +24,8 @@ Dino.declare('Dino.events.Event', Dino.BaseObject, {
 
 Dino.declare('Dino.events.EventDispatcher', Dino.BaseObject, {
 	
-	initialize: function() {
-		Dino.events.EventDispatcher.superclass.initialize.apply(this, arguments);
+	_initialize: function() {
+		Dino.events.EventDispatcher.superclass._initialize.apply(this, arguments);
 		this.handlers = {};
 	},
 	
@@ -78,8 +80,8 @@ Dino.declare('Dino.events.EventDispatcher', Dino.BaseObject, {
 	fireEvent: function(type, event) {
 		var type_a = type.split('.');
 		var self = this;
-		Dino.each(type_a, function(t){
-			Dino.each(self.handlers[t], function(h) { h.callback.call(h.target || self, event); });
+		Dino.each(type_a, function(i, t){
+			Dino.each(self.handlers[t], function(i, h) { h.callback.call(h.target || self, event); });
 		});
 	}
 	

@@ -56,7 +56,7 @@ var Dino = (function(){
 		}		
 		eval(cp + ' = clazz;');
 		
-		// регистрируем DTYPE класса (если он есть)
+		// регистрируем dtype класса (если он есть)
 		if(dtype){
 			clazz.prototype.dtype = dtype;
 			_dtypes[dtype] = clazz;
@@ -65,11 +65,7 @@ var Dino = (function(){
 		return clazz;
 	};
 	
-//	D.ctor_for_dtype = function(dtype) {
-//		return _dtypes[dtype];
-//	};
-//	
-	
+	// создание экземпляра объекта (должен присутствовать dtype в options либо defaultType)
 	D.object = function(options, defaultType) {
 		
 		if(options instanceof Dino.BaseObject) return options;
@@ -98,27 +94,59 @@ var Dino = (function(){
 	D.isObject = function(obj) { return obj.constructor == Object; };
 */
 	
+	// в версии jquery 1.4 появились методы, которые раньше реализовывались в Dino
 	D.isFunction = $.isFunction;
 	D.isArray = $.isArray;
 	D.isObject = $.isPlainObject;
 	
-	D.each = function(obj, fn) {
-		for(var i in obj) fn.call(obj, obj[i], i);
+	D.isString = function(obj) {
+		return typeof obj == 'string';
+	};
+
+	D.isBoolean = function(obj) {
+		return typeof obj == 'boolean';
+	};
+
+	D.isNumber = function(obj) {
+		return typeof obj == 'number';
+	};	
+	
+	
+	D.each = $.each;
+	
+	/**
+	 * фильтрация (как правило приводит к уменьшению размерности)
+	 */
+	D.filter = function(src, fn){
+		return ( D.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
 	};
 	
-	D.select = function(obj, fn){
-		var a = D.isArray(obj) ? [] : {};
+	D._filter_obj = function(obj, fn) {
+		var result = {};
 		for(var i in obj)
-			if(fn.call(obj, obj[i])) a[i] = obj[i];
+			if( fn.call(obj, i, obj[i]) ) result[i] = obj[i];
 		return a;
-	};
+	}
 	
+	D._filter_arr = function(arr, fn) {
+		var result = [];
+		for(var i = 0; i < arr.length; i++)
+			if( fn.call(arr, i, arr[i]) ) result.push(arr[i]);
+		return result;
+	}
+	
+	/**
+	 * отображение (размерность сохраняется)
+	 */
 	D.map = function(obj, fn) {
 		var a = D.isArray(obj) ? [] : {};
 		for(var i in obj) a[i] = fn.call(obj, obj[i], i);
 		return a;	
 	};
 	
+	/**
+	 * поиск первого элемента, удовлетворяющего критерию
+	 */
 	D.find = function(obj, fn) {
 		if(!D.isFunction(fn)){
 			var x = fn;
@@ -131,6 +159,9 @@ var Dino = (function(){
 	};
 
 
+	/**
+	 * печать объекта в человекочитаемой форме
+	 */
 	D.pretty_print = function(obj, indent) {
 		
 		if(obj == undefined) return undefined;
@@ -141,9 +172,9 @@ var Dino = (function(){
 		
 		if(obj.pretty_print) return obj.pretty_print(indent);
 		
-		if($.isString(obj))
+		if(Dino.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
-		else if($.isNumber(obj) || $.isBoolean(obj))
+		else if(Dino.isNumber(obj) || Dino.isBoolean(obj))
 			return obj;
 		else if(D.isArray(obj)){
 			var items = [];
@@ -216,8 +247,18 @@ var Dino = (function(){
 		return src;
 	};
 */	
+	
+	
+	D.timestamp = function() {
+		return new Date().getTime();
+	};
+	
+	
+	
 		
-	// Добавление карринга к классу Function	
+	/**
+	 * Добавление карринга к классу Function
+	 */
 	Function.prototype.curry = function(arg) {
 		var F = this;
 		return function(){
@@ -229,13 +270,15 @@ var Dino = (function(){
 	};
 
 	
-	
+	/**
+	 * Базовый объект
+	 */
 	D.BaseObject = function() {
-		this.initialize.apply(this, arguments);
+		this._initialize.apply(this, arguments);
 	};
 	
-	D.BaseObject.prototype.initialize = function() {};
-	D.BaseObject.prototype.destroy = function() {};
+	D.BaseObject.prototype._initialize = function() {};
+//	D.BaseObject.prototype.destroy = function() {};
 	
 	
 	
@@ -250,17 +293,5 @@ var Dino = (function(){
 })();
 
 
-
-jQuery.isString = function(obj) {
-	return typeof obj == 'string';
-};
-
-jQuery.isBoolean = function(obj) {
-	return typeof obj == 'boolean';
-};
-
-jQuery.isNumber = function(obj) {
-	return typeof obj == 'number';
-};
 
 

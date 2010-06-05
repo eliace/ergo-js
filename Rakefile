@@ -5,6 +5,8 @@ require 'pathname'
 
 task :compose do
 
+	Dir.mkdir('build') if not File.exist?('build') 
+
 
   files = [
     'js/core.js',

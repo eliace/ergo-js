@@ -14,4 +14,4 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 		this.container.el.empty();
 	}
 	
-}, 'layouts:plain-layout');
+}, 'plain-layout');

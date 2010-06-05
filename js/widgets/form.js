@@ -1,7 +1,14 @@
 
 
 
-
+/**
+ * Базовый объект для полей ввода.
+ * 
+ * Параметры:
+ * 	text
+ * 	readonly
+ * 	name
+ */
 Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 	
 	options: function(o) {
@@ -13,7 +20,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		
 	},
 	
-	build: function(o) {
+	initialize: function(o) {
 		
 		var self = this;
 		
@@ -25,7 +32,9 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 });
 
 
-
+/**
+ * Поле текстового ввода
+ */
 Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 	
 	render_html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
@@ -33,7 +42,15 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 }, 'textfield');
 
 
-
+/**
+ * Кнопка.
+ * 
+ * Параметры:
+ * 
+ * События:
+ * 	onAction
+ * 
+ */
 Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	
 	render_html: function() { return '<input type="button" class="dc-form-button"></input>'; },
@@ -43,13 +60,20 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 		
 		var self = this;
 		
-		if('action' in o)
-			this.el.click(function(e) { o.action.call(this, e, self); });
+		this.el.click(function(e){
+			self.fireEvent('onAction', Dino.events.Event({}, e));
+		});		
 	}
 }, 'button');
 
 
-
+/**
+ * Файл
+ * 
+ * Параметры:
+ * 	name
+ * 
+ */
 Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, {
 	
 	render_html: function() { return '<input type="file" class="dc-form-file"></input>'; },

@@ -8,7 +8,7 @@
 
 	<script type="text/javascript" src="../lib/misc/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="../lib/jquery.fileupload/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../build/dino.js"></script>
+	<script type="text/javascript" src="../build/dino-js.js"></script>
 
 	<!-- link rel="stylesheet" type="text/css" href="../lib/jquery.fileupload/ajaxfileupload.css" -->
 	<link rel="stylesheet" type="text/css" href="../css/dino.css">
@@ -31,7 +31,7 @@
 	<p>Кнопка. Картинка меняется при наведении курсора.</p>
 	<div id="widget2"></div>	
 	<p>Кнопка. Картинка меняется при клике.</p>
-	<span><div id="widget3"></div><p id="toggle-state"></p><span>	
+	<span><div id="widget3"></div><p id="toggle-state"></p><span>
 	<p>Кнопка загрузки файла.</p>
 	<div id="widget4"></div>
 	<p>Изображение.</p>
@@ -72,7 +72,7 @@
 				alert(e.message);
 			},
 			onComplete: function(e, c) {
-				alert(e);
+				alert(Dino.pretty_print(e));
 			}
 		});
 		

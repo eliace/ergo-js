@@ -23,8 +23,8 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
 		
 	},
 	
-	build: function(o) {
-		Dino.widgets.AdvancedInput.superclass.build.call(this, o);
+	initialize: function(o) {
+		Dino.widgets.AdvancedInput.superclass.initialize.call(this, o);
 		
 		this.assistBox = Dino.object({
 			dtype: 'widgets::assist-box',
@@ -62,19 +62,24 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
 
 
 
-
+/**
+ * Кнопка ассиста.
+ * 
+ * 
+ * Требует плагина jquery.fileupload
+ */
 Dino.declare('Dino.widgets.FileAssist', Dino.widgets.CssButton, {
 	
 	defaultCls: 'dc-assist-file',
 	
-	build: function(o) {
-		Dino.widgets.FileAssist.superclass.build.call(this, o);
+	initialize: function(o) {
+		Dino.widgets.FileAssist.superclass.initialize.call(this, o);
 		
 		var self = this;
 		
-		var fileId = 'file_' + new Date().getTime();
+		var fileId = 'file_' + Dino.timestamp();
 		
-		this.file = Dino.object({
+		this.file = Dino.widget({
 			dtype: 'file',
 			style: {'position': 'relative'/*, 'left': -42*/, 'cursor': 'pointer'},
 			opacity: 0,

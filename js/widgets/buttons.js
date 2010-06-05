@@ -1,9 +1,10 @@
 
 
-
+/*
 Dino.declare('Dino.widgets.ToggleEvent', Dino.events.Event, {
 	
-	build: function(o) {
+	_initialize: function() {
+		Dino.widgets.ToggleEvent.superclass.options.apply(this, arguments);
 		this.is_canceled = false;
 	},
 	
@@ -13,10 +14,19 @@ Dino.declare('Dino.widgets.ToggleEvent', Dino.events.Event, {
 	
 	
 });
+*/
 
 
-
-
+/**
+ * Кнопка, управляемая через CSS.
+ * 
+ * Опции:
+ * 	toggleCls
+ * 
+ * События:
+ * 	onToggle
+ * 
+ */
 Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 	
 	defaultCls: 'dc-css-button',
@@ -32,14 +42,17 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 			this.toggleCls = o.toggleCls;
 			this.el.click(function(e){
 
-				var event = new Dino.widgets.ToggleEvent();
+				var event = new Dino.events.Event({
+					is_canceled: false,
+					cancel: function() { this.is_canceled = true; }
+				}, e);
 				self.fireEvent('onToggle', event);
 				
 				if(!event.is_canceled)
 					self.el.toggleClass(o.toggleCls);
 				
-				if(event.is_stopped)
-					e.preventDefault();
+//				if(event.is_stopped)
+//					e.preventDefault();
 			});
 		}
 		

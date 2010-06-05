@@ -1,4 +1,4 @@
 .project
 .settings
 .externalToolBuilders
-build
+.tmp_*

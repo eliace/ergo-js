@@ -3,27 +3,32 @@
 
 Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 	
-	initialize: function(options) {
-		Dino.Widget.superclass.initialize.apply(this, arguments);
+	_initialize: function(options) {
+		Dino.Widget.superclass._initialize.apply(this, arguments);
 		
-		options = options || {};
+		var o = this.opts = {};
+		Dino.override(this.opts, this.defaultOptions || {});
+		Dino.override(this.opts, options || {});
+//		var o = this.options;
 		
 		// создаем новый элемент DOM или используем уже существующий
-		this.el = ('wrapEl' in options) ? options.wrapEl : $(this.render_html());
+		this.el = ('wrapEl' in o) ? o.wrapEl : $(this.render_html());
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
 		// конструируем виджет
-		this.build(options);
+		this.initialize(o);
 		// устанавливаем опциональные параметры
-		this.options(options);
+		this.options(o);
 		// добавляем элемент в документ
-		this.render_el(options.renderTo);
+		this.render(o.renderTo);
+	},
+	
+	
+	initialize: function(o) {
 	},
 	
 	destroy: function() {
-		Dino.Widget.superclass.destroy.apply(this, arguments);
-		
 		// удаляем элемент и все его содержимое из документа
 		if(this.el) this.el.remove();
 	},
@@ -32,11 +37,30 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		return '';
 	},
 	
-	render_el: function(target) {
-		if(target)
-			$(target).append(this.el);
+	render: function(target) {
+		if(target){
+			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
+			parentEl.append(this.el);
+		}
 	},
 	
+	/**
+	 * Устанока параметров.
+	 * 
+	 * параметры:
+	 * 	width
+	 * 	height
+	 * 	x
+	 * 	y
+	 * 	tooltip
+	 * 	id
+	 * 	tag
+	 * 	style
+	 * 	cls
+	 * 	opacity
+	 * 	events
+	 * 
+	 */
 	options: function(o) {
 		
 		var self = this;
@@ -73,30 +97,32 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		}
 		
 	},
-	
-	build: function(o) {
-	},
-	
-	
+		
+	/**
+	 * Создание связи виджета с другим виджетом
+	 */
 	link: function(obj) {
 		this.link = obj;
-		this.fireEvent('onLink', {'target':obj});
+		this.fireEvent('onLink', new Dino.events.Event({'target':obj}));
 	},
 	
+	/**
+	 * Удаление связи виджета с другим виджетом
+	 */
 	unlink: function() {
-		this.fireEvent('onUnlink', {'target':this.link});
+		this.fireEvent('onUnlink', new Dino.events.Event({'target':this.link}));
 		this.link = null;
 	},
 	
 	// Добавляем дочерний виджет
-	addItem: function(item) {
+	addChild: function(item) {
 		this.children.push(item);
 		item.parent = this;
 		return item;
 	},
 	
 	// Удаляем дочерний виджет
-	removeItem: function(item) {
+	removeChild: function(item) {
 		var i = Dino.find(this.children, item);
 		if(i != -1){
 			delete this.children[i].parent;
@@ -107,12 +133,12 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 	},
 	
 	// Удаляем все дочерние виджеты
-	removeAllItems: function(o) {
+	removeAllChildren: function(o) {
 		for(var i in this.children) delete this.children[i].parent;
 		this.children.splice(0, this.children.length);
 	},
 	
-	eachItem: function(fn) {
+	eachChild: function(fn) {
 		for(var i = 0; i < this.children.length; i++){
 			fn.call(this, this.children[i], i);
 		}

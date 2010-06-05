@@ -6,7 +6,7 @@
 
 	<script type="text/javascript" src="../lib/misc/jquery-1.4.2.js"></script>
 
-	<script type="text/javascript" src="../build/dino.js"></script>
+	<script type="text/javascript" src="../build/dino-js.js"></script>
 
 
 </head>
@@ -59,7 +59,14 @@
 		
 		Dino.object({
 			dtype: 'label',
-			text: 'Метка для поля формы',
+			text: 'Поле:',
+			forName: 'field1',
+			renderTo: '#label'
+		});
+
+		Dino.object({
+			dtype: 'textfield',
+			name: 'field1',
 			renderTo: '#label'
 		});
 	
