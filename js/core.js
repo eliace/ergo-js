@@ -111,8 +111,17 @@ var Dino = (function(){
 		return typeof obj == 'number';
 	};	
 	
-	
-	D.each = $.each;
+	// в jquery есть функция $.each, но меня не устраивает порядок аргументов в замыкании
+	D.each = function(src, callback){
+		if(Dino.isArray(src)){
+			var arr = src;
+			for(var i = 0; i < arr.length; i++) callback.call(arr, arr[i], i);
+		}
+		else {
+			var obj = src;
+			for(var i in obj) callback.call(obj, obj[i], i);
+		}
+	}
 	
 	/**
 	 * фильтрация (как правило приводит к уменьшению размерности)
@@ -282,7 +291,7 @@ var Dino = (function(){
 	
 	
 	
-	D.error_log = function(msg) {
+	D.log = function(msg) {
 		// Если установлен Firebug, то используем его консоль
 		if(console) console.error(msg);
 	};

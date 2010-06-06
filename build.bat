@@ -1,2 +1,2 @@
 
-rake compose
+rake compose_win

@@ -1,6 +1,13 @@
 
 
-
+/**
+ * Изображение.
+ * 
+ * Параметры:
+ *  imageUrl
+ * 
+ * 
+ */
 Dino.declare('Dino.widgets.Image', Dino.Widget, {
 	
 	render_html: function() { return '<img></img>';},
@@ -14,13 +21,23 @@ Dino.declare('Dino.widgets.Image', Dino.Widget, {
 }, 'image');
 
 
-
+/**
+ * Изображение, загружаемое асинхронно.
+ * 
+ * Как правило используется в тех случаях, огда заранее неизвестны размеры изображения
+ * 
+ * Параметры:
+ * 	
+ * События:
+ *  onComplete
+ * 
+ */
 Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 	
 	render_html: function() { return '<img></img>';},
 	
-	build: function(o) {
-		Dino.utils.AsyncImage.superclass.build.call(this, o);
+	initialize: function(o) {
+		Dino.utils.AsyncImage.superclass.initialize.call(this, o);
 		
 		this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		

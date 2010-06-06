@@ -138,9 +138,11 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		this.children.splice(0, this.children.length);
 	},
 	
-	eachChild: function(fn) {
+	eachChild: function(callback) {
+//		Dino.each(this.children, callback);
+		//WARN здесь используется цикл вместо метода each, т.к. each поменяет this
 		for(var i = 0; i < this.children.length; i++){
-			fn.call(this, this.children[i], i);
+			callback.call(this, this.children[i], i);
 		}
 	},
 	

@@ -49,22 +49,22 @@ Dino.declare('Dino.events.EventDispatcher', Dino.BaseObject, {
 	 */
 	removeEvent: function(type, callback, target) {
 		if(arguments.length == 1){
-			if($.isString(type)){
+			if(Dino.isString(type)){
 				this.handlers[type] = [];
 			}
-			else if($.isFunction(type)){
+			else if(Dino.isFunction(type)){
 				callback = type;
 				for(var i in this.handlers){
-					this.handlers[i] = Dino.select(this.handlers[i], function(item) { return item.callback != callback; });
+					this.handlers[i] = Dino.filter(this.handlers[i], function(item) { return item.callback != callback; });
 				}
 			}
 		}
 		else{
 			if(target){
-				this.handlers[type] = Dino.select(this.handlers[type], function(item){ return item.callback != callback; });
+				this.handlers[type] = Dino.filter(this.handlers[type], function(item){ return item.callback != callback; });
 			}
 			else{
-				this.handlers[type] = Dino.select(this.handlers[type], function(item){ return  item.callback != callback || item.target != target; });
+				this.handlers[type] = Dino.filter(this.handlers[type], function(item){ return  item.callback != callback || item.target != target; });
 			}
 		}
 	},
@@ -80,11 +80,12 @@ Dino.declare('Dino.events.EventDispatcher', Dino.BaseObject, {
 	fireEvent: function(type, event) {
 		var type_a = type.split('.');
 		var self = this;
-		Dino.each(type_a, function(i, t){
-			Dino.each(self.handlers[t], function(i, h) { h.callback.call(h.target || self, event); });
+		Dino.each(type_a, function(t){
+			var handler_a = self.handlers[t];
+			if(handler_a === undefined) return;
+			Dino.each(handler_a, function(h) { h.callback.call(h.target || self, event); });
 		});
 	}
-	
 	
 	
 });

@@ -59,7 +59,19 @@ var Dino = function() {
   D.isNumber = function(obj) {
     return typeof obj == "number"
   };
-  D.each = $.each;
+  D.each = function(src, callback) {
+    if(Dino.isArray(src)) {
+      var arr = src;
+      for(var i = 0;i < arr.length;i++) {
+        callback.call(arr, arr[i], i)
+      }
+    }else {
+      var obj = src;
+      for(var i in obj) {
+        callback.call(obj, obj[i], i)
+      }
+    }
+  };
   D.filter = function(src, fn) {
     return D.isArray(src) ? _filter_arr(src, fn) : _filter_obj(src, fn)
   };
@@ -154,7 +166,7 @@ var Dino = function() {
   };
   D.BaseObject.prototype._initialize = function() {
   };
-  D.error_log = function(msg) {
+  D.log = function(msg) {
     if(console) {
       console.error(msg)
     }
@@ -175,13 +187,13 @@ Dino.declare("Dino.events.EventDispatcher", Dino.BaseObject, {_initialize:functi
   this.handlers[type] = a
 }, removeEvent:function(type, callback, target) {
   if(arguments.length == 1) {
-    if($.isString(type)) {
+    if(Dino.isString(type)) {
       this.handlers[type] = []
     }else {
-      if($.isFunction(type)) {
+      if(Dino.isFunction(type)) {
         callback = type;
         for(var i in this.handlers) {
-          this.handlers[i] = Dino.select(this.handlers[i], function(item) {
+          this.handlers[i] = Dino.filter(this.handlers[i], function(item) {
             return item.callback != callback
           })
         }
@@ -189,11 +201,11 @@ Dino.declare("Dino.events.EventDispatcher", Dino.BaseObject, {_initialize:functi
     }
   }else {
     if(target) {
-      this.handlers[type] = Dino.select(this.handlers[type], function(item) {
+      this.handlers[type] = Dino.filter(this.handlers[type], function(item) {
         return item.callback != callback
       })
     }else {
-      this.handlers[type] = Dino.select(this.handlers[type], function(item) {
+      this.handlers[type] = Dino.filter(this.handlers[type], function(item) {
         return item.callback != callback || item.target != target
       })
     }
@@ -201,8 +213,11 @@ Dino.declare("Dino.events.EventDispatcher", Dino.BaseObject, {_initialize:functi
 }, fireEvent:function(type, event) {
   var type_a = type.split(".");
   var self = this;
-  Dino.each(type_a, function(i, t) {
-    Dino.each(self.handlers[t], function(i, h) {
+  Dino.each(type_a, function(t) {
+    var handler_a = self.handlers[t];
+    if(handler_a === undefined) {
+      return
+    }Dino.each(handler_a, function(h) {
       h.callback.call(h.target || self, event)
     })
   })
@@ -288,9 +303,9 @@ Dino.declare("Dino.events.EventDispatcher", Dino.BaseObject, {_initialize:functi
   for(var i in this.children) {
     delete this.children[i].parent
   }this.children.splice(0, this.children.length)
-}, eachChild:function(fn) {
+}, eachChild:function(callback) {
   for(var i = 0;i < this.children.length;i++) {
-    fn.call(this, this.children[i], i)
+    callback.call(this, this.children[i], i)
   }
 }, getValue:function() {
   return null
@@ -331,6 +346,8 @@ Dino.declare("Dino.events.EventDispatcher", Dino.BaseObject, {_initialize:functi
 }, removeAllItems:function() {
   this.removeAllChildren();
   this.layout.clear()
+}, eachItem:function(callback) {
+  this.eachChild(callback)
 }});Dino.declare("Dino.layouts.PlainLayout", Dino.Layout, {insert:function(item) {
   this.container.el.append(item.el)
 }, remove:function(item) {
@@ -403,8 +420,8 @@ Dino.declare("Dino.widgets.form.Label", Dino.Widget, {render_html:function() {
 }}, "image");
 Dino.declare("Dino.utils.AsyncImage", Dino.Widget, {render_html:function() {
   return"<img></img>"
-}, build:function(o) {
-  Dino.utils.AsyncImage.superclass.build.call(this, o);
+}, initialize:function(o) {
+  Dino.utils.AsyncImage.superclass.initialize.call(this, o);
   this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight)
 }, load:function(url, target, stubObj, maxWidth, maxHeight) {
   if(target && url) {

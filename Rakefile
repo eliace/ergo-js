@@ -3,9 +3,7 @@ require 'find'
 require 'pathname'
 
 
-task :compose do
-
-	Dir.mkdir('build') if not File.exist?('build') 
+  Dir.mkdir('build') if not File.exist?('build') 
 
 
   files = [
@@ -26,8 +24,19 @@ task :compose do
     js = '--js ' + files.join(' --js ') 
 
     s = "java -jar tools/compiler.jar #{js} --js_output_file build/dino-js.js --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
-    
-#    s.gsub!('/', '\\')
+
+
+
+task :compose do
+ 
+    Kernel.system s
+
+
+end
+
+task :compose_win do
+ 
+    s.gsub!('/', '\\')
 
     Kernel.system s
 
