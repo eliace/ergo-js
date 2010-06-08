@@ -2,3 +2,4 @@
 .settings
 .externalToolBuilders
 .tmp_*
+build/
