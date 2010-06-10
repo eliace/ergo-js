@@ -61,7 +61,7 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction', Dino.events.Event({}, e));
+			self.fireEvent('onAction', new Dino.events.Event({}, e));
 		});		
 	}
 }, 'button');
