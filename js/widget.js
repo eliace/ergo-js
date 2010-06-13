@@ -12,7 +12,7 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 //		var o = this.options;
 		
 		// создаем новый элемент DOM или используем уже существующий
-		this.el = ('wrapEl' in o) ? o.wrapEl : $(this.render_html());
+		this.el = ('wrapEl' in o) ? o.wrapEl : $(this.renderHtml());
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
@@ -33,7 +33,7 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		if(this.el) this.el.remove();
 	},
 	
-	render_html: function() {
+	renderHtml: function() {
 		return '';
 	},
 	
@@ -96,6 +96,10 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 			}
 		}
 		
+		if('data' in o) {
+		}
+		
+		
 	},
 		
 	/**
@@ -151,6 +155,10 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 	},
 	
 	setValue: function(val) {
-	}
+	},
+	
+	dataBound: function(data){},
+	dataUnbound: function() {},
+	dataChanged: function() {}
 	
 });

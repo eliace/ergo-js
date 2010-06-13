@@ -37,7 +37,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
  */
 Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 	
-	render_html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
+	renderHtml: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
 		
 }, 'textfield');
 
@@ -53,7 +53,7 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	
-	render_html: function() { return '<input type="button" class="dc-form-button"></input>'; },
+	renderHtml: function() { return '<input type="button" class="dc-form-button"></input>'; },
 	
 	options: function(o) {
 		Dino.widgets.form.Button.superclass.options.call(this, o);
@@ -76,7 +76,7 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, {
 	
-	render_html: function() { return '<input type="file" class="dc-form-file"></input>'; },
+	renderHtml: function() { return '<input type="file" class="dc-form-file"></input>'; },
 	
 	build: function(o) {
 		Dino.widgets.form.File.superclass.build.call(this, o);
@@ -93,7 +93,7 @@ Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, {
 	
-	render_html: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
+	renderHtml: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
 	
 }, 'radio');
 
@@ -103,7 +103,7 @@ Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
-	render_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; }
+	renderHtml: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; }
 	
 }, 'checkbox');
 
@@ -116,7 +116,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, {
 	
-	render_html: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
+	renderHtml: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
 	
 }, 'textarea');
 
@@ -125,7 +125,7 @@ Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, {
 
 Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 
-	render_html: function() { return '<label class="dc-form-label"></label>'; },
+	renderHtml: function() { return '<label class="dc-form-label"></label>'; },
 	
 	options: function(o) {
 		Dino.widgets.form.Label.superclass.options.call(this, o);

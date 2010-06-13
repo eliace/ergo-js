@@ -43,6 +43,14 @@ var Dino = (function(){
 	
 	var _dtypes = {};
 	
+	/**
+	 * Объявляем класс
+	 * 
+	 * class_name полное имя класса
+	 * base_class имя базового класса
+	 * overrides набор свойст, специфичный для нового класса
+	 * dtype - dino-тип (если не указан, то новый класс не регистрируется)
+	 */
 	D.declare = function(class_name, base_class, overrides, dtype) {
 		
 		var clazz = D.extend(base_class, overrides);

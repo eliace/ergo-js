@@ -31,7 +31,7 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 	
 	defaultCls: 'dc-css-button',
 	
-	render_html: function() { return '<div></div>'; },
+	renderHtml: function() { return '<div></div>'; },
 	
 	options: function(o) {
 		Dino.widgets.CssButton.superclass.options.call(this, o);
