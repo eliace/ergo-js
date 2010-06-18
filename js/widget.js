@@ -21,6 +21,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._opt(o);
 		// добавляем элемент в документ
 		this._render(o.renderTo);
+		// обновляем виджет, если к нему были подключены данные
+		if(this.data) this._dataChanged();
 	},
 	
 	
@@ -123,8 +125,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				this.data = (o.data instanceof Dino.data.DataSource) ? o.data : new Dino.data.DataSource(o.data);
 			}
 			// FIXME
-			this.data.addEvent('onDataChanged', this.dataChanged);
-			this.fireEvent('onDataBound', new Dino.events.Event());
+			this.data.addEvent('onDataChanged', this._dataChanged);
+			this.fireEvent('onDataChanged', new Dino.events.Event());
 		}
 		
 		if('theme' in this.options){
@@ -190,8 +192,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(this.data) this.data.setValue(val);
 	},
 	
-	dataBound: function(){},
-	dataUnbound: function() {},
-	dataChanged: function() {}
+//	_dataBound: function(){},
+//	_dataUnbound: function() {},
+	_dataChanged: function() {}
 	
 });

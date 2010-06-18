@@ -76,7 +76,7 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 
 
 
-Dino.declare('Dino.widgets.Button', Dino.Widget, {
+Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 /*	
 	defaultOptions: {
 		width: 60,

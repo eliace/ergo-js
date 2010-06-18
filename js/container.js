@@ -47,8 +47,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 	},
 	
-	dataChanged: function() {
-		this.eachItem(function(item) { item.dataChanged(); });
+	_dataChanged: function() {
+		this.eachItem(function(item) { item._dataChanged(); });
 	},
 	
 	addItem: function(item) {

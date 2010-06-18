@@ -8,8 +8,8 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 	
 	_html: function() { return '<table cellspacing="0" cellpadding="0"></table>'; },
 	
-	_init: function(o) {
-		Dino.widgets.Grid.superclass._init.call(this, o);
+	_init: function() {
+		Dino.widgets.Grid.superclass._init.apply(this, arguments);
 		
 	},
 	
@@ -19,7 +19,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 		
 	},
 	
-	dataChanged: function() {
+	_dataChanged: function() {
 		
 		var self = this;
 		
@@ -27,14 +27,14 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 		this.data.eachValue(function(val, i){
 			// добавляем элемент виджета
 			var row = new Dino.widgets.Grid.Row({
-				'columns': self.opts.dataModel.columns,
+				'columns': self.options.dataModel.columns,
 				'data': self.data.getItem(i)
 			});
 			self.addItem(row);
 //			row.dataChanged();
 		});
 		
-		Dino.widgets.Grid.superclass.dataChanged.call(this);
+//		Dino.widgets.Grid.superclass._dataChanged.call(this);
 	}
 	
 	
@@ -47,12 +47,12 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 	
 	_html: function() { return '<tr></tr>'; },
 	
-	_init: function(o) {
-		Dino.widgets.Grid.Row.superclass._init.call(this, o);
+	_init: function() {
+		Dino.widgets.Grid.Row.superclass._init.apply(this, arguments);
 		
-		o.layout = {
+		this.options.layout = {
 			dtype: 'table-row-layout',
-			columns: o.columns
+			columns: this.options.columns
 		};
 	},
 	

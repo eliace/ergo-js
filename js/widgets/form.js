@@ -28,7 +28,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		this.el.change(function() { self.setValue( self.el.val() ); });
 	},
 	
-	dataChanged: function() {
+	_dataChanged: function() {
 		this.el.val( this.data.getValue() );
 	}
 	
@@ -109,7 +109,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
 	_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
-	dataChanged: function() {
+	_dataChanged: function() {
 		this.el.attr('checked', this.data.getValue() );
 	}
 	
@@ -145,7 +145,7 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 			this.el.attr('for', o.forName);
 	},
 	
-	dataChanged: function() {
+	_dataChanged: function() {
 		this.el.text(this.data.getValue());		
 	}
 	

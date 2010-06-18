@@ -53,6 +53,8 @@ var Dino = (function(){
 	 */
 	D.declare = function(class_name, base_class, overrides, dtype) {
 		
+		if(typeof base_class == 'string') base_class = eval(base_class);
+		
 		var clazz = D.extend(base_class, overrides);
 		
 		// создаем пространство имен для класса
