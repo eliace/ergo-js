@@ -2,8 +2,8 @@
 
 Dino.declare('Dino.layouts.TableRowLayout', Dino.Layout, {
 	
-	_initialize: function(o) {
-		Dino.layouts.TableRowLayout.superclass._initialize.call(this, o);		
+	initialize: function(o) {
+		Dino.layouts.TableRowLayout.superclass.initialize.call(this, o);		
 		this.layoutOpts = Dino.override({}, o);
 	},
 	

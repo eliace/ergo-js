@@ -9,7 +9,7 @@ Dino.declare('Dino.widgets.AssistBox', Dino.containers.Box, {
 	
 	staticWidth: function() { return 16; }
 	
-}, 'widgets::assist-box');
+}, 'widgets.assist-box');
 
 
 
@@ -18,16 +18,17 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
 	
 	defaultCls: 'dc-advanced-input',
 	
-	options: function(o) {
-		Dino.widgets.AdvancedInput.superclass.options.call(this, o);		
-		
-	},
+//	options: function(o) {
+//		Dino.widgets.AdvancedInput.superclass.options.call(this, o);				
+//	},
 	
-	initialize: function(o) {
-		Dino.widgets.AdvancedInput.superclass.initialize.call(this, o);
+	_init: function() {
+		Dino.widgets.AdvancedInput.superclass._init.apply(this, arguments);
+		
+		var o = this.options;
 		
 		this.assistBox = Dino.object({
-			dtype: 'widgets::assist-box',
+			dtype: 'widgets.assist-box',
 			style: {'float': 'right'},
 			width: 16
 		});
@@ -72,8 +73,8 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.CssButton, {
 	
 	defaultCls: 'dc-assist-file',
 	
-	initialize: function(o) {
-		Dino.widgets.FileAssist.superclass.initialize.call(this, o);
+	_init: function(o) {
+		Dino.widgets.FileAssist.superclass._init.call(this, o);
 		
 		var self = this;
 		
@@ -107,8 +108,8 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.CssButton, {
 		
 	},
 	
-	options: function(o) {
-		Dino.widgets.FileAssist.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.FileAssist.superclass._opt.call(this, o);
 		
 		if('url' in o) this.url = o.url;
 	}

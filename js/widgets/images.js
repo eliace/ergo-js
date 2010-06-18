@@ -10,10 +10,10 @@
  */
 Dino.declare('Dino.widgets.Image', Dino.Widget, {
 	
-	renderHtml: function() { return '<img></img>';},
+	_html: function() { return '<img></img>';},
 	
-	options: function(o) {
-		Dino.widgets.Image.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.Image.superclass._opt.call(this, o);
 		
 		if('imageUrl' in o) this.el.attr('src', o.imageUrl);
 	}
@@ -34,10 +34,10 @@ Dino.declare('Dino.widgets.Image', Dino.Widget, {
  */
 Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 	
-	renderHtml: function() { return '<img></img>';},
+	_html: function() { return '<img></img>';},
 	
-	initialize: function(o) {
-		Dino.utils.AsyncImage.superclass.initialize.call(this, o);
+	_init: function(o) {
+		Dino.utils.AsyncImage.superclass._init.call(this, o);
 		
 		this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		

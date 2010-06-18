@@ -11,8 +11,8 @@
  */
 Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 	
-	options: function(o) {
-		Dino.widgets.form.InputField.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.form.InputField.superclass._opt.call(this, o);
 		
 		if('text' in o) this.el.val(o.text);
 		if('readonly' in o) this.el.attr('readonly', o.readonly);
@@ -20,7 +20,8 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		
 	},
 	
-	initialize: function(o) {
+	_init: function(o) {
+		Dino.widgets.form.InputField.superclass._init.call(this, o);
 		
 		var self = this;
 		
@@ -41,7 +42,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
  */
 Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
+	_html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
 		
 }, 'textfield');
 
@@ -57,10 +58,10 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="button" class="dc-form-button"></input>'; },
+	_html: function() { return '<input type="button" class="dc-form-button"></input>'; },
 	
-	options: function(o) {
-		Dino.widgets.form.Button.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.form.Button.superclass._opt.call(this, o);
 		
 		var self = this;
 		
@@ -68,7 +69,7 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 			self.fireEvent('onAction', new Dino.events.Event({}, e));
 		});		
 	}
-}, 'button');
+}, 'form-button');
 
 
 /**
@@ -80,13 +81,12 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="file" class="dc-form-file"></input>'; },
+	_html: function() { return '<input name="file-input" type="file" class="dc-form-file"></input>'; },
 	
-	build: function(o) {
-		Dino.widgets.form.File.superclass.build.call(this, o);
-		
-		var name = this.el.attr('name');
-		if(!name) this.el.attr('name', 'file-input');
+	_opt: function(o) {
+		Dino.widgets.form.File.superclass._opt.call(this, o);
+
+		if('name' in o) this.el.attr('name', o.name);
 	}
 	
 }, 'file');
@@ -97,7 +97,7 @@ Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
+	_html: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
 	
 }, 'radio');
 
@@ -107,7 +107,7 @@ Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
+	_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
 	dataChanged: function() {
 		this.el.attr('checked', this.data.getValue() );
@@ -125,7 +125,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, {
 	
-	renderHtml: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
+	_html: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
 	
 }, 'textarea');
 
@@ -134,10 +134,10 @@ Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, {
 
 Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 
-	renderHtml: function() { return '<label class="dc-form-label"></label>'; },
+	_html: function() { return '<label class="dc-form-label"></label>'; },
 	
-	options: function(o) {
-		Dino.widgets.form.Label.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.form.Label.superclass._opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);
@@ -150,9 +150,6 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 	}
 	
 }, 'label');
-
-
-
 
 
 

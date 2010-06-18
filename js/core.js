@@ -291,10 +291,10 @@ var Dino = (function(){
 	 * Базовый объект
 	 */
 	D.BaseObject = function() {
-		this._initialize.apply(this, arguments);
+		this.initialize.apply(this, arguments);
 	};
 	
-	D.BaseObject.prototype._initialize = function() {};
+	D.BaseObject.prototype.initialize = function() {};
 //	D.BaseObject.prototype.destroy = function() {};
 	
 	

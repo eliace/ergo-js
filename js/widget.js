@@ -3,48 +3,63 @@
 
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
-	_initialize: function(options) {
-		Dino.Widget.superclass._initialize.apply(this, arguments);
+	initialize: function(opts) {
+		Dino.Widget.superclass.initialize.apply(this, arguments);
 		
-		var o = this.opts = {};
-		Dino.override(this.opts, this.defaultOptions || {});
-		Dino.override(this.opts, options || {});
-//		var o = this.options;
+		var o = this.options = {};
+		Dino.override(o, this.defaultOptions || {});
+		Dino.override(o, opts || {});
 		
 		// создаем новый элемент DOM или используем уже существующий
-		this.el = ('wrapEl' in o) ? o.wrapEl : $(this.renderHtml());
+		this.el = ('wrapEl' in o) ? o.wrapEl : $(this._html());
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
-		// конструируем виджет
-		this.initialize(o);
+		// конструируем виджет (передаем параметры конструктора)
+		this._init.apply(this, arguments);
 		// устанавливаем опциональные параметры
-		this.options(o);
+		this._opt(o);
 		// добавляем элемент в документ
-		this.render(o.renderTo);
-		// обновляем данные
-		this.dataChanged();
+		this._render(o.renderTo);
 	},
 	
 	
-	initialize: function(o) {
+	_init: function(o) {
 	},
+	
+//	_theme: function() {
+//		if(this.options.ui == 'jquery_ui') this._theme_jquery_ui
+//	}
 	
 	destroy: function() {
 		// удаляем элемент и все его содержимое из документа
 		if(this.el) this.el.remove();
 	},
 	
-	renderHtml: function() {
+	_html: function() {
 		return '';
 	},
 	
-	render: function(target) {
+	_render: function(target) {
 		if(target){
 			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
 			parentEl.append(this.el);
 		}
 	},
+	
+	_theme: function(name) {
+	},
+
+
+	opt: function(o) {
+		if(arguments.length == 2){
+			var i = ''.arguments[0]
+			o = {i: arguments[1]};
+		}
+		this._opt(o);
+		return this.options;
+	},
+	
 	
 	/**
 	 * Устанока параметров.
@@ -61,9 +76,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	 * 	cls
 	 * 	opacity
 	 * 	events
+	 * 	data
+	 * 	dataId
 	 * 
 	 */
-	options: function(o) {
+	_opt: function(o) {
 		
 		var self = this;
 		var el = this.el;
@@ -107,6 +124,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 			// FIXME
 			this.data.addEvent('onDataChanged', this.dataChanged);
+			this.fireEvent('onDataBound', new Dino.events.Event());
+		}
+		
+		if('theme' in this.options){
+			this._theme(this.options.theme);
 		}
 		
 		
@@ -168,7 +190,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(this.data) this.data.setValue(val);
 	},
 	
-	dataBound: function(data){},
+	dataBound: function(){},
 	dataUnbound: function() {},
 	dataChanged: function() {}
 	

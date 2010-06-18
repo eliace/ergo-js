@@ -6,15 +6,15 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 	
 	defaultCls: 'dino-grid',
 	
-	renderHtml: function() { return '<table cellspacing="0" cellpadding="0"></table>'; },
+	_html: function() { return '<table cellspacing="0" cellpadding="0"></table>'; },
 	
-	initialize: function(o) {
-		Dino.widgets.Grid.superclass.initialize.call(this, o);
+	_init: function(o) {
+		Dino.widgets.Grid.superclass._init.call(this, o);
 		
 	},
 	
-	options: function(o) {
-		Dino.widgets.Grid.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.Grid.superclass._opt.call(this, o);
 				
 		
 	},
@@ -45,10 +45,10 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 	
 	defaultCls: 'ui-widget-content',
 	
-	renderHtml: function() { return '<tr></tr>'; },
+	_html: function() { return '<tr></tr>'; },
 	
-	initialize: function(o) {
-		Dino.widgets.Grid.Row.superclass.initialize.call(this, o);
+	_init: function(o) {
+		Dino.widgets.Grid.Row.superclass._init.call(this, o);
 		
 		o.layout = {
 			dtype: 'table-row-layout',
@@ -56,8 +56,8 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 		};
 	},
 	
-	options: function(o) {
-		Dino.widgets.Grid.Row.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.Grid.Row.superclass._opt.call(this, o);
 		
 //		this.columns = {};
 		

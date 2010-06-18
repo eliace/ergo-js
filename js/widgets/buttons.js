@@ -31,10 +31,10 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 	
 	defaultCls: 'dc-css-button',
 	
-	renderHtml: function() { return '<div></div>'; },
+	_html: function() { return '<div></div>'; },
 	
-	options: function(o) {
-		Dino.widgets.CssButton.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.widgets.CssButton.superclass._opt.call(this, o);
 		
 		var self = this;
 		
@@ -70,6 +70,49 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 	
 	
 }, 'css-button');
+
+
+
+
+
+
+Dino.declare('Dino.widgets.Button', Dino.Widget, {
+/*	
+	defaultOptions: {
+		width: 60,
+		height: 20
+	},
+*/	
+	_html: function() { return '<button/>'; },
+	
+	_init: function() {
+		Dino.widgets.Button.superclass._init.apply(this, arguments);
+				
+		this.labelEl = $('<span/>');
+		this.el.append(this.labelEl);
+	},
+	
+	
+	_opt: function(o) {
+		Dino.widgets.Button.superclass._opt.apply(this, arguments);
+		
+		if('text' in o) this.labelEl.text(o.text);
+		
+	},
+	
+	_theme: function(name) {
+		
+		var self = this;
+		
+		if(name == 'jquery_ui') {
+			this.el.addClass('ui-button ui-state-default ui-corner-all');			
+			this.el.hover(function(){ self.el.addClass('ui-state-hover'); }, function(){ self.el.removeClass('ui-state-hover'); });
+			this.labelEl.addClass('ui-button-text');
+		}
+	}
+	
+}, 'button');
+
 
 
 /*

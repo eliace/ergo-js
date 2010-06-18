@@ -48,8 +48,8 @@ Dino.declare('Dino.data.ArraySource', Dino.events.EventDispatcher, {
 
 Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	
-	_initialize: function(src, id) {
-		Dino.data.DataSource.superclass._initialize.apply(this, arguments);
+	initialize: function(src, id) {
+		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
 		
 		if(arguments.length == 1){
 			this.source = {'_id': src};

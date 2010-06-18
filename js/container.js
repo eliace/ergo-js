@@ -19,16 +19,12 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 	
 	
-	initialize: function(o) {
-		Dino.Container.superclass.initialize.call(this, o);
-		
-//		this.defaultItemType;
-//		this.layout = Dino.object({}, 'plain-layout');
-//		this.layout.container = this;
-	},	
+//	_init: function(o) {
+//		Dino.Container.superclass.initialize.call(this, o);		
+//	},	
 	
-	options: function(o) {
-		Dino.Container.superclass.options.call(this, o);
+	_opt: function(o) {
+		Dino.Container.superclass._opt.call(this, o);
 		
 		if('itemFactory' in o) this.itemFactory = o.itemFactory;
 		

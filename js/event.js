@@ -3,8 +3,8 @@
 
 Dino.declare('Dino.events.Event', Dino.BaseObject, {
 	
-	_initialize: function(overrides, baseEvent) {
-		Dino.events.Event.superclass._initialize.call(this);
+	initialize: function(overrides, baseEvent) {
+		Dino.events.Event.superclass.initialize.call(this);
 		
 		if(overrides) Dino.override(this, overrides);
 		
@@ -24,8 +24,8 @@ Dino.declare('Dino.events.Event', Dino.BaseObject, {
 
 Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	
-	_initialize: function() {
-		Dino.events.Observer.superclass._initialize.apply(this, arguments);
+	initialize: function() {
+		Dino.events.Observer.superclass.initialize.apply(this, arguments);
 		this.handlers = {};
 	},
 	
