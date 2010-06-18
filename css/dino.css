@@ -12,3 +12,40 @@
 	position: relative;
 	overflow: hidden;
 }
+
+
+
+
+/* Buttons */
+.dino-button {
+	position: relative;
+}
+
+.dino-button-text-none {
+	text-indent: -10000000px;
+}
+
+.dino-button-text-icon {
+	margin-left: 16px;
+}
+
+
+.dino-button-icon-only {
+	left: 50%;
+	top: 50%;
+	margin-left: -17px;
+	margin-top: -9px;
+}
+
+.dino-button-icon-text {
+}
+
+
+.dino-icon {
+	position: absolute;
+}
+
+.dino-icon-16 {
+	width: 16px;
+	height: 16px;
+}

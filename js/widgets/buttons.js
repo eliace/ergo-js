@@ -75,29 +75,53 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 
 
 
-
 Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
-/*	
+	
 	defaultOptions: {
-		width: 60,
-		height: 20
+		display: 'text-only'
 	},
-*/	
+	
+	
+	defaultCls: 'dino-button',
+	
 	_html: function() { return '<button/>'; },
 	
 	_init: function() {
 		Dino.widgets.Button.superclass._init.apply(this, arguments);
-				
-		this.labelEl = $('<span/>');
-		this.el.append(this.labelEl);
+
+		
+		switch(this.options.display){
+			case 'text-only':
+				this.labelEl = $('<div class="dino-button-text"/>');
+				this.el.append(this.labelEl);		
+				break;
+			case 'icon-only':
+				this.iconEl = $('<div class="dino-icon dino-button-icon-only"/>');
+				this.el.append(this.iconEl);
+				this.labelEl = $('<div class="dino-button-text-none"/>');
+				this.el.append(this.labelEl);
+				break;
+			case 'icon-text':
+				this.iconEl = $('<div class="dino-icon dino-button-icon-text"/>');
+				this.el.append(this.iconEl);
+				this.labelEl = $('<div class="dino-button-text-icon"/>');
+				this.el.append(this.labelEl);
+				break;
+		}		
 	},
 	
 	
 	_opt: function(o) {
 		Dino.widgets.Button.superclass._opt.apply(this, arguments);
+
+		if('iconCls' in o)
+			if(this.iconEl) this.iconEl.addClass(o.iconCls);
+		if('textCls' in o)
+			this.labelEl.addClass(o.textCls);
 		
-		if('text' in o) this.labelEl.text(o.text);
-		
+		if('text' in o){
+			this.labelEl.text(o.text);
+		}		
 	},
 	
 	_theme: function(name) {
@@ -105,13 +129,32 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		var self = this;
 		
 		if(name == 'jquery_ui') {
-			this.el.addClass('ui-button ui-state-default ui-corner-all');			
+			this.el.addClass('ui-state-default ui-corner-all');			
 			this.el.hover(function(){ self.el.addClass('ui-state-hover'); }, function(){ self.el.removeClass('ui-state-hover'); });
-			this.labelEl.addClass('ui-button-text');
+//			this.labelEl.addClass('dino-button-text');
+//			if(this.iconEl) this.iconEl.addClass('dino-icon');
 		}
+//		else {
+//			this.el.addClass('dino-button');
+//			this.labelEl.addClass('dino-button-text'); 
+//			if(this.iconEl) this.iconEl.addClass('dino-icon');
+//		}
 	}
 	
 }, 'button');
+
+
+
+
+
+
+Dino.declare('Dino.widgets.Toolbar', 'Dino.Container', {
+	
+	_html: function() { return '<div/>'; }
+	
+	
+	
+}, 'toolbar');
 
 
 

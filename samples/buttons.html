@@ -32,6 +32,32 @@
 			theme: 'jquery_ui'
 		});
 		
+		
+		Dino.widget({
+			dtype: 'toolbar',
+			renderTo: '#button2',
+			cls: 'dino-button',
+			items: [{
+				dtype: 'button',
+//				width: 100,
+				text: 'button1',
+//				theme: 'jquery_ui'
+			}, {
+				dtype: 'button',
+//				width: 60,
+				text: 'button2',
+				iconCls: 'ui-icon ui-icon-refresh',
+				display: 'icon-text',
+				theme: 'jquery_ui'
+			}, {
+				dtype: 'button',
+				iconCls: 'ui-icon ui-icon-document',
+				text: 'button3',
+				display: 'icon-only',
+				theme: 'jquery_ui'
+			}]
+		});
+		
 	
 	</script>
 	

@@ -23,6 +23,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._render(o.renderTo);
 		// обновляем виджет, если к нему были подключены данные
 		if(this.data) this._dataChanged();
+		// выполняем темизацию
+		this._theme(o.theme);
 	},
 	
 	
@@ -127,12 +129,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			// FIXME
 			this.data.addEvent('onDataChanged', this._dataChanged);
 			this.fireEvent('onDataChanged', new Dino.events.Event());
-		}
-		
-		if('theme' in this.options){
-			this._theme(this.options.theme);
-		}
-		
+		}		
 		
 	},
 		
