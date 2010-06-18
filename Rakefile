@@ -9,15 +9,18 @@ require 'pathname'
   files = [
     'js/core.js',
     'js/event.js',
+    'js/data.js',
     'js/widget.js',
     'js/layout.js',
     'js/container.js',
     'js/layouts/plain-layout.js',
+    'js/layouts/table-row-layout.js',
     'js/containers/box.js',
     'js/widgets/form.js',
     'js/widgets/images.js',
     'js/widgets/buttons.js',
     'js/widgets/advanced-form.js',
+    'js/widgets/grid.js',
   ]
 
 

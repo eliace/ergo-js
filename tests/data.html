@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		
+		<style>
+			.assert-ok {
+				color: green;
+			}
+			.assert-fail {
+				color: red;
+			}
+		</style>
+		
+		<title>Untitled Document</title>
+	</head>
+<body>
+		
+		<div id="report"></div>
+		
+		
+<script>
+	
+$(document).ready(function(){
+	
+	var assert = function(msg, condition, ext) {
+		if(arguments.length == 2) ext = '';
+		var cls = (condition) ? 'assert-ok' : 'assert-fail';
+		$('#report').append( $('<div>'+msg+': <span class="'+cls+'">'+condition+'</span>'+ext+'</div>') );
+	};
+	
+	var assert_eq = function(msg, a, b) {
+		assert(msg, (a == b), ' ('+a+')');
+	}
+	
+	
+	var data = ['Alice', 'Bob', 'Charlie', ['apple', 'banana', 'cherry']];
+	
+	var binding = new Dino.data.Binding(data, 0);
+	assert_eq('Item 0 must be "Alice"', binding.getValue(), 'Alice');
+	
+	binding = new Dino.data.Binding(data);
+	assert_eq('Subitem 2 must be "Charlie"', binding.getValue(2), 'Charlie');
+	
+	var binding2 = new Dino.data.Binding(binding, 1);
+	assert_eq('Item 1 must be "Bob"', binding2.getValue(), 'Bob');
+
+	var binding2 = new Dino.data.Binding(binding, 3);
+	assert_eq('Subitem 0 must be "apple"', binding2.getValue(0), 'apple');
+	assert('Item 3 must exist', (binding.items[3] != undefined));
+	
+	
+	
+});		
+	
+</script>				
+</body>
+</html>

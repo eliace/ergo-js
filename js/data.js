@@ -2,8 +2,8 @@
 
 
 
-
-Dino.declare('Dino.data.ArraySource', Dino.EventDispatcher, {
+/*
+Dino.declare('Dino.data.ArraySource', Dino.events.EventDispatcher, {
 	
 	initialize: function(arr) {
 		this.data = arr;
@@ -19,15 +19,15 @@ Dino.declare('Dino.data.ArraySource', Dino.EventDispatcher, {
 		var oldVal = this.data[i];
 		this.data[i] = newVal;
 		
-		this.fireEvent('onItemChanged', {});
+		this.fireEvent('onItemChanged', {id: i, oldValue: oldVal, newValue: newVal});
 		
 		return oldVal;
 	},
 
 	add: function(value) {
 		this.data.push(value);
-		this.fireEvent('onItemAdded', {});
-	}
+		this.fireEvent('onItemAdded', {id: this.data.length-1, newValue: value});
+	},
 	
 	val: function(newVal) {
 		if(arguments.length == 0){
@@ -37,19 +37,72 @@ Dino.declare('Dino.data.ArraySource', Dino.EventDispatcher, {
 			this.data = newVal;
 			this.fireEvent('onChanged', {});
 		}
-	},
-	
-/*	
-	item: function(i) {
-		var item = this.items[i];
-		if(!item){
-			item = (Dino.isArray(this.data[i])) ? new Dino.data.ArraySource(this.data[i]) : new Dino.data.ObjectSource(this.data[i]);
-			this.items[i] = 
-		}
-		return item;
 	}
-*/	
 	
 	
 	
 });
+*/
+
+
+
+Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
+	
+	_initialize: function(src, id) {
+		Dino.data.DataSource.superclass._initialize.apply(this, arguments);
+		
+		if(arguments.length == 1){
+			this.source = {'_id': src};
+			this.id = '_id';
+		}
+		else {
+			this.source = src;
+			this.id = id;
+		}
+		this.items = {};
+	},
+	
+	val: function() {
+		return (this.source instanceof Dino.data.DataSource) ? this.source.getValue(this.id) : this.source[this.id];
+	},
+	
+	getValue: function(i) {
+		if(arguments.length == 0)
+			return this.val();
+		else
+			return (this.source instanceof Dino.data.DataSource) ? this.source.getItem(this.id).getValue(i) : this.source[this.id][i];
+	},
+	
+	setValue: function(i, newValue) {
+		if(arguments.length == 1) {
+			for(var item in this.items){
+				//TODO оповещаем все элементы, что они удалены
+			}
+			this.items = {};
+			this.source[this.id] = newValue;
+		}
+		else {
+			if(i in this.items)
+				this.items[i].setValue(newValue);
+			else
+				this.source[this.id][i] = newValue;
+		}
+		
+		this.fireEvent('onValueChanged', new Dino.events.Event());
+	},
+	
+	eachValue: function(callback) {
+		Dino.each(this.val(), callback);
+	},
+	
+	getItem: function(i) {
+		if(!(i in this.items)) {
+			var item = new Dino.data.DataSource(this.val(), i);
+			this.items[i] = item;
+		}
+		return this.items[i];
+	}
+	
+	
+});
+

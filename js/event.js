@@ -22,10 +22,10 @@ Dino.declare('Dino.events.Event', Dino.BaseObject, {
 
 
 
-Dino.declare('Dino.events.EventDispatcher', Dino.BaseObject, {
+Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	
 	_initialize: function() {
-		Dino.events.EventDispatcher.superclass._initialize.apply(this, arguments);
+		Dino.events.Observer.superclass._initialize.apply(this, arguments);
 		this.handlers = {};
 	},
 	

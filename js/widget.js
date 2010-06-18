@@ -1,7 +1,7 @@
 
 
 
-Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
+Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	_initialize: function(options) {
 		Dino.Widget.superclass._initialize.apply(this, arguments);
@@ -22,6 +22,8 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		this.options(o);
 		// добавляем элемент в документ
 		this.render(o.renderTo);
+		// обновляем данные
+		this.dataChanged();
 	},
 	
 	
@@ -97,6 +99,14 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 		}
 		
 		if('data' in o) {
+			if('dataId' in o){
+				this.data = (o.data instanceof Dino.data.DataSource) ? o.data.getItem(o.dataId) : new Dino.data.DataSource(o.data, o.dataId);
+			}
+			else {
+				this.data = (o.data instanceof Dino.data.DataSource) ? o.data : new Dino.data.DataSource(o.data);
+			}
+			// FIXME
+			this.data.addEvent('onDataChanged', this.dataChanged);
 		}
 		
 		
@@ -155,6 +165,7 @@ Dino.declare('Dino.Widget', Dino.events.EventDispatcher, {
 	},
 	
 	setValue: function(val) {
+		if(this.data) this.data.setValue(val);
 	},
 	
 	dataBound: function(data){},

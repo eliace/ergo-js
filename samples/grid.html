@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="../build/dino-js.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/dino.css">
 
+	<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-1.8.2.custom.css">
 
 </head>
 <body>
@@ -18,17 +19,28 @@
 	<script>
 		
 		var gridData = [
+			{id: '1', name: 'Alice', value: '123', cb: false},
+			{id: '2', name: 'Bob', value: '456', cb: true},
+			{id: '3', name: 'Charlie', value: '789', cb: false},
 		];
 		
 		Dino.widget({
 			dtype: 'grid',
+			renderTo: '#grid-wrapper',
+			width: 500,
 			dataModel: {
 				columns: [{
-					name: 'id'
+					name: 'id',
+					width: 50
 				}, {
 					name: 'name'
 				}, {
-					name: 'value'
+					name: 'value',
+					width: 100
+				}, {
+					name: 'cb',
+					width: 50,
+					dtype: 'checkbox'
 				}]
 			},
 			data: gridData

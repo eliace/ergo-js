@@ -23,8 +23,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		Dino.Container.superclass.initialize.call(this, o);
 		
 //		this.defaultItemType;
-		this.layout = Dino.object({}, 'plain-layout');
-		this.layout.container = this;
+//		this.layout = Dino.object({}, 'plain-layout');
+//		this.layout.container = this;
 	},	
 	
 	options: function(o) {
@@ -49,6 +49,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 //		if('defaultItemType')
 		
+	},
+	
+	dataChanged: function() {
+		this.eachItem(function(item) { item.dataChanged(); });
 	},
 	
 	addItem: function(item) {

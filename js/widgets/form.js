@@ -25,6 +25,10 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		var self = this;
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
+	},
+	
+	dataChanged: function() {
+		this.el.val( this.data.getValue() );
 	}
 	
 	
@@ -103,8 +107,13 @@ Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
-	renderHtml: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; }
+	renderHtml: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
+	dataChanged: function() {
+		this.el.attr('checked', this.data.getValue() );
+	}
+	
+		
 }, 'checkbox');
 
 
@@ -134,12 +143,13 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 			this.el.text(o.text);
 		if('forName' in o)
 			this.el.attr('for', o.forName);
+	},
+	
+	dataChanged: function() {
+		this.el.text(this.data.getValue());		
 	}
 	
 }, 'label');
-
-
-
 
 
 
