@@ -29,9 +29,9 @@ Dino.declare('Dino.widgets.ToggleEvent', Dino.events.Event, {
  */
 Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 	
-	defaultCls: 'dc-css-button',
+	defaultCls: 'dino-button',
 	
-	_html: function() { return '<div></div>'; },
+	_html: function() { return '<div/>'; },
 	
 	_opt: function(o) {
 		Dino.widgets.CssButton.superclass._opt.call(this, o);
@@ -150,8 +150,9 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 
 Dino.declare('Dino.widgets.Toolbar', 'Dino.Container', {
 	
-	_html: function() { return '<div/>'; }
+	_html: function() { return '<div/>'; },
 	
+	defaultCls: 'dino-toolbar'
 	
 	
 }, 'toolbar');

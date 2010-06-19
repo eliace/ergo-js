@@ -1,0 +1,15 @@
+
+
+
+.sample-icon-1 { background-image: url(../img/001_01_grey.png) }
+.sample-icon-1:hover { background-image: url(../img/001_01.png) }
+
+.sample-icon-16px {
+	width: 16px;
+	height: 16px;
+}
+
+.sample-icon-24px {
+	width: 24px;
+	height: 24px;
+}

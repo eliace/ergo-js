@@ -8,6 +8,8 @@
 	<script type="text/javascript" src="../build/dino-js.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/dino.css">
 
+	<link rel="stylesheet" type="text/css" href="css/samples.css">
+
 	<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 
 </head>
@@ -15,8 +17,13 @@
 	
 	<div id="button1"></div>
 	<div id="button2"></div>
+	<div id="button3"></div>
 	
-	
+	<!--div>
+		<span style="display: inline-block" ><span class="ui-icon ui-icon-document"></span></span>
+		<span style="display: inline-block"><span class="ui-icon ui-icon-refresh"></span></span>
+	</div -->	
+		
 	<script>
 		
 		Dino.widget({
@@ -36,11 +43,10 @@
 		Dino.widget({
 			dtype: 'toolbar',
 			renderTo: '#button2',
-			cls: 'dino-button',
 			items: [{
 				dtype: 'button',
 //				width: 100,
-				text: 'button1',
+				text: 'button1'
 //				theme: 'jquery_ui'
 			}, {
 				dtype: 'button',
@@ -52,12 +58,31 @@
 			}, {
 				dtype: 'button',
 				iconCls: 'ui-icon ui-icon-document',
+//				width: '1.8em',
 				text: 'button3',
 				display: 'icon-only',
 				theme: 'jquery_ui'
 			}]
 		});
 		
+		Dino.widget({
+			dtype: 'toolbar',
+			renderTo: '#button3',
+			cls: 'ui-widget-content ui-corner-all ui-state-default',
+			width: 40,
+			items: [{
+				dtype: 'css-button',
+				cls: 'sample-icon-24px sample-icon-1'
+			}, {
+				dtype: 'css-button',
+				cls: 'ui-icon ui-icon-person'
+			}, {
+				dtype: 'css-button',
+				theme: 'jquery_ui'
+			}]
+		});
+
+
 	
 	</script>
 	

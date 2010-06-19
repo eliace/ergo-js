@@ -4,7 +4,7 @@
 	border: 1px solid #aaaaaa;
 }
 
-.dc-css-button {
+.dino-css-button {
 	cursor: pointer;
 }
 
@@ -19,6 +19,7 @@
 /* Buttons */
 .dino-button {
 	position: relative;
+/*	padding: 0;*/
 }
 
 .dino-button-text-none {
@@ -32,9 +33,9 @@
 
 .dino-button-icon-only {
 	left: 50%;
-	top: 50%;
-	margin-left: -17px;
-	margin-top: -9px;
+/*	top: 50%;*/
+	margin-left: -8px;
+/*	margin-top: 0px;*/
 }
 
 .dino-button-icon-text {
@@ -49,3 +50,7 @@
 	width: 16px;
 	height: 16px;
 }
+
+
+.dino-toolbar .dino-button { display: inline-block; }
+
