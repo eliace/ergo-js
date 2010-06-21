@@ -14,14 +14,18 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	defaultOptions: {
 		itemFactory: function(opts) {
 			return Dino.object(opts);
-		},
-		layout: 'plain-layout'
+		}
+//		layout: 'plain-layout'
 	},
 	
 	
-//	_init: function(o) {
-//		Dino.Container.superclass.initialize.call(this, o);		
-//	},	
+	_init: function(o) {
+		Dino.Container.superclass._init.call(this, o);
+		
+		this.layout = new Dino.layouts.PlainLayout();
+		this.layout.container = this;
+		
+	},	
 	
 	_opt: function(o) {
 		Dino.Container.superclass._opt.call(this, o);
