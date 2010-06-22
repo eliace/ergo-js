@@ -24,3 +24,6 @@ Dino.declare('Dino.layouts.TableRowLayout', Dino.Layout, {
 	}
 	
 }, 'table-row-layout');
+
+
+

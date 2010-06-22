@@ -6,10 +6,28 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 	
 	defaultCls: 'dino-grid',
 	
-	_html: function() { return '<table cellspacing="0" cellpadding="0"></table>'; },
+	_html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
 	
 	_init: function() {
 		Dino.widgets.Grid.superclass._init.apply(this, arguments);
+		
+		// добавляем шапку
+		this.thead = this.addItem( new Dino.widgets.Grid.Head() );
+		var headRow = $('<tr>');
+		
+		var columns = this.options.dataModel.columns;
+		for(var i in columns){
+			var col = columns[i];
+			
+			var th = $('<th>');
+			th.text(col.title);
+			
+			headRow.append(th);
+		}
+		
+		this.thead.el.append(headRow);
+				
+		this.tbody = this.addItem( new Dino.widgets.Grid.Body() );
 		
 	},
 	
@@ -30,7 +48,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 				'columns': self.options.dataModel.columns,
 				'data': self.data.getItem(i)
 			});
-			self.addItem(row);
+			self.tbody.addItem(row);
 //			row.dataChanged();
 		});
 		
@@ -41,9 +59,23 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 }, 'grid');
 
 
+
+
+Dino.declare('Dino.widgets.Grid.Head', Dino.Container, {
+	defaultCls: 'dino-grid-head',
+	_html: function() { return '<thead/>'; }
+});
+
+Dino.declare('Dino.widgets.Grid.Body', Dino.Container, {
+	defaultCls: 'dino-grid-body',
+	_html: function() { return '<tbody/>'; }
+});
+
+
+
 Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 	
-	defaultCls: 'ui-widget-content',
+	defaultCls: 'dino-grid-row',
 	
 	_html: function() { return '<tr></tr>'; },
 	
