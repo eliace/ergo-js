@@ -43,7 +43,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
 				var item = this.itemFactory(o.items[i]);
-				this.addItem(item);
+				this.addChild(item);
 			}
 		}
 		
@@ -52,32 +52,33 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 	
 	_dataChanged: function() {
-		this.eachItem(function(item) { item._dataChanged(); });
+		this.eachChild(function(item) { item._dataChanged(); });
 	},
 	
-	addItem: function(item) {
-//		Dino.Container.superclass.addItem.call(this, item);
-		this.addChild(item);
+	addChild: function(item) {
+		Dino.Container.superclass.addChild.call(this, item);
+//		this.addChild(item);
 		this.layout.insert(item);
 		return item;
 	},
 	
-	removeItem: function(item) {
-//		Dino.Container.superclass.removeItem.call(this, item);
-		this.removeChild(item);
+	removeChild: function(item) {
+		Dino.Container.superclass.removeChild.call(this, item);
+//		this.removeChild(item);
 		this.layout.remove(item);
 	},
 	
-	removeAllItems: function() {
-//		Dino.Container.superclass.removeAllItems.call(this);
-		this.removeAllChildren();
+	removeAllChildren: function() {
+		Dino.Container.superclass.removeAllChildren.call(this);
+//		this.removeAllChildren();
 		this.layout.clear();
-	},
+	}
 	
+/*	
 	eachItem: function(callback) {
 		this.eachChild(callback);
 	}
-	
+*/	
 });
 
 

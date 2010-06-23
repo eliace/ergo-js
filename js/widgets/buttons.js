@@ -84,7 +84,7 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	defaultCls: 'dino-button',
 	
-	_html: function() { return '<button/>'; },
+	_html: function() { return '<button type="button"/>'; },
 	
 	_init: function() {
 		Dino.widgets.Button.superclass._init.apply(this, arguments);
@@ -107,7 +107,14 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 				this.labelEl = $('<div class="dino-button-text-icon"/>');
 				this.el.append(this.labelEl);
 				break;
-		}		
+		}
+		
+		var self = this;
+		
+		this.el.click(function(e){
+			self.fireEvent('onAction', new Dino.events.Event({}, e));
+		});		
+		
 	},
 	
 	
@@ -119,9 +126,11 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		if('textCls' in o)
 			this.labelEl.addClass(o.textCls);
 		
-		if('text' in o){
+		if('text' in o)
 			this.labelEl.text(o.text);
-		}		
+		if('buttonType' in o)
+			this.el.attr('type', o.buttonType);
+		
 	},
 	
 	_theme: function(name) {

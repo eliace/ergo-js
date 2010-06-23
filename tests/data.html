@@ -39,21 +39,21 @@ $(document).ready(function(){
 	
 	var data = ['Alice', 'Bob', 'Charlie', ['apple', 'banana', 'cherry']];
 	
-	var binding = new Dino.data.Binding(data, 0);
-	assert_eq('Item 0 must be "Alice"', binding.getValue(), 'Alice');
+	binding = new Dino.data.DataSource(data, 0);
+	assert_eq('Item 0 must be "Alice"', binding.get(), 'Alice');
 	
-	binding = new Dino.data.Binding(data);
-	assert_eq('Subitem 2 must be "Charlie"', binding.getValue(2), 'Charlie');
+	binding = new Dino.data.DataSource(data);
+	assert_eq('Subitem 2 must be "Charlie"', binding.get(2), 'Charlie');
 	
-	var binding2 = new Dino.data.Binding(binding, 1);
-	assert_eq('Item 1 must be "Bob"', binding2.getValue(), 'Bob');
+	binding2 = new Dino.data.DataSource(binding, 1);
+	assert_eq('Item 1 must be "Bob"', binding2.get(), 'Bob');
 
-	var binding2 = new Dino.data.Binding(binding, 3);
-	assert_eq('Subitem 0 must be "apple"', binding2.getValue(0), 'apple');
+	binding2 = new Dino.data.DataSource(binding, 3);
+	assert_eq('Subitem 0 must be "apple"', binding2.get(0), 'apple');
+	
+	binding3 = binding._item(3);
 	assert('Item 3 must exist', (binding.items[3] != undefined));
-	
-	
-	
+		
 });		
 	
 </script>				

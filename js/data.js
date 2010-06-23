@@ -62,47 +62,55 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		this.items = {};
 	},
 	
-	val: function() {
-		return (this.source instanceof Dino.data.DataSource) ? this.source.getValue(this.id) : this.source[this.id];
+	_val: function() {
+		return (this.source instanceof Dino.data.DataSource) ? this.source.get(this.id) : this.source[this.id];
 	},
 	
-	getValue: function(i) {
+	// получаем значение
+	get: function(i) {
 		if(arguments.length == 0)
-			return this.val();
+			return this._val();
 		else
-			return (this.source instanceof Dino.data.DataSource) ? this.source.getItem(this.id).getValue(i) : this.source[this.id][i];
+			return this._val()[i];// (this.source instanceof Dino.data.DataSource) ? this.getItem(i).getValue() : this.source[this.id][i];
 	},
 	
-	setValue: function(i, newValue) {
+	// устанавливаем значение
+	set: function(i, newValue) {
 		if(arguments.length == 1) {
-			for(var item in this.items){
-				//TODO оповещаем все элементы, что они удалены
-			}
+			newValue = i;
+			// удаляем все элементы
+			for(var j in this.items)
+				this.items[j].destroy();
+			// теперь список элементов пуст
 			this.items = {};
-			this.source[this.id] = newValue;
+			
+			(this.source instanceof Dino.data.DataSource) ? this.source.set(this.id, newValue) : this.source[this.id] = newValue;
 		}
 		else {
-			if(i in this.items)
-				this.items[i].setValue(newValue);
-			else
-				this.source[this.id][i] = newValue;
+			(this.source instanceof Dino.data.DataSource) ? this.source._val()[this.id][i] = newValue : this.source[this.id][i] = newValue;
 		}
 		
 		this.fireEvent('onValueChanged', new Dino.events.Event());
 	},
 	
-	eachValue: function(callback) {
-		Dino.each(this.val(), callback);
+	// обходим все значения
+	each: function(callback) {
+		Dino.each(this._val(), callback);
 	},
 	
-	getItem: function(i) {
+	_item: function(i) {
 		if(!(i in this.items)) {
-			var item = new Dino.data.DataSource(this.val(), i);
+			var item = new Dino.data.DataSource(this, i);
 			this.items[i] = item;
 		}
 		return this.items[i];
 	}
 	
+/*	
+	eachItem: function(callback){
+		Dino.each(this.items, callback);
+	}
+*/	
 	
 });
 

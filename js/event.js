@@ -37,7 +37,7 @@ Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	addEvent: function(type, callback, target) {
 		var a = this.handlers[type] || [];
 		a.push({'callback': callback, 'target': target});
-		this.handlers[type] = a;		
+		this.handlers[type] = a;
 	},
 	
 	/**

@@ -1,6 +1,5 @@
 
 
-
 /**
  * Базовый объект для полей ввода.
  * 
@@ -17,19 +16,18 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		if('text' in o) this.el.val(o.text);
 		if('readonly' in o) this.el.attr('readonly', o.readonly);
 		if('name' in o) this.el.attr('name', o.name);
+		if('value' in o) this.el.attr('value', o.value);
 		
 	},
 	
-	_init: function(o) {
-		Dino.widgets.form.InputField.superclass._init.call(this, o);
-		
-		var self = this;
+	_events: function(self) {
+		Dino.widgets.form.InputField.superclass._events.call(this, self);
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
 	},
 	
 	_dataChanged: function() {
-		this.el.val( this.data.getValue() );
+		this.el.val( this.getValue() );
 	}
 	
 	
@@ -58,7 +56,7 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
  */
 Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	
-	_html: function() { return '<input type="button" class="dc-form-button"></input>'; },
+	_html: function() { return '<input type="submit" class="dc-form-button"></input>'; },
 
 	_init: function(o) {
 		Dino.widgets.form.Button.superclass._init.call(this, o);
@@ -67,7 +65,11 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 		
 		this.el.click(function(e){
 			self.fireEvent('onAction', new Dino.events.Event({}, e));
-		});		
+		});
+		
+//		var button_type = this.options.buttonType || 'button';// ('buttonType' in this.options) this.el.attr('type', this.options.buttonType);
+//		this.el.attr('type', button_type);
+		
 	},
 	
 	_opt: function(o) {
@@ -113,8 +115,16 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
 	_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
+	_events: function(self) {
+		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
+		var self = this;
+		this.el.change(function(){
+			self.setValue(self.el.attr('checked') ? true : false);
+		});
+	},
+	
 	_dataChanged: function() {
-		this.el.attr('checked', this.data.getValue() );
+		this.el.attr('checked', this.getValue() );
 	}
 	
 		
@@ -150,7 +160,7 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 	},
 	
 	_dataChanged: function() {
-		this.el.text(this.data.getValue());		
+		this.el.text(this.getValue());		
 	}
 	
 }, 'label');
@@ -184,6 +194,21 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', {
 
 
 Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
-	_html: function() { return '<select/>'; }
+	_html: function() { return '<select/>'; },
+	
+	_opt: function(o) {
+		Dino.widgets.form.Select.superclass._opt.call(this, o);
+		
+		if('options' in o){
+			for(var i in o.options){
+				var option_el = $('<option/>');
+				option_el.attr('value', i);
+				option_el.text(o.options[i]);
+				this.el.append(option_el);
+			}
+		}
+	}
 }, 'select');
+
+
 

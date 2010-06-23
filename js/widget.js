@@ -17,6 +17,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		// конструируем виджет (передаем параметры конструктора)
 		this._init.apply(this, arguments);
+		// добавляем обработку событий
+		this._events(this);
 		// устанавливаем опциональные параметры
 		this._opt(o);
 		// добавляем элемент в документ
@@ -52,6 +54,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_theme: function(name) {
+	},
+	
+	_events: function(self){
 	},
 
 
@@ -121,13 +126,13 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		if('data' in o) {
 			if('dataId' in o){
-				this.data = (o.data instanceof Dino.data.DataSource) ? o.data.getItem(o.dataId) : new Dino.data.DataSource(o.data, o.dataId);
+				this.data = (o.data instanceof Dino.data.DataSource) ? o.data._item(o.dataId) : new Dino.data.DataSource(o.data, o.dataId);
 			}
 			else {
 				this.data = (o.data instanceof Dino.data.DataSource) ? o.data : new Dino.data.DataSource(o.data);
 			}
 			// FIXME
-			this.data.addEvent('onDataChanged', this._dataChanged);
+//			this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 			this.fireEvent('onDataChanged', new Dino.events.Event());
 		}		
 		
@@ -182,11 +187,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	getValue: function() {
-		return null;
+		return (this.data) ? this.data.get() : undefined;
 	},
 	
 	setValue: function(val) {
-		if(this.data) this.data.setValue(val);
+		if(this.data) this.data.set(val);
 	},
 	
 //	_dataBound: function(){},

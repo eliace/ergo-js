@@ -20,6 +20,7 @@
 	<div id="checkbox"></div>
 	<div id="label"></div>
 	<div id="anchor"></div>
+	<div id="select"></div>
 	
 	
 	
@@ -75,6 +76,17 @@
 			dtype: 'anchor',
 			renderTo: '#anchor',
 			text: 'Click me'
+		});
+
+		Dino.widget({
+			dtype: 'select',
+			renderTo: '#select',
+			options: {
+				'a': 'Alice',
+				'b': 'Bob',
+				'c': 'Charlie'
+			},
+			width: 100
 		});
 	
 	</script>
