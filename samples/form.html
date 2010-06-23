@@ -19,6 +19,7 @@
 	<div id="radio"></div>
 	<div id="checkbox"></div>
 	<div id="label"></div>
+	<div id="anchor"></div>
 	
 	
 	
@@ -68,6 +69,12 @@
 			dtype: 'textfield',
 			name: 'field1',
 			renderTo: '#label'
+		});
+		
+		Dino.widget({
+			dtype: 'anchor',
+			renderTo: '#anchor',
+			text: 'Click me'
 		});
 	
 	</script>

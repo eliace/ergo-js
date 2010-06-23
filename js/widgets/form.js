@@ -59,15 +59,19 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	
 	_html: function() { return '<input type="button" class="dc-form-button"></input>'; },
-	
-	_opt: function(o) {
-		Dino.widgets.form.Button.superclass._opt.call(this, o);
+
+	_init: function(o) {
+		Dino.widgets.form.Button.superclass._init.call(this, o);
 		
 		var self = this;
 		
 		this.el.click(function(e){
 			self.fireEvent('onAction', new Dino.events.Event({}, e));
 		});		
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.form.Button.superclass._opt.call(this, o);
 	}
 }, 'form-button');
 
@@ -152,5 +156,34 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, {
 }, 'label');
 
 
+Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', {
+	_html: function() { return '<a href="#" click="return false" />'; },
+	
+	_init: function(o) {
+		Dino.widgets.form.Anchor.superclass._init.call(this, o);
+		
+		var self = this;
+		
+		this.el.click(function(e){
+			self.fireEvent('onAction', new Dino.events.Event({}, e));
+		});		
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.form.Anchor.superclass._opt.call(this, o);
+		
+		if('text' in o)
+			this.el.text(o.text);
+	},
+	
+	_dataChanged: function() {
+	}
+}, 'anchor');
 
+
+
+
+Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
+	_html: function() { return '<select/>'; }
+}, 'select');
 

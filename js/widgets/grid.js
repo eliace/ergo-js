@@ -52,7 +52,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 //			row.dataChanged();
 		});
 		
-//		Dino.widgets.Grid.superclass._dataChanged.call(this);
+		Dino.widgets.Grid.superclass._dataChanged.call(this);
 	}
 	
 	
