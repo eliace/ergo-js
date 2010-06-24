@@ -7,6 +7,7 @@ require 'pathname'
 
 
   files = [
+    'lib/misc/jquery.json-2.2.min.js',
     'js/core.js',
     'js/event.js',
     'js/data.js',

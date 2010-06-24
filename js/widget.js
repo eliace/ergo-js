@@ -41,10 +41,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(arguments.length == 1){ 
 			if(Dino.isString(arguments[0])){
 				html = arguments[0];
-				opts = {};
+				opts = undefined;
 			}
 			else{
-				html = this._html();
+				html = undefined;
 				opts = arguments[0];
 			}
 		}
@@ -56,8 +56,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		});
 		Dino.override(o, opts || {});
 		
+		html = o.wrapEl || html; // оставляем возможность указать html через options
+		
 		// создаем новый элемент DOM или используем уже существующий
-		this.el = $(html);//('wrapEl' in o) ? o.wrapEl : $(this._html());
+		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
