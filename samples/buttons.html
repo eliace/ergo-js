@@ -19,10 +19,12 @@
 	<div id="button2"></div>
 	<div id="button3"></div>
 	
-	<!--div>
-		<span style="display: inline-block" ><span class="ui-icon ui-icon-document"></span></span>
-		<span style="display: inline-block"><span class="ui-icon ui-icon-refresh"></span></span>
-	</div -->	
+	
+	
+	
+	<button style="position: relative; display: inline-block; padding: 0" class="ui-state-default ui-corner-all">
+		<div style="" class="ui-icon ui-icon-document"></div>
+	</button>	
 		
 	<script>
 		
@@ -65,7 +67,7 @@
 			}]
 		});
 		
-		Dino.widget({
+		var w = Dino.widget({
 			dtype: 'toolbar',
 			renderTo: '#button3',
 			cls: 'ui-widget-content ui-corner-all ui-state-default',
@@ -81,8 +83,6 @@
 				theme: 'jquery_ui'
 			}]
 		});
-
-
 	
 	</script>
 	

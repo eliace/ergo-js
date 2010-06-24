@@ -103,3 +103,25 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 	
 	
 }, 'async-image');
+
+
+
+
+Dino.constants.ICON_16 = 16;
+
+
+Dino.declare('Dino.widgets.Icon', Dino.Widget, {
+	defaultCls: 'dino-icon',
+	
+	_html: function() { return '<div/>'; },
+	
+	_opt: function(o) {
+		Dino.widgets.Icon.superclass._opt.call(this, o);
+		
+		if('iconSize' in o){
+			this.el.css({'width': o.iconSize, 'height': o.iconSize});
+		}
+	}
+		
+}, 'icon');
+

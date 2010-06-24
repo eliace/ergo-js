@@ -3,7 +3,7 @@
 /**
  * Базовый класс для контейнеров
  * 
- * Опции:
+ * Параметры:
  * 	itemFactory
  * 	layout
  * 	items
@@ -12,45 +12,46 @@
 Dino.declare('Dino.Container', Dino.Widget, {
 	
 	defaultOptions: {
-		itemFactory: function(opts) {
-			return Dino.object(opts);
-		}
-//		layout: 'plain-layout'
+		itemFactory: function(opts) { 
+			return Dino.widget(opts); 
+		},
+		layout: 'plain-layout'
 	},
 	
 	
-	_init: function(o) {
-		Dino.Container.superclass._init.call(this, o);
+	_init: function() {
+		Dino.Container.superclass._init.apply(this);
 		
-		this.layout = new Dino.layouts.PlainLayout();
+		var o = this.options;
+		
+//		this.layout = new Dino.layouts.PlainLayout();
+//		this.layout.container = this;
+		
+//		if('itemFactory' in o) this.itemFactory = o.itemFactory;
+		
+		var layoutOpts = o.layout;
+		if( Dino.isString(layoutOpts) ) 
+			layoutOpts = {dtype: layoutOpts};
+		this.layout = Dino.object(layoutOpts);
 		this.layout.container = this;
 		
-	},	
-	
-	_opt: function(o) {
-		Dino.Container.superclass._opt.call(this, o);
-		
-		if('itemFactory' in o) this.itemFactory = o.itemFactory;
-		
-		if('layout' in o){
-			var layoutOpts = o.layout;
-			if( Dino.isString(layoutOpts) ) 
-				layoutOpts = {dtype: layoutOpts};
-			this.layout = Dino.object(layoutOpts);
-			this.layout.container = this;
-		}
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var item = this.itemFactory(o.items[i]);
+				var item = this.options.itemFactory(o.items[i]);
 				this.addChild(item);
 			}
 		}
 		
+	},	
+/*	
+	_opt: function(o) {
+		Dino.Container.superclass._opt.call(this, o);
+		
 //		if('defaultItemType')
 		
 	},
-	
+*/	
 	_dataChanged: function() {
 		this.eachChild(function(item) { item._dataChanged(); });
 	},

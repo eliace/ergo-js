@@ -1,22 +1,68 @@
 
 
-
+/**
+ * Виджет - базовый объект для всех виджетов
+ * 
+ * хуки:
+ * 	_default
+ * 	_html
+ * 	_init
+ * 	_events
+ * 	_opt
+ * 	_render
+ * 	_dataChanged
+ * 	_theme
+ * 
+ * параметры:
+ * 	width
+ * 	height
+ * 	x
+ * 	y
+ * 	tooltip
+ * 	id
+ * 	tag
+ * 	style
+ * 	cls
+ * 	opacity
+ * 	events
+ * 	data
+ * 	dataId
+ * 
+ */
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
-	initialize: function(opts) {
+	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
 		
+		var html = arguments[0];
+		var opts = arguments[1];
+		
+		// new Dino.Widget('<div/>') или new Dino.Widget({...})
+		if(arguments.length == 1){ 
+			if(Dino.isString(arguments[0])){
+				html = arguments[0];
+				opts = {};
+			}
+			else{
+				html = this._html();
+				opts = arguments[0];
+			}
+		}
+		
+		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
-		Dino.override(o, this.defaultOptions || {});
+		Dino.hierarchy(this.constructor, function(clazz){
+			if('defaultOptions' in clazz) Dino.override(o, clazz.defaultOptions);
+		});
 		Dino.override(o, opts || {});
 		
 		// создаем новый элемент DOM или используем уже существующий
-		this.el = ('wrapEl' in o) ? o.wrapEl : $(this._html());
+		this.el = $(html);//('wrapEl' in o) ? o.wrapEl : $(this._html());
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
-		// конструируем виджет (передаем параметры конструктора)
-		this._init.apply(this, arguments);
+		// конструируем виджет
+		this._init(o);//this, arguments);
 		// добавляем обработку событий
 		this._events(this);
 		// устанавливаем опциональные параметры
@@ -29,8 +75,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._theme(o.theme);
 	},
 	
+	_default: function(o){
+	},
 	
-	_init: function(o) {
+	_init: function() {
 	},
 	
 //	_theme: function() {
@@ -70,25 +118,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	
-	/**
-	 * Устанока параметров.
-	 * 
-	 * параметры:
-	 * 	width
-	 * 	height
-	 * 	x
-	 * 	y
-	 * 	tooltip
-	 * 	id
-	 * 	tag
-	 * 	style
-	 * 	cls
-	 * 	opacity
-	 * 	events
-	 * 	data
-	 * 	dataId
-	 * 
-	 */
 	_opt: function(o) {
 		
 		var self = this;

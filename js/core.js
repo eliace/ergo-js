@@ -40,6 +40,12 @@ var Dino = (function(){
 		return ctor;
 	};
 	
+	D.hierarchy = function(ctor, callback) {
+		if(!ctor) return;
+		D.hierarchy(ctor.super_ctor, callback);
+		callback.call(this, ctor.prototype);
+	};
+	
 	
 	var _dtypes = {};
 	
@@ -306,7 +312,8 @@ var Dino = (function(){
 		if(console) console.error(msg);
 	};
 	
-	
+	D.constants = {
+	};
 	
 	return D;
 })();

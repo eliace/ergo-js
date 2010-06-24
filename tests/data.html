@@ -53,7 +53,20 @@ $(document).ready(function(){
 	
 	binding3 = binding._item(3);
 	assert('Item 3 must exist', (binding.items[3] != undefined));
-		
+	
+	data = new Dino.data.AjaxDataSource();
+	data.addEvent('onLoad', function(){
+		Dino.widget({
+			dtype: 'textarea',
+			renderTo: '#report',
+			text: Dino.pretty_print(data._val()),
+			width: 300,
+			height: 200
+		});
+	});
+	
+	data.load('ajax/list.json');
+	
 });		
 	
 </script>				

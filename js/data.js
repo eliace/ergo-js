@@ -51,7 +51,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	initialize: function(src, id) {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
 		
-		if(arguments.length == 1){
+		if(arguments.length < 2){
 			this.source = {'_id': src};
 			this.id = '_id';
 		}
@@ -113,4 +113,25 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 */	
 	
 });
+
+
+
+
+
+Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
+/*	
+	initialize: function() {
+		Dino.data.AjaxDataSource.superclass.initialize.call(self, {});
+	},
+*/	
+	load: function(url, params) {
+		var self = this;
+		
+		$.getJSON(url, params || {}, function(data){
+			self.set(data);
+			self.fireEvent('onLoad', new Dino.events.Event());
+		});
+	}
+});
+
 
