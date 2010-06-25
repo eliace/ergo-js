@@ -230,3 +230,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	_dataChanged: function() {}
 	
 });
+
+
+$.fn.dino = function(o) {
+	if(this.length > 0) o.wrapEl = this;
+	return Dino.widget(o);
+};
+
+

@@ -315,6 +315,8 @@ var Dino = (function(){
 	D.constants = {
 	};
 	
+//	$.dino = D;
+	
 	return D;
 })();
 

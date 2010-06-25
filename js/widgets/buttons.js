@@ -98,8 +98,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 			case 'icon-only':
 				this.iconEl = $('<div class="dino-icon dino-button-icon-only"/>');
 				this.el.append(this.iconEl);
-				this.labelEl = $('<div class="dino-button-text-none"/>');
-				this.el.append(this.labelEl);
+//				this.labelEl = $('<div class="dino-button-text-none"/>');
+//				this.el.append(this.labelEl);
 				break;
 			case 'icon-text':
 				this.iconEl = $('<div class="dino-icon dino-button-icon-text"/>');
@@ -112,7 +112,7 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction', new Dino.events.Event({}, e));
+			self.fireEvent('action', new Dino.events.Event({}, e));
 		});		
 		
 	},
@@ -130,7 +130,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 			this.labelEl.text(o.text);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
-		
+		if('action' in o)
+			this.addEvent('action', o.action);
 	},
 	
 	_theme: function(name) {

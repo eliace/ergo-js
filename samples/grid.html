@@ -15,6 +15,7 @@
 	
 	<div id="grid-wrapper"></div>
 
+	<button id="but1"></button>
 
 	<script>
 		
@@ -24,7 +25,7 @@
 			{id: '3', name: 'Charlie', value: '789', cb: false},
 		];
 		
-		Dino.widget({
+		$.fn.dino({
 			dtype: 'grid',
 			renderTo: '#grid-wrapper',
 			width: 500,
@@ -51,7 +52,13 @@
 			data: gridData
 		});
 		
-		
+		$('#but1').dino({
+			dtype: 'button',
+			text: 'Press me',
+			action: function(){
+				alert('Thanks!!!');
+			}
+		});
 		
 	</script>
 
