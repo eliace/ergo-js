@@ -309,7 +309,7 @@ var Dino = (function(){
 	
 	D.log = function(msg) {
 		// Если установлен Firebug, то используем его консоль
-		if(console) console.error(msg);
+		if(console) console.log(msg);
 	};
 	
 	D.constants = {

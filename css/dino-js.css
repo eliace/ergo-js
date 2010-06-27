@@ -52,7 +52,7 @@
 }
 
 
-.dino-toolbar .dino-button { display: inline-block; }
+.dino-toolbar .dino-button { display: inline-block; margin: 0 2px 0 2px; }
 
 
 
