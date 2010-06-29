@@ -118,3 +118,73 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.CssButton, {
 }, 'file-assist');
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
+	
+	_init: function(){
+		Dino.widgets.Checkbox.superclass._init.apply(this, arguments);
+		
+		this.checkbox = new Dino.widgets.form.Checkbox();
+		this.addItem(this.checkbox);
+		
+		this.label = new Dino.widgets.form.Label();
+		this.addItem(this.label);		
+	},
+	
+	_opt: function(o){
+		Dino.widgets.Checkbox.superclass._opt.apply(this, arguments);
+		
+		if('text' in o) this.label.el.text(o.text);
+	}
+	
+	
+}, 'advanced-checkbox');
+
+
+
+
+Dino.declare('Dino.widgets.Text', 'Dino.containers.Box', {
+	
+	_init: function(o){
+		Dino.widgets.Text.superclass._init.apply(this, arguments);
+		
+		if('icon' in o){
+			this.icon = Dino.widget(o.icon);
+			this.addItem(this.icon);
+		}
+		
+		if('text' in o){
+			this.text = new Dino.Widget('<div class="dino-text"></div>');
+			this.addItem(this.text);
+		}
+			
+	},
+	
+	_opt: function(o){
+		Dino.widgets.Text.superclass._opt.call(this, o);
+		
+		if('text' in o){
+			this.text.el.text(o.text);
+		}
+	}
+	
+}, 'advanced-text');
+
+
+
+
+

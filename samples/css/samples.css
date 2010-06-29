@@ -13,3 +13,9 @@
 	width: 24px;
 	height: 24px;
 }
+
+
+
+.dino-dropdown a {
+	display: block;
+}

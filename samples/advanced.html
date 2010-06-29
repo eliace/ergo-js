@@ -14,6 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="../css/dino.css">
 	<link rel="stylesheet" type="text/css" href="css/advanced.css">
 
+	<!-- jQuery UI theme -->
+	<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+
 	<style>
 		body p {
 			font-style: italic;
@@ -38,6 +41,8 @@
 	<div id="widget5"></div>
 	<p>Изображение с отложенной загрузкой.</p>
 	<div id="widget6"></div>	
+	<p>Текст с икнкой.</p>
+	<div id="widget7"></div>	
 
 	<script>
 		
@@ -89,6 +94,18 @@
 			imageUrl: 'img/Triceratops_128x128.png',
 			width: 45
 		});
+		
+		
+		Dino.widget({
+			dtype: 'advanced-text',
+			renderTo: '#widget7',
+			text: 'Hello',
+			icon: {
+				dtype: 'icon',
+				cls: 'ui-icon ui-icon-refresh'
+			}
+		});
+		
 		
 
 	</script>

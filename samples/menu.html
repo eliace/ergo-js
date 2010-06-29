@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Untitled Document</title>
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/dino-js.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/samples.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		
+		
+	</head>
+<body>
+	
+	<div id="tabs"></div>
+	
+	<!--div>
+		<ul class="tab-header">
+			<li class="ui-state-active ui-corner-top tab-button-active">tab1</li>
+			<li class="ui-state-default ui-corner-top">tab2</li>
+			<li class="ui-state-default ui-corner-top">tab3tab3tab3</li>
+		</ul>
+		<div class="tab-content ui-widget-content">
+		</div>
+	</div-->
+	
+<script>
+	
+$(document).ready(function(){
+
+	var tabs = $.fn.dino({
+		dtype: 'tabs',
+		renderTo: '#tabs',
+		tabModel: {
+			cls: 'ui-corner-top ui-state-default',
+			clsOff: 'ui-state-default',
+			clsOn: 'ui-state-active dino-tab-button-active'
+		}
+	});
+
+	tabs.addTab('tab1', new Dino.containers.Box());
+	tabs.addTab('tab2', new Dino.containers.Box());
+	tabs.addTab('tab3tab3', new Dino.containers.Box());
+
+
+/*	
+	$('.tab-header li').each(function(i, item){
+		$(item).click(function(){
+			$('.tab-button-active').removeClass('tab-button-active ui-state-active').addClass('ui-state-default');
+			$(this).addClass('tab-button-active ui-state-active').removeClass('ui-state-default');
+		});
+	});
+*/	
+
+	
+	var dropdown = $.fn.dino({
+		dtype: 'dropdown',
+		renderTo: 'body',
+		items: [{
+			dtype: 'advanced-checkbox',
+			text: 'variant1'
+		}, {
+			dtype: 'advanced-checkbox',
+			text: 'variant2'
+		}, {
+			dtype: 'advanced-checkbox',
+			text: 'variant3'
+		}]
+	});
+	
+	
+	$('body').click(function(e){
+		if(!dropdown.isShown) dropdown.show(e.pageX, e.pageY);
+	});
+	
+});	
+	
+	
+	
+</script>
+	
+</body>
+</html>

@@ -17,6 +17,8 @@ require 'pathname'
     'js/layouts/plain-layout.js',
     'js/layouts/table-row-layout.js',
     'js/containers/box.js',
+    'js/containers/tabs.js',
+    'js/containers/dropdown.js',
     'js/widgets/form.js',
     'js/widgets/images.js',
     'js/widgets/buttons.js',

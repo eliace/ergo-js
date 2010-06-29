@@ -19,7 +19,7 @@
 /* Buttons */
 .dino-button {
 	position: relative;
-/*	padding: 0;*/
+	padding: 0;
 }
 
 .dino-button-text-none {
@@ -32,13 +32,15 @@
 
 
 .dino-button-icon-only {
-	left: 50%;
-/*	top: 50%;*/
-	margin-left: -8px;
-/*	margin-top: 0px;*/
+/*	left: 50%;
+	top: 50%;
+*/	
+/*	margin-left: -8px;
+	margin-top: 0px;*/
 }
 
 .dino-button-icon-text {
+	position: absolute;
 }
 
 
@@ -80,4 +82,56 @@
 
 .dino-grid-row:hover {
 	background-color: #fcfcfc;
+}
+
+
+
+
+.dino-tab-header {
+	height: 25px;
+	position: relative;
+	border-bottom: 1px solid #aaaaaa;
+	margin: 0;
+	padding: 0;
+}
+
+.dino-tab-header li {
+/*	width: 100px;*/
+	padding: 0 20px;
+	margin-right: 2px;
+	float: left;
+	text-align: center;
+	height: 24px;
+	cursor: pointer;
+	border-bottom: 0 !important;
+	list-style: none outside none;
+}
+
+.dino-tab-button-active {
+	height: 25px !important;
+}
+
+.dino-tab-content {
+	position: relative;
+	height: 200px;
+	border-bottom: 1px solid #aaaaaa;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+}
+
+
+
+
+
+.dino-dropdown {
+	position: absolute;
+	display: none;
+	background-color: white;
+/*	padding: 2px 5px;*/
+	border: 1px solid #aaaaaa;
+}
+
+
+
+.dino-text {
 }

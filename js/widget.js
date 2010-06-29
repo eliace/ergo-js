@@ -60,6 +60,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		// создаем новый элемент DOM или используем уже существующий
 		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
+		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
@@ -93,7 +94,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_html: function() {
-		return '';
+		return '<div/>';
 	},
 	
 	_render: function(target) {
@@ -147,6 +148,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				el.bind(i, callback.curry(self));
 			}
 		}
+		if('htmlContent' in o) this.el.html(o.content);
+		
 		
 		var regexp = /^on\S/;
 		for(var i in o){
@@ -154,6 +157,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				this.addEvent(i, o[i].curry(self));//function(e) { callback.call(this, e, self); });
 			}
 		}
+
 		
 		if('data' in o) {
 			if('dataId' in o){
@@ -165,7 +169,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			// FIXME
 //			this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 			this.fireEvent('onDataChanged', new Dino.events.Event());
-		}		
+		}
 		
 	},
 		

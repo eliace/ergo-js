@@ -27,7 +27,7 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 			}, e);
 			self.fireEvent('onToggle', event);
 			
-			if(!event.is_canceled)
+			if(!event.is_canceled && self.options.toggleCls)
 				self.el.toggleClass(self.options.toggleCls);
 			
 //			if(event.is_stopped)
@@ -85,8 +85,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 			case 'icon-only':
 				this.iconEl = $('<div class="dino-icon dino-button-icon-only"/>');
 				this.el.append(this.iconEl);
-//				this.labelEl = $('<div class="dino-button-text-none"/>');
-//				this.el.append(this.labelEl);
+				this.labelEl = $('<div class="dino-button-text-none"/>');
+				this.el.append(this.labelEl);
 				break;
 			case 'icon-text':
 				this.iconEl = $('<div class="dino-icon dino-button-icon-text"/>');
@@ -145,12 +145,9 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 
 
 
-Dino.declare('Dino.widgets.Toolbar', 'Dino.Container', {
+Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
-	_html: function() { return '<div/>'; },
-	
-	defaultCls: 'dino-toolbar'
-	
+	defaultCls: 'dino-toolbar'	
 	
 }, 'toolbar');
 
