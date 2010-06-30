@@ -69,7 +69,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.remove(item);
 	},
 	
-	removeAllItem: function() {
+	removeAllItems: function() {
 //		Dino.Container.superclass.removeAllChildren.call(this);
 		this.removeAllChildren();
 		this.layout.clear();

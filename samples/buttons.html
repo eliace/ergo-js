@@ -18,6 +18,7 @@
 	<div id="button1"></div>
 	<div id="button2"></div>
 	<div id="button3"></div>
+	<div id="button4"></div>
 	
 	
 	
@@ -66,6 +67,7 @@
 				theme: 'jquery_ui'
 			}]
 		});
+
 		
 		var w = Dino.widget({
 			dtype: 'toolbar',
@@ -83,6 +85,33 @@
 				theme: 'jquery_ui'
 			}]
 		});
+
+
+		Dino.widget({
+			dtype: 'toolbar',
+			orientation: 'vertical',
+			renderTo: '#button4',
+			cls: 'ui-widget-content ui-corner-all',
+			width: 70,
+			items: [{
+				dtype: 'button',
+				text: 'button1',
+				style: {'margin': '2px 5px'}
+			}, {
+				dtype: 'button',
+				text: 'button2',
+				style: {'margin': '2px 10px'}
+			}, {
+				dtype: 'button',
+				text: 'button3',
+				style: {'margin': '2px 0px'}
+			}]
+		});
+
+
+
+
+
 	
 	</script>
 	

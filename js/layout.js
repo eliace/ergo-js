@@ -3,10 +3,16 @@
 
 Dino.declare('Dino.Layout', Dino.BaseObject, {
 	
-	add: function(item) {},
+	initialize: function(o){
+		Dino.Layout.superclass.initialize.call(this);
+		
+		this.options = o || {};
+	},
+	
+//	add: function(item) {},
 	insert: function(item) {},
 	remove: function(item) {},
-	update: function() {},
+//	update: function() {},
 	clear: function() {}
 	
 });

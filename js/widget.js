@@ -168,7 +168,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 			// FIXME
 //			this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
-			this.fireEvent('onDataChanged', new Dino.events.Event());
+//			this.fireEvent('onDataChanged', new Dino.events.Event());
 		}
 		
 	},
@@ -226,7 +226,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	setValue: function(val) {
-		if(this.data) this.data.set(val);
+		if(this.data){
+			this.data.set(val);
+			this.fireEvent('onValueChanged', new Dino.events.Event());
+		}
 	},
 	
 //	_dataBound: function(){},

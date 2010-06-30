@@ -54,8 +54,10 @@
 }
 
 
-.dino-toolbar .dino-button { display: inline-block; margin: 0 2px 0 2px; }
+/*.dino-toolbar .dino-button { display: inline-block; margin: 0 2px 0 2px; }*/
 
+.dino-toolbar-h .dino-toolbar-item { display: inline-block; }
+.dino-toolbar-v .dino-toolbar-item { display: block; }
 
 
 .dino-grid {
