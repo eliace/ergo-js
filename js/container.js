@@ -36,13 +36,12 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.container = this;
 		
 		if('content' in o){
-			var opts = Dino.merge({}, o.items[i] || {});
-			var item = this.options.itemFactory(opts);
+			var item = this.options.itemFactory(o.content);
 			this.addItem(item);			
 		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var opts = Dino.merge({}, o.items[i] || {}, o.defaultItemOpts || {});
+				var opts = Dino.merge_r({}, o.items[i], o.defaultItem); // сливаем параметры элемента и параметры элемента по умолчанию
 				var item = this.options.itemFactory(opts);
 				this.addItem(item);
 			}

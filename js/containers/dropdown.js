@@ -2,7 +2,7 @@
 
 
 
-Dino.declare('Dino.containers.DropDown', 'Dino.containers.Box', {
+Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		effects: {
@@ -12,10 +12,10 @@ Dino.declare('Dino.containers.DropDown', 'Dino.containers.Box', {
 		}
 	},
 	
-	defaultCls: 'dino-dropdown',
+	defaultCls: 'dino-dropdown-box',
 	
 	_events: function(self){
-		Dino.containers.DropDown.superclass._events.call(this, self);
+		Dino.containers.DropDownBox.superclass._events.call(this, self);
 		
 //		this.el.mouseleave(function(){ self.hide(); });
 	},
@@ -25,11 +25,12 @@ Dino.declare('Dino.containers.DropDown', 'Dino.containers.Box', {
 		this.el.css({'left': x, 'top': y});
 //		$(this.options.target).append(this.el);
 		
-		var effect = this.options.effect;
+		var effects = this.options.effects;
 		
-		switch(effect['show']){
+		switch(effects['show']){
 			case 'fade':
-				this.el.fadeIn( effect.delay );
+				this.el.fadeIn( effects.delay );
+				break;
 			default:
 				this.el.show();
 		}
@@ -39,11 +40,12 @@ Dino.declare('Dino.containers.DropDown', 'Dino.containers.Box', {
 	
 	hide: function(){
 		
-		var effect = this.options.effect;
+		var effects = this.options.effects;
 		
-		switch(effect['hide']){
+		switch(effects['hide']){
 			case 'fade':
-				this.el.fadeOut( effect.delay );
+				this.el.fadeOut( effects.delay );
+				break;
 			default:
 				this.el.hide();
 		}
@@ -54,4 +56,4 @@ Dino.declare('Dino.containers.DropDown', 'Dino.containers.Box', {
 	}
 	
 	
-}, 'dropdown');
+}, 'dropdown-box');

@@ -58,9 +58,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) Dino.override(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) Dino.merge_r(o, clazz.defaultOptions);
 		});
-		Dino.override(o, opts || {});
+		Dino.merge_r(o, opts);
 		
 		html = o.wrapEl || html; // оставляем возможность указать html через options
 		
@@ -142,7 +142,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('tag' in o) this.tag = o.tag;
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
-		if('text' in o) el.text(o.text);
+		if('text' in o) el.append(o.text);
 		if('opacity' in o){
 			if($.support.opacity) 
 				el.css('opacity', o.opacity);

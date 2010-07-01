@@ -9,6 +9,9 @@
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../css/dino-js.css">
+
+		<!-- jQuery UI effects -->
+		<script type="text/javascript" src="../lib/jquery.ui/jquery.effects.core.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/samples.css">
 		<!-- jQuery UI theme -->
@@ -23,9 +26,48 @@
 			.dino-state-hidden {
 				display: none;
 			}
-			
+/*			
 			.dino-toolbar-h li {
 				display: inline-block !important;
+			}
+			
+			.pulse-min {
+				width: 40px;
+				left: 5;
+				top: 5;
+			}
+*/			
+
+			.panel {
+				position: absolute;
+/*				width: 100%;
+				height: 100%;*/
+				margin: 3px;
+				left: 0;
+				right: 0;				
+				top: 0;
+				bottom: 0;				
+				border: 1px solid #eeeeee;
+			}
+
+			.menu {
+				width: 70px;
+				padding: 10px;
+				font-size: 1em;
+				margin-top: 30px;
+			}
+			
+			.submenu {
+			}
+			
+			.menu-item {
+				border-bottom: 1px dotted #aaaaaa;
+				cursor: pointer;
+				padding: 0 10px;
+			}
+			
+			.menu-item:hover {
+				background-color: #f0f0f0;
 			}
 			
 		</style>
@@ -59,7 +101,7 @@ $(document).ready(function(){
 	var tabs = $.fn.dino({
 		dtype: 'tabs',
 		renderTo: '#tabs',
-		defaultItemOpts: {
+		defaultItem: {
 			cls: 'ui-corner-top ui-state-default',
 			states: {
 				active: 'ui-state-active dino-tab-button-active',
@@ -67,10 +109,10 @@ $(document).ready(function(){
 			}
 		},
 		items: [{
-			text: 'tab1',
+			text: 'Меню',
 			tag: 'tab1'
 		}, {
-			text: 'Toolbar в стиле Mac',
+			text: 'Анимированный тулбар',
 			tag: 'tab2'
 		}, {
 			text: 'tab3tab3',
@@ -89,12 +131,145 @@ $(document).ready(function(){
 	
 	
 	
+	//
+	// Page 1
+	//
+	
+	
+	Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
+		
+		defaultCls: 'menu-item',
+		
+		_init: function(){
+			Dino.containers.MenuItem.superclass._init.apply(this, arguments);
+			
+			if('submenu' in this.options){
+				
+				var subMenu = Dino.merge({
+					dtype: 'dropdown-box',
+					cls: 'submenu'
+				}, this.options.submenuOpts);
+				
+				this.submenu = Dino.widget(subMenu);
+				
+				for(var i in this.options.submenu){
+					var subItem = this.options.submenu[i];
+					this.submenu.addItem( new Dino.containers.MenuItem(subItem) );
+				}
+				
+				this.addItem(this.submenu);
+			}
+/*			
+			if('label' in this.options){
+				this.label = Dino.widget({
+					dtype: 'advanced-text',
+					text: this.options.label
+				});
+				this.addItem(this.label);
+			}
+*/			
+			
+		},
+		
+		_events: function(self){
+			Dino.containers.MenuItem.superclass._events.apply(this, arguments);
+			
+			this.el.bind('mouseenter', function(){
+				var pos = $(this).position();
+				if(self.submenu) self.submenu.show(pos.left + $(this).width() + 20, pos.top);
+			});
+			
+			this.el.bind('mouseleave', function(){
+				if(self.submenu) self.submenu.hide();
+			});
+			
+		}
+		
+		
+		
+	}, 'menu-item');
+	
+	
+	
+	
+	
+	var intentTimeo;
+	
+	var menu = $.fn.dino({
+		dtype: 'box',
+		cls: 'menu',
+		renderTo: '#panel1',
+		defaultItem: {
+			dtype: 'menu-item'
+		},
+		items: [{
+			text: 'Menu 1',
+			submenuOpts: {
+				effects: {
+					show: 'fade',
+					hide: 'fade'
+//					delay: 400
+				}
+			},
+			submenu: [
+				{text: 'Submenu 1'},
+				{text: 'Submenu 2'},
+				{text: 'Submenu 3'},
+				{
+					text: 'Submenu 4',
+					submenu: [
+						{text: 'Submenu1'},
+						{text: 'Submenu2 Submenu2', width: 140}
+					]
+				}
+			]
+		}, {
+			text: 'Menu 2'
+		}, {
+			text: 'Menu 3'
+		}]
+	});
+	
+/*	
+	var submenu = $.fn.dino({
+		dtype: 'dropdown-box',
+		cls: 'submenu',
+		renderTo: menu,//'#panel1',
+		defaultItem: {
+			dtype: 'box',
+			cls: 'menu-item',
+			events: {
+				'mouseenter': function(e){
+				},
+				'mouseleave': function(e){
+					var to = $(e.relatedTarget); // где теперь находится курсор
+					if(!to.hasClass('menu-item') && to.parent('.menu-item').length == 0){
+						submenu.hide();
+					}
+				}
+			},
+			content: {
+				dtype: 'advanced-text'				
+			}
+		},
+		items: [{
+			content: {text: 'Menu Item 1'}
+		}, {
+			content: {text: 'Menu Item 2'}
+		}, {
+			content: {text: 'Menu Item 3'}
+		}, {
+			content: {text: 'Menu Item 4'}
+		}]
+	});
+*/	
+	
 	
 	
 	//
 	// Page 2
 	//
-	
+		
 	$.fn.dino({
 		dtype: 'toolbar',
 		renderTo: '#panel2',
@@ -102,29 +277,18 @@ $(document).ready(function(){
 		x: 10,
 		y: 30,
 		style: {'position': 'absolute'},
-		defaultItemOpts: {
-			dtype: 'image',
-			width: 40,
-			style: {'position': 'relative', 'margin': '5px 0'},
-			events: {
-				'mouseenter': function(){
-					$(this).clearQueue();
-					$(this).animate({'width': 50, 'left': -5, 'top': -5}, 200);				
-				},
-				'mouseleave': function(){
-					$(this).animate({'width': 40, 'left': 0, 'top': 0}, 200);				
-				}
-			}			
+		defaultItem: {
+			dtype: 'pulse-button',
+			imageWidth: 30,
+			pulseValue: 1.5,
+			pulseDelay: 100
 		},
-		items: [{
-			imageUrl: 'img/menu/Backward.png'
-		}, {
-			imageUrl: 'img/menu/Box.png'
-		}, {
-			imageUrl: 'img/menu/Calander.png'
-		}, {
-			imageUrl: 'img/menu/Chart_bar.png'
-		}]
+		items: [
+			{imageUrl: 'img/menu/Backward.png'}, 
+			{imageUrl: 'img/menu/Box.png'},
+			{imageUrl: 'img/menu/Calander.png'}, 
+			{imageUrl: 'img/menu/Chart_bar.png'}
+		]		
 	});
 	
 
@@ -134,35 +298,21 @@ $(document).ready(function(){
 	$.fn.dino({
 		dtype: 'toolbar',
 		renderTo: '#panel2',
-		x: 80,
+		orientation: 'horizontal',
+		x: '50%',
 		y: 30,
 		style: {'position': 'absolute'},
-		defaultItemOpts: {
-			dtype: 'box',
-			content: {
-				dtype: 'image',
-				width: 40,
-				style: {'position': 'relative', 'margin': '0 5px'},
-				events: {
-					'mouseenter': function(){
-						$(this).clearQueue();
-						$(this).animate({'width': 50, 'left': -5, 'top': -5}, 200);				
-					},
-					'mouseleave': function(){
-						$(this).animate({'width': 40, 'left': 0, 'top': 0}, 200);				
-					}
-				}
-			}
+		defaultItem: {
+			dtype: 'pulse-button',
+			imageWidth: 40,
+			pulseValue: 1.25
 		},
-		items: [{
-			content: {imageUrl: 'img/menu/Backward.png' }
-		}, {
-			content: {imageUrl: 'img/menu/Box.png'}
-		}, {
-			content: {imageUrl: 'img/menu/Calander.png'}
-		}, {
-			content: {imageUrl: 'img/menu/Chart_bar.png'}
-		}]
+		items: [
+			{imageUrl: 'img/menu/Backward.png'}, 
+			{imageUrl: 'img/menu/Box.png'},
+			{imageUrl: 'img/menu/Calander.png'}, 
+			{imageUrl: 'img/menu/Chart_bar.png'}
+		]
 	});
 
 

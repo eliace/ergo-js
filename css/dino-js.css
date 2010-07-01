@@ -125,7 +125,7 @@
 
 
 
-.dino-dropdown {
+.dino-dropdown-box {
 	position: absolute;
 	display: none;
 	background-color: white;
@@ -137,3 +137,14 @@
 
 .dino-text {
 }
+
+
+.dino-pulse-button {
+	position: relative;
+}
+
+.dino-pulse-button img {
+	position: absolute;
+}
+
+

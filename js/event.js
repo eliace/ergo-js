@@ -78,6 +78,7 @@ Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	 * 
 	 */
 	fireEvent: function(type, event) {
+		if(arguments.length == 1) event = new Dino.events.Event();
 		var type_a = type.split('.');
 		var self = this;
 		Dino.each(type_a, function(t){

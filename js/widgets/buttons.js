@@ -145,6 +145,65 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 
 
 
+
+Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
+	
+	defaultCls: 'dino-pulse-button',
+	
+	defaultOptions: {
+		pulseDelay: 200
+	},
+	
+	_init: function(){
+		Dino.widgets.PulseButton.superclass._init.apply(this, arguments);
+		
+		var self = this;
+		
+		this.image = new Dino.Widget('<img/>');
+		this.addItem(this.image);
+		
+	},
+	
+	_events: function(self) {
+		Dino.widgets.PulseButton.superclass._events.apply(this, arguments);
+		
+		this.image.el.bind('mouseenter', function(){
+			$(this).clearQueue();
+			$(this).animate({'width': self.maxW, 'height': self.maxH, 'left': 0, 'top': 0}, self.options.pulseDelay, function(){ self.fireEvent('onMouseEnter'); });
+		});
+		
+		this.image.el.bind('mouseleave', function(){
+			var o = self.options;
+			$(this).animate({'width': o.imageWidth, 'height': o.imageHeight, 'left': self.dx, 'top': self.dy}, o.pulseDelay, function(){ self.fireEvent('onMouseLeave'); });
+		});
+		
+	},
+	
+	_opt: function(o){
+		Dino.widgets.PulseButton.superclass._opt.apply(this, arguments);
+		
+		if('imageUrl' in o) this.image.el.attr('src', o.imageUrl);
+		if(!('imageHeight' in o)) o.imageHeight = o.imageWidth;
+		if(!('imageWidth' in o)) o.imageWidth = o.imageHeight;
+
+		this.maxW = o.imageWidth * o.pulseValue;
+		this.maxH = o.imageHeight * o.pulseValue;
+		this.dx = (this.maxW - o.imageWidth)/2;
+		this.dy = (this.maxH - o.imageHeight)/2;
+		
+		this.el.css({'width': this.maxW, 'height': this.maxH});
+		
+		this.image.opt({'width': o.imageWidth, 'height': o.imageHeight, 'x': this.dx, 'y': this.dy});
+	}
+	
+	
+}, 'pulse-button');
+
+
+
+
+
+
 Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
 //	defaultCls: 'dino-toolbar',

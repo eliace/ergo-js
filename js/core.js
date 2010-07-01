@@ -12,20 +12,37 @@ var Dino = (function(){
 	//Копирование свойств одного объекта в другой (создание примеси)
 	D.override = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
-			var overrides = arguments[j];
+			var overrides = arguments[j] || {};
 			for(var i in overrides){
-				var prop = overrides[i];
-				if((i in obj) && D.isObject(obj[i]))
-					D.override(obj[i], prop);
-				else
-					obj[i] = prop;
+				obj[i] = overrides[i];
 			}
 		}
 		return obj;
 	};
 	
+	
+	//Рекурсивное копирование свойств одного объекта в другой (создание примеси)
+	D.override_r = function(obj) {
+		for(var j = 1; j < arguments.length; j++){
+			var overrides = arguments[j];
+			for(var i in overrides){
+				var prop = overrides[i];
+				if(D.isObject(prop)){
+					if(!(i in obj)) obj[i] = {};
+					D.override_r(obj[i], prop);
+				}
+				else{
+					obj[i] = prop;
+				}
+			}
+		}
+		return obj;
+	};
+	
+	
 	// псевдоним для override
 	D.merge = D.override;
+	D.merge_r = D.override_r;
 	
 	// создание расширенного класса
 	D.extend = function(p_ctor, ctor, overrides) {
