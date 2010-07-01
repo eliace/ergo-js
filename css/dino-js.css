@@ -89,7 +89,7 @@
 
 
 
-.dino-tab-header {
+.dino-tabs {
 	height: 25px;
 	position: relative;
 	border-bottom: 1px solid #aaaaaa;
@@ -97,7 +97,7 @@
 	padding: 0;
 }
 
-.dino-tab-header li {
+.dino-tabs li {
 /*	width: 100px;*/
 	padding: 0 20px;
 	margin-right: 2px;
@@ -115,7 +115,7 @@
 
 .dino-tab-content {
 	position: relative;
-	height: 200px;
+/*	height: 200px;*/
 	border-bottom: 1px solid #aaaaaa;
 	border-left: 1px solid #aaaaaa;
 	border-right: 1px solid #aaaaaa;

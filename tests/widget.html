@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Untitled Document</title>
+		
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		
+		<script type="text/javascript" src="../js/test.js"></script>
+		
+		<style>
+			
+			.box-red {
+				background-color: red !important;
+			}
+			.box-active {
+				background-color: green;
+			}
+			
+		</style>
+		
+		
+	</head>
+<body>
+	
+	<div>
+		<div id="test1">Наведи на меня</div>
+	</div>
+		
+		
+<script>		
+	
+	assert( 'Plain object: ', Dino.isObject({a: 'a'}) );
+	assert( 'Non plain object: ', !Dino.isObject(new Dino.BaseObject()) );
+	
+	var obj1 = {
+		a: {
+			b: 1,
+			c: 2
+		}
+	};
+	
+	var obj2 = {
+		a: {
+			b: 3
+		}
+	};
+	
+	var obj = Dino.merge({}, obj1, obj2);
+	assert_eq('Must equals 3', obj.a.b, 3);
+	assert_eq('Must equals 2', obj.a.c, 2);
+	
+	
+	
+	$('#test1').dino({
+		dtype: 'box',
+		style: {'display': 'inline', 'padding': '0 10px'},
+		states: {
+			'hover': 'box-red',
+			'active': 'box-active'
+		}
+	});
+	
+	$('#test1').dino().setState('active');
+	
+	
+</script>		
+		
+</body>
+</html>

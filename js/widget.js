@@ -31,8 +31,14 @@
  */
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
+//	defaultOptions: {
+//		states: {}
+//	},
+	
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
+		
+		this.flags = {};
 		
 		var html = arguments[0];
 		var opts = arguments[1];
@@ -136,6 +142,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('tag' in o) this.tag = o.tag;
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
+		if('text' in o) el.text(o.text);
 		if('opacity' in o){
 			if($.support.opacity) 
 				el.css('opacity', o.opacity);
@@ -149,6 +156,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 		if('htmlContent' in o) this.el.html(o.content);
+		
+		if('states' in o){
+			if('hover' in o.states){
+				this.el.hover(function(){self.setState('hover');}, function(){self.resetState('hover');});
+			}
+		}
 		
 		
 		var regexp = /^on\S/;
@@ -187,6 +200,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	unlink: function() {
 		this.fireEvent('onUnlink', new Dino.events.Event({'target':this.link}));
 		this.link = null;
+	},
+	
+	
+	getChild: function(i){
+		return this.children[i];
 	},
 	
 	// Добавляем дочерний виджет
@@ -232,6 +250,27 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 	},
 	
+	
+	//TODO функции управления состоянием нужно убрать в отдельный объект
+	
+	setState: function(s) {
+//		//TODO здесь можно не убирать состояние, если такое уже установлено
+//		this.resetState(this.flags['state']);
+		var state = this.options.states[s];
+		if(state){
+			this.el.addClass(state);
+			this.flags.state = s;
+		}
+	},
+	
+	resetState: function(){
+		var state = this.options.states[this.flags['state']];
+		if(state){
+			this.el.removeClass(state);
+		}
+		delete this.flags.state;
+	},
+	
 //	_dataBound: function(){},
 //	_dataUnbound: function() {},
 	_dataChanged: function() {}
@@ -240,7 +279,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 
 
 $.fn.dino = function(o) {
-	if(this.length > 0) o.wrapEl = this;
+	if(this.length > 0){
+		var widget = this.data('dino-widget');
+		if(widget) return widget;
+		o.wrapEl = this;
+	}
 	return Dino.widget(o);
 };
 

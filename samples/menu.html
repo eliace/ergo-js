@@ -14,11 +14,33 @@
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		
+		<style>
+			.dino-tab-content {
+				width: 100%;
+				height: 400px;
+			}
+			
+			.dino-state-hidden {
+				display: none;
+			}
+			
+			.dino-toolbar-h li {
+				display: inline-block !important;
+			}
+			
+		</style>
 		
 	</head>
 <body>
 	
-	<div id="tabs"></div>
+	<div>
+		<div id="tabs"></div>
+		<div class="dino-tab-content">
+			<div id="panel1" class="panel dino-state-hidden"></div>
+			<div id="panel2" class="panel dino-state-hidden"></div>
+			<div id="panel3" class="panel dino-state-hidden"></div>
+		</div>
+	</div>
 	
 	<!--div>
 		<ul class="tab-header">
@@ -33,7 +55,122 @@
 <script>
 	
 $(document).ready(function(){
+	
+	var tabs = $.fn.dino({
+		dtype: 'tabs',
+		renderTo: '#tabs',
+		defaultItemOpts: {
+			cls: 'ui-corner-top ui-state-default',
+			states: {
+				active: 'ui-state-active dino-tab-button-active',
+				inactive: 'ui-state-default'
+			}
+		},
+		items: [{
+			text: 'tab1',
+			tag: 'tab1'
+		}, {
+			text: 'Toolbar в стиле Mac',
+			tag: 'tab2'
+		}, {
+			text: 'tab3tab3',
+			tag: 'tab3'
+		}],
+		
+		onTabChanged: function(){
+			$('.panel').addClass('dino-state-hidden');
+			if(tabs.currentTab.tag == 'tab1') $('#panel1').removeClass('dino-state-hidden');
+			else if(tabs.currentTab.tag == 'tab2') $('#panel2').removeClass('dino-state-hidden');
+			else if(tabs.currentTab.tag == 'tab3') $('#panel3').removeClass('dino-state-hidden');
+		}
+	});
+	
+	tabs.changeTab(0);
+	
+	
+	
+	
+	
+	//
+	// Page 2
+	//
+	
+	$.fn.dino({
+		dtype: 'toolbar',
+		renderTo: '#panel2',
+		orientation: 'vertical',
+		x: 10,
+		y: 30,
+		style: {'position': 'absolute'},
+		defaultItemOpts: {
+			dtype: 'image',
+			width: 40,
+			style: {'position': 'relative', 'margin': '5px 0'},
+			events: {
+				'mouseenter': function(){
+					$(this).clearQueue();
+					$(this).animate({'width': 50, 'left': -5, 'top': -5}, 200);				
+				},
+				'mouseleave': function(){
+					$(this).animate({'width': 40, 'left': 0, 'top': 0}, 200);				
+				}
+			}			
+		},
+		items: [{
+			imageUrl: 'img/menu/Backward.png'
+		}, {
+			imageUrl: 'img/menu/Box.png'
+		}, {
+			imageUrl: 'img/menu/Calander.png'
+		}, {
+			imageUrl: 'img/menu/Chart_bar.png'
+		}]
+	});
+	
 
+
+
+
+	$.fn.dino({
+		dtype: 'toolbar',
+		renderTo: '#panel2',
+		x: 80,
+		y: 30,
+		style: {'position': 'absolute'},
+		defaultItemOpts: {
+			dtype: 'box',
+			content: {
+				dtype: 'image',
+				width: 40,
+				style: {'position': 'relative', 'margin': '0 5px'},
+				events: {
+					'mouseenter': function(){
+						$(this).clearQueue();
+						$(this).animate({'width': 50, 'left': -5, 'top': -5}, 200);				
+					},
+					'mouseleave': function(){
+						$(this).animate({'width': 40, 'left': 0, 'top': 0}, 200);				
+					}
+				}
+			}
+		},
+		items: [{
+			content: {imageUrl: 'img/menu/Backward.png' }
+		}, {
+			content: {imageUrl: 'img/menu/Box.png'}
+		}, {
+			content: {imageUrl: 'img/menu/Calander.png'}
+		}, {
+			content: {imageUrl: 'img/menu/Chart_bar.png'}
+		}]
+	});
+
+
+
+
+	
+	
+/*
 	var tabs = $.fn.dino({
 		dtype: 'tabs',
 		renderTo: '#tabs',
@@ -47,7 +184,7 @@ $(document).ready(function(){
 	tabs.addTab('tab1', new Dino.containers.Box());
 	tabs.addTab('tab2', new Dino.containers.Box());
 	tabs.addTab('tab3tab3', new Dino.containers.Box());
-
+*/
 
 /*	
 	$('.tab-header li').each(function(i, item){
@@ -58,7 +195,7 @@ $(document).ready(function(){
 	});
 */	
 
-	
+/*	
 	var dropdown = $.fn.dino({
 		dtype: 'dropdown',
 		renderTo: 'body',
@@ -78,7 +215,7 @@ $(document).ready(function(){
 	$('body').click(function(e){
 		if(!dropdown.isShown) dropdown.show(e.pageX, e.pageY);
 	});
-	
+*/	
 });	
 	
 	

@@ -12,7 +12,7 @@
 Dino.declare('Dino.Container', Dino.Widget, {
 	
 	defaultOptions: {
-		itemFactory: function(opts) { 
+		itemFactory: function(opts) {
 			return Dino.widget(opts); 
 		},
 		layout: 'plain-layout'
@@ -35,10 +35,15 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout = Dino.object(layoutOpts);
 		this.layout.container = this;
 		
-		
+		if('content' in o){
+			var opts = Dino.merge({}, o.items[i] || {});
+			var item = this.options.itemFactory(opts);
+			this.addItem(item);			
+		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var item = this.options.itemFactory(o.items[i]);
+				var opts = Dino.merge({}, o.items[i] || {}, o.defaultItemOpts || {});
+				var item = this.options.itemFactory(opts);
 				this.addItem(item);
 			}
 		}
@@ -54,6 +59,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 */	
 	_dataChanged: function() {
 		this.eachChild(function(item) { item._dataChanged(); });
+	},
+	
+	getItem: function(i){
+		return this.getChild(i);
 	},
 	
 	addItem: function(item) {

@@ -10,9 +10,17 @@ var Dino = (function(){
 	var D = {};
 
 	//Копирование свойств одного объекта в другой (создание примеси)
-	D.override = function(obj, overrides) {
-		for(var i in overrides)
-			obj[i] = overrides[i];
+	D.override = function(obj) {
+		for(var j = 1; j < arguments.length; j++){
+			var overrides = arguments[j];
+			for(var i in overrides){
+				var prop = overrides[i];
+				if((i in obj) && D.isObject(obj[i]))
+					D.override(obj[i], prop);
+				else
+					obj[i] = prop;
+			}
+		}
 		return obj;
 	};
 	
