@@ -27,8 +27,8 @@ var Dino = (function(){
 			var overrides = arguments[j];
 			for(var i in overrides){
 				var prop = overrides[i];
-				if(D.isObject(prop)){
-					if(!(i in obj)) obj[i] = {};
+				if(D.isPlainObject(prop)){
+					if(!(i in obj) || !D.isPlainObject(obj[i])) obj[i] = {};
 					D.override_r(obj[i], prop);
 				}
 				else{
@@ -138,7 +138,7 @@ var Dino = (function(){
 	// в версии jquery 1.4 появились методы, которые раньше реализовывались в Dino
 	D.isFunction = $.isFunction;
 	D.isArray = $.isArray;
-	D.isObject = $.isPlainObject;
+	D.isPlainObject = $.isPlainObject;
 	
 	D.isString = function(obj) {
 		return typeof obj == 'string';
@@ -236,7 +236,7 @@ var Dino = (function(){
 		else if(D.isFunction(obj)){
 			return 'function()';
 		}
-		else if(D.isObject(obj) || !indent){
+		else if(D.isPlainObject(obj) || !indent){
 			var items = [];
 			D.each(obj, function(item, key){
 				items.push(tabs + '\t' + key + ':' + D.pretty_print(item, indent+1));					
@@ -287,7 +287,7 @@ var Dino = (function(){
 	D.deep_copy = function(src) {
 		if(typeof src == 'string') return src;
 		if(typeof src == 'number') return src;
-		if(D.isObject(src) || D.isArray(src)){
+		if(D.isPlainObject(src) || D.isArray(src)){
 			var obj = (D.isArray(src))? [] : {};
 			for(var i in src)
 				obj[i] = D.deep_copy(src[i]);

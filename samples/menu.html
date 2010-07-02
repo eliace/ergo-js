@@ -54,21 +54,64 @@
 				width: 70px;
 				padding: 10px;
 				font-size: 1em;
+				font-family: "Times New Roman", Times, serif;
 				margin-top: 30px;
 			}
 			
 			.submenu {
+				margin-left: 20px;
 			}
 			
-			.menu-item {
+			.dino-menu-item {
 				border-bottom: 1px dotted #aaaaaa;
 				cursor: pointer;
 				padding: 0 10px;
 			}
 			
-			.menu-item:hover {
-				background-color: #f0f0f0;
+			.dino-menu-item:hover {
+				background-color: #e0e0e0;
 			}
+			
+			
+			
+			
+			.ex-icon-plus {
+				background-image: url(img/001_01.png);
+				width: 24px;
+				height: 24px;
+			}
+			
+			.ex-left-item {
+				left: 0;
+				top: 0;
+				position: absolute;
+			}
+			
+			.ex-right-text {
+				margin-left: 24px;
+				display: block;
+			}
+			
+			.ex-text {
+				height: 30px;
+				width: 200px;
+			}
+
+
+
+			.ex-right-item {
+				right: 0;
+				top: 0;
+				position: absolute;
+			}
+			
+			.ex-left-text {
+				margin-right: 24px;
+				display: block;
+			}
+			
+
+
 			
 		</style>
 		
@@ -135,7 +178,7 @@ $(document).ready(function(){
 	// Page 1
 	//
 	
-	
+/*	
 	Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		
 		defaultCls: 'menu-item',
@@ -159,15 +202,6 @@ $(document).ready(function(){
 				
 				this.addItem(this.submenu);
 			}
-/*			
-			if('label' in this.options){
-				this.label = Dino.widget({
-					dtype: 'advanced-text',
-					text: this.options.label
-				});
-				this.addItem(this.label);
-			}
-*/			
 			
 		},
 		
@@ -176,7 +210,7 @@ $(document).ready(function(){
 			
 			this.el.bind('mouseenter', function(){
 				var pos = $(this).position();
-				if(self.submenu) self.submenu.show(pos.left + $(this).width() + 20, pos.top);
+				if(self.submenu) self.submenu.show(pos.left + $(this).width(), pos.top);
 			});
 			
 			this.el.bind('mouseleave', function(){
@@ -184,11 +218,9 @@ $(document).ready(function(){
 			});
 			
 		}
-		
-		
-		
+			
 	}, 'menu-item');
-	
+*/	
 	
 	
 	
@@ -200,17 +232,18 @@ $(document).ready(function(){
 		cls: 'menu',
 		renderTo: '#panel1',
 		defaultItem: {
-			dtype: 'menu-item'
+			dtype: 'menu-item',
+			cls: 'ex-menu-item',
+			menuContext: {
+				effects: {
+					show: 'fade',
+					hide: 'fade',
+					delay: 300
+				}				
+			}
 		},
 		items: [{
 			text: 'Menu 1',
-			submenuOpts: {
-				effects: {
-					show: 'fade',
-					hide: 'fade'
-//					delay: 400
-				}
-			},
 			submenu: [
 				{text: 'Submenu 1'},
 				{text: 'Submenu 2'},
@@ -219,7 +252,7 @@ $(document).ready(function(){
 					text: 'Submenu 4',
 					submenu: [
 						{text: 'Submenu1'},
-						{text: 'Submenu2 Submenu2', width: 140}
+						{text: 'Submenu2 Submenu2', width: 170}
 					]
 				}
 			]
@@ -230,39 +263,7 @@ $(document).ready(function(){
 		}]
 	});
 	
-/*	
-	var submenu = $.fn.dino({
-		dtype: 'dropdown-box',
-		cls: 'submenu',
-		renderTo: menu,//'#panel1',
-		defaultItem: {
-			dtype: 'box',
-			cls: 'menu-item',
-			events: {
-				'mouseenter': function(e){
-				},
-				'mouseleave': function(e){
-					var to = $(e.relatedTarget); // где теперь находится курсор
-					if(!to.hasClass('menu-item') && to.parent('.menu-item').length == 0){
-						submenu.hide();
-					}
-				}
-			},
-			content: {
-				dtype: 'advanced-text'				
-			}
-		},
-		items: [{
-			content: {text: 'Menu Item 1'}
-		}, {
-			content: {text: 'Menu Item 2'}
-		}, {
-			content: {text: 'Menu Item 3'}
-		}, {
-			content: {text: 'Menu Item 4'}
-		}]
-	});
-*/	
+
 	
 	
 	
@@ -295,7 +296,7 @@ $(document).ready(function(){
 
 
 
-	$.fn.dino({
+	var tb2 = $.fn.dino({
 		dtype: 'toolbar',
 		renderTo: '#panel2',
 		orientation: 'horizontal',
@@ -317,6 +318,61 @@ $(document).ready(function(){
 
 
 
+
+	//
+	// Page 3
+	//
+		
+	$.fn.dino({
+		dtype: 'text',
+		renderTo: '#panel3',
+		cls: 'dino-border',
+		text: 'Только текст'
+	});
+	
+	$.fn.dino({
+		dtype: 'text-item',
+		renderTo: '#panel3',
+		cls: 'dino-border ex-text',
+		text: {
+			text: 'Текст с иконкой слева',
+			cls: 'ex-right-text'
+		},
+		left: {
+			dtype: 'icon',
+			cls: 'ex-icon-plus ex-left-item'
+		}
+	});
+	
+	$.fn.dino({
+		dtype: 'text-item',
+		renderTo: '#panel3',
+		cls: 'dino-border ex-text',
+		text: {
+			text: 'Текст с иконкой справа',
+			cls: 'ex-left-text'
+		},
+		right: {
+			dtype: 'icon',
+			cls: 'ex-icon-plus ex-right-item'
+		}
+	});
+	
+
+
+	$.fn.dino({
+		dtype: 'text-item',
+		renderTo: '#panel3',
+		cls: 'dino-border ex-text',
+		text: {
+			text: 'Текст с чекбоксом',
+			cls: 'ex-right-text'
+		},
+		right: {
+			dtype: 'checkbox',
+			cls: 'ex-left-item'
+		}
+	});
 
 	
 	

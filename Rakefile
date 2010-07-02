@@ -24,6 +24,7 @@ require 'pathname'
     'js/widgets/buttons.js',
     'js/widgets/advanced-form.js',
     'js/widgets/grid.js',
+    'js/widgets/menu.js',
   ]
 
 

@@ -31,25 +31,31 @@
 		
 <script>		
 	
-	assert( 'Plain object: ', Dino.isObject({a: 'a'}) );
-	assert( 'Non plain object: ', !Dino.isObject(new Dino.BaseObject()) );
+	assert( 'Plain object: ', Dino.isPlainObject({a: 'a'}) );
+	assert( 'Non plain object: ', !Dino.isPlainObject(new Dino.BaseObject()) );
 	
 	var obj1 = {
 		a: {
 			b: 1,
 			c: 2
-		}
+		},
+		text: 'some text'
 	};
 	
 	var obj2 = {
 		a: {
 			b: 3
+		},
+		text: {
+			desc: '',
+			content: 'text content'
 		}
 	};
 	
-	var obj = Dino.merge({}, obj1, obj2);
+	var obj = Dino.merge_r({}, obj1, obj2);
 	assert_eq('Must equals 3', obj.a.b, 3);
 	assert_eq('Must equals 2', obj.a.c, 2);
+	assert_eq('Must equals "text content"', obj.text.content, "text content");
 	
 	
 	

@@ -84,9 +84,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._theme(o.theme);
 	},
 	
-	_default: function(o){
-	},
-	
 	_init: function() {
 	},
 	

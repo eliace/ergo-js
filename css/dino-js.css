@@ -138,6 +138,9 @@
 .dino-text {
 }
 
+.dino-text-item {
+	position: relative;
+}
 
 .dino-pulse-button {
 	position: relative;
@@ -147,4 +150,6 @@
 	position: absolute;
 }
 
-
+.dino-border {
+	border: 1px solid #aaaaaa;
+}

@@ -157,34 +157,49 @@ Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
 
 
 
-Dino.declare('Dino.widgets.Text', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	
-	_init: function(o){
-		Dino.widgets.Text.superclass._init.apply(this, arguments);
+	_html: function(){ return '<span/>';}
 		
-		if('icon' in o){
-			this.icon = Dino.widget(o.icon);
-			this.addItem(this.icon);
-		}
-		
-		if('text' in o){
-			this.text = new Dino.Widget('<div class="dino-text"></div>');
-			this.addItem(this.text);
-		}
-			
-	},
+}, 'text');
+
+
+
+
+Dino.declare('Dino.widgets.TextItem', 'Dino.containers.Box', {
 	
-	_opt: function(o){
-		Dino.widgets.Text.superclass._opt.call(this, o);
+	defaultCls: 'dino-text-item',
+	
+	_html: function(){ return '<div/>'; },
+	
+	_init: function() {
+		Dino.widgets.TextItem.superclass._init.apply(this, arguments);
 		
-		if('text' in o){
-			this.text.el.text(o.text);
+		var o = this.options;
+
+		if('left' in o){
+			this.left = Dino.widget(o.left);
+			this.addItem(this.left);
 		}
+
+		if('text' in o){
+			o.textContent = o.text;
+			delete o.text;
+		} 
+
+		this.text = new Dino.widgets.Text(o.textContent);
+		this.addItem(this.text);
+		
+		if('right' in o){
+			this.right = Dino.widget(o.right);
+			this.addItem(this.right);
+		}
+		
+		
 	}
-	
-}, 'advanced-text');
 
 
+}, 'text-item');
 
 
 
