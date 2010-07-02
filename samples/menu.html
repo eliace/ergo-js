@@ -56,22 +56,40 @@
 				font-size: 1em;
 				font-family: "Times New Roman", Times, serif;
 				margin-top: 30px;
+				position: relative;
 			}
 			
 			.submenu {
 				margin-left: 20px;
 			}
 			
-			.dino-menu-item {
+			.a-menu-item {
 				border-bottom: 1px dotted #aaaaaa;
 				cursor: pointer;
 				padding: 0 10px;
+				position: relative;
+				width: 50px;
 			}
 			
-			.dino-menu-item:hover {
+			.a-menu-item:hover {
 				background-color: #e0e0e0;
 			}
+
+
 			
+			.b-menu-item {
+				cursor: pointer;
+				padding: 0 10px;
+				margin-top: 5px;
+				position: relative;
+				color: red;
+				font-size: 1.1em;
+			}
+
+			.b-menu-item:hover {
+				color: green;
+			}
+
 			
 			
 			
@@ -103,6 +121,7 @@
 				right: 0;
 				top: 0;
 				position: absolute;
+				background-position: 32px 32px;
 			}
 			
 			.ex-left-text {
@@ -110,6 +129,15 @@
 				display: block;
 			}
 			
+
+
+			.has-submenu > .dino-icon[role="ricon"] {
+				background-position: -32px -16px;
+			}
+			
+			
+			.ex-menu-item {
+			}
 
 
 			
@@ -178,91 +206,133 @@ $(document).ready(function(){
 	// Page 1
 	//
 	
-/*	
-	Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
-		
-		defaultCls: 'menu-item',
-		
-		_init: function(){
-			Dino.containers.MenuItem.superclass._init.apply(this, arguments);
-			
-			if('submenu' in this.options){
-				
-				var subMenu = Dino.merge({
-					dtype: 'dropdown-box',
-					cls: 'submenu'
-				}, this.options.submenuOpts);
-				
-				this.submenu = Dino.widget(subMenu);
-				
-				for(var i in this.options.submenu){
-					var subItem = this.options.submenu[i];
-					this.submenu.addItem( new Dino.containers.MenuItem(subItem) );
-				}
-				
-				this.addItem(this.submenu);
-			}
-			
-		},
-		
-		_events: function(self){
-			Dino.containers.MenuItem.superclass._events.apply(this, arguments);
-			
-			this.el.bind('mouseenter', function(){
-				var pos = $(this).position();
-				if(self.submenu) self.submenu.show(pos.left + $(this).width(), pos.top);
-			});
-			
-			this.el.bind('mouseleave', function(){
-				if(self.submenu) self.submenu.hide();
-			});
-			
-		}
-			
-	}, 'menu-item');
-*/	
-	
-	
 	
 	
 	var intentTimeo;
+	
+	
+	var menuModel = {
+		dropdown: {
+			cls: 'submenu',
+			effects: {
+				show: 'fade',
+				hide: 'fade',
+				delay: 300
+			}
+		},
+		item: {
+			cls: 'a-menu-item',
+			right: {
+				dtype: 'icon',
+				cls: 'ui-icon ex-right-item',
+				role: 'ricon'
+			}
+		}		
+	};
 	
 	var menu = $.fn.dino({
 		dtype: 'box',
 		cls: 'menu',
 		renderTo: '#panel1',
+		style: {'position': 'absolute'},
 		defaultItem: {
 			dtype: 'menu-item',
-			cls: 'ex-menu-item',
-			menuContext: {
-				effects: {
-					show: 'fade',
-					hide: 'fade',
-					delay: 300
-				}				
-			}
+			cls: 'ex-menu-item a-menu-item',
+			right: {
+				dtype: 'icon',
+				cls: 'ui-icon ex-right-item',
+				role: 'ricon'
+			},
+			model: menuModel
 		},
 		items: [{
-			text: 'Menu 1',
+			content: {text: 'Menu 1'},
+			submenuItem: {width: 80},
 			submenu: [
-				{text: 'Submenu 1'},
-				{text: 'Submenu 2'},
-				{text: 'Submenu 3'},
+				{content: {text: 'Submenu 1'}},
+				{content: {text: 'Submenu 2'}},
+				{content: {text: 'Submenu 3'}},
 				{
-					text: 'Submenu 4',
+					content: {text: 'Submenu 4'},
+					submenuItem: {width: 140},
 					submenu: [
-						{text: 'Submenu1'},
-						{text: 'Submenu2 Submenu2', width: 170}
+						{
+							content: {text: 'Submenu1'},
+							submenu: [
+								{content: {text: 'Submenu AAAA'}}
+							]
+						},
+						{content: {text: 'Submenu2 Submenu2'}}
 					]
 				}
 			]
 		}, {
-			text: 'Menu 2'
+			content: {text: 'Menu 2'}
 		}, {
-			text: 'Menu 3'
+			content: {text: 'Menu 3'}
 		}]
 	});
 	
+
+
+
+	$.fn.dino({
+		dtype: 'box',
+//		cls: 'menu',
+		renderTo: '#panel1',
+		x: 10,
+		y: 130,
+		style: {'position': 'absolute'},
+		defaultItem: {
+			dtype: 'menu-item',
+			style: {'position': 'relative'},
+			content: {
+				dtype: 'pulse-button',
+				imageWidth: 40,
+				pulseValue: 1.25,
+				pulseDelay: 200,
+				onMouseLeave: function(e){
+					var relTarget = $(e.baseEvent.relatedTarget);
+					if(relTarget.hasClass('b-dropdown') || relTarget.parents('.b-dropdown').length > 0) e.cancel();
+				}
+			},
+			onSubMenuHide: function(){
+				$('.dino-pulse-button', this.el).dino().pulseDown();
+			},
+			model: {
+				item: {
+					cls: 'b-menu-item'
+				},
+				dropdown: {
+					cls: 'b-dropdown',
+					style: {'border': 'none'}
+				}
+			}
+		},
+		items: [{
+			content: {imageUrl: 'img/menu/Backward.png'},
+			submenuItem: {width: 100},
+			submenu: [
+				{content: {text: 'Submenu 1'}},
+				{content: {text: 'Submenu 2'}},
+			]
+		}, {
+			content: {imageUrl: 'img/menu/Box.png'},
+			submenuItem: {width: 100},
+			submenu: [
+				{content: {text: 'Submenu2 1'}},
+				{content: {text: 'Submenu2 2'}},
+				{content: {text: 'Submenu2 3'}}
+			]
+		}, {
+			content: {imageUrl: 'img/menu/Calander.png'}
+		}]
+	});
+
+
+	
+
+
 
 	
 	

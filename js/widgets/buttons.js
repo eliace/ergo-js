@@ -172,9 +172,12 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 			$(this).animate({'width': self.maxW, 'height': self.maxH, 'left': 0, 'top': 0}, self.options.pulseDelay, function(){ self.fireEvent('onMouseEnter'); });
 		});
 		
-		this.image.el.bind('mouseleave', function(){
+		this.image.el.bind('mouseleave', function(e){
 			var o = self.options;
-			$(this).animate({'width': o.imageWidth, 'height': o.imageHeight, 'left': self.dx, 'top': self.dy}, o.pulseDelay, function(){ self.fireEvent('onMouseLeave'); });
+			var event = new Dino.events.CancelEvent({}, e);
+			self.fireEvent('onMouseLeave', event);
+			
+			if(!event.isCanceled) self.pulseDown();
 		});
 		
 	},
@@ -194,6 +197,11 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 		this.el.css({'width': this.maxW, 'height': this.maxH});
 		
 		this.image.opt({'width': o.imageWidth, 'height': o.imageHeight, 'x': this.dx, 'y': this.dy});
+	},
+	
+	pulseDown: function(){
+		var o = this.options;
+		this.image.el.animate({'width': o.imageWidth, 'height': o.imageHeight, 'left': this.dx, 'top': this.dy}, o.pulseDelay);
 	}
 	
 	

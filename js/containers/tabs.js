@@ -23,7 +23,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		itemFactory: function(o) {
-			var opts = Dino.merge({}, o, {
+			var opts = Dino.merge({}, o, this.defaultItem, {
 				events: {
 					'click': function(){
 						tab.parent.changeTab(tab);

@@ -140,6 +140,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
 		if('text' in o) el.append(o.text);
+		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
 			if($.support.opacity) 
 				el.css('opacity', o.opacity);

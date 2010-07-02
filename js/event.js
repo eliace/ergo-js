@@ -21,6 +21,23 @@ Dino.declare('Dino.events.Event', Dino.BaseObject, {
 });
 
 
+Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', {
+
+	initialize: function(overrides, baseEvent) {
+		Dino.events.CancelEvent.superclass.initialize.apply(this, arguments);
+		this.isCanceled = false;
+	},
+	
+	cancel: function(){
+		this.isCanceled = true;
+	}
+	
+});
+
+
+
+
+
 
 Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	

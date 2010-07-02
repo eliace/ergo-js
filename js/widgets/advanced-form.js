@@ -166,15 +166,11 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 
 
 
-Dino.declare('Dino.widgets.TextItem', 'Dino.containers.Box', {
+Dino.declare('Dino.containers.Item', 'Dino.containers.Box', {
 	
-	defaultCls: 'dino-text-item',
-	
-	_html: function(){ return '<div/>'; },
+	defaultCls: 'dino-item',
 	
 	_init: function() {
-		Dino.widgets.TextItem.superclass._init.apply(this, arguments);
-		
 		var o = this.options;
 
 		if('left' in o){
@@ -182,6 +178,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.containers.Box', {
 			this.addItem(this.left);
 		}
 
+		// поскольку отсутствует метод добавления элементов в начало массива элементов, вызываем метод родительского класса здесь
+		Dino.containers.Item.superclass._init.apply(this, arguments);
+			
+/*		
 		if('text' in o){
 			o.textContent = o.text;
 			delete o.text;
@@ -189,7 +189,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.containers.Box', {
 
 		this.text = new Dino.widgets.Text(o.textContent);
 		this.addItem(this.text);
-		
+*/		
 		if('right' in o){
 			this.right = Dino.widget(o.right);
 			this.addItem(this.right);
@@ -199,7 +199,15 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.containers.Box', {
 	}
 
 
-}, 'text-item');
+});
+
+
+
+
+
+/*Dino.declare('Dino.widgets.TextItem');*/
+
+
 
 
 
