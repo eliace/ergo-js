@@ -38,7 +38,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		if('content' in o){
 			var item = this.options.itemFactory(o.content);
-			this.addItem(item);			
+			this.addItem(item);	
+			this.content = item; // Это свойство нужно, чтобы точно знать что пользователь понимал под контентом
 		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){

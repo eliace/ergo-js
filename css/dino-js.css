@@ -128,9 +128,11 @@
 .dino-dropdown-box {
 	position: absolute;
 	display: none;
-	background-color: white;
-/*	padding: 2px 5px;*/
+/*
+ 	background-color: white;
+	padding: 2px 5px;
 	border: 1px solid #aaaaaa;
+*/	
 }
 
 
@@ -153,3 +155,24 @@
 .dino-border {
 	border: 1px solid #aaaaaa;
 }
+
+
+
+
+.dino-menu-item {
+	position: relative;
+}
+
+
+.dino-left-item {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+.dino-right-item {
+	right: 0;
+	top: 0;
+	position: absolute;
+}
+

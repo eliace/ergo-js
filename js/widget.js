@@ -115,11 +115,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 
 
 	opt: function(o) {
+		var opts = o;
 		if(arguments.length == 2){
-			var i = ''.arguments[0]
-			o = {i: arguments[1]};
+			opts = {}
+			opts[arguments[0]] = arguments[1];
 		}
-		this._opt(o);
+		this._opt(opts);
 		return this.options;
 	},
 	
