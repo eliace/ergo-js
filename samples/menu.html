@@ -152,6 +152,7 @@
 			<div id="panel1" class="panel dino-state-hidden"></div>
 			<div id="panel2" class="panel dino-state-hidden"></div>
 			<div id="panel3" class="panel dino-state-hidden"></div>
+			<div id="panel4" class="panel dino-state-hidden"></div>
 		</div>
 	</div>
 	
@@ -188,6 +189,9 @@ $(document).ready(function(){
 		}, {
 			text: 'tab3tab3',
 			tag: 'tab3'
+		}, {
+			text: 'Контекстное меню',
+			tag: 'tab4'
 		}],
 		
 		onTabChanged: function(){
@@ -195,6 +199,7 @@ $(document).ready(function(){
 			if(tabs.currentTab.tag == 'tab1') $('#panel1').removeClass('dino-state-hidden');
 			else if(tabs.currentTab.tag == 'tab2') $('#panel2').removeClass('dino-state-hidden');
 			else if(tabs.currentTab.tag == 'tab3') $('#panel3').removeClass('dino-state-hidden');
+			else if(tabs.currentTab.tag == 'tab4') $('#panel4').removeClass('dino-state-hidden');
 		}
 	});
 	
@@ -392,7 +397,8 @@ $(document).ready(function(){
 	//
 	// Page 3
 	//
-		
+
+/*		
 	$.fn.dino({
 		dtype: 'text',
 		renderTo: '#panel3',
@@ -443,55 +449,38 @@ $(document).ready(function(){
 			cls: 'ex-left-item'
 		}
 	});
-
-	
-	
-/*
-	var tabs = $.fn.dino({
-		dtype: 'tabs',
-		renderTo: '#tabs',
-		tabModel: {
-			cls: 'ui-corner-top ui-state-default',
-			clsOff: 'ui-state-default',
-			clsOn: 'ui-state-active dino-tab-button-active'
-		}
-	});
-
-	tabs.addTab('tab1', new Dino.containers.Box());
-	tabs.addTab('tab2', new Dino.containers.Box());
-	tabs.addTab('tab3tab3', new Dino.containers.Box());
 */
 
-/*	
-	$('.tab-header li').each(function(i, item){
-		$(item).click(function(){
-			$('.tab-button-active').removeClass('tab-button-active ui-state-active').addClass('ui-state-default');
-			$(this).addClass('tab-button-active ui-state-active').removeClass('ui-state-default');
-		});
-	});
-*/	
 
-/*	
-	var dropdown = $.fn.dino({
-		dtype: 'dropdown',
-		renderTo: 'body',
-		items: [{
-			dtype: 'advanced-checkbox',
-			text: 'variant1'
-		}, {
-			dtype: 'advanced-checkbox',
-			text: 'variant2'
-		}, {
-			dtype: 'advanced-checkbox',
-			text: 'variant3'
-		}]
+
+	//
+	// Page 4
+	//
+	
+	var contextMenu1 = $.fn.dino({
+		dtype: 'dropdown-box',
+		cls: 'dino-border',
+		style: {'cursor': 'default'},
+		renderTo: '#panel4',
+		defaultItem: {
+			dtype: 'menu-item',
+		},
+		items: [
+			{content: {text: 'item1'}},
+			{content: {text: 'item2'}},
+			{content: {text: 'item3'}},
+		]
 	});
 	
-	
-	$('body').click(function(e){
-		if(!dropdown.isShown) dropdown.show(e.pageX, e.pageY);
+	contextMenu1.el.bind('mouseleave', function(){
+		contextMenu1.hide();
 	});
-*/	
+	
+	$('#panel4').click(function(e){
+		var offset = $(this).offset();
+		contextMenu1.show(e.pageX - offset.left - 2, e.pageY - offset.top - 2);
+	});
+	
 });	
 	
 	

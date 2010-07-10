@@ -66,6 +66,36 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 
 
 
+Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
+
+	defaultOptions: {
+		content: {}
+	},
+	
+	
+	_opt: function(o) {
+		Dino.containers.TextMenuItem.superclass._opt.apply(this, arguments);
+		
+		if('label' in o) this.content.opt('text', o.label);
+	},
+	
+	_events: function(self) {
+		Dino.containers.TextMenuItem.superclass._events.apply(this, arguments);
+		
+		this.el.click(function(){
+			self.fireEvent('onAction');
+		});
+	}
+
+
+	
+}, 'text-menu-item');
+
+
+
+
+
+
 Dino.declare('Dino.containers.Menu', 'Dino.containers.Box', {
 	
 	
