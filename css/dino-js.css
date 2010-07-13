@@ -75,6 +75,7 @@
 .dino-grid-head th {
 	border-bottom: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
+	text-align: center;
 }
 
 .dino-grid-row td {

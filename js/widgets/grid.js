@@ -12,7 +12,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 		Dino.widgets.Grid.superclass._init.apply(this, arguments);
 		
 		// добавляем шапку
-		this.thead = this.addChild( new Dino.widgets.Grid.Head() );
+		this.thead = this.addItem( new Dino.widgets.Grid.Head() );
 		var headRow = $('<tr>');
 		
 		var columns = this.options.dataModel.columns;
@@ -27,7 +27,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 		
 		this.thead.el.append(headRow);
 				
-		this.tbody = this.addChild( new Dino.widgets.Grid.Body() );
+		this.tbody = this.addItem( new Dino.widgets.Grid.Body() );
 		
 	},
 	
@@ -48,7 +48,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 				'columns': self.options.dataModel.columns,
 				'data': self.data._item(i)
 			});
-			self.tbody.addChild(row);
+			self.tbody.addItem(row);
 			row._dataChanged();
 		});
 		
@@ -97,7 +97,7 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 		for(var i in o.columns) {
 			var col = o.columns[i];
 			
-			var item = this.addChild( Dino.object(Dino.override({dtype: 'label', data: this.data, dataId: col.name}, col)) );
+			var item = this.addItem( Dino.object(Dino.override({dtype: 'label', data: this.data, dataId: col.name}, col)) );
 			
 //			this.columns[col.name] = item;
 		}
