@@ -1,13 +1,14 @@
 
 require 'find'
 require 'pathname'
-
+require 'fileutils'
 
   Dir.mkdir('build') if not File.exist?('build') 
-
+  
+  
 
   files = [
-    'lib/misc/jquery.json-2.2.min.js',
+#    'lib/misc/jquery.json-2.2.min.js',
     'js/core.js',
     'js/event.js',
     'js/data.js',
@@ -30,14 +31,35 @@ require 'pathname'
 
     js = '--js ' + files.join(' --js ') 
 
-    s = "java -jar tools/compiler.jar #{js} --js_output_file build/dino-js.js --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+    s = "java -jar tools/compiler.jar #{js} --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+    
+    
+def merge_files(file_list)
+  
+    out = File.new('build/dino-js.js ', 'w')
 
+    file_list.each do |filepath|
+      File.open(filepath) do |f|
+       s = f.read(nil)
+       out.write s
+      end
+    end
 
-
+    out.close
+    
+    # копируем CSS
+#    FileUtils.mkdir('build/css') if not File.exist?('build/css')
+    FileUtils.cp_r 'css', 'build'
+#    FileUtils.cp_r 'lib/misc', 'build'
+    
+end
+    
+    
 task :compose do
  
     Kernel.system s
-
+    
+    merge_files(files);
 
 end
 
