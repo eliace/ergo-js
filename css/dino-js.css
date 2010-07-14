@@ -203,6 +203,13 @@
 
 
 
+.dino-row-layout > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+
 
 .dino-hidden {
 	display: none;

@@ -18,14 +18,6 @@
 
 		<style>
 			
-			#widget-menu-wrapper {
-				width: 180px;
-			}
-			
-			#widget-panel-wrapper {
-				margin-left: 180px;
-			}
-			
 			.toggle-button-1 {
 				width: 16px;
 				height: 16px;
@@ -40,8 +32,13 @@
 				background-image: url(img/xiao/10.png);				
 			}
 			
-			.row-item {
-				position: absolute;
+			.button-container {
+				left: 20px;
+				top: 20px;				
+			}
+			
+			.button-container > div {
+				margin: 0 5px;
 			}
 			
 		</style>
@@ -71,26 +68,25 @@
 					//-------------
 					// PREVIEW 1
 					//-------------
-					items: [{
-						dtype: 'button',
-						cls: 'row-item',
-						label: 'Простая кнопка',
-						x: 10,
-					}, {
-						dtype: 'toggle-button',
-						cls: 'toggle-button-1 row-item',
-						toggleCls: 'toggle-button-1-on',
-						x: 130,
-					}, {
-						dtype: 'pulse-button',
-						cls: 'row-item',
-						imageUrl: 'img/menu/Box.png',
-						imageWidth: 30,
-						pulseValue: 1.25,
-						pulseDelay: 200,
-						x: 160						
-					}]
-					
+					content: {
+						layout: 'row-layout',
+						cls: 'button-container',
+						items: [{
+							dtype: 'button',
+							label: 'Простая кнопка',
+						}, {
+							dtype: 'toggle-button',
+							cls: 'toggle-button-1',
+							toggleCls: 'toggle-button-1-on',								
+						}, {
+							dtype: 'pulse-button',
+							imageUrl: 'img/menu/Box.png',
+							imageWidth: 30,
+							pulseValue: 1.25,
+							pulseDelay: 200,								
+						}]						
+					}
+										
 				}
 			}, {
 				id: 'button1',

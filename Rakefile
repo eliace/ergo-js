@@ -19,6 +19,7 @@ require 'fileutils'
     'js/layouts/table-row-layout.js',
     'js/layouts/3c-layout.js',
     'js/layouts/stack-layout.js',
+    'js/layouts/row-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',

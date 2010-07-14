@@ -22,14 +22,16 @@
 
 
 
-
+body {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+}
 
 #widget-menu-wrapper {
-	width: 100px;
+	width: 150px;
 }
 
 #widget-panel-wrapper {
-	margin-left: 100px;
+	margin-left: 150px;
 }
 
 #preview {
@@ -42,7 +44,7 @@
 	cursor: pointer;
 	color: #bbbbbb;
 	border-bottom: 1px dotted #aaaaaa;
-	font-weight: bolder;
+	font-weight: bold;
 }
 
 .widget-menu-item:hover {

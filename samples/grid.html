@@ -4,18 +4,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-	<script type="text/javascript" src="../lib/misc/jquery-1.4.2.js"></script>
-	<script type="text/javascript" src="../build/dino-js.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/dino.css">
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 
-	<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<link rel="stylesheet" type="text/css" href="css/sample.css">
+		<script type="text/javascript" src="js/sample.js"></script>
+
+
+		<style>
+			
+			#table-1 {
+				width: 100%;
+			}
+			
+			#table-1 tbody tr:hover {
+				background-color: #f6fff6;
+			}
+			
+		</style>
 
 </head>
 <body>
 	
-	<div id="grid-wrapper"></div>
-
-	<button id="but1"></button>
 
 	<script>
 		
@@ -25,6 +40,47 @@
 			{id: '3', name: 'Charlie', value: '789', cb: false},
 		];
 		
+		
+		Dino.samples.build({
+			
+			widgets: [{
+				id: 'grid1',
+				label: 'Таблица',
+				preview: {
+					
+					id: 'table-1',
+					dtype: 'grid',
+					cls: 'ui-widget-content ui-corner-all',
+					dataModel: {
+						columns: [{
+							title: 'ID',
+							name: 'id',
+							width: 50
+						}, {
+							title: 'Имя',
+							name: 'name'
+						}, {
+							title: 'Значение',
+							name: 'value',
+							width: 100
+						}, {
+							title: 'Выбран',
+							name: 'cb',
+							width: 50,
+							dtype: 'checkbox'
+						}]
+					},
+					data: gridData
+					
+				}
+				
+				
+			}]
+			
+		});
+		
+		
+/*		
 		$.fn.dino({
 			dtype: 'grid',
 			renderTo: '#grid-wrapper',
@@ -59,6 +115,7 @@
 				alert('Thanks!!!');
 			}
 		});
+*/		
 		
 	</script>
 
