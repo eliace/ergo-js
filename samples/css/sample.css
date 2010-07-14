@@ -1,0 +1,58 @@
+
+
+
+.sample-icon-1 { background-image: url(../img/001_01_grey.png) }
+.sample-icon-1:hover { background-image: url(../img/001_01.png) }
+
+.sample-icon-16px {
+	width: 16px;
+	height: 16px;
+}
+
+.sample-icon-24px {
+	width: 24px;
+	height: 24px;
+}
+
+
+
+.dino-dropdown a {
+	display: block;
+}
+
+
+
+
+
+#widget-menu-wrapper {
+	width: 100px;
+}
+
+#widget-panel-wrapper {
+	margin-left: 100px;
+}
+
+#preview {
+	height: 300px;
+	padding: 5px;
+	position: relative;
+}
+
+.widget-menu-item {
+	cursor: pointer;
+	color: #bbbbbb;
+	border-bottom: 1px dotted #aaaaaa;
+	font-weight: bolder;
+}
+
+.widget-menu-item:hover {
+	color: #666666;
+}
+
+.widget-menu-item-active {
+	color: #333333;	
+}
+
+#widget-panel {
+	margin-left: 15px;
+}

@@ -10,13 +10,15 @@ require 'fileutils'
   files = [
 #    'lib/misc/jquery.json-2.2.min.js',
     'js/core.js',
-    'js/event.js',
+    'js/events.js',
     'js/data.js',
     'js/widget.js',
     'js/layout.js',
     'js/container.js',
     'js/layouts/plain-layout.js',
     'js/layouts/table-row-layout.js',
+    'js/layouts/3c-layout.js',
+    'js/layouts/stack-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',
@@ -36,7 +38,7 @@ require 'fileutils'
     
 def merge_files(file_list)
   
-    out = File.new('build/dino-js.js ', 'w')
+    out = File.new('build/dino-js.js', 'w')
 
     file_list.each do |filepath|
       File.open(filepath) do |f|

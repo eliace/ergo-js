@@ -10,24 +10,21 @@
  * 	onToggle
  * 
  */
-Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
+Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 	
-	defaultCls: 'dino-button',
+	defaultCls: 'dino-toggle-button',
 	
 	_html: function() { return '<div/>'; },
 	
 	_events: function(self){
-		Dino.widgets.CssButton.superclass._events.call(this, self);
+		Dino.widgets.ToggleButton.superclass._events.call(this, self);
 		
 		this.el.click(function(e){
 
-			var event = new Dino.events.Event({
-				is_canceled: false,
-				cancel: function() { this.is_canceled = true; }
-			}, e);
+			var event = new Dino.events.CancelEvent({}, e);
 			self.fireEvent('onToggle', event);
 			
-			if(!event.is_canceled && self.options.toggleCls)
+			if(!event.isCanceled && self.options.toggleCls)
 				self.el.toggleClass(self.options.toggleCls);
 			
 //			if(event.is_stopped)
@@ -35,7 +32,8 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 		});
 		
 	},
-	
+
+/*	
 	_opt: function(o) {
 		Dino.widgets.CssButton.superclass._opt.call(this, o);
 		
@@ -44,19 +42,20 @@ Dino.declare('Dino.widgets.CssButton', Dino.Widget, {
 		}
 		
 	},
-	
+*/	
 	isToggled: function() {
-		return this.el.hasClass(this.toggleCls);
+		return this.el.hasClass(this.options.toggleCls);
 	},
 	
 	toggle: function(val) {
-		this.el.toggleClass(this.toggleCls, val);
+		this.el.toggleClass(this.options.toggleCls, val);
 //		this.fireEvent('onToggle', new Dino.widgets.ToggleEvent());
 	}
 	
 	
 	
-}, 'css-button');
+}, 'toggle-button');
+
 
 
 
@@ -113,8 +112,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		if('textCls' in o)
 			this.labelEl.addClass(o.textCls);
 		
-		if('text' in o)
-			this.labelEl.text(o.text);
+		if('label' in o)
+			this.labelEl.text(o.label);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
 		if('action' in o)

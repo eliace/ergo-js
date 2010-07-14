@@ -69,7 +69,7 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
  * 
  * Требует плагина jquery.fileupload
  */
-Dino.declare('Dino.widgets.FileAssist', Dino.widgets.CssButton, {
+Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 	
 	defaultCls: 'dc-assist-file',
 	

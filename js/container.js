@@ -34,7 +34,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if( Dino.isString(layoutOpts) ) 
 			layoutOpts = {dtype: layoutOpts};
 		this.layout = Dino.object(layoutOpts);
-		this.layout.container = this;
+		this.layout.attach(this);
 		
 		if('content' in o){
 			var item = this.options.itemFactory(o.content);
@@ -43,7 +43,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var item = this.options.itemFactory(o.items[i]);
+				var item = Dino.isPlainObject(o.items[i]) ? this.options.itemFactory(o.items[i]) : o.items[i];
 				this.addItem(item);
 			}
 		}

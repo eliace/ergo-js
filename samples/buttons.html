@@ -4,18 +4,52 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Dino Buttons Sample</title>
 
-	<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="../build/dino-js.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/dino-js.css">
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 
-	<link rel="stylesheet" type="text/css" href="css/samples.css">
+		<link rel="stylesheet" type="text/css" href="css/sample.css">
+		<script type="text/javascript" src="js/sample.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+
+		<style>
+			
+			#widget-menu-wrapper {
+				width: 180px;
+			}
+			
+			#widget-panel-wrapper {
+				margin-left: 180px;
+			}
+			
+			.toggle-button-1 {
+				width: 16px;
+				height: 16px;
+				background-image: url(img/xiao/9.png);
+			}
+			
+			.toggle-button-1:hover {
+				background-image: url(img/xiao/10.png);				
+			}
+			
+			.toggle-button-1-on {
+				background-image: url(img/xiao/10.png);				
+			}
+			
+			.row-item {
+				position: absolute;
+			}
+			
+		</style>
 
 </head>
 <body>
 	
-	<div id="button1"></div>
+	<!--div id="button1"></div>
 	<div id="button2"></div>
 	<div id="button3"></div>
 	<div id="button4"></div>
@@ -25,10 +59,68 @@
 	
 	<button style="position: relative; display: inline-block; padding: 0" class="ui-state-default ui-corner-all">
 		<div style="" class="ui-icon ui-icon-document"></div>
-	</button>	
+	</button -->	
 		
 	<script>
+				
+		Dino.samples.build({
+			widgets: [{
+				id: 'button-all',
+				label: 'Кнопки',
+				preview: {
+					//-------------
+					// PREVIEW 1
+					//-------------
+					items: [{
+						dtype: 'button',
+						cls: 'row-item',
+						label: 'Простая кнопка',
+						x: 10,
+					}, {
+						dtype: 'toggle-button',
+						cls: 'toggle-button-1 row-item',
+						toggleCls: 'toggle-button-1-on',
+						x: 130,
+					}, {
+						dtype: 'pulse-button',
+						cls: 'row-item',
+						imageUrl: 'img/menu/Box.png',
+						imageWidth: 30,
+						pulseValue: 1.25,
+						pulseDelay: 200,
+						x: 160						
+					}]
+					
+				}
+			}, {
+				id: 'button1',
+				label: 'Button',
+				preview: {
+					items: [{
+						dtype: 'button'
+					}]
+				}
+			}, {
+				id: 'button2',
+				label: 'ToggleButton',
+				preview: {
+					items: [{
+						dtype: 'toggle-button'
+					}]
+				}
+			}, {
+				id: 'button3',
+				label: 'PulseButton',
+				preview: {
+					items: [{
+						dtype: 'pulse-button'
+					}]
+				}
+			}]
+		});
 		
+		
+/*		
 		Dino.widget({
 			dtype: 'button',
 			renderTo: '#button1',
@@ -108,7 +200,7 @@
 			}]
 		});
 
-
+*/
 
 
 

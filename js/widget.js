@@ -31,9 +31,9 @@
  */
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
-//	defaultOptions: {
-//		states: {}
-//	},
+	defaultOptions: {
+		states: {}
+	},
 	
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
@@ -258,16 +258,27 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var state = this.options.states[s];
 		if(state){
 			this.el.addClass(state);
-			this.flags.state = s;
+			this.currentState = s;
 		}
 	},
 	
 	resetState: function(){
-		var state = this.options.states[this.flags['state']];
+		var state = this.options.states[this.currentState];
 		if(state){
 			this.el.removeClass(state);
 		}
-		delete this.flags.state;
+		this.currentState = null;
+	},
+	
+	toggleState: function(s, sw) {
+		if(arguments.length == 2){
+			if(sw) this.setState(s);
+			else this.resetState(s);
+		}
+		else{
+			if(this.currentState == s) this.resetState(s);
+			else this.setState(s);
+		}
 	},
 	
 //	_dataBound: function(){},
