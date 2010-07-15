@@ -11,6 +11,10 @@
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_the.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/sample.css">
 		<script type="text/javascript" src="js/sample.js"></script>
@@ -19,17 +23,13 @@
 		<style>
 			
 			.toggle-button-1 {
-				width: 16px;
-				height: 16px;
-				background-image: url(img/xiao/9.png);
-			}
-			
-			.toggle-button-1:hover {
-				background-image: url(img/xiao/10.png);				
+				width: 48px;
+				height: 48px;
+				background-image: url('img/folder close blue.png');
 			}
 			
 			.toggle-button-1-on {
-				background-image: url(img/xiao/10.png);				
+				background-image: url('img/folder blue.png');				
 			}
 			
 			.button-container {
@@ -40,166 +40,116 @@
 			.button-container > div {
 				margin: 0 5px;
 			}
-			
+						
 		</style>
 
 </head>
 <body>
 	
-	<!--div id="button1"></div>
-	<div id="button2"></div>
-	<div id="button3"></div>
-	<div id="button4"></div>
 	
-	
-	
-	
-	<button style="position: relative; display: inline-block; padding: 0" class="ui-state-default ui-corner-all">
-		<div style="" class="ui-icon ui-icon-document"></div>
-	</button -->	
+	<div id="desc-1" class="desc">
+		<p>
+			Простая кнопка на основе тэга &lt;button&gt;.
+		</p>
+		<pre class="sh_javascript">
+Dino.widget({
+	dtype: 'button',
+	label: 'Нажми меня'
+});
+		</pre>		
+	</div>
+
+
+	<div id="desc-2" class="desc">
+		<p>
+			Кнопка-переключатель, является аналогом иконки с поддержкой состояния 'toggle'.
+		</p>
+		<pre class="sh_javascript">
+Dino.widget({
+	dtype: 'toggle-button',
+	cls: 'toggle-button-1',
+	toggleCls: 'toggle-button-1-on'								
+});
+		</pre>		
+	</div>
+
+
+	<div id="desc-3" class="desc">
+		<p>
+			"Пульсирующая" кнопка, при наведении курсора изменяет размер.
+		</p>
+		<pre class="sh_javascript">
+Dino.widget({
+	dtype: 'pulse-button',
+	imageUrl: 'img/menu/Box.png',
+	imageWidth: 30,
+	pulseValue: 1.25,
+	pulseDelay: 200,
+});
+		</pre>		
+	</div>
+
+
+
 		
 	<script>
 				
 		Dino.samples.build({
 			widgets: [{
+				//-------------
+				// PANEL ALL
+				//-------------
 				id: 'button-all',
-				label: 'Кнопки',
+				label: 'Все кнопки',
 				preview: {
-					//-------------
-					// PREVIEW 1
-					//-------------
-					content: {
-						layout: 'row-layout',
-						cls: 'button-container',
-						items: [{
-							dtype: 'button',
-							label: 'Простая кнопка',
-						}, {
-							dtype: 'toggle-button',
-							cls: 'toggle-button-1',
-							toggleCls: 'toggle-button-1-on',								
-						}, {
-							dtype: 'pulse-button',
-							imageUrl: 'img/menu/Box.png',
-							imageWidth: 30,
-							pulseValue: 1.25,
-							pulseDelay: 200,								
-						}]						
-					}
-										
+					layout: 'row-layout',
+					cls: 'button-container',
+					items: [{
+						dtype: 'button',
+						label: 'Простая кнопка',
+					}, {
+						dtype: 'toggle-button',
+						cls: 'toggle-button-1',
+						toggleCls: 'toggle-button-1-on',								
+					}, {
+						dtype: 'pulse-button',
+						imageUrl: 'img/menu/Box.png',
+						imageWidth: 30,
+						pulseValue: 1.25,
+						pulseDelay: 200,
+					}]						
 				}
 			}, {
+				//-------------
+				// PANEL 1
+				//-------------
 				id: 'button1',
 				label: 'Button',
-				preview: {
-					items: [{
-						dtype: 'button'
-					}]
-				}
+				preview: eval($('#desc-1 .sh_javascript').text()),
+				description: { wrapEl: '#desc-1' }
 			}, {
+				//-------------
+				// PANEL 2
+				//-------------
 				id: 'button2',
 				label: 'ToggleButton',
-				preview: {
-					items: [{
-						dtype: 'toggle-button'
-					}]
-				}
+				preview: eval($('#desc-2 .sh_javascript').text()),
+				description: { wrapEl: '#desc-2' }
 			}, {
+				//-------------
+				// PANEL 3
+				//-------------
 				id: 'button3',
 				label: 'PulseButton',
-				preview: {
-					items: [{
-						dtype: 'pulse-button'
-					}]
-				}
+				preview: eval($('#desc-3 .sh_javascript').text()),
+				description: { wrapEl: '#desc-3' }
 			}]
 		});
 		
 		
-/*		
-		Dino.widget({
-			dtype: 'button',
-			renderTo: '#button1',
-			text: 'Простая кнопка'
-		});
 		
-		Dino.widget({
-			dtype: 'button',
-			renderTo: '#button1',
-			text: 'Темизированная кнопка',
-			theme: 'jquery_ui'
-		});
+		sh_highlightDocument();
 		
-		
-		Dino.widget({
-			dtype: 'toolbar',
-			renderTo: '#button2',
-			items: [{
-				dtype: 'button',
-//				width: 100,
-				text: 'button1'
-//				theme: 'jquery_ui'
-			}, {
-				dtype: 'button',
-//				width: 60,
-				text: 'button2',
-				iconCls: 'ui-icon ui-icon-refresh',
-				display: 'icon-text',
-				theme: 'jquery_ui'
-			}, {
-				dtype: 'button',
-				iconCls: 'ui-icon ui-icon-document',
-				width: '1.8em',
-				text: 'button3',
-				display: 'icon-only',
-				theme: 'jquery_ui'
-			}]
-		});
-
-		
-		var w = Dino.widget({
-			dtype: 'toolbar',
-			renderTo: '#button3',
-			cls: 'ui-widget-content ui-corner-all ui-state-default',
-			width: 50,
-			items: [{
-				dtype: 'css-button',
-				cls: 'sample-icon-24px sample-icon-1'
-			}, {
-				dtype: 'css-button',
-				cls: 'ui-icon ui-icon-person'
-			}, {
-				dtype: 'css-button',
-				theme: 'jquery_ui'
-			}]
-		});
-
-
-		Dino.widget({
-			dtype: 'toolbar',
-			orientation: 'vertical',
-			renderTo: '#button4',
-			cls: 'ui-widget-content ui-corner-all',
-			width: 70,
-			items: [{
-				dtype: 'button',
-				text: 'button1',
-				style: {'margin': '2px 5px'}
-			}, {
-				dtype: 'button',
-				text: 'button2',
-				style: {'margin': '2px 10px'}
-			}, {
-				dtype: 'button',
-				text: 'button3',
-				style: {'margin': '2px 0px'}
-			}]
-		});
-
-*/
-
-
-
 	
 	</script>
 	

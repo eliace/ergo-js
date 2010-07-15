@@ -19,8 +19,8 @@ Dino.samples.build = function(o){
 			dtype: 'box',
 			tag: widget.id,
 			items: [
-			  Dino.merge({id: 'preview', cls: 'dino-border'}, widget.preview), 
-			  Dino.merge({id: 'description'}, widget.description)
+			  {id: 'preview', cls: 'dino-border dino-corner-all', content: widget.preview}, 
+			  {id: 'description', content: widget.description}
 			]
 		});
 		

@@ -37,13 +37,13 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.attach(this);
 		
 		if('content' in o){
-			var item = this.options.itemFactory(o.content);
+			var item = (o.content instanceof Dino.Widget) ? o.content : this.options.itemFactory(o.content);
 			this.addItem(item);	
 			this.content = item; // Это свойство нужно, чтобы точно знать что пользователь понимал под контентом
 		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var item = Dino.isPlainObject(o.items[i]) ? this.options.itemFactory(o.items[i]) : o.items[i];
+				var item = (o.items[i] instanceof Dino.Widget) ? o.items[i] : this.options.itemFactory(o.items[i]);
 				this.addItem(item);
 			}
 		}

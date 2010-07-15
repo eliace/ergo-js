@@ -11,6 +11,9 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 			dtype: 'text'
 		},
 		model: {
+		},
+		menuItemFactory: function(o) {
+			return new Dino.containers.MenuItem(o);
 		}
 	},
 	
@@ -28,7 +31,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 			
 			for(var i in o.submenu){
 				var subItem = Dino.merge_r({model: o.model}, o.model.item, o.submenuItem, o.submenu[i]);
-				var si = new Dino.containers.MenuItem(subItem);
+				var si = this.options.menuItemFactory(subItem);
 				this.submenu.addItem( si );
 //				si.parentMenu = this;
 			}
@@ -69,7 +72,10 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 
 	defaultOptions: {
-		content: {}
+		content: {},
+		menuItemFactory: function(o) {
+			return new Dino.containers.TextMenuItem(o);
+		}
 	},
 	
 	

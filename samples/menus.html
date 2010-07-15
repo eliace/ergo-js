@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/sample.css">
+		<script type="text/javascript" src="js/sample.js"></script>
+
+
+	<style>
+		
+			.menu {
+				width: 70px;
+				padding: 10px;
+				font-size: 0.8em;
+				margin-top: 10px;
+				position: relative;
+			}
+			
+			.submenu {
+				margin-left: 20px;
+			}
+			
+			.a-menu-item {
+				border-bottom: 1px dotted #aaaaaa;
+				cursor: pointer;
+				padding: 0 10px;
+				position: relative;
+				width: 50px;
+			}
+			
+			.a-menu-item:hover {
+				background-color: #e0e0e0;
+			}
+
+
+			
+			.b-menu-item {
+				cursor: pointer;
+				padding: 0 10px;
+				margin-top: 5px;
+				position: relative;
+				color: red;
+				font-size: 1.1em;
+			}
+
+			.b-menu-item:hover {
+				color: green;
+			}
+
+			
+			
+			
+			.ex-icon-plus {
+				background-image: url(img/001_01.png);
+				width: 24px;
+				height: 24px;
+			}
+			
+			.ex-left-item {
+				left: 0;
+				top: 0;
+				position: absolute;
+			}
+			
+			.ex-right-text {
+				margin-left: 24px;
+				display: block;
+			}
+			
+			.ex-text {
+				height: 30px;
+				width: 200px;
+			}
+
+
+
+			.ex-right-item {
+				right: 0;
+				top: 0;
+				position: absolute;
+				background-position: 32px 32px;
+			}
+			
+			.ex-left-text {
+				margin-right: 24px;
+				display: block;
+			}
+			
+
+
+			.has-submenu > .dino-icon[role="ricon"] {
+				background-position: -32px -16px;
+			}
+			
+			
+			.ex-menu-item {
+			}
+		
+		
+	</style>
+
+
+</head>
+<body>
+
+
+<div id="desc-1" class="desc">
+	
+	<p>Это черновой вариант меню</p>
+	
+	<pre class="sh_javascript">
+// Создаем модель меню
+var menuModel = {
+  dropdown: {
+    cls: 'submenu dino-border',
+    effects: {
+      show: 'fade',
+      hide: 'fade',
+      delay: 300
+    }
+  },
+  item: {
+    cls: 'a-menu-item',
+    right: {
+      dtype: 'icon',
+      cls: 'ui-icon ex-right-item',
+      role: 'ricon'
+    }
+  }		
+};
+
+// Создаем виджет меню
+Dino.widget({
+  dtype: 'box',
+  cls: 'menu',
+  style: {'position': 'absolute'},
+  defaultItem: {
+    dtype: 'text-menu-item',
+    cls: 'ex-menu-item a-menu-item',
+    right: {
+      dtype: 'icon',
+      cls: 'ui-icon ex-right-item',
+      role: 'ricon'
+    },
+    model: menuModel
+  },
+  items: [{
+    label: 'Menu 1',
+    submenuItem: {width: 80},
+    submenu: [
+      {label: 'Submenu 1'},
+      {label: 'Submenu 2'},
+      {label: 'Submenu 3'},
+      {
+        label: 'Submenu 4',
+        submenuItem: {width: 140},
+        submenu: [
+          {
+            label: 'Submenu1',
+            submenuItem: {width: 100},
+            submenu: [
+              {label: 'Submenu AAAA'}
+            ]
+          },
+          {label: 'Submenu2 Submenu2'}
+        ]
+      }
+    ]
+  }, 
+  { label: 'Menu 2' }, 
+  { label: 'Menu 3' }
+  ]
+});	
+	</pre>
+	
+</div>
+
+
+
+
+<script>
+	
+		Dino.samples.build({
+			widgets: [{
+				id: 'menu1',
+				label: 'Вертикальное меню',
+				preview: eval($("#desc-1 .sh_javascript").text()),
+				description: { wrapEl: $('#desc-1') }				
+			}]
+		});
+		
+		
+		sh_highlightDocument();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</script>
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
 	border: 1px solid #aaaaaa;
 }
 
-.dino-css-button {
+.dino-toggle-button {
 	cursor: pointer;
 }
 
@@ -214,3 +214,5 @@
 .dino-hidden {
 	display: none;
 }
+
+.dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}

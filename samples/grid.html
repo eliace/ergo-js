@@ -11,6 +11,10 @@
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_the.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/sample.css">
 		<script type="text/javascript" src="js/sample.js"></script>
@@ -32,53 +36,61 @@
 <body>
 	
 
-	<script>
+<div id="desc-1" class="desc">
+	
+	<pre class="sh_javascript">
+var gridData = [
+  {id: '1', name: 'Alice', value: '123', cb: false},
+  {id: '2', name: 'Bob', value: '456', cb: true},
+  {id: '3', name: 'Charlie', value: '789', cb: false},
+];
 		
-		var gridData = [
-			{id: '1', name: 'Alice', value: '123', cb: false},
-			{id: '2', name: 'Bob', value: '456', cb: true},
-			{id: '3', name: 'Charlie', value: '789', cb: false},
-		];
 		
+Dino.widget({
+  id: 'table-1',
+  dtype: 'grid',
+  cls: 'ui-widget-content ui-corner-all',
+  dataModel: {
+    columns: [{
+      title: 'ID',
+      name: 'id',
+      width: 50
+    }, {
+      title: 'Имя',
+      name: 'name'
+    }, {
+      title: 'Значение',
+      name: 'value',
+      width: 100
+    }, {
+      title: 'Выбран',
+      name: 'cb',
+      width: 50,
+      dtype: 'checkbox'
+    }]
+  },
+  data: gridData
+});
+	</pre>
+	
+</div>
+
+
+
+
+	<script>		
 		
 		Dino.samples.build({
-			
 			widgets: [{
 				id: 'grid1',
 				label: 'Таблица',
-				preview: {
-					
-					id: 'table-1',
-					dtype: 'grid',
-					cls: 'ui-widget-content ui-corner-all',
-					dataModel: {
-						columns: [{
-							title: 'ID',
-							name: 'id',
-							width: 50
-						}, {
-							title: 'Имя',
-							name: 'name'
-						}, {
-							title: 'Значение',
-							name: 'value',
-							width: 100
-						}, {
-							title: 'Выбран',
-							name: 'cb',
-							width: 50,
-							dtype: 'checkbox'
-						}]
-					},
-					data: gridData
-					
-				}
-				
-				
+				preview: eval($("#desc-1 .sh_javascript").text()),
+				description: { wrapEl: $('#desc-1') }				
 			}]
-			
 		});
 		
+		
+		sh_highlightDocument();
 		
 /*		
 		$.fn.dino({

@@ -27,11 +27,11 @@ body {
 }
 
 #widget-menu-wrapper {
-	width: 150px;
+	width: 170px;
 }
 
 #widget-panel-wrapper {
-	margin-left: 150px;
+	margin-left: 170px;
 }
 
 #preview {
@@ -44,7 +44,6 @@ body {
 	cursor: pointer;
 	color: #bbbbbb;
 	border-bottom: 1px dotted #aaaaaa;
-	font-weight: bold;
 }
 
 .widget-menu-item:hover {
@@ -58,3 +57,11 @@ body {
 #widget-panel {
 	margin-left: 15px;
 }
+
+
+.desc p {
+	font-style: italic;
+	font-size: 0.8em;
+	color: #333333;
+}
+
