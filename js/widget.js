@@ -1,5 +1,35 @@
 
 
+Dino.widgets = {	
+	utils: {
+		/**
+		 * Перегрузка параметров
+		 */
+		override_opts: function(o){
+			for(var j = 1; j < arguments.length; j++){
+				var newProps = arguments[j];
+				for(var i in newProps){
+					var p = newProps[i];
+					if( Dino.isPlainObject(p) ){
+						if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+						this.override_opts(o[i], p);
+					}
+					else{
+						// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+						if(i in o){
+							// классы сливаеются в одну строку, разделенную пробелом
+							if(i == 'cls') p = o[i] + ' ' + p;
+						}
+						o[i] = p;		
+					}
+				}
+			}
+			return o;
+		}
+	}
+};
+
+
 /**
  * Виджет - базовый объект для всех виджетов
  * 
@@ -32,13 +62,10 @@
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	defaultOptions: {
-		states: {}
 	},
-	
+		
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
-		
-		this.flags = {};
 		
 		var html = arguments[0];
 		var opts = arguments[1];
@@ -58,9 +85,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) Dino.merge_r(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) Dino.widgets.utils.override_opts(o, clazz.defaultOptions);
 		});
-		Dino.merge_r(o, opts);
+		Dino.widgets.utils.override_opts(o, opts);
 		
 		html = o.wrapEl || html; // оставляем возможность указать html через options
 		
@@ -140,6 +167,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('tag' in o) this.tag = o.tag;
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
+		if('baseCls' in o) el.addClass(o.baseCls);
 		if('text' in o) el.append(o.text);
 		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
@@ -154,13 +182,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				el.bind(i, callback.curry(self));
 			}
 		}
-		if('htmlContent' in o) this.el.html(o.content);
-		
-		if('states' in o){
-			if('hover' in o.states){
-				this.el.hover(function(){self.setState('hover');}, function(){self.resetState('hover');});
-			}
-		}
+		if('html' in o) this.el.html(o.html);
 		
 		
 		var regexp = /^on\S/;
@@ -202,6 +224,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	
+	//---------------------------------------
+	// Методы работы с деревом виджетов
+	//---------------------------------------
+	
+	// Получаем дочерний виджет по порядковому номеру
 	getChild: function(i){
 		return this.children[i];
 	},
@@ -238,6 +265,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 	},
 	
+	
+	//---------------------------------------------
+	// Методы работы с подсоединенными данными
+	//---------------------------------------------
+	
 	getValue: function() {
 		return (this.data) ? this.data.get() : undefined;
 	},
@@ -250,36 +282,31 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	
-	//TODO функции управления состоянием нужно убрать в отдельный объект
 	
-	setState: function(s) {
-//		//TODO здесь можно не убирать состояние, если такое уже установлено
-//		this.resetState(this.flags['state']);
-		var state = this.options.states[s];
-		if(state){
-			this.el.addClass(state);
-			this.currentState = s;
-		}
+	//------------------------------------------
+	// Методы управления состояниями виджета
+	//------------------------------------------
+	
+	setState: function(name) {
+		this.el.addClass( this.options.baseCls+'-'+name );
+		this.fireEvent('onStateChanged', new Dino.events.Event({}));
 	},
 	
-	resetState: function(){
-		var state = this.options.states[this.currentState];
-		if(state){
-			this.el.removeClass(state);
-		}
-		this.currentState = null;
+	clearState: function(name){
+		this.el.removeClass( this.options.baseCls+'-'+name );
+		this.fireEvent('onStateChanged', new Dino.events.Event({}));
 	},
 	
-	toggleState: function(s, sw) {
-		if(arguments.length == 2){
-			if(sw) this.setState(s);
-			else this.resetState(s);
-		}
-		else{
-			if(this.currentState == s) this.resetState(s);
-			else this.setState(s);
-		}
+	toggleState: function(name, sw) {
+		this.el.toggleClass( this.options.baseCls+'-'+name, sw );
+		this.fireEvent('onStateChanged', new Dino.events.Event({}));
 	},
+	
+	checkState: function(name) {
+		return this.el.hasClass( this.options.baseCls+'-'+name );		
+	},
+	
+	
 	
 //	_dataBound: function(){},
 //	_dataUnbound: function() {},

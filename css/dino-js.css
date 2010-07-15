@@ -211,6 +211,20 @@
 
 
 
+.dino-growl-box {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	background-color: rgba(255, 255, 255, .5);
+	z-index: 1000;
+	display: none;
+	-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;
+	cursor: pointer;
+	border: 1px solid #cccccc;
+}
+
+
+
 .dino-hidden {
 	display: none;
 }

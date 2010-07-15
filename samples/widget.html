@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/sample.css">
+		<script type="text/javascript" src="js/sample.js"></script>
+
+
+		<style>
+			
+			.colored-box {
+				background-color: #e0ffe0;
+				text-align: center;
+				padding: 0;
+				cursor: pointer;
+				font-size: 0.8em;
+			}
+
+			.colored-box-click {
+				background-color: #ffe0e0;
+			}
+
+			.colored-box-hover {
+				background-color: #e0ffff;
+			}
+			
+			.dino-growl-box {
+				background-color: #f8f8f8;
+				right: 20px;
+				top: 20px;
+				padding: 10px;
+/*				background-image: url(img/logo-transparent.png);
+				background-color: rgba(255, 255, 255, 0.9);
+				background-repeat: repeat-x;
+				width: 384px;
+				height: 100px;
+*/				
+			}
+			
+		</style>
+
+</head>
+<body>
+
+
+
+<div id="desc-1" class="desc">
+	<p>
+		Переключение состояний это просто добавление/удаление классов, имеющих специальные имена. 
+		Метод <strong>toggleState</strong> в действительности вызывает метод <strong>jQuery.toggleClass</strong> и является лишь формой упрощенной записи.
+	</p>
+	<pre class="sh_javascript">
+new Dino.Widget('&lt;div/&gt;', {
+  baseCls: 'colored-box',
+  text: 'Кликни по мне',
+  width: 100,
+  height: 100,
+  events: {
+    'click': function() { $(this).dino().toggleState('click'); }
+  },
+  onStateChanged: function() {
+    growl.show('Состояние изменилось');
+  }
+});		
+	</pre>
+</div>
+
+
+<div id="desc-2" class="desc">
+	<p>
+		<strong>Dino</strong> использует механизм событий <strong>jQuery</strong> и свою собственную релизацию диспетчера событий в классе <strong>Dino.events.Observer</strong>. 
+		Обработчики событий <strong>jQuery</strong> определяются в блоке <strong>events</strong>, обработчики внутренних событий начинаются с <strong>on</strong> и заглавной буквы, например <strong>onLoad</strong>.
+	</p>
+	<pre class="sh_javascript">
+new Dino.Widget('&lt;div/&gt;', {
+  baseCls: 'colored-box',
+  text: 'Наведи курсор на меня',
+  width: 100,
+  height: 100,
+  events: {
+    'mouseenter': function() { $(this).dino().fireEvent('onCustomAction1'); },
+    'mouseleave': function() { $(this).dino().fireEvent('onCustomAction2'); }
+  },
+  onCustomAction1: function() {
+    this.setState('hover');
+  },
+  onCustomAction2: function() {
+    this.clearState('hover');
+  }
+});		
+	</pre>
+</div>
+
+
+
+
+
+<script>
+	
+	growl = $.fn.dino({
+		dtype: 'growl-box',
+		renderTo: 'body',
+		delay: 600,
+		timeout: 1000
+	});
+	
+//	growl.show(Dino.samples.loremipsum);
+	
+
+	Dino.samples.build({
+		widgets: [{
+			id: 'w1',
+			label: 'Состояния (states)',
+			preview: eval($("#desc-1 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-1') }				
+		}, {
+			id: 'w2',
+			label: 'События (events)',
+			preview: eval($("#desc-2 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-2') }				
+		}]
+	});
+	
+	
+
+
+	
+	
+</script>
+
+</body>
+</html>

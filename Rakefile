@@ -29,6 +29,7 @@ require 'fileutils'
     'js/widgets/advanced-form.js',
     'js/widgets/grid.js',
     'js/widgets/menu.js',
+    'js/widgets/growl.js',
   ]
 
 
