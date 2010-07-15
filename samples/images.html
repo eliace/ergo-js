@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/sample.css">
+		<script type="text/javascript" src="js/sample.js"></script>
+
+
+<body>
+
+
+<div id="desc-1" class="desc">
+	
+	<p>
+		Простая картинка предопределенного размера (как правило - 16x16), полностью управляется стилями. 
+		По умолчанию иконка имеет абсолютное позиционирование, т.к. чаще всего является декорационным элементом сложного виджета.
+	</p>
+	
+	<pre class="sh_javascript">
+Dino.widget({
+  dtype: 'box',
+  layout: 'row-layout',
+  defaultItem: {
+    dtype: 'icon',
+    style: {'position': 'relative'}, //<-- для того, чтобы компоновка смогла определить размеры компонентов
+    baseCls: 'ui-icon'
+  },
+  items: [
+    { cls: 'ui-icon-newwin' },
+    { cls: 'ui-icon-refresh' },
+    { cls: 'ui-icon-shuffle' },
+    { cls: 'ui-icon-folder-open' },
+    { cls: 'ui-icon-document' },
+    { cls: 'ui-icon-note' }
+  ]
+});
+	</pre>
+	
+</div>
+
+
+
+<div id="desc-2" class="desc">
+	
+	<p>
+		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит появляется возможно выполнять пропорциональное масштабирование.
+	</p>
+	
+	<pre class="sh_javascript">
+Dino.object({
+  dtype: 'async-image',
+  imageUrl: 'img/Triceratops_128x128.png',
+  maxWidth: 80
+});
+	</pre>
+	
+</div>
+
+
+
+
+
+
+
+<script>
+	
+	Dino.samples.build({
+		widgets: [{
+			id: 'w1',
+			label: 'Иконка',
+			preview: eval($("#desc-1 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-1') }				
+		}, {
+			id: 'w2',
+			label: 'Изображение с поздней загрузкой',
+			preview: eval($("#desc-2 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-2') }				
+		}]
+	});
+	
+	
+	
+</script>
+
+
+</body>
+</html>

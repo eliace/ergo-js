@@ -34,7 +34,7 @@ Dino.declare('Dino.widgets.Image', Dino.Widget, {
  */
 Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 	
-	_html: function() { return '<img></img>';},
+	_html: function() { return '<div></div>';},
 	
 	_init: function(o) {
 		Dino.utils.AsyncImage.superclass._init.call(this, o);
@@ -47,19 +47,19 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 	
 	load: function(url, target, stubObj, maxWidth, maxHeight) {
 		
-		if(target && url){
+		if(url){
 			// ставим заглушку на место, куда будет помещено загруженное изображение
-			if(stubObj)
-				stubObj.render(target);
+//			if(target && stubObj)
+//				stubObj.render(target);
 			
 			// проверяем, есть ли хранилище изображений на странице, и, если его нет, то создаем новое
 			var storeEl = $('#image-loader-store');
 			if(storeEl.length == 0){
-				storeEl = $('<div id="image-loader-store" style="width:0;height:0"></div>');
+				storeEl = $('<div id="image-loader-store" style="width:0;height:0;position:absolute"></div>');
 				$('body').append(storeEl);
 			}
 			
-			var el = this.el;
+			var el = $('<img></img>'); //this.el;
 			var self = this;
 	
 			el.css({'width':'', 'height': '', 'display': 'none'});
@@ -89,8 +89,9 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 
 				el.css({'display': ''});
 				
-				if(stubObj)
-					stubObj.el.replaceWith(el);
+				self.el.replaceWith(el);
+//				if(target && stubObj)
+//					stubObj.el.replaceWith(el);
 				
 				self.fireEvent('onComplete', {});
 			});
