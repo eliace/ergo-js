@@ -68,16 +68,17 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 			// добавляем единовременный перехват события загрузки изображения
 			el.one('load', function(){
 				
-				var w = maxWidth;// || el.width(); 
-				var h = maxHeight || maxWidth;// || el.height();
-				if(maxWidth){
+				var w = self.options.width;//.el.width(); 
+				var h = self.options.height;//.el.height();
+		
+//				if(maxWidth){
 					w = Math.min(w, el.width());
 					h = Math.min(h, el.height());
-				}
-				else{
-					w = el.width();
-					h = el.height();
-				}
+//				}
+//				else{
+//					w = self.el.width();
+//					h = self.el.height();
+//				}
 				
 				var sx = w / el.width();
 				var sy = h / el.height();
@@ -90,6 +91,7 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 				el.css({'display': ''});
 				
 				self.el.replaceWith(el);
+				self.el = el;
 //				if(target && stubObj)
 //					stubObj.el.replaceWith(el);
 				

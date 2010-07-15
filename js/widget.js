@@ -20,7 +20,7 @@ Dino.widgets = {
 							// классы сливаеются в одну строку, разделенную пробелом
 							if(i == 'cls') p = o[i] + ' ' + p;
 						}
-						o[i] = p;		
+						o[i] = p;
 					}
 				}
 			}
@@ -28,6 +28,10 @@ Dino.widgets = {
 		}
 	}
 };
+
+
+
+
 
 
 /**
@@ -62,6 +66,7 @@ Dino.widgets = {
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	defaultOptions: {
+		states: {}
 	},
 		
 	initialize: function() {
@@ -109,6 +114,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(this.data) this._dataChanged();
 		// выполняем темизацию
 		this._theme(o.theme);
+				
 	},
 	
 	_init: function() {
@@ -288,22 +294,26 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	//------------------------------------------
 	
 	setState: function(name) {
-		this.el.addClass( this.options.baseCls+'-'+name );
-		this.fireEvent('onStateChanged', new Dino.events.Event({}));
+		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
+		this.el.addClass( stateCls );
+		this.fireEvent('onStateChanged');
 	},
 	
 	clearState: function(name){
-		this.el.removeClass( this.options.baseCls+'-'+name );
-		this.fireEvent('onStateChanged', new Dino.events.Event({}));
+		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
+		this.el.removeClass( stateCls );
+		this.fireEvent('onStateChanged');
 	},
 	
 	toggleState: function(name, sw) {
-		this.el.toggleClass( this.options.baseCls+'-'+name, sw );
-		this.fireEvent('onStateChanged', new Dino.events.Event({}));
+		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
+		this.el.toggleClass( stateCls, sw );
+		this.fireEvent('onStateChanged');
 	},
 	
 	checkState: function(name) {
-		return this.el.hasClass( this.options.baseCls+'-'+name );		
+		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
+		return this.el.hasClass( stateCls );
 	},
 	
 	

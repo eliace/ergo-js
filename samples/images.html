@@ -24,7 +24,33 @@
 <body>
 
 
+
+
+
+
+
+
+
 <div id="desc-1" class="desc">
+	
+	<p>
+		Обертка над тегом &lt;img&gt;, основное назначение - загрузка картинок по URL.
+	</p>
+	
+	<pre class="sh_javascript">
+Dino.widget({
+  dtype: 'image',
+  imageUrl: 'img/stegosaurus_128x128.png',
+});
+	</pre>
+	
+</div>
+
+
+
+
+
+<div id="desc-2" class="desc">
 	
 	<p>
 		Простая картинка предопределенного размера (как правило - 16x16), полностью управляется стилями. 
@@ -55,17 +81,28 @@ Dino.widget({
 
 
 
-<div id="desc-2" class="desc">
+<div id="desc-3" class="desc">
 	
 	<p>
-		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит появляется возможно выполнять пропорциональное масштабирование.
+		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит появляется возможность выполнить пропорциональное масштабирование.
 	</p>
 	
 	<pre class="sh_javascript">
 Dino.object({
-  dtype: 'async-image',
-  imageUrl: 'img/Triceratops_128x128.png',
-  maxWidth: 80
+  dtype: 'box',
+  items: [{
+    // обычная загрузка
+    dtype: 'image',
+    imageUrl: 'img/Triceratops_128x128.png',
+    width: 60,   
+    height: 100   
+  }, {
+    // поздняя загрузка
+    dtype: 'async-image',
+    imageUrl: 'img/Triceratops_128x128.png',
+    width: 60,
+    height: 100   
+  }]
 });
 	</pre>
 	
@@ -82,18 +119,21 @@ Dino.object({
 	Dino.samples.build({
 		widgets: [{
 			id: 'w1',
-			label: 'Иконка',
+			label: 'Изображение',
 			preview: eval($("#desc-1 .sh_javascript").text()),
 			description: { wrapEl: $('#desc-1') }				
 		}, {
 			id: 'w2',
-			label: 'Изображение с поздней загрузкой',
+			label: 'Иконка',
 			preview: eval($("#desc-2 .sh_javascript").text()),
 			description: { wrapEl: $('#desc-2') }				
+		}, {
+			id: 'w3',
+			label: 'Изображение с поздней загрузкой',
+			preview: eval($("#desc-3 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-3') }				
 		}]
 	});
-	
-	
 	
 </script>
 

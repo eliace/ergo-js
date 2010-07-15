@@ -214,18 +214,24 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
 //	defaultCls: 'dino-toolbar',
-	
+/*	
 	defaultOptions: {
 		layout: {
 			dtype: 'plain-layout',
 			itemCls: 'dino-toolbar-item'
 		}
 	},
-	
+*/	
 	_init: function() {
-		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);
-		
-		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
+		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);		
+//		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
+	},
+	
+	setActiveItem: function(item) {
+		this.eachItem(function(it){
+			//TODO сюда еще можно добавить проверку на вхождение элементов в одну группу
+			it.toggleState('active', (item == it));
+		});
 	}
 	
 }, 'toolbar');
