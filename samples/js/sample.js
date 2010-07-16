@@ -20,10 +20,11 @@ Dino.samples.build = function(o){
 		// создаем описание элемента
 		var item = Dino.widget({
 			dtype: 'box',
+			id: widget.id,
 			tag: widget.id,
 			items: [
-			  {id: 'preview', cls: 'dino-border dino-corner-all', content: widget.preview}, 
-			  {id: 'description', content: widget.description}
+			  {cls: 'preview dino-border dino-corner-all', content: widget.preview}, 
+			  {cls: 'description', content: widget.description}
 			]
 		});
 		

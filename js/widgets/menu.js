@@ -2,7 +2,7 @@
 
 
 
-Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
+Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 	
 	defaultCls: 'dino-menu-item',
 	
@@ -10,10 +10,28 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 		defaultItem: {
 			dtype: 'text'
 		},
-		model: {
+		// общие параметры для всех подэлементов меню на всех уровнях вложенности
+		submenuModel: {
+			dropdown: {},
+			item: {}
 		},
-		menuItemFactory: function(o) {
-			return new Dino.containers.MenuItem(o);
+		submenuItemFactory: function(o) {
+			return new Dino.containers.MenuItem(
+					Dino.widgets.utils.override_opts(
+						{submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
+						this.submenuModel.item, 			// гпараметры модели
+						this.submenuItem,					// параметры текущего подменю
+						o
+					));
+		},
+		submenuDropdownFactory: function(o) {
+			return new Dino.containers.DropDownBox( 
+					Dino.widgets.utils.override_opts(
+						{}, 
+						this.submenuModel.dropdown, 
+						this.submenuDropdown, 
+						o
+					));
 		}
 	},
 	
@@ -22,24 +40,21 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 		
 		var o = this.options;
 		
+		// создаем подменю
 		if('submenu' in o){
 			
-			var subDropdown = Dino.merge_r({}, o.model.dropdown, o.submenuDropdown);
-			
-			this.submenu = new Dino.containers.DropDownBox(subDropdown);
-			this.submenu.opt({cls: 'dino-submenu'});
+			this.submenu = this.options.submenuDropdownFactory(o.submenuDropdown);
 			
 			for(var i in o.submenu){
-				var subItem = Dino.merge_r({model: o.model}, o.model.item, o.submenuItem, o.submenu[i]);
-				var si = this.options.menuItemFactory(subItem);
-				this.submenu.addItem( si );
-//				si.parentMenu = this;
+				var submenuItem = this.options.submenuItemFactory(o.submenu[i]);
+				this.submenu.addItem( submenuItem );
 			}
 			
 			if(o.submenu.length > 0)
 				this.el.addClass('has-submenu');
 			
-			this.addItem(this.submenu);
+			this.el.append(this.submenu.el);
+//			this.addItem(this.submenu);
 		}
 		
 	},
@@ -72,9 +87,16 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Item', {
 Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 
 	defaultOptions: {
+		layout: '3c-layout',
 		content: {},
-		menuItemFactory: function(o) {
-			return new Dino.containers.TextMenuItem(o);
+		submenuItemFactory: function(o) {
+			return new Dino.containers.TextMenuItem(
+					Dino.widgets.utils.override_opts(
+						{submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
+						this.submenuModel.item, 			// гпараметры модели
+						this.submenuItem,					// параметры текущего подменю
+						o
+					));
 		}
 	},
 	
@@ -82,7 +104,7 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 	_opt: function(o) {
 		Dino.containers.TextMenuItem.superclass._opt.apply(this, arguments);
 		
-		if('label' in o) this.content.opt('text', o.label);
+		if('label' in o) this.layout.center.opt('text', o.label);
 	},
 	
 	_events: function(self) {

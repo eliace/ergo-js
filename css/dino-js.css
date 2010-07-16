@@ -159,6 +159,9 @@
 
 
 
+/**
+ * Меню
+ */
 
 .dino-menu-item {
 	position: relative;
@@ -183,7 +186,7 @@
 
 .dino-3c-layout {
 	position: relative;
-	width: 100%;
+/*	width: 100%;*/
 }
 
 .dino-3c-left, .dino-3c-right { 

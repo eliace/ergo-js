@@ -23,93 +23,70 @@
 	<style>
 		
 			.menu {
-				width: 70px;
-				padding: 10px;
+/*				width: 70px;
+				padding: 10px;*/
 				font-size: 0.8em;
 				margin-top: 10px;
 				position: relative;
 			}
 			
 			.submenu {
-				margin-left: 20px;
+/*				margin-left: 20px;*/
 			}
 			
-			.a-menu-item {
+			.menu-item {
 				border-bottom: 1px dotted #aaaaaa;
 				cursor: pointer;
-				padding: 0 10px;
-				position: relative;
-				width: 50px;
 			}
 			
-			.a-menu-item:hover {
+			.menu-item-label {
+				margin-right: 20px;
+				margin-left: 5px;
+			}
+			
+			.menu-item:hover {
 				background-color: #e0e0e0;
 			}
 
-
-			
-			.b-menu-item {
-				cursor: pointer;
-				padding: 0 10px;
-				margin-top: 5px;
-				position: relative;
-				color: red;
-				font-size: 1.1em;
-			}
-
-			.b-menu-item:hover {
-				color: green;
-			}
-
-			
-			
-			
-			.ex-icon-plus {
-				background-image: url(img/001_01.png);
-				width: 24px;
-				height: 24px;
+			.menu-item-icon {
+				background-position: 32px 32px;				
 			}
 			
-			.ex-left-item {
-				left: 0;
-				top: 0;
-				position: absolute;
-			}
-			
-			.ex-right-text {
-				margin-left: 24px;
-				display: block;
-			}
-			
-			.ex-text {
-				height: 30px;
-				width: 200px;
-			}
-
-
-
-			.ex-right-item {
-				right: 0;
-				top: 0;
-				position: absolute;
-				background-position: 32px 32px;
-			}
-			
-			.ex-left-text {
-				margin-right: 24px;
-				display: block;
-			}
-			
-
-
-			.has-submenu > .dino-icon[role="ricon"] {
+			.has-submenu > .menu-item-icon {
 				background-position: -32px -16px;
 			}
 			
 			
-			.ex-menu-item {
+			.context-menu {
+				background-color: white;
+				cursor: default;
+				z-index: 1000;
 			}
 		
+			.context-menu-item {
+				border-bottom: 1px dotted #aaaaaa;
+				cursor: pointer;
+				padding: 0 5px;
+			}
+			
+			.context-menu-item:hover {
+				background-color: #e0e0e0;
+			}
+		
+			.dino-growl-box {
+				background-color: #f8f8f8;
+				right: 20px;
+				top: 20px;
+				padding: 10px;
+			}
+		
+			.preview-text {
+				position: relative;
+				font-size: 2em;
+				color: #f0f0f0;
+				text-align: center;
+				cursor: default;
+			}
 		
 	</style>
 
@@ -123,7 +100,7 @@
 	<p>Это черновой вариант меню</p>
 	
 	<pre class="sh_javascript">
-// Создаем модель меню
+// Модель меню
 var menuModel = {
   dropdown: {
     cls: 'submenu dino-border',
@@ -134,44 +111,38 @@ var menuModel = {
     }
   },
   item: {
-    cls: 'a-menu-item',
-    right: {
+    dtype: 'text-menu-item',
+    cls: 'menu-item',
+    items: [{
       dtype: 'icon',
-      cls: 'ui-icon ex-right-item',
-      role: 'ricon'
-    }
+      position: 'right',
+      cls: 'ui-icon menu-item-icon'
+    }, {
+      cls: 'menu-item-label'
+    }]
   }		
 };
 
-// Создаем виджет меню
+// Виджет меню
 Dino.widget({
   dtype: 'box',
   cls: 'menu',
   style: {'position': 'absolute'},
-  defaultItem: {
-    dtype: 'text-menu-item',
-    cls: 'ex-menu-item a-menu-item',
-    right: {
-      dtype: 'icon',
-      cls: 'ui-icon ex-right-item',
-      role: 'ricon'
-    },
-    model: menuModel
-  },
+  defaultItem: Dino.override({submenuModel: menuModel}, menuModel.item),
   items: [{
     label: 'Menu 1',
-    submenuItem: {width: 80},
+    submenuItem: {width: 90},
     submenu: [
       {label: 'Submenu 1'},
       {label: 'Submenu 2'},
       {label: 'Submenu 3'},
       {
         label: 'Submenu 4',
-        submenuItem: {width: 140},
+        submenuItem: {width: 150},
         submenu: [
           {
             label: 'Submenu1',
-            submenuItem: {width: 100},
+            submenuItem: {width: 110},
             submenu: [
               {label: 'Submenu AAAA'}
             ]
@@ -191,6 +162,48 @@ Dino.widget({
 
 
 
+<div id="desc-2" class="desc">
+	
+	<p>
+		Это тоже черновой вариант, созданный на основе <strong></>Dino.containers.DropDownBox</strong>.
+	</p>
+	
+	<pre class="sh_javascript">
+				
+Dino.widget({
+  dtype: 'box',
+  items: [{
+    dtype: 'dropdown-box',
+    cls: 'dino-border context-menu',
+    events: {
+      'click': function(e) {
+        e.stopPropagation();
+      }
+    },
+    defaultItem: {
+      dtype: 'text-menu-item',
+      cls: 'context-menu-item',
+      onAction: function() {
+        $('.context-menu').dino().hide();
+        growl.show('Выбран элемент меню: ' + this.options.label);
+      }
+    },
+    items: [
+      {label: 'Item 1'},
+      {label: 'Item 2'},
+      {label: 'Item 3'},
+    ]
+  }, {
+    text: 'Кликни правой кнопкой мыши в любом месте окна',
+    cls: 'preview-text'
+  }]
+});
+	</pre>
+	
+</div>
+
+
+
 
 <script>
 	
@@ -200,15 +213,47 @@ Dino.widget({
 				label: 'Вертикальное меню',
 				preview: eval($("#desc-1 .sh_javascript").text()),
 				description: { wrapEl: $('#desc-1') }				
+			}, {
+				id: 'menu2',
+				label: 'Контекстное меню',
+				preview: eval($("#desc-2 .sh_javascript").text()),
+				description: { wrapEl: $('#desc-2') }				
 			}]
+		});	
+		
+		
+		
+	growl = $.fn.dino({
+		dtype: 'growl-box',
+		cls: 'ui-state-hover',
+		renderTo: 'body',
+		delay: 600,
+		timeout: 1500
+	});
+		
+		
+		$('#menu2 .preview').mousedown(function(e){
+
+			if(e.button == 2){
+
+				var dropdown = $('.dino-dropdown-box', this).dino();
+							
+				var offset = $(this).offset();
+				
+				var x = e.pageX - offset.left - 2;
+				var y = e.pageY - offset.top - 2;
+				
+				dropdown.show(x, y);
+				
+				e.stopPropagation();
+				
+				$('body').one('click', function(){ dropdown.hide(); });
+			
+			}
 		});
 		
+		$('#menu2 .preview').bind('contextmenu', function(){ return false; });
 		
-	
-	
-	
-	
-	
 	
 </script>
 

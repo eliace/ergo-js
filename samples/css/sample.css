@@ -34,7 +34,7 @@ body {
 	margin-left: 170px;
 }
 
-#preview {
+.preview {
 	height: 300px;
 	padding: 5px;
 	position: relative;
