@@ -103,7 +103,7 @@
 // Модель меню
 var menuModel = {
   dropdown: {
-    cls: 'submenu dino-border',
+    cls: 'dino-border',
     effects: {
       show: 'fade',
       hide: 'fade',
@@ -205,6 +205,80 @@ Dino.widget({
 
 
 
+
+<div id="desc-3" class="desc">
+	
+	<p>
+	</p>
+	
+	<pre class="sh_javascript">
+// Модель меню
+var menuModel = {
+  dropdown: {
+    effects: {
+      show: 'fade',
+      hide: 'fade',
+      delay: 400
+    }
+  },
+  item: {
+    dtype: 'text-menu-item',
+    cls: 'menu-item',
+    items: [{
+      dtype: 'icon',
+      position: 'right',
+      cls: 'ui-icon menu-item-icon'
+    }, {
+      cls: 'menu-item-label'
+    }]
+  }		
+};
+
+// Виджет меню
+Dino.widget({
+  dtype: 'box',
+  cls: 'menu',
+  style: {'position': 'absolute'},
+  defaultItem: {
+		dtype: 'menu-item',
+		content: {
+			dtype: 'pulse-button',
+	    imageWidth: 30,
+	    pulseValue: 1.25,
+	    pulseDelay: 200,
+			onPulseUp: function(){
+				if(this.submenu){
+				 this.parent.submenu.show($(this).width(), 0);
+				}
+			}
+		},
+		
+		submenuModel: menuModel
+	},
+  items: [{
+    content: {imageUrl: 'img/menu/Box.png'},
+    submenuItem: {width: 90},
+    submenu: [
+      {label: 'Submenu 1'},
+      {label: 'Submenu 2'},
+      {label: 'Submenu 3'},
+    ]
+  }, 
+  { content: {imageUrl: 'img/menu/Box.png'} }, 
+  { content: {imageUrl: 'img/menu/Box.png'} }
+  ]
+});	
+
+	</pre>
+	
+</div>
+
+
+
+
+
+
+
 <script>
 	
 		Dino.samples.build({
@@ -218,6 +292,11 @@ Dino.widget({
 				label: 'Контекстное меню',
 				preview: eval($("#desc-2 .sh_javascript").text()),
 				description: { wrapEl: $('#desc-2') }				
+			}, {
+				id: 'menu3',
+				label: 'Пример меню',
+				preview: eval($("#desc-3 .sh_javascript").text()),
+				description: { wrapEl: $('#desc-3') }				
 			}]
 		});	
 		

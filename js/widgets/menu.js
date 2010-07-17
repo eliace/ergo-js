@@ -16,9 +16,9 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 			item: {}
 		},
 		submenuItemFactory: function(o) {
-			return new Dino.containers.MenuItem(
+			return Dino.widget(
 					Dino.widgets.utils.override_opts(
-						{submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
+						{dtype: 'menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
 						this.submenuModel.item, 			// гпараметры модели
 						this.submenuItem,					// параметры текущего подменю
 						o
@@ -63,7 +63,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		Dino.containers.MenuItem.superclass._events.apply(this, arguments);
 		
 		this.el.bind('mouseenter', function(){
-			var pos = $(this).position();
+//			var pos = $(this).position();
 			if(self.submenu) self.submenu.show(/*pos.left +*/ $(this).width(), 0/*pos.top*/);
 		});
 		
@@ -90,9 +90,9 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 		layout: '3c-layout',
 		content: {},
 		submenuItemFactory: function(o) {
-			return new Dino.containers.TextMenuItem(
+			return Dino.widget(
 					Dino.widgets.utils.override_opts(
-						{submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
+						{dtype: 'text-menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
 						this.submenuModel.item, 			// гпараметры модели
 						this.submenuItem,					// параметры текущего подменю
 						o
