@@ -98,7 +98,7 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('action', new Dino.events.Event({}, e));
+			self.fireEvent('onAction', new Dino.events.Event({}, e));
 		});		
 		
 	},
@@ -116,8 +116,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 			this.labelEl.text(o.label);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
-		if('action' in o)
-			this.addEvent('action', o.action);
+//		if('onAction' in o)
+//			this.addEvent('onAction', o.onAction);
 	},
 	
 	_theme: function(name) {

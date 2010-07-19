@@ -117,9 +117,9 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	
 	_events: function(self) {
 		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
-		var self = this;
 		this.el.change(function(){
 			self.setValue(self.el.attr('checked') ? true : false);
+			self.fireEvent('onAction');
 		});
 	},
 	
