@@ -21,13 +21,13 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 	},
 	
 	
-	show: function(x, y) {		
+	show: function(x, y, eff) {		
 		this.el.css({'left': x, 'top': y});
 //		$(this.options.target).append(this.el);
-		
+				
 		var effects = this.options.effects;
 		
-		switch(effects['show']){
+		switch(eff || effects['show']){
 			case 'fade':
 				this.el.fadeIn( effects.delay );
 				break;
@@ -38,11 +38,11 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 		this.isShown = true;
 	},
 	
-	hide: function(){
+	hide: function(eff){
 		
 		var effects = this.options.effects;
 		
-		switch(effects['hide']){
+		switch(eff || effects['hide']){
 			case 'fade':
 				this.el.fadeOut( effects.delay );
 				break;

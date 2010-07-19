@@ -7,6 +7,8 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 	defaultCls: 'dino-menu-item',
 	
 	defaultOptions: {
+		showOnEnter: true,
+		hideOnLeave: true,
 		defaultItem: {
 			dtype: 'text'
 		},
@@ -48,6 +50,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 			for(var i in o.submenu){
 				var submenuItem = this.options.submenuItemFactory(o.submenu[i]);
 				this.submenu.addItem( submenuItem );
+				submenuItem.parentMenuItem = this; 
 			}
 			
 			if(o.submenu.length > 0)
@@ -63,17 +66,35 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		Dino.containers.MenuItem.superclass._events.apply(this, arguments);
 		
 		this.el.bind('mouseenter', function(){
-//			var pos = $(this).position();
-			if(self.submenu) self.submenu.show(/*pos.left +*/ $(this).width(), 0/*pos.top*/);
-		});
-		
-		this.el.bind('mouseleave', function(){
-			if(self.submenu){
-				self.submenu.hide();
-				self.fireEvent('onSubMenuHide');
+			self.hoverSubmenu = true;
+			if(self.options.showOnEnter){
+				self.showSubmenu();
 			}
 		});
 		
+		this.el.bind('mouseleave', function(){
+			self.hoverSubmenu = false;
+			if(self.options.hideOnLeave){
+				if(self.submenu){
+					self.submenu.hide();
+					self.fireEvent('onSubmenuHide');
+				}
+			}
+		});
+		
+	},
+	
+	showSubmenu: function(){
+		if(this.submenu) this.submenu.show(/*pos.left +*/ $(this.el).width(), 0/*pos.top*/);		
+	},
+	
+	hideSubmenu: function(hideAll){
+		if(this.submenu){
+			this.submenu.hide();
+			this.fireEvent('onSubmenuHide');			
+		}		
+		if(hideAll && this.parentMenuItem)
+			this.parentMenuItem.hideSubmenu(true);
 	}
 	
 	
@@ -110,8 +131,9 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 	_events: function(self) {
 		Dino.containers.TextMenuItem.superclass._events.apply(this, arguments);
 		
-		this.el.click(function(){
+		this.el.click(function(e){
 			self.fireEvent('onAction');
+			e.stopPropagation(); // для предотвращения срабатывания onAction в родительских элементах меню
 		});
 	}
 

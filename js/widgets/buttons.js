@@ -169,14 +169,14 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 		this.image.el.bind('mouseenter', function(){
 			$(this).clearQueue();
 			$(this).animate({'width': self.maxW, 'height': self.maxH, 'left': 0, 'top': 0}, self.options.pulseDelay, function(){ 
-				self.fireEvent.call(self, 'onPulseUp'); 
+				self.fireEvent.call(self, 'onAfterPulseUp'); 
 			});
 		});
 		
 		this.image.el.bind('mouseleave', function(e){
 			var o = self.options;
 			var event = new Dino.events.CancelEvent({}, e);
-			self.fireEvent('onPulseDown', event);
+			self.fireEvent('onBeforePulseDown', event);
 			
 			if(!event.isCanceled) self.pulseDown();
 		});

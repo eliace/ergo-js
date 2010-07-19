@@ -106,7 +106,7 @@ var menuModel = {
     cls: 'dino-border',
     effects: {
       show: 'fade',
-      hide: 'fade',
+      hide: 'default',
       delay: 300
     }
   },
@@ -119,7 +119,11 @@ var menuModel = {
       cls: 'ui-icon menu-item-icon'
     }, {
       cls: 'menu-item-label'
-    }]
+    }],
+    onAction: function(){
+      growl.show('Выбран элемент меню: ' + this.options.label);
+      this.hideSubmenu(true);
+    }
   }		
 };
 
@@ -218,7 +222,7 @@ var menuModel = {
     effects: {
       show: 'fade',
       hide: 'fade',
-      delay: 400
+      delay: 300
     }
   },
   item: {
@@ -240,20 +244,30 @@ Dino.widget({
   cls: 'menu',
   style: {'position': 'absolute'},
   defaultItem: {
-		dtype: 'menu-item',
-		content: {
-			dtype: 'pulse-button',
-	    imageWidth: 30,
-	    pulseValue: 1.25,
-	    pulseDelay: 200,
-			onPulseUp: function(){
-				if(this.submenu){
-				 this.parent.submenu.show($(this).width(), 0);
-				}
-			}
-		},
+    dtype: 'menu-item',
+    showOnEnter: false,
+    content: {
+      dtype: 'pulse-button',
+      imageWidth: 30,
+      pulseValue: 1.25,
+      pulseDelay: 200,
+      onAfterPulseUp: function(){
+        if(this.parent.submenu && this.parent.hoverSubmenu){
+          this.parent.showSubmenu();
+        }
+      },
+      onBeforePulseDown: function(e){
+        if(this.parent.submenu){
+          e.cancel();
+        }
+      }
+    },
+
+    onSubmenuHide: function(){
+      this.content.pulseDown();
+    },
 		
-		submenuModel: menuModel
+    submenuModel: menuModel
 	},
   items: [{
     content: {imageUrl: 'img/menu/Box.png'},
@@ -261,11 +275,19 @@ Dino.widget({
     submenu: [
       {label: 'Submenu 1'},
       {label: 'Submenu 2'},
-      {label: 'Submenu 3'},
+      {label: 'Submenu 3'}
     ]
   }, 
-  { content: {imageUrl: 'img/menu/Box.png'} }, 
-  { content: {imageUrl: 'img/menu/Box.png'} }
+  { 
+    content: {imageUrl: 'img/menu/Calander.png'},
+    submenuItem: {width: 90},
+    submenu: [
+      {label: 'Submenu B 1'},
+      {label: 'Submenu B 2'},
+      {label: 'Submenu B 3'}
+    ]
+	}, 
+  { content: {imageUrl: 'img/menu/Clock.png'} }
   ]
 });	
 
@@ -294,7 +316,7 @@ Dino.widget({
 				description: { wrapEl: $('#desc-2') }				
 			}, {
 				id: 'menu3',
-				label: 'Пример меню',
+				label: 'Нестандартные элементы меню',
 				preview: eval($("#desc-3 .sh_javascript").text()),
 				description: { wrapEl: $('#desc-3') }				
 			}]

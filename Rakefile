@@ -73,5 +73,6 @@ task :compose_win do
 
     Kernel.system s
 
+    merge_files(files);
 
 end
