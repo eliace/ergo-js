@@ -19,7 +19,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		},
 		submenuItemFactory: function(o) {
 			return Dino.widget(
-					Dino.widgets.utils.override_opts(
+					Dino.utils.override_opts(
 						{dtype: 'menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
 						this.submenuModel.item, 			// гпараметры модели
 						this.submenuItem,					// параметры текущего подменю
@@ -28,7 +28,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		},
 		submenuDropdownFactory: function(o) {
 			return new Dino.containers.DropDownBox( 
-					Dino.widgets.utils.override_opts(
+					Dino.utils.override_opts(
 						{}, 
 						this.submenuModel.dropdown, 
 						this.submenuDropdown, 
@@ -57,6 +57,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 				this.el.addClass('has-submenu');
 			
 			this.el.append(this.submenu.el);
+			this.addChild(this.submenu);
 //			this.addItem(this.submenu);
 		}
 		
@@ -112,7 +113,7 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 		content: {},
 		submenuItemFactory: function(o) {
 			return Dino.widget(
-					Dino.widgets.utils.override_opts(
+					Dino.utils.override_opts(
 						{dtype: 'text-menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
 						this.submenuModel.item, 			// гпараметры модели
 						this.submenuItem,					// параметры текущего подменю

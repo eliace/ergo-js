@@ -15,6 +15,7 @@ require 'fileutils'
     'js/widget.js',
     'js/layout.js',
     'js/container.js',
+    'js/utils.js',
     'js/layouts/plain-layout.js',
     'js/layouts/table-row-layout.js',
     'js/layouts/3c-layout.js',

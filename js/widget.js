@@ -1,39 +1,4 @@
 
-
-Dino.widgets = {	
-	utils: {
-		/**
-		 * Перегрузка параметров
-		 */
-		override_opts: function(o){
-			for(var j = 1; j < arguments.length; j++){
-				var newProps = arguments[j];
-				for(var i in newProps){
-					var p = newProps[i];
-					if( Dino.isPlainObject(p) ){
-						if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-						this.override_opts(o[i], p);
-					}
-					else{
-						// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
-						if(i in o){
-							// классы сливаеются в одну строку, разделенную пробелом
-							if(i == 'cls') p = o[i] + ' ' + p;
-						}
-						o[i] = p;
-					}
-				}
-			}
-			return o;
-		}
-	}
-};
-
-
-
-
-
-
 /**
  * Виджет - базовый объект для всех виджетов
  * 
@@ -90,9 +55,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) Dino.widgets.utils.override_opts(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) Dino.utils.override_opts(o, clazz.defaultOptions);
 		});
-		Dino.widgets.utils.override_opts(o, opts);
+		Dino.utils.override_opts(o, opts);
 		
 		html = o.wrapEl || html; // оставляем возможность указать html через options
 		
@@ -102,6 +67,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
 		
+		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
+		this.setData(o.data);
 		// конструируем виджет
 		this._init(o);//this, arguments);
 		// добавляем обработку событий
@@ -198,7 +165,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 
-		
+/*		
 		if('data' in o) {
 			if('dataId' in o){
 				this.data = (o.data instanceof Dino.data.DataSource) ? o.data._item(o.dataId) : new Dino.data.DataSource(o.data, o.dataId);
@@ -210,6 +177,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //			this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 //			this.fireEvent('onDataChanged', new Dino.events.Event());
 		}
+*/		
 		
 	},
 		
@@ -242,7 +210,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	// Добавляем дочерний виджет
 	addChild: function(item) {
 		this.children.push(item);
-		item.parent = this;
+		item.parent = this;	
+		
+		if(this.data && !item.data) item.setData(this.data);
+		
 		return item;
 	},
 	
@@ -275,6 +246,25 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	//---------------------------------------------
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
+	
+	setData: function(data) {
+		
+		if(data == undefined) return;
+		
+		var o = this.options;
+		
+		if('dataId' in o){
+			this.data = (data instanceof Dino.data.DataSource) ? data._item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
+		}
+		else {
+			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
+		}
+		
+		for(var i in this.children)
+			this.children[i].setData(this.data);
+	},
+	
+	
 	
 	getValue: function() {
 		return (this.data) ? this.data.get() : undefined;

@@ -13,7 +13,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	
 	defaultOptions: {
 		itemFactory: function(o) {
-			var opts = Dino.merge_r({}, this.defaultItem, o); // сливаем параметры элемента и параметры элемента по умолчанию
+			var opts = Dino.utils.override_opts({}, this.defaultItem, o); // сливаем параметры элемента и параметры элемента по умолчанию
 			return Dino.widget(opts); 
 		},
 		layout: 'plain-layout'

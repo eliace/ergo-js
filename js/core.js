@@ -171,17 +171,17 @@ var Dino = (function(){
 		return ( D.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
 	};
 	
-	D._filter_obj = function(obj, fn) {
+	var _filter_obj = function(obj, fn) {
 		var result = {};
 		for(var i in obj)
-			if( fn.call(obj, i, obj[i]) ) result[i] = obj[i];
+			if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
 		return a;
 	}
 	
-	D._filter_arr = function(arr, fn) {
+	var _filter_arr = function(arr, fn) {
 		var result = [];
 		for(var i = 0; i < arr.length; i++)
-			if( fn.call(arr, i, arr[i]) ) result.push(arr[i]);
+			if( fn.call(arr, arr[i], i) ) result.push(arr[i]);
 		return result;
 	}
 	
