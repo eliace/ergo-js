@@ -79,5 +79,15 @@ Dino.samples.build = function(o){
 	// включаем подсветку кода
 	sh_highlightDocument();
 	
+	// добавляем гроул
+	growl = $.fn.dino({
+		dtype: 'growl-box',
+		cls: 'ui-state-hover',
+		renderTo: 'body',
+		delay: 600,
+		timeout: 1500
+	});
+	
+	
 	// Тада-а-а-ам
 }

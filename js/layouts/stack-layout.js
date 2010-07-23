@@ -7,11 +7,12 @@ Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 		itemCls: 'dino-stack-item dino-hidden'
 	},
 	
-	activate: function(item) {
-		var prop = (Dino.isString(item)) ? 'tag' : null;
+	activate: function(i) {
+		
+		var item = (i instanceof _dino.Widget) ? i : this.container.getItem(i);
+		
 		this.container.eachItem(function(it){
-			var comp = (prop) ? it[prop] : it;
-			it.el.toggleClass('dino-hidden', (comp != item));
+			it.el.toggleClass('dino-hidden', (it != item));
 		});			
 	}
 	

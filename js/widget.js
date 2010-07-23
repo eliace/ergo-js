@@ -33,7 +33,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	defaultOptions: {
 		states: {}
 	},
-		
+			
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
 		
@@ -202,9 +202,27 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	// Методы работы с деревом виджетов
 	//---------------------------------------
 	
-	// Получаем дочерний виджет по порядковому номеру
+	/**
+	 * Получаем дочерний виджет
+	 * 
+	 * параметром может быть:
+	 *  a) число - порядковый номер
+	 *  b) строка - значение свойства "tag"
+	 *  c) функция - фильтр
+	 *  d) объект - набор свойств
+	 *  
+	 *  В принципе все эти параметры могут быть реализованы с помощью одного только фильтра и карринга
+	 */
 	getChild: function(i){
-		return this.children[i];
+		var f = null;
+		
+		if( _dino.isNumber(i) ) return this.children[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		else return null;
+		
+		return Dino.find_one(this.children, f);
 	},
 	
 	// Добавляем дочерний виджет
@@ -219,7 +237,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	// Удаляем дочерний виджет
 	removeChild: function(item) {
-		var i = Dino.find(this.children, item);
+		var i = Dino.find_one(this.children, item);
 		if(i != -1){
 			delete this.children[i].parent;
 			this.children.splice(i, 1);

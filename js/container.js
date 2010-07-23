@@ -31,7 +31,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		if('itemFactory' in o) this.itemFactory = o.itemFactory;
 		
 		var layoutOpts = o.layout;
-		if( Dino.isString(layoutOpts) ) 
+		if( Dino.isString(layoutOpts) )
 			layoutOpts = {dtype: layoutOpts};
 		this.layout = Dino.object(layoutOpts);
 		this.layout.attach(this);

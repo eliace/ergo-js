@@ -166,54 +166,5 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 
 
 
-Dino.declare('Dino.containers.Item', 'Dino.containers.Box', {
-	
-	defaultCls: 'dino-item',
-	
-	_init: function() {
-		Dino.containers.Item.superclass._init.apply(this, arguments);
-
-		var o = this.options;
-
-		if('left' in o){
-			this.left = Dino.widget(o.left);
-			this.left.opt('cls', 'dino-left-item');
-			this.addItem(this.left);
-			
-			if(this.content) this.content.opt('cls', 'item-content-right');
-		}
-
-			
-/*		
-		if('text' in o){
-			o.textContent = o.text;
-			delete o.text;
-		} 
-
-		this.text = new Dino.widgets.Text(o.textContent);
-		this.addItem(this.text);
-*/		
-		if('right' in o){
-			this.right = Dino.widget(o.right);
-			this.right.opt('cls', 'dino-right-item');
-			this.addItem(this.right);
-			
-			if(this.content) this.content.opt('cls', 'item-content-left');
-		}
-		
-		
-	}
-
-
-});
-
-
-
-
-
-/*Dino.declare('Dino.widgets.TextItem');*/
-
-
-
 
 

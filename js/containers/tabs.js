@@ -2,36 +2,42 @@
 
 
 /*
-Dino.declare('Dino.widgets.Tab', 'Dino.Widget', {
+Dino.declare('Dino.containers.TabLayout', 'Dino.Layout', {
 	
-	_html: function() { return '<il/>'; },
+	insert: function(item) {
+		var wrapper = $('<li/>');
+		wrapper.append(item.el);
+		this.container.el.append( wrapper );
+	},
 	
-	_opt: function(o){
-		Dino.widgets.Tab.superclass._opt.call(this, o);
-		
-		if('text' in o) this.el.text();
+	remove: function(item) {
+		item.el.parent().remove();
+	},
+	
+	clear: function() {
+		this.container.el.empty();
 	}
-
-
 	
-}, 'tab');
+});
 */
+
 
 
 Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	
 	
 	defaultOptions: {
-		itemFactory: function(o) {
-			var opts = Dino.merge({}, o, this.defaultItem, {
-				events: {
-					'click': function(){
-						tab.parent.changeTab(tab);
-					}
+		defaultItem: {
+			events: {
+				'click': function(){
+					var tab = $(this).dino();
+					tab.parent.changeTab(tab);
 				}
-			});
-			var tab = new Dino.Widget('<li/>', opts);
-			return tab;
+			}
+		},
+		
+		defaultTabItem: {
+			dtype: 'text'
 		}
 	},
 	
@@ -39,17 +45,45 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	
 	_html: function() { return '<ul></ul>' },
 	
+	_opt: function(o) {
+		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
+		
+		if('tabs' in o){
+			for(var i in o.tabs){
+				// создаем закладку
+				var tab = this.options.itemFactory({
+					wrapEl: $('<li/>'),
+					defaultItem: this.options.defaultTabItem,
+					content: o.tabs[i]					
+				});
+				
+				tab.index = parseInt(i); //FIXME это хорошо работает пока закладки не начинают добавляться произвольно
+				
+/*				
+				var tab = new _dino.Container('<li/>', {
+					defaultItem: this.options.defaultTabItem,
+					content: o.tabs[i]
+				});
+*/				
+				this.addItem(tab);
+			}
+		}
+		
+		if('defaultTab' in o){
+			this.changeTab(o.defaultTab);
+		}
+		
+	},
+	
 	changeTab: function(tab){
 		
-		if(Dino.isNumber(tab)) tab = this.getItem(tab);
+		// если указанный объект не является виджетом, то ищем его через getItem
+		if(!(tab instanceof Dino.Widget)) tab = this.getItem(tab);
 		
-		tab.resetState();
 		tab.setState('active');
 		this.eachItem(function(item){
-			if(item != tab){
-				item.resetState();
-				item.setState('inactive');
-			}
+			if(item != tab)
+				item.clearState('active');
 		});
 		this.currentTab = tab;
 		this.fireEvent('onTabChanged', new Dino.events.Event());

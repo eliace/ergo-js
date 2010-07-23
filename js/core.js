@@ -197,15 +197,15 @@ var Dino = (function(){
 	/**
 	 * поиск первого элемента, удовлетворяющего критерию
 	 */
-	D.find = function(obj, fn) {
+	D.find_one = function(obj, fn) {
 		if(!D.isFunction(fn)){
 			var x = fn;
 			fn = function(it) { return it == x; };
 		}
 		for(var i in obj)
-			if(fn.call(obj, obj[i])) return i;
+			if(fn.call(obj, obj[i])) return obj[i];
 		
-		return -1;
+		return null;
 	};
 
 
@@ -314,11 +314,21 @@ var Dino = (function(){
 		return function(){
 			var args = [];
 			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-			args.push(arg);
+			args.unshift(arg);
 			return F.apply(this, args);
 		};
 	};
 
+	Function.prototype.rcurry = function(arg) {
+		var F = this;
+		return function(){
+			var args = [];
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+	
 	
 	/**
 	 * Базовый объект
@@ -345,6 +355,6 @@ var Dino = (function(){
 	return D;
 })();
 
-
+var _dino = Dino;
 
 
