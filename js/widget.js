@@ -227,7 +227,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	// Добавляем дочерний виджет
 	addChild: function(item) {
+		
 		this.children.push(item);
+			
 		item.parent = this;	
 		
 		if(this.data && !item.data) item.setData(this.data);
@@ -237,13 +239,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	// Удаляем дочерний виджет
 	removeChild: function(item) {
-		var i = Dino.find_one(this.children, item);
-		if(i != -1){
-			delete this.children[i].parent;
-			this.children.splice(i, 1);
-		}
+		var i = Dino.indexOf(this.children, item);
 		
-		return (i != -1);
+		// если такого элемента среди дочерних нет, то возвращаем false
+		if(i == -1) return false;
+		
+		delete this.children[i].parent;
+		this.children.splice(i, 1);
+		
+		return true;
 	},
 	
 	// Удаляем все дочерние виджеты
@@ -272,6 +276,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var o = this.options;
 		
 		if('dataId' in o){
+//			var a = o.dataId.split('.');
+//			var aData = data;
+//			for(var i = 0; i < a.length; i++){
+//				aData = (aData instanceof Dino.data.DataSource) ? aData._item(a[i]) : new Dino.data.DataSource(aData, a[i]);
+//			}
+//			this.data = aData;
 			this.data = (data instanceof Dino.data.DataSource) ? data._item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
 		}
 		else {
@@ -294,9 +304,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			this.fireEvent('onValueChanged', new Dino.events.Event());
 		}
 	},
-	
-	
-	
+/*	
+	getFormattedValue: function() {
+		var val = this.getValue();
+		return (this.options.format) ? this.options.format.call(this, val) : val;
+	},
+*/	
 	//------------------------------------------
 	// Методы управления состояниями виджета
 	//------------------------------------------

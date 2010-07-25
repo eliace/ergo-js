@@ -30,6 +30,11 @@
 		padding-bottom: 1px !important;
 	}
 	
+	.dino-form-item-wrapper > label {
+		display: block;
+	}
+	
+	
 	
 </style>
 
@@ -80,6 +85,41 @@ Dino.widget({
 
 
 
+<div id="desc-3" class="desc">
+	<p>
+	</p>
+	<pre class="sh_javascript">
+Dino.widget({
+  dtype: 'form',
+  items: [{
+	label: 'Текстовое поле:',
+	name: 'field1',
+	dtype: 'textfield'
+  }, {
+	label: 'Текст:',
+	name: 'field2',
+	dtype: 'textarea'
+  }, {
+	label: 'Файл:',
+	name: 'field3',
+	dtype: 'file'
+  }, {
+	label: 'Выбор варианта:',
+	name: 'field4',
+	dtype: 'select',
+	options: {
+		'1': 'зима', 
+		'2': 'весна', 
+		'3': 'лето', 
+		'4': 'осень' 
+	}
+  }]
+});		
+	</pre>
+</div>
+
+
+
 
 
 
@@ -101,6 +141,11 @@ Dino.widget({
 			label: 'Закладки',
 			preview: eval($("#desc-2 .sh_javascript").text()),
 			description: { wrapEl: $('#desc-2') }				
+		}, {
+			id: 'w3',
+			label: 'Форма',
+			preview: eval($("#desc-3 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-3') }				
 		}]
 	});
 	

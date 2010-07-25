@@ -47,7 +47,7 @@ Dino.filters = (function(){
 			if(child[i] != props[i]) return false;
 		return true; 
 	};
-	
+		
 	return F;
 })();
 

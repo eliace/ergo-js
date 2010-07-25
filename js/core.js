@@ -207,7 +207,23 @@ var Dino = (function(){
 		
 		return null;
 	};
-
+	
+	D.indexOf = function(obj, criteria) {
+		if(!_dino.isFunction(criteria))
+			criteria = D.eq.curry(criteria);
+		for(var i in obj)
+			if(criteria.call(obj, obj[i])) return i;
+		return -1;
+	};
+	
+	
+	
+	// равенство
+	D.eq = function(obj, item, i) {
+		return obj == item;
+	};
+	
+	
 
 	/**
 	 * печать объекта в человекочитаемой форме

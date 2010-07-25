@@ -1,74 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		
-		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="../build/dino-js.js"></script>
-		
-		<style>
-			.assert-ok {
-				color: green;
-			}
-			.assert-fail {
-				color: red;
-			}
-		</style>
-		
-		<title>Untitled Document</title>
-	</head>
-<body>
-		
-		<div id="report"></div>
-		
-		
-<script>
+ <head>
+  <script type="text/javascript" src="../lib/qunit/qunit.js"></script>
+  <link rel="stylesheet" href="../lib/qunit/qunit.css" type="text/css" media="screen">
 	
-$(document).ready(function(){
+	<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../build/dino-js.js"></script>
 	
-	var assert = function(msg, condition, ext) {
-		if(arguments.length == 2) ext = '';
-		var cls = (condition) ? 'assert-ok' : 'assert-fail';
-		$('#report').append( $('<div>'+msg+': <span class="'+cls+'">'+condition+'</span>'+ext+'</div>') );
-	};
+	<script type="text/javascript" src="js/data_test.js"></script>
 	
-	var assert_eq = function(msg, a, b) {
-		assert(msg, (a == b), ' ('+a+')');
-	}
-	
-	
-	var data = ['Alice', 'Bob', 'Charlie', ['apple', 'banana', 'cherry']];
-	
-	binding = new Dino.data.DataSource(data, 0);
-	assert_eq('Item 0 must be "Alice"', binding.get(), 'Alice');
-	
-	binding = new Dino.data.DataSource(data);
-	assert_eq('Subitem 2 must be "Charlie"', binding.get(2), 'Charlie');
-	
-	binding2 = new Dino.data.DataSource(binding, 1);
-	assert_eq('Item 1 must be "Bob"', binding2.get(), 'Bob');
-
-	binding2 = new Dino.data.DataSource(binding, 3);
-	assert_eq('Subitem 0 must be "apple"', binding2.get(0), 'apple');
-	
-	binding3 = binding._item(3);
-	assert('Item 3 must exist', (binding.items[3] != undefined));
-	
-	data = new Dino.data.AjaxDataSource();
-	data.addEvent('onLoad', function(){
-		Dino.widget({
-			dtype: 'textarea',
-			renderTo: '#report',
-			text: Dino.pretty_print(data._val()),
-			width: 300,
-			height: 200
-		});
-	});
-	
-	data.load('ajax/list.json');
-	
-});		
-	
-</script>				
-</body>
+ </head>
+ <body>
+  <h1 id="qunit-header">Tests of DinoJS</h1>
+  <h2 id="qunit-banner"></h2>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests">
+  </ol>
+ </body>
 </html>
+

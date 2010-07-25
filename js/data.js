@@ -70,8 +70,15 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	get: function(i) {
 		if(arguments.length == 0)
 			return this._val();
-		else
-			return this._val()[i];// (this.source instanceof Dino.data.DataSource) ? this.getItem(i).getValue() : this.source[this.id][i];
+		else{
+			var v = this._val();
+			if( _dino.isString(i) ){
+				var a = i.split('.');
+				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
+				return v;
+			}
+			return v[i];
+		}
 	},
 	
 	// устанавливаем значение
@@ -87,7 +94,13 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			(this.source instanceof Dino.data.DataSource) ? this.source.set(this.id, newValue) : this.source[this.id] = newValue;
 		}
 		else {
-			(this.source instanceof Dino.data.DataSource) ? this.source._val()[this.id][i] = newValue : this.source[this.id][i] = newValue;
+			var v = (this.source instanceof Dino.data.DataSource) ? this.source._val()[this.id] : this.source[this.id];
+			if( _dino.isString(i) ){
+				var a = i.split('.');
+				var i = a.pop();
+				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
+			}
+			v[i] = newValue;
 		}
 		
 		this.fireEvent('onValueChanged', new Dino.events.Event());
