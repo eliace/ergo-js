@@ -35,10 +35,10 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 				}
 			}
 		},
-		
 		defaultTabItem: {
 			dtype: 'text'
-		}
+		},
+		defaultIndex: 0
 	},
 	
 	defaultCls: 'dino-tabs',
@@ -68,12 +68,15 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 				this.addItem(tab);
 			}
 		}
-		
-		if('defaultTab' in o){
-			this.changeTab(o.defaultTab);
-		}
-		
+				
 	},
+	
+//	_afterBuild: function(){
+//		Dino.containers.Tabs.superclass._afterBuild.apply(this, arguments);
+//		
+//		if('defaultIndex' in this.options)
+//			this.changeTab(this.options.defaultIndex);
+//	},
 	
 	changeTab: function(tab){
 		

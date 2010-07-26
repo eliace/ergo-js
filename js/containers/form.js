@@ -34,11 +34,16 @@ Dino.declare('Dino.containers.Form', Dino.Container, {
 	},
 	
 	
-	_html: function() { return '<form></form>'; }
+	_html: function() { return '<form></form>'; },
 	
 	
-	
-	
+	ajaxSubmit: function(callback) {
+		
+		var url = this.el.attr('action');
+		var data = this.el.serialize();
+		
+		$.post(url, data, callback);
+	}
 	
 }, 'form');
 

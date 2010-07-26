@@ -216,6 +216,12 @@ var Dino = (function(){
 		return -1;
 	};
 	
+	D.in_array = function(arr, val) {
+		for(var i = 0; i < arr.length; i++)
+			if(arr[i] == val) return true;
+		return false;
+	}
+	
 	
 	
 	// равенство
@@ -354,7 +360,7 @@ var Dino = (function(){
 	};
 	
 	D.BaseObject.prototype.initialize = function() {};
-//	D.BaseObject.prototype.destroy = function() {};
+	D.BaseObject.prototype.destroy = function() {};
 	
 	
 	

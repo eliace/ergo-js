@@ -159,7 +159,11 @@ Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
 
 Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	
-	_html: function(){ return '<span/>';}
+	_html: function(){ return '<span/>';},
+	
+	_dataChanged: function() {
+		this.el.text( this.getValue() );
+	}	
 		
 }, 'text');
 

@@ -79,9 +79,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._render(o.renderTo);
 		// обновляем виджет, если к нему были подключены данные
 		if(this.data) this._dataChanged();
-		// выполняем темизацию
+		// выполняем темизацию ?
 		this._theme(o.theme);
-				
+//		//
+//		this._afterBuild();
 	},
 	
 	_init: function() {
@@ -109,6 +110,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	_theme: function(name) {
 	},
+	
+//	_afterBuild: function() {
+//	},
 	
 	_events: function(self){
 	},
@@ -287,6 +291,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		else {
 			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
 		}
+		
+//		if('defaultValue' in o){
+//			if(this.data.get() == null) this.data.set(o.defaultValue);
+//		}
+		var self = this;
+	
+		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
+//		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 		
 		for(var i in this.children)
 			this.children[i].setData(this.data);

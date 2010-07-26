@@ -74,7 +74,11 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			var v = this._val();
 			if( _dino.isString(i) ){
 				var a = i.split('.');
-				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
+				for(var j = 0; j < a.length; j++){
+					if(v == null) return null;
+					v = v[ a[j] ];
+					
+				}
 				return v;
 			}
 			return v[i];
@@ -94,10 +98,13 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			(this.source instanceof Dino.data.DataSource) ? this.source.set(this.id, newValue) : this.source[this.id] = newValue;
 		}
 		else {
+			// получаем объект с данными (PlainObject или Array)
 			var v = (this.source instanceof Dino.data.DataSource) ? this.source._val()[this.id] : this.source[this.id];
+			// если ключ - строка, то он может быть составным 
 			if( _dino.isString(i) ){
 				var a = i.split('.');
 				var i = a.pop();
+				// двигаемся внутрь объекта по элементам ключа
 				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
 			}
 			v[i] = newValue;
@@ -105,6 +112,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		
 		this.fireEvent('onValueChanged', new Dino.events.Event());
 	},
+	
 	
 	// обходим все значения
 	each: function(callback) {
@@ -126,6 +134,59 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 */	
 	
 });
+
+
+
+
+
+Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
+	
+	del: function(i) {
+		// удаляем элемент, если он есть
+		if(i in this.items){
+			this.items[i].destroy();
+			delete this.items[i];
+		}
+		
+		var a = this._val();
+		// оповещаем элементы о смене индекса и меняем ключ в кэше элементов
+		for(var j = i+1; j < a.length; j++){
+			if(j in this.items){
+				this.items[j].fireEvent('onIndexChanged', new Dino.events.Event({'index': (j-1)}));
+				this.items[j-1] = this.items[j];
+			}
+		}
+		// удаляем элемент массива
+		a.splice(i, 1);
+	},
+	
+	add: function(value) {
+		this._val().push(value);
+	}
+	
+});
+
+
+
+Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
+	
+	
+	del: function(i){
+		// удаляем элемент из кэша, если он есть
+		if(i in this.items){
+			this.items[i].destroy();
+			delete this.items[i];
+		}
+		
+		var obj = this._val();
+		delete obj[i];
+	}
+	
+	
+});
+
+
+
 
 
 

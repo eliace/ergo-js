@@ -18,8 +18,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		},
 		layout: 'plain-layout'
 	},
-	
-	
+		
 	_init: function() {
 		Dino.Container.superclass._init.apply(this);
 		
@@ -43,8 +42,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		}
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
-				var item = (o.items[i] instanceof Dino.Widget) ? o.items[i] : this.options.itemFactory(o.items[i]);
-				this.addItem(item);
+//				var item = (o.items[i] instanceof Dino.Widget) ? o.items[i] : this.options.itemFactory(o.items[i]);
+				this.addItem(o.items[i]);
 			}
 		}
 		
@@ -67,6 +66,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	
 	addItem: function(item) {
 //		Dino.Container.superclass.addChild.call(this, item);
+		
+		// если новый элемент является набором параметров, то строим виджет
+		if( Dino.isPlainObject(item) ) item = this.options.itemFactory(item);
+		
 		this.addChild(item);
 		this.layout.insert(item);
 		return item;

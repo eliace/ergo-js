@@ -207,7 +207,18 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
 				this.el.append(option_el);
 			}
 		}
+	},
+	
+	_events: function(self) {
+		Dino.widgets.form.Select.superclass._events.call(this, self);
+		
+		this.el.change(function() { self.setValue( self.el.val() ); });
+	},
+	
+	_dataChanged: function() {
+		this.el.val( this.getValue() );
 	}
+	
 }, 'select');
 
 
