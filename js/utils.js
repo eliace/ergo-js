@@ -1,5 +1,5 @@
 
-
+/*
 Dino.utils = (function(){
 	var U = {};
 	
@@ -10,7 +10,7 @@ Dino.utils = (function(){
 	
 	return U;
 })();
-
+*/
 
 
 Dino.filters = (function(){

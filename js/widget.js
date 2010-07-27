@@ -1,4 +1,47 @@
 
+
+
+Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
+	
+	initialize: function(widget) {
+		this.widget = widget;
+	},
+	
+	set: function(name) {
+		this.widget.el.addClass( this.stateCls(name) );
+		this.widget.events.fire('onStateChanged');
+	},
+	
+	clear: function(name){
+		this.widget.el.removeClass( this.stateCls(name) );
+		this.widget.events.fire('onStateChanged');
+	},
+	
+	toggle: function(name, sw) {
+		var cls = this.stateCls(name);
+		this.widget.el.toggleClass( cls, sw );
+		this.widget.events.fire('onStateChanged');
+		return this.widget.el.hasClass(cls);
+	},
+	
+	check: function(name) {
+		return this.widget.el.hasClass( this.stateCls(name) );
+	},
+
+	is: function(name) {
+		return this.widget.el.hasClass( this.stateCls(name) );
+	},
+	
+	
+	stateCls: function(name) {
+		return this.widget.options.states[name] || this.widget.options.baseCls+'-'+name;
+	}
+	
+	
+});
+
+
+
 /**
  * Виджет - базовый объект для всех виджетов
  * 
@@ -31,7 +74,9 @@
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	defaultOptions: {
-		states: {}
+		states: {
+			'hidden': 'dino-hidden'
+		}
 	},
 			
 	initialize: function() {
@@ -68,6 +113,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		this.children = [];
+		
+		this.states = new Dino.utils.WidgetStateManager(this);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
 		this.setData(o.data);
@@ -195,6 +242,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		if('html' in o) this.el.html(o.html);
 		
+		if('states' in o){
+			if('hover' in o.states){
+				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+			}
+		}
 		
 		var regexp = /^on\S/;
 		for(var i in o){
@@ -303,6 +355,31 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	
+	getParents: function(list) {
+		if(arguments.length == 0) list = [];
+		if(!this.parent) return list;
+		list.push(this.parent);
+		return this.parent.getParents(list);
+	},
+	
+	
+	getParent: function(i) {
+		
+		if(arguments.length == 0) return this.parent;
+		
+		var parents = this.getParents();
+		
+		var f = null;
+		
+		if( _dino.isNumber(i) ) return parents[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		else return null;
+		
+		return Dino.find_one(parents, f);
+	},
+	
 	//---------------------------------------------
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
@@ -350,6 +427,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		return (this.options.format) ? this.options.format.call(this, val) : val;
 	},
 */	
+/*	
 	//------------------------------------------
 	// Методы управления состояниями виджета
 	//------------------------------------------
@@ -376,7 +454,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
 		return this.el.hasClass( stateCls );
 	},
-	
+*/	
 	
 	
 //	_dataBound: function(){},

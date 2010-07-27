@@ -83,10 +83,10 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		// если указанный объект не является виджетом, то ищем его через getItem
 		if(!(tab instanceof Dino.Widget)) tab = this.getItem(tab);
 		
-		tab.setState('active');
+		tab.states.set('active');
 		this.eachItem(function(item){
 			if(item != tab)
-				item.clearState('active');
+				item.states.clear('active');
 		});
 		this.currentTab = tab;
 		this.events.fire('onTabChanged');

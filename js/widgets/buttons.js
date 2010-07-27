@@ -24,8 +24,11 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 			var event = new Dino.events.CancelEvent({}, e);
 			self.events.fire('onToggle', event);
 			
-			if(!event.isCanceled && self.options.toggleCls)
-				self.el.toggleClass(self.options.toggleCls);
+			if(!event.isCanceled)// && self.options.toggleCls)
+				self.states.toggle('toggle');
+				//self.el.toggleClass(self.options.toggleCls);
+			
+			
 			
 //			if(event.is_stopped)
 //				e.preventDefault();
@@ -33,22 +36,23 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 		
 	},
 
-/*	
+
 	_opt: function(o) {
-		Dino.widgets.CssButton.superclass._opt.call(this, o);
+		Dino.widgets.ToggleButton.superclass._opt.call(this, o);
 		
 		if('toggleCls' in o){
-			this.toggleCls = o.toggleCls;
+			this.options.states['toggle'] = o.toggleCls;
 		}
 		
 	},
-*/	
+	
 	isToggled: function() {
-		return this.el.hasClass(this.options.toggleCls);
+		return this.states.check('toggle'); //this.el.hasClass(this.options.toggleCls);
 	},
 	
-	toggle: function(val) {
-		this.el.toggleClass(this.options.toggleCls, val);
+	toggle: function(sw) {
+		this.states.toggle('toggle', sw);
+//		this.el.toggleClass(this.options.toggleCls, val);
 //		this.fireEvent('onToggle', new Dino.widgets.ToggleEvent());
 	}
 	

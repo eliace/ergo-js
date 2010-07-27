@@ -229,7 +229,7 @@
 
 
 .dino-hidden {
-	display: none;
+	display: none !important;
 }
 
 .dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}

@@ -64,7 +64,7 @@ new Dino.Widget('&lt;div/&gt;', {
   width: 100,
   height: 100,
   events: {
-    'click': function() { $(this).dino().toggleState('click'); }
+    'click': function() { $(this).dino().states.toggle('click'); }
   },
   onStateChanged: function() {
     growl.show('Состояние изменилось');
@@ -90,10 +90,10 @@ new Dino.Widget('&lt;div/&gt;', {
     'mouseleave': function() { $(this).dino().events.fire('onCustomAction2'); }
   },
   onCustomAction1: function() {
-    this.setState('hover');
+    this.states.set('hover');
   },
   onCustomAction2: function() {
-    this.clearState('hover');
+    this.states.clear('hover');
   }
 });		
 	</pre>
