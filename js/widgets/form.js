@@ -64,7 +64,7 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction', new Dino.events.Event({}, e));
+			self.events.fire('onAction', {}, e);
 		});
 		
 //		var button_type = this.options.buttonType || 'button';// ('buttonType' in this.options) this.el.attr('type', this.options.buttonType);
@@ -119,7 +119,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
 		this.el.change(function(){
 			self.setValue(self.el.attr('checked') ? true : false);
-			self.fireEvent('onAction');
+			self.events.fire('onAction');
 		});
 	},
 	
@@ -175,7 +175,7 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction', new Dino.events.Event({}, e));
+			self.events.fire('onAction', {}, e);
 		});		
 	},
 	

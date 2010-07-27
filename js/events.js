@@ -35,6 +35,136 @@ Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', {
 });
 
 
+/*
+Dino.declare('Dino.events.HandlersTree', 'Dino.BaseObject', {
+	
+	initialize: function() {
+		Dino.events.HandlersTree.superclass.initialize.call(this);
+		this.root = {children: {}, handlers: []};
+	},
+	
+	ensure: function(path){
+		var node = this.root;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			if(!(key in node.children)) node.children[key] = {children:{}, handlers: []};
+			node = node.children[key];
+		}
+		return node;
+	},
+	
+	remove: function(path) {
+		var node = this.root;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			if(i == path.length-1) 
+				delete node.children[key];
+			else
+				node = node.children[key];
+		}
+	},
+	
+	get: function(path) {
+		var node = this.root;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			node = node.children[key];
+		}
+		return node;
+	},
+	
+	traverse: function(callback, node) {
+		if(arguments.length == 1) node = this.root;
+		
+		callback.call(this, node);
+		
+		for(var i in node.children)
+			traverse(callback, node.children[i]);
+	}
+	
+	
+});
+*/
+
+
+
+
+Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', {
+	
+	initialize: function(target) {
+		Dino.events.Dispatcher.superclass.initialize.apply(this, arguments);
+		this.tree = new Dino.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
+		this.target = target;
+	},
+	
+	/**
+	 * Регистрируем событие.
+	 * 
+	 * reg(type, callback, target)
+	 */
+	reg: function(type, callback, target) {
+		var node = this.tree.ensure(type);
+		node.handlers.push({'callback': callback, 'target': target});
+	},
+	
+	/**
+	 * Убираем регистрацию события.
+	 * 
+	 * unreg(type)
+	 * unreg(callback)
+	 * unreg(type, callback)
+	 */
+	unreg: function(arg, arg2) {
+		
+		if(arguments.length == 2){
+			var node = this.tree.get(arg);
+			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
+			node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg2));
+		}
+		else if( Dino.isString(arg) ){
+			this.tree.remove(arg);
+		}
+		else if( Dino.isFunction(arg) ){
+			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
+			this.tree.traverse(function(node){
+				node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg));
+			});
+		}			
+				
+	},
+	
+	/**
+	 * Инициируем событие.
+	 * 
+	 * fire(type, event)
+	 * 
+	 * type - тип события в формате тип_1.тип_2 ... .тип_N
+	 * 
+	 */
+	fire: function(type, event, baseEvent) {
+		
+		// "ленивая" генерация базового события
+		if(arguments.length == 1) 
+			event = new Dino.events.Event();
+		else if( Dino.isPlainObject(event) ){
+			event = new Dino.events.Event(event, baseEvent);
+		}
+		
+		var self = this;
+		
+		// получаем узел указанного типа
+		var node0 = this.tree.get( type );
+		// обходим всех потомков и вызываем все обработчики событий
+		this.tree.traverse(function(node){
+			Dino.each(node.handlers, function(h){
+				h.callback.call(h.target || self.target, event);
+			});
+		}, node0);
+		
+	}
+	
+	
+});
 
 
 
@@ -43,67 +173,7 @@ Dino.declare('Dino.events.Observer', Dino.BaseObject, {
 	
 	initialize: function() {
 		Dino.events.Observer.superclass.initialize.apply(this, arguments);
-		this.handlers = {};
-	},
-	
-	/**
-	 * Регистрируем событие.
-	 * 
-	 * addEvent(type, callback, target)
-	 */
-	addEvent: function(type, callback, target) {
-		var a = this.handlers[type] || [];
-		a.push({'callback': callback, 'target': target});
-		this.handlers[type] = a;
-	},
-	
-	/**
-	 * Убираем регистрацию события.
-	 * 
-	 * removeEvent(type)
-	 * removeEvent(callback)
-	 * removeEvent(type, callback, target)
-	 */
-	removeEvent: function(type, callback, target) {
-		if(arguments.length == 1){
-			if(Dino.isString(type)){
-				this.handlers[type] = [];
-			}
-			else if(Dino.isFunction(type)){
-				callback = type;
-				for(var i in this.handlers){
-					this.handlers[i] = Dino.filter(this.handlers[i], function(item) { return item.callback != callback; });
-				}
-			}
-		}
-		else{
-			if(target){
-				this.handlers[type] = Dino.filter(this.handlers[type], function(item){ return item.callback != callback; });
-			}
-			else{
-				this.handlers[type] = Dino.filter(this.handlers[type], function(item){ return  item.callback != callback || item.target != target; });
-			}
-		}
-	},
-	
-	/**
-	 * Инициируем событие.
-	 * 
-	 * fireEvent(type, event)
-	 * 
-	 * type - тип события в формате тип_1.тип_2 ... .тип_N
-	 * 
-	 */
-	fireEvent: function(type, event) {
-		if(arguments.length == 1) event = new Dino.events.Event();
-		var type_a = type.split('.');
-		var self = this;
-		Dino.each(type_a, function(t){
-			var handler_a = self.handlers[t];
-			if(handler_a === undefined) return;
-			Dino.each(handler_a, function(h) { h.callback.call(h.target || self, event); });
-		});
+		this.events = new Dino.events.Dispatcher(this);
 	}
-	
 	
 });

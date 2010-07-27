@@ -19,19 +19,19 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		},
 		submenuItemFactory: function(o) {
 			return Dino.widget(
-					Dino.utils.override_opts(
-						{dtype: 'menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
-						this.submenuModel.item, 			// гпараметры модели
-						this.submenuItem,					// параметры текущего подменю
+					this.opt_override(
+						{dtype: 'menu-item', submenuModel: this.options.submenuModel}, 	// передаем глобальные параметры 
+						this.options.submenuModel.item, 			// гпараметры модели
+						this.options.submenuItem,					// параметры текущего подменю
 						o
 					));
 		},
 		submenuDropdownFactory: function(o) {
 			return new Dino.containers.DropDownBox( 
-					Dino.utils.override_opts(
+					this.opt_override(
 						{}, 
-						this.submenuModel.dropdown, 
-						this.submenuDropdown, 
+						this.options.submenuModel.dropdown, 
+						this.options.submenuDropdown, 
 						o
 					));
 		}
@@ -45,10 +45,10 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 		// создаем подменю
 		if('submenu' in o){
 			
-			this.submenu = this.options.submenuDropdownFactory(o.submenuDropdown);
+			this.submenu = this.options.submenuDropdownFactory.call(this, o.submenuDropdown);
 			
 			for(var i in o.submenu){
-				var submenuItem = this.options.submenuItemFactory(o.submenu[i]);
+				var submenuItem = this.options.submenuItemFactory.call(this, o.submenu[i]);
 				this.submenu.addItem( submenuItem );
 				submenuItem.parentMenuItem = this; 
 			}
@@ -78,7 +78,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 			if(self.options.hideOnLeave){
 				if(self.submenu){
 					self.submenu.hide();
-					self.fireEvent('onSubmenuHide');
+					self.events.fire('onSubmenuHide');
 				}
 			}
 		});
@@ -92,7 +92,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 	hideSubmenu: function(hideAll){
 		if(this.submenu){
 			this.submenu.hide();
-			this.fireEvent('onSubmenuHide');			
+			this.events.fire('onSubmenuHide');			
 		}		
 		if(hideAll && this.parentMenuItem)
 			this.parentMenuItem.hideSubmenu(true);
@@ -113,10 +113,10 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 		content: {},
 		submenuItemFactory: function(o) {
 			return Dino.widget(
-					Dino.utils.override_opts(
-						{dtype: 'text-menu-item', submenuModel: this.submenuModel}, 	// передаем глобальные параметры 
-						this.submenuModel.item, 			// гпараметры модели
-						this.submenuItem,					// параметры текущего подменю
+					this.opt_override(
+						{dtype: 'text-menu-item', submenuModel: this.options.submenuModel}, 	// передаем глобальные параметры 
+						this.options.submenuModel.item, 			// гпараметры модели
+						this.options.submenuItem,					// параметры текущего подменю
 						o
 					));
 		}
@@ -133,7 +133,7 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 		Dino.containers.TextMenuItem.superclass._events.apply(this, arguments);
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction');
+			self.events.fire('onAction');
 			e.stopPropagation(); // для предотвращения срабатывания onAction в родительских элементах меню
 		});
 	}

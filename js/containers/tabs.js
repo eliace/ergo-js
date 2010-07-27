@@ -51,7 +51,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		if('tabs' in o){
 			for(var i in o.tabs){
 				// создаем закладку
-				var tab = this.options.itemFactory({
+				var tab = this.options.itemFactory.call(this, {
 					wrapEl: $('<li/>'),
 					defaultItem: this.options.defaultTabItem,
 					content: o.tabs[i]					
@@ -89,7 +89,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 				item.clearState('active');
 		});
 		this.currentTab = tab;
-		this.fireEvent('onTabChanged', new Dino.events.Event());
+		this.events.fire('onTabChanged');
 		
 	}
 

@@ -18,7 +18,7 @@ test('Dino.data.DataSource', function(){
 	binding2 = new Dino.data.DataSource(binding, 3);
 	equals(binding2.get(0), 'apple', 'Child source get(index)');
 	
-	binding3 = binding._item(3);
+	binding3 = binding.item(3);
 	ok((binding.items[3] !== undefined), 'Item exists');
 	
 	
@@ -40,5 +40,18 @@ test('Dino.data.DataSource', function(){
 	equals(data['person']['age'], 21, 'Complex key set');
 
 	ok(data == ds.source._id, 'Data source must be the same');
+	
+	
+	data = ['Alice', 'Bob', 'Charlie'];
+	
+	ds = new Dino.data.ArrayDataSource(data);
+	changedIndices = [];
+	ds.events.reg('onIndexChanged', function(e){
+		changedIndices.push(e.oldIndex);
+	});
+	ds.del(0);
+	
+	same(ds.val(), ['Bob', 'Charlie'], 'Содержимое массивов после удаления элемента');
+	same(changedIndices, [1, 2], 'Измененые индексы')
 	
 });

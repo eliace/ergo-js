@@ -228,9 +228,74 @@ var Dino = (function(){
 	D.eq = function(obj, item, i) {
 		return obj == item;
 	};
+	// неравенство
+	D.ne = function(obj, item, i) {
+		return obj != item;
+	};
 	
 	
+	
+	
+	
+	// набор методов, позволяющих работать с объектом как с деревом
+	var otree = D.ObjectTree = function(obj, factory, ignore) {
+		this.obj = obj;
+		this.factory = factory;
+		this.ignore_list = ignore || [];
+	};
+	
+	otree.prototype.ensure = function(path){
+		if(D.isString(path)) path = path.split('.');
+		
+		var obj = this.obj;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			if(!(key in obj)) obj[key] = (this.factory) ? this.factory() : {};
+			obj = obj[key];
+		}
+		return obj;
+	}
+	
+	otree.prototype.get = function(path){
+		if(D.isString(path)) path = path.split('.');
+		
+		var obj = this.obj;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			obj = obj[key];
+		}
+		return obj;
+	}
+	
+	otree.prototype.del = function(path) {
+		if(D.isString(path)) path = path.split('.');
 
+		var obj = this.obj;
+		for(var i = 0; i < path.length; i++){
+			var key = path[i];
+			// если это последний элемент пути - удаляем
+			if(i == path.length-1) 
+				delete obj[key];
+			else
+				obj = obj[key];
+		}
+	},
+	
+	
+	otree.prototype.traverse = function(callback, obj) {
+		if(arguments.length == 1) obj = this.obj;
+		else{
+			if(obj == null || obj == undefined) return;
+			callback.call(this, obj);
+		}
+		
+		for(var i in obj){
+			if(D.isPlainObject(obj[i]) && !(D.in_array(this.ignore_list, i))) this.traverse(callback, obj[i]);
+		}
+	}
+	
+	
+	
 	/**
 	 * печать объекта в человекочитаемой форме
 	 */

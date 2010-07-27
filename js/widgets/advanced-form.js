@@ -97,11 +97,11 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 				url: self.url,
 				fileElementId: fileId,
 				dataType: 'text',
-				success: function(data, status) { self.fireEvent('onComplete', {'data':data}); },
-				error: function(data, status, err) { self.fireEvent('onError', {'data': data, 'message': err}); }
+				success: function(data, status) { self.events.fire('onComplete', {'data':data}); },
+				error: function(data, status, err) { self.events.fire('onError', {'data': data, 'message': err}); }
 			});
 			
-			self.fireEvent('onLoad', {});
+			self.events.fire('onLoad');
 		});
 		
 		this.el.append(this.file.el);

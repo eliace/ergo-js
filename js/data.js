@@ -2,48 +2,6 @@
 
 
 
-/*
-Dino.declare('Dino.data.ArraySource', Dino.events.EventDispatcher, {
-	
-	initialize: function(arr) {
-		this.data = arr;
-		this.items = [];
-	},
-	
-	
-	get: function(i) {
-		return this.data[i];
-	},
-	
-	set: function(i, newVal) {
-		var oldVal = this.data[i];
-		this.data[i] = newVal;
-		
-		this.fireEvent('onItemChanged', {id: i, oldValue: oldVal, newValue: newVal});
-		
-		return oldVal;
-	},
-
-	add: function(value) {
-		this.data.push(value);
-		this.fireEvent('onItemAdded', {id: this.data.length-1, newValue: value});
-	},
-	
-	val: function(newVal) {
-		if(arguments.length == 0){
-			return this.data;
-		}
-		else{
-			this.data = newVal;
-			this.fireEvent('onChanged', {});
-		}
-	}
-	
-	
-	
-});
-*/
-
 
 
 Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
@@ -62,16 +20,16 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		this.items = {};
 	},
 	
-	_val: function() {
+	val: function() {
 		return (this.source instanceof Dino.data.DataSource) ? this.source.get(this.id) : this.source[this.id];
 	},
 	
 	// получаем значение
 	get: function(i) {
 		if(arguments.length == 0)
-			return this._val();
+			return this.val();
 		else{
-			var v = this._val();
+			var v = this.val();
 			if( _dino.isString(i) ){
 				var a = i.split('.');
 				for(var j = 0; j < a.length; j++){
@@ -99,7 +57,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		}
 		else {
 			// получаем объект с данными (PlainObject или Array)
-			var v = (this.source instanceof Dino.data.DataSource) ? this.source._val()[this.id] : this.source[this.id];
+			var v = (this.source instanceof Dino.data.DataSource) ? this.source.val()[this.id] : this.source[this.id];
 			// если ключ - строка, то он может быть составным 
 			if( _dino.isString(i) ){
 				var a = i.split('.');
@@ -110,16 +68,16 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			v[i] = newValue;
 		}
 		
-		this.fireEvent('onValueChanged', new Dino.events.Event());
+		this.events.fire('onValueChanged');
 	},
 	
 	
 	// обходим все значения
 	each: function(callback) {
-		Dino.each(this._val(), callback);
+		Dino.each(this.val(), callback);
 	},
 	
-	_item: function(i) {
+	item: function(i) {
 		if(!(i in this.items)) {
 			var item = new Dino.data.DataSource(this, i);
 			this.items[i] = item;
@@ -148,20 +106,31 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 			delete this.items[i];
 		}
 		
-		var a = this._val();
+		var a = this.val();
 		// оповещаем элементы о смене индекса и меняем ключ в кэше элементов
 		for(var j = i+1; j < a.length; j++){
-			if(j in this.items){
-				this.items[j].fireEvent('onIndexChanged', new Dino.events.Event({'index': (j-1)}));
+//			if(j in this.items){
+				//this.items[j]
+			this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
+			if(j in this.items)				
 				this.items[j-1] = this.items[j];
-			}
+//			}
 		}
+		
 		// удаляем элемент массива
 		a.splice(i, 1);
+		
+		this.events.fire('onItemDeleted', {'index': i});
 	},
 	
 	add: function(value) {
-		this._val().push(value);
+		var a = this.val();
+		a.push(value);
+		this.events.fire('onItemAdded', {'index': a.length-1});
+	},
+	
+	size: function() {
+		return this.val().length;
 	}
 	
 });
@@ -178,12 +147,18 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 			delete this.items[i];
 		}
 		
-		var obj = this._val();
+		var obj = this.val();
 		delete obj[i];
+		
+		this.events.fire('onItemDeleted', {'index': i});		
 	}
 	
 	
 });
+
+
+
+
 
 
 
@@ -203,7 +178,7 @@ Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
 		
 		$.getJSON(url, params || {}, function(data){
 			self.set(data);
-			self.fireEvent('onLoad', new Dino.events.Event());
+			self.events.fire('onLoad');
 		});
 	}
 });

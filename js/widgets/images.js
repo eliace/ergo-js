@@ -95,7 +95,7 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 //				if(target && stubObj)
 //					stubObj.el.replaceWith(el);
 				
-				self.fireEvent('onComplete', {});
+				self.events.fire('onComplete');
 			});
 		
 			el.attr('src', url);

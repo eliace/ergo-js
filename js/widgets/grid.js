@@ -46,7 +46,7 @@ Dino.declare('Dino.widgets.Grid', Dino.Container, {
 			// добавляем элемент виджета
 			var row = new Dino.widgets.Grid.Row({
 				'columns': self.options.dataModel.columns,
-				'data': self.data._item(i)
+				'data': self.data.item(i)
 			});
 			self.tbody.addItem(row);
 			row._dataChanged();

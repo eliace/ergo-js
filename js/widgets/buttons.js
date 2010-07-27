@@ -22,7 +22,7 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 		this.el.click(function(e){
 
 			var event = new Dino.events.CancelEvent({}, e);
-			self.fireEvent('onToggle', event);
+			self.events.fire('onToggle', event);
 			
 			if(!event.isCanceled && self.options.toggleCls)
 				self.el.toggleClass(self.options.toggleCls);
@@ -98,7 +98,7 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		var self = this;
 		
 		this.el.click(function(e){
-			self.fireEvent('onAction', new Dino.events.Event({}, e));
+			self.events.fire('onAction', {}, e);
 		});		
 		
 	},
@@ -169,14 +169,14 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 		this.image.el.bind('mouseenter', function(){
 			$(this).clearQueue();
 			$(this).animate({'width': self.maxW, 'height': self.maxH, 'left': 0, 'top': 0}, self.options.pulseDelay, function(){ 
-				self.fireEvent.call(self, 'onAfterPulseUp'); 
+				self.events.fire('onAfterPulseUp'); 
 			});
 		});
 		
 		this.image.el.bind('mouseleave', function(e){
 			var o = self.options;
 			var event = new Dino.events.CancelEvent({}, e);
-			self.fireEvent('onBeforePulseDown', event);
+			self.events.fire('onBeforePulseDown', event);
 			
 			if(!event.isCanceled) self.pulseDown();
 		});

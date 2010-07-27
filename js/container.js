@@ -13,7 +13,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	
 	defaultOptions: {
 		itemFactory: function(o) {
-			var opts = Dino.utils.override_opts({}, this.defaultItem, o); // сливаем параметры элемента и параметры элемента по умолчанию
+			var opts = this.opt_override({}, this.options.defaultItem, o); // сливаем параметры элемента и параметры элемента по умолчанию
 			return Dino.widget(opts); 
 		},
 		layout: 'plain-layout'
@@ -36,7 +36,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.attach(this);
 		
 		if('content' in o){
-			var item = (o.content instanceof Dino.Widget) ? o.content : this.options.itemFactory(o.content);
+			var item = (o.content instanceof Dino.Widget) ? o.content : this.options.itemFactory.call(this, o.content);
 			this.addItem(item);	
 			this.content = item; // Это свойство нужно, чтобы точно знать что пользователь понимал под контентом
 		}
@@ -68,7 +68,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		Dino.Container.superclass.addChild.call(this, item);
 		
 		// если новый элемент является набором параметров, то строим виджет
-		if( Dino.isPlainObject(item) ) item = this.options.itemFactory(item);
+		if( Dino.isPlainObject(item) ) item = this.options.itemFactory.call(this, item);
 		
 		this.addChild(item);
 		this.layout.insert(item);

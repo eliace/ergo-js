@@ -86,8 +86,8 @@ new Dino.Widget('&lt;div/&gt;', {
   width: 100,
   height: 100,
   events: {
-    'mouseenter': function() { $(this).dino().fireEvent('onCustomAction1'); },
-    'mouseleave': function() { $(this).dino().fireEvent('onCustomAction2'); }
+    'mouseenter': function() { $(this).dino().events.fire('onCustomAction1'); },
+    'mouseleave': function() { $(this).dino().events.fire('onCustomAction2'); }
   },
   onCustomAction1: function() {
     this.setState('hover');

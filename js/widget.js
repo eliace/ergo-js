@@ -52,12 +52,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 		
+		var self = this;
+		
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) Dino.utils.override_opts(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) self.opt_override(o, clazz.defaultOptions);
 		});
-		Dino.utils.override_opts(o, opts);
+		this.opt_override(o, opts);
 		
 		html = o.wrapEl || html; // оставляем возможность указать html через options
 		
@@ -129,6 +131,38 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	
+	
+	opt_override: function(o){
+		
+		var ignore = ['data'];		
+		
+		for(var j = 1; j < arguments.length; j++){
+			var newProps = arguments[j];
+			for(var i in newProps){
+				var p = newProps[i];
+				
+				if(Dino.in_array(ignore, i)){
+					o[i] = p;
+				}
+				else{
+					if( Dino.isPlainObject(p) ){
+						if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+						this.opt_override(o[i], p);
+					}
+					else{
+						// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+						if(i in o){
+							// классы сливаются в одну строку, разделенную пробелом
+							if(i == 'cls') p = o[i] + ' ' + p;
+						}
+						o[i] = p;
+					}
+				}
+			}
+		}
+		return o;
+	},
+	
 	_opt: function(o) {
 		
 		var self = this;
@@ -165,7 +199,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
-				this.addEvent(i, o[i].curry(self));//function(e) { callback.call(this, e, self); });
+				this.events.reg(i, o[i]);//.curry(self));//function(e) { callback.call(this, e, self); });
 			}
 		}
 
@@ -190,14 +224,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	 */
 	link: function(obj) {
 		this.link = obj;
-		this.fireEvent('onLink', new Dino.events.Event({'target':obj}));
+		this.events.fire('onLink', {'target':obj});
 	},
 	
 	/**
 	 * Удаление связи виджета с другим виджетом
 	 */
 	unlink: function() {
-		this.fireEvent('onUnlink', new Dino.events.Event({'target':this.link}));
+		this.events.fire('onUnlink', {'target':this.link});
 		this.link = null;
 	},
 	
@@ -280,13 +314,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var o = this.options;
 		
 		if('dataId' in o){
-//			var a = o.dataId.split('.');
-//			var aData = data;
-//			for(var i = 0; i < a.length; i++){
-//				aData = (aData instanceof Dino.data.DataSource) ? aData._item(a[i]) : new Dino.data.DataSource(aData, a[i]);
-//			}
-//			this.data = aData;
-			this.data = (data instanceof Dino.data.DataSource) ? data._item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
+			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
 		}
 		else {
 			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
@@ -313,7 +341,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	setValue: function(val) {
 		if(this.data){
 			this.data.set(val);
-			this.fireEvent('onValueChanged', new Dino.events.Event());
+			this.events.fire('onValueChanged');
 		}
 	},
 /*	
@@ -329,19 +357,19 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	setState: function(name) {
 		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
 		this.el.addClass( stateCls );
-		this.fireEvent('onStateChanged');
+		this.events.fire('onStateChanged');
 	},
 	
 	clearState: function(name){
 		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
 		this.el.removeClass( stateCls );
-		this.fireEvent('onStateChanged');
+		this.events.fire('onStateChanged');
 	},
 	
 	toggleState: function(name, sw) {
 		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
 		this.el.toggleClass( stateCls, sw );
-		this.fireEvent('onStateChanged');
+		this.events.fire('onStateChanged');
 	},
 	
 	checkState: function(name) {
@@ -357,6 +385,13 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 });
 
+
+
+//------------------------------
+// Интегрируемся в jQuery
+//------------------------------
+
+$.dino = Dino.widget;
 
 $.fn.dino = function(o) {
 	if(this.length > 0){
