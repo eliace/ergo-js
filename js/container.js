@@ -35,11 +35,22 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout = Dino.object(layoutOpts);
 		this.layout.attach(this);
 		
+//		if('header' in o){
+//			var item = (o.header instanceof Dino.Widget) ? o.header : this.options.itemFactory.call(this, o.header);
+//			this.addItem(item);	
+//			this.header = item;
+//		}
 		if('content' in o){
 			var item = (o.content instanceof Dino.Widget) ? o.content : this.options.itemFactory.call(this, o.content);
 			this.addItem(item);	
-			this.content = item; // Это свойство нужно, чтобы точно знать что пользователь понимал под контентом
+			this.content = item;
 		}
+//		if('footer' in o){
+//			var item = (o.footer instanceof Dino.Widget) ? o.footer : this.options.itemFactory.call(this, o.footer);
+//			this.addItem(item);	
+//			this.footer = item;
+//		}
+
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++){
 //				var item = (o.items[i] instanceof Dino.Widget) ? o.items[i] : this.options.itemFactory(o.items[i]);

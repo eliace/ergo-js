@@ -238,13 +238,13 @@ var Dino = (function(){
 	
 	
 	// набор методов, позволяющих работать с объектом как с деревом
-	var otree = D.ObjectTree = function(obj, factory, ignore) {
+	D.ObjectTree = function(obj, factory, ignore) {
 		this.obj = obj;
 		this.factory = factory;
 		this.ignore_list = ignore || [];
 	};
 	
-	otree.prototype.ensure = function(path){
+	D.ObjectTree.prototype.ensure = function(path){
 		if(D.isString(path)) path = path.split('.');
 		
 		var obj = this.obj;
@@ -256,7 +256,7 @@ var Dino = (function(){
 		return obj;
 	}
 	
-	otree.prototype.get = function(path){
+	D.ObjectTree.prototype.get = function(path){
 		if(D.isString(path)) path = path.split('.');
 		
 		var obj = this.obj;
@@ -267,7 +267,7 @@ var Dino = (function(){
 		return obj;
 	}
 	
-	otree.prototype.del = function(path) {
+	D.ObjectTree.prototype.del = function(path) {
 		if(D.isString(path)) path = path.split('.');
 
 		var obj = this.obj;
@@ -282,7 +282,7 @@ var Dino = (function(){
 	},
 	
 	
-	otree.prototype.traverse = function(callback, obj) {
+	D.ObjectTree.prototype.traverse = function(callback, obj) {
 		if(arguments.length == 1) obj = this.obj;
 		else{
 			if(obj == null || obj == undefined) return;
@@ -293,6 +293,11 @@ var Dino = (function(){
 			if(D.isPlainObject(obj[i]) && !(D.in_array(this.ignore_list, i))) this.traverse(callback, obj[i]);
 		}
 	}
+	
+	
+	D.otree = function(obj){
+		return new D.ObjectTree(obj);
+	};
 	
 	
 	

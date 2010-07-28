@@ -90,7 +90,7 @@
 
 
 
-.dino-tabs {
+.dino-tabs.horizontal {
 	height: 25px;
 	position: relative;
 	border-bottom: 1px solid #aaaaaa;
@@ -98,7 +98,7 @@
 	padding: 0;
 }
 
-.dino-tabs li {
+.dino-tabs.horizontal li {
 /*	width: 100px;*/
 	padding: 0 20px;
 	margin-right: 2px;
@@ -110,17 +110,44 @@
 	list-style: none outside none;
 }
 
+
+.dino-tabs.vertical {
+/*	height: 25px;*/
+/*	position: relative;*/
+	border-right: 1px solid #aaaaaa;
+	margin: 0;
+	padding: 0;
+}
+
+.dino-tabs.vertical li {
+/*	width: 100px;*/
+	padding: 0 20px;
+	margin-bottom: 2px;
+	text-align: center;
+/*	width: 30px;*/
+	cursor: pointer;
+	border-right: 0 !important;
+	list-style: none outside none;
+}
+
+
+
+/*
 .dino-tab-button-active {
 	height: 25px !important;
 }
 
 .dino-tab-content {
 	position: relative;
-/*	height: 200px;*/
+	height: 200px;
 	border-bottom: 1px solid #aaaaaa;
 	border-left: 1px solid #aaaaaa;
 	border-right: 1px solid #aaaaaa;
 }
+*/
+
+
+
 
 
 
@@ -210,6 +237,26 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+
+
+
+.dino-panel {
+	
+}
+
+.dino-panel-header {
+	
+}
+
+.dino-panel-content {
+	
+}
+
+.dino-panel-footer {
+	
+}
+
 
 
 

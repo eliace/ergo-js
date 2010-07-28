@@ -29,9 +29,25 @@
 		background-color: white;
 		padding-bottom: 1px !important;
 	}
+
+	.tab-v-active {
+		background-image: none;
+		background-color: white;
+		margin-right: -1px !important;
+	}
 	
 	.dino-form-item-wrapper > label {
 		display: block;
+	}
+	
+	.vtab-content {
+/*		
+		border-right: 1px solid #aaa;
+		border-top: 1px solid #aaa;
+		border-bottom: 1px solid #aaa;
+*/		
+		margin-left: 80px;
+		margin-right: 0;
 	}
 	
 	
@@ -59,6 +75,7 @@ Dino.widget({
   dtype: 'box',
   items: [{
     dtype: 'tabs',
+		cls: 'horizontal',
     defaultItem: {
       baseCls: 'tab',
       cls: 'ui-widget-header ui-corner-top'
@@ -74,7 +91,26 @@ Dino.widget({
     tag: 'stack',
     layout: 'stack-layout',
     items: [{
-      text: 'Содержимое контейнера №1'
+			layout: '3c-layout',
+			y: 30,
+			items: [{
+				dtype: 'tabs',
+				position: 'left',
+				cls: 'vertical',
+				width: 80,
+			  defaultItem: {
+			    baseCls: 'tab-v',
+			    cls: 'ui-widget-header ui-corner-left'
+			  },
+			  tabs: [
+			    { text: 'Tab1' }, 
+			    {	text: 'Tab2' },
+			    {	text: 'Tab3' },
+			  ]
+			}, {
+				cls: 'vtab-content',
+        text: 'Содержимое контейнера №1'
+			}]
     }, {
       text: 'Содержимое контейнера №2'
     }]
@@ -114,6 +150,23 @@ Dino.widget({
 		'4': 'осень' 
 	}
   }]
+});		
+	</pre>
+</div>
+
+
+<div id="desc-4" class="desc">
+	<p>
+	</p>
+	<pre class="sh_javascript">
+Dino.widget({
+  dtype: 'panel',
+	header: {
+	},
+	body: {
+	},
+	footer: {
+	}
 });		
 	</pre>
 </div>
