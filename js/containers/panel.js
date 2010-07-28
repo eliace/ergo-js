@@ -28,7 +28,6 @@ Dino.declare('Dino.containers.Panel', 'Dino.containers.Box', {
 		if('body' in o) this.getItem('body').addItem(o.body);
 		if('footer' in o) this.getItem('footer').addItem(o.footer);
 		
-		
 	}
 	
 }, 'panel');

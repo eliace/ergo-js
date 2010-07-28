@@ -50,7 +50,18 @@
 		margin-right: 0;
 	}
 	
+	.dino-panel-header {
+		background-color: #ccc;
+		font-weight: bold;
+	}
+
+	.dino-panel-body {
+		overflow-y: scroll;
+	}
 	
+	.dino-panel-footer {
+		background-color: #ccc;
+	}
 	
 </style>
 
@@ -161,11 +172,23 @@ Dino.widget({
 	<pre class="sh_javascript">
 Dino.widget({
   dtype: 'panel',
+	width: 300,
+	cls: 'dino-border',
 	header: {
+		dtype: 'text',
+		text: 'Lorem ipsum'
 	},
 	body: {
+		height: 200,
+		text: Dino.samples.loremipsum
 	},
 	footer: {
+		layout: 'row-layout',
+		items: [
+			{cls: 'ui-icon ui-icon-refresh'},
+			{cls: 'ui-icon ui-icon-plus'},
+			{cls: 'ui-icon ui-icon-minus'},
+		]
 	}
 });		
 	</pre>
@@ -199,6 +222,11 @@ Dino.widget({
 			label: 'Форма',
 			preview: eval($("#desc-3 .sh_javascript").text()),
 			description: { wrapEl: $('#desc-3') }				
+		}, {
+			id: 'w4',
+			label: 'Панель',
+			preview: eval($("#desc-4 .sh_javascript").text()),
+			description: { wrapEl: $('#desc-4') }				
 		}]
 	});
 	

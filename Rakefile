@@ -27,6 +27,7 @@ require 'fileutils'
     'js/containers/dropdown.js',
     'js/containers/form.js',
     'js/containers/list.js',
+    'js/containers/panel.js',
     'js/widgets/form.js',
     'js/widgets/images.js',
     'js/widgets/buttons.js',
