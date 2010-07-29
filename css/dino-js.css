@@ -90,7 +90,7 @@
 
 
 
-.dino-tabs.horizontal {
+.dino-tabs.dock-top {
 	height: 25px;
 	position: relative;
 	border-bottom: 1px solid #aaaaaa;
@@ -98,7 +98,7 @@
 	padding: 0;
 }
 
-.dino-tabs.horizontal li {
+.dino-tabs.dock-top li {
 /*	width: 100px;*/
 	padding: 0 20px;
 	margin-right: 2px;
@@ -111,17 +111,17 @@
 }
 
 
-.dino-tabs.vertical {
-/*	height: 25px;*/
+.dino-tabs.dock-left {
+/*	height: 100%; */
 /*	position: relative;*/
 	border-right: 1px solid #aaaaaa;
 	margin: 0;
 	padding: 0;
 }
 
-.dino-tabs.vertical li {
+.dino-tabs.dock-left li {
 /*	width: 100px;*/
-	padding: 0 20px;
+/*	padding: 0 20px;*/
 	margin-bottom: 2px;
 	text-align: center;
 /*	width: 30px;*/
@@ -130,6 +130,12 @@
 	list-style: none outside none;
 }
 
+
+.dock-left, .dock-right {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
 
 
 /*
@@ -146,6 +152,11 @@
 }
 */
 
+
+
+.dino-dock-layout {
+	position: relative;
+}
 
 
 
@@ -178,10 +189,6 @@
 
 .dino-pulse-button img {
 	position: absolute;
-}
-
-.dino-border {
-	border: 1px solid #aaaaaa;
 }
 
 
@@ -274,9 +281,10 @@
 }
 
 
-
-.dino-hidden {
-	display: none !important;
+.dino-fit {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
 }
-
-.dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}

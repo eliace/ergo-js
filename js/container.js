@@ -75,14 +75,18 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		return this.getChild(i);
 	},
 	
-	addItem: function(item) {
+	addItem: function(item, key) {
 //		Dino.Container.superclass.addChild.call(this, item);
 		
 		// если новый элемент является набором параметров, то строим виджет
 		if( Dino.isPlainObject(item) ) item = this.options.itemFactory.call(this, item);
 		
 		this.addChild(item);
-		this.layout.insert(item);
+		this.layout.insert(item, key);
+	
+//		item.events.fire('onAdded');
+//		this.events.fire('onItemAdded');
+		
 		return item;
 	},
 	

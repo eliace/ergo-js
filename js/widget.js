@@ -132,6 +132,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._theme(o.theme);
 //		//
 //		this._afterBuild();
+		
+		this.events.fire('onReady');
 	},
 	
 	_init: function() {

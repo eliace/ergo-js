@@ -13,7 +13,10 @@ Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 		
 		this.container.eachItem(function(it){
 			it.el.toggleClass('dino-hidden', (it != item));
-		});			
+		});
+		
+		if(item.layout) item.layout.update();
+		
 	}
 	
 }, 'stack-layout');

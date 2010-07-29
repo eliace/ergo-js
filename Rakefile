@@ -22,6 +22,8 @@ require 'fileutils'
     'js/layouts/stack-layout.js',
     'js/layouts/row-layout.js',
     'js/layouts/form-layout.js',
+    'js/layouts/dock-layout.js',
+    'js/layouts/panel-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',

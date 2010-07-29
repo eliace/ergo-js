@@ -18,11 +18,12 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 			item: {}
 		},
 		submenuItemFactory: function(o) {
+			var opts = this.options;
 			return Dino.widget(
 					this.opt_override(
-						{dtype: 'menu-item', submenuModel: this.options.submenuModel}, 	// передаем глобальные параметры 
-						this.options.submenuModel.item, 			// гпараметры модели
-						this.options.submenuItem,					// параметры текущего подменю
+						{dtype: 'menu-item', submenuModel: opts.submenuModel}, 	// передаем глобальные параметры 
+						opts.submenuModel.item, 			// гпараметры модели
+						opts.submenuItem,					// параметры текущего подменю
 						o
 					));
 		},

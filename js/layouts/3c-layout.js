@@ -3,7 +3,8 @@
 Dino.declare('Dino.layouts.ThreeColumnLayout', Dino.Layout, {
 	
 	defaultOptions: {
-		containerCls: 'dino-3c-layout'
+		containerCls: 'dino-3c-layout',
+		updatePolicy: 'manual'
 	},
 	
 	
@@ -50,6 +51,11 @@ Dino.declare('Dino.layouts.ThreeColumnLayout', Dino.Layout, {
 		delete this.left;
 		delete this.right;
 		delete this.center;
+	},
+	
+	update: function() {
+		if(this.left) this.center.el.css({'margin-left': this.left.el.outerWidth()});
+		if(this.right) this.center.el.css({'margin-right': this.right.el.outerWidth()});
 	}
 	
 }, '3c-layout');

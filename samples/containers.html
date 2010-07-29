@@ -9,6 +9,7 @@
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -28,6 +29,13 @@
 		background-image: none;
 		background-color: white;
 		padding-bottom: 1px !important;
+	}
+
+
+	.tab-v {
+		border-left: 1px solid #aaa;
+		border-top: 1px solid #aaa;
+		border-bottom: 1px solid #aaa;
 	}
 
 	.tab-v-active {
@@ -63,6 +71,13 @@
 		background-color: #ccc;
 	}
 	
+	.tab-panel {
+		position:relative;
+		height: 200px;
+		top: 30px;
+		margin: 10px;
+	}
+
 </style>
 
 
@@ -86,7 +101,7 @@ Dino.widget({
   dtype: 'box',
   items: [{
     dtype: 'tabs',
-		cls: 'horizontal',
+		cls: 'dock-top',
     defaultItem: {
       baseCls: 'tab',
       cls: 'ui-widget-header ui-corner-top'
@@ -102,26 +117,25 @@ Dino.widget({
     tag: 'stack',
     layout: 'stack-layout',
     items: [{
-			layout: '3c-layout',
-			y: 30,
-			items: [{
-				dtype: 'tabs',
-				position: 'left',
-				cls: 'vertical',
-				width: 80,
-			  defaultItem: {
-			    baseCls: 'tab-v',
-			    cls: 'ui-widget-header ui-corner-left'
-			  },
-			  tabs: [
-			    { text: 'Tab1' }, 
-			    {	text: 'Tab2' },
-			    {	text: 'Tab3' },
-			  ]
-			}, {
-				cls: 'vtab-content',
-        text: 'Содержимое контейнера №1'
-			}]
+      dtype: 'tab-panel',
+      layout:'dock-layout',
+      tabs: {
+        dock: 'left',
+        defaultItem: {
+          baseCls: 'tab-v'
+        }
+      },
+      cls: 'tab-panel',
+      pages: [{
+        tab: {text: 'tab1'},
+        text: 'Content1'
+      }, {
+        tab: {text: 'tab2'},
+        text: 'Content2'
+      }, {
+        tab: {text: 'tab3'},
+        text: 'Content3'
+      }]
     }, {
       text: 'Содержимое контейнера №2'
     }]
@@ -178,10 +192,6 @@ Dino.widget({
 		dtype: 'text',
 		text: 'Lorem ipsum'
 	},
-	body: {
-		height: 200,
-		text: Dino.samples.loremipsum
-	},
 	footer: {
 		layout: 'row-layout',
 		items: [
@@ -189,7 +199,11 @@ Dino.widget({
 			{cls: 'ui-icon ui-icon-plus'},
 			{cls: 'ui-icon ui-icon-minus'},
 		]
-	}
+	},
+	content: {
+		height: 200,
+		text: Dino.samples.loremipsum
+	},
 });		
 	</pre>
 </div>

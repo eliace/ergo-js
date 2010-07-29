@@ -6,6 +6,8 @@ Dino.declare('Dino.containers.Panel', 'Dino.containers.Box', {
 	defaultCls: 'dino-panel',
 	
 	defaultOptions: {
+		layout: 'panel-layout'
+/*	
 		items: [{
 			tag: 'header',
 			cls: 'dino-panel-header'
@@ -16,6 +18,7 @@ Dino.declare('Dino.containers.Panel', 'Dino.containers.Box', {
 			tag: 'footer',			
 			cls: 'dino-panel-footer'
 		}]
+*/		
 	},
 	
 	
@@ -24,9 +27,9 @@ Dino.declare('Dino.containers.Panel', 'Dino.containers.Box', {
 		
 		var o = this.options;
 		
-		if('header' in o) this.getItem('header').addItem(o.header);
-		if('body' in o) this.getItem('body').addItem(o.body);
-		if('footer' in o) this.getItem('footer').addItem(o.footer);
+		if('header' in o) this.addItem(o.header, 'header');
+//		if('body' in o) this.getItem('body').addItem(o.body);
+		if('footer' in o) this.addItem(o.footer, 'footer');
 		
 	}
 	

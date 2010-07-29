@@ -49,26 +49,34 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
 		
 		if('tabs' in o){
-			for(var i in o.tabs){
-				// создаем закладку
-				var tab = this.options.itemFactory.call(this, {
-					wrapEl: $('<li/>'),
-					defaultItem: this.options.defaultTabItem,
-					content: o.tabs[i]					
-				});
-				
-				tab.index = parseInt(i); //FIXME это хорошо работает пока закладки не начинают добавляться произвольно
-				
-/*				
-				var tab = new _dino.Container('<li/>', {
-					defaultItem: this.options.defaultTabItem,
-					content: o.tabs[i]
-				});
-*/				
-				this.addItem(tab);
-			}
+			for(var i in o.tabs) this.addTab( o.tabs[i] );
 		}
-				
+		
+//		if('dock' in o){
+//			this.el.addClass('dock-'+o.dock);
+//		}
+		/*	
+		addTab: function(o){
+		
+			var self = this;
+			
+			var tab = new Dino.Widget('<li>'+o.text+'</li>', Dino.override({}, this.options.tabModel));
+			this.header.addItem(tab);
+			
+			tab.el.click(function(e){
+				self.showTab(tab);
+				self.header.eachItem(function(item){
+					if(item != tab) self.hideTab(item);
+				});
+			});
+			
+			
+			var c = this.options.itemFactory(o);
+			this.content.addItem(c);
+			
+		}
+	*/	
+
 	},
 	
 //	_afterBuild: function(){
@@ -77,6 +85,27 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 //		if('defaultIndex' in this.options)
 //			this.changeTab(this.options.defaultIndex);
 //	},
+	
+	
+	addTab: function(t) {
+		// создаем закладку
+		var tab = this.options.itemFactory.call(this, {
+			wrapEl: $('<li/>'),
+			defaultItem: this.options.defaultTabItem,
+			content: t
+		});
+				
+/*				
+		var tab = new _dino.Container('<li/>', {
+			defaultItem: this.options.defaultTabItem,
+			content: o.tabs[i]
+		});
+*/				
+		this.addItem(tab);
+		
+		tab.index = parseInt(this.children.length-1); //FIXME это хорошо работает пока закладки не начинают добавляться произвольно		
+	},
+	
 	
 	changeTab: function(tab){
 		
@@ -93,85 +122,71 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		
 	}
 
-	
-	
-	
-	
-	
-/*	
-	addTab: function(o){
-	
-		var self = this;
 		
-		var tab = new Dino.Widget('<li>'+o.text+'</li>', Dino.override({}, this.options.tabModel));
-		this.header.addItem(tab);
-		
-		tab.el.click(function(e){
-			self.showTab(tab);
-			self.header.eachItem(function(item){
-				if(item != tab) self.hideTab(item);
-			});
-		});
-		
-		
-		var c = this.options.itemFactory(o);
-		this.content.addItem(c);
-		
-	}
-*/	
-	
 	
 }, 'tabs');
 
 
 
 
-/*
-Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
+Dino.declare('Dino.containers.TabPanel', 'Dino.containers.Box', {
+	
+	defaultOptions: {
+		layout: {
+			dtype: 'dock-layout'
+		},
+		tabs: {
+			onTabChanged: function(){
+				// переключаем страницу при смене закладки
+				this.getParent().pages.layout.activate( this.currentTab.index );
+			}
+		},
+		tabItem: {
+			dtype: 'text'
+		},
+		pageItem: {
+			dtype: 'box'
+		}
+	},
+	
 	
 	_init: function() {
-		Dino.containers.Tabs.superclass._init.apply(this, arguments);
+		Dino.containers.TabPanel.superclass._init.apply(this, arguments);
 
-		this.header = new Dino.Container('<ul class="dino-tab-header"/>');
-		this.addItem(this.header);
-
-		this.content = new Dino.Container('<div class="dino-tab-content"/>');
-		this.addItem(this.content);
+		var o = this.options;
+				
+		this.tabs = this.addItem( this.opt_override({
+			tag: 'tabs',
+			dtype: 'tabs'			
+		}, o.tabs));// this.getItem('pages');
+		
+		this.pages = this.addItem({
+			tag: 'pages',
+			dtype: 'box',
+			layout: 'stack-layout'
+//			cls: 'dino-fit'
+		});//this.getItem('tabs');
+		
+		if('pages' in o){
+			for(var i = 0; i < o.pages.length; i++)
+				this.addPage(o.pages[i]);
+		}
 		
 	},
 	
-	addTab: function(title, o) {
-		
-		var self = this;
-		
-		var tab = new Dino.Widget('<li>'+title+'</li>', Dino.override({}, this.options.tabModel));
-		this.header.addItem(tab);
-		
-		tab.el.click(function(e){
-			self.showTab(tab);
-			self.header.eachItem(function(item){
-				if(item != tab) self.hideTab(item);
-			});
-		});
-		
-		
-		var c = this.options.itemFactory(o);
-		this.content.addItem(c);
-	},
 	
-	showTab: function(tab){
-//		var tab = this.children[i];
-		tab.el.removeClass(this.options.tabModel.clsOff).addClass(this.options.tabModel.clsOn);
-	},
-	
-	hideTab: function(tab){
-		tab.el.removeClass(this.options.tabModel.clsOn).addClass(this.options.tabModel.clsOff);
+	addPage: function(item) {
+		this.tabs.addTab( this.opt_override({}, this.options.tabItem, item.tab) );
+		this.pages.addItem( this.opt_override({}, this.options.pageItem, item));
 	}
 	
 	
-	
-}, 'tabs');
-*/
+}, 'tab-panel');
+
+
+
+
+
 
 
 

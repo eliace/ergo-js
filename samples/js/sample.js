@@ -23,7 +23,7 @@ Dino.samples.build = function(o){
 			id: widget.id,
 			tag: widget.id,
 			items: [
-			  {cls: 'preview dino-border dino-corner-all', content: widget.preview}, 
+			  {cls: 'preview dino-border-all dino-corner-all', content: widget.preview}, 
 			  {cls: 'description', content: widget.description}
 			]
 		});
