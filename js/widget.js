@@ -42,6 +42,109 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 
 
 
+
+Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
+	
+	initialize: function(owner) {
+		this.widgets = [];
+		this.owner = owner;
+	},
+	
+	
+	
+	add: function(item) {
+		// добавляем дочерний виджет
+		this.widgets.push(item);
+			
+		item.parent = this.owner;	
+		
+		// выполняем автобиндинг
+		if(this.owner.data && !item.data) item.setData(this.owner.data);
+		
+		return item;
+	},
+	
+	
+	get: function(i) {
+		var f = null;
+		
+		if( _dino.isNumber(i) ) return this.widgets[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		else return null;
+		
+		return Dino.find_one(this.widgets, f);	
+	},
+	
+	remove: function(item) {
+		var i = Dino.indexOf(this.widgets, item);
+		
+		// если такого элемента среди дочерних нет, то возвращаем false
+		if(i == -1) return false;
+		
+		delete this.widgets[i].parent;
+		this.widgets.splice(i, 1);
+		
+		return true;
+	},
+	
+	removeAll: function() {
+		this.widgets = [];
+	},
+	
+	each: function(callback) {
+		for(var i = 0; i < this.widgets.length; i++)
+			callback.call(this.owner, this.widgets[i], i);
+	},
+	
+	size: function() {
+		return this.widgets.length;
+	}
+	
+	
+	
+});
+
+
+Dino.utils.overrideOpts = function(o) {
+
+	var ignore = ['data'];		
+	
+	for(var j = 1; j < arguments.length; j++){
+		var newProps = arguments[j];
+		for(var i in newProps){
+			var p = newProps[i];
+			
+			if(Dino.in_array(ignore, i)){
+				o[i] = p;
+			}
+			else{
+				if( Dino.isPlainObject(p) ){
+					if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+					Dino.utils.overrideOpts(o[i], p);
+				}
+				else{
+					// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+					if(i in o){
+						// классы сливаются в одну строку, разделенную пробелом
+						if(i == 'cls') p = o[i] + ' ' + p;
+					}
+					o[i] = p;
+				}
+			}
+		}
+	}
+	
+	return o;
+}
+
+
+
+
+
+
+
 /**
  * Виджет - базовый объект для всех виджетов
  * 
@@ -102,9 +205,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options = {};
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) self.opt_override(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
 		});
-		this.opt_override(o, opts);
+		Dino.utils.overrideOpts(o, opts);
 		
 		html = o.wrapEl || html; // оставляем возможность указать html через options
 		
@@ -112,7 +215,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
-		this.children = [];
+		
+		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
 		this.states = new Dino.utils.WidgetStateManager(this);
 		
@@ -133,7 +237,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		//
 //		this._afterBuild();
 		
-		this.events.fire('onReady');
+		this.events.fire('onCreated');
 	},
 	
 	_init: function() {
@@ -183,33 +287,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	opt_override: function(o){
 		
-		var ignore = ['data'];		
-		
-		for(var j = 1; j < arguments.length; j++){
-			var newProps = arguments[j];
-			for(var i in newProps){
-				var p = newProps[i];
-				
-				if(Dino.in_array(ignore, i)){
-					o[i] = p;
-				}
-				else{
-					if( Dino.isPlainObject(p) ){
-						if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-						this.opt_override(o[i], p);
-					}
-					else{
-						// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
-						if(i in o){
-							// классы сливаются в одну строку, разделенную пробелом
-							if(i == 'cls') p = o[i] + ' ' + p;
-						}
-						o[i] = p;
-					}
-				}
-			}
-		}
-		return o;
 	},
 	
 	_opt: function(o) {
@@ -305,6 +382,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	 *  
 	 *  В принципе все эти параметры могут быть реализованы с помощью одного только фильтра и карринга
 	 */
+	
+/*	
 	getChild: function(i){
 		var f = null;
 		
@@ -355,7 +434,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			callback.call(this, this.children[i], i);
 		}
 	},
-	
+*/	
 	
 	getParents: function(list) {
 		if(arguments.length == 0) list = [];
@@ -407,8 +486,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
 //		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 		
-		for(var i in this.children)
-			this.children[i].setData(this.data);
+//		for(var i in this.children)
+//			this.children[i].setData(this.data);
 	},
 	
 	
@@ -464,6 +543,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	_dataChanged: function() {}
 	
 });
+
+
+
+Dino.widget = function(){
+	if(arguments.length == 1) return Dino.object(arguments[0]);
+	return Dino.object( Dino.utils.overrideOpts.apply(this, arguments) );
+};
+
+
 
 
 

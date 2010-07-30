@@ -1,27 +1,6 @@
 
 
 
-/*
-Dino.declare('Dino.containers.TabLayout', 'Dino.Layout', {
-	
-	insert: function(item) {
-		var wrapper = $('<li/>');
-		wrapper.append(item.el);
-		this.container.el.append( wrapper );
-	},
-	
-	remove: function(item) {
-		item.el.parent().remove();
-	},
-	
-	clear: function() {
-		this.container.el.empty();
-	}
-	
-});
-*/
-
-
 
 Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	
@@ -35,7 +14,13 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 				}
 			}
 		},
-		defaultTabItem: {
+		itemFactory: function(o){
+			return {'widget': Dino.widget({
+				wrapEl: $('<li/>'),
+				defaultItem: this.options.tabContent
+			}, o)};
+		},
+		tabContent: {
 			dtype: 'text'
 		},
 		defaultIndex: 0
@@ -48,10 +33,11 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	_opt: function(o) {
 		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
 		
+/*		
 		if('tabs' in o){
 			for(var i in o.tabs) this.addTab( o.tabs[i] );
 		}
-		
+*/		
 //		if('dock' in o){
 //			this.el.addClass('dock-'+o.dock);
 //		}
@@ -86,7 +72,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 //			this.changeTab(this.options.defaultIndex);
 //	},
 	
-	
+/*	
 	addTab: function(t) {
 		// создаем закладку
 		var tab = this.options.itemFactory.call(this, {
@@ -95,17 +81,11 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 			content: t
 		});
 				
-/*				
-		var tab = new _dino.Container('<li/>', {
-			defaultItem: this.options.defaultTabItem,
-			content: o.tabs[i]
-		});
-*/				
 		this.addItem(tab);
 		
 		tab.index = parseInt(this.children.length-1); //FIXME это хорошо работает пока закладки не начинают добавляться произвольно		
 	},
-	
+*/	
 	
 	changeTab: function(tab){
 		
@@ -132,53 +112,47 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 Dino.declare('Dino.containers.TabPanel', 'Dino.containers.Box', {
 	
 	defaultOptions: {
-		layout: {
-			dtype: 'dock-layout'
-		},
 		tabs: {
+			tag: 'tabs',
+			dtype: 'tabs',
 			onTabChanged: function(){
 				// переключаем страницу при смене закладки
-				this.getParent().pages.layout.activate( this.currentTab.index );
+				this.parent.pages.layout.activate( this.currentTab.index );
 			}
 		},
-		tabItem: {
-			dtype: 'text'
+		pages: {
+			tag: 'pages',
+			dtype: 'box',
+			layout: 'stack-layout'
 		},
-		pageItem: {
-			dtype: 'box'
+		itemFactory: function(o) {
+			var tab = Dino.widget(o.tab);
+			var page = Dino.widget(o);
+			
+			this.tabs.addItem(tab);
+			this.pages.addItem(page);
+			
+			return {'tab': tab, 'page': page};
 		}
 	},
 	
 	
 	_init: function() {
 		Dino.containers.TabPanel.superclass._init.apply(this, arguments);
-
-		var o = this.options;
 				
-		this.tabs = this.addItem( this.opt_override({
-			tag: 'tabs',
-			dtype: 'tabs'			
-		}, o.tabs));// this.getItem('pages');
+		var o = this.options;
 		
-		this.pages = this.addItem({
-			tag: 'pages',
-			dtype: 'box',
-			layout: 'stack-layout'
-//			cls: 'dino-fit'
-		});//this.getItem('tabs');
-		
-		if('pages' in o){
-			for(var i = 0; i < o.pages.length; i++)
-				this.addPage(o.pages[i]);
-		}
-		
-	},
-	
-	
-	addPage: function(item) {
-		this.tabs.addTab( this.opt_override({}, this.options.tabItem, item.tab) );
-		this.pages.addItem( this.opt_override({}, this.options.pageItem, item));
+		this.tabs = this.children.add(o.tabs);
+		this.layout.insert(this.tabs);
+		this.pages = this.children.add(o.pages);
+		this.layout.insert(this.pages);
 	}
+	
+	
+//	addPage: function(item) {
+//		this.tabs.addTab( this.opt_override({}, this.options.tabItem, item.tab) );
+//		this.pages.addItem( this.opt_override({}, this.options.pageItem, item));
+//	}
 	
 	
 }, 'tab-panel');

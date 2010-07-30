@@ -123,7 +123,7 @@ var Dino = (function(){
 		return new ctor(options);	
 	};
 
-	D.widget = D.object;
+//	D.widget = D.object;
 	
 	
 /*	
@@ -339,6 +339,14 @@ var Dino = (function(){
 			return obj
 		
 	};
+	
+	
+	
+	D.escapeHtml = function(s) {
+		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	};
+	
+	
 /*	
 	
 	D.serialize = function(obj, indent) {

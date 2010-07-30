@@ -1,4 +1,13 @@
 
+/*
+ * Buttons
+ */
+.dino-toggle-button {
+	cursor: pointer;
+}
+
+
+
 
 .dino-border-all {
 	border: 1px solid #aaaaaa;

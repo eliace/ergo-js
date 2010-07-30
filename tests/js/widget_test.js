@@ -29,8 +29,7 @@ test('Dino.Widget', function(){
 	
 	
 	equals(w.getItem('edu').getItem('title').getValue(), null, 'Edu is null');
-	equals(w.getItem('fine').setValue('Designer'), false, 'Cannot set value');
-	
+//	equals(w.getItem('fine').setValue('Designer'), false, 'Cannot set value');
 	
 	
 });

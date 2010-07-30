@@ -6,6 +6,8 @@
  * Опции:
  * 	toggleCls
  * 
+ * HTML:
+ * 
  * События:
  * 	onToggle
  * 
@@ -64,7 +66,13 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 
 
 
-
+/**
+ * 
+ * 
+ * HTML:
+ * 
+ * 
+ */
 Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	defaultOptions: {
@@ -148,7 +156,12 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 
 
 
-
+/**
+ * 
+ * 
+ * HTML:
+ * 
+ */
 Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 	
 	defaultCls: 'dino-pulse-button',
