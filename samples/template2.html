@@ -111,6 +111,7 @@ function samplePage(samples) {
 		Samples.previewBox = page.getItem('preview');
 		eval($(samples.code).text());
 		
+		pages.push( page );
 	}
 	
 	
@@ -120,7 +121,7 @@ function samplePage(samples) {
 		items: [{
 			cls: 'aaa',
 			dtype: 'tab-panel',
-			items: pages
+			'pages': pages
 		}]
 	});
 		

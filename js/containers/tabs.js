@@ -15,10 +15,10 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 			}
 		},
 		itemFactory: function(o){
-			return {'widget': Dino.widget({
+			return Dino.widget({
 				wrapEl: $('<li/>'),
 				defaultItem: this.options.tabContent
-			}, o)};
+			}, o);
 		},
 		tabContent: {
 			dtype: 'text'
@@ -109,30 +109,23 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 
 
 
-Dino.declare('Dino.containers.TabPanel', 'Dino.containers.Box', {
+
+
+
+
+Dino.declare('Dino.containers.TabPanel', 'Dino.Widget', {
 	
 	defaultOptions: {
-		tabs: {
-			tag: 'tabs',
+		tabContainer: {
 			dtype: 'tabs',
 			onTabChanged: function(){
 				// переключаем страницу при смене закладки
 				this.parent.pages.layout.activate( this.currentTab.index );
 			}
 		},
-		pages: {
-			tag: 'pages',
+		pageContainer: {
 			dtype: 'box',
 			layout: 'stack-layout'
-		},
-		itemFactory: function(o) {
-			var tab = Dino.widget(o.tab);
-			var page = Dino.widget(o);
-			
-			this.tabs.addItem(tab);
-			this.pages.addItem(page);
-			
-			return {'tab': tab, 'page': page};
 		}
 	},
 	
@@ -142,17 +135,36 @@ Dino.declare('Dino.containers.TabPanel', 'Dino.containers.Box', {
 				
 		var o = this.options;
 		
+		this.tabs = new Dino.widget( o.tabContainer );
+		this.children.add(this.tabs);
+		this.tabs._render(this.el);
+
+		this.pages = new Dino.widget( o.pageContainer );
+		this.children.add(this.pages);
+		this.pages._render(this.el);
+		
+		
+		
+/*		
 		this.tabs = this.children.add(o.tabs);
 		this.layout.insert(this.tabs);
 		this.pages = this.children.add(o.pages);
 		this.layout.insert(this.pages);
+*/		
+	},
+	
+	_opt: function(o) {
+		Dino.containers.TabPanel.superclass._opt.apply(this, arguments);
+		
+		if('pages' in o){
+			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);
+		}
+	},
+	
+	addPage: function(item) {
+		this.tabs.addItem( item.tab || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
+		this.pages.addItem( item );// Dino.utils.overrideOpts({}, this.options.pageItem, item));
 	}
-	
-	
-//	addPage: function(item) {
-//		this.tabs.addTab( this.opt_override({}, this.options.tabItem, item.tab) );
-//		this.pages.addItem( this.opt_override({}, this.options.pageItem, item));
-//	}
 	
 	
 }, 'tab-panel');

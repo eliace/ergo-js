@@ -63,9 +63,9 @@ Dino.declare('Dino.utils.ContainerItemManager', 'Dino.utils.WidgetCollectionMana
 Dino.declare('Dino.Container', Dino.Widget, {
 	
 	defaultOptions: {
-//		itemFactory: function(o) {
-//			return Dino.widget(o); 
-//		},
+		itemFactory: function(o) {
+			return Dino.widget(o); 
+		},
 		layout: 'plain-layout'
 	},
 		
@@ -87,9 +87,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.attach(this);
 		
 //		// инициализируем метод фабрики объектов
-		this.itemFactory = function(o){
-			return {'widget': Dino.widget(o)};
-		};
+//		this.itemFactory = function(o){
+//			return {'widget': Dino.widget(o)};
+//		};
 		
 		this.items = [];
 		
@@ -128,45 +128,42 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	addItem: function(item, key) {
 //		Dino.Container.superclass.addChild.call(this, item);
 		
+		var itemOpts = item;
+		
 		// если новый элемент является набором параметров, то строим виджет
 		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts({}, this.options.defaultItem, item) );
 		
 		this.items.push( item );
 		item.index = this.items.length - 1; //parseInt(this.children.size()-1);		
 		
-		if('widget' in item){
-			this.children.add(item.widget);
-			this.layout.insert(item.widget, key);
-		}
+		this.children.add(item);
+		this.layout.insert(item, key);
 	
 //		item.events.fire('onAdded');
-//		this.events.fire('onItemAdded');
-		
+//		this.events.fire('onItemAdded');		
 		
 		return item;
 	},
 	
 	removeItem: function(item) {
 //		Dino.Container.superclass.removeChild.call(this, item);
-		if('widget' in item){
-			this.children.remove(item.widget);
-			this.layout.remove(item.widget);
-		}
+		this.children.remove(item);
+		this.layout.remove(item);
 	},
 	
 	removeAllItems: function() {
 //		Dino.Container.superclass.removeAllChildren.call(this);
-		for(var i = 0; i < this.items.length; i++)
-			this.removeItem(this.items[i]);
-//		this.children.removeAll();
-//		this.layout.clear();
+//		for(var i = 0; i < this.items.length; i++)
+//			this.removeItem(this.items[i]);
+		this.children.removeAll();
+		this.layout.clear();
 	},
 	
 	
 	eachItem: function(callback) {
-		for(var i = 0; i < this.items.length; i++)
-			callback.call(this, this.items[i], i);
-//		this.children.each(callback);
+//		for(var i = 0; i < this.items.length; i++)
+//			callback.call(this, this.items[i], i);
+		this.children.each(callback);
 	}
 	
 });
