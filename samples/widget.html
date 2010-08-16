@@ -15,30 +15,14 @@
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/sample.css">
-		<script type="text/javascript" src="js/sample.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
 
 
-		<style>
-			
-			.colored-box {
-				background-color: #e0ffe0;
-				text-align: center;
-				padding: 0;
-				cursor: pointer;
-				font-size: 0.8em;
-			}
-
-			.colored-box-click {
-				background-color: #ffe0e0;
-			}
-
-			.colored-box-hover {
-				background-color: #ffffe0;
-			}
-			
+		<style>			
 			.dino-growl-box {
 				background-color: #f8f8f8;
 				right: 20px;
@@ -53,13 +37,26 @@
 
 
 
-<div id="desc-1" class="desc">
-	<p>
-		Переключение состояний это просто добавление/удаление классов, имеющих специальные имена. 
-		Метод <strong>toggleState</strong> в действительности вызывает метод <strong>jQuery.toggleClass</strong> и является лишь формой упрощенной записи.
-	</p>
-	<pre class="sh_javascript">
-new Dino.Widget('&lt;div/&gt;', {
+<div id="sample1">
+	
+<style>
+.colored-box {
+	background-color: #e0ffe0;
+	text-align: center;
+	padding: 0;
+	cursor: pointer;
+	font-size: 0.8em;
+}
+
+.colored-box-click {
+	background-color: #ffe0e0;
+}
+	
+</style>
+
+<script>
+new Dino.Widget('<div/>', {
+  renderTo: Samples.PREVIEW,
   baseCls: 'colored-box',
   text: 'Кликни по мне',
   width: 100,
@@ -68,20 +65,44 @@ new Dino.Widget('&lt;div/&gt;', {
     'click': function() { $(this).dino().states.toggle('click'); }
   },
   onStateChanged: function() {
-    growl.show('Состояние изменилось');
+    Samples.growl.show('Состояние изменилось');
   }
-});		
-	</pre>
+});	
+</script>
+	
+<div class="desc">
+	<p>
+		Переключение состояний это просто добавление/удаление классов, имеющих специальные имена. 
+		Метод <strong>toggle</strong> в действительности вызывает метод <strong>jQuery.toggleClass</strong> и является лишь формой упрощенной записи.
+	</p>	
+</div>	
+	
+	
 </div>
 
 
-<div id="desc-2" class="desc">
-	<p>
-		<strong>Dino</strong> использует механизм событий <strong>jQuery</strong> и свою собственную релизацию диспетчера событий в классе <strong>Dino.events.Observer</strong>. 
-		Обработчики событий <strong>jQuery</strong> определяются в блоке <strong>events</strong>, обработчики внутренних событий начинаются с <strong>on</strong> и заглавной буквы, например <strong>onLoad</strong>.
-	</p>
-	<pre class="sh_javascript">
-new Dino.Widget('&lt;div/&gt;', {
+<!-- Sample 2 -->
+
+<div id="sample2">
+	
+<style>
+.colored-box {
+	background-color: #e0ffe0;
+	text-align: center;
+	padding: 0;
+	cursor: pointer;
+	font-size: 0.8em;
+}
+
+.colored-box-hover {
+	background-color: #ffffe0;
+}
+	
+</style>
+
+<script>	
+new Dino.Widget('<div/>', {
+  renderTo: Samples.PREVIEW,
   baseCls: 'colored-box',
   text: 'Наведи на меня курсор',
   width: 100,
@@ -97,8 +118,23 @@ new Dino.Widget('&lt;div/&gt;', {
     this.states.clear('hover');
   }
 });		
-	</pre>
+</script>
+	
+<div class="desc">
+	<p>
+		<strong>Dino</strong> использует механизм событий <strong>jQuery</strong> и свою собственную релизацию диспетчера событий в классе <strong>Dino.events.Observer</strong>. 
+		Обработчики событий <strong>jQuery</strong> определяются в блоке <strong>events</strong>, обработчики внутренних событий начинаются с <strong>on</strong> и заглавной буквы, например <strong>onLoad</strong>.
+	</p>
+</div>	
+	
+	
 </div>
+
+
+
+
+
+
 
 
 
@@ -108,24 +144,19 @@ new Dino.Widget('&lt;div/&gt;', {
 		
 //	growl.show(Dino.samples.loremipsum);
 	
-
-	Dino.samples.build({
-		widgets: [{
-			id: 'w1',
-			label: 'Состояния (states)',
-			preview: eval($("#desc-1 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-1') }				
-		}, {
-			id: 'w2',
-			label: 'События (events)',
-			preview: eval($("#desc-2 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-2') }				
-		}]
-	});
 	
+samplePage([{
+	name: 'Состояния (states)',
+	description: '#sample1 .desc',
+	code: '#sample1 script',
+	css: '#sample1 style'
+}, {
+	name: 'События (events)',
+	description: '#sample2 .desc',
+	code: '#sample2 script',
+	css: '#sample2 style'
+}]);
 	
-
-
 	
 	
 </script>

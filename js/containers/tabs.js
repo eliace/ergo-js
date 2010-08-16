@@ -162,7 +162,8 @@ Dino.declare('Dino.containers.TabPanel', 'Dino.Widget', {
 	},
 	
 	addPage: function(item) {
-		this.tabs.addItem( item.tab || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
+		var tabOpts = (item instanceof Dino.Widget) ? item.options.tab : item.tab;
+		this.tabs.addItem( tabOpts || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
 		this.pages.addItem( item );// Dino.utils.overrideOpts({}, this.options.pageItem, item));
 	}
 	

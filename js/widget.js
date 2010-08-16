@@ -321,9 +321,17 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		if('html' in o) this.el.html(o.html);
 		
-		if('states' in o){
-			if('hover' in o.states){
-				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+//		if('states' in o){
+//			if('hover' in o.states){
+//				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+//			}
+//		}
+		
+		// экспериментальный код
+		if('stateEvents' in o){
+			var events = o.stateEvents;
+			for(var i in events){
+				this.el.bind(i, function(e){ $(this).dino().states.toggle(events[i]); });
 			}
 		}
 		

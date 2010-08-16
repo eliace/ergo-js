@@ -21,50 +21,53 @@
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
 		<script type="text/javascript" src="js/template2.js"></script>
 
-
 </head>
 <body>
 
 
-<style id="style1">
-
-.template-style {
-	
-}	
-
-.template-script {
-}	
-
-
-</style>
-
-
-
-<script id="script1">
-$.dino({
-	dtype: 'box',
-	renderTo: Samples.PREVIEW,
-	items: [{
-		cls: 'template-style',
-		text: '<pre class="sh_css">'+$('#style1').text()+'<pre>'			
-	}, {
-		cls: 'template-script',
-		text: '<pre class="sh_javascript">'+Dino.escapeHtml($('#script1').text())+'<pre>'
-	}]
-});
-	
-</script>
-
-
-
-<div id="sample">
+<div id="sample-dock">
 <style>
+
+.icon-item {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	background-image: url(img/emoticon_smile.png);
+}
+
+.icon-item-left {
+	margin-top: -8px;	
+}
+
+.icon-item-right {
+	margin-top: -8px;	
+}
+
+.text-item {
+	font-size: 1.4em;
+	margin: 0 16px;
+}
 	
 </style>
 
 <script>
-	
-</script>	
+$.dino({
+  renderTo: Samples.PREVIEW,
+  dtype: 'box',
+  layout: 'dock-layout',
+  style: {'position': 'absolute'},
+  items: [{
+    dock: 'left-center',
+    cls: 'icon-item icon-item-left'
+  }, {
+    cls: 'text-item',
+    text: 'Hello'
+  }, {
+    dock: 'right-bottom',
+    cls: 'icon-item icon-item-right'
+  }]
+});
+</script>
 
 <div class="desc">
 	
@@ -75,27 +78,18 @@ $.dino({
 
 
 
-
-
 <script>
-
-
-
+	
 samplePage([{
-	name: 'sample1',
-	description: '<p>' + Samples.loremipsum + '</p>',
-	code: '#script1',
-	css: '#style1'
+	name: 'Dock',
+	description: '#sample-dock .desc',
+	code: '#sample-dock script',
+	css: '#sample-dock style'
 }]);
-
-
-/*
-$(document).ready(function(){
 	
 	
-});
-*/	
 </script>
+
 
 
 

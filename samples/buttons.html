@@ -15,139 +15,187 @@
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/sample.css">
-		<script type="text/javascript" src="js/sample.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
 
 
 		<style>
 			
-			.toggle-button-1 {
-				width: 48px;
-				height: 48px;
-				background-image: url('img/folder close blue.png');
-			}
-			
-			.toggle-button-1-on {
-				background-image: url('img/folder blue.png');				
-			}
-			
-			.button-container {
-				left: 20px;
-				top: 20px;				
-			}
-			
-			.button-container > div {
-				margin: 0 5px;
-			}
-						
+									
 		</style>
 
 </head>
 <body>
 	
 	
-	<div id="desc-1" class="desc">
-		<p>
-			Простая кнопка на основе тэга &lt;button&gt;.
-		</p>
-		<pre class="sh_javascript">
+	
+<div id="sample-all">
+	
+	<style>
+.button-container {
+	left: 20px;
+	top: 20px;				
+}
+
+.button-container > div {
+	margin: 0 5px;
+}
+
+.toggle-button-1 {
+	width: 48px;
+	height: 48px;
+	background-image: url('img/folder close blue.png');
+}
+					
+	</style>
+	
+	<script>
+$.dino({
+	dtype: 'box',
+	renderTo: Samples.PREVIEW,
+	layout: 'row-layout',
+	cls: 'button-container',
+	items: [{
+		dtype: 'button',
+		label: 'Простая кнопка',
+	}, {
+		dtype: 'toggle-button',
+		cls: 'toggle-button-1',
+		toggleCls: 'toggle-button-1-on',								
+	}, {
+		dtype: 'pulse-button',
+		imageUrl: 'img/menu/Box.png',
+		imageWidth: 30,
+		pulseValue: 1.25,
+		pulseDelay: 200,
+	}]						
+});
+	</script>
+	
+	<div class="desc">
+		
+	</div>
+	
+</div>	
+	
+	
+	
+	
+<div id="sample-btn">
+<style>
+	
+</style>
+
+<script>
 Dino.widget({
+	renderTo: Samples.PREVIEW,
 	dtype: 'button',
 	label: 'Нажми меня'
-});
-		</pre>		
-	</div>
+});	
+</script>	
 
-
-	<div id="desc-2" class="desc">
+<div class="desc">
 		<p>
-			Кнопка-переключатель, является аналогом иконки с поддержкой состояния 'toggle'.
-		</p>
-		<pre class="sh_javascript">
+			Простая кнопка на основе тэга &lt;button&gt;.
+		</p>	
+</div>
+	
+</div>
+
+
+
+
+<div id="sample-toggle">
+<style>
+	
+.toggle-button-1 {
+	width: 48px;
+	height: 48px;
+	background-image: url('img/folder close blue.png');
+}
+	
+.toggle-button-1-on {
+	background-image: url('img/folder blue.png');				
+}
+	
+</style>
+
+<script>
 Dino.widget({
+	renderTo: Samples.PREVIEW,
 	dtype: 'toggle-button',
 	cls: 'toggle-button-1',
 	toggleCls: 'toggle-button-1-on'								
 });
-		</pre>		
-	</div>
+</script>	
+
+<div class="desc">
+	<p>
+		Кнопка-переключатель, является аналогом иконки с поддержкой состояния 'toggle'.
+	</p>
+</div>
+	
+</div>
+
+	
 
 
-	<div id="desc-3" class="desc">
-		<p>
-			"Пульсирующая" кнопка, при наведении курсора изменяет размер.
-		</p>
-		<pre class="sh_javascript">
+
+
+<div id="sample-pulse">
+<style>
+	
+</style>
+
+<script>
 Dino.widget({
+	renderTo: Samples.PREVIEW,
 	dtype: 'pulse-button',
 	imageUrl: 'img/menu/Box.png',
 	imageWidth: 30,
 	pulseValue: 1.25,
 	pulseDelay: 200,
 });
-		</pre>		
-	</div>
+</script>	
+
+<div class="desc">
+<p>
+	"Пульсирующая" кнопка, при наведении курсора изменяет размер.
+</p>
+</div>
+	
+</div>
+
+
+
+
+
+
+
+
+
 
 
 
 		
 	<script>
-				
-		Dino.samples.build({
-			widgets: [{
-				//-------------
-				// PANEL ALL
-				//-------------
-				id: 'button-all',
-				label: 'Все кнопки',
-				preview: {
-					layout: 'row-layout',
-					cls: 'button-container',
-					items: [{
-						dtype: 'button',
-						label: 'Простая кнопка',
-					}, {
-						dtype: 'toggle-button',
-						cls: 'toggle-button-1',
-						toggleCls: 'toggle-button-1-on',								
-					}, {
-						dtype: 'pulse-button',
-						imageUrl: 'img/menu/Box.png',
-						imageWidth: 30,
-						pulseValue: 1.25,
-						pulseDelay: 200,
-					}]						
-				}
-			}, {
-				//-------------
-				// PANEL 1
-				//-------------
-				id: 'button1',
-				label: 'Button',
-				preview: eval($('#desc-1 .sh_javascript').text()),
-				description: { wrapEl: '#desc-1' }
-			}, {
-				//-------------
-				// PANEL 2
-				//-------------
-				id: 'button2',
-				label: 'ToggleButton',
-				preview: eval($('#desc-2 .sh_javascript').text()),
-				description: { wrapEl: '#desc-2' }
-			}, {
-				//-------------
-				// PANEL 3
-				//-------------
-				id: 'button3',
-				label: 'PulseButton',
-				preview: eval($('#desc-3 .sh_javascript').text()),
-				description: { wrapEl: '#desc-3' }
-			}]
-		});
-		
-		
+
+samplePage([{
+	name: 'Все кнопки',
+	id: '#sample-all'
+}, {
+	name: 'Простая кнопка',
+	id: '#sample-btn'
+}, {
+	name: 'Кнопка-переключатель',
+	id: '#sample-toggle'
+}, {
+	name: 'Пульсирующая кнопка',
+	id: '#sample-pulse'
+}]);		
 	
 	</script>
 	

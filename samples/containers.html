@@ -15,10 +15,11 @@
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/sample.css">
-		<script type="text/javascript" src="js/sample.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
 
 </head>
 <body>
@@ -82,38 +83,64 @@
 
 
 
-<div id="desc-1" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
-	</pre>
+
+
+<div id="sample-box">
+<style>
+	
+</style>
+<script>
+	
+</script>	
+<div class="desc">
+	
+</div>
 </div>
 
 
 
+<div id="sample-tabs">
+<style>
+	
+.dino-tabs.sample-tabs {
+	height: 25px;
+	position: relative;
+	border-bottom: 1px solid #aaaaaa;
+	margin: 0;
+	padding: 0;
+}
 
-
-<div id="desc-2" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
+.dino-tabs.sample-tabs li {
+	padding: 0 20px;
+	margin-right: 2px;
+	float: left;
+	text-align: center;
+	height: 24px;
+	cursor: pointer;
+	border-bottom: 0 !important;
+	list-style: none outside none;
+}
+	
+</style>
+<script>
 Dino.widget({
+  renderTo: Samples.PREVIEW,
   dtype: 'box',
   items: [{
     dtype: 'tabs',
-		cls: 'dock-top',
+		cls: 'sample-tabs',
     defaultItem: {
       baseCls: 'tab',
       cls: 'ui-widget-header ui-corner-top'
     },
-    tabs: [
+    items: [
       { text: 'Tab1' }, 
       {	text: 'Tab2' }
     ],
     onTabChanged: function() {
       this.parent.getItem('stack').layout.activate(this.currentTab.index);
     }
-  }, {
+  }/*, {
     tag: 'stack',
     layout: 'stack-layout',
     items: [{
@@ -139,18 +166,28 @@ Dino.widget({
     }, {
       text: 'Содержимое контейнера №2'
     }]
-  }]
+  }*/]
 });		
-	</pre>
+	
+</script>	
+<div class="desc">
+	
+</div>
 </div>
 
 
 
-<div id="desc-3" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
+
+
+
+<!-- Form -->
+<div id="sample-form">
+<style>
+	
+</style>
+<script>
 Dino.widget({
+	renderTo: Samples.PREVIEW,
   dtype: 'form',
   items: [{
     label: 'Текстовое поле:',
@@ -175,7 +212,20 @@ Dino.widget({
 		'4': 'осень' 
 	}
   }]
-});		
+});			
+</script>	
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+<!--div id="desc-3" class="desc">
+	<p>
+	</p>
+	<pre class="sh_javascript">
 	</pre>
 </div>
 
@@ -206,7 +256,7 @@ Dino.widget({
 	},
 });		
 	</pre>
-</div>
+</div-->
 
 
 
@@ -216,10 +266,23 @@ Dino.widget({
 
 
 <script>
+	
+	
+samplePage([{
+	name: 'Бокс',
+	id: '#sample-box'
+}, {
+	name: 'Закладки',
+	id: '#sample-tabs'
+}, {
+	name: 'Форма',
+	id: '#sample-form'
+}]);
+	
 		
 //	growl.show(Dino.samples.loremipsum);
 	
-
+/*
 	Dino.samples.build({
 		widgets: [{
 			id: 'w1',
@@ -243,7 +306,7 @@ Dino.widget({
 			description: { wrapEl: $('#desc-4') }				
 		}]
 	});
-	
+*/	
 	
 </script>
 

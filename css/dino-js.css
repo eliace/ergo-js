@@ -86,7 +86,13 @@
 
 
 
-.dino-tabs.dock-top {
+
+
+/*
+ * Tabs
+ */
+
+.dino-tabs.top {
 	height: 25px;
 	position: relative;
 	border-bottom: 1px solid #aaaaaa;
@@ -94,8 +100,7 @@
 	padding: 0;
 }
 
-.dino-tabs.dock-top li {
-/*	width: 100px;*/
+.dino-tabs.top li {
 	padding: 0 20px;
 	margin-right: 2px;
 	float: left;
@@ -107,7 +112,7 @@
 }
 
 
-.dino-tabs.dock-left {
+.dino-tabs.left {
 /*	height: 100%; */
 /*	position: relative;*/
 	border-right: 1px solid #aaaaaa;
@@ -115,7 +120,7 @@
 	padding: 0;
 }
 
-.dino-tabs.dock-left li {
+.dino-tabs.left li {
 /*	width: 100px;*/
 /*	padding: 0 20px;*/
 	margin-bottom: 2px;
@@ -126,12 +131,6 @@
 	list-style: none outside none;
 }
 
-
-.dock-left, .dock-right {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-}
 
 
 /*
@@ -154,10 +153,39 @@
 	position: relative;
 }
 
+.dock-left-top, .dock-left-center, .dock-left-bottom, .dock-right-top, .dock-right-center, .dock-right-bottom {
+	position: absolute;
+}
 
+.dock-left-top {
+	left: 0;
+	top: 0;
+}
 
+.dock-left-center {
+	left: 0;
+	top: 50%;
+}
 
+.dock-left-bottom {
+	left: 0;
+	bottom: 0;
+}
 
+.dock-right-top {
+	right: 0;
+	top: 0;
+}
+
+.dock-right-center {
+	right: 0;
+	top: 50%;
+}
+
+.dock-right-bottom {
+	right: 0;
+	bottom: 0;
+}
 
 
 .dino-dropdown-box {

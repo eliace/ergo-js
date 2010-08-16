@@ -1,0 +1,106 @@
+
+body {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+}
+
+
+.dino-tabs.widget-tabs {
+	margin: 0;
+	padding: 0;
+		
+	position: absolute;
+}
+
+.dino-tabs.widget-tabs li {
+	margin-bottom: 2px;
+	text-align: center;
+	width: 150px;
+	cursor: pointer;
+	border-right: 0 !important;
+	list-style: none outside none;
+	border-bottom: 1px dotted #aaa;
+}
+
+
+.widget-pages {
+	margin-left: 170px;
+}
+
+
+.code-tabs > .dino-tabs {
+	height: 25px;
+	position: relative;
+	border-bottom: 1px solid #aaaaaa;
+	margin: 0;
+	padding: 0;	
+}
+
+.code-tabs > ul li {
+	padding: 0 20px;
+	margin-right: 2px;
+	float: right;
+	text-align: center;
+	height: 24px;
+	cursor: pointer;
+	border-bottom: 0 !important;
+	list-style: none outside none;
+}
+
+
+.code-tabs > div {
+	height: 200px;
+	overflow: auto;
+	border-bottom: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+}
+
+.code-tab-active {
+	background-image: none;
+	background-color: white;
+	padding-bottom: 1px !important;	
+}
+
+
+.preview {
+	height: 300px;
+	overflow: auto;
+	border: 1px solid #aaa;
+	padding: 5px;
+}
+
+.desc p {
+	font-style: italic;
+	font-size: 1.0em;
+	color: #333333;
+}
+
+
+.js-icon {
+	margin-top: -9px;
+}
+
+.js-title {
+	margin-left: 20px;
+	color: #3333ff;
+	font-size: 0.8em;
+}
+
+.js-title:hover {
+	color: #0000ff;
+}
+
+.js-button {
+	cursor: pointer;
+	margin-top: 5px;	
+}
+
+.js-container {
+	border: 1px dotted #aaa;
+}
+
+/*
+.js-button-wrapper {
+	height: 24px;
+}
+*/

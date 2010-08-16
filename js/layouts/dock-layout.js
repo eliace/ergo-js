@@ -11,7 +11,7 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 	insert: function(item) {
 		var el = item.el;
 		
-		if(Dino.in_array(['top', 'left', 'bottom', 'right'], item.options.dock))
+		if(Dino.in_array(['top', 'left-top', 'left-center', 'left-bottom', 'bottom', 'right-top', 'right-center', 'right-bottom'], item.options.dock))
 			el.addClass('dock-'+item.options.dock);
 		
 		this.container.el.append(el);
