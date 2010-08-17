@@ -22,16 +22,16 @@ Dino.declare('Dino.panels.DialogPanel', 'Dino.Panel', {
 	
 	
 	_init: function() {
-		Dino.widget.Panel.superclass._init.apply(this, arguments);
+		Dino.panels.DialogPanel.superclass._init.apply(this, arguments);
 		
 		var o = this.options;
 		
 //		this.layout = new Dino.layouts.PanelLayout();
 //		this.layout.attach(this);
 		
-		addComponent('header', o.header);
-		addComponent('body', o.body);
-		addComponent('footer', o.footer);
+		this.addComponent('header', o.header);
+		this.addComponent('body', o.body);
+		this.addComponent('footer', o.footer);
 		
 	}
 	

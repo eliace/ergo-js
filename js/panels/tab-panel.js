@@ -1,6 +1,6 @@
 
 
-Dino.declare('Dino.containers.TabPanel', 'Dino.Panel', {
+Dino.declare('Dino.panels.TabPanel', 'Dino.Panel', {
 	
 	defaultOptions: {
 		tabContainer: {
@@ -18,7 +18,7 @@ Dino.declare('Dino.containers.TabPanel', 'Dino.Panel', {
 	
 	
 	_init: function() {
-		Dino.containers.TabPanel.superclass._init.apply(this, arguments);
+		Dino.panels.TabPanel.superclass._init.apply(this, arguments);
 				
 		var o = this.options;
 		
@@ -41,7 +41,7 @@ Dino.declare('Dino.containers.TabPanel', 'Dino.Panel', {
 	},
 	
 	_opt: function(o) {
-		Dino.containers.TabPanel.superclass._opt.apply(this, arguments);
+		Dino.panels.TabPanel.superclass._opt.apply(this, arguments);
 		
 		if('pages' in o){
 			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);
