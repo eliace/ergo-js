@@ -25,7 +25,7 @@
 <body>
 
 <style>
-	
+/*	
 	.tab-active {
 		background-image: none;
 		background-color: white;
@@ -50,15 +50,10 @@
 	}
 	
 	.vtab-content {
-/*		
-		border-right: 1px solid #aaa;
-		border-top: 1px solid #aaa;
-		border-bottom: 1px solid #aaa;
-*/		
 		margin-left: 80px;
 		margin-right: 0;
 	}
-	
+*/	
 	.dino-panel-header {
 		background-color: #ccc;
 		font-weight: bold;
@@ -222,19 +217,12 @@ Dino.widget({
 
 
 
-<!--div id="desc-3" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
-	</pre>
-</div>
-
-
-<div id="desc-4" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
-Dino.widget({
+<div id="sample-panel">
+<style>
+	
+</style>
+<script>
+$.dino({
   dtype: 'panel',
 	width: 300,
 	cls: 'dino-border',
@@ -252,9 +240,30 @@ Dino.widget({
 	},
 	content: {
 		height: 200,
-		text: Dino.samples.loremipsum
+		text: Samples.loremipsum
 	},
 });		
+	
+</script>	
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+<!--div id="desc-3" class="desc">
+	<p>
+	</p>
+	<pre class="sh_javascript">
+	</pre>
+</div>
+
+
+<div id="desc-4" class="desc">
+	<p>
+	</p>
+	<pre class="sh_javascript">
 	</pre>
 </div-->
 
@@ -277,6 +286,9 @@ samplePage([{
 }, {
 	name: 'Форма',
 	id: '#sample-form'
+}, {
+	name: 'Панель',
+	id: '#sample-panel'
 }]);
 	
 		
