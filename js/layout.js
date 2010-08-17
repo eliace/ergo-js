@@ -6,7 +6,7 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 	initialize: function(o){
 		Dino.Layout.superclass.initialize.call(this);
 		
-		this.options = Dino.merge_r({}, this.defaultOptions, o);
+		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
 		
 	},
 	

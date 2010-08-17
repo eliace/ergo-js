@@ -116,6 +116,12 @@
 	list-style: none outside none;
 }
 	
+.tab-active {
+	background-image: none;
+	background-color: white;
+	padding-bottom: 1px !important;
+}
+	
 </style>
 <script>
 Dino.widget({
@@ -133,7 +139,7 @@ Dino.widget({
       {	text: 'Tab2' }
     ],
     onTabChanged: function() {
-      this.parent.getItem('stack').layout.activate(this.currentTab.index);
+//      this.parent.getItem('stack').layout.activate(this.currentTab.index);
     }
   }/*, {
     tag: 'stack',
@@ -182,7 +188,7 @@ Dino.widget({
 </style>
 <script>
 Dino.widget({
-	renderTo: Samples.PREVIEW,
+  renderTo: Samples.PREVIEW,
   dtype: 'form',
   items: [{
     label: 'Текстовое поле:',
@@ -201,11 +207,11 @@ Dino.widget({
     name: 'field4',
     dtype: 'select',
     options: {
-		'1': 'зима', 
-		'2': 'весна', 
-		'3': 'лето', 
-		'4': 'осень' 
-	}
+      '1': 'зима', 
+      '2': 'весна', 
+      '3': 'лето', 
+      '4': 'осень' 
+    }
   }]
 });			
 </script>	
@@ -217,54 +223,37 @@ Dino.widget({
 
 
 
-<div id="sample-panel">
+<!--div id="sample-panel">
 <style>
 	
 </style>
 <script>
 $.dino({
+  renderTo: Samples.PREVIEW,
   dtype: 'panel',
-	width: 300,
-	cls: 'dino-border',
-	header: {
-		dtype: 'text',
-		text: 'Lorem ipsum'
-	},
-	footer: {
-		layout: 'row-layout',
-		items: [
-			{cls: 'ui-icon ui-icon-refresh'},
-			{cls: 'ui-icon ui-icon-plus'},
-			{cls: 'ui-icon ui-icon-minus'},
-		]
-	},
-	content: {
-		height: 200,
-		text: Samples.loremipsum
-	},
+  width: 300,
+  cls: 'dino-border-all',
+  header: {
+    text: 'Lorem ipsum'
+  },
+  footer: {
+    layout: 'row-layout',
+    items: [
+      {cls: 'ui-icon ui-icon-refresh'},
+      {cls: 'ui-icon ui-icon-plus'},
+      {cls: 'ui-icon ui-icon-minus'},
+    ]
+  },
+  body: {
+    height: 200,
+    text: Samples.loremipsum
+  },
 });		
 	
 </script>	
 <div class="desc">
 	
 </div>
-</div>
-
-
-
-<!--div id="desc-3" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
-	</pre>
-</div>
-
-
-<div id="desc-4" class="desc">
-	<p>
-	</p>
-	<pre class="sh_javascript">
-	</pre>
 </div-->
 
 
@@ -286,9 +275,6 @@ samplePage([{
 }, {
 	name: 'Форма',
 	id: '#sample-form'
-}, {
-	name: 'Панель',
-	id: '#sample-panel'
 }]);
 	
 		

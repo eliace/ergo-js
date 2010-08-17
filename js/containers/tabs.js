@@ -10,7 +10,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 			events: {
 				'click': function(){
 					var tab = $(this).dino();
-					tab.parent.changeTab(tab);
+					tab.parent.activateTab(tab);
 				}
 			}
 		},
@@ -87,7 +87,7 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	},
 */	
 	
-	changeTab: function(tab){
+	activateTab: function(tab){
 		
 		// если указанный объект не является виджетом, то ищем его через getItem
 		if(!(tab instanceof Dino.Widget)) tab = this.getItem(tab);
@@ -105,71 +105,6 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		
 	
 }, 'tabs');
-
-
-
-
-
-
-
-
-Dino.declare('Dino.containers.TabPanel', 'Dino.Widget', {
-	
-	defaultOptions: {
-		tabContainer: {
-			dtype: 'tabs',
-			onTabChanged: function(){
-				// переключаем страницу при смене закладки
-				this.parent.pages.layout.activate( this.currentTab.index );
-			}
-		},
-		pageContainer: {
-			dtype: 'box',
-			layout: 'stack-layout'
-		}
-	},
-	
-	
-	_init: function() {
-		Dino.containers.TabPanel.superclass._init.apply(this, arguments);
-				
-		var o = this.options;
-		
-		this.tabs = new Dino.widget( o.tabContainer );
-		this.children.add(this.tabs);
-		this.tabs._render(this.el);
-
-		this.pages = new Dino.widget( o.pageContainer );
-		this.children.add(this.pages);
-		this.pages._render(this.el);
-		
-		
-		
-/*		
-		this.tabs = this.children.add(o.tabs);
-		this.layout.insert(this.tabs);
-		this.pages = this.children.add(o.pages);
-		this.layout.insert(this.pages);
-*/		
-	},
-	
-	_opt: function(o) {
-		Dino.containers.TabPanel.superclass._opt.apply(this, arguments);
-		
-		if('pages' in o){
-			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);
-		}
-	},
-	
-	addPage: function(item) {
-		var tabOpts = (item instanceof Dino.Widget) ? item.options.tab : item.tab;
-		this.tabs.addItem( tabOpts || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
-		this.pages.addItem( item );// Dino.utils.overrideOpts({}, this.options.pageItem, item));
-	}
-	
-	
-}, 'tab-panel');
-
 
 
 

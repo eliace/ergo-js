@@ -123,7 +123,7 @@ function samplePage(samples) {
 		}]
 	});
 	
-	$('#aaa').dino().tabs.changeTab(0);
+//	$('#aaa').dino().tabs.activateTab(0);
 
 	// включаем подсветку кода
 	sh_highlightDocument();

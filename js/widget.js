@@ -235,7 +235,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		// выполняем темизацию ?
 		this._theme(o.theme);
 //		//
-//		this._afterBuild();
+		this._afterBuild();
 		
 		this.events.fire('onCreated');
 	},
@@ -266,8 +266,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	_theme: function(name) {
 	},
 	
-//	_afterBuild: function() {
-//	},
+	_afterBuild: function() {
+	},
 	
 	_events: function(self){
 	},
@@ -283,11 +283,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		return this.options;
 	},
 	
-	
-	
-	opt_override: function(o){
-		
-	},
 	
 	_opt: function(o) {
 		
@@ -575,6 +570,7 @@ $.fn.dino = function(o) {
 		if(widget) return widget;
 		o.wrapEl = this;
 	}
+	else if(arguments.length == 0) return null;
 	return Dino.widget(o);
 };
 
