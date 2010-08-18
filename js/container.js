@@ -159,6 +159,11 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.clear();
 	},
 	
+	replaceItem: function(criteria, newItem) {
+		var item = this.children.get(criteria);
+		if(item != null) this.removeItem(item);
+		this.addItem(newItem);
+	},
 	
 	eachItem: function(callback) {
 //		for(var i = 0; i < this.items.length; i++)

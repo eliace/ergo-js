@@ -39,6 +39,7 @@ require 'fileutils'
     'js/widgets/grid.js',
     'js/widgets/menu.js',
     'js/widgets/growl.js',
+    'js/widgets/uploader.js',
   ]
 
 

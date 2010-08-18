@@ -16,7 +16,12 @@ Dino.declare('Dino.widgets.Image', Dino.Widget, {
 		Dino.widgets.Image.superclass._opt.call(this, o);
 		
 		if('imageUrl' in o) this.el.attr('src', o.imageUrl);
+	},
+	
+	_dataChanged: function() {
+		this.el.attr( 'src', this.getValue() );
 	}
+	
 	
 }, 'image');
 

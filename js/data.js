@@ -79,7 +79,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	
 	item: function(i) {
 		if(!(i in this.items)) {
-			var item = new Dino.data.DataSource(this, i);
+			var item = ( Dino.isArray(this.get(i)) ) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
 			this.items[i] = item;
 		}
 		return this.items[i];

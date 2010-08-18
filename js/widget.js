@@ -337,6 +337,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 
+		if('components' in o) {
+			for(var i in o.components)
+				this.addComponent(i, o.components[i]);
+		}
+		
+		if('state' in o) {
+			this.states.set(o.state);
+		}
+		
 /*		
 		if('data' in o) {
 			if('dataId' in o){
@@ -368,6 +377,20 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.events.fire('onUnlink', {'target':this.link});
 		this.link = null;
 	},
+	
+	
+	
+	
+	//-------------------------------------------
+	// Методы для работы с компонентами виджета
+	//-------------------------------------------
+	
+	addComponent: function(key, o){
+		this[key] = Dino.widget(o);
+		this.children.add( this[key] );
+		this.el.append(this[key].el);
+	},
+	
 	
 	
 	//---------------------------------------
@@ -496,7 +519,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	
 	getValue: function() {
-		return (this.data) ? this.data.get() : undefined;
+		var val;
+		if(this.data){
+			val = this.data.get();
+			// если присутствует функция форматирования, то используем ее
+			if('format' in this.options) 
+				val = this.options.format.call(this, val);
+		}
+		return val;
 	},
 	
 	setValue: function(val) {

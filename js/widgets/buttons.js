@@ -76,7 +76,12 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	defaultOptions: {
-		display: 'text-only'
+		components: {
+			content: {
+				dtype: 'text'
+			}			
+		}
+//		display: 'text-only'
 	},
 	
 	
@@ -84,29 +89,10 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	_html: function() { return '<button type="button"/>'; },
 	
+	
 	_init: function() {
 		Dino.widgets.Button.superclass._init.apply(this, arguments);
 
-		
-		switch(this.options.display){
-			case 'text-only':
-				this.labelEl = $('<div class="dino-button-text"/>');
-				this.el.append(this.labelEl);		
-				break;
-			case 'icon-only':
-				this.iconEl = $('<div class="dino-icon dino-button-icon-only"/>');
-				this.el.append(this.iconEl);
-				this.labelEl = $('<div class="dino-button-text-none"/>');
-				this.el.append(this.labelEl);
-				break;
-			case 'icon-text':
-				this.iconEl = $('<div class="dino-icon dino-button-icon-text"/>');
-				this.el.append(this.iconEl);
-				this.labelEl = $('<div class="dino-button-text-icon"/>');
-				this.el.append(this.labelEl);
-				break;
-		}
-		
 		var self = this;
 		
 		this.el.click(function(e){
@@ -118,20 +104,22 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	_opt: function(o) {
 		Dino.widgets.Button.superclass._opt.apply(this, arguments);
-
+/*
 		if('iconCls' in o)
 			if(this.iconEl) this.iconEl.addClass(o.iconCls);
 		if('textCls' in o)
 			this.labelEl.addClass(o.textCls);
-		
+*/		
 		if('label' in o)
-			this.labelEl.text(o.label);
+			this.content.opt('text', o.label);
+//			this.labelEl.text(o.label);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
 //		if('onAction' in o)
 //			this.addEvent('onAction', o.onAction);
-	},
-	
+	}
+
+/*	
 	_theme: function(name) {
 		
 		var self = this;
@@ -148,7 +136,7 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 //			if(this.iconEl) this.iconEl.addClass('dino-icon');
 //		}
 	}
-	
+*/	
 }, 'button');
 
 
@@ -242,7 +230,7 @@ Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	},
 */	
 	_init: function() {
-		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);		
+		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);
 //		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
 	},
 	
