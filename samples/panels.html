@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Untitled Document</title>
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
+				
+	</head>
+<body>
+	
+	
+	
+	
+<div id="sample-dlg">
+<style>
+.panel-header {
+	background-color: #ccc;
+	font-weight: bold;
+	height: 32px;
+}
+
+.panel-body {
+	overflow-y: scroll;
+}
+
+.panel-footer {
+	background-color: #ccc;
+}	
+</style>
+<script>
+$.dino({
+  renderTo: Samples.PREVIEW,
+  dtype: 'dialog-panel',
+  width: 300,
+  cls: 'dino-border-all ui-corner-top',
+  header: {
+    cls: 'panel-header',
+    content: {
+      dtype: 'text',
+      text: 'Lorem ipsum'
+    }
+  },
+  footer: {
+    cls: 'panel-footer',
+    layout: 'row-layout',
+    items: [
+      {cls: 'ui-icon ui-icon-refresh'},
+      {cls: 'ui-icon ui-icon-plus'},
+      {cls: 'ui-icon ui-icon-minus'},
+    ]
+  },
+  body: {
+		cls: 'panel-body',
+    height: 200,
+    text: Samples.loremipsum
+  }
+});		
+	
+</script>	
+<div class="desc">
+	
+</div>
+</div>	
+	
+	
+	
+	
+	
+<div id="sample-tabs">
+<style>
+	
+.tp-tabs {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+.tp-tabs li {
+	width: 100px;
+	list-style: none outside none;
+	cursor: pointer;
+	margin-bottom: 3px;
+	height: 32px;
+	padding-top: 8px;
+	border-right: 0 !important;
+	text-align: center;
+}
+
+.tp-tab-active {
+	background-color: white;
+	background-image: none;
+	padding-right: 1px;
+}
+
+.tp-pages {
+	height: 200px;
+	margin-left: 101px;
+}
+	
+</style>
+
+<script>
+$.dino({
+  renderTo: Samples.PREVIEW,
+  dtype: 'tab-panel',
+  tabContainer: {
+    cls: 'tp-tabs',
+    defaultItem: {
+      baseCls: 'tp-tab',
+      cls: 'dino-border-all ui-corner-left ui-widget-header'
+    }
+  },
+  pageContainer: {
+    cls: 'tp-pages dino-border-all ui-corner-right ui-corner-bl'
+  },
+  pages: [{
+    tab: {text: 'Закладка 1'},
+    text: 'Страница 1'
+  }, {
+    tab: {text: 'Закладка 2'},
+    text: 'Страница 2'
+  }, {
+    tab: {text: 'Закладка 3'},
+    text: 'Страница 3'
+  }]
+});
+</script>	
+
+<div class="desc">
+	
+</div>
+	
+</div>
+	
+	
+	
+	
+	
+<script>
+	
+samplePage([{
+	name: 'Диалог',
+	id: '#sample-dlg'
+}, {
+	name: 'Закладки',
+	id: '#sample-tabs'
+}]);
+	
+</script>	
+	
+</body>
+</html>
