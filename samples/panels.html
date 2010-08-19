@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
@@ -49,30 +50,35 @@ $.dino({
   dtype: 'dialog-panel',
   width: 300,
   cls: 'dino-border-all ui-corner-top',
-  header: {
-    cls: 'panel-header',
-    content: {
-      dtype: 'text',
-      text: 'Lorem ipsum'
+  components: {
+    header: {
+      cls: 'panel-header',
+      content: {
+        dtype: 'text',
+        text: 'Lorem ipsum'
+      }
+    },
+    footer: {
+      cls: 'panel-footer',
+      layout: 'row-layout',
+      items: [
+        {cls: 'ui-icon ui-icon-refresh'},
+        {cls: 'ui-icon ui-icon-plus'},
+        {cls: 'ui-icon ui-icon-minus'},
+      ]
+    },
+    body: {
+      cls: 'panel-body',
+      height: 200,
+      text: Samples.loremipsum
     }
-  },
-  footer: {
-    cls: 'panel-footer',
-    layout: 'row-layout',
-    items: [
-      {cls: 'ui-icon ui-icon-refresh'},
-      {cls: 'ui-icon ui-icon-plus'},
-      {cls: 'ui-icon ui-icon-minus'},
-    ]
-  },
-  body: {
-		cls: 'panel-body',
-    height: 200,
-    text: Samples.loremipsum
   }
 });		
 	
 </script>	
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>
@@ -119,15 +125,17 @@ $.dino({
 $.dino({
   renderTo: Samples.PREVIEW,
   dtype: 'tab-panel',
-  tabContainer: {
-    cls: 'tp-tabs',
-    defaultItem: {
-      baseCls: 'tp-tab',
-      cls: 'dino-border-all ui-corner-left ui-widget-header'
-    }
-  },
-  pageContainer: {
-    cls: 'tp-pages dino-border-all ui-corner-right ui-corner-bl'
+  components: {
+    tabs: {
+      cls: 'tp-tabs',
+      defaultItem: {
+        baseCls: 'tp-tab',
+        cls: 'dino-border-all ui-corner-left ui-widget-header'
+      }
+    },
+    pages: {
+      cls: 'tp-pages dino-border-all ui-corner-right ui-corner-bl'
+    },
   },
   pages: [{
     tab: {text: 'Закладка 1'},
@@ -141,7 +149,9 @@ $.dino({
   }]
 });
 </script>	
-
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>

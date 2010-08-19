@@ -1,18 +1,20 @@
 
 
-Dino.declare('Dino.panels.TabPanel', 'Dino.Panel', {
+Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	
 	defaultOptions: {
-		tabContainer: {
-			dtype: 'tabs',
-			onTabChanged: function(){
-				// переключаем страницу при смене закладки
-				this.parent.pages.layout.activate( this.currentTab.index );
+		components: {
+			tabs: {
+				dtype: 'tabs',
+				onTabChanged: function(){
+					// переключаем страницу при смене закладки
+					this.parent.pages.layout.activate( this.currentTab.index );
+				}
+			},
+			pages: {
+				dtype: 'box',
+				layout: 'stack-layout'
 			}
-		},
-		pageContainer: {
-			dtype: 'box',
-			layout: 'stack-layout'
 		}
 	},
 	
@@ -22,8 +24,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Panel', {
 				
 		var o = this.options;
 		
-		this.addComponent('tabs', o.tabContainer);
-		this.addComponent('pages', o.pageContainer);
+//		this.addComponent('tabs', o.tabContainer);
+//		this.addComponent('pages', o.pageContainer);
 		
 //		this.tabs = new Dino.widget( o.tabContainer );
 //		this.children.add(this.tabs);

@@ -1,6 +1,7 @@
 
 
 
+
 Dino.declare('Dino.containers.Box', Dino.Container, {
 	
 	defaultOptions: {

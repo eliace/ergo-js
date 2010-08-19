@@ -15,10 +15,10 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		if('containerCls' in this.options) this.container.el.addClass(this.options.containerCls);
 
 		var self = this;
-		if(this.options.updatePolicy == 'resize')
+		if(this.options.updateMode == 'resize')
 			$(window).bind('resize', function(){ self.update(); });
-		if(this.options.updatePolicy == 'added')
-			this.container.events.reg('onAdded', function(){ 
+		if(this.options.updateMode == 'auto')
+			this.container.events.reg('onRendered', function(){ 
 				self.update(); 
 			});
 		

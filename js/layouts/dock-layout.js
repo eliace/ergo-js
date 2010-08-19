@@ -5,20 +5,53 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 	
 	defaultOptions: {
 		containerCls: 'dino-dock-layout',
-		updatePolicy: 'manual'
+		updateMode: 'none'
 	},
 	
 	insert: function(item) {
 		var el = item.el;
 		
-		if(Dino.in_array(['top', 'left-top', 'left-center', 'left-bottom', 'bottom', 'right-top', 'right-center', 'right-bottom'], item.options.dock))
-			el.addClass('dock-'+item.options.dock);
+		if('dock' in item.options){
+			var dock_a = item.options.dock.split('-');
+			if(dock_a.length == 1) dock_a.push('center');
+			
+			el.addClass('dock-'+dock_a.join('-'));
+			this.container.el.append(el);
+		}
+		else {
+			if(!this.content){
+//				this.content = $('<div class="dino-dock-content"></div>');
+				this.content = el;
+//				this.content.append(el);
+			}
+			this.container.el.append(el);//this.content);
+		}
 		
-		this.container.el.append(el);
+//		if(Dino.in_array(['top', 'left-top', 'left-center', 'left-bottom', 'bottom', 'right-top', 'right-center', 'right-bottom'], item.options.dock))
+//			el.addClass('dock-'+item.options.dock);
+		
+//		this.container.el.append(el);
 	},
 	
 	
 	update: function(){
+		var margin_left = margin_right = 0;
+		$('.dock-left-center, .dock-left-top, .dock-left-bottom', this.container.el).each(function(i, el){
+			margin_left = Math.max(margin_left, $(el).outerWidth());
+		});
+		$('.dock-right-center, .dock-right-top, .dock-right-bottom', this.container.el).each(function(i, el){
+			margin_right = Math.max(margin_right, $(el).outerWidth());
+		});
+		$('.dock-left-center', this.container.el).each(function(i, el){
+			$(el).css('margin-top', -$(el).outerHeight()/2);
+		});
+		
+		if(this.content){
+			if(margin_left > 0)	this.content.css('margin-left', margin_left);
+			if(margin_right > 0)	this.content.css('margin-right', margin_right);
+		}
+		
+/*		
 		var margin_left = 0;
 		$('.dock-left', this.container.el).each(function(i, el){ 
 			margin_left += $(el).outerWidth(); 
@@ -28,6 +61,7 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 		
 		if(margin_left > 0)
 			content_el.css('margin-left', margin_left);
+*/			
 	}
 	
 }, 'dock-layout');

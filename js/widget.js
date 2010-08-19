@@ -10,11 +10,13 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	set: function(name) {
 		this.widget.el.addClass( this.stateCls(name) );
 		this.widget.events.fire('onStateChanged');
+		return this;
 	},
 	
 	clear: function(name){
 		this.widget.el.removeClass( this.stateCls(name) );
 		this.widget.events.fire('onStateChanged');
+		return this;
 	},
 	
 	toggle: function(name, sw) {
@@ -260,6 +262,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(target){
 			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
 			parentEl.append(this.el);
+			
+			if(this.el.parents().is('body')){
+				this._afterRender();
+			}
 		}
 	},
 	
@@ -267,6 +273,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_afterBuild: function() {
+	},
+
+	_afterRender: function() {
+		this.children.each(function(c) { c._afterRender(); });
 	},
 	
 	_events: function(self){
@@ -338,12 +348,39 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 
 		if('components' in o) {
-			for(var i in o.components)
-				this.addComponent(i, o.components[i]);
+			var a = [];
+			// преобразуем набор компонентов в массив
+			for(var i in o.components){
+				var c = o.components[i];
+				c._cweight = c.weight || 9999;
+				c._cname = i;
+				a.push(c);
+			}
+			// сортируем массив по весу компонентов
+			a.sort(function(c1, c2){
+				var a = c1._cweight;
+				var b = c2._cweight;
+				if(a < b) return -1;
+				else if(a > b) return 1;
+				return 0;
+			});
+			// добавляем компоненты
+			Dino.each(a, function(c){
+				self.addComponent(c._cname, c);				
+				delete c._cweight;
+				delete c._cname;
+			});
 		}
 		
 		if('state' in o) {
 			this.states.set(o.state);
+		}
+
+		
+		if(o.clickable){
+			this.el.click(function(e){
+				self.events.fire('onClick', {}, e);
+			});
 		}
 		
 /*		

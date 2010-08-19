@@ -15,64 +15,16 @@
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/sample.css">
-		<script type="text/javascript" src="js/sample.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
 
 
-	<style>
-		
-			.menu {
-/*				width: 70px;
-				padding: 10px;*/
-				font-size: 0.8em;
-				margin-top: 10px;
-				position: relative;
-			}
+	<style>			
 			
-			.submenu {
-/*				margin-left: 20px;*/
-			}
-			
-			.menu-item {
-				border-bottom: 1px dotted #aaaaaa;
-				cursor: pointer;
-			}
-			
-			.menu-item-label {
-				margin-right: 20px;
-				margin-left: 5px;
-			}
-			
-			.menu-item:hover {
-				background-color: #e0e0e0;
-			}
-
-			.menu-item-icon {
-				background-position: 32px 32px;				
-			}
-			
-			.has-submenu > .menu-item-icon {
-				background-position: -32px -16px;
-			}
-			
-			
-			.context-menu {
-				background-color: white;
-				cursor: default;
-				z-index: 1000;
-			}
-		
-			.context-menu-item {
-				border-bottom: 1px dotted #aaaaaa;
-				cursor: pointer;
-				padding: 0 5px;
-			}
-			
-			.context-menu-item:hover {
-				background-color: #e0e0e0;
-			}
 		
 			.dino-growl-box {
 				background-color: #f8f8f8;
@@ -81,13 +33,6 @@
 				padding: 10px;
 			}
 		
-			.preview-text {
-				position: relative;
-				font-size: 2em;
-				color: #f0f0f0;
-				text-align: center;
-				cursor: default;
-			}
 		
 	</style>
 
@@ -96,11 +41,44 @@
 <body>
 
 
-<div id="desc-1" class="desc">
+
+
+
+<div id="sample-menu">
+<style>
+.menu {
+/*  width: 70px;
+	padding: 10px;*/
+	font-size: 0.8em;
+	margin-top: 10px;
+	position: relative;
+}
+
+.menu-item {
+	border-bottom: 1px dotted #aaaaaa;
+	cursor: pointer;
+}
+
+.menu-item-label {
+	margin-right: 20px;
+	margin-left: 5px;
+}
+
+.menu-item:hover {
+	background-color: #e0e0e0;
+}
+
+.menu-item-icon {
+	background-position: 32px 32px;				
+}
+
+.has-submenu > .menu-item-icon {
+	background-position: -32px -16px;
+}
+
 	
-	<p>Это черновой вариант меню</p>
-	
-	<pre class="sh_javascript">
+</style>
+<script>
 // Модель меню
 var menuModel = {
   dropdown: {
@@ -160,22 +138,56 @@ Dino.widget({
   { label: 'Menu 2' }, 
   { label: 'Menu 3' }
   ]
-});	
-	</pre>
+});
 	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	<p>Это черновой вариант меню</p>	
+</div>
 </div>
 
 
 
-<div id="desc-2" class="desc">
+
+
+
+
+
+
+
+<div id="sample-context">
+<style>
 	
-	<p>
-		Это тоже черновой вариант, созданный на основе <strong></>Dino.containers.DropDownBox</strong>.
-	</p>
+.context-menu {
+	background-color: white;
+	cursor: default;
+	z-index: 1000;
+}
+
+.context-menu-item {
+	border-bottom: 1px dotted #aaaaaa;
+	cursor: pointer;
+	padding: 0 5px;
+}
+
+.context-menu-item:hover {
+	background-color: #e0e0e0;
+}
 	
-	<pre class="sh_javascript">
-				
-Dino.widget({
+.preview-text {
+	position: relative;
+	font-size: 2em;
+	color: #f0f0f0;
+	text-align: center;
+	cursor: default;
+}
+	
+</style>
+<script>
+$.dino({
   dtype: 'box',
   items: [{
     dtype: 'dropdown-box',
@@ -200,9 +212,65 @@ Dino.widget({
     ]
   }, {
     text: 'Кликни правой кнопкой мыши в любом месте окна',
-    cls: 'preview-text'
+    cls: 'preview-text',
+		events: {
+			'contextmenu': function(){ 
+				return false; 
+			},
+			'mousedown': function(w, e) {
+				
+//				alert('');
+				
+				if(e.button == 2){
+
+					var dropdown = w.parent.getItem(0);
+				
+					var offset = $(this).offset();
+					
+					var x = e.pageX - offset.left - 2;
+					var y = e.pageY - offset.top - 2;
+					
+					dropdown.show(x, y);
+					
+					e.stopPropagation();
+					
+					$('body').one('click', function(){ dropdown.hide(); });
+				}
+			}
+		}
   }]
 });
+
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	<p>
+		Это тоже черновой вариант, созданный на основе <strong></>Dino.containers.DropDownBox</strong>.
+	</p>	
+</div>
+</div>
+
+
+
+
+
+<!--div id="desc-1" class="desc">
+	
+	
+	<pre class="sh_javascript">
+	</pre>
+	
+</div>
+
+
+
+<div id="desc-2" class="desc">
+	
+	
+	<pre class="sh_javascript">
+				
 	</pre>
 	
 </div>
@@ -294,7 +362,7 @@ Dino.widget({
 
 	</pre>
 	
-</div>
+</div -->
 
 
 
@@ -304,6 +372,17 @@ Dino.widget({
 
 <script>
 	
+	
+samplePage([{
+	name: 'Вертикальное меню',
+	id: '#sample-menu'
+}, {
+	name: 'Контекстное меню',
+	id: '#sample-context'
+}]);
+	
+	
+/*	
 		Dino.samples.build({
 			widgets: [{
 				id: 'menu1',
@@ -346,7 +425,7 @@ Dino.widget({
 		});
 		
 		$('#menu2 .preview').bind('contextmenu', function(){ return false; });
-		
+*/		
 	
 </script>
 

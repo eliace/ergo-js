@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
@@ -23,59 +24,6 @@
 
 </head>
 <body>
-
-<style>
-/*	
-	.tab-active {
-		background-image: none;
-		background-color: white;
-		padding-bottom: 1px !important;
-	}
-
-
-	.tab-v {
-		border-left: 1px solid #aaa;
-		border-top: 1px solid #aaa;
-		border-bottom: 1px solid #aaa;
-	}
-
-	.tab-v-active {
-		background-image: none;
-		background-color: white;
-		margin-right: -1px !important;
-	}
-	
-	.dino-form-item-wrapper > label {
-		display: block;
-	}
-	
-	.vtab-content {
-		margin-left: 80px;
-		margin-right: 0;
-	}
-*/	
-	.dino-panel-header {
-		background-color: #ccc;
-		font-weight: bold;
-	}
-
-	.dino-panel-body {
-		overflow-y: scroll;
-	}
-	
-	.dino-panel-footer {
-		background-color: #ccc;
-	}
-	
-	.tab-panel {
-		position:relative;
-		height: 200px;
-		top: 30px;
-		margin: 10px;
-	}
-
-</style>
-
 
 
 
@@ -87,6 +35,9 @@
 <script>
 	
 </script>	
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>
@@ -125,11 +76,11 @@
 </style>
 <script>
 Dino.widget({
-  renderTo: Samples.PREVIEW,
+//  renderTo: Samples.PREVIEW,
   dtype: 'box',
   items: [{
     dtype: 'tabs',
-		cls: 'sample-tabs',
+    cls: 'sample-tabs',
     defaultItem: {
       baseCls: 'tab',
       cls: 'ui-widget-header ui-corner-top'
@@ -141,36 +92,13 @@ Dino.widget({
     onTabChanged: function() {
 //      this.parent.getItem('stack').layout.activate(this.currentTab.index);
     }
-  }/*, {
-    tag: 'stack',
-    layout: 'stack-layout',
-    items: [{
-      dtype: 'tab-panel',
-      layout:'dock-layout',
-      tabs: {
-        dock: 'left',
-        defaultItem: {
-          baseCls: 'tab-v'
-        }
-      },
-      cls: 'tab-panel',
-      pages: [{
-        tab: {text: 'tab1'},
-        text: 'Content1'
-      }, {
-        tab: {text: 'tab2'},
-        text: 'Content2'
-      }, {
-        tab: {text: 'tab3'},
-        text: 'Content3'
-      }]
-    }, {
-      text: 'Содержимое контейнера №2'
-    }]
-  }*/]
+  }]
 });		
 	
 </script>	
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>
@@ -188,7 +116,7 @@ Dino.widget({
 </style>
 <script>
 Dino.widget({
-  renderTo: Samples.PREVIEW,
+//  renderTo: Samples.PREVIEW,
   dtype: 'form',
   items: [{
     label: 'Текстовое поле:',
@@ -215,6 +143,9 @@ Dino.widget({
   }]
 });			
 </script>	
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>
@@ -222,40 +153,95 @@ Dino.widget({
 
 
 
+<div id="sample-growl">
+<style>	
 
-<!--div id="sample-panel">
-<style>
+.dino-growl-box {
+}
+
+.dino-growl {
+	position: relative;
+	margin-bottom: 2px;
+}
+
+.led-icon-cancel { background-image: url(./img/icons/cross_grey.png); }
+.led-icon-error { background-image: url(./img/icons/error.png); }
+.led-icon-info { background-image: url(./img/icons/exclamation.png); }
+.led-icon-warn { background-image: url(./img/icons/exclamation_octagon_fram.png); }
+
+.led-icon {
+	width: 16px;
+	height: 16px;
+}
+
+
+.dino-growl {
+	padding: 2px;
+}
+
+.dino-growl-icon {
+	margin-top: -8px;
+	margin-left: 3px;
+}	
+
+.dino-growl-content {	
+	margin: 0 30px;
+	font-size: 0.8em;
+}	
+
+.dino-growl-button {
+	margin-top: -8px;
+	margin-right: 3px;
+}	
+
+.message-info {
+	background-color: #eee;
+}
+
+.message-warn {
+	background-color: #ff0;	
+}
+
+.message-err {
+	background-color: #f33;		
+}
+
 	
 </style>
 <script>
-$.dino({
-  renderTo: Samples.PREVIEW,
-  dtype: 'panel',
-  width: 300,
-  cls: 'dino-border-all',
-  header: {
-    text: 'Lorem ipsum'
+Dino.widget({
+//  renderTo: Samples.PREVIEW,
+  dtype: 'growl-box',
+  defaultItem: {
+    cls: 'dino-border-all dino-corner-all',
+    buttonCls: 'led-icon led-icon-cancel'
   },
-  footer: {
-    layout: 'row-layout',
-    items: [
-      {cls: 'ui-icon ui-icon-refresh'},
-      {cls: 'ui-icon ui-icon-plus'},
-      {cls: 'ui-icon ui-icon-minus'},
-    ]
-  },
-  body: {
-    height: 200,
-    text: Samples.loremipsum
-  },
-});		
-	
+  items: [{
+    cls: 'message-info',
+    iconCls: 'led-icon led-icon-info',
+    message: 'Информация'
+  }, {
+    cls: 'message-warn',
+    iconCls: 'led-icon led-icon-warn',
+    message: 'Предупреждение'
+  }, {
+    cls: 'message-err',
+    iconCls: 'led-icon led-icon-error',
+    message: 'Ошибка'
+  }, {
+    cls: 'message-info',
+    iconCls: 'led-icon led-icon-info',
+    message: Samples.loremipsum
+  }]
+});			
 </script>	
+<div class="html">
+	
+</div>
 <div class="desc">
 	
 </div>
-</div-->
-
+</div>
 
 
 
@@ -275,36 +261,12 @@ samplePage([{
 }, {
 	name: 'Форма',
 	id: '#sample-form'
+}, {
+	name: 'Growl box',
+	id: '#sample-growl'
 }]);
 	
 		
-//	growl.show(Dino.samples.loremipsum);
-	
-/*
-	Dino.samples.build({
-		widgets: [{
-			id: 'w1',
-			label: 'Бокс',
-			preview: eval($("#desc-1 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-1') }				
-		}, {
-			id: 'w2',
-			label: 'Закладки',
-			preview: eval($("#desc-2 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-2') }				
-		}, {
-			id: 'w3',
-			label: 'Форма',
-			preview: eval($("#desc-3 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-3') }				
-		}, {
-			id: 'w4',
-			label: 'Панель',
-			preview: eval($("#desc-4 .sh_javascript").text()),
-			description: { wrapEl: $('#desc-4') }				
-		}]
-	});
-*/	
 	
 </script>
 

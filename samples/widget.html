@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
@@ -69,7 +70,9 @@ new Dino.Widget('<div/>', {
   }
 });	
 </script>
+<div class="html">
 	
+</div>
 <div class="desc">
 	<p>
 		Переключение состояний это просто добавление/удаление классов, имеющих специальные имена. 
@@ -119,7 +122,9 @@ new Dino.Widget('<div/>', {
   }
 });		
 </script>
+<div class="html">
 	
+</div>
 <div class="desc">
 	<p>
 		<strong>Dino</strong> использует механизм событий <strong>jQuery</strong> и свою собственную релизацию диспетчера событий в классе <strong>Dino.events.Observer</strong>. 
@@ -147,14 +152,10 @@ new Dino.Widget('<div/>', {
 	
 samplePage([{
 	name: 'Состояния (states)',
-	description: '#sample1 .desc',
-	code: '#sample1 script',
-	css: '#sample1 style'
+	id: '#sample1'
 }, {
 	name: 'События (events)',
-	description: '#sample2 .desc',
-	code: '#sample2 script',
-	css: '#sample2 style'
+	id: '#sample2'
 }]);
 	
 	

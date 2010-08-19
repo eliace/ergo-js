@@ -42,9 +42,7 @@
 
 .dino-icon {
 	position: absolute;
-}
-
-.dino-icon-16 {
+	display: block;
 	width: 16px;
 	height: 16px;
 }
@@ -264,8 +262,12 @@
 
 
 
+.dino-row-layout {
+	display: table-row;
+}
+
 .dino-row-layout > div {
-	display: inline-block;
+	display: table-cell;
 	vertical-align: middle;
 }
 

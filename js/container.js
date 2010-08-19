@@ -113,8 +113,13 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		}
 		
 	},
+
 	
-	
+	_afterRender: function() {
+		Dino.Container.superclass._afterRender.apply(this);
+		if(this.layout.options.updateMode == 'auto') this.layout.update();
+	},
+
 	//FIXME по идее этот мето должен быть в Dino.Widget
 	_dataChanged: function() {
 		this.children.each(function(item) { item._dataChanged(); });
@@ -138,6 +143,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		this.children.add(item);
 		this.layout.insert(item, key);
+		
+//		if(item.el.parents().is('body')) item._afterRender();
 	
 //		item.events.fire('onAdded');
 //		this.events.fire('onItemAdded');		

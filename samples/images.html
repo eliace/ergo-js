@@ -16,10 +16,12 @@
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/sample.css">
-		<script type="text/javascript" src="js/sample.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
 
 
 <body>
@@ -31,40 +33,39 @@
 
 
 
-
-<div id="desc-1" class="desc">
+<div id="sample-img">
+<style>
 	
-	<p>
-		Обертка над тегом &lt;img&gt;, основное назначение - загрузка картинок по URL.
-	</p>
-	
-	<pre class="sh_javascript">
-Dino.widget({
+</style>
+<script>
+$.dino({
   dtype: 'image',
   imageUrl: 'img/stegosaurus_128x128.png',
-});
-	</pre>
+});	
+</script>	
+<div class="html">
 	
+</div>
+<div class="desc">
+	<p>
+		Обертка над тегом &lt;img&gt;, основное назначение - загрузка картинок по URL.
+	</p>	
+</div>
 </div>
 
 
 
-
-
-<div id="desc-2" class="desc">
+<div id="sample-icon">
+<style>
 	
-	<p>
-		Простая картинка предопределенного размера (как правило - 16x16), полностью управляется стилями. 
-		По умолчанию иконка имеет абсолютное позиционирование, т.к. чаще всего является декорационным элементом сложного виджета.
-	</p>
-	
-	<pre class="sh_javascript">
-Dino.widget({
+</style>
+<script>
+$.dino({
   dtype: 'box',
   layout: 'row-layout',
   defaultItem: {
     dtype: 'icon',
-    style: {'position': 'relative'}, //<-- для того, чтобы компоновка смогла определить размеры компонентов
+    style: {'position': 'relative'}, // для того, чтобы компоновка смогла определить размеры компонентов
     baseCls: 'ui-icon'
   },
   items: [
@@ -76,20 +77,29 @@ Dino.widget({
     { cls: 'ui-icon-note' }
   ]
 });
-	</pre>
+</script>	
+<div class="html">
 	
+</div>
+<div class="desc">
+	<p>
+		Простая картинка предопределенного размера (как правило - 16x16), полностью управляется стилями. 
+		По умолчанию иконка имеет абсолютное позиционирование, т.к. чаще всего является декорационным элементом сложного виджета.
+	</p>
+</div>
 </div>
 
 
 
-<div id="desc-3" class="desc">
+
+
+
+<div id="sample-async">
+<style>
 	
-	<p>
-		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит появляется возможность выполнить пропорциональное масштабирование.
-	</p>
-	
-	<pre class="sh_javascript">
-Dino.object({
+</style>
+<script>
+$.dino({
   dtype: 'box',
   items: [{
     // обычная загрузка
@@ -105,9 +115,19 @@ Dino.object({
     height: 100   
   }]
 });
-	</pre>
+</script>	
+<div class="html">
 	
 </div>
+<div class="desc">
+	<p>
+		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит появляется возможность выполнить пропорциональное масштабирование.
+	</p>
+</div>
+</div>
+
+
+
 
 
 
@@ -117,6 +137,19 @@ Dino.object({
 
 <script>
 	
+samplePage([{
+	name: 'Изображение',
+	id: '#sample-img'
+}, {
+	name: 'Иконка',
+	id: '#sample-icon'
+}, {
+	name: 'Изображение с поздней загрузкой',
+	id: '#sample-async'
+}]);
+	
+	
+/*	
 	Dino.samples.build({
 		widgets: [{
 			id: 'w1',
@@ -135,7 +168,7 @@ Dino.object({
 			description: { wrapEl: $('#desc-3') }				
 		}]
 	});
-	
+*/	
 </script>
 
 

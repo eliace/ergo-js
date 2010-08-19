@@ -3,6 +3,59 @@
 var Samples = {};
 
 
+
+Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
+	
+	defaultOptions: {
+		components: {
+			button: {
+				dtype: 'box',
+				layout: 'dock-layout',
+				baseCls: 'js-button',
+				items: [{
+					states: {
+						'active': 'ui-icon-triangle-1-s',
+						'inactive': 'ui-icon-triangle-1-e'
+					},
+					dock: 'left-center',
+					cls: 'ui-icon ui-icon-triangle-1-e js-icon'
+				}, {
+					cls: 'js-title'
+				}],
+				clickable: true,
+				onClick: function(e){
+					var is_active = this.states.toggle('active');
+					this.getItem(0).states.toggle('active', is_active)
+					this.getItem(0).states.toggle('inactive', !is_active);
+					this.parent.container.states.toggle('hidden', !is_active);
+				}
+			}, 
+			container: {
+				dtype: 'box',
+				baseCls: 'js-container',
+				cls: 'dino-hidden',
+			}
+		}
+	},
+	
+	
+	_opt: function(o) {
+		Samples.widgets.ExpandablePanel.superclass._opt.apply(this, arguments);
+		
+		if('buttonLabel' in o)
+			this.button.getItem(1).opt('text', o.buttonLabel);
+		if('contentText' in o)
+			this.container.opt('text', o.contentText);
+	}
+	
+	
+	
+	
+}, 'expandable-panel');
+
+
+
+
 /**
  *
  * name
@@ -21,6 +74,7 @@ function samplePage(samples) {
 		
 		var id = sample.id;
 		sample.description = sample.description || sample.id + ' .desc';
+		sample.html = sample.html || sample.id + ' .html';
 		sample.code = sample.code || sample.id + ' script';
 		sample.css = sample.css || sample.id + ' style';
 		
@@ -36,72 +90,32 @@ function samplePage(samples) {
 				html: $(sample.description)
 			}, {
 				tag: 'js',
-				items: [{
-//					cls: 'js-button-wrapper',
-//					content: {
-						layout: 'dock-layout',
-						baseCls: 'js-button',
-						items: [{
-							dock: 'left-center',
-							cls: 'ui-icon ui-icon-triangle-1-e js-icon'
-						}, {
-							cls: 'js-title',
-							text: 'JavaScript'
-						}],
-						events: {
-							'click': function() {
-								var w = $(this).dino();
-								w.states.toggle('active');
-								var is_active = w.states.is('active');
-								w.getParent('js').getItem(1).el.toggleClass('dino-hidden', !is_active);
-								w.getItem(0).el.toggleClass('ui-icon-triangle-1-e', !is_active);
-								w.getItem(0).el.toggleClass('ui-icon-triangle-1-s', is_active);
-							}
-						}
-//					}
-				}, {
-					baseCls: 'js-container',
-					cls: 'dino-hidden',
-					text: '<pre class="sh_javascript">'+Dino.escapeHtml($(sample.code).text())+'<pre>'
-				}]
+				dtype: 'expandable-panel',
+				buttonLabel: 'JavaScript',
+				contentText: '<pre class="sh_javascript">'+Dino.escapeHtml($(sample.code).text())+'<pre>'
+				
 			}, {
 				tag: 'css',
-				items: [{
-//					cls: 'js-button-wrapper',
-//					content: {
-						layout: 'dock-layout',
-						baseCls: 'js-button',
-						items: [{
-							dock: 'left-center',
-							cls: 'ui-icon ui-icon-triangle-1-e js-icon'
-						}, {
-							cls: 'js-title',
-							text: 'CSS'
-						}],
-						events: {
-							'click': function() {
-								var w = $(this).dino();
-								w.states.toggle('active');
-								var is_active = w.states.is('active');
-								w.getParent('css').getItem(1).el.toggleClass('dino-hidden', !is_active);
-								w.getItem(0).el.toggleClass('ui-icon-triangle-1-e', !is_active);
-								w.getItem(0).el.toggleClass('ui-icon-triangle-1-s', is_active);
-							}
-						}
-//					}
-				}, {
-					baseCls: 'js-container',
-					cls: 'dino-hidden',
-					text: '<pre class="sh_css">'+$(sample.css).text()+'<pre>'
-				}]
+				dtype: 'expandable-panel',
+				buttonLabel: 'CSS',
+				contentText: '<pre class="sh_css">'+$(sample.css).text()+'<pre>'
+			}, {
+				tag: 'html',
+				dtype: 'expandable-panel',
+				buttonLabel: 'HTML',
+				contentText: '<pre class="sh_html">'+Dino.escapeHtml($(sample.html).html())+'<pre>'
 			}, {
 				tag: 'options'
 			}]
 		});
 		
 		// создаем виджет и выполняем сопутсвующий код
-		Samples.PREVIEW = page.getItem('preview');		
-		eval($(sample.code).text());
+//		Samples.PREVIEW = page.getItem('preview');
+		var w = eval($(sample.code).text());
+		
+		if(w) page.getItem('preview').addItem(w);
+		
+//		page.getItem('html').opt('contentText', '<pre class="sh_html">'+Dino.escapeHtml(Samples.PREVIEW.el.html())+'<pre>')
 		
 		pages.push( page );
 	}
@@ -113,11 +127,13 @@ function samplePage(samples) {
 		items: [{
 			id: 'aaa',
 			dtype: 'tab-panel',
-			tabContainer: {
-				cls: 'widget-tabs'
-			},
-			pageContainer: {
-				cls: 'widget-pages'
+			components: {
+				tabs: {
+					cls: 'widget-tabs'
+				},
+				pages: {
+					cls: 'widget-pages'
+				},
 			},
 			'pages': pages
 		}]
@@ -128,9 +144,10 @@ function samplePage(samples) {
 	// включаем подсветку кода
 	sh_highlightDocument();
 
+	
 	// добавляем гроул
 	Samples.growl = $.fn.dino({
-		dtype: 'growl-box',
+		dtype: 'growl',
 		cls: 'ui-state-hover',
 		renderTo: 'body',
 		delay: 600,
