@@ -1,150 +1,6 @@
 
 
 
-Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
-	
-	initialize: function(widget) {
-		this.widget = widget;
-	},
-	
-	set: function(name) {
-		this.widget.el.addClass( this.stateCls(name) );
-		this.widget.events.fire('onStateChanged');
-		return this;
-	},
-	
-	clear: function(name){
-		this.widget.el.removeClass( this.stateCls(name) );
-		this.widget.events.fire('onStateChanged');
-		return this;
-	},
-	
-	toggle: function(name, sw) {
-		var cls = this.stateCls(name);
-		this.widget.el.toggleClass( cls, sw );
-		this.widget.events.fire('onStateChanged');
-		return this.widget.el.hasClass(cls);
-	},
-	
-	check: function(name) {
-		return this.widget.el.hasClass( this.stateCls(name) );
-	},
-
-	is: function(name) {
-		return this.widget.el.hasClass( this.stateCls(name) );
-	},
-	
-	
-	stateCls: function(name) {
-		return this.widget.options.states[name] || this.widget.options.baseCls+'-'+name;
-	}
-	
-	
-});
-
-
-
-
-Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
-	
-	initialize: function(owner) {
-		this.widgets = [];
-		this.owner = owner;
-	},
-	
-	
-	
-	add: function(item) {
-		// добавляем дочерний виджет
-		this.widgets.push(item);
-			
-		item.parent = this.owner;	
-		
-		// выполняем автобиндинг
-		if(this.owner.data && !item.data) item.setData(this.owner.data);
-		
-		return item;
-	},
-	
-	
-	get: function(i) {
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return this.widgets[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find_one(this.widgets, f);	
-	},
-	
-	remove: function(item) {
-		var i = Dino.indexOf(this.widgets, item);
-		
-		// если такого элемента среди дочерних нет, то возвращаем false
-		if(i == -1) return false;
-		
-		delete this.widgets[i].parent;
-		this.widgets.splice(i, 1);
-		
-		return true;
-	},
-	
-	removeAll: function() {
-		this.widgets = [];
-	},
-	
-	each: function(callback) {
-		for(var i = 0; i < this.widgets.length; i++)
-			callback.call(this.owner, this.widgets[i], i);
-	},
-	
-	size: function() {
-		return this.widgets.length;
-	}
-	
-	
-	
-});
-
-
-Dino.utils.overrideOpts = function(o) {
-
-	var ignore = ['data'];		
-	
-	for(var j = 1; j < arguments.length; j++){
-		var newProps = arguments[j];
-		for(var i in newProps){
-			var p = newProps[i];
-			
-			if(Dino.in_array(ignore, i)){
-				o[i] = p;
-			}
-			else{
-				if( Dino.isPlainObject(p) ){
-					if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-					Dino.utils.overrideOpts(o[i], p);
-				}
-				else{
-					// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
-					if(i in o){
-						// классы сливаются в одну строку, разделенную пробелом
-						if(i == 'cls') p = o[i] + ' ' + p;
-					}
-					o[i] = p;
-				}
-			}
-		}
-	}
-	
-	return o;
-}
-
-
-
-
-
 
 
 /**
@@ -179,6 +35,7 @@ Dino.utils.overrideOpts = function(o) {
 Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	defaultOptions: {
+		layout: 'plain-layout',
 		states: {
 			'hidden': 'dino-hidden'
 		}
@@ -226,10 +83,18 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.setData(o.data);
 		// конструируем виджет
 		this._init(o);//this, arguments);
-		// добавляем обработку событий
-		this._events(this);
+		
+		// инициализируем компоновку
+		var layoutOpts = o.layout;
+		if( Dino.isString(layoutOpts) )
+			layoutOpts = {dtype: layoutOpts};
+		this.layout = Dino.object(layoutOpts);
+		this.layout.attach(this);		
+		
 		// устанавливаем опциональные параметры
 		this._opt(o);
+		// добавляем обработку событий
+		this._events(this);
 		// добавляем элемент в документ
 		this._render(o.renderTo);
 		// обновляем виджет, если к нему были подключены данные
@@ -277,6 +142,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 
 	_afterRender: function() {
 		this.children.each(function(c) { c._afterRender(); });
+		if(this.layout.options.updateMode == 'auto') this.layout.update();
 	},
 	
 	_events: function(self){
@@ -383,6 +249,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			});
 		}
 		
+		
+		if('content' in o){
+			this.addComponent('content', o.content);
+		}
+		
 /*		
 		if('data' in o) {
 			if('dataId' in o){
@@ -425,7 +296,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	addComponent: function(key, o){
 		this[key] = Dino.widget(o);
 		this.children.add( this[key] );
-		this.el.append(this[key].el);
+		this.layout.insert(this[key]);
+//		this.el.append(this[key].el);
 	},
 	
 	
@@ -610,7 +482,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 //	_dataBound: function(){},
 //	_dataUnbound: function() {},
-	_dataChanged: function() {}
+	_dataChanged: function() {
+		this.children.each(function(child) { child._dataChanged(); });		
+	}
 	
 });
 

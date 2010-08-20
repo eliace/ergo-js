@@ -7,6 +7,9 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		defaultItem: {
+			content: {
+				dtype: 'text'
+			},
 			events: {
 				'click': function(){
 					var tab = $(this).dino();
@@ -16,13 +19,13 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 		},
 		itemFactory: function(o){
 			return Dino.widget({
-				wrapEl: $('<li/>'),
-				defaultItem: this.options.tabContent
+				wrapEl: $('<li/>')
+//				defaultItem: this.options.tabContent
 			}, o);
 		},
-		tabContent: {
-			dtype: 'text'
-		},
+//		tabContent: {
+//			dtype: 'text'
+//		},
 		defaultIndex: 0
 	},
 	
@@ -97,8 +100,9 @@ Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
 			if(item != tab)
 				item.states.clear('active');
 		});
+		var is_changed = (this.currentTab != tab);
 		this.currentTab = tab;
-		this.events.fire('onTabChanged');
+		if(is_changed) this.events.fire('onTabChanged');
 		
 	}
 

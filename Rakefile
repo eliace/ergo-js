@@ -23,7 +23,6 @@ require 'fileutils'
     'js/layouts/row-layout.js',
     'js/layouts/form-layout.js',
     'js/layouts/dock-layout.js',
-    'js/layouts/panel-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',
@@ -54,8 +53,7 @@ def merge_files(file_list)
 
     file_list.each do |filepath|
       File.open(filepath) do |f|
-       s = f.read(nil)
-       out.write s
+       out.write f.read(nil)
       end
     end
 

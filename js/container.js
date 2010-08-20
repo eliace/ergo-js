@@ -65,8 +65,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	defaultOptions: {
 		itemFactory: function(o) {
 			return Dino.widget(o); 
-		},
-		layout: 'plain-layout'
+		}
 	},
 		
 	_init: function() {
@@ -79,12 +78,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 //		if('itemFactory' in o) this.itemFactory = o.itemFactory;
 		
-		// инициализируем компоновку
-		var layoutOpts = o.layout;
-		if( Dino.isString(layoutOpts) )
-			layoutOpts = {dtype: layoutOpts};
-		this.layout = Dino.object(layoutOpts);
-		this.layout.attach(this);
 		
 //		// инициализируем метод фабрики объектов
 //		this.itemFactory = function(o){
@@ -103,9 +96,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if('itemFactory' in o)
 			this.itemFactory = o.itemFactory;
 		
-		if('content' in o){
-			this.content = this.addItem(o.content);
-		}
+//		if('content' in o){
+//			this.content = this.addItem(o.content);
+//		}
 
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
@@ -115,15 +108,14 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 
 	
-	_afterRender: function() {
-		Dino.Container.superclass._afterRender.apply(this);
-		if(this.layout.options.updateMode == 'auto') this.layout.update();
-	},
+//	_afterRender: function() {
+//		Dino.Container.superclass._afterRender.apply(this);
+//	},
 
 	//FIXME по идее этот мето должен быть в Dino.Widget
-	_dataChanged: function() {
-		this.children.each(function(item) { item._dataChanged(); });
-	},
+//	_dataChanged: function() {
+//		this.children.each(function(item) { item._dataChanged(); });
+//	},
 	
 
 	getItem: function(i){

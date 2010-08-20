@@ -77,7 +77,6 @@
 </style>
 <script>
 Dino.widget({
-//  renderTo: Samples.PREVIEW,
   dtype: 'box',
   items: [{
     dtype: 'tabs',
@@ -87,10 +86,19 @@ Dino.widget({
       cls: 'ui-widget-header ui-corner-top'
     },
     items: [
-      { text: 'Tab1' }, 
-      {	text: 'Tab2' }
+      { text: 'Tab1' },
+      {	text: 'Tab2' },
+      {
+        layout: 'dock-layout',
+        content: {
+          dtype: 'icon',
+          cls: 'dino-icon-info',
+          dock: 'center'
+        }
+      }
     ],
     onTabChanged: function() {
+			Samples.growl.addMessage('Выбрана закладка ' + this.currentTab.index);
 //      this.parent.getItem('stack').layout.activate(this.currentTab.index);
     }
   }]
@@ -117,7 +125,6 @@ Dino.widget({
 </style>
 <script>
 Dino.widget({
-//  renderTo: Samples.PREVIEW,
   dtype: 'form',
   items: [{
     label: 'Текстовое поле:',

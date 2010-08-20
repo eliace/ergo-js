@@ -153,8 +153,14 @@ function samplePage(samples) {
 		cls: 'message-panel',
 		defaultItem: {
 			delay: 600,
-			timeout: 6000,
-			cls: 'dino-border-all dino-corner-all'
+			timeout: 4000,
+			cls: 'dino-border-all dino-corner-all',
+			closeOnClick: true,
+			components: {
+				button: {
+					cls: 'dino-hidden'
+				}
+			}
 		},
 //		cls: 'ui-state-hover dino-hidden',
 		renderTo: 'body'

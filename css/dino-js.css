@@ -1,14 +1,18 @@
 
 
 .dino-hidden {
-	display: none;
+	display: none !important;
 }
 
-.dino-align-center {
+.dino-center-align {
+	display: block;
 	margin: 0 auto;
 }
-
-
+/*
+.dino-center-v {
+	vertical-align: middle;
+}
+*/
 
 .dc-advanced-input {
 	border: 1px solid #aaaaaa;
@@ -25,7 +29,6 @@
 /* Buttons */
 .dino-button {
 	position: relative;
-	padding: 0;
 }
 
 .dino-button-text-none {
@@ -284,7 +287,9 @@
 }
 
 
-
+/*
+ * Row layout
+ */
 [layout='row'] {
 	display: table-row;
 }
@@ -294,6 +299,18 @@
 	vertical-align: middle;
 }
 
+/*
+ * Column layout
+ */
+[layout='column'] {
+	display: table-cell;
+/*	vertical-align: middle;*/
+}
+
+
+[layout='column'] > div {
+	display: block;
+}
 
 
 
@@ -317,6 +334,13 @@
 
 
 
+.dino-growl {
+	cursor: pointer;
+}
+
+
+
+/*
 .dino-growl-box {
 	position: absolute;
 	right: 10px;
@@ -337,3 +361,4 @@
 	right: 0;
 	bottom: 0;
 }
+*/

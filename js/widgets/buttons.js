@@ -155,18 +155,23 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 	defaultCls: 'dino-pulse-button',
 	
 	defaultOptions: {
-		pulseDelay: 200
+		pulseDelay: 200,
+		components: {
+			image: {
+				dtype: 'image'
+			}
+		}
 	},
 	
-	_init: function(){
-		Dino.widgets.PulseButton.superclass._init.apply(this, arguments);
-		
-		var self = this;
-		
-		this.image = new Dino.Widget('<img/>');
-		this.addItem(this.image);
-		
-	},
+//	_init: function(){
+//		Dino.widgets.PulseButton.superclass._init.apply(this, arguments);
+//		
+//		var self = this;
+//		
+//		this.image = new Dino.Widget('<img/>');
+//		this.addItem(this.image);
+//		
+//	},
 	
 	_events: function(self) {
 		Dino.widgets.PulseButton.superclass._events.apply(this, arguments);

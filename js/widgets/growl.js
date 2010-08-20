@@ -2,33 +2,39 @@
 
 
 
-Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 	
 //	defaultCls: 'dino-growl-box',
 	
 	defaultOptions: {
+		components: {
+			icon: {
+				dock: 'left',
+				dtype: 'icon',
+				cls: 'dino-growl-icon'
+			}, 
+			contentBox: {
+				dtype: 'box',
+				cls: 'dino-growl-content',
+				content: {
+					dtype: 'text'
+				}
+			}, 
+			button: {
+				dock: 'right',
+				dtype: 'box',
+				cls: 'dino-growl-button',
+				clickable: true,
+				onClick: function(e) {
+					this.parent.hide();
+				}			
+			}
+		},
 		delay: 500,
-		cls: 'dino-growl dino-hidden',
+		cls: 'dino-growl',
+		styles: {'display': 'none'},
 		layout: 'dock-layout',
-		items: [{
-			dock: 'left',
-			dtype: 'icon',
-			cls: 'dino-growl-icon'
-		}, {
-			dtype: 'box',
-			cls: 'dino-growl-content',
-			items: [{
-				dtype: 'text'
-			}]			
-		}, {
-			dock: 'right',
-			dtype: 'box',
-			cls: 'dino-growl-button',
-			clickable: true,
-			onClick: function(e) {
-				this.parent.hide();
-			}			
-		}]
+		closeOnClick: false
 /*		
 		components: {
 			icon: {
@@ -66,12 +72,20 @@ Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
 		Dino.widgets.Growl.superclass._opt.apply(this, arguments);
 		
 		if('message' in o)
-			this.getItem(1).getItem(0).opt('text', o.message);
+			this.contentBox.content.opt('text', o.message);
 		
 		if('iconCls' in o)
-			this.getItem(0).opt('cls', o.iconCls);
+			this.icon.opt('cls', o.iconCls);
 		if('buttonCls' in o)
-			this.getItem(2).opt('cls', o.buttonCls);
+			this.button.opt('cls', o.buttonCls);
+		
+		var self = this;
+		
+		if(o.closeOnClick){
+			this.el.click(function(){
+				self.hide();
+			});
+		}
 	},
 	
 	show: function(html){
@@ -100,7 +114,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 			dtype: 'growl',
 		    buttonCls: 'dino-icon dino-icon-close dino-off',
 			onHide: function() {
-				this.parent.removeItem(this);
+				if(this.parent) this.parent.removeItem(this);
 			}
 		}
 	},
