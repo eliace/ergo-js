@@ -5,18 +5,19 @@ Dino.declare('Dino.layouts.RowLayout', 'Dino.Layout', {
 	
 	defaultOptions: {
 //		containerCls: 'dino-row-layout'
+		name: 'row'
 	},
 
 	insert: function(item) {
 		
-		if(!this.innerEl){
-			this.innerEl = $('<div class="dino-row-layout"></div>');
-			this.container.el.append(this.innerEl);
-		}
+//		if(!this.innerEl){
+//			this.innerEl = $('<div layout="row"></div>');
+//			this.container.el.append(this.innerEl);
+//		}
 		
 		var wrapperEl = $('<div></div>');
 		wrapperEl.append(item.el);
-		this.innerEl.append( wrapperEl );
+		this.container.el.append( wrapperEl );
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},

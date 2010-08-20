@@ -5,6 +5,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	defaultOptions: {
 		components: {
 			tabs: {
+				weight: 1,
 				dtype: 'tabs',
 				onTabChanged: function(){
 					// переключаем страницу при смене закладки
@@ -12,6 +13,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 				}
 			},
 			pages: {
+				weight: 2,
 				dtype: 'box',
 				layout: 'stack-layout'
 			}

@@ -144,6 +144,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.children.add(item);
 		this.layout.insert(item, key);
 		
+		if('show' in item) item.show();
 //		if(item.el.parents().is('body')) item._afterRender();
 	
 //		item.events.fire('onAdded');
@@ -153,7 +154,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 	
 	removeItem: function(item) {
-//		Dino.Container.superclass.removeChild.call(this, item);
+//		Dino.Container.superclass.removeChild.call(this, item);		
 		this.children.remove(item);
 		this.layout.remove(item);
 	},

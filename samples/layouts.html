@@ -9,7 +9,8 @@
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -29,13 +30,6 @@
 <div id="sample-dock">
 <style>
 
-.icon-item {
-	position: absolute;
-	width: 16px;
-	height: 16px;
-	background-image: url(img/emoticon_smile.png);
-}
-
 .text-item {
 	font-size: 1.4em;
 }
@@ -44,7 +38,6 @@
 
 <script>
 $.dino({
-//  renderTo: Samples.PREVIEW,
   dtype: 'box',
   layout: {
     dtype: 'dock-layout',
@@ -53,13 +46,13 @@ $.dino({
   style: {'position': 'absolute'},
   items: [{
     dock: 'left',
-    cls: 'icon-item'
+    cls: 'dino-icon led-icon-smile'
   }, {
     cls: 'text-item',
     text: 'Hello'
   }, {
     dock: 'right-bottom',
-    cls: 'icon-item'
+    cls: 'dino-icon led-icon-unhappy'
   }]
 });
 </script>
@@ -67,7 +60,9 @@ $.dino({
 	
 </div>
 <div class="desc">
-	
+	<p>Dock-компоновка состоит из содержимого (content) и привязанных к нему элементов (dockable). Самый распространенный пример использовани - декорирование элементов (текста, кнопок и т.п.)</p>
+	<p>В примере включен автоматический режим компоновки - без необходимости задания стилей со стороны разработчика.</p>
+	<p>Интересно, что трехколоночный шаблон (3 column template) является частным случаем dock-компоновки с заданным содержимым и привязанными элементами <strong>left</strong> и <strong>right</strong>.</p>
 </div>
 	
 </div>

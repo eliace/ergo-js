@@ -3,8 +3,9 @@
 Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 	
 	defaultOptions: {
-		containerCls: 'dino-stack-layout',
-		itemCls: 'dino-stack-item dino-hidden'
+//		containerCls: 'dino-stack-layout',
+		name: 'stack',
+		itemCls: 'dino-hidden'
 	},
 	
 	activate: function(i) {
@@ -15,7 +16,7 @@ Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 			it.el.toggleClass('dino-hidden', (it != item));
 		});
 		
-		if(item.layout) item.layout.update();
+		if(item.layout) item._afterRender();
 		
 	}
 	

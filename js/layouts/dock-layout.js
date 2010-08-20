@@ -4,7 +4,8 @@
 Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 	
 	defaultOptions: {
-		containerCls: 'dino-dock-layout',
+//		containerCls: 'dino-dock-layout',
+		name: 'dock',
 		updateMode: 'none'
 	},
 	
@@ -15,7 +16,8 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 			var dock_a = item.options.dock.split('-');
 			if(dock_a.length == 1) dock_a.push('center');
 			
-			el.addClass('dock-'+dock_a.join('-'));
+			el.attr('dock', dock_a.join('-'));
+//			el.addClass('dock-'+dock_a.join('-'));
 			this.container.el.append(el);
 		}
 		else {
@@ -36,15 +38,15 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 	
 	update: function(){
 		var margin_left = margin_right = 0;
-		$('.dock-left-center, .dock-left-top, .dock-left-bottom', this.container.el).each(function(i, el){
+		$('[dock|=left]', this.container.el).each(function(i, el){
 			margin_left = Math.max(margin_left, $(el).outerWidth());
 		});
-		$('.dock-right-center, .dock-right-top, .dock-right-bottom', this.container.el).each(function(i, el){
+		$('[dock|=right]', this.container.el).each(function(i, el){
 			margin_right = Math.max(margin_right, $(el).outerWidth());
 		});
-		$('.dock-left-center', this.container.el).each(function(i, el){
-			$(el).css('margin-top', -$(el).outerHeight()/2);
-		});
+//		$('.dock-left-center', this.container.el).each(function(i, el){
+//			$(el).css('margin-top', -$(el).outerHeight()/2);
+//		});
 		
 		if(this.content){
 			if(margin_left > 0)	this.content.css('margin-left', margin_left);

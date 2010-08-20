@@ -1,12 +1,19 @@
 
 body {
 	font-family: Helvetica,Geneva,Arial,sans-serif;
+	margin: 0;
 }
 
+#dino-sample-page {
+	margin: 3px;
+	position: relative;
+}
 
 .dino-tabs.widget-tabs {
 	margin: 0;
 	padding: 0;
+	top: 0;
+	left: 0;
 		
 	position: absolute;
 }
@@ -104,4 +111,18 @@ body {
 	height: 24px;
 }
 */
+
+.message-panel {
+	position: absolute;
+	width: 500px;
+	top: 10px;
+	right: 10px;
+}
+
+.message-panel .dino-growl {	margin-bottom: 2px;	padding: 2px;}
+.message-panel .dino-growl-icon {margin-left: 3px;}	
+.message-panel .dino-growl-content {	margin: 0 30px;	font-size: 0.8em;}	
+.message-panel .dino-growl-button {margin-right: 3px;}	
+
+
 

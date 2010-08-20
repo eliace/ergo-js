@@ -9,7 +9,8 @@
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -164,23 +165,12 @@ Dino.widget({
 	margin-bottom: 2px;
 }
 
-.led-icon-cancel { background-image: url(./img/icons/cross_grey.png); }
-.led-icon-error { background-image: url(./img/icons/error.png); }
-.led-icon-info { background-image: url(./img/icons/exclamation.png); }
-.led-icon-warn { background-image: url(./img/icons/exclamation_octagon_fram.png); }
-
-.led-icon {
-	width: 16px;
-	height: 16px;
-}
-
 
 .dino-growl {
 	padding: 2px;
 }
 
 .dino-growl-icon {
-	margin-top: -8px;
 	margin-left: 3px;
 }	
 
@@ -190,9 +180,9 @@ Dino.widget({
 }	
 
 .dino-growl-button {
-	margin-top: -8px;
 	margin-right: 3px;
 }	
+
 
 .message-info {
 	background-color: #eee;
@@ -209,31 +199,30 @@ Dino.widget({
 	
 </style>
 <script>
-Dino.widget({
-//  renderTo: Samples.PREVIEW,
+$.dino({
   dtype: 'growl-box',
   defaultItem: {
     cls: 'dino-border-all dino-corner-all',
-    buttonCls: 'led-icon led-icon-cancel'
+    buttonCls: 'dino-icon dino-icon-close dino-off'
   },
   items: [{
     cls: 'message-info',
-    iconCls: 'led-icon led-icon-info',
+    iconCls: 'dino-icon-info',
     message: 'Информация'
   }, {
     cls: 'message-warn',
-    iconCls: 'led-icon led-icon-warn',
+    iconCls: 'dino-icon-warn',
     message: 'Предупреждение'
   }, {
     cls: 'message-err',
-    iconCls: 'led-icon led-icon-error',
+    iconCls: 'dino-icon-error',
     message: 'Ошибка'
   }, {
     cls: 'message-info',
-    iconCls: 'led-icon led-icon-info',
+    iconCls: 'dino-icon-info',
     message: Samples.loremipsum
   }]
-});			
+});
 </script>	
 <div class="html">
 	

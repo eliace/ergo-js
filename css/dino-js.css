@@ -1,5 +1,15 @@
 
 
+.dino-hidden {
+	display: none;
+}
+
+.dino-align-center {
+	margin: 0 auto;
+}
+
+
+
 .dc-advanced-input {
 	border: 1px solid #aaaaaa;
 }
@@ -37,14 +47,6 @@
 
 .dino-button-icon-text {
 	position: absolute;
-}
-
-
-.dino-icon {
-	position: absolute;
-	display: block;
-	width: 16px;
-	height: 16px;
 }
 
 
@@ -147,7 +149,7 @@
 
 
 
-.dino-dock-layout {
+[layout='dock'] {
 	position: relative;
 }
 
@@ -155,6 +157,27 @@
 	position: absolute;
 }
 
+[dock] {
+	position: absolute;	
+}
+
+[dock|="left"] {
+	left: 0;	
+}
+
+[dock|="right"] {
+	right: 0;	
+}
+
+[dock$="center"] {
+	top: 50%;
+}
+
+[dock$="bottom"] {
+	bottom: 0;
+}
+
+/*
 .dock-left-top {
 	left: 0;
 	top: 0;
@@ -184,7 +207,7 @@
 	right: 0;
 	bottom: 0;
 }
-
+*/
 
 .dino-dropdown-box {
 	position: absolute;
@@ -262,11 +285,11 @@
 
 
 
-.dino-row-layout {
+[layout='row'] {
 	display: table-row;
 }
 
-.dino-row-layout > div {
+[layout='row'] > div {
 	display: table-cell;
 	vertical-align: middle;
 }

@@ -80,7 +80,7 @@ $.dino({
 	
 </div>
 <div class="desc">
-	
+	<p>Эта панель служит основой для создания диалогов, она состоит из трех компонентов: заголовка, тела и подвала.</p>
 </div>
 </div>	
 	
@@ -90,11 +90,16 @@ $.dino({
 	
 <div id="sample-tabs">
 <style>
+
+.tp {
+	position: relative;
+}
 	
 .tp-tabs {
 	position: absolute;
 	margin: 0;
 	padding: 0;
+	top: 0;
 }
 
 .tp-tabs li {
@@ -123,8 +128,8 @@ $.dino({
 
 <script>
 $.dino({
-  renderTo: Samples.PREVIEW,
   dtype: 'tab-panel',
+	cls: 'tp',
   components: {
     tabs: {
       cls: 'tp-tabs',
@@ -153,9 +158,8 @@ $.dino({
 	
 </div>
 <div class="desc">
-	
+	<p>Панель, объединяющая виджет закладок и бокс со стековой компоновкой. Переключение между закладками изменяет видимый элемент стека.</p>
 </div>
-	
 </div>
 	
 	

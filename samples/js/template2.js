@@ -9,6 +9,7 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 	defaultOptions: {
 		components: {
 			button: {
+				weight: 1,
 				dtype: 'box',
 				layout: 'dock-layout',
 				baseCls: 'js-button',
@@ -31,9 +32,10 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 				}
 			}, 
 			container: {
+				weight: 2,
 				dtype: 'box',
 				baseCls: 'js-container',
-				cls: 'dino-hidden',
+				cls: 'dino-hidden'
 			}
 		}
 	},
@@ -125,7 +127,7 @@ function samplePage(samples) {
 		dtype: 'box',
 		renderTo: 'body',
 		items: [{
-			id: 'aaa',
+			id: 'dino-sample-page',
 			dtype: 'tab-panel',
 			components: {
 				tabs: {
@@ -133,7 +135,7 @@ function samplePage(samples) {
 				},
 				pages: {
 					cls: 'widget-pages'
-				},
+				}
 			},
 			'pages': pages
 		}]
@@ -147,11 +149,15 @@ function samplePage(samples) {
 	
 	// добавляем гроул
 	Samples.growl = $.fn.dino({
-		dtype: 'growl',
-		cls: 'ui-state-hover',
-		renderTo: 'body',
-		delay: 600,
-		timeout: 1500
+		dtype: 'growl-box',
+		cls: 'message-panel',
+		defaultItem: {
+			delay: 600,
+			timeout: 6000,
+			cls: 'dino-border-all dino-corner-all'
+		},
+//		cls: 'ui-state-hover dino-hidden',
+		renderTo: 'body'
 	});
 	
 }

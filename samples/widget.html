@@ -9,7 +9,8 @@
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -22,16 +23,6 @@
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
 		<script type="text/javascript" src="js/template2.js"></script>
 
-
-		<style>			
-			.dino-growl-box {
-				background-color: #f8f8f8;
-				right: 20px;
-				top: 20px;
-				padding: 10px;
-			}
-			
-		</style>
 
 </head>
 <body>
@@ -66,7 +57,7 @@ new Dino.Widget('<div/>', {
     'click': function() { $(this).dino().states.toggle('click'); }
   },
   onStateChanged: function() {
-    Samples.growl.show('Состояние изменилось');
+    Samples.growl.addMessage('Состояние изменилось');
   }
 });	
 </script>

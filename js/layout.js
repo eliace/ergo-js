@@ -11,20 +11,25 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 	},
 	
 	attach: function(c) { 
+		
+		var o = this.options;
+		
 		this.container = c; 
-		if('containerCls' in this.options) this.container.el.addClass(this.options.containerCls);
+//		if('containerCls' in this.options) this.container.el.addClass(this.options.containerCls);
+		if('name' in o) this.container.el.attr('layout', o.name);
 
-		var self = this;
-		if(this.options.updateMode == 'resize')
-			$(window).bind('resize', function(){ self.update(); });
-		if(this.options.updateMode == 'auto')
-			this.container.events.reg('onRendered', function(){ 
-				self.update(); 
-			});
+//		var self = this;
+//		if(o.updateMode == 'resize')
+//			$(window).bind('resize', function(){ self.update(); });
+//		if(o.updateMode == 'auto')
+//			this.container.events.reg('onRendered', function(){ 
+//				self.update(); 
+//			});
 		
 	},
 	detach: function() { 
-		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
+//		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
+		if('name' in this.options) this.container.el.attr('layout', undefined);
 		delete this.container; 
 	},
 	

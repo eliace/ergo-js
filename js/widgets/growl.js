@@ -8,11 +8,11 @@ Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		delay: 500,
-		cls: 'dino-growl',
+		cls: 'dino-growl dino-hidden',
 		layout: 'dock-layout',
 		items: [{
 			dock: 'left',
-			dtype: 'box',
+			dtype: 'icon',
 			cls: 'dino-growl-icon'
 		}, {
 			dtype: 'box',
@@ -98,10 +98,23 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	defaultOptions: {
 		defaultItem: {
 			dtype: 'growl',
+		    buttonCls: 'dino-icon dino-icon-close dino-off',
 			onHide: function() {
-				this.parent.parent.removeItem(this);
+				this.parent.removeItem(this);
 			}
 		}
+	},
+	
+	addMessage: function(msg, type) {
+		
+		if(arguments.length == 1) type = 'info';
+		
+		this.addItem({
+			cls: 'growl-item-'+type,
+			iconCls: 'dino-icon-'+type,
+			message: msg
+		});
+		
 	}
 	
 }, 'growl-box');

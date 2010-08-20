@@ -39,6 +39,7 @@ require 'fileutils'
     'js/widgets/menu.js',
     'js/widgets/growl.js',
     'js/widgets/uploader.js',
+    'js/widgets/text-item.js',
   ]
 
 
