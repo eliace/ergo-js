@@ -10,24 +10,24 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 		components: {
 			button: {
 				weight: 1,
-				dtype: 'box',
-				layout: 'dock-layout',
+				dtype: 'text-item',
 				baseCls: 'js-button',
-				items: [{
-					states: {
-						'active': 'ui-icon-triangle-1-s',
-						'inactive': 'ui-icon-triangle-1-e'
+				leftCls: 'ui-icon ui-icon-triangle-1-e',
+				contentCls: 'js-title',
+				components: {
+					leftIcon: {
+						states: {
+							'active': ['ui-icon-triangle-1-s', 'ui-icon-triangle-1-e']
+						}
 					},
-					dock: 'left-center',
-					cls: 'ui-icon ui-icon-triangle-1-e js-icon'
-				}, {
-					cls: 'js-title'
-				}],
+					rightIcon: {
+						state: 'hidden'
+					}
+				},
 				clickable: true,
-				onClick: function(e){
+				onClick: function() {
 					var is_active = this.states.toggle('active');
-					this.getItem(0).states.toggle('active', is_active)
-					this.getItem(0).states.toggle('inactive', !is_active);
+					this.leftIcon.states.toggle('active', is_active);
 					this.parent.container.states.toggle('hidden', !is_active);
 				}
 			}, 
@@ -45,7 +45,7 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 		Samples.widgets.ExpandablePanel.superclass._opt.apply(this, arguments);
 		
 		if('buttonLabel' in o)
-			this.button.getItem(1).opt('text', o.buttonLabel);
+			this.button.content.opt('text', o.buttonLabel);
 		if('contentText' in o)
 			this.container.opt('text', o.contentText);
 	}

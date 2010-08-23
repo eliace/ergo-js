@@ -42,19 +42,40 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	},
 	
 	set: function(name) {
-		this.widget.el.addClass( this.stateCls(name) );
+		// получаем класс или массив
+		var cls = this.stateCls(name);
+		// если состояние - массив, то второй элемент содержит классы, которые нужно убрать
+		if(Dino.isArray(cls)){
+			this.widget.el.removeClass(cls[1]);
+			cls = cls[0];
+		}
+		// добавляем класс текущего состояния
+		this.widget.el.addClass(cls);
 		this.widget.events.fire('onStateChanged');
 		return this;
 	},
 	
 	clear: function(name){
-		this.widget.el.removeClass( this.stateCls(name) );
+		var cls = this.stateCls(name);
+		
+		if(Dino.isArray(cls)){
+			this.widget.el.addClass(cls[1]);
+			cls = cls[0];
+		}
+		
+		this.widget.el.removeClass( cls );
 		this.widget.events.fire('onStateChanged');
 		return this;
 	},
 	
 	toggle: function(name, sw) {
 		var cls = this.stateCls(name);
+		
+		if(Dino.isArray(cls)){
+			this.widget.el.toggleClass( cls[1], !sw );
+			cls = cls[0];
+		}
+		
 		this.widget.el.toggleClass( cls, sw );
 		this.widget.events.fire('onStateChanged');
 		return this.widget.el.hasClass(cls);

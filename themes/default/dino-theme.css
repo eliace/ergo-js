@@ -41,17 +41,21 @@
 	display: block;
 }
 
+/*
 [dock$=center][class~='dino-icon']  {	margin-top: -8px; }
 [dock^=center][class~='dino-icon'] { 	margin-left: -8px; }
+*/
+.dino-icon[dock$=center]  {	margin-top: -8px; }
+.dino-icon[dock^=center] { 	margin-left: -8px; }
 
 
-.dino-icon-close { background-image: url(./img/led/cross_grey.png); }
-.dino-icon-error { background-image: url(./img/led/error.png); }
-.dino-icon-info { background-image: url(./img/led/exclamation.png); }
-.dino-icon-warn { background-image: url(./img/led/exclamation_octagon_fram.png); }
+.dino-icon-close { background-image: url(img/led/cross.png); }
+.dino-icon-error { background-image: url(img/led/error.png); }
+.dino-icon-info { background-image: url(img/led/exclamation.png); }
+.dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
 
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }
 
-.dino-off, .dino-icon-close { background-image: url(./img/led_grey/cross.png); }
+.dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 

@@ -117,7 +117,7 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 			return Dino.widget(
 					Dino.utils.overrideOpts(
 						{dtype: 'text-menu-item', submenuModel: this.options.submenuModel}, 	// передаем глобальные параметры 
-						this.options.submenuModel.item, 			// гпараметры модели
+						this.options.submenuModel.item, 			// параметры модели
 						this.options.submenuItem,					// параметры текущего подменю
 						o
 					));

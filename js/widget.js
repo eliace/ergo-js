@@ -192,11 +192,13 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		if('html' in o) this.el.html(o.html);
 		
-//		if('states' in o){
-//			if('hover' in o.states){
-//				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
-//			}
-//		}
+		
+		if('states' in o){
+			// настраиваем особое поведение состояния hover
+			if('hover' in o.states){
+				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+			}
+		}
 		
 		// экспериментальный код
 		if('stateEvents' in o){
@@ -253,6 +255,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('content' in o){
 			this.addComponent('content', o.content);
 		}
+		
 		
 /*		
 		if('data' in o) {

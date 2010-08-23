@@ -78,7 +78,7 @@ body {
 
 .desc p {
 	font-style: italic;
-	font-size: 1.0em;
+	font-size: 0.9em;
 	color: #333333;
 }
 
@@ -123,6 +123,5 @@ body {
 .message-panel .dino-growl-icon {margin-left: 3px;}	
 .message-panel .dino-growl-content {	margin: 0 30px;	font-size: 0.8em;}	
 .message-panel .dino-growl-button {margin-right: 3px;}	
-
 
 

@@ -4,15 +4,18 @@
 Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	
 	defaultOptions: {
+		layout: 'dock-layout',
 		components: {
 			leftIcon: {
-				dtype: 'icon'
+				dtype: 'icon',
+				dock: 'left'
 			},
 			content: {
 				dtype: 'text'
 			},
 			rightIcon: {
-				dtype: 'icon'
+				dtype: 'icon',
+				dock: 'right'
 			}
 		}
 	},

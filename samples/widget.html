@@ -32,6 +32,11 @@
 <div id="sample1">
 	
 <style>
+	
+.state-boxes > div {
+	margin: 3px;
+}	
+	
 .colored-box {
 	background-color: #e0ffe0;
 	text-align: center;
@@ -43,23 +48,44 @@
 .colored-box-click {
 	background-color: #ffe0e0;
 }
-	
+
+.red-text {
+	color: red;
+}
+
+.blue-text {
+	color: blue;
+}
+
 </style>
 
 <script>
-new Dino.Widget('<div/>', {
-  renderTo: Samples.PREVIEW,
-  baseCls: 'colored-box',
-  text: 'Кликни по мне',
-  width: 100,
-  height: 100,
-  events: {
-    'click': function() { $(this).dino().states.toggle('click'); }
-  },
-  onStateChanged: function() {
-    Samples.growl.addMessage('Состояние изменилось');
-  }
-});	
+$.dino({
+  dtype: 'box',
+  cls: 'state-boxes',
+  items: [{
+    baseCls: 'colored-box',
+    text: 'Кликни по мне',
+    width: 100,
+    height: 100,
+    events: {
+      'click': function() { $(this).dino().states.toggle('click'); }
+    },
+    onStateChanged: function() {
+      Samples.growl.addMessage('Состояние изменилось');
+    }
+  }, {
+    width: 100,
+    height: 100,
+    text: 'Lorem ipsum',
+    cls: 'dino-border-all',
+    states: {
+      'hover': ['red-text', 'blue-text'],
+      'init': 'blue-text'
+    },
+    state: 'init'
+  }]
+});
 </script>
 <div class="html">
 	
@@ -68,7 +94,16 @@ new Dino.Widget('<div/>', {
 	<p>
 		Переключение состояний это просто добавление/удаление классов, имеющих специальные имена. 
 		Метод <strong>toggle</strong> в действительности вызывает метод <strong>jQuery.toggleClass</strong> и является лишь формой упрощенной записи.
-	</p>	
+	</p>
+	<p>
+		При смене состояний вызывается событие <strong>onStateChanged</strong>.
+	</p>
+	<p>
+		Классы состояний задаются в блоке <strong>states</strong>. Если же в качестве состояния задан массив, то первый его элемент должен содержать
+		те классы, которые должны быть включены при активировании состояния, а второй элемент - классы, которые должны быть выключены. Если класс не
+		указан, но было вызвано переключение состояния (первый бокс в примере), имя класса состояния определяется как 
+		&quot;[baseCls]-[состояние]&quot;
+	</p>
 </div>	
 	
 	
@@ -96,7 +131,6 @@ new Dino.Widget('<div/>', {
 
 <script>	
 new Dino.Widget('<div/>', {
-  renderTo: Samples.PREVIEW,
   baseCls: 'colored-box',
   text: 'Наведи на меня курсор',
   width: 100,
@@ -165,14 +199,14 @@ new Dino.Widget('<div/>', {
 </div>
 <div class="desc">
 	<p>
-		Один из способов создания сложных виджетов - использование <strong>компонентов</strong> (components). В этом примере создается бокс с двумя компонентами: иконкой
+		Один из способов создания сложных виджетов - использование <strong>компонентов</strong> (components). В этом примере ипользуется бокс с двумя компонентами: иконкой
 		и кнопкой. Для размещения компонентов можно воспользоваться стилями (назначая соответствующие классы нужным компонентам) или включить механизм 
 		компоновок (layouts). Компоненты конструируемого виджета можно перегрузить своими параметрами, что обеспечивает большую гибкость при настройке внешнего вида 
 		элементов страницы.
 	</p>	
 	<p>
-		Компоненты на данный момент используют небезопасный способ подключения к виджету. Каждый компонент я вляется именованным свойством виджета и доступен 
-		через оператор "."
+		Компоненты на данный момент используют небезопасный (но с другой стороны удобный) способ подключения к виджету: каждый компонент является именованным свойством 
+		виджета и доступен через оператор "."
 	</p>
 </div>	
 	

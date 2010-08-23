@@ -112,6 +112,13 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	defaultOptions: {
 		defaultItem: {
 			dtype: 'growl',
+			components: {
+				button: {
+					states: {
+						'hover': ['', 'dino-off']
+					}
+				}
+			},	
 		    buttonCls: 'dino-icon dino-icon-close dino-off',
 			onHide: function() {
 				if(this.parent) this.parent.removeItem(this);
