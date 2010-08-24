@@ -112,7 +112,9 @@ Dino.declare('Dino.containers.TextMenuItem', 'Dino.containers.MenuItem', {
 
 	defaultOptions: {
 		layout: '3c-layout',
-		content: {},
+		content: {
+			dtype: 'box'
+		},
 		submenuItemFactory: function(o) {
 			return Dino.widget(
 					Dino.utils.overrideOpts(

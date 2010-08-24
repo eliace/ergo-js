@@ -50,7 +50,9 @@ Dino.declare('Dino.containers.List', 'Dino.containers.Box', {
 	_dataChanged: function() {
 		var self = this;
 		this.data.each(function(val, i){
-			self.addItem({ 'data': self.data.item(i) });
+			var dataItem = self.data.item(i);
+			if(!self.getItem({'data': dataItem}))
+				self.addItem({ 'data': dataItem });
 		});
 	}
 	

@@ -56,6 +56,9 @@
 
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }
+.led-icon-buildings { background-image: url(img/led/buildings.png); }
+.led-icon-photo { background-image: url(img/led/photo.png); }
+.led-icon-photos { background-image: url(img/led/photos.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 

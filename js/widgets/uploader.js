@@ -16,34 +16,48 @@ Dino.declare('Dino.widgets.Uploader', 'Dino.Widget', {
 	_init: function() {
 		Dino.widgets.Uploader.superclass._init.apply(this, arguments);
 		
-		var fileId = 'file-' + Dino.timestamp();
-		
-		this.addComponent('file', {
-			dtype: 'file',
-			opacity: 0,
-			id: fileId,
-			name: 'file'
-		});
-		
 		var self = this;
 		
-		this.file.el.change(function(e){
+		var init_file = function() {
 			
-			if($(this).val() != '/') {
+			var fileId = 'file-' + Dino.timestamp();
 			
-				$.ajaxFileUpload({
-					url: self.options.url,
-					fileElementId: fileId,
-					dataType: 'text',
-					success: function(data, status) { self.events.fire('onComplete', {'data':data}); },
-					error: function(data, status, err) { self.events.fire('onError', {'data': data, 'message': err}); }
-				});
+			self.addComponent('file', {
+				dtype: 'file',
+				opacity: 0,
+				id: fileId,
+				name: 'file'
+			});
+			
+			self.file.el.change(function(e){
+								
+				if($(this).val() != '/') {
 				
-				self.events.fire('onLoad');
+					$.ajaxFileUpload({
+						url: self.options.url,
+						fileElementId: fileId,
+						dataType: 'text',
+						success: function(data, status) { 
+							self.events.fire('onComplete', {'data':data});
+							$('#'+fileId).remove();
+							init_file();
+						},
+						error: function(data, status, err) { 
+							self.events.fire('onError', {'data': data, 'message': err}); 
+							$('#'+fileId).remove();
+							init_file();
+						}
+					});
+					
+					self.events.fire('onLoad');
+				
+				}
+			});
 			
-			}
-		});
+			
+		}
 		
+		init_file();
 		
 	}
 	

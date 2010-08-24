@@ -81,8 +81,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
 		this.setData(o.data);
-		// конструируем виджет
-		this._init(o);//this, arguments);
 		
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
@@ -90,7 +88,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			layoutOpts = {dtype: layoutOpts};
 		this.layout = Dino.object(layoutOpts);
 		this.layout.attach(this);		
-		
+
+		// конструируем виджет
+		this._init(o);//this, arguments);		
 		// устанавливаем опциональные параметры
 		this._opt(o);
 		// добавляем обработку событий
@@ -297,10 +297,19 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	//-------------------------------------------
 	
 	addComponent: function(key, o){
+		// если компонент уже существует, то удаляем его
+		if(this[key]) this.removeComponent(key);
+		
 		this[key] = Dino.widget(o);
 		this.children.add( this[key] );
 		this.layout.insert(this[key]);
 //		this.el.append(this[key].el);
+	},
+	
+	removeComponent: function(key) {
+		this.layout.remove(this[key]);
+		this.children.remove( this[key] );
+		delete this[key];
 	},
 	
 	

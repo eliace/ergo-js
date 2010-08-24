@@ -176,6 +176,10 @@
 	top: 50%;
 }
 
+[dock|="center"] {
+	left: 50%;
+}
+
 [dock$="bottom"] {
 	bottom: 0;
 }

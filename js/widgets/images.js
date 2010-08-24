@@ -106,7 +106,13 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 			el.attr('src', url);
 		}
 	
+	},
+	
+	_dataChanged: function() {
+		var o = this.options;
+		this.load(this.getValue(), o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 	}
+	
 	
 	
 	
