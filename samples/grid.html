@@ -2,20 +2,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DinoJS: Таблицы</title>
 
 		<!-- jQuery -->
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/template2.css">
@@ -24,31 +26,34 @@
 
 		<style>
 			
-			#table-1 {
-				width: 100%;
-			}
-			
-			#table-1 tbody tr:hover {
-				background-color: #f6fff6;
-			}
 			
 		</style>
 
 </head>
 <body>
 	
-
-<div id="desc-1" class="desc">
 	
-	<pre class="sh_javascript">
+	
+	
+<div id="sample-grid">
+<style>
+#table-1 {
+	width: 100%;
+}
+
+#table-1 tbody tr:hover {
+	background-color: #f0fff0;
+}	
+</style>
+<script>
 var gridData = [
   {id: '1', name: 'Alice', value: '123', cb: false},
   {id: '2', name: 'Bob', value: '456', cb: true},
-  {id: '3', name: 'Charlie', value: '789', cb: false},
+  {id: '3', name: 'Charlie', value: '789', cb: false}
 ];
 		
 		
-Dino.widget({
+$.dino({
   id: 'table-1',
   dtype: 'grid',
   cls: 'ui-widget-content ui-corner-all',
@@ -72,30 +77,28 @@ Dino.widget({
     }]
   },
   data: gridData
-});
-	</pre>
+});	
+</script>	
+<div class="html">
 	
 </div>
-
-
+<div class="desc">
+	
+</div>
+</div>
+	
+	
+	
+	
 
 
 	<script>		
 		
-		Dino.samples.build({
-			widgets: [{
-				id: 'grid1',
-				label: 'Таблица',
-				preview: eval($("#desc-1 .sh_javascript").text()),
-				description: { wrapEl: $('#desc-1') }				
-			}]
-		});
-		
-		
-		sh_highlightDocument();
-		
-
-		
+samplePage([{
+	name: 'Бокс',
+	id: '#sample-grid'
+}]);
+	
 	</script>
 
 

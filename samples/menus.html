@@ -2,14 +2,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DinoJS: Меню</title>
 
 		<!-- jQuery -->
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -25,14 +26,14 @@
 
 	<style>			
 			
-		
+/*		
 			.dino-growl-box {
 				background-color: #f8f8f8;
 				right: 20px;
 				top: 20px;
 				padding: 10px;
 			}
-		
+*/		
 		
 	</style>
 
@@ -100,7 +101,7 @@ var menuModel = {
       cls: 'menu-item-label'
     }],
     onAction: function(){
-      growl.show('Выбран элемент меню: ' + this.options.label);
+      Samples.growl.addMessage('Выбран элемент меню: ' + this.options.label);
       this.hideSubmenu(true);
     }
   }		
@@ -183,6 +184,7 @@ Dino.widget({
 	color: #f0f0f0;
 	text-align: center;
 	cursor: default;
+	height: 300px;
 }
 	
 </style>
@@ -202,7 +204,7 @@ $.dino({
       cls: 'context-menu-item',
       onAction: function() {
         $('.context-menu').dino().hide();
-        growl.show('Выбран элемент меню: ' + this.options.label);
+        Samples.growl.addMessage('Выбран элемент меню: ' + this.options.label);
       }
     },
     items: [
@@ -213,31 +215,29 @@ $.dino({
   }, {
     text: 'Кликни правой кнопкой мыши в любом месте окна',
     cls: 'preview-text',
-		events: {
-			'contextmenu': function(){ 
-				return false; 
-			},
-			'mousedown': function(w, e) {
+    events: {
+      'contextmenu': function(){ 
+        return false; 
+      },
+      'mousedown': function(w, e) {
 				
-//				alert('');
-				
-				if(e.button == 2){
+        if(e.button == 2){
 
-					var dropdown = w.parent.getItem(0);
+          var dropdown = w.parent.getItem(0);
 				
-					var offset = $(this).offset();
+          var offset = $(this).offset();
 					
-					var x = e.pageX - offset.left - 2;
-					var y = e.pageY - offset.top - 2;
+          var x = e.pageX - offset.left - 2;
+          var y = e.pageY - offset.top - 2;
 					
-					dropdown.show(x, y);
+          dropdown.show(x, y);
 					
-					e.stopPropagation();
+          e.stopPropagation();
 					
-					$('body').one('click', function(){ dropdown.hide(); });
-				}
-			}
-		}
+          $('body').one('click', function(){ dropdown.hide(); });
+        }
+      }
+    }
   }]
 });
 

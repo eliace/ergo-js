@@ -129,6 +129,7 @@ function samplePage(samples) {
 		items: [{
 			id: 'dino-sample-page',
 			dtype: 'tab-panel',
+			tabPosition: 'left',
 			components: {
 				tabs: {
 					cls: 'widget-tabs'

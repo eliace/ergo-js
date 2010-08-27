@@ -238,6 +238,13 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				delete c._cweight;
 				delete c._cname;
 			});
+			
+			// задаем "ленивые" классы компонентов
+			for(var i in o.components){
+				var easyCls = ''+i+'Cls';
+				if(easyCls in o) this[i].opt('cls', o[easyCls]);
+			}
+			
 		}
 		
 		if('state' in o) {

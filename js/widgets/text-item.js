@@ -17,9 +17,14 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 				dtype: 'icon',
 				dock: 'right'
 			}
+		},
+		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод _events
+		events: {
+			'click': function() {
+				$(this).dino().events.fire('onAction');
+			}
 		}
 	},
-	
 	
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);

@@ -2,14 +2,15 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Untitled Document</title>
+		<title>DinoJS: Панели</title>
 		
 		<!-- jQuery -->
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
 		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-theme-default.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
 		<!-- SHJS -->
@@ -90,10 +91,12 @@ $.dino({
 <div id="sample-tabs">
 <style>
 
+/*
 .tp {
 	position: relative;
 }
-	
+
+
 .tp-tabs {
 	position: absolute;
 	margin: 0;
@@ -117,40 +120,58 @@ $.dino({
 	background-image: none;
 	padding-right: 1px;
 }
+*/
 
 .tp-pages {
 	height: 200px;
-	margin-left: 101px;
+/*	margin-left: 101px;*/
+}
+
+.tab-panel {
+	margin-top: 10px;
 }
 	
 </style>
 
 <script>
 $.dino({
-  dtype: 'tab-panel',
-	cls: 'tp',
-  components: {
-    tabs: {
-      cls: 'tp-tabs',
-      defaultItem: {
-        baseCls: 'tp-tab',
-        cls: 'dino-border-all ui-corner-left ui-widget-header'
-      }
-    },
-    pages: {
-      cls: 'tp-pages dino-border-all ui-corner-right ui-corner-bl'
-    },
-  },
-  pages: [{
-    tab: {text: 'Закладка 1'},
-    text: 'Страница 1'
-  }, {
-    tab: {text: 'Закладка 2'},
-    text: 'Страница 2'
-  }, {
-    tab: {text: 'Закладка 3'},
-    text: 'Страница 3'
-  }]
+	dtype: 'box',
+	defaultItem: {
+	  dtype: 'tab-panel',
+		cls: 'tab-panel',
+	  components: {
+	    tabs: {
+				defaultItem: {
+					cls: 'dino-border-all'
+				}
+	    },
+	    pages: {
+	      cls: 'dino-border-all',// ui-corner-right ui-corner-bl',
+				height: 150,
+				width: 500
+	    },
+	  },
+	  pages: [{
+	    tab: {text: 'Закладка 1'},
+	    text: 'Страница 1'
+	  }, {
+	    tab: {text: 'Закладка 2'},
+	    text: 'Страница 2'
+	  }, {
+	    tab: {text: 'Закладка 3'},
+	    text: 'Страница 3'
+	  }]		
+	},
+	items: [{
+		// закладки сверху
+	}, {
+		// закладки снизу
+		tabPosition: 'bottom'
+	}, {
+		// закладки слева
+		tabPosition: 'left',
+		tabWidth: 100		
+	}]
 });
 </script>	
 <div class="html">

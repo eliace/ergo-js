@@ -95,44 +95,7 @@
  * Tabs
  */
 
-.dino-tabs.top {
-	height: 25px;
-	position: relative;
-	border-bottom: 1px solid #aaaaaa;
-	margin: 0;
-	padding: 0;
-}
 
-.dino-tabs.top li {
-	padding: 0 20px;
-	margin-right: 2px;
-	float: left;
-	text-align: center;
-	height: 24px;
-	cursor: pointer;
-	border-bottom: 0 !important;
-	list-style: none outside none;
-}
-
-
-.dino-tabs.left {
-/*	height: 100%; */
-/*	position: relative;*/
-	border-right: 1px solid #aaaaaa;
-	margin: 0;
-	padding: 0;
-}
-
-.dino-tabs.left li {
-/*	width: 100px;*/
-/*	padding: 0 20px;*/
-	margin-bottom: 2px;
-	text-align: center;
-/*	width: 30px;*/
-	cursor: pointer;
-	border-right: 0 !important;
-	list-style: none outside none;
-}
 
 
 

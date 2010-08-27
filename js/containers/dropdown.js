@@ -9,19 +9,23 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 			'show': 'none',
 			'hide': 'none',
 			'delay': 200
-		}
+		},
+		cls: 'dino-dropdown-box'
 	},
 	
-	defaultCls: 'dino-dropdown-box',
+//	defaultCls: ,
 	
-	_events: function(self){
-		Dino.containers.DropDownBox.superclass._events.call(this, self);
+//	_events: function(self){
+//		Dino.containers.DropDownBox.superclass._events.call(this, self);
+//		
+////		this.el.mouseleave(function(){ self.hide(); });
+//	},
+	
+	
+	show: function(x, y, eff) {
 		
-//		this.el.mouseleave(function(){ self.hide(); });
-	},
-	
-	
-	show: function(x, y, eff) {		
+		if(arguments.length == 0) return;
+		
 		this.el.css({'left': x, 'top': y});
 //		$(this.options.target).append(this.el);
 				

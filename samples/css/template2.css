@@ -26,6 +26,8 @@ body {
 	border-right: 0 !important;
 	list-style: none outside none;
 	border-bottom: 1px dotted #aaa;
+	background-image: none;
+	background-color: #fff;
 }
 
 
@@ -74,6 +76,7 @@ body {
 	overflow: auto;
 	border: 1px solid #aaa;
 	padding: 5px;
+	position: relative;
 }
 
 .desc p {
