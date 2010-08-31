@@ -10,8 +10,10 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
 		
 		if(arguments.length < 2){
-			this.source = {'_id': src};
-			this.id = '_id';
+//			this.source = {'_id': src};
+//			this.id = '_id';
+			this.source = src;
+			// this.id отсутствует
 		}
 		else {
 			this.source = src;
@@ -21,7 +23,12 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	},
 	
 	val: function() {
-		return (this.source instanceof Dino.data.DataSource) ? this.source.get(this.id) : this.source[this.id];
+		if(this.source instanceof Dino.data.DataSource){
+			return ('id' in this) ? this.source.get(this.id) : this.source.get();
+		}
+		else{
+			return ('id' in this) ? this.source[this.id] : this.source;
+		}
 	},
 	
 	// получаем значение
@@ -53,11 +60,22 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			// теперь список элементов пуст
 			this.items = {};
 			
-			(this.source instanceof Dino.data.DataSource) ? this.source.set(this.id, newValue) : this.source[this.id] = newValue;
+			if(this.source instanceof Dino.data.DataSource){
+				('id' in this) ? this.source.set(this.id, newValue) : this.source.set(newValue);
+			}
+			else {
+				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
+			}
 		}
 		else {
 			// получаем объект с данными (PlainObject или Array)
-			var v = (this.source instanceof Dino.data.DataSource) ? this.source.val()[this.id] : this.source[this.id];
+			var v = this.get();
+//			if(this.source instanceof Dino.data.DataSource){
+//				v = ('id' in this) ? this.source.val()[this.id] : this.source.val();
+//			}
+//			else {
+//				v = ('id' in this) ? this.source[this.id] : this.source;
+//			}
 			// если ключ - строка, то он может быть составным 
 			if( _dino.isString(i) ){
 				var a = i.split('.');
@@ -78,12 +96,22 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	},
 	
 	item: function(i) {
+		//TODO элементы тоже можно получать по составному индексу
 		if(!(i in this.items)) {
-			var item = ( Dino.isArray(this.get(i)) ) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
+			var item = Dino.isArray(this.get(i)) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
 			this.items[i] = item;
 		}
 		return this.items[i];
 	}
+	
+	
+//	asArray: function() {
+//		return new Dino.data.ArrayDataSource(this);
+//	},
+//	
+//	asObject: function() {
+//		return new Dino.data.ObjectDataSource(this);
+//	}
 	
 /*	
 	eachItem: function(callback){

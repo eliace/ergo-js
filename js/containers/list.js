@@ -20,11 +20,11 @@ Dino.declare('Dino.containers.List', 'Dino.containers.Box', {
 		if(data == undefined) return;
 		
 		var o = this.options;
-		
+
 		if('dataId' in o)
-			this.data = (data instanceof Dino.data.ArrayDataSource) ? data.item(o.dataId) : new Dino.data.ArrayDataSource(data, o.dataId);
+			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ArrayDataSource(data, o.dataId);
 		else
-			this.data = (data instanceof Dino.data.ArrayDataSource) ? data : new Dino.data.ArrayDataSource(data);
+			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ArrayDataSource(data);
 		
 		
 		var self = this;
@@ -41,9 +41,12 @@ Dino.declare('Dino.containers.List', 'Dino.containers.Box', {
 			self.removeItem({data: self.item(e.index)});
 		});
 		
-		// всем предопределенным виджетам подсоединяем источники данных
-		this.eachItem(function(item, i){
-			item.setData( self.data.item(i) )
+//		// всем предопределенным виджетам подсоединяем источники данных
+//		this.eachItem(function(item, i){
+//			item.setData( self.data.item(i) )
+//		});
+		this.children.each(function(child){
+			if(!('data' in child)) child.setData(self.data);
 		});
 	},
 

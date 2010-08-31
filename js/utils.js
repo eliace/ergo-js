@@ -116,7 +116,8 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 		item.parent = this.owner;	
 		
 		// выполняем автобиндинг
-		if(this.owner.data && !item.data) item.setData(this.owner.data);
+		if(this.owner.data && !item.data) 
+			item.setData(this.owner.data);
 		
 		return item;
 	},

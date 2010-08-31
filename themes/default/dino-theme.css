@@ -134,12 +134,17 @@
 .dino-icon-error { background-image: url(img/led/error.png); }
 .dino-icon-info { background-image: url(img/led/exclamation.png); }
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
+.dino-icon-add { background-image: url(img/led/add.png); }
 
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }
 .led-icon-buildings { background-image: url(img/led/buildings.png); }
 .led-icon-photo { background-image: url(img/led/photo.png); }
 .led-icon-photos { background-image: url(img/led/photos.png); }
+.led-icon-asterisk { background-image: url(img/led/asterisk_orange.png); }
+.led-icon-pill { background-image: url(img/led/pill.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
+.dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
 
+.dino-shade.dino-icon-add { background-image: url(./img/led_shade/add.png); }

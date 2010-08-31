@@ -1,5 +1,9 @@
 
 
+.clearfix {
+	clear: both;
+}
+
 .dino-hidden {
 	display: none !important;
 }
@@ -278,6 +282,17 @@
 [layout='column'] > div {
 	display: block;
 }
+
+
+
+/*
+ * Bar layout
+ */
+
+.bar-item {
+	float: left;
+}
+
 
 
 

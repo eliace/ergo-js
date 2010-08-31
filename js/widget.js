@@ -216,16 +216,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 
 		if('components' in o) {
-			var a = [];
+			var arr = [];
 			// преобразуем набор компонентов в массив
 			for(var i in o.components){
 				var c = o.components[i];
-				c._cweight = c.weight || 9999;
+				c._cweight = ('weight' in c) ? c.weight : 9999;
 				c._cname = i;
-				a.push(c);
+				arr.push(c);
 			}
 			// сортируем массив по весу компонентов
-			a.sort(function(c1, c2){
+			arr.sort(function(c1, c2){
 				var a = c1._cweight;
 				var b = c2._cweight;
 				if(a < b) return -1;
@@ -233,7 +233,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				return 0;
 			});
 			// добавляем компоненты
-			Dino.each(a, function(c){
+			Dino.each(arr, function(c){
 				self.addComponent(c._cname, c);				
 				delete c._cweight;
 				delete c._cname;
@@ -305,7 +305,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	addComponent: function(key, o){
 		// если компонент уже существует, то удаляем его
-		if(this[key]) this.removeComponent(key);
+		this.removeComponent(key);
 		
 		this[key] = Dino.widget(o);
 		this.children.add( this[key] );
@@ -314,9 +314,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	removeComponent: function(key) {
-		this.layout.remove(this[key]);
-		this.children.remove( this[key] );
-		delete this[key];
+		if(this[key]) {
+			this.layout.remove(this[key]);
+			this.children.remove( this[key] );
+			delete this[key];
+		}
 	},
 	
 	
@@ -439,9 +441,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
 //		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
-		
-//		for(var i in this.children)
-//			this.children[i].setData(this.data);
+	
+		this.children.each(function(child){
+			if(!('data' in child)) child.setData(self.data);
+		});
 	},
 	
 	

@@ -70,11 +70,49 @@ $.dino({
 
 
 
+<div id="sample-bar">
+<style>
+	
+.bar-text-item {
+	font-size: 16px; 
+}	
+	
+</style>
+
+<script>
+$.dino({
+  dtype: 'box',
+  layout: 'bar-layout',
+  items: [{
+    cls: 'dino-icon led-icon-smile'
+  }, {
+    cls: 'bar-text-item',
+    text: 'Hello'
+  }, {
+    cls: 'dino-icon led-icon-unhappy'
+  }]
+});
+</script>
+<div class="html">
+	
+</div>
+<div class="desc">
+</div>
+	
+</div>
+
+
+
+
+
 <script>
 	
 samplePage([{
 	name: 'Dock',
 	id: '#sample-dock'
+}, {
+	name: 'Bar',
+	id: '#sample-bar'
 }]);
 	
 	

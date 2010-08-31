@@ -23,6 +23,7 @@ require 'fileutils'
     'js/layouts/row-layout.js',
     'js/layouts/form-layout.js',
     'js/layouts/dock-layout.js',
+    'js/layouts/bar-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',
@@ -39,6 +40,7 @@ require 'fileutils'
     'js/widgets/growl.js',
     'js/widgets/uploader.js',
     'js/widgets/text-item.js',
+    'js/widgets/table.js',
   ]
 
 
