@@ -47,39 +47,107 @@
 
 <div id="sample-menu">
 <style>
-.menu {
-/*  width: 70px;
-	padding: 10px;*/
-	font-size: 0.8em;
-	margin-top: 10px;
+	
+#vmenu {
+	width: 100px;
 	position: relative;
 }
-
-.menu-item {
-	border-bottom: 1px dotted #aaaaaa;
+	
+.main-menu-item {
+	border-bottom: 1px dotted #aaa;
+	position: relative;
 	cursor: pointer;
+}	
+	
+.drop-menu-item {
+	position: relative;
+	cursor: pointer;
+}	
+
+.menu-item-text {
+	padding: 0 5px;
 }
 
-.menu-item-label {
-	margin-right: 20px;
-	margin-left: 5px;
+.drop-menu-item:hover {
+	background-color: #eee;
 }
-
-.menu-item:hover {
-	background-color: #e0e0e0;
-}
-
+	
 .menu-item-icon {
 	background-position: 32px 32px;				
 }
-
-.has-submenu > .menu-item-icon {
+	
+.drop-menu-item-has-submenu > .menu-item-text > .menu-item-icon {
 	background-position: -32px -16px;
 }
 
-	
+
+		
 </style>
 <script>
+	
+var menuModel = {
+	baseCls: 'drop-menu-item',
+	components: {
+		content: {
+			cls: 'menu-item-text',
+			rightCls: 'ui-icon menu-item-icon'
+		},
+		submenu: {
+			cls: 'dino-border-all'
+		}
+	}
+};	
+	
+	
+	
+$.dino({
+	dtype: 'box',
+	id: 'vmenu',
+	defaultItem: {
+		dtype: 'text-menu-item',
+		baseCls: 'drop-menu-item',
+		cls: 'main-menu-item',
+		components: {
+			content: {
+				cls: 'menu-item-text',
+				rightCls: 'ui-icon menu-item-icon'
+			},
+			submenu: {
+				cls: 'dino-border-all',
+				width: 100
+			}
+		},
+		defaultSubItem: menuModel
+	},
+	items: [{
+		label: 'Menu 1',
+		submenu: [{
+			label: 'Submenu 1',
+		}, {
+			label: 'Submenu 2',
+		}, {
+			label: 'Submenu 3',
+			submenuWidth: 200,
+			submenu: [{
+				label: 'Submenu 4',
+				submenuWidth: 100,
+				submenu: [{
+					label: 'Submenu 6',
+				}]
+			}, {
+				label: 'Submenu 5 + Submenu 5'					
+			}]
+		}]
+	}, {
+		label: 'Menu 2',		
+	}, {
+		label: 'Menu 3',		
+	}]
+});	
+	
+	
+	
+/*	
 // Модель меню
 var menuModel = {
   dropdown: {
@@ -140,7 +208,7 @@ Dino.widget({
   { label: 'Menu 3' }
   ]
 });
-	
+*/
 </script>	
 <div class="html">
 	
@@ -150,6 +218,94 @@ Dino.widget({
 </div>
 </div>
 
+
+
+
+
+
+
+<div id="sample-menu2">
+<style>
+	
+
+
+		
+</style>
+<script>
+	
+var menuModel = {
+	baseCls: 'drop-menu-item',
+	components: {
+		content: {
+			cls: 'menu-item-text',
+			rightCls: 'ui-icon menu-item-icon'
+		},
+		submenu: {
+			cls: 'dino-border-all'
+		}
+	}
+};	
+	
+	
+	
+$.dino({
+	dtype: 'box',
+	id: 'hmenu',
+	layout: 'bar-layout',
+	defaultItem: {
+		dtype: 'text-menu-item',
+//		baseCls: 'drop-menu-item',
+		cls: 'main-menu-item',
+		components: {
+			content: {
+				cls: 'menu-item-text',
+				rightCls: 'ui-icon menu-item-icon'
+			},
+			submenu: {
+				cls: 'dino-border-all',
+				anchor: 'bottom',
+				width: 100
+			}
+		},
+		defaultSubItem: menuModel
+	},
+	items: [{
+		label: 'Menu 1',
+		submenu: [{
+			label: 'Submenu 1',
+		}, {
+			label: 'Submenu 2',
+		}, {
+			label: 'Submenu 3',
+			submenuWidth: 200,
+			submenu: [{
+				label: 'Submenu 4',
+				submenuWidth: 100,
+				submenu: [{
+					label: 'Submenu 6',
+				}]
+			}, {
+				label: 'Submenu 5 + Submenu 5'					
+			}]
+		}]
+	}, {
+		label: 'Menu 2',		
+	}, {
+		label: 'Menu 3',		
+	}]
+});	
+	
+	
+	
+
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	<p>Это черновой вариант меню</p>	
+</div>
+</div>
 
 
 
@@ -189,6 +345,7 @@ Dino.widget({
 	
 </style>
 <script>
+/*	
 $.dino({
   dtype: 'box',
   items: [{
@@ -240,7 +397,7 @@ $.dino({
     }
   }]
 });
-
+*/
 </script>	
 <div class="html">
 	
@@ -376,6 +533,9 @@ Dino.widget({
 samplePage([{
 	name: 'Вертикальное меню',
 	id: '#sample-menu'
+}, {
+	name: 'Горизонтальное меню',
+	id: '#sample-menu2'
 }, {
 	name: 'Контекстное меню',
 	id: '#sample-context'

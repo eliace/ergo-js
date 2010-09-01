@@ -158,6 +158,10 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 	
 	size: function() {
 		return this.widgets.length;
+	},
+	
+	empty: function(){
+		return this.widgets.length == 0;
 	}
 	
 	
@@ -178,6 +182,7 @@ Dino.utils.overrideOpts = function(o) {
 				o[i] = p;
 			}
 			else{
+				//TODO здесь создается полная копия (deep copy) объекта-контейнера, но массивы-контейнеры не копируются
 				if( Dino.isPlainObject(p) ){
 					if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
 					Dino.utils.overrideOpts(o[i], p);

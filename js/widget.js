@@ -108,6 +108,19 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_init: function() {
+		
+		var o = this.options;
+		
+		// "сахарное" определение контента виджета
+		if('content' in o){
+			Dino.utils.overrideOpts(o, {
+				components: {
+					content: o.content
+				}
+			})
+//			this.addComponent('content', o.content);
+		}
+		
 	},
 	
 //	_theme: function() {
@@ -257,12 +270,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				self.events.fire('onClick', {}, e);
 			});
 		}
-		
-		
-		if('content' in o){
-			this.addComponent('content', o.content);
-		}
-		
+				
 		
 /*		
 		if('data' in o) {

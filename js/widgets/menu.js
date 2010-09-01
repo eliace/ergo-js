@@ -1,7 +1,131 @@
 
 
 
+Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
+	
+	defaultOptions: {
+		showOnEnter: true,
+		hideOnLeave: true,
+		components: {
+//			// содержимое эелемента меню (текст, виджет и др.)
+			content: {
+				weight: 1
+//				dtype: 'text-item'
+			},
+			// выпадающее подменю
+			submenu: {
+				dtype: 'dropdown-box',
+				defaultItem: {
+					dtype: 'menu-item',
+					isSubitem: true
+				}
+			}
+		}
+	},
+	
+	_init: function() {
+		Dino.widgets.MenuItem.superclass._init.apply(this, arguments);
+		
+		var o = this.options;
+		
+		if('submenu' in o){
+			o.components.submenu.items = o.submenu;
+			this.states.set('has-submenu');
+		}
 
+		if('submenuWidth' in o){
+			o.components.submenu.width = o.submenuWidth;
+		}
+		
+		if('defaultSubItem' in o){
+			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+		}
+		
+		
+	},
+	
+	_events: function(self) {
+		Dino.widgets.MenuItem.superclass._events.apply(this, arguments);
+		
+		this.el.bind('mouseenter', function(){
+			self.hoverSubmenu = true;
+			if(self.options.showOnEnter){
+				self.showSubmenu();
+			}
+		});
+		
+		this.el.bind('mouseleave', function(){
+			self.hoverSubmenu = false;
+			if(self.options.hideOnLeave){
+				if(self.submenu){
+					self.submenu.hide();
+					self.events.fire('onSubmenuHide');
+				}
+			}
+		});
+		
+	},
+	
+	hasSubmenu: function() {
+		return !this.submenu.children.empty();
+	},
+	
+	showSubmenu: function() {
+		if(this.hasSubmenu()){
+			if(this.submenu.options.anchor == 'bottom')
+				this.submenu.show( 0, $(this.el).height());
+			else
+				this.submenu.show( $(this.el).width(), 0);
+		}
+	},
+	
+	hideSubmenu: function(hideAll) {
+		if(this.hasSubmenu()){
+			this.submenu.hide();
+			this.events.fire('onSubmenuHide');			
+		}		
+		if(hideAll && this.options.isSubitem)
+			this.parent.parent.hideSubmenu(true);
+	}
+	
+	
+	
+}, 'menu-item');
+
+
+
+
+
+Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
+	
+	defaultOptions: {
+		components: {
+			content: {
+				dtype: 'text-item'
+			},
+			submenu: {
+				defaultItem: {
+					dtype: 'text-menu-item'
+				}
+			}
+		}
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.TextMenuItem.superclass._opt.call(this, o);
+		
+		if('label' in o) this.content.opt('label', o.label);
+		
+	}
+	
+	
+}, 'text-menu-item');
+
+
+
+
+
+/*
 Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 	
 	defaultCls: 'dino-menu-item',
@@ -88,7 +212,7 @@ Dino.declare('Dino.containers.MenuItem', 'Dino.containers.Box', {
 	},
 	
 	showSubmenu: function(){
-		if(this.submenu) this.submenu.show(/*pos.left +*/ $(this.el).width(), 0/*pos.top*/);		
+		if(this.submenu) this.submenu.show( $(this.el).width(), 0);		
 	},
 	
 	hideSubmenu: function(hideAll){
@@ -160,7 +284,7 @@ Dino.declare('Dino.containers.Menu', 'Dino.containers.Box', {
 	
 	
 }, 'menu');
-
+*/
 
 
 

@@ -29,6 +29,8 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
+		if('label' in o) this.content.opt('text', o.label);
+		
 		if('leftCls' in o) this.leftIcon.opt('cls', o.leftCls);
 		if('contentCls' in o) this.content.opt('cls', o.contentCls);
 		if('rightCls' in o) this.rightIcon.opt('cls', o.rightCls);
