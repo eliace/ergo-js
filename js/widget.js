@@ -200,7 +200,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('events' in o){
 			for(var i in o.events){
 				var callback = o.events[i];
-				el.bind(i, callback.curry(self));
+				el.bind(i, callback.rcurry(self));
 			}
 		}
 		if('html' in o) this.el.html(o.html);

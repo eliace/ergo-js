@@ -97,7 +97,11 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 		for(var i in o.columns) {
 			var col = o.columns[i];
 			
-			var item = this.addItem( Dino.object(Dino.override({dtype: 'label', data: this.data, dataId: col.name}, col)) );
+			var cell_opts = {dtype: 'label', data: this.data};
+			if('name' in col) 
+				cell_opts.dataId = col.name;
+			
+			var item = this.addItem( Dino.object(Dino.override(cell_opts, col)) );
 			
 //			this.columns[col.name] = item;
 		}

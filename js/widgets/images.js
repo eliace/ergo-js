@@ -135,7 +135,13 @@ Dino.declare('Dino.widgets.Icon', Dino.Widget, {
 //		if('iconSize' in o){
 //			this.el.css({'width': o.iconSize, 'height': o.iconSize});
 //		}
+	},
+	
+	_dataChanged: function() {
+		// данные меняют состояние виджета
+		this.states.set( this.getValue() );
 	}
+	
 		
 }, 'icon');
 

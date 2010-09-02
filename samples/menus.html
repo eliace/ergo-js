@@ -337,7 +337,7 @@ $.dino({
 .preview-text {
 	position: relative;
 	font-size: 2em;
-	color: #f0f0f0;
+	color: #eee;
 	text-align: center;
 	cursor: default;
 	height: 300px;
@@ -345,7 +345,7 @@ $.dino({
 	
 </style>
 <script>
-/*	
+
 $.dino({
   dtype: 'box',
   items: [{
@@ -376,7 +376,7 @@ $.dino({
       'contextmenu': function(){ 
         return false; 
       },
-      'mousedown': function(w, e) {
+      'mousedown': function(e, w) {
 				
         if(e.button == 2){
 
@@ -397,7 +397,7 @@ $.dino({
     }
   }]
 });
-*/
+
 </script>	
 <div class="html">
 	
@@ -411,115 +411,6 @@ $.dino({
 
 
 
-
-
-<!--div id="desc-1" class="desc">
-	
-	
-	<pre class="sh_javascript">
-	</pre>
-	
-</div>
-
-
-
-<div id="desc-2" class="desc">
-	
-	
-	<pre class="sh_javascript">
-				
-	</pre>
-	
-</div>
-
-
-
-
-
-<div id="desc-3" class="desc">
-	
-	<p>
-	</p>
-	
-	<pre class="sh_javascript">
-// Модель меню
-var menuModel = {
-  dropdown: {
-    effects: {
-      show: 'fade',
-      hide: 'fade',
-      delay: 300
-    }
-  },
-  item: {
-    dtype: 'text-menu-item',
-    cls: 'menu-item',
-    items: [{
-      dtype: 'icon',
-      position: 'right',
-      cls: 'ui-icon menu-item-icon'
-    }, {
-      cls: 'menu-item-label'
-    }]
-  }		
-};
-
-// Виджет меню
-Dino.widget({
-  dtype: 'box',
-  cls: 'menu',
-  style: {'position': 'absolute'},
-  defaultItem: {
-    dtype: 'menu-item',
-    showOnEnter: false,
-    content: {
-      dtype: 'pulse-button',
-      imageWidth: 30,
-      pulseValue: 1.25,
-      pulseDelay: 200,
-      onAfterPulseUp: function(){
-        if(this.parent.submenu && this.parent.hoverSubmenu){
-          this.parent.showSubmenu();
-        }
-      },
-      onBeforePulseDown: function(e){
-        if(this.parent.submenu){
-          e.cancel();
-        }
-      }
-    },
-
-    onSubmenuHide: function(){
-      this.content.pulseDown();
-    },
-		
-    submenuModel: menuModel
-	},
-  items: [{
-    content: {imageUrl: 'img/menu/Box.png'},
-    submenuItem: {width: 90},
-    submenu: [
-      {label: 'Submenu 1'},
-      {label: 'Submenu 2'},
-      {label: 'Submenu 3'}
-    ]
-  }, 
-  { 
-    content: {imageUrl: 'img/menu/Calander.png'},
-    submenuItem: {width: 90},
-    submenu: [
-      {label: 'Submenu B 1'},
-      {label: 'Submenu B 2'},
-      {label: 'Submenu B 3'}
-    ]
-	}, 
-  { content: {imageUrl: 'img/menu/Clock.png'} }
-  ]
-});	
-
-	</pre>
-	
-</div -->
 
 
 
@@ -542,50 +433,6 @@ samplePage([{
 }]);
 	
 	
-/*	
-		Dino.samples.build({
-			widgets: [{
-				id: 'menu1',
-				label: 'Вертикальное меню',
-				preview: eval($("#desc-1 .sh_javascript").text()),
-				description: { wrapEl: $('#desc-1') }				
-			}, {
-				id: 'menu2',
-				label: 'Контекстное меню',
-				preview: eval($("#desc-2 .sh_javascript").text()),
-				description: { wrapEl: $('#desc-2') }				
-			}, {
-				id: 'menu3',
-				label: 'Нестандартные элементы меню',
-				preview: eval($("#desc-3 .sh_javascript").text()),
-				description: { wrapEl: $('#desc-3') }				
-			}]
-		});	
-		
-		
-		
-		$('#menu2 .preview').mousedown(function(e){
-
-			if(e.button == 2){
-
-				var dropdown = $('.dino-dropdown-box', this).dino();
-							
-				var offset = $(this).offset();
-				
-				var x = e.pageX - offset.left - 2;
-				var y = e.pageY - offset.top - 2;
-				
-				dropdown.show(x, y);
-				
-				e.stopPropagation();
-				
-				$('body').one('click', function(){ dropdown.hide(); });
-			
-			}
-		});
-		
-		$('#menu2 .preview').bind('contextmenu', function(){ return false; });
-*/		
 	
 </script>
 

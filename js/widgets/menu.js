@@ -50,16 +50,24 @@ Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
 		this.el.bind('mouseenter', function(){
 			self.hoverSubmenu = true;
 			if(self.options.showOnEnter){
-				self.showSubmenu();
+				if(self.intention) clearTimeout(self.intention);
+				self.intention = setTimeout(function(){
+					self.intention = null;
+					self.showSubmenu();					
+				}, 300);
 			}
 		});
 		
 		this.el.bind('mouseleave', function(){
 			self.hoverSubmenu = false;
 			if(self.options.hideOnLeave){
+				if(self.intention) clearTimeout(self.intention);
 				if(self.submenu){
-					self.submenu.hide();
-					self.events.fire('onSubmenuHide');
+					self.intention = setTimeout(function(){
+						self.intention = null;
+						self.submenu.hide();
+						self.events.fire('onSubmenuHide');
+					}, 300);					
 				}
 			}
 		});
@@ -101,7 +109,12 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 	defaultOptions: {
 		components: {
 			content: {
-				dtype: 'text-item'
+				dtype: 'text-item',
+				events: {
+					'click': function(e, w) {
+						w.parent.events.fire('onAction');
+					}
+				}
 			},
 			submenu: {
 				defaultItem: {

@@ -143,8 +143,14 @@
 .led-icon-photos { background-image: url(img/led/photos.png); }
 .led-icon-asterisk { background-image: url(img/led/asterisk_orange.png); }
 .led-icon-pill { background-image: url(img/led/pill.png); }
+.led-icon-page { background-image: url(img/led/page.png); }
+.led-icon-page-white-edit { background-image: url(img/led/page_white_edit.png); }
+.led-icon-male { background-image: url(img/led/male.png); }
+.led-icon-female { background-image: url(img/led/female.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
 
 .dino-shade.dino-icon-add { background-image: url(./img/led_shade/add.png); }
+
+.dino-shade.led-icon-page-white-edit { background-image: url(./img/led_shade/page_white_edit.png); }
