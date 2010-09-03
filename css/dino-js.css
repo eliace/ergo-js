@@ -286,11 +286,24 @@
 
 
 /*
- * Bar layout
+ * BAR LAYOUT
  */
 
 .bar-item {
 	float: left;
+}
+
+
+/*
+ * FORM LAYOUT
+ */
+
+.dino-form-item-wrapper {
+	display: table-row;	
+}
+
+.dino-form-item-wrapper > * {
+	display: table-cell;	
 }
 
 

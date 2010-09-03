@@ -125,21 +125,25 @@ Dino.widget({
 <script>
 Dino.widget({
   dtype: 'form',
+//	layout: {
+//		dtype: 'form-layout',
+//		labelWidth: 200
+//	},
   items: [{
     label: 'Текстовое поле:',
-    name: 'field1',
+   	id: 'field1',
     dtype: 'textfield'
   }, {
     label: 'Текст:',
-    name: 'field2',
+    id: 'field2',
     dtype: 'textarea'
   }, {
     label: 'Файл:',
-    name: 'field3',
+    id: 'field3',
     dtype: 'file'
   }, {
     label: 'Выбор варианта:',
-    name: 'field4',
+    id: 'field4',
     dtype: 'select',
     options: {
       '1': 'зима', 

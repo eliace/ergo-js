@@ -6,7 +6,9 @@
 	cursor: pointer;
 }
 
-
+.dino-clickable {
+	cursor: pointer;
+}
 
 
 .dino-border-all {
@@ -30,6 +32,14 @@
 .dino-bg-3 { background: url(img/ui-bg_glass_75_dadada_1x400.png) repeat-x scroll 50% 50% #fff; }
 .dino-bg-4 { background: url(img/ui-bg_glass_75_e6e6e6_1x400.png) repeat-x scroll 50% 50% #fff; }
 .dino-bg-5 { background: url(img/ui-bg_glass_95_fef1ec_1x400.png) repeat-x scroll 50% 50% #fff; }
+
+
+/*
+ * 
+ */
+
+
+
 
 /*
  * Tabs
@@ -103,6 +113,27 @@
 }
 
 
+
+/*
+ * Form
+ */
+
+.dino-form-item-wrapper {
+	padding: 3px;
+}
+
+.dino-form-item-wrapper > label {
+	vertical-align: top;
+	text-align: right;
+	padding-right: 5px;
+}
+
+
+
+
+
+
+
 /*
  * Growl
  */
@@ -147,6 +178,7 @@
 .led-icon-page-white-edit { background-image: url(img/led/page_white_edit.png); }
 .led-icon-male { background-image: url(img/led/male.png); }
 .led-icon-female { background-image: url(img/led/female.png); }
+.led-icon-vcard { background-image: url(img/led/vcard.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }

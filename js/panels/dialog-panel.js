@@ -23,6 +23,19 @@ Dino.declare('Dino.panels.DialogPanel', 'Dino.Widget', {
 			}
 		}
 		
+	},
+	
+	_init: function() {
+		Dino.panels.DialogPanel.superclass._init.apply(this, arguments);
+		
+		var o = this.options;
+		var c = o.components;
+		
+		if('header' in o) c.header.content = o.header;
+		if('body' in o) c.body.content = o.body;
+		if('footer' in o) c.footer.content = o.footer;
+		
+		
 	}
 	
 }, 'dialog-panel');
