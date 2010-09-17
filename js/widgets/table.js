@@ -30,7 +30,8 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 					dtype: 'box',
 					wrapEl: '<tr></tr>',
 					defaultItem: {
-						wrapEl: '<td></td>'
+						dtype: 'table-cell'
+//						wrapEl: '<td></td>'
 					}
 				}
 			}
@@ -80,7 +81,23 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 
 
 
+Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
+	
+	_html: function() { return '<td></td>'; },
+	
+	_dataChanged: function() {
+		
+		if(!this.options.skipBinding)
+			this.el.text( this.getValue() );
+		
+		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
+	}
+	
+}, 'table-cell');
 
+
+
+/*
 Dino.declare('Dino.widgets.Table.Body', 'Dino.Container', {
 	
 	defaultOptions: {
@@ -92,7 +109,7 @@ Dino.declare('Dino.widgets.Table.Body', 'Dino.Container', {
 	
 	
 }, 'table-body');
-
+*/
 
 
 /*

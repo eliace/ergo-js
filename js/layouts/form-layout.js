@@ -42,3 +42,29 @@ Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', {
 	
 	
 }, 'form-layout');
+
+
+
+
+
+Dino.declare('Dino.layouts.SimpleFormLayout', 'Dino.Layout', {
+	
+	defaultOptions: {
+		name: 'simple-form'
+	},
+
+	insert: function(item){
+		
+		var wrapperEl = $('<div class="dino-form-item-wrapper"></div>');		
+		var labelEl = $('<label>'+item.options.label+'</label>');
+		
+		if('id' in item.options) labelEl.attr('for', item.options.id);
+		
+		wrapperEl.append(labelEl).append(item.el);
+		
+		this.container.el.append(wrapperEl);
+	}
+	
+	
+}, 'simple-form-layout');	
+	

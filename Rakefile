@@ -41,6 +41,7 @@ require 'fileutils'
     'js/widgets/uploader.js',
     'js/widgets/text-item.js',
     'js/widgets/table.js',
+    'js/widgets/x-form.js',
   ]
 
 
@@ -63,7 +64,7 @@ def merge_files(file_list)
     
     # копируем CSS
 #    FileUtils.mkdir('build/css') if not File.exist?('build/css')
-    FileUtils.cp_r 'css', 'build'
+    FileUtils.cp 'css/dino-js.css', 'build'
 #    FileUtils.cp_r 'lib/misc', 'build'
     
 end

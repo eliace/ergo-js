@@ -185,6 +185,8 @@ var Dino = (function(){
 		return result;
 	}
 	
+	D.find = D.filter;
+	
 	/**
 	 * отображение (размерность сохраняется)
 	 */

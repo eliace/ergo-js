@@ -17,6 +17,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		if('readonly' in o) this.el.attr('readonly', o.readonly);
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.attr('value', o.value);
+		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		
 	},
 	
@@ -184,10 +185,8 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', {
 		
 		if('text' in o)
 			this.el.text(o.text);
-	},
-	
-	_dataChanged: function() {
 	}
+	
 }, 'anchor');
 
 
@@ -207,6 +206,9 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
 				this.el.append(option_el);
 			}
 		}
+		
+		if('disabled' in o) this.el.attr('disabled', o.disabled);
+		
 	},
 	
 	_events: function(self) {
@@ -216,6 +218,7 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
 	},
 	
 	_dataChanged: function() {
+		Dino.widgets.form.Select.superclass._dataChanged.call(this);
 		this.el.val( this.getValue() );
 	}
 	

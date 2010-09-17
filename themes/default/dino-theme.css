@@ -78,19 +78,23 @@
 
 
 
+.dino-tabs.bottom {
+	margin-top:-1px;	
+}
+
 .dino-tabs.bottom li {
 	height: 24px;
 	padding: 0 20px;
 	margin-right: 3px;
+	margin-top:1px;
 	float: left;
 	border-top: 0 !important;
 }
 
 .dino-tabs.bottom li.undefined-active {
 	padding-top: 1px !important;
+	margin-top:0px;
 }
-
-
 
 
 
@@ -118,18 +122,21 @@
  * Form
  */
 
-.dino-form-item-wrapper {
+[layout='form'] > .dino-form-item-wrapper {
 	padding: 3px;
 }
 
-.dino-form-item-wrapper > label {
+[layout='form'] > .dino-form-item-wrapper > label {
 	vertical-align: top;
 	text-align: right;
 	padding-right: 5px;
 }
 
 
-
+/*
+[layout='simple-form'] > .dino-form-item-wrapper > label {
+}
+*/
 
 
 
@@ -179,6 +186,11 @@
 .led-icon-male { background-image: url(img/led/male.png); }
 .led-icon-female { background-image: url(img/led/female.png); }
 .led-icon-vcard { background-image: url(img/led/vcard.png); }
+.led-icon-book { background-image: url(img/led/book.png); }
+.led-icon-tag { background-image: url(img/led/tag_blue.png); }
+.led-icon-accept { background-image: url(img/led/accept.png); }
+.led-icon-calendar_1 { background-image: url(img/led/calendar_1.png); }
+.led-icon-cancel { background-image: url(img/led/cancel.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
@@ -186,3 +198,4 @@
 .dino-shade.dino-icon-add { background-image: url(./img/led_shade/add.png); }
 
 .dino-shade.led-icon-page-white-edit { background-image: url(./img/led_shade/page_white_edit.png); }
+.dino-shade.led-icon-cancel { background-image: url(./img/led_shade/cancel.png); }

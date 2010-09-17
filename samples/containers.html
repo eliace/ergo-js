@@ -8,7 +8,7 @@
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<link rel="stylesheet" type="text/css" href="../build/dino-js.css">
 		<!-- DinoJS theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
@@ -25,7 +25,6 @@
 
 </head>
 <body>
-
 
 
 
@@ -163,6 +162,52 @@ Dino.widget({
 </div>
 
 
+<!-- Form -->
+<div id="sample-xform">
+<style>
+	
+</style>
+<script>
+Dino.widget({
+  dtype: 'form',
+//	layout: {
+//		dtype: 'form-layout',
+//		labelWidth: 200
+//	},
+  items: [{
+    label: 'Текстовое поле:',
+   	id: 'xfield1',
+    dtype: 'x-textfield'
+  }/*, {
+    label: 'Текст:',
+    id: 'field2',
+    dtype: 'textarea'
+  }, {
+    label: 'Файл:',
+    id: 'field3',
+    dtype: 'file'
+  }, {
+    label: 'Выбор варианта:',
+    id: 'field4',
+    dtype: 'select',
+    options: {
+      '1': 'зима', 
+      '2': 'весна', 
+      '3': 'лето', 
+      '4': 'осень' 
+    }
+  }*/]
+});			
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
 
 <div id="sample-growl">
 <style>	
@@ -260,6 +305,9 @@ samplePage([{
 }, {
 	name: 'Форма',
 	id: '#sample-form'
+}, {
+	name: 'Форма 2',
+	id: '#sample-xform'
 }, {
 	name: 'Growl box',
 	id: '#sample-growl'

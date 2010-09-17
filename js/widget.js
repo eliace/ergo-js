@@ -38,7 +38,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		layout: 'plain-layout',
 		states: {
 			'hidden': 'dino-hidden'
-		}
+		},
+		autoBinding: true,
+//		stateBinding: false,
+		skipBinding: false
 	},
 			
 	initialize: function() {
@@ -430,10 +433,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	//---------------------------------------------
 	
 	setData: function(data) {
-		
-		if(data == undefined) return;
-		
+				
 		var o = this.options;
+		
+		if(data == undefined || !o.autoBinding) return;
+
 		
 		if('dataId' in o){
 			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
@@ -441,6 +445,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		else {
 			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
 		}
+
+//		if('stateId' in o){
+//			this.stateData = (data instanceof Dino.data.DataSource) ? data.item(o.stateId) : new Dino.data.DataSource(data, o.stateId);
+//		}
+//		else {
+//			this.stateData = this.data;
+//		}
+		
 		
 //		if('defaultValue' in o){
 //			if(this.data.get() == null) this.data.set(o.defaultValue);
@@ -474,6 +486,28 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			this.events.fire('onValueChanged');
 		}
 	},
+	
+	getStateValue: function() {
+		var val;
+		if(this.data){
+			val = this.data.get();
+			// если присутствует функция форматирования, то используем ее
+			if('stateFormat' in this.options) 
+				val = this.options.stateFormat.call(this, val);
+		}
+		return val;
+	},
+	
+//	setStateValue: function(val) {
+//		if(this.stateData){
+//			this.stateData.set(val);
+//			this.events.fire('onStateValueChanged');
+//		}
+//	},
+	
+	
+	
+	
 /*	
 	getFormattedValue: function() {
 		var val = this.getValue();
@@ -513,6 +547,18 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //	_dataBound: function(){},
 //	_dataUnbound: function() {},
 	_dataChanged: function() {
+//		// если автобиндинг выключен, то прекращаем обновление
+//		if(!this.options.autoBinding) return;
+		
+		if(this.options.optBinding) {
+			var o = this.options.optBinding.call(this);
+			this._opt(o);
+		}
+				
+//		if(this.options.stateBinding){
+//			this.states.set( this.getStateValue() );
+//		}
+		
 		this.children.each(function(child) { child._dataChanged(); });		
 	}
 	

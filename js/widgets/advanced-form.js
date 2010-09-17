@@ -162,11 +162,24 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	_html: function(){ return '<span/>';},
 	
 	_dataChanged: function() {
+		Dino.widgets.Text.superclass._dataChanged.call(this);
 		this.el.text( this.getValue() );
+//		this.states.set( this.getStateValue() );
 	}	
 		
 }, 'text');
 
+
+//Dino.declare('Dino.widgets.StateText', 'Dino.Widget', {
+//	
+//	_html: function(){ return '<span/>';},
+//	
+//	_dataChanged: function() {
+//		this.el.text( this.getValue() );
+//		this.states.set( this.getValue() );
+//	}	
+//		
+//}, 'text');
 
 
 

@@ -91,7 +91,15 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
 	
 	stateCls: function(name) {
-		return this.widget.options.states[name] || this.widget.options.baseCls+'-'+name;
+		var stateVal = this.widget.options.states[name];
+		// если состояние не определено, то формируем имя класса по имени базового класса
+		if(stateVal === undefined) 
+			return this.widget.options.baseCls+'-'+name;
+		// если состояние - функция, то вызываем ее, а значение считаем состоянием
+		if(Dino.isFunction(stateVal))
+			return stateVal.call(this.widget);
+		
+		return stateVal;
 	}
 	
 	
@@ -133,6 +141,18 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 		else return null;
 		
 		return Dino.find_one(this.widgets, f);	
+	},
+
+	get_all: function(i) {
+		var f = null;
+		
+		if( _dino.isNumber(i) ) return this.widgets[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		else return null;
+		
+		return Dino.find(this.widgets, f);	
 	},
 	
 	remove: function(item) {

@@ -271,7 +271,7 @@
 }
 
 /*
- * Column layout
+ * COLUMN LAYOUT
  */
 [layout='column'] {
 	display: table-cell;
@@ -298,12 +298,17 @@
  * FORM LAYOUT
  */
 
-.dino-form-item-wrapper {
+[layout='form'] > .dino-form-item-wrapper {
 	display: table-row;	
 }
 
-.dino-form-item-wrapper > * {
+[layout='form'] > .dino-form-item-wrapper > * {
 	display: table-cell;	
+}
+
+
+[layout='simple-form'] > .dino-form-item-wrapper {
+	
 }
 
 
