@@ -33,6 +33,35 @@ Dino.filters = (function(){
 
 
 
+Dino.bindings = (function(){
+	
+	var B = {};
+	
+	//Dino.bindings.opt('state').opt('opacity');
+	
+	
+	B.opt = function(i, k) {
+		return B.opt_chain(undefined, i, k);
+	};
+	
+	B.opt_chain = function(chain, i, k) {
+		var F = function(o){
+			if(chain) chain(o);
+			o[i] = this.data.get(k);
+		};
+		
+		F.opt = B.opt_chain.curry(F);
+		
+		return F;
+	};
+	
+	B.optState = function(val) { return {'state': val}; };
+	
+	return B;
+})();
+
+
+
 
 
 Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
@@ -82,11 +111,17 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	},
 	
 	check: function(name) {
-		return this.widget.el.hasClass( this.stateCls(name) );
+		var cls = this.stateCls(name);
+		if(Dino.isArray(cls))
+			return (cls[0] == '' || this.widget.el.hasClass(cls[0])) && !this.widget.el.hasClass(cls[1])
+		return this.widget.el.hasClass( cls );
 	},
 
 	is: function(name) {
-		return this.widget.el.hasClass( this.stateCls(name) );
+		var cls = this.stateCls(name);
+		if(Dino.isArray(cls))
+			return (cls[0] == '' || this.widget.el.hasClass(cls[0])) && !this.widget.el.hasClass(cls[1])
+		return this.widget.el.hasClass( cls );
 	},
 	
 	
@@ -94,7 +129,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		var stateVal = this.widget.options.states[name];
 		// если состояние не определено, то формируем имя класса по имени базового класса
 		if(stateVal === undefined) 
-			return this.widget.options.baseCls+'-'+name;
+			return name;//this.widget.options.baseCls+'-'+name;
 		// если состояние - функция, то вызываем ее, а значение считаем состоянием
 		if(Dino.isFunction(stateVal))
 			return stateVal.call(this.widget);

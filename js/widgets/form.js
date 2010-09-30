@@ -28,6 +28,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 	},
 	
 	_dataChanged: function() {
+		Dino.widgets.form.InputField.superclass._dataChanged.apply(this);
 		this.el.val( this.getValue() );
 	}
 	
@@ -117,7 +118,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
 	_events: function(self) {
-		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
+//		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
 		this.el.change(function(){
 			self.setValue(self.el.attr('checked') ? true : false);
 			self.events.fire('onAction');
@@ -125,6 +126,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	},
 	
 	_dataChanged: function() {
+		Dino.widgets.form.Checkbox.superclass._dataChanged.apply(this);
 		this.el.attr('checked', this.getValue() );
 	}
 	

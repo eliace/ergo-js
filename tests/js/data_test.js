@@ -39,7 +39,7 @@ test('Dino.data.DataSource', function(){
 	ds.set('person.age', 21);
 	equals(data['person']['age'], 21, 'Complex key set');
 
-	ok(data == ds.source._id, 'Data source must be the same');
+	ok(data == ds.source, 'Data source must be the same');
 	
 	
 	data = ['Alice', 'Bob', 'Charlie'];

@@ -38,7 +38,7 @@ Dino.declare('Dino.containers.List', 'Dino.containers.Box', {
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
 		this.data.events.reg('onItemDeleted', function(e){
-			self.removeItem({data: self.item(e.index)});
+			self.removeItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
 		});
 		
 //		// всем предопределенным виджетам подсоединяем источники данных

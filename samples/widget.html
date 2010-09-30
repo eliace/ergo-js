@@ -8,7 +8,7 @@
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
 		<!-- DinoJS -->
 		<script type="text/javascript" src="../build/dino-js.js"></script>
-		<link rel="stylesheet" type="text/css" href="../build/css/dino-js.css">
+		<link rel="stylesheet" type="text/css" href="../build/dino-js.css">
 		<!-- DinoJS theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
@@ -216,6 +216,66 @@ new Dino.Widget('<div/>', {
 
 
 
+<div id="sample-binding">
+	
+<style>
+	
+</style>
+
+<script>
+	
+var personData = {
+  name: 'Alice',
+  age: 21,
+  sex: 'female',
+  status: 'on vacation'
+};	
+	
+new Dino.containers.Box({
+  width: 100,
+  height: 100,
+  layout: 'simple-form-layout',
+  data: personData,
+  items: [{
+    dtype: 'text',
+    dataId: 'name',
+    label: 'Имя: '
+  }, {
+    dtype: 'textfield',
+    dataId: 'age',
+    label: 'Возраст: '		
+  }, {
+    dtype: 'icon',
+    dataId: 'sex',
+    label: 'Пол: ',
+    optBinding: function(val){
+      return {state: val};
+    },
+    states: {
+      'female': 'led-icon-female'
+    }
+  }, {
+    dtype: 'textarea',
+    dataId: 'status',
+    label: 'Статус: '
+  }]
+});	
+</script>
+<div class="html">
+	
+</div>
+<div class="desc">
+	<p>
+	</p>	
+</div>	
+	
+	
+</div>
+
+
+
+
+
 
 <script>
 		
@@ -231,6 +291,9 @@ samplePage([{
 }, {
 	name: 'Компоненты и компоновка',
 	id: '#sample3'
+}, {
+	name: 'Связывание с данными',
+	id: '#sample-binding'
 }]);
 	
 	

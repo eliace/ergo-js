@@ -58,7 +58,7 @@
 	list-style: none outside none;	
 }
 
-.dino-tabs li.undefined-active {
+.dino-tabs li.active {
 	background-color: #fff;
 	background-image: none;
 }
@@ -72,7 +72,7 @@
 	border-bottom: 0 !important;
 }
 
-.dino-tabs.top li.undefined-active {
+.dino-tabs.top li.active {
 	padding-bottom: 1px !important;
 }
 
@@ -91,7 +91,7 @@
 	border-top: 0 !important;
 }
 
-.dino-tabs.bottom li.undefined-active {
+.dino-tabs.bottom li.active {
 	padding-top: 1px !important;
 	margin-top:0px;
 }
@@ -112,7 +112,7 @@
 	border-right: 0 !important;
 }
 
-.dino-tabs.left li.undefined-active {
+.dino-tabs.left li.active {
 	padding-right: 1px !important;
 }
 
@@ -191,11 +191,17 @@
 .led-icon-accept { background-image: url(img/led/accept.png); }
 .led-icon-calendar_1 { background-image: url(img/led/calendar_1.png); }
 .led-icon-cancel { background-image: url(img/led/cancel.png); }
+.led-icon-delete { background-image: url(img/led/delete.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
+
+.dino-off.led-icon-calendar_1 { background-image: url(img/led_grey/calendar_1.png); }
 
 .dino-shade.dino-icon-add { background-image: url(./img/led_shade/add.png); }
 
 .dino-shade.led-icon-page-white-edit { background-image: url(./img/led_shade/page_white_edit.png); }
 .dino-shade.led-icon-cancel { background-image: url(./img/led_shade/cancel.png); }
+.dino-shade.led-icon-delete { background-image: url(./img/led_shade/delete.png); }
+.dino-shade.led-icon-accept { background-image: url(./img/led_shade/accept.png); }
+.dino-shade.led-icon-pill { background-image: url(./img/led_shade/pill.png); }

@@ -138,6 +138,7 @@ Dino.declare('Dino.widgets.Icon', Dino.Widget, {
 	},
 	
 	_dataChanged: function() {
+		Dino.widgets.Icon.superclass._dataChanged.apply(this, arguments);
 		// данные меняют состояние виджета
 		this.states.set( this.getValue() );
 	}

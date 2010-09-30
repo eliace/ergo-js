@@ -482,21 +482,24 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	setValue: function(val) {
 		if(this.data){
-			this.data.set(val);
+			if('unformat' in this.options) 
+				this.options.unformat.call(this, val);
+			else
+				this.data.set(val);
 			this.events.fire('onValueChanged');
 		}
 	},
 	
-	getStateValue: function() {
-		var val;
-		if(this.data){
-			val = this.data.get();
-			// если присутствует функция форматирования, то используем ее
-			if('stateFormat' in this.options) 
-				val = this.options.stateFormat.call(this, val);
-		}
-		return val;
-	},
+//	getStateValue: function() {
+//		var val;
+//		if(this.data){
+//			val = this.data.get();
+//			// если присутствует функция форматирования, то используем ее
+//			if('stateFormat' in this.options) 
+//				val = this.options.stateFormat.call(this, val);
+//		}
+//		return val;
+//	},
 	
 //	setStateValue: function(val) {
 //		if(this.stateData){
@@ -551,7 +554,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		if(!this.options.autoBinding) return;
 		
 		if(this.options.optBinding) {
-			var o = this.options.optBinding.call(this);
+			var o = {};
+			this.options.optBinding.call(this, o);
 			this._opt(o);
 		}
 				

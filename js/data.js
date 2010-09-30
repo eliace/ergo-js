@@ -140,8 +140,12 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 //			if(j in this.items){
 				//this.items[j]
 			this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
-			if(j in this.items)				
+			if(j in this.items){
+				this.items[j].id = j-1;
 				this.items[j-1] = this.items[j];
+				delete this.items[j];
+			}
+			
 //			}
 		}
 		
