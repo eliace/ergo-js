@@ -4,6 +4,11 @@ body {
 	margin: 0;
 }
 
+body input {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+}
+
+
 #dino-sample-page {
 	margin: 3px;
 	position: relative;

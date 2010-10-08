@@ -4,14 +4,14 @@
 Dino.declare('Dino.widgets.XTextField', 'Dino.Widget', {
 	
 	defaultOptions: {
-		
+		cls: 'dino-xtextfield'
 		
 	
 	
 	},
 	
 	_html: function() {
-		return '<div><div class="dino-xtextfield-box"><input class="dino-xtextfield-input"></input></div><div class="dino-xtextfield-button">&nbsp;</div></div>';
+		return '<div><input class="dino-corner-left" /><span class="dino-corner-right dino-bg-4"><div class="dino-icon">&nbsp;</div></span></div>';
 	}
 	
 	

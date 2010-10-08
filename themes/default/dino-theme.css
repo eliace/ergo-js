@@ -1,11 +1,4 @@
 
-/*
- * Buttons
- */
-.dino-toggle-button {
-	cursor: pointer;
-}
-
 .dino-clickable {
 	cursor: pointer;
 }
@@ -18,6 +11,8 @@
 
 .dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
 .dino-corner-top {-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;}
+.dino-corner-left {-moz-border-radius: 4px 0 0 4px; -webkit-border-radius: 4px 0 0 4px; border-radius: 4px 0 0 4px;}
+.dino-corner-right {-moz-border-radius: 0 4px 4px 0; -webkit-border-radius: 0 4px 4px 0; border-radius: 0 4px 4px 0;}
 
 
 
@@ -39,6 +34,52 @@
  */
 
 
+.dino-shadow {
+	-moz-box-shadow: 3px 3px 3px #666;
+	-webkit-box-shadow: 3px 3px 3px #666;
+	box-shadow: 3px 3px 3px #666;
+}
+
+
+
+
+/*
+ * Buttons
+ */
+.dino-toggle-button {
+	cursor: pointer;
+}
+
+
+.dino-xtextfield input, .dino-xtextfield span {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 18px;
+}
+
+.dino-xtextfield input {
+	border: 1px solid #aaa;
+}
+
+.dino-xtextfield span {
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px 1px 1px 0;
+	cursor: default;
+	padding-left: 8px;
+	padding-right: 8px;
+	position: relative;
+}
+
+.dino-xtextfield .dino-icon {
+	background-position: -64px -16px;
+	background-image: url(img/ui-icons_222222_256x240.png);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -8px;
+	margin-top: -8px;
+}
 
 
 /*

@@ -27,14 +27,14 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 				dtype: 'list',
 				wrapEl: '<tbody></tbody>',
 				defaultItem: {
-					dtype: 'box',
-					wrapEl: '<tr></tr>',
-					defaultItem: {
-						dtype: 'table-cell'
-//						wrapEl: '<td></td>'
-					}
+					dtype: 'table-row'
 				}
 			}
+		},
+		tableModel: {
+			row: {},
+			cell: {},
+			columns: []
 		}
 	},
 	
@@ -44,7 +44,7 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 	_init: function() {
 		Dino.widgets.Table.superclass._init.apply(this, arguments);
 		
-		var columns = this.options.columns;
+		var columns = this.options.tableModel.columns;
 		
 		var headRow = {items: []};
 		var cells = [];
@@ -53,7 +53,7 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		for(var i = 0; i < columns.length; i++){
 			var c = columns[i];
 			
-			var col = Dino.utils.overrideOpts({text: columns[i].label}, c.header);
+			var col = Dino.utils.overrideOpts({text: columns[i].title}, c.header);
 			if('width' in c) col.width = c.width;
 			headRow.items.push(col);
 			
@@ -63,10 +63,16 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 			
 			cells.push(c);
 		}
-		
+				
 //		this.options.components.colgroup.items = cols;
 		this.options.components.head.items = [headRow];
-		this.options.components.body.defaultItem.items = cells;
+		
+		Dino.utils.overrideOpts(
+				this.options.components.body.defaultItem, 
+				this.options.tableModel.row, 
+				{defaultItem: this.options.tableModel.cell},
+				{items: cells}
+				);
 	}
 	
 	
@@ -81,9 +87,30 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 
 
 
+
+Dino.declare('Dino.widgets.TableRow', 'Dino.Container', {
+	
+	_html: function() { return '<tr></tr>'; },
+	
+	defaultOptions: {
+		defaultItem: {
+			dtype: 'table-cell'
+		}
+	}
+	
+	
+}, 'table-row');
+
+
+
+
 Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	
 	_html: function() { return '<td></td>'; },
+	
+	defaultOptions: {
+		skipBinding: true
+	},
 	
 	_dataChanged: function() {
 		
@@ -91,6 +118,10 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 			this.el.text( this.getValue() );
 		
 		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
+	},
+	
+	getRow: function() {
+		return this.parent;
 	}
 	
 }, 'table-cell');
