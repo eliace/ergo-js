@@ -35,9 +35,9 @@
 
 
 .dino-shadow {
-	-moz-box-shadow: 3px 3px 3px #666;
-	-webkit-box-shadow: 3px 3px 3px #666;
-	box-shadow: 3px 3px 3px #666;
+	-moz-box-shadow: 0 0 .7em #666;
+	-webkit-box-shadow: 0 0 .7em #666;
+	box-shadow: 0 0 .7em #666;
 }
 
 
@@ -52,8 +52,8 @@
 
 
 .dino-xtextfield input, .dino-xtextfield span {
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 	font-size: 18px;
 }
 
@@ -191,6 +191,46 @@
 .growl-item-error {background-color: #f33; }
 
 
+
+/*
+ * MENU
+ */
+
+.dino-menu-item {
+	position: relative;
+	cursor: pointer;
+}	
+
+.dino-menu-item:hover {
+	background-color: #eee;
+}
+
+.dino-menu-item-content {
+	padding: 0 5px;
+}
+
+.dino-menu-item-submenu  {
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.dino-submenu-icon {
+	background-position: 32px 32px;
+	background-image: url(img/ui-icons_222222_256x240.png);
+}
+	
+.dino-menu-item.has-submenu > .dino-menu-item-content .dino-submenu-icon {
+	background-position: -32px -16px;
+}
+
+
+
+.dino-context-menu {
+	border: 1px solid #ccc;
+	background-color: #fff;	
+}
+
+
 /*
  * LED Icons 
  */
@@ -246,3 +286,11 @@
 .dino-shade.led-icon-delete { background-image: url(./img/led_shade/delete.png); }
 .dino-shade.led-icon-accept { background-image: url(./img/led_shade/accept.png); }
 .dino-shade.led-icon-pill { background-image: url(./img/led_shade/pill.png); }
+
+
+
+
+.ui-icon {background-image: url(img/ui-icons_222222_256x240.png); }
+
+.ui-icon-triangle-1-e { background-position: -32px -16px; }
+

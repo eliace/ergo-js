@@ -1,56 +1,6 @@
 
 
 
-/*
-Dino.declare('Dino.utils.ContainerItemManager', 'Dino.utils.WidgetCollectionManager', {
-	
-	
-	initialize: function(owner, factory) {
-		Dino.utils.ContainerItemManager.superclass.initialize.call(this, owner);
-		this.factory = factory;
-	},
-	
-	add: function(item, key) {
-	
-		// если параметр не является виджетом - то вызываем метод фабрики объектов
-		if( Dino.isPlainObject(item) ) item = this.factory.call(this.owner, item);
-		// вызываем метод superclass.add(item)
-		Dino.utils.ContainerItemManager.superclass.add.call(this, item);
-		// добавляем элемент в компоновку
-		this.owner.layout.insert(item, key);
-	
-	//	item.events.fire('onAdded');
-	//	this.events.fire('onItemAdded');
-		
-		return item;
-	},
-	
-	remove: function(item) {
-		//FIXME по идее, сюда можно передавать виджет или ключ
-		Dino.utils.ContainerItemManager.superclass.remove.call(this, item);
-		this.owner.layout.remove(item);
-	},
-	
-	removeAll: function() {
-		//FIXME по идее, сюда можно передавать виджет или ключ
-		Dino.utils.ContainerItemManager.superclass.removeAll.call(this);
-		this.owner.layout.clear();
-	}
-	
-	
-});
-*/
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Базовый класс для контейнеров
  * 

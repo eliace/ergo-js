@@ -34,6 +34,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		if('leftCls' in o) this.leftIcon.opt('cls', o.leftCls);
 		if('contentCls' in o) this.content.opt('cls', o.contentCls);
 		if('rightCls' in o) this.rightIcon.opt('cls', o.rightCls);
+	},
+	
+	getText: function() {
+		return this.content.getText();
 	}
 	
 	

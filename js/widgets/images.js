@@ -135,13 +135,13 @@ Dino.declare('Dino.widgets.Icon', Dino.Widget, {
 //		if('iconSize' in o){
 //			this.el.css({'width': o.iconSize, 'height': o.iconSize});
 //		}
-	},
-	
-	_dataChanged: function() {
-		Dino.widgets.Icon.superclass._dataChanged.apply(this, arguments);
-		// данные меняют состояние виджета
-		this.states.set( this.getValue() );
 	}
+	
+//	_dataChanged: function() {
+//		Dino.widgets.Icon.superclass._dataChanged.apply(this, arguments);
+//		// данные меняют состояние виджета
+//		this.states.set( this.getValue() );
+//	}
 	
 		
 }, 'icon');

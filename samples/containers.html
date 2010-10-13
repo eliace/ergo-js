@@ -168,16 +168,25 @@ Dino.widget({
 	
 </style>
 <script>
+	
+var xformData = {
+	text: 11
+};
+	
 Dino.widget({
   dtype: 'form',
 //	layout: {
 //		dtype: 'form-layout',
 //		labelWidth: 200
 //	},
+	data: xformData,
   items: [{
     label: 'Текстовое поле:',
+		dataId: 'text',
    	id: 'xfield1',
-    dtype: 'x-textfield'
+    dtype: 'x-textfield',
+		rawValueOnFocus: true,
+		format: function(val) { return val + ' кг'; }
   }/*, {
     label: 'Текст:',
     id: 'field2',

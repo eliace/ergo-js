@@ -55,10 +55,11 @@
 	
 .main-menu-item {
 	border-bottom: 1px dotted #aaa;
-	position: relative;
-	cursor: pointer;
+/*	position: relative;
+	cursor: pointer;*/
 }	
 	
+/*	
 .drop-menu-item {
 	position: relative;
 	cursor: pointer;
@@ -71,33 +72,29 @@
 .drop-menu-item:hover {
 	background-color: #eee;
 }
-	
+*/
+
+/*
 .menu-item-icon {
 	background-position: 32px 32px;				
 }
 	
-.drop-menu-item-has-submenu > .menu-item-text > .menu-item-icon {
+.dino-menu-item.has-submenu > .dino-menu-item-content .menu-item-icon {
 	background-position: -32px -16px;
 }
-
+*/
 
 		
 </style>
 <script>
-	
+
+/*	
 var menuModel = {
-	baseCls: 'drop-menu-item',
-	components: {
-		content: {
-			cls: 'menu-item-text',
-			rightCls: 'ui-icon menu-item-icon'
-		},
-		submenu: {
-			cls: 'dino-border-all'
-		}
-	}
+  content: {
+    rightIconCls: 'ui-icon menu-item-icon'
+  }
 };	
-	
+*/	
 	
 	
 $.dino({
@@ -105,19 +102,9 @@ $.dino({
 	id: 'vmenu',
 	defaultItem: {
 		dtype: 'text-menu-item',
-		baseCls: 'drop-menu-item',
 		cls: 'main-menu-item',
-		components: {
-			content: {
-				cls: 'menu-item-text',
-				rightCls: 'ui-icon menu-item-icon'
-			},
-			submenu: {
-				cls: 'dino-border-all',
-				width: 100
-			}
-		},
-		defaultSubItem: menuModel
+		submenuWidth: 100,
+//		defaultSubItem: menuModel
 	},
 	items: [{
 		label: 'Menu 1',
@@ -144,77 +131,13 @@ $.dino({
 		label: 'Menu 3',		
 	}]
 });	
-	
-	
-	
-/*	
-// Модель меню
-var menuModel = {
-  dropdown: {
-    cls: 'dino-border',
-    effects: {
-      show: 'fade',
-      hide: 'default',
-      delay: 300
-    }
-  },
-  item: {
-    dtype: 'text-menu-item',
-    cls: 'menu-item',
-    items: [{
-      dtype: 'icon',
-      position: 'right',
-      cls: 'ui-icon menu-item-icon'
-    }, {
-      cls: 'menu-item-label'
-    }],
-    onAction: function(){
-      Samples.growl.addMessage('Выбран элемент меню: ' + this.options.label);
-      this.hideSubmenu(true);
-    }
-  }		
-};
-
-// Виджет меню
-Dino.widget({
-  dtype: 'box',
-  cls: 'menu',
-  style: {'position': 'absolute'},
-  defaultItem: Dino.override({submenuModel: menuModel}, menuModel.item),
-  items: [{
-    label: 'Menu 1',
-    submenuItem: {width: 90},
-    submenu: [
-      {label: 'Submenu 1'},
-      {label: 'Submenu 2'},
-      {label: 'Submenu 3'},
-      {
-        label: 'Submenu 4',
-        submenuItem: {width: 150},
-        submenu: [
-          {
-            label: 'Submenu1',
-            submenuItem: {width: 110},
-            submenu: [
-              {label: 'Submenu AAAA'}
-            ]
-          },
-          {label: 'Submenu2 Submenu2'}
-        ]
-      }
-    ]
-  }, 
-  { label: 'Menu 2' }, 
-  { label: 'Menu 3' }
-  ]
-});
-*/
+		
 </script>	
 <div class="html">
 	
 </div>
 <div class="desc">
-	<p>Это черновой вариант меню</p>	
+	<p>Меню на основе виджета <strong>Dino.widgets.TextMenuItem</strong></p>	
 </div>
 </div>
 
@@ -232,7 +155,9 @@ Dino.widget({
 		
 </style>
 <script>
-	
+
+
+/*	
 var menuModel = {
 	baseCls: 'drop-menu-item',
 	components: {
@@ -245,7 +170,7 @@ var menuModel = {
 		}
 	}
 };	
-	
+*/	
 	
 	
 $.dino({
@@ -257,17 +182,17 @@ $.dino({
 //		baseCls: 'drop-menu-item',
 		cls: 'main-menu-item',
 		components: {
-			content: {
-				cls: 'menu-item-text',
-				rightCls: 'ui-icon menu-item-icon'
-			},
+//			content: {
+//				cls: 'menu-item-text',
+//				rightCls: 'ui-icon menu-item-icon'
+//			},
 			submenu: {
 				cls: 'dino-border-all',
 				anchor: 'bottom',
 				width: 100
 			}
-		},
-		defaultSubItem: menuModel
+		}
+//		defaultSubItem: menuModel
 	},
 	items: [{
 		label: 'Menu 1',
@@ -348,6 +273,28 @@ $.dino({
 
 $.dino({
   dtype: 'box',
+	cls: 'contextmenu-page',
+  items: [{
+    text: 'Кликни правой кнопкой мыши в любом месте окна',
+    cls: 'preview-text',
+		contextMenu: {
+			dtype: 'context-menu',
+			cls: 'dino-shadow',
+//			hideOn: 'outerClick',
+			items: [
+	      {label: 'Item 1'},
+	      {label: 'Item 2'},
+	      {label: 'Item 3'},			
+			]
+		}
+  }]
+});
+	
+	
+	
+/*
+$.dino({
+  dtype: 'box',
   items: [{
     dtype: 'dropdown-box',
     cls: 'dino-border context-menu',
@@ -397,7 +344,7 @@ $.dino({
     }
   }]
 });
-
+*/
 </script>	
 <div class="html">
 	

@@ -165,7 +165,11 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 		Dino.widgets.Text.superclass._dataChanged.call(this);
 		this.el.text( this.getValue() );
 //		this.states.set( this.getStateValue() );
-	}	
+	},
+	
+	getText: function() {
+		return this.el.text();
+	}
 		
 }, 'text');
 

@@ -19,12 +19,19 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		if('value' in o) this.el.attr('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		
+		if(o.rawValueOnFocus){
+			var self = this;
+			this.el.focus(function() { self.el.val(self.getRawValue()) });
+			this.el.blur(function() { self.el.val(self.getValue()) });
+		}
+		
 	},
 	
 	_events: function(self) {
 		Dino.widgets.form.InputField.superclass._events.call(this, self);
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
+
 	},
 	
 	_dataChanged: function() {

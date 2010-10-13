@@ -171,6 +171,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			opts = {}
 			opts[arguments[0]] = arguments[1];
 		}
+		
+		Dino.utils.overrideOpts(this.options, opts);
+		
 		this._opt(opts);
 		return this.options;
 	},
@@ -273,7 +276,25 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				self.events.fire('onClick', {}, e);
 			});
 		}
+		
+		if('contextMenu' in o) {
+			
+			var contextMenu = (Dino.isPlainObject(o.contextMenu)) ? Dino.widget(o.contextMenu) : o.contextMenu;
+			
+			this.el.bind('mousedown', function(e){
+				if(e.button != 2) return;
 				
+				contextMenu.show(e.pageX, e.pageY);
+				
+				e.stopPropagation();				
+			});
+			
+			this.el.bind('contextmenu', function(){
+				return false;
+			});			
+		}
+		
+		
 		
 /*		
 		if('data' in o) {
@@ -289,6 +310,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 */		
 		
+	},
+	
+	
+	_translate_opt: function(key, target) {
+		if(key in this.options) target.opt(key, this.options[key]);
 	},
 		
 	/**
@@ -317,6 +343,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	addComponent: function(key, o){
 		// если компонент уже существует, то удаляем его
 		this.removeComponent(key);
+		
+		// если у виджета определен базовый класс, до его компоненты будут иметь класс-декоратор [baseCls]-[имяКомпонента]
+		if('baseCls' in this.options)
+			Dino.utils.overrideOpts(o, {cls: this.options.baseCls+'-'+key});
 		
 		this[key] = Dino.widget(o);
 		this.children.add( this[key] );
@@ -482,12 +512,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	setValue: function(val) {
 		if(this.data){
-			if('unformat' in this.options) 
-				this.options.unformat.call(this, val);
-			else
-				this.data.set(val);
+//			if('unformat' in this.options) 
+//				this.options.unformat.call(this, val);
+//			else
+			this.data.set(val);
 			this.events.fire('onValueChanged');
 		}
+	},
+		
+	getRawValue: function() {
+		return (this.data) ? this.data.get() : undefined;
 	},
 	
 //	getStateValue: function() {
