@@ -277,7 +277,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		if('contextMenu' in o) {
 			
-			this.contextMenu = (Dino.isPlainObject(o.contextMenu)) ? Dino.widget(o.contextMenu) : o.contextMenu;
+			this.contextMenu = (o.contextMenu instanceof Dino.Widget) ? o.contextMenu : Dino.widget(o.contextMenu);
 
 /*			
 			this.el.bind('mousedown', function(e){
@@ -291,10 +291,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				$(document).bind('contextmenu', function(e){
 					console.log(e);
 					var w = $(e.target).dino();
-					if(w && w.contextMenu){
-						w.contextMenu.show(e.pageX, e.pageY);
-						e.preventDefault();
+					if(w){
+						var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
+						if(w){
+							w.contextMenu.show(e.pageX, e.pageY);
+							e.preventDefault();
+						}
 					}
+//					if(w && w.contextMenu){
+//					}
 				});
 				Dino.contextMenuReady = true;
 			}
@@ -612,7 +617,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 
 Dino.widget = function(){
 	if(arguments.length == 1) return Dino.object(arguments[0]);
-	return Dino.object( Dino.utils.overrideOpts.apply(this, arguments) );
+	return Dino.object( Dino.utils.overrideOpts.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
 };
 
 
