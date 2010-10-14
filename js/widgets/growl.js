@@ -139,3 +139,43 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	}
 	
 }, 'growl-box');
+
+
+
+
+
+
+function init_default_growl_panel() {
+
+	Dino.messagePanel = $.dino({
+		dtype: 'growl-box',
+		cls: 'message-panel',
+		defaultItem: {
+			delay: 600,
+			timeout: 4000,
+			cls: 'dino-border-all dino-corner-all',
+			closeOnClick: true,
+			components: {
+				button: {
+					cls: 'dino-hidden'
+				}
+			}
+		},
+		renderTo: 'body'	
+	});	
+
+
+	message = {
+			info: function(m) {this.msg(m, 'info');},
+			err: function(m) {this.msg(m, 'error');},
+			warn: function(m) {this.msg(m, 'warn');},
+			msg: function(m, type) {
+				var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);
+				Dino.messagePanel.addMessage(s, type);		
+			}
+		}
+	
+}
+
+
+

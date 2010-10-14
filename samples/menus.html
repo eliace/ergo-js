@@ -55,35 +55,7 @@
 	
 .main-menu-item {
 	border-bottom: 1px dotted #aaa;
-/*	position: relative;
-	cursor: pointer;*/
 }	
-	
-/*	
-.drop-menu-item {
-	position: relative;
-	cursor: pointer;
-}	
-
-.menu-item-text {
-	padding: 0 5px;
-}
-
-.drop-menu-item:hover {
-	background-color: #eee;
-}
-*/
-
-/*
-.menu-item-icon {
-	background-position: 32px 32px;				
-}
-	
-.dino-menu-item.has-submenu > .dino-menu-item-content .menu-item-icon {
-	background-position: -32px -16px;
-}
-*/
-
 		
 </style>
 <script>
@@ -98,38 +70,42 @@ var menuModel = {
 	
 	
 $.dino({
-	dtype: 'box',
-	id: 'vmenu',
-	defaultItem: {
-		dtype: 'text-menu-item',
-		cls: 'main-menu-item',
-		submenuWidth: 100,
-//		defaultSubItem: menuModel
-	},
-	items: [{
-		label: 'Menu 1',
-		submenu: [{
-			label: 'Submenu 1',
-		}, {
-			label: 'Submenu 2',
-		}, {
-			label: 'Submenu 3',
-			submenuWidth: 200,
-			submenu: [{
-				label: 'Submenu 4',
-				submenuWidth: 100,
-				submenu: [{
-					label: 'Submenu 6',
-				}]
-			}, {
-				label: 'Submenu 5 + Submenu 5'					
-			}]
-		}]
-	}, {
-		label: 'Menu 2',		
-	}, {
-		label: 'Menu 3',		
-	}]
+  dtype: 'box',
+  id: 'vmenu',
+  defaultItem: {
+    dtype: 'text-menu-item',
+    cls: 'main-menu-item',
+    submenuWidth: 100,
+    onAction: function(e) {
+      this.hideSubmenu();
+      message.info( e.target.getText() );
+    }
+//  defaultSubItem: menuModel
+  },
+  items: [{
+    label: 'Menu 1',
+    submenu: [{
+      label: 'Submenu 1',
+    }, {
+      label: 'Submenu 2',
+    }, {
+      label: 'Submenu 3',
+      submenuWidth: 200,
+      submenu: [{
+        label: 'Submenu 4',
+        submenuWidth: 100,
+        submenu: [{
+          label: 'Submenu 6',
+        }]
+      }, {
+        label: 'Submenu 5 + Submenu 5'					
+      }]
+    }]
+  }, {
+    label: 'Menu 2',		
+  }, {
+    label: 'Menu 3',		
+  }]
 });	
 		
 </script>	
@@ -266,7 +242,7 @@ $.dino({
       cls: 'dino-shadow',
 //    hideOn: 'outerClick',
       onAction: function(e) {
-        Samples.growl.addMessage('Выбран элемент меню: ' + e.actor.getText());
+        message.info('Выбран элемент меню: ' + e.target.getText());
       },
       items: [
         {label: 'Item 1'},

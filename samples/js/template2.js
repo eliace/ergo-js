@@ -147,7 +147,7 @@ function samplePage(samples) {
 	// включаем подсветку кода
 	sh_highlightDocument();
 
-	
+/*	
 	// добавляем гроул
 	Samples.growl = $.fn.dino({
 		dtype: 'growl-box',
@@ -166,7 +166,9 @@ function samplePage(samples) {
 //		cls: 'ui-state-hover dino-hidden',
 		renderTo: 'body'
 	});
+*/
 	
+	init_default_growl_panel();
 }
 
 

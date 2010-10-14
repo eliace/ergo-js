@@ -233,6 +233,27 @@
 
 
 /*
+ * MESSAGE PANEL (GROWL)
+ */
+
+.message-panel {
+	position: absolute;
+	width: 500px;
+	top: 10px;
+	right: 10px;
+	z-index: 999999;
+}
+
+.message-panel .dino-growl {	margin-bottom: 2px;	padding: 2px;}
+.message-panel .dino-growl-icon {margin-left: 3px;}	
+.message-panel .dino-growl-content {	margin: 0 30px;	font-size: 0.8em;}	
+.message-panel .dino-growl-button {margin-right: 3px;}	
+
+
+
+
+
+/*
  * LED Icons 
  */
 

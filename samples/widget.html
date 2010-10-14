@@ -72,7 +72,7 @@ $.dino({
       'click': function(e, w) { w.states.toggle('click'); }
     },
     onStateChanged: function() {
-      Samples.growl.addMessage('Состояние изменилось');
+      message.info('Состояние изменилось');
     }
   }, {
     width: 100,
@@ -188,7 +188,7 @@ new Dino.Widget('<div/>', {
       cls: 'dino-center-align',
       label: 'кнопка',
       onAction: function() {
-        Samples.growl.addMessage('Нажата кнопка для иконки ['+this.parent.icon.tag+']');
+        message.info('Нажата кнопка для иконки ['+this.parent.icon.tag+']');
       }
     }
   }

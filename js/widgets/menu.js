@@ -10,7 +10,10 @@ Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
 //			// содержимое эелемента меню (текст, виджет и др.)
 			content: {
 				weight: 1,
-				dtype: 'text'
+				dtype: 'text',
+				onAction: function(e) {
+					this.parent.events.fire('onAction', {'target': this.parent});
+				}		
 //				dtype: 'text-item'
 			},
 			// выпадающее подменю
@@ -18,6 +21,9 @@ Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
 				dtype: 'dropdown-box',
 				defaultItem: {
 					dtype: 'menu-item',
+					onAction: function(e) {
+						this.parent.parent.events.fire('onAction', {'target': e.target});
+					},					
 					isSubitem: true
 				},
 				offset: [-1, 1]
@@ -113,9 +119,6 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 		components: {
 			content: {
 				dtype: 'text-item',
-				onAction: function() {
-					this.parent.events.fire('onAction');
-				},
 				rightIconCls: 'dino-submenu-icon'
 			},
 			submenu: {
@@ -154,7 +157,7 @@ Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', {
 		defaultItem: {
 			dtype: 'text-menu-item',
 			onAction: function(e) {
-				this.parent.events.fire('onAction', {actor: this});
+				this.parent.events.fire('onAction', {target: e.target});
 				this.parent.hide();
 			}			
 		},
