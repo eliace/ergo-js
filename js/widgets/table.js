@@ -109,12 +109,12 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	_html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-		skipBinding: true
+		binding: 'transient'
 	},
 	
 	_dataChanged: function() {
 		
-		if(!this.options.skipBinding)
+		if(this.options.binding != 'transient')
 			this.el.text( this.getValue() );
 		
 		Dino.widgets.TableCell.superclass._dataChanged.apply(this);

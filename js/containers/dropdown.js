@@ -16,11 +16,11 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 	
 //	defaultCls: ,
 	
-	_events: function(self){
-		Dino.containers.DropDownBox.superclass._events.call(this, self);
-		
-		this.el.mouseleave(function(){ self.hide(); });
-	},
+//	_events: function(self){
+//		Dino.containers.DropDownBox.superclass._events.call(this, self);
+//		
+//		this.el.mouseleave(function(){ self.hide(); });
+//	},
 	
 	
 	show: function(x, y, eff) {

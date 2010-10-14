@@ -227,7 +227,8 @@
 
 .dino-context-menu {
 	border: 1px solid #ccc;
-	background-color: #fff;	
+	background-color: #fff;
+	z-index: 1000;
 }
 
 

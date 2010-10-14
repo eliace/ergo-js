@@ -236,6 +236,7 @@
 
 .dino-context-menu {
 	position: absolute;
+	display: none;
 }
 
 

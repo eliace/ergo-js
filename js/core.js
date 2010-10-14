@@ -316,9 +316,9 @@ var Dino = (function(){
 		
 		if(obj.pretty_print) return obj.pretty_print(indent);
 		
-		if(Dino.isString(obj))
+		if(D.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
-		else if(Dino.isNumber(obj) || Dino.isBoolean(obj))
+		else if(D.isNumber(obj) || Dino.isBoolean(obj))
 			return obj;
 		else if(D.isArray(obj)){
 			var items = [];

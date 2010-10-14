@@ -131,6 +131,10 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 		
 		if('label' in o) this.content.opt('label', o.label);
 		
+	},
+	
+	getText: function() {
+		return this.content.getText();
 	}
 	
 	
@@ -148,7 +152,11 @@ Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', {
 		baseCls: 'dino-context-menu',
 		renderTo: 'body',
 		defaultItem: {
-			dtype: 'text-menu-item'
+			dtype: 'text-menu-item',
+			onAction: function(e) {
+				this.parent.events.fire('onAction', {actor: this});
+				this.parent.hide();
+			}			
 		},
 		offset: [-2, -2]
 	},

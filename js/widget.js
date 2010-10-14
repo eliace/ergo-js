@@ -39,9 +39,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		states: {
 			'hidden': 'dino-hidden'
 		},
-		autoBinding: true,
-//		stateBinding: false,
-		skipBinding: false
+		binding: 'auto'
 	},
 			
 	initialize: function() {
@@ -220,12 +218,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		
 		// экспериментальный код
-		if('stateEvents' in o){
-			var events = o.stateEvents;
-			for(var i in events){
-				this.el.bind(i, function(e){ $(this).dino().states.toggle(events[i]); });
-			}
-		}
+//		if('stateEvents' in o){
+//			var events = o.stateEvents;
+//			for(var i in events){
+//				this.el.bind(i, function(e){ $(this).dino().states.toggle(events[i]); });
+//			}
+//		}
 		
 		var regexp = /^on\S/;
 		for(var i in o){
@@ -279,19 +277,27 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		if('contextMenu' in o) {
 			
-			var contextMenu = (Dino.isPlainObject(o.contextMenu)) ? Dino.widget(o.contextMenu) : o.contextMenu;
-			
+			this.contextMenu = (Dino.isPlainObject(o.contextMenu)) ? Dino.widget(o.contextMenu) : o.contextMenu;
+
+/*			
 			this.el.bind('mousedown', function(e){
 				if(e.button != 2) return;
 				
-				contextMenu.show(e.pageX, e.pageY);
 				
-				e.stopPropagation();				
+				e.stopPropagation();
 			});
-			
-			this.el.bind('contextmenu', function(){
-				return false;
-			});			
+*/			
+			if(!Dino.contextMenuReady){
+				$(document).bind('contextmenu', function(e){
+					console.log(e);
+					var w = $(e.target).dino();
+					if(w && w.contextMenu){
+						w.contextMenu.show(e.pageX, e.pageY);
+						e.preventDefault();
+					}
+				});
+				Dino.contextMenuReady = true;
+			}
 		}
 		
 		
@@ -466,7 +472,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				
 		var o = this.options;
 		
-		if(data == undefined || !o.autoBinding) return;
+		if(data == undefined || o.binding == 'disabled') return;
 
 		
 		if('dataId' in o){
@@ -623,6 +629,7 @@ $.fn.dino = function(o) {
 	if(this.length > 0){
 		var widget = this.data('dino-widget');
 		if(widget) return widget;
+		if(!o) return undefined;
 		o.wrapEl = this;
 	}
 	else if(arguments.length == 0) return null;

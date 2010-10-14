@@ -243,22 +243,6 @@ $.dino({
 <div id="sample-context">
 <style>
 	
-.context-menu {
-	background-color: white;
-	cursor: default;
-	z-index: 1000;
-}
-
-.context-menu-item {
-	border-bottom: 1px dotted #aaaaaa;
-	cursor: pointer;
-	padding: 0 5px;
-}
-
-.context-menu-item:hover {
-	background-color: #e0e0e0;
-}
-	
 .preview-text {
 	position: relative;
 	font-size: 2em;
@@ -273,86 +257,33 @@ $.dino({
 
 $.dino({
   dtype: 'box',
-	cls: 'contextmenu-page',
+  cls: 'contextmenu-page',
   items: [{
     text: 'Кликни правой кнопкой мыши в любом месте окна',
     cls: 'preview-text',
-		contextMenu: {
-			dtype: 'context-menu',
-			cls: 'dino-shadow',
-//			hideOn: 'outerClick',
-			items: [
-	      {label: 'Item 1'},
-	      {label: 'Item 2'},
-	      {label: 'Item 3'},			
-			]
-		}
-  }]
-});
-	
-	
-	
-/*
-$.dino({
-  dtype: 'box',
-  items: [{
-    dtype: 'dropdown-box',
-    cls: 'dino-border context-menu',
-    events: {
-      'click': function(e) {
-        e.stopPropagation();
-      }
-    },
-    defaultItem: {
-      dtype: 'text-menu-item',
-      cls: 'context-menu-item',
-      onAction: function() {
-        $('.context-menu').dino().hide();
-        Samples.growl.addMessage('Выбран элемент меню: ' + this.options.label);
-      }
-    },
-    items: [
-      {label: 'Item 1'},
-      {label: 'Item 2'},
-      {label: 'Item 3'},
-    ]
-  }, {
-    text: 'Кликни правой кнопкой мыши в любом месте окна',
-    cls: 'preview-text',
-    events: {
-      'contextmenu': function(){ 
-        return false; 
+    contextMenu: {
+      dtype: 'context-menu',
+      cls: 'dino-shadow',
+//    hideOn: 'outerClick',
+      onAction: function(e) {
+        Samples.growl.addMessage('Выбран элемент меню: ' + e.actor.getText());
       },
-      'mousedown': function(e, w) {
-				
-        if(e.button == 2){
-
-          var dropdown = w.parent.getItem(0);
-				
-          var offset = $(this).offset();
-					
-          var x = e.pageX - offset.left - 2;
-          var y = e.pageY - offset.top - 2;
-					
-          dropdown.show(x, y);
-					
-          e.stopPropagation();
-					
-          $('body').one('click', function(){ dropdown.hide(); });
-        }
-      }
+      items: [
+        {label: 'Item 1'},
+        {label: 'Item 2'},
+        {label: 'Item 3'},			
+      ]
     }
   }]
 });
-*/
+
 </script>	
 <div class="html">
 	
 </div>
 <div class="desc">
-	<p>
-		Это тоже черновой вариант, созданный на основе <strong></>Dino.containers.DropDownBox</strong>.
-	</p>	
+	<p>Наличие контекстного меню является параметром виджета. Контекстным меню может быть любой объект, имеющий метод <i>show(x, y)</i>.</p>
+	<p>DinoJS предоставляет уже готовое решение <strong>Dino.widgets.ContextMenu</strong>.</p>	
 </div>
 </div>
 
