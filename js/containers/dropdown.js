@@ -21,9 +21,8 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 //		
 //		this.el.mouseleave(function(){ self.hide(); });
 //	},
-	
-	
-	show: function(x, y, eff) {
+
+	show: function(x, y) {
 		
 		if(arguments.length == 0) return;
 		
@@ -34,7 +33,7 @@ Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
 				
 		var effects = this.options.effects;
 		
-		switch(eff || effects['show']){
+		switch(effects['show']){
 			case 'fade':
 				this.el.fadeIn( effects.delay );
 				break;

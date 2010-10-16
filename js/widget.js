@@ -37,7 +37,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	defaultOptions: {
 		layout: 'plain-layout',
 		states: {
-			'hidden': 'dino-hidden'
+			'hidden': 'dino-hidden',
+			'visible': ['', 'dino-hidden']
 		},
 		binding: 'auto'
 	},
@@ -188,7 +189,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('x' in o) el.css('left', o.x);
 		if('y' in o) el.css('top', o.y);
 		if('tooltip' in o) el.attr('title', o.tooltip);
-		if('id' in o) el.attr("id", this.id = o.id);
+		if('id' in o) el.attr('id', this.id = o.id);
 		if('tag' in o) this.tag = o.tag;
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
@@ -277,31 +278,34 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		if('contextMenu' in o) {
 			
-			this.contextMenu = (o.contextMenu instanceof Dino.Widget) ? o.contextMenu : Dino.widget(o.contextMenu);
-
-/*			
-			this.el.bind('mousedown', function(e){
-				if(e.button != 2) return;
-				
-				
-				e.stopPropagation();
-			});
-*/			
-			if(!Dino.contextMenuReady){
-				$(document).bind('contextmenu', function(e){
-					console.log(e);
-					var w = $(e.target).dino();
-					if(w){
-						var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
+			var cm = o.contextMenu;
+			
+			if(Dino.isFunction(cm)) cm = cm.call(this);
+			if(cm && !(cm instanceof Dino.Widget)) cm = Dino.widget(cm);
+			
+			if(cm) {
+			
+				this.contextMenu = cm;
+	
+				//TODO возможно этот код стоит перенести в другое место
+				if(!Dino.contextMenuReady){
+					$(document).bind('contextmenu', function(e){
+						var w = $(e.target).dino();
 						if(w){
-							w.contextMenu.show(e.pageX, e.pageY);
-							e.preventDefault();
+							var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
+							if(w){
+//								w.contextMenu.events.fire('onBeforeShow', {'widget': w});
+//								w.contextMenu.targetWidget = w;
+//								w.contextMenu.events.fire('onBeforeShow');
+								w.events.fire('onContextMenu');
+								w.contextMenu.show(e.pageX, e.pageY);
+								e.preventDefault();
+							}
 						}
-					}
-//					if(w && w.contextMenu){
-//					}
-				});
-				Dino.contextMenuReady = true;
+					});
+					Dino.contextMenuReady = true;
+				}
+			
 			}
 		}
 		
@@ -327,22 +331,24 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	_translate_opt: function(key, target) {
 		if(key in this.options) target.opt(key, this.options[key]);
 	},
-		
+	
+	
+	
 	/**
 	 * Создание связи виджета с другим виджетом
 	 */
-	link: function(obj) {
-		this.link = obj;
-		this.events.fire('onLink', {'target':obj});
-	},
+//	link: function(obj) {
+//		this.link = obj;
+//		this.events.fire('onLink', {'target':obj});
+//	},
 	
 	/**
 	 * Удаление связи виджета с другим виджетом
 	 */
-	unlink: function() {
-		this.events.fire('onUnlink', {'target':this.link});
-		this.link = null;
-	},
+//	unlink: function() {
+//		this.events.fire('onUnlink', {'target':this.link});
+//		this.link = null;
+//	},
 	
 	
 	
@@ -375,74 +381,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	
 	
-	//---------------------------------------
-	// Методы работы с деревом виджетов
-	//---------------------------------------
-	
-	/**
-	 * Получаем дочерний виджет
-	 * 
-	 * параметром может быть:
-	 *  a) число - порядковый номер
-	 *  b) строка - значение свойства "tag"
-	 *  c) функция - фильтр
-	 *  d) объект - набор свойств
-	 *  
-	 *  В принципе все эти параметры могут быть реализованы с помощью одного только фильтра и карринга
-	 */
-	
-/*	
-	getChild: function(i){
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return this.children[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find_one(this.children, f);
-	},
-	
-	// Добавляем дочерний виджет
-	addChild: function(item) {
-		
-		this.children.push(item);
-			
-		item.parent = this;	
-		
-		if(this.data && !item.data) item.setData(this.data);
-		
-		return item;
-	},
-	
-	// Удаляем дочерний виджет
-	removeChild: function(item) {
-		var i = Dino.indexOf(this.children, item);
-		
-		// если такого элемента среди дочерних нет, то возвращаем false
-		if(i == -1) return false;
-		
-		delete this.children[i].parent;
-		this.children.splice(i, 1);
-		
-		return true;
-	},
-	
-	// Удаляем все дочерние виджеты
-	removeAllChildren: function(o) {
-		for(var i in this.children) delete this.children[i].parent;
-		this.children.splice(0, this.children.length);
-	},
-	
-	eachChild: function(callback) {
-//		Dino.each(this.children, callback);
-		//WARN здесь используется цикл вместо метода each, т.к. each поменяет this
-		for(var i = 0; i < this.children.length; i++){
-			callback.call(this, this.children[i], i);
-		}
-	},
-*/	
 	
 	getParents: function(list) {
 		if(arguments.length == 0) list = [];
@@ -504,7 +442,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 	
 		this.children.each(function(child){
-			if(!('data' in child)) child.setData(self.data);
+			/*if(!('data' in child))*/ child.setData(self.data);
 		});
 	},
 	
@@ -560,34 +498,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	getFormattedValue: function() {
 		var val = this.getValue();
 		return (this.options.format) ? this.options.format.call(this, val) : val;
-	},
-*/	
-/*	
-	//------------------------------------------
-	// Методы управления состояниями виджета
-	//------------------------------------------
-	
-	setState: function(name) {
-		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
-		this.el.addClass( stateCls );
-		this.events.fire('onStateChanged');
-	},
-	
-	clearState: function(name){
-		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
-		this.el.removeClass( stateCls );
-		this.events.fire('onStateChanged');
-	},
-	
-	toggleState: function(name, sw) {
-		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
-		this.el.toggleClass( stateCls, sw );
-		this.events.fire('onStateChanged');
-	},
-	
-	checkState: function(name) {
-		var stateCls = (name in this.options.states) ? this.options.states[name] : this.options.baseCls+'-'+name;
-		return this.el.hasClass( stateCls );
 	},
 */	
 	

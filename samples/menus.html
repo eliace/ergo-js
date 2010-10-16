@@ -75,12 +75,14 @@ $.dino({
   defaultItem: {
     dtype: 'text-menu-item',
     cls: 'main-menu-item',
-    submenuWidth: 100,
+    submenuWidth: 140,
     onAction: function(e) {
       this.hideSubmenu();
       message.info( e.target.getText() );
-    }
-//  defaultSubItem: menuModel
+    },
+    defaultSubItem: {
+			showLeftPanel: true
+		}
   },
   items: [{
     label: 'Menu 1',
@@ -90,10 +92,10 @@ $.dino({
       label: 'Submenu 2',
     }, {
       label: 'Submenu 3',
-      submenuWidth: 200,
+      submenuWidth: 230,
       submenu: [{
         label: 'Submenu 4',
-        submenuWidth: 100,
+        submenuWidth: 130,
         submenu: [{
           label: 'Submenu 6',
         }]
@@ -165,7 +167,7 @@ $.dino({
 			submenu: {
 				cls: 'dino-border-all',
 				anchor: 'bottom',
-				width: 100
+				width: 110
 			}
 		}
 //		defaultSubItem: menuModel
@@ -178,10 +180,10 @@ $.dino({
 			label: 'Submenu 2',
 		}, {
 			label: 'Submenu 3',
-			submenuWidth: 200,
+			submenuWidth: 210,
 			submenu: [{
 				label: 'Submenu 4',
-				submenuWidth: 100,
+				submenuWidth: 110,
 				submenu: [{
 					label: 'Submenu 6',
 				}]
@@ -222,7 +224,7 @@ $.dino({
 .preview-text {
 	position: relative;
 	font-size: 2em;
-	color: #eee;
+	color: #ddd;
 	text-align: center;
 	cursor: default;
 	height: 300px;

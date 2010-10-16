@@ -126,14 +126,17 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 					dtype: 'text-menu-item'
 				}
 			}
-		}
+		},
+		showLeftPanel: false
 	},
 	
 	_opt: function(o) {
 		Dino.widgets.TextMenuItem.superclass._opt.call(this, o);
 		
 		if('label' in o) this.content.opt('label', o.label);
+		if('format' in o) this.content.opt('format', o.format);
 		
+		if(o.showLeftPanel) this.content.states.set('left-panel');
 	},
 	
 	getText: function() {
@@ -142,6 +145,31 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 	
 	
 }, 'text-menu-item');
+
+
+
+Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', {
+	
+	defaultOptions: {
+		components: {
+			content: {
+				components: {
+					leftIcon: {
+						dtype: 'checkbox'
+					}
+				}
+			}
+		}
+	},
+	
+	getText: function() {
+		return this.content.getText();
+	}
+	
+	
+}, 'check-menu-item');
+
+
 
 
 
@@ -204,13 +232,14 @@ Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', {
 //		
 //	}
 	
-	show: function(x, y, eff) {
+	show: function(x, y) {
 		Dino.widgets.ContextMenu.superclass.show.apply(this, arguments);
-		
+
 		var self = this;
 		
 		if(this.options.hideOn == 'outerClick')
 			$('body').one('click', function(){ self.hide(); });
+		
 		
 //		switch(this.options.hide){
 //			case 'outerClick':

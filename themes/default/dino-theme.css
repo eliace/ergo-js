@@ -35,9 +35,9 @@
 
 
 .dino-shadow {
-	-moz-box-shadow: 0 0 .7em #666;
-	-webkit-box-shadow: 0 0 .7em #666;
-	box-shadow: 0 0 .7em #666;
+	-moz-box-shadow: 0 0 .7em #bbb;
+	-webkit-box-shadow: 0 0 .7em #bbb;
+	box-shadow: 0 0 .7em #bbb;
 }
 
 
@@ -202,12 +202,21 @@
 }	
 
 .dino-menu-item:hover {
-	background-color: #eee;
+	background-color: #ddd;
 }
 
 .dino-menu-item-content {
-	padding: 0 5px;
+	padding: 0 10px;
 }
+
+.dino-menu-item-content.left-panel span {
+	margin-left: 16px;
+}
+
+.dino-menu-item-content .dc-form-checkbox {
+	margin-top: -8px;
+}
+
 
 .dino-menu-item-submenu  {
 	border: 1px solid #ccc;
@@ -315,4 +324,6 @@
 .ui-icon {background-image: url(img/ui-icons_222222_256x240.png); }
 
 .ui-icon-triangle-1-e { background-position: -32px -16px; }
+.ui-icon-check { background-position: -64px -144px; }
+.ui-icon-none { background-position: 32px 32px; }
 

@@ -115,9 +115,38 @@ function samplePage(samples) {
 //		Samples.PREVIEW = page.getItem('preview');
 		var w = eval($(sample.code).text());
 		
-		if(w) page.getItem('preview').addItem(w);
+		if(w) {
+			page.getItem('preview').addItem(w);
+			
+			var html = w.el.parent().html();
+			var regexp = /<[^<>]+>/;
+			var indent = 0;
+			var s = '';
+			var last_index = 0;
+			for(var m = regexp.exec(html); m; m = regexp.exec(html)){
+				
+				if(m[0][1] != '/') indent++;
+				
+				var spaces = '\n';
+								
+				for(var j = 0; j < indent; j++) spaces += '  ';
+				
+				if(m.index - last_index > 1) s += spaces + '  ' + html.substr(0, m.index - last_index);				
+				
+				s += (spaces + m[0]);
+
+				if(m[0][1] == '/') indent--;
+				last_index = m.index;
+				
+				html = html.substr(m.index+m[0].length);
+				
+			}
+			
+			page.getItem('html').opt('contentText', '<pre class="sh_html">'+Dino.escapeHtml(s)+'<pre>')
+			
+		}
 		
-//		page.getItem('html').opt('contentText', '<pre class="sh_html">'+Dino.escapeHtml(Samples.PREVIEW.el.html())+'<pre>')
+		
 		
 		pages.push( page );
 	}
