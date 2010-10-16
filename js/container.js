@@ -119,7 +119,72 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		for(var i = 0; i < this.items.length; i++)
 //			callback.call(this, this.items[i], i);
 		this.children.each(callback);
+	},
+	
+	
+	
+	/**
+	 * Подключаем данные.
+	 * 
+	 * data массив или ArrayDataSource
+	 * 
+	 */
+	setData: function(data) {
+		
+		if(!this.options.dynamic) {
+			Dino.Container.superclass.setData.call(this, data);
+			return;
+		}
+		
+		
+		if(data == undefined) return;
+		
+		var o = this.options;
+
+		if('dataId' in o)
+			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ArrayDataSource(data, o.dataId);
+		else
+			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ArrayDataSource(data);
+		
+		
+		var self = this;
+		
+		// если добавлен новый элемент данных, то добавляем новый виджет
+		this.data.events.reg('onItemAdded', function(e){
+			self.addItem({
+				'data': self.data.item(e.index)
+			});
+		});
+		
+		// если элемент данных удален, то удаляем соответствующий виджет
+		this.data.events.reg('onItemDeleted', function(e){
+			self.removeItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
+		});
+		
+//		// всем предопределенным виджетам подсоединяем источники данных
+//		this.eachItem(function(item, i){
+//			item.setData( self.data.item(i) )
+//		});
+		this.children.each(function(child){
+			if(!('data' in child)) child.setData(self.data);
+		});
+	},
+
+	_dataChanged: function() {
+		
+		if(!this.options.dynamic) {
+			Dino.Container.superclass._dataChanged.call(this);
+			return;			
+		}
+		
+		var self = this;
+		this.data.each(function(val, i){
+			var dataItem = self.data.item(i);
+			if(!self.getItem({'data': dataItem}))
+				self.addItem({ 'data': dataItem });
+		});
 	}
+	
 	
 });
 

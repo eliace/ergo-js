@@ -411,12 +411,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
 	
-	setData: function(data) {
+	setData: function(data, phase) {
 				
 		var o = this.options;
 		
 		if(data == undefined || o.binding == 'disabled') return;
-
+		
+		if(!phase) phase = 1;
+		
+		this.dataPhase = phase;
+		
 		
 		if('dataId' in o){
 			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
@@ -442,7 +446,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 	
 		this.children.each(function(child){
-			/*if(!('data' in child))*/ child.setData(self.data);
+			if(!child.dataPhase == 1) child.setData(self.data, 2);
 		});
 	},
 	
