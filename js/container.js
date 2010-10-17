@@ -129,7 +129,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	 * data массив или ArrayDataSource
 	 * 
 	 */
-	setData: function(data) {
+	setData: function(data, phase) {
 		
 		if(!this.options.dynamic) {
 			Dino.Container.superclass.setData.call(this, data);
@@ -140,7 +140,12 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if(data == undefined) return;
 		
 		var o = this.options;
-
+		
+		if(!phase) phase = 1;
+		
+		this.dataPhase = phase;
+		
+		
 		if('dataId' in o)
 			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ArrayDataSource(data, o.dataId);
 		else
@@ -166,7 +171,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //			item.setData( self.data.item(i) )
 //		});
 		this.children.each(function(child){
-			if(!('data' in child)) child.setData(self.data);
+			if(child.dataPhase != 1) child.setData(self.data, 2);
 		});
 	},
 
@@ -174,7 +179,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		if(!this.options.dynamic) {
 			Dino.Container.superclass._dataChanged.call(this);
-			return;			
+			return;	
 		}
 		
 		var self = this;

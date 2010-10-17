@@ -446,7 +446,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
 	
 		this.children.each(function(child){
-			if(!child.dataPhase == 1) child.setData(self.data, 2);
+			if(child.dataPhase != 1) child.setData(self.data, 2);
 		});
 	},
 	

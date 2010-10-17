@@ -239,16 +239,7 @@ Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', {
 		
 		if(this.options.hideOn == 'outerClick')
 			$('body').one('click', function(){ self.hide(); });
-		
-		
-//		switch(this.options.hide){
-//			case 'outerClick':
-//				$('body').one('click', function(){ self.hide(); });
-//				break;
-//			case 'hoverOut':
-//				this.el.one('mouseleave', function(){ self.hide(); });				
-//				break;
-//		}
+				
 	}
 	
 	
