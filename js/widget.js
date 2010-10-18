@@ -80,10 +80,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
 		this.states = new Dino.utils.WidgetStateManager(this);
-		
-		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
-		this.setData(o.data);
-		
+				
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
@@ -99,6 +96,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._events(this);
 		// добавляем элемент в документ
 		this._render(o.renderTo);
+		
+		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
+		this.setData(o.data);		
+		
 		// обновляем виджет, если к нему были подключены данные
 		if(this.data) this._dataChanged();
 		// выполняем темизацию ?

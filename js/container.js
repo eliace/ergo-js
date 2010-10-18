@@ -132,7 +132,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	setData: function(data, phase) {
 		
 		if(!this.options.dynamic) {
-			Dino.Container.superclass.setData.call(this, data);
+			Dino.Container.superclass.setData.apply(this, arguments);
 			return;
 		}
 		
@@ -166,6 +166,15 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			self.removeItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
 		});
 		
+		
+		this.removeAllItems();
+		
+		this.data.each(function(val, i){
+			var dataItem = self.data.item(i);
+			self.addItem({ 'data': dataItem });
+		});
+		
+		
 //		// всем предопределенным виджетам подсоединяем источники данных
 //		this.eachItem(function(item, i){
 //			item.setData( self.data.item(i) )
@@ -173,7 +182,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.children.each(function(child){
 			if(child.dataPhase != 1) child.setData(self.data, 2);
 		});
-	},
+	}/*,
 
 	_dataChanged: function() {
 		
@@ -185,11 +194,15 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		var self = this;
 		this.data.each(function(val, i){
 			var dataItem = self.data.item(i);
+			var widgetItem = null;
+			self.eachItem(function(item) {
+				if(item.options.data)
+			});
 			if(!self.getItem({'data': dataItem}))
 				self.addItem({ 'data': dataItem });
 		});
 	}
-	
+*/	
 	
 });
 

@@ -160,7 +160,7 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 		
 		// выполняем автобиндинг
 		if(this.owner.data && !item.data) 
-			item.setData(this.owner.data);
+			item.setData(this.owner.data, 2);
 		
 		return item;
 	},

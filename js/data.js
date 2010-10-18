@@ -40,7 +40,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			if( _dino.isString(i) ){
 				var a = i.split('.');
 				for(var j = 0; j < a.length; j++){
-					if(v == null) return null;
+					if(v === null || v === undefined) return null;
 					v = v[ a[j] ];
 					
 				}
@@ -128,6 +128,15 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 	
 	del: function(i) {
+	
+		if(arguments.length == 0) {
+			
+			if(this.source) this.source.del(this.id);
+			
+			return;
+		}
+	
+	
 		// удаляем элемент, если он есть
 		if(i in this.items){
 			this.items[i].destroy();
@@ -173,6 +182,15 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 	
 	
 	del: function(i){
+	
+		if(arguments.length == 0) {
+			
+			if(this.source) this.source.del(this.id);
+			
+			return;
+		}
+	
+	
 		// удаляем элемент из кэша, если он есть
 		if(i in this.items){
 			this.items[i].destroy();
