@@ -21,8 +21,8 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		
 		if(o.rawValueOnFocus){
 			var self = this;
-			this.el.focus(function() { self.el.val(self.getRawValue()) });
-			this.el.blur(function() { self.el.val(self.getValue()) });
+			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()) });
+			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
 		}
 		
 	},
@@ -30,13 +30,19 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 	_events: function(self) {
 		Dino.widgets.form.InputField.superclass._events.call(this, self);
 		
-		this.el.change(function() { self.setValue( self.el.val() ); });
+		this.el.change(function() {
+			self.setValue( self.el.val() ); 
+		});
 
 	},
 	
 	_dataChanged: function() {
 		Dino.widgets.form.InputField.superclass._dataChanged.apply(this);
-		this.el.val( this.getValue() );
+		
+		if(this.options.rawValueOnFocus && this.hasFocus) 
+			this.el.val( this.getRawValue() );
+		else
+			this.el.val( this.getValue() );
 	}
 	
 	

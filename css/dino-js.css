@@ -63,33 +63,6 @@
 .dino-toolbar-v .dino-toolbar-item { display: block; }
 
 
-.dino-grid {
-	
-}
-
-.dino-grid-body {
-	text-align: center;
-}
-
-.dino-grid-head {
-	background-color: #f0f0f0;
-}
-
-.dino-grid-head th {
-	border-bottom: 1px solid #cccccc;
-	border-right: 1px solid #cccccc;
-	text-align: center;
-}
-
-.dino-grid-row td {
-	border-bottom: 1px solid #cccccc;
-	border-right: 1px solid #cccccc;
-}
-
-.dino-grid-row:hover {
-	background-color: #fcfcfc;
-}
-
 
 
 
