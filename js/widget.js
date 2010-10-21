@@ -203,10 +203,26 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			else 
 				el.css('filter', 'Alpha(opacity:' + (o.opacity/100.0) + ')');
 		}
+
+		
 		if('events' in o){
 			for(var i in o.events){
 				var callback = o.events[i];
+//				// Dino события или jQuery события?
+//				if(regexp.test(i)){
+//					// Dino-события могут быть массивом
+//					if( Dino.isArray(callback) ){
+//						Dino.each(callback, function(fn){
+//							self.events.reg(i, fn);
+//						});
+//					}
+//					else {	
+//						this.events.reg(i, callback);
+//					}
+//				}
+//				else{
 				el.bind(i, callback.rcurry(self));
+//				}
 			}
 		}
 		if('html' in o) this.el.html(o.html);
@@ -267,7 +283,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		
 		if('state' in o) {
-			this.states.set(o.state);
+			var a = Dino.isArray(o.state) ? o.state : [o.state];
+			Dino.each(a, function(state) { self.states.set(state) });
 		}
 
 		

@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>DinoJS: Деревья</title>
+
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
+
+
+</head>
+<body>
+
+
+
+
+
+
+<div id="sample-simple-tree">
+<style>	
+
+.simple-tree-node-content span {
+	margin-left: 20px;
+}
+
+.simple-tree-node-content .dino-icon {
+	margin-top: -10px;
+}
+
+.simple-tree-node > ul{
+	padding-left: 30px;
+}
+	
+</style>
+<script>
+$.dino({
+  dtype: 'tree',
+	
+  defaultSubItem: {
+    dtype: 'text-tree-item',
+    cls: 'simple-tree-node',
+    components: {
+      button: {
+        states: {
+          'collapsed': function() { if(!this.parent.states.is('user')) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
+          'expanded': function() { if(!this.parent.states.is('user')) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
+        }
+      },
+      content: {
+        components: {
+          leftIcon: {
+            states: {
+              'brick': 'led-icon-brick',
+              'door': 'led-icon-door',
+              'user': 'led-icon-user'
+            }
+          }
+        },
+        cls: 'simple-tree-node-content'
+      }
+    },
+    expandOnShow: true,
+    onStateChanged: function(e) {
+      e.translateStateTo(this.content.leftIcon);
+    }
+  },
+	
+  subtree: [{
+    label: '1 этаж',
+    state: 'brick',
+    subtree: [{
+      label: 'каб. 111',
+      state: 'door',
+      subtree: [{
+        state: 'user',
+        label: 'Волков А.А.'
+      }]
+    }, {
+      label: 'каб. 112',
+      state: 'door',
+      subtree: [{
+        state: 'user',
+        label: 'Куницына А.Б.'
+      }, {
+        state: 'user',
+        label: 'Медведев Р.В.'
+      }]
+    }, {
+      label: 'каб. 113',
+      state: 'door'
+    }]
+  }]
+});
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+<div id="sample-binding-tree">
+<style>	
+
+.simple-tree-node-content span {
+	margin-left: 20px;
+	cursor: default;
+}
+
+.simple-tree-node-content .dino-icon {
+	margin-top: -10px;
+}
+
+.simple-tree-node > ul{
+	padding-left: 30px;
+}
+	
+</style>
+<script>
+	
+var treeData = [{
+  name: 'Хряков С.И.',
+  type: 'computer',
+  children: [{
+    name: 'C:',
+    type: 'drive',
+    children: [{
+      name: 'WINDOWS',
+      type: 'folder'
+    }]
+  }, {
+    name: 'D:',
+    type: 'drive',
+    children: [{
+      name: 'Фильмы',
+      type: 'folder',
+      children: [{
+        name: 'Звездные Войны 1.avi',
+        type: 'file'
+      }, {
+        name: 'Звездные Войны 3.avi',
+        type: 'file'
+      }, {
+        name: 'Миссия Серенити.avi',
+        type: 'file'
+      }]
+    }, {
+      name: 'Работа',
+      type: 'folder',
+      children: [{
+        name: 'bash.org.ru_лучшее.txt',
+        type: 'file'
+      }]
+    }, {
+      name: 'README.txt',
+      type: 'file'
+    }]
+  }, {
+    name: 'Z:',
+    type: 'drive',
+  }]
+}];	
+	
+	
+$.dino({
+  dtype: 'tree',
+	
+  data: treeData,
+	
+  isDynamic: true,
+	
+  components: {
+    subtree: {
+      defaultItem: {
+        expandOnShow: true
+      }			
+    }
+  },
+		
+  defaultSubItem: {
+    dtype: 'text-tree-item',
+    cls: 'simple-tree-node',
+    components: {
+      button: {
+        states: {
+          'collapsed': function() { if(!this.parent.states.is('file')) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
+          'expanded': function() { if(!this.parent.states.is('file')) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
+        }
+      },
+      content: {
+        components: {
+          leftIcon: {
+            states: {
+              'computer': 'led-icon-computer',
+              'drive': 'led-icon-drive',
+              'folder': 'led-icon-folder',
+              'file': 'led-icon-page',
+            }
+          }
+        },
+        cls: 'simple-tree-node-content',
+        dataId: 'name'
+      },
+    },
+//    expandOnShow: true,
+    onStateChanged: function(e) {
+      e.translateStateTo(this.content.leftIcon);
+    },
+    optBinding: function(o) {
+      o.state = this.data.get('type');
+    }
+  }
+});
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+
+
+<script>
+	
+	
+samplePage([{
+	name: 'Простое дерево',
+	id: '#sample-simple-tree'
+}, {
+	name: 'Binding',
+	id: '#sample-binding-tree'
+}]);
+	
+		
+	
+</script>
+
+
+</body>
+</html>

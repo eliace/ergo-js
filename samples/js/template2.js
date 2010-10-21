@@ -12,7 +12,7 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 				weight: 1,
 				dtype: 'text-item',
 				baseCls: 'js-button',
-				leftCls: 'ui-icon ui-icon-triangle-1-e',
+				leftIconCls: 'ui-icon ui-icon-triangle-1-e',
 				contentCls: 'js-title',
 				components: {
 					leftIcon: {
@@ -117,7 +117,7 @@ function samplePage(samples) {
 		
 		if(w) {
 			page.getItem('preview').addItem(w);
-			
+/*			
 			var html = w.el.parent().html();
 			var regexp = /<[^<>]+>/;
 			var indent = 0;
@@ -143,7 +143,7 @@ function samplePage(samples) {
 			}
 			
 			page.getItem('html').opt('contentText', '<pre class="sh_html">'+Dino.escapeHtml(s)+'<pre>')
-			
+*/			
 		}
 		
 		

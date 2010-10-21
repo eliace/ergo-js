@@ -46,10 +46,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if('itemFactory' in o)
 			this.itemFactory = o.itemFactory;
 		
-//		if('content' in o){
-//			this.content = this.addItem(o.content);
-//		}
-
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
 				this.addItem(o.items[i]);

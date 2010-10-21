@@ -42,6 +42,7 @@ require 'fileutils'
     'js/widgets/text-item.js',
     'js/widgets/table.js',
     'js/widgets/x-form.js',
+    'js/widgets/tree.js',
   ]
 
 

@@ -64,6 +64,21 @@ Dino.bindings = (function(){
 
 
 
+
+Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
+
+	initialize: function(method, args) {
+		Dino.events.StateEvent.superclass.initialize.call(this, {'method': method, 'args': args});
+	},
+	
+	translateStateTo: function(target) {
+		target.states[this.method].apply(target.states, this.args);
+	}
+	
+});
+
+
+
 Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
 	initialize: function(widget) {
@@ -80,7 +95,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		}
 		// добавляем класс текущего состояния
 		this.widget.el.addClass(cls);
-		this.widget.events.fire('onStateChanged');
+		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('set', arguments));
 		return this;
 	},
 	
@@ -93,7 +108,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		}
 		
 		this.widget.el.removeClass( cls );
-		this.widget.events.fire('onStateChanged');
+		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('clear', arguments));
 		return this;
 	},
 	
@@ -101,12 +116,15 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		var cls = this.stateCls(name);
 		
 		if(Dino.isArray(cls)){
-			this.widget.el.toggleClass( cls[1], !sw );
+			if(arguments.length == 1)
+				this.widget.el.toggleClass( cls[1] );
+			else
+				this.widget.el.toggleClass( cls[1], !sw );
 			cls = cls[0];
 		}
 		
 		this.widget.el.toggleClass( cls, sw );
-		this.widget.events.fire('onStateChanged');
+		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('toggle', arguments));
 		return this.widget.el.hasClass(cls);
 	},
 	
@@ -256,7 +274,6 @@ Dino.utils.overrideOpts = function(o) {
 	
 	return o;
 }
-
 
 
 
