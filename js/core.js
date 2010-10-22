@@ -318,6 +318,8 @@ var Dino = (function(){
 		
 		if(D.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
+		else if(D.isBoolean(obj))
+			return ''+obj;
 		else if(D.isNumber(obj) || Dino.isBoolean(obj))
 			return obj;
 		else if(D.isArray(obj)){

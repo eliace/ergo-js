@@ -86,7 +86,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		if(item.el.parents().is('body')) item._afterRender();
 	
 //		item.events.fire('onAdded');
-//		this.events.fire('onItemAdded');		
+		this.events.fire('onItemAdded', {'item': item});		
 		
 		return item;
 	},

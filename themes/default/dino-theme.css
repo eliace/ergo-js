@@ -240,9 +240,10 @@
 
 .dino-text-tree-item-content {
 	margin-left: 20px;
+	display: inline;
 }
 
-.dino-text-tree-item span {
+.dino-text-tree-item-content span {
 }
 
 .dino-text-tree-item-button {
@@ -262,7 +263,7 @@
 	display: none;
 }
 
-.tree ul{
+.tree ul {
 	margin: 0;
 	padding-left: 0;
 }
@@ -387,6 +388,9 @@
 .led-icon-user { background-image: url(img/led/user.png); }
 .led-icon-door { background-image: url(img/led/door.png); }
 .led-icon-brick { background-image: url(img/led/brick.png); }
+.led-icon-books { background-image: url(img/led/books.png); }
+.led-icon-pipette { background-image: url(img/led/pipette.png); }
+.led-icon-sitemap { background-image: url(img/led/sitemap.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }

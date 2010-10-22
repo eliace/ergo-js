@@ -56,12 +56,6 @@ $.dino({
     dtype: 'text-tree-item',
     cls: 'simple-tree-node',
     components: {
-      button: {
-        states: {
-          'collapsed': function() { if(!this.parent.states.is('user')) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
-          'expanded': function() { if(!this.parent.states.is('user')) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
-        }
-      },
       content: {
         components: {
           leftIcon: {
@@ -84,22 +78,26 @@ $.dino({
   subtree: [{
     label: '1 этаж',
     state: 'brick',
+		toggleOnClick: true,
     subtree: [{
       label: 'каб. 111',
       state: 'door',
       subtree: [{
         state: 'user',
-        label: 'Волков А.А.'
+        label: 'Волков А.А.',
+				isLeaf: true
       }]
     }, {
       label: 'каб. 112',
       state: 'door',
       subtree: [{
         state: 'user',
-        label: 'Куницына А.Б.'
+        label: 'Куницына А.Б.',
+				isLeaf: true
       }, {
         state: 'user',
-        label: 'Медведев Р.В.'
+        label: 'Медведев Р.В.',
+				isLeaf: true
       }]
     }, {
       label: 'каб. 113',
@@ -126,6 +124,10 @@ $.dino({
 .simple-tree-node-content span {
 	margin-left: 20px;
 	cursor: default;
+}
+
+li.file > .simple-tree-node-content span:hover {
+	background-color: #6af;
 }
 
 .simple-tree-node-content .dino-icon {
@@ -201,27 +203,19 @@ $.dino({
   defaultSubItem: {
     dtype: 'text-tree-item',
     cls: 'simple-tree-node',
-    components: {
-      button: {
-        states: {
-          'collapsed': function() { if(!this.parent.states.is('file')) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
-          'expanded': function() { if(!this.parent.states.is('file')) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
-        }
-      },
-      content: {
-        components: {
-          leftIcon: {
-            states: {
-              'computer': 'led-icon-computer',
-              'drive': 'led-icon-drive',
-              'folder': 'led-icon-folder',
-              'file': 'led-icon-page',
-            }
+    content: {
+      components: {
+        leftIcon: {
+          states: {
+            'computer': 'led-icon-computer',
+            'drive': 'led-icon-drive',
+            'folder': 'led-icon-folder',
+            'file': 'led-icon-page',
           }
         },
-        cls: 'simple-tree-node-content',
-        dataId: 'name'
       },
+      cls: 'simple-tree-node-content',
+      dataId: 'name'
     },
 //    expandOnShow: true,
     onStateChanged: function(e) {
@@ -229,6 +223,8 @@ $.dino({
     },
     optBinding: function(o) {
       o.state = this.data.get('type');
+      o.isLeaf = (this.data.get('type') == 'file');
+      o.toggleOnClick = (this.data.get('type') != 'file');
     }
   }
 });

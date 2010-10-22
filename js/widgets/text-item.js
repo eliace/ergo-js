@@ -23,9 +23,30 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 			'click': function() {
 				$(this).dino().events.fire('onAction');
 			}
+		},
+		editor: {
+			dtype: 'textfield',
+			events: {
+				'blur': function(e, w) { w.parent.setEditable(false); }
+			},
+			onValueChanged: function() {
+				this.parent.setEditable(false);
+			}
 		}
 	},
-	
+/*	
+	_init: function() {
+		Dino.widgets.TextItem.superclass._init.apply(this, arguments);
+		
+		var o = this.options;
+		
+		if(o.editable) {
+			o.components.editContent = {
+				dtype: 'textfield'
+			};
+		}
+	},
+*/	
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
@@ -39,6 +60,22 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	
 	getText: function() {
 		return this.content.getText();
+	},
+	
+	setEditable: function(flag) {
+		
+		if(flag) {
+			this.content.states.set('hidden');			
+			this.addComponent('_editor', this.options.editor);
+			this._editor._dataChanged(); // явно вызываем обновление данных
+			this._editor.el.focus();
+			this._editor.el.select();
+		}
+		else {
+			this.removeComponent('_editor');
+			this.content._dataChanged(); // явно вызываем обновление данных
+			this.content.states.clear('hidden');
+		}
 	}
 	
 	

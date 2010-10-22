@@ -315,8 +315,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //								w.contextMenu.events.fire('onBeforeShow', {'widget': w});
 //								w.contextMenu.targetWidget = w;
 //								w.contextMenu.events.fire('onBeforeShow');
-								w.events.fire('onContextMenu');
-								w.contextMenu.show(e.pageX, e.pageY);
+								w.events.fire('onContextMenu', new Dino.events.CancelEvent());
+								if(!e.isCanceled)
+									w.contextMenu.show(e.pageX, e.pageY);
 								e.preventDefault();
 							}
 						}
@@ -533,7 +534,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(this.options.optBinding) {
 			var o = {};
 			this.options.optBinding.call(this, o);
-			this._opt(o);
+			this.opt(o);
 		}
 				
 //		if(this.options.stateBinding){

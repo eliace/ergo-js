@@ -35,6 +35,9 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
 //		this.container.el.append(el);
 	},
 	
+	remove: function(item) {
+		item.el.remove();
+	},	
 	
 	update: function(){
 		var margin_left = margin_right = 0;

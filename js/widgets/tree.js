@@ -50,6 +50,14 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 		
 	},
 	
+	
+	_opt: function(o) {
+		Dino.widgets.TreeItem.superclass._opt.apply(this, arguments);
+		
+		this.isLeaf = o.isLeaf;
+				
+	},
+	
 	collapse: function() {
 //		this.states.set('collapsed');
 	},
@@ -101,7 +109,7 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 		
 		if('label' in o) this.content.opt('label', o.label);
 		if('format' in o) this.content.opt('format', o.format);
-		
+				
 //		if(o.showLeftPanel) this.content.states.set('left-panel');
 	},
 	
@@ -110,8 +118,14 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 		
 		this.events.reg('onStateChanged', function(e) {
 			e.translateStateTo(this.button);
+			e.translateStateTo(this.content);
 			e.translateStateTo(this.subtree);
 		});
+
+		this.content.el.click(function(){
+			if(self.options.toggleOnClick)
+				self.states.toggle('collapsed');
+		});		
 	},
 	
 	_afterBuild: function() {
@@ -138,11 +152,16 @@ Dino.declare('Dino.widgets.Tree', 'Dino.widgets.TreeItem', {
 	
 	defaultOptions: {
 		cls: 'tree',
-		components: {
-			subtree: {
-				defaultItem: {
-					dtype: 'text-tree-item'
-				}		
+		defaultSubItem: {
+			dtype: 'text-tree-item',
+			components: {
+				button: {
+					states: {
+						'collapsed': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
+						'expanded': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] },
+						'hover': function() { if(!this.parent.isLeaf) return ['ui-icon-lightgray', 'ui-icon']; }
+					}
+				}
 			}
 		}
 	},
@@ -168,10 +187,24 @@ Dino.declare('Dino.widgets.Tree', 'Dino.widgets.TreeItem', {
 			o.components.subtree.defaultItem = Dino.utils.overrideOpts({}, dynamicSubItem, {'defaultSubItem': dynamicSubItem}, o.components.subtree.defaultItem);
 		}
 		
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.Tree.superclass._opt.apply(this, arguments);
+		
+//		var self = this;
+				
 	}
 	
 	
 }, 'tree');
+
+
+
+
+
+
+
 
 
 
