@@ -49,7 +49,7 @@
 var gridData = [
   {id: '1', name: 'Alice', value: '123', cb: false},
   {id: '2', name: 'Bob', value: '456', cb: true},
-  {id: '3', name: 'Charlie', value: '789', cb: false}
+  {id: '3', name: 'Charlie', value: '789', cb: false},
 ];
 		
 		
@@ -90,13 +90,115 @@ $.dino({
 	
 	
 	
+<div id="sample-tree-grid">
+<style>
+#table-2 {
+	width: 100%;
+}
+
+#tree-2 {
+	position: absolute;
+	top: 2px;
+}
+
+.tg-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.tg-tree-node {
+	border-bottom: 1px solid #fff;
+}
+
+.tg-tree-node > ul{
+	padding-left: 30px;
+}
+
+
+</style>
+<script>
+var tgData = [
+  {id: '1', name: 'Alice', value: '123', cb: false},
+  {id: '2', name: 'Bob', value: '456', cb: true},
+  {id: '3', name: 'Charlie', value: '789', cb: false},
+  {id: '4', name: 'Daniel', value: '456', cb: true},
+  {id: '5', name: 'Eva', value: '456', cb: true}
+];
+
+var tgTreeData = [{
+	name: 'aaa',
+	children: [{
+		name: 'bbb'
+	}, {
+		name: 'ccc'
+	}]
+}, {
+	name: 'ddd',
+	children: [{
+		name: 'eee'
+	}]
+}]
+
+
+		
+$.dino({
+	dtype: 'box',
+	style: {'position': 'relative'},
+	items: [{
+		id: 'tree-2',
+		dtype: 'tree',
+		data: tgTreeData,
+		isDynamic: true,
+		defaultSubItem: {
+			cls: 'tg-tree-node',		
+			content: {
+				dataId: 'name'
+			},
+			expandOnShow: true
+		}
+	}, {
+	  id: 'table-2',
+	  dtype: 'table',
+	  cls: 'ui-widget-content ui-corner-all',
+	  tableModel: {
+			cell: {
+				binding: 'auto',
+				cls: 'tg-cell'
+			},
+	    columns: [{
+				width: 200
+	    }, {
+				dataId: 'id'
+	    }, {
+				dataId: 'name'
+	    }, {
+				dataId: 'value'
+	    }]
+	  },
+	  data: tgData		
+	}]	
+});	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>	
+	
+	
+	
 
 
 	<script>		
 		
 samplePage([{
-	name: 'Бокс',
+	name: 'Grid',
 	id: '#sample-grid'
+}, {
+	name: 'TreeGrid',
+	id: '#sample-tree-grid'
 }]);
 	
 	</script>
