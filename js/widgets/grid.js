@@ -84,9 +84,10 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 		
 		this.layout = Dino.object({
 			dtype: 'table-row-layout',
-			columns: this.options.columns
+			columns: this.options.columns,
+			container: this
 		});
-		this.layout.container = this;
+//		this.layout.container = this;
 	},
 	
 	_opt: function(o) {

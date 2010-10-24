@@ -101,8 +101,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		Dino.Container.superclass.removeAllChildren.call(this);
 //		for(var i = 0; i < this.items.length; i++)
 //			this.removeItem(this.items[i]);
+		var self = this;
+		this.children.each(function(item){ self.layout.remove(item); });
 		this.children.removeAll();
-		this.layout.clear();
+//		this.layout.clear();
 	},
 	
 	replaceItem: function(criteria, newItem) {
@@ -200,6 +202,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	}
 */	
 	
-});
+}, 'container');
 
 

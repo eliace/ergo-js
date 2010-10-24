@@ -183,7 +183,7 @@ var tgArrayData = [{
 }];
 
 
-var tgDataSource = new Dino.data.DataSource(tgTreeData);
+var tgDataSource = new Dino.data.DataSource(tgTreeData, 'children');
 
 
 //var fa_view = new Dino.data.FlattenArrayView( tgDataSource, 'children' );
@@ -194,10 +194,10 @@ var tgDataSource = new Dino.data.DataSource(tgTreeData);
 
 		
 $.dino({
-	dtype: 'table',
+	dtype: 'tree-grid',
 	tag: 'aaa',
 	cls: 'tree-grid',
-	data: new Dino.data.FlattenArrayView(tgDataSource, 'children'),//tgArrayData,
+	data: tgDataSource,//new Dino.data.FlattenArrayView(tgDataSource, 'children'),//tgArrayData,
 	tableModel: {
 		cell: {
 			cls: 'tg-cell'
@@ -206,6 +206,13 @@ $.dino({
 			dataId: 'id',
 			binding: 'auto'
 		}, {
+			dataId: 'name',
+			binding: 'auto',
+			clickable: true,
+			onClick: function() {
+				message.info(this.data.get());
+			}
+/*			
 			data: tgDataSource,
 			content: {
 				dtype: 'tree-grid-item',
@@ -222,77 +229,15 @@ $.dino({
 					}
 				}
 			},
-			rowspan: 'all'	
+			rowspan: 'all'
+*/				
 		}, {
 			dataId: 'value',
 			binding: 'auto'
 		}]
 	},
 	
-	components: {
-		body: {
-			itemFactory: function(o) {
-				if(this.children.size() > 0) {
-					var i = Dino.indexOf(o.items, function(obj){ 
-						return (obj.rowspan == 'all'); 
-					});
-					if(i != -1)
-						o.items.splice(i, 1);
-				}
-				return Dino.widget(o);
-			},
-			onItemAdded: function(e) {
-				var sz = this.children.size();
-				if(sz > 1){
-					var row = this.children.get(0);
-					row.eachItem(function(item) {
-						if( item.options.rowspan == 'all' ) {
-							item.el.attr('rowspan', sz);
-						}
-					});
-//					row.getItem(0).el.attr('rowspan', sz);
-				}
-			}
-		}
-	}
 	
-	
-/*	
-	dtype: 'tree-grid-item',
-	data: tgArrayData,//tgTreeData[0],
-	components: {
-		subtree: {
-			components: {
-				body: {
-					onItemAdded: function(e) {
-						this.parent.parent.events.fire('onRowAdded', e);
-					},
-					dataId: null
-				}
-			},
-			tableModel: {
-				columns: [{
-					dataId: 'tree'
-				}, {
-					content: {
-						dtype: 'text',
-						dataId: 'label'
-					}
-				}]
-			}
-		}
-	},
-	defaultSubItem: {
-		content: {
-			weight: 0,
-			dtype: 'text',
-			dataId: 'name'
-		}
-	},
-	onRowAdded: function(e) {
-		message.info(e.item.data.val());
-	}
-*/	
 });	
 </script>	
 <div class="html">

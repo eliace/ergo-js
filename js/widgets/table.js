@@ -24,7 +24,8 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 				}
 			},
 			body: {
-				dtype: 'list',
+				dtype: 'box',
+				dynamic: true,
 				wrapEl: '<tbody></tbody>',
 				defaultItem: {
 					dtype: 'table-row'
@@ -125,6 +126,33 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	}
 	
 }, 'table-cell');
+
+
+
+
+
+/*
+Dino.declare('Dino.widgets.TreeTableRow', 'Dino.Container', {
+	
+	_html: function() { return '<tr></tr>'; },
+	
+	defaultOptions: {
+		defaultItem: {
+			dtype: 'table-cell'
+		}
+	}
+	
+	
+}, 'table-row');
+*/
+
+
+
+
+//Dino.declare
+
+
+
 
 
 

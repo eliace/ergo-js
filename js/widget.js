@@ -80,13 +80,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
 		this.states = new Dino.utils.WidgetStateManager(this);
-				
+		
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
 			layoutOpts = {dtype: layoutOpts};
-		this.layout = Dino.object(layoutOpts);
-		this.layout.attach(this);		
+		if(!(layoutOpts instanceof Dino.Layout))//Dino.isPlainObject(layoutOpts))
+			layoutOpts = Dino.object( Dino.utils.overrideOpts({container: this}, layoutOpts));
+		this.layout = layoutOpts;
+		//FIXME костыль
+		if(!this.layout.container) this.layout.attach(this);
 
 		// конструируем виджет
 		this._init(o);//this, arguments);		
@@ -157,8 +160,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 
 	_afterRender: function() {
-		this.children.each(function(c) { c._afterRender(); });
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
+		this.children.each(function(c) { c._afterRender(); });
 	},
 	
 	_events: function(self){

@@ -3,11 +3,16 @@
 
 Dino.declare('Dino.Layout', Dino.BaseObject, {
 	
+	defaultOptions: {
+		updateMode: 'auto'	
+	},
+	
 	initialize: function(o){
 		Dino.Layout.superclass.initialize.call(this);
 		
 		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
 		
+		this.attach(this.options.container);
 	},
 	
 	attach: function(c) { 

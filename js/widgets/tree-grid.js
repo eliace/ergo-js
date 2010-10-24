@@ -1,14 +1,57 @@
 
 
 
-Dino.declare('Dino.widgets.TreeGrid', 'Dino.Container', {
+Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 	
 	defaultOptions: {
+		components: {
+			body: {
+				defaultItem: {
+					dtype: 'abstract-tree-item',
+					wrapEl: '<tr class="1"></tr>',
+					components: {
+						subtree: {
+							dataId: 'children',
+							dynamic: true,
+							onItemAdded: function(e) {
+								console.log(this.layout.container);
+							}
+						},
+						content: {
+							dtype: 'table-cell',
+							dataId: 'name',
+							binding: 'auto'
+						}
+					},
+					defaultSubItem: {
+						wrapEl: '<tr class="2"></tr>',
+						components: {
+							subtree: {
+								dataId: 'children',
+								dynamic: true
+							},
+							content: {
+								dtype: 'table-cell',
+								dataId: 'name',
+								binding: 'auto'
+							}
+						}					
+					}
+				}
+			}
+		}
+	},
+	
+	
+	_init: function() {
+		Dino.widgets.TreeGrid.superclass._init.apply(this, arguments);
+
+		var bodyLayout = new Dino.layouts.PlainLayout();
+		this.options.components.body.layout = bodyLayout;
 		
+		this.options.components.body.defaultItem.components.subtree.layout = bodyLayout;
+		this.options.components.body.defaultItem.defaultSubItem.components.subtree.layout = bodyLayout;
 		
-	
-	
-	
 	}
 	
 	
@@ -18,7 +61,7 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Container', {
 
 
 
-
+/*
 Dino.declare('Dino.widgets.TreeGridItem', 'Dino.Widget', {
 	
 	defaultOptions: {
@@ -60,3 +103,4 @@ Dino.declare('Dino.widgets.TreeGridItem', 'Dino.Widget', {
 	
 	
 }, 'tree-grid-item');
+*/
