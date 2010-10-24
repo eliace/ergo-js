@@ -101,9 +101,16 @@ $.dino({
 	top: 2px;
 }
 
+
+.tree-grid {
+/*	border-top: 1px solid #ccc;*/
+	border-left: 1px solid #ccc;
+}
+
+
 .tg-cell {
 	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px dotted #ccc;
 }
 
 .tg-tree-node {
@@ -115,8 +122,20 @@ $.dino({
 }
 
 
+.tree-grid-item {
+/*	padding-left: 20px;*/
+/*	border-bottom: 1px solid #ccc;*/
+}
+
+.tree-grid-item td {
+/*	padding-left: 20px;*/
+	border-top: 1px dotted #ccc;
+}
+
+
 </style>
 <script>
+/*	
 var tgData = [
   {id: '1', name: 'Alice', value: '123', cb: false},
   {id: '2', name: 'Bob', value: '456', cb: true},
@@ -124,59 +143,156 @@ var tgData = [
   {id: '4', name: 'Daniel', value: '456', cb: true},
   {id: '5', name: 'Eva', value: '456', cb: true}
 ];
-
-var tgTreeData = [{
+*/
+var tgTreeData = { id: null, children: [{
+	id: 0,
 	name: 'aaa',
+	value: '123',
 	children: [{
+		id: 1,
+		value: '456',
 		name: 'bbb'
 	}, {
+		id: 2,
+		value: '789',
 		name: 'ccc'
 	}]
 }, {
+	id: 3,
+	value: '123514',
 	name: 'ddd',
 	children: [{
+		id: 4,
+		value: '56563',
 		name: 'eee'
 	}]
 }]
+};
 
+var tgArrayData = [{
+	label: 'AAA'
+//	tree: tgTreeData
+}, {
+	label: 'BBB'
+}, {
+	label: 'CCC'
+}, {
+	label: 'DDD'
+}, {
+	label: 'EEE'
+}];
+
+
+var tgDataSource = new Dino.data.DataSource(tgTreeData);
+
+
+//var fa_view = new Dino.data.FlattenArrayView( tgDataSource, 'children' );
+//console.log( fa_view.item(1) );
+//fa_view.each(function(item, n){ 
+//	console.log(n); 
+//});
 
 		
 $.dino({
-	dtype: 'box',
-	style: {'position': 'relative'},
-	items: [{
-		id: 'tree-2',
-		dtype: 'tree',
-		data: tgTreeData,
-		isDynamic: true,
-		defaultSubItem: {
-			cls: 'tg-tree-node',		
+	dtype: 'table',
+	tag: 'aaa',
+	cls: 'tree-grid',
+	data: new Dino.data.FlattenArrayView(tgDataSource, 'children'),//tgArrayData,
+	tableModel: {
+		cell: {
+			cls: 'tg-cell'
+		},
+		columns: [{
+			dataId: 'id',
+			binding: 'auto'
+		}, {
+			data: tgDataSource,
 			content: {
-				dataId: 'name'
+				dtype: 'tree-grid-item',
+				defaultSubItem: {
+					content: {
+						weight: 0,
+						dtype: 'text',
+						dataId: 'name',
+						clickable: true,
+						onClick: function() {
+							this.getParent('aaa');
+//							message.info(this.data.source.val());
+						}
+					}
+				}
 			},
-			expandOnShow: true
+			rowspan: 'all'	
+		}, {
+			dataId: 'value',
+			binding: 'auto'
+		}]
+	},
+	
+	components: {
+		body: {
+			itemFactory: function(o) {
+				if(this.children.size() > 0) {
+					var i = Dino.indexOf(o.items, function(obj){ 
+						return (obj.rowspan == 'all'); 
+					});
+					if(i != -1)
+						o.items.splice(i, 1);
+				}
+				return Dino.widget(o);
+			},
+			onItemAdded: function(e) {
+				var sz = this.children.size();
+				if(sz > 1){
+					var row = this.children.get(0);
+					row.eachItem(function(item) {
+						if( item.options.rowspan == 'all' ) {
+							item.el.attr('rowspan', sz);
+						}
+					});
+//					row.getItem(0).el.attr('rowspan', sz);
+				}
+			}
 		}
-	}, {
-	  id: 'table-2',
-	  dtype: 'table',
-	  cls: 'ui-widget-content ui-corner-all',
-	  tableModel: {
-			cell: {
-				binding: 'auto',
-				cls: 'tg-cell'
+	}
+	
+	
+/*	
+	dtype: 'tree-grid-item',
+	data: tgArrayData,//tgTreeData[0],
+	components: {
+		subtree: {
+			components: {
+				body: {
+					onItemAdded: function(e) {
+						this.parent.parent.events.fire('onRowAdded', e);
+					},
+					dataId: null
+				}
 			},
-	    columns: [{
-				width: 200
-	    }, {
-				dataId: 'id'
-	    }, {
-				dataId: 'name'
-	    }, {
-				dataId: 'value'
-	    }]
-	  },
-	  data: tgData		
-	}]	
+			tableModel: {
+				columns: [{
+					dataId: 'tree'
+				}, {
+					content: {
+						dtype: 'text',
+						dataId: 'label'
+					}
+				}]
+			}
+		}
+	},
+	defaultSubItem: {
+		content: {
+			weight: 0,
+			dtype: 'text',
+			dataId: 'name'
+		}
+	},
+	onRowAdded: function(e) {
+		message.info(e.item.data.val());
+	}
+*/	
 });	
 </script>	
 <div class="html">

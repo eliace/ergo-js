@@ -43,6 +43,7 @@ require 'fileutils'
     'js/widgets/table.js',
     'js/widgets/x-form.js',
     'js/widgets/tree.js',
+    'js/widgets/tree-grid.js',
   ]
 
 

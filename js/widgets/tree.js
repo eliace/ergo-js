@@ -37,13 +37,8 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 		
 		if('subtree' in o){
 			o.components.subtree.items = o.subtree;
-//			this.states.set('has-subtree');
 		}
 
-//		if('submenuWidth' in o){
-//			o.components.submenu.width = o.submenuWidth;
-//		}
-		
 		if('defaultSubItem' in o){
 			Dino.utils.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}

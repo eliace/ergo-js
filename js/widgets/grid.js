@@ -127,21 +127,6 @@ Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
 
 
 
-Dino.declare('Dino.widgets.TreeGrid', 'Dino.Container', {
-	
-	defaultOptions: {
-		
-		
-	
-	
-	
-	}
-	
-	
-	
-	
-}, 'tree-grid');
-
 
 
 

@@ -68,6 +68,8 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
  */
 function samplePage(samples) {
 	
+	init_default_growl_panel();	
+	
 	var pages = [];
 	
 	for(var i = 0; i < samples.length; i++){
@@ -197,7 +199,6 @@ function samplePage(samples) {
 	});
 */
 	
-	init_default_growl_panel();
 }
 
 

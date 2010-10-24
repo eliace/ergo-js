@@ -125,6 +125,107 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 
 
 
+/*
+Dino.declare('Dino.data.TreeView', 'Dino.events.Observer', {
+	
+	initialize: function(src) {
+		Dino.data.TreeView.superclass.initialize.apply(this, arguments);
+		this.source = src;
+	}
+	
+	
+});
+*/
+
+
+
+Dino.declare('Dino.data.FlattenArrayView', 'Dino.data.DataSource', {
+	
+//	initialize: function(src, flattenProp) {
+//		Dino.data.FlattenArrayView.superclass.initialize.apply(this, arguments);
+//		this.source = src;
+//		this.flattenProp = flattenProp;
+//				
+//	},
+	
+	walk_depth: function(callback, accum, obj) {
+		if(arguments.length == 1){
+			accum = {n: 0};
+			obj = this.source;
+		}
+		
+		callback.call(this, obj, accum.n);
+		
+		if( obj.get(this.id) !== undefined ){
+			var children = obj.item(this.id);
+			var arr = children.val();
+			for(var i = 0; i < arr.length; i++){
+				++accum.n;
+				this.walk_depth(callback, accum, children.item(i));
+			}
+		}
+	},
+
+	find_depth: function(callback, accum, obj) {
+		
+		if(arguments.length == 1){
+			accum = {n: 0};
+			obj = this.source;
+		}
+		
+		// если callback возвращает TRUE, то заканчиваем обход
+		if( callback.call(this, obj, accum.n) ) return obj;
+		
+		if( obj.get(this.id) !== undefined ){
+			var children = obj.item(this.id);
+			var arr = children.val();
+			for(var i = 0; i < arr.length; i++){
+				++accum.n;
+				var result = this.find_depth(callback, accum, children.item(i));
+				if(result) return result;
+			}
+		}
+	},
+	
+	item: function(i) {
+		return this.find_depth(function(item, n){
+			return (n == i);
+		});
+	},
+	
+	get: function(i) {
+		if(arguments.length == 0){
+			return this.source.get();
+		}
+		else {
+			var item = this.item(i);
+			return (item) ? item.get() : undefined;
+		}
+	},
+	
+	set: function(i, newVal) {
+		if(arguments.length == 1)
+			this.source.set(newVal);
+		else {
+			var item = this.item(i);
+			if(item) this.item(i).set(newVal);
+		}
+	},
+	
+	each: function(callback) {
+		var self = this;
+		this.walk_depth(function(item, i) {
+			callback.call(self, item.val(), i);
+		});
+	}
+	
+});
+
+
+
+
+
+
 Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 	
 	del: function(i) {
