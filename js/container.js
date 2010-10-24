@@ -119,8 +119,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.children.each(callback);
 	},
 	
-	
-	
 	/**
 	 * Подключаем данные.
 	 * 

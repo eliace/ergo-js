@@ -225,8 +225,10 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 	},
 	
 	each: function(callback) {
-		for(var i = 0; i < this.widgets.length; i++)
-			callback.call(this.owner, this.widgets[i], i);
+		for(var i = 0; i < this.widgets.length; i++){
+			var result = callback.call(this.owner, this.widgets[i], i);
+			if(result) return result;
+		}
 	},
 	
 	size: function() {

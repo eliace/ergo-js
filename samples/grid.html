@@ -103,8 +103,8 @@ $.dino({
 
 
 .tree-grid {
-/*	border-top: 1px solid #ccc;*/
-	border-left: 1px solid #ccc;
+/*	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;*/
 }
 
 
@@ -132,6 +132,9 @@ $.dino({
 	border-top: 1px dotted #ccc;
 }
 
+.indent {
+	padding-left: 20px;
+}
 
 </style>
 <script>
@@ -155,7 +158,12 @@ var tgTreeData = { id: null, children: [{
 	}, {
 		id: 2,
 		value: '789',
-		name: 'ccc'
+		name: 'ccc',
+		children: [{
+			id: 5,
+			name: 'fff',
+			value: 0
+		}]
 	}]
 }, {
 	id: 3,
@@ -169,35 +177,16 @@ var tgTreeData = { id: null, children: [{
 }]
 };
 
-var tgArrayData = [{
-	label: 'AAA'
-//	tree: tgTreeData
-}, {
-	label: 'BBB'
-}, {
-	label: 'CCC'
-}, {
-	label: 'DDD'
-}, {
-	label: 'EEE'
-}];
 
 
 var tgDataSource = new Dino.data.DataSource(tgTreeData, 'children');
-
-
-//var fa_view = new Dino.data.FlattenArrayView( tgDataSource, 'children' );
-//console.log( fa_view.item(1) );
-//fa_view.each(function(item, n){ 
-//	console.log(n); 
-//});
 
 		
 $.dino({
 	dtype: 'tree-grid',
 	tag: 'aaa',
-	cls: 'tree-grid',
-	data: tgDataSource,//new Dino.data.FlattenArrayView(tgDataSource, 'children'),//tgArrayData,
+	cls: 'tree-grid dino-border-all',
+	data: tgDataSource,
 	tableModel: {
 		cell: {
 			cls: 'tg-cell'
@@ -206,31 +195,40 @@ $.dino({
 			dataId: 'id',
 			binding: 'auto'
 		}, {
-			dataId: 'name',
-			binding: 'auto',
-			clickable: true,
-			onClick: function() {
-				message.info(this.data.get());
-			}
-/*			
-			data: tgDataSource,
+			dtype: 'tree-grid-cell',
 			content: {
-				dtype: 'tree-grid-item',
-				defaultSubItem: {
-					content: {
-						weight: 0,
-						dtype: 'text',
-						dataId: 'name',
-						clickable: true,
-						onClick: function() {
-							this.getParent('aaa');
-//							message.info(this.data.source.val());
-						}
+				dtype: 'text',
+				dataId: 'name',
+				clickable: true,
+				onClick: function() {
+/*					
+					var row = this.parent.parent;
+					row.states.toggle('expanded');
+					if(row.states.is('expanded')){
+						
+						row.eachAncestor(function(r){
+//							if(r != row){
+								if (r.states.is('expanded')) {
+									r.eachSubItem(function(r){
+										r.states.clear('hidden');
+									});
+						
+									r.states.clear('hidden');
+								}
+								else 
+									return true;
+//							}
+						});						
 					}
-				}
-			},
-			rowspan: 'all'
-*/				
+					else{
+						row.eachAncestor(function(r){
+							if(r != row) r.states.set('hidden');
+						});						
+					}
+*/					
+//					message.info(''+row.index);
+				}				
+			}
 		}, {
 			dataId: 'value',
 			binding: 'auto'

@@ -373,7 +373,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //	},
 	
 	
-	
+	walk: function(callback) {		
+		callback.call(this);
+		this.children.each(function(item){
+			item.walk(callback);
+		});
+	},	
 	
 	//-------------------------------------------
 	// Методы для работы с компонентами виджета
