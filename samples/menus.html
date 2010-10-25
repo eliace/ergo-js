@@ -250,7 +250,10 @@ $.dino({
         {label: 'Item 1'},
         {label: 'Item 2'},
         {label: 'Item 3'},			
-      ]
+      ],
+			onItemAdded: function(e) {
+				console.log(e);
+			}			
     }
   }]
 });

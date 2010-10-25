@@ -2,6 +2,8 @@
 
 Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	
+	_html: function() { return '<div></div>'; },	
+	
 	defaultOptions: {
 		cls: 'dino-tab-panel',
 		tabPosition: 'top',

@@ -3,6 +3,8 @@
 
 Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	
+	_html: function() { return '<div></div>'; },	
+	
 	defaultOptions: {
 		layout: 'dock-layout',
 		components: {

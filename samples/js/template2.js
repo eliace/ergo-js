@@ -6,6 +6,8 @@ var Samples = {};
 
 Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 	
+	_html: function() { return '<div></div>'; },	
+	
 	defaultOptions: {
 		components: {
 			button: {

@@ -139,7 +139,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_html: function() {
-		return '<div/>';
+		return '';//'<div/>';
 	},
 	
 	_render: function(target) {

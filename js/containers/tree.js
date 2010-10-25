@@ -1,6 +1,6 @@
 
 
-
+/*
 Dino.declare('Dino.widgets.AbstractTreeItem', 'Dino.Widget', {
 	
 	defaultOptions: {
@@ -34,3 +34,4 @@ Dino.declare('Dino.widgets.AbstractTreeItem', 'Dino.Widget', {
 	
 	
 }, 'abstract-tree-item');
+*/

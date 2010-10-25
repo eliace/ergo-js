@@ -12,7 +12,7 @@
 		<!-- DinoJS theme -->
 		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
-		<link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css">
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->
 		<!-- SHJS -->
 		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
 		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
@@ -42,7 +42,7 @@
 }
 
 #table-1 tbody tr:hover {
-	background-color: #f0fff0;
+	background-color: #ffc;
 }	
 </style>
 <script>
@@ -56,7 +56,7 @@ var gridData = [
 $.dino({
   id: 'table-1',
   dtype: 'grid',
-  cls: 'ui-widget-content ui-corner-all',
+  cls: 'dino-border-all dino-corner-all',
   dataModel: {
     columns: [{
       title: 'ID',
@@ -92,44 +92,44 @@ $.dino({
 	
 <div id="sample-tree-grid">
 <style>
-#table-2 {
-	width: 100%;
-}
-
-#tree-2 {
-	position: absolute;
-	top: 2px;
-}
-
 
 .tree-grid {
 /*	border-top: 1px solid #ccc;
 	border-left: 1px solid #ccc;*/
 }
 
+.tg-item-content {
+	display: inline;
+	margin-left: 20px;	
+}
+
+.tg-item-button {
+	top: 2px;
+	left: 0px;
+}
 
 .tg-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px dotted #ccc;
+	text-align: center;
 }
 
-.tg-tree-node {
-	border-bottom: 1px solid #fff;
+.tg-tree-cell {
+	text-align: left;	
+}
+/*
+.tg-row.even {
+	background-color: #f6f6f6;
+}
+*/
+.tg-row:hover {
+	background-color: #ffc;
 }
 
-.tg-tree-node > ul{
-	padding-left: 30px;
-}
-
-
-.tree-grid-item {
-/*	padding-left: 20px;*/
-/*	border-bottom: 1px solid #ccc;*/
-}
-
-.tree-grid-item td {
-/*	padding-left: 20px;*/
-	border-top: 1px dotted #ccc;
+.tg-header {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px dotted #ccc;
+	color: #444;
 }
 
 .indent {
@@ -138,104 +138,86 @@ $.dino({
 
 </style>
 <script>
-/*	
-var tgData = [
-  {id: '1', name: 'Alice', value: '123', cb: false},
-  {id: '2', name: 'Bob', value: '456', cb: true},
-  {id: '3', name: 'Charlie', value: '789', cb: false},
-  {id: '4', name: 'Daniel', value: '456', cb: true},
-  {id: '5', name: 'Eva', value: '456', cb: true}
-];
-*/
-var tgTreeData = { id: null, children: [{
-	id: 0,
-	name: 'aaa',
-	value: '123',
-	children: [{
-		id: 1,
-		value: '456',
-		name: 'bbb'
-	}, {
-		id: 2,
-		value: '789',
-		name: 'ccc',
-		children: [{
-			id: 5,
-			name: 'fff',
-			value: 0
-		}]
-	}]
-}, {
-	id: 3,
-	value: '123514',
-	name: 'ddd',
-	children: [{
-		id: 4,
-		value: '56563',
-		name: 'eee'
-	}]
-}]
+	
+	
+var tgTreeData = {
+  children: [{
+    id: 0,
+    name: 'aaa',
+    value: '123',
+    children: [{
+      id: 1,
+      value: '456',
+      name: 'bbb'
+    }, {
+      id: 2,
+      value: '789',
+      name: 'ccc',
+      children: [{
+        id: 5,
+        name: 'fff',
+        value: 0
+      }]
+    }]
+  }, {
+    id: 3,
+    value: '123514',
+    name: 'ddd',
+    children: [{
+      id: 4,
+      value: '56563',
+      name: 'eee'
+    }]
+  }]
 };
-
-
-
-var tgDataSource = new Dino.data.DataSource(tgTreeData, 'children');
 
 		
 $.dino({
-	dtype: 'tree-grid',
-	tag: 'aaa',
-	cls: 'tree-grid dino-border-all',
-	data: tgDataSource,
-	tableModel: {
-		cell: {
-			cls: 'tg-cell'
-		},
-		columns: [{
-			dataId: 'id',
-			binding: 'auto'
-		}, {
-			dtype: 'tree-grid-cell',
-			content: {
-				dtype: 'text',
-				dataId: 'name',
-				clickable: true,
-				onClick: function() {
-/*					
-					var row = this.parent.parent;
-					row.states.toggle('expanded');
-					if(row.states.is('expanded')){
-						
-						row.eachAncestor(function(r){
-//							if(r != row){
-								if (r.states.is('expanded')) {
-									r.eachSubItem(function(r){
-										r.states.clear('hidden');
-									});
-						
-									r.states.clear('hidden');
-								}
-								else 
-									return true;
-//							}
-						});						
-					}
-					else{
-						row.eachAncestor(function(r){
-							if(r != row) r.states.set('hidden');
-						});						
-					}
-*/					
-//					message.info(''+row.index);
-				}				
-			}
-		}, {
-			dataId: 'value',
-			binding: 'auto'
-		}]
-	},
-	
-	
+  dtype: 'tree-grid',
+  tag: 'aaa',
+  cls: 'tree-grid dino-border-all dino-corner-all',
+  data: tgTreeData,
+  dataId: 'children',
+  tableModel: {
+    cell: {
+      cls: 'tg-cell'
+    },
+    row: {
+      state: 'expanded',
+      cls: 'tg-row'
+    },
+    header: {
+      cls: 'tg-header dino-bg-highlight'
+    },
+    columns: [{
+      header: { text: '#'	},
+      dataId: 'id',
+      width: 40,
+      binding: 'auto'
+    }, {
+      header: { text: 'Name'	},
+      dtype: 'tree-grid-cell',
+      cls: 'tg-tree-cell',
+      width: 130,
+      content: {
+        components: {
+          button: {
+            cls: 'tg-item-button',
+          },					
+          content: {
+            dtype: 'text-item',
+            cls: 'tg-item-content',
+            dataId: 'name'						
+          }
+        }				
+      }
+    }, {
+      header: { text: 'Value'	},
+      width: 100,
+      dataId: 'value',
+      binding: 'auto'
+    }]
+  }
 });	
 </script>	
 <div class="html">

@@ -41,8 +41,8 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 		});
 		
 //		console.log(this.items);
-				
-		Dino.each(this.items, function(item){
+		
+		Dino.each(this.items, function(item, i){
 			self.container.el.append(item.el);
 		});
 		
@@ -59,10 +59,6 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 	defaultOptions: {
 		components: {
 			body: {
-				dtype: 'container',
-				dynamic: true,
-				wrapEl: '<tbody></tbody>',
-//				layout: 'tree-grid-layout',
 				defaultItem: {
 					dtype: 'tree-grid-row'
 				}
@@ -75,21 +71,23 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 		Dino.widgets.TreeGrid.superclass._init.apply(this, arguments);
 
 		var bodyLayout = new Dino.layouts.TreeGridLayout({updateMode: 'manual'});
-		this.options.components.body.layout = bodyLayout;
 		
-		Dino.utils.overrideOpts(this.options.components.body.defaultItem, {
-			components: {
-				subtree: {
-					layout: bodyLayout
-				}
-			},
-			defaultSubItem: {
+		Dino.utils.overrideOpts(this.options.components.body, {
+			layout: bodyLayout,
+			defaultItem: {
 				components: {
 					subtree: {
 						layout: bodyLayout
 					}
-				}						
-			}			
+				},
+				defaultSubItem: {
+					components: {
+						subtree: {
+							layout: bodyLayout
+						}
+					}						
+				}
+			}
 		});
 
 		
@@ -135,6 +133,10 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.Container', {
 					dtype: 'tree-grid-row'
 				}
 			}
+		},
+		states: {
+			'collapsed': ['collapsed', 'expanded'],
+			'expanded': ['expanded', 'collapsed']
 		}
 	},
 	
@@ -157,19 +159,52 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.Container', {
 		o.components.subtree.defaultItem.indent = this.indent+1;
 	},
 	
+//	_opt: function(o) {
+//		Dino.widgets.TreeGridRow.superclass._opt.apply(this, arguments);
+//		
+//		this.isLeaf = o.isLeaf;
+//				
+//	},
 	
-	eachAncestor: function(callback) {
-		
-		callback.call(this, this);
-		
+	eachDescendantRow: function(callback) {
+		if(arguments.length == 2){
+			callback.call(this, this);
+		}
+				
 		this.subtree.eachItem(function(item){
-			item.eachAncestor(callback);
+			item.eachDescendantRow(callback, 0);
 		});
 	},
 	
-	eachSubItem: function(callback) {
-		this.subtree.eachItem(callback);
+//	eachSubItem: function(callback) {
+//		this.subtree.eachItem(callback);
+//	},
+	
+	collapse: function() {
+		this.states.set('collapsed');
+		this.eachDescendantRow(function(item){
+			item.states.set('hidden');
+		});
+	},
+	
+	expand: function(x0) {
+		if(arguments.length == 0){
+			this.states.set('expanded');
+			x0 = true;
+		}
+
+		if(!x0) return;
+		
+		var x = this.states.is('expanded');
+		
+//		if( this.states.is('expanded') ){
+		this.states.clear('hidden');
+		this.subtree.eachItem(function(item){
+			item.expand(x);
+		});			
+//		}
 	}
+	
 	
 	
 	
@@ -181,20 +216,93 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 	
 	_html: function() { return '<td></td>'; },
 	
+	defaultOptions: {
+//		cls: 'dino-tree-grid-cell',
+		content: {
+			dtype: 'box',
+			cls: 'dino-tree-grid-item',
+			components: {
+				button: {
+					dtype: 'icon',
+					cls: 'dino-tree-grid-item-button ui-icon ui-icon-triangle-1-se dino-clickable',
+					clickable: true,
+					onClick: function() {
+						var row = this.parent.parent.getRow();
+						if(row.states.is('collapsed')){
+							row.expand();
+							this.states.set('expanded');
+						}
+						else{
+							row.collapse();
+							this.states.set('collapsed');
+							
+						}
+//						this.getParent({dtype: 'tree-grid'})._updateEvenOdd();
+					},
+					states: {
+						'hover': ['ui-icon-blue', 'ui-icon'],
+						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
+						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
+						'leaf': 'dino-hidden'
+//						'collapsed': function() { if(!this.parent.options.isLeaf) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
+//						'expanded': function() { if(!this.parent.options.isLeaf) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
+					}
+				}
+			}
+		}
+	},
+	
+	
+	
 	_init: function() {
 		Dino.widgets.TreeGridCell.superclass._init.apply(this, arguments);
 		
 		var o = this.options;
 		
-		for(var i = 0; i < o.indent; i++){
+//		var indentComponents = {};
+		
+//		var wg = 0;
+		for(var i = o.indent-1; i >= 0; i--){
+/*			
+			indentComponents['indent-'+i] = Dino.utils.overrideOpts({
+				dtype: 'box',
+				wrapEl: '<span></span>',
+				cls: 'indent',// indent-'+i,
+				weight: wg++
+			},
+			o.indentItem);
+*/			
 			this.layout.container.el.append('<span class="indent"></span>');
 		}
 		
+//		Dino.utils.overrideOpts(o, {components: indentComponents});
+		
+	},
+	
+	
+//	_opt: function(o) {
+//		Dino.widgets.TreeItem.superclass._opt.apply(this, arguments);
+//		
+//		this.isLeaf = o.isLeaf;
+//				
+//	},
+	
+	
+	getRow: function() {
+		return this.parent;
 	}
 	
 	
 	
 }, 'tree-grid-cell');
+
+
+
+
+//Dino.declare('Dino.widgets.TreeGridItem', 'Dino.Widget', {
+//	
+//}, 'tree-grid-item');
+
 
 
 

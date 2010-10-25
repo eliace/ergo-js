@@ -3,6 +3,8 @@
 
 Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
 	
+	_html: function() { return '<div></div>'; },
+	
 	defaultOptions: {
 		showOnEnter: true,
 		hideOnLeave: true,

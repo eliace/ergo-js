@@ -67,6 +67,21 @@
 
 
 
+/*
+ * TREE-GRID
+ */
+
+.dino-tree-grid-item-button {
+	position: absolute;
+}
+
+.dino-tree-grid-item {
+	display: inline;
+	position: relative;
+}
+
+
+
 
 /*
  * Tabs
@@ -173,6 +188,7 @@
 
 .dino-text-item {
 	position: relative;
+	display: inline;
 }
 
 .dino-pulse-button {

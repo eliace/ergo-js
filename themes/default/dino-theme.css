@@ -82,6 +82,8 @@
 }
 
 
+
+
 /*
  * Tabs
  */
@@ -411,6 +413,7 @@
 .ui-icon {background-image: url(img/ui-icons_222222_256x240.png); }
 .ui-icon-gray {background-image: url(img/ui-icons_454545_256x240.png); }
 .ui-icon-lightgray {background-image: url(img/ui-icons_888888_256x240.png); }
+.ui-icon-blue {background-image: url(img/ui-icons_2e83ff_256x240.png); }
 
 
 /* Этот кусок взят из темы jquery ui */

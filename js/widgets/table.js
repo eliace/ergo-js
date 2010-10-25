@@ -35,6 +35,7 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		tableModel: {
 			row: {},
 			cell: {},
+			header: {},
 			columns: []
 		}
 	},
@@ -45,7 +46,9 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 	_init: function() {
 		Dino.widgets.Table.superclass._init.apply(this, arguments);
 		
-		var columns = this.options.tableModel.columns;
+		var o = this.options;
+		
+		var columns = o.tableModel.columns;
 		
 		var headRow = {items: []};
 		var cells = [];
@@ -54,7 +57,7 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		for(var i = 0; i < columns.length; i++){
 			var c = columns[i];
 			
-			var col = Dino.utils.overrideOpts({text: columns[i].title}, c.header);
+			var col = Dino.utils.overrideOpts({text: columns[i].title}, o.tableModel.header, c.header);
 			if('width' in c) col.width = c.width;
 			headRow.items.push(col);
 			
@@ -74,6 +77,17 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 				{defaultItem: this.options.tableModel.cell},
 				{items: cells}
 				);
+	},
+	
+	
+	_updateEvenOdd: function() {
+		var i = 0;
+		$('tr:visible', this.body.el).each(function(i, el){
+			if(i%2)
+				$(el).removeClass('even').addClass('odd');
+			else
+				$(el).addClass('even').removeClass('odd');
+		});
 	}
 	
 	
@@ -111,6 +125,7 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	
 	defaultOptions: {
 		binding: 'skip'
+//		cls: 'dino-table-cell'
 	},
 	
 	_dataChanged: function() {
