@@ -14,7 +14,11 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 	},
 	
 	remove: function(item) {
-//		this.container.parent.layout.remove(item);
+		
+		var i = Dino.indexOf(this.items, item);
+		this.items.splice(i, 1);
+		
+		item.el.remove();
 	},
 	
 	clear: function() {
@@ -54,7 +58,62 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 
 
 
-Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
+
+Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
+	
+	defaultOptions: {
+		wrapEl: '<div></div>',
+		components: {
+			header: {
+				dtype: 'box',
+				content: {
+					dtype: 'table',
+					width: '100%',
+					binding: false
+				}
+			},
+			content: {
+				// скроллируемый контейнер
+				dtype: 'box',
+				style: {'overflow-y': 'scroll'},
+				content: {
+					dtype: 'tree-table',
+					width: '100%'						
+				}
+			}
+		}
+	},
+	
+	
+	
+	_init: function() {
+		Dino.widgets.TreeGrid.superclass._init.apply(this, arguments);
+		
+		var o = this.options;
+		
+		Dino.utils.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}});
+		
+	},
+	
+	
+	_afterRender: function() {
+		Dino.widgets.TreeGrid.superclass._afterRender.apply(this, arguments);
+		
+		var tableWidth = this.content.content.el.width();
+		this.header.content.el.width(tableWidth);
+	}
+	
+	
+	
+	
+}, 'tree-grid');
+
+
+
+
+
+Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 	
 	defaultOptions: {
 		components: {
@@ -68,7 +127,7 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 	
 	
 	_init: function() {
-		Dino.widgets.TreeGrid.superclass._init.apply(this, arguments);
+		Dino.widgets.TreeTable.superclass._init.apply(this, arguments);
 
 		var bodyLayout = new Dino.layouts.TreeGridLayout({updateMode: 'manual'});
 		
@@ -102,7 +161,7 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 	},
 	
 	_afterRender: function() {
-		Dino.widgets.TreeGrid.superclass._afterRender.apply(this, arguments);
+		Dino.widgets.TreeTable.superclass._afterRender.apply(this, arguments);
 		
 		this.body.layout.update();
 	}
@@ -110,20 +169,20 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Table', {
 	
 	
 	
-}, 'tree-grid');
+}, 'tree-table');
 
 
 
 
-Dino.declare('Dino.widgets.TreeGridRow', 'Dino.Container', {
+Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
 	
-	_html: function() { return '<tr></tr>'; },
+//	_html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
 		indent: 0,
-		defaultItem: {
-			dtype: 'table-cell'
-		},
+//		defaultItem: {
+//			dtype: 'table-cell'
+//		},
 		components: {
 			subtree: {
 				dataId: 'children',
@@ -291,6 +350,10 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 	getRow: function() {
 		return this.parent;
 	}
+	
+//	startEdit: function() {
+//		
+//	}
 	
 	
 	

@@ -442,7 +442,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				
 		var o = this.options;
 		
-		if(data == undefined || o.binding == 'none') return;
+		if(data == undefined || !o.binding) return;
 		
 		if(!phase) phase = 1;
 		

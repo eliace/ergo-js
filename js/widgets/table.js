@@ -21,7 +21,8 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 					defaultItem: {
 						wrapEl: '<th></th>'
 					}
-				}
+				},
+				binding: false
 			},
 			body: {
 				dtype: 'box',
@@ -35,7 +36,12 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		tableModel: {
 			row: {},
 			cell: {},
-			header: {},
+//			header: {},
+			columns: []
+		},
+		headerModel: {
+			row: {},
+			cell: {},
 			columns: []
 		}
 	},
@@ -48,35 +54,49 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		
 		var o = this.options;
 		
+		var h_columns = o.headerModel.columns;
 		var columns = o.tableModel.columns;
 		
-		var headRow = {items: []};
-		var cells = [];
-		var cols = [];
+//		var headRow = {items: []};
+//		var h_cells = [];
+//		var cells = [];
+//		var cols = [];
 		
-		for(var i = 0; i < columns.length; i++){
-			var c = columns[i];
+//		for(var i = 0; i < columns.length; i++){
+//			var h_c = h_columns[i];
+//			var c = columns[i];
 			
-			var col = Dino.utils.overrideOpts({text: columns[i].title}, o.tableModel.header, c.header);
-			if('width' in c) col.width = c.width;
-			headRow.items.push(col);
+//			var col = Dino.utils.overrideOpts({text: columns[i].title}, o.tableModel.header, c.header);
+//			if('width' in c) col.width = c.width;
+//			headRow.items.push(col);
 			
 //			var col = {};
 //			if('width' in columns[i]) col.width = columns[i].width;
 //			cols.push(col);
 			
-			cells.push(c);
-		}
+//			h_cells.push(h_c);
+//			cells.push(c);
+//		}
 				
 //		this.options.components.colgroup.items = cols;
-		this.options.components.head.items = [headRow];
+//		this.options.components.head.items = [headRow];
 		
 		Dino.utils.overrideOpts(
-				this.options.components.body.defaultItem, 
-				this.options.tableModel.row, 
-				{defaultItem: this.options.tableModel.cell},
-				{items: cells}
+				o.components.body.defaultItem, 
+				o.tableModel.row, 
+				{defaultItem: o.tableModel.cell},
+				{items: columns}
 				);
+		
+		Dino.utils.overrideOpts(
+				o.components.head.defaultItem, 
+				o.headerModel.row,
+				{defaultItem: o.headerModel.cell},
+				{items: h_columns}
+				);
+		
+		o.components.head.items = [{}];
+		
 	},
 	
 	
@@ -111,6 +131,12 @@ Dino.declare('Dino.widgets.TableRow', 'Dino.Container', {
 		defaultItem: {
 			dtype: 'table-cell'
 		}
+	},
+	
+	getTable: function() {
+		return this.el.parents('table').dino(); 
+		//TODO хотя здесь можно сделать быстрее
+//		return this.getParent().getParent();
 	}
 	
 	

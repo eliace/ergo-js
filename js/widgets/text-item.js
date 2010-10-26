@@ -29,10 +29,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		editor: {
 			dtype: 'textfield',
 			events: {
-				'blur': function(e, w) { w.parent.setEditable(false); }
+				'blur': function(e, w) { w.parent.stopEdit(); }
 			},
 			onValueChanged: function() {
-				this.parent.setEditable(false);
+				this.parent.stopEdit();
 			}
 		}
 	},
@@ -64,21 +64,19 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		return this.content.getText();
 	},
 	
-	setEditable: function(flag) {
-		
-		if(flag) {
-			this.content.states.set('hidden');			
-			this.addComponent('_editor', this.options.editor);
-			this._editor._dataChanged(); // явно вызываем обновление данных
-			this._editor.el.focus();
-			this._editor.el.select();
-		}
-		else {
-			this.removeComponent('_editor');
-			this.content._dataChanged(); // явно вызываем обновление данных
-			this.content.states.clear('hidden');
-		}
-	}
+	startEdit: function() {
+		this.content.states.set('hidden');			
+		this.addComponent('_editor', this.options.editor);
+		this._editor._dataChanged(); // явно вызываем обновление данных
+		this._editor.el.focus();
+		this._editor.el.select();
+	},
+	
+	stopEdit: function() {
+		this.removeComponent('_editor');
+		this.content._dataChanged(); // явно вызываем обновление данных
+		this.content.states.clear('hidden');
+	}	
 	
 	
 	

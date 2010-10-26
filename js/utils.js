@@ -244,34 +244,56 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 });
 
 
+
+
+
+Dino.utils.overrideProp = function(o, srcObj, i) {
+
+	var shared_opts = {'data': null};		
+
+	var p = srcObj[i];
+	
+	if(i in shared_opts){//Dino.in_array(ignore, i)){
+		o[i] = p;
+	}
+	else{
+		//TODO здесь создается полная копия (deep copy) объекта-контейнера, но массивы-контейнеры не копируются. Почему?
+		if( Dino.isPlainObject(p) ){
+			if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+			Dino.utils.overrideOpts(o[i], p);
+		}
+		else if( Dino.isArray(p) ){
+			if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
+			Dino.utils.overrideOpts(o[i], p);
+		}
+		else {
+			// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+			if(i in o){
+				// классы сливаются в одну строку, разделенную пробелом
+				if(i == 'cls') p = o[i] + ' ' + p;
+			}
+			o[i] = p;
+		}
+	}
+	
+}
+
+
 Dino.utils.overrideOpts = function(o) {
 
-	var ignore = ['data'];		
 	
+	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
-		var newProps = arguments[j];
-		for(var i in newProps){
-			var p = newProps[i];
-			
-			if(Dino.in_array(ignore, i)){
-				o[i] = p;
-			}
-			else{
-				//TODO здесь создается полная копия (deep copy) объекта-контейнера, но массивы-контейнеры не копируются
-				if( Dino.isPlainObject(p) ){
-					if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-					Dino.utils.overrideOpts(o[i], p);
-				}
-				else{
-					// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
-					if(i in o){
-						// классы сливаются в одну строку, разделенную пробелом
-						if(i == 'cls') p = o[i] + ' ' + p;
-					}
-					o[i] = p;
-				}
-			}
+		var srcObj = arguments[j];
+		
+		if( Dino.isArray(srcObj) ){
+			for(var i = 0; i < srcObj.length; i++)
+				Dino.utils.overrideProp(o, srcObj, i);
 		}
+		else {
+			for(var i in srcObj)
+				Dino.utils.overrideProp(o, srcObj, i);
+		}		
 	}
 	
 	return o;

@@ -143,30 +143,45 @@ $.dino({
 var tgTreeData = {
   children: [{
     id: 0,
-    name: 'aaa',
+    name: 'C:',
     value: '123',
     children: [{
       id: 1,
       value: '456',
-      name: 'bbb'
+      name: 'WINDOWS'
     }, {
       id: 2,
       value: '789',
-      name: 'ccc',
+      name: 'Program Files',
       children: [{
         id: 5,
-        name: 'fff',
+        name: 'VideoPlayer',
         value: 0
       }]
     }]
   }, {
     id: 3,
     value: '123514',
-    name: 'ddd',
+    name: 'D:',
     children: [{
       id: 4,
       value: '56563',
-      name: 'eee'
+      name: 'Фильмы',
+			children: [{
+				name: 'Контакт.avi'
+			}, {
+				name: 'Звездный Войны I. Скрытая угроза.avi'
+			}, {
+				name: 'Звездный Войны II. Атака клонов.avi'
+			}, {
+				name: 'Звездный Войны III. Месть ситхов.avi'
+			}, {
+				name: 'Чужие.avi'
+			}, {
+				name: 'Пещера.avi'
+			}, {
+				name: 'Космическая одиссея 2001 года.avi'
+			}]
     }]
   }]
 };
@@ -178,6 +193,26 @@ $.dino({
   cls: 'tree-grid dino-border-all dino-corner-all',
   data: tgTreeData,
   dataId: 'children',
+	width: 600,
+	content: {
+		height: 250,
+		style: {'padding-right': '3px'}
+	},
+	headerCls: 'dino-bg-highlight',
+	headerModel: {
+		cell: {
+			cls: 'tg-header'
+		},
+		columns: [{
+			text: '#',
+			width: 40
+		}, {
+			text: 'Файл'
+		}, {
+			text: 'Размер',
+			width: 100
+		}]
+	},
   tableModel: {
     cell: {
       cls: 'tg-cell'
@@ -186,19 +221,13 @@ $.dino({
       state: 'expanded',
       cls: 'tg-row'
     },
-    header: {
-      cls: 'tg-header dino-bg-highlight'
-    },
     columns: [{
-      header: { text: '#'	},
       dataId: 'id',
       width: 40,
       binding: 'auto'
     }, {
-      header: { text: 'Name'	},
       dtype: 'tree-grid-cell',
       cls: 'tg-tree-cell',
-      width: 130,
       content: {
         components: {
           button: {
@@ -212,7 +241,6 @@ $.dino({
         }				
       }
     }, {
-      header: { text: 'Value'	},
       width: 100,
       dataId: 'value',
       binding: 'auto'

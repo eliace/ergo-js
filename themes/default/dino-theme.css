@@ -393,6 +393,7 @@
 .led-icon-books { background-image: url(img/led/books.png); }
 .led-icon-pipette { background-image: url(img/led/pipette.png); }
 .led-icon-sitemap { background-image: url(img/led/sitemap.png); }
+.led-icon-package { background-image: url(img/led/package.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
