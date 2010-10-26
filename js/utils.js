@@ -281,7 +281,6 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 
 Dino.utils.overrideOpts = function(o) {
 
-	
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
 		var srcObj = arguments[j];
@@ -298,6 +297,41 @@ Dino.utils.overrideOpts = function(o) {
 	
 	return o;
 }
+
+
+
+Dino.utils.deep_override = function(o, srcObj) {
+	
+	Dino.each(srcObj, function(p, i){
+		if( Dino.isPlainObject(p) ){
+			if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+			Dino.utils.deep_override(o[i], p);
+		}
+		else if( Dino.isArray(p) ){
+			if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
+			Dino.utils.deep_override(o[i], p);
+		}
+		else {
+			o[i] = p;
+		}
+	})
+	
+	
+//	if( Dino.isArray(srcObj) ){
+//		// массивы обходим по индексу
+//		for(var i = 0; i < srcObj.length; i++)
+//			Dino.utils.overrideProp(o, srcObj, i);
+//	}
+//	else {
+//		// объекты обходим по свойствам
+//		for(var i in srcObj)
+//			Dino.utils.overrideProp(o, srcObj, i);
+//	}		
+	
+	return o;
+}
+
+
 
 
 

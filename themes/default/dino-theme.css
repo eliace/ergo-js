@@ -314,11 +314,13 @@
 
 
 
-.dino-context-menu {
+.dino-context-menu, .dino-context-menu .dino-menu-item-submenu {
 	border: 1px solid #ccc;
 	background-color: #eee;
 	z-index: 1000;
 }
+
+
 
 
 /*

@@ -224,6 +224,23 @@ var Dino = (function(){
 		return false;
 	}
 	
+	D.deep_copy = function(src) {
+		var copy = null;
+		
+		if(D.isPlainObject(src) || D.isArray(src)){
+			copy = D.isPlainObject(src) ? {} : [];
+			D.each(src, function(item, i){
+				copy[i] = D.deep_copy(item);
+			});
+		}
+		else{
+			copy = src;
+		}
+		
+		return copy;
+	};
+
+	
 	
 	
 	// равенство
