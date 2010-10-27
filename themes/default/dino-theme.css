@@ -301,6 +301,7 @@
 .dino-menu-item-submenu  {
 	border: 1px solid #ccc;
 	background-color: #fff;
+	z-index: 1000;
 }
 
 .dino-submenu-icon {
@@ -314,7 +315,7 @@
 
 
 
-.dino-context-menu, .dino-context-menu .dino-menu-item-submenu {
+.dino-context-menu {
 	border: 1px solid #ccc;
 	background-color: #eee;
 	z-index: 1000;

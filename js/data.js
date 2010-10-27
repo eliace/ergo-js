@@ -6,25 +6,36 @@
 
 Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	
-	initialize: function(src, id) {
+	initialize: function(src, id, options) {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
+
+		this.source = src;
 		
-		if(arguments.length < 2){
-//			this.source = {'_id': src};
-//			this.id = '_id';
+		if(arguments.length == 2){
 			this.source = src;
-			// this.id отсутствует
+			if(Dino.isPlainObject(id)) options = id;
+			else this.id = id;
+		}
+		else if(arguments.length == 3) {
+			this.id = id;
+		}
+		
+/*		
+		if(arguments.length < 2){
+			this.source = src;
 		}
 		else {
 			this.source = src;
 			this.id = id;
 		}
+*/		
+		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, options);
 		this.items = {};
 	},
 	
 	val: function() {
 		if(this.source instanceof Dino.data.DataSource){
-			return ('id' in this) ? this.source.get(this.id) : this.source.get();
+			return ('id' in this) ? this.source.val()[this.id]: this.source.val();//get(this.id) : this.source.get();
 		}
 		else{
 			return ('id' in this) ? this.source[this.id] : this.source;
@@ -36,6 +47,9 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		if(arguments.length == 0)
 			return this.val();
 		else{
+			return this.item(i).val();
+			
+/*			
 			var v = this.val();
 			if( _dino.isString(i) ){
 				var a = i.split('.');
@@ -47,6 +61,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 				return v;
 			}
 			return v[i];
+*/			
 		}
 	},
 	
@@ -60,22 +75,21 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			// теперь список элементов пуст
 			this.items = {};
 			
-			if(this.source instanceof Dino.data.DataSource){
-				('id' in this) ? this.source.set(this.id, newValue) : this.source.set(newValue);
-			}
-			else {
-				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
-			}
-		}
-		else {
-			// получаем объект с данными (PlainObject или Array)
-			var v = this.get();
+			
+			('id' in this) ? this.source.val()[this.id] = newValue : this.source = newValue;
+			
 //			if(this.source instanceof Dino.data.DataSource){
-//				v = ('id' in this) ? this.source.val()[this.id] : this.source.val();
+//				('id' in this) ? this.source.set(this.id, newValue) : this.source.set(newValue);
 //			}
 //			else {
-//				v = ('id' in this) ? this.source[this.id] : this.source;
+//				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 //			}
+		}
+		else {
+			this.item(i).set(newValue);
+/*			
+			// получаем объект с данными (PlainObject или Array)
+			var v = this.get();
 			// если ключ - строка, то он может быть составным 
 			if( _dino.isString(i) ){
 				var a = i.split('.');
@@ -84,6 +98,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
 			}
 			v[i] = newValue;
+*/			
 		}
 		
 		this.events.fire('onValueChanged');
@@ -96,12 +111,37 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	},
 	
 	item: function(i) {
-		//TODO элементы тоже можно получать по составному индексу
-		if(!(i in this.items)) {
-			var item = Dino.isArray(this.get(i)) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
-			this.items[i] = item;
+		
+		var data_item = this;
+		
+		// если ключ - строка, то он может быть составным 
+		if(Dino.isString(i)) {
+			var a = i.split('.');
+			var i = a.pop();
+			// двигаемся внутрь объекта по элементам ключа
+			for(var j = 0; j < a.length; j++) data_item = data_item.item(a[j]);
 		}
-		return this.items[i];
+		
+		return data_item.ensure_item(i);
+//		//TODO элементы тоже можно получать по составному индексу
+//		if(!(i in this.items)) {
+//			var item = Dino.isArray(this.get(i)) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
+//			this.items[i] = item;
+//		}
+//		return this.items[i];
+	},
+	
+	
+	ensure_item: function(i) {
+		// если элемент данных отсутствует, то вызываем метод создания элемента
+		if(!(i in this.items))
+			this.items[i] = this.create_item(i);
+		return this.items[i];		
+	},
+	
+	create_item: function(i) {
+		// для массивов используем ArrayDataSource, а для всего остального ObjectDataSource
+		return Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
 	}
 	
 	
@@ -138,7 +178,7 @@ Dino.declare('Dino.data.TreeView', 'Dino.events.Observer', {
 */
 
 
-
+/*
 Dino.declare('Dino.data.FlattenArrayView', 'Dino.data.DataSource', {
 	
 //	initialize: function(src, flattenProp) {
@@ -220,7 +260,7 @@ Dino.declare('Dino.data.FlattenArrayView', 'Dino.data.DataSource', {
 	}
 	
 });
-
+*/
 
 
 
@@ -318,12 +358,63 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 
 
 
+
+
+
 Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
-/*	
-	initialize: function() {
-		Dino.data.AjaxDataSource.superclass.initialize.call(self, {});
+	
+	defaultOptions: {
+		url: '',
+		params: {}
 	},
-*/	
+	
+		
+	create_item: function(i) {
+	
+		//TODO интересно, что массивы почти всегда (за исключением страничного отображения) загружаются полностью, поэтому 
+	
+		// получаем непосредственное значение
+		var v = this.val();
+		if(Dino.isArray(v)) {
+			// массив загружается полностью, так что все элементы уже загружены
+		}
+		else {
+			// а вот свойство объекта может быть не загружено, поэтому проверяем его
+			if(!(i in v)) {
+				var self = this;
+				var o = this.options;
+				var url = Dino.isFunction(o.url) ? o.url.call(this, i, v) : o.url;
+				var params = Dino.isFunction(o.params) ? o.params.call(this, i, v) : o.params;
+				
+				$.getJSON(url, params, function(data){
+					self.set(i, data);
+					self.events.fire('onItemLoad');
+				});
+				
+				v[i] = {} //<-- добавляем заглушку
+			}
+		}
+		
+		var ds = new Dino.data.AjaxDataSource(this, i, this.options);
+		
+		return ds;
+//			return Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
+		
+		
+		
+	}
+	
+	
+	
+});
+
+
+
+
+
+
+/*
+Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
 	load: function(url, params) {
 		var self = this;
 		
@@ -333,5 +424,5 @@ Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
 		});
 	}
 });
-
+*/
 
