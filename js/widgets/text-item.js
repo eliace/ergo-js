@@ -6,6 +6,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	_html: function() { return '<div></div>'; },	
 	
 	defaultOptions: {
+		cls: 'dino-text-item',
 		layout: 'dock-layout',
 		components: {
 			leftIcon: {
@@ -55,9 +56,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		if('label' in o) this.content.opt('text', o.label);
 		if('format' in o) this.content.opt('format', o.format);
 		
-//		if('leftCls' in o) this.leftIcon.opt('cls', o.leftCls);
-//		if('contentCls' in o) this.content.opt('cls', o.contentCls);
-//		if('rightCls' in o) this.rightIcon.opt('cls', o.rightCls);
+		if('showLeftIcon' in o) 
+			this.content.states.toggle('l-icon', o.showLeftIcon);
+		if('showRightIcon' in o) 
+			this.content.states.toggle('r-icon', o.showRightIcon);		
 	},
 	
 	getText: function() {

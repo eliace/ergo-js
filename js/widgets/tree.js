@@ -54,11 +54,11 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 	},
 	
 	collapse: function() {
-//		this.states.set('collapsed');
+		this.states.set('collapsed');
 	},
 	
 	expand: function() {
-//		this.states.clear('collapsed');
+		this.states.set('expanded');
 	}
 	
 	
@@ -113,8 +113,8 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 		
 		this.events.reg('onStateChanged', function(e) {
 			e.translateStateTo(this.button);
-			e.translateStateTo(this.content);
-			e.translateStateTo(this.subtree);
+//			e.translateStateTo(this.content);
+//			e.translateStateTo(this.subtree);
 		});
 
 		this.content.el.click(function(){

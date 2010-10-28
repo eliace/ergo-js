@@ -54,7 +54,6 @@ test('Dino.data.DataSource', function(){
 	same(ds.val(), ['Bob', 'Charlie'], 'Содержимое массивов после удаления элемента');
 	same(changedIndices, [1, 2], 'Измененые индексы')
 	
-		
 });
 
 
@@ -71,9 +70,9 @@ asyncTest('Dino.data.AsyncDataSource', 1, function() {
 	});
 	
 	ds.item(0).events.reg('onItemLoad', function(e){
-		same(ds.get('0.person'), {name: 'Alice', age: 20}, 'Загрузка данных через AJAX');		
+		same(ds.get('0.person'), {name: 'Alice', age: 20}, 'Загрузка данных через AJAX');
 	});
-	ds.get('0.person');
+	ds.item(0).load('person', function(i, val){ return 'ajax/person-'+val.id+'.json' });
 	
 	
 	

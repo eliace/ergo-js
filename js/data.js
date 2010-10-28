@@ -84,6 +84,10 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 //			else {
 //				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 //			}
+			this.events.fire('onValueChanged', {});
+			
+			if(this.source instanceof Dino.data.DataSource)
+				this.source.events.fire('onItemChanged', {item: this});
 		}
 		else {
 			this.item(i).set(newValue);
@@ -99,9 +103,9 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			}
 			v[i] = newValue;
 */			
+//			this.events.fire('onValueChanged');
 		}
 		
-		this.events.fire('onValueChanged');
 	},
 	
 	
@@ -362,13 +366,52 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 
 
 Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
-	
+/*	
 	defaultOptions: {
 		url: '',
 		params: {}
 	},
+*/
+/*	
+	ajax_create: function(){
+	},
 	
+	ajax_read: function() {
+	},
+	
+	ajax_update: function(){
+	},
+	
+	ajax_delete: function(){
+	},
+*/
+	
+	
+	load: function(i, url, params) {
+
+		var v = this.val();
+	
+		var self = this;
 		
+		url = Dino.isFunction(url) ? url.call(this, i, v) : url;
+		params = Dino.isFunction(params) ? params.call(this, i, v) : params || {};
+		
+		$.getJSON(url, params, function(data){
+			self.set(i, data);
+			self.events.fire('onItemLoad');
+		});
+	
+	},
+	
+	
+	create_item: function(i) {
+		return new Dino.data.AjaxDataSource(this, i);
+//		// для массивов используем ArrayDataSource, а для всего остального ObjectDataSource
+//		return Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i) : new Dino.data.ObjectDataSource(this, i);
+	}
+	
+	
+/*		
 	create_item: function(i) {
 	
 		//TODO интересно, что массивы почти всегда (за исключением страничного отображения) загружаются полностью, поэтому 
@@ -403,7 +446,7 @@ Dino.declare('Dino.data.AjaxDataSource', 'Dino.data.DataSource', {
 		
 		
 	}
-	
+*/	
 	
 	
 });

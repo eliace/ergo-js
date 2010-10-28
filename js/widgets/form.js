@@ -31,7 +31,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		Dino.widgets.form.InputField.superclass._events.call(this, self);
 		
 		this.el.change(function() {
-			self.setValue( self.el.val() ); 
+			self.setValue( self.el.val());
 		});
 
 	},

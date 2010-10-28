@@ -80,7 +80,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
 		this.states = new Dino.utils.WidgetStateManager(this);
-		
+				
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
@@ -319,8 +319,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //								w.contextMenu.targetWidget = w;
 //								w.contextMenu.events.fire('onBeforeShow');
 								w.events.fire('onContextMenu', new Dino.events.CancelEvent());
-								if(!e.isCanceled)
+								if(!e.isCanceled){
+									w.contextMenu.sourceWidget = w;
 									w.contextMenu.show(e.pageX, e.pageY);
+								}
 								e.preventDefault();
 							}
 						}
@@ -469,8 +471,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		}
 		var self = this;
 	
-		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
-//		this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
+//		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
+		this.data.events.reg('onValueChanged', function() { 
+			if(self.options.updateOnValueChange) self._dataChanged();
+			console.log(self.data.val());
+		});
 	
 		this.children.each(function(child){
 			if(child.dataPhase != 1) child.setData(self.data, 2);
@@ -490,7 +495,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		return val;
 	},
 	
-	setValue: function(val) {
+	setValue: function(val, suppressChangeEvent) {
 		if(this.data){
 //			if('unformat' in this.options) 
 //				this.options.unformat.call(this, val);
@@ -538,6 +543,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	_dataChanged: function() {
 //		// если автобиндинг выключен, то прекращаем обновление
 //		if(!this.options.autoBinding) return;
+//		if(this.suppressDataChange) return;
 		
 		if(this.options.optBinding) {
 			var o = {};

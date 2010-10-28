@@ -86,7 +86,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		if(item.el.parents().is('body')) item._afterRender();
 	
 //		item.events.fire('onAdded');
-		this.events.fire('onItemAdded', {'item': item});		
+		this.events.fire('onItemAdded', {'item': item});
 		
 		return item;
 	},
@@ -162,12 +162,26 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			self.removeItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
 		});
 		
+		this.data.events.reg('onItemChanged', function(e){
+			self.getItem( e.item.id ).setData(self.data.item(e.item.id), 2);
+//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
+		});
+
+		this.data.events.reg('onValueChanged', function(e){
+			self.removeAllItems();
+			self.data.each(function(val, i){
+				var dataItem = self.data.item(i);
+//				self.addItem({ 'data': dataItem });
+				self.addItem({/* 'data': dataItem */}).setData(dataItem, 2);
+			});
+		});
+		
 		
 		this.removeAllItems();
 		
 		this.data.each(function(val, i){
 			var dataItem = self.data.item(i);
-			self.addItem({ 'data': dataItem });
+			self.addItem({/* 'data': dataItem */}).setData(dataItem, 2);
 		});
 		
 		
@@ -175,9 +189,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		this.eachItem(function(item, i){
 //			item.setData( self.data.item(i) )
 //		});
-		this.children.each(function(child){
-			if(child.dataPhase != 1) child.setData(self.data, 2);
-		});
+//		this.children.each(function(child){
+//			if(child.dataPhase != 1) child.setData(self.data, 2);
+//		});
 	}/*,
 
 	_dataChanged: function() {

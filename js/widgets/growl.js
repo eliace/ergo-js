@@ -4,6 +4,8 @@
 
 Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 	
+	_html: function() { return '<div></div>'; },
+	
 //	defaultCls: 'dino-growl-box',
 	
 	defaultOptions: {
@@ -34,7 +36,8 @@ Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 		cls: 'dino-growl',
 		styles: {'display': 'none'},
 		layout: 'dock-layout',
-		closeOnClick: false
+		closeOnClick: false,
+		timeout: 5000
 /*		
 		components: {
 			icon: {
@@ -89,12 +92,16 @@ Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 	},
 	
 	show: function(html){
+		
+		var o = this.options;
+		
 		this.el.html(html);
-		this.el.fadeIn(this.options.delay);
+		this.el.fadeIn(o.delay);
 		
 		var self = this;
-		if('timeout' in this.options)
-			setTimeout(function(){ self.hide(); }, this.options.timeout);		
+		if(o.hideOnTimeout){
+			setTimeout(function(){ self.hide(); }, o.timeout);			
+		}
 	},
 	
 	hide: function(){
@@ -145,14 +152,17 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 
 
 
-function init_default_growl_panel() {
+function init_default_growl_panel(o) {
 
+	o = o || {};
+	
 	Dino.messagePanel = $.dino({
 		dtype: 'growl-box',
 		cls: 'message-panel',
 		defaultItem: {
 			delay: 600,
-			timeout: 4000,
+			hideOnTimeout: o.hideOnTimeout,
+//			timeout: ('timeout' in o) ? o.timeout : 4000,
 			cls: 'dino-border-all dino-corner-all',
 			closeOnClick: true,
 			components: {

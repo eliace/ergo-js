@@ -196,6 +196,19 @@
 
 
 
+/*
+ * TEXT ITEM
+ */
+
+span.l-icon {
+	margin-left: 20px;
+}
+
+span.r-icon {
+	margin-right: 20px;
+}
+
+
 
 
 /*
@@ -261,10 +274,14 @@
 }
 */
 
+.dino-text-tree-item.collapsed > ul {
+	display: none;
+}
+/*
 .dino-text-tree-item-subtree.collapsed {
 	display: none;
 }
-
+*/
 .tree ul {
 	margin: 0;
 	padding-left: 0;
@@ -397,6 +414,8 @@
 .led-icon-pipette { background-image: url(img/led/pipette.png); }
 .led-icon-sitemap { background-image: url(img/led/sitemap.png); }
 .led-icon-package { background-image: url(img/led/package.png); }
+.led-icon-chart-organization { background-image: url(img/led/chart_organisation.png); }
+.led-icon-group { background-image: url(img/led/group.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
