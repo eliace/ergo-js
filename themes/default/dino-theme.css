@@ -290,6 +290,15 @@ span.r-icon {
 
 
 /*
+ * TREE GRID
+ */
+.tree-grid {
+	
+}
+
+
+
+/*
  * MENU
  */
 
@@ -385,6 +394,9 @@ span.r-icon {
 .dino-icon-info { background-image: url(img/led/exclamation.png); }
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
 .dino-icon-add { background-image: url(img/led/add.png); }
+
+.dino-icon-spinner { background-image: url(img/ajax-loader.png); }
+
 
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }

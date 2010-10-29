@@ -63,6 +63,7 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
 	
 	defaultOptions: {
 		wrapEl: '<div></div>',
+		cls: 'dino-tree-grid',
 		components: {
 			header: {
 				dtype: 'box',

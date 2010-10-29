@@ -42,6 +42,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		},
 		binding: 'auto'
 	},
+	
+	defaultHandlers: {
+		'clickable': function(e) {
+			$(this).dino().events.fire('onClick');
+		},
+		'selectable': function(e) {
+			e.preventDefault();
+		}
+	},
 			
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
@@ -80,6 +89,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
 		this.states = new Dino.utils.WidgetStateManager(this);
+		
+		this.handlers = {};
 				
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
@@ -126,7 +137,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			})
 //			this.addComponent('content', o.content);
 		}
-		
+				
 	},
 	
 //	_theme: function() {
@@ -291,11 +302,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 
 		
-		if(o.clickable){
-			this.el.click(function(e){
-				self.events.fire('onClick', {}, e);
-			});
-		}
+		//TODO обработчики событий должны быть выключаемыми, поэтому нужно запоминать их, чтобы потом удалить
+		
+		if('clickable' in o)
+			this._toggle_handler('clickable', 'click', o.clickable);
+		
+		if('selectable' in o)
+			this._toggle_handler('selectable', 'mousedown', !o.selectable); //<-- инверсия флага, поскольку обработчик нужен для отключения выделения
+		
 		
 		if('contextMenu' in o) {
 			
@@ -356,6 +370,18 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if(key in this.options) target.opt(key, this.options[key]);
 	},
 	
+	_toggle_handler: function(key, event, sw) {
+		// получаем дескриптор обработчика
+		var h = (key in this.handlers);
+		if(sw && !h) {
+			this.handlers[key] = true;
+			this.el.bind(event, this.defaultHandlers[key]);
+		}
+		else if(!sw && h){
+			this.el.unbind(event, this.defaultHandlers[key]);
+			delete handlers[key]
+		}		
+	},
 	
 	
 	/**
@@ -474,8 +500,15 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
 		this.data.events.reg('onValueChanged', function() { 
 			if(self.options.updateOnValueChange) self._dataChanged();
-			console.log(self.data.val());
+//			console.log(self.data.val());
 		});
+		
+		//FIXME пока непонятный механизм для обработки события onDirty
+		if('onDirty' in this.options){
+			this.data.events.reg('onDirty', function(e){
+				self.events.fire('onDirty', e);
+			});
+		}
 	
 		this.children.each(function(child){
 			if(child.dataPhase != 1) child.setData(self.data, 2);

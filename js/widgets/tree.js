@@ -1,12 +1,12 @@
 
 
-
+/*
 Dino.declare('Dino.containers.TreeBox', 'Dino.Container', {
 	
 	_html: function() { return '<ul></ul>'; }
 	
 }, 'tree-box');
-
+*/
 
 
 
@@ -18,7 +18,8 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 				dtype: 'text'
 			},
 			subtree: {
-				dtype: 'tree-box',
+				dtype: 'container',
+				wrapEl: '<ul></ul>',
 				defaultItem: {
 					dtype: 'tree-item'
 				}
@@ -59,8 +60,18 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 	
 	expand: function() {
 		this.states.set('expanded');
-	}
+	},
 	
+	isSelected: function() {
+		return this.states.is('selected');
+	},
+	
+	walkSubtree: function(callback) {
+		callback.call(this, this);
+		this.subtree.eachItem(function(node){
+			node.walkSubtree(callback);
+		});		
+	}
 	
 }, 'tree-item');
 
@@ -189,8 +200,16 @@ Dino.declare('Dino.widgets.Tree', 'Dino.widgets.TreeItem', {
 		
 //		var self = this;
 				
-	}
+	},
 	
+	setSelectedNode: function(node_to_select) {
+		this.walkSubtree(function(node){
+			if(node.isSelected()) node.states.clear('selected');
+		});
+		node_to_select.states.set('selected');
+		
+		//TODO  здесь еще можно запомнить выбранный узел
+	}
 	
 }, 'tree');
 
