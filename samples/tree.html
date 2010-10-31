@@ -52,7 +52,7 @@
 }
 
 .simple-tree .indent {
-	padding-left: 16px;
+/*	padding-left: 16px;*/
 }
 	
 </style>
@@ -63,7 +63,21 @@ $.dino({
 	
 	treeModel: {
 		node: {
-			expandOnShow: true
+			expandOnShow: true,
+			content: {
+				content: {
+					showLeftIcon: true					
+				}
+			}
+		},
+		indent: {
+			cls: 'ui-icon ui-icon-triangle-1-se',
+			text: '&nbsp;',
+			clickable: true,
+			onClick: function() {
+//				message.info('clicked');
+				this.parent.parent.parent.states.toggle('collapsed');
+			}
 		}
 	},
 /*	

@@ -64,7 +64,13 @@
 
 
 
+/*
+ * TREE
+ */
 
+.dino-tree-node.collapsed > ul {
+	display: none;
+}
 
 
 /*

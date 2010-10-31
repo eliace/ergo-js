@@ -272,12 +272,12 @@ span.r-icon {
 .dino-text-tree-item.has-subtree > div .collapse-expand-button {
 	background-image: url(img/ui-icons_222222_256x240.png);	
 }
-*/
+
 
 .dino-text-tree-item.collapsed > ul {
 	display: none;
 }
-/*
+
 .dino-text-tree-item-subtree.collapsed {
 	display: none;
 }

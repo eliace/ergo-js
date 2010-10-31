@@ -3,6 +3,7 @@
 Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 
 	defaultOptions: {
+		cls: 'dino-tree-node',
 		components: {
 //			content: {
 //				dtype: 'text'
@@ -71,7 +72,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	
 	
 	defaultOptions: {
-		baseCls: 'dino-basic-tree-node',
+//		baseCls: 'dino-basic-tree-node',
 		components: {
 /*	
 			button: {
@@ -90,12 +91,24 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 						weight: 0,
 						dtype: 'box',
 						wrapEl: '<span></span>',
+						layout: {
+							dtype: 'bar-layout',
+							clearfix: false
+						},
 						defaultItem: {
 							dtype: 'text',
 							cls: 'indent'
 						},
 						items: []
-					},
+					},					
+//					button: {
+//						weight: 1,
+//						dtype: 'icon',
+//						clickable: true,
+//						onClick: function() {
+//							this.parent.parent.states.toggle('collapsed');
+//						}										
+//					},
 					content: {
 						dtype: 'text-item'						
 					}
@@ -123,7 +136,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 		var o = this.options;
 		
 		if('indent' in o) {
-			for(var i = o.indent-1; i >= 0; i--) o.components.content.components.indent.items.push({cls: 'indent-'+i});
+			for(var i = o.indent-1; i >= 0; i--) o.components.content.components.indent.items.push({cls: 'indent-'+i, indent: i});
 			o.components.subtree.defaultItem.indent = o.indent+1;
 		}
 	},
@@ -145,10 +158,10 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 //			e.translateStateTo(this.subtree);
 //		});
 
-		this.content.el.click(function(){
-			if(self.options.toggleOnClick)
-				self.states.toggle('collapsed');
-		});		
+//		this.content.el.click(function(){
+//			if(self.options.toggleOnClick)
+//				self.states.toggle('collapsed');
+//		});		
 	},
 	
 	_afterBuild: function() {
@@ -185,7 +198,8 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 			}
 		},
 		treeModel: {
-			node: {}
+			node: {},
+			indent: {}
 		}
 	},
 	
@@ -193,7 +207,17 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 //		Dino.widgets.Tree.superclass._init.apply(this, arguments);
 		this.constructor.superclass._init.apply(this, arguments);
 		
-		Dino.utils.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node);
+		Dino.utils.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node, {
+			components: {
+				content: {
+					components: {
+						indent: {
+							defaultItem: o.treeModel.indent
+						}
+					}
+				}			
+			}
+		});
 		
 		if('subtree' in o)
 			o.components.content.subtree = o.subtree;
