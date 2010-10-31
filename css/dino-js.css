@@ -270,13 +270,20 @@
  * COLUMN LAYOUT
  */
 [layout='column'] {
-	display: table-cell;
+	display: table;
 /*	vertical-align: middle;*/
+	width: 100%;
 }
 
 
 [layout='column'] > div {
-	display: block;
+	display: table-row;
+}
+
+
+[layout='column'] > div > div {
+	display: table-cell;
+	height: 100%;
 }
 
 

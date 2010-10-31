@@ -3,7 +3,7 @@
 
 Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	
-	_html: function() { return '<div></div>'; },	
+	_html: function() { return '<span></span>'; },	
 	
 	defaultOptions: {
 		cls: 'dino-text-item',

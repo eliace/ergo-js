@@ -36,7 +36,7 @@
 <style>	
 
 .simple-tree-node-content span {
-	margin-left: 20px;
+/*	margin-left: 20px;*/
 }
 
 .simple-tree-node-content .dino-icon {
@@ -44,15 +44,31 @@
 }
 
 .simple-tree-node > ul{
-	padding-left: 30px;
+	/*padding-left: 30px;*/
+}
+
+.simple-tree .dino-basic-tree-node-content:hover {
+	background-color: #ffc;
+}
+
+.simple-tree .indent {
+	padding-left: 16px;
 }
 	
 </style>
 <script>
 $.dino({
   dtype: 'tree',
+	cls: 'simple-tree',
 	
+	treeModel: {
+		node: {
+			expandOnShow: true
+		}
+	},
+/*	
   defaultSubItem: {
+
     dtype: 'text-tree-item',
     cls: 'simple-tree-node',
     components: {
@@ -66,15 +82,17 @@ $.dino({
             }
           }
         },
-        cls: 'simple-tree-node-content'
+        cls: 'simple-tree-node-content',
+				showLeftIcon: true
       }
     },
+
     expandOnShow: true,
     onStateChanged: function(e) {
-      e.translateStateTo(this.content.leftIcon);
+//      e.translateStateTo(this.content.leftIcon);
     }
   },
-	
+*/	
   subtree: [{
     label: '1 этаж',
     state: 'brick',
@@ -122,7 +140,7 @@ $.dino({
 <style>	
 
 .simple-tree-node-content span {
-	margin-left: 20px;
+/*	margin-left: 20px;*/
 	cursor: default;
 }
 
@@ -135,7 +153,7 @@ li.file > .simple-tree-node-content span:hover {
 }
 
 .simple-tree-node > ul{
-	padding-left: 30px;
+/*	padding-left: 30px;*/
 }
 	
 </style>
@@ -184,7 +202,7 @@ var treeData = [{
   }]
 }];	
 	
-	
+/*	
 $.dino({
   dtype: 'tree',
 	
@@ -201,6 +219,7 @@ $.dino({
   },
 		
   defaultSubItem: {
+
     dtype: 'text-tree-item',
     cls: 'simple-tree-node',
     content: {
@@ -217,9 +236,10 @@ $.dino({
       cls: 'simple-tree-node-content',
       dataId: 'name'
     },
+
 //    expandOnShow: true,
     onStateChanged: function(e) {
-      e.translateStateTo(this.content.leftIcon);
+//      e.translateStateTo(this.content.leftIcon);
     },
     optBinding: function(o) {
       o.state = this.data.get('type');
@@ -228,6 +248,7 @@ $.dino({
     }
   }
 });
+*/
 </script>	
 <div class="html">
 	

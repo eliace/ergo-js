@@ -35,10 +35,35 @@ Dino.declare('Dino.layouts.RowLayout', 'Dino.Layout', {
 
 
 
-Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.RowLayout', {
+Dino.declare('Dino.layouts.ColumnLayout', 'Dino.Layout', {
 	
 	defaultOptions: {
 		name: 'column'
+	},
+	
+	attach: function() {
+		Dino.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
+		
+		this.el = $('<div></div>');
+		
+		this.container.el.append(this.el);
+	},
+	
+	detach: function() {
+		Dino.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
+		this.el.remove();
+	},
+	
+	insert: function(item, key) {
+		this.el.append( item.el );		
+	},
+	
+	remove: function(item) {
+		item.el.remove();
+	},
+	
+	clear: function() {
+		this.el.empty();
 	}
 	
 /*
@@ -67,4 +92,4 @@ Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.RowLayout', {
 */	
 	
 	
-}, 'column-layout');
+}, 'column-layout'); 

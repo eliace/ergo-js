@@ -26,6 +26,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 		this.container.el.empty();
 	}
 	
+	
 //	update: function(){
 //		while(this.deferred.length > 0) {
 //			this.container.el.append( this.deferred.pop().el );

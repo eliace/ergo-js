@@ -1,27 +1,17 @@
 
 
-/*
-Dino.declare('Dino.containers.TreeBox', 'Dino.Container', {
-	
-	_html: function() { return '<ul></ul>'; }
-	
-}, 'tree-box');
-*/
-
-
-
-Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
+Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 
 	defaultOptions: {
 		components: {
-			content: {
-				dtype: 'text'
-			},
+//			content: {
+//				dtype: 'text'
+//			},
 			subtree: {
 				dtype: 'container',
 				wrapEl: '<ul></ul>',
 				defaultItem: {
-					dtype: 'tree-item'
+					dtype: 'tree-node'
 				}
 			}
 		}
@@ -31,10 +21,9 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 	_html: function() { return '<li></li>'; },
 	
 	_init: function() {
-		Dino.widgets.TreeItem.superclass._init.apply(this, arguments);
+		Dino.widgets.TreeNode.superclass._init.apply(this, arguments);
 		
 		var o = this.options;
-
 		
 		if('subtree' in o){
 			o.components.subtree.items = o.subtree;
@@ -48,7 +37,7 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 	
 	
 	_opt: function(o) {
-		Dino.widgets.TreeItem.superclass._opt.apply(this, arguments);
+		Dino.widgets.TreeNode.superclass._opt.apply(this, arguments);
 		
 		this.isLeaf = o.isLeaf;
 				
@@ -73,17 +62,18 @@ Dino.declare('Dino.widgets.TreeItem', 'Dino.Widget', {
 		});		
 	}
 	
-}, 'tree-item');
+}, 'tree-node');
 
 
 
 
-Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
+Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	
 	
 	defaultOptions: {
-		baseCls: 'dino-text-tree-item',
+		baseCls: 'dino-basic-tree-node',
 		components: {
+/*	
 			button: {
 				weight: 3,
 				dtype: 'icon',
@@ -92,14 +82,30 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 					this.parent.states.toggle('collapsed');
 				}				
 			},
+*/			
 			content: {
-				weight: 1,
-				dtype: 'text-item'
+				dtype: 'box',
+				components: {	
+					indent: {
+						weight: 0,
+						dtype: 'box',
+						wrapEl: '<span></span>',
+						defaultItem: {
+							dtype: 'text',
+							cls: 'indent'
+						},
+						items: []
+					},
+					content: {
+						dtype: 'text-item'						
+					}
+				},
+				weight: 1
 			},
 			subtree: {
 				weight: 2,
 				defaultItem: {
-					dtype: 'text-tree-item'
+					dtype: 'basic-tree-node'
 				}
 			}
 		},
@@ -110,23 +116,34 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 		expandOnShow: false
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.TextTreeItem.superclass._opt.call(this, o);
+	
+	_init: function() {
+		Dino.widgets.BasicTreeNode.superclass._init.apply(this, arguments);
 		
-		if('label' in o) this.content.opt('label', o.label);
-		if('format' in o) this.content.opt('format', o.format);
+		var o = this.options;
+		
+		if('indent' in o) {
+			for(var i = o.indent-1; i >= 0; i--) o.components.content.components.indent.items.push({cls: 'indent-'+i});
+			o.components.subtree.defaultItem.indent = o.indent+1;
+		}
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.BasicTreeNode.superclass._opt.call(this, o);
+		
+		if('label' in o) this.content.content.opt('label', o.label);
+		if('format' in o) this.content.content.opt('format', o.format);
 				
-//		if(o.showLeftPanel) this.content.states.set('left-panel');
 	},
 	
 	_events: function(self) {
-		Dino.widgets.TextTreeItem.superclass._events.apply(this, arguments);
+		Dino.widgets.BasicTreeNode.superclass._events.apply(this, arguments);
 		
-		this.events.reg('onStateChanged', function(e) {
-			e.translateStateTo(this.button);
+//		this.events.reg('onStateChanged', function(e) {
+//			e.translateStateTo(this.button);
 //			e.translateStateTo(this.content);
 //			e.translateStateTo(this.subtree);
-		});
+//		});
 
 		this.content.el.click(function(){
 			if(self.options.toggleOnClick)
@@ -135,41 +152,82 @@ Dino.declare('Dino.widgets.TextTreeItem', 'Dino.widgets.TreeItem', {
 	},
 	
 	_afterBuild: function() {
-		Dino.widgets.TextTreeItem.superclass._afterBuild.apply(this, arguments);
+		Dino.widgets.BasicTreeNode.superclass._afterBuild.apply(this, arguments);
 		
 		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
 	},
 	
 	getText: function() {
-		return this.content.getText();
+		return this.content.content.getText();
 	}
 	
 	
-}, 'text-tree-item');
+}, 'basic-tree-node');
 
 
 
 
 
 
-Dino.declare('Dino.widgets.Tree', 'Dino.widgets.TreeItem', {
+
+Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
+	
+	_html: function() { return '<div></div>'; },
+	
+	defaultOptions: {
+		cls: 'tree',
+		components: {
+			content: {
+				dtype: 'basic-tree-node',
+				indent: 0,
+				expandOnShow: true,
+				defaultSubItem: {}
+			}
+		},
+		treeModel: {
+			node: {}
+		}
+	},
+	
+	_init: function(o) {
+//		Dino.widgets.Tree.superclass._init.apply(this, arguments);
+		this.constructor.superclass._init.apply(this, arguments);
+		
+		Dino.utils.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node);
+		
+		if('subtree' in o)
+			o.components.content.subtree = o.subtree;
+			
+	}
+	
+	
+	
+}, 'tree');
+
+
+/*
+Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 	
 	_html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		cls: 'tree',
 		defaultSubItem: {
-			dtype: 'text-tree-item',
-			components: {
-				button: {
-					states: {
-						'collapsed': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
-						'expanded': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] },
-						'hover': function() { if(!this.parent.isLeaf) return ['ui-icon-lightgray', 'ui-icon']; }
-					}
-				}
-			}
-		}
+			dtype: 'text-tree-item'
+			
+//			components: {
+//				button: {
+//					states: {
+//						'collapsed': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
+//						'expanded': function() { if(!this.parent.isLeaf) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] },
+//						'hover': function() { if(!this.parent.isLeaf) return ['ui-icon-lightgray', 'ui-icon']; }
+//					}
+//				}
+//			}
+			
+		},
+		indent: 0,
+		expandOnShow: true
 	},
 	
 	_init: function() {
@@ -211,14 +269,35 @@ Dino.declare('Dino.widgets.Tree', 'Dino.widgets.TreeItem', {
 		//TODO  здесь еще можно запомнить выбранный узел
 	}
 	
+}, 'xtree');
+*/
+
+
+
+
+
+
+
+
+/**
+ * Простое дерево с отступами.
+ *
+ */
+Dino.declare('Dino.widgets.SimpleTree', 'Dino.Widget', {}, 'simple-tree');
+
+
+/*
+Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
+	
+	defaultOptions: {
+		cls: 'tree'
+	
+	
+	}
+	
+	
+	
 }, 'tree');
-
-
-
-
-
-
-
-
+*/
 
 
