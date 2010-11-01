@@ -34,26 +34,11 @@
 
 <div id="sample-simple-tree">
 <style>	
-
-.simple-tree-node-content span {
-/*	margin-left: 20px;*/
+/*
+.simple-tree-node > ul {
+	padding-left: 20px;
 }
-
-.simple-tree-node-content .dino-icon {
-	margin-top: -10px;
-}
-
-.simple-tree-node > ul{
-	/*padding-left: 30px;*/
-}
-
-.simple-tree .dino-basic-tree-node-content:hover {
-	background-color: #ffc;
-}
-
-.simple-tree .indent {
-/*	padding-left: 16px;*/
-}
+*/
 	
 </style>
 <script>
@@ -63,50 +48,32 @@ $.dino({
 	
 	treeModel: {
 		node: {
+			cls: 'simple-tree-node',
 			expandOnShow: true,
-			content: {
+			components: {
+				button: {
+					cls: 'ui-icon',
+					states: {
+						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
+						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
+						'hover': ['ui-icon-blue', 'ui-icon']
+					}
+				},
 				content: {
-					showLeftIcon: true					
-				}
-			}
-		},
-		indent: {
-			cls: 'ui-icon ui-icon-triangle-1-se',
-			text: '&nbsp;',
-			clickable: true,
-			onClick: function() {
-//				message.info('clicked');
-				this.parent.parent.parent.states.toggle('collapsed');
+					showLeftIcon: true,
+					components: {
+						leftIcon: {
+							states: {
+	              'brick': 'led-icon-brick',
+	              'door': 'led-icon-door',
+	              'user': 'led-icon-user'								
+							}
+						}
+					}
+				}				
 			}
 		}
 	},
-/*	
-  defaultSubItem: {
-
-    dtype: 'text-tree-item',
-    cls: 'simple-tree-node',
-    components: {
-      content: {
-        components: {
-          leftIcon: {
-            states: {
-              'brick': 'led-icon-brick',
-              'door': 'led-icon-door',
-              'user': 'led-icon-user'
-            }
-          }
-        },
-        cls: 'simple-tree-node-content',
-				showLeftIcon: true
-      }
-    },
-
-    expandOnShow: true,
-    onStateChanged: function(e) {
-//      e.translateStateTo(this.content.leftIcon);
-    }
-  },
-*/	
   subtree: [{
     label: '1 этаж',
     state: 'brick',
@@ -115,21 +82,21 @@ $.dino({
       label: 'каб. 111',
       state: 'door',
       subtree: [{
-        state: 'user',
-        label: 'Волков А.А.',
-				isLeaf: true
+        state: ['user', 'leaf'],
+        label: 'Волков А.А.'
+//				isLeaf: true
       }]
     }, {
       label: 'каб. 112',
       state: 'door',
       subtree: [{
-        state: 'user',
-        label: 'Куницына А.Б.',
-				isLeaf: true
+        state: ['user', 'leaf'],
+        label: 'Куницына А.Б.'
+//				isLeaf: true
       }, {
-        state: 'user',
-        label: 'Медведев Р.В.',
-				isLeaf: true
+        state: ['user', 'leaf'],
+        label: 'Медведев Р.В.'
+//				isLeaf: true
       }]
     }, {
       label: 'каб. 113',
@@ -153,23 +120,11 @@ $.dino({
 <div id="sample-binding-tree">
 <style>	
 
-.simple-tree-node-content span {
-/*	margin-left: 20px;*/
-	cursor: default;
+.dynamic-tree .dino-tree-node-content:hover {
+	background-color: #ffa;
 }
 
-li.file > .simple-tree-node-content span:hover {
-	background-color: #6af;
-}
 
-.simple-tree-node-content .dino-icon {
-	margin-top: -10px;
-}
-
-.simple-tree-node > ul{
-/*	padding-left: 30px;*/
-}
-	
 </style>
 <script>
 	
@@ -216,14 +171,52 @@ var treeData = [{
   }]
 }];	
 	
-/*	
+
 $.dino({
   dtype: 'tree',
+	cls: 'dynamic-tree',
 	
   data: treeData,
 	
   isDynamic: true,
 	
+	treeModel: {
+		node: {
+			cls: 'dynamic-tree-node',
+			components: {
+				button: {
+					cls: 'ui-icon',
+					states: {
+						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
+						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
+					}
+				},
+		    content: {
+		      components: {
+		        leftIcon: {
+		          states: {
+		            'computer': 'led-icon-computer',
+		            'drive': 'led-icon-drive',
+		            'folder': 'led-icon-folder',
+		            'file': 'led-icon-page',
+		          }
+		        },
+		      },
+					showLeftIcon: true,
+		      dataId: 'name'
+		    }				
+			},
+			binding: {
+				states: function(s) {
+					var type = this.data.get('type');
+					s.set(type);
+					if(type == 'file') s.set('leaf');
+				}
+			}
+		}
+	}
+	
+/*	
   components: {
     subtree: {
       defaultItem: {
@@ -231,7 +224,7 @@ $.dino({
       }			
     }
   },
-		
+
   defaultSubItem: {
 
     dtype: 'text-tree-item',
@@ -254,15 +247,16 @@ $.dino({
 //    expandOnShow: true,
     onStateChanged: function(e) {
 //      e.translateStateTo(this.content.leftIcon);
-    },
+    },		
     optBinding: function(o) {
       o.state = this.data.get('type');
       o.isLeaf = (this.data.get('type') == 'file');
       o.toggleOnClick = (this.data.get('type') != 'file');
     }
   }
+*/  
 });
-*/
+
 </script>	
 <div class="html">
 	

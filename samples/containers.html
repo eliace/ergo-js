@@ -115,6 +115,69 @@ Dino.widget({
 
 
 
+<div id="sample-styled-tabs">
+<style>
+
+
+.dino-tabs.styled-tabs {
+	height: 30px;
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+	
+.styled-tab {
+/*	padding: 0 20px;*/
+	margin-right: 2px;
+/*	float: left;*/
+	display: inline;
+	list-style: none outside none;
+	height: 30px;
+}
+	
+	
+	
+</style>
+<script>
+Dino.widget({
+  dtype: 'box',
+  items: [{
+    dtype: 'tabs',
+		cls: 'styled-tabs dino-border-all',
+    defaultItem: {
+			cls: 'styled-tab',
+//			content: {
+//				dtype: 'box',
+				content: {
+					dtype: 'text'
+//				}
+			}
+    },
+    items: [
+      {  },
+      {	 },
+      {	 }
+    ],
+    onTabChanged: function() {
+      message.info('Выбрана закладка ' + this.currentTab.index);
+    }
+  }]
+});		
+	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+
 
 <!-- Form -->
 <div id="sample-form">
@@ -317,6 +380,9 @@ samplePage([{
 }, {
 	name: 'Закладки',
 	id: '#sample-tabs'
+}, {
+	name: 'Стилизованные закладки',
+	id: '#sample-styled-tabs'
 }, {
 	name: 'Форма',
 	id: '#sample-form'

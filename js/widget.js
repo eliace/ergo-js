@@ -168,6 +168,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_afterBuild: function() {
+		
+		var o = this.options;
+		var self = this;
+		
+		if('state' in o) {
+//			this.states.set(o.state);
+			var a = Dino.isArray(o.state) ? o.state : [o.state];
+			Dino.each(a, function(state) { self.states.set(state); });
+		}
+		
 	},
 
 	_afterRender: function() {
@@ -249,13 +259,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 		
-		// экспериментальный код
-//		if('stateEvents' in o){
-//			var events = o.stateEvents;
-//			for(var i in events){
-//				this.el.bind(i, function(e){ $(this).dino().states.toggle(events[i]); });
-//			}
-//		}
 		
 		var regexp = /^on\S/;
 		for(var i in o){
@@ -296,11 +299,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			
 		}
 		
-		if('state' in o) {
-			var a = Dino.isArray(o.state) ? o.state : [o.state];
-			Dino.each(a, function(state) { self.states.set(state) });
-		}
-
 		
 		//TODO обработчики событий должны быть выключаемыми, поэтому нужно запоминать их, чтобы потом удалить
 		
@@ -329,9 +327,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 						if(w){
 							var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
 							if(w){
-//								w.contextMenu.events.fire('onBeforeShow', {'widget': w});
-//								w.contextMenu.targetWidget = w;
-//								w.contextMenu.events.fire('onBeforeShow');
 								w.events.fire('onContextMenu', new Dino.events.CancelEvent());
 								if(!e.isCanceled){
 									w.contextMenu.sourceWidget = w;
@@ -347,22 +342,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 		
-		
-		
-/*		
-		if('data' in o) {
-			if('dataId' in o){
-				this.data = (o.data instanceof Dino.data.DataSource) ? o.data._item(o.dataId) : new Dino.data.DataSource(o.data, o.dataId);
-			}
-			else {
-				this.data = (o.data instanceof Dino.data.DataSource) ? o.data : new Dino.data.DataSource(o.data);
-			}
-			// FIXME
-//			this.data.addEvent('onValueChanged', function() {self._dataChanged(); });
-//			this.fireEvent('onDataChanged', new Dino.events.Event());
-		}
-*/		
-		
+				
 	},
 	
 	
@@ -484,12 +464,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
 		}
 
-//		if('stateId' in o){
-//			this.stateData = (data instanceof Dino.data.DataSource) ? data.item(o.stateId) : new Dino.data.DataSource(data, o.stateId);
-//		}
-//		else {
-//			this.stateData = this.data;
-//		}
 		
 		
 //		if('defaultValue' in o){
@@ -578,11 +552,22 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //		if(!this.options.autoBinding) return;
 //		if(this.suppressDataChange) return;
 		
-		if(this.options.optBinding) {
+		var binding = this.options.binding;
+		
+		if(binding.options){
 			var o = {};
-			this.options.optBinding.call(this, o);
+			binding.options.call(this, o);
 			this.opt(o);
 		}
+		if(binding.states)
+			binding.states.call(this, this.states);
+		
+		
+//		if(this.options.optBinding) {
+//			var o = {};
+//			this.options.optBinding.call(this, o);
+//			this.opt(o);
+//		}
 				
 //		if(this.options.stateBinding){
 //			this.states.set( this.getStateValue() );

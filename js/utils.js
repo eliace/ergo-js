@@ -71,8 +71,9 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 		Dino.events.StateEvent.superclass.initialize.call(this, {'method': method, 'args': args});
 	},
 	
-	translateStateTo: function(target) {
-		target.states[this.method].apply(target.states, this.args);
+	translate: function(target, filter){
+		if(arguments.length == 1 || Dino.in_array(filter, this.args[0]))
+			target.states[this.method].apply(target.states, this.args);
 	}
 	
 });

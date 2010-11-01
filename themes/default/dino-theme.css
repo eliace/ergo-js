@@ -208,7 +208,9 @@ span.r-icon {
 	margin-right: 20px;
 }
 
-
+.dino-text-item {
+	cursor: default;
+}
 
 
 /*
@@ -248,45 +250,26 @@ span.r-icon {
  * TREE
  */
 
-.dino-text-tree-item {
+.dino-tree-node {
 	list-style: none outside none;
 	position: relative;
 }
 
-.dino-text-tree-item-content {
-	margin-left: 20px;
-/*	display: inline;*/
-}
-
-.dino-text-tree-item-content span {
-}
-
-.dino-text-tree-item-button {
+.dino-tree-node-button {
 	position: absolute;
 	cursor: pointer;
 	top: 0;
 }
 
-
-/*
-.dino-text-tree-item.has-subtree > div .collapse-expand-button {
-	background-image: url(img/ui-icons_222222_256x240.png);	
+.dino-tree-node-content {
+	margin-left: 20px;
 }
 
 
-.dino-text-tree-item.collapsed > ul {
-	display: none;
-}
-
-.dino-text-tree-item-subtree.collapsed {
-	display: none;
-}
-*/
 .tree ul {
 	margin: 0;
-	padding-left: 0;
+	padding-left: 20px;
 }
-
 
 
 /*

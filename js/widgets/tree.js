@@ -5,9 +5,6 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 	defaultOptions: {
 		cls: 'dino-tree-node',
 		components: {
-//			content: {
-//				dtype: 'text'
-//			},
 			subtree: {
 				dtype: 'container',
 				wrapEl: '<ul></ul>',
@@ -40,7 +37,7 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 	_opt: function(o) {
 		Dino.widgets.TreeNode.superclass._opt.apply(this, arguments);
 		
-		this.isLeaf = o.isLeaf;
+//		this.isLeaf = o.isLeaf;
 				
 	},
 	
@@ -74,49 +71,26 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	defaultOptions: {
 //		baseCls: 'dino-basic-tree-node',
 		components: {
-/*	
 			button: {
-				weight: 3,
+				weight: 1,
 				dtype: 'icon',
+				cls: 'dino-tree-node-button',
+				states: {
+					'leaf': 'dino-hidden'
+				},
 				clickable: true,
 				onClick: function() {
 					this.parent.states.toggle('collapsed');
-				}				
+				}
 			},
-*/			
 			content: {
-				dtype: 'box',
-				components: {	
-					indent: {
-						weight: 0,
-						dtype: 'box',
-						wrapEl: '<span></span>',
-						layout: {
-							dtype: 'bar-layout',
-							clearfix: false
-						},
-						defaultItem: {
-							dtype: 'text',
-							cls: 'indent'
-						},
-						items: []
-					},					
-//					button: {
-//						weight: 1,
-//						dtype: 'icon',
-//						clickable: true,
-//						onClick: function() {
-//							this.parent.parent.states.toggle('collapsed');
-//						}										
-//					},
-					content: {
-						dtype: 'text-item'						
-					}
-				},
-				weight: 1
+				dtype: 'text-item',
+				cls: 'dino-tree-node-content',
+				selectable: false,
+				weight: 2
 			},
 			subtree: {
-				weight: 2,
+				weight: 3,
 				defaultItem: {
 					dtype: 'basic-tree-node'
 				}
@@ -130,33 +104,26 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	},
 	
 	
-	_init: function() {
-		Dino.widgets.BasicTreeNode.superclass._init.apply(this, arguments);
-		
-		var o = this.options;
-		
-		if('indent' in o) {
-			for(var i = o.indent-1; i >= 0; i--) o.components.content.components.indent.items.push({cls: 'indent-'+i, indent: i});
-			o.components.subtree.defaultItem.indent = o.indent+1;
-		}
+	_init: function(o) {
+		Dino.widgets.BasicTreeNode.superclass._init.apply(this, arguments);		
 	},
 	
 	_opt: function(o) {
 		Dino.widgets.BasicTreeNode.superclass._opt.call(this, o);
 		
-		if('label' in o) this.content.content.opt('label', o.label);
-		if('format' in o) this.content.content.opt('format', o.format);
+		if('label' in o) this.content.opt('label', o.label);
+		if('format' in o) this.content.opt('format', o.format);
+		if('isLeaf' in o) this.button.states.set('leaf');
 				
 	},
 	
 	_events: function(self) {
 		Dino.widgets.BasicTreeNode.superclass._events.apply(this, arguments);
 		
-//		this.events.reg('onStateChanged', function(e) {
-//			e.translateStateTo(this.button);
-//			e.translateStateTo(this.content);
-//			e.translateStateTo(this.subtree);
-//		});
+		this.events.reg('onStateChanged', function(e) {
+			e.translate(this.button);
+			e.translate(this.content.leftIcon);
+		});
 
 //		this.content.el.click(function(){
 //			if(self.options.toggleOnClick)
@@ -167,11 +134,13 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	_afterBuild: function() {
 		Dino.widgets.BasicTreeNode.superclass._afterBuild.apply(this, arguments);
 		
-		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
+		(this.options.expandOnShow) ? this.states.set('expanded') : this.states.set('collapsed');
+		
+//		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
 	},
 	
 	getText: function() {
-		return this.content.content.getText();
+		return this.content.getText();
 	}
 	
 	
@@ -182,7 +151,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 
 
 
-
+/*
 Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 	
 	_html: function() { return '<div></div>'; },
@@ -227,7 +196,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 	
 	
 }, 'tree');
-
+*/
 
 /*
 Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
@@ -307,7 +276,56 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
  * Простое дерево с отступами.
  *
  */
-Dino.declare('Dino.widgets.SimpleTree', 'Dino.Widget', {}, 'simple-tree');
+Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
+	
+	defaultOptions: {
+		cls: 'tree',
+		defaultItem: {
+			dtype: 'basic-tree-node',
+			indent: 0,
+			expandOnShow: true,
+			defaultSubItem: {}
+		},
+		treeModel: {
+			node: {}
+		}		
+	},
+	
+	
+	_init: function(o){
+		this.constructor.superclass._init.apply(this, arguments);
+		
+		
+		if('subtree' in o) 
+			o.items = o.subtree;
+		
+		if('isDynamic' in o) {
+			
+			o.dynamic = true;
+			
+			var dynamicItem = {
+				components: {
+					subtree: {
+						dynamic: true,
+						dataId: 'children'
+					}
+				}
+			};
+			
+			Dino.utils.overrideOpts(o.defaultItem, dynamicItem);
+			Dino.utils.overrideOpts(o.defaultItem.defaultSubItem, dynamicItem);
+		}
+		
+		
+		Dino.utils.overrideOpts(o.defaultItem, o.treeModel.node);
+		Dino.utils.overrideOpts(o.defaultItem.defaultSubItem, o.treeModel.node);
+		
+	}
+	
+	
+	
+	
+}, 'tree');
 
 
 /*
