@@ -83,6 +83,8 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			this.items = {};
 			
 			
+			var oldValue = ('id' in this) ? this.source.val()[this.id] : this.source;
+			
 			('id' in this) ? this.source.val()[this.id] = newValue : this.source = newValue;
 			
 //			if(this.source instanceof Dino.data.DataSource){
@@ -91,7 +93,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 //			else {
 //				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 //			}
-			this.events.fire('onValueChanged', {});
+			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
 			if(this.source instanceof Dino.data.DataSource)
 				this.source.events.fire('onItemChanged', {item: this});
@@ -123,6 +125,11 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	each: function(callback) {
 		Dino.each(this.val(), callback);
 	},
+	
+	each_item: function(callback) {
+		Dino.each(this.items, callback);
+	},
+	
 	
 	item: function(i) {
 		
@@ -186,7 +193,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 
 			if(this.stop_dirty) return;
 			
-			for(var i in this.items) this.items.dirty(false);
+			for(var i in this.items) this.items[i].dirty(false);
 		}
 		
 	}

@@ -320,8 +320,24 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 		Dino.utils.overrideOpts(o.defaultItem, o.treeModel.node);
 		Dino.utils.overrideOpts(o.defaultItem.defaultSubItem, o.treeModel.node);
 		
-	}
+	},
 	
+	setSelectedNode: function(node_to_select) {
+		
+		this.eachItem(function(item){
+			item.walkSubtree(function(node){
+				if(node.isSelected()){
+					node.states.clear('selected');
+					node.events.fire('onUnselected');
+				}
+			});
+		});
+		
+		node_to_select.states.set('selected');
+		node_to_select.events.fire('onSelected');
+		
+		//TODO  здесь еще можно запомнить выбранный узел
+	}
 	
 	
 	

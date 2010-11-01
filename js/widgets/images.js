@@ -132,6 +132,9 @@ Dino.declare('Dino.widgets.Icon', Dino.Widget, {
 	_opt: function(o) {
 		Dino.widgets.Icon.superclass._opt.call(this, o);
 		
+//		if('iconCls' in o) {
+//		}
+//		
 //		if('iconSize' in o){
 //			this.el.css({'width': o.iconSize, 'height': o.iconSize});
 //		}

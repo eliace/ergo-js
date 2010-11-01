@@ -51,14 +51,6 @@ $.dino({
 			cls: 'simple-tree-node',
 			expandOnShow: true,
 			components: {
-				button: {
-					cls: 'ui-icon',
-					states: {
-						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
-						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
-						'hover': ['ui-icon-blue', 'ui-icon']
-					}
-				},
 				content: {
 					showLeftIcon: true,
 					components: {
@@ -121,7 +113,7 @@ $.dino({
 <style>	
 
 .dynamic-tree .dino-tree-node-content:hover {
-	background-color: #ffa;
+	background-color: #fea;
 }
 
 
@@ -184,13 +176,6 @@ $.dino({
 		node: {
 			cls: 'dynamic-tree-node',
 			components: {
-				button: {
-					cls: 'ui-icon',
-					states: {
-						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
-						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
-					}
-				},
 		    content: {
 		      components: {
 		        leftIcon: {

@@ -12,7 +12,10 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 				weight: 1,
 				dtype: 'tabs',
 				defaultItem: {
-					cls: 'dino-bg-3'
+					cls: 'dino-bg-3 dino-border-all',
+					content: {
+						dtype: 'text-item'
+					}
 				},
 				onTabChanged: function(){
 					// переключаем страницу при смене закладки
@@ -22,7 +25,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 			pages: {
 				weight: 2,
 				dtype: 'box',
-				layout: 'stack-layout'
+				layout: 'stack-layout',
+				cls: 'dino-border-all'
 			}
 		}
 	},
@@ -83,6 +87,10 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 		var tabOpts = (item instanceof Dino.Widget) ? item.options.tab : item.tab;
 		this.tabs.addItem( tabOpts || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
 		this.pages.addItem( item );// Dino.utils.overrideOpts({}, this.options.pageItem, item));
+	},
+	
+	setActiveTab: function(i) {
+		this.tabs.activateTab(i);
 	}
 	
 	

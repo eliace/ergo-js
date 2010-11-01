@@ -290,6 +290,7 @@
 [layout='column'] > div > div {
 	display: table-cell;
 	height: 100%;
+	vertical-align: top;
 }
 
 

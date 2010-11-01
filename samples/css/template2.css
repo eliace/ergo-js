@@ -33,8 +33,14 @@ body input {
 	border-bottom: 1px dotted #aaa;
 	background-image: none;
 	background-color: #fff;
+	color: #aaa;
 }
 
+
+.widget-tabs li.active {
+	font-weight: bold;
+	color: #666;
+}
 
 .widget-pages {
 	margin-left: 170px;

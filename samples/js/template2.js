@@ -87,7 +87,7 @@ function samplePage(samples) {
 		// Макет страницы виджета
 		var page = $.dino({
 			dtype: 'box',
-			tab: {text: sample.name},
+			tab: {content: {label: sample.name} },
 			items: [{
 				tag: 'preview',
 				cls: 'preview'

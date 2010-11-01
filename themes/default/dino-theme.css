@@ -88,12 +88,20 @@
  * Tabs
  */
 
-.dino-tabs.top, .dino-tabs.bottom {
+.dino-tabs.top {
 	height: 25px;
 	position: relative;
 	margin: 0;
-	padding: 0;
+	padding: 4px 0 0 0;
 }
+
+.dino-tabs.bottom {
+	height: 25px;
+	position: relative;
+	margin: 0;
+	padding: 0 0 4px 0;
+}
+
 
 .dino-tabs li {
 	text-align: center;
@@ -101,22 +109,25 @@
 	list-style: none outside none;	
 }
 
-.dino-tabs li.active {
-	background-color: #fff;
-	background-image: none;
-}
-
-
 .dino-tabs.top li {
 	height: 24px;
 	padding: 0 20px;
-	margin-right: 3px;
+	margin-left: 3px;
 	float: left;
 	border-bottom: 0 !important;
 }
 
+
+.dino-tabs li.active {
+	background-color: #fff;
+	background-image: none;
+	font-weight: bold;
+}
+
 .dino-tabs.top li.active {
 	padding-bottom: 1px !important;
+	margin-top: -4px;
+	padding-top: 4px; /* 24px 0 24px;*/
 }
 
 
@@ -137,6 +148,8 @@
 .dino-tabs.bottom li.active {
 	padding-top: 1px !important;
 	margin-top:0px;
+	margin-bottom: -4px;
+	padding: 0 24px 4px 24px;
 }
 
 
@@ -147,7 +160,7 @@
 	height: 25px;
 	position: absolute;
 	margin: 0;
-	padding: 0;
+	padding: 0;/* 0 0 4px;*/
 }
 
 .dino-tabs.left li {
@@ -209,7 +222,7 @@ span.r-icon {
 }
 
 .dino-text-item {
-	cursor: default;
+/*	cursor: default;*/
 }
 
 
@@ -259,10 +272,34 @@ span.r-icon {
 	position: absolute;
 	cursor: pointer;
 	top: 0;
+	/* ui-icon */
+	background-image: url(img/ui-icons_222222_256x240.png);
+}
+
+.dino-tree-node.expanded > .dino-tree-node-button {
+	/* ui-icon-triangle-1-se */
+	background-position: -48px -16px;
+}
+
+.dino-tree-node.collapsed > .dino-tree-node-button {
+	/* ui-icon-triangle-1-e */
+	background-position: -32px -16px;
+}
+
+.dino-tree-node-button:hover {
+	background-image: url(img/ui-icons_2e83ff_256x240.png);	
 }
 
 .dino-tree-node-content {
 	margin-left: 20px;
+}
+
+.dino-tree-node-content:hover {
+	background-color: #fea;
+}
+
+.dino-tree-node.selected > .dino-tree-node-content {
+/*	background-color: #6af;*/
 }
 
 
@@ -296,6 +333,7 @@ span.r-icon {
 
 .dino-menu-item-content {
 	padding: 2px 10px;
+	display: block;
 }
 
 .dino-menu-item-content.left-panel span {
@@ -378,7 +416,7 @@ span.r-icon {
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
 .dino-icon-add { background-image: url(img/led/add.png); }
 
-.dino-icon-spinner { background-image: url(img/ajax-loader.png); }
+.dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
 
 
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
@@ -411,6 +449,7 @@ span.r-icon {
 .led-icon-package { background-image: url(img/led/package.png); }
 .led-icon-chart-organization { background-image: url(img/led/chart_organisation.png); }
 .led-icon-group { background-image: url(img/led/group.png); }
+.led-icon-cog { background-image: url(img/led/cog.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
