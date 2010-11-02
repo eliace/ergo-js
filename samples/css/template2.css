@@ -30,6 +30,8 @@ body input {
 	cursor: pointer;
 	border-right: 0 !important;
 	list-style: none outside none;
+	border-top: 1px dotted #fff;
+	border-left: 1px dotted #fff;
 	border-bottom: 1px dotted #aaa;
 	background-image: none;
 	background-color: #fff;
@@ -44,6 +46,7 @@ body input {
 
 .widget-pages {
 	margin-left: 170px;
+	border: 1px solid #fff;
 }
 
 
