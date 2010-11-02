@@ -161,6 +161,10 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', {
 			});
 		}, node0);
 		
+	},
+	
+	unreg_all: function(){
+		this.tree = new Dino.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);		
 	}
 	
 	

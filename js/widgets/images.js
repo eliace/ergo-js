@@ -121,10 +121,11 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 
 
 
-Dino.constants.ICON_16 = 16;
+//Dino.constants.ICON_16 = 16;
 
 
 Dino.declare('Dino.widgets.Icon', Dino.Widget, {
+	
 	defaultCls: 'dino-icon',
 	
 	_html: function() { return '<div/>'; },

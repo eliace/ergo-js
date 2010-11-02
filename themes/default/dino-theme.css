@@ -273,21 +273,22 @@ span.r-icon {
 	cursor: pointer;
 	top: 0;
 	/* ui-icon */
-	background-image: url(img/ui-icons_222222_256x240.png);
 }
 
 .dino-tree-node.expanded > .dino-tree-node-button {
 	/* ui-icon-triangle-1-se */
 	background-position: -48px -16px;
+	background-image: url(img/ui-icons_222222_256x240.png);
 }
 
 .dino-tree-node.collapsed > .dino-tree-node-button {
 	/* ui-icon-triangle-1-e */
 	background-position: -32px -16px;
+	background-image: url(img/ui-icons_888888_256x240.png);
 }
 
 .dino-tree-node-button:hover {
-	background-image: url(img/ui-icons_2e83ff_256x240.png);	
+	background-image: url(img/ui-icons_2e83ff_256x240.png) !important;	
 }
 
 .dino-tree-node-content {
@@ -295,7 +296,7 @@ span.r-icon {
 }
 
 .dino-tree-node-content:hover {
-	background-color: #fea;
+	background-color: #ffc;/*#fea;*/
 }
 
 .dino-tree-node.selected > .dino-tree-node-content {
@@ -314,6 +315,21 @@ span.r-icon {
  */
 .tree-grid {
 	
+}
+
+.dino-tree-grid-item > .dino-tree-node-button {
+/*	margin-top: 3px;*/
+	left: 0;
+	margin-top: -8px;
+	top:50%;
+}
+
+.dino-tree-grid-cell {
+/*	text-align: left;*/		
+}
+
+.dino-tree-grid-row:hover {
+	background-color: #ffc;/*#fea;*/
 }
 
 
@@ -414,11 +430,11 @@ span.r-icon {
 .dino-icon-error { background-image: url(img/led/error.png); }
 .dino-icon-info { background-image: url(img/led/exclamation.png); }
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
-.dino-icon-add { background-image: url(img/led/add.png); }
 
 .dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
 
 
+.led-icon-add { background-image: url(img/led/add.png); }
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }
 .led-icon-buildings { background-image: url(img/led/buildings.png); }
@@ -450,6 +466,7 @@ span.r-icon {
 .led-icon-chart-organization { background-image: url(img/led/chart_organisation.png); }
 .led-icon-group { background-image: url(img/led/group.png); }
 .led-icon-cog { background-image: url(img/led/cog.png); }
+.led-icon-pencil { background-image: url(img/led/pencil.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }

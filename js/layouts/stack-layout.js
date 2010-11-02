@@ -16,7 +16,7 @@ Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 			it.el.toggleClass('dino-hidden', (it != item));
 		});
 		
-		if(item.layout) item._afterRender();
+		if(item.layout) item._layoutChanged();
 		
 	}
 	

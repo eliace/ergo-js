@@ -45,7 +45,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	defaultHandlers: {
 		'clickable': function(e) {
-			$(this).dino().events.fire('onClick');
+			$(this).dino().events.fire('onClick', {}, e);
 		},
 		'selectable': function(e) {
 			e.preventDefault();
@@ -159,7 +159,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
-				this._afterRender();
+				this._layoutChanged();
 			}
 		}
 	},
@@ -180,9 +180,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 	},
 
-	_afterRender: function() {
+	_layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
-		this.children.each(function(c) { c._afterRender(); });
+		this.children.each(function(c) { c._layoutChanged(); });
 	},
 	
 	_events: function(self){
@@ -481,6 +481,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('onDirty' in this.options){
 			this.data.events.reg('onDirty', function(e){
 				self.events.fire('onDirty', e);
+			});
+		}
+		if('onClean' in this.options){
+			this.data.events.reg('onClean', function(e){
+				self.events.fire('onClean', e);
 			});
 		}
 	

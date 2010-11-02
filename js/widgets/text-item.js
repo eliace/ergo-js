@@ -18,6 +18,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 			},
 			rightIcon: {
 				dtype: 'icon',
+//				state: 'hidden',
 				dock: 'right'
 			}
 		},
@@ -58,8 +59,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		
 		if('showLeftIcon' in o) 
 			this.content.states.toggle('l-icon', o.showLeftIcon);
-		if('showRightIcon' in o) 
-			this.content.states.toggle('r-icon', o.showRightIcon);		
+		if('showRightIcon' in o) {
+			this.content.states.toggle('r-icon', o.showRightIcon);
+//			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
+		}
 	},
 	
 	getText: function() {

@@ -40,6 +40,12 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		this.stop_dirty = false;
 	},
 	
+	
+	destroy: function() {
+		this.each_item(function(item){ item.destroy(); });
+		this.events.unreg_all();
+	},
+	
 	val: function() {
 		if(this.source instanceof Dino.data.DataSource){
 			return ('id' in this) ? this.source.val()[this.id]: this.source.val();//get(this.id) : this.source.get();
@@ -77,8 +83,9 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 		if(arguments.length == 1) {
 			newValue = i;
 			// удаляем все элементы
-			for(var j in this.items)
+			for(var j in this.items){
 				this.items[j].destroy();
+			}
 			// теперь список элементов пуст
 			this.items = {};
 			
@@ -196,6 +203,11 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			for(var i in this.items) this.items[i].dirty(false);
 		}
 		
+	},
+	
+	clean_all: function() {
+		this.is_dirty = false;
+		for(var i in this.items) this.items[i].clean_all();		
 	}
 		
 //	asArray: function() {

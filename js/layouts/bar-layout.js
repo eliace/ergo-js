@@ -19,6 +19,10 @@ Dino.declare('Dino.layouts.BarLayout', 'Dino.layouts.PlainLayout', {
 	insert: function(item) {
 		(this.options.clearfix) ? this.clearfix_el.before(item.el) : this.container.el.append(item.el);
 		item.el.addClass('bar-item');
+	},
+	
+	clear: function() {
+		this.container.el.children().not('.clearfix').remove();
 	}
 	
 	

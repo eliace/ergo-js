@@ -20,6 +20,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 				onTabChanged: function(){
 					// переключаем страницу при смене закладки
 					this.parent.pages.layout.activate( this.currentTab.index );
+					this.parent.events.fire('onTabChanged', {page: this.parent.pages.getItem(this.currentTab.index)});
 				}
 			},
 			pages: {
@@ -91,6 +92,10 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	
 	setActiveTab: function(i) {
 		this.tabs.activateTab(i);
+	},
+	
+	getActiveTab: function() {
+		return this.tabs.currentTab;
 	}
 	
 	

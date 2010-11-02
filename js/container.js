@@ -77,7 +77,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts({}, this.options.defaultItem, item) );
 		
 		this.items.push( item );
-		item.index = this.items.length - 1; //parseInt(this.children.size()-1);		
+		item.index = this.items.length - 1; //parseInt(this.children.size()-1);	
 		
 		this.children.add(item);
 		this.layout.insert(item, key);
@@ -95,6 +95,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		Dino.Container.superclass.removeChild.call(this, item);		
 		this.children.remove(item);
 		this.layout.remove(item);
+		return item;
 	},
 	
 	removeAllItems: function() {
@@ -102,9 +103,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		for(var i = 0; i < this.items.length; i++)
 //			this.removeItem(this.items[i]);
 		var self = this;
-		this.children.each(function(item){ self.layout.remove(item); });
+//		this.children.each(function(item){ self.layout.remove(item); });
 		this.children.removeAll();
-//		this.layout.clear();
+		this.layout.clear(); //FIXME эта очистка вызывала ошибки
 	},
 	
 	replaceItem: function(criteria, newItem) {
@@ -168,11 +169,12 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		});
 
 		this.data.events.reg('onValueChanged', function(e){
+//			self.eachItem(function(item){ item.destroy() });
 			self.removeAllItems();
 			self.data.each(function(val, i){
 				var dataItem = self.data.item(i);
 //				self.addItem({ 'data': dataItem });
-				self.addItem({/* 'data': dataItem */}).setData(dataItem, 2);
+				self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 			});
 		});
 		
@@ -181,7 +183,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		this.data.each(function(val, i){
 			var dataItem = self.data.item(i);
-			self.addItem({/* 'data': dataItem */}).setData(dataItem, 2);
+			self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 		});
 		
 		

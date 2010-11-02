@@ -17,22 +17,23 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 
 Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
-	defaultOptions: {
-		multistate: true
-	},
+//	defaultOptions: {
+//		multistate: true
+//	},
 	
 	initialize: function(widget) {
 		this.widget = widget;
 //		this.options = Dino.utils.deep_override({}, this.defaultOptions, o);
-		this.current_state = undefined;
-		this.multistate = true;
+		this.current_states = {};
+//		this.multistate = true;
+	},
+	
+	set_only: function(name) {
+		for(var i in this.current_states) this.clear(this.current_states[i]);
+		this.set(name);
 	},
 	
 	set: function(name) {
-		
-		if(!this.multistate){
-			this.clear(this.current_state);
-		}
 		
 		// получаем класс или массив
 		var cls = this.stateCls(name);
@@ -45,7 +46,8 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		this.widget.el.addClass(cls);
 		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('set', arguments));
 		
-		this.current_state = name;
+		// запоминаем установленное состояние
+		this.current_states[name] = true;
 		
 		return this;
 	},
@@ -61,7 +63,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		this.widget.el.removeClass( cls );
 		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('clear', arguments));
 		
-		this.current_state = undefined;
+		delete this.current_states[name];
 		
 		return this;
 	},
@@ -79,14 +81,18 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 		
 		this.widget.el.toggleClass( cls, sw );
 		this.widget.events.fire('onStateChanged', new Dino.events.StateEvent('toggle', arguments));
+		
+		(name in this.current_states) ? delete this.current_states[name] : this.current_states[name] = true;
+		
 		return this.widget.el.hasClass(cls);
 	},
 	
 	check: function(name) {
-		var cls = this.stateCls(name);
-		if(Dino.isArray(cls))
-			return (cls[0] == '' || this.widget.el.hasClass(cls[0])) && !this.widget.el.hasClass(cls[1])
-		return this.widget.el.hasClass( cls );
+//		var cls = this.stateCls(name);
+//		if(Dino.isArray(cls))
+//			return (cls[0] == '' || this.widget.el.hasClass(cls[0])) && !this.widget.el.hasClass(cls[1])
+//		return this.widget.el.hasClass( cls );
+		return this.is(name);
 	},
 
 	is: function(name) {
@@ -110,3 +116,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
 	
 });
+
+
+
+

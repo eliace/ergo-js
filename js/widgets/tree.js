@@ -333,8 +333,10 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 			});
 		});
 		
-		node_to_select.states.set('selected');
-		node_to_select.events.fire('onSelected');
+		if(node_to_select) {
+			node_to_select.states.set('selected');
+			node_to_select.events.fire('onSelected');
+		}
 		
 		//TODO  здесь еще можно запомнить выбранный узел
 	}

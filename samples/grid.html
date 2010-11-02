@@ -97,7 +97,7 @@ $.dino({
 /*	border-top: 1px solid #ccc;
 	border-left: 1px solid #ccc;*/
 }
-
+/*
 .tg-item-content {
 	display: inline;
 	margin-left: 20px;	
@@ -107,7 +107,7 @@ $.dino({
 	top: 2px;
 	left: 0px;
 }
-
+*/
 .tg-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px dotted #ccc;
@@ -122,10 +122,11 @@ $.dino({
 	background-color: #f6f6f6;
 }
 */
+/*
 .tg-row:hover {
 	background-color: #ffc;
 }
-
+*/
 .tg-header {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px dotted #ccc;
@@ -219,7 +220,7 @@ $.dino({
     },
     row: {
       state: 'expanded',
-      cls: 'tg-row'
+//      cls: 'tg-row'
     },
     columns: [{
       dataId: 'id',
@@ -228,18 +229,20 @@ $.dino({
     }, {
       dtype: 'tree-grid-cell',
       cls: 'tg-tree-cell',
+			
       content: {
         components: {
-          button: {
-            cls: 'tg-item-button',
-          },					
+//          button: {
+//            cls: 'tg-item-button',
+//          },					
           content: {
-            dtype: 'text-item',
-            cls: 'tg-item-content',
+//            dtype: 'text-item',
+//            cls: 'tg-item-content',
             dataId: 'name'						
           }
         }				
       }
+      
     }, {
       width: 100,
       dataId: 'value',

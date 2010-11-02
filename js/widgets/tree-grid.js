@@ -10,10 +10,19 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 	
 	
 	insert: function(item) {
+		
+		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
+		if(this.container instanceof Dino.Layout)
+			this.container.insert(item);
+		
 		this.items.push(item);
 	},
 	
 	remove: function(item) {
+
+		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
+		if(this.container instanceof Dino.Layout)
+			this.container.remove(item);
 		
 		var i = Dino.indexOf(this.items, item);
 		this.items.splice(i, 1);
@@ -24,9 +33,16 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 	clear: function() {
 		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
 //		this.container.el.empty();
+		Dino.each(this.items, function(item){
+			item.el.remove();
+		})
+		this.items = [];
 	},
 	
 	update: function() {
+
+		// если эта компоновка является дочерней/зависимой, то обновление выполнять не нужно
+		if(this.container instanceof Dino.Layout) return;
 		
 		var self = this;
 		var n = 0;
@@ -43,14 +59,12 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 			else if(a > b) return 1;
 			return 0;
 		});
-		
-//		console.log(this.items);
-		
+				
 		Dino.each(this.items, function(item, i){
 			self.container.el.append(item.el);
 		});
 		
-		
+		console.log('tree-grid-layout updated');
 	}
 	
 }, 'tree-grid-layout');
@@ -98,8 +112,8 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
 	},
 	
 	
-	_afterRender: function() {
-		Dino.widgets.TreeGrid.superclass._afterRender.apply(this, arguments);
+	_layoutChanged: function() {
+		Dino.widgets.TreeGrid.superclass._layoutChanged.apply(this, arguments);
 		
 		var tableWidth = this.content.content.el.width();
 		this.header.content.el.width(tableWidth);
@@ -117,6 +131,7 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
 Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 	
 	defaultOptions: {
+		cls: 'dino-tree-table',
 		components: {
 			body: {
 				defaultItem: {
@@ -137,13 +152,19 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 			defaultItem: {
 				components: {
 					subtree: {
-						layout: bodyLayout
+						layout: {
+							dtype: 'tree-grid-layout',
+							container: bodyLayout
+						}
 					}
 				},
 				defaultSubItem: {
 					components: {
 						subtree: {
-							layout: bodyLayout
+							layout: {
+								dtype: 'tree-grid-layout',
+								container: bodyLayout
+							}
 						}
 					}						
 				}
@@ -160,13 +181,14 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 		
 		
 	},
+
 	
-	_afterRender: function() {
-		Dino.widgets.TreeTable.superclass._afterRender.apply(this, arguments);
+	_layoutChanged: function() {
+		this.constructor.superclass._layoutChanged.apply(this, arguments);
 		
 		this.body.layout.update();
 	}
-	
+
 	
 	
 	
@@ -180,6 +202,7 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
 //	_html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
+		cls: 'dino-tree-grid-row',
 		indent: 0,
 //		defaultItem: {
 //			dtype: 'table-cell'
@@ -263,6 +286,10 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
 			item.expand(x);
 		});			
 //		}
+	},
+	
+	getParentRow: function() {
+		return this.parent.parent;
 	}
 	
 	
@@ -277,14 +304,14 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 	_html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-//		cls: 'dino-tree-grid-cell',
+		cls: 'dino-tree-grid-cell',
 		content: {
 			dtype: 'box',
 			cls: 'dino-tree-grid-item',
 			components: {
 				button: {
 					dtype: 'icon',
-					cls: 'dino-tree-grid-item-button ui-icon ui-icon-triangle-1-se dino-clickable',
+					cls: 'dino-tree-node-button ui-icon ui-icon-triangle-1-se dino-clickable',
 					clickable: true,
 					onClick: function() {
 						var row = this.parent.parent.getRow();
@@ -304,9 +331,11 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
 						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
 						'leaf': 'dino-hidden'
-//						'collapsed': function() { if(!this.parent.options.isLeaf) return ['ui-icon ui-icon-triangle-1-e', 'ui-icon ui-icon-triangle-1-se'] },
-//						'expanded': function() { if(!this.parent.options.isLeaf) return ['ui-icon ui-icon-triangle-1-se', 'ui-icon ui-icon-triangle-1-e'] }
 					}
+				},
+				content: {
+					dtype: 'text-item',
+					cls: 'dino-tree-node-content'
 				}
 			}
 		}

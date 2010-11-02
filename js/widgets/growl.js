@@ -151,7 +151,10 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 
 
 
-
+/*
+ * hideOnTimeout
+ * 
+ */
 function init_default_growl_panel(o) {
 
 	o = o || {};
@@ -162,7 +165,7 @@ function init_default_growl_panel(o) {
 		defaultItem: {
 			delay: 600,
 			hideOnTimeout: o.hideOnTimeout,
-//			timeout: ('timeout' in o) ? o.timeout : 4000,
+			timeout: ('timeout' in o) ? o.timeout : 5000,
 			cls: 'dino-border-all dino-corner-all',
 			closeOnClick: true,
 			components: {
