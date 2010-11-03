@@ -224,6 +224,19 @@ var Dino = (function(){
 		return false;
 	}
 	
+	D.remove_from_array = function(arr, val) {
+		var index = -1;
+		for(var i = 0; i < arr.length; i++) {
+			if(arr[i] == val) {
+				index = i;
+				break;
+			}
+		}
+		if(index != -1) arr.splice(index, 1);
+		
+		return (index != -1);
+	};
+	
 	D.deep_copy = function(src) {
 		var copy = null;
 		

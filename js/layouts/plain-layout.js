@@ -2,11 +2,11 @@
 
 Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	
-//	initialize: function(){
-//		Dino.layouts.PlainLayout.superclass.initialize.apply(this, arguments);
+	initialize: function(){
+		Dino.layouts.PlainLayout.superclass.initialize.apply(this, arguments);
 //		
-//		this.deferred = [];
-//	},	
+//		this.items = [];
+	},	
 	
 	insert: function(item) {
 //		if(this.options.deferred)
@@ -18,7 +18,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	},
 	
 	remove: function(item) {
-		item.el.remove();
+		item.el.detach(); //TODO опасный момент, поскольку не происходит полная очистка элемента
 		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);
 	},
 	

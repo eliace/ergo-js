@@ -24,17 +24,20 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 		if(this.container instanceof Dino.Layout)
 			this.container.remove(item);
 		
-		var i = Dino.indexOf(this.items, item);
-		this.items.splice(i, 1);
+		Dino.remove_from_array(this.items, item)
+//		var i = Dino.indexOf(this.items, item);
+//		this.items.splice(i, 1);
 		
-		item.el.remove();
+		item.el.detach();
+		
+//		console.log('item removed from layout');
 	},
 	
 	clear: function() {
 		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
 //		this.container.el.empty();
 		Dino.each(this.items, function(item){
-			item.el.remove();
+			item.el.detach();
 		})
 		this.items = [];
 	},
@@ -64,7 +67,7 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 			self.container.el.append(item.el);
 		});
 		
-		console.log('tree-grid-layout updated');
+//		console.log('tree-grid-layout updated');
 	}
 	
 }, 'tree-grid-layout');

@@ -91,6 +91,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this.states = new Dino.utils.WidgetStateManager(this);
 		
 		this.handlers = {};
+		
+//		this.el.remove = function() {
+//			console.log('Removed from DOM: '+self.dtype);
+//		}
 				
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
@@ -122,6 +126,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		this._afterBuild();
 		
 		this.events.fire('onCreated');
+		
+		if(this.options.debug)	console.log('created');		
 	},
 	
 	_init: function() {
@@ -145,8 +151,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //	}
 	
 	destroy: function() {
-		// удаляем элемент и все его содержимое из документа
+		// удаляем элемент и все его содержимое (data + event handlers) из документа
 		if(this.el) this.el.remove();
+		// очищаем регистрацию обработчиков событий
+		this.events.unreg_all();
+		//
+		this.layout.clear();
+		// вызываем метод destroy для всех дочерних компонентов
+		this.children.each(function(child) { child.destroy(); });
+		
+		if(this.options.debug)	console.log('destroyed');
 	},
 	
 	_html: function() {

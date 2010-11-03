@@ -336,9 +336,14 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 		if(node_to_select) {
 			node_to_select.states.set('selected');
 			node_to_select.events.fire('onSelected');
+			
+			this.selected_node = node_to_select;
 		}
 		
-		//TODO  здесь еще можно запомнить выбранный узел
+	},
+	
+	getSelectedNode: function() {
+		return this.selected_node;
 	}
 	
 	

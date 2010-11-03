@@ -63,7 +63,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		this.children.each(function(item) { item._dataChanged(); });
 //	},
 	
-
 	getItem: function(i){
 		return this.children.get(i);
 	},
@@ -92,20 +91,38 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 	
 	removeItem: function(item) {
-//		Dino.Container.superclass.removeChild.call(this, item);		
+		
+		Dino.remove_from_array(this.items, item);
+		
 		this.children.remove(item);
 		this.layout.remove(item);
 		return item;
 	},
 	
+	destroyItem: function(item) {
+		this.removeItem(item).destroy();
+	},
+	
 	removeAllItems: function() {
-//		Dino.Container.superclass.removeAllChildren.call(this);
-//		for(var i = 0; i < this.items.length; i++)
-//			this.removeItem(this.items[i]);
-		var self = this;
-//		this.children.each(function(item){ self.layout.remove(item); });
-		this.children.removeAll();
-		this.layout.clear(); //FIXME эта очистка вызывала ошибки
+		while(this.items.length > 0)
+			this.removeItem(this.items[0]);
+
+//		this.children.removeAll();
+//		this.layout.clear(); //FIXME эта очистка вызывала ошибки
+	},
+	
+	destroyAllItems: function() {
+//		// очищаем компоновку
+//		this.layout.clear(); //FIXME эта очистка вызывала ошибки
+//		// уничтожаем элементы
+//		this.children.each(function(item){ item.destroy(); });
+//		// очищаем список дочерних элементов
+//		this.children.removeAll();
+		while(this.items.length > 0)
+			this.removeItem(this.items[0]).destroy();
+		
+//		var self = this;
+//		Dino.each(this.items, function(item){ self.removeItem(item); item.destroy(); });
 	},
 	
 	replaceItem: function(criteria, newItem) {
@@ -115,9 +132,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	},
 	
 	eachItem: function(callback) {
-//		for(var i = 0; i < this.items.length; i++)
-//			callback.call(this, this.items[i], i);
-		this.children.each(callback);
+		for(var i = 0; i < this.items.length; i++)
+			callback.call(this, this.items[i], i);
+//		this.children.each(callback);
 	},
 	
 	/**
@@ -160,7 +177,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
 		this.data.events.reg('onItemDeleted', function(e){
-			self.removeItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
+			self.destroyItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
 		});
 		
 		this.data.events.reg('onItemChanged', function(e){
@@ -169,8 +186,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		});
 
 		this.data.events.reg('onValueChanged', function(e){
-//			self.eachItem(function(item){ item.destroy() });
-			self.removeAllItems();
+			// уничтожаем все элементы
+			self.destroyAllItems();
+			
 			self.data.each(function(val, i){
 				var dataItem = self.data.item(i);
 //				self.addItem({ 'data': dataItem });
@@ -179,7 +197,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		});
 		
 		
-		this.removeAllItems();
+		this.destroyAllItems();
 		
 		this.data.each(function(val, i){
 			var dataItem = self.data.item(i);

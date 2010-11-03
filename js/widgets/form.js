@@ -141,6 +141,10 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, {
 	_dataChanged: function() {
 		Dino.widgets.form.Checkbox.superclass._dataChanged.apply(this);
 		this.el.attr('checked', this.getValue() );
+	},
+	
+	isChecked: function() {
+		return this.el.attr('checked');
 	}
 	
 		

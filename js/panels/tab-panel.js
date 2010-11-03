@@ -96,6 +96,10 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	
 	getActiveTab: function() {
 		return this.tabs.currentTab;
+	},
+	
+	getActivePage: function() {
+		this.pages.getItem(this.tabs.currentTab.index);
 	}
 	
 	
