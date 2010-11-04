@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>DinoJS: Dialogs</title>
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->
+		<!-- SHJS -->
+		<script type="text/javascript" src="../lib/shjs/sh_main.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_javascript.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_css.min.js"></script>
+		<script type="text/javascript" src="../lib/shjs/lang/sh_html.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../lib/shjs/css/sh_emacs.min.css">
+
+		<link rel="stylesheet" type="text/css" href="css/template2.css">
+		<script type="text/javascript" src="js/template2.js"></script>
+		
+		
+	</head>
+<body>
+	
+	
+
+
+<div id="sample-dialog">
+<style>
+	
+.dino-dialog-overlay {
+	opacity: 0.4;
+	background-color: black;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 2000;
+}	
+
+.dino-dialog-content {
+	width: 400px;
+/*	height: 200px;*/
+	position: absolute;
+	z-index: 2100;
+	background-color: #fff;
+	left: 50%;
+	top: 50%;
+	padding: 5px;
+/*	margin-left: -200px;
+	margin-top: -100px;*/
+}
+	
+	
+.widget-content {
+	padding: 5px;
+}	
+
+.dialog-header {
+	font-size: 15pt;
+/*	border-bottom: 1px solid #ccc;*/
+}
+
+.dialog-buttons {
+
+}
+
+</style>
+<script>
+	
+	
+var dlg = $.dino({
+	renderTo: 'body',
+	dtype: 'light-box',
+	content: {
+		cls: 'dino-corner-all',
+		components: {
+			buttons: {
+				weight: 2,
+				dtype: 'box',
+				cls: 'widget-content',
+				style: {'text-align': 'center'},
+				defaultItem: {
+					dtype: 'button',
+					width: 80
+//					cls: 'dino-center-align'
+				},
+				items: [{
+					label: 'ОК'
+				}, {
+					label: 'Отмена'
+				}]
+			}
+		},
+		content: {
+			weight: 1,
+			dtype: 'box',
+//			height: 200,
+			cls: 'dino-border-all',
+			components: {
+				header: {
+					dtype: 'box',
+					cls: 'dialog-header widget-content dino-bg-highlight',
+					content: {
+						dtype: 'text-item',
+						label: 'Диалог',
+						showRightIcon: true,
+						style: {'display': 'block'},
+						selectable: false,
+						components: {
+							rightIcon: {
+								cls: 'ui-icon-lightgray ui-icon-circle-close',
+								states: {
+									'hover': ['ui-icon', 'ui-icon-lightgray']
+								}
+							}
+						}
+					}
+				},
+				content: {
+					dtype: 'box',
+					cls: 'widget-content',
+					text: Samples.loremipsum
+				}
+			}			
+		}
+	}
+});	
+
+$.dino({
+	dtype: 'button',
+	label: 'Открыть диалог',
+	onAction: function() {
+		dlg.open();
+		dlg.content.buttons.getItem(1).el.focus();
+	}
+});
+
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+	
+	
+	
+	
+<script>		
+		
+samplePage([{
+	name: 'Dialog',
+	id: '#sample-dialog'
+}]);
+	
+</script>
+	
+	
+</body>
+</html>

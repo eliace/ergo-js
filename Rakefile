@@ -47,6 +47,7 @@ require 'fileutils'
     'js/widgets/x-form.js',
     'js/widgets/tree.js',
     'js/widgets/tree-grid.js',
+    'js/widgets/lightbox.js',
   ]
 
 
