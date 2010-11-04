@@ -322,7 +322,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 		
 	},
 	
-	setSelectedNode: function(node_to_select) {
+	setSelected: function(node_to_select) {
 		
 		this.eachItem(function(item){
 			item.walkSubtree(function(node){
@@ -342,7 +342,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 		
 	},
 	
-	getSelectedNode: function() {
+	getSelected: function() {
 		return this.selected_node;
 	}
 	

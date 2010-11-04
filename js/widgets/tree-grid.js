@@ -74,6 +74,29 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 
 
 
+/*
+Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
+
+	
+	
+	
+	
+	insert: function(item) {
+		
+		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
+		if(this.container instanceof Dino.Layout)
+			this.container.insert(item);
+		
+		this.items.push(item);
+	},
+	
+	
+	
+}, 'indent-layout');
+*/
+
+
+
 
 
 Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
@@ -138,7 +161,7 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 		components: {
 			body: {
 				defaultItem: {
-					dtype: 'tree-grid-row'
+					dtype: 'tree-table-row'
 				}
 			}
 		}
@@ -200,23 +223,23 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 
 
 
-Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
+Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 	
 //	_html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
 		cls: 'dino-tree-grid-row',
 		indent: 0,
-//		defaultItem: {
-//			dtype: 'table-cell'
-//		},
+		defaultItem: {
+			dtype: 'tree-table-cell'
+		},
 		components: {
 			subtree: {
 				dataId: 'children',
 				dtype: 'container',
 				dynamic: true,
 				defaultItem: {
-					dtype: 'tree-grid-row'
+					dtype: 'tree-table-row'
 				}
 			}
 		},
@@ -227,7 +250,7 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
 	},
 	
 	_init: function() {
-		Dino.widgets.TreeGridRow.superclass._init.apply(this, arguments);
+		this.constructor.superclass._init.apply(this, arguments);
 		
 		var o = this.options;
 
@@ -298,16 +321,29 @@ Dino.declare('Dino.widgets.TreeGridRow', 'Dino.widgets.TableRow', {
 	
 	
 	
-}, 'tree-grid-row');
+}, 'tree-table-row');
 
 
 
-Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
+Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 	
-	_html: function() { return '<td></td>'; },
+	_afterBuild: function() {
+		var o = this.options;
+		this.children.each(function(child){ child.opt('indent', o.indent); });
+	}
+	
+}, 'tree-table-cell');
+
+
+
+
+Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
+	
+//	_html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-		cls: 'dino-tree-grid-cell',
+//		cls: 'dino-tree-grid-cell',
+		style: {'position': 'relative'},
 		content: {
 			dtype: 'box',
 			cls: 'dino-tree-grid-item',
@@ -317,7 +353,7 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 					cls: 'dino-tree-node-button ui-icon ui-icon-triangle-1-se dino-clickable',
 					clickable: true,
 					onClick: function() {
-						var row = this.parent.parent.getRow();
+						var row = this.getParent({dtype: 'tree-table-row'});//this.parent.parent.getRow();
 						if(row.states.is('collapsed')){
 							row.expand();
 							this.states.set('expanded');
@@ -327,7 +363,7 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 							this.states.set('collapsed');
 							
 						}
-//						this.getParent({dtype: 'tree-grid'})._updateEvenOdd();
+	//						this.getParent({dtype: 'tree-grid'})._updateEvenOdd();
 					},
 					states: {
 						'hover': ['ui-icon-blue', 'ui-icon'],
@@ -347,42 +383,33 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 	
 	
 	_init: function() {
-		Dino.widgets.TreeGridCell.superclass._init.apply(this, arguments);
+		this.constructor.superclass._init.apply(this, arguments);
 		
 		var o = this.options;
 		
 //		var indentComponents = {};
 		
 //		var wg = 0;
-		for(var i = o.indent-1; i >= 0; i--){
-/*			
-			indentComponents['indent-'+i] = Dino.utils.overrideOpts({
-				dtype: 'box',
-				wrapEl: '<span></span>',
-				cls: 'indent',// indent-'+i,
-				weight: wg++
-			},
-			o.indentItem);
-*/			
-			this.layout.container.el.append('<span class="indent"></span>');
-		}
 		
 //		Dino.utils.overrideOpts(o, {components: indentComponents});
 		
 	},
 	
 	
-//	_opt: function(o) {
-//		Dino.widgets.TreeItem.superclass._opt.apply(this, arguments);
-//		
-//		this.isLeaf = o.isLeaf;
-//				
-//	},
-	
-	
-	getRow: function() {
-		return this.parent;
+	_opt: function(o) {
+		this.constructor.superclass._opt.apply(this, arguments);
+		
+		if('indent' in o){
+			for(var i = 0; i < o.indent; i++){
+				this.layout.container.el.prepend('<span class="indent"></span>');
+			}
+		}
 	}
+	
+	
+//	getRow: function() {
+//		return this.parent;
+//	}
 	
 //	startEdit: function() {
 //		
@@ -390,7 +417,7 @@ Dino.declare('Dino.widgets.TreeGridCell', 'Dino.Widget', {
 	
 	
 	
-}, 'tree-grid-cell');
+}, 'tree-grid-node');
 
 
 

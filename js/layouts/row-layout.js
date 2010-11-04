@@ -34,7 +34,7 @@ Dino.declare('Dino.layouts.RowLayout', 'Dino.Layout', {
 }, 'row-layout');
 
 
-
+/*
 Dino.declare('Dino.layouts.ColumnLayout', 'Dino.Layout', {
 	
 	defaultOptions: {
@@ -64,32 +64,49 @@ Dino.declare('Dino.layouts.ColumnLayout', 'Dino.Layout', {
 	
 	clear: function() {
 		this.el.empty();
-	}
+	}	
 	
-/*
-	insert: function(item) {
+}, 'column-layout');
+*/
+
+
+
+Dino.declare('Dino.layouts.ColumnLayout', 'Dino.Layout', {
+	
+	defaultOptions: {
+		name: 'column',
+		valign: 'top'
+	},
+	
+	attach: function() {
+		Dino.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
 		
-//		if(!this.innerEl){
-//			this.innerEl = $('<div layout="row"></div>');
-//			this.container.el.append(this.innerEl);
-//		}
+		this.el = $('<table style="width:100%"><tbody><tr></tr></tbody></table>');
+		this.row_el = $('tr', this.el);
 		
-		var wrapperEl = $('<div></div>');
-		wrapperEl.append(item.el);
-		this.container.el.append( wrapperEl );
+		this.container.el.append(this.el);
+	},
+	
+	detach: function() {
+		Dino.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
+		this.el.remove();
+	},
+	
+	insert: function(item, key) {
+		var col_el = $('<td style="vertical-align: '+this.options.valign+'"></td>');
+		if('width' in item.options) col_el.width(item.options.width);
+		col_el.append( item.el );
 		
-		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
+		this.row_el.append(col_el);
 	},
 	
 	remove: function(item) {
 		item.el.parent().remove();
-		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);
 	},
 	
 	clear: function() {
-		this.container.el.empty();
-	}
-*/	
+		this.row_el.empty(); //FIXME
+	}	
 	
-	
-}, 'column-layout'); 
+}, 'column-layout');
+

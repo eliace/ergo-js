@@ -114,8 +114,9 @@ $.dino({
 	text-align: center;
 }
 
-.tg-tree-cell {
-	text-align: left;	
+.tg-tree-cell .indent {
+/*	text-align: left;*/	
+	padding-left: 20px;
 }
 /*
 .tg-row.even {
@@ -134,7 +135,6 @@ $.dino({
 }
 
 .indent {
-	padding-left: 20px;
 }
 
 </style>
@@ -227,22 +227,24 @@ $.dino({
       width: 40,
       binding: 'auto'
     }, {
-      dtype: 'tree-grid-cell',
-      cls: 'tg-tree-cell',
-			
-      content: {
-        components: {
-//          button: {
-//            cls: 'tg-item-button',
-//          },					
-          content: {
-//            dtype: 'text-item',
-//            cls: 'tg-item-content',
-            dataId: 'name'						
-          }
-        }				
-      }
-      
+			style: {'text-align': 'left'},
+			content: {
+      	dtype: 'tree-grid-node',
+	      cls: 'tg-tree-cell',
+				
+	      content: {
+	        components: {
+	//          button: {
+	//            cls: 'tg-item-button',
+	//          },					
+	          content: {
+	//            dtype: 'text-item',
+	//            cls: 'tg-item-content',
+	            dataId: 'name'						
+	          }
+	        }				
+	      }				
+			}      
     }, {
       width: 100,
       dataId: 'value',

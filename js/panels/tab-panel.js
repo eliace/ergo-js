@@ -99,7 +99,11 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	},
 	
 	getActivePage: function() {
-		this.pages.getItem(this.tabs.currentTab.index);
+		return this.pages.getItem(this.tabs.currentTab.index);
+	},
+	
+	getPage: function(i) {
+		return this.pages.getItem(i);
 	}
 	
 	
