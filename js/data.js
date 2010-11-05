@@ -208,6 +208,12 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	clean_all: function() {
 		this.is_dirty = false;
 		for(var i in this.items) this.items[i].clean_all();		
+	},
+	
+	
+	walk: function(callback) {
+		if( callback.call(this, this) ) return;
+		for(var i in this.items) this.items[i].walk(callback);
 	}
 		
 //	asArray: function() {

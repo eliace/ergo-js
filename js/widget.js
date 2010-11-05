@@ -356,7 +356,14 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			}
 		}
 		
-				
+		
+		
+		
+		//TODO экспериментальная опция
+		if('overrides' in o) {
+			Dino.override(this, o.overrides);
+		}
+		
 	},
 	
 	

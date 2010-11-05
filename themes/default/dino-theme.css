@@ -388,6 +388,27 @@ span.r-icon {
 
 
 /*
+ * DIALOG
+ */
+
+.dino-dialog-overlay {
+	opacity: 0.4;
+	background-color: black;
+	z-index: 2000;
+}	
+
+.dino-dialog-content {
+	position: absolute;
+	z-index: 2100;
+	background-color: #fff;
+	padding: 5px;
+}
+
+
+
+
+
+/*
  * MESSAGE PANEL (GROWL)
  */
 

@@ -29,7 +29,7 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	},
 	
 	set_only: function(name) {
-		for(var i in this.current_states) this.clear(this.current_states[i]);
+		for(var i in this.current_states) this.clear(i);
 		this.set(name);
 	},
 	

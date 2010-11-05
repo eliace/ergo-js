@@ -1,7 +1,7 @@
 
 
 
-Dino.declare('Dino.widgets.LightBox', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		components: {
@@ -9,7 +9,7 @@ Dino.declare('Dino.widgets.LightBox', 'Dino.containers.Box', {
 				dtype: 'box',
 				cls: 'dino-dialog-overlay'
 			},
-			content: {
+			dialogBox: {
 				dtype: 'box',
 				cls: 'dino-dialog-content'
 //				width: 100,
@@ -35,21 +35,21 @@ Dino.declare('Dino.widgets.LightBox', 'Dino.containers.Box', {
 	open: function() {
 //		this.states.clear('hidden');
 //		this.el.show();
-		var content = this.content;
+		var box = this.dialogBox;
 		
 //		this.el.fadeIn(300, function(){
 //		});
 		
 		this.el.show();
 			
-		var w = content.el.width();
-		var h = content.el.height();
+		var w = box.el.width();
+		var h = box.el.height();
 		
-		content.el.css('margin-left', -w/2);
-		content.el.css('margin-top', -h/2);
+		box.el.css('margin-left', -w/2);
+		box.el.css('margin-top', -h/2);
 
 		
-		content.el.focus();			
+		box.el.focus();			
 		
 	},
 	
@@ -57,7 +57,8 @@ Dino.declare('Dino.widgets.LightBox', 'Dino.containers.Box', {
 //		this.states.set('hidden');
 		this.el.hide();
 //		this.overlay.el.fadeOut(300);
+		this.events.fire('onClose');
 	}
 	
 	
-}, 'light-box');
+}, 'dialog');
