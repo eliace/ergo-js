@@ -72,6 +72,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	startEdit: function() {
 		this.content.states.set('hidden');			
 		this.addComponent('_editor', this.options.editor);
+		this._editor.setData(this.content.data);
 		this._editor._dataChanged(); // явно вызываем обновление данных
 		this._editor.el.focus();
 		this._editor.el.select();
@@ -81,6 +82,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		this.removeComponent('_editor');
 		this.content._dataChanged(); // явно вызываем обновление данных
 		this.content.states.clear('hidden');
+		this.events.fire('onEdit');
 	}	
 	
 	

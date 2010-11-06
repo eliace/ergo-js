@@ -115,6 +115,10 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 //			this.labelEl.text(o.label);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
+		if('disabled' in o){
+			(o.disabled) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');
+		}
+			
 //		if('onAction' in o)
 //			this.addEvent('onAction', o.onAction);
 	}

@@ -210,7 +210,7 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 
 	
 	_layoutChanged: function() {
-		this.constructor.superclass._layoutChanged.apply(this, arguments);
+		Dino.widgets.TreeTable.superclass._layoutChanged.apply(this, arguments);
 		
 		this.body.layout.update();
 	}

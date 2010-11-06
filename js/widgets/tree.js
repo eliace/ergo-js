@@ -279,7 +279,7 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 	
 	defaultOptions: {
-		cls: 'tree',
+		cls: 'dino-tree',
 		defaultItem: {
 			dtype: 'basic-tree-node',
 			indent: 0,

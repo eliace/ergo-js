@@ -4,6 +4,7 @@
 Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	
 	defaultOptions: {
+		renderTo: 'body',
 		components: {
 			overlay: {
 				dtype: 'box',
@@ -23,7 +24,7 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	
 	
 	_opt: function() {
-		this.constructor.superclass._opt.apply(this, arguments);
+		Dino.widgets.Dialog.superclass._opt.apply(this, arguments);
 		
 		var self = this;
 		
@@ -58,6 +59,8 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		this.el.hide();
 //		this.overlay.el.fadeOut(300);
 		this.events.fire('onClose');
+		
+		if(this.options.destroyOnClose) this.destroy();
 	}
 	
 	

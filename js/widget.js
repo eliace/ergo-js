@@ -477,6 +477,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		this.dataPhase = phase;
 		
+		if(this.data) data.destroy(); //<-- экспериментальный код
+		
 		
 		if('dataId' in o){
 			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);

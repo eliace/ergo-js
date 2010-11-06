@@ -182,13 +182,13 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 			if(this.is_dirty) return;
 						
 			this.events.fire('onDirty', event);			
-			if(event.isCanceled) return;
+			if(event.isCanceled) return true;
 			
 			this.is_dirty = true;
 			
-			if(this.stop_dirty) return; //FIXME использовать флаг не совсем корректно, поскольку он не может быть опцией
+			if(this.stop_dirty) return true; //FIXME использовать флаг не совсем корректно, поскольку он не может быть опцией
 			
-			if(this.source instanceof Dino.data.DataSource) this.source.dirty(true);
+			if(this.source instanceof Dino.data.DataSource) if( this.source.dirty(true) ) return true;
 		}
 		else {
 			if(!this.is_dirty) return;
