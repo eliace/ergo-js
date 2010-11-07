@@ -18,7 +18,6 @@ require 'fileutils'
     'js/utils.js',
     'js/states.js',
     'js/layouts/plain-layout.js',
-    'js/layouts/table-row-layout.js',
     'js/layouts/3c-layout.js',
     'js/layouts/stack-layout.js',
     'js/layouts/row-layout.js',

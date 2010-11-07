@@ -63,56 +63,65 @@
 var dlg = $.dino({
 	renderTo: 'body',
 	dtype: 'dialog',
-	content: {
-		cls: 'dino-corner-all',
-		components: {
-			buttons: {
-				weight: 2,
+	components: {
+		window: {
+			content: {
 				dtype: 'box',
-				cls: 'widget-content',
-				style: {'text-align': 'center'},
-				defaultItem: {
-					dtype: 'button',
-					width: 80
-				},
-				items: [{
-					label: 'ОК'
-				}, {
-					label: 'Отмена'
-				}]
-			}
-		},
-		content: {
-			weight: 1,
-			dtype: 'box',
-//			height: 200,
-			cls: 'dino-border-all',
-			components: {
-				header: {
-					dtype: 'box',
-					cls: 'dialog-header widget-content dino-bg-highlight',
-					content: {
-						dtype: 'text-item',
-						label: 'Диалог',
-						showRightIcon: true,
-						style: {'display': 'block'},
-						selectable: false,
-						components: {
-							rightIcon: {
-								cls: 'ui-icon-lightgray ui-icon-circle-close',
-								states: {
-									'hover': ['ui-icon', 'ui-icon-lightgray']
-								}
-							}
-						}
+				cls: 'dino-corner-all',
+				components: {
+					buttons: {
+						weight: 2,
+						dtype: 'box',
+						cls: 'widget-content',
+						style: {
+							'text-align': 'center'
+						},
+						defaultItem: {
+							dtype: 'button',
+							width: 80
+						},
+						items: [{
+							label: 'ОК'
+						}, {
+							label: 'Отмена'
+						}]
 					}
 				},
 				content: {
+					weight: 1,
 					dtype: 'box',
-					cls: 'widget-content',
-					text: Samples.loremipsum
+					width: 400,
+					cls: 'dino-border-all',
+					components: {
+						header: {
+							dtype: 'box',
+							cls: 'dialog-header widget-content dino-bg-highlight',
+							content: {
+								dtype: 'text-item',
+								label: 'Диалог',
+								showRightIcon: true,
+								style: {
+									'display': 'block'
+								},
+								selectable: false,
+								components: {
+									rightIcon: {
+										cls: 'ui-icon-lightgray ui-icon-circle-close',
+										states: {
+											'hover': ['ui-icon', 'ui-icon-lightgray']
+										}
+									}
+								}
+							}
+						},
+						content: {
+							dtype: 'box',
+							cls: 'widget-content',
+							text: Samples.loremipsum
+						}
+					}
 				}
-			}			
+			}
 		}
 	}
 });	
@@ -122,7 +131,7 @@ $.dino({
 	label: 'Открыть диалог',
 	onAction: function() {
 		dlg.open();
-		dlg.content.buttons.getItem(1).el.focus();
+		dlg.window.content.buttons.getItem(1).el.focus();
 	}
 });
 

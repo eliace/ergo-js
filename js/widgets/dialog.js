@@ -1,6 +1,12 @@
 
 
 
+
+
+
+
+
+
 Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	
 	defaultOptions: {
@@ -10,23 +16,26 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 				dtype: 'box',
 				cls: 'dino-dialog-overlay'
 			},
-			dialogBox: {
+			window: {
 				dtype: 'box',
-				cls: 'dino-dialog-content'
-//				width: 100,
-//				height: 100
-//				style: {'display': 'none'}
+				cls: 'dino-dialog-content',
+				content: {
+					dtype: 'box'
+				}
 			}
 		},
 		style: {'display': 'none'}
-//		state: 'hidden'
 	},
 	
 	
-	_opt: function() {
+	_opt: function(o) {
 		Dino.widgets.Dialog.superclass._opt.apply(this, arguments);
 		
 		var self = this;
+		
+//		if('dialogContent' in o) {
+//			this.window.addComponent('content', o.dialogContent);
+//		}
 		
 		this.overlay.el.click(function(){
 			self.close();
@@ -36,19 +45,33 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	open: function() {
 //		this.states.clear('hidden');
 //		this.el.show();
-		var box = this.dialogBox;
+		var box = this.window.content;//.getDialogContent();
 		
 //		this.el.fadeIn(300, function(){
 //		});
 		
+		box.el.css({'visibility': 'hidden'});
+		
 		this.el.show();
-			
+		
+				
 		var w = box.el.width();
 		var h = box.el.height();
 		
-		box.el.css('margin-left', -w/2);
-		box.el.css('margin-top', -h/2);
+		
+		var wnd = this.window;
+		
+		wnd.el.width(100);
+		wnd.el.height(100);
+		
+		wnd.el.css('margin-left', -100/2);
+		wnd.el.css('margin-top', -100/2);
 
+		wnd.el.animate({width: w, height: h, 'margin-left': -w/2, 'margin-top': -h/2}, 300, function(){
+			box.el.css({'visibility': ''});
+		});
+		
+		
 		
 		box.el.focus();			
 		
@@ -62,6 +85,10 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		
 		if(this.options.destroyOnClose) this.destroy();
 	}
+	
+//	getDialogContent: function() {
+//		return this.window.content;
+//	}
 	
 	
 }, 'dialog');

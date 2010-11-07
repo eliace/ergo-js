@@ -13,6 +13,8 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
 		
 		this.attach(this.options.container);
+		
+		this.items = [];
 	},
 	
 	attach: function(c) { 
