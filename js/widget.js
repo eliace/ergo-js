@@ -100,11 +100,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
 			layoutOpts = {dtype: layoutOpts};
-		if(!(layoutOpts instanceof Dino.Layout))//Dino.isPlainObject(layoutOpts))
-			layoutOpts = Dino.object( Dino.utils.overrideOpts({container: this}, layoutOpts));
+		if(!(layoutOpts instanceof Dino.Layout))
+			layoutOpts = Dino.object( layoutOpts );//Dino.utils.overrideOpts({container: this}, layoutOpts));
 		this.layout = layoutOpts;
 		//FIXME костыль
-		if(!this.layout.container) this.layout.attach(this);
+//		if(!this.layout.container) this.layout.attach(this);
+		this.layout.attach(this.layout.options.container || this);
 
 		// конструируем виджет
 		this._init(o);//this, arguments);		

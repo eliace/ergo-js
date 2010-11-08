@@ -301,10 +301,10 @@
 
 
 /*
- * BAR LAYOUT
+ * LAYOUT (FLOAT)
  */
 
-.bar-item {
+.float-item {
 	float: left;
 }
 

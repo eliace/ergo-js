@@ -1,5 +1,33 @@
 
 
+/*
+Dino.utils.dynamic_layout(layout) {
+	
+	Dino.override(layout, {
+		items: [],
+		deferred_items: [],
+		
+		insert: function(item, key) {
+			this.deferred_items.push(item);
+		},
+		
+		remove: function(item) {
+			Dino.remove_from_array(this.items.item);
+			Dino.remove_from_array(this.deferred_items.item);
+		},
+		
+		clear: function() {
+			Dino.each(this.items, function(item) { item.el.detach(); });
+			this.items = [];
+			this.deferred_items = [];
+		}
+		
+	});
+	
+}
+*/
+
+
 
 /**
  * Базовый класс для контейнеров
@@ -80,6 +108,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		this.children.add(item);
 		this.layout.insert(item, key);
+//		this.layout.rebuild();
 		
 		if('show' in item) item.show();
 //		if(item.el.parents().is('body')) item._afterRender();
@@ -134,7 +163,6 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	eachItem: function(callback) {
 		for(var i = 0; i < this.items.length; i++)
 			callback.call(this, this.items[i], i);
-//		this.children.each(callback);
 	},
 	
 	/**
@@ -166,6 +194,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ArrayDataSource(data);
 		
 		
+		
 		var self = this;
 		
 		// если добавлен новый элемент данных, то добавляем новый виджет
@@ -180,30 +209,43 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			self.destroyItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
 		});
 		
+		// эсли элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onItemChanged', function(e){
 			self.getItem( e.item.id ).setData(self.data.item(e.item.id), 2);
 //			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 		});
 
+		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 		this.data.events.reg('onValueChanged', function(e){
-			// уничтожаем все элементы
+			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
+			
+			this.layout.immediateRebuild = false;
 			
 			self.data.each(function(val, i){
 				var dataItem = self.data.item(i);
-//				self.addItem({ 'data': dataItem });
 				self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 			});
+
+			this.layout.immedateRebuild = true;
+			this.layout.rebuild();
+			
 		});
 		
 		
 		this.destroyAllItems();
+
+		this.layout.immediateRebuild = false;
 		
 		this.data.each(function(val, i){
 			var dataItem = self.data.item(i);
 			self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 		});
 		
+		this.layout.immediateRebuild = true;
+		this.layout.rebuild();
+		
+//		console.log('update on data set');
 		
 //		// всем предопределенным виджетам подсоединяем источники данных
 //		this.eachItem(function(item, i){

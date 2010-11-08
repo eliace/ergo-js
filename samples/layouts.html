@@ -70,7 +70,7 @@ $.dino({
 
 
 
-<div id="sample-bar">
+<div id="sample-float">
 <style>
 	
 .bar-text-item {
@@ -82,7 +82,7 @@ $.dino({
 <script>
 $.dino({
   dtype: 'box',
-  layout: 'bar-layout',
+  layout: 'float-layout',
   items: [{
     cls: 'dino-icon led-icon-smile'
   }, {
@@ -97,8 +97,8 @@ $.dino({
 	
 </div>
 <div class="desc">
+	<p>Плавающая компоновка основана на стиле <strong>float</strong>.</p>
 </div>
-	
 </div>
 
 
@@ -147,22 +147,22 @@ $.dino({
 $.dino({
   dtype: 'box',
   layout: 'column-layout',
-	height: 200,
+  height: 200,
   items: [{
     cls: 'dino-border-all',
-		style: {'padding': 10},
-		content: {
-			dtype: 'box',
-			text: 'Widget 1',
-			height: '100%',
-			style: {'border': '1px solid #ccc'}
-		}
+    style: {'padding': 10},
+    content: {
+      dtype: 'box',
+      text: 'Widget 1',
+      height: '100%',
+      style: {'border': '1px solid #ccc'}
+    }
   }, {
     cls: 'dino-border-all',
-		content: {
-			dtype: 'box',
-			text: 'Widget 2'
-		}
+    content: {
+      dtype: 'box',
+      text: 'Widget 2'
+    }
   }]
 });
 </script>
@@ -186,8 +186,8 @@ samplePage([{
 	name: 'Dock',
 	id: '#sample-dock'
 }, {
-	name: 'Bar',
-	id: '#sample-bar'
+	name: 'Float',
+	id: '#sample-float'
 }, {
 	name: 'Column',
 	id: '#sample-column'

@@ -1,48 +1,50 @@
 
 
-Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
+Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.layouts.StatefulLayout', {
 	
-	initialize: function(){
-		Dino.layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
-		
-		this.items = [];
-	},
+//	initialize: function(){
+//		Dino.layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
+//		
+//		this.items = [];
+//	},
 	
 	
 	insert: function(item) {
+		Dino.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
 		if(this.container instanceof Dino.Layout)
 			this.container.insert(item);
-		
-		this.items.push(item);
+//		else
+//		console.log(this.container);
+//		this.items.push(item);
 	},
 	
 	remove: function(item) {
+		Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
 		if(this.container instanceof Dino.Layout)
 			this.container.remove(item);
 		
-		Dino.remove_from_array(this.items, item)
-//		var i = Dino.indexOf(this.items, item);
-//		this.items.splice(i, 1);
+//		Dino.remove_from_array(this.items, item)
 		
-		item.el.detach();
+//		item.el.detach();
 		
 //		console.log('item removed from layout');
 	},
 	
-	clear: function() {
-		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
+//	clear: function() {
+//		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
 //		this.container.el.empty();
-		Dino.each(this.items, function(item){
-			item.el.detach();
-		})
-		this.items = [];
-	},
+//		Dino.each(this.items, function(item){
+//			item.el.detach();
+//		})
+//		this.items = [];
+//	},
 	
-	update: function() {
+	
+	rebuild: function() {
 
 		// если эта компоновка является дочерней/зависимой, то обновление выполнять не нужно
 		if(this.container instanceof Dino.Layout) return;
@@ -67,7 +69,8 @@ Dino.declare('Dino.layouts.TreeGridLayout', Dino.Layout, {
 			self.container.el.append(item.el);
 		});
 		
-//		console.log('tree-grid-layout updated');
+//		console.log('rebuild tree-grid')
+//		console.log(this.container.data.get());
 	}
 	
 }, 'tree-grid-layout');
@@ -168,52 +171,45 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 	},
 	
 	
-	_init: function() {
+	_init: function(o) {
 		Dino.widgets.TreeTable.superclass._init.apply(this, arguments);
 
-		var bodyLayout = new Dino.layouts.TreeGridLayout({updateMode: 'manual'});
+		var bodyLayout = new Dino.layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
+//		bodyLayout.immediateRebuild = false;
 		
-		Dino.utils.overrideOpts(this.options.components.body, {
-			layout: bodyLayout,
-			defaultItem: {
-				components: {
-					subtree: {
-						layout: {
-							dtype: 'tree-grid-layout',
-							container: bodyLayout
-						}
-					}
-				},
-				defaultSubItem: {
-					components: {
-						subtree: {
-							layout: {
-								dtype: 'tree-grid-layout',
-								container: bodyLayout
-							}
-						}
-					}						
-				}
-			}
-		});
+		o.components.body.layout = bodyLayout;
 
+		// определяем, 
+		var defaultNode = {
+			components: {
+				subtree: {
+					layout: {
+						dtype: 'tree-grid-layout',
+						container: bodyLayout
+					}
+				}
+			}			
+		};
+
+		Dino.utils.overrideOpts(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		
 		
 		Dino.utils.overrideOpts(
-				this.options.components.body.defaultItem.defaultSubItem, 
-				this.options.tableModel.row, 
-				{defaultItem: this.options.tableModel.cell},
-				{items: this.options.tableModel.columns}
+				o.components.body.defaultItem.defaultSubItem,
+				o.tableModel.row, 
+				{defaultItem: o.tableModel.cell},
+				{items: o.tableModel.columns}
 		);
 		
 		
-	},
+	}
 
 	
-	_layoutChanged: function() {
-		Dino.widgets.TreeTable.superclass._layoutChanged.apply(this, arguments);
-		
-		this.body.layout.update();
-	}
+//	_layoutChanged: function() {
+//		Dino.widgets.TreeTable.superclass._layoutChanged.apply(this, arguments);
+//		
+//		this.body.layout.update();
+//	}
 
 	
 	
@@ -231,7 +227,7 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 		cls: 'dino-tree-grid-row',
 		indent: 0,
 		defaultItem: {
-			dtype: 'tree-table-cell'
+			dtype: 'table-cell'
 		},
 		components: {
 			subtree: {
@@ -327,16 +323,73 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 
 Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 	
-	_afterBuild: function() {
-		var o = this.options;
-		this.children.each(function(child){ child.opt('indent', o.indent); });
+	defaultOptions: {
+		content: {
+			// этот контейнер нужен, чтобы работал стиль position: absolute
+			dtype: 'box',
+			content: {
+				// контейнер для вставки отступов
+				dtype: 'box',
+				style: {'display': 'inline', 'position': 'relative'},
+				cls: 'dino-tree-node',
+//				style: {},
+				components: {
+					button: {
+						dtype: 'icon',
+						weight: 1,
+						cls: 'dino-tree-node-button',
+						clickable: true,
+						onClick: function() {
+							var row = this.parent.parent.parent.getRow();
+							if(row.states.is('collapsed')){
+								this.parent.states.set('expanded');
+								row.expand();
+							}
+							else{
+								this.parent.states.set('collapsed');
+								row.collapse();
+							}
+						},
+						states: {
+							'leaf': 'dino-hidden'
+						}
+					},
+					content: {
+						dtype: 'text-item',
+						cls: 'dino-tree-node-content'
+					}
+				},
+				states: {
+					'expanded': ['expanded', 'collapsed'],
+					'collapsed': ['collapsed', 'expanded']
+				}
+			}
+		}
+	},
+	
+	_opt: function(o) {
+		this.constructor.superclass._opt.apply(this, arguments);
+		
+		if('indent' in o){
+			for(var i = 0; i < o.indent; i++){
+				this.content.el.prepend('<span class="indent"></span>');
+			}
+		}
 	}
+	
+	
+	
+	
+//	_afterBuild: function() {
+//		var o = this.options;
+//		this.children.each(function(child){ child.opt('indent', o.indent); });
+//	}
 	
 }, 'tree-table-cell');
 
 
 
-
+/*
 Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
 	
 //	_html: function() { return '<td></td>'; },
@@ -407,18 +460,10 @@ Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
 	}
 	
 	
-//	getRow: function() {
-//		return this.parent;
-//	}
-	
-//	startEdit: function() {
-//		
-//	}
-	
 	
 	
 }, 'tree-grid-node');
-
+*/
 
 
 

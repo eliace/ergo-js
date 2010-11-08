@@ -12,11 +12,11 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		
 		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
 		
-		this.attach(this.options.container);
+//		this.attach(this.options.container);
 		
-		this.items = [];
 	},
 	
+	// ассоциация компоновки с контейнером
 	attach: function(c) { 
 		
 		var o = this.options;
@@ -25,6 +25,7 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		if('name' in o) this.container.el.attr('layout', o.name);
 
 	},
+	// удаление ассоциации компоновки с контейнером
 	detach: function() { 
 //		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
 		if('name' in this.options) this.container.el.attr('layout', undefined);
@@ -32,10 +33,18 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 	},
 	
 //	add: function(item) {},
+	// добавление нового элемента-виджета в компоновку
 	insert: function(item, i) {},
+	// удаление элемента-виджета из компоновки
 	remove: function(item) {},
+	// обновление компоновки (позиции, размеров элементов)
 	update: function() {},
+	// обновление компоновки (порядка, количества элементов)
+	rebuild: function() {},
+	// очистка компоновки от всех элементов (уничтожения дочерних элементов не происходит)
 	clear: function() {}
-	
+//	batch: function(callback) {}
 });
+
+
 

@@ -1,14 +1,14 @@
 
 
-Dino.declare('Dino.layouts.BarLayout', 'Dino.layouts.PlainLayout', {
+Dino.declare('Dino.layouts.FloatLayout', 'Dino.layouts.PlainLayout', {
 	
 	defaultOptions: {
-		name: 'bar',
+		name: 'float',
 		clearfix: true
 	},
 	
 	attach: function(c) {
-		Dino.layouts.BarLayout.superclass.attach.call(this, c);
+		Dino.layouts.FloatLayout.superclass.attach.call(this, c);
 		// добавляем элемент-clearfix
 		if(this.options.clearfix) {
 			this.clearfix_el = $('<div class="clearfix"></div>');
@@ -18,7 +18,7 @@ Dino.declare('Dino.layouts.BarLayout', 'Dino.layouts.PlainLayout', {
 	
 	insert: function(item) {
 		(this.options.clearfix) ? this.clearfix_el.before(item.el) : this.container.el.append(item.el);
-		item.el.addClass('bar-item');
+		item.el.addClass('float-item');
 	},
 	
 	clear: function() {
@@ -27,4 +27,4 @@ Dino.declare('Dino.layouts.BarLayout', 'Dino.layouts.PlainLayout', {
 	
 	
 	
-}, 'bar-layout');
+}, 'float-layout');
