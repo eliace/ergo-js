@@ -92,7 +92,17 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //	},
 	
 	getItem: function(i){
-		return this.children.get(i);
+//		return this.children.get(i);
+		
+		var f = null;
+		
+		if( _dino.isNumber(i) ) return this.items[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		else return null;
+		
+		return Dino.find_one(this.items, f);	
 	},
 	
 	addItem: function(item, key) {
@@ -115,6 +125,12 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	
 //		item.events.fire('onAdded');
 		this.events.fire('onItemAdded', {'item': item});
+		
+//		if(this.el.parents().is('body')){
+//			item._afterRender();
+//		}
+		
+//		if('_afterAdded' in item) item._afterAdded.call(this, this);
 		
 		return item;
 	},
@@ -220,15 +236,15 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
 			
-			this.layout.immediateRebuild = false;
+			self.layout.immediateRebuild = false;
 			
 			self.data.each(function(val, i){
 				var dataItem = self.data.item(i);
 				self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 			});
 
-			this.layout.immedateRebuild = true;
-			this.layout.rebuild();
+			self.layout.immediateRebuild = true;
+			self.layout.rebuild();
 			
 		});
 		

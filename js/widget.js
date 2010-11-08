@@ -174,6 +174,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
+				this._afterRender();
 				this._layoutChanged();
 			}
 		}
@@ -201,6 +202,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	_events: function(self){
+	},
+	
+	
+	_afterRender: function() {
+		this.children.each(function(c) { c._afterRender(); });
 	},
 
 
@@ -234,7 +240,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
 		if('baseCls' in o) el.addClass(o.baseCls);
-		if('text' in o) el.append(o.text);
+		if('text' in o) el.text(o.text);
 		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
 			if($.support.opacity) 
@@ -339,8 +345,19 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 				if(!Dino.contextMenuReady){
 					$(document).bind('contextmenu', function(e){
 						var w = $(e.target).dino();
-						if(w){
-							var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
+						if(!w || !w.contextMenu) {
+							w = undefined;
+							$(e.target).parents().each(function(i, el){
+								var parent = $(el).dino();
+								if(parent && parent.contextMenu){
+									w = parent;
+									return false;
+								}
+							});
+						}
+						
+//						if(w){
+//							var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
 							if(w){
 								w.events.fire('onContextMenu', new Dino.events.CancelEvent());
 								if(!e.isCanceled){
@@ -349,7 +366,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 								}
 								e.preventDefault();
 							}
-						}
+//						}
 					});
 					Dino.contextMenuReady = true;
 				}
@@ -478,7 +495,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		this.dataPhase = phase;
 		
-		if(this.data) data.destroy(); //<-- экспериментальный код
+//		if(this.data) data.destroy(); //<-- экспериментальный код
 		
 		
 		if('dataId' in o){

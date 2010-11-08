@@ -156,11 +156,15 @@ var Dino = (function(){
 	D.each = function(src, callback){
 		if(Dino.isArray(src)){
 			var arr = src;
-			for(var i = 0; i < arr.length; i++) callback.call(arr, arr[i], i);
+			for(var i = 0; i < arr.length; i++){
+				if( callback.call(arr, arr[i], i) === false ) break;
+			}
 		}
 		else {
 			var obj = src;
-			for(var i in obj) callback.call(obj, obj[i], i);
+			for(var i in obj){
+				if( callback.call(obj, obj[i], i) === false ) break;
+			}	
 		}
 	}
 	

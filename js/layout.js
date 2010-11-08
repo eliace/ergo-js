@@ -21,9 +21,18 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		
 		var o = this.options;
 		
-		this.container = c; 
+		this.container = c;
+				
 		if('name' in o) this.container.el.attr('layout', o.name);
 
+		this.el = this.container.el;
+		
+		if(o.html){
+			var html = $(o.html);
+			this.el = (o.htmlSelector) ? $(o.htmlSelector, html) : html;
+			this.container.el.append(html);
+		}
+		
 	},
 	// удаление ассоциации компоновки с контейнером
 	detach: function() { 

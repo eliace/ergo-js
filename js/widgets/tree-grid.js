@@ -15,6 +15,10 @@ Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.layouts.StatefulLayout', {
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
 		if(this.container instanceof Dino.Layout)
 			this.container.insert(item);
+		else {
+			if(this.container.el.parents().is('body')) item._afterRender();
+		}
+		
 //		else
 //		console.log(this.container);
 //		this.items.push(item);
@@ -271,6 +275,8 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 //				
 //	},
 	
+		
+	
 	eachDescendantRow: function(callback) {
 		if(arguments.length == 2){
 			callback.call(this, this);
@@ -311,7 +317,8 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 	},
 	
 	getParentRow: function() {
-		return this.parent.parent;
+		var w = this.parent.parent;
+		return (w instanceof Dino.widgets.TreeTableRow) ? w : undefined;
 	}
 	
 	
@@ -324,60 +331,104 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 	
 	defaultOptions: {
-		content: {
-			// этот контейнер нужен, чтобы работал стиль position: absolute
-			dtype: 'box',
-			content: {
-				// контейнер для вставки отступов
-				dtype: 'box',
-				style: {'display': 'inline', 'position': 'relative'},
-				cls: 'dino-tree-node',
-//				style: {},
+		layout: {
+			dtype: 'plain-layout',
+			html: '<div></div>'
+//			htmlSelector: 'div'
+		},
+//		components: {
+//			content: {
+//				// этот контейнер нужен, чтобы работал стиль position: absolute
+//				dtype: 'box',
 				components: {
-					button: {
-						dtype: 'icon',
-						weight: 1,
-						cls: 'dino-tree-node-button',
-						clickable: true,
-						onClick: function() {
-							var row = this.parent.parent.parent.getRow();
-							if(row.states.is('collapsed')){
-								this.parent.states.set('expanded');
-								row.expand();
-							}
-							else{
-								this.parent.states.set('collapsed');
-								row.collapse();
+					content: {
+						// контейнер для вставки отступов
+						dtype: 'box',
+						style: {'display': 'inline', 'position': 'relative'},
+						cls: 'dino-tree-node',
+						components: {
+							button: {
+								dtype: 'icon',
+								weight: 1,
+								cls: 'dino-tree-node-button',
+								clickable: true,
+								onClick: function() {
+									var row = this.parent.parent.getRow();
+									if(row.states.is('collapsed')){
+										this.parent.states.set('expanded');
+										row.expand();
+									}
+									else{
+										this.parent.states.set('collapsed');
+										row.collapse();
+									}
+								},
+								states: {
+									'leaf': 'dino-hidden'
+								}
+							},
+							content: {
+								dtype: 'text-item',
+								cls: 'dino-tree-node-content'
 							}
 						},
 						states: {
-							'leaf': 'dino-hidden'
+							'expanded': ['expanded', 'collapsed'],
+							'collapsed': ['collapsed', 'expanded']
 						}
-					},
-					content: {
-						dtype: 'text-item',
-						cls: 'dino-tree-node-content'
 					}
 				},
-				states: {
-					'expanded': ['expanded', 'collapsed'],
-					'collapsed': ['collapsed', 'expanded']
-				}
-			}
-		}
+//			}
+//		},
+		expandOnShow: false
 	},
 	
+	
+	_init: function(o) {
+		Dino.widgets.TreeTableCell.superclass._init.apply(this, arguments);
+		
+//		if('nodeContent' in o)
+//			Dino.utils.overrideOpts(o.components.content.components.content.components.content, o.nodeContent);
+	},
+	
+	
 	_opt: function(o) {
-		this.constructor.superclass._opt.apply(this, arguments);
+		Dino.widgets.TreeTableCell.superclass._opt.apply(this, arguments);
 		
 		if('indent' in o){
 			for(var i = 0; i < o.indent; i++){
-				this.content.el.prepend('<span class="indent"></span>');
+				this.layout.el.prepend('<span class="indent"></span>');
 			}
 		}
+		
+		if('isLeaf' in o) {
+			this.content.button.states.toggle('leaf', o.isLeaf);
+		}
+	},
+	
+	
+	_afterRender: function() {
+		Dino.widgets.TreeTableCell.superclass._afterRender.apply(this, arguments);
+
+//		var expand = this.options.expandOnShow;
+		
+		// если родительская строка скрыта или свернута, то этот узел является свернутым
+		var parentRow = this.getRow().getParentRow();
+		if(parentRow) {
+			(parentRow.states.is('collapsed')) ? parentRow.collapse() : parentRow.expand();
+		}
+//		if(parentRow.states.is('hidden') || parentRow.states.is('collapsed')) expand = false;
+		
+		if(this.options.expandOnShow) {
+			this.content.states.set('expanded');
+			this.getRow().expand();
+		}
+		else {
+			this.content.states.set('collapsed');
+			this.getRow().collapse();
+		}
+		
 	}
-	
-	
 	
 	
 //	_afterBuild: function() {

@@ -24,7 +24,10 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 				}
 			}
 		},
-		style: {'display': 'none'}
+		style: {'display': 'none'},
+		delay: 300,
+		initialWidth: 200,
+		initialHeight: 200
 	},
 	
 	
@@ -33,9 +36,9 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		
 		var self = this;
 		
-//		if('dialogContent' in o) {
-//			this.window.addComponent('content', o.dialogContent);
-//		}
+		if('windowContent' in o) {
+			this.window.addComponent('content', o.windowContent);
+		}
 		
 		this.overlay.el.click(function(){
 			self.close();
@@ -55,19 +58,22 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		this.el.show();
 		
 				
-		var w = box.el.width();
-		var h = box.el.height();
+		var w = box.el.outerWidth();
+		var h = box.el.outerHeight();
 		
 		
 		var wnd = this.window;
 		
-		wnd.el.width(100);
-		wnd.el.height(100);
+		var o = this.options;
 		
-		wnd.el.css('margin-left', -100/2);
-		wnd.el.css('margin-top', -100/2);
+		wnd.el.width(o.initialWidth);
+		wnd.el.height(o.initialHeight);
+		
+		wnd.el.css('margin-left', -o.initialWidth/2);
+		wnd.el.css('margin-top', -o.initialHeight/2);
 
-		wnd.el.animate({width: w, height: h, 'margin-left': -w/2, 'margin-top': -h/2}, 300, function(){
+		
+		wnd.el.animate({width: w, height: h, 'margin-left': -w/2, 'margin-top': -h/2}, o.delay, function(){
 			box.el.css({'visibility': ''});
 		});
 		
@@ -84,11 +90,11 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		this.events.fire('onClose');
 		
 		if(this.options.destroyOnClose) this.destroy();
-	}
+	},
 	
-//	getDialogContent: function() {
-//		return this.window.content;
-//	}
+	getWindowContent: function() {
+		return this.window.content;
+	}
 	
 	
 }, 'dialog');

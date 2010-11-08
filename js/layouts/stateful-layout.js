@@ -16,7 +16,7 @@ Dino.declare('Dino.layouts.StatefulLayout', 'Dino.Layout', {
 	},
 	
 	remove: function(item) {
-		Dino.remove_from_array(this.items.item);
+		Dino.remove_from_array(this.items, item);
 		if(this.immediateRebuild) this.rebuild();
 	},
 	

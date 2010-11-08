@@ -108,6 +108,10 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 			else
 				$(el).addClass('even').removeClass('odd');
 		});
+	},
+	
+	eachRow: function(callback) {
+		this.body.eachItem(callback);
 	}
 	
 	

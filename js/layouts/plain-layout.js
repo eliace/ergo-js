@@ -8,7 +8,7 @@
 Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	
 	insert: function(item) {
-		this.container.el.append( item.el );
+		this.el.append( item.el );
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},
@@ -19,7 +19,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	},
 	
 	clear: function() {
-		this.container.el.empty(); //WARN еще опасный момент все дочерние DOM-элементы уничтожаются
+		this.el.empty(); //WARN еще опасный момент все дочерние DOM-элементы уничтожаются
 	}
 		
 }, 'plain-layout');
