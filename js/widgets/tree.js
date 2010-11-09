@@ -58,6 +58,11 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 		this.subtree.eachItem(function(node){
 			node.walkSubtree(callback);
 		});		
+	},
+	
+	getParentNode: function() {
+		var w = this.parent.parent;
+		return (w instanceof Dino.widgets.TreeNode) ? w : undefined;
 	}
 	
 }, 'tree-node');

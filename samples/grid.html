@@ -115,6 +115,10 @@ $.dino({
 	text-align: center;
 }
 
+.tg-row {
+	cursor: default;
+}
+
 .tree-grid .indent {
 /*	text-align: left;*/	
 	padding-left: 20px;
@@ -152,7 +156,8 @@ var tgTreeData = {
       id: 1,
       value: '456',
 			type: 'folder',
-      name: 'WINDOWS'
+      name: 'WINDOWS',
+			children: []
     }, {
       id: 2,
       value: '789',
@@ -162,7 +167,8 @@ var tgTreeData = {
         id: 5,
         name: 'VideoPlayer',
 				type: 'folder',
-        value: 0
+        value: 0,
+				children: []
       }]
     }]
   }, {
@@ -234,7 +240,19 @@ $.dino({
       cls: 'tg-cell'
     },
     row: {
+			cls: 'tg-row',
       state: 'expanded',
+			dropTarget: true,
+			onDrop: function(e) {
+				
+				var val = e.source.data.get();
+				e.source.data.del();
+				
+				this.data.item('children').add(val);
+				
+//				message.info('' + e.source.data.get('name') + ' dropped');
+				
+			}
 //      cls: 'tg-row'
     },
     columns: [{
@@ -259,7 +277,19 @@ $.dino({
 						content: {
 		      		dataId: 'name'
 						}
-					}				
+					},
+					selectable: false,
+					draggable: true,
+					onDragStart: function(e)	{
+						
+						e.dragData.proxy = $.dino({
+							dtype: 'text',
+							text: this.getText(),
+							cls: 'dino-border-all',
+							style: {'background-color': '#fff'},
+							opacity: .7
+						});						
+					}
 				}				
 			},
 			binding: {

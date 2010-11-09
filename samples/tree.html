@@ -201,45 +201,6 @@ $.dino({
 		}
 	}
 	
-/*	
-  components: {
-    subtree: {
-      defaultItem: {
-        expandOnShow: true
-      }			
-    }
-  },
-
-  defaultSubItem: {
-
-    dtype: 'text-tree-item',
-    cls: 'simple-tree-node',
-    content: {
-      components: {
-        leftIcon: {
-          states: {
-            'computer': 'led-icon-computer',
-            'drive': 'led-icon-drive',
-            'folder': 'led-icon-folder',
-            'file': 'led-icon-page',
-          }
-        },
-      },
-      cls: 'simple-tree-node-content',
-      dataId: 'name'
-    },
-
-//    expandOnShow: true,
-    onStateChanged: function(e) {
-//      e.translateStateTo(this.content.leftIcon);
-    },		
-    optBinding: function(o) {
-      o.state = this.data.get('type');
-      o.isLeaf = (this.data.get('type') == 'file');
-      o.toggleOnClick = (this.data.get('type') != 'file');
-    }
-  }
-*/  
 });
 
 </script>	
@@ -250,6 +211,184 @@ $.dino({
 	
 </div>
 </div>
+
+
+
+
+<script>
+/*	
+var drag = null;
+var proxy = null;	
+
+$('body').mousemove(function(e){
+	if(!drag) return;
+	
+	if(!drag.started) {
+//		if(drag.x != e.pageX || drag.y != e.pageY){
+			
+//		}
+	}
+	else {
+		proxy.el.css({'left': e.pageX+3, 'top': e.pageY+3});
+	}
+	
+});
+	
+	
+$('body').mouseup(function(e){
+	
+	if(drag && drag.started) {
+		proxy.destroy();
+		
+		var target = $(e.originalTarget);
+		var w = target.dino();
+		if(!w || !w.options.dropTarget){
+			target.parents().each(function(i, el){
+				w = $(el).dino();
+				if(w && w.options.dropTarget) return false;
+			});
+		}
+		
+		if(w) {
+			w.events.fire('onDrop', {source: drag.source});
+		}
+		
+		drag = null;
+	}
+	
+});	
+*/	
+	
+	
+</script>
+
+
+
+
+<div id="sample-tree-dragndrop">
+<style>	
+	
+</style>
+<script>
+$.dino({
+  dtype: 'tree',
+	cls: 'simple-tree',
+	
+	treeModel: {
+		node: {
+			cls: 'simple-tree-node',
+			expandOnShow: true,
+			components: {
+				content: {
+					cls: 'dino-clickable',
+					showLeftIcon: true,
+					components: {
+						leftIcon: {
+							states: {
+	              'brick': 'led-icon-brick',
+	              'door': 'led-icon-door',
+	              'user': 'led-icon-user'								
+							}
+						}
+					},
+/*					
+					events: {
+						// обработчик mousedown, т.к. это drag source
+						'mousedown': function(e) {
+							if(!Dino.drag) {
+								Dino.drag = {
+									started: false,
+									source: $(this).dino()
+								}						
+							}
+						},
+						'mouseout': function(e, w) {
+							
+							var drag = Dino.drag;
+							
+							if(drag && drag.source == w && !drag.started){
+								drag.started = true;
+								drag.source.events.fire('onDragStarted', {dragData: drag});
+								
+								drag.dragProxy = $.dino({
+									renderTo: 'body',
+									dtype: 'text',
+									text: w.getText(),
+									cls: 'dino-border-all',
+									style: {'position': 'absolute', 'background-color': '#fff'},
+									opacity: .7
+								});								
+							}
+						}
+					},
+*/					
+
+					draggable: true,
+					onDragStart: function(e) {
+						this.parent.states.set('dragged');
+						
+						e.dragData.proxy = $.dino({
+							dtype: 'text',
+							text: this.getText(),
+							cls: 'dino-border-all',
+							style: {'background-color': '#fff'},
+							opacity: .7
+						});
+						
+					},
+					onDrop: function(e) {
+						if(this != e.source)
+							this.parent.subtree.addItem(e.source.parent);
+							
+						e.source.parent.states.clear('dragged');
+					},
+					dropTarget: true
+				}		
+			},
+//			states: {
+//				'dragged': 'dino-hidden'
+//			}
+		}
+	},
+  subtree: [{
+    label: '1 этаж',
+    state: 'brick',
+		toggleOnClick: true,
+    subtree: [{
+      label: 'каб. 111',
+      state: 'door',
+      subtree: [{
+        state: ['user', 'leaf'],
+        label: 'Волков А.А.'
+//				isLeaf: true
+      }]
+    }, {
+      label: 'каб. 112',
+      state: 'door',
+      subtree: [{
+        state: ['user', 'leaf'],
+        label: 'Куницына А.Б.'
+//				isLeaf: true
+      }, {
+        state: ['user', 'leaf'],
+        label: 'Медведев Р.В.'
+//				isLeaf: true
+      }]
+    }, {
+      label: 'каб. 113',
+      state: 'door'
+    }]
+  }]
+});
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
 
 
 
@@ -266,6 +405,9 @@ samplePage([{
 }, {
 	name: 'Binding',
 	id: '#sample-binding-tree'
+}, {
+	name: "Drag'n'drop",
+	id: '#sample-tree-dragndrop'
 }]);
 	
 		

@@ -49,6 +49,28 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		},
 		'selectable': function(e) {
 			e.preventDefault();
+		},
+		'draggable_mousedown': function(e) {
+			if(!Dino.drag) {
+				Dino.drag = {
+					started: false,
+					source: $(this).dino()
+				}						
+			}			
+		},
+		'draggable_mouseout': function(e) {
+			
+			var drag = Dino.drag;
+			
+			if(drag && drag.source == $(this).dino() && !drag.started){
+				drag.started = true;
+				drag.source.events.fire('onDragStart', {dragData: drag});
+				
+				if(drag.proxy){
+					drag.proxy.el.css({'position': 'absolute'});
+					$('body').append(drag.proxy.el);
+				}
+			}			
 		}
 	},
 			
@@ -329,6 +351,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('selectable' in o)
 			this._toggle_handler('selectable', 'mousedown', !o.selectable); //<-- инверсия флага, поскольку обработчик нужен для отключения выделения
 		
+		if('draggable' in o){
+			this._toggle_handler('draggable_mousedown', 'mousedown', o.draggable);
+			this._toggle_handler('draggable_mouseout', 'mouseout', o.draggable);
+		}
 		
 		if('contextMenu' in o) {
 			
@@ -341,35 +367,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			
 				this.contextMenu = cm;
 	
-				//TODO возможно этот код стоит перенести в другое место
-				if(!Dino.contextMenuReady){
-					$(document).bind('contextmenu', function(e){
-						var w = $(e.target).dino();
-						if(!w || !w.contextMenu) {
-							w = undefined;
-							$(e.target).parents().each(function(i, el){
-								var parent = $(el).dino();
-								if(parent && parent.contextMenu){
-									w = parent;
-									return false;
-								}
-							});
-						}
-						
-//						if(w){
-//							var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
-							if(w){
-								w.events.fire('onContextMenu', new Dino.events.CancelEvent());
-								if(!e.isCanceled){
-									w.contextMenu.sourceWidget = w;
-									w.contextMenu.show(e.pageX, e.pageY);
-								}
-								e.preventDefault();
-							}
-//						}
-					});
-					Dino.contextMenuReady = true;
-				}
 			
 			}
 		}
@@ -652,4 +649,83 @@ $.fn.dino = function(o) {
 	return Dino.widget(o);
 };
 
+
+
+
+$(document).ready(function(){
+	
+//	var drag = null;
+	
+	
+	//TODO возможно этот код стоит перенести в другое место
+//	if(!Dino.contextMenuReady){
+		$(document).bind('contextmenu', function(e){
+			var w = $(e.target).dino();
+			if(!w || !w.contextMenu) {
+				w = undefined;
+				$(e.target).parents().each(function(i, el){
+					var parent = $(el).dino();
+					if(parent && parent.contextMenu){
+						w = parent;
+						return false;
+					}
+				});
+			}
+			
+//			if(w){
+//				var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
+				if(w){
+					var cancel_event = new Dino.events.CancelEvent();
+					w.events.fire('onContextMenu', cancel_event);
+					if(!cancel_event.isCanceled){
+						w.contextMenu.sourceWidget = w;
+						w.contextMenu.show(e.pageX, e.pageY);
+					}
+					e.preventDefault();
+				}
+//			}
+		});
+//		Dino.contextMenuReady = true;
+//	}
+	
+	
+
+	$('body').mousemove(function(e){
+		var drag = Dino.drag;
+
+		if(!drag) return;
+		
+		if(drag && drag.started && drag.proxy) {
+			drag.proxy.el.css({'left': e.pageX+3, 'top': e.pageY+3});
+		}
+		
+	});
+				
+	$('body').mouseup(function(e){
+		
+		var drag = Dino.drag;		
+		
+		if(drag && drag.started) {
+			// уничтожаем прокси-объект
+			if(drag.proxy) drag.proxy.destroy();
+			
+			// ищем цель переноса под курсором (если виджет имеет опцию dropTarget)
+			var target = $(e.originalTarget);
+			var w = target.dino();
+			if(!w || !w.options.dropTarget){
+				target.parents().each(function(i, el){
+					w = $(el).dino();
+					if(w && w.options.dropTarget) return false;
+				});
+			}
+			
+			if(w) w.events.fire('onDrop', {source: drag.source});			
+		}
+		
+		Dino.drag = null;		
+		
+	});	
+	
+		
+});
 
