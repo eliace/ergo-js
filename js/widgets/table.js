@@ -9,7 +9,8 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 //				dtype: 'box',
 //				wrapEl: '<colgroup></colgroup>',
 //				defaultItem: {
-//					wrapEl: '<col>'
+//					dtype: 'box',
+//					wrapEl: '<col></col>'
 //				}
 //			},
 			head: {
@@ -56,30 +57,29 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 		
 		var h_columns = o.headerModel.columns;
 		var columns = o.tableModel.columns;
+		var g_columns = [];
 		
-//		var headRow = {items: []};
-//		var h_cells = [];
-//		var cells = [];
-//		var cols = [];
 		
-//		for(var i = 0; i < columns.length; i++){
-//			var h_c = h_columns[i];
-//			var c = columns[i];
-			
-//			var col = Dino.utils.overrideOpts({text: columns[i].title}, o.tableModel.header, c.header);
-//			if('width' in c) col.width = c.width;
-//			headRow.items.push(col);
-			
-//			var col = {};
-//			if('width' in columns[i]) col.width = columns[i].width;
-//			cols.push(col);
-			
-//			h_cells.push(h_c);
-//			cells.push(c);
+//		for(var i = 0; i < h_columns.length; i++) {
+//			var col = {}
+//			if('width' in h_columns[i]) col.width = h_columns[i].width;
+//			g_columns[i] = col;
 //		}
-				
-//		this.options.components.colgroup.items = cols;
-//		this.options.components.head.items = [headRow];
+//		
+//		
+//		for(var i = 0; i < columns.length; i++) {
+//			var col = {}
+//			if('width' in columns[i]) col.width = columns[i].width;
+//			g_columns[i] = col;
+//		}
+//		
+//		
+//		
+//		Dino.utils.overrideOpts(
+//				o.components.colgroup, 
+//				{items: g_columns}
+//				);
+		
 		
 		Dino.utils.overrideOpts(
 				o.components.body.defaultItem, 

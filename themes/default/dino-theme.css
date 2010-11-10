@@ -6,7 +6,8 @@
 
 .dino-border-all { border: 1px solid #aaaaaa; }
 .dino-border-bottom { border-bottom: 1px solid #aaaaaa; }
-.dino-border-top { border: 1px solid #aaaaaa; }
+.dino-border-top { border-top: 1px solid #aaaaaa; }
+.dino-border-no-right { border-right: none;}
 
 
 .dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
@@ -79,6 +80,27 @@
 	left: 50%;
 	margin-left: -8px;
 	margin-top: -8px;
+}
+
+
+
+/*
+ * SPLIT BUTTON
+ */
+.dino-split-button-2-icon {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -16px;
+	margin-top: -8px;
+}
+
+.dino-split-button-1 {
+	color: #444;
+}
+
+.dino-split-button-1:hover {
+	color: #000;
 }
 
 
@@ -283,7 +305,7 @@ span.r-icon {
 
 .dino-tree-node.collapsed > .dino-tree-node-button {
 	/* ui-icon-triangle-1-e */
-	background-position: -32px -16px;
+	background-position: -160px -16px;
 	background-image: url(img/ui-icons_888888_256x240.png);
 }
 
@@ -488,11 +510,14 @@ span.r-icon {
 .led-icon-group { background-image: url(img/led/group.png); }
 .led-icon-cog { background-image: url(img/led/cog.png); }
 .led-icon-pencil { background-image: url(img/led/pencil.png); }
+.led-icon-textfield { background-image: url(img/led/textfield.png); }
+.led-icon-text-list-numbers { background-image: url(img/led/text_list_numbers.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
 
 .dino-off.led-icon-calendar_1 { background-image: url(img/led_grey/calendar_1.png); }
+
 
 /*
 .dino-shade.dino-icon-add { background-image: url(./img/led_shade/add.png); }
@@ -532,6 +557,7 @@ span.r-icon {
 .ui-icon-triangle-1-nw { background-position: -112px -16px; }
 .ui-icon-triangle-2-n-s { background-position: -128px -16px; }
 .ui-icon-triangle-2-e-w { background-position: -144px -16px; }
+.ui-icon-triangle-3-e { background-position: -160px -16px; }
 .ui-icon-arrow-1-n { background-position: 0 -32px; }
 .ui-icon-arrow-1-ne { background-position: -16px -32px; }
 .ui-icon-arrow-1-e { background-position: -32px -32px; }

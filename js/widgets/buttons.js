@@ -256,6 +256,86 @@ Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 
 
 
+Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
+	
+	_html: function() { return '<span></span>'; },
+	
+	defaultOptions: {
+		cls: 'dino-split-button',
+		components: {
+			actionButton: {
+				dtype: 'button',
+				cls: 'dino-split-button-1 dino-border-all dino-border-no-right dino-corner-left dino-button dino-bg-4',
+				onAction: function() {
+					this.parent.events.fire('onAction');
+				}
+			},
+			listButton: {
+				dtype: 'button',
+				cls: 'dino-split-button-2 dino-border-all dino-corner-right dino-button dino-bg-4 dino-clickable',
+				components: {
+					icon: {
+						dtype: 'icon',
+						cls: 'dino-split-button-2-icon ui-icon-triangle-1-s',
+						state: 'ui-icon-gray'
+					},
+					content: {
+						dtype: 'text',
+						html: '&nbsp;'
+					}					
+				},
+				events: {
+					'mouseenter': function(e, w) { w.icon.states.set_only('ui-icon'); },
+					'mouseleave': function(e, w) { w.icon.states.set_only('ui-icon-gray'); }
+				},
+				onAction: function() {
+					this.parent.dropdown.show(0, this.parent.el.outerHeight());
+				}
+			},
+			dropdown: {
+				dtype: 'dropdown-box',
+				cls: 'dino-border-all dino-shadow',
+				defaultItem: {
+					dtype: 'text-menu-item',
+					style: {'padding': '0 5px'},
+					onAction: function(e) {
+						this.parent.parent.actionButton.opt('text', e.target.getText());
+						this.parent.parent.selectedItem = e.target;
+						this.parent.hide();
+						this.parent.parent.events.fire('onAction');
+					}
+				}
+			}
+		}
+	},
+	
+	
+	_init: function(o) {
+		Dino.widgets.SplitButton.superclass._init.apply(this, arguments);
+		
+		if('list' in o){
+			Dino.utils.overrideOpts(o.components.dropdown, {items: o.list});
+//			for(var i = 0; i < list.length; i++)
+		}
+	},
+	
+	_afterBuild: function() {
+		Dino.widgets.SplitButton.superclass._afterBuild.apply(this, arguments);
+		
+		var first = this.dropdown.getItem(0);
+		if(first) this.actionButton.opt( 'text', first.getText() );
+		this.selectedItem = first;
+	}
+	
+	
+	
+	
+	
+}, 'split-button');
+
+
+
+
 
 
 /*

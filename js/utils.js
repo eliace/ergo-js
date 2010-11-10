@@ -62,6 +62,18 @@ Dino.bindings = (function(){
 
 
 
+Dino.formats = (function(){
+	
+	var F = {};
+	
+	F.string_format = function(template) {
+		var regexp = /(%s)/g;
+		return;
+	}
+	
+	
+})();
+
 
 
 

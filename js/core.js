@@ -385,6 +385,24 @@ var Dino = (function(){
 	};
 	
 	
+	D.format = function(format_str) {
+		var values = [];
+		for(var i = 1; i < arguments.length; i++) values.push(arguments[i]);
+		return format_str.replace(/(%s)/g, function(str) {
+			var replace_val = ''
+			if(str == '%s') replace_val = ''+values.shift();
+			return replace_val;
+		});
+	}
+	
+	D.format_obj = function(format_str, obj) {
+		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
+			return obj[key];
+		});		
+	}
+	
+	
+	
 /*	
 	
 	D.serialize = function(obj, indent) {

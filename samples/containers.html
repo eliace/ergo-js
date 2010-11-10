@@ -229,6 +229,11 @@ Dino.widget({
 <div id="sample-xform">
 <style>
 	
+.dino-button {
+	padding: 4px 8px;
+}	
+	
+	
 </style>
 <script>
 	
@@ -237,12 +242,16 @@ var xformData = {
 };
 	
 Dino.widget({
-  dtype: 'form',
+  dtype: 'box',
+	layout: 'simple-form-layout',
 //	layout: {
 //		dtype: 'form-layout',
 //		labelWidth: 200
 //	},
 	data: xformData,
+	defaultItem: {
+		style: {'padding': '5px 0'}
+	},
   items: [{
     label: 'Текстовое поле:',
 		dataId: 'text',
@@ -250,7 +259,34 @@ Dino.widget({
     dtype: 'x-textfield',
 		rawValueOnFocus: true,
 		format: function(val) { return val + ' кг'; }
-  }/*, {
+  }, {
+		dtype: 'split-button',
+		components: {
+			actionButton: {
+				text: 'Africa',
+				width: 80
+			},
+			listButton: {
+				width: 8
+			}
+		},
+		onAction: function(e) {
+			message.info('Clicked ' + this.selectedItem.tag);
+		},
+		list: [{
+			label: 'Африка',
+			tag: 'africa'
+		}, {
+			label: 'Азия',
+			tag: 'asia'
+		}, {
+			label: 'Европа',
+			tag: 'europe'
+		}, {
+			label: 'Америка',
+			tag: 'america'
+		}]
+	}/*, {
     label: 'Текст:',
     id: 'field2',
     dtype: 'textarea'

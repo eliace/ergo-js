@@ -43,6 +43,7 @@ require 'fileutils'
     'js/widgets/growl.js',
     'js/widgets/uploader.js',
     'js/widgets/text-item.js',
+    'js/widgets/list-item.js',
     'js/widgets/table.js',
     'js/widgets/x-form.js',
     'js/widgets/tree.js',

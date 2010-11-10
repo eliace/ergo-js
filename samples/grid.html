@@ -37,13 +37,29 @@
 	
 <div id="sample-grid">
 <style>
+/*	
 #table-1 {
 	width: 100%;
 }
 
 #table-1 tbody tr:hover {
 	background-color: #ffc;
-}	
+}
+*/
+
+.grid-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+}
+	
+.grid-header-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #444;
+}
+	
+	
 </style>
 <script>
 var gridData = [
@@ -52,33 +68,62 @@ var gridData = [
   {id: '3', name: 'Charlie', value: '789', cb: false},
 ];
 		
-/*		
+		
 $.dino({
   id: 'table-1',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
-  dataModel: {
+	content: {
+		height: 250,
+		style: {'padding-right': '3px'}
+	},
+	headerCls: 'dino-bg-highlight',
+	headerModel: {
+		cell: {
+			cls: 'grid-header-cell',
+		},
+		columns: [{
+			text: '№'
+//      width: 50
+		}, {
+			text: 'Имя'
+		}, {
+			text: 'Значение'
+//      width: 100
+		}, {
+//			text: 'Выбран',
+			content: {
+      	dtype: 'checkbox',
+				checked: false				
+			}
+//      width: 50
+		}]
+	},
+  tableModel: {
+		cell: {
+			cls: 'grid-cell',
+			binding: 'auto'
+		},
     columns: [{
-      title: 'ID',
-      name: 'id',
+      dataId: 'id',
       width: 50
     }, {
-      title: 'Имя',
-      name: 'name'
+      dataId: 'name'
     }, {
-      title: 'Значение',
-      name: 'value',
+      dataId: 'value',
       width: 100
     }, {
-      title: 'Выбран',
-      name: 'cb',
+      dataId: 'cb',
       width: 50,
-      dtype: 'checkbox'
+			content: {
+      	dtype: 'checkbox'				
+			},
+			binding: 'skip'
     }]
   },
   data: gridData
 });
-*/	
+	
 </script>	
 <div class="html">
 	

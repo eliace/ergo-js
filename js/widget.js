@@ -1,5 +1,5 @@
 
-
+//Dino.droppable = [];
 
 
 
@@ -372,6 +372,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		
 		
+//		if('droppable' in o) {
+//			if(o.droppbale) {
+//				Dino.droppable.push(this);
+//				
+//			}
+//		}
 		
 		
 		//TODO экспериментальная опция
@@ -697,6 +703,8 @@ $(document).ready(function(){
 		
 		if(drag && drag.started && drag.proxy) {
 			drag.proxy.el.css({'left': e.pageX+3, 'top': e.pageY+3});
+			
+//			Dino.each(Dino.droppable, function(item) { item.events.fire('onDrag'); })
 		}
 		
 	});
@@ -710,7 +718,7 @@ $(document).ready(function(){
 			if(drag.proxy) drag.proxy.destroy();
 			
 			// ищем цель переноса под курсором (если виджет имеет опцию dropTarget)
-			var target = $(e.originalTarget);
+			var target = $(document.elementFromPoint(e.clientX, e.clientY));//e.originalTarget);
 			var w = target.dino();
 			if(!w || !w.options.dropTarget){
 				target.parents().each(function(i, el){

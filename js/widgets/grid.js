@@ -2,127 +2,72 @@
 
 
 
-Dino.declare('Dino.widgets.Grid', Dino.Container, {
+
+Dino.declare('Dino.widgets.Grid', 'Dino.Widget', {
 	
-	defaultCls: 'dino-grid',
+	defaultOptions: {
+		wrapEl: '<div></div>',
+		cls: 'dino-grid',
+		components: {
+			header: {
+				dtype: 'box',
+				content: {
+					dtype: 'table',
+					width: '100%',
+					binding: false
+				}
+			},
+			content: {
+				// скроллируемый контейнер
+				dtype: 'box',
+				style: {'overflow-y': 'scroll'},
+				content: {
+					dtype: 'table',
+					width: '100%'						
+				}
+			}
+		}
+	},
 	
-	_html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
+	
 	
 	_init: function() {
 		Dino.widgets.Grid.superclass._init.apply(this, arguments);
 		
-		// добавляем шапку
-		this.thead = this.addItem( new Dino.widgets.Grid.Head() );
-		var headRow = $('<tr>');
+		var o = this.options;
 		
-		var columns = this.options.dataModel.columns;
-		for(var i in columns){
-			var col = columns[i];
-			
-			var th = $('<th>');
-			th.text(col.title);
-			
-			headRow.append(th);
-		}
+		// переносим параметр width из колонок в заголовки
+		var h_columns = [];
+		Dino.each(o.tableModel.columns, function(column, i){
+			h_col = {};
+			if('width' in column) h_col.width = column.width;
+			h_columns[i] = h_col;
+		})
 		
-		this.thead.el.append(headRow);
-				
-		this.tbody = this.addItem( new Dino.widgets.Grid.Body() );
+		
+		Dino.utils.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.Grid.superclass._opt.call(this, o);
-				
-		
-	},
+//	_opt: function(o) {
+//		Dino.widgets.Grid.superclass._opt.apply(this, arguments);
+//		
+//		if('isDynamic' in o) this.content.body.opt('dynamic', true);
+//	},
 	
-	_dataChanged: function() {
+	
+	_layoutChanged: function() {
+		Dino.widgets.Grid.superclass._layoutChanged.apply(this, arguments);
 		
-		var self = this;
-		
-		// обходим все значения коллекции
-		this.data.each(function(val, i){
-			// добавляем элемент виджета
-			var row = new Dino.widgets.Grid.Row({
-				'columns': self.options.dataModel.columns,
-				'data': self.data.item(i)
-			});
-			self.tbody.addItem(row);
-			row._dataChanged();
-		});
-		
-//		Dino.widgets.Grid.superclass._dataChanged.call(this);
+		var tableWidth = this.content.content.el.width();
+		this.header.content.el.width(tableWidth);
 	}
+	
+	
 	
 	
 }, 'grid');
-
-
-
-
-Dino.declare('Dino.widgets.Grid.Head', Dino.Container, {
-	defaultCls: 'dino-grid-head',
-	_html: function() { return '<thead/>'; }
-});
-
-Dino.declare('Dino.widgets.Grid.Body', Dino.Container, {
-	defaultCls: 'dino-grid-body',
-	_html: function() { return '<tbody/>'; }
-});
-
-
-
-Dino.declare('Dino.widgets.Grid.Row', Dino.Container, {
-	
-	defaultCls: 'dino-grid-row',
-	
-	_html: function() { return '<tr></tr>'; },
-	
-	_init: function() {
-		Dino.widgets.Grid.Row.superclass._init.apply(this, arguments);
-		
-		this.layout = Dino.object({
-			dtype: 'table-row-layout',
-			columns: this.options.columns,
-			container: this
-		});
-//		this.layout.container = this;
-	},
-	
-	_opt: function(o) {
-		Dino.widgets.Grid.Row.superclass._opt.call(this, o);
-		
-//		this.columns = {};
-		
-		for(var i in o.columns) {
-			var col = o.columns[i];
-			
-			var cell_opts = {dtype: 'label', data: this.data};
-			if('name' in col) 
-				cell_opts.dataId = col.name;
-			
-			var item = this.addItem( Dino.object(Dino.override(cell_opts, col)) );
-			
-//			this.columns[col.name] = item;
-		}
-		
-	}
-
-/*	
-	dataChanged: function() {
-		Dino.widgets.Grid.Row.superclass.dataChanged.call(this);
-		
-		this.eachItem(function(item) { item.dataChanged(); });
-		
-//		var self = this;
-		
-//		this.data.eachValue(function(val, i){
-//			self.columns[i].setValue(val);
-//		});
-	}
-*/	
-})
 
 
 
