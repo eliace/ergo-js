@@ -1,7 +1,7 @@
 
 
 
-
+/*
 Dino.declare('Dino.widgets.AssistBox', Dino.containers.Box, {
 	
 	defaultCls: 'dc-assist-box',
@@ -63,12 +63,6 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
 
 
 
-/**
- * Кнопка ассиста.
- * 
- * 
- * Требует плагина jquery.fileupload
- */
 Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 	
 	defaultCls: 'dc-assist-file',
@@ -82,7 +76,7 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 		
 		this.file = Dino.widget({
 			dtype: 'file',
-			style: {'position': 'relative'/*, 'left': -42*/, 'cursor': 'pointer'},
+			style: {'position': 'relative', 'cursor': 'pointer'},
 			opacity: 0,
 			id: fileId,
 			name: o.name,
@@ -117,7 +111,7 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 	
 }, 'file-assist');
 
-
+*/
 
 
 

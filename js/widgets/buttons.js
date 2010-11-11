@@ -226,18 +226,10 @@ Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
 
 
 
-
+/*
 Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
 //	defaultCls: 'dino-toolbar',
-/*	
-	defaultOptions: {
-		layout: {
-			dtype: 'plain-layout',
-			itemCls: 'dino-toolbar-item'
-		}
-	},
-*/	
 	_init: function() {
 		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);
 //		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
@@ -252,7 +244,7 @@ Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
 }, 'toolbar');
 
-
+*/
 
 
 

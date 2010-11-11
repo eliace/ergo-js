@@ -11,6 +11,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		components: {
 			leftIcon: {
 				dtype: 'icon',
+				state: 'hidden',
 				dock: 'left'
 			},
 			content: {
@@ -18,7 +19,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 			},
 			rightIcon: {
 				dtype: 'icon',
-//				state: 'hidden',
+				state: 'hidden',
 				dock: 'right'
 			}
 		},
@@ -57,10 +58,13 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		if('label' in o) this.content.opt('text', o.label);
 		if('format' in o) this.content.opt('format', o.format);
 		
-		if('showLeftIcon' in o) 
+		if('showLeftIcon' in o) {
 			this.content.states.toggle('l-icon', o.showLeftIcon);
+			this.leftIcon.states.toggle('hidden', !o.showLeftIcon);
+		}
 		if('showRightIcon' in o) {
 			this.content.states.toggle('r-icon', o.showRightIcon);
+			this.rightIcon.states.toggle('hidden', !o.showRightIcon);
 //			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
 		}
 	},
