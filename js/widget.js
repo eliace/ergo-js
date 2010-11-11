@@ -44,8 +44,11 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	},
 	
 	defaultHandlers: {
-		'clickable': function(e) {
+		'clickable.click': function(e) {
 			$(this).dino().events.fire('onClick', {}, e);
+		},
+		'clickable.dblclick': function(e) {
+			$(this).dino().events.fire('onDblClick', {}, e);
 		},
 		'selectable': function(e) {
 			e.preventDefault();
@@ -345,8 +348,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		//TODO обработчики событий должны быть выключаемыми, поэтому нужно запоминать их, чтобы потом удалить
 		
-		if('clickable' in o)
-			this._toggle_handler('clickable', 'click', o.clickable);
+		if('clickable' in o) {
+			this._toggle_handler('clickable.click', 'click', o.clickable);
+			this._toggle_handler('clickable.dblclick', 'dblclick', o.clickable);
+		}
 		
 		if('selectable' in o)
 			this._toggle_handler('selectable', 'mousedown', !o.selectable); //<-- инверсия флага, поскольку обработчик нужен для отключения выделения

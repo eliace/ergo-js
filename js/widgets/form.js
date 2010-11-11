@@ -227,6 +227,7 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
 		Dino.widgets.form.Select.superclass._opt.call(this, o);
 		
 		if('options' in o){
+			this.el.empty();
 			for(var i in o.options){
 				var option_el = $('<option/>');
 				option_el.attr('value', i);

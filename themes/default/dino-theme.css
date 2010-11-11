@@ -8,6 +8,7 @@
 .dino-border-bottom { border-bottom: 1px solid #aaaaaa; }
 .dino-border-top { border-top: 1px solid #aaaaaa; }
 .dino-border-no-right { border-right: none;}
+.dino-border-none { border: none; }
 
 
 .dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
@@ -477,6 +478,7 @@ span.r-icon {
 .dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
 
 
+.led-icon-cross { background-image: url(img/led/cross.png); }
 .led-icon-add { background-image: url(img/led/add.png); }
 .led-icon-smile { background-image: url(img/led/emoticon_smile.png); }
 .led-icon-unhappy { background-image: url(img/led/emoticon_unhappy.png); }
