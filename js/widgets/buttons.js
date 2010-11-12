@@ -76,11 +76,11 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	defaultOptions: {
-		components: {
-			content: {
-				dtype: 'text'
-			}			
-		}
+//		components: {
+//			content: {
+//				dtype: 'text'
+//			}			
+//		}
 //		display: 'text-only'
 	},
 	
@@ -104,14 +104,9 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 	
 	_opt: function(o) {
 		Dino.widgets.Button.superclass._opt.apply(this, arguments);
-/*
-		if('iconCls' in o)
-			if(this.iconEl) this.iconEl.addClass(o.iconCls);
-		if('textCls' in o)
-			this.labelEl.addClass(o.textCls);
-*/		
-		if('label' in o)
-			this.content.opt('text', o.label);
+
+//		if('label' in o)
+//			this.content.opt('text', o.label);
 //			this.labelEl.text(o.label);
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
@@ -324,6 +319,69 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 	
 	
 }, 'split-button');
+
+
+
+
+
+Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
+	
+	defaultOptions: {
+		components: {
+			content: {
+				dtype: 'text-item'
+			}
+		}
+	},
+	
+	_opt: function(o) {
+		Dino.widgets.TextButton.superclass._opt.apply(this, arguments);
+		
+		if('label' in o) this.content.opt('label', o.label);
+//		if('icon' in o) {
+//			this.content.opt('showLeftIcon', (o.icon));
+//			this.content.leftIcon.states.set_only(o.icon);
+//		}
+	}
+	
+	
+}, 'text-button');
+
+
+
+
+
+Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
+	
+	defaultOptions: {
+		content: {
+			dtype: 'box',
+			wrapEl: '<span></span>',
+			layout: 'dock-layout',
+			components: {
+				icon: {
+					dtype: 'icon',
+					cls: 'dino-button-icon',
+					dock: 'center'
+				},
+				content: {
+					dtype: 'text',
+					html: '&nbsp;'
+				}
+			}
+		}
+	},
+	
+	
+	_opt: function(o) {
+		Dino.widgets.IconButton.superclass._opt.apply(this, arguments);
+		
+		if('icon' in o) this.content.icon.states.set_only(o.icon);
+	}
+	
+	
+	
+}, 'icon-button');
 
 
 

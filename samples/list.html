@@ -29,7 +29,7 @@
 
 
 <div id="sample-simple-list">
-<style>
+<style>	
 	
 </style>
 <script>
@@ -38,13 +38,91 @@
 	
 $.dino({
 	dtype: 'simple-list',
+	width: 400,
+	contentHeight: 220,
 	listItems: [{
 		label: 'Alice'
 	}, {
 		label: 'Bob'
 	}, {
 		label: 'Charlie'
-	}]
+	}],
+	controls: [
+		'Добавить', 
+		'Удалить все', 
+		{
+			content: {
+				showLeftIcon: true,
+				leftIconCls: 'ui-icon ui-icon-refresh',
+				components: {
+					leftIcon: {
+						dock: 'center'
+					}
+				},
+				content: {
+					html: '&nbsp'
+				}
+			}
+//			width: 24
+			
+	}],
+	components: {
+		controls: {
+			defaultItem: {
+				cls: 'dino-corner-all'
+			}
+		}
+	},
+	editOnDblClick: true
+});	
+	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+
+<div id="sample-list-box">
+<style>	
+	
+</style>
+<script>
+
+var listBoxData = ['Alice', 'Bob', 'Charlie']
+
+	
+	
+	
+$.dino({
+	dtype: 'list-box',
+	width: 400,
+	contentHeight: 220,
+	data: listBoxData,
+	controls: [{
+		dtype: 'icon-button',
+		icon: 'ui-icon ui-icon-plus',
+		width: 24
+	}, {
+		dtype: 'icon-button',
+		icon: 'ui-icon ui-icon-refresh',
+		width: 24
+	}],
+	components: {
+		controls: {
+			defaultItem: {
+				cls: 'dino-corner-all'
+			}
+		}
+	},
+	editOnDblClick: true
 });	
 	
 </script>	
@@ -68,12 +146,14 @@ $.dino({
 
 
 
-
 <script>		
 		
 samplePage([{
 	name: 'Simple List',
 	id: '#sample-simple-list'
+}, {
+	name: 'ListBox',
+	id: '#sample-list-box'
 }]);
 	
 </script>

@@ -154,7 +154,16 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	_html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-		binding: 'skip'
+		binding: 'skip',
+		editor: {
+			dtype: 'textfield',
+			events: {
+				'blur': function(e, w) { w.parent.stopEdit(); }
+			},
+			onValueChanged: function() {
+				this.parent.stopEdit();
+			}		
+		}
 //		cls: 'dino-table-cell'
 	},
 	
@@ -168,74 +177,29 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	
 	getRow: function() {
 		return this.parent;
-	}
+	},
+	
+	startEdit: function() {
+		
+		this.el.empty();
+		
+		this.addComponent('_editor', this.options.editor);
+		
+		this._editor.setData(this.data);
+		this._editor._dataChanged(); // явно вызываем обновление данных
+		this._editor.el.focus();
+		this._editor.el.select();
+	},
+	
+	stopEdit: function() {
+		this.removeComponent('_editor');
+		this._dataChanged(); // явно вызываем обновление данных
+		this.events.fire('onEdit');
+	}	
+	
 	
 }, 'table-cell');
 
 
 
 
-
-/*
-Dino.declare('Dino.widgets.TreeTableRow', 'Dino.Container', {
-	
-	_html: function() { return '<tr></tr>'; },
-	
-	defaultOptions: {
-		defaultItem: {
-			dtype: 'table-cell'
-		}
-	}
-	
-	
-}, 'table-row');
-*/
-
-
-
-
-//Dino.declare
-
-
-
-
-
-
-/*
-Dino.declare('Dino.widgets.Table.Body', 'Dino.Container', {
-	
-	defaultOptions: {
-//		itemFactory
-	},
-	
-	_html: function() { return '<tbody></tbody>'; }
-	
-	
-	
-}, 'table-body');
-*/
-
-
-/*
-Dino.declare('Dino.containers.TableRow', 'Dino.Container', {
-	
-	defaultOptions: {
-		itemFactory: function(o) {
-			return new Dino.Widget('<td></td>', o);
-		}
-	},
-	
-	_html: function() { return '<tr></tr>'; },
-	
-	_opt: function(o) {
-		Dino.containers.TableRow.superclass._opt.call(this, o);
-		
-		for(var i in o.columns) {
-			var col = o.columns[i];
-			thia.addItem(o.columns);
-		}
-		
-	}
-	
-}, 'table-row');
-*/

@@ -1,7 +1,4 @@
 
-.dino-clickable {
-	cursor: pointer;
-}
 
 
 .dino-border-all { border: 1px solid #aaaaaa; }
@@ -15,7 +12,6 @@
 .dino-corner-top {-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;}
 .dino-corner-left {-moz-border-radius: 4px 0 0 4px; -webkit-border-radius: 4px 0 0 4px; border-radius: 4px 0 0 4px;}
 .dino-corner-right {-moz-border-radius: 0 4px 4px 0; -webkit-border-radius: 0 4px 4px 0; border-radius: 0 4px 4px 0;}
-
 
 
 
@@ -41,6 +37,44 @@
 	-webkit-box-shadow: 0 0 .7em #bbb;
 	box-shadow: 0 0 .7em #bbb;
 }
+
+
+
+.dino-widget-content {
+	padding: 5px;
+}
+
+.dino-list-item {
+	border-bottom: 1px dotted #ccc;
+/*	padding: 0 5px;*/
+}
+
+.dino-list-item:hover {
+	background-color: #ffc;
+}
+
+
+
+
+
+
+
+/*
+ * TEXT ITEM
+ */
+
+input.l-icon, span.l-icon {
+	margin-left: 20px;
+}
+
+input.r-icon, span.r-icon {
+	margin-right: 20px;
+}
+
+.dino-text-item {
+/*	cursor: default;*/
+}
+
 
 
 
@@ -84,7 +118,6 @@
 }
 
 
-
 /*
  * SPLIT BUTTON
  */
@@ -106,6 +139,58 @@
 
 
 
+
+
+
+
+/*
+ * LIST
+ */
+
+.dino-list-menu {
+	min-height: 16px;
+	padding: 3px;
+	background-color: #eee;
+}
+
+.dino-list-menu-item {
+	color: #444;
+	cursor: pointer;
+	font-size: 10pt;
+	border: 1px solid #eee;
+	background-color: #eee;
+	outline: none;
+	padding: 2px 5px;
+}
+
+.dino-list-menu-item::-moz-focus-inner {
+	border: none;
+}
+
+.dino-list-menu-item:hover {
+	color: #000;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+}
+
+
+/*
+ * LISTBOX
+ */
+
+.dino-listbox-cell {
+	border-bottom: 1px dotted #ccc;
+	cursor: default;
+}
+
+.dino-listbox-row:hover {
+	background-color: #ffc;
+}
+
+.dino-listbox-row.selected {
+/*	background-color: #8FCDFF;*/
+	background: url(img/selection.png) repeat-x scroll 50% 50% ;
+}
 
 /*
  * Tabs
@@ -231,22 +316,12 @@
 
 
 
-
-/*
- * TEXT ITEM
- */
-
-span.l-icon {
-	margin-left: 20px;
+.dino-icon-column {
+	width: 16px;
+	text-align: center;
 }
 
-span.r-icon {
-	margin-right: 20px;
-}
 
-.dino-text-item {
-/*	cursor: default;*/
-}
 
 
 /*
@@ -716,3 +791,10 @@ span.r-icon {
 .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
 .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
 
+
+
+
+
+
+
+.dino-clickable { cursor: pointer; }

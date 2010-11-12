@@ -7,17 +7,38 @@ Dino.declare('Dino.widgets.SimpleList', 'Dino.containers.Box', {
 		cls: 'dino-border-all',
 		components: {
 			content: {
+				weight: 2,
 				dtype: 'box',
-				cls: 'dino-scrollable-content',
+				cls: 'dino-scrollable-content dino-widget-content',
 				defaultItem: {
 					dtype: 'text-item',
-					style: {'display': 'block'}
+					cls: 'dino-list-item',
+					style: {'display': 'block'},
+					showRightIcon: true,
+					components: {
+						rightIcon: {
+							cls: 'ui-icon ui-icon-close dino-clickable',
+							states: {
+								'hover': ['ui-icon-closethick', 'ui-icon-close']
+							},
+							clickable: true
+						}
+					},
+					clickable: true,
+					onDblClick: function() {
+						if(this.parent.parent.options.editOnDblClick) {
+							this.startEdit();
+						}
+					}
 				}
 			},
-			toolbar: {
-				weight: 1,
+			controls: {
 				dtype: 'box',
-				cls: 'dino-widget-menubar dino-border-top'
+				cls: 'dino-list-menu dino-border-top',
+				defaultItem: {
+					dtype: 'text-button',
+					cls: 'dino-list-menu-item'
+				}
 			}
 		},
 		editOnDblClick: false
@@ -29,15 +50,27 @@ Dino.declare('Dino.widgets.SimpleList', 'Dino.containers.Box', {
 		
 		if('listItems' in o) {
 			Dino.utils.overrideOpts(o.components.content, {items: o.listItems});
-//			var list_items = [];
-//			for(var i = 0; i < o.listItems.length; i++) {
-//				var li = o.listItems[i];
-//				list_items = {
-//					label: li.text
-//				};
-//			}
 		}
 		
+		if('controls' in o) {
+			var toolbar_items = [];
+			for(var i = 0; i < o.controls.length; i++) {
+				var item = o.controls[i];
+				if(Dino.isString(item)) item = {label: item};
+				toolbar_items.push(item);
+			}
+			Dino.utils.overrideOpts(o.components.controls, {items: toolbar_items});			
+		}
+		
+	},
+	
+	
+	
+	_opt: function(o) {
+		Dino.widgets.SimpleList.superclass._opt.apply(this, arguments);
+		
+		if('contentHeight' in o) this.content.opt('height', o.contentHeight);
+				
 	}
 	
 	

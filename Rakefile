@@ -48,6 +48,7 @@ require 'fileutils'
     'js/tree/tree.js',
     'js/dialog/dialog.js',
     'js/list/simple-list.js',
+    'js/list/list-box.js',
   ]
 
 

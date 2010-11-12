@@ -37,7 +37,8 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 			onValueChanged: function() {
 				this.parent.stopEdit();
 			}
-		}
+		},
+		showText: true
 	},
 /*	
 	_init: function() {
@@ -59,13 +60,16 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 		if('format' in o) this.content.opt('format', o.format);
 		
 		if('showLeftIcon' in o) {
-			this.content.states.toggle('l-icon', o.showLeftIcon);
+			this.content.states.toggle('l-icon', o.showLeftIcon && o.showText);
 			this.leftIcon.states.toggle('hidden', !o.showLeftIcon);
 		}
 		if('showRightIcon' in o) {
 			this.content.states.toggle('r-icon', o.showRightIcon);
 			this.rightIcon.states.toggle('hidden', !o.showRightIcon);
 //			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
+		}
+		if(!o.showText) {
+			this.content.opt('html', '&nbsp;');
 		}
 	},
 	
@@ -76,6 +80,10 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	startEdit: function() {
 		this.content.states.set('hidden');			
 		this.addComponent('_editor', this.options.editor);
+		
+		if(this.options.showLeftIcon) this._editor.el.addClass('l-icon');
+		if(this.options.showRightIcon) this._editor.el.addClass('r-icon');
+		
 		this._editor.setData(this.content.data);
 		this._editor._dataChanged(); // явно вызываем обновление данных
 		this._editor.el.focus();

@@ -1,34 +1,5 @@
 
 
-/*
-Dino.utils.dynamic_layout(layout) {
-	
-	Dino.override(layout, {
-		items: [],
-		deferred_items: [],
-		
-		insert: function(item, key) {
-			this.deferred_items.push(item);
-		},
-		
-		remove: function(item) {
-			Dino.remove_from_array(this.items.item);
-			Dino.remove_from_array(this.deferred_items.item);
-		},
-		
-		clear: function() {
-			Dino.each(this.items, function(item) { item.el.detach(); });
-			this.items = [];
-			this.deferred_items = [];
-		}
-		
-	});
-	
-}
-*/
-
-
-
 /**
  * Базовый класс для контейнеров
  * 
@@ -179,6 +150,16 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	eachItem: function(callback) {
 		for(var i = 0; i < this.items.length; i++)
 			callback.call(this, this.items[i], i);
+	},
+	
+	setSelectedItem: function(item) {
+		this.eachItem(function(it){ it.states.clear('selected'); });
+		item.states.set('selected');
+		this._selected_item = item;
+	},
+	
+	getSelectedItem: function() {
+		return this._selected_item;
 	},
 	
 	/**
