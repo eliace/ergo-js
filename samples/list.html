@@ -28,18 +28,22 @@
 
 
 
-<div id="sample-simple-list">
+<div id="sample-list">
 <style>	
 	
 </style>
 <script>
 	
-	
-	
-$.dino({
-	dtype: 'simple-list',
+sample('sample-list', function(){
+
+var list = $.dino({
+	dtype: 'list',
 	width: 400,
 	contentHeight: 220,
+	layout: {
+		dtype: 'plain-layout',
+		autoHeight: true
+	},
 	listItems: [{
 		label: 'Alice'
 	}, {
@@ -47,35 +51,12 @@ $.dino({
 	}, {
 		label: 'Charlie'
 	}],
-	controls: [
-		'Добавить', 
-		'Удалить все', 
-		{
-			content: {
-				showLeftIcon: true,
-				leftIconCls: 'ui-icon ui-icon-refresh',
-				components: {
-					leftIcon: {
-						dock: 'center'
-					}
-				},
-				content: {
-					html: '&nbsp'
-				}
-			}
-//			width: 24
-			
-	}],
-	components: {
-		controls: {
-			defaultItem: {
-				cls: 'dino-corner-all'
-			}
-		}
-	},
 	editOnDblClick: true
 });	
-	
+
+	return list;
+});
+
 </script>	
 <div class="html">
 	
@@ -96,35 +77,85 @@ $.dino({
 </style>
 <script>
 
-var listBoxData = ['Alice', 'Bob', 'Charlie']
+sample('sample-list-box', function(panel) {
+	
+var listBoxData = new Dino.data.ArrayDataSource(['Alice', 'Bob', 'Charlie']);
 
-	
-	
-	
-$.dino({
-	dtype: 'list-box',
-	width: 400,
-	contentHeight: 220,
-	data: listBoxData,
-	controls: [{
-		dtype: 'icon-button',
-		icon: 'ui-icon ui-icon-plus',
-		width: 24
-	}, {
-		dtype: 'icon-button',
-		icon: 'ui-icon ui-icon-refresh',
-		width: 24
-	}],
+var listBox = $.dino({
+	dtype: 'box',
+	layout: {
+		dtype: 'plain-layout',
+		autoHeight: true
+	},
 	components: {
 		controls: {
+			dtype: 'box',
+			cls: 'dino-button-bar',
 			defaultItem: {
-				cls: 'dino-corner-all'
-			}
+				dtype: 'text-button',
+				onAction: function() {
+
+					var selectedItem = listBox.list.getSelectedItem();
+
+					if(this.tag == 'add') {
+						if(selectedItem) {
+							var data = listBoxData.add('Новая строка', selectedItem.index+1);
+							listBox.list.getListItem({'data': data}).getColumn(0).startEdit();
+						}
+						else {
+							var data = listBoxData.add('Новая строка');
+							listBox.list.getListItem({'data': data}).getColumn(0).startEdit();							
+						}
+					}
+					else if(this.tag == 'delete') {
+						if(selectedItem) selectedItem.data.del();
+					}
+				}
+			},
+			items: [{
+				caption: 'Добавить',
+				tag: 'add',
+				icon: 'led-icon-add'
+			}, {
+				caption: 'Удалить',
+				tag: 'delete',
+				icon: 'led-icon-delete'
+			}]
+		},
+		list: {
+			dtype: 'list-box',
+			cls: 'dino-border-all',
+			layout: {
+				dtype: 'plain-layout',
+				autoHeight: true
+			},
+			columns: [{
+				binding: 'auto'
+			}, {
+				cls: 'dino-icon-column',
+				content: {
+					dtype: 'icon',
+					cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
+				}
+			}, {
+				cls: 'dino-icon-column',				
+				content: {
+					dtype: 'icon',
+					cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
+				}
+			}],
+			width: 400,
+			contentHeight: 220,
+			data: listBoxData,
+			editOnDblClick: true
 		}
-	},
-	editOnDblClick: true
+	}
 });	
 	
+	return listBox;
+});
+
+
 </script>	
 <div class="html">
 	
@@ -147,15 +178,16 @@ $.dino({
 
 
 <script>		
-		
+
 samplePage([{
-	name: 'Simple List',
-	id: '#sample-simple-list'
+	name: 'List',
+	id: 'sample-list'
 }, {
 	name: 'ListBox',
-	id: '#sample-list-box'
+	id: 'sample-list-box'
 }]);
 	
+
 </script>
 
 

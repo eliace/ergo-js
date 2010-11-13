@@ -7,8 +7,18 @@
  */
 Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	
-	insert: function(item) {
-		this.el.append( item.el );
+	defaultOptions: {
+		autoHeight: false
+	},
+	
+	insert: function(item, index) {
+		
+		if(index == null)
+			this.el.append( item.el );
+		else if(index == 0)
+			this.el.prepend( item.el );
+		else
+			this.el.children().eq(index-1).after(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},
@@ -20,6 +30,38 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	
 	clear: function() {
 		this.el.empty(); //WARN еще опасный момент все дочерние DOM-элементы уничтожаются
+	},
+	
+	update: function() {
+		if(this.options.autoHeight){
+			
+			this.el.height(0);
+			var dh = 0;//this.el.outerHeight(true);
+			var h = 0;
+			this.el.parents().each(function(i, el){
+				el = $(el);
+				if(el.attr('autoheight') == 'true'){
+					h = el.height();
+					return false;
+				}
+				else {
+//					if(dh == 0) dh = el.height();
+					dh += (el.outerHeight(true) - el.height());
+					el.siblings().not('td, :hidden').each(function(i, sibling){
+						dh += $(sibling).outerHeight(true)
+					});
+				}
+			});
+
+			dh += (this.el.outerHeight(true) - this.el.height());
+			this.el.siblings().not('td, :hidden').each(function(i, sibling){
+				dh += $(sibling).outerHeight(true)
+			});
+			
+//			dh -= this.el.height()
+			this.el.height(h - dh);
+			
+		}
 	}
 		
 }, 'plain-layout');

@@ -189,7 +189,7 @@ var Dino = (function(){
 		return result;
 	}
 	
-	D.find = D.filter;
+	D.find_all = D.filter;
 	
 	/**
 	 * отображение (размерность сохраняется)
@@ -203,13 +203,13 @@ var Dino = (function(){
 	/**
 	 * поиск первого элемента, удовлетворяющего критерию
 	 */
-	D.find_one = function(obj, fn) {
+	D.find = function(obj, fn) {
 		if(!D.isFunction(fn)){
 			var x = fn;
 			fn = function(it) { return it == x; };
 		}
 		for(var i in obj)
-			if(fn.call(obj, obj[i])) return obj[i];
+			if(fn.call(obj, obj[i], i)) return obj[i];
 		
 		return null;
 	};
@@ -218,7 +218,7 @@ var Dino = (function(){
 		if(!_dino.isFunction(criteria))
 			criteria = D.eq.curry(criteria);
 		for(var i in obj)
-			if(criteria.call(obj, obj[i])) return i;
+			if(criteria.call(obj, obj[i], i)) return i;
 		return -1;
 	};
 	

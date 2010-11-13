@@ -74,6 +74,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 					$('body').append(drag.proxy.el);
 				}
 			}			
+		},
+		'editable': function(e) {
+			var w = $(this).dino();
+			if('startEdit' in w) w.startEdit();
 		}
 	},
 			
@@ -256,7 +260,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		
 		if('width' in o) el.width(o.width);
-		if('height' in o) el.height(o.height);
+		if('height' in o) {
+			this.layout.auto_height(o.height == 'auto');
+			if(o.height != 'auto') el.height(o.height);
+		}
 		if('x' in o) el.css('left', o.x);
 		if('y' in o) el.css('top', o.y);
 		if('tooltip' in o) el.attr('title', o.tooltip);
@@ -295,7 +302,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //				}
 			}
 		}
-		if('html' in o) this.el.html(o.html);
+		if('innerHtml' in o) this.el.html(o.innerHtml);
 		
 		
 		if('states' in o){
@@ -361,6 +368,10 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			this._toggle_handler('draggable_mouseout', 'mouseout', o.draggable);
 		}
 		
+		if('editable' in o) {
+			this._toggle_handler('editable', 'dblclick', o.editable);			
+		}
+		
 		if('contextMenu' in o) {
 			
 			var cm = o.contextMenu;
@@ -410,22 +421,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}		
 	},
 	
-	
-	/**
-	 * Создание связи виджета с другим виджетом
-	 */
-//	link: function(obj) {
-//		this.link = obj;
-//		this.events.fire('onLink', {'target':obj});
-//	},
-	
-	/**
-	 * Удаление связи виджета с другим виджетом
-	 */
-//	unlink: function() {
-//		this.events.fire('onUnlink', {'target':this.link});
-//		this.link = null;
-//	},
 	
 	
 	walk: function(callback) {		
@@ -478,20 +473,18 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		var parents = this.getParents();
 		
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return parents[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find_one(parents, f);
+		return Dino.find(parents, Dino.utils.create_widget_filter(i));
 	},
 	
 	//---------------------------------------------
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
+	
+	isBound: function() {
+		return (this.data != null);
+	},
+	
+	
 	
 	setData: function(data, phase) {
 				
@@ -569,24 +562,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	getRawValue: function() {
 		return (this.data) ? this.data.get() : undefined;
 	},
-	
-//	getStateValue: function() {
-//		var val;
-//		if(this.data){
-//			val = this.data.get();
-//			// если присутствует функция форматирования, то используем ее
-//			if('stateFormat' in this.options) 
-//				val = this.options.stateFormat.call(this, val);
-//		}
-//		return val;
-//	},
-	
-//	setStateValue: function(val) {
-//		if(this.stateData){
-//			this.stateData.set(val);
-//			this.events.fire('onStateValueChanged');
-//		}
-//	},
 	
 	
 	

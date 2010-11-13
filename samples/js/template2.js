@@ -16,6 +16,7 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 				baseCls: 'js-button',
 				leftIconCls: 'ui-icon ui-icon-triangle-1-e',
 				contentCls: 'js-title',
+				showLeftIcon: true,
 				components: {
 					leftIcon: {
 						states: {
@@ -49,13 +50,29 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 		if('buttonLabel' in o)
 			this.button.content.opt('text', o.buttonLabel);
 		if('contentText' in o)
-			this.container.opt('text', o.contentText);
+			this.container.opt('innerHtml', o.contentText);
 	}
 	
 	
 	
 	
 }, 'expandable-panel');
+
+
+
+
+
+
+Samples.constructors = {};
+
+function sample(name, callback) {
+	
+	Samples.constructors[name] = callback;
+	
+}
+
+
+
 
 
 
@@ -78,11 +95,11 @@ function samplePage(samples) {
 		
 		var sample = samples[i];
 		
-		var id = sample.id;
-		sample.description = sample.description || sample.id + ' .desc';
-		sample.html = sample.html || sample.id + ' .html';
-		sample.code = sample.code || sample.id + ' script';
-		sample.css = sample.css || sample.id + ' style';
+		var id = '#' + sample.id;
+		sample.description = sample.description || id + ' .desc';
+//		sample.html = sample.html || .id + ' .html';
+		sample.code = sample.code || id + ' script';
+		sample.css = sample.css || id + ' style';
 		
 		// Макет страницы виджета
 		var page = $.dino({
@@ -98,29 +115,34 @@ function samplePage(samples) {
 				tag: 'js',
 				dtype: 'expandable-panel',
 				buttonLabel: 'JavaScript',
-				contentText: '<pre class="sh_javascript">'+Dino.escapeHtml($(sample.code).text())+'<pre>'
+				contentText: '<pre class="sh_javascript">'+Dino.escapeHtml($(sample.code).text())+'</pre>'
 				
 			}, {
 				tag: 'css',
 				dtype: 'expandable-panel',
 				buttonLabel: 'CSS',
-				contentText: '<pre class="sh_css">'+$(sample.css).text()+'<pre>'
-			}, {
+				contentText: '<pre class="sh_css">'+$(sample.css).text()+'</pre>'
+			}/*, {
 				tag: 'html',
 				dtype: 'expandable-panel',
 				buttonLabel: 'HTML',
-				contentText: '<pre class="sh_html">'+Dino.escapeHtml($(sample.html).html())+'<pre>'
-			}, {
+				contentText: '<pre class="sh_html">'+Dino.escapeHtml($(sample.html).html())+'</pre>'
+			}*/, {
 				tag: 'options'
 			}]
 		});
 		
 		// создаем виджет и выполняем сопутсвующий код
 //		Samples.PREVIEW = page.getItem('preview');
-		var w = eval($(sample.code).text());
+		
+		var w = Samples.constructors[sample.id].call(this);
+//		var w = eval($(sample.code).text());
 		
 		if(w) {
+			
 			page.getItem('preview').addItem(w);
+			
+			
 /*			
 			var html = w.el.parent().html();
 			var regexp = /<[^<>]+>/;
@@ -180,26 +202,7 @@ function samplePage(samples) {
 	// включаем подсветку кода
 	sh_highlightDocument();
 
-/*	
-	// добавляем гроул
-	Samples.growl = $.fn.dino({
-		dtype: 'growl-box',
-		cls: 'message-panel',
-		defaultItem: {
-			delay: 600,
-			timeout: 4000,
-			cls: 'dino-border-all dino-corner-all',
-			closeOnClick: true,
-			components: {
-				button: {
-					cls: 'dino-hidden'
-				}
-			}
-		},
-//		cls: 'ui-state-hover dino-hidden',
-		renderTo: 'body'
-	});
-*/
+
 	
 }
 

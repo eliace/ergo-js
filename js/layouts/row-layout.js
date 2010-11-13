@@ -37,11 +37,12 @@ Dino.declare('Dino.layouts.RowLayout', 'Dino.Layout', {
 
 
 
-Dino.declare('Dino.layouts.ColumnLayout', 'Dino.Layout', {
+Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.PlainLayout', {
 	
 	defaultOptions: {
 		name: 'column',
 		valign: 'top'
+//		autoHeight: true
 	},
 	
 	attach: function() {

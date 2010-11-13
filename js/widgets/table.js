@@ -141,6 +141,10 @@ Dino.declare('Dino.widgets.TableRow', 'Dino.Container', {
 		return this.el.parents('table').dino(); 
 		//TODO хотя здесь можно сделать быстрее
 //		return this.getParent().getParent();
+	},
+	
+	getColumn: function(i) {
+		return this.getItem(i);
 	}
 	
 	
@@ -166,7 +170,7 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 		}
 //		cls: 'dino-table-cell'
 	},
-	
+		
 	_dataChanged: function() {
 		
 		if(this.options.binding != 'skip')

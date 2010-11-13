@@ -7,10 +7,15 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		updateMode: 'auto'	
 	},
 	
-	initialize: function(o){
+	initialize: function(opts){
 		Dino.Layout.superclass.initialize.call(this);
 		
-		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
+		var o = this.options = {}
+		Dino.hierarchy(this.constructor, function(clazz){
+			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
+		});
+		Dino.utils.overrideOpts(o, this.defaultOptions, opts);
+//		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
 		
 //		this.attach(this.options.container);
 		
@@ -39,6 +44,11 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 //		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
 		if('name' in this.options) this.container.el.attr('layout', undefined);
 		delete this.container; 
+	},
+	
+	auto_height: function(enable) {
+		this.options.autoHeight = enable;
+		(enable) ? this.el.attr('autoheight', 'true') : this.el.removeAttr('autoheight');
 	},
 	
 //	add: function(item) {},

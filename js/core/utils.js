@@ -1,8 +1,20 @@
 
-/*
+
 Dino.utils = (function(){
 	var U = {};
 	
+	U.create_widget_filter = function(i) {
+		
+		var f = null;
+		
+		if( _dino.isNumber(i) ) f = _dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) && ('superclass' in i) ) f = _dino.filters.by_class.curry(i);
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		
+		return f;
+	}
 	
 	
 	
@@ -10,7 +22,8 @@ Dino.utils = (function(){
 	
 	return U;
 })();
-*/
+
+
 
 
 Dino.filters = (function(){
@@ -27,6 +40,9 @@ Dino.filters = (function(){
 			if(child[i] != props[i]) return false;
 		return true; 
 	};
+	F.by_class = function(clazz, child){
+		return (child instanceof clazz);
+	}
 		
 	return F;
 })();
@@ -80,7 +96,6 @@ Dino.formats = (function(){
 
 
 
-
 Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 	
 	initialize: function(owner) {
@@ -90,42 +105,28 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 	
 	
 	
-	add: function(item) {
+	add: function(item, i) {
 		// добавляем дочерний виджет
-		this.widgets.push(item);
+		if(arguments.length == 2)
+			this.widgets.splice(i, 0, item);
+		else
+			this.widgets.push(item);
 			
 		item.parent = this.owner;	
 		
 		// выполняем автобиндинг
-		if(this.owner.data && !item.data) 
+		if(this.owner.data && !item.data)
 			item.setData(this.owner.data, 2);
 		
 		return item;
 	},
 	
-	
 	get: function(i) {
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return this.widgets[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find_one(this.widgets, f);	
+		return Dino.find(this.widgets, Dino.utils.create_widget_filter(i));	
 	},
 
-	get_all: function(i) {
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return this.widgets[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find(this.widgets, f);	
+	get_all: function(i) {		
+		return Dino.find_all(this.widgets, Dino.utils.create_widget_filter(i));	
 	},
 	
 	remove: function(item) {

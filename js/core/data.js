@@ -379,20 +379,38 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 //		this.dirty();		
 	},
 	
-	add: function(value) {
+	add: function(value, index) {
 		var a = this.val();
-		a.push(value);
 		
-		var i = a.length-1;
-		var item = this.item(i);
+		if(index == null){
+			a.push(value);			
+			index = a.length-1;
+		}
+		else {
+			// меняем индексы элементов данных
+			for(var i = a.length-1; i >= index; i--){
+				if(this.items[i]){
+//					this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
+					this.items[i].id = i+1;
+					this.items[i+1] = this.items[i];
+				}
+			}
+			
+			delete this.items[index];
+			
+			// добавляем новый элемент массива
+			a.splice(index, 0, value);
+		}
 		
-		this.events.fire('onItemAdded', {'index': i, 'item': item});
+		var item = this.item(index);
+		
+		this.events.fire('onItemAdded', {'index': index, 'item': item});
 		
 		// помечаем новый источник данных как "грязный" ?
 //		this.dirty();
 		
 		return item;
-	},
+	},	
 	
 	size: function() {
 		return this.val().length;

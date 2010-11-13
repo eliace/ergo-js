@@ -140,13 +140,22 @@ input.r-icon, span.r-icon {
 
 
 
+.dino-button-bar {
+	padding: 2px;
+}
+
+.dino-button-bar > .dino-text-button {
+	padding: 3px 5px;
+	margin: 0 3px;
+}
+
 
 
 
 /*
  * LIST
  */
-
+/*
 .dino-list-menu {
 	min-height: 16px;
 	padding: 3px;
@@ -172,7 +181,7 @@ input.r-icon, span.r-icon {
 	background-color: #ddd;
 	border: 1px solid #ccc;
 }
-
+*/
 
 /*
  * LISTBOX
@@ -184,12 +193,13 @@ input.r-icon, span.r-icon {
 }
 
 .dino-listbox-row:hover {
-	background-color: #ffc;
+	background-color: #eee;
 }
 
 .dino-listbox-row.selected {
 /*	background-color: #8FCDFF;*/
-	background: url(img/selection.png) repeat-x scroll 50% 50% ;
+/*	background: url(img/selection.png) repeat-x scroll 50% 50% ;*/
+	background-color: #ffc;
 }
 
 /*

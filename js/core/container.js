@@ -63,20 +63,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //	},
 	
 	getItem: function(i){
-//		return this.children.get(i);
-		
-		var f = null;
-		
-		if( _dino.isNumber(i) ) return this.items[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
-		else return null;
-		
-		return Dino.find_one(this.items, f);	
+		return Dino.find(this.items, Dino.utils.create_widget_filter(i));	
 	},
 	
-	addItem: function(item, key) {
+	addItem: function(item, index) {
 //		Dino.Container.superclass.addChild.call(this, item);
 		
 		var itemOpts = item;
@@ -84,28 +74,53 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		// если новый элемент является набором параметров, то строим виджет
 		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts({}, this.options.defaultItem, item) );
 		
-		this.items.push( item );
-		item.index = this.items.length - 1; //parseInt(this.children.size()-1);	
 		
-		this.children.add(item);
-		this.layout.insert(item, key);
-//		this.layout.rebuild();
+		if(index == undefined){
+			this.items.push( item );
+			
+			item.index = this.items.length - 1;
+			
+			this.children.add(item);
+			this.layout.insert(item);
+		}
+		else {
+			this.items.splice( index, 0, item );
+			
+			item.index = index;
+			for(var i = index; i < this.items.length; i++) this.items[i].index = i;
+			
+			this.children.add(item, index);
+			this.layout.insert(item, index);
+		}
 		
 		if('show' in item) item.show();
-//		if(item.el.parents().is('body')) item._afterRender();
-	
-//		item.events.fire('onAdded');
+		
 		this.events.fire('onItemAdded', {'item': item});
-		
-//		if(this.el.parents().is('body')){
-//			item._afterRender();
-//		}
-		
-//		if('_afterAdded' in item) item._afterAdded.call(this, this);
 		
 		return item;
 	},
-	
+/*	
+	insertItem: function(item, index) {
+		
+		var itemOpts = item;
+		
+		// если новый элемент является набором параметров, то строим виджет
+		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts({}, this.options.defaultItem, item) );
+
+		this.items.splice( index, 0, item );
+		item.index = index;
+		for(var i = index; i < this.items.length; i++) this.items[i].index = i;
+		
+		this.children.add(item, index);
+		this.layout.insert(item, index);
+		
+		if('show' in item) item.show();
+		
+		this.events.fire('onItemAdded', {'item': item});
+		
+		return item;
+	},
+*/	
 	removeItem: function(item) {
 		
 		Dino.remove_from_array(this.items, item);
@@ -151,7 +166,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		for(var i = 0; i < this.items.length; i++)
 			callback.call(this, this.items[i], i);
 	},
-	
+/*	
 	setSelectedItem: function(item) {
 		this.eachItem(function(it){ it.states.clear('selected'); });
 		item.states.set('selected');
@@ -161,7 +176,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	getSelectedItem: function() {
 		return this._selected_item;
 	},
-	
+*/	
 	/**
 	 * Подключаем данные.
 	 * 
@@ -196,9 +211,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		// если добавлен новый элемент данных, то добавляем новый виджет
 		this.data.events.reg('onItemAdded', function(e){
-			self.addItem({
-				'data': self.data.item(e.index)
-			});
+			self.addItem({'data': e.item}, e.index);
 		});
 		
 		// если элемент данных удален, то удаляем соответствующий виджет

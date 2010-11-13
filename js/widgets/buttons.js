@@ -327,6 +327,7 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 	
 	defaultOptions: {
+		cls: 'dino-text-button',
 		components: {
 			content: {
 				dtype: 'text-item'
@@ -337,11 +338,12 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 	_opt: function(o) {
 		Dino.widgets.TextButton.superclass._opt.apply(this, arguments);
 		
-		if('label' in o) this.content.opt('label', o.label);
-//		if('icon' in o) {
-//			this.content.opt('showLeftIcon', (o.icon));
-//			this.content.leftIcon.states.set_only(o.icon);
-//		}
+		if('caption' in o) this.content.opt('label', o.caption);
+		if('icon' in o) {
+			this.content.opt('showLeftIcon', (o.icon));
+			if(o.icon)
+				this.content.leftIcon.states.set_only(o.icon);
+		}
 	}
 	
 	
@@ -376,7 +378,9 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	_opt: function(o) {
 		Dino.widgets.IconButton.superclass._opt.apply(this, arguments);
 		
-		if('icon' in o) this.content.icon.states.set_only(o.icon);
+		if('icon' in o) {
+			this.content.icon.states.set_only(o.icon);
+		}
 	}
 	
 	
