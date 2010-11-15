@@ -46,10 +46,10 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		delete this.container; 
 	},
 	
-	auto_height: function(enable) {
-		this.options.autoHeight = enable;
-		(enable) ? this.el.attr('autoheight', 'true') : this.el.removeAttr('autoheight');
-	},
+//	auto_height: function(enable) {
+//		this.options.autoHeight = enable;
+//		(enable) ? this.el.attr('autoheight', 'true') : this.el.removeAttr('autoheight');
+//	},
 	
 //	add: function(item) {},
 	// добавление нового элемента-виджета в компоновку

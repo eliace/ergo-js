@@ -25,8 +25,8 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 				}
 			}		
 		},
-		editOnDblClick: false,
-		closeButton: true
+		editOnDblClick: false
+//		closeButton: true
 	},
 	
 	
@@ -64,6 +64,11 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 					}
 				}
 			});
+		}
+		
+		
+		if('listModel' in o) {
+			Dino.utils.overrideOpts(o.components.content.tableModel.row, o.listModel.row);
 		}
 
 /*		

@@ -260,10 +260,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		
 		if('width' in o) el.width(o.width);
-		if('height' in o) {
-			this.layout.auto_height(o.height == 'auto');
-			if(o.height != 'auto') el.height(o.height);
-		}
+		if('height' in o) el.height(o.height);
+		if('autoHeight' in o) el.attr('autoheight', o.autoHeight);
 		if('x' in o) el.css('left', o.x);
 		if('y' in o) el.css('top', o.y);
 		if('tooltip' in o) el.attr('title', o.tooltip);
@@ -442,7 +440,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('baseCls' in this.options)
 			Dino.utils.overrideOpts(o, {cls: this.options.baseCls+'-'+key});
 		
-		this[key] = Dino.widget(o);
+		this[key] = (o instanceof Dino.Widget) ? o : Dino.widget(o);
 		this.children.add( this[key] );
 		this.layout.insert(this[key]);
 //		this.el.append(this[key].el);

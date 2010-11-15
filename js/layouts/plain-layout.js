@@ -33,14 +33,14 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 	},
 	
 	update: function() {
-		if(this.options.autoHeight){
+		if(this.container.options.autoHeight){
 			
 			this.el.height(0);
 			var dh = 0;//this.el.outerHeight(true);
 			var h = 0;
 			this.el.parents().each(function(i, el){
 				el = $(el);
-				if(el.attr('autoheight') == 'true'){
+				if(el.attr('autoheight') == 'true' || el.is('body')){
 					h = el.height();
 					return false;
 				}
@@ -48,14 +48,15 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 //					if(dh == 0) dh = el.height();
 					dh += (el.outerHeight(true) - el.height());
 					el.siblings().not('td, :hidden').each(function(i, sibling){
-						dh += $(sibling).outerHeight(true)
+						if(el.attr('autoheight') != 'ignore') dh += $(sibling).outerHeight(true)
 					});
 				}
 			});
 
 			dh += (this.el.outerHeight(true) - this.el.height());
 			this.el.siblings().not('td, :hidden').each(function(i, sibling){
-				dh += $(sibling).outerHeight(true)
+				sibling = $(sibling);
+				if(sibling.attr('autoheight') != 'ignore') dh += sibling.outerHeight(true)
 			});
 			
 //			dh -= this.el.height()

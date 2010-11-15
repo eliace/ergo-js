@@ -32,11 +32,12 @@
  */
 
 
-.dino-shadow {
-	-moz-box-shadow: 0 0 .7em #bbb;
-	-webkit-box-shadow: 0 0 .7em #bbb;
-	box-shadow: 0 0 .7em #bbb;
+.dino-widget-shadow {
+	-moz-box-shadow: 0 0 .7em #888;
+	-webkit-box-shadow: 0 0 .7em #888;
+	box-shadow: 0 0 .7em #888;
 }
+
 
 
 
@@ -599,6 +600,7 @@ input.r-icon, span.r-icon {
 .led-icon-pencil { background-image: url(img/led/pencil.png); }
 .led-icon-textfield { background-image: url(img/led/textfield.png); }
 .led-icon-text-list-numbers { background-image: url(img/led/text_list_numbers.png); }
+.led-icon-lock { background-image: url(img/led/lock.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }

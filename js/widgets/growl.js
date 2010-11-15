@@ -75,7 +75,7 @@ Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 		Dino.widgets.Growl.superclass._opt.apply(this, arguments);
 		
 		if('message' in o)
-			this.contentBox.content.opt('text', o.message);
+			this.contentBox.content.opt('innerHtml', o.message);
 		
 		if('iconCls' in o)
 			this.icon.opt('cls', o.iconCls);

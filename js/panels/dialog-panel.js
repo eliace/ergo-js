@@ -2,38 +2,47 @@
 
 Dino.declare('Dino.panels.DialogPanel', 'Dino.Widget', {
 	
-	defaultCls: 'dino-dlg-panel',
+	defaultCls: 'dino-dialog-panel',
 	
 	defaultOptions: {
 		components: {
 			header: {
 				weight: 1,
-				dtype: 'box'
+				dtype: 'box',
+				content: {
+					dtype: 'text-item',
+					label: 'Диалог'
+				}
 //				baseCls: 'dino-dlg-panel-header'
 			},
-			body: {
+			content: {
 				weight: 2,
 				dtype: 'box'
 //				baseCls: 'dino-dlg-panel-body'
 			},
-			footer: {
+			buttons: {
 				weight: 3,
-				dtype: 'box'
+				dtype: 'box',
+				defaultItem: {
+					dtype: 'text-button'
+				}
 //				baseCls: 'dino-dlg-panel-footer'
 			}
 		}
 		
 	},
 	
-	_init: function() {
+	_init: function(o) {
 		Dino.panels.DialogPanel.superclass._init.apply(this, arguments);
 		
-		var o = this.options;
-		var c = o.components;
+		if('panelTitle' in o) o.components.header.content.label = o.panelTitle;
+		if('panelContent' in o) o.components.content.content = o.panelContent;
+		if('panelButtons' in o) o.components.buttons.items = o.panelButtons;
 		
-		if('header' in o) c.header.content = o.header;
-		if('body' in o) c.body.content = o.body;
-		if('footer' in o) c.footer.content = o.footer;
+		
+//		if('header' in o) c.header.content = o.header;
+//		if('body' in o) c.body.content = o.body;
+//		if('footer' in o) c.footer.content = o.footer;
 		
 		
 	}

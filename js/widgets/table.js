@@ -158,6 +158,7 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 	_html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
+//		autoHeight: 'ignore',
 		binding: 'skip',
 		editor: {
 			dtype: 'textfield',

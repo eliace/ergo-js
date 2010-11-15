@@ -18,6 +18,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, {
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.attr('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
+		if('tabindex' in o) this.el.attr('tabindex', o.tabindex);
 		
 		if(o.rawValueOnFocus){
 			var self = this;
@@ -61,6 +62,16 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
 
 
 /**
+ * Поле текстового ввода
+ */
+Dino.declare('Dino.widgets.form.PasswordField', Dino.widgets.form.InputField, {
+	
+	_html: function() { return '<input type="password" class="dc-form-password"></input>'; }
+		
+}, 'password');
+
+
+/**
  * Кнопка.
  * 
  * Параметры:
@@ -69,12 +80,12 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, {
  * 	onAction
  * 
  */
-Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
+Dino.declare('Dino.widgets.form.SubmitButton', Dino.widgets.form.InputField, {
 	
 	_html: function() { return '<input type="submit" class="dc-form-button"></input>'; },
 
 	_init: function(o) {
-		Dino.widgets.form.Button.superclass._init.call(this, o);
+		Dino.widgets.form.SubmitButton.superclass._init.call(this, o);
 		
 		var self = this;
 		
@@ -88,9 +99,9 @@ Dino.declare('Dino.widgets.form.Button', Dino.widgets.form.InputField, {
 	},
 	
 	_opt: function(o) {
-		Dino.widgets.form.Button.superclass._opt.call(this, o);
+		Dino.widgets.form.SubmitButton.superclass._opt.call(this, o);
 	}
-}, 'form-button');
+}, 'submit-button');
 
 
 /**

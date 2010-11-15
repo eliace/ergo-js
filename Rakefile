@@ -21,7 +21,7 @@ require 'fileutils'
     'js/layouts/plain-layout.js',
     'js/layouts/3c-layout.js',
     'js/layouts/stack-layout.js',
-    'js/layouts/row-layout.js',
+    'js/layouts/column-layout.js',
     'js/layouts/form-layout.js',
     'js/layouts/dock-layout.js',
     'js/layouts/float-layout.js',
