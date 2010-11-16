@@ -56,7 +56,7 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
-		if('label' in o) this.content.opt('text', o.label);
+		if('text' in o) this.content.opt('innerText', o.text);
 		if('format' in o) this.content.opt('format', o.format);
 		
 		if('showLeftIcon' in o) {
@@ -68,6 +68,8 @@ Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
 			this.rightIcon.states.toggle('hidden', !o.showRightIcon);
 //			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
 		}
+		
+		//WARN экспериментальный код
 		if(!o.showText) {
 			this.content.opt('html', '&nbsp;');
 		}

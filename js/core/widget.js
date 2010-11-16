@@ -270,7 +270,8 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
 		if('baseCls' in o) el.addClass(o.baseCls);
-		if('text' in o) el.text(o.text);
+		if('innerText' in o) el.text(o.innerText);
+		if('innerHtml' in o) this.el.html(o.innerHtml);
 		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
 			if($.support.opacity) 
@@ -300,7 +301,6 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 //				}
 			}
 		}
-		if('innerHtml' in o) this.el.html(o.innerHtml);
 		
 		
 		if('states' in o){

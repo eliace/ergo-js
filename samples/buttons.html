@@ -41,9 +41,19 @@
 	top: 20px;				
 }
 
+/*
 .button-container > div {
 	margin: 0 5px;
 }
+*/
+.button-container > * {
+	display: block;
+}
+
+.dino-button {
+	padding: 4px 8px;	
+}
+
 
 .toggle-button-1 {
 	width: 48px;
@@ -54,13 +64,16 @@
 	</style>
 	
 	<script>
-$.dino({
+		
+sample('sample-all', function(){
+
+return $.dino({
 	dtype: 'box',
-	layout: 'row-layout',
+//	layout: 'column-layout',
 	cls: 'button-container',
 	items: [{
 		dtype: 'button',
-		label: 'Простая кнопка'
+		innerText: 'Простая кнопка'
 	}, {
 		dtype: 'toggle-button',
 		cls: 'toggle-button-1',
@@ -71,8 +84,46 @@ $.dino({
 		imageWidth: 30,
 		pulseValue: 1.25,
 		pulseDelay: 200
+	}, {
+		dtype: 'text-button',
+		text: 'ОК',
+		icon: 'led-icon-accept'
+	}, {
+		dtype: 'icon-button',
+		icon: 'led-icon-cog'
+	}, {
+		dtype: 'split-button',
+		components: {
+			actionButton: {
+				innerText: 'Africa',
+				width: 80
+			},
+			listButton: {
+				width: 8
+			}
+		},
+		onAction: function(e) {
+			message.info('Clicked ' + this.selectedItem.tag);
+		},
+		list: [{
+			text: 'Африка',
+			tag: 'africa'
+		}, {
+			text: 'Азия',
+			tag: 'asia'
+		}, {
+			text: 'Европа',
+			tag: 'europe'
+		}, {
+			text: 'Америка',
+			tag: 'america'
+		}]
+		
 	}]						
 });
+	
+});		
+		
 	</script>
 <div class="html">
 	
@@ -85,94 +136,6 @@ $.dino({
 	
 	
 	
-<div id="sample-btn">
-<style>
-	
-</style>
-
-<script>
-Dino.widget({
-	dtype: 'button',
-	label: 'Нажми меня'
-});	
-</script>	
-<div class="html">
-	
-</div>
-<div class="desc">
-		<p>
-			Простая кнопка на основе тэга &lt;button&gt;.
-		</p>	
-</div>
-	
-</div>
-
-
-
-
-<div id="sample-toggle">
-<style>
-	
-.toggle-button-1 {
-	width: 48px;
-	height: 48px;
-	background-image: url('img/folder close blue.png');
-}
-	
-.toggle-button-1-on {
-	background-image: url('img/folder blue.png');				
-}
-	
-</style>
-
-<script>
-Dino.widget({
-	dtype: 'toggle-button',
-	cls: 'toggle-button-1',
-	toggleCls: 'toggle-button-1-on'								
-});
-</script>	
-<div class="html">
-	
-</div>
-<div class="desc">
-	<p>
-		Кнопка-переключатель, является аналогом иконки с поддержкой состояния 'toggle'.
-	</p>
-</div>
-	
-</div>
-
-	
-
-
-
-
-<div id="sample-pulse">
-<style>
-	
-</style>
-
-<script>
-Dino.widget({
-	dtype: 'pulse-button',
-	imageUrl: 'img/menu/Box.png',
-	imageWidth: 30,
-	pulseValue: 1.25,
-	pulseDelay: 200
-});
-</script>	
-<div class="html">
-	
-</div>
-<div class="desc">
-<p>
-	"Пульсирующая" кнопка, при наведении курсора изменяет размер.
-</p>
-</div>
-	
-</div>
-
 
 
 
@@ -189,16 +152,7 @@ Dino.widget({
 
 samplePage([{
 	name: 'Все кнопки',
-	id: '#sample-all'
-}, {
-	name: 'Простая кнопка',
-	id: '#sample-btn'
-}, {
-	name: 'Кнопка-переключатель',
-	id: '#sample-toggle'
-}, {
-	name: 'Пульсирующая кнопка',
-	id: '#sample-pulse'
+	id: 'sample-all'
 }]);		
 	
 	</script>

@@ -33,7 +33,7 @@
 <div id="sample-dialog">
 <style>
 	
-.dino-dialog-overlay {
+.dino-overlay {
 	opacity: 0.4;
 	background-color: black;
 }	
@@ -58,9 +58,23 @@
 
 </style>
 <script>
-	
+
+
+sample('sample-dialog', function(){
 	
 var dlg = $.dino({
+	dtype: 'message-box',
+	renderTo: 'body',
+	windowContent: {
+		width: 400
+	},
+	title: 'Сообщение',
+	message: Samples.loremipsum,
+	buttons: ['ok'],
+	buttonsAlign: 'center',
+	icon: 'warning'
+	
+/*	
 	renderTo: 'body',
 	dtype: 'dialog',
 	components: {
@@ -124,25 +138,110 @@ var dlg = $.dino({
 			}
 		}
 	}
+*/	
 });	
 
-$.dino({
-	dtype: 'button',
-	label: 'Открыть диалог',
+return $.dino({
+	dtype: 'text-button',
+	text: 'Открыть диалог',
 	onAction: function() {
 		dlg.open();
-		dlg.window.content.buttons.getItem(1).el.focus();
+//		dlg.window.content.buttons.getItem(1).el.focus();
 	}
 });
+	
+});
+
+	
+	
 
 </script>	
-<div class="html">
-	
-</div>
 <div class="desc">
 	
 </div>
 </div>
+
+
+
+
+
+
+<div id="sample-message-box">
+<style>
+	
+
+</style>
+<script>
+
+
+sample('sample-message-box', function(){
+	
+var dlg = $.dino({
+	dtype: 'message-box',
+	renderTo: 'body',
+	windowContent: {
+		width: 400
+	},
+	title: 'Сообщение',
+	message: Samples.loremipsum,
+	buttons: ['ok'],
+	buttonsAlign: 'right'
+});	
+
+return $.dino({
+	dtype: 'box',
+	cls: 'dino-controls',
+	defaultItem:{
+		dtype: 'text-button'
+	},
+	items: [{
+		text: 'Сообщение',
+		onAction: function() {	
+			dlg.opt('icon', 'info');
+			dlg.open(); 
+		}		
+	}, {
+		text: 'Ошибка',
+		onAction: function() {	
+			dlg.opt('icon', 'critical');
+			dlg.open(); 
+		}		
+	}, {
+		text: 'Предупреждение',
+		onAction: function() {	
+			dlg.opt('icon', 'warning');
+			dlg.open(); 
+		}		
+	}, {
+		text: 'Выбор',
+		onAction: function() {	
+			dlg.opt({
+				icon: 'info',
+				buttons: ['yes', 'no'],
+				message: 'Для подтверждения нажмите "Да", для отказа нажмите "Нет"' 
+			});
+			dlg.open(); 
+		}		
+	}]
+});
+	
+});
+
+	
+	
+
+</script>	
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -155,7 +254,10 @@ $.dino({
 		
 samplePage([{
 	name: 'Dialog',
-	id: '#sample-dialog'
+	id: 'sample-dialog'
+}, {
+	name: 'MessageBox',
+	id: 'sample-message-box'
 }]);
 	
 </script>

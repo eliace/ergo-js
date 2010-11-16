@@ -25,7 +25,7 @@ require 'fileutils'
     'js/layouts/form-layout.js',
     'js/layouts/dock-layout.js',
     'js/layouts/float-layout.js',
-    'js/layouts/inherited-layout.js',
+    'js/layouts/window-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',
@@ -46,7 +46,9 @@ require 'fileutils'
     'js/grid/tree-grid.js',
     'js/menu/menu.js',
     'js/tree/tree.js',
+    'js/dialog/window.js',
     'js/dialog/dialog.js',
+    'js/dialog/message-box.js',
     'js/list/list.js',
     'js/list/list-box.js',
   ]

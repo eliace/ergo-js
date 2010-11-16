@@ -39,10 +39,16 @@
 	
 </style>
 <script>
-$.dino({
+	
+sample('sample-img', function(){
+	
+return $.dino({
   dtype: 'image',
   imageUrl: 'img/stegosaurus_128x128.png',
+});
+		
 });	
+	
 </script>	
 <div class="html">
 	
@@ -61,12 +67,14 @@ $.dino({
 	
 </style>
 <script>
-$.dino({
+	
+sample('sample-icon', function(){
+
+return $.dino({
   dtype: 'box',
-  layout: 'row-layout',
+  layout: 'float-layout',
   defaultItem: {
     dtype: 'icon',
-    style: {'position': 'relative'}, // для того, чтобы компоновка смогла определить размеры компонентов
     baseCls: 'ui-icon'
   },
   items: [
@@ -78,6 +86,10 @@ $.dino({
     { cls: 'ui-icon-note' }
   ]
 });
+
+	
+})	
+	
 </script>	
 <div class="html">
 	
@@ -100,7 +112,10 @@ $.dino({
 	
 </style>
 <script>
-$.dino({
+	
+sample('sample-async', function(){
+
+return $.dino({
   dtype: 'box',
   items: [{
     // обычная загрузка
@@ -116,10 +131,10 @@ $.dino({
     height: 100   
   }]
 });
-</script>	
-<div class="html">
 	
-</div>
+});	
+	
+</script>	
 <div class="desc">
 	<p>
 		Поздняя загрузка позволяет перед добавлением изображения в разметку узнать его размеры, а значит - иметь возможность выполнить пропорциональное масштабирование.
@@ -140,13 +155,13 @@ $.dino({
 	
 samplePage([{
 	name: 'Изображение',
-	id: '#sample-img'
+	id: 'sample-img'
 }, {
 	name: 'Иконка',
-	id: '#sample-icon'
+	id: 'sample-icon'
 }, {
 	name: 'Изображение с поздней загрузкой',
-	id: '#sample-async'
+	id: 'sample-async'
 }]);
 		
 </script>

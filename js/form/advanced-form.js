@@ -155,8 +155,15 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	
 	_html: function(){ return '<span/>';},
 	
+	
+	_opt: function(o) {
+		Dino.widgets.Text.superclass._opt.apply(this, arguments);
+		
+		if('text' in o) this.el.text(o.text);
+	},
+	
 	_dataChanged: function() {
-		Dino.widgets.Text.superclass._dataChanged.call(this);
+		Dino.widgets.Text.superclass._dataChanged.apply(this, arguments);
 		this.el.text( this.getValue() );
 //		this.states.set( this.getStateValue() );
 	},

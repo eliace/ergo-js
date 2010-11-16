@@ -135,7 +135,7 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 	_opt: function(o) {
 		Dino.widgets.TextMenuItem.superclass._opt.call(this, o);
 		
-		if('label' in o) this.content.opt('label', o.label);
+		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
 		
 		if(o.showLeftPanel) this.content.states.set('left-panel');

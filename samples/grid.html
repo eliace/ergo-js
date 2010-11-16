@@ -62,6 +62,9 @@
 	
 </style>
 <script>
+	
+sample('sample-grid', function(){
+
 var gridData = [
   {id: '1', name: 'Alice', value: '123', cb: false},
   {id: '2', name: 'Bob', value: '456', cb: true},
@@ -69,11 +72,12 @@ var gridData = [
 ];
 		
 		
-$.dino({
+return $.dino({
   id: 'table-1',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
 	content: {
+//		autoHeight: true,
 		height: 250,
 		style: {'padding-right': '3px'}
 	},
@@ -83,12 +87,12 @@ $.dino({
 			cls: 'grid-header-cell',
 		},
 		columns: [{
-			text: '№'
+			innerText: '№'
 //      width: 50
 		}, {
-			text: 'Имя'
+			innerText: 'Имя'
 		}, {
-			text: 'Значение'
+			innerText: 'Значение'
 //      width: 100
 		}, {
 //			text: 'Выбран',
@@ -123,6 +127,9 @@ $.dino({
   },
   data: gridData
 });
+		
+});	
+	
 	
 </script>	
 <div class="html">
@@ -190,6 +197,8 @@ $.dino({
 </style>
 <script>
 	
+sample('sample-tree-grid', function(){
+	
 	
 var tgTreeData = {
   children: [{
@@ -253,15 +262,16 @@ var tgTreeData = {
 };
 
 		
-$.dino({
+return $.dino({
   dtype: 'tree-grid',
   tag: 'aaa',
   cls: 'tree-grid dino-border-all dino-corner-all',
   data: tgTreeData,
   dataId: 'children',
 	width: 600,
-	debug: true,
+//	debug: true,
 	content: {
+//		autoHeight: true,
 		height: 250,
 		style: {'padding-right': '3px'}
 	},
@@ -271,12 +281,12 @@ $.dino({
 			cls: 'tg-header'
 		},
 		columns: [{
-			text: '#',
+			innerText: '#',
 			width: 40
 		}, {
-			text: 'Файл'
+			innerText: 'Файл'
 		}, {
-			text: 'Размер',
+			innerText: 'Размер',
 			width: 100
 		}]
 	},
@@ -347,6 +357,10 @@ $.dino({
     }]
   }
 });//.content.content.body.layout.rebuild();	
+	
+	
+});
+	
 
 </script>	
 <div class="html">
@@ -365,10 +379,10 @@ $.dino({
 		
 samplePage([{
 	name: 'Grid',
-	id: '#sample-grid'
+	id: 'sample-grid'
 }, {
 	name: 'TreeGrid',
-	id: '#sample-tree-grid'
+	id: 'sample-tree-grid'
 }]);
 	
 	</script>

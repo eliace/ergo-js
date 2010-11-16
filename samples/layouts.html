@@ -37,7 +37,10 @@
 </style>
 
 <script>
-$.dino({
+	
+sample('sample-dock', function(){
+	
+return $.dino({
   dtype: 'box',
   layout: {
     dtype: 'dock-layout',
@@ -49,12 +52,15 @@ $.dino({
     cls: 'dino-icon led-icon-smile'
   }, {
     cls: 'text-item',
-    text: 'Hello'
+    innerText: 'Hello'
   }, {
     dock: 'right-bottom',
     cls: 'dino-icon led-icon-unhappy'
   }]
 });
+	
+});	
+	
 </script>
 <div class="html">
 	
@@ -80,18 +86,24 @@ $.dino({
 </style>
 
 <script>
-$.dino({
+	
+sample('sample-float', function(){
+
+return $.dino({
   dtype: 'box',
   layout: 'float-layout',
   items: [{
     cls: 'dino-icon led-icon-smile'
   }, {
     cls: 'bar-text-item',
-    text: 'Hello'
+    innerText: 'Hello'
   }, {
     cls: 'dino-icon led-icon-unhappy'
   }]
 });
+	
+});	
+	
 </script>
 <div class="html">
 	
@@ -109,7 +121,10 @@ $.dino({
 </style>
 
 <script>
-$.dino({
+
+sample('sample-simple-form', function(){
+	
+return 	$.dino({
   dtype: 'box',
   layout: 'simple-form-layout',
   items: [{
@@ -120,6 +135,9 @@ $.dino({
 		dtype: 'file'
   }]
 });
+
+});	
+	
 </script>
 <div class="html">
 	
@@ -144,7 +162,10 @@ $.dino({
 </style>
 
 <script>
-$.dino({
+	
+sample('sample-column', function(){
+	
+return $.dino({
   dtype: 'box',
   layout: 'column-layout',
   height: 200,
@@ -153,18 +174,23 @@ $.dino({
     style: {'padding': 10},
     content: {
       dtype: 'box',
-      text: 'Widget 1',
-      height: '100%',
+      innerText: 'Widget 1',
+			autoHeight: true,
+//      height: '100%',
       style: {'border': '1px solid #ccc'}
     }
   }, {
     cls: 'dino-border-all',
     content: {
+			autoHeight: true,
       dtype: 'box',
-      text: 'Widget 2'
+      innerText: 'Widget 2'
     }
   }]
 });
+	
+});	
+	
 </script>
 <div class="html">
 	
@@ -184,13 +210,13 @@ $.dino({
 	
 samplePage([{
 	name: 'Dock',
-	id: '#sample-dock'
+	id: 'sample-dock'
 }, {
 	name: 'Float',
-	id: '#sample-float'
+	id: 'sample-float'
 }, {
 	name: 'Column',
-	id: '#sample-column'
+	id: 'sample-column'
 }]);
 	
 	

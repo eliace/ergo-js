@@ -41,10 +41,9 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 
 	_opt: function(o) {
 		Dino.widgets.ToggleButton.superclass._opt.call(this, o);
-		
-		if('toggleCls' in o){
+				
+		if('toggleCls' in o)
 			this.options.states['toggle'] = o.toggleCls;
-		}
 		
 	},
 	
@@ -113,7 +112,8 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 		if('disabled' in o){
 			(o.disabled) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');
 		}
-			
+//		if('text' in o) this.el.text(o.text);
+
 //		if('onAction' in o)
 //			this.addEvent('onAction', o.onAction);
 	}
@@ -268,7 +268,7 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 					},
 					content: {
 						dtype: 'text',
-						html: '&nbsp;'
+						innerHtml: '&nbsp;'
 					}					
 				},
 				events: {
@@ -276,7 +276,7 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 					'mouseleave': function(e, w) { w.icon.states.set_only('ui-icon-gray'); }
 				},
 				onAction: function() {
-					this.parent.dropdown.show(0, this.parent.el.outerHeight());
+					this.parent.dropdown.show(0, this.parent.el.outerHeight(true));
 				}
 			},
 			dropdown: {
@@ -286,7 +286,7 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 					dtype: 'text-menu-item',
 					style: {'padding': '0 5px'},
 					onAction: function(e) {
-						this.parent.parent.actionButton.opt('text', e.target.getText());
+						this.parent.parent.actionButton.opt('innerText', e.target.getText());
 						this.parent.parent.selectedItem = e.target;
 						this.parent.hide();
 						this.parent.parent.events.fire('onAction');
@@ -310,7 +310,7 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 		Dino.widgets.SplitButton.superclass._afterBuild.apply(this, arguments);
 		
 		var first = this.dropdown.getItem(0);
-		if(first) this.actionButton.opt( 'text', first.getText() );
+		if(first) this.actionButton.opt( 'innerText', first.getText() );
 		this.selectedItem = first;
 	}
 	
@@ -338,7 +338,7 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 	_opt: function(o) {
 		Dino.widgets.TextButton.superclass._opt.apply(this, arguments);
 		
-		if('caption' in o) this.content.opt('label', o.caption);
+		if('text' in o) this.content.opt('text', o.text);
 		if('icon' in o) {
 			this.content.opt('showLeftIcon', (o.icon));
 			if(o.icon)
@@ -368,7 +368,7 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 				},
 				content: {
 					dtype: 'text',
-					html: '&nbsp;'
+					innerHtml: '&nbsp;'
 				}
 			}
 		}

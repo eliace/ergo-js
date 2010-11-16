@@ -27,6 +27,8 @@
 .dino-bg-5 { background: url(img/ui-bg_glass_95_fef1ec_1x400.png) repeat-x scroll 50% 50% #fff; }
 
 
+
+
 /*
  * 
  */
@@ -56,6 +58,39 @@
 
 
 
+
+.dino-window-content {
+	padding: 5px;
+}
+
+.dino-widget-header {
+	padding: 3px 5px; 
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC; 
+}
+
+
+
+
+
+.dino-controls {
+	padding: 3px 0;
+}
+
+.dino-controls > button {
+	padding: 3px 5px;
+	margin: 0 3px;
+}
+
+.dino-controls.left { text-align: left; }
+.dino-controls.center { text-align: center; }
+.dino-controls.right { text-align: right; }
+
+
+
+.dino-messagebox-icon {
+	margin: 10px 20px 10px 10px;
+	float: left;
+}
 
 
 
@@ -138,9 +173,14 @@ input.r-icon, span.r-icon {
 	color: #000;
 }
 
+.dino-split-button .dino-dropdown-box {
+	background-color: #fff;
+	font-size: 10pt;
+}
 
 
 
+/*
 .dino-button-bar {
 	padding: 2px;
 }
@@ -149,7 +189,7 @@ input.r-icon, span.r-icon {
 	padding: 3px 5px;
 	margin: 0 3px;
 }
-
+*/
 
 
 
@@ -515,6 +555,13 @@ input.r-icon, span.r-icon {
 
 
 
+/*
+ * MESSAGE BOX
+ */
+
+
+
+
 
 
 /*
@@ -548,6 +595,12 @@ input.r-icon, span.r-icon {
 	display: block;
 }
 
+.dino-icon.icon32 {
+	width: 32px;
+	height: 32px;
+}
+
+
 /*
 [dock$=center][class~='dino-icon']  {	margin-top: -8px; }
 [dock^=center][class~='dino-icon'] { 	margin-left: -8px; }
@@ -562,6 +615,12 @@ input.r-icon, span.r-icon {
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
 
 .dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
+
+.dino-icon-messagebox-critical { background-image: url(img/messagebox_critical.png); }
+.dino-icon-messagebox-info { background-image: url(img/messagebox_info.png); }
+.dino-icon-messagebox-warning { background-image: url(img/messagebox_warning.png); }
+
+
 
 
 .led-icon-cross { background-image: url(img/led/cross.png); }

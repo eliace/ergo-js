@@ -87,7 +87,7 @@ function sample(name, callback) {
  */
 function samplePage(samples) {
 	
-	init_default_growl_panel();	
+	init_default_growl_panel({hideOnTimeout: true});	
 	
 	var pages = [];
 	
@@ -104,13 +104,13 @@ function samplePage(samples) {
 		// Макет страницы виджета
 		var page = $.dino({
 			dtype: 'box',
-			tab: {content: {label: sample.name} },
+			tab: {content: {text: sample.name} },
 			items: [{
 				tag: 'preview',
 				cls: 'preview'
 			}, {
 				tag: 'description',
-				html: $(sample.description)
+				innerHtml: $(sample.description)
 			}, {
 				tag: 'js',
 				dtype: 'expandable-panel',

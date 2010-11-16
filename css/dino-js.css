@@ -117,6 +117,34 @@
 */
 
 
+[layout='window'] {
+	position: static;
+	display: none;
+}
+
+.dino-overlay {
+	background-color: black;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 2000;
+}	
+
+.dino-window {
+	position: absolute;
+	z-index: 2100;
+	background-color: #fff;
+	left: 50%;
+	top: 50%;
+}
+
+
+
+
+
+
 
 [layout='dock'] {
 	position: relative;
@@ -360,23 +388,6 @@
  * DIALOG
  */
 
-.dino-dialog-overlay {
-	background-color: black;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 2000;
-}	
-
-.dino-dialog-content {
-	position: absolute;
-	z-index: 2100;
-	background-color: #fff;
-	left: 50%;
-	top: 50%;
-}
 
 
 

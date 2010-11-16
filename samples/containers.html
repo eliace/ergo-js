@@ -33,6 +33,13 @@
 	
 </style>
 <script>
+
+sample('sample-box', function() {
+	
+	
+	
+});
+
 	
 </script>	
 <div class="html">
@@ -75,7 +82,11 @@
 	
 </style>
 <script>
-Dino.widget({
+	
+	
+sample('sample-tabs', function(){
+	
+return Dino.widget({
   dtype: 'box',
   items: [{
     dtype: 'tabs',
@@ -85,8 +96,8 @@ Dino.widget({
       cls: 'dino-bg-highlight dino-border-all dino-corner-top'
     },
     items: [
-      { text: 'Tab1' },
-      {	text: 'Tab2' },
+      { innerText: 'Tab1' },
+      {	innerText: 'Tab2' },
       {
         layout: 'dock-layout',
         content: {
@@ -102,6 +113,9 @@ Dino.widget({
   }]
 });		
 	
+	
+});	
+		
 </script>	
 <div class="html">
 	
@@ -139,7 +153,10 @@ Dino.widget({
 	
 </style>
 <script>
-Dino.widget({
+	
+sample('sample-styled-tabs', function(){
+
+return Dino.widget({
   dtype: 'box',
   items: [{
     dtype: 'tabs',
@@ -164,6 +181,10 @@ Dino.widget({
   }]
 });		
 	
+});	
+	
+	
+	
 </script>	
 <div class="html">
 	
@@ -185,8 +206,12 @@ Dino.widget({
 	
 </style>
 <script>
-Dino.widget({
+	
+sample('sample-form', function(){
+	
+return Dino.widget({
   dtype: 'form',
+	layout: 'simple-form-layout',
 //	layout: {
 //		dtype: 'form-layout',
 //		labelWidth: 200
@@ -214,7 +239,12 @@ Dino.widget({
       '4': 'осень' 
     }
   }]
-});			
+});
+	
+	
+});	
+	
+	
 </script>	
 <div class="html">
 	
@@ -237,11 +267,13 @@ Dino.widget({
 </style>
 <script>
 	
+sample('sample-xform', function(){
+	
 var xformData = {
 	text: 11
 };
 	
-Dino.widget({
+return Dino.widget({
   dtype: 'box',
 	layout: 'simple-form-layout',
 //	layout: {
@@ -259,34 +291,7 @@ Dino.widget({
     dtype: 'x-textfield',
 		rawValueOnFocus: true,
 		format: function(val) { return val + ' кг'; }
-  }, {
-		dtype: 'split-button',
-		components: {
-			actionButton: {
-				text: 'Africa',
-				width: 80
-			},
-			listButton: {
-				width: 8
-			}
-		},
-		onAction: function(e) {
-			message.info('Clicked ' + this.selectedItem.tag);
-		},
-		list: [{
-			label: 'Африка',
-			tag: 'africa'
-		}, {
-			label: 'Азия',
-			tag: 'asia'
-		}, {
-			label: 'Европа',
-			tag: 'europe'
-		}, {
-			label: 'Америка',
-			tag: 'america'
-		}]
-	}/*, {
+  }/*, {
     label: 'Текст:',
     id: 'field2',
     dtype: 'textarea'
@@ -306,6 +311,11 @@ Dino.widget({
     }
   }*/]
 });			
+	
+	
+})	
+	
+	
 </script>	
 <div class="html">
 	
@@ -362,7 +372,10 @@ Dino.widget({
 	
 </style>
 <script>
-$.dino({
+	
+sample('sample-growl', function() {
+
+return $.dino({
   dtype: 'growl-box',
   defaultItem: {
     cls: 'dino-border-all dino-corner-all',
@@ -386,6 +399,10 @@ $.dino({
     message: Samples.loremipsum
   }]
 });
+
+	
+});	
+	
 </script>	
 <div class="html">
 	
@@ -412,22 +429,22 @@ $.dino({
 	
 samplePage([{
 	name: 'Бокс',
-	id: '#sample-box'
+	id: 'sample-box'
 }, {
 	name: 'Закладки',
-	id: '#sample-tabs'
+	id: 'sample-tabs'
 }, {
 	name: 'Стилизованные закладки',
-	id: '#sample-styled-tabs'
+	id: 'sample-styled-tabs'
 }, {
 	name: 'Форма',
-	id: '#sample-form'
+	id: 'sample-form'
 }, {
 	name: 'Форма 2',
-	id: '#sample-xform'
+	id: 'sample-xform'
 }, {
 	name: 'Growl box',
-	id: '#sample-growl'
+	id: 'sample-growl'
 }]);
 	
 		
