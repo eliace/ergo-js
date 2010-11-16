@@ -116,7 +116,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	_opt: function(o) {
 		Dino.widgets.BasicTreeNode.superclass._opt.call(this, o);
 		
-		if('label' in o) this.content.opt('label', o.label);
+		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
 		if('isLeaf' in o) this.button.states.set('leaf');
 				

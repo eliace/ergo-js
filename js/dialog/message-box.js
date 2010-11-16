@@ -1,61 +1,48 @@
 
 
-Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Window', {
+Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Dialog', {
 	
 	defaultOptions: {
-		isModal: true,
-		windowContent: {
-			dtype: 'box',
-			cls: 'dino-window-content',
-			components: {
-				header: {
-					dtype: 'box',
-					cls: 'dino-widget-header',
-					components: {
-						title: {
-							dtype: 'text-item'
-						}
-					}
+		components: {
+			content: {
+				dtype: 'box',
+				layout: {
+					dtype: 'column-layout',
+					valign: 'middle'
 				},
-				body: {
-					dtype: 'box',
-					components: {
-						icon: {
-							dtype: 'icon',
-							cls: 'dino-messagebox-icon icon32'
-						},
-						textContent: {
-							dtype: 'text'
-						}
+				components: {
+					icon: {
+						dtype: 'icon',
+						cls: 'dino-messagebox-icon icon32'
+					},
+					message: {
+						dtype: 'text'
 					}
-				},
-				buttons: {
-					dtype: 'box',
-					cls: 'dino-controls',
-					defaultItem: {
-						dtype: 'text-button',
-						state: 'hidden',
-						onAction: function() {
-							var messageBox = this.getParent(Dino.widgets.MessageBox);
-							messageBox.close();
-							messageBox.events.fire('onResult', {result: this.tag});
-						}
+				}	
+			},
+			buttons: {
+				dtype: 'box',
+				cls: 'dino-controls',
+				defaultItem: {
+					dtype: 'text-button',
+					state: 'hidden',
+					width: 80,
+					onAction: function() {
+						var messageBox = this.getParent(Dino.widgets.MessageBox);
+						messageBox.close();
+						messageBox.events.fire('onResult', {result: this.tag});
 					}
-//					states: [{
-//						'left': ['left', 'center right'],
-//						'center': ['center', 'left right'],
-//						'right': ['right', 'center left']
-//					}]
 				}
 			}
 		},
+	
+		buttonsAlign: 'center',
 		buttonSet: {
 			'yes': {text: 'Да', tag: 'yes'},
 			'no': {text: 'Нет', tag: 'no'},
 			'ok': {text: 'ОК', tag: 'ok'},
 			'cancel': {text: 'Отмена', tag: 'cancel'}
 		},
-		buttonsAlign: 'center',
 		iconSet: {
 			'info': 'dino-icon-messagebox-info',
 			'critical': 'dino-icon-messagebox-critical',
@@ -65,6 +52,7 @@ Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Window', {
 	
 	
 	_init: function(o) {
+		Dino.widgets.MessageBox.superclass._init.apply(this, arguments);
 		
 //		if('buttons' in o) {
 			var buttons = [];
@@ -72,26 +60,21 @@ Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Window', {
 //			for(var i = 0; i < o.buttons.length; i++)
 				buttons.push( o.buttonSet[i] );
 			
-			o.windowContent.components.buttons.items = buttons;
+			o.components.buttons.items = buttons;
 //		}
 		
-		Dino.widgets.MessageBox.superclass._init.apply(this, arguments);
 	},
 	
 	
 	_opt: function(o) {
 		Dino.widgets.MessageBox.superclass._opt.apply(this, arguments);
 		
-		var windowContent = this.getWindowContent();
+		if('icon' in o) this.content.icon.states.set_only(this.options.iconSet[o.icon]);
+		if('message' in o) this.content.message.opt('text', o.message);
 		
-		if('title' in o) windowContent.header.title.opt('text', o.title);
-		if('icon' in o) windowContent.body.icon.states.set_only(o.icon);
-		if('message' in o) windowContent.body.textContent.opt('text', o.message);
-		
-		if('buttonsAlign' in o) windowContent.buttons.states.set_only(o.buttonsAlign);
-		if('icon' in o) windowContent.body.icon.states.set_only( this.options.iconSet[o.icon] );
+		if('buttonsAlign' in o) this.buttons.states.set_only(o.buttonsAlign);
 		if('buttons' in o) {
-			windowContent.buttons.eachItem(function(item) { item.states.toggle('hidden', !Dino.in_array(o.buttons, item.tag)); });
+			this.buttons.eachItem(function(item) { item.states.toggle('hidden', !Dino.in_array(o.buttons, item.tag)); });
 		}
 	}
 	

@@ -168,21 +168,21 @@ sample('sample-column', function(){
 return $.dino({
   dtype: 'box',
   layout: 'column-layout',
-  height: 200,
+//  height: 200,
   items: [{
     cls: 'dino-border-all',
     style: {'padding': 10},
     content: {
       dtype: 'box',
       innerText: 'Widget 1',
-			autoHeight: true,
+			height: 'auto',
 //      height: '100%',
       style: {'border': '1px solid #ccc'}
     }
   }, {
     cls: 'dino-border-all',
     content: {
-			autoHeight: true,
+			height: 'auto',
       dtype: 'box',
       innerText: 'Widget 2'
     }
@@ -207,7 +207,7 @@ return $.dino({
 
 
 <script>
-	
+/*	
 samplePage([{
 	name: 'Dock',
 	id: 'sample-dock'
@@ -218,7 +218,7 @@ samplePage([{
 	name: 'Column',
 	id: 'sample-column'
 }]);
-	
+*/	
 	
 </script>
 

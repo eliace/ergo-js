@@ -59,17 +59,9 @@
 		
 </style>
 <script>
-
-/*	
-var menuModel = {
-  content: {
-    rightIconCls: 'ui-icon menu-item-icon'
-  }
-};	
-*/	
+sample('sample-menu', function(){
 	
-	
-$.dino({
+return	$.dino({
   dtype: 'box',
   id: 'vmenu',
   defaultItem: {
@@ -85,30 +77,34 @@ $.dino({
 		}
   },
   items: [{
-    label: 'Menu 1',
+    text: 'Menu 1',
     submenu: [{
-      label: 'Submenu 1',
+      text: 'Submenu 1',
     }, {
-      label: 'Submenu 2',
+      text: 'Submenu 2',
     }, {
-      label: 'Submenu 3',
+      text: 'Submenu 3',
       submenuWidth: 230,
       submenu: [{
-        label: 'Submenu 4',
+        text: 'Submenu 4',
         submenuWidth: 130,
         submenu: [{
-          label: 'Submenu 6',
+          text: 'Submenu 6',
         }]
       }, {
-        label: 'Submenu 5 + Submenu 5'					
+        text: 'Submenu 5 + Submenu 5'					
       }]
     }]
   }, {
-    label: 'Menu 2',		
+    text: 'Menu 2',		
   }, {
-    label: 'Menu 3',		
+    text: 'Menu 3',		
   }]
 });	
+
+	
+});
+	
 		
 </script>	
 <div class="html">
@@ -149,21 +145,23 @@ var menuModel = {
 	}
 };	
 */	
-	
-	
-$.dino({
+
+sample('sample-menu2', function(){
+
+return $.dino({
 	dtype: 'box',
 	id: 'hmenu',
-	layout: 'bar-layout',
+	layout: 'float-layout',
 	defaultItem: {
 		dtype: 'text-menu-item',
 //		baseCls: 'drop-menu-item',
 		cls: 'main-menu-item',
 		components: {
-//			content: {
+			content: {
+				showRightIcon: false
 //				cls: 'menu-item-text',
 //				rightCls: 'ui-icon menu-item-icon'
-//			},
+			},
 			submenu: {
 				cls: 'dino-border-all',
 				anchor: 'bottom',
@@ -173,30 +171,34 @@ $.dino({
 //		defaultSubItem: menuModel
 	},
 	items: [{
-		label: 'Menu 1',
+		text: 'Menu 1',
 		submenu: [{
-			label: 'Submenu 1',
+			text: 'Submenu 1',
 		}, {
-			label: 'Submenu 2',
+			text: 'Submenu 2',
 		}, {
-			label: 'Submenu 3',
+			text: 'Submenu 3',
 			submenuWidth: 210,
 			submenu: [{
-				label: 'Submenu 4',
+				text: 'Submenu 4',
 				submenuWidth: 110,
 				submenu: [{
-					label: 'Submenu 6',
+					text: 'Submenu 6',
 				}]
 			}, {
-				label: 'Submenu 5 + Submenu 5'					
+				text: 'Submenu 5 + Submenu 5'					
 			}]
 		}]
 	}, {
-		label: 'Menu 2',		
+		text: 'Menu 2',		
 	}, {
-		label: 'Menu 3',		
+		text: 'Menu 3',		
 	}]
 });	
+	
+});
+	
+	
 	
 	
 	
@@ -232,28 +234,31 @@ $.dino({
 	
 </style>
 <script>
-
-$.dino({
+sample('sample-context', function(){
+	
+return 	$.dino({
   dtype: 'box',
   cls: 'contextmenu-page',
   items: [{
-    text: 'Кликни правой кнопкой мыши в любом месте окна',
+    innerText: 'Кликни правой кнопкой мыши в любом месте окна',
     cls: 'preview-text',
     contextMenu: {
       dtype: 'context-menu',
-      cls: 'dino-shadow',
+      cls: 'dino-widget-shadow',
 //    hideOn: 'outerClick',
       onAction: function(e) {
         message.info('Выбран элемент меню: ' + e.target.getText());
       },
       items: [
-        {label: 'Item 1'},
-        {label: 'Item 2'},
-        {label: 'Item 3'},			
+        {text: 'Item 1'},
+        {text: 'Item 2'},
+        {text: 'Item 3'},			
       ]
     }
   }]
 });
+
+})
 
 </script>	
 <div class="html">
@@ -276,7 +281,7 @@ $.dino({
 
 <script>
 	
-	
+/*	
 samplePage([{
 	name: 'Вертикальное меню',
 	id: '#sample-menu'
@@ -287,7 +292,7 @@ samplePage([{
 	name: 'Контекстное меню',
 	id: '#sample-context'
 }]);
-	
+*/	
 	
 	
 </script>

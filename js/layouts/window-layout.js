@@ -14,18 +14,19 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 	attach: function() {
 		Dino.layouts.WindowLayout.superclass.attach.apply(this, arguments);
 		
-		var el = $('<div class="dino-overlay"/><div class="dino-window" autoheight="true"><div class="dino-window-content"/></div>');
+		var o = this.options;
 		
-		this.container.el.append(el);
+		this.window_el = $('<div class="dino-window" autoheight="true"><div class="dino-window-content"></div></div>');
+		this.overlay_el = $('<div class="dino-overlay"></div>');
+		this.el = $('.dino-window-content', this.window_el);
+						
+		this.container.el.append(this.overlay_el).append(this.window_el);
 		
-		this.window_el = $('.dino-window', el);
-		this.overlay_el = $('.dino-overlay', el);
-		this.el = $('.dino-window-content', el);
 	},
 	
 	detach: function() {
 		Dino.layouts.WindowLayout.superclass.detach.apply(this, arguments);
-		this.container.el.detach();
+		this.container.el.empty();
 	},
 	
 //	insert: function(item, i) {
@@ -40,15 +41,26 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 //	},
 	
 	
-	show: function() {
-		this.el.css({'visibility': 'hidden'});
-		this.container.el.show();
-		this.window.width(o.initialWidth);
-		this.window.height(o.initialHeight);
-	},
+//	show: function() {
+//		this.el.css({'visibility': 'hidden'});
+//		this.container.el.show();
+//	},
+//	
+//	hide: function() {
+//		this.container.el.hide();		
+//	},
 	
-	hide: function() {
-		this.container.el.hide();		
+	reset: function() {
+
+		var w0 = this.options.initialWidth;
+		var h0 = this.options.initialHeight;
+		
+		this.window_el.css({
+			width: w0, 
+			height: h0,
+			'margin-left': -w0/2,
+			'margin-top': -h0/2
+		});
 	},
 	
 	update: function() {
@@ -58,24 +70,31 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 		
 		box.css({'visibility': 'hidden'});
 		
+		var w0 = wnd.width();
+		var h0 = wnd.height();
+		wnd.css({width: '', height: ''});
+		
 //		this.container.el.show();
 		
 				
-		var w = box.outerWidth();
-		var h = box.outerHeight();
+		var w = box.outerWidth(true);
+		var h = box.outerHeight(true);
 		
 		
 		var o = this.options;
 		
-		wnd.width(o.initialWidth);
-		wnd.height(o.initialHeight);
-		
-		wnd.css('margin-left', -o.initialWidth/2);
-		wnd.css('margin-top', -o.initialHeight/2);
+		wnd.width(w0);
+		wnd.height(h0);
 
+		wnd.css('margin-left', -w0/2);
+		wnd.css('margin-top', -h0/2);
+//		wnd.width(w0);
+//		wnd.height(h0);
+
+//		console.log(Dino.format("%s, %s", w0, h0));
 		
-		wnd.animate({width: w, height: h, 'margin-left': -w/2, 'margin-top': -h/2}, o.delay, function(){
-			box.css({'visibility': ''});
+		wnd.animate({'width': w, 'margin-left': -w/2, 'height': h, 'margin-top': -h/2}, o.delay, function(){
+			box.css({'visibility': ''});				
 		});
 		
 		

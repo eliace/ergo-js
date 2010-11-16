@@ -82,12 +82,12 @@ Dino.formats = (function(){
 	
 	var F = {};
 	
-	F.string_format = function(template) {
-		var regexp = /(%s)/g;
-		return;
-	}
+//	F.string_format = function(template) {
+//		var regexp = /(%s)/g;
+//		return;
+//	}
 	
-	
+	return F;
 })();
 
 

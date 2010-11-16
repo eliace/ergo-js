@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DinoJS: List</title>
 
 		<!-- jQuery -->
 		<script type="text/javascript" src="../lib/misc/jquery-1.4.2.min.js"></script>
@@ -40,16 +40,12 @@ var list = $.dino({
 	dtype: 'list',
 	width: 400,
 	contentHeight: 220,
-	layout: {
-		dtype: 'plain-layout',
-		autoHeight: true
-	},
 	listItems: [{
-		label: 'Alice'
+		text: 'Alice'
 	}, {
-		label: 'Bob'
+		text: 'Bob'
 	}, {
-		label: 'Charlie'
+		text: 'Charlie'
 	}],
 	editOnDblClick: true
 });	
@@ -83,10 +79,6 @@ var listBoxData = new Dino.data.ArrayDataSource(['Alice', 'Bob', 'Charlie']);
 
 var listBox = $.dino({
 	dtype: 'box',
-	layout: {
-		dtype: 'plain-layout',
-		autoHeight: true
-	},
 	components: {
 		controls: {
 			dtype: 'box',
@@ -113,11 +105,11 @@ var listBox = $.dino({
 				}
 			},
 			items: [{
-				caption: 'Добавить',
+				text: 'Добавить',
 				tag: 'add',
 				icon: 'led-icon-add'
 			}, {
-				caption: 'Удалить',
+				text: 'Удалить',
 				tag: 'delete',
 				icon: 'led-icon-delete'
 			}]
@@ -125,10 +117,6 @@ var listBox = $.dino({
 		list: {
 			dtype: 'list-box',
 			cls: 'dino-border-all',
-			layout: {
-				dtype: 'plain-layout',
-				autoHeight: true
-			},
 			columns: [{
 				binding: 'auto'
 			}, {
@@ -145,9 +133,10 @@ var listBox = $.dino({
 				}
 			}],
 			width: 400,
-			contentHeight: 220,
+			height: 'auto',
+//			contentHeight: 220,
 			data: listBoxData,
-			editOnDblClick: true
+			editOnDblClick: true,
 		}
 	}
 });	
@@ -178,7 +167,7 @@ var listBox = $.dino({
 
 
 <script>		
-
+/*
 samplePage([{
 	name: 'List',
 	id: 'sample-list'
@@ -186,7 +175,7 @@ samplePage([{
 	name: 'ListBox',
 	id: 'sample-list-box'
 }]);
-	
+*/	
 
 </script>
 

@@ -260,8 +260,16 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		
 		if('width' in o) el.width(o.width);
-		if('height' in o) el.height(o.height);
-		if('autoHeight' in o) el.attr('autoheight', o.autoHeight);
+		if('height' in o) {
+			if(o.height == 'auto' || o.height == 'ignore'){ 
+				el.attr('autoheight', o.height);
+			}
+			else {
+				el.removeAttr('autoheight');
+				el.height(o.height);
+			}
+		}
+//		if('autoHeight' in o) el.attr('autoheight', o.autoHeight);
 		if('x' in o) el.css('left', o.x);
 		if('y' in o) el.css('top', o.y);
 		if('tooltip' in o) el.attr('title', o.tooltip);
@@ -581,6 +589,12 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		var binding = this.options.binding;
 		
+		if(Dino.isFunction(binding)){
+			var o = {};
+			binding.call(this, this.getValue(), o);
+			this.opt(o);
+		}
+/*		
 		if(binding.options){
 			var o = {};
 			binding.options.call(this, o);
@@ -588,7 +602,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		}
 		if(binding.states)
 			binding.states.call(this, this.states);
-		
+*/		
 		
 //		if(this.options.optBinding) {
 //			var o = {};
@@ -698,10 +712,10 @@ $(document).ready(function(){
 			// ищем цель переноса под курсором (если виджет имеет опцию dropTarget)
 			var target = $(document.elementFromPoint(e.clientX, e.clientY));//e.originalTarget);
 			var w = target.dino();
-			if(!w || !w.options.dropTarget){
+			if(!w || !w.options.droppable){
 				target.parents().each(function(i, el){
 					w = $(el).dino();
-					if(w && w.options.dropTarget) return false;
+					if(w && w.options.droppable) return false;
 				});
 			}
 			

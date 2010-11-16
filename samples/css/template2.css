@@ -2,6 +2,7 @@
 body {
 	font-family: Helvetica,Geneva,Arial,sans-serif;
 	margin: 0;
+	padding: 3px;
 }
 
 body input {
@@ -10,7 +11,7 @@ body input {
 
 
 #dino-sample-page {
-	margin: 3px;
+/*	margin: 3px;*/
 	position: relative;
 }
 

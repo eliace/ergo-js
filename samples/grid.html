@@ -325,9 +325,7 @@ return $.dino({
 						leftIcon: {
 							dataId: 'type',
 							format: function(val) { return 'led-icon-'+val; },
-							binding: {
-								states: function(s) { s.set_only(this.getValue()); }
-							}
+							binding: function(val) {	this.states.set_only(val); }
 						},
 						content: {
 		      		dataId: 'name'
@@ -347,8 +345,8 @@ return $.dino({
 					}
 				}				
 			},
-			binding: {
-				options: function(o) { o.isLeaf = (this.data.get('type') == 'file') }
+			binding: function(val, o) {
+				o.isLeaf = (val.type == 'file');
 			}
     }, {
       width: 100,
@@ -373,19 +371,6 @@ return $.dino({
 	
 	
 	
-
-
-	<script>		
-		
-samplePage([{
-	name: 'Grid',
-	id: 'sample-grid'
-}, {
-	name: 'TreeGrid',
-	id: 'sample-tree-grid'
-}]);
-	
-	</script>
 
 
 </body>

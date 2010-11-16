@@ -29,51 +29,23 @@
 	
 	
 	
-<div id="sample-dlg">
+<div id="sample-panel">
 <style>
-.panel-header {
-	background-color: #ccc;
-	font-weight: bold;
-	height: 32px;
-}
+	
 
-.panel-body {
-	overflow-y: scroll;
-}
-
-.panel-footer {
-	background-color: #ccc;
-}	
 </style>
 <script>
-$.dino({
-  dtype: 'dialog-panel',
-  width: 300,
-  cls: 'dino-border-all ui-corner-top',
-  components: {
-    header: {
-      cls: 'panel-header',
-      content: {
-        dtype: 'text',
-        text: 'Lorem ipsum'
-      }
-    },
-    footer: {
-      cls: 'panel-footer',
-      layout: 'row-layout',
-      items: [
-        {cls: 'ui-icon ui-icon-refresh'},
-        {cls: 'ui-icon ui-icon-plus'},
-        {cls: 'ui-icon ui-icon-minus'},
-      ]
-    },
-    body: {
-      cls: 'panel-body',
-      height: 200,
-      text: Samples.loremipsum
-    }
-  }
-});		
+sample('sample-panel', function(){
+
+return 	$.dino({
+	dtype: 'panel',
+	title: 'Панель',
+	content: {
+		innerText: Samples.loremipsum
+	}
+});
+
+})	
 	
 </script>	
 <div class="html">
@@ -134,7 +106,9 @@ $.dino({
 </style>
 
 <script>
-$.dino({
+sample('sample-tabs', function(){
+	
+return $.dino({
 	dtype: 'box',
 	defaultItem: {
 	  dtype: 'tab-panel',
@@ -152,14 +126,14 @@ $.dino({
 	    },
 	  },
 	  pages: [{
-	    tab: {text: 'Закладка 1'},
-	    text: 'Страница 1'
+	    tab: {innerText: 'Закладка 1'},
+	    innerText: 'Страница 1'
 	  }, {
-	    tab: {text: 'Закладка 2'},
-	    text: 'Страница 2'
+	    tab: {innerText: 'Закладка 2'},
+	    innerText: 'Страница 2'
 	  }, {
-	    tab: {text: 'Закладка 3'},
-	    text: 'Страница 3'
+	    tab: {innerText: 'Закладка 3'},
+	    innerText: 'Страница 3'
 	  }]		
 	},
 	items: [{
@@ -173,6 +147,8 @@ $.dino({
 		tabWidth: 100		
 	}]
 });
+	
+});	
 </script>	
 <div class="html">
 	
@@ -183,20 +159,6 @@ $.dino({
 </div>
 	
 	
-	
-	
-	
-<script>
-	
-samplePage([{
-	name: 'Диалог',
-	id: '#sample-dlg'
-}, {
-	name: 'Закладки',
-	id: '#sample-tabs'
-}]);
-	
-</script>	
-	
+		
 </body>
 </html>

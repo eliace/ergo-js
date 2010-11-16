@@ -39,10 +39,16 @@
 	padding-left: 20px;
 }
 */
+
+.dino-tree-node-content {
+	cursor: default;
+}
 	
 </style>
 <script>
-$.dino({
+sample('sample-simple-tree', function(){
+	
+return $.dino({
   dtype: 'tree',
 	cls: 'simple-tree',
 	
@@ -67,35 +73,39 @@ $.dino({
 		}
 	},
   subtree: [{
-    label: '1 этаж',
+    text: '1 этаж',
     state: 'brick',
 		toggleOnClick: true,
     subtree: [{
-      label: 'каб. 111',
+      text: 'каб. 111',
       state: 'door',
       subtree: [{
         state: ['user', 'leaf'],
-        label: 'Волков А.А.'
+        text: 'Волков А.А.'
 //				isLeaf: true
       }]
     }, {
-      label: 'каб. 112',
+      text: 'каб. 112',
       state: 'door',
       subtree: [{
         state: ['user', 'leaf'],
-        label: 'Куницына А.Б.'
+        text: 'Куницына А.Б.'
 //				isLeaf: true
       }, {
         state: ['user', 'leaf'],
-        label: 'Медведев Р.В.'
+        text: 'Медведев Р.В.'
 //				isLeaf: true
       }]
     }, {
-      label: 'каб. 113',
+      text: 'каб. 113',
       state: 'door'
     }]
   }]
 });
+	
+	
+});	
+	
 </script>	
 <div class="html">
 	
@@ -119,6 +129,7 @@ $.dino({
 
 </style>
 <script>
+sample('sample-binding-tree', function(){
 	
 var treeData = [{
   name: 'Хряков С.И.',
@@ -163,8 +174,8 @@ var treeData = [{
   }]
 }];	
 	
-
-$.dino({
+	
+return $.dino({
   dtype: 'tree',
 	cls: 'dynamic-tree',
 	
@@ -191,17 +202,20 @@ $.dino({
 		      dataId: 'name'
 		    }				
 			},
-			binding: {
-				states: function(s) {
-					var type = this.data.get('type');
-					s.set(type);
-					if(type == 'file') s.set('leaf');
-				}
+			binding: function(val) {
+				this.states.set(val.type);
+				if(val.type == 'file') this.states.set('leaf');				
 			}
 		}
 	}
 	
 });
+	
+	
+});	
+	
+	
+
 
 </script>	
 <div class="html">
@@ -270,7 +284,9 @@ $('body').mouseup(function(e){
 	
 </style>
 <script>
-$.dino({
+sample('sample-tree-dragndrop', function(){
+	
+return $.dino({
   dtype: 'tree',
 	cls: 'simple-tree',
 	
@@ -291,38 +307,6 @@ $.dino({
 							}
 						}
 					},
-/*					
-					events: {
-						// обработчик mousedown, т.к. это drag source
-						'mousedown': function(e) {
-							if(!Dino.drag) {
-								Dino.drag = {
-									started: false,
-									source: $(this).dino()
-								}						
-							}
-						},
-						'mouseout': function(e, w) {
-							
-							var drag = Dino.drag;
-							
-							if(drag && drag.source == w && !drag.started){
-								drag.started = true;
-								drag.source.events.fire('onDragStarted', {dragData: drag});
-								
-								drag.dragProxy = $.dino({
-									renderTo: 'body',
-									dtype: 'text',
-									text: w.getText(),
-									cls: 'dino-border-all',
-									style: {'position': 'absolute', 'background-color': '#fff'},
-									opacity: .7
-								});								
-							}
-						}
-					},
-*/					
-
 					draggable: true,
 					onDragStart: function(e) {
 						this.parent.states.set('dragged');
@@ -342,7 +326,7 @@ $.dino({
 							
 						e.source.parent.states.clear('dragged');
 					},
-					dropTarget: true					
+					droppable: true					
 				}		
 			},
 //			states: {
@@ -351,35 +335,39 @@ $.dino({
 		}
 	},
   subtree: [{
-    label: '1 этаж',
+    text: '1 этаж',
     state: 'brick',
 		toggleOnClick: true,
     subtree: [{
-      label: 'каб. 111',
+      text: 'каб. 111',
       state: 'door',
       subtree: [{
         state: ['user', 'leaf'],
-        label: 'Волков А.А.'
+        text: 'Волков А.А.'
 //				isLeaf: true
       }]
     }, {
-      label: 'каб. 112',
+      text: 'каб. 112',
       state: 'door',
       subtree: [{
         state: ['user', 'leaf'],
-        label: 'Куницына А.Б.'
+        text: 'Куницына А.Б.'
 //				isLeaf: true
       }, {
         state: ['user', 'leaf'],
-        label: 'Медведев Р.В.'
+        text: 'Медведев Р.В.'
 //				isLeaf: true
       }]
     }, {
-      label: 'каб. 113',
+      text: 'каб. 113',
       state: 'door'
     }]
   }]
 });
+	
+	
+});	
+	
 </script>	
 <div class="html">
 	
@@ -395,24 +383,6 @@ $.dino({
 
 
 
-
-<script>
-	
-	
-samplePage([{
-	name: 'Простое дерево',
-	id: '#sample-simple-tree'
-}, {
-	name: 'Binding',
-	id: '#sample-binding-tree'
-}, {
-	name: "Drag'n'drop",
-	id: '#sample-tree-dragndrop'
-}]);
-	
-		
-	
-</script>
 
 
 </body>

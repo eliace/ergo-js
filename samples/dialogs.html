@@ -63,82 +63,15 @@
 sample('sample-dialog', function(){
 	
 var dlg = $.dino({
-	dtype: 'message-box',
-	renderTo: 'body',
-	windowContent: {
-		width: 400
-	},
-	title: 'Сообщение',
-	message: Samples.loremipsum,
-	buttons: ['ok'],
-	buttonsAlign: 'center',
-	icon: 'warning'
-	
-/*	
-	renderTo: 'body',
 	dtype: 'dialog',
-	components: {
-		window: {
-			content: {
-				dtype: 'box',
-				cls: 'dino-corner-all',
-				components: {
-					buttons: {
-						weight: 2,
-						dtype: 'box',
-						cls: 'widget-content',
-						style: {
-							'text-align': 'center'
-						},
-						defaultItem: {
-							dtype: 'button',
-							width: 80
-						},
-						items: [{
-							label: 'ОК'
-						}, {
-							label: 'Отмена'
-						}]
-					}
-				},
-				content: {
-					weight: 1,
-					dtype: 'box',
-					width: 400,
-					cls: 'dino-border-all',
-					components: {
-						header: {
-							dtype: 'box',
-							cls: 'dialog-header widget-content dino-bg-highlight',
-							content: {
-								dtype: 'text-item',
-								label: 'Диалог',
-								showRightIcon: true,
-								style: {
-									'display': 'block'
-								},
-								selectable: false,
-								components: {
-									rightIcon: {
-										cls: 'ui-icon-lightgray ui-icon-circle-close',
-										states: {
-											'hover': ['ui-icon', 'ui-icon-lightgray']
-										}
-									}
-								}
-							}
-						},
-						content: {
-							dtype: 'box',
-							cls: 'widget-content',
-							text: Samples.loremipsum
-						}
-					}
-				}
-			}
-		}
+	renderTo: 'body',
+	title: 'Диалог',
+	content: {
+		dtype: 'box',
+		width: 400,
+		innerText: Samples.loremipsum
 	}
-*/	
+	
 });	
 
 return $.dino({
@@ -146,7 +79,6 @@ return $.dino({
 	text: 'Открыть диалог',
 	onAction: function() {
 		dlg.open();
-//		dlg.window.content.buttons.getItem(1).el.focus();
 	}
 });
 	
@@ -161,6 +93,77 @@ return $.dino({
 </div>
 </div>
 
+
+
+
+
+
+<div id="sample-wizard-dialog">
+<style>
+	
+.dino-overlay {
+	opacity: 0.4;
+	background-color: black;
+}	
+
+
+</style>
+<script>
+
+
+sample('sample-wizard-dialog', function(){
+	
+var dlg = $.dino({
+	dtype: 'box',
+	renderTo: 'body',
+	layout: 'window-layout',
+	content: {
+		dtype: 'box',
+		layout: 'stack-layout',
+		items: [{
+			width: 100,
+			content: {
+				dtype: 'text-button',
+				text: 'Next >>',
+				onAction: function(){
+					dlg.content.layout.activate(1);
+					dlg.layout.update();
+				}
+			}
+//			innerText: 'Hello, there!'		
+		}, {
+			width: 400,
+			innerText: Samples.loremipsum						
+		}]
+	},
+	overrides: {
+		open: function(){
+			this.content.layout.activate(0);
+			this.layout.show();
+			this.layout.update();
+		}
+	}
+	
+});	
+
+return $.dino({
+	dtype: 'text-button',
+	text: 'Открыть диалог',
+	onAction: function() {
+		dlg.open();
+	}
+});
+	
+});
+
+	
+	
+
+</script>	
+<div class="desc">
+	
+</div>
+</div>
 
 
 
@@ -183,8 +186,8 @@ var dlg = $.dino({
 		width: 400
 	},
 	title: 'Сообщение',
-	message: Samples.loremipsum,
-	buttons: ['ok'],
+//	message: Samples.loremipsum,
+//	buttons: ['ok'],
 	buttonsAlign: 'right'
 });	
 
@@ -196,20 +199,32 @@ return $.dino({
 	},
 	items: [{
 		text: 'Сообщение',
-		onAction: function() {	
-			dlg.opt('icon', 'info');
-			dlg.open(); 
+		onAction: function() {
+			dlg.opt({
+				message: Samples.loremipsum,
+				buttons: ['ok'],
+				icon: 'info' 				
+			});	
+			dlg.open();
 		}		
 	}, {
 		text: 'Ошибка',
 		onAction: function() {	
-			dlg.opt('icon', 'critical');
+			dlg.opt({
+				message: Samples.loremipsum,
+				buttons: ['ok'],
+				icon: 'critical' 				
+			});	
 			dlg.open(); 
 		}		
 	}, {
 		text: 'Предупреждение',
 		onAction: function() {	
-			dlg.opt('icon', 'warning');
+			dlg.opt({
+				message: Samples.loremipsum,
+				buttons: ['ok'],
+				icon: 'warning' 				
+			});	
 			dlg.open(); 
 		}		
 	}, {
@@ -248,19 +263,6 @@ return $.dino({
 
 	
 	
-	
-	
-<script>		
-		
-samplePage([{
-	name: 'Dialog',
-	id: 'sample-dialog'
-}, {
-	name: 'MessageBox',
-	id: 'sample-message-box'
-}]);
-	
-</script>
 	
 	
 </body>

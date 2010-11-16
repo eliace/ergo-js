@@ -333,7 +333,7 @@ Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 	defaultOptions: {
 		layout: {
 			dtype: 'plain-layout',
-			html: '<div></div>'
+			html: '<div style="position: relative;"></div>'
 //			htmlSelector: 'div'
 		},
 //		components: {

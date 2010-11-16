@@ -121,7 +121,8 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 		components: {
 			content: {
 				dtype: 'text-item',
-				rightIconCls: 'dino-submenu-icon'
+				rightIconCls: 'dino-submenu-icon',
+				showRightIcon: true
 			},
 			submenu: {
 				defaultItem: {
