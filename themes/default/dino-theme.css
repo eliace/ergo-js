@@ -497,17 +497,18 @@ input.r-icon, span.r-icon {
  * DIALOG
  */
 
-.dino-dialog-overlay {
+.dino-overlay {
 	opacity: 0.4;
 	background-color: black;
 	z-index: 2000;
 }	
 
-.dino-dialog-content {
-	position: absolute;
+
+.dino-window {
+/*	position: absolute;*/
 	z-index: 2100;
 	background-color: #fff;
-	padding: 5px;
+/*	padding: 5px;*/
 }
 
 

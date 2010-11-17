@@ -308,7 +308,7 @@ return $.dino({
 						}
 					},
 					draggable: true,
-					onDragStart: function(e) {
+					onDrag: function(e) {
 						this.parent.states.set('dragged');
 						
 						e.dragData.proxy = $.dino({

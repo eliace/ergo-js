@@ -40,7 +40,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, {
 			var h = 0;
 			this.el.parents().each(function(i, el){
 				el = $(el);
-				if(el.attr('autoheight') == 'true' || el.is('body')){
+				var w = el.dino();
+				if((w && w.options.height) || el.attr('autoheight') == 'true' || el.is('body')){
 					h = el.height();
 					return false;
 				}

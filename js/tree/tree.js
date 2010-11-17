@@ -298,7 +298,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 	
 	
 	_init: function(o){
-		this.constructor.superclass._init.apply(this, arguments);
+		Dino.widgets.Tree.superclass._init.apply(this, arguments);
 		
 		
 		if('subtree' in o) 

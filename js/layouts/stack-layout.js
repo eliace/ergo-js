@@ -10,13 +10,13 @@ Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
 	
 	activate: function(i) {
 		
-		var item = (i instanceof _dino.Widget) ? i : this.container.getItem(i);
+		var child = (i instanceof _dino.Widget) ? i : this.container.children.get(i);
 		
-		this.container.eachItem(function(it){
-			it.el.toggleClass('dino-hidden', (it != item));
+		this.container.children.each(function(c){
+			c.el.toggleClass('dino-hidden', (c != child));
 		});
 		
-		if(item.layout) item._layoutChanged();
+		if(child.layout) child._layoutChanged();
 		
 	}
 	

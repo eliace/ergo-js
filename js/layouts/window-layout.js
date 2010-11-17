@@ -63,12 +63,13 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 		});
 	},
 	
-	update: function() {
+	update: function(callback) {
 		
 		var box = this.el;
 		var wnd = this.window_el;
 		
 		box.css({'visibility': 'hidden'});
+//		wnd.css({'visibility': 'hidden'});
 		
 		var w0 = wnd.width();
 		var h0 = wnd.height();
@@ -80,21 +81,29 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 		var w = box.outerWidth(true);
 		var h = box.outerHeight(true);
 		
+		box.css('display', 'none');
 		
 		var o = this.options;
 		
-		wnd.width(w0);
-		wnd.height(h0);
+//		wnd.width(w0);
+//		wnd.height(h0);
 
+		wnd.css('width', w0);
+		wnd.css('height', h0);
 		wnd.css('margin-left', -w0/2);
 		wnd.css('margin-top', -h0/2);
 //		wnd.width(w0);
 //		wnd.height(h0);
 
+//		wnd.css({'visibility': 'visible'});
+		
 //		console.log(Dino.format("%s, %s", w0, h0));
 		
+		var self = this;
+		
 		wnd.animate({'width': w, 'margin-left': -w/2, 'height': h, 'margin-top': -h/2}, o.delay, function(){
-			box.css({'visibility': ''});				
+			box.css({'visibility': '', 'display': 'block'});
+			if(callback) callback.call(self);
 		});
 		
 		

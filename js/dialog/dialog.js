@@ -81,10 +81,12 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	
 	
 	open: function(){
+		var self = this;
 		this.layout.reset();
 		this.el.show();
-		this.layout.update();
-		this.events.fire('onOpen');
+		this.layout.update(function(){
+			self.events.fire('onOpen');			
+		});
 		this.dialogButton = null;
 	},
 	

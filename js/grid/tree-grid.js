@@ -139,8 +139,16 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
 		
 		var o = this.options;
 		
+		// переносим параметр width из колонок в заголовки
+		var h_columns = [];
+		Dino.each(o.tableModel.columns, function(column, i){
+			h_col = {};
+			if('width' in column) h_col.width = column.width;
+			h_columns[i] = h_col;
+		})
+		
 		Dino.utils.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}});
+		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	

@@ -57,23 +57,100 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 			if(!Dino.drag) {
 				Dino.drag = {
 					started: false,
-					source: $(this).dino()
-				}						
+					source: $(this).dino(),
+//					x: e.clientX,
+//					y: e.clientY,
+					offset: [5, 5]
+				}
 			}			
 		},
-		'draggable_mouseout': function(e) {
+		'draggable_mousemove': function(e) {
 			
 			var drag = Dino.drag;
 			
+			if(drag) {
+				
+				var element = $(this);
+				
+				if(!drag.started) {
+					drag.started = true;
+					
+					var event = new Dino.events.CancelEvent({dragData: drag});
+					drag.source.events.fire('onDrag', event);
+					
+					if(event.isCanceled){
+						if(drag.proxy) drag.proxy.destroy();
+						Dino.drag = null;
+						return;
+					}
+					
+					if(drag.proxy){
+//						var offset = element.offset();
+//						drag.x = e.pageX;
+//						drag.y = e.pageY;
+						drag.proxy.el.css({'position': 'absolute'});//, 'left': offset.left, 'top': offset.top});
+						$('body').append(drag.proxy.el);
+						
+//						drag.proxy.el.mousemove(function(e){
+//							var el = $(this);
+//							
+//							var dx = e.pageX - drag.x;
+//							var dy = e.pageY - drag.y;
+//							
+//							var x = parseInt(el.css('left')) + dx;  
+//							var y = parseInt(el.css('top')) + dy;  
+//
+//							el.css('left', x);  
+//							el.css('top', y);  
+//							
+//							drag.x = e.pageX;
+//							drag.y = e.pageY;
+//							
+//						});
+//						
+//						drag.proxy.el.mouseout(function(e){
+//							var el = $(this);
+//							
+//							var dx = e.pageX - drag.x;
+//							var dy = e.pageY - drag.y;
+//							
+//							var x = parseInt(el.css('left')) + dx;  
+//							var y = parseInt(el.css('top')) + dy;  
+//
+//							el.css('left', x);  
+//							el.css('top', y);  
+//							
+//							drag.x = e.pageX;
+//							drag.y = e.pageY;
+//						});
+					}
+					
+				}
+/*				
+*/				
+			}
+			
+			
+/*			
 			if(drag && drag.source == $(this).dino() && !drag.started){
 				drag.started = true;
-				drag.source.events.fire('onDragStart', {dragData: drag});
+				
+				var event = new Dino.events.CancelEvent({dragData: drag});
+				drag.source.events.fire('onDrag', event);
+				
+				if(event.isCanceled){
+					if(drag.proxy) drag.proxy.destroy();
+					Dino.drag = null;
+					return;
+				}
 				
 				if(drag.proxy){
 					drag.proxy.el.css({'position': 'absolute'});
 					$('body').append(drag.proxy.el);
 				}
-			}			
+			}	
+*/			
+					
 		},
 		'editable': function(e) {
 			var w = $(this).dino();
@@ -371,7 +448,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		if('draggable' in o){
 			this._toggle_handler('draggable_mousedown', 'mousedown', o.draggable);
-			this._toggle_handler('draggable_mouseout', 'mouseout', o.draggable);
+			this._toggle_handler('draggable_mousemove', 'mousemove', o.draggable);
 		}
 		
 		if('editable' in o) {
@@ -694,7 +771,7 @@ $(document).ready(function(){
 		if(!drag) return;
 		
 		if(drag && drag.started && drag.proxy) {
-			drag.proxy.el.css({'left': e.pageX+3, 'top': e.pageY+3});
+			drag.proxy.el.css({'left': e.pageX+drag.offset[0], 'top': e.pageY+drag.offset[1]});
 			
 //			Dino.each(Dino.droppable, function(item) { item.events.fire('onDrag'); })
 		}
