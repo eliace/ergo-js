@@ -54,14 +54,21 @@ require 'fileutils'
   ]
 
 
+	files_css = [
+		'css/common.css',
+		'css/layouts.css',
+		'css/buttons.css',
+	]
+
+
     js = '--js ' + files.join(' --js ') 
 
     s = "java -jar tools/compiler.jar #{js} --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
     
     
-def merge_files(file_list)
+def merge_files(target, file_list)
   
-    out = File.new('build/dino-js.js', 'w')
+    out = File.new(target, 'w')
 
     file_list.each do |filepath|
       File.open(filepath) do |f|
@@ -70,10 +77,10 @@ def merge_files(file_list)
     end
 
     out.close
-    
-    # копируем CSS
+
+
 #    FileUtils.mkdir('build/css') if not File.exist?('build/css')
-    FileUtils.cp 'css/dino-js.css', 'build'
+#    FileUtils.cp 'css/dino-js.css', 'build'
 #    FileUtils.cp_r 'lib/misc', 'build'
     
 end
@@ -83,7 +90,8 @@ task :compose do
  
     Kernel.system s
     
-    merge_files(files);
+    merge_files('build/dino-js.js', files);
+    merge_files('build/dino-js.css', files_css);
 
 end
 
@@ -93,6 +101,7 @@ task :compose_win do
 
     Kernel.system s
 
-    merge_files(files);
+    merge_files('build/dino-js.js', files);
+    merge_files('build/dino-js.css', files_css);
 
 end

@@ -70,7 +70,8 @@ var dlg = $.dino({
 		dtype: 'box',
 		width: 400,
 		innerText: Samples.loremipsum
-	}
+	},
+	buttons: ['ok']
 	
 });	
 
@@ -114,33 +115,41 @@ return $.dino({
 sample('sample-wizard-dialog', function(){
 	
 var dlg = $.dino({
-	dtype: 'box',
+	dtype: 'dialog',
 	renderTo: 'body',
-	layout: 'window-layout',
 	content: {
 		dtype: 'box',
 		layout: 'stack-layout',
 		items: [{
 			width: 100,
-			content: {
-				dtype: 'text-button',
-				text: 'Next >>',
-				onAction: function(){
-					dlg.content.layout.activate(1);
-					dlg.layout.update();
-				}
-			}
-//			innerText: 'Hello, there!'		
+			innerText: 'Нажмите кнопку "Далее"'
 		}, {
 			width: 400,
-			innerText: Samples.loremipsum						
+			innerText: Samples.loremipsum
 		}]
 	},
-	overrides: {
-		open: function(){
-			this.content.layout.activate(0);
-			this.layout.show();
-			this.layout.update();
+	buttonSet: {
+		'next': {text: 'Дальше >>', tag: 'next', width: 100},
+		'prev': {text: '<< Назад', tag: 'prev'},
+	},
+	onClose: function(e) {
+		if(this.dialogButton == 'next'){
+			dlg.opt({
+				title: 'Шаг 2',
+				buttons: ['prev', 'ok', 'cancel']
+			});
+			dlg.content.layout.activate(1);
+			dlg.layout.update();
+			e.cancel();
+		}
+		else if(this.dialogButton == 'prev') {
+			dlg.opt({
+				title: 'Шаг 1',
+				buttons: ['next', 'cancel']
+			});
+			dlg.content.layout.activate(0);
+			dlg.layout.update();
+			e.cancel();			
 		}
 	}
 	
@@ -150,6 +159,11 @@ return $.dino({
 	dtype: 'text-button',
 	text: 'Открыть диалог',
 	onAction: function() {
+		dlg.opt({
+			title: 'Шаг 1',
+			buttons: ['next', 'cancel']
+		});
+		dlg.content.layout.activate(0);
 		dlg.open();
 	}
 });
@@ -182,13 +196,18 @@ sample('sample-message-box', function(){
 var dlg = $.dino({
 	dtype: 'message-box',
 	renderTo: 'body',
-	windowContent: {
-		width: 400
-	},
+//	windowContent: {
+//		width: 400
+//	},
 	title: 'Сообщение',
+	components: {
+		buttons: {
+			state: 'right'
+		}
+	}
 //	message: Samples.loremipsum,
 //	buttons: ['ok'],
-	buttonsAlign: 'right'
+//	buttonsAlign: 'right'
 });	
 
 return $.dino({

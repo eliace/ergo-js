@@ -258,8 +258,18 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 				}
 			},
 			listButton: {
-				dtype: 'button',
-				cls: 'dino-split-button-2 dino-border-all dino-corner-right dino-button dino-bg-4 dino-clickable',
+				dtype: 'icon-button',				
+				cls: 'dino-split-button-2 dino-border-all dino-corner-right dino-bg-4 dino-clickable',
+				content: {
+					components: {
+						icon: {
+							cls: 'dino-split-button-2-icon ui-icon-triangle-1-s',
+							state: 'ui-icon-gray'
+						}
+					}
+				
+				},
+/*				
 				components: {
 					icon: {
 						dtype: 'icon',
@@ -271,9 +281,10 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 						innerHtml: '&nbsp;'
 					}					
 				},
+*/				
 				events: {
-					'mouseenter': function(e, w) { w.icon.states.set_only('ui-icon'); },
-					'mouseleave': function(e, w) { w.icon.states.set_only('ui-icon-gray'); }
+					'mouseenter': function(e, w) { w.content.icon.states.set_only('ui-icon'); },
+					'mouseleave': function(e, w) { w.content.icon.states.set_only('ui-icon-gray'); }
 				},
 				onAction: function() {
 					this.parent.dropdown.show(0, this.parent.el.outerHeight(true));

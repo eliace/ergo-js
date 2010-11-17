@@ -1,0 +1,148 @@
+
+
+/*
+ * WINDOW LAYOUT
+ */
+
+[layout='window'] {
+	position: static;
+	display: none;
+}
+
+[layout='window'] > .dino-overlay {
+	background-color: black;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 2000;
+}	
+
+[layout='window'] > .dino-window {
+	position: absolute;
+	z-index: 2100;
+	background-color: #fff;
+	left: 50%;
+	top: 50%;
+}
+
+
+
+
+/*
+ * DOCK LAYOUT
+ */ 
+
+[layout='dock'] {
+	position: relative;
+}
+
+.dock-left-top, .dock-left-center, .dock-left-bottom, .dock-right-top, .dock-right-center, .dock-right-bottom {
+	position: absolute;
+}
+
+[dock] {
+	position: absolute;	
+}
+
+[dock|="left"] {
+	left: 0;	
+}
+
+[dock|="right"] {
+	right: 0;	
+}
+
+[dock$="center"] {
+	top: 50%;
+}
+
+[dock|="center"] {
+	left: 50%;
+}
+
+[dock$="bottom"] {
+	bottom: 0;
+}
+ 
+ 
+ 
+ 
+/*
+ * 3C LAYOUT
+ */ 
+ 
+ 
+.dino-3c-layout {
+	position: relative;
+/*	width: 100%;*/
+}
+
+.dino-3c-left, .dino-3c-right { 
+	position: absolute; 
+}
+
+.dino-3c-left {
+	left: 0;
+	top: 0;
+}
+.dino-3c-right { 
+	right: 0;
+	top: 0;
+}
+.dino-3c-center {
+}
+
+
+
+/*
+ * COLUMN LAYOUT
+ */
+[layout='column'] {
+	display: table;
+/*	vertical-align: middle;*/
+	width: 100%;
+}
+
+
+[layout='column'] > div {
+	display: table-row;
+}
+
+
+[layout='column'] > div > div {
+	display: table-cell;
+	height: 100%;
+	vertical-align: top;
+}
+
+
+
+/*
+ * FLOAT LAYOUT
+ */
+
+.float-item {
+	float: left;
+}
+
+
+/*
+ * FORM LAYOUT
+ */
+
+[layout='form'] > .dino-form-item-wrapper {
+	display: table-row;	
+}
+
+[layout='form'] > .dino-form-item-wrapper > * {
+	display: table-cell;	
+}
+
+
+[layout='simple-form'] > .dino-form-item-wrapper {
+	
+}
+ 
+ 
