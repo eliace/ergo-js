@@ -7,36 +7,32 @@ Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', {
 	},
 	
 	
+	
+	
+	attach: function() {
+		Dino.layouts.FormLayout.superclass.attach.apply(this, arguments);
+		
+		this.el = $('<table cellspacing="0" cellpadding="0" border="0" style="width:100%"><tbody><tr></tr></tbody></table>');
+		this.body_el = $('tbody', this.el);
+		
+		this.container.el.append(this.el);
+	},
+	
+	detach: function() {
+		Dino.layouts.FormLayout.superclass.detach.apply(this, arguments);
+		this.el.remove();
+	},
+	
+	
+	
 	insert: function(item){
 		
-		var wrapperEl = $('<div class="dino-form-item-wrapper"></div>');		
-		var labelEl = $('<label>'+item.options.label+'</label>');
+		var row = $('<tr><td></td><td></td></tr>');
 		
-		if('id' in item.options) labelEl.attr('for', item.options.id);
+		$('td', row).eq(0).append('<label>' + item.options.label + '</label>');
+		$('td', row).eq(1).append(item.el);
 		
-//		var o = this.options;
-//		
-//		if('labelWidth' in o) labelEl.css('width', o.labelWidth);
-	
-		wrapperEl.append(labelEl).append(item.el);
-		
-/*		
-		var formItem = Dino.widget({
-			dtype: 'box',
-			cls: 'dino-form-item-wrapper',
-			items: [{
-				dtype: 'label',
-				text: item.options.label,
-				forName: item.options.id
-			}]
-		});
-		
-		formItem.el.append(item.el);//.addItem(item);
-		
-		this.container.el.append(formItem.el);
-*/
-		this.container.el.append(wrapperEl);
-		
+		this.el.append(row);
 	}
 	
 	

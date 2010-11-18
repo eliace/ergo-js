@@ -231,12 +231,53 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', {
 
 
 
-Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
+
+
+Dino.declare('Dino.widgets.form.SelectOption', 'Dino.Widget', {
+	_html: function() { return '<option/>'; },
+	
+	_opt: function(o) {
+		Dino.widgets.form.SelectOption.superclass._opt.apply(this, arguments);
+		
+		if('value' in o) this.el.attr('value', o.value);
+		if('text' in o) this.el.text(o.text);
+	}
+	
+	
+}, 'select-option')
+
+
+
+Dino.declare('Dino.widgets.form.Select', 'Dino.Container', {
 	_html: function() { return '<select/>'; },
+	
+	defaultOptions: {
+		components: {
+			optionsList: {
+				dtype: 'container',
+				defaultItem: {
+					dtype: 'select-option'
+				}
+			}
+		}
+	},
+	
+	_init: function(o) {
+		Dino.widgets.form.Select.superclass._init.call(this, o);
+		
+		o.components.optionsList.layout = new Dino.layouts.InheritedLayout({parentLayout: this.layout });
+		
+		if('options' in o) {
+			var items = [];
+			for(var i in o.options) items.push({ value: i, text: o.options[i] });
+			o.components.optionsList.items = items;
+		}
+	},
+	
 	
 	_opt: function(o) {
 		Dino.widgets.form.Select.superclass._opt.call(this, o);
-		
+/*		
 		if('options' in o){
 			this.el.empty();
 			for(var i in o.options){
@@ -246,7 +287,7 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Widget', {
 				this.el.append(option_el);
 			}
 		}
-		
+*/		
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		
 	},

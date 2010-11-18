@@ -1,34 +1,44 @@
 
 
-Dino.declare('Dino.layouts.InheritedLayout', Dino.Layout, {
+Dino.declare('Dino.layouts.InheritedLayout', 'Dino.layouts.PlainLayout', {
 	
-	initialize: function(){
-		Dino.layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
+//	initialize: function(){
+//		Dino.layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
+//		
+//		this.deferred = [];
+//	},
+	
+	
+	attach: function() {
+		Dino.layouts.InheritedLayout.superclass.attach.apply(this, arguments);
 		
-		this.deferred = [];
-	},
-	
-	
-	insert: function(item) {
-		if(this.container.parent)
-			this.container.parent.layout.insert(item);
-		else
-			this.deferred.push(item);
-	},
-	
-	remove: function(item) {
-		this.container.parent.layout.remove(item);
-	},
-	
-	clear: function() {
-		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
-//		this.container.el.empty();
-	},
-	
-	update: function() {
-		while(this.deferred.length > 0) {
-			this.insert( this.deferred.pop() );
-		}
+		this.el = this.options.parentLayout.el;
+		
 	}
 	
+	
+//	insert: function(item) {
+//		Dino.layouts.InheritedLayout.superclass.insert.apply(this, arguments);
+//		this.container.insert(item);
+////		else
+////			this.deferred.push(item);
+//	},
+//	
+//	remove: function(item) {
+//		Dino.layouts.InheritedLayout.superclass.remove.apply(this, arguments);
+//		this.container.remove(item);
+//	}
+	
+//	clear: function() {
+//		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
+////		this.container.el.empty();
+//		this.container.clear();
+//	}
+	
+//	update: function() {
+//		while(this.deferred.length > 0) {
+//			this.insert( this.deferred.pop() );
+//		}
+//	}
+		
 }, 'inherited-layout');

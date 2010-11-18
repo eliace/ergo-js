@@ -634,9 +634,9 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 	
 	setValue: function(val, suppressChangeEvent) {
 		if(this.data){
-//			if('unformat' in this.options) 
-//				this.options.unformat.call(this, val);
-//			else
+			if('store_format' in this.options) 
+				val = this.options.store_format.call(this, val);
+			
 			this.data.set(val);
 			this.events.fire('onValueChanged');
 		}

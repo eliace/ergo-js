@@ -18,7 +18,11 @@
 }
 */
 
-
+p {
+	margin: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
 
 
 /*.dino-toolbar .dino-button { display: inline-block; margin: 0 2px 0 2px; }*/

@@ -58,7 +58,8 @@ var list = $.dino({
 	
 </div>
 <div class="desc">
-	
+	<p>Простой контейнер с простой компоновкой. Имеет одну колонку и легкую html-разметку.</p>
+	<p>Элементом списка является <strong>Dino.widgets.TextItem</strong>.</p>
 </div>
 </div>
 
@@ -82,7 +83,7 @@ var listBox = $.dino({
 	components: {
 		controls: {
 			dtype: 'box',
-			cls: 'dino-button-bar',
+			cls: 'dino-controls',
 			defaultItem: {
 				dtype: 'text-button',
 				onAction: function() {
@@ -134,7 +135,6 @@ var listBox = $.dino({
 			}],
 			width: 400,
 			height: 'auto',
-//			contentHeight: 220,
 			data: listBoxData,
 			editOnDblClick: true,
 		}
@@ -146,11 +146,9 @@ var listBox = $.dino({
 
 
 </script>	
-<div class="html">
-	
-</div>
 <div class="desc">
-	
+	<p>Список на основе виджета <strong>Dino.widgets.Table</strong>. По большому счету это просто таблица.</p>
+	<p>Элементом списка является <strong>Dino.widgets.TableRow</strong>.</p>
 </div>
 </div>
 
@@ -164,20 +162,6 @@ var listBox = $.dino({
 
 
 
-
-
-<script>		
-/*
-samplePage([{
-	name: 'List',
-	id: 'sample-list'
-}, {
-	name: 'ListBox',
-	id: 'sample-list-box'
-}]);
-*/	
-
-</script>
 
 
 </body>
