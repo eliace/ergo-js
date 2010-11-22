@@ -618,6 +618,8 @@ input.r-icon, span.r-icon {
 .led-icon-textfield { background-image: url(img/led/textfield.png); }
 .led-icon-text-list-numbers { background-image: url(img/led/text_list_numbers.png); }
 .led-icon-lock { background-image: url(img/led/lock.png); }
+.led-icon-error { background-image: url(img/led/error.png); }
+.led-icon-plug { background-image: url(img/led/plug.png); }
 
 .dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
 .dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
