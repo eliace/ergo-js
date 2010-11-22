@@ -132,12 +132,8 @@
  * FORM LAYOUT
  */
 
-[layout='form'] > .dino-form-item-wrapper {
-	display: table-row;	
-}
-
-[layout='form'] > .dino-form-item-wrapper > * {
-	display: table-cell;	
+[layout='form'] td.label {
+	text-align: right;
 }
 
 

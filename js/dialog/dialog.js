@@ -5,6 +5,7 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 	defaultOptions: {
 		cls: 'dino-dialog',
 		layout: 'window-layout',
+		renderTo: 'body',
 		components: {
 			header: {
 				dtype: 'box',
@@ -37,7 +38,8 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 //		buttonsAlign: 'center',
 		buttonSet: {
 			'ok': {text: 'ОК', tag: 'ok'},
-			'cancel': {text: 'Отмена', tag: 'cancel'}
+			'cancel': {text: 'Отмена', tag: 'cancel'},
+			'save': {text: 'Сохранить', tag: 'save'}
 		}		
 	},
 	
