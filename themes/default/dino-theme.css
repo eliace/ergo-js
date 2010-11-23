@@ -72,13 +72,13 @@
 
 
 
-.dino-controls {
+.dino-widget-controls {
 	padding: 3px 0;
 }
 
 .dino-controls > button {
 /*	padding: 3px 5px;*/
-	margin: 0 3px;
+/*	margin: 0 3px;*/
 }
 
 .dino-controls.left { text-align: left; }
@@ -344,7 +344,7 @@ input.r-icon, span.r-icon {
 }
 
 .dino-tabs.left li {
-	margin-bottom: 3px;
+	margin-top: 3px;
 	border-right: 0 !important;
 }
 
@@ -451,6 +451,10 @@ input.r-icon, span.r-icon {
 
 .dino-tree-grid-row:hover {
 	background-color: #ffc;/*#fea;*/
+}
+
+.dino-tree-grid-row .indent {
+	padding-left: 20px;
 }
 
 
@@ -635,11 +639,8 @@ input.r-icon, span.r-icon {
 .led-icon-lock { background-image: url(img/led/lock.png); }
 .led-icon-error { background-image: url(img/led/error.png); }
 .led-icon-plug { background-image: url(img/led/plug.png); }
+.led-icon-disk { background-image: url(img/led/disk.png); }
 
-.dino-off.dino-icon-close { background-image: url(./img/led_grey/cross.png); }
-.dino-off.dino-icon-add { background-image: url(./img/led_grey/add.png); }
-
-.dino-off.led-icon-calendar_1 { background-image: url(img/led_grey/calendar_1.png); }
 
 
 /*

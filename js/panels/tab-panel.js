@@ -27,7 +27,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 				weight: 2,
 				dtype: 'box',
 				layout: 'stack-layout',
-				cls: 'dino-border-all'
+				cls: 'dino-tab-pages dino-border-all'
 			}
 		}
 	},
