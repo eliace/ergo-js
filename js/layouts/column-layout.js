@@ -61,7 +61,12 @@ Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.PlainLayout', {
 	
 	insert: function(item, key) {
 		var col_el = $('<td style="vertical-align: '+this.options.valign+'"></td>');
-		if('width' in item.options) col_el.width(item.options.width);
+//		var col_width = 0;
+//		if('columnWidth' in item.options) col_el.width(item.options.width);		
+		if('width' in item.options) {
+			item.el.css('width', null);
+			col_el.width(item.options.width);
+		}
 		col_el.append( item.el );
 		
 		this.row_el.append(col_el);

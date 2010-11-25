@@ -14,7 +14,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 				defaultItem: {
 					cls: 'dino-bg-3 dino-border-all',
 					content: {
-						dtype: 'text-item'
+						dtype: 'text-item',
+						selectable: false
 					}
 				},
 				onTabChanged: function(){
@@ -66,8 +67,17 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
 	},
 	
 	
+	_afterRender: function() {
+		Dino.panels.TabPanel.superclass._afterRender.apply(this, arguments);
+		if(!this.tabs.currentTab) this.tabs.activateTab(0);		
+	},
+	
+//	_layoutChanged: function() {
+//		Dino.panels.TabPanel.superclass._layoutChanged.apply(this, arguments);
+//	},
+	
 	_afterBuild: function(){
-		this.tabs.activateTab(0);
+//		this.tabs.activateTab(0);
 	},
 	
 	_opt: function(o) {

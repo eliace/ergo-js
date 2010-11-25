@@ -102,8 +102,12 @@ Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
 		var self = this;
 		
 		wnd.animate({'width': w, 'margin-left': -w/2, 'height': h, 'margin-top': -h/2}, o.delay, function(){
+			// делаем окно видимым
 			box.css({'visibility': '', 'display': 'block'});
+			// вызываем функцию-сигнал о том, что окно отображено
 			if(callback) callback.call(self);
+			// обновляем компоновку окна
+			self.container._layoutChanged();
 		});
 		
 		

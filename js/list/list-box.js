@@ -21,7 +21,8 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 						onClick: function() {
 							this.parent.parent.parent.setSelectedItem(this);
 						}
-					}
+					},
+					columns: []
 				}
 			}		
 		},
@@ -44,31 +45,27 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 //			Dino.utils.overrideOpts(o.components.controls, {items: control_items});			
 //		}
 		
-		
-		
-		var columns = []
-		
-		if('columns' in o) {
-			for(var i = 0; i < o.columns.length; i++) {
-				columns.push(o.columns[i]);
-			}
-		}
-		else {
-			columns.push({
-				binding: 'auto',
-				clickable: true,
-				onDblClick: function() {
-					var listBox = this.getParent(Dino.widgets.ListBox);
-					if(listBox.options.editOnDblClick) {
-						this.startEdit();
-					}
-				}
-			});
-		}
-		
+				
 		
 		if('listModel' in o) {
 			Dino.utils.overrideOpts(o.components.content.tableModel.row, o.listModel.row);
+
+			var columns = o.listModel.columns
+
+			if(!columns){
+    			columns = [{
+       				binding: 'auto',
+       				clickable: true,
+       				onDblClick: function() {
+       					var listBox = this.getParent(Dino.widgets.ListBox);
+       					if(listBox.options.editOnDblClick) {
+       						this.startEdit();
+       					}
+       				}
+       			}];
+       		}
+
+			Dino.utils.overrideOpts(o.components.content.tableModel.columns, columns);			
 		}
 
 /*		
