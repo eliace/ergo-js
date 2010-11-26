@@ -26,7 +26,8 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 				}
 			}		
 		},
-		editOnDblClick: false
+		editOnDblClick: false,
+		selectionMode: 'single'
 //		closeButton: true
 	},
 	
@@ -112,10 +113,18 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 //		this.content.content
 //	}
 	setSelectedItem: function(item) {
-		var rows = this.content.body;
-		rows.eachItem(function(it){ it.states.clear('selected'); });
-		item.states.set('selected');
-		this.selectedItem = item;
+		if(this.options.selectionMode == 'single') {
+			var rows = this.content.body;
+			rows.eachItem(function(it){ it.states.clear('selected'); });
+			item.states.set('selected');
+			this.selectedItem = item;
+			this.events.fire('onItemSelected', {target: item});
+		}
+		else if(this.options.selectionMode == 'multi') {
+			item.states.is('selected') ?  item.states.clear('selected') : item.states.set('selected'); //FIXME
+//			this.selectedItem = item;			
+			this.events.fire('onItemSelected', {target: item});
+		}
 	},
 	
 	getSelectedItem: function() {

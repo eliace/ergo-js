@@ -255,13 +255,13 @@ input.r-icon, span.r-icon {
 }
 
 .dino-listbox-row:hover {
-	background-color: #eee;
+	background-color: #ffc;
 }
 
 .dino-listbox-row.selected {
 /*	background-color: #8FCDFF;*/
 /*	background: url(img/selection.png) repeat-x scroll 50% 50% ;*/
-	background-color: #ffc;
+	background-color: #eee;
 }
 
 /*
