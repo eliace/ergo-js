@@ -264,6 +264,11 @@ input.r-icon, span.r-icon {
 	background-color: #eee;
 }
 
+.dino-listbox-row.selected {
+	background-color: #f0f0dd;
+}
+
+
 /*
  * Tabs
  */

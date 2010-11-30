@@ -255,6 +255,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		this.layout.immediateRebuild = true;
 		this.layout.rebuild();
 		
+		
+		this.events.fire('onDataBound');
+		
+		
 //		console.log('update on data set');
 		
 //		// всем предопределенным виджетам подсоединяем источники данных
