@@ -32,7 +32,7 @@
  * 	dataId
  * 
  */
-Dino.declare('Dino.Widget', Dino.events.Observer, {
+Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	
 	defaultOptions: {
 		layout: 'plain-layout',
@@ -194,7 +194,7 @@ Dino.declare('Dino.Widget', Dino.events.Observer, {
 		
 		this.children = new Dino.utils.WidgetCollectionManager(this);
 		
-		this.states = new Dino.utils.WidgetStateManager(this);
+		this.states = new Dino.core.StateManager(this);
 		
 		this.handlers = {};
 		

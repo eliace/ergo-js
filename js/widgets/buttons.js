@@ -283,8 +283,8 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 				},
 */				
 				events: {
-					'mouseenter': function(e, w) { w.content.icon.states.set_only('ui-icon'); },
-					'mouseleave': function(e, w) { w.content.icon.states.set_only('ui-icon-gray'); }
+					'mouseenter': function(e, w) { w.content.icon.states.setOnly('ui-icon'); },
+					'mouseleave': function(e, w) { w.content.icon.states.setOnly('ui-icon-gray'); }
 				},
 				onAction: function() {
 					this.parent.dropdown.show(0, this.parent.el.outerHeight(true));
@@ -353,7 +353,7 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 		if('icon' in o) {
 			this.content.opt('showLeftIcon', (o.icon));
 			if(o.icon)
-				this.content.leftIcon.states.set_only(o.icon);
+				this.content.leftIcon.states.setOnly(o.icon);
 		}
 	}
 	
@@ -390,7 +390,7 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 		Dino.widgets.IconButton.superclass._opt.apply(this, arguments);
 		
 		if('icon' in o) {
-			this.content.icon.states.set_only(o.icon);
+			this.content.icon.states.setOnly(o.icon);
 		}
 	}
 	

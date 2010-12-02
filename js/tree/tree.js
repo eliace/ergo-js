@@ -119,16 +119,17 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
 		if('isLeaf' in o) this.button.states.set('leaf');
+		if('icon' in o) this.content.leftIcon.states.setOnly(o.icon);
 				
 	},
 	
 	_events: function(self) {
 		Dino.widgets.BasicTreeNode.superclass._events.apply(this, arguments);
 		
-		this.events.reg('onStateChanged', function(e) {
-			e.translate(this.button);
-			e.translate(this.content.leftIcon);
-		});
+//		this.events.reg('onStateChanged', function(e) {
+//			e.translate(this.button);
+//			e.translate(this.content.leftIcon);
+//		});
 
 //		this.content.el.click(function(){
 //			if(self.options.toggleOnClick)

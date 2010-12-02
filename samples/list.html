@@ -118,21 +118,23 @@ var listBox = $.dino({
 		list: {
 			dtype: 'list-box',
 			cls: 'dino-border-all',
-			columns: [{
-				binding: 'auto'
-			}, {
-				cls: 'dino-icon-column',
-				content: {
-					dtype: 'icon',
-					cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
-				}
-			}, {
-				cls: 'dino-icon-column',				
-				content: {
-					dtype: 'icon',
-					cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
-				}
-			}],
+			listModel: {
+				columns: [{
+					binding: 'auto'
+				}, {
+					cls: 'dino-icon-column',
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
+					}
+				}, {
+					cls: 'dino-icon-column',				
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
+					}
+				}]				
+			},
 			width: 400,
 			height: 'auto',
 			data: listBoxData,

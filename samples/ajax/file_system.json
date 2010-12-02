@@ -1,0 +1,58 @@
+[{
+  "id": 0,
+  "name": "C:",
+  "value": 123,
+	"type": "drive",
+  "children": [{
+    "id": 1,
+    "value": 456,
+		"type": "folder",
+    "name": "WINDOWS",
+		"children": []
+  }, {
+    "id": 2,
+    "value": 789,
+    "name": "Program Files",
+		"type": "folder",
+    "children": [{
+      "id": 5,
+      "name": "VideoPlayer",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }]
+  }]
+}, {
+  "id": 3,
+  "value": "123514",
+  "name": "D:",
+	"type": "drive",
+  "children": [{
+    "id": 4,
+    "value": "56563",
+    "name": "Фильмы",
+		"type": "folder",
+		"children": [{
+			"name": "Контакт.avi",
+			"type": "film"
+		}, {
+			"name": "Звездный Войны I. Скрытая угроза.avi",
+			"type": "film"
+		}, {
+			"name": "Звездный Войны II. Атака клонов.avi",
+			"type": "film"
+		}, {
+			"name": "Звездный Войны III. Месть ситхов.avi",
+			"type": "film"
+		}, {
+			"name": "Чужие.avi",
+			"type": "film"
+		}, {
+			"name": "Пещера.avi",
+			"type": "film"
+		}, {
+			"name": "Космическая одиссея 2001 года.avi",
+			"type": "film"
+		}]
+  }]
+}]

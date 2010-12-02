@@ -89,6 +89,11 @@ function samplePage(samples) {
 	
 	init_default_growl_panel({hideOnTimeout: true});	
 	
+	$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
+		message.err(xhr.responseText);
+	});
+	
+	
 	var pages = [];
 	
 	for(var i = 0; i < samples.length; i++){

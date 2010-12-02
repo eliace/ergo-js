@@ -398,7 +398,17 @@ input.r-icon, span.r-icon {
 	text-align: center;
 }
 
+.dino-numeric-column {
+	text-align: right;
+}
 
+.dino-default-column {
+	text-align: center;
+}
+
+.dino-text-column {
+	text-align: left;
+}
 
 
 /*
@@ -645,6 +655,7 @@ input.r-icon, span.r-icon {
 .led-icon-error { background-image: url(img/led/error.png); }
 .led-icon-plug { background-image: url(img/led/plug.png); }
 .led-icon-disk { background-image: url(img/led/disk.png); }
+.led-icon-film { background-image: url(img/led/film.png); }
 
 
 

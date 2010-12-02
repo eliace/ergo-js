@@ -73,7 +73,7 @@ return 	$.dino({
     events: {
       'click': function(e, w) { w.states.toggle('click'); }
     },
-    onStateChanged: function() {
+    onStateChange: function() {
       message.info('Состояние изменилось');
     }
   }, {
@@ -262,7 +262,7 @@ return new Dino.containers.Box({
     dataId: 'sex',
     label: 'Пол: ',
 		binding: function(val) {
-			this.states.set_only(val);
+			this.states.setOnly(val);
 		},
     states: {
       'female': 'led-icon-female'
@@ -288,6 +288,75 @@ return new Dino.containers.Box({
 	
 	
 </div>
+
+
+
+
+<div id="sample-loading">
+	
+<style>
+	
+.loading-overlay {
+	background-color: #eee;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+}	
+
+.loading-message {
+  left: 50%;
+  margin-left: -57px;
+  margin-top: -10px;
+  position: absolute;
+	background-color: #fff;
+  top: 50%;
+	border: 2px solid #ccc;
+	padding: 0 5px;
+}
+	
+</style>
+
+<script>
+sample('sample-loading', function(){
+	
+var loadingOverlay = $.dino({
+	dtype: 'box',
+	cls: 'loading-overlay dino-border-all',
+	opacity: .7,
+	content: {
+		dtype: 'text-item',
+		cls: 'loading-message',
+		text: 'Загрузка...',
+		showLeftIcon: true,
+		leftIconCls: 'dino-icon-spinner'			
+	}
+});
+	
+	
+return $.dino({
+	dtype: 'text-button',
+	text: 'Начать загрузку',
+	onAction: function() {
+		this.parent.addComponent('loading', loadingOverlay);
+		var self = this;
+		setTimeout(function(){
+			self.parent.removeComponent('loading');
+		}, 3000);
+	}
+});
+	
+});	
+	
+</script>
+<div class="desc">
+</div>	
+	
+	
+</div>
+
 
 
 

@@ -1,5 +1,5 @@
 
-
+/*
 Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 
 	initialize: function(method, args) {
@@ -12,9 +12,90 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 	}
 	
 });
+*/
 
 
 
+
+
+
+Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
+	
+	
+	initialize: function(widget) {
+		this.widget = widget;
+		this.current_states = {};
+	},
+	
+	set: function(name) {
+		
+		// получаем состояние, определенное для виджета
+		var state = this.widget.options.states[name];
+		var state_off, state_on = null;
+		if(state == null) { state_on = name; state_off = ''; }
+		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
+		else if(Dino.isArray(state)) { state_on = state[0]; state_off = state[1]; }
+		
+		if( Dino.isString(state_on) ) {
+			this.widget.el.addClass(state_on);			
+			this.widget.el.removeClass(state_off);
+		}
+		else if(Dino.isFunction(state_on)) {
+			state_on.call(this.widget);			
+		}
+		
+		this.current_states[name] = true;
+		
+		this.widget.events.fire('onStateChange', {'state': name});
+	},
+	
+	setOnly: function(name) {
+		for(var i in this.current_states) this.clear(i);
+		this.set(name);		
+	},
+	
+	clear: function(name) {
+		
+		// получаем состояние, определенное для виджета
+		var state = this.widget.options.states[name];
+		var state_off, state_on = null;
+		if(state == null) { state_on = name; state_off = ''; }
+		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
+		else if(Dino.isArray(state)) { state_on = state[0]; state_off = state[1]; }
+		
+		if( Dino.isString(state_off) ) {
+			this.widget.el.removeClass(state_on);	
+			this.widget.el.addClass(state_off);
+		}
+		else if(Dino.isFunction(state_off))
+			state_off.call(this.widget);
+		
+		delete this.current_states[name];
+		
+		this.widget.events.fire('onStateChange', {'state': name});		
+	},
+	
+	toggle: function(name, sw) {
+		
+		if(sw == null) sw = !this.is(name);
+		
+		sw ? this.set(name) : this.clear(name);
+		
+		return sw;
+	},
+	
+	is: function(name) {
+		return (name in this.current_states);
+	}
+	
+	
+	
+});
+
+
+
+
+/*
 Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
 //	defaultOptions: {
@@ -116,4 +197,4 @@ Dino.declare('Dino.utils.WidgetStateManager', 'Dino.BaseObject', {
 	
 	
 });
-
+*/

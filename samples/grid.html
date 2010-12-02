@@ -78,7 +78,7 @@ return $.dino({
   cls: 'dino-border-all dino-corner-all',
 	content: {
 //		autoHeight: true,
-		height: 250,
+		height: 'auto',
 		style: {'padding-right': '3px'}
 	},
 	headerCls: 'dino-bg-highlight',
@@ -200,66 +200,10 @@ return $.dino({
 sample('sample-tree-grid', function(){
 	
 	
-var tgTreeData = {
-  children: [{
-    id: 0,
-    name: 'C:',
-    value: '123',
-		type: 'drive',
-    children: [{
-      id: 1,
-      value: '456',
-			type: 'folder',
-      name: 'WINDOWS',
-			children: []
-    }, {
-      id: 2,
-      value: '789',
-      name: 'Program Files',
-			type: 'folder',
-      children: [{
-        id: 5,
-        name: 'VideoPlayer',
-				type: 'folder',
-        value: 0,
-				children: []
-      }]
-    }]
-  }, {
-    id: 3,
-    value: '123514',
-    name: 'D:',
-		type: 'drive',
-    children: [{
-      id: 4,
-      value: '56563',
-      name: 'Фильмы',
-			type: 'folder',
-			children: [{
-				name: 'Контакт.avi',
-				type: 'file'
-			}, {
-				name: 'Звездный Войны I. Скрытая угроза.avi',
-				type: 'file'
-			}, {
-				name: 'Звездный Войны II. Атака клонов.avi',
-				type: 'file'
-			}, {
-				name: 'Звездный Войны III. Месть ситхов.avi',
-				type: 'file'
-			}, {
-				name: 'Чужие.avi',
-				type: 'file'
-			}, {
-				name: 'Пещера.avi',
-				type: 'file'
-			}, {
-				name: 'Космическая одиссея 2001 года.avi',
-				type: 'file'
-			}]
-    }]
-  }]
-};
+var tgTreeData = new Dino.data.ArrayDataSource([]);
+
+
+$.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
 
 		
 return $.dino({
@@ -267,12 +211,12 @@ return $.dino({
   tag: 'aaa',
   cls: 'tree-grid dino-border-all dino-corner-all',
   data: tgTreeData,
-  dataId: 'children',
+//  dataId: 'children',
 	width: 600,
 //	debug: true,
 	content: {
 //		autoHeight: true,
-		height: 250,
+		height: 'auto',
 		style: {'padding-right': '3px'}
 	},
 	headerCls: 'dino-bg-highlight',
@@ -296,19 +240,7 @@ return $.dino({
     },
     row: {
 			cls: 'tg-row',
-      state: 'expanded',
-			dropTarget: true,
-			onDrop: function(e) {
-				
-				var val = e.source.data.get();
-				e.source.data.del();
-				
-				this.data.item('children').add(val);
-				
-//				message.info('' + e.source.data.get('name') + ' dropped');
-				
-			}
-//      cls: 'tg-row'
+      state: 'expanded'
     },
     columns: [{
       dataId: 'id',
@@ -325,28 +257,17 @@ return $.dino({
 						leftIcon: {
 							dataId: 'type',
 							format: function(val) { return 'led-icon-'+val; },
-							binding: function(val) {	this.states.set_only(val); }
+							binding: function(val) {	this.states.setOnly(val); }
 						},
 						content: {
 		      		dataId: 'name'
 						}
 					},
-					selectable: false,
-					draggable: true,
-					onDragStart: function(e)	{
-						
-						e.dragData.proxy = $.dino({
-							dtype: 'text',
-							text: this.getText(),
-							cls: 'dino-border-all',
-							style: {'background-color': '#fff'},
-							opacity: .7
-						});						
-					}
+					selectable: false
 				}				
 			},
 			binding: function(val, o) {
-				o.isLeaf = (val.type == 'file');
+				o.isLeaf = (val.type == 'film');
 			}
     }, {
       width: 100,
@@ -369,6 +290,130 @@ return $.dino({
 </div>
 </div>	
 	
+
+
+
+
+
+
+<div id="sample-group">
+<style>
+
+.group-title {
+	padding-top: 5px;
+	padding-left: 3px;
+	border-bottom: 3px solid #bbb;
+	color: #888;
+}
+
+.group-row:hover {
+	background-color: #ffc;
+}	
+	
+</style>
+<script>
+	
+sample('sample-group', function(){
+
+var gridData = [{
+	name: 'Группа 1',
+	items: [
+	  {id: '1', name: 'Alice', value: '123', cb: false},
+	  {id: '2', name: 'Bob', value: '456', cb: true},
+	]
+}, {
+	name: 'Группа 2',
+	items: [
+  	{id: '3', name: 'Charlie', value: '789', cb: false},
+	]
+}, {
+	name: 'Группа 3',
+	items: [
+  	{id: '4', name: 'Dean', value: '31545', cb: false},
+  	{id: '5', name: 'Eva', value: '987', cb: false},
+	]
+}];
+		
+		
+return $.dino({
+	dtype: 'box',
+	width: 500,
+	cls: 'dino-border-all dino-corner-all',
+	components: {
+		header: {
+			dtype: 'table',
+			cls: 'dino-bg-highlight',
+			width: '100%',
+			headerModel: {
+				cell: {
+					cls: 'grid-header-cell'
+				},
+				columns: [{width: 60, innerText: '#'}, {innerText: 'Имя'}, {width: 100, innerText: 'Значение'}]
+			}
+		},
+		scrollableContent: {
+			dtype: 'box',
+			data: gridData,
+			dynamic: true,
+			height: 'auto',
+			defaultItem: {
+				components: {
+					title: {
+						dtype: 'box',
+						cls: 'group-title',
+						content: {
+							dtype: 'text',
+							dataId: 'name'
+						}
+					},
+					table: {
+						dtype: 'table',
+						dataId: 'items',
+						width: '100%',
+//						style: {'border-left': '1px solid #ccc'},
+						tableModel: {
+							row: {
+								cls: 'group-row'
+							},
+							cell: {
+								binding: 'auto',
+								style: {'border-bottom': '1px solid #ccc'},
+							},
+							columns: [{
+								dataId: 'id',
+								cls: 'dino-default-column',
+								width: 60
+							}, {
+								dataId: 'name',
+								cls: 'dino-text-column',
+							}, {
+								dataId: 'value',
+								cls: 'dino-numeric-column',
+								width: 100
+							}]
+						}
+					}
+				}
+			}
+			
+		}
+	}
+});
+		
+});	
+	
+	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
 	
 	
 

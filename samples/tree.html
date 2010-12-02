@@ -74,31 +74,34 @@ return $.dino({
 	},
   subtree: [{
     text: '1 этаж',
-    state: 'brick',
-		toggleOnClick: true,
+    icon: 'brick',
+//		toggleOnClick: true,
     subtree: [{
       text: 'каб. 111',
-      state: 'door',
+      icon: 'door',
       subtree: [{
-        state: ['user', 'leaf'],
-        text: 'Волков А.А.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Волков А.А.',
+				isLeaf: true,
+				icon: 'user'
       }]
     }, {
       text: 'каб. 112',
-      state: 'door',
+      icon: 'door',
       subtree: [{
-        state: ['user', 'leaf'],
-        text: 'Куницына А.Б.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Куницына А.Б.',
+				isLeaf: true,
+				icon: 'user'
       }, {
-        state: ['user', 'leaf'],
-        text: 'Медведев Р.В.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Медведев Р.В.',
+				isLeaf: true,
+				icon: 'user'
       }]
     }, {
       text: 'каб. 113',
-      state: 'door'
+      icon: 'door'
     }]
   }]
 });
@@ -119,11 +122,6 @@ return $.dino({
 
 <div id="sample-binding-tree">
 <style>	
-
-.dynamic-tree .dino-tree-node-content:hover {
-	background-color: #fea;
-}
-
 
 </style>
 <script>
@@ -201,8 +199,8 @@ return $.dino({
 		    }				
 			},
 			binding: function(val) {
-				this.states.set(val.type);
-				if(val.type == 'file') this.states.set('leaf');				
+				this.opt('icon', val.type);
+				if(val.type == 'file') this.opt('isLeaf', true);				
 			}
 		}
 	}
@@ -333,31 +331,34 @@ return $.dino({
 	},
   subtree: [{
     text: '1 этаж',
-    state: 'brick',
+    icon: 'brick',
 		toggleOnClick: true,
     subtree: [{
       text: 'каб. 111',
-      state: 'door',
+      icon: 'door',
       subtree: [{
-        state: ['user', 'leaf'],
-        text: 'Волков А.А.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Волков А.А.',
+				isLeaf: true,
+				icon: 'user'
       }]
     }, {
       text: 'каб. 112',
-      state: 'door',
+      icon: 'door',
       subtree: [{
-        state: ['user', 'leaf'],
-        text: 'Куницына А.Б.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Куницына А.Б.',
+				isLeaf: true,
+				icon: 'user'
       }, {
-        state: ['user', 'leaf'],
-        text: 'Медведев Р.В.'
-//				isLeaf: true
+//        state: ['user', 'leaf'],
+        text: 'Медведев Р.В.',
+				isLeaf: true,
+				icon: 'user'
       }]
     }, {
       text: 'каб. 113',
-      state: 'door'
+      icon: 'door'
     }]
   }]
 });

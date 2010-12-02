@@ -40,7 +40,7 @@ Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Dialog', {
 	_opt: function(o) {
 		Dino.widgets.MessageBox.superclass._opt.apply(this, arguments);
 		
-		if('icon' in o) this.content.icon.states.set_only(this.options.iconSet[o.icon]);
+		if('icon' in o) this.content.icon.states.setOnly(this.options.iconSet[o.icon]);
 		if('message' in o) this.content.message.opt('text', o.message);
 		
 	}
