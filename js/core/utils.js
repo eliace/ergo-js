@@ -170,7 +170,7 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 
 Dino.utils.overrideProp = function(o, srcObj, i) {
 
-	var shared_opts = {'data': null};		
+	var shared_opts = {'data': null};
 
 	var p = srcObj[i];
 	
@@ -211,6 +211,11 @@ Dino.utils.overrideOpts = function(o) {
 				Dino.utils.overrideProp(o, srcObj, i);
 		}
 		else {
+			
+//			if('dtype' in srcObj && 'dtype' in o) {
+//				
+//			}			
+			
 			for(var i in srcObj)
 				Dino.utils.overrideProp(o, srcObj, i);
 		}		

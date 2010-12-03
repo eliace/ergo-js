@@ -174,7 +174,7 @@ Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
 		
 	_dataChanged: function() {
 		
-		if(this.options.binding != 'skip')
+		if(this.options.binding == 'auto')
 			this.el.text( this.getValue() );
 		
 		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
