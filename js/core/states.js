@@ -31,17 +31,22 @@ Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
 		
 		// получаем состояние, определенное для виджета
 		var state = this.widget.options.states[name];
-		var state_off, state_on = null;
-		if(state == null) { state_on = name; state_off = ''; }
-		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
-		else if(Dino.isArray(state)) { state_on = state[0]; state_off = state[1]; }
-		
-		if( Dino.isString(state_on) ) {
-			this.widget.el.addClass(state_on);			
-			this.widget.el.removeClass(state_off);
+//		var state_off, state_on = null;
+		if(state == null) state = name;//{ state_on = name; state_off = ''; }
+//		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
+		else if(Dino.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
+			this.set(state[0]);
+			this.clear(state[1]);
+			this.current_states[name] = true;
+			return;
 		}
-		else if(Dino.isFunction(state_on)) {
-			state_on.call(this.widget);			
+		
+		if( Dino.isString(state) ) {
+			this.widget.el.addClass(state);			
+//			this.widget.el.removeClass(state_off);
+		}
+		else if(Dino.isFunction(state)) {
+			state.call(this.widget);			
 		}
 		
 		this.current_states[name] = true;
@@ -58,17 +63,22 @@ Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
 		
 		// получаем состояние, определенное для виджета
 		var state = this.widget.options.states[name];
-		var state_off, state_on = null;
-		if(state == null) { state_on = name; state_off = ''; }
-		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
-		else if(Dino.isArray(state)) { state_on = state[0]; state_off = state[1]; }
-		
-		if( Dino.isString(state_off) ) {
-			this.widget.el.removeClass(state_on);	
-			this.widget.el.addClass(state_off);
+//		var state_off, state_on = null;
+		if(state == null) state = name;//{ state_on = name; state_off = ''; }
+//		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
+		else if(Dino.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
+			this.clear(state[0]);
+			this.set(state[1]);
+			delete this.current_states[name];
+			return;
 		}
-		else if(Dino.isFunction(state_off))
-			state_off.call(this.widget);
+		
+		if( Dino.isString(state) ) {
+			this.widget.el.removeClass(state);	
+//			this.widget.el.addClass(state_off);
+		}
+		else if(Dino.isFunction(state))
+			state.call(this.widget);
 		
 		delete this.current_states[name];
 		

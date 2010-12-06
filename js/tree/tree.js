@@ -12,6 +12,10 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 					dtype: 'tree-node'
 				}
 			}
+		},
+		states: {
+			'expand_collapse': ['expanded', 'collapsed']
+//			'collapsed': ['collapsed', 'expanded']
 		}
 	},
 	
@@ -42,11 +46,11 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 	},
 	
 	collapse: function() {
-		this.states.set('collapsed');
+		this.states.clear('expand_collapse');
 	},
 	
 	expand: function() {
-		this.states.set('expanded');
+		this.states.set('expand_collapse');
 	},
 	
 	isSelected: function() {
@@ -85,7 +89,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 				},
 				clickable: true,
 				onClick: function() {
-					this.parent.states.toggle('collapsed');
+					this.parent.states.toggle('expand_collapse');
 				}
 			},
 			content: {
@@ -100,10 +104,6 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 					dtype: 'basic-tree-node'
 				}
 			}
-		},
-		states: {
-			'expanded': ['expanded', 'collapsed'],
-			'collapsed': ['collapsed', 'expanded']
 		},
 		expandOnShow: false
 	},
@@ -140,7 +140,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 	_afterBuild: function() {
 		Dino.widgets.BasicTreeNode.superclass._afterBuild.apply(this, arguments);
 		
-		(this.options.expandOnShow) ? this.states.set('expanded') : this.states.set('collapsed');
+		(this.options.expandOnShow) ? this.states.set('expand_collapse') : this.states.clear('expand_collapse');
 		
 //		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
 	},

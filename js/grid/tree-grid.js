@@ -252,8 +252,8 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 			}
 		},
 		states: {
-			'collapsed': ['collapsed', 'expanded'],
-			'expanded': ['expanded', 'collapsed']
+//			'collapsed_trigger': ['collapsed', 'expanded'],
+			'expand_trigger': ['expanded', 'collapsed']
 		}
 	},
 	
@@ -300,7 +300,7 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 //	},
 	
 	collapse: function() {
-		this.states.set('collapsed');
+		this.states.clear('expand_trigger');
 		this.eachDescendantRow(function(item){
 			item.states.set('hidden');
 		});
@@ -308,7 +308,7 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 	
 	expand: function(x0) {
 		if(arguments.length == 0){
-			this.states.set('expanded');
+			this.states.set('expand_trigger');
 			x0 = true;
 		}
 
@@ -363,11 +363,11 @@ Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 								onClick: function() {
 									var row = this.parent.parent.getRow();
 									if(row.states.is('collapsed')){
-										this.parent.states.set('expanded');
+										this.parent.states.set('expand_trigger');
 										row.expand();
 									}
 									else{
-										this.parent.states.set('collapsed');
+										this.parent.states.clear('expand_trigger');
 										row.collapse();
 									}
 								},
@@ -381,8 +381,8 @@ Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 							}
 						},
 						states: {
-							'expanded': ['expanded', 'collapsed'],
-							'collapsed': ['collapsed', 'expanded']
+							'expand_trigger': ['expanded', 'collapsed']
+//							'collapsed': ['collapsed', 'expanded']
 						}
 					}
 				},
@@ -428,11 +428,11 @@ Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
 //		if(parentRow.states.is('hidden') || parentRow.states.is('collapsed')) expand = false;
 		
 		if(this.options.expandOnShow) {
-			this.content.states.set('expanded');
+			this.content.states.set('expand_trigger');
 			this.getRow().expand();
 		}
 		else {
-			this.content.states.set('collapsed');
+			this.content.states.clear('expand_trigger');
 			this.getRow().collapse();
 		}
 		
