@@ -382,9 +382,12 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 	add: function(value, index) {
 		var a = this.val();
 		
+		var isLast = false;
+		
 		if(index == null){
-			a.push(value);			
+			a.push(value);
 			index = a.length-1;
+			isLast = true;
 		}
 		else {
 			// меняем индексы элементов данных
@@ -404,7 +407,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 		
 		var item = this.item(index);
 		
-		this.events.fire('onItemAdded', {'index': index, 'item': item});
+		this.events.fire('onItemAdded', {'index': index, 'item': item, 'isLast': isLast});
 		
 		// помечаем новый источник данных как "грязный" ?
 //		this.dirty();

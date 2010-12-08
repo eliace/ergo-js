@@ -2,6 +2,184 @@
 
 
 
+Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
+
+	defaultOptions: {
+		cls: 'dino-growl-box dino-border-all dino-corner-all dino-widget-shadow',
+		components: {
+			content: {
+				dtype: 'box',
+				layout: {
+					dtype: 'column-layout',
+					valign: 'middle'
+				},
+				components: {
+				}		
+			},
+			buttons: {
+				dtype: 'box',
+				cls: 'dino-controls center',
+				defaultItem: {
+					dtype: 'text-button',
+					onAction: function() {
+						var growl = this.parent.parent;
+						growl.growlButton = this.tag;
+						growl.hide();
+					}
+				}
+			}
+		},
+		clickable: true,
+		onClick: function() {
+			if(this.options.hideOnClick) this.hide();
+		},
+		buttonSet: {
+			'ok': {text: 'ОК', tag: 'ok'},
+			'cancel': {text: 'Отмена', tag: 'cancel'},
+			'save': {text: 'Сохранить', tag: 'save'}
+		},
+		hideOnClick: true,
+		hideOnTimeout: true,
+		delay: 500,
+		timeout: 10000
+	},
+	
+	
+	_init: function(o) {
+		Dino.widgets.GrowlBox.superclass._init.apply(this, arguments);
+		
+		// Добавляем иконку
+		if('icon' in o) {
+			o.components.content.components.messageIcon = {
+				dtype: 'icon',
+				cls: 'icon32 dino-center-align ' + o.icon,
+				width: 50				
+			}
+		}
+		
+		// Добавляем сообщение
+		if('message' in o) {
+			o.components.content.components.messageContent = {
+				dtype: 'text',
+				cls: 'dino-widget-content',
+				text: o.message
+			}			
+		}
+		
+		// добавляем кнопки
+		if('buttons' in o) {
+			var buttons = [];
+			Dino.each(o.buttons, function(key){
+				buttons.push( o.buttonSet[key] );
+			})
+			o.components.buttons.items = buttons;
+		}		
+		
+	},
+	
+	
+	show: function() {
+		var o = this.options;
+		
+		this.el.fadeIn(o.delay);
+		
+		var self = this;
+		if(o.hideOnTimeout){
+			setTimeout(function(){ self.hide(); }, o.timeout);			
+		}
+	},
+	
+	
+	hide: function() {
+		var o = this.options;
+		var self = this;
+		this.el.fadeOut(o.delay, function(){ self.events.fire('onHide', {'source': self}); self.destroy(); });
+	}
+	
+}, 'growl-box');
+
+
+
+
+Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
+	
+	defaultOptions: {
+		cls: 'dino-growl',
+		defaultItem: {
+			dtype: 'growl-box'
+		}
+	}
+	
+	
+	
+/*	
+	addMessage: function(msg, icon, boxState) {
+		
+		var o = this.options;
+		
+		this.addItem({
+			delay: o.delay,
+			timeout: o.timeout,
+			hideOnTimeout: o.hideOnTimeout,
+			state: boxState,
+			hideOnClick: true,
+			components: {
+				messageIcon: {
+					dtype: 'icon',
+					cls: 'icon32 dino-center-align ' + icon,
+					width: 50
+				},
+				messageText: {
+					dtype: 'text',
+					cls: 'dino-widget-content',
+					text: msg
+				}
+			}
+		});
+		
+	},
+	
+	addPrompt: function(icon, msg, buttons) {
+
+		var o = this.options;
+		
+		this.addItem({
+			delay: o.delay,
+			timeout: o.timeout,
+			hideOnTimeout: o.hideOnTimeout,
+			state: boxState,
+			hideOnClick: true,
+			components: {
+				messageIcon: {
+					dtype: 'icon',
+					cls: 'icon32 dino-center-align ' + icon,
+					width: 50
+				},
+				messageText: {
+					dtype: 'text',
+					cls: 'dino-widget-content',
+					text: msg
+				}
+			}
+		});
+		
+	},
+	
+	addHtml: function(html) {
+		
+	}
+*/	
+	
+	
+	
+	
+}, 'growl');
+
+
+
+
+
+/*
 Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 	
 	_html: function() { return '<div></div>'; },
@@ -38,29 +216,7 @@ Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 		layout: 'dock-layout',
 		closeOnClick: false,
 		timeout: 5000
-/*		
-		components: {
-			icon: {
-				dtype: 'box',
-				cls: 'dino-growl-icon'
-			},
-			content: {
-				dtype: 'box',
-				cls: 'dino-growl-content',
-				items: [{
-					dtype: 'text'
-				}]
-			},
-			closeButton: {
-				dtype: 'box',
-				cls: 'dino-growl-button',
-				clickable: true,
-				onClick: function(e) {
-					this.parent.hide();
-				}
-			}
-		}
-*/		
+
 	},
 	
 	_events: function(self){
@@ -147,7 +303,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	
 }, 'growl-box');
 
-
+*/
 
 
 
@@ -158,7 +314,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 function init_default_growl_panel(o) {
 
 	o = o || {};
-	
+/*	
 	Dino.messagePanel = $.dino({
 		dtype: 'growl-box',
 		cls: 'message-panel',
@@ -176,7 +332,7 @@ function init_default_growl_panel(o) {
 		},
 		renderTo: 'body'	
 	});	
-
+*/
 
 	message = {
 			info: function(m) {this.msg(m, 'info');},

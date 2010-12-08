@@ -58,9 +58,9 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 	},
 	
 	walkSubtree: function(callback) {
-		callback.call(this, this);
-		this.subtree.eachItem(function(node){
-			node.walkSubtree(callback);
+		if( callback.call(this, this) === false ) return false;
+		return this.subtree.eachItem(function(node){
+			return node.walkSubtree(callback);
 		});		
 	},
 	
@@ -350,9 +350,41 @@ Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
 	
 	getSelected: function() {
 		return this.selected_node;
+	},
+	
+	
+	
+	walkTree: function(callback) {
+		this.eachItem(function(item){
+			return item.walkSubtree(function(node){
+				return callback.call(this, node);
+			});
+		});		
 	}
 	
 	
+	
+/*	
+	getNode: function(criteria) {
+		
+		var f = null;
+		
+		if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
+		else if( _dino.isFunction(i) ) f = i;
+		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		
+		var result = null;
+		
+		this.eachItem(function(item){
+			return item.walkSubtree(function(node){
+				if( f.call(node) ) {
+					result = node;
+					return false;
+				}
+			});
+		});
+	}
+*/	
 	
 }, 'tree');
 

@@ -329,7 +329,7 @@ return Dino.widget({
 
 <div id="sample-growl">
 <style>	
-
+/*
 .dino-growl-box {
 }
 
@@ -368,14 +368,81 @@ return Dino.widget({
 .message-err {
 	background-color: #f33;		
 }
-
+*/
 	
 </style>
 <script>
 	
 sample('sample-growl', function() {
 
+
+var growl = $.dino({
+	dtype: 'growl',
+	renderTo: 'body',
+	hideOnTimeout: true
+});
+
+
+
 return $.dino({
+	dtype: 'box',
+	defaultItem: {
+		dtype: 'text-button',
+		onAction: function() {
+			if(this.tag == 'message') {
+				growl.addItem({
+					message: Samples.loremipsum,
+					icon: 'dino-icon-growlbox-info',
+					state: 'info'
+				});
+			}
+			else if(this.tag == 'warning') {
+				growl.addItem({
+					message: Samples.loremipsum,
+					icon: 'dino-icon-growlbox-warning',
+					state: 'warn'
+				});
+			}
+			else if(this.tag == 'error') {
+				growl.addItem({
+					message: Samples.loremipsum,
+					icon: 'dino-icon-growlbox-critical',
+					state: 'error'
+				});
+			}
+			else if(this.tag == 'prompt') {
+				growl.addItem({
+					message: 'Нажмите "Да" для подтверждения и "Нет" для отмены.',
+					icon: 'dino-icon-growlbox-info',
+					state: 'info',
+					buttons: ['yes', 'no'],
+					buttonSet: {
+						'yes': {text: 'Да', tag: 'yes'},
+						'no': {text: 'Нет', tag: 'no'},
+					},
+					hideOnTimeout: false,
+					hideOnClick: false
+				});
+			}
+		}
+	},
+	items: [{
+		text: 'Сообщение',
+		tag: 'message'
+	}, {
+		text: 'Предупреждение',
+		tag: 'warning'
+	}, {
+		text: 'Ошибка',
+		tag: 'error'
+	}, {
+		text: 'Подтверждение',
+		tag: 'prompt'
+	}, {
+		text: 'HTML',
+		tag: 'html'
+	}]
+/*	
   dtype: 'growl-box',
   defaultItem: {
     cls: 'dino-border-all dino-corner-all',
@@ -398,6 +465,7 @@ return $.dino({
     iconCls: 'dino-icon-info',
     message: Samples.loremipsum
   }]
+*/  
 });
 
 	

@@ -164,7 +164,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	
 	eachItem: function(callback) {
 		for(var i = 0; i < this.items.length; i++)
-			callback.call(this, this.items[i], i);
+			if( callback.call(this, this.items[i], i) === false ) return false;
 	},
 /*	
 	setSelectedItem: function(item) {
@@ -211,7 +211,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		
 		// если добавлен новый элемент данных, то добавляем новый виджет
 		this.data.events.reg('onItemAdded', function(e){
-			self.addItem({'data': e.item}, e.index);
+			self.addItem({'data': e.item}, e.isLast ? null : e.index);
 		});
 		
 		// если элемент данных удален, то удаляем соответствующий виджет

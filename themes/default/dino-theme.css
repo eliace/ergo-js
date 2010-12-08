@@ -437,11 +437,36 @@ input.r-icon, span.r-icon {
 /*
  * Growl
  */
+.dino-growl {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	z-index: 10000;
+}
 
+.dino-growl-box {
+	width: 400px;
+	margin-bottom: 3px;
+	display: none;
+}
+
+.dino-growl-box.info {
+	background-color: #eee;
+}
+
+.dino-growl-box.warn {
+	background-color: #ffc;
+}
+
+.dino-growl-box.error {
+	background-color: #fcc;
+}
+
+/*
 .growl-item-info { background-color: #eee; }
 .growl-item-warn {	background-color: #ff0; }
 .growl-item-error {background-color: #f33; }
-
+*/
 
 
 
@@ -612,6 +637,9 @@ input.r-icon, span.r-icon {
 .dino-icon-messagebox-info { background-image: url(img/messagebox_info.png); }
 .dino-icon-messagebox-warning { background-image: url(img/messagebox_warning.png); }
 
+.dino-icon-growlbox-critical { background-image: url(img/messagebox_critical.png); }
+.dino-icon-growlbox-info { background-image: url(img/messagebox_info.png); }
+.dino-icon-growlbox-warning { background-image: url(img/messagebox_warning.png); }
 
 
 
