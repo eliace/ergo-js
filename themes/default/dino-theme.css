@@ -35,9 +35,9 @@
 
 
 .dino-widget-shadow {
-	-moz-box-shadow: 0 0 .7em #888;
-	-webkit-box-shadow: 0 0 .7em #888;
-	box-shadow: 0 0 .7em #888;
+	-moz-box-shadow: 0 0 .7em #aaa;
+	-webkit-box-shadow: 0 0 .7em #aaa;
+	box-shadow: 0 0 .7em #aaa;
 }
 
 
@@ -65,9 +65,13 @@
 
 .dino-widget-header {
 	padding: 3px 5px; 
-	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC; 
+	background: url(img/ui-bg_glass_75_e6e6e6_1x400.png) repeat-x scroll 50% 50% #CCCCCC; 
 }
 
+.dino-widget-footer {
+	padding: 3px 3px; 
+	background: url(img/ui-bg_glass_75_e6e6e6_1x400.png) repeat-x scroll 50% 50% #CCCCCC; 
+}
 
 
 
@@ -79,6 +83,10 @@
 .dino-controls > button {
 /*	padding: 3px 5px;*/
 /*	margin: 0 3px;*/
+}
+
+.dino-controls {
+	padding: 2px 0;
 }
 
 .dino-controls.left { text-align: left; }
@@ -261,10 +269,11 @@ input.r-icon, span.r-icon {
 .dino-listbox-row.selected {
 /*	background-color: #8FCDFF;*/
 /*	background: url(img/selection.png) repeat-x scroll 50% 50% ;*/
-	background-color: #eee;
+/*	background-color: #eee;*/
+	background: url(img/ui-bg_glass_55_fbf9ee_1x400.png) repeat-x scroll 50% 50% #fff;
 }
 
-.dino-listbox-row.selected {
+.dino-listbox-row.selected:hover {
 	background-color: #f0f0dd;
 }
 
@@ -446,19 +455,20 @@ input.r-icon, span.r-icon {
 
 .dino-growl-box {
 	width: 400px;
-	margin-bottom: 3px;
+	margin-bottom: 5px;
 	display: none;
+	padding: 5px;
 }
 
 .dino-growl-box.info {
 	background-color: #eee;
 }
 
-.dino-growl-box.warn {
+.dino-growl-box.warning {
 	background-color: #ffc;
 }
 
-.dino-growl-box.error {
+.dino-growl-box.critical {
 	background-color: #fcc;
 }
 
@@ -584,7 +594,7 @@ input.r-icon, span.r-icon {
 /*
  * MESSAGE PANEL (GROWL)
  */
-
+/*
 .message-panel {
 	position: absolute;
 	width: 500px;
@@ -597,7 +607,7 @@ input.r-icon, span.r-icon {
 .message-panel .dino-growl-icon {margin-left: 3px;}	
 .message-panel .dino-growl-content {	margin: 0 30px;	font-size: 0.8em;}	
 .message-panel .dino-growl-button {margin-right: 3px;}	
-
+*/
 
 
 
@@ -684,6 +694,8 @@ input.r-icon, span.r-icon {
 .led-icon-plug { background-image: url(img/led/plug.png); }
 .led-icon-disk { background-image: url(img/led/disk.png); }
 .led-icon-film { background-image: url(img/led/film.png); }
+.led-icon-find { background-image: url(img/led/find.png); }
+.led-icon-refresh { background-image: url(img/led/arrow_refresh.png); }
 
 
 

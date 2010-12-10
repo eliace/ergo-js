@@ -8,7 +8,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', {
 	_html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
-		cls: 'dino-border-all dino-corner-all',
+		cls: 'dino-border-all dino-corner-top',
 		components: {
 			header: {
 				dtype: 'box',
@@ -25,6 +25,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', {
 			},
 			footer: {
 				dtype: 'box'
+//				cls: 'dino-widget-footer dino-border'
 			}
 		}
 	},

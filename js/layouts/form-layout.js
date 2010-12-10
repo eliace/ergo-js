@@ -12,7 +12,7 @@ Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', {
 	attach: function() {
 		Dino.layouts.FormLayout.superclass.attach.apply(this, arguments);
 		
-		this.el = $('<table cellspacing="0" cellpadding="0" border="0" style="width:100%"><tbody><tr></tr></tbody></table>');
+		this.el = $('<table cellspacing="0" cellpadding="0" border="0"><tbody><tr></tr></tbody></table>');
 		this.body_el = $('tbody', this.el);
 		
 		this.container.el.append(this.el);

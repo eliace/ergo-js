@@ -74,7 +74,7 @@ return 	$.dino({
       'click': function(e, w) { w.states.toggle('click'); }
     },
     onStateChange: function() {
-      message.info('Состояние изменилось');
+      growl.info('Состояние изменилось');
     }
   }, {
     width: 100,
@@ -198,7 +198,7 @@ return 	new Dino.Widget('<div/>', {
       cls: 'dino-center-align',
       text: 'кнопка',
       onAction: function() {
-        message.info('Нажата кнопка для иконки ['+this.parent.icon.tag+']');
+        growl.info('Нажата кнопка для иконки ['+this.parent.icon.tag+']');
       }
     }
   }

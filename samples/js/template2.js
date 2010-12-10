@@ -87,7 +87,7 @@ function sample(name, callback) {
  */
 function samplePage(samples) {
 	
-	init_default_growl_panel({hideOnTimeout: true});	
+	init_default_growl();	 //<-- инициализируем growl
 	
 	$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
 		message.err(xhr.responseText);

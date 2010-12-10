@@ -192,6 +192,10 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 			if(i in o){
 				// классы сливаются в одну строку, разделенную пробелом
 				if(i == 'cls') p = o[i] + ' ' + p;
+				if( /^on\S/.test(i) ) {
+					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
+					o[i].push(p);
+				}
 			}
 			o[i] = p;
 		}

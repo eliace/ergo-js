@@ -399,7 +399,9 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
-				this.events.reg(i, o[i]);//.curry(self));//function(e) { callback.call(this, e, self); });
+				var chain = ( !Dino.isArray(o[i]) ) ? [o[i]] : o[i];
+				for(var j = 0; j < chain.length; j++)
+					this.events.reg(i, chain[j]);
 			}
 		}
 
@@ -470,6 +472,12 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 			}
 		}
 		
+		
+		
+		if('format' in o) {
+			if(Dino.isString(o.format)) o.format = Dino.format_obj.curry(o.format);
+		}
+				
 		
 //		if('droppable' in o) {
 //			if(o.droppbale) {
@@ -623,11 +631,12 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	
 	getValue: function() {
 		var val;
+		var o = this.options;
 		if(this.data){
 			val = this.data.get();
 			// если присутствует функция форматирования, то используем ее
-			if('format' in this.options) 
-				val = this.options.format.call(this, val);
+			if('format' in this.options)
+				val = o.format.call(this, val);
 		}
 		return val;
 	},

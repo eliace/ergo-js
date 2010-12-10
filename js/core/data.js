@@ -214,6 +214,10 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	walk: function(callback) {
 		if( callback.call(this, this) ) return;
 		for(var i in this.items) this.items[i].walk(callback);
+	},
+	
+	find: function(criteria) {
+		return Dino.find(this.items, criteria);
 	}
 		
 //	asArray: function() {
@@ -339,6 +343,13 @@ Dino.declare('Dino.data.FlattenArrayView', 'Dino.data.DataSource', {
 
 Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 	
+	
+	initialize: function(src, id, options) {
+		if(!src) src = [];
+		Dino.data.ArrayDataSource.superclass.initialize.apply(this, arguments);
+	},
+	
+	
 	del: function(i) {
 	
 		if(arguments.length == 0) {
@@ -425,6 +436,10 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 
 Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 	
+	initialize: function(src, id, options) {
+		if(!src) src = {};
+		Dino.data.ObjectDataSource.superclass.initialize.apply(this, arguments);
+	},
 	
 	del: function(i){
 	

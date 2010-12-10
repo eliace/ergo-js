@@ -65,6 +65,16 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 				text: o.message
 			}			
 		}
+
+		// Добавляем html
+		if('html' in o) {
+			o.components.content.components.htmlContent = {
+				dtype: 'box',
+				html: '<iframe></iframe>',
+				cls: 'dino-widget-content',
+				innerHtml: o.html
+			}			
+		}
 		
 		// добавляем кнопки
 		if('buttons' in o) {
@@ -93,7 +103,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	hide: function() {
 		var o = this.options;
 		var self = this;
-		this.el.fadeOut(o.delay, function(){ self.events.fire('onHide', {'source': self}); self.destroy(); });
+		this.el.fadeOut(o.delay, function(){ self.events.fire('onHide', {'source': self});});
 	}
 	
 }, 'growl-box');
@@ -105,11 +115,14 @@ Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
 	
 	defaultOptions: {
 		cls: 'dino-growl',
+		height: 'ignore',
 		defaultItem: {
-			dtype: 'growl-box'
+			dtype: 'growl-box',
+			onHide: function() {
+				this.parent.destroyItem(this); 				
+			}
 		}
 	}
-	
 	
 	
 /*	
@@ -311,7 +324,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
  * hideOnTimeout
  * 
  */
-function init_default_growl_panel(o) {
+function init_default_growl(o) {
 
 	o = o || {};
 /*	
@@ -334,13 +347,25 @@ function init_default_growl_panel(o) {
 	});	
 */
 
-	message = {
+	Dino.growl = $.dino({
+		dtype: 'growl',
+		renderTo: 'body'
+	});
+
+
+	growl = {
 			info: function(m) {this.msg(m, 'info');},
-			err: function(m) {this.msg(m, 'error');},
-			warn: function(m) {this.msg(m, 'warn');},
+			err: function(m) {this.msg(m, 'critical');},
+			warn: function(m) {this.msg(m, 'warning');},
+			html: function(m) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
 			msg: function(m, type) {
 				var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);
-				Dino.messagePanel.addMessage(s, type);		
+				Dino.growl.addItem({
+					message: s,
+					icon: 'dino-icon-growlbox-'+type,
+					state: type
+				});
+//				Dino.messagePanel.addMessage(s, type);		
 			}
 		}
 	

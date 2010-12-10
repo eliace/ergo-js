@@ -40,12 +40,24 @@ var list = $.dino({
 	dtype: 'list',
 	width: 400,
 	contentHeight: 220,
+	defaultListItem: {
+		showLeftIcon: true,
+		leftIconCls: 'led-icon-user'
+	},
 	listItems: [{
-		text: 'Alice'
+		text: 'Alice',
 	}, {
 		text: 'Bob'
 	}, {
 		text: 'Charlie'
+	}, {
+		text: 'Denver'
+	}, {
+		text: 'Eva'
+	}, {
+		text: 'Fox'
+	}, {
+		text: 'George'
 	}],
 	editOnDblClick: true
 });	
@@ -78,6 +90,88 @@ sample('sample-list-box', function(panel) {
 	
 var listBoxData = new Dino.data.ArrayDataSource(['Alice', 'Bob', 'Charlie']);
 
+
+var listBox = $.dino({
+	dtype: 'panel',
+	title: 'Список',
+	width: 400,
+	components: {
+		content: {
+			dtype: 'list-box',
+//			cls: 'dino-border-all',
+			listModel: {
+				columns: [{
+					cls: 'dino-icon-column',
+					binding: false,
+					content: {
+						dtype: 'checkbox'
+					}
+				}, {
+					binding: 'auto',
+					editable: true
+				}, {
+					cls: 'dino-icon-column',
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
+					}
+				}, {
+					cls: 'dino-icon-column',				
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
+					}
+				}]				
+			},
+			height: 'auto',
+			data: listBoxData,
+//			editOnDblClick: true,
+		},
+		footer: {
+			cls: 'dino-widget-footer dino-border-top',
+			defaultItem: {
+				dtype: 'icon-button',
+				cls: 'dino-corner-all dino-bg-4 dino-border-none dino-clickable',
+				clickable: true,
+				onClick: function() {
+					
+					var selectedItem = listBox.content.getSelectedItem();
+					
+					if(this.tag == 'add') {
+						if(selectedItem) {
+							var data = listBoxData.add('Новая строка', selectedItem.index+1);
+							listBox.content.getListItem({'data': data}).getColumn(0).startEdit();
+						}
+						else {
+							var data = listBoxData.add('Новая строка');
+							listBox.content.getListItem({'data': data}).getColumn(0).startEdit();							
+						}						
+					}
+					else if(this.tag == 'delete') {
+						if(selectedItem) selectedItem.data.del();
+						listBox.content.setSelectedItem(null);
+					}
+					else if(this.tag == 'refresh') {
+						listBoxData.set(['Alice', 'Bob', 'Charlie']);
+					}
+				}
+			},
+			items: [{
+				icon: 'led-icon-add',
+				tag: 'add'
+			}, {
+				icon: 'led-icon-delete',
+				tag: 'delete'
+			}, {
+				icon: 'led-icon-refresh',
+				tag: 'refresh'
+			}]
+		}
+	}
+});
+
+
+/*
 var listBox = $.dino({
 	dtype: 'box',
 	components: {
@@ -142,7 +236,8 @@ var listBox = $.dino({
 		}
 	}
 });	
-	
+*/	
+
 	return listBox;
 });
 

@@ -108,7 +108,7 @@ return Dino.widget({
       }
     ],
     onTabChanged: function() {
-      message.info('Выбрана закладка ' + this.currentTab.index);
+      growl.info('Выбрана закладка ' + this.currentTab.index);
     }
   }]
 });		
@@ -176,7 +176,7 @@ return Dino.widget({
       {	 }
     ],
     onTabChanged: function() {
-      message.info('Выбрана закладка ' + this.currentTab.index);
+      growl.info('Выбрана закладка ' + this.currentTab.index);
     }
   }]
 });		
@@ -329,46 +329,6 @@ return Dino.widget({
 
 <div id="sample-growl">
 <style>	
-/*
-.dino-growl-box {
-}
-
-.dino-growl {
-	position: relative;
-	margin-bottom: 2px;
-}
-
-
-.dino-growl {
-	padding: 2px;
-}
-
-.dino-growl-icon {
-	margin-left: 3px;
-}	
-
-.dino-growl-content {	
-	margin: 0 30px;
-	font-size: 0.8em;
-}	
-
-.dino-growl-button {
-	margin-right: 3px;
-}	
-
-
-.message-info {
-	background-color: #eee;
-}
-
-.message-warn {
-	background-color: #ff0;	
-}
-
-.message-err {
-	background-color: #f33;		
-}
-*/
 	
 </style>
 <script>
@@ -400,14 +360,14 @@ return $.dino({
 				growl.addItem({
 					message: Samples.loremipsum,
 					icon: 'dino-icon-growlbox-warning',
-					state: 'warn'
+					state: 'warning'
 				});
 			}
 			else if(this.tag == 'error') {
 				growl.addItem({
 					message: Samples.loremipsum,
 					icon: 'dino-icon-growlbox-critical',
-					state: 'error'
+					state: 'critical'
 				});
 			}
 			else if(this.tag == 'prompt') {
@@ -422,6 +382,13 @@ return $.dino({
 					},
 					hideOnTimeout: false,
 					hideOnClick: false
+				});
+			}
+			else if(this.tag == 'html') {
+				growl.addItem({
+					html: '<div style="font-size: 2em">Hello!</div>',
+					icon: 'dino-icon-growlbox-info',
+					state: 'info'
 				});
 			}
 		}
@@ -442,30 +409,6 @@ return $.dino({
 		text: 'HTML',
 		tag: 'html'
 	}]
-/*	
-  dtype: 'growl-box',
-  defaultItem: {
-    cls: 'dino-border-all dino-corner-all',
-    buttonCls: 'dino-icon dino-icon-close dino-off'
-  },
-  items: [{
-    cls: 'message-info',
-    iconCls: 'dino-icon-info',
-    message: 'Информация'
-  }, {
-    cls: 'message-warn',
-    iconCls: 'dino-icon-warn',
-    message: 'Предупреждение'
-  }, {
-    cls: 'message-err',
-    iconCls: 'dino-icon-error',
-    message: 'Ошибка'
-  }, {
-    cls: 'message-info',
-    iconCls: 'dino-icon-info',
-    message: Samples.loremipsum
-  }]
-*/  
 });
 
 	

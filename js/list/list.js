@@ -4,7 +4,7 @@
 Dino.declare('Dino.widgets.List', 'Dino.containers.Box', {
 	
 	defaultOptions: {
-		cls: 'dino-border-all',
+//		cls: 'dino-border-all',
 		components: {
 			content: {
 				weight: 2,
@@ -50,6 +50,10 @@ Dino.declare('Dino.widgets.List', 'Dino.containers.Box', {
 		
 		if('listItems' in o) {
 			Dino.utils.overrideOpts(o.components.content, {items: o.listItems});
+		}
+		
+		if('defaultListItem' in o) {
+			Dino.utils.overrideOpts(o.components.content.defaultItem, o.defaultListItem);			
 		}
 		
 //		if('controls' in o) {

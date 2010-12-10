@@ -116,9 +116,13 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 		if(this.options.selectionMode == 'single') {
 			var rows = this.content.body;
 			rows.eachItem(function(it){ it.states.clear('selected'); });
-			item.states.set('selected');
-			this.selectedItem = item;
-			this.events.fire('onItemSelected', {target: item});
+			
+			if(item) {
+				item.states.set('selected');
+				this.events.fire('onItemSelected', {target: item});				
+			}
+			
+			this.selectedItem = item;			
 		}
 		else if(this.options.selectionMode == 'multi') {
 			item.states.is('selected') ?  item.states.clear('selected') : item.states.set('selected'); //FIXME

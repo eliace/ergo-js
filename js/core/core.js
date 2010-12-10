@@ -397,7 +397,10 @@ var Dino = (function(){
 	
 	D.format_obj = function(format_str, obj) {
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
-			return obj[key];
+			var o = obj;
+			var arr = key.split('.');
+			for(var i = 0; i < arr.length; i++) o = o[arr[i]]; 
+			return o;
 		});		
 	}
 	

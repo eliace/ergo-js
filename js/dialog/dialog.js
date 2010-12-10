@@ -8,6 +8,7 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 		renderTo: 'body',
 		components: {
 			header: {
+				weight: 1,
 				dtype: 'box',
 				cls: 'dino-widget-header',
 				components: {
@@ -18,9 +19,11 @@ Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
 				}
 			},
 			content: {
+				weight: 2,
 				dtype: 'box'
 			},
 			buttons: {
+				weight: 3,
 				dtype: 'box',
 				cls: 'dino-controls center',
 				defaultItem: {

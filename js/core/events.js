@@ -173,7 +173,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', {
 
 
 
-Dino.declare('Dino.events.Observer', Dino.BaseObject, {
+Dino.declare('Dino.events.Observer', 'Dino.BaseObject', {
 	
 	initialize: function() {
 		Dino.events.Observer.superclass.initialize.apply(this, arguments);
