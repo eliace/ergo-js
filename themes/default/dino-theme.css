@@ -57,6 +57,11 @@
 }
 
 
+.dino-scrollable-content {
+	overflow-y: auto;
+}
+
+
 
 
 .dino-window-content {
@@ -105,6 +110,38 @@
 }
 
 
+
+
+
+.dino-split {
+	display: inline-block;
+	vertical-align: middle;
+	background: url(img/vsplit.png) repeat-y scroll 50% 50% #bbb;
+}
+
+
+
+
+/**
+ * GROUP BOX
+ */
+
+.dino-group {
+	border: 1px solid #ccc;
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	padding: 5px;
+	position: relative;
+	margin-top: 10pt;
+}
+
+.dino-group-title {
+	position: absolute;
+  background-color: #FFFFFF;
+  color: #444444;
+  font-size: 10pt;
+  top: -12px;
+	padding: 0 3px;
+}
 
 
 
@@ -276,6 +313,34 @@ input.r-icon, span.r-icon {
 .dino-listbox-row.selected:hover {
 	background-color: #f0f0dd;
 }
+
+
+
+
+
+/**
+ * CONTROLS
+ */
+
+.dino-control-bar {
+	background-color: #eee;
+	padding: 3px;
+}
+
+.dino-control-bar > * {
+	margin-right: 3px;
+}
+
+.dino-control-bar > button.plain {
+	background-color: #eee;
+	border: 1px solid #eee;
+}
+
+.dino-control-bar > button.plain:hover {
+	border: 1px solid #ccc;	
+	background-color: #ddd;
+}
+
 
 
 /*

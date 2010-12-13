@@ -430,6 +430,112 @@ return $.dino({
 
 
 
+<div id="sample-controls">
+<style>	
+
+		
+	
+</style>
+<script>
+	
+sample('sample-controls', function() {
+
+return $.dino({
+	dtype: 'box',
+	items: [{
+		dtype: 'group-box',
+		title: 'Нативные виджеты',
+		defaultItem: {
+			style: {'margin': '3px 0'},
+			items: [{
+				dtype: 'text-button',
+				icon: 'led-icon-add',
+				text: 'Button 1'
+			}, {
+				dtype: 'icon-button',
+				icon: 'led-icon-delete',
+				text: 'Button 2'
+			}, {
+				dtype: 'text-button',
+				text: 'Button 3'
+			}, {
+				dtype: 'textfield'
+			}, {
+				dtype: 'select',
+				options: {
+					'1': 'лето',
+					'2': 'осень',
+					'3': 'зима',
+					'4': 'весна',
+				}
+			}]		
+		},
+		items: [{
+			dtype: 'control-bar',
+		}, {
+			dtype: 'control-bar',
+			defaultItem: {
+				cls: 'plain dino-corner-all'
+			}
+		}]		
+	}, {
+		dtype: 'group-box',
+		title: 'Dino-виджеты',
+		defaultItem: {
+			dtype: 'control-bar',
+			items: [{
+				dtype: 'split-button',
+				components: {
+					actionButton: {
+						innerText: 'Africa',
+						width: 80
+					},
+					listButton: {
+						width: 24
+					}
+				},
+				list: [{
+					text: 'Африка',
+					tag: 'africa'
+				}, {
+					text: 'Азия',
+					tag: 'asia'
+				}, {
+					text: 'Европа',
+					tag: 'europe'
+				}, {
+					text: 'Америка',
+					tag: 'america'
+				}]
+			}, {
+				dtype: 'box',
+				width: 2,
+				cls: 'dino-split',
+				innerHtml: '&nbsp;'
+			}]
+		},
+		items: [{
+			dtype: 'control-bar',
+		}]		
+	}]
+});
+	
+});	
+	
+</script>	
+<div class="html">
+	
+</div>
+<div class="desc">
+	
+</div>
+</div>
+
+
+
+
+
+
 
 
 

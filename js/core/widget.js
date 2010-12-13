@@ -185,7 +185,7 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		});
 		Dino.utils.overrideOpts(o, opts);
 		
-		html = o.wrapEl || html; // оставляем возможность указать html через options
+		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 		
 		// создаем новый элемент DOM или используем уже существующий
 		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());

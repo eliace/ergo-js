@@ -74,6 +74,14 @@ function sample(name, callback) {
 
 
 
+Samples.generate_plain_list = function(n) {
+	var list = []
+	for(var i = 0; i < n; i++) {
+		list.push('Item ' + (i+1));
+	}
+	return list;
+}
+
 
 
 
