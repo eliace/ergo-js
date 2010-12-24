@@ -41,19 +41,9 @@
 	top: 20px;				
 }
 
-/*
-.button-container > div {
-	margin: 0 5px;
-}
-*/
 .button-container > * {
 	display: block;
 }
-
-.dino-button {
-	padding: 4px 8px;	
-}
-
 
 .toggle-button-1 {
 	width: 48px;
@@ -91,7 +81,38 @@ return $.dino({
 	}, {
 		dtype: 'icon-button',
 		icon: 'led-icon-cog'
-	}, {
+	}]						
+});
+	
+});		
+		
+	</script>
+<div class="html">
+	
+</div>
+<div class="desc">
+		
+</div>
+</div>	
+	
+	
+	
+	
+
+<div id="sample-split">
+	
+<style>
+					
+</style>
+	
+<script>
+		
+sample('sample-split', function(){
+
+return $.dino({
+	dtype: 'box',
+	cls: 'button-container',
+	items: [{
 		dtype: 'split-button',
 		components: {
 			actionButton: {
@@ -119,6 +140,45 @@ return $.dino({
 			tag: 'america'
 		}]
 		
+	}, {
+		dtype: 'button',
+		style: {'padding-right': 2},
+		content: {
+			dtype: 'box',
+			layout: 'float-layout',
+			items: [{
+				dtype: 'icon',
+				cls: 'led-icon-user'
+			}, {
+				dtype: 'box',
+				innerText: 'Press me',
+				style: {'margin': '0 3px'}
+			}, {
+				dtype: 'box',
+				cls: 'dino-split',
+				style: {'margin-left': '3px'},
+				width: 2,
+				height: 16
+			}, {
+				dtype: 'icon',
+				cls: 'ui-icon ui-icon-triangle-1-s'				
+			}]
+		}
+	}, {
+		dtype: 'text-button',
+		style: {'padding': '3px'},
+		content: {
+			showRightIcon: true,
+			rightIconCls: 'ui-icon ui-icon-triangle-1-s',
+			showLeftIcon: true,
+			leftIconCls: 'led-icon-cog',
+			components: {
+				content: {
+					innerHtml: '&nbsp;',
+					style: {'margin': '0 14px'}
+				}
+			}
+		}
 	}]						
 });
 	
@@ -132,11 +192,6 @@ return $.dino({
 		
 </div>
 </div>	
-	
-	
-	
-	
-
 
 
 

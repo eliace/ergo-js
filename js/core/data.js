@@ -14,7 +14,7 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	initialize: function(src, id, options) {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
 
-		this.source = src;
+		if(src)	this.source = src;
 		
 		if(arguments.length == 2){
 			this.source = src;
@@ -130,11 +130,33 @@ Dino.declare('Dino.data.DataSource', Dino.events.Observer, {
 	
 	// обходим все значения
 	each: function(callback) {
-		Dino.each(this.val(), callback);
+		var range = this.range;
+		var self = this;
+		Dino.each(this.val(), function(val, i){
+			if(range){
+				if(i < range[0] || i > range[1]) return;
+			}
+			callback.call(this, val, i);
+		});
+//		Dino.each(this.val(), callback);
 	},
 	
 	each_item: function(callback) {
+//		var range = this.range;
+//		var self = this;
+//		Dino.each(this.val(), function(val, i){
+//			if(range){
+//				if(i < range[0] || i > range[1]) return;
+//			}
+//			callback.call(this, self.item(i), i);
+//		});
 		Dino.each(this.items, callback);
+//		Dino.each(this.items, function(item, i){
+//			if(range){
+//				if(i < range[0] || i > range[1]) return;
+//			}
+//			callback.call(this, item, i);
+//		});
 	},
 	
 	
@@ -345,7 +367,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 	
 	
 	initialize: function(src, id, options) {
-		if(!src) src = [];
+		this.source = [];
 		Dino.data.ArrayDataSource.superclass.initialize.apply(this, arguments);
 	},
 	
@@ -437,7 +459,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', {
 Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', {
 	
 	initialize: function(src, id, options) {
-		if(!src) src = {};
+		this.source = {};
 		Dino.data.ObjectDataSource.superclass.initialize.apply(this, arguments);
 	},
 	

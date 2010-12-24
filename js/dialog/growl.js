@@ -67,12 +67,12 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 		}
 
 		// Добавляем html
-		if('html' in o) {
+		if('htmlMessage' in o) {
 			o.components.content.components.htmlContent = {
 				dtype: 'box',
-				html: '<iframe></iframe>',
+//				html: '<iframe>'+o.htmlMessage+'</iframe>',
 				cls: 'dino-widget-content',
-				innerHtml: o.html
+				innerHtml: o.htmlMessage
 			}			
 		}
 		

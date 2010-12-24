@@ -232,7 +232,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 			
 			self.layout.immediateRebuild = false;
 			
-			self.data.each(function(val, i){
+			self.data.each(function(dataItem, i){
 				var dataItem = self.data.item(i);
 				self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 			});
@@ -247,7 +247,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 
 		this.layout.immediateRebuild = false;
 		
-		this.data.each(function(val, i){
+		this.data.each(function(dataItem, i){
 			var dataItem = self.data.item(i);
 			self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
 		});

@@ -138,8 +138,8 @@
 }
 
 
-[layout='simple-form'] > .dino-form-item-wrapper {
-	
+[layout='simple-form'] > .dino-form-item-wrapper > label {
+	display: block;
 }
  
  

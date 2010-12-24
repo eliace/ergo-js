@@ -36,8 +36,59 @@
 
 sample('sample-box', function() {
 	
+	var bindingData = new Dino.data.ArrayDataSource( Samples.generate_plain_list(30) );
+	bindingData.range = [0, 4];
+	
+	var offset = 0;
+	
+	var box = $.dino({
+		dtype: 'box',
+		components: {
+			controls: {
+				dtype: 'control-bar',
+				items: [{
+					dtype: 'text-button',
+					text: 'Предыдущие 5',
+					onAction: function() {
+						if(offset > 0) {
+							offset -= 5;
+							bindingData.range = [offset, offset+4];
+							bindingData.events.fire('onValueChanged');							
+						}
+					}
+					
+				}, {
+					dtype: 'text-button',
+					text: 'Следующие 5',
+					onAction: function() {
+						if(offset < 25) {
+							offset += 5;
+							bindingData.range = [offset, offset+4];
+							bindingData.events.fire('onValueChanged');							
+						}
+					}
+				}]
+			},
+			content: {
+				dtype: 'box',
+				layout: 'float-layout',
+				dynamic: true,
+				data: bindingData,
+				defaultItem: {
+					dtype: 'box',
+					cls: 'dino-border-all dino-corner-all',
+					style: {'margin': '3px', 'padding': '3px'},
+					binding: function(val, o) { o.innerText = val; }
+				}
+			}
+		}
+	});
 	
 	
+	
+	
+	
+	return box;
 });
 
 	
@@ -129,72 +180,6 @@ return Dino.widget({
 
 
 
-<div id="sample-styled-tabs">
-<style>
-
-
-.dino-tabs.styled-tabs {
-	height: 30px;
-	position: relative;
-	margin: 0;
-	padding: 0;
-}
-	
-.styled-tab {
-/*	padding: 0 20px;*/
-	margin-right: 2px;
-/*	float: left;*/
-	display: inline;
-	list-style: none outside none;
-	height: 30px;
-}
-	
-	
-	
-</style>
-<script>
-	
-sample('sample-styled-tabs', function(){
-
-return Dino.widget({
-  dtype: 'box',
-  items: [{
-    dtype: 'tabs',
-		cls: 'styled-tabs dino-border-all',
-    defaultItem: {
-			cls: 'styled-tab',
-//			content: {
-//				dtype: 'box',
-				content: {
-					dtype: 'text'
-//				}
-			}
-    },
-    items: [
-      {  },
-      {	 },
-      {	 }
-    ],
-    onTabChanged: function() {
-      growl.info('Выбрана закладка ' + this.currentTab.index);
-    }
-  }]
-});		
-	
-});	
-	
-	
-	
-</script>	
-<div class="html">
-	
-</div>
-<div class="desc">
-	
-</div>
-</div>
-
-
 
 
 
@@ -258,11 +243,37 @@ return Dino.widget({
 <!-- Form -->
 <div id="sample-xform">
 <style>
-	
-.dino-button {
-	padding: 4px 8px;
+
+.tb-text {
+	padding: 2px 0;
+	font-size: 12pt;
+	outline: none;
+	margin-right: 0;
 }	
-	
+
+.tb-button {
+	padding: 2px 0;
+	font-size: 12pt;
+}	
+
+
+.tb2 {
+	display: inline;
+	position: relative;
+}
+
+.tb2 input {
+	font-size: 10pt;
+	padding: 2px 20px 2px 2px;
+}
+
+
+.tb2 .dino-icon {
+	position: absolute;
+	right: 4px;
+	margin-top: -7px;
+}
+
 	
 </style>
 <script>
@@ -270,7 +281,8 @@ return Dino.widget({
 sample('sample-xform', function(){
 	
 var xformData = {
-	text: 11
+	text: 11,
+	text2: '16.12.2010'
 };
 	
 return Dino.widget({
@@ -282,16 +294,46 @@ return Dino.widget({
 //	},
 	data: xformData,
 	defaultItem: {
-		style: {'padding': '5px 0'}
+//		style: {'padding': '5px 0'}
 	},
   items: [{
-    label: 'Текстовое поле:',
+    label: 'Поле с кнопкой:',
 		dataId: 'text',
-   	id: 'xfield1',
-    dtype: 'x-textfield',
-		rawValueOnFocus: true,
-		format: function(val) { return val + ' кг'; }
-  }/*, {
+		components: {
+			input: {
+				dtype: 'textfield',
+				cls: 'tb-text dino-border-all dino-corner-left dino-border-no-right'
+			},
+			button: {
+				dtype: 'icon-button',				
+				cls: 'tb-button dino-border-all dino-corner-right dino-bg-highlight',
+				binding: false,
+				icon: 'led-icon-find',
+				width: 24,
+			}
+		}
+	}, {
+    label: 'Поле с кнопкой 2:',
+		dtype: 'box',
+		cls: 'tb2',
+		dataId: 'text2',
+		layout: 'dock-layout',
+		components: {
+			input: {
+				dtype: 'textfield'
+			},
+			button: {
+				dtype: 'icon',
+				cls: 'led-icon-calendar_1 dino-clickable',
+				dock: 'right'
+			}
+		}
+	}
+//   	id: 'xfield1',
+//    dtype: 'x-textfield',
+//		rawValueOnFocus: true,
+//		format: function(val) { return val + ' кг'; }
+  /*, {
     label: 'Текст:',
     id: 'field2',
     dtype: 'textarea'
@@ -386,7 +428,7 @@ return $.dino({
 			}
 			else if(this.tag == 'html') {
 				growl.addItem({
-					html: '<div style="font-size: 2em">Hello!</div>',
+					htmlMessage: '<div style="font-size: 2em">Hello!</div>',
 					icon: 'dino-icon-growlbox-info',
 					state: 'info'
 				});
@@ -447,10 +489,11 @@ return $.dino({
 		title: 'Нативные виджеты',
 		defaultItem: {
 			style: {'margin': '3px 0'},
+//			layout: 'float-layout',
 			items: [{
 				dtype: 'text-button',
 				icon: 'led-icon-add',
-				text: 'Button 1'
+				text: 'Button 1',
 			}, {
 				dtype: 'icon-button',
 				icon: 'led-icon-delete',
@@ -475,7 +518,7 @@ return $.dino({
 		}, {
 			dtype: 'control-bar',
 			defaultItem: {
-				cls: 'plain dino-corner-all'
+				cls: 'plain'
 			}
 		}]		
 	}, {
@@ -510,6 +553,7 @@ return $.dino({
 			}, {
 				dtype: 'box',
 				width: 2,
+				height: 24,
 				cls: 'dino-split',
 				innerHtml: '&nbsp;'
 			}]
@@ -532,6 +576,99 @@ return $.dino({
 </div>
 
 
+
+
+
+
+<div id="sample-pager">
+	
+<style>	
+
+.dino-pager {
+	background-color: #eee;
+	padding: 3px;
+	font-size: 10pt;
+/*	line-height: 13px;*/
+}
+
+.dino-pager > button {
+	background-color: #eee;
+}
+
+.dino-pager > button:hover {
+	background-color: #ddd;
+}
+
+.dino-pager > span {
+	vertical-align: middle;
+	margin: 0 3px;
+}
+
+			
+</style>
+
+<script>
+		
+sample('sample-pager', function(){
+
+var pager = $.dino({
+	dtype: 'box',
+	cls: 'dino-pager',
+	style: {'display': 'inline-block'},
+	items: [{
+		dtype: 'icon-button',
+		cls: 'dino-corner-all dino-border-none',
+		icon: 'led-icon-control-rewind'
+	}, {
+		dtype: 'icon-button',
+		cls: 'dino-corner-all dino-border-none',
+		icon: 'led-icon-control-backward'
+	}, {
+		dtype: 'split',
+		width: 2,
+	}, {
+		dtype: 'text',
+		innerText: 'Страница'
+	}, {
+		dtype: 'textfield',
+		width: 30,
+		value: '1'
+	}, {
+		dtype: 'text',
+		innerText: 'из 10'
+	}, {
+		dtype: 'split',
+		width: 2,
+	}, {
+		dtype: 'icon-button',
+		cls: 'dino-corner-all dino-border-none',
+		icon: 'led-icon-control-play'			
+	}, {
+		dtype: 'icon-button',
+		cls: 'dino-corner-all dino-border-none',
+		icon: 'led-icon-control-fastforward'			
+	}, {
+		dtype: 'split',
+		width: 2,
+	}, {
+		dtype: 'icon-button',
+		cls: 'dino-corner-all dino-border-none',
+		icon: 'led-icon-refresh'		
+	}]
+});
+
+return pager;
+});		
+		
+	</script>
+<div class="html">
+	
+</div>
+<div class="desc">
+		
+</div>
+</div>	
+	
 
 
 

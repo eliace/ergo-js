@@ -39,6 +39,7 @@ require 'fileutils'
     'js/widgets/list-item.js',
     'js/widgets/table.js',
     'js/widgets/controls.js',
+    'js/widgets/pager.js',
     'js/panels/panel.js',
     'js/panels/tab-panel.js',
     'js/form/form.js',

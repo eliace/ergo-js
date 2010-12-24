@@ -25,6 +25,9 @@ Dino.declare('Dino.widgets.Grid', 'Dino.Widget', {
 					dtype: 'table',
 					width: '100%'						
 				}
+			},
+			footer: {
+				dtype: 'control-bar'
 			}
 		}
 	},

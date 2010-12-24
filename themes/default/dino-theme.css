@@ -1,6 +1,5 @@
 
 
-
 .dino-border-all { border: 1px solid #aaaaaa; }
 .dino-border-bottom { border-bottom: 1px solid #aaaaaa; }
 .dino-border-top { border-top: 1px solid #aaaaaa; }
@@ -117,6 +116,7 @@
 	display: inline-block;
 	vertical-align: middle;
 	background: url(img/vsplit.png) repeat-y scroll 50% 50% #bbb;
+	margin: 0 3px;
 }
 
 
@@ -500,10 +500,11 @@ input.r-icon, span.r-icon {
 }
 
 
-/*
-[layout='simple-form'] > .dino-form-item-wrapper > label {
+
+[layout='simple-form'] > .dino-form-item-wrapper {
+	padding: 3px;
 }
-*/
+
 
 
 
@@ -761,6 +762,11 @@ input.r-icon, span.r-icon {
 .led-icon-film { background-image: url(img/led/film.png); }
 .led-icon-find { background-image: url(img/led/find.png); }
 .led-icon-refresh { background-image: url(img/led/arrow_refresh.png); }
+.led-icon-control-start { background-image: url(img/led/control_start.png); }
+.led-icon-control-rewind { background-image: url(img/led/control_rewind.png); }
+.led-icon-control-play { background-image: url(img/led/control_play.png); }
+.led-icon-control-fastforward { background-image: url(img/led/control_fastforward.png); }
+.led-icon-control-backward { background-image: url(img/led/control_backward.png); }
 
 
 
@@ -973,6 +979,10 @@ input.r-icon, span.r-icon {
 /*
  * TREE
  */
+
+.dino-tree {
+	white-space: nowrap;
+}
 
 .dino-tree-node {
 	list-style: none outside none;
