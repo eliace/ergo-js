@@ -1,39 +1,27 @@
 
 //Dino.droppable = [];
 
+/**
+ * @name Dino.widgets
+ * @namespace
+ */
+
+
 
 
 /**
- * Виджет - базовый объект для всех виджетов
+ * Базовый объект для всех виджетов
  * 
- * хуки:
- * 	_default
- * 	_html
- * 	_init
- * 	_events
- * 	_opt
- * 	_render
- * 	_dataChanged
- * 	_theme
- * 
- * параметры:
- * 	width
- * 	height
- * 	x
- * 	y
- * 	tooltip
- * 	id
- * 	tag
- * 	style
- * 	cls
- * 	opacity
- * 	events
- * 	data
- * 	dataId
- * 
+ * @class
+ * @extends Dino.events.Observer
+ * @param {Object} o параметры
  */
-Dino.declare('Dino.Widget', 'Dino.events.Observer', {
+Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Dino.Widget.prototype */{
 	
+	/**
+	 * @static
+	 * @private
+	 */
 	defaultOptions: {
 		layout: 'plain-layout',
 		states: {
@@ -44,15 +32,15 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	},
 	
 	defaultHandlers: {
-		'clickable.click': function(e) {
-			$(this).dino().events.fire('onClick', {}, e);
-		},
-		'clickable.dblclick': function(e) {
-			$(this).dino().events.fire('onDblClick', {}, e);
-		},
-		'selectable': function(e) {
-			e.preventDefault();
-		},
+//		'clickable.click': function(e) {
+//			$(this).dino().events.fire('onClick', {}, e);
+//		},
+//		'clickable.dblclick': function(e) {
+//			$(this).dino().events.fire('onDblClick', {}, e);
+//		},
+//		'selectable': function(e) {
+//			e.preventDefault();
+//		},
 		'draggable_mousedown': function(e) {
 			if(!Dino.drag) {
 				Dino.drag = {
@@ -113,7 +101,7 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 //							
 //							var dx = e.pageX - drag.x;
 //							var dy = e.pageY - drag.y;
-//							
+//							 состояний 
 //							var x = parseInt(el.css('left')) + dx;  
 //							var y = parseInt(el.css('top')) + dy;  
 //
@@ -136,7 +124,7 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 				drag.started = true;
 				
 				var event = new Dino.events.CancelEvent({dragData: drag});
-				drag.source.events.fire('onDrag', event);
+				drag.source.events.fire('onDrag', event); состояний 
 				
 				if(event.isCanceled){
 					if(drag.proxy) drag.proxy.destroy();
@@ -151,12 +139,13 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 			}	
 */			
 					
-		},
-		'editable': function(e) {
-			var w = $(this).dino();
-			if('startEdit' in w) w.startEdit();
 		}
+//		'editable': function(e) {
+//			var w = $(this).dino();
+//			if('startEdit' in w) w.startEdit();
+//		}
 	},
+			
 			
 	initialize: function() {
 		Dino.Widget.superclass.initialize.apply(this, arguments);
@@ -178,8 +167,13 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		
 		var self = this;
 		
+		/** 
+		 * Параметры
+		 * @type Object
+		 */
+		this.options = {};
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
-		var o = this.options = {};
+		var o = this.options;
 		Dino.hierarchy(this.constructor, function(clazz){
 			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
 		});
@@ -188,13 +182,25 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 		
 		// создаем новый элемент DOM или используем уже существующий
+		/** 
+		 * Элемент 
+		 * @type Element
+		 */
 		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		
-		this.children = new Dino.utils.WidgetCollectionManager(this);
+		/** 
+		 * Коллекция дочерних компонентов 
+		 * @type Dino.WidgetCollectionManager
+		 */
+		this.children = new Dino.WidgetCollectionManager(this);
 		
-		this.states = new Dino.core.StateManager(this);
+		/** 
+		 * Набор состояний
+		 * @type Dino.StateManager
+		 */
+		this.states = new Dino.StateManager(this);
 		
 		this.handlers = {};
 		
@@ -208,6 +214,10 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 			layoutOpts = {dtype: layoutOpts};
 		if(!(layoutOpts instanceof Dino.Layout))
 			layoutOpts = Dino.object( layoutOpts );//Dino.utils.overrideOpts({container: this}, layoutOpts));
+		/** 
+		 * Компоновка 
+		 * @type Dino.Layout
+		 */
 		this.layout = layoutOpts;
 		//FIXME костыль
 //		if(!this.layout.container) this.layout.attach(this);
@@ -237,6 +247,14 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		if(this.options.debug)	console.log('created');		
 	},
 	
+	
+	/**
+	 * Хук, вызываемый для инициализации виджета.
+	 * 
+	 * Чаще всего используется для модификации параметров.
+	 * 
+	 * @private
+	 */
 	_init: function() {
 		
 		var o = this.options;
@@ -270,10 +288,21 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		if(this.options.debug)	console.log('destroyed');
 	},
 	
+	/**
+	 * Хук, вызываемый для определения тэга, на основе которого будет построен виджет
+	 * 
+	 * @private
+	 */
 	_html: function() {
 		return '';//'<div/>';
 	},
 	
+	/**
+	 * Хук, вызываемый при добавлении виджета на страницу
+	 * 
+	 * @param {Element|Dino.Widget} target
+	 * @private
+	 */
 	_render: function(target) {
 		if(target){
 			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
@@ -289,19 +318,28 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	_theme: function(name) {
 	},
 	
+	/**
+	 * Хук, вызываемый после построения объекта
+	 * 
+	 * @private
+	 */
 	_afterBuild: function() {
 		
 		var o = this.options;
 		var self = this;
 		
 		if('state' in o) {
-//			this.states.set(o.state);
 			var a = Dino.isArray(o.state) ? o.state : [o.state];
 			Dino.each(a, function(state) { self.states.set(state); });
 		}
 		
 	},
 
+	/**
+	 * Хук, вызываемый при обновлении компоновки
+	 * 
+	 * @private
+	 */
 	_layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		this.children.each(function(c) { c._layoutChanged(); });
@@ -310,12 +348,22 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	_events: function(self){
 	},
 	
-	
+	/**
+	 * Хук, вызываемый после отрисовки виджета
+	 * 
+	 * @private
+	 */
 	_afterRender: function() {
 		this.children.each(function(c) { c._afterRender(); });
 	},
 
-
+	/**
+	 * Установка параметров (options) виджета.
+	 * 
+	 * Передаваемые параметры применяются и сохраняются в this.options
+	 * 
+	 * @param {Object} o параметры
+	 */
 	opt: function(o) {
 		var opts = o;
 		if(arguments.length == 2){
@@ -330,6 +378,14 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	},
 	
 	
+	/**
+	 * Хук, вызываемый для установки параметров.
+	 * 
+	 * Передаваемые параметры только применяются
+	 * 
+	 * @private
+	 * @param {Object} o параметры
+	 */
 	_opt: function(o) {
 		
 		var self = this;
@@ -439,7 +495,7 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		
 		
 		//TODO обработчики событий должны быть выключаемыми, поэтому нужно запоминать их, чтобы потом удалить
-		
+/*		
 		if('clickable' in o) {
 			this._toggle_handler('clickable.click', 'click', o.clickable);
 			this._toggle_handler('clickable.dblclick', 'dblclick', o.clickable);
@@ -447,14 +503,15 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		
 		if('selectable' in o)
 			this._toggle_handler('selectable', 'mousedown', !o.selectable); //<-- инверсия флага, поскольку обработчик нужен для отключения выделения
+
+		if('editable' in o) {
+			this._toggle_handler('editable', 'dblclick', o.editable);			
+		}
+*/		
 		
 		if('draggable' in o){
 			this._toggle_handler('draggable_mousedown', 'mousedown', o.draggable);
 			this._toggle_handler('draggable_mousemove', 'mousemove', o.draggable);
-		}
-		
-		if('editable' in o) {
-			this._toggle_handler('editable', 'dblclick', o.editable);			
 		}
 		
 		if('contextMenu' in o) {
@@ -471,7 +528,7 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 			
 			}
 		}
-		
+
 		
 		
 		if('format' in o) {
@@ -494,11 +551,24 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		
 	},
 	
-	
+	/**
+	 * @ignore
+	 * 
+	 * @param {Object} key
+	 * @param {Object} target
+	 */
 	_translate_opt: function(key, target) {
 		if(key in this.options) target.opt(key, this.options[key]);
 	},
 	
+	
+	/**
+	 * @ignore
+	 * 
+	 * @param {Object} key
+	 * @param {Object} event
+	 * @param {Object} sw
+	 */
 	_toggle_handler: function(key, event, sw) {
 		// получаем дескриптор обработчика
 		var h = (key in this.handlers);
@@ -513,7 +583,11 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	},
 	
 	
-	
+	/**
+	 * Рекурсивный обход всех компонентов виджета
+	 * 
+	 * @param {Object} callback метод, вызываемый для каждого компонента
+	 */
 	walk: function(callback) {		
 		callback.call(this);
 		this.children.each(function(item){
@@ -525,6 +599,15 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	// Методы для работы с компонентами виджета
 	//-------------------------------------------
 	
+	/**
+	 * Добавление компонента
+	 * 
+	 * Ключ должен соотвествовать требованиям для свойств объектов JavaScript и не должен пересекаться с именами
+	 * методов/свойств виджета.
+	 * 
+	 * @param {String} key ключ (имя) компонента. Если компонент с таким именем уже существует, то он будет удален из компоновки
+	 * @param {Object|Dino.Widget} o виджет или параметры виджета
+	 */
 	addComponent: function(key, o){
 		// если компонент уже существует, то удаляем его
 		this.removeComponent(key);
@@ -539,6 +622,11 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 //		this.el.append(this[key].el);
 	},
 	
+	/**
+	 * Удаление компонента
+	 * 
+	 * @param {Object} key ключ (имя) компонента
+	 */
 	removeComponent: function(key) {
 		if(this[key]) {
 			this.layout.remove(this[key]);
@@ -549,7 +637,13 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	
 	
 	
-	
+	/**
+	 * Получение списка всех родителей виджета.
+	 * 
+	 * Еще здесь применим термин "путь" для деревьев.
+	 * 
+	 * @returns {Array} список родительских виджетов
+	 */
 	getParents: function(list) {
 		if(arguments.length == 0) list = [];
 		if(!this.parent) return list;
@@ -557,7 +651,20 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		return this.parent.getParents(list);
 	},
 	
-	
+	/**
+	 * Получение родительского виджета
+	 * 
+	 * Если критерий не указан, то возвращается непосредственный родитель
+	 * 
+	 * @example
+	 * a.getParent();
+	 * b.getParent({'data': dataItem});
+	 * c.getParent(Dino.widgets.Box);
+	 * d.getParent(function(w) { return w.options.width < 100; });
+	 * e.getParent('header');
+	 * 
+	 * @param {Any} [criteria] критерий 
+	 */
 	getParent: function(i) {
 		
 		if(arguments.length == 0) return this.parent;
@@ -571,12 +678,17 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
 	
-	isBound: function() {
-		return (this.data != null);
-	},
+//	isBound: function() {
+//		return (this.data != null);
+//	},
 	
 	
-	
+	/**
+	 * Подключение данных к виджету
+	 * 
+	 * @param {Dino.data.DataSource|Any} data данные
+	 * @param {Integer} phase
+	 */
 	setData: function(data, phase) {
 				
 		var o = this.options;
@@ -628,7 +740,13 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	},
 	
 	
-	
+	/**
+	 * Получение значения, связанного с виджетом.
+	 * 
+	 * Если задана функция форматирования (format), то она используется для преобразования результата
+	 * 
+	 * @returns {Any} undefined, если к виджету данные не подключены
+	 */
 	getValue: function() {
 		var val;
 		var o = this.options;
@@ -641,7 +759,14 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 		return val;
 	},
 	
-	setValue: function(val, suppressChangeEvent) {
+	/**
+	 * Установка значения, связанного с виджетом
+	 * 
+	 * Если задана функция хранения (store_format), то она используется для преобразования значения
+	 * 
+	 * @param {Any} val значение
+	 */
+	setValue: function(val) {
 		if(this.data){
 			if('store_format' in this.options) 
 				val = this.options.store_format.call(this, val);
@@ -650,7 +775,12 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 			this.events.fire('onValueChanged');
 		}
 	},
-		
+	
+	/**
+	 * Получение значения, связанного с виджетом без применения форматирования.
+	 * 
+	 * @returns {Any} undefined, если к виджету данные не подключены
+	 */
 	getRawValue: function() {
 		return (this.data) ? this.data.get() : undefined;
 	},
@@ -668,6 +798,12 @@ Dino.declare('Dino.Widget', 'Dino.events.Observer', {
 	
 //	_dataBound: function(){},
 //	_dataUnbound: function() {},
+
+	/**
+	 * Хук, вызываемый при изменении связанных данных
+	 * 
+	 * @private
+	 */
 	_dataChanged: function() {
 //		// если автобиндинг выключен, то прекращаем обновление
 //		if(!this.options.autoBinding) return;
@@ -732,6 +868,57 @@ $.fn.dino = function(o) {
 	else if(arguments.length == 0) return null;
 	return Dino.widget(o);
 };
+
+
+
+
+
+
+
+
+
+var abilityHandlers = {
+	'clickable.click': function(e) {
+			$(this).dino().events.fire('onClick', {}, e);		
+	},
+	'clickable.dblclick': function(e) {
+			$(this).dino().events.fire('onDblClick', {}, e);		
+	},
+	'nonselectable.mousedown': function(e) {
+		e.preventDefault();
+	},
+	'editable.dblclick': function(e) {
+		var w = $(this).dino();
+		if('startEdit' in w) w.startEdit();		
+	}
+}
+
+
+Dino.override(Dino.Widget.prototype.defaultOptions.states, {
+	'clickable': function(sw) {
+		if(sw) {
+			this.el.bind('click', abilityHandlers['clickable.click']);		
+			this.el.bind('dblclick', abilityHandlers['clickable.dblclick']);					
+		}
+		else {
+			this.el.unbind('click', abilityHandlers['clickable.click']);		
+			this.el.unbind('dblclick', abilityHandlers['clickable.dblclick']);					
+		}
+	},
+	'editable': function(enabled) {
+		if(enabled) this.el.bind('dblclick', abilityHandlers['editable.dblclick']);
+		else this.el.unbind('dblclick', abilityHandlers['editable.dblclick']);
+	},
+	'nonselectable': function(enabled) {
+		if(enabled) this.el.bind('mousedown', abilityHandlers['nonselectable.mousedown']);
+		else this.el.unbind('mousedown', abilityHandlers['nonselectable.mousedown']);		
+	}
+});
+
+
+
+
+
 
 
 

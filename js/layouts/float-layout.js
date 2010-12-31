@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.layouts.FloatLayout', 'Dino.layouts.PlainLayout', {
+/**
+ * @class
+ * @extends Dino.layouts.PlainLayout
+ */
+Dino.layouts.FloatLayout = Dino.declare('Dino.layouts.FloatLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.FloatLayout.prototype */{
 	
 	defaultOptions: {
 		name: 'float',

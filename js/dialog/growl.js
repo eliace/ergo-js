@@ -1,8 +1,11 @@
 
 
 
-
-Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
+/**
+ * @class
+ * @extends Dino.containers.Box
+ */
+Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', /** @lends Dino.widgets.GrowlBox.prototype */{
 
 	defaultOptions: {
 		cls: 'dino-growl-box dino-border-all dino-corner-all dino-widget-shadow',
@@ -29,7 +32,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 				}
 			}
 		},
-		clickable: true,
+		state: ['clickable'],
 		onClick: function() {
 			if(this.options.hideOnClick) this.hide();
 		},

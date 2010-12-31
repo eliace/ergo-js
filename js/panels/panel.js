@@ -1,7 +1,11 @@
 
 
-
-Dino.declare('Dino.widgets.Panel', 'Dino.Widget', {
+/**
+ * @class
+ * @name Dino.widgets.Panel
+ * @extends Dino.Widget
+ */
+Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.prototype */{
 	
 	defaultCls: 'dino-panel',
 	

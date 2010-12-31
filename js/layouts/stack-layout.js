@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', {
+/**
+ * @class
+ * @extends Dino.layouts.PlainLayout
+ */
+Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.StackLayout.prototype */{
 	
 	defaultOptions: {
 //		containerCls: 'dino-stack-layout',

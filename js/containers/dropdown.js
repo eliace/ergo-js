@@ -1,8 +1,11 @@
 
 
 
-
-Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', {
+/**
+ * @class
+ * @extends Dino.containers.Box
+ */
+Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', /** @lends Dino.containers.DropDownBox.prototype */ {
 	
 	defaultOptions: {
 		effects: {

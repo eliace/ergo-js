@@ -63,7 +63,7 @@ sample('sample-box', function() {
 					onAction: function() {
 						if(offset < 25) {
 							offset += 5;
-							bindingData.range = [offset, offset+4];
+							bindingData.range = [offset, offset+5];
 							bindingData.events.fire('onValueChanged');							
 						}
 					}
@@ -584,25 +584,6 @@ return $.dino({
 	
 <style>	
 
-.dino-pager {
-	background-color: #eee;
-	padding: 3px;
-	font-size: 10pt;
-/*	line-height: 13px;*/
-}
-
-.dino-pager > button {
-	background-color: #eee;
-}
-
-.dino-pager > button:hover {
-	background-color: #ddd;
-}
-
-.dino-pager > span {
-	vertical-align: middle;
-	margin: 0 3px;
-}
 
 			
 </style>
@@ -612,50 +593,13 @@ return $.dino({
 sample('sample-pager', function(){
 
 var pager = $.dino({
-	dtype: 'box',
-	cls: 'dino-pager',
-	style: {'display': 'inline-block'},
-	items: [{
-		dtype: 'icon-button',
-		cls: 'dino-corner-all dino-border-none',
-		icon: 'led-icon-control-rewind'
-	}, {
-		dtype: 'icon-button',
-		cls: 'dino-corner-all dino-border-none',
-		icon: 'led-icon-control-backward'
-	}, {
-		dtype: 'split',
-		width: 2,
-	}, {
-		dtype: 'text',
-		innerText: 'Страница'
-	}, {
-		dtype: 'textfield',
-		width: 30,
-		value: '1'
-	}, {
-		dtype: 'text',
-		innerText: 'из 10'
-	}, {
-		dtype: 'split',
-		width: 2,
-	}, {
-		dtype: 'icon-button',
-		cls: 'dino-corner-all dino-border-none',
-		icon: 'led-icon-control-play'			
-	}, {
-		dtype: 'icon-button',
-		cls: 'dino-corner-all dino-border-none',
-		icon: 'led-icon-control-fastforward'			
-	}, {
-		dtype: 'split',
-		width: 2,
-	}, {
-		dtype: 'icon-button',
-		cls: 'dino-corner-all dino-border-none',
-		icon: 'led-icon-refresh'		
-	}]
+	dtype: 'pager',
+	count: 11,
+	onCurrentChanged: function(e) {
+	}
 });
+
+pager.setCurrentIndex(0);
 
 return pager;
 });		

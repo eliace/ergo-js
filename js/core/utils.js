@@ -95,8 +95,13 @@ Dino.formats = (function(){
 
 
 
-
-Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
+/**
+ * 
+ * @class
+ * @extends Dino.BaseObject
+ * @param {Dino.Widget} owner
+ */
+Dino.WidgetCollectionManager = Dino.declare('Dino.WidgetCollectionManager', 'Dino.BaseObject', /** @lends Dino.WidgetCollectionManager.prototype */{
 	
 	initialize: function(owner) {
 		this.widgets = [];
@@ -130,7 +135,7 @@ Dino.declare('Dino.utils.WidgetCollectionManager', 'Dino.BaseObject', {
 	},
 	
 	remove: function(item) {
-		var i = Dino.indexOf(this.widgets, item);
+		var i = Dino.index_of(this.widgets, item);
 		
 		// если такого элемента среди дочерних нет, то возвращаем false
 		if(i == -1) return false;
@@ -188,13 +193,20 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 			Dino.utils.overrideOpts(o[i], p);
 		}
 		else {
+			//TODO этот участок кода нужно исправить
+			
 			// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
 			if(i in o){
 				// классы сливаются в одну строку, разделенную пробелом
 				if(i == 'cls') p = o[i] + ' ' + p;
 				if( /^on\S/.test(i) ) {
 					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
-					o[i].push(p);
+//					o[i].push(p);
+					p = o[i].concat(p);
+				}
+				if(i == 'state') {
+					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];					
+					p = o[i].concat(p);
 				}
 			}
 			o[i] = p;

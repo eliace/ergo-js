@@ -1,6 +1,10 @@
 
 
-Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.layouts.StatefulLayout', {
+/**
+ * @class
+ * @extends Dino.layouts.StatefulLayout
+ */
+Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.layouts.StatefulLayout', /** @lends Dino.layouts.TreeGridLayout.prototype */{
 	
 //	initialize: function(){
 //		Dino.layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
@@ -105,8 +109,11 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
 
 
 
-
-Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /** @lends Dino.widgets.TreeGrid.prototype */{
 	
 	defaultOptions: {
 		wrapEl: '<div></div>',
@@ -168,8 +175,11 @@ Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', {
 
 
 
-
-Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
+/**
+ * @class
+ * @extends Dino.widgets.Table
+ */
+Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', /** @lends Dino.widgets.TreeTable.prototype */{
 	
 	defaultOptions: {
 		cls: 'dino-tree-table',
@@ -230,8 +240,11 @@ Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', {
 
 
 
-
-Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
+/**
+ * @class
+ * @extends Dino.widgets.TableRow
+ */
+Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', /** @lends Dino.widgets.TreeTableRow.prototype */{
 	
 //	_html: function() { return '<tr></tr>'; },
 	
@@ -336,7 +349,11 @@ Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', {
 
 
 
-Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', {
+/**
+ * @class
+ * @extends Dino.widgets.TableCell
+ */
+Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', /** @lends Dino.widgets.TreeTableCell.prototype */{
 	
 	defaultOptions: {
 		layout: {

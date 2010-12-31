@@ -1,7 +1,11 @@
 
 
-
-Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', {
+/**
+ * @class
+ * @name Dino.layouts.DockLayout
+ * @extends Dino.Layout
+ */
+Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.DockLayout.prototype */{
 	
 	defaultOptions: {
 //		containerCls: 'dino-dock-layout',

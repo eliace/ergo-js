@@ -1,7 +1,10 @@
 
 
-
-Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /** @lends Dino.widgets.MenuItem.prototype */{
 	
 	_html: function() { return '<div></div>'; },
 	
@@ -113,8 +116,11 @@ Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', {
 
 
 
-
-Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
+/**
+ * @class
+ * @extends Dino.widgets.MenuItem
+ */
+Dino.widgets.TextMenuItem = Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', /** @lends Dino.widgets.TextMenuItem.prototype */{
 	
 	defaultOptions: {
 		baseCls: 'dino-menu-item',
@@ -151,7 +157,12 @@ Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 
 
 
-Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', {
+
+/**
+ * @class
+ * @extends Dino.widgets.TextMenuItem
+ */
+Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', /** @lends Dino.widgets.CheckMenuItem.prototype */{
 	
 	defaultOptions: {
 		components: {
@@ -178,8 +189,11 @@ Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', {
 
 
 
-
-Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', {
+/**
+ * @class
+ * @extends Dino.containers.DropDownBox
+ */
+Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
 	
 	defaultOptions: {
 		hideOn: 'hoverOut',

@@ -3,12 +3,10 @@
 /**
  * Изображение.
  * 
- * Параметры:
- *  imageUrl
- * 
- * 
+ * @class
+ * @extends Dino.Widget
  */
-Dino.declare('Dino.widgets.Image', Dino.Widget, {
+Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.Widget, /** @lends Dino.widgets.Image.prototype */{
 	
 	_html: function() { return '<img></img>';},
 	
@@ -30,14 +28,11 @@ Dino.declare('Dino.widgets.Image', Dino.Widget, {
  * Изображение, загружаемое асинхронно.
  * 
  * Как правило используется в тех случаях, огда заранее неизвестны размеры изображения
- * 
- * Параметры:
- * 	
- * События:
- *  onComplete
- * 
+ *
+ * @class
+ * @extends Dino.Widget
  */
-Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
+Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.Widget, /** @lends Dino.utils.AsyncImage.prototype */{
 	
 	_html: function() { return '<div></div>';},
 	
@@ -124,7 +119,11 @@ Dino.declare('Dino.utils.AsyncImage', Dino.Widget, {
 //Dino.constants.ICON_16 = 16;
 
 
-Dino.declare('Dino.widgets.Icon', Dino.Widget, {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', Dino.Widget, /** @lends Dino.widgets.Icon.prototype */{
 	
 	defaultCls: 'dino-icon',
 	

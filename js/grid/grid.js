@@ -2,8 +2,11 @@
 
 
 
-
-Dino.declare('Dino.widgets.Grid', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends Dino.widgets.Grid.prototype */{
 	
 	defaultOptions: {
 		wrapEl: '<div></div>',
@@ -23,12 +26,17 @@ Dino.declare('Dino.widgets.Grid', 'Dino.Widget', {
 				style: {'overflow-y': 'scroll'},
 				content: {
 					dtype: 'table',
-					width: '100%'						
+					width: '100%',
+					tableModel: {
+						row: {
+							cls: 'dino-grid-row'
+						}
+					}
 				}
-			},
-			footer: {
-				dtype: 'control-bar'
 			}
+//			footer: {
+//				dtype: 'control-bar'
+//			}
 		}
 	},
 	

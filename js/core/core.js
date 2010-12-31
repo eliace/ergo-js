@@ -1,15 +1,18 @@
 /**
- * Здесь определяется пространство имен Dino и вспомогательные функции.
- * 
- * 
+ * @namespace
  * 
  */
-
 var Dino = (function(){
-	
+
 	var D = {};
 
-	//Копирование свойств одного объекта в другой (создание примеси)
+
+	/**
+	 * Копирование свойств одного объекта в другой (создание примеси)
+	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
+	 * @name Dino.override
+	 * @function
+	 */
 	D.override = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
@@ -21,7 +24,14 @@ var Dino = (function(){
 	};
 	
 	
-	//Рекурсивное копирование свойств одного объекта в другой (создание примеси)
+	
+	/**
+	 * Рекурсивное копирование свойств одного объекта в другой (создание примеси)
+	 * 
+	 * @name Dino.override_r
+	 * @function
+	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
+	 */
 	D.override_r = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j];
@@ -39,12 +49,28 @@ var Dino = (function(){
 		return obj;
 	};
 	
-	
-	// псевдоним для override
+	/**
+	 * Псевдоним для {@link Dino.override}
+	 * @name Dino.merge
+	 * @function
+	 */
 	D.merge = D.override;
+	/**
+	 * Псевдоним для {@link Dino.override_r}
+	 * @name Dino.merge_r
+	 * @function
+	 */
 	D.merge_r = D.override_r;
 	
-	// создание расширенного класса
+	/**
+	 * Создание расширенного класса
+	 * 
+	 * @name Dino.extend
+	 * @function
+	 * @param {Object} p_ctor
+	 * @param {Object} ctor
+	 * @param {Object} overrides
+	 */
 	D.extend = function(p_ctor, ctor, overrides) {
 		
 		if(typeof ctor == 'object') {
@@ -65,6 +91,14 @@ var Dino = (function(){
 		return ctor;
 	};
 	
+	/**
+	 * Рекурсивный обход всех базовых классов 
+	 * 
+	 * @name Dino.hierarchy
+	 * @function
+	 * @param {Object} ctor класс, для которого нужно выполнить обход
+	 * @param {Function} callback метод, вызывваемый для каждого базового класса
+	 */
 	D.hierarchy = function(ctor, callback) {
 		if(!ctor) return;
 		D.hierarchy(ctor.super_ctor, callback);
@@ -75,12 +109,15 @@ var Dino = (function(){
 	var _dtypes = {};
 	
 	/**
-	 * Объявляем класс
+	 * Объявление класса
 	 * 
-	 * class_name полное имя класса
-	 * base_class имя базового класса
-	 * overrides набор свойст, специфичный для нового класса
-	 * dtype - dino-тип (если не указан, то новый класс не регистрируется)
+	 * @param {String} class_name полное имя класса
+	 * @param {String|Object} base_class базовый класс или имя базового класса
+	 * @param {Object} overrides набор свойств и методов нового класса
+	 * @param {String} [dtype] dino-тип (если не указан, то новый класс не регистрируется)
+	 * 
+	 * @name Dino.declare
+	 * @function
 	 */
 	D.declare = function(class_name, base_class, overrides, dtype) {
 		
@@ -102,11 +139,21 @@ var Dino = (function(){
 			clazz.prototype.dtype = dtype;
 			_dtypes[dtype] = clazz;
 		}
+
+		clazz.prototype.className = class_name;
 		
 		return clazz;
 	};
 	
-	// создание экземпляра объекта (должен присутствовать dtype в options либо defaultType)
+	
+	/**
+	 * Создание экземпляра объекта (должен присутствовать dtype в options либо defaultType)
+	 * 
+	 * @name Dino.object
+	 * @function
+	 * @param {Object} options
+	 * @param {Object} defaultType
+	 */
 	D.object = function(options, defaultType) {
 		
 		if(options instanceof Dino.BaseObject) return options;
@@ -134,25 +181,75 @@ var Dino = (function(){
 	D.isString = function(obj) {return typeof obj == 'string';};
 	D.isObject = function(obj) { return obj.constructor == Object; };
 */
-	
+
+
 	// в версии jquery 1.4 появились методы, которые раньше реализовывались в Dino
-	D.isFunction = $.isFunction;
-	D.isArray = $.isArray;
-	D.isPlainObject = $.isPlainObject;
 	
+	/**
+	 * Является ли объект функцией 
+	 * 
+	 * @name Dino.isFunction
+	 * @function
+	 * @param {Object} obj
+	 */
+	D.isFunction = $.isFunction;
+	/**
+	 * Является ли объект массивом
+	 * 
+	 * @name Dino.isArray
+	 * @function
+	 * @param {Object} obj
+	 */
+	D.isArray = $.isArray;
+	/**
+	 * Является ли объект простым объектом
+	 * 
+	 * @name Dino.isPlainObject
+	 * @function
+	 * @param {Object} obj
+	 */
+	D.isPlainObject = $.isPlainObject;
+	/**
+	 * Является ли объект строкой
+	 * 
+	 * @name Dino.isString
+	 * @function
+	 * @param {Object} obj
+	 */
 	D.isString = function(obj) {
 		return typeof obj == 'string';
 	};
-
+	/**
+	 * Является ли объект логической переменной
+	 * 
+	 * @name Dino.isBoolean
+	 * @function
+	 * @param {Object} obj
+	 */
 	D.isBoolean = function(obj) {
 		return typeof obj == 'boolean';
 	};
-
+	/**
+	 * Является ли объект числом
+	 * 
+	 * @name Dino.isNumber
+	 * @function
+	 * @param {Object} obj
+	 */
 	D.isNumber = function(obj) {
 		return typeof obj == 'number';
 	};	
 	
-	// в jquery есть функция $.each, но меня не устраивает порядок аргументов в замыкании
+	/**
+	 * Последовательный обход каждого элемента массива или хэша
+	 * 
+	 * в jquery есть функция $.each, но меня не устраивает порядок аргументов в замыкании
+	 * 
+	 * @name Dino.each
+	 * @function
+	 * @param {Object|Array} src объект, элементы которого необходимо просмотреть
+	 * @param {Function} callback функция, вызываемая для каждого элемента
+	 */
 	D.each = function(src, callback){
 		if(Dino.isArray(src)){
 			var arr = src;
@@ -169,19 +266,33 @@ var Dino = (function(){
 	}
 	
 	/**
-	 * фильтрация (как правило приводит к уменьшению размерности)
+	 * Фильтрация (как правило приводит к уменьшению размерности)
+	 * 
+	 * Элемент попадает в итоговый объект
+	 * 
+	 * @name Dino.filter
+	 * @function
+	 * @param {Object|Array} src объект, элементы которого необходимо фильтровать
+	 * @param {Function} callback функция, вызываемая для каждого элемента
+	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
 	 */
 	D.filter = function(src, fn){
 		return ( D.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
 	};
 	
+	/**
+	 * @ignore
+	 */
 	var _filter_obj = function(obj, fn) {
 		var result = {};
 		for(var i in obj)
 			if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
 		return a;
 	}
-	
+
+	/**
+	 * @ignore
+	 */	
 	var _filter_arr = function(arr, fn) {
 		var result = [];
 		for(var i = 0; i < arr.length; i++)
@@ -189,10 +300,21 @@ var Dino = (function(){
 		return result;
 	}
 	
+	/**
+	 * Псевдоним для {@link Dino.filter}
+	 * 
+	 * @name Dino.find_all
+	 * @function
+	 */
 	D.find_all = D.filter;
 	
 	/**
-	 * отображение (размерность сохраняется)
+	 * Отображение (размерность сохраняется)
+	 * 
+	 * @name Dino.map
+	 * @function
+	 * @param {Object|Array} src коллекция
+	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
 	D.map = function(obj, fn) {
 		var a = D.isArray(obj) ? [] : {};
@@ -201,20 +323,35 @@ var Dino = (function(){
 	};
 	
 	/**
-	 * поиск первого элемента, удовлетворяющего критерию
+	 * Поиск первого элемента, удовлетворяющего критерию
+	 * 
+	 * @name Dino.find
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {Function|Any} criteria критерий 
 	 */
-	D.find = function(obj, fn) {
-		if(!D.isFunction(fn)){
-			var x = fn;
-			fn = function(it) { return it == x; };
+	D.find = function(obj, criteria) {
+		if(!D.isFunction(criteria)){
+			var x = criteria;
+			criteria = function(it) { return it == x; };
 		}
 		for(var i in obj)
-			if(fn.call(obj, obj[i], i)) return obj[i];
+			if(criteria.call(obj, obj[i], i)) return obj[i];
 		
 		return null;
 	};
 	
-	D.indexOf = function(obj, criteria) {
+	/**
+	 * Получение индекса (или ключа) элемента в коллекции
+	 * 
+	 * Если критерий не является функцией, то используется метод Dino.eq
+	 * 
+	 * @name Dino.index_of
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {Function|Any} criteria критерий 
+	 */
+	D.index_of = function(obj, criteria) {
 		if(!_dino.isFunction(criteria))
 			criteria = D.eq.curry(criteria);
 		for(var i in obj)
@@ -222,12 +359,28 @@ var Dino = (function(){
 		return -1;
 	};
 	
+	/**
+	 * Проверка, содержится ли элемент в массиве
+	 * 
+	 * @name Dino.in_array
+	 * @function
+	 * @param {Array} arr массив
+	 * @param {Any} val значение
+	 */
 	D.in_array = function(arr, val) {
 		for(var i = 0; i < arr.length; i++)
 			if(arr[i] == val) return true;
 		return false;
 	}
 	
+	/**
+	 * Удаление элемента из массива (массив уменьшает размерность)
+	 * 
+	 * @name Dino.remove_from_array
+	 * @function
+	 * @param {Object} arr массив
+	 * @param {Object} val удаляемый элемент
+	 */
 	D.remove_from_array = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
@@ -241,6 +394,15 @@ var Dino = (function(){
 		return (index != -1);
 	};
 	
+	/**
+	 * Полное копирование объекта.
+	 * 
+	 * Копируются вложенные простые объекты и массивы
+	 * 
+	 * @name Dino.deep_copy
+	 * @function
+	 * @param {Any} src копируемый объект
+	 */
 	D.deep_copy = function(src) {
 		var copy = null;
 		
@@ -259,12 +421,32 @@ var Dino = (function(){
 
 	
 	
-	
-	// равенство
+	/**
+	 * Предикативная функция равенства
+	 * 
+	 * Используется оператор =
+	 * 
+	 * @name Dino.eq
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {Object} item элемент коллекции
+	 * @param {Object} i ключ/индекс элемента
+	 */
 	D.eq = function(obj, item, i) {
 		return obj == item;
 	};
-	// неравенство
+	
+	/**
+	 * Предикативная функция неравенства
+	 * 
+	 * Используется оператор !=
+	 * 
+	 * @name Dino.ne
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {Object} item элемент коллекции
+	 * @param {Object} i ключ/индекс элемента
+	 */
 	D.ne = function(obj, item, i) {
 		return obj != item;
 	};
@@ -272,7 +454,14 @@ var Dino = (function(){
 	
 	
 	
-	
+	/**
+	 * @constructor
+	 * @memberOf Dino
+	 * @name ObjectTree
+	 * @param {Object} obj
+	 * @param {Object} factory
+	 * @param {Object} ignore
+	 */
 	// набор методов, позволяющих работать с объектом как с деревом
 	D.ObjectTree = function(obj, factory, ignore) {
 		this.obj = obj;
@@ -280,6 +469,11 @@ var Dino = (function(){
 		this.ignore_list = ignore || [];
 	};
 	
+	/**
+	 * @name Dino.ObjectTree#ensure
+	 * @function
+	 * @param {Object} path
+	 */
 	D.ObjectTree.prototype.ensure = function(path){
 		if(D.isString(path)) path = path.split('.');
 		
@@ -291,7 +485,13 @@ var Dino = (function(){
 		}
 		return obj;
 	}
-	
+
+	/**
+	 * 
+	 * @name Dino.ObjectTree#get
+	 * @function
+	 * @param {Object} path
+	 */	
 	D.ObjectTree.prototype.get = function(path){
 		if(D.isString(path)) path = path.split('.');
 		
@@ -303,6 +503,12 @@ var Dino = (function(){
 		return obj;
 	}
 	
+	/**
+	 * 
+	 * @name Dino.ObjectTree#del
+	 * @function
+	 * @param {Object} path
+	 */
 	D.ObjectTree.prototype.del = function(path) {
 		if(D.isString(path)) path = path.split('.');
 
@@ -318,6 +524,13 @@ var Dino = (function(){
 	},
 	
 	
+	/**
+	 * 
+	 * @name Dino.ObjectTree#traverse
+	 * @function
+	 * @param {Object} callback
+	 * @param {Object} obj
+	 */
 	D.ObjectTree.prototype.traverse = function(callback, obj) {
 		if(arguments.length == 1) obj = this.obj;
 		else{
@@ -338,7 +551,13 @@ var Dino = (function(){
 	
 	
 	/**
-	 * печать объекта в человекочитаемой форме
+	 * Печать объекта в удобочитаемой форме
+	 * 
+	 * @name Dino.pretty_print
+	 * @function
+	 * @param {Any} obj любой объект/примитив
+	 * @param {Integer} indent отступ
+	 * @returns {String}
 	 */
 	D.pretty_print = function(obj, indent) {
 		
@@ -379,12 +598,29 @@ var Dino = (function(){
 	};
 	
 	
-	
+	/**
+	 * Экранирование строки для вывода в html
+	 * 
+	 * @name Dino.escapeHtml
+	 * @function
+	 * @param {String} s строка
+	 * @returns {String} экранированная строка
+	 */
 	D.escapeHtml = function(s) {
 		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	};
 	
-	
+	/**
+	 * Форматированный вывод значений.
+	 * 
+	 * @example
+	 * Dino.format("%s items from %s selected", 1, 10);
+	 * 
+	 * @name Dino.format
+	 * @function
+	 * @param {String} format_str строка форматирования
+	 * @return {String}
+	 */
 	D.format = function(format_str) {
 		var values = [];
 		for(var i = 1; i < arguments.length; i++) values.push(arguments[i]);
@@ -395,6 +631,26 @@ var Dino = (function(){
 		});
 	}
 	
+	/**
+	 * Форматированный вывод объекта
+	 * 
+	 * @example
+	 * 
+	 * var record = {
+	 * 	first_name: 'Alice',
+	 * 	last_name: 'Green',
+	 * 	email_count: 3
+	 * }
+	 * 
+	 * Dino.format_obj("#{first_name} #{last_name} has #{email_count} e-mails", record);
+	 * 
+	 * Output: Alice Green has 3 e-mails
+	 * 
+	 * @name Dino.format_obj
+	 * @function
+	 * @param {Object} format_str строка форматирования
+	 * @param {Object} obj объект
+	 */
 	D.format_obj = function(format_str, obj) {
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
@@ -442,22 +698,11 @@ var Dino = (function(){
 */	
 	
 	
-/*	
-	D.deep_copy = function(src) {
-		if(typeof src == 'string') return src;
-		if(typeof src == 'number') return src;
-		if(D.isPlainObject(src) || D.isArray(src)){
-			var obj = (D.isArray(src))? [] : {};
-			for(var i in src)
-				obj[i] = D.deep_copy(src[i]);
-			return obj;
-		}
-		
-		return src;
-	};
-*/	
 	
-	
+	/**
+	 * @name Dino.timestamp
+	 * @function
+	 */
 	D.timestamp = function() {
 		return new Date().getTime();
 	};
@@ -491,15 +736,32 @@ var Dino = (function(){
 	
 	/**
 	 * Базовый объект
+	 * 
+	 * @constructor
+	 * @memberOf Dino
+	 * @name BaseObject
 	 */
 	D.BaseObject = function() {
 		this.initialize.apply(this, arguments);
 	};
 	
+	/** 
+	 * @function 
+	 * @name Dino.BaseObject#initialize 
+	 */
 	D.BaseObject.prototype.initialize = function() {};
+	/**
+	 * @function
+	 * @name Dino.BaseObject#destroy
+	 */
 	D.BaseObject.prototype.destroy = function() {};
-	
-	
+	/**
+	 * @function
+	 * @name Dino.BaseObject#base
+	 */
+	D.BaseObject.prototype.base = function(method, args) {
+		eval(this.className + '.superclass.'+method+'.apply(this, args)');
+	};
 	
 	D.log = function(msg) {
 		// Если установлен Firebug, то используем его консоль

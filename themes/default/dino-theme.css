@@ -122,6 +122,62 @@
 
 
 
+
+/*
+ * LOADING
+ */
+
+.dino-loading-overlay {
+	background-color: #eee;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+}	
+
+.dino-loading-message {
+  left: 50%;
+  margin-left: -57px;
+  margin-top: -10px;
+  position: absolute;
+	background-color: #fff;
+  top: 50%;
+	border: 2px solid #ccc;
+	padding: 3px 5px;
+}
+
+
+
+/*
+ * PAGER
+ */
+
+.dino-pager {
+	background-color: #eee;
+	padding: 3px;
+	font-size: 10pt;
+}
+
+.dino-pager > button {
+	background-color: #eee;
+	border: 1px solid #eee;
+}
+
+.dino-pager > button:hover {
+	background-color: #ddd;
+	border: 1px solid #ccc;
+}
+
+.dino-pager > span {
+	vertical-align: middle;
+	margin: 0 3px;
+}
+
+
+
+
 /**
  * GROUP BOX
  */
@@ -456,13 +512,8 @@ input.r-icon, span.r-icon {
 	text-align: center;
 }
 
-.dino-grid-row td {
-	border-bottom: 1px solid #cccccc;
-	border-right: 1px solid #cccccc;
-}
-
 .dino-grid-row:hover {
-	background-color: #ffe;
+	background-color: #ffc;
 }
 
 

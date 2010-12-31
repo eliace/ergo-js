@@ -1,6 +1,10 @@
 
 
-Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', {
+/**
+ * @class
+ * @extends Dino.Layout
+ */
+Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', /** @lends Dino.layouts.FormLayout.prototype */{
 	
 	defaultOptions: {
 		name: 'form'
@@ -42,8 +46,11 @@ Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', {
 
 
 
-
-Dino.declare('Dino.layouts.SimpleFormLayout', 'Dino.Layout', {
+/**
+ * @class
+ * @extends Dino.Layout
+ */
+Dino.layouts.SimpleFormLayout = Dino.declare('Dino.layouts.SimpleFormLayout', 'Dino.Layout', /** @lends Dino.layouts.SimpleFormLayout.prototype */{
 	
 	defaultOptions: {
 		name: 'simple-form'

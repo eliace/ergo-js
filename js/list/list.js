@@ -1,7 +1,10 @@
 
 
-
-Dino.declare('Dino.widgets.List', 'Dino.containers.Box', {
+/**
+ * @class
+ * @extends Dino.containers.Box
+ */
+Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /** @lends Dino.widgets.List.prototype */{
 	
 	defaultOptions: {
 //		cls: 'dino-border-all',

@@ -1,23 +1,29 @@
 
+/**
+ * @name Dino.containers
+ * @namespace
+ */
+
 
 /**
- * Базовый класс для контейнеров
+ * Базовый класс для контейнеров.
  * 
- * Параметры:
- * 	itemFactory
- * 	layout
- * 	items
+ * @class
+ * @name Dino.Container
+ * @extends Dino.Widget
+ * @param {Object} o параметры
  * 
  */
-Dino.declare('Dino.Container', Dino.Widget, {
+Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototype */ {
+	
 	
 	defaultOptions: {
 		itemFactory: function(o) {
 			return Dino.widget(o); 
 		}
 	},
-		
-	_init: function() {
+	
+	_init: function(o) {
 		Dino.Container.superclass._init.apply(this);
 		
 		var o = this.options;
@@ -33,6 +39,10 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //			return {'widget': Dino.widget(o)};
 //		};
 		
+		/**
+		 * Элементы
+		 * @type {Array}
+		 */
 		this.items = [];
 		
 //		this.items = new Dino.utils.ContainerItemManager(this, o.itemFactory);
@@ -62,10 +72,24 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		this.children.each(function(item) { item._dataChanged(); });
 //	},
 	
+	
+	/**
+	 * Получить элемент контейнера 
+	 * 
+	 * @param {Object} criteria критерий
+	 * @returns {Dino.Widget} элемент контейнера или undefined
+	 */
 	getItem: function(i){
 		return Dino.find(this.items, Dino.utils.create_widget_filter(i));	
 	},
 	
+	/**
+	 * Добавить элемент контейнера
+	 * 
+	 * @param {Object|Dino.Widget} item виджет или параметры виджета
+	 * @param {Integer} index индекс, с которым будет добавлен новый элемент
+	 * @returns {Dino.Widget} добавленный элемент
+	 */
 	addItem: function(item, index) {
 //		Dino.Container.superclass.addChild.call(this, item);
 		
@@ -121,6 +145,14 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		return item;
 	},
 */	
+
+
+	/**
+	 * Удалить элемент.
+	 * 
+	 * @param {Object} item удаляемый элемент
+	 * @returns {Dino.Widget} удаленный элемент
+	 */
 	removeItem: function(item) {
 		
 		Dino.remove_from_array(this.items, item);
@@ -130,10 +162,20 @@ Dino.declare('Dino.Container', Dino.Widget, {
 		return item;
 	},
 	
+	/**
+	 * Уничтожить элемент.
+	 * 
+	 * После удаления элементы вызывается метод {@link Dino.BaseObject#destroy }
+	 * 
+	 * @param {Object} item
+	 */
 	destroyItem: function(item) {
 		this.removeItem(item).destroy();
 	},
 	
+	/**
+	 * Удаление всех элементов контейнера
+	 */
 	removeAllItems: function() {
 		while(this.items.length > 0)
 			this.removeItem(this.items[0]);
@@ -142,6 +184,9 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		this.layout.clear(); //FIXME эта очистка вызывала ошибки
 	},
 	
+	/**
+	 * Уничтожение всех элементов контейнера
+	 */
 	destroyAllItems: function() {
 //		// очищаем компоновку
 //		this.layout.clear(); //FIXME эта очистка вызывала ошибки
@@ -156,12 +201,23 @@ Dino.declare('Dino.Container', Dino.Widget, {
 //		Dino.each(this.items, function(item){ self.removeItem(item); item.destroy(); });
 	},
 	
+	/**
+	 * Замена элемента
+	 * 
+	 * @param {Any} criteria критерий
+	 * @param {Object|Dino.Widget} newItem 
+	 */
 	replaceItem: function(criteria, newItem) {
 		var item = this.children.get(criteria);
 		if(item != null) this.removeItem(item);
 		this.addItem(newItem);
 	},
 	
+	/**
+	 * Последовательный обход всех элементов.
+	 * 
+	 * @param {Function} callback 
+	 */
 	eachItem: function(callback) {
 		for(var i = 0; i < this.items.length; i++)
 			if( callback.call(this, this.items[i], i) === false ) return false;
@@ -176,13 +232,8 @@ Dino.declare('Dino.Container', Dino.Widget, {
 	getSelectedItem: function() {
 		return this._selected_item;
 	},
-*/	
-	/**
-	 * Подключаем данные.
-	 * 
-	 * data массив или ArrayDataSource
-	 * 
-	 */
+*/
+	
 	setData: function(data, phase) {
 		
 		if(!this.options.dynamic) {
@@ -291,5 +342,7 @@ Dino.declare('Dino.Container', Dino.Widget, {
 */	
 	
 }, 'container');
+
+
 
 

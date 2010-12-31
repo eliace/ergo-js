@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
+/**
+ * @class
+ * @extends Dino.layouts.PlainLayout
+ */
+Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.WindowLayout.prototype */{
 	
 	defaultOptions: {
 		name: 'window',

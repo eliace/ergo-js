@@ -1,6 +1,10 @@
 
 
-Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', {
+/**
+ * @class
+ * @extends Dino.containers.Box
+ */
+Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', /** @lends Dino.widgets.Dialog.prototype */{
 	
 	defaultOptions: {
 		cls: 'dino-dialog',

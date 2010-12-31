@@ -4,6 +4,7 @@ require 'pathname'
 require 'fileutils'
 
   Dir.mkdir('build') if not File.exist?('build') 
+  Dir.mkdir('docs') if not File.exist?('docs') 
   
   
 
@@ -40,9 +41,10 @@ require 'fileutils'
     'js/widgets/table.js',
     'js/widgets/controls.js',
     'js/widgets/pager.js',
+    'js/widgets/loading.js',
     'js/panels/panel.js',
     'js/panels/tab-panel.js',
-    'js/form/form.js',
+    'js/form/native.js',
     'js/form/advanced-form.js',
     'js/form/x-form.js',
     'js/grid/grid.js',
@@ -88,14 +90,26 @@ def merge_files(target, file_list)
 #    FileUtils.cp_r 'lib/misc', 'build'
     
 end
+
+
+
+
+def generate_doc(source)
+	js_file = Dir.pwd + '/' + source
+	doc_dir = Dir.pwd + '/docs'
+	Dir.chdir 'tools/jsdoc-toolkit'
+	puts %x[java -jar jsrun.jar app/run.js -t=templates/codeview_1.2 -d=#{doc_dir} -p #{js_file}]
+end
+
     
     
 task :compose do
  
     Kernel.system s
     
-    merge_files('build/dino-js.js', files);
-    merge_files('build/dino-js.css', files_css);
+    merge_files('build/dino-js.js', files)
+    merge_files('build/dino-js.css', files_css)
+#    generate_doc('build/dino-js.js')
 
 end
 

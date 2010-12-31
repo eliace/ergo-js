@@ -27,7 +27,7 @@ Dino.declare('Samples.widgets.ExpandablePanel', 'Dino.Widget', {
 						state: 'hidden'
 					}
 				},
-				clickable: true,
+				state: 'clickable',
 				onClick: function() {
 					var is_active = this.states.toggle('active');
 					this.leftIcon.states.toggle('active', is_active);
@@ -84,6 +84,16 @@ Samples.generate_plain_list = function(n) {
 
 
 
+Samples.generate_grid_page = function(i0, i1) {
+	var list = [];
+	for(var i = i0; i < i1; i++) {
+		list.push({name: 'Item ' + (i+1)});
+	}
+	return list;
+}
+
+
+
 
 /**
  *
@@ -98,7 +108,7 @@ function samplePage(samples) {
 	init_default_growl();	 //<-- инициализируем growl
 	
 	$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
-		message.err(xhr.responseText);
+		growl.err(xhr.responseText);
 	});
 	
 	

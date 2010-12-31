@@ -16,17 +16,20 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 
 
 
-
-
-
-Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
-	
+/**
+ * @class
+ */
+Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @lends Dino.StateManager.prototype */ {
 	
 	initialize: function(widget) {
 		this.widget = widget;
 		this.current_states = {};
 	},
 	
+	/**
+	 * Активация состояния
+	 * @param {String} name имя состояния
+	 */
 	set: function(name) {
 		
 		// получаем состояние, определенное для виджета
@@ -42,23 +45,31 @@ Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
 		}
 		
 		if( Dino.isString(state) ) {
-			this.widget.el.addClass(state);			
+			this.widget.el.addClass(state);
 //			this.widget.el.removeClass(state_off);
 		}
 		else if(Dino.isFunction(state)) {
-			state.call(this.widget);			
+			state.call(this.widget, true);			
 		}
 		
 		this.current_states[name] = true;
 		
-		this.widget.events.fire('onStateChange', {'state': name});
+		this.widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
 	},
 	
+	/**
+	 * Активация указанного состояния и отключение всех остальных состояний
+	 * @param {String} name
+	 */
 	setOnly: function(name) {
 		for(var i in this.current_states) this.clear(i);
 		this.set(name);		
 	},
 	
+	/**
+	 * Дезактивация состояния
+	 * @param {String} name имя состояния
+	 */
 	clear: function(name) {
 		
 		// получаем состояние, определенное для виджета
@@ -74,17 +85,22 @@ Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
 		}
 		
 		if( Dino.isString(state) ) {
-			this.widget.el.removeClass(state);	
+			this.widget.el.removeClass(state);
 //			this.widget.el.addClass(state_off);
 		}
 		else if(Dino.isFunction(state))
-			state.call(this.widget);
+			state.call(this.widget, false);
 		
 		delete this.current_states[name];
 		
-		this.widget.events.fire('onStateChange', {'state': name});		
+		this.widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
 	},
 	
+	/**
+	 * Переключение состояния
+	 * @param {String} name имя состояния
+	 * @param {Boolean} sw опциональный флаг, явно указывающий на итоговое состояние (true - включить, false - выключить)
+	 */
 	toggle: function(name, sw) {
 		
 		if(sw == null) sw = !this.is(name);
@@ -94,6 +110,12 @@ Dino.declare('Dino.core.StateManager', 'Dino.BaseObject', {
 		return sw;
 	},
 	
+	
+	/**
+	 * Проверка состояния
+	 * @param {String} name имя состояния
+	 * @returns {Boolean} активно ли состояние
+	 */
 	is: function(name) {
 		return (name in this.current_states);
 	}

@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.layouts.InheritedLayout', 'Dino.layouts.PlainLayout', {
+/**
+ * @class
+ * @extends Dino.layouts.PlainLayout
+ */
+Dino.layouts.InheritedLayout = Dino.declare('Dino.layouts.InheritedLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.InheritedLayout.prototype */{
 	
 //	initialize: function(){
 //		Dino.layouts.InheritedLayout.superclass.initialize.apply(this, arguments);

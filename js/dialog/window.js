@@ -16,7 +16,7 @@ Dino.windowPool = {
 	},
 	
 	remove: function(window) {
-		var i = Dino.indexOf(window);
+		var i = Dino.index_of(window);
 		if(i != -1) this.opened.splice(i, 1);
 	}
 	

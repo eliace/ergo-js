@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /** @lends Dino.widgets.TreeNode.prototype */{
 
 	defaultOptions: {
 		cls: 'dino-tree-node',
@@ -74,7 +77,11 @@ Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', {
 
 
 
-Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
+/**
+ * @class
+ * @extends Dino.widgets.TreeNode
+ */
+Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', /** @lends Dino.widgets.BasicTreeNode.prototype */{
 	
 	
 	defaultOptions: {
@@ -87,7 +94,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 				states: {
 					'leaf': 'dino-hidden'
 				},
-				clickable: true,
+				state: 'clickable',
 				onClick: function() {
 					this.parent.states.toggle('expand_collapse');
 				}
@@ -95,7 +102,7 @@ Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', {
 			content: {
 				dtype: 'text-item',
 				cls: 'dino-tree-node-content',
-				selectable: false,
+				state: 'nonselectable',
 				weight: 2
 			},
 			subtree: {
@@ -280,9 +287,11 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 
 /**
  * Простое дерево с отступами.
- *
+ * 
+ * @class
+ * @extends Dino.containers.Box
  */
-Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', {
+Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /** @lends Dino.widgets.Tree.prototype */{
 	
 	defaultOptions: {
 		cls: 'dino-tree',

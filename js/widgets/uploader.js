@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.widgets.Uploader', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.Uploader = Dino.declare('Dino.widgets.Uploader', 'Dino.Widget', /** @lends Dino.widgets.Uploader.prototype */{
 	
 	defaultOpions: {
 		components: {

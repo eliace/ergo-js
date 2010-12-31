@@ -1,6 +1,10 @@
 
-
-Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', {
+/**
+ * @class
+ * @name Dino.panels.TabPanel
+ * @extends Dino.Widget
+ */
+Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPanel.prototype */{
 	
 	_html: function() { return '<div></div>'; },	
 	

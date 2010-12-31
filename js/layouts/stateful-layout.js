@@ -1,6 +1,10 @@
 
-
-Dino.declare('Dino.layouts.StatefulLayout', 'Dino.Layout', {
+/**
+ * @class
+ * @name Dino.layouts.StatefulLayout
+ * @extends Dino.Layout
+ */
+Dino.declare('Dino.layouts.StatefulLayout', 'Dino.Layout', /** @lends Dino.layouts.StatefulLayout.prototype */{
 	
 	initialize: function(o){
 		Dino.layouts.StatefulLayout.superclass.initialize.call(this, o);

@@ -296,26 +296,11 @@ return new Dino.containers.Box({
 	
 <style>
 	
-.loading-overlay {
-	background-color: #eee;
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 100;
-}	
-
-.loading-message {
-  left: 50%;
-  margin-left: -57px;
-  margin-top: -10px;
-  position: absolute;
-	background-color: #fff;
-  top: 50%;
-	border: 2px solid #ccc;
-	padding: 0 5px;
+/*
+.dino-loading-message > .dino-icon {
+	display: inline;
 }
+*/
 	
 </style>
 
@@ -323,16 +308,7 @@ return new Dino.containers.Box({
 sample('sample-loading', function(){
 	
 var loadingOverlay = $.dino({
-	dtype: 'box',
-	cls: 'loading-overlay dino-border-all',
-	opacity: .7,
-	content: {
-		dtype: 'text-item',
-		cls: 'loading-message',
-		text: 'Загрузка...',
-		showLeftIcon: true,
-		leftIconCls: 'dino-icon-spinner'			
-	}
+	dtype: 'loading-overlay'
 });
 	
 	
@@ -356,13 +332,58 @@ return $.dino({
 	
 	
 </div>
-
-
-
-
 	
+
+
+
+
+
+<div id="sample-ability">
+	
+<style>
+	
+</style>
+
+<script>
+sample('sample-ability', function(){
+	
+return $.dino({
+	dtype: 'box',
+	layout: 'float-layout',
+	defaultItem: {
+		dtype: 'box',
+		width: 40,
+		height: 40,
+		cls: 'dino-border-all'
+	},
+	items: [{
+		state: 'clickable',
+		onClick: function() {
+			growl.info('click');
+		}
+	}, {
+		
+	}]
+});
+	
+});	
 	
 </script>
+<div class="desc">
+</div>	
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

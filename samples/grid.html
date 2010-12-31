@@ -65,14 +65,21 @@
 	
 sample('sample-grid', function(){
 
+
+/*
 var gridData = [
   {id: '1', name: 'Alice', value: '123', cb: false},
   {id: '2', name: 'Bob', value: '456', cb: true},
   {id: '3', name: 'Charlie', value: '789', cb: false},
 ];
+*/
+
+gridData = new Dino.data.ArrayDataSource();
+
+
 		
 		
-return $.dino({
+var grid = $.dino({
   id: 'table-1',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
@@ -125,9 +132,32 @@ return $.dino({
 			binding: 'skip'
     }]
   },
-  data: gridData
+  data: gridData,
+	components: {
+		pager: {
+			dtype: 'pager',
+			count: 100,
+			pageSize: 10,
+			cls: 'dino-border-top',
+			onCurrentChanged: function(e) {
+//				var i = this.currentPage;
+//				var i0 = i*10;
+//				var i1 = (i+1)*10;
+				var data_page = Samples.generate_grid_page(e.from, e.to);
+				var j = 0;
+				for(var i = e.from; i < e.to; i++) {
+					gridData.source[i] = data_page[j++];
+				}
+				gridData.range = [e.from, e.to];
+				gridData.events.fire('onValueChanged');
+			}
+		}
+	}
 });
 		
+grid.pager.setCurrentIndex(0);
+		
+return grid;		
 });	
 	
 	

@@ -1,7 +1,10 @@
 
 
-
-Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lends Dino.widgets.Table.prototype */{
 	
 	defaultOptions: {
 		components: {
@@ -126,8 +129,11 @@ Dino.declare('Dino.widgets.Table', 'Dino.Widget', {
 
 
 
-
-Dino.declare('Dino.widgets.TableRow', 'Dino.Container', {
+/**
+ * @class
+ * @extends Dino.Container
+ */
+Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', /** @lends Dino.widgets.TableRow.prototype */{
 	
 	_html: function() { return '<tr></tr>'; },
 	
@@ -152,8 +158,11 @@ Dino.declare('Dino.widgets.TableRow', 'Dino.Container', {
 
 
 
-
-Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /** @lends Dino.widgets.TableCell.prototype */{
 	
 	_html: function() { return '<td></td>'; },
 	

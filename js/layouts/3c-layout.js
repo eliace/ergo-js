@@ -1,6 +1,9 @@
 
-
-Dino.declare('Dino.layouts.ThreeColumnLayout', Dino.Layout, {
+/**
+ * @class
+ * @extends Dino.Layout
+ */
+Dino.layouts.ThreeColumnLayout = Dino.declare('Dino.layouts.ThreeColumnLayout', Dino.Layout, /** @lends Dino.layouts.ThreeColumnLayout.prototype */{
 	
 	defaultOptions: {
 //		containerCls: 'dino-3c-layout',

@@ -1,8 +1,22 @@
 
 
+/**
+ * @name Dino.events
+ * @namespace
+ */
 
-Dino.declare('Dino.events.Event', Dino.BaseObject, {
+
+/**
+ * @class
+ * @name Dino.events.Event
+ * @extends Dino.BaseObject
+ */
+Dino.declare('Dino.events.Event', Dino.BaseObject, /** @lends Dino.events.Event.prototype */{
 	
+	/**
+	 * @param {Object} overrides
+	 * @param {Object} baseEvent
+	 */
 	initialize: function(overrides, baseEvent) {
 		Dino.events.Event.superclass.initialize.call(this);
 		
@@ -21,8 +35,14 @@ Dino.declare('Dino.events.Event', Dino.BaseObject, {
 });
 
 
-Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', {
+Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', /** @lends Dino.events.CancelEvent.prototype */{
 
+	/**
+	 * @constructs
+ 	 * @extends Dino.events.Event
+	 * @param {Object} overrides
+	 * @param {Object} baseEvent
+	 */
 	initialize: function(overrides, baseEvent) {
 		Dino.events.CancelEvent.superclass.initialize.apply(this, arguments);
 		this.isCanceled = false;
@@ -35,62 +55,17 @@ Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', {
 });
 
 
-/*
-Dino.declare('Dino.events.HandlersTree', 'Dino.BaseObject', {
-	
-	initialize: function() {
-		Dino.events.HandlersTree.superclass.initialize.call(this);
-		this.root = {children: {}, handlers: []};
-	},
-	
-	ensure: function(path){
-		var node = this.root;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			if(!(key in node.children)) node.children[key] = {children:{}, handlers: []};
-			node = node.children[key];
-		}
-		return node;
-	},
-	
-	remove: function(path) {
-		var node = this.root;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			if(i == path.length-1) 
-				delete node.children[key];
-			else
-				node = node.children[key];
-		}
-	},
-	
-	get: function(path) {
-		var node = this.root;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			node = node.children[key];
-		}
-		return node;
-	},
-	
-	traverse: function(callback, node) {
-		if(arguments.length == 1) node = this.root;
-		
-		callback.call(this, node);
-		
-		for(var i in node.children)
-			traverse(callback, node.children[i]);
-	}
-	
-	
-});
-*/
 
 
 
-
-Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', {
+Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events.Dispatcher.prototype */{
 	
+	
+	/**
+	 * @constructs
+	 * @extends Dino.BaseObject
+	 * @param {Object} target
+	 */
 	initialize: function(target) {
 		Dino.events.Dispatcher.superclass.initialize.apply(this, arguments);
 		this.tree = new Dino.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
@@ -171,12 +146,16 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', {
 });
 
 
-
-
-Dino.declare('Dino.events.Observer', 'Dino.BaseObject', {
+/**
+ * @class
+ * @name Dino.events.Observer
+ */
+Dino.declare('Dino.events.Observer', 'Dino.BaseObject', /** @lends Dino.events.Observer.prototype */{
 	
 	initialize: function() {
 		Dino.events.Observer.superclass.initialize.apply(this, arguments);
+		
+		/** @type Dino.events.Dispatcher */
 		this.events = new Dino.events.Dispatcher(this);
 	}
 	

@@ -3,16 +3,10 @@
 /**
  * Кнопка, управляемая через CSS.
  * 
- * Опции:
- * 	toggleCls
- * 
- * HTML:
- * 
- * События:
- * 	onToggle
- * 
+ * @class
+ * @extends Dino.Widget
  */
-Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
+Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, /** @lends Dino.widgets.ToggleButton.prototype */{
 	
 	defaultCls: 'dino-toggle-button',
 	
@@ -67,12 +61,10 @@ Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 
 /**
  * 
- * 
- * HTML:
- * 
- * 
+ * @class
+ * @extends Dino.Widget
  */
-Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
+Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @lends Dino.widgets.Button.prototype */{
 	
 	defaultOptions: {
 //		components: {
@@ -144,12 +136,10 @@ Dino.declare('Dino.widgets.Button', 'Dino.Widget', {
 
 
 /**
- * 
- * 
- * HTML:
- * 
+ * @class
+ * @extends Dino.containers.Box
  */
-Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', {
+Dino.widgets.PulseButton = Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', /** @lends Dino.widgets.PulseButton.prototype */{
 	
 	defaultCls: 'dino-pulse-button',
 	
@@ -242,8 +232,11 @@ Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 */
 
 
-
-Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', /** @lends Dino.widgets.SplitButton.prototype */{
 	
 	_html: function() { return '<span></span>'; },
 	
@@ -334,8 +327,11 @@ Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', {
 
 
 
-
-Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
+/**
+ * @class
+ * @extends Dino.widgets.Button
+ */
+Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', /** @lends Dino.widgets.TextButton.prototype */{
 	
 	defaultOptions: {
 		cls: 'dino-text-button',
@@ -363,8 +359,11 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 
 
 
-
-Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
+/**
+ * @class
+ * @extends Dino.widgets.Button
+ */
+Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', /** @lends Dino.widgets.IconButton.prototype */{
 	
 	defaultOptions: {
 		content: {

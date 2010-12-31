@@ -1,7 +1,10 @@
 
 
-
-Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', {
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /** @lends Dino.widgets.TextItem.prototype */{
 	
 	_html: function() { return '<span></span>'; },	
 	

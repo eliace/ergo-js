@@ -1,8 +1,11 @@
 
 
 
-
-Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', {
+/**
+ * @class
+ * @extends Dino.containers.Box
+ */
+Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', /** @lends Dino.containers.Tabs.prototype */{
 	
 	
 	defaultOptions: {

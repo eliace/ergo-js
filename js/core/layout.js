@@ -1,7 +1,16 @@
 
+/**
+ * @name Dino.layouts
+ * @namespace
+ */
 
 
-Dino.declare('Dino.Layout', Dino.BaseObject, {
+/**
+ * @class
+ * @name Dino.Layout
+ * @param {Object} opts
+ */
+Dino.declare('Dino.Layout', Dino.BaseObject, /** @lends Dino.Layout.prototype */ {
 	
 	defaultOptions: {
 		updateMode: 'auto'	
@@ -21,7 +30,10 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		
 	},
 	
-	// ассоциация компоновки с контейнером
+	/**
+	 * ассоциация компоновки с виджетом
+	 * @param {Object} c виджет
+	 */
 	attach: function(c) { 
 		
 		var o = this.options;
@@ -39,7 +51,10 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 		}
 		
 	},
-	// удаление ассоциации компоновки с контейнером
+	
+	/**
+	 * удаление ассоциации компоновки с виджетом
+	 */
 	detach: function() { 
 //		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
 		if('name' in this.options) this.container.el.attr('layout', undefined);
@@ -52,17 +67,34 @@ Dino.declare('Dino.Layout', Dino.BaseObject, {
 //	},
 	
 //	add: function(item) {},
-	// добавление нового элемента-виджета в компоновку
+	/**
+	 * добавление нового элемента-виджета в компоновку
+	 * 
+	 * @param {Object} item виджет
+	 * @param {Object} i (Optional) ключ
+	 */
 	insert: function(item, i) {},
-	// удаление элемента-виджета из компоновки
+	
+	/**
+	 * удаление элемента-виджета из компоновки
+	 * @param {Object} item
+	 */
 	remove: function(item) {},
-	// обновление компоновки (позиции, размеров элементов)
+	
+	/**
+	 * обновление компоновки (позиции, размеров элементов)
+	 */
 	update: function() {},
-	// обновление компоновки (порядка, количества элементов)
+	
+	/**
+	 * обновление компоновки (порядка, количества элементов)
+	 */
 	rebuild: function() {},
-	// очистка компоновки от всех элементов (уничтожения дочерних элементов не происходит)
+	
+	/**
+	 * очистка компоновки от всех элементов (уничтожения дочерних элементов не происходит)
+	 */
 	clear: function() {}
-//	batch: function(callback) {}
 });
 
 
