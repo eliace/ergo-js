@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+		<script type="text/javascript" src="../js/commons.js"></script>
+	
+</head>
+<body>
+	
+	
+<style>
+	
+					
+</style>
+	
+<script>
+
+var treeData = new Dino.data.ArrayDataSource();	
+
+$.getJSON('../ajax/tree_node.json', {}, function(data){
+	treeData.source[0] = data;
+	treeData.events.fire('onValueChanged');
+});
+
+
+	
+$.dino({
+  dtype: 'tree',
+	renderTo: 'body',
+	cls: 'dynamic-tree',
+	
+  data: treeData,
+	
+  isDynamic: true,
+	
+	treeModel: {
+		node: {
+			cls: 'dynamic-tree-node',
+			components: {
+		    content: {
+		      components: {
+		        leftIcon: {
+							cls: 'led-icon-folder'
+//		          states: {
+//		            'computer': 'led-icon-computer',
+//		            'drive': 'led-icon-drive',
+//		            'folder': 'led-icon-folder',
+//		            'file': 'led-icon-page',
+//		          }
+		        },
+		      },
+					showLeftIcon: true,
+					rightIconCls: 'dino-icon-spinner',
+		      dataId: 'name'
+		    }				
+			},
+			binding: function(val) {
+				this.opt('icon', val.type);
+				if(val.type == 'file') this.opt('isLeaf', true);				
+			},
+			onStateChange: function(e) {
+				if(e.state == 'expanded' && e.op == 'set') {
+					var val = this.data.val();
+					var self = this;
+					if(val.is_ref) {
+						this.content.opt('showRightIcon', true);
+						setTimeout(function(){
+							$.getJSON('../ajax/tree_node.json', {}, function(data){
+								self.data.set('children', [data]);
+								val.is_ref = false;
+								self.content.opt('showRightIcon', false);
+							});							
+						}, 400);
+					}
+				}
+			}
+		}
+	}
+	
+});
+		
+		
+</script>
+	
+	
+	
+</body>
+</html>

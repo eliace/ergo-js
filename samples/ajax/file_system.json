@@ -20,6 +20,24 @@
 			"type": "folder",
       "value": 0,
 			"children": []
+    }, {
+      "id": 5,
+      "name": "Chrome",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }, {
+      "id": 5,
+      "name": "Firefox",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }, {
+      "id": 5,
+      "name": "Opera",
+			"type": "folder",
+      "value": 0,
+			"children": []
     }]
   }]
 }, {

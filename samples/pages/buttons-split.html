@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+	
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+	
+</head>
+<body>
+	
+	
+	
+<style>
+	
+.button-container {
+	left: 20px;
+	top: 20px;				
+}
+
+.button-container > * {
+	display: block;
+}
+
+</style>
+	
+	
+	
+<script>
+		
+$.dino({
+	dtype: 'box',
+	renderTo: 'body',
+	cls: 'button-container',
+	items: [{
+		dtype: 'split-button',
+		components: {
+			actionButton: {
+				innerText: 'Africa',
+				width: 80
+			},
+			listButton: {
+				width: 24
+			}
+		},
+		onAction: function(e) {
+			growl.info('Clicked ' + this.selectedItem.tag);
+		},
+		list: [{
+			text: 'Африка',
+			tag: 'africa'
+		}, {
+			text: 'Азия',
+			tag: 'asia'
+		}, {
+			text: 'Европа',
+			tag: 'europe'
+		}, {
+			text: 'Америка',
+			tag: 'america'
+		}]
+		
+	}, {
+		dtype: 'button',
+		style: {'padding-right': 2},
+		content: {
+			dtype: 'box',
+			layout: 'float-layout',
+			items: [{
+				dtype: 'icon',
+				cls: 'led-icon-user'
+			}, {
+				dtype: 'box',
+				innerText: 'Press me',
+				style: {'margin': '0 3px'}
+			}, {
+				dtype: 'box',
+				cls: 'dino-split',
+				style: {'margin-left': '3px'},
+				width: 2,
+				height: 16
+			}, {
+				dtype: 'icon',
+				cls: 'ui-icon ui-icon-triangle-1-s'				
+			}]
+		}
+	}, {
+		dtype: 'text-button',
+		style: {'padding': '3px'},
+		content: {
+			showRightIcon: true,
+			rightIconCls: 'ui-icon ui-icon-triangle-1-s',
+			showLeftIcon: true,
+			leftIconCls: 'led-icon-cog',
+			components: {
+				content: {
+					innerHtml: '&nbsp;',
+					style: {'margin': '0 14px'}
+				}
+			}
+		}
+	}]						
+});
+		
+</script>
+	
+	
+	
+</body>
+</html>

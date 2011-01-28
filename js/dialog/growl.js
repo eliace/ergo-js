@@ -32,7 +32,7 @@ Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.B
 				}
 			}
 		},
-		state: ['clickable'],
+		state: 'clickable',
 		onClick: function() {
 			if(this.options.hideOnClick) this.hide();
 		},

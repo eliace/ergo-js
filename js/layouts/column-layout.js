@@ -46,7 +46,15 @@ Dino.layouts.ColumnLayout = Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layo
 	
 	clear: function() {
 		this.row_el.empty(); //FIXME
-	}	
+	},
+	
+	update: function() {
+		var self = this;
+		this.container.children.each(function(child, i) {
+				var col_el = $('td', self.row_el).eq(i);
+				col_el.width(child.options.width);
+		});
+	}
 	
 }, 'column-layout');
 

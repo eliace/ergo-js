@@ -77,7 +77,7 @@ Dino.bindings = (function(){
 })();
 
 
-
+/*
 Dino.formats = (function(){
 	
 	var F = {};
@@ -89,7 +89,7 @@ Dino.formats = (function(){
 	
 	return F;
 })();
-
+*/
 
 
 
@@ -205,8 +205,9 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 					p = o[i].concat(p);
 				}
 				if(i == 'state') {
-					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];					
-					p = o[i].concat(p);
+					p = o[i] + ' ' + p;
+//					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];					
+//					p = o[i].concat(p);
 				}
 			}
 			o[i] = p;

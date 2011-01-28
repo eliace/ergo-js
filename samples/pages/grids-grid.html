@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+		<script type="text/javascript" src="../js/commons.js"></script>
+	
+</head>
+<body>
+	
+	
+<style>
+
+.grid-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+}
+	
+.grid-header-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #444;
+}
+					
+</style>
+	
+<script>
+		
+
+gridData = new Dino.data.ArrayDataSource();
+
+
+		
+		
+var grid = $.dino({
+//  id: 'table-1',
+	renderTo: 'body',
+  dtype: 'grid',
+  cls: 'dino-border-all dino-corner-all',
+	content: {
+//		autoHeight: true,
+		height: 300,//'auto',
+		style: {'padding-right': '3px'}
+	},
+	headerCls: 'dino-bg-highlight',
+	headerModel: {
+		cell: {
+			cls: 'grid-header-cell',
+		},
+		columns: [{
+			innerText: '№'
+//      width: 50
+		}, {
+			innerText: 'Имя'
+		}, {
+			innerText: 'Значение'
+//      width: 100
+		}, {
+//			text: 'Выбран',
+			content: {
+      	dtype: 'checkbox',
+				checked: false				
+			}
+//      width: 50
+		}]
+	},
+  tableModel: {
+		cell: {
+			cls: 'grid-cell',
+			binding: 'auto'
+		},
+    columns: [{
+      dataId: 'id',
+      width: 50
+    }, {
+      dataId: 'name'
+    }, {
+      dataId: 'value',
+      width: 100
+    }, {
+      dataId: 'cb',
+      width: 50,
+			content: {
+      	dtype: 'checkbox'				
+			},
+			binding: 'skip'
+    }]
+  },
+  data: gridData,
+	components: {
+		pager: {
+			dtype: 'pager',
+			count: 100,
+			pageSize: 10,
+			cls: 'dino-border-top',
+			onCurrentChanged: function(e) {
+//				var i = this.currentPage;
+//				var i0 = i*10;
+//				var i1 = (i+1)*10;
+				var data_page = Samples.generate_grid_page(e.from, e.to);
+				var j = 0;
+				for(var i = e.from; i < e.to; i++) {
+					gridData.source[i] = data_page[j++];
+				}
+				gridData.range = [e.from, e.to];
+				gridData.events.fire('onValueChanged');
+			}
+		}
+	}
+});
+		
+grid.pager.setCurrentIndex(0);
+
+		
+</script>
+	
+	
+	
+</body>
+</html>

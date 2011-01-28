@@ -28,6 +28,7 @@ require 'fileutils'
     'js/layouts/float-layout.js',
     'js/layouts/window-layout.js',
     'js/layouts/inherited-layout.js',
+    'js/layouts/border-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',

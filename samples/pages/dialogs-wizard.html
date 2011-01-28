@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+	
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+	
+</head>
+<body>
+	
+	
+	
+<style>
+
+.dino-overlay {
+	opacity: 0.4;
+	background-color: black;
+}	
+
+.dino-dialog-content {
+	width: 400px;
+}
+	
+.widget-content {
+	padding: 5px;
+}	
+
+.dialog-header {
+	font-size: 15pt;
+/*	border-bottom: 1px solid #ccc;*/
+}
+	
+</style>
+	
+	
+	
+<script>
+
+var dlg = $.dino({
+	dtype: 'dialog',
+	renderTo: 'body',
+	content: {
+		dtype: 'box',
+		layout: 'stack-layout',
+		items: [{
+			width: 100,
+			innerText: 'Нажмите кнопку "Далее"'
+		}, {
+			width: 400,
+			innerText: Samples.loremipsum
+		}]
+	},
+	buttonSet: {
+		'next': {text: 'Далее >>', tag: 'next'},
+		'prev': {text: '<< Назад', tag: 'prev'},
+	},
+	onClose: function(e) {
+		if(this.dialogButton == 'next'){
+			dlg.opt({
+				title: 'Шаг 2',
+				buttons: ['prev', 'ok', 'cancel']
+			});
+			dlg.content.layout.activate(1);
+			dlg.layout.update();
+			e.cancel();
+		}
+		else if(this.dialogButton == 'prev') {
+			dlg.opt({
+				title: 'Шаг 1',
+				buttons: ['next', 'cancel']
+			});
+			dlg.content.layout.activate(0);
+			dlg.layout.update();
+			e.cancel();			
+		}
+	}
+	
+});	
+
+$.dino({
+	dtype: 'text-button',
+	renderTo: 'body',
+	text: 'Открыть диалог',
+	onAction: function() {
+		dlg.opt({
+			title: 'Шаг 1',
+			buttons: ['next', 'cancel']
+		});
+		dlg.content.layout.activate(0);
+		dlg.open();
+	}
+});
+		
+		
+</script>
+	
+	
+	
+</body>
+</html>

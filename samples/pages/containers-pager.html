@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+
+
+</head>
+<body>
+	
+	
+<style>
+	
+					
+</style>
+	
+<script>
+		
+
+	var bindingData = new Dino.data.ArrayDataSource( Samples.generate_plain_list(30) );
+	bindingData.range = [0, 4];
+	
+	var offset = 0;
+	
+	var box = $.dino({
+		dtype: 'box',
+		renderTo: 'body',
+		components: {
+			controls: {
+				dtype: 'control-bar',
+				items: [{
+					dtype: 'text-button',
+					text: '<< Предыдущие 5',
+					onAction: function() {
+						if(offset > 0) {
+							offset -= 5;
+							bindingData.range = [offset, offset+4];
+							bindingData.events.fire('onValueChanged');							
+						}
+					}
+					
+				}, {
+					dtype: 'text-button',
+					text: 'Следующие 5 >>',
+					onAction: function() {
+						if(offset < 25) {
+							offset += 5;
+							bindingData.range = [offset, offset+5];
+							bindingData.events.fire('onValueChanged');							
+						}
+					}
+				}]
+			},
+			content: {
+				dtype: 'box',
+				layout: 'float-layout',
+				dynamic: true,
+				data: bindingData,
+				defaultItem: {
+					dtype: 'box',
+					cls: 'dino-border-all dino-corner-all',
+					style: {'margin': '3px', 'padding': '3px'},
+					binding: function(val, o) { o.innerText = val; }
+				}
+			}
+		}
+	});
+
+		
+</script>
+	
+	
+	
+</body>
+</html>

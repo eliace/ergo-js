@@ -1,0 +1,44 @@
+
+body {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+	margin: 0;
+	padding: 3px;
+}
+
+body input {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+}
+
+
+#logo {
+	height: 50px;
+	font-size: 2em;
+}
+
+
+#main-toolbar {
+	height: 24px;
+	margin-bottom: 5px;
+}
+
+
+
+
+
+.dino-split-bar {
+	cursor: col-resize;
+}
+
+.dino-split-bar:hover {
+	background-color: #eee;
+}
+
+
+.event-pane {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10000;
+}

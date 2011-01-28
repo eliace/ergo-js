@@ -143,3 +143,66 @@
 }
  
  
+ 
+/*
+ * BORDER LAYOUT
+ */ 
+ 
+.resizable-h {
+	cursor: col-resize;
+}
+
+
+.split-pane {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 999;
+}
+
+
+[layout='border'] {
+	position: relative;
+}
+
+[layout='border'] > div {
+	position: absolute;
+}
+
+[region='center'] {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='west'] {
+	left: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='west-splitter'] {
+	top: 0;
+	bottom: 0;
+	width: 6px;
+}
+
+[region='east'] {
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='east-splitter'] {
+	top: 0;
+	bottom: 0;
+	width: 6px;
+}
+
+[region$='splitter']:hover {
+	cursor: col-resize;	
+}
+ 

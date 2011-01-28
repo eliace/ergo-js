@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+	
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+	
+</head>
+<body>
+	
+	
+	
+<style>
+	
+
+</style>
+	
+	
+	
+<script>
+
+var listBoxData = new Dino.data.ArrayDataSource(Samples.generate_plain_list(30));//['Alice', 'Bob', 'Charlie']);
+
+
+var listBox = $.dino({
+	dtype: 'panel',
+	renderTo: 'body',
+	title: 'Список',
+	width: 400,
+	components: {
+		content: {
+			dtype: 'list-box',
+			listModel: {
+				columns: [{
+					cls: 'dino-icon-column',
+					binding: false,
+					content: {
+						dtype: 'checkbox'
+					}
+				}, {
+					binding: 'auto',
+					editable: true
+				}, {
+					cls: 'dino-icon-column',
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
+					}
+				}, {
+					cls: 'dino-icon-column',				
+					content: {
+						dtype: 'icon',
+						cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
+					}
+				}]				
+			},
+			height: 300,
+			data: listBoxData,				
+		},
+		footer: {
+			cls: 'dino-widget-footer dino-border-top',
+			defaultItem: {
+				dtype: 'icon-button',
+				cls: 'dino-corner-all dino-bg-4 dino-border-none dino-clickable',
+				states: {
+					'hover': []
+				},
+				clickable: true,
+				onClick: function() {
+					
+					var selectedItem = listBox.content.getSelectedItem();
+					
+					if(this.tag == 'add') {
+						if(selectedItem) {
+							var data = listBoxData.add('Новая строка', selectedItem.index+1);
+							listBox.content.getListItem({'data': data}).getColumn(0).startEdit();
+						}
+						else {
+							var data = listBoxData.add('Новая строка');
+							listBox.content.getListItem({'data': data}).getColumn(0).startEdit();							
+						}						
+					}
+					else if(this.tag == 'delete') {
+						if(selectedItem) selectedItem.data.del();
+						listBox.content.setSelectedItem(null);
+					}
+					else if(this.tag == 'refresh') {
+						listBoxData.set( Samples.generate_plain_list(30) );//['Alice', 'Bob', 'Charlie']);
+					}
+				}
+			},
+			items: [{
+				icon: 'led-icon-add',
+				tag: 'add'
+			}, {
+				icon: 'led-icon-delete',
+				tag: 'delete'
+			}, {
+				icon: 'led-icon-refresh',
+				tag: 'refresh'
+			}]
+		}
+	}
+});
+		
+		
+</script>
+	
+	
+	
+</body>
+</html>

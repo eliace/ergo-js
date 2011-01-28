@@ -131,6 +131,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /**
 				// скроллируемый контейнер
 				dtype: 'box',
 				style: {'overflow-y': 'scroll'},
+//				cls: 'dino-scrollable-v',
 				content: {
 					dtype: 'tree-table',
 					width: '100%'						
@@ -165,6 +166,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /**
 		
 		var tableWidth = this.content.content.el.width();
 		this.header.content.el.width(tableWidth);
+		
 	}
 	
 	
@@ -376,7 +378,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 								dtype: 'icon',
 								weight: 1,
 								cls: 'dino-tree-node-button',
-								clickable: true,
+								state: 'clickable',
 								onClick: function() {
 									var row = this.parent.parent.getRow();
 									if(row.states.is('collapsed')){

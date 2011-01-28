@@ -31,6 +31,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		binding: 'auto'
 	},
 	
+	
+	customOptions: {
+	},
+	
 	defaultHandlers: {
 //		'clickable.click': function(e) {
 //			$(this).dino().events.fire('onClick', {}, e);
@@ -175,7 +179,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
 		var o = this.options;
 		Dino.hierarchy(this.constructor, function(clazz){
+			// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
 			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
+			if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton); 
 		});
 		Dino.utils.overrideOpts(o, opts);
 		
@@ -329,7 +335,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		var self = this;
 		
 		if('state' in o) {
-			var a = Dino.isArray(o.state) ? o.state : [o.state];
+			var a = o.state.split(' ');
+//			var a = Dino.isArray(o.state) ? o.state : [o.state];
 			Dino.each(a, function(state) { self.states.set(state); });
 		}
 		
@@ -547,6 +554,12 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		//TODO экспериментальная опция
 		if('overrides' in o) {
 			Dino.override(this, o.overrides);
+		}
+		
+		
+		//TODO экспериментальная опция
+		for(i in o) {
+			if(i in this.customOptions) this.customOptions[i].call(this, o[i]);
 		}
 		
 	},

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+	
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+	
+</head>
+<body>
+	
+	
+	
+<style>
+
+.dino-overlay {
+	opacity: 0.4;
+	background-color: black;
+}	
+
+.dino-dialog-content {
+	width: 400px;
+}
+	
+.widget-content {
+	padding: 5px;
+}	
+
+.dialog-header {
+	font-size: 15pt;
+/*	border-bottom: 1px solid #ccc;*/
+}
+	
+</style>
+	
+	
+	
+<script>
+
+var dlg = $.dino({
+	dtype: 'dialog',
+	renderTo: 'body',
+	title: 'Диалог',
+	content: {
+		dtype: 'box',
+		width: 400,
+		innerText: Samples.loremipsum
+	},
+	buttons: ['ok']
+	
+});	
+
+$.dino({
+	dtype: 'text-button',
+	renderTo: 'body',
+	text: 'Открыть диалог',
+	onAction: function() {
+		dlg.open();
+	}
+});
+		
+		
+</script>
+	
+	
+	
+</body>
+</html>

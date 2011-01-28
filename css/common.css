@@ -18,6 +18,12 @@
 }
 */
 
+
+.dino-scrollable-v {
+	overflow-y: auto;
+}
+
+
 p {
 	margin: 0;
 	padding-top: 10px;

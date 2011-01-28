@@ -55,6 +55,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 		this.current_states[name] = true;
 		
 		this.widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
+		this.widget.events.fire('onStateSet', {'state': name});
 	},
 	
 	/**
@@ -94,6 +95,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 		delete this.current_states[name];
 		
 		this.widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
+		this.widget.events.fire('onStateClear', {'state': name});
 	},
 	
 	/**
