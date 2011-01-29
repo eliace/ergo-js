@@ -41,7 +41,8 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 				this.parent.stopEdit();
 			}
 		},
-		showText: true
+		text: ''
+//		showText: true
 	},
 /*	
 	_init: function() {
@@ -59,23 +60,71 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
-		if('text' in o) this.content.opt('innerText', o.text);
+		if('text' in o) {
+			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
+		}
 		if('format' in o) this.content.opt('format', o.format);
 		
+/*		
+		if('pattern' in o) {
+			
+			
+			switch(o.pattern) {
+				case 'icon':
+					this.content.states.set('l-icon-only');
+					this.leftIcon.states.clear('hidden', !o.showLeftIcon);					
+					break;
+				case 'text':
+					break;
+				case 'xicon':
+					break;
+				case 'icon-text':
+					break;
+				case 'text-xicon':
+					break;
+				case 'icon-xicon':
+					break;
+				case 'icon-text-xicon':
+					break;
+			}
+		}
+*/		
+		
 		if('showLeftIcon' in o) {
-			this.content.states.toggle('l-icon', o.showLeftIcon && o.showText);
+			var state = (this.options.text) ? 'l-icon' : 'l-icon-only';
+			this.content.states.toggle(state, o.showLeftIcon);
 			this.leftIcon.states.toggle('hidden', !o.showLeftIcon);
+			
+//			// экспериментальный код
+//			var dock = (this.options.text) ? 'left' : 'center';
+//			if(this.leftIcon.options.dock != dock) {
+//				this.leftIcon.opt('dock', dock);
+//				this.layout.insert(this.leftIcon);
+//			}
 		}
 		if('showRightIcon' in o) {
-			this.content.states.toggle('r-icon', o.showRightIcon);
+			var state = (this.options.text) ? 'r-icon' : 'r-icon-only';
+			this.content.states.toggle(state, o.showRightIcon);
 			this.rightIcon.states.toggle('hidden', !o.showRightIcon);
 //			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
+
+//			// экспериментальный код
+//			var dock = (this.options.text) ? 'right' : 'center';
+//			if(this.rightIcon.options.dock != dock) {
+//				this.rightIcon.opt('dock', dock);
+//				this.layout.insert(this.rightIcon); 				
+//			}
 		}
 		
+//		if('showCenterIcon' in o) {
+			
+//		}
+		
+		
 		//WARN экспериментальный код
-		if(!o.showText) {
-			this.content.opt('html', '&nbsp;');
-		}
+//		if(!o.showText) {
+//			this.content.opt('innerHtml', '&nbsp;');
+//		}
 	},
 	
 	getText: function() {

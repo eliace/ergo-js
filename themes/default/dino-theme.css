@@ -222,12 +222,24 @@
  */
 
 input.l-icon, span.l-icon {
-	margin-left: 20px;
+	padding-left: 20px;
 }
 
 input.r-icon, span.r-icon {
-	margin-right: 20px;
+	padding-right: 20px;
 }
+
+input.l-icon-only, span.l-icon-only, input.r-icon-only, span.r-icon-only {
+/*	margin-left: 16px;*/
+	padding: 0 8px;
+}
+
+
+input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
+	padding: 0 16px;
+}
+
+
 
 .dino-text-item {
 /*	cursor: default;*/
@@ -299,6 +311,56 @@ input.r-icon, span.r-icon {
 	background-color: #fff;
 	font-size: 10pt;
 }
+
+
+
+/*
+ * TOOL BUTTON
+ */
+
+.dino-tool-button {
+	display: inline-block;
+	padding: 3px;
+	border: 1px solid #eee;
+	cursor: default;
+	font-size: 9pt;
+	background-color: #eee;
+}
+
+.dino-tool-button:hover {
+	border: 1px solid #ccc;
+}
+
+.dino-tool-button.clicked, .dino-tool-button.selected {
+	background-color: #e0e0e0;
+}
+
+
+
+
+
+
+/*
+ * TEXT BUTTON
+ */
+
+
+/*
+.dino-text-button {
+	position: relative;
+}
+
+
+.dino-text-button > .dino-icon {
+	position: absolute;
+	top: 50%;
+}
+
+.dino-text-button > span.l-icon {
+	margin-left: 20px;
+}
+*/
+
 
 
 

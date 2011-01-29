@@ -63,12 +63,53 @@ $.dino({
 		pulseValue: 1.25,
 		pulseDelay: 200
 	}, {
+		// iconL
+		dtype: 'text-button',
+		icon: 'led-icon-accept'
+	}, {
+		// iconR
+		dtype: 'text-button',
+		xicon: 'led-icon-cancel'
+	}, {
+		// iconL text iconR
+		dtype: 'text-button',
+		icon: 'led-icon-accept',
+		text: 'OK/Cancel',
+		xicon: 'led-icon-cancel'
+	}, {
+		// iconL text
 		dtype: 'text-button',
 		text: 'ОК',
 		icon: 'led-icon-accept'
 	}, {
+		// text iconR
+		dtype: 'text-button',
+		text: 'Cancel',
+		xicon: 'led-icon-cancel'
+	}, {
+		// text
+		dtype: 'text-button',
+		text: 'ОК'
+	}, {
+		// iconL iconR
+		dtype: 'text-button',
+		icon: 'led-icon-accept',
+		xicon: 'led-icon-cancel'
+	}/*, {
 		dtype: 'icon-button',
 		icon: 'led-icon-cog'
+	}*/, {
+		dtype: 'box',
+		content: {
+			dtype: 'tool-button',
+			cls: 'dino-corner-all',
+			content: {
+				showLeftIcon: true,
+				leftIconCls: 'led-icon-refresh',
+				showText: false
+//				text: 'Обновить'
+			}			
+		}
 	}]						
 });
 	

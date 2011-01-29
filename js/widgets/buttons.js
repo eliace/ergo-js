@@ -1,5 +1,8 @@
 
 
+
+
+
 /**
  * Кнопка, управляемая через CSS.
  * 
@@ -129,6 +132,78 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 	}
 */	
 }, 'button');
+
+
+
+
+
+
+
+/*
+Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
+	
+	defaultCls: 'dino-text-button',
+	
+	defaultOptions: {
+		components: {
+			leftIcon: {
+				dtype: 'icon',
+				cls: 'dino-hidden'
+			},
+			content: {
+				dtype: 'text'
+			},
+			rightIcon: {
+				dtype: 'icon',
+				cls: 'dino-hidden'
+			}		
+		},
+		text: false
+	},
+	
+	
+	_init: function() {
+		this.base('_init', arguments);
+		
+//		if('leftIcon' in o) {
+//			 
+//		}
+		
+		
+	},
+	
+	
+	_opt: function(o) {
+		this.base('_opt', arguments);
+		
+		if('icon' in o) {
+			this.content.el.toggleClass('l-icon', !(!o.icon));
+			this.leftIcon.el.toggleClass('dino-hidden', !o.icon);
+			if( Dino.isString(o.icon) ) this.leftIcon.states.set(o.icon);
+		}
+		
+		if('text' in o) {
+			this.content.el.toggleClass('no-text', !o.text);
+			if( Dino.isString(o.text) ) this.content.opt('text', o.text);			
+		}
+		
+	}
+	
+	
+	
+}, 'text-button');
+*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -331,6 +406,7 @@ Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget
  * @class
  * @extends Dino.widgets.Button
  */
+
 Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', /** @lends Dino.widgets.TextButton.prototype */{
 	
 	defaultOptions: {
@@ -347,9 +423,14 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		
 		if('text' in o) this.content.opt('text', o.text);
 		if('icon' in o) {
-			this.content.opt('showLeftIcon', (o.icon));
+			this.content.opt('showLeftIcon', !(!o.icon));
 			if(o.icon)
-				this.content.leftIcon.states.setOnly(o.icon);
+				this.content.leftIcon.states.set(o.icon);
+		}
+		if('xicon' in o) {
+			this.content.opt('showRightIcon', !(!o.xicon));
+			if(o.xicon)
+				this.content.rightIcon.states.setOnly(o.xicon);
 		}
 	}
 	
@@ -398,6 +479,57 @@ Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.
 }, 'icon-button');
 
 
+
+
+
+
+
+Dino.declare('Dino.widgets.ToolButton', 'Dino.Widget', {
+	
+	_html: function() { return '<span></span>'; },
+	
+	defaultOptions: {
+		cls: 'dino-tool-button',
+		content: {
+			dtype: 'text-item'
+		},
+		events: {
+			'mousedown': function(e, self) {
+				self.el.addClass('clicked');
+				return false;
+			},
+			'mouseup': function(e, self) {
+				self.el.removeClass('clicked');
+			},
+			'mouseleave': function(e, self) {
+				self.el.removeClass('clicked');
+			}
+		}
+	},
+	
+	_init: function(o) {
+		this.base('_init', arguments);
+		
+		if('leftIcon' in o) {
+			Dino.utils.override_opts(o, {
+				content: {
+					showLeftIcon: true,
+					leftIconCls: o.leftIcon
+				}
+			});
+		}
+		
+		if('text' in o) {
+			Dino.utils.override_opts(o, {
+				content: {
+					text: o.text
+				}
+			});
+		}
+		
+	}
+	
+}, 'tool-button');
 
 
 
