@@ -14,7 +14,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		components: {
 			leftIcon: {
 				dtype: 'icon',
-				state: 'hidden',
+//				state: 'hidden',
 				dock: 'left'
 			},
 			content: {
@@ -22,7 +22,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 			},
 			rightIcon: {
 				dtype: 'icon',
-				state: 'hidden',
+//				state: 'hidden',
 				dock: 'right'
 			}
 		},
@@ -44,19 +44,62 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		text: ''
 //		showText: true
 	},
-/*	
-	_init: function() {
-		Dino.widgets.TextItem.superclass._init.apply(this, arguments);
+
+	_init: function(o) {
+		this.base('_init', arguments);
 		
-		var o = this.options;
+		var key_a = [];
+		if(o.showLeftIcon) key_a.push('icon');
+		if(o.text) key_a.push('text');
+		if(o.showRightIcon) key_a.push('xicon');
 		
-		if(o.editable) {
-			o.components.editContent = {
-				dtype: 'textfield'
-			};
+		
+		var o_mod = {leftIcon:{}, content:{}, rightIcon:{}};
+		
+		switch(key_a.join('-')) {
+			case 'icon':
+				o_mod.rightIcon.state = 'hidden';
+				o_mod.leftIcon.dock = 'center';
+				o_mod.content.innerHtml = '&nbsp;';
+				o_mod.content.cls = 'l-icon-only';
+				break;
+			case 'text':
+				o_mod.leftIcon.state = 'hidden';
+				o_mod.rightIcon.state = 'hidden';
+				break;
+			case 'xicon':
+				o_mod.leftIcon.state = 'hidden';
+				o_mod.rightIcon.dock = 'center';
+				o_mod.content.innerHtml = '&nbsp;';
+				o_mod.content.cls = 'r-icon-only';
+				break;
+			case 'icon-text':
+				o_mod.rightIcon.state = 'hidden';
+				o_mod.content.cls = 'l-icon';				
+				break;
+			case 'text-xicon':
+				o_mod.leftIcon.state = 'hidden';
+				o_mod.content.cls = 'r-icon';				
+				break;
+			case 'icon-xicon':
+				o_mod.content.cls = 'l-icon r-icon';				
+				o_mod.content.innerHtml = '&nbsp;';
+				break;
+			case 'icon-text-xicon':
+				o_mod.content.cls = 'l-icon r-icon';				
+				break;
 		}
+		
+		
+		console.log(key_a, o);
+		
+		
+		Dino.utils.overrideOpts(o.components, o_mod);
+		
+//		console.log(this.options);
+		
 	},
-*/	
+	
 	_opt: function(o) {
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
@@ -89,7 +132,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 			}
 		}
 */		
-		
+/*		
 		if('showLeftIcon' in o) {
 			var state = (this.options.text) ? 'l-icon' : 'l-icon-only';
 			this.content.states.toggle(state, o.showLeftIcon);
@@ -115,7 +158,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 //				this.layout.insert(this.rightIcon); 				
 //			}
 		}
-		
+*/		
 //		if('showCenterIcon' in o) {
 			
 //		}

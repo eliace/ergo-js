@@ -411,11 +411,22 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	
 	defaultOptions: {
 		cls: 'dino-text-button',
-		components: {
-			content: {
-				dtype: 'text-item'
-			}
-		}
+		content: {
+			dtype: 'text-item'
+		},
+		text: ''
+	},
+	
+	
+	_init: function(o) {
+		this.base('_init', arguments);
+		
+		Dino.utils.overrideOpts(o.components.content, {
+			showLeftIcon: !(!o.icon),
+			text: o.text,
+			showRightIcon: !(!o.xicon)
+		});
+		
 	},
 	
 	_opt: function(o) {
@@ -430,7 +441,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		if('xicon' in o) {
 			this.content.opt('showRightIcon', !(!o.xicon));
 			if(o.xicon)
-				this.content.rightIcon.states.setOnly(o.xicon);
+				this.content.rightIcon.states.set(o.xicon);
 		}
 	}
 	
