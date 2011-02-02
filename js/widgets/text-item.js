@@ -50,7 +50,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		
 		var key_a = [];
 		if(o.showLeftIcon) key_a.push('icon');
-		if(o.text) key_a.push('text');
+		if(o.text || o.text === '') key_a.push('text');
 		if(o.showRightIcon) key_a.push('xicon');
 		
 		
@@ -86,17 +86,14 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 				o_mod.content.innerHtml = '&nbsp;';
 				break;
 			case 'icon-text-xicon':
-				o_mod.content.cls = 'l-icon r-icon';				
+				o_mod.content.cls = 'l-icon r-icon';
 				break;
 		}
 		
 		
-		console.log(key_a, o);
-		
-		
 		Dino.utils.overrideOpts(o.components, o_mod);
 		
-//		console.log(this.options);
+//		console.log();
 		
 	},
 	
@@ -104,7 +101,8 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
 		
 		if('text' in o) {
-			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
+			if(o.text) this.content.opt('innerText', o.text);
+//			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
 		}
 		if('format' in o) this.content.opt('format', o.format);
 		

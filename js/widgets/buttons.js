@@ -411,6 +411,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	
 	defaultOptions: {
 		cls: 'dino-text-button',
+		layout: 'dock-layout',
 		content: {
 			dtype: 'text-item'
 		},
@@ -455,8 +456,8 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
  * @class
  * @extends Dino.widgets.Button
  */
-Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', /** @lends Dino.widgets.IconButton.prototype */{
-	
+//Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', /** @lends Dino.widgets.IconButton.prototype */{
+/*	
 	defaultOptions: {
 		content: {
 			dtype: 'box',
@@ -488,21 +489,21 @@ Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.
 	
 	
 }, 'icon-button');
+*/
 
 
 
 
 
 
-
-Dino.declare('Dino.widgets.ToolButton', 'Dino.Widget', {
+Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	
-	_html: function() { return '<span></span>'; },
+//	_html: function() { return '<span></span>'; },
 	
 	defaultOptions: {
-		cls: 'dino-tool-button',
+		cls: 'dino-icon-button',
 		content: {
-			dtype: 'text-item'
+			dtype: 'icon'
 		},
 		events: {
 			'mousedown': function(e, self) {
@@ -517,7 +518,7 @@ Dino.declare('Dino.widgets.ToolButton', 'Dino.Widget', {
 			}
 		}
 	},
-	
+/*	
 	_init: function(o) {
 		this.base('_init', arguments);
 		
@@ -539,8 +540,20 @@ Dino.declare('Dino.widgets.ToolButton', 'Dino.Widget', {
 		}
 		
 	}
-	
-}, 'tool-button');
+*/	
+
+	_opt: function(o) {
+		this.base('_opt', arguments);
+		
+		if('icon' in o) {
+			this.content.states.set(o.icon);
+		}
+		
+	}
+
+
+
+}, 'icon-button');
 
 
 

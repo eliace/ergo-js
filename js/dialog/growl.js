@@ -357,17 +357,18 @@ function init_default_growl(o) {
 
 
 	growl = {
-			info: function(m) {this.msg(m, 'info');},
-			err: function(m) {this.msg(m, 'critical');},
-			warn: function(m) {this.msg(m, 'warning');},
-			html: function(m) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
-			msg: function(m, type) {
+			info: function(m, isHtml) {this.msg(m, 'info', isHtml);},
+			err: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
+			warn: function(m, isHtml) {this.msg(m, 'warning', isHtml);},
+			html: function(m, isHtml) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
+			msg: function(m, type, isHtml) {
 				var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);
-				Dino.growl.addItem({
-					message: s,
+				var o = {
 					icon: 'dino-icon-growlbox-'+type,
-					state: type
-				});
+					state: type					
+				};
+				(isHtml) ? o.htmlMessage = m : o.message = m;
+				Dino.growl.addItem(o);
 //				Dino.messagePanel.addMessage(s, type);		
 			}
 		}

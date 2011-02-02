@@ -317,7 +317,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*
  * TOOL BUTTON
  */
-
+/*
 .dino-tool-button {
 	display: inline-block;
 	padding: 3px;
@@ -334,9 +334,25 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-tool-button.clicked, .dino-tool-button.selected {
 	background-color: #e0e0e0;
 }
+*/
 
 
+/*
+ * ICON BUTTON
+ */
 
+.dino-icon-button {
+	border: 1px solid #eee;
+	background-color: #eee;
+}
+
+.dino-icon-button:hover {
+	border: 1px solid #ccc;	
+}
+
+.dino-icon-button.clicked {
+	background-color: #ddd;	
+}
 
 
 
@@ -801,6 +817,11 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	display: block;
 }
 
+.dino-icon.icon24 {
+	width: 24px;
+	height: 24px;
+}
+
 .dino-icon.icon32 {
 	width: 32px;
 	height: 32px;
@@ -813,6 +834,10 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 */
 .dino-icon[dock$=center]  {	margin-top: -8px; }
 .dino-icon[dock^=center] { 	margin-left: -8px; }
+.dino-icon.icon24[dock$=center]  {	margin-top: -12px; }
+.dino-icon.icon24[dock^=center] { 	margin-left: -12px; }
+.dino-icon.icon32[dock$=center]  {	margin-top: -16px; }
+.dino-icon.icon32[dock^=center] { 	margin-left: -16px; }
 
 
 .dino-icon-close { background-image: url(img/led/cross.png); }

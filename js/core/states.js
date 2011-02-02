@@ -41,7 +41,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			this.set(state[0]);
 			this.clear(state[1]);
 			this.current_states[name] = true;
-			return;
+			return this;
 		}
 		
 		if( Dino.isString(state) ) {
@@ -56,6 +56,8 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 		
 		this.widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
 		this.widget.events.fire('onStateSet', {'state': name});
+		
+		return this;
 	},
 	
 	/**
@@ -64,7 +66,9 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 	 */
 	setOnly: function(name) {
 		for(var i in this.current_states) this.clear(i);
-		this.set(name);		
+		this.set(name);	
+		
+		return this;		
 	},
 	
 	/**
@@ -82,7 +86,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			this.clear(state[0]);
 			this.set(state[1]);
 			delete this.current_states[name];
-			return;
+			return this;
 		}
 		
 		if( Dino.isString(state) ) {
@@ -96,6 +100,8 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 		
 		this.widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
 		this.widget.events.fire('onStateClear', {'state': name});
+		
+		return this;		
 	},
 	
 	/**
