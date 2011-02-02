@@ -13,6 +13,9 @@
 		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+		<!-- Iconsets -->
+		<link rel="stylesheet" type="text/css" href="../../iconsets/jquery-ui/jquery-ui-iconset.css">
+		<link rel="stylesheet" type="text/css" href="../../iconsets/led/led-iconset.css">
 
 		<link rel="stylesheet" type="text/css" href="../css/commons.css">
 		<script type="text/javascript" src="../js/commons.js"></script>
@@ -33,6 +36,7 @@ var treeData = new Dino.data.ArrayDataSource();
 $.getJSON('../ajax/tree_node.json', {}, function(data){
 	treeData.source[0] = data;
 	treeData.events.fire('onValueChanged');
+//	treeData.set(data);
 });
 
 
@@ -62,8 +66,10 @@ $.dino({
 //		          }
 		        },
 		      },
+//					icon: 'led-icon-folder',
 					showLeftIcon: true,
-					rightIconCls: 'dino-icon-spinner',
+					showRightIcon: true,
+//					rightIconCls: 'dino-icon-spinner',
 		      dataId: 'name'
 		    }				
 			},
@@ -76,12 +82,14 @@ $.dino({
 					var val = this.data.val();
 					var self = this;
 					if(val.is_ref) {
-						this.content.opt('showRightIcon', true);
+//						this.content.opt('showRightIcon', true);
+						this.content.rightIcon.states.set('dino-icon-spinner');
 						setTimeout(function(){
 							$.getJSON('../ajax/tree_node.json', {}, function(data){
 								self.data.set('children', [data]);
 								val.is_ref = false;
-								self.content.opt('showRightIcon', false);
+//								self.content.opt('showRightIcon', false);
+								self.content.rightIcon.states.clear('dino-icon-spinner');
 							});							
 						}, 400);
 					}

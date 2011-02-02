@@ -233,12 +233,12 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this._init(o);//this, arguments);		
 		// устанавливаем опциональные параметры
 		this._opt(o);
-		// добавляем обработку событий
+		// добавляем обработку событий (deprecated)
 		this._events(this);
 		// добавляем элемент в документ
 		this._render(o.renderTo);
 		
-		// сначала подключаем данные, чтобы при конструировании виджета эти данне были доступны
+		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
 		this.setData(o.data);		
 		
 		// обновляем виджет, если к нему были подключены данные
@@ -334,9 +334,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		var o = this.options;
 		var self = this;
 		
+		// устанавливаем состояния по умолчанию
 		if('state' in o) {
 			var a = o.state.split(' ');
-//			var a = Dino.isArray(o.state) ? o.state : [o.state];
 			Dino.each(a, function(state) { self.states.set(state); });
 		}
 		
@@ -706,15 +706,17 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				
 		var o = this.options;
 		
+		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(data == undefined || !o.binding) return;
 		
+		// если фаза автобиндинга не определена, то присваем ей начальное значение
 		if(!phase) phase = 1;
 		
 		this.dataPhase = phase;
 		
 //		if(this.data) data.destroy(); //<-- экспериментальный код
 		
-		
+		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		if('dataId' in o){
 			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
 		}
@@ -729,7 +731,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //		}
 		var self = this;
 	
-//		//FIXME этот метод закомментирован, потому что виджет начинает обрабатывать свои оповещения
+		// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод _dataChanged
 		this.data.events.reg('onValueChanged', function() { 
 			if(self.options.updateOnValueChange) self._dataChanged();
 //			console.log(self.data.val());
@@ -747,6 +749,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			});
 		}
 	
+		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){
 			if(child.dataPhase != 1) child.setData(self.data, 2);
 		});
@@ -888,6 +891,11 @@ $.fn.dino = function(o) {
 
 
 
+/*
+ * Далее идет не вполне изящный механизм примешивания предопределенных состояний к классу Dino.Widget
+ * 
+ * 
+ */
 
 
 var abilityHandlers = {
@@ -934,6 +942,12 @@ Dino.override(Dino.Widget.prototype.defaultOptions.states, {
 
 
 
+
+/*
+ * Тоже не очень изящная (но работающая) реализация простейшего Drag'n'Drop
+ * 
+ * 
+ */
 
 
 $(document).ready(function(){

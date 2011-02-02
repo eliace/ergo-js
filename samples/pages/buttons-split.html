@@ -13,6 +13,9 @@
 		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
 		<!-- jQuery UI theme -->
 		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+		<!-- Iconsets -->
+		<link rel="stylesheet" type="text/css" href="../../iconsets/jquery-ui/jquery-ui-iconset.css">
+		<link rel="stylesheet" type="text/css" href="../../iconsets/led/led-iconset.css">
 	
 		<script type="text/javascript" src="../js/commons.js"></script>
 		<link rel="stylesheet" type="text/css" href="../css/commons.css">
@@ -97,19 +100,9 @@ $.dino({
 		}
 	}, {
 		dtype: 'text-button',
-		style: {'padding': '3px'},
-		content: {
-			showRightIcon: true,
-			rightIconCls: 'ui-icon ui-icon-triangle-1-s',
-			showLeftIcon: true,
-			leftIconCls: 'led-icon-cog',
-			components: {
-				content: {
-					innerHtml: '&nbsp;',
-					style: {'margin': '0 14px'}
-				}
-			}
-		}
+		xicon: 'ui-icon ui-icon-triangle-1-s',
+		icon: 'led-icon-cog',
+		text: false
 	}]						
 });
 		

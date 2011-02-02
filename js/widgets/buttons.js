@@ -326,11 +326,13 @@ Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget
 				}
 			},
 			listButton: {
-				dtype: 'icon-button',				
+				dtype: 'text-button',				
 				cls: 'dino-split-button-2 dino-border-all dino-corner-right dino-bg-4 dino-clickable',
+				icon: true,
+				text: false,
 				content: {
 					components: {
-						icon: {
+						leftIcon: {
 							cls: 'dino-split-button-2-icon ui-icon-triangle-1-s',
 							state: 'ui-icon-gray'
 						}
