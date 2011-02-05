@@ -196,6 +196,12 @@ p {
 
 
 
+.dino-pager > * {
+	vertical-align: middle;
+}
+
+
+
 /*
  * DIALOG
  */

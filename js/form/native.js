@@ -261,7 +261,12 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', /** @lends Dino.widgets.
 		
 		if('text' in o)
 			this.el.text(o.text);
-	}
+	},
+	
+	_dataChanged: function() {
+		this.el.attr('href',this.getValue());
+//		this.el.text(this.getValue());
+	}	
 	
 }, 'anchor');
 

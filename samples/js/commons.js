@@ -14,9 +14,29 @@ Samples.generate_plain_list = function(n) {
 
 
 Samples.generate_grid_page = function(i0, i1) {
+	
+	// Типы данных
+	// - ID
+	// - Строка
+	// - Число
+	// - Активная иконка
+	// - Ссылка
+	// - Чекбокс
+	// - Денежные единицы
+	// - Дата
+	
 	var list = [];
 	for(var i = i0; i < i1; i++) {
-		list.push({name: 'Item ' + (i+1)});
+		list.push({
+			id: i,
+			string: 'Item ' + (i+1),
+			number: Math.random()*1e3,
+			icon: 'exclamation',
+			ref: 'http://google.ru',
+			flag: false,
+			currency: Math.random()*1e2,
+			date: new Date().toLocaleString()
+		});
 	}
 	return list;
 }

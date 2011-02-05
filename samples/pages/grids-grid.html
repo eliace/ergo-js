@@ -56,7 +56,7 @@ var grid = $.dino({
 	content: {
 //		autoHeight: true,
 		height: 300,//'auto',
-		style: {'padding-right': '3px'}
+		style: {'padding-right': '3px', 'font-size': '9pt'}
 	},
 	headerCls: 'dino-bg-highlight',
 	headerModel: {
@@ -64,20 +64,24 @@ var grid = $.dino({
 			cls: 'grid-header-cell',
 		},
 		columns: [{
-			innerText: '№'
-//      width: 50
+			innerText: 'ID'
 		}, {
-			innerText: 'Имя'
+			innerText: 'Строка'
 		}, {
-			innerText: 'Значение'
-//      width: 100
+			innerText: 'Число'
 		}, {
-//			text: 'Выбран',
+			innerHtml: '&nbsp;'
+		}, {
+			innerText: 'Ссылка'
+		}, {
 			content: {
       	dtype: 'checkbox',
 				checked: false				
 			}
-//      width: 50
+		}, {
+			innerText: 'Цена'
+		}, {
+			innerText: 'Дата'
 		}]
 	},
   tableModel: {
@@ -89,17 +93,35 @@ var grid = $.dino({
       dataId: 'id',
       width: 50
     }, {
-      dataId: 'name'
+      dataId: 'string'
     }, {
-      dataId: 'value',
-      width: 100
+      dataId: 'number',
+			format: function(v) { return v.toFixed(2) },
+//      width: 100
     }, {
-      dataId: 'cb',
-      width: 50,
+      dataId: 'icon',
+			cls: 'led-icon dino-clickable',
+			width: 30,
+			binding: function(val) { this.states.set('led-icon-'+val); },
+    }, {
 			content: {
-      	dtype: 'checkbox'				
+				dtype: 'anchor',
+				text: 'ссылка',
+      	dataId: 'ref'
 			},
 			binding: 'skip'
+    }, {
+      dataId: 'flag',
+      width: 50,
+			content: {
+      	dtype: 'checkbox'
+			},
+			binding: 'skip'
+    }, {
+      dataId: 'currency',
+			format: function(v) { return "$"+v.toFixed(2); }
+    }, {
+      dataId: 'date'
     }]
   },
   data: gridData,
@@ -107,12 +129,10 @@ var grid = $.dino({
 		pager: {
 			dtype: 'pager',
 			count: 100,
-			pageSize: 10,
+			pageSize: 40,
 			cls: 'dino-border-top',
 			onCurrentChanged: function(e) {
-//				var i = this.currentPage;
-//				var i0 = i*10;
-//				var i1 = (i+1)*10;
+				// генерируем данные и добавляем их в источник данных виджета
 				var data_page = Samples.generate_grid_page(e.from, e.to);
 				var j = 0;
 				for(var i = e.from; i < e.to; i++) {

@@ -2,6 +2,10 @@
 
 
 
+
+
+
+
 /**
  * @class
  * @extends Dino.Widget
@@ -27,6 +31,11 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 				content: {
 					dtype: 'table',
 					width: '100%',
+//					components: {
+//						body: {
+//							layout: 'grid-table-layout'					
+//						}
+//					},
 					tableModel: {
 						row: {
 							cls: 'dino-grid-row'
@@ -69,10 +78,64 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	
 	
 	_layoutChanged: function() {
-		Dino.widgets.Grid.superclass._layoutChanged.apply(this, arguments);
+		this.base('_layoutChanged', arguments);
 		
-		var tableWidth = this.content.content.el.width();
-		this.header.content.el.width(tableWidth);
+		
+		// выполняем настройку ширины полей
+		var body = this.content.content.body;
+		var head = this.header.content.head;
+		var total_w = body.el.innerWidth();
+//		var htotal_w = this.content.content.el.width();
+		
+		this.header.content.el.width(total_w);
+		
+		
+		var t_columns = [];
+//		var h_columns = [];
+		var w = 0;
+		var n = 0;
+		Dino.each(body.options.defaultItem.items, function(column, i){
+			h_col = {};
+			if('width' in column) {
+				t_columns[i] = column.width;
+				w += column.width;
+			}
+			else {
+				t_columns[i] = null;
+				n++;
+			}
+		});
+		
+		if(n > 0) {
+			var eq_w = (total_w - w) / n;
+			for(var i = 0; i < t_columns.length; i++) if(t_columns[i] === null) t_columns[i] = eq_w;
+		}
+
+		
+		for(var i = 0; i < t_columns.length; i++) {
+			body.options.defaultItem.items[i].width = t_columns[i];
+			head.getItem(0).getItem(i).opt('width', t_columns[i]);
+//			head.options.defaultItem.items[i].width = h_columns[i];
+		}
+		
+//		// обходим все строки
+//		body.eachItem(function(row){
+//			// обходим все поля
+//			row.eachItem(function(col, i){
+//				col.opt('width', h_columns[i]);
+//			});
+//		});
+		
+		
+		
+//		var tableWidth = this.content.content.el.width();
+	},
+	
+	_dataChanged: function() {
+		this.base('_dataChanged', arguments);
+		
+//		this._layoutChanged();
+		
 	}
 	
 	

@@ -1,5 +1,7 @@
 
 .led-icon {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
 }
 
 
@@ -51,3 +53,4 @@
 .led-icon-control-play { background-image: url(icons/control_play.png); }
 .led-icon-control-fastforward { background-image: url(icons/control_fastforward.png); }
 .led-icon-control-backward { background-image: url(icons/control_backward.png); }
+.led-icon-exclamation { background-image: url(icons/exclamation.png); }

@@ -310,6 +310,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		this.events.fire('onDataBound');
 		
 		
+		
 //		console.log('update on data set');
 		
 //		// всем предопределенным виджетам подсоединяем источники данных
