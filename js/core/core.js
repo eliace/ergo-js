@@ -406,11 +406,14 @@ var Dino = (function(){
 	D.deep_copy = function(src) {
 		var copy = null;
 		
-		if(D.isPlainObject(src) || D.isArray(src)){
-			copy = D.isPlainObject(src) ? {} : [];
-			D.each(src, function(item, i){
-				copy[i] = D.deep_copy(item);
-			});
+		var is_po = D.isPlainObject(src);
+		if(is_po || D.isArray(src)){
+			copy = is_po ? {} : [];
+			for(var i in src)
+				copy[i] = D.deep_copy(src[i]);				
+//			D.each(src, function(item, i){
+//				copy[i] = D.deep_copy(item);
+//			});
 		}
 		else{
 			copy = src;

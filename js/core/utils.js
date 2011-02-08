@@ -221,6 +221,7 @@ Dino.utils.overrideOpts = function(o) {
 
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
+		
 		var srcObj = arguments[j];
 		
 		if( Dino.isArray(srcObj) ){

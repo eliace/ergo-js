@@ -27,6 +27,9 @@ var sampleTree = [{
 	}, {
 		name: 'Controls',
 		path: 'containers-controls.html'
+	}, {
+		name: 'Benchmarks',
+		path: 'containers-benchmarks.html'
 	}]
 }, {
 	name: 'Dialogs',

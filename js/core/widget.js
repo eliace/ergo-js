@@ -6,7 +6,48 @@
  * @namespace
  */
 
-
+var profiler = {
+	enabled: false,
+	
+	results: {},
+	counters: {},
+	
+	clear: function(name) {
+		delete this.results[name];
+		delete this.counters[name];
+	},
+	
+	start: function(name) {
+		this.counters[name] = {};
+		if(!(name in this.results)) this.results[name] = {};
+		// инициализируем первоначальное значение
+		this.counters[name].times = [Dino.timestamp()];
+	},
+	
+	stop: function(name) {
+		var c = this.counters[name];
+		var r = this.results[name];
+		var t = c.times[0];
+		for(var i = 1; i < c.times.length; i++) {
+			var key = c.times[i][0];
+			if(!(key in r)) r[key] = 0;
+			r[key] += c.times[i][1] - t;
+			t = c.times[i][1];
+		}
+	},
+	
+	tick: function(counter, name) {
+		this.counters[counter].times.push([name, Dino.timestamp()]);
+	},
+	
+	print_result: function(counter) {
+		var a = [];
+		var tot = 0;
+		Dino.each(this.results[counter], function(dt, i){ a.push(''+i+': '+dt); tot+=dt; });
+		return a.join(', ') + ' ('+tot+')';
+	}
+	
+};
 
 
 /**
@@ -30,6 +71,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		},
 		binding: 'auto'
 	},
+	
+//	REBUILD_SKELETON: true,
 	
 	
 	customOptions: {
@@ -152,6 +195,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			
 			
 	initialize: function() {
+		
+		profiler.start('widget');
+		
 		Dino.Widget.superclass.initialize.apply(this, arguments);
 		
 		var html = arguments[0];
@@ -170,6 +216,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		}
 		
 		var self = this;
+
+		profiler.tick('widget', 'precreate');		
 		
 		/** 
 		 * Параметры
@@ -177,13 +225,29 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		 */
 		this.options = {};
 		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
+		// TODO эту часть можно делать только один раз при создании класса
 		var o = this.options;
-		Dino.hierarchy(this.constructor, function(clazz){
-			// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
-			if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton); 
-		});
+		
+		if(!this.constructor.NO_REBUILD_SKELETON) {
+			Dino.hierarchy(this.constructor, function(clazz){
+				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
+				if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton); 
+			});
+			this.constructor.NO_REBUILD_SKELETON = true;
+			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
+			
+//			console.log('rebuild_skeleton');
+		}
+		else {
+			this.options = o = Dino.deep_copy(this.defaultOptions);
+		}
+		
+		profiler.tick('widget', 'hierarchy');		
+		
 		Dino.utils.overrideOpts(o, opts);
+
+		profiler.tick('widget', 'overrideOpts');		
 		
 		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 		
@@ -195,6 +259,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
+
+		profiler.tick('widget', 'el');		
 		
 		/** 
 		 * Коллекция дочерних компонентов 
@@ -209,17 +275,15 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this.states = new Dino.StateManager(this);
 		
 		this.handlers = {};
+
+		profiler.tick('widget', 'create');		
 		
-//		this.el.remove = function() {
-//			console.log('Removed from DOM: '+self.dtype);
-//		}
-				
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
 			layoutOpts = {dtype: layoutOpts};
 		if(!(layoutOpts instanceof Dino.Layout))
-			layoutOpts = Dino.object( layoutOpts );//Dino.utils.overrideOpts({container: this}, layoutOpts));
+			layoutOpts = Dino.object( layoutOpts );
 		/** 
 		 * Компоновка 
 		 * @type Dino.Layout
@@ -229,10 +293,20 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //		if(!this.layout.container) this.layout.attach(this);
 		this.layout.attach(this.layout.options.container || this);
 
+
+		profiler.tick('widget', 'layout');		
+
+
 		// конструируем виджет
-		this._init(o);//this, arguments);		
+		this._init(o);//this, arguments);
+		
+		profiler.tick('widget', 'init');		
+
 		// устанавливаем опциональные параметры
 		this._opt(o);
+		
+		profiler.tick('widget', 'opt');
+		
 		// добавляем обработку событий (deprecated)
 		this._events(this);
 		// добавляем элемент в документ
@@ -244,13 +318,29 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		// обновляем виджет, если к нему были подключены данные
 		if(this.data) this._dataChanged();
 		// выполняем темизацию ?
-		this._theme(o.theme);
+//		this._theme(o.theme);
 //		//
 		this._afterBuild();
 		
 		this.events.fire('onCreated');
 		
 		if(this.options.debug)	console.log('created');		
+		
+		
+		profiler.tick('widget', 'build');		
+
+
+		profiler.stop('widget');
+
+/*		
+		if(measurements.enabled){
+//			if(!('widget.create' in measurements)) measurements['widget.create'] = 0;
+//			if(!('widget.build' in measurements)) measurements['widget.build'] = 0;
+			measurements['widget.precreate'] += t1-t0;
+			measurements['widget.create'] += t2-t1;
+			measurements['widget.build'] += tn-t2;
+		}
+*/		 
 	},
 	
 	
@@ -318,6 +408,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				this._afterRender();
 				this._layoutChanged();
 			}
+			
 		}
 	},
 	
@@ -398,6 +489,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		var self = this;
 		var el = this.el;
 		
+		profiler.start('opt');
 		
 		if('width' in o) el.width(o.width);
 		if('height' in o) {
@@ -418,6 +510,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
 		if('baseCls' in o) el.addClass(o.baseCls);
+		
+		profiler.tick('opt', 'style');		
+		
 		if('innerText' in o) el.text(o.innerText);
 		if('innerHtml' in o) this.el.html(o.innerHtml);
 		if('role' in o) el.attr('role', o.role);
@@ -428,6 +523,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				el.css('filter', 'Alpha(opacity:' + (o.opacity/100.0) + ')');
 		}
 
+		profiler.tick('opt', 'ifs');
 		
 		if('events' in o){
 			for(var i in o.events){
@@ -457,7 +553,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
 			}
 		}
-		
 		
 		var regexp = /^on\S/;
 		for(var i in o){
@@ -561,6 +656,11 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		for(i in o) {
 			if(i in this.customOptions) this.customOptions[i].call(this, o[i]);
 		}
+
+
+		profiler.tick('opt', 'other');
+
+		profiler.stop('opt');
 		
 	},
 	
