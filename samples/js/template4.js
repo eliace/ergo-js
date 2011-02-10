@@ -179,7 +179,7 @@ $(document).ready(function(){
 				items: [{
 					dtype: 'box',
 					cls: 'dino-border-all dino-corner-all',
-					width: 300,
+					width: 170,
 					height: 'auto',
 					content: {
 						dtype: 'tree',

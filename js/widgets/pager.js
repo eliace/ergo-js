@@ -10,6 +10,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 		cls: 'dino-pager',
 //		style: {'display': 'inline-block'},
 		binding: false,
+		count: 1,
 		items: [{
 			dtype: 'icon-button',
 			cls: 'dino-corner-all dino-border-none',
@@ -34,7 +35,12 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			dtype: 'textfield',
 			width: 30,
 			tag: 'current_page',
-			value: '1'
+			value: '1',
+			events: {
+				'change': function(e, w) {
+					w.parent.setCurrentIndex(w.el.val()-1);
+				}
+			}
 		}, {
 			dtype: 'text',
 			tag: 'num_pages',
@@ -111,6 +117,10 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 	getMaxIndex: function() {
 		return Math.ceil(this.count/this.page_size)-1;
 	}
+	
+//	setMaxIndex: function() {
+//		
+//	}
 	
 	
 }, 'pager');

@@ -23,7 +23,8 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 					dtype: 'box',
 					wrapEl: '<tr></tr>',
 					defaultItem: {
-						wrapEl: '<th></th>'
+						dtype: 'table-header-cell'
+//						wrapEl: '<th></th>'
 					}
 				},
 				binding: false
@@ -184,7 +185,7 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 	_dataChanged: function() {
 		
 		if(this.options.binding == 'auto')
-			this.el.text( this.getValue() );
+			this.layout.el.text( this.getValue() );
 		
 		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
 	},
@@ -213,6 +214,40 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 	
 	
 }, 'table-cell');
+
+
+
+/**
+ * @class
+ * @extends Dino.Widget
+ */
+Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Dino.Widget', /** @lends Dino.widgets.TableHeaderCell.prototype */{
+	
+	_html: function() { return '<th></th>'; },
+	
+	defaultOptions: {
+		binding: 'skip'
+	},
+	
+	_opt: function(o) {
+		this.base('_opt', arguments);
+		
+		if('text' in o) this.layout.el.text(o.text);
+		
+	},
+	
+	
+	_dataChanged: function() {
+		
+		if(this.options.binding == 'auto')
+			this.layout.el.text( this.getValue() );
+		
+		this.base('_dataChanged', arguments);
+//		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
+	}
+	
+}, 'table-header-cell');
+
 
 
 

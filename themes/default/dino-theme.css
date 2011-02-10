@@ -113,9 +113,9 @@
 
 
 .dino-split {
-	display: inline-block;
+	display: inline;
 	vertical-align: middle;
-	background: url(img/vsplit.png) repeat-y scroll 50% 50% #bbb;
+	background: url(img/vsplit.png) repeat-y scroll 50% 50%;
 	margin: 0 3px;
 }
 
@@ -146,6 +146,7 @@
   top: 50%;
 	border: 2px solid #ccc;
 	padding: 3px 5px;
+	z-index: 101;
 }
 
 
@@ -817,6 +818,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	width: 16px;
 	height: 16px;
 	display: block;
+	background-position: 50% 50%;
 }
 
 .dino-icon.icon24 {

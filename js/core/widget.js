@@ -514,7 +514,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		profiler.tick('opt', 'style');		
 		
 		if('innerText' in o) el.text(o.innerText);
-		if('innerHtml' in o) this.el.html(o.innerHtml);
+		if('innerHtml' in o) el.html(o.innerHtml);
 		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
 			if($.support.opacity) 

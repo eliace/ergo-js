@@ -21,7 +21,15 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 				content: {
 					dtype: 'table',
 					width: '100%',
-					binding: false
+					binding: false,
+					headerModel: {
+						cell: {
+							layout: {
+								dtype: 'plain-layout',
+								html: '<div class="dino-nowrap"></div>'
+							}
+						}						
+					}
 				}
 			},
 			content: {
@@ -39,6 +47,12 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 					tableModel: {
 						row: {
 							cls: 'dino-grid-row'
+						},
+						cell: {
+							layout: {
+								dtype: 'plain-layout',
+								html: '<div class="dino-nowrap"></div>'
+							}
 						}
 					}
 				}
@@ -80,18 +94,22 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	_layoutChanged: function() {
 		this.base('_layoutChanged', arguments);
 		
-		
 		// выполняем настройку ширины полей
 		var body = this.content.content.body;
 		var head = this.header.content.head;
 		var total_w = body.el.innerWidth();
 //		var htotal_w = this.content.content.el.width();
+
+		// если максимальная ширина контейнера равна 0 (как правило, это означает, что он еще не виден), 
+		// расчет ширины колонок не выполняем  
+		if(total_w == 0) return;
 		
 		this.header.content.el.width(total_w);
 		
 		
 		var t_columns = [];
 //		var h_columns = [];
+		var t_nowrap = [];
 		var w = 0;
 		var n = 0;
 		Dino.each(body.options.defaultItem.items, function(column, i){
@@ -104,6 +122,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 				t_columns[i] = null;
 				n++;
 			}
+			t_nowrap[i] = column.nowrap;
 		});
 		
 		if(n > 0) {
@@ -111,20 +130,31 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 			for(var i = 0; i < t_columns.length; i++) if(t_columns[i] === null) t_columns[i] = eq_w;
 		}
 
+		var real_width = [];
 		
 		for(var i = 0; i < t_columns.length; i++) {
-			body.options.defaultItem.items[i].width = t_columns[i];
-			head.getItem(0).getItem(i).opt('width', t_columns[i]);
+			// определим фактическую ширину поля
+			var th = head.getItem(0).getItem(i).el;
+			var dw = th.outerWidth() - th.innerWidth();
+			real_width[i] = t_columns[i] - dw;
+			
+			head.getItem(0).getItem(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
+			
+//			if(t_nowrap[i])
+			body.options.defaultItem.items[i].layout = {html: '<div class="dino-nowrap" style="width:'+real_width[i]+'px"></div>'};//.width = t_columns[i];
+//			else
+//				body.options.defaultItem.items[i].width = t_columns[i];
 //			head.options.defaultItem.items[i].width = h_columns[i];
 		}
 		
-//		// обходим все строки
-//		body.eachItem(function(row){
-//			// обходим все поля
-//			row.eachItem(function(col, i){
-//				col.opt('width', h_columns[i]);
-//			});
-//		});
+		// обходим все строки
+		body.eachItem(function(row){
+			// обходим все поля
+			row.eachItem(function(col, i){
+				col.layout.el.width(real_width[i]);//t_columns[i]);
+//				col.opt('width', t_columns[i]);
+			});
+		});
 		
 		
 		
