@@ -68,7 +68,10 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 		}, {
 			dtype: 'icon-button',
 			cls: 'dino-corner-all dino-border-none',
-			icon: 'led-icon-refresh'		
+			icon: 'led-icon-refresh',
+			onAction: function() {
+				this.parent.events.fire('onRefresh');
+			}
 		}]
 	},
 	

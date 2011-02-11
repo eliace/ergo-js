@@ -701,7 +701,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @param {Object} callback метод, вызываемый для каждого компонента
 	 */
-	walk: function(callback) {		
+	walk: function(callback) {
 		callback.call(this);
 		this.children.each(function(item){
 			item.walk(callback);
