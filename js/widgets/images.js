@@ -127,25 +127,26 @@ Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', Dino.Widget, /** @lends Di
 	
 	defaultCls: 'dino-icon',
 	
-	_html: function() { return '<div/>'; },
+	_html: function() { return '<div/>'; }
 	
-	_opt: function(o) {
-		Dino.widgets.Icon.superclass._opt.call(this, o);
+	
+}, 'icon');
+
+
+
+
+
+Dino.widgets.ActionIcon = Dino.declare('Dino.widgets.ActionIcon', 'Dino.widgets.Icon', {
+	
+	defaultOptions: {
+		opacity: .7,
+		states: {
+			'hover': function(is_set) {
+				this.opt('opacity', is_set ? 1 : .7);
+			}
+		}
 		
-//		if('iconCls' in o) {
-//		}
-//		
-//		if('iconSize' in o){
-//			this.el.css({'width': o.iconSize, 'height': o.iconSize});
-//		}
 	}
 	
-//	_dataChanged: function() {
-//		Dino.widgets.Icon.superclass._dataChanged.apply(this, arguments);
-//		// данные меняют состояние виджета
-//		this.states.set( this.getValue() );
-//	}
-	
-		
-}, 'icon');
+}, 'action-icon');
 

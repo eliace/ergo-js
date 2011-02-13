@@ -484,11 +484,27 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
  * Tabs
  */
 
+.dino-tabs-item {
+	color: #444;
+	text-shadow: 1px 1px 0 #fff;
+	font-size: 10pt;
+}
+
+.dino-tabs-item:hover {
+	color: #000;
+}
+
+/*
+.dino-tabs-item > span {
+	vertical-align: middle;
+}
+*/
+
 .dino-tabs.top {
-	height: 25px;
+/*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 4px 0 0 0;
+	padding: 4px 0 3px 0;
 }
 
 .dino-tabs.bottom {
@@ -506,10 +522,11 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-tabs.top li {
-	height: 24px;
-	padding: 0 20px;
+/*	height: 24px;*/
+	padding: 4px 10px;
 	margin-left: 3px;
-	float: left;
+/*	float: left;*/
+	display: inline;
 	border-bottom: 0 !important;
 }
 
@@ -521,7 +538,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-tabs.top li.active {
-	padding-bottom: 1px !important;
+	padding-bottom: 4px !important;
 	margin-top: -4px;
 	padding-top: 4px; /* 24px 0 24px;*/
 }

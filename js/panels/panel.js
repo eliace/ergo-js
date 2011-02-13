@@ -21,6 +21,9 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 					title: {
 						dtype: 'text-item',
 						selectable: false
+					},
+					buttons: {
+						
 					}
 				}	
 			},

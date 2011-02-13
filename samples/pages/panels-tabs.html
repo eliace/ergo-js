@@ -26,34 +26,29 @@
 	
 <style>
 	
-					
+	
+						
 </style>
 	
 <script>
 
 $.dino({
-  dtype: 'box',
+	dtype: 'tab-panel',
 	renderTo: 'body',
-  layout: 'float-layout',
-  defaultItem: {
-    dtype: 'icon',
-    baseCls: 'ui-icon'
-  },
-  items: [
-    { cls: 'ui-icon-newwin' },
-    { cls: 'ui-icon-refresh' },
-    { cls: 'ui-icon-shuffle' },
-    { cls: 'ui-icon-folder-open' },
-    { cls: 'ui-icon-document' },
-    { cls: 'ui-icon-note' },
-		{
-			dtype: 'action-icon',
-			baseCls: '',
-			cls: 'icon32'
-		}
-  ]
+	defaults: {
+		page: {height: 300},
+		tab: {content: {showLeftIcon: true}}
+	},
+	pages: [{
+		tab: {leftIconCls: 'led-icon-vcard', text: 'Tab1'}
+	}, {
+		tab: {leftIconCls: 'led-icon-calendar_1', text: 'Tab2'}
+	}, {
+		tab: {leftIconCls: 'led-icon-book', text: 'Tab3'}
+	}]
 });
 
+		
 		
 </script>
 	

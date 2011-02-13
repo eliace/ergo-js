@@ -16,7 +16,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 				weight: 1,
 				dtype: 'tabs',
 				defaultItem: {
-					cls: 'dino-bg-3 dino-border-all',
+					cls: 'dino-bg-3 dino-border-all dino-corner-top',
 					content: {
 						dtype: 'text-item'
 //						selectable: false
@@ -25,14 +25,17 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 				onTabChanged: function(){
 					// переключаем страницу при смене закладки
 					this.parent.pages.layout.activate( this.currentTab.index );
-					this.parent.events.fire('onTabChanged', {page: this.parent.pages.getItem(this.currentTab.index)});
+					this.parent.events.fire('onTabChanged', {'tab': this.parent.getCurrentTab(), 'page': this.parent.getCurrentPage()});
 				}
 			},
 			pages: {
 				weight: 2,
 				dtype: 'box',
 				layout: 'stack-layout',
-				cls: 'dino-tab-pages dino-border-all'
+				cls: 'dino-tab-pages dino-border-all',
+				defaultItem: {
+					dtype: 'box'
+				}
 			}
 		}
 	},
@@ -68,21 +71,22 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 		}
 		
 		
+		if('tab' in o.defaults)
+			Dino.utils.overrideOpts(o.components.tabs.defaultItem, o.defaults.tab);
+		
+		if('page' in o.defaults)
+			Dino.utils.overrideOpts(o.components.pages.defaultItem, o.defaults.page);
+		
 	},
 	
 	
 	_afterRender: function() {
-		Dino.panels.TabPanel.superclass._afterRender.apply(this, arguments);
-		if(!this.tabs.currentTab) this.tabs.activateTab(0);		
+		this.base('_afterRender', arguments);
+		
+		// активируем закладку
+		if(!this.tabs.currentTab) this.tabs.setActiveTab(0);
 	},
 	
-//	_layoutChanged: function() {
-//		Dino.panels.TabPanel.superclass._layoutChanged.apply(this, arguments);
-//	},
-	
-	_afterBuild: function(){
-//		this.tabs.activateTab(0);
-	},
 	
 	_opt: function(o) {
 		Dino.panels.TabPanel.superclass._opt.apply(this, arguments);
@@ -100,25 +104,36 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 	
 	addPage: function(item) {
 		var tabOpts = (item instanceof Dino.Widget) ? item.options.tab : item.tab;
-		this.tabs.addItem( tabOpts || {} );// Dino.utils.overrideOpts({}, this.options.tabItem, item.tab) );
-		this.pages.addItem( item );// Dino.utils.overrideOpts({}, this.options.pageItem, item));
+		var tab = this.tabs.addItem( {content: tabOpts || {}} );
+		var page = this.pages.addItem( item );
+		page.tab = tab;
 	},
 	
-	setActiveTab: function(i) {
+	removePage: function(i) {
+		//TODO
+	},
+	
+	setCurrentTab: function(i) {
 		this.tabs.activateTab(i);
 	},
 	
-	getActiveTab: function() {
+	getCurrentTab: function() {
 		return this.tabs.currentTab;
 	},
 	
-	getActivePage: function() {
+	getCurrentPage: function() {
 		return this.pages.getItem(this.tabs.currentTab.index);
 	},
 	
-	getPage: function(i) {
-		return this.pages.getItem(i);
+	setCurrentPage: function(i) {
+		this.tabs.setActiveTab( this.pages.getItem(i).tab );
 	}
+	
+		
+	
+//	getPage: function(i) {
+//		return this.pages.getItem(i);
+//	}
 	
 	
 }, 'tab-panel');

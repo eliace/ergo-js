@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Все кнопки</title>
+	
+		<!-- jQuery -->
+		<script type="text/javascript" src="../../lib/misc/jquery-1.4.2.min.js"></script>
+		<!-- DinoJS -->
+		<script type="text/javascript" src="../../build/dino-js.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../build/dino-js.css">
+		<!-- DinoJS theme -->
+		<link rel="stylesheet" type="text/css" href="../../themes/default/dino-theme.css">
+		<!-- jQuery UI theme -->
+		<!--link rel="stylesheet" type="text/css" href="../themes/smoothness/jquery-ui-theme.css"-->	
+		<!-- Iconsets -->
+		<link rel="stylesheet" type="text/css" href="../../iconsets/jquery-ui/jquery-ui-iconset.css">
+		<link rel="stylesheet" type="text/css" href="../../iconsets/led/led-iconset.css">
+
+		<script type="text/javascript" src="../js/commons.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/commons.css">
+
+
+</head>
+<body>
+	
+	
+<style>
+
+.static-column {
+	padding: 2px 5px;
+}
+	
+					
+</style>
+	
+<script>
+
+var staticItems = [];
+var dynamicData = [];
+
+for(var i = 0; i < 10; i++){
+	staticItems.push( {
+		dtype: 'box',
+		defaultItem: {
+			dtype: 'text',
+			cls: 'static-column'
+		},
+		items: [{
+			text: ''+i
+		}, {
+			text: new Date().toString()
+		}, {
+			dtype: 'checkbox',
+			checked: (i%2 == 0)
+		}]
+	} );
+	
+	dynamicData.push({
+		id: i,
+		date: new Date().toString(),
+		flag: (i%2 == 0)
+	});
+		
+}
+
+
+
+
+
+var panel = $.dino({
+	dtype: 'box',
+	renderTo: 'body',
+	components: {
+		buttons: {
+			dtype: 'box',
+			items: [{
+				dtype: 'text-button',
+				text: 'Статический контейнер',
+				onAction: function() {
+					
+					panel.testPanel.el.empty();
+								
+					var t0 = Dino.timestamp();
+					
+					$.dino({
+					  dtype: 'box',
+						renderTo: panel.testPanel,
+						items: staticItems
+					});
+					
+					var t1 = Dino.timestamp();
+					
+					growl.info(t1 - t0);
+					
+				}
+			}, {
+				dtype: 'text-button',
+				text: 'Динамический контейнер',
+				onAction: function() {
+					
+					panel.testPanel.el.empty();
+								
+					var t0 = Dino.timestamp();
+					
+					$.dino({
+					  dtype: 'box',
+						renderTo: panel.testPanel,
+						data: dynamicData,
+						dynamic: true,
+						defaultItem: {
+							dtype: 'box',
+							defaultItem: {
+								dtype: 'text',
+								cls: 'static-column'
+							},
+							items: [{
+								dataId: 'id'
+							}, {
+								dataId: 'date'
+							}, {
+								dtype: 'checkbox',
+								dataId: 'flag'
+							}]
+						},
+						data: dynamicData
+					});
+					
+					var t1 = Dino.timestamp();
+					
+					growl.info(t1 - t0);
+					
+				}
+			}, {
+				dtype: 'text-button',
+				text: 'Только jQuery',
+				onAction: function() {
+					
+					panel.testPanel.el.empty();
+								
+					var t0 = Dino.timestamp();
+					
+					var root = $('<div></div>');
+					
+					for(var i = 0; i < dynamicData.length; i++) {
+						var row = $('<div></div>');
+						row.append($('<span class="static-column">'+dynamicData[i].id+'<span>'));
+						row.append($('<span class="static-column">'+dynamicData[i].date+'<span>'));
+						row.append($('<span class="static-column"><input type="checkbox"><span>'));
+						root.append(row);
+					}
+					
+					panel.testPanel.el.append(root);
+					
+					var t1 = Dino.timestamp();
+					
+					growl.info(t1 - t0);
+					
+				}
+			}, {
+				dtype: 'text-button',
+				text: 'Test',
+				onAction: function(){
+					
+					var t0 = Dino.timestamp();
+					Dino.object(staticItems[0]);
+					var t1 = Dino.timestamp();
+					new Dino.containers.Box(staticItems[0]);
+					var t2 = Dino.timestamp();
+										
+					growl.info(t1 - t0);
+					growl.info(t2 - t1);
+				}
+			}]
+			
+		},
+		testPanel: {
+			dtype: 'box'
+		}
+	}
+});
+
+
+
+
+
+
+</script>
+
+	
+
+ <!--form enctype="multipart/form-data" method="post">
+    <input type="file" min="1" max="9999" name="file[]" multiple="true" />
+    <input type="submit" name="submit" />
+ </form--> 
+	
+	
+</body>
+</html>

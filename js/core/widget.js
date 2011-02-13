@@ -69,6 +69,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			'hidden': 'dino-hidden',
 			'visible': ['', 'dino-hidden']
 		},
+		defaults: {
+			
+		},
 		binding: 'auto'
 	},
 	

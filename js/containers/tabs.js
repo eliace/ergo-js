@@ -10,22 +10,27 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 	
 	defaultOptions: {
 		defaultItem: {
+			html: '<li/>',
+			cls: 'dino-tabs-item',
 			content: {
 				dtype: 'text'
 			},
-			events: {
-				'click': function(){
-					var tab = $(this).dino();
-					tab.parent.activateTab(tab);
-				}
+			state: 'clickable',
+			onClick: function() {
+				this.parent.setActiveTab(this);
 			}
+//			events: {
+//				'click': function(e, w){
+//					w.parent.activateTab(tab);
+//				}
+//			}
 		},
-		itemFactory: function(o){
-			return Dino.widget({
-				wrapEl: $('<li/>')
-//				defaultItem: this.options.tabContent
-			}, o);
-		},
+//		itemFactory: function(o){
+//			return Dino.widget({
+//				wrapEl: $('<li/>')
+////				defaultItem: this.options.tabContent
+//			}, o);
+//		},
 //		tabContent: {
 //			dtype: 'text'
 //		},
@@ -36,8 +41,8 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 	
 	_html: function() { return '<ul></ul>' },
 	
-	_opt: function(o) {
-		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
+//	_opt: function(o) {
+//		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
 		
 /*		
 		if('tabs' in o){
@@ -69,7 +74,7 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 		}
 	*/	
 
-	},
+//	},
 	
 //	_afterBuild: function(){
 //		Dino.containers.Tabs.superclass._afterBuild.apply(this, arguments);
@@ -93,7 +98,7 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 	},
 */	
 	
-	activateTab: function(tab){
+	setActiveTab: function(tab){
 		
 		// если указанный объект не является виджетом, то ищем его через getItem
 		if(!(tab instanceof Dino.Widget)) tab = this.getItem(tab);
@@ -107,6 +112,10 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 		this.currentTab = tab;
 		if(is_changed) this.events.fire('onTabChanged');
 		
+	},
+	
+	getActiveTab: function(){
+		return this.currentTab;
 	}
 
 		

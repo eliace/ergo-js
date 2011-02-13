@@ -121,6 +121,12 @@ var sampleTree = [{
 		name: "ajax",
 		path: 'trees-ajax.html'
 	}]
+}, {
+	name: 'Panels',
+	children: [{
+		name: 'Tabs',
+		path: 'panels-tabs.html'
+	}]
 }];
 
 
