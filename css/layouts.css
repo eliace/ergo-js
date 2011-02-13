@@ -148,8 +148,12 @@
  * BORDER LAYOUT
  */ 
  
-.resizable-h {
+.resizable-west, .resizable-east {
 	cursor: col-resize;
+}
+
+.resizable-north, .resizable-south {
+	cursor: row-resize;
 }
 
 
@@ -159,7 +163,7 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	z-index: 999;
+	z-index: 1000;
 }
 
 
@@ -187,7 +191,7 @@
 [region='west-splitter'] {
 	top: 0;
 	bottom: 0;
-	width: 6px;
+	width: 4px;
 }
 
 [region='east'] {
@@ -199,10 +203,47 @@
 [region='east-splitter'] {
 	top: 0;
 	bottom: 0;
-	width: 6px;
+	width: 4px;
 }
 
-[region$='splitter']:hover {
+[region='west-splitter']:hover, [region='east-splitter']:hover {
 	cursor: col-resize;	
 }
+
+
+[region='north'] {
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+[region='north-splitter'] {
+	left: 0;
+	right: 0;
+	height: 4px;
+}
+
+
+[region='south'] {
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+[region='south-splitter'] {
+	left: 0;
+	right: 0;
+	height: 4px;
+}
+
+
+[region='north-splitter']:hover, [region='south-splitter']:hover {
+	cursor: row-resize;	
+}
+
+[region$='splitter'].active {
+	background-color: #aaa;
+	z-index: 999;	
+}
+
  

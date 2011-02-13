@@ -18,8 +18,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 				defaultItem: {
 					cls: 'dino-bg-3 dino-border-all',
 					content: {
-						dtype: 'text-item',
-						selectable: false
+						dtype: 'text-item'
+//						selectable: false
 					}
 				},
 				onTabChanged: function(){
