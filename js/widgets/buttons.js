@@ -3,13 +3,8 @@
 
 
 
-/**
- * Кнопка, управляемая через CSS.
- * 
- * @class
- * @extends Dino.Widget
- */
-Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, /** @lends Dino.widgets.ToggleButton.prototype */{
+/*
+Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
 	
 	defaultCls: 'dino-toggle-button',
 	
@@ -57,7 +52,7 @@ Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widge
 	
 	
 }, 'toggle-button');
-
+*/
 
 
 
@@ -209,78 +204,6 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 
 
 
-
-/**
- * @class
- * @extends Dino.containers.Box
- */
-Dino.widgets.PulseButton = Dino.declare('Dino.widgets.PulseButton', 'Dino.containers.Box', /** @lends Dino.widgets.PulseButton.prototype */{
-	
-	defaultCls: 'dino-pulse-button',
-	
-	defaultOptions: {
-		pulseDelay: 200,
-		components: {
-			image: {
-				dtype: 'image'
-			}
-		}
-	},
-	
-//	_init: function(){
-//		Dino.widgets.PulseButton.superclass._init.apply(this, arguments);
-//		
-//		var self = this;
-//		
-//		this.image = new Dino.Widget('<img/>');
-//		this.addItem(this.image);
-//		
-//	},
-	
-	_events: function(self) {
-		Dino.widgets.PulseButton.superclass._events.apply(this, arguments);
-		
-		this.image.el.bind('mouseenter', function(){
-			$(this).clearQueue();
-			$(this).animate({'width': self.maxW, 'height': self.maxH, 'left': 0, 'top': 0}, self.options.pulseDelay, function(){ 
-				self.events.fire('onAfterPulseUp'); 
-			});
-		});
-		
-		this.image.el.bind('mouseleave', function(e){
-			var o = self.options;
-			var event = new Dino.events.CancelEvent({}, e);
-			self.events.fire('onBeforePulseDown', event);
-			
-			if(!event.isCanceled) self.pulseDown();
-		});
-		
-	},
-	
-	_opt: function(o){
-		Dino.widgets.PulseButton.superclass._opt.apply(this, arguments);
-		
-		if('imageUrl' in o) this.image.el.attr('src', o.imageUrl);
-		if(!('imageHeight' in o)) o.imageHeight = o.imageWidth;
-		if(!('imageWidth' in o)) o.imageWidth = o.imageHeight;
-
-		this.maxW = o.imageWidth * o.pulseValue;
-		this.maxH = o.imageHeight * o.pulseValue;
-		this.dx = (this.maxW - o.imageWidth)/2;
-		this.dy = (this.maxH - o.imageHeight)/2;
-		
-		this.el.css({'width': this.maxW, 'height': this.maxH});
-		
-		this.image.opt({'width': o.imageWidth, 'height': o.imageHeight, 'x': this.dx, 'y': this.dy});
-	},
-	
-	pulseDown: function(){
-		var o = this.options;
-		this.image.el.animate({'width': o.imageWidth, 'height': o.imageHeight, 'left': this.dx, 'top': this.dy}, o.pulseDelay);
-	}
-	
-	
-}, 'pulse-button');
 
 
 

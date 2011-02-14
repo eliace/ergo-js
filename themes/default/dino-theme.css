@@ -359,6 +359,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 
 
+
 /*
  * TEXT BUTTON
  */
@@ -487,7 +488,6 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-tabs-item {
 	color: #444;
 	text-shadow: 1px 1px 0 #fff;
-	font-size: 10pt;
 }
 
 .dino-tabs-item:hover {
@@ -504,7 +504,8 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 4px 0 3px 0;
+	padding: 4px 0;
+	font-size: 13px;
 }
 
 .dino-tabs.bottom {
@@ -538,7 +539,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-tabs.top li.active {
-	padding-bottom: 4px !important;
+	padding-bottom: 5px !important;
 	margin-top: -4px;
 	padding-top: 4px; /* 24px 0 24px;*/
 }
@@ -847,6 +848,11 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-icon.icon32 {
 	width: 32px;
 	height: 32px;
+}
+
+.dino-icon.icon48 {
+	width: 48px;
+	height: 48px;
 }
 
 

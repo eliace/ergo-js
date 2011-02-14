@@ -41,14 +41,14 @@
 
 
 /*
- * PULSE BUTTON
+ * PULSE ICON
  */
 
-.dino-pulse-button {
+.dino-pulse-icon {
 	position: relative;
 }
 
-.dino-pulse-button img {
+.dino-pulse-icon img {
 	position: absolute;
 }
 

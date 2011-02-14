@@ -66,6 +66,12 @@ var sampleTree = [{
 	}, {
 		name: 'Async',
 		path: 'images-async.html'
+	}, {
+		name: 'ActionIcon',
+		path: 'images-action.html'
+	}, {
+		name: 'PulseIcon',
+		path: 'images-pulse.html'
 	}]
 }, {
 	name: 'Layouts',

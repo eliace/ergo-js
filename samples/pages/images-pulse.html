@@ -25,87 +25,48 @@
 	
 	
 <style>
+
+.icon-01 {
+	background-image: url(../img/menu/Backward.png);
+}
+
+.icon-02 {
+	background-image: url(../img/menu/Box.png);
+}
+
+.icon-03 {
+	background-image: url(../img/menu/Chat.png);
+}
 	
-.button-container {
-	left: 20px;
-	top: 20px;				
-}
 
-.button-container > * {
-	display: block;
-}
 
-.toggle-button-1 {
-	width: 48px;
-	height: 48px;
-	background-image: url('../img/folder close blue.png');
-}
-					
+
 </style>
 	
 <script>
-		
-//sample('sample-all', function(){
 
 $.dino({
 	dtype: 'box',
 	renderTo: 'body',
-//	layout: 'column-layout',
-	cls: 'button-container',
+	layout: 'float-layout',
+	defaultItem: {
+		dtype: 'pulse-icon',
+		imageWidth: 30,
+		pulseValue: 1.25,
+		pulseDelay: 200
+	},
 	items: [{
-		dtype: 'button',
-		innerText: 'Простая кнопка'
+		imageUrl: '../img/menu/Chart_bar.png',
 	}, {
-		// iconL
-		dtype: 'text-button',
-		icon: 'led-icon-accept',
-		text: false
+		imageUrl: '../img/menu/Box.png',
 	}, {
-		// iconR
-		dtype: 'text-button',
-		xicon: 'led-icon-cancel',
-		text: false
+		imageUrl: '../img/menu/Clock.png',
 	}, {
-		// iconL text iconR
-		dtype: 'text-button',
-		icon: 'led-icon-accept',
-		text: 'OK/Cancel',
-		xicon: 'led-icon-cancel'
-	}, {
-		// iconL text
-		dtype: 'text-button',
-		text: 'ОК',
-		icon: 'led-icon-accept'
-	}, {
-		// text iconR
-		dtype: 'text-button',
-		text: 'Cancel',
-		xicon: 'led-icon-cancel'
-	}, {
-		// text
-		dtype: 'text-button',
-		text: 'ОК'
-	}, {
-		// iconL iconR
-		dtype: 'text-button',
-		icon: 'led-icon-accept',
-		xicon: 'led-icon-cancel',
-		text: false
-	}/*, {
-		dtype: 'icon-button',
-		icon: 'led-icon-cog'
-	}*/, {
-//		dtype: 'box',
-//		content: {
-		dtype: 'icon-button',
-		cls: 'dino-corner-all',
-		icon: 'led-icon-refresh'
-//		}
-	}]						
-});
+		imageUrl: '../img/menu/Calander.png',
+	}]
 	
-//});		
-		
+});
+				
 </script>
 	
 	
