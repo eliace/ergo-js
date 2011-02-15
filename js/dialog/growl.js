@@ -48,8 +48,8 @@ Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.B
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.GrowlBox.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.GrowlBox.superclass.$init.apply(this, arguments);
 		
 		// Добавляем иконку
 		if('icon' in o) {
@@ -198,7 +198,7 @@ Dino.declare('Dino.widgets.Growl', 'Dino.containers.Box', {
 /*
 Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 //	defaultCls: 'dino-growl-box',
 	
@@ -235,16 +235,16 @@ Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 
 	},
 	
-	_events: function(self){
-		Dino.widgets.Growl.superclass._events.apply(this, arguments);
+	$events: function(self){
+		Dino.widgets.Growl.superclass.$events.apply(this, arguments);
 		
 //		this.el.click(function(){ 
 //			self.hide();
 //		});
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.Growl.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Growl.superclass.$opt.apply(this, arguments);
 		
 		if('message' in o)
 			this.contentBox.content.opt('innerHtml', o.message);

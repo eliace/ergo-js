@@ -20,10 +20,10 @@ Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Contai
 		}
 	},
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
-	_opt: function(o) {
-		Dino.containers.GroupBox.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.containers.GroupBox.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.groupTitle.opt('innerText', o.title);
 	}

@@ -51,11 +51,11 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 		}
 	},
 	
-	_html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
+	$html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
 
 	
-	_init: function() {
-		Dino.widgets.Table.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.Table.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -119,8 +119,8 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 	}
 	
 	
-//	_opt: function(o) {
-//		Dino.containers.Table.superclass._opt.call(this, o);
+//	$opt: function(o) {
+//		Dino.containers.Table.superclass.$opt.call(this, o);
 //		
 //		
 //	}
@@ -136,7 +136,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
  */
 Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', /** @lends Dino.widgets.TableRow.prototype */{
 	
-	_html: function() { return '<tr></tr>'; },
+	$html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
 		defaultItem: {
@@ -165,7 +165,7 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', 
  */
 Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /** @lends Dino.widgets.TableCell.prototype */{
 	
-	_html: function() { return '<td></td>'; },
+	$html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
 //		autoHeight: 'ignore',
@@ -182,12 +182,12 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 //		cls: 'dino-table-cell'
 	},
 		
-	_dataChanged: function() {
+	$dataChanged: function() {
 		
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
+		Dino.widgets.TableCell.superclass.$dataChanged.apply(this);
 	},
 	
 	getRow: function() {
@@ -200,15 +200,15 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 		
 		this.addComponent('_editor', this.options.editor);
 		
-		this._editor.setData(this.data);
-		this._editor._dataChanged(); // явно вызываем обновление данных
+		this._editor.$bind(this.data);
+		this._editor.$dataChanged(); // явно вызываем обновление данных
 		this._editor.el.focus();
 		this._editor.el.select();
 	},
 	
 	stopEdit: function() {
 		this.removeComponent('_editor');
-		this._dataChanged(); // явно вызываем обновление данных
+		this.$dataChanged(); // явно вызываем обновление данных
 		this.events.fire('onEdit');
 	}	
 	
@@ -223,27 +223,26 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
  */
 Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Dino.Widget', /** @lends Dino.widgets.TableHeaderCell.prototype */{
 	
-	_html: function() { return '<th></th>'; },
+	$html: function() { return '<th></th>'; },
 	
 	defaultOptions: {
 		binding: 'skip'
 	},
 	
-	_opt: function(o) {
-		this.base('_opt', arguments);
+	$opt: function(o) {
+		Dino.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.layout.el.text(o.text);
 		
 	},
 	
 	
-	_dataChanged: function() {
+	$dataChanged: function() {
 		
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		this.base('_dataChanged', arguments);
-//		Dino.widgets.TableCell.superclass._dataChanged.apply(this);
+		Dino.widgets.TableCell.superclass.$dataChanged.apply(this);
 	}
 	
 }, 'table-header-cell');

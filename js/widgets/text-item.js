@@ -6,7 +6,7 @@
  */
 Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /** @lends Dino.widgets.TextItem.prototype */{
 	
-	_html: function() { return '<span></span>'; },	
+	$html: function() { return '<span></span>'; },	
 	
 	defaultOptions: {
 		cls: 'dino-text-item',
@@ -26,7 +26,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 				dock: 'right'
 			}
 		},
-		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод _events
+		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод $events
 		events: {
 			'click': function() {
 				$(this).dino().events.fire('onAction');
@@ -45,8 +45,8 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 //		showText: true
 	},
 
-	_init: function(o) {
-		this.base('_init', arguments);
+	$init: function(o) {
+		Dino.widgets.TextItem.superclass.$init.apply(this, arguments);
 		
 		var key_a = [];
 		if(o.showLeftIcon) key_a.push('icon');
@@ -97,8 +97,8 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.TextItem.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) {
 			if(o.text) this.content.opt('innerText', o.text);
@@ -179,15 +179,15 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		if(this.options.showLeftIcon) this._editor.el.addClass('l-icon');
 		if(this.options.showRightIcon) this._editor.el.addClass('r-icon');
 		
-		this._editor.setData(this.content.data);
-		this._editor._dataChanged(); // явно вызываем обновление данных
+		this._editor.$bind(this.content.data);
+		this._editor.$dataChanged(); // явно вызываем обновление данных
 		this._editor.el.focus();
 		this._editor.el.select();
 	},
 	
 	stopEdit: function() {
 		this.removeComponent('_editor');
-		this.content._dataChanged(); // явно вызываем обновление данных
+		this.content.$dataChanged(); // явно вызываем обновление данных
 		this.content.states.clear('hidden');
 		this.events.fire('onEdit');
 	}	

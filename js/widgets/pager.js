@@ -77,17 +77,15 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 	
 	
 	
-	_init: function(o) {
-		this.base('_init', arguments);
-//		Dino.widgets.Pager.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.Pager.superclass.$init.apply(this, arguments);
 		
 		this.count = this.offset = 0;
 		this.page_size = 1;
 	},
 	
-	_opt: function(o) {
-		this.base('_opt', arguments);
-//		Dino.widgets.Pager.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Pager.superclass.$opt.apply(this, arguments);
 		
 		if('pageSize' in o){
 			this.page_size = o.pageSize || 1;

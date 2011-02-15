@@ -8,15 +8,15 @@
  */
 Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.Widget, /** @lends Dino.widgets.Image.prototype */{
 	
-	_html: function() { return '<img></img>';},
+	$html: function() { return '<img></img>';},
 	
-	_opt: function(o) {
-		Dino.widgets.Image.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.Image.superclass.$opt.call(this, o);
 		
 		if('imageUrl' in o) this.el.attr('src', o.imageUrl);
 	},
 	
-	_dataChanged: function() {
+	$dataChanged: function() {
 		this.el.attr( 'src', this.getValue() );
 	}
 	
@@ -34,10 +34,10 @@ Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.Widget, /** @lends 
  */
 Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.Widget, /** @lends Dino.utils.AsyncImage.prototype */{
 	
-	_html: function() { return '<div></div>';},
+	$html: function() { return '<div></div>';},
 	
-	_init: function(o) {
-		Dino.utils.AsyncImage.superclass._init.call(this, o);
+	$init: function(o) {
+		Dino.utils.AsyncImage.superclass.$init.call(this, o);
 		
 		this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		
@@ -103,7 +103,7 @@ Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.Widget, /** @
 	
 	},
 	
-	_dataChanged: function() {
+	$dataChanged: function() {
 		var o = this.options;
 		this.load(this.getValue(), o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 	}
@@ -127,7 +127,7 @@ Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', Dino.Widget, /** @lends Di
 	
 	defaultCls: 'dino-icon',
 	
-	_html: function() { return '<div/>'; }
+	$html: function() { return '<div/>'; }
 	
 	
 }, 'icon');
@@ -174,8 +174,8 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 	},
 	
 	
-	_events: function(self) {
-		this.base('_events', arguments);
+	$events: function(self) {
+		Dino.widgets.PulseIcon.superclass.$events.apply(this, arguments);
 		
 		this.image.el.bind('mouseenter', function(){
 			$(this).clearQueue();
@@ -194,8 +194,8 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 		
 	},
 	
-	_opt: function(o){
-		this.base('_opt', arguments);
+	$opt: function(o){
+		Dino.widgets.PulseIcon.superclass.$opt.apply(this, arguments);
 		
 		if('imageUrl' in o) this.image.el.attr('src', o.imageUrl);
 		if(!('imageHeight' in o)) o.imageHeight = o.imageWidth;

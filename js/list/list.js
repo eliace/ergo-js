@@ -48,8 +48,8 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.List.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.List.superclass.$init.apply(this, arguments);
 		
 		if('listItems' in o) {
 			Dino.utils.overrideOpts(o.components.content, {items: o.listItems});
@@ -73,8 +73,8 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 	
 	
 	
-	_opt: function(o) {
-		Dino.widgets.List.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.List.superclass.$opt.apply(this, arguments);
 		
 		if('contentHeight' in o) this.content.opt('height', o.contentHeight);
 				

@@ -187,10 +187,12 @@ $(document).ready(function(){
 			// Содержимое
 			pageContent: {
 				dtype: 'box',
-				layout: 'column-layout',
+				layout: 'border-layout',
+				height: 'auto',
 				items: [{
 					dtype: 'box',
-					cls: 'dino-border-all dino-corner-all',
+					region: 'west',
+					cls: 'dino-border-all',
 					width: 170,
 					height: 'auto',
 					content: {
@@ -208,7 +210,7 @@ $(document).ready(function(){
 										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
-											Application.pageContent.getItem(2).opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none"></iframe>');
+											Application.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none"></iframe>');
 //											growl.info('hello');
 										}
 									}
@@ -221,7 +223,7 @@ $(document).ready(function(){
 							}
 						}
 					}
-				}, {
+				}/*, {
 					dtype: 'box',
 					width: 6,
 					height: 'auto',
@@ -232,11 +234,41 @@ $(document).ready(function(){
 //							dragSplit = true;
 //						}
 //					}
-				}, {
+				}*/, {
 					dtype: 'box',
-					cls: 'dino-border-all dino-corner-all',
+					tag: 'preview_and_code',
 					height: 'auto',
-					style: {'padding': '2px'}
+					layout: 'border-layout',
+					items: [{
+						dtype: 'box',
+						tag: 'preview',
+						cls: 'dino-border-all',
+						height: 'auto',
+						style: {'padding': '3px'}
+					}, {
+						dtype: 'box',
+						region: 'south',
+						cls: 'dino-border-all',
+						style: {'height': 200, 'padding': '3px'},
+//						height: 200,
+						content: {
+							dtype: 'tab-panel',
+//							height: 'auto',
+							pages: [{
+								tab: {text: 'Code'},
+								content: {
+									dtype: 'box',
+									height: 'auto'
+								}
+							}, {
+								tab: {text: 'CSS'},
+								content: {
+									dtype: 'box',
+									height: 'auto'
+								}
+							}]
+						}
+					}]
 				}]
 			}
 		}
@@ -276,7 +308,7 @@ $(document).ready(function(){
 		var dh = $('body').outerHeight(true) - $('body').height();
 		$('body').height(h - dh);
 		
-		Application._layoutChanged();
+		Application.$layoutChanged();
 	});
 	
 });

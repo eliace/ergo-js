@@ -22,8 +22,8 @@ Dino.declare('Dino.widgets.AdvancedInput', Dino.containers.Box, {
 //		Dino.widgets.AdvancedInput.superclass.options.call(this, o);				
 //	},
 	
-	_init: function() {
-		Dino.widgets.AdvancedInput.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.AdvancedInput.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -67,8 +67,8 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 	
 	defaultCls: 'dc-assist-file',
 	
-	_init: function(o) {
-		Dino.widgets.FileAssist.superclass._init.call(this, o);
+	$init: function(o) {
+		Dino.widgets.FileAssist.superclass.$init.call(this, o);
 		
 		var self = this;
 		
@@ -102,8 +102,8 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.FileAssist.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.FileAssist.superclass.$opt.call(this, o);
 		
 		if('url' in o) this.url = o.url;
 	}
@@ -129,8 +129,8 @@ Dino.declare('Dino.widgets.FileAssist', Dino.widgets.ToggleButton, {
 
 Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
 	
-	_init: function(){
-		Dino.widgets.Checkbox.superclass._init.apply(this, arguments);
+	$init: function(){
+		Dino.widgets.Checkbox.superclass.$init.apply(this, arguments);
 		
 		this.checkbox = new Dino.widgets.form.Checkbox();
 		this.addItem(this.checkbox);
@@ -139,8 +139,8 @@ Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
 		this.addItem(this.label);		
 	},
 	
-	_opt: function(o){
-		Dino.widgets.Checkbox.superclass._opt.apply(this, arguments);
+	$opt: function(o){
+		Dino.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.label.el.text(o.text);
 	}
@@ -153,17 +153,17 @@ Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
 
 Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	
-	_html: function(){ return '<span/>';},
+	$html: function(){ return '<span/>';},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.Text.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Text.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.el.text(o.text);
 	},
 	
-	_dataChanged: function() {
-		Dino.widgets.Text.superclass._dataChanged.apply(this, arguments);
+	$dataChanged: function() {
+		Dino.widgets.Text.superclass.$dataChanged.apply(this, arguments);
 		this.el.text( this.getValue() );
 //		this.states.set( this.getStateValue() );
 	},
@@ -177,9 +177,9 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 
 //Dino.declare('Dino.widgets.StateText', 'Dino.Widget', {
 //	
-//	_html: function(){ return '<span/>';},
+//	$html: function(){ return '<span/>';},
 //	
-//	_dataChanged: function() {
+//	$dataChanged: function() {
 //		this.el.text( this.getValue() );
 //		this.states.set( this.getValue() );
 //	}	

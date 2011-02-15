@@ -39,10 +39,10 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 	
 	defaultCls: 'dino-tabs',
 	
-	_html: function() { return '<ul></ul>' },
+	$html: function() { return '<ul></ul>' },
 	
-//	_opt: function(o) {
-//		Dino.containers.Tabs.superclass._opt.apply(this, arguments);
+//	$opt: function(o) {
+//		Dino.containers.Tabs.superclass.$opt.apply(this, arguments);
 		
 /*		
 		if('tabs' in o){
@@ -76,8 +76,8 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 
 //	},
 	
-//	_afterBuild: function(){
-//		Dino.containers.Tabs.superclass._afterBuild.apply(this, arguments);
+//	$afterBuild: function(){
+//		Dino.containers.Tabs.superclass.$afterBuild.apply(this, arguments);
 //		
 //		if('defaultIndex' in this.options)
 //			this.changeTab(this.options.defaultIndex);

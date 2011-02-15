@@ -19,7 +19,7 @@ Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layout
 			c.el.toggleClass('dino-hidden', (c != child));
 		});
 		
-		if(child.layout) child._layoutChanged();
+		if(child.layout) child.$layoutChanged();
 		
 	}
 	

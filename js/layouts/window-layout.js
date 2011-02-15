@@ -110,7 +110,7 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 			// вызываем функцию-сигнал о том, что окно отображено
 			if(callback) callback.call(self);
 			// обновляем компоновку окна
-			self.container._layoutChanged();
+			self.container.$layoutChanged();
 		});
 		
 		

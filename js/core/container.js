@@ -23,8 +23,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		}
 	},
 	
-	_init: function(o) {
-		Dino.Container.superclass._init.apply(this);
+	$init: function(o) {
+		Dino.Container.superclass.$init.apply(this);
 		
 		var o = this.options;
 		
@@ -49,8 +49,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 				
 	},	
 
-	_opt: function(o) {
-		Dino.Container.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.Container.superclass.$opt.call(this, o);
 		
 		if('itemFactory' in o)
 			this.itemFactory = o.itemFactory;
@@ -63,13 +63,13 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	},
 
 	
-//	_afterRender: function() {
-//		Dino.Container.superclass._afterRender.apply(this);
+//	$afterRender: function() {
+//		Dino.Container.superclass.$afterRender.apply(this);
 //	},
 
 	//FIXME по идее этот мето должен быть в Dino.Widget
-//	_dataChanged: function() {
-//		this.children.each(function(item) { item._dataChanged(); });
+//	$dataChanged: function() {
+//		this.children.each(function(item) { item.$dataChanged(); });
 //	},
 	
 	
@@ -234,10 +234,10 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	},
 */
 	
-	setData: function(data, phase) {
+	$bind: function(data, phase) {
 		
 		if(!this.options.dynamic) {
-			Dino.Container.superclass.setData.apply(this, arguments);
+			Dino.Container.superclass.$bind.apply(this, arguments);
 			return;
 		}
 		
@@ -272,8 +272,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 		// эсли элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onItemChanged', function(e){
-			self.getItem( e.item.id ).setData(self.data.item(e.item.id), 2);
-//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
+			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), 2);
+//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		});
 
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
@@ -285,7 +285,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 			
 			self.data.each(function(dataItem, i){
 				var dataItem = self.data.item(i);
-				self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
+				self.addItem({ 'data': dataItem }).dataPhase = 2;//.$bind(dataItem, 2);
 			});
 
 			self.layout.immediateRebuild = true;
@@ -300,7 +300,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 		this.data.each(function(dataItem, i){
 			var dataItem = self.data.item(i);
-			self.addItem({ 'data': dataItem }).dataPhase = 2;//.setData(dataItem, 2);
+			self.addItem({ 'data': dataItem }).dataPhase = 2;//.$bind(dataItem, 2);
 		});
 		
 		this.layout.immediateRebuild = true;
@@ -315,17 +315,17 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 //		// всем предопределенным виджетам подсоединяем источники данных
 //		this.eachItem(function(item, i){
-//			item.setData( self.data.item(i) )
+//			item.$bind( self.data.item(i) )
 //		});
 //		this.children.each(function(child){
-//			if(child.dataPhase != 1) child.setData(self.data, 2);
+//			if(child.dataPhase != 1) child.$bind(self.data, 2);
 //		});
 	}/*,
 
-	_dataChanged: function() {
+	$dataChanged: function() {
 		
 		if(!this.options.dynamic) {
-			Dino.Container.superclass._dataChanged.call(this);
+			Dino.Container.superclass.$dataChanged.call(this);
 			return;	
 		}
 		

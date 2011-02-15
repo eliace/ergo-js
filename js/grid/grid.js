@@ -65,8 +65,8 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	
 	
 	
-	_init: function() {
-		Dino.widgets.Grid.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.Grid.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -84,15 +84,15 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 		
 	},
 	
-//	_opt: function(o) {
-//		Dino.widgets.Grid.superclass._opt.apply(this, arguments);
+//	$opt: function(o) {
+//		Dino.widgets.Grid.superclass.$opt.apply(this, arguments);
 //		
 //		if('isDynamic' in o) this.content.body.opt('dynamic', true);
 //	},
 	
 	
-	_layoutChanged: function() {
-		this.base('_layoutChanged', arguments);
+	$layoutChanged: function() {
+		Dino.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
 		
 		// выполняем настройку ширины полей
 		var body = this.content.content.body;
@@ -159,14 +159,14 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 		
 		
 //		var tableWidth = this.content.content.el.width();
-	},
-	
-	_dataChanged: function() {
-		this.base('_dataChanged', arguments);
-		
-//		this._layoutChanged();
-		
 	}
+	
+//	$dataChanged: function() {
+//		Dino.widgets.Grid.superclass.$dataChanged.apply(this, arguments);
+//		
+////		this.$layoutChanged();
+//		
+//	}
 	
 	
 	

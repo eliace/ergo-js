@@ -6,8 +6,8 @@
 Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 	
 	
-	_init: function(o) {
-		Dino.widgets.FormItem.superclass._init.apply(this, arguments);		
+	$init: function(o) {
+		Dino.widgets.FormItem.superclass.$init.apply(this, arguments);		
 
 		this.label = Dino.widget({
 			dtype: 'label',
@@ -34,10 +34,10 @@ Dino.declare('Dino.containers.Form', Dino.Container, {
 	},
 	
 	
-	_html: function() { return '<form method="post"></form>'; },
+	$html: function() { return '<form method="post"></form>'; },
 	
-	_opt: function(o) {
-		Dino.containers.Form.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.containers.Form.superclass.$opt.apply(this, arguments);
 		
 		if('action' in o) this.el.attr('action', o.action);
 	},

@@ -51,8 +51,8 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.Dialog.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.Dialog.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		
@@ -69,8 +69,8 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 		this.dialogButton = null;
 	},
 
-	_opt: function(o) {
-		Dino.widgets.Dialog.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Dialog.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.title.opt('text', o.title);
 	

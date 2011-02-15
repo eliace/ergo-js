@@ -2,7 +2,7 @@
 
 Dino.declare('Dino.widgets.ListItem', 'Dino.Widget', {
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		

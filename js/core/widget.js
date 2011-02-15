@@ -259,7 +259,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		 * Элемент 
 		 * @type Element
 		 */
-		this.el = $(html || this._html());//('wrapEl' in o) ? o.wrapEl : $(this._html());
+		this.el = $(html || this.$html());//('wrapEl' in o) ? o.wrapEl : $(this.$html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
@@ -301,29 +301,29 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 
 
 		// конструируем виджет
-		this._init(o);//this, arguments);
+		this.$init(o);//this, arguments);
 		
 		profiler.tick('widget', 'init');		
 
 		// устанавливаем опциональные параметры
-		this._opt(o);
+		this.$opt(o);
 		
 		profiler.tick('widget', 'opt');
 		
 		// добавляем обработку событий (deprecated)
-		this._events(this);
+		this.$events(this);
 		// добавляем элемент в документ
-		this._render(o.renderTo);
+		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.setData(o.data);		
+		this.$bind(o.data);		
 		
 		// обновляем виджет, если к нему были подключены данные
-		if(this.data) this._dataChanged();
+		if(this.data) this.$dataChanged();
 		// выполняем темизацию ?
 //		this._theme(o.theme);
 //		//
-		this._afterBuild();
+		this.$afterBuild();
 		
 		this.events.fire('onCreated');
 		
@@ -335,15 +335,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 
 		profiler.stop('widget');
 
-/*		
-		if(measurements.enabled){
-//			if(!('widget.create' in measurements)) measurements['widget.create'] = 0;
-//			if(!('widget.build' in measurements)) measurements['widget.build'] = 0;
-			measurements['widget.precreate'] += t1-t0;
-			measurements['widget.create'] += t2-t1;
-			measurements['widget.build'] += tn-t2;
-		}
-*/		 
 	},
 	
 	
@@ -354,7 +345,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_init: function() {
+	$init: function() {
 		
 		var o = this.options;
 		
@@ -392,7 +383,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_html: function() {
+	$html: function() {
 		return '';//'<div/>';
 	},
 	
@@ -402,14 +393,14 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @param {Element|Dino.Widget} target
 	 * @private
 	 */
-	_render: function(target) {
+	$render: function(target) {
 		if(target){
 			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
 			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
-				this._afterRender();
-				this._layoutChanged();
+				this.$afterRender();
+				this.$layoutChanged();
 			}
 			
 		}
@@ -423,7 +414,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_afterBuild: function() {
+	$afterBuild: function() {
 		
 		var o = this.options;
 		var self = this;
@@ -441,12 +432,12 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_layoutChanged: function() {
+	$layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
-		this.children.each(function(c) { c._layoutChanged(); });
+		this.children.each(function(c) { c.$layoutChanged(); });
 	},
 	
-	_events: function(self){
+	$events: function(self){
 	},
 	
 	/**
@@ -454,8 +445,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_afterRender: function() {
-		this.children.each(function(c) { c._afterRender(); });
+	$afterRender: function() {
+		this.children.each(function(c) { c.$afterRender(); });
 	},
 
 	/**
@@ -474,7 +465,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		Dino.utils.overrideOpts(this.options, opts);
 		
-		this._opt(opts);
+		this.$opt(opts);
 		return this.options;
 	},
 	
@@ -487,7 +478,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @private
 	 * @param {Object} o параметры
 	 */
-	_opt: function(o) {
+	$opt: function(o) {
 		
 		var self = this;
 		var el = this.el;
@@ -673,7 +664,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @param {Object} key
 	 * @param {Object} target
 	 */
-	_translate_opt: function(key, target) {
+	_translate$opt: function(key, target) {
 		if(key in this.options) target.opt(key, this.options[key]);
 	},
 	
@@ -805,7 +796,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @param {Dino.data.DataSource|Any} data данные
 	 * @param {Integer} phase
 	 */
-	setData: function(data, phase) {
+	$bind: function(data, phase) {
 				
 		var o = this.options;
 		
@@ -834,9 +825,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //		}
 		var self = this;
 	
-		// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод _dataChanged
+		// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод $dataChanged
 		this.data.events.reg('onValueChanged', function() { 
-			if(self.options.updateOnValueChange) self._dataChanged();
+			if(self.options.updateOnValueChange) self.$dataChanged();
 //			console.log(self.data.val());
 		});
 		
@@ -854,7 +845,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	
 		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){
-			if(child.dataPhase != 1) child.setData(self.data, 2);
+			if(child.dataPhase != 1) child.$bind(self.data, 2);
 		});
 	},
 	
@@ -923,7 +914,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @private
 	 */
-	_dataChanged: function() {
+	$dataChanged: function() {
 //		// если автобиндинг выключен, то прекращаем обновление
 //		if(!this.options.autoBinding) return;
 //		if(this.suppressDataChange) return;
@@ -955,7 +946,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //			this.states.set( this.getStateValue() );
 //		}
 		
-		this.children.each(function(child) { child._dataChanged(); });		
+		this.children.each(function(child) { child.$dataChanged(); });		
 	}
 	
 });

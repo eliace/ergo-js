@@ -246,4 +246,14 @@
 	z-index: 999;	
 }
 
+[region='middle'] {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;	
+}
+
+[region='middle'] > div {
+	position: absolute;
+}
  

@@ -9,7 +9,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 	
 	defaultCls: 'dino-panel',
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		cls: 'dino-border-all dino-corner-top',
@@ -21,10 +21,10 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 					title: {
 						dtype: 'text-item',
 						selectable: false
-					},
-					buttons: {
-						
 					}
+//					buttons: {
+//						dtype: 'box'
+//					}
 				}	
 			},
 			content: {
@@ -38,8 +38,8 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.Panel.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.Panel.superclass.$init.apply(this, arguments);
 		
 //		if('headerContent' in o)
 //			Dino.utils.overrideOpts(o.components.header, {content: o.headerContent});
@@ -50,8 +50,8 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.Panel.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Panel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.title.opt('text', o.title);
 		

@@ -17,7 +17,7 @@ Dino.declare('Dino.widgets.ControlBar', 'Dino.containers.Box', {
  */
 Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.Widget', /** @lends Dino.widgets.Split.prototype */{
 	
-	_html: function() { return '<div>&nbsp;</div>' },
+	$html: function() { return '<div>&nbsp;</div>' },
 	
 	defaultOptions: {
 		cls: 'dino-split'

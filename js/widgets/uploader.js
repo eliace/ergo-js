@@ -14,10 +14,10 @@ Dino.widgets.Uploader = Dino.declare('Dino.widgets.Uploader', 'Dino.Widget', /**
 		}
 	},
 	
-	_html: function() { return '<div class="dino-uploader"></div>' },
+	$html: function() { return '<div class="dino-uploader"></div>' },
 	
-	_init: function() {
-		Dino.widgets.Uploader.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.Uploader.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		

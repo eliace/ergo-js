@@ -6,7 +6,7 @@
  */
 Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPanel.prototype */{
 	
-	_html: function() { return '<div></div>'; },	
+	$html: function() { return '<div></div>'; },	
 	
 	defaultOptions: {
 		cls: 'dino-tab-panel',
@@ -41,8 +41,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 	},
 	
 	
-	_init: function() {
-		Dino.panels.TabPanel.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.panels.TabPanel.superclass.$init.apply(this, arguments);
 				
 		var o = this.options;
 
@@ -80,16 +80,16 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 	},
 	
 	
-	_afterRender: function() {
-		this.base('_afterRender', arguments);
+	$afterRender: function() {
+		Dino.panels.TabPanel.superclass.$afterRender.apply(this, arguments);
 		
 		// активируем закладку
 		if(!this.tabs.currentTab) this.tabs.setActiveTab(0);
 	},
 	
 	
-	_opt: function(o) {
-		Dino.panels.TabPanel.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.panels.TabPanel.superclass.$opt.apply(this, arguments);
 		
 		if('pages' in o){
 			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);

@@ -6,7 +6,7 @@
  */
 Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /** @lends Dino.widgets.MenuItem.prototype */{
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		showOnEnter: true,
@@ -29,15 +29,15 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 					onAction: function(e) {
 						this.parent.parent.events.fire('onAction', {'target': e.target});
 					},					
-					isSubitem: true
+					isLeaf: true
 				},
 				offset: [-1, 1]
 			}
 		}
 	},
 	
-	_init: function() {
-		Dino.widgets.MenuItem.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -46,19 +46,19 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 			this.states.set('has-submenu');
 		}
 
-		if('submenuWidth' in o){
-			o.components.submenu.width = o.submenuWidth;
-		}
+//		if('submenuWidth' in o){
+//			o.components.submenu.width = o.submenuWidth;
+//		}
 		
-		if('defaultSubItem' in o){
-			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+		if('subItem' in o.defaults){
+			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
 		}
 		
 		
 	},
 	
-	_events: function(self) {
-		Dino.widgets.MenuItem.superclass._events.apply(this, arguments);
+	$events: function(self) {
+		Dino.widgets.MenuItem.superclass.$events.apply(this, arguments);
 		
 		this.el.bind('mouseenter', function(){
 			self.hoverSubmenu = true;
@@ -105,7 +105,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 			this.submenu.hide();
 			this.events.fire('onSubmenuHide');			
 		}		
-		if(hideAll && this.options.isSubitem)
+		if(hideAll && this.options.isLeaf)
 			this.parent.parent.hideSubmenu(true);
 	}
 	
@@ -139,8 +139,8 @@ Dino.widgets.TextMenuItem = Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widg
 		showLeftPanel: false
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.TextMenuItem.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.TextMenuItem.superclass.$opt.call(this, o);
 		
 		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
@@ -209,46 +209,15 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.contai
 		offset: [-2, -2]
 	},
 	
-	_events: function(self){
-		Dino.widgets.ContextMenu.superclass._events.call(this, self);
+	$events: function(self){
+		Dino.widgets.ContextMenu.superclass.$events.call(this, self);
 		
 		this.el.bind('mouseleave', function(){ 
 			if(self.options.hideOn == 'hoverOut') self.hide(); 
 		});
 	},
 	
-	
-//	_opt: function(o) {
-//		Dino.widgets.ContextMenu.superclass._opt.apply(this, arguments);
-//		
-//	},
-	
-//	_afterRender: function() {
-//		Dino.widgets.ContextMenu.superclass._afterRender.apply(this, arguments);
-//		
-//		var self = this;
-//		
-//		if('attachTo' in this.options){
-//			var el = this.options.attachTo;
-//			if(el instanceof Dino.Widget) el = el.el;
-//			$(el).bind('mousedown', function(e){
-//				if(e.button != 2) return;
-//				
-//				self.show(e.pageX, e.pageY);
-//				
-////				e.stopPropagation();
-//				
-////		        $('body').one('click', function(){ self.hide(); });		
-//			});
-//			
-//			$(el).bind('contextmenu', function(){
-//				return false;
-//			});
-//			
-//		}
-//		
-//	}
-	
+		
 	show: function(x, y) {
 		Dino.widgets.ContextMenu.superclass.show.apply(this, arguments);
 

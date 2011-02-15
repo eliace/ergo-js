@@ -19,8 +19,8 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 	
 //	defaultCls: ,
 	
-//	_events: function(self){
-//		Dino.containers.DropDownBox.superclass._events.call(this, self);
+//	$events: function(self){
+//		Dino.containers.DropDownBox.superclass.$events.call(this, self);
 //		
 //		this.el.mouseleave(function(){ self.hide(); });
 //	},

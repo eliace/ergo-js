@@ -3,7 +3,7 @@
 
 Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		cls: 'dino-scrollable-content dino-widget-content',
@@ -41,8 +41,8 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.ListBox.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.ListBox.superclass.$init.apply(this, arguments);
 		
 		
 //		if('controls' in o) {
@@ -97,8 +97,8 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 	},
 	
 	
-//	_opt: function(o) {
-//		Dino.widgets.ListBox.superclass._opt.apply(this, arguments);
+//	$opt: function(o) {
+//		Dino.widgets.ListBox.superclass.$opt.apply(this, arguments);
 //		
 //		if('contentHeight' in o) this.content.opt('height', o.contentHeight);
 //				

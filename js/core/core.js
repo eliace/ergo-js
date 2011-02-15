@@ -762,9 +762,9 @@ var Dino = (function(){
 	 * @function
 	 * @name Dino.BaseObject#base
 	 */
-	D.BaseObject.prototype.base = function(method, args) {
-		eval(this.className + '.superclass.'+method+'.apply(this, args)');
-	};
+//	D.BaseObject.prototype.base = function(method, args) {
+//		eval(this.className + '.superclass.'+method+'.apply(this, args)');
+//	};
 	
 	D.log = function(msg) {
 		// Если установлен Firebug, то используем его консоль

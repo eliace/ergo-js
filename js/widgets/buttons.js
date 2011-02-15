@@ -8,10 +8,10 @@ Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widge
 	
 	defaultCls: 'dino-toggle-button',
 	
-	_html: function() { return '<div/>'; },
+	$html: function() { return '<div/>'; },
 	
-	_events: function(self){
-		Dino.widgets.ToggleButton.superclass._events.call(this, self);
+	$events: function(self){
+		Dino.widgets.ToggleButton.superclass.$events.call(this, self);
 		
 		this.el.click(function(e){
 
@@ -31,8 +31,8 @@ Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widge
 	},
 
 
-	_opt: function(o) {
-		Dino.widgets.ToggleButton.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.ToggleButton.superclass.$opt.call(this, o);
 				
 		if('toggleCls' in o)
 			this.options.states['toggle'] = o.toggleCls;
@@ -76,11 +76,11 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 	
 	defaultCls: 'dino-button',
 	
-	_html: function() { return '<button type="button"/>'; },
+	$html: function() { return '<button type="button"/>'; },
 	
 	
-	_init: function() {
-		Dino.widgets.Button.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.Button.superclass.$init.apply(this, arguments);
 
 		var self = this;
 		
@@ -91,8 +91,8 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.Button.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Button.superclass.$opt.apply(this, arguments);
 
 //		if('label' in o)
 //			this.content.opt('text', o.label);
@@ -157,8 +157,7 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 	},
 	
 	
-	_init: function() {
-		this.base('_init', arguments);
+	$init: function() {
 		
 //		if('leftIcon' in o) {
 //			 
@@ -168,8 +167,7 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 	},
 	
 	
-	_opt: function(o) {
-		this.base('_opt', arguments);
+	$opt: function(o) {
 		
 		if('icon' in o) {
 			this.content.el.toggleClass('l-icon', !(!o.icon));
@@ -213,8 +211,8 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
 	
 //	defaultCls: 'dino-toolbar',
-	_init: function() {
-		Dino.widgets.Toolbar.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.Toolbar.superclass.$init.apply(this, arguments);
 //		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
 	},
 	
@@ -236,7 +234,7 @@ Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
  */
 Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget', /** @lends Dino.widgets.SplitButton.prototype */{
 	
-	_html: function() { return '<span></span>'; },
+	$html: function() { return '<span></span>'; },
 	
 	defaultOptions: {
 		cls: 'dino-split-button',
@@ -301,8 +299,8 @@ Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.SplitButton.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.SplitButton.superclass.$init.apply(this, arguments);
 		
 		if('list' in o){
 			Dino.utils.overrideOpts(o.components.dropdown, {items: o.list});
@@ -310,8 +308,8 @@ Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget
 		}
 	},
 	
-	_afterBuild: function() {
-		Dino.widgets.SplitButton.superclass._afterBuild.apply(this, arguments);
+	$afterBuild: function() {
+		Dino.widgets.SplitButton.superclass.$afterBuild.apply(this, arguments);
 		
 		var first = this.dropdown.getItem(0);
 		if(first) this.actionButton.opt( 'innerText', first.getText() );
@@ -344,8 +342,8 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	},
 	
 	
-	_init: function(o) {
-		this.base('_init', arguments);
+	$init: function(o) {
+		Dino.widgets.TextButton.superclass.$init.apply(this, arguments);
 		
 		Dino.utils.overrideOpts(o.components.content, {
 			showLeftIcon: !(!o.icon),
@@ -355,8 +353,8 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.TextButton.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.TextButton.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.content.opt('text', o.text);
 		if('icon' in o) {
@@ -403,8 +401,8 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.IconButton.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.IconButton.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) {
 			this.content.icon.states.setOnly(o.icon);
@@ -423,7 +421,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 
 Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	
-//	_html: function() { return '<span></span>'; },
+//	$html: function() { return '<span></span>'; },
 	
 	defaultOptions: {
 		cls: 'dino-icon-button',
@@ -444,11 +442,10 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 		}
 	},
 /*	
-	_init: function(o) {
-		this.base('_init', arguments);
+	$init: function(o) {
 		
 		if('leftIcon' in o) {
-			Dino.utils.override_opts(o, {
+			Dino.utils.override$opts(o, {
 				content: {
 					showLeftIcon: true,
 					leftIconCls: o.leftIcon
@@ -457,7 +454,7 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 		}
 		
 		if('text' in o) {
-			Dino.utils.override_opts(o, {
+			Dino.utils.override$opts(o, {
 				content: {
 					text: o.text
 				}
@@ -467,8 +464,8 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	}
 */	
 
-	_opt: function(o) {
-		this.base('_opt', arguments);
+	$opt: function(o) {
+		Dino.widgets.IconButton.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) {
 			this.content.states.set(o.icon);
@@ -489,7 +486,7 @@ Dino.declare('Dino.widgets.LinkButton', Dino.Widget, {
 
 	defaultCls: 'dc-link-button',
 	
-	render_html: function() { return '<a href=""></a>'; },
+	render$html: function() { return '<a href=""></a>'; },
 	
 	build: function(o) {
 		Dino.widgets.LinkButton.superclass.build.call(this, o);

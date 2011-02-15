@@ -23,10 +23,10 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 	},
 	
 	
-	_html: function() { return '<li></li>'; },
+	$html: function() { return '<li></li>'; },
 	
-	_init: function() {
-		Dino.widgets.TreeNode.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.TreeNode.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -41,8 +41,8 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.TreeNode.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.TreeNode.superclass.$opt.apply(this, arguments);
 		
 //		this.isLeaf = o.isLeaf;
 				
@@ -116,12 +116,12 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.BasicTreeNode.superclass._init.apply(this, arguments);		
+	$init: function(o) {
+		Dino.widgets.BasicTreeNode.superclass.$init.apply(this, arguments);		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.BasicTreeNode.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.BasicTreeNode.superclass.$opt.call(this, o);
 		
 		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
@@ -130,8 +130,8 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				
 	},
 	
-	_events: function(self) {
-		Dino.widgets.BasicTreeNode.superclass._events.apply(this, arguments);
+	$events: function(self) {
+		Dino.widgets.BasicTreeNode.superclass.$events.apply(this, arguments);
 		
 //		this.events.reg('onStateChanged', function(e) {
 //			e.translate(this.button);
@@ -144,8 +144,8 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 //		});		
 	},
 	
-	_afterBuild: function() {
-		Dino.widgets.BasicTreeNode.superclass._afterBuild.apply(this, arguments);
+	$afterBuild: function() {
+		Dino.widgets.BasicTreeNode.superclass.$afterBuild.apply(this, arguments);
 		
 		(this.options.expandOnShow) ? this.states.set('expand_collapse') : this.states.clear('expand_collapse');
 		
@@ -167,7 +167,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 /*
 Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		cls: 'tree',
@@ -185,9 +185,9 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 		}
 	},
 	
-	_init: function(o) {
-//		Dino.widgets.Tree.superclass._init.apply(this, arguments);
-		this.constructor.superclass._init.apply(this, arguments);
+	$init: function(o) {
+//		Dino.widgets.Tree.superclass.$init.apply(this, arguments);
+		this.constructor.superclass.$init.apply(this, arguments);
 		
 		Dino.utils.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node, {
 			components: {
@@ -214,7 +214,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 /*
 Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 	
-	_html: function() { return '<div></div>'; },
+	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
 		cls: 'tree',
@@ -236,8 +236,8 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 		expandOnShow: true
 	},
 	
-	_init: function() {
-		Dino.widgets.Tree.superclass._init.apply(this, arguments);		
+	$init: function() {
+		Dino.widgets.Tree.superclass.$init.apply(this, arguments);		
 		
 		var o = this.options;
 		
@@ -259,8 +259,8 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.Tree.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Tree.superclass.$opt.apply(this, arguments);
 		
 //		var self = this;
 				
@@ -307,8 +307,8 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 	},
 	
 	
-	_init: function(o){
-		Dino.widgets.Tree.superclass._init.apply(this, arguments);
+	$init: function(o){
+		Dino.widgets.Tree.superclass.$init.apply(this, arguments);
 		
 		
 		if('subtree' in o) 

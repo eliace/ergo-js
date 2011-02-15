@@ -53,8 +53,8 @@ Dino.declare('Dino.widgets.Window', 'Dino.containers.Box', {
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.Window.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.Window.superclass.$opt.apply(this, arguments);
 		
 		var self = this;
 		

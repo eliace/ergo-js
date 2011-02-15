@@ -121,7 +121,7 @@ Dino.WidgetCollectionManager = Dino.declare('Dino.WidgetCollectionManager', 'Din
 		
 		// выполняем автобиндинг
 		if(this.owner.data && !item.data)
-			item.setData(this.owner.data, 2);
+			item.$bind(this.owner.data, 2);
 		
 		return item;
 	},
@@ -175,11 +175,11 @@ Dino.WidgetCollectionManager = Dino.declare('Dino.WidgetCollectionManager', 'Din
 
 Dino.utils.overrideProp = function(o, srcObj, i) {
 
-	var shared_opts = {'data': null};
+	var shared$opts = {'data': null};
 
 	var p = srcObj[i];
 	
-	if(i in shared_opts){//Dino.in_array(ignore, i)){
+	if(i in shared$opts){//Dino.in_array(ignore, i)){
 		o[i] = p;
 	}
 	else{

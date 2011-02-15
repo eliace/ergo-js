@@ -17,8 +17,8 @@
  */
 Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widgets.form.InputField.prototype */{
 	
-	_opt: function(o) {
-		Dino.widgets.form.InputField.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.InputField.superclass.$opt.call(this, o);
 		
 		if('text' in o) this.el.val(o.text);
 		if('readonly' in o) this.el.attr('readonly', o.readonly);
@@ -35,8 +35,8 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		
 	},
 	
-	_events: function(self) {
-		Dino.widgets.form.InputField.superclass._events.call(this, self);
+	$events: function(self) {
+		Dino.widgets.form.InputField.superclass.$events.call(this, self);
 		
 		this.el.change(function() {
 			self.setValue( self.el.val());
@@ -44,8 +44,8 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 
 	},
 	
-	_dataChanged: function() {
-		Dino.widgets.form.InputField.superclass._dataChanged.apply(this);
+	$dataChanged: function() {
+		Dino.widgets.form.InputField.superclass.$dataChanged.apply(this);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus) 
 			this.el.val( this.getRawValue() );
@@ -67,7 +67,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
  */
 Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.TextField.prototype */{
 	
-	_html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
+	$html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
 		
 }, 'textfield');
 
@@ -81,7 +81,7 @@ Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, /** @l
  */
 Dino.declare('Dino.widgets.form.PasswordField', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.PasswordField.prototype */{
 	
-	_html: function() { return '<input type="password" class="dc-form-password"></input>'; }
+	$html: function() { return '<input type="password" class="dc-form-password"></input>'; }
 		
 }, 'password');
 
@@ -96,10 +96,10 @@ Dino.declare('Dino.widgets.form.PasswordField', Dino.widgets.form.InputField, /*
  */
 Dino.declare('Dino.widgets.form.SubmitButton', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.SubmitButton.prototype */{
 	
-	_html: function() { return '<input type="submit" class="dc-form-button"></input>'; },
+	$html: function() { return '<input type="submit" class="dc-form-button"></input>'; },
 
-	_init: function(o) {
-		Dino.widgets.form.SubmitButton.superclass._init.call(this, o);
+	$init: function(o) {
+		Dino.widgets.form.SubmitButton.superclass.$init.call(this, o);
 		
 		var self = this;
 		
@@ -112,8 +112,8 @@ Dino.declare('Dino.widgets.form.SubmitButton', Dino.widgets.form.InputField, /**
 		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.form.SubmitButton.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.SubmitButton.superclass.$opt.call(this, o);
 	}
 }, 'submit-button');
 
@@ -127,10 +127,10 @@ Dino.declare('Dino.widgets.form.SubmitButton', Dino.widgets.form.InputField, /**
  */
 Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.File.prototype */{
 	
-	_html: function() { return '<input name="file-input" type="file" class="dc-form-file"></input>'; },
+	$html: function() { return '<input name="file-input" type="file" class="dc-form-file"></input>'; },
 	
-	_opt: function(o) {
-		Dino.widgets.form.File.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.File.superclass.$opt.call(this, o);
 
 		if('name' in o) this.el.attr('name', o.name);
 	}
@@ -147,7 +147,7 @@ Dino.declare('Dino.widgets.form.File', Dino.widgets.form.InputField, /** @lends 
  */
 Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.Radio.prototype */{
 	
-	_html: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
+	$html: function() { return '<input type="radio" class="dc-form-radio"></input>'; }
 	
 }, 'radio');
 
@@ -161,10 +161,10 @@ Dino.declare('Dino.widgets.form.Radio', Dino.widgets.form.InputField, /** @lends
  */
 Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.Checkbox.prototype */{
 	
-	_html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
+	$html: function() { return '<input type="checkbox" class="dc-form-checkbox"></input>'; },
 	
-	_events: function(self) {
-//		Dino.widgets.form.Checkbox.superclass._events.call(this, self);
+	$events: function(self) {
+//		Dino.widgets.form.Checkbox.superclass.$events.call(this, self);
 		this.el.change(function(){
 			self.setValue(self.el.attr('checked') ? true : false);
 			self.events.fire('onAction');
@@ -172,16 +172,16 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, /** @le
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.form.Checkbox.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.form.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('checked' in o) {
 			this.el.attr('checked', o.checked);	
 		}
 	},
 	
-	_dataChanged: function() {
-		Dino.widgets.form.Checkbox.superclass._dataChanged.apply(this);
+	$dataChanged: function() {
+		Dino.widgets.form.Checkbox.superclass.$dataChanged.apply(this);
 		this.el.attr('checked', this.getValue() );
 	},
 	
@@ -205,7 +205,7 @@ Dino.declare('Dino.widgets.form.Checkbox', Dino.widgets.form.InputField, /** @le
  */
 Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, /** @lends Dino.widgets.form.TextArea.prototype */{
 	
-	_html: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
+	$html: function() { return '<textarea class="dc-form-textarea"></textarea>'; }
 	
 }, 'textarea');
 
@@ -218,10 +218,10 @@ Dino.declare('Dino.widgets.form.TextArea', Dino.widgets.form.TextField, /** @len
  */
 Dino.declare('Dino.widgets.form.Label', Dino.Widget, /** @lends Dino.widgets.form.Label.prototype */{
 
-	_html: function() { return '<label class="dc-form-label"></label>'; },
+	$html: function() { return '<label class="dc-form-label"></label>'; },
 	
-	_opt: function(o) {
-		Dino.widgets.form.Label.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.Label.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);
@@ -229,7 +229,7 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, /** @lends Dino.widgets.for
 			this.el.attr('for', o.forName);
 	},
 	
-	_dataChanged: function() {
+	$dataChanged: function() {
 		this.el.text(this.getValue());		
 	}
 	
@@ -244,10 +244,10 @@ Dino.declare('Dino.widgets.form.Label', Dino.Widget, /** @lends Dino.widgets.for
  */
 Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', /** @lends Dino.widgets.form.Anchor.prototype */{
 	
-	_html: function() { return '<a href="#" click="return false" />'; },
+	$html: function() { return '<a href="#" click="return false" />'; },
 	
-	_init: function(o) {
-		Dino.widgets.form.Anchor.superclass._init.call(this, o);
+	$init: function(o) {
+		Dino.widgets.form.Anchor.superclass.$init.call(this, o);
 		
 		var self = this;
 		
@@ -256,14 +256,14 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', /** @lends Dino.widgets.
 		});		
 	},
 	
-	_opt: function(o) {
-		Dino.widgets.form.Anchor.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.Anchor.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);
 	},
 	
-	_dataChanged: function() {
+	$dataChanged: function() {
 		this.el.attr('href',this.getValue());
 //		this.el.text(this.getValue());
 	}	
@@ -280,10 +280,10 @@ Dino.declare('Dino.widgets.form.Anchor', 'Dino.Widget', /** @lends Dino.widgets.
  * @extends Dino.Widget
  */
 Dino.declare('Dino.widgets.form.SelectOption', 'Dino.Widget', /** @lends Dino.widgets.form.SelectOption.prototype */{
-	_html: function() { return '<option/>'; },
+	$html: function() { return '<option/>'; },
 	
-	_opt: function(o) {
-		Dino.widgets.form.SelectOption.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.form.SelectOption.superclass.$opt.apply(this, arguments);
 		
 		if('value' in o) this.el.attr('value', o.value);
 		if('text' in o) this.el.text(o.text);
@@ -300,7 +300,7 @@ Dino.declare('Dino.widgets.form.SelectOption', 'Dino.Widget', /** @lends Dino.wi
  * @extends Dino.Container
  */
 Dino.declare('Dino.widgets.form.Select', 'Dino.Container', /** @lends Dino.widgets.form.Select.prototype */{
-	_html: function() { return '<select/>'; },
+	$html: function() { return '<select/>'; },
 	
 	defaultOptions: {
 		components: {
@@ -313,8 +313,8 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Container', /** @lends Dino.widge
 		}
 	},
 	
-	_init: function(o) {
-		Dino.widgets.form.Select.superclass._init.call(this, o);
+	$init: function(o) {
+		Dino.widgets.form.Select.superclass.$init.call(this, o);
 		
 		o.components.optionsList.layout = new Dino.layouts.InheritedLayout({parentLayout: this.layout });
 		
@@ -326,8 +326,8 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Container', /** @lends Dino.widge
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.form.Select.superclass._opt.call(this, o);
+	$opt: function(o) {
+		Dino.widgets.form.Select.superclass.$opt.call(this, o);
 /*		
 		if('options' in o){
 			this.el.empty();
@@ -343,14 +343,14 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Container', /** @lends Dino.widge
 		
 	},
 	
-	_events: function(self) {
-		Dino.widgets.form.Select.superclass._events.call(this, self);
+	$events: function(self) {
+		Dino.widgets.form.Select.superclass.$events.call(this, self);
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
 	},
 	
-	_dataChanged: function() {
-		Dino.widgets.form.Select.superclass._dataChanged.call(this);
+	$dataChanged: function() {
+		Dino.widgets.form.Select.superclass.$dataChanged.call(this);
 		this.el.val( this.getValue() );
 	}
 	

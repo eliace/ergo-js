@@ -20,7 +20,7 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 		if(this.container instanceof Dino.Layout)
 			this.container.insert(item);
 		else {
-			if(this.container.el.parents().is('body')) item._afterRender();
+			if(this.container.el.parents().is('body')) item.$afterRender();
 		}
 		
 //		else
@@ -142,8 +142,8 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /**
 	
 	
 	
-	_init: function() {
-		Dino.widgets.TreeGrid.superclass._init.apply(this, arguments);
+	$init: function() {
+		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -161,8 +161,8 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /**
 	},
 	
 	
-	_layoutChanged: function() {
-		Dino.widgets.TreeGrid.superclass._layoutChanged.apply(this, arguments);
+	$layoutChanged: function() {
+		Dino.widgets.TreeGrid.superclass.$layoutChanged.apply(this, arguments);
 		
 		var tableWidth = this.content.content.el.width();
 		this.header.content.el.width(tableWidth);
@@ -195,8 +195,8 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.TreeTable.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.TreeTable.superclass.$init.apply(this, arguments);
 
 		var bodyLayout = new Dino.layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
 //		bodyLayout.immediateRebuild = false;
@@ -229,8 +229,8 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 	}
 
 	
-//	_layoutChanged: function() {
-//		Dino.widgets.TreeTable.superclass._layoutChanged.apply(this, arguments);
+//	$layoutChanged: function() {
+//		Dino.widgets.TreeTable.superclass.$layoutChanged.apply(this, arguments);
 //		
 //		this.body.layout.update();
 //	}
@@ -248,7 +248,7 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
  */
 Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', /** @lends Dino.widgets.TreeTableRow.prototype */{
 	
-//	_html: function() { return '<tr></tr>'; },
+//	$html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
 		cls: 'dino-tree-grid-row',
@@ -272,8 +272,8 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		}
 	},
 	
-	_init: function() {
-		this.constructor.superclass._init.apply(this, arguments);
+	$init: function() {
+		this.constructor.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 
@@ -291,8 +291,8 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		o.components.subtree.defaultItem.indent = this.indent+1;
 	},
 	
-//	_opt: function(o) {
-//		Dino.widgets.TreeGridRow.superclass._opt.apply(this, arguments);
+//	$opt: function(o) {
+//		Dino.widgets.TreeGridRow.superclass.$opt.apply(this, arguments);
 //		
 //		this.isLeaf = o.isLeaf;
 //				
@@ -411,16 +411,16 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	},
 	
 	
-	_init: function(o) {
-		Dino.widgets.TreeTableCell.superclass._init.apply(this, arguments);
+	$init: function(o) {
+		Dino.widgets.TreeTableCell.superclass.$init.apply(this, arguments);
 		
 //		if('nodeContent' in o)
 //			Dino.utils.overrideOpts(o.components.content.components.content.components.content, o.nodeContent);
 	},
 	
 	
-	_opt: function(o) {
-		Dino.widgets.TreeTableCell.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		Dino.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
 		
 		if('indent' in o){
 			for(var i = 0; i < o.indent; i++){
@@ -434,8 +434,8 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	},
 	
 	
-	_afterRender: function() {
-		Dino.widgets.TreeTableCell.superclass._afterRender.apply(this, arguments);
+	$afterRender: function() {
+		Dino.widgets.TreeTableCell.superclass.$afterRender.apply(this, arguments);
 
 //		var expand = this.options.expandOnShow;
 		
@@ -458,7 +458,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	}
 	
 	
-//	_afterBuild: function() {
+//	$afterBuild: function() {
 //		var o = this.options;
 //		this.children.each(function(child){ child.opt('indent', o.indent); });
 //	}
@@ -470,7 +470,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 /*
 Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
 	
-//	_html: function() { return '<td></td>'; },
+//	$html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
 //		cls: 'dino-tree-grid-cell',
@@ -513,8 +513,8 @@ Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
 	
 	
 	
-	_init: function() {
-		this.constructor.superclass._init.apply(this, arguments);
+	$init: function() {
+		this.constructor.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -527,8 +527,8 @@ Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
 	},
 	
 	
-	_opt: function(o) {
-		this.constructor.superclass._opt.apply(this, arguments);
+	$opt: function(o) {
+		this.constructor.superclass.$opt.apply(this, arguments);
 		
 		if('indent' in o){
 			for(var i = 0; i < o.indent; i++){
