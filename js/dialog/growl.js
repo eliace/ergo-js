@@ -327,28 +327,11 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
  * hideOnTimeout
  * 
  */
+
+/*
 function init_default_growl(o) {
 
 	o = o || {};
-/*	
-	Dino.messagePanel = $.dino({
-		dtype: 'growl-box',
-		cls: 'message-panel',
-		defaultItem: {
-			delay: 600,
-			hideOnTimeout: o.hideOnTimeout,
-			timeout: ('timeout' in o) ? o.timeout : 5000,
-			cls: 'dino-border-all dino-corner-all',
-			closeOnClick: true,
-			components: {
-				button: {
-					cls: 'dino-hidden'
-				}
-			}
-		},
-		renderTo: 'body'	
-	});	
-*/
 
 	Dino.growl = $.dino({
 		dtype: 'growl',
@@ -374,6 +357,6 @@ function init_default_growl(o) {
 		}
 	
 }
-
+*/
 
 

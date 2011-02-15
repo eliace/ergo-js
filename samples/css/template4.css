@@ -3,6 +3,7 @@ body {
 	font-family: Helvetica,Geneva,Arial,sans-serif;
 	margin: 0;
 	padding: 3px;
+	background-color: #eee;
 }
 
 body input {
@@ -42,3 +43,18 @@ body input {
 	bottom: 0;
 	z-index: 10000;
 }
+
+
+.dino-tree-node.collapsed .icon-folder {
+	background-image: url(../img/gnome-fs-directory.png);
+}
+
+/*
+.sample-icon-folder-open {
+	background-image: url(../img/gnome-fs-directory-accept.png);
+}
+*/
+.dino-tree-node.expanded .icon-folder {
+	background-image: url(../img/gnome-fs-directory-accept.png);	
+}
+

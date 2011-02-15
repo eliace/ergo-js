@@ -58,6 +58,7 @@ require 'fileutils'
     'js/dialog/growl.js',
     'js/list/list.js',
     'js/list/list-box.js',
+    'js/framework/application.js',
   ]
 
 

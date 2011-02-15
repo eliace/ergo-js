@@ -129,65 +129,12 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 						drag.proxy.el.css({'position': 'absolute'});//, 'left': offset.left, 'top': offset.top});
 						$('body').append(drag.proxy.el);
 						
-//						drag.proxy.el.mousemove(function(e){
-//							var el = $(this);
-//							
-//							var dx = e.pageX - drag.x;
-//							var dy = e.pageY - drag.y;
-//							
-//							var x = parseInt(el.css('left')) + dx;  
-//							var y = parseInt(el.css('top')) + dy;  
-//
-//							el.css('left', x);  
-//							el.css('top', y);  
-//							
-//							drag.x = e.pageX;
-//							drag.y = e.pageY;
-//							
-//						});
-//						
-//						drag.proxy.el.mouseout(function(e){
-//							var el = $(this);
-//							
-//							var dx = e.pageX - drag.x;
-//							var dy = e.pageY - drag.y;
-//							 состояний 
-//							var x = parseInt(el.css('left')) + dx;  
-//							var y = parseInt(el.css('top')) + dy;  
-//
-//							el.css('left', x);  
-//							el.css('top', y);  
-//							
-//							drag.x = e.pageX;
-//							drag.y = e.pageY;
-//						});
 					}
 					
 				}
-/*				
-*/				
 			}
 			
 			
-/*			
-			if(drag && drag.source == $(this).dino() && !drag.started){
-				drag.started = true;
-				
-				var event = new Dino.events.CancelEvent({dragData: drag});
-				drag.source.events.fire('onDrag', event); состояний 
-				
-				if(event.isCanceled){
-					if(drag.proxy) drag.proxy.destroy();
-					Dino.drag = null;
-					return;
-				}
-				
-				if(drag.proxy){
-					drag.proxy.el.css({'position': 'absolute'});
-					$('body').append(drag.proxy.el);
-				}
-			}	
-*/			
 					
 		}
 //		'editable': function(e) {

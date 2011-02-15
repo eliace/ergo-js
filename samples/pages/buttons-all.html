@@ -35,11 +35,17 @@
 	display: block;
 }
 
+/*
 .toggle-button-1 {
 	width: 48px;
 	height: 48px;
 	background-image: url('../img/folder close blue.png');
 }
+*/
+.icon-01 {
+	background-image: url(../img/menu/Backward.png);
+}
+
 					
 </style>
 	
@@ -49,7 +55,7 @@
 
 $.dino({
 	dtype: 'box',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
 //	layout: 'column-layout',
 	cls: 'button-container',
 	items: [{
@@ -99,7 +105,8 @@ $.dino({
 //		content: {
 		dtype: 'icon-button',
 		cls: 'dino-corner-all',
-		icon: 'led-icon-refresh'
+		contentCls: 'icon48 icon-01',
+//		icon: 'icon-01'//'led-icon-refresh'
 //		}
 	}]						
 });

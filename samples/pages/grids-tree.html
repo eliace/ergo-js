@@ -60,7 +60,7 @@ $.getJSON('../ajax/file_system.json', {}, function(data) { tgTreeData.set(data) 
 		
 $.dino({
   dtype: 'tree-grid',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
   tag: 'aaa',
   cls: 'tree-grid dino-border-all dino-corner-all',
   data: tgTreeData,

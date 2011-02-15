@@ -41,11 +41,12 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
   cls: 'contextmenu-page',
   items: [{
-    innerText: 'Кликни правой кнопкой мыши в любом месте прямоугольника',
+    innerText: 'Кликни правой кнопкой мыши в любом месте панели',
     cls: 'preview-text dino-border-all',
+		height: 'auto',
     contextMenu: {
       dtype: 'context-menu',
       cls: 'dino-widget-shadow',

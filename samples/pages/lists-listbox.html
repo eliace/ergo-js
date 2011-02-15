@@ -39,7 +39,7 @@ var listBoxData = new Dino.data.ArrayDataSource(Samples.generate_plain_list(30))
 
 var listBox = $.dino({
 	dtype: 'panel',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
 	title: 'Список',
 	width: 400,
 	components: {

@@ -14,7 +14,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	
 	defaultOptions: {
 		wrapEl: '<div></div>',
-		cls: 'dino-grid',
+		baseCls: 'dino-grid',
 		components: {
 			header: {
 				dtype: 'box',

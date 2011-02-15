@@ -50,12 +50,13 @@ gridData = new Dino.data.ArrayDataSource();
 		
 var grid = $.dino({
 //  id: 'table-1',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
 	content: {
 //		autoHeight: true,
-		height: 300,//'auto',
+		height: 'auto',
+//		height: 'auto',
 		style: {'padding-right': '3px', 'font-size': '9pt'}
 	},
 	headerCls: 'dino-bg-highlight',

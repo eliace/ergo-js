@@ -43,7 +43,7 @@ $.getJSON('../ajax/tree_node.json', {}, function(data){
 	
 $.dino({
   dtype: 'tree',
-	renderTo: 'body',
+	renderTo: Samples.pool,//'body',
 	cls: 'dynamic-tree',
 	
   data: treeData,

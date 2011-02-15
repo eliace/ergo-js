@@ -46,10 +46,15 @@ Samples.loremipsum = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 
 
 
+Samples.pool = new Dino.containers.Box();
+
 
 
 
 $(document).ready(function(){
+	
+	Application = new Dino.framework.Application();
+	
 /*	
 	// Растягиваем страницу на всю высоту окна	
 	var h = $(window).height();
@@ -57,5 +62,11 @@ $(document).ready(function(){
 	$('body').height(h - dh);
 	$('body').attr('autoheight', true);		
 */	
-	init_default_growl();	 //<-- инициализируем growl
+//	init_default_growl();	 //<-- инициализируем growl
+
+	Samples.pool.el.children().each(function(i, el){
+		$(el).dino().$render(Application.root);
+//		Application.root.el.append($(el));
+	});
+
 });

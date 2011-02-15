@@ -140,7 +140,7 @@ var sampleTree = [{
 
 
 $(document).ready(function(){
-
+/*
 	// Растягиваем страницу на всю высоту окна	
 	var h = $(window).height();
 	var dh = $('body').outerHeight(true) - $('body').height();
@@ -153,7 +153,7 @@ $(document).ready(function(){
 	$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
 		growl.err(xhr.responseText);
 	});
-	
+*/	
 	
 	
 	
@@ -166,9 +166,9 @@ $(document).ready(function(){
 */	
 	
 	
-	Application = $.dino({
-		dtype: 'box',
-		renderTo: 'body',
+	Application = new Dino.framework.Application({
+//		dtype: 'box',
+//		renderTo: 'body',
 		components: {
 			// Логотип
 			logo: {
@@ -194,6 +194,7 @@ $(document).ready(function(){
 					region: 'west',
 					cls: 'dino-border-all',
 					width: 170,
+					style: {'background-color': '#fff'},
 					height: 'auto',
 					content: {
 						dtype: 'tree',
@@ -210,13 +211,13 @@ $(document).ready(function(){
 										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
-											Application.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none"></iframe>');
+											Application.root.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none; overflow: hidden"></iframe>');
 //											growl.info('hello');
 										}
 									}
 								},
 								binding: function(val) {
-									var icon = (val.children) ? 'led-icon-folder' : 'led-icon-page';
+									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
 									this.opt('icon', icon);
 									if(!val.children) this.opt('isLeaf', true);				
 								}
@@ -248,14 +249,19 @@ $(document).ready(function(){
 					}, {
 						dtype: 'box',
 						region: 'south',
-						cls: 'dino-border-all',
-						style: {'height': 200, 'padding': '3px'},
+//						cls: 'dino-border-all',
+						style: {'height': 200},
 //						height: 200,
 						content: {
 							dtype: 'tab-panel',
 //							height: 'auto',
+							defaults: {
+								page: {
+									style: {'background-color': '#fff'}
+								}
+							},
 							pages: [{
-								tab: {text: 'Code'},
+								tab: {text: 'JavaScript'},
 								content: {
 									dtype: 'box',
 									height: 'auto'
@@ -301,7 +307,7 @@ $(document).ready(function(){
 */
 
 
-
+/*
 	$(window).resize(function(){
 		
 		var h = $(window).height();
@@ -310,7 +316,7 @@ $(document).ready(function(){
 		
 		Application.$layoutChanged();
 	});
-	
+*/	
 });
 
 
