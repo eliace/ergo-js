@@ -11,7 +11,7 @@ $.dino({
       components: {
         content: {
           cls: 'dino-clickable',
-          showLeftIcon: true,
+          icon: true,
           components: {
             leftIcon: {
               states: {

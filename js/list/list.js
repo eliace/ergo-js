@@ -17,7 +17,7 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 					dtype: 'text-item',
 					cls: 'dino-list-item',
 					style: {'display': 'block'},
-					showRightIcon: true,
+					xicon: true,
 					components: {
 						rightIcon: {
 							cls: 'ui-icon ui-icon-close dino-clickable',

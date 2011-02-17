@@ -35,8 +35,8 @@ $.dino({
             },
           },
 //          icon: 'led-icon-folder',
-          showLeftIcon: true,
-          showRightIcon: true,
+          icon: true,
+          xicon: true,
 //          rightIconCls: 'dino-icon-spinner',
           dataId: 'name'
         }        

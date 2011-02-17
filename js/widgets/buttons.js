@@ -3,59 +3,6 @@
 
 
 
-/*
-Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widget, {
-	
-	defaultCls: 'dino-toggle-button',
-	
-	$html: function() { return '<div/>'; },
-	
-	$events: function(self){
-		Dino.widgets.ToggleButton.superclass.$events.call(this, self);
-		
-		this.el.click(function(e){
-
-			var event = new Dino.events.CancelEvent({}, e);
-			self.events.fire('onToggle', event);
-			
-			if(!event.isCanceled)// && self.options.toggleCls)
-				self.states.toggle('toggle');
-				//self.el.toggleClass(self.options.toggleCls);
-			
-			
-			
-//			if(event.is_stopped)
-//				e.preventDefault();
-		});
-		
-	},
-
-
-	$opt: function(o) {
-		Dino.widgets.ToggleButton.superclass.$opt.call(this, o);
-				
-		if('toggleCls' in o)
-			this.options.states['toggle'] = o.toggleCls;
-		
-	},
-	
-	isToggled: function() {
-		return this.states.check('toggle'); //this.el.hasClass(this.options.toggleCls);
-	},
-	
-	toggle: function(sw) {
-		this.states.toggle('toggle', sw);
-//		this.el.toggleClass(this.options.toggleCls, val);
-//		this.fireEvent('onToggle', new Dino.widgets.ToggleEvent());
-	}
-	
-	
-	
-}, 'toggle-button');
-*/
-
-
-
 
 /**
  * 
@@ -63,16 +10,6 @@ Dino.widgets.ToggleButton = Dino.declare('Dino.widgets.ToggleButton', Dino.Widge
  * @extends Dino.Widget
  */
 Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @lends Dino.widgets.Button.prototype */{
-	
-	defaultOptions: {
-//		components: {
-//			content: {
-//				dtype: 'text'
-//			}			
-//		}
-//		display: 'text-only'
-	},
-	
 	
 	defaultCls: 'dino-button',
 	
@@ -207,27 +144,6 @@ Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
 
 
 
-/*
-Dino.declare('Dino.widgets.Toolbar', 'Dino.containers.Box', {
-	
-//	defaultCls: 'dino-toolbar',
-	$init: function() {
-		Dino.widgets.Toolbar.superclass.$init.apply(this, arguments);
-//		(this.options.orientation == 'vertical') ? this.el.addClass('dino-toolbar-v') : this.el.addClass('dino-toolbar-h');
-	},
-	
-	setActiveItem: function(item) {
-		this.eachItem(function(it){
-			//TODO сюда еще можно добавить проверку на вхождение элементов в одну группу
-			it.toggleState('active', (item == it));
-		});
-	}
-	
-}, 'toolbar');
-
-*/
-
-
 /**
  * @class
  * @extends Dino.Widget
@@ -346,9 +262,9 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		Dino.widgets.TextButton.superclass.$init.apply(this, arguments);
 		
 		Dino.utils.overrideOpts(o.components.content, {
-			showLeftIcon: !(!o.icon),
+			icon: o.icon,
 			text: o.text,
-			showRightIcon: !(!o.xicon)
+			xicon: o.xicon
 		});
 		
 	},
@@ -358,14 +274,14 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		
 		if('text' in o) this.content.opt('text', o.text);
 		if('icon' in o) {
-			this.content.opt('showLeftIcon', !(!o.icon));
-			if(o.icon)
-				this.content.leftIcon.states.set(o.icon);
+			this.content.opt('icon', o.icon);
+//			if(o.icon)
+//				this.content.leftIcon.states.set(o.icon);
 		}
 		if('xicon' in o) {
-			this.content.opt('showRightIcon', !(!o.xicon));
-			if(o.xicon)
-				this.content.rightIcon.states.set(o.xicon);
+			this.content.opt('xicon', o.xicon);
+//			if(o.xicon)
+//				this.content.rightIcon.states.set(o.xicon);
 		}
 	}
 	

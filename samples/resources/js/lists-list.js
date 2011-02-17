@@ -5,8 +5,7 @@ var list = $.dino({
   width: 400,
   contentHeight: 220,
   defaultListItem: {
-    showLeftIcon: true,
-    leftIconCls: 'led-icon-user'
+    icon: 'led-icon-user'
   },
   listItems: [{
     text: 'Alice',

@@ -28,11 +28,11 @@ var box = $.dino({
       treeModel: {
         node: {
           binding: function(val) {
-            this.opt('icon', 'led-icon-'+val.type);
-            if(val.type != 'folder') this.opt('isLeaf', true);
+            this.content.opt('icon', 'led-icon-'+val.type);
+            if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
           },
           content: {
-            showLeftIcon: true,
+            icon: true,
             dataId: 'name'
           }
         }

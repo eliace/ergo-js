@@ -123,11 +123,12 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	$opt: function(o) {
 		Dino.widgets.BasicTreeNode.superclass.$opt.call(this, o);
 		
+		if('isLeaf' in o) this.button.states.set('leaf');
+		
+		if('icon' in o) this.content.opt('icon', o.icon);
 		if('text' in o) this.content.opt('text', o.text);
 		if('format' in o) this.content.opt('format', o.format);
-		if('isLeaf' in o) this.button.states.set('leaf');
-		if('icon' in o) this.content.leftIcon.states.setOnly(o.icon);
-				
+
 	},
 	
 	$events: function(self) {

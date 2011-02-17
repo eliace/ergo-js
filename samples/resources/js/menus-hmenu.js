@@ -10,7 +10,7 @@ $.dino({
     cls: 'main-menu-item',
     components: {
       content: {
-        showRightIcon: false
+        xicon: false
 //        cls: 'menu-item-text',
 //        rightCls: 'ui-icon menu-item-icon'
       },

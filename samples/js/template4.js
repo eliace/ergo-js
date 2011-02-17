@@ -210,7 +210,7 @@ $(document).ready(function(){
 								expandOnShow: false,
 								components: {
 									content: {
-										showLeftIcon: true,
+										icon: true,
 		      					dataId: 'name',
 										cls: 'dino-clickable',
 										state: 'clickable',
@@ -237,31 +237,12 @@ $(document).ready(function(){
 													sh_highlightDocument();																									
 												});												
 											});
-/*											
-											$.getScript('pages/buttons-all.js', function(data){
-												
-												var page = $(data);
-												
-												Samples.pool.el.children().each(function(i, el){
-													$(el).dino().$render(preview);
-												});
-											
-//												var jsPage = $('.js-page').dino(); //Application.root.pageContent.getItem('preview_and_code').getItem('preview').content.getPage('javascript').content;
-//												jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml($('script.example', page).text())+'</pre>');
-												
-//												// включаем подсветку кода
-//												sh_highlightDocument();												
-											});
-*/											
-											
-											
-//											growl.info('hello');
 										}
 									}
 								},
 								binding: function(val) {
 									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
-									this.opt('icon', icon);
+									this.content.opt('icon', icon);
 									if(!val.children) this.opt('isLeaf', true);				
 								}
 							}

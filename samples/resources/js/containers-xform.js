@@ -109,8 +109,7 @@ $.dino({
           style: {'display': 'block'},
           cls: 'list-item',
           dataId: 'name',
-          leftIconCls: 'led-icon-world',
-          showLeftIcon: true,
+          icon: 'led-icon-world',
           state: 'clickable',
           onClick: function() {
             this.parent.hide();

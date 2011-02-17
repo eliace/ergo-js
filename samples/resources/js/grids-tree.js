@@ -52,7 +52,7 @@ $.dino({
       expandOnShow: true,
       content: {
         content: {
-          showLeftIcon: true,
+          icon: true,
           components: {
             leftIcon: {
               dataId: 'type',

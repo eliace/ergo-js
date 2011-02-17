@@ -67,7 +67,7 @@ $.dino({
               }
             },
           },
-          showLeftIcon: true,
+          icon: true,
           dataId: 'name'
         }        
       },

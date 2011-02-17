@@ -10,7 +10,7 @@ $.dino({
       expandOnShow: true,
       components: {
         content: {
-          showLeftIcon: true,
+          icon: true,
           components: {
             leftIcon: {
               states: {

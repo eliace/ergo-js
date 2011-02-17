@@ -49,9 +49,9 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		Dino.widgets.TextItem.superclass.$init.apply(this, arguments);
 		
 		var key_a = [];
-		if(o.showLeftIcon) key_a.push('icon');
+		if(o.icon) key_a.push('icon');
 		if(o.text || o.text === '') key_a.push('text');
-		if(o.showRightIcon) key_a.push('xicon');
+		if(o.xicon) key_a.push('xicon');
 		
 		
 		var o_mod = {leftIcon:{}, content:{}, rightIcon:{}};
@@ -101,10 +101,13 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		Dino.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) {
-			if(o.text) this.content.opt('innerText', o.text);
+			if(o.text) this.content.opt('text', o.text);
 //			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
 		}
-		if('format' in o) this.content.opt('format', o.format);
+		if('textFormat' in o) this.content.opt('format', o.textFormat);
+		
+		if('icon' in o) this.leftIcon.states.set(o.icon);
+		if('xicon' in o) this.rightIcon.states.set(o.xicon);
 		
 /*		
 		if('pattern' in o) {
