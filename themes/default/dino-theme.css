@@ -575,17 +575,9 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 6px 0 4px;
+	padding: 4px 0 2px;
 	font-size: 13px;
 }
-
-.dino-tabs.bottom {
-	height: 25px;
-	position: relative;
-	margin: 0;
-	padding: 0 0 4px 0;
-}
-
 
 .dino-tabs li {
 	text-align: center;
@@ -593,9 +585,15 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	list-style: none outside none;	
 }
 
+.dino-tabs li.active {
+	background-color: #f8f8f8;
+	background-image: none;
+	font-weight: bold;
+}
+
 .dino-tabs.top li {
 /*	height: 24px;*/
-	padding: 4px 10px;
+	padding: 2px 10px;
 	margin-left: 3px;
 /*	float: left;*/
 	display: inline;
@@ -603,19 +601,21 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 
-.dino-tabs li.active {
-	background-color: #f8f8f8;
-	background-image: none;
-	font-weight: bold;
-}
 
 .dino-tabs.top li.active {
-	padding-bottom: 5px !important;
-	margin-top: -6px;
-	padding-top: 6px; /* 24px 0 24px;*/
+	padding-bottom: 3px !important;
+	margin-top: -4px;
+	padding-top: 4px;
 }
 
 
+
+.dino-tabs.bottom {
+	height: 25px;
+	position: relative;
+	margin: 0;
+	padding: 0 0 4px 0;
+}
 
 .dino-tabs.bottom {
 	margin-top:-1px;	
