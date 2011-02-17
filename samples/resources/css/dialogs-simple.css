@@ -1,0 +1,19 @@
+
+.dino-overlay {
+	opacity: 0.4;
+	background-color: black;
+}	
+
+.dino-dialog-content {
+	width: 400px;
+}
+	
+.widget-content {
+	padding: 5px;
+}	
+
+.dialog-header {
+	font-size: 15pt;
+/*	border-bottom: 1px solid #ccc;*/
+}
+	

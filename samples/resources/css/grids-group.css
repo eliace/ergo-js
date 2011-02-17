@@ -1,0 +1,13 @@
+
+.group-title {
+	padding-top: 5px;
+	padding-left: 3px;
+	border-bottom: 3px solid #bbb;
+	color: #888;
+}
+
+.group-row:hover {
+	background-color: #ffc;
+}	
+
+					

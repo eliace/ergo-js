@@ -45,6 +45,8 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		}
 		
 		this.isShown = true;
+		
+		this.events.fire('onShow');
 	},
 	
 	hide: function(eff){

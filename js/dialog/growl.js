@@ -64,7 +64,7 @@ Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.B
 		if('message' in o) {
 			o.components.content.components.messageContent = {
 				dtype: 'text',
-				cls: 'dino-widget-content',
+//				cls: 'dino-widget-content',
 				text: o.message
 			}			
 		}
@@ -74,7 +74,7 @@ Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.B
 			o.components.content.components.htmlContent = {
 				dtype: 'box',
 //				html: '<iframe>'+o.htmlMessage+'</iframe>',
-				cls: 'dino-widget-content',
+//				cls: 'dino-widget-content',
 				innerHtml: o.htmlMessage
 			}			
 		}

@@ -67,7 +67,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
  */
 Dino.declare('Dino.widgets.form.TextField', Dino.widgets.form.InputField, /** @lends Dino.widgets.form.TextField.prototype */{
 	
-	$html: function() { return '<input type="text" class="dc-form-textfield"></input>'; }
+	$html: function() { return '<input type="text" class="dino-textfield"></input>'; }
 		
 }, 'textfield');
 

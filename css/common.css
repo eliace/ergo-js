@@ -19,6 +19,17 @@
 */
 
 
+
+.dino-widget-content {
+	background-color: #fff;
+}
+
+.dino-panel-content {
+	background-color: #eee;	
+}
+
+
+
 .dino-scrollable-v {
 	overflow-y: auto;
 }

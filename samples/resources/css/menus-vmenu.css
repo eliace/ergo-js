@@ -1,0 +1,10 @@
+	
+#vmenu {
+	width: 100px;
+	position: relative;
+}
+	
+.main-menu-item {
+	border-bottom: 1px dotted #aaa;
+}	
+

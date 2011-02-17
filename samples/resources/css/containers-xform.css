@@ -1,0 +1,64 @@
+	
+.tb-text {
+	padding: 2px 0;
+	font-size: 14px;
+	outline: none;
+	margin-right: 0;
+}	
+
+.tb-button {
+	padding: 2px 0;
+	font-size: 14px;
+	margin-left: 0px;
+}	
+
+
+.tb2 {
+	display: inline;
+	position: relative;
+}
+
+.tb2 input {
+	font-size: 10pt;
+	padding: 2px 20px 2px 2px;
+}
+
+
+.tb2 .dino-icon {
+	position: absolute;
+	right: 4px;
+	margin-top: -7px;
+}
+
+
+.tb3-button {
+	padding: 2px 0;
+	font-size: 14px;
+	margin-left: 0px;
+}	
+
+.tb3-dropdown {
+	background-color: #fff;
+	z-index: 101;
+}	
+
+
+.glass-panel {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+}
+
+
+.list-item {
+	margin: 1px 3px;
+	cursor: default;
+}
+
+.list-item:hover {
+	background-color: #ffc;
+}
+					

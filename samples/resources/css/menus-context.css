@@ -1,0 +1,10 @@
+	
+.preview-text {
+	position: relative;
+	font-size: 2em;
+	color: #ddd;
+	text-align: center;
+	cursor: default;
+	height: 300px;
+}
+

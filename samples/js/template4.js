@@ -5,133 +5,133 @@ var sampleTree = [{
 	name: 'Buttons',
 	children: [{
 		name: 'All',
-		path: 'buttons-all.html'
+		path: 'buttons-all'
 	}, {
 		name: 'Split',
-		path: 'buttons-split.html'
+		path: 'buttons-split'
 	}]
 }, {
 	name: 'Containers',
 	children: [{
 		name: 'Pager',
-		path: 'containers-pager.html'
+		path: 'containers-pager'
 	}, {
 		name: 'Forms',
-		path: 'containers-form.html'
+		path: 'containers-form'
 	}, {
 		name: 'Dino forms',
-		path: 'containers-xform.html'
+		path: 'containers-xform'
 	}, {
 		name: 'Growl',
-		path: 'containers-growl.html'
+		path: 'containers-growl'
 	}, {
 		name: 'Controls',
-		path: 'containers-controls.html'
+		path: 'containers-controls'
 	}, {
 		name: 'Benchmarks',
-		path: 'containers-benchmarks.html'
+		path: 'containers-benchmarks'
 	}]
 }, {
 	name: 'Dialogs',
 	children: [{
 		name: 'simple',
-		path: 'dialogs-simple.html'
+		path: 'dialogs-simple'
 	}, {
 		name: 'Wizard',
-		path: 'dialogs-wizard.html'
+		path: 'dialogs-wizard'
 	}, {
 		name: 'MessageBox',
-		path: 'dialogs-messagebox.html'
+		path: 'dialogs-messagebox'
 	}]
 }, {
 	name: 'Grids',
 	children: [{
 		name: 'Grid',
-		path: 'grids-grid.html'
+		path: 'grids-grid'
 	}, {
 		name: 'Tree',
-		path: 'grids-tree.html'
+		path: 'grids-tree'
 	}, {
 		name: 'Group',
-		path: 'grids-group.html'
+		path: 'grids-group'
 	}]
 }, {
 	name: 'Images',
 	children: [{
 		name: 'simple',
-		path: 'images-img.html'
+		path: 'images-img'
 	}, {
 		name: 'Icon',
-		path: 'images-icon.html'
+		path: 'images-icon'
 	}, {
 		name: 'Async',
-		path: 'images-async.html'
+		path: 'images-async'
 	}, {
 		name: 'ActionIcon',
-		path: 'images-action.html'
+		path: 'images-action'
 	}, {
 		name: 'PulseIcon',
-		path: 'images-pulse.html'
+		path: 'images-pulse'
 	}]
 }, {
 	name: 'Layouts',
 	children: [{
 		name: 'Dock',
-		path: 'layouts-dock.html'
+		path: 'layouts-dock'
 	}, {
 		name: 'Float',
-		path: 'layouts-float.html'
+		path: 'layouts-float'
 	}, {
 		name: 'Column',
-		path: 'layouts-column.html'
+		path: 'layouts-column'
 	}, {
 		name: 'SimpleForm',
-		path: 'layouts-simpleform.html'
+		path: 'layouts-simpleform'
 	}, {
 		name: 'Border',
-		path: 'layouts-border.html'
+		path: 'layouts-border'
 	}]
 }, {
 	name: 'Lists',
 	children: [{
 		name: 'simple',
-		path: 'lists-list.html'
+		path: 'lists-list'
 	}, {
 		name: 'ListBox',
-		path: 'lists-listbox.html'
+		path: 'lists-listbox'
 	}]
 }, {
 	name: 'Menus',
 	children: [{
 		name: 'vertical',
-		path: 'menus-vmenu.html'
+		path: 'menus-vmenu'
 	}, {
 		name: 'horizontal',
-		path: 'menus-hmenu.html'
+		path: 'menus-hmenu'
 	}, {
 		name: 'context',
-		path: 'menus-context.html'
+		path: 'menus-context'
 	}]
 }, {
 	name: 'Trees',
 	children: [{
 		name: 'simple',
-		path: 'trees-simple.html'
+		path: 'trees-simple'
 	}, {
 		name: 'binding',
-		path: 'trees-binding.html'
+		path: 'trees-binding'
 	}, {
 		name: "drag'n'drop",
-		path: 'trees-dragndrop.html'
+		path: 'trees-dragndrop'
 	}, {
 		name: "ajax",
-		path: 'trees-ajax.html'
+		path: 'trees-ajax'
 	}]
 }, {
 	name: 'Panels',
 	children: [{
 		name: 'Tabs',
-		path: 'panels-tabs.html'
+		path: 'panels-tabs'
 	}]
 }];
 
@@ -164,6 +164,11 @@ $(document).ready(function(){
 	$('body').bind('mouseup', function(e){
 	});
 */	
+	
+//	Samples = {};
+	
+//	Samples.pool = new Dino.containers.Box();
+
 	
 	
 	Application = new Dino.framework.Application({
@@ -211,7 +216,45 @@ $(document).ready(function(){
 										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
-											Application.root.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none; overflow: hidden"></iframe>');
+											
+											var preview = Application.root.pageContent.getItem('preview_and_code').getItem('preview');
+											preview.el.empty();
+											var jsPage = $('.js-page').dino();
+											var cssPage = $('.css-page').dino();
+											
+//											Application.root.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none; overflow: hidden"></iframe>');
+											
+											$.get('resources/css/'+path+'.css', function(css){
+												
+												preview.el.append('<style>'+css+'</style>');
+												cssPage.content.el.html('<pre class="sh_css">'+css+'</pre>');
+												
+												$.getScript('resources/js/'+path+'.js', function(script){
+												
+													jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml(script)+'</pre>');
+
+													// включаем подсветку кода
+													sh_highlightDocument();																									
+												});												
+											});
+/*											
+											$.getScript('pages/buttons-all.js', function(data){
+												
+												var page = $(data);
+												
+												Samples.pool.el.children().each(function(i, el){
+													$(el).dino().$render(preview);
+												});
+											
+//												var jsPage = $('.js-page').dino(); //Application.root.pageContent.getItem('preview_and_code').getItem('preview').content.getPage('javascript').content;
+//												jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml($('script.example', page).text())+'</pre>');
+												
+//												// включаем подсветку кода
+//												sh_highlightDocument();												
+											});
+*/											
+											
+											
 //											growl.info('hello');
 										}
 									}
@@ -243,11 +286,12 @@ $(document).ready(function(){
 					items: [{
 						dtype: 'box',
 						tag: 'preview',
-						cls: 'dino-border-all',
+						cls: 'dino-border-all preview',
 						height: 'auto',
-						style: {'padding': '3px'}
+						style: {'padding': '3px', 'overflow': 'auto'}
 					}, {
 						dtype: 'box',
+						tag: 'code',
 						region: 'south',
 //						cls: 'dino-border-all',
 						style: {'height': 200},
@@ -262,14 +306,19 @@ $(document).ready(function(){
 							},
 							pages: [{
 								tab: {text: 'JavaScript'},
+//								tag: 'javascript',
+								cls: 'js-page',
 								content: {
 									dtype: 'box',
+									style: {'overflow-y': 'auto'},
 									height: 'auto'
 								}
 							}, {
 								tab: {text: 'CSS'},
+								cls: 'css-page',
 								content: {
 									dtype: 'box',
+									style: {'overflow-y': 'auto'},
 									height: 'auto'
 								}
 							}]
@@ -280,44 +329,56 @@ $(document).ready(function(){
 		}
 	});
 	
+			
 
-/*
-	var eventPane = $.dino({
-		dtype: 'box',
-		renderTo: 'body',
-		cls: 'event-pane',
-		style: {'display': 'none'},
-		state: ['nonselectable'],
-		height: 'ignore',
-		events: {
-			'mousemove': function(e){
-				if(dragSplit) {
-					var w = Application.pageContent.getItem(0);
-					var offset = w.el.offset();
-					w.opt('width', e.pageX - offset.left);
-					Application.pageContent._layoutChanged();
-				}
-			},
-			'mouseup': function() {
-				dragSplit = false;
-				eventPane.el.css('display', 'none');				
-			}
-		}
-	});
-*/
-
-
-/*
-	$(window).resize(function(){
-		
-		var h = $(window).height();
-		var dh = $('body').outerHeight(true) - $('body').height();
-		$('body').height(h - dh);
-		
-		Application.$layoutChanged();
-	});
-*/	
 });
 
+
+
+
+
+var Samples = {};
+
+
+Samples.generate_plain_list = function(n) {
+	var list = []
+	for(var i = 0; i < n; i++) {
+		list.push('Item ' + (i+1));
+	}
+	return list;
+}
+
+
+
+Samples.generate_grid_page = function(i0, i1) {
+	
+	// Типы данных
+	// - ID
+	// - Строка
+	// - Число
+	// - Активная иконка
+	// - Ссылка
+	// - Чекбокс
+	// - Денежные единицы
+	// - Дата
+	
+	var list = [];
+	for(var i = i0; i < i1; i++) {
+		list.push({
+			id: i,
+			string: 'Item ' + (i+1),
+			number: Math.random()*1e3,
+			icon: 'exclamation',
+			ref: 'http://google.ru',
+			flag: false,
+			currency: Math.random()*1e2,
+			date: new Date().toLocaleString()
+		});
+	}
+	return list;
+}
+
+
+Samples.loremipsum = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 
