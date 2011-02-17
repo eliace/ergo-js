@@ -1,7 +1,7 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: '.preview',
+  renderTo: '.preview',
   items: [{
     // обычная загрузка
     dtype: 'image',
@@ -16,4 +16,4 @@ $.dino({
     height: 100   
   }]
 });
-		
+    

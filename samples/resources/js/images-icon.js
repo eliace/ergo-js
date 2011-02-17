@@ -1,7 +1,7 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: '.preview',
+  renderTo: '.preview',
   layout: 'float-layout',
   defaultItem: {
     dtype: 'icon',
@@ -14,12 +14,12 @@ $.dino({
     { cls: 'ui-icon-folder-open' },
     { cls: 'ui-icon-document' },
     { cls: 'ui-icon-note' },
-		{
-			dtype: 'action-icon',
-			baseCls: '',
-			cls: 'icon32'
-		}
+    {
+      dtype: 'action-icon',
+      baseCls: '',
+      cls: 'icon32'
+    }
   ]
 });
 
-		
+    

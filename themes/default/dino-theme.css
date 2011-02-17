@@ -4,6 +4,7 @@
 .dino-border-bottom { border-bottom: 1px solid #aaaaaa; }
 .dino-border-top { border-top: 1px solid #aaaaaa; }
 .dino-border-no-right { border-right: none;}
+.dino-border-no-bottom { border-bottom: none;}
 .dino-border-none { border: none; }
 
 
@@ -514,11 +515,12 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*	background-color: #8FCDFF;*/
 /*	background: url(img/selection.png) repeat-x scroll 50% 50% ;*/
 /*	background-color: #eee;*/
-	background: url(img/ui-bg_glass_55_fbf9ee_1x400.png) repeat-x scroll 50% 50% #fff;
+/*	background: url(img/ui-bg_glass_55_fbf9ee_1x400.png) repeat-x scroll 50% 50% #fff;*/
+	background-color: #ffa;
 }
 
 .dino-listbox-row.selected:hover {
-	background-color: #f0f0dd;
+	background-color: #ffffc0;
 }
 
 
@@ -573,7 +575,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 4px 0;
+	padding: 6px 0 4px;
 	font-size: 13px;
 }
 
@@ -602,15 +604,15 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 
 .dino-tabs li.active {
-	background-color: #fff;
+	background-color: #f8f8f8;
 	background-image: none;
 	font-weight: bold;
 }
 
 .dino-tabs.top li.active {
 	padding-bottom: 5px !important;
-	margin-top: -4px;
-	padding-top: 4px; /* 24px 0 24px;*/
+	margin-top: -6px;
+	padding-top: 6px; /* 24px 0 24px;*/
 }
 
 
@@ -666,7 +668,10 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	background-color: #fff;
 }
 
-
+.dino-tab-footer {
+	background-color: #f8f8f8;
+	height: 3px;
+}
 
 /*
  * GRID

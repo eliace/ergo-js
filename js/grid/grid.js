@@ -75,6 +75,10 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 		Dino.each(o.tableModel.columns, function(column, i){
 			h_col = {};
 			if('width' in column) h_col.width = column.width;
+			if('header' in column) {
+				if(Dino.isString(column.header)) h_col.text = column.header;
+				else Dino.utils.overrideOpts(h_col, column.header);
+			}
 			h_columns[i] = h_col;
 		})
 		

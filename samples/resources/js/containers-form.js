@@ -1,15 +1,15 @@
-		
+    
 $.dino({
   dtype: 'form',
-	renderTo: '.preview',
-	layout: 'form-layout',
-//	layout: {
-//		dtype: 'form-layout',
-//		labelWidth: 200
-//	},
+  renderTo: '.preview',
+  layout: 'form-layout',
+//  layout: {
+//    dtype: 'form-layout',
+//    labelWidth: 200
+//  },
   items: [{
     label: 'Текстовое поле',
-   	id: 'field1',
+     id: 'field1',
     dtype: 'textfield'
   }, {
     label: 'Текст',
@@ -33,4 +33,4 @@ $.dino({
 });
 
 
-		
+    

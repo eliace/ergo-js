@@ -1,7 +1,7 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: '.preview',
+  renderTo: '.preview',
   layout: 'column-layout',
   height: 200,
   items: [{
@@ -10,18 +10,18 @@ $.dino({
     content: {
       dtype: 'box',
       innerText: 'Widget 1',
-			height: 'auto',
+      height: 'auto',
 //      height: '100%',
       style: {'border': '1px solid #ccc'}
     }
   }, {
     cls: 'dino-border-all',
     content: {
-			height: 'auto',
+      height: 'auto',
       dtype: 'box',
       innerText: 'Widget 2'
     }
   }]
 });
 
-		
+    

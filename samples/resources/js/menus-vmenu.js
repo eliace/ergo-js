@@ -1,7 +1,7 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: '.preview',
+  renderTo: '.preview',
   id: 'vmenu',
   defaultItem: {
     dtype: 'text-menu-item',
@@ -12,8 +12,8 @@ $.dino({
       growl.info( e.target.getText() );
     },
     defaultSubItem: {
-			showLeftPanel: true
-		}
+      showLeftPanel: true
+    }
   },
   items: [{
     text: 'Menu 1',
@@ -31,13 +31,13 @@ $.dino({
           text: 'Submenu 6',
         }]
       }, {
-        text: 'Submenu 5 + Submenu 5'					
+        text: 'Submenu 5 + Submenu 5'          
       }]
     }]
   }, {
-    text: 'Menu 2',		
+    text: 'Menu 2',    
   }, {
-    text: 'Menu 3',		
+    text: 'Menu 3',    
   }]
-});			
-		
+});      
+    

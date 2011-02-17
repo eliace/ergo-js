@@ -28,8 +28,13 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 					this.parent.events.fire('onTabChanged', {'tab': this.parent.getCurrentTab(), 'page': this.parent.getCurrentPage()});
 				}
 			},
-			pages: {
+			tabFooter: {
 				weight: 2,
+				dtype: 'box',
+				cls: 'dino-tab-footer dino-border-all dino-border-no-bottom'
+			},
+			pages: {
+				weight: 3,
 				dtype: 'box',
 				layout: 'stack-layout',
 				cls: 'dino-tab-pages dino-border-all',

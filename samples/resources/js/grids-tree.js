@@ -1,45 +1,45 @@
-		
+    
 var tgTreeData = new Dino.data.ArrayDataSource([]);
 
 
-$.getJSON('../ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
+$.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
 
-		
+    
 $.dino({
   dtype: 'tree-grid',
-	renderTo: '.preview',
+  renderTo: '.preview',
   tag: 'aaa',
   cls: 'tree-grid dino-border-all dino-corner-all',
   data: tgTreeData,
 //  dataId: 'children',
-	width: 600,
-//	debug: true,
-	content: {
-//		autoHeight: true,
-		height: 300,//'auto',
-		style: {'padding-right': '3px'}
-	},
-	headerCls: 'dino-bg-highlight',
-	headerModel: {
-		cell: {
-			cls: 'tg-header'
-		},
-		columns: [{
-			innerText: '#',
-			width: 40
-		}, {
-			innerText: 'Файл'
-		}, {
-			innerText: 'Размер',
-			width: 100
-		}]
-	},
+  width: 600,
+//  debug: true,
+  content: {
+//    autoHeight: true,
+    height: 300,//'auto',
+    style: {'padding-right': '3px'}
+  },
+  headerCls: 'dino-bg-highlight',
+  headerModel: {
+    cell: {
+      cls: 'tg-header'
+    },
+    columns: [{
+      innerText: '#',
+      width: 40
+    }, {
+      innerText: 'Файл'
+    }, {
+      innerText: 'Размер',
+      width: 100
+    }]
+  },
   tableModel: {
     cell: {
       cls: 'tg-cell'
     },
     row: {
-			cls: 'tg-row',
+      cls: 'tg-row',
       state: 'expanded'
     },
     columns: [{
@@ -47,35 +47,35 @@ $.dino({
       width: 40,
       binding: 'auto'
     }, {
-			dtype: 'tree-table-cell',
-			style: {'text-align': 'left'},
-			expandOnShow: true,
-			content: {
-				content: {
-					showLeftIcon: true,
-					components: {
-						leftIcon: {
-							dataId: 'type',
-							format: function(val) { return 'led-icon-'+val; },
-							binding: function(val) {	this.states.setOnly(val); }
-						},
-						content: {
-		      		dataId: 'name'
-						}
-					},
-					state: 'nonselectable'
-				}				
-			},
-			binding: function(val, o) {
-				o.isLeaf = (val.type == 'film');
-			}
+      dtype: 'tree-table-cell',
+      style: {'text-align': 'left'},
+      expandOnShow: true,
+      content: {
+        content: {
+          showLeftIcon: true,
+          components: {
+            leftIcon: {
+              dataId: 'type',
+              format: function(val) { return 'led-icon-'+val; },
+              binding: function(val) {  this.states.setOnly(val); }
+            },
+            content: {
+              dataId: 'name'
+            }
+          },
+          state: 'nonselectable'
+        }        
+      },
+      binding: function(val, o) {
+        o.isLeaf = (val.type == 'film');
+      }
     }, {
       width: 100,
       dataId: 'value',
       binding: 'auto'
     }]
   }
-});	
+});  
 
 
-		
+    

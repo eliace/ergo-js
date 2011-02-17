@@ -217,7 +217,7 @@ $(document).ready(function(){
 										onClick: function() {
 											path = this.parent.data.get('path');
 											
-											var preview = Application.root.pageContent.getItem('preview_and_code').getItem('preview');
+											var preview = $('.preview').dino();//Application.root.pageContent.getItem('preview_and_code').getItem('preview');
 											preview.el.empty();
 											var jsPage = $('.js-page').dino();
 											var cssPage = $('.css-page').dino();
@@ -294,7 +294,7 @@ $(document).ready(function(){
 						tag: 'code',
 						region: 'south',
 //						cls: 'dino-border-all',
-						style: {'height': 200},
+						style: {'height': 300},
 //						height: 200,
 						content: {
 							dtype: 'tab-panel',

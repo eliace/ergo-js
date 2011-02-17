@@ -1,7 +1,7 @@
 
 $.dino({
   dtype: 'box',
-	renderTo: '.preview',
+  renderTo: '.preview',
   layout: {
     dtype: 'dock-layout',
     updateMode: 'auto'
@@ -19,4 +19,4 @@ $.dino({
   }]
 });
 
-		
+    
