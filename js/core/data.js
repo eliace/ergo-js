@@ -6,6 +6,29 @@
  */
 
 
+
+Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events.CancelEvent.prototype */{
+
+	initialize: function(overrides, baseEvent) {
+		Dino.data.DirtyEvent.superclass.initialize.apply(this, arguments);
+		this.is_canceled = false;
+		this.is_stopped = false;
+	},
+	
+	cancel: function(){
+		this.is_canceled = true;
+	},
+	
+	stop: function(){
+		this.is_stopped = true;
+	}
+	
+	
+});
+
+
+
+
 /**
  * @class
  * @name Dino.data.DataSource
@@ -71,21 +94,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		if(arguments.length == 0)
 			return this.val();
 		else{
-			return this.item(i).val();
-			
-/*			
-			var v = this.val();
-			if( _dino.isString(i) ){
-				var a = i.split('.');
-				for(var j = 0; j < a.length; j++){
-					if(v === null || v === undefined) return null;
-					v = v[ a[j] ];
-					
-				}
-				return v;
-			}
-			return v[i];
-*/			
+			return this.item(i).val();			
 		}
 	},
 	
@@ -205,37 +214,75 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		return Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i, this.options) : new Dino.data.ObjectDataSource(this, i, this.options);
 	},
 	
-	dirty: function(flag) {
-		
+	dirty: function(flag, target) {
+
 		flag = (arguments.length == 0) ? true : flag;
-		
-		var event = new Dino.events.CancelEvent();
+
+		if(this.is_dirty) flag = false;
+
 		
 		if(flag) {
-			if(this.is_dirty) return;
-						
-			this.events.fire('onDirty', event);			
-			if(event.isCanceled) return true;
 			
 			this.is_dirty = true;
 			
-			if(this.stop_dirty) return true; //FIXME использовать флаг не совсем корректно, поскольку он не может быть опцией
+			// выполняем проверку на стоп-критерий
+			if(this.options.stopCriteria && this.options.stopCriteria.call(this, this.val())) {
+				target = this;
+				flag = false;
+			}
+		}
+		
+		this.events.fire('onDirty', {'target': target});
+		
+		if(this.source instanceof Dino.data.DataSource) this.source.dirty(flag, target);
+		
+		
+/*		
+		flag = (arguments.length == 0) ? true : flag;
+		
+		if(flag) {
+			if(this.is_dirty) return;
+
+			this.is_dirty = true;
+						
+			if(this.options.dirtyFilter && !this.options.dirtyFilter.call(this)) {
+			}
+			else {
+				var event = new Dino.events.DirtyEvent();
+				this.events.fire('onDirty', event);			
+				this.is_dirty = !event.is_canceled; 				
+				if(event.is_stopped || event.is_canceled) return true;
+			}
+			
+			
+//			if(this.stop_dirty) return true; //FIXME использовать флаг не совсем корректно, поскольку он не может быть опцией
 			
 			if(this.source instanceof Dino.data.DataSource) if( this.source.dirty(true) ) return true;
 		}
 		else {
 			if(!this.is_dirty) return;
 
-			this.events.fire('onClean', event);
-			if(event.isCanceled) return;
-			
 			this.is_dirty = false;
 
-			if(this.stop_dirty) return;
+			if(this.options.dirtyFilter && !this.options.dirtyFilter.call(this, this.val())) {
+			}
+			else {
+				var event = new Dino.events.DirtyEvent();
+				this.events.fire('onClean', event);			
+				this.is_dirty = event.is_canceled; 				
+				if(event.is_stopped || event.is_canceled) return true;
+			}
+
+//			this.events.fire('onClean', event);
+//			if(event.isCanceled) return;
+//			
+//			this.is_dirty = false;
+//
+//			if(this.stop_dirty) return;
 			
 			for(var i in this.items) this.items[i].dirty(false);
 		}
-		
+*/		
 	},
 	
 	clean_all: function() {

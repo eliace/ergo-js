@@ -59,6 +59,7 @@ require 'fileutils'
     'js/list/list.js',
     'js/list/list-box.js',
     'js/framework/application.js',
+    'js/remote/collection.js',
   ]
 
 

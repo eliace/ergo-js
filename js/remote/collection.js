@@ -1,5 +1,6 @@
 
 
+
 Dino.declare('Dino.remote.Collection', 'Dino.events.Observer', {
 	
 	initialize: function(name, source, o) {
@@ -75,12 +76,21 @@ Dino.declare('Dino.remote.Collection', 'Dino.events.Observer', {
 	 */
 	load_all: function(callback) {
 		var self = this;
-		$.getJSON(this.path()+'/all', {}, function(data){
-			if(self.backend) self.backend.set(data);
-			if(callback) callback.call(this, data);
+		$.getJSON(this.path(), {'query': 'all'}, function(data){
+			if(self.backend) 
+				self.backend.set(data);
+			if(callback) 
+				callback.call(this, data);
 		});		
 	},
 	
+	load_subtree: function(id, callback) {
+		var self = this;
+		$.getJSON(this.path(), {'subtree': 'all', 'id': id}, function(data){
+			if(callback) 
+				callback.call(this, data);
+		});				
+	},
 	
 	/**
 	 * Загрузка подмножества объектов
@@ -91,9 +101,10 @@ Dino.declare('Dino.remote.Collection', 'Dino.events.Observer', {
 	 * @param {Object} callback
 	 */
 	load_range: function(fromIndex, toIndex, orderField, callback) {
-		$.getJSON(this.path()+'/range', {from: fromIndex, to: toIndex, order: orderField}, function(data){
+		$.getJSON(this.path(), {'query': 'range', 'from': fromIndex, 'to': toIndex, 'order': orderField}, function(data){
 			//TODO
-			if(callback) callback.call(this, data.data, data.from, data.to, data.count);
+			if(callback) 
+				callback.call(this, data.data, data.from, data.to, data.count);
 		});				
 	},
 	

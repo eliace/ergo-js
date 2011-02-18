@@ -196,13 +196,9 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 				this.north_splitter.css('top', h);
 				h += this.north_splitter.height()
 				if(this.west_region){
-//					this.west_region.css('top', h);
-//					this.west_splitter.css('top', h);
 					this.west.layout.update();
 				}
 				if(this.east_region){
-//					this.east_region.css('top', h);
-//					this.east_splitter.css('top', h);
 					this.east.layout.update();
 				}
 				this.middle_region.css('top', h);
@@ -213,14 +209,9 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 				this.south_splitter.css('bottom', h);
 				h += this.south_splitter.height()
 				if(this.west_region){
-//					this.west_region.css('bottom', h);
-//					this.west_splitter.css('bottom', h);
 					this.west.$layoutChanged();
-//					this.west.layout.update();
 				}
 				if(this.east_region){
-//					this.east_region.css('bottom', h);
-//					this.east_splitter.css('bottom', h);
 					this.east.$layoutChanged();
 				}
 				this.middle_region.css('bottom', h);

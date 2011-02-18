@@ -75,7 +75,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 				break;
 			case 'icon-text':
 				o_mod.rightIcon.state = 'hidden';
-				o_mod.content.cls = 'l-icon';				
+				o_mod.content.cls = 'l-icon';
 				break;
 			case 'text-xicon':
 				o_mod.leftIcon.state = 'hidden';
@@ -106,8 +106,12 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		}
 		if('textFormat' in o) this.content.opt('format', o.textFormat);
 		
-		if('icon' in o) this.leftIcon.states.set(o.icon);
-		if('xicon' in o) this.rightIcon.states.set(o.xicon);
+		if('icon' in o) 
+			this.leftIcon.states.setOnly(o.icon);
+		if('xicon' in o) {
+			this.rightIcon.states.setOnly(o.xicon);
+		} 
+			
 		
 /*		
 		if('pattern' in o) {

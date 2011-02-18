@@ -411,8 +411,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		}
 		
 		Dino.utils.overrideOpts(this.options, opts);
-		
+
 		this.$opt(opts);
+		
 		return this.options;
 	},
 	
@@ -1014,7 +1015,7 @@ $(document).ready(function(){
 //			if(w){
 //				var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
 				if(w){
-					var cancel_event = new Dino.events.CancelEvent();
+					var cancel_event = new Dino.events.CancelEvent({'contextMenu': w.contextMenu});
 					w.events.fire('onContextMenu', cancel_event);
 					if(!cancel_event.isCanceled){
 						w.contextMenu.sourceWidget = w;

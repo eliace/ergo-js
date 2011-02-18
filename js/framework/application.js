@@ -66,7 +66,7 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 						icon: 'dino-icon-growlbox-'+type,
 						state: type					
 					};
-					(isHtml) ? o.htmlMessage = m : o.message = m;
+					(isHtml) ? o.htmlMessage = s : o.message = s;
 					self.growl.addItem(o);
 				}
 			}
