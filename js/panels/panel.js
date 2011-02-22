@@ -12,22 +12,24 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
-		cls: 'dino-border-all dino-corner-top',
+//		cls: 'dino-border-all dino-corner-top',
 		components: {
 			header: {
 				dtype: 'box',
-				cls: 'dino-widget-header dino-border-bottom',
+				cls: 'dino-panel-header',
 				components: {
 					title: {
-						dtype: 'text-item',
-						selectable: false
+						dtype: 'text-item'
+//						selectable: false
 					}
 //					buttons: {
-//						dtype: 'box'
+//						dtype: 'box',
+//						style: {'float': 'right'}
 //					}
 				}	
 			},
 			content: {
+				cls: 'dino-panel-content',
 				dtype: 'box'
 			},
 			footer: {

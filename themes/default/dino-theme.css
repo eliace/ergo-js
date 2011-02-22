@@ -86,6 +86,11 @@
 .dino-icon-growlbox-warning { background-image: url(img/messagebox_warning.png); }
 
 
+.dino-icon-dialog {	background: url(img/ui-icons_454545_256x240.png) 50% 50%; }
+.dino-icon-dialog.hover {	background: url(img/ui-icons_222222_256x240.png) 50% 50%; }
+
+.dino-icon-dialog-close { background-position: -96px -128px; }
+.dino-icon-dialog-minimize { background-position: -64px -16px; }
 
 
 
@@ -97,11 +102,39 @@
  */
 
 
-.dino-widget-shadow {
+.dino-panel-shadow {
 	-moz-box-shadow: 0 0 .7em #aaa;
 	-webkit-box-shadow: 0 0 .7em #aaa;
 	box-shadow: 0 0 .7em #aaa;
 }
+
+.dino-panel {
+	-moz-border-radius: 6px 6px 0 0; 
+	-webkit-border-radius: 6px 6px 0 0; 
+	border-radius: 6px 6px 0 0;
+	border: 1px solid #aaa;
+	background-color: #eee;
+}
+
+.dino-panel-header {
+	padding: 3px 6px;
+	
+	-moz-border-radius: 6px 6px 0 0; 
+	-webkit-border-radius: 6px 6px 0 0; 
+	border-radius: 6px 6px 0 0;
+/*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
+	
+	text-shadow: 1px 1px 3px #ccc;
+	color: #444;
+	text-align:center;
+}
+
+.dino-panel-content {
+	border: 1px solid #aaa;
+	margin: 3px;
+	background-color: #fff;
+}
+
 
 .dino-dropdown-shadow {
 	-moz-box-shadow: 1px 1px 5px #ddd;
@@ -992,11 +1025,13 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-tree-node-content:hover {
-	background-color: #ffc;/*#fea;*/
+/*	background-color: #ffc;#fea;*/
+	color: #666;
 }
 
 .dino-tree-node.selected > .dino-tree-node-content {
 /*	background-color: #6af;*/
+	color: #11f;
 }
 
 

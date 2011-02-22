@@ -56,6 +56,7 @@ var sampleTree = [{
 		path: 'grids-group'
 	}, {
 		name: 'Properties',
+		debug: true,
 		path: 'grids-propertygrid'
 	}]
 }, {
@@ -125,6 +126,7 @@ var sampleTree = [{
 		path: 'trees-binding'
 	}, {
 		name: "drag'n'drop",
+		debug: true,
 		path: 'trees-dragndrop'
 	}, {
 		name: "ajax",
@@ -133,6 +135,10 @@ var sampleTree = [{
 }, {
 	name: 'Panels',
 	children: [{
+		name: 'Panel',
+		debug: true,
+		path: 'panels-panel'
+	}, {
 		name: 'Tabs',
 		path: 'panels-tabs'
 	}]
@@ -214,6 +220,7 @@ $(document).ready(function(){
 								components: {
 									content: {
 										icon: true,
+										xicon: true,
 		      					dataId: 'name',
 										cls: 'dino-clickable',
 										state: 'clickable',
@@ -245,7 +252,9 @@ $(document).ready(function(){
 								},
 								binding: function(val) {
 									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
+									var xicon = (val.debug) ? 'led-icon-bug' : '';
 									this.content.opt('icon', icon);
+									this.content.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				
 								}
 							}
