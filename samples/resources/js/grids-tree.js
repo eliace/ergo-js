@@ -66,8 +66,8 @@ $.dino({
           state: 'nonselectable'
         }        
       },
-      binding: function(val, o) {
-        o.isLeaf = (val.type == 'film');
+      binding: function(val) {
+        this.opt('isLeaf', (val.type == 'film'));
       }
     }, {
       width: 100,

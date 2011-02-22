@@ -17,14 +17,14 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 					},
 					row: {
 						cls: 'dino-listbox-row',
-						clickable: true,
 						onClick: function() {
 							this.parent.parent.parent.setSelectedItem(this);
 						}
 					},
 					columns: [{
      				binding: 'auto',
-     				clickable: true,
+//     				clickable: true,
+						state: 'clickable',
      				onDblClick: function() {
      					var listBox = this.getParent(Dino.widgets.ListBox);
      					if(listBox.options.editOnDblClick) {

@@ -2,9 +2,10 @@
 /*
  * Экспериментальный код
  */
-Dino.merge_r(Dino.widgets.ListBox.prototype, {
 
-  defaultOptions: {
+var ListBoxSelection = {
+	
+  options: {
     components: {
       content: {
         tableModel: {
@@ -12,44 +13,62 @@ Dino.merge_r(Dino.widgets.ListBox.prototype, {
             state: 'nonselectable',
             events: {
               'click': function(e, w) {
-                var list = w.getParent(Dino.widgets.ListBox);
-                
-                if(e.shiftKey && list.selected_a) {
-                  // создаем выборку
-                  var i0 = Math.min(list.selected_a[0].index, list.selected_a[list.selected_a.length-1].index);
-                  i0 = Math.min(i0, w.index);
-                  var i1 = Math.max(list.selected_a[0].index, list.selected_a[list.selected_a.length-1].index);
-                  i1 = Math.max(i1, w.index);
-                  
-                  list.selected_a = [];
-                  
-                  w.parent.eachItem(function(item, i){
-                    if(i >= i0 && i <= i1) {
-                      item.states.set('selected');
-                      list.selected_a.push(item);
-                    }
-                  });
-                }
-                else if(e.ctrlKey) {
-                  ( w.states.toggle('selected') ) ? list.selected_a.push(w) : Dino.remove_from_array(list.selected_a, w);
-                }
-                else {
-                  if(list.selected_a)
-                    Dino.each(list.selected_a, function(item){ item.states.clear('selected'); });
-                  w.states.set('selected');
-                  list.selected_a = [w];                  
-                }
-                
+                w.getParent(Dino.widgets.ListBox).setSelected(w, e);
               }
             }
           }
         }
       }
     }
-  }
-  
+  },
+	
+	getSelected: function() {
+		return (this.selected_a) ? this.selected_a[0] : null;
+	},
+
+	getSelectedList: function() {
+		return this.selected_a;
+	},
+	
+	setSelected: function(w, e) {
+		
+		if(!e) e = {};
+
+    if(e.shiftKey && this.selected_a) {
+      // создаем выборку
+      var i0 = Math.min(this.selected_a[0].index, this.selected_a[this.selected_a.length-1].index);
+      i0 = Math.min(i0, w.index);
+      var i1 = Math.max(this.selected_a[0].index, this.selected_a[this.selected_a.length-1].index);
+      i1 = Math.max(i1, w.index);
+      
+      this.selected_a = [];
+      
+			var self = this;
+			
+      w.parent.eachItem(function(item, i){
+        if(i >= i0 && i <= i1) {
+          item.states.set('selected');
+          self.selected_a.push(item);
+        }
+      });
+    }
+    else if(e.ctrlKey) {
+      ( w.states.toggle('selected') ) ? this.selected_a.push(w) : Dino.remove_from_array(this.selected_a, w);
+    }
+    else {
+      if(this.selected_a)
+        Dino.each(this.selected_a, function(item){ item.states.clear('selected'); });
+      w.states.set('selected');
+      this.selected_a = [w];                  
+    }
     
-});
+		this.events.fire('onSelect');
+
+		
+	}
+    
+};
+
 
 
 
@@ -96,7 +115,8 @@ var listBox = $.dino({
         }]        
       },
       height: 300,
-      data: listBoxData,        
+      data: listBoxData,
+			extensions: [ListBoxSelection]
     },
     footer: {
       cls: 'dino-widget-footer dino-border-top',

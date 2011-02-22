@@ -69,9 +69,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			'hidden': 'dino-hidden',
 			'visible': ['', 'dino-hidden']
 		},
-		defaults: {
-			
-		},
+		defaults: {},
+		extensions: [],
 		binding: 'auto'
 	},
 	
@@ -304,6 +303,14 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				}
 			})
 //			this.addComponent('content', o.content);
+		}
+		
+		if('extensions' in o) {
+			for(i in o.extensions) {
+				var ext = o.extensions[i];
+				if(Dino.isFunction(ext)) ext.call(this, o);
+				else if(Dino.isPlainObject(ext)) Dino.override_r(this, ext);
+			}
 		}
 				
 	},
@@ -675,6 +682,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this.children.add( this[key] );
 		this.layout.insert(this[key]);
 //		this.el.append(this[key].el);
+		return this[key];
 	},
 	
 	/**
@@ -683,11 +691,13 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @param {Object} key ключ (имя) компонента
 	 */
 	removeComponent: function(key) {
-		if(this[key]) {
-			this.layout.remove(this[key]);
-			this.children.remove( this[key] );
+		var c = this[key];
+		if(c) {
+			this.layout.remove(c);
+			this.children.remove(c);
 			delete this[key];
 		}
+		return c;
 	},
 	
 	
@@ -830,7 +840,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				val = this.options.store_format.call(this, val);
 			
 			this.data.set(val);
-			this.events.fire('onValueChanged');
+			this.events.fire('onValueChanged', {'value': val});
 		}
 	},
 	
@@ -870,9 +880,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		var binding = this.options.binding;
 		
 		if(Dino.isFunction(binding)){
-			var o = {};
-			binding.call(this, this.getValue(), o);
-			this.opt(o);
+//			var o = {};
+			binding.call(this, this.getValue());
+//			this.opt(o);
 		}
 /*		
 		if(binding.options){

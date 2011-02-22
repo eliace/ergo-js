@@ -54,6 +54,9 @@ var sampleTree = [{
 	}, {
 		name: 'Group',
 		path: 'grids-group'
+	}, {
+		name: 'Properties',
+		path: 'grids-propertygrid'
 	}]
 }, {
 	name: 'Images',

@@ -35,7 +35,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 			content: {
 				// скроллируемый контейнер
 				dtype: 'box',
-				style: {'overflow-y': 'scroll'},
+				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
 				content: {
 					dtype: 'table',
 					width: '100%',

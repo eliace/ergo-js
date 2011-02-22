@@ -1,0 +1,25 @@
+
+.grid-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+}
+	
+.grid-header-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #444;
+	font-size: 10pt;
+	text-shadow: 1px 1px 1px #fff;
+}
+					
+.dino-text-editor {
+	border: 1px solid #cef;
+	outline: none;
+	padding: 0;
+	margin: 0;
+}
+
+.dino-grid-row {
+	height: 20px;
+}

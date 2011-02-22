@@ -289,7 +289,6 @@ Dino.declare('Dino.widgets.form.SelectOption', 'Dino.Widget', /** @lends Dino.wi
 		if('text' in o) this.el.text(o.text);
 	}
 	
-	
 }, 'select-option')
 
 

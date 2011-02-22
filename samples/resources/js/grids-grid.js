@@ -11,7 +11,7 @@ var grid = $.dino({
   cls: 'dino-border-all dino-corner-all',
   content: {
     height: 'auto',
-    style: {'padding-right': '3px', 'font-size': '9pt'}
+    style: {'padding-right': '18px', 'font-size': '9pt'}
   },
   headerCls: 'dino-bg-highlight',
   headerModel: {

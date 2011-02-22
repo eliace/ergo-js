@@ -219,9 +219,8 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		flag = (arguments.length == 0) ? true : flag;
 
 		if(this.is_dirty) flag = false;
-
 		
-		if(flag) {
+		if(flag) {			
 			
 			this.is_dirty = true;
 			

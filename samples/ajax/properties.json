@@ -1,0 +1,22 @@
+[{
+	"name": "String",
+	"type": "string",
+	"value": "aaa"
+}, {
+	"name": "Numeric",
+	"type": "numeric",
+	"value": 5
+}, {
+	"name": "Boolean",
+	"type": "boolean",
+	"value": true
+}, {
+	"name": "Date",
+	"type": "date",
+	"value": "21/02/2011"
+}, {
+	"name": "Select",
+	"type": "select",
+	"value": 2,
+	"value_list": ["aaa", "bbb", "ccc", "ddd"]
+}]

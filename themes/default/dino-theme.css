@@ -42,17 +42,17 @@
 	background-position: 50% 50%;
 }
 
-.dino-icon.icon24 {
+.icon24 .dino-icon {
 	width: 24px;
 	height: 24px;
 }
 
-.dino-icon.icon32 {
+.icon32 .dino-icon {
 	width: 32px;
 	height: 32px;
 }
 
-.dino-icon.icon48 {
+.icon48 .dino-icon {
 	width: 48px;
 	height: 48px;
 }
@@ -861,7 +861,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-menu-item-submenu  {
 	border: 1px solid #ccc;
 	background-color: #fff;
-	z-index: 1000;
+	z-index: 2000;
 	
 	-moz-box-shadow: 1px 1px 3px #aaa;
 	-webkit-box-shadow: 1px 1px 3px #aaa;
@@ -882,7 +882,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-context-menu {
 	border: 1px solid #ccc;
 	background-color: #eee;
-	z-index: 1000;
+	z-index: 2000;
 }
 
 
@@ -894,13 +894,13 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-overlay {
 	opacity: 0.4;
 	background-color: black;
-	z-index: 2000;
+	z-index: 1000;
 }	
 
 
 .dino-window {
 /*	position: absolute;*/
-	z-index: 2100;
+	z-index: 1100;
 	background-color: #fff;
 /*	padding: 5px;*/
 }
