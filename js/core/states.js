@@ -44,13 +44,19 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			return this;
 		}
 		
-		if( Dino.isString(state) ) {
-			this.widget.el.addClass(state);
+//		if( Dino.isString(state) ) {
+//			this.widget.el.addClass(state);
 //			this.widget.el.removeClass(state_off);
+//		}
+		var change_class = true;
+		
+		if(Dino.isFunction(state)) {
+			change_class &= (state.call(this.widget, true) !== false);
+			state = name;
 		}
-		else if(Dino.isFunction(state)) {
-			state.call(this.widget, true);			
-		}
+		
+		if(change_class)
+			this.widget.el.addClass(state);
 		
 		this.current_states[name] = true;
 		
@@ -89,12 +95,19 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			return this;
 		}
 		
-		if( Dino.isString(state) ) {
-			this.widget.el.removeClass(state);
-//			this.widget.el.addClass(state_off);
+		var change_class = true;
+
+//		if( Dino.isString(state) ) {
+//			this.widget.el.removeClass(state);
+////			this.widget.el.addClass(state_off);
+//		}
+		if(Dino.isFunction(state)) {
+			change_class &= (state.call(this.widget, false) !== false);			
+			state = name;
 		}
-		else if(Dino.isFunction(state))
-			state.call(this.widget, false);
+		
+		if(change_class)
+			this.widget.el.removeClass(state);		
 		
 		delete this.current_states[name];
 		

@@ -1,5 +1,7 @@
 
 
+
+
 /**
  * @class
  * @name Dino.widgets.Panel
@@ -29,7 +31,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 				}	
 			},
 			content: {
-				cls: 'dino-panel-content',
+/*				cls: 'dino-panel-content',*/
 				dtype: 'box'
 			},
 			footer: {

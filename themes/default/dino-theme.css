@@ -86,8 +86,9 @@
 .dino-icon-growlbox-warning { background-image: url(img/messagebox_warning.png); }
 
 
-.dino-icon-dialog {	background: url(img/ui-icons_454545_256x240.png) 50% 50%; }
-.dino-icon-dialog.hover {	background: url(img/ui-icons_222222_256x240.png) 50% 50%; }
+
+.dino-icon-dialog {	background: url(img/ui-icons_454545_256x240.png); }
+.dino-icon-dialog-h {	background: url(img/ui-icons_222222_256x240.png); }
 
 .dino-icon-dialog-close { background-position: -96px -128px; }
 .dino-icon-dialog-minimize { background-position: -64px -16px; }
@@ -109,20 +110,24 @@
 }
 
 .dino-panel {
+/*	
 	-moz-border-radius: 6px 6px 0 0; 
 	-webkit-border-radius: 6px 6px 0 0; 
 	border-radius: 6px 6px 0 0;
+*/	
 	border: 1px solid #aaa;
 	background-color: #eee;
 }
 
 .dino-panel-header {
 	padding: 3px 6px;
-	
+/*	
 	-moz-border-radius: 6px 6px 0 0; 
 	-webkit-border-radius: 6px 6px 0 0; 
 	border-radius: 6px 6px 0 0;
-/*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
+*/	
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
+	border-bottom: 1px solid #aaa;
 	
 	text-shadow: 1px 1px 3px #ccc;
 	color: #444;
@@ -131,8 +136,8 @@
 
 .dino-panel-content {
 	border: 1px solid #aaa;
-	margin: 3px;
 	background-color: #fff;
+	margin: 3px;
 }
 
 
@@ -549,7 +554,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-listbox-row:hover {
-	background-color: #ffc;
+	background-color: #eee;
 }
 
 .dino-listbox-row.selected {
@@ -557,13 +562,14 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*	background: url(img/selection.png) repeat-x scroll 50% 50% ;*/
 /*	background-color: #eee;*/
 /*	background: url(img/ui-bg_glass_55_fbf9ee_1x400.png) repeat-x scroll 50% 50% #fff;*/
-	background-color: #ffa;
+	background-color: #ffc;
 }
 
+/*
 .dino-listbox-row.selected:hover {
 	background-color: #ffffc0;
 }
-
+*/
 
 
 
@@ -572,21 +578,21 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
  * CONTROLS
  */
 
-.dino-control-bar {
+.dino-control-box {
 	background-color: #eee;
 	padding: 3px;
 }
 
-.dino-control-bar > * {
+.dino-control-box > * {
 	margin-right: 3px;
 }
 
-.dino-control-bar > button.plain {
+.dino-control-box > button.plain {
 	background-color: #eee;
 	border: 1px solid #eee;
 }
 
-.dino-control-bar > button.plain:hover {
+.dino-control-box > button.plain:hover {
 	border: 1px solid #ccc;	
 	background-color: #ddd;
 }
@@ -712,6 +718,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-tab-footer {
 	background-color: #f8f8f8;
 	height: 3px;
+	border: 1px solid #aaa;
 }
 
 /*

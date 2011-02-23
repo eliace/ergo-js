@@ -1,13 +1,13 @@
 
 
-Dino.declare('Dino.widgets.ControlBar', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
 	
 	defaultOptions: {
-		cls: 'dino-control-bar'
+		cls: 'dino-control-box'
 	}
 	
 	
-}, 'control-bar');
+}, 'control-box');
 
 
 

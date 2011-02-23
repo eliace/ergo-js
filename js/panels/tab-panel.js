@@ -31,13 +31,13 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 			tabFooter: {
 				weight: 2,
 				dtype: 'box',
-				cls: 'dino-tab-footer dino-border-all dino-border-no-bottom'
+				cls: 'dino-tab-footer'// dino-border-top dino-border-bottom'// dino-border-no-bottom'
 			},
 			pages: {
 				weight: 3,
 				dtype: 'box',
 				layout: 'stack-layout',
-				cls: 'dino-tab-pages dino-border-all',
+				cls: 'dino-tab-pages',// dino-border-all',
 				defaultItem: {
 					dtype: 'box'
 				}

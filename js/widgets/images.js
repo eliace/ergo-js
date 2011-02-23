@@ -146,6 +146,11 @@ Dino.widgets.ActionIcon = Dino.declare('Dino.widgets.ActionIcon', 'Dino.widgets.
 			'hover': function(is_set) {
 				this.opt('opacity', is_set ? 1 : .7);
 			}
+		},
+		events: {
+			'click': function(e, w){
+				w.events.fire('onAction');
+			}
 		}
 		
 	}

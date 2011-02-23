@@ -195,7 +195,7 @@ $(document).ready(function(){
 			},
 			// Панель инструментов
 			toolbar: {
-				dtype: 'control-bar',
+				dtype: 'control-box',
 				id: 'main-toolbar'
 			},
 			// Содержимое
@@ -207,7 +207,7 @@ $(document).ready(function(){
 					dtype: 'box',
 					region: 'west',
 					cls: 'dino-border-all',
-					width: 170,
+					width: 200,
 					style: {'background-color': '#fff'},
 					height: 'auto',
 					content: {
@@ -290,8 +290,36 @@ $(document).ready(function(){
 						style: {'height': 300},
 //						height: 200,
 						content: {
+							dtype: 'panel',
+							content: {
+								dtype: 'tab-panel',
+								style: {'margin-top': '3px'},
+								defaults: {
+									page: {
+										style: {'background-color': '#fff'}
+									}
+								},
+								pages: [{
+									tab: {text: 'JavaScript'},
+									cls: 'js-page',
+									content: {
+										dtype: 'box',
+										style: {'overflow-y': 'auto'},
+										height: 'auto'
+									}
+								}, {
+									tab: {text: 'CSS'},
+									cls: 'css-page',
+									content: {
+										dtype: 'box',
+										style: {'overflow-y': 'auto'},
+										height: 'auto'
+									}
+								}]
+								
+							},
+/*							
 							dtype: 'tab-panel',
-//							height: 'auto',
 							defaults: {
 								page: {
 									style: {'background-color': '#fff'}
@@ -299,7 +327,6 @@ $(document).ready(function(){
 							},
 							pages: [{
 								tab: {text: 'JavaScript'},
-//								tag: 'javascript',
 								cls: 'js-page',
 								content: {
 									dtype: 'box',
@@ -315,6 +342,7 @@ $(document).ready(function(){
 									height: 'auto'
 								}
 							}]
+*/							
 						}
 					}]
 				}]

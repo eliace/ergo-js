@@ -80,6 +80,66 @@ var listBox = $.dino({
   renderTo: '.preview',
   title: 'Список',
   width: 400,
+	content: {
+		dtype: 'box',
+		components: {
+			toolbar: {
+				dtype: 'control-box',
+				cls: 'dino-border-bottom',
+				defaultItem: {
+					dtype: 'text-button',
+					cls: 'plain'
+				},
+				items: [{
+					icon: 'led-icon-add',
+					text: 'Добавить'
+				}, {
+					icon: 'led-icon-delete',
+					text: 'Удалить'
+				}]
+			},
+			list: {
+				dtype: 'list-box',
+	      listModel: {
+	        row: {
+	          states: {
+	            'selected': function(is_set) {
+	              this.getItem(0).content.opt('checked', is_set);
+	            }
+	          }
+	        },
+	        columns: [{
+	          cls: 'dino-icon-column',
+	          binding: false,
+	          content: {
+	            dtype: 'checkbox'
+	          }
+	        }, {
+	          binding: 'auto'
+//	          editable: true
+	        }, {
+	          cls: 'dino-icon-column',
+	          content: {
+	            dtype: 'icon',
+	            cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
+	          }
+	        }, {
+	          cls: 'dino-icon-column',        
+	          content: {
+	            dtype: 'icon',
+	            cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'
+	          }
+	        }]        
+	      },
+	      height: 300,
+	      data: listBoxData,
+				extensions: [ListBoxSelection]
+			}
+		}
+	}
+	
+	
+/*	
   components: {
     content: {
       dtype: 'list-box',
@@ -160,8 +220,9 @@ var listBox = $.dino({
         icon: 'led-icon-refresh',
         tag: 'refresh'
       }]
-    }
+    }    
   }
+*/  
 });
     
 
