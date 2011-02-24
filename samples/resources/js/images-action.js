@@ -3,9 +3,10 @@ $.dino({
   dtype: 'box',
   renderTo: '.preview',
   layout: 'float-layout',
+	cls: 'icon48',
   defaultItem: {
     dtype: 'action-icon',
-    cls: 'icon48'
+//    cls: 'icon48'
   },
   items: [{
     cls: 'icon-01'
