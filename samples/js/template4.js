@@ -102,6 +102,7 @@ var sampleTree = [{
 		path: 'lists-list'
 	}, {
 		name: 'ListBox',
+		debug: true,
 		path: 'lists-listbox'
 	}]
 }, {
@@ -126,7 +127,6 @@ var sampleTree = [{
 		path: 'trees-binding'
 	}, {
 		name: "drag'n'drop",
-		debug: true,
 		path: 'trees-dragndrop'
 	}, {
 		name: "ajax",
@@ -148,7 +148,14 @@ var sampleTree = [{
 //var dragSplit = false;
 
 
+
+
+
 $(document).ready(function(){
+	
+	var southRegionH = 0;
+	
+	
 /*
 	// Растягиваем страницу на всю высоту окна	
 	var h = $(window).height();
@@ -227,13 +234,11 @@ $(document).ready(function(){
 										onClick: function() {
 											path = this.parent.data.get('path');
 											
-											var preview = $('.preview').dino();//Application.root.pageContent.getItem('preview_and_code').getItem('preview');
+											var preview = $('.preview').dino();
 											preview.el.empty();
 											var jsPage = $('.js-page').dino();
 											var cssPage = $('.css-page').dino();
-											
-//											Application.root.pageContent.getItem('preview_and_code').getItem('preview').opt('innerHtml', '<iframe src="pages/' + path + '" width="100%" height="100%" style="border:none; overflow: hidden"></iframe>');
-											
+																						
 											$.get('resources/css/'+path+'.css', function(css){
 												
 												preview.el.append('<style>'+css+'</style>');
@@ -252,7 +257,7 @@ $(document).ready(function(){
 								},
 								binding: function(val) {
 									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
-									var xicon = (val.debug) ? 'led-icon-bug' : '';
+									var xicon = (val.debug) ? 'led-icon-new' : '';
 									this.content.opt('icon', icon);
 									this.content.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				
@@ -291,6 +296,58 @@ $(document).ready(function(){
 //						height: 200,
 						content: {
 							dtype: 'panel',
+							tag: 'codePanel',
+							components: {
+						    header: {
+									style:{'font-size': 14},
+						      layout: {
+						        dtype: 'dock-layout',
+						        updateMode: 'auto'
+						      },
+						      components: {
+						        buttons: {
+							        dtype: 'box',
+							        dock: 'right',
+							        layout: 'float-layout',
+							        defaultItem: {
+							          dtype: 'icon-button',
+							          cls: 'dino-header-button dino-corner-all',
+							          contentCls: 'dino-icon-dialog',
+							          onAction: function(){
+							            if(this.tag == 'collapse') {
+														var panel = this.getParent('codePanel');
+//							              var content = this.getParent(Dino.widgets.Panel).content;
+							              if(panel.content) {
+															if( this.content.states.is('exp_col') ) {
+																southRegionH = panel.parent.el.height();
+																var h = southRegionH - panel.content.el.outerHeight(true);
+																panel.parent.el.css('height', h);
+															}
+															else {
+																var h = southRegionH;
+																panel.parent.el.css('height', h);
+															}
+							                panel.content.states.toggle('hidden');
+															panel.parent.parent.$layoutChanged();
+								              this.content.states.toggle('exp_col');																
+							              }
+							            }
+							          }
+							        },
+							        items: [{
+							          icon: 'exp_col',
+							          tag: 'collapse',
+							          content: {
+							            states: {
+							              'exp_col': ['dino-icon-dialog-collapse', 'dino-icon-dialog-expand']
+							            }
+							          }
+							        }]
+										}
+						      }
+								}
+							},
+							title: '',
 							content: {
 								dtype: 'tab-panel',
 								style: {'margin-top': '3px'},

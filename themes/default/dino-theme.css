@@ -90,8 +90,9 @@
 .dino-icon-dialog {	background: url(img/ui-icons_454545_256x240.png); }
 .dino-icon-dialog-h {	background: url(img/ui-icons_222222_256x240.png); }
 
-.dino-icon-dialog-close { background-position: -96px -128px; }
-.dino-icon-dialog-minimize { background-position: -64px -16px; }
+.dino-icon-dialog-close { background-position: -80px -128px; }
+.dino-icon-dialog-collapse { background-position: -64px 0; }
+.dino-icon-dialog-expand { background-position: -128px 0; }
 
 
 
@@ -463,6 +464,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-icon-button {
 	border: 1px solid #eee;
 	background-color: #eee;
+	margin: 0;
 }
 
 .dino-icon-button:hover {

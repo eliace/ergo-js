@@ -349,8 +349,15 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 */
 	$render: function(target) {
 		if(target){
-			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
-			parentEl.append(this.el);
+			if(target instanceof Dino.Widget) {
+				target.addComponent('content', this);
+			}
+			else {
+				$(target).append(this.el);
+			}
+			
+//			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
+//			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
 				this.$afterRender();

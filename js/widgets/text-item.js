@@ -101,7 +101,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		Dino.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) {
-			if(o.text) this.content.opt('text', o.text);
+			this.content.opt('text', o.text);
 //			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
 		}
 		if('textFormat' in o) this.content.opt('format', o.textFormat);

@@ -54,11 +54,15 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.D
 //		$('.dock-left-center', this.container.el).each(function(i, el){
 //			$(el).css('margin-top', -$(el).outerHeight()/2);
 //		});
+
+
+		var h = this.el.height();
+		
 		$('[dock$=center]', this.el).each(function(i, el){
-			$(el).css('margin-top', -$(el).outerHeight(true)/2);
+			$(el).css('margin-top', -h/2);
 //			margin_top = Math.max(margin_right, $(el).outerWidth());
 		});
-		
+				
 		if(this.content){
 			if(margin_left > 0)	this.content.css('margin-left', margin_left);
 			if(margin_right > 0)	this.content.css('margin-right', margin_right);

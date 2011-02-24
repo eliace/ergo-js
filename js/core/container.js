@@ -44,6 +44,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		 * @type {Array}
 		 */
 		this.items = [];
+//		this.selection = new Dino.SelectionManager();
 		
 //		this.items = new Dino.utils.ContainerItemManager(this, o.itemFactory);
 				

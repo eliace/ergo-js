@@ -159,7 +159,9 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 	$opt: function(o) {
 		Dino.widgets.Text.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) this.el.text(o.text);
+		if('text' in o) {
+			(o.text) ? this.el.text(o.text) : this.el.html('&nbsp;');
+		}
 	},
 	
 	$dataChanged: function() {
