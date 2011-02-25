@@ -33,11 +33,10 @@ Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.
 			content: {
 /*				cls: 'dino-panel-content',*/
 				dtype: 'box'
-			},
-			footer: {
-				dtype: 'box'
-//				cls: 'dino-widget-footer dino-border'
 			}
+//			footer: {
+//				dtype: 'box'
+//			}
 		}
 	},
 	

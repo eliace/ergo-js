@@ -15,7 +15,7 @@ Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Contai
 			groupTitle: {
 				dtype: 'container',
 				html: '<span></span>',
-				cls: 'dino-group-title'
+				cls: 'dino-group-title dino-panel'
 			}
 		}
 	},

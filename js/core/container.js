@@ -157,9 +157,15 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	removeItem: function(item) {
 		
 		Dino.remove_from_array(this.items, item);
+
+		var index = item.index;
 		
 		this.children.remove(item);
 		this.layout.remove(item);
+		
+		for(var i = index; i < this.items.length; i++) this.items[i].index = i;
+		
+		
 		return item;
 	},
 	

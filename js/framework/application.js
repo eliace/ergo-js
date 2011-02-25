@@ -64,7 +64,8 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 					var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);
 					var o = {
 						icon: 'dino-icon-growlbox-'+type,
-						state: type					
+						state: type,
+						cls: 'dino-dropdown-shadow'					
 					};
 					(isHtml) ? o.htmlMessage = s : o.message = s;
 					self.growl.addItem(o);

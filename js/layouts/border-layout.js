@@ -158,7 +158,7 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 				this.south_region = $('<div region="south"></div>');
 				this.south_splitter = $('<div region="south-splitter"></div>');
 				this.south_splitter.bind('mousedown', this.handlers.split_mousedown);
-				this.el.append(this.south_region).append(this.south_splitter);
+				this.el.append(this.south_splitter).append(this.south_region);
 				this.south_region.append(item.el);
 				break;	
 		}

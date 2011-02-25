@@ -40,7 +40,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 		if(this.container.options.height == 'auto'){
 			
 			this.el.height(0);
-			var dh = 0;//this.el.outerHeight(true);
+			var dh = 0;
 			var h = 0;
 			this.el.parents().each(function(i, el){
 				el = $(el);

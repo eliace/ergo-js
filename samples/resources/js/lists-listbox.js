@@ -10,6 +10,7 @@ var listBox = $.dino({
   title: 'Список',
   width: 400,
   data: listBoxData,
+	cls: 'dino-border-all',
   content: {
     dtype: 'box',
     components: {

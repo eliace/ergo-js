@@ -1,8 +1,21 @@
 
-
+/*
 .clearfix {
 	clear: both;
 }
+*/
+
+
+.clearfix { zoom: 1 }
+.clearfix:after {
+	content: ' ';
+	clear:both;
+	display: block;
+	width: 0; height: 0;
+	overflow: hidden;
+	font-size: 0;
+}
+
 
 .dino-hidden {
 	display: none !important;

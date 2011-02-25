@@ -299,7 +299,7 @@ $(document).ready(function(){
 							tag: 'codePanel',
 							components: {
 						    header: {
-									style:{'font-size': 14},
+									style:{'font-size': 14, 'border-bottom': 'none', 'overflow': 'hidden'},
 						      layout: {
 						        dtype: 'dock-layout',
 						        updateMode: 'auto'
@@ -316,11 +316,10 @@ $(document).ready(function(){
 							          onAction: function(){
 							            if(this.tag == 'collapse') {
 														var panel = this.getParent('codePanel');
-//							              var content = this.getParent(Dino.widgets.Panel).content;
 							              if(panel.content) {
 															if( this.content.states.is('exp_col') ) {
 																southRegionH = panel.parent.el.height();
-																var h = southRegionH - panel.content.el.outerHeight(true);
+																var h = panel.header.el.outerHeight(true);//southRegionH - panel.content.el.outerHeight(true);
 																panel.parent.el.css('height', h);
 															}
 															else {
@@ -350,12 +349,13 @@ $(document).ready(function(){
 							title: '',
 							content: {
 								dtype: 'tab-panel',
-								style: {'margin-top': '3px'},
+								style: {'padding-top': '3px'},
 								defaults: {
 									page: {
 										style: {'background-color': '#fff'}
 									}
 								},
+								pagesCls: 'dino-border-all dino-border-no-top',
 								pages: [{
 									tab: {text: 'JavaScript'},
 									cls: 'js-page',

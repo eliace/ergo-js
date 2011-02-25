@@ -170,7 +170,7 @@ Dino.widgets.SplitButton = Dino.declare('Dino.widgets.SplitButton', 'Dino.Widget
 				content: {
 					components: {
 						leftIcon: {
-							cls: 'dino-split-button-2-icon ui-icon-triangle-1-s',
+							cls: 'ui-icon dino-split-button-2-icon ui-icon-triangle-1-s',
 							state: 'ui-icon-gray'
 						}
 					}

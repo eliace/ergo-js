@@ -5,6 +5,7 @@
 .dino-border-top { border-top: 1px solid #aaaaaa; }
 .dino-border-no-right { border-right: none;}
 .dino-border-no-bottom { border-bottom: none;}
+.dino-border-no-top { border-top: none;}
 .dino-border-none { border: none; }
 
 
@@ -116,7 +117,7 @@
 	-webkit-border-radius: 6px 6px 0 0; 
 	border-radius: 6px 6px 0 0;
 */	
-	border: 1px solid #aaa;
+/*	border: 1px solid #aaa;*/
 	background-color: #eee;
 }
 
@@ -133,6 +134,8 @@
 	text-shadow: 1px 1px 3px #ccc;
 	color: #444;
 	text-align:center;
+	
+	overflow: hidden;	
 }
 
 .dino-panel-content {
@@ -143,9 +146,9 @@
 
 
 .dino-dropdown-shadow {
-	-moz-box-shadow: 1px 1px 5px #ddd;
-	-webkit-box-shadow: 1px 1px 5px #ddd;
-	box-shadow: 1px 1px 5px #ddd;		
+	-moz-box-shadow: 1px 1px 5px #ccc;
+	-webkit-box-shadow: 1px 1px 5px #ccc;
+	box-shadow: 1px 1px 5px #ccc;		
 }
 
 
@@ -312,7 +315,7 @@
 
 .dino-group-title {
 	position: absolute;
-  background-color: #FFFFFF;
+/*  background-color: #FFFFFF;*/
   color: #444444;
   font-size: 10pt;
   top: -12px;
@@ -607,7 +610,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 .dino-tabs-item {
 	color: #444;
-	text-shadow: 1px 1px 0 #fff;
+	text-shadow: 1px 1px 2px #fff;
 }
 
 .dino-tabs-item:hover {
@@ -1048,5 +1051,15 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	margin: 0;
 	padding-left: 20px;
 }
+
+
+
+
+
+
+
+
+
+
 
 

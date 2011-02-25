@@ -10,7 +10,7 @@ var box = $.dino({
   renderTo: '.preview',
   components: {
     controls: {
-      dtype: 'control-bar',
+      dtype: 'control-box',
       items: [{
         dtype: 'text-button',
         text: '<< Предыдущие 5',
@@ -43,7 +43,7 @@ var box = $.dino({
         dtype: 'box',
         cls: 'dino-border-all dino-corner-all',
         style: {'margin': '3px', 'padding': '3px'},
-        binding: function(val, o) { o.innerText = val; }
+        binding: function(val) { this.opt('innerText', val); }
       }
     }
   }

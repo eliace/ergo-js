@@ -44,9 +44,9 @@ $.dino({
       }]    
     },
     items: [{
-      dtype: 'control-bar',
+      dtype: 'control-box',
     }, {
-      dtype: 'control-bar',
+      dtype: 'control-box',
       defaultItem: {
         cls: 'plain'
       }
@@ -55,7 +55,7 @@ $.dino({
     dtype: 'group-box',
     title: 'Dino-виджеты',
     defaultItem: {
-      dtype: 'control-bar',
+      dtype: 'control-box',
       items: [{
         dtype: 'split-button',
         components: {
@@ -89,7 +89,7 @@ $.dino({
       }]
     },
     items: [{
-      dtype: 'control-bar',
+      dtype: 'control-box',
     }]    
   }]
 });

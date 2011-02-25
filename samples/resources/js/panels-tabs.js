@@ -5,6 +5,7 @@ $.dino({
   defaults: {
     page: {height: 300}
   },
+	pagesCls: 'dino-border-all dino-border-no-top',
   pages: [{
     tab: {icon: 'led-icon-vcard', text: 'Tab1'}
   }, {

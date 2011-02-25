@@ -173,6 +173,7 @@
 
 [layout='border'] > div {
 	position: absolute;
+/*	overflow: auto;*/
 }
 
 [region='center'] {
@@ -243,7 +244,7 @@
 
 [region$='splitter'].active {
 	background-color: #aaa;
-	z-index: 999;	
+	z-index: 9999;	
 }
 
 [region='middle'] {
