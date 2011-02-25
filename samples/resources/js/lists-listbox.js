@@ -62,24 +62,27 @@ var listBox = $.dino({
                 this.getItem(0).content.opt('checked', is_set);
               }
             },
-            events: {
-              'click': function(e, w) {
-                w.getParent(Dino.widgets.ListBox).selection.add(w, e.ctrlKey, e.shiftKey);
-              },
-              'mousedown': function(e) {
-                if(e.shiftKey || e.ctrlKey) return false;
-              }
-            }
           },
           columns: [{
             cls: 'dino-icon-column',
             binding: false,
             content: {
-              dtype: 'checkbox'
+              dtype: 'checkbox',
+							events: {
+	              'click': function(e) {
+									e.preventDefault();
+	              }								
+							}
             }
           }, {
             binding: 'auto',
             events: {
+              'click': function(e, w) {
+                w.getParent(Dino.widgets.ListBox).selection.add(w.getRow(), e.ctrlKey, e.shiftKey);
+              },
+              'mousedown': function(e) {
+                if(e.shiftKey || e.ctrlKey) return false;
+              },
               'dblclick': function(e, w) {
                 w.startEdit();
               }
