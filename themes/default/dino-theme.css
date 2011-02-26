@@ -749,6 +749,10 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-grid-row:hover {
+	background-color: #eee;
+}
+
+.dino-grid-row.selected {
 	background-color: #ffc;
 }
 

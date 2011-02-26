@@ -3,10 +3,12 @@ $.dino({
   dtype: 'box',
   renderTo: '.preview',
   layout: 'float-layout',
-	cls: 'icon48',
   defaultItem: {
     dtype: 'action-icon',
-//    cls: 'icon48'
+    cls: 'icon48',
+		onAction: function() {
+			growl.info('Icon clicked');
+		}
   },
   items: [{
     cls: 'icon-01'

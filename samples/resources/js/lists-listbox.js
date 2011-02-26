@@ -1,7 +1,7 @@
 
 
 
-var listBoxData = new Dino.data.ArrayDataSource(Samples.generate_plain_list(30));//['Alice', 'Bob', 'Charlie']);
+var listBoxData = new Dino.data.ArrayDataSource(Samples.generate_plain_list(30));
 
 
 var listBox = $.dino({
@@ -19,7 +19,7 @@ var listBox = $.dino({
         cls: 'dino-border-bottom',
         defaultItem: {
           dtype: 'text-button',
-          cls: 'plain dino-corner-all',
+          cls: 'plain',
           onAction: function() {
             var list = listBox.content.list;
             if(this.tag == 'add') {
@@ -49,7 +49,7 @@ var listBox = $.dino({
           tag: 'delete'
         }, {
           icon: 'led-icon-refresh',
-          text: false,
+          text: 'Обновить',
           tag: 'refresh'
         }]
       },
@@ -86,8 +86,8 @@ var listBox = $.dino({
               'dblclick': function(e, w) {
                 w.startEdit();
               }
-            }
-//            editable: true
+            },
+						extensions: [Dino.Editable]
           }, {
             cls: 'dino-icon-column',
             content: {

@@ -5,7 +5,6 @@ gridData = new Dino.data.ArrayDataSource();
     
     
 var grid = $.dino({
-//  id: 'table-1',
   renderTo: '.preview',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
@@ -17,20 +16,7 @@ var grid = $.dino({
   headerModel: {
     cell: {
       cls: 'grid-header-cell',
-    },
-    columns: [{
-    }, {
-    }, {
-    }, {
-    }, {
-    }, {
-      content: {
-        dtype: 'checkbox',
-        checked: false        
-      }
-    }, {
-    }, {
-    }]
+    }
   },
   tableModel: {
     cell: {
@@ -68,6 +54,12 @@ var grid = $.dino({
       content: {
         dtype: 'checkbox'
       },
+			header: {
+	      content: {
+	        dtype: 'checkbox',
+	        checked: false        
+	      }				
+			},
       binding: 'skip'
     }, {
       dataId: 'currency',
@@ -92,7 +84,15 @@ var grid = $.dino({
         for(var i = e.from; i < e.to; i++) {
           gridData.source[i] = data_page[j++];
         }
-        gridData.range = [e.from, e.to];
+//        gridData.range = [e.from, e.to];
+
+        gridData.filter_chain = function(data){
+          var out = [];
+					for(var i = 0; i < data.length; i++)
+            if(i >= e.from && i < e.to) out.push(i);								
+          return out;
+        };
+
         gridData.events.fire('onValueChanged');
       }
     }

@@ -37,11 +37,15 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 	
 	$events: function(self) {
 		Dino.widgets.form.InputField.superclass.$events.call(this, self);
-		
-		this.el.change(function() {
-			self.setValue( self.el.val());
-		});
 
+		this.el.keydown(function(e) {
+			if(e.keyCode == 13) self.setValue( self.el.val());
+//			self.setValue( self.el.val());
+		});
+		
+//		this.el.change(function() {
+//			self.setValue( self.el.val());
+//		});
 	},
 	
 	$dataChanged: function() {

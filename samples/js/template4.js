@@ -58,6 +58,10 @@ var sampleTree = [{
 		name: 'Properties',
 		debug: true,
 		path: 'grids-propertygrid'
+	}, {
+		name: 'Editable Grid',
+		debug: true,
+		path: 'grids-editable'
 	}]
 }, {
 	name: 'Images',
@@ -374,32 +378,7 @@ $(document).ready(function(){
 									}
 								}]
 								
-							},
-/*							
-							dtype: 'tab-panel',
-							defaults: {
-								page: {
-									style: {'background-color': '#fff'}
-								}
-							},
-							pages: [{
-								tab: {text: 'JavaScript'},
-								cls: 'js-page',
-								content: {
-									dtype: 'box',
-									style: {'overflow-y': 'auto'},
-									height: 'auto'
-								}
-							}, {
-								tab: {text: 'CSS'},
-								cls: 'css-page',
-								content: {
-									dtype: 'box',
-									style: {'overflow-y': 'auto'},
-									height: 'auto'
-								}
-							}]
-*/							
+							}
 						}
 					}]
 				}]
@@ -450,6 +429,7 @@ Samples.generate_grid_page = function(i0, i1) {
 			ref: 'http://google.ru',
 			flag: false,
 			currency: Math.random()*1e2,
+			count: (Math.random()*1e2).toFixed(),
 			date: new Date().toLocaleString()
 		});
 	}

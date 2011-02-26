@@ -41,6 +41,7 @@ $.dino({
       data: gridData,
       dynamic: true,
       height: 300,//'auto',
+      cls: 'dino-grid-content',
       defaultItem: {
         components: {
           title: {

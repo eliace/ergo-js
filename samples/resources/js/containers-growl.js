@@ -2,7 +2,10 @@
 var _growl = $.dino({
   dtype: 'growl',
   renderTo: 'body',
-  hideOnTimeout: true
+  hideOnTimeout: true,
+	defaultItem: {
+		cls: 'dino-dropdown-shadow'		
+	}
 });
 
 

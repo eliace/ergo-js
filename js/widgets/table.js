@@ -116,6 +116,10 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 	
 	eachRow: function(callback) {
 		this.body.eachItem(callback);
+	},
+	
+	getRow: function(i) {
+		return this.body.getItem(i);
 	}
 	
 	
@@ -168,22 +172,20 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 	$html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-//		autoHeight: 'ignore',
-		binding: 'skip',
-		editor: {
-			dtype: 'textfield',
-			cls: 'dino-text-editor',
-			events: {
-				'blur': function(e, w) { w.parent.stopEdit(); },
-				'keypress': function(e, w) { 
-					if(e.keyCode == 27) w.parent.stopEdit(); 
-				}
-			},
-			onValueChanged: function() {
-				this.parent.stopEdit();
-			}		
-		}
-//		cls: 'dino-table-cell'
+		binding: 'skip'
+//		editor: {
+//			dtype: 'textfield',
+//			cls: 'dino-text-editor',
+//			events: {
+//				'blur': function(e, w) { w.parent.stopEdit(); },
+//				'keypress': function(e, w) { 
+//					if(e.keyCode == 27) w.parent.stopEdit(); 
+//				}
+//			},
+//			onValueChanged: function() {
+//				this.parent.stopEdit();
+//			}		
+//		}
 	},
 		
 	$dataChanged: function() {
@@ -196,33 +198,33 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 	
 	getRow: function() {
 		return this.parent;
-	},
+	}
 	
-	startEdit: function() {
-		
-		this.layout.el.empty(); //FIXME на соотв. метод компоновки
-		
-		this.addComponent('_editor', this.options.editor);
-		
-		var dw = this._editor.el.outerWidth(true) - this._editor.el.width();
-		var w = this._editor.el.parent().width();
-		this._editor.el.width(w - dw);
-
-		var dh = this._editor.el.outerHeight(true) - this._editor.el.height();
-		var h = this._editor.el.parent().height();
-		this._editor.el.height(h - dh);
-
-		this._editor.$bind(this.data);
-		this._editor.$dataChanged(); // явно вызываем обновление данных
-		this._editor.el.focus();
-		this._editor.el.select();
-	},
-	
-	stopEdit: function() {
-		this.removeComponent('_editor').destroy(); // удаляем и уничтожаем компонент
-		this.$dataChanged(); // явно вызываем обновление данных
-		this.events.fire('onEdit');
-	}	
+//	startEdit: function() {
+//		
+//		this.layout.el.empty(); //FIXME на соотв. метод компоновки
+//		
+//		this.addComponent('_editor', this.options.editor);
+//		
+//		var dw = this._editor.el.outerWidth(true) - this._editor.el.width();
+//		var w = this._editor.el.parent().width();
+//		this._editor.el.width(w - dw);
+//
+//		var dh = this._editor.el.outerHeight(true) - this._editor.el.height();
+//		var h = this._editor.el.parent().height();
+//		this._editor.el.height(h - dh);
+//
+//		this._editor.$bind(this.data);
+//		this._editor.$dataChanged(); // явно вызываем обновление данных
+//		this._editor.el.focus();
+//		this._editor.el.select();
+//	},
+//	
+//	stopEdit: function() {
+//		this.removeComponent('_editor').destroy(); // удаляем и уничтожаем компонент
+//		this.$dataChanged(); // явно вызываем обновление данных
+//		this.events.fire('onEdit');
+//	}	
 	
 	
 }, 'table-cell');

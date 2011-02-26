@@ -44,8 +44,7 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject',
       ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Dino.remove_from_array(this.selection_a, w);
     }
     else {
-      if(this.selection_a)
-        Dino.each(this.selection_a, function(item){ item.states.clear('selected'); });
+      Dino.each(this.selection_a, function(item){ item.states.clear('selected'); });
       w.states.set('selected');
       this.selection_a = [w];                  
     }
@@ -55,6 +54,7 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject',
 	},
 	
 	clear: function() {
+		Dino.each(this.selection_a, function(item){ item.states.clear('selected'); });
 		this.selection_a = [];
 		this.widget.events.fire('onSelectionChanged');
 	},
@@ -62,6 +62,10 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject',
 	
 	each: function(callback) {
 		for(var i = 0; i < this.selection_a.length; i++) callback.call(this, this.selection_a[i], i);
+	},
+	
+	size: function() {
+		return this.selection_a.length;
 	}
 	
 });

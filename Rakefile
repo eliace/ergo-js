@@ -61,6 +61,7 @@ require 'fileutils'
     'js/framework/application.js',
     'js/remote/collection.js',
     'js/extensions/selectable.js',
+    'js/extensions/editable.js',
   ]
 
 

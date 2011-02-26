@@ -62,7 +62,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			onAction: function() {
 				this.parent.setCurrentIndex(this.parent.getMaxIndex());
 			}
-		}, {
+		}/*, {
 			dtype: 'split',
 			width: 2
 		}, {
@@ -72,7 +72,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			onAction: function() {
 				this.parent.events.fire('onRefresh');
 			}
-		}]
+		}*/]
 	},
 	
 	
@@ -100,7 +100,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 	setCurrentIndex: function(i) {
 		
 		var i0 = i*this.page_size;
-		var i1 = (i+1)*this.page_size;
+		var i1 = Math.min( (i+1)*this.page_size, this.count );
 		
 		if(i0 >= 0 && i0 < this.count){
 			this.offset = i0;

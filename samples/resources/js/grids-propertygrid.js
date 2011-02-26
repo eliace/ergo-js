@@ -21,7 +21,8 @@ var propertyGrid = $.dino({
   tableModel: {
     cell: {
       cls: 'grid-cell',
-      binding: 'auto'
+      binding: 'auto',
+			extensions: [Dino.Editable]
     },
     columns: [{
       dataId: 'name',

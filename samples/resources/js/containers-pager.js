@@ -2,6 +2,12 @@
 
 var bindingData = new Dino.data.ArrayDataSource( Samples.generate_plain_list(30) );
 bindingData.range = [0, 5];
+bindingData.filter_chain = function(data){
+  var out = [];
+	for(var i = 0; i < data.length; i++)
+    if(i >= this.range[0] && i < this.range[1]) out.push(i);								
+  return out;
+};
 
 var offset = 0;
 
@@ -11,6 +17,7 @@ var box = $.dino({
   components: {
     controls: {
       dtype: 'control-box',
+			cls: 'dino-border-bottom',
       items: [{
         dtype: 'text-button',
         text: '<< Предыдущие 5',
@@ -49,4 +56,3 @@ var box = $.dino({
   }
 });
 
-    

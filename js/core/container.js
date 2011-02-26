@@ -274,7 +274,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
 		this.data.events.reg('onItemDeleted', function(e){
-			self.destroyItem( self.getItem(e.index) );// {data: self.data.item(e.index)});
+			self.destroyItem( self.getItem({data: e.item}) );//e.index) );// {data: self.data.item(e.index)});
 		});
 		
 		// эсли элемент данных изменен, то создаем новую привязку к данным
@@ -292,7 +292,9 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 			
 			self.data.each(function(dataItem, i){
 				var dataItem = self.data.item(i);
-				self.addItem({ 'data': dataItem }).dataPhase = 2;//.$bind(dataItem, 2);
+				var item = self.addItem({ 'data': dataItem });//.$bind(dataItem, 2);
+				item.dataPhase = 2;
+//				item.index = i; // костыль для 
 			});
 
 			self.layout.immediateRebuild = true;

@@ -71,7 +71,9 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		this.options = Dino.utils.overrideOpts({}, this.classOptions, options);
 		this.items = {};
 		this.is_dirty = false;
-		this.stop_dirty = false;
+//		this.stop_dirty = false;
+//		this.filter_chain = [];
+		
 	},
 	
 	
@@ -152,13 +154,23 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	each: function(callback) {
 		var range = this.range;
 		var self = this;
-		Dino.each(this.val(), function(val, i){
-			if(range){
-				if(i < range[0] || i >= range[1]) return;
+		
+		var values = this.val();
+		
+		if(this.filter_chain) {
+			var indices = this.filter_chain.call(this, values);
+			for(var i = 0; i < indices.length; i++) {
+				var id = indices[i];
+				var val = values[id];
+				callback.call(this, val, id);
 			}
-			callback.call(this, val, i);
-		});
-//		Dino.each(this.val(), callback);
+		}
+		else {
+			Dino.each(values, function(val, i){
+				callback.call(this, val, i);
+			});			
+		}
+		
 	},
 	
 	each_item: function(callback) {
@@ -349,10 +361,11 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 			return;
 		}
 	
+		var item = this.items[i];
 	
 		// удаляем элемент, если он есть
 		if(i in this.items){
-			this.items[i].destroy();
+			item.destroy();
 			delete this.items[i];
 		}
 		
@@ -374,7 +387,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 		// удаляем элемент массива
 		a.splice(i, 1);
 		
-		this.events.fire('onItemDeleted', {'index': i});
+		this.events.fire('onItemDeleted', {'index': i, 'item': item});
 		
 		// помечаем источник данных как "грязный"
 //		this.dirty();		
@@ -448,16 +461,18 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', /** @lends Di
 		}
 	
 	
+		var item = this.items[i];	
+	
 		// удаляем элемент из кэша, если он есть
 		if(i in this.items){
-			this.items[i].destroy();
+			item.destroy();
 			delete this.items[i];
 		}
 		
 		var obj = this.val();
 		delete obj[i];
 		
-		this.events.fire('onItemDeleted', {'index': i});
+		this.events.fire('onItemDeleted', {'index': i, 'item': item});
 		
 		// помечаем источник данных как "грязный"
 //		this.dirty();
