@@ -12,7 +12,6 @@ for(var i = 0; i < 100; i++) {
 
 
 
-
 var panel = $.dino({
   dtype: 'box',
   renderTo: '.preview',
@@ -28,13 +27,6 @@ var panel = $.dino({
           
           panel.outputPane.el.empty();
           
-//          var t0 = Dino.timestamp();
-          
-//          measurements.enabled = true;
-//          measurements['widget.precreate'] = 0;
-//          measurements['widget.create'] = 0;
-//          measurements['widget.build'] = 0;
-
           profiler.clear('widget');
           
           for(var i = 0; i < testData.length; i++) {
@@ -48,15 +40,29 @@ var panel = $.dino({
 //            panel.outputPane.el.append(w.el);
           }
 
-//          measurements.enabled = false;
-          
-          
-//          var t1 = Dino.timestamp();
-          
-//          growl.info(t1-t0);
           growl.info(profiler.print_result('widget'));
         }
-      }]
+      }, {
+				text: 'Поэлементные события',
+				onAction: function() {
+          panel.outputPane.el.empty();
+					
+//					var fn = function() {};					
+					
+					var t0 = Dino.timestamp();
+					
+          for(var i = 0; i < testData.length; i++) {
+					  var el = $('<div>Item '+i+'</div>');
+						el.addClass('test');
+					  panel.outputPane.el.append(el);
+					}
+					
+					var t1 = Dino.timestamp();
+					
+          growl.info((t1 - t0));					
+					
+				}
+			}]
     },
     outputPane: {
       dtype: 'box'

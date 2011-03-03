@@ -277,7 +277,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 			self.destroyItem( self.getItem({data: e.item}) );//e.index) );// {data: self.data.item(e.index)});
 		});
 		
-		// эсли элемент данных изменен, то создаем новую привязку к данным
+		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onItemChanged', function(e){
 			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
@@ -285,9 +285,10 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 		this.data.events.reg('onValueChanged', function(e){
+			
 			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
-			
+
 			self.layout.immediateRebuild = false;
 			
 			self.data.each(function(dataItem, i){

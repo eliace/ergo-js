@@ -8,7 +8,31 @@
     "value": 456,
 		"type": "folder",
     "name": "WINDOWS",
-		"children": []
+		"children": [{
+      "id": 0,
+      "name": "Media",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }, {
+      "id": 0,
+      "name": "Microsoft.NET",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }, {
+      "id": 0,
+      "name": "Resources",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }, {
+      "id": 0,
+      "name": "system32",
+			"type": "folder",
+      "value": 0,
+			"children": []
+    }]
   }, {
     "id": 2,
     "value": 789,

@@ -24,6 +24,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 					binding: false,
 					headerModel: {
 						cell: {
+							cls: 'dino-grid-h-cell',
 							layout: {
 								dtype: 'plain-layout',
 								html: '<div class="dino-nowrap"></div>'
@@ -39,16 +40,12 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 				content: {
 					dtype: 'table',
 					width: '100%',
-//					components: {
-//						body: {
-//							layout: 'grid-table-layout'					
-//						}
-//					},
 					tableModel: {
 						row: {
 							cls: 'dino-grid-row'
 						},
 						cell: {
+							cls: 'dino-grid-cell',
 							layout: {
 								dtype: 'plain-layout',
 								html: '<div class="dino-nowrap"></div>'

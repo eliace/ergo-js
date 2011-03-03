@@ -10,7 +10,7 @@ Dino.defaultEditor = {
 		}
 	},
 	onValueChanged: function() {
-		this.parent.stopEdit();
+		if(this.parent) this.parent.stopEdit();
 	}
 };
 

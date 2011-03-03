@@ -113,35 +113,55 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
  * @class
  * @extends Dino.Widget
  */
-Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /** @lends Dino.widgets.TreeGrid.prototype */{
+Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid', /** @lends Dino.widgets.TreeGrid.prototype */{
 	
 	defaultOptions: {
-		wrapEl: '<div></div>',
+//		wrapEl: '<div></div>',
 		baseCls: 'dino-tree-grid',
 		components: {
-			header: {
-				dtype: 'box',
-				content: {
-					dtype: 'table',
-					width: '100%',
-					binding: false
-				}
-			},
+//			header: {
+//				dtype: 'box',
+//				content: {
+//					dtype: 'table',
+//					width: '100%',
+//					binding: false,
+//					headerModel: {
+//						cell: {
+//							cls: 'dino-grid-h-cell',
+//							layout: {
+//								dtype: 'plain-layout',
+//								html: '<div class="dino-nowrap"></div>'
+//							}
+//						}						
+//					}
+//				}
+//			},
 			content: {
 				// скроллируемый контейнер
-				dtype: 'box',
-				style: {'overflow-y': 'scroll'},
-//				cls: 'dino-scrollable-v',
+//				dtype: 'box',
+//				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
 				content: {
 					dtype: 'tree-table',
-					width: '100%'						
+					tableModel: {
+						row: {
+							cls: 'dino-tree-grid-row'
+						},
+						cell: {
+							cls: 'dino-tree-grid-cell',
+							layout: {
+								dtype: 'plain-layout',
+								html: '<div class="dino-nowrap"></div>'
+							}
+						}
+					}
+//					width: '100%'
 				}
 			}
 		}
-	},
+	}
 	
 	
-	
+/*	
 	$init: function() {
 		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 		
@@ -168,7 +188,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.Widget', /**
 		this.header.content.el.width(tableWidth);
 		
 	}
-	
+*/	
 	
 	
 	
@@ -251,7 +271,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 //	$html: function() { return '<tr></tr>'; },
 	
 	defaultOptions: {
-		cls: 'dino-tree-grid-row',
+//		cls: 'dino-tree-grid-row',
 		indent: 0,
 		defaultItem: {
 			dtype: 'table-cell'
@@ -358,10 +378,12 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', /** @lends Dino.widgets.TreeTableCell.prototype */{
 	
 	defaultOptions: {
+//		cls: 'dino-tree-grid-cell',
 		layout: {
+//			dtype: 'plain-layout',
+//			html: '<div style="position: relative;"></div>'
 			dtype: 'plain-layout',
-			html: '<div style="position: relative;"></div>'
-//			htmlSelector: 'div'
+			html: '<div class="dino-nowrap"></div>'
 		},
 //		components: {
 //			content: {
@@ -411,14 +433,6 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	},
 	
 	
-	$init: function(o) {
-		Dino.widgets.TreeTableCell.superclass.$init.apply(this, arguments);
-		
-//		if('nodeContent' in o)
-//			Dino.utils.overrideOpts(o.components.content.components.content.components.content, o.nodeContent);
-	},
-	
-	
 	$opt: function(o) {
 		Dino.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
 		
@@ -464,90 +478,6 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 //	}
 	
 }, 'tree-table-cell');
-
-
-
-/*
-Dino.declare('Dino.widgets.TreeGridNode', 'Dino.containers.Box', {
-	
-//	$html: function() { return '<td></td>'; },
-	
-	defaultOptions: {
-//		cls: 'dino-tree-grid-cell',
-		style: {'position': 'relative'},
-		content: {
-			dtype: 'box',
-			cls: 'dino-tree-grid-item',
-			components: {
-				button: {
-					dtype: 'icon',
-					cls: 'dino-tree-node-button ui-icon ui-icon-triangle-1-se dino-clickable',
-					clickable: true,
-					onClick: function() {
-						var row = this.getParent({dtype: 'tree-table-row'});//this.parent.parent.getRow();
-						if(row.states.is('collapsed')){
-							row.expand();
-							this.states.set('expanded');
-						}
-						else{
-							row.collapse();
-							this.states.set('collapsed');
-							
-						}
-	//						this.getParent({dtype: 'tree-grid'})._updateEvenOdd();
-					},
-					states: {
-						'hover': ['ui-icon-blue', 'ui-icon'],
-						'collapsed': ['ui-icon-triangle-1-e', 'ui-icon-triangle-1-se'],
-						'expanded': ['ui-icon-triangle-1-se', 'ui-icon-triangle-1-e'],
-						'leaf': 'dino-hidden'
-					}
-				},
-				content: {
-					dtype: 'text-item',
-					cls: 'dino-tree-node-content'
-				}
-			}
-		}
-	},
-	
-	
-	
-	$init: function() {
-		this.constructor.superclass.$init.apply(this, arguments);
-		
-		var o = this.options;
-		
-//		var indentComponents = {};
-		
-//		var wg = 0;
-		
-//		Dino.utils.overrideOpts(o, {components: indentComponents});
-		
-	},
-	
-	
-	$opt: function(o) {
-		this.constructor.superclass.$opt.apply(this, arguments);
-		
-		if('indent' in o){
-			for(var i = 0; i < o.indent; i++){
-				this.layout.container.el.prepend('<span class="indent"></span>');
-			}
-		}
-	}
-	
-	
-	
-	
-}, 'tree-grid-node');
-*/
-
-
-
-//Dino.declare('Dino.widgets.TreeGridItem', 'Dino.Widget', {
-//	
-//}, 'tree-grid-item');
 
 
 

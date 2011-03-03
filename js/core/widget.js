@@ -74,74 +74,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		binding: 'auto'
 	},
 	
-//	REBUILD_SKELETON: true,
-	
 	
 	customOptions: {
 	},
-	
-	defaultHandlers: {
-//		'clickable.click': function(e) {
-//			$(this).dino().events.fire('onClick', {}, e);
-//		},
-//		'clickable.dblclick': function(e) {
-//			$(this).dino().events.fire('onDblClick', {}, e);
-//		},
-//		'selectable': function(e) {
-//			e.preventDefault();
-//		},
-		'draggable_mousedown': function(e) {
-			if(!Dino.drag) {
-				Dino.drag = {
-					started: false,
-					source: $(this).dino(),
-//					x: e.clientX,
-//					y: e.clientY,
-					offset: [5, 5]
-				}
-			}			
-		},
-		'draggable_mousemove': function(e) {
-			
-			var drag = Dino.drag;
-			
-			if(drag) {
-				
-				var element = $(this);
-				
-				if(!drag.started) {
-					drag.started = true;
-					
-					var event = new Dino.events.CancelEvent({dragData: drag});
-					drag.source.events.fire('onDrag', event);
-					
-					if(event.isCanceled){
-						if(drag.proxy) drag.proxy.destroy();
-						Dino.drag = null;
-						return;
-					}
-					
-					if(drag.proxy){
-//						var offset = element.offset();
-//						drag.x = e.pageX;
-//						drag.y = e.pageY;
-						drag.proxy.el.css({'position': 'absolute'});//, 'left': offset.left, 'top': offset.top});
-						$('body').append(drag.proxy.el);
-						
-					}
-					
-				}
-			}
-			
-			
-					
-		}
-//		'editable': function(e) {
-//			var w = $(this).dino();
-//			if('startEdit' in w) w.startEdit();
-//		}
-	},
-			
+
 			
 	initialize: function() {
 		
@@ -620,36 +556,23 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 	},
 	
-	/**
-	 * @ignore
-	 * 
-	 * @param {Object} key
-	 * @param {Object} target
-	 */
-	_translate$opt: function(key, target) {
-		if(key in this.options) target.opt(key, this.options[key]);
-	},
-	
-	
-	/**
-	 * @ignore
-	 * 
-	 * @param {Object} key
-	 * @param {Object} event
-	 * @param {Object} sw
-	 */
-	_toggle_handler: function(key, event, sw) {
-		// получаем дескриптор обработчика
-		var h = (key in this.handlers);
-		if(sw && !h) {
-			this.handlers[key] = true;
-			this.el.bind(event, this.defaultHandlers[key]);
-		}
-		else if(!sw && h){
-			this.el.unbind(event, this.defaultHandlers[key]);
-			delete handlers[key]
-		}		
-	},
+//	_translate$opt: function(key, target) {
+//		if(key in this.options) target.opt(key, this.options[key]);
+//	},
+//	
+//	
+//	_toggle_handler: function(key, event, sw) {
+//		// получаем дескриптор обработчика
+//		var h = (key in this.handlers);
+//		if(sw && !h) {
+//			this.handlers[key] = true;
+//			this.el.bind(event, this.defaultHandlers[key]);
+//		}
+//		else if(!sw && h){
+//			this.el.unbind(event, this.defaultHandlers[key]);
+//			delete handlers[key]
+//		}		
+//	},
 	
 	
 	/**
@@ -1045,45 +968,6 @@ $(document).ready(function(){
 //		Dino.contextMenuReady = true;
 //	}
 	
-	
-
-	$('body').mousemove(function(e){
-		var drag = Dino.drag;
-
-		if(!drag) return;
-		
-		if(drag && drag.started && drag.proxy) {
-			drag.proxy.el.css({'left': e.pageX+drag.offset[0], 'top': e.pageY+drag.offset[1]});
-			
-//			Dino.each(Dino.droppable, function(item) { item.events.fire('onDrag'); })
-		}
-		
-	});
-				
-	$('body').mouseup(function(e){
-		
-		var drag = Dino.drag;		
-		
-		if(drag && drag.started) {
-			// уничтожаем прокси-объект
-			if(drag.proxy) drag.proxy.destroy();
-			
-			// ищем цель переноса под курсором (если виджет имеет опцию dropTarget)
-			var target = $(document.elementFromPoint(e.clientX, e.clientY));//e.originalTarget);
-			var w = target.dino();
-			if(!w || !w.options.droppable){
-				target.parents().each(function(i, el){
-					w = $(el).dino();
-					if(w && w.options.droppable) return false;
-				});
-			}
-			
-			if(w) w.events.fire('onDrop', {source: drag.source});			
-		}
-		
-		Dino.drag = null;		
-		
-	});	
 	
 		
 });

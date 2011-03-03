@@ -13,14 +13,8 @@ var grid = $.dino({
     style: {'padding-right': '18px', 'font-size': '9pt'}
   },
   headerCls: 'dino-bg-highlight',
-  headerModel: {
-    cell: {
-      cls: 'grid-header-cell',
-    }
-  },
   tableModel: {
     cell: {
-      cls: 'grid-cell',
       binding: 'auto'
     },
     columns: [{

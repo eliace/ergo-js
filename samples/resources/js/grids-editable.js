@@ -90,14 +90,8 @@ var widget = $.dino({
         height: 'auto'
       },
       headerCls: 'dino-bg-highlight',
-      headerModel: {
-        cell: {
-          cls: 'grid-header-cell',
-        },
-      },
       tableModel: {
         cell: {
-          cls: 'grid-cell',
           binding: 'auto',
           events: {
             'dblclick': function(e, w) {
@@ -173,7 +167,11 @@ var widget = $.dino({
               return out;
             };
             
+//          	profiler.clear('widget');
+						
             gridData.events.fire('onValueChanged');
+						
+//          	console.log(profiler.print_result('widget'));						
           }
         }
       },

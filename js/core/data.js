@@ -296,9 +296,9 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 */		
 	},
 	
-	clean_all: function() {
+	clean: function() {
 		this.is_dirty = false;
-		for(var i in this.items) this.items[i].clean_all();		
+		for(var i in this.items) this.items[i].clean();		
 	},
 	
 	

@@ -148,13 +148,16 @@
 .dino-dropdown-shadow {
 	-moz-box-shadow: 1px 1px 5px #ccc;
 	-webkit-box-shadow: 1px 1px 5px #ccc;
-	box-shadow: 1px 1px 5px #ccc;		
+	box-shadow: 1px 1px 5px #ccc;
 }
 
 
 
 
-
+.dino-text-content {
+	background-color: #fff;
+	padding: 3px;
+}
 
 .dino-widget-content {
 	padding: 5px;
@@ -176,11 +179,11 @@
 
 
 
-
+/*
 .dino-window-content {
 	padding: 5px;
 }
-
+*/
 .dino-widget-header {
 	padding: 3px 5px; 
 	background: url(img/ui-bg_glass_75_e6e6e6_1x400.png) repeat-x scroll 50% 50% #CCCCCC; 
@@ -748,6 +751,11 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	text-align: center;
 }
 
+
+.dino-grid-row {
+	cursor: default;	
+}
+
 .dino-grid-row:hover {
 	background-color: #eee;
 }
@@ -759,6 +767,21 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-grid-content {
 	background-color: #fff;
 }
+
+.dino-grid-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+}
+	
+.dino-grid-h-cell {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #444;
+	font-size: 10pt;
+	text-shadow: 1px 1px 1px #fff;
+}
+
 
 
 
@@ -859,18 +882,9 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	top:50%;
 }
 
-.dino-tree-grid-cell {
-/*	text-align: left;*/		
-}
-
-.dino-tree-grid-row:hover {
-	background-color: #ffc;/*#fea;*/
-}
-
 .dino-tree-grid-row .indent {
 	padding-left: 20px;
 }
-
 
 .dino-tree-grid-content {
 	background-color: #fff;
@@ -952,6 +966,41 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	z-index: 1100;
 	background-color: #fff;
 /*	padding: 5px;*/
+}
+
+
+
+.dino-dialog-shadow {
+	-moz-box-shadow: 0 0 .7em #aaa;
+	-webkit-box-shadow: 0 0 .7em #aaa;
+	box-shadow: 0 0 .7em #aaa;
+}
+
+.dino-dialog .dino-window-content {
+	border: 1px solid #aaa;
+	background-color: #eee;
+}
+
+.dino-dialog-header {
+	padding: 3px 6px;
+	
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
+	border-bottom: 1px solid #aaa;
+	
+	text-shadow: 1px 1px 3px #ccc;
+	color: #444;
+	text-align:center;
+	
+	overflow: hidden;	
+}
+
+.dino-dialog-content {
+/*	border: 1px solid #aaa;*/
+	margin: 3px;
+}
+
+.dino-dialog-buttons {
+	margin: 3px;	
 }
 
 

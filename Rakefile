@@ -62,6 +62,8 @@ require 'fileutils'
     'js/remote/collection.js',
     'js/extensions/selectable.js',
     'js/extensions/editable.js',
+    'js/extensions/draggable.js',
+    'js/extensions/droppable.js',
   ]
 
 

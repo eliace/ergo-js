@@ -4,9 +4,10 @@ var dlg = $.dino({
   renderTo: '.preview',
   content: {
     dtype: 'box',
+		cls: 'dino-text-content dino-border-all',
     layout: 'stack-layout',
     items: [{
-      width: 100,
+      width: 400,
       innerText: 'Нажмите кнопку "Далее"'
     }, {
       width: 400,

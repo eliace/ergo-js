@@ -5,6 +5,7 @@ var dlg = $.dino({
   title: 'Диалог',
   content: {
     dtype: 'box',
+		cls: 'dino-text-content dino-border-all',
     width: 400,
     innerText: Samples.loremipsum
   },

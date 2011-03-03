@@ -7,14 +7,14 @@
 Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', /** @lends Dino.widgets.Dialog.prototype */{
 	
 	defaultOptions: {
-		cls: 'dino-dialog',
+		baseCls: 'dino-dialog',
 		layout: 'window-layout',
 		renderTo: 'body',
 		components: {
 			header: {
 				weight: 1,
 				dtype: 'box',
-				cls: 'dino-widget-header',
+//				cls: 'dino-dialog-header',
 				components: {
 					title: {
 						dtype: 'text-item',
@@ -24,6 +24,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 			},
 			content: {
 				weight: 2,
+//				cls: 'dino-dialog-content',
 				dtype: 'box'
 			},
 			buttons: {
@@ -90,6 +91,9 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 	
 	
 	open: function(){
+		
+		this.events.fire('onBeforeOpen');
+
 		var self = this;
 		this.layout.reset();
 		this.el.show();
