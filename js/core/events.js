@@ -88,6 +88,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 	 * unreg(type)
 	 * unreg(callback)
 	 * unreg(type, callback)
+	 * unreg(target)
 	 */
 	unreg: function(arg, arg2) {
 		
@@ -104,7 +105,12 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 			this.tree.traverse(function(node){
 				node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg));
 			});
-		}			
+		}
+		else {
+			this.tree.traverse(function(node){
+				node.handlers = Dino.filter(node.handlers, function(h) { return (h.target != arg); });
+			});
+		}
 				
 	},
 	

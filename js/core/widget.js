@@ -488,20 +488,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		}
 		
 		
-		//TODO обработчики событий должны быть выключаемыми, поэтому нужно запоминать их, чтобы потом удалить
-/*		
-		if('clickable' in o) {
-			this._toggle_handler('clickable.click', 'click', o.clickable);
-			this._toggle_handler('clickable.dblclick', 'dblclick', o.clickable);
-		}
-		
-		if('selectable' in o)
-			this._toggle_handler('selectable', 'mousedown', !o.selectable); //<-- инверсия флага, поскольку обработчик нужен для отключения выделения
-
-		if('editable' in o) {
-			this._toggle_handler('editable', 'dblclick', o.editable);			
-		}
-*/		
 		
 		if('draggable' in o){
 			this._toggle_handler('draggable_mousedown', 'mousedown', o.draggable);
@@ -528,15 +514,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		if('format' in o) {
 			if(Dino.isString(o.format)) o.format = Dino.format_obj.curry(o.format);
 		}
-				
-		
-//		if('droppable' in o) {
-//			if(o.droppbale) {
-//				Dino.droppable.push(this);
-//				
-//			}
-//		}
-		
+						
 		
 		//TODO экспериментальная опция
 		if('overrides' in o) {
@@ -556,23 +534,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 	},
 	
-//	_translate$opt: function(key, target) {
-//		if(key in this.options) target.opt(key, this.options[key]);
-//	},
-//	
-//	
-//	_toggle_handler: function(key, event, sw) {
-//		// получаем дескриптор обработчика
-//		var h = (key in this.handlers);
-//		if(sw && !h) {
-//			this.handlers[key] = true;
-//			this.el.bind(event, this.defaultHandlers[key]);
-//		}
-//		else if(!sw && h){
-//			this.el.unbind(event, this.defaultHandlers[key]);
-//			delete handlers[key]
-//		}		
-//	},
 	
 	
 	/**
@@ -691,6 +652,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(data == undefined || !o.binding) return;
 		
+		if(this.data)
+			this.data.events.unreg(this);
+		
 		// если фаза автобиндинга не определена, то присваем ей начальное значение
 		if(!phase) phase = 1;
 		
@@ -717,19 +681,19 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this.data.events.reg('onValueChanged', function() { 
 			if(self.options.updateOnValueChange) self.$dataChanged();
 //			console.log(self.data.val());
-		});
+		}, this);
 		
 		//FIXME пока непонятный механизм для обработки события onDirty
-		if('onDirty' in this.options){
-			this.data.events.reg('onDirty', function(e){
-				self.events.fire('onDirty', e);
-			});
-		}
-		if('onClean' in this.options){
-			this.data.events.reg('onClean', function(e){
-				self.events.fire('onClean', e);
-			});
-		}
+//		if('onDirty' in this.options){
+//			this.data.events.reg('onDirty', function(e){
+//				self.events.fire('onDirty', e);
+//			}, this);
+//		}
+//		if('onClean' in this.options){
+//			this.data.events.reg('onClean', function(e){
+//				self.events.fire('onClean', e);
+//			}, this);
+//		}
 	
 		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){

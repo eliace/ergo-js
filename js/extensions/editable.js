@@ -15,20 +15,21 @@ Dino.defaultEditor = {
 };
 
 
+
 Dino.Editable = function(o) {
 
 	this.startEdit = function() {
 		
 		this.layout.el.empty(); //FIXME на соотв. метод компоновки
+		var w = this.layout.el.width();
+		var h = this.layout.el.height();
 		
 		this.addComponent('_editor', this.options.editor);
-		
+
 		var dw = this._editor.el.outerWidth(true) - this._editor.el.width();
-		var w = this._editor.el.parent().width();
 		this._editor.el.width(w - dw);
 
 		var dh = this._editor.el.outerHeight(true) - this._editor.el.height();
-		var h = this._editor.el.parent().height();
 		this._editor.el.height(h - dh);
 
 		this._editor.$bind(this.data);

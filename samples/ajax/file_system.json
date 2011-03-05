@@ -32,6 +32,12 @@
 			"type": "folder",
       "value": 0,
 			"children": []
+    }, {
+      "id": 0,
+      "name": "drivers",
+			"type": "folder",
+      "value": 0,
+			"children": []
     }]
   }, {
     "id": 2,

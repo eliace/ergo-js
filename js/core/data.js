@@ -309,6 +309,15 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	
 	find: function(criteria) {
 		return Dino.find(this.items, criteria);
+	},
+	
+	has_source: function(item) {
+		var src = this;
+		while(src) {
+			if(src == item) return true;
+			src = src.source;
+		}
+		return false;
 	}
 		
 //	asArray: function() {

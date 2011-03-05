@@ -8,12 +8,18 @@ Dino.Draggable = function(o) {
 	
 	this.el.bind('mousedown', function(e) {
 		if(!Dino.drag) {
+			var w = $(this).dino();
 			Dino.drag = {
 				started: false,
-				source: $(this).dino(),
+				source: w,
 				offset: [8, 8]
 			}
-		}			
+		}
+		return false;
+	}).bind('mouseup', function(e){
+		if(Dino.drag) {
+			Dino.drag = null;
+		}
 	}).bind('mousemove', function(e) {
 			
 		var drag = Dino.drag;
@@ -73,7 +79,7 @@ Dino.Draggable = function(o) {
 						var h = target.el.height();
 						bounds.left = offset.left;
 						bounds.top = offset.top;
-						bounds.right = offset.left + w;						
+						bounds.right = offset.left + w;
 						bounds.bottom = offset.top + h;						
 					}
 					if(e.pageX >= bounds.left && e.pageX < bounds.right && e.pageY >= bounds.top && e.pageY < bounds.bottom) 
@@ -104,17 +110,23 @@ Dino.Draggable = function(o) {
 				var target = $(document.elementFromPoint(e.clientX, e.clientY));//e.originalTarget);
 //				var w = target.dino();
 //				if(!w || !Dino.droppable){
-				target.parents().andSelf().each(function(i, el){
-					w = $(el).dino();
-					if(w && w.droppable) return false;
+//				var path = target.parents().andSelf();
+				var path = [];
+				target.parents().andSelf().each(function(i, el){	path.push(el);	});
+				Dino.each(path.reverse(), function(el){
+					var w = $(el).dino();
+					if(w && w.droppable) {
+						target = w;
+						return false;
+					}					
 				});
 //				}
 				
-				if(w) w.events.fire('onDrop', {source: drag.source});			
+				if(target) target.events.fire('onDrop', {source: drag.source});			
 			}
 			
 			Dino.drag = null;
-			Dino.each(Dino.droppableList, function(target){ delete target['cached_bounds']; target.states.clear('hover'); });
+			Dino.each(Dino.droppableList, function(tgt){ delete tgt['cached_bounds']; tgt.states.clear('hover'); });
 		});	
 		
 	}

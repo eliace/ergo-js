@@ -251,6 +251,10 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 		if(data == undefined) return;
 		
+		
+		if(this.data)
+			this.data.events.unreg(this);
+		
 		var o = this.options;
 		
 		if(!phase) phase = 1;
@@ -270,18 +274,18 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		// если добавлен новый элемент данных, то добавляем новый виджет
 		this.data.events.reg('onItemAdded', function(e){
 			self.addItem({'data': e.item}, e.isLast ? null : e.index);
-		});
+		}, this);
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
 		this.data.events.reg('onItemDeleted', function(e){
 			self.destroyItem( self.getItem({data: e.item}) );//e.index) );// {data: self.data.item(e.index)});
-		});
+		}, this);
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onItemChanged', function(e){
 			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
-		});
+		}, this);
 
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 		this.data.events.reg('onValueChanged', function(e){
@@ -301,7 +305,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 			self.layout.immediateRebuild = true;
 			self.layout.rebuild();
 			
-		});
+		}, this);
 		
 		
 		this.destroyAllItems();

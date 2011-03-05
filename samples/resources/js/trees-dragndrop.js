@@ -17,7 +17,7 @@ $.dino({
               states: {
                 'brick': 'led-icon-brick',
                 'door': 'led-icon-door',
-                'user': 'led-icon-user'                
+                'user': 'led-icon-user'
               }
             }
           },
