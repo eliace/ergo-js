@@ -2,7 +2,7 @@
 
 Dino.drag = null;
 Dino.glassPane = $('<div class="split-pane" autoheight="ignore"></div>');
-Dino.droppableList = [];
+//Dino.droppableList = [];
 
 Dino.Draggable = function(o) {
 	
@@ -31,7 +31,7 @@ Dino.Draggable = function(o) {
 			if(!drag.started) {
 				drag.started = true;
 				
-				var event = new Dino.events.CancelEvent({dragData: drag});
+				var event = new Dino.events.CancelEvent({dragContext: drag});
 				drag.source.events.fire('onDrag', event);
 				
 				if(event.isCanceled){
@@ -55,6 +55,7 @@ Dino.Draggable = function(o) {
 	
 	if(!Dino.Draggable.dragReady) {
 		
+		Dino.Draggable.dragReady = true;
 //		$('body').append(Dino.glassPane);
 		
 		//FIXME здесь было бы правильней создавать glass pane, а не использовать body
@@ -67,9 +68,13 @@ Dino.Draggable = function(o) {
 			if(drag && drag.started && drag.proxy) {
 				drag.proxy.el.css({'left': e.pageX+drag.offset[0], 'top': e.pageY+drag.offset[1]});
 				
-				
-				Dino.each(Dino.droppableList, function(target){
-					var bounds = {};
+				$('.droppable:visible').each(function(i, el){
+					el = $(el);
+					var target = el.dino();
+					
+					if(!target) return; // эта строка появилась после возникновения ошибки в TreeGridLayout
+					
+ 					var bounds = {};
 					if(target.cached_bounds) {
 						bounds = target.cached_bounds;
 					}
@@ -89,6 +94,28 @@ Dino.Draggable = function(o) {
 						
 					target.cached_bounds = bounds;
 				});
+				
+//				Dino.each(Dino.droppableList, function(target){
+//					var bounds = {};
+//					if(target.cached_bounds) {
+//						bounds = target.cached_bounds;
+//					}
+//					else {
+//						var offset = target.el.offset();
+//						var w = target.el.width();
+//						var h = target.el.height();
+//						bounds.left = offset.left;
+//						bounds.top = offset.top;
+//						bounds.right = offset.left + w;
+//						bounds.bottom = offset.top + h;						
+//					}
+//					if(e.pageX >= bounds.left && e.pageX < bounds.right && e.pageY >= bounds.top && e.pageY < bounds.bottom) 
+//						target.states.set('hover');
+//					else
+//						target.states.clear('hover');
+//						
+//					target.cached_bounds = bounds;
+//				});
 				
 			}
 			
@@ -113,9 +140,10 @@ Dino.Draggable = function(o) {
 //				var path = target.parents().andSelf();
 				var path = [];
 				target.parents().andSelf().each(function(i, el){	path.push(el);	});
+				target = null;
 				Dino.each(path.reverse(), function(el){
 					var w = $(el).dino();
-					if(w && w.droppable) {
+					if(w && w.states.is('droppable')) {
 						target = w;
 						return false;
 					}					
@@ -126,7 +154,15 @@ Dino.Draggable = function(o) {
 			}
 			
 			Dino.drag = null;
-			Dino.each(Dino.droppableList, function(tgt){ delete tgt['cached_bounds']; tgt.states.clear('hover'); });
+			$('.droppable:visible').each(function(i, el){
+				var target = $(el).dino();
+				if(target) {
+					delete target['cached_bounds'];
+					target.states.clear('hover');					
+				}
+			});
+			
+//			Dino.each(Dino.droppableList, function(tgt){ delete tgt['cached_bounds']; tgt.states.clear('hover'); });
 		});	
 		
 	}

@@ -98,7 +98,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 			node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg2));
 		}
 		else if( Dino.isString(arg) ){
-			this.tree.remove(arg);
+			this.tree.del(arg);
 		}
 		else if( Dino.isFunction(arg) ){
 			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей

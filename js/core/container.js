@@ -290,11 +290,11 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 		this.data.events.reg('onValueChanged', function(e){
 			
+			self.layout.immediateRebuild = false;
+			
 			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
 
-			self.layout.immediateRebuild = false;
-			
 			self.data.each(function(dataItem, i){
 				var dataItem = self.data.item(i);
 				var item = self.addItem({ 'data': dataItem });//.$bind(dataItem, 2);
@@ -307,10 +307,10 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 			
 		}, this);
 		
-		
-		this.destroyAllItems();
 
 		this.layout.immediateRebuild = false;
+		
+		this.destroyAllItems();
 		
 		this.data.each(function(dataItem, i){
 			var dataItem = self.data.item(i);

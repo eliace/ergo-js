@@ -32,8 +32,9 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 		Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
-		if(this.container instanceof Dino.Layout)
+		if(this.container instanceof Dino.Layout) {
 			this.container.remove(item);
+		}
 		
 //		Dino.remove_from_array(this.items, item)
 		
@@ -43,6 +44,7 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 	},
 	
 //	clear: function() {
+//		Dino.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 //		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
 //		this.container.el.empty();
 //		Dino.each(this.items, function(item){
@@ -80,6 +82,10 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 //		console.log('rebuild tree-grid')
 //		console.log(this.container.data.get());
 	}
+	
+//	clear: function() {
+//		
+//	}
 	
 }, 'tree-grid-layout');
 

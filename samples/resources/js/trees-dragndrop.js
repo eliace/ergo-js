@@ -26,7 +26,7 @@ $.dino({
           onDrag: function(e) {
             this.parent.states.set('dragged');
             
-            e.dragData.proxy = $.dino({
+            e.dragContext.proxy = $.dino({
               dtype: 'text',
               text: this.getText(),
               cls: 'dino-border-all',
@@ -34,7 +34,7 @@ $.dino({
               opacity: .7
             });
 						
-						e.dragData.offset = [-10, -10];
+						e.dragContext.offset = [-10, -10];
             
           },
           onDrop: function(e) {

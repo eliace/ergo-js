@@ -3,6 +3,7 @@
 
 
 Dino.Droppable = function() {
-	this.droppable = true;
-	Dino.droppableList.push(this);
+	this.states.set('droppable');
+//	this.droppable = true;
+//	Dino.droppableList.push(this);
 }

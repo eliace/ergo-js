@@ -256,16 +256,19 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //	}
 	
 	destroy: function() {
+		
 		// удаляем элемент и все его содержимое (data + event handlers) из документа
 		if(this.el) this.el.remove();
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
 		//
-		this.layout.clear();
+		this.layout.clear();		
+		
 		// вызываем метод destroy для всех дочерних компонентов
 		this.children.each(function(child) { child.destroy(); });
 		
-		if(this.options.debug)	console.log('destroyed');
+		
+//		if(this.options.debug)	console.log('destroyed');
 	},
 	
 	/**
