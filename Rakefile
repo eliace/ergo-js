@@ -64,6 +64,7 @@ require 'fileutils'
     'js/extensions/editable.js',
     'js/extensions/draggable.js',
     'js/extensions/droppable.js',
+    'js/utils/validators.js',
   ]
 
 

@@ -111,10 +111,19 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 			// теперь список элементов пуст
 			this.items = {};
 			
+			var oldValue = this.val();//('id' in this) ? this.source.val()[this.id] : this.source.val();				
 			
-			var oldValue = ('id' in this) ? this.source.val()[this.id] : this.source;
 			
-			('id' in this) ? this.source.val()[this.id] = newValue : this.source = newValue;
+			
+			if (this.source instanceof Dino.data.DataSource) {
+				('id' in this) ? this.source.val()[this.id] = newValue : this.source.set(newValue);
+	  	}
+			else {
+				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
+			}
+//			var src = (this.source instanceof Dino.data.DataSource) ? this.source.val() : this,source;
+			 
+//			('id' in this) ? this.source.val()[this.id] = newValue : this.source = newValue;
 			
 //			if(this.source instanceof Dino.data.DataSource){
 //				('id' in this) ? this.source.set(this.id, newValue) : this.source.set(newValue);
@@ -132,19 +141,6 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		}
 		else {
 			this.item(i).set(newValue);
-/*			
-			// получаем объект с данными (PlainObject или Array)
-			var v = this.get();
-			// если ключ - строка, то он может быть составным 
-			if( _dino.isString(i) ){
-				var a = i.split('.');
-				var i = a.pop();
-				// двигаемся внутрь объекта по элементам ключа
-				for(var j = 0; j < a.length; j++) v = v[ a[j] ];
-			}
-			v[i] = newValue;
-*/			
-//			this.events.fire('onValueChanged');
 		}
 		
 	},
@@ -173,22 +169,16 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		
 	},
 	
+	/**
+	 * Обход всех элементов данных.
+	 * 
+	 * Обращаем внимание, что количество элементов данных не обязательно совпадает
+	 * с количеством значений
+	 * 
+	 * @param {Object} callback
+	 */
 	each_item: function(callback) {
-//		var range = this.range;
-//		var self = this;
-//		Dino.each(this.val(), function(val, i){
-//			if(range){
-//				if(i < range[0] || i > range[1]) return;
-//			}
-//			callback.call(this, self.item(i), i);
-//		});
 		Dino.each(this.items, callback);
-//		Dino.each(this.items, function(item, i){
-//			if(range){
-//				if(i < range[0] || i > range[1]) return;
-//			}
-//			callback.call(this, item, i);
-//		});
 	},
 	
 	

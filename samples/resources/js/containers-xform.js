@@ -121,7 +121,35 @@ $.dino({
 //        }
       }
     }
-  }
+  }, {
+		dtype: 'box',
+		style: {'display': 'inline'},
+		layout: {
+			dtype: 'dock-layout',
+			updateMode: 'auto'
+		},
+		items: [{
+			dtype: 'textfield',
+			cls: 'dino-border-all dino-border-no-right dino-corner-left',
+			style: {'font-size': '14px', 'padding': '3px 0', 'outline': 'none'}
+		}, {
+			dock: 'right-center',
+			dtype: 'box',
+			defaultItem: {
+				style: {'display': 'block'},
+				cls: 'dino-border-all',
+				height: 12,
+				width: 12
+			},
+			items: [{
+				dtype: 'button',
+				cls: 'led-icon led-icon-cog dino-corner-right-top'
+			}, {
+				dtype: 'button',
+				cls: 'led-icon led-icon-cog dino-corner-right-bottom'
+			}]
+		}]
+	}
   ]
 });      
 

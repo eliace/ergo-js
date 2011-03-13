@@ -515,7 +515,11 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		
 		if('format' in o) {
-			if(Dino.isString(o.format)) o.format = Dino.format_obj.curry(o.format);
+			if(Dino.isString(o.format)) this.options.format = Dino.format_obj.curry(o.format);
+		}
+
+		if('validator' in o) {
+			if(Dino.isArray(o.validator)) this.options.validator = Dino.filter_list.rcurry(o.validator);
 		}
 						
 		
@@ -736,8 +740,30 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			if('store_format' in this.options) 
 				val = this.options.store_format.call(this, val);
 			
-			this.data.set(val);
-			this.events.fire('onValueChanged', {'value': val});
+			var valid = true;
+			var context = {};				
+			if('validator' in this.options) {				
+				valid = this.options.validator.call(context, val);
+/*				
+				var self = this;
+				var validator = this.options.validator;
+				
+				if(Dino.isFunction(validator))
+					valid = validator.call(this, val, results);
+				else if(Dino.isArray(validator)) 
+					valid = Dino.find(validator, function(v){ return v.call(self, val, results); })
+*/					
+			}
+				 
+			
+			if(valid) {
+				this.data.set(val);
+				this.events.fire('onValueChanged', {'value': val});				
+			}
+			else {
+				context.value = val;
+				this.events.fire('onValueInvalid', context);
+			}
 		}
 	},
 	

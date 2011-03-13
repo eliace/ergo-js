@@ -13,6 +13,8 @@
 .dino-corner-top {-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;}
 .dino-corner-left {-moz-border-radius: 4px 0 0 4px; -webkit-border-radius: 4px 0 0 4px; border-radius: 4px 0 0 4px;}
 .dino-corner-right {-moz-border-radius: 0 4px 4px 0; -webkit-border-radius: 0 4px 4px 0; border-radius: 0 4px 4px 0;}
+.dino-corner-right-top {-moz-border-radius: 0 4px 0 0; -webkit-border-radius: 0 4px 0 0; border-radius: 0 4px 0 0;}
+.dino-corner-right-bottom {-moz-border-radius: 0 0 4px 0; -webkit-border-radius: 0 0 4px 0; border-radius: 0 0 4px 0;}
 
 
 

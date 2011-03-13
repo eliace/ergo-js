@@ -45,7 +45,7 @@ var widget = $.dino({
             grid.pager.opt('count', grid.pager.count - grid.selection.size() );
           }
            else if(this.tag == 'refresh') {
-            gridData.source = [];
+            gridData.source = Samples.generate_grid_page(0, 120);
 						gridData.filter_chain = null;
             grid.pager.opt('count', 120);
             grid.pager.setCurrentIndex(0);

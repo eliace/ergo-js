@@ -665,6 +665,13 @@ var Dino = (function(){
 	
 	
 	
+	D.filter_list = function(val, list) {
+		for(var i = 0; i < list.length; i++)
+			if(!list[i].call(this, val)) return false;
+		return true;
+	}
+	
+	
 /*	
 	
 	D.serialize = function(obj, indent) {
@@ -718,20 +725,24 @@ var Dino = (function(){
 	 */
 	Function.prototype.curry = function(arg) {
 		var F = this;
+		var pre_args = arguments;
 		return function(){
 			var args = [];
+			for(var i = 0; i < pre_args.length; i++) args.push(pre_args[i]);
 			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-			args.unshift(arg);
+//			args.unshift(arg);
 			return F.apply(this, args);
 		};
 	};
 
 	Function.prototype.rcurry = function(arg) {
 		var F = this;
+		var post_args = arguments;
 		return function(){
 			var args = [];
 			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-			args.push(arg);
+			for(var i = 0; i < post_args.length; i++) args.push(post_args[i]);
+//			args.push(arg);
 			return F.apply(this, args);
 		};
 	};
