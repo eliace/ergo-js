@@ -80,6 +80,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 	reg: function(type, callback, target) {
 		var node = this.tree.ensure(type);
 		node.handlers.push({'callback': callback, 'target': target});
+		return this;
 	},
 	
 	/**
@@ -111,7 +112,8 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 				node.handlers = Dino.filter(node.handlers, function(h) { return (h.target != arg); });
 			});
 		}
-				
+		
+		return this;		
 	},
 	
 	/**
@@ -142,6 +144,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 			});
 		}, node0);
 		
+		return this;
 	},
 	
 	unreg_all: function(){

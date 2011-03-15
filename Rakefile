@@ -65,6 +65,7 @@ require 'fileutils'
     'js/extensions/draggable.js',
     'js/extensions/droppable.js',
     'js/utils/validators.js',
+    'js/utils/update-buffer.js',
   ]
 
 

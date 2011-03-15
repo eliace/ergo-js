@@ -1,7 +1,7 @@
 
 gridData = new Dino.data.ArrayDataSource();
 
-updateBuffer = {};
+updateBuffer = new Dino.utils.UpdateBuffer();
 var newCounter = 0;
     
 var widget = $.dino({
@@ -31,35 +31,31 @@ var widget = $.dino({
             grid.content.el.scrollTop( grid.content.content.el.height() );
             item.getColumn(0).startEdit();
             
-            updateBuffer[val.id] = val;
-            val.action = 'new';
+            updateBuffer.add(val);
           }
           else if(this.tag == 'delete') {
             grid.selection.each(function(item){
               var val = item.data.val();
-              updateBuffer[val.id] = val;
-              val.action = 'deleted';
-              
+              updateBuffer.del(val);
               item.data.del();
             });
             grid.pager.opt('count', grid.pager.count - grid.selection.size() );
           }
-           else if(this.tag == 'refresh') {
+          else if(this.tag == 'refresh') {
             gridData.source = Samples.generate_grid_page(0, 120);
 						gridData.filter_chain = null;
             grid.pager.opt('count', 120);
             grid.pager.setCurrentIndex(0);
-            updateBuffer = {};
+            updateBuffer.clear();
           }
-           else if(this.tag == 'save') {
+          else if(this.tag == 'save') {
             
             var s = [];
-            Dino.each(updateBuffer, function(val, i){
-              s.push('<div><span>'+val.string+'</span><span class="update-status '+val.action+'">'+val.action+'</span></div>');
+						updateBuffer.each(function(val, action){
+              s.push('<div><span>'+val.string+'</span><span class="update-status '+action+'">'+action+'</span></div>');
             });
-            
             growl.info(s.join(''), true);
-            updateBuffer = {};
+            updateBuffer.clear();
           }
           grid.selection.clear();
           
@@ -101,8 +97,7 @@ var widget = $.dino({
           extensions: [Dino.Editable],
           onEdit: function() {
             var val = this.getRow().data.val();
-            updateBuffer[val.id] = val;
-            if(!('action' in val)) val.action = 'edit';
+            updateBuffer.upd(val);
           }
         },
         row: {
@@ -144,8 +139,7 @@ var widget = $.dino({
             dtype: 'checkbox',
 						onAction: function() {
 	            var val = this.data.source.val();
-	            updateBuffer[val.id] = val;
-	            if(!('action' in val)) val.action = 'edit';							
+            	updateBuffer.upd(val);
 						}
           },
           noEdit: true,
@@ -167,11 +161,7 @@ var widget = $.dino({
               return out;
             };
             
-//          	profiler.clear('widget');
-						
             gridData.events.fire('onValueChanged');
-						
-//          	console.log(profiler.print_result('widget'));						
           }
         }
       },
