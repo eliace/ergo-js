@@ -71,19 +71,18 @@ var grid = $.dino({
       count: 100,
       pageSize: 40,
       cls: 'dino-border-top',
-      onCurrentChanged: function(e) {
+      onIndexChanged: function(e) {
         // генерируем данные и добавляем их в источник данных виджета
         var data_page = Samples.generate_grid_page(e.from, e.to);
         var j = 0;
         for(var i = e.from; i < e.to; i++) {
           gridData.source[i] = data_page[j++];
         }
-//        gridData.range = [e.from, e.to];
 
         gridData.filter_chain = function(data){
           var out = [];
 					for(var i = 0; i < data.length; i++)
-            if(i >= e.from && i < e.to) out.push(i);								
+            if(i >= e.from && i < e.to) out.push(i);
           return out;
         };
 
@@ -93,5 +92,5 @@ var grid = $.dino({
   }
 });
     
-grid.pager.setCurrentIndex(0);
+grid.pager.setIndex(0);
 

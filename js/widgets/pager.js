@@ -16,14 +16,14 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			cls: 'dino-corner-all dino-border-none',
 			icon: 'led-icon-control-rewind',
 			onAction: function() {
-				this.parent.setCurrentIndex(0);
+				this.parent.setIndex(0);
 			}
 		}, {
 			dtype: 'icon-button',
 			cls: 'dino-corner-all dino-border-none',
 			icon: 'led-icon-control-backward',
 			onAction: function() {
-				this.parent.setCurrentIndex(this.parent.getCurrentIndex()-1);
+				this.parent.setIndex(this.parent.getIndex()-1);
 			}
 		}, {
 			dtype: 'split',
@@ -38,7 +38,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			value: '1',
 			events: {
 				'change': function(e, w) {
-					w.parent.setCurrentIndex(w.el.val()-1);
+					w.parent.setIndex(w.el.val()-1);
 				}
 			}
 		}, {
@@ -53,14 +53,14 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			cls: 'dino-corner-all dino-border-none',
 			icon: 'led-icon-control-play',			
 			onAction: function() {
-				this.parent.setCurrentIndex(this.parent.getCurrentIndex()+1);
+				this.parent.setIndex(this.parent.getIndex()+1);
 			}
 		}, {
 			dtype: 'icon-button',
 			cls: 'dino-corner-all dino-border-none',
 			icon: 'led-icon-control-fastforward',			
 			onAction: function() {
-				this.parent.setCurrentIndex(this.parent.getMaxIndex());
+				this.parent.setIndex(this.parent.getMaxIndex());
 			}
 		}/*, {
 			dtype: 'split',
@@ -80,7 +80,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 	$init: function(o) {
 		Dino.widgets.Pager.superclass.$init.apply(this, arguments);
 		
-		this.count = this.offset = 0;
+		this.total_size = this.offset = 0;
 		this.page_size = 1;
 	},
 	
@@ -91,37 +91,42 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			this.page_size = o.pageSize || 1;
 		} 
 		if('count' in o){
-			this.count = o.count;
-			this.getItem('num_pages').opt('innerText', 'из ' + Math.ceil(this.count/this.page_size));
+			this.setCount(o.count);
 		}
 		
 	},
+	
+	
+	setCount: function(count) {
+		this.total_size = count;
+		this.getItem('num_pages').opt('innerText', 'из ' + Math.ceil(this.total_size/this.page_size));		
+	},
+	
+	getCount: function() {
+		return this.total_size;
+	},
 		
-	setCurrentIndex: function(i) {
+	setIndex: function(i) {
 		
 		var i0 = i*this.page_size;
-		var i1 = Math.min( (i+1)*this.page_size, this.count );
+		var i1 = Math.min( (i+1)*this.page_size, this.total_size );
 		
-		if(i0 >= 0 && i0 < this.count){
+		if(i0 >= 0 && i0 < this.total_size){
 			this.offset = i0;
 			this.getItem('current_page').opt('value', i+1);
-			this.events.fire('onCurrentChanged', {from: i0, to: i1});
+			this.events.fire('onIndexChanged', {from: i0, to: i1});
 			return true;
 		}
 		return false;
 	},
 	
-	getCurrentIndex: function() {
+	getIndex: function() {
 		return this.offset/this.page_size;
 	},
 	
 	getMaxIndex: function() {
-		return Math.ceil(this.count/this.page_size)-1;
+		return Math.ceil(this.total_size/this.page_size)-1;
 	}
-	
-//	setMaxIndex: function() {
-//		
-//	}
 	
 	
 }, 'pager');

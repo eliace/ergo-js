@@ -24,12 +24,13 @@ var widget = $.dino({
             var val = {'id': 'temp-'+(++newCounter), 'string': 'New item', 'count': 0, 'currency': 0, 'date': '', flag: false};
             var dataItem = this.data.add(val);
             
-						grid.pager.opt('count', grid.pager.count+1);
-            grid.pager.setCurrentIndex( grid.pager.getMaxIndex() );
+						var pager = grid.pager;
+						pager.setCount( pager.getCount()+1 );
+            pager.setIndex( pager.getMaxIndex() );
             
-						var item = grid.content.content.getRow({'data': dataItem});
+						var row = grid.content.content.getRow({'data': dataItem});
             grid.content.el.scrollTop( grid.content.content.el.height() );
-            item.getColumn(0).startEdit();
+            row.getColumn(0).startEdit();
             
             updateBuffer.add(val);
           }
@@ -44,18 +45,17 @@ var widget = $.dino({
           else if(this.tag == 'refresh') {
             gridData.source = Samples.generate_grid_page(0, 120);
 						gridData.filter_chain = null;
-            grid.pager.opt('count', 120);
-            grid.pager.setCurrentIndex(0);
+            grid.pager.setCount(120);
+            grid.pager.setIndex(0);
             updateBuffer.clear();
           }
           else if(this.tag == 'save') {
             
             var s = [];
-						updateBuffer.each(function(val, action){
+						updateBuffer.flush(function(val, action){
               s.push('<div><span>'+val.string+'</span><span class="update-status '+action+'">'+action+'</span></div>');
             });
             growl.info(s.join(''), true);
-            updateBuffer.clear();
           }
           grid.selection.clear();
           
@@ -152,7 +152,7 @@ var widget = $.dino({
           count: 120,
           pageSize: 40,
           cls: 'dino-border-top',
-          onCurrentChanged: function(e) {
+          onIndexChanged: function(e) {
                         
             gridData.filter_chain = function(data){
               var out = [];
@@ -172,5 +172,5 @@ var widget = $.dino({
 
 
 gridData.source = Samples.generate_grid_page(0, 120);    
-widget.grid.pager.setCurrentIndex(0);
+widget.grid.pager.setIndex(0);
 
