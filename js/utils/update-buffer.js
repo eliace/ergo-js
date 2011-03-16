@@ -30,9 +30,13 @@ Dino.declare('Dino.utils.UpdateBuffer', 'Dino.events.Observer', {
 		this.buffer[val.id] = {event: 'Delete', value: val}
 	},
 	
-	flush: function() {
-		for(var i in this.buffer)
-			this.events.fire('on' + item.event, this.buffer[i]);
+	flush: function(callback) {
+		var self = this;
+		if(arguments.length > 0)
+			Dino.each(this.buffer, function(item){ callback.call(self, item.value, item.event); });
+		else
+			Dino.each(this.buffer, function(item){ self.events.fire('on' + item.event, item); });
+			
 		this.clear();
 	},
 	

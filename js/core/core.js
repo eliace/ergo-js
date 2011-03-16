@@ -738,6 +738,7 @@ var Dino = (function(){
 	Function.prototype.rcurry = function(arg) {
 		var F = this;
 		var post_args = arguments;
+//		for(var i = 0; i < arguments.length; i++) post_args.push(arguments[i]);
 		return function(){
 			var args = [];
 			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);

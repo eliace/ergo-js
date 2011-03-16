@@ -26,9 +26,15 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		if('value' in o) this.el.attr('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		if('tabindex' in o) this.el.attr('tabindex', o.tabindex);
+
+		var self = this;
+		
+		if(o.changeOnBlur) 
+			this.el.blur(function() { 
+				self.setValue(self.el.val()); 
+			});
 		
 		if(o.rawValueOnFocus){
-			var self = this;
 			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()) });
 			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
 		}
@@ -39,7 +45,10 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		Dino.widgets.form.InputField.superclass.$events.call(this, self);
 
 		this.el.keydown(function(e) {
-			if(e.keyCode == 13) self.setValue( self.el.val());
+			if(e.keyCode == 13) 
+				self.setValue( self.el.val());
+			else if(e.keyCode == 27) 
+				self.el.val(self.getValue());
 //			self.setValue( self.el.val());
 		});
 		
