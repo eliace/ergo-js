@@ -2,7 +2,8 @@
 
 var xformData = {
   text: 11,
-  text2: '16.12.2010'
+  text2: '16.12.2010',
+	number: 4
 };
 
 
@@ -147,6 +148,45 @@ $.dino({
 			}, {
 				dtype: 'button',
 				cls: 'led-icon led-icon-cog dino-corner-right-bottom'
+			}]
+		}]
+	}, {
+		dtype: 'box',
+		dataId: 'number',
+		style: {'display': 'inline', 'font-size': '14px'},
+		cls: 'dino-border-all',
+		layout: {
+			dtype: 'dock-layout',
+			updateMode: 'auto'
+		},
+		items: [{
+			dtype: 'textfield',
+			cls: 'dino-border-none',
+			style: {'font-size': '14px', 'margin': 0, 'outline': 'none'},
+			updateOnValueChange: true
+		}, {
+			dock: 'right-center',
+			dtype: 'box',
+			defaultItem: {
+				style: {'display': 'block'},
+				cls: 'dino-border-all dino-clickable',
+				height: 8,
+				width: 16,
+				onAction: function() {
+					if(this.tag == 'up')
+						this.data.set(this.data.get()+1);
+					else if(this.tag == 'down')
+						this.data.set(this.data.get()-1);
+				}
+			},
+			items: [{
+				dtype: 'button',
+				cls: 'dino-icon-up',
+				tag: 'up'
+			}, {
+				dtype: 'button',
+				cls: 'dino-icon-down',
+				tag: 'down'
 			}]
 		}]
 	}

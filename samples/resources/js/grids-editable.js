@@ -112,7 +112,7 @@ var widget = $.dino({
         },
         columns: [{
           dataId: 'string',
-          header: 'Нименование'
+          header: 'Наименование'
         }, {
           dataId: 'count',
           header: 'Количество',

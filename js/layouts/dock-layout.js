@@ -60,8 +60,7 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.D
 		
 		$('[dock$=center]', this.el).each(function(i, el){
 			el = $(el);
-			el.css('margin-top', -Math.max(h, el.outerHeight(true))/2);
-//			margin_top = Math.max(margin_right, $(el).outerWidth());
+			el.css('margin-top', -el.outerHeight()/2);//-Math.min(h, el.outerHeight(true))/2);
 		});
 				
 		if(this.content){

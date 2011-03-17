@@ -3,8 +3,9 @@
 Dino.defaultEditor = {
 	dtype: 'textfield',
 	cls: 'dino-text-editor',
+	changeOnBlur: true,
 	events: {
-		'blur': function(e, w) { w.parent.stopEdit(); },
+//		'blur': function(e, w) { w.setValue(w.el.val()); },
 		'keypress': function(e, w) { 
 			if(e.keyCode == 27) w.parent.stopEdit(); 
 		}
@@ -20,14 +21,22 @@ Dino.Editable = function(o) {
 
 	this.startEdit = function() {
 		
-		this.layout.el.empty(); //FIXME на соотв. метод компоновки
+		this.layout.el.empty(); 
 		var w = this.layout.el.width();
-		var h = this.layout.el.height();
-		
+		var h = 0;//this.layout.el.height();
+
+		var el = this.layout.el;
+		while(el) {
+			h = el.height();
+			if(h) break;
+			el = el.parent();
+		}
+
 		this.addComponent('_editor', this.options.editor);
 
 		var dw = this._editor.el.outerWidth(true) - this._editor.el.width();
 		this._editor.el.width(w - dw);
+
 
 		var dh = this._editor.el.outerHeight(true) - this._editor.el.height();
 		this._editor.el.height(h - dh);

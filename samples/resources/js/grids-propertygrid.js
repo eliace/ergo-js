@@ -33,7 +33,7 @@ var propertyGrid = $.dino({
       width: 100,
 			state: 'clickable',
 			onDblClick: function(){
-				this.startEdit();
+				if(!this.options.noEdit) this.startEdit();
 			},
 			binding: function() {
 				var val = this.data.source.val();
@@ -41,7 +41,8 @@ var propertyGrid = $.dino({
 				if(val.type == 'boolean') {
 					this.addComponent('content', {
 						dtype: 'checkbox'
-					});					
+					});
+					this.opt('noEdit', true);
 				}
 				
 				if(val.type == 'select') {

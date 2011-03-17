@@ -11,6 +11,7 @@
 
 .dino-corner-all {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
 .dino-corner-top {-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;}
+.dino-corner-bottom {-moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;}
 .dino-corner-left {-moz-border-radius: 4px 0 0 4px; -webkit-border-radius: 4px 0 0 4px; border-radius: 4px 0 0 4px;}
 .dino-corner-right {-moz-border-radius: 0 4px 4px 0; -webkit-border-radius: 0 4px 4px 0; border-radius: 0 4px 4px 0;}
 .dino-corner-right-top {-moz-border-radius: 0 4px 0 0; -webkit-border-radius: 0 4px 0 0; border-radius: 0 4px 0 0;}
@@ -477,12 +478,28 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 .dino-icon-button:hover {
 	border: 1px solid #ccc;	
+	background-color: #e8e8e8;	
 }
 
 .dino-icon-button.clicked {
 	background-color: #ddd;	
 }
 
+
+
+/*
+ * SPINNER BUTTON
+ */
+
+.dino-icon-up {
+	background-image: url(img/up.png);
+	background-position: 50% 50%;
+}
+
+.dino-icon-down {
+	background-image: url(img/down.png);
+	background-position: 50% 50%;
+}
 
 
 
@@ -759,7 +776,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-grid-row:hover {
-	background-color: #eee;
+	background-color: #f4f4f4;/*#eee;*/
 }
 
 .dino-grid-row.selected {
@@ -1112,8 +1129,15 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 
 
+/*
+ * EDITORS
+ */
 
-
+.dino-text-editor {
+	outline: none;
+	margin: 0;
+	border: 1px solid #acf;
+}
 
 
 
