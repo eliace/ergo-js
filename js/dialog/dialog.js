@@ -14,7 +14,6 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 			header: {
 				weight: 1,
 				dtype: 'box',
-//				cls: 'dino-dialog-header',
 				components: {
 					title: {
 						dtype: 'text-item',
@@ -24,7 +23,6 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 			},
 			content: {
 				weight: 2,
-//				cls: 'dino-dialog-content',
 				dtype: 'box'
 			},
 			buttons: {
@@ -43,12 +41,13 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 				}
 			}
 		},
-//		buttonsAlign: 'center',
 		buttonSet: {
 			'ok': {text: 'ОК', tag: 'ok'},
 			'cancel': {text: 'Отмена', tag: 'cancel'},
 			'save': {text: 'Сохранить', tag: 'save'}
-		}		
+		},
+		closeOnOverlayClick: false,
+		closeOnEsc: false
 	},
 	
 	
@@ -57,9 +56,17 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 		
 		var self = this;
 		
-		this.layout.overlay_el.click(function(){
-			self.close();
-		});
+		if(o.closeOnOverlayClick) {
+			this.layout.overlay_el.click(function(){
+				self.close();
+			});			
+		}
+
+		if(o.closeOnEsc) {
+			$(window).keydown(function(e){
+				if(e.keyCode == 27) self.close();
+			});			
+		}
 		
 		var buttons = [];
 		for(var i in o.buttonSet)

@@ -34,8 +34,8 @@ Dino.declare('Dino.remote.Collection', 'Dino.events.Observer', {
 	remove: function(id, callback) {
 		var self = this;
 		$.post(this.path() + '/'+id, {'_method': 'delete'}, function(data){
-			if(self.backend) 
-				self.backend.find(function(item){ return item.get('id') == id; }).del();
+//			if(self.backend) 
+//				self.backend.find(function(item){ return item.get('id') == id; }).del();
 			if(callback) callback.call(this, data);
 		}, 'json');		
 	},
