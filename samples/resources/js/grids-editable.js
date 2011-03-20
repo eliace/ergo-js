@@ -117,10 +117,11 @@ var widget = $.dino({
           dataId: 'count',
           header: 'Количество',
           format: function(v) { return '' + v + ' шт' },
+          style: {'text-align': 'right'}
         }, {
           dataId: 'currency',
           header: 'Цена',
-          format: function(v) { return "$"+v.toFixed(2); },
+          format: Dino.format_currency.rcurry('$'),
           editor: {
             store_format: function(val) {
               return Dino.isString(val) ? parseFloat(val) : val; 
@@ -129,7 +130,7 @@ var widget = $.dino({
         }, {
           dataId: 'date',
           header: 'Дата',
-          style: {'text-align': 'right'}
+//          style: {'text-align': 'right'}
         }, {
           dataId: 'flag',
           header: '',

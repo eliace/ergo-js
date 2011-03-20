@@ -1,18 +1,25 @@
 
 
 Dino.defaultEditor = {
+//	dtype: 'combofield',
+//	cls: 'dino-text-editor',
+//	layout: 'fit-layout',
+//	components: {
+//		input: {
 	dtype: 'textfield',
+	layout: 'fit-layout',
 	cls: 'dino-text-editor',
 	changeOnBlur: true,
 	events: {
-//		'blur': function(e, w) { w.setValue(w.el.val()); },
-		'keypress': function(e, w) { 
+		'keypress': function(e, w) {
 			if(e.keyCode == 27) w.parent.stopEdit(); 
 		}
 	},
 	onValueChanged: function() {
 		if(this.parent) this.parent.stopEdit();
-	}
+	}			
+//		}
+//	}
 };
 
 
@@ -21,7 +28,9 @@ Dino.Editable = function(o) {
 
 	this.startEdit = function() {
 		
-		this.layout.el.empty(); 
+		this.layout.el.empty();
+		
+/*		
 		var w = this.layout.el.width();
 		var h = 0;//this.layout.el.height();
 
@@ -31,20 +40,27 @@ Dino.Editable = function(o) {
 			if(h) break;
 			el = el.parent();
 		}
-
+*/
 		this.addComponent('_editor', this.options.editor);
+		
+//		var editor_el = $('input', this._editor.el);
+		
+/*
 
-		var dw = this._editor.el.outerWidth(true) - this._editor.el.width();
-		this._editor.el.width(w - dw);
+		var dw = editor_el.outerWidth(true) - editor_el.width();
+		editor_el.width(w - dw);
 
 
-		var dh = this._editor.el.outerHeight(true) - this._editor.el.height();
-		this._editor.el.height(h - dh);
+		var dh = editor_el.outerHeight(true) - editor_el.height();
+		editor_el.height(h - dh);
+*/
+		this._editor.$layoutChanged();
 
 		this._editor.$bind(this.data);
 		this._editor.$dataChanged(); // явно вызываем обновление данных
-		this._editor.el.focus();
-		this._editor.el.select();
+		$('input,select', this.layout.el).focus().select();
+//		this._editor.el.focus();
+//		this._editor.el.select();
 	};
 	
 	this.stopEdit = function() {

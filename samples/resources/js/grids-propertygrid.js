@@ -37,6 +37,14 @@ var propertyGrid = $.dino({
 			},
 			binding: function() {
 				var val = this.data.source.val();
+
+//				if(val.type == 'string') {
+//					this.opt('editor', {
+//						dtype: 'combofield',
+//						style: {'border': '1px solid #cef'}
+//					});
+//				}
+
 				
 				if(val.type == 'boolean') {
 					this.addComponent('content', {
@@ -46,12 +54,35 @@ var propertyGrid = $.dino({
 				}
 				
 				if(val.type == 'select') {
+//					this.opt('editor', {
+//						dtype: 'select',
+//						options: val.value_list,
+//						events: {
+//							'blur': function(e, w) { w.parent.stopEdit(); }
+//						},
+//						onValueChanged: function() {
+//							if(this.parent) this.parent.stopEdit();
+//						}		
+//					});
+
 					this.opt('editor', {
-						dtype: 'select',
-						options: val.value_list,
-						events: {
-							'blur': function(e, w) { w.parent.stopEdit(); }
+						dtype: 'combofield',
+//						options: val.value_list,
+						components: {
+							input: {
+								layout: 'fit-layout'
+							},
+							button: {
+								dtype: 'button',
+								cls: 'dino-border-all dino-icon-down dino-corner-all',
+//								icon: 'led-icon led-icon-cog',
+								width: 16,
+								height: 16
+							}
 						},
+//						events: {
+//							'blur': function(e, w) { w.parent.stopEdit(); }
+//						},
 						onValueChanged: function() {
 							if(this.parent) this.parent.stopEdit();
 						}		

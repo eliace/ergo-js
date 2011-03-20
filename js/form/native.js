@@ -21,7 +21,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		Dino.widgets.form.InputField.superclass.$opt.call(this, o);
 		
 		if('text' in o) this.el.val(o.text);
-		if('readonly' in o) this.el.attr('readonly', o.readonly);
+		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.attr('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);

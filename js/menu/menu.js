@@ -206,17 +206,18 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.contai
 			}			
 		},
 		offset: [-2, -2]
-	},
+	}
 	
+/*	
 	$events: function(self){
 		Dino.widgets.ContextMenu.superclass.$events.call(this, self);
 		
 		this.el.bind('mouseleave', function(){ 
 			if(self.options.hideOn == 'hoverOut') self.hide(); 
 		});
-	},
+	}
 	
-		
+/*		
 	show: function(x, y) {
 		Dino.widgets.ContextMenu.superclass.show.apply(this, arguments);
 
@@ -226,7 +227,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.contai
 			$('body').one('click', function(){ self.hide(); });
 				
 	}
-	
+*/	
 	
 	
 }, 'context-menu');

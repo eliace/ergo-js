@@ -29,6 +29,7 @@ require 'fileutils'
     'js/layouts/window-layout.js',
     'js/layouts/inherited-layout.js',
     'js/layouts/border-layout.js',
+    'js/layouts/fit-layout.js',
     'js/containers/box.js',
     'js/containers/tabs.js',
     'js/containers/dropdown.js',
@@ -43,6 +44,7 @@ require 'fileutils'
     'js/widgets/controls.js',
     'js/widgets/pager.js',
     'js/widgets/loading.js',
+    'js/widgets/combo-field.js',
     'js/panels/panel.js',
     'js/panels/tab-panel.js',
     'js/form/native.js',
@@ -66,6 +68,7 @@ require 'fileutils'
     'js/extensions/droppable.js',
     'js/utils/validators.js',
     'js/utils/update-buffer.js',
+    'js/utils/formats.js',
   ]
 
 

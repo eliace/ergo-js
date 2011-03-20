@@ -14,17 +14,28 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 			'delay': 200
 		},
 		baseCls: 'dino-dropdown-box',
-		offset: [0, 0]
+		offset: [0, 0],
+		hideOn: 'outerClick'
 	},
 	
-//	defaultCls: ,
 	
-//	$events: function(self){
-//		Dino.containers.DropDownBox.superclass.$events.call(this, self);
-//		
-//		this.el.mouseleave(function(){ self.hide(); });
-//	},
-
+	$init: function() {
+		Dino.containers.DropDownBox.superclass.$init.apply(this, arguments);
+		  
+		var self = this;
+		// создаем прозрачную панель для перехвата событий
+    this.glass_panel = $('<div class="glass-panel"></div>');
+    this.glass_panel.bind('click', function(){
+      self.hide();
+    });
+		
+		this.el.bind('mouseleave', function(){ 
+			if(self.options.hideOn == 'hoverOut') self.hide(); 
+		});
+		
+	},
+	
+	
 	show: function(x, y) {
 		
 		if(arguments.length == 0) return;
@@ -34,22 +45,33 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		this.el.css({'left': x + offset[0], 'top': y + offset[1]});
 //		$(this.options.target).append(this.el);
 				
-		var effects = this.options.effects;
+		var eff = this.options.effects;
 		
-		switch(effects['show']){
+		switch(eff['show']){
 			case 'fade':
-				this.el.fadeIn( effects.delay );
+				this.el.fadeIn( eff.delay );
 				break;
 			default:
 				this.el.show();
 		}
 		
 		this.isShown = true;
+
+		if (this.options.hideOn == 'outerClick') {
+						
+			// добавляем прозрачную панель в документ
+			$('body').append(this.glass_panel);
+		}
 		
 		this.events.fire('onShow');
 	},
 	
 	hide: function(eff){
+		
+		if(this.options.hideOn == 'outerClick') {
+			// удаляем прозрачную панель
+	    this.glass_panel.detach();
+		}
 		
 		var effects = this.options.effects;
 		

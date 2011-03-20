@@ -17,3 +17,4 @@ Dino.declare('Dino.containers.Box', 'Dino.Container', /** @lends Dino.containers
 	$html: function() { return '<div></div>'; }
 	
 }, 'box');
+

@@ -430,7 +430,7 @@ Samples.generate_grid_page = function(i0, i1) {
 			flag: false,
 			currency: Math.random()*1e2,
 			count: (Math.random()*1e2).toFixed(),
-			date: new Date().toLocaleString()
+			date: Dino.format_date(new Date())//.toLocaleString()
 		});
 	}
 	return list;

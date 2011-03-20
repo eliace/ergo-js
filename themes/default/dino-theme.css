@@ -1,8 +1,10 @@
 
 
-.dino-border-all { border: 1px solid #aaaaaa; }
-.dino-border-bottom { border-bottom: 1px solid #aaaaaa; }
-.dino-border-top { border-top: 1px solid #aaaaaa; }
+.dino-border-all { border: 1px solid #aaa; }
+.dino-border-bottom { border-bottom: 1px solid #aaa; }
+.dino-border-top { border-top: 1px solid #aaa; }
+.dino-border-left { border-left: 1px solid #aaa; }
+.dino-border-right { border-right: 1px solid #aaa; }
 .dino-border-no-right { border-right: none;}
 .dino-border-no-bottom { border-bottom: none;}
 .dino-border-no-top { border-top: none;}
@@ -1136,7 +1138,8 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-text-editor {
 	outline: none;
 	margin: 0;
-	border: 1px solid #acf;
+	border: 1px solid #8bf;
+	text-align: right;
 }
 
 

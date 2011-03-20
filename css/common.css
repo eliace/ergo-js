@@ -242,6 +242,30 @@ p {
 
 
 
+/*
+ * COMBO FIELD
+ */
+
+.dino-combofield {
+	display: inline-block;
+	line-height: 1px;
+	background-color: #fff;
+	padding: 1px;
+}
+
+.dino-combofield > * {
+	display: inline-block !important;
+	vertical-align: middle;		
+}
+
+.dino-combofield > input {
+	padding: 0;
+	outline: none;
+	margin: 0;
+	border: none;
+}
+
+
 
 /*
 .dino-growl-box {

@@ -53,18 +53,13 @@ $.dino({
     }
   }, {
     label: 'Поле с кнопкой 2:',
-    dtype: 'box',
-    cls: 'tb2',
+    dtype: 'combofield',
+		cls: 'dino-border-all',
     dataId: 'text2',
-    layout: 'dock-layout',
     components: {
-      input: {
-        dtype: 'textfield'
-      },
       button: {
         dtype: 'icon',
-        cls: 'led-icon-calendar_1 dino-clickable',
-        dock: 'right'
+        cls: 'led-icon-calendar_1 dino-clickable'
       }
     }
   }, {
@@ -76,6 +71,7 @@ $.dino({
       input: {
         dtype: 'textfield',
         cls: 'tb-text dino-border-all dino-corner-left dino-border-no-right',
+				readOnly: true,
         binding: false
       },
       button: {
@@ -91,14 +87,6 @@ $.dino({
           dd.el.width(this.parent.input.el.width());
           dd.show(0, this.parent.el.height());
           
-          var glassPanel = $('<div class="glass-panel"></div>')
-          
-          glassPanel.bind('click', function(){
-            dd.hide();
-            glassPanel.remove();
-          });          
-          
-          $('body').append(glassPanel);
         }
       },
       dropdown: {
@@ -114,81 +102,68 @@ $.dino({
           state: 'clickable',
           onClick: function() {
             this.parent.hide();
-            $('.glass-panel').remove();
             this.parent.parent.input.el.val(this.data.val());
           }
         }
-//        onShow: function() {
-//        }
       }
     }
   }, {
-		dtype: 'box',
-		style: {'display': 'inline'},
-		layout: {
-			dtype: 'dock-layout',
-			updateMode: 'auto'
-		},
-		items: [{
-			dtype: 'textfield',
-			cls: 'dino-border-all dino-border-no-right dino-corner-left',
-			style: {'font-size': '14px', 'padding': '3px 0', 'outline': 'none'}
-		}, {
-			dock: 'right-center',
-			dtype: 'box',
-			defaultItem: {
-				style: {'display': 'block'},
-				cls: 'dino-border-all',
-				height: 12,
-				width: 12
-			},
-			items: [{
-				dtype: 'button',
-				cls: 'led-icon led-icon-cog dino-corner-right-top'
-			}, {
-				dtype: 'button',
-				cls: 'led-icon led-icon-cog dino-corner-right-bottom'
-			}]
-		}]
+		dtype: 'combofield',
+		cls: 'dino-border-all dino-corner-all',
+		style: {'padding': 0},
+		components: {
+			buttons: {
+				dtype: 'box',
+				cls: 'dino-border-left dino-bg-highlight dino-corner-right',
+				defaultItem: {
+					style: {'display': 'block'},
+					cls: 'dino-border-none',
+					height: 10,
+					width: 20
+				},
+				items: [{
+					dtype: 'button',
+					cls: 'dino-icon-up dino-corner-right-top'
+				}, {
+					dtype: 'button',
+					cls: 'dino-icon-down dino-corner-right-bottom'
+				}]				
+			}
+		}
 	}, {
-		dtype: 'box',
+		dtype: 'combofield',
 		dataId: 'number',
-		style: {'display': 'inline', 'font-size': '14px'},
 		cls: 'dino-border-all',
-		layout: {
-			dtype: 'dock-layout',
-			updateMode: 'auto'
-		},
-		items: [{
-			dtype: 'textfield',
-			cls: 'dino-border-none',
-			style: {'font-size': '14px', 'margin': 0, 'outline': 'none'},
-			updateOnValueChange: true
-		}, {
-			dock: 'right-center',
-			dtype: 'box',
-			defaultItem: {
-				style: {'display': 'block'},
-				cls: 'dino-border-all dino-clickable',
-				height: 8,
-				width: 16,
-				onAction: function() {
-					if(this.tag == 'up')
-						this.data.set(this.data.get()+1);
-					else if(this.tag == 'down')
-						this.data.set(this.data.get()-1);
-				}
+		components: {
+			input: {
+				updateOnValueChange: true
 			},
-			items: [{
-				dtype: 'button',
-				cls: 'dino-icon-up',
-				tag: 'up'
-			}, {
-				dtype: 'button',
-				cls: 'dino-icon-down',
-				tag: 'down'
-			}]
-		}]
+			buttons: {
+				dtype: 'box',
+				cls: 'dino-bg-highlight',
+				defaultItem: {
+					style: {'display': 'block'},
+					cls: 'dino-border-all dino-clickable',
+					height: 8,
+					width: 16,
+					onAction: function() {
+						if(this.tag == 'up')
+							this.data.set(this.data.get()+1);
+						else if(this.tag == 'down')
+							this.data.set(this.data.get()-1);
+					}
+				},
+				items: [{
+					dtype: 'button',
+					cls: 'dino-icon-up',
+					tag: 'up'
+				}, {
+					dtype: 'button',
+					cls: 'dino-icon-down',
+					tag: 'down'
+				}]				
+			}
+		}
 	}
   ]
 });      

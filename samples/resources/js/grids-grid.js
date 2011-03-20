@@ -58,10 +58,11 @@ var grid = $.dino({
     }, {
       dataId: 'currency',
       header: 'Цена',
-      format: function(v) { return "$"+v.toFixed(2); }
+      format: Dino.format_currency.rcurry('$')
     }, {
       dataId: 'date',
-      header: 'Дата'
+      header: 'Дата',
+//			format: Dino.format_date
     }]
   },
   data: gridData,
