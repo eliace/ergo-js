@@ -655,6 +655,7 @@ var Dino = (function(){
 	 * @param {Object} obj объект
 	 */
 	D.format_obj = function(format_str, obj) {
+		if(obj === undefined) return '';
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
 			var arr = key.split('.');

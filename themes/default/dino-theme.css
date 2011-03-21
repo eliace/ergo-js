@@ -82,6 +82,7 @@
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
 
 .dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
+.dino-icon-search { background-image: url(img/search.png); }
 
 .dino-icon-messagebox-critical { background-image: url(img/messagebox_critical.png); }
 .dino-icon-messagebox-info { background-image: url(img/messagebox_info.png); }
@@ -1138,6 +1139,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-text-editor {
 	outline: none;
 	margin: 0;
+	padding: 0;
 	border: 1px solid #8bf;
 	text-align: right;
 }

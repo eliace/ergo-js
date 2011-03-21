@@ -250,7 +250,7 @@ p {
 	display: inline-block;
 	line-height: 1px;
 	background-color: #fff;
-	padding: 1px;
+/*	padding: 1px;*/
 }
 
 .dino-combofield > * {
