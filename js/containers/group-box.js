@@ -14,13 +14,13 @@ Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Contai
 		components: {
 			groupTitle: {
 				dtype: 'container',
-				html: '<span></span>',
-				cls: 'dino-group-title dino-panel'
+				html: '<legend/>',
+				cls: 'dino-group-title'// dino-panel'
 			}
 		}
 	},
 	
-	$html: function() { return '<div></div>'; },
+	$html: function() { return '<fieldset/>'; },
 	
 	$opt: function(o) {
 		Dino.containers.GroupBox.superclass.$opt.apply(this, arguments);

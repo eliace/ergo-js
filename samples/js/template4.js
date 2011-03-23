@@ -296,7 +296,7 @@ $(document).ready(function(){
 						tag: 'code',
 						region: 'south',
 //						cls: 'dino-border-all',
-						style: {'height': 300},
+						style: {'height': 200},
 //						height: 200,
 						content: {
 							dtype: 'panel',
@@ -323,12 +323,14 @@ $(document).ready(function(){
 							              if(panel.content) {
 															if( this.content.states.is('exp_col') ) {
 																southRegionH = panel.parent.el.height();
-																var h = panel.header.el.outerHeight(true);//southRegionH - panel.content.el.outerHeight(true);
+																var h = panel.header.el.outerHeight(true);
 																panel.parent.el.css('height', h);
+																this.getParent('preview_and_code').layout.lock('south');
 															}
 															else {
 																var h = southRegionH;
 																panel.parent.el.css('height', h);
+																this.getParent('preview_and_code').layout.unlock('south');
 															}
 							                panel.content.states.toggle('hidden');
 															panel.parent.parent.$layoutChanged();

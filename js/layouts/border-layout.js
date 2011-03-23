@@ -5,7 +5,6 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 	
 	defaultOptions: {
 		name: 'border'
-//		html: '<div class="center-wrapper" style="position: absolute; left: 0; right: 0; bottom: 0; top: 0;"></div>'
 	},
 	
 	initialize: function(o){
@@ -22,6 +21,8 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 		var activeRegion = '';
 		var metrics = {'west': 'width', 'east': 'width', 'north': 'height', 'south': 'height'};
 		var splitPane = null;
+		
+		this.locked = [];
 
 		var adjust_regions = function() {
 			var region = activeRegion;
@@ -77,8 +78,13 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 
 
 		this.handlers.split_mousedown = function(e) {
-			activeSplit = $(this);//e.data.splitter;
-			activeRegion = activeSplit.attr('region').split('-')[0];
+			var region_el = $(this);//e.data.splitter;
+			activeRegion = region_el.attr('region').split('-')[0];
+			
+			// если регион заблокирован, то начинать перемещение нельзя
+			if(activeRegion in self.locked) return;			
+			
+			activeSplit = region_el;
 			activeSplitSize = (metrics[activeRegion] == 'width') ? activeSplit.width() : activeSplit.height();
 			activeSplit.addClass('active');
 			$('.split-pane').remove();
@@ -222,6 +228,15 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 			
 		}		
 		
+	},
+	
+	
+	lock: function(region) {
+		this.locked[region] = true;
+	},
+	
+	unlock: function(region) {
+		delete this.locked[region];		
 	}
 	
 	
