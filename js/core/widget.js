@@ -688,10 +688,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		this.data.events.reg('onValueChanged', function() { 
 			if(self.options.updateOnValueChange) self.$dataChanged();
 //			console.log(self.data.val());
-			// связываем данные с дочерними компонентами виджета
-			self.children.each(function(child){
-				if(child.dataPhase != 1) child.$bind(self.data, 2);
-			});
+//			// связываем данные с дочерними компонентами виджета
+//			self.children.each(function(child){
+//				if(child.dataPhase != 1) child.$bind(self.data, 2);
+//			});
 		}, this);
 		
 		//FIXME пока непонятный механизм для обработки события onDirty

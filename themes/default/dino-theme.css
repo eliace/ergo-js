@@ -246,7 +246,7 @@
 
 
 .dino-textfield {
-	background-color: #fff;
+/*	background-color: #fff;*/ /* Эта строчка убирает стилизацию браузера */
 	padding: 0 2px;
 }
 

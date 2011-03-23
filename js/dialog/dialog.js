@@ -97,7 +97,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 	},
 	
 	
-	open: function(){
+	open: function(resultCallback){
 		
 		this.events.fire('onBeforeOpen');
 
@@ -108,16 +108,19 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 			self.events.fire('onOpen');
 		});
 		this.dialogButton = null;
+		this.resultCallback = resultCallback;
 	},
 	
 	close: function() {
 		var e = new Dino.events.CancelEvent();
+		e.button = this.dialogButton;
 		
 		this.events.fire('onClose', e);
 		
 		if(!e.isCanceled) {
 			this.el.hide();
 			if(this.options.destroyOnClose) this.destroy();
+			if(this.dialogResult && this.resultCallback) this.resultCallback.call(this, this.dialogResult);
 		}
 	}
 	
