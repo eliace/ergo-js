@@ -20,6 +20,7 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 		if(this.container instanceof Dino.Layout)
 			this.container.insert(item);
 		else {
+//			Dino.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 			if(this.container.el.parents().is('body')) item.$afterRender();
 		}
 		
@@ -28,13 +29,16 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 //		this.items.push(item);
 	},
 	
-	remove: function(item) {
-		Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
+	remove: function(item) {		
+		Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
 		if(this.container instanceof Dino.Layout) {
 			this.container.remove(item);
 		}
+//		else {
+//			Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
+//		}
 		
 //		Dino.remove_from_array(this.items, item)
 		
@@ -43,15 +47,13 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 //		console.log('item removed from layout');
 	},
 	
-//	clear: function() {
-//		Dino.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
-//		//TODO здесь интересный вопрос - в принципе нужно запоминать свои элементы и удалять только их
-//		this.container.el.empty();
-//		Dino.each(this.items, function(item){
-//			item.el.detach();
-//		})
-//		this.items = [];
-//	},
+	clear: function() {
+//		var self = this;
+		if(this.container instanceof Dino.Layout) {
+			while(this.items.length > 0) this.remove(this.items[0]);
+		}
+		Dino.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
+	},
 	
 	
 	rebuild: function() {

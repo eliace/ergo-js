@@ -109,6 +109,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 		});
 		this.dialogButton = null;
 		this.resultCallback = resultCallback;
+		this.dialogResult = null;
 	},
 	
 	close: function() {

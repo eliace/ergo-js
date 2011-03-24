@@ -32,9 +32,11 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 		
 		$(window).resize(function(){
 			
-			var h = $(window).height();
 			var dh = $('body').outerHeight(true) - $('body').height();
+			$('body').hide();
+			var h = $(window).height();			
 			$('body').height(h - dh);
+			$('body').show();
 			
 			self.root.$layoutChanged();
 		});	

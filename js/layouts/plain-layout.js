@@ -40,6 +40,10 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 		if(this.container.options.height == 'auto'){
 			
 			this.el.height(0);
+//			if(!this.el.is(":visible")) return;
+			
+//			this.el.hide();
+			
 			var dh = 0;
 			var h = 0;
 			this.el.parents().each(function(i, el){
@@ -69,6 +73,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			
 //			dh -= this.el.height()
 			this.el.height(h - dh);
+
+//			this.el.show();
 			
 		}
 	}
