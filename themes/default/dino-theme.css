@@ -48,6 +48,11 @@
 	background-position: 50% 50%;
 }
 
+.icon16 .dino-icon, .icon16.dino-icon {
+	width: 16px;
+	height: 16px;
+}
+
 .icon24 .dino-icon, .icon24.dino-icon {
 	width: 24px;
 	height: 24px;
@@ -70,10 +75,12 @@
 */
 .dino-icon[dock$=center]  {	margin-top: -8px; }
 .dino-icon[dock^=center] { 	margin-left: -8px; }
-.dino-icon.icon24[dock$=center]  {	margin-top: -12px; }
-.dino-icon.icon24[dock^=center] { 	margin-left: -12px; }
-.dino-icon.icon32[dock$=center]  {	margin-top: -16px; }
-.dino-icon.icon32[dock^=center] { 	margin-left: -16px; }
+.icon16 .dino-icon[dock$=center], .icon16.dino-icon[dock$=center]  {	margin-top: -8px; }
+.icon16 .dino-icon[dock^=center], .icon16.dino-icon[dock^=center]  {	margin-left: -8px; }
+.icon24 .dino-icon[dock$=center], .icon24.dino-icon[dock$=center]  {	margin-top: -12px; }
+.icon24 .dino-icon[dock^=center], .icon24.dino-icon[dock^=center]  {	margin-left: -12px; }
+.icon32 .dino-icon[dock$=center], .icon32.dino-icon[dock$=center]  {	margin-top: -16px; }
+.icon32 .dino-icon[dock^=center], .icon32.dino-icon[dock^=center]  {	margin-left: -16px; }
 
 
 .dino-icon-close { background-image: url(img/led/cross.png); }

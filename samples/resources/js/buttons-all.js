@@ -54,5 +54,34 @@ $.dino({
     contentCls: 'icon48 icon-01',
 //    icon: 'icon-01'//'led-icon-refresh'
 //    }
-  }]
+  }, {
+		dtype: 'button',
+		components: {
+			icon: {
+				weight: 1,
+				dtype: 'icon',
+				cls: 'icon48 icon-01'
+			},
+			text: {
+				weight: 2,
+				dtype: 'text',
+				text: 'Add user'
+			}
+		}
+	}, {
+		dtype: 'button',
+		components: {
+			icon: {
+				weight: 1,
+				dtype: 'icon',
+				cls: 'icon48 icon-03',
+				style: {'display': 'inline-block', 'vertical-align': 'middle'}
+			},
+			text: {
+				weight: 2,
+				dtype: 'text',
+				text: 'Chat'
+			}
+		}
+	}]
 });

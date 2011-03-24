@@ -59,6 +59,11 @@ $.dino({
     dtype: 'text-button',
     xicon: 'ui-icon ui-icon-triangle-1-s',
     icon: 'led-icon-cog',
-    text: false
+    text: false,
+		content: {
+			content: {
+				style: {'padding-right': 10}
+			}
+		}
   }]            
 });

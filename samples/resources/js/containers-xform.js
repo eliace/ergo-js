@@ -108,6 +108,7 @@ $.dino({
       }
     }
   }, {
+		label: 'Счетчик',
 		dtype: 'combofield',
 		cls: 'dino-border-all dino-corner-all',
 		style: {'padding': 0},
@@ -131,6 +132,7 @@ $.dino({
 			}
 		}
 	}, {
+		label: 'Счетчик 2',
 		dtype: 'combofield',
 		dataId: 'number',
 		cls: 'dino-border-all',
