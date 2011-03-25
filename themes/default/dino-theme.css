@@ -494,6 +494,20 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	background-color: #ddd;	
 }
 
+.dino-icon-button.disabled:hover {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+.dino-icon-button.disabled > * {
+	opacity: .3;
+}
+
+.dino-icon-button.disabled.clicked {
+	background-color: #eee;
+}
+
+
 
 
 /*
