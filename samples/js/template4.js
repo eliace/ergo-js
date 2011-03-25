@@ -255,7 +255,7 @@ $(document).ready(function(){
 													// включаем подсветку кода
 													sh_highlightDocument();																									
 												});												
-											});
+											}, 'text');
 										}
 									}
 								},
