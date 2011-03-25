@@ -1,11 +1,4 @@
 
-.dino-text-editor {
-	border: 1px solid #cef;
-	outline: none;
-	padding: 0;
-	margin: 0;
-}
-
 .dino-grid-row {
-	height: 20px;
+	height: 21px;
 }

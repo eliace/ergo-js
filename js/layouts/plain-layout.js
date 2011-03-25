@@ -39,10 +39,10 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	update: function() {
 		if(this.container.options.height == 'auto'){
 			
-			this.el.height(0);
-//			if(!this.el.is(":visible")) return;
+//			this.el.height(0);
+			if(!this.el.is(":visible")) return;
 			
-//			this.el.hide();
+			this.el.hide();
 			
 			var dh = 0;
 			var h = 0;
@@ -74,9 +74,34 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 //			dh -= this.el.height()
 			this.el.height(h - dh);
 
-//			this.el.show();
+			this.el.show();
 			
 		}
+		
+		if(this.container.options.autoFit){
+			var dw = this.el.outerWidth() - this.el.width();
+			var dh = this.el.outerHeight() - this.el.height();
+			
+			this.el.hide();
+			
+			var h = 0;
+			var w = 0;
+			this.el.parents().each(function(i, el){
+				if(!h) h = $(el).height();
+				if(!w) w = $(el).width();
+				if(w && h) return false;
+			});
+			
+			this.el.siblings().each(function(i, el){
+				w -= $(el).outerWidth();
+			});
+
+			this.el.width(w - dw);
+			this.el.height(h - dh);		
+
+			this.el.show();			
+		}
+
 	}
 		
 }, 'plain-layout');

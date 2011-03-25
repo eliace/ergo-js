@@ -52,7 +52,7 @@ var widget = $.dino({
           else if(this.tag == 'save') {
             
             var s = [];
-						updateBuffer.flush(function(val, action){
+			updateBuffer.flush(function(val, action){
               s.push('<div><span>'+val.string+'</span><span class="update-status '+action+'">'+action+'</span></div>');
             });
             growl.info(s.join(''), true);
@@ -95,9 +95,16 @@ var widget = $.dino({
             }
           },
           extensions: [Dino.Editable],
-          onEdit: function() {
+          onEdit: function(e) {
             var val = this.getRow().data.val();
             updateBuffer.upd(val);
+            if(e.reason == 'enterKey') {
+            	var nextCol = this.getRow().getColumn(this.index+1);
+            	if(nextCol && !nextCol.options.noEdit) nextCol.startEdit();
+            }
+          },
+          editor: {
+        	  style: {'font-size': '9pt'}
           }
         },
         row: {

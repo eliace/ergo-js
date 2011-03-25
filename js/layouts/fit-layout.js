@@ -8,9 +8,6 @@ Dino.declare('Dino.layouts.FitLayout', 'Dino.layouts.PlainLayout', {
 		var dw = this.el.outerWidth() - this.el.width();
 		var dh = this.el.outerHeight() - this.el.height();
 		
-		
-//		this.el.height(0);
-//		this.el.width(0);
 		this.el.hide();
 		
 		var h = 0;

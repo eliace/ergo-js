@@ -31,7 +31,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		
 		if(o.changeOnBlur) 
 			this.el.blur(function() { 
-				self.setValue(self.el.val()); 
+				self.setValue(self.el.val(), 'blur'); 
 			});
 		
 		if(o.rawValueOnFocus){
@@ -46,7 +46,7 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 
 		this.el.keydown(function(e) {
 			if(e.keyCode == 13) 
-				self.setValue( self.el.val());
+				self.setValue( self.el.val(), 'enterKey');
 			else if(e.keyCode == 27) 
 				self.el.val(self.getValue());
 //			self.setValue( self.el.val());
@@ -368,5 +368,57 @@ Dino.declare('Dino.widgets.form.Select', 'Dino.Container', /** @lends Dino.widge
 	
 }, 'select');
 
+
+
+
+
+Dino.declare('Dino.widgets.Checkbox', 'Dino.containers.Box', {
+	
+	$init: function(){
+		Dino.widgets.Checkbox.superclass.$init.apply(this, arguments);
+		
+		this.checkbox = new Dino.widgets.form.Checkbox();
+		this.addItem(this.checkbox);
+		
+		this.label = new Dino.widgets.form.Label();
+		this.addItem(this.label);		
+	},
+	
+	$opt: function(o){
+		Dino.widgets.Checkbox.superclass.$opt.apply(this, arguments);
+		
+		if('text' in o) this.label.el.text(o.text);
+	}
+	
+	
+}, 'advanced-checkbox');
+
+
+
+
+Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
+	
+	$html: function(){ return '<span/>';},
+	
+	
+	$opt: function(o) {
+		Dino.widgets.Text.superclass.$opt.apply(this, arguments);
+		
+		if('text' in o) {
+			(o.text) ? this.el.text(o.text) : this.el.html('&nbsp;');
+		}
+	},
+	
+	$dataChanged: function() {
+		Dino.widgets.Text.superclass.$dataChanged.apply(this, arguments);
+		this.el.text( this.getValue() );
+//		this.states.set( this.getStateValue() );
+	},
+	
+	getText: function() {
+		return this.el.text();
+	}
+		
+}, 'text');
 
 

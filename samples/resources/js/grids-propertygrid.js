@@ -70,7 +70,7 @@ var propertyGrid = $.dino({
 //						options: val.value_list,
 						components: {
 							input: {
-								layout: 'fit-layout'
+								autoFit: true
 							},
 							button: {
 								dtype: 'button',

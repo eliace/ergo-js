@@ -7,14 +7,11 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
 	
 	defaultOptions: {
 		cls: 'dino-combofield',
-    components: {
-      input: {
-        dtype: 'textfield'
-      }
-//      assist: {
-//        dtype: 'button'
-//      }
-    }		
+	    components: {
+	      input: {
+	        dtype: 'textfield'
+	      }
+	    }		
 	}
 	
 }, 'combofield');

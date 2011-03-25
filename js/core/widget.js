@@ -739,7 +739,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * 
 	 * @param {Any} val значение
 	 */
-	setValue: function(val) {
+	setValue: function(val, reason) {
 		if(this.data){
 			if('store_format' in this.options) 
 				val = this.options.store_format.call(this, val);
@@ -762,7 +762,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			
 			if(valid) {
 				this.data.set(val);
-				this.events.fire('onValueChanged', {'value': val});				
+				this.events.fire('onValueChanged', {'value': val, 'reason': reason});				
 			}
 			else {
 				context.value = val;
