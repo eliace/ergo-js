@@ -56,7 +56,8 @@ Dino.widgets.GrowlBox = Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.B
 			o.components.content.components.messageIcon = {
 				dtype: 'icon',
 				cls: 'icon32 dino-center-align ' + o.icon,
-				width: 50				
+				style: {'margin': '0 10px'}
+//				width: 50
 			}
 		}
 		
