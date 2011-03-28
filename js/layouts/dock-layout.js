@@ -17,10 +17,12 @@ Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.D
 		var el = item.el;
 		
 		if('dock' in item.options){
-			var dock_a = item.options.dock.split('-');
-			if(dock_a.length == 1) dock_a.push('center');
-			
-			el.attr('dock', dock_a.join('-'));
+			if(item.options.dock) {
+				var dock_a = item.options.dock.split('-');
+				if(dock_a.length == 1) dock_a.push('center');
+				
+				el.attr('dock', dock_a.join('-'));				
+			}
 //			el.addClass('dock-'+dock_a.join('-'));
 			this.container.el.append(el);
 		}

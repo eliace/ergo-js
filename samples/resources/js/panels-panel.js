@@ -6,31 +6,21 @@ $.dino({
   cls: 'dino-panel-shadow dino-border-all',
   style: {'margin': '8px'},
 // buttons: ['close', 'minimize', 'maximize'],
+	onHeaderButton: function(e) {
+    if(e.button == 'collapse') {
+//      var content = this.getParent(Dino.widgets.Panel).content;
+      if(this.content) {
+        this.content.states.toggle('hidden');
+        this.header.buttons.getItem(e.button).content.states.toggle('exp_col');									
+      }
+    }		
+	},
   components: {
     header: {
-      layout: {
-        dtype: 'dock-layout',
-        updateMode: 'auto'
-      },
       components: {
         buttons: {
-	        dtype: 'box',
-	        dock: 'right',
-	        layout: 'float-layout',
-					style: {'margin-right': '3px'},
 	        defaultItem: {
-	          dtype: 'icon-button',
-	          cls: 'dino-header-button dino-corner-all',
 	          contentCls: 'dino-icon-dialog',
-	          onAction: function(){
-	            if(this.tag == 'collapse') {
-	              var content = this.getParent(Dino.widgets.Panel).content;
-	              if(content) {
-	                content.states.toggle('hidden');
-		              this.content.states.toggle('exp_col');									
-	              }
-	            }
-	          }
 	        },
 	        items: [{
 	          icon: 'exp_col',

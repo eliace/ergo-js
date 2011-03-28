@@ -9,8 +9,11 @@ var dlg = $.dino({
     width: 400,
     innerText: Samples.loremipsum
   },
-  buttons: ['ok']
-  
+  buttons: ['ok'],
+	headerButtons: ['minimize', 'maximize', 'close'],
+	onHeaderButton: function(e) {
+		if(e.button == 'close') this.close();
+	}
 });  
 
 $.dino({
