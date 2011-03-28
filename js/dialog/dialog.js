@@ -4,27 +4,13 @@
  * @class
  * @extends Dino.containers.Box
  */
-Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box', /** @lends Dino.widgets.Dialog.prototype */{
+Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', /** @lends Dino.widgets.Dialog.prototype */{
 	
 	defaultOptions: {
 		baseCls: 'dino-dialog',
 		layout: 'window-layout',
 		renderTo: 'body',
 		components: {
-			header: {
-				weight: 1,
-				dtype: 'box',
-				components: {
-					title: {
-						dtype: 'text-item',
-						selectable: false
-					}
-				}
-			},
-			content: {
-				weight: 2,
-				dtype: 'box'
-			},
 			buttons: {
 				weight: 3,
 				dtype: 'box',
@@ -46,6 +32,11 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 			'cancel': {text: 'Отмена', tag: 'cancel'},
 			'save': {text: 'Сохранить', tag: 'save'}
 		},
+		headerButtonSet: {
+			'close': {icon: 'dino-icon-dialog-close', tag: 'close'},
+			'minimize': {icon: 'dino-icon-dialog-minimize', tag: 'minimize'},
+			'maximize': {icon: 'dino-icon-dialog-maximize', tag: 'maximize'}
+		},		
 		closeOnOverlayClick: false,
 		closeOnEsc: false
 	},
@@ -80,7 +71,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.containers.Box',
 	$opt: function(o) {
 		Dino.widgets.Dialog.superclass.$opt.apply(this, arguments);
 		
-		if('title' in o) this.header.title.opt('text', o.title);
+		if('title' in o) this.header.opt('title', o.title);
 	
 //		if('buttonsAlign' in o) this.buttons.states.set_only(o.buttonsAlign);
 		if('buttons' in o) {

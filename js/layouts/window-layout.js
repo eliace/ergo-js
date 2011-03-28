@@ -24,6 +24,9 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		this.el = $('.dino-window-content', this.window_el);
 						
 		this.container.el.append(this.overlay_el).append(this.window_el);
+
+//		this.overlay_el.click(function(e){ e.stopPropagation(); });
+		this.overlay_el.mousedown(function(e){ e.preventDefault(); return false; });
 		
 	},
 	

@@ -60,13 +60,14 @@ body input {
 
 
 
-
+/*
 .dino-header-button {
 	padding: 0;
 	border: 1px solid transparent;
 	margin-right: 3px;
 	background-color: transparent;
 }
+*/
 
 .dino-header-button:hover {
 	border: 1px solid #aaa;
