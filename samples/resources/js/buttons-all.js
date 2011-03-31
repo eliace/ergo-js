@@ -11,12 +11,12 @@ $.dino({
     // iconL
     dtype: 'text-button',
     icon: 'led-icon-accept',
-    text: false
+//    text: false
   }, {
     // iconR
     dtype: 'text-button',
     xicon: 'led-icon-cancel',
-    text: false
+//    text: false
   }, {
     // iconL text iconR
     dtype: 'text-button',
@@ -42,7 +42,7 @@ $.dino({
     dtype: 'text-button',
     icon: 'led-icon-accept',
     xicon: 'led-icon-cancel',
-    text: false
+//    text: false
   }/*, {
     dtype: 'icon-button',
     icon: 'led-icon-cog'
@@ -51,37 +51,19 @@ $.dino({
 //    content: {
     dtype: 'icon-button',
     cls: 'dino-corner-all',
-    contentCls: 'icon48 icon-01',
+    contentCls: 'icon48 icon-02',
 //    icon: 'icon-01'//'led-icon-refresh'
 //    }
   }, {
-		dtype: 'button',
-		components: {
-			icon: {
-				weight: 1,
-				dtype: 'icon',
-				cls: 'icon48 icon-01'
-			},
-			text: {
-				weight: 2,
-				dtype: 'text',
-				text: 'Add user'
-			}
-		}
+		dtype: 'text-button',
+		layout: 'plain-layout',
+		cls: 'icon48',
+		icon: 'icon-01',
+		text: 'Back'
 	}, {
-		dtype: 'button',
-		components: {
-			icon: {
-				weight: 1,
-				dtype: 'icon',
-				cls: 'icon48 icon-03',
-				style: {'display': 'inline-block', 'vertical-align': 'middle'}
-			},
-			text: {
-				weight: 2,
-				dtype: 'text',
-				text: 'Chat'
-			}
-		}
+		dtype: 'text-button',
+		text: 'Chat',
+		cls: 'icon48',
+		xicon: 'icon-03'
 	}]
 });

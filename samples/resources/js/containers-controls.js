@@ -27,7 +27,7 @@ $.dino({
       }, {
         dtype: 'text-button',
         icon: 'led-icon-delete',
-        text: false
+//        text: false
       }, {
         dtype: 'text-button',
         text: 'Button 3'

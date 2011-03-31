@@ -250,9 +250,24 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	
 	defaultOptions: {
 		cls: 'dino-text-button',
-		layout: 'dock-layout',
-		content: {
-			dtype: 'text-item'
+//		layout: 'dock-layout',
+//		content: {
+//			dtype: 'text-item'
+//		},
+		layout: 'hbox-layout',
+		components: {
+			icon: {
+				dtype: 'icon',
+				state: 'hidden'
+			},
+			content: {
+				dtype: 'text',
+				state: 'hidden'
+			},
+			xicon: {
+				dtype: 'icon',
+				state: 'hidden'
+			}
 		},
 		text: ''
 	},
@@ -261,74 +276,36 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	$init: function(o) {
 		Dino.widgets.TextButton.superclass.$init.apply(this, arguments);
 		
-		Dino.utils.overrideOpts(o.components.content, {
-			icon: o.icon,
-			text: o.text,
-			xicon: o.xicon
-		});
+//		Dino.utils.overrideOpts(o.components.content, {
+//			icon: o.icon,
+//			text: o.text,
+//			xicon: o.xicon
+//		});
 		
 	},
 	
 	$opt: function(o) {
 		Dino.widgets.TextButton.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) this.content.opt('text', o.text);
+		if('text' in o) {
+			this.content.opt('text', o.text);
+			this.content.states.toggle('hidden', !o.text);
+		}
 		if('icon' in o) {
-			this.content.opt('icon', o.icon);
-//			if(o.icon)
-//				this.content.leftIcon.states.set(o.icon);
+			this.icon.states.setOnly(o.icon);
+			this.icon.states.toggle('hidden', !o.icon);
+//			this.content.opt('icon', o.icon);
 		}
 		if('xicon' in o) {
-			this.content.opt('xicon', o.xicon);
-//			if(o.xicon)
-//				this.content.rightIcon.states.set(o.xicon);
+			this.xicon.states.setOnly(o.xicon);
+			this.xicon.states.toggle('hidden', !o.xicon);
+//			this.content.opt('xicon', o.xicon);
 		}
 	}
 	
 	
 }, 'text-button');
 
-
-
-
-/**
- * @class
- * @extends Dino.widgets.Button
- */
-//Dino.widgets.IconButton = Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', /** @lends Dino.widgets.IconButton.prototype */{
-/*	
-	defaultOptions: {
-		content: {
-			dtype: 'box',
-			wrapEl: '<span></span>',
-			layout: 'dock-layout',
-			components: {
-				icon: {
-					dtype: 'icon',
-					cls: 'dino-button-icon',
-					dock: 'center'
-				},
-				content: {
-					dtype: 'text',
-					innerHtml: '&nbsp;'
-				}
-			}
-		}
-	},
-	
-	
-	$opt: function(o) {
-		Dino.widgets.IconButton.superclass.$opt.apply(this, arguments);
-		
-		if('icon' in o) {
-			this.content.icon.states.setOnly(o.icon);
-		}
-	}
-	
-	
-	
-}, 'icon-button');
-*/
 
 
 

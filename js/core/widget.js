@@ -414,8 +414,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		if('opacity' in o){
 			if($.support.opacity) 
 				el.css('opacity', o.opacity);
-			else 
-				el.css('filter', 'Alpha(opacity:' + (o.opacity/100.0) + ')');
+			else {
+				el.css('filter', 'Alpha(opacity:' + (o.opacity*100.0) + ')');
+				el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
+			}
 		}
 
 		profiler.tick('opt', 'ifs');

@@ -44,7 +44,7 @@
 .dino-icon {
 	width: 16px;
 	height: 16px;
-	display: block;
+/*	display: block;*/
 	background-position: 50% 50%;
 }
 
@@ -449,7 +449,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 }
 
 .dino-icon-button:hover {
-	border: 1px solid #ccc;	
+	border-color: #ccc;	
 	background-color: #e8e8e8;	
 }
 
@@ -492,6 +492,10 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 /*
  * TEXT BUTTON
  */
+
+.dino-text-button > span {
+	padding: 0 3px;
+}
 
 
 /*
@@ -1206,6 +1210,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	border: 1px solid #68f;
 	text-align: right;
 }
+
 
 
 

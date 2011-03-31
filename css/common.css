@@ -16,6 +16,12 @@
 	font-size: 0;
 }
 
+/* button padding fix for FF */
+button::-moz-focus-inner { 
+	border: 0;
+	padding: 0;
+}
+
 
 .dino-hidden {
 	display: none !important;
@@ -253,10 +259,12 @@ p {
 /*	padding: 1px;*/
 }
 
+/*
 .dino-combofield > * {
 	display: inline-block !important;
 	vertical-align: middle;		
 }
+*/
 
 .dino-combofield > input {
 	padding: 0;

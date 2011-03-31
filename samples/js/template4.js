@@ -242,7 +242,7 @@ $(document).ready(function(){
 											preview.el.empty();
 											var jsPage = $('.js-page').dino();
 											var cssPage = $('.css-page').dino();
-																						
+											
 											$.get('resources/css/'+path+'.css', function(css){
 												
 												preview.el.append('<style>'+css+'</style>');
