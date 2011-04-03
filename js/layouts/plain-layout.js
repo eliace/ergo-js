@@ -78,6 +78,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			
 		}
 		
+		// AUTO FIT
 		if(this.container.options.autoFit){
 			var dw = this.el.outerWidth() - this.el.width();
 			var dh = this.el.outerHeight() - this.el.height();
@@ -92,8 +93,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 				if(w && h) return false;
 			});
 			
-			this.el.siblings().each(function(i, el){
-				w -= $(el).outerWidth();
+			this.el.siblings().not(':hidden').each(function(i, el){
+				w -= $(el).outerWidth(true);
 			});
 
 			this.el.width(w - dw);

@@ -66,23 +66,30 @@ var propertyGrid = $.dino({
 //					});
 
 					this.opt('editor', {
-						dtype: 'combofield',
-//						options: val.value_list,
-						components: {
+				    dtype: 'select-field',
+				    label: 'Поле со списком  (редактор)',
+				    cls: 'dino-border-all',
+				    components: {
+				      button: {
+				        dtype: 'action-icon',
+				        cls: 'ui-icon ui-icon-triangle-1-s dino-clickable',
+								role: 'actor'
+				      },
 							input: {
 								autoFit: true
 							},
-							button: {
-								dtype: 'button',
-								cls: 'dino-border-all dino-icon-down dino-corner-all',
-//								icon: 'led-icon led-icon-cog',
-								width: 16,
-								height: 16
-							}
-						},
-//						events: {
-//							'blur': function(e, w) { w.parent.stopEdit(); }
-//						},
+							dropdown: {
+					      data: [],
+					      cls: 'dino-text-content dino-dropdown-shadow',
+					      defaultItem: {
+					        cls: 'list-item'
+					      },
+								onShow: function() {
+									this.$bind(this.parent.data.source.get('value_list'));
+									this.$dataChanged();
+								}
+							}						
+				    },
 						onValueChanged: function() {
 							if(this.parent) this.parent.stopEdit();
 						}		

@@ -24,7 +24,7 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		  
 		var self = this;
 		// создаем прозрачную панель для перехвата событий
-    this.glass_panel = $('<div class="glass-panel"></div>');
+    this.glass_panel = $('<div class="dino-glass-pane"></div>');
     this.glass_panel.bind('click', function(){
       self.hide();
     });
@@ -84,6 +84,9 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		}
 		
 		this.isShown = false;
+		
+		this.events.fire('onHide');
+		
 //		this.el.remove();
 //		$(this.options.target).remove(this.el);
 	}

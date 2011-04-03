@@ -45,7 +45,7 @@ require 'fileutils'
     'js/widgets/pager.js',
     'js/widgets/loading.js',
     'js/widgets/combo-field.js',
-    'js/widgets/select-box.js',
+    'js/widgets/select-field.js',
     'js/panels/panel.js',
     'js/panels/tab-panel.js',
     'js/form/native.js',

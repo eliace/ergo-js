@@ -1216,11 +1216,47 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 
 
+/*
+ * FORM FIELDS
+ */
+
+.dino-form-field {
+	border: 1px solid #aaa;
+	
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.dino-form-field [role='actor'] {
+	border: none;
+	border-left: 1px solid #aaa;
+	background: #ccc;
+	
+	-moz-border-radius: 0 4px 4px 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.dino-form-field [role='actor']:hover {
+	border-left: 1px solid #aaa;
+	background: #ddd;
+}
 
 
 
+/*
+ * EDITOR FIELDS
+ */
 
+.dino-editor-field {
+	
+}
 
+.dino-editor-field [role='actor'] {
+	border: none;
+	padding: 0;	
+}
 
 
 

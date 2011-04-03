@@ -38,7 +38,10 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			'maximize': {icon: 'dino-icon-dialog-maximize', tag: 'maximize'}
 		},		
 		closeOnOverlayClick: false,
-		closeOnEsc: false
+		closeOnEsc: false,
+		onHeaderButton: function(e) {
+			if(e.button == 'close') this.close();
+		}
 	},
 	
 	

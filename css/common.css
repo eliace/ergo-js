@@ -160,6 +160,7 @@ p {
 .dino-dropdown-box {
 	position: absolute;
 	display: none;
+	z-index: 10001;
 /*
  	background-color: white;
 	padding: 2px 5px;
@@ -273,6 +274,23 @@ p {
 	border: none;
 }
 
+
+
+
+
+.dino-glass-pane {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10000;
+}
+
+
+.dino-select-field {
+	position: relative;
+}
 
 
 /*
