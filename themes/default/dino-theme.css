@@ -757,8 +757,9 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	text-align: center;
 }
 
-.dino-grid-head {
-	background-color: #f0f0f0;
+.dino-grid-header {
+/*	background-color: #f0f0f0;*/
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
 }
 
 .dino-grid-head th {
@@ -769,7 +770,8 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 
 .dino-grid-row {
-	cursor: default;	
+	cursor: default;
+/*	height: 16px;*/	
 }
 
 .dino-grid-row:hover {
@@ -1216,7 +1218,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	padding: 0;
 	border: 1px solid #aaa;
 	text-align: right;
-/*	display: block*/
+	display: block;
 }
 
 .dino-text-editor.focus {
