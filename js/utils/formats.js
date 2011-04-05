@@ -5,6 +5,7 @@ Dino.formats = {}
 
 
 Dino.format_currency = function(val, sign) {
+//	if(Dino.isString(val)) val = parseFloat(val);
 	return sign + val.toFixed(2);
 }
 

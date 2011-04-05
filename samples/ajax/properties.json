@@ -13,10 +13,10 @@
 }, {
 	"name": "Date",
 	"type": "date",
-	"value": "21/02/2011"
+	"value": "2011-02-21"
 }, {
 	"name": "Select",
 	"type": "select",
 	"value": 2,
-	"value_list": ["aaa", "bbb", "ccc", "ddd"]
+	"value_list": ["aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg", "hhh", "iii", "jjj", "kkk", "lll", "mmm", "nnn"]
 }]

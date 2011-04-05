@@ -15,4 +15,4 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
     }		
 	}
 	
-}, 'combofield');
+}, 'combo-field');

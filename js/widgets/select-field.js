@@ -7,45 +7,64 @@ Dino.declare('Dino.widgets.SelectField', 'Dino.widgets.ComboField', {
     components: {
 			input: {
 				updateOnValueChange: true,
-				format: function(val) { return (val === '' || val === undefined) ? '' : this.parent.dropdown.data.get(val); }
+				readOnly: true,
+				format: function(val) { 
+					return (val === '' || val === undefined) ? '' : this.parent.dropdown.data.get(val); 
+				}
 			},
       button: {
         dtype: 'icon-button',
         onAction: function() {
-          
-//          var dd = $.dino(this.parent.options.dropdown);
-          var dd = this.parent.dropdown;
-					$('body').append(dd.el); // <-- временное решение
-//          dd.selectBox = this.parent;
-//					this.parent.dropdownBox = dd;
-										
-          dd.el.width(this.parent.el.width());
-
-					var offset = this.parent.el.offset();
-          dd.show(offset.left, offset.top + this.parent.el.outerHeight());
-//          dd.show(0, this.parent.el.outerHeight());
-          
+					this.parent.showDropdown();
         }
       },
 	    dropdown: {
 	      dtype: 'dropdown-box',
-//				renderTo: 'body',
-	      cls: 'dino-border-all',
-				style: {'display': 'none', 'line-height': 'normal'},
-	      dynamic: true,
-	      defaultItem: {
-	        dtype: 'text-item',
-	        style: {'display': 'block'},
-					events: {
-						'click': function(e, w) {
-	          	w.parent.hide();
-							w.parent.parent.input.setValue(w.data.id);
-						}
+				renderTo: 'body',
+	      cls: 'dino-border-all dino-dropdown-shadow',
+				style: {'display': 'none'},
+				content: {
+					dtype: 'list',
+					defaultItem: {
+						events: {
+							'click': function(e, w) {
+								var dd = w.parent.parent;
+								dd.parent.setValue(w.data.id);
+		          	dd.hide();
+							}
+						}						
 					}
-	      }
+				}
 	    }
 
-    }		
+    },
+		dropdownOnClick: false,
+		dropdownOnFocus: false
+	},
+	
+	
+	
+	$init: function(o) {
+		Dino.widgets.SelectField.superclass.$init.apply(this, arguments);
+		
+		var self = this;
+		
+		if(o.dropdownOnClick) {
+			this.el.click(function(){	self.showDropdown(); });
+		}
+		if(o.dropdownOnFocus) {
+			this.el.focus(function(){	self.showDropdown(); });
+		}
+	},
+	
+	
+	showDropdown: function() {
+    var dd = this.dropdown;
+							
+    dd.el.width(this.el.width());
+
+		var offset = this.el.offset();
+    dd.show(offset.left, offset.top + this.el.outerHeight());	
 	}
 	
 	

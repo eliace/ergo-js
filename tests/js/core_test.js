@@ -33,6 +33,20 @@ test('Dino.ObjectTree', function(){
 
 test('Core', function(){
 	
-		
+	var opts = {
+		component: {
+			a: 1
+		}
+	};
+	
+	Dino.utils.overrideOpts(opts, {component: {b:2}});
+	same(opts, {component:{a:1,b:2}}, 'Component options merged');
+
+	Dino.utils.overrideOpts(opts, {'component!': {c:3}});
+	same(opts, {component:{c:3}}, 'Component options replaced');
+
+	Dino.utils.overrideOpts(opts, {'component': {'c+':5}});
+	same(opts, {component:{c:[3,5]}}, 'Component options concat');
+	
 	
 });

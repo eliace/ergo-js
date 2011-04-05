@@ -3,11 +3,11 @@ var list = $.dino({
   dtype: 'list',
   renderTo: '.preview',
   width: 400,
-  contentHeight: 220,
-  defaultListItem: {
+  height: 220,
+  defaultItem: {
     icon: 'led-icon-user'
   },
-  listItems: [{
+  items: [{
     text: 'Alice',
   }, {
     text: 'Bob'
@@ -21,7 +21,7 @@ var list = $.dino({
     text: 'Fox'
   }, {
     text: 'George'
-  }],
-  editOnDblClick: true
+  }]
+//  editOnDblClick: true
 });  
     

@@ -20,7 +20,8 @@ var sampleTree = [{
 		path: 'containers-form'
 	}, {
 		name: 'Dino forms',
-		path: 'containers-xform'
+		path: 'containers-xform',
+		updated: true
 	}, {
 		name: 'Growl',
 		path: 'containers-growl'
@@ -56,11 +57,10 @@ var sampleTree = [{
 		path: 'grids-group'
 	}, {
 		name: 'Properties',
-		debug: true,
-		path: 'grids-propertygrid'
+		path: 'grids-propertygrid',
+		updated: true
 	}, {
 		name: 'Editable Grid',
-		debug: true,
 		path: 'grids-editable'
 	}]
 }, {
@@ -106,7 +106,6 @@ var sampleTree = [{
 		path: 'lists-list'
 	}, {
 		name: 'ListBox',
-		debug: true,
 		path: 'lists-listbox'
 	}]
 }, {
@@ -140,7 +139,6 @@ var sampleTree = [{
 	name: 'Panels',
 	children: [{
 		name: 'Panel',
-		debug: true,
 		path: 'panels-panel'
 	}, {
 		name: 'Tabs',
@@ -261,7 +259,7 @@ $(document).ready(function(){
 								},
 								binding: function(val) {
 									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
-									var xicon = (val.debug) ? 'led-icon-new' : '';
+									var xicon = (val.updated) ? 'led-icon-new' : '';
 									this.content.opt('icon', icon);
 									this.content.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				

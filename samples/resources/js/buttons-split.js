@@ -3,7 +3,7 @@ $.dino({
   dtype: 'box',
   renderTo: '.preview',
   cls: 'button-container',
-  items: [{
+  items: [/*{
     dtype: 'split-button',
     components: {
       actionButton: {
@@ -31,7 +31,7 @@ $.dino({
       tag: 'america'
     }]
     
-  }, {
+  },*/ {
     dtype: 'button',
     style: {'padding-right': 2},
     content: {
@@ -59,11 +59,11 @@ $.dino({
     dtype: 'text-button',
     xicon: 'ui-icon ui-icon-triangle-1-s',
     icon: 'led-icon-cog',
-    text: false,
-		content: {
-			content: {
-				style: {'padding-right': 10}
-			}
-		}
+//    text: false,
+//		content: {
+//			content: {
+//				style: {'padding-right': 10}
+//			}
+//		}
   }]            
 });

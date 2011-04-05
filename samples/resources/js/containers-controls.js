@@ -56,7 +56,7 @@ $.dino({
     title: 'Dino-виджеты',
     defaultItem: {
       dtype: 'control-box',
-      items: [{
+      items: [/*{
         dtype: 'split-button',
         components: {
           actionButton: {
@@ -80,7 +80,7 @@ $.dino({
           text: 'Америка',
           tag: 'america'
         }]
-      }, {
+      }, */{
         dtype: 'box',
         width: 2,
         height: 24,

@@ -52,7 +52,7 @@ var widget = $.dino({
           else if(this.tag == 'save') {
             
             var s = [];
-			updateBuffer.flush(function(val, action){
+						updateBuffer.flush(function(val, action){
               s.push('<div><span>'+val.string+'</span><span class="update-status '+action+'">'+action+'</span></div>');
             });
             growl.info(s.join(''), true);
@@ -91,7 +91,7 @@ var widget = $.dino({
           binding: 'auto',
           events: {
             'dblclick': function(e, w) {
-              if(!w.options.noEdit) w.startEdit();
+              if(w.options.editable) w.startEdit();
             }
           },
           extensions: [Dino.Editable],
@@ -100,10 +100,11 @@ var widget = $.dino({
             updateBuffer.upd(val);
             if(e.reason == 'enterKey') {
             	var nextCol = this.getRow().getColumn(this.index+1);
-            	if(nextCol && !nextCol.options.noEdit) nextCol.startEdit();
+            	if(nextCol && nextCol.options.editable) nextCol.startEdit();
             }
           },
           editor: {
+						dtype: 'text-editor',
         	  style: {'font-size': '9pt'}
           }
         },
@@ -124,15 +125,20 @@ var widget = $.dino({
           dataId: 'count',
           header: 'Количество',
           format: function(v) { return '' + v + ' шт' },
-          style: {'text-align': 'right'}
+          style: {'text-align': 'right'},
+					editor: 'spinner-editor'
         }, {
           dataId: 'currency',
           header: 'Цена',
           format: Dino.format_currency.rcurry('$'),
           editor: {
-            store_format: function(val) {
-              return Dino.isString(val) ? parseFloat(val) : val; 
-            }
+						components: {
+							input: {
+		            store_format: function(val) {
+		              return Dino.isString(val) ? parseFloat(val) : val; 
+		            }								
+							}
+						}
           }
         }, {
           dataId: 'date',
@@ -150,7 +156,7 @@ var widget = $.dino({
             	updateBuffer.upd(val);
 						}
           },
-          noEdit: true,
+          editable: false,
           binding: 'skip'
         }]
       },

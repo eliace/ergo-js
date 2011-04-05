@@ -19,6 +19,38 @@ var hashData = {
 	'an': 'Antarctica'
 };
 
+/*
+var focusManager = {
+	
+	current: null,
+	
+	set: function(w) {
+		if(this.current == w) return;
+		if(this.current) this.current.states.clear('focus');
+		this.current = w;
+		w.states.set('focus');
+	},
+	
+	clear: function() {
+		if(this.current) this.current.states.clear('focus');
+		this.current = null;
+	},
+	
+	input: function(e) {
+		if(e.keyCode == 27) this.clear();
+	}
+	
+}
+
+
+$(window).click(function(){
+	focusManager.clear();
+});
+
+$(window).keydown(function(e){
+	focusManager.input(e);
+});
+*/
 
 
   
@@ -32,7 +64,7 @@ $.dino({
   items: [{
     label: 'Поле с кнопкой (форма)',
     dataId: 'text',
-    dtype: 'combofield',
+    dtype: 'combo-field',
     cls: 'dino-form-field',
     components: {
       button: {
@@ -40,20 +72,26 @@ $.dino({
 				role: 'actor',
         icon: 'dino-icon-search',
       }
-    }
+    },
+		extensions: [Dino.Focusable]
   }, {
     label: 'Поле с кнопкой (редактор)',
-    dtype: 'combofield',
-    cls: 'dino-border-all',
-    style: {'padding': '1px'},
-    dataId: 'text2',
-    components: {
-      button: {
-        dtype: 'action-icon',
-				role: 'actor',
-        cls: 'dino-icon-search dino-clickable'
-      }
-    }
+		width: 160,
+		content: {
+	    dtype: 'text-editor',
+	    style: {'padding': '1px'},
+	    dataId: 'text2',
+	    components: {
+	      button: {
+	        dtype: 'action-icon',
+					role: 'actor',
+	        cls: 'led-icon-calendar_1 dino-clickable'
+	      }
+	    }
+		},
+		overrides: {
+			stopEdit: Dino.noop
+		}
   }, {
     dtype: 'select-field',
     label: 'Поле со списком (форма)',
@@ -63,39 +101,44 @@ $.dino({
       button: {
         icon: 'ui-icon ui-icon-triangle-1-s',
 				role: 'actor'
-      }
+      },
+	    dropdown: {
+	      data: hashData,
+				content: {
+		      defaultItem: {
+		        cls: 'tb3-dropdown-item',
+		        icon: 'led-icon-world'
+		      }					
+				}
+	    }
     },
-    dropdown: {
-      data: hashData,
-      cls: 'tb3-dropdown',
-      defaultItem: {
-        cls: 'list-item',
-        icon: 'led-icon-world'
-      }
-    }		
+		extensions: [Dino.Focusable]
   }, {
-    dtype: 'select-field',
     label: 'Поле со списком  (редактор)',
-    cls: 'dino-border-all',
+		width: 160,		
     dataId: 'continent2',
-    components: {
-      button: {
-        dtype: 'action-icon',
-        cls: 'ui-icon ui-icon-triangle-1-s dino-clickable',
-				role: 'actor'
-      }
-    },
-		dropdown: {
-      data: listData,
-      cls: 'tb3-dropdown',
-      defaultItem: {
-        cls: 'list-item',
-        icon: 'led-icon-world'
-      }				
-		}
+		content: {
+			dtype: 'dropdown-editor',
+			components: {
+				button: {
+					cls: 'ui-icon ui-icon-triangle-1-s'
+				},
+				dropdown: {
+					data: listData,
+					content: {
+						defaultItem: {
+							icon: 'led-icon-world'
+						}
+					}
+				}
+			}
+		},
+		overrides: {
+			stopEdit: Dino.noop
+		}		
   }, {
     label: 'Счетчик (форма)',
-    dtype: 'combofield',
+    dtype: 'combo-field',
     cls: 'dino-form-field',
     dataId: 'number',
     components: {
@@ -127,42 +170,17 @@ $.dino({
           tag: 'down'
         }]        
       }
-    }
+    },
+		extensions: [Dino.Focusable]
   }, {
     label: 'Счетчик (редактор)',
-    dtype: 'combofield',
-    dataId: 'number2',
-    cls: 'dino-border-all',
-    style: {'padding': '1px'},
-    components: {
-      input: {
-        updateOnValueChange: true
-      },
-      buttons: {
-        dtype: 'box',
-				role: 'actor',
-        defaultItem: {
-          cls: 'dino-clickable',
-          dtype: 'action-icon',
-          style: {'display': 'block', 'border': 'none', 'padding': 0},
-          height: 8,
-          width: 16,
-          onAction: function() {
-            if(this.tag == 'up')
-              this.data.set(this.data.get()+1);
-            else if(this.tag == 'down')
-              this.data.set(this.data.get()-1);
-          }
-        },
-        items: [{
-          cls: 'dino-icon-up',
-          tag: 'up'
-        }, {
-          cls: 'dino-icon-down',
-          tag: 'down'
-        }]        
-      }
-    }
+		width: 100,
+		content: {
+			dtype: 'spinner-editor',
+			dataId: 'number2',
+	    style: {'padding': '1px'}
+		},
+		overrides: { stopEdit: Dino.noop }		
   }
   ]
 });      

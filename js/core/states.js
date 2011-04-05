@@ -30,7 +30,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 	 * Активация состояния
 	 * @param {String} name имя состояния
 	 */
-	set: function(name) {
+	set: function(name, change_class) {
 		
 		// получаем состояние, определенное для виджета
 		var state = this.widget.options.states[name];
@@ -48,7 +48,8 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 //			this.widget.el.addClass(state);
 //			this.widget.el.removeClass(state_off);
 //		}
-		var change_class = true;
+
+		if(arguments.length == 1) change_class = true;
 		
 		if(Dino.isFunction(state)) {
 			change_class &= (state.call(this.widget, true) !== false);

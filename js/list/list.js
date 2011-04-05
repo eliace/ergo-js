@@ -8,33 +8,34 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 	
 	defaultOptions: {
 //		cls: 'dino-border-all',
-		components: {
-			content: {
-				weight: 2,
-				dtype: 'box',
-				cls: 'dino-scrollable-content dino-widget-content',
+//		components: {
+//			content: {
+//				weight: 2,
+//				dtype: 'box',
+				cls: 'dino-scrollable-content dino-text-content',
+	      dynamic: true,
 				defaultItem: {
 					dtype: 'text-item',
-					cls: 'dino-list-item',
-					style: {'display': 'block'},
-					xicon: true,
-					components: {
-						rightIcon: {
-							cls: 'ui-icon ui-icon-close dino-clickable',
-							states: {
-								'hover': ['ui-icon-closethick', 'ui-icon-close']
-							},
-							clickable: true
-						}
-					},
-					clickable: true,
-					onDblClick: function() {
-						if(this.parent.parent.options.editOnDblClick) {
-							this.startEdit();
-						}
-					}
-				}
-			}
+					cls: 'dino-list-item'
+//					style: {'display': 'block'}
+//					xicon: true,
+//					components: {
+//						rightIcon: {
+//							cls: 'ui-icon ui-icon-close dino-clickable',
+//							states: {
+//								'hover': ['ui-icon-closethick', 'ui-icon-close']
+//							},
+//							clickable: true
+//						}
+//					},
+//					clickable: true,
+//					onDblClick: function() {
+//						if(this.parent.parent.options.editOnDblClick) {
+//							this.startEdit();
+//						}
+//					}
+				},
+//			}
 //			controls: {
 //				dtype: 'box',
 //				cls: 'dino-list-menu dino-border-top',
@@ -43,7 +44,7 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 //					cls: 'dino-list-menu-item'
 //				}
 //			}
-		},
+//		},
 		editOnDblClick: false
 	},
 	
@@ -51,13 +52,13 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 	$init: function(o) {
 		Dino.widgets.List.superclass.$init.apply(this, arguments);
 		
-		if('listItems' in o) {
-			Dino.utils.overrideOpts(o.components.content, {items: o.listItems});
-		}
-		
-		if('defaultListItem' in o) {
-			Dino.utils.overrideOpts(o.components.content.defaultItem, o.defaultListItem);			
-		}
+//		if('listItems' in o) {
+//			Dino.utils.overrideOpts(o.components.content, {items: o.listItems});
+//		}
+//		
+//		if('defaultListItem' in o) {
+//			Dino.utils.overrideOpts(o.components.content.defaultItem, o.defaultListItem);			
+//		}
 		
 //		if('controls' in o) {
 //			var toolbar_items = [];
@@ -76,7 +77,7 @@ Dino.widgets.List = Dino.declare('Dino.widgets.List', 'Dino.containers.Box', /**
 	$opt: function(o) {
 		Dino.widgets.List.superclass.$opt.apply(this, arguments);
 		
-		if('contentHeight' in o) this.content.opt('height', o.contentHeight);
+//		if('contentHeight' in o) this.content.opt('height', o.contentHeight);
 				
 	}
 	

@@ -362,6 +362,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			opts = {}
 			opts[arguments[0]] = arguments[1];
 		}
+		else if(Dino.isString(o)){
+			return this.options[o];
+		}
 		
 		Dino.utils.overrideOpts(this.options, opts);
 
@@ -580,7 +583,11 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		this[key] = (o instanceof Dino.Widget) ? o : Dino.widget(o);
 		this.children.add( this[key] );
-		this.layout.insert(this[key]);
+		
+		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
+		if(!('renderTo' in o))
+			this.layout.insert(this[key]);
+		
 //		this.el.append(this[key].el);
 		return this[key];
 	},

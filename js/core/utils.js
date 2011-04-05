@@ -175,11 +175,22 @@ Dino.WidgetCollectionManager = Dino.declare('Dino.WidgetCollectionManager', 'Din
 
 Dino.utils.overrideProp = function(o, srcObj, i) {
 
-	var shared$opts = {'data': null};
+	var shared_opts = {'data': null};
 
 	var p = srcObj[i];
 	
-	if(i in shared$opts){//Dino.in_array(ignore, i)){
+	if((i in shared_opts)){//Dino.in_array(ignore, i)){
+		o[i] = p;
+	}
+	else if(i[i.length-1] == '!') {
+		i = i.substr(0, i.length-1);
+		o[i] = p;
+	}
+	else if(i[i.length-1] == '+') {
+		i = i.substr(0, i.length-1);
+		
+		if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
+		p = o[i].concat(p);
 		o[i] = p;
 	}
 	else{
@@ -201,13 +212,10 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 				if(i == 'cls') p = o[i] + ' ' + p;
 				if( /^on\S/.test(i) ) {
 					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
-//					o[i].push(p);
 					p = o[i].concat(p);
 				}
 				if(i == 'state') {
 					p = o[i] + ' ' + p;
-//					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];					
-//					p = o[i].concat(p);
 				}
 			}
 			o[i] = p;
@@ -228,12 +236,7 @@ Dino.utils.overrideOpts = function(o) {
 			for(var i = 0; i < srcObj.length; i++)
 				Dino.utils.overrideProp(o, srcObj, i);
 		}
-		else {
-			
-//			if('dtype' in srcObj && 'dtype' in o) {
-//				
-//			}			
-			
+		else {			
 			for(var i in srcObj)
 				Dino.utils.overrideProp(o, srcObj, i);
 		}		

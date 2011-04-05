@@ -2,3 +2,8 @@
 .dino-grid-row {
 	height: 21px;
 }
+
+
+.datepick-popup {
+	z-index: 10001;
+}

@@ -33,72 +33,88 @@ var propertyGrid = $.dino({
       width: 100,
 			state: 'clickable',
 			onDblClick: function(){
-				if(!this.options.noEdit) this.startEdit();
+				if( this.opt('editable') ) this.startEdit();
 			},
 			binding: function() {
 				var val = this.data.source.val();
 
-//				if(val.type == 'string') {
-//					this.opt('editor', {
-//						dtype: 'combofield',
-//						style: {'border': '1px solid #cef'}
-//					});
-//				}
-
-				
 				if(val.type == 'boolean') {
 					this.addComponent('content', {
 						dtype: 'checkbox'
 					});
-					this.opt('noEdit', true);
+					this.opt('editable', false);
 				}
-				
-				if(val.type == 'select') {
-//					this.opt('editor', {
-//						dtype: 'select',
-//						options: val.value_list,
-//						events: {
-//							'blur': function(e, w) { w.parent.stopEdit(); }
-//						},
-//						onValueChanged: function() {
-//							if(this.parent) this.parent.stopEdit();
-//						}		
-//					});
+				else if(val.type == 'select') {
 
 					this.opt('editor', {
-				    dtype: 'select-field',
-				    label: 'Поле со списком  (редактор)',
-				    cls: 'dino-border-all',
+				    dtype: 'dropdown-editor',
 				    components: {
 				      button: {
-				        dtype: 'action-icon',
-				        cls: 'ui-icon ui-icon-triangle-1-s dino-clickable',
-								role: 'actor'
-				      },
-							input: {
-								autoFit: true
+				        cls: 'ui-icon ui-icon-triangle-1-s'
 							},
-							dropdown: {
-					      data: [],
-					      cls: 'dino-text-content dino-dropdown-shadow',
-					      defaultItem: {
-					        cls: 'list-item'
-					      },
-								onShow: function() {
-									this.$bind(this.parent.data.source.get('value_list'));
-									this.$dataChanged();
+							input: {
+								format: function(val) { 
+									return (val === '' || val === undefined) ? '' : this.data.source.get('value_list')[val]; 
 								}
-							}						
+							}
 				    },
-						onValueChanged: function() {
-							if(this.parent) this.parent.stopEdit();
-						}		
+						binding: function(val) {
+							this.dropdown.$bind(this.data.source.item('value_list'));
+						}
 					});
-					
+										
 					this.opt('format', function() {
 						var val = this.data.source.val();
 						return val.value_list[val.value]; 
 					});					
+				}
+				else if(val.type == 'date') {
+					
+					this.opt('editor', {
+						dtype: 'dropdown-editor',
+						components: {
+				      button: {
+				        cls: 'led-icon-calendar_1'
+				      },
+							input: {
+								format: function(val){ return val; }
+							}
+						},
+						onCreated: function() {
+							var self = this;
+							
+							this.input.el.datepick({
+								dateFormat: $.datepick.ISO_8601, 
+								showOnFocus: false, 
+								onSelect: function(dates){
+									var date = dates[0];
+									self.setValue($.datepick.formatDate($.datepick.ISO_8601, date));
+								}, 
+								onClose: function(){
+									if(self.parent) self.parent.stopEdit();
+								}
+							});							
+						},
+						overrides: {
+							showDropdown: function() {
+								this.input.el.datepick('show');								
+							}
+						}
+					});
+				}
+				else if(val.type == 'numeric') {
+					
+					this.opt('editor', {
+						dtype: 'spinner-editor'
+					});
+					
+				}
+				else {
+
+					this.opt('editor!', {
+						dtype: 'text-editor'
+					});
+					
 				}
 				
 				if(val.type != 'boolean')
@@ -108,8 +124,6 @@ var propertyGrid = $.dino({
   },
   data: gridData,
 });
-    
-
 		
 $.getJSON('ajax/properties.json', function(json){ gridData.set(json); });
 		

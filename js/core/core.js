@@ -173,6 +173,9 @@ var Dino = (function(){
 //	D.widget = D.object;
 	
 	
+	
+	D.noop = function(){};
+	
 /*	
 	D.isFunction = function(obj) { return obj instanceof Function; };
 	D.isArray = function(obj) {return obj instanceof Array;}

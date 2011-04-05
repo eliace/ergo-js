@@ -127,6 +127,11 @@
 	box-shadow: 1px 1px 5px #ccc;
 }
 
+.dino-dropdown-box {
+	font-size: 10pt;
+	max-height: 200px;
+	overflow-y: auto;
+}
 
 
 
@@ -140,7 +145,9 @@
 }
 
 .dino-list-item {
-	border-bottom: 1px dotted #ccc;
+/*	border-bottom: 1px dotted #ccc;*/
+	display: block;
+	cursor: default;
 /*	padding: 0 5px;*/
 }
 
@@ -1207,10 +1214,13 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	outline: none;
 	margin: 0;
 	padding: 0;
-	border: 1px solid #68f;
+	border: 1px solid #aaa;
 	text-align: right;
 }
 
+.dino-text-editor.focus {
+	border-color: #68f;	
+}
 
 
 
@@ -1231,8 +1241,9 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-form-field [role='actor'] {
 	border: none;
 	border-left: 1px solid #aaa;
-	background: #ccc;
-	
+/*	background: #ccc;*/
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
+		
 	-moz-border-radius: 0 4px 4px 0;
 	-webkit-border-radius: 0 4px 4px 0;
 	border-radius: 0 4px 4px 0;
@@ -1242,6 +1253,8 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 	border-left: 1px solid #aaa;
 	background: #ddd;
 }
+
+
 
 
 
@@ -1255,7 +1268,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 .dino-editor-field [role='actor'] {
 	border: none;
-	padding: 0;	
+	padding: 0;
 }
 
 
