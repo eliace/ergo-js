@@ -64,6 +64,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 		var g_columns = [];
 		
 		
+		
 //		for(var i = 0; i < h_columns.length; i++) {
 //			var col = {}
 //			if('width' in h_columns[i]) col.width = h_columns[i].width;
@@ -163,6 +164,7 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', 
 
 
 
+
 /**
  * @class
  * @extends Dino.Widget
@@ -172,20 +174,7 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 	$html: function() { return '<td></td>'; },
 	
 	defaultOptions: {
-		binding: 'skip'
-//		editor: {
-//			dtype: 'textfield',
-//			cls: 'dino-text-editor',
-//			events: {
-//				'blur': function(e, w) { w.parent.stopEdit(); },
-//				'keypress': function(e, w) { 
-//					if(e.keyCode == 27) w.parent.stopEdit(); 
-//				}
-//			},
-//			onValueChanged: function() {
-//				this.parent.stopEdit();
-//			}		
-//		}
+//		binding: 'skip'		
 	},
 		
 	$dataChanged: function() {
