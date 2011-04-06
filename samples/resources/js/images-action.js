@@ -6,9 +6,9 @@ $.dino({
   defaultItem: {
     dtype: 'action-icon',
     cls: 'icon48',
-		onAction: function() {
-			growl.info('Icon clicked');
-		}
+    onAction: function() {
+      growl.info('Icon clicked');
+    }
   },
   items: [{
     cls: 'icon-01'

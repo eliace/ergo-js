@@ -13,13 +13,17 @@ Dino.declare('Dino.utils.UpdateBuffer', 'Dino.events.Observer', {
 			if('onUpdate' in o) this.events.reg('onUpdate', o.onUpdate);			
 		}
 		
+		this.id_counter = 1;
 	},
 	
 	add: function(val) {
+		// если ID не указан, то задаем временный
+		if(!('id' in val)) val.id = 'temp-'+this.id_counter++;
+
 		this.buffer[val.id] = {event: 'Add', value: val};
 	},
 
-	upd: function(val) {
+	upd: function(val) {		
 		if(val.id in this.buffer)
 			this.buffer[val.id].value = val;
 		else

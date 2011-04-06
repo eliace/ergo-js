@@ -21,7 +21,7 @@ $.dino({
               }
             }
           },
-					extensions: [Dino.Draggable, Dino.Droppable],
+          extensions: [Dino.Draggable, Dino.Droppable],
 //          draggable: true,
           onDrag: function(e) {
             this.parent.states.set('dragged');
@@ -33,8 +33,8 @@ $.dino({
               style: {'background-color': '#fff'},
               opacity: .7
             });
-						
-						e.dragContext.offset = [-10, -10];
+            
+            e.dragContext.offset = [-10, -10];
             
           },
           onDrop: function(e) {

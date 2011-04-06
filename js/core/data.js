@@ -300,7 +300,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	find: function(criteria) {
 		return Dino.find(this.items, criteria);
 	},
-	
+
 	has_source: function(item) {
 		var src = this;
 		while(src) {

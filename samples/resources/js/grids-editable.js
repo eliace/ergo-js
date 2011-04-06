@@ -24,11 +24,11 @@ var widget = $.dino({
             var val = {'id': 'temp-'+(++newCounter), 'string': 'New item', 'count': 0, 'currency': 0, 'date': '', flag: false};
             var dataItem = this.data.add(val);
             
-						var pager = grid.pager;
-						pager.setCount( pager.getCount()+1 );
+            var pager = grid.pager;
+            pager.setCount( pager.getCount()+1 );
             pager.setIndex( pager.getMaxIndex() );
             
-						var row = grid.content.content.getRow({'data': dataItem});
+            var row = grid.content.content.getRow({'data': dataItem});
             grid.content.el.scrollTop( grid.content.content.el.height() );
             row.getColumn(0).startEdit();
             
@@ -44,7 +44,7 @@ var widget = $.dino({
           }
           else if(this.tag == 'refresh') {
             gridData.source = Samples.generate_grid_page(0, 120);
-						gridData.filter_chain = null;
+            gridData.filter_chain = null;
             grid.pager.setCount(120);
             grid.pager.setIndex(0);
             updateBuffer.clear();
@@ -52,7 +52,7 @@ var widget = $.dino({
           else if(this.tag == 'save') {
             
             var s = [];
-						updateBuffer.flush(function(val, action){
+            updateBuffer.flush(function(val, action){
               s.push('<div><span>'+val.string+'</span><span class="update-status '+action+'">'+action+'</span></div>');
             });
             growl.info(s.join(''), true);
@@ -99,13 +99,13 @@ var widget = $.dino({
             var val = this.getRow().data.val();
             updateBuffer.upd(val);
             if(e.reason == 'enterKey') {
-            	var nextCol = this.getRow().getColumn(this.index+1);
-            	if(nextCol && nextCol.options.editable) nextCol.startEdit();
+              var nextCol = this.getRow().getColumn(this.index+1);
+              if(nextCol && nextCol.options.editable) nextCol.startEdit();
             }
           },
           editor: {
-						dtype: 'text-editor',
-        	  style: {'font-size': '9pt'}
+            dtype: 'text-editor',
+            style: {'font-size': '9pt'}
           }
         },
         row: {
@@ -126,19 +126,19 @@ var widget = $.dino({
           header: 'Количество',
           format: function(v) { return '' + v + ' шт' },
           style: {'text-align': 'right'},
-					editor: 'spinner-editor'
+          editor: 'spinner-editor'
         }, {
           dataId: 'currency',
           header: 'Цена',
           format: Dino.format_currency.rcurry('$'),
           editor: {
-						components: {
-							input: {
-		            store_format: function(val) {
-		              return Dino.isString(val) ? parseFloat(val) : val; 
-		            }								
-							}
-						}
+            components: {
+              input: {
+                store_format: function(val) {
+                  return Dino.isString(val) ? parseFloat(val) : val; 
+                }                
+              }
+            }
           }
         }, {
           dataId: 'date',
@@ -151,10 +151,10 @@ var widget = $.dino({
           style: {'text-align': 'center'},
           content: {
             dtype: 'checkbox',
-						onAction: function() {
-	            var val = this.data.source.val();
-            	updateBuffer.upd(val);
-						}
+            onAction: function() {
+              var val = this.data.source.val();
+              updateBuffer.upd(val);
+            }
           },
           editable: false,
           binding: 'skip'
@@ -170,8 +170,8 @@ var widget = $.dino({
                         
             gridData.filter_chain = function(data){
               var out = [];
-							for(var idx = 0; idx < data.length; idx++)
-                if(idx >= e.from && idx < e.to) out.push(idx);								
+              for(var idx = 0; idx < data.length; idx++)
+                if(idx >= e.from && idx < e.to) out.push(idx);                
               return out;
             };
             

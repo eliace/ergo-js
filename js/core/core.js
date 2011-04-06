@@ -456,10 +456,7 @@ var Dino = (function(){
 	D.ne = function(obj, item, i) {
 		return obj != item;
 	};
-	
-	
-	
-	
+		
 	/**
 	 * @constructor
 	 * @memberOf Dino

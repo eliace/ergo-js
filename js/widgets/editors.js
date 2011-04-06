@@ -14,9 +14,6 @@ Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
 			input: {
         updateOnValueChange: true,
 				autoFit: true
-//				onValueChanged: function(e) {
-//					if(this.parent.parent) this.parent.parent.stopEdit(e.reason);
-//				}
 			}			
 		},
 		extensions: [Dino.Focusable],
@@ -33,26 +30,7 @@ Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
 		onKeyDown: function(e) {
 			if(e.keyCode == 13) this.parent.stopEdit('enterKey');
 		}
-	}
-	
-	
-//	destroy: function() {
-//		Dino.widgets.Editor.superclass.destroy.apply(this, arguments);
-//		$(window).unbind('keypress', this.keyHandler);
-//	},
-	
-//	$afterRender: function() {
-//		Dino.widgets.Editor.superclass.$afterRender.apply(this, arguments);
-//			if(this.options.focusOnRender) this.setFocus();			
-//	}
-	
-//	keyHandler: function(e) {
-//		if(e.keyCode == 27) e.data.parent.stopEdit('escKey');
-//		else if(e.keyCode == 13) {
-//			if(e.data.parent) e.data.parent.stopEdit('enterKey');
-//		}
-//	}
-	
+	}	
 	
 });
 
@@ -63,22 +41,26 @@ Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
 
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Editor', {
 	
-	defaultOptions: {
-		
-	}
-	
 }, 'text-editor');
 
 
 
+
+/**
+ * По умолчанию редактор получает список кортежей, содержащих ключ и отображаемое значение
+ * 
+ * 
+ * @param {Object} val
+ */
 Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 	
 	defaultOptions: {
 		components: {
 			input: {
-				readOnly: true,
-				format: function(val) { 
-					return (val === '' || val === undefined) ? '' : this.parent.dropdown.data.get(val); 
+				readOnly: true,				
+				format: function(val) {
+					if(val === '' || val === undefined || val === null) return '';
+					return this.parent.options.formatValue.call(this.parent, val);
 				}
 			},			
       button: {
@@ -101,7 +83,9 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 						events: {
 							'click': function(e, w) {
 								var dd = w.parent.parent;
-								dd.parent.setValue(w.data.id);
+								dd.parent.events.fire('onSelect', {target: w});
+								dd.parent.setValue( dd.parent.options.selectValue.call(dd.parent, w) );
+//								dd.parent.setValue(w.data.get(dd.parent.options.dropdownModel.id));
 		          	dd.hide();
 							}
 						}						
@@ -117,9 +101,11 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 				}
 			}
 		},
+		formatValue: function(val) { return this.dropdown.data.get(val); },
+		selectValue: function(w){ return w.data.id; },
 		onKeyDown: function(e) {
 			if(e.keyCode == 40) this.showDropdown();
-		},		
+		},
 		dropdownOnClick: true,
 		dropdownOnFocus: false
 	},

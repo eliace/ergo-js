@@ -25,12 +25,12 @@ $.dino({
     },
     columns: [{
       dataId: 'id',
-			header: '#',
+      header: '#',
       width: 40,
       binding: 'auto'
     }, {
       dtype: 'tree-table-cell',
-			header: 'Файл',
+      header: 'Файл',
       style: {'text-align': 'left'},
 //      expandOnShow: true,
       content: {
@@ -51,7 +51,7 @@ $.dino({
         this.opt('isLeaf', (val.type == 'film'));
       }
     }, {
-			header: 'Размер',
+      header: 'Размер',
       width: 100,
       dataId: 'value',
       binding: 'auto'

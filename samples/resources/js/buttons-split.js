@@ -60,10 +60,10 @@ $.dino({
     xicon: 'ui-icon ui-icon-triangle-1-s',
     icon: 'led-icon-cog',
 //    text: false,
-//		content: {
-//			content: {
-//				style: {'padding-right': 10}
-//			}
-//		}
+//    content: {
+//      content: {
+//        style: {'padding-right': 10}
+//      }
+//    }
   }]            
 });

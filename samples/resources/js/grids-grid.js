@@ -8,6 +8,7 @@ var grid = $.dino({
   renderTo: '.preview',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
+	width: 800,
   content: {
     height: 'auto',
     style: {'padding-right': '18px', 'font-size': '9pt'}
@@ -48,12 +49,12 @@ var grid = $.dino({
       content: {
         dtype: 'checkbox'
       },
-			header: {
-	      content: {
-	        dtype: 'checkbox',
-	        checked: false        
-	      }				
-			},
+      header: {
+        content: {
+          dtype: 'checkbox',
+          checked: false        
+        }        
+      },
       binding: 'skip'
     }, {
       dataId: 'currency',
@@ -62,7 +63,7 @@ var grid = $.dino({
     }, {
       dataId: 'date',
       header: 'Дата',
-//			format: Dino.format_date
+//      format: Dino.format_date
     }]
   },
   data: gridData,
@@ -82,7 +83,7 @@ var grid = $.dino({
 
         gridData.filter_chain = function(data){
           var out = [];
-					for(var i = 0; i < data.length; i++)
+          for(var i = 0; i < data.length; i++)
             if(i >= e.from && i < e.to) out.push(i);
           return out;
         };

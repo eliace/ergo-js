@@ -10,47 +10,16 @@ var xformData = {
 };
 
 
+
 var listData = ['Africa', 'Eurasia', 'America', 'Australia', 'Antarctica'];
 var hashData = {
-	'af': 'Africa', 
-	'eu': 'Eurasia', 
-	'am': 'America', 
-	'au': 'Australia', 
-	'an': 'Antarctica'
+  'af': 'Africa', 
+  'eu': 'Eurasia', 
+  'am': 'America', 
+  'au': 'Australia', 
+  'an': 'Antarctica'
 };
 
-/*
-var focusManager = {
-	
-	current: null,
-	
-	set: function(w) {
-		if(this.current == w) return;
-		if(this.current) this.current.states.clear('focus');
-		this.current = w;
-		w.states.set('focus');
-	},
-	
-	clear: function() {
-		if(this.current) this.current.states.clear('focus');
-		this.current = null;
-	},
-	
-	input: function(e) {
-		if(e.keyCode == 27) this.clear();
-	}
-	
-}
-
-
-$(window).click(function(){
-	focusManager.clear();
-});
-
-$(window).keydown(function(e){
-	focusManager.input(e);
-});
-*/
 
 
   
@@ -69,29 +38,29 @@ $.dino({
     components: {
       button: {
         dtype: 'icon-button',
-				role: 'actor',
+        role: 'actor',
         icon: 'dino-icon-search',
       }
     },
-		extensions: [Dino.Focusable]
+    extensions: [Dino.Focusable]
   }, {
     label: 'Поле с кнопкой (редактор)',
-		width: 160,
-		content: {
-	    dtype: 'text-editor',
-	    style: {'padding': '1px'},
-	    dataId: 'text2',
-	    components: {
-	      button: {
-	        dtype: 'action-icon',
-					role: 'actor',
-	        cls: 'led-icon-calendar_1 dino-clickable'
-	      }
-	    }
-		},
-		overrides: {
-			stopEdit: Dino.noop
-		}
+    width: 160,
+    content: {
+      dtype: 'text-editor',
+      style: {'padding': '1px'},
+      dataId: 'text2',
+      components: {
+        button: {
+          dtype: 'action-icon',
+          role: 'actor',
+          cls: 'led-icon-calendar_1 dino-clickable'
+        }
+      }
+    },
+    overrides: {
+      stopEdit: Dino.noop
+    }
   }, {
     dtype: 'select-field',
     label: 'Поле со списком (форма)',
@@ -100,42 +69,42 @@ $.dino({
     components: {
       button: {
         icon: 'ui-icon ui-icon-triangle-1-s',
-				role: 'actor'
+        role: 'actor'
       },
-	    dropdown: {
-	      data: hashData,
-				content: {
-		      defaultItem: {
-		        cls: 'tb3-dropdown-item',
-		        icon: 'led-icon-world'
-		      }					
-				}
-	    }
+      dropdown: {
+        data: listData,
+        content: {
+          defaultItem: {
+            cls: 'tb3-dropdown-item',
+            icon: 'led-icon-world'
+          }
+        }
+      }
     },
-		extensions: [Dino.Focusable]
+    extensions: [Dino.Focusable]
   }, {
     label: 'Поле со списком  (редактор)',
-		width: 160,		
+    width: 160,    
     dataId: 'continent2',
-		content: {
-			dtype: 'dropdown-editor',
-			components: {
-				button: {
-					cls: 'ui-icon ui-icon-triangle-1-s'
-				},
-				dropdown: {
-					data: listData,
-					content: {
-						defaultItem: {
-							icon: 'led-icon-world'
-						}
-					}
-				}
-			}
-		},
-		overrides: {
-			stopEdit: Dino.noop
-		}		
+    content: {
+      dtype: 'dropdown-editor',
+      components: {
+        button: {
+          cls: 'ui-icon ui-icon-triangle-1-s'
+        },
+        dropdown: {
+          data: hashData,
+          content: {
+            defaultItem: {
+              icon: 'led-icon-world'
+            }
+          }
+        }
+      }
+    },
+    overrides: {
+      stopEdit: Dino.noop
+    }    
   }, {
     label: 'Счетчик (форма)',
     dtype: 'combo-field',
@@ -171,16 +140,16 @@ $.dino({
         }]        
       }
     },
-		extensions: [Dino.Focusable]
+    extensions: [Dino.Focusable]
   }, {
     label: 'Счетчик (редактор)',
-		width: 100,
-		content: {
-			dtype: 'spinner-editor',
-			dataId: 'number2',
-	    style: {'padding': '1px'}
-		},
-		overrides: { stopEdit: Dino.noop }		
+    width: 100,
+    content: {
+      dtype: 'spinner-editor',
+      dataId: 'number2',
+      style: {'padding': '1px'}
+    },
+    overrides: { stopEdit: Dino.noop }    
   }
   ]
 });      

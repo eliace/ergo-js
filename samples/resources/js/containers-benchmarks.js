@@ -43,26 +43,26 @@ var panel = $.dino({
           growl.info(profiler.print_result('widget'));
         }
       }, {
-				text: 'Поэлементные события',
-				onAction: function() {
+        text: 'Поэлементные события',
+        onAction: function() {
           panel.outputPane.el.empty();
-					
-//					var fn = function() {};					
-					
-					var t0 = Dino.timestamp();
-					
+          
+//          var fn = function() {};          
+          
+          var t0 = Dino.timestamp();
+          
           for(var i = 0; i < testData.length; i++) {
-					  var el = $('<div>Item '+i+'</div>');
-						el.addClass('test');
-					  panel.outputPane.el.append(el);
-					}
-					
-					var t1 = Dino.timestamp();
-					
-          growl.info((t1 - t0));					
-					
-				}
-			}]
+            var el = $('<div>Item '+i+'</div>');
+            el.addClass('test');
+            panel.outputPane.el.append(el);
+          }
+          
+          var t1 = Dino.timestamp();
+          
+          growl.info((t1 - t0));          
+          
+        }
+      }]
     },
     outputPane: {
       dtype: 'box'

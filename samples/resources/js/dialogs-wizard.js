@@ -4,7 +4,7 @@ var dlg = $.dino({
   renderTo: '.preview',
   content: {
     dtype: 'box',
-		cls: 'dino-text-content dino-border-all',
+    cls: 'dino-text-content dino-border-all',
     layout: 'stack-layout',
     items: [{
       width: 400,

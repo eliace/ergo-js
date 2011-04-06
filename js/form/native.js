@@ -29,10 +29,11 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 
 		var self = this;
 		
-		if(o.changeOnBlur) 
+		if(o.changeOnBlur) {
 			this.el.blur(function() { 
 				self.setValue(self.el.val(), 'blur'); 
-			});
+			});			
+		}
 		
 		if(o.rawValueOnFocus){
 			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()) });
@@ -45,11 +46,12 @@ Dino.declare('Dino.widgets.form.InputField', Dino.Widget, /** @lends Dino.widget
 		Dino.widgets.form.InputField.superclass.$events.call(this, self);
 
 		this.el.keydown(function(e) {
-			if(e.keyCode == 13) 
-				self.setValue( self.el.val(), 'enterKey');
-			else if(e.keyCode == 27) 
-				self.el.val(self.getValue());
-//			self.setValue( self.el.val());
+			if(!self.options.readOnly) {
+				if(e.keyCode == 13) 
+					self.setValue( self.el.val(), 'enterKey');
+				else if(e.keyCode == 27) 
+					self.el.val(self.getValue());				
+			}
 		});
 		
 //		this.el.change(function() {

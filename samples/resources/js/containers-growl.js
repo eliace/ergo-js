@@ -3,9 +3,9 @@ var _growl = $.dino({
   dtype: 'growl',
   renderTo: 'body',
   hideOnTimeout: true,
-	defaultItem: {
-		cls: 'dino-dropdown-shadow'		
-	}
+  defaultItem: {
+    cls: 'dino-dropdown-shadow'    
+  }
 });
 
 

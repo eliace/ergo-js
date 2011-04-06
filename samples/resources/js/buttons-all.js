@@ -55,15 +55,15 @@ $.dino({
 //    icon: 'icon-01'//'led-icon-refresh'
 //    }
   }, {
-		dtype: 'text-button',
-		layout: 'plain-layout',
-		cls: 'icon48',
-		icon: 'icon-01',
-		text: 'Back'
-	}, {
-		dtype: 'text-button',
-		text: 'Chat',
-		cls: 'icon48',
-		xicon: 'icon-03'
-	}]
+    dtype: 'text-button',
+    layout: 'plain-layout',
+    cls: 'icon48',
+    icon: 'icon-01',
+    text: 'Back'
+  }, {
+    dtype: 'text-button',
+    text: 'Chat',
+    cls: 'icon48',
+    xicon: 'icon-03'
+  }]
 });

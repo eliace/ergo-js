@@ -10,7 +10,7 @@ var listBox = $.dino({
   title: 'Список',
   width: 400,
   data: listBoxData,
-	cls: 'dino-border-all',
+  cls: 'dino-border-all',
   content: {
     dtype: 'box',
     components: {
@@ -33,9 +33,9 @@ var listBox = $.dino({
                 item.data.del();
               });
             }
-           	else if(this.tag == 'refresh') {
-							listBoxData.set( Samples.generate_plain_list(30) );
-						}
+             else if(this.tag == 'refresh') {
+              listBoxData.set( Samples.generate_plain_list(30) );
+            }
             list.selection.clear();
           }
         },
@@ -68,11 +68,11 @@ var listBox = $.dino({
             binding: false,
             content: {
               dtype: 'checkbox',
-							events: {
-	              'click': function(e) {
-									e.preventDefault();
-	              }								
-							}
+              events: {
+                'click': function(e) {
+                  e.preventDefault();
+                }                
+              }
             }
           }, {
             binding: 'auto',
@@ -87,15 +87,17 @@ var listBox = $.dino({
                 w.startEdit();
               }
             },
-						extensions: [Dino.Editable]
+            extensions: [Dino.Editable]
           }, {
             cls: 'dino-icon-column',
+            binding: 'skip',
             content: {
               dtype: 'icon',
               cls: 'ui-icon-gray ui-icon-arrowthick-1-n dino-clickable'
             }
           }, {
             cls: 'dino-icon-column',        
+            binding: 'skip',
             content: {
               dtype: 'icon',
               cls: 'ui-icon-gray ui-icon-arrowthick-1-s dino-clickable'

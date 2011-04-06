@@ -73,6 +73,7 @@ require 'fileutils'
     'js/utils/validators.js',
     'js/utils/update-buffer.js',
     'js/utils/formats.js',
+    'js/utils/profiler.js',
   ]
 
 

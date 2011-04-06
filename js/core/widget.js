@@ -1,53 +1,10 @@
 
-//Dino.droppable = [];
 
 /**
  * @name Dino.widgets
  * @namespace
  */
 
-var profiler = {
-	enabled: false,
-	
-	results: {},
-	counters: {},
-	
-	clear: function(name) {
-		delete this.results[name];
-		delete this.counters[name];
-	},
-	
-	start: function(name) {
-		this.counters[name] = {};
-		if(!(name in this.results)) this.results[name] = {};
-		// инициализируем первоначальное значение
-		this.counters[name].times = [Dino.timestamp()];
-	},
-	
-	stop: function(name) {
-		var c = this.counters[name];
-		var r = this.results[name];
-		var t = c.times[0];
-		for(var i = 1; i < c.times.length; i++) {
-			var key = c.times[i][0];
-			if(!(key in r)) r[key] = 0;
-			r[key] += c.times[i][1] - t;
-			t = c.times[i][1];
-		}
-	},
-	
-	tick: function(counter, name) {
-		this.counters[counter].times.push([name, Dino.timestamp()]);
-	},
-	
-	print_result: function(counter) {
-		var a = [];
-		var tot = 0;
-		Dino.each(this.results[counter], function(dt, i){ a.push(''+i+': '+dt); tot+=dt; });
-		return a.join(', ') + ' ('+tot+')';
-	}
-	
-};
 
 
 /**
@@ -114,10 +71,13 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		var o = this.options;
 		
 		if(!this.constructor.NO_REBUILD_SKELETON) {
+			var prevDefaultOptions = null;
 			Dino.hierarchy(this.constructor, function(clazz){
+				if(clazz.defaultOptions == prevDefaultOptions) return;
 				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
 				if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton); 
+				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton);
+				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
