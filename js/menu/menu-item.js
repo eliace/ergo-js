@@ -9,33 +9,34 @@
  * @class
  * @extends Dino.Widget
  */
-Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /** @lends Dino.widgets.MenuItem.prototype */{
+Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.TextItem', /** @lends Dino.widgets.MenuItem.prototype */{
 	
-	$html: function() { return '<div></div>'; },
+//	$html: function() { return '<div></div>'; },
 	
 	defaultOptions: {
+		style: {'position': 'relative', 'display': 'block'},
+		baseCls: 'dino-menu-item',
 		showOnEnter: true,
 		hideOnLeave: true,
+		xicon: true,
 		components: {
-//			// содержимое элемента меню (текст, виджет и др.)
-			content: {
-				weight: 1,
-				dtype: 'text',
-				onAction: function(e) {
-					this.parent.events.fire('onAction', {'target': this.parent});
-				}		
-			},
+//			content: {
+//				dtype: 'text-item'
+//			},
 			// выпадающее подменю
 			submenu: {
-				dtype: 'dropdown-box',
-				defaultItem: {
-					dtype: 'menu-item',
-					onAction: function(e) {
-						this.parent.parent.events.fire('onAction', {'target': e.target});
-					},					
-					isLeaf: true
-				},
-				offset: [-1, 1]
+				dtype: 'menu-dropdown-box'
+//				dtype: 'dropdown-box',
+//				style: {'overflow-y': 'visible'},
+//				hideOn: 'hoverOut',
+//				defaultItem: {
+//					dtype: 'menu-item'
+////					onAction: function(e) {
+////						this.parent.parent.events.fire('onAction', {'target': e.target});
+////					},					
+////					isLeaf: true
+//				},
+//				offset: [-1, 1]
 			}
 		}
 	},
@@ -60,6 +61,14 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 		
 		
 	},
+	
+	
+//	$opt: function(o) {
+//		Dino.widgets.MenuItem.superclass.$opt.apply(this, arguments);
+//		
+//		if('text' in o) this.content.opt('text', o.text);
+//	},
+	
 	
 	$events: function(self) {
 		Dino.widgets.MenuItem.superclass.$events.apply(this, arguments);
@@ -100,7 +109,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 			if(this.submenu.options.anchor == 'bottom')
 				this.submenu.show( 0, $(this.el).height());
 			else
-				this.submenu.show( $(this.el).width(), 0);
+				this.submenu.show( $(this.el).outerWidth(), 0);
 		}
 	},
 	
@@ -123,31 +132,41 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.Widget', /**
 
 
 
-Dino.declare('Dino.widgets.MenuBox', 'Dino.Container', {
+Dino.declare('Dino.widgets.MenuDropDownBox', 'Dino.containers.DropDownBox', {
 	
 	defaultOptions: {
-		html: '<table cellspacing="0" cellpadding="0" border="0"><tbody/></table>',
+		hideOn: 'hoverOut',
+		offset: [-1, 1],
+		style: {'overflow-y': 'visible'},
 		defaultItem: {
-			dtype: 'box',
-			html: '<tr/>',
-			cls: 'menu-item',
-			defaultItem: {
-				dtype: 'box',
-				html: '<td/>'
-			},
-			items: [{
-				width: 24
-			}, {
-				dtype: 'text',							
-				width: 16
-			}, {
-			}]
+			dtype: 'menu-item'
 		}
 	}
 	
 	
+//	defaultOptions: {
+//		html: '<table cellspacing="0" cellpadding="0" border="0"><tbody/></table>',
+//		defaultItem: {
+//			dtype: 'box',
+//			html: '<tr/>',
+//			cls: 'menu-item',
+//			defaultItem: {
+//				dtype: 'box',
+//				html: '<td/>'
+//			},
+//			items: [{
+//				width: 24
+//			}, {
+//				dtype: 'text',							
+//				width: 16
+//			}, {
+//			}]
+//		}
+//	}
 	
-}, 'menu-box');
+	
+	
+}, 'menu-dropdown-box');
 
 
 

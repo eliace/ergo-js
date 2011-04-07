@@ -295,7 +295,7 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 			dropdown: {
 				dtype: 'dropdown-box',
 				renderTo: 'body',
-				style: {'display': 'none'},
+//				style: {'display': 'none'},
 				content: {
 					dtype: 'list',
 					defaultItem: {

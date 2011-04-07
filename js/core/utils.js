@@ -183,7 +183,8 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 		o[i] = p;
 	}
 	else if(i[i.length-1] == '!') {
-		i = i.substr(0, i.length-1);
+		j = i.substr(0, i.length-1);
+		if(j in o) i = j;
 		o[i] = p;
 	}
 	else if(i[i.length-1] == '+') {

@@ -32,8 +32,8 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		      self.hide();
 					e.stopPropagation();					
 				}
-			}
-		});
+			}						
+		});//(o.glassBox instanceof Dino.Widget) ? o.glassBox : $.dino(o.glassBox);
 		
 //		// создаем прозрачную панель для перехвата событий
 //    this.glass_panel =  $('<div class="dino-glass-pane"></div>');
@@ -78,7 +78,6 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		this.isShown = true;
 
 		if (this.options.hideOn == 'outerClick') {
-						
 			// добавляем прозрачную панель в документ
 			$('body').append(this.glass_box.el);
 		}

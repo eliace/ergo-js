@@ -6,13 +6,9 @@ $.dino({
   defaultItem: {
     dtype: 'text-menu-item',
     cls: 'main-menu-item',
-    submenuWidth: 140,
     onAction: function(e) {
       this.hideSubmenu();
       growl.info( e.target.getText() );
-    },
-    defaultSubItem: {
-      showLeftPanel: true
     }
   },
   items: [{
@@ -23,10 +19,8 @@ $.dino({
       text: 'Submenu 2',
     }, {
       text: 'Submenu 3',
-      submenuWidth: 230,
       submenu: [{
         text: 'Submenu 4',
-        submenuWidth: 130,
         submenu: [{
           text: 'Submenu 6',
         }]

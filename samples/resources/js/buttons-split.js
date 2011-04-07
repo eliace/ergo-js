@@ -70,12 +70,48 @@ $.dino({
 		text: 'Month',
 		xicon: 'dino-icon-down',
 		components: {
+			'dropdown!': {
+				dtype: 'menu-dropdown-box',
+				renderTo: 'body',
+				cls: 'dino-border-all menu dino-dropdown-shadow',
+				hideOn: 'hoverOut',
+//				dtype: 'dropdown-box',
+//				renderTo: 'body',
+//				cls: 'dino-border-all menu dino-dropdown-shadow',
+//				style: {'overflow-y': 'visible'},
+//				content: {
+//					dtype: 'box',
+//					defaultItem: {
+//						dtype: 'text-menu-item'
+//					},
+					items: [{
+						text: 'January'
+					}, {
+						text: 'February',
+						xicon: 'ui-icon ui-icon-triangle-1-e',
+						submenu: [{
+							text: '23 Feb'
+						}]
+					}, {
+						text: 'March',
+						submenu: [{
+							text: '8 Mar'
+						}]
+					}, {
+						text: 'April'
+					}]					
+//				}
+			}
+		}
+		
+		
+/*		
+		components: {
 			dropdown: {
 				cls: 'dino-border-all menu dino-dropdown-shadow',
-				data: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+//				data: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 				'content!': {
 					dtype: 'menu-box',
-//					html: '<table cellspacing="0" cellpadding="0" border="0"><body/></table>',
 					dynamic: true,
 					defaultItem: {
 						events: {
@@ -137,5 +173,6 @@ $.dino({
 				}
 			}
 		} 
+*/		
 	}]            
 });

@@ -11,6 +11,7 @@ Dino.declare('Dino.containers.GlassBox', 'Dino.containers.Box', {
 				e.preventDefault();
 				return false;
 			}
+			
 //    this.glass_panel.bind('click', function(e){
 //      self.hide();
 //			e.stopPropagation();
