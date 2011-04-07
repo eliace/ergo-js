@@ -7,3 +7,16 @@
 .button-container > * {
 	display: block;
 }
+
+
+
+
+.menu {
+	background-color: #eee;
+}
+
+
+.menu-item:hover {
+	background-color: #ddd;
+	cursor: default;
+}

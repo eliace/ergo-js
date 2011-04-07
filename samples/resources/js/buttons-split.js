@@ -65,5 +65,77 @@ $.dino({
 //        style: {'padding-right': 10}
 //      }
 //    }
-  }]            
+  }, {
+		dtype: 'dropdown-button',
+		text: 'Month',
+		xicon: 'dino-icon-down',
+		components: {
+			dropdown: {
+				cls: 'dino-border-all menu dino-dropdown-shadow',
+				data: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+				'content!': {
+					dtype: 'menu-box',
+//					html: '<table cellspacing="0" cellpadding="0" border="0"><body/></table>',
+					dynamic: true,
+					defaultItem: {
+						events: {
+							'mouseenter': function(e, w) {
+								if(!w.dropdown.isShown) {
+									console.log(e);
+									var offset = w.el.offset();
+									w.dropdown.show(offset.left + w.el.outerWidth(), offset.top);
+								}
+							},
+							'mouseleave': function(e, w) {
+								if(w.dropdown.isShown) w.dropdown.hide();
+							}
+						},
+						components: {
+							dropdown: {
+								dtype: 'dropdown-box',
+								renderTo: 'body',
+								style: {'background-color': '#fff'},
+								width: 100,
+								height: 200
+							}
+						}
+			
+						
+//						dtype: 'box',
+//						html: '<tr/>',
+//						cls: 'menu-item',
+//						defaultItem: {
+//							dtype: 'box',
+//							html: '<td/>'
+//						},
+//						items: [{
+//							width: 24,
+//							binding: function(val) {
+//								if(val[0] == 'M') this.addComponent('content', {
+//									dtype: 'checkbox',
+//									checked: true,
+//									events: {
+//										'click': function(e) {
+//											e.stopPropagation();
+//										}
+//									}
+//								});
+//							}							
+//						}, {
+//							dtype: 'text',							
+//							width: 16,
+//						}, {
+//							content: {
+//								dtype: 'icon',
+//								cls: 'ui-icon ui-icon-triangle-1-e',
+//								binding: function(val) {
+//									this.states.toggle('hidden', (val[0] != 'J'));
+//								}								
+//							}
+//						}]
+					}
+				}
+			}
+		} 
+	}]            
 });

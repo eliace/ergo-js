@@ -46,7 +46,7 @@ Dino.Focusable.focusManager = {
 	},
 	
 	input: function(e) {
-		if(this.current) this.current.events.fire('onKeyDown', {keyCode: e.keyCode, baseEvent: e});
+		if(this.current) this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
 		if(e.keyCode == 27) this.leave();
 	}
 	
@@ -57,6 +57,6 @@ $(window).click(function(){
 	Dino.Focusable.focusManager.leave();
 });
 
-$(window).keydown(function(e){
+$(window).bind('keypress', function(e){
 	Dino.Focusable.focusManager.input(e);
 });

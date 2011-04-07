@@ -71,64 +71,6 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 
 
 
-/*
-Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', {
-	
-	defaultCls: 'dino-text-button',
-	
-	defaultOptions: {
-		components: {
-			leftIcon: {
-				dtype: 'icon',
-				cls: 'dino-hidden'
-			},
-			content: {
-				dtype: 'text'
-			},
-			rightIcon: {
-				dtype: 'icon',
-				cls: 'dino-hidden'
-			}		
-		},
-		text: false
-	},
-	
-	
-	$init: function() {
-		
-//		if('leftIcon' in o) {
-//			 
-//		}
-		
-		
-	},
-	
-	
-	$opt: function(o) {
-		
-		if('icon' in o) {
-			this.content.el.toggleClass('l-icon', !(!o.icon));
-			this.leftIcon.el.toggleClass('dino-hidden', !o.icon);
-			if( Dino.isString(o.icon) ) this.leftIcon.states.set(o.icon);
-		}
-		
-		if('text' in o) {
-			this.content.el.toggleClass('no-text', !o.text);
-			if( Dino.isString(o.text) ) this.content.opt('text', o.text);			
-		}
-		
-	}
-	
-	
-	
-}, 'text-button');
-*/
-
-
-
-
-
-
 
 
 
@@ -314,8 +256,6 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 
 Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	
-//	$html: function() { return '<span></span>'; },
-	
 	defaultOptions: {
 		cls: 'dino-icon-button',
 		content: {
@@ -334,28 +274,6 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 			}
 		}
 	},
-/*	
-	$init: function(o) {
-		
-		if('leftIcon' in o) {
-			Dino.utils.override$opts(o, {
-				content: {
-					showLeftIcon: true,
-					leftIconCls: o.leftIcon
-				}
-			});
-		}
-		
-		if('text' in o) {
-			Dino.utils.override$opts(o, {
-				content: {
-					text: o.text
-				}
-			});
-		}
-		
-	}
-*/	
 
 	$opt: function(o) {
 		Dino.widgets.IconButton.superclass.$opt.apply(this, arguments);
@@ -366,32 +284,43 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 		
 	}
 
-
-
 }, 'icon-button');
 
 
 
-
-
-/*
-Dino.declare('Dino.widgets.LinkButton', Dino.Widget, {
-
-	defaultCls: 'dc-link-button',
+Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 	
-	render$html: function() { return '<a href=""></a>'; },
-	
-	build: function(o) {
-		Dino.widgets.LinkButton.superclass.build.call(this, o);
-		
-		this.image = 
-	},
-	
-	options: function(o) {
-		Dino.widgets.LinkButton.superclass.options.call(this, o);
-		
+	defaultOptions: {
+		components: {
+			dropdown: {
+				dtype: 'dropdown-box',
+				renderTo: 'body',
+				style: {'display': 'none'},
+				content: {
+					dtype: 'list',
+					defaultItem: {
+						events: {
+							'click': function(e, w){
+								var dd = w.parent.parent;
+								dd.parent.events.fire('onSelect', {target: this});
+								dd.hide();
+							}
+						}
+					}
+				}
+			}
+		},
+		onAction: function() {
+			
+			var dd = this.dropdown;
+			
+			var offset = this.el.offset();
+			dd.show(offset.left, offset.top + this.el.outerHeight());
+//			dd.show(0, this.el.outerHeight());
+			
+		}
 	}
 	
 	
-}, 'link-button');
-*/
+}, 'dropdown-button');
+

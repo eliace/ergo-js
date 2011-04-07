@@ -8,6 +8,7 @@
 Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.containers.Box', /** @lends Dino.containers.DropDownBox.prototype */ {
 	
 	defaultOptions: {
+		html: '<div autoheight="ignore"></div>',
 		effects: {
 			'show': 'none',
 			'hide': 'none',
@@ -23,12 +24,23 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		Dino.containers.DropDownBox.superclass.$init.apply(this, arguments);
 		  
 		var self = this;
-		// создаем прозрачную панель для перехвата событий
-    this.glass_panel =  $('<div class="dino-glass-pane"></div>');
-    this.glass_panel.bind('click', function(e){
-      self.hide();
-			e.stopPropagation();
-    });
+		
+		this.glass_box = $.dino({
+			dtype: 'glass-box',
+			events: {
+				'click': function(e) {
+		      self.hide();
+					e.stopPropagation();					
+				}
+			}
+		});
+		
+//		// создаем прозрачную панель для перехвата событий
+//    this.glass_panel =  $('<div class="dino-glass-pane"></div>');
+//    this.glass_panel.bind('click', function(e){
+//      self.hide();
+//			e.stopPropagation();
+//    });
 		
 		this.el.bind('mouseleave', function(){ 
 			if(self.options.hideOn == 'hoverOut') self.hide(); 
@@ -36,6 +48,7 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 
 		this.el.bind('click', function(e){ 
 			 e.stopPropagation();
+			 e.preventDefault();
 		});
 		
 	},
@@ -67,7 +80,7 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		if (this.options.hideOn == 'outerClick') {
 						
 			// добавляем прозрачную панель в документ
-			$('body').append(this.glass_panel);
+			$('body').append(this.glass_box.el);
 		}
 		
 		this.events.fire('onShow');
@@ -77,7 +90,7 @@ Dino.containers.DropDownBox = Dino.declare('Dino.containers.DropDownBox', 'Dino.
 		
 		if(this.options.hideOn == 'outerClick') {
 			// удаляем прозрачную панель
-	    this.glass_panel.detach();
+	    this.glass_box.el.detach();
 		}
 		
 		var effects = this.options.effects;

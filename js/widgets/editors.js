@@ -28,7 +28,9 @@ Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
 			}
 		},
 		onKeyDown: function(e) {
-			if(e.keyCode == 13) this.parent.stopEdit('enterKey');
+			if(e.keyCode == 13) {
+				this.parent.stopEdit('enterKey');
+			}
 		}
 	}	
 	

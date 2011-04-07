@@ -60,6 +60,7 @@ require 'fileutils'
     'js/form/x-form.js',
     'js/grid/grid.js',
     'js/grid/tree-grid.js',
+    'js/menu/menu-item.js',
     'js/menu/menu.js',
     'js/tree/tree.js',
     'js/dialog/window.js',
