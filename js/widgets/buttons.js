@@ -293,18 +293,16 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 	defaultOptions: {
 		components: {
 			dropdown: {
-				dtype: 'dropdown-box',
-				renderTo: 'body',
-//				style: {'display': 'none'},
-				content: {
-					dtype: 'list',
-					defaultItem: {
-						events: {
-							'click': function(e, w){
-								var dd = w.parent.parent;
-								dd.parent.events.fire('onSelect', {target: this});
-								dd.hide();
-							}
+				dtype: 'menu-dropdown-box',
+				style: {'display': 'none'},
+//				renderTo: 'body',
+				menuModel: {
+					item: {
+						content: {
+							dataId: 'name'							
+						},
+						onAction: function() {
+							this.getParent(Dino.widgets.DropdownButton).events.fire('onSelect', {target: this});
 						}
 					}
 				}
@@ -313,9 +311,12 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 		onAction: function() {
 			
 			var dd = this.dropdown;
+
+			$('body').append(dd.el);
 			
 			var offset = this.el.offset();
 			dd.show(offset.left, offset.top + this.el.outerHeight());
+			
 //			dd.show(0, this.el.outerHeight());
 			
 		}

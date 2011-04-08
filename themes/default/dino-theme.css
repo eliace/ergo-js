@@ -110,6 +110,7 @@
 .dino-icon-dialog-minimize { background-position: -48px -80px; }
 .dino-icon-dialog-maximize { background-position: -16px -80px; }
 
+.dino-icon-right {	background: url(img/right.png); }
 
 
 
@@ -916,15 +917,31 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 
 .dino-menu-item {
 	position: relative;
+	display: block;
 	cursor: pointer;
 	white-space: nowrap;
-	font-size: 8pt;
+	font-size: 9pt;
+	padding: 2px 18px 2px 10px;
 }	
 
 .dino-menu-item:hover {
 	background-color: #ddd;
 }
 
+
+.dino-menu-dropdown {
+	border: 1px solid #aaa;
+	background-color: #eee;
+/*	z-index: 2000;*/
+}
+
+.dino-menu-shadow {
+	-moz-box-shadow: 1px 1px 3px #aaa;
+	-webkit-box-shadow: 1px 1px 3px #aaa;
+	box-shadow: 1px 1px 3px #aaa;		
+}
+
+/*
 .dino-menu-item-content {
 	padding: 2px 10px;
 	display: block;
@@ -957,7 +974,7 @@ input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
 .dino-menu-item.has-submenu > .dino-menu-item-content .dino-submenu-icon {
 	background-position: -32px -16px;
 }
-
+*/
 
 
 .dino-context-menu {

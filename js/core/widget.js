@@ -802,7 +802,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //			this.states.set( this.getStateValue() );
 //		}
 		
-		this.children.each(function(child) { child.$dataChanged(); });		
+		this.children.each(function(child) { child.$dataChanged(); });	
+		
+//		this.events.fire('onDataChanged');
 	}
 	
 });

@@ -9,10 +9,10 @@ $.dino({
     height: 'auto',
     contextMenu: {
       dtype: 'context-menu',
-      cls: 'dino-dropdown-shadow',
+//      cls: 'dino-dropdown-shadow',
 //    hideOn: 'outerClick',
-      onAction: function(e) {
-        growl.info('Выбран элемент меню: ' + e.target.getText());
+      onSelect: function(e) {
+        growl.info('Выбран элемент меню: ' + e.target.content.getText());
       },
       items: [
         {text: 'Item 1'},

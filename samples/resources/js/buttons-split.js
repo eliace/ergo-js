@@ -1,4 +1,36 @@
 
+
+var menuData = [{
+	name: 'Europe',
+	children: [{
+		name: 'Germany'
+	}, {
+		name: 'France',
+		children: [{
+			name: 'Paris'
+		}]
+	}, {
+		name: 'Russia'
+	}, {
+		name: 'Great Britain'
+	}]
+}, {
+	name: 'Asia',
+	children: [{
+		name: 'China'
+	}, {
+		name: 'Korea'
+	}, {
+		name: 'Japan'
+	}, {
+		name: 'India'
+	}]
+}, {
+	name: 'Africa'
+}]
+
+
+
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
@@ -67,41 +99,21 @@ $.dino({
 //    }
   }, {
 		dtype: 'dropdown-button',
-		text: 'Month',
+		text: 'Location',
 		xicon: 'dino-icon-down',
 		components: {
-			'dropdown!': {
-				dtype: 'menu-dropdown-box',
-				renderTo: 'body',
-				cls: 'dino-border-all menu dino-dropdown-shadow',
-				hideOn: 'hoverOut',
-//				dtype: 'dropdown-box',
-//				renderTo: 'body',
-//				cls: 'dino-border-all menu dino-dropdown-shadow',
-//				style: {'overflow-y': 'visible'},
-//				content: {
-//					dtype: 'box',
-//					defaultItem: {
-//						dtype: 'text-menu-item'
-//					},
-					items: [{
-						text: 'January'
-					}, {
-						text: 'February',
-						xicon: 'ui-icon ui-icon-triangle-1-e',
-						submenu: [{
-							text: '23 Feb'
-						}]
-					}, {
-						text: 'March',
-						submenu: [{
-							text: '8 Mar'
-						}]
-					}, {
-						text: 'April'
-					}]					
+			dropdown: {
+//				data: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+				data: menuData,//[{name: 'aaa'}, {name: 'bbb', children: [{name: 'ccc'}]}],
+//				menuModel: {
+//					item: {
+//						content: { dataId: 'name'	}
+//					}
 //				}
 			}
+		},
+		onSelect: function(e) {
+			growl.info('Selected item: '+e.target.content.getValue());
 		}
 		
 		

@@ -321,7 +321,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		this.layout.rebuild();
 		
 		
-		this.events.fire('onDataBound');
+//		this.events.fire('onDataBound');
 		
 		
 		

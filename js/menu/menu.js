@@ -80,19 +80,26 @@ Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.wi
  * @class
  * @extends Dino.containers.DropDownBox
  */
-Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.DropDownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
+Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.containers.MenuDropdownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
 	
 	defaultOptions: {
-		hideOn: 'hoverOut',
+//		hideOn: 'hoverOut',
 		baseCls: 'dino-context-menu',
 		renderTo: 'body',
-		defaultItem: {
-			dtype: 'text-menu-item',
-			onAction: function(e) {
-				this.parent.events.fire('onAction', {target: e.target});
-				this.parent.hide();
-			}			
+		menuModel: {
+			item: {
+				onAction: function() {
+					this.getParent(Dino.widgets.ContextMenu).events.fire('onSelect', {target: this});
+				}
+			}
 		},
+//		defaultItem: {
+//			dtype: 'menu-item',
+//			onAction: function(e) {
+//				this.parent.events.fire('onAction', {target: e.target});
+//				this.parent.hide();
+//			}			
+//		},
 		offset: [-2, -2]
 	}
 	

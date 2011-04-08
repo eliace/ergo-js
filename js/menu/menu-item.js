@@ -9,65 +9,80 @@
  * @class
  * @extends Dino.Widget
  */
-Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.TextItem', /** @lends Dino.widgets.MenuItem.prototype */{
+Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.Box', /** @lends Dino.widgets.MenuItem.prototype */{
 	
 //	$html: function() { return '<div></div>'; },
+	defaultCls: 'dino-menu-item',
 	
 	defaultOptions: {
-		style: {'position': 'relative', 'display': 'block'},
-		baseCls: 'dino-menu-item',
 		showOnEnter: true,
 		hideOnLeave: true,
-		xicon: true,
+		layout:'dock-layout',
 		components: {
-//			content: {
-//				dtype: 'text-item'
-//			},
 			// выпадающее подменю
+			content: {
+				dtype: 'text'
+			},
+			icon: {
+				dtype: 'icon',
+				cls: 'dino-icon-right',
+				dock: 'right',
+				state: 'hidden'
+			},
 			submenu: {
-				dtype: 'menu-dropdown-box'
-//				dtype: 'dropdown-box',
-//				style: {'overflow-y': 'visible'},
-//				hideOn: 'hoverOut',
-//				defaultItem: {
-//					dtype: 'menu-item'
-////					onAction: function(e) {
-////						this.parent.parent.events.fire('onAction', {'target': e.target});
-////					},					
-////					isLeaf: true
-//				},
-//				offset: [-1, 1]
+				dtype: 'menu-dropdown-box',
+				dataId: 'children',
+				binding: function(val) {
+					if(val) this.parent.states.set('submenu');
+				}
+			}
+		},
+		states: {
+			'submenu': function(on) {
+				if(this.icon) this.icon.states.toggle('hidden', !on);
+			}
+		},
+		events: {
+			'click': function(e, w) {
+				var event = new Dino.events.CancelEvent();
+				w.events.fire('onAction', event);
+				if(!event.isCanceled) w.hideSubmenu(true);
 			}
 		}
 	},
 	
-	$init: function() {
-		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
+	$init: function(o) {
 		
-		var o = this.options;
+		if('menuModel' in o) {
+			Dino.utils.overrideOpts(o, o.menuModel.item);
+			o.components.submenu.menuModel = o.menuModel;
+		}		
+		
+		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
 			o.components.submenu.items = o.submenu;
-			this.states.set('has-submenu');
+			//FIXME подозрительный код, потому что состояние submenu влияет на компонент icon, которого пока не создано
+			this.states.set('submenu');
+			o.components.icon.state = '';
 		}
 
 //		if('submenuWidth' in o){
 //			o.components.submenu.width = o.submenuWidth;
 //		}
 		
-		if('subItem' in o.defaults){
-			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
-		}
-		
+//		if('subItem' in o.defaults){
+//			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
+//		}		
 		
 	},
 	
 	
-//	$opt: function(o) {
-//		Dino.widgets.MenuItem.superclass.$opt.apply(this, arguments);
-//		
-//		if('text' in o) this.content.opt('text', o.text);
-//	},
+	$opt: function(o) {
+		Dino.widgets.MenuItem.superclass.$opt.apply(this, arguments);
+		
+		if('text' in o) this.content.opt('text', o.text);
+	},
 	
 	
 	$events: function(self) {
@@ -116,10 +131,16 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Text
 	hideSubmenu: function(hideAll) {
 		if(this.hasSubmenu()){
 			this.submenu.hide();
-			this.events.fire('onSubmenuHide');			
-		}		
-		if(hideAll && this.options.isLeaf)
-			this.parent.parent.hideSubmenu(true);
+			this.events.fire('onSubmenuHide');
+		}
+		if(hideAll) {
+			if(this.parent instanceof Dino.containers.MenuDropdownBox) this.parent.hideAll();
+		}
+//		if(hideAll) {// && this.options.isLeaf)
+//			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
+//			if(parentMenuItem) parentMenuItem.hideSubmenu(true);
+//		}	
+//			if(this.parent)this.parent.parent.hideSubmenu(true);
 	}
 	
 	
@@ -132,15 +153,39 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Text
 
 
 
-Dino.declare('Dino.widgets.MenuDropDownBox', 'Dino.containers.DropDownBox', {
+Dino.declare('Dino.containers.MenuDropdownBox', 'Dino.containers.DropDownBox', {
+	
+	defaultCls: 'dino-menu-dropdown',
 	
 	defaultOptions: {
+		cls: 'dino-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
+		dynamic: true,
 		style: {'overflow-y': 'visible'},
 		defaultItem: {
 			dtype: 'menu-item'
 		}
+	},
+	
+	
+	$init: function(o) {
+		
+		if('menuModel' in o) {
+			Dino.utils.overrideOpts(o, o.menuModel.dropdown);
+			o.defaultItem.menuModel = o.menuModel;
+		}		
+		
+		Dino.containers.MenuDropdownBox.superclass.$init.apply(this, arguments);
+				
+//		if('defaultItem' in o)
+//			Dino.utils.overrideOpts(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
+		
+	},
+	
+	hideAll: function() {
+		this.hide();
+		if(this.parent instanceof Dino.widgets.MenuItem) this.parent.hideSubmenu(true)
 	}
 	
 	
