@@ -31,9 +31,12 @@ Dino.Focusable.focusManager = {
 	
 	enter: function(w) {
 		if(this.current == w) return;
-		if(this.current) this.current.states.clear('focus');
+		if (this.current) {
+			this.current.states.clear('focus');
+		}
 		this.current = w;
 		w.states.set('focus');
+		w.events.fire('onFocus');
 	},
 	
 	clear: function() {

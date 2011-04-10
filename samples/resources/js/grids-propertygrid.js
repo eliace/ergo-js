@@ -60,7 +60,8 @@ var propertyGrid = $.dino({
             },
             binding: function(val) {
               this.dropdown.$bind(this.data.source.item('value_list'));
-            }
+            },
+						dropdownOnFocus: true
           });
                     
           this.opt('format', function() {

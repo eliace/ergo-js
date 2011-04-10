@@ -38,9 +38,10 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	
 	update: function() {
 		if(this.container.options.height == 'auto'){
+
+			if(!this.el.is(":visible")) return;
 			
 			this.el.height(0);
-//			if(!this.el.is(":visible")) return;
 			
 //			this.el.hide();
 			

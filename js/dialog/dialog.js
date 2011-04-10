@@ -96,8 +96,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 		this.events.fire('onBeforeOpen');
 
 		var self = this;
-		this.layout.reset();
-		this.el.show();
+		this.layout.open();
 		this.layout.update(function(){
 			self.events.fire('onOpen');
 		});
@@ -113,7 +112,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 		this.events.fire('onClose', e);
 		
 		if(!e.isCanceled) {
-			this.el.hide();
+			this.layout.close();
 			if(this.options.destroyOnClose) this.destroy();
 			if(this.dialogResult && this.resultCallback) this.resultCallback.call(this, this.dialogResult);
 		}

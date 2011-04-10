@@ -5,9 +5,22 @@
  */
 
 [layout='window'] {
-	position: static;
+/*	position: static;
 	display: none;
+*/
+	display: none;
+	position: absolute;
+	z-index: 1100;
+	background-color: #fff;
+	left: 50%;
+	top: 50%;	
 }
+
+[layout='window'] > .dino-window-content {
+	height: 100%;
+}
+
+
 
 [layout='window'] > .dino-overlay {
 	background-color: black;

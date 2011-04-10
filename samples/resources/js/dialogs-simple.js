@@ -3,10 +3,11 @@ var dlg = $.dino({
   dtype: 'dialog',
   renderTo: '.preview',
   title: 'Диалог',
+  width: '90%',	
   content: {
     dtype: 'box',
+		height: 'auto',
     cls: 'dino-text-content dino-border-all',
-    width: 400,
     innerText: Samples.loremipsum
   },
   buttons: ['ok'],

@@ -16,7 +16,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 				weight: 1,
 				dtype: 'tabs',
 				defaultItem: {
-					cls: 'dino-bg-3 dino-border-all dino-corner-top',
+					cls: 'dino-bg-3 dino-border-all',// dino-corner-top',
 					content: {
 						dtype: 'text-item'
 //						selectable: false
@@ -68,7 +68,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 			if(o.tabPosition == 'bottom'){
 				Dino.utils.overrideOpts(this.options, {
 					components: {
-						tabs: {weight: 2},
+						tabs: {weight: 3},
+						tabFooter: {weight: 2},
 						pages: {weight: 1}
 					}
 				});
@@ -85,8 +86,8 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 	},
 	
 	
-	$afterRender: function() {
-		Dino.panels.TabPanel.superclass.$afterRender.apply(this, arguments);
+	$afterBuild: function() {
+		Dino.panels.TabPanel.superclass.$afterBuild.apply(this, arguments);
 		
 		// активируем закладку
 		if(!this.tabs.currentTab) this.tabs.setActiveTab(0);

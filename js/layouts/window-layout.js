@@ -10,6 +10,134 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		delay: 300,
 		initialWidth: 200,
 		initialHeight: 200,
+		updateMode: 'manual',
+		html: '<div class="dino-window-content" autoheight="true"/>'
+	},
+	
+	
+	attach: function() {
+		Dino.layouts.WindowLayout.superclass.attach.apply(this, arguments);
+		
+		var o = this.options;
+		
+		this.overlay_el = $('<div class="dino-overlay" autoheight="ignore"></div>');
+						
+		this.overlay_el.mousedown(function(e){ e.preventDefault(); return false; });
+		
+	},
+	
+	detach: function() {
+		Dino.layouts.WindowLayout.superclass.detach.apply(this, arguments);
+		this.container.el.empty();
+	},
+	
+	
+	reset: function() {
+
+		var w0 = this.options.initialWidth;
+		var h0 = this.options.initialHeight;
+		
+		this.container.el.css({
+			width: w0, 
+			height: h0,
+			'margin-left': -w0/2,
+			'margin-top': -h0/2
+		});
+	},
+	
+	
+	open: function() {
+
+		$('body').append(this.overlay_el);
+		
+		this.reset();
+		this.container.el.show();
+		
+	},
+	
+	
+	close: function() {
+		
+		this.overlay_el.detach();
+		this.container.el.hide();
+	},
+	
+	
+	update: function(callback) {
+		
+		var box = this.el;
+		var wnd = this.container.el;
+		
+		box.css({'visibility': 'hidden'});
+		
+		var w0 = wnd.width();
+		var h0 = wnd.height();
+		wnd.css({width: '', height: ''});
+		
+//		this.container.el.show();
+		
+				
+		var w = this.container.options.width || box.outerWidth(true);
+		var h = this.container.options.height || box.outerHeight(true);
+		
+		// если указана высота в %, ее еще надо рассчитать
+		if(Dino.isString(w) && w[w.length-1] == '%') 
+			w = this.container.el.parent().width() * parseFloat(w.substr(0, w.length-1))/100;
+		if(Dino.isString(h) && h[h.length-1] == '%') 
+			h = this.container.el.parent().height() * parseFloat(h.substr(0, h.length-1))/100;
+		
+		box.css('display', 'none');
+		
+		var o = this.options;
+		
+//		wnd.width(w0);
+//		wnd.height(h0);
+
+		wnd.css('width', w0);
+		wnd.css('height', h0);
+		wnd.css('margin-left', -w0/2);
+		wnd.css('margin-top', -h0/2);
+//		wnd.width(w0);
+//		wnd.height(h0);
+
+//		wnd.css({'visibility': 'visible'});
+		
+//		console.log(Dino.format("%s, %s", w0, h0));
+		
+		var self = this;
+		
+		wnd.animate({'width': w, 'margin-left': -w/2, 'height': h, 'margin-top': -h/2}, o.delay, function(){
+			// делаем окно видимым
+			box.css({'visibility': '', 'display': 'block'});
+			// вызываем функцию-сигнал о том, что окно отображено
+			if(callback) callback.call(self);
+			// обновляем компоновку окна
+			self.container.$layoutChanged();
+		});
+		
+		
+		box.focus();
+		
+	}
+		
+	
+}, 'window-layout');
+
+
+
+
+
+
+
+
+/*
+Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', {
+	
+	defaultOptions: {
+		name: 'window',
+		delay: 300,
+		initialWidth: 200,
+		initialHeight: 200,
 		updateMode: 'manual'
 	},
 	
@@ -35,26 +163,6 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		this.container.el.empty();
 	},
 	
-//	insert: function(item, i) {
-//		
-//	},
-//	
-//	remove: function(item) {
-//	},
-//
-//	clear: function() {
-//		this.el.detach();
-//	},
-	
-	
-//	show: function() {
-//		this.el.css({'visibility': 'hidden'});
-//		this.container.el.show();
-//	},
-//	
-//	hide: function() {
-//		this.container.el.hide();		
-//	},
 	
 	reset: function() {
 
@@ -75,7 +183,6 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		var wnd = this.window_el;
 		
 		box.css({'visibility': 'hidden'});
-//		wnd.css({'visibility': 'hidden'});
 		
 		var w0 = wnd.width();
 		var h0 = wnd.height();
@@ -123,3 +230,5 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		
 	
 }, 'window-layout');
+*/
+

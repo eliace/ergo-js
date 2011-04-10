@@ -121,7 +121,8 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 			this.el.click(function(){	self.showDropdown(); });
 		}
 		if(o.dropdownOnFocus) {
-			this.el.focus(function(){	self.showDropdown(); });
+			this.events.reg('onFocus', function(){	self.showDropdown(); });
+//			this.el.focus(function(){	self.showDropdown(); });
 		}
 	},
 	

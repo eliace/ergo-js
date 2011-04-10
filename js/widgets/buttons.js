@@ -305,6 +305,9 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 							this.getParent(Dino.widgets.DropdownButton).events.fire('onSelect', {target: this});
 						}
 					}
+				},
+				onHide: function() {
+					this.parent.states.clear('selected');
 				}
 			}
 		},
@@ -317,6 +320,7 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 			var offset = this.el.offset();
 			dd.show(offset.left, offset.top + this.el.outerHeight());
 			
+			this.states.set('selected');
 //			dd.show(0, this.el.outerHeight());
 			
 		}
