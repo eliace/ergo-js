@@ -37,7 +37,8 @@ Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events
 Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data.DataSource.prototype */{
 	
 	classOptions: {
-		useDirty: false
+		useDirty: false,
+		oid: 'id'
 	},
 	
 	/**
@@ -308,7 +309,15 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 			src = src.source;
 		}
 		return false;
+	},
+	
+	find_by_oid: function(oid) {
+		var result = null;
+		var oid_key = this.options.oid;
+		this.each(function(val){ if(val[oid_key] == oid) {result = val; return false;} });
+		return result;
 	}
+	
 		
 //	asArray: function() {
 //		return new Dino.data.ArrayDataSource(this);

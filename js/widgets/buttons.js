@@ -295,6 +295,7 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 			dropdown: {
 				dtype: 'menu-dropdown-box',
 				style: {'display': 'none'},
+				hideOn: 'outerClick',
 //				renderTo: 'body',
 				menuModel: {
 					item: {

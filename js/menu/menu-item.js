@@ -33,7 +33,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 				dtype: 'menu-dropdown-box',
 				dataId: 'children',
 				binding: function(val) {
-					if(val) this.parent.states.set('submenu');
+					if(val && val.length > 0) this.parent.states.set('submenu');
 				}
 			}
 		},

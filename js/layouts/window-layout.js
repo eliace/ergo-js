@@ -1,4 +1,7 @@
 
+Dino.topZ = 1;
+
+
 /**
  * @class
  * @extends Dino.layouts.PlainLayout
@@ -48,6 +51,10 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 	
 	open: function() {
 
+		var z = Dino.topZ++;
+		this.overlay_el.css('z-index', z*1000);
+		this.container.el.css('z-index', z*1000+1);
+	
 		$('body').append(this.overlay_el);
 		
 		this.reset();
@@ -57,6 +64,8 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 	
 	
 	close: function() {
+
+		Dino.topZ--;
 		
 		this.overlay_el.detach();
 		this.container.el.hide();

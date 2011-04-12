@@ -160,6 +160,11 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 		
 		
 //		var tableWidth = this.content.content.el.width();
+	},
+	
+	
+	eachRow: function(callback) {
+		this.content.content.eachRow(callback);
 	}
 	
 //	$dataChanged: function() {

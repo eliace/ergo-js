@@ -56,8 +56,9 @@ Dino.Focusable.focusManager = {
 }
 
 
-$(window).click(function(){
-	Dino.Focusable.focusManager.leave();
+$(window).click(function(e){
+	// убираем фокус по щелчку левой кнопкой мыши
+	if(e.button == 0) Dino.Focusable.focusManager.leave();
 });
 
 $(window).bind('keypress', function(e){
