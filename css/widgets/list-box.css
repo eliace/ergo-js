@@ -1,0 +1,20 @@
+
+
+.dino-list-box {
+	background-color: #fff;
+	overflow-y: auto;
+}
+
+.dino-list-box-item {
+	display: block;
+}
+
+.dino-list-box-item:hover {
+	background-color: #f4f4f4;;
+}
+
+.dino-list-box-item.selected {
+	background-color: #bdf;
+}
+
+

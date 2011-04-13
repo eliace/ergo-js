@@ -11,9 +11,10 @@ var grid = $.dino({
 	width: 800,
   content: {
     height: 'auto',
-    style: {'padding-right': '18px', 'font-size': '9pt'}
+		state: 'scrollable'
+//    style: {'padding-right': '18px'}
   },
-  headerCls: 'dino-bg-highlight',
+//  headerCls: 'dino-bg-highlight',
   tableModel: {
     cell: {
       binding: 'auto'

@@ -32,7 +32,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			dtype: 'text',
 			innerText: 'Страница'
 		}, {
-			dtype: 'textfield',
+			dtype: 'input',
 			width: 30,
 			tag: 'current_page',
 			value: '1',

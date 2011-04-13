@@ -3,7 +3,7 @@
  * @class
  * @extends Dino.containers.Box
  */
-Dino.widgets.LoadingOverlay = Dino.declare('Dino.widgets.LoadingOverlay', 'Dino.containers.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
+Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.containers.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
 	
 	defaultOptions: {
 		components: {

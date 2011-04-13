@@ -26,7 +26,7 @@ var hashData = {
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
-  layout: 'simple-form-layout',
+  layout: 'simple-form',
   data: xformData,
   defaultItem: {
   },

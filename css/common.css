@@ -1,9 +1,4 @@
 
-/*
-.clearfix {
-	clear: both;
-}
-*/
 
 
 .clearfix { zoom: 1 }
@@ -23,36 +18,10 @@ button::-moz-focus-inner {
 }
 
 
-.dino-hidden {
-	display: none !important;
+button {
+	position: relative;
+	padding: 3px 3px;
 }
-
-.dino-center-align {
-	display: block;
-	margin: 0 auto;
-}
-/*
-.dino-center-v {
-	vertical-align: middle;
-}
-*/
-
-
-
-.dino-widget-content {
-	background-color: #fff;
-}
-
-.dino-panel-content {
-	background-color: #eee;	
-}
-
-
-
-.dino-scrollable-v {
-	overflow-y: auto;
-}
-
 
 p {
 	margin: 0;
@@ -61,221 +30,24 @@ p {
 }
 
 
-/*.dino-toolbar .dino-button { display: inline-block; margin: 0 2px 0 2px; }*/
 
-.dino-toolbar-h .dino-toolbar-item { display: inline-block; }
-.dino-toolbar-v .dino-toolbar-item { display: block; }
-
-
-
-/*
- * TREE
- */
-
-.dino-tree-node.collapsed > ul {
-	display: none;
+.hidden {
+	display: none !important;
 }
 
-.dino-tree {
-	overflow: auto;
-}
-
-
-
-/*
- * TREE-GRID
- */
-
-.dino-tree-grid-item-button {
-	position: absolute;
-}
-
-.dino-tree-grid-item {
-	display: inline;
-	position: relative;
-}
-
-
-
-
-/*
- * Tabs
- */
-
-
-
-
-
-/*
-.dino-tab-button-active {
-	height: 25px !important;
-}
-
-.dino-tab-content {
-	position: relative;
-	height: 200px;
-	border-bottom: 1px solid #aaaaaa;
-	border-left: 1px solid #aaaaaa;
-	border-right: 1px solid #aaaaaa;
-}
-*/
-
-
-
-
-
-
-/*
-.dock-left-top {
-	left: 0;
-	top: 0;
-}
-
-.dock-left-center {
-	left: 0;
-	top: 50%;
-}
-
-.dock-left-bottom {
-	left: 0;
-	bottom: 0;
-}
-
-.dock-right-top {
-	right: 0;
-	top: 0;
-}
-
-.dock-right-center {
-	right: 0;
-	top: 50%;
-}
-
-.dock-right-bottom {
-	right: 0;
-	bottom: 0;
-}
-*/
-
-.dino-dropdown-box {
-	position: absolute;
-	display: none;
-	z-index: 10001;
-/*
- 	background-color: white;
-	padding: 2px 5px;
-	border: 1px solid #aaaaaa;
-*/	
-}
-
-
-
-.dino-text {
-}
-
-.dino-text-item {
-	position: relative;
-	display: inline;
-}
-
-
-
-
-/**
- * Меню
- */
-
-.dino-menu-item {
-	position: relative;
-}
-
-
-.dino-left-item {
-	left: 0;
-	top: 0;
-	position: absolute;
-}
-
-.dino-right-item {
-	right: 0;
-	top: 0;
-	position: absolute;
-}
-
-
-.dino-context-menu {
-	position: absolute;
-	display: none;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.dino-growl {
-	cursor: pointer;
-}
-
-
-
-
-.dino-pager > * {
-	vertical-align: middle;
-}
-
-
-
-.dino-nowrap {
+.nowrap {
 	white-space: nowrap;
 	overflow: hidden;
 	position: relative;
 }
 
 
-/*
- * DIALOG
- */
+.dino-clickable { cursor: pointer; }
 
-
-
-
-
-
-/*
- * COMBO FIELD
- */
-
-.dino-combofield {
-	display: inline-block;
-	line-height: 1px;
-	background-color: #fff;
-/*	padding: 1px;*/
+.dino-center-align {
+	display: block;
+	margin: 0 auto;
 }
-
-/*
-.dino-combofield > * {
-	display: inline-block !important;
-	vertical-align: middle;		
-}
-*/
-
-.dino-combofield > input {
-	padding: 0;
-	outline: none;
-	margin: 0;
-	border: none;
-}
-
-
-
 
 
 .dino-glass-pane {
@@ -288,41 +60,6 @@ p {
 }
 
 
-.dino-glass-box {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 10000;
-}
 
 
 
-.dino-select-field {
-	position: relative;
-}
-
-
-/*
-.dino-growl-box {
-	position: absolute;
-	right: 10px;
-	top: 10px;
-	background-color: rgba(255, 255, 255, .5);
-	z-index: 1000;
-	display: none;
-	-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;
-	cursor: pointer;
-	border: 1px solid #cccccc;
-}
-
-
-.dino-fit {
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-}
-*/

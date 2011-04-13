@@ -21,10 +21,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @private
 	 */
 	defaultOptions: {
-		layout: 'plain-layout',
+		layout: 'plain',
 		states: {
-			'hidden': 'dino-hidden',
-			'visible': ['', 'dino-hidden']
+			'hidden': 'hidden',
+			'visible': ['', 'hidden']
 		},
 		defaults: {},
 		extensions: [],
@@ -126,7 +126,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
-			layoutOpts = {dtype: layoutOpts};
+			layoutOpts = {dtype: layoutOpts+'-layout'};
 		if(!(layoutOpts instanceof Dino.Layout))
 			layoutOpts = Dino.object( layoutOpts );
 		/** 

@@ -7,15 +7,15 @@
 Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Container', /** @lends Dino.containers.GroupBox.prototype */{
 	
 	defaultOptions: {
-		cls: 'dino-group',
+		baseCls: 'dino-group-box',
 		defaultItem: {
 			dtype: 'box'
 		},
 		components: {
-			groupTitle: {
+			title: {
 				dtype: 'container',
-				html: '<legend/>',
-				cls: 'dino-group-title'// dino-panel'
+				html: '<legend/>'
+//				cls: 'dino-group-title'// dino-panel'
 			}
 		}
 	},
@@ -25,7 +25,7 @@ Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Contai
 	$opt: function(o) {
 		Dino.containers.GroupBox.superclass.$opt.apply(this, arguments);
 		
-		if('title' in o) this.groupTitle.opt('innerText', o.title);
+		if('title' in o) this.title.opt('innerText', o.title);
 	}
 	
 }, 'group-box');

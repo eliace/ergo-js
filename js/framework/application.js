@@ -51,7 +51,7 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 	init_default_growl: function() {
 		
 		this.growl = $.dino({
-			dtype: 'growl',
+			dtype: 'growl-box',
 			renderTo: 'body'
 		});
 	

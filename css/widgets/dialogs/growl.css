@@ -1,0 +1,29 @@
+
+.dino-growl-box {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	z-index: 10000;
+	font-size: 9pt;
+}
+
+.dino-growl {
+	width: 300px;
+	margin-bottom: 5px;
+	display: none;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.dino-growl.info {
+	background-color: #eee;
+}
+
+.dino-growl.warning {
+	background-color: #ffc;
+}
+
+.dino-growl.critical {
+	background-color: #fcc;
+}
+

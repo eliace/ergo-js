@@ -1,0 +1,28 @@
+
+/*
+ * TEXT ITEM
+ */
+
+.dino-text-item {
+	position: relative;
+}
+
+
+input.l-icon, span.l-icon {
+	padding-left: 20px;
+}
+
+input.r-icon, span.r-icon {
+	padding-right: 20px;
+}
+
+input.l-icon-only, span.l-icon-only, input.r-icon-only, span.r-icon-only {
+/*	margin-left: 16px;*/
+	padding: 0 8px;
+}
+
+
+input.l-icon-only.r-icon-only, span.l-icon-only.r-icon-only {
+	padding: 0 16px;
+}
+

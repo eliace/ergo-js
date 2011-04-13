@@ -1,28 +1,5 @@
 
 
-/**
- * Изображение.
- * 
- * @class
- * @extends Dino.Widget
- */
-Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.Widget, /** @lends Dino.widgets.Image.prototype */{
-	
-	$html: function() { return '<img></img>';},
-	
-	$opt: function(o) {
-		Dino.widgets.Image.superclass.$opt.call(this, o);
-		
-		if('imageUrl' in o) this.el.attr('src', o.imageUrl);
-	},
-	
-	$dataChanged: function() {
-		this.el.attr( 'src', this.getValue() );
-	}
-	
-	
-}, 'image');
-
 
 /**
  * Изображение, загружаемое асинхронно.

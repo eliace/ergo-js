@@ -2,7 +2,7 @@
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
-  layout: 'float-layout',
+  layout: 'float',
   items: [{
     cls: 'dino-icon led-icon-smile'
   }, {

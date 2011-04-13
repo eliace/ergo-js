@@ -1,0 +1,13 @@
+
+
+/**
+ * HBOX LAYOUT
+ */
+
+[layout='hbox'] > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+ 

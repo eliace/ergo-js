@@ -1,6 +1,6 @@
 
 
-Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
+Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 	
 	defaultOptions: {
 		autoFit: true,
@@ -34,17 +34,17 @@ Dino.declare('Dino.widgets.Editor', 'Dino.widgets.ComboField', {
 		}
 	}	
 	
-});
+}, 'text-editor');
 
 
 
 
 
-
+/*
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Editor', {
 	
 }, 'text-editor');
-
+*/
 
 
 
@@ -54,7 +54,7 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Editor', {
  * 
  * @param {Object} val
  */
-Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
+Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	
 	defaultOptions: {
 		components: {
@@ -80,7 +80,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},
 				content: {
-					dtype: 'list',
+					dtype: 'list-box',
 					defaultItem: {
 						events: {
 							'click': function(e, w) {
@@ -147,7 +147,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.Editor', {
 
 
 
-Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.Editor', {
+Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 	
 	defaultOptions: {
     components: {

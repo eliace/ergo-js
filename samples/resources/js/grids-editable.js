@@ -82,7 +82,8 @@ var widget = $.dino({
     grid: {
       dtype: 'grid',
       content: {
-        style: {'padding-right': '18px', 'font-size': '9pt'},
+				cls: 'scrollable',
+//        style: {'padding-right': '18px', 'font-size': '9pt'},
         height: 'auto',
 				extensions: [Dino.Focusable],
 				onKeyDown: function(e) {
@@ -118,7 +119,7 @@ var widget = $.dino({
 					if(catched) e.baseEvent.preventDefault();
 				}
       },
-      headerCls: 'dino-bg-highlight',
+//      headerCls: 'dino-bg-highlight',
       tableModel: {
         cell: {
           binding: 'auto',

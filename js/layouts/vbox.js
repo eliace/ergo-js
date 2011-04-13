@@ -1,3 +1,3 @@
 
 
-Dino.declare('Dino.layouts.HBox', 'Dino.layouts.PlainLayout');
+Dino.declare('Dino.layouts.HBox', 'Dino.layouts.PlainLayout', {}, 'vbox-layout');

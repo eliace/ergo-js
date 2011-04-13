@@ -1,0 +1,34 @@
+
+
+/*
+ * ICON BUTTON
+ */
+
+.dino-icon-button {
+	border: 1px solid #eee;
+	background-color: #eee;
+	margin: 0;
+}
+
+.dino-icon-button:hover {
+	border-color: #ccc;	
+	background-color: #e8e8e8;	
+}
+
+.dino-icon-button.clicked {
+	background-color: #ddd;	
+}
+
+.dino-icon-button.disabled:hover {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+.dino-icon-button.disabled > * {
+	opacity: .3;
+}
+
+.dino-icon-button.disabled.clicked {
+	background-color: #eee;
+}
+

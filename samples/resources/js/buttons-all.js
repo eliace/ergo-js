@@ -2,7 +2,6 @@
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
-//  layout: 'column-layout',
   cls: 'button-container',
   items: [{
     dtype: 'button',
@@ -56,7 +55,7 @@ $.dino({
 //    }
   }, {
     dtype: 'text-button',
-    layout: 'plain-layout',
+    layout: 'plain',
     cls: 'icon48',
     icon: 'icon-01',
     text: 'Back'

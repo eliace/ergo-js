@@ -19,7 +19,7 @@ $.dino({
     title: 'Нативные виджеты',
     defaultItem: {
       style: {'margin': '3px 0'},
-//      layout: 'float-layout',
+//      layout: 'float',
       items: [{
         dtype: 'text-button',
         icon: 'led-icon-add',
@@ -32,15 +32,10 @@ $.dino({
         dtype: 'text-button',
         text: 'Button 3'
       }, {
-        dtype: 'textfield'
+        dtype: 'input'
       }, {
         dtype: 'select',
-        options: {
-          '1': 'лето',
-          '2': 'осень',
-          '3': 'зима',
-          '4': 'весна',
-        }
+        options: ['лето', 'осень', 'зима', 'весна']
       }]    
     },
     items: [{

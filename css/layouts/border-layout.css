@@ -1,0 +1,114 @@
+
+/*
+ * BORDER LAYOUT
+ */ 
+ 
+.resizable-west, .resizable-east {
+	cursor: col-resize;
+}
+
+.resizable-north, .resizable-south {
+	cursor: row-resize;
+}
+
+
+.split-pane {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10000;
+}
+
+
+[layout='border'] {
+	position: relative;
+}
+
+[layout='border'] > div {
+	position: absolute;
+/*	overflow: auto;*/
+}
+
+[region='center'] {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='west'] {
+	left: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='west-splitter'] {
+	top: 0;
+	bottom: 0;
+	width: 4px;
+}
+
+[region='east'] {
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+[region='east-splitter'] {
+	top: 0;
+	bottom: 0;
+	width: 4px;
+}
+
+[region='west-splitter']:hover, [region='east-splitter']:hover {
+	cursor: col-resize;	
+}
+
+
+[region='north'] {
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+[region='north-splitter'] {
+	left: 0;
+	right: 0;
+	height: 4px;
+}
+
+
+[region='south'] {
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+[region='south-splitter'] {
+	left: 0;
+	right: 0;
+	height: 4px;
+}
+
+
+[region='north-splitter']:hover, [region='south-splitter']:hover {
+	cursor: row-resize;	
+}
+
+[region$='splitter'].active {
+	background-color: #aaa;
+	z-index: 9999;	
+}
+
+[region='middle'] {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;	
+}
+
+[region='middle'] > div {
+	position: absolute;
+}

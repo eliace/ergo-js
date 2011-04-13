@@ -23,9 +23,6 @@ var sampleTree = [{
 		path: 'containers-xform',
 		updated: true
 	}, {
-		name: 'Growl',
-		path: 'containers-growl'
-	}, {
 		name: 'Controls',
 		path: 'containers-controls'
 	}, {
@@ -41,8 +38,11 @@ var sampleTree = [{
 		name: 'Wizard',
 		path: 'dialogs-wizard'
 	}, {
-		name: 'MessageBox',
+		name: 'Message',
 		path: 'dialogs-messagebox'
+	}, {
+		name: 'Growl',
+		path: 'dialogs-growl'
 	}]
 }, {
 	name: 'Grids',
@@ -101,10 +101,10 @@ var sampleTree = [{
 	}]
 }, {
 	name: 'Lists',
-	children: [{
+	children: [/*{
 		name: 'simple',
 		path: 'lists-list'
-	}, {
+	}, */{
 		name: 'ListBox',
 		path: 'lists-listbox'
 	}]
@@ -210,7 +210,7 @@ $(document).ready(function(){
 			// Содержимое
 			pageContent: {
 				dtype: 'box',
-				layout: 'border-layout',
+				layout: 'border',
 				height: 'auto',
 				items: [{
 					dtype: 'box',
@@ -282,7 +282,7 @@ $(document).ready(function(){
 					dtype: 'box',
 					tag: 'preview_and_code',
 					height: 'auto',
-					layout: 'border-layout',
+					layout: 'border',
 					items: [{
 						dtype: 'box',
 						tag: 'preview',
@@ -310,7 +310,7 @@ $(document).ready(function(){
 						        buttons: {
 							        dtype: 'box',
 							        dock: 'right',
-							        layout: 'float-layout',
+							        layout: 'float',
 							        defaultItem: {
 							          dtype: 'icon-button',
 							          cls: 'dino-header-button dino-corner-all',

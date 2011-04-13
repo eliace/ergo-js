@@ -24,7 +24,7 @@ Dino.declare('Dino.widgets.SelectField', 'Dino.widgets.ComboField', {
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},
 				content: {
-					dtype: 'list',
+					dtype: 'list-box',
 					defaultItem: {
 						events: {
 							'click': function(e, w) {

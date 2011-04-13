@@ -1,7 +1,7 @@
 
 
 Dino.drag = null;
-Dino.glassPane = $('<div class="split-pane" autoheight="ignore"></div>');
+//Dino.Draggable.dragPane = $.dino({dtype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');
 //Dino.droppableList = [];
 
 Dino.Draggable = function(o) {
@@ -43,9 +43,9 @@ Dino.Draggable = function(o) {
 				if(drag.proxy){
 					drag.proxy.el.css({'position': 'absolute', 'z-index': '9999', 'left': e.pageX+drag.offset[0], 'top': e.pageY+drag.offset[1]});
 
-//					drag.glassPane = $('<div class="split-pane"></div>');
+//					drag.dragPane = $('<div class="split-pane"></div>');
 					
-					$('body').append(Dino.glassPane);
+					$('body').append(Dino.Draggable.dragPane.el);
 					$('body').append(drag.proxy.el);
 				}
 				
@@ -55,12 +55,14 @@ Dino.Draggable = function(o) {
 	
 	if(!Dino.Draggable.dragReady) {
 		
+		Dino.Draggable.dragPane = $.dino({dtype: 'glass-box'});
+		
 		Dino.Draggable.dragReady = true;
-//		$('body').append(Dino.glassPane);
+//		$('body').append(Dino.dragPane);
 		
 		//FIXME здесь было бы правильней создавать glass pane, а не использовать body
 		
-		Dino.glassPane/*$('body')*/.mousemove(function(e){
+		Dino.Draggable.dragPane.el.mousemove(function(e){
 			var drag = Dino.drag;
 	
 			if(!drag) return;
@@ -121,11 +123,11 @@ Dino.Draggable = function(o) {
 			
 		});
 					
-		Dino.glassPane/*$('body')*/.mouseup(function(e){
+		Dino.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
 			
 			// отсоединяем прозрачную панель от страницы
-			Dino.glassPane.detach();
-//			Dino.glassPane.addClass('dino-hidden');
+			Dino.Draggable.dragPane.el.detach();
+//			Dino.dragPane.addClass('hidden');
 			
 			var drag = Dino.drag;		
 			
@@ -172,3 +174,4 @@ Dino.Draggable = function(o) {
 
 
 Dino.Draggable.dragReady = false;
+Dino.Draggable.dragPane = null;

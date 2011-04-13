@@ -3,7 +3,7 @@ $.dino({
   dtype: 'box',
   renderTo: '.preview',
   id: 'hmenu',
-  layout: 'float-layout',
+  layout: 'float',
   defaultItem: {
     dtype: 'text-menu-item',
 //    baseCls: 'drop-menu-item',

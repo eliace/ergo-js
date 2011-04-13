@@ -1,0 +1,23 @@
+
+
+ 
+.dino-3c-layout {
+	position: relative;
+/*	width: 100%;*/
+}
+
+.dino-3c-left, .dino-3c-right { 
+	position: absolute; 
+}
+
+.dino-3c-left {
+	left: 0;
+	top: 0;
+}
+.dino-3c-right { 
+	right: 0;
+	top: 0;
+}
+.dino-3c-center {
+}
+

@@ -2,11 +2,11 @@
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
-  layout: 'simple-form-layout',
+  layout: 'simple-form',
   items: [{
-    dtype: 'textfield'
+    dtype: 'input'
   }, {
-    dtype: 'textfield'
+    dtype: 'input'
   }, {
     dtype: 'file'
   }]

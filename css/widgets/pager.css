@@ -1,0 +1,24 @@
+
+
+/*
+ * PAGER
+ */
+
+.dino-pager {
+	background-color: #eee;
+	padding: 3px;
+	font-size: 10pt;
+}
+
+.dino-pager > * {
+	vertical-align: middle;
+}
+
+.dino-pager > span {
+	margin: 0 3px;
+}
+
+
+
+
+

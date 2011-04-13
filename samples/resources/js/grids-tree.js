@@ -13,9 +13,9 @@ $.dino({
   width: 600,
   content: {
     height: 300,//'auto',
-    style: {'padding-right': '18px', 'font-size': '9pt'}
+    state: 'scrollable'
+//    style: {'padding-right': '18px'/*, 'font-size': '9pt'*/}
   },
-  headerCls: 'dino-bg-highlight',
   tableModel: {
     cell: {
       cls: 'tg-cell'
@@ -31,8 +31,6 @@ $.dino({
     }, {
       dtype: 'tree-table-cell',
       header: 'Файл',
-      style: {'text-align': 'left'},
-//      expandOnShow: true,
       content: {
         content: {
           icon: true,

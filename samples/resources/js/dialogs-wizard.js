@@ -5,7 +5,7 @@ var dlg = $.dino({
   content: {
     dtype: 'box',
     cls: 'dino-text-content dino-border-all',
-    layout: 'stack-layout',
+    layout: 'stack',
     items: [{
       width: 400,
       innerText: 'Нажмите кнопку "Далее"'

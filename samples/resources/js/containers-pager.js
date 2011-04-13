@@ -43,7 +43,7 @@ var box = $.dino({
     },
     content: {
       dtype: 'box',
-      layout: 'float-layout',
+      layout: 'float',
       dynamic: true,
       data: bindingData,
       defaultItem: {

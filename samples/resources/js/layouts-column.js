@@ -2,7 +2,7 @@
 $.dino({
   dtype: 'box',
   renderTo: '.preview',
-  layout: 'column-layout',
+  layout: 'column',
   height: 200,
   items: [{
     cls: 'dino-border-all',

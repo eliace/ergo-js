@@ -6,11 +6,11 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
 	$html: function() {return '<div/>';},
 	
 	defaultOptions: {
-		cls: 'dino-combofield',
-		layout: 'hbox-layout',
+		cls: 'dino-combo-field',
+		layout: 'hbox',
     components: {
       input: {
-        dtype: 'textfield'
+        dtype: 'input'
       }
     }		
 	}

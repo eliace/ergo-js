@@ -1,0 +1,29 @@
+
+
+/*
+ * TREE GRID
+ */
+
+/*
+.tree-grid {
+	
+}
+
+
+.dino-tree-grid-header {
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
+}
+
+.dino-tree-grid-content {
+	background-color: #fff;
+}
+*/
+
+.dino-tree-grid-row .indent {
+	padding-left: 20px;
+}
+
+.dino-tree-grid-cell {
+	text-align: left;
+}
+

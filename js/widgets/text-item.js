@@ -10,7 +10,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 	
 	defaultOptions: {
 		cls: 'dino-text-item',
-		layout: 'dock-layout',
+		layout: 'dock',
 		components: {
 			leftIcon: {
 				dtype: 'icon',
@@ -32,15 +32,15 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 				$(this).dino().events.fire('onAction');
 			}
 		},
-		editor: {
-			dtype: 'textfield',
-			events: {
-				'blur': function(e, w) { w.parent.stopEdit(); }
-			},
-			onValueChanged: function() {
-				this.parent.stopEdit();
-			}
-		},
+//		editor: {
+//			dtype: 'input',
+//			events: {
+//				'blur': function(e, w) { w.parent.stopEdit(); }
+//			},
+//			onValueChanged: function() {
+//				this.parent.stopEdit();
+//			}
+//		},
 		text: ''
 //		showText: true
 	},
@@ -177,8 +177,9 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 	
 	getText: function() {
 		return this.content.getText();
-	},
+	}
 	
+/*	
 	startEdit: function() {
 		this.content.states.set('hidden');			
 		this.addComponent('_editor', this.options.editor);
@@ -198,7 +199,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		this.content.states.clear('hidden');
 		this.events.fire('onEdit');
 	}	
-	
+*/	
 	
 	
 }, 'text-item');

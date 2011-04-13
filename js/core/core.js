@@ -355,7 +355,7 @@ var Dino = (function(){
 	 * @param {Function|Any} criteria критерий 
 	 */
 	D.index_of = function(obj, criteria) {
-		if(!_dino.isFunction(criteria))
+		if(!Dino.isFunction(criteria))
 			criteria = D.eq.curry(criteria);
 		for(var i in obj)
 			if(criteria.call(obj, obj[i], i)) return i;
@@ -792,6 +792,6 @@ var Dino = (function(){
 	return D;
 })();
 
-var _dino = Dino;
+//var _dino = Dino;
 
 

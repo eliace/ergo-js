@@ -1,0 +1,10 @@
+
+
+.dino-dropdown-box {
+	position: absolute;
+	display: none;
+	z-index: 10001;
+	font-size: 10pt;
+	max-height: 200px;
+	overflow-y: auto;
+}

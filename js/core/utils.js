@@ -7,11 +7,11 @@ Dino.utils = (function(){
 		
 		var f = null;
 		
-		if( _dino.isNumber(i) ) f = _dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( _dino.isString(i) ) f = _dino.filters.by_props.curry({'tag': i});
-		else if( _dino.isFunction(i) && ('superclass' in i) ) f = _dino.filters.by_class.curry(i);
-		else if( _dino.isFunction(i) ) f = i;
-		else if( _dino.isPlainObject(i) ) f = _dino.filters.by_props.curry(i);
+		if( Dino.isNumber(i) ) f = Dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( Dino.isString(i) ) f = Dino.filters.by_props.curry({'tag': i});
+		else if( Dino.isFunction(i) && ('superclass' in i) ) f = Dino.filters.by_class.curry(i);
+		else if( Dino.isFunction(i) ) f = i;
+		else if( Dino.isPlainObject(i) ) f = Dino.filters.by_props.curry(i);
 		
 		return f;
 	}

@@ -1,0 +1,20 @@
+
+
+/*
+ * COMBO FIELD
+ */
+
+.dino-combo-field {
+	display: inline-block;
+	line-height: 1px;
+	background-color: #fff;
+/*	padding: 1px;*/
+}
+
+.dino-combo-field > input {
+	padding: 0;
+	outline: none;
+	margin: 0;
+	border: none;
+}
+
