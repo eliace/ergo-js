@@ -34,7 +34,7 @@
 .dino-split {
 	display: inline;
 	vertical-align: middle;
-	background: url(img/vsplit.png) repeat-y scroll 50% 50%;
+/*	background: url(img/vsplit.png) repeat-y scroll 50% 50%;*/
 	margin: 0 3px;
 }
 

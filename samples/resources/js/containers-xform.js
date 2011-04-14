@@ -55,7 +55,7 @@ $.dino({
         button: {
           dtype: 'action-icon',
           role: 'actor',
-          cls: 'silk-icon-calendar dino-clickable'
+          cls: 'silk-icon-date dino-clickable'
         }
       }
     },

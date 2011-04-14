@@ -22,11 +22,11 @@ $.dino({
 //      layout: 'float',
       items: [{
         dtype: 'text-button',
-        icon: 'led-icon-add',
+        icon: 'silk-icon-add',
         text: 'Button 1',
       }, {
         dtype: 'text-button',
-        icon: 'led-icon-delete',
+        icon: 'silk-icon-delete',
 //        text: false
       }, {
         dtype: 'text-button',
