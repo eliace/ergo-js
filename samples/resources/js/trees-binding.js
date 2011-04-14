@@ -60,10 +60,10 @@ $.dino({
           components: {
             leftIcon: {
               states: {
-                'computer': 'led-icon-computer',
-                'drive': 'led-icon-drive',
-                'folder': 'led-icon-folder',
-                'file': 'led-icon-page',
+                'computer': 'silk-icon-computer',
+                'drive': 'silk-icon-drive',
+                'folder': 'silk-icon-folder',
+                'file': 'silk-icon-page',
               }
             },
           },

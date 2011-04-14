@@ -7,11 +7,11 @@ $.dino({
   },
   pagesCls: 'dino-border-all dino-border-no-top',
   pages: [{
-    tab: {icon: 'led-icon-vcard', text: 'Tab1'}
+    tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {
-    tab: {icon: 'led-icon-calendar_1', text: 'Tab2'}
+    tab: {icon: 'silk-icon-date', text: 'Tab2'}
   }, {
-    tab: {icon: 'led-icon-book', text: 'Tab3'}
+    tab: {icon: 'silk-icon-plugin', text: 'Tab3'}
   }]
 });
 
@@ -25,11 +25,11 @@ $.dino({
   },
   pagesCls: 'dino-border-all dino-border-no-bottom',
   pages: [{
-    tab: {icon: 'led-icon-vcard', text: 'Tab1'}
+    tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {
-    tab: {icon: 'led-icon-calendar_1', text: 'Tab2'}
+    tab: {icon: 'silk-icon-date', text: 'Tab2'}
   }, {
-    tab: {icon: 'led-icon-book', text: 'Tab3'}
+    tab: {icon: 'silk-icon-plugin', text: 'Tab3'}
   }]
 });
 

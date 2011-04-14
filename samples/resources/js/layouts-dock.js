@@ -9,13 +9,13 @@ $.dino({
   style: {'position': 'absolute'},
   items: [{
     dock: 'left',
-    cls: 'dino-icon led-icon-smile'
+    cls: 'dino-icon silk-icon-emoticon-smile'
   }, {
     cls: 'text-item',
     innerText: 'Hello'
   }, {
     dock: 'right-bottom',
-    cls: 'dino-icon led-icon-unhappy'
+    cls: 'dino-icon silk-icon-emoticon-unhappy'
   }]
 });
 

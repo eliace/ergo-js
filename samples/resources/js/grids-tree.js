@@ -37,7 +37,7 @@ $.dino({
           components: {
             leftIcon: {
               dataId: 'type',
-              binding: function(val) {  this.states.setOnly('led-icon-'+val); }
+              binding: function(val) {  this.states.setOnly('silk-icon-'+val); }
             },
             content: {
               dataId: 'name'

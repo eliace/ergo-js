@@ -57,13 +57,19 @@ Dino.layouts.SimpleFormLayout = Dino.declare('Dino.layouts.SimpleFormLayout', 'D
 	},
 
 	insert: function(item){
+
+		var o = item.options;
 		
-		var wrapperEl = $('<div class="dino-form-item-wrapper"></div>');		
-		var labelEl = $('<label>'+item.options.label+'</label>');
+		var wrapperEl = $('<div class="dino-form-item-wrapper"></div>');
+		var labelEl = $('<label>'+(o.label || '')+'</label>');
+		var label_pos = o.labelPosition || 'before';
 		
 		if('id' in item.options) labelEl.attr('for', item.options.id);
 		
-		wrapperEl.append(labelEl).append(item.el);
+		if(label_pos == 'before')
+			wrapperEl.append(labelEl).append(item.el);
+		else if(label_pos == 'after')
+			wrapperEl.append(item.el).append(labelEl);
 		
 		this.container.el.append(wrapperEl);
 	}

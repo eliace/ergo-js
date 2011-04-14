@@ -19,6 +19,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		if('tabindex' in o) this.el.attr('tabindex', o.tabindex);
 
+/*
 		var self = this;
 		
 		if(o.changeOnBlur) {
@@ -31,7 +32,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()) });
 			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
 		}
-		
+*/		
 	},
 	
 	$events: function(self) {
@@ -49,19 +50,58 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 //		this.el.change(function() {
 //			self.setValue( self.el.val());
 //		});
-	},
+	}
 	
+//	$dataChanged: function() {
+//		Dino.widgets.Input.superclass.$dataChanged.apply(this);
+//		
+//		if(this.options.rawValueOnFocus && this.hasFocus) 
+//			this.el.val( this.getRawValue() );
+//		else
+//			this.el.val( this.getValue() );
+//	}
+	
+	
+	
+});
+
+
+
+
+Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.widgets.form.PasswordField.prototype */{
+
+	$opt: function(o) {
+		Dino.widgets.TextInput.superclass.$opt.call(this, o);
+		
+		var self = this;
+		
+		if(o.changeOnBlur) {
+			this.el.blur(function() { 
+				self.setValue(self.el.val(), 'blur'); 
+			});			
+		}
+		
+		if(o.rawValueOnFocus){
+			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()); self.states.set('raw-value'); });
+			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()); self.states.clear('raw-value'); });
+		}
+
+//		if(o.initText){
+//			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()) });
+//			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
+//		}
+		
+	},
+		
 	$dataChanged: function() {
-		Dino.widgets.Input.superclass.$dataChanged.apply(this);
+		Dino.widgets.TextInput.superclass.$dataChanged.apply(this);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus) 
 			this.el.val( this.getRawValue() );
 		else
 			this.el.val( this.getValue() );
-	}
-	
-	
-	
+	}	
+		
 }, 'input');
 
 
@@ -74,7 +114,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
  * @name Dino.widgets.form.PasswordField
  * @extends Dino.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.Password', 'Dino.widgets.Input', /** @lends Dino.widgets.form.PasswordField.prototype */{
+Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.widgets.form.PasswordField.prototype */{
 	
 	defaultOptions: {
 		html: '<input type="password"></input>'
@@ -113,7 +153,7 @@ Dino.declare('Dino.widgets.Submit', Dino.widgets.Input, {
  * @name Dino.widgets.form.File
  * @extends Dino.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.File', Dino.widgets.Input, {
+Dino.declare('Dino.widgets.File', Dino.widgets.TextInput, {
 	
 	defaultOptions: {
 		html: '<input name="file-input" type="file"></input>'
@@ -169,9 +209,8 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
 	$opt: function(o) {
 		Dino.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
-		if('checked' in o) {
+		if('checked' in o)
 			this.el.attr('checked', o.checked);	
-		}
 	},
 	
 	$dataChanged: function() {

@@ -144,6 +144,15 @@ var sampleTree = [{
 		name: 'Tabs',
 		path: 'panels-tabs'
 	}]
+}, {
+	name: 'Misc',
+	children: [{
+		name: 'Sample 1',
+		path: 'misc-sample-1'
+	}, {
+		name: 'Sample 2',
+		path: 'misc-sample-2'
+	}]
 }];
 
 
@@ -258,8 +267,8 @@ $(document).ready(function(){
 									}
 								},
 								binding: function(val) {
-									var icon = (val.children) ? 'icon-folder' : 'led-icon-page-white-gear';
-									var xicon = (val.updated) ? 'led-icon-new' : '';
+									var icon = (val.children) ? 'icon-folder' : 'silk-icon-application-form';
+									var xicon = (val.updated) ? 'silk-icon-lightbulb' : '';
 									this.content.opt('icon', icon);
 									this.content.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				

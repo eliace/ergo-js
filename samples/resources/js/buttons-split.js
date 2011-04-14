@@ -71,7 +71,7 @@ $.dino({
       layout: 'float',
       items: [{
         dtype: 'icon',
-        cls: 'led-icon-user'
+        cls: 'silk-icon-user'
       }, {
         dtype: 'box',
         innerText: 'Press me',
@@ -84,32 +84,20 @@ $.dino({
         height: 16
       }, {
         dtype: 'icon',
-        cls: 'ui-icon ui-icon-triangle-1-s'        
+        cls: 'dino-icon-spinner-down'        
       }]
     }
   }, {
     dtype: 'text-button',
     xicon: 'ui-icon ui-icon-triangle-1-s',
-    icon: 'led-icon-cog',
-//    text: false,
-//    content: {
-//      content: {
-//        style: {'padding-right': 10}
-//      }
-//    }
+    icon: 'silk-icon-chart-line',
   }, {
 		dtype: 'dropdown-button',
 		text: 'Location',
-		xicon: 'dino-icon-down',
+		xicon: 'dino-icon-spinner-down',
 		components: {
 			dropdown: {
-//				data: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-				data: menuData,//[{name: 'aaa'}, {name: 'bbb', children: [{name: 'ccc'}]}],
-//				menuModel: {
-//					item: {
-//						content: { dataId: 'name'	}
-//					}
-//				}
+				data: menuData,
 			}
 		},
 		onSelect: function(e) {

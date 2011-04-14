@@ -5,7 +5,7 @@ var list = $.dino({
   width: 400,
   height: 220,
   defaultItem: {
-    icon: 'led-icon-user'
+    icon: 'silk-icon-user-gray'
   },
   items: [{
     text: 'Alice',

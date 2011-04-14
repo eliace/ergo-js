@@ -54,7 +54,7 @@ $.dino({
         button: {
           dtype: 'action-icon',
           role: 'actor',
-          cls: 'led-icon-calendar_1 dino-clickable'
+          cls: 'silk-icon-calendar dino-clickable'
         }
       }
     },
@@ -76,7 +76,7 @@ $.dino({
         content: {
           defaultItem: {
             cls: 'tb3-dropdown-item',
-            icon: 'led-icon-world'
+            icon: 'silk-icon-world'
           }
         }
       }
@@ -96,7 +96,7 @@ $.dino({
           data: hashData,
           content: {
             defaultItem: {
-              icon: 'led-icon-world'
+              icon: 'silk-icon-world'
             }
           }
         }
@@ -131,11 +131,11 @@ $.dino({
         },
         items: [{
           dtype: 'button',
-          cls: 'dino-icon-up dino-corner-right-top',
+          cls: 'dino-icon-spinner-up dino-corner-right-top',
           tag: 'up'
         }, {
           dtype: 'button',
-          cls: 'dino-icon-down dino-corner-right-bottom',
+          cls: 'dino-icon-spinner-down dino-corner-right-bottom',
           tag: 'down'
         }]        
       }

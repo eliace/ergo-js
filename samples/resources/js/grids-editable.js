@@ -62,19 +62,19 @@ var widget = $.dino({
         }
       },
       items: [{
-        icon: 'led-icon-add',
+        icon: 'silk-icon-add',
         text: 'Добавить',
         tag: 'add'
       }, {
-        icon: 'led-icon-delete',
+        icon: 'silk-icon-delete',
         text: 'Удалить',
         tag: 'delete'
       }, {
-        icon: 'led-icon-refresh',
+        icon: 'silk-icon-arrow-refresh',
         text: 'Обновить',
         tag: 'refresh'
       }, {
-        icon: 'led-icon-disk',
+        icon: 'silk-icon-disk',
         text: 'Сохранить',
         tag: 'save'
       }]

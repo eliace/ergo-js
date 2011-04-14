@@ -25,7 +25,7 @@ $.dino({
         content: {
           components: {
             leftIcon: {
-              cls: 'led-icon-folder'
+              cls: 'silk-icon-folder'
 //              states: {
 //                'computer': 'led-icon-computer',
 //                'drive': 'led-icon-drive',
@@ -34,10 +34,8 @@ $.dino({
 //              }
             },
           },
-//          icon: 'led-icon-folder',
           icon: true,
           xicon: true,
-//          rightIconCls: 'dino-icon-spinner',
           dataId: 'name'
         }        
       },
@@ -51,13 +49,13 @@ $.dino({
           var self = this;
           if(val.is_ref) {
 //            this.content.opt('showRightIcon', true);
-            this.content.rightIcon.states.set('dino-icon-spinner');
+            this.content.rightIcon.states.set('dino-icon-loader');
             setTimeout(function(){
               $.getJSON('ajax/tree_node.json', {}, function(data){
                 self.data.set('children', [data]);
                 val.is_ref = false;
 //                self.content.opt('showRightIcon', false);
-                self.content.rightIcon.states.clear('dino-icon-spinner');
+                self.content.rightIcon.states.clear('dino-icon-loader');
               });              
             }, 400);
           }

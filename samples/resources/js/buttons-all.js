@@ -9,29 +9,29 @@ $.dino({
   }, {
     // iconL
     dtype: 'text-button',
-    icon: 'led-icon-accept',
+    icon: 'silk-icon-accept',
 //    text: false
   }, {
     // iconR
     dtype: 'text-button',
-    xicon: 'led-icon-cancel',
+    xicon: 'silk-icon-cancel',
 //    text: false
   }, {
     // iconL text iconR
     dtype: 'text-button',
-    icon: 'led-icon-accept',
+    icon: 'silk-icon-accept',
     text: 'OK/Cancel',
-    xicon: 'led-icon-cancel'
+    xicon: 'silk-icon-cancel'
   }, {
     // iconL text
     dtype: 'text-button',
     text: 'ОК',
-    icon: 'led-icon-accept'
+    icon: 'silk-icon-accept'
   }, {
     // text iconR
     dtype: 'text-button',
     text: 'Cancel',
-    xicon: 'led-icon-cancel'
+    xicon: 'silk-icon-cancel'
   }, {
     // text
     dtype: 'text-button',
@@ -39,8 +39,8 @@ $.dino({
   }, {
     // iconL iconR
     dtype: 'text-button',
-    icon: 'led-icon-accept',
-    xicon: 'led-icon-cancel',
+    icon: 'silk-icon-accept',
+    xicon: 'silk-icon-cancel',
 //    text: false
   }/*, {
     dtype: 'icon-button',

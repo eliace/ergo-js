@@ -695,7 +695,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		if(this.data){
 			val = this.data.get();
 			// если присутствует функция форматирования, то используем ее
-			if('format' in this.options)
+			if(this.options.format)
 				val = o.format.call(this, val);
 		}
 		return val;
@@ -779,7 +779,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 //			var o = {};
 			var val = this.getValue();
 //			if(val !== undefined)	
-			binding.call(this, val);
+			if( binding.call(this, val) === false) return;
 //			this.opt(o);
 		}
 /*		

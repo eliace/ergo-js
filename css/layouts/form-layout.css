@@ -30,10 +30,11 @@
 
 
 
-
+/*
 [layout='simple-form'] > .dino-form-item-wrapper > label {
 	display: block;
 }
+*/
 
 [layout='simple-form'] > .dino-form-item-wrapper {
 	padding: 3px;

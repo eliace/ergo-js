@@ -35,6 +35,26 @@
 
 
 /*
+ * HELPERS
+ */
+.dino-clickable { cursor: pointer; }
+
+.dino-dropdown-shadow {
+	-moz-box-shadow: 1px 1px 5px #ccc;
+	-webkit-box-shadow: 1px 1px 5px #ccc;
+	box-shadow: 1px 1px 5px #ccc;
+}
+
+.dino-text-content {
+	background-color: #fff;
+	padding: 3px;
+}
+
+
+
+
+
+/*
 .dino-icon-close { background-image: url(img/led/cross.png); }
 .dino-icon-error { background-image: url(img/led/error.png); }
 .dino-icon-info { background-image: url(img/led/exclamation.png); }
@@ -124,60 +144,6 @@ button.plain {
 .dino-icon-button {
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
-
-
-
-.dino-dropdown-shadow {
-	-moz-box-shadow: 1px 1px 5px #ccc;
-	-webkit-box-shadow: 1px 1px 5px #ccc;
-	box-shadow: 1px 1px 5px #ccc;
-}
-
-
-
-.dino-text-content {
-	background-color: #fff;
-	padding: 3px;
-}
-
-/*
-.dino-widget-content {
-	padding: 5px;
-}
-*/
-
-/*
-.dino-controls > button {
-}
-
-.dino-controls {
-	padding: 2px 0;
-}
-
-.dino-controls.left { text-align: left; }
-.dino-controls.center { text-align: center; }
-.dino-controls.right { text-align: right; }
-*/
-
-
-
-
-
-
-
-/*
- * SPINNER BUTTON
- */
-
-
-
-
-
-
-
-
-
-
 
 
 

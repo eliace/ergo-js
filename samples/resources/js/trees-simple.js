@@ -14,9 +14,9 @@ $.dino({
           components: {
             leftIcon: {
               states: {
-                'brick': 'led-icon-brick',
-                'door': 'led-icon-door',
-                'user': 'led-icon-user'                
+                'brick': 'silk-icon-brick',
+                'door': 'silk-icon-door',
+                'user': 'silk-icon-user'                
               }
             }
           }

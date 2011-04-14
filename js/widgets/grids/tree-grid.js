@@ -430,8 +430,14 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 							}
 						},
 						states: {
-							'expand_trigger': ['expanded', 'collapsed']
-//							'collapsed': ['collapsed', 'expanded']
+							'expand_trigger': ['expanded', 'collapsed'],
+							'expanded': function(on) {
+								this.button.states.toggle('expanded', on);
+							},
+							'collapsed': function(on) {
+								this.button.states.toggle('collapsed', on);
+							}
+							
 						}
 					}
 				},
