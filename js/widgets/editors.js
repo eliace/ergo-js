@@ -175,10 +175,10 @@ Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 					}
         },
         items: [{
-          cls: 'dino-icon-up',
+          cls: 'dino-icon-spinner-up',
           tag: 'up'
         }, {
-          cls: 'dino-icon-down',
+          cls: 'dino-icon-spinner-down',
           tag: 'down'
         }]        
       }

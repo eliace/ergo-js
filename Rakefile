@@ -123,7 +123,7 @@ require 'fileutils'
     'css/widgets/buttons/icon-button.css',
 #    'css/widgets/buttons/dropdown-button.css',
     'css/widgets/dialogs/dialog.css',
-#    'css/widgets/dialogs/message.css',
+    'css/widgets/dialogs/message.css',
     'css/widgets/dialogs/growl.css',
     'css/widgets/grids/grid.css',
     'css/widgets/grids/tree-grid.css',

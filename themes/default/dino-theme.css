@@ -34,29 +34,33 @@
 
 
 
-
-
-
-
-
+/*
 .dino-icon-close { background-image: url(img/led/cross.png); }
 .dino-icon-error { background-image: url(img/led/error.png); }
 .dino-icon-info { background-image: url(img/led/exclamation.png); }
 .dino-icon-warn { background-image: url(img/led/exclamation_octagon_fram.png); }
+*/
 
-.dino-icon-spinner { background-image: url(img/ajax-loader.gif); }
+.dino-icon-loader { background-image: url(img/ajax-loader.gif); }
+
 .dino-icon-search { background-image: url(img/search.png); }
 
+/* MESSAGEBOX ICONS */
 .dino-icon-messagebox-critical { background-image: url(img/messagebox_critical.png); }
 .dino-icon-messagebox-info { background-image: url(img/messagebox_info.png); }
 .dino-icon-messagebox-warning { background-image: url(img/messagebox_warning.png); }
 
+/* GROWLBOX ICONS */
 .dino-icon-growlbox-critical { background-image: url(img/messagebox_critical.png); }
 .dino-icon-growlbox-info { background-image: url(img/messagebox_info.png); }
 .dino-icon-growlbox-warning { background-image: url(img/messagebox_warning.png); }
 
+/* PANEL ICONS */
+.dino-header-button > .dino-icon {
+	background-image: url(img/ui-icons_454545_256x240.png);
+}
 
-
+/* DIALOG ICONS */
 .dino-icon-dialog {	background: url(img/ui-icons_454545_256x240.png); }
 .dino-icon-dialog-h {	background: url(img/ui-icons_222222_256x240.png); }
 
@@ -66,15 +70,60 @@
 .dino-icon-dialog-minimize { background-position: -48px -80px; }
 .dino-icon-dialog-maximize { background-position: -16px -80px; }
 
-.dino-icon-right {	background: url(img/right.png); }
+.dino-icon-right {	background: url(img/right.png) 50% 50%; }
+
+/* SPINNER ICONS */
+.dino-icon-spinner-up { background: url(img/up.png) 50% 50%;}
+.dino-icon-spinner-down {	background: url(img/down.png) 50% 50%;}
+
+/* TREE ICONS */
+.dino-tree-node-button.expanded {
+	background-position: -48px -16px;
+	background-image: url(img/ui-icons_222222_256x240.png);
+}
+
+.dino-tree-node-button.collapsed {
+	background-position: -160px -16px;
+	background-image: url(img/ui-icons_888888_256x240.png);
+}
+
+.dino-tree-node-button:hover {
+	background-image: url(img/ui-icons_2e83ff_256x240.png);	
+}
+
+
+/* PAGER ICONS */
+.dino-icon-pager-first { background-image: url(img/control_rewind.png); }
+.dino-icon-pager-prev {	background-image: url(img/control_backward.png); }
+.dino-icon-pager-next {	background-image: url(img/control_play.png); }
+.dino-icon-pager-last {	background-image: url(img/control_fastforward.png); }
 
 
 
 
+/* GRID */
+.dino-grid-header {
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
+}
+
+
+/* PANEL */
+.dino-panel-header {
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;	
+	text-shadow: 1px 1px 2px #f2f2f2;
+	color: #454545;
+}
 
 
 
+/* BUTTON */
+button.plain {
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
 
+.dino-icon-button {
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
 
 
 
@@ -91,10 +140,11 @@
 	padding: 3px;
 }
 
+/*
 .dino-widget-content {
 	padding: 5px;
 }
-
+*/
 
 /*
 .dino-controls > button {
@@ -110,10 +160,6 @@
 */
 
 
-.dino-messagebox-icon {
-	margin: 10px 20px 10px 10px;
-/*	float: left;*/
-}
 
 
 
@@ -123,15 +169,6 @@
  * SPINNER BUTTON
  */
 
-.dino-icon-up {
-	background-image: url(img/up.png);
-	background-position: 50% 50%;
-}
-
-.dino-icon-down {
-	background-image: url(img/down.png);
-	background-position: 50% 50%;
-}
 
 
 

@@ -13,15 +13,15 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 		count: 1,
 		items: [{
 			dtype: 'icon-button',
-			cls: 'dino-corner-all dino-border-none',
-			icon: 'led-icon-control-rewind',
+//			cls: 'dino-corner-all dino-border-none',
+			icon: 'dino-icon-pager-first', //'led-icon-control-rewind',
 			onAction: function() {
 				this.parent.setIndex(0);
 			}
 		}, {
 			dtype: 'icon-button',
-			cls: 'dino-corner-all dino-border-none',
-			icon: 'led-icon-control-backward',
+//			cls: 'dino-corner-all dino-border-none',
+			icon: 'dino-icon-pager-prev', //'led-icon-control-backward',
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()-1);
 			}
@@ -50,15 +50,15 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /
 			width: 2
 		}, {
 			dtype: 'icon-button',
-			cls: 'dino-corner-all dino-border-none',
-			icon: 'led-icon-control-play',			
+//			cls: 'dino-corner-all dino-border-none',
+			icon: 'dino-icon-pager-next', //'led-icon-control-play',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()+1);
 			}
 		}, {
 			dtype: 'icon-button',
-			cls: 'dino-corner-all dino-border-none',
-			icon: 'led-icon-control-fastforward',			
+//			cls: 'dino-corner-all dino-border-none',
+			icon: 'dino-icon-pager-last', //'led-icon-control-fastforward',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getMaxIndex());
 			}

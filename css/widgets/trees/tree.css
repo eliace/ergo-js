@@ -9,57 +9,38 @@
 	overflow: auto;
 }
 
+.dino-tree ul {
+	margin: 0;
+	padding-left: 20px;
+}
+
 .dino-tree-node {
 	list-style: none outside none;
 	position: relative;
 }
 
 .dino-tree-node-button {
-	position: absolute;
+/*	position: absolute;
+	top: 0; */	
 	cursor: pointer;
-	top: 0;
-	display: inline;
-	/* ui-icon */
+	display: inline-block;
 }
 
 .dino-tree-node.collapsed > ul {
 	display: none;
 }
 
-.dino-tree-node.expanded > .dino-tree-node-button {
-	/* ui-icon-triangle-1-se */
-	background-position: -48px -16px;
-	background-image: url(img/ui-icons_222222_256x240.png);
-}
-
-
-.dino-tree-node.collapsed > .dino-tree-node-button {
-	/* ui-icon-triangle-1-e */
-	background-position: -160px -16px;
-	background-image: url(img/ui-icons_888888_256x240.png);
-}
-
-.dino-tree-node-button:hover {
-	background-image: url(img/ui-icons_2e83ff_256x240.png) !important;	
-}
-
 .dino-tree-node-content {
-	margin-left: 20px;
+	margin-left: 3px;
 }
 
 .dino-tree-node-content:hover {
-/*	background-color: #ffc;#fea;*/
 	color: #666;
 }
 
+/*
 .dino-tree-node.selected > .dino-tree-node-content {
-/*	background-color: #6af;*/
 	color: #11f;
 }
-
-
-.dino-tree ul {
-	margin: 0;
-	padding-left: 20px;
-}
+*/
 

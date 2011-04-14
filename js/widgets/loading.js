@@ -22,7 +22,7 @@ Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.containe
 					dtype: 'text-item',
 					text: 'Загрузка...',
 					showLeftIcon: true,
-					leftIconCls: 'dino-icon-spinner'			
+					leftIconCls: 'dino-icon-loader'			
 				}				
 			}
 		}

@@ -10,7 +10,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 		components: {
 			subtree: {
 				dtype: 'container',
-				wrapEl: '<ul></ul>',
+				html: '<ul></ul>',
 				defaultItem: {
 					dtype: 'tree-node'
 				}
@@ -18,7 +18,6 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 		},
 		states: {
 			'expand_collapse': ['expanded', 'collapsed']
-//			'collapsed': ['collapsed', 'expanded']
 		}
 	},
 	
@@ -41,12 +40,10 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 	},
 	
 	
-	$opt: function(o) {
-		Dino.widgets.TreeNode.superclass.$opt.apply(this, arguments);
-		
-//		this.isLeaf = o.isLeaf;
-				
-	},
+//	$opt: function(o) {
+//		Dino.widgets.TreeNode.superclass.$opt.apply(this, arguments);
+//		
+//	},
 	
 	collapse: function() {
 		this.states.clear('expand_collapse');
@@ -56,9 +53,9 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 		this.states.set('expand_collapse');
 	},
 	
-	isSelected: function() {
-		return this.states.is('selected');
-	},
+//	isSelected: function() {
+//		return this.states.is('selected');
+//	},
 	
 	walkSubtree: function(callback) {
 		if( callback.call(this, this) === false ) return false;
@@ -94,15 +91,15 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				states: {
 					'leaf': 'hidden'
 				},
-				state: 'clickable',
-				onClick: function() {
-					this.parent.states.toggle('expand_collapse');
+				events: {
+					'click': function(e, w) {
+						w.parent.states.toggle('expand_collapse');
+					}
 				}
 			},
 			content: {
 				dtype: 'text-item',
 				cls: 'dino-tree-node-content',
-				state: 'nonselectable',
 				weight: 2
 			},
 			subtree: {
@@ -110,6 +107,14 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				defaultItem: {
 					dtype: 'basic-tree-node'
 				}
+			}
+		},
+		states: {
+			'expanded': function(on) {
+				this.button.states.toggle('expanded', on);
+			},
+			'collapsed': function(on) {
+				this.button.states.toggle('collapsed', on);
 			}
 		},
 		expandOnShow: false
