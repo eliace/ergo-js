@@ -147,9 +147,11 @@ var sampleTree = [{
 }, {
 	name: 'Misc',
 	children: [{
+		created: true,
 		name: 'Sample 1',
 		path: 'misc-sample-1'
 	}, {
+		created: true,
 		name: 'Sample 2',
 		path: 'misc-sample-2'
 	}]
@@ -268,7 +270,9 @@ $(document).ready(function(){
 								},
 								binding: function(val) {
 									var icon = (val.children) ? 'icon-folder' : 'silk-icon-application-form';
-									var xicon = (val.updated) ? 'silk-icon-lightbulb' : '';
+									var xicon = '';
+									if(val.updated) xicon = 'silk-icon-arrow-refresh';
+									if(val.created) xicon = 'silk-icon-new';
 									this.content.opt('icon', icon);
 									this.content.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				

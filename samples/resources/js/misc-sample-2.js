@@ -39,10 +39,10 @@ $.dino({
         this.contentSelector.getItem(0).$dataChanged();
         this.contentSelector.getItem(1).selection.add( this.contentSelector.getItem(1).getItem(news_index) );
       },
-			changeView: function(tag) {
-	      this.toolbar.selection.add(this.toolbar.getItem(tag));
-	      this.contentSelector.layout.activate(tag);				
-			}
+      changeView: function(tag) {
+        this.toolbar.selection.add(this.toolbar.getItem(tag));
+        this.contentSelector.layout.activate(tag);        
+      }
     }],
     
     onCreated: function() {
@@ -59,19 +59,19 @@ $.dino({
         defaultItem: {
           style: {'margin': 0},
           cls: 'dino-border-all',
-					onAction: function() {
+          onAction: function() {
             this.getParent('widget-2').changeView(this.tag);
-					}
+          }
         },
         items: [{
           dtype: 'text-button',
           text: 'Компактно',
-					tag: 'short',
+          tag: 'short',
           cls: 'dino-corner-left'
         }, {
           dtype: 'text-button',
           text: 'Развернуто',
-					tag: 'full',
+          tag: 'full',
           cls: 'dino-corner-right'
         }]
       },
@@ -92,7 +92,7 @@ $.dino({
         data: news,
         items: [{
           dtype: 'box',
-					tag: 'short',
+          tag: 'short',
           layout: {
             dtype: 'column-layout',
             valign: 'middle'
@@ -126,7 +126,7 @@ $.dino({
           }]
         }, {
           dtype: 'list-box',
-					tag: 'full',
+          tag: 'full',
           dynamic: true,
           extensions: [Dino.Selectable],
           defaultItem: {
