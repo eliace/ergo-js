@@ -236,7 +236,7 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
  * @name Dino.widgets.form.TextArea
  * @extends Dino.widgets.form.TextField
  */
-Dino.declare('Dino.widgets.TextArea', Dino.widgets.Input, /** @lends Dino.widgets.form.TextArea.prototype */{
+Dino.declare('Dino.widgets.TextArea', Dino.widgets.TextInput, /** @lends Dino.widgets.form.TextArea.prototype */{
 	
 	defaultOptions: {
 		html: '<textarea></textarea>'
