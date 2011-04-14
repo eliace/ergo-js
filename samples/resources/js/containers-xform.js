@@ -28,21 +28,22 @@ $.dino({
   renderTo: '.preview',
   layout: 'simple-form',
   data: xformData,
-  defaultItem: {
-  },
+	id: 'xform',
   items: [{
     label: 'Поле с кнопкой (форма)',
-    dataId: 'text',
-    dtype: 'combo-field',
-    cls: 'dino-form-field',
-    components: {
-      button: {
-        dtype: 'icon-button',
-        role: 'actor',
-        icon: 'dino-icon-search',
-      }
-    },
-    extensions: [Dino.Focusable]
+		content: {
+	    dataId: 'text',
+	    dtype: 'combo-field',
+	    cls: 'dino-form-field',
+	    components: {
+	      button: {
+	        dtype: 'icon-button',
+	        role: 'actor',
+	        icon: 'dino-icon-search',
+	      }
+	    },
+	    extensions: [Dino.Focusable]			
+		}
   }, {
     label: 'Поле с кнопкой (редактор)',
     width: 160,
@@ -62,26 +63,28 @@ $.dino({
       stopEdit: Dino.noop
     }
   }, {
-    dtype: 'select-field',
     label: 'Поле со списком (форма)',
-    cls: 'dino-form-field',
-    dataId: 'continent',
-    components: {
-      button: {
-        icon: 'ui-icon ui-icon-triangle-1-s',
-        role: 'actor'
-      },
-      dropdown: {
-        data: listData,
-        content: {
-          defaultItem: {
-            cls: 'tb3-dropdown-item',
-            icon: 'silk-icon-world'
-          }
-        }
-      }
-    },
-    extensions: [Dino.Focusable]
+		content: {
+    	dtype: 'select-field',
+	    cls: 'dino-form-field',
+	    dataId: 'continent',
+	    components: {
+	      button: {
+	        icon: 'ui-icon ui-icon-triangle-1-s',
+	        role: 'actor'
+	      },
+	      dropdown: {
+	        data: listData,
+	        content: {
+	          defaultItem: {
+	            cls: 'tb3-dropdown-item',
+	            icon: 'silk-icon-world'
+	          }
+	        }
+	      }
+	    },
+	    extensions: [Dino.Focusable]			
+		}
   }, {
     label: 'Поле со списком  (редактор)',
     width: 160,    
@@ -107,40 +110,42 @@ $.dino({
     }    
   }, {
     label: 'Счетчик (форма)',
-    dtype: 'combo-field',
-    cls: 'dino-form-field',
-    dataId: 'number',
-    components: {
-      input: {
-        updateOnValueChange: true
-      },
-      buttons: {
-        dtype: 'box',
-        role: 'actor',
-        defaultItem: {
-          style: {'display': 'block'},
-          cls: 'dino-border-none',
-          height: 11,
-          width: 20,
-          onAction: function() {
-            if(this.tag == 'up')
-              this.data.set(this.data.get()+1);
-            else if(this.tag == 'down')
-              this.data.set(this.data.get()-1);
-          }          
-        },
-        items: [{
-          dtype: 'button',
-          cls: 'dino-icon-spinner-up dino-corner-right-top',
-          tag: 'up'
-        }, {
-          dtype: 'button',
-          cls: 'dino-icon-spinner-down dino-corner-right-bottom',
-          tag: 'down'
-        }]        
-      }
-    },
-    extensions: [Dino.Focusable]
+		content: {
+    	dtype: 'combo-field',
+	    cls: 'dino-form-field',
+	    dataId: 'number',
+	    components: {
+	      input: {
+	        updateOnValueChange: true
+	      },
+	      buttons: {
+	        dtype: 'box',
+	        role: 'actor',
+	        defaultItem: {
+	          style: {'display': 'block'},
+	          cls: 'dino-border-none',
+	          height: 11,
+	          width: 20,
+	          onAction: function() {
+	            if(this.tag == 'up')
+	              this.data.set(this.data.get()+1);
+	            else if(this.tag == 'down')
+	              this.data.set(this.data.get()-1);
+	          }          
+	        },
+	        items: [{
+	          dtype: 'button',
+	          cls: 'dino-icon-spinner-up dino-corner-right-top',
+	          tag: 'up'
+	        }, {
+	          dtype: 'button',
+	          cls: 'dino-icon-spinner-down dino-corner-right-bottom',
+	          tag: 'down'
+	        }]        
+	      }
+	    },
+	    extensions: [Dino.Focusable]			
+		}
   }, {
     label: 'Счетчик (редактор)',
     width: 100,

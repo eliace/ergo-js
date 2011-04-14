@@ -75,7 +75,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 //			dh -= this.el.height()
 			this.el.height(h - dh);
 
-			this.el.show();
+//			this.el.show();
 			
 		}
 		
@@ -101,7 +101,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			this.el.width(w - dw);
 			this.el.height(h - dh);		
 
-//			this.el.show();			
+			this.el.show();			
 		}
 
 	}
