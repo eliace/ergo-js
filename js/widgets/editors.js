@@ -13,7 +13,8 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 		components: {
 			input: {
         updateOnValueChange: true,
-				autoFit: true
+				autoFit: true,
+				width: undefined //FIXME костыль пока нормально не заработает PlainLayout
 			}			
 		},
 		extensions: [Dino.Focusable],
@@ -130,7 +131,8 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	showDropdown: function() {
     var dd = this.dropdown;
 							
-    dd.el.width(this.el.width());
+    dd.el.css('min-width', this.el.width());//.width(this.el.width());
+//    dd.el.width(this.el.width());
 
 		var offset = this.el.offset();
     dd.show(offset.left, offset.top + this.el.outerHeight());	

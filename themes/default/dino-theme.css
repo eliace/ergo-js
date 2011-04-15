@@ -161,9 +161,11 @@ button.plain {
 .dino-form-field {
 	border: 1px solid #aaa;
 	
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	
+	padding-left: 3px;
 }
 
 .dino-form-field [role='actor'] {
@@ -172,9 +174,13 @@ button.plain {
 /*	background: #ccc;*/
 	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
 		
-	-moz-border-radius: 0 4px 4px 0;
-	-webkit-border-radius: 0 4px 4px 0;
-	border-radius: 0 4px 4px 0;
+	-moz-border-radius: 0 8px 8px 0;
+	-webkit-border-radius: 0 8px 8px 0;
+	border-radius: 0 8px 8px 0;
+}
+
+.dino-form-field button[role='actor'] {
+	padding: 2px;
 }
 
 .dino-form-field [role='actor']:hover {

@@ -10,11 +10,11 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 	
 	defaultOptions: {
 		cls: 'dino-text-item',
-		layout: 'dock',
+//		layout: 'dock',
+		layout: 'hbox',
 		components: {
 			leftIcon: {
 				dtype: 'icon',
-//				state: 'hidden',
 				dock: 'left'
 			},
 			content: {
@@ -22,7 +22,6 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 			},
 			rightIcon: {
 				dtype: 'icon',
-//				state: 'hidden',
 				dock: 'right'
 			}
 		},

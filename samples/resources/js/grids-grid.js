@@ -33,9 +33,9 @@ var grid = $.dino({
 //      width: 100
     }, {
       dataId: 'icon',
-      cls: 'led-icon dino-clickable',
+      cls: 'silk-icon dino-clickable',
       width: 30,
-      binding: function(val) { this.states.set('led-icon-'+val); },
+      binding: function(val) { this.states.set('silk-icon-'+val); },
     }, {
       header: 'Ссылка',
       content: {

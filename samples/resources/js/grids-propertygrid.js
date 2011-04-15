@@ -75,7 +75,7 @@ var propertyGrid = $.dino({
             dtype: 'dropdown-editor',
             components: {
               button: {
-                cls: 'led-icon-calendar_1'
+                cls: 'silk-icon-date'
               },
               input: {
                 format: function(val){ return val; }

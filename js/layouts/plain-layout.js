@@ -37,6 +37,39 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	},
 	
 	update: function() {
+		
+		// AUTO WIDTH
+		if(this.container.options.width == 'auto'){
+
+			// если элемент не отображается - его не надо выравнивать
+			if(!this.el.not(':hidden')) return;
+			
+			// расчитываем отступы
+			var dw = this.el.outerWidth() - this.el.width();
+			// скрываем элемент
+			this.el.hide();
+			
+			// ищем родителя, у которого определена ширина
+			var w = 0;
+			this.el.parents().each(function(i, el){
+				if(!w) w = $(el).width();
+				if(w) return false;
+			});
+			
+			// обходим всех видимых соседей и получаем их ширину
+			this.el.siblings().not(':hidden').each(function(i, el){
+				w -= $(el).outerWidth(true);
+			});
+
+			// задаем ширину элемента (с учетом отступов), если она не нулевая
+			if(w - dw) 
+				this.el.width(w - dw);
+				
+			// отображаем элемент
+			this.el.show();
+		}
+		
+		// AUTO HEIGHT
 		if(this.container.options.height == 'auto'){
 
 			if(!this.el.is(":visible")) return;

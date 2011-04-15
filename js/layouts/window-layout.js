@@ -14,7 +14,7 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		initialWidth: 200,
 		initialHeight: 200,
 		updateMode: 'manual',
-		html: '<div class="dino-window-content" autoheight="true"/>'
+		html: '<div class="dino-window-content"/>'
 	},
 	
 	

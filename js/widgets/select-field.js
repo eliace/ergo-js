@@ -61,7 +61,7 @@ Dino.declare('Dino.widgets.SelectField', 'Dino.widgets.ComboField', {
 	showDropdown: function() {
     var dd = this.dropdown;
 							
-    dd.el.width(this.el.width());
+    dd.el.css('min-width', this.el.width());//.width(this.el.width());
 
 		var offset = this.el.offset();
     dd.show(offset.left, offset.top + this.el.outerHeight());	

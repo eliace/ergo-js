@@ -20,10 +20,11 @@
 }
 
 .dino-tree-node-button {
-	position: absolute;
-	top: 0;	
+/*	position: absolute;
+	top: 0;*/	
 	cursor: pointer;
-/*	display: inline-block;*/
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .dino-tree-node.collapsed > ul {
@@ -31,7 +32,7 @@
 }
 
 .dino-tree-node-content {
-	margin-left: 20px;
+	margin-left: 3px;
 }
 
 .dino-tree-node-content:hover {

@@ -28,12 +28,12 @@
 /*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 4px 0 2px;
+	padding: 4px 0 1px;
 }
 
 .dino-tabs li {
 	text-align: center;
-	cursor: pointer;
+/*	cursor: pointer;*/
 	list-style: none outside none;
 }
 

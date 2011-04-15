@@ -5,8 +5,11 @@
 	overflow-y: auto;
 }
 
+
+
 .dino-list-box-item {
 	display: block;
+	padding: 0 3px;
 }
 
 .dino-list-box-item:hover {

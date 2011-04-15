@@ -10,7 +10,8 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
 		layout: 'hbox',
     components: {
       input: {
-        dtype: 'input'
+        dtype: 'input',
+				width: 'auto'
       }
     }		
 	}

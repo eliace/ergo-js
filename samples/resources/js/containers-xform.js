@@ -35,12 +35,15 @@ $.dino({
 	    dataId: 'text',
 	    dtype: 'combo-field',
 	    cls: 'dino-form-field',
+			width: 200,
 	    components: {
 	      button: {
 	        dtype: 'icon-button',
 	        role: 'actor',
 	        icon: 'dino-icon-search',
-	      }
+	      },
+				input: {
+				}
 	    },
 	    extensions: [Dino.Focusable]			
 		}
@@ -124,7 +127,7 @@ $.dino({
 	        defaultItem: {
 	          style: {'display': 'block'},
 	          cls: 'dino-border-none',
-	          height: 11,
+	          height: 10,
 	          width: 20,
 	          onAction: function() {
 	            if(this.tag == 'up')
