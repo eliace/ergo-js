@@ -290,7 +290,7 @@ var Dino = (function(){
 		var result = {};
 		for(var i in obj)
 			if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
-		return a;
+		return result;
 	}
 
 	/**
