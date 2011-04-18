@@ -72,7 +72,6 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				role: 'actor',
 				onAction: function() {
 					this.parent.showDropdown();
-					this.parent.hasDropdown = true;
 				}
       },
 			dropdown: {
@@ -88,7 +87,6 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 								var dd = w.parent.parent;
 								dd.parent.events.fire('onSelect', {target: w});
 								dd.parent.setValue( dd.parent.options.selectValue.call(dd.parent, w) );
-//								dd.parent.setValue(w.data.get(dd.parent.options.dropdownModel.id));
 		          	dd.hide();
 							}
 						}						
@@ -107,7 +105,30 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 		formatValue: function(val) { return this.dropdown.data.get(val); },
 		selectValue: function(w){ return w.data.id; },
 		onKeyDown: function(e) {
-			if(e.keyCode == 40) this.showDropdown();
+
+			var listBox = this.dropdown.content;
+			var selected = listBox.selection.get();
+
+			if(e.keyCode == 40) {
+				if(!this.dropdown.isShown) {
+					this.showDropdown();
+				}
+				else {
+					var nextItem = listBox.getItem( selected ? selected.index+1 : 0 );
+					if(nextItem)
+						listBox.selection.set(nextItem);
+				}
+			}
+			else if(e.keyCode == 38) {
+				var prevItem = listBox.getItem( selected ? selected.index-1 : 0 );
+				if(prevItem)
+					listBox.selection.set(prevItem);
+			}
+			else if(e.keyCode == 13) {
+				this.events.fire('onSelect', {target: selected});				
+				this.setValue( this.options.selectValue.call(this, selected) );
+				this.hideDropdown();
+			}
 		},
 		dropdownOnClick: true,
 		dropdownOnFocus: false
@@ -123,7 +144,6 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 		}
 		if(o.dropdownOnFocus) {
 			this.events.reg('onFocus', function(){	self.showDropdown(); });
-//			this.el.focus(function(){	self.showDropdown(); });
 		}
 	},
 	
@@ -153,6 +173,22 @@ Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 	
 	defaultOptions: {
     components: {
+			input: {
+				events: {
+					'keydown': function(e, w) {
+						if($.browser.webkit) {
+							if(e.keyCode == 38) w.parent.spinUp();
+							else if(e.keyCode == 40) w.parent.spinDown();													
+						}
+					},
+					'keypress': function(e, w) {
+						if(!$.browser.webkit) {
+							if(e.keyCode == 38) w.parent.spinUp();
+							else if(e.keyCode == 40) w.parent.spinDown();
+						}						
+					}
+				}
+			},
       buttons: {
         dtype: 'box',
 				role: 'actor',
@@ -163,12 +199,10 @@ Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
           height: 8,
           width: 16,
           onAction: function() {
-						var n = this.data.get();
-						if(Dino.isString(n)) n = parseFloat(n); //FIXME 
             if(this.tag == 'up')
-              this.data.set(n+1);
+							this.parent.parent.spinUp();
             else if(this.tag == 'down')
-              this.data.set(n-1);
+							this.parent.parent.spinDown();
           },
 					events: {
 						'dblclick': function(e) { 

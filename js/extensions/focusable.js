@@ -49,7 +49,8 @@ Dino.Focusable.focusManager = {
 	},
 	
 	input: function(e) {
-		if(this.current) this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
+		if(this.current) 
+			this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
 		if(e.keyCode == 27) this.leave();
 	}
 	
@@ -61,6 +62,15 @@ $(window).click(function(e){
 	if(e.button == 0) Dino.Focusable.focusManager.leave();
 });
 
-$(window).bind('keypress', function(e){
-	Dino.Focusable.focusManager.input(e);
-});
+
+if($.browser.webkit) {
+	$(window).bind('keydown', function(e){
+		Dino.Focusable.focusManager.input(e);
+	});	
+}
+else {
+	$(window).bind('keypress', function(e){
+		Dino.Focusable.focusManager.input(e);
+	});	
+}
+

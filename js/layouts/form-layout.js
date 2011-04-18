@@ -31,9 +31,12 @@ Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout',
 	
 	insert: function(item){
 		
+		var o = item.options;
+		
 		var row = $('<tr><td class="label"></td><td></td></tr>');
 		
-		$('td.label', row).append('<label>' + item.options.label + ':' + '</label>');
+		var labelEl = $('<label>'+(o.label || '')+'</label>');		
+		$('td.label', row).append(labelEl);
 		$('td', row).eq(1).append(item.el);
 		
 		this.el.append(row);

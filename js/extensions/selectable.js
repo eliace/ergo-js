@@ -20,6 +20,10 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject',
 		return this.selection_a;		
 	},
 	
+	set: function(w) {
+		this.add(w);
+	},
+	
 	add: function(w, ctrlKey, shiftKey) {
 		
     if(shiftKey && this.selection_a.length > 0) {

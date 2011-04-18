@@ -165,6 +165,10 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	
 	eachRow: function(callback) {
 		this.content.content.eachRow(callback);
+	},
+	
+	getRow: function(i) {
+		return this.content.content.getRow(i);
 	}
 	
 //	$dataChanged: function() {
