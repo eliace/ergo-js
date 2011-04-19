@@ -32,7 +32,7 @@ Dino.Editable = function(o) {
 	
 	this.stopEdit = function(reason) {
 //		$(window).unbind('keypress', this._key_handler);
-		if(this._editor.options.focusable) this._editor.clearFocus();
+//		if(this._editor.options.focusable) this._editor.clearFocus();
 		this.removeComponent('_editor').destroy(); // удаляем и уничтожаем компонент
 		this.$dataChanged(); // явно вызываем обновление данных
 		this.events.fire('onEdit', {'reason': reason});

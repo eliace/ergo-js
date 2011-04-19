@@ -45,7 +45,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			if(!this.el.not(':hidden')) return;
 			
 			// расчитываем отступы
-			var dw = this.el.outerWidth() - this.el.width();
+			var dw = this.el.outerWidth(true) - this.el.width();
 			// скрываем элемент
 			this.el.hide();
 			

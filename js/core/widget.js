@@ -349,7 +349,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		profiler.start('opt');
 		
-		if('width' in o) el.width(o.width);
+		if('width' in o) {
+			if(o.width != 'auto') el.width(o.width);
+		}
 		if('height' in o) {
 			if(o.height == 'auto' || o.height == 'ignore'){ 
 				el.attr('autoheight', o.height);

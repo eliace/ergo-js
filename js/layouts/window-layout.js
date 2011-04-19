@@ -76,13 +76,13 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		
 		var box = this.el;
 		var wnd = this.container.el;
-		
-		box.css({'visibility': 'hidden'});
-		
+						
 		var w0 = wnd.width();
 		var h0 = wnd.height();
 		wnd.css({width: '', height: ''});
-		
+
+		box.css({'visibility': 'hidden'});
+
 //		this.container.el.show();
 		
 				

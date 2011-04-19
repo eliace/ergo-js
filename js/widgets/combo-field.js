@@ -13,7 +13,7 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
         dtype: 'input',
 				width: 'auto'
       }
-    }		
+    }
 	}
 	
 }, 'combo-field');

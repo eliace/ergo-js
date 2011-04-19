@@ -28,7 +28,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		
 		if('text' in o) {
 			this.content.opt('text', o.text);
-			this.content.states.toggle('hidden', !o.text);
+			this.content.states.toggle('hidden', (!o.text && o.text !== ''));
 		}
 		if('icon' in o) {
 			this.icon.states.setOnly(o.icon);

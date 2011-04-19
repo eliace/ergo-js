@@ -18,16 +18,19 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 			}			
 		},
 		extensions: [Dino.Focusable],
-		states: {
-			'focus': function(f) {
-				if(f) {
-					
-				}
-				else {
-					this.parent.stopEdit();
-				}
-			}
+		onBlur: function() {
+			this.parent.stopEdit();			
 		},
+//		states: {
+//			'focus': function(f) {
+//				if(f) {
+//					
+//				}
+//				else {
+//					this.parent.stopEdit();
+//				}
+//			}
+//		},
 		onKeyDown: function(e) {
 			if(e.keyCode == 13) {
 				this.parent.stopEdit('enterKey');
@@ -85,6 +88,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 						events: {
 							'click': function(e, w) {
 								var dd = w.parent.parent;
+								dd.parent.dropdown.content.selection.set(w);
 								dd.parent.events.fire('onSelect', {target: w});
 								dd.parent.setValue( dd.parent.options.selectValue.call(dd.parent, w) );
 		          	dd.hide();
@@ -160,7 +164,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	
 	hideDropdown: function() {
 		this.dropdown.hide();
-	}
+	}	
 	
 }, 'dropdown-editor');
 

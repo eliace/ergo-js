@@ -161,22 +161,33 @@ button.plain {
 .dino-form-field {
 	border: 1px solid #aaa;
 	
+/*	line-height: 12px;*/
+	
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	
-	padding-left: 3px;
+/*	padding-left: 3px;*/
+	
+	width: 150px;  /* ширина поля по умолчанию */
+	min-height: 20px;
 }
 
 .dino-form-field [role='actor'] {
 	border: none;
 	border-left: 1px solid #aaa;
-/*	background: #ccc;*/
+
 	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
 		
 	-moz-border-radius: 0 8px 8px 0;
 	-webkit-border-radius: 0 8px 8px 0;
 	border-radius: 0 8px 8px 0;
+}
+
+.dino-form-field input {
+/*	margin: 0 3px;*/
+	margin: 2px;
+	width: 0px;  /*  */
 }
 
 .dino-form-field button[role='actor'] {
@@ -188,6 +199,8 @@ button.plain {
 	background: #ddd;
 }
 
-
+.dino-form-field.focus {
+	border-color: #68f;
+}
 
 

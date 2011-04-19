@@ -33,6 +33,7 @@ Dino.Focusable.focusManager = {
 		if(this.current == w) return;
 		if (this.current) {
 			this.current.states.clear('focus');
+			this.current.events.fire('onBlur');
 		}
 		this.current = w;
 		w.states.set('focus');
@@ -40,18 +41,26 @@ Dino.Focusable.focusManager = {
 	},
 	
 	clear: function() {
+		var w = this.current;
 		this.current = null;
+		if(w) {
+			w.states.clear('focus');
+			w.events.fire('onBlur');
+		}		
 	},
 	
-	leave: function() {
-		if(this.current) this.current.states.clear('focus');
-		this.current = null;		
-	},
+//	leave: function() {
+//		if(this.current) {
+//			this.current.states.clear('focus');
+//			this.current.events.fire('onBlur');
+//		}
+//		this.current = null;		
+//	},
 	
-	input: function(e) {
+	keypress: function(e) {
 		if(this.current) 
 			this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
-		if(e.keyCode == 27) this.leave();
+		if(e.keyCode == 27) this.clear();
 	}
 	
 }
@@ -59,18 +68,18 @@ Dino.Focusable.focusManager = {
 
 $(window).click(function(e){
 	// убираем фокус по щелчку левой кнопкой мыши
-	if(e.button == 0) Dino.Focusable.focusManager.leave();
+	if(e.button == 0) Dino.Focusable.focusManager.clear();
 });
 
 
 if($.browser.webkit) {
 	$(window).bind('keydown', function(e){
-		Dino.Focusable.focusManager.input(e);
+		Dino.Focusable.focusManager.keypress(e);
 	});	
 }
 else {
 	$(window).bind('keypress', function(e){
-		Dino.Focusable.focusManager.input(e);
+		Dino.Focusable.focusManager.keypress(e);
 	});	
 }
 
