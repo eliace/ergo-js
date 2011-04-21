@@ -17,6 +17,13 @@
 	background-color: #ddd;
 }
 
+.dino-menu-item.disabled {
+	opacity: .3;
+}
+
+.dino-menu-item.disabled:hover {
+	background-color: transparent;
+}
 
 .dino-menu-dropdown {
 	border: 1px solid #aaa;

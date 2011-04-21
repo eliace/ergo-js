@@ -39,6 +39,10 @@
 	color: #666;
 }
 
+.dino-tree-node.selected > .dino-tree-node-content {
+	background-color: #bdf;
+}
+
 /*
 .dino-tree-node.selected > .dino-tree-node-content {
 	color: #11f;

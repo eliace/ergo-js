@@ -343,29 +343,29 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 		
 	},
 	
-	setSelected: function(node_to_select) {
-		
-		this.eachItem(function(item){
-			item.walkSubtree(function(node){
-				if(node.isSelected()){
-					node.states.clear('selected');
-					node.events.fire('onUnselected');
-				}
-			});
-		});
-		
-		if(node_to_select) {
-			node_to_select.states.set('selected');
-			node_to_select.events.fire('onSelected');
-			
-			this.selected_node = node_to_select;
-		}
-		
-	},
-	
-	getSelected: function() {
-		return this.selected_node;
-	},
+//	setSelected: function(node_to_select) {
+//		
+//		this.eachItem(function(item){
+//			item.walkSubtree(function(node){
+//				if(node.isSelected()){
+//					node.states.clear('selected');
+//					node.events.fire('onUnselected');
+//				}
+//			});
+//		});
+//		
+//		if(node_to_select) {
+//			node_to_select.states.set('selected');
+//			node_to_select.events.fire('onSelected');
+//			
+//			this.selected_node = node_to_select;
+//		}
+//		
+//	},
+//	
+//	getSelected: function() {
+//		return this.selected_node;
+//	},
 	
 	
 	

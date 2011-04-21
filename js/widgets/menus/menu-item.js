@@ -40,7 +40,9 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 		events: {
 			'click': function(e, w) {
 				var event = new Dino.events.CancelEvent();
-				w.events.fire('onAction', e);
+				// если не определено состояние disabled, то вызываем событие onAction
+				if(!w.states.is('disabled')) 
+					w.events.fire('onAction', e); 
 				if(!event.isCanceled) w.hideSubmenu(true);
 //				e.stopPropagation();
 			}

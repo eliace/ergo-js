@@ -12,3 +12,12 @@ button.plain:hover {
 button.plain.selected {
 	background-color: #ccc;
 }
+
+button.plain.disabled {
+	opacity: 0.3;	
+}
+
+button.plain.disabled:hover {
+	border-color: transparent;	
+	background-color: transparent;	
+}

@@ -13,7 +13,12 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 		},
 		components: {
 			input: {
-        updateOnValueChange: true
+        updateOnValueChange: true,
+				events: {
+					'focus': function(e, w) {
+						w.parent.setFocus();
+					}
+				}
 			}			
 		},
 		extensions: [Dino.Focusable],
@@ -24,7 +29,7 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 			if(this.options.changeOnBlur)
 				this.setValue( this.input.el.val() );
 		},
-		changeOnBlur: false
+		changeOnBlur: true
 	}	
 	
 }, 'text-field');

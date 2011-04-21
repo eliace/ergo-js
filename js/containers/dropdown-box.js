@@ -60,6 +60,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		var offset = this.options.offset;
 		
 		this.el.css({'left': x + offset[0], 'top': y + offset[1]});
+				
 //		$(this.options.target).append(this.el);
 				
 		var eff = this.options.effects;

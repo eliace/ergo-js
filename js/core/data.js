@@ -164,7 +164,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 		}
 		else {
 			Dino.each(values, function(val, i){
-				callback.call(this, val, i);
+				return callback.call(this, val, i);
 			});			
 		}
 		

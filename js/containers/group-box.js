@@ -15,12 +15,11 @@ Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Contai
 			title: {
 				dtype: 'container',
 				html: '<legend/>'
-//				cls: 'dino-group-title'// dino-panel'
 			}
 		}
 	},
 	
-	$html: function() { return '<fieldset/>'; },
+	$html: function() { return '<fieldset></fieldset>'; },
 	
 	$opt: function(o) {
 		Dino.containers.GroupBox.superclass.$opt.apply(this, arguments);

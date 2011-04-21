@@ -13,7 +13,7 @@
 Dino.declare('Dino.Layout', Dino.BaseObject, /** @lends Dino.Layout.prototype */ {
 	
 	defaultOptions: {
-		updateMode: 'auto'	
+		updateMode: 'auto'
 	},
 	
 	initialize: function(opts){

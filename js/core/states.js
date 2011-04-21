@@ -84,8 +84,14 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 	 */
 	clear: function(name) {
 		
+		if(name instanceof RegExp) {
+			var names = Dino.filter(this.current_states, function(s, i){ return i.match(name); });
+			for(var i in names) this.clear(i);
+			return this;			
+		}
+		
 		// получаем состояние, определенное для виджета
-		var state = this.widget.options.states[name];
+		var state = this.widget.options.states[name];		
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
 //		else if(Dino.isString(state)) { state_on = state; state_off = ''; }

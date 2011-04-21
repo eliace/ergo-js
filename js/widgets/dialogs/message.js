@@ -25,7 +25,7 @@ Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.
 				}	
 			}
 		},
-	
+		destroyOnClose: true,	
 //		buttonsAlign: 'center',
 		buttonSet: {
 			'yes': {text: 'Да', tag: 'yes'},

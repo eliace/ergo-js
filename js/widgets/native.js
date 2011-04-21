@@ -448,7 +448,7 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 		var self = this;
 		
 		this.el.click(function(e){
-			self.events.fire('onAction', {}, e);
+			if(!self.states.is('disabled')) self.events.fire('onAction', {}, e);
 		});		
 		
 	},

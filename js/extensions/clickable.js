@@ -3,10 +3,10 @@ Dino.Clickable = function(o) {
 	
 	Dino.utils.overrideOpts(o, {events: {
 		'click': function(e, w) {
-			w.events.fire('onClick');
+			w.events.fire('onClick', {button: 0}, e);
 		},
 		'dblclick': function(e, w) {
-			w.events.fire('onDoubleClick');
+			w.events.fire('onDoubleClick', {button: 0}, e);
 		}
 	}});
 	
@@ -30,7 +30,7 @@ Dino.RClickable = function(o) {
 			if(e.button == 2) {
 				var t = Dino.timestamp()
 				if(t - Dino.RClickable.click_timestamp < 200) {
-					w.events.fire('onClick', {button: 2});					
+					w.events.fire('onClick', {button: 2}, e);					
 				}
 			}			
 		},

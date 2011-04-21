@@ -35,6 +35,26 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	customOptions: {
 	},
 
+/*
+	initializeClass: function() {
+		
+		var o = {};
+		
+		if(!this.constructor.NO_REBUILD_SKELETON) {
+			var prevDefaultOptions = null;
+			Dino.hierarchy(this.constructor, function(clazz){
+				if(clazz.defaultOptions == prevDefaultOptions) return;
+				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
+				if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton);
+				prevDefaultOptions = clazz.defaultOptions; 
+			});
+			this.constructor.NO_REBUILD_SKELETON = true;
+			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
+			
+		}		
+	},
+*/
 			
 	initialize: function() {
 		
@@ -82,7 +102,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
 			
-//			console.log('rebuild_skeleton');
 		}
 		else {
 			this.options = o = Dino.deep_copy(this.defaultOptions);

@@ -93,7 +93,8 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 			}
 		},
 		dropdownOnClick: true,
-		dropdownOnFocus: false
+		dropdownOnFocus: false,
+		changeOnBlur: false
 	},
 	
 	$init: function(o) {

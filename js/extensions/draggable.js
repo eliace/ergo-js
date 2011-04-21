@@ -7,6 +7,9 @@ Dino.drag = null;
 Dino.Draggable = function(o) {
 	
 	this.el.bind('mousedown', function(e) {
+		
+		if(e.button != 0) return;
+		
 		if(!Dino.drag) {
 			var w = $(this).dino();
 			Dino.drag = {
