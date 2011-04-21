@@ -6,7 +6,7 @@ var dlg = $.dino({
   width: '90%',	
   content: {
     dtype: 'box',
-		height: 'auto',
+//		height: 'auto',
     cls: 'dino-text-content dino-border-all',
     innerText: Samples.loremipsum
   },

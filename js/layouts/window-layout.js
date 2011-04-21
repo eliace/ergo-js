@@ -84,16 +84,28 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 		box.css({'visibility': 'hidden'});
 
 //		this.container.el.show();
-		
-				
-		var w = this.container.options.width || box.outerWidth(true);
-		var h = this.container.options.height || box.outerHeight(true);
-		
+
+		var w = this.container.options.width;
+		var h = this.container.options.height;
+
 		// если указана высота в %, ее еще надо рассчитать
-		if(Dino.isString(w) && w[w.length-1] == '%') 
-			w = this.container.el.parent().width() * parseFloat(w.substr(0, w.length-1))/100;
-		if(Dino.isString(h) && h[h.length-1] == '%') 
-			h = this.container.el.parent().height() * parseFloat(h.substr(0, h.length-1))/100;
+		if (Dino.isString(w) && w[w.length - 1] == '%') {
+			w = this.container.el.parent().width() * parseFloat(w.substr(0, w.length - 1)) / 100;
+			wnd.css('width', w);
+		}
+			
+		if (Dino.isString(h) && h[h.length - 1] == '%') {
+			h = this.container.el.parent().height() * parseFloat(h.substr(0, h.length - 1)) / 100;
+			wnd.css('height', w);
+		}
+		
+
+		w = w || box.outerWidth(true);
+		h = h || box.outerHeight(true);
+		
+//		var w = this.container.options.width || box.outerWidth(true);
+//		var h = this.container.options.height || box.outerHeight(true);
+		
 		
 		box.css('display', 'none');
 		

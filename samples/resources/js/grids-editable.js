@@ -197,7 +197,7 @@ var widget = $.dino({
       components: {
         pager: {
           dtype: 'pager',
-          count: 120,
+          count: 200,
           pageSize: 40,
           cls: 'dino-border-top',
           onIndexChanged: function(e) {

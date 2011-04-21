@@ -3,9 +3,10 @@ var dlg = $.dino({
   dtype: 'message-box',
   renderTo: '.preview',
   title: 'Сообщение',
+	destroyOnClose: false,
   components: {
     buttons: {
-      state: 'right'
+      state: 'center'
     }
   }
 });  

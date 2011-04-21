@@ -16,9 +16,6 @@ var grid = $.dino({
   },
 //  headerCls: 'dino-bg-highlight',
   tableModel: {
-    cell: {
-      binding: 'auto'
-    },
     columns: [{
       dataId: 'id',
       header: 'ID',
@@ -30,7 +27,6 @@ var grid = $.dino({
       dataId: 'number',
       header: 'Число',
       format: function(v) { return v.toFixed(2) },
-//      width: 100
     }, {
       dataId: 'icon',
       cls: 'silk-icon dino-clickable',
@@ -71,7 +67,7 @@ var grid = $.dino({
   components: {
     pager: {
       dtype: 'pager',
-      count: 100,
+      count: 200,
       pageSize: 40,
       cls: 'dino-border-top',
       onIndexChanged: function(e) {

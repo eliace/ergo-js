@@ -233,14 +233,14 @@ Dino.utils.overrideOpts = function(o) {
 		
 		var srcObj = arguments[j];
 		
-		if( Dino.isArray(srcObj) ){
-			for(var i = 0; i < srcObj.length; i++)
-				Dino.utils.overrideProp(o, srcObj, i);
-		}
-		else {			
+//		if( Dino.isArray(srcObj) ){
+//			for(var i = 0; i < srcObj.length; i++)
+//				Dino.utils.overrideProp(o, srcObj, i);
+//		}
+//		else {			
 			for(var i in srcObj)
 				Dino.utils.overrideProp(o, srcObj, i);
-		}		
+//		}		
 	}
 	
 	return o;
