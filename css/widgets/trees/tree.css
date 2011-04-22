@@ -27,6 +27,10 @@
 	vertical-align: middle;
 }
 
+.dino-tree-node-button.leaf {
+	visibility: hidden;
+}
+
 .dino-tree-node.collapsed > ul {
 	display: none;
 }

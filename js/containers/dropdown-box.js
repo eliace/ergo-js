@@ -53,7 +53,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		
 	},
 	
-	show: function(x, y) {
+	show: function(x, y, target) {
 		
 		if(arguments.length == 0) return;
 		
@@ -61,7 +61,10 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		
 		this.el.css({'left': x + offset[0], 'top': y + offset[1]});
 				
-//		$(this.options.target).append(this.el);
+		if(target) {
+			this.renderTarget = $(target);
+			this.renderTarget.append(this.el);
+		}
 				
 		var eff = this.options.effects;
 		
@@ -111,7 +114,10 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		
 		this.isShown = false;
 		
-		
+		if(this.renderTarget) {
+			this.el.detach();
+			delete this.renderTarget;
+		}
 //		this.el.remove();
 //		$(this.options.target).remove(this.el);
 	}

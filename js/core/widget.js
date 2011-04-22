@@ -24,7 +24,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		layout: 'plain',
 		states: {
 			'hidden': 'hidden',
-			'visible': ['', 'hidden']
+//			'visible': ['', 'hidden'],
+			'disabled': 'disabled'
 		},
 		defaults: {},
 		extensions: [],
@@ -950,7 +951,7 @@ $(document).ready(function(){
 					w.events.fire('onContextMenu', cancel_event);
 					if(!cancel_event.isCanceled){
 						w.contextMenu.sourceWidget = w;
-						w.contextMenu.show(e.pageX, e.pageY);
+						w.contextMenu.show(e.pageX, e.pageY, 'body');
 					}
 					e.preventDefault();
 				}

@@ -88,9 +88,9 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				weight: 1,
 				dtype: 'icon',
 				cls: 'dino-tree-node-button',
-				states: {
-					'leaf': 'hidden'
-				},
+//				states: {
+//					'leaf': 'hidden'
+//				},
 				events: {
 					'click': function(e, w) {
 						w.parent.states.toggle('expand_collapse');

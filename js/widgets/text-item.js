@@ -15,14 +15,17 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		components: {
 			leftIcon: {
 				dtype: 'icon',
-				dock: 'left'
+//				dock: 'left',
+				state: 'hidden'
 			},
 			content: {
-				dtype: 'text'
+				dtype: 'text',
+				state: 'hidden'
 			},
 			rightIcon: {
 				dtype: 'icon',
-				dock: 'right'
+//				dock: 'right',
+				state: 'hidden'
 			}
 		},
 		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод $events
@@ -47,6 +50,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 	$init: function(o) {
 		Dino.widgets.TextItem.superclass.$init.apply(this, arguments);
 		
+/*		
 		var key_a = [];
 		if(o.icon) key_a.push('icon');
 		if(o.text || o.text === '') key_a.push('text');
@@ -93,7 +97,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		Dino.utils.overrideOpts(o.components, o_mod);
 		
 //		console.log();
-		
+*/		
 	},
 	
 	$opt: function(o) {
@@ -104,13 +108,30 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 //			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
 		}
 		if('textFormat' in o) this.content.opt('format', o.textFormat);
+	
+	
+		if('text' in o) {
+			this.content.opt('text', o.text);
+			this.content.states.toggle('hidden', (!o.text && o.text !== ''));
+		}
+		if('icon' in o) {
+			this.leftIcon.states.setOnly(o.icon);
+			this.leftIcon.states.toggle('hidden', !o.icon);
+		}
+		if('xicon' in o) {
+			this.rightIcon.states.setOnly(o.xicon);
+			this.rightIcon.states.toggle('hidden', !o.xicon);
+		}
+	
 		
+/*		
 		if('icon' in o) 
 			this.leftIcon.states.setOnly(o.icon);
 		if('xicon' in o) {
 			this.rightIcon.states.setOnly(o.xicon);
+			this.rightIcon.states.clear('hidden');
 		} 
-			
+*/			
 		
 /*		
 		if('pattern' in o) {

@@ -65,11 +65,18 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject',
 	
 	
 	each: function(callback) {
-		for(var i = 0; i < this.selection_a.length; i++) callback.call(this, this.selection_a[i], i);
+		for(var i = 0; i < this.selection_a.length; i++) 
+			callback.call(this, this.selection_a[i], i);
 	},
 	
-	size: function() {
+	count: function() {
 		return this.selection_a.length;
+	},
+	
+	has: function(w) {
+		for(var i = 0; i < this.selection_a.length; i++)
+			if(this.selection_a[i] == w) return true;
+		return false;
 	}
 	
 });
