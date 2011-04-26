@@ -108,16 +108,19 @@ Dino.overrideProp = function(o, srcObj, i) {
 //	if((i in shared_opts)){//Dino.in_array(ignore, i)){
 //		o[i] = p;
 //	}
-	if(i[i.length-1] == '@') {
+
+	var last_literal = i[i.length-1];
+
+	if(last_literal == '@') {
 		var j = i.substr(0, i.length-1);
 		o[j] = p;
 	}
-	else if(i[i.length-1] == '!') {
+	else if(last_literal == '!') {
 		var j = i.substr(0, i.length-1);
 		if(j in o) i = j;
 		o[i] = p;
 	}
-	else if(i[i.length-1] == '+') {
+	else if(last_literal == '+') {
 		i = i.substr(0, i.length-1);
 		
 		if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
@@ -128,11 +131,11 @@ Dino.overrideProp = function(o, srcObj, i) {
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
 		if( Dino.isPlainObject(p) ){
 			if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-			Dino.overrideOpts(o[i], p);
+			Dino.smart_override(o[i], p);
 		}
 		else if( Dino.isArray(p) ){
 			if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
-			Dino.overrideOpts(o[i], p);
+			Dino.smart_override(o[i], p);
 		}
 		else {
 			//TODO этот участок кода нужно исправить
@@ -156,7 +159,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 }
 
 
-Dino.overrideOpts = function(o) {
+Dino.smart_override = function(o) {
 
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
@@ -178,7 +181,7 @@ Dino.overrideOpts = function(o) {
 
 
 
-Dino.utils.deep_override = function(o) {
+Dino.deep_override = function(o) {
 	
 	for(var j = 1; j < arguments.length; j++){
 	
@@ -187,11 +190,11 @@ Dino.utils.deep_override = function(o) {
 		Dino.each(srcObj, function(p, i){
 			if( Dino.isPlainObject(p) ){
 				if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-				Dino.utils.deep_override(o[i], p);
+				Dino.deep_override(o[i], p);
 			}
 			else if( Dino.isArray(p) ){
 				if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
-				Dino.utils.deep_override(o[i], p);
+				Dino.deep_override(o[i], p);
 			}
 			else {
 				o[i] = p;

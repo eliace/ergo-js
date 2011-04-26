@@ -3,17 +3,17 @@ $.dino({
   dtype: 'box',
   renderTo: '.preview',
   id: 'vmenu',
-	defaultItem: {
-		dtype: 'menu-item',
-		cls: 'main-menu-item',
-		menuModel: {
-			item: {
-				onAction: function() {
-					growl.info( this.content.getText() );
-				}
-			}
-		}
-	},
+  defaultItem: {
+    dtype: 'menu-item',
+    cls: 'main-menu-item',
+    menuModel: {
+      item: {
+        onAction: function() {
+          growl.info( this.content.getText() );
+        }
+      }
+    }
+  },
 //  defaultItem: {
 //    dtype: 'text-menu-item',
 //    cls: 'main-menu-item',

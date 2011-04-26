@@ -50,8 +50,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			Dino.hierarchy(this.constructor, function(clazz){
 				if(clazz.defaultOptions == prevDefaultOptions) return;
 				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-				if('defaultOptions' in clazz) Dino.overrideOpts(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.overrideOpts(o, clazz.skeleton);
+				if('defaultOptions' in clazz) Dino.smart_override(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.smart_override(o, clazz.skeleton);
 				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
@@ -86,6 +86,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 
 		profiler.tick('widget', 'precreate');		
 		
+		
 		/** 
 		 * Параметры
 		 * @type Object
@@ -100,8 +101,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			Dino.hierarchy(this.constructor, function(clazz){
 				if(clazz.defaultOptions == prevDefaultOptions) return;
 				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-				if('defaultOptions' in clazz) Dino.overrideOpts(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.overrideOpts(o, clazz.skeleton);
+				if('defaultOptions' in clazz) Dino.smart_override(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.smart_override(o, clazz.skeleton);
 				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
@@ -114,9 +115,9 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		profiler.tick('widget', 'hierarchy');		
 		
-		Dino.overrideOpts(o, opts);
+		Dino.smart_override(o, opts);
 
-		profiler.tick('widget', 'overrideOpts');		
+		profiler.tick('widget', 'smart_override');		
 		
 		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 		
@@ -193,7 +194,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		this.events.fire('onCreated');
 		
-		if(this.options.debug)	console.log('created');		
+//		if(this.options.debug)	console.log('created');		
 		
 		
 		profiler.tick('widget', 'build');		
@@ -217,7 +218,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		// "сахарное" определение контента виджета
 		if('content' in o){
-			Dino.overrideOpts(o, {
+			Dino.smart_override(o, {
 				components: {
 					content: o.content
 				}
@@ -350,7 +351,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			return this.options[o];
 		}
 		
-		Dino.overrideOpts(this.options, opts);
+		Dino.smart_override(this.options, opts);
 
 		this.$opt(opts);
 		
@@ -414,21 +415,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		if('events' in o){
 			for(var i in o.events){
 				var callback = o.events[i];
-//				// Dino события или jQuery события?
-//				if(regexp.test(i)){
-//					// Dino-события могут быть массивом
-//					if( Dino.isArray(callback) ){
-//						Dino.each(callback, function(fn){
-//							self.events.reg(i, fn);
-//						});
-//					}
-//					else {	
-//						this.events.reg(i, callback);
-//					}
-//				}
-//				else{
 				el.bind(i, callback.rcurry(self));
-//				}
 			}
 		}
 		
@@ -482,11 +469,6 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		}
 		
 		
-		
-//		if('draggable' in o){
-//			this._toggle_handler('draggable_mousedown', 'mousedown', o.draggable);
-//			this._toggle_handler('draggable_mousemove', 'mousemove', o.draggable);
-//		}
 		
 		if('contextMenu' in o) {
 			
@@ -565,7 +547,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		// если у виджета определен базовый класс, до его компоненты будут иметь класс-декоратор [baseCls]-[имяКомпонента]
 		if('baseCls' in this.options)
-			Dino.overrideOpts(o, {cls: this.options.baseCls+'-'+key});
+			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});
 		
 		this[key] = (o instanceof Dino.Widget) ? o : Dino.widget(o);
 		this.children.add( this[key] );
@@ -842,7 +824,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 
 Dino.widget = function(){
 	if(arguments.length == 1) return Dino.object(arguments[0]);
-	return Dino.object( Dino.overrideOpts.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
+	return Dino.object( Dino.smart_override.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
 };
 
 
@@ -878,7 +860,7 @@ $.fn.dino = function(o) {
  * 
  */
 
-
+/*
 var abilityHandlers = {
 	'clickable.click': function(e) {
 			$(this).dino().events.fire('onClick', {}, e);		
@@ -916,7 +898,7 @@ Dino.override(Dino.Widget.prototype.defaultOptions.states, {
 		else this.el.unbind('mousedown', abilityHandlers['nonselectable.mousedown']);		
 	}
 });
-
+*/
 
 
 

@@ -1,32 +1,32 @@
 
 
 var menuData = [{
-	name: 'Europe',
-	children: [{
-		name: 'Germany'
-	}, {
-		name: 'France',
-		children: [{
-			name: 'Paris'
-		}]
-	}, {
-		name: 'Russia'
-	}, {
-		name: 'Great Britain'
-	}]
+  name: 'Europe',
+  children: [{
+    name: 'Germany'
+  }, {
+    name: 'France',
+    children: [{
+      name: 'Paris'
+    }]
+  }, {
+    name: 'Russia'
+  }, {
+    name: 'Great Britain'
+  }]
 }, {
-	name: 'Asia',
-	children: [{
-		name: 'China'
-	}, {
-		name: 'Korea'
-	}, {
-		name: 'Japan'
-	}, {
-		name: 'India'
-	}]
+  name: 'Asia',
+  children: [{
+    name: 'China'
+  }, {
+    name: 'Korea'
+  }, {
+    name: 'Japan'
+  }, {
+    name: 'India'
+  }]
 }, {
-	name: 'Africa'
+  name: 'Africa'
 }]
 
 
@@ -92,18 +92,18 @@ $.dino({
     xicon: 'ui-icon ui-icon-triangle-1-s',
     icon: 'silk-icon-chart-line',
   }, {
-		dtype: 'dropdown-button',
-		text: 'Location',
-		xicon: 'dino-icon-spinner-down',
-		components: {
-			dropdown: {
-				data: menuData,
-			}
-		},
-		onSelect: function(e) {
-			growl.info('Selected item: '+e.target.content.getValue());
-		}
-		
-		
-	}]            
+    dtype: 'dropdown-button',
+    text: 'Location',
+    xicon: 'dino-icon-spinner-down',
+    components: {
+      dropdown: {
+        data: menuData,
+      }
+    },
+    onSelect: function(e) {
+      growl.info('Selected item: '+e.target.content.getValue());
+    }
+    
+    
+  }]            
 });

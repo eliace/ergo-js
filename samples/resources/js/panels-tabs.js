@@ -19,7 +19,7 @@ $.dino({
 $.dino({
   dtype: 'tab-panel',
   renderTo: '.preview',
-	tabPosition: 'bottom',
+  tabPosition: 'bottom',
   defaults: {
     page: {height: 100}
   },

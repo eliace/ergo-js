@@ -56,7 +56,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 			if(o.tabPosition == 'left' || o.tabPosition == 'right'){
 				var s = {};
 				s['margin-'+o.tabPosition] = o.tabWidth+1;
-				Dino.overrideOpts(this.options, {
+				Dino.smart_override(this.options, {
 					components: {
 						tabs: {defaultItem: {width: o.tabWidth}},
 						pages: {style: s}
@@ -67,7 +67,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 
 		if('tabPosition' in o){
 			if(o.tabPosition == 'bottom'){
-				Dino.overrideOpts(this.options, {
+				Dino.smart_override(this.options, {
 					components: {
 						tabs: {weight: 3},
 						tabFooter: {weight: 2},
@@ -79,10 +79,10 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 		
 		
 		if('tab' in o.defaults)
-			Dino.overrideOpts(o.components.tabs.defaultItem, o.defaults.tab);
+			Dino.smart_override(o.components.tabs.defaultItem, o.defaults.tab);
 		
 		if('page' in o.defaults)
-			Dino.overrideOpts(o.components.pages.defaultItem, o.defaults.page);
+			Dino.smart_override(o.components.pages.defaultItem, o.defaults.page);
 		
 	},
 	

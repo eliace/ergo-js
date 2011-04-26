@@ -1,7 +1,7 @@
 
 Dino.Clickable = function(o) {
 	
-	Dino.overrideOpts(o, {events: {
+	Dino.smart_override(o, {events: {
 		'click': function(e, w) {
 			w.events.fire('onClick', {button: 0}, e);
 		},
@@ -18,7 +18,7 @@ Dino.Clickable = function(o) {
 
 Dino.RClickable = function(o) {
 	
-	Dino.overrideOpts(o, {events: {
+	Dino.smart_override(o, {events: {
 		'mousedown': function(e, w) {
 			// если нажата правая кнопка мыши
 			if(e.button == 2) {

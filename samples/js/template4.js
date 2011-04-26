@@ -247,7 +247,8 @@ $(document).ready(function(){
 										xicon: true,
 		      					dataId: 'name',
 										cls: 'dino-clickable',
-										state: 'clickable',
+										extensions: [Dino.Clickable],
+//										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
 											

@@ -74,14 +74,14 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 			if('width' in column) h_col.width = column.width;
 			if('header' in column) {
 				if(Dino.isString(column.header)) h_col.text = column.header;
-				else Dino.overrideOpts(h_col, column.header);
+				else Dino.smart_override(h_col, column.header);
 			}
 			h_columns[i] = h_col;
 		})
 		
 		
-		Dino.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Dino.smart_override(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
@@ -94,6 +94,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 	
 	$layoutChanged: function() {
 		Dino.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
+		
 		
 		// выполняем настройку ширины полей
 		var body = this.content.content.body;
@@ -142,7 +143,10 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 			head.getItem(0).getItem(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
 			
 //			if(t_nowrap[i])
+
 			body.options.defaultItem.items[i].layout = {html: '<div class="nowrap" style="width:'+real_width[i]+'px"></div>'};//.width = t_columns[i];
+			
+			
 //			else
 //				body.options.defaultItem.items[i].width = t_columns[i];
 //			head.options.defaultItem.items[i].width = h_columns[i];
@@ -156,8 +160,6 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 //				col.opt('width', t_columns[i]);
 			});
 		});
-		
-		
 		
 //		var tableWidth = this.content.content.el.width();
 	},

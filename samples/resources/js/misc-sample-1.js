@@ -70,7 +70,7 @@ $.dino({
       items: [{
         dtype: 'text-button',
         dataId: 'applied',
-				disabled: true,
+        disabled: true,
         updateOnValueChange: true,                      // если изменится свойство applied, то обновляем данные виджета
         icon: 'silk-icon-page-white-go',
         text: 'Отправить заявку',

@@ -183,8 +183,8 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
 			h_columns[i] = h_col;
 		})
 		
-		Dino.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Dino.smart_override(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
@@ -243,10 +243,10 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 			}			
 		};
 
-		Dino.overrideOpts(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		Dino.smart_override(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
 		
 		
-		Dino.overrideOpts(
+		Dino.smart_override(
 				o.components.body.defaultItem.defaultSubItem,
 				o.tableModel.row, 
 				{defaultItem: o.tableModel.cell},
@@ -312,7 +312,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		this.indent = o.indent;
 
 		if('defaultSubItem' in o){
-			Dino.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+			Dino.smart_override(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}
 		
 		o.defaultItem.indent = this.indent;
@@ -408,16 +408,17 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 								dtype: 'icon',
 								weight: 1,
 								cls: 'dino-tree-node-button',
-								state: 'clickable',
-								onClick: function() {
-									var row = this.parent.parent.getRow();
-									if(row.states.is('collapsed')){
-										this.parent.states.set('expand_trigger');
-										row.expand();
-									}
-									else{
-										this.parent.states.clear('expand_trigger');
-										row.collapse();
+								events: {
+									'click': function(e, w) {
+										var row = w.parent.parent.getRow();
+										if(row.states.is('collapsed')){
+											w.parent.states.set('expand_trigger');
+											row.expand();
+										}
+										else{
+											w.parent.states.clear('expand_trigger');
+											row.collapse();
+										}										
 									}
 								},
 								states: {

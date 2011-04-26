@@ -52,13 +52,13 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 //				if(Dino.isString(item)) item = {label: item};
 //				control_items.push(item);
 //			}
-//			Dino.overrideOpts(o.components.controls, {items: control_items});			
+//			Dino.smart_override(o.components.controls, {items: control_items});			
 //		}
 		
 				
 		
 		if('listModel' in o) {
-			Dino.overrideOpts(o.components.content.tableModel.row, o.listModel.row);
+			Dino.smart_override(o.components.content.tableModel.row, o.listModel.row);
 
 			var columns = o.listModel.columns
 
@@ -66,7 +66,7 @@ Dino.declare('Dino.widgets.ListBox', 'Dino.Widget', {
 //    			columns = [];
 //       		}
 
-			Dino.overrideOpts(o.components.content.tableModel.columns, columns);			
+			Dino.smart_override(o.components.content.tableModel.columns, columns);			
 		}
 		
 /*		

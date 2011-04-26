@@ -2,7 +2,7 @@
 
 var xformData = {
   text: 11,
-	text1: '',
+  text1: '',
   text2: '16.12.2010',
   number: 4,
   number2: 2,
@@ -29,31 +29,31 @@ $.dino({
   renderTo: '.preview',
   layout: 'simple-form',
   data: xformData,
-	id: 'xform',
+  id: 'xform',
   items: [{
     label: 'Текстовое поле (форма)',
-		content: {
-	    dataId: 'text1',
-	    dtype: 'text-field',
-	    cls: 'dino-form-field',
-			defaultText: 'Введите число...',
-			validator: Dino.validators.floatNumber
-		}
+    content: {
+      dataId: 'text1',
+      dtype: 'text-field',
+      cls: 'dino-form-field',
+      defaultText: 'Введите число...',
+      validator: Dino.validators.floatNumber
+    }
   },{
     label: 'Поле с кнопкой (форма)',
-		content: {
-	    dataId: 'text',
-	    dtype: 'text-field',
-	    cls: 'dino-form-field',
-			width: 200,
-	    components: {
-	      button: {
-	        dtype: 'icon-button',
-	        role: 'actor',
-	        icon: 'dino-icon-search',
-	      }
-	    }
-		}
+    content: {
+      dataId: 'text',
+      dtype: 'text-field',
+      cls: 'dino-form-field',
+      width: 200,
+      components: {
+        button: {
+          dtype: 'icon-button',
+          role: 'actor',
+          icon: 'dino-icon-search',
+        }
+      }
+    }
   }, {
     label: 'Поле с кнопкой (редактор)',
     width: 160,
@@ -74,26 +74,26 @@ $.dino({
     }
   }, {
     label: 'Поле со списком (форма)',
-		content: {
-    	dtype: 'dropdown-field',
-	    cls: 'dino-form-field',
-	    dataId: 'continent',
-			optionsFormat: null,
-	    components: {
-	      button: {
-	        icon: 'dino-icon-spinner-down',
-	      },
-	      dropdown: {
-	        data: listData,
-	        content: {
-	          defaultItem: {
-	            cls: 'tb3-dropdown-item',
-	            icon: 'silk-icon-world'
-	          }
-	        }
-	      }
-	    }
-		}
+    content: {
+      dtype: 'dropdown-field',
+      cls: 'dino-form-field',
+      dataId: 'continent',
+      optionsFormat: null,
+      components: {
+        button: {
+          icon: 'dino-icon-spinner-down',
+        },
+        dropdown: {
+          data: listData,
+          content: {
+            defaultItem: {
+              cls: 'tb3-dropdown-item',
+              icon: 'silk-icon-world'
+            }
+          }
+        }
+      }
+    }
   }, {
     label: 'Поле со списком  (редактор)',
     width: 160,    
@@ -119,42 +119,42 @@ $.dino({
     }    
   }, {
     label: 'Счетчик (форма)',
-		content: {
-    	dtype: 'spinner-field',
-	    cls: 'dino-form-field',
-	    dataId: 'number',
-//	    components: {
-//	      input: {
-//	        updateOnValueChange: true
-//	      },
-//	      buttons: {
-//	        dtype: 'box',
-//	        role: 'actor',
-//	        defaultItem: {
-//	          style: {'display': 'block'},
-//	          cls: 'dino-border-none',
-//	          height: 10,
-//	          width: 20,
-//	          onAction: function() {
-//	            if(this.tag == 'up')
-//	              this.data.set(this.data.get()+1);
-//	            else if(this.tag == 'down')
-//	              this.data.set(this.data.get()-1);
-//	          }          
-//	        },
-//	        items: [{
-//	          dtype: 'button',
-//	          cls: 'dino-icon-spinner-up dino-corner-right-top',
-//	          tag: 'up'
-//	        }, {
-//	          dtype: 'button',
-//	          cls: 'dino-icon-spinner-down dino-corner-right-bottom',
-//	          tag: 'down'
-//	        }]        
-//	      }
-//	    },
-//	    extensions: [Dino.Focusable]			
-		}
+    content: {
+      dtype: 'spinner-field',
+      cls: 'dino-form-field',
+      dataId: 'number',
+//      components: {
+//        input: {
+//          updateOnValueChange: true
+//        },
+//        buttons: {
+//          dtype: 'box',
+//          role: 'actor',
+//          defaultItem: {
+//            style: {'display': 'block'},
+//            cls: 'dino-border-none',
+//            height: 10,
+//            width: 20,
+//            onAction: function() {
+//              if(this.tag == 'up')
+//                this.data.set(this.data.get()+1);
+//              else if(this.tag == 'down')
+//                this.data.set(this.data.get()-1);
+//            }          
+//          },
+//          items: [{
+//            dtype: 'button',
+//            cls: 'dino-icon-spinner-up dino-corner-right-top',
+//            tag: 'up'
+//          }, {
+//            dtype: 'button',
+//            cls: 'dino-icon-spinner-down dino-corner-right-bottom',
+//            tag: 'down'
+//          }]        
+//        }
+//      },
+//      extensions: [Dino.Focusable]      
+    }
   }, {
     label: 'Счетчик (редактор)',
     width: 100,

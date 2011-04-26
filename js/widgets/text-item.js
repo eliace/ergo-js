@@ -94,7 +94,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /**
 		}
 		
 		
-		Dino.overrideOpts(o.components, o_mod);
+		Dino.smart_override(o.components, o_mod);
 		
 //		console.log();
 */		

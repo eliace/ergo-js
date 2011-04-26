@@ -70,7 +70,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 			this.id = id;
 		}
 */		
-		this.options = Dino.overrideOpts({}, this.classOptions, options);
+		this.options = Dino.smart_override({}, this.classOptions, options);
 		this.items = {};
 		this.is_dirty = false;
 //		this.stop_dirty = false;
@@ -85,12 +85,16 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	},
 	
 	val: function() {
+//		if('_cached' in this) return this._cached;
+		var v = undefined;
 		if(this.source instanceof Dino.data.DataSource){
-			return ('id' in this) ? this.source.val()[this.id]: this.source.val();//get(this.id) : this.source.get();
+			v = ('id' in this) ? this.source.val()[this.id]: this.source.val();//get(this.id) : this.source.get();
 		}
 		else{
-			return ('id' in this) ? this.source[this.id] : this.source;
+			v = ('id' in this) ? this.source[this.id] : this.source;
 		}
+//		this._cached = v;
+		return v;
 	},
 	
 	// получаем значение

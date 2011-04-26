@@ -80,20 +80,20 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 //		
 //		
 //		
-//		Dino.overrideOpts(
+//		Dino.smart_override(
 //				o.components.colgroup, 
 //				{items: g_columns}
 //				);
 		
 		
-		Dino.overrideOpts(
+		Dino.smart_override(
 				o.components.body.defaultItem, 
 				o.tableModel.row, 
 				{defaultItem: o.tableModel.cell},
 				{items: columns}
 				);
 		
-		Dino.overrideOpts(
+		Dino.smart_override(
 				o.components.head.defaultItem, 
 				o.headerModel.row,
 				{defaultItem: o.headerModel.cell},

@@ -23,7 +23,7 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 		});
 		
 		
-		this.root = $.dino(Dino.overrideOpts({
+		this.root = $.dino(Dino.smart_override({
 			dtype: 'box',
 			renderTo: 'body',
 			cls: 'application'

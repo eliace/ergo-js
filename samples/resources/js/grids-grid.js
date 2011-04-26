@@ -8,10 +8,10 @@ var grid = $.dino({
   renderTo: '.preview',
   dtype: 'grid',
   cls: 'dino-border-all dino-corner-all',
-	width: 800,
+  width: 800,
   content: {
-    height: 'auto',
-		state: 'scrollable'
+    height: 300,//'auto',
+    state: 'scrollable'
 //    style: {'padding-right': '18px'}
   },
 //  headerCls: 'dino-bg-highlight',
@@ -32,7 +32,7 @@ var grid = $.dino({
       cls: 'silk-icon dino-clickable',
       width: 30,
       binding: function(val) { this.states.set('silk-icon-'+val); },
-    }, {
+    }/*, {
       header: 'Ссылка',
       content: {
         dtype: 'anchor',
@@ -40,7 +40,7 @@ var grid = $.dino({
         dataId: 'ref'
       },
       binding: 'skip'
-    }, {
+    }*/, {
       dataId: 'flag',
       width: 50,
       content: {
@@ -86,6 +86,9 @@ var grid = $.dino({
         };
 
         gridData.events.fire('onValueChanged');
+				
+				console.log(profiler.print_result('widget'));
+				profiler.clear('widget');
       }
     }
   }

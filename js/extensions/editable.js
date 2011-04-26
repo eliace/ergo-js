@@ -40,7 +40,7 @@ Dino.Editable = function(o) {
 	
 	o.editor = o.editor || 'text-editor';
 	
-//	o.editor = Dino.overrideOpts({}, Dino.Editable.defaultEditor, o.editor);
+//	o.editor = Dino.smart_override({}, Dino.Editable.defaultEditor, o.editor);
 	
 	//TODO имеет смысл перенести это в состояния
 	o.editable = ('editable' in o) ? o.editable : true;
