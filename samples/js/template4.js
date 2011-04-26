@@ -154,6 +154,10 @@ var sampleTree = [{
 		created: true,
 		name: 'Sample 2',
 		path: 'misc-sample-2'
+	}, {
+		created: true,
+		name: 'Thirdparty',
+		path: 'misc-thirdparty'
 	}]
 }];
 

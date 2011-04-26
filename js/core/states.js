@@ -19,7 +19,7 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 /**
  * @class
  */
-Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @lends Dino.StateManager.prototype */ {
+Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /** @lends Dino.StateManager.prototype */ {
 	
 	initialize: function(widget) {
 		this.widget = widget;
@@ -89,6 +89,9 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			for(var i in names) this.clear(i);
 			return this;			
 		}
+
+//		// если указанное состояние не определено, то очистку не выполняем
+//		if(!(name in this.current_states)) return this;
 		
 		// получаем состояние, определенное для виджета
 		var state = this.widget.options.states[name];		
@@ -101,6 +104,7 @@ Dino.StateManager = Dino.declare('Dino.StateManager', 'Dino.BaseObject', /** @le
 			delete this.current_states[name];
 			return this;
 		}
+		
 		
 		var change_class = true;
 

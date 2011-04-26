@@ -34,7 +34,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 		}
 
 		if('defaultSubItem' in o){
-			Dino.utils.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+			Dino.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}
 		
 	},
@@ -195,7 +195,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
 //		Dino.widgets.Tree.superclass.$init.apply(this, arguments);
 		this.constructor.superclass.$init.apply(this, arguments);
 		
-		Dino.utils.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node, {
+		Dino.overrideOpts(o.components.content.defaultSubItem, o.treeModel.node, {
 			components: {
 				content: {
 					components: {
@@ -260,7 +260,7 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 			};
 			
 			//сложная перегрузка опции для того, чтобы приоритет пользовательских опций был выше
-			o.components.subtree.defaultItem = Dino.utils.overrideOpts({}, dynamicSubItem, {'defaultSubItem': dynamicSubItem}, o.components.subtree.defaultItem);
+			o.components.subtree.defaultItem = Dino.overrideOpts({}, dynamicSubItem, {'defaultSubItem': dynamicSubItem}, o.components.subtree.defaultItem);
 		}
 		
 	},
@@ -333,13 +333,13 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 				}
 			};
 			
-			Dino.utils.overrideOpts(o.defaultItem, dynamicItem);
-			Dino.utils.overrideOpts(o.defaultItem.defaultSubItem, dynamicItem);
+			Dino.overrideOpts(o.defaultItem, dynamicItem);
+			Dino.overrideOpts(o.defaultItem.defaultSubItem, dynamicItem);
 		}
 		
 		
-		Dino.utils.overrideOpts(o.defaultItem, o.treeModel.node);
-		Dino.utils.overrideOpts(o.defaultItem.defaultSubItem, o.treeModel.node);
+		Dino.overrideOpts(o.defaultItem, o.treeModel.node);
+		Dino.overrideOpts(o.defaultItem.defaultSubItem, o.treeModel.node);
 		
 	},
 	

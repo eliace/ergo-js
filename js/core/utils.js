@@ -48,7 +48,7 @@ Dino.filters = (function(){
 })();
 
 
-
+/*
 Dino.bindings = (function(){
 	
 	var B = {};
@@ -75,7 +75,7 @@ Dino.bindings = (function(){
 	
 	return B;
 })();
-
+*/
 
 /*
 Dino.formats = (function(){
@@ -95,95 +95,25 @@ Dino.formats = (function(){
 
 
 
-/**
- * 
- * @class
- * @extends Dino.BaseObject
- * @param {Dino.Widget} owner
- */
-Dino.WidgetCollectionManager = Dino.declare('Dino.WidgetCollectionManager', 'Dino.BaseObject', /** @lends Dino.WidgetCollectionManager.prototype */{
-	
-	initialize: function(owner) {
-		this.widgets = [];
-		this.owner = owner;
-	},
-	
-	
-	
-	add: function(item, i) {
-		// добавляем дочерний виджет
-		if(arguments.length == 2)
-			this.widgets.splice(i, 0, item);
-		else
-			this.widgets.push(item);
-			
-		item.parent = this.owner;	
-		
-		// выполняем автобиндинг
-		if(this.owner.data && !item.data)
-			item.$bind(this.owner.data, 2);
-		
-		return item;
-	},
-	
-	get: function(i) {
-		return Dino.find(this.widgets, Dino.utils.create_widget_filter(i));	
-	},
-
-	get_all: function(i) {		
-		return Dino.find_all(this.widgets, Dino.utils.create_widget_filter(i));	
-	},
-	
-	remove: function(item) {
-		var i = Dino.index_of(this.widgets, item);
-		
-		// если такого элемента среди дочерних нет, то возвращаем false
-		if(i == -1) return false;
-		
-		delete this.widgets[i].parent;
-		this.widgets.splice(i, 1);
-		
-		return true;
-	},
-	
-	removeAll: function() {
-		this.widgets = [];
-	},
-	
-	each: function(callback) {
-		for(var i = 0; i < this.widgets.length; i++){
-			var result = callback.call(this.owner, this.widgets[i], i);
-			if(result) return result;
-		}
-	},
-	
-	size: function() {
-		return this.widgets.length;
-	},
-	
-	empty: function(){
-		return this.widgets.length == 0;
-	}
-	
-	
-	
-});
-
-
-
-
-
-Dino.utils.overrideProp = function(o, srcObj, i) {
-
-	var shared_opts = {'data': null};
+Dino.overrideProp = function(o, srcObj, i) {
 
 	var p = srcObj[i];
+
+	if(i == 'data') i = 'data@'; 										//<-- поле data не перегружается
+	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
+
+//	var shared_opts = {'data': null};
+
 	
-	if((i in shared_opts)){//Dino.in_array(ignore, i)){
-		o[i] = p;
+//	if((i in shared_opts)){//Dino.in_array(ignore, i)){
+//		o[i] = p;
+//	}
+	if(i[i.length-1] == '@') {
+		var j = i.substr(0, i.length-1);
+		o[j] = p;
 	}
 	else if(i[i.length-1] == '!') {
-		j = i.substr(0, i.length-1);
+		var j = i.substr(0, i.length-1);
 		if(j in o) i = j;
 		o[i] = p;
 	}
@@ -198,11 +128,11 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
 		if( Dino.isPlainObject(p) ){
 			if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
-			Dino.utils.overrideOpts(o[i], p);
+			Dino.overrideOpts(o[i], p);
 		}
 		else if( Dino.isArray(p) ){
 			if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
-			Dino.utils.overrideOpts(o[i], p);
+			Dino.overrideOpts(o[i], p);
 		}
 		else {
 			//TODO этот участок кода нужно исправить
@@ -226,7 +156,7 @@ Dino.utils.overrideProp = function(o, srcObj, i) {
 }
 
 
-Dino.utils.overrideOpts = function(o) {
+Dino.overrideOpts = function(o) {
 
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
@@ -239,7 +169,7 @@ Dino.utils.overrideOpts = function(o) {
 //		}
 //		else {			
 			for(var i in srcObj)
-				Dino.utils.overrideProp(o, srcObj, i);
+				Dino.overrideProp(o, srcObj, i);
 //		}		
 	}
 	

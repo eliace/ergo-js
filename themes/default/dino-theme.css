@@ -203,4 +203,15 @@ button.plain {
 	border-color: #68f;
 }
 
+.dino-form-field.invalid {
+	border-color: #f66;
+}
+
+
+.dino-form-field.invalid input {
+	color: #f66;
+/*	background: url(img/invalid_line.gif) repeat-x 0 100%;*/
+}
+
+
 

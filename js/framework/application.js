@@ -19,11 +19,11 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 		
 
 		$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
-			growl.err(xhr.responseText, true);
+			growl.error(xhr.responseText, true);
 		});
 		
 		
-		this.root = $.dino(Dino.utils.overrideOpts({
+		this.root = $.dino(Dino.overrideOpts({
 			dtype: 'box',
 			renderTo: 'body',
 			cls: 'application'
@@ -59,7 +59,7 @@ Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
 	
 		growl = {
 				info: function(m, isHtml) {this.msg(m, 'info', isHtml);},
-				err: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
+				error: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
 				warn: function(m, isHtml) {this.msg(m, 'warning', isHtml);},
 //				html: function(m, isHtml) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
 				msg: function(m, type, isHtml) {

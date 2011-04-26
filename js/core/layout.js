@@ -21,10 +21,10 @@ Dino.declare('Dino.Layout', Dino.BaseObject, /** @lends Dino.Layout.prototype */
 		
 		var o = this.options = {}
 		Dino.hierarchy(this.constructor, function(clazz){
-			if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
+			if('defaultOptions' in clazz) Dino.overrideOpts(o, clazz.defaultOptions);
 		});
-		Dino.utils.overrideOpts(o, this.defaultOptions, opts);
-//		this.options = Dino.utils.overrideOpts({}, this.defaultOptions, o);
+		Dino.overrideOpts(o, this.defaultOptions, opts);
+//		this.options = Dino.overrideOpts({}, this.defaultOptions, o);
 		
 //		this.attach(this.options.container);
 		

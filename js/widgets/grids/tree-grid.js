@@ -183,8 +183,8 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
 			h_columns[i] = h_col;
 		})
 		
-		Dino.utils.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Dino.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
@@ -243,10 +243,10 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 			}			
 		};
 
-		Dino.utils.overrideOpts(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		Dino.overrideOpts(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
 		
 		
-		Dino.utils.overrideOpts(
+		Dino.overrideOpts(
 				o.components.body.defaultItem.defaultSubItem,
 				o.tableModel.row, 
 				{defaultItem: o.tableModel.cell},
@@ -312,7 +312,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		this.indent = o.indent;
 
 		if('defaultSubItem' in o){
-			Dino.utils.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+			Dino.overrideOpts(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}
 		
 		o.defaultItem.indent = this.indent;

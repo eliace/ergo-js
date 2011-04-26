@@ -2,6 +2,7 @@
 
 var xformData = {
   text: 11,
+	text1: '',
   text2: '16.12.2010',
   number: 4,
   number2: 2,
@@ -32,9 +33,11 @@ $.dino({
   items: [{
     label: 'Текстовое поле (форма)',
 		content: {
-	    dataId: 'text',
+	    dataId: 'text1',
 	    dtype: 'text-field',
-	    cls: 'dino-form-field'
+	    cls: 'dino-form-field',
+			defaultText: 'Введите число...',
+			validator: Dino.validators.floatNumber
 		}
   },{
     label: 'Поле с кнопкой (форма)',

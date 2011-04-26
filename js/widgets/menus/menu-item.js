@@ -52,7 +52,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 	$init: function(o) {
 		
 		if('menuModel' in o) {
-			Dino.utils.overrideOpts(o, o.menuModel.item);
+			Dino.overrideOpts(o, o.menuModel.item);
 			o.components.submenu.menuModel = o.menuModel;
 		}		
 		
@@ -70,7 +70,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 //		}
 		
 //		if('subItem' in o.defaults){
-//			Dino.utils.overrideOpts(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
+//			Dino.overrideOpts(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
 //		}		
 		
 	},
@@ -170,14 +170,14 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
 	$init: function(o) {
 		
 		if('menuModel' in o) {
-			Dino.utils.overrideOpts(o, o.menuModel.dropdown);
+			Dino.overrideOpts(o, o.menuModel.dropdown);
 			o.defaultItem.menuModel = o.menuModel;
 		}		
 		
 		Dino.widgets.MenuDropdownBox.superclass.$init.apply(this, arguments);
 				
 //		if('defaultItem' in o)
-//			Dino.utils.overrideOpts(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
+//			Dino.overrideOpts(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
 		
 	},
 	

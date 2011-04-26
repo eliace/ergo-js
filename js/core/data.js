@@ -49,7 +49,8 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	initialize: function(src, id, options) {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
 
-		if(src)	this.source = src;
+//		if(src)	
+		this.source = src;
 		
 		if(arguments.length == 2){
 			this.source = src;
@@ -69,7 +70,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 			this.id = id;
 		}
 */		
-		this.options = Dino.utils.overrideOpts({}, this.classOptions, options);
+		this.options = Dino.overrideOpts({}, this.classOptions, options);
 		this.items = {};
 		this.is_dirty = false;
 //		this.stop_dirty = false;
@@ -355,8 +356,8 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Dino.data.ArrayDataSource.prototype */{
 	
 	initialize: function(src, id, options) {
-		this.source = [];
 		Dino.data.ArrayDataSource.superclass.initialize.apply(this, arguments);
+		if(arguments.length == 0) this.source = [];
 	},
 	
 	
@@ -455,8 +456,8 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', /** @lends Dino.data.ObjectDataSource.prototype */{
 	
 	initialize: function(src, id, options) {
-		this.source = {};
 		Dino.data.ObjectDataSource.superclass.initialize.apply(this, arguments);
+		if(arguments.length == 0) this.source = {};
 	},
 	
 	del: function(i){

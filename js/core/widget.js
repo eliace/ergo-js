@@ -6,6 +6,10 @@
  */
 
 
+Dino.formats = {};
+Dino.parsers = {};
+Dino.validators = {};
+
 
 /**
  * Базовый объект для всех виджетов
@@ -24,8 +28,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		layout: 'plain',
 		states: {
 			'hidden': 'hidden',
-//			'visible': ['', 'hidden'],
-			'disabled': 'disabled'
+			'disabled': 'disabled',
+			'invalid': 'invalid'
 		},
 		defaults: {},
 		extensions: [],
@@ -46,8 +50,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			Dino.hierarchy(this.constructor, function(clazz){
 				if(clazz.defaultOptions == prevDefaultOptions) return;
 				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-				if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton);
+				if('defaultOptions' in clazz) Dino.overrideOpts(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.overrideOpts(o, clazz.skeleton);
 				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
@@ -96,8 +100,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			Dino.hierarchy(this.constructor, function(clazz){
 				if(clazz.defaultOptions == prevDefaultOptions) return;
 				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-				if('defaultOptions' in clazz) Dino.utils.overrideOpts(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.utils.overrideOpts(o, clazz.skeleton);
+				if('defaultOptions' in clazz) Dino.overrideOpts(o, clazz.defaultOptions);
+				if('skeleton' in clazz) Dino.overrideOpts(o, clazz.skeleton);
 				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
@@ -110,7 +114,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		profiler.tick('widget', 'hierarchy');		
 		
-		Dino.utils.overrideOpts(o, opts);
+		Dino.overrideOpts(o, opts);
 
 		profiler.tick('widget', 'overrideOpts');		
 		
@@ -131,13 +135,13 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		 * Коллекция дочерних компонентов 
 		 * @type Dino.WidgetCollectionManager
 		 */
-		this.children = new Dino.WidgetCollectionManager(this);
+		this.children = new Dino.ComponentCollection(this);
 		
 		/** 
 		 * Набор состояний
 		 * @type Dino.StateManager
 		 */
-		this.states = new Dino.StateManager(this);
+		this.states = new Dino.StateCollection(this);
 		
 		this.handlers = {};
 
@@ -213,7 +217,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		// "сахарное" определение контента виджета
 		if('content' in o){
-			Dino.utils.overrideOpts(o, {
+			Dino.overrideOpts(o, {
 				components: {
 					content: o.content
 				}
@@ -346,7 +350,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			return this.options[o];
 		}
 		
-		Dino.utils.overrideOpts(this.options, opts);
+		Dino.overrideOpts(this.options, opts);
 
 		this.$opt(opts);
 		
@@ -561,7 +565,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		// если у виджета определен базовый класс, до его компоненты будут иметь класс-декоратор [baseCls]-[имяКомпонента]
 		if('baseCls' in this.options)
-			Dino.utils.overrideOpts(o, {cls: this.options.baseCls+'-'+key});
+			Dino.overrideOpts(o, {cls: this.options.baseCls+'-'+key});
 		
 		this[key] = (o instanceof Dino.Widget) ? o : Dino.widget(o);
 		this.children.add( this[key] );
@@ -662,10 +666,10 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		if('dataId' in o){
-			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.DataSource(data, o.dataId);
+			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ObjectDataSource(data, o.dataId);
 		}
 		else {
-			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.DataSource(data);
+			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ObjectDataSource(data);
 		}
 
 		
@@ -731,14 +735,15 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 	 * @param {Any} val значение
 	 */
 	setValue: function(val, reason) {
+		var o = this.options;
 		if(this.data){
-			if('store_format' in this.options) 
-				val = this.options.store_format.call(this, val);
+			if(o.parser) 
+				val = o.parser.call(this, val);
 			
 			var valid = true;
 			var context = {};				
-			if('validator' in this.options) {				
-				valid = this.options.validator.call(context, val);
+			if(o.validator) {				
+				valid = o.validator.call(this, val, context);
 /*				
 				var self = this;
 				var validator = this.options.validator;
@@ -753,10 +758,12 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			
 			if(valid) {
 				this.data.set(val);
+				this.states.clear('invalid');
 				this.events.fire('onValueChanged', {'value': val, 'reason': reason});				
 			}
 			else {
 				context.value = val;
+				this.states.set('invalid');
 				this.events.fire('onValueInvalid', context);
 			}
 		}
@@ -835,7 +842,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 
 Dino.widget = function(){
 	if(arguments.length == 1) return Dino.object(arguments[0]);
-	return Dino.object( Dino.utils.overrideOpts.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
+	return Dino.object( Dino.overrideOpts.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
 };
 
 

@@ -74,14 +74,14 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends 
 			if('width' in column) h_col.width = column.width;
 			if('header' in column) {
 				if(Dino.isString(column.header)) h_col.text = column.header;
-				else Dino.utils.overrideOpts(h_col, column.header);
+				else Dino.overrideOpts(h_col, column.header);
 			}
 			h_columns[i] = h_col;
 		})
 		
 		
-		Dino.utils.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.utils.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Dino.overrideOpts(o.components.content.content, {'tableModel': o.tableModel});
+		Dino.overrideOpts(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	

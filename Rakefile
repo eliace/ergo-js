@@ -19,6 +19,7 @@ require 'fileutils'
     'js/core/container.js',
     'js/core/utils.js',
     'js/core/states.js',
+    'js/core/components.js',
     
     'js/layouts/stateful-layout.js',
     'js/layouts/plain-layout.js',
@@ -125,6 +126,7 @@ require 'fileutils'
     'css/widgets/buttons/text-button.css',
     'css/widgets/buttons/icon-button.css',
 #    'css/widgets/buttons/dropdown-button.css',
+    'css/widgets/fields/text-field.css',
     'css/widgets/dialogs/dialog.css',
     'css/widgets/dialogs/message.css',
     'css/widgets/dialogs/growl.css',

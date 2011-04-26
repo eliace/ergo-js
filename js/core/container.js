@@ -97,7 +97,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		var itemOpts = item;
 		
 		// если новый элемент является набором параметров, то строим виджет
-		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts(Dino.deep_copy(this.options.defaultItem), item) );
+		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.overrideOpts({}, this.options.defaultItem, item) );
 		
 		
 		if(index == undefined){
@@ -130,7 +130,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		var itemOpts = item;
 		
 		// если новый элемент является набором параметров, то строим виджет
-		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.utils.overrideOpts({}, this.options.defaultItem, item) );
+		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.overrideOpts({}, this.options.defaultItem, item) );
 
 		this.items.splice( index, 0, item );
 		item.index = index;
