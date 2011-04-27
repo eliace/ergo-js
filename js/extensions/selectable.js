@@ -2,7 +2,7 @@
 
 
 
-Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.BaseObject', {
+Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object', {
 	
 	initialize: function(widget) {
 		Dino.SelectionManager.superclass.initialize.apply(this, arguments);

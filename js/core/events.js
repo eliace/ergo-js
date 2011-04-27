@@ -9,9 +9,9 @@
 /**
  * @class
  * @name Dino.events.Event
- * @extends Dino.BaseObject
+ * @extends Dino.core.Object
  */
-Dino.declare('Dino.events.Event', Dino.BaseObject, /** @lends Dino.events.Event.prototype */{
+Dino.declare('Dino.events.Event', Dino.core.Object, /** @lends Dino.events.Event.prototype */{
 	
 	/**
 	 * @param {Object} overrides
@@ -58,12 +58,12 @@ Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', /** @lends Dino.eve
 
 
 
-Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events.Dispatcher.prototype */{
+Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', /** @lends Dino.events.Dispatcher.prototype */{
 	
 	
 	/**
 	 * @constructs
-	 * @extends Dino.BaseObject
+	 * @extends Dino.core.Object
 	 * @param {Object} target
 	 */
 	initialize: function(target) {
@@ -155,17 +155,24 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.BaseObject', /** @lends Dino.events
 });
 
 
-/**
- * @class
- * @name Dino.events.Observer
- */
-Dino.declare('Dino.events.Observer', 'Dino.BaseObject', /** @lends Dino.events.Observer.prototype */{
+
+
+
+
+
+Dino.Observable = function() {
+	this.events = new Dino.events.Dispatcher(this);
+}
+
+
+/*
+Dino.declare('Dino.events.Observer', 'Dino.core.Object', {
 	
 	initialize: function() {
 		Dino.events.Observer.superclass.initialize.apply(this, arguments);
 		
-		/** @type Dino.events.Dispatcher */
 		this.events = new Dino.events.Dispatcher(this);
 	}
 	
 });
+*/

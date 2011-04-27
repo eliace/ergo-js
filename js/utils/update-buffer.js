@@ -1,10 +1,11 @@
 
 
 
-Dino.declare('Dino.utils.UpdateBuffer', 'Dino.events.Observer', {
+Dino.declare('Dino.utils.UpdateBuffer', 'Dino.core.Object', {
 	
 	initialize: function(o){
 		Dino.utils.UpdateBuffer.superclass.initialize.apply(this, arguments);
+		this.events = new Dino.events.Dispatcher(this);
 		this.buffer = {};
 		
 		if(o) {
@@ -56,3 +57,4 @@ Dino.declare('Dino.utils.UpdateBuffer', 'Dino.events.Observer', {
 	}
 	
 });
+

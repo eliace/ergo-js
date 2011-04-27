@@ -18,7 +18,7 @@ Dino.validators = {};
  * @extends Dino.events.Observer
  * @param {Object} o параметры
  */
-Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Dino.Widget.prototype */{
+Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Widget.prototype */{
 	
 	/**
 	 * @static
@@ -32,8 +32,15 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			'invalid': 'invalid'
 		},
 		defaults: {},
-		extensions: [],
-		binding: 'auto'
+		extensions: [Dino.Observable, Dino.Statable],
+		binding: 'auto',
+		layoutFactory: function(layout) {
+			if( Dino.isString(layout) )
+				layout = Dino.object({dtype: layout+'-layout'});
+			else if(!(layout instanceof Dino.Layout))
+				layout = Dino.object(layout);
+			return layout;	
+		}
 	},
 	
 	
@@ -106,8 +113,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 				prevDefaultOptions = clazz.defaultOptions; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
-			
+			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);			
 		}
 		else {
 			this.options = o = Dino.deep_copy(this.defaultOptions);
@@ -142,23 +148,24 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 		 * Набор состояний
 		 * @type Dino.StateManager
 		 */
-		this.states = new Dino.StateCollection(this);
+//		this.states = new Dino.StateCollection(this);
 		
-		this.handlers = {};
+//		this.handlers = {};
 
 		profiler.tick('widget', 'create');		
 		
+/*		
 		// инициализируем компоновку
 		var layoutOpts = o.layout;
 		if( Dino.isString(layoutOpts) )
 			layoutOpts = {dtype: layoutOpts+'-layout'};
 		if(!(layoutOpts instanceof Dino.Layout))
 			layoutOpts = Dino.object( layoutOpts );
-		/** 
-		 * Компоновка 
-		 * @type Dino.Layout
-		 */
 		this.layout = layoutOpts;
+*/
+
+		this.layout = o.layoutFactory(o.layout);
+		
 		//FIXME костыль
 //		if(!this.layout.container) this.layout.attach(this);
 		this.layout.attach(this.layout.options.container || this);
@@ -225,6 +232,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.events.Observer', /** @lends Din
 			})
 //			this.addComponent('content', o.content);
 		}
+
 		
 		if('extensions' in o) {
 			for(i in o.extensions) {

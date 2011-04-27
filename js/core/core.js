@@ -91,6 +91,7 @@ var Dino = (function(){
 		return ctor;
 	};
 	
+		
 	/**
 	 * Рекурсивный обход всех базовых классов 
 	 * 
@@ -146,6 +147,7 @@ var Dino = (function(){
 	};
 	
 	
+	
 	/**
 	 * Создание экземпляра объекта (должен присутствовать dtype в options либо defaultType)
 	 * 
@@ -156,7 +158,7 @@ var Dino = (function(){
 	 */
 	D.object = function(options, defaultType) {
 		
-		if(options instanceof Dino.BaseObject) return options;
+		if(options instanceof Dino.core.Object) return options;
 		
 		var dtype = options.dtype || defaultType;
 		
@@ -750,32 +752,46 @@ var Dino = (function(){
 	};
 	
 	
+	
+	
+	D.core = {};
+	
 	/**
 	 * Базовый объект
 	 * 
 	 * @constructor
 	 * @memberOf Dino
-	 * @name BaseObject
+	 * @name core.Object
 	 */
-	D.BaseObject = function() {
+	D.core.Object = function() {
 		this.initialize.apply(this, arguments);
 	};
 	
 	/** 
 	 * @function 
-	 * @name Dino.BaseObject#initialize 
+	 * @name Dino.core.Object#initialize 
 	 */
-	D.BaseObject.prototype.initialize = function() {};
+	D.core.Object.prototype.initialize = function() {
+//		if(this.plugins) {
+//			for(var i = 0; i < this.plugins.length; i++) {
+//				var plugin = this.plugins[i];
+//				if(Dino.isFunction(plugin))
+//					plugin.call(this, true);
+//				else
+//					Dino.override_r(this, plugin);
+//			}
+//		}
+	};
 	/**
 	 * @function
-	 * @name Dino.BaseObject#destroy
+	 * @name Dino.core.Object#destroy
 	 */
-	D.BaseObject.prototype.destroy = function() {};
+	D.core.Object.prototype.destroy = function() {};
 	/**
 	 * @function
-	 * @name Dino.BaseObject#base
+	 * @name Dino.core.Object#base
 	 */
-//	D.BaseObject.prototype.base = function(method, args) {
+//	D.core.Object.prototype.base = function(method, args) {
 //		eval(this.className + '.superclass.'+method+'.apply(this, args)');
 //	};
 	

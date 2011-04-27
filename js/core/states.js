@@ -19,11 +19,11 @@ Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
 /**
  * @class
  */
-Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /** @lends Dino.StateManager.prototype */ {
+Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', /** @lends Dino.StateManager.prototype */ {
 	
 	initialize: function(widget) {
-		this.widget = widget;
-		this.current_states = {};
+		this._widget = widget;
+		this._states = {};
 	},
 	
 	/**
@@ -33,14 +33,14 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 	set: function(name, change_class) {
 		
 		// получаем состояние, определенное для виджета
-		var state = this.widget.options.states[name];
+		var state = this._widget.options.states[name];
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
 //		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
 		else if(Dino.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
 			this.set(state[0]);
 			this.clear(state[1]);
-			this.current_states[name] = true;
+			this._states[name] = true;
 			return this;
 		}
 		
@@ -52,17 +52,17 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 		if(arguments.length == 1) change_class = true;
 		
 		if(Dino.isFunction(state)) {
-			change_class &= (state.call(this.widget, true) !== false);
+			change_class &= (state.call(this._widget, true) !== false);
 			state = name;
 		}
 		
 		if(change_class)
-			this.widget.el.addClass(state);
+			this._widget.el.addClass(state);
 		
-		this.current_states[name] = true;
+		this._states[name] = true;
 		
-		this.widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
-		this.widget.events.fire('onStateSet', {'state': name});
+		this._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
+		this._widget.events.fire('onStateSet', {'state': name});
 		
 		return this;
 	},
@@ -72,7 +72,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 	 * @param {String} name
 	 */
 	setOnly: function(name) {
-		for(var i in this.current_states) this.clear(i);
+		for(var i in this._states) this.clear(i);
 		this.set(name);	
 		
 		return this;		
@@ -85,23 +85,23 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 	clear: function(name) {
 		
 		if(name instanceof RegExp) {
-			var names = Dino.filter(this.current_states, function(s, i){ return i.match(name); });
+			var names = Dino.filter(this._states, function(s, i){ return i.match(name); });
 			for(var i in names) this.clear(i);
 			return this;			
 		}
 
 //		// если указанное состояние не определено, то очистку не выполняем
-//		if(!(name in this.current_states)) return this;
+//		if(!(name in this._states)) return this;
 		
 		// получаем состояние, определенное для виджета
-		var state = this.widget.options.states[name];		
+		var state = this._widget.options.states[name];		
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
 //		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
 		else if(Dino.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
 			this.clear(state[0]);
 			this.set(state[1]);
-			delete this.current_states[name];
+			delete this._states[name];
 			return this;
 		}
 		
@@ -109,21 +109,21 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 		var change_class = true;
 
 //		if( Dino.isString(state) ) {
-//			this.widget.el.removeClass(state);
-////			this.widget.el.addClass(state_off);
+//			this._widget.el.removeClass(state);
+////			this._widget.el.addClass(state_off);
 //		}
 		if(Dino.isFunction(state)) {
-			change_class &= (state.call(this.widget, false) !== false);			
+			change_class &= (state.call(this._widget, false) !== false);			
 			state = name;
 		}
 		
 		if(change_class)
-			this.widget.el.removeClass(state);		
+			this._widget.el.removeClass(state);		
 		
-		delete this.current_states[name];
+		delete this._states[name];
 		
-		this.widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
-		this.widget.events.fire('onStateClear', {'state': name});
+		this._widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
+		this._widget.events.fire('onStateClear', {'state': name});
 		
 		return this;		
 	},
@@ -149,13 +149,21 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.BaseObject', /
 	 * @returns {Boolean} активно ли состояние
 	 */
 	is: function(name) {
-		return (name in this.current_states);
+		return (name in this._states);
 	}
 	
 	
 	
 });
 
+
+
+
+
+
+Dino.Statable = function() {
+	this.states = new Dino.StateCollection(this);
+}
 
 
 

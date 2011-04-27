@@ -28,7 +28,7 @@ var box = $.dino({
       treeModel: {
         node: {
           binding: function(val) {
-            this.content.opt('icon', 'led-icon-'+val.type);
+            this.content.opt('icon', 'silk-icon-'+val.type);
             if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
           },
           content: {

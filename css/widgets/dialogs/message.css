@@ -1,4 +1,8 @@
 
 .dino-messagebox-icon {
-	margin: 10px 20px 10px 10px;
+	margin: 10px 10px 10px 10px;
+}
+
+.dino-messagebox-msg {
+	margin: 0 10px;
 }

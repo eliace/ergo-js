@@ -10,7 +10,7 @@
  * @name Dino.Layout
  * @param {Object} opts
  */
-Dino.declare('Dino.Layout', Dino.BaseObject, /** @lends Dino.Layout.prototype */ {
+Dino.declare('Dino.Layout', Dino.core.Object, /** @lends Dino.Layout.prototype */ {
 	
 	defaultOptions: {
 		updateMode: 'auto'
@@ -19,14 +19,12 @@ Dino.declare('Dino.Layout', Dino.BaseObject, /** @lends Dino.Layout.prototype */
 	initialize: function(opts){
 		Dino.Layout.superclass.initialize.call(this);
 		
-		var o = this.options = {}
+		var o = this.options = {};
+		
 		Dino.hierarchy(this.constructor, function(clazz){
 			if('defaultOptions' in clazz) Dino.smart_override(o, clazz.defaultOptions);
 		});
 		Dino.smart_override(o, this.defaultOptions, opts);
-//		this.options = Dino.smart_override({}, this.defaultOptions, o);
-		
-//		this.attach(this.options.container);
 		
 	},
 	

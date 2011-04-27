@@ -20,7 +20,8 @@ Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.
 						cls: 'dino-messagebox-icon icon32'
 					},
 					message: {
-						dtype: 'text'
+						dtype: 'text',
+						cls: 'dino-messagebox-msg'
 					}
 				}	
 			}

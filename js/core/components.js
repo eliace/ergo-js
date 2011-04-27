@@ -3,10 +3,10 @@
 /**
  * 
  * @class
- * @extends Dino.BaseObject
+ * @extends Dino.core.Object
  * @param {Dino.Widget} owner
  */
-Dino.ComponentCollection = Dino.declare('Dino.ComponentCollection', 'Dino.BaseObject', /** @lends Dino.WidgetCollectionManager.prototype */{
+Dino.ComponentCollection = Dino.declare('Dino.ComponentCollection', 'Dino.core.Object', /** @lends Dino.WidgetCollectionManager.prototype */{
 	
 	initialize: function(owner) {
 		this.widgets = [];

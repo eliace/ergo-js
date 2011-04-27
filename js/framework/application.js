@@ -2,7 +2,7 @@
 
 
 
-Dino.declare('Dino.framework.Application', 'Dino.BaseObject', {
+Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 	
 	initialize: function(o) {
 		Dino.framework.Application.superclass.initialize.apply(this, arguments);		

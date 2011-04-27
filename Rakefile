@@ -14,11 +14,11 @@ require 'fileutils'
     'js/core/core.js',
     'js/core/events.js',
     'js/core/data.js',
+    'js/core/states.js',
     'js/core/widget.js',
     'js/core/layout.js',
     'js/core/container.js',
     'js/core/utils.js',
-    'js/core/states.js',
     'js/core/components.js',
     
     'js/layouts/stateful-layout.js',
@@ -80,7 +80,11 @@ require 'fileutils'
 #    'js/widgets/list.js',
 
     'js/framework/application.js',
-    'js/remote/collection.js',
+    
+    'js/remote/deferred-result.js',
+    'js/remote/json-object.js',
+    'js/remote/json-collection.js',
+    
     'js/utils/validators.js',
     'js/utils/update-buffer.js',
     'js/utils/formats.js',

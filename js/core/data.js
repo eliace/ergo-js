@@ -34,7 +34,7 @@ Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events
  * @name Dino.data.DataSource
  * @extends Dino.events.Observer
  */
-Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data.DataSource.prototype */{
+Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.DataSource.prototype */{
 	
 	classOptions: {
 		useDirty: false,
@@ -48,7 +48,9 @@ Dino.declare('Dino.data.DataSource', 'Dino.events.Observer', /**@lends Dino.data
 	 */
 	initialize: function(src, id, options) {
 		Dino.data.DataSource.superclass.initialize.apply(this, arguments);
-
+		
+		this.events = new Dino.events.Dispatcher(this);
+		
 //		if(src)	
 		this.source = src;
 		

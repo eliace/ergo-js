@@ -172,7 +172,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	/**
 	 * Уничтожить элемент.
 	 * 
-	 * После удаления элементы вызывается метод {@link Dino.BaseObject#destroy }
+	 * После удаления элементы вызывается метод {@link Dino.core.Object#destroy }
 	 * 
 	 * @param {Object} item
 	 */
