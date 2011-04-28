@@ -78,11 +78,11 @@ $.dino({
       dtype: 'dropdown-field',
       cls: 'dino-form-field',
       dataId: 'continent',
-      optionsFormat: null,
+      dataModel: null,
       components: {
-        button: {
-          icon: 'dino-icon-spinner-down',
-        },
+//        button: {
+//          icon: 'dino-icon-spinner-down',
+//        },
         dropdown: {
           data: listData,
           content: {

@@ -4,7 +4,7 @@
 Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 	
 	initialize: function(name, source, o) {
-		Dino.remote.Collection.superclass.initialize.apply(this, arguments);
+		Dino.remote.JsonCollection.superclass.initialize.apply(this, arguments);
 		this.events = new Dino.events.Dispatcher(this);
 		this.name = name;
 		this.source = source;
@@ -15,7 +15,7 @@ Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 	},
 	
 	object: function(attrs) {
-		return new Dino.remote.Object(this, attrs);
+		return new Dino.remote.JsonObject(this, attrs);
 	},
 
 	method: function(method, callback) {
@@ -24,13 +24,13 @@ Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 
 	load: function(query, params) {
 		var args = [].concat(arguments).slice(2);
-		var target = new Dino.deferred(args);
+		var target = new Dino.DeferredResult(args);
 		$.getJSON(this.path(), Dino.merge({'query': query}, params), function(json){target.ready(json);})
 		return target;
 	},
 	
 	load_all: function() {
-		var target = new Dino.deferred(arguments);		
+		var target = new Dino.DeferredResult(arguments);		
 		$.getJSON(this.path(), {'query': 'all'}, function(json){ target.ready(json); });
 		return target;
 	}

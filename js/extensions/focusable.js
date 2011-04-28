@@ -60,7 +60,7 @@ Dino.Focusable.focusManager = {
 	keypress: function(e) {
 		if(this.current) 
 			this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
-		if(e.keyCode == 27) this.clear();
+//		if(e.keyCode == 27) this.clear();
 	}
 	
 }

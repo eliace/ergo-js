@@ -400,6 +400,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 		if('tooltip' in o) el.attr('title', o.tooltip);
 		if('id' in o) el.attr('id', this.id = o.id);
 		if('tag' in o) this.tag = o.tag;
+		if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
 		if('style' in o) el.css(o.style);
 		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
 		if('baseCls' in o) el.addClass(o.baseCls);

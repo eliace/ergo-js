@@ -4,7 +4,7 @@
 Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 	
 	initialize: function(collection, attrs) {
-		Dino.remote.Object.superclass.initialize.apply(this, arguments);
+		Dino.remote.JsonObject.superclass.initialize.apply(this, arguments);
 		this.events = new Dino.events.Dispatcher(this);
 		this.attributes = attrs;
 		this.source = collection;
@@ -22,7 +22,7 @@ Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 		else
 			fields = val;
 
-		var target = new Dino.deferred();
+		var target = new Dino.DeferredResult();
 		$.post(this.path(), {_method: 'put', _serialized: $.toJSON(fields)}, function(json){target.ready(json);}, 'json');		
 		return target;
 	},
@@ -35,14 +35,14 @@ Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 		else
 			fields = val;
 
-		var target = new Dino.deferred();
+		var target = new Dino.DeferredResult();
 		$.post(this.path() + '/' + val.id, {_serialized: $.toJSON(fields)}, function(json){target.ready(json);}, 'json');
 		return target;
 	},
 	
 	remove: function(arg, callback) {
 		var id = Dino.isPlainObject(arg) ? id = arg.id : arg;
-		var target = new Dino.deferred();
+		var target = new Dino.DeferredResult();
 		$.post(this.path() + '/' + id, {_method: 'delete'}, function(json){target.ready(json);}, 'json');
 		return target;
 	},
@@ -57,7 +57,7 @@ Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 	
 	load: function(id, params) {
 		var args = [].concat(arguments).slice(2);
-		var target = new Dino.deferred(args);
+		var target = new Dino.DeferredResult(args);
 		$.getJSON(this.path()+'/'+id, function(json){target.ready(json);})
 		return target;		
 	}
