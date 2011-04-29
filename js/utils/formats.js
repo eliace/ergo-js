@@ -14,5 +14,5 @@ Dino.format_date = function(date) {
 	if(month < 10) month = '0'+month;
 	var day = date.getDate();
 	if(day < 10) day = '0'+day;
-	return Dino.format('%s-%s-%s', year, month,day);
+	return Dino.format('%s-%s-%s', day, month, year);
 }

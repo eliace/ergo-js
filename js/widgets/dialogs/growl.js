@@ -29,9 +29,10 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
 				}
 			}
 		},
-		state: 'clickable',
-		onClick: function() {
-			if(this.options.hideOnClick) this.hide();
+		events: {
+			'click': function(e, w) {
+				if(w.options.hideOnClick) w.hide();
+			}
 		},
 		buttonSet: {
 			'ok': {text: 'ОК', tag: 'ok'},

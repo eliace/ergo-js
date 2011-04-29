@@ -79,14 +79,10 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 						
 		var w0 = wnd.width();
 		var h0 = wnd.height();
-		wnd.css({width: '', height: ''});
-
 		box.css({'visibility': 'hidden'});
 
-//		this.container.el.show();
-
-		var w = this.container.options.width;
-		var h = this.container.options.height;
+		var w = this.container.options.width || '';
+		var h = this.container.options.height || '';		
 
 		// если указана высота в %, ее еще надо рассчитать
 		if (Dino.isString(w) && w[w.length - 1] == '%') {
@@ -99,6 +95,8 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 			wnd.css('height', w);
 		}
 		
+		wnd.css({width: w, height: h});
+
 
 		w = w || box.outerWidth(true);
 		h = h || box.outerHeight(true);

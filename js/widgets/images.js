@@ -127,6 +127,7 @@ Dino.widgets.ActionIcon = Dino.declare('Dino.widgets.ActionIcon', 'Dino.widgets.
 		events: {
 			'click': function(e, w){
 				w.events.fire('onAction');
+				e.stopPropagation();
 			}
 		}
 		

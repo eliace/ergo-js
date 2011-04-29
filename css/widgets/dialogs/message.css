@@ -3,6 +3,13 @@
 	margin: 10px 10px 10px 10px;
 }
 
-.dino-messagebox-msg {
+.dino-messagebox-msg-base {
 	margin: 0 10px;
+	display: block;
+}
+
+.dino-messagebox-msg-ext {
+	margin: 0 10px;
+	font-weight: bold;
+	display: block;
 }

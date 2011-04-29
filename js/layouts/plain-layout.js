@@ -17,12 +17,14 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	
 	insert: function(item, index) {
 		
+		var el = (item.options.layoutSelector) ? this.el.filter(item.options.layoutSelector) : this.el;
+		
 		if(index == null)
-			this.el.append( item.el );
+			el.append( item.el );
 		else if(index == 0)
-			this.el.prepend( item.el );
+			el.prepend( item.el );
 		else
-			this.el.children().eq(index-1).after(item.el);
+			el.children().eq(index-1).after(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},

@@ -20,8 +20,19 @@ Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.
 						cls: 'dino-messagebox-icon icon32'
 					},
 					message: {
-						dtype: 'text',
-						cls: 'dino-messagebox-msg'
+						dtype: 'box',
+						components: {
+							baseText: {
+								weight: 10,
+								dtype: 'text',
+								cls: 'dino-messagebox-msg-base'								
+							},
+							extText: {
+								weight: 20,
+								dtype: 'text',
+								cls: 'dino-messagebox-msg-ext'								
+							}
+						}
 					}
 				}	
 			}
@@ -46,7 +57,8 @@ Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.
 		Dino.widgets.MessageBox.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) this.content.icon.states.setOnly(this.options.iconSet[o.icon]);
-		if('message' in o) this.content.message.opt('text', o.message);
+		if('message' in o) this.content.message.baseText.opt('text', o.message);
+		if('messageEx' in o) this.content.message.extText.opt('text', o.messageEx);
 		
 	}
 	
