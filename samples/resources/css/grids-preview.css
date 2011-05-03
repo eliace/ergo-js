@@ -1,0 +1,27 @@
+
+
+.title-column a {
+	color: #385F95;	
+}
+
+.title-column .group {
+	color: #385F95;
+	text-align: left;
+	padding: 2px 6px;
+}
+
+.title-column .title {
+	font-weight: bold;	
+}
+
+.dino-grid-row.hovered {
+	background-color: #f0f0f0;
+}
+
+.dino-grid-row.details td {
+	border-bottom: 1px solid #ccc;
+}
+
+.description {
+	padding: 2px 5px;
+}

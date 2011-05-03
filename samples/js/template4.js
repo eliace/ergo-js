@@ -62,6 +62,10 @@ var sampleTree = [{
 	}, {
 		name: 'Editable Grid',
 		path: 'grids-editable'
+	}, {
+		name: 'Preview',
+		path: 'grids-preview',
+		created: true
 	}]
 }, {
 	name: 'Images',

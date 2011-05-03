@@ -296,9 +296,12 @@ Dino.declare('Dino.widgets.Anchor', 'Dino.Widget', /** @lends Dino.widgets.form.
 		
 		if('text' in o)
 			this.el.text(o.text);
+		if('href' in o)
+			this.el.attr('href', o.href);
 	},
 	
 	$dataChanged: function() {
+		Dino.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
 		this.el.attr('href',this.getValue());
 //		this.el.text(this.getValue());
 	}	
