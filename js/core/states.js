@@ -135,7 +135,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 	 */
 	toggle: function(name, sw) {
 		
-		if(sw == null) sw = !this.is(name);
+		if(arguments.length == 1) sw = !this.is(name);
 		
 		sw ? this.set(name) : this.clear(name);
 		

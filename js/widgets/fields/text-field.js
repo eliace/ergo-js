@@ -24,9 +24,13 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 					}
 				},
 				format: function(val) {
+					if(this.parent.options.format) val = this.parent.options.format.call(this, val);
 					var empty_val = (val === '' || val === null || val === undefined);
 					this.states.toggle('default-text', empty_val);
 					return (empty_val) ? this.parent.options.defaultText : val;
+				},
+				parser: function(val) {
+					return (this.parent.options.parser) ? this.parent.options.parser.call(this, val) : val;
 				}
 			}			
 		},
