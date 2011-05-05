@@ -1,7 +1,7 @@
 
 button.plain {
-	background-color: #eee;
-	border: 1px solid #eee;
+	background-color: transparent;
+	border: 1px solid transparent;
 }
 
 button.plain:hover {

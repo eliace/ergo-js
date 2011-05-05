@@ -94,6 +94,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				events: {
 					'click': function(e, w) {
 						w.parent.states.toggle('expand_collapse');
+						e.stopPropagation();
 					}
 				}
 			},
