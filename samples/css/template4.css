@@ -12,8 +12,12 @@ body input {
 
 
 #logo {
-	height: 50px;
-	font-size: 2em;
+	height: 56px;
+	font-size: 2.2em;
+	color: #fff;
+/*	color: #39629c;*/
+	text-shadow: 1px 1px 3px #666;
+	font-family: "Times New Roman", Times, serif;
 }
 
 
@@ -24,6 +28,11 @@ body input {
 
 
 
+
+.logo-icon {
+	background-image: url(../img/logo.png);
+	margin: 4px;
+}
 
 
 .dino-split-bar {

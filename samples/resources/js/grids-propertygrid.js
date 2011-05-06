@@ -31,8 +31,9 @@ var propertyGrid = $.dino({
       dataId: 'value',
       header: 'Значение',
       width: 100,
-      state: 'clickable',
-      onDblClick: function(){
+      extensions: [Dino.Clickable],
+//      state: 'clickable',
+      onDoubleClick: function(){
         if( this.opt('editable') ) this.startEdit();
       },
       binding: function() {

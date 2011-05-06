@@ -27,7 +27,7 @@ $.dino({
       }, {
         dtype: 'text-button',
         icon: 'silk-icon-delete',
-//        text: false
+        text: false
       }, {
         dtype: 'text-button',
         text: 'Button 3'
@@ -75,13 +75,14 @@ $.dino({
           text: 'Америка',
           tag: 'america'
         }]
-      }, */{
+      }, {
         dtype: 'box',
         width: 2,
         height: 24,
         cls: 'dino-split',
         innerHtml: '&nbsp;'
-      }]
+      }*/
+			'-']
     },
     items: [{
       dtype: 'control-box',

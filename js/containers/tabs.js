@@ -41,62 +41,6 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box
 	
 	$html: function() { return '<ul></ul>' },
 	
-//	$opt: function(o) {
-//		Dino.containers.Tabs.superclass.$opt.apply(this, arguments);
-		
-/*		
-		if('tabs' in o){
-			for(var i in o.tabs) this.addTab( o.tabs[i] );
-		}
-*/		
-//		if('dock' in o){
-//			this.el.addClass('dock-'+o.dock);
-//		}
-		/*	
-		addTab: function(o){
-		
-			var self = this;
-			
-			var tab = new Dino.Widget('<li>'+o.text+'</li>', Dino.override({}, this.options.tabModel));
-			this.header.addItem(tab);
-			
-			tab.el.click(function(e){
-				self.showTab(tab);
-				self.header.eachItem(function(item){
-					if(item != tab) self.hideTab(item);
-				});
-			});
-			
-			
-			var c = this.options.itemFactory(o);
-			this.content.addItem(c);
-			
-		}
-	*/	
-
-//	},
-	
-//	$afterBuild: function(){
-//		Dino.containers.Tabs.superclass.$afterBuild.apply(this, arguments);
-//		
-//		if('defaultIndex' in this.options)
-//			this.changeTab(this.options.defaultIndex);
-//	},
-	
-/*	
-	addTab: function(t) {
-		// создаем закладку
-		var tab = this.options.itemFactory.call(this, {
-			wrapEl: $('<li/>'),
-			defaultItem: this.options.defaultTabItem,
-			content: t
-		});
-				
-		this.addItem(tab);
-		
-		tab.index = parseInt(this.children.length-1); //FIXME это хорошо работает пока закладки не начинают добавляться произвольно		
-	},
-*/	
 	
 	setActiveTab: function(tab){
 		

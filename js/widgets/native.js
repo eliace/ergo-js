@@ -15,7 +15,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 		if('text' in o) this.el.val(o.text);
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
 		if('name' in o) this.el.attr('name', o.name);
-		if('value' in o) this.el.attr('value', o.value);
+		if('value' in o) this.el.prop('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		if('tabindex' in o) this.el.attr('tabindex', o.tabindex);
 
@@ -200,7 +200,7 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
 	$events: function(self) {
 //		Dino.widgets.form.Checkbox.superclass.$events.call(this, self);
 		this.el.change(function(){
-			self.setValue(self.el.attr('checked') ? true : false);
+			self.setValue(self.el.prop('checked') ? true : false);
 			self.events.fire('onAction');
 		});
 	},
@@ -210,16 +210,16 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
 		Dino.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('checked' in o)
-			this.el.attr('checked', o.checked);	
+			this.el.prop('checked', o.checked);	
 	},
 	
 	$dataChanged: function() {
 		Dino.widgets.Checkbox.superclass.$dataChanged.apply(this);
-		this.el.attr('checked', this.getValue() );
+		this.el.prop('checked', this.getValue() );
 	},
 	
 	isChecked: function() {
-		return this.el.attr('checked');
+		return this.el.prop('checked');
 	}
 	
 		

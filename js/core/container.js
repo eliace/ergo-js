@@ -18,9 +18,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	
 	
 	defaultOptions: {
-		itemFactory: function(o) {
-			return Dino.widget(o); 
-		}
+//		itemFactory: function(item) {
+//		}
 	},
 	
 	$init: function(o) {
@@ -49,12 +48,20 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 //		this.items = new Dino.utils.ContainerItemManager(this, o.itemFactory);
 				
 	},	
+	
+	
+	$itemFactory: function(item) {
+		if( Dino.isPlainObject(item) ) 
+			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
+		return item; 		
+	},
+	
 
 	$opt: function(o) {
 		Dino.Container.superclass.$opt.call(this, o);
 		
-		if('itemFactory' in o)
-			this.itemFactory = o.itemFactory;
+//		if('itemFactory' in o)
+//			this.itemFactory = o.itemFactory;
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
@@ -97,7 +104,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		var itemOpts = item;
 		
 		// если новый элемент является набором параметров, то строим виджет
-		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
+		item = this.$itemFactory( itemOpts );
+//		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
 		
 		
 		if(index == undefined){

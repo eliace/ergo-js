@@ -21,7 +21,6 @@ var sampleTree = [{
 	}, {
 		name: 'Dino forms',
 		path: 'containers-xform',
-		updated: true
 	}, {
 		name: 'Controls',
 		path: 'containers-controls'
@@ -58,7 +57,6 @@ var sampleTree = [{
 	}, {
 		name: 'Properties',
 		path: 'grids-propertygrid',
-		updated: true
 	}, {
 		name: 'Editable Grid',
 		path: 'grids-editable'
@@ -151,11 +149,9 @@ var sampleTree = [{
 }, {
 	name: 'Misc',
 	children: [{
-		created: true,
 		name: 'Sample 1',
 		path: 'misc-sample-1'
 	}, {
-		created: true,
 		name: 'Sample 2',
 		path: 'misc-sample-2'
 	}, {
@@ -216,16 +212,21 @@ $(document).ready(function(){
 			logo: {
 				dtype: 'box',
 				id: 'logo',
+				layout: 'hbox',
 				items: [{
+					dtype: 'icon',
+					cls: 'logo-icon icon48',
+				}, {
 					dtype: 'text',
-					text: 'DinoJS'
+					text: 'Dino.js',
+					style: {'margin-left': '8px'}
 				}]
 			},
 			// Панель инструментов
-			toolbar: {
-				dtype: 'control-box',
-				id: 'main-toolbar'
-			},
+//			toolbar: {
+//				dtype: 'control-box',
+//				id: 'main-toolbar'
+//			},
 			// Содержимое
 			pageContent: {
 				dtype: 'box',
@@ -242,6 +243,7 @@ $(document).ready(function(){
 						dtype: 'tree',
 						data: sampleTree,
 						isDynamic: true,
+						extensions: [Dino.Selectable],
 						treeModel: {
 							node: {
 								expandOnShow: false,
@@ -255,6 +257,11 @@ $(document).ready(function(){
 //										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
+											
+											if(this.parent.data.get('children')) {
+												this.parent.states.toggle('expand_collapse');
+												return;
+											}
 											
 											var preview = $('.preview').dino();
 											preview.el.empty();
@@ -274,11 +281,13 @@ $(document).ready(function(){
 													sh_highlightDocument();																									
 												});												
 											}, 'text');
+											
+											this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 										}
 									}
 								},
 								binding: function(val) {
-									var icon = (val.children) ? 'icon-folder' : 'silk-icon-application-form';
+									var icon = (val.children) ? 'icon-folder' : 'silk-icon-page-white-gear';//'silk-icon-application-form';
 									var xicon = '';
 									if(val.updated) xicon = 'silk-icon-arrow-refresh';
 									if(val.created) xicon = 'silk-icon-new';
@@ -383,7 +392,7 @@ $(document).ready(function(){
 								},
 								pagesCls: 'dino-border-all dino-border-no-top',
 								pages: [{
-									tab: {text: 'JavaScript'},
+									tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 									cls: 'js-page',
 									content: {
 										dtype: 'box',
@@ -391,7 +400,7 @@ $(document).ready(function(){
 										height: 'auto'
 									}
 								}, {
-									tab: {text: 'CSS'},
+									tab: {text: 'CSS', icon: 'silk-icon-script-code-red'},
 									cls: 'css-page',
 									content: {
 										dtype: 'box',

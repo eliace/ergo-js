@@ -219,6 +219,6 @@ var widget = $.dino({
 });
 
 
-gridData.source = Samples.generate_grid_page(0, 120);    
+gridData.source = Samples.generate_grid_page(0, 200);    
 widget.grid.pager.setIndex(0);
 

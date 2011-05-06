@@ -86,9 +86,9 @@ var grid = $.dino({
         };
 
         gridData.events.fire('onValueChanged');
-				
-				console.log(profiler.print_result('widget'));
-				profiler.clear('widget');
+        
+        console.log(profiler.print_result('widget'));
+        profiler.clear('widget');
       }
     }
   }
