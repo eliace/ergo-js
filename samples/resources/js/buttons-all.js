@@ -41,7 +41,7 @@ $.dino({
     dtype: 'text-button',
     icon: 'silk-icon-accept',
     xicon: 'silk-icon-cancel',
-//    text: false
+    text: ''
   }/*, {
     dtype: 'icon-button',
     icon: 'led-icon-cog'

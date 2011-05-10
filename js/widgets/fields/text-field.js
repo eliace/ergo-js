@@ -11,31 +11,31 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 				e.stopPropagation();
 			}
 		},
-		components: {
-			input: {
-        updateOnValueChange: true,
-				events: {
-					'focus': function(e, w) {
-						w.parent.setFocus();
-						if(w.states.is('default-text')) {
-							w.el.val(w.getRawValue());
-							w.states.clear('default-text');
-						}
-					}
-				},
-				format: function(val) {
-					if(this.parent.options.format) val = this.parent.options.format.call(this, val);
-					var empty_val = (val === '' || val === null || val === undefined);
-					this.states.toggle('default-text', empty_val);
-					return (empty_val) ? this.parent.options.defaultText : val;
-				},
-				parser: function(val) {
-					return (this.parent.options.parser) ? this.parent.options.parser.call(this, val) : val;
-				}
-			}			
-		},
-		extensions: [Dino.Focusable],
+//		components: {
+//			input: {
+//        updateOnValueChange: true,
+//				format: function(val) {
+//					var po = this.parent.options;
+//					if(po.format) val = po.format.call(this, val);
+//					var empty_val = (val === '' || val === null || val === undefined);
+//					this.states.toggle('default-text', empty_val);
+//					return (empty_val) ? po.defaultText : val;
+//				},
+//				parser: function(val) {
+//					return (this.parent.options.parser) ? this.parent.options.parser.call(this, val) : val;
+//				}
+//			}			
+//		},
 		onFocus: function() {
+//			else
+//				this.input.el.val(this.getValue());
+			
+			this.states.toggle('default-text', false);
+			
+//			if(this.states.is('default-text')) {
+////				this.input.el.val(this.getRawValue());
+//				this.states.clear('default-text');
+//			}				
 		},
 		onBlur: function() {
 			var o = this.options;
@@ -43,17 +43,24 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 				this.setValue( this.input.el.val() );
 		},
 		changeOnBlur: true,
-		defaultText: ''
-	},
-	
-	
-	$opt: function(o) {
-		Dino.widgets.TextField.superclass.$opt.apply(this, arguments);
+    updateOnValueChange: true,
+		defaultText: '',
 		
+		format: function(val) {
+			var o = this.options;
+			var empty_val = (val === '' || val === null || val === undefined);
+			this.states.toggle('default-text', empty_val);
+			return (empty_val) ? o.defaultText : val;
+		}
+	}	
+	
+//	$opt: function(o) {
+//		Dino.widgets.TextField.superclass.$opt.apply(this, arguments);
+//		
 //		if('defaultText' in o) {
 //			this.input			
 //		}
-		
-	}
+//		
+//	}
 	
 }, 'text-field');

@@ -11,9 +11,36 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
     components: {
       input: {
         dtype: 'input',
-				width: 'auto'
+				width: 'auto',
+				events: {
+					'focus': function(e, w) {
+						w.parent.setFocus();
+					}
+				}
       }
-    }
-	}
+    },
+		extensions: [Dino.Focusable],
+		onFocus: function() {
+			var o = this.options;
+			if(o.rawValueOnFocus)
+				this.input.el.val(this.getRawValue());			
+		},
+		onKeyDown: function(e) {
+			var o = this.options;
+			if(e.keyCode == 13) {
+				if(o.changeOnEnter)
+					this.setValue( this.input.el.val() );
+			}
+		}
+	},
+	
+	$dataChanged: function() {
+		Dino.widgets.ComboField.superclass.$dataChanged.apply(this, arguments);
+		
+		if(this.options.rawValueOnFocus && this.hasFocus()) 
+			this.input.el.val( this.getRawValue() );
+		else
+			this.input.el.val( this.getValue() );
+	}	
 	
 }, 'combo-field');

@@ -500,8 +500,8 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 			if(Dino.isString(o.format)) this.options.format = Dino.format_obj.curry(o.format);
 		}
 
-		if('validator' in o) {
-			if(Dino.isArray(o.validator)) this.options.validator = Dino.filter_list.rcurry(o.validator);
+		if('validate' in o) {
+			if(Dino.isArray(o.validate)) this.options.validate = Dino.filter_list.rcurry(o.validate);
 		}
 						
 		
@@ -728,13 +728,13 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 	setValue: function(val, reason) {
 		var o = this.options;
 		if(this.data){
-			if(o.parser) 
-				val = o.parser.call(this, val);
+			if(o.store) 
+				val = o.store.call(this, val);
 			
 			var valid = true;
 			var context = {};				
-			if(o.validator) {				
-				valid = o.validator.call(this, val, context);
+			if(o.validate) {				
+				valid = o.validate.call(this, val, context);
 /*				
 				var self = this;
 				var validator = this.options.validator;
@@ -827,7 +827,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 //		this.events.fire('onDataChanged');
 	}
 	
-});
+}, 'widget');
 
 
 
@@ -863,63 +863,12 @@ $.fn.dino = function(o) {
 
 
 
-/*
- * Далее идет не вполне изящный механизм примешивания предопределенных состояний к классу Dino.Widget
- * 
- * 
- */
-
-/*
-var abilityHandlers = {
-	'clickable.click': function(e) {
-			$(this).dino().events.fire('onClick', {}, e);		
-	},
-	'clickable.dblclick': function(e) {
-			$(this).dino().events.fire('onDblClick', {}, e);		
-	},
-	'nonselectable.mousedown': function(e) {
-		e.preventDefault();
-	},
-	'editable.dblclick': function(e) {
-		var w = $(this).dino();
-		if('startEdit' in w) w.startEdit();		
-	}
-}
-
-
-Dino.override(Dino.Widget.prototype.defaultOptions.states, {
-	'clickable': function(sw) {
-		if(sw) {
-			this.el.bind('click', abilityHandlers['clickable.click']);		
-			this.el.bind('dblclick', abilityHandlers['clickable.dblclick']);					
-		}
-		else {
-			this.el.unbind('click', abilityHandlers['clickable.click']);		
-			this.el.unbind('dblclick', abilityHandlers['clickable.dblclick']);					
-		}
-	},
-	'editable': function(enabled) {
-		if(enabled) this.el.bind('dblclick', abilityHandlers['editable.dblclick']);
-		else this.el.unbind('dblclick', abilityHandlers['editable.dblclick']);
-	},
-	'nonselectable': function(enabled) {
-		if(enabled) this.el.bind('mousedown', abilityHandlers['nonselectable.mousedown']);
-		else this.el.unbind('mousedown', abilityHandlers['nonselectable.mousedown']);		
-	}
-});
-*/
 
 
 
 
 
 
-
-/*
- * Тоже не очень изящная (но работающая) реализация простейшего Drag'n'Drop
- * 
- * 
- */
 
 
 $(document).ready(function(){

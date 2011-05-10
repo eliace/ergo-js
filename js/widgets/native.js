@@ -17,7 +17,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.prop('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
-		if('tabindex' in o) this.el.attr('tabindex', o.tabindex);
+		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);
 
 /*
 		var self = this;
@@ -33,24 +33,8 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
 		}
 */		
-	},
-	
-	$events: function(self) {
-		Dino.widgets.Input.superclass.$events.call(this, self);
-
-		this.el.keydown(function(e) {
-			if(!self.options.readOnly) {
-				if(e.keyCode == 13) 
-					self.setValue( self.el.val(), 'enterKey');
-				else if(e.keyCode == 27) 
-					self.el.val(self.getValue());				
-			}
-		});
-		
-//		this.el.change(function() {
-//			self.setValue( self.el.val());
-//		});
 	}
+	
 	
 //	$dataChanged: function() {
 //		Dino.widgets.Input.superclass.$dataChanged.apply(this);
@@ -63,7 +47,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 	
 	
 	
-});
+}, 'input');
 
 
 
@@ -100,9 +84,27 @@ Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.wid
 			this.el.val( this.getRawValue() );
 		else
 			this.el.val( this.getValue() );
-	}	
+	},
+	
+	$events: function(self) {
+		Dino.widgets.Input.superclass.$events.call(this, self);
+
+		this.el.keydown(function(e) {
+			if(!self.options.readOnly) {
+				if(e.keyCode == 13) 
+					self.setValue( self.el.val(), 'enterKey');
+				else if(e.keyCode == 27) 
+					self.el.val(self.getValue());				
+			}
+		});
 		
-}, 'input');
+//		this.el.change(function() {
+//			self.setValue( self.el.val());
+//		});
+	}
+	
+		
+}, 'text-input');
 
 
 
@@ -123,7 +125,7 @@ Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.
 }, 'password');
 
 
-Dino.declare('Dino.widgets.Submit', Dino.widgets.Input, {
+Dino.declare('Dino.widgets.Submit', 'Dino.widgets.Input', {
 	
 	defaultOptions: {
 		html: '<input type="submit"></input>'
@@ -462,6 +464,8 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
 
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);
+		if('tabIndex' in o) 
+			this.el.attr('tabindex', o.tabIndex);
 		if('disabled' in o){
 			(o.disabled) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');
 		}

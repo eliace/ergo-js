@@ -12,12 +12,11 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 		},
 		components: {
 			input: {
-        updateOnValueChange: true,
 				autoFit: true,
 				width: undefined //FIXME костыль пока нормально не заработает PlainLayout
 			}			
 		},
-		extensions: [Dino.Focusable],
+//		extensions: [Dino.Focusable],
 		onBlur: function() {
 			this.parent.stopEdit();			
 		},
@@ -35,7 +34,9 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 			if(e.keyCode == 13) {
 				this.parent.stopEdit('enterKey');
 			}
-		}
+		},
+    updateOnValueChange: true,
+		changeOnEnter: true
 	}	
 	
 }, 'text-editor');
@@ -63,11 +64,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	defaultOptions: {
 		components: {
 			input: {
-				readOnly: true,				
-				format: function(val) {
-					if(val === '' || val === undefined || val === null) return '';
-					return this.parent.options.formatValue.call(this.parent, val);
-				}
+				readOnly: true				
 			},			
       button: {
         dtype: 'action-icon',
@@ -87,11 +84,12 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 					defaultItem: {
 						events: {
 							'click': function(e, w) {
-								var dd = w.parent.parent;
-								dd.parent.dropdown.content.selection.set(w);
-								dd.parent.events.fire('onSelect', {target: w});
-								dd.parent.setValue( dd.parent.options.selectValue.call(dd.parent, w) );
-		          	dd.hide();
+								w.getParent(Dino.widgets.DropdownEditor).setSelectedItem(w);								
+//								var dd = w.parent.parent;
+//								dd.parent.dropdown.content.selection.set(w);
+//								dd.parent.events.fire('onSelect', {target: w});
+//								dd.parent.setValue(w);
+//		          	dd.hide();
 							}
 						}						
 					}
@@ -106,8 +104,43 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				}
 			}
 		},
-		formatValue: function(val) { return this.dropdown.data.get(val); },
-		selectValue: function(w){ return w.data.id; },
+		
+		dataModel: {
+			type: 'plain',
+			data: []
+		},
+		
+		format: function(val) {
+			if(val === '' || val === undefined || val === null) return '';
+			var o = this.options;
+			var dataModel = o.dataModel;
+			
+			if(dataModel.type == 'keyvalue') {
+				val = this.dropdown.data.get(val);
+			}
+			else if(dataModel.type == 'custom') {
+				var criteria = {};
+				criteria[dataModel.id] = val;
+				var optionsItem = Dino.find(this.dropdown.data.val(), Dino.filters.by_props.curry(criteria));
+				val = optionsItem ? optionsItem[dataModel.value] : optionsItem;				
+			}
+			return val;
+		},
+		
+		store: function(w) {
+			var o = this.options;
+			var val = null;
+			if(o.dataModel) {
+				if(o.dataModel.type == 'plain')
+					val = w.data.get();
+				else if(o.dataModel.type == 'keyvalue')
+					val = w.data.id;
+				else if(o.dataModel.type == 'custom')
+					val = w.data.source.get(o.dataModel.id); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
+			}
+			return val;
+		},
+		
 		onKeyDown: function(e) {
 
 			var listBox = this.dropdown.content;
@@ -129,13 +162,15 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 					listBox.selection.set(prevItem);
 			}
 			else if(e.keyCode == 13) {
-				this.events.fire('onSelect', {target: selected});				
-				this.setValue( this.options.selectValue.call(this, selected) );
+				this.setSelectedItem(selected);
+//				this.events.fire('onSelect', {target: selected});				
+//				this.setValue( selected );// this.options.selectValue.call(this, selected) );
 				this.hideDropdown();
 			}
 		},
 		dropdownOnClick: true,
-		dropdownOnFocus: false
+		dropdownOnFocus: false,
+		changeOnEnter: false
 	},
 	
 	$init: function(o) {
@@ -149,6 +184,14 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 		if(o.dropdownOnFocus) {
 			this.events.reg('onFocus', function(){	self.showDropdown(); });
 		}
+		
+		if('dataModel' in o) {
+			if(o.dataModel.data)
+				o.components.dropdown.data = o.dataModel.data;
+			if(o.dataModel.type == 'custom')
+				o.components.dropdown.content.defaultItem.dataId = o.dataModel.value;				
+		}
+		
 	},
 	
 	
@@ -164,7 +207,51 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	
 	hideDropdown: function() {
 		this.dropdown.hide();
-	}	
+	},
+	
+	
+	setSelectedItem: function(item) {
+		if(!item) {
+			this.dropdown.content.selection.clear();
+			return;
+		}
+		var o = this.options;
+		this.dropdown.content.selection.set(item);
+		this.events.fire('onSelect', {target: item});
+		this.setValue( item );//o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
+  	this.hideDropdown();
+	},
+	
+	$dataChanged: function() {
+		Dino.widgets.DropdownEditor.superclass.$dataChanged.apply(this, arguments);
+		
+		var val = this.data.get();//.getRawValue();
+		if(val === '' || val === undefined || val === null) {
+//			this.setSelectedItem(null);
+			this.dropdown.content.selection.clear();
+		}
+		else {
+			var o = this.options;
+			var dataModel = o.dataModel;
+			var item = null;
+			if(dataModel) {
+				this.dropdown.content.eachItem(function(it){
+					if( 
+						(dataModel.type == 'plain' && it.data.get() == val) ||
+						(dataModel.type == 'keyvalue' && it.data.id == val) ||
+						(dataModel.type == 'custom' && it.data.source.get()[dataModel.id] == val)
+					) {
+						item = it;
+						return false;						
+					}
+				});
+			}
+//			this.setSelectedItem(item);
+			this.dropdown.content.selection.set(item);
+		}
+		
+	}
+	
 	
 }, 'dropdown-editor');
 

@@ -45,6 +45,13 @@
 	box-shadow: 1px 1px 5px #ccc;
 }
 
+.dino-growl {
+	-moz-box-shadow: 0px 0px 6px #aaa;
+	-webkit-box-shadow: 0px 0px 6px #aaa;
+	box-shadow: 0px 0px 6px #aaa;
+}
+
+
 .dino-text-content {
 	background-color: #fff;
 	padding: 3px;

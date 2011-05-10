@@ -37,7 +37,7 @@ $.dino({
       dtype: 'text-field',
       cls: 'dino-form-field',
       defaultText: 'Введите число...',
-      validator: Dino.validators.floatNumber
+      validate: Dino.validators.floatNumber
     }
   },{
     label: 'Поле с кнопкой (форма)',
@@ -51,6 +51,7 @@ $.dino({
           dtype: 'icon-button',
           role: 'actor',
           icon: 'dino-icon-search',
+					tabIndex: -1
         }
       }
     }
@@ -78,13 +79,15 @@ $.dino({
       dtype: 'dropdown-field',
       cls: 'dino-form-field',
       dataId: 'continent',
-      dataModel: null,
+      dataModel: {
+//				type: 'keyvalue',
+        data: listData
+			},
       components: {
 //        button: {
 //          icon: 'dino-icon-spinner-down',
 //        },
         dropdown: {
-          data: listData,
           content: {
             defaultItem: {
               cls: 'tb3-dropdown-item',
@@ -100,12 +103,15 @@ $.dino({
     dataId: 'continent2',
     content: {
       dtype: 'dropdown-editor',
+      dataModel: {
+				type: 'keyvalue',
+				data: hashData
+			},
       components: {
         button: {
           cls: 'ui-icon ui-icon-triangle-1-s'
         },
         dropdown: {
-          data: hashData,
           content: {
             defaultItem: {
               icon: 'silk-icon-world'

@@ -7,6 +7,7 @@ Dino.Focusable = function(o) {
 	};
 	
 	this.hasFocus = function() {
+//		return this.states.is('focus');
 		return Dino.Focusable.focusManager.current == this;
 	};
 	
@@ -31,11 +32,12 @@ Dino.Focusable.focusManager = {
 	
 	enter: function(w) {
 		if(this.current == w) return;
-		if (this.current) {
-			this.current.states.clear('focus');
-			this.current.events.fire('onBlur');
-		}
+		var w_old = this.current;
 		this.current = w;
+		if (w_old) {
+			w_old.states.clear('focus');
+			w_old.events.fire('onBlur');
+		}
 		w.states.set('focus');
 		w.events.fire('onFocus');
 	},

@@ -168,7 +168,7 @@ var widget = $.dino({
           editor: {
             components: {
               input: {
-                parser: function(val) {
+                store: function(val) {
                   return Dino.isString(val) ? parseFloat(val) : val; 
                 }                
               }

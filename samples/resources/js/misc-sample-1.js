@@ -38,19 +38,19 @@ $.dino({
       
     },
     items: [{
-      dtype: 'input',
+      dtype: 'text-input',
       dataId: 'fio',
       defaultText: 'ФИО'
     }, {
-      dtype: 'input',
+      dtype: 'text-input',
       dataId: 'phone',
       defaultText: 'Контактный телефон'
     }, {
-      dtype: 'input',
+      dtype: 'text-input',
       dataId: 'mail',
       defaultText: 'E-mail'
     }, {
-      dtype: 'input',
+      dtype: 'text-input',
       dataId: 'org',
       defaultText: 'Наименование организации'
     }, {

@@ -19,7 +19,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 				state: 'hidden'
 			}
 		},
-		text: ''
+		text: false
 	},
 	
 	

@@ -2,7 +2,8 @@
 
 Dino.DeferredResult = function(targets) {
 	
-	var chain = targets || [];
+	var chain = [];
+	if(targets) chain = chain.concat(targets);
 	
 	this.to = function(ds) {	
 		chain.push(ds)	

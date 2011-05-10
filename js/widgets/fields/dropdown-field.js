@@ -4,8 +4,11 @@
 /**
  * 
  * Данные могут быть представлены в видах:
- * 	1. [[key1, val1], [key2, val2], ..., [keyN, valN]]
- * 	2. [[k: key1, v: val1], [k: key2, v: val2], ..., [k: keyN, v: valN]]
+ * 	1. custom: [[key1, val1], [key2, val2], ..., [keyN, valN]]
+ * 	2. custom: [[k: key1, v: val1], [k: key2, v: val2], ..., [k: keyN, v: valN]]
+ *  3. plain: [val1, val2, ..., valN]
+ *  4. keyvalue: [val1, val2, ..., valN]
+ *  4. keyvalue: {key1:val1, key2:val2, ..., keyN:valN}
  * 
  * @param {Object} val
  */
@@ -14,10 +17,11 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 	defaultOptions: {
 		components: {
 			input: {
-				readOnly: true,
-				format: function(val) {
-					return this.parent.options.selectedItemFormat.call(this.parent, val);
-				}
+//				html: '<input readonly="true">'
+				readOnly: true
+//				format: function(val) {
+//					return this.parent.options.selectedItemFormat.call(this.parent, val);
+//				}
 			},			
       button: {
         dtype: 'icon-button',
@@ -52,25 +56,41 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 		},
 		
 		dataModel: {
-			id: 0,
-			value: 1,
+			type: 'plain',
 			data: []
 		},
 		
-		selectedItemFormat: function(val) {
+		format: function(val) {
 			if(val === '' || val === undefined || val === null) return '';
 			var o = this.options;
 			var dataModel = o.dataModel;
-			if(dataModel) {
+			
+			if(dataModel.type == 'keyvalue') {
+				val = this.dropdown.data.get(val);
+			}
+			else if(dataModel.type == 'custom') {
 				var criteria = {};
 				criteria[dataModel.id] = val;
 				var optionsItem = Dino.find(this.dropdown.data.val(), Dino.filters.by_props.curry(criteria));
-				return optionsItem ? optionsItem[dataModel.value] : optionsItem;				
+				val = optionsItem ? optionsItem[dataModel.value] : optionsItem;				
 			}
-			else {
-				return val;
+			return val;
+		},
+		
+		store: function(w) {
+			var o = this.options;
+			var val = null;
+			if(o.dataModel) {
+				if(o.dataModel.type == 'plain')
+					val = w.data.get();
+				else if(o.dataModel.type == 'keyvalue')
+					val = w.data.id;
+				else if(o.dataModel.type == 'custom')
+					val = w.data.source.get(o.dataModel.id); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
 			}
-		},		
+			return val;
+		},
+		
 		onKeyDown: function(e) {
 
 			var listBox = this.dropdown.content;
@@ -115,10 +135,12 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 			this.events.reg('onFocus', function(){	self.showDropdown(); });
 		}
 		
-		if(o.dataModel) {
+		
+		if('dataModel' in o) {
 			if(o.dataModel.data)
 				o.components.dropdown.data = o.dataModel.data;
-			o.components.dropdown.content.defaultItem.dataId = o.dataModel.value;
+			if(o.dataModel.type == 'custom')
+				o.components.dropdown.content.defaultItem.dataId = o.dataModel.value;				
 		}
 	},
 	
@@ -147,16 +169,17 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 		var o = this.options;
 		this.dropdown.content.selection.set(item);
 		this.events.fire('onSelect', {target: item});
-		this.setValue( o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.source.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
+		this.setValue( item );//o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
   	this.hideDropdown();
 	},
 	
 	$dataChanged: function() {
 		Dino.widgets.DropdownField.superclass.$dataChanged.apply(this, arguments);
 		
-		var val = this.getValue();
+		var val = this.data.get();//.getValue();
 		if(val === '' || val === undefined || val === null) {
-			this.setSelectedItem(null);
+//			this.setSelectedItem(null);
+			this.dropdown.content.selection.clear();
 		}
 		else {
 			var o = this.options;
@@ -164,15 +187,19 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 			var item = null;
 			if(dataModel) {
 				this.dropdown.content.eachItem(function(it){
-					if(it.data.source.val()[dataModel.id] == val) {
+					if( 
+						(dataModel.type == 'plain' && it.data.get() == val) ||
+						(dataModel.type == 'keyvalue' && it.data.id == val) ||
+						(dataModel.type == 'custom' && it.data.source.get()[dataModel.id] == val)
+					) {
 						item = it;
-						return false;
+						return false;						
 					}
 				});
 			}
-			this.setSelectedItem(item);
+//			this.setSelectedItem(item);
+			this.dropdown.content.selection.set(item);
 		}
-		
 		
 	}
 	
