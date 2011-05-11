@@ -105,6 +105,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 			},
 			subtree: {
 				weight: 3,
+				dataId: 'children',
 				defaultItem: {
 					dtype: 'basic-tree-node'
 				}
@@ -328,8 +329,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 			var dynamicItem = {
 				components: {
 					subtree: {
-						dynamic: true,
-						dataId: 'children'
+						dynamic: true
 					}
 				}
 			};
