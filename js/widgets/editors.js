@@ -1,4 +1,8 @@
 
+//= require "combo-field"
+//= require <containers/dropdown-box>
+//= require "list-box"
+//= require "images"
 
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
 	

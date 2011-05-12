@@ -1,4 +1,7 @@
 
+//= require "plain"
+
+
 /**
  * @class
  * @extends Dino.layouts.PlainLayout

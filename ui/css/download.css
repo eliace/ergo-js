@@ -1,0 +1,55 @@
+
+body {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+	margin: 0;
+	padding: 3px;
+	background-color: #eee;
+	font-size: 12px;
+}
+
+body input {
+	font-family: Helvetica,Geneva,Arial,sans-serif;
+}
+
+
+#logo {
+	height: 56px;
+	font-size: 3em;
+	color: #fff;
+/*	color: #39629c;*/
+	text-shadow: 1px 1px 3px #666;
+	font-family: "Times New Roman", Times, serif;
+}
+
+#logo img {
+	vertical-align: middle;
+}
+
+
+
+
+
+.group {
+	font-size: 16px;
+	font-weight: bold;
+	color: #666;
+}
+
+.group-all {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+
+.group2 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #666;
+	padding-top: 3px;
+}
+
+
+.cascade-item-title > .dino-text-item:hover {
+	color: #666;
+}

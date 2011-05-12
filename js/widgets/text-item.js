@@ -1,4 +1,8 @@
 
+//= require "../layouts/hbox"
+//= require "images"
+//= require "native"
+
 
 /**
  * @class

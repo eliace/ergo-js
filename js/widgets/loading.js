@@ -1,4 +1,7 @@
 
+//= require "../containers/box"
+
+
 /**
  * @class
  * @extends Dino.containers.Box

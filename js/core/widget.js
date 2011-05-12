@@ -1,4 +1,11 @@
 
+//= require "events"
+//= require "data"
+//= require "components"
+//= require "states"
+//= require <layouts/plain>
+//= require "utils"
+
 
 /**
  * @name Dino.widgets

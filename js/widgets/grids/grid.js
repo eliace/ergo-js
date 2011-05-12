@@ -1,5 +1,5 @@
 
-
+//= require <widgets/table>
 
 
 

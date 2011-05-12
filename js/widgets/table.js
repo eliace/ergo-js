@@ -1,4 +1,6 @@
 
+//= require "../containers/box"
+
 
 /**
  * @class

@@ -1,4 +1,6 @@
 
+//= require "../core/layout"
+
 
 /**
  * @class

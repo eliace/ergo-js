@@ -1,4 +1,6 @@
 
+//= require <widgets/combo-field>
+
 
 
 Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
@@ -29,8 +31,13 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 		onFocus: function() {
 //			else
 //				this.input.el.val(this.getValue());
+
+			if(this.states.is('default-text')) {
+				this.input.el.val(this.getRawValue());
+				this.states.clear('default-text');				
+			}
 			
-			this.states.toggle('default-text', false);
+//			this.states.toggle('default-text', false);
 			
 //			if(this.states.is('default-text')) {
 ////				this.input.el.val(this.getRawValue());
@@ -41,6 +48,7 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 			var o = this.options;
 			if(o.changeOnBlur)
 				this.setValue( this.input.el.val() );
+//			this.states.toggle('default-text', false);
 		},
 		changeOnBlur: true,
     updateOnValueChange: true,

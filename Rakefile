@@ -1,4 +1,40 @@
 
+
+
+
+require 'sprockets'
+
+
+
+
+task :compose do
+
+	js_secretary = Sprockets::Secretary.new(
+	#  :load_path    => ["vendor/sprockets/*/src", "vendor/plugins/*/javascripts"],
+		:load_path => ["js"],
+	  :source_files => ["js/**/*.js"]
+	)
+	js_concatenation = js_secretary.concatenation
+	js_concatenation.save_to("build/dino-js.js")
+	
+	
+	css_secretary = Sprockets::Secretary.new(
+	#  :load_path    => ["vendor/sprockets/*/src", "vendor/plugins/*/javascripts"],
+		:load_path => ["css"],
+	  :source_files => ["css/**/*.css"]
+	)		
+	css_concatenation = css_secretary.concatenation
+	css_concatenation.save_to("build/dino-js.css")
+
+
+  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+
+	Kernel.system s
+	
+end
+
+=begin
+
 require 'find'
 require 'pathname'
 require 'fileutils'
@@ -201,3 +237,5 @@ task :compose_win do
     merge_files('build/dino-js.css', files_css);
 
 end
+
+=end

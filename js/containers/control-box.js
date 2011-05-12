@@ -1,4 +1,5 @@
 
+//= require "box"
 
 Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
 	

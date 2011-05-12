@@ -259,7 +259,7 @@ $(document).ready(function(){
 											path = this.parent.data.get('path');
 											
 											if(this.parent.data.get('children')) {
-												this.parent.states.toggle('expand_collapse');
+												this.parent.states.toggle('expand-collapse');
 												return;
 											}
 											

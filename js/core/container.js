@@ -1,4 +1,6 @@
 
+//= require "widget"
+
 /**
  * @name Dino.containers
  * @namespace
@@ -25,27 +27,11 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	$init: function(o) {
 		Dino.Container.superclass.$init.apply(this);
 		
-		var o = this.options;
-		
-//		this.layout = new Dino.layouts.PlainLayout();
-//		this.layout.container = this;
-		
-//		if('itemFactory' in o) this.itemFactory = o.itemFactory;
-		
-		
-//		// инициализируем метод фабрики объектов
-//		this.itemFactory = function(o){
-//			return {'widget': Dino.widget(o)};
-//		};
-		
 		/**
 		 * Элементы
 		 * @type {Array}
 		 */
 		this.items = [];
-//		this.selection = new Dino.SelectionManager();
-		
-//		this.items = new Dino.utils.ContainerItemManager(this, o.itemFactory);
 				
 	},	
 	
@@ -59,9 +45,6 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 
 	$opt: function(o) {
 		Dino.Container.superclass.$opt.call(this, o);
-		
-//		if('itemFactory' in o)
-//			this.itemFactory = o.itemFactory;
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)

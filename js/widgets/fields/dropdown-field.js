@@ -1,4 +1,8 @@
 
+//= require "text-field"
+//= require <containers/dropdown-box>
+//= require <widgets/list-box>
+//= require <widgets/buttons/icon-button>
 
 
 /**

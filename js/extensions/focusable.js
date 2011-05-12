@@ -1,4 +1,6 @@
 
+//= require "../core/widget"
+
 
 Dino.Focusable = function(o) {
 	

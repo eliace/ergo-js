@@ -1,4 +1,6 @@
 
+//= require "core"
+
 
 Dino.utils = (function(){
 	var U = {};
@@ -123,6 +125,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 	else if(last_literal == '+') {
 		i = i.substr(0, i.length-1);
 		
+		if(!(i in o)) o[i] = [];
 		if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
 		p = o[i].concat(p);
 		o[i] = p;

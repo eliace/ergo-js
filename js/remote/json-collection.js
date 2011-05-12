@@ -1,4 +1,5 @@
 
+//= require "json-object"
 
 
 Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {

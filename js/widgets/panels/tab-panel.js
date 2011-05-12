@@ -1,4 +1,6 @@
 
+//= require <containers/tabs>
+
 /**
  * @class
  * @name Dino.panels.TabPanel

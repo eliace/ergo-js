@@ -1,4 +1,7 @@
 
+//= require "core"
+//= require "utils"
+
 
 /**
  * 
@@ -40,15 +43,17 @@ Dino.ComponentCollection = Dino.declare('Dino.ComponentCollection', 'Dino.core.O
 	},
 	
 	remove: function(item) {
-		var i = Dino.index_of(this.widgets, item);
-		
-		// если такого элемента среди дочерних нет, то возвращаем false
-		if(i == -1) return false;
-		
-		delete this.widgets[i].parent;
-		this.widgets.splice(i, 1);
-		
-		return true;
+		delete item.parent;
+		return Dino.remove_from_array(this.widgets, item);
+//		var i = Dino.index_of(this.widgets, item);
+//		
+//		// если такого элемента среди дочерних нет, то возвращаем false
+//		if(i == -1) return false;
+//		
+//		delete this.widgets[i].parent;
+//		this.widgets.splice(i, 1);
+//		
+//		return true;
 	},
 	
 	removeAll: function() {

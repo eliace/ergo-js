@@ -1,4 +1,6 @@
 
+//= require "core"
+
 
 /**
  * @name Dino.events
@@ -25,12 +27,6 @@ Dino.declare('Dino.events.Event', Dino.core.Object, /** @lends Dino.events.Event
 //		this.is_stopped = false;
 		this.baseEvent = baseEvent;
 	}
-	
-//	preventDefault: function() {
-//		if(this.baseEvent && this.baseEvent.preventDefault)
-//			this.baseEvent.preventDefault();
-//		this.is_stopped = true;
-//	}
 	
 });
 

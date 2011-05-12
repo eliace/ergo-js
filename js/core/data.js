@@ -1,4 +1,6 @@
 
+//= require "events"
+
 
 /**
  * @name Dino.data
@@ -6,8 +8,8 @@
  */
 
 
-
-Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events.CancelEvent.prototype */{
+/*
+Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', {
 
 	initialize: function(overrides, baseEvent) {
 		Dino.data.DirtyEvent.superclass.initialize.apply(this, arguments);
@@ -25,7 +27,7 @@ Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events
 	
 	
 });
-
+*/
 
 
 
@@ -37,7 +39,7 @@ Dino.declare('Dino.data.DirtyEvent', 'Dino.events.Event', /** @lends Dino.events
 Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.DataSource.prototype */{
 	
 	classOptions: {
-		useDirty: false,
+//		useDirty: false,
 		oid: 'id'
 	},
 	
@@ -51,7 +53,6 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 		
 		this.events = new Dino.events.Dispatcher(this);
 		
-//		if(src)	
 		this.source = src;
 		
 		if(arguments.length == 2){
@@ -63,20 +64,9 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 			this.id = id;
 		}
 		
-/*		
-		if(arguments.length < 2){
-			this.source = src;
-		}
-		else {
-			this.source = src;
-			this.id = id;
-		}
-*/		
 		this.options = Dino.smart_override({}, this.classOptions, options);
 		this.items = {};
-		this.is_dirty = false;
-//		this.stop_dirty = false;
-//		this.filter_chain = [];
+//		this.is_dirty = false;
 		
 	},
 	
@@ -121,31 +111,20 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 			
 			var oldValue = this.val();//('id' in this) ? this.source.val()[this.id] : this.source.val();				
 			
-			
-			
 			if (this.source instanceof Dino.data.DataSource) {
 				('id' in this) ? this.source.val()[this.id] = newValue : this.source.set(newValue);
 	  	}
 			else {
 				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 			}
-//			var src = (this.source instanceof Dino.data.DataSource) ? this.source.val() : this,source;
-			 
-//			('id' in this) ? this.source.val()[this.id] = newValue : this.source = newValue;
-			
-//			if(this.source instanceof Dino.data.DataSource){
-//				('id' in this) ? this.source.set(this.id, newValue) : this.source.set(newValue);
-//			}
-//			else {
-//				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
-//			}
+
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
 			if(this.source instanceof Dino.data.DataSource)
 				this.source.events.fire('onItemChanged', {item: this});
 			
-			// помечаем источник данных как "грязный"
-			if(this.options.useDirty) this.dirty();
+//			// помечаем источник данных как "грязный"
+//			if(this.options.useDirty) this.dirty();
 		}
 		else {
 			this.item(i).set(newValue);
@@ -214,16 +193,14 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 	
 	ensure_item: function(i) {
 		// если элемент данных отсутствует, то вызываем метод создания элемента
-		if(!(i in this.items))
-			this.items[i] = this.create_item(i);
-		return this.items[i];		
+		if(!(i in this.items)) {
+			// для массивов используем ArrayDataSource, а для всего остального ObjectDataSource
+			this.items[i] = Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i, this.options) : new Dino.data.ObjectDataSource(this, i, this.options);
+		}
+		return this.items[i];
 	},
 	
-	create_item: function(i) {
-		// для массивов используем ArrayDataSource, а для всего остального ObjectDataSource
-		return Dino.isArray(this.val()[i]) ? new Dino.data.ArrayDataSource(this, i, this.options) : new Dino.data.ObjectDataSource(this, i, this.options);
-	},
-	
+/*	
 	dirty: function(flag, target) {
 
 		flag = (arguments.length == 0) ? true : flag;
@@ -245,60 +222,13 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 		
 		if(this.source instanceof Dino.data.DataSource) this.source.dirty(flag, target);
 		
-		
-/*		
-		flag = (arguments.length == 0) ? true : flag;
-		
-		if(flag) {
-			if(this.is_dirty) return;
-
-			this.is_dirty = true;
-						
-			if(this.options.dirtyFilter && !this.options.dirtyFilter.call(this)) {
-			}
-			else {
-				var event = new Dino.events.DirtyEvent();
-				this.events.fire('onDirty', event);			
-				this.is_dirty = !event.is_canceled; 				
-				if(event.is_stopped || event.is_canceled) return true;
-			}
-			
-			
-//			if(this.stop_dirty) return true; //FIXME использовать флаг не совсем корректно, поскольку он не может быть опцией
-			
-			if(this.source instanceof Dino.data.DataSource) if( this.source.dirty(true) ) return true;
-		}
-		else {
-			if(!this.is_dirty) return;
-
-			this.is_dirty = false;
-
-			if(this.options.dirtyFilter && !this.options.dirtyFilter.call(this, this.val())) {
-			}
-			else {
-				var event = new Dino.events.DirtyEvent();
-				this.events.fire('onClean', event);			
-				this.is_dirty = event.is_canceled; 				
-				if(event.is_stopped || event.is_canceled) return true;
-			}
-
-//			this.events.fire('onClean', event);
-//			if(event.isCanceled) return;
-//			
-//			this.is_dirty = false;
-//
-//			if(this.stop_dirty) return;
-			
-			for(var i in this.items) this.items[i].dirty(false);
-		}
-*/		
 	},
 	
 	clean: function() {
 		this.is_dirty = false;
 		for(var i in this.items) this.items[i].clean();		
 	},
-	
+*/	
 	
 	walk: function(callback) {
 		if( callback.call(this, this) ) return;
@@ -326,19 +256,6 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 	}
 	
 		
-//	asArray: function() {
-//		return new Dino.data.ArrayDataSource(this);
-//	},
-//	
-//	asObject: function() {
-//		return new Dino.data.ObjectDataSource(this);
-//	}
-	
-/*	
-	eachItem: function(callback){
-		Dino.each(this.items, callback);
-	}
-*/	
 	
 });
 
@@ -404,8 +321,6 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 		
 		this.events.fire('onItemDeleted', {'index': i, 'item': item});
 		
-		// помечаем источник данных как "грязный"
-//		this.dirty();		
 	},
 	
 	add: function(value, index) {
@@ -437,9 +352,6 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 		var item = this.item(index);
 		
 		this.events.fire('onItemAdded', {'index': index, 'item': item, 'isLast': isLast});
-		
-		// помечаем новый источник данных как "грязный" ?
-//		this.dirty();
 		
 		return item;
 	},	
@@ -489,8 +401,6 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', /** @lends Di
 		
 		this.events.fire('onItemDeleted', {'index': i, 'item': item});
 		
-		// помечаем источник данных как "грязный"
-//		this.dirty();
 	}
 	
 	

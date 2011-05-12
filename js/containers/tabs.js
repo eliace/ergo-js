@@ -1,4 +1,6 @@
 
+//= require "box"
+//= require "../widgets/native"
 
 
 /**

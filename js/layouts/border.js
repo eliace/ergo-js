@@ -1,4 +1,5 @@
 
+//= require "plain"
 
 
 Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {

@@ -1,4 +1,6 @@
 
+//= require "../core/widget"
+
 Dino.Clickable = function(o) {
 	
 	Dino.smart_override(o, {events: {

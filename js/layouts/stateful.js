@@ -1,4 +1,8 @@
 
+//= require "../core/layout"
+
+
+
 /**
  * @class
  * @name Dino.layouts.StatefulLayout

@@ -1,4 +1,9 @@
 
+//= require <containers/box>
+//= require <extensions/selectable>
+//= require "text-item"
+
+
 /**
  * @class
  * @extends Dino.containers.Box

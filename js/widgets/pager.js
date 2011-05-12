@@ -1,4 +1,7 @@
 
+//= require "../containers/control-box"
+//= require "buttons/icon-button"
+
 
 /**
  * @class

@@ -1,5 +1,5 @@
 
-
+//= require <core/widget>
 
 
 Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object', {
@@ -89,5 +89,4 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
 Dino.Selectable = function() {
 	this.selection = new Dino.SelectionManager(this);
 }
-
 

@@ -1,18 +1,8 @@
 
-/*
-Dino.declare('Dino.events.StateEvent', 'Dino.events.Event', {
+//= require "events"
 
-	initialize: function(method, args) {
-		Dino.events.StateEvent.superclass.initialize.call(this, {'method': method, 'args': args});
-	},
-	
-	translate: function(target, filter){
-		if(arguments.length == 1 || Dino.in_array(filter, this.args[0]))
-			target.states[this.method].apply(target.states, this.args);
-	}
-	
-});
-*/
+
+
 
 
 

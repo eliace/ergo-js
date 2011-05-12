@@ -1,4 +1,5 @@
 
+//= require "box"
 
 Dino.declare('Dino.containers.GlassBox', 'Dino.containers.Box', {
 	

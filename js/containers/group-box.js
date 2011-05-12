@@ -1,10 +1,11 @@
 
+//= require "box"
 
 /**
  * @class
  * @extends Dino.Container
  */
-Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.Container', /** @lends Dino.containers.GroupBox.prototype */{
+Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.Box', /** @lends Dino.containers.GroupBox.prototype */{
 	
 	defaultOptions: {
 		baseCls: 'dino-group-box',

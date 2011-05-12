@@ -1,4 +1,6 @@
 
+//= require "../core/events"
+
 
 
 Dino.declare('Dino.utils.UpdateBuffer', 'Dino.core.Object', {

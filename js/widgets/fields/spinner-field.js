@@ -1,4 +1,6 @@
 
+//= require "text-field"
+//= require <widgets/images>
 
 
 Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {

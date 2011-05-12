@@ -1,5 +1,5 @@
 
-
+//= require "../core/container"
 
 /**
  * @class

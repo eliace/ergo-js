@@ -1,4 +1,7 @@
 
+//= require "native"
+//= require <layouts/hbox>
+//= require <extensions/focusable>
 
 
 Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {

@@ -1,4 +1,9 @@
 
+//= require "../../containers/control-box"
+//= require "../../layouts/window"
+//= require "../panels/panel"
+//= require "../buttons/text-button"
+
 
 /**
  * @class

@@ -1,4 +1,7 @@
 
+//= require "grid"
+//= require <widgets/trees/tree>
+//= require <layouts/stateful>
 
 /**
  * @class

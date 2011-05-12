@@ -1,4 +1,9 @@
 
+//= require <containers/box>
+//= require <widgets/images>
+//= require <widgets/text-item>
+
+
 /**
  * @class
  * @extends Dino.Widget
@@ -17,7 +22,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 			}
 		},
 		states: {
-			'expand_collapse': ['expanded', 'collapsed']
+			'expand-collapse': ['expanded', 'collapsed']
 		}
 	},
 	
@@ -46,11 +51,11 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /**
 //	},
 	
 	collapse: function() {
-		this.states.clear('expand_collapse');
+		this.states.clear('expand-collapse');
 	},
 	
 	expand: function() {
-		this.states.set('expand_collapse');
+		this.states.set('expand-collapse');
 	},
 	
 //	isSelected: function() {
@@ -93,7 +98,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 //				},
 				events: {
 					'click': function(e, w) {
-						w.parent.states.toggle('expand_collapse');
+						w.parent.states.toggle('expand-collapse');
 						e.stopPropagation();
 					}
 				}
@@ -155,7 +160,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	$afterBuild: function() {
 		Dino.widgets.BasicTreeNode.superclass.$afterBuild.apply(this, arguments);
 		
-		(this.options.expandOnShow) ? this.states.set('expand_collapse') : this.states.clear('expand_collapse');
+		(this.options.expandOnShow) ? this.states.set('expand-collapse') : this.states.clear('expand-collapse');
 		
 //		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
 	},

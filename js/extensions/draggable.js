@@ -1,4 +1,6 @@
 
+//= require "../core/widget"
+
 
 Dino.drag = null;
 //Dino.Draggable.dragPane = $.dino({dtype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');

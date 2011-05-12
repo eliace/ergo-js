@@ -1,4 +1,7 @@
 
+//= require "../core/events"
+//= require "deferred-result"
+
 
 
 Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {

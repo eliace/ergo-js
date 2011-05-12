@@ -1,8 +1,8 @@
 
+//= require "box"
 
 
-
-
+/*
 Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 	
 	
@@ -18,6 +18,7 @@ Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 	}
 	
 }, 'form-item')
+*/
 
 
 
@@ -26,8 +27,7 @@ Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 
 
 
-
-Dino.declare('Dino.containers.Form', Dino.Container, {
+Dino.declare('Dino.containers.Form', 'Dino.containers.Box', {
 
 	defaultOptions: {
 //		layout: 'form-layout'

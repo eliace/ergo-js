@@ -1,4 +1,7 @@
 
+//= require "../core/layout"
+
+
 /**
  * @class
  * @extends Dino.Layout

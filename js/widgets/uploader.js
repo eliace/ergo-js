@@ -1,4 +1,7 @@
 
+//= require "native"
+
+
 /**
  * @class
  * @extends Dino.Widget
