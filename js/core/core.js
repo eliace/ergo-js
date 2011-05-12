@@ -255,17 +255,17 @@ var Dino = (function(){
 	 * @param {Object|Array} src объект, элементы которого необходимо просмотреть
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
-	D.each = function(src, callback){
+	D.each = function(src, callback, delegate){
 		if(Dino.isArray(src)){
 			var arr = src;
 			for(var i = 0; i < arr.length; i++){
-				if( callback.call(arr, arr[i], i) === false ) break;
+				if( callback.call(delegate || arr, arr[i], i) === false ) break;
 			}
 		}
 		else {
 			var obj = src;
 			for(var i in obj){
-				if( callback.call(obj, obj[i], i) === false ) break;
+				if( callback.call(delegate || obj, obj[i], i) === false ) break;
 			}	
 		}
 	}
@@ -364,29 +364,36 @@ var Dino = (function(){
 		return -1;
 	};
 	
+	
+	
+	
+	
+	
 	/**
 	 * Проверка, содержится ли элемент в массиве
 	 * 
-	 * @name Dino.in_array
+	 * @name Dino.array_include
 	 * @function
-	 * @param {Array} arr массив
+	 * @param {Array|Object} arr массив
 	 * @param {Any} val значение
 	 */
-	D.in_array = function(arr, val) {
-		for(var i = 0; i < arr.length; i++)
+	D.include = function(arr, val) {
+		for(var i in arr)
 			if(arr[i] == val) return true;
+//		for(var i = 0; i < arr.length; i++)
+//			if(arr[i] == val) return true;
 		return false;
 	}
 	
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)
 	 * 
-	 * @name Dino.remove_from_array
+	 * @name Dino.array_remove
 	 * @function
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
-	D.remove_from_array = function(arr, val) {
+	D.array_remove = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
 			if(arr[i] == val) {
@@ -544,7 +551,7 @@ var Dino = (function(){
 		}
 		
 		for(var i in obj){
-			if(D.isPlainObject(obj[i]) && !(D.in_array(this.ignore_list, i))) this.traverse(callback, obj[i]);
+			if(D.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
 		}
 	}
 	
@@ -809,5 +816,15 @@ var Dino = (function(){
 })();
 
 //var _dino = Dino;
+
+
+
+
+
+
+
+
+
+
 
 

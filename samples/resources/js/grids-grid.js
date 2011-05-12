@@ -84,11 +84,11 @@ var grid = $.dino({
             if(i >= e.from && i < e.to) out.push(i);
           return out;
         };
-
+					
         gridData.events.fire('onValueChanged');
         
-        console.log(profiler.print_result('widget'));
-        profiler.clear('widget');
+//        console.log(profiler.print_result('widget'));
+//        profiler.clear('widget');
       }
     }
   }

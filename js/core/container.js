@@ -31,7 +31,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = [];
+		this.items = new Dino.core.ArrayCollection();
 				
 	},	
 	
@@ -71,7 +71,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * @returns {Dino.Widget} элемент контейнера или undefined
 	 */
 	getItem: function(i){
-		return Dino.find(this.items, Dino.utils.create_widget_filter(i));	
+		return this.items.find( Dino.utils.create_widget_filter(i) );
+//		return Dino.find(this.items, Dino.utils.create_widget_filter(i));	
 	},
 	
 	/**
@@ -90,20 +91,22 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		item = this.$itemFactory( itemOpts );
 //		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
 		
+		this.items.add(item);
 		
 		if(index == undefined){
-			this.items.push( item );
+//			this.items.push( item );
 			
-			item.index = this.items.length - 1;
+			item.index = this.items.length() - 1;
 			
 			this.children.add(item);
 			this.layout.insert(item);
 		}
 		else {
-			this.items.splice( index, 0, item );
+//			this.items.splice( index, 0, item );
 			
 			item.index = index;
-			for(var i = index; i < this.items.length; i++) this.items[i].index = i;
+//			this.items.each(function(it, i){ it.index = i; });
+			for(var i = index; i < this.items.src.length; i++) this.items.src[i].index = i;
 			
 			this.children.add(item, index);
 			this.layout.insert(item, index);
@@ -115,28 +118,6 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 		return item;
 	},
-/*	
-	insertItem: function(item, index) {
-		
-		var itemOpts = item;
-		
-		// если новый элемент является набором параметров, то строим виджет
-		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
-
-		this.items.splice( index, 0, item );
-		item.index = index;
-		for(var i = index; i < this.items.length; i++) this.items[i].index = i;
-		
-		this.children.add(item, index);
-		this.layout.insert(item, index);
-		
-		if('show' in item) item.show();
-		
-		this.events.fire('onItemAdded', {'item': item});
-		
-		return item;
-	},
-*/	
 
 
 	/**
@@ -147,14 +128,16 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 */
 	removeItem: function(item) {
 		
-		Dino.remove_from_array(this.items, item);
+		this.items.remove(item);
+//		Dino.array_remove(this.items, item);
 
 		var index = item.index;
 		
 		this.children.remove(item);
 		this.layout.remove(item);
 		
-		for(var i = index; i < this.items.length; i++) this.items[i].index = i;
+//		this.items.each(function(it, i){ it.index = i; });
+		for(var i = index; i < this.items.src.length; i++) this.items.src[i].index = i;
 		
 		
 		return item;
@@ -175,8 +158,8 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * Удаление всех элементов контейнера
 	 */
 	removeAllItems: function() {
-		while(this.items.length > 0)
-			this.removeItem(this.items[0]);
+		while(this.items.length() > 0)
+			this.removeItem(this.items.first());
 
 //		this.children.removeAll();
 //		this.layout.clear(); //FIXME эта очистка вызывала ошибки
@@ -192,8 +175,14 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 //		this.children.each(function(item){ item.destroy(); });
 //		// очищаем список дочерних элементов
 //		this.children.removeAll();
-		while(this.items.length > 0)
-			this.removeItem(this.items[0]).destroy();
+
+//		var t0 = Dino.timestamp();
+
+		while(this.items.length() > 0)
+			this.removeItem(this.items.first()).destroy();
+
+//		var t1 = Dino.timestamp();	
+//		console.log(t1 - t0);
 		
 //		var self = this;
 //		Dino.each(this.items, function(item){ self.removeItem(item); item.destroy(); });
@@ -217,8 +206,9 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * @param {Function} callback 
 	 */
 	eachItem: function(callback) {
-		for(var i = 0; i < this.items.length; i++)
-			if( callback.call(this, this.items[i], i) === false ) return false;
+		this.items.each(callback);
+//		for(var i = 0; i < this.items.length; i++)
+//			if( callback.call(this, this.items[i], i) === false ) return false;
 	},
 /*	
 	setSelectedItem: function(item) {
@@ -282,15 +272,15 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		this.data.events.reg('onValueChanged', function(e){
 			
 			self.layout.immediateRebuild = false;
-			
+
 			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
 
+
 			self.data.each(function(dataItem, i){
 				var dataItem = self.data.item(i);
-				var item = self.addItem({ 'data': dataItem });//.$bind(dataItem, 2);
+				var item = self.addItem({ 'data': dataItem });
 				item.dataPhase = 2;
-//				item.index = i; // костыль для 
 			});
 
 			self.layout.immediateRebuild = true;
@@ -300,14 +290,15 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		
 
 		this.layout.immediateRebuild = false;
-		
+				
 		this.destroyAllItems();
+
 		
 		this.data.each(function(dataItem, i){
 			var dataItem = self.data.item(i);
 			self.addItem({ 'data': dataItem }).dataPhase = 2;//.$bind(dataItem, 2);
 		});
-		
+				
 		this.layout.immediateRebuild = true;
 		this.layout.rebuild();
 		

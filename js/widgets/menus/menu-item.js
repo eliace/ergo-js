@@ -114,7 +114,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 	},
 	
 	hasSubmenu: function() {
-		return !this.submenu.children.empty();
+		return !this.submenu.children.is_empty();
 	},
 	
 	showSubmenu: function() {

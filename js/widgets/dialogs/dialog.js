@@ -90,7 +90,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			});
 			// включаем указанные кнопки
 			this.buttons.eachItem(function(item) {
-				item.states.toggle('hidden', !Dino.in_array(o.buttons, item.tag)); 
+				item.states.toggle('hidden', !Dino.include(o.buttons, item.tag)); 
 			});
 		}		
 	},
