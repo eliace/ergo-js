@@ -1,12 +1,12 @@
 
-//= require "../containers/box"
+//= require <core/container>
 
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lends Dino.widgets.Table.prototype */{
+Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** @lends Dino.widgets.Table.prototype */{
 	
 	defaultOptions: {
 		components: {
@@ -19,11 +19,11 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 //				}
 //			},
 			head: {
-				dtype: 'box',
-				wrapEl: '<thead></thead>',
+				dtype: 'container',
+				html: '<thead></thead>',
 				defaultItem: {
-					dtype: 'box',
-					wrapEl: '<tr></tr>',
+					dtype: 'container',
+					html: '<tr></tr>',
 					defaultItem: {
 						dtype: 'table-header-cell'
 //						wrapEl: '<th></th>'
@@ -32,7 +32,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 				binding: false
 			},
 			body: {
-				dtype: 'box',
+				dtype: 'container',
 				dynamic: true,
 				wrapEl: '<tbody></tbody>',
 				defaultItem: {
@@ -107,16 +107,6 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.Widget', /** @lend
 	},
 	
 	
-	_updateEvenOdd: function() {
-		var i = 0;
-		$('tr:visible', this.body.el).each(function(i, el){
-			if(i%2)
-				$(el).removeClass('even').addClass('odd');
-			else
-				$(el).addClass('even').removeClass('odd');
-		});
-	},
-	
 	eachRow: function(callback) {
 		this.body.eachItem(callback);
 	},
@@ -169,15 +159,15 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', 
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /** @lends Dino.widgets.TableCell.prototype */{
+Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.core.Widget', /** @lends Dino.widgets.TableCell.prototype */{
 	
 	$html: function() { return '<td></td>'; },
 	
-	defaultOptions: {
+//	defaultOptions: {
 //		binding: 'skip'		
-	},
+//	},
 		
 	$dataChanged: function() {
 		
@@ -224,9 +214,9 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.Widget', /
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Dino.Widget', /** @lends Dino.widgets.TableHeaderCell.prototype */{
+Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Dino.core.Widget', /** @lends Dino.widgets.TableHeaderCell.prototype */{
 	
 	$html: function() { return '<th></th>'; },
 	

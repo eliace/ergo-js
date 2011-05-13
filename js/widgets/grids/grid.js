@@ -8,9 +8,9 @@
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.Widget', /** @lends Dino.widgets.Grid.prototype */{
+Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @lends Dino.widgets.Grid.prototype */{
 	
 	defaultOptions: {
 		wrapEl: '<div></div>',

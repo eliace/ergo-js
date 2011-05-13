@@ -4,7 +4,6 @@
 
 /**
  * Эта компоновка сразу добавляет элемент в контейнер.
- * Методы update и rebuild ничего не выполняют
  * 
  * @class
  * @name Dino.layouts.PlainLayout
@@ -12,6 +11,7 @@
  * 
  */
 Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.PlainLayout.prototype */{
+	
 	
 	defaultOptions: {
 		autoHeight: false

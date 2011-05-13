@@ -1,10 +1,12 @@
 
+//= require "events"
 
 
 Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	initialize: function(src, options) {
 		this.src = src || {};
+		Dino.Observable.call(this);
 	},
 	
 	set: function(item, i) {
@@ -21,6 +23,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	add: function(item, i) {
 		this.src[i] = item;
+		this.events.fire('item:add', {'item': item});
 	},
 	
 	remove: function(item) {
@@ -28,7 +31,15 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	},
 
 	remove_at: function(i) {
+		var item = this.src[i];
 		delete this.src[i];
+		this.events.fire('item:remove', {'item': item});
+	},
+	
+	remove_if: function(criteria) {
+		var keys = Dino.filter_keys(this.src, criteria);
+		keys.sort().reverse();
+		for(var i = 0; i < keys.length; i++) this.remove_at(keys[i]);
 	},
 	
 	clear: function() {
@@ -47,10 +58,14 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		return Dino.find(this.src, criteria);
 	},
 	
-	filter: function(callback) {
+	find_all: function(criteria) {
 		return Dino.filter(this.src, callback);
 	},
 	
+	filter: function(callback) {
+		return Dino.filter(this.src, callback);
+	},
+
 	map: function(callback) {
 		return Dino.map(this.src, callback);		
 	},
@@ -70,17 +85,19 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	},
 	
 	index_of: function(item) {
-		Dino.index_of(item);
+		return Dino.index_of(this.src, item);
 	}
 	
 });
 
 
 
-Dino.declare('Dino.core.ArrayCollection', 'Dino.core.Collection', {
+Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	
 	initialize: function(src, options) {
 		this.src = src || [];
+		Dino.Observable.call(this);
+//		this.events = new Dino.events.Dispatcher();
 	},	
 	
 	add: function(item, i) {
@@ -88,10 +105,13 @@ Dino.declare('Dino.core.ArrayCollection', 'Dino.core.Collection', {
 			this.src.push(item);
 		else
 			this.src.splice(i, 0, item);
+		this.events.fire('item:add', {'item': item});
 	},
 	
 	remove_at: function(i) {
+		var item = this.src[i]
 		this.src.splice(i, 1);		
+		this.events.fire('item:remove', {'item': item});
 	},
 	
 	length: function() {

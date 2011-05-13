@@ -12,11 +12,11 @@
  * 
  * @class
  * @name Dino.Container
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  * @param {Object} o параметры
  * 
  */
-Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototype */ {
+Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.prototype */ {
 	
 	
 	defaultOptions: {
@@ -31,7 +31,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = new Dino.core.ArrayCollection();
+		this.items = new Dino.core.Array();
 				
 	},	
 	
@@ -58,7 +58,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 //		Dino.Container.superclass.$afterRender.apply(this);
 //	},
 
-	//FIXME по идее этот мето должен быть в Dino.Widget
+	//FIXME по идее этот мето должен быть в Dino.core.Widget
 //	$dataChanged: function() {
 //		this.children.each(function(item) { item.$dataChanged(); });
 //	},
@@ -68,19 +68,19 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * Получить элемент контейнера 
 	 * 
 	 * @param {Object} criteria критерий
-	 * @returns {Dino.Widget} элемент контейнера или undefined
+	 * @returns {Dino.core.Widget} элемент контейнера или undefined
 	 */
 	getItem: function(i){
-		return this.items.find( Dino.utils.create_widget_filter(i) );
-//		return Dino.find(this.items, Dino.utils.create_widget_filter(i));	
+		return this.items.find( Dino.utils.widget_filter(i) );
+//		return Dino.find(this.items, Dino.utils.widget_filter(i));	
 	},
 	
 	/**
 	 * Добавить элемент контейнера
 	 * 
-	 * @param {Object|Dino.Widget} item виджет или параметры виджета
+	 * @param {Object|Dino.core.Widget} item виджет или параметры виджета
 	 * @param {Integer} index индекс, с которым будет добавлен новый элемент
-	 * @returns {Dino.Widget} добавленный элемент
+	 * @returns {Dino.core.Widget} добавленный элемент
 	 */
 	addItem: function(item, index) {
 //		Dino.Container.superclass.addChild.call(this, item);
@@ -124,7 +124,7 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * Удалить элемент.
 	 * 
 	 * @param {Object} item удаляемый элемент
-	 * @returns {Dino.Widget} удаленный элемент
+	 * @returns {Dino.core.Widget} удаленный элемент
 	 */
 	removeItem: function(item) {
 		
@@ -192,10 +192,10 @@ Dino.declare('Dino.Container', 'Dino.Widget', /** @lends Dino.Container.prototyp
 	 * Замена элемента
 	 * 
 	 * @param {Any} criteria критерий
-	 * @param {Object|Dino.Widget} newItem 
+	 * @param {Object|Dino.core.Widget} newItem 
 	 */
 	replaceItem: function(criteria, newItem) {
-		var item = this.children.get(criteria);
+		var item = this.children.find(criteria);
 		if(item != null) this.removeItem(item);
 		this.addItem(newItem);
 	},

@@ -1,6 +1,6 @@
 
-//= require "../../containers/control-box"
-//= require "../../layouts/window"
+//= require <containers/control-box>
+//= require <layouts/window>
 //= require "../panels/panel"
 //= require "../buttons/text-button"
 

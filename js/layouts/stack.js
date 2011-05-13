@@ -16,7 +16,7 @@ Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layout
 	
 	activate: function(i) {
 		
-		var child = (i instanceof Dino.Widget) ? i : this.container.children.get(i);
+		var child = (i instanceof Dino.core.Widget) ? i : this.container.children.find( Dino.utils.widget_filter(i) );
 		
 		this.container.children.each(function(c){
 			c.el.toggleClass('hidden', (c != child));

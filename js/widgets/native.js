@@ -1,10 +1,10 @@
 
-//= require "../core/widget"
+//= require <core/widget>
 
 
 
 
-Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.InputField.prototype */{
+Dino.declare('Dino.widgets.Input', 'Dino.core.Widget', /** @lends Dino.widgets.form.InputField.prototype */{
 	
 	defaultOptions: {
 		html: '<input type="text"></input>'
@@ -17,7 +17,7 @@ Dino.declare('Dino.widgets.Input', 'Dino.Widget', /** @lends Dino.widgets.form.I
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.prop('value', o.value);
-		if('disabled' in o) this.el.attr('disabled', o.disabled);
+		if('disabled' in o) this.el.prop('disabled', o.disabled);
 		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);
 
 /*
@@ -252,9 +252,9 @@ Dino.declare('Dino.widgets.TextArea', Dino.widgets.TextInput, /** @lends Dino.wi
 /**
  * @class
  * @name Dino.widgets.form.Label
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.declare('Dino.widgets.Label', Dino.Widget, /** @lends Dino.widgets.form.Label.prototype */{
+Dino.declare('Dino.widgets.Label', Dino.core.Widget, /** @lends Dino.widgets.form.Label.prototype */{
 
 	$html: function() { return '<label></label>'; },
 	
@@ -278,9 +278,9 @@ Dino.declare('Dino.widgets.Label', Dino.Widget, /** @lends Dino.widgets.form.Lab
 /**
  * @class
  * @name Dino.widgets.form.Anchor
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.declare('Dino.widgets.Anchor', 'Dino.Widget', /** @lends Dino.widgets.form.Anchor.prototype */{
+Dino.declare('Dino.widgets.Anchor', 'Dino.core.Widget', /** @lends Dino.widgets.form.Anchor.prototype */{
 	
 	$html: function() { return '<a href="#" click="return false" />'; },
 	
@@ -318,9 +318,9 @@ Dino.declare('Dino.widgets.Anchor', 'Dino.Widget', /** @lends Dino.widgets.form.
 /**
  * @class
  * @name Dino.widgets.form.SelectOption
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.declare('Dino.widgets.SelectOption', 'Dino.Widget', /** @lends Dino.widgets.form.SelectOption.prototype */{
+Dino.declare('Dino.widgets.SelectOption', 'Dino.core.Widget', /** @lends Dino.widgets.form.SelectOption.prototype */{
 	
 	$html: function() { return '<option/>'; },
 	
@@ -411,7 +411,7 @@ Dino.declare('Dino.widgets.Select', 'Dino.Container', /** @lends Dino.widgets.fo
 
 
 
-Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
+Dino.declare('Dino.widgets.Text', 'Dino.core.Widget', {
 	
 	defaultOptions: {
 		html: '<span/>'
@@ -443,7 +443,7 @@ Dino.declare('Dino.widgets.Text', 'Dino.Widget', {
 
 
 
-Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @lends Dino.widgets.Button.prototype */{
+Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.core.Widget', /** @lends Dino.widgets.Button.prototype */{
 	
 	$html: function() { return '<button type="button"/>'; },
 	
@@ -482,9 +482,9 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.Widget', /** @le
  * Изображение.
  * 
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.Widget, /** @lends Dino.widgets.Image.prototype */{
+Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.core.Widget, /** @lends Dino.widgets.Image.prototype */{
 	
 	$html: function() { return '<img></img>';},
 	

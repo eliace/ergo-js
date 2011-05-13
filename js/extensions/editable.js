@@ -1,5 +1,5 @@
 
-//= require "../core/widget"
+//= require <core/widget>
 
 
 

@@ -19,7 +19,7 @@ var grid = $.dino({
     columns: [{
       dataId: 'id',
       header: 'ID',
-      width: 50
+      width: 50,
     }, {
       dataId: 'string',
       header: 'Строка'

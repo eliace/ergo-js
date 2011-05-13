@@ -1,13 +1,17 @@
 
+//= require <containers/box>
+//= require <layouts/dock>
+//= require <layouts/float>
+//= require <widgets/buttons/icon-button>
 
 
 
 /**
  * @class
  * @name Dino.widgets.Panel
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.declare('Dino.widgets.Panel', 'Dino.Widget', /** @lends Dino.widgets.Panel.prototype */{
+Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.Panel.prototype */{
 	
 	defaultCls: 'dino-panel',
 	

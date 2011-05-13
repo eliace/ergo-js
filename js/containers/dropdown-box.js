@@ -34,7 +34,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 					e.stopPropagation();					
 				}
 			}						
-		});//(o.glassBox instanceof Dino.Widget) ? o.glassBox : $.dino(o.glassBox);
+		});//(o.glassBox instanceof Dino.core.Widget) ? o.glassBox : $.dino(o.glassBox);
 		
 //		// создаем прозрачную панель для перехвата событий
 //    this.glass_panel =  $('<div class="dino-glass-pane"></div>');

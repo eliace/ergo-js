@@ -4,14 +4,14 @@
  * COMBO FIELD
  */
 
-.dino-combo-field {
+.dino-field {
 	display: inline-block;
 	line-height: 1px;
 	background-color: #fff;
 /*	padding: 1px;*/
 }
 
-.dino-combo-field > input {
+.dino-field > input {
 	padding: 0;
 	outline: none;
 	margin: 0;

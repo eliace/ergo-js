@@ -1,5 +1,5 @@
 
-//= require "../containers/box"
+//= require <containers/box>
 
 
 /**

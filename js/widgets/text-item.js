@@ -1,14 +1,14 @@
 
-//= require "../layouts/hbox"
+//= require <layouts/hbox>
 //= require "images"
 //= require "native"
 
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.Widget', /** @lends Dino.widgets.TextItem.prototype */{
+Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget', /** @lends Dino.widgets.TextItem.prototype */{
 	
 	$html: function() { return '<span></span>'; },	
 	

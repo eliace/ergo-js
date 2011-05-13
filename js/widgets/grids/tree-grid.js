@@ -53,7 +53,7 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 	clear: function() {
 //		var self = this;
 		if(this.container instanceof Dino.Layout) {
-			while(this.items.length() > 0) this.remove(this.items.first());
+			while(this.items.length > 0) this.remove(this.items[0]);
 		}
 		Dino.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 	},
@@ -122,7 +122,7 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
 Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid', /** @lends Dino.widgets.TreeGrid.prototype */{
 	

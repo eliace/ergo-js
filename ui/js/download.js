@@ -1,82 +1,120 @@
 
-var downloadTree = [{
+var downloadTree = new Dino.data.ArrayDataSource([{
 	name: 'Core',
+	id: 'core',
 	type: 'group',
-	selected: true,
-	locked: true,
+	selected: [0, 1],
+	locks: 1,
 	children: [{
 		name: 'Core',
-		locked: true,
-		selected: true
+		locks: 1,
+		selected: [0, 1],
 	}]
 }, {
 	name: 'Containers',
 	type: 'group',
 	children: [{
-		name: 'Box'
+		id: 'containers/box',
+		name: 'Box',
 	}, {
-		name: 'ControlBox'
+		id: 'containers/control-box',
+		name: 'ControlBox',
+		dependsOn: ['containers/box']
 	}, {
-		name: 'DropdownBox'
+		id: 'containers/dropdown-box',
+		name: 'DropdownBox',
+		dependsOn: ['containers/box', 'containers/glass-box']
 	}, {
-		name: 'Form'
+		id: 'containers/form',
+		name: 'Form',
+		dependsOn: ['containers/box']
 	}, {
-		name: 'GlassBox'
+		id: 'containers/glass-box',
+		name: 'GlassBox',
+		dependsOn: ['containers/box']
 	}, {
-		name: 'GroupBox'
+		id: 'containers/group-box',
+		name: 'GroupBox',
+		dependsOn: ['containers/box']
 	}, {
-		name: 'Tabs'
+		id: 'containers/tabs',
+		name: 'Tabs',
+		dependsOn: ['containers/box', 'layouts/stack']
 	}]
 }, {
 	name: 'Extensions',
+//	id: 'extensions',
 	type: 'group',
 	children: [{
+		id: 'extensions/clickable',
 		name: 'Clickable'
 	}, {
+		id: 'extensions/draggable',
 		name: 'Draggable'
 	}, {
+		id: 'extensions/droppable',
 		name: 'Droppable'
 	}, {
+		id: 'extensions/editable',
 		name: 'Editable'
 	}, {
+		id: 'extensions/focusable',
 		name: 'Focusable'
 	}, {
+		id: 'extensions/selectable',
 		name: 'Selectable'
 	}]
 }, {
 	name: 'Framework',
 	type: 'group',
 	children: [{
-		name: 'Application'
+		id: 'framework/application',
+		name: 'Application',
+		dependsOn: ['widgets/dialogs/growl']
 	}]
 }, {
 	name: 'Layouts',
 	type: 'group',
 	children: [{
+		id: 'layouts/3c',
 		name: '3-Column'
 	}, {
+		id: 'layouts/border',
 		name: 'Border'
 	}, {
+		id: 'layouts/column',
 		name: 'Column'
 	}, {
+		id: 'layouts/dock',
 		name: 'Dock'
 	}, {
+		id: 'layouts/float',
 		name: 'Float'
 	}, {
+		id: 'layouts/form',
 		name: 'Form'
 	}, {
+		id: 'layouts/hbox',
 		name: 'HBox'
 	}, {
+		id: 'layouts/inherited',
 		name: 'Inherited'
 	}, {
+		id: 'layouts/plain',
+		locks: 1,
+		selected: [0, 1],
 		name: 'Plain'
 	}, {
+		id: 'layouts/stack',
 		name: 'Stack'
 	}, {
+		id: 'layouts/stateful',
 		name: 'Stateful'
 	}, {
+		id: 'layouts/vbox',
 		name: 'VBox'
 	}, {
+		id: 'layouts/window',
 		name: 'Window'
 	}]
 }, {
@@ -101,89 +139,165 @@ var downloadTree = [{
 	name: 'Widgets',
 	type: 'group',
 	children: [{
-		name: 'Field'
+		id: 'widgets/field',
+		name: 'Field',
+		dependsOn: ['widgets/native', 'layouts/hbox', 'extensions/focusable']
 	}, {
-		name: 'Editors'
+		id: 'widgets/editors',
+		name: 'Editors',
+		dependsOn: ['widgets/field', 'widgets/list-box', 'widgets/images', 'containers/dropdown-box']
 	}, {
+		id: 'widgets/images',
 		name: 'Images'
 	}, {
-		name: 'ListView'
+		id: 'widgets/list-box',
+		name: 'ListView',
+		dependsOn: ['widgets/text-item', 'containers/box', 'extensions/selectable']
 	}, {
-		name: 'Loader'
+		id: 'widgets/loading',
+		name: 'Loader',
+		dependsOn: ['containers/box']
 	}, {
+		id: 'widgets/native',
 		name: 'Native'
 	}, {
-		name: 'Pager'
+		id: 'widgets/pager',
+		name: 'Pager',
+		dependsOn: ['containers/control-box', 'widgets/buttons/icon-button']
 	}, {
+		id: 'widgets/table',
 		name: 'Table'
 	}, {
-		name: 'TextItem'
+		id: 'widgets/text-item',
+		name: 'TextItem',
+		dependsOn: ['widgets/native', 'widgets/images', 'layouts/hbox']
 	}, {
-		name: 'Uploader'
+		id: 'widgets/uploader',
+		name: 'Uploader',
+		dependsOn: ['widgets/native']
 	}, {
 		name: 'Buttons',
 		type: 'group2',
 		children: [{
-			name: 'DropdownButton'
+			id: 'widgets/buttons/dropdown-button',
+			name: 'DropdownButton',
+			dependsOn: ['widgest/menus/menu-item', 'widgets/buttons/text-button']
 		}, {
-			name: 'IconButton'
+			id: 'widgets/buttons/icon-button',
+			name: 'IconButton',
+			dependsOn: ['widgets/native', 'widgets/images']
 		}, {
-			name: 'TextButton'
+			id: 'widgets/buttons/text-button',
+			name: 'TextButton',
+			dependsOn: ['widgets/native', 'widgets/images', 'layouts/hbox']
 		}]
 	}, {
 		name: 'Dialogs',
 		type: 'group2',
 		children: [{
-			name: 'Dialog'
+			id: 'widgets/dialogs/dialog',
+			name: 'Dialog',
+			dependsOn: ['containers/control-box', 'layouts/window', 'widgets/panels/panel', 'widgets/buttons/text-button']
 		}, {
-			name: 'Growl'
+			id: 'widgets/dialogs/growl',
+			name: 'Growl',
+			dependsOn: ['containers/control-box', 'layouts/column'/*, 'widgets/panels/panel'*/, 'widgets/buttons/text-button']
 		}, {
-			name: 'Message'
+			id: 'widgets/dialogs/message',
+			name: 'Message',
+			dependsOn: ['widgets/dialogs/dialog']
 		}]
 	}, {
 		name: 'Fields',
 		type: 'group2',
 		children: [{
-			name: 'DropdownField'
+			id: 'widgets/fields/dropdown-field',
+			name: 'DropdownField',
+			dependsOn: ['widgets/fields/text-field', 'containers/dropdown-box', 'widgets/list-box', 'widgets/buttons/icon-button']
 		}, {
-			name: 'SpinnerField'
+			id: 'widgets/fields/spinner-field',
+			name: 'SpinnerField',
+			dependsOn: ['widgets/fields/text-field', 'widgets/images']
 		}, {
-			name: 'TextField'
+			id: 'widgets/fields/text-field',
+			name: 'TextField',
+			dependsOn: ['widgets/field']
 		}]
 	}, {
 		name: 'Grids',
 		type: 'group2',
 		children: [{
-			name: 'Grid'
+			id: 'widgets/grids/grid',
+			name: 'Grid',
+			dependsOn: ['widgets/table']
 		}, {
-			name: 'TreeGrid'
+			id: 'widgets/grids/tree-grid',
+			name: 'TreeGrid',
+			dependsOn: ['widgets/grids/grid', 'layouts/stateful', 'widgets/trees/tree']
 		}]
 	}, {
 		name: 'Menus',
 		type: 'group2',
 		children: [{
-			name: 'MenuBox'
+			id: 'widgets/menus/menu-item',
+			name: 'MenuBox',
+			dependsOn: ['containers/box', 'widgets/native', 'widgets/images']
 		}, {
-			name: 'ContextMenu'
+			id: 'widgets/menus/context-menu',
+			name: 'ContextMenu',
+			dependsOn: ['widgets/menus/menu-item']
 		}]
 	}, {
 		name: 'Panels',
 		type: 'group2',
 		children: [{
-			name: 'Panel'
+			id: 'widgets/panels/panel',
+			name: 'Panel',
+			dependsOn: ['containers/box', 'layouts/dock', 'layouts/float', 'widgets/buttons/icon-button']
 		}, {
-			name: 'TabPanel'
+			id: 'widgets/panels/tab-panel',
+			name: 'TabPanel',
+			dependsOn: ['containers/tabs', 'widgets/text-item', 'layouts/stack']
 		}]
 	}, {
 		name: 'Trees',
 		type: 'group2',
 		children: [{
-			name: 'Tree'
+			id: 'widgets/trees/tree',
+			name: 'Tree',
+			dependsOn: ['containers/box', 'widgets/images', 'widgets/text-item']
 		}]
 	}]
-}];
+}]);
 
 
+
+
+
+var lock_dependencies = function(dependencies, lock) {
+	
+	if(!dependencies) return;
+	
+	downloadTree.walk(function(entry, i){
+		var v = entry.val();
+		if(v && v.id) {
+			if(Dino.include(dependencies, v.id)) {
+				if(!v.locks) v.locks = 0;
+				v.locks += (lock ? 1 : -1);
+				v.locks = Math.max(v.locks, 0);
+				if(v.selected) v.selected[1] = v.locks;
+				else v.selected = [0, v.locks];
+				if(!v.selected[0] && !v.selected[1]) v.selected = null;
+				
+				entry.set('selected', v.selected);
+				
+				lock_dependencies(v.dependsOn, lock);
+			}
+			return;
+		}
+	});	
+	
+}
 
 
 
@@ -197,6 +311,7 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 //				cls: 'cascade-item-title',
 				content: {
 					dtype: 'text-item',
+					cls: 'dino-clickable',
 					components: {
 						checkbox: {
 							weight: 1,
@@ -208,9 +323,10 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 								if( children ) {
 									children.each_item(function(item){
 										item.set('selected', val);
+										lock_dependencies(item.get('dependsOn'), val ? true : false);
 									});
 								}
-								this.opt('disabled', this.data.source.get('locked'));
+								this.opt('disabled', this.data.source.get('locks'));								
 							}
 						},
 						content: {
@@ -218,10 +334,15 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 							events: {
 								'click': function(e, w) {
 									var data = w.data.source;
-									if(!data.get('locked')){
-										var selected = data.get('selected');
-										data.set('selected', selected ? false : true);										
+									var val = data.val();
+									
+									if(!val.locks) {
+										data.set('selected', val.selected ? null : [1, 0]);
+
+										lock_dependencies(val.dependsOn, val.selected ? true : false);
+										
 									}
+																		
 								}
 							}
 						}

@@ -1,5 +1,5 @@
 
-//= require "../core/widget"
+//= require <core/widget>
 
 
 /**
@@ -8,9 +8,9 @@
  * Как правило используется в тех случаях, огда заранее неизвестны размеры изображения
  *
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.Widget, /** @lends Dino.utils.AsyncImage.prototype */{
+Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.core.Widget, /** @lends Dino.utils.AsyncImage.prototype */{
 	
 	$html: function() { return '<div></div>';},
 	
@@ -99,9 +99,9 @@ Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', Dino.Widget, /** @
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', Dino.Widget, /** @lends Dino.widgets.Icon.prototype */{
+Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', Dino.core.Widget, /** @lends Dino.widgets.Icon.prototype */{
 	
 	defaultCls: 'dino-icon',
 	

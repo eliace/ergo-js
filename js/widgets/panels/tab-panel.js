@@ -1,12 +1,14 @@
 
 //= require <containers/tabs>
+//= require <widgets/text-item>
+//= require <layouts/stack>
 
 /**
  * @class
  * @name Dino.panels.TabPanel
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPanel.prototype */{
+Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.TabPanel.prototype */{
 	
 	$html: function() { return '<div></div>'; },
 	
@@ -113,7 +115,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.Widget', /** @lends Dino.panels.TabPa
 	
 	addPage: function(item) {
 		
-		var tabOpts = (item instanceof Dino.Widget) ? item.options.tab : item.tab;
+		var tabOpts = (item instanceof Dino.core.Widget) ? item.options.tab : item.tab;
 		if(Dino.isString(tabOpts)) tabOpts = {text: tabOpts};
 		var tab = this.tabs.addItem( {content: tabOpts || {}} );
 		

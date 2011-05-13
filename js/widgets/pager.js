@@ -1,5 +1,5 @@
 
-//= require "../containers/control-box"
+//= require <containers/control-box>
 //= require "buttons/icon-button"
 
 

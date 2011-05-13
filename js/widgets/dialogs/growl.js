@@ -1,9 +1,9 @@
 
-//= require "../../containers/control-box"
-//= require "../../layouts/column"
+//= require <containers/control-box>
+//= require <layouts/column>
 //= require "../buttons/text-button"
 
-Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.Widget', {
+Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
 
 	defaultOptions: {
 		html: '<div/>',

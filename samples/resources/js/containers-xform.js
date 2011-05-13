@@ -36,7 +36,7 @@ $.dino({
       dataId: 'text1',
       dtype: 'text-field',
       cls: 'dino-form-field',
-      defaultText: 'Введите число...',
+      placeholder: 'Введите число...',
       validate: Dino.validators.floatNumber
     }
   },{

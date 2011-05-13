@@ -40,7 +40,7 @@ var widget = $.dino({
               updateBuffer.del(val);
               item.data.del();
             });
-            grid.pager.opt('count', grid.pager.count - grid.selection.size() );
+            grid.pager.opt('count', grid.pager.count - grid.selection.count() );
           }
           else if(this.tag == 'refresh') {
             gridData.source = Samples.generate_grid_page(0, 120);
@@ -166,13 +166,9 @@ var widget = $.dino({
           header: 'Цена',
           format: Dino.format_currency.rcurry('$'),
           editor: {
-            components: {
-              input: {
-                store: function(val) {
-                  return Dino.isString(val) ? parseFloat(val) : val; 
-                }                
-              }
-            }
+            store: function(val) {
+              return Dino.isString(val) ? parseFloat(val) : val; 
+            }                
           }
         }, {
           dataId: 'date',

@@ -5,7 +5,7 @@
 Dino.utils = (function(){
 	var U = {};
 	
-	U.create_widget_filter = function(i) {
+	U.widget_filter = function(i) {
 		
 		var f = null;
 		
@@ -45,7 +45,15 @@ Dino.filters = (function(){
 	F.by_class = function(clazz, child){
 		return (child instanceof clazz);
 	}
-		
+	
+	F.ne = function(obj) {
+		return function(it) { return obj != it; };
+	}
+
+	F.eq = function(obj) {
+		return function(it) { return obj == it; };
+	}
+	
 	return F;
 })();
 

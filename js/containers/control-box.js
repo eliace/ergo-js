@@ -21,9 +21,9 @@ Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.Widget', /** @lends Dino.widgets.Split.prototype */{
+Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.core.Widget', /** @lends Dino.widgets.Split.prototype */{
 	
 	$html: function() { return '<div>&nbsp;</div>' },
 	

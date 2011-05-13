@@ -1,9 +1,9 @@
 
-//= require <widgets/combo-field>
+//= require <widgets/field>
 
 
 
-Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
+Dino.declare('Dino.widgets.TextField', 'Dino.widgets.Field', {
 	
 	defaultCls: 'dino-text-field',
 	
@@ -32,9 +32,9 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 //			else
 //				this.input.el.val(this.getValue());
 
-			if(this.states.is('default-text')) {
+			if(this.states.is('placeholder')) {
 				this.input.el.val(this.getRawValue());
-				this.states.clear('default-text');				
+				this.states.clear('placeholder');				
 			}
 			
 //			this.states.toggle('default-text', false);
@@ -52,13 +52,13 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.ComboField', {
 		},
 		changeOnBlur: true,
     updateOnValueChange: true,
-		defaultText: '',
+		placeholder: '',
 		
 		format: function(val) {
 			var o = this.options;
 			var empty_val = (val === '' || val === null || val === undefined);
-			this.states.toggle('default-text', empty_val);
-			return (empty_val) ? o.defaultText : val;
+			this.states.toggle('placeholder', empty_val);
+			return (empty_val) ? o.placeholder : val;
 		}
 	}	
 	

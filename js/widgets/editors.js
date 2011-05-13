@@ -1,10 +1,10 @@
 
-//= require "combo-field"
+//= require "field"
 //= require <containers/dropdown-box>
 //= require "list-box"
 //= require "images"
 
-Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.ComboField', {
+Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 	
 	defaultOptions: {
 		autoFit: true,

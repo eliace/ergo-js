@@ -4,12 +4,12 @@
 //= require <extensions/focusable>
 
 
-Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
+Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
 	
 	$html: function() {return '<div/>';},
 	
 	defaultOptions: {
-		cls: 'dino-combo-field',
+		cls: 'dino-field',
 		layout: 'hbox',
     components: {
       input: {
@@ -38,7 +38,7 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.ComboField.superclass.$dataChanged.apply(this, arguments);
+		Dino.widgets.Field.superclass.$dataChanged.apply(this, arguments);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus()) 
 			this.input.el.val( this.getRawValue() );
@@ -46,4 +46,4 @@ Dino.declare('Dino.widgets.ComboField', 'Dino.Widget', {
 			this.input.el.val( this.getValue() );
 	}	
 	
-}, 'combo-field');
+}, 'field');

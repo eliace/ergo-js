@@ -1,5 +1,5 @@
 
-
+//= require "menu-item"
 
 
 

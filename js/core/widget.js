@@ -1,7 +1,7 @@
 
 //= require "events"
 //= require "data"
-//= require "components"
+//= require "collection"
 //= require "states"
 //= require <layouts/plain>
 //= require "utils"
@@ -18,6 +18,7 @@ Dino.parsers = {};
 Dino.validators = {};
 
 
+
 /**
  * Базовый объект для всех виджетов
  * 
@@ -25,7 +26,10 @@ Dino.validators = {};
  * @extends Dino.events.Observer
  * @param {Object} o параметры
  */
-Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Widget.prototype */{
+Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @lends Dino.core.Widget.prototype */{
+	
+	aaa: 'Widget',
+	
 	
 	/**
 	 * @static
@@ -38,7 +42,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 			'disabled': 'disabled',
 			'invalid': 'invalid'
 		},
-		defaults: {},
+//		defaults: {},
 		extensions: [Dino.Observable, Dino.Statable],
 		binding: 'auto',
 		layoutFactory: function(layout) {
@@ -54,37 +58,17 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 	customOptions: {
 	},
 
-/*
-	initializeClass: function() {
-		
-		var o = {};
-		
-		if(!this.constructor.NO_REBUILD_SKELETON) {
-			var prevDefaultOptions = null;
-			Dino.hierarchy(this.constructor, function(clazz){
-				if(clazz.defaultOptions == prevDefaultOptions) return;
-				// следуюющие две строчки реализуют синонимизацию defaultOptions и skeleton
-				if('defaultOptions' in clazz) Dino.smart_override(o, clazz.defaultOptions);
-				if('skeleton' in clazz) Dino.smart_override(o, clazz.skeleton);
-				prevDefaultOptions = clazz.defaultOptions; 
-			});
-			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaultOptions = Dino.deep_copy(o);
-			
-		}		
-	},
-*/
 			
 	initialize: function() {
 		
 		profiler.start('widget');
 		
-		Dino.Widget.superclass.initialize.apply(this, arguments);
+		Dino.core.Widget.superclass.initialize.apply(this, arguments);
 		
 		var html = arguments[0];
 		var opts = arguments[1];
 		
-		// new Dino.Widget('<div/>') или new Dino.Widget({...})
+		// new Dino.core.Widget('<div/>') или new Dino.core.Widget({...})
 		if(arguments.length == 1){ 
 			if(Dino.isString(arguments[0])){
 				html = arguments[0];
@@ -147,9 +131,22 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 		
 		/** 
 		 * Коллекция дочерних компонентов 
-		 * @type Dino.WidgetCollectionManager
+		 * @type Dino.core.WidgetCollectionManager
 		 */
-		this.children = new Dino.ComponentCollection(this);
+		this.children = new Dino.core.Array();
+		this.children.events
+			.reg('item:add', function(e){
+				var item = e.item;
+				
+				item.parent = self;	
+				
+				// выполняем автобиндинг
+				if(self.data && !item.data)
+					item.$bind(self.data, 2);				
+			})
+			.reg('item:remove', function(e){
+				delete e.item.parent;
+			});
 		
 		/** 
 		 * Набор состояний
@@ -283,19 +280,19 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 	/**
 	 * Хук, вызываемый при добавлении виджета на страницу
 	 * 
-	 * @param {Element|Dino.Widget} target
+	 * @param {Element|Dino.core.Widget} target
 	 * @private
 	 */
 	$render: function(target) {
 		if(target){
-			if(target instanceof Dino.Widget) {
+			if(target instanceof Dino.core.Widget) {
 				target.addComponent('content', this);
 			}
 			else {
 				$(target).append(this.el);
 			}
 			
-//			var parentEl = (target instanceof Dino.Widget) ? target.el : $(target);
+//			var parentEl = (target instanceof Dino.core.Widget) ? target.el : $(target);
 //			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
@@ -491,7 +488,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 			var cm = o.contextMenu;
 			
 			if(Dino.isFunction(cm)) cm = cm.call(this);
-			if(cm && !(cm instanceof Dino.Widget)) cm = Dino.widget(cm);
+			if(cm && !(cm instanceof Dino.core.Widget)) cm = Dino.widget(cm);
 			
 			if(cm) {
 			
@@ -555,7 +552,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 	 * методов/свойств виджета.
 	 * 
 	 * @param {String} key ключ (имя) компонента. Если компонент с таким именем уже существует, то он будет удален из компоновки
-	 * @param {Object|Dino.Widget} o виджет или параметры виджета
+	 * @param {Object|Dino.core.Widget} o виджет или параметры виджета
 	 */
 	addComponent: function(key, o){
 		// если компонент уже существует, то удаляем его
@@ -565,7 +562,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 		if('baseCls' in this.options)
 			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});
 		
-		this[key] = (o instanceof Dino.Widget) ? o : Dino.widget(o);
+		this[key] = (o instanceof Dino.core.Widget) ? o : Dino.widget(o);
 		this.children.add( this[key] );
 		
 		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
@@ -627,7 +624,7 @@ Dino.Widget = Dino.declare('Dino.Widget', 'Dino.core.Object', /** @lends Dino.Wi
 		
 		var parents = this.getParents();
 		
-		return Dino.find(parents, Dino.utils.create_widget_filter(i));
+		return Dino.find(parents, Dino.utils.widget_filter(i));
 	},
 	
 	//---------------------------------------------

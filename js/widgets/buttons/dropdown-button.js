@@ -1,6 +1,6 @@
 
 //= require "text-button"
-//= require "../menus/menu-item"
+//= require <widgets/menus/menu-item>
 
 
 Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {

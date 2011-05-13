@@ -6,9 +6,9 @@
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
-Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.Widget', /** @lends Dino.widgets.TreeNode.prototype */{
+Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.core.Widget', /** @lends Dino.widgets.TreeNode.prototype */{
 
 	defaultOptions: {
 		cls: 'dino-tree-node',
@@ -178,7 +178,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 
 
 /*
-Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
+Dino.declare('Dino.widgets.Tree', 'Dino.core.Widget', {
 	
 	$html: function() { return '<div></div>'; },
 	
@@ -410,7 +410,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 
 
 /*
-Dino.declare('Dino.widgets.Tree', 'Dino.Widget', {
+Dino.declare('Dino.widgets.Tree', 'Dino.core.Widget', {
 	
 	defaultOptions: {
 		cls: 'tree'

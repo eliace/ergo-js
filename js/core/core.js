@@ -87,7 +87,9 @@ var Dino = (function(){
 		ctor.super_ctor = p_ctor;
 		
 		D.override(ctor.prototype, overrides);
-
+		
+		ctor.extend = function(o) { return D.extend(this, o); }
+		
 		return ctor;
 	};
 	
@@ -304,6 +306,15 @@ var Dino = (function(){
 			if( fn.call(arr, arr[i], i) ) result.push(arr[i]);
 		return result;
 	}
+	
+	
+	D.filter_keys = function(src, fn){
+		var result = [];
+		for(var i in src)
+			if(fn.call(src, src[i], i)) result.push(i);
+		return result;
+	};
+	
 	
 	/**
 	 * Псевдоним для {@link Dino.filter}
@@ -758,7 +769,9 @@ var Dino = (function(){
 		};
 	};
 	
-	
+//	Function.prototype.extend = function(overrides) {
+//		return D.extend(this, overrides);		
+//	}
 	
 	
 	D.core = {};
@@ -801,7 +814,13 @@ var Dino = (function(){
 //	D.core.Object.prototype.base = function(method, args) {
 //		eval(this.className + '.superclass.'+method+'.apply(this, args)');
 //	};
-	
+
+	D.core.Object.extend = function(overrides) {
+		return D.extend(this, overrides);
+//		ctor.extend = this.extend;
+//		return ctor;
+	}
+
 	D.log = function(msg) {
 		// Если установлен Firebug, то используем его консоль
 		if(console) console.log(msg);

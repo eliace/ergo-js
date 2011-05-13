@@ -16,7 +16,7 @@ $.dino({
     onCreated: function() {
       this.input.el.autocomplete(acData);
     },
-    defaultText: 'Enter month'
+    placeholder: 'Enter month'
   }, {
     dtype: 'box',
     cls: 'label-box',
@@ -47,6 +47,6 @@ $.dino({
         }
       });      
     },
-    defaultText: 'Select date'
+    placeholder: 'Select date'
   }]
 });

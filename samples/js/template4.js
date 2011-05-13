@@ -172,6 +172,7 @@ $(document).ready(function(){
 	
 	var southRegionH = 0;
 	
+	try{
 	
 /*
 	// Растягиваем страницу на всю высоту окна	
@@ -187,7 +188,11 @@ $(document).ready(function(){
 		growl.err(xhr.responseText);
 	});
 */	
+
 	
+//	window.onerror = function(message, errorURL, lineNumber){
+//		console.log(arguments);
+//	};	
 	
 	
 /*	
@@ -227,6 +232,8 @@ $(document).ready(function(){
 //				dtype: 'control-box',
 //				id: 'main-toolbar'
 //			},
+
+
 			// Содержимое
 			pageContent: {
 				dtype: 'box',
@@ -298,18 +305,7 @@ $(document).ready(function(){
 							}
 						}
 					}
-				}/*, {
-					dtype: 'box',
-					width: 6,
-					height: 'auto',
-					cls: 'dino-split-bar',
-//					events: {
-//						'mousedown': function(e) {
-//							eventPane.el.css({'display': 'block', 'cursor': 'col-resize'});
-//							dragSplit = true;
-//						}
-//					}
-				}*/, {
+				}, {
 					dtype: 'box',
 					tag: 'preview_and_code',
 					height: 'auto',
@@ -414,10 +410,14 @@ $(document).ready(function(){
 					}]
 				}]
 			}
+			
 		}
 	});
 	
-			
+	}
+	catch(e) {
+		console.log(e.mesage + ', ' + e.lineNumber);
+	}
 
 });
 

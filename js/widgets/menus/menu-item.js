@@ -1,9 +1,12 @@
 
+//= require <containers/box>
+//= require <widgets/native>
+//= require <widgets/images>
 
 
 /**
  * @class
- * @extends Dino.Widget
+ * @extends Dino.core.Widget
  */
 Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.Box', /** @lends Dino.widgets.MenuItem.prototype */{
 	
