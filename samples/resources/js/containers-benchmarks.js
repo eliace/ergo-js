@@ -43,7 +43,7 @@ var panel = $.dino({
           growl.info(profiler.print_result('widget'));
         }
       }, {
-        text: 'Поэлементные события',
+        text: 'Run',
         onAction: function() {
           panel.outputPane.el.empty();
           
@@ -51,11 +51,44 @@ var panel = $.dino({
           
           var t0 = Dino.timestamp();
           
+/*					
           for(var i = 0; i < testData.length; i++) {
-            var el = $('<div>Item '+i+'</div>');
+            var el = $('<div></div>');
             el.addClass('test');
+						el.text('Item '+i);
+//						el.click(Dino.noop);
             panel.outputPane.el.append(el);
           }
+*/
+
+					
+					var stream = '<div>';
+          for(var i = 0; i < testData.length; i++) {
+						var tag = 'div';
+						var baseCls = 'test';
+						var text = 'Item'+i;
+						var id = 'id-'+i;
+						
+						var stream = '';
+						stream += '<'+tag+' id="'+id+'"';
+						if(baseCls) stream += ' class="'+text+'"';
+						stream += '>';
+						if(text) stream += text;
+						stream += '</'+tag+'>';
+						
+          	panel.outputPane.el.append($(stream));
+
+//						stream += Dino.format('<div id="" class=""></div>');
+
+//						stream += '<div id="'+id+'" class="'+baseCls+'">'+text+'</div>';
+          }
+					stream += '</div>';
+					
+
+          for (var i = 0; i < testData.length; i++) {
+						$('#id-'+i).click(Dino.noop);
+		  		}
+
           
           var t1 = Dino.timestamp();
           

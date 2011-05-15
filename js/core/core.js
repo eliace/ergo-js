@@ -774,60 +774,60 @@ var Dino = (function(){
 //	}
 	
 	
-	D.core = {};
-	
-	/**
-	 * Базовый объект
-	 * 
-	 * @constructor
-	 * @memberOf Dino
-	 * @name core.Object
-	 */
-	D.core.Object = function() {
-		this.initialize.apply(this, arguments);
-	};
-	
-	/** 
-	 * @function 
-	 * @name Dino.core.Object#initialize 
-	 */
-	D.core.Object.prototype.initialize = function() {
-//		if(this.plugins) {
-//			for(var i = 0; i < this.plugins.length; i++) {
-//				var plugin = this.plugins[i];
-//				if(Dino.isFunction(plugin))
-//					plugin.call(this, true);
-//				else
-//					Dino.override_r(this, plugin);
-//			}
-//		}
-	};
-	/**
-	 * @function
-	 * @name Dino.core.Object#destroy
-	 */
-	D.core.Object.prototype.destroy = function() {};
-	/**
-	 * @function
-	 * @name Dino.core.Object#base
-	 */
-//	D.core.Object.prototype.base = function(method, args) {
-//		eval(this.className + '.superclass.'+method+'.apply(this, args)');
+//	D.core = {};
+//	
+//	/**
+//	 * Базовый объект
+//	 * 
+//	 * @constructor
+//	 * @memberOf Dino
+//	 * @name core.Object
+//	 */
+//	D.core.Object = function() {
+//		this.initialize.apply(this, arguments);
 //	};
+//	
+//	/** 
+//	 * @function 
+//	 * @name Dino.core.Object#initialize 
+//	 */
+//	D.core.Object.prototype.initialize = function() {
+////		if(this.plugins) {
+////			for(var i = 0; i < this.plugins.length; i++) {
+////				var plugin = this.plugins[i];
+////				if(Dino.isFunction(plugin))
+////					plugin.call(this, true);
+////				else
+////					Dino.override_r(this, plugin);
+////			}
+////		}
+//	};
+//	/**
+//	 * @function
+//	 * @name Dino.core.Object#destroy
+//	 */
+//	D.core.Object.prototype.destroy = function() {};
+//	/**
+//	 * @function
+//	 * @name Dino.core.Object#base
+//	 */
+////	D.core.Object.prototype.base = function(method, args) {
+////		eval(this.className + '.superclass.'+method+'.apply(this, args)');
+////	};
+//
+//	D.core.Object.extend = function(overrides) {
+//		return D.extend(this, overrides);
+////		ctor.extend = this.extend;
+////		return ctor;
+//	}
 
-	D.core.Object.extend = function(overrides) {
-		return D.extend(this, overrides);
-//		ctor.extend = this.extend;
-//		return ctor;
-	}
-
-	D.log = function(msg) {
-		// Если установлен Firebug, то используем его консоль
-		if(console) console.log(msg);
-	};
-	
-	D.constants = {
-	};
+//	D.log = function(msg) {
+//		// Если установлен Firebug, то используем его консоль
+//		if(console) console.log(msg);
+//	};
+//	
+//	D.constants = {
+//	};
 	
 //	$.dino = D;
 	
