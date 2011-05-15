@@ -1,4 +1,5 @@
 
+//= require "collection"
 
 
 Dino.declare('Dino.core.Layout', 'Dino.core.Object', {

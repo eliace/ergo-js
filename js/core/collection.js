@@ -4,9 +4,13 @@
 
 Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
+	defaults: {
+		extensions: [Dino.Observable]
+	},
+	
 	initialize: function(src, options) {
+		Dino.core.Collection.superclass.initialize.call(this, options);
 		this.src = src || {};
-		Dino.Observable.call(this);
 	},
 	
 	set: function(item, i) {
@@ -95,8 +99,9 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	
 	initialize: function(src, options) {
-		this.src = src || [];
-		Dino.Observable.call(this);
+		Dino.core.Array.superclass.initialize.call(this, src || [], options);
+//		this.src = src || [];
+//		Dino.Observable.call(this);
 //		this.events = new Dino.events.Dispatcher();
 	},	
 	

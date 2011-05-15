@@ -1,5 +1,6 @@
 
-//= require "object"
+//= require "layout"
+//= require "collection"
 
 
 Dino.id_counter = 1;
@@ -39,10 +40,8 @@ Dino.declare('Dino.core.Widget', 'Dino.core.Object', {
 	
 	$render: function(target) {
 		
-		var html = o.html || this.html;		
-		html = html.replace(/%a/g, this.$print_attrs()).replace(/%c/g, this.$print_content());
 		
-		this.el = $(html);
+		this.el = $(this.$print());
 		$(target).append(el);
 		
 		this.$build();
@@ -70,34 +69,49 @@ Dino.declare('Dino.core.Widget', 'Dino.core.Object', {
 		
 	},
 	
+	
+	$print: function() {
+		
+		var o = this.options;
+		
+		var html = o.html || this.html;		
+		
+		var a = '';
+		var attrs = {};
+		this.$print_attrs(attrs);
+		Dino.each(attrs, function(v, k){ if(v) a += ' '+k+'="'+v+'"'; });
+		
+		return html.replace(/%a/g, a).replace(/%c/g, this.$print_content());
+	},
+	
 	$print_content: function() {
+
+		var o = this.options;
+		
+		if('text' in o) return o.text;
+		
 		return this.layout.print();
 	},
 	
-	$print_attrs: function() {
+	$print_attrs: function(a) {
 		
 		var o = this.options;
 		
 		var css = {};
 		var cls = [];
+
+		a.id = this.id;
 		
 		if('cls'in o) cls.push(o.cls);
 		if('style' in o) Dino.merge(css, o.css); 
 		if('width' in o) css.width = width;
 		if('height' in o) css.height = height;
-//		if('text' in o) attrs.text = o.text;
+		if('id' in o) a.id = o.id;
 		
-		var attrs = {};
+		a['class'] = cls.join(' ');
+		a.style = '';
+		Dino.each(css, function(k, v){ a.style += ''+k+':'+v; });
 		
-		attrs['class'] = cls.join(' ');
-		attrs['style'] = '';
-		Dino.each(css, function(k, v){ attrs['style'] += ''+k+':'+v; });
-		attrs['id'] = this.id;
-		
-		var s = '';
-		Dino.each(attrs, function(k, v){ s += ' '+k+'="'+v+'"'; });
-		
-		return s;
 	},
 	
 	
