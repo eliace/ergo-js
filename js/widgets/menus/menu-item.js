@@ -12,7 +12,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 	
 	defaultCls: 'dino-menu-item',
 	
-	defaultOptions: {
+	defaults: {
 		showOnEnter: true,
 		hideOnLeave: true,
 		layout:'dock',
@@ -158,7 +158,7 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
 	
 	defaultCls: 'dino-menu-dropdown',
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
@@ -190,7 +190,7 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
 	}
 	
 	
-//	defaultOptions: {
+//	defaults: {
 //		html: '<table cellspacing="0" cellpadding="0" border="0"><tbody/></table>',
 //		defaultItem: {
 //			dtype: 'box',

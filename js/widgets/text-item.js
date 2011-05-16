@@ -12,7 +12,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget'
 	
 	$html: function() { return '<span></span>'; },	
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-text-item',
 //		layout: 'dock',
 		layout: 'hbox',

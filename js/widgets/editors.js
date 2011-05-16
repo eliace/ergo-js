@@ -6,7 +6,7 @@
 
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 	
-	defaultOptions: {
+	defaults: {
 		autoFit: true,
 		cls: 'dino-text-editor',
 		events: {
@@ -65,7 +65,7 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Editor', {
  */
 Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			input: {
 				readOnly: true				
@@ -266,7 +266,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 
 Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 	
-	defaultOptions: {
+	defaults: {
     components: {
 			input: {
 				events: {

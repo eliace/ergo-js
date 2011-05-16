@@ -5,7 +5,7 @@
 
 Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-icon-button',
 		content: {
 			dtype: 'icon'

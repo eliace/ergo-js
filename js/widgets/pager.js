@@ -9,7 +9,7 @@
  */
 Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /** @lends Dino.widgets.Pager.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-pager',
 //		style: {'display': 'inline-block'},
 		binding: false,

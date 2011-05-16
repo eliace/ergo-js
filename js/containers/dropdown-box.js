@@ -8,7 +8,7 @@
  */
 Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.containers.Box', /** @lends Dino.containers.DropdownBox.prototype */ {
 	
-	defaultOptions: {
+	defaults: {
 		html: '<div autoheight="ignore"></div>',
 		effects: {
 			'show': 'none',

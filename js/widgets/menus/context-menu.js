@@ -6,7 +6,7 @@
 /*
 Dino.widgets.TextMenuItem = Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
 	
-	defaultOptions: {
+	defaults: {
 		baseCls: 'dino-menu-item',
 		components: {
 			content: {
@@ -43,7 +43,7 @@ Dino.widgets.TextMenuItem = Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widg
 /*
 Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', {
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			content: {
 				components: {
@@ -74,7 +74,7 @@ Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.wi
  */
 Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widgets.MenuDropdownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		hideOn: 'hoverOut',
 		baseCls: 'dino-context-menu',
 		renderTo: 'body',

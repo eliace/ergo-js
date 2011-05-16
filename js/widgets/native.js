@@ -6,7 +6,7 @@
 
 Dino.declare('Dino.widgets.Input', 'Dino.core.Widget', /** @lends Dino.widgets.form.InputField.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input type="text"></input>'
 	},
 	
@@ -119,7 +119,7 @@ Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.wid
  */
 Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.widgets.form.PasswordField.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input type="password"></input>'
 	}
 		
@@ -128,7 +128,7 @@ Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.
 
 Dino.declare('Dino.widgets.Submit', 'Dino.widgets.Input', {
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input type="submit"></input>'
 	},
 	
@@ -158,7 +158,7 @@ Dino.declare('Dino.widgets.Submit', 'Dino.widgets.Input', {
  */
 Dino.declare('Dino.widgets.File', Dino.widgets.TextInput, {
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input name="file-input" type="file"></input>'
 	},
 	
@@ -180,7 +180,7 @@ Dino.declare('Dino.widgets.File', Dino.widgets.TextInput, {
  */
 Dino.declare('Dino.widgets.Radio', Dino.widgets.Input, /** @lends Dino.widgets.form.Radio.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input type="radio"></input>'
 	}
 	
@@ -196,7 +196,7 @@ Dino.declare('Dino.widgets.Radio', Dino.widgets.Input, /** @lends Dino.widgets.f
  */
 Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widgets.form.Checkbox.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		html: '<input type="checkbox"></input>'
 	},
 	
@@ -241,7 +241,7 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
  */
 Dino.declare('Dino.widgets.TextArea', Dino.widgets.TextInput, /** @lends Dino.widgets.form.TextArea.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		html: '<textarea></textarea>'
 	}
 	
@@ -343,7 +343,7 @@ Dino.declare('Dino.widgets.SelectOption', 'Dino.core.Widget', /** @lends Dino.wi
 Dino.declare('Dino.widgets.Select', 'Dino.Container', /** @lends Dino.widgets.form.Select.prototype */{
 	$html: function() { return '<select/>'; },
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			optionsList: {
 				dtype: 'container',
@@ -413,7 +413,7 @@ Dino.declare('Dino.widgets.Select', 'Dino.Container', /** @lends Dino.widgets.fo
 
 Dino.declare('Dino.widgets.Text', 'Dino.core.Widget', {
 	
-	defaultOptions: {
+	defaults: {
 		html: '<span/>'
 	},
 	

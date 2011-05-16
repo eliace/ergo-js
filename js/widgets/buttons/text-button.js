@@ -8,7 +8,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	
 	aaa: 'TextButton',
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-text-button',
 		layout: 'hbox',
 		components: {

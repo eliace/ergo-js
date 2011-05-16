@@ -20,7 +20,7 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 		
 
 		$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
-			growl.error('<div>'+err.message+'</div>'+xhr.responseText, true);
+			growl.error('<div>'+err.message+' (line: '+err.lineNumber+')</div>'+xhr.responseText, true);
 		});
 		
 		

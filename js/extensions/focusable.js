@@ -17,11 +17,20 @@ Dino.Focusable = function(o) {
 		Dino.Focusable.focusManager.clear(this);
 	}
 	
-	var self = this;
-	this.el.click(function(e) {
-		self.setFocus();
-		e.stopPropagation();
-	});
+	Dino.smart_override(o, {
+		events: {
+			'click': function(e, w) {
+				w.setFocus();
+				e.stopPropagation();
+			}			
+		}
+	})
+	
+//	var self = this;
+//	this.el.click(function(e) {
+//		self.setFocus();
+//		e.stopPropagation();
+//	});
 	
 	o.focusable = true;
 }

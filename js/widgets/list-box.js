@@ -12,7 +12,7 @@ Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.Box
 	
 	defaultCls: 'dino-list-box',
 	
-	defaultOptions: {
+	defaults: {
     dynamic: true,
 		extensions: [Dino.Selectable],
 		defaultItem: {

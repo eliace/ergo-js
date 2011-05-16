@@ -4,7 +4,7 @@
 
 Dino.declare('Dino.layouts.HBox', 'Dino.layouts.PlainLayout', {
 	
-	defaultOptions: {
+	defaults: {
 		name: 'hbox'
 	}
 	

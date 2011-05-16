@@ -10,7 +10,7 @@
 Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', /** @lends Dino.containers.Tabs.prototype */{
 	
 	
-	defaultOptions: {
+	defaults: {
 		defaultItem: {
 			html: '<li/>',
 			cls: 'dino-tabs-item',

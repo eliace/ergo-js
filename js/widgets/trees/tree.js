@@ -10,7 +10,7 @@
  */
 Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.core.Widget', /** @lends Dino.widgets.TreeNode.prototype */{
 
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-tree-node',
 		components: {
 			subtree: {
@@ -86,7 +86,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.core.Widget'
 Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', /** @lends Dino.widgets.BasicTreeNode.prototype */{
 	
 	
-	defaultOptions: {
+	defaults: {
 //		baseCls: 'dino-basic-tree-node',
 		components: {
 			button: {
@@ -182,7 +182,7 @@ Dino.declare('Dino.widgets.Tree', 'Dino.core.Widget', {
 	
 	$html: function() { return '<div></div>'; },
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'tree',
 		components: {
 			content: {
@@ -229,7 +229,7 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
 	
 	$html: function() { return '<div></div>'; },
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'tree',
 		defaultSubItem: {
 			dtype: 'text-tree-item'
@@ -306,7 +306,7 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
  */
 Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /** @lends Dino.widgets.Tree.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-tree',
 		defaultItem: {
 			dtype: 'basic-tree-node',
@@ -412,7 +412,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /**
 /*
 Dino.declare('Dino.widgets.Tree', 'Dino.core.Widget', {
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'tree'
 	
 	

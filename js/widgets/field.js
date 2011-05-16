@@ -8,7 +8,7 @@ Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
 	
 	$html: function() {return '<div/>';},
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-field',
 		layout: 'hbox',
     components: {

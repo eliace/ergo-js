@@ -14,7 +14,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	
 	defaultCls: 'dino-tab-panel',
 	
-	defaultOptions: {
+	defaults: {
 		tabPosition: 'top',
 		components: {
 			tabs: {

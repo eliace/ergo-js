@@ -11,7 +11,7 @@
  */
 Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', /** @lends Dino.widgets.Dialog.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		baseCls: 'dino-dialog',
 		layout: 'window',
 		renderTo: 'body',

@@ -7,7 +7,7 @@
  */
 Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Dialog', /** @lends Dino.widgets.MessageBox.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			content: {
 				dtype: 'box',

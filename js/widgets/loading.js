@@ -8,7 +8,7 @@
  */
 Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.containers.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			overlay: {
 				weight: 1,

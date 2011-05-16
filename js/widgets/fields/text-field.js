@@ -7,7 +7,7 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.Field', {
 	
 	defaultCls: 'dino-text-field',
 	
-	defaultOptions: {
+	defaults: {
 		events: {
 			'click': function(e) {
 				e.stopPropagation();

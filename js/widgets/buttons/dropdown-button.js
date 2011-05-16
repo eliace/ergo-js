@@ -5,7 +5,7 @@
 
 Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			dropdown: {
 				dtype: 'menu-dropdown-box',

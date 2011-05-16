@@ -7,7 +7,7 @@
  */
 Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.Box', /** @lends Dino.containers.GroupBox.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		baseCls: 'dino-group-box',
 		defaultItem: {
 			dtype: 'box'

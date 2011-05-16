@@ -8,7 +8,7 @@
  */
 Dino.layouts.ColumnLayout = Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.ColumnLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		name: 'column',
 		valign: 'top'
 //		autoHeight: true

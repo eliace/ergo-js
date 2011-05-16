@@ -118,7 +118,7 @@ Dino.widgets.ActionIcon = Dino.declare('Dino.widgets.ActionIcon', 'Dino.widgets.
 
 //	defaultCls: 'dino-action-icon',
 	
-	defaultOptions: {
+	defaults: {
 		opacity: .7,
 		states: {
 			'hover': function(is_set) {
@@ -148,7 +148,7 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 	
 	defaultCls: 'dino-pulse-icon',
 	
-	defaultOptions: {
+	defaults: {
 		pulseDelay: 200,
 		components: {
 			image: {

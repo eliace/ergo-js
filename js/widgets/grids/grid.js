@@ -12,8 +12,8 @@
  */
 Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @lends Dino.widgets.Grid.prototype */{
 	
-	defaultOptions: {
-		wrapEl: '<div></div>',
+	defaults: {
+		html: '<div></div>',
 		baseCls: 'dino-grid',
 		components: {
 			header: {

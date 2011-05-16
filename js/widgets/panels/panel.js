@@ -17,7 +17,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 	
 	$html: function() { return '<div></div>'; },
 	
-	defaultOptions: {
+	defaults: {
 //		cls: 'dino-border-all dino-corner-top',
 		components: {
 			header: {

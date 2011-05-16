@@ -9,7 +9,7 @@
  */
 Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.DockLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		containerCls: 'dino-dock-layout',
 		name: 'dock',
 		updateMode: 'none'

@@ -3,7 +3,7 @@
 
 Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-control-box'
 	},
 	
@@ -27,7 +27,7 @@ Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.core.Widget', /** 
 	
 	$html: function() { return '<div>&nbsp;</div>' },
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-split'
 	}	
 	

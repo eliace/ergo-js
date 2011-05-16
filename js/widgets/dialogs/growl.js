@@ -5,7 +5,7 @@
 
 Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
 
-	defaultOptions: {
+	defaults: {
 		html: '<div/>',
 		cls: 'dino-growl dino-border-all dino-corner-all dino-widget-shadow',
 		components: {
@@ -117,7 +117,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
 
 Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-growl-box',
 		height: 'ignore',
 		defaultItem: {

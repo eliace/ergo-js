@@ -4,7 +4,7 @@
 
 Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 	
-	defaultOptions: {
+	defaults: {
 		name: 'border'
 	},
 	

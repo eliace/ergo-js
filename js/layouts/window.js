@@ -11,7 +11,7 @@ Dino.topZ = 1;
  */
 Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.WindowLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		name: 'window',
 		delay: 300,
 		initialWidth: 200,

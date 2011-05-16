@@ -13,7 +13,7 @@
 Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.PlainLayout.prototype */{
 	
 	
-	defaultOptions: {
+	defaults: {
 		autoHeight: false
 	},
 	

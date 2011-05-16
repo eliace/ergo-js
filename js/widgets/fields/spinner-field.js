@@ -5,7 +5,7 @@
 
 Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
 	
-	defaultOptions: {
+	defaults: {
     components: {
 			input: {
 				events: {

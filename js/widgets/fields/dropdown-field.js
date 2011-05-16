@@ -18,7 +18,7 @@
  */
 Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 			input: {
 //				html: '<input readonly="true">'

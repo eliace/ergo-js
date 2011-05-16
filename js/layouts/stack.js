@@ -8,7 +8,7 @@
  */
 Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.StackLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		containerCls: 'dino-stack-layout',
 		name: 'stack',
 		itemCls: 'hidden'

@@ -5,7 +5,7 @@ Dino.declare('Dino.containers.GlassBox', 'Dino.containers.Box', {
 	
 //	defaultClass: 'dino-glass-box',
 	
-	defaultOptions: {
+	defaults: {
 		html: '<div class="dino-glass-box" autoheight="ignore"/>',
 		events: {
 			'mousedown': function(e) {

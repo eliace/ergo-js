@@ -8,7 +8,7 @@
  */
 Dino.layouts.ThreeColumnLayout = Dino.declare('Dino.layouts.ThreeColumnLayout', Dino.Layout, /** @lends Dino.layouts.ThreeColumnLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		containerCls: 'dino-3c-layout',
 		name: '3c',
 		updatePolicy: 'manual'

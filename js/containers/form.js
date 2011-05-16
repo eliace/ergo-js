@@ -29,7 +29,7 @@ Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 
 Dino.declare('Dino.containers.Form', 'Dino.containers.Box', {
 
-	defaultOptions: {
+	defaults: {
 //		layout: 'form-layout'
 	},
 	

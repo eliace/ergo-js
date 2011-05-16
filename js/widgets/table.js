@@ -8,7 +8,7 @@
  */
 Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** @lends Dino.widgets.Table.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		components: {
 //			colgroup: {
 //				dtype: 'box',
@@ -34,7 +34,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 			body: {
 				dtype: 'container',
 				dynamic: true,
-				wrapEl: '<tbody></tbody>',
+				html: '<tbody></tbody>',
 				defaultItem: {
 					dtype: 'table-row'
 				}
@@ -135,7 +135,7 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', 
 	
 	$html: function() { return '<tr></tr>'; },
 	
-	defaultOptions: {
+	defaults: {
 		defaultItem: {
 			dtype: 'table-cell'
 		}
@@ -165,7 +165,7 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.core.Widge
 	
 	$html: function() { return '<td></td>'; },
 	
-//	defaultOptions: {
+//	defaults: {
 //		binding: 'skip'		
 //	},
 		
@@ -220,7 +220,7 @@ Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Din
 	
 	$html: function() { return '<th></th>'; },
 	
-	defaultOptions: {
+	defaults: {
 		binding: 'skip'
 	},
 	

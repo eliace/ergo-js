@@ -126,7 +126,7 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
  */
 Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid', /** @lends Dino.widgets.TreeGrid.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		wrapEl: '<div></div>',
 //		baseCls: 'dino-tree-grid',
 		components: {
@@ -214,7 +214,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
  */
 Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', /** @lends Dino.widgets.TreeTable.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		cls: 'dino-tree-table',
 		components: {
 			body: {
@@ -281,7 +281,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 	
 //	$html: function() { return '<tr></tr>'; },
 	
-	defaultOptions: {
+	defaults: {
 //		cls: 'dino-tree-grid-row',
 		indent: 0,
 		defaultItem: {
@@ -388,7 +388,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
  */
 Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', /** @lends Dino.widgets.TreeTableCell.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 //		cls: 'dino-tree-grid-cell',
 		layout: {
 //			dtype: 'plain-layout',

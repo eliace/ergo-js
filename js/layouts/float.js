@@ -8,7 +8,7 @@
  */
 Dino.layouts.FloatLayout = Dino.declare('Dino.layouts.FloatLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.FloatLayout.prototype */{
 	
-	defaultOptions: {
+	defaults: {
 		name: 'float',
 		clearfix: true
 	},

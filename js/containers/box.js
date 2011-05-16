@@ -8,7 +8,7 @@
  */
 Dino.declare('Dino.containers.Box', 'Dino.Container', /** @lends Dino.containers.Box.prototype */ {
 	
-	defaultOptions: {
+	defaults: {
 		defaultItem: {
 			dtype: 'box'
 		}
