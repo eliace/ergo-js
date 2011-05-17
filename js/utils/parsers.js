@@ -1,4 +1,6 @@
 
+//= require <core/widget>
+
 //Dino.converters = {};
 
 Dino.parsers.floatNumber = function(s) {

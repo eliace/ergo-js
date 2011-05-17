@@ -1,4 +1,7 @@
 
+//= require <core/widget>
+
+
 //Dino.validators = {};
 
 
