@@ -1,11 +1,12 @@
 
 var downloadTree = new Dino.data.ArrayDataSource([{
-	name: 'Core',
 	id: 'core',
+	name: 'Core',
 	type: 'group',
 	selected: [0, 1],
 	locks: ['core'],
 	children: [{
+		id: 'core/core core/utils core/object core/collection core/events core/data core/widget core/container',
 		name: 'Core',
 		locks: ['core'],
 		selected: [0, 1],
@@ -307,6 +308,22 @@ var lock_dependencies = function(id, dependencies, lock) {
 }
 
 
+var collect_selected_paths = function() {
+	
+	var paths = [];
+	
+	downloadTree.walk(function(entry, i){
+		var v = entry.val();
+		if(v && !v.children && v.selected) {
+			paths.push(v.id);
+		}
+	});
+	
+	return paths;
+}
+
+
+
 
 Dino.widgets.CascadeItem = Dino.containers.Box.extend({
 	
@@ -408,7 +425,6 @@ $(document).ready(function(){
 						var form = $('<form method="post" action="/download.php" target="download-iframe" id="iframe_data_form"></form>')
 						$('body').append(form);
 						form.submit();
-//						growl.error('Not available yet!');
 					}
 				}, {
 					dtype: 'text-button',
@@ -416,7 +432,11 @@ $(document).ready(function(){
 					xicon: 'icon-download',
 					text: 'Custom',
 					onAction: function() {
-						growl.error('Not available yet!');
+						var s = collect_selected_paths().join(' ');
+						growl.info(s);
+						var form = $('<form method="post" action="/download.php?custom" target="download-iframe" id="iframe_data_form"><input type="hidden" name="filelist" value="'+s+'" /></form>');
+						$('body').append(form);
+						form.submit();
 					}
 				}]
 			},
