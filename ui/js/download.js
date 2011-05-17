@@ -405,7 +405,10 @@ $(document).ready(function(){
 					xicon: 'icon-download',
 					text: 'Full',
 					onAction: function() {
-						
+						var form = $('<form method="post" action="/download.php" target="download-iframe" id="iframe_data_form"></form>')
+						$('body').append(form);
+						form.submit();
+//						growl.error('Not available yet!');
 					}
 				}, {
 					dtype: 'text-button',
@@ -425,6 +428,10 @@ $(document).ready(function(){
 				defaultItem: {
 					dtype: 'cascade-item'
 				}				
+			},
+			iframe: {
+				dtype: 'widget',
+				html: '<iframe id="download-iframe" style="display: none"></iframe>'
 			}
 		}
 	});

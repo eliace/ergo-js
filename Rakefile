@@ -50,15 +50,19 @@ end
 
 
 
-def compose_files(dest, o)
+def compose_files(dest, source_files)
 	
-	@load_path = Pathname.new(o[:load_path])#'js')
-	@source_files = o[:source_files]#['js/**/*.js']#'js/core/widget.js']
+	@name = 'dino-js'
+	
+	@target_path = Pathname.new(dest);
+	@js_path = Pathname.new('js')
+	@css_path = Pathname.new('css')
+	@source_files = source_files#['js/**/*.js']#'js/core/widget.js']
 
 
 	used = []
 
-  Find.find(@load_path) do |path|
+  Find.find(@js_path) do |path|
     if FileTest.directory?(path)
       if File.basename(path)[0] == ?.
         Find.prune
@@ -73,20 +77,60 @@ def compose_files(dest, o)
 #			puts path if not match
      	next if not match 
 
-    	SourceFile.new(path, @load_path).collect_files(used)
+    	SourceFile.new(path, @js_path).collect_files(used)
     	    	
     end
   end
 
-
-
-	File.open(dest, 'w+') do |out|
+	File.open((@target_path+@name).to_s+'.js', 'w+') do |out|
 		used.each do |src|
       File.open(src) do |f|
-       out.write f.read(nil)
+      	while not f.eof? do
+      		s = f.readline
+       		out.write s if not /^\/\/= require/ =~ s #f.read(nil)
+      	end
      end
 		end		
 	end
+
+	File.open((@target_path+@name).to_s+'.css', 'w+') do |out|
+		used.each do |src|
+			
+			pn = Pathname.new(src).relative_path_from(@js_path)
+			src = (@css_path + pn.dirname + pn.basename('.*')).to_s + '.css'
+			
+			next if not File.exist? src
+			
+      File.open(src) do |f|
+#      	while not f.eof? do
+      		out.write f.read(nil)
+#      		s = f.readline
+#       		out.write s if not /^\/\/= require/ =~ s #f.read(nil)
+#      	end
+     end
+		end		
+	end
+
+
+  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+
+	Kernel.system s
+
+	
+=begin	
+	require 'zip/zip'
+	require 'zip/zipfilesystem'
+	
+	
+	Zip::ZipFile.open((@target_path+@name).to_s+'.zip', 'w+') do |zipfile|
+	  ['build/dino-js.js', 'build/dino-js.css', 'build/dino-js.min.js'].each do |file|
+#	    # Create a new entry with some arbitrary name
+#	    zos.put_next_entry("some-funny-name.jpg")
+	    # Add the contents of the file, don't read the stuff linewise if its binary, instead use direct IO
+	    zipfile.add(File.basename(file), file)
+	  end
+	end
+=end	
 	
 	
 	
@@ -99,20 +143,17 @@ end
 
 task :compose do
 
-	compose_files('build/dino-js.js', {
-		:load_path => 'js',
-		:source_files => ['js/**/*.js']
-	})
+	compose_files('build', ['js/**/*.js'])
 
-  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
-
-	Kernel.system s
+	
 
 
-	compose_files('build/dino-js.css', {
-		:load_path => 'css',
-		:source_files => ['css/**/*.css']
-	})
+#
+#
+#	compose_files('build/dino-js.css', {
+#		:load_path => 'css',
+#		:source_files => ['css/**/*.css']
+#	})
 
 
 #	@files.each {|f| puts f.path}
