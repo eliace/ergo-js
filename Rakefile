@@ -58,7 +58,7 @@ def compose_files(dest, o)
 
 	used = []
 
-  Find.find('js') do |path|
+  Find.find(@load_path) do |path|
     if FileTest.directory?(path)
       if File.basename(path)[0] == ?.
         Find.prune
