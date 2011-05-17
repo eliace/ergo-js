@@ -433,7 +433,6 @@ $(document).ready(function(){
 					text: 'Custom',
 					onAction: function() {
 						var s = collect_selected_paths().join(' ');
-						growl.info(s);
 						var form = $('<form method="post" action="/download.php?custom" target="download-iframe" id="iframe_data_form"><input type="hidden" name="filelist" value="'+s+'" /></form>');
 						$('body').append(form);
 						form.submit();

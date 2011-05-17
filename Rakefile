@@ -188,29 +188,7 @@ end
 
 task :compose_custom, :uid, :paths do |t, args|
 	
-	js_files = []
-	args[:paths].split(' ').each {|path| js_files << 'js/'+path+'.js' }
 	
-
-	dir = 'build/'+args[:uid].to_s
-
-	Dir.mkdir(dir) if not File.exist?(dir)
-
-
-	compose_files(dir+'/dino-js.js', {
-		:load_path => 'js',
-		:source_files => js_files
-	})
-
-  s = "java -jar tools/compiler.jar --js #{dir}/dino-js.js --js_output_file #{dir}/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
-
-	Kernel.system s
-
-	
-	compose_files(dir+'/dino-js.css', {
-		:load_path => 'css',
-		:source_files => ['css/**/*.css']
-	})
 	
 end
 
