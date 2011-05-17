@@ -110,6 +110,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 	var p = srcObj[i];
 
 	if(i == 'data') i = 'data@'; 										//<-- поле data не перегружается
+	if(i == 'items') i = 'items@'; 										//<-- поле items не перегружается
 	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
 
 //	var shared_opts = {'data': null};

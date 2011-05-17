@@ -1,13 +1,119 @@
 
-require 'sprockets'
+#require 'sprockets'
+require 'find'
+require 'pathname'
+
+Dir.mkdir('build') if not File.exist?('build') 
+Dir.mkdir('docs') if not File.exist?('docs') 
+
+
+
+class SourceFile
+	attr_accessor :dependencies, :path
+	
+	def initialize(path, load_path)
+		@path = path
+		@dependencies = []
+		
+    pn = Pathname.new(path)
+		
+  	File.open(path, 'r') do |f|
+  		until f.eof? do
+  			s = f.readline
+  			m = /^\/\/= require "(.*)"/.match(s)
+  			if m then
+  				@dependencies << SourceFile.new( (pn.dirname+m[1]).to_s+pn.extname, load_path )
+  			end
+  			m = /^\/\/= require <(.*)>/.match(s)
+  			if m then
+  				@dependencies << SourceFile.new( (load_path+m[1]).to_s+pn.extname, load_path )
+  			end
+  		end
+  	end
+		
+		
+		
+	end
+	
+	def collect_files(files)
+		
+		@dependencies.each {|sf| sf.collect_files(files) }
+								
+		return if files.include? @path
+					
+		files << @path
+		
+		files
+	end
+	
+end
+
+
+
+def compose_files(dest, o)
+	
+	@load_path = Pathname.new(o[:load_path])#'js')
+	@source_files = o[:source_files]#['js/**/*.js']#'js/core/widget.js']
+
+
+	used = []
+
+  Find.find('js') do |path|
+    if FileTest.directory?(path)
+      if File.basename(path)[0] == ?.
+        Find.prune
+      else
+        next
+      end
+    else
+    	
+			match = false
+			@source_files.each {|f| match = true if File.fnmatch(f, path) }
+
+#			puts path if not match
+     	next if not match 
+
+    	SourceFile.new(path, @load_path).collect_files(used)
+    	    	
+    end
+  end
+
+
+
+	File.open(dest, 'w+') do |out|
+		used.each do |src|
+      File.open(src) do |f|
+       out.write f.read(nil)
+     end
+		end		
+	end
+	
+	
+	
+	
+end
+
 
 
 
 
 task :compose do
 
+	compose_files('build/dino-js.js', {
+		:load_path => 'js',
+		:source_files => ['js/**/*.js']
+	})
+
+  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+
+	Kernel.system s
+
+
+#	@files.each {|f| puts f.path}
+	
+
+=begin
 	js_secretary = Sprockets::Secretary.new(
-	#  :load_path    => ["vendor/sprockets/*/src", "vendor/plugins/*/javascripts"],
 		:load_path => ["js"],
 	  :source_files => ["js/**/*.js"]
 	)
@@ -16,7 +122,6 @@ task :compose do
 	
 	
 	css_secretary = Sprockets::Secretary.new(
-	#  :load_path    => ["vendor/sprockets/*/src", "vendor/plugins/*/javascripts"],
 		:load_path => ["css"],
 	  :source_files => ["css/**/*.css"]
 	)		
@@ -27,8 +132,38 @@ task :compose do
   s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
 
 	Kernel.system s
+=end	
+
+end
+
+
+
+
+task :compose_custom, :uid, :paths do |t, args|
+	
+	js_files = []
+	args[:paths].split(' ').each {|path| js_files << 'js/'+path+'.js' }
+	
+
+	dir = 'build/'+args[:uid].to_s
+
+	Dir.mkdir(dir) if not File.exist?(dir)
+
+
+	compose_files(dir+'/dino-js.js', {
+		:load_path => 'js',
+		:source_files => js_files
+	})
+
+  s = "java -jar tools/compiler.jar --js #{dir}/dino-js.js --js_output_file #{dir}/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+
+	Kernel.system s
+
+	
 	
 end
+
+
 
 =begin
 

@@ -338,9 +338,9 @@ Dino.declare('Dino.widgets.SelectOption', 'Dino.core.Widget', /** @lends Dino.wi
 /**
  * @class
  * @name Dino.widgets.form.Select
- * @extends Dino.Container
+ * @extends Dino.core.Container
  */
-Dino.declare('Dino.widgets.Select', 'Dino.Container', /** @lends Dino.widgets.form.Select.prototype */{
+Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widgets.form.Select.prototype */{
 	$html: function() { return '<select/>'; },
 	
 	defaults: {

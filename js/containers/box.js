@@ -1,12 +1,12 @@
 
-//= require "../core/container"
+//= require <core/container>
 
 /**
  * @class
  * @name Dino.containers.Box
- * @extends Dino.Container
+ * @extends Dino.core.Container
  */
-Dino.declare('Dino.containers.Box', 'Dino.Container', /** @lends Dino.containers.Box.prototype */ {
+Dino.declare('Dino.containers.Box', 'Dino.core.Container', /** @lends Dino.containers.Box.prototype */ {
 	
 	defaults: {
 		defaultItem: {

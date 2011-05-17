@@ -4,7 +4,10 @@ body {
 	margin: 0;
 	padding: 3px;
 	background-color: #eee;
-	font-size: 12px;
+	font-size: 12px;	
+	
+	width: 95%;
+	margin: 0 auto;
 }
 
 body input {
@@ -27,6 +30,19 @@ body input {
 
 
 
+.toolbar {
+/*	text-align: center;*/
+}
+
+.toolbar span {
+	font-size: 16px;
+	font-weight: bold;
+	color: #444;
+}
+
+.icon-download {
+	background-image: url(../img/download.png);
+}
 
 
 .group {

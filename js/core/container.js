@@ -11,12 +11,12 @@
  * Базовый класс для контейнеров.
  * 
  * @class
- * @name Dino.Container
+ * @name Dino.core.Container
  * @extends Dino.core.Widget
  * @param {Object} o параметры
  * 
  */
-Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.prototype */ {
+Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Container.prototype */ {
 	
 	
 	defaults: {
@@ -25,7 +25,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 	},
 	
 	$init: function(o) {
-		Dino.Container.superclass.$init.apply(this);
+		Dino.core.Container.superclass.$init.apply(this);
 		
 		/**
 		 * Элементы
@@ -44,7 +44,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 	
 
 	$opt: function(o) {
-		Dino.Container.superclass.$opt.call(this, o);
+		Dino.core.Container.superclass.$opt.call(this, o);
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
@@ -55,7 +55,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 
 	
 //	$afterRender: function() {
-//		Dino.Container.superclass.$afterRender.apply(this);
+//		Dino.core.Container.superclass.$afterRender.apply(this);
 //	},
 
 	//FIXME по идее этот мето должен быть в Dino.core.Widget
@@ -83,7 +83,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 	 * @returns {Dino.core.Widget} добавленный элемент
 	 */
 	addItem: function(item, index) {
-//		Dino.Container.superclass.addChild.call(this, item);
+//		Dino.core.Container.superclass.addChild.call(this, item);
 		
 		var itemOpts = item;
 		
@@ -92,6 +92,8 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 //		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
 		
 		this.items.add(item);
+
+		item.parent = this;			
 		
 		if(index == undefined){
 //			this.items.push( item );
@@ -111,6 +113,12 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 			this.children.add(item, index);
 			this.layout.insert(item, index);
 		}
+		
+		
+		// выполняем автобиндинг
+		if(this.data && !item.data)
+			item.$bind(this.data, false, 2);
+				
 		
 		if('show' in item) item.show();
 		
@@ -135,6 +143,8 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 		
 		this.children.remove(item);
 		this.layout.remove(item);
+		
+		delete item.parent
 		
 //		this.items.each(function(it, i){ it.index = i; });
 		for(var i = index; i < this.items.src.length; i++) this.items.src[i].index = i;
@@ -222,10 +232,10 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 	},
 */
 	
-	$bind: function(data, phase) {
+	$bind: function(data, update, phase) {
 		
 		if(!this.options.dynamic) {
-			Dino.Container.superclass.$bind.apply(this, arguments);
+			Dino.core.Container.superclass.$bind.apply(this, arguments);
 			return;
 		}
 		
@@ -264,7 +274,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onItemChanged', function(e){
-			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), 2);
+			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		}, this);
 
@@ -307,6 +317,8 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 		this.layout.rebuild();
 		
 		
+		if(update) this.$dataChanged();
+		
 //		this.events.fire('onDataBound');
 		
 		
@@ -325,7 +337,7 @@ Dino.declare('Dino.Container', 'Dino.core.Widget', /** @lends Dino.Container.pro
 	$dataChanged: function() {
 		
 		if(!this.options.dynamic) {
-			Dino.Container.superclass.$dataChanged.call(this);
+			Dino.core.Container.superclass.$dataChanged.call(this);
 			return;	
 		}
 		

@@ -129,9 +129,9 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 
 /**
  * @class
- * @extends Dino.Container
+ * @extends Dino.core.Container
  */
-Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.Container', /** @lends Dino.widgets.TableRow.prototype */{
+Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Container', /** @lends Dino.widgets.TableRow.prototype */{
 	
 	$html: function() { return '<tr></tr>'; },
 	

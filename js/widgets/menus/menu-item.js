@@ -1,5 +1,5 @@
 
-//= require <containers/box>
+//= require <containers/dropdown-box>
 //= require <widgets/native>
 //= require <widgets/images>
 

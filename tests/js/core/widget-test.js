@@ -2,33 +2,44 @@
 
 test('core/widget', function(){
 	
-	var w = new Dino.core.Widget({
-		html: '<div%a>%c</div>',
-		text: 'Text'
+	var w;
+	
+	w = new Dino.core.Widget({
+		html: '<div/>',
+		innerText: 'Text'
 	});
 	
-	equals(w.$print(), '<div id="id-1">Text</div>', 'Содержимое виджета, определяется через text');
+	equals(w.el.text(), 'Text', 'Установка параметра innerText');
 	
 	
-	var Anchor = Dino.core.Widget.extend({
-		
-		html: '<a%a>%c</a>',
+	w = new Dino.core.Widget({
+		html: '<div/>',
+		components: {
+			c1: {
+				dtype: 'widget',
+				html: '<span/>'
+			},
+			c2: {
+				dtype: 'widget',
+				html: '<p/>'
+			}
+		}
+	});
+	
+	ok(w.c1 && w.c2, 'Компоненты доступны');
+	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
 
-		$print_attrs: function(attrs) {
-			Anchor.superclass.$print_attrs.apply(this, arguments);
-			
-			var o = this.options;
-			
-			if('src' in o) attrs.src = o.src;
-		}	
+
+	w = new Dino.core.Widget({
+		html: '<div/>',
+		content: {
+			dtype: 'widget',
+			html: '<span/>'			
+		}
 	});
 	
-	w = new Anchor({
-		src: 'http://www.google.ru'
-	})
+	ok(w.el.children().length == 1 && w.content, 'Компонент content доступен и добавлен в компоновку');
 	
-	equals(w.$print(), '<a id="id-2" src="http://www.google.ru"></a>', 'Отрисовка виджета');
-	
-	
+		
 	
 });

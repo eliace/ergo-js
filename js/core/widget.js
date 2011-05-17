@@ -19,6 +19,7 @@ Dino.validators = {};
 
 
 
+
 /**
  * Базовый объект для всех виджетов
  * 
@@ -28,7 +29,6 @@ Dino.validators = {};
  */
 Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @lends Dino.core.Widget.prototype */{
 	
-	aaa: 'Widget',
 	
 	
 	/**
@@ -42,7 +42,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			'disabled': 'disabled',
 			'invalid': 'invalid'
 		},
-//		defaults: {},
 		extensions: [Dino.Observable, Dino.Statable],
 		binding: 'auto',
 		layoutFactory: function(layout) {
@@ -62,74 +61,12 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	initialize: function(o) {
 		Dino.core.Widget.superclass.initialize.apply(this, arguments);
 		
-/*		
-		var html = arguments[0];
-		var opts = arguments[1];
-		
-		// new Dino.core.Widget('<div/>') или new Dino.core.Widget({...})
-		if(arguments.length == 1){ 
-			if(Dino.isString(arguments[0])){
-				html = arguments[0];
-				opts = undefined;
-			}
-			else{
-				html = undefined;
-				opts = arguments[0];
-			}
-		}
-		
-		var self = this;
-
-		
-		this.options = {};
-		// определяем параметры как смесь пользовательских параметров и параметров по умолчанию
-		// TODO эту часть можно делать только один раз при создании класса
-		var o = this.options;
-		
-		if(!this.constructor.NO_REBUILD_SKELETON) {
-			var prevDefaultOptions = null;
-			Dino.hierarchy(this.constructor, function(clazz){
-				if(clazz.defaults == prevDefaultOptions) return;
-				// следующие две строчки реализуют синонимизацию defaults и skeleton
-				if('defaults' in clazz) Dino.smart_override(o, clazz.defaults);
-				if('skeleton' in clazz) Dino.smart_override(o, clazz.skeleton);
-				prevDefaultOptions = clazz.defaults; 
-			});
-			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaults = Dino.deep_copy(o);			
-		}
-		else {
-			this.options = o = Dino.deep_copy(this.defaults);
-		}
-		
-		Dino.smart_override(o, opts);
-*/
 
 		var o = this.options;
 		var self = this;
 
-
-
-		/** 
-		 * Коллекция дочерних компонентов 
-		 * @type Dino.core.WidgetCollectionManager
-		 */
+		
 		this.children = new Dino.core.Array();
-		this.children.events
-			.reg('item:add', function(e){
-				var item = e.item;
-				
-				item.parent = self;	
-				
-				// выполняем автобиндинг
-				if(self.data && !item.data)
-					item.$bind(self.data, 2);				
-			})
-			.reg('item:remove', function(e){
-				delete e.item.parent;
-			});
-
-
 
 
 
@@ -142,7 +79,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		 * Элемент 
 		 * @type Element
 		 */
-		this.el = $(html || this.$html());//('wrapEl' in o) ? o.wrapEl : $(this.$html());
+		this.el = $(html || this.$html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
@@ -155,6 +92,16 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 //		if(!this.layout.container) this.layout.attach(this);
 		this.layout.attach(this.layout.options.container || this);
 
+
+		/*
+		 * Этапы, которые должны быть:
+		 * - Подготовка параметров
+		 * - Создание компоновки
+		 * - Создание дочерних элементов
+		 * - Связывание с данными (+ динамическое создание дочерних элементов)
+		 * - Отрисовка
+		 * - Инициализация
+		 */
 
 
 		// конструируем виджет
@@ -169,10 +116,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.$bind(o.data);		
+		this.$bind(o.data, true);	
 		
-		// обновляем виджет, если к нему были подключены данные
-		if(this.data) this.$dataChanged();
+//		// обновляем виджет, если к нему были подключены данные
+//		if(this.data) this.$dataChanged();
 		// выполняем темизацию ?
 //		this._theme(o.theme);
 //		//
@@ -207,18 +154,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		}
 
 		
-		if('extensions' in o) {
-			for(i in o.extensions) {
-				var ext = o.extensions[i];
-				if(Dino.isFunction(ext)) ext.call(this, o);
-				else if(Dino.isPlainObject(ext)) Dino.override_r(this, ext);
-			}
-		}
-		
-		
-		
-		
-		
 		
 	},
 	
@@ -236,8 +171,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		this.layout.clear();		
 		
 		// вызываем метод destroy для всех дочерних компонентов
-		this.children.each(function(child) { child.destroy(); });
-		
+//		this.children.each(function(child) { child.destroy(); });
+		this.children.apply_all('destroy');
 		
 //		if(this.options.debug)	console.log('destroyed');
 	},
@@ -305,7 +240,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 */
 	$layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
-		this.children.each(function(c) { c.$layoutChanged(); });
+//		this.children.each(function(c) { c.$layoutChanged(); });
+		this.children.apply_all('$layoutChanged');
 	},
 	
 	$events: function(self){
@@ -317,7 +253,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 * @private
 	 */
 	$afterRender: function() {
-		this.children.each(function(c) { c.$afterRender(); });
+//		this.children.each(function(c) { c.$afterRender(); });
+		this.children.apply_all('$afterRender');
 	},
 
 	/**
@@ -551,15 +488,23 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if('baseCls' in this.options)
 			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});
 		
-		this[key] = (o instanceof Dino.core.Widget) ? o : Dino.widget(o);
-		this.children.add( this[key] );
+		var c = (o instanceof Dino.core.Widget) ? o : Dino.widget(o);
+		this.children.add(c);
+		
+		this[key] = c;
+		
+		c.parent = this;	
+		
+		// выполняем автобиндинг
+		if(this.data && !c.data)
+			c.$bind(this.data, false, 2);
+		
 		
 		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
 		if(!('renderTo' in o))
-			this.layout.insert(this[key]);
+			this.layout.insert(c);
 		
-//		this.el.append(this[key].el);
-		return this[key];
+		return c;
 	},
 	
 	/**
@@ -572,6 +517,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if(c) {
 			this.layout.remove(c);
 			this.children.remove(c);
+			delete c.parent;
 			delete this[key];
 		}
 		return c;
@@ -631,7 +577,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 * @param {Dino.data.DataSource|Any} data данные
 	 * @param {Integer} phase
 	 */
-	$bind: function(data, phase) {
+	$bind: function(data, update, phase) {
 				
 		var o = this.options;
 		
@@ -687,8 +633,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	
 		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){
-			if(child.dataPhase != 1) child.$bind(self.data, 2);
+			if(child.dataPhase != 1) child.$bind(self.data, false, 2);
 		});
+		
+		if(update) this.$dataChanged();
 	},
 	
 	

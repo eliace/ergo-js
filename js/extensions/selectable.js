@@ -26,6 +26,8 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
 	
 	add: function(w, ctrlKey, shiftKey) {
 		
+		if(!w) return;
+		
     if(shiftKey && this.selection_a.length > 0) {
       // создаем выборку
       var i0 = Math.min(this.selection_a[0].index, this.selection_a[this.selection_a.length-1].index);

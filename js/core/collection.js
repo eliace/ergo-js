@@ -27,7 +27,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	add: function(item, i) {
 		this.src[i] = item;
-		this.events.fire('item:add', {'item': item});
+//		this.events.fire('item:add', {'item': item});
 	},
 	
 	remove: function(item) {
@@ -37,7 +37,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	remove_at: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
-		this.events.fire('item:remove', {'item': item});
+//		this.events.fire('item:remove', {'item': item});
 	},
 	
 	remove_if: function(criteria) {
@@ -90,7 +90,11 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	index_of: function(item) {
 		return Dino.index_of(this.src, item);
-	}
+	},
+	
+	apply_all: function(m, args) {
+		Dino.apply_all(this.src, m, args);
+	}	
 	
 });
 
@@ -106,17 +110,22 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	},	
 	
 	add: function(item, i) {
-		if(arguments.length == 1)
+		if(arguments.length == 1) {
 			this.src.push(item);
-		else
-			this.src.splice(i, 0, item);
-		this.events.fire('item:add', {'item': item});
+			i = this.src.length;
+		}
+		else {
+			this.src.splice(i, 0, item);			
+		}
+			
+//		this.events.fire('item:add', {'item': item});
+		return i;
 	},
 	
 	remove_at: function(i) {
 		var item = this.src[i]
 		this.src.splice(i, 1);		
-		this.events.fire('item:remove', {'item': item});
+//		this.events.fire('item:remove', {'item': item});
 	},
 	
 	length: function() {

@@ -88,6 +88,9 @@ var Dino = (function(){
 		
 		D.override(ctor.prototype, overrides);
 		
+		if(overrides.dtype)
+			_dtypes[overrides.dtype] = ctor;
+		
 		ctor.extend = function(o) { return D.extend(this, o); }
 		
 		return ctor;
@@ -377,6 +380,19 @@ var Dino = (function(){
 	
 	
 	
+	D.apply_all = function(obj, m_name, args) {
+		for(var i in obj) {
+			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
+		}
+	}
+	
+	D.call_all = function(obj, m_name) {
+		var args = [];
+		for(var i = 2; i < arguments.length; i++) args[i-2] = arguments[i];
+		for(var i in obj) {
+			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args);
+		}
+	}
 	
 	
 	

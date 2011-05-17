@@ -4,10 +4,10 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 	id: 'core',
 	type: 'group',
 	selected: [0, 1],
-	locks: 1,
+	locks: ['core'],
 	children: [{
 		name: 'Core',
-		locks: 1,
+		locks: ['core'],
 		selected: [0, 1],
 	}]
 }, {
@@ -17,6 +17,10 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 		id: 'containers/box',
 		name: 'Box',
 	}, {
+		id: 'containers/form',
+		name: 'Form',
+		dependsOn: ['containers/box']
+	}, {
 		id: 'containers/control-box',
 		name: 'ControlBox',
 		dependsOn: ['containers/box']
@@ -24,10 +28,6 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 		id: 'containers/dropdown-box',
 		name: 'DropdownBox',
 		dependsOn: ['containers/box', 'containers/glass-box']
-	}, {
-		id: 'containers/form',
-		name: 'Form',
-		dependsOn: ['containers/box']
 	}, {
 		id: 'containers/glass-box',
 		name: 'GlassBox',
@@ -121,7 +121,7 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 	name: 'Remote',
 	type: 'group',
 	children: [{
-		name: 'RESTful JsonCollection'
+		name: 'JsonCollection (REST)'
 	}]
 }, {
 	name: 'Utils',
@@ -274,7 +274,7 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 
 
 
-var lock_dependencies = function(dependencies, lock) {
+var lock_dependencies = function(id, dependencies, lock) {
 	
 	if(!dependencies) return;
 	
@@ -282,16 +282,23 @@ var lock_dependencies = function(dependencies, lock) {
 		var v = entry.val();
 		if(v && v.id) {
 			if(Dino.include(dependencies, v.id)) {
-				if(!v.locks) v.locks = 0;
-				v.locks += (lock ? 1 : -1);
-				v.locks = Math.max(v.locks, 0);
-				if(v.selected) v.selected[1] = v.locks;
-				else v.selected = [0, v.locks];
-				if(!v.selected[0] && !v.selected[1]) v.selected = null;
+				if(!v.locks) v.locks = [];
+				if(lock) {
+					if(!Dino.include(v.locks, id)) v.locks.push(id);
+				}
+				else {
+					Dino.array_remove(v.locks, id);
+				}
 				
+				if(v.selected) v.selected[1] = v.locks.length;
+				else v.selected = [0, v.locks.length];
+
+				if(!v.selected[0] && !v.selected[1]) v.selected = null;
+				if(v.locks.length == 0) v.locks = null;
+								
 				entry.set('selected', v.selected);
 				
-				lock_dependencies(v.dependsOn, lock);
+				lock_dependencies(id, v.dependsOn, lock);
 			}
 			return;
 		}
@@ -301,9 +308,11 @@ var lock_dependencies = function(dependencies, lock) {
 
 
 
-Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
+Dino.widgets.CascadeItem = Dino.containers.Box.extend({
 	
-	defaultOptions: {
+	dtype: 'cascade-item',
+	
+	defaults: {
 		baseCls: 'cascade-item',
 		components: {
 			title: {
@@ -323,10 +332,11 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 								if( children ) {
 									children.each_item(function(item){
 										item.set('selected', val);
-										lock_dependencies(item.get('dependsOn'), val ? true : false);
+										lock_dependencies(item.get('id'), item.get('dependsOn'), val ? true : false);
 									});
 								}
-								this.opt('disabled', this.data.source.get('locks'));								
+								
+								this.opt('disabled', this.data.source.get('locks'));
 							}
 						},
 						content: {
@@ -339,7 +349,7 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 									if(!val.locks) {
 										data.set('selected', val.selected ? null : [1, 0]);
 
-										lock_dependencies(val.dependsOn, val.selected ? true : false);
+										lock_dependencies(val.id, val.dependsOn, val.selected ? true : false);
 										
 									}
 																		
@@ -367,26 +377,63 @@ Dino.declare('Dino.widgets.CascadeItem', 'Dino.containers.Box', {
 		}
 	}
 	
-}, 'cascade-item');
+});
 
 
 
 $(document).ready(function(){
 	
 	
-//	Application = 
+	try {
+	
+	Application = new Dino.framework.Application();
 	
 	var page = $.dino({
 		dtype: 'box',
-		cls: 'dino-border-all dino-text-content',
-		data: downloadTree,
-		dynamic: true,
 		renderTo: '#content',
-		defaultItem: {
-			dtype: 'cascade-item'
+		components: {
+			toolbar: {
+				dtype: 'control-box',
+				cls: 'toolbar dino-border-all dino-border-no-bottom dino-bg-4',
+				items: [{
+					dtype: 'text',
+					text: 'Download',
+					style: {'vertical-align': 'middle', 'color': '#ccc', 'font-size': '20px', 'margin': '0 20px'}
+				}, {
+					dtype: 'text-button',
+					cls: 'plain icon32',
+					xicon: 'icon-download',
+					text: 'Full',
+					onAction: function() {
+						
+					}
+				}, {
+					dtype: 'text-button',
+					cls: 'plain icon32',
+					xicon: 'icon-download',
+					text: 'Custom',
+					onAction: function() {
+						growl.error('Not available yet!');
+					}
+				}]
+			},
+			content: {
+				dtype: 'box',
+				cls: 'dino-border-all dino-text-content',
+				data: downloadTree,
+				dynamic: true,
+				defaultItem: {
+					dtype: 'cascade-item'
+				}				
+			}
 		}
 	});
 	
+	}
+	catch(e) {
+		console.log(Dino.format('%s (%s)', e.message, e.lineNumber));
+	}
 	
+	console.log(page);
 	
 });

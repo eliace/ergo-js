@@ -15,8 +15,8 @@ Dino.Editable = function(o) {
 		
 		this._editor.$layoutChanged();
 
-		this._editor.$bind(this.data);
-		this._editor.$dataChanged(); // явно вызываем обновление данных
+		this._editor.$bind(this.data, true);
+//		this._editor.$dataChanged(); // явно вызываем обновление данных
 		if(this._editor.options.focusable) this._editor.setFocus();
 		$('input,select', this.layout.el).focus().select();
 		

@@ -3,7 +3,7 @@
 
 /**
  * @class
- * @extends Dino.Container
+ * @extends Dino.core.Container
  */
 Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.Box', /** @lends Dino.containers.GroupBox.prototype */{
 	
