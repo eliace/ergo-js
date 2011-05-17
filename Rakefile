@@ -109,6 +109,12 @@ task :compose do
 	Kernel.system s
 
 
+	compose_files('build/dino-js.css', {
+		:load_path => 'css',
+		:source_files => ['css/**/*.css']
+	})
+
+
 #	@files.each {|f| puts f.path}
 	
 
@@ -160,6 +166,10 @@ task :compose_custom, :uid, :paths do |t, args|
 	Kernel.system s
 
 	
+	compose_files(dir+'/dino-js.css', {
+		:load_path => 'css',
+		:source_files => ['css/**/*.css']
+	})
 	
 end
 
