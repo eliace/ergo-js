@@ -186,8 +186,12 @@ end
 
 
 
-task :compose_custom, :uid, :paths do |t, args|
+task :compose_custom, :target_dir, :paths do |t, args|
 	
+	source_paths = ['core/container.js']
+	source_paths.concat( args[:paths].split().map {|s| s+'.js'} )
+	
+	compose_files('build/'+args[:target_dir], source_paths)  #'build'['js/**/*.js'])
 	
 	
 end

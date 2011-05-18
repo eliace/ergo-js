@@ -6,7 +6,7 @@ var downloadTree = new Dino.data.ArrayDataSource([{
 	selected: [0, 1],
 	locks: ['core'],
 	children: [{
-		id: 'core/core core/utils core/object core/collection core/events core/data core/widget core/container',
+//		id: 'core',
 		name: 'Core',
 		locks: ['core'],
 		selected: [0, 1],
@@ -460,6 +460,6 @@ $(document).ready(function(){
 		console.log(Dino.format('%s (%s)', e.message, e.lineNumber));
 	}
 	
-	console.log(page);
+//	console.log(page);
 	
 });
