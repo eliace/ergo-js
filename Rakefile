@@ -2,6 +2,7 @@
 #require 'sprockets'
 require 'find'
 require 'pathname'
+require 'fileutils'
 
 Dir.mkdir('build') if not File.exist?('build') 
 Dir.mkdir('docs') if not File.exist?('docs') 
@@ -112,10 +113,14 @@ def compose_files(dest, source_files)
 	end
 
 
-  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+  s = "java -jar tools/compiler.jar --js #{dest}/dino-js.js --js_output_file #{dest}/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
 
 	Kernel.system s
 
+	
+	FileUtils.cp_r 'themes/default', "#{dest}/theme"
+	
+	
 	
 =begin	
 	require 'zip/zip'
@@ -188,10 +193,9 @@ end
 
 task :compose_custom, :target_dir, :paths do |t, args|
 	
-	source_paths = ['core/container.js']
-	source_paths.concat( args[:paths].split().map {|s| s+'.js'} )
+	source_paths = (args[:paths] || '').split.map {|s| 'js/'+s+'.js'}
 	
-	compose_files('build/'+args[:target_dir], source_paths)  #'build'['js/**/*.js'])
+	compose_files(args[:target_dir], ['core/container.js']+source_paths)  #'build'['js/**/*.js'])
 	
 	
 end
