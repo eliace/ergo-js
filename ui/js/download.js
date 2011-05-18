@@ -345,13 +345,16 @@ Dino.widgets.CascadeItem = Dino.containers.Box.extend({
 							dataId: 'selected',
 							updateOnValueChange: true,
 							binding: function(val) {
-//								var children = this.data.source.item('children');
-//								if( children ) {
-//									children.each_item(function(item){
-//										item.set('selected', val);
-//										lock_dependencies(item.get('id'), item.get('dependsOn'), val ? true : false);
-//									});
-//								}
+
+								if(downloadTree.ready) {
+									var children = this.data.source.item('children');
+									if( children ) {
+										children.each_item(function(item){
+											item.set('selected', val);
+											lock_dependencies(item.get('id'), item.get('dependsOn'), val ? true : false);
+										});
+									}									
+								}
 								
 								this.opt('disabled', this.data.source.get('locks'));
 							}
@@ -367,14 +370,6 @@ Dino.widgets.CascadeItem = Dino.containers.Box.extend({
 										data.set('selected', val.selected ? null : [1, 0]);
 
 										lock_dependencies(val.id, val.dependsOn, val.selected ? true : false);
-										
-										var children = data.item('children');
-										if( children ) {
-											children.each_item(function(item){
-												item.set('selected', val.selected);
-												lock_dependencies(item.get('id'), item.get('dependsOn'), val.selected ? true : false);
-											});
-										}
 										
 									}
 																		
@@ -462,6 +457,9 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	
+		downloadTree.ready = true;
 	
 	}
 	catch(e) {
