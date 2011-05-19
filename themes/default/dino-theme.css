@@ -220,5 +220,15 @@ button.plain {
 /*	background: url(img/invalid_line.gif) repeat-x 0 100%;*/
 }
 
+.dino-form-field.disabled {
+	background-color: #ddd;	
+}
+
+.dino-form-field.disabled input {
+	background-color: #ddd;
+}
+
+
+
 
 

@@ -8,12 +8,11 @@ Dino.drag = null;
 
 Dino.Draggable = function(o) {
 	
-	this.el.bind('mousedown', function(e) {
+	o.events.mousedown = function(e, w) {
 		
 		if(e.button != 0) return;
 		
 		if(!Dino.drag) {
-			var w = $(this).dino();
 			Dino.drag = {
 				started: false,
 				source: w,
@@ -21,11 +20,15 @@ Dino.Draggable = function(o) {
 			}
 		}
 		return false;
-	}).bind('mouseup', function(e){
+	};
+	
+	o.events.mouseup = function(e){
 		if(Dino.drag) {
 			Dino.drag = null;
 		}
-	}).bind('mousemove', function(e) {
+	};
+	
+	o.events.mousemove = function(e) {
 			
 		var drag = Dino.drag;
 		
@@ -56,7 +59,8 @@ Dino.Draggable = function(o) {
 				
 			}
 		}
-	});
+	};
+	
 	
 	if(!Dino.Draggable.dragReady) {
 		

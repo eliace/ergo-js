@@ -125,6 +125,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 			
 //			// помечаем источник данных как "грязный"
 //			if(this.options.useDirty) this.dirty();
+			this._changed = true;
 		}
 		else {
 			this.item(i).set(newValue);
@@ -223,12 +224,21 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 		if(this.source instanceof Dino.data.DataSource) this.source.dirty(flag, target);
 		
 	},
-	
+
+*/	
+
+
+	changed: function() {
+		if(this._changed) return true;
+		for(var i in this.items)
+			if(this.items[i].changed()) return true;
+		return false;
+	},
+
 	clean: function() {
-		this.is_dirty = false;
+		this._changed = false;
 		for(var i in this.items) this.items[i].clean();		
 	},
-*/	
 	
 	walk: function(callback) {
 		if( callback.call(this, this) ) return;

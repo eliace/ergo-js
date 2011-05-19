@@ -32,7 +32,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		 * @type {Array}
 		 */
 		this.items = new Dino.core.Array();
-				
+
 	},	
 	
 	
@@ -42,16 +42,21 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		return item; 		
 	},
 	
-
-	$opt: function(o) {
-		Dino.core.Container.superclass.$opt.call(this, o);
+	
+	$construct: function(o) {
+		Dino.core.Container.superclass.$construct.call(this, o);
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
 				this.addItem(o.items[i]);
 		}
-		
+				
 	},
+
+//	$opt: function(o) {
+//		Dino.core.Container.superclass.$opt.call(this, o);
+//		
+//	},
 
 	
 //	$afterRender: function() {
@@ -310,7 +315,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 
 		this.data.each(function(dataItem, i){
 			var dataItem = self.data.item(i);
-			self.addItem({ 'data': dataItem }).dataPhase = 2;//.$bind(dataItem, 2);
+			self.addItem({ 'data': dataItem }).dataPhase = 2;
 		});
 
 		this.layout.immediateRebuild = true;

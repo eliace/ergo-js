@@ -106,7 +106,9 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 
 		// конструируем виджет
 		this.$init(o);//this, arguments);
-
+		
+		this.$construct(o);
+		
 		// устанавливаем опциональные параметры
 		this.$opt(o);
 		
@@ -116,7 +118,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.$bind(o.data, true);	
+		this.$bind(o.data);	
 		
 //		// обновляем виджет, если к нему были подключены данные
 //		if(this.data) this.$dataChanged();
@@ -150,10 +152,46 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 					content: o.content
 				}
 			})
-//			this.addComponent('content', o.content);
-		}
-
+		}		
 		
+	},
+	
+	
+	$construct: function(o) {
+		
+		var self = this;
+		
+		if('components' in o) {
+			var arr = [];
+			// преобразуем набор компонентов в массив
+			for(var i in o.components){
+				var c = o.components[i];
+				c._cweight = ('weight' in c) ? c.weight : 9999;
+				c._cname = i;
+				arr.push(c);
+			}
+			// сортируем массив по весу компонентов
+			arr.sort(function(c1, c2){
+				var a = c1._cweight;
+				var b = c2._cweight;
+				if(a < b) return -1;
+				else if(a > b) return 1;
+				return 0;
+			});
+			// добавляем компоненты
+			Dino.each(arr, function(c){
+				self.addComponent(c._cname, c);				
+				delete c._cweight;
+				delete c._cname;
+			});
+			
+			// задаем "ленивые" классы компонентов
+			for(var i in o.components){
+				var easyCls = ''+i+'Cls';
+				if(easyCls in o) this[i].opt('cls', o[easyCls]);
+			}
+			
+		}		
 		
 	},
 	
@@ -372,37 +410,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			}
 		}
 
-		if('components' in o) {
-			var arr = [];
-			// преобразуем набор компонентов в массив
-			for(var i in o.components){
-				var c = o.components[i];
-				c._cweight = ('weight' in c) ? c.weight : 9999;
-				c._cname = i;
-				arr.push(c);
-			}
-			// сортируем массив по весу компонентов
-			arr.sort(function(c1, c2){
-				var a = c1._cweight;
-				var b = c2._cweight;
-				if(a < b) return -1;
-				else if(a > b) return 1;
-				return 0;
-			});
-			// добавляем компоненты
-			Dino.each(arr, function(c){
-				self.addComponent(c._cname, c);				
-				delete c._cweight;
-				delete c._cname;
-			});
-			
-			// задаем "ленивые" классы компонентов
-			for(var i in o.components){
-				var easyCls = ''+i+'Cls';
-				if(easyCls in o) this[i].opt('cls', o[easyCls]);
-			}
-			
-		}
 		
 		
 		
@@ -589,6 +596,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		// если фаза автобиндинга не определена, то присваем ей начальное значение
 		if(!phase) phase = 1;
+		
+		if(update !== false) update = true;
 		
 		this.dataPhase = phase;
 		
