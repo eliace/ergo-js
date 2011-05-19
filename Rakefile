@@ -3,6 +3,7 @@
 require 'find'
 require 'pathname'
 require 'fileutils'
+require 'date'
 
 Dir.mkdir('build') if not File.exist?('build') 
 Dir.mkdir('docs') if not File.exist?('docs') 
@@ -51,11 +52,16 @@ end
 
 
 
+
+
 def compose_files(dest, source_files)
 	
-	s = %x[git tag -l].split.last	
+	ver = %x[git tag -l].split.last
 	
-	@name = 'dino-' + s
+#	@name = 'dino-' + ver
+	js_name = "dino-js.js" #"dino-#{ver}.js"
+	js_name_min = "dino-js.min.js" #"dino-#{ver}.min.js"
+	css_name = "dino-js.css"
 	
 	@target_path = Pathname.new(dest);
 	@js_path = Pathname.new('js')
@@ -85,7 +91,18 @@ def compose_files(dest, source_files)
     end
   end
 
-	File.open((@target_path+@name).to_s+'.js', 'w+') do |out|
+	File.open(@target_path+js_name, 'w+') do |out|
+		
+		out.puts "
+/**
+ * Dino.js (#{ver})
+ * 
+ * author: Kodanev Yuriy
+ * date: #{Date.today.to_s}
+ */
+ 
+ 
+"		
 		used.each do |src|
       File.open(src) do |f|
       	while not f.eof? do
@@ -96,7 +113,7 @@ def compose_files(dest, source_files)
 		end		
 	end
 
-	File.open((@target_path+@name).to_s+'.css', 'w+') do |out|
+	File.open(@target_path+css_name, 'w+') do |out|
 		used.each do |src|
 			
 			pn = Pathname.new(src).relative_path_from(@js_path)
@@ -115,7 +132,7 @@ def compose_files(dest, source_files)
 	end
 
 
-  s = "java -jar tools/compiler.jar --js #{dest}/dino-js.js --js_output_file #{dest}/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
+  s = "java -jar tools/compiler.jar --js #{dest}/#{js_name} --js_output_file #{dest}/#{js_name_min}" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
 
 	Kernel.system s
 
