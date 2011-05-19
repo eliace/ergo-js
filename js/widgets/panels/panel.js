@@ -21,7 +21,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 //		cls: 'dino-border-all dino-corner-top',
 		components: {
 			header: {
-				weight: 1,
+				weight: 10,
 				dtype: 'box',
 	      layout: {
 	        dtype: 'dock-layout',
@@ -50,7 +50,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 			},
 			content: {
 /*				cls: 'dino-panel-content',*/
-				weight: 2,
+				weight: 20,
 				dtype: 'box'
 			}
 //			footer: {

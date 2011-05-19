@@ -53,7 +53,9 @@ end
 
 def compose_files(dest, source_files)
 	
-	@name = 'dino-js'
+	s = %x[git tag -l].split.last	
+	
+	@name = 'dino-' + s
 	
 	@target_path = Pathname.new(dest);
 	@js_path = Pathname.new('js')
@@ -149,42 +151,6 @@ end
 task :compose do
 
 	compose_files('build', ['js/**/*.js'])
-
-	
-
-
-#
-#
-#	compose_files('build/dino-js.css', {
-#		:load_path => 'css',
-#		:source_files => ['css/**/*.css']
-#	})
-
-
-#	@files.each {|f| puts f.path}
-	
-
-=begin
-	js_secretary = Sprockets::Secretary.new(
-		:load_path => ["js"],
-	  :source_files => ["js/**/*.js"]
-	)
-	js_concatenation = js_secretary.concatenation
-	js_concatenation.save_to("build/dino-js.js")
-	
-	
-	css_secretary = Sprockets::Secretary.new(
-		:load_path => ["css"],
-	  :source_files => ["css/**/*.css"]
-	)		
-	css_concatenation = css_secretary.concatenation
-	css_concatenation.save_to("build/dino-js.css")
-
-
-  s = "java -jar tools/compiler.jar --js build/dino-js.js --js_output_file build/dino-js.min.js" # --compilation_level WHITESPACE_ONLY --formatting PRETTY_PRINT"
-
-	Kernel.system s
-=end	
 
 end
 

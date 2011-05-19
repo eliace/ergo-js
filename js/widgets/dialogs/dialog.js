@@ -17,7 +17,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 		renderTo: 'body',
 		components: {
 			buttons: {
-				weight: 3,
+				weight: 30,
 				dtype: 'control-box',
 				cls: 'center',
 				defaultItem: {

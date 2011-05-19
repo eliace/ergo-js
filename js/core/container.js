@@ -31,7 +31,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = new Dino.core.Array();
+		this.items = this.children;// new Dino.core.Array();
 
 	},	
 	
@@ -39,7 +39,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	$itemFactory: function(item) {
 		if( Dino.isPlainObject(item) ) 
 			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
-		return item; 		
+		return item;
 	},
 	
 	
@@ -105,7 +105,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 			
 			item.index = this.items.length() - 1;
 			
-			this.children.add(item);
+//			this.children.add(item);
 			this.layout.insert(item);
 		}
 		else {
@@ -115,7 +115,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //			this.items.each(function(it, i){ it.index = i; });
 			for(var i = index; i < this.items.src.length; i++) this.items.src[i].index = i;
 			
-			this.children.add(item, index);
+//			this.children.add(item, index);
 			this.layout.insert(item, index);
 		}
 		
@@ -146,7 +146,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 
 		var index = item.index;
 		
-		this.children.remove(item);
+//		this.children.remove(item);
 		this.layout.remove(item);
 		
 		delete item.parent
