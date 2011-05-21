@@ -291,7 +291,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 			// уничтожаем все элементы-виджеты
 			self.destroyAllItems();
 
-			var t0 = Dino.timestamp();
+//			var t0 = Dino.timestamp();
 		
 
 			self.data.each(function(dataItem, i){
@@ -300,8 +300,8 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 				item.dataPhase = 2;
 			});
 
-			var t1 = Dino.timestamp();
-			console.log(t1 - t0);
+//			var t1 = Dino.timestamp();
+//			console.log(t1 - t0);
 				
 			self.layout.immediateRebuild = true;
 			self.layout.rebuild();

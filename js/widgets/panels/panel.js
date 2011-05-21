@@ -29,8 +29,13 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 	      },				
 				cls: 'dino-panel-header',
 				components: {
+					icon: {
+						dtype: 'icon',
+						style: {'margin-left': '5px'},
+		        dock: 'left'
+					},
 					title: {
-						dtype: 'text-item',
+						dtype: 'text',
 						dock: false
 					},
 	        buttons: {
@@ -73,6 +78,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 		Dino.widgets.Panel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.title.opt('text', o.title);
+		if('icon' in o) this.header.icon.states.setOnly(o.icon);
 		
 		if('headerButtons' in o) {
 			var self = this;

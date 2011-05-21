@@ -23,14 +23,14 @@ Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 		$.post(this.path() + '?method='+method, args, callback, 'json');		
 	},
 
-	fetch: function(query, params) {
+	load: function(query, params) {
 		var args = [].concat(arguments).slice(2);
 		var target = new Dino.DeferredResult(args);
 		$.getJSON(this.path(), Dino.merge({'query': query}, params), function(json){target.ready(json);})
 		return target;
 	},
 	
-	fetch_all: function() {
+	load_all: function() {
 		var target = new Dino.DeferredResult(arguments);		
 		$.getJSON(this.path(), {'query': 'all'}, function(json){ target.ready(json); });
 		return target;

@@ -119,12 +119,35 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 		states: {
 			'expanded': function(on) {
 				this.button.states.toggle('expanded', on);
+				
+				var o = this.options;
+				if(o.effects && on) {
+					var el = this.subtree.el;
+ 					if(el.children().size() == 0)
+						el.show();
+					else					
+						el[o.effects.show](o.effects.delay);					
+				}
 			},
 			'collapsed': function(on) {
 				this.button.states.toggle('collapsed', on);
+
+				var o = this.options;
+				if(o.effects && on) {
+					var el = this.subtree.el;
+ 					if(el.children().size() == 0)
+						el.hide();
+					else					
+						el[o.effects.hide](o.effects.delay);					
+				}
 			}
 		},
-		expandOnShow: false
+		expandOnShow: false,
+		effects: {
+			show: 'slideDown',
+			hide: 'slideUp',
+			delay: 200
+		}
 	},
 	
 	

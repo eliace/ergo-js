@@ -23,17 +23,6 @@ $.dino({
       cls: 'dynamic-tree-node',
       components: {
         content: {
-//          components: {
-//            leftIcon: {
-//              cls: 'silk-icon-folder'
-////              states: {
-////                'computer': 'led-icon-computer',
-////                'drive': 'led-icon-drive',
-////                'folder': 'led-icon-folder',
-////                'file': 'led-icon-page',
-////              }
-//            },
-//          },
           icon: 'silk-icon-folder',
           xicon: true,
           dataId: 'name'

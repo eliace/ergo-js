@@ -58,7 +58,7 @@ Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 		$.post(this.path() + '?method='+method, callback, 'json');		
 	},
 	
-	fetch: function(id, params) {
+	load: function(id, params) {
 		var args = [].concat(arguments).slice(2);
 		var target = new Dino.DeferredResult(args);
 		$.getJSON(this.path()+'/'+id, function(json){target.ready(json);})
