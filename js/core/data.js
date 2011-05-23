@@ -258,7 +258,7 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 		return false;
 	},
 	
-	find_by_oid: function(oid) {
+	get_by_oid: function(oid) {
 		var result = null;
 		var oid_key = this.options.oid;
 		this.each(function(val){ if(val[oid_key] == oid) {result = val; return false;} });
