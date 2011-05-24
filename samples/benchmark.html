@@ -41,7 +41,57 @@
 <body>
 	
 	
-<script>
+	
+<form accept-charset="UTF-8" action="/admin/assets" class="new_asset file_upload" enctype="multipart/form-data" id="assets_form" method="post">
+  <a href="#" class="button" id="uploadAssets">Upload Files</a>
+  <input id="asset_attachment" name="asset[attachment]" type="file">
+</form>
+
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+  
+    $("#uploadAssets").click(function(){
+      $("#asset_attachment").trigger('click');
+      return false;
+    });
+  
+  });
+</script>
+
+<style type="text/css" media="screen">
+.file_upload input[type="file"] {
+  width: 100px;
+  height: 100px;
+  visibility: hidden;
+}
+
+.file_upload iframe, .file_upload button {
+  display: none;
+}
+
+.file_upload_preview img {
+  width: 80px;
+}
+
+.file_upload_progress .ui-progressbar-value {
+  background: url(/images/application/pbar-ani.gif);
+}
+
+.file_upload_progress div {
+  width: 150px;
+  height: 15px;
+}
+
+.file_upload_cancel button {
+  cursor: pointer;
+}
+</style>	
+	
+	
+	
+	
+	
+<!--script>
 
 
 var generate_grid_page = function(i0, i1) {
@@ -189,7 +239,7 @@ catch(e) {
 
 });
 	
-</script>
+</script-->
 	
 </body>
 </html>

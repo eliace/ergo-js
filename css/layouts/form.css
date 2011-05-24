@@ -7,6 +7,7 @@
 
 [layout='form'] td.label {
 	text-align: right;
+	vertical-align: middle;
 }
 
 [layout='form'] tr {

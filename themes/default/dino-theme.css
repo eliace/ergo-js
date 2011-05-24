@@ -232,3 +232,11 @@ button.plain {
 
 
 
+.dino-overlay {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	opacity: .6;
+}
+
+
+
+
