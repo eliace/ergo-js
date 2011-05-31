@@ -1,5 +1,6 @@
 
 //= require "widget"
+//= require "item-collection"
 
 /**
  * @name Dino.containers
@@ -20,8 +21,6 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 	
 	defaults: {
-//		itemFactory: function(item) {
-//		}
 	},
 	
 	$init: function(o) {
@@ -31,27 +30,30 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = this.children;// new Dino.core.Array();
+		this.items = this.children = new Dino.core.ItemCollection(this);
+		
+		if('items' in o)
+			o.components = o.items;
 
 	},	
 	
 	
-	$itemFactory: function(item) {
-		if( Dino.isPlainObject(item) ) 
-			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
-		return item;
-	},
+//	$componentFactory: function(item) {
+//		if( Dino.isPlainObject(item) ) 
+//			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
+//		return item;
+//	},
 	
 	
-	$construct: function(o) {
-		Dino.core.Container.superclass.$construct.call(this, o);
-		
-		if('items' in o){
-			for(var i = 0; i < o.items.length; i++)
-				this.addItem(o.items[i]);
-		}
-				
-	},
+//	$construct: function(o) {
+//		Dino.core.Container.superclass.$construct.call(this, o);
+//		
+//		if('items' in o){
+//			for(var i = 0; i < o.items.length; i++)
+//				this.addItem(o.items[i]);
+//		}
+//				
+//	},
 
 //	$opt: function(o) {
 //		Dino.core.Container.superclass.$opt.call(this, o);
@@ -93,17 +95,18 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		var itemOpts = item;
 		
 		// если новый элемент является набором параметров, то строим виджет
-		item = this.$itemFactory( itemOpts );
+		item = this.$componentFactory( itemOpts );
 //		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
 		
 		this.items.add(item);
+		this.children.add(item);
 
 		item.parent = this;			
 		
 		if(index == undefined){
 //			this.items.push( item );
 			
-			item.index = this.items.length() - 1;
+			item.index = this.items.size() - 1;
 			
 //			this.children.add(item);
 			this.layout.insert(item);

@@ -5,6 +5,7 @@
 //= require "states"
 //= require <layouts/plain>
 //= require "utils"
+//= require "component-collection"
 
 
 /**
@@ -54,8 +55,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	},
 	
 	
-	customOptions: {
-	},
+//	customOptions: {
+//	},
 
 			
 	initialize: function(o) {
@@ -66,9 +67,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		var self = this;
 
 		
-		this.children = new Dino.core.Array();
-
-
 
 //		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 		var html = o.html;
@@ -84,8 +82,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
 		
-		
-
 		this.layout = o.layoutFactory(o.layout);
 		
 		//FIXME костыль
@@ -103,10 +99,9 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		 * - Инициализация
 		 */
 
-
-		// конструируем виджет
 		this.$init(o);//this, arguments);
 		
+		// конструируем виджет
 		this.$construct(o);
 		
 		// устанавливаем опциональные параметры
@@ -120,11 +115,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
 		this.$bind(o.data);	
 		
-//		// обновляем виджет, если к нему были подключены данные
-//		if(this.data) this.$dataChanged();
-		// выполняем темизацию ?
-//		this._theme(o.theme);
-//		//
 		this.$afterBuild();
 		
 		this.events.fire('onCreated');
@@ -145,6 +135,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		var o = this.options;
 		
+		this.children = new Dino.core.ComponentCollection(this);
+		
+//		this.components = this.collection; //new Dino.core.Collection();		
+		
 		// "сахарное" определение контента виджета
 		if('content' in o){
 			Dino.smart_override(o, {
@@ -164,12 +158,11 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if('components' in o) {
 			var arr = [];
 			// преобразуем набор компонентов в массив
-			for(var i in o.components){
-				var c = o.components[i];
+			Dino.each(o.components, function(c, i){
 				c._cweight = ('weight' in c) ? c.weight : 9999;
 				c._cname = i;
-				arr.push(c);
-			}
+				arr.push(c);				
+			});
 			// сортируем массив по весу компонентов
 			arr.sort(function(c1, c2){
 				var a = c1._cweight;
@@ -180,9 +173,11 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			});
 			// добавляем компоненты
 			Dino.each(arr, function(c){
-				self.addComponent(c._cname, c);				
+				var i = c._cname;
 				delete c._cweight;
 				delete c._cname;
+//				self.addComponent(c, i);
+				self.children.add(c, i);
 			});
 			
 			// задаем "ленивые" классы компонентов
@@ -233,7 +228,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	$render: function(target) {
 		if(target){
 			if(target instanceof Dino.core.Widget) {
-				target.addComponent('content', this);
+				target.addComponent(this);
 			}
 			else {
 				$(target).append(this.el);
@@ -278,7 +273,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 */
 	$layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
-//		this.children.each(function(c) { c.$layoutChanged(); });
 		this.children.apply_all('$layoutChanged');
 	},
 	
@@ -358,8 +352,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if('id' in o) el.attr('id', this.id = o.id);
 		if('tag' in o) this.tag = o.tag;
 		if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
+		
+		// эти три параметра должны задаваться статически
 		if('style' in o) el.css(o.style);
-		if('cls' in o) el.addClass(o.cls);// Dino.each(o.cls.split(' '), function(cls) {el.addClass(cls);});
+		if('cls' in o) el.addClass(o.cls);
 		if('baseCls' in o) el.addClass(o.baseCls);
 		
 //			profiler.tick('opt', 'style');		
@@ -439,16 +435,16 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		}
 						
 		
-		//TODO экспериментальная опция
-		if('overrides' in o) {
-			Dino.override(this, o.overrides);
-		}
-		
-		
-		//TODO экспериментальная опция
-		for(i in o) {
-			if(i in this.customOptions) this.customOptions[i].call(this, o[i]);
-		}
+//		//TODO экспериментальная опция
+//		if('overrides' in o) {
+//			Dino.override(this, o.overrides);
+//		}
+//		
+//		
+//		//TODO экспериментальная опция
+//		for(i in o) {
+//			if(i in this.customOptions) this.customOptions[i].call(this, o[i]);
+//		}
 		
 		
 		
@@ -474,6 +470,19 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		});
 	},	
 	
+	
+	
+/*	
+	$componentFactory: function(item) {
+		if( Dino.isPlainObject(item) ) {
+			item = Dino.widget(item);
+		}
+		return item;		
+	},
+*/	
+	
+	
+	
 	//-------------------------------------------
 	// Методы для работы с компонентами виджета
 	//-------------------------------------------
@@ -487,17 +496,22 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 * @param {String} key ключ (имя) компонента. Если компонент с таким именем уже существует, то он будет удален из компоновки
 	 * @param {Object|Dino.core.Widget} o виджет или параметры виджета
 	 */
-	addComponent: function(key, o){
+	
+	
+/*	
+	addComponent: function(o, key){
+		
 		// если компонент уже существует, то удаляем его
 		this.removeComponent(key);
 		
 		// если у виджета определен базовый класс, до его компоненты будут иметь класс-декоратор [baseCls]-[имяКомпонента]
 		if('baseCls' in this.options)
-			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});
+			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});			
+				
+		var c = this.$componentFactory(o);
 		
-		var c = (o instanceof Dino.core.Widget) ? o : Dino.widget(o);
 		this.children.add(c);
-		
+				
 		this[key] = c;
 		
 		c.parent = this;	
@@ -507,18 +521,22 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			c.$bind(this.data, false, 2);
 		
 		
-		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
-		if(!('renderTo' in o))
-			this.layout.insert(c);
+//		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
+//		if(!('renderTo' in o))
+		this.layout.insert(c);
 		
 		return c;
 	},
+*/	
+	
 	
 	/**
 	 * Удаление компонента
 	 * 
 	 * @param {Object} key ключ (имя) компонента
 	 */
+	
+/*	
 	removeComponent: function(key) {
 		var c = this[key];
 		if(c) {
@@ -529,7 +547,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		}
 		return c;
 	},
-	
+*/	
 	
 	
 	/**

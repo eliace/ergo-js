@@ -78,7 +78,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		return Dino.include(this.src, callback);
 	},
 	
-	length: function() {
+	size: function() {
 		var n = 0;
 		for(var i in this.src) n++;
 		return n;
@@ -128,7 +128,7 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 //		this.events.fire('item:remove', {'item': item});
 	},
 	
-	length: function() {
+	size: function() {
 		return this.src.length;
 	},
 	
@@ -141,7 +141,7 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	},
 	
 	last: function() {
-		return this.src[this.length-1];
+		return this.src[this.src.length-1];
 	}
 	
 	

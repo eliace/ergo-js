@@ -11,10 +11,34 @@ var grid = $.dino({
   width: 800,
   content: {
     height: 300,//'auto',
-    state: 'scrollable'
+    state: 'scrollable',		
 //    style: {'padding-right': '18px'}
   },
 //  headerCls: 'dino-bg-highlight',
+
+//	components: {
+//	},
+
+
+	headerModel: {
+		cell: {
+			events: {
+				'mousemove': function(e, w) {
+					var offset = w.el.offset();
+					var width = w.el.width();
+					var x = e.pageX - offset.left;
+//					var y = e.pageY - offset.top;
+						w.states.toggle('x-resizable', (width - x < 5));
+					
+//					console.log(x+', '+y);
+				},
+				'mouseleave': function(e, w) {
+						w.states.clear('x-resizable');					
+				}
+			}
+		}
+	},
+
   tableModel: {
     columns: [{
       dataId: 'id',
@@ -65,6 +89,11 @@ var grid = $.dino({
   },
   data: gridData,
   components: {
+		splitter: {
+			dtype: 'box',
+			width: 1,
+			style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#f00'}
+		},
     pager: {
       dtype: 'pager',
       count: 200,

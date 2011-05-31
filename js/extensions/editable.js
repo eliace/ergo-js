@@ -11,7 +11,7 @@ Dino.Editable = function(o) {
 		
 		var editorOpts = this.options.editor;
 		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
-		this.addComponent('_editor', editorOpts);
+		this.addComponent(editorOpts, '_editor');
 		
 		this._editor.$layoutChanged();
 

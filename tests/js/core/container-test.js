@@ -3,7 +3,7 @@
 test('core/container', function(){
 	
 	var item_a = [];
-	for(var i = 0; i < 100; i++) {
+	for(var i = 0; i < 10; i++) {
 		item_a.push({
 			text: 'Item '+i
 		});
@@ -22,100 +22,35 @@ test('core/container', function(){
 		}
 	});
 	
-//	c.$render('body');
+	equals(c.items.size(), 10, 'Создано 10 элементов');
+	equals(c.items.last().index, 9, 'Последний элемент имеет свойство index равное 9');
 	
-	var t1 = Dino.timestamp();
-	console.log('Container + 100 items: ' + (t1 - t0));
+	c.items.add({tag: 'new'}, 5);
 	
-	c.destroy();
-	
-	
-	
-	var rows = [];
-	for(var i = 0; i < 100; i++) {
-		rows.push({
-			id: ''+i,
-			col1: 'col1',
-			col2: 'col2',
-			col3: 'col3',
-			col4: 'col4',
-			col5: 'col5',
-			col6: 'col6',
-		});
-	}
+	equals(c.items.size(), 11, 'Добавлен еще один элемент и всего их стало 11');
+	equals(c.items.last().index, 10, 'Последний элемент имеет свойство index равное 10');
+	equals(c.items.get(5).tag, 'new', 'Добавленный элемент с индексом 5 имеет свойство tag равное "new"');
 	
 	
-	var Cell = Dino.core.Widget.extend({
-		dtype: 'cell',
-		html: '<td%a>%c</td>',
-		
-		$print_content: function() {
-			Cell.superclass.$print_content.apply(this, arguments);
-			
-			if(this.data) return this.data.get();
-		}
+	
+	c = new Dino.core.Container({
+		html: '<div/>'
 	});
 	
-	
-	
-	var but = Dino.object({
+	c.items.add({
 		dtype: 'widget',
-		html: '<button%a>%c</button>',
-		text: 'Rebuild',
-		events: {
-			'click': function(e, w) {
-
-
-				var ta = Dino.timestamp();
-				
-				t.body.$bind(new Dino.data.ArrayDataSource(rows));
-				
-				tb = Dino.timestamp();
-				console.log(tb - ta);
-				
-
-			}
-		}
+		html: '<div class="item"/>'
 	});
 	
-	but.$render('body');
+	equals(c.items.size(), 1, 'Элемент добавлен в контейнер');
+	equals($('.item', c.el).length, 1, 'Элемент добавлен в компоновку');
+	
+	c.items.remove( c.items.get(0) );
+	
+	equals(c.items.size(), 0, 'Элемент удален из контейнера');
 	
 	
 	
-	
-	t0 = Dino.timestamp();
-	
-	var t = new Dino.core.Widget({
-		html: '<table%a>%c</table>',
-		components: {
-			body: {
-				dtype: 'container',
-				html: '<tbody%a>%c</tbody>',
-				dynamic: true,
-				data: new Dino.data.ArrayDataSource(rows),
-				defaultItem: {
-					html: '<tr%a>%c</tr>',
-					defaultItem: {
-						dtype: 'cell'
-//						dtype: 'widget',
-//						html: '<td%a>%c</td>'
-					},
-					items: [{dataId: 'id'}, {dataId: 'col1'}, {dataId: 'col2'}, {dataId: 'col3'}, {dataId: 'col4'}, {dataId: 'col5'}, {dataId: 'col6'}]
-				},
-			}
-		}
-	});
-
-
-	t.$render('body');
-	
-	t1 = Dino.timestamp();
-	console.log(t1 - t0);
-	
-	
-	
-	
-
 	
 	
 });
