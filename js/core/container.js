@@ -32,10 +32,14 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		 */
 		this.items = this.children = new Dino.core.ItemCollection(this);
 		
-		if('items' in o)
-			o.components = o.items;
+//		if('items' in o)
+//			o.components = o.items;
 
 	},	
+	
+	
+	
+	
 	
 	
 //	$componentFactory: function(item) {
@@ -45,15 +49,15 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //	},
 	
 	
-//	$construct: function(o) {
+	$construct: function(o) {
 //		Dino.core.Container.superclass.$construct.call(this, o);
-//		
-//		if('items' in o){
-//			for(var i = 0; i < o.items.length; i++)
-//				this.addItem(o.items[i]);
-//		}
-//				
-//	},
+		
+		if('items' in o){
+			for(var i = 0; i < o.items.length; i++)
+				this.items.add(o.items[i]);
+		}
+				
+	},
 
 //	$opt: function(o) {
 //		Dino.core.Container.superclass.$opt.call(this, o);

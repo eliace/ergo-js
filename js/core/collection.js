@@ -1,6 +1,4 @@
 
-//= require "events"
-
 
 Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
@@ -110,9 +108,9 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	},	
 	
 	add: function(item, i) {
-		if(arguments.length == 1) {
+		if(i == null) {
 			this.src.push(item);
-			i = this.src.length;
+			i = this.src.length-1;
 		}
 		else {
 			this.src.splice(i, 0, item);			

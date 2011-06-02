@@ -14,20 +14,30 @@ test('core/widget', function(){
 	
 	w = new Dino.core.Widget({
 		html: '<div/>',
+		defaultComponent: {
+			cls: 'test'
+		},
 		components: {
 			c1: {
 				dtype: 'widget',
-				html: '<span/>'
+				html: '<span/>',
+				tag: 'component_1'
 			},
 			c2: {
 				dtype: 'widget',
-				html: '<p/>'
+				html: '<p/>',
+				tag: 'component_2'
 			}
 		}
 	});
 	
+	w.c2.mark = 5;
+	
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
+	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
+	ok(w.children.find('component_1') == w.c1, 'Поиск по атрибуту tag в списке компонентов')
+	ok(w.children.find({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 
 
 	w = new Dino.core.Widget({
@@ -70,5 +80,8 @@ test('core/widget', function(){
 	
 	equals(w.c1.el.text(), 'Alice', 'Связывание с полем "name"')
 	equals(w.c2.el.text(), '21', 'Связывание с полем "age"')
+	
+	
+	
 	
 });

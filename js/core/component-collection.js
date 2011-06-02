@@ -6,7 +6,7 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	defaults: {
 		extensions: [Dino.Observable],
 		factory: function(o) {
-			return Dino.widget(o);			
+			return Dino.widget( Dino.smart_override({}, this.options.defaultComponent, o) );			
 		}
 	},
 	
@@ -67,6 +67,10 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 
 	destroy_all: function() {
 		this.src = {}; //TODO
+	},
+	
+	find: function(i) {
+		return Dino.core.ComponentCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
 	}
 		
 });

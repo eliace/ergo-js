@@ -8,6 +8,7 @@
 //= require "component-collection"
 
 
+
 /**
  * @name Dino.widgets
  * @namespace
@@ -51,6 +52,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			else if(!(layout instanceof Dino.Layout))
 				layout = Dino.object(layout);
 			return layout;	
+		},
+		defaultComponent: {
 		}
 	},
 	
@@ -69,7 +72,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 
 //		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
-		var html = o.html;
+//		var html = o.html;
 		
 		
 		// создаем новый элемент DOM или используем уже существующий
@@ -77,7 +80,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		 * Элемент 
 		 * @type Element
 		 */
-		this.el = $(html || this.$html());
+		this.el = $(this.$html());
 		this.el.data('dino-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
@@ -216,7 +219,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 * @private
 	 */
 	$html: function() {
-		return '';//'<div/>';
+		return this.options.html;
 	},
 	
 	/**

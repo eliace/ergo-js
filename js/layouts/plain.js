@@ -1,5 +1,5 @@
 
-//= require "../core/layout"
+//= require <core/layout>
 
 
 /**

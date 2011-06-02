@@ -24,6 +24,7 @@ class SourceFile
   			s = f.readline
   			m = /^\/\/= require "(.*)"/.match(s)
   			if m then
+#					puts path
   				@dependencies << SourceFile.new( (pn.dirname+m[1]).to_s+pn.extname, load_path )
   			end
   			m = /^\/\/= require <(.*)>/.match(s)
@@ -167,7 +168,8 @@ end
 
 task :compose do
 
-	compose_files('build', ['js/**/*.js'])
+#	compose_files('build', ['js/**/*.js'])
+	compose_files('build', ['js/natives/*.js'])
 
 end
 

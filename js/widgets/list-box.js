@@ -8,7 +8,10 @@
  * @class
  * @extends Dino.containers.Box
  */
-Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.Box', /** @lends Dino.widgets.List.prototype */{
+
+
+/*
+Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.Box', {
 	
 	defaultCls: 'dino-list-box',
 	
@@ -37,6 +40,6 @@ Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.Box
 	
 	
 }, 'list-box');
-
+*/
 
 
