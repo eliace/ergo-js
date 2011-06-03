@@ -182,7 +182,11 @@ Dino.declare('Dino.widgets.Radio', Dino.widgets.Input, /** @lends Dino.widgets.f
 	
 	defaults: {
 		html: '<input type="radio"></input>'
-	}
+	},
+	
+	isChecked: function() {
+		return this.el.prop('checked');
+	}	
 	
 }, 'radio');
 
@@ -379,6 +383,13 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	
 	$opt: function(o) {
 		Dino.widgets.Select.superclass.$opt.call(this, o);
+		
+		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
+		if('name' in o) this.el.attr('name', o.name);
+		if('value' in o) this.el.prop('value', o.value);
+		if('disabled' in o) this.el.prop('disabled', o.disabled);
+		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);		
+		
 /*		
 		if('options' in o){
 			this.el.empty();

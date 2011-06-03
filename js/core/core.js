@@ -336,8 +336,15 @@ var Dino = (function(){
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
 	D.map = function(obj, fn) {
-		var a = D.isArray(obj) ? [] : {};
-		for(var i in obj) a[i] = fn.call(obj, obj[i], i);
+		var a;
+		if(D.isArray(obj)) {
+			a = [];
+			for(var i = 0; i < obj.length; i++) a[i] = fn.call(obj, obj[i], i);			
+		}
+		else {
+			a = {};
+			for(var i in obj) a[i] = fn.call(obj, obj[i], i);			
+		}
 		return a;	
 	};
 	

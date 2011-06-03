@@ -20,7 +20,7 @@ var sampleTree = [{
 		path: 'containers-form'
 	}, {
 		name: 'Dino forms',
-		path: 'containers-xform',
+		path: 'containers-xform'
 	}, {
 		name: 'Controls',
 		path: 'containers-controls'

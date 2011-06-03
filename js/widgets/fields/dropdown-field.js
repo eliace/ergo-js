@@ -150,6 +150,10 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 	
 	
 	showDropdown: function() {
+		
+		if(this.states.is('disabled')) return;
+		
+		
     var dd = this.dropdown;
 							
     dd.el.css('min-width', this.el.width());//.width(this.el.width());

@@ -57,10 +57,15 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.Field', {
 		format: function(val) {
 			var o = this.options;
 			var empty_val = (val === '' || val === null || val === undefined);
-			this.states.toggle('placeholder', empty_val);
+			this.states.toggle('placeholder', empty_val && o.placeholder);
 			return (empty_val) ? o.placeholder : val;
 		}
-	}	
+	},
+	
+	
+	getText: function() {
+		return this.input.el.val();
+	}
 	
 //	$opt: function(o) {
 //		Dino.widgets.TextField.superclass.$opt.apply(this, arguments);

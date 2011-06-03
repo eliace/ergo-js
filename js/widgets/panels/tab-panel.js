@@ -47,6 +47,9 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 					dtype: 'box'
 				}
 			}
+		},
+		panelModel: {
+			
 		}
 	},
 	
@@ -82,11 +85,11 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 		}
 		
 		
-		if('tab' in o.defaults)
-			Dino.smart_override(o.components.tabs.defaultItem, o.defaults.tab);
+		if('tab' in o.panelModel)
+			Dino.smart_override(o.components.tabs.defaultItem, o.panelModel.tab);
 		
-		if('page' in o.defaults)
-			Dino.smart_override(o.components.pages.defaultItem, o.defaults.page);
+		if('page' in o.panelModel)
+			Dino.smart_override(o.components.pages.defaultItem, o.panelModel.page);
 		
 	},
 	

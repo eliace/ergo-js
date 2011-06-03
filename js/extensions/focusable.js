@@ -59,6 +59,7 @@ Dino.Focusable.focusManager = {
 		if(w) {
 			w.states.clear('focus');
 			w.events.fire('onBlur');
+			w.el.blur();
 		}		
 	},
 	

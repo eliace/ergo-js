@@ -158,6 +158,11 @@ button.plain {
 	background: url(img/vsplit.png) repeat-y scroll 50% 50%;
 }
 
+.dino-split.horizontal {
+	background: url(img/hsplit.png) repeat-x scroll 50% 50%;
+	margin: 3px 0;
+}
+
 
 
 

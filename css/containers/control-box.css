@@ -38,5 +38,10 @@
 	margin: 0 3px;
 }
 
+.dino-split.horizontal {
+	display: block;
+	vertical-align: middle;
+}
+
 
 
