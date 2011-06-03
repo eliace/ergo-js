@@ -1,11 +1,11 @@
 
-//= require "box"
+//= require "panel"
 
 /**
  * @class
  * @extends Dino.core.Container
  */
-Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.ListBox', /** @lends Dino.containers.GroupBox.prototype */{
+Dino.declare('Dino.widgets.GroupPanel', 'Dino.widgets.Panel', {
 	
 	defaults: {
 		baseCls: 'dino-group-box',

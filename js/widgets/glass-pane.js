@@ -1,7 +1,7 @@
 
-//= require "list-box"
+//= require "box"
 
-Dino.declare('Dino.containers.GlassPane', 'Dino.containers.Box', {
+Dino.declare('Dino.containers.GlassPane', 'Dino.widgets.Box', {
 	
 //	defaultClass: 'dino-glass-box',
 	

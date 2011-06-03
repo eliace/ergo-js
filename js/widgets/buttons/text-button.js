@@ -1,7 +1,6 @@
 
-//= require <widgets/natives/text>
-//= require <widgets/natives/button>
-//= require "widgets/images/icon"
+//= require <widgets/natives/all>
+//= require <widgets/images/all>
 //= require <layouts/hbox>
 
 

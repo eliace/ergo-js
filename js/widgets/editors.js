@@ -1,8 +1,8 @@
 
 //= require "field"
 //= require <containers/dropdown-box>
-//= require "list-box"
-//= require "images"
+//= require <containers/list-box>
+//= require "images/all"
 
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 	

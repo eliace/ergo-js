@@ -1,5 +1,5 @@
 
-//= require "native"
+//= require "natives/all"
 
 
 /**

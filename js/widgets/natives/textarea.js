@@ -14,4 +14,4 @@ Dino.declare('Dino.widgets.TextArea', 'Dino.widgets.TextInput', /** @lends Dino.
 		html: '<textarea></textarea>'
 	}
 	
-}, 'text-area');
+}, 'textarea');

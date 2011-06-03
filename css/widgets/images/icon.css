@@ -1,8 +1,5 @@
 
 
-
-
-
 /*
  * Icons 
  */
@@ -47,21 +44,3 @@
 .icon24 .dino-icon[dock^=center], .icon24.dino-icon[dock^=center]  {	margin-left: -12px; }
 .icon32 .dino-icon[dock$=center], .icon32.dino-icon[dock$=center]  {	margin-top: -16px; }
 .icon32 .dino-icon[dock^=center], .icon32.dino-icon[dock^=center]  {	margin-left: -16px; }
-
-
-
-
-/*
- * PULSE ICON
- */
-
-.dino-pulse-icon {
-	position: relative;
-}
-
-.dino-pulse-icon img {
-	position: absolute;
-}
-
-
-

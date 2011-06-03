@@ -1,13 +1,13 @@
 
-//= require "box"
-//= require "../widgets/native"
+//= require "list-box"
+//= require <widgets/natives/all>
 
 
 /**
  * @class
  * @extends Dino.containers.Box
  */
-Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Box', /** @lends Dino.containers.Tabs.prototype */{
+Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.ListBox', /** @lends Dino.containers.Tabs.prototype */{
 	
 	
 	defaults: {

@@ -1,6 +1,5 @@
 
-//= require <containers/box>
-//= require <widgets/images>
+//= require <containers/list-box>
 //= require <widgets/text-item>
 
 

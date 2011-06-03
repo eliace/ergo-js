@@ -1,5 +1,5 @@
 
-//= require "box"
+//= require "list-box"
 
 
 /*

@@ -1,14 +1,14 @@
 
 //= require <containers/dropdown-box>
-//= require <widgets/native>
-//= require <widgets/images>
+//= require <widgets/natives/all>
+//= require <widgets/images/all>
 
 
 /**
  * @class
  * @extends Dino.core.Widget
  */
-Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.Box', /** @lends Dino.widgets.MenuItem.prototype */{
+Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box', /** @lends Dino.widgets.MenuItem.prototype */{
 	
 	defaultCls: 'dino-menu-item',
 	

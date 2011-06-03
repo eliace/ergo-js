@@ -1,5 +1,5 @@
 
-//= require <containers/box>
+//= require <widgets/box>
 //= require <layouts/dock>
 //= require <layouts/float>
 //= require <widgets/buttons/icon-button>

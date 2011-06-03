@@ -1,7 +1,4 @@
 
-//= require <containers/box>
-//= require <extensions/selectable>
-//= require "text-item"
 
 
 /**
