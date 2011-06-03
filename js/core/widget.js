@@ -330,8 +330,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		var self = this;
 		
 		
-		if(this.el) {
-		
 		
 		var el = this.el;
 		
@@ -392,7 +390,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			}
 		}
 						
-		}	
 						
 						
 		
@@ -409,6 +406,12 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			}
 		}
 
+		
+		if('onClick' in o)
+			el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
+		if('onDoubleClick' in o)
+			el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
+		
 		
 		
 		

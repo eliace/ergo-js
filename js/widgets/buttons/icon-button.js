@@ -1,6 +1,6 @@
 
-//= require "../native"
-//= require "../images"
+//= require <widgets/natives/button>
+//= require <widgets/images/icon>
 
 
 Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {

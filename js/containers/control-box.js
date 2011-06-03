@@ -1,7 +1,10 @@
 
-//= require "box"
+//= require "list-box"
+//= require <widgets/split>
 
-Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
+
+
+Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.ListBox', {
 	
 	defaults: {
 		cls: 'dino-control-box'
@@ -18,18 +21,4 @@ Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.Box', {
 }, 'control-box');
 
 
-
-/**
- * @class
- * @extends Dino.core.Widget
- */
-Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.core.Widget', /** @lends Dino.widgets.Split.prototype */{
-	
-	$html: function() { return '<div>&nbsp;</div>' },
-	
-	defaults: {
-		cls: 'dino-split'
-	}	
-	
-}, 'split');
 

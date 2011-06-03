@@ -5,7 +5,7 @@
  * @class
  * @extends Dino.core.Container
  */
-Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.Box', /** @lends Dino.containers.GroupBox.prototype */{
+Dino.containers.GroupBox = Dino.declare('Dino.containers.GroupBox', 'Dino.containers.ListBox', /** @lends Dino.containers.GroupBox.prototype */{
 	
 	defaults: {
 		baseCls: 'dino-group-box',

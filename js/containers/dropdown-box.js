@@ -1,12 +1,12 @@
 
-//= require "box"
-//= require "glass-box"
+//= require "list-box"
+//= require <widgets/glass-pane>
 
 /**
  * @class
  * @extends Dino.containers.Box
  */
-Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.containers.Box', /** @lends Dino.containers.DropdownBox.prototype */ {
+Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.containers.ListBox', /** @lends Dino.containers.DropdownBox.prototype */ {
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',
@@ -26,6 +26,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		  
 		var self = this;
 		
+		// TODO прозрачную панель не нужно делать виджетом
 		this.glass_box = $.dino({
 			dtype: 'glass-box',
 			events: {

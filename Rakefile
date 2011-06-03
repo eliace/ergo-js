@@ -169,7 +169,7 @@ end
 task :compose do
 
 #	compose_files('build', ['js/**/*.js'])
-	compose_files('build', ['js/natives/*.js'])
+	compose_files('build', ['js/buttons/*.js'])
 
 end
 
