@@ -4,10 +4,10 @@
 
 /**
  * @class
- * @name Dino.containers.Box
+ * @name Dino.containers.List
  * @extends Dino.core.Container
  */
-Dino.declare('Dino.containers.ListBox', 'Dino.core.Container', /** @lends Dino.containers.Box.prototype */ {
+Dino.declare('Dino.containers.List', 'Dino.core.Container', /** @lends Dino.containers.List.prototype */ {
 	
 	defaults: {
 		html: '<div/>',
@@ -16,5 +16,5 @@ Dino.declare('Dino.containers.ListBox', 'Dino.core.Container', /** @lends Dino.c
 		}
 	}
 	
-}, 'list-box');
+}, 'list');
 

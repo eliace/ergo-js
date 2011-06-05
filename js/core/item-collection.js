@@ -44,6 +44,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
 		
+		return item;
 //		this.events.fire('item:add', {'item': item});
 	},
 	
@@ -64,11 +65,13 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	},
 	
 	remove_all: function() {
-		this.src = {}; //TODO
+		while(this.src.length)
+			this.remove_at(0);
 	},
 
 	destroy_all: function() {
-		this.src = {}; //TODO
+		while(this.src.length)
+			this.remove_at(0).destroy();
 	},
 	
 	find: function(i) {

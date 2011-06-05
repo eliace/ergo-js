@@ -1,10 +1,10 @@
 
-//= require "list-box"
+//= require "list"
 //= require <widgets/split>
 
 
 
-Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.ListBox', {
+Dino.declare('Dino.widgets.ControlBox', 'Dino.containers.List', {
 	
 	defaults: {
 		cls: 'dino-control-box'

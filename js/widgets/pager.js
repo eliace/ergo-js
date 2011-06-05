@@ -5,9 +5,9 @@
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.List
  */
-Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.Box', /** @lends Dino.widgets.Pager.prototype */{
+Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', /** @lends Dino.widgets.Pager.prototype */{
 	
 	defaults: {
 		cls: 'dino-pager',

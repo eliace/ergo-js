@@ -1,5 +1,5 @@
 
-//= require <containers/list-box>
+//= require <containers/list>
 //= require <widgets/text-item>
 
 
@@ -324,9 +324,9 @@ Dino.declare('Dino.widgets.XTree', 'Dino.widgets.TextTreeItem', {
  * Простое дерево с отступами.
  * 
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.List
  */
-Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.Box', /** @lends Dino.widgets.Tree.prototype */{
+Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /** @lends Dino.widgets.Tree.prototype */{
 	
 	defaults: {
 		cls: 'dino-tree',

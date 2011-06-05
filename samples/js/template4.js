@@ -215,7 +215,7 @@ $(document).ready(function(){
 		components: {
 			// Логотип
 			logo: {
-				dtype: 'box',
+				dtype: 'list',
 				id: 'logo',
 				layout: 'hbox',
 				items: [{
@@ -236,7 +236,7 @@ $(document).ready(function(){
 
 			// Содержимое
 			pageContent: {
-				dtype: 'box',
+				dtype: 'list',
 				layout: 'border',
 				height: 'auto',
 				items: [{
@@ -260,7 +260,7 @@ $(document).ready(function(){
 										xicon: true,
 		      					dataId: 'name',
 										cls: 'dino-clickable',
-										extensions: [Dino.Clickable],
+//										extensions: [Dino.Clickable],
 //										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
@@ -306,7 +306,7 @@ $(document).ready(function(){
 						}
 					}
 				}, {
-					dtype: 'box',
+					dtype: 'list',
 					tag: 'preview_and_code',
 					height: 'auto',
 					layout: 'border',
@@ -335,7 +335,7 @@ $(document).ready(function(){
 						      },
 						      components: {
 						        buttons: {
-							        dtype: 'box',
+							        dtype: 'list',
 							        dock: 'right',
 							        layout: 'float',
 							        defaultItem: {

@@ -4,7 +4,7 @@ var acData = 'January February March April May June July August September Novemb
 
 $.dino({
   renderTo: '.preview',
-  dtype: 'box',
+  dtype: 'list',
   items: [{
     dtype: 'box',
     cls: 'label-box',

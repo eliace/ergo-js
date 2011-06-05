@@ -3,12 +3,12 @@
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.ListBox
  */
 
 
 /*
-Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.Box', {
+Dino.widgets.ListBox = Dino.declare('Dino.widgets.ListBox', 'Dino.containers.ListBox', {
 	
 	defaultCls: 'dino-list-box',
 	

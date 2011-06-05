@@ -32,7 +32,7 @@ var menuData = [{
 
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   cls: 'button-container',
   items: [/*{
@@ -67,7 +67,7 @@ $.dino({
     dtype: 'button',
     style: {'padding-right': 2},
     content: {
-      dtype: 'box',
+      dtype: 'list',
       layout: 'float',
       items: [{
         dtype: 'icon',

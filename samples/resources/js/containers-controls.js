@@ -12,7 +12,7 @@
 
     
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   items: [{
     dtype: 'group-box',

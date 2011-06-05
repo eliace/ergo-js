@@ -70,9 +70,9 @@ Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.wi
 
 /**
  * @class
- * @extends Dino.containers.DropdownBox
+ * @extends Dino.containers.DropdownList
  */
-Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widgets.MenuDropdownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
+Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widgets.MenuDropdownList', /** @lends Dino.widgets.ContextMenu.prototype */{
 	
 	defaults: {
 //		hideOn: 'hoverOut',

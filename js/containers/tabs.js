@@ -1,13 +1,13 @@
 
-//= require "list-box"
+//= require "list"
 //= require <widgets/natives/all>
 
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.List
  */
-Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.ListBox', /** @lends Dino.containers.Tabs.prototype */{
+Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.List', /** @lends Dino.containers.Tabs.prototype */{
 	
 	
 	defaults: {
@@ -47,10 +47,10 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 	setActiveTab: function(tab){
 		
 		// если указанный объект не является виджетом, то ищем его через getItem
-		if(!(tab instanceof Dino.core.Widget)) tab = this.getItem(tab);
+		if(!(tab instanceof Dino.core.Widget)) tab = this.items.find(tab);
 		
 		tab.states.set('active');
-		this.eachItem(function(item){
+		this.items.each(function(item){
 			if(item != tab)
 				item.states.clear('active');
 		});

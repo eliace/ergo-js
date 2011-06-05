@@ -1,9 +1,9 @@
 
-//= require "list-box"
+//= require "list"
 
 
 /*
-Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.FormItem', 'Dino.containers.List', {
 	
 	
 	$init: function(o) {
@@ -27,7 +27,7 @@ Dino.declare('Dino.widgets.FormItem', 'Dino.containers.Box', {
 
 
 
-Dino.declare('Dino.containers.Form', 'Dino.containers.Box', {
+Dino.declare('Dino.containers.Form', 'Dino.containers.List', {
 
 	defaults: {
 //		layout: 'form-layout'

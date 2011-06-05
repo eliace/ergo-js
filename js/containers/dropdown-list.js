@@ -1,12 +1,12 @@
 
-//= require "list-box"
+//= require "list"
 //= require <widgets/glass-pane>
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.List
  */
-Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.containers.ListBox', /** @lends Dino.containers.DropdownBox.prototype */ {
+Dino.containers.DropdownList = Dino.declare('Dino.containers.DropdownList', 'Dino.containers.List', /** @lends Dino.containers.DropdownList.prototype */ {
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',
@@ -15,20 +15,20 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 			'hide': 'none',
 			'delay': 200
 		},
-		baseCls: 'dino-dropdown-box',
+		baseCls: 'dino-dropdown-list',
 		offset: [0, 0],
 		hideOn: 'outerClick'
 	},
 	
 	
 	$init: function() {
-		Dino.containers.DropdownBox.superclass.$init.apply(this, arguments);
+		Dino.containers.DropdownList.superclass.$init.apply(this, arguments);
 		  
 		var self = this;
 		
 		// TODO прозрачную панель не нужно делать виджетом
-		this.glass_box = $.dino({
-			dtype: 'glass-box',
+		this.glass_pane = $.dino({
+			dtype: 'glass-pane',
 			events: {
 				'click': function(e) {
 		      self.hide();
@@ -85,7 +85,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 
 		if (this.options.hideOn == 'outerClick') {
 			// добавляем прозрачную панель в документ
-			$('body').append(this.glass_box.el);
+			$('body').append(this.glass_pane.el);
 		}
 		
 		this.events.fire('onShow');
@@ -95,7 +95,7 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 		
 		if(this.options.hideOn == 'outerClick') {
 			// удаляем прозрачную панель
-	    this.glass_box.el.detach();
+	    this.glass_pane.el.detach();
 		}
 		
 		var effects = this.options.effects;
@@ -125,4 +125,4 @@ Dino.containers.DropdownBox = Dino.declare('Dino.containers.DropdownBox', 'Dino.
 	}
 	
 	
-}, 'dropdown-box');
+}, 'dropdown-list');

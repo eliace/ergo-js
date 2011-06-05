@@ -1,6 +1,6 @@
 
 //= require "text-field"
-//= require <containers/dropdown-box>
+//= require <containers/dropdown-list>
 //= require <widgets/list-box>
 //= require <widgets/buttons/icon-button>
 
@@ -37,7 +37,7 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 				tabIndex: -1
       },
 			dropdown: {
-	      dtype: 'dropdown-box',
+	      dtype: 'dropdown-list',
 //				renderTo: 'body',
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},

@@ -71,7 +71,7 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 						cls: 'dino-dropdown-shadow'					
 					};
 					(isHtml) ? o.htmlMessage = s : o.message = s;
-					self.growl.addItem(o);
+					self.growl.items.add(o);
 				}
 			}
 		

@@ -1,6 +1,6 @@
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   cls: 'button-container',
   items: [{

@@ -45,6 +45,8 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		w[i] = item;
 		
 //		this.events.fire('item:add', {'item': item});
+
+		return item;
 	},
 	
 	remove_at: function(i) {
@@ -62,11 +64,13 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	},
 	
 	remove_all: function() {
-		this.src = {}; //TODO
+		for(i in this.src)
+			this.remove_at(i);
 	},
 
 	destroy_all: function() {
-		this.src = {}; //TODO
+		for(i in this.src)
+			this.remove_at(i).destroy();
 	},
 	
 	find: function(i) {

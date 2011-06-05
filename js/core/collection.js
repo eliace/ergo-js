@@ -83,7 +83,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	},
 	
 	is_empty: function() {
-		return this.length() == 0;
+		return this.size() == 0;
 	},
 	
 	index_of: function(item) {

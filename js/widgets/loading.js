@@ -4,7 +4,7 @@
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.ListBox
  */
 Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.widgets.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
 	

@@ -7,7 +7,7 @@
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.ListBox
  */
 Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', /** @lends Dino.widgets.Dialog.prototype */{
 	
@@ -86,10 +86,10 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			var self = this;
 			// формируем указанный порядок кнопок
 			Dino.each(o.buttons, function(name){
-				self.buttons.layout.el.append( self.buttons.getItem(name).el );
+				self.buttons.layout.el.append( self.buttons.items.find(name).el );
 			});
 			// включаем указанные кнопки
-			this.buttons.eachItem(function(item) {
+			this.buttons.items.each(function(item) {
 				item.states.toggle('hidden', !Dino.include(o.buttons, item.tag)); 
 			});
 		}		

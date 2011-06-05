@@ -1,7 +1,6 @@
 
 //= require "field"
-//= require <containers/dropdown-box>
-//= require <containers/list-box>
+//= require <containers/dropdown-list>
 //= require "images/all"
 
 Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
@@ -79,7 +78,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				}
       },
 			dropdown: {
-	      dtype: 'dropdown-box',
+	      dtype: 'dropdown-list',
 				renderTo: 'body',
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},
