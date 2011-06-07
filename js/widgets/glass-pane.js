@@ -6,7 +6,7 @@ Dino.declare('Dino.widgets.GlassPane', 'Dino.widgets.Box', {
 //	defaultClass: 'dino-glass-box',
 	
 	defaults: {
-		html: '<div class="dino-glass-box" autoheight="ignore"/>',
+		html: '<div class="dino-glass-pane" autoheight="ignore"/>',
 		events: {
 			'mousedown': function(e) {
 				e.preventDefault();

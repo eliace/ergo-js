@@ -30,6 +30,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	remove: function(item) {
 		this.remove_at(this.index_of(item));
+		return item;
 	},
 
 	remove_at: function(i) {

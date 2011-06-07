@@ -44,6 +44,8 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		// shortcut для компонента
 		w[i] = item;
 		
+		if('show' in item) item.show();
+		
 //		this.events.fire('item:add', {'item': item});
 
 		return item;
@@ -55,6 +57,8 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		
 		var w = this.widget;		
 		var item = this.src[i];
+		
+//		if('hide' in item) item.hide();
 		
 		w.layout.remove(item);
 		delete this.src[i];

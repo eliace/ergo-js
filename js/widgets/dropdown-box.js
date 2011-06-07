@@ -1,5 +1,5 @@
 
-//= require "glass-box"
+//= require "glass-pane"
 
 
 
@@ -8,11 +8,14 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 	dtype: 'dropdown-box',
 	
 	defaults: {
-		position: 'left-bottom',
-		offset: [0, 0]
+		position: '',
+		offset: [0, 0],
+		cls: 'dino-dropdown-box'
 	},
 	
 	show: function(rel_to, rel_pos) {
+
+		if(arguments.length == 0) return;
 
 		var o = this.options;
 
@@ -25,9 +28,9 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 		
 		Dino.each(o.position.split('-'), function(p){
 			if(p === 'bottom')
-				y += self.el.outerHeight();				
+				y -= self.el.outerHeight();				
 			else if(p === 'right')
-				x += self.el.outerWidth();
+				x -= self.el.outerWidth();
 		});
 		
 		Dino.each(rel_pos.split('-'), function(p){
@@ -37,8 +40,21 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 				x += rel_to.el.outerWidth();
 		});
 		
-		self.el.css({'left': x, 'top': y});
+		$('body').append(this.el);
+				
+//		var view_w = this.el.parent().outerWidth();
+//		var view_h = this.el.parent().outerHeight();
+//		
+//		var dw = view_w - (dd.el.outerWidth() + x);
+//		var dh = view_h - (dd.el.outerHeight() + y);
+//		
+//		if(dw < 0)	x -= this.el.outerWidth();
+//		if(dh < 0)	y -= this.el.outerWidth();
 		
+		
+		this.el.css({'left': x, 'top': y});
+		
+		this.el.show();
 	},
 	
 	
@@ -48,6 +64,7 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 	
 	
 	$init: function(o) {
+		Dino.widgets.DropdownBox.superclass.$init.apply(this, arguments);
 
 		var self = this;
 	

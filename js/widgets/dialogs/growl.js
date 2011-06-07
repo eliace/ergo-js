@@ -122,7 +122,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.List', {
 		defaultItem: {
 			dtype: 'growl',
 			onHide: function() {
-				this.parent.destroyItem(this); 				
+				this.parent.items.remove(this).destroy(); 				
 			}
 		}
 	}

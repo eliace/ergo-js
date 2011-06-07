@@ -44,6 +44,8 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
 		
+		if('show' in item) item.show();
+		
 		return item;
 //		this.events.fire('item:add', {'item': item});
 	},
@@ -52,6 +54,8 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		
 		var w = this.widget;		
 		var item = this.src[i];
+		
+//		if('hide' in item) item.hide();		
 		
 		Dino.core.ItemCollection.superclass.remove_at.call(this, i);
 				

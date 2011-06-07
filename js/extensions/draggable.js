@@ -64,7 +64,7 @@ Dino.Draggable = function(o) {
 	
 	if(!Dino.Draggable.dragReady) {
 		
-		Dino.Draggable.dragPane = $.dino({dtype: 'glass-box'});
+		Dino.Draggable.dragPane = $.dino({dtype: 'glass-pane'});
 		
 		Dino.Draggable.dragReady = true;
 //		$('body').append(Dino.dragPane);
