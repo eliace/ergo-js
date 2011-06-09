@@ -1,5 +1,5 @@
 
-//= require <containers/dropdown-list>
+//= require <widgets/dropdown-box>
 //= require <widgets/natives/all>
 //= require <widgets/images/all>
 
@@ -28,7 +28,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 				state: 'hidden'
 			},
 			submenu: {
-				dtype: 'menu-dropdown-list',
+				dtype: 'menu-dropdown-box',
 				dataId: 'children',
 				binding: function(val) {
 					if(val && val.length > 0) this.parent.states.set('submenu');
@@ -62,20 +62,13 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
-			o.components.submenu.items = o.submenu;
+			Dino.smart_override(o.components.submenu, {content: {items: o.submenu}});
+//			o.components.submenu.content.items = o.submenu;
 			//FIXME подозрительный код, потому что состояние submenu влияет на компонент icon, которого пока не создано
 			this.states.set('submenu');
 			o.components.icon.state = '';
 		}
 
-//		if('submenuWidth' in o){
-//			o.components.submenu.width = o.submenuWidth;
-//		}
-		
-//		if('subItem' in o.defaults){
-//			Dino.smart_override(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
-//		}		
-		
 	},
 	
 	
@@ -154,7 +147,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 
 
 
-Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
+Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 	
 	defaultCls: 'dino-menu-dropdown',
 	
@@ -162,10 +155,14 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 		cls: 'dino-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
-		dynamic: true,
-		style: {'overflow-y': 'visible'},
-		defaultItem: {
-			dtype: 'menu-item'
+		
+		content: {
+			dtype: 'list',
+			dynamic: true,
+			style: {'overflow-y': 'visible'},
+			defaultItem: {
+				dtype: 'menu-item'
+			}			
 		}
 	},
 	
@@ -174,10 +171,10 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 		
 		if('menuModel' in o) {
 			Dino.smart_override(o, o.menuModel.dropdown);
-			o.defaultItem.menuModel = o.menuModel;
+			o.content.defaultItem.menuModel = o.menuModel;
 		}		
 		
-		Dino.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
+		Dino.widgets.MenuDropdownBox.superclass.$init.apply(this, arguments);
 				
 //		if('defaultItem' in o)
 //			Dino.smart_override(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
@@ -212,7 +209,7 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 	
 	
 	
-}, 'menu-dropdown-list');
+}, 'menu-dropdown-box');
 
 
 

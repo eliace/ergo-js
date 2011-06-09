@@ -14,11 +14,13 @@ $.dino({
       onSelect: function(e) {
         growl.info('Выбран элемент меню: ' + e.target.content.getText());
       },
-      items: [
-        {text: 'Item 1'},
-        {text: 'Item 2'},
-        {text: 'Item 3'},      
-      ]
+			content: {
+	      items: [
+	        {text: 'Item 1'},
+	        {text: 'Item 2'},
+	        {text: 'Item 3'},      
+	      ]				
+			}
     }
   }]
 });
