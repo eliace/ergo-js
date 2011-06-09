@@ -80,20 +80,39 @@ Dino.Focusable.focusManager = {
 }
 
 
-$(window).click(function(e){
-	// убираем фокус по щелчку левой кнопкой мыши
-	if(e.button == 0) Dino.Focusable.focusManager.clear();
-});
 
+if($.browser.msie) {
 
-if($.browser.webkit) {
-	$(window).bind('keydown', function(e){
+	$(document).click(function(e){
+		// убираем фокус по щелчку левой кнопкой мыши
+		if(e.button == 0) Dino.Focusable.focusManager.clear();
+	});
+
+	$(document).bind('keydown', function(e){
 		Dino.Focusable.focusManager.keypress(e);
 	});	
+	
 }
 else {
-	$(window).bind('keypress', function(e){
-		Dino.Focusable.focusManager.keypress(e);
-	});	
+
+	$(window).click(function(e){
+		// убираем фокус по щелчку левой кнопкой мыши
+		if(e.button == 0) Dino.Focusable.focusManager.clear();
+	});
+	
+	
+	if($.browser.webkit) {
+		$(window).bind('keydown', function(e){
+			Dino.Focusable.focusManager.keypress(e);
+		});	
+	}
+	else {
+		$(window).bind('keypress', function(e){
+			Dino.Focusable.focusManager.keypress(e);
+		});	
+	}
+	
 }
+
+
 
