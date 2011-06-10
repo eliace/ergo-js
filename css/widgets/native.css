@@ -5,12 +5,13 @@ button.plain {
 }
 
 button.plain:hover {
-	border: 1px solid #ccc;	
-	background-color: #ddd;
+	border: 1px solid #c0c0c0;	
+	background-color: #ccc;
 }
 
 button.plain.selected {
-	background-color: #ccc;
+	background-color: #ddd;
+	border-color: #aaa #eee #eee #aaa;
 }
 
 button.plain.disabled {

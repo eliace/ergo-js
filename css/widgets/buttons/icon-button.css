@@ -5,8 +5,8 @@
  */
 
 .dino-icon-button {
-	border: 1px solid #eee;
-	background-color: #eee;
+	border: 1px solid transparent;
+	background-color: transparent;
 	margin: 0;
 }
 
