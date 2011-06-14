@@ -14,32 +14,44 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 		hideOn: 'outerClick'
 	},
 	
-	show: function(rel_to, rel_pos) {
+	show: function(a, b){//rel_to, rel_pos) {
 
 		if(arguments.length == 0) return;
+		
+		
+		var x = a;
+		var y = b;
+		
+		if(!Dino.isNumber(a)) {
+			
+			var rel_to = a;
+			var rel_pos = b;
+			
+			var o = this.options;
+	
+			var offset = rel_to.el.offset();
+			
+			x = offset.left + o.offset[0];
+			y = offset.top + o.offset[1];
+			
+			var self = this;
+			
+			Dino.each(o.position.split('-'), function(p){
+				if(p === 'bottom')
+					y -= self.el.outerHeight();				
+				else if(p === 'right')
+					x -= self.el.outerWidth();
+			});
+			
+			Dino.each(rel_pos.split('-'), function(p){
+				if(p === 'bottom')
+					y += rel_to.el.outerHeight();				
+				else if(p === 'right')
+					x += rel_to.el.outerWidth();
+			});
+			
+		}
 
-		var o = this.options;
-
-		var offset = rel_to.el.offset();
-		
-		var x = offset.left + o.offset[0];
-		var y = offset.top + o.offset[1];
-		
-		var self = this;
-		
-		Dino.each(o.position.split('-'), function(p){
-			if(p === 'bottom')
-				y -= self.el.outerHeight();				
-			else if(p === 'right')
-				x -= self.el.outerWidth();
-		});
-		
-		Dino.each(rel_pos.split('-'), function(p){
-			if(p === 'bottom')
-				y += rel_to.el.outerHeight();				
-			else if(p === 'right')
-				x += rel_to.el.outerWidth();
-		});
 		
 		$('body').append(this.el);
 				

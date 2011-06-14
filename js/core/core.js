@@ -851,7 +851,7 @@ var Dino = (function(){
 //	$.dino = D;
 
 	D.logger = {
-		debug: function() {
+		debug: function(msg) {
 			if(console) console.log(msg);
 		}
 	};
