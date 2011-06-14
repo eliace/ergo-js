@@ -10,7 +10,8 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 	defaults: {
 		position: '',
 		offset: [0, 0],
-		cls: 'dino-dropdown-box'
+		cls: 'dino-dropdown-box',
+		hideOn: 'outerClick'
 	},
 	
 	show: function(rel_to, rel_pos) {
@@ -60,6 +61,10 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 	
 	hide: function() {
 		
+		
+		
+		
+		this.el.hide();
 	},
 	
 	
