@@ -14,34 +14,46 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 		hideOn: 'outerClick'
 	},
 	
-	show: function(rel_to, rel_pos) {
+	show: function(a, b, c){//rel_to, rel_pos) {
 
 		if(arguments.length == 0) return;
+		
+		var x = a;
+		var y = b;
+		var to_el = c;
+		
+		if(!Dino.isNumber(a)) {
+			
+			var rel_to = a;
+			var rel_pos = b;
+			
+			var o = this.options;
+	
+			var offset = rel_to.el.offset();
+			
+			x = offset.left + o.offset[0];
+			y = offset.top + o.offset[1];
+			
+			var self = this;
+			
+			Dino.each(o.position.split('-'), function(p){
+				if(p === 'bottom')
+					y -= self.el.outerHeight();				
+				else if(p === 'right')
+					x -= self.el.outerWidth();
+			});
+			
+			Dino.each(rel_pos.split('-'), function(p){
+				if(p === 'bottom')
+					y += rel_to.el.outerHeight();				
+				else if(p === 'right')
+					x += rel_to.el.outerWidth();
+			});
+			
+		}
 
-		var o = this.options;
-
-		var offset = rel_to.el.offset();
-		
-		var x = offset.left + o.offset[0];
-		var y = offset.top + o.offset[1];
-		
-		var self = this;
-		
-		Dino.each(o.position.split('-'), function(p){
-			if(p === 'bottom')
-				y -= self.el.outerHeight();				
-			else if(p === 'right')
-				x -= self.el.outerWidth();
-		});
-		
-		Dino.each(rel_pos.split('-'), function(p){
-			if(p === 'bottom')
-				y += rel_to.el.outerHeight();				
-			else if(p === 'right')
-				x += rel_to.el.outerWidth();
-		});
-		
-		$('body').append(this.el);
+		if(to_el)
+			$(to_el).append(this.el);
 				
 //		var view_w = this.el.parent().outerWidth();
 //		var view_h = this.el.parent().outerHeight();
@@ -56,15 +68,26 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 		this.el.css({'left': x, 'top': y});
 		
 		this.el.show();
+		
+		
+		this.isShown = true;
+
+		if (this.options.hideOn == 'outerClick') {
+			// добавляем прозрачную панель в документ
+			$('body').append(this.glass_pane.el);
+		}
+		
+		this.events.fire('onShow');		
 	},
 	
 	
 	hide: function() {
 		
-		
-		
+		this.isShown = false;
 		
 		this.el.hide();
+		
+		this.glass_pane.el.detach();		
 	},
 	
 	
@@ -77,7 +100,7 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 			dtype: 'glass-pane',
 			events: {
 				'click': function(e) {
-		      self.hide();
+		      		self.hide();
 					e.stopPropagation();					
 				}
 			}						

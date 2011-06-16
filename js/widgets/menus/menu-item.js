@@ -40,15 +40,13 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 				if(this.icon) this.icon.states.toggle('hidden', !on);
 			}
 		},
-		events: {
-			'click': function(e, w) {
-				var event = new Dino.events.CancelEvent();
-				// если не определено состояние disabled, то вызываем событие onAction
-				if(!w.states.is('disabled')) 
-					w.events.fire('onAction', e); 
-				if(!event.isCanceled) w.hideSubmenu(true);
-//				e.stopPropagation();
-			}
+		onClick: function(e) {
+			var event = new Dino.events.CancelEvent();
+			// если не определено состояние disabled, то вызываем событие onAction
+			if(!this.states.is('disabled')) 
+				this.events.fire('onAction', e); 
+			if(!event.isCanceled) this.hideSubmenu(true);
+//			e.stopPropagation();
 		}
 	},
 	
@@ -128,7 +126,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent instanceof Dino.widgets.MenuDropdownList) this.parent.hideAll();
+			if(this.parent.parent instanceof Dino.widgets.MenuDropdownBox) this.parent.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
 //			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
@@ -155,11 +153,11 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 		cls: 'dino-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
+		style: {'overflow-y': 'visible'},
 		
 		content: {
 			dtype: 'list',
 			dynamic: true,
-			style: {'overflow-y': 'visible'},
 			defaultItem: {
 				dtype: 'menu-item'
 			}			
