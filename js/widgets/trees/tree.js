@@ -63,7 +63,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.core.Widget'
 	
 	walkSubtree: function(callback) {
 		if( callback.call(this, this) === false ) return false;
-		return this.subtree.eachItem(function(node){
+		return this.subtree.items.each(function(node){
 			return node.walkSubtree(callback);
 		});		
 	},
@@ -398,7 +398,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /*
 	
 	
 	walkTree: function(callback) {
-		this.eachItem(function(item){
+		this.items.each(function(item){
 			return item.walkSubtree(function(node){
 				return callback.call(this, node);
 			});

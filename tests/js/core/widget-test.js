@@ -36,8 +36,8 @@ test('core/widget', function(){
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
 	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
-	ok(w.children.find('component_1') == w.c1, 'Поиск по атрибуту tag в списке компонентов')
-	ok(w.children.find({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
+	ok(w.components.find('component_1') == w.c1, 'Поиск по атрибуту tag в списке компонентов')
+	ok(w.components.find({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 
 
 	w = new Dino.core.Widget({
@@ -49,7 +49,7 @@ test('core/widget', function(){
 	});
 	
 	ok(w.el.children().length == 1 && w.content, 'Компонент content доступен и добавлен в компоновку');
-	ok(w.children.get('content'), 'Компонент content доступен через коллекцию компонентов')
+	ok(w.components.get('content'), 'Компонент content доступен через коллекцию компонентов')
 	
 	
 	

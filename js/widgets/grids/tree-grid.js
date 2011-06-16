@@ -336,7 +336,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 			callback.call(this, this);
 		}
 				
-		this.subtree.eachItem(function(item){
+		this.subtree.items.each(function(item){
 			item.eachDescendantRow(callback, 0);
 		});
 	},
@@ -364,7 +364,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		
 //		if( this.states.is('expanded') ){
 		this.states.clear('hidden');
-		this.subtree.eachItem(function(item){
+		this.subtree.items.each(function(item){
 			item.expand(x);
 		});			
 //		}

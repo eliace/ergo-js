@@ -1,6 +1,6 @@
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   layout: 'column',
   height: 200,

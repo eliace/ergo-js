@@ -1,5 +1,5 @@
 
-//= require <containers/control-box>
+//= require <containers/control-list>
 //= require <layouts/column>
 //= require "../buttons/text-button"
 
@@ -18,7 +18,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 				}		
 			},
 			buttons: {
-				dtype: 'control-box',
+				dtype: 'control-list',
 				cls: 'center',
 				defaultItem: {
 					dtype: 'text-button',

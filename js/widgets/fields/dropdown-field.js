@@ -1,7 +1,7 @@
 
 //= require "text-field"
-//= require <containers/dropdown-list>
-//= require <widgets/list-box>
+//= require <widgets/dropdown-box>
+//= require <widgets/list-view>
 //= require <widgets/buttons/icon-button>
 
 
@@ -37,18 +37,15 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 				tabIndex: -1
       },
 			dropdown: {
-	      dtype: 'dropdown-list',
-//				renderTo: 'body',
+	      dtype: 'dropdown-box',
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},
 				content: {
-					dtype: 'list-box',
+					dtype: 'list-view',
 					defaultItem: {
-						events: {
-							'click': function(e, w) {
-								w.getParent(Dino.widgets.DropdownField).setSelectedItem(w);
-							}
-						}						
+						onClick: function() {
+							this.getParent(Dino.widgets.DropdownField).setSelectedItem(this);							
+						}
 					}
 				},
 				effects: {
@@ -97,23 +94,23 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 		
 		onKeyDown: function(e) {
 
-			var listBox = this.dropdown.content;
-			var selected = listBox.selection.get();
+			var list = this.dropdown.content;
+			var selected = list.selection.get();
 
 			if(e.keyCode == 40) {
 				if(!this.dropdown.isShown) {
 					this.showDropdown();
 				}
 				else {
-					var nextItem = listBox.getItem( selected ? selected.index+1 : 0 );
+					var nextItem = list.items.get( selected ? selected.index+1 : 0 );
 					if(nextItem)
-						listBox.selection.set(nextItem);
+						list.selection.set(nextItem);
 				}
 			}
 			else if(e.keyCode == 38) {
-				var prevItem = listBox.getItem( selected ? selected.index-1 : 0 );
+				var prevItem = list.items.get( selected ? selected.index-1 : 0 );
 				if(prevItem)
-					listBox.selection.set(prevItem);
+					list.selection.set(prevItem);
 			}
 			else if(e.keyCode == 13) {
 				this.setSelectedItem(selected);
@@ -180,17 +177,18 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 	$dataChanged: function() {
 		Dino.widgets.DropdownField.superclass.$dataChanged.apply(this, arguments);
 		
+		var list = this.dropdown.content;
+		
 		var val = this.data.get();//.getValue();
 		if(val === '' || val === undefined || val === null) {
-//			this.setSelectedItem(null);
-			this.dropdown.content.selection.clear();
+			list.selection.clear();
 		}
 		else {
 			var o = this.options;
 			var dataModel = o.dataModel;
 			var item = null;
 			if(dataModel) {
-				this.dropdown.content.eachItem(function(it){
+				list.items.each(function(it){
 					if( 
 						(dataModel.type == 'plain' && it.data.get() == val) ||
 						(dataModel.type == 'keyvalue' && it.data.id == val) ||
@@ -201,8 +199,7 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 					}
 				});
 			}
-//			this.setSelectedItem(item);
-			this.dropdown.content.selection.set(item);
+			list.selection.set(item);
 		}
 		
 	}

@@ -24,13 +24,13 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	},
 	
 	$init: function(o) {
-		Dino.core.Container.superclass.$init.apply(this);
+		Dino.core.Container.superclass.$init.apply(this, arguments);
 		
 		/**
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = this.children = new Dino.core.ItemCollection(this);
+		this.items = new Dino.core.ItemCollection(this);
 		
 //		if('items' in o)
 //			o.components = o.items;
@@ -50,7 +50,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 	
 	$construct: function(o) {
-//		Dino.core.Container.superclass.$construct.call(this, o);
+		Dino.core.Container.superclass.$construct.apply(this, arguments);
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)

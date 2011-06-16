@@ -36,6 +36,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	remove_at: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
+		return item;
 //		this.events.fire('item:remove', {'item': item});
 	},
 	
@@ -123,7 +124,8 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	
 	remove_at: function(i) {
 		var item = this.src[i]
-		this.src.splice(i, 1);		
+		this.src.splice(i, 1);
+		return item;
 //		this.events.fire('item:remove', {'item': item});
 	},
 	

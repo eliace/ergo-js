@@ -1,59 +1,5 @@
 
-//= require "field"
-//= require <containers/dropdown-list>
-//= require "images/all"
-
-Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
-	
-	defaults: {
-		autoFit: true,
-		cls: 'dino-text-editor',
-		events: {
-			'click': function(e) {
-				e.stopPropagation();
-			}
-		},
-		components: {
-			input: {
-				autoFit: true,
-				width: undefined //FIXME костыль пока нормально не заработает PlainLayout
-			}			
-		},
-//		extensions: [Dino.Focusable],
-		onBlur: function() {
-			this.parent.stopEdit();			
-		},
-//		states: {
-//			'focus': function(f) {
-//				if(f) {
-//					
-//				}
-//				else {
-//					this.parent.stopEdit();
-//				}
-//			}
-//		},
-		onKeyDown: function(e) {
-			if(e.keyCode == 13) {
-				this.parent.stopEdit('enterKey');
-			}
-		},
-    updateOnValueChange: true,
-		changeOnEnter: true
-	}	
-	
-}, 'text-editor');
-
-
-
-
-
-/*
-Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Editor', {
-	
-}, 'text-editor');
-*/
-
+//= require "text-editor"
 
 
 /**
@@ -78,23 +24,16 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				}
       },
 			dropdown: {
-	      dtype: 'dropdown-list',
-				renderTo: 'body',
+	      dtype: 'dropdown-box',
+//				renderTo: 'body',
 	      cls: 'dino-border-all dino-dropdown-shadow',
 				style: {'display': 'none'},
 				content: {
-					dtype: 'list-box',
+					dtype: 'list-view',
 					defaultItem: {
-						events: {
-							'click': function(e, w) {
-								w.getParent(Dino.widgets.DropdownEditor).setSelectedItem(w);								
-//								var dd = w.parent.parent;
-//								dd.parent.dropdown.content.selection.set(w);
-//								dd.parent.events.fire('onSelect', {target: w});
-//								dd.parent.setValue(w);
-//		          	dd.hide();
-							}
-						}						
+						onClick: function() {
+							this.getParent(Dino.widgets.DropdownEditor).setSelectedItem(this);															
+						}
 					}
 				},
 				onHide: function() {
@@ -146,23 +85,23 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 		
 		onKeyDown: function(e) {
 
-			var listBox = this.dropdown.content;
-			var selected = listBox.selection.get();
+			var list = this.dropdown.content;
+			var selected = list.selection.get();
 
 			if(e.keyCode == 40) {
 				if(!this.dropdown.isShown) {
 					this.showDropdown();
 				}
 				else {
-					var nextItem = listBox.getItem( selected ? selected.index+1 : 0 );
+					var nextItem = list.items.get( selected ? selected.index+1 : 0 );
 					if(nextItem)
-						listBox.selection.set(nextItem);
+						list.selection.set(nextItem);
 				}
 			}
 			else if(e.keyCode == 38) {
-				var prevItem = listBox.getItem( selected ? selected.index-1 : 0 );
+				var prevItem = list.items.get( selected ? selected.index-1 : 0 );
 				if(prevItem)
-					listBox.selection.set(prevItem);
+					list.selection.set(prevItem);
 			}
 			else if(e.keyCode == 13) {
 				this.setSelectedItem(selected);
@@ -203,9 +142,11 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 							
     dd.el.css('min-width', this.el.width());//.width(this.el.width());
 //    dd.el.width(this.el.width());
-
-		var offset = this.el.offset();
-    dd.show(offset.left, offset.top + this.el.outerHeight());	
+		
+		dd.show(this.input, 'left-bottom');
+		
+//		var offset = this.el.offset();
+//    dd.show(offset.left, offset.top + this.el.outerHeight(), 'body');	
 	},
 	
 	hideDropdown: function() {
@@ -228,17 +169,18 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	$dataChanged: function() {
 		Dino.widgets.DropdownEditor.superclass.$dataChanged.apply(this, arguments);
 		
+		var list = this.dropdown.content;
+		
 		var val = this.data.get();//.getRawValue();
 		if(val === '' || val === undefined || val === null) {
-//			this.setSelectedItem(null);
-			this.dropdown.content.selection.clear();
+			list.selection.clear();
 		}
 		else {
 			var o = this.options;
 			var dataModel = o.dataModel;
 			var item = null;
 			if(dataModel) {
-				this.dropdown.content.eachItem(function(it){
+				list.items.each(function(it){
 					if( 
 						(dataModel.type == 'plain' && it.data.get() == val) ||
 						(dataModel.type == 'keyvalue' && it.data.id == val) ||
@@ -249,93 +191,10 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 					}
 				});
 			}
-//			this.setSelectedItem(item);
-			this.dropdown.content.selection.set(item);
+			list.selection.set(item);
 		}
 		
 	}
 	
 	
 }, 'dropdown-editor');
-
-
-
-
-
-
-Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
-	
-	defaults: {
-    components: {
-			input: {
-				events: {
-					'keydown': function(e, w) {
-						if($.browser.webkit) {
-							if(e.keyCode == 38) w.parent.spinUp();
-							else if(e.keyCode == 40) w.parent.spinDown();													
-						}
-					},
-					'keypress': function(e, w) {
-						if(!$.browser.webkit) {
-							if(e.keyCode == 38) w.parent.spinUp();
-							else if(e.keyCode == 40) w.parent.spinDown();
-						}						
-					}
-				}
-			},
-      buttons: {
-        dtype: 'box',
-				role: 'actor',
-        defaultItem: {
-          cls: 'dino-clickable',
-          dtype: 'action-icon',
-          style: {'display': 'block', 'border': 'none', 'padding': 0},
-          height: 8,
-          width: 16,
-          onAction: function() {
-            if(this.tag == 'up')
-							this.parent.parent.spinUp();
-            else if(this.tag == 'down')
-							this.parent.parent.spinDown();
-          },
-					events: {
-						'dblclick': function(e) { 
-							e.preventDefault(); return false; 
-						}
-					}
-        },
-        items: [{
-          cls: 'dino-icon-spinner-up',
-          tag: 'up'
-        }, {
-          cls: 'dino-icon-spinner-down',
-          tag: 'down'
-        }]        
-      }
-    },
-		onKeyDown: function(e) {
-			if(e.keyCode == 38) this.spinUp();
-			else if(e.keyCode == 40) this.spinDown();
-		}
-	},
-	
-	
-	spinUp: function() {
-//		var n = this.data.get();
-//		if(Dino.isString(n)) n = parseFloat(n);
-		var n = parseFloat(this.input.el.val()); 
-		this.setValue(n+1);
-	},
-	
-	spinDown: function() {
-//		var n = this.data.get();
-//		if(Dino.isString(n)) n = parseFloat(n); 
-		var n = parseFloat(this.input.el.val()); 
-		this.setValue(n-1);		
-	}
-	
-	
-}, 'spinner-editor');
-
-
-

@@ -134,13 +134,15 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 
 		var real_width = [];
 		
+		var head0 = head.items.get(0);
+		
 		for(var i = 0; i < t_columns.length; i++) {
 			// определим фактическую ширину поля
-			var th = head.getItem(0).getItem(i).el;
+			var th = head0.items.get(i).el;
 			var dw = th.outerWidth() - th.innerWidth();
 			real_width[i] = t_columns[i] - dw;
 			
-			head.getItem(0).getItem(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
+			head0.items.get(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
 			
 //			if(t_nowrap[i])
 
@@ -153,9 +155,9 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 		}
 		
 		// обходим все строки
-		body.eachItem(function(row){
+		body.items.each(function(row){
 			// обходим все поля
-			row.eachItem(function(col, i){
+			row.items.each(function(col, i){
 				col.layout.el.width(real_width[i]);//t_columns[i]);
 //				col.opt('width', t_columns[i]);
 			});

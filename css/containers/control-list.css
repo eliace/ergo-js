@@ -1,0 +1,31 @@
+
+
+/**
+ * CONTROLS
+ */
+
+.dino-control-list {
+/*	background-color: #eee;*/
+	padding: 3px;
+}
+
+.dino-control-list > * {
+	margin-right: 3px;
+}
+
+.dino-control-list.center {
+	text-align: center;
+}
+
+.dino-control-list.left {
+	text-align: left;
+}
+
+.dino-control-list.right {
+	text-align: right;
+}
+
+
+
+
+

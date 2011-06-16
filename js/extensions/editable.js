@@ -11,7 +11,7 @@ Dino.Editable = function(o) {
 		
 		var editorOpts = this.options.editor;
 		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
-		this.addComponent(editorOpts, '_editor');
+		this.components.add(editorOpts, '_editor');
 		
 		this._editor.$layoutChanged();
 
@@ -34,7 +34,7 @@ Dino.Editable = function(o) {
 	this.stopEdit = function(reason) {
 //		$(window).unbind('keypress', this._key_handler);
 //		if(this._editor.options.focusable) this._editor.clearFocus();
-		this.removeComponent('_editor').destroy(); // удаляем и уничтожаем компонент
+		this.components.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент
 		this.$dataChanged(); // явно вызываем обновление данных
 		this.events.fire('onEdit', {'reason': reason});
 	};

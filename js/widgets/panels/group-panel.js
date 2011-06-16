@@ -8,13 +8,10 @@
 Dino.declare('Dino.widgets.GroupPanel', 'Dino.widgets.Panel', {
 	
 	defaults: {
-		baseCls: 'dino-group-box',
-		defaultItem: {
-			dtype: 'box'
-		},
+		baseCls: 'dino-group-panel',
 		components: {
-			title: {
-				dtype: 'container',
+			header: {
+				dtype: 'box',
 				html: '<legend/>'
 			}
 		}
@@ -23,9 +20,9 @@ Dino.declare('Dino.widgets.GroupPanel', 'Dino.widgets.Panel', {
 	$html: function() { return '<fieldset></fieldset>'; },
 	
 	$opt: function(o) {
-		Dino.containers.GroupBox.superclass.$opt.apply(this, arguments);
+		Dino.widgets.GroupPanel.superclass.$opt.apply(this, arguments);
 		
-		if('title' in o) this.title.opt('innerText', o.title);
+		if('title' in o) this.header.opt('innerText', o.title);
 	}
 	
-}, 'group-box');
+}, 'group-panel');

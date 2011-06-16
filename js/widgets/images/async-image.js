@@ -1,5 +1,5 @@
 
-//= require <core/widget>
+//= require <widgets/box>
 
 
 /**
@@ -10,9 +10,8 @@
  * @class
  * @extends Dino.core.Widget
  */
-Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', 'Dino.core.Widget', /** @lends Dino.utils.AsyncImage.prototype */{
+Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', 'Dino.widgets.Box', /** @lends Dino.utils.AsyncImage.prototype */{
 	
-	$html: function() { return '<div></div>';},
 	
 	$init: function(o) {
 		Dino.utils.AsyncImage.superclass.$init.call(this, o);

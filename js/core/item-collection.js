@@ -37,6 +37,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		if(w.data && !item.data)
 			item.$bind(w.data, false, 2);
 		
+		w.children.add(item);		
 		w.layout.insert(item);
 
 		i = Dino.core.ItemCollection.superclass.add.call(this, item, i);		
@@ -51,15 +52,15 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	},
 	
 	remove_at: function(i) {
+		var item = Dino.core.ItemCollection.superclass.remove_at.call(this, i);
 		
 		var w = this.widget;		
-		var item = this.src[i];
 		
 //		if('hide' in item) item.hide();		
-		
-		Dino.core.ItemCollection.superclass.remove_at.call(this, i);
 				
+		w.children.remove(item);		
 		w.layout.remove(item);
+		
 		delete item.parent;
 
 		for(var j = i; j < this.src.length; j++)

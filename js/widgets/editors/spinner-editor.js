@@ -1,8 +1,8 @@
 
-//= require "text-field"
+//= require "text-editor"
 
 
-Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
+Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 	
 	defaults: {
     components: {
@@ -26,10 +26,11 @@ Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
         dtype: 'list',
 				role: 'actor',
         defaultItem: {
+          cls: 'dino-clickable',
           dtype: 'action-icon',
           style: {'display': 'block', 'border': 'none', 'padding': 0},
-          height: 10,
-          width: 20,
+          height: 8,
+          width: 16,
           onAction: function() {
             if(this.tag == 'up')
 							this.parent.parent.spinUp();
@@ -59,14 +60,18 @@ Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
 	
 	
 	spinUp: function() {
+//		var n = this.data.get();
+//		if(Dino.isString(n)) n = parseFloat(n);
 		var n = parseFloat(this.input.el.val()); 
 		this.setValue(n+1);
 	},
 	
 	spinDown: function() {
+//		var n = this.data.get();
+//		if(Dino.isString(n)) n = parseFloat(n); 
 		var n = parseFloat(this.input.el.val()); 
 		this.setValue(n-1);		
 	}
 	
 	
-}, 'spinner-field');
+}, 'spinner-editor');

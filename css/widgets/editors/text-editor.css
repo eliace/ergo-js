@@ -1,9 +1,5 @@
 
 
-/*
- * EDITORS
- */
-
 .dino-text-editor {
 	outline: none;
 	margin: 0;
@@ -16,5 +12,3 @@
 .dino-text-editor.focus {
 	border-color: #68f;	
 }
-
-

@@ -1,5 +1,5 @@
 
-//= require <containers/control-box>
+//= require <containers/control-list>
 //= require "buttons/icon-button"
 
 
@@ -102,7 +102,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', 
 	
 	setCount: function(count) {
 		this.total_size = count;
-		this.getItem('num_pages').opt('innerText', 'из ' + Math.ceil(this.total_size/this.page_size));		
+		this.items.find('num_pages').opt('innerText', 'из ' + Math.ceil(this.total_size/this.page_size));		
 	},
 	
 	getCount: function() {
@@ -116,7 +116,7 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', 
 		
 		if(i0 >= 0 && i0 < this.total_size){
 			this.offset = i0;
-			this.getItem('current_page').opt('value', i+1);
+			this.items.find('current_page').opt('value', i+1);
 			this.events.fire('onIndexChanged', {from: i0, to: i1});
 			return true;
 		}

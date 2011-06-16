@@ -40,9 +40,7 @@ var propertyGrid = $.dino({
         var val = this.data.source.val();
 
         if(val.type == 'boolean') {
-          this.addComponent('content', {
-            dtype: 'checkbox'
-          });
+          this.components.add({dtype: 'checkbox'}, 'content');
           this.opt('editable', false);
         }
         else if(val.type == 'select') {
@@ -97,11 +95,14 @@ var propertyGrid = $.dino({
                 }
               });              
             },
-            overrides: {
+						store: function(val) {
+							return val;
+						},
+            extensions: [{
               showDropdown: function() {
                 this.input.el.datepick('show');                
               }
-            }
+            }]
           });
         }
         else if(val.type == 'numeric') {

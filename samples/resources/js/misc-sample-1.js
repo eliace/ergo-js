@@ -66,7 +66,7 @@ $.dino({
   },
   components: {
     footer: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'center',
       items: [{
         dtype: 'text-button',

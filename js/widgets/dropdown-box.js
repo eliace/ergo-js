@@ -25,7 +25,7 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 		if(!Dino.isNumber(a)) {
 			
 			var rel_to = a;
-			var rel_pos = b;
+			var at = b;
 			
 			var o = this.options;
 	
@@ -43,13 +43,14 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 					x -= self.el.outerWidth();
 			});
 			
-			Dino.each(rel_pos.split('-'), function(p){
+			Dino.each(at.split('-'), function(p){
 				if(p === 'bottom')
 					y += rel_to.el.outerHeight();				
 				else if(p === 'right')
 					x += rel_to.el.outerWidth();
 			});
 			
+			if(!to_el) to_el = 'body';
 		}
 
 		if(to_el)

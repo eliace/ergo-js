@@ -13,7 +13,7 @@ var widget = $.dino({
   data: gridData,
   components: {
     controls: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'dino-border-bottom',
       defaultItem: {
         dtype: 'text-button',

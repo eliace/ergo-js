@@ -16,7 +16,7 @@ var box = $.dino({
   renderTo: '.preview',
   components: {
     controls: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'dino-border-bottom',
       items: [{
         dtype: 'text-button',

@@ -70,6 +70,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		var self = this;
 
 		
+		this.children = new Dino.core.Array();
 
 //		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 //		var html = o.html;
@@ -138,7 +139,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		var o = this.options;
 		
-		this.children = new Dino.core.ComponentCollection(this);
+		this.components = new Dino.core.ComponentCollection(this);
 		
 //		this.components = this.collection; //new Dino.core.Collection();		
 		
@@ -180,13 +181,21 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 				delete c._cweight;
 				delete c._cname;
 //				self.addComponent(c, i);
-				self.children.add(c, i);
+				self.components.add(c, i);
 			});
 			
 			// задаем "ленивые" классы компонентов
 			for(var i in o.components){
 				var easyCls = ''+i+'Cls';
 				if(easyCls in o) this[i].opt('cls', o[easyCls]);
+			}
+
+			if('baseCls' in o) {
+				// задаем дочерние классы компонентов
+				for(var i in o.components){
+					var cls = o.baseCls + '-' + i;
+					this[i].el.addClass(cls);
+				}				
 			}
 			
 		}		
@@ -208,7 +217,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		// вызываем метод destroy для всех дочерних компонентов
 //		this.children.each(function(child) { child.destroy(); });
-		this.children.apply_all('destroy');
+		this.components.apply_all('destroy');
 		
 //		if(this.options.debug)	console.log('destroyed');
 	},

@@ -39,6 +39,7 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		if(w.data && !item.data)
 			item.$bind(w.data, false, 2);
 		
+		w.children.add(item);		
 		w.layout.insert(item);
 		
 		// shortcut для компонента
@@ -59,10 +60,13 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		var item = this.src[i];
 		
 //		if('hide' in item) item.hide();
-		
+
+		w.children.remove(item);
 		w.layout.remove(item);
+		
 		delete this.src[i];
 		delete item.parent;
+		
 		
 		return item;
 	},

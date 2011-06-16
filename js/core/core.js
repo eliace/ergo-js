@@ -173,8 +173,9 @@ var Dino = (function(){
 		var ctor = _dtypes[dtype];
 		
 		if(!ctor ){
-			Dino.logger.debug('Class for dtype "'+dtype+'" not found');
-			return null;
+//			Dino.logger.debug('Class for dtype "'+dtype+'" not found');
+			throw new Error('Class for dtype "'+dtype+'" not found');
+//			return null;
 		}
 				
 		return new ctor(options);	

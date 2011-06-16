@@ -3,7 +3,7 @@ var dlg = $.dino({
   dtype: 'dialog',
   renderTo: '.preview',
   content: {
-    dtype: 'box',
+    dtype: 'list',
     cls: 'dino-text-content dino-border-all',
     layout: 'stack',
     items: [{

@@ -43,7 +43,7 @@ var grid = $.dino({
     },
     columns: [{
       content: {
-        dtype: 'box',
+        dtype: 'list',
         cls: 'group',
         defaultItem: {
           style: {'display': 'block'}
@@ -92,30 +92,4 @@ $.get('ajax/lenta.ru.rss', function(xml){
 }, 'text');    
     
     
-/*    
-google.load("feeds", "1");
-
-function feeder_init() {
-  
-  var feed = new google.feeds.Feed("http://lenta.ru/rss");
-  feed.load(function(result) {
-    if (!result.error) {
-      console.log(result);
-      
-  //    var container = document.getElementById("feed");
-  //    for (var i = 0; i < result.feed.entries.length; i++) {
-  //      var entry = result.feed.entries[i];
-  //      var div = document.createElement("div");
-  //      div.appendChild(document.createTextNode(entry.title));
-  //      container.appendChild(div);
-  //    }
-    }
-  });
-  
-}
-
-    
-google.setOnLoadCallback(feeder_init);
-
-*/
 

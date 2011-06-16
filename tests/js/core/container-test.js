@@ -22,7 +22,7 @@ test('core/container', function(){
 		}
 	});
 	
-	console.log(c);
+//	console.log(c);
 	
 	equals(c.items.size(), 10, 'Создано 10 элементов');
 	equals(c.items.last().index, 9, 'Последний элемент имеет свойство index равное 9');
