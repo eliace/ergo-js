@@ -1,100 +1,188 @@
 
-gridData = new Dino.data.ArrayDataSource();
+var gridData = new Dino.data.ArrayDataSource();
+
+var depressed = null;
 
 
-    
-    
-var grid = $.dino({
-  renderTo: '.preview',
-  dtype: 'grid',
+var glassPane = $.dino({
+	dtype: 'glass-pane', 
+	renderTo: 'body', 
+	style: {'display': 'none', 'cursor': 'col-resize'},
+	events: {
+		'mousemove': function(e, w) {
+			var grid = gridPanel.content;
+			
+			var origin = depressed.origin;						
+			var left = e.pageX - origin.left;
+			grid.splitter.el.css('left', left);
+			
+		},
+		'mouseup': function(e, w) {
+			var grid = gridPanel.content;
+			
+			grid.splitter.el.hide();
+			
+			glassPane.el.hide();
+			
+			var origin = depressed.origin;
+
+			var new_width = e.pageX - depressed.column.el.offset().left;
+			
+			depressed.column.el.width(new_width);
+			depressed.column.layout.el.width(new_width);
+			
+			var i = depressed.column.index;
+			
+			grid.eachRow(function(row){
+				var col = row.getColumn(i);
+				col.el.width(new_width);
+				col.layout.el.width(new_width);
+			});
+			
+			depressed = null;			
+		}
+	}
+});
+
+
+var gridPanel = $.dino({
+	dtype: 'box',
+	renderTo: '.preview',
+	
   cls: 'dino-border-all dino-corner-all',
+	
   width: 800,
-  content: {
-    height: 300,//'auto',
-    state: 'scrollable',		
-//    style: {'padding-right': '18px'}
-  },
-//  headerCls: 'dino-bg-highlight',
+  height: 400,
+	
+	content: {
+		weight: 10,
+	  dtype: 'grid',
 
-//	components: {
-//	},
+  	data: gridData,	
+	
+		style: {'position': 'relative'},
+	
+		components: {
+			header: {
+				layout: {
+					dtype: 'plain-layout',
+					html: '<div style="overflow-x: hidden;"></div>'
+				}
+			},
+			splitter: {
+				dtype: 'box',
+				width: 1,
+				height: 'ignore',
+				style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#f00', 'display': 'none'}
+			}			
+		},
 
-
-	headerModel: {
-		cell: {
+		content: {
+			style: {'padding-right': '17px', 'overflow': 'auto'},
+			
 			events: {
-				'mousemove': function(e, w) {
-					var offset = w.el.offset();
-					var width = w.el.width();
-					var x = e.pageX - offset.left;
-//					var y = e.pageY - offset.top;
-						w.states.toggle('x-resizable', (width - x < 5));
-					
-//					console.log(x+', '+y);
-				},
-				'mouseleave': function(e, w) {
-						w.states.clear('x-resizable');					
+				'scroll': function(e, w) {
+					var scroll_x = w.el.scrollLeft();
+					w.parent.header.layout.el.scrollLeft(scroll_x);//.css('margin-left', -scroll_x);
 				}
 			}
-		}
-	},
-
-  tableModel: {
-    columns: [{
-      dataId: 'id',
-      header: 'ID',
-      width: 50,
-    }, {
-      dataId: 'string',
-      header: 'Строка'
-    }, {
-      dataId: 'number',
-      header: 'Число',
-      format: function(v) { return v.toFixed(2) },
-    }, {
-      dataId: 'icon',
-      cls: 'silk-icon dino-clickable',
-      width: 30,
-      binding: function(val) { this.states.set('silk-icon-'+val); },
-    }/*, {
-      header: 'Ссылка',
-      content: {
-        dtype: 'anchor',
-        text: 'ссылка',
-        dataId: 'ref'
-      },
-      binding: 'skip'
-    }*/, {
-      dataId: 'flag',
-      width: 50,
-      content: {
-        dtype: 'checkbox'
-      },
-      header: {
-        content: {
-          dtype: 'checkbox',
-          checked: false        
-        }        
-      },
-      binding: 'skip'
-    }, {
-      dataId: 'currency',
-      header: 'Цена',
-      format: Dino.format_currency.rcurry('$')
-    }, {
-      dataId: 'date',
-      header: 'Дата',
-//      format: Dino.format_date
-    }]
-  },
-  data: gridData,
-  components: {
-		splitter: {
-			dtype: 'box',
-			width: 1,
-			style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#f00'}
 		},
-    pager: {
+	
+		headerModel: {
+			cell: {
+				events: {
+					'mousedown': function(e, w) {
+						if(w.states.is('x-resizable')) {
+							var grid = w.getParent(Dino.widgets.Grid);							
+
+							var grid_offset = grid.el.offset();						
+							var left = e.pageX - grid_offset.left;
+							grid.splitter.el.css('left', left);
+							
+							grid.splitter.el.show();
+							
+							depressed = {
+								column: w,
+								origin: grid_offset
+							};
+							glassPane.el.show();
+							
+							console.log(w.el.position());
+							
+							e.stopPropagation();
+							e.preventDefault();
+						}
+						
+					},
+					'mousemove': function(e, w) {
+						var offset = w.el.offset();
+						var width = w.el.width();
+						var x = e.pageX - offset.left;
+	//					var y = e.pageY - offset.top;
+						w.states.toggle('x-resizable', (width - x < 5));
+						
+					},
+					'mouseleave': function(e, w) {
+							w.states.clear('x-resizable');					
+					}
+				}
+			}
+		},
+		
+	  tableModel: {
+	    columns: [{
+	      dataId: 'id',
+	      header: 'ID',
+	      width: 50,
+	    }, {
+	      dataId: 'string',
+	      header: 'Строка'
+	    }, {
+	      dataId: 'number',
+	      header: 'Число',
+	      format: function(v) { return v.toFixed(2) },
+	    }, {
+	      dataId: 'icon',
+	      cls: 'silk-icon dino-clickable',
+	      width: 30,
+	      binding: function(val) { this.states.set('silk-icon-'+val); },
+	    }/*, {
+	      header: 'Ссылка',
+	      content: {
+	        dtype: 'anchor',
+	        text: 'ссылка',
+	        dataId: 'ref'
+	      },
+	      binding: 'skip'
+	    }*/, {
+	      dataId: 'flag',
+	      width: 50,
+	      content: {
+	        dtype: 'checkbox'
+	      },
+	      header: {
+	        content: {
+	          dtype: 'checkbox',
+	          checked: false        
+	        }        
+	      },
+	      binding: 'skip'
+	    }, {
+	      dataId: 'currency',
+	      header: 'Цена',
+	      format: Dino.format_currency.rcurry('$')
+	    }, {
+	      dataId: 'date',
+	      header: 'Дата',
+	//      format: Dino.format_date
+	    }]
+	  }
+		
+	},
+	
+	
+	components: {
+		pager: {
       dtype: 'pager',
       count: 200,
       pageSize: 40,
@@ -118,10 +206,17 @@ var grid = $.dino({
         
 //        console.log(profiler.print_result('widget'));
 //        profiler.clear('widget');
-      }
-    }
-  }
+      }			
+		}
+	}
+	
+	
+	
 });
+
+
+
     
-grid.pager.setIndex(0);
+gridPanel.pager.setIndex(0);
+gridPanel.content.el.width(gridPanel.content.el.width());
 

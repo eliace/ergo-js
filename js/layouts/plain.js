@@ -62,7 +62,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			
 			// обходим всех видимых соседей и получаем их ширину
 			this.el.siblings().not(':hidden').each(function(i, el){
-				w -= $(el).outerWidth(true);
+				if(sibling.attr('autowidth') != 'ignore') 
+					w -= $(el).outerWidth(true);
 			});
 
 			// задаем ширину элемента (с учетом отступов), если она не нулевая

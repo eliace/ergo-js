@@ -10,10 +10,9 @@
  * @class
  * @extends Dino.core.Widget
  */
-Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @lends Dino.widgets.Grid.prototype */{
+Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @lends Dino.widgets.Grid.prototype */{
 	
 	defaults: {
-		html: '<div></div>',
 		baseCls: 'dino-grid',
 		components: {
 			header: {
@@ -37,6 +36,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 				// скроллируемый контейнер
 				dtype: 'box',
 				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
+				height: 'auto',
 				content: {
 					dtype: 'table',
 					width: '100%',
@@ -54,9 +54,6 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 					}
 				}
 			}
-//			footer: {
-//				dtype: 'control-bar'
-//			}
 		}
 	},
 	
@@ -105,8 +102,6 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 		// если максимальная ширина контейнера равна 0 (как правило, это означает, что он еще не виден), 
 		// расчет ширины колонок не выполняем  
 		if(total_w == 0) return;
-		
-		this.header.content.el.width(total_w);
 		
 		
 		var t_columns = [];
@@ -162,6 +157,9 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 //				col.opt('width', t_columns[i]);
 			});
 		});
+		
+
+		this.header.layout.el.width(body.el.outerWidth());		
 		
 //		var tableWidth = this.content.content.el.width();
 	},
