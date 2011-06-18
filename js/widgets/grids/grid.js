@@ -39,7 +39,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @l
 				height: 'auto',
 				content: {
 					dtype: 'table',
-					width: '100%',
+//					width: '100%',
 					tableModel: {
 						row: {
 							cls: 'dino-grid-row'
@@ -92,11 +92,14 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @l
 	$layoutChanged: function() {
 		Dino.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
 		
+		var total_w = this.layout.el.innerWidth();
+		
+		total_w -= 17;
 		
 		// выполняем настройку ширины полей
 		var body = this.content.content.body;
 		var head = this.header.content.head;
-		var total_w = body.el.innerWidth();
+//		var total_w = body.el.innerWidth();
 //		var htotal_w = this.content.content.el.width();
 
 		// если максимальная ширина контейнера равна 0 (как правило, это означает, что он еще не виден), 
@@ -159,7 +162,8 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @l
 		});
 		
 
-		this.header.layout.el.width(body.el.outerWidth());		
+		this.content.content.layout.el.width(total_w);		
+		this.header.layout.el.width(total_w);		
 		
 //		var tableWidth = this.content.content.el.width();
 	},

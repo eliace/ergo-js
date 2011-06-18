@@ -20,7 +20,8 @@
 */
 
 .dino-tabs {
-	font-size: 13px;	
+	font-size: 13px;
+	line-height: 13px;
 }
 
 
@@ -67,7 +68,7 @@
 /*	height: 25px;*/
 	position: relative;
 	margin: 0;
-	padding: 2px 0 4px;
+	padding: 3px 0 4px;
 }
 
 .dino-tabs.bottom {
