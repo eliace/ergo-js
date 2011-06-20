@@ -1,6 +1,6 @@
 
 //= require "glass-pane"
-
+//= require <layouts/popup>
 
 
 Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
@@ -8,14 +8,18 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 	dtype: 'dropdown-box',
 	
 	defaults: {
-		position: '',
-		offset: [0, 0],
+//		position: '',
+//		offset: [0, 0],
 		cls: 'dino-dropdown-box',
-		hideOn: 'outerClick'
+		layout: 'popup'
+//		hideOn: 'outerClick'
 	},
 	
 	show: function(a, b, c){//rel_to, rel_pos) {
-
+	
+		this.layout.open.apply(this.layout, arguments);
+	
+/*
 		if(arguments.length == 0) return;
 		
 		var x = a;
@@ -78,43 +82,49 @@ Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
 			$('body').append(this.glass_pane.el);
 		}
 		
-		this.events.fire('onShow');		
+		this.events.fire('onShow');
+		
+*/				
 	},
 	
 	
 	hide: function() {
 		
+		this.layout.close();
+		
+/*		
 		this.isShown = false;
 		
 		this.el.hide();
 		
-		this.glass_pane.el.detach();		
+		this.glass_pane.el.detach();
+*/				
 	},
 	
 	
 	$init: function(o) {
 		Dino.widgets.DropdownBox.superclass.$init.apply(this, arguments);
 
-		var self = this;
-	
-		this.glass_pane = $.dino({
-			dtype: 'glass-pane',
-			events: {
-				'click': function(e) {
-		      		self.hide();
-					e.stopPropagation();					
-				}
-			}						
-		});
-		
-		this.el.bind('mouseleave', function(){ 
-			if(self.options.hideOn == 'hoverOut') self.hide(); 
-		});
-
-		this.el.bind('click', function(e){ 
-			 e.stopPropagation();
-			 e.preventDefault();
-		});
+//		var self = this;
+//	
+//		this.glass_pane = $.dino({
+//			dtype: 'glass-pane',
+//			events: {
+//				'click': function(e) {
+//		      		self.hide();
+//					e.stopPropagation();					
+//				}
+//			}						
+//		});
+//		
+//		this.el.bind('mouseleave', function(){ 
+//			if(self.options.hideOn == 'hoverOut') self.hide(); 
+//		});
+//
+//		this.el.bind('click', function(e){ 
+//			 e.stopPropagation();
+//			 e.preventDefault();
+//		});
 		
 	}
 	

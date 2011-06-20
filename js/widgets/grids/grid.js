@@ -17,6 +17,10 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @l
 		components: {
 			header: {
 				dtype: 'box',
+				layout: {
+					dtype: 'plain-layout',
+					html: '<div style="overflow-x: hidden;"></div>'
+				},
 				content: {
 					dtype: 'table',
 					width: '100%',

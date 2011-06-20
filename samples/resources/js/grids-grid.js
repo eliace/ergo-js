@@ -63,17 +63,11 @@ var gridPanel = $.dino({
 		style: {'position': 'relative'},
 	
 		components: {
-			header: {
-				layout: {
-					dtype: 'plain-layout',
-					html: '<div style="overflow-x: hidden;"></div>'
-				}
-			},
 			splitter: {
 				dtype: 'box',
-				width: 1,
+				width: 3,
 				height: 'ignore',
-				style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#f00', 'display': 'none'}
+				style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#aaa', 'display': 'none'}
 			}			
 		},
 
@@ -106,8 +100,6 @@ var gridPanel = $.dino({
 								origin: grid_offset
 							};
 							glassPane.el.show();
-							
-							console.log(w.el.position());
 							
 							e.stopPropagation();
 							e.preventDefault();
