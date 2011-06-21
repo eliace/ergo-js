@@ -64,7 +64,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			
 	initialize: function(o) {
 		Dino.core.Widget.superclass.initialize.apply(this, arguments);
-		
+
 
 		var o = this.options;
 		var self = this;
@@ -101,9 +101,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		 * - Связывание с данными (+ динамическое создание дочерних элементов)
 		 * - Отрисовка
 		 * - Инициализация
-		 */
+		 */		
 
-		this.$init(o);//this, arguments);
+//		this.$init(o);//this, arguments);
+		
 		
 		// конструируем виджет
 		this.$construct(o);

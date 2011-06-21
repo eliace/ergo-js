@@ -37,6 +37,9 @@ Dino.override(Dino.core.Object.prototype, {
 		
 		this.options = Dino.smart_override(o, opts);
 		
+		if(this.$init)
+			this.$init(o);
+		
 		
 		if('extensions' in o) {
 			for(i in o.extensions) {
@@ -46,6 +49,11 @@ Dino.override(Dino.core.Object.prototype, {
 			}
 		}		
 		
+	},
+	
+	is: function(ex) {
+		var o = this.options;
+		return ('extensions' in o) ? Dino.include(o.extensions, ex) : false;
 	}
 	
 	

@@ -91,6 +91,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 				var w = el.dino();
 				if((w && w.options.height) || el.attr('autoheight') == 'true' || el.is('body')){
 					h = el.height();
+//					h = el[0].scrollHeight;
 					return false;
 				}
 				else {
@@ -125,8 +126,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			
 			this.el.hide();
 			
-			var h = 0;
-			var w = 0;
+			var h = this.container.options.height || 0;
+			var w = this.container.options.width || 0;
 			this.el.parents().each(function(i, el){
 				if(!h) h = $(el).height();
 				if(!w) w = $(el).width();

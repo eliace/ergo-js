@@ -81,7 +81,14 @@ var widget = $.dino({
     },
     grid: {
       dtype: 'grid',
-      content: {
+
+			content: {
+				extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation]
+			},
+
+			
+/*			
+      content: {				
         cls: 'scrollable',
 //        style: {'padding-right': '18px', 'font-size': '9pt'},
         height: 'auto',
@@ -119,6 +126,8 @@ var widget = $.dino({
           if(catched) e.baseEvent.preventDefault();
         }
       },
+*/      
+			
 //      headerCls: 'dino-bg-highlight',
       tableModel: {
         cell: {
@@ -130,12 +139,12 @@ var widget = $.dino({
           },
           extensions: [Dino.Editable],
           onEdit: function(e) {
-            var val = this.getRow().data.val();
-            updateBuffer.upd(val);
-            if(e.reason == 'enterKey') {
-              var nextCol = this.getRow().getColumn(this.index+1);
-              if(nextCol && nextCol.options.editable) nextCol.startEdit();
-            }
+//            var val = this.getRow().data.val();
+//            updateBuffer.upd(val);
+//            if(e.reason == 'enterKey') {
+//              var nextCol = this.getRow().getColumn(this.index+1);
+//              if(nextCol && nextCol.options.editable) nextCol.startEdit();
+//            }
           },
           editor: {
             dtype: 'text-editor',
@@ -143,10 +152,15 @@ var widget = $.dino({
           }
         },
         row: {
+					onClick: function() {
+//						console.log(this);
+						this.getParent(Dino.widgets.Grid).content.selection.add(this, e.ctrlKey, e.shiftKey);
+					},
           events: {
-            'click': function(e, w) {
-              w.getParent(Dino.widgets.Grid).selection.add(w, e.ctrlKey, e.shiftKey);
-            },
+//            'click': function(e, w) {
+////              w.getParent(Dino.widgets.Grid).content.content.selection.add(w, e.ctrlKey, e.shiftKey);
+//							w.parent.selection.add(w, e.ctrlKey, e.shiftKey);
+//            },
             'mousedown': function(e) {
               if(e.shiftKey || e.ctrlKey) return false;
             }
@@ -209,7 +223,7 @@ var widget = $.dino({
           }
         }
       },
-      extensions: [Dino.Selectable]
+//      extensions: [Dino.Selectable]
     }
   }
 });

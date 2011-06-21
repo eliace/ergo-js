@@ -109,6 +109,9 @@ var sampleTree = [{
 	}, */{
 		name: 'ListBox',
 		path: 'lists-listbox'
+	}, {
+		name: 'ListBox (editable)',
+		path: 'lists-editable-listbox'
 	}]
 }, {
 	name: 'Menus',

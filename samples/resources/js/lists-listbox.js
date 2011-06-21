@@ -1,6 +1,6 @@
     
 var list = $.dino({
-  dtype: 'list-box',
+  dtype: 'list-view',
   renderTo: '.preview',
   width: 400,
   height: 220,

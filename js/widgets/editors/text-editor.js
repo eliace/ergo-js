@@ -36,6 +36,9 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 			if(e.keyCode == 13) {
 				this.parent.stopEdit('enterKey');
 			}
+			else if(e.keyCode == 27) {
+				this.parent.cancelEdit('escKey');
+			}
 		},
     updateOnValueChange: true,
 		changeOnEnter: true

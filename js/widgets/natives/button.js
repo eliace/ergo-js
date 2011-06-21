@@ -7,17 +7,17 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.core.Widget', /*
 	$html: function() { return '<button type="button"/>'; },
 	
 	
-	$init: function() {
-		Dino.widgets.Button.superclass.$init.apply(this, arguments);
+	$events: function(self) {
+		Dino.widgets.Button.superclass.$events.apply(this, arguments);
 
-		var self = this;
+//		var self = this;
 		
 		this.el.click(function(e){
 			if(!self.states.is('disabled')) self.events.fire('onAction', {}, e);
 		});		
 		
 	},
-	
+		
 	
 	$opt: function(o) {
 		Dino.widgets.Button.superclass.$opt.apply(this, arguments);
