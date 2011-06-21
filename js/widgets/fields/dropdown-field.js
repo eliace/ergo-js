@@ -124,10 +124,22 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 		changeOnBlur: false
 	},
 	
-	$init: function(o) {
+	$init: function(o) {		
 		Dino.widgets.DropdownField.superclass.$init.apply(this, arguments);
 		
-		var self = this;
+		if('dataModel' in o) {
+			if(o.dataModel.data)
+				o.components.dropdown.data = o.dataModel.data;
+			if(o.dataModel.type == 'custom')
+				o.components.dropdown.content.defaultItem.dataId = o.dataModel.value;				
+		}
+	},
+	
+	
+	$events: function(self) {
+		Dino.widgets.DropdownField.superclass.$events.apply(this, arguments);
+		
+		var o = this.options;
 		
 		if(o.dropdownOnClick) {
 			this.el.click(function(){	self.showDropdown(); });
@@ -136,13 +148,6 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 			this.events.reg('onFocus', function(){	self.showDropdown(); });
 		}
 		
-		
-		if('dataModel' in o) {
-			if(o.dataModel.data)
-				o.components.dropdown.data = o.dataModel.data;
-			if(o.dataModel.type == 'custom')
-				o.components.dropdown.content.defaultItem.dataId = o.dataModel.value;				
-		}
 	},
 	
 	

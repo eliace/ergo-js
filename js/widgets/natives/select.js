@@ -46,8 +46,6 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	$init: function(o) {
 		Dino.widgets.Select.superclass.$init.call(this, o);
 		
-		o.components.optionsList.layout = new Dino.layouts.InheritedLayout({parentLayout: this.layout });
-		
 		if('options' in o) {
 			var items = [];
 			var opt_key = o.optionsKey; 
@@ -64,6 +62,13 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	},
 	
 	
+	$construct: function(o) {
+		o.components.optionsList.layout = new Dino.layouts.InheritedLayout({parentLayout: this.layout });
+
+		Dino.widgets.Select.superclass.$construct.apply(this, arguments);		
+	},
+	
+		
 	$opt: function(o) {
 		Dino.widgets.Select.superclass.$opt.call(this, o);
 /*		

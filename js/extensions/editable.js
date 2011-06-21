@@ -19,8 +19,14 @@ Dino.Editable = function(o) {
 		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
 		this.components.add(editorOpts, '_editor');
 			
-		if(keepMetrics)
-			this._editor.el.css({'width': w, 'height': h});
+		if(keepMetrics) {
+			var ed_el = this._editor.el
+			var dw = ed_el.outerWidth(true) - ed_el.width();
+			var dh = ed_el.outerHeight(true) - ed_el.height();
+			ed_el.width(w - dw);
+			ed_el.height(h - dh);
+//			this._editor.el.css({'width': w-dw, 'height': h-dh});			
+		}
 		
 		this._editor.$layoutChanged();
 
@@ -51,7 +57,6 @@ Dino.Editable = function(o) {
 
 		this.components.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
-		this.events.fire('onEdit', {'reason': reason});
 
 		this.layout.el.children().show();
 		
@@ -59,6 +64,8 @@ Dino.Editable = function(o) {
 			Dino.Focusable.focusManager.enter(this._prev_focus);
 			delete this._prev_focus;
 		}
+
+		this.events.fire('onEdit', {'reason': reason});
 		
 	};
 	

@@ -6,7 +6,8 @@
 
 .dino-field {
 	display: inline-block;
-	line-height: 1px;
+/*	line-height: 1px;*/
+	font-size: 12px;
 	background-color: #fff;
 /*	padding: 1px;*/
 }

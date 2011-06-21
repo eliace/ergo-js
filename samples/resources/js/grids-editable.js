@@ -87,46 +87,6 @@ var widget = $.dino({
 			},
 
 			
-/*			
-      content: {				
-        cls: 'scrollable',
-//        style: {'padding-right': '18px', 'font-size': '9pt'},
-        height: 'auto',
-        extensions: [Dino.Focusable],
-        onKeyDown: function(e) {
-          var catched = false;
-          var selected_row = this.parent.selection.get();
-          if(selected_row) {
-            if(e.keyCode == 38) {
-              var prev_row = this.content.getRow(selected_row.index-1);
-              if(prev_row) {
-                this.parent.selection.add( prev_row );
-                var pos = prev_row.el.offset().top - this.el.offset().top;
-                if(pos < 0) {
-                  this.el.scrollTop(this.el.scrollTop() - prev_row.el.outerHeight());
-                }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
-              }
-              catched = true;
-            }
-            if(e.keyCode == 40) {
-              var next_row = this.content.getRow(selected_row.index+1);
-              if(next_row) {
-                this.parent.selection.add( next_row );
-                var pos = next_row.el.offset().top - this.el.offset().top;
-                if(this.el.height() - next_row.el.outerHeight() < pos) {
-                  this.el.scrollTop(this.el.scrollTop() + next_row.el.outerHeight());
-                }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
-              }
-              catched = true;
-            }
-          }              
-          
-          if(catched) e.baseEvent.preventDefault();
-        }
-      },
-*/      
 			
 //      headerCls: 'dino-bg-highlight',
       tableModel: {
@@ -134,16 +94,16 @@ var widget = $.dino({
           binding: 'auto',
           events: {
             'dblclick': function(e, w) {
-              if(w.options.editable) w.startEdit();
+              if(w.options.editable) w.startEdit(true, true);
             }
           },
           extensions: [Dino.Editable],
           onEdit: function(e) {
-//            var val = this.getRow().data.val();
-//            updateBuffer.upd(val);
+            var val = this.getRow().data.val();
+            updateBuffer.upd(val);
 //            if(e.reason == 'enterKey') {
-//              var nextCol = this.getRow().getColumn(this.index+1);
-//              if(nextCol && nextCol.options.editable) nextCol.startEdit();
+            var nextCol = this.getRow().getColumn(this.index+1);
+            if(nextCol) nextCol.startEdit();
 //            }
           },
           editor: {
@@ -200,7 +160,17 @@ var widget = $.dino({
               updateBuffer.upd(val);
             }
           },
-          editable: false,
+					editor: {
+						dtype: 'text-editor',
+						style: {'text-align': 'center'},
+						autoFit: false,
+						components: {
+							input: {
+								dtype: 'checkbox',
+							}
+						}
+					},
+//          editable: false,
           binding: 'skip'
         }]
       },
