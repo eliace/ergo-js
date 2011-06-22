@@ -112,6 +112,9 @@ var sampleTree = [{
 	}, {
 		name: 'ListBox (editable)',
 		path: 'lists-editable-listbox'
+	}, {
+		name: 'TreeList',
+		path: 'lists-tree'
 	}]
 }, {
 	name: 'Menus',

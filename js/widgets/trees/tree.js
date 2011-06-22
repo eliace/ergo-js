@@ -86,7 +86,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	
 	
 	defaults: {
-//		baseCls: 'dino-basic-tree-node',
+		cls: 'dino-basic-tree-node',
 		components: {
 			button: {
 				weight: 1,
