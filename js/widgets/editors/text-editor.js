@@ -20,7 +20,7 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 		},
 //		extensions: [Dino.Focusable],
 		onBlur: function() {
-			this.parent.stopEdit();
+			this.parent.cancelEdit();
 		},
 //		states: {
 //			'focus': function(f) {

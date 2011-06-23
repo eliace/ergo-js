@@ -5,21 +5,22 @@
 
 Dino.Editable = function(o) {
 
-	this.startEdit = function(override, keepMetrics) {
+	this.startEdit = function() {
 		
 		var w = this.layout.el.width();
 		var h = this.layout.el.height();
 
-		if(override)
+		var editorOpts = this.options.editor;
+		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
+		
+		if(editorOpts.keepContent)
 			this.layout.el.children().hide();
 		else
 			this.layout.el.empty();
 		
-		var editorOpts = this.options.editor;
-		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
 		this.components.add(editorOpts, '_editor');
 			
-		if(keepMetrics) {
+		if(editorOpts.keepContent) {
 			var ed_el = this._editor.el
 			var dw = ed_el.outerWidth(true) - ed_el.width();
 			var dh = ed_el.outerHeight(true) - ed_el.height();

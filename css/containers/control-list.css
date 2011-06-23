@@ -11,6 +11,7 @@
 
 .dino-control-list > * {
 	margin-right: 3px;
+	vertical-align: middle;
 }
 
 .dino-control-list.center {

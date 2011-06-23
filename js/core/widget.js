@@ -42,7 +42,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		states: {
 			'hidden': 'hidden',
 			'disabled': 'disabled',
-			'invalid': 'invalid'
+			'invalid': 'invalid',
+			'unselectable': 'unselectable'
 		},
 		extensions: [Dino.Observable, Dino.Statable],
 		binding: 'auto',
@@ -151,7 +152,11 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 					content: o.content
 				}
 			})
-		}		
+		}
+		
+//		if('states' in o) {
+//			if(Dino.isString(o.states)) o.states = [o.states];
+//		}
 		
 	},
 	
@@ -382,6 +387,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 				el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
 			}
 		}
+//		if('unselectable' in o) {
+//			el.css('unselectable');
+//			el.attr('unselectable');
+//		}
 
 //		profiler.tick('opt', 'ifs');
 		

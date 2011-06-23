@@ -229,7 +229,7 @@ $(document).ready(function(){
 					cls: 'logo-icon icon48',
 				}, {
 					dtype: 'text',
-					text: 'Dino.js',
+					text: 'Dyno.js',
 					style: {'margin-left': '8px'}
 				}]
 			},

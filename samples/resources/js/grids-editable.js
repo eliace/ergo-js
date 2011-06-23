@@ -92,29 +92,32 @@ var widget = $.dino({
       tableModel: {
         cell: {
           binding: 'auto',
-          events: {
-            'dblclick': function(e, w) {
-              if(w.options.editable) w.startEdit(true, true);
-            }
-          },
+					onDoubleClick: function(e) {
+            if(this.options.editable) this.startEdit();
+						e.baseEvent.preventDefault();						
+					},
           extensions: [Dino.Editable],
           onEdit: function(e) {
             var val = this.getRow().data.val();
             updateBuffer.upd(val);
-//            if(e.reason == 'enterKey') {
+
             var nextCol = this.getRow().getColumn(this.index+1);
             if(nextCol) nextCol.startEdit();
-//            }
           },
           editor: {
-            dtype: 'text-editor',
-            style: {'font-size': '9pt'}
-          }
+            dtype: 'text-editor'
+//						components: {
+//							input: {
+//       					style: {'font-size': '12px'}								
+//							}
+//						}								
+          },
+					state: 'unselectable'
         },
         row: {
-					onClick: function() {
+					onClick: function(e) {
 //						console.log(this);
-						this.getParent(Dino.widgets.Grid).content.selection.add(this, e.ctrlKey, e.shiftKey);
+						this.getParent(Dino.widgets.Grid).content.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
 					},
           events: {
 //            'click': function(e, w) {
@@ -168,7 +171,9 @@ var widget = $.dino({
 							input: {
 								dtype: 'checkbox',
 							}
-						}
+						},
+						keepContent: true,
+						changeOnEnter: false
 					},
 //          editable: false,
           binding: 'skip'
