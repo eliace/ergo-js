@@ -64,6 +64,9 @@ var sampleTree = [{
 		name: 'Preview',
 		path: 'grids-preview',
 		created: true
+	}, {
+		name: 'Test',
+		path: 'grids-grid-x'
 	}]
 }, {
 	name: 'Images',
@@ -112,9 +115,6 @@ var sampleTree = [{
 	}, {
 		name: 'ListBox (editable)',
 		path: 'lists-editable-listbox'
-	}, {
-		name: 'TreeList',
-		path: 'lists-tree'
 	}]
 }, {
 	name: 'Menus',
@@ -131,8 +131,11 @@ var sampleTree = [{
 }, {
 	name: 'Trees',
 	children: [{
-		name: 'simple',
+		name: 'Basic',
 		path: 'trees-simple'
+	}, {
+		name: 'Indent',
+		path: 'trees-indent'
 	}, {
 		name: 'binding',
 		path: 'trees-binding'
@@ -232,7 +235,7 @@ $(document).ready(function(){
 					cls: 'logo-icon icon48',
 				}, {
 					dtype: 'text',
-					text: 'Dyno.js',
+					text: 'Dino.js',
 					style: {'margin-left': '8px'}
 				}]
 			},

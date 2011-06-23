@@ -19,7 +19,13 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	
 	insert: function(item, index) {
 		
-		var el = (item.options.layoutSelector) ? this.el.filter(item.options.layoutSelector) : this.el;
+		var selector = item.options.layoutSelector;
+		
+		var el = this.el;
+		
+		if(selector) {
+			el = Dino.isFunction(selector) ? selector.call(this) : $(selector, this.el);
+		}
 		
 		if(index == null)
 			el.append( item.el );
