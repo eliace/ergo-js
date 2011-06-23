@@ -41,7 +41,7 @@
 	margin-left: 3px;
 }
 
-.dino-tree-node-content:hover {
+.dino-basic-tree-node > .dino-tree-node-content:hover {
 	color: #666;
 }
 
