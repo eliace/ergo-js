@@ -376,8 +376,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 //			profiler.tick('opt', 'style');		
 		
-		if('innerText' in o) el.text(o.innerText);
-		if('innerHtml' in o) el.html(o.innerHtml);
+		if('innerText' in o) this.layout.el.text(o.innerText);
+		if('innerHtml' in o) this.layout.el.html(o.innerHtml);
 		if('role' in o) el.attr('role', o.role);
 		if('opacity' in o){
 			if($.support.opacity) 
