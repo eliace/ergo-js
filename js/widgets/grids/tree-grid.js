@@ -1,5 +1,5 @@
 
-//= require "grid"
+//= require "table-grid"
 //= require <widgets/trees/tree>
 //= require <layouts/stateful>
 
@@ -119,12 +119,8 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
 
 
 
-
-/**
- * @class
- * @extends Dino.core.Widget
- */
-Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid', /** @lends Dino.widgets.TreeGrid.prototype */{
+/*
+Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.TableGrid', {
 	
 	defaults: {
 //		wrapEl: '<div></div>',
@@ -147,11 +143,11 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
 //					}
 //				}
 //			},
-			content: {
+			body: {
 				// скроллируемый контейнер
 //				dtype: 'box',
 //				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
-				content: {
+//				content: {
 					dtype: 'tree-table',
 					tableModel: {
 						row: {
@@ -166,45 +162,17 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
 						}
 					}
 //					width: '100%'
-				}
+//				}
 			}
 		}
 	}
 	
 	
-/*	
-	$init: function() {
-		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
-		
-		var o = this.options;
-		
-		// переносим параметр width из колонок в заголовки
-		var h_columns = [];
-		Dino.each(o.tableModel.columns, function(column, i){
-			h_col = {};
-			if('width' in column) h_col.width = column.width;
-			h_columns[i] = h_col;
-		})
-		
-		Dino.smart_override(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
-		
-	},
-	
-	
-	$layoutChanged: function() {
-		Dino.widgets.TreeGrid.superclass.$layoutChanged.apply(this, arguments);
-		
-		var tableWidth = this.content.content.el.width();
-		this.header.content.el.width(tableWidth);
-		
-	}
-*/	
 	
 	
 	
 }, 'tree-grid');
-
+*/
 
 
 
@@ -212,14 +180,29 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Grid
  * @class
  * @extends Dino.widgets.Table
  */
-Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Table', /** @lends Dino.widgets.TreeTable.prototype */{
+Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.TableGrid', /** @lends Dino.widgets.TreeTable.prototype */{
 	
 	defaults: {
 		cls: 'dino-tree-table',
 		components: {
 			body: {
-				defaultItem: {
-					dtype: 'tree-table-row'
+				content: {
+					defaultItem: {
+						dtype: 'tree-table-row'						
+					},
+					gridModel: {
+						row: {
+							onStateChange: function(e) {
+								if(e.state == 'expanded' || e.state == 'collapsed') {
+									var grid = this.getParent(Dino.widgets.TreeGrid);
+									if(grid) grid.$layoutChanged();
+								}
+							}							
+						}
+					}
+//					defaultItem: {
+//						dtype: 'tree-table-row',
+//					}
 				}
 			}
 		}
@@ -227,12 +210,14 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 	
 	
 	$init: function(o) {
-		Dino.widgets.TreeTable.superclass.$init.apply(this, arguments);
+		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 
 		var bodyLayout = new Dino.layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
 //		bodyLayout.immediateRebuild = false;
 		
-		o.components.body.layout = bodyLayout;
+		var o_grid = o.components.body.content;
+		
+		o_grid.layout = bodyLayout;
 
 		// определяем, 
 		var defaultNode = {
@@ -246,14 +231,15 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 			}			
 		};
 
-		Dino.smart_override(o.components.body.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		Dino.smart_override(o_grid.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		
 		
 		
 		Dino.smart_override(
-				o.components.body.defaultItem.defaultSubItem,
-				o.tableModel.row, 
-				{defaultItem: o.tableModel.cell},
-				{items: o.tableModel.columns}
+				o_grid.defaultItem.defaultSubItem,
+				o_grid.gridModel.row, 
+				{defaultItem: o_grid.gridModel.cell},
+				{items: o_grid.gridModel.columns}
 		);
 		
 		
@@ -269,7 +255,7 @@ Dino.widgets.TreeTable = Dino.declare('Dino.widgets.TreeTable', 'Dino.widgets.Ta
 	
 	
 	
-}, 'tree-table');
+}, 'tree-grid');
 
 
 
@@ -282,7 +268,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 //	$html: function() { return '<tr></tr>'; },
 	
 	defaults: {
-//		cls: 'dino-tree-grid-row',
+		cls: 'dino-tree-grid-row',
 		indent: 0,
 		defaultItem: {
 			dtype: 'table-cell'
@@ -346,10 +332,10 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 //	},
 	
 	collapse: function() {
-		this.states.clear('expand_trigger');
 		this.eachDescendantRow(function(item){
 			item.states.set('hidden');
 		});
+		this.states.clear('expand_trigger');		
 	},
 	
 	expand: function(x0) {
@@ -359,14 +345,17 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		}
 
 		if(!x0) return;
-		
+
+		this.states.clear('hidden');
+
 		var x = this.states.is('expanded');
 		
 //		if( this.states.is('expanded') ){
-		this.states.clear('hidden');
 		this.subtree.items.each(function(item){
 			item.expand(x);
 		});			
+		
+		
 //		}
 	},
 	
@@ -389,7 +378,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', /** @lends Dino.widgets.TreeTableCell.prototype */{
 	
 	defaults: {
-//		cls: 'dino-tree-grid-cell',
+		cls: 'dino-tree-grid-cell',
 		layout: {
 //			dtype: 'plain-layout',
 //			html: '<div style="position: relative;"></div>'
@@ -411,18 +400,16 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 								dtype: 'icon',
 								weight: 1,
 								cls: 'dino-tree-node-button',
-								events: {
-									'click': function(e, w) {
-										var row = w.parent.parent.getRow();
-										if(row.states.is('collapsed')){
-											w.parent.states.set('expand_trigger');
-											row.expand();
-										}
-										else{
-											w.parent.states.clear('expand_trigger');
-											row.collapse();
-										}										
+								onClick: function(e) {
+									var row = this.parent.parent.getRow();
+									if(row.states.is('collapsed')){
+										this.parent.states.set('expand_trigger');
+										row.expand();
 									}
+									else{
+										this.parent.states.clear('expand_trigger');
+										row.collapse();
+									}																			
 								},
 								states: {
 									'leaf': 'hidden'

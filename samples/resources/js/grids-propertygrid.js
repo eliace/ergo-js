@@ -6,18 +6,18 @@ var gridData = new Dino.data.ArrayDataSource();
     
 var propertyGrid = $.dino({
   renderTo: '.preview',
-  dtype: 'grid',
+  dtype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 400,
-  content: {
-    style: {'font-size': '9pt'}
-  },
-  headerCls: 'dino-bg-highlight',
-  headerModel: {
-    cell: {
-      cls: 'grid-header-cell'
-    }
-  },
+//  content: {
+//    style: {'font-size': '9pt'}
+//  },
+//  headerCls: 'dino-bg-highlight',
+//  headerModel: {
+//    cell: {
+//      cls: 'grid-header-cell'
+//    }
+//  },
   tableModel: {
     cell: {
       cls: 'grid-cell',

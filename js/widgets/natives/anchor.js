@@ -10,8 +10,8 @@ Dino.declare('Dino.widgets.Anchor', 'Dino.core.Widget', /** @lends Dino.widgets.
 	
 	$html: function() { return '<a href="#" click="return false" />'; },
 	
-	$init: function(o) {
-		Dino.widgets.Anchor.superclass.$init.call(this, o);
+	$construct: function(o) {
+		Dino.widgets.Anchor.superclass.$construct.call(this, o);
 		
 		var self = this;
 		

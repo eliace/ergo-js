@@ -3,14 +3,54 @@
 
 
 
+Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
+	
+	defaults: {
+		html: '<table cellspacing="0"></table>',
+		style: {'border-collapse': 'collapse', 'table-layout': 'fixed'},
+		width: '100%',
+		dynamic: true,
+		defaultItem: {
+			dtype: 'table-row'
+		},
+		components: {
+			cols: {
+				dtype: 'table-row'
+			}
+		},
+		gridModel: {
+			row: {},
+			cell: {},
+			columns: []
+		}
+	},
+	
+	
+	$init: function(o) {
+		Dino.widgets.Grid.superclass.$init.apply(this, arguments);
+		
+		var cols = [];
+		Dino.each(o.gridModel.columns, function(col){
+			var w = ('width' in col) ? {width: col.width} : {};
+			delete col.width;
+			cols.push(w);
+		});
+		
+		Dino.smart_override(o.defaultItem, o.gridModel.row, {defaultItem: o.gridModel.cell, items: o.gridModel.columns});
+		Dino.smart_override(o.components.cols, {items: cols});		
+		
+	}
+	
+	
+	
+}, 'grid');
 
 
 
-/**
- * @class
- * @extends Dino.core.Widget
- */
-Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @lends Dino.widgets.Grid.prototype */{
+
+
+/*
+Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', { 
 	
 	defaults: {
 		baseCls: 'dino-grid',
@@ -193,7 +233,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', /** @l
 	
 }, 'grid');
 
-
+*/
 
 
 

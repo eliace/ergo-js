@@ -80,11 +80,10 @@ var widget = $.dino({
       }]
     },
     grid: {
-      dtype: 'grid',
+      dtype: 'table-grid',
 
-			content: {
-				extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation]
-			},
+//			components: {
+//			},
 
 			
 			
@@ -116,8 +115,8 @@ var widget = $.dino({
         },
         row: {
 					onClick: function(e) {
-//						console.log(this);
-						this.getParent(Dino.widgets.Grid).content.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
+						console.log(this.getParent(Dino.widgets.TableGrid).body);
+						this.getParent(Dino.widgets.TableGrid).body.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
 					},
           events: {
 //            'click': function(e, w) {
@@ -180,6 +179,9 @@ var widget = $.dino({
         }]
       },
       components: {
+				body: {
+					extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation]
+				},				
         pager: {
           dtype: 'pager',
           count: 200,
@@ -195,6 +197,8 @@ var widget = $.dino({
             };
             
             gridData.events.fire('onValueChanged');
+						
+						widget.grid.$layoutChanged();
           }
         }
       },

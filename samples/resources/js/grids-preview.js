@@ -6,15 +6,9 @@ gridData = new Dino.data.ArrayDataSource();
     
 var grid = $.dino({
   renderTo: '.preview',
-  dtype: 'grid',
+  dtype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 800,
-  content: {
-    height: 400,//'auto',
-    state: 'scrollable',
-    style: {'padding-right': '15px'},
-  },
-//  headerCls: 'dino-bg-highlight',
   tableModel: {
     row: {
       html: '<tr class="base"></tr><tr class="details"></tr>',
@@ -22,13 +16,14 @@ var grid = $.dino({
         'hover': 'hovered'
       },
       defaultItem: {
-        layoutSelector: '.base'
+        layoutSelector: function() { return this.el.filter('.base'); } //'.base'
       },
       components: {
         details:{
           dtype: 'box',
-          layoutSelector: '.details',
-          html: '<td colspan="100"></td>',
+//          layoutSelector: '.details',
+       		layoutSelector: function() { return this.el.filter('.details'); },
+          html: '<td colspan="2"></td>',
           content: {
             dtype: 'box',
             dataId: 'description',
@@ -89,6 +84,8 @@ $.get('ajax/lenta.ru.rss', function(xml){
   });
   gridData.set(feed);
   
+	grid.$layoutChanged();
+	
 }, 'text');    
     
     
