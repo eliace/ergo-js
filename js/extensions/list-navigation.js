@@ -49,8 +49,10 @@ Dino.ListNavigation = function(o) {
 						}
 					});
 					
-					if(editable)
+					if(editable) {
 						editable.startEdit();
+					}
+					
 					
 				}
 	    }              

@@ -340,23 +340,31 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 	
 	expand: function(x0) {
 		if(arguments.length == 0){
+
+			this.states.clear('hidden');
+	
+			var x = true;
+			
+			this.subtree.items.each(function(item){
+				item.expand(x);
+			});
+						
 			this.states.set('expand_trigger');
-			x0 = true;
+		}
+		else {
+
+			if(!x0) return;
+	
+			this.states.clear('hidden');
+	
+			var x = this.states.is('expanded');
+			
+			this.subtree.items.each(function(item){
+				item.expand(x);
+			});			
+			
 		}
 
-		if(!x0) return;
-
-		this.states.clear('hidden');
-
-		var x = this.states.is('expanded');
-		
-//		if( this.states.is('expanded') ){
-		this.subtree.items.each(function(item){
-			item.expand(x);
-		});			
-		
-		
-//		}
 	},
 	
 	getParentRow: function() {

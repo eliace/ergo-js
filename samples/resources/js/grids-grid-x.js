@@ -19,7 +19,7 @@ var grid = $.dino({
 		pager: {
 			dtype: 'pager',
       count: 200,
-      pageSize: 40,
+      pageSize: 3,
       cls: 'dino-border-top',
       onIndexChanged: function(e) {
         // генерируем данные и добавляем их в источник данных виджета
