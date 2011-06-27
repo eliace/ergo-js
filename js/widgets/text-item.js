@@ -1,7 +1,7 @@
 
 //= require <layouts/hbox>
-//= require "images"
-//= require "native"
+//= require "images/all"
+//= require "natives/all"
 
 
 /**

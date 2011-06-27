@@ -39,9 +39,10 @@
 
 .dino-tree-node-content {
 	margin-left: 3px;
+	display: inline-block;
 }
 
-.dino-tree-node-content:hover {
+.dino-basic-tree-node > .dino-tree-node-content:hover {
 	color: #666;
 }
 

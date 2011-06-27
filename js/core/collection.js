@@ -1,6 +1,4 @@
 
-//= require "events"
-
 
 Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
@@ -32,11 +30,13 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	remove: function(item) {
 		this.remove_at(this.index_of(item));
+		return item;
 	},
 
 	remove_at: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
+		return item;
 //		this.events.fire('item:remove', {'item': item});
 	},
 	
@@ -78,14 +78,14 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		return Dino.include(this.src, callback);
 	},
 	
-	length: function() {
+	size: function() {
 		var n = 0;
 		for(var i in this.src) n++;
 		return n;
 	},
 	
 	is_empty: function() {
-		return this.length() == 0;
+		return this.size() == 0;
 	},
 	
 	index_of: function(item) {
@@ -110,9 +110,9 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	},	
 	
 	add: function(item, i) {
-		if(arguments.length == 1) {
+		if(i == null) {
 			this.src.push(item);
-			i = this.src.length;
+			i = this.src.length-1;
 		}
 		else {
 			this.src.splice(i, 0, item);			
@@ -124,11 +124,12 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	
 	remove_at: function(i) {
 		var item = this.src[i]
-		this.src.splice(i, 1);		
+		this.src.splice(i, 1);
+		return item;
 //		this.events.fire('item:remove', {'item': item});
 	},
 	
-	length: function() {
+	size: function() {
 		return this.src.length;
 	},
 	
@@ -141,7 +142,7 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	},
 	
 	last: function() {
-		return this.src[this.length-1];
+		return this.src[this.src.length-1];
 	}
 	
 	

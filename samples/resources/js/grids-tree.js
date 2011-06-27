@@ -11,11 +11,12 @@ $.dino({
   cls: 'dino-border-all',
   data: tgTreeData,
   width: 600,
-  content: {
-    height: 300,//'auto',
-    state: 'scrollable'
-//    style: {'padding-right': '18px'/*, 'font-size': '9pt'*/}
-  },
+	height: 300,
+//  content: {
+//    height: 300,//'auto',
+//    state: 'scrollable'
+////    style: {'padding-right': '18px'/*, 'font-size': '9pt'*/}
+//  },
   tableModel: {
     cell: {
       cls: 'tg-cell'

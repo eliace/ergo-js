@@ -12,7 +12,7 @@ var dlg = $.dino({
 });  
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   cls: 'dino-controls',
   defaultItem:{

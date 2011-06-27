@@ -1,0 +1,27 @@
+
+
+button.plain {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+button.plain:hover {
+	border: 1px solid #c0c0c0;	
+	background-color: #ccc;
+}
+
+button.plain.selected {
+	background-color: #ddd;
+	border-color: #aaa #eee #eee #aaa;
+}
+
+button.plain.disabled {
+	opacity: 0.3;	
+}
+
+button.plain.disabled:hover {
+	border-color: transparent;	
+	background-color: transparent;	
+}
+
+

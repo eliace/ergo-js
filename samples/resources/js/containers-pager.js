@@ -16,7 +16,7 @@ var box = $.dino({
   renderTo: '.preview',
   components: {
     controls: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'dino-border-bottom',
       items: [{
         dtype: 'text-button',
@@ -42,7 +42,7 @@ var box = $.dino({
       }]
     },
     content: {
-      dtype: 'box',
+      dtype: 'list',
       layout: 'float',
       dynamic: true,
       data: bindingData,

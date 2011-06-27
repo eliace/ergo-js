@@ -12,7 +12,22 @@ $.dino({
     tab: {icon: 'silk-icon-date', text: 'Tab2'}
   }, {
     tab: {icon: 'silk-icon-plugin', text: 'Tab3'}
-  }]
+  }, {
+		tab: {
+			dtype: 'box',
+			layout: 'hbox',
+			components: {
+				check: {
+					dtype: 'checkbox',
+					style: {'margin': '0 3px 0'}
+				},
+				text: {
+					dtype: 'text',
+					text: 'Who am i?'
+				}
+			}
+		}
+	}]
 });
 
     

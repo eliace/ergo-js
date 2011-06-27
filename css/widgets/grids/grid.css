@@ -19,6 +19,7 @@
 /*	background-color: #f0f0f0;*/
 /*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
 	background-color: #ddd;
+/*	overflow-x: hidden;*/
 }
 
 .dino-grid-content {
@@ -27,7 +28,7 @@
 }
 
 .dino-grid-content.scrollable {
-	padding-right: 18px;  /* отступ для скролла */
+/*	padding-right: 18px;  /* отступ для скролла */
 	overflow-y: auto;
 }
 

@@ -70,14 +70,14 @@ Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.wi
 
 /**
  * @class
- * @extends Dino.containers.DropdownBox
+ * @extends Dino.containers.DropdownList
  */
 Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widgets.MenuDropdownBox', /** @lends Dino.widgets.ContextMenu.prototype */{
 	
 	defaults: {
 //		hideOn: 'hoverOut',
 		baseCls: 'dino-context-menu',
-		renderTo: 'body',
+//		renderTo: 'body',
 		menuModel: {
 			item: {
 				onAction: function() {
@@ -93,7 +93,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 //			}			
 //		},
 		offset: [-2, -2]
-	}
+	},
 	
 /*	
 	$events: function(self){
@@ -103,18 +103,30 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 			if(self.options.hideOn == 'hoverOut') self.hide(); 
 		});
 	}
-	
-/*		
-	show: function(x, y) {
-		Dino.widgets.ContextMenu.superclass.show.apply(this, arguments);
-
-		var self = this;
-		
-		if(this.options.hideOn == 'outerClick')
-			$('body').one('click', function(){ self.hide(); });
-				
-	}
 */	
+		
+	show: function(x, y) {
+		
+		$('body').append(this.el);
+				
+		var view_w = this.el.parent().outerWidth();
+		var view_h = this.el.parent().outerHeight();
+		
+		var dw = view_w - (this.el.outerWidth() + x);
+		var dh = view_h - (this.el.outerHeight() + y);
+		
+		if(dw < 0)	x -= this.el.outerWidth();
+		if(dh < 0)	y -= this.el.outerWidth();
+		
+		
+		this.el.css({'left': x, 'top': y});
+		
+		this.el.show();
+		
+		
+		
+	}
+	
 	
 	
 }, 'context-menu');

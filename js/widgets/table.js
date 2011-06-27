@@ -108,11 +108,11 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 	
 	
 	eachRow: function(callback) {
-		this.body.eachItem(callback);
+		this.body.items.each(callback);
 	},
 	
 	getRow: function(i) {
-		return this.body.getItem(i);
+		return this.body.items.find(i);
 	}
 	
 	
@@ -133,9 +133,8 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
  */
 Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Container', /** @lends Dino.widgets.TableRow.prototype */{
 	
-	$html: function() { return '<tr></tr>'; },
-	
 	defaults: {
+		html: '<tr></tr>',
 		defaultItem: {
 			dtype: 'table-cell'
 		}
@@ -148,7 +147,7 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Contain
 	},
 	
 	getColumn: function(i) {
-		return this.getItem(i);
+		return this.items.find(i);
 	}
 	
 	

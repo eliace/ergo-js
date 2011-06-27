@@ -17,6 +17,7 @@ $.dino({
   width: 210,
   data: requestObj,
   content: {
+		dtype: 'list',
     style: {'padding': '3px', 'font-size': '0.7em'},
     layout: 'simple-form',
     defaultItem: {
@@ -65,7 +66,7 @@ $.dino({
   },
   components: {
     footer: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'center',
       items: [{
         dtype: 'text-button',

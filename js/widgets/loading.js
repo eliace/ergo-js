@@ -1,12 +1,12 @@
 
-//= require <containers/box>
+//= require <widgets/box>
 
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.ListBox
  */
-Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.containers.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
+Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.widgets.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
 	
 	defaults: {
 		components: {

@@ -36,11 +36,11 @@ $.dino({
       updateView: function() {
         this.content.el.attr('src', news[news_index].href);
         
-        this.contentSelector.getItem(0).$dataChanged();
-        this.contentSelector.getItem(1).selection.add( this.contentSelector.getItem(1).getItem(news_index) );
+        this.contentSelector.items.get(0).$dataChanged();
+        this.contentSelector.items.get(1).selection.add( this.contentSelector.items.get(1).items.get(news_index) );
       },
       changeView: function(tag) {
-        this.toolbar.selection.add(this.toolbar.getItem(tag));
+        this.toolbar.selection.add(this.toolbar.items.find(tag));
         this.contentSelector.layout.activate(tag);        
       }
     }],
@@ -53,7 +53,7 @@ $.dino({
     components: {
       toolbar: {
         weight: 1,
-        dtype: 'control-box',
+        dtype: 'control-list',
         cls: 'dino-border-bottom',
         extensions: [Dino.Selectable],
         defaultItem: {
@@ -85,13 +85,13 @@ $.dino({
       },
       contentSelector: {
         weight: 2,
-        dtype: 'box',
+        dtype: 'list',
         layout: 'stack',
         cls: 'dino-border-bottom',
         style: {'background-color': '#fff'},
         data: news,
         items: [{
-          dtype: 'box',
+          dtype: 'list',
           tag: 'short',
           layout: {
             dtype: 'column-layout',
@@ -125,7 +125,7 @@ $.dino({
             }
           }]
         }, {
-          dtype: 'list-box',
+          dtype: 'list-view',
           tag: 'full',
           dynamic: true,
           extensions: [Dino.Selectable],

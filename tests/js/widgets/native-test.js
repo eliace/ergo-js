@@ -2,9 +2,15 @@
 
 test('widgets/native', function(){
 	
+	
+	
+	
+/*	
+	
 	var myData = new Dino.data.ObjectDataSource({
 		name: 'Alice'
 	})
+	
 	
 	var input = Dino.object({
 		dtype: 'input',
@@ -16,6 +22,6 @@ test('widgets/native', function(){
 	});
 	
 	console.log( input.$print() );
-	
+*/	
 	
 });

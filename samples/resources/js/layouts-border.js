@@ -8,7 +8,7 @@ $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
 
 
 var box = $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   layout: 'border',
     style: {'margin': '8px'},

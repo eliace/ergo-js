@@ -1,20 +1,51 @@
 
-gridData = new Dino.data.ArrayDataSource();
 
 
-    
-    
+
+
+
+
 var grid = $.dino({
-  renderTo: '.preview',
-  dtype: 'grid',
-  cls: 'dino-border-all dino-corner-all',
-  width: 800,
-  content: {
-    height: 300,//'auto',
-    state: 'scrollable'
-//    style: {'padding-right': '18px'}
-  },
-//  headerCls: 'dino-bg-highlight',
+	dtype: 'table-grid',
+	renderTo: '.preview',
+	
+	data: [],
+	
+	cls: 'dino-border-all',
+	height: 300,
+	width: 800,
+	
+	components: {
+		pager: {
+			dtype: 'pager',
+      count: 200,
+      pageSize: 40,
+      cls: 'dino-border-top',
+      onIndexChanged: function(e) {
+        // генерируем данные и добавляем их в источник данных виджета
+        var data_page = Samples.generate_grid_page(e.from, e.to);
+        var j = 0;
+        for(var i = e.from; i < e.to; i++) {
+          grid.data.source[i] = data_page[j++];
+        }
+
+        grid.data.filter_chain = function(data){
+          var out = [];
+          for(var i = 0; i < data.length; i++)
+            if(i >= e.from && i < e.to) out.push(i);
+          return out;
+        };
+					
+        grid.data.events.fire('onValueChanged');
+				grid.$layoutChanged();
+        
+      }			
+		}
+	},
+	
+	
+	
+	
   tableModel: {
     columns: [{
       dataId: 'id',
@@ -22,11 +53,13 @@ var grid = $.dino({
       width: 50,
     }, {
       dataId: 'string',
-      header: 'Строка'
+      header: 'Строка',
+//			width: 60
     }, {
       dataId: 'number',
       header: 'Число',
       format: function(v) { return v.toFixed(2) },
+//			width: 60
     }, {
       dataId: 'icon',
       cls: 'silk-icon dino-clickable',
@@ -56,43 +89,26 @@ var grid = $.dino({
     }, {
       dataId: 'currency',
       header: 'Цена',
-      format: Dino.format_currency.rcurry('$')
+      format: Dino.format_currency.rcurry('$'),
+//			width: 60
     }, {
       dataId: 'date',
       header: 'Дата',
+//			width: 60
 //      format: Dino.format_date
     }]
-  },
-  data: gridData,
-  components: {
-    pager: {
-      dtype: 'pager',
-      count: 200,
-      pageSize: 40,
-      cls: 'dino-border-top',
-      onIndexChanged: function(e) {
-        // генерируем данные и добавляем их в источник данных виджета
-        var data_page = Samples.generate_grid_page(e.from, e.to);
-        var j = 0;
-        for(var i = e.from; i < e.to; i++) {
-          gridData.source[i] = data_page[j++];
-        }
-
-        gridData.filter_chain = function(data){
-          var out = [];
-          for(var i = 0; i < data.length; i++)
-            if(i >= e.from && i < e.to) out.push(i);
-          return out;
-        };
-					
-        gridData.events.fire('onValueChanged');
-        
-//        console.log(profiler.print_result('widget'));
-//        profiler.clear('widget');
-      }
-    }
   }
+	
+	
 });
-    
+
+
+
+
 grid.pager.setIndex(0);
+
+
+//grid.data.add(['kiwi', 72, 0.3])
+
+
 

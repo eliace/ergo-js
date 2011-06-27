@@ -49,6 +49,9 @@ var sampleTree = [{
 		name: 'Grid',
 		path: 'grids-grid'
 	}, {
+		name: 'Grid (editable)',
+		path: 'grids-editable'
+	}, {
 		name: 'Tree',
 		path: 'grids-tree'
 	}, {
@@ -58,12 +61,12 @@ var sampleTree = [{
 		name: 'Properties',
 		path: 'grids-propertygrid',
 	}, {
-		name: 'Editable Grid',
-		path: 'grids-editable'
-	}, {
 		name: 'Preview',
 		path: 'grids-preview',
 		created: true
+	}, {
+		name: 'Test',
+		path: 'grids-grid-x'
 	}]
 }, {
 	name: 'Images',
@@ -109,6 +112,9 @@ var sampleTree = [{
 	}, */{
 		name: 'ListBox',
 		path: 'lists-listbox'
+	}, {
+		name: 'ListBox (editable)',
+		path: 'lists-editable-listbox'
 	}]
 }, {
 	name: 'Menus',
@@ -125,8 +131,11 @@ var sampleTree = [{
 }, {
 	name: 'Trees',
 	children: [{
-		name: 'simple',
+		name: 'Basic',
 		path: 'trees-simple'
+	}, {
+		name: 'Indent',
+		path: 'trees-indent'
 	}, {
 		name: 'binding',
 		path: 'trees-binding'
@@ -158,6 +167,9 @@ var sampleTree = [{
 		created: true,
 		name: 'Thirdparty',
 		path: 'misc-thirdparty'
+	}, {
+		name: 'Position',
+		path: 'misc-position'
 	}]
 }];
 
@@ -215,7 +227,7 @@ $(document).ready(function(){
 		components: {
 			// Логотип
 			logo: {
-				dtype: 'box',
+				dtype: 'list',
 				id: 'logo',
 				layout: 'hbox',
 				items: [{
@@ -236,7 +248,7 @@ $(document).ready(function(){
 
 			// Содержимое
 			pageContent: {
-				dtype: 'box',
+				dtype: 'list',
 				layout: 'border',
 				height: 'auto',
 				items: [{
@@ -260,7 +272,7 @@ $(document).ready(function(){
 										xicon: true,
 		      					dataId: 'name',
 										cls: 'dino-clickable',
-										extensions: [Dino.Clickable],
+//										extensions: [Dino.Clickable],
 //										state: 'clickable',
 										onClick: function() {
 											path = this.parent.data.get('path');
@@ -306,7 +318,7 @@ $(document).ready(function(){
 						}
 					}
 				}, {
-					dtype: 'box',
+					dtype: 'list',
 					tag: 'preview_and_code',
 					height: 'auto',
 					layout: 'border',
@@ -335,7 +347,7 @@ $(document).ready(function(){
 						      },
 						      components: {
 						        buttons: {
-							        dtype: 'box',
+							        dtype: 'list',
 							        dock: 'right',
 							        layout: 'float',
 							        defaultItem: {

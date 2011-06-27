@@ -13,3 +13,8 @@
 	text-shadow: 1px 1px 1px #fff;
 }
 */					
+
+
+.dino-grid-h-cell.x-resizable {
+	cursor: col-resize;
+}

@@ -1,12 +1,11 @@
 
-//= require <containers/control-box>
+//= require <containers/control-list>
 //= require <layouts/column>
 //= require "../buttons/text-button"
 
-Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
+Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 
 	defaults: {
-		html: '<div/>',
 		cls: 'dino-growl dino-border-all dino-corner-all dino-widget-shadow',
 		components: {
 			content: {
@@ -19,7 +18,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
 				}		
 			},
 			buttons: {
-				dtype: 'control-box',
+				dtype: 'control-list',
 				cls: 'center',
 				defaultItem: {
 					dtype: 'text-button',
@@ -115,7 +114,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.core.Widget', {
 
 
 
-Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
+Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.List', {
 	
 	defaults: {
 		cls: 'dino-growl-box',
@@ -123,7 +122,7 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.Box', {
 		defaultItem: {
 			dtype: 'growl',
 			onHide: function() {
-				this.parent.destroyItem(this); 				
+				this.parent.items.remove(this).destroy(); 				
 			}
 		}
 	}

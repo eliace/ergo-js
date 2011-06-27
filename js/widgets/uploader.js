@@ -1,5 +1,5 @@
 
-//= require "native"
+//= require "natives/all"
 
 
 /**
@@ -28,12 +28,12 @@ Dino.widgets.Uploader = Dino.declare('Dino.widgets.Uploader', 'Dino.core.Widget'
 			
 			var fileId = 'file-' + Dino.timestamp();
 			
-			self.addComponent('file', {
+			self.addComponent({
 				dtype: 'file',
 				opacity: 0,
 				id: fileId,
 				name: 'file'
-			});
+			}, 'file');
 			
 			self.file.el.change(function(e){
 								

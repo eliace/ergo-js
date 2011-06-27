@@ -25,7 +25,7 @@ var hashData = {
 
   
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   layout: 'simple-form',
   data: xformData,
@@ -70,9 +70,7 @@ $.dino({
         }
       }
     },
-    overrides: {
-      stopEdit: Dino.noop
-    }
+    extensions: [{stopEdit: Dino.noop}]    
   }, {
     label: 'Поле со списком (форма)',
     content: {
@@ -120,9 +118,7 @@ $.dino({
         }
       }
     },
-    overrides: {
-      stopEdit: Dino.noop
-    }    
+    extensions: [{stopEdit: Dino.noop}]    
   }, {
     label: 'Счетчик (форма)',
     content: {
@@ -169,7 +165,7 @@ $.dino({
       dataId: 'number2',
       style: {'padding': '1px'}
     },
-    overrides: { stopEdit: Dino.noop }    
+    extensions: [{ stopEdit: Dino.noop }]    
   }
   ]
 });      

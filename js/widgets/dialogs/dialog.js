@@ -1,5 +1,5 @@
 
-//= require <containers/control-box>
+//= require <containers/control-list>
 //= require <layouts/window>
 //= require "../panels/panel"
 //= require "../buttons/text-button"
@@ -7,22 +7,22 @@
 
 /**
  * @class
- * @extends Dino.containers.Box
+ * @extends Dino.containers.ListBox
  */
 Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', /** @lends Dino.widgets.Dialog.prototype */{
 	
 	defaults: {
 		baseCls: 'dino-dialog',
 		layout: 'window',
-		renderTo: 'body',
+//		renderTo: 'body',
 		components: {
 			buttons: {
 				weight: 30,
-				dtype: 'control-box',
+				dtype: 'control-list',
 				cls: 'center',
 				defaultItem: {
 					dtype: 'text-button',
-					state: 'hidden',
+//					state: 'hidden',
 					width: 80,
 					onAction: function() {
 						var dlg = this.parent.parent;
@@ -42,7 +42,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			'minimize': {icon: 'dino-icon-dialog-minimize', tag: 'minimize'},
 			'maximize': {icon: 'dino-icon-dialog-maximize', tag: 'maximize'}
 		},		
-		closeOnOverlayClick: false,
+		closeOnOuterClick: false,
 		closeOnEsc: false,
 		onHeaderButton: function(e) {
 			if(e.button == 'close') this.close();
@@ -55,7 +55,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 		
 		var self = this;
 		
-		if(o.closeOnOverlayClick) {
+		if(o.closeOnOuterClick) {
 			this.layout.overlay_el.click(function(){
 				self.close();
 			});			
@@ -67,11 +67,11 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			});			
 		}
 		
-		var buttons = [];
-		for(var i in o.buttonSet)
-			buttons.push( o.buttonSet[i] );
-		
-		o.components.buttons.items = buttons;
+//		var buttons = [];
+//		for(var i in o.buttonSet)
+//			buttons.push( o.buttonSet[i] );
+//		
+//		o.components.buttons.items = buttons;
 		
 		this.dialogButton = null;
 	},
@@ -84,14 +84,21 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 //		if('buttonsAlign' in o) this.buttons.states.set_only(o.buttonsAlign);
 		if('buttons' in o) {
 			var self = this;
-			// формируем указанный порядок кнопок
+			
+			this.buttons.items.destroy_all();
+			
 			Dino.each(o.buttons, function(name){
-				self.buttons.layout.el.append( self.buttons.getItem(name).el );
+				self.buttons.items.add(self.options.buttonSet[name]); //.addItem(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );
 			});
-			// включаем указанные кнопки
-			this.buttons.eachItem(function(item) {
-				item.states.toggle('hidden', !Dino.include(o.buttons, item.tag)); 
-			});
+						
+//			// формируем указанный порядок кнопок
+//			Dino.each(o.buttons, function(name){
+//				self.buttons.layout.el.append( self.buttons.items.find(name).el );
+//			});
+//			// включаем указанные кнопки
+//			this.buttons.items.each(function(item) {
+//				item.states.toggle('hidden', !Dino.include(o.buttons, item.tag)); 
+//			});
 		}		
 	},
 	

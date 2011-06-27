@@ -1,6 +1,5 @@
 
 //= require "text-field"
-//= require <widgets/images>
 
 
 Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
@@ -24,7 +23,7 @@ Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
 				}
 			},
       buttons: {
-        dtype: 'box',
+        dtype: 'list',
 				role: 'actor',
         defaultItem: {
           dtype: 'action-icon',

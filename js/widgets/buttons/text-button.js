@@ -1,7 +1,7 @@
 
-//= require "../native"
+//= require <widgets/natives/all>
+//= require <widgets/images/all>
 //= require <layouts/hbox>
-//= require "../images"
 
 
 Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', /** @lends Dino.widgets.TextButton.prototype */{

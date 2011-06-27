@@ -28,6 +28,7 @@ class SourceFile
   			end
   			m = /^\/\/= require <(.*)>/.match(s)
   			if m then
+#					puts load_path
   				@dependencies << SourceFile.new( (load_path+m[1]).to_s+pn.extname, load_path )
   			end
   		end
@@ -56,7 +57,8 @@ end
 
 def compose_files(dest, source_files)
 	
-	ver = %x[git tag -l].split.last
+#	ver = %x[git tag -l].split.last
+	ver = '0.7'
 	
 #	@name = 'dino-' + ver
 	js_name = "dino-js.js" #"dino-#{ver}.js"
@@ -168,6 +170,15 @@ end
 task :compose do
 
 	compose_files('build', ['js/**/*.js'])
+#	compose_files('build', ['js/widgets/buttons/*.js'])
+
+end
+
+
+task :compose_win do
+
+	compose_files('build', ['js/**/*.js'])
+#	compose_files('build', ['js/widgets/buttons/*.js'])
 
 end
 

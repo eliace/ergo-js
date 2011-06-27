@@ -1,19 +1,40 @@
 
+
+
+
+
+
 gridData = new Dino.data.ArrayDataSource();
 
 updateBuffer = new Dino.utils.UpdateBuffer();
 var newCounter = 0;
     
-var widget = $.dino({
+var panel = $.dino({
   renderTo: '.preview',
-  dtype: 'box',
+  dtype: 'editable-panel',
+	title: 'Редактируемая таблица',
+	
   cls: 'dino-border-all',// dino-corner-all',
   width: 600,
   height: 400,
   data: gridData,
-  components: {
+  
+	components: {
+		
+		header: {
+			state: 'hidden'
+		},
+		toolbar: {
+			cls: 'dino-border-bottom',
+			defaultItem: {
+				cls: 'plain'
+			}
+		},
+		
+		
+/*		
     controls: {
-      dtype: 'control-box',
+      dtype: 'control-list',
       cls: 'dino-border-bottom',
       defaultItem: {
         dtype: 'text-button',
@@ -79,74 +100,45 @@ var widget = $.dino({
         tag: 'save'
       }]
     },
-    grid: {
-      dtype: 'grid',
-      content: {
-        cls: 'scrollable',
-//        style: {'padding-right': '18px', 'font-size': '9pt'},
-        height: 'auto',
-        extensions: [Dino.Focusable],
-        onKeyDown: function(e) {
-          var catched = false;
-          var selected_row = this.parent.selection.get();
-          if(selected_row) {
-            if(e.keyCode == 38) {
-              var prev_row = this.content.getRow(selected_row.index-1);
-              if(prev_row) {
-                this.parent.selection.add( prev_row );
-                var pos = prev_row.el.offset().top - this.el.offset().top;
-                if(pos < 0) {
-                  this.el.scrollTop(this.el.scrollTop() - prev_row.el.outerHeight());
-                }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
-              }
-              catched = true;
-            }
-            if(e.keyCode == 40) {
-              var next_row = this.content.getRow(selected_row.index+1);
-              if(next_row) {
-                this.parent.selection.add( next_row );
-                var pos = next_row.el.offset().top - this.el.offset().top;
-                if(this.el.height() - next_row.el.outerHeight() < pos) {
-                  this.el.scrollTop(this.el.scrollTop() + next_row.el.outerHeight());
-                }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
-              }
-              catched = true;
-            }
-          }              
-          
-          if(catched) e.baseEvent.preventDefault();
-        }
-      },
+    
+*/    
+    
+    
+    content: {
+      dtype: 'table-grid',
+
+			
 //      headerCls: 'dino-bg-highlight',
       tableModel: {
         cell: {
           binding: 'auto',
-          events: {
-            'dblclick': function(e, w) {
-              if(w.options.editable) w.startEdit();
-            }
-          },
+					onDoubleClick: function(e) {
+            if(this.options.editable) this.startEdit();
+						e.baseEvent.preventDefault();						
+					},
           extensions: [Dino.Editable],
           onEdit: function(e) {
             var val = this.getRow().data.val();
             updateBuffer.upd(val);
-            if(e.reason == 'enterKey') {
-              var nextCol = this.getRow().getColumn(this.index+1);
-              if(nextCol && nextCol.options.editable) nextCol.startEdit();
-            }
+
+            var nextCol = this.getRow().getColumn(this.index+1);
+            if(nextCol) nextCol.startEdit();
           },
           editor: {
-            dtype: 'text-editor',
-            style: {'font-size': '9pt'}
-          }
+            dtype: 'text-editor'
+//						components: {
+//							input: {
+//       					style: {'font-size': '12px'}								
+//							}
+//						}								
+          },
+					state: 'unselectable'
         },
         row: {
+					onClick: function(e) {
+						this.getParent(Dino.widgets.TableGrid).body.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
+					},
           events: {
-            'click': function(e, w) {
-              w.getParent(Dino.widgets.Grid).selection.add(w, e.ctrlKey, e.shiftKey);
-            },
             'mousedown': function(e) {
               if(e.shiftKey || e.ctrlKey) return false;
             }
@@ -186,11 +178,26 @@ var widget = $.dino({
               updateBuffer.upd(val);
             }
           },
-          editable: false,
+					editor: {
+						dtype: 'text-editor',
+						style: {'text-align': 'center'},
+						autoFit: false,
+						components: {
+							input: {
+								dtype: 'checkbox',
+							}
+						},
+						keepContent: true,
+						changeOnEnter: false
+					},
+//          editable: false,
           binding: 'skip'
         }]
       },
       components: {
+				body: {
+					extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation]
+				},				
         pager: {
           dtype: 'pager',
           count: 200,
@@ -206,15 +213,60 @@ var widget = $.dino({
             };
             
             gridData.events.fire('onValueChanged');
+						
+						panel.content.$layoutChanged();
           }
         }
       },
-      extensions: [Dino.Selectable]
+//      extensions: [Dino.Selectable]
     }
-  }
+  },
+	
+	
+	onAdd: function() {
+		
+		var grid = this.content;
+		
+    var val = {'id': 'temp-'+(++newCounter), 'string': 'New item', 'count': 0, 'currency': 0, 'date': '', flag: false};
+    var dataItem = this.data.add(val);
+    
+    var pager = grid.pager;
+    pager.setCount( pager.getCount()+1 );
+    pager.setIndex( pager.getMaxIndex() );
+    
+    var row = grid.content.content.getRow({'data': dataItem});
+    grid.content.el.scrollTop( grid.content.content.el.height() );
+    row.getColumn(0).startEdit();
+    
+    updateBuffer.add(val);		
+		
+	},
+	
+	onDelete: function() {
+		
+	},
+	
+	onRefresh: function() {
+		
+	},
+	
+	onSave: function() {
+		
+	},
+	
+	
+	toolbarButtons: ['add', 'delete', 'save', 'refresh'],
+	
+	toolbarButtonSet: {
+		'add': {icon: 'silk-icon-add'},
+		'delete': {icon: 'silk-icon-delete'},
+		'refresh': {icon: 'silk-icon-arrow-refresh'},
+		'save': {icon: 'silk-icon-disk'},
+	}	
+	
 });
 
 
 gridData.source = Samples.generate_grid_page(0, 200);    
-widget.grid.pager.setIndex(0);
+panel.content.pager.setIndex(0);
 

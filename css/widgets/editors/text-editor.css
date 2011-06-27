@@ -1,0 +1,14 @@
+
+
+.dino-text-editor {
+	outline: none;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #aaa;
+	text-align: right;
+	display: block;
+}
+
+.dino-text-editor.focus {
+	border-color: #68f;	
+}

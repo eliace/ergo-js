@@ -39,7 +39,7 @@ $.dino({
           },
           onDrop: function(e) {
             if(this != e.source)
-              this.parent.subtree.addItem(e.source.parent);
+              this.parent.subtree.items.add(e.source.parent);
               
             e.source.parent.states.clear('dragged');
           }

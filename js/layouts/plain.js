@@ -1,5 +1,5 @@
 
-//= require "../core/layout"
+//= require <core/layout>
 
 
 /**
@@ -19,7 +19,13 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 	
 	insert: function(item, index) {
 		
-		var el = (item.options.layoutSelector) ? this.el.filter(item.options.layoutSelector) : this.el;
+		var selector = item.options.layoutSelector;
+		
+		var el = this.el;
+		
+		if(selector) {
+			el = Dino.isFunction(selector) ? selector.call(this) : $(selector, this.el);
+		}
 		
 		if(index == null)
 			el.append( item.el );
@@ -61,8 +67,10 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			});
 			
 			// обходим всех видимых соседей и получаем их ширину
-			this.el.siblings().not(':hidden').each(function(i, el){
-				w -= $(el).outerWidth(true);
+			this.el.siblings().not(':hidden').each(function(i, sibling){
+				var sibling = $(sibling);
+				if(sibling.attr('autowidth') != 'ignore') 
+					w -= sibling.outerWidth(true);
 			});
 
 			// задаем ширину элемента (с учетом отступов), если она не нулевая
@@ -89,6 +97,7 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 				var w = el.dino();
 				if((w && w.options.height) || el.attr('autoheight') == 'true' || el.is('body')){
 					h = el.height();
+//					h = el[0].scrollHeight;
 					return false;
 				}
 				else {
@@ -123,8 +132,8 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			
 			this.el.hide();
 			
-			var h = 0;
-			var w = 0;
+			var h = this.container.options.height || 0;
+			var w = this.container.options.width || 0;
 			this.el.parents().each(function(i, el){
 				if(!h) h = $(el).height();
 				if(!w) w = $(el).width();

@@ -1,6 +1,6 @@
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   layout: 'float',
   defaultItem: {
@@ -10,13 +10,13 @@ $.dino({
     pulseDelay: 200
   },
   items: [{
-    imageUrl: 'img/menu/Chart_bar.png',
+    src: 'img/menu/Chart_bar.png',
   }, {
-    imageUrl: 'img/menu/Box.png',
+    src: 'img/menu/Box.png',
   }, {
-    imageUrl: 'img/menu/Clock.png',
+    src: 'img/menu/Clock.png',
   }, {
-    imageUrl: 'img/menu/Calander.png',
+    src: 'img/menu/Calander.png',
   }]
   
 });

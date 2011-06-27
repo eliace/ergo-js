@@ -121,10 +121,8 @@ Dino.declare('Dino.data.DataSource', 'Dino.core.Object', /**@lends Dino.data.Dat
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
 			if(this.source instanceof Dino.data.DataSource)
-				this.source.events.fire('onItemChanged', {item: this});
+				this.source.events.fire('onEntryChanged', {item: this});
 			
-//			// помечаем источник данных как "грязный"
-//			if(this.options.useDirty) this.dirty();
 			this._changed = true;
 		}
 		else {
@@ -329,7 +327,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 		// удаляем элемент массива
 		a.splice(i, 1);
 		
-		this.events.fire('onItemDeleted', {'index': i, 'item': item});
+		this.events.fire('onEntryDeleted', {'index': i, 'item': item});
 		
 	},
 	
@@ -361,7 +359,7 @@ Dino.declare('Dino.data.ArrayDataSource', 'Dino.data.DataSource', /** @lends Din
 		
 		var item = this.item(index);
 		
-		this.events.fire('onItemAdded', {'index': index, 'item': item, 'isLast': isLast});
+		this.events.fire('onEntryAdded', {'index': index, 'item': item, 'isLast': isLast});
 		
 		return item;
 	},	
@@ -409,7 +407,7 @@ Dino.declare('Dino.data.ObjectDataSource', 'Dino.data.DataSource', /** @lends Di
 		var obj = this.val();
 		delete obj[i];
 		
-		this.events.fire('onItemDeleted', {'index': i, 'item': item});
+		this.events.fire('onEntryDeleted', {'index': i, 'item': item});
 		
 	}
 	

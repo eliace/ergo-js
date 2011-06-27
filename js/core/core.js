@@ -125,9 +125,12 @@ var Dino = (function(){
 	 * @name Dino.declare
 	 * @function
 	 */
-	D.declare = function(class_name, base_class, overrides, dtype) {
+	D.declare = function(class_name, bclass, overrides, dtype) {
 		
-		if(typeof base_class == 'string') base_class = eval(base_class);
+		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
+		
+		if(base_class === undefined)
+			throw 'Unknown base class '+bclass+' for '+class_name;
 		
 		var clazz = D.extend(base_class, overrides);
 		
@@ -170,8 +173,9 @@ var Dino = (function(){
 		var ctor = _dtypes[dtype];
 		
 		if(!ctor ){
-			Dino.log('Class for dtype "'+dtype+'" not found');
-			return null;
+//			Dino.logger.debug('Class for dtype "'+dtype+'" not found');
+			throw new Error('Class for dtype "'+dtype+'" not found');
+//			return null;
 		}
 				
 		return new ctor(options);	
@@ -853,6 +857,12 @@ var Dino = (function(){
 //	};
 	
 //	$.dino = D;
+
+	D.logger = {
+		debug: function(msg) {
+			if(console) console.log(msg);
+		}
+	};
 	
 	return D;
 })();
@@ -860,6 +870,11 @@ var Dino = (function(){
 //var _dino = Dino;
 
 
+
+
+String.prototype.capitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 
 

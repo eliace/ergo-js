@@ -3,21 +3,64 @@
 
 
 
-
-
-
-/**
- * @class
- * @extends Dino.core.Widget
- */
-Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @lends Dino.widgets.Grid.prototype */{
+Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
 	
 	defaults: {
-		html: '<div></div>',
+		html: '<table cellspacing="0"></table>',
+		style: {'border-collapse': 'collapse', 'table-layout': 'fixed'},
+		width: '100%',
+		dynamic: true,
+		defaultItem: {
+			dtype: 'table-row'
+		},
+		components: {
+			cols: {
+				dtype: 'table-row'
+			}
+		},
+		gridModel: {
+			row: {},
+			cell: {},
+			columns: []
+		}
+	},
+	
+	
+	$init: function(o) {
+		Dino.widgets.Grid.superclass.$init.apply(this, arguments);
+		
+		var cols = [];
+		Dino.each(o.gridModel.columns, function(col){
+			var w = ('width' in col) ? {width: col.width} : {};
+			delete col.width;
+			cols.push(w);
+		});
+		
+		Dino.smart_override(o.defaultItem, o.gridModel.row, {defaultItem: o.gridModel.cell, items: o.gridModel.columns});
+		Dino.smart_override(o.components.cols, {items: cols});		
+		
+	}
+	
+	
+	
+}, 'grid');
+
+
+
+
+
+/*
+Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', { 
+	
+	defaults: {
 		baseCls: 'dino-grid',
 		components: {
 			header: {
 				dtype: 'box',
+				layout: {
+					dtype: 'plain-layout',
+					html: '<div style="overflow-x: hidden;"></div>'
+				},
 				content: {
 					dtype: 'table',
 					width: '100%',
@@ -37,9 +80,10 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 				// скроллируемый контейнер
 				dtype: 'box',
 				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
+				height: 'auto',
 				content: {
 					dtype: 'table',
-					width: '100%',
+//					width: '100%',
 					tableModel: {
 						row: {
 							cls: 'dino-grid-row'
@@ -54,9 +98,6 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 					}
 				}
 			}
-//			footer: {
-//				dtype: 'control-bar'
-//			}
 		}
 	},
 	
@@ -95,18 +136,19 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 	$layoutChanged: function() {
 		Dino.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
 		
+		var total_w = this.layout.el.innerWidth();
+		
+		total_w -= 17;
 		
 		// выполняем настройку ширины полей
 		var body = this.content.content.body;
 		var head = this.header.content.head;
-		var total_w = body.el.innerWidth();
+//		var total_w = body.el.innerWidth();
 //		var htotal_w = this.content.content.el.width();
 
 		// если максимальная ширина контейнера равна 0 (как правило, это означает, что он еще не виден), 
 		// расчет ширины колонок не выполняем  
 		if(total_w == 0) return;
-		
-		this.header.content.el.width(total_w);
 		
 		
 		var t_columns = [];
@@ -134,13 +176,15 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 
 		var real_width = [];
 		
+		var head0 = head.items.get(0);
+		
 		for(var i = 0; i < t_columns.length; i++) {
 			// определим фактическую ширину поля
-			var th = head.getItem(0).getItem(i).el;
+			var th = head0.items.get(i).el;
 			var dw = th.outerWidth() - th.innerWidth();
 			real_width[i] = t_columns[i] - dw;
 			
-			head.getItem(0).getItem(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
+			head0.items.get(i).layout.el.width(real_width[i]);//.opt('width', t_columns[i]);
 			
 //			if(t_nowrap[i])
 
@@ -153,13 +197,17 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 		}
 		
 		// обходим все строки
-		body.eachItem(function(row){
+		body.items.each(function(row){
 			// обходим все поля
-			row.eachItem(function(col, i){
+			row.items.each(function(col, i){
 				col.layout.el.width(real_width[i]);//t_columns[i]);
 //				col.opt('width', t_columns[i]);
 			});
 		});
+		
+
+		this.content.content.layout.el.width(total_w);		
+		this.header.layout.el.width(total_w);		
 		
 //		var tableWidth = this.content.content.el.width();
 	},
@@ -185,7 +233,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.core.Widget', /** @l
 	
 }, 'grid');
 
-
+*/
 
 
 

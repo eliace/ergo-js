@@ -11,34 +11,34 @@ var _growl = $.dino({
 
 
 $.dino({
-  dtype: 'box',
+  dtype: 'list',
   renderTo: '.preview',
   defaultItem: {
     dtype: 'text-button',
     onAction: function() {
       if(this.tag == 'message') {
-        _growl.addItem({
+        _growl.items.add({
           message: Samples.loremipsum,
           icon: 'dino-icon-growlbox-info',
           state: 'info'
         });
       }
       else if(this.tag == 'warning') {
-        _growl.addItem({
+        _growl.items.add({
           message: Samples.loremipsum,
           icon: 'dino-icon-growlbox-warning',
           state: 'warning'
         });
       }
       else if(this.tag == 'error') {
-        _growl.addItem({
+        _growl.items.add({
           message: Samples.loremipsum,
           icon: 'dino-icon-growlbox-critical',
           state: 'critical'
         });
       }
       else if(this.tag == 'prompt') {
-        _growl.addItem({
+        _growl.items.add({
           message: 'Нажмите "Да" для подтверждения и "Нет" для отмены.',
           icon: 'dino-icon-growlbox-info',
           state: 'info',
@@ -52,7 +52,7 @@ $.dino({
         });
       }
       else if(this.tag == 'html') {
-        _growl.addItem({
+        _growl.items.add({
           htmlMessage: '<div style="font-size: 2em; color: red">Hello!</div>',
           icon: 'dino-icon-growlbox-info',
           state: 'info'

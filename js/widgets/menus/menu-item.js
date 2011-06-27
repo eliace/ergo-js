@@ -1,14 +1,14 @@
 
-//= require <containers/dropdown-box>
-//= require <widgets/native>
-//= require <widgets/images>
+//= require <widgets/dropdown-box>
+//= require <widgets/natives/all>
+//= require <widgets/images/all>
 
 
 /**
  * @class
  * @extends Dino.core.Widget
  */
-Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.Box', /** @lends Dino.widgets.MenuItem.prototype */{
+Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box', /** @lends Dino.widgets.MenuItem.prototype */{
 	
 	defaultCls: 'dino-menu-item',
 	
@@ -40,15 +40,13 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 				if(this.icon) this.icon.states.toggle('hidden', !on);
 			}
 		},
-		events: {
-			'click': function(e, w) {
-				var event = new Dino.events.CancelEvent();
-				// если не определено состояние disabled, то вызываем событие onAction
-				if(!w.states.is('disabled')) 
-					w.events.fire('onAction', e); 
-				if(!event.isCanceled) w.hideSubmenu(true);
-//				e.stopPropagation();
-			}
+		onClick: function(e) {
+			var event = new Dino.events.CancelEvent();
+			// если не определено состояние disabled, то вызываем событие onAction
+			if(!this.states.is('disabled')) 
+				this.events.fire('onAction', e); 
+			if(!event.isCanceled) this.hideSubmenu(true);
+//			e.stopPropagation();
 		}
 	},
 	
@@ -62,20 +60,13 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
-			o.components.submenu.items = o.submenu;
+			Dino.smart_override(o.components.submenu, {content: {items: o.submenu}});
+//			o.components.submenu.content.items = o.submenu;
 			//FIXME подозрительный код, потому что состояние submenu влияет на компонент icon, которого пока не создано
 			this.states.set('submenu');
 			o.components.icon.state = '';
 		}
 
-//		if('submenuWidth' in o){
-//			o.components.submenu.width = o.submenuWidth;
-//		}
-		
-//		if('subItem' in o.defaults){
-//			Dino.smart_override(o.components.submenu.defaultItem, o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
-//		}		
-		
 	},
 	
 	
@@ -135,7 +126,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent instanceof Dino.widgets.MenuDropdownBox) this.parent.hideAll();
+			if(this.parent.parent instanceof Dino.widgets.MenuDropdownBox) this.parent.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
 //			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
@@ -154,7 +145,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.containers.B
 
 
 
-Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
+Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 	
 	defaultCls: 'dino-menu-dropdown',
 	
@@ -162,10 +153,14 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
 		cls: 'dino-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
-		dynamic: true,
 		style: {'overflow-y': 'visible'},
-		defaultItem: {
-			dtype: 'menu-item'
+		
+		content: {
+			dtype: 'list',
+			dynamic: true,
+			defaultItem: {
+				dtype: 'menu-item'
+			}			
 		}
 	},
 	
@@ -174,7 +169,7 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.containers.DropdownBox', {
 		
 		if('menuModel' in o) {
 			Dino.smart_override(o, o.menuModel.dropdown);
-			o.defaultItem.menuModel = o.menuModel;
+			o.content.defaultItem.menuModel = o.menuModel;
 		}		
 		
 		Dino.widgets.MenuDropdownBox.superclass.$init.apply(this, arguments);

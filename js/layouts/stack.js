@@ -14,6 +14,26 @@ Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layout
 		itemCls: 'hidden'
 	},
 	
+	
+	attach: function(){
+		Dino.layouts.StackLayout.superclass.attach.apply(this, arguments);
+		
+		var self = this;
+		
+		this.container.setActive = function(i) {
+			self.activate(i);
+		};
+		
+	},
+	
+	detach: function() {
+		Dino.layouts.StackLayout.superclass.detach.apply(this, arguments);
+		
+		delete this.container.setActive;
+	},
+	
+	
+	
 	activate: function(i) {
 		
 		var child = (i instanceof Dino.core.Widget) ? i : this.container.children.find( Dino.utils.widget_filter(i) );

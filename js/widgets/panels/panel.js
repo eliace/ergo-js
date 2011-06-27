@@ -1,5 +1,5 @@
 
-//= require <containers/box>
+//= require <widgets/box>
 //= require <layouts/dock>
 //= require <layouts/float>
 //= require <widgets/buttons/icon-button>
@@ -13,11 +13,10 @@
  */
 Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.Panel.prototype */{
 	
-	defaultCls: 'dino-panel',
-	
 	$html: function() { return '<div></div>'; },
 	
 	defaults: {
+		baseCls: 'dino-panel',
 //		cls: 'dino-border-all dino-corner-top',
 		components: {
 			header: {
@@ -27,7 +26,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 	        dtype: 'dock-layout',
 	        updateMode: 'auto'
 	      },				
-				cls: 'dino-panel-header',
+				baseCls: 'header',
 				components: {
 					icon: {
 						dtype: 'icon',
@@ -39,13 +38,13 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 						dock: false
 					},
 	        buttons: {
-		        dtype: 'box',
+		        dtype: 'list',
 		        dock: 'right',
 		        layout: 'float',
 						style: {'margin-right': '3px'},
 		        defaultItem: {
 		          dtype: 'icon-button',
-		          cls: 'dino-header-button dino-corner-all',
+		          baseCls: 'dino-header-button dino-corner-all',
 		          onAction: function(){
 								this.getParent(Dino.widgets.Panel).events.fire('onHeaderButton', {'button': this.tag});
 		          }
@@ -54,7 +53,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 				}
 			},
 			content: {
-/*				cls: 'dino-panel-content',*/
+//				cls: 'dino-panel-content',
 				weight: 20,
 				dtype: 'box'
 			}
@@ -84,7 +83,7 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 			var self = this;
 			// формируем указанный порядок кнопок
 			Dino.each(o.headerButtons, function(name){
-				self.header.buttons.addItem(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );
+				self.header.buttons.items.add(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );
 			});
 //			// включаем указанные кнопки
 //			this.buttons.eachItem(function(item) {

@@ -39,7 +39,7 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
       
 			var self = this;
 			
-      w.parent.eachItem(function(item, i){
+      w.parent.items.each(function(item, i){
         if(i >= i0 && i <= i1) {
           item.states.set('selected');
           self.selection_a.push(item);

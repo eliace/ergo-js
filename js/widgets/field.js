@@ -1,7 +1,8 @@
 
-//= require "native"
 //= require <layouts/hbox>
 //= require <extensions/focusable>
+//= require "natives/all"
+//= require "images/all"
 
 
 Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {

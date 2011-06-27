@@ -40,11 +40,11 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 			},
 			pages: {
 				weight: 3,
-				dtype: 'box',
+				dtype: 'list',
 				layout: 'stack',
-				cls: 'dino-tab-pages',// dino-border-all',
+				cls: 'dino-tab-pages',
 				defaultItem: {
-					dtype: 'box'
+					
 				}
 			}
 		},
@@ -120,9 +120,9 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 		
 		var tabOpts = (item instanceof Dino.core.Widget) ? item.options.tab : item.tab;
 		if(Dino.isString(tabOpts)) tabOpts = {text: tabOpts};
-		var tab = this.tabs.addItem( {content: tabOpts || {}} );
+		var tab = this.tabs.items.add( {content: tabOpts || {}} );
 		
-		var page = this.pages.addItem( item );
+		var page = this.pages.items.add( item );
 		page.tab = tab;
 	},
 	
@@ -139,11 +139,11 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	},
 	
 	getCurrentPage: function() {
-		return this.pages.getItem(this.tabs.currentTab.index);
+		return this.pages.items.get(this.tabs.currentTab.index);
 	},
 	
 	setCurrentPage: function(i) {
-		this.tabs.setActiveTab( this.pages.getItem(i).tab );
+		this.tabs.setActiveTab( this.pages.items.find(i).tab );
 	}
 	
 		

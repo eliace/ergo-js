@@ -6,3 +6,8 @@
 .dino-text-button > span {
 	padding: 0 3px;
 }
+
+.dino-text-button {
+	cursor: default;
+	line-height: 12px;
+}

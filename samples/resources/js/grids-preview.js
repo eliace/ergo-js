@@ -6,15 +6,9 @@ gridData = new Dino.data.ArrayDataSource();
     
 var grid = $.dino({
   renderTo: '.preview',
-  dtype: 'grid',
+  dtype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 800,
-  content: {
-    height: 400,//'auto',
-    state: 'scrollable',
-    style: {'padding-right': '15px'},
-  },
-//  headerCls: 'dino-bg-highlight',
   tableModel: {
     row: {
       html: '<tr class="base"></tr><tr class="details"></tr>',
@@ -22,13 +16,14 @@ var grid = $.dino({
         'hover': 'hovered'
       },
       defaultItem: {
-        layoutSelector: '.base'
+        layoutSelector: function() { return this.el.filter('.base'); } //'.base'
       },
       components: {
         details:{
           dtype: 'box',
-          layoutSelector: '.details',
-          html: '<td colspan="100"></td>',
+//          layoutSelector: '.details',
+       		layoutSelector: function() { return this.el.filter('.details'); },
+          html: '<td colspan="2"></td>',
           content: {
             dtype: 'box',
             dataId: 'description',
@@ -43,7 +38,7 @@ var grid = $.dino({
     },
     columns: [{
       content: {
-        dtype: 'box',
+        dtype: 'list',
         cls: 'group',
         defaultItem: {
           style: {'display': 'block'}
@@ -89,33 +84,9 @@ $.get('ajax/lenta.ru.rss', function(xml){
   });
   gridData.set(feed);
   
+	grid.$layoutChanged();
+	
 }, 'text');    
     
     
-/*    
-google.load("feeds", "1");
-
-function feeder_init() {
-  
-  var feed = new google.feeds.Feed("http://lenta.ru/rss");
-  feed.load(function(result) {
-    if (!result.error) {
-      console.log(result);
-      
-  //    var container = document.getElementById("feed");
-  //    for (var i = 0; i < result.feed.entries.length; i++) {
-  //      var entry = result.feed.entries[i];
-  //      var div = document.createElement("div");
-  //      div.appendChild(document.createTextNode(entry.title));
-  //      container.appendChild(div);
-  //    }
-    }
-  });
-  
-}
-
-    
-google.setOnLoadCallback(feeder_init);
-
-*/
 
