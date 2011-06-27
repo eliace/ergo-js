@@ -285,15 +285,9 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		}, this);
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
-<<<<<<< HEAD
-		this.data.events.reg('onItemChanged', function(e){
-			self.getItem({data: e.item}).$bind(e.item, false, 2);
-//			self.getItem( e.item.id ).$bind(self.data.item(e.item.id), false, 2);
-=======
 		this.data.events.reg('onEntryChanged', function(e){
 			self.items.get( e.item.id ).$bind(self.data.item(e.item.id), false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
->>>>>>> v0.7
 		}, this);
 
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново

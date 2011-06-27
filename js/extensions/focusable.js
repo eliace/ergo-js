@@ -80,8 +80,6 @@ Dino.Focusable.focusManager = {
 }
 
 
-<<<<<<< HEAD
-
 if($.browser.msie) {
 
 	$(document).click(function(e){
@@ -89,15 +87,6 @@ if($.browser.msie) {
 		if(e.button == 0) Dino.Focusable.focusManager.clear();
 	});
 
-=======
-if($.browser.msie) {
-
-	$(document).click(function(e){
-		// убираем фокус по щелчку левой кнопкой мыши
-		if(e.button == 0) Dino.Focusable.focusManager.clear();
-	});
-
->>>>>>> v0.7
 	$(document).bind('keydown', function(e){
 		Dino.Focusable.focusManager.keypress(e);
 	});	

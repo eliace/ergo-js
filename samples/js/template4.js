@@ -64,9 +64,6 @@ var sampleTree = [{
 		name: 'Preview',
 		path: 'grids-preview',
 		created: true
-	}, {
-		name: 'Test',
-		path: 'grids-grid-x'
 	}]
 }, {
 	name: 'Images',
