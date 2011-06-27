@@ -11,7 +11,7 @@
 }
 
 [layout='form'] tr {
-	line-height: 20pt;
+	height: 35px;
 }
 
 [layout='form'] td.label label {

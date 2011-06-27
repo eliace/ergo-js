@@ -7,7 +7,7 @@ button.plain {
 
 button.plain:hover {
 	border: 1px solid #c0c0c0;	
-	background-color: #ccc;
+	background-color: #ddd;
 }
 
 button.plain.selected {

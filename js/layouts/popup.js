@@ -112,7 +112,7 @@ Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layout
 		
 		c.isShown = true;
 
-		if (c.options.hideOn == 'outerClick') {
+		if (!c.options.hideOn || c.options.hideOn == 'outerClick') {
 			// добавляем прозрачную панель в документ
 			$('body').append(this.glass_pane.el);
 		}
