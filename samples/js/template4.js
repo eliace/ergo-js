@@ -49,6 +49,9 @@ var sampleTree = [{
 		name: 'Grid',
 		path: 'grids-grid'
 	}, {
+		name: 'Grid (editable)',
+		path: 'grids-editable'
+	}, {
 		name: 'Tree',
 		path: 'grids-tree'
 	}, {
@@ -57,9 +60,6 @@ var sampleTree = [{
 	}, {
 		name: 'Properties',
 		path: 'grids-propertygrid',
-	}, {
-		name: 'Editable Grid',
-		path: 'grids-editable'
 	}, {
 		name: 'Preview',
 		path: 'grids-preview',

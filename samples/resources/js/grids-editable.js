@@ -1,18 +1,6 @@
 
 
 
-/**
- * 
- * Варианты редактирования:
- * 
- * - локальный источник данных
- * - локальный источник данных + постраничное отображение
- * - удаленный источник данных
- * - удаленный источник данных + постраничное отображение
- * 
- * 
- * 
- */
 
 
 
@@ -21,14 +9,30 @@ gridData = new Dino.data.ArrayDataSource();
 updateBuffer = new Dino.utils.UpdateBuffer();
 var newCounter = 0;
     
-var widget = $.dino({
+var panel = $.dino({
   renderTo: '.preview',
-  dtype: 'box',
+  dtype: 'editable-panel',
+	title: 'Редактируемая таблица',
+	
   cls: 'dino-border-all',// dino-corner-all',
   width: 600,
   height: 400,
   data: gridData,
-  components: {
+  
+	components: {
+		
+		header: {
+			state: 'hidden'
+		},
+		toolbar: {
+			cls: 'dino-border-bottom',
+			defaultItem: {
+				cls: 'plain'
+			}
+		},
+		
+		
+/*		
     controls: {
       dtype: 'control-list',
       cls: 'dino-border-bottom',
@@ -96,13 +100,13 @@ var widget = $.dino({
         tag: 'save'
       }]
     },
-    grid: {
+    
+*/    
+    
+    
+    content: {
       dtype: 'table-grid',
 
-//			components: {
-//			},
-
-			
 			
 //      headerCls: 'dino-bg-highlight',
       tableModel: {
@@ -132,14 +136,9 @@ var widget = $.dino({
         },
         row: {
 					onClick: function(e) {
-						console.log(this.getParent(Dino.widgets.TableGrid).body);
 						this.getParent(Dino.widgets.TableGrid).body.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
 					},
           events: {
-//            'click': function(e, w) {
-////              w.getParent(Dino.widgets.Grid).content.content.selection.add(w, e.ctrlKey, e.shiftKey);
-//							w.parent.selection.add(w, e.ctrlKey, e.shiftKey);
-//            },
             'mousedown': function(e) {
               if(e.shiftKey || e.ctrlKey) return false;
             }
@@ -215,16 +214,59 @@ var widget = $.dino({
             
             gridData.events.fire('onValueChanged');
 						
-						widget.grid.$layoutChanged();
+						panel.content.$layoutChanged();
           }
         }
       },
 //      extensions: [Dino.Selectable]
     }
-  }
+  },
+	
+	
+	onAdd: function() {
+		
+		var grid = this.content;
+		
+    var val = {'id': 'temp-'+(++newCounter), 'string': 'New item', 'count': 0, 'currency': 0, 'date': '', flag: false};
+    var dataItem = this.data.add(val);
+    
+    var pager = grid.pager;
+    pager.setCount( pager.getCount()+1 );
+    pager.setIndex( pager.getMaxIndex() );
+    
+    var row = grid.content.content.getRow({'data': dataItem});
+    grid.content.el.scrollTop( grid.content.content.el.height() );
+    row.getColumn(0).startEdit();
+    
+    updateBuffer.add(val);		
+		
+	},
+	
+	onDelete: function() {
+		
+	},
+	
+	onRefresh: function() {
+		
+	},
+	
+	onSave: function() {
+		
+	},
+	
+	
+	toolbarButtons: ['add', 'delete', 'save', 'refresh'],
+	
+	toolbarButtonSet: {
+		'add': {icon: 'silk-icon-add'},
+		'delete': {icon: 'silk-icon-delete'},
+		'refresh': {icon: 'silk-icon-arrow-refresh'},
+		'save': {icon: 'silk-icon-disk'},
+	}	
+	
 });
 
 
 gridData.source = Samples.generate_grid_page(0, 200);    
-widget.grid.pager.setIndex(0);
+panel.content.pager.setIndex(0);
 
