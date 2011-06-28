@@ -1,0 +1,20 @@
+
+
+.tree-list ul {
+	padding-left: 0px;
+}
+
+
+.indent {
+	margin-left: 6px;
+	cursor: default;
+}
+
+
+.tree-list-item:hover {
+	background-color: #f4f4f4;
+}
+
+.dino-tree-node.selected > .tree-list-item {
+	background-color: #ffc;
+}

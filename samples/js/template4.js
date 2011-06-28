@@ -131,8 +131,11 @@ var sampleTree = [{
 		name: 'Basic',
 		path: 'trees-simple'
 	}, {
-		name: 'Indent',
+		name: 'List',
 		path: 'trees-indent'
+	}, {
+		name: 'Tree (editable)',
+		path: 'trees-editable'
 	}, {
 		name: 'binding',
 		path: 'trees-binding'
