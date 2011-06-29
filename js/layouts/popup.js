@@ -39,6 +39,14 @@ Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layout
 		});
 		
 		
+		this.container.show = function() {
+			self.open.apply(self, arguments);
+		}
+
+		this.container.hide = function() {
+			self.close.apply(self, arguments);
+		}
+		
 	},
 	
 	detach: function() {
@@ -107,7 +115,21 @@ Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layout
 		
 		c.el.css({'left': x, 'top': y});
 		
-		c.el.show();
+		
+		var effects = c.options.effects || {};
+		
+		switch(effects['show']){
+			case 'fade':
+				c.el.fadeIn( effects.delay );
+				break;
+			case 'slideDown':
+				c.el.slideDown( effects.delay );
+				break;
+			default:
+				c.el.show();
+		}
+		
+//		c.el.show();
 		
 		
 		c.isShown = true;
@@ -124,9 +146,26 @@ Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layout
 	
 	close: function() {
 		
-		this.container.isShown = false;
+		var c = this.container;
 		
-		this.container.el.hide();
+		c.isShown = false;
+		
+		var effects = c.options.effects || {};
+		
+		switch(effects['hide']){
+			case 'fade':
+				c.el.fadeOut( effects.delay, function(){ c.events.fire('onHide'); } );
+				break;
+			case 'slideUp':
+				c.el.slideUp( effects.delay, function(){ c.events.fire('onHide'); } );
+				break;
+			default:
+				c.el.hide();
+				c.events.fire('onHide');
+		}
+		
+		
+//		this.container.el.hide();
 		
 		this.glass_pane.el.detach();		
 		

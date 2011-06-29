@@ -9,31 +9,31 @@
  */
 Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', /** @lends Dino.widgets.BasicTreeNode.prototype */{
 	
+	defaultCls: 'dino-basic-tree-node',
 	
 	defaults: {
-		cls: 'dino-basic-tree-node',
 		components: {
-//			content: {
-//				dtype: 'box',
-//				cls: 'tree-list-item',
-//				weight: 10,
-//			components: {
-			button: {
-				weight: 10,
-				dtype: 'icon',
-				cls: 'dino-tree-node-button',
-				onClick: function(e) {
-					this.parent.states.toggle('expand-collapse');
-					e.baseEvent.stopPropagation();							
-				}
-			},
 			content: {
-				dtype: 'text-item',
-				cls: 'dino-tree-node-content',
-				weight: 20						
-			},
-//				}
-//			},				
+				dtype: 'box',
+				cls: 'tree-list-item',
+				weight: 10,
+				components: {
+					button: {
+						weight: 10,
+						dtype: 'icon',
+						cls: 'dino-tree-node-button',
+						onClick: function(e) {
+							this.parent.parent.states.toggle('expand-collapse');
+							e.baseEvent.stopPropagation();							
+						}
+					},
+					text: {
+						dtype: 'text-item',
+						cls: 'dino-tree-node-content',
+						weight: 20						
+					}
+				}
+			},				
 			subtree: {
 				weight: 30,
 				dataId: 'children',
@@ -44,7 +44,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 		},
 		states: {
 			'expanded': function(on) {
-				this.button.states.toggle('expanded', on);
+				this.content.button.states.toggle('expanded', on);
 				
 				var o = this.options;
 				if(o.effects && on) {
@@ -56,7 +56,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				}
 			},
 			'collapsed': function(on) {
-				this.button.states.toggle('collapsed', on);
+				this.content.button.states.toggle('collapsed', on);
 
 				var o = this.options;
 				if(o.effects && on) {
@@ -84,12 +84,12 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	$opt: function(o) {
 		Dino.widgets.BasicTreeNode.superclass.$opt.call(this, o);
 		
-		var c = this;//.content;
+		var c = this.content;
 		
 		if('isLeaf' in o) c.button.states.set('leaf');
 		
-		if('icon' in o) c.content.opt('icon', o.icon);
-		if('text' in o) c.content.opt('text', o.text);
+		if('icon' in o) c.text.opt('icon', o.icon);
+		if('text' in o) c.text.opt('text', o.text);
 
 	},
 	
@@ -107,7 +107,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	},
 	
 	getText: function() {
-		return this.content.getText();
+		return this.content.text.getText();
 	}
 	
 	

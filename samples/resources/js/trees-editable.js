@@ -31,14 +31,32 @@ $.dino({
 	  treeModel: {
 	    node: {
 				dtype: 'indent-tree-node',
-	      components: {
-					content: {
-	          icon: true,
-	          dataId: 'name',
+				content: {
+          icon: true,
+          dataId: 'name',						
+					onClick: function() {
+						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
+					},
+					contextMenu: {
+						dtype: 'context-menu',
+
+						menuModel: {
+							item: {
+								content: {
+									dtype: 'text-item'
+								}
+							}
+						},
 						
-						onClick: function() {
-							this.getParent(Dino.widgets.Tree).selection.set(this.parent);
-						}
+						items: [
+							{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}},
+							{content: {icon: 'silk-icon-add', text: 'Добавить'}},
+							{content: {icon: 'silk-icon-delete', text: 'Удалить'}}
+						]
+						
+					},
+					onContextMenu: function(e) {
+						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 					}
 	      },
 	      binding: function(val) {
@@ -58,20 +76,36 @@ $.dino({
 				// UP
 				if(e.keyCode == 38) {
 					var prev = null;
-					if(selected_node.index == 0) {
-						prev = selected_node.parent.parent;						
-					}
-					else {
-						prev = selected_node.parent.items.get(selected_node.index-1);						
-
-						while(prev.states.is('expanded')) {
-							prev = prev.subtree.items.last();
-						}
-
+					
+					var prev_parent = function(node) {
+						return node.parent.parent;
 					}
 					
+					var prev_sibling = function(node) {
+						return (node.index == 0) ? null : node.parent.items.get(node.index-1);
+					}
+					
+					prev = prev_sibling(selected_node);
+					
+					if(prev) {
+						while(prev.states.is('expanded')) {
+							if(prev.subtree.items.is_empty()) break;
+							prev = prev.subtree.items.last();
+						}
+					}
+					else {
+						if(!selected_node.options.root)
+							prev = prev_parent(selected_node);
+					}
+										
 					if(prev) {
 						this.selection.set(prev);
+						
+	          var pos = prev.el.offset().top - this.el.offset().top;
+	          if(pos < 0) {
+	            this.el.scrollTop(this.el.scrollTop() - prev.el.outerHeight());
+	          }
+						
 					}
 					
 					catched = true;
@@ -96,12 +130,18 @@ $.dino({
 					
 					while(!next) {
 						next = next_sibling(selected_node);
+						if(selected_node.options.root) break;
 						selected_node = selected_node.parent.parent;
 					}
 					
 					if(next) {
 						this.selection.set(next);
-					}						
+
+	          var pos = next.el.offset().top - this.el.offset().top;
+	          if(this.el.height() - next.el.outerHeight() < pos) {
+	            this.el.scrollTop(this.el.scrollTop() + next.el.outerHeight());
+	          }
+					}
 					
 					
 					catched = true;

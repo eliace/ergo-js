@@ -6,12 +6,15 @@
  * @class
  * @extends Dino.core.Widget
  */
-Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.core.Widget', /** @lends Dino.widgets.TreeNode.prototype */{
+Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box', /** @lends Dino.widgets.TreeNode.prototype */{
 
 	defaults: {
 		html: '<li/>',
 		cls: 'dino-tree-node',
 		components: {
+			content: {
+				
+			},
 			subtree: {
 				dtype: 'list',
 				html: '<ul></ul>',

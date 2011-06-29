@@ -266,42 +266,44 @@ $(document).ready(function(){
 						treeModel: {
 							node: {
 								expandOnShow: false,
-								components: {
-									content: {
-										icon: true,
-										xicon: true,
-		      					dataId: 'name',
-										cls: 'dino-clickable',
-//										extensions: [Dino.Clickable],
-//										state: 'clickable',
-										onClick: function() {
-											path = this.parent.data.get('path');
-											
-											if(this.parent.data.get('children')) {
-												this.parent.states.toggle('expand-collapse');
-												return;
+								content: {
+									components: {
+										text: {
+											icon: true,
+											xicon: true,
+			      					dataId: 'name',
+											cls: 'dino-clickable',
+	//										extensions: [Dino.Clickable],
+	//										state: 'clickable',
+											onClick: function() {
+												path = this.parent.data.get('path');
+												
+												if(this.parent.data.get('children')) {
+													this.parent.parent.states.toggle('expand-collapse');
+													return;
+												}
+												
+												var preview = $('.preview').dino();
+												preview.el.empty();
+												var jsPage = $('.js-page').dino();
+												var cssPage = $('.css-page').dino();
+												
+												$.get('resources/css/'+path+'.css', function(css){
+													
+													preview.el.append('<style>'+css+'</style>');
+													cssPage.content.el.html('<pre class="sh_css">'+css+'</pre>');
+													
+													$.getScript('resources/js/'+path+'.js', function(script){
+													
+														jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml(script)+'</pre>');
+	
+														// включаем подсветку кода
+														sh_highlightDocument();																									
+													});												
+												}, 'text');
+												
+												this.getParent(Dino.widgets.Tree).selection.set(this.parent.parent);
 											}
-											
-											var preview = $('.preview').dino();
-											preview.el.empty();
-											var jsPage = $('.js-page').dino();
-											var cssPage = $('.css-page').dino();
-											
-											$.get('resources/css/'+path+'.css', function(css){
-												
-												preview.el.append('<style>'+css+'</style>');
-												cssPage.content.el.html('<pre class="sh_css">'+css+'</pre>');
-												
-												$.getScript('resources/js/'+path+'.js', function(script){
-												
-													jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml(script)+'</pre>');
-
-													// включаем подсветку кода
-													sh_highlightDocument();																									
-												});												
-											}, 'text');
-											
-											this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 										}
 									}
 								},
@@ -310,8 +312,8 @@ $(document).ready(function(){
 									var xicon = '';
 									if(val.updated) xicon = 'silk-icon-arrow-refresh';
 									if(val.created) xicon = 'silk-icon-new';
-									this.content.opt('icon', icon);
-									this.content.opt('xicon', xicon);
+									this.content.text.opt('icon', icon);
+									this.content.text.opt('xicon', xicon);
 									if(!val.children) this.opt('isLeaf', true);				
 								}
 							}

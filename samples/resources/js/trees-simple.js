@@ -21,16 +21,20 @@ $.dino({
 	      expandOnShow: true,
 	      components: {
 	        content: {
-	          icon: true,
-	          components: {
-	            leftIcon: {
-	              states: {
-	                'brick': 'silk-icon-brick',
-	                'door': 'silk-icon-door',
-	                'user': 'silk-icon-user'                
-	              }
-	            }
-	          }
+						components: {
+							text: {
+			          icon: true,
+			          components: {
+			            leftIcon: {
+			              states: {
+			                'brick': 'silk-icon-brick',
+			                'door': 'silk-icon-door',
+			                'user': 'silk-icon-user'                
+			              }
+			            }
+			          }								
+							}
+						}
 	        }        
 	      }
 	    }

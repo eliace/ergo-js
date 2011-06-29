@@ -1,5 +1,5 @@
 
-//= require <widgets/dropdown-box>
+//= require <containers/dropdown-list>
 //= require <widgets/natives/all>
 //= require <widgets/images/all>
 
@@ -28,7 +28,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 				state: 'hidden'
 			},
 			submenu: {
-				dtype: 'menu-dropdown-box',
+				dtype: 'menu-dropdown-list',
 				dataId: 'children',
 				binding: function(val) {
 					if(val && val.length > 0) this.parent.states.set('submenu');
@@ -126,7 +126,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent.parent instanceof Dino.widgets.MenuDropdownBox) this.parent.parent.hideAll();
+			if(this.parent.parent instanceof Dino.widgets.MenuDropdownList) this.parent.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
 //			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
@@ -145,7 +145,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 
 
 
-Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
+Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 	
 	defaultCls: 'dino-menu-dropdown',
 	
@@ -155,13 +155,11 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 		offset: [-1, 1],
 		style: {'overflow-y': 'visible'},
 		
-		content: {
-			dtype: 'list',
-			dynamic: true,
-			defaultItem: {
-				dtype: 'menu-item'
-			}			
+		dynamic: true,
+		defaultItem: {
+			dtype: 'menu-item'
 		}
+					
 	},
 	
 	
@@ -169,10 +167,10 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 		
 		if('menuModel' in o) {
 			Dino.smart_override(o, o.menuModel.dropdown);
-			o.content.defaultItem.menuModel = o.menuModel;
+			o.defaultItem.menuModel = o.menuModel;
 		}		
 		
-		Dino.widgets.MenuDropdownBox.superclass.$init.apply(this, arguments);
+		Dino.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
 				
 //		if('defaultItem' in o)
 //			Dino.smart_override(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
@@ -207,7 +205,7 @@ Dino.declare('Dino.widgets.MenuDropdownBox', 'Dino.widgets.DropdownBox', {
 	
 	
 	
-}, 'menu-dropdown-box');
+}, 'menu-dropdown-list');
 
 
 

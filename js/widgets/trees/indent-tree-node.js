@@ -4,26 +4,27 @@
 
 Dino.declare('Dino.widgets.IndentTreeNode', 'Dino.widgets.BasicTreeNode', {
 	
+	defaultCls: 'dino-list-tree-node',
 	
 	defaults: {
 		indent: 0,
-		html: '<li><div class="tree-list-item"></div></li>',
-		defaultComponent: {
-			layoutSelector: '> .tree-list-item'			
-		},
 		components: {
-			indent: {
-				dtype: 'list',
-				style: {'display': 'inline'},
-				weight: 5,
-				defaultItem: {
-					dtype: 'text',
-					cls: 'indent',
-					innerHtml: '&nbsp;'
+			content: {
+				components: {
+					indent: {
+						dtype: 'list',
+						style: {
+							'display': 'inline'
+						},
+						weight: 5,
+						defaultItem: {
+							dtype: 'text',
+							binding: false,
+							cls: 'indent',
+							innerHtml: '&nbsp;'
+						}
+					}
 				}
-			},
-			subtree: {
-				layoutSelector: null							
 			}
 		}				
 	},
@@ -39,7 +40,7 @@ Dino.declare('Dino.widgets.IndentTreeNode', 'Dino.widgets.BasicTreeNode', {
 		Dino.widgets.IndentTreeNode.superclass.$construct.apply(this, arguments);
 		
 		for(var i = 0; i < o.indent; i++) {
-			this.indent.items.add({});
+			this.content.indent.items.add({});
 		}		
 	}
 	

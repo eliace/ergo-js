@@ -15,6 +15,6 @@
 }
 
 
-.tree-list-item:hover {
+.dino-list-tree-node > .tree-list-item:hover {
 	background-color: #f4f4f4;
 }

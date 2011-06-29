@@ -19,6 +19,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /*
 		defaultItem: {
 			dtype: 'basic-tree-node',
 //			indent: 0,
+			root: true,
 			expandOnShow: true,
 			defaultSubItem: {}
 		},

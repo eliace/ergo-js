@@ -37,16 +37,18 @@ $.dino({
 	    node: {
 				dtype: 'indent-tree-node',
 	//      cls: 'dynamic-tree-node',
-	      components: {
-					content: {
-	          icon: true,
-	          dataId: 'name'						
-					}
-	      },
+				content: {
+		      components: {
+						text: {
+		          icon: true,
+		          dataId: 'name'						
+						}
+		      }					
+				},
 	      binding: function(val) {
 	//        this.opt('icon', val.type);
 	//        if(val.type == 'file') this.opt('isLeaf', true);        
-	        this.opt('icon', 'silk-icon-'+val.type);
+	        this.content.text.opt('icon', 'silk-icon-'+val.type);
 	        if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
 	      }
 	    }

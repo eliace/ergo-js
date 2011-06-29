@@ -42,12 +42,15 @@
 	display: inline-block;
 }
 
-.dino-basic-tree-node > .dino-tree-node-content:hover {
+
+.dino-basic-tree-node > .tree-list-item:hover {
 	color: #666;
 }
 
-.dino-tree-node.selected > .dino-tree-node-content {
-	background-color: #bdf;
+
+.dino-basic-tree-node.selected > .tree-list-item .dino-tree-node-content {
+/*	background-color: #bdf;*/
+	background-color: #ffc;
 }
 
 /*
