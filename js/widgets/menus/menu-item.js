@@ -126,7 +126,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent.parent instanceof Dino.widgets.MenuDropdownList) this.parent.parent.hideAll();
+			if(this.parent instanceof Dino.widgets.MenuDropdownList) this.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
 //			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
@@ -158,6 +158,12 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 		dynamic: true,
 		defaultItem: {
 			dtype: 'menu-item'
+		},
+		defaultItemShortcuts: {
+			'-': {
+				dtype: 'split',
+				state: 'horizontal' 
+			}
 		}
 					
 	},

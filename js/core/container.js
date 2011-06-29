@@ -21,6 +21,11 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 	
 	defaults: {
+		defaultItemShortcuts: {},
+		itemFactory: function(o) {
+			if(Dino.isString(o)) o = this.options.defaultItemShortcuts[o];
+			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
+		}
 	},
 	
 	$init: function(o) {

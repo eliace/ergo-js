@@ -49,10 +49,19 @@ $.dino({
 						},
 						
 						items: [
-							{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}},
-							{content: {icon: 'silk-icon-add', text: 'Добавить'}},
-							{content: {icon: 'silk-icon-delete', text: 'Удалить'}}
-						]
+							{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}, tag: 'edit'},
+							'-',
+							{content: {icon: 'silk-icon-page-white-add', text: 'Добавить'}, tag: 'add'},
+							{content: {icon: 'silk-icon-cross', text: 'Удалить'}, tag: 'delete'},
+							'-',
+							{content: {icon: 'silk-icon-cut', text: 'Вырезать'}, tag: 'cut'},
+							{content: {icon: 'silk-icon-page-white-copy', text: 'Копировать'}, tag: 'copy'},
+							{content: {icon: 'silk-icon-paste-plain', text: 'Вставить'}, tag: 'paste'}
+						],
+						
+						onSelect: function(e) {
+							growl.info(e.target.tag);
+						}
 						
 					},
 					onContextMenu: function(e) {

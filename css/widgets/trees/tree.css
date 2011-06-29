@@ -43,7 +43,7 @@
 }
 
 
-.dino-basic-tree-node > .tree-list-item:hover {
+.dino-basic-tree-node > .tree-list-item .dino-tree-node-content:hover {
 	color: #666;
 }
 

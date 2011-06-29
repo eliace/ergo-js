@@ -6,10 +6,10 @@
 Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	
 	defaults: {
-		extensions: [Dino.Observable],
-		factory: function(o) {
-			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
-		}
+		extensions: [Dino.Observable]
+//		factory: function(o) {
+//			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
+//		}
 	},
 	
 	
@@ -28,7 +28,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		var w = this.widget;
 		
 		if(!(item instanceof Dino.core.Widget)) {
-			item = this.options.factory.call(w, item);
+			item = w.options.itemFactory.call(w, item);
 		}
 		
 		item.parent = this.widget;
