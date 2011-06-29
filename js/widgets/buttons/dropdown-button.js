@@ -8,7 +8,7 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 	defaults: {
 		components: {
 			dropdown: {
-				dtype: 'menu-dropdown-box',
+				dtype: 'menu-dropdown-list',
 				style: {'display': 'none'},
 				hideOn: 'outerClick',
 //				renderTo: 'body',

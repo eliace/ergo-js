@@ -891,7 +891,7 @@ $(document).ready(function(){
 					w.events.fire('onContextMenu', cancel_event);
 					if(!cancel_event.isCanceled){
 						w.contextMenu.sourceWidget = w;
-						w.contextMenu.show(e.pageX, e.pageY, 'body');
+						w.contextMenu.show(e.pageX-2, e.pageY-2);
 					}
 					e.preventDefault();
 				}

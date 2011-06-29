@@ -3,70 +3,6 @@
 
 
 
-/*
-Dino.widgets.TextMenuItem = Dino.declare('Dino.widgets.TextMenuItem', 'Dino.widgets.MenuItem', {
-	
-	defaults: {
-		baseCls: 'dino-menu-item',
-		components: {
-			content: {
-				dtype: 'text-item',
-				xicon: 'dino-submenu-icon'
-			},
-			submenu: {
-				defaultItem: {
-					dtype: 'text-menu-item'
-				}
-			}
-		},
-		showLeftPanel: false
-	},
-	
-	$opt: function(o) {
-		Dino.widgets.TextMenuItem.superclass.$opt.call(this, o);
-		
-		if('text' in o) this.content.opt('text', o.text);
-		if('format' in o) this.content.opt('format', o.format);
-		
-		if(o.showLeftPanel) this.content.states.set('left-panel');
-	},
-	
-	getText: function() {
-		return this.content.getText();
-	}
-	
-	
-}, 'text-menu-item');
-*/
-
-
-/*
-Dino.widgets.CheckMenuItem = Dino.declare('Dino.widgets.CheckMenuItem', 'Dino.widgets.TextMenuItem', {
-	
-	defaults: {
-		components: {
-			content: {
-				components: {
-					leftIcon: {
-						dtype: 'checkbox'
-					}
-				}
-			}
-		}
-	},
-	
-	getText: function() {
-		return this.content.getText();
-	}
-	
-	
-}, 'check-menu-item');
-*/
-
-
-
-
-
 
 /**
  * @class
@@ -85,6 +21,13 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 				}
 			}
 		},
+		
+		layout: {
+			dtype: 'popup-layout',
+			position: {
+				to: 'body'
+			}
+		}
 //		defaultItem: {
 //			dtype: 'menu-item',
 //			onAction: function(e) {
@@ -92,7 +35,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 //				this.parent.hide();
 //			}			
 //		},
-		offset: [-2, -2]
+//		offset: [-2, -2]
 	},
 	
 /*	

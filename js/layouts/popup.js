@@ -5,8 +5,15 @@
 Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layouts.PlainLayout', {
 	
 	defaults: {
-		offset: [0, 0]
+//		offset: [0, 0],
+//		global: false
 //		hideOn: 'outerClick'
+		position: {
+			to: null, 
+			at: 'left top', 
+			my: 'left top', 
+			offset: [0, 0]
+		}
 	},
 	
 	
@@ -57,51 +64,46 @@ Dino.layouts.PopupLayout = Dino.declare('Dino.layouts.PopupLayout', 'Dino.layout
 	},
 	
 
-	open: function(a, b, c) {
+	open: function(position) {
 		
 		if(arguments.length == 0) return;
 		
-		var x = a;
-		var y = b;
-		var to_el = c;
-		
-		if(!Dino.isNumber(a)) {
-			
-			var rel_to = a;
-			var at = b;
-			
-			var o = this.options;
-	
-			var offset = rel_to.el.offset();
-			
-			x = offset.left + o.offset[0];
-			y = offset.top + o.offset[1];
-			
-			var self = this;
-			
-			Dino.each(o.position.split('-'), function(p){
-				if(p === 'bottom')
-					y -= self.el.outerHeight();				
-				else if(p === 'right')
-					x -= self.el.outerWidth();
-			});
-			
-			Dino.each(at.split('-'), function(p){
-				if(p === 'bottom')
-					y += rel_to.el.outerHeight();				
-				else if(p === 'right')
-					x += rel_to.el.outerWidth();
-			});
-			
-			if(!to_el) to_el = 'body';
+		if(arguments.length == 2) {
+			position = {offset: [arguments[0], arguments[1]]}
 		}
-
-
-
+		
 		var c = this.container;
+		
+		var p = Dino.smart_override({}, this.options.position, position);
+			
+		// получаем целевой элемент, относительно которого отображаем элемент
+		var to_el = (p.to) ? $(p.to) : c.el;
+		// смещение целевого элемента
+		var offset = to_el.offset();
+		// итоговое смещение popup-элемента
+		x = offset.left + p.offset[0];
+		y = offset.top + p.offset[1];
+		
+		var at = p.at.split(' ');
+		
+		if(at[0] == 'right') x += to_el.outerWidth();
+		else if(at[0] == 'center') x += to_el.outerWidth()/2;
 
-		if(to_el)
-			$(to_el).append(c.el);
+		if(at[1] == 'bottom') y += to_el.outerHeight();
+		else if(at[1] == 'center') y += to_el.outerHeight()/2;
+
+
+		var my = p.my.split(' ');
+
+		if(my[0] == 'right') x -= this.el.outerWidth();
+		else if(my[0] == 'center') x -= this.el.outerWidth()/2;
+
+		if(my[1] == 'bottom') y -= this.el.outerHeight();
+		else if(my[1] == 'center') y -= this.el.outerHeight()/2;
+		
+		
+		if(p.to)
+			to_el.append(c.el);
 				
 //		var view_w = this.el.parent().outerWidth();
 //		var view_h = this.el.parent().outerHeight();
