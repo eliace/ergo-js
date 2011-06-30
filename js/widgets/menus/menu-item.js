@@ -98,7 +98,8 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 				if(self.submenu){
 					self.intention = setTimeout(function(){
 						self.intention = null;
-						self.submenu.hide();
+//						self.submenu.hide();
+						self.hideSubmenu();
 						self.events.fire('onSubmenuHide');
 					}, 300);					
 				}
@@ -114,15 +115,15 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 	showSubmenu: function() {
 		if(this.hasSubmenu()){
 			if(this.submenu.options.anchor == 'bottom')
-				this.submenu.show( 0, $(this.el).height());
+				this.submenu.open( 0, $(this.el).height());
 			else
-				this.submenu.show( $(this.el).outerWidth(), 0);
+				this.submenu.open( $(this.el).outerWidth(), 0);
 		}
 	},
 	
 	hideSubmenu: function(hideAll) {
 		if(this.hasSubmenu()){
-			this.submenu.hide();
+			this.submenu.close();
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
@@ -184,7 +185,7 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 	},
 	
 	hideAll: function() {
-		this.hide();
+		this.close();
 		if(this.parent instanceof Dino.widgets.MenuItem) this.parent.hideSubmenu(true)
 	}
 	

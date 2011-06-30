@@ -62,6 +62,7 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 				info: function(m, isHtml) {this.msg(m, 'info', isHtml);},
 				error: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
 				warn: function(m, isHtml) {this.msg(m, 'warning', isHtml);},
+				success: function(m, isHtml) {this.msg(m, 'success', isHtml);},
 //				html: function(m, isHtml) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
 				msg: function(m, type, isHtml) {
 					var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);

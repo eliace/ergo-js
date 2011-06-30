@@ -76,11 +76,13 @@
 .dino-icon-messagebox-critical { background-image: url(img/messagebox_critical.png); }
 .dino-icon-messagebox-info { background-image: url(img/messagebox_info.png); }
 .dino-icon-messagebox-warning { background-image: url(img/messagebox_warning.png); }
+.dino-icon-messagebox-success { background-image: url(img/messagebox_success.png); }
 
 /* GROWLBOX ICONS */
 .dino-icon-growlbox-critical { background-image: url(img/messagebox_critical.png); }
 .dino-icon-growlbox-info { background-image: url(img/messagebox_info.png); }
 .dino-icon-growlbox-warning { background-image: url(img/messagebox_warning.png); }
+.dino-icon-growlbox-success { background-image: url(img/messagebox_success.png); }
 
 /* PANEL ICONS */
 .dino-header-button > .dino-icon {

@@ -39,7 +39,7 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 			dropdown: {
 	      dtype: 'dropdown-box',
 	      cls: 'dino-border-all dino-dropdown-shadow',
-				style: {'display': 'none'},
+//				style: {'display': 'none'},
 				content: {
 					dtype: 'list-view',
 					defaultItem: {
@@ -47,6 +47,10 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
 							this.getParent(Dino.widgets.DropdownField).setSelectedItem(this);							
 						}
 					}
+				},
+				position: {
+					global: true,
+					at: 'left bottom'					
 				},
 				effects: {
 					show: 'slideDown',
@@ -159,15 +163,20 @@ Dino.declare('Dino.widgets.DropdownField', 'Dino.widgets.TextField', {
     var dd = this.dropdown;
 							
     dd.el.css('min-width', this.el.width());//.width(this.el.width());
+    
+/*		
 //    dd.el.width(this.el.width());
 		$('body').append(dd.el);
 
 		var offset = this.el.offset();
-    dd.show(offset.left, offset.top + this.el.outerHeight());	
+    dd.show(offset.left, offset.top + this.el.outerHeight());
+*/    
+    dd.open();
+    	
 	},
 	
 	hideDropdown: function() {
-		this.dropdown.hide();
+		this.dropdown.close();
 		this.dropdown.el.detach();
 	},
 	

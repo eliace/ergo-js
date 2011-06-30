@@ -27,7 +27,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	      dtype: 'dropdown-box',
 //				renderTo: 'body',
 	      cls: 'dino-border-all dino-dropdown-shadow',
-				style: {'display': 'none'},
+//				style: {'display': 'none'},
 				content: {
 					dtype: 'list-view',
 					defaultItem: {
@@ -43,6 +43,10 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 					show: 'slideDown',
 					hide: 'slideUp',
 					delay: 200
+				},
+				position: {
+					global: true,
+					at: 'left bottom'					
 				}
 			}
 		},
@@ -150,14 +154,14 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
     dd.el.css('min-width', this.el.width());//.width(this.el.width());
 //    dd.el.width(this.el.width());
 		
-		dd.show(this.input, 'left-bottom');
+		dd.open();
 		
 //		var offset = this.el.offset();
 //    dd.show(offset.left, offset.top + this.el.outerHeight(), 'body');	
 	},
 	
 	hideDropdown: function() {
-		this.dropdown.hide();
+		this.dropdown.close();
 	},
 	
 	

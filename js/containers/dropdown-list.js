@@ -1,6 +1,7 @@
 
 //= require "list"
 //= require <widgets/glass-pane>
+//= require <extensions/popup>
 
 /**
  * @class
@@ -10,15 +11,15 @@ Dino.containers.DropdownList = Dino.declare('Dino.containers.DropdownList', 'Din
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',
+		baseCls: 'dino-dropdown-list',
+		extensions: [Dino.Popup],
+		style: {'display': 'none'},
 		effects: {
 			'show': 'none',
 			'hide': 'none',
 			'delay': 200
 		},
-		baseCls: 'dino-dropdown-list',
-		offset: [0, 0],
-		hideOn: 'outerClick',
-		layout: 'popup'
+		hideOn: 'outerClick'
 	}
 	
 	

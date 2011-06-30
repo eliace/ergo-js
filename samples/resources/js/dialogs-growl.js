@@ -30,6 +30,13 @@ $.dino({
           state: 'warning'
         });
       }
+      else if(this.tag == 'success') {
+        _growl.items.add({
+          message: Samples.loremipsum,
+          icon: 'dino-icon-growlbox-success',
+          state: 'success'
+        });
+      }
       else if(this.tag == 'error') {
         _growl.items.add({
           message: Samples.loremipsum,
@@ -63,6 +70,9 @@ $.dino({
   items: [{
     text: 'Сообщение',
     tag: 'message'
+  }, {
+    text: 'Выполнение',
+    tag: 'success'
   }, {
     text: 'Предупреждение',
     tag: 'warning'

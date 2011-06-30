@@ -497,6 +497,12 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	
 	
 	
+	component: function(i) {
+		return this.components.find(Dino.utils.widget_filter(i));		
+	},
+	
+	
+	
 /*	
 	$componentFactory: function(item) {
 		if( Dino.isPlainObject(item) ) {
@@ -611,6 +617,9 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		return Dino.find(parents, Dino.utils.widget_filter(i));
 	},
+	
+	
+	
 	
 	//---------------------------------------------
 	// Методы работы с подсоединенными данными
@@ -891,7 +900,7 @@ $(document).ready(function(){
 					w.events.fire('onContextMenu', cancel_event);
 					if(!cancel_event.isCanceled){
 						w.contextMenu.sourceWidget = w;
-						w.contextMenu.show(e.pageX-2, e.pageY-2);
+						w.contextMenu.open(e.pageX-2, e.pageY-2);
 					}
 					e.preventDefault();
 				}

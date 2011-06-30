@@ -70,7 +70,7 @@ $.dino({
         }
       }
     },
-    extensions: [{stopEdit: Dino.noop}]    
+    extensions: [{stopEdit: Dino.noop, cancelEdit: Dino.noop}]    
   }, {
     label: 'Поле со списком (форма)',
     content: {
@@ -118,7 +118,7 @@ $.dino({
         }
       }
     },
-    extensions: [{stopEdit: Dino.noop}]    
+    extensions: [{stopEdit: Dino.noop, cancelEdit: Dino.noop}]    
   }, {
     label: 'Счетчик (форма)',
     content: {
@@ -165,7 +165,7 @@ $.dino({
       dataId: 'number2',
       style: {'padding': '1px'}
     },
-    extensions: [{ stopEdit: Dino.noop }]    
+    extensions: [{ stopEdit: Dino.noop, cancelEdit: Dino.noop }]    
   }
   ]
 });      

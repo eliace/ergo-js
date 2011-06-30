@@ -37,8 +37,9 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		if(w.data && !item.data)
 			item.$bind(w.data, false, 2);
 		
-		w.children.add(item);		
-		w.layout.insert(item);
+		//FIXME здесь может возникать ошибка, когда children не совпадает с items
+		w.children.add(item, i);
+		w.layout.insert(item, this.src[i]);
 
 		i = Dino.core.ItemCollection.superclass.add.call(this, item, i);		
 		

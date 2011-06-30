@@ -349,7 +349,15 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //		this.children.each(function(child){
 //			if(child.dataPhase != 1) child.$bind(self.data, 2);
 //		});
-	}/*,
+	},
+	
+
+	item: function(i) {
+		return this.items.find(Dino.utils.widget_filter(i));		
+	}
+	
+	
+	/*,
 
 	$dataChanged: function() {
 		

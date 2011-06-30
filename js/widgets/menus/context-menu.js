@@ -22,11 +22,8 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 			}
 		},
 		
-		layout: {
-			dtype: 'popup-layout',
-			position: {
-				to: 'body'
-			}
+		position: {
+			global: true
 		}
 //		defaultItem: {
 //			dtype: 'menu-item',
@@ -36,7 +33,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 //			}			
 //		},
 //		offset: [-2, -2]
-	},
+	}
 	
 /*	
 	$events: function(self){
@@ -47,8 +44,10 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 		});
 	}
 */	
-		
+
+/*		
 	show: function(x, y) {
+
 		
 		$('body').append(this.el);
 				
@@ -69,7 +68,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 		
 		
 	}
-	
+*/	
 	
 	
 }, 'context-menu');

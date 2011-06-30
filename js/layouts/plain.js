@@ -31,11 +31,25 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 			el.append( item.el );
 		else if(index == 0)
 			el.prepend( item.el );
-		else
+		else if(Dino.isNumber(index))
 			el.children().eq(index-1).after(item.el);
+		else
+			index.el.after(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},
+	
+	
+//	after: function(item, afterItem) {
+//		
+//		if(afterItem)
+//			afterItem.el.after(item.el);
+//		else
+//			this.el.append(item.el);
+//		
+//		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
+//	},
+	
 	
 	remove: function(item) {
 		item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются

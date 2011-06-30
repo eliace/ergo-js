@@ -19,6 +19,10 @@
 	background-color: #eee;
 }
 
+.dino-growl.success {
+	background-color: #cfc;
+}
+
 .dino-growl.warning {
 	background-color: #ffc;
 }

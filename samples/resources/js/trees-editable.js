@@ -37,6 +37,18 @@ $.dino({
 					onClick: function() {
 						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 					},
+					components: {
+						text: {
+							content: {
+								extensions: [Dino.Editable],
+								editor: {
+									dtype: 'text-editor',
+									style: {'font-size': '14px', 'line-height': '14px'},
+									width: 160
+								}
+							}
+						}
+					},
 					contextMenu: {
 						dtype: 'context-menu',
 
@@ -51,7 +63,8 @@ $.dino({
 						items: [
 							{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}, tag: 'edit'},
 							'-',
-							{content: {icon: 'silk-icon-page-white-add', text: 'Добавить'}, tag: 'add'},
+							{content: {icon: 'silk-icon-folder-add', text: 'Добавить каталог'}, tag: 'addDir'},
+							{content: {icon: 'silk-icon-page-white-add', text: 'Добавить файл'}, tag: 'addFile'},
 							{content: {icon: 'silk-icon-cross', text: 'Удалить'}, tag: 'delete'},
 							'-',
 							{content: {icon: 'silk-icon-cut', text: 'Вырезать'}, tag: 'cut'},
@@ -60,7 +73,10 @@ $.dino({
 						],
 						
 						onSelect: function(e) {
-							growl.info(e.target.tag);
+							if(e.target.tag) {
+								var tree = this.sourceWidget.getParent(Dino.widgets.Tree);
+								tree.events.fire('on'+e.target.tag.capitalize(), {target: this.sourceWidget.parent});								
+							}
 						}
 						
 					},
@@ -74,6 +90,47 @@ $.dino({
 	      }
 	    }
 	  },
+		
+		
+		onAddDir: function(e) {
+			var node = e.target;
+			
+			node.data.item('children').add({
+		    value: 456,
+				type: "folder",
+		    name: "New folder",
+				children: []
+			});
+			
+			e.target.states.toggle('expand-collapse', true);
+		},
+
+		onAddFile: function(e) {
+			var node = e.target;
+			
+			node.data.item('children').add({
+		    value: 0,
+				type: "page-white",
+		    name: "New file"
+			});
+			
+			e.target.states.toggle('expand-collapse', true);
+		},
+		
+		
+		onDelete: function(e) {
+			var node = e.target;
+			
+			node.data.del();
+		},
+		
+		onEdit: function(e) {
+			var node = e.target;
+			
+			node.content.text.content.startEdit();
+			
+			
+		},
 		
 		
 		onKeyDown: function(e) {
