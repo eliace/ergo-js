@@ -52,15 +52,30 @@
 }
 
 
+.focus {
+	-moz-box-shadow: 0px 0px 3px #68f;
+	-webkit-box-shadow: 0px 0px 3px #68f;
+	box-shadow: 0px 0px 3px #68f;
+}
+
+
+
 .dino-text-content {
 	background-color: #fff;
 	padding: 3px;
 }
 
 
-
-
-
+/*
+.tree-list-item {
+	padding: 1px 0;
+}
+*/
+/*
+.dino-list-view > .list-item {
+	padding: 1px 3px;
+}
+*/
 /*
 .dino-icon-close { background-image: url(img/led/cross.png); }
 .dino-icon-error { background-image: url(img/led/error.png); }

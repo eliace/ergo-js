@@ -22,3 +22,7 @@
 .dino-list-tree-node.selected > .tree-list-item {
 	background-color: #ffc;
 }
+
+.tree-list-item .dino-text-editor {
+	margin: 2px 0;
+}

@@ -7,6 +7,7 @@
 	border: 1px solid #aaa;
 	text-align: right;
 	display: block;
+	overflow: hidden;
 }
 
 .dino-text-editor.focus {

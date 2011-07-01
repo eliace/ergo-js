@@ -1,4 +1,5 @@
 
+var buffer = null;
 
 
 var treeData = new Dino.data.ArrayDataSource([]);
@@ -43,8 +44,8 @@ $.dino({
 								extensions: [Dino.Editable],
 								editor: {
 									dtype: 'text-editor',
-									style: {'font-size': '14px', 'line-height': '14px'},
-									width: 160
+//									style: {'font-size': '14px', 'line-height': '14px'},
+									width: 250
 								}
 							}
 						}
@@ -127,9 +128,33 @@ $.dino({
 		onEdit: function(e) {
 			var node = e.target;
 			
-			node.content.text.content.startEdit();
+			node.content.text.content.startEdit();			
 			
+		},
+		
+		onCut: function(e) {
+			var node = e.target;
 			
+			buffer = node.data.val();
+			node.data.del();
+		},
+		
+		onCopy: function(e) {
+			var node = e.target;
+			
+			buffer = Dino.deep_copy(node.data.val());
+		},
+		
+		onPaste: function(e) {
+			var node = e.target;
+			
+			if(!buffer) return;
+			
+			node.data.item('children').add(buffer);
+			
+			e.target.states.toggle('expand-collapse', true);
+			
+			buffer = null;
 		},
 		
 		
