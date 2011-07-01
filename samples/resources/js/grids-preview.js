@@ -1,5 +1,5 @@
 
-gridData = new Dino.data.ArrayDataSource();
+var gridData = new Dino.core.DataSource([]);
 
 
     

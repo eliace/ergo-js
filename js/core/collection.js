@@ -153,8 +153,13 @@ Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
 	
 	last: function() {
 		return this.src[this.src.length-1];
-	}
+	},
 	
+	keys: function() {
+		var k = [];
+		for(var i = 0; i < this.src.length-1; i++) k.push(i);
+		return k;
+	}
 	
 });
 

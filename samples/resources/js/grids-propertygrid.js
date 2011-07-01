@@ -1,5 +1,5 @@
 
-var gridData = new Dino.data.ArrayDataSource();
+var gridData = new Dino.core.DataSource();
 
 
     
@@ -37,7 +37,7 @@ var propertyGrid = $.dino({
         if( this.opt('editable') ) this.startEdit();
       },
       binding: function() {
-        var val = this.data.source.val();
+        var val = this.data.source.get();
 
         if(val.type == 'boolean') {
           this.components.add({dtype: 'checkbox'}, 'content');
@@ -58,13 +58,13 @@ var propertyGrid = $.dino({
               }
             },
             binding: function(val) {
-              this.dropdown.$bind(this.data.source.item('value_list'));
+              this.dropdown.$bind(this.data.source.entry('value_list'));
             },
             dropdownOnFocus: true
           });
                     
           this.opt('format', function() {
-            var val = this.data.source.val();
+            var val = this.data.source.get();
             return val.value_list[val.value]; 
           });          
         }

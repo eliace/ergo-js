@@ -1,7 +1,7 @@
 
 var splitMove = null;
 
-var treeData = new Dino.data.ArrayDataSource([]);
+var treeData = new Dino.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
 
@@ -28,12 +28,16 @@ var box = $.dino({
       treeModel: {
         node: {
           binding: function(val) {
-            this.content.opt('icon', 'silk-icon-'+val.type);
+            this.content.text.opt('icon', 'silk-icon-'+val.type);
             if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
           },
           content: {
-            icon: true,
-            dataId: 'name'
+						components: {
+							text: {
+		            icon: true,
+		            dataId: 'name'								
+							}
+						}
           }
         }
       }

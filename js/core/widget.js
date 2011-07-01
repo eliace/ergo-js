@@ -1,6 +1,6 @@
 
 //= require "events"
-//= require "data"
+//= require "data-source"
 //= require "collection"
 //= require "states"
 //= require <layouts/plain>
@@ -657,10 +657,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		if('dataId' in o){
-			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ObjectDataSource(data, o.dataId);
+			this.data = (data instanceof Dino.core.DataSource) ? data.entry(o.dataId) : new Dino.core.DataSource(data, o.dataId);
 		}
 		else {
-			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ObjectDataSource(data);
+			this.data = (data instanceof Dino.core.DataSource) ? data : new Dino.core.DataSource(data);
 		}
 
 		

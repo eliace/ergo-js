@@ -2,7 +2,7 @@
 $.dino({
   dtype: 'tab-panel',
   renderTo: '.preview',
-  defaults: {
+  panelModel: {
     page: {height: 100}
   },
   pagesCls: 'dino-border-all dino-border-no-top',
@@ -35,7 +35,7 @@ $.dino({
   dtype: 'tab-panel',
   renderTo: '.preview',
   tabPosition: 'bottom',
-  defaults: {
+  panelModel: {
     page: {height: 100}
   },
   pagesCls: 'dino-border-all dino-border-no-bottom',

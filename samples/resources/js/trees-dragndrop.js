@@ -8,43 +8,45 @@ $.dino({
     node: {
       cls: 'simple-tree-node',
       expandOnShow: true,
-      components: {
-        content: {
-          cls: 'dino-clickable',
-          icon: true,
-          components: {
-            leftIcon: {
-              states: {
-                'brick': 'silk-icon-brick',
-                'door': 'silk-icon-door',
-                'user': 'silk-icon-user'
-              }
-            }
-          },
-          extensions: [Dino.Draggable, Dino.Droppable],
-//          draggable: true,
-          onDrag: function(e) {
-            this.parent.states.set('dragged');
-            
-            e.dragContext.proxy = $.dino({
-              dtype: 'text',
-              text: this.getText(),
-              cls: 'dino-border-all',
-              style: {'background-color': '#fff'},
-              opacity: .7
-            });
-            
-            e.dragContext.offset = [-10, -10];
-            
-          },
-          onDrop: function(e) {
-            if(this != e.source)
-              this.parent.subtree.items.add(e.source.parent);
-              
-            e.source.parent.states.clear('dragged');
-          }
-//          droppable: true          
-        }    
+			content: {
+	      components: {
+	        text: {
+	          cls: 'dino-clickable',
+	          icon: true,
+	          components: {
+	            leftIcon: {
+	              states: {
+	                'brick': 'silk-icon-brick',
+	                'door': 'silk-icon-door',
+	                'user': 'silk-icon-user'
+	              }
+	            }
+	          },
+	          extensions: [Dino.Draggable, Dino.Droppable],
+	//          draggable: true,
+	          onDrag: function(e) {
+	            this.parent.states.set('dragged');
+	            
+	            e.dragContext.proxy = $.dino({
+	              dtype: 'text',
+	              text: this.getText(),
+	              cls: 'dino-border-all',
+	              style: {'background-color': '#fff'},
+	              opacity: .7
+	            });
+	            
+	            e.dragContext.offset = [-10, -10];
+	            
+	          },
+	          onDrop: function(e) {
+	            if(this != e.source)
+	              this.parent.parent.subtree.items.add(e.source.parent);
+	              
+	            e.source.parent.states.clear('dragged');
+	          }
+	//          droppable: true          
+	        }
+				}    
       },
 //      states: {
 //        'dragged': 'dino-hidden'

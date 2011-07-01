@@ -2,7 +2,7 @@
 var buffer = null;
 
 
-var treeData = new Dino.data.ArrayDataSource([]);
+var treeData = new Dino.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   
@@ -96,7 +96,7 @@ $.dino({
 		onAddDir: function(e) {
 			var node = e.target;
 			
-			node.data.item('children').add({
+			node.data.entry('children').add({
 		    value: 456,
 				type: "folder",
 		    name: "New folder",
@@ -109,7 +109,7 @@ $.dino({
 		onAddFile: function(e) {
 			var node = e.target;
 			
-			node.data.item('children').add({
+			node.data.entry('children').add({
 		    value: 0,
 				type: "page-white",
 		    name: "New file"

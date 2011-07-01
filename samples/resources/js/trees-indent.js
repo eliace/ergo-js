@@ -8,7 +8,7 @@
  */
 
 
-var treeData = new Dino.data.ArrayDataSource([]);
+var treeData = new Dino.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   

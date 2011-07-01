@@ -1,5 +1,5 @@
     
-var tgTreeData = new Dino.data.ArrayDataSource([]);
+var tgTreeData = new Dino.core.DataSource([]);
 
 
 $.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });

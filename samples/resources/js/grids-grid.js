@@ -1,10 +1,5 @@
 
 
-
-
-
-
-
 var grid = $.dino({
 	dtype: 'table-grid',
 	renderTo: '.preview',
@@ -29,12 +24,12 @@ var grid = $.dino({
           grid.data.source[i] = data_page[j++];
         }
 
-        grid.data.filter_chain = function(data){
+				grid.data.options.filter = function(keys, values) {
           var out = [];
-          for(var i = 0; i < data.length; i++)
+          for(var i = 0; i < values.length; i++)
             if(i >= e.from && i < e.to) out.push(i);
-          return out;
-        };
+          return out;					
+				};
 					
         grid.data.events.fire('onValueChanged');
 				grid.$layoutChanged();

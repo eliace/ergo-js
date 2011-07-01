@@ -1,8 +1,9 @@
 
+//= require "events"
 
 
 
-Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
+Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	
 	defaults: {
 		extensions: [Dino.Observable],
@@ -22,7 +23,7 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 			this.id = id;
 		}
 		
-		Dino.core.DataSourceX.superclass.initialize.call(this, o || {});
+		Dino.core.DataSource.superclass.initialize.call(this, o || {});
 		
 		var self = this;
 		var o = this.options;
@@ -38,7 +39,7 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 	
 	
 	factory: function(i) {
-		return new Dino.core.DataSourceX(this, i);		
+		return new Dino.core.DataSource(this, i);		
 	},
 	
 	
@@ -74,7 +75,7 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 	_val: function() {
 //		if('_cached' in this) return this._cached;
 		var v = undefined;
-		if(this.source instanceof Dino.core.DataSourceX){
+		if(this.source instanceof Dino.core.DataSource){
 			v = ('id' in this) ? this.source._val()[this.id]: this.source._val();
 		}
 		else{
@@ -105,7 +106,7 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 			
 			var oldValue = this._val();
 			
-			if (this.source instanceof Dino.core.DataSourceX) {
+			if (this.source instanceof Dino.core.DataSource) {
 				('id' in this) ? this.source._val()[this.id] = newValue : this.source.set(newValue);
 	  	}
 			else {
@@ -114,7 +115,7 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
-			if(this.source instanceof Dino.core.DataSourceX)
+			if(this.source instanceof Dino.core.DataSource)
 				this.source.events.fire('onEntryChanged', {entry: this});
 			
 			this._changed = true;
@@ -126,18 +127,72 @@ Dino.declare('Dino.core.DataSourceX', 'Dino.core.Object', {
 	},
 	
 	
+	add: function(value, index) {
+		
+		var values = this._val();		
+		
+		var isLast = false;
+			
+		if(Dino.isArray(values)) {
+			
+			if(index == null){
+				values.push(value);
+				index = values.length-1;
+				isLast = true;
+			}
+			else {
+				// меняем индексы элементов данных
+				for(var i = values.length-1; i >= index; i--){
+					var e = this.entries.get(i);
+					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
+					e.id = i+1;
+					this.entries.set(i+1, e);
+				}
+				
+				this.entries.set(index, this.factory(index));
+				
+				// добавляем новый элемент массива
+				values.splice(index, 0, value);
+			}
+			
+		}
+		else {
+			values[index] = value;
+		}
+
+
+
+		var e = this.entry(index);
+
+		this.events.fire('onEntryAdded', {'index': index, 'entry': e, 'isLast': isLast});
+		
+		return e;
+	},
+	
+	
 	
 	iterate: function(callback) {
 		
 		var self = this;
 		var values = this._val();		
+		
 		var keys = [];
-		for(var i in values) keys.push(i);
+		if(Dino.isArray(values)) {
+			for(var i = 0; i < values.length; i++) keys.push(i);
+		}
+		else {
+			for(var i in values) keys.push(i);			
+		}
 		
 		//TODO здесь могут применяться модификаторы списка ключей (сортировка, фильтрация)
+		if(this.options.filter){
+			keys = this.options.filter.call(this, keys, values);
+		}
 		
-		for(var i in keys)
-			callback.call(this, this.entry(i), values[i]);
+		for(var i in keys){
+			var k = keys[i];
+			callback.call(this, this.entry(k), k, values[k]);			
+		}
 	},
 	
 	

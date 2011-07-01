@@ -271,9 +271,9 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		
 		
 		if('dataId' in o)
-			this.data = (data instanceof Dino.data.DataSource) ? data.item(o.dataId) : new Dino.data.ArrayDataSource(data, o.dataId);
+			this.data = (data instanceof Dino.core.DataSource) ? data.entry(o.dataId) : new Dino.core.DataSource(data, o.dataId);
 		else
-			this.data = (data instanceof Dino.data.DataSource) ? data : new Dino.data.ArrayDataSource(data);
+			this.data = (data instanceof Dino.core.DataSource) ? data : new Dino.core.DataSource(data);
 		
 		
 		
@@ -281,7 +281,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		
 		// если добавлен новый элемент данных, то добавляем новый виджет
 		this.data.events.reg('onEntryAdded', function(e){
-			self.items.add({'data': e.item}, e.isLast ? null : e.index);
+			self.items.add({'data': e.entry}, e.isLast ? null : e.index);
 		}, this);
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
@@ -304,14 +304,12 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 			self.items.destroy_all();
 
 //			var t0 = Dino.timestamp();
-		
 
-			self.data.each(function(dataItem, i){
-				var dataItem = self.data.item(i);
-				var item = self.items.add({ 'data': dataItem });
+			self.data.iterate(function(dataEntry, i){
+				var item = self.items.add({ 'data': dataEntry });
 				item.dataPhase = 2;
 			});
-
+		
 //			var t1 = Dino.timestamp();
 //			console.log(t1 - t0);
 				
@@ -325,9 +323,8 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 				
 		this.items.destroy_all();
 
-		this.data.each(function(dataItem, i){
-			var dataItem = self.data.item(i);
-			self.items.add({ 'data': dataItem }).dataPhase = 2;
+		this.data.iterate(function(dataEntry, i){
+			self.items.add({ 'data': dataEntry }).dataPhase = 2;
 		});
 
 		this.layout.immediateRebuild = true;

@@ -54,7 +54,7 @@ test('core/widget', function(){
 	
 	
 	
-	var dataSource = new Dino.data.ObjectDataSource({
+	var dataSource = new Dino.core.DataSource({
 		name: 'Alice',
 		age: 21
 	});

@@ -9,7 +9,7 @@ test('core/data', function(){
 		books: ['Jabberwocky', 'The Hunting of the Snark']
 	};
 	
-	var data = new Dino.core.DataSourceX(obj);
+	var data = new Dino.core.DataSource(obj);
 	
 	
 	equals(data.get('name'), 'Alice', 'Метод get(key)');
@@ -24,7 +24,7 @@ test('core/data', function(){
 	
 
 
-	var data = new Dino.core.DataSourceX(['Alice', 'Bob', 'Charlie'], {lazy: false});
+	var data = new Dino.core.DataSource(['Alice', 'Bob', 'Charlie'], {lazy: false});
 	
 	equals(data.entries.last().get(), 'Charlie', 'При параметре lazy = false все элементы создаются сразу')
 	
@@ -36,4 +36,13 @@ test('core/data', function(){
 	equals(s, 'AliceBobCharlie', 'Итеративный обход всех элементов источника данных')
 	
 	
+	data.add('Elle');
+	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Elle'], 'Добавляем к массиву новый элемент');
+	equals(data.entry(3).id, 3, 'Индекс элемента "Elle" равен 3');
+
+	data.add('Dan', 3);
+	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');
+	equals(data.entry(3).id, 3, 'Индекс элемента "Dan" равен 3');
+	equals(data.entry(4).id, 4, 'Новый индекс элемента "Elle" равен 4');
+		
 });	

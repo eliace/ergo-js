@@ -4,7 +4,7 @@
 
 
 
-gridData = new Dino.data.ArrayDataSource();
+var gridData = new Dino.core.DataSource([]);
 
 updateBuffer = new Dino.utils.UpdateBuffer();
 var newCounter = 0;
@@ -118,7 +118,7 @@ var panel = $.dino({
 					},
           extensions: [Dino.Editable],
           onEdit: function(e) {
-            var val = this.getRow().data.val();
+            var val = this.getRow().data.get();
             updateBuffer.upd(val);
 
             var nextCol = this.getRow().getColumn(this.index+1);
@@ -205,9 +205,9 @@ var panel = $.dino({
           cls: 'dino-border-top',
           onIndexChanged: function(e) {
                         
-            gridData.filter_chain = function(data){
+            gridData.options.filter = function(keys, values){
               var out = [];
-              for(var idx = 0; idx < data.length; idx++)
+              for(var idx = 0; idx < values.length; idx++)
                 if(idx >= e.from && idx < e.to) out.push(idx);                
               return out;
             };
