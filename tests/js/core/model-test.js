@@ -1,0 +1,12 @@
+
+
+
+test('core/model', function(){
+	
+	
+	
+	
+	
+	
+	
+});	

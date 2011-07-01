@@ -11,7 +11,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		this.src = src || {};
 	},
 	
-	set: function(item, i) {
+	set: function(i, item) {
 		this.src[i] = item;
 	},
 	
@@ -94,7 +94,17 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	apply_all: function(m, args) {
 		Dino.apply_all(this.src, m, args);
-	}	
+	},
+	
+	has_key: function(i) {
+		return (i in this.src);
+	},
+	
+	keys: function() {
+		var k = [];
+		for(var i in this.src) k.push(i);
+		return k;
+	}
 	
 });
 
