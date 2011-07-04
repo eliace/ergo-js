@@ -40,6 +40,8 @@ Dino.declare('Dino.containers.Form', 'Dino.containers.List', {
 		Dino.containers.Form.superclass.$opt.apply(this, arguments);
 		
 		if('action' in o) this.el.attr('action', o.action);
+		if('enctype' in o) this.el.attr('enctype', o.enctype);
+		if('target' in o) this.el.attr('target', o.target);
 	},
 	
 	

@@ -27,7 +27,30 @@ $.dino({
 				}
 			}
 		}
-	}]
+	}],
+	
+	components: {
+		tabs: {
+			layout: 'group',
+			
+			components: {
+				addTab: {
+					dtype: 'box',
+					html: '<li/>',
+					cls: 'dino-tabs-item dino-border-all dino-bg-3',
+					content: {
+						dtype: 'action-icon',
+						cls: 'plus-icon',
+						style: {'vertical-align': 'middle', 'display': 'inline-block'}
+					},
+					layoutGroup: 'after'
+				}
+			}
+			
+		}
+	}
+	
+	
 });
 
     

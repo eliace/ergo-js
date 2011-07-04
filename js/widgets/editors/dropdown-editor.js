@@ -67,7 +67,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 			else if(dataModel.type == 'custom') {
 				var criteria = {};
 				criteria[dataModel.id] = val;
-				var optionsItem = Dino.find(this.dropdown.data.val(), Dino.filters.by_props.curry(criteria));
+				var optionsItem = Dino.find(this.dropdown.data.get(), Dino.filters.by_props.curry(criteria));
 				val = optionsItem ? optionsItem[dataModel.value] : optionsItem;				
 			}
 			return val;

@@ -29,7 +29,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 				},
 				onTabChanged: function(){
 					// переключаем страницу при смене закладки
-					this.parent.pages.layout.activate( this.currentTab.index );
+					this.parent.pages.setActive( this.currentTab.index );
 					this.parent.events.fire('onTabChanged', {'tab': this.parent.getCurrentTab(), 'page': this.parent.getCurrentPage()});
 				}
 			},

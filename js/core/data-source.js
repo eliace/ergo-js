@@ -88,7 +88,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	
 	// получаем значение
 	get: function(i) {
-		if(arguments.length == 0)
+		if(i === undefined)
 			return this._val();
 		else{
 			return this.entry(i)._val();			
@@ -96,6 +96,9 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	},
 	
 	
+	get_copy: function(i) {
+		return Dino.deep_copy(this.get(i));
+	},
 	
 	// устанавливаем значение
 	set: function(i, newValue) {
@@ -186,7 +189,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		
 		//TODO здесь могут применяться модификаторы списка ключей (сортировка, фильтрация)
 		if(this.options.filter){
-			keys = this.options.filter.call(this, keys, values);
+			keys = this.options.filter.call(this, values, keys);
 		}
 		
 		for(var i in keys){
@@ -218,3 +221,9 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	
 	
 });
+
+
+
+
+
+

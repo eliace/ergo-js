@@ -18,14 +18,14 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 				dtype: 'text'
 			},
 //			state: 'clickable',
-//			onClick: function() {
-//				this.parent.setActiveTab(this);
-//			}
-			events: {
-				'click': function(e, w){
-					w.parent.setActiveTab(w);
-				}
+			onClick: function() {
+				this.parent.setActiveTab(this);
 			}
+//			events: {
+//				'click': function(e, w){
+//					w.parent.setActiveTab(w);
+//				}
+//			}
 		},
 //		itemFactory: function(o){
 //			return Dino.widget({
