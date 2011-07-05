@@ -518,68 +518,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	// Методы для работы с компонентами виджета
 	//-------------------------------------------
 	
-	/**
-	 * Добавление компонента
-	 * 
-	 * Ключ должен соотвествовать требованиям для свойств объектов JavaScript и не должен пересекаться с именами
-	 * методов/свойств виджета.
-	 * 
-	 * @param {String} key ключ (имя) компонента. Если компонент с таким именем уже существует, то он будет удален из компоновки
-	 * @param {Object|Dino.core.Widget} o виджет или параметры виджета
-	 */
-	
-	
-/*	
-	addComponent: function(o, key){
-		
-		// если компонент уже существует, то удаляем его
-		this.removeComponent(key);
-		
-		// если у виджета определен базовый класс, до его компоненты будут иметь класс-декоратор [baseCls]-[имяКомпонента]
-		if('baseCls' in this.options)
-			Dino.smart_override(o, {cls: this.options.baseCls+'-'+key});			
-				
-		var c = this.$componentFactory(o);
-		
-		this.children.add(c);
-				
-		this[key] = c;
-		
-		c.parent = this;	
-		
-		// выполняем автобиндинг
-		if(this.data && !c.data)
-			c.$bind(this.data, false, 2);
-		
-		
-//		// В компоновку добавляем элемент только в том случае, если цель рендеринга не определена
-//		if(!('renderTo' in o))
-		this.layout.insert(c);
-		
-		return c;
-	},
-*/	
-	
-	
-	/**
-	 * Удаление компонента
-	 * 
-	 * @param {Object} key ключ (имя) компонента
-	 */
-	
-/*	
-	removeComponent: function(key) {
-		var c = this[key];
-		if(c) {
-			this.layout.remove(c);
-			this.children.remove(c);
-			delete c.parent;
-			delete this[key];
-		}
-		return c;
-	},
-*/	
-	
 	
 	/**
 	 * Получение списка всех родителей виджета.
@@ -680,17 +618,6 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 //			});
 		}, this);
 		
-		//FIXME пока непонятный механизм для обработки события onDirty
-//		if('onDirty' in this.options){
-//			this.data.events.reg('onDirty', function(e){
-//				self.events.fire('onDirty', e);
-//			}, this);
-//		}
-//		if('onClean' in this.options){
-//			this.data.events.reg('onClean', function(e){
-//				self.events.fire('onClean', e);
-//			}, this);
-//		}
 	
 		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){
@@ -747,10 +674,13 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 					valid = Dino.find(validator, function(v){ return v.call(self, val, results); })
 */					
 			}
+			
+			if(valid) {
+				valid = ( this.data.set(val) !== false );					
+			}
 				 
 			
 			if(valid) {
-				this.data.set(val);
 				this.states.clear('invalid');
 				this.events.fire('onValueChanged', {'value': val, 'reason': reason});				
 			}

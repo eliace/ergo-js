@@ -320,9 +320,45 @@ $(document).ready(function(){
 						}
 					}
 				}, {
-					dtype: 'list',
+					dtype: 'box',
 					tag: 'preview_and_code',
 					height: 'auto',
+					
+					cls: 'dino-border-all',
+					style: {'padding': 5},
+					
+					content: {
+						
+						dtype: 'tab-panel',
+						style: {'padding-top': '3px'},
+						panelModel: {
+							page: {
+								content: {
+									dtype: 'box',
+									style: {'overflow-y': 'auto'},//, 'background-color': '#fff'},
+									height: 'auto'
+								}
+							}
+						},
+						pagesCls: 'dino-border-all dino-border-no-top',
+						pages: [{
+							tab: {text: 'View', icon: 'silk-icon-eye'},
+							cls: 'preview',
+							height: 'auto',
+							style: {'background-color': '#eee', 'padding': 5}
+						}, {
+							tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
+							cls: 'js-page'
+						}, {
+							tab: {text: 'CSS', icon: 'silk-icon-script-code-red'},
+							cls: 'css-page'
+						}]
+						
+					}
+					
+					
+					
+/*					
 					layout: 'border',
 					items: [{
 						dtype: 'box',
@@ -422,6 +458,8 @@ $(document).ready(function(){
 							}
 						}
 					}]
+*/					
+					
 				}]
 			}
 			
