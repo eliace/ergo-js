@@ -38,6 +38,7 @@ $.dino({
 					dtype: 'box',
 					html: '<li/>',
 					cls: 'dino-tabs-item dino-border-all dino-bg-3',
+					style: {'padding-left': 7, 'padding-right': 7},
 					content: {
 						dtype: 'action-icon',
 						cls: 'plus-icon',

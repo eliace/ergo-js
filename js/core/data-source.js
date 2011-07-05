@@ -174,6 +174,35 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	
 	
 	
+	del: function(i) {
+		
+		if(i === undefined) {
+			if(this.source instanceof Dino.core.DataSource)
+				this.source.del(this.id);
+			else
+				throw new Error('Cannot delete root data source');
+		}
+		else {
+			var value = this._val();
+
+			var deleted_entry = this.entries.remove_at(i);
+			
+			if(Dino.isArray(value)) {
+				value.splice(i, 1);
+				for(var j = i; j < value.length; j++)
+					this.entry(j).id = j;
+			}
+			else {
+				delete value[i];
+			}
+			
+			this.events.fire('onEntryDeleted', {entry: deleted_entry});
+		}
+				
+	},
+	
+	
+	
 	iterate: function(callback) {
 		
 		var self = this;

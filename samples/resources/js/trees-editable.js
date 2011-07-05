@@ -135,14 +135,14 @@ $.dino({
 		onCut: function(e) {
 			var node = e.target;
 			
-			buffer = node.data.val();
+			buffer = node.data.get();
 			node.data.del();
 		},
 		
 		onCopy: function(e) {
 			var node = e.target;
 			
-			buffer = Dino.deep_copy(node.data.val());
+			buffer = node.data.get_copy();
 		},
 		
 		onPaste: function(e) {
@@ -173,7 +173,7 @@ $.dino({
 					}
 					
 					var prev_sibling = function(node) {
-						return (node.index == 0) ? null : node.parent.items.get(node.index-1);
+						return (node.index == 0) ? null : node.parent.item(node.index-1);
 					}
 					
 					prev = prev_sibling(selected_node);

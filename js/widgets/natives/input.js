@@ -211,3 +211,16 @@ Dino.declare('Dino.widgets.Radio', 'Dino.widgets.Checkbox', /** @lends Dino.widg
 
 
 
+Dino.declare('Dino.widgets.Submit', 'Dino.widgets.TextInput', {
+	
+	defaults: {
+		html: '<input type="submit"/>'
+	}
+	
+//	$opt: function(o) {
+//		Dino.widgets.Submit.superclass.$opt.call(this, o);
+//	}
+	
+}, 'submit');
+
+

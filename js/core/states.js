@@ -1,6 +1,6 @@
 
 //= require "events"
-
+//= require "deferred"
 
 
 
@@ -41,18 +41,47 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 
 		if(arguments.length == 1) change_class = true;
 		
+		
+		var self = this;
+		
+		var state_change_callback = function(change) {
+			
+			if(change)
+				self._widget.el.addClass(state);
+			
+			self._states[name] = true;
+			
+			self._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
+			self._widget.events.fire('onStateSet', {'state': name});			
+		}
+		
+		
+		var is_deferred = false;
+		
 		if(Dino.isFunction(state)) {
-			change_class &= (state.call(this._widget, true) !== false);
+			var result = state.call(this._widget, true);
+			
+			if(result instanceof Dino.core.Deferred) {
+				if(!result.ready) {
+					result.done(state_change_callback);
+					is_deferred = true;
+				}
+			}
+			
+			change_class &= (result !== false);
 			state = name;
 		}
 		
-		if(change_class)
-			this._widget.el.addClass(state);
+		if(!is_deferred)
+			state_change_callback(change_class);
 		
-		this._states[name] = true;
-		
-		this._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
-		this._widget.events.fire('onStateSet', {'state': name});
+//		if(change_class)
+//			this._widget.el.addClass(state);
+//		
+//		this._states[name] = true;
+//		
+//		this._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
+//		this._widget.events.fire('onStateSet', {'state': name});
 		
 		return this;
 	},

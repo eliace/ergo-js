@@ -51,21 +51,27 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 					var el = this.subtree.el;
  					if(el.children().size() == 0)
 						el.show();
-					else					
+					else
 						el[o.effects.show](o.effects.delay);					
 				}
 			},
 			'collapsed': function(on) {
 				this.content.button.states.toggle('collapsed', on);
+				
+				var deferred;
 
 				var o = this.options;
 				if(o.effects && on) {
 					var el = this.subtree.el;
  					if(el.children().size() == 0)
 						el.hide();
-					else					
-						el[o.effects.hide](o.effects.delay);					
+					else {
+						deferred = new Dino.core.Deferred();
+						el[o.effects.hide](o.effects.delay, function(){deferred.run(true);});					
+					}					
 				}
+				
+				return deferred;
 			}
 		},
 		expandOnShow: false,

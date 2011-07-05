@@ -52,11 +52,6 @@
 }
 
 
-.dino-field.focus {
-	-moz-box-shadow: 0px 0px 3px #68f;
-	-webkit-box-shadow: 0px 0px 3px #68f;
-	box-shadow: 0px 0px 3px #68f;
-}
 
 
 
@@ -230,14 +225,18 @@ button.plain {
 	background: #ddd;
 }
 
+
+/*
 .dino-form-field.focus {
 	border-color: #68f;
 }
+*/
 
+/*
 .dino-form-field.invalid {
 	border-color: #f66;
 }
-
+*/
 
 .dino-form-field.invalid input {
 	color: #f66;
@@ -245,11 +244,40 @@ button.plain {
 }
 
 .dino-form-field.disabled {
-	background-color: #ddd;	
+	background-color: #ddd;
 }
 
 .dino-form-field.disabled input {
 	background-color: #ddd;
+}
+
+
+
+.dino-field.focus {
+/*	-moz-box-shadow: 0px 0px 3px #68f;
+	-webkit-box-shadow: 0px 0px 3px #68f;
+	box-shadow: 0px 0px 3px #68f;*/
+	-moz-box-shadow: 0px 0px 3px #8af;
+	-webkit-box-shadow: 0px 0px 3px #8af;
+	box-shadow: 0px 0px 3px #8af;
+	border-color: #8af;
+}
+
+.dino-field.invalid {
+	-moz-box-shadow: 0px 0px 3px #f88;
+	-webkit-box-shadow: 0px 0px 3px #f88;
+	box-shadow: 0px 0px 3px #f88;
+	border-color: #f88;
+}
+
+
+
+
+
+
+.dino-tab-footer {
+	height: 3px;
+	border: 1px solid #aaa;
 }
 
 
