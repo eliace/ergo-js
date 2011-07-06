@@ -124,7 +124,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			this._changed = true;
 		}
 		else {
-			this.entry(i).set(newValue);
+			return this.entry(i).set(newValue);
 		}
 		
 	},

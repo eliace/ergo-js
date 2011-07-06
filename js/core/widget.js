@@ -661,22 +661,20 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 				val = o.store.call(this, val);
 			
 			var valid = true;
-			var context = {};				
+			var context = {};
+							
 			if(o.validate) {				
 				valid = o.validate.call(this, val, context);
-/*				
-				var self = this;
-				var validator = this.options.validator;
-				
-				if(Dino.isFunction(validator))
-					valid = validator.call(this, val, results);
-				else if(Dino.isArray(validator)) 
-					valid = Dino.find(validator, function(v){ return v.call(self, val, results); })
-*/					
 			}
 			
 			if(valid) {
-				valid = ( this.data.set(val) !== false );					
+				try{
+					this.data.set(val);
+				}
+				catch(err) {
+					context.message = err.message;
+					valid = false;
+				}
 			}
 				 
 			

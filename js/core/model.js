@@ -18,16 +18,18 @@ Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
 	},
 	
 	
-	set: function(i, v) {
+	set: function(v) {
 		
-		var fields = this.fields;
-		if(i in fields) {
-			if(fields[i].validate) {
-				if( !fields[i].validate.call(this, v) ) return false;
-			}
+		if(this.validate) {
+			if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
 		}
 		
 		Dino.data.Model.superclass.set.apply(this, arguments);
+	},
+	
+	factory: function(i) {
+		var model = this.fields[i] || Dino.core.DataSource;
+		return new model(this, i);
 	}
 	
 });
