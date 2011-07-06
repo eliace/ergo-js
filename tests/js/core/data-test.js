@@ -44,5 +44,12 @@ test('core/data', function(){
 	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');
 	equals(data.entry(3).id, 3, 'Индекс элемента "Dan" равен 3');
 	equals(data.entry(4).id, 4, 'Новый индекс элемента "Elle" равен 4');
-		
+	
+	
+	
+//	data = new Dino.core.DataSource(['Alice', 'Charlie', 'Dan']);
+//	data.add('Bob', 1);
+//	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');
+	
+	
 });	

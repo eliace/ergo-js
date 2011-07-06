@@ -5,6 +5,7 @@
 
 Dino.Editable = function(o) {
 
+
 	this.startEdit = function() {
 		
 		var w = this.layout.el.width();
@@ -48,6 +49,8 @@ Dino.Editable = function(o) {
 //		$(window).bind('keypress', this._key_handler);
 
 //		this.events.fire('onBeforeEdit');
+
+//		return this.events;
 	};
 	
 	this.stopEdit = function(reason) {
@@ -83,7 +86,7 @@ Dino.Editable = function(o) {
 			Dino.Focusable.focusManager.enter(this._prev_focus);
 			delete this._prev_focus;
 		}
-		
+
 	}
 	
 	

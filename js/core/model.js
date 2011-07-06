@@ -27,6 +27,12 @@ Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
 		Dino.data.Model.superclass.set.apply(this, arguments);
 	},
 	
+	get: function() {
+		var v = Dino.data.Model.superclass.get.apply(this, arguments);
+
+		return (this.format) ? this.format.call(this, v) : v;
+	},
+	
 	factory: function(i) {
 		var model = this.fields[i] || Dino.core.DataSource;
 		return new model(this, i);

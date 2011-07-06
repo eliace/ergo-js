@@ -17,6 +17,13 @@ Dino.core.Deferred = Dino.core.Object.extend({
 		this.chain.push(callback);
 	},
 	
+	success: function(callback) {
+		
+	},
+	
+	fail: function(callback) {
+		
+	},
 	
 	run: function(result) {
 		Dino.each(this.chain, function(t){

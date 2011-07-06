@@ -32,9 +32,9 @@ Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.Pl
 		else if(index == 0)
 			el.prepend( item.el );
 		else if(Dino.isNumber(index))
-			el.children().eq(index-1).after(item.el);
+			el.children().eq(index-1).before(item.el);
 		else
-			index.el.after(item.el);
+			index.el.before(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},

@@ -67,6 +67,13 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		return this;
 	},
 	
+	once: function(type, callback, target) {
+		if(!(type in this.events)) this.events[type] = [];
+		var h_arr = this.events[type];
+		h_arr.push({'callback': callback, 'target': target || this.target, 'once': true});
+		return this;
+	},
+	
 	unreg: function(arg, arg2) {
 		
 		var events = this.events;
@@ -113,7 +120,8 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		if(h_arr) {
 			Dino.each(h_arr, function(h){
 				h.callback.call(h.target, e);
-			});			
+			});
+			this.events[type] = Dino.filter( this.events[type], function(h) { return !h.once; } );
 		}
 		
 		return this;

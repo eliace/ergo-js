@@ -144,6 +144,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 				isLast = true;
 			}
 			else {
+
 				// меняем индексы элементов данных
 				for(var i = values.length-1; i >= index; i--){
 					var e = this.entries.get(i);
@@ -152,10 +153,11 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 					this.entries.set(i+1, e);
 				}
 				
-				this.entries.set(index, this.factory(index));
-				
 				// добавляем новый элемент массива
 				values.splice(index, 0, value);
+
+				this.entries.set(index, this.factory(index));
+				
 			}
 			
 		}
@@ -186,6 +188,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			var value = this._val();
 
 			var deleted_entry = this.entries.remove_at(i);
+			var deleted_value = value[i];
 			
 			if(Dino.isArray(value)) {
 				value.splice(i, 1);
@@ -196,7 +199,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 				delete value[i];
 			}
 			
-			this.events.fire('onEntryDeleted', {entry: deleted_entry});
+			this.events.fire('onEntryDeleted', {'entry': deleted_entry, 'value': deleted_value});
 		}
 				
 	},

@@ -82,9 +82,6 @@ $.dino({
         data: listData
 			},
       components: {
-//        button: {
-//          icon: 'dino-icon-spinner-down',
-//        },
         dropdown: {
           content: {
             defaultItem: {
@@ -125,37 +122,6 @@ $.dino({
       dtype: 'spinner-field',
       cls: 'dino-form-field',
       dataId: 'number',
-//      components: {
-//        input: {
-//          updateOnValueChange: true
-//        },
-//        buttons: {
-//          dtype: 'box',
-//          role: 'actor',
-//          defaultItem: {
-//            style: {'display': 'block'},
-//            cls: 'dino-border-none',
-//            height: 10,
-//            width: 20,
-//            onAction: function() {
-//              if(this.tag == 'up')
-//                this.data.set(this.data.get()+1);
-//              else if(this.tag == 'down')
-//                this.data.set(this.data.get()-1);
-//            }          
-//          },
-//          items: [{
-//            dtype: 'button',
-//            cls: 'dino-icon-spinner-up dino-corner-right-top',
-//            tag: 'up'
-//          }, {
-//            dtype: 'button',
-//            cls: 'dino-icon-spinner-down dino-corner-right-bottom',
-//            tag: 'down'
-//          }]        
-//        }
-//      },
-//      extensions: [Dino.Focusable]      
     }
   }, {
     label: 'Счетчик (редактор)',

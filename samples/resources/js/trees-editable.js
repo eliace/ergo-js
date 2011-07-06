@@ -6,6 +6,40 @@ var treeData = new Dino.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   
+	
+var treeContextMenu = $.dino({
+	dtype: 'context-menu',
+
+	menuModel: {
+		item: {
+			content: {
+				dtype: 'text-item'
+			}
+		}
+	},
+	
+	items: [
+		{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}, tag: 'edit'},
+		'-',
+		{content: {icon: 'silk-icon-folder-add', text: 'Добавить каталог'}, tag: 'addDir'},
+		{content: {icon: 'silk-icon-page-white-add', text: 'Добавить файл'}, tag: 'addFile'},
+		{content: {icon: 'silk-icon-cross', text: 'Удалить'}, tag: 'delete'},
+		'-',
+		{content: {icon: 'silk-icon-cut', text: 'Вырезать'}, tag: 'cut'},
+		{content: {icon: 'silk-icon-page-white-copy', text: 'Копировать'}, tag: 'copy'},
+		{content: {icon: 'silk-icon-paste-plain', text: 'Вставить'}, tag: 'paste'}
+	],
+	
+	onSelect: function(e) {
+		if(e.target.tag) {
+			var tree = this.sourceWidget.getParent(Dino.widgets.Tree);
+			tree.events.fire('on'+e.target.tag.capitalize(), {target: this.sourceWidget.parent});								
+		}
+	}
+	
+});	
+	
+	
   
 $.dino({
 	dtype: 'panel',
@@ -50,40 +84,12 @@ $.dino({
 							}
 						}
 					},
-					contextMenu: {
-						dtype: 'context-menu',
-
-						menuModel: {
-							item: {
-								content: {
-									dtype: 'text-item'
-								}
-							}
-						},
-						
-						items: [
-							{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}, tag: 'edit'},
-							'-',
-							{content: {icon: 'silk-icon-folder-add', text: 'Добавить каталог'}, tag: 'addDir'},
-							{content: {icon: 'silk-icon-page-white-add', text: 'Добавить файл'}, tag: 'addFile'},
-							{content: {icon: 'silk-icon-cross', text: 'Удалить'}, tag: 'delete'},
-							'-',
-							{content: {icon: 'silk-icon-cut', text: 'Вырезать'}, tag: 'cut'},
-							{content: {icon: 'silk-icon-page-white-copy', text: 'Копировать'}, tag: 'copy'},
-							{content: {icon: 'silk-icon-paste-plain', text: 'Вставить'}, tag: 'paste'}
-						],
-						
-						onSelect: function(e) {
-							if(e.target.tag) {
-								var tree = this.sourceWidget.getParent(Dino.widgets.Tree);
-								tree.events.fire('on'+e.target.tag.capitalize(), {target: this.sourceWidget.parent});								
-							}
-						}
-						
-					},
+					
+					contextMenu: treeContextMenu,
 					onContextMenu: function(e) {
 						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 					}
+					
 	      },
 	      binding: function(val) {
 	        this.opt('icon', 'silk-icon-'+val.type);
@@ -92,7 +98,7 @@ $.dino({
 	    }
 	  },
 		
-		
+
 		onAddDir: function(e) {
 			var node = e.target;
 			
