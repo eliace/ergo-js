@@ -99,9 +99,9 @@ Dino.Draggable = function(o) {
 						bounds.bottom = offset.top + h;						
 					}
 					if(e.pageX >= bounds.left && e.pageX < bounds.right && e.pageY >= bounds.top && e.pageY < bounds.bottom) 
-						target.states.set('hover');
+						target.states.set('dragover');
 					else
-						target.states.clear('hover');
+						target.states.clear('dragover');
 						
 					target.cached_bounds = bounds;
 				});
@@ -169,7 +169,7 @@ Dino.Draggable = function(o) {
 				var target = $(el).dino();
 				if(target) {
 					delete target['cached_bounds'];
-					target.states.clear('hover');					
+					target.states.clear('dragover');					
 				}
 			});
 			

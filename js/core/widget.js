@@ -55,6 +55,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			return layout;	
 		},
 		defaultComponent: {
+		},
+		events: {
 		}
 	},
 	

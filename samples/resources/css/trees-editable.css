@@ -26,3 +26,7 @@
 .tree-list-item .dino-text-editor {
 	margin: 2px 0;
 }
+
+.tree-list-item.dragover {
+	color: #44f;
+}

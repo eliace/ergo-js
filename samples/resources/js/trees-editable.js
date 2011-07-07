@@ -1,5 +1,5 @@
 
-var buffer = null;
+var clipboard = [];
 
 
 var treeData = new Dino.core.DataSource([]);
@@ -19,7 +19,7 @@ var treeContextMenu = $.dino({
 	},
 	
 	items: [
-		{content: {icon: 'silk-icon-page-white-edit', text: 'Редактировать'}, tag: 'edit'},
+		{content: {icon: 'silk-icon-page-white-edit', text: 'Переименовать'}, tag: 'rename'},
 		'-',
 		{content: {icon: 'silk-icon-folder-add', text: 'Добавить каталог'}, tag: 'addDir'},
 		{content: {icon: 'silk-icon-page-white-add', text: 'Добавить файл'}, tag: 'addFile'},
@@ -68,19 +68,36 @@ $.dino({
 				dtype: 'indent-tree-node',
 				content: {
           icon: true,
-          dataId: 'name',						
+          dataId: 'name',		
+					state: 'unselectable',				
 					onClick: function() {
 						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
 					},
+					extensions: [Dino.Droppable],
 					components: {
 						text: {
 							content: {
-								extensions: [Dino.Editable],
+								extensions: [Dino.Editable, Dino.Draggable],
 								editor: {
 									dtype: 'text-editor',
 //									style: {'font-size': '14px', 'line-height': '14px'},
 									width: 250
-								}
+								},
+			          onDrag: function(e) {
+			            this.parent.states.set('dragged');
+			            
+			            e.dragContext.proxy = $.dino({
+			              dtype: 'text',
+			              text: this.getText(),
+			              cls: 'dino-border-all',
+			              style: {'background-color': '#fff'},
+			              opacity: .7
+			            });
+			            
+			            e.dragContext.offset = [-10, -10];
+			            
+			          }
+								
 							}
 						}
 					},
@@ -107,7 +124,7 @@ $.dino({
 				type: "folder",
 		    name: "New folder",
 				children: []
-			});
+			}, 0);
 			
 			e.target.states.toggle('expand-collapse', true);
 		},
@@ -119,7 +136,7 @@ $.dino({
 		    value: 0,
 				type: "page-white",
 		    name: "New file"
-			});
+			}, 0);
 			
 			e.target.states.toggle('expand-collapse', true);
 		},
@@ -131,7 +148,7 @@ $.dino({
 			node.data.del();
 		},
 		
-		onEdit: function(e) {
+		onRename: function(e) {
 			var node = e.target;
 			
 			node.content.text.content.startEdit();			
@@ -141,26 +158,31 @@ $.dino({
 		onCut: function(e) {
 			var node = e.target;
 			
-			buffer = node.data.get();
+			clipboard.push( node.data.get() );
 			node.data.del();
 		},
 		
 		onCopy: function(e) {
 			var node = e.target;
 			
-			buffer = node.data.get_copy();
+			clipboard.push( node.data.get_copy() );
 		},
 		
 		onPaste: function(e) {
 			var node = e.target;
 			
-			if(!buffer) return;
+			var obj = clipboard.pop();
 			
-			node.data.item('children').add(buffer);
+			if(!obj) return;
 			
-			e.target.states.toggle('expand-collapse', true);
+			if(node.options.isLeaf) {
+				node.data.source.add(obj, node.index+1);				
+			}
+			else {
+				node.data.entry('children').add(obj, 0);				
+				node.states.toggle('expand-collapse', true);
+			}
 			
-			buffer = null;
 		},
 		
 		
