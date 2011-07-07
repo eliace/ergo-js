@@ -35,6 +35,7 @@ Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
 	
 	factory: function(i) {
 		var model = this.fields[i] || Dino.core.DataSource;
+		if(Dino.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		return new model(this, i);
 	}
 	
@@ -60,6 +61,7 @@ Dino.declare('Dino.data.Collection', 'Dino.core.DataSource', {
 	
 	factory: function(i) {
 		var model = (this.options.itemModel) ? this.options.itemModel : Dino.core.DataSource;
+		if(Dino.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		return new model(this, i); 
 	}
 

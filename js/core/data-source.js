@@ -204,8 +204,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 				
 	},
 	
-	
-	
+		
 	iterate: function(callback) {
 		
 		var self = this;

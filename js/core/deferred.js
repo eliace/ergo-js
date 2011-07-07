@@ -8,7 +8,7 @@ Dino.core.Deferred = Dino.core.Object.extend({
 		Dino.core.Deferred.superclass.initialize.apply(this, arguments);
 		
 		this.chain = [];
-		this.ready = false;
+		this.used = false;
 	},
 	
 	
@@ -25,11 +25,18 @@ Dino.core.Deferred = Dino.core.Object.extend({
 		
 	},
 	
+	then: function(callback) {
+		this.chain.push(callback);
+	},
+	
 	run: function(result) {
-		Dino.each(this.chain, function(t){
-			t.call(this, result);
-		})
-		this.ready = true;
+		while(this.chain.length > 0) {
+			this.chain.pop().call(this, result);
+		}		
+//		Dino.each(this.chain, function(t){
+//			t.call(this, result);
+//		})
+		this.used = true;
 	}
 	
 	

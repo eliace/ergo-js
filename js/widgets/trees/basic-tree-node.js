@@ -39,47 +39,82 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				dataId: 'children',
 				defaultItem: {
 					dtype: 'basic-tree-node'
-				}
+				},
+				effects: {
+					show: 'slideDown',
+					hide: 'slideUp',
+					delay: 200
+				},				
+				extensions: [{
+					show: function() {
+						if(this.children.size() == 0) return;
+
+						var o = this.options;
+						var deferred = new Dino.core.Deferred();
+						
+						this.el[o.effects.show](o.effects.delay, function(){ deferred.run(); });
+//						this.el.slideDown(300, function(){ deferred.run(); });
+						return deferred;
+					},
+					hide: function() {
+						if(this.children.size() == 0) return;
+						
+						var o = this.options;
+						var deferred = new Dino.core.Deferred();
+						
+						this.el[o.effects.hide](o.effects.delay, function(){ deferred.run(); });
+//						this.el.slideUp(300, function(){ deferred.run(); });
+						return deferred;
+					}					
+				}]
 			}
 		},
 		states: {
-			'expanded': function(on) {
-				this.content.button.states.toggle('expanded', on);
-				
-				var o = this.options;
-				if(o.effects && on) {
-					var el = this.subtree.el;
- 					if(el.children().size() == 0)
-						el.show();
-					else
-						el[o.effects.show](o.effects.delay);					
-				}
-			},
 			'collapsed': function(on) {
 				this.content.button.states.toggle('collapsed', on);
 				
-				var deferred;
-
-				var o = this.options;
-				if(o.effects && on) {
-					var el = this.subtree.el;
- 					if(el.children().size() == 0)
-						el.hide();
-					else {
-						deferred = new Dino.core.Deferred();
-						el[o.effects.hide](o.effects.delay, function(){deferred.run(true);});					
-					}					
-				}
+				if(on)
+					return this.subtree.hide();
+			},
+			'expanded': function(on) {
+				this.content.button.states.toggle('expanded', on);
 				
-				return deferred;
+				if(on)
+					return this.subtree.show();
 			}
+						
+//			'expanded': function(on) {
+//				this.content.button.states.toggle('expanded', on);
+//				
+//				var o = this.options;
+//				if(o.effects && on) {
+//					var el = this.subtree.el;
+// 					if(el.children().size() == 0)
+//						el.show();
+//					else
+//						el[o.effects.show](o.effects.delay);					
+//				}
+//			},
+//			'collapsed': function(on) {
+//				this.content.button.states.toggle('collapsed', on);
+//				
+//				var deferred;
+//
+//				var o = this.options;
+//				if(o.effects && on) {
+//					var el = this.subtree.el;
+// 					if(el.children().size() == 0)
+//						el.hide();
+//					else {
+//						deferred = new Dino.core.Deferred();
+//						el[o.effects.hide](o.effects.delay, function(){deferred.run(true);});					
+//					}					
+//				}
+//				
+//				return deferred;
+//			}
 		},
-		expandOnShow: false,
-		effects: {
-			show: 'slideDown',
-			hide: 'slideUp',
-			delay: 200
-		}
+		expandOnShow: false
 	},
 	
 	

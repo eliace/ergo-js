@@ -2,7 +2,60 @@
 var clipboard = [];
 
 
-var treeData = new Dino.core.DataSource([]);
+Dino.Node = Dino.data.Model.extend({
+	
+	fields: {
+		'children': 'Dino.NodeList'
+	},
+	
+	isLeaf: function() {
+		var type = this.get('type');
+		return (type != 'folder' && type != 'drive');
+	},
+	
+	addChild: function(node) {
+		
+		var children = this.entry('children');
+		
+		if(node.isLeaf()) {
+			children.add(node.get());
+		}
+		else {
+			var self = this;
+			var first_leaf = children.entries.find(function(entry){ return entry.isLeaf(); });
+
+			if(first_leaf)
+				children.add(node.get(), first_leaf.id);
+			else
+				children.add(node.get());
+		}
+				
+	},
+	
+	addSibling: function(node) {
+		
+		this.source.add(node.get(), this.id+1);
+		
+	}
+	
+});
+
+
+Dino.NodeList = Dino.data.Collection.extend({
+
+	defaults: {
+		itemModel: 'Dino.Node'
+	}
+		
+});
+
+
+
+
+
+
+
+var treeData = new Dino.NodeList([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   
@@ -66,6 +119,7 @@ $.dino({
 	  treeModel: {
 	    node: {
 				dtype: 'indent-tree-node',
+								
 				content: {
           icon: true,
           dataId: 'name',		
@@ -105,13 +159,38 @@ $.dino({
 					contextMenu: treeContextMenu,
 					onContextMenu: function(e) {
 						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
+					},
+					
+					onDrop: function(e) {
+						
+						var node = this.parent;
+						var src_node = e.source.getParent(Dino.widgets.TreeNode);
+						
+						var obj = src_node.data.get();
+						
+						if(node.options.isLeaf)
+							node.data.addSibling(src_node.data);
+						else
+							node.data.addChild(src_node.data);
+						
+						src_node.data.del();
+						
+						node.states.toggle('expand-collapse', true);
+						
 					}
 					
 	      },
 	      binding: function(val) {
 	        this.opt('icon', 'silk-icon-'+val.type);
 	        if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
-	      }
+	      },
+				
+				extensions: [{
+					show: function(){
+						this.el.hide();
+						this.el.fadeIn(300);
+					}
+				}]
 	    }
 	  },
 		
@@ -179,7 +258,7 @@ $.dino({
 				node.data.source.add(obj, node.index+1);				
 			}
 			else {
-				node.data.entry('children').add(obj, 0);				
+				node.data.entry('children').add(obj);				
 				node.states.toggle('expand-collapse', true);
 			}
 			

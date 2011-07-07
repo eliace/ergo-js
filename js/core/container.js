@@ -291,7 +291,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onEntryChanged', function(e){
-			self.item( e.entry.id ).$bind(self.data.entry(e.entry.id), false, 2);
+			self.items.find({data: e.entry}).$bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		}, this);
 

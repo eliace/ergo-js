@@ -46,7 +46,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		
 		var state_change_callback = function(change) {
 			
-			if(change)
+			if(change !== false)
 				self._widget.el.addClass(state);
 			
 			self._states[name] = true;
@@ -62,13 +62,16 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 			var result = state.call(this._widget, true);
 			
 			if(result instanceof Dino.core.Deferred) {
-				if(!result.ready) {
+				if(!result.used) {
 					result.done(state_change_callback);
 					is_deferred = true;
 				}
 			}
+			else {
+				change_class = result;
+			}
 			
-			change_class &= (result !== false);
+//			change_class &= (result !== false);
 			state = name;
 		}
 		

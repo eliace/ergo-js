@@ -50,7 +50,15 @@ $.dino({
 	//        if(val.type == 'file') this.opt('isLeaf', true);        
 	        this.content.text.opt('icon', 'silk-icon-'+val.type);
 	        if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
-	      }
+	      },
+				
+				extensions: [{
+					show: function(){
+						this.el.hide();
+						this.el.fadeIn(300);
+					}
+				}]
+				
 	    }
 	  }		
 	}
