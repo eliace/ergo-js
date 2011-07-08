@@ -22,6 +22,11 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 	 */
 	set: function(name, change_class) {
 		
+		var e = new Dino.events.CancelEvent({'state': name, 'op': 'set'});
+		this._widget.events.fire('onBeforeStateChange', e);
+		if(e.isCanceled) return;
+		
+		
 		// получаем состояние, определенное для виджета
 		var state = this._widget.options.states[name];
 //		var state_off, state_on = null;
@@ -105,6 +110,11 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 	 * @param {String} name имя состояния
 	 */
 	clear: function(name) {
+		
+		var e = new Dino.events.CancelEvent({'state': name, 'op': 'clear'});
+		this._widget.events.fire('onBeforeStateChange', e);
+		if(e.isCanceled) return;		
+
 		
 		if(name instanceof RegExp) {
 			var names = Dino.filter(this._states, function(s, i){ return i.match(name); });
