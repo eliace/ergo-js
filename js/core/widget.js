@@ -57,12 +57,12 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		defaultComponent: {
 		},
 		events: {
-		},
-		effects: {
-			show: 'show',
-			hide: 'hide',
-			delay: 0
 		}
+//		effects: {
+//			show: 'show',
+//			hide: 'hide',
+//			delay: 0
+//		}
 	},
 	
 	

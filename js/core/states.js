@@ -61,22 +61,22 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		if(Dino.isFunction(state)) {
 			var result = state.call(this._widget, true);
 			
-			if(result instanceof Dino.core.Deferred) {
-				if(!result.used) {
-					result.done(state_change_callback);
-					is_deferred = true;
-				}
-			}
-			else {
+//			if(result instanceof Dino.core.Deferred) {
+//				if(!result.used) {
+//					result.then(state_change_callback);
+//					is_deferred = true;
+//				}
+//			}
+//			else {
 				change_class = result;
-			}
+//			}
 			
 //			change_class &= (result !== false);
 			state = name;
 		}
 		
-		if(!is_deferred)
-			state_change_callback(change_class);
+//		if(!is_deferred)
+		state_change_callback(change_class);
 		
 //		if(change_class)
 //			this._widget.el.addClass(state);

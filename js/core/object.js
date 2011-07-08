@@ -34,12 +34,8 @@ Dino.override(Dino.core.Object.prototype, {
 		else {
 			o = Dino.deep_copy(this.defaults);
 		}
-		
-		this.options = Dino.smart_override(o, opts);
-		
-		if(this.$init)
-			this.$init(o);
-		
+				
+		this.options = Dino.smart_override(o, opts);		
 		
 		if('extensions' in o) {
 			for(i in o.extensions) {
@@ -49,6 +45,9 @@ Dino.override(Dino.core.Object.prototype, {
 			}
 		}		
 		
+		if(this.$init)
+			this.$init(o);
+
 	},
 	
 	is: function(ex) {

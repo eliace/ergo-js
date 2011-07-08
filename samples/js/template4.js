@@ -256,7 +256,7 @@ $(document).ready(function(){
 					region: 'west',
 					cls: 'dino-border-all',
 					width: 200,
-					style: {'background-color': '#fff'},
+					style: {'background-color': '#fff', 'overflow': 'auto'},
 					height: 'auto',
 					content: {
 						dtype: 'tree',
@@ -345,7 +345,7 @@ $(document).ready(function(){
 							tab: {text: 'View', icon: 'silk-icon-eye'},
 							cls: 'preview',
 							height: 'auto',
-							style: {'background-color': '#eee', 'padding': 5}
+							style: {'background-color': '#eee', 'padding': 5, 'overflow': 'auto'}
 						}, {
 							tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 							cls: 'js-page'

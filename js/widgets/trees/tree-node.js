@@ -18,6 +18,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 			subtree: {
 				dtype: 'list',
 				html: '<ul></ul>',
+				style: {'display': 'none'},
 				defaultItem: {
 					dtype: 'tree-node'
 				}
@@ -52,13 +53,13 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 //		
 //	},
 	
-	collapse: function() {
-		this.states.clear('expand-collapse');
-	},
-	
-	expand: function() {
-		this.states.set('expand-collapse');
-	},
+//	collapse: function() {
+//		this.states.clear('expand-collapse');
+//	},
+//	
+//	expand: function() {
+//		this.states.set('expand-collapse');
+//	},
 	
 //	isSelected: function() {
 //		return this.states.is('selected');

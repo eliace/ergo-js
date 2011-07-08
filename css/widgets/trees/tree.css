@@ -31,11 +31,11 @@
 	visibility: hidden;
 }
 
-
+/*
 .dino-tree-node.collapsed > ul {
 	display: none;
 }
-
+*/
 
 .dino-tree-node-content {
 	margin-left: 3px;
