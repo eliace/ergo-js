@@ -28,7 +28,7 @@ Dino.declare('Dino.data.Collection', 'Dino.core.DataSource', {
 		 */
 		
 		var model = this.options.itemModel; //(this.options.itemModel) ? this.options.itemModel : Dino.core.DataSource;
-		if(Dino.isFunction(model)) model = model.call(this, this._val()[i]);
+//		if(Dino.isFunction(model)) model = model.call(this, this._val()[i]);
 		if(Dino.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Dino.core.DataSource;
 		return new model(this, i); 
