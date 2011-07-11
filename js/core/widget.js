@@ -57,6 +57,9 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		defaultComponent: {
 		},
 		events: {
+		},
+		componentFactory: function(o) {
+			return Dino.widget( Dino.smart_override({}, this.options.defaultComponent, o) );
 		}
 //		effects: {
 //			show: 'show',
@@ -252,12 +255,12 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 */
 	$render: function(target) {
 		if(target){
-			if(target instanceof Dino.core.Widget) {
-				target.addComponent(this);
-			}
-			else {
+//			if(target instanceof Dino.core.Widget) {
+//				target.addComponent(this);
+//			}
+//			else {
 				$(target).append(this.el);
-			}
+//			}
 			
 //			var parentEl = (target instanceof Dino.core.Widget) ? target.el : $(target);
 //			parentEl.append(this.el);

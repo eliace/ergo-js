@@ -11,7 +11,7 @@ $.dino({
 //      var content = this.getParent(Dino.widgets.Panel).content;
       if(this.content) {
         this.content.states.toggle('hidden');
-        this.header.buttons.items.find(e.button).content.states.toggle('exp_col');                  
+        this.header.buttons.item(e.button).content.states.toggle('exp_col');                  
       }
     }    
   },

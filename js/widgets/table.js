@@ -112,7 +112,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 	},
 	
 	getRow: function(i) {
-		return this.body.items.find(i);
+		return this.body.item(i);
 	}
 	
 	
@@ -147,7 +147,7 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Contain
 	},
 	
 	getColumn: function(i) {
-		return this.items.find(i);
+		return this.item(i);
 	}
 	
 	

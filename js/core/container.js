@@ -286,12 +286,12 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
 		this.data.events.reg('onEntryDeleted', function(e){
-			self.items.remove( self.items.find({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
+			self.items.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
 		}, this);
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onEntryChanged', function(e){
-			self.items.find({data: e.entry}).$bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
+			self.item({data: e.entry}).$bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		}, this);
 

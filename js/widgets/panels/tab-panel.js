@@ -143,7 +143,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	},
 	
 	setCurrentPage: function(i) {
-		this.tabs.setActiveTab( this.pages.items.find(i).tab );
+		this.tabs.setActiveTab( this.pages.item(i).tab );
 	}
 	
 		

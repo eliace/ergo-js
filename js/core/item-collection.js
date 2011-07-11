@@ -78,10 +78,10 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	destroy_all: function() {
 		while(this.src.length)
 			this.remove_at(0).destroy();
-	},
+	}
 	
-	find: function(i) {
-		return Dino.core.ItemCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
-	}	
+//	find: function(i) {
+//		return Dino.core.ItemCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
+//	}	
 		
 });

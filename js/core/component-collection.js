@@ -4,17 +4,14 @@
 Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	
 	defaults: {
-		extensions: [Dino.Observable],
-		factory: function(o) {
-			return Dino.widget( Dino.smart_override({}, this.options.defaultComponent, o) );			
-		}
+		extensions: [Dino.Observable]
 	},
 	
 	
 	initialize: function(w, o) {
 		Dino.core.ComponentCollection.superclass.initialize.call(this, null, o);
 		
-		this.widget = w;
+		this._widget = w;
 	},
 	
 	get: function(i) {
@@ -23,17 +20,17 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	
 	add: function(item, i) {
 		
-		var w = this.widget;
+		var w = this._widget;
 		
 		this.remove_at(i);
 		
 		if(!(item instanceof Dino.core.Widget)) {
-			item = this.options.factory.call(w, item);
+			item = w.options.componentFactory.call(w, item);
 		}
 		
 		this.src[i] = item;
 		
-		item.parent = this.widget;
+		item.parent = this._widget;
 		
 		// выполняем автобиндинг
 		if(w.data && !item.data)
@@ -56,7 +53,7 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		
 		if(!(i in this.src)) return undefined;
 		
-		var w = this.widget;		
+		var w = this._widget;		
 		var item = this.src[i];
 		
 //		if('hide' in item) item.hide();
@@ -79,10 +76,17 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	destroy_all: function() {
 		for(i in this.src)
 			this.remove_at(i).destroy();
-	},
-	
-	find: function(i) {
-		return Dino.core.ComponentCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
 	}
+	
+//	find: function(i) {
+//		return Dino.core.ComponentCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
+//	},
+	
+	
+	
+//	factory: function(o) {
+//		return Dino.widget( Dino.smart_override({}, this._widget.options.defaultComponent, o) );			
+//	}
+	
 		
 });

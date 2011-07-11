@@ -47,7 +47,7 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 	setActiveTab: function(tab){
 		
 		// если указанный объект не является виджетом, то ищем его через getItem
-		if(!(tab instanceof Dino.core.Widget)) tab = this.items.find(tab);
+		if(!(tab instanceof Dino.core.Widget)) tab = this.item(tab);
 		
 		tab.states.set('active');
 		this.items.each(function(item){

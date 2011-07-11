@@ -864,6 +864,45 @@ var Dino = (function(){
 		}
 	};
 	
+	
+	
+	
+	
+	var libs = [];
+	
+	D.require = function() {
+		for(var i in arguments) {
+			libs.push(arguments[i]);
+		}
+	};
+	
+		
+	D.load = function(classpath, callback) {
+		
+		var load_class = function() {
+			if(libs.length == 0) {
+				if(callback) callback();
+				return;
+			}
+			
+			var class_name = libs.shift().replace(/\./g, '/');
+			
+			$.getScript(classpath+'/'+class_name+'.js', function(){
+				load_class();
+			});
+			
+		};
+		
+		load_class();		
+	};
+	
+	
+	
+	
+	
+	
+	
+	
 	return D;
 })();
 
