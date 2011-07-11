@@ -1,12 +1,13 @@
 
 //= require <widgets/box>
+//= require <extensions/effects>
 
 
 /**
  * @class
  * @extends Dino.containers.ListBox
  */
-Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.widgets.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
+Dino.widgets.LoadingPane = Dino.declare('Dino.widgets.LoadingPane', 'Dino.widgets.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
 	
 	defaults: {
 		components: {
@@ -24,11 +25,13 @@ Dino.widgets.LoadingBox = Dino.declare('Dino.widgets.LoadingBox', 'Dino.widgets.
 				content: {
 					dtype: 'text-item',
 					text: 'Загрузка...',
-					showLeftIcon: true,
-					leftIconCls: 'dino-icon-loader'			
+					icon: 'dino-icon-loader'
 				}				
 			}
-		}
+		},
+		style: {'display': 'none'},
+		showOnRender: false,
+		extensions: [Dino.Effects]
 	}
 	
-}, 'loading-overlay');
+}, 'loading-pane');

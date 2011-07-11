@@ -6,11 +6,11 @@
  * Эта компоновка сразу добавляет элемент в контейнер.
  * 
  * @class
- * @name Dino.layouts.PlainLayout
- * @extends Dino.Layout
+ * @name Dino.core.Layouts.PlainLayout
+ * @extends Dino.core.Layout
  * 
  */
-Dino.declare('Dino.layouts.PlainLayout', Dino.Layout, /** @lends Dino.layouts.PlainLayout.prototype */{
+Dino.declare('Dino.core.Layouts.PlainLayout', Dino.core.Layout, /** @lends Dino.core.Layouts.PlainLayout.prototype */{
 	
 	
 	defaults: {

@@ -63,7 +63,7 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	
 	
 	$construct: function(o) {
-		o.components.optionsList.layout = new Dino.layouts.InheritedLayout({parentLayout: this.layout });
+		o.components.optionsList.layout = new Dino.core.Layouts.InheritedLayout({parentLayout: this.layout });
 
 		Dino.widgets.Select.superclass.$construct.apply(this, arguments);		
 	},

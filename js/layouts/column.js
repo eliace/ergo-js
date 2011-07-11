@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.layouts.PlainLayout
+ * @extends Dino.core.Layouts.PlainLayout
  */
-Dino.layouts.ColumnLayout = Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.ColumnLayout.prototype */{
+Dino.core.Layouts.ColumnLayout = Dino.declare('Dino.core.Layouts.ColumnLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.ColumnLayout.prototype */{
 	
 	defaults: {
 		name: 'column',
@@ -15,7 +15,7 @@ Dino.layouts.ColumnLayout = Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layo
 	},
 	
 	attach: function() {
-		Dino.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.ColumnLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0" style="width:100%"><tbody><tr></tr></tbody></table>');
 		this.row_el = $('tr', this.el);
@@ -24,7 +24,7 @@ Dino.layouts.ColumnLayout = Dino.declare('Dino.layouts.ColumnLayout', 'Dino.layo
 	},
 	
 	detach: function() {
-		Dino.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
+		Dino.core.Layouts.ColumnLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	

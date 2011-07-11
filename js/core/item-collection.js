@@ -1,5 +1,5 @@
 
-
+//= require "array"
 
 
 
@@ -46,7 +46,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
 		
-		if('show' in item) item.show();
+		if(('show' in item) && item.options.showOnRender) item.show();
 		
 		return item;
 //		this.events.fire('item:add', {'item': item});

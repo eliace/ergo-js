@@ -2,14 +2,14 @@
 //= require "plain"
 
 
-Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
+Dino.declare('Dino.core.Layouts.BorderLayout', 'Dino.core.Layouts.PlainLayout', {
 	
 	defaults: {
 		name: 'border'
 	},
 	
 	initialize: function(o){
-		Dino.layouts.BorderLayout.superclass.initialize.apply(this, arguments);
+		Dino.core.Layouts.BorderLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.regions = {};
 
@@ -111,7 +111,7 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 	
 	
 	attach: function() {
-		Dino.layouts.BorderLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.BorderLayout.superclass.attach.apply(this, arguments);
 		
 		this.middle_region = $('<div region="middle"></div>');
 		this.el.append(this.middle_region);
@@ -177,7 +177,7 @@ Dino.declare('Dino.layouts.BorderLayout', 'Dino.layouts.PlainLayout', {
 	
 	
 	update: function(o) {
-		Dino.layouts.BorderLayout.superclass.update.apply(this, arguments);
+		Dino.core.Layouts.BorderLayout.superclass.update.apply(this, arguments);
 		
 		var regions_to_upd = (o && o.regions) ? o.regions : ['north', 'south', 'west', 'east', 'center'];
 		

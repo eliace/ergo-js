@@ -4,24 +4,24 @@
 
 
 /**
- * @name Dino.layouts
+ * @name Dino.core.Layouts
  * @namespace
  */
 
 
 /**
  * @class
- * @name Dino.Layout
+ * @name Dino.core.Layout
  * @param {Object} opts
  */
-Dino.declare('Dino.Layout', Dino.core.Object, /** @lends Dino.Layout.prototype */ {
+Dino.declare('Dino.core.Layout', Dino.core.Object, /** @lends Dino.core.Layout.prototype */ {
 	
 	defaults: {
 		updateMode: 'auto'
 	},
 	
 	initialize: function(opts){
-		Dino.Layout.superclass.initialize.apply(this, arguments);
+		Dino.core.Layout.superclass.initialize.apply(this, arguments);
 		
 //		var o = this.options = {};
 //		

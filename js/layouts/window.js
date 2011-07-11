@@ -7,9 +7,9 @@ Dino.topZ = 1;
 
 /**
  * @class
- * @extends Dino.layouts.PlainLayout
+ * @extends Dino.core.Layouts.PlainLayout
  */
-Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.WindowLayout.prototype */{
+Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.WindowLayout.prototype */{
 	
 	defaults: {
 		name: 'window',
@@ -22,7 +22,7 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 	
 	
 	attach: function() {
-		Dino.layouts.WindowLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.WindowLayout.superclass.attach.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -33,7 +33,7 @@ Dino.layouts.WindowLayout = Dino.declare('Dino.layouts.WindowLayout', 'Dino.layo
 	},
 	
 	detach: function() {
-		Dino.layouts.WindowLayout.superclass.detach.apply(this, arguments);
+		Dino.core.Layouts.WindowLayout.superclass.detach.apply(this, arguments);
 		this.container.el.empty();
 	},
 	

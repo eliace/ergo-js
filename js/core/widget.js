@@ -50,7 +50,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		layoutFactory: function(layout) {
 			if( Dino.isString(layout) )
 				layout = Dino.object({dtype: layout+'-layout'});
-			else if(!(layout instanceof Dino.Layout))
+			else if(!(layout instanceof Dino.core.Layout))
 				layout = Dino.object(layout);
 			return layout;	
 		},
@@ -60,7 +60,8 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		},
 		componentFactory: function(o) {
 			return Dino.widget( Dino.smart_override({}, this.options.defaultComponent, o) );
-		}
+		},
+		showOnRender: true
 //		effects: {
 //			show: 'show',
 //			hide: 'hide',

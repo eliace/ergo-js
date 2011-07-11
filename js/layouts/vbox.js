@@ -2,4 +2,4 @@
 //= require "plain"
 
 
-Dino.declare('Dino.layouts.HBox', 'Dino.layouts.PlainLayout', {}, 'vbox-layout');
+Dino.declare('Dino.core.Layouts.HBox', 'Dino.core.Layouts.PlainLayout', {}, 'vbox-layout');

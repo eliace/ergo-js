@@ -2,7 +2,7 @@
 //= require "plain"
 
 
-Dino.declare('Dino.layouts.HBox', 'Dino.layouts.PlainLayout', {
+Dino.declare('Dino.core.Layouts.HBox', 'Dino.core.Layouts.PlainLayout', {
 	
 	defaults: {
 		name: 'hbox'

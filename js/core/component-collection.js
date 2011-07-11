@@ -1,5 +1,7 @@
 
 
+//= require "collection"
+
 
 Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	
@@ -42,7 +44,7 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		// shortcut для компонента
 		w[i] = item;
 		
-		if('show' in item) item.show();
+		if(('show' in item) && item.options.showOnRender) item.show();
 		
 //		this.events.fire('item:add', {'item': item});
 

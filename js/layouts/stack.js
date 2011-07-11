@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.layouts.PlainLayout
+ * @extends Dino.core.Layouts.PlainLayout
  */
-Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.StackLayout.prototype */{
+Dino.core.Layouts.StackLayout = Dino.declare('Dino.core.Layouts.StackLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.StackLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-stack-layout',
@@ -16,7 +16,7 @@ Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layout
 	
 	
 	attach: function(){
-		Dino.layouts.StackLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.StackLayout.superclass.attach.apply(this, arguments);
 		
 		var self = this;
 		
@@ -27,7 +27,7 @@ Dino.layouts.StackLayout = Dino.declare('Dino.layouts.StackLayout', 'Dino.layout
 	},
 	
 	detach: function() {
-		Dino.layouts.StackLayout.superclass.detach.apply(this, arguments);
+		Dino.core.Layouts.StackLayout.superclass.detach.apply(this, arguments);
 		
 		delete this.container.setActive;
 	},

@@ -5,7 +5,7 @@
 
 
 
-Dino.declare('Dino.layouts.GroupLayout', 'Dino.layouts.PlainLayout', {
+Dino.declare('Dino.core.Layouts.GroupLayout', 'Dino.core.Layouts.PlainLayout', {
 	
 	
 //	defaults: {
@@ -14,7 +14,7 @@ Dino.declare('Dino.layouts.GroupLayout', 'Dino.layouts.PlainLayout', {
 //	
 //	
 //	initialize: function(o) {
-//		Dino.layouts.GroupLayout.superclass.initialize.apply(this, arguments);
+//		Dino.core.Layouts.GroupLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.groups = {};
 //	},

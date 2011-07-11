@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.layouts.PlainLayout
+ * @extends Dino.core.Layouts.PlainLayout
  */
-Dino.layouts.FloatLayout = Dino.declare('Dino.layouts.FloatLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.FloatLayout.prototype */{
+Dino.core.Layouts.FloatLayout = Dino.declare('Dino.core.Layouts.FloatLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.FloatLayout.prototype */{
 	
 	defaults: {
 		name: 'float',
@@ -14,7 +14,7 @@ Dino.layouts.FloatLayout = Dino.declare('Dino.layouts.FloatLayout', 'Dino.layout
 	},
 	
 	attach: function(c) {
-		Dino.layouts.FloatLayout.superclass.attach.call(this, c);
+		Dino.core.Layouts.FloatLayout.superclass.attach.call(this, c);
 		// добавляем элемент-clearfix
 		if(this.options.clearfix) {
 			this.clearfix_el = $('<div class="clearfix"></div>');

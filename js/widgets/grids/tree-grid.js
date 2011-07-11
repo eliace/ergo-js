@@ -5,25 +5,25 @@
 
 /**
  * @class
- * @extends Dino.layouts.StatefulLayout
+ * @extends Dino.core.Layouts.StatefulLayout
  */
-Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.layouts.StatefulLayout', /** @lends Dino.layouts.TreeGridLayout.prototype */{
+Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayout', 'Dino.core.Layouts.StatefulLayout', /** @lends Dino.core.Layouts.TreeGridLayout.prototype */{
 	
 //	initialize: function(){
-//		Dino.layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
+//		Dino.core.Layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.items = [];
 //	},
 	
 	
 	insert: function(item) {
-		Dino.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+		Dino.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
-		if(this.container instanceof Dino.Layout)
+		if(this.container instanceof Dino.core.Layout)
 			this.container.insert(item);
 		else {
-//			Dino.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+//			Dino.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 			if(this.container.el.parents().is('body')) item.$afterRender();
 		}
 		
@@ -33,14 +33,14 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 	},
 	
 	remove: function(item) {		
-		Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
+		Dino.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
-		if(this.container instanceof Dino.Layout) {
+		if(this.container instanceof Dino.core.Layout) {
 			this.container.remove(item);
 		}
 //		else {
-//			Dino.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
+//			Dino.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
 //		}
 		
 //		Dino.remove_from_array(this.items, item)
@@ -52,17 +52,17 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 	
 	clear: function() {
 //		var self = this;
-		if(this.container instanceof Dino.Layout) {
+		if(this.container instanceof Dino.core.Layout) {
 			while(this.items.length > 0) this.remove(this.items[0]);
 		}
-		Dino.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
+		Dino.core.Layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 	},
 	
 	
 	rebuild: function() {
 
 		// если эта компоновка является дочерней/зависимой, то обновление выполнять не нужно
-		if(this.container instanceof Dino.Layout) return;
+		if(this.container instanceof Dino.core.Layout) return;
 		
 		var self = this;
 		var n = 0;
@@ -97,7 +97,7 @@ Dino.layouts.TreeGridLayout = Dino.declare('Dino.layouts.TreeGridLayout', 'Dino.
 
 
 /*
-Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
+Dino.declare('Dino.core.Layouts.IndentLayout', Dino.core.Layout, {
 
 	
 	
@@ -106,7 +106,7 @@ Dino.declare('Dino.layouts.IndentLayout', Dino.Layout, {
 	insert: function(item) {
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
-		if(this.container instanceof Dino.Layout)
+		if(this.container instanceof Dino.core.Layout)
 			this.container.insert(item);
 		
 		this.items.push(item);
@@ -212,7 +212,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 	$init: function(o) {
 		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 
-		var bodyLayout = new Dino.layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
+		var bodyLayout = new Dino.core.Layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
 //		bodyLayout.immediateRebuild = false;
 		
 		var o_grid = o.components.body.content;

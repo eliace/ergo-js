@@ -4,19 +4,19 @@
 
 /**
  * @class
- * @extends Dino.layouts.PlainLayout
+ * @extends Dino.core.Layouts.PlainLayout
  */
-Dino.layouts.InheritedLayout = Dino.declare('Dino.layouts.InheritedLayout', 'Dino.layouts.PlainLayout', /** @lends Dino.layouts.InheritedLayout.prototype */{
+Dino.core.Layouts.InheritedLayout = Dino.declare('Dino.core.Layouts.InheritedLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.InheritedLayout.prototype */{
 	
 //	initialize: function(){
-//		Dino.layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
+//		Dino.core.Layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.deferred = [];
 //	},
 	
 	
 	attach: function() {
-		Dino.layouts.InheritedLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.InheritedLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = this.options.parentLayout.el;
 		
@@ -24,14 +24,14 @@ Dino.layouts.InheritedLayout = Dino.declare('Dino.layouts.InheritedLayout', 'Din
 	
 	
 //	insert: function(item) {
-//		Dino.layouts.InheritedLayout.superclass.insert.apply(this, arguments);
+//		Dino.core.Layouts.InheritedLayout.superclass.insert.apply(this, arguments);
 //		this.container.insert(item);
 ////		else
 ////			this.deferred.push(item);
 //	},
 //	
 //	remove: function(item) {
-//		Dino.layouts.InheritedLayout.superclass.remove.apply(this, arguments);
+//		Dino.core.Layouts.InheritedLayout.superclass.remove.apply(this, arguments);
 //		this.container.remove(item);
 //	}
 	

@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.Layout
+ * @extends Dino.core.Layout
  */
-Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout', /** @lends Dino.layouts.FormLayout.prototype */{
+Dino.core.Layouts.FormLayout = Dino.declare('Dino.core.Layouts.FormLayout', 'Dino.core.Layout', /** @lends Dino.core.Layouts.FormLayout.prototype */{
 	
 	defaults: {
 		name: 'form'
@@ -16,7 +16,7 @@ Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout',
 	
 	
 	attach: function() {
-		Dino.layouts.FormLayout.superclass.attach.apply(this, arguments);
+		Dino.core.Layouts.FormLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0"></table>');
 //		this.body_el = $('tbody', this.el);
@@ -25,7 +25,7 @@ Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout',
 	},
 	
 	detach: function() {
-		Dino.layouts.FormLayout.superclass.detach.apply(this, arguments);
+		Dino.core.Layouts.FormLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	
@@ -53,9 +53,9 @@ Dino.layouts.FormLayout = Dino.declare('Dino.layouts.FormLayout', 'Dino.Layout',
 
 /**
  * @class
- * @extends Dino.Layout
+ * @extends Dino.core.Layout
  */
-Dino.layouts.SimpleFormLayout = Dino.declare('Dino.layouts.SimpleFormLayout', 'Dino.Layout', /** @lends Dino.layouts.SimpleFormLayout.prototype */{
+Dino.core.Layouts.SimpleFormLayout = Dino.declare('Dino.core.Layouts.SimpleFormLayout', 'Dino.core.Layout', /** @lends Dino.core.Layouts.SimpleFormLayout.prototype */{
 	
 	defaults: {
 		name: 'simple-form'

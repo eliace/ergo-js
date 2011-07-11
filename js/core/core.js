@@ -877,7 +877,7 @@ var Dino = (function(){
 	};
 	
 		
-	D.load = function(classpath, callback) {
+	D.load_required = function(classpath, callback) {
 		
 		var load_class = function() {
 			if(libs.length == 0) {
@@ -887,7 +887,7 @@ var Dino = (function(){
 			
 			var class_name = libs.shift().replace(/\./g, '/');
 			
-			$.getScript(classpath+'/'+class_name+'.js', function(){
+			$.getScript((classpath || '')+'/'+class_name+'.js', function(){
 				load_class();
 			});
 			

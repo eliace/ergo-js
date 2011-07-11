@@ -52,6 +52,10 @@ var sampleTree = [{
 		name: 'Grid (editable)',
 		path: 'grids-editable'
 	}, {
+		name: 'Grid (ajax)',
+		path: 'grids-ajax',
+		created: true
+	}, {
 		name: 'Tree',
 		path: 'grids-tree'
 	}, {
@@ -62,8 +66,7 @@ var sampleTree = [{
 		path: 'grids-propertygrid',
 	}, {
 		name: 'Preview',
-		path: 'grids-preview',
-		created: true
+		path: 'grids-preview'
 	}]
 }, {
 	name: 'Images',
@@ -164,7 +167,6 @@ var sampleTree = [{
 		name: 'Sample 2',
 		path: 'misc-sample-2'
 	}, {
-		created: true,
 		name: 'Thirdparty',
 		path: 'misc-thirdparty'
 	}, {

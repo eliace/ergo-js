@@ -5,13 +5,13 @@
 
 /**
  * @class
- * @name Dino.layouts.StatefulLayout
- * @extends Dino.Layout
+ * @name Dino.core.Layouts.StatefulLayout
+ * @extends Dino.core.Layout
  */
-Dino.declare('Dino.layouts.StatefulLayout', 'Dino.Layout', /** @lends Dino.layouts.StatefulLayout.prototype */{
+Dino.declare('Dino.core.Layouts.StatefulLayout', 'Dino.core.Layout', /** @lends Dino.core.Layouts.StatefulLayout.prototype */{
 	
 	initialize: function(o){
-		Dino.layouts.StatefulLayout.superclass.initialize.call(this, o);
+		Dino.core.Layouts.StatefulLayout.superclass.initialize.call(this, o);
 		
 		this.items = [];
 		this.immediateRebuild = true;

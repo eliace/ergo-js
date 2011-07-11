@@ -1,5 +1,8 @@
 
-
+/**
+ * Коллекция неупорядоченных пар вида <ключ/значение>
+ * 
+ */
 Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	
 	defaults: {
@@ -11,28 +14,56 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		this.src = src || {};
 	},
 	
+	/**
+	 * Установка значения
+	 * @param {Object} i ключ
+	 * @param {Object} item значение
+	 */
 	set: function(i, item) {
 		this.src[i] = item;
 	},
 	
+	/**
+	 * Удаление значения по ключу
+	 * @param {Object} i ключ
+	 */
 	unset: function(i) {
 		delete this.src[i];
 	},
 	
+	/**
+	 * Получение значения по ключу
+	 * @param {Object} i
+	 */
 	get: function(i) {
 		return this.src[i];
 	},
 	
+	/**
+	 * Добавление нового значения
+	 * @param {Object} item значение
+	 * @param {Object} i ключ (необязательно)
+	 * 
+	 * Аналогично по работе методу set
+	 */
 	add: function(item, i) {
 		this.src[i] = item;
 //		this.events.fire('item:add', {'item': item});
 	},
 	
+	/**
+	 * Удаление значения
+	 * @param {Object} item значение
+	 */
 	remove: function(item) {
 		this.remove_at(this.index_of(item));
 		return item;
 	},
 
+	/**
+	 * Удаление значения по ключу
+	 * @param {Object} i ключ
+	 */
 	remove_at: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
@@ -40,16 +71,30 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 //		this.events.fire('item:remove', {'item': item});
 	},
 	
+	/**
+	 * Удаление значения по условию
+	 * @param {Object} criteria функция-условие
+	 * 
+	 * Значение удаляеся, если результат, возвращаемый criteria равен true 
+	 */
 	remove_if: function(criteria) {
 		var keys = Dino.filter_keys(this.src, criteria);
 		keys.sort().reverse();
 		for(var i = 0; i < keys.length; i++) this.remove_at(keys[i]);
 	},
 	
+	/**
+	 * Очистка коллекции от всех значений
+	 */
 	clear: function() {
 		this.src = {};
 	},
 	
+	/**
+	 * Последовательный обход всех значений
+	 * @param {Object} callback
+	 * @param {Object} delegate
+	 */
 	each: function(callback, delegate) {
 		Dino.each(this.src, callback, delegate);
 	},
@@ -74,10 +119,17 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		return Dino.map(this.src, callback);		
 	},
 	
-	include: function(item) {
+	/**
+	 * Проверка вхождения значения в коллекцию
+	 * @param {Object} criteria
+	 */
+	include: function(criteria) {
 		return Dino.include(this.src, callback);
 	},
 	
+	/**
+	 * Размер коллекции
+	 */
 	size: function() {
 		var n = 0;
 		for(var i in this.src) n++;
@@ -88,76 +140,37 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 		return this.size() == 0;
 	},
 	
+	/**
+	 * Получение ключа элемента
+	 * @param {Object} item
+	 */
 	index_of: function(item) {
 		return Dino.index_of(this.src, item);
 	},
 	
+	/**
+	 * @param {Object} m
+	 * @param {Object} args
+	 */
 	apply_all: function(m, args) {
 		Dino.apply_all(this.src, m, args);
 	},
 	
+	
+	/**
+	 * Проверка наличия элемента с указанным ключом
+	 * @param {Object} i ключ
+	 */
 	has_key: function(i) {
 		return (i in this.src);
 	},
 	
+	/**
+	 * Список всех ключей в коллекции
+	 */
 	keys: function() {
 		var k = [];
 		for(var i in this.src) k.push(i);
-		return k;
-	}
-	
-});
-
-
-
-Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
-	
-	initialize: function(src, options) {
-		Dino.core.Array.superclass.initialize.call(this, src || [], options);
-//		this.src = src || [];
-//		Dino.Observable.call(this);
-//		this.events = new Dino.events.Dispatcher();
-	},	
-	
-	add: function(item, i) {
-		if(i == null) {
-			this.src.push(item);
-			i = this.src.length-1;
-		}
-		else {
-			this.src.splice(i, 0, item);			
-		}
-			
-//		this.events.fire('item:add', {'item': item});
-		return i;
-	},
-	
-	remove_at: function(i) {
-		var item = this.src[i]
-		this.src.splice(i, 1);
-		return item;
-//		this.events.fire('item:remove', {'item': item});
-	},
-	
-	size: function() {
-		return this.src.length;
-	},
-	
-	clear: function() {
-		this.src = [];
-	},
-	
-	first: function() {
-		return this.src[0];
-	},
-	
-	last: function() {
-		return this.src[this.src.length-1];
-	},
-	
-	keys: function() {
-		var k = [];
-		for(var i = 0; i < this.src.length-1; i++) k.push(i);
 		return k;
 	}
 	

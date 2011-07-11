@@ -4,10 +4,10 @@
 
 /**
  * @class
- * @name Dino.layouts.DockLayout
- * @extends Dino.Layout
+ * @name Dino.core.Layouts.DockLayout
+ * @extends Dino.core.Layout
  */
-Dino.declare('Dino.layouts.DockLayout', 'Dino.Layout', /** @lends Dino.layouts.DockLayout.prototype */{
+Dino.declare('Dino.core.Layouts.DockLayout', 'Dino.core.Layout', /** @lends Dino.core.Layouts.DockLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-dock-layout',
