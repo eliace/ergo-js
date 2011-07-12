@@ -84,8 +84,7 @@ var grid = $.dino({
       onIndexChanged: function(e) {
         var g = this.parent;
         g.loader.show();
-        g.data.range(e.from, e.to).fetch().then(function(){ g.loader.hide(); });
-        g.$layoutChanged();        
+        g.data.range(e.from, e.to).fetch().then(function(){ g.$layoutChanged(); g.loader.hide(); });        
       }      
     },
     loader: {

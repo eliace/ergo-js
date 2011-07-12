@@ -1,11 +1,51 @@
 
-var treeData = new Dino.core.DataSource([]);  
 
-$.getJSON('ajax/tree_node.json', {}, function(data){
-  treeData.source[0] = data;
-  treeData.events.fire('onValueChanged');
-//  treeData.set(data);
+AjaxNode = Dino.data.Model.extend({
+		
+	fields: {
+		'children': 'AjaxNodeList'
+	}	
+	
 });
+
+
+AjaxNodeList = Dino.data.Collection.extend({
+	
+	defaults: {
+		itemModel: 'AjaxNode'
+	},
+	
+	fetch: function() {
+		
+		var self = this;
+		var deferred = new Dino.core.Deferred();
+		
+		var id = this.source.oid();
+		
+		if(!id) return deferred;
+		
+		$.getJSON('ajax/tree/'+id+'.json', function(json){
+			self.set(json);
+			self._fetched = true;
+			deferred.done();
+		});
+		
+		return deferred;
+	}	
+		
+});
+
+
+
+
+
+var treeData = new AjaxNodeList([]);  
+
+//$.getJSON('ajax/tree_node.json', {}, function(data){
+//  treeData.source[0] = data;
+//  treeData.events.fire('onValueChanged');
+////  treeData.set(data);
+//});
 
 
   
@@ -34,27 +74,55 @@ $.dino({
 //        this.content.opt('icon', val.type);
         if(val.type == 'file') this.opt('isLeaf', true);        
       },
-      onStateChange: function(e) {
-        if(e.state == 'expanded' && e.op == 'set') {
-          var val = this.data.get();
-          var self = this;
-          if(val.is_ref) {
-//            this.content.opt('showRightIcon', true);
-            this.content.text.rightIcon.states.set('dino-icon-loader');
-            setTimeout(function(){
-              $.getJSON('ajax/tree_node.json', {}, function(data){
-                self.data.set('children', [data]);
-                val.is_ref = false;
-//                self.content.opt('showRightIcon', false);
-                self.content.text.rightIcon.states.clear('dino-icon-loader');
-              });              
-            }, 400);
-          }
-        }
-      }
+			
+			onBeforeStateChange: function(e) {
+				if (e.state == 'expand-collapse' && e.op == 'set') {
+					
+					var self = this;
+					
+					if(!this.options.isLeaf && !this.data.entry('children')._fetched) {
+						this.content.text.opt('xicon', 'dino-icon-loader');
+						
+						e.cancel();
+						
+						this.data.entry('children').fetch().then(function(){
+							self.content.text.opt('xicon', false);
+							self.states.set('expand-collapse');
+						});
+					}
+					
+				}				
+			}
+			
+			
+			
+//      onStateChange: function(e) {
+//        if(e.state == 'expanded' && e.op == 'set') {
+//					
+//					
+//					
+//					
+//          var val = this.data.get();
+//          var self = this;
+//          if(val.is_ref) {
+////            this.content.opt('showRightIcon', true);
+//            this.content.text.rightIcon.states.set('dino-icon-loader');
+//            setTimeout(function(){
+//              $.getJSON('ajax/tree_node.json', {}, function(data){
+//                self.data.set('children', [data]);
+//                val.is_ref = false;
+////                self.content.opt('showRightIcon', false);
+//                self.content.text.rightIcon.states.clear('dino-icon-loader');
+//              });              
+//            }, 400);
+//          }
+//        }
+//      }
     }
   }
   
 });
     
+ 
+treeData.fetch(); 
     
