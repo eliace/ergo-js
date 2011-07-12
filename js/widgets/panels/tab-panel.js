@@ -119,7 +119,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	addPage: function(item) {
 		
 		var tabOpts = (item instanceof Dino.core.Widget) ? item.options.tab : item.tab;
-		if(Dino.isString(tabOpts)) tabOpts = {text: tabOpts};
+		if($.isString(tabOpts)) tabOpts = {text: tabOpts};
 		var tab = this.tabs.items.add( {content: tabOpts || {}} );
 		
 		var page = this.pages.items.add( item );

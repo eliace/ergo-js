@@ -52,7 +52,7 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 			var opt_val = o.optionsValue;
 			for(var i = 0; i < o.options.length; i++) {
 				var opt = o.options[i];
-				if(Dino.isArray(opt) || Dino.isPlainObject(opt))
+				if($.isArray(opt) || $.isPlainObject(opt))
 					items.push({ value: opt[opt_key], text: opt[opt_val] });
 				else
 					items.push({ value: i, text: opt });				

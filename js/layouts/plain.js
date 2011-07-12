@@ -24,14 +24,14 @@ Dino.declare('Dino.core.Layouts.PlainLayout', Dino.core.Layout, /** @lends Dino.
 		var el = this.el;
 		
 		if(selector) {
-			el = Dino.isFunction(selector) ? selector.call(this) : $(selector, this.el);
+			el = $.isFunction(selector) ? selector.call(this) : $(selector, this.el);
 		}
 		
 		if(index == null)
 			el.append( item.el );
 		else if(index == 0)
 			el.prepend( item.el );
-		else if(Dino.isNumber(index))
+		else if($.isNumber(index))
 			el.children().eq(index-1).before(item.el);
 		else
 			index.el.before(item.el);

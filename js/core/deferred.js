@@ -26,7 +26,12 @@ Dino.core.Deferred = Dino.core.Object.extend({
 	},
 	
 	then: function(callback) {
-		this.callbacks.push({'type': null, 'callback': callback});
+		if(this.used)
+			callback.call(this);
+		else
+			this.callbacks.push({'type': null, 'callback': callback});
+			
+		return this;
 	},
 	
 //	run: function(result) {
@@ -53,6 +58,8 @@ Dino.core.Deferred = Dino.core.Object.extend({
 		}
 		
 		this.used = true;
+		
+		return this;
 	}
 	
 	

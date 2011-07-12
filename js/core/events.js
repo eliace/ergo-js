@@ -81,11 +81,11 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		if(arguments.length == 2){
 			events[arg] = Dino.filter( events[arg], function(h) { return h.callback != arg2; } );
 		}
-		else if( Dino.isString(arg) ){
+		else if( $.isString(arg) ){
 			// удаляем все обработчики с данным именем
 			delete events[arg];
 		}
-		else if( Dino.isFunction(arg) ){
+		else if( $.isFunction(arg) ){
 			// удаляем указанный обработчик
 			for(var i = 0; i < events.length; i++) {
 				events[i] = Dino.filter( events[i], function(h) { return h.callback != arg; } );
@@ -110,7 +110,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		// "ленивая" генерация базового события
 		if(arguments.length == 1) 
 			e = new Dino.events.Event();
-		else if( Dino.isPlainObject(e) ){
+		else if( $.isPlainObject(e) ){
 			e = new Dino.events.Event(e, baseEvent);
 		}
 		
@@ -171,10 +171,10 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
 //			node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg2));
 //		}
-//		else if( Dino.isString(arg) ){
+//		else if( $.isString(arg) ){
 //			this.tree.del(arg);
 //		}
-//		else if( Dino.isFunction(arg) ){
+//		else if( $.isFunction(arg) ){
 //			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
 //			this.tree.traverse(function(node){
 //				node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg));
@@ -202,7 +202,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //		// "ленивая" генерация базового события
 //		if(arguments.length == 1) 
 //			event = new Dino.events.Event();
-//		else if( Dino.isPlainObject(event) ){
+//		else if( $.isPlainObject(event) ){
 //			event = new Dino.events.Event(event, baseEvent);
 //		}
 //		

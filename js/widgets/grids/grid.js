@@ -114,7 +114,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 			h_col = {};
 			if('width' in column) h_col.width = column.width;
 			if('header' in column) {
-				if(Dino.isString(column.header)) h_col.text = column.header;
+				if($.isString(column.header)) h_col.text = column.header;
 				else Dino.smart_override(h_col, column.header);
 			}
 			h_columns[i] = h_col;

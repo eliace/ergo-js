@@ -44,7 +44,7 @@ Dino.declare('Dino.remote.JsonObject', 'Dino.core.Object', {
 	},
 	
 	remove: function(arg, callback) {
-		var id = Dino.isPlainObject(arg) ? id = arg.id : arg;
+		var id = $.isPlainObject(arg) ? id = arg.id : arg;
 		var target = new Dino.DeferredResult();
 		$.post(this.path() + '/' + id, {_method: 'delete'}, function(json){target.ready(json);}, 'json');
 		return target;

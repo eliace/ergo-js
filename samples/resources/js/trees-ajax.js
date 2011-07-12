@@ -15,19 +15,20 @@ AjaxNodeList = Dino.data.Collection.extend({
 		itemModel: 'AjaxNode'
 	},
 	
-	fetch: function() {
-		
+	fetch: function(id) {
+
 		var self = this;
-		var deferred = new Dino.core.Deferred();
+		var deferred = $.Deferred().always(function(){self._fetched = true;});
+//		var deferred = new Dino.core.Deferred().then(function(){self._fetched = true});		
+
+		if(!id)
+			return deferred.resolve();
 		
-		var id = this.source.oid();
-		
-		if(!id) return deferred;
+//		growl.info('ajax/tree/'+id+'.json');
 		
 		$.getJSON('ajax/tree/'+id+'.json', function(json){
 			self.set(json);
-			self._fetched = true;
-			deferred.done();
+			deferred.resolve();
 		});
 		
 		return deferred;
@@ -80,12 +81,14 @@ $.dino({
 					
 					var self = this;
 					
-					if(!this.options.isLeaf && !this.data.entry('children')._fetched) {
+					var subtree = this.data.entry('children');
+					
+					if(!this.options.isLeaf && !subtree._fetched) {
 						this.content.text.opt('xicon', 'dino-icon-loader');
 						
 						e.cancel();
 						
-						this.data.entry('children').fetch().then(function(){
+						subtree.fetch(this.data.oid()).then(function(){
 							self.content.text.opt('xicon', false);
 							self.states.set('expand-collapse');
 						});
@@ -124,5 +127,5 @@ $.dino({
 });
     
  
-treeData.fetch(); 
+treeData.fetch(1); 
     

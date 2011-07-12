@@ -12,7 +12,7 @@ Dino.Editable = function(o) {
 		var h = this.layout.el.height();
 
 		var editorOpts = this.options.editor;
-		if(Dino.isString(editorOpts)) editorOpts = {dtype: editorOpts};
+		if($.isString(editorOpts)) editorOpts = {dtype: editorOpts};
 		
 		if(editorOpts.keepContent)
 			this.layout.el.children().hide();

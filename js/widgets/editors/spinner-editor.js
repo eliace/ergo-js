@@ -61,14 +61,14 @@ Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 	
 	spinUp: function() {
 //		var n = this.data.get();
-//		if(Dino.isString(n)) n = parseFloat(n);
+//		if($.isString(n)) n = parseFloat(n);
 		var n = parseFloat(this.input.el.val()); 
 		this.setValue(n+1);
 	},
 	
 	spinDown: function() {
 //		var n = this.data.get();
-//		if(Dino.isString(n)) n = parseFloat(n); 
+//		if($.isString(n)) n = parseFloat(n); 
 		var n = parseFloat(this.input.el.val()); 
 		this.setValue(n-1);		
 	}

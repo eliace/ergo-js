@@ -65,7 +65,7 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 				success: function(m, isHtml) {this.msg(m, 'success', isHtml);},
 //				html: function(m, isHtml) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
 				msg: function(m, type, isHtml) {
-					var s = (Dino.isString(m)) ? m : Dino.pretty_print(m);
+					var s = ($.isString(m)) ? m : Dino.pretty_print(m);
 					var o = {
 						icon: 'dino-icon-growlbox-'+type,
 						state: type,

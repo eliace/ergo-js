@@ -16,7 +16,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		this.source = src;
 				
 		if(arguments.length == 2) {
-			if(Dino.isPlainObject(id)) o = id;
+			if($.isPlainObject(id)) o = id;
 			else this.id = id;
 		}
 		else if(arguments.length == 3) {
@@ -29,7 +29,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		var o = this.options;
 		var val = this._val();
 		
-		this.entries = Dino.isArray(val) ? new Dino.core.Array() : new Dino.core.Collection();
+		this.entries = $.isArray(val) ? new Dino.core.Array() : new Dino.core.Collection();
 		
 		if(!o.lazy) {
 			Dino.each(val, function(v, i){	self.ensure(i); });
@@ -50,7 +50,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		var e = this;
 		
 		// если ключ - строка, то он может быть составным 
-		if(Dino.isString(i)) {
+		if($.isString(i)) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
@@ -136,7 +136,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		
 		var isLast = false;
 			
-		if(Dino.isArray(values)) {
+		if($.isArray(values)) {
 			
 			if(index == null){
 				values.push(value);
@@ -190,7 +190,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			var deleted_entry = this.entries.remove_at(i);
 			var deleted_value = value[i];
 			
-			if(Dino.isArray(value)) {
+			if($.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
 					this.entry(j).id = j;
@@ -211,7 +211,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 		var values = this._val();		
 		
 		var keys = [];
-		if(Dino.isArray(values)) {
+		if($.isArray(values)) {
 			for(var i = 0; i < values.length; i++) keys.push(i);
 		}
 		else {

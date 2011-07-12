@@ -88,12 +88,12 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 		var h = this.container.options.height || '';		
 
 		// если указана высота в %, ее еще надо рассчитать
-		if (Dino.isString(w) && w[w.length - 1] == '%') {
+		if ($.isString(w) && w[w.length - 1] == '%') {
 			w = this.container.el.parent().width() * parseFloat(w.substr(0, w.length - 1)) / 100;
 			wnd.css('width', w);
 		}
 			
-		if (Dino.isString(h) && h[h.length - 1] == '%') {
+		if ($.isString(h) && h[h.length - 1] == '%') {
 			h = this.container.el.parent().height() * parseFloat(h.substr(0, h.length - 1)) / 100;
 			wnd.css('height', w);
 		}

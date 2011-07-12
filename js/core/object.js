@@ -40,8 +40,8 @@ Dino.override(Dino.core.Object.prototype, {
 		if('extensions' in o) {
 			for(i in o.extensions) {
 				var ext = o.extensions[i];
-				if(Dino.isFunction(ext)) ext.call(this, o);
-				else if(Dino.isPlainObject(ext)) Dino.deep_override(this, ext);
+				if($.isFunction(ext)) ext.call(this, o);
+				else if($.isPlainObject(ext)) Dino.deep_override(this, ext);
 			}
 		}		
 		

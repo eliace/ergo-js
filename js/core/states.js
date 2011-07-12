@@ -31,15 +31,15 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		var state = this._widget.options.states[name];
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
-//		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
-		else if(Dino.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
+//		else if($.isString(state)) { state_on = state; state_off = ''; }
+		else if($.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
 			this.set(state[0]);
 			this.clear(state[1]);
 			this._states[name] = true;
 			return this;
 		}
 		
-//		if( Dino.isString(state) ) {
+//		if( $.isString(state) ) {
 //			this.widget.el.addClass(state);
 //			this.widget.el.removeClass(state_off);
 //		}
@@ -63,7 +63,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		
 		var is_deferred = false;
 		
-		if(Dino.isFunction(state)) {
+		if($.isFunction(state)) {
 			var result = state.call(this._widget, true);
 			
 //			if(result instanceof Dino.core.Deferred) {
@@ -129,8 +129,8 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		var state = this._widget.options.states[name];		
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
-//		else if(Dino.isString(state)) { state_on = state; state_off = ''; }
-		else if(Dino.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
+//		else if($.isString(state)) { state_on = state; state_off = ''; }
+		else if($.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
 			this.clear(state[0]);
 			this.set(state[1]);
 			delete this._states[name];
@@ -140,11 +140,11 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		
 		var change_class = true;
 
-//		if( Dino.isString(state) ) {
+//		if( $.isString(state) ) {
 //			this._widget.el.removeClass(state);
 ////			this._widget.el.addClass(state_off);
 //		}
-		if(Dino.isFunction(state)) {
+		if($.isFunction(state)) {
 			change_class &= (state.call(this._widget, false) !== false);			
 			state = name;
 		}

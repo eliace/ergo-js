@@ -37,8 +37,8 @@ var Dino = (function(){
 			var overrides = arguments[j];
 			for(var i in overrides){
 				var prop = overrides[i];
-				if(D.isPlainObject(prop)){
-					if(!(i in obj) || !D.isPlainObject(obj[i])) obj[i] = {};
+				if($.isPlainObject(prop)){
+					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
 					D.override_r(obj[i], prop);
 				}
 				else{
@@ -202,35 +202,35 @@ var Dino = (function(){
 	/**
 	 * Является ли объект функцией 
 	 * 
-	 * @name Dino.isFunction
+	 * @name $.isFunction
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isFunction = $.isFunction;
+//	D.isFunction = $.isFunction;
 	/**
 	 * Является ли объект массивом
 	 * 
-	 * @name Dino.isArray
+	 * @name $.isArray
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isArray = $.isArray;
+//	D.isArray = $.isArray;
 	/**
 	 * Является ли объект простым объектом
 	 * 
-	 * @name Dino.isPlainObject
+	 * @name $.isPlainObject
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isPlainObject = $.isPlainObject;
+//	D.isPlainObject = $.isPlainObject;
 	/**
 	 * Является ли объект строкой
 	 * 
-	 * @name Dino.isString
+	 * @name $.isString
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isString = function(obj) {
+	$.isString = function(obj) {
 		return typeof obj == 'string';
 	};
 	/**
@@ -240,17 +240,17 @@ var Dino = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isBoolean = function(obj) {
+	$.isBoolean = function(obj) {
 		return typeof obj == 'boolean';
 	};
 	/**
 	 * Является ли объект числом
 	 * 
-	 * @name Dino.isNumber
+	 * @name $.isNumber
 	 * @function
 	 * @param {Object} obj
 	 */
-	D.isNumber = function(obj) {
+	$.isNumber = function(obj) {
 		return typeof obj == 'number';
 	};	
 	
@@ -265,7 +265,7 @@ var Dino = (function(){
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
 	D.each = function(src, callback, delegate){
-		if(Dino.isArray(src)){
+		if($.isArray(src)){
 			var arr = src;
 			for(var i = 0; i < arr.length; i++){
 				if( callback.call(delegate || arr, arr[i], i) === false ) break;
@@ -291,7 +291,7 @@ var Dino = (function(){
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
 	 */
 	D.filter = function(src, fn){
-		return ( D.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
+		return ( $.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
 	};
 	
 	/**
@@ -341,7 +341,7 @@ var Dino = (function(){
 	 */
 	D.map = function(obj, fn) {
 		var a;
-		if(D.isArray(obj)) {
+		if($.isArray(obj)) {
 			a = [];
 			for(var i = 0; i < obj.length; i++) a[i] = fn.call(obj, obj[i], i);			
 		}
@@ -361,7 +361,7 @@ var Dino = (function(){
 	 * @param {Function|Any} criteria критерий 
 	 */
 	D.find = function(obj, criteria) {
-		if(!D.isFunction(criteria)){
+		if(!$.isFunction(criteria)){
 			var x = criteria;
 			criteria = function(it) { return it == x; };
 		}
@@ -382,7 +382,7 @@ var Dino = (function(){
 	 * @param {Function|Any} criteria критерий 
 	 */
 	D.index_of = function(obj, criteria) {
-		if(!Dino.isFunction(criteria))
+		if(!$.isFunction(criteria))
 			criteria = D.eq.curry(criteria);
 		for(var i in obj)
 			if(criteria.call(obj, obj[i], i)) return i;
@@ -456,8 +456,8 @@ var Dino = (function(){
 	D.deep_copy = function(src) {
 		var copy = null;
 		
-		var is_po = D.isPlainObject(src);
-		if(is_po || D.isArray(src)){
+		var is_po = $.isPlainObject(src);
+		if(is_po || $.isArray(src)){
 			copy = is_po ? {} : [];
 			for(var i in src)
 				copy[i] = D.deep_copy(src[i]);				
@@ -525,7 +525,7 @@ var Dino = (function(){
 	 * @param {Object} path
 	 */
 	D.ObjectTree.prototype.ensure = function(path){
-		if(D.isString(path)) path = path.split('.');
+		if($.isString(path)) path = path.split('.');
 		
 		var obj = this.obj;
 		for(var i = 0; i < path.length; i++){
@@ -560,7 +560,7 @@ var Dino = (function(){
 	 * @param {Object} path
 	 */
 	D.ObjectTree.prototype.del = function(path) {
-		if(D.isString(path)) path = path.split('.');
+		if($.isString(path)) path = path.split('.');
 
 		var obj = this.obj;
 		for(var i = 0; i < path.length; i++){
@@ -589,7 +589,7 @@ var Dino = (function(){
 		}
 		
 		for(var i in obj){
-			if(D.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
+			if($.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
 		}
 	}
 	
@@ -619,23 +619,23 @@ var Dino = (function(){
 		
 		if(obj.pretty_print) return obj.pretty_print(indent);
 		
-		if(D.isString(obj))
+		if($.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
-		else if(D.isBoolean(obj))
+		else if($.isBoolean(obj))
 			return ''+obj;
-		else if(D.isNumber(obj) || Dino.isBoolean(obj))
+		else if($.isNumber(obj) || Dino.isBoolean(obj))
 			return obj;
-		else if(D.isArray(obj)){
+		else if($.isArray(obj)){
 			var items = [];
 			D.each(obj, function(item){
 				items.push(D.pretty_print(item, indent));
 			});
 			return '[' + items.join(', ') + ']';
 		}
-		else if(D.isFunction(obj)){
+		else if($.isFunction(obj)){
 			return 'function()';
 		}
-		else if(D.isPlainObject(obj) || !indent){
+		else if($.isPlainObject(obj) || !indent){
 			var items = [];
 			D.each(obj, function(item, key){
 				items.push(tabs + '\t' + key + ':' + D.pretty_print(item, indent+1));					
@@ -822,7 +822,7 @@ var Dino = (function(){
 ////		if(this.plugins) {
 ////			for(var i = 0; i < this.plugins.length; i++) {
 ////				var plugin = this.plugins[i];
-////				if(Dino.isFunction(plugin))
+////				if($.isFunction(plugin))
 ////					plugin.call(this, true);
 ////				else
 ////					Dino.override_r(this, plugin);

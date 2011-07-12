@@ -9,11 +9,11 @@ Dino.utils = (function(){
 		
 		var f = null;
 		
-		if( Dino.isNumber(i) ) f = Dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( Dino.isString(i) ) f = Dino.filters.by_props.curry({'tag': i});
-		else if( Dino.isFunction(i) && ('superclass' in i) ) f = Dino.filters.by_class.curry(i);
-		else if( Dino.isFunction(i) ) f = i;
-		else if( Dino.isPlainObject(i) ) f = Dino.filters.by_props.curry(i);
+		if( $.isNumber(i) ) f = Dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( $.isString(i) ) f = Dino.filters.by_props.curry({'tag': i});
+		else if( $.isFunction(i) && ('superclass' in i) ) f = Dino.filters.by_class.curry(i);
+		else if( $.isFunction(i) ) f = i;
+		else if( $.isPlainObject(i) ) f = Dino.filters.by_props.curry(i);
 		
 		return f;
 	}
@@ -136,18 +136,18 @@ Dino.overrideProp = function(o, srcObj, i) {
 		i = i.substr(0, i.length-1);
 		
 		if(!(i in o)) o[i] = [];
-		if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
+		if( !$.isArray(o[i]) ) o[i] = [o[i]];
 		p = o[i].concat(p);
 		o[i] = p;
 	}
 	else{
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
-		if( Dino.isPlainObject(p) ){
-			if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+		if( $.isPlainObject(p) ){
+			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 			Dino.smart_override(o[i], p);
 		}
-		else if( Dino.isArray(p) ){
-			if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
+		else if( $.isArray(p) ){
+			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
 			Dino.smart_override(o[i], p);
 		}
 		else {
@@ -158,7 +158,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 				// классы сливаются в одну строку, разделенную пробелом
 				if(i == 'cls') p = o[i] + ' ' + p;
 				if( /^on\S/.test(i) ) {
-					if( !Dino.isArray(o[i]) ) o[i] = [o[i]];
+					if( !$.isArray(o[i]) ) o[i] = [o[i]];
 					p = o[i].concat(p);
 				}
 				if(i == 'state') {
@@ -179,7 +179,7 @@ Dino.smart_override = function(o) {
 		
 		var srcObj = arguments[j];
 		
-//		if( Dino.isArray(srcObj) ){
+//		if( $.isArray(srcObj) ){
 //			for(var i = 0; i < srcObj.length; i++)
 //				Dino.utils.overrideProp(o, srcObj, i);
 //		}
@@ -201,12 +201,12 @@ Dino.deep_override = function(o) {
 		var srcObj = arguments[j];
 		
 		Dino.each(srcObj, function(p, i){
-			if( Dino.isPlainObject(p) ){
-				if(!(i in o) || !Dino.isPlainObject(o[i])) o[i] = {};
+			if( $.isPlainObject(p) ){
+				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 				Dino.deep_override(o[i], p);
 			}
-			else if( Dino.isArray(p) ){
-				if(!(i in o) || !Dino.isArray(o[i])) o[i] = [];
+			else if( $.isArray(p) ){
+				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
 				Dino.deep_override(o[i], p);
 			}
 			else {

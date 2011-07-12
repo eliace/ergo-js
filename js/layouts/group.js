@@ -25,7 +25,7 @@ Dino.declare('Dino.core.Layouts.GroupLayout', 'Dino.core.Layouts.PlainLayout', {
 		
 		if(index == null)
 			elements.last().after( item.el );
-		else if(Dino.isNumber(index))
+		else if($.isNumber(index))
 			elements.eq(index-1).after(item.el);
 		else
 			index.el.after(item.el);		
@@ -40,7 +40,7 @@ Dino.declare('Dino.core.Layouts.GroupLayout', 'Dino.core.Layouts.PlainLayout', {
 		var el = this.el;
 		
 		if(selector) {
-			el = Dino.isFunction(selector) ? selector.call(this) : $(selector, this.el);
+			el = $.isFunction(selector) ? selector.call(this) : $(selector, this.el);
 		}
 		
 		var group = item.options.layoutGroup || 'default';

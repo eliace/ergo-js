@@ -23,7 +23,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	defaults: {
 		defaultItemShortcuts: {},
 		itemFactory: function(o) {
-			if(Dino.isString(o)) o = this.options.defaultItemShortcuts[o];
+			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
 			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
 		}
 	},
@@ -48,7 +48,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 	
 //	$componentFactory: function(item) {
-//		if( Dino.isPlainObject(item) ) 
+//		if( $.isPlainObject(item) ) 
 //			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
 //		return item;
 //	},
@@ -105,7 +105,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //		
 //		// если новый элемент является набором параметров, то строим виджет
 //		item = this.$componentFactory( itemOpts );
-////		if( Dino.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
+////		if( $.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
 //		
 //		this.items.add(item);
 //		this.children.add(item);

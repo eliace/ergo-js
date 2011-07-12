@@ -48,7 +48,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		extensions: [Dino.Observable, Dino.Statable],
 		binding: 'auto',
 		layoutFactory: function(layout) {
-			if( Dino.isString(layout) )
+			if( $.isString(layout) )
 				layout = Dino.object({dtype: layout+'-layout'});
 			else if(!(layout instanceof Dino.core.Layout))
 				layout = Dino.object(layout);
@@ -166,7 +166,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		}
 		
 //		if('states' in o) {
-//			if(Dino.isString(o.states)) o.states = [o.states];
+//			if($.isString(o.states)) o.states = [o.states];
 //		}
 		
 	},
@@ -331,7 +331,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			opts = {}
 			opts[arguments[0]] = arguments[1];
 		}
-		else if(Dino.isString(o)){
+		else if($.isString(o)){
 			return this.options[o];
 		}
 		
@@ -430,7 +430,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
-				var chain = ( !Dino.isArray(o[i]) ) ? [o[i]] : o[i];
+				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
 				for(var j = 0; j < chain.length; j++)
 					this.events.reg(i, chain[j]);
 			}
@@ -449,7 +449,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			
 			var cm = o.contextMenu;
 			
-			if(Dino.isFunction(cm)) cm = cm.call(this);
+			if($.isFunction(cm)) cm = cm.call(this);
 			if(cm && !(cm instanceof Dino.core.Widget)) cm = Dino.widget(cm);
 			
 			if(cm) {
@@ -463,11 +463,11 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		
 		if('format' in o) {
-			if(Dino.isString(o.format)) this.options.format = Dino.format_obj.curry(o.format);
+			if($.isString(o.format)) this.options.format = Dino.format_obj.curry(o.format);
 		}
 
 		if('validate' in o) {
-			if(Dino.isArray(o.validate)) this.options.validate = Dino.filter_list.rcurry(o.validate);
+			if($.isArray(o.validate)) this.options.validate = Dino.filter_list.rcurry(o.validate);
 		}
 						
 		
@@ -516,7 +516,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	
 /*	
 	$componentFactory: function(item) {
-		if( Dino.isPlainObject(item) ) {
+		if( $.isPlainObject(item) ) {
 			item = Dino.widget(item);
 		}
 		return item;		
@@ -736,7 +736,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		var binding = this.options.binding;
 		
-		if(Dino.isFunction(binding)){
+		if($.isFunction(binding)){
 //			var o = {};
 			var val = this.getValue();
 //			if(val !== undefined)	
