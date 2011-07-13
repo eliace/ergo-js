@@ -7,9 +7,9 @@ Dino.Effects = function(o) {
 		if(this.children.size() == 0) return;
 
 		var effects = this.options.effects;
-		var deferred = new Dino.core.Deferred();
+		var deferred = $.Deferred();
 		
-		this.el[effects.show](effects.delay, function(){ deferred.done(); });
+		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
 		return deferred;
 	};
 	
@@ -18,9 +18,9 @@ Dino.Effects = function(o) {
 		if(this.children.size() == 0) return;
 
 		var effects = this.options.effects;
-		var deferred = new Dino.core.Deferred();
+		var deferred = $.Deferred();
 		
-		this.el[effects.hide](effects.delay, function(){ deferred.done(); });
+		this.el[effects.hide](effects.delay, function(){ deferred.resolve(); });
 		return deferred;		
 	};
 	

@@ -18,14 +18,14 @@ AjaxCollection = Dino.data.Collection.extend({
   fetch: function() {
     
     var self = this;
-    var deferred = new Dino.core.Deferred();
+    var deferred = $.Deferred();
     
     // эмулируем ajax-запрос
     setTimeout(function(){
       
       self.set( Samples.generate_grid_page(self._from, self._to) );
       self._fetched = true;
-      deferred.done();
+      deferred.resolve();
       
     }, 1000);
     

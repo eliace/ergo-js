@@ -1,6 +1,5 @@
 
 //= require "events"
-//= require "deferred"
 
 
 
@@ -61,7 +60,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		}
 		
 		
-		var is_deferred = false;
+//		var is_deferred = false;
 		
 		if($.isFunction(state)) {
 			var result = state.call(this._widget, true);
