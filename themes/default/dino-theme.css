@@ -154,6 +154,14 @@
 }
 
 
+/* DIALOG */
+.dino-dialog-header {
+	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;	
+	text-shadow: 1px 1px 2px #f2f2f2;
+	color: #454545;
+}
+
+
 
 /* BUTTON */
 button.plain {

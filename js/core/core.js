@@ -871,7 +871,7 @@ var Dino = (function(){
 	var libs = [];
 	
 	D.require = function() {
-		for(var i in arguments) {
+		for(var i = 0; i < arguments.length; i++) {
 			libs.push(arguments[i]);
 		}
 	};
