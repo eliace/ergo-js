@@ -20,7 +20,7 @@ AjaxCollection = Dino.data.Collection.extend({
     var self = this;
     var deferred = $.Deferred();
     
-    // эмулируем ajax-запрос
+    // эмулируем ajax-запрос, который возвращает результат через 1 сек
     setTimeout(function(){
       
       self.set( Samples.generate_grid_page(self._from, self._to) );
