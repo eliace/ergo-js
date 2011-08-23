@@ -4,14 +4,14 @@
 
 
 
-Dino.declare('Dino.widgets.Input', 'Dino.core.Widget', /** @lends Dino.widgets.form.InputField.prototype */{
+Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.InputField.prototype */{
 	
 	defaults: {
 		html: '<input type="text"/>'
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.Input.superclass.$opt.call(this, o);
+		Ergo.widgets.Input.superclass.$opt.call(this, o);
 		
 		if('text' in o) this.el.val(o.text);
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
@@ -28,10 +28,10 @@ Dino.declare('Dino.widgets.Input', 'Dino.core.Widget', /** @lends Dino.widgets.f
 
 
 
-Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.widgets.form.PasswordField.prototype */{
+Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.PasswordField.prototype */{
 
 	$opt: function(o) {
-		Dino.widgets.TextInput.superclass.$opt.call(this, o);
+		Ergo.widgets.TextInput.superclass.$opt.call(this, o);
 		
 		var self = this;
 		
@@ -54,7 +54,7 @@ Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.wid
 	},
 		
 	$dataChanged: function() {
-		Dino.widgets.TextInput.superclass.$dataChanged.apply(this);
+		Ergo.widgets.TextInput.superclass.$dataChanged.apply(this);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus) 
 			this.el.val( this.getRawValue() );
@@ -63,7 +63,7 @@ Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.wid
 	},
 	
 	$events: function(self) {
-		Dino.widgets.Input.superclass.$events.call(this, self);
+		Ergo.widgets.Input.superclass.$events.call(this, self);
 
 		this.el.keydown(function(e) {
 			if(!self.options.readOnly) {
@@ -90,10 +90,10 @@ Dino.declare('Dino.widgets.TextInput', 'Dino.widgets.Input', /** @lends Dino.wid
  * Поле текстового ввода
  * 
  * @class
- * @name Dino.widgets.form.PasswordField
- * @extends Dino.widgets.form.InputField
+ * @name Ergo.widgets.form.PasswordField
+ * @extends Ergo.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.widgets.form.PasswordField.prototype */{
+Ergo.declare('Ergo.widgets.Password', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.form.PasswordField.prototype */{
 	
 	defaults: {
 		html: '<input type="password"/>'
@@ -102,14 +102,14 @@ Dino.declare('Dino.widgets.Password', 'Dino.widgets.TextInput', /** @lends Dino.
 }, 'password');
 
 
-Dino.declare('Dino.widgets.Submit', 'Dino.widgets.Input', {
+Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.Input', {
 	
 	defaults: {
 		html: '<input type="submit"/>'
 	},
 	
 	$init: function(o) {
-		Dino.widgets.Submit.superclass.$init.call(this, o);
+		Ergo.widgets.Submit.superclass.$init.call(this, o);
 		
 		var self = this;
 		
@@ -129,17 +129,17 @@ Dino.declare('Dino.widgets.Submit', 'Dino.widgets.Input', {
  * Файл
  *
  * @class
- * @name Dino.widgets.form.File
- * @extends Dino.widgets.form.InputField
+ * @name Ergo.widgets.form.File
+ * @extends Ergo.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.File', Dino.widgets.TextInput, {
+Ergo.declare('Ergo.widgets.File', Ergo.widgets.TextInput, {
 	
 	defaults: {
 		html: '<input name="file" type="file"/>'
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.File.superclass.$opt.call(this, o);
+		Ergo.widgets.File.superclass.$opt.call(this, o);
 
 		if('name' in o) this.el.attr('name', o.name);
 	}
@@ -152,17 +152,17 @@ Dino.declare('Dino.widgets.File', Dino.widgets.TextInput, {
  * Checkbox
  * 
  * @class
- * @name Dino.widgets.form.Checkbox
- * @extends Dino.widgets.form.InputField
+ * @name Ergo.widgets.form.Checkbox
+ * @extends Ergo.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widgets.form.Checkbox.prototype */{
+Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widgets.form.Checkbox.prototype */{
 	
 	defaults: {
 		html: '<input type="checkbox"></input>'
 	},
 	
 	$events: function(self) {
-//		Dino.widgets.form.Checkbox.superclass.$events.call(this, self);
+//		Ergo.widgets.form.Checkbox.superclass.$events.call(this, self);
 		this.el.change(function(){
 			self.setValue(self.el.prop('checked') ? true : false);
 			self.events.fire('onAction');
@@ -171,14 +171,14 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
 	
 	
 	$opt: function(o) {
-		Dino.widgets.Checkbox.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('checked' in o)
 			this.el.prop('checked', o.checked);	
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.Checkbox.superclass.$dataChanged.apply(this);
+		Ergo.widgets.Checkbox.superclass.$dataChanged.apply(this);
 		this.el.prop('checked', this.getValue() );
 	},
 	
@@ -195,10 +195,10 @@ Dino.declare('Dino.widgets.Checkbox', Dino.widgets.Input, /** @lends Dino.widget
  * Radio
  * 
  * @class
- * @name Dino.widgets.form.Radio
- * @extends Dino.widgets.form.InputField
+ * @name Ergo.widgets.form.Radio
+ * @extends Ergo.widgets.form.InputField
  */
-Dino.declare('Dino.widgets.Radio', 'Dino.widgets.Checkbox', /** @lends Dino.widgets.form.Radio.prototype */{
+Ergo.declare('Ergo.widgets.Radio', 'Ergo.widgets.Checkbox', /** @lends Ergo.widgets.form.Radio.prototype */{
 	
 	defaults: {
 		html: '<input type="radio"/>'
@@ -211,14 +211,14 @@ Dino.declare('Dino.widgets.Radio', 'Dino.widgets.Checkbox', /** @lends Dino.widg
 
 
 
-Dino.declare('Dino.widgets.Submit', 'Dino.widgets.TextInput', {
+Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.TextInput', {
 	
 	defaults: {
 		html: '<input type="submit"/>'
 	}
 	
 //	$opt: function(o) {
-//		Dino.widgets.Submit.superclass.$opt.call(this, o);
+//		Ergo.widgets.Submit.superclass.$opt.call(this, o);
 //	}
 	
 }, 'submit');

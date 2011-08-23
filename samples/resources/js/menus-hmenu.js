@@ -1,11 +1,11 @@
 
-$.dino({
-  dtype: 'box',
+$.ergo({
+  etype: 'box',
   renderTo: '.preview',
   id: 'hmenu',
   layout: 'float',
   defaultItem: {
-    dtype: 'text-menu-item',
+    etype: 'text-menu-item',
 //    baseCls: 'drop-menu-item',
     cls: 'main-menu-item',
     components: {

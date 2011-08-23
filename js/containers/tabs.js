@@ -5,9 +5,9 @@
 
 /**
  * @class
- * @extends Dino.containers.List
+ * @extends Ergo.containers.List
  */
-Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.List', /** @lends Dino.containers.Tabs.prototype */{
+Ergo.containers.Tabs = Ergo.declare('Ergo.containers.Tabs', 'Ergo.containers.List', /** @lends Ergo.containers.Tabs.prototype */{
 	
 	
 	defaults: {
@@ -15,7 +15,7 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 			html: '<li/>',
 			cls: 'dino-tabs-item',
 			content: {
-				dtype: 'text'
+				etype: 'text'
 			},
 //			state: 'clickable',
 			onClick: function() {
@@ -28,13 +28,13 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 //			}
 		},
 //		itemFactory: function(o){
-//			return Dino.widget({
+//			return Ergo.widget({
 //				wrapEl: $('<li/>')
 ////				defaultItem: this.options.tabContent
 //			}, o);
 //		},
 //		tabContent: {
-//			dtype: 'text'
+//			etype: 'text'
 //		},
 		defaultIndex: 0
 	},
@@ -47,7 +47,7 @@ Dino.containers.Tabs = Dino.declare('Dino.containers.Tabs', 'Dino.containers.Lis
 	setActiveTab: function(tab){
 		
 		// если указанный объект не является виджетом, то ищем его через getItem
-		if(!(tab instanceof Dino.core.Widget)) tab = this.item(tab);
+		if(!(tab instanceof Ergo.core.Widget)) tab = this.item(tab);
 		
 		tab.states.set('active');
 		this.items.each(function(item){

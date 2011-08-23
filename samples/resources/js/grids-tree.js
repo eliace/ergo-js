@@ -1,12 +1,12 @@
     
-var tgTreeData = new Dino.core.DataSource([]);
+var tgTreeData = new Ergo.core.DataSource([]);
 
 
 $.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
 
     
-$.dino({
-  dtype: 'tree-grid',
+$.ergo({
+  etype: 'tree-grid',
   renderTo: '.preview',
   cls: 'dino-border-all',
   data: tgTreeData,
@@ -30,7 +30,7 @@ $.dino({
       width: 40,
       binding: 'auto'
     }, {
-      dtype: 'tree-table-cell',
+      etype: 'tree-table-cell',
       header: 'Файл',
       content: {
         content: {

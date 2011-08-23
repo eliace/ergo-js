@@ -1,6 +1,6 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'column',
   height: 200,
@@ -8,7 +8,7 @@ $.dino({
     cls: 'dino-border-all',
     style: {'padding': 10},
     content: {
-      dtype: 'box',
+      etype: 'box',
       innerText: 'Widget 1',
       height: 'auto',
 //      height: '100%',
@@ -18,7 +18,7 @@ $.dino({
     cls: 'dino-border-all',
     content: {
       height: 'auto',
-      dtype: 'box',
+      etype: 'box',
       innerText: 'Widget 2'
     }
   }]

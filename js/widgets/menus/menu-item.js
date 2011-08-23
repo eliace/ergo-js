@@ -6,9 +6,9 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box', /** @lends Dino.widgets.MenuItem.prototype */{
+Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.MenuItem.prototype */{
 	
 	defaultCls: 'dino-menu-item',
 	
@@ -19,16 +19,16 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 		components: {
 			// выпадающее подменю
 			content: {
-				dtype: 'text'
+				etype: 'text'
 			},
 			icon: {
-				dtype: 'icon',
+				etype: 'icon',
 				cls: 'dino-icon-right',
 				dock: 'right',
 				state: 'hidden'
 			},
 			submenu: {
-				dtype: 'menu-dropdown-list',
+				etype: 'menu-dropdown-list',
 				dataId: 'children',
 				binding: function(val) {
 					if(val && val.length > 0) this.parent.states.set('submenu');
@@ -41,7 +41,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 			}
 		},
 		onClick: function(e) {
-			var event = new Dino.events.CancelEvent();
+			var event = new Ergo.events.CancelEvent();
 			// если не определено состояние disabled, то вызываем событие onAction
 			if(!this.states.is('disabled')) 
 				this.events.fire('onAction', e); 
@@ -53,14 +53,14 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 	$init: function(o) {
 		
 		if('menuModel' in o) {
-			Dino.smart_override(o, o.menuModel.item);
+			Ergo.smart_override(o, o.menuModel.item);
 			o.components.submenu.menuModel = o.menuModel;
 		}		
 		
-		Dino.widgets.MenuItem.superclass.$init.apply(this, arguments);
+		Ergo.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
-			Dino.smart_override(o.components.submenu, {content: {items: o.submenu}});
+			Ergo.smart_override(o.components.submenu, {content: {items: o.submenu}});
 //			o.components.submenu.content.items = o.submenu;
 			//FIXME подозрительный код, потому что состояние submenu влияет на компонент icon, которого пока не создано
 			this.states.set('submenu');
@@ -71,14 +71,14 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 	
 	
 	$opt: function(o) {
-		Dino.widgets.MenuItem.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.MenuItem.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.content.opt('text', o.text);
 	},
 	
 	
 	$events: function(self) {
-		Dino.widgets.MenuItem.superclass.$events.apply(this, arguments);
+		Ergo.widgets.MenuItem.superclass.$events.apply(this, arguments);
 		
 		this.el.bind('mouseenter', function(){
 			self.hoverSubmenu = true;
@@ -127,10 +127,10 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent instanceof Dino.widgets.MenuDropdownList) this.parent.hideAll();
+			if(this.parent instanceof Ergo.widgets.MenuDropdownList) this.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
-//			var parentMenuItem = this.getParent(Dino.widgets.MenuItem);
+//			var parentMenuItem = this.getParent(Ergo.widgets.MenuItem);
 //			if(parentMenuItem) parentMenuItem.hideSubmenu(true);
 //		}	
 //			if(this.parent)this.parent.parent.hideSubmenu(true);
@@ -146,7 +146,7 @@ Dino.widgets.MenuItem = Dino.declare('Dino.widgets.MenuItem', 'Dino.widgets.Box'
 
 
 
-Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
+Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.containers.DropdownList', {
 	
 	defaultCls: 'dino-menu-dropdown',
 	
@@ -158,11 +158,11 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 		
 		dynamic: true,
 		defaultItem: {
-			dtype: 'menu-item'
+			etype: 'menu-item'
 		},
 		defaultItemShortcuts: {
 			'-': {
-				dtype: 'split',
+				etype: 'split',
 				state: 'horizontal' 
 			}
 		}
@@ -173,37 +173,37 @@ Dino.declare('Dino.widgets.MenuDropdownList', 'Dino.containers.DropdownList', {
 	$init: function(o) {
 		
 		if('menuModel' in o) {
-			Dino.smart_override(o, o.menuModel.dropdown);
+			Ergo.smart_override(o, o.menuModel.dropdown);
 			o.defaultItem.menuModel = o.menuModel;
 		}		
 		
-		Dino.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
+		Ergo.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
 				
 //		if('defaultItem' in o)
-//			Dino.smart_override(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
+//			Ergo.smart_override(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});
 		
 	},
 	
 	hideAll: function() {
 		this.close();
-		if(this.parent instanceof Dino.widgets.MenuItem) this.parent.hideSubmenu(true)
+		if(this.parent instanceof Ergo.widgets.MenuItem) this.parent.hideSubmenu(true)
 	}
 	
 	
 //	defaults: {
 //		html: '<table cellspacing="0" cellpadding="0" border="0"><tbody/></table>',
 //		defaultItem: {
-//			dtype: 'box',
+//			etype: 'box',
 //			html: '<tr/>',
 //			cls: 'menu-item',
 //			defaultItem: {
-//				dtype: 'box',
+//				etype: 'box',
 //				html: '<td/>'
 //			},
 //			items: [{
 //				width: 24
 //			}, {
-//				dtype: 'text',							
+//				etype: 'text',							
 //				width: 16
 //			}, {
 //			}]

@@ -3,12 +3,12 @@
 //= require <widgets/images/icon>
 
 
-Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
+Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	
 	defaults: {
 		cls: 'dino-icon-button',
 		content: {
-			dtype: 'icon'
+			etype: 'icon'
 		},
 		events: {
 			'mousedown': function(e, self) {
@@ -25,7 +25,7 @@ Dino.declare('Dino.widgets.IconButton', 'Dino.widgets.Button', {
 	},
 
 	$opt: function(o) {
-		Dino.widgets.IconButton.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.IconButton.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) {
 			this.content.states.set(o.icon);

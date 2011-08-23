@@ -1,6 +1,6 @@
     
-$.dino({
-	dtype: 'panel',
+$.ergo({
+	etype: 'panel',
 	title: 'Basic tree',
   renderTo: '.preview',
 	cls: 'dino-border-all',
@@ -10,7 +10,7 @@ $.dino({
 	
 	
 	content: {
-	  dtype: 'tree',
+	  etype: 'tree',
 	  cls: 'simple-tree dino-text-content',
 		
 		height: 'auto',

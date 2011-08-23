@@ -5,25 +5,25 @@
 
 /**
  * @class
- * @extends Dino.containers.ListBox
+ * @extends Ergo.containers.ListBox
  */
-Dino.widgets.LoadingPane = Dino.declare('Dino.widgets.LoadingPane', 'Dino.widgets.Box', /** @lends Dino.widgets.LoadingOverlay.prototype */{
+Ergo.widgets.LoadingPane = Ergo.declare('Ergo.widgets.LoadingPane', 'Ergo.widgets.Box', /** @lends Ergo.widgets.LoadingOverlay.prototype */{
 	
 	defaults: {
 		components: {
 			overlay: {
 				weight: 1,
-				dtype: 'box',
+				etype: 'box',
 				cls: 'dino-loading-overlay',
 				opacity: .7				
 			},
 			message: {
 				weight: 2,
-				dtype: 'box',
+				etype: 'box',
 				opacity: 1,
 				cls: 'dino-loading-message',
 				content: {
-					dtype: 'text-item',
+					etype: 'text-item',
 					text: 'Загрузка...',
 					icon: 'dino-icon-loader'
 				}				
@@ -31,7 +31,7 @@ Dino.widgets.LoadingPane = Dino.declare('Dino.widgets.LoadingPane', 'Dino.widget
 		},
 		style: {'display': 'none'},
 		showOnRender: false,
-		extensions: [Dino.Effects]
+		extensions: [Ergo.Effects]
 	}
 	
 }, 'loading-pane');

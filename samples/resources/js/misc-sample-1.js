@@ -9,15 +9,15 @@ var requestObj = {
 } 
 
 
-$.dino({
+$.ergo({
   renderTo: '.preview',
-  dtype: 'panel',
+  etype: 'panel',
   title: 'Заявка',
   cls: 'dino-border-all',
   width: 210,
   data: requestObj,
   content: {
-		dtype: 'list',
+		etype: 'list',
     style: {'padding': '3px', 'font-size': '0.7em'},
     layout: 'simple-form',
     defaultItem: {
@@ -39,24 +39,24 @@ $.dino({
       
     },
     items: [{
-      dtype: 'text-input',
+      etype: 'text-input',
       dataId: 'fio',
       defaultText: 'ФИО'
     }, {
-      dtype: 'text-input',
+      etype: 'text-input',
       dataId: 'phone',
       defaultText: 'Контактный телефон'
     }, {
-      dtype: 'text-input',
+      etype: 'text-input',
       dataId: 'mail',
       defaultText: 'E-mail'
     }, {
-      dtype: 'text-input',
+      etype: 'text-input',
       dataId: 'org',
       defaultText: 'Наименование организации'
     }, {
       id: 'foo',
-      dtype: 'checkbox',
+      etype: 'checkbox',
       dataId: 'applied',
       format: null,                    // сбрасываем форматирование
       width: null,                     // сбрасываем значение ширины
@@ -66,17 +66,17 @@ $.dino({
   },
   components: {
     footer: {
-      dtype: 'control-list',
+      etype: 'control-list',
       cls: 'center',
       items: [{
-        dtype: 'text-button',
+        etype: 'text-button',
         dataId: 'applied',
         disabled: true,
         updateOnValueChange: true,                      // если изменится свойство applied, то обновляем данные виджета
         icon: 'silk-icon-page-white-go',
         text: 'Отправить заявку',
         onAction: function() {
-          growl.info(Dino.pretty_print(this.data.source.get()));
+          growl.info(Ergo.pretty_print(this.data.source.get()));
         },
         binding: function(val) {                      
           this.opt('disabled', !val);                  // в зависимости от значения applied включаем или выключаем кнопку

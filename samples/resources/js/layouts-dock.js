@@ -1,9 +1,9 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: {
-    dtype: 'dock-layout',
+    etype: 'dock-layout',
     updateMode: 'auto'
   },
   style: {'position': 'absolute'},

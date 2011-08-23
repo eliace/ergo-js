@@ -11,53 +11,53 @@
  */
 
     
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   items: [{
-    dtype: 'group-panel',
+    etype: 'group-panel',
     title: 'Нативные виджеты',
 		content: {
-			dtype: 'list',
+			etype: 'list',
 	    defaultItem: {
 	      style: {'margin': '3px 0'},
 	//      layout: 'float',
 	      items: [{
-	        dtype: 'text-button',
+	        etype: 'text-button',
 	        icon: 'silk-icon-add',
 	        text: 'Button 1',
 	      }, {
-	        dtype: 'text-button',
+	        etype: 'text-button',
 	        icon: 'silk-icon-delete',
 	        text: false
 	      }, {
-	        dtype: 'text-button',
+	        etype: 'text-button',
 	        text: 'Button 3'
 	      }, {
-	        dtype: 'input'
+	        etype: 'input'
 	      }, {
-	        dtype: 'select',
+	        etype: 'select',
 	        options: ['лето', 'осень', 'зима', 'весна']
 	      }]    
 	    },
 	    items: [{
-	      dtype: 'control-list',
+	      etype: 'control-list',
 	    }, {
-	      dtype: 'control-list',
+	      etype: 'control-list',
 	      defaultItem: {
 	        cls: 'plain'
 	      }
 	    }]    
 		}
   }, {
-    dtype: 'group-panel',
-    title: 'Dino-виджеты',
+    etype: 'group-panel',
+    title: 'Ergo-виджеты',
 		content: {
-			dtype: 'list',
+			etype: 'list',
 	    defaultItem: {
-	      dtype: 'control-list',
+	      etype: 'control-list',
 	      items: [/*{
-	        dtype: 'split-button',
+	        etype: 'split-button',
 	        components: {
 	          actionButton: {
 	            innerText: 'Africa',
@@ -81,7 +81,7 @@ $.dino({
 	          tag: 'america'
 	        }]
 	      }, {
-	        dtype: 'box',
+	        etype: 'box',
 	        width: 2,
 	        height: 24,
 	        cls: 'dino-split',
@@ -90,7 +90,7 @@ $.dino({
 				'-']
 	    },
 	    items: [{
-	      dtype: 'control-list',
+	      etype: 'control-list',
 	    }]    
 		}
   }]

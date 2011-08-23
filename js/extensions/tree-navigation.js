@@ -3,9 +3,9 @@
 //= require "focusable"
 
 
-Dino.TreeNavigation = function(o) {
+Ergo.TreeNavigation = function(o) {
 	
-	Dino.smart_override(o, {
+	Ergo.smart_override(o, {
 		
 		onKeyDown: function(e) {
 			

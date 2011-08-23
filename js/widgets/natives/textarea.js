@@ -5,10 +5,10 @@
  * TextArea
  * 
  * @class
- * @name Dino.widgets.form.TextArea
- * @extends Dino.widgets.form.TextField
+ * @name Ergo.widgets.form.TextArea
+ * @extends Ergo.widgets.form.TextField
  */
-Dino.declare('Dino.widgets.TextArea', 'Dino.widgets.TextInput', /** @lends Dino.widgets.form.TextArea.prototype */{
+Ergo.declare('Ergo.widgets.TextArea', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.form.TextArea.prototype */{
 	
 	defaults: {
 		html: '<textarea></textarea>'

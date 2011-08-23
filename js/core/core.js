@@ -2,9 +2,9 @@
  * @namespace
  * 
  */
-var Dino = (function(){
+var Ergo = (function(){
 
-	var D = {};
+	var E = {};
 
 
 
@@ -18,10 +18,10 @@ var Dino = (function(){
 	/**
 	 * Копирование свойств одного объекта в другой (создание примеси)
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
-	 * @name Dino.override
+	 * @name Ergo.override
 	 * @function
 	 */
-	D.override = function(obj) {
+	E.override = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides){
@@ -36,18 +36,18 @@ var Dino = (function(){
 	/**
 	 * Рекурсивное копирование свойств одного объекта в другой (создание примеси)
 	 * 
-	 * @name Dino.override_r
+	 * @name Ergo.override_r
 	 * @function
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
 	 */
-	D.override_r = function(obj) {
+	  E.override_r = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j];
 			for(var i in overrides){
 				var prop = overrides[i];
 				if($.isPlainObject(prop)){
 					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
-					D.override_r(obj[i], prop);
+					  E.override_r(obj[i], prop);
 				}
 				else{
 					obj[i] = prop;
@@ -58,28 +58,28 @@ var Dino = (function(){
 	};
 	
 	/**
-	 * Псевдоним для {@link Dino.override}
-	 * @name Dino.merge
+	 * Псевдоним для {@link Ergo.override}
+	 * @name Ergo.merge
 	 * @function
 	 */
-	D.merge = D.override;
+	  E.merge =   E.override;
 	/**
-	 * Псевдоним для {@link Dino.override_r}
-	 * @name Dino.merge_r
+	 * Псевдоним для {@link Ergo.override_r}
+	 * @name Ergo.merge_r
 	 * @function
 	 */
-	D.merge_r = D.override_r;
+	  E.merge_r = E.override_r;
 	
 	/**
 	 * Создание расширенного класса
 	 * 
-	 * @name Dino.extend
+	 * @name Ergo.extend
 	 * @function
 	 * @param {Object} p_ctor
 	 * @param {Object} ctor
 	 * @param {Object} overrides
 	 */
-	D.extend = function(p_ctor, ctor, overrides) {
+	E.extend = function(p_ctor, ctor, overrides) {
 		
 		if(typeof ctor == 'object') {
 			overrides = ctor;
@@ -94,12 +94,12 @@ var Dino = (function(){
 		ctor.superclass = p_ctor.prototype;
 		ctor.super_ctor = p_ctor;
 		
-		D.override(ctor.prototype, overrides);
+		E.override(ctor.prototype, overrides);
 		
-		if(overrides.dtype)
-			_dtypes[overrides.dtype] = ctor;
+		if(overrides.etype)
+			_etypes[overrides.etype] = ctor;
 		
-		ctor.extend = function(o) { return D.extend(this, o); }
+		ctor.extend = function(o) { return E.extend(this, o); }
 		
 		return ctor;
 	};
@@ -108,19 +108,19 @@ var Dino = (function(){
 	/**
 	 * Рекурсивный обход всех базовых классов 
 	 * 
-	 * @name Dino.hierarchy
+	 * @name Ergo.hierarchy
 	 * @function
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса
 	 */
-	D.hierarchy = function(ctor, callback) {
+	E.hierarchy = function(ctor, callback) {
 		if(!ctor) return;
-		D.hierarchy(ctor.super_ctor, callback);
+		E.hierarchy(ctor.super_ctor, callback);
 		callback.call(this, ctor.prototype);
 	};
 	
 	
-	var _dtypes = {};
+	var _etypes = {};
 	
 	/**
 	 * Объявление класса
@@ -128,19 +128,19 @@ var Dino = (function(){
 	 * @param {String} class_name полное имя класса
 	 * @param {String|Object} base_class базовый класс или имя базового класса
 	 * @param {Object} overrides набор свойств и методов нового класса
-	 * @param {String} [dtype] dino-тип (если не указан, то новый класс не регистрируется)
+	 * @param {String} [etype] dino-тип (если не указан, то новый класс не регистрируется)
 	 * 
-	 * @name Dino.declare
+	 * @name Ergo.declare
 	 * @function
 	 */
-	D.declare = function(class_name, bclass, overrides, dtype) {
+	E.declare = function(class_name, bclass, overrides, etype) {
 		
 		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
 		
 		if(base_class === undefined)
 			throw 'Unknown base class '+bclass+' for '+class_name;
 		
-		var clazz = D.extend(base_class, overrides);
+		var clazz = E.extend(base_class, overrides);
 		
 		// создаем пространство имен для класса
 		var cp_a = class_name.split('.');
@@ -151,10 +151,10 @@ var Dino = (function(){
 		}		
 		eval(cp + ' = clazz;');
 		
-		// регистрируем dtype класса (если он есть)
-		if(dtype){
-			clazz.prototype.dtype = dtype;
-			_dtypes[dtype] = clazz;
+		// регистрируем etype класса (если он есть)
+		if(etype){
+			clazz.prototype.etype = etype;
+			_etypes[etype] = clazz;
 		}
 
 		clazz.prototype.className = class_name;
@@ -165,46 +165,46 @@ var Dino = (function(){
 	
 	
 	/**
-	 * Создание экземпляра объекта (должен присутствовать dtype в options либо defaultType)
+	 * Создание экземпляра объекта (должен присутствовать etype в options либо defaultType)
 	 * 
-	 * @name Dino.object
+	 * @name Ergo.object
 	 * @function
 	 * @param {Object} options
 	 * @param {Object} defaultType
 	 */
-	D.object = function(options, defaultType) {
+	E.object = function(options, defaultType) {
 		
-		if(options instanceof Dino.core.Object) return options;
+		if(options instanceof Ergo.core.Object) return options;
 		
-		var dtype = options.dtype || defaultType;
+		var etype = options.etype || defaultType;
 		
-		var ctor = _dtypes[dtype];
+		var ctor = _etypes[etype];
 		
 		if(!ctor ){
-//			Dino.logger.debug('Class for dtype "'+dtype+'" not found');
-			throw new Error('Class for dtype "'+dtype+'" not found');
+//			Ergo.logger.debug('Class for etype "'+etype+'" not found');
+			throw new Error('Class for etype "'+etype+'" not found');
 //			return null;
 		}
 				
 		return new ctor(options);	
 	};
 
-//	D.widget = D.object;
+//	E.widget = E.object;
 	
 	
 	
 	
 /*	
-	D.isFunction = function(obj) { return obj instanceof Function; };
-	D.isArray = function(obj) {return obj instanceof Array;}
-	D.isNumber = function(obj) {return typeof obj == 'number';};
-	D.isBoolean = function(obj) {return typeof obj == 'boolean';};
-	D.isString = function(obj) {return typeof obj == 'string';};
-	D.isObject = function(obj) { return obj.constructor == Object; };
+	E.isFunction = function(obj) { return obj instanceof Function; };
+	E.isArray = function(obj) {return obj instanceof Array;}
+	E.isNumber = function(obj) {return typeof obj == 'number';};
+	E.isBoolean = function(obj) {return typeof obj == 'boolean';};
+	E.isString = function(obj) {return typeof obj == 'string';};
+	E.isObject = function(obj) { return obj.constructor == Object; };
 */
 
 
-	// в версии jquery 1.4 появились методы, которые раньше реализовывались в Dino
+	// в версии jquery 1.4 появились методы, которые раньше реализовывались в Ergo
 	
 	/**
 	 * Является ли объект функцией 
@@ -213,7 +213,7 @@ var Dino = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-//	D.isFunction = $.isFunction;
+//	E.isFunction = $.isFunction;
 	/**
 	 * Является ли объект массивом
 	 * 
@@ -221,7 +221,7 @@ var Dino = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-//	D.isArray = $.isArray;
+//	E.isArray = $.isArray;
 	/**
 	 * Является ли объект простым объектом
 	 * 
@@ -229,7 +229,7 @@ var Dino = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-//	D.isPlainObject = $.isPlainObject;
+//	E.isPlainObject = $.isPlainObject;
 	/**
 	 * Является ли объект строкой
 	 * 
@@ -243,7 +243,7 @@ var Dino = (function(){
 	/**
 	 * Является ли объект логической переменной
 	 * 
-	 * @name Dino.isBoolean
+	 * @name Ergo.isBoolean
 	 * @function
 	 * @param {Object} obj
 	 */
@@ -282,12 +282,12 @@ var Dino = (function(){
 	 * 
 	 * в jquery есть функция $.each, но меня не устраивает порядок аргументов в замыкании
 	 * 
-	 * @name Dino.each
+	 * @name Ergo.each
 	 * @function
 	 * @param {Object|Array} src объект, элементы которого необходимо просмотреть
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
-	D.each = function(src, callback, delegate){
+	E.each = function(src, callback, delegate){
 		if($.isArray(src)){
 			var arr = src;
 			for(var i = 0; i < arr.length; i++){
@@ -307,13 +307,13 @@ var Dino = (function(){
 	 * 
 	 * Элемент попадает в итоговый объект
 	 * 
-	 * @name Dino.filter
+	 * @name Ergo.filter
 	 * @function
 	 * @param {Object|Array} src объект, элементы которого необходимо фильтровать
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
 	 */
-	D.filter = function(src, fn){
+	E.filter = function(src, fn){
 		return ( $.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
 	};
 	
@@ -338,7 +338,7 @@ var Dino = (function(){
 	}
 	
 	
-	D.filter_keys = function(src, fn){
+	E.filter_keys = function(src, fn){
 		var result = [];
 		for(var i in src)
 			if(fn.call(src, src[i], i)) result.push(i);
@@ -347,22 +347,22 @@ var Dino = (function(){
 	
 	
 	/**
-	 * Псевдоним для {@link Dino.filter}
+	 * Псевдоним для {@link Ergo.filter}
 	 * 
-	 * @name Dino.find_all
+	 * @name Ergo.find_all
 	 * @function
 	 */
-	D.find_all = D.filter;
+	E.find_all = E.filter;
 	
 	/**
 	 * Отображение (размерность сохраняется)
 	 * 
-	 * @name Dino.map
+	 * @name Ergo.map
 	 * @function
 	 * @param {Object|Array} src коллекция
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
-	D.map = function(obj, fn) {
+	E.map = function(obj, fn) {
 		var a;
 		if($.isArray(obj)) {
 			a = [];
@@ -378,12 +378,12 @@ var Dino = (function(){
 	/**
 	 * Поиск первого элемента, удовлетворяющего критерию
 	 * 
-	 * @name Dino.find
+	 * @name Ergo.find
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий 
 	 */
-	D.find = function(obj, criteria) {
+	E.find = function(obj, criteria) {
 		if(!$.isFunction(criteria)){
 			var x = criteria;
 			criteria = function(it) { return it == x; };
@@ -397,16 +397,16 @@ var Dino = (function(){
 	/**
 	 * Получение индекса (или ключа) элемента в коллекции
 	 * 
-	 * Если критерий не является функцией, то используется метод Dino.eq
+	 * Если критерий не является функцией, то используется метод Ergo.eq
 	 * 
-	 * @name Dino.index_of
+	 * @name Ergo.index_of
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий 
 	 */
-	D.index_of = function(obj, criteria) {
+	E.index_of = function(obj, criteria) {
 		if(!$.isFunction(criteria))
-			criteria = D.eq.curry(criteria);
+			criteria = E.eq.curry(criteria);
 		for(var i in obj)
 			if(criteria.call(obj, obj[i], i)) return i;
 		return -1;
@@ -414,13 +414,13 @@ var Dino = (function(){
 	
 	
 	
-	D.apply_all = function(obj, m_name, args) {
+	E.apply_all = function(obj, m_name, args) {
 		for(var i in obj) {
 			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
 		}
 	}
 	
-	D.call_all = function(obj, m_name) {
+	E.call_all = function(obj, m_name) {
 		var args = [];
 		for(var i = 2; i < arguments.length; i++) args[i-2] = arguments[i];
 		for(var i in obj) {
@@ -433,12 +433,12 @@ var Dino = (function(){
 	/**
 	 * Проверка, содержится ли элемент в массиве
 	 * 
-	 * @name Dino.array_include
+	 * @name Ergo.array_include
 	 * @function
 	 * @param {Array|Object} arr массив
 	 * @param {Any} val значение
 	 */
-	D.include = function(arr, val) {
+	E.include = function(arr, val) {
 		for(var i in arr)
 			if(arr[i] == val) return true;
 //		for(var i = 0; i < arr.length; i++)
@@ -449,12 +449,12 @@ var Dino = (function(){
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)
 	 * 
-	 * @name Dino.array_remove
+	 * @name Ergo.array_remove
 	 * @function
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
-	D.array_remove = function(arr, val) {
+	E.array_remove = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
 			if(arr[i] == val) {
@@ -472,20 +472,20 @@ var Dino = (function(){
 	 * 
 	 * Копируются вложенные простые объекты и массивы
 	 * 
-	 * @name Dino.deep_copy
+	 * @name Ergo.deep_copy
 	 * @function
 	 * @param {Any} src копируемый объект
 	 */
-	D.deep_copy = function(src) {
+	E.deep_copy = function(src) {
 		var copy = null;
 		
 		var is_po = $.isPlainObject(src);
 		if(is_po || $.isArray(src)){
 			copy = is_po ? {} : [];
 			for(var i in src)
-				copy[i] = D.deep_copy(src[i]);				
-//			D.each(src, function(item, i){
-//				copy[i] = D.deep_copy(item);
+				copy[i] = E.deep_copy(src[i]);				
+//			E.each(src, function(item, i){
+//				copy[i] = E.deep_copy(item);
 //			});
 		}
 		else{
@@ -507,20 +507,20 @@ var Dino = (function(){
 	//---------------------------------------------------
 	
 	//FIXME сомнительная польза, поскольку есть метод $.noop
-	D.noop = function(){};	
+	E.noop = function(){};	
 	
 	/**
 	 * Предикативная функция равенства
 	 * 
 	 * Используется оператор ==
 	 * 
-	 * @name Dino.eq
+	 * @name Ergo.eq
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Object} item элемент коллекции
 	 * @param {Object} i ключ/индекс элемента
 	 */
-	D.eq = function(obj, item, i) {
+	E.eq = function(obj, item, i) {
 		return obj == item;
 	};
 	
@@ -529,19 +529,19 @@ var Dino = (function(){
 	 * 
 	 * Используется оператор !=
 	 * 
-	 * @name Dino.ne
+	 * @name Ergo.ne
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Object} item элемент коллекции
 	 * @param {Object} i ключ/индекс элемента
 	 */
-	D.ne = function(obj, item, i) {
+	E.ne = function(obj, item, i) {
 		return obj != item;
 	};
 	
 	
 	//FIXME эта функция не так уж нужна
-	D.filter_list = function(val, list) {
+	E.filter_list = function(val, list) {
 		for(var i = 0; i < list.length; i++)
 			if(!list[i].call(this, val)) return false;
 		return true;
@@ -551,25 +551,25 @@ var Dino = (function(){
 	
 	// /**
 	 // * @constructor
-	 // * @memberOf Dino
+	 // * @memberOf Ergo
 	 // * @name ObjectTree
 	 // * @param {Object} obj
 	 // * @param {Object} factory
 	 // * @param {Object} ignore
 	 // */
 	// // набор методов, позволяющих работать с объектом как с деревом
-	// D.ObjectTree = function(obj, factory, ignore) {
+	// E.ObjectTree = function(obj, factory, ignore) {
 		// this.obj = obj;
 		// this.factory = factory;
 		// this.ignore_list = ignore || [];
 	// };
 // 	
 	// /**
-	 // * @name Dino.ObjectTree#ensure
+	 // * @name Ergo.ObjectTree#ensure
 	 // * @function
 	 // * @param {Object} path
 	 // */
-	// D.ObjectTree.prototype.ensure = function(path){
+	// E.ObjectTree.prototype.ensure = function(path){
 		// if($.isString(path)) path = path.split('.');
 // 		
 		// var obj = this.obj;
@@ -583,12 +583,12 @@ var Dino = (function(){
 // 
 	// /**
 	 // * 
-	 // * @name Dino.ObjectTree#get
+	 // * @name Ergo.ObjectTree#get
 	 // * @function
 	 // * @param {Object} path
 	 // */	
-	// D.ObjectTree.prototype.get = function(path){
-		// if(D.isString(path)) path = path.split('.');
+	// E.ObjectTree.prototype.get = function(path){
+		// if(E.isString(path)) path = path.split('.');
 // 		
 		// var obj = this.obj;
 		// for(var i = 0; i < path.length; i++){
@@ -600,11 +600,11 @@ var Dino = (function(){
 // 	
 	// /**
 	 // * 
-	 // * @name Dino.ObjectTree#del
+	 // * @name Ergo.ObjectTree#del
 	 // * @function
 	 // * @param {Object} path
 	 // */
-	// D.ObjectTree.prototype.del = function(path) {
+	// E.ObjectTree.prototype.del = function(path) {
 		// if($.isString(path)) path = path.split('.');
 // 
 		// var obj = this.obj;
@@ -621,12 +621,12 @@ var Dino = (function(){
 // 	
 	// /**
 	 // * 
-	 // * @name Dino.ObjectTree#traverse
+	 // * @name Ergo.ObjectTree#traverse
 	 // * @function
 	 // * @param {Object} callback
 	 // * @param {Object} obj
 	 // */
-	// D.ObjectTree.prototype.traverse = function(callback, obj) {
+	// E.ObjectTree.prototype.traverse = function(callback, obj) {
 		// if(arguments.length == 1) obj = this.obj;
 		// else{
 			// if(obj == null || obj == undefined) return;
@@ -634,13 +634,13 @@ var Dino = (function(){
 		// }
 // 		
 		// for(var i in obj){
-			// if($.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
+			// if($.isPlainObject(obj[i]) && !(E.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
 		// }
 	// }
 // 	
 // 	
-	// D.otree = function(obj){
-		// return new D.ObjectTree(obj);
+	// E.otree = function(obj){
+		// return new E.ObjectTree(obj);
 	// };
 	
 	
@@ -648,13 +648,13 @@ var Dino = (function(){
 	/**
 	 * Печать объекта в удобочитаемой форме
 	 * 
-	 * @name Dino.pretty_print
+	 * @name Ergo.pretty_print
 	 * @function
 	 * @param {Any} obj любой объект/примитив
 	 * @param {Integer} indent отступ
 	 * @returns {String}
 	 */
-	D.pretty_print = function(obj, indent) {
+	E.pretty_print = function(obj, indent) {
 		
 		if(obj == undefined) return undefined;
 		
@@ -668,12 +668,12 @@ var Dino = (function(){
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
 		else if($.isBoolean(obj))
 			return ''+obj;
-		else if($.isNumber(obj) || Dino.isBoolean(obj))
+		else if($.isNumber(obj) || $.isBoolean(obj))
 			return obj;
 		else if($.isArray(obj)){
 			var items = [];
-			D.each(obj, function(item){
-				items.push(D.pretty_print(item, indent));
+			E.each(obj, function(item){
+				items.push(E.pretty_print(item, indent));
 			});
 			return '[' + items.join(', ') + ']';
 		}
@@ -682,8 +682,8 @@ var Dino = (function(){
 		}
 		else if($.isPlainObject(obj) || !indent){
 			var items = [];
-			D.each(obj, function(item, key){
-				items.push(tabs + '\t' + key + ':' + D.pretty_print(item, indent+1));					
+			E.each(obj, function(item, key){
+				items.push(tabs + '\t' + key + ':' + E.pretty_print(item, indent+1));					
 			});
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}
@@ -696,12 +696,12 @@ var Dino = (function(){
 	/**
 	 * Экранирование строки для вывода в html
 	 * 
-	 * @name Dino.escapeHtml
+	 * @name Ergo.escapeHtml
 	 * @function
 	 * @param {String} s строка
 	 * @returns {String} экранированная строка
 	 */
-	D.escapeHtml = function(s) {
+	E.escapeHtml = function(s) {
 		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	};
 	
@@ -720,14 +720,14 @@ var Dino = (function(){
 	 * Форматированный вывод значений.
 	 * 
 	 * @example
-	 * Dino.format("%s items from %s selected", 1, 10);
+	 * Ergo.format("%s items from %s selected", 1, 10);
 	 * 
-	 * @name Dino.format
+	 * @name Ergo.format
 	 * @function
 	 * @param {String} format_str строка форматирования
 	 * @return {String}
 	 */
-	D.format = function(format_str) {
+	E.format = function(format_str) {
 		var values = [];
 		for(var i = 1; i < arguments.length; i++) values.push(arguments[i]);
 		return format_str.replace(/(%s)/g, function(str) {
@@ -748,16 +748,16 @@ var Dino = (function(){
 	 * 	email_count: 3
 	 * }
 	 * 
-	 * Dino.format_obj("#{first_name} #{last_name} has #{email_count} e-mails", record);
+	 * Ergo.format_obj("#{first_name} #{last_name} has #{email_count} e-mails", record);
 	 * 
 	 * Output: Alice Green has 3 e-mails
 	 * 
-	 * @name Dino.format_obj
+	 * @name Ergo.format_obj
 	 * @function
 	 * @param {Object} format_str строка форматирования
 	 * @param {Object} obj объект
 	 */
-	D.format_obj = function(format_str, obj) {
+	E.format_obj = function(format_str, obj) {
 		if(obj === undefined) return '';
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
@@ -773,7 +773,7 @@ var Dino = (function(){
 	
 /*	
 	
-	D.serialize = function(obj, indent) {
+	E.serialize = function(obj, indent) {
 		
 		if(obj == undefined) return obj;
 		
@@ -788,15 +788,15 @@ var Dino = (function(){
 				return '"'+obj.replace(/\n/g, '\\n')+'"';
 			case 'object':
 				var items = [];
-				if(D.isArray(obj)){
-					D.each(obj, function(item){
-						items.push(D.pretty_print(item, indent));
+				if(E.isArray(obj)){
+					E.each(obj, function(item){
+						items.push(E.pretty_print(item, indent));
 					});
 					return '[' + items.join(', ') + ']';
 				}
 				else{
-					D.each(obj, function(item, key){
-						items.push(tabs + '\t"' + key + '":' + D.pretty_print(item, indent+1));					
+					E.each(obj, function(item, key){
+						items.push(tabs + '\t"' + key + '":' + E.pretty_print(item, indent+1));					
 					});
 					return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 				}
@@ -809,10 +809,10 @@ var Dino = (function(){
 	
 	
 	/**
-	 * @name Dino.timestamp
+	 * @name Ergo.timestamp
 	 * @function
 	 */
-	D.timestamp = function() {
+	E.timestamp = function() {
 		return new Date().getTime();
 	};
 	
@@ -821,7 +821,7 @@ var Dino = (function(){
 		
 	
 
-	D.logger = {
+	E.logger = {
 		debug: function(msg) {
 			if(console) console.log(msg);
 		}
@@ -830,9 +830,9 @@ var Dino = (function(){
 	
 	
 	
-	D.loadpath = {};
+	E.loadpath = {};
 	
-	D.require = function() {
+	E.require = function() {
 		
 		for(var i = 0; i < arguments.length; i++) {
 
@@ -845,9 +845,9 @@ var Dino = (function(){
 			catch(e) {
 			}
 			
-			for(var j in D.loadpath) {
+			for(var j in E.loadpath) {
 				if(class_name.search(j) != -1) {
-					class_name = class_name.replace(j, D.loadpath[j]);
+					class_name = class_name.replace(j, E.loadpath[j]);
 					break;
 				}
 			}
@@ -874,10 +874,10 @@ var Dino = (function(){
 	
 	
 	
-	return D;
+	return E;
 })();
 
-//var _dino = Dino;
+//var _dino = Ergo;
 
 
 
@@ -931,13 +931,13 @@ Function.prototype.rcurry = function(arg) {
 
 //---------------------------------------------------------------
 //
-// Снова фильтры, но уже в пространстве имен Dino.filters
+// Снова фильтры, но уже в пространстве имен Ergo.filters
 //
 //---------------------------------------------------------------
 
 
 
-Dino.filters = (function(){
+Ergo.filters = (function(){
 	
 	var F = {};
 	
@@ -962,6 +962,20 @@ Dino.filters = (function(){
 	F.eq = function(obj) {
 		return function(it) { return obj == it; };
 	}
+	
+	F.by_widget = function(i) {
+		
+		var f = null;
+		
+		if( $.isNumber(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( $.isString(i) ) f = F.by_props.curry({'tag': i});
+		else if( $.isFunction(i) && ('superclass' in i) ) f = F.by_class.curry(i);
+		else if( $.isFunction(i) ) f = i;
+		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
+		
+		return f;
+	}
+	
 	
 	return F;
 })();

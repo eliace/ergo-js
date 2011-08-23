@@ -1,6 +1,6 @@
     
 
-var bindingData = new Dino.core.DataSource( Samples.generate_plain_list(30), {
+var bindingData = new Ergo.core.DataSource( Samples.generate_plain_list(30), {
 	range: [0, 5],
 	filter: function(data){
 	  var out = [];
@@ -13,15 +13,15 @@ var bindingData = new Dino.core.DataSource( Samples.generate_plain_list(30), {
 
 var offset = 0;
 
-var box = $.dino({
-  dtype: 'box',
+var box = $.ergo({
+  etype: 'box',
   renderTo: '.preview',
   components: {
     controls: {
-      dtype: 'control-list',
+      etype: 'control-list',
       cls: 'dino-border-bottom',
       items: [{
-        dtype: 'text-button',
+        etype: 'text-button',
         text: '<< Предыдущие 5',
         onAction: function() {
           if(offset > 0) {
@@ -32,7 +32,7 @@ var box = $.dino({
         }
         
       }, {
-        dtype: 'text-button',
+        etype: 'text-button',
         text: 'Следующие 5 >>',
         onAction: function() {
           if(offset < 25) {
@@ -44,12 +44,12 @@ var box = $.dino({
       }]
     },
     content: {
-      dtype: 'list',
+      etype: 'list',
       layout: 'float',
       dynamic: true,
       data: bindingData,
       defaultItem: {
-        dtype: 'box',
+        etype: 'box',
         cls: 'dino-border-all dino-corner-all',
         style: {'margin': '3px', 'padding': '3px'},
         binding: function(val) { this.opt('innerText', val); }

@@ -3,10 +3,10 @@
 
 
 
-Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
+Ergo.declare('Ergo.framework.Application', 'Ergo.core.Object', {
 	
 	initialize: function(o) {
-		Dino.framework.Application.superclass.initialize.apply(this, arguments);		
+		Ergo.framework.Application.superclass.initialize.apply(this, arguments);		
 		
 		var self = this;
 		
@@ -24,8 +24,8 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 		});
 		
 		
-		this.root = $.dino(Dino.smart_override({
-			dtype: 'box',
+		this.root = $.ergo(Ergo.smart_override({
+			etype: 'box',
 			renderTo: 'body',
 			cls: 'application'
 		}, o));
@@ -51,8 +51,8 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 	
 	init_default_growl: function() {
 		
-		this.growl = $.dino({
-			dtype: 'growl-box',
+		this.growl = $.ergo({
+			etype: 'growl-box',
 			renderTo: 'body'
 		});
 	
@@ -63,9 +63,9 @@ Dino.declare('Dino.framework.Application', 'Dino.core.Object', {
 				error: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
 				warn: function(m, isHtml) {this.msg(m, 'warning', isHtml);},
 				success: function(m, isHtml) {this.msg(m, 'success', isHtml);},
-//				html: function(m, isHtml) { Dino.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
+//				html: function(m, isHtml) { Ergo.growl.addItem({html: m, icon: 'dino-icon-growlbox-info'}) },
 				msg: function(m, type, isHtml) {
-					var s = ($.isString(m)) ? m : Dino.pretty_print(m);
+					var s = ($.isString(m)) ? m : Ergo.pretty_print(m);
 					var o = {
 						icon: 'dino-icon-growlbox-'+type,
 						state: type,

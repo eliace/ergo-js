@@ -43,8 +43,8 @@ var treeData = [{
 }];  
   
   
-$.dino({
-  dtype: 'tree',
+$.ergo({
+  etype: 'tree',
   renderTo: '.preview',
   cls: 'dynamic-tree',
   

@@ -1,5 +1,5 @@
 
-var downloadTree = new Dino.data.ArrayDataSource([{
+var downloadTree = new Ergo.data.ArrayDataSource([{
 	id: 'core',
 	name: 'Core',
 	type: 'group',
@@ -282,13 +282,13 @@ var lock_dependencies = function(id, dependencies, lock) {
 	downloadTree.walk(function(entry, i){
 		var v = entry.val();
 		if(v && v.id) {
-			if(Dino.include(dependencies, v.id)) {
+			if(Ergo.include(dependencies, v.id)) {
 				if(!v.locks) v.locks = [];
 				if(lock) {
-					if(!Dino.include(v.locks, id)) v.locks.push(id);
+					if(!Ergo.include(v.locks, id)) v.locks.push(id);
 				}
 				else {
-					Dino.array_remove(v.locks, id);
+					Ergo.array_remove(v.locks, id);
 				}
 				
 				if(v.selected) v.selected[1] = v.locks.length;
@@ -325,7 +325,7 @@ var collect_selected_paths = function() {
 
 
 
-Dino.widgets.CascadeItem = Dino.containers.Box.extend({
+Ergo.widgets.CascadeItem = Ergo.containers.Box.extend({
 	
 	dtype: 'cascade-item',
 	
@@ -406,7 +406,7 @@ $(document).ready(function(){
 	
 	try {
 	
-	Application = new Dino.framework.Application();
+	Application = new Ergo.framework.Application();
 	
 	var page = $.dino({
 		dtype: 'box',
@@ -463,7 +463,7 @@ $(document).ready(function(){
 	
 	}
 	catch(e) {
-		console.log(Dino.format('%s (%s)', e.message, e.lineNumber));
+		console.log(Ergo.format('%s (%s)', e.message, e.lineNumber));
 	}
 	
 //	console.log(page);

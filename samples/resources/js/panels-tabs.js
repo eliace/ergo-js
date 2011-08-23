@@ -1,6 +1,6 @@
 
-$.dino({
-  dtype: 'tab-panel',
+$.ergo({
+  etype: 'tab-panel',
   renderTo: '.preview',
   panelModel: {
     page: {height: 100}
@@ -14,15 +14,15 @@ $.dino({
     tab: {icon: 'silk-icon-plugin', text: 'Tab3'}
   }, {
 		tab: {
-			dtype: 'box',
+			etype: 'box',
 			layout: 'hbox',
 			components: {
 				check: {
-					dtype: 'checkbox',
+					etype: 'checkbox',
 					style: {'margin': '0 3px 0'}
 				},
 				text: {
-					dtype: 'text',
+					etype: 'text',
 					text: 'Who am i?'
 				}
 			}
@@ -35,12 +35,12 @@ $.dino({
 			
 			components: {
 				addTab: {
-					dtype: 'box',
+					etype: 'box',
 					html: '<li/>',
 					cls: 'dino-tabs-item dino-border-all dino-bg-3',
 					style: {'padding-left': 7, 'padding-right': 7},
 					content: {
-						dtype: 'action-icon',
+						etype: 'action-icon',
 						cls: 'plus-icon',
 						style: {'vertical-align': 'middle', 'display': 'inline-block'}
 					},
@@ -55,8 +55,8 @@ $.dino({
 });
 
     
-$.dino({
-  dtype: 'tab-panel',
+$.ergo({
+  etype: 'tab-panel',
   renderTo: '.preview',
   tabPosition: 'bottom',
   panelModel: {

@@ -2,18 +2,18 @@
 //= require <core/widget>
 
 
-Dino.drag = null;
-//Dino.Draggable.dragPane = $.dino({dtype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');
-//Dino.droppableList = [];
+Ergo.drag = null;
+//Ergo.Draggable.dragPane = $.ergo({etype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');
+//Ergo.droppableList = [];
 
-Dino.Draggable = function(o) {
+Ergo.Draggable = function(o) {
 	
 	o.events.mousedown = function(e, w) {
 		
 		if(e.button != 0) return;
 		
-		if(!Dino.drag) {
-			Dino.drag = {
+		if(!Ergo.drag) {
+			Ergo.drag = {
 				started: false,
 				source: w,
 				offset: [8, 8]
@@ -23,14 +23,14 @@ Dino.Draggable = function(o) {
 	};
 	
 	o.events.mouseup = function(e){
-		if(Dino.drag) {
-			Dino.drag = null;
+		if(Ergo.drag) {
+			Ergo.drag = null;
 		}
 	};
 	
 	o.events.mousemove = function(e) {
 			
-		var drag = Dino.drag;
+		var drag = Ergo.drag;
 		
 		if(drag) {
 			
@@ -39,12 +39,12 @@ Dino.Draggable = function(o) {
 			if(!drag.started) {
 				drag.started = true;
 				
-				var event = new Dino.events.CancelEvent({dragContext: drag});
+				var event = new Ergo.events.CancelEvent({dragContext: drag});
 				drag.source.events.fire('onDrag', event);
 				
 				if(event.isCanceled){
 					if(drag.proxy) drag.proxy.destroy();
-					Dino.drag = null;
+					Ergo.drag = null;
 					return;
 				}
 				
@@ -53,7 +53,7 @@ Dino.Draggable = function(o) {
 
 //					drag.dragPane = $('<div class="split-pane"></div>');
 					
-					$('body').append(Dino.Draggable.dragPane.el);
+					$('body').append(Ergo.Draggable.dragPane.el);
 					$('body').append(drag.proxy.el);
 				}
 				
@@ -62,17 +62,17 @@ Dino.Draggable = function(o) {
 	};
 	
 	
-	if(!Dino.Draggable.dragReady) {
+	if(!Ergo.Draggable.dragReady) {
 		
-		Dino.Draggable.dragPane = $.dino({dtype: 'glass-pane'});
+		Ergo.Draggable.dragPane = $.ergo({etype: 'glass-pane'});
 		
-		Dino.Draggable.dragReady = true;
-//		$('body').append(Dino.dragPane);
+		Ergo.Draggable.dragReady = true;
+//		$('body').append(Ergo.dragPane);
 		
 		//FIXME здесь было бы правильней создавать glass pane, а не использовать body
 		
-		Dino.Draggable.dragPane.el.mousemove(function(e){
-			var drag = Dino.drag;
+		Ergo.Draggable.dragPane.el.mousemove(function(e){
+			var drag = Ergo.drag;
 	
 			if(!drag) return;
 			
@@ -81,7 +81,7 @@ Dino.Draggable = function(o) {
 				
 				$('.droppable:visible').each(function(i, el){
 					el = $(el);
-					var target = el.dino();
+					var target = el.ergo();
 					
 					if(!target) return; // эта строка появилась после возникновения ошибки в TreeGridLayout
 					
@@ -106,7 +106,7 @@ Dino.Draggable = function(o) {
 					target.cached_bounds = bounds;
 				});
 				
-//				Dino.each(Dino.droppableList, function(target){
+//				Ergo.each(Ergo.droppableList, function(target){
 //					var bounds = {};
 //					if(target.cached_bounds) {
 //						bounds = target.cached_bounds;
@@ -132,13 +132,13 @@ Dino.Draggable = function(o) {
 			
 		});
 					
-		Dino.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
+		Ergo.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
 			
 			// отсоединяем прозрачную панель от страницы
-			Dino.Draggable.dragPane.el.detach();
-//			Dino.dragPane.addClass('hidden');
+			Ergo.Draggable.dragPane.el.detach();
+//			Ergo.dragPane.addClass('hidden');
 			
-			var drag = Dino.drag;		
+			var drag = Ergo.drag;		
 			
 			if(drag && drag.started) {
 				// уничтожаем прокси-объект
@@ -146,14 +146,14 @@ Dino.Draggable = function(o) {
 				
 				// ищем цель переноса под курсором (если виджет имеет опцию dropTarget)
 				var target = $(document.elementFromPoint(e.clientX, e.clientY));//e.originalTarget);
-//				var w = target.dino();
-//				if(!w || !Dino.droppable){
+//				var w = target.ergo();
+//				if(!w || !Ergo.droppable){
 //				var path = target.parents().andSelf();
 				var path = [];
 				target.parents().andSelf().each(function(i, el){	path.push(el);	});
 				target = null;
-				Dino.each(path.reverse(), function(el){
-					var w = $(el).dino();
+				Ergo.each(path.reverse(), function(el){
+					var w = $(el).ergo();
 					if(w && w.states.is('droppable')) {
 						target = w;
 						return false;
@@ -164,16 +164,16 @@ Dino.Draggable = function(o) {
 				if(target) target.events.fire('onDrop', {source: drag.source});			
 			}
 			
-			Dino.drag = null;
+			Ergo.drag = null;
 			$('.droppable:visible').each(function(i, el){
-				var target = $(el).dino();
+				var target = $(el).ergo();
 				if(target) {
 					delete target['cached_bounds'];
 					target.states.clear('dragover');					
 				}
 			});
 			
-//			Dino.each(Dino.droppableList, function(tgt){ delete tgt['cached_bounds']; tgt.states.clear('hover'); });
+//			Ergo.each(Ergo.droppableList, function(tgt){ delete tgt['cached_bounds']; tgt.states.clear('hover'); });
 		});	
 		
 	}
@@ -182,5 +182,5 @@ Dino.Draggable = function(o) {
 };
 
 
-Dino.Draggable.dragReady = false;
-Dino.Draggable.dragPane = null;
+Ergo.Draggable.dragReady = false;
+Ergo.Draggable.dragPane = null;

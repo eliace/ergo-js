@@ -5,9 +5,9 @@
 
 /**
  * @class
- * @extends Dino.widgets.Icon
+ * @extends Ergo.widgets.Icon
  */
-Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Icon', /** @lends Dino.widgets.PulseIcon.prototype */{
+Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Icon', /** @lends Ergo.widgets.PulseIcon.prototype */{
 	
 	defaultCls: 'dino-pulse-icon',
 	
@@ -15,14 +15,14 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 		pulseDelay: 200,
 		components: {
 			image: {
-				dtype: 'image'
+				etype: 'image'
 			}
 		}
 	},
 	
 	
 	$events: function(self) {
-		Dino.widgets.PulseIcon.superclass.$events.apply(this, arguments);
+		Ergo.widgets.PulseIcon.superclass.$events.apply(this, arguments);
 		
 		this.image.el.bind('mouseenter', function(){
 			$(this).clearQueue();
@@ -33,7 +33,7 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 		
 		this.image.el.bind('mouseleave', function(e){
 			var o = self.options;
-			var event = new Dino.events.CancelEvent({}, e);
+			var event = new Ergo.events.CancelEvent({}, e);
 			self.events.fire('onBeforePulseDown', event);
 			
 			if(!event.isCanceled) self.pulseDown();
@@ -42,7 +42,7 @@ Dino.widgets.PulseIcon = Dino.declare('Dino.widgets.PulseIcon', 'Dino.widgets.Ic
 	},
 	
 	$opt: function(o){
-		Dino.widgets.PulseIcon.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.PulseIcon.superclass.$opt.apply(this, arguments);
 		
 		if('src' in o) this.image.el.attr('src', o.src);
 		if(!('imageHeight' in o)) o.imageHeight = o.imageWidth;

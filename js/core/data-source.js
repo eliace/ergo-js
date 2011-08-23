@@ -3,10 +3,10 @@
 
 
 
-Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
+Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	
 	defaults: {
-		extensions: [Dino.Observable],
+		extensions: [Ergo.Observable],
 		lazy: true
 	},
 	
@@ -23,26 +23,19 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			this.id = id;
 		}
 		
-		Dino.core.DataSource.superclass.initialize.call(this, o || {});
+		Ergo.core.DataSource.superclass.initialize.call(this, o || {});
 		
 		var self = this;
 		var o = this.options;
 		var val = this._val();
 		
-		this.entries = $.isArray(val) ? new Dino.core.Array() : new Dino.core.Collection();
+		this.entries = $.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
 		
 		if(!o.lazy) {
-			Dino.each(val, function(v, i){	self.ensure(i); });
+			Ergo.each(val, function(v, i){	self.ensure_entry(i); });
 		}
 		
 	},
-	
-	
-	factory: function(i) {
-		return new Dino.core.DataSource(this, i);		
-	},
-	
-	
 	
 	
 	entry: function(i) {
@@ -57,14 +50,19 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			for(var j = 0; j < a.length; j++) e = e.entry(a[j]);
 		}
 				
-		return e.ensure(i);
+		return e.ensure_entry(i);
 	},
 	
 	
-	ensure: function(i) {
+	create_entry: function(i) {
+		return new Ergo.core.DataSource(this, i);		
+	},
+	
+	
+	ensure_entry: function(i) {
 		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
 		if(!this.entries.has_key(i)) {
-			this.entries.set(i, this.factory(i));
+			this.entries.set(i, this.create_entry(i));
 		}
 		
 		return this.entries.get(i);
@@ -75,7 +73,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	_val: function() {
 //		if('_cached' in this) return this._cached;
 		var v = undefined;
-		if(this.source instanceof Dino.core.DataSource){
+		if(this.source instanceof Ergo.core.DataSource){
 			v = ('id' in this) ? this.source._val()[this.id]: this.source._val();
 		}
 		else{
@@ -97,7 +95,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	
 	
 	get_copy: function(i) {
-		return Dino.deep_copy(this.get(i));
+		return Ergo.deep_copy(this.get(i));
 	},
 	
 	// устанавливаем значение
@@ -109,7 +107,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 			
 			var oldValue = this._val();
 			
-			if (this.source instanceof Dino.core.DataSource) {
+			if (this.source instanceof Ergo.core.DataSource) {
 				('id' in this) ? this.source._val()[this.id] = newValue : this.source.set(newValue);
 	  	}
 			else {
@@ -118,7 +116,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
-			if(this.source instanceof Dino.core.DataSource)
+			if(this.source instanceof Ergo.core.DataSource)
 				this.source.events.fire('onEntryChanged', {entry: this});
 			
 			this._changed = true;
@@ -156,7 +154,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 				// добавляем новый элемент массива
 				values.splice(index, 0, value);
 
-				this.entries.set(index, this.factory(index));
+				this.entries.set(index, this.create_entry(index));
 				
 			}
 			
@@ -179,7 +177,7 @@ Dino.declare('Dino.core.DataSource', 'Dino.core.Object', {
 	del: function(i) {
 		
 		if(i === undefined) {
-			if(this.source instanceof Dino.core.DataSource)
+			if(this.source instanceof Ergo.core.DataSource)
 				this.source.del(this.id);
 			else
 				throw new Error('Cannot delete root data source');

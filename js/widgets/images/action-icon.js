@@ -2,7 +2,7 @@
 //= require "icon"
 
 
-Dino.widgets.ActionIcon = Dino.declare('Dino.widgets.ActionIcon', 'Dino.widgets.Icon', {
+Ergo.widgets.ActionIcon = Ergo.declare('Ergo.widgets.ActionIcon', 'Ergo.widgets.Icon', {
 
 //	defaultCls: 'dino-action-icon',
 	

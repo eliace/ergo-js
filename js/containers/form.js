@@ -3,14 +3,14 @@
 
 
 /*
-Dino.declare('Dino.widgets.FormItem', 'Dino.containers.List', {
+Ergo.declare('Ergo.widgets.FormItem', 'Ergo.containers.List', {
 	
 	
 	$init: function(o) {
-		Dino.widgets.FormItem.superclass.$init.apply(this, arguments);		
+		Ergo.widgets.FormItem.superclass.$init.apply(this, arguments);		
 
-		this.label = Dino.widget({
-			dtype: 'label',
+		this.label = Ergo.widget({
+			etype: 'label',
 			text: o.label
 		});
 		this.addItem(this.label, 0);	
@@ -27,7 +27,7 @@ Dino.declare('Dino.widgets.FormItem', 'Dino.containers.List', {
 
 
 
-Dino.declare('Dino.containers.Form', 'Dino.containers.List', {
+Ergo.declare('Ergo.containers.Form', 'Ergo.containers.List', {
 
 	defaults: {
 //		layout: 'form-layout'
@@ -37,7 +37,7 @@ Dino.declare('Dino.containers.Form', 'Dino.containers.List', {
 	$html: function() { return '<form method="post"></form>'; },
 	
 	$opt: function(o) {
-		Dino.containers.Form.superclass.$opt.apply(this, arguments);
+		Ergo.containers.Form.superclass.$opt.apply(this, arguments);
 		
 		if('action' in o) this.el.attr('action', o.action);
 		if('enctype' in o) this.el.attr('enctype', o.enctype);

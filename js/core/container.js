@@ -2,40 +2,35 @@
 //= require "widget"
 //= require "item-collection"
 
-/**
- * @name Dino.containers
- * @namespace
- */
-
 
 /**
  * Базовый класс для контейнеров.
  * 
  * @class
- * @name Dino.core.Container
- * @extends Dino.core.Widget
+ * @name Ergo.core.Container
+ * @extends Ergo.core.Widget
  * @param {Object} o параметры
  * 
  */
-Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Container.prototype */ {
+Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Container.prototype */ {
 	
 	
 	defaults: {
 		defaultItemShortcuts: {},
 		itemFactory: function(o) {
 			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
-			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
 		}
 	},
 	
 	$init: function(o) {
-		Dino.core.Container.superclass.$init.apply(this, arguments);
+		Ergo.core.Container.superclass.$init.apply(this, arguments);
 		
 		/**
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = new Dino.core.ItemCollection(this);
+		this.items = new Ergo.core.ItemCollection(this);
 		
 //		if('items' in o)
 //			o.components = o.items;
@@ -49,13 +44,13 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 //	$componentFactory: function(item) {
 //		if( $.isPlainObject(item) ) 
-//			item = Dino.widget( Dino.smart_override({}, this.options.defaultItem, item) );
+//			item = Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, item) );
 //		return item;
 //	},
 	
 	
 	$construct: function(o) {
-		Dino.core.Container.superclass.$construct.apply(this, arguments);
+		Ergo.core.Container.superclass.$construct.apply(this, arguments);
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
@@ -65,16 +60,16 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	},
 
 //	$opt: function(o) {
-//		Dino.core.Container.superclass.$opt.call(this, o);
+//		Ergo.core.Container.superclass.$opt.call(this, o);
 //		
 //	},
 
 	
 //	$afterRender: function() {
-//		Dino.core.Container.superclass.$afterRender.apply(this);
+//		Ergo.core.Container.superclass.$afterRender.apply(this);
 //	},
 
-	//FIXME по идее этот мето должен быть в Dino.core.Widget
+	//FIXME по идее этот мето должен быть в Ergo.core.Widget
 //	$dataChanged: function() {
 //		this.children.each(function(item) { item.$dataChanged(); });
 //	},
@@ -84,28 +79,28 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //	 * Получить элемент контейнера 
 //	 * 
 //	 * @param {Object} criteria критерий
-//	 * @returns {Dino.core.Widget} элемент контейнера или undefined
+//	 * @returns {Ergo.core.Widget} элемент контейнера или undefined
 //	 */
 //	getItem: function(i){
-//		return this.items.find( Dino.utils.widget_filter(i) );
-////		return Dino.find(this.items, Dino.utils.widget_filter(i));	
+//		return this.items.find( Ergo.utils.widget_filter(i) );
+////		return Ergo.find(this.items, Ergo.utils.widget_filter(i));	
 //	},
 //	
 //	/**
 //	 * Добавить элемент контейнера
 //	 * 
-//	 * @param {Object|Dino.core.Widget} item виджет или параметры виджета
+//	 * @param {Object|Ergo.core.Widget} item виджет или параметры виджета
 //	 * @param {Integer} index индекс, с которым будет добавлен новый элемент
-//	 * @returns {Dino.core.Widget} добавленный элемент
+//	 * @returns {Ergo.core.Widget} добавленный элемент
 //	 */
 //	addItem: function(item, index) {
-////		Dino.core.Container.superclass.addChild.call(this, item);
+////		Ergo.core.Container.superclass.addChild.call(this, item);
 //		
 //		var itemOpts = item;
 //		
 //		// если новый элемент является набором параметров, то строим виджет
 //		item = this.$componentFactory( itemOpts );
-////		if( $.isPlainObject(item) ) item = this.itemFactory( Dino.smart_override({}, this.options.defaultItem, item) );
+////		if( $.isPlainObject(item) ) item = this.itemFactory( Ergo.smart_override({}, this.options.defaultItem, item) );
 //		
 //		this.items.add(item);
 //		this.children.add(item);
@@ -149,12 +144,12 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //	 * Удалить элемент.
 //	 * 
 //	 * @param {Object} item удаляемый элемент
-//	 * @returns {Dino.core.Widget} удаленный элемент
+//	 * @returns {Ergo.core.Widget} удаленный элемент
 //	 */
 //	removeItem: function(item) {
 //		
 //		this.items.remove(item);
-////		Dino.array_remove(this.items, item);
+////		Ergo.array_remove(this.items, item);
 //
 //		var index = item.index;
 //		
@@ -173,7 +168,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 //	/**
 //	 * Уничтожить элемент.
 //	 * 
-//	 * После удаления элементы вызывается метод {@link Dino.core.Object#destroy }
+//	 * После удаления элементы вызывается метод {@link Ergo.core.Object#destroy }
 //	 * 
 //	 * @param {Object} item
 //	 */
@@ -203,23 +198,23 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 ////		// очищаем список дочерних элементов
 ////		this.children.removeAll();
 //
-////		var t0 = Dino.timestamp();
+////		var t0 = Ergo.timestamp();
 //
 //		while(this.items.length() > 0)
 //			this.removeItem(this.items.first()).destroy();
 //
-////		var t1 = Dino.timestamp();	
+////		var t1 = Ergo.timestamp();	
 ////		console.log(t1 - t0);
 //		
 ////		var self = this;
-////		Dino.each(this.items, function(item){ self.removeItem(item); item.destroy(); });
+////		Ergo.each(this.items, function(item){ self.removeItem(item); item.destroy(); });
 //	},
 //	
 //	/**
 //	 * Замена элемента
 //	 * 
 //	 * @param {Any} criteria критерий
-//	 * @param {Object|Dino.core.Widget} newItem 
+//	 * @param {Object|Ergo.core.Widget} newItem 
 //	 */
 //	replaceItem: function(criteria, newItem) {
 //		var item = this.children.find(criteria);
@@ -252,7 +247,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	$bind: function(data, update, phase) {
 		
 		if(!this.options.dynamic) {
-			Dino.core.Container.superclass.$bind.apply(this, arguments);
+			Ergo.core.Container.superclass.$bind.apply(this, arguments);
 			return;
 		}
 		
@@ -271,9 +266,9 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 		
 		
 		if('dataId' in o)
-			this.data = (data instanceof Dino.core.DataSource) ? data.entry(o.dataId) : new Dino.core.DataSource(data, o.dataId);
+			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(o.dataId) : new Ergo.core.DataSource(data, o.dataId);
 		else
-			this.data = (data instanceof Dino.core.DataSource) ? data : new Dino.core.DataSource(data);
+			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 		
 		
 		
@@ -303,14 +298,14 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 			// уничтожаем все элементы-виджеты
 			self.items.destroy_all();
 
-//			var t0 = Dino.timestamp();
+//			var t0 = Ergo.timestamp();
 
 			self.data.iterate(function(dataEntry, i){
 				var item = self.items.add({ 'data': dataEntry });
 				item.dataPhase = 2;
 			});
 		
-//			var t1 = Dino.timestamp();
+//			var t1 = Ergo.timestamp();
 //			console.log(t1 - t0);
 				
 			self.layout.immediateRebuild = true;
@@ -350,7 +345,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	
 
 	item: function(i) {
-		return this.items.find(Dino.utils.widget_filter(i));		
+		return this.items.find(Ergo.filters.by_widget(i));		
 	}
 	
 	
@@ -359,7 +354,7 @@ Dino.declare('Dino.core.Container', 'Dino.core.Widget', /** @lends Dino.core.Con
 	$dataChanged: function() {
 		
 		if(!this.options.dynamic) {
-			Dino.core.Container.superclass.$dataChanged.call(this);
+			Ergo.core.Container.superclass.$dataChanged.call(this);
 			return;	
 		}
 		

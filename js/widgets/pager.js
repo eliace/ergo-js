@@ -5,9 +5,9 @@
 
 /**
  * @class
- * @extends Dino.containers.List
+ * @extends Ergo.containers.List
  */
-Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', /** @lends Dino.widgets.Pager.prototype */{
+Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', /** @lends Ergo.widgets.Pager.prototype */{
 	
 	defaults: {
 		cls: 'dino-pager',
@@ -15,27 +15,27 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', 
 		binding: false,
 		count: 1,
 		items: [{
-			dtype: 'icon-button',
+			etype: 'icon-button',
 //			cls: 'dino-corner-all dino-border-none',
 			icon: 'dino-icon-pager-first', //'led-icon-control-rewind',
 			onAction: function() {
 				this.parent.setIndex(0);
 			}
 		}, {
-			dtype: 'icon-button',
+			etype: 'icon-button',
 //			cls: 'dino-corner-all dino-border-none',
 			icon: 'dino-icon-pager-prev', //'led-icon-control-backward',
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()-1);
 			}
 		}, {
-			dtype: 'split',
+			etype: 'split',
 			width: 2
 		}, {
-			dtype: 'text',
+			etype: 'text',
 			innerText: 'Страница'
 		}, {
-			dtype: 'text-input',
+			etype: 'text-input',
 			width: 30,
 			tag: 'current_page',
 			value: '1',
@@ -45,31 +45,31 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', 
 				}
 			}
 		}, {
-			dtype: 'text',
+			etype: 'text',
 			tag: 'num_pages',
 			innerText: 'из 10'
 		}, {
-			dtype: 'split',
+			etype: 'split',
 			width: 2
 		}, {
-			dtype: 'icon-button',
+			etype: 'icon-button',
 //			cls: 'dino-corner-all dino-border-none',
 			icon: 'dino-icon-pager-next', //'led-icon-control-play',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()+1);
 			}
 		}, {
-			dtype: 'icon-button',
+			etype: 'icon-button',
 //			cls: 'dino-corner-all dino-border-none',
 			icon: 'dino-icon-pager-last', //'led-icon-control-fastforward',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getMaxIndex());
 			}
 		}/*, {
-			dtype: 'split',
+			etype: 'split',
 			width: 2
 		}, {
-			dtype: 'icon-button',
+			etype: 'icon-button',
 			cls: 'dino-corner-all dino-border-none',
 			icon: 'led-icon-refresh',
 			onAction: function() {
@@ -81,14 +81,14 @@ Dino.widgets.Pager = Dino.declare('Dino.widgets.Pager', 'Dino.containers.List', 
 	
 	
 	$init: function(o) {
-		Dino.widgets.Pager.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Pager.superclass.$init.apply(this, arguments);
 		
 		this.total_size = this.offset = 0;
 		this.page_size = 1;
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.Pager.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.Pager.superclass.$opt.apply(this, arguments);
 		
 		if('pageSize' in o){
 			this.page_size = o.pageSize || 1;

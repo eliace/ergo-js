@@ -1,6 +1,6 @@
     
-$.dino({
-  dtype: 'tree',
+$.ergo({
+  etype: 'tree',
   renderTo: '.preview',
   cls: 'simple-tree',
   
@@ -22,13 +22,13 @@ $.dino({
 	              }
 	            }
 	          },
-	          extensions: [Dino.Draggable, Dino.Droppable],
+	          extensions: [Ergo.Draggable, Ergo.Droppable],
 	//          draggable: true,
 	          onDrag: function(e) {
 	            this.parent.states.set('dragged');
 	            
-	            e.dragContext.proxy = $.dino({
-	              dtype: 'text',
+	            e.dragContext.proxy = $.ergo({
+	              etype: 'text',
 	              text: this.getText(),
 	              cls: 'dino-border-all',
 	              style: {'background-color': '#fff'},

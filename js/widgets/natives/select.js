@@ -4,15 +4,15 @@
 
 /**
  * @class
- * @name Dino.widgets.form.SelectOption
- * @extends Dino.core.Widget
+ * @name Ergo.widgets.form.SelectOption
+ * @extends Ergo.core.Widget
  */
-Dino.declare('Dino.widgets.SelectOption', 'Dino.core.Widget', /** @lends Dino.widgets.form.SelectOption.prototype */{
+Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.SelectOption.prototype */{
 	
 	$html: function() { return '<option/>'; },
 	
 	$opt: function(o) {
-		Dino.widgets.SelectOption.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.SelectOption.superclass.$opt.apply(this, arguments);
 		
 		if('value' in o) this.el.attr('value', o.value);
 		if('text' in o) this.el.text(o.text);
@@ -24,18 +24,18 @@ Dino.declare('Dino.widgets.SelectOption', 'Dino.core.Widget', /** @lends Dino.wi
 
 /**
  * @class
- * @name Dino.widgets.form.Select
- * @extends Dino.core.Container
+ * @name Ergo.widgets.form.Select
+ * @extends Ergo.core.Container
  */
-Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widgets.form.Select.prototype */{
+Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widgets.form.Select.prototype */{
 	$html: function() { return '<select/>'; },
 	
 	defaults: {
 		components: {
 			optionsList: {
-				dtype: 'container',
+				etype: 'container',
 				defaultItem: {
-					dtype: 'select-option'
+					etype: 'select-option'
 				}
 			}
 		},
@@ -44,7 +44,7 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	},
 	
 	$init: function(o) {
-		Dino.widgets.Select.superclass.$init.call(this, o);
+		Ergo.widgets.Select.superclass.$init.call(this, o);
 		
 		if('options' in o) {
 			var items = [];
@@ -63,14 +63,14 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	
 	
 	$construct: function(o) {
-		o.components.optionsList.layout = new Dino.core.Layouts.InheritedLayout({parentLayout: this.layout });
+		o.components.optionsList.layout = new Ergo.core.Layouts.InheritedLayout({parentLayout: this.layout });
 
-		Dino.widgets.Select.superclass.$construct.apply(this, arguments);		
+		Ergo.widgets.Select.superclass.$construct.apply(this, arguments);		
 	},
 	
 		
 	$opt: function(o) {
-		Dino.widgets.Select.superclass.$opt.call(this, o);
+		Ergo.widgets.Select.superclass.$opt.call(this, o);
 /*		
 		if('options' in o){
 			this.el.empty();
@@ -87,13 +87,13 @@ Dino.declare('Dino.widgets.Select', 'Dino.core.Container', /** @lends Dino.widge
 	},
 	
 	$events: function(self) {
-		Dino.widgets.Select.superclass.$events.call(this, self);
+		Ergo.widgets.Select.superclass.$events.call(this, self);
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.Select.superclass.$dataChanged.call(this);
+		Ergo.widgets.Select.superclass.$dataChanged.call(this);
 		this.el.val( this.getValue() );
 	}
 	

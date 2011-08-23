@@ -3,26 +3,26 @@
 
 
 /**
- * @name Dino.events
+ * @name Ergo.events
  * @namespace
  */
 
 
 /**
  * @class
- * @name Dino.events.Event
- * @extends Dino.core.Object
+ * @name Ergo.events.Event
+ * @extends Ergo.core.Object
  */
-Dino.declare('Dino.events.Event', Dino.core.Object, /** @lends Dino.events.Event.prototype */{
+Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 	
 	/**
 	 * @param {Object} overrides
 	 * @param {Object} baseEvent
 	 */
 	initialize: function(overrides, baseEvent) {
-		Dino.events.Event.superclass.initialize.call(this);
+		Ergo.events.Event.superclass.initialize.call(this);
 		
-		if(overrides) Dino.override(this, overrides);
+		if(overrides) Ergo.override(this, overrides);
 		
 //		this.is_stopped = false;
 		this.baseEvent = baseEvent;
@@ -31,16 +31,16 @@ Dino.declare('Dino.events.Event', Dino.core.Object, /** @lends Dino.events.Event
 });
 
 
-Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', /** @lends Dino.events.CancelEvent.prototype */{
+Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
 
 	/**
 	 * @constructs
- 	 * @extends Dino.events.Event
+ 	 * @extends Ergo.events.Event
 	 * @param {Object} overrides
 	 * @param {Object} baseEvent
 	 */
 	initialize: function(overrides, baseEvent) {
-		Dino.events.CancelEvent.superclass.initialize.apply(this, arguments);
+		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
 		this.isCanceled = false;
 	},
 	
@@ -53,7 +53,7 @@ Dino.declare('Dino.events.CancelEvent', 'Dino.events.Event', /** @lends Dino.eve
 
 
 
-Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
+Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
 	
 	initialize: function(target) {
 		this.events = {}; 
@@ -61,7 +61,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 	},
 	
 	reg: function(type, callback, target) {
-		if(!(type in this.events)) this.events[type] = [];//new Dino.core.Array();
+		if(!(type in this.events)) this.events[type] = [];//new Ergo.core.Array();
 		var h_arr = this.events[type];
 		h_arr.push({'callback': callback, 'target': target || this.target});
 		return this;
@@ -79,7 +79,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		var events = this.events;
 		
 		if(arguments.length == 2){
-			events[arg] = Dino.filter( events[arg], function(h) { return h.callback != arg2; } );
+			events[arg] = Ergo.filter( events[arg], function(h) { return h.callback != arg2; } );
 		}
 		else if( $.isString(arg) ){
 			// удаляем все обработчики с данным именем
@@ -88,13 +88,13 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		else if( $.isFunction(arg) ){
 			// удаляем указанный обработчик
 			for(var i = 0; i < events.length; i++) {
-				events[i] = Dino.filter( events[i], function(h) { return h.callback != arg; } );
+				events[i] = Ergo.filter( events[i], function(h) { return h.callback != arg; } );
 			}
 		}
 		else {
 			// удаляем все обработчики для указанного объекта
 			for(var i = 0; i < events.length; i++) {
-				events[i] = Dino.filter( events[i], function(h) { return h.target != arg; } );
+				events[i] = Ergo.filter( events[i], function(h) { return h.target != arg; } );
 			}
 		}
 		
@@ -109,19 +109,19 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 		
 		// "ленивая" генерация базового события
 		if(arguments.length == 1) 
-			e = new Dino.events.Event();
+			e = new Ergo.events.Event();
 		else if( $.isPlainObject(e) ){
-			e = new Dino.events.Event(e, baseEvent);
+			e = new Ergo.events.Event(e, baseEvent);
 		}
 		
 //		var self = this;
 		
 		var h_arr = this.events[type];
 		if(h_arr) {
-			Dino.each(h_arr, function(h){
+			Ergo.each(h_arr, function(h){
 				h.callback.call(h.target, e);
 			});
-			this.events[type] = Dino.filter( this.events[type], function(h) { return !h.once; } );
+			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
 		}
 		
 		return this;
@@ -131,17 +131,17 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 });
 
 
-//Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
+//Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
 //	
 //	
 //	/**
 //	 * @constructs
-//	 * @extends Dino.core.Object
+//	 * @extends Ergo.core.Object
 //	 * @param {Object} target
 //	 */
 //	initialize: function(target) {
-//		Dino.events.Dispatcher.superclass.initialize.apply(this, arguments);
-//		this.tree = new Dino.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
+//		Ergo.events.Dispatcher.superclass.initialize.apply(this, arguments);
+//		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
 //		this.target = target;
 //	},
 //	
@@ -169,7 +169,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //		if(arguments.length == 2){
 //			var node = this.tree.get(arg);
 //			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
-//			node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg2));
+//			node.handlers = Ergo.filter(node.handlers, Ergo.ne.curry(arg2));
 //		}
 //		else if( $.isString(arg) ){
 //			this.tree.del(arg);
@@ -177,12 +177,12 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //		else if( $.isFunction(arg) ){
 //			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
 //			this.tree.traverse(function(node){
-//				node.handlers = Dino.filter(node.handlers, Dino.ne.curry(arg));
+//				node.handlers = Ergo.filter(node.handlers, Ergo.ne.curry(arg));
 //			});
 //		}
 //		else {
 //			this.tree.traverse(function(node){
-//				node.handlers = Dino.filter(node.handlers, function(h) { return (h.target != arg); });
+//				node.handlers = Ergo.filter(node.handlers, function(h) { return (h.target != arg); });
 //			});
 //		}
 //		
@@ -201,9 +201,9 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //		
 //		// "ленивая" генерация базового события
 //		if(arguments.length == 1) 
-//			event = new Dino.events.Event();
+//			event = new Ergo.events.Event();
 //		else if( $.isPlainObject(event) ){
-//			event = new Dino.events.Event(event, baseEvent);
+//			event = new Ergo.events.Event(event, baseEvent);
 //		}
 //		
 //		var self = this;
@@ -212,7 +212,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //		var node0 = this.tree.get( type );
 //		// обходим всех потомков и вызываем все обработчики событий
 //		this.tree.traverse(function(node){
-//			Dino.each(node.handlers, function(h){
+//			Ergo.each(node.handlers, function(h){
 //				h.callback.call(h.target || self.target, event);
 //			});
 //		}, node0);
@@ -221,7 +221,7 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 //	},
 //	
 //	unreg_all: function(){
-//		this.tree = new Dino.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);		
+//		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);		
 //	}
 //	
 //	
@@ -233,18 +233,18 @@ Dino.declare('Dino.events.Dispatcher', 'Dino.core.Object', {
 
 
 
-Dino.Observable = function() {
-	this.events = new Dino.events.Dispatcher(this);
+Ergo.Observable = function() {
+	this.events = new Ergo.events.Dispatcher(this);
 }
 
 
 /*
-Dino.declare('Dino.events.Observer', 'Dino.core.Object', {
+Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', {
 	
 	initialize: function() {
-		Dino.events.Observer.superclass.initialize.apply(this, arguments);
+		Ergo.events.Observer.superclass.initialize.apply(this, arguments);
 		
-		this.events = new Dino.events.Dispatcher(this);
+		this.events = new Ergo.events.Dispatcher(this);
 	}
 	
 });

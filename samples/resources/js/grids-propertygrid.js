@@ -1,12 +1,12 @@
 
-var gridData = new Dino.core.DataSource();
+var gridData = new Ergo.core.DataSource();
 
 
     
     
-var propertyGrid = $.dino({
+var propertyGrid = $.ergo({
   renderTo: '.preview',
-  dtype: 'table-grid',
+  etype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 400,
 //  content: {
@@ -22,7 +22,7 @@ var propertyGrid = $.dino({
     cell: {
       cls: 'grid-cell',
       binding: 'auto',
-      extensions: [Dino.Editable]
+      extensions: [Ergo.Editable]
     },
     columns: [{
       dataId: 'name',
@@ -31,7 +31,7 @@ var propertyGrid = $.dino({
       dataId: 'value',
       header: 'Значение',
       width: 100,
-      extensions: [Dino.Clickable],
+      extensions: [Ergo.Clickable],
 //      state: 'clickable',
       onDoubleClick: function(){
         if( this.opt('editable') ) this.startEdit();
@@ -40,13 +40,13 @@ var propertyGrid = $.dino({
         var val = this.data.source.get();
 
         if(val.type == 'boolean') {
-          this.components.add({dtype: 'checkbox'}, 'content');
+          this.components.add({etype: 'checkbox'}, 'content');
           this.opt('editable', false);
         }
         else if(val.type == 'select') {
 
           this.opt('editor', {
-            dtype: 'dropdown-editor',
+            etype: 'dropdown-editor',
             components: {
               button: {
                 cls: 'ui-icon ui-icon-triangle-1-s'
@@ -71,7 +71,7 @@ var propertyGrid = $.dino({
         else if(val.type == 'date') {
           
           this.opt('editor', {
-            dtype: 'dropdown-editor',
+            etype: 'dropdown-editor',
             components: {
               button: {
                 cls: 'silk-icon-date'
@@ -108,14 +108,14 @@ var propertyGrid = $.dino({
         else if(val.type == 'numeric') {
           
           this.opt('editor', {
-            dtype: 'spinner-editor'
+            etype: 'spinner-editor'
           });
           
         }
         else {
 
           this.opt('editor!', {
-            dtype: 'text-editor'
+            etype: 'text-editor'
           });
           
         }

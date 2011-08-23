@@ -1,9 +1,9 @@
 
 //= require <core/widget>
 
-//Dino.Clickable = function(o) {
+//Ergo.Clickable = function(o) {
 //	
-//	Dino.smart_override(o, {events: {
+//	Ergo.smart_override(o, {events: {
 //		'click': function(e, w) {
 //			w.events.fire('onClick', {button: 0}, e);
 //		},
@@ -18,20 +18,20 @@
 
 
 
-Dino.RClickable = function(o) {
+Ergo.RClickable = function(o) {
 	
-	Dino.smart_override(o, {events: {
+	Ergo.smart_override(o, {events: {
 		'mousedown': function(e, w) {
 			// если нажата правая кнопка мыши
 			if(e.button == 2) {
-				Dino.RClickable.click_timestamp = Dino.timestamp();
+				Ergo.RClickable.click_timestamp = Ergo.timestamp();
 			}
 		},
 		'mouseup': function(e, w) {
 			// если отпущена правая кнопка мыши
 			if(e.button == 2) {
-				var t = Dino.timestamp()
-				if(t - Dino.RClickable.click_timestamp < 200) {
+				var t = Ergo.timestamp()
+				if(t - Ergo.RClickable.click_timestamp < 200) {
 					w.events.fire('onClick', {button: 2}, e);					
 				}
 			}			
@@ -44,4 +44,4 @@ Dino.RClickable = function(o) {
 }
 
 
-Dino.RClickable.click_timestamp = 0;
+Ergo.RClickable.click_timestamp = 0;

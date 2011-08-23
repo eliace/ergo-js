@@ -5,13 +5,13 @@
  * Коллекция упорядоченных значений
  * 
  */
-Dino.declare('Dino.core.Array', 'Dino.core.Collection', {
+Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', {
 	
 	initialize: function(src, options) {
-		Dino.core.Array.superclass.initialize.call(this, src || [], options);
+		Ergo.core.Array.superclass.initialize.call(this, src || [], options);
 //		this.src = src || [];
-//		Dino.Observable.call(this);
-//		this.events = new Dino.events.Dispatcher();
+//		Ergo.Observable.call(this);
+//		this.events = new Ergo.events.Dispatcher();
 	},	
 	
 	

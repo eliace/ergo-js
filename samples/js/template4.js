@@ -1,6 +1,6 @@
 
 
-var sampleTree = new Dino.data.Collection([]);
+var sampleTree = new Ergo.data.Collection([]);
 
 
 
@@ -41,52 +41,52 @@ $(document).ready(function(){
 	
 //	Samples = {};
 	
-//	Samples.pool = new Dino.containers.Box();
+//	Samples.pool = new Ergo.containers.Box();
 
 	
 	
-	Application = new Dino.framework.Application({
-//		dtype: 'box',
+	Application = new Ergo.framework.Application({
+//		etype: 'box',
 //		renderTo: 'body',
 		components: {
 			// Логотип
 			logo: {
-				dtype: 'list',
+				etype: 'list',
 				id: 'logo',
 				layout: 'hbox',
 				items: [{
-					dtype: 'icon',
+					etype: 'icon',
 					cls: 'logo-icon icon48',
 				}, {
-					dtype: 'text',
-					text: 'Dino.js',
+					etype: 'text',
+					text: 'Ergo.js',
 					style: {'margin-left': '8px'}
 				}]
 			},
 			// Панель инструментов
 //			toolbar: {
-//				dtype: 'control-box',
+//				etype: 'control-box',
 //				id: 'main-toolbar'
 //			},
 
 
 			// Содержимое
 			pageContent: {
-				dtype: 'list',
+				etype: 'list',
 				layout: 'border',
 				height: 'auto',
 				items: [{
-					dtype: 'box',
+					etype: 'box',
 					region: 'west',
 					cls: 'dino-border-all',
 					width: 200,
 					style: {'background-color': '#fff', 'overflow': 'auto'},
 					height: 'auto',
 					content: {
-						dtype: 'tree',
+						etype: 'tree',
 						data: sampleTree,
 						isDynamic: true,
-						extensions: [Dino.Selectable],
+						extensions: [Ergo.Selectable],
 						treeModel: {
 							node: {
 								expandOnShow: false,
@@ -97,7 +97,7 @@ $(document).ready(function(){
 											xicon: true,
 			      					dataId: 'name',
 											cls: 'dino-clickable',
-	//										extensions: [Dino.Clickable],
+	//										extensions: [Ergo.Clickable],
 	//										state: 'clickable',
 											onClick: function() {
 												path = this.parent.data.get('path');
@@ -107,10 +107,10 @@ $(document).ready(function(){
 													return;
 												}
 												
-												var preview = $('.preview').dino();
+												var preview = $('.preview').ergo();
 												preview.el.empty();
-												var jsPage = $('.js-page').dino();
-												var cssPage = $('.css-page').dino();
+												var jsPage = $('.js-page').ergo();
+												var cssPage = $('.css-page').ergo();
 												
 												$.get('resources/css/'+path+'.css', function(css){
 													
@@ -119,14 +119,14 @@ $(document).ready(function(){
 													
 													$.getScript('resources/js/'+path+'.js', function(script){
 													
-														jsPage.content.el.html('<pre class="sh_javascript">'+Dino.escapeHtml(script)+'</pre>');
+														jsPage.content.el.html('<pre class="sh_javascript">'+Ergo.escapeHtml(script)+'</pre>');
 	
 														// включаем подсветку кода
 														sh_highlightDocument();																									
 													});												
 												}, 'text');
 												
-												this.getParent(Dino.widgets.Tree).selection.set(this.parent.parent);
+												this.getParent(Ergo.widgets.Tree).selection.set(this.parent.parent);
 											}
 										}
 									}
@@ -144,7 +144,7 @@ $(document).ready(function(){
 						}
 					}
 				}, {
-					dtype: 'box',
+					etype: 'box',
 					tag: 'preview_and_code',
 					height: 'auto',
 					
@@ -153,12 +153,12 @@ $(document).ready(function(){
 					
 					content: {
 						
-						dtype: 'tab-panel',
+						etype: 'tab-panel',
 						style: {'padding-top': '3px'},
 						panelModel: {
 							page: {
 								content: {
-									dtype: 'box',
+									etype: 'box',
 									style: {'overflow-y': 'auto'},//, 'background-color': '#fff'},
 									height: 'auto'
 								}
@@ -185,35 +185,35 @@ $(document).ready(function(){
 /*					
 					layout: 'border',
 					items: [{
-						dtype: 'box',
+						etype: 'box',
 						tag: 'preview',
 						cls: 'dino-border-all preview',
 						height: 'auto',
 						style: {'padding': '3px', 'overflow': 'auto'}
 					}, {
-						dtype: 'box',
+						etype: 'box',
 						tag: 'code',
 						region: 'south',
 //						cls: 'dino-border-all',
 						style: {'height': 200},
 //						height: 200,
 						content: {
-							dtype: 'panel',
+							etype: 'panel',
 							tag: 'codePanel',
 							components: {
 						    header: {
 									style:{'font-size': 14, 'border-bottom': 'none', 'overflow': 'hidden'},
 						      layout: {
-						        dtype: 'dock-layout',
+						        etype: 'dock-layout',
 						        updateMode: 'auto'
 						      },
 						      components: {
 						        buttons: {
-							        dtype: 'list',
+							        etype: 'list',
 							        dock: 'right',
 							        layout: 'float',
 							        defaultItem: {
-							          dtype: 'icon-button',
+							          etype: 'icon-button',
 							          cls: 'dino-header-button dino-corner-all',
 							          contentCls: 'dino-icon-dialog',
 							          onAction: function(){
@@ -253,7 +253,7 @@ $(document).ready(function(){
 							},
 							title: '',
 							content: {
-								dtype: 'tab-panel',
+								etype: 'tab-panel',
 								style: {'padding-top': '3px'},
 								defaults: {
 									page: {
@@ -265,7 +265,7 @@ $(document).ready(function(){
 									tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 									cls: 'js-page',
 									content: {
-										dtype: 'box',
+										etype: 'box',
 										style: {'overflow-y': 'auto'},
 										height: 'auto'
 									}
@@ -273,7 +273,7 @@ $(document).ready(function(){
 									tab: {text: 'CSS', icon: 'silk-icon-script-code-red'},
 									cls: 'css-page',
 									content: {
-										dtype: 'box',
+										etype: 'box',
 										style: {'overflow-y': 'auto'},
 										height: 'auto'
 									}
@@ -340,7 +340,7 @@ Samples.generate_grid_page = function(i0, i1) {
 			flag: false,
 			currency: Math.random()*1e2,
 			count: (Math.random()*1e2).toFixed(),
-			date: Dino.format_date(new Date())//.toLocaleString()
+			date: Ergo.format_date(new Date())//.toLocaleString()
 		});
 	}
 	return list;

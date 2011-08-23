@@ -5,25 +5,25 @@
 
 /**
  * @class
- * @extends Dino.core.Layouts.StatefulLayout
+ * @extends Ergo.core.Layouts.StatefulLayout
  */
-Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayout', 'Dino.core.Layouts.StatefulLayout', /** @lends Dino.core.Layouts.TreeGridLayout.prototype */{
+Ergo.core.Layouts.TreeGridLayout = Ergo.declare('Ergo.core.Layouts.TreeGridLayout', 'Ergo.core.Layouts.StatefulLayout', /** @lends Ergo.core.Layouts.TreeGridLayout.prototype */{
 	
 //	initialize: function(){
-//		Dino.core.Layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
+//		Ergo.core.Layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.items = [];
 //	},
 	
 	
 	insert: function(item) {
-		Dino.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+		Ergo.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
-		if(this.container instanceof Dino.core.Layout)
+		if(this.container instanceof Ergo.core.Layout)
 			this.container.insert(item);
 		else {
-//			Dino.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+//			Ergo.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 			if(this.container.el.parents().is('body')) item.$afterRender();
 		}
 		
@@ -33,17 +33,17 @@ Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayou
 	},
 	
 	remove: function(item) {		
-		Dino.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
+		Ergo.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
-		if(this.container instanceof Dino.core.Layout) {
+		if(this.container instanceof Ergo.core.Layout) {
 			this.container.remove(item);
 		}
 //		else {
-//			Dino.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
+//			Ergo.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
 //		}
 		
-//		Dino.remove_from_array(this.items, item)
+//		Ergo.remove_from_array(this.items, item)
 		
 //		item.el.detach();
 		
@@ -52,23 +52,23 @@ Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayou
 	
 	clear: function() {
 //		var self = this;
-		if(this.container instanceof Dino.core.Layout) {
+		if(this.container instanceof Ergo.core.Layout) {
 			while(this.items.length > 0) this.remove(this.items[0]);
 		}
-		Dino.core.Layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
+		Ergo.core.Layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 	},
 	
 	
 	rebuild: function() {
 
 		// если эта компоновка является дочерней/зависимой, то обновление выполнять не нужно
-		if(this.container instanceof Dino.core.Layout) return;
+		if(this.container instanceof Ergo.core.Layout) return;
 		
 		var self = this;
 		var n = 0;
 		
 		this.container.walk(function() {
-			if(Dino.include(self.items, this))
+			if(Ergo.include(self.items, this))
 				this.order = n++;
 		});
 		
@@ -80,7 +80,7 @@ Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayou
 			return 0;
 		});
 				
-		Dino.each(this.items, function(item, i){
+		Ergo.each(this.items, function(item, i){
 			self.container.el.append(item.el);
 		});
 		
@@ -97,7 +97,7 @@ Dino.core.Layouts.TreeGridLayout = Dino.declare('Dino.core.Layouts.TreeGridLayou
 
 
 /*
-Dino.declare('Dino.core.Layouts.IndentLayout', Dino.core.Layout, {
+Ergo.declare('Ergo.core.Layouts.IndentLayout', Ergo.core.Layout, {
 
 	
 	
@@ -106,7 +106,7 @@ Dino.declare('Dino.core.Layouts.IndentLayout', Dino.core.Layout, {
 	insert: function(item) {
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
-		if(this.container instanceof Dino.core.Layout)
+		if(this.container instanceof Ergo.core.Layout)
 			this.container.insert(item);
 		
 		this.items.push(item);
@@ -120,23 +120,23 @@ Dino.declare('Dino.core.Layouts.IndentLayout', Dino.core.Layout, {
 
 
 /*
-Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.TableGrid', {
+Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.TableGrid', {
 	
 	defaults: {
 //		wrapEl: '<div></div>',
 //		baseCls: 'dino-tree-grid',
 		components: {
 //			header: {
-//				dtype: 'box',
+//				etype: 'box',
 //				content: {
-//					dtype: 'table',
+//					etype: 'table',
 //					width: '100%',
 //					binding: false,
 //					headerModel: {
 //						cell: {
 //							cls: 'dino-grid-h-cell',
 //							layout: {
-//								dtype: 'plain-layout',
+//								etype: 'plain-layout',
 //								html: '<div class="nowrap"></div>'
 //							}
 //						}						
@@ -145,10 +145,10 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 //			},
 			body: {
 				// скроллируемый контейнер
-//				dtype: 'box',
+//				etype: 'box',
 //				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
 //				content: {
-					dtype: 'tree-table',
+					etype: 'tree-table',
 					tableModel: {
 						row: {
 							cls: 'dino-tree-grid-row'
@@ -156,7 +156,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 						cell: {
 							cls: 'dino-tree-grid-cell',
 							layout: {
-								dtype: 'plain-layout',
+								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
 							}
 						}
@@ -178,9 +178,9 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 
 /**
  * @class
- * @extends Dino.widgets.Table
+ * @extends Ergo.widgets.Table
  */
-Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.TableGrid', /** @lends Dino.widgets.TreeTable.prototype */{
+Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.TableGrid', /** @lends Ergo.widgets.TreeTable.prototype */{
 	
 	defaults: {
 		cls: 'dino-tree-table',
@@ -188,20 +188,20 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 			body: {
 				content: {
 					defaultItem: {
-						dtype: 'tree-table-row'						
+						etype: 'tree-table-row'						
 					},
 					gridModel: {
 						row: {
 							onStateChange: function(e) {
 								if(e.state == 'expanded' || e.state == 'collapsed') {
-									var grid = this.getParent(Dino.widgets.TreeGrid);
+									var grid = this.getParent(Ergo.widgets.TreeGrid);
 									if(grid) grid.$layoutChanged();
 								}
 							}							
 						}
 					}
 //					defaultItem: {
-//						dtype: 'tree-table-row',
+//						etype: 'tree-table-row',
 //					}
 				}
 			}
@@ -210,9 +210,9 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 	
 	
 	$init: function(o) {
-		Dino.widgets.TreeGrid.superclass.$init.apply(this, arguments);
+		Ergo.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 
-		var bodyLayout = new Dino.core.Layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
+		var bodyLayout = new Ergo.core.Layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
 //		bodyLayout.immediateRebuild = false;
 		
 		var o_grid = o.components.body.content;
@@ -224,18 +224,18 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 			components: {
 				subtree: {
 					layout: {
-						dtype: 'tree-grid-layout',
+						etype: 'tree-grid-layout',
 						container: bodyLayout
 					}
 				}
 			}			
 		};
 
-		Dino.smart_override(o_grid.defaultItem, defaultNode, {defaultSubItem: defaultNode});
+		Ergo.smart_override(o_grid.defaultItem, defaultNode, {defaultSubItem: defaultNode});
 		
 		
 		
-		Dino.smart_override(
+		Ergo.smart_override(
 				o_grid.defaultItem.defaultSubItem,
 				o_grid.gridModel.row, 
 				{defaultItem: o_grid.gridModel.cell},
@@ -247,7 +247,7 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 
 	
 //	$layoutChanged: function() {
-//		Dino.widgets.TreeTable.superclass.$layoutChanged.apply(this, arguments);
+//		Ergo.widgets.TreeTable.superclass.$layoutChanged.apply(this, arguments);
 //		
 //		this.body.layout.update();
 //	}
@@ -261,9 +261,9 @@ Dino.widgets.TreeGrid = Dino.declare('Dino.widgets.TreeGrid', 'Dino.widgets.Tabl
 
 /**
  * @class
- * @extends Dino.widgets.TableRow
+ * @extends Ergo.widgets.TableRow
  */
-Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widgets.TableRow', /** @lends Dino.widgets.TreeTableRow.prototype */{
+Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widgets.TableRow', /** @lends Ergo.widgets.TreeTableRow.prototype */{
 	
 //	$html: function() { return '<tr></tr>'; },
 	
@@ -271,15 +271,15 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		cls: 'dino-tree-grid-row',
 		indent: 0,
 		defaultItem: {
-			dtype: 'table-cell'
+			etype: 'table-cell'
 		},
 		components: {
 			subtree: {
 				dataId: 'children',
-				dtype: 'container',
+				etype: 'container',
 				dynamic: true,
 				defaultItem: {
-					dtype: 'tree-table-row'
+					etype: 'tree-table-row'
 				}
 			}
 		},
@@ -301,7 +301,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 		this.indent = o.indent;
 
 		if('defaultSubItem' in o){
-			Dino.smart_override(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+			Ergo.smart_override(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}
 		
 		o.defaultItem.indent = this.indent;
@@ -309,7 +309,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 	},
 	
 //	$opt: function(o) {
-//		Dino.widgets.TreeGridRow.superclass.$opt.apply(this, arguments);
+//		Ergo.widgets.TreeGridRow.superclass.$opt.apply(this, arguments);
 //		
 //		this.isLeaf = o.isLeaf;
 //				
@@ -369,7 +369,7 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 	
 	getParentRow: function() {
 		var w = this.parent.parent;
-		return (w instanceof Dino.widgets.TreeTableRow) ? w : undefined;
+		return (w instanceof Ergo.widgets.TreeTableRow) ? w : undefined;
 	}
 	
 	
@@ -381,31 +381,31 @@ Dino.widgets.TreeTableRow = Dino.declare('Dino.widgets.TreeTableRow', 'Dino.widg
 
 /**
  * @class
- * @extends Dino.widgets.TableCell
+ * @extends Ergo.widgets.TableCell
  */
-Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.widgets.TableCell', /** @lends Dino.widgets.TreeTableCell.prototype */{
+Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.widgets.TableCell', /** @lends Ergo.widgets.TreeTableCell.prototype */{
 	
 	defaults: {
 		cls: 'dino-tree-grid-cell',
 		layout: {
-//			dtype: 'plain-layout',
+//			etype: 'plain-layout',
 //			html: '<div style="position: relative;"></div>'
-			dtype: 'plain-layout',
+			etype: 'plain-layout',
 			html: '<div class="nowrap"></div>'
 		},
 //		components: {
 //			content: {
 //				// этот контейнер нужен, чтобы работал стиль position: absolute
-//				dtype: 'box',
+//				etype: 'box',
 				components: {
 					content: {
 						// контейнер для вставки отступов
-						dtype: 'box',
+						etype: 'box',
 						style: {'display': 'inline', 'position': 'relative'},
 						cls: 'dino-tree-node',
 						components: {
 							button: {
-								dtype: 'icon',
+								etype: 'icon',
 								weight: 1,
 								cls: 'dino-tree-node-button',
 								onClick: function(e) {
@@ -424,7 +424,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 								}
 							},
 							content: {
-								dtype: 'text-item',
+								etype: 'text-item',
 								cls: 'dino-tree-node-content'
 							}
 						},
@@ -447,7 +447,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	
 	
 	$opt: function(o) {
-		Dino.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
 		
 		if('indent' in o){
 			for(var i = 0; i < o.indent; i++){
@@ -462,7 +462,7 @@ Dino.widgets.TreeTableCell = Dino.declare('Dino.widgets.TreeTableCell', 'Dino.wi
 	
 	
 	$afterRender: function() {
-		Dino.widgets.TreeTableCell.superclass.$afterRender.apply(this, arguments);
+		Ergo.widgets.TreeTableCell.superclass.$afterRender.apply(this, arguments);
 
 //		var expand = this.options.expandOnShow;
 		

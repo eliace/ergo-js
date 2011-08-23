@@ -5,14 +5,14 @@
 
 /**
  * @class
- * @extends Dino.containers.List
+ * @extends Ergo.containers.List
  */
-Dino.containers.DropdownList = Dino.declare('Dino.containers.DropdownList', 'Dino.containers.List', /** @lends Dino.containers.DropdownList.prototype */ {
+Ergo.containers.DropdownList = Ergo.declare('Ergo.containers.DropdownList', 'Ergo.containers.List', /** @lends Ergo.containers.DropdownList.prototype */ {
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',
 		baseCls: 'dino-dropdown-list',
-		extensions: [Dino.Popup],
+		extensions: [Ergo.Popup],
 		style: {'display': 'none'},
 		effects: {
 			'show': 'none',

@@ -8,13 +8,13 @@
  * Как правило используется в тех случаях, огда заранее неизвестны размеры изображения
  *
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.utils.AsyncImage = Dino.declare('Dino.utils.AsyncImage', 'Dino.widgets.Box', /** @lends Dino.utils.AsyncImage.prototype */{
+Ergo.utils.AsyncImage = Ergo.declare('Ergo.utils.AsyncImage', 'Ergo.widgets.Box', /** @lends Ergo.utils.AsyncImage.prototype */{
 	
 	
 	$init: function(o) {
-		Dino.utils.AsyncImage.superclass.$init.call(this, o);
+		Ergo.utils.AsyncImage.superclass.$init.call(this, o);
 		
 		this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		

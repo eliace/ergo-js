@@ -4,19 +4,19 @@
 
 /**
  * @class
- * @extends Dino.core.Layouts.PlainLayout
+ * @extends Ergo.core.Layouts.PlainLayout
  */
-Dino.core.Layouts.InheritedLayout = Dino.declare('Dino.core.Layouts.InheritedLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.InheritedLayout.prototype */{
+Ergo.core.Layouts.InheritedLayout = Ergo.declare('Ergo.core.Layouts.InheritedLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.InheritedLayout.prototype */{
 	
 //	initialize: function(){
-//		Dino.core.Layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
+//		Ergo.core.Layouts.InheritedLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.deferred = [];
 //	},
 	
 	
 	attach: function() {
-		Dino.core.Layouts.InheritedLayout.superclass.attach.apply(this, arguments);
+		Ergo.core.Layouts.InheritedLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = this.options.parentLayout.el;
 		
@@ -24,14 +24,14 @@ Dino.core.Layouts.InheritedLayout = Dino.declare('Dino.core.Layouts.InheritedLay
 	
 	
 //	insert: function(item) {
-//		Dino.core.Layouts.InheritedLayout.superclass.insert.apply(this, arguments);
+//		Ergo.core.Layouts.InheritedLayout.superclass.insert.apply(this, arguments);
 //		this.container.insert(item);
 ////		else
 ////			this.deferred.push(item);
 //	},
 //	
 //	remove: function(item) {
-//		Dino.core.Layouts.InheritedLayout.superclass.remove.apply(this, arguments);
+//		Ergo.core.Layouts.InheritedLayout.superclass.remove.apply(this, arguments);
 //		this.container.remove(item);
 //	}
 	

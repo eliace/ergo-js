@@ -2,7 +2,7 @@
 //= require "grid"
 
 
-Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
+Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	defaults: {
@@ -11,15 +11,15 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 		
 		components: {
 			header: {
-				dtype: 'box',
+				etype: 'box',
 				weight: 10,
 				cls: 'dino-grid-header',
 				layout: {
-					dtype: 'plain-layout',
+					etype: 'plain-layout',
 					html: '<div style="overflow-x: hidden"/>'
 				},
 				content: {
-					dtype: 'table',
+					etype: 'table',
 					style: {'table-layout': 'fixed'/*, 'padding-right': 17*/, 'table-layout': 'fixed', 'border-collapse': 'collapse'},
 					width: '100%',
 //					width: null,
@@ -28,14 +28,14 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 						cell: {
 							cls: 'dino-grid-h-cell',
 							layout: {
-								dtype: 'plain-layout',
+								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
 							},
 							
 							events: {
 								'mousedown': function(e, w) {
 									if(w.states.is('x-resizable')) {
-										var grid = w.getParent(Dino.widgets.TableGrid);							
+										var grid = w.getParent(Ergo.widgets.TableGrid);							
 				
 										var grid_offset = grid.el.offset();						
 										var left = e.pageX - grid_offset.left;
@@ -79,7 +79,7 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 			},
 			body: {
 				// скроллируемый контейнер
-				dtype: 'box',
+				etype: 'box',
 				weight: 20,
 				style: {'overflow': 'auto', 'background-color': '#fff'},
 				height: 'auto',
@@ -92,7 +92,7 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 				},
 				
 				content: {
-					dtype: 'grid',
+					etype: 'grid',
 					gridModel: {
 						row: {
 							cls: 'dino-grid-row'
@@ -100,7 +100,7 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 						cell: {
 							cls: 'dino-grid-cell',
 							layout: {
-								dtype: 'plain-layout',
+								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
 							}
 						}
@@ -115,7 +115,7 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 				}
 			},
 			splitter: {
-				dtype: 'box',
+				etype: 'box',
 				width: 3,
 				height: 'ignore',
 				style: {'position': 'absolute', 'top': 0, 'bottom': 0, 'background-color': '#aaa', 'display': 'none'}
@@ -130,38 +130,38 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 	
 	
 	$init: function() {
-		Dino.widgets.TableGrid.superclass.$init.apply(this, arguments);
+		Ergo.widgets.TableGrid.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
 		// переносим параметр width из колонок в заголовки
 		var h_columns = [];
-		Dino.each(o.tableModel.columns, function(column, i){
+		Ergo.each(o.tableModel.columns, function(column, i){
 			h_col = {};
 			if('width' in column) h_col.width = column.width;
 			if('header' in column) {
 				if($.isString(column.header)) h_col.text = column.header;
-				else Dino.smart_override(h_col, column.header);
+				else Ergo.smart_override(h_col, column.header);
 			}
 			h_columns[i] = h_col;
 		})
 		
-		Dino.smart_override(o.components.body.content, {'gridModel': o.tableModel});
-		Dino.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Ergo.smart_override(o.components.body.content, {'gridModel': o.tableModel});
+		Ergo.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
 	
 	
 	$construct: function(o) {
-		Dino.widgets.TableGrid.superclass.$construct.apply(this, arguments);
+		Ergo.widgets.TableGrid.superclass.$construct.apply(this, arguments);
 		
 		var grid = this;
 		
 		this.depressed = null;
 		
-		this.glass_pane = $.dino({
-			dtype: 'glass-pane', 
+		this.glass_pane = $.ergo({
+			etype: 'glass-pane', 
 //			renderTo: 'body', 
 			style: {'display': 'none', 'cursor': 'col-resize'},
 			events: {
@@ -206,7 +206,7 @@ Dino.declare('Dino.widgets.TableGrid', 'Dino.widgets.Box', {
 	
 	
 	$layoutChanged: function() {
-		Dino.widgets.TableGrid.superclass.$layoutChanged.apply(this, arguments);
+		Ergo.widgets.TableGrid.superclass.$layoutChanged.apply(this, arguments);
 		
 		
 		if(this.body.el[0].scrollHeight != this.body.el.height()) {

@@ -6,22 +6,22 @@
 
 /**
  * @class
- * @extends Dino.widgets.TreeNode
+ * @extends Ergo.widgets.TreeNode
  */
-Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.widgets.TreeNode', /** @lends Dino.widgets.BasicTreeNode.prototype */{
+Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.widgets.TreeNode', /** @lends Ergo.widgets.BasicTreeNode.prototype */{
 	
 	defaultCls: 'dino-basic-tree-node',
 	
 	defaults: {
 		components: {
 			content: {
-				dtype: 'box',
+				etype: 'box',
 				cls: 'tree-list-item',
 				weight: 10,
 				components: {
 					button: {
 						weight: 10,
-						dtype: 'icon',
+						etype: 'icon',
 						cls: 'dino-tree-node-button',
 						onClick: function(e) {
 							this.parent.parent.states.toggle('expand-collapse');
@@ -29,7 +29,7 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 						}
 					},
 					text: {
-						dtype: 'text-item',
+						etype: 'text-item',
 						cls: 'dino-tree-node-content',
 						weight: 20						
 					}
@@ -39,14 +39,14 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 				weight: 30,
 				dataId: 'children',
 				defaultItem: {
-					dtype: 'basic-tree-node'
+					etype: 'basic-tree-node'
 				},
 				effects: {
 					show: 'slideDown',
 					hide: 'slideUp',
 					delay: 200
 				},
-				extensions: [Dino.Effects]
+				extensions: [Ergo.Effects]
 			}
 		},
 		states: {
@@ -69,11 +69,11 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	
 	
 	$init: function(o) {
-		Dino.widgets.BasicTreeNode.superclass.$init.apply(this, arguments);		
+		Ergo.widgets.BasicTreeNode.superclass.$init.apply(this, arguments);		
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.BasicTreeNode.superclass.$opt.call(this, o);
+		Ergo.widgets.BasicTreeNode.superclass.$opt.call(this, o);
 		
 		var c = this.content;
 		
@@ -85,12 +85,12 @@ Dino.widgets.BasicTreeNode = Dino.declare('Dino.widgets.BasicTreeNode', 'Dino.wi
 	},
 	
 //	$events: function(self) {
-//		Dino.widgets.BasicTreeNode.superclass.$events.apply(this, arguments);
+//		Ergo.widgets.BasicTreeNode.superclass.$events.apply(this, arguments);
 //		
 //	},
 	
 	$afterBuild: function() {
-		Dino.widgets.BasicTreeNode.superclass.$afterBuild.apply(this, arguments);
+		Ergo.widgets.BasicTreeNode.superclass.$afterBuild.apply(this, arguments);
 		
 		(this.options.expandOnShow) ? this.states.set('expand-collapse') : this.states.clear('expand-collapse');
 		

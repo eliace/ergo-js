@@ -24,8 +24,8 @@ var hashData = {
 
 
   
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'simple-form',
   data: xformData,
@@ -34,21 +34,21 @@ $.dino({
     label: 'Текстовое поле (форма)',
     content: {
       dataId: 'text1',
-      dtype: 'text-field',
+      etype: 'text-field',
       cls: 'dino-form-field',
       placeholder: 'Введите число...',
-      validate: Dino.validators.floatNumber
+      validate: Ergo.validators.floatNumber
     }
   },{
     label: 'Поле с кнопкой (форма)',
     content: {
       dataId: 'text',
-      dtype: 'text-field',
+      etype: 'text-field',
       cls: 'dino-form-field',
       width: 200,
       components: {
         button: {
-          dtype: 'icon-button',
+          etype: 'icon-button',
           role: 'actor',
           icon: 'dino-icon-search',
 					tabIndex: -1
@@ -59,22 +59,22 @@ $.dino({
     label: 'Поле с кнопкой (редактор)',
     width: 160,
     content: {
-      dtype: 'text-editor',
+      etype: 'text-editor',
       style: {'padding': '1px'},
       dataId: 'text2',
       components: {
         button: {
-          dtype: 'action-icon',
+          etype: 'action-icon',
           role: 'actor',
           cls: 'silk-icon-date dino-clickable'
         }
       }
     },
-    extensions: [{stopEdit: Dino.noop, cancelEdit: Dino.noop}]    
+    extensions: [{stopEdit: Ergo.noop, cancelEdit: Ergo.noop}]    
   }, {
     label: 'Поле со списком (форма)',
     content: {
-      dtype: 'dropdown-field',
+      etype: 'dropdown-field',
       cls: 'dino-form-field',
       dataId: 'continent',
       dataModel: {
@@ -97,7 +97,7 @@ $.dino({
     width: 160,    
     dataId: 'continent2',
     content: {
-      dtype: 'dropdown-editor',
+      etype: 'dropdown-editor',
       dataModel: {
 				type: 'keyvalue',
 				data: hashData
@@ -115,11 +115,11 @@ $.dino({
         }
       }
     },
-    extensions: [{stopEdit: Dino.noop, cancelEdit: Dino.noop}]    
+    extensions: [{stopEdit: Ergo.noop, cancelEdit: Ergo.noop}]    
   }, {
     label: 'Счетчик (форма)',
     content: {
-      dtype: 'spinner-field',
+      etype: 'spinner-field',
       cls: 'dino-form-field',
       dataId: 'number',
     }
@@ -127,11 +127,11 @@ $.dino({
     label: 'Счетчик (редактор)',
     width: 100,
     content: {
-      dtype: 'spinner-editor',
+      etype: 'spinner-editor',
       dataId: 'number2',
       style: {'padding': '1px'}
     },
-    extensions: [{ stopEdit: Dino.noop, cancelEdit: Dino.noop }]    
+    extensions: [{ stopEdit: Ergo.noop, cancelEdit: Ergo.noop }]    
   }
   ]
 });      

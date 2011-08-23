@@ -1,28 +1,28 @@
     
-$.dino({
-  dtype: 'form',
+$.ergo({
+  etype: 'form',
   renderTo: '.preview',
   layout: 'form',
 //  layout: {
-//    dtype: 'form',
+//    etype: 'form',
 //    labelWidth: 200
 //  },
   items: [{
     label: 'Текстовое поле',
      id: 'field1',
-    dtype: 'input'
+    etype: 'input'
   }, {
     label: 'Текст',
     id: 'field2',
-    dtype: 'textarea'
+    etype: 'textarea'
   }, {
     label: 'Файл',
     id: 'field3',
-    dtype: 'file'
+    etype: 'file'
   }, {
     label: 'Выбор варианта',
     id: 'field4',
-    dtype: 'select',
+    etype: 'select',
     options: [
       [1, 'зима'],
       [2, 'весна'],

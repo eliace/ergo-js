@@ -5,10 +5,10 @@
 
 /**
  * @class
- * @name Dino.panels.TabPanel
- * @extends Dino.core.Widget
+ * @name Ergo.panels.TabPanel
+ * @extends Ergo.core.Widget
  */
-Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.TabPanel.prototype */{
+Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.TabPanel.prototype */{
 	
 	$html: function() { return '<div></div>'; },
 	
@@ -19,11 +19,11 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 		components: {
 			tabs: {
 				weight: 1,
-				dtype: 'tabs',
+				etype: 'tabs',
 				defaultItem: {
 					cls: 'dino-bg-3 dino-border-all',// dino-corner-top',
 					content: {
-						dtype: 'text-item'
+						etype: 'text-item'
 //						selectable: false
 					}
 				},
@@ -35,12 +35,12 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 			},
 			tabFooter: {
 				weight: 2,
-				dtype: 'box',
+				etype: 'box',
 				cls: 'dino-tab-footer'// dino-border-top dino-border-bottom'// dino-border-no-bottom'
 			},
 			pages: {
 				weight: 3,
-				dtype: 'list',
+				etype: 'list',
 				layout: 'stack',
 				cls: 'dino-tab-pages',
 				defaultItem: {
@@ -55,7 +55,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	
 	
 	$init: function() {
-		Dino.panels.TabPanel.superclass.$init.apply(this, arguments);
+		Ergo.panels.TabPanel.superclass.$init.apply(this, arguments);
 				
 		var o = this.options;
 
@@ -63,7 +63,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 			if(o.tabPosition == 'left' || o.tabPosition == 'right'){
 				var s = {};
 				s['margin-'+o.tabPosition] = o.tabWidth+1;
-				Dino.smart_override(this.options, {
+				Ergo.smart_override(this.options, {
 					components: {
 						tabs: {defaultItem: {width: o.tabWidth}},
 						pages: {style: s}
@@ -74,7 +74,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 
 		if('tabPosition' in o){
 			if(o.tabPosition == 'bottom'){
-				Dino.smart_override(this.options, {
+				Ergo.smart_override(this.options, {
 					components: {
 						tabs: {weight: 3},
 						tabFooter: {weight: 2},
@@ -86,16 +86,16 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 		
 		
 		if('tab' in o.panelModel)
-			Dino.smart_override(o.components.tabs.defaultItem, o.panelModel.tab);
+			Ergo.smart_override(o.components.tabs.defaultItem, o.panelModel.tab);
 		
 		if('page' in o.panelModel)
-			Dino.smart_override(o.components.pages.defaultItem, o.panelModel.page);
+			Ergo.smart_override(o.components.pages.defaultItem, o.panelModel.page);
 		
 	},
 	
 	
 	$afterBuild: function() {
-		Dino.panels.TabPanel.superclass.$afterBuild.apply(this, arguments);
+		Ergo.panels.TabPanel.superclass.$afterBuild.apply(this, arguments);
 		
 		// активируем закладку
 		if(!this.tabs.currentTab) this.tabs.setActiveTab(0);
@@ -103,7 +103,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	
 	
 	$opt: function(o) {
-		Dino.panels.TabPanel.superclass.$opt.apply(this, arguments);
+		Ergo.panels.TabPanel.superclass.$opt.apply(this, arguments);
 		
 		if('pages' in o){
 			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);
@@ -118,7 +118,7 @@ Dino.declare('Dino.panels.TabPanel', 'Dino.core.Widget', /** @lends Dino.panels.
 	
 	addPage: function(item) {
 		
-		var tabOpts = (item instanceof Dino.core.Widget) ? item.options.tab : item.tab;
+		var tabOpts = (item instanceof Ergo.core.Widget) ? item.options.tab : item.tab;
 		if($.isString(tabOpts)) tabOpts = {text: tabOpts};
 		var tab = this.tabs.items.add( {content: tabOpts || {}} );
 		

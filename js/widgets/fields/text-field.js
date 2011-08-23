@@ -3,7 +3,7 @@
 
 
 
-Dino.declare('Dino.widgets.TextField', 'Dino.widgets.Field', {
+Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
 	defaultCls: 'dino-text-field',
 	
@@ -68,7 +68,7 @@ Dino.declare('Dino.widgets.TextField', 'Dino.widgets.Field', {
 	}
 	
 //	$opt: function(o) {
-//		Dino.widgets.TextField.superclass.$opt.apply(this, arguments);
+//		Ergo.widgets.TextField.superclass.$opt.apply(this, arguments);
 //		
 //		if('defaultText' in o) {
 //			this.input			

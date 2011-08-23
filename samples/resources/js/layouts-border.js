@@ -1,27 +1,27 @@
 
 var splitMove = null;
 
-var treeData = new Dino.core.DataSource([]);
+var treeData = new Ergo.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
 
 
 
-var box = $.dino({
-  dtype: 'list',
+var box = $.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'border',
     style: {'margin': '8px'},
   height: 400,
   items: [{
-    dtype: 'box',
+    etype: 'box',
     width: 200,
     cls: 'dino-border-all dino-widget-shadow panel',
 //    style: {'margin': '10px'},
     region: 'west',
     height: 'auto',
     content: {
-      dtype: 'tree',
+      etype: 'tree',
       isDynamic: true,
       height: 'auto',
       data: treeData,
@@ -43,22 +43,22 @@ var box = $.dino({
       }
     }
   }, {
-    dtype: 'box',
+    etype: 'box',
     cls: 'dino-border-all dino-widget-shadow panel',
     height: 'auto'
   }, {
-    dtype: 'box',
+    etype: 'box',
     region: 'east',
     width: 150,
     height: 'auto',
     cls: 'dino-border-all dino-widget-shadow panel'
   }, {
-    dtype: 'box',
+    etype: 'box',
     region: 'north',
     height: 100,
     cls: 'dino-border-all dino-widget-shadow panel'    
   }, {
-    dtype: 'box',
+    etype: 'box',
     region: 'south',
     height: 30,
     cls: 'dino-border-all dino-widget-shadow panel'    

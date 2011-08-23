@@ -6,9 +6,9 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget', /** @lends Dino.widgets.TextItem.prototype */{
+Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget', /** @lends Ergo.widgets.TextItem.prototype */{
 	
 	$html: function() { return '<span></span>'; },	
 	
@@ -18,16 +18,16 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget'
 		layout: 'hbox',
 		components: {
 			leftIcon: {
-				dtype: 'icon',
+				etype: 'icon',
 //				dock: 'left',
 				state: 'hidden'
 			},
 			content: {
-				dtype: 'text',
+				etype: 'text',
 				state: 'hidden'
 			},
 			rightIcon: {
-				dtype: 'icon',
+				etype: 'icon',
 //				dock: 'right',
 				state: 'hidden'
 			}
@@ -35,11 +35,11 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget'
 		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод $events
 		events: {
 			'click': function() {
-				$(this).dino().events.fire('onAction');
+				$(this).ergo().events.fire('onAction');
 			}
 		},
 //		editor: {
-//			dtype: 'input',
+//			etype: 'input',
 //			events: {
 //				'blur': function(e, w) { w.parent.stopEdit(); }
 //			},
@@ -52,7 +52,7 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget'
 	},
 
 	$init: function(o) {
-		Dino.widgets.TextItem.superclass.$init.apply(this, arguments);
+		Ergo.widgets.TextItem.superclass.$init.apply(this, arguments);
 		
 /*		
 		var key_a = [];
@@ -98,14 +98,14 @@ Dino.widgets.TextItem = Dino.declare('Dino.widgets.TextItem', 'Dino.core.Widget'
 		}
 		
 		
-		Dino.smart_override(o.components, o_mod);
+		Ergo.smart_override(o.components, o_mod);
 		
 //		console.log();
 */		
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.TextItem.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) {
 			this.content.opt('text', o.text);

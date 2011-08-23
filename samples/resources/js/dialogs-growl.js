@@ -1,6 +1,6 @@
     
-var _growl = $.dino({
-  dtype: 'growl-box',
+var _growl = $.ergo({
+  etype: 'growl-box',
   renderTo: 'body',
   hideOnTimeout: true
 //  defaultItem: {
@@ -10,11 +10,11 @@ var _growl = $.dino({
 
 
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   defaultItem: {
-    dtype: 'text-button',
+    etype: 'text-button',
     onAction: function() {
       if(this.tag == 'message') {
         _growl.items.add({

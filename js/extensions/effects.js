@@ -1,7 +1,7 @@
 
 
 
-Dino.Effects = function(o) {
+Ergo.Effects = function(o) {
 	
 	this.show = function() {
 		if(this.children.size() == 0) return;
@@ -25,7 +25,7 @@ Dino.Effects = function(o) {
 	};
 	
 	
-	o.effects = Dino.smart_override({
+	o.effects = Ergo.smart_override({
 		show: 'show',
 		hide: 'hide',
 		delay: 0

@@ -1,6 +1,6 @@
 
 
-Dino.DeferredResult = function(targets) {
+Ergo.DeferredResult = function(targets) {
 	
 	var chain = [];
 	if(targets) chain = chain.concat(targets);
@@ -16,11 +16,11 @@ Dino.DeferredResult = function(targets) {
 	};
 	
 	this.ready = function(json) {
-		Dino.each(chain, function(t){
+		Ergo.each(chain, function(t){
 			if($.isFunction(t)) t.call(this, json);
-//			else if(t instanceof Dino.core.Widget) t.$bind(json);
-			else if(t instanceof Dino.core.DataSource) t.set(json);
-			else if($.isPlainObject(t)) Dino.merge(t, json);
+//			else if(t instanceof Ergo.core.Widget) t.$bind(json);
+			else if(t instanceof Ergo.core.DataSource) t.set(json);
+			else if($.isPlainObject(t)) Ergo.merge(t, json);
 		});
 	};
 	

@@ -4,14 +4,14 @@
 
 
 
-var gridData = new Dino.core.DataSource([]);
+var gridData = new Ergo.core.DataSource([]);
 
-updateBuffer = new Dino.utils.UpdateBuffer();
+updateBuffer = new Ergo.utils.UpdateBuffer();
 var newCounter = 0;
     
-var panel = $.dino({
+var panel = $.ergo({
   renderTo: '.preview',
-  dtype: 'editable-panel',
+  etype: 'editable-panel',
   title: 'Редактируемая таблица',
   
   cls: 'dino-border-all',// dino-corner-all',
@@ -34,7 +34,7 @@ var panel = $.dino({
         
     
     content: {
-      dtype: 'table-grid',
+      etype: 'table-grid',
 
       
 //      headerCls: 'dino-bg-highlight',
@@ -45,7 +45,7 @@ var panel = $.dino({
             if(this.options.editable) this.startEdit();
             e.baseEvent.preventDefault();            
           },
-          extensions: [Dino.Editable],
+          extensions: [Ergo.Editable],
           onEdit: function(e) {
             var val = this.getRow().data.get();
             updateBuffer.upd(val);
@@ -54,7 +54,7 @@ var panel = $.dino({
             if(nextCol) nextCol.startEdit();
           },
           editor: {
-            dtype: 'text-editor'
+            etype: 'text-editor'
 //            components: {
 //              input: {
 //                 style: {'font-size': '12px'}                
@@ -65,7 +65,7 @@ var panel = $.dino({
         },
         row: {
           onClick: function(e) {
-            this.getParent(Dino.widgets.TableGrid).body.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
+            this.getParent(Ergo.widgets.TableGrid).body.selection.add(this, e.baseEvent.ctrlKey, e.baseEvent.shiftKey);
           },
           events: {
             'mousedown': function(e) {
@@ -85,10 +85,10 @@ var panel = $.dino({
         }, {
           dataId: 'currency',
           header: 'Цена',
-          format: Dino.format_currency.rcurry('$'),
+          format: Ergo.format_currency.rcurry('$'),
           editor: {
             store: function(val) {
-              return Dino.isString(val) ? parseFloat(val) : val; 
+              return Ergo.isString(val) ? parseFloat(val) : val; 
             }                
           }
         }, {
@@ -101,19 +101,19 @@ var panel = $.dino({
           width: 50,
           style: {'text-align': 'center'},
           content: {
-            dtype: 'checkbox',
+            etype: 'checkbox',
             onAction: function() {
               var val = this.data.source.val();
               updateBuffer.upd(val);
             }
           },
           editor: {
-            dtype: 'text-editor',
+            etype: 'text-editor',
             style: {'text-align': 'center'},
             autoFit: false,
             components: {
               input: {
-                dtype: 'checkbox',
+                etype: 'checkbox',
               }
             },
             keepContent: true,
@@ -125,10 +125,10 @@ var panel = $.dino({
       },
       components: {
         body: {
-          extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation]
+          extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation]
         },        
         pager: {
-          dtype: 'pager',
+          etype: 'pager',
           count: 200,
           pageSize: 40,
           cls: 'dino-border-top',
@@ -147,7 +147,7 @@ var panel = $.dino({
           }
         }
       },
-//      extensions: [Dino.Selectable]
+//      extensions: [Ergo.Selectable]
     }
   },
   

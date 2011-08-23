@@ -5,7 +5,7 @@
 //= require "images/all"
 
 
-Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
+Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 	
 	$html: function() {return '<div/>';},
 	
@@ -14,7 +14,7 @@ Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
 		layout: 'hbox',
     components: {
       input: {
-        dtype: 'input',
+        etype: 'input',
 				width: 'auto',
 				events: {
 					'focus': function(e, w) {
@@ -23,7 +23,7 @@ Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
 				}
       }
     },
-		extensions: [Dino.Focusable],
+		extensions: [Ergo.Focusable],
 		onFocus: function() {
 			var o = this.options;
 			if(o.rawValueOnFocus)
@@ -39,7 +39,7 @@ Dino.declare('Dino.widgets.Field', 'Dino.core.Widget', {
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.Field.superclass.$dataChanged.apply(this, arguments);
+		Ergo.widgets.Field.superclass.$dataChanged.apply(this, arguments);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus()) 
 			this.input.el.val( this.getRawValue() );

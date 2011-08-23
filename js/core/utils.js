@@ -2,18 +2,18 @@
 //= require "core"
 
 
-Dino.utils = (function(){
+Ergo.utils = (function(){
 	var U = {};
 	
 	U.widget_filter = function(i) {
 		
 		var f = null;
 		
-		if( $.isNumber(i) ) f = Dino.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = Dino.filters.by_props.curry({'tag': i});
-		else if( $.isFunction(i) && ('superclass' in i) ) f = Dino.filters.by_class.curry(i);
+		if( $.isNumber(i) ) f = Ergo.filters.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( $.isString(i) ) f = Ergo.filters.by_props.curry({'tag': i});
+		else if( $.isFunction(i) && ('superclass' in i) ) f = Ergo.filters.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;
-		else if( $.isPlainObject(i) ) f = Dino.filters.by_props.curry(i);
+		else if( $.isPlainObject(i) ) f = Ergo.filters.by_props.curry(i);
 		
 		return f;
 	}
@@ -32,11 +32,11 @@ Dino.utils = (function(){
 
 
 /*
-Dino.bindings = (function(){
+Ergo.bindings = (function(){
 	
 	var B = {};
 	
-	//Dino.bindings.opt('state').opt('opacity');
+	//Ergo.bindings.opt('state').opt('opacity');
 	
 	
 	B.opt = function(i, k) {
@@ -61,7 +61,7 @@ Dino.bindings = (function(){
 */
 
 /*
-Dino.formats = (function(){
+Ergo.formats = (function(){
 	
 	var F = {};
 	
@@ -78,7 +78,7 @@ Dino.formats = (function(){
 
 
 
-Dino.overrideProp = function(o, srcObj, i) {
+Ergo.overrideProp = function(o, srcObj, i) {
 
 	var p = srcObj[i];
 
@@ -89,7 +89,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 //	var shared_opts = {'data': null};
 
 	
-//	if((i in shared_opts)){//Dino.in_array(ignore, i)){
+//	if((i in shared_opts)){//Ergo.in_array(ignore, i)){
 //		o[i] = p;
 //	}
 
@@ -116,11 +116,11 @@ Dino.overrideProp = function(o, srcObj, i) {
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
 		if( $.isPlainObject(p) ){
 			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
-			Dino.smart_override(o[i], p);
+			Ergo.smart_override(o[i], p);
 		}
 		else if( $.isArray(p) ){
 			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
-			Dino.smart_override(o[i], p);
+			Ergo.smart_override(o[i], p);
 		}
 		else {
 			//TODO этот участок кода нужно исправить
@@ -144,7 +144,7 @@ Dino.overrideProp = function(o, srcObj, i) {
 }
 
 
-Dino.smart_override = function(o) {
+Ergo.smart_override = function(o) {
 
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
@@ -153,11 +153,11 @@ Dino.smart_override = function(o) {
 		
 //		if( $.isArray(srcObj) ){
 //			for(var i = 0; i < srcObj.length; i++)
-//				Dino.utils.overrideProp(o, srcObj, i);
+//				Ergo.utils.overrideProp(o, srcObj, i);
 //		}
 //		else {			
 			for(var i in srcObj)
-				Dino.overrideProp(o, srcObj, i);
+				Ergo.overrideProp(o, srcObj, i);
 //		}		
 	}
 	
@@ -166,20 +166,20 @@ Dino.smart_override = function(o) {
 
 
 
-Dino.deep_override = function(o) {
+Ergo.deep_override = function(o) {
 	
 	for(var j = 1; j < arguments.length; j++){
 	
 		var srcObj = arguments[j];
 		
-		Dino.each(srcObj, function(p, i){
+		Ergo.each(srcObj, function(p, i){
 			if( $.isPlainObject(p) ){
 				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
-				Dino.deep_override(o[i], p);
+				Ergo.deep_override(o[i], p);
 			}
 			else if( $.isArray(p) ){
 				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
-				Dino.deep_override(o[i], p);
+				Ergo.deep_override(o[i], p);
 			}
 			else {
 				o[i] = p;

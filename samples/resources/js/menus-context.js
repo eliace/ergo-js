@@ -1,6 +1,6 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   cls: 'contextmenu-page',
   items: [{
@@ -8,7 +8,7 @@ $.dino({
     cls: 'preview-text dino-border-all',
     height: 'auto',
     contextMenu: {
-      dtype: 'context-menu',
+      etype: 'context-menu',
 //      cls: 'dino-dropdown-shadow',
 //    hideOn: 'outerClick',
       onSelect: function(e) {

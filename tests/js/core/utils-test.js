@@ -5,10 +5,10 @@ test('core/utils', function(){
 	my = {classes: {}};
 	
 	// определяем, что пространство имен 'my.classes.*' загружается из пути 'ajax/*'
-	Dino.loadpath['my.classes'] = 'ajax';
+	Ergo.loadpath['my.classes'] = 'ajax';
 	
 
-	Dino.require('my.classes.Class2');
+	Ergo.require('my.classes.Class2');
 		
 	var a = new my.classes.Class2();
 	equals('class1_class2', a.foo(), 'Проверяем загрузку зависимых классов');
@@ -25,7 +25,7 @@ test('core/utils', function(){
 		};
 	};
 
-	Dino.require('my.classes.Class2');
+	Ergo.require('my.classes.Class2');
 	
 	var b = new my.classes.Class2();
 	equals('precreated_class1_class2', b.foo(), 'Проверяем, что загруженные классы не загружаются заново');

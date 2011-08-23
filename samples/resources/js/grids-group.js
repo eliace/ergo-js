@@ -19,14 +19,14 @@ var gridData = [{
 }];
     
     
-$.dino({
-  dtype: 'box',
+$.ergo({
+  etype: 'box',
   renderTo: '.preview',
   width: 500,
   cls: 'dino-border-all dino-corner-all',
   components: {
     header: {
-      dtype: 'table',
+      etype: 'table',
       cls: 'dino-bg-highlight',
       width: '100%',
       headerModel: {
@@ -37,7 +37,7 @@ $.dino({
       }
     },
     scrollableContent: {
-      dtype: 'box',
+      etype: 'box',
       data: gridData,
       dynamic: true,
       height: 300,//'auto',
@@ -45,15 +45,15 @@ $.dino({
       defaultItem: {
         components: {
           title: {
-            dtype: 'box',
+            etype: 'box',
             cls: 'group-title',
             content: {
-              dtype: 'text',
+              etype: 'text',
               dataId: 'name'
             }
           },
           table: {
-            dtype: 'table',
+            etype: 'table',
             dataId: 'items',
             width: '100%',
 //            style: {'border-left': '1px solid #ccc'},

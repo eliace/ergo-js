@@ -4,15 +4,15 @@
 
 /**
  * @class
- * @name Dino.widgets.form.Label
- * @extends Dino.core.Widget
+ * @name Ergo.widgets.form.Label
+ * @extends Ergo.core.Widget
  */
-Dino.declare('Dino.widgets.Label', 'Dino.core.Widget', /** @lends Dino.widgets.form.Label.prototype */{
+Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Label.prototype */{
 
 	$html: function() { return '<label></label>'; },
 	
 	$opt: function(o) {
-		Dino.widgets.Label.superclass.$opt.call(this, o);
+		Ergo.widgets.Label.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);

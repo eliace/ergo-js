@@ -10,13 +10,13 @@ test('core/container', function(){
 	}
 	
 	
-	var t0 = Dino.timestamp();
+	var t0 = Ergo.timestamp();
 	
-	var c = new Dino.core.Container({
+	var c = new Ergo.core.Container({
 		html: '<div%a>%c</div>',
 		items: item_a,
 		defaultItem: {
-			dtype: 'widget',
+			etype: 'widget',
 			html: '<div%a>%c</div>',
 			cls: 'test-item',
 		}
@@ -35,12 +35,12 @@ test('core/container', function(){
 	
 	
 	
-	c = new Dino.core.Container({
+	c = new Ergo.core.Container({
 		html: '<div/>'
 	});
 	
 	c.items.add({
-		dtype: 'widget',
+		etype: 'widget',
 		html: '<div class="item"/>'
 	});
 	
@@ -55,11 +55,11 @@ test('core/container', function(){
 	
 	
 	
-	c = $.dino({
-		dtype: 'container',
+	c = $.ergo({
+		etype: 'container',
 		html: '<div/>',
 		content: {
-			dtype: 'widget',
+			etype: 'widget',
 			html: '<div/>'
 		}
 	});
@@ -68,16 +68,16 @@ test('core/container', function(){
 	
 	
 	
-	c = new Dino.core.Container({
+	c = new Ergo.core.Container({
 		html: '<div/>',
 		items: [{
 			weight: 1,
-			dtype: 'widget',
+			etype: 'widget',
 			html: '<span/>',
 			tag: 'item_1'
 		}, {
 			weight: 2,
-			dtype: 'widget',
+			etype: 'widget',
 			html: '<span/>'
 		}]
 	});

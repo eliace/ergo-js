@@ -1,10 +1,10 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'float',
   defaultItem: {
-    dtype: 'action-icon',
+    etype: 'action-icon',
     cls: 'icon48',
     onAction: function() {
       growl.info('Icon clicked');

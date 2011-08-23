@@ -2,14 +2,14 @@
 //= require "plain"
 
 
-Dino.topZ = 1;
+Ergo.topZ = 1;
 
 
 /**
  * @class
- * @extends Dino.core.Layouts.PlainLayout
+ * @extends Ergo.core.Layouts.PlainLayout
  */
-Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.WindowLayout.prototype */{
+Ergo.core.Layouts.WindowLayout = Ergo.declare('Ergo.core.Layouts.WindowLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.WindowLayout.prototype */{
 	
 	defaults: {
 		name: 'window',
@@ -22,7 +22,7 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 	
 	
 	attach: function() {
-		Dino.core.Layouts.WindowLayout.superclass.attach.apply(this, arguments);
+		Ergo.core.Layouts.WindowLayout.superclass.attach.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -33,7 +33,7 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 	},
 	
 	detach: function() {
-		Dino.core.Layouts.WindowLayout.superclass.detach.apply(this, arguments);
+		Ergo.core.Layouts.WindowLayout.superclass.detach.apply(this, arguments);
 		this.container.el.empty();
 	},
 	
@@ -54,7 +54,7 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 	
 	open: function() {
 
-		var z = Dino.topZ++;
+		var z = Ergo.topZ++;
 		this.overlay_el.css('z-index', z*1000);
 		this.container.el.css('z-index', z*1000+1);
 	
@@ -68,7 +68,7 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 	
 	close: function() {
 
-		Dino.topZ--;
+		Ergo.topZ--;
 		
 		this.overlay_el.detach();
 		this.container.el.hide();
@@ -124,7 +124,7 @@ Dino.core.Layouts.WindowLayout = Dino.declare('Dino.core.Layouts.WindowLayout', 
 
 //		wnd.css({'visibility': 'visible'});
 		
-//		console.log(Dino.format("%s, %s", w0, h0));
+//		console.log(Ergo.format("%s, %s", w0, h0));
 		
 		var self = this;
 		

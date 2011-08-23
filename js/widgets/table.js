@@ -4,39 +4,39 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** @lends Dino.widgets.Table.prototype */{
+Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** @lends Ergo.widgets.Table.prototype */{
 	
 	defaults: {
 		components: {
 //			colgroup: {
-//				dtype: 'box',
+//				etype: 'box',
 //				wrapEl: '<colgroup></colgroup>',
 //				defaultItem: {
-//					dtype: 'box',
+//					etype: 'box',
 //					wrapEl: '<col></col>'
 //				}
 //			},
 			head: {
-				dtype: 'container',
+				etype: 'container',
 				html: '<thead></thead>',
 				defaultItem: {
-					dtype: 'container',
+					etype: 'container',
 					html: '<tr></tr>',
 					defaultItem: {
-						dtype: 'table-header-cell'
+						etype: 'table-header-cell'
 //						wrapEl: '<th></th>'
 					}
 				},
 				binding: false
 			},
 			body: {
-				dtype: 'container',
+				etype: 'container',
 				dynamic: true,
 				html: '<tbody></tbody>',
 				defaultItem: {
-					dtype: 'table-row'
+					etype: 'table-row'
 				}
 			}
 		},
@@ -57,7 +57,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 
 	
 	$init: function() {
-		Dino.widgets.Table.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Table.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -82,20 +82,20 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 //		
 //		
 //		
-//		Dino.smart_override(
+//		Ergo.smart_override(
 //				o.components.colgroup, 
 //				{items: g_columns}
 //				);
 		
 		
-		Dino.smart_override(
+		Ergo.smart_override(
 				o.components.body.defaultItem, 
 				o.tableModel.row, 
 				{defaultItem: o.tableModel.cell},
 				{items: columns}
 				);
 		
-		Dino.smart_override(
+		Ergo.smart_override(
 				o.components.head.defaultItem, 
 				o.headerModel.row,
 				{defaultItem: o.headerModel.cell},
@@ -117,7 +117,7 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 	
 	
 //	$opt: function(o) {
-//		Dino.containers.Table.superclass.$opt.call(this, o);
+//		Ergo.containers.Table.superclass.$opt.call(this, o);
 //		
 //		
 //	}
@@ -129,19 +129,19 @@ Dino.widgets.Table = Dino.declare('Dino.widgets.Table', 'Dino.core.Widget', /** 
 
 /**
  * @class
- * @extends Dino.core.Container
+ * @extends Ergo.core.Container
  */
-Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Container', /** @lends Dino.widgets.TableRow.prototype */{
+Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Container', /** @lends Ergo.widgets.TableRow.prototype */{
 	
 	defaults: {
 		html: '<tr></tr>',
 		defaultItem: {
-			dtype: 'table-cell'
+			etype: 'table-cell'
 		}
 	},
 	
 	getTable: function() {
-		return this.el.parents('table').dino(); 
+		return this.el.parents('table').ergo(); 
 		//TODO хотя здесь можно сделать быстрее
 //		return this.getParent().getParent();
 	},
@@ -158,9 +158,9 @@ Dino.widgets.TableRow = Dino.declare('Dino.widgets.TableRow', 'Dino.core.Contain
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.core.Widget', /** @lends Dino.widgets.TableCell.prototype */{
+Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableCell.prototype */{
 	
 	$html: function() { return '<td></td>'; },
 	
@@ -173,7 +173,7 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.core.Widge
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		Dino.widgets.TableCell.superclass.$dataChanged.apply(this);
+		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	},
 	
 	getRow: function() {
@@ -213,9 +213,9 @@ Dino.widgets.TableCell = Dino.declare('Dino.widgets.TableCell', 'Dino.core.Widge
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Dino.core.Widget', /** @lends Dino.widgets.TableHeaderCell.prototype */{
+Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableHeaderCell.prototype */{
 	
 	$html: function() { return '<th></th>'; },
 	
@@ -224,7 +224,7 @@ Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Din
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) this.layout.el.text(o.text);
 		
@@ -236,7 +236,7 @@ Dino.widgets.TableHeaderCell = Dino.declare('Dino.widgets.TableHeaderCell', 'Din
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		Dino.widgets.TableCell.superclass.$dataChanged.apply(this);
+		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	}
 	
 }, 'table-header-cell');

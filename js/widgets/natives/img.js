@@ -5,14 +5,14 @@
  * Изображение.
  * 
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.Image = Dino.declare('Dino.widgets.Image', Dino.core.Widget, /** @lends Dino.widgets.Image.prototype */{
+Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', Ergo.core.Widget, /** @lends Ergo.widgets.Image.prototype */{
 	
 	$html: function() { return '<img/>';},
 	
 	$opt: function(o) {
-		Dino.widgets.Image.superclass.$opt.call(this, o);
+		Ergo.widgets.Image.superclass.$opt.call(this, o);
 		
 		if('src' in o) this.el.attr('src', o.src);
 	},

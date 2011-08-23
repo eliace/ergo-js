@@ -2,19 +2,19 @@
 //= require "panel"
 
 
-Dino.declare('Dino.widgets.EditablePanel', 'Dino.widgets.Panel', {
+Ergo.declare('Ergo.widgets.EditablePanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		
 		components: {
 			toolbar: {
 				weight: 15,
-				dtype: 'control-list',
+				etype: 'control-list',
 				defaultItem: {
-					dtype: 'text-button',
+					etype: 'text-button',
 					onAction: function() {
 						if(this.tag) {
-							var list = this.getParent(Dino.widgets.EditablePanel);
+							var list = this.getParent(Ergo.widgets.EditablePanel);
 							list.events.fire('on'+this.tag.capitalize());
 						}
 					}
@@ -35,13 +35,13 @@ Dino.declare('Dino.widgets.EditablePanel', 'Dino.widgets.Panel', {
 	
 	
 	$init: function(o) {
-		Dino.widgets.EditablePanel.superclass.$init.apply(this, arguments);
+		Ergo.widgets.EditablePanel.superclass.$init.apply(this, arguments);
 				
 		if(o.toolbarButtons) {
-			var buttons = Dino.map(o.toolbarButtons, function(b){
-				return Dino.override({tag: b}, o.toolbarButtonSet[b]);
+			var buttons = Ergo.map(o.toolbarButtons, function(b){
+				return Ergo.override({tag: b}, o.toolbarButtonSet[b]);
 			});			
-			Dino.smart_override(o.components.toolbar.items, buttons);			
+			Ergo.smart_override(o.components.toolbar.items, buttons);			
 		}
 		
 	}

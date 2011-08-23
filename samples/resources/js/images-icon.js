@@ -1,10 +1,10 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'float',
   defaultItem: {
-    dtype: 'icon',
+    etype: 'icon',
     baseCls: 'ui-icon'
   },
   items: [
@@ -15,7 +15,7 @@ $.dino({
     { cls: 'ui-icon-document' },
     { cls: 'ui-icon-note' },
     {
-      dtype: 'action-icon',
+      etype: 'action-icon',
       baseCls: '',
       cls: 'icon32'
     }

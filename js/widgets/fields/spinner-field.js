@@ -2,7 +2,7 @@
 //= require "text-field"
 
 
-Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
+Ergo.declare('Ergo.widgets.SpinnerField', 'Ergo.widgets.TextField', {
 	
 	defaults: {
     components: {
@@ -23,10 +23,10 @@ Dino.declare('Dino.widgets.SpinnerField', 'Dino.widgets.TextField', {
 				}
 			},
       buttons: {
-        dtype: 'list',
+        etype: 'list',
 				role: 'actor',
         defaultItem: {
-          dtype: 'action-icon',
+          etype: 'action-icon',
           style: {'display': 'block', 'border': 'none', 'padding': 0},
           height: 10,
           width: 20,

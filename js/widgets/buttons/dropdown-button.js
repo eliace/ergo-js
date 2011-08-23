@@ -3,12 +3,12 @@
 //= require <widgets/menus/menu-item>
 
 
-Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
+Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.TextButton', {
 	
 	defaults: {
 		components: {
 			dropdown: {
-				dtype: 'menu-dropdown-list',
+				etype: 'menu-dropdown-list',
 				style: {'display': 'none'},
 				hideOn: 'outerClick',
 //				renderTo: 'body',
@@ -18,7 +18,7 @@ Dino.declare('Dino.widgets.DropdownButton', 'Dino.widgets.TextButton', {
 							dataId: 'name'							
 						},
 						onAction: function() {
-							this.getParent(Dino.widgets.DropdownButton).events.fire('onSelect', {target: this});
+							this.getParent(Ergo.widgets.DropdownButton).events.fire('onSelect', {target: this});
 						}
 					}
 				},

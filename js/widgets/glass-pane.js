@@ -1,7 +1,7 @@
 
 //= require "box"
 
-Dino.declare('Dino.widgets.GlassPane', 'Dino.widgets.Box', {
+Ergo.declare('Ergo.widgets.GlassPane', 'Ergo.widgets.Box', {
 	
 //	defaultClass: 'dino-glass-box',
 	

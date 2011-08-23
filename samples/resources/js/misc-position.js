@@ -3,9 +3,9 @@
 $('body > .dino-dropdown-box').remove();
 
 
-var w = $.dino({
+var w = $.ergo({
   renderTo: '.preview',
-	dtype: 'list',
+	etype: 'list',
 	
 	defaultItem: {
 		width: 100,
@@ -13,16 +13,16 @@ var w = $.dino({
 	},
 	
 	items: [{
-		dtype: 'box',
+		etype: 'box',
 		style: {'background-color': '#faa'}
 //		style: {'float': 'right', 'margin-right': 40}
 	}, {
-		dtype: 'dropdown-box',
+		etype: 'dropdown-box',
 		innerText: 'box 1',
 		position: 'top-left',
 		style: {'background-color': '#afa'}
 	}/*, {
-		dtype: 'dropdown-box'
+		etype: 'dropdown-box'
 	}*/]
 	
 });

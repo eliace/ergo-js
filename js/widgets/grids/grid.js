@@ -3,7 +3,7 @@
 
 
 
-Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
+Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
 	
 	defaults: {
 		html: '<table cellspacing="0"></table>',
@@ -11,11 +11,11 @@ Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
 		width: '100%',
 		dynamic: true,
 		defaultItem: {
-			dtype: 'table-row'
+			etype: 'table-row'
 		},
 		components: {
 			cols: {
-				dtype: 'table-row'
+				etype: 'table-row'
 			}
 		},
 		gridModel: {
@@ -27,17 +27,17 @@ Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
 	
 	
 	$init: function(o) {
-		Dino.widgets.Grid.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
 		
 		var cols = [];
-		Dino.each(o.gridModel.columns, function(col){
+		Ergo.each(o.gridModel.columns, function(col){
 			var w = ('width' in col) ? {width: col.width} : {};
 			delete col.width;
 			cols.push(w);
 		});
 		
-		Dino.smart_override(o.defaultItem, o.gridModel.row, {defaultItem: o.gridModel.cell, items: o.gridModel.columns});
-		Dino.smart_override(o.components.cols, {items: cols});		
+		Ergo.smart_override(o.defaultItem, o.gridModel.row, {defaultItem: o.gridModel.cell, items: o.gridModel.columns});
+		Ergo.smart_override(o.components.cols, {items: cols});		
 		
 	}
 	
@@ -50,26 +50,26 @@ Dino.declare('Dino.widgets.Grid', 'Dino.core.Container', {
 
 
 /*
-Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', { 
+Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.widgets.Box', { 
 	
 	defaults: {
 		baseCls: 'dino-grid',
 		components: {
 			header: {
-				dtype: 'box',
+				etype: 'box',
 				layout: {
-					dtype: 'plain-layout',
+					etype: 'plain-layout',
 					html: '<div style="overflow-x: hidden;"></div>'
 				},
 				content: {
-					dtype: 'table',
+					etype: 'table',
 					width: '100%',
 					binding: false,
 					headerModel: {
 						cell: {
 							cls: 'dino-grid-h-cell',
 							layout: {
-								dtype: 'plain-layout',
+								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
 							}
 						}						
@@ -78,11 +78,11 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 			},
 			content: {
 				// скроллируемый контейнер
-				dtype: 'box',
+				etype: 'box',
 				style: {'overflow-y': 'auto', 'overflow-x': 'hidden'},
 				height: 'auto',
 				content: {
-					dtype: 'table',
+					etype: 'table',
 //					width: '100%',
 					tableModel: {
 						row: {
@@ -91,7 +91,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 						cell: {
 							cls: 'dino-grid-cell',
 							layout: {
-								dtype: 'plain-layout',
+								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
 							}
 						}
@@ -104,37 +104,37 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 	
 	
 	$init: function() {
-		Dino.widgets.Grid.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
 		// переносим параметр width из колонок в заголовки
 		var h_columns = [];
-		Dino.each(o.tableModel.columns, function(column, i){
+		Ergo.each(o.tableModel.columns, function(column, i){
 			h_col = {};
 			if('width' in column) h_col.width = column.width;
 			if('header' in column) {
 				if($.isString(column.header)) h_col.text = column.header;
-				else Dino.smart_override(h_col, column.header);
+				else Ergo.smart_override(h_col, column.header);
 			}
 			h_columns[i] = h_col;
 		})
 		
 		
-		Dino.smart_override(o.components.content.content, {'tableModel': o.tableModel});
-		Dino.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
+		Ergo.smart_override(o.components.content.content, {'tableModel': o.tableModel});
+		Ergo.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
 	
 //	$opt: function(o) {
-//		Dino.widgets.Grid.superclass.$opt.apply(this, arguments);
+//		Ergo.widgets.Grid.superclass.$opt.apply(this, arguments);
 //		
 //		if('isDynamic' in o) this.content.body.opt('dynamic', true);
 //	},
 	
 	
 	$layoutChanged: function() {
-		Dino.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
+		Ergo.widgets.Grid.superclass.$layoutChanged.apply(this, arguments);
 		
 		var total_w = this.layout.el.innerWidth();
 		
@@ -156,7 +156,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 		var t_nowrap = [];
 		var w = 0;
 		var n = 0;
-		Dino.each(body.options.defaultItem.items, function(column, i){
+		Ergo.each(body.options.defaultItem.items, function(column, i){
 			h_col = {};
 			if('width' in column) {
 				t_columns[i] = column.width;
@@ -222,7 +222,7 @@ Dino.widgets.Grid = Dino.declare('Dino.widgets.Grid', 'Dino.widgets.Box', {
 	}
 	
 //	$dataChanged: function() {
-//		Dino.widgets.Grid.superclass.$dataChanged.apply(this, arguments);
+//		Ergo.widgets.Grid.superclass.$dataChanged.apply(this, arguments);
 //		
 ////		this.$layoutChanged();
 //		

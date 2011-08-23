@@ -5,7 +5,7 @@
 
 
 
-Dino.declare('Dino.core.Layouts.GroupLayout', 'Dino.core.Layouts.PlainLayout', {
+Ergo.declare('Ergo.core.Layouts.GroupLayout', 'Ergo.core.Layouts.PlainLayout', {
 	
 	
 //	defaults: {
@@ -14,7 +14,7 @@ Dino.declare('Dino.core.Layouts.GroupLayout', 'Dino.core.Layouts.PlainLayout', {
 //	
 //	
 //	initialize: function(o) {
-//		Dino.core.Layouts.GroupLayout.superclass.initialize.apply(this, arguments);
+//		Ergo.core.Layouts.GroupLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.groups = {};
 //	},

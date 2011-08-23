@@ -1,8 +1,8 @@
 
 //= require <core/widget>
 
-//Dino.converters = {};
+//Ergo.converters = {};
 
-Dino.parsers.floatNumber = function(s) {
+Ergo.parsers.floatNumber = function(s) {
 	return parseFloat(s);
 }

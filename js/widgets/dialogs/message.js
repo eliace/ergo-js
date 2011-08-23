@@ -3,34 +3,34 @@
 
 /**
  * @class
- * @extends Dino.widgets.Dialog
+ * @extends Ergo.widgets.Dialog
  */
-Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.Dialog', /** @lends Dino.widgets.MessageBox.prototype */{
+Ergo.widgets.MessageBox = Ergo.declare('Ergo.widgets.MessageBox', 'Ergo.widgets.Dialog', /** @lends Ergo.widgets.MessageBox.prototype */{
 	
 	defaults: {
 		components: {
 			content: {
-				dtype: 'box',
+				etype: 'box',
 				layout: {
-					dtype: 'column-layout',
+					etype: 'column-layout',
 					valign: 'middle'
 				},
 				components: {
 					icon: {
-						dtype: 'icon',
+						etype: 'icon',
 						cls: 'dino-messagebox-icon icon32'
 					},
 					message: {
-						dtype: 'box',
+						etype: 'box',
 						components: {
 							baseText: {
 								weight: 10,
-								dtype: 'text',
+								etype: 'text',
 								cls: 'dino-messagebox-msg-base'								
 							},
 							extText: {
 								weight: 20,
-								dtype: 'text',
+								etype: 'text',
 								cls: 'dino-messagebox-msg-ext'								
 							}
 						}
@@ -55,7 +55,7 @@ Dino.widgets.MessageBox = Dino.declare('Dino.widgets.MessageBox', 'Dino.widgets.
 		
 	
 	$opt: function(o) {
-		Dino.widgets.MessageBox.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.MessageBox.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) this.content.icon.states.setOnly(this.options.iconSet[o.icon]);
 		if('message' in o) this.content.message.baseText.opt('text', o.message);

@@ -1,5 +1,5 @@
 
-Dino.require('my.classes.Class1');
+Ergo.require('my.classes.Class1');
 
 my.classes.Class2 = function() {
 	

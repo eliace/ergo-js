@@ -1,6 +1,6 @@
     
-var list = $.dino({
-  dtype: 'list-view',
+var list = $.ergo({
+  etype: 'list-view',
   renderTo: '.preview',
   width: 400,
   height: 220,

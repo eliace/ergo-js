@@ -2,9 +2,9 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.Split = Dino.declare('Dino.widgets.Split', 'Dino.widgets.Box', /** @lends Dino.widgets.Split.prototype */{
+Ergo.widgets.Split = Ergo.declare('Ergo.widgets.Split', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Split.prototype */{
 	
 	$html: function() { return '<div>&nbsp;</div>' },
 	

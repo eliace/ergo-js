@@ -2,10 +2,10 @@
 //= require <core/widget>
 
 
-Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object', {
+Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 	
 	initialize: function(widget) {
-		Dino.SelectionManager.superclass.initialize.apply(this, arguments);
+		Ergo.SelectionManager.superclass.initialize.apply(this, arguments);
 		
 		this.widget = widget
 		this.selection_a = [];
@@ -47,10 +47,10 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
       });
     }
     else if(ctrlKey) {
-      ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Dino.remove_from_array(this.selection_a, w);
+      ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Ergo.remove_from_array(this.selection_a, w);
     }
     else {
-      Dino.each(this.selection_a, function(item){ item.states.clear('selected'); });
+      Ergo.each(this.selection_a, function(item){ item.states.clear('selected'); });
       w.states.set('selected');
       this.selection_a = [w];                  
     }
@@ -60,7 +60,7 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
 	},
 	
 	clear: function() {
-		Dino.each(this.selection_a, function(item){ item.states.clear('selected'); });
+		Ergo.each(this.selection_a, function(item){ item.states.clear('selected'); });
 		this.selection_a = [];
 		this.widget.events.fire('onSelectionChanged');
 	},
@@ -88,7 +88,7 @@ Dino.SelectionManager = Dino.declare('Dino.SelectionManager', 'Dino.core.Object'
 
 
 
-Dino.Selectable = function() {
-	this.selection = new Dino.SelectionManager(this);
+Ergo.Selectable = function() {
+	this.selection = new Ergo.SelectionManager(this);
 }
 

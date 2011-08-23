@@ -20,15 +20,15 @@ var news = [{
 var news_index = 0;
 
 
-$.dino({
+$.ergo({
   renderTo: '.preview',
-  dtype: 'panel',
+  etype: 'panel',
   cls: 'dino-border-all',
   title: 'Листалка',
   width: 850,
   
   content: {
-    dtype: 'box',
+    etype: 'box',
     
     tag: 'widget-2',
     
@@ -53,9 +53,9 @@ $.dino({
     components: {
       toolbar: {
         weight: 1,
-        dtype: 'control-list',
+        etype: 'control-list',
         cls: 'dino-border-bottom',
-        extensions: [Dino.Selectable],
+        extensions: [Ergo.Selectable],
         defaultItem: {
           style: {'margin': 0},
           cls: 'dino-border-all',
@@ -64,12 +64,12 @@ $.dino({
           }
         },
         items: [{
-          dtype: 'text-button',
+          etype: 'text-button',
           text: 'Компактно',
           tag: 'short',
           cls: 'dino-corner-left'
         }, {
-          dtype: 'text-button',
+          etype: 'text-button',
           text: 'Развернуто',
           tag: 'full',
           cls: 'dino-corner-right'
@@ -77,7 +77,7 @@ $.dino({
       },
       content: {
         weight: 3,
-        dtype: 'box',
+        etype: 'box',
         html: '<iframe style="display: block"/>',
         cls: 'dino-border-none',
         width: '100%',
@@ -85,26 +85,26 @@ $.dino({
       },
       contentSelector: {
         weight: 2,
-        dtype: 'list',
+        etype: 'list',
         layout: 'stack',
         cls: 'dino-border-bottom',
         style: {'background-color': '#fff'},
         data: news,
         items: [{
-          dtype: 'list',
+          etype: 'list',
           tag: 'short',
           layout: {
-            dtype: 'column-layout',
+            etype: 'column-layout',
             valign: 'middle'
           },
           style: {'text-align': 'center'},
           items: [{
-            dtype: 'text',
+            etype: 'text',
             format: function(val) {
               return val[news_index].name;
             }
           }, {
-            dtype: 'action-icon',
+            etype: 'action-icon',
             cls: 'icon32 icon-back',
             width: 32,
             onAction: function() {
@@ -114,7 +114,7 @@ $.dino({
               }
             }
           }, {
-            dtype: 'action-icon',
+            etype: 'action-icon',
             cls: 'icon32 icon-next',
             width: 32,
             onAction: function() {
@@ -125,12 +125,12 @@ $.dino({
             }
           }]
         }, {
-          dtype: 'list-view',
+          etype: 'list-view',
           tag: 'full',
           dynamic: true,
-          extensions: [Dino.Selectable],
+          extensions: [Ergo.Selectable],
           defaultItem: {
-            dtype: 'text-item',
+            etype: 'text-item',
             icon: 'silk-icon-bullet-orange',
             dataId: 'name',
             onAction: function() {

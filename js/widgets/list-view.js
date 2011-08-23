@@ -5,17 +5,17 @@
 
 /**
  * @class
- * @extends Dino.containers.ListView
+ * @extends Ergo.containers.ListView
  */
-Dino.declare('Dino.containers.ListView', 'Dino.containers.List', {
+Ergo.declare('Ergo.containers.ListView', 'Ergo.containers.List', {
 	
 	defaultCls: 'dino-list-view',
 	
 	defaults: {
 		dynamic: true,
-		extensions: [Dino.Selectable],
+		extensions: [Ergo.Selectable],
 		defaultItem: {
-			dtype: 'text-item',
+			etype: 'text-item',
 			cls: 'list-item'
 		}
 	}	

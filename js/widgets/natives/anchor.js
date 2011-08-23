@@ -3,15 +3,15 @@
 
 /**
  * @class
- * @name Dino.widgets.form.Anchor
- * @extends Dino.core.Widget
+ * @name Ergo.widgets.form.Anchor
+ * @extends Ergo.core.Widget
  */
-Dino.declare('Dino.widgets.Anchor', 'Dino.core.Widget', /** @lends Dino.widgets.form.Anchor.prototype */{
+Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Anchor.prototype */{
 	
 	$html: function() { return '<a href="#" click="return false" />'; },
 	
 	$construct: function(o) {
-		Dino.widgets.Anchor.superclass.$construct.call(this, o);
+		Ergo.widgets.Anchor.superclass.$construct.call(this, o);
 		
 		var self = this;
 		
@@ -21,7 +21,7 @@ Dino.declare('Dino.widgets.Anchor', 'Dino.core.Widget', /** @lends Dino.widgets.
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.Anchor.superclass.$opt.call(this, o);
+		Ergo.widgets.Anchor.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);
@@ -30,7 +30,7 @@ Dino.declare('Dino.widgets.Anchor', 'Dino.core.Widget', /** @lends Dino.widgets.
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
+		Ergo.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
 		this.el.attr('href',this.getValue());
 //		this.el.text(this.getValue());
 	}	

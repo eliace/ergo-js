@@ -12,14 +12,14 @@ for(var i = 0; i < 100; i++) {
 
 
 
-var panel = $.dino({
-  dtype: 'box',
+var panel = $.ergo({
+  etype: 'box',
   renderTo: '.preview',
   components: {
     buttons: {
-      dtype: 'box',
+      etype: 'box',
       defaultItem: {
-        dtype: 'text-button'
+        etype: 'text-button'
       },
       items: [{
         text: ''+testData.length+' простых виджетов',
@@ -30,8 +30,8 @@ var panel = $.dino({
           profiler.clear('widget');
           
           for(var i = 0; i < testData.length; i++) {
-            var w = $.dino({
-              dtype: 'text',
+            var w = $.ergo({
+              etype: 'text',
               html: '<span class="simple-item">'+testData[i].date+'</span>',
 //              cls: 'simple-item',
 //              style: {'display': 'block'},
@@ -49,14 +49,14 @@ var panel = $.dino({
           
 //          var fn = function() {};          
           
-          var t0 = Dino.timestamp();
+          var t0 = Ergo.timestamp();
           
 /*					
           for(var i = 0; i < testData.length; i++) {
             var el = $('<div></div>');
             el.addClass('test');
 						el.text('Item '+i);
-//						el.click(Dino.noop);
+//						el.click(Ergo.noop);
             panel.outputPane.el.append(el);
           }
 */
@@ -78,7 +78,7 @@ var panel = $.dino({
 						
           	panel.outputPane.el.append($(stream));
 
-//						stream += Dino.format('<div id="" class=""></div>');
+//						stream += Ergo.format('<div id="" class=""></div>');
 
 //						stream += '<div id="'+id+'" class="'+baseCls+'">'+text+'</div>';
           }
@@ -86,11 +86,11 @@ var panel = $.dino({
 					
 
           for (var i = 0; i < testData.length; i++) {
-						$('#id-'+i).click(Dino.noop);
+						$('#id-'+i).click(Ergo.noop);
 		  		}
 
           
-          var t1 = Dino.timestamp();
+          var t1 = Ergo.timestamp();
           
           growl.info((t1 - t0));          
           
@@ -98,7 +98,7 @@ var panel = $.dino({
       }]
     },
     outputPane: {
-      dtype: 'box'
+      etype: 'box'
     }
   }
 });

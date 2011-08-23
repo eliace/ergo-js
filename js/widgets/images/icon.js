@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.Icon = Dino.declare('Dino.widgets.Icon', 'Dino.core.Widget', /** @lends Dino.widgets.Icon.prototype */{
+Ergo.widgets.Icon = Ergo.declare('Ergo.widgets.Icon', 'Ergo.core.Widget', /** @lends Ergo.widgets.Icon.prototype */{
 	
 	defaultCls: 'dino-icon',
 	

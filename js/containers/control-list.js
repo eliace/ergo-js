@@ -4,7 +4,7 @@
 
 
 
-Dino.declare('Dino.containers.ControlList', 'Dino.containers.List', {
+Ergo.declare('Ergo.containers.ControlList', 'Ergo.containers.List', {
 	
 	defaults: {
 		cls: 'dino-control-list'
@@ -12,9 +12,9 @@ Dino.declare('Dino.containers.ControlList', 'Dino.containers.List', {
 	
 //	$itemFactory: function(o) {
 //		
-//		if(o === '-')	o = {dtype: 'split'}
+//		if(o === '-')	o = {etype: 'split'}
 //		
-//		return Dino.widgets.ControlList.superclass.$itemFactory.call(this, o);
+//		return Ergo.widgets.ControlList.superclass.$itemFactory.call(this, o);
 //	}
 	
 	

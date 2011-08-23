@@ -4,14 +4,14 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.Uploader = Dino.declare('Dino.widgets.Uploader', 'Dino.core.Widget', /** @lends Dino.widgets.Uploader.prototype */{
+Ergo.widgets.Uploader = Ergo.declare('Ergo.widgets.Uploader', 'Ergo.core.Widget', /** @lends Ergo.widgets.Uploader.prototype */{
 	
 	defaultOpions: {
 		components: {
 			'content': {
-				dtype: 'text',
+				etype: 'text',
 				text: 'Upload'
 			}
 		}
@@ -20,16 +20,16 @@ Dino.widgets.Uploader = Dino.declare('Dino.widgets.Uploader', 'Dino.core.Widget'
 	$html: function() { return '<div class="dino-uploader"></div>' },
 	
 	$init: function() {
-		Dino.widgets.Uploader.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Uploader.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		
 		var init_file = function() {
 			
-			var fileId = 'file-' + Dino.timestamp();
+			var fileId = 'file-' + Ergo.timestamp();
 			
 			self.addComponent({
-				dtype: 'file',
+				etype: 'file',
 				opacity: 0,
 				id: fileId,
 				name: 'file'

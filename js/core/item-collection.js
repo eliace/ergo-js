@@ -3,18 +3,18 @@
 
 
 
-Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
+Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
 	
 	defaults: {
-		extensions: [Dino.Observable]
+		extensions: [Ergo.Observable]
 //		factory: function(o) {
-//			return Dino.widget( Dino.smart_override({}, this.options.defaultItem, o) );			
+//			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
 //		}
 	},
 	
 	
 	initialize: function(w, o) {
-		Dino.core.ItemCollection.superclass.initialize.call(this, null, o);
+		Ergo.core.ItemCollection.superclass.initialize.call(this, null, o);
 		
 		this.widget = w;
 	},
@@ -27,7 +27,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		
 		var w = this.widget;
 		
-		if(!(item instanceof Dino.core.Widget)) {
+		if(!(item instanceof Ergo.core.Widget)) {
 			item = w.options.itemFactory.call(w, item);
 		}
 		
@@ -41,7 +41,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 		w.children.add(item, i);
 		w.layout.insert(item, this.src[i]);
 
-		i = Dino.core.ItemCollection.superclass.add.call(this, item, i);		
+		i = Ergo.core.ItemCollection.superclass.add.call(this, item, i);		
 		
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
@@ -53,7 +53,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	},
 	
 	remove_at: function(i) {
-		var item = Dino.core.ItemCollection.superclass.remove_at.call(this, i);
+		var item = Ergo.core.ItemCollection.superclass.remove_at.call(this, i);
 		
 		var w = this.widget;		
 		
@@ -81,7 +81,7 @@ Dino.declare('Dino.core.ItemCollection', 'Dino.core.Array', {
 	}
 	
 //	find: function(i) {
-//		return Dino.core.ItemCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
+//		return Ergo.core.ItemCollection.superclass.find.call(this, Ergo.utils.widget_filter(i));
 //	}	
 		
 });

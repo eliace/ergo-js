@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.core.Layouts.PlainLayout
+ * @extends Ergo.core.Layouts.PlainLayout
  */
-Dino.core.Layouts.StackLayout = Dino.declare('Dino.core.Layouts.StackLayout', 'Dino.core.Layouts.PlainLayout', /** @lends Dino.core.Layouts.StackLayout.prototype */{
+Ergo.core.Layouts.StackLayout = Ergo.declare('Ergo.core.Layouts.StackLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.StackLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-stack-layout',
@@ -16,7 +16,7 @@ Dino.core.Layouts.StackLayout = Dino.declare('Dino.core.Layouts.StackLayout', 'D
 	
 	
 	attach: function(){
-		Dino.core.Layouts.StackLayout.superclass.attach.apply(this, arguments);
+		Ergo.core.Layouts.StackLayout.superclass.attach.apply(this, arguments);
 		
 		var self = this;
 		
@@ -27,7 +27,7 @@ Dino.core.Layouts.StackLayout = Dino.declare('Dino.core.Layouts.StackLayout', 'D
 	},
 	
 	detach: function() {
-		Dino.core.Layouts.StackLayout.superclass.detach.apply(this, arguments);
+		Ergo.core.Layouts.StackLayout.superclass.detach.apply(this, arguments);
 		
 		delete this.container.setActive;
 	},
@@ -36,7 +36,7 @@ Dino.core.Layouts.StackLayout = Dino.declare('Dino.core.Layouts.StackLayout', 'D
 	
 	activate: function(i) {
 		
-		var child = (i instanceof Dino.core.Widget) ? i : this.container.children.find( Dino.utils.widget_filter(i) );
+		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.utils.widget_filter(i) );
 		
 		this.container.children.each(function(c){
 			c.el.toggleClass('hidden', (c != child));

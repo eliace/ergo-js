@@ -4,15 +4,15 @@
 
 /**
  * @class
- * @name Dino.containers.List
- * @extends Dino.core.Container
+ * @name Ergo.containers.List
+ * @extends Ergo.core.Container
  */
-Dino.declare('Dino.containers.List', 'Dino.core.Container', /** @lends Dino.containers.List.prototype */ {
+Ergo.declare('Ergo.containers.List', 'Ergo.core.Container', /** @lends Ergo.containers.List.prototype */ {
 	
 	defaults: {
 		html: '<div/>',
 		defaultItem: {
-			dtype: 'box'
+			etype: 'box'
 		}
 	}
 	

@@ -1,14 +1,14 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'simple-form',
   items: [{
-    dtype: 'input'
+    etype: 'input'
   }, {
-    dtype: 'input'
+    etype: 'input'
   }, {
-    dtype: 'file'
+    etype: 'file'
   }]
 });
     

@@ -2,7 +2,7 @@
 //= require "text-editor"
 
 
-Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
+Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.TextEditor', {
 	
 	defaults: {
     components: {
@@ -23,11 +23,11 @@ Dino.declare('Dino.widgets.SpinnerEditor', 'Dino.widgets.TextEditor', {
 				}
 			},
       buttons: {
-        dtype: 'list',
+        etype: 'list',
 				role: 'actor',
         defaultItem: {
           cls: 'dino-clickable',
-          dtype: 'action-icon',
+          etype: 'action-icon',
           style: {'display': 'block', 'border': 'none', 'padding': 0},
           height: 8,
           width: 16,

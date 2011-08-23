@@ -2,15 +2,15 @@
 
 var acData = 'January February March April May June July August September November December'.split(' ')
 
-$.dino({
+$.ergo({
   renderTo: '.preview',
-  dtype: 'list',
+  etype: 'list',
   items: [{
-    dtype: 'box',
+    etype: 'box',
     cls: 'label-box',
     html: '<div>Autocomplete (<a href="https://github.com/agarzola/jQueryAutocompletePlugin">https://github.com/agarzola/jQueryAutocompletePlugin</a>)</div>'
   }, {
-    dtype: 'text-field',
+    etype: 'text-field',
     cls: 'dino-form-field',
     data: '',
     onCreated: function() {
@@ -18,17 +18,17 @@ $.dino({
     },
     placeholder: 'Enter month'
   }, {
-    dtype: 'box',
+    etype: 'box',
     cls: 'label-box',
     html: '<div>Datepicker (<a href="http://keith-wood.name/datepick.html">http://keith-wood.name/datepick.html</a>)</div>'    
   }, {
-    dtype: 'text-field',
+    etype: 'text-field',
     cls: 'dino-form-field',
     data: '',
     components: {
       button: {
         role: 'actor',
-        dtype: 'icon-button',
+        etype: 'icon-button',
         icon: 'silk-icon-date',
         onAction: function() {
           this.parent.input.el.datepick('show');

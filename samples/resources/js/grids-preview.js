@@ -1,12 +1,12 @@
 
-var gridData = new Dino.core.DataSource([]);
+var gridData = new Ergo.core.DataSource([]);
 
 
     
     
-var grid = $.dino({
+var grid = $.ergo({
   renderTo: '.preview',
-  dtype: 'table-grid',
+  etype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 800,
   tableModel: {
@@ -20,12 +20,12 @@ var grid = $.dino({
       },
       components: {
         details:{
-          dtype: 'box',
+          etype: 'box',
 //          layoutSelector: '.details',
        		layoutSelector: function() { return this.el.filter('.details'); },
           html: '<td colspan="2"></td>',
           content: {
-            dtype: 'box',
+            etype: 'box',
             dataId: 'description',
             cls: 'description',
             binding: function(val) { this.opt('innerText', val); }
@@ -38,20 +38,20 @@ var grid = $.dino({
     },
     columns: [{
       content: {
-        dtype: 'list',
+        etype: 'list',
         cls: 'group',
         defaultItem: {
           style: {'display': 'block'}
         },
         items: [{
-          dtype: 'anchor',
+          etype: 'anchor',
 //          dataId: 'link',
           cls: 'title',
           binding: function(val) {
             this.el.text(val.title);
           }
         }, {
-          dtype: 'text',
+          etype: 'text',
           dataId: 'category',
           cls: 'category',
           format: function(val) {return 'Категория: '+val;}
@@ -62,7 +62,7 @@ var grid = $.dino({
     }, {
       dataId: 'pubDate',
       header: 'Дата',
-      format: Dino.format_date,
+      format: Ergo.format_date,
       width: 160
     }]
   },

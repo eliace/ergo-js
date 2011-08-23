@@ -4,7 +4,7 @@
 //= require <layouts/hbox>
 
 
-Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.Button', /** @lends Dino.widgets.TextButton.prototype */{
+Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.Button', /** @lends Ergo.widgets.TextButton.prototype */{
 	
 	aaa: 'TextButton',
 	
@@ -13,15 +13,15 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 		layout: 'hbox',
 		components: {
 			icon: {
-				dtype: 'icon',
+				etype: 'icon',
 				state: 'hidden'
 			},
 			content: {
-				dtype: 'text',
+				etype: 'text',
 				state: 'hidden'
 			},
 			xicon: {
-				dtype: 'icon',
+				etype: 'icon',
 				state: 'hidden'
 			}
 		},
@@ -30,7 +30,7 @@ Dino.widgets.TextButton = Dino.declare('Dino.widgets.TextButton', 'Dino.widgets.
 	
 	
 	$opt: function(o) {
-		Dino.widgets.TextButton.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.TextButton.superclass.$opt.apply(this, arguments);
 		
 		if('text' in o) {
 			this.content.opt('text', o.text);

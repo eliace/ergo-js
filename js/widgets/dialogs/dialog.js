@@ -7,9 +7,9 @@
 
 /**
  * @class
- * @extends Dino.containers.ListBox
+ * @extends Ergo.containers.ListBox
  */
-Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', /** @lends Dino.widgets.Dialog.prototype */{
+Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', /** @lends Ergo.widgets.Dialog.prototype */{
 	
 	defaults: {
 		baseCls: 'dino-dialog',
@@ -18,10 +18,10 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 		components: {
 			buttons: {
 				weight: 30,
-				dtype: 'control-list',
+				etype: 'control-list',
 				cls: 'center',
 				defaultItem: {
-					dtype: 'text-button',
+					etype: 'text-button',
 //					state: 'hidden',
 					width: 80,
 					onAction: function() {
@@ -51,7 +51,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 	
 	
 	$init: function(o) {
-		Dino.widgets.Dialog.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Dialog.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		
@@ -77,7 +77,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 	},
 
 	$opt: function(o) {
-		Dino.widgets.Dialog.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.Dialog.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.opt('title', o.title);
 	
@@ -87,17 +87,17 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 			
 			this.buttons.items.destroy_all();
 			
-			Dino.each(o.buttons, function(name){
+			Ergo.each(o.buttons, function(name){
 				self.buttons.items.add(self.options.buttonSet[name]); //.addItem(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );
 			});
 						
 //			// формируем указанный порядок кнопок
-//			Dino.each(o.buttons, function(name){
+//			Ergo.each(o.buttons, function(name){
 //				self.buttons.layout.el.append( self.buttons.items.find(name).el );
 //			});
 //			// включаем указанные кнопки
 //			this.buttons.items.each(function(item) {
-//				item.states.toggle('hidden', !Dino.include(o.buttons, item.tag)); 
+//				item.states.toggle('hidden', !Ergo.include(o.buttons, item.tag)); 
 //			});
 		}		
 	},
@@ -118,7 +118,7 @@ Dino.widgets.Dialog = Dino.declare('Dino.widgets.Dialog', 'Dino.widgets.Panel', 
 	},
 	
 	close: function() {
-		var e = new Dino.events.CancelEvent();
+		var e = new Ergo.events.CancelEvent();
 		e.button = this.dialogButton;
 		
 		this.events.fire('onClose', e);

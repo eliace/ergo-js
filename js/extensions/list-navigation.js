@@ -3,11 +3,11 @@
 //= require "focusable"
 
 
-Dino.ListNavigation = function(o) {
+Ergo.ListNavigation = function(o) {
 	
-	Dino.smart_override(o, {
+	Ergo.smart_override(o, {
 		
-//		extensions: [Dino.Selectable, Dino.Focusable],
+//		extensions: [Ergo.Selectable, Ergo.Focusable],
 		
 		onKeyDown: function(e)	{
 			
@@ -25,7 +25,7 @@ Dino.ListNavigation = function(o) {
 	          if(pos < 0) {
 	            this.el.scrollTop(this.el.scrollTop() - prev_row.el.outerHeight());
 	          }
-	//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
+	//                console.log(Ergo.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
 	        }
 	        catched = true;
 	      }
@@ -37,14 +37,14 @@ Dino.ListNavigation = function(o) {
 	          if(this.el.height() - next_row.el.outerHeight() < pos) {
 	            this.el.scrollTop(this.el.scrollTop() + next_row.el.outerHeight());
 	          }
-	//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
+	//                console.log(Ergo.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
 	        }
 	        catched = true;
 	      }
 				if(e.keyCode == 13) {
 					var editable = false;
 					selected_row.walk(function(){
-						if(!editable && this.is(Dino.Editable)) {
+						if(!editable && this.is(Ergo.Editable)) {
 							editable = this;
 						}
 					});

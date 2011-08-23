@@ -2,7 +2,7 @@
 
 test('core/model', function(){
 	
-	var positiveIntegerModel = Dino.data.Model.extend({
+	var positiveIntegerModel = Ergo.data.Model.extend({
 		
 		validate: function(v) {
 			return (v >= 0);
@@ -12,7 +12,7 @@ test('core/model', function(){
 	
 	
 	
-	var testModel = Dino.data.Model.extend({
+	var testModel = Ergo.data.Model.extend({
 		fields: {
 			'name': 'string',
 			'age': positiveIntegerModel
@@ -22,7 +22,7 @@ test('core/model', function(){
 		}
 	});
 	
-	var c = new Dino.data.Collection([], {itemModel: testModel});
+	var c = new Ergo.data.Collection([], {itemModel: testModel});
 	
 	c.add({id: 1, name: 'Alice', age: 21});
 	c.add({id: 2, name: 'Bob'});
@@ -46,8 +46,8 @@ test('core/model', function(){
 	
 	var msg;
 	
-	var w = $.dino({
-		dtype: 'list',
+	var w = $.ergo({
+		etype: 'list',
 		data: c,
 		dynamic: true,
 		defaultItem: {

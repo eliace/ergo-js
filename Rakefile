@@ -60,15 +60,15 @@ def compose_files(dest, source_files)
 #	ver = %x[git tag -l].split.last
 	ver = '0.7'
 	
-#	@name = 'dino-' + ver
-	js_name = "dino-js.js" #"dino-#{ver}.js"
-	js_name_min = "dino-js.min.js" #"dino-#{ver}.min.js"
-	css_name = "dino-js.css"
+#	@name = 'ergoo-' + ver
+	js_name = "ergo-js.js" #"ergo-#{ver}.js"
+	js_name_min = "ergo-js.min.js" #"ergo-#{ver}.min.js"
+	css_name = "ergo-js.css"
 	
 	@target_path = Pathname.new(dest);
 	@js_path = Pathname.new('js')
 	@css_path = Pathname.new('css')
-	@source_files = source_files#['js/**/*.js']#'js/core/widget.js']
+	@source_files = source_files #['js/**/*.js']#'js/core/widget.js']
 
 
 	used = []
@@ -97,7 +97,7 @@ def compose_files(dest, source_files)
 		
 		out.puts "
 /**
- * Dino.js (#{ver})
+ * Ergo.js (#{ver})
  * 
  * author: Kodanev Yuriy
  * date: #{Date.today.to_s}

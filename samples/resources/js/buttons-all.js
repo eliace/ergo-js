@@ -1,66 +1,66 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   cls: 'button-container',
   items: [{
-    dtype: 'button',
+    etype: 'button',
     innerText: 'Простая кнопка'
   }, {
     // iconL
-    dtype: 'text-button',
+    etype: 'text-button',
     icon: 'silk-icon-accept',
 //    text: false
   }, {
     // iconR
-    dtype: 'text-button',
+    etype: 'text-button',
     xicon: 'silk-icon-cancel',
 //    text: false
   }, {
     // iconL text iconR
-    dtype: 'text-button',
+    etype: 'text-button',
     icon: 'silk-icon-accept',
     text: 'OK/Cancel',
     xicon: 'silk-icon-cancel'
   }, {
     // iconL text
-    dtype: 'text-button',
+    etype: 'text-button',
     text: 'ОК',
     icon: 'silk-icon-accept'
   }, {
     // text iconR
-    dtype: 'text-button',
+    etype: 'text-button',
     text: 'Cancel',
     xicon: 'silk-icon-cancel'
   }, {
     // text
-    dtype: 'text-button',
+    etype: 'text-button',
     text: 'ОК'
   }, {
     // iconL iconR
-    dtype: 'text-button',
+    etype: 'text-button',
     icon: 'silk-icon-accept',
     xicon: 'silk-icon-cancel',
     text: ''
   }/*, {
-    dtype: 'icon-button',
+    etype: 'icon-button',
     icon: 'led-icon-cog'
   }*/, {
-//    dtype: 'box',
+//    etype: 'box',
 //    content: {
-    dtype: 'icon-button',
+    etype: 'icon-button',
     cls: 'dino-corner-all',
     contentCls: 'icon48 icon-02',
 //    icon: 'icon-01'//'led-icon-refresh'
 //    }
   }, {
-    dtype: 'text-button',
+    etype: 'text-button',
     layout: 'plain',
     cls: 'icon48',
     icon: 'icon-01',
     text: 'Back'
   }, {
-    dtype: 'text-button',
+    etype: 'text-button',
     text: 'Chat',
     cls: 'icon48',
     xicon: 'icon-03'

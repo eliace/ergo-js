@@ -1,11 +1,11 @@
 
-var treeData = new Dino.core.DataSource([]);
+var treeData = new Ergo.core.DataSource([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   
   
-$.dino({
-  dtype: 'panel',
+$.ergo({
+  etype: 'panel',
   renderTo: '.preview',
   title: 'List tree',
 
@@ -15,7 +15,7 @@ $.dino({
   height: 300,
   
   content: {
-    dtype: 'tree',
+    etype: 'tree',
     cls: 'tree-list dino-text-content',
     
     data: treeData,
@@ -26,7 +26,7 @@ $.dino({
     
     treeModel: {
       node: {
-        dtype: 'indent-tree-node',
+        etype: 'indent-tree-node',
         content: {
           components: {
             text: {

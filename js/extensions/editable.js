@@ -3,7 +3,7 @@
 
 
 
-Dino.Editable = function(o) {
+Ergo.Editable = function(o) {
 
 
 	this.startEdit = function() {
@@ -12,7 +12,7 @@ Dino.Editable = function(o) {
 		var h = this.layout.el.height();
 
 		var editorOpts = this.options.editor;
-		if($.isString(editorOpts)) editorOpts = {dtype: editorOpts};
+		if($.isString(editorOpts)) editorOpts = {etype: editorOpts};
 		
 		if(editorOpts.keepContent)
 			this.layout.el.children().hide();
@@ -34,8 +34,8 @@ Dino.Editable = function(o) {
 
 		this._editor.$bind(this.data);
 //		this._editor.$dataChanged(); // явно вызываем обновление данных
-		if(this._editor.is(Dino.Focusable)) {
-			this._prev_focus = Dino.Focusable.focusManager.current;
+		if(this._editor.is(Ergo.Focusable)) {
+			this._prev_focus = Ergo.Focusable.focusManager.current;
 			this._editor.setFocus();
 		}
 		$('input,select', this.layout.el).focus().select();
@@ -65,7 +65,7 @@ Dino.Editable = function(o) {
 		this.layout.el.children().show();
 		
 		if(this._prev_focus) {
-			Dino.Focusable.focusManager.enter(this._prev_focus);
+			Ergo.Focusable.focusManager.enter(this._prev_focus);
 			delete this._prev_focus;
 		}
 
@@ -83,7 +83,7 @@ Dino.Editable = function(o) {
 		this.layout.el.children().show();
 		
 		if(this._prev_focus) {
-			Dino.Focusable.focusManager.enter(this._prev_focus);
+			Ergo.Focusable.focusManager.enter(this._prev_focus);
 			delete this._prev_focus;
 		}
 
@@ -93,7 +93,7 @@ Dino.Editable = function(o) {
 	
 	o.editor = o.editor || 'text-editor';
 	
-//	o.editor = Dino.smart_override({}, Dino.Editable.defaultEditor, o.editor);
+//	o.editor = Ergo.smart_override({}, Ergo.Editable.defaultEditor, o.editor);
 	
 	//TODO имеет смысл перенести это в состояния
 	o.editable = ('editable' in o) ? o.editable : true;
@@ -104,8 +104,8 @@ Dino.Editable = function(o) {
 
 
 /*
-Dino.Editable.defaultEditor = {
-	dtype: 'textfield',
+Ergo.Editable.defaultEditor = {
+	etype: 'textfield',
 	autoFit: true,
 	cls: 'dino-text-editor',
 	changeOnBlur: true,

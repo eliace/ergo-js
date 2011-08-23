@@ -8,7 +8,7 @@
 /**
  * @class
  */
-Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', /** @lends Dino.StateManager.prototype */ {
+Ergo.StateCollection = Ergo.declare('Ergo.StateCollection', 'Ergo.core.Object', /** @lends Ergo.StateManager.prototype */ {
 	
 	initialize: function(widget) {
 		this._widget = widget;
@@ -21,7 +21,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 	 */
 	set: function(name, change_class) {
 		
-		var e = new Dino.events.CancelEvent({'state': name, 'op': 'set'});
+		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'set'});
 		this._widget.events.fire('onBeforeStateChange', e);
 		if(e.isCanceled) return;
 		
@@ -65,7 +65,7 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 		if($.isFunction(state)) {
 			var result = state.call(this._widget, true);
 			
-//			if(result instanceof Dino.core.Deferred) {
+//			if(result instanceof Ergo.core.Deferred) {
 //				if(!result.used) {
 //					result.then(state_change_callback);
 //					is_deferred = true;
@@ -110,13 +110,13 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 	 */
 	clear: function(name) {
 		
-		var e = new Dino.events.CancelEvent({'state': name, 'op': 'clear'});
+		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'clear'});
 		this._widget.events.fire('onBeforeStateChange', e);
 		if(e.isCanceled) return;		
 
 		
 		if(name instanceof RegExp) {
-			var names = Dino.filter(this._states, function(s, i){ return i.match(name); });
+			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
 			for(var i in names) this.clear(i);
 			return this;			
 		}
@@ -192,8 +192,8 @@ Dino.StateCollection = Dino.declare('Dino.StateCollection', 'Dino.core.Object', 
 
 
 
-Dino.Statable = function() {
-	this.states = new Dino.StateCollection(this);
+Ergo.Statable = function() {
+	this.states = new Ergo.StateCollection(this);
 }
 
 

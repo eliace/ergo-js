@@ -2,11 +2,11 @@
 //= require <extensions/popup>
 
 
-Dino.declare('Dino.widgets.DropdownBox', 'Dino.widgets.Box', {
+Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'dino-dropdown-box',
-		extensions: [Dino.Popup],
+		extensions: [Ergo.Popup],
 		style: {'display': 'none'}
 //		layout: 'popup'
 //		hideOn: 'outerClick'

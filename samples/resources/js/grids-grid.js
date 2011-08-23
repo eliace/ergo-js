@@ -1,7 +1,7 @@
 
 
-var grid = $.dino({
-	dtype: 'table-grid',
+var grid = $.ergo({
+	etype: 'table-grid',
 	renderTo: '.preview',
 	
 	data: [],
@@ -12,7 +12,7 @@ var grid = $.dino({
 	
 	components: {
 		pager: {
-			dtype: 'pager',
+			etype: 'pager',
       count: 200,
       pageSize: 40,
       cls: 'dino-border-top',
@@ -63,7 +63,7 @@ var grid = $.dino({
     }/*, {
       header: 'Ссылка',
       content: {
-        dtype: 'anchor',
+        etype: 'anchor',
         text: 'ссылка',
         dataId: 'ref'
       },
@@ -72,11 +72,11 @@ var grid = $.dino({
       dataId: 'flag',
       width: 50,
       content: {
-        dtype: 'checkbox'
+        etype: 'checkbox'
       },
       header: {
         content: {
-          dtype: 'checkbox',
+          etype: 'checkbox',
           checked: false        
         }        
       },
@@ -84,13 +84,13 @@ var grid = $.dino({
     }, {
       dataId: 'currency',
       header: 'Цена',
-      format: Dino.format_currency.rcurry('$'),
+      format: Ergo.format_currency.rcurry('$'),
 //			width: 60
     }, {
       dataId: 'date',
       header: 'Дата',
 //			width: 60
-//      format: Dino.format_date
+//      format: Ergo.format_date
     }]
   }
 	

@@ -15,7 +15,7 @@ var profiler = {
 		this.counters[name] = {};
 		if(!(name in this.results)) this.results[name] = {};
 		// инициализируем первоначальное значение
-		this.counters[name].times = [Dino.timestamp()];
+		this.counters[name].times = [Ergo.timestamp()];
 	},
 	
 	stop: function(name) {
@@ -31,13 +31,13 @@ var profiler = {
 	},
 	
 	tick: function(counter, name) {
-		this.counters[counter].times.push([name, Dino.timestamp()]);
+		this.counters[counter].times.push([name, Ergo.timestamp()]);
 	},
 	
 	print_result: function(counter) {
 		var a = [];
 		var tot = 0;
-		Dino.each(this.results[counter], function(dt, i){ a.push(''+i+': '+dt); tot+=dt; });
+		Ergo.each(this.results[counter], function(dt, i){ a.push(''+i+': '+dt); tot+=dt; });
 		return a.join(', ') + ' ('+tot+')';
 	}
 	

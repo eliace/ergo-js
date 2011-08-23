@@ -2,11 +2,11 @@
 //= require "json-object"
 
 
-Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
+Ergo.declare('Ergo.remote.JsonCollection', 'Ergo.core.Object', {
 	
 	initialize: function(name, source, o) {
-		Dino.remote.JsonCollection.superclass.initialize.apply(this, arguments);
-		this.events = new Dino.events.Dispatcher(this);
+		Ergo.remote.JsonCollection.superclass.initialize.apply(this, arguments);
+		this.events = new Ergo.events.Dispatcher(this);
 		this.name = name;
 		this.source = source;
 	},
@@ -16,7 +16,7 @@ Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 	},
 	
 	object: function(attrs) {
-		return new Dino.remote.JsonObject(this, attrs);
+		return new Ergo.remote.JsonObject(this, attrs);
 	},
 
 	invoke: function(method, args, callback) {
@@ -25,13 +25,13 @@ Dino.declare('Dino.remote.JsonCollection', 'Dino.core.Object', {
 
 	load: function(query, params) {
 		var args = [].concat(arguments).slice(2);
-		var target = new Dino.DeferredResult(args);
-		$.getJSON(this.path(), Dino.merge({'query': query}, params), function(json){target.ready(json);})
+		var target = new Ergo.DeferredResult(args);
+		$.getJSON(this.path(), Ergo.merge({'query': query}, params), function(json){target.ready(json);})
 		return target;
 	},
 	
 	load_all: function() {
-		var target = new Dino.DeferredResult(arguments);		
+		var target = new Ergo.DeferredResult(arguments);		
 		$.getJSON(this.path(), {'query': 'all'}, function(json){ target.ready(json); });
 		return target;
 	}

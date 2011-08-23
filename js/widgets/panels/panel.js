@@ -8,10 +8,10 @@
 
 /**
  * @class
- * @name Dino.widgets.Panel
- * @extends Dino.core.Widget
+ * @name Ergo.widgets.Panel
+ * @extends Ergo.core.Widget
  */
-Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.Panel.prototype */{
+Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.Panel.prototype */{
 	
 	$html: function() { return '<div></div>'; },
 	
@@ -21,32 +21,32 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 		components: {
 			header: {
 				weight: 10,
-				dtype: 'box',
+				etype: 'box',
 	      layout: {
-	        dtype: 'dock-layout',
+	        etype: 'dock-layout',
 	        updateMode: 'auto'
 	      },				
 				baseCls: 'header',
 				components: {
 					icon: {
-						dtype: 'icon',
+						etype: 'icon',
 						style: {'margin-left': '5px'},
 		        dock: 'left'
 					},
 					title: {
-						dtype: 'text',
+						etype: 'text',
 						dock: false
 					},
 	        buttons: {
-		        dtype: 'list',
+		        etype: 'list',
 		        dock: 'right',
 		        layout: 'float',
 						style: {'margin-right': '3px'},
 		        defaultItem: {
-		          dtype: 'icon-button',
+		          etype: 'icon-button',
 		          baseCls: 'dino-header-button dino-corner-all',
 		          onAction: function(){
-								this.getParent(Dino.widgets.Panel).events.fire('onHeaderButton', {'button': this.tag});
+								this.getParent(Ergo.widgets.Panel).events.fire('onHeaderButton', {'button': this.tag});
 		          }
 		        }
 		      }
@@ -55,10 +55,10 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 			content: {
 //				cls: 'dino-panel-content',
 				weight: 20,
-				dtype: 'box'
+				etype: 'box'
 			}
 //			footer: {
-//				dtype: 'box'
+//				etype: 'box'
 //			}
 		},
 		headerButtonSet: {
@@ -70,11 +70,11 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 	
 	
 	$init: function(o) {
-		Dino.widgets.Panel.superclass.$init.apply(this, arguments);		
+		Ergo.widgets.Panel.superclass.$init.apply(this, arguments);		
 	},
 	
 	$opt: function(o) {
-		Dino.widgets.Panel.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.Panel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.title.opt('text', o.title);
 		if('icon' in o) this.header.icon.states.setOnly(o.icon);
@@ -82,12 +82,12 @@ Dino.declare('Dino.widgets.Panel', 'Dino.core.Widget', /** @lends Dino.widgets.P
 		if('headerButtons' in o) {
 			var self = this;
 			// формируем указанный порядок кнопок
-			Dino.each(o.headerButtons, function(name){
+			Ergo.each(o.headerButtons, function(name){
 				self.header.buttons.items.add(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );
 			});
 //			// включаем указанные кнопки
 //			this.buttons.eachItem(function(item) {
-//				item.states.toggle('hidden', !Dino.in_array(o.buttons, item.tag)); 
+//				item.states.toggle('hidden', !Ergo.in_array(o.buttons, item.tag)); 
 //			});
 		}		
 		

@@ -1,6 +1,6 @@
 
-$.dino({
-  dtype: 'panel',
+$.ergo({
+  etype: 'panel',
   renderTo: '.preview',
   title: 'Панель',
   cls: 'dino-panel-shadow dino-border-all',
@@ -8,7 +8,7 @@ $.dino({
 // buttons: ['close', 'minimize', 'maximize'],
   onHeaderButton: function(e) {
     if(e.button == 'collapse') {
-//      var content = this.getParent(Dino.widgets.Panel).content;
+//      var content = this.getParent(Ergo.widgets.Panel).content;
       if(this.content) {
         this.content.states.toggle('hidden');
         this.header.buttons.item(e.button).content.states.toggle('exp_col');                  
@@ -37,10 +37,10 @@ $.dino({
       }
     },
     content: {
-      dtype: 'box',
+      etype: 'box',
       style: {'padding': '3px'},
        content: {
-        dtype: 'box',
+        etype: 'box',
         height: 'auto',
         cls: 'dino-widget-content dino-border-all',
 //        style: {'margin': '3px'},

@@ -2,7 +2,7 @@
 //= require <widgets/dropdown-box>
 //= require <widgets/images/all>
 
-Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
+Ergo.declare('Ergo.widgets.TextEditor', 'Ergo.widgets.Field', {
 	
 	defaults: {
 		autoFit: true,
@@ -18,7 +18,7 @@ Dino.declare('Dino.widgets.TextEditor', 'Dino.widgets.Field', {
 				width: undefined //FIXME костыль пока нормально не заработает PlainLayout
 			}			
 		},
-//		extensions: [Dino.Focusable],
+//		extensions: [Ergo.Focusable],
 		onBlur: function() {
 			this.parent.cancelEdit();
 		},

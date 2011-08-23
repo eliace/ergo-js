@@ -1,11 +1,11 @@
 
-var dlg = $.dino({
-  dtype: 'dialog',
+var dlg = $.ergo({
+  etype: 'dialog',
   renderTo: '.preview',
   title: 'Диалог',
   width: '90%',  
   content: {
-    dtype: 'box',
+    etype: 'box',
 //    height: 'auto',
     cls: 'dino-text-content dino-border-all',
     innerText: Samples.loremipsum
@@ -17,8 +17,8 @@ var dlg = $.dino({
   }
 });  
 
-$.dino({
-  dtype: 'text-button',
+$.ergo({
+  etype: 'text-button',
   renderTo: '.preview',
   text: 'Открыть диалог',
   onAction: function() {

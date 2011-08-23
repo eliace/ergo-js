@@ -2,7 +2,7 @@
 //= require "plain"
 
 
-Dino.declare('Dino.core.Layouts.HBox', 'Dino.core.Layouts.PlainLayout', {
+Ergo.declare('Ergo.core.Layouts.HBox', 'Ergo.core.Layouts.PlainLayout', {
 	
 	defaults: {
 		name: 'hbox'

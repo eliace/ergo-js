@@ -4,31 +4,31 @@
 
 
 /**
- * @name Dino.core.Layouts
+ * @name Ergo.core.Layouts
  * @namespace
  */
 
 
 /**
  * @class
- * @name Dino.core.Layout
+ * @name Ergo.core.Layout
  * @param {Object} opts
  */
-Dino.declare('Dino.core.Layout', Dino.core.Object, /** @lends Dino.core.Layout.prototype */ {
+Ergo.declare('Ergo.core.Layout', Ergo.core.Object, /** @lends Ergo.core.Layout.prototype */ {
 	
 	defaults: {
 		updateMode: 'auto'
 	},
 	
 	initialize: function(opts){
-		Dino.core.Layout.superclass.initialize.apply(this, arguments);
+		Ergo.core.Layout.superclass.initialize.apply(this, arguments);
 		
 //		var o = this.options = {};
 //		
-//		Dino.hierarchy(this.constructor, function(clazz){
-//			if('defaults' in clazz) Dino.smart_override(o, clazz.defaults);
+//		Ergo.hierarchy(this.constructor, function(clazz){
+//			if('defaults' in clazz) Ergo.smart_override(o, clazz.defaults);
 //		});
-//		Dino.smart_override(o, this.defaults, opts);
+//		Ergo.smart_override(o, this.defaults, opts);
 		
 	},
 	

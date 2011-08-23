@@ -4,7 +4,7 @@
 
 
 
-Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
+Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 	
 	defaults: {
 		oidKey: 'id'
@@ -24,16 +24,16 @@ Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
 			if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
 		}
 		
-		Dino.data.Model.superclass.set.apply(this, arguments);
+		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 	
 	get: function() {
-		var v = Dino.data.Model.superclass.get.apply(this, arguments);
+		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
 
 		return (this.format) ? this.format.call(this, v) : v;
 	},
 	
-	factory: function(i) {
+	create_entry: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
@@ -46,7 +46,7 @@ Dino.declare('Dino.data.Model', 'Dino.core.DataSource', {
 		var model = this.fields[i]
 //		if($.isFunction(model)) model = model.call(this, this._val()[i]);
 		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
-		model = model || Dino.core.DataSource;
+		model = model || Ergo.core.DataSource;
 		return new model(this, i);
 	}
 	

@@ -1,10 +1,10 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   layout: 'float',
   defaultItem: {
-    dtype: 'pulse-icon',
+    etype: 'pulse-icon',
     imageWidth: 30,
     pulseValue: 1.25,
     pulseDelay: 200

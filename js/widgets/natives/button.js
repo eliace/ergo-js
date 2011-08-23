@@ -2,13 +2,13 @@
 //= require <core/widget>
 
 
-Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.core.Widget', /** @lends Dino.widgets.Button.prototype */{
+Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
 	
 	$html: function() { return '<button type="button"/>'; },
 	
 	
 	$events: function(self) {
-		Dino.widgets.Button.superclass.$events.apply(this, arguments);
+		Ergo.widgets.Button.superclass.$events.apply(this, arguments);
 
 //		var self = this;
 		
@@ -20,7 +20,7 @@ Dino.widgets.Button = Dino.declare('Dino.widgets.Button', 'Dino.core.Widget', /*
 		
 	
 	$opt: function(o) {
-		Dino.widgets.Button.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
 
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);

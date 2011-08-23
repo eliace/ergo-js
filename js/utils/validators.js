@@ -2,20 +2,20 @@
 //= require <core/widget>
 
 
-//Dino.validators = {};
+//Ergo.validators = {};
 
 
 
-Dino.validators.RangeValidator = function(val, min, max) {
+Ergo.validators.RangeValidator = function(val, min, max) {
 	return (val >= min && val <= max);
 }
 
 
-Dino.validators.RegexpValidator = function(val, regexp) {
+Ergo.validators.RegexpValidator = function(val, regexp) {
 	return regexp.test(val);
 }
 
 
-Dino.validators.floatNumber = function(val, context) {
+Ergo.validators.floatNumber = function(val, context) {
 		return val == '' || !isNaN(parseFloat(val));
 	}

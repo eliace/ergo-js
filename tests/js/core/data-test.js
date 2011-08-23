@@ -9,7 +9,7 @@ test('core/data', function(){
 		books: ['Jabberwocky', 'The Hunting of the Snark']
 	};
 	
-	var data = new Dino.core.DataSource(obj);
+	var data = new Ergo.core.DataSource(obj);
 	
 	
 	equals(data.get('name'), 'Alice', 'Метод get(key)');
@@ -24,7 +24,7 @@ test('core/data', function(){
 	
 
 
-	var data = new Dino.core.DataSource(['Alice', 'Bob', 'Charlie'], {lazy: false});
+	var data = new Ergo.core.DataSource(['Alice', 'Bob', 'Charlie'], {lazy: false});
 	
 	equals(data.entries.last().get(), 'Charlie', 'При параметре lazy = false все элементы создаются сразу')
 	
@@ -47,7 +47,7 @@ test('core/data', function(){
 	
 	
 	
-//	data = new Dino.core.DataSource(['Alice', 'Charlie', 'Dan']);
+//	data = new Ergo.core.DataSource(['Alice', 'Charlie', 'Dan']);
 //	data.add('Bob', 1);
 //	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');
 	

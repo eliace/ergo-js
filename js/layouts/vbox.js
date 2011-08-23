@@ -2,4 +2,4 @@
 //= require "plain"
 
 
-Dino.declare('Dino.core.Layouts.HBox', 'Dino.core.Layouts.PlainLayout', {}, 'vbox-layout');
+Ergo.declare('Ergo.core.Layouts.HBox', 'Ergo.core.Layouts.PlainLayout', {}, 'vbox-layout');

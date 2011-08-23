@@ -1,9 +1,9 @@
 
-var dlg = $.dino({
-  dtype: 'dialog',
+var dlg = $.ergo({
+  etype: 'dialog',
   renderTo: '.preview',
   content: {
-    dtype: 'list',
+    etype: 'list',
     cls: 'dino-text-content dino-border-all',
     layout: 'stack',
     items: [{
@@ -41,8 +41,8 @@ var dlg = $.dino({
   
 });  
 
-$.dino({
-  dtype: 'text-button',
+$.ergo({
+  etype: 'text-button',
   renderTo: '.preview',
   text: 'Открыть диалог',
   onAction: function() {

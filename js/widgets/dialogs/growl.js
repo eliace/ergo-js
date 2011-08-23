@@ -3,25 +3,25 @@
 //= require <layouts/column>
 //= require "../buttons/text-button"
 
-Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
+Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 
 	defaults: {
 		cls: 'dino-growl dino-border-all dino-corner-all dino-widget-shadow',
 		components: {
 			content: {
-				dtype: 'box',
+				etype: 'box',
 				layout: {
-					dtype: 'column-layout',
+					etype: 'column-layout',
 					valign: 'middle'
 				},
 				components: {
 				}		
 			},
 			buttons: {
-				dtype: 'control-list',
+				etype: 'control-list',
 				cls: 'center',
 				defaultItem: {
-					dtype: 'text-button',
+					etype: 'text-button',
 					onAction: function() {
 						var growl = this.parent.parent;
 						growl.growlButton = this.tag;
@@ -48,12 +48,12 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 	
 	
 	$init: function(o) {
-		Dino.widgets.GrowlBox.superclass.$init.apply(this, arguments);
+		Ergo.widgets.GrowlBox.superclass.$init.apply(this, arguments);
 		
 		// Добавляем иконку
 		if('icon' in o) {
 			o.components.content.components.messageIcon = {
-				dtype: 'icon',
+				etype: 'icon',
 				cls: 'icon32 dino-center-align ' + o.icon,
 				style: {'margin': '0 10px'}
 //				width: 50
@@ -63,7 +63,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 		// Добавляем сообщение
 		if('message' in o) {
 			o.components.content.components.messageContent = {
-				dtype: 'text',
+				etype: 'text',
 //				cls: 'dino-widget-content',
 				text: o.message
 			}			
@@ -72,7 +72,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 		// Добавляем html
 		if('htmlMessage' in o) {
 			o.components.content.components.htmlContent = {
-				dtype: 'box',
+				etype: 'box',
 //				html: '<iframe>'+o.htmlMessage+'</iframe>',
 //				cls: 'dino-widget-content',
 				innerHtml: o.htmlMessage
@@ -82,7 +82,7 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 		// добавляем кнопки
 		if('buttons' in o) {
 			var buttons = [];
-			Dino.each(o.buttons, function(key){
+			Ergo.each(o.buttons, function(key){
 				buttons.push( o.buttonSet[key] );
 			})
 			o.components.buttons.items = buttons;
@@ -114,13 +114,13 @@ Dino.widgets.Growl = Dino.declare('Dino.widgets.Growl', 'Dino.widgets.Box', {
 
 
 
-Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.List', {
+Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.containers.List', {
 	
 	defaults: {
 		cls: 'dino-growl-box',
 		height: 'ignore',
 		defaultItem: {
-			dtype: 'growl',
+			etype: 'growl',
 			onHide: function() {
 				this.parent.items.remove(this).destroy(); 				
 			}
@@ -141,12 +141,12 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.List', {
 			hideOnClick: true,
 			components: {
 				messageIcon: {
-					dtype: 'icon',
+					etype: 'icon',
 					cls: 'icon32 dino-center-align ' + icon,
 					width: 50
 				},
 				messageText: {
-					dtype: 'text',
+					etype: 'text',
 					cls: 'dino-widget-content',
 					text: msg
 				}
@@ -167,12 +167,12 @@ Dino.declare('Dino.widgets.GrowlBox', 'Dino.containers.List', {
 			hideOnClick: true,
 			components: {
 				messageIcon: {
-					dtype: 'icon',
+					etype: 'icon',
 					cls: 'icon32 dino-center-align ' + icon,
 					width: 50
 				},
 				messageText: {
-					dtype: 'text',
+					etype: 'text',
 					cls: 'dino-widget-content',
 					text: msg
 				}

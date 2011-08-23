@@ -3,11 +3,11 @@
 
 
 
-Dino.declare('Dino.utils.UpdateBuffer', 'Dino.core.Object', {
+Ergo.declare('Ergo.utils.UpdateBuffer', 'Ergo.core.Object', {
 	
 	initialize: function(o){
-		Dino.utils.UpdateBuffer.superclass.initialize.apply(this, arguments);
-		this.events = new Dino.events.Dispatcher(this);
+		Ergo.utils.UpdateBuffer.superclass.initialize.apply(this, arguments);
+		this.events = new Ergo.events.Dispatcher(this);
 		this.buffer = {};
 		
 		if(o) {
@@ -40,9 +40,9 @@ Dino.declare('Dino.utils.UpdateBuffer', 'Dino.core.Object', {
 	flush: function(callback) {
 		var self = this;
 		if(arguments.length > 0)
-			Dino.each(this.buffer, function(item){ callback.call(self, item.value, item.event); });
+			Ergo.each(this.buffer, function(item){ callback.call(self, item.value, item.event); });
 		else
-			Dino.each(this.buffer, function(item){ self.events.fire('on' + item.event, item); });
+			Ergo.each(this.buffer, function(item){ self.events.fire('on' + item.event, item); });
 			
 		this.clear();
 	},

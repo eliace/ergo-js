@@ -3,14 +3,14 @@
  * Коллекция неупорядоченных пар вида <ключ/значение>
  * 
  */
-Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
+Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 	
 	defaults: {
-		extensions: [Dino.Observable]
+		extensions: [Ergo.Observable]
 	},
 	
 	initialize: function(src, options) {
-		Dino.core.Collection.superclass.initialize.call(this, options);
+		Ergo.core.Collection.superclass.initialize.call(this, options);
 		this.src = src || {};
 	},
 	
@@ -78,7 +78,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true 
 	 */
 	remove_if: function(criteria) {
-		var keys = Dino.filter_keys(this.src, criteria);
+		var keys = Ergo.filter_keys(this.src, criteria);
 		keys.sort().reverse();
 		for(var i = 0; i < keys.length; i++) this.remove_at(keys[i]);
 	},
@@ -96,7 +96,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	 * @param {Object} delegate
 	 */
 	each: function(callback, delegate) {
-		Dino.each(this.src, callback, delegate);
+		Ergo.each(this.src, callback, delegate);
 	},
 	
 //	ensure: function(i) {
@@ -104,19 +104,19 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 //	},
 	
 	find: function(criteria) {
-		return Dino.find(this.src, criteria);
+		return Ergo.find(this.src, criteria);
 	},
 	
 	find_all: function(criteria) {
-		return Dino.filter(this.src, callback);
+		return Ergo.filter(this.src, callback);
 	},
 	
 	filter: function(callback) {
-		return Dino.filter(this.src, callback);
+		return Ergo.filter(this.src, callback);
 	},
 
 	map: function(callback) {
-		return Dino.map(this.src, callback);		
+		return Ergo.map(this.src, callback);		
 	},
 	
 	/**
@@ -124,7 +124,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	 * @param {Object} criteria
 	 */
 	include: function(criteria) {
-		return Dino.include(this.src, callback);
+		return Ergo.include(this.src, callback);
 	},
 	
 	/**
@@ -145,7 +145,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	 * @param {Object} item
 	 */
 	index_of: function(item) {
-		return Dino.index_of(this.src, item);
+		return Ergo.index_of(this.src, item);
 	},
 	
 	/**
@@ -153,7 +153,7 @@ Dino.declare('Dino.core.Collection', 'Dino.core.Object', {
 	 * @param {Object} args
 	 */
 	apply_all: function(m, args) {
-		Dino.apply_all(this.src, m, args);
+		Ergo.apply_all(this.src, m, args);
 	},
 	
 	

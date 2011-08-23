@@ -10,14 +10,14 @@
  * Простое дерево с отступами.
  * 
  * @class
- * @extends Dino.containers.List
+ * @extends Ergo.containers.List
  */
-Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /** @lends Dino.widgets.Tree.prototype */{
+Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.containers.List', /** @lends Ergo.widgets.Tree.prototype */{
 	
 	defaults: {
 		cls: 'dino-tree',
 		defaultItem: {
-			dtype: 'basic-tree-node',
+			etype: 'basic-tree-node',
 //			indent: 0,
 			root: true,
 			expandOnShow: true,
@@ -30,7 +30,7 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /*
 	
 	
 	$init: function(o){
-		Dino.widgets.Tree.superclass.$init.apply(this, arguments);
+		Ergo.widgets.Tree.superclass.$init.apply(this, arguments);
 		
 		
 		if('subtree' in o) 
@@ -48,13 +48,13 @@ Dino.widgets.Tree = Dino.declare('Dino.widgets.Tree', 'Dino.containers.List', /*
 				}
 			};
 			
-			Dino.smart_override(o.defaultItem, dynamicItem);
-			Dino.smart_override(o.defaultItem.defaultSubItem, dynamicItem);
+			Ergo.smart_override(o.defaultItem, dynamicItem);
+			Ergo.smart_override(o.defaultItem.defaultSubItem, dynamicItem);
 		}
 		
 		
-		Dino.smart_override(o.defaultItem, o.treeModel.node);
-		Dino.smart_override(o.defaultItem.defaultSubItem, o.treeModel.node);
+		Ergo.smart_override(o.defaultItem, o.treeModel.node);
+		Ergo.smart_override(o.defaultItem.defaultSubItem, o.treeModel.node);
 		
 	},
 	

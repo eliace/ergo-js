@@ -3,15 +3,15 @@
 //= require "collection"
 
 
-Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
+Ergo.declare('Ergo.core.ComponentCollection', 'Ergo.core.Collection', {
 	
 	defaults: {
-		extensions: [Dino.Observable]
+		extensions: [Ergo.Observable]
 	},
 	
 	
 	initialize: function(w, o) {
-		Dino.core.ComponentCollection.superclass.initialize.call(this, null, o);
+		Ergo.core.ComponentCollection.superclass.initialize.call(this, null, o);
 		
 		this._widget = w;
 	},
@@ -26,7 +26,7 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 		
 		this.remove_at(i);
 		
-		if(!(item instanceof Dino.core.Widget)) {
+		if(!(item instanceof Ergo.core.Widget)) {
 			item = w.options.componentFactory.call(w, item);
 		}
 		
@@ -81,13 +81,13 @@ Dino.declare('Dino.core.ComponentCollection', 'Dino.core.Collection', {
 	}
 	
 //	find: function(i) {
-//		return Dino.core.ComponentCollection.superclass.find.call(this, Dino.utils.widget_filter(i));
+//		return Ergo.core.ComponentCollection.superclass.find.call(this, Ergo.utils.widget_filter(i));
 //	},
 	
 	
 	
 //	factory: function(o) {
-//		return Dino.widget( Dino.smart_override({}, this._widget.options.defaultComponent, o) );			
+//		return Ergo.widget( Ergo.smart_override({}, this._widget.options.defaultComponent, o) );			
 //	}
 	
 		

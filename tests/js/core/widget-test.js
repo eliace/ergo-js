@@ -4,7 +4,7 @@ test('core/widget', function(){
 	
 	var w;
 	
-	w = new Dino.core.Widget({
+	w = new Ergo.core.Widget({
 		html: '<div/>',
 		innerText: 'Text'
 	});
@@ -12,19 +12,19 @@ test('core/widget', function(){
 	equals(w.el.text(), 'Text', 'Установка параметра innerText');
 	
 	
-	w = new Dino.core.Widget({
+	w = new Ergo.core.Widget({
 		html: '<div/>',
 		defaultComponent: {
 			cls: 'test'
 		},
 		components: {
 			c1: {
-				dtype: 'widget',
+				etype: 'widget',
 				html: '<span/>',
 				tag: 'component_1'
 			},
 			c2: {
-				dtype: 'widget',
+				etype: 'widget',
 				html: '<p/>',
 				tag: 'component_2'
 			}
@@ -40,10 +40,10 @@ test('core/widget', function(){
 	ok(w.components.find({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 
 
-	w = new Dino.core.Widget({
+	w = new Ergo.core.Widget({
 		html: '<div/>',
 		content: {
-			dtype: 'widget',
+			etype: 'widget',
 			html: '<span/>'			
 		}
 	});
@@ -54,23 +54,23 @@ test('core/widget', function(){
 	
 	
 	
-	var dataSource = new Dino.core.DataSource({
+	var dataSource = new Ergo.core.DataSource({
 		name: 'Alice',
 		age: 21
 	});
 	
-	w = new Dino.core.Widget({
+	w = new Ergo.core.Widget({
 		html: '<div/>',
 		data: dataSource,
 		components: {
 			c1: {
-				dtype: 'widget',
+				etype: 'widget',
 				html: '<span/>',
 				dataId: 'name',
 				binding: function(val) { this.el.text(val); }
 			},
 			c2: {
-				dtype: 'widget',
+				etype: 'widget',
 				html: '<p/>',
 				dataId: 'age',
 				binding: function(val) { this.el.text(val); }

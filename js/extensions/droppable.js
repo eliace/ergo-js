@@ -3,11 +3,11 @@
 
 
 
-Dino.Droppable = function(o) {
+Ergo.Droppable = function(o) {
 	
 	o.state = o.state ? o.state + ' droppable' : 'droppable';
 	
 //	this.states.set('droppable');
 //	this.droppable = true;
-//	Dino.droppableList.push(this);
+//	Ergo.droppableList.push(this);
 }

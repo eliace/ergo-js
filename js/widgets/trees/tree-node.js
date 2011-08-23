@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Dino.core.Widget
+ * @extends Ergo.core.Widget
  */
-Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box', /** @lends Dino.widgets.TreeNode.prototype */{
+Ergo.widgets.TreeNode = Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', /** @lends Ergo.widgets.TreeNode.prototype */{
 
 	defaults: {
 		html: '<li/>',
@@ -16,11 +16,11 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 				
 			},
 			subtree: {
-				dtype: 'list',
+				etype: 'list',
 				html: '<ul></ul>',
 				style: {'display': 'none'},
 				defaultItem: {
-					dtype: 'tree-node'
+					etype: 'tree-node'
 				}
 			}
 		},
@@ -33,7 +33,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 //	$html: function() { return '<li></li>'; },
 	
 	$init: function() {
-		Dino.widgets.TreeNode.superclass.$init.apply(this, arguments);
+		Ergo.widgets.TreeNode.superclass.$init.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -42,14 +42,14 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 		}
 
 		if('defaultSubItem' in o){
-			Dino.smart_override(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
+			Ergo.smart_override(o.components.subtree.defaultItem, o.defaultSubItem, {'defaultSubItem': o.defaultSubItem});
 		}
 		
 	},
 	
 	
 //	$opt: function(o) {
-//		Dino.widgets.TreeNode.superclass.$opt.apply(this, arguments);
+//		Ergo.widgets.TreeNode.superclass.$opt.apply(this, arguments);
 //		
 //	},
 	
@@ -74,7 +74,7 @@ Dino.widgets.TreeNode = Dino.declare('Dino.widgets.TreeNode', 'Dino.widgets.Box'
 	
 	getParentNode: function() {
 		var w = this.parent.parent;
-		return (w instanceof Dino.widgets.TreeNode) ? w : undefined;
+		return (w instanceof Ergo.widgets.TreeNode) ? w : undefined;
 	}
 	
 }, 'tree-node');

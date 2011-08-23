@@ -26,7 +26,7 @@ var generate_grid_page = function(i0, i1) {
 			flag: false,
 			currency: Math.random()*1e2,
 			count: (Math.random()*1e2).toFixed(),
-			date: Dino.format_date(new Date())//.toLocaleString()
+			date: Ergo.format_date(new Date())//.toLocaleString()
 		});
 	}
 	return list;
@@ -35,14 +35,14 @@ var generate_grid_page = function(i0, i1) {
 	
 
 
-gridData = new Dino.data.ArrayDataSource();
+gridData = new Ergo.data.ArrayDataSource();
 
 
     
     
-var grid = $.dino({
+var grid = $.ergo({
   renderTo: 'body',
-  dtype: 'grid',
+  etype: 'grid',
   cls: 'dino-border-all dino-corner-all',
   width: 800,
   content: {
@@ -71,7 +71,7 @@ var grid = $.dino({
     }/*, {
       header: 'Ссылка',
       content: {
-        dtype: 'anchor',
+        etype: 'anchor',
         text: 'ссылка',
         dataId: 'ref'
       },
@@ -80,11 +80,11 @@ var grid = $.dino({
       dataId: 'flag',
       width: 50,
       content: {
-        dtype: 'checkbox'
+        etype: 'checkbox'
       },
       header: {
         content: {
-          dtype: 'checkbox',
+          etype: 'checkbox',
           checked: false        
         }        
       },
@@ -92,17 +92,17 @@ var grid = $.dino({
     }, {
       dataId: 'currency',
       header: 'Цена',
-      format: Dino.format_currency.rcurry('$')
+      format: Ergo.format_currency.rcurry('$')
     }, {
       dataId: 'date',
       header: 'Дата',
-//      format: Dino.format_date
+//      format: Ergo.format_date
     }]
   },
   data: gridData,
   components: {
     pager: {
-      dtype: 'pager',
+      etype: 'pager',
       count: 200,
       pageSize: 40,
       cls: 'dino-border-top',

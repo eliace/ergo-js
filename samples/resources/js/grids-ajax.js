@@ -4,7 +4,7 @@
  * заполняемый запросами к серверу
  * 
  */
-AjaxCollection = Dino.data.Collection.extend({
+AjaxCollection = Ergo.data.Collection.extend({
   
   
   initialize: function() {
@@ -50,8 +50,8 @@ var gridData = new AjaxCollection([]);
 
 
 
-var grid = $.dino({
-  dtype: 'table-grid',
+var grid = $.ergo({
+  etype: 'table-grid',
   renderTo: '.preview',
   cls: 'dino-border-all',
   
@@ -77,7 +77,7 @@ var grid = $.dino({
   
   components: {
     pager: {
-      dtype: 'pager',
+      etype: 'pager',
       count: 55,
       pageSize: 20,
       cls: 'dino-border-top',
@@ -88,7 +88,7 @@ var grid = $.dino({
       }      
     },
     loader: {
-      dtype: 'loading-pane'
+      etype: 'loading-pane'
     }
   }
   

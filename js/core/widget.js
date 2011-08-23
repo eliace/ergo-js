@@ -9,15 +9,10 @@
 
 
 
-/**
- * @name Dino.widgets
- * @namespace
- */
 
-
-Dino.formats = {};
-Dino.parsers = {};
-Dino.validators = {};
+Ergo.formats = {};
+Ergo.parsers = {};
+Ergo.validators = {};
 
 
 
@@ -26,10 +21,10 @@ Dino.validators = {};
  * Базовый объект для всех виджетов
  * 
  * @class
- * @extends Dino.events.Observer
+ * @extends Ergo.events.Observer
  * @param {Object} o параметры
  */
-Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @lends Dino.core.Widget.prototype */{
+Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
 	
 	
 	
@@ -45,13 +40,13 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			'invalid': 'invalid',
 			'unselectable': 'unselectable'
 		},
-		extensions: [Dino.Observable, Dino.Statable],
+		extensions: [Ergo.Observable, Ergo.Statable],
 		binding: 'auto',
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
-				layout = Dino.object({dtype: layout+'-layout'});
-			else if(!(layout instanceof Dino.core.Layout))
-				layout = Dino.object(layout);
+				layout = Ergo.object({etype: layout+'-layout'});
+			else if(!(layout instanceof Ergo.core.Layout))
+				layout = Ergo.object(layout);
 			return layout;	
 		},
 		defaultComponent: {
@@ -59,7 +54,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		events: {
 		},
 		componentFactory: function(o) {
-			return Dino.widget( Dino.smart_override({}, this.options.defaultComponent, o) );
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		},
 		showOnRender: true
 //		effects: {
@@ -75,14 +70,14 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 
 			
 	initialize: function(o) {
-		Dino.core.Widget.superclass.initialize.apply(this, arguments);
+		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
 
 
 		var o = this.options;
 		var self = this;
 
 		
-		this.children = new Dino.core.Array();
+		this.children = new Ergo.core.Array();
 
 //		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 //		var html = o.html;
@@ -152,13 +147,13 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		var o = this.options;
 		
-		this.components = new Dino.core.ComponentCollection(this);
+		this.components = new Ergo.core.ComponentCollection(this);
 		
-//		this.components = this.collection; //new Dino.core.Collection();		
+//		this.components = this.collection; //new Ergo.core.Collection();		
 		
 		// "сахарное" определение контента виджета
 		if('content' in o){
-			Dino.smart_override(o, {
+			Ergo.smart_override(o, {
 				components: {
 					content: o.content
 				}
@@ -179,7 +174,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		if('components' in o) {
 			var arr = [];
 			// преобразуем набор компонентов в массив
-			Dino.each(o.components, function(c, i){
+			Ergo.each(o.components, function(c, i){
 				c._cweight = ('weight' in c) ? c.weight : 9999;
 				c._cname = i;
 				arr.push(c);				
@@ -193,7 +188,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 				return 0;
 			});
 			// добавляем компоненты
-			Dino.each(arr, function(c){
+			Ergo.each(arr, function(c){
 				var i = c._cname;
 				delete c._cweight;
 				delete c._cname;
@@ -251,19 +246,19 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	/**
 	 * Хук, вызываемый при добавлении виджета на страницу
 	 * 
-	 * @param {Element|Dino.core.Widget} target
+	 * @param {Element|Ergo.core.Widget} target
 	 * @private
 	 */
 	$render: function(target) {
 		if(target){
-//			if(target instanceof Dino.core.Widget) {
+//			if(target instanceof Ergo.core.Widget) {
 //				target.addComponent(this);
 //			}
 //			else {
 				$(target).append(this.el);
 //			}
 			
-//			var parentEl = (target instanceof Dino.core.Widget) ? target.el : $(target);
+//			var parentEl = (target instanceof Ergo.core.Widget) ? target.el : $(target);
 //			parentEl.append(this.el);
 			
 			if(this.el.parents().is('body')){
@@ -290,7 +285,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		// устанавливаем состояния по умолчанию
 		if('state' in o) {
 			var a = o.state.split(' ');
-			Dino.each(a, function(state) { self.states.set(state); });
+			Ergo.each(a, function(state) { self.states.set(state); });
 		}
 		
 	},
@@ -335,7 +330,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			return this.options[o];
 		}
 		
-		Dino.smart_override(this.options, opts);
+		Ergo.smart_override(this.options, opts);
 
 		this.$opt(opts);
 		
@@ -450,7 +445,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 			var cm = o.contextMenu;
 			
 			if($.isFunction(cm)) cm = cm.call(this);
-			if(cm && !(cm instanceof Dino.core.Widget)) cm = Dino.widget(cm);
+			if(cm && !(cm instanceof Ergo.core.Widget)) cm = Ergo.widget(cm);
 			
 			if(cm) {
 			
@@ -463,17 +458,17 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		
 		if('format' in o) {
-			if($.isString(o.format)) this.options.format = Dino.format_obj.curry(o.format);
+			if($.isString(o.format)) this.options.format = Ergo.format_obj.curry(o.format);
 		}
 
 		if('validate' in o) {
-			if($.isArray(o.validate)) this.options.validate = Dino.filter_list.rcurry(o.validate);
+			if($.isArray(o.validate)) this.options.validate = Ergo.filter_list.rcurry(o.validate);
 		}
 						
 		
 //		//TODO экспериментальная опция
 //		if('overrides' in o) {
-//			Dino.override(this, o.overrides);
+//			Ergo.override(this, o.overrides);
 //		}
 //		
 //		
@@ -509,7 +504,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	
 	
 	component: function(i) {
-		return this.components.find(Dino.utils.widget_filter(i));		
+		return this.components.find(Ergo.filters.by_widget(i));		
 	},
 	
 	
@@ -517,7 +512,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 /*	
 	$componentFactory: function(item) {
 		if( $.isPlainObject(item) ) {
-			item = Dino.widget(item);
+			item = Ergo.widget(item);
 		}
 		return item;		
 	},
@@ -552,7 +547,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	 * @example
 	 * a.getParent();
 	 * b.getParent({'data': dataItem});
-	 * c.getParent(Dino.widgets.Box);
+	 * c.getParent(Ergo.widgets.Box);
 	 * d.getParent(function(w) { return w.options.width < 100; });
 	 * e.getParent('header');
 	 * 
@@ -564,7 +559,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		var parents = this.getParents();
 		
-		return Dino.find(parents, Dino.utils.widget_filter(i));
+		return Ergo.find(parents, Ergo.utils.widget_filter(i));
 	},
 	
 	
@@ -582,7 +577,7 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 	/**
 	 * Подключение данных к виджету
 	 * 
-	 * @param {Dino.data.DataSource|Any} data данные
+	 * @param {Ergo.data.DataSource|Any} data данные
 	 * @param {Integer} phase
 	 */
 	$bind: function(data, update, phase) {
@@ -606,10 +601,10 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 		
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		if('dataId' in o){
-			this.data = (data instanceof Dino.core.DataSource) ? data.entry(o.dataId) : new Dino.core.DataSource(data, o.dataId);
+			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(o.dataId) : new Ergo.core.DataSource(data, o.dataId);
 		}
 		else {
-			this.data = (data instanceof Dino.core.DataSource) ? data : new Dino.core.DataSource(data);
+			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 		}
 
 		
@@ -772,9 +767,9 @@ Dino.core.Widget = Dino.declare('Dino.core.Widget', 'Dino.core.Object', /** @len
 
 
 
-Dino.widget = function(){
-	if(arguments.length == 1) return Dino.object(arguments[0]);
-	return Dino.object( Dino.smart_override.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
+Ergo.widget = function(){
+	if(arguments.length == 1) return Ergo.object(arguments[0]);
+	return Ergo.object( Ergo.smart_override.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
 };
 
 
@@ -785,9 +780,9 @@ Dino.widget = function(){
 // Интегрируемся в jQuery
 //------------------------------
 
-$.dino = Dino.widget;
+$.ergo = Ergo.widget;
 
-$.fn.dino = function(o) {
+$.fn.ergo = function(o) {
 	if(this.length > 0){
 		var widget = this.data('dino-widget');
 		if(widget) return widget;
@@ -795,7 +790,7 @@ $.fn.dino = function(o) {
 		o.html = this;
 	}
 	else if(arguments.length == 0) return null;
-	return Dino.widget(o);
+	return Ergo.widget(o);
 };
 
 
@@ -818,13 +813,13 @@ $(document).ready(function(){
 	
 	
 	//TODO возможно этот код стоит перенести в другое место
-//	if(!Dino.contextMenuReady){
+//	if(!Ergo.contextMenuReady){
 		$(document).bind('contextmenu', function(e){
-			var w = $(e.target).dino();
+			var w = $(e.target).ergo();
 			if(!w || !w.contextMenu) {
 				w = undefined;
 				$(e.target).parents().each(function(i, el){
-					var parent = $(el).dino();
+					var parent = $(el).ergo();
 					if(parent && parent.contextMenu){
 						w = parent;
 						return false;
@@ -835,7 +830,7 @@ $(document).ready(function(){
 //			if(w){
 //				var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
 				if(w){
-					var cancel_event = new Dino.events.CancelEvent({'contextMenu': w.contextMenu});
+					var cancel_event = new Ergo.events.CancelEvent({'contextMenu': w.contextMenu});
 					w.events.fire('onContextMenu', cancel_event);
 					if(!cancel_event.isCanceled){
 						w.contextMenu.sourceWidget = w;
@@ -845,7 +840,7 @@ $(document).ready(function(){
 				}
 //			}
 		});
-//		Dino.contextMenuReady = true;
+//		Ergo.contextMenuReady = true;
 //	}
 	
 	

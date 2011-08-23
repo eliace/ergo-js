@@ -2,10 +2,10 @@
 var clipboard = [];
 
 
-Dino.Node = Dino.data.Model.extend({
+Ergo.Node = Ergo.data.Model.extend({
 	
 	fields: {
-		'children': 'Dino.NodeList'
+		'children': 'Ergo.NodeList'
 	},
 	
 	isLeaf: function() {
@@ -41,10 +41,10 @@ Dino.Node = Dino.data.Model.extend({
 });
 
 
-Dino.NodeList = Dino.data.Collection.extend({
+Ergo.NodeList = Ergo.data.Collection.extend({
 
 	defaults: {
-		itemModel: 'Dino.Node'
+		itemModel: 'Ergo.Node'
 	}
 		
 });
@@ -55,18 +55,18 @@ Dino.NodeList = Dino.data.Collection.extend({
 
 
 
-var treeData = new Dino.NodeList([]);
+var treeData = new Ergo.NodeList([]);
 
 $.getJSON('ajax/file_system.json', {}, function(data) { treeData.set(data) });
   
 	
-var treeContextMenu = $.dino({
-	dtype: 'context-menu',
+var treeContextMenu = $.ergo({
+	etype: 'context-menu',
 
 	menuModel: {
 		item: {
 			content: {
-				dtype: 'text-item'
+				etype: 'text-item'
 			}
 		}
 	},
@@ -85,7 +85,7 @@ var treeContextMenu = $.dino({
 	
 	onSelect: function(e) {
 		if(e.target.tag) {
-			var tree = this.sourceWidget.getParent(Dino.widgets.Tree);
+			var tree = this.sourceWidget.getParent(Ergo.widgets.Tree);
 			tree.events.fire('on'+e.target.tag.capitalize(), {target: this.sourceWidget.parent});								
 		}
 	}
@@ -94,8 +94,8 @@ var treeContextMenu = $.dino({
 	
 	
   
-$.dino({
-	dtype: 'panel',
+$.ergo({
+	etype: 'panel',
   renderTo: '.preview',
 	title: 'List tree',
 
@@ -105,12 +105,12 @@ $.dino({
 	height: 300,
 	
 	content: {
-	  dtype: 'tree',
+	  etype: 'tree',
 	  cls: 'tree-list dino-text-content',
 		
 	  data: treeData,
 		
-		extensions: [Dino.Selectable, Dino.Focusable, Dino.TreeNavigation],
+		extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.TreeNavigation],
 		
 		height: 'auto',
 	  
@@ -118,30 +118,30 @@ $.dino({
 	  
 	  treeModel: {
 	    node: {
-				dtype: 'indent-tree-node',
+				etype: 'indent-tree-node',
 								
 				content: {
           icon: true,
           dataId: 'name',		
 					state: 'unselectable',				
 					onClick: function() {
-						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
+						this.getParent(Ergo.widgets.Tree).selection.set(this.parent);
 					},
-					extensions: [Dino.Droppable],
+					extensions: [Ergo.Droppable],
 					components: {
 						text: {
 							content: {
-								extensions: [Dino.Editable, Dino.Draggable],
+								extensions: [Ergo.Editable, Ergo.Draggable],
 								editor: {
-									dtype: 'text-editor',
+									etype: 'text-editor',
 //									style: {'font-size': '14px', 'line-height': '14px'},
 									width: 250
 								},
 			          onDrag: function(e) {
 			            this.parent.states.set('dragged');
 			            
-			            e.dragContext.proxy = $.dino({
-			              dtype: 'text',
+			            e.dragContext.proxy = $.ergo({
+			              etype: 'text',
 			              text: this.getText(),
 			              cls: 'dino-border-all',
 			              style: {'background-color': '#fff'},
@@ -158,13 +158,13 @@ $.dino({
 					
 					contextMenu: treeContextMenu,
 					onContextMenu: function(e) {
-						this.getParent(Dino.widgets.Tree).selection.set(this.parent);
+						this.getParent(Ergo.widgets.Tree).selection.set(this.parent);
 					},
 					
 					onDrop: function(e) {
 						
 						var node = this.parent;
-						var src_node = e.source.getParent(Dino.widgets.TreeNode);
+						var src_node = e.source.getParent(Ergo.widgets.TreeNode);
 						
 						var obj = src_node.data.get();
 						

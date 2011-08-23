@@ -6,9 +6,9 @@
 
 /**
  * @class
- * @extends Dino.containers.DropdownList
+ * @extends Ergo.containers.DropdownList
  */
-Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widgets.MenuDropdownList', /** @lends Dino.widgets.ContextMenu.prototype */{
+Ergo.widgets.ContextMenu = Ergo.declare('Ergo.widgets.ContextMenu', 'Ergo.widgets.MenuDropdownList', /** @lends Ergo.widgets.ContextMenu.prototype */{
 	
 	defaults: {
 //		hideOn: 'hoverOut',
@@ -17,7 +17,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 		menuModel: {
 			item: {
 				onAction: function() {
-					this.getParent(Dino.widgets.ContextMenu).events.fire('onSelect', {target: this});
+					this.getParent(Ergo.widgets.ContextMenu).events.fire('onSelect', {target: this});
 				}
 			}
 		},
@@ -26,7 +26,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 			global: true
 		}
 //		defaultItem: {
-//			dtype: 'menu-item',
+//			etype: 'menu-item',
 //			onAction: function(e) {
 //				this.parent.events.fire('onAction', {target: e.target});
 //				this.parent.hide();
@@ -37,7 +37,7 @@ Dino.widgets.ContextMenu = Dino.declare('Dino.widgets.ContextMenu', 'Dino.widget
 	
 /*	
 	$events: function(self){
-		Dino.widgets.ContextMenu.superclass.$events.call(this, self);
+		Ergo.widgets.ContextMenu.superclass.$events.call(this, self);
 		
 		this.el.bind('mouseleave', function(){ 
 			if(self.options.hideOn == 'hoverOut') self.hide(); 

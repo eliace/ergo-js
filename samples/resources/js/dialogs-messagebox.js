@@ -1,6 +1,6 @@
 
-var dlg = $.dino({
-  dtype: 'message-box',
+var dlg = $.ergo({
+  etype: 'message-box',
   renderTo: '.preview',
   title: 'Сообщение',
   destroyOnClose: false,
@@ -11,12 +11,12 @@ var dlg = $.dino({
   }
 });  
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   cls: 'dino-controls',
   defaultItem:{
-    dtype: 'text-button'
+    etype: 'text-button'
   },
   items: [{
     text: 'Сообщение',

@@ -2,7 +2,7 @@
 
 
 
-Dino.Popup = function(o) {
+Ergo.Popup = function(o) {
 	
 	this.open = function(position) {
 		
@@ -14,7 +14,7 @@ Dino.Popup = function(o) {
 		
 //		var c = this.container;
 		
-		var p = Dino.smart_override({}, this.options.position, position);
+		var p = Ergo.smart_override({}, this.options.position, position);
 		
 		var x = p.offset[0];
 		var y = p.offset[1];
@@ -136,8 +136,8 @@ Dino.Popup = function(o) {
 	
 	var self = this;
 	
-	this.glass_pane = $.dino({
-		dtype: 'glass-pane',
+	this.glass_pane = $.ergo({
+		etype: 'glass-pane',
 		onClick: function(e) {
       self.close();
 			e.baseEvent.stopPropagation();								
@@ -145,7 +145,7 @@ Dino.Popup = function(o) {
 	});
 	
 	
-	Dino.smart_override(o, {
+	Ergo.smart_override(o, {
 		events: {
 			'mouseleave': function(e, w){ 
 				if(w.options.hideOn == 'hoverOut') w.close(); 
@@ -157,7 +157,7 @@ Dino.Popup = function(o) {
 		}
 	})
 	
-	o.position = Dino.smart_override({
+	o.position = Ergo.smart_override({
 		to: null, 
 		at: 'left top', 
 		my: 'left top', 

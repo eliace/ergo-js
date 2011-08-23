@@ -1,10 +1,10 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   id: 'vmenu',
   defaultItem: {
-    dtype: 'menu-item',
+    etype: 'menu-item',
     cls: 'main-menu-item',
     menuModel: {
       item: {
@@ -15,7 +15,7 @@ $.dino({
     }
   },
 //  defaultItem: {
-//    dtype: 'text-menu-item',
+//    etype: 'text-menu-item',
 //    cls: 'main-menu-item',
 //    onAction: function(e) {
 //      this.hideSubmenu();

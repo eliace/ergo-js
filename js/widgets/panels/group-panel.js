@@ -3,15 +3,15 @@
 
 /**
  * @class
- * @extends Dino.core.Container
+ * @extends Ergo.core.Container
  */
-Dino.declare('Dino.widgets.GroupPanel', 'Dino.widgets.Panel', {
+Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		baseCls: 'dino-group-panel',
 		components: {
 			header: {
-				dtype: 'box',
+				etype: 'box',
 				html: '<legend/>'
 			}
 		}
@@ -20,7 +20,7 @@ Dino.declare('Dino.widgets.GroupPanel', 'Dino.widgets.Panel', {
 	$html: function() { return '<fieldset></fieldset>'; },
 	
 	$opt: function(o) {
-		Dino.widgets.GroupPanel.superclass.$opt.apply(this, arguments);
+		Ergo.widgets.GroupPanel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.opt('innerText', o.title);
 	}

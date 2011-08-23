@@ -5,17 +5,17 @@ var listData = ['Alice', 'Bob', 'Charlie', 'Denver', 'Eva', 'Fox', 'George', 'Ha
 
 
 var list_snippet = {
-	dtype: 'list-view',
+	etype: 'list-view',
 	style: {'background-color': '#fff'},
 	height: 'auto',
 	dynamic: true,
-	extensions: [Dino.Selectable, Dino.Focusable, Dino.ListNavigation],
+	extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation],
   defaultItem: {
     icon: 'silk-icon-user-gray',
 		content: {
-			extensions: [Dino.Editable],
+			extensions: [Ergo.Editable],
 			editor: {
-				dtype: 'text-editor',
+				etype: 'text-editor',
 				width: 150
 			},
 		},
@@ -44,7 +44,7 @@ var list_snippet = {
           if(pos < 0) {
             this.el.scrollTop(this.el.scrollTop() - prev_row.el.outerHeight());
           }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
+//                console.log(Ergo.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), offset));
         }
         catched = true;
       }
@@ -56,14 +56,14 @@ var list_snippet = {
           if(this.el.height() - next_row.el.outerHeight() < pos) {
             this.el.scrollTop(this.el.scrollTop() + next_row.el.outerHeight());
           }
-//                console.log(Dino.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
+//                console.log(Ergo.format('%s, %s, %s', this.el.scrollTop(), this.parent.el.height(), next_row.el.position().top));                
         }
         catched = true;
       }
 			if(e.keyCode == 13) {
 				var editable = false;
 				selected_row.walk(function(){
-					if(!editable && this.is(Dino.Editable)) {
+					if(!editable && this.is(Ergo.Editable)) {
 						editable = this;
 					}
 				});
@@ -71,7 +71,7 @@ var list_snippet = {
 				if(editable)
 					editable.startEdit();
 				
-//				var event = new Dino.events.CancelEvent({target: selected_row});
+//				var event = new Ergo.events.CancelEvent({target: selected_row});
 //				this.events.fire('onStartEdit', event);
 //				if(!event.isCanceled) {
 //					selected_row.startEdit();
@@ -89,8 +89,8 @@ var list_snippet = {
 
 
     
-var panel1 = $.dino({
-  dtype: 'editable-panel',
+var panel1 = $.ergo({
+  etype: 'editable-panel',
 	title: 'Редактируемый список',
   renderTo: '.preview',
   width: 400,
@@ -127,8 +127,8 @@ var panel1 = $.dino({
     
 
 		
-var panel2 = $.dino({
-  dtype: 'editable-panel',
+var panel2 = $.ergo({
+  etype: 'editable-panel',
 	title: 'Редактируемый список',
   renderTo: '.preview',
   width: 400,
@@ -147,7 +147,7 @@ var panel2 = $.dino({
 			weight: 30,
 			cls: 'dino-border-top',
 			defaultItem: {
-				dtype: 'icon-button'
+				etype: 'icon-button'
 			}
 		}
 	},

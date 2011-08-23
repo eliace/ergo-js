@@ -4,10 +4,10 @@
 
 /**
  * @class
- * @name Dino.core.Layouts.DockLayout
- * @extends Dino.core.Layout
+ * @name Ergo.core.Layouts.DockLayout
+ * @extends Ergo.core.Layout
  */
-Dino.declare('Dino.core.Layouts.DockLayout', 'Dino.core.Layout', /** @lends Dino.core.Layouts.DockLayout.prototype */{
+Ergo.declare('Ergo.core.Layouts.DockLayout', 'Ergo.core.Layout', /** @lends Ergo.core.Layouts.DockLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-dock-layout',
@@ -37,7 +37,7 @@ Dino.declare('Dino.core.Layouts.DockLayout', 'Dino.core.Layout', /** @lends Dino
 			this.container.el.append(el);//this.content);
 		}
 		
-//		if(Dino.in_array(['top', 'left-top', 'left-center', 'left-bottom', 'bottom', 'right-top', 'right-center', 'right-bottom'], item.options.dock))
+//		if(Ergo.in_array(['top', 'left-top', 'left-center', 'left-bottom', 'bottom', 'right-top', 'right-center', 'right-bottom'], item.options.dock))
 //			el.addClass('dock-'+item.options.dock);
 		
 //		this.container.el.append(el);

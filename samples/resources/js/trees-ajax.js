@@ -1,6 +1,6 @@
 
 
-AjaxNode = Dino.data.Model.extend({
+AjaxNode = Ergo.data.Model.extend({
 		
 	fields: {
 		'children': 'AjaxNodeList'
@@ -9,7 +9,7 @@ AjaxNode = Dino.data.Model.extend({
 });
 
 
-AjaxNodeList = Dino.data.Collection.extend({
+AjaxNodeList = Ergo.data.Collection.extend({
 	
 	defaults: {
 		itemModel: 'AjaxNode'
@@ -19,7 +19,7 @@ AjaxNodeList = Dino.data.Collection.extend({
 
 		var self = this;
 		var deferred = $.Deferred().always(function(){self._fetched = true;});
-//		var deferred = new Dino.core.Deferred().then(function(){self._fetched = true});		
+//		var deferred = new Ergo.core.Deferred().then(function(){self._fetched = true});		
 
 		if(!id)
 			return deferred.resolve();
@@ -50,8 +50,8 @@ var treeData = new AjaxNodeList([]);
 
 
   
-$.dino({
-  dtype: 'tree',
+$.ergo({
+  etype: 'tree',
   renderTo: '.preview',
   cls: 'dynamic-tree',
   

@@ -6,11 +6,11 @@
  * Эта компоновка сразу добавляет элемент в контейнер.
  * 
  * @class
- * @name Dino.core.Layouts.PlainLayout
- * @extends Dino.core.Layout
+ * @name Ergo.core.Layouts.PlainLayout
+ * @extends Ergo.core.Layout
  * 
  */
-Dino.declare('Dino.core.Layouts.PlainLayout', Dino.core.Layout, /** @lends Dino.core.Layouts.PlainLayout.prototype */{
+Ergo.declare('Ergo.core.Layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.core.Layouts.PlainLayout.prototype */{
 	
 	
 	defaults: {
@@ -108,7 +108,7 @@ Dino.declare('Dino.core.Layouts.PlainLayout', Dino.core.Layout, /** @lends Dino.
 			var h = 0;
 			this.el.parents().each(function(i, el){
 				el = $(el);
-				var w = el.dino();
+				var w = el.ergo();
 				if((w && w.options.height) || el.attr('autoheight') == 'true' || el.is('body')){
 					h = el.height();
 //					h = el[0].scrollHeight;

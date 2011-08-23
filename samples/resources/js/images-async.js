@@ -1,16 +1,16 @@
 
-$.dino({
-  dtype: 'list',
+$.ergo({
+  etype: 'list',
   renderTo: '.preview',
   items: [{
     // обычная загрузка
-    dtype: 'image',
+    etype: 'image',
     src: 'img/Triceratops_128x128.png',
     width: 60,   
     height: 100   
   }, {
     // поздняя загрузка
-    dtype: 'async-image',
+    etype: 'async-image',
     src: 'img/Triceratops_128x128.png',
     width: 60,
     height: 100   

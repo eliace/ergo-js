@@ -2,10 +2,10 @@
 //= require <core/data-source>
 
 
-Dino.declare('Dino.data.Collection', 'Dino.core.DataSource', {
+Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 	
 	defaults: {
-		itemModel: null
+		model: null
 	},
 	
 	
@@ -17,7 +17,7 @@ Dino.declare('Dino.data.Collection', 'Dino.core.DataSource', {
 	},
 	
 	
-	factory: function(i) {
+	create_entry: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
@@ -27,10 +27,10 @@ Dino.declare('Dino.data.Collection', 'Dino.core.DataSource', {
 		 *  - задано поле, которое содержит имя класса
 		 */
 		
-		var model = this.options.itemModel; //(this.options.itemModel) ? this.options.itemModel : Dino.core.DataSource;
+		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this._val()[i]);
 		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
-		model = model || Dino.core.DataSource;
+		model = model || Ergo.core.DataSource;
 		return new model(this, i); 
 	}
 

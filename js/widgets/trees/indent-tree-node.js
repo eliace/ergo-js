@@ -2,7 +2,7 @@
 //= require "basic-tree-node"
 
 
-Dino.declare('Dino.widgets.IndentTreeNode', 'Dino.widgets.BasicTreeNode', {
+Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 	
 	defaultCls: 'dino-list-tree-node',
 	
@@ -12,13 +12,13 @@ Dino.declare('Dino.widgets.IndentTreeNode', 'Dino.widgets.BasicTreeNode', {
 			content: {
 				components: {
 					indent: {
-						dtype: 'list',
+						etype: 'list',
 						style: {
 							'display': 'inline'
 						},
 						weight: 5,
 						defaultItem: {
-							dtype: 'text',
+							etype: 'text',
 							binding: false,
 							cls: 'indent',
 							innerHtml: '&nbsp;'
@@ -30,14 +30,14 @@ Dino.declare('Dino.widgets.IndentTreeNode', 'Dino.widgets.BasicTreeNode', {
 	},
 	
 	$init: function(o) {
-		Dino.widgets.IndentTreeNode.superclass.$init.apply(this, arguments);
+		Ergo.widgets.IndentTreeNode.superclass.$init.apply(this, arguments);
 		
 		o.components.subtree.defaultItem.indent = o.indent+1;		
 	},
 	
 	
 	$construct: function(o) {
-		Dino.widgets.IndentTreeNode.superclass.$construct.apply(this, arguments);
+		Ergo.widgets.IndentTreeNode.superclass.$construct.apply(this, arguments);
 		
 		for(var i = 0; i < o.indent; i++) {
 			this.content.indent.items.add({});

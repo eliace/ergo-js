@@ -8,7 +8,7 @@
  * 
  * @param {Object} val
  */
-Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
+Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 	
 	defaults: {
 		components: {
@@ -16,7 +16,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				readOnly: true				
 			},			
       button: {
-        dtype: 'action-icon',
+        etype: 'action-icon',
         cls: 'dino-clickable',
 				role: 'actor',
 				onAction: function() {
@@ -24,15 +24,15 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 				}
       },
 			dropdown: {
-	      dtype: 'dropdown-box',
+	      etype: 'dropdown-box',
 //				renderTo: 'body',
 	      cls: 'dino-border-all dino-dropdown-shadow',
 //				style: {'display': 'none'},
 				content: {
-					dtype: 'list-view',
+					etype: 'list-view',
 					defaultItem: {
 						onClick: function() {
-							this.getParent(Dino.widgets.DropdownEditor).setSelectedItem(this);															
+							this.getParent(Ergo.widgets.DropdownEditor).setSelectedItem(this);															
 						}
 					}
 				},
@@ -67,7 +67,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 			else if(dataModel.type == 'custom') {
 				var criteria = {};
 				criteria[dataModel.id] = val;
-				var optionsItem = Dino.find(this.dropdown.data.get(), Dino.filters.by_props.curry(criteria));
+				var optionsItem = Ergo.find(this.dropdown.data.get(), Ergo.filters.by_props.curry(criteria));
 				val = optionsItem ? optionsItem[dataModel.value] : optionsItem;				
 			}
 			return val;
@@ -120,7 +120,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	},
 	
 	$init: function(o) {		
-		Dino.widgets.DropdownEditor.superclass.$init.apply(this, arguments);
+		Ergo.widgets.DropdownEditor.superclass.$init.apply(this, arguments);
 		
 		if('dataModel' in o) {
 			if(o.dataModel.data)
@@ -132,7 +132,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	
 	
 	$events: function(self) {
-		Dino.widgets.DropdownEditor.superclass.$events.apply(this, arguments);
+		Ergo.widgets.DropdownEditor.superclass.$events.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -178,7 +178,7 @@ Dino.declare('Dino.widgets.DropdownEditor', 'Dino.widgets.TextEditor', {
 	},
 	
 	$dataChanged: function() {
-		Dino.widgets.DropdownEditor.superclass.$dataChanged.apply(this, arguments);
+		Ergo.widgets.DropdownEditor.superclass.$dataChanged.apply(this, arguments);
 		
 		var list = this.dropdown.content;
 		
