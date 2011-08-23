@@ -88,7 +88,7 @@ var panel = $.ergo({
           format: Ergo.format_currency.rcurry('$'),
           editor: {
             store: function(val) {
-              return Ergo.isString(val) ? parseFloat(val) : val; 
+              return $.isString(val) ? parseFloat(val) : val; 
             }                
           }
         }, {
