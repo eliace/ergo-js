@@ -1,11 +1,11 @@
 
-require('Class1');
+Dino.require('my.classes.Class1');
 
-Class2 = function() {
+my.classes.Class2 = function() {
 	
 	this.foo = function() {
-		var a = new Class1();
-		return a.foo() + 'class2';
+		var a = new my.classes.Class1();
+		return a.foo() + '_class2';
 	}
 	
 }

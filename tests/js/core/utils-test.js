@@ -2,38 +2,34 @@
 
 test('core/utils', function(){
 	
+	my = {classes: {}};
 	
-	var classpath = 'ajax';
+	// определяем, что пространство имен 'my.classes.*' загружается из пути 'ajax/*'
+	Dino.loadpath['my.classes'] = 'ajax';
 	
-	require = function() {
+
+	Dino.require('my.classes.Class2');
 		
-		for(var i = 0; i < arguments.length; i++) {
-			var class_name = classpath + '.' + arguments[i];
-			var url = class_name.replace(/\./g, '/') + '.js';
-			
-			$.ajax({
-			  url: url,
-			  dataType: "script",
-			  success: function(){
-			  	
-			  },
-			  async: false
-			});			
-			
-		}
-		
-		
-	}
+	var a = new my.classes.Class2();
+	equals('class1_class2', a.foo(), 'Проверяем загрузку зависимых классов');
+
 	
 	
-	require('Class2');
+	// сбрасываем загруженные классы
+	my.classes = {};
 	
+	// определяем класс Class1
+	my.classes.Class1 = function(){
+		this.foo = function(){
+			return 'precreated_class1';
+		};
+	};
+
+	Dino.require('my.classes.Class2');
 	
-		
-	var b = new Class2();
-	equals('class1class2', b.foo(), 'проверяем загрузку классов вызовом метода foo()');
+	var b = new my.classes.Class2();
+	equals('precreated_class1_class2', b.foo(), 'Проверяем, что загруженные классы не загружаются заново');
 	
-	var a = new Class1();
 	
 	
 });

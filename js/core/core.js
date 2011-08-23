@@ -7,6 +7,14 @@ var Dino = (function(){
 	var D = {};
 
 
+
+	//
+	//
+	// 
+	//
+	//
+
+
 	/**
 	 * Копирование свойств одного объекта в другой (создание примеси)
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
@@ -185,7 +193,6 @@ var Dino = (function(){
 	
 	
 	
-	D.noop = function(){};
 	
 /*	
 	D.isFunction = function(obj) { return obj instanceof Function; };
@@ -253,6 +260,22 @@ var Dino = (function(){
 	$.isNumber = function(obj) {
 		return typeof obj == 'number';
 	};	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//------------------------------------
+	//
+	// Методы для работы с коллекциями
+	//
+	//------------------------------------
+	
 	
 	/**
 	 * Последовательный обход каждого элемента массива или хэша
@@ -474,6 +497,18 @@ var Dino = (function(){
 
 	
 	
+	
+	
+	
+	//---------------------------------------------------
+	//
+	// Фильтры
+	//
+	//---------------------------------------------------
+	
+	//FIXME сомнительная польза, поскольку есть метод $.noop
+	D.noop = function(){};	
+	
 	/**
 	 * Предикативная функция равенства
 	 * 
@@ -503,100 +538,110 @@ var Dino = (function(){
 	D.ne = function(obj, item, i) {
 		return obj != item;
 	};
-		
-	/**
-	 * @constructor
-	 * @memberOf Dino
-	 * @name ObjectTree
-	 * @param {Object} obj
-	 * @param {Object} factory
-	 * @param {Object} ignore
-	 */
-	// набор методов, позволяющих работать с объектом как с деревом
-	D.ObjectTree = function(obj, factory, ignore) {
-		this.obj = obj;
-		this.factory = factory;
-		this.ignore_list = ignore || [];
-	};
-	
-	/**
-	 * @name Dino.ObjectTree#ensure
-	 * @function
-	 * @param {Object} path
-	 */
-	D.ObjectTree.prototype.ensure = function(path){
-		if($.isString(path)) path = path.split('.');
-		
-		var obj = this.obj;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			if(!(key in obj)) obj[key] = (this.factory) ? this.factory() : {};
-			obj = obj[key];
-		}
-		return obj;
-	}
-
-	/**
-	 * 
-	 * @name Dino.ObjectTree#get
-	 * @function
-	 * @param {Object} path
-	 */	
-	D.ObjectTree.prototype.get = function(path){
-		if(D.isString(path)) path = path.split('.');
-		
-		var obj = this.obj;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			obj = obj[key];
-		}
-		return obj;
-	}
-	
-	/**
-	 * 
-	 * @name Dino.ObjectTree#del
-	 * @function
-	 * @param {Object} path
-	 */
-	D.ObjectTree.prototype.del = function(path) {
-		if($.isString(path)) path = path.split('.');
-
-		var obj = this.obj;
-		for(var i = 0; i < path.length; i++){
-			var key = path[i];
-			// если это последний элемент пути - удаляем
-			if(i == path.length-1) 
-				delete obj[key];
-			else
-				obj = obj[key];
-		}
-	},
 	
 	
-	/**
-	 * 
-	 * @name Dino.ObjectTree#traverse
-	 * @function
-	 * @param {Object} callback
-	 * @param {Object} obj
-	 */
-	D.ObjectTree.prototype.traverse = function(callback, obj) {
-		if(arguments.length == 1) obj = this.obj;
-		else{
-			if(obj == null || obj == undefined) return;
-			callback.call(this, obj);
-		}
-		
-		for(var i in obj){
-			if($.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
-		}
+	//FIXME эта функция не так уж нужна
+	D.filter_list = function(val, list) {
+		for(var i = 0; i < list.length; i++)
+			if(!list[i].call(this, val)) return false;
+		return true;
 	}
 	
 	
-	D.otree = function(obj){
-		return new D.ObjectTree(obj);
-	};
+	
+	// /**
+	 // * @constructor
+	 // * @memberOf Dino
+	 // * @name ObjectTree
+	 // * @param {Object} obj
+	 // * @param {Object} factory
+	 // * @param {Object} ignore
+	 // */
+	// // набор методов, позволяющих работать с объектом как с деревом
+	// D.ObjectTree = function(obj, factory, ignore) {
+		// this.obj = obj;
+		// this.factory = factory;
+		// this.ignore_list = ignore || [];
+	// };
+// 	
+	// /**
+	 // * @name Dino.ObjectTree#ensure
+	 // * @function
+	 // * @param {Object} path
+	 // */
+	// D.ObjectTree.prototype.ensure = function(path){
+		// if($.isString(path)) path = path.split('.');
+// 		
+		// var obj = this.obj;
+		// for(var i = 0; i < path.length; i++){
+			// var key = path[i];
+			// if(!(key in obj)) obj[key] = (this.factory) ? this.factory() : {};
+			// obj = obj[key];
+		// }
+		// return obj;
+	// }
+// 
+	// /**
+	 // * 
+	 // * @name Dino.ObjectTree#get
+	 // * @function
+	 // * @param {Object} path
+	 // */	
+	// D.ObjectTree.prototype.get = function(path){
+		// if(D.isString(path)) path = path.split('.');
+// 		
+		// var obj = this.obj;
+		// for(var i = 0; i < path.length; i++){
+			// var key = path[i];
+			// obj = obj[key];
+		// }
+		// return obj;
+	// }
+// 	
+	// /**
+	 // * 
+	 // * @name Dino.ObjectTree#del
+	 // * @function
+	 // * @param {Object} path
+	 // */
+	// D.ObjectTree.prototype.del = function(path) {
+		// if($.isString(path)) path = path.split('.');
+// 
+		// var obj = this.obj;
+		// for(var i = 0; i < path.length; i++){
+			// var key = path[i];
+			// // если это последний элемент пути - удаляем
+			// if(i == path.length-1) 
+				// delete obj[key];
+			// else
+				// obj = obj[key];
+		// }
+	// },
+// 	
+// 	
+	// /**
+	 // * 
+	 // * @name Dino.ObjectTree#traverse
+	 // * @function
+	 // * @param {Object} callback
+	 // * @param {Object} obj
+	 // */
+	// D.ObjectTree.prototype.traverse = function(callback, obj) {
+		// if(arguments.length == 1) obj = this.obj;
+		// else{
+			// if(obj == null || obj == undefined) return;
+			// callback.call(this, obj);
+		// }
+// 		
+		// for(var i in obj){
+			// if($.isPlainObject(obj[i]) && !(D.include(this.ignore_list, i))) this.traverse(callback, obj[i]);
+		// }
+	// }
+// 	
+// 	
+	// D.otree = function(obj){
+		// return new D.ObjectTree(obj);
+	// };
 	
 	
 	
@@ -660,6 +705,17 @@ var Dino = (function(){
 		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	};
 	
+	
+	
+	
+	
+	//----------------------------------------------------------
+	//
+	// Форматирование
+	//
+	//----------------------------------------------------------
+	
+	
 	/**
 	 * Форматированный вывод значений.
 	 * 
@@ -713,11 +769,6 @@ var Dino = (function(){
 	
 	
 	
-	D.filter_list = function(val, list) {
-		for(var i = 0; i < list.length; i++)
-			if(!list[i].call(this, val)) return false;
-		return true;
-	}
 	
 	
 /*	
@@ -768,95 +819,7 @@ var Dino = (function(){
 	
 	
 		
-	/**
-	 * Добавление карринга к классу Function
-	 */
-	Function.prototype.curry = function(arg) {
-		var F = this;
-		var pre_args = arguments;
-		return function(){
-			var args = [];
-			for(var i = 0; i < pre_args.length; i++) args.push(pre_args[i]);
-			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-//			args.unshift(arg);
-			return F.apply(this, args);
-		};
-	};
-
-	Function.prototype.rcurry = function(arg) {
-		var F = this;
-		var post_args = arguments;
-//		for(var i = 0; i < arguments.length; i++) post_args.push(arguments[i]);
-		return function(){
-			var args = [];
-			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-			for(var i = 0; i < post_args.length; i++) args.push(post_args[i]);
-//			args.push(arg);
-			return F.apply(this, args);
-		};
-	};
 	
-//	Function.prototype.extend = function(overrides) {
-//		return D.extend(this, overrides);		
-//	}
-	
-	
-//	D.core = {};
-//	
-//	/**
-//	 * Базовый объект
-//	 * 
-//	 * @constructor
-//	 * @memberOf Dino
-//	 * @name core.Object
-//	 */
-//	D.core.Object = function() {
-//		this.initialize.apply(this, arguments);
-//	};
-//	
-//	/** 
-//	 * @function 
-//	 * @name Dino.core.Object#initialize 
-//	 */
-//	D.core.Object.prototype.initialize = function() {
-////		if(this.plugins) {
-////			for(var i = 0; i < this.plugins.length; i++) {
-////				var plugin = this.plugins[i];
-////				if($.isFunction(plugin))
-////					plugin.call(this, true);
-////				else
-////					Dino.override_r(this, plugin);
-////			}
-////		}
-//	};
-//	/**
-//	 * @function
-//	 * @name Dino.core.Object#destroy
-//	 */
-//	D.core.Object.prototype.destroy = function() {};
-//	/**
-//	 * @function
-//	 * @name Dino.core.Object#base
-//	 */
-////	D.core.Object.prototype.base = function(method, args) {
-////		eval(this.className + '.superclass.'+method+'.apply(this, args)');
-////	};
-//
-//	D.core.Object.extend = function(overrides) {
-//		return D.extend(this, overrides);
-////		ctor.extend = this.extend;
-////		return ctor;
-//	}
-
-//	D.log = function(msg) {
-//		// Если установлен Firebug, то используем его консоль
-//		if(console) console.log(msg);
-//	};
-//	
-//	D.constants = {
-//	};
-	
-//	$.dino = D;
 
 	D.logger = {
 		debug: function(msg) {
@@ -867,35 +830,43 @@ var Dino = (function(){
 	
 	
 	
-	
-	var libs = [];
+	D.loadpath = {};
 	
 	D.require = function() {
+		
 		for(var i = 0; i < arguments.length; i++) {
-			libs.push(arguments[i]);
-		}
-	};
-	
-		
-	D.load_required = function(classpath, callback) {
-		
-		var load_class = function() {
-			if(libs.length == 0) {
-				if(callback) callback();
-				return;
+
+			var class_name = arguments[i];
+			
+			//TODO здесь нужно проверить, загружен ли класс
+			try{
+				if( eval('typeof '+class_name) == 'function') continue;
+			}
+			catch(e) {
 			}
 			
-			var class_name = libs.shift().replace(/\./g, '/');
+			for(var j in D.loadpath) {
+				if(class_name.search(j) != -1) {
+					class_name = class_name.replace(j, D.loadpath[j]);
+					break;
+				}
+			}
 			
-			$.getScript((classpath || '')+'/'+class_name+'.js', function(){
-				load_class();
-			});
+			var url = class_name.replace(/\./g, '/') + '.js';
 			
-		};
+			$.ajax({
+			  url: url,
+			  dataType: "script",
+			  success: function(){
+			  	//TODO здесь нужно вызывать функцию, оповещающую, что класс загружен
+			  },
+			  async: false
+			});			
+			
+		}
 		
-		load_class();		
-	};
-	
+		
+	}
 	
 	
 	
@@ -911,16 +882,87 @@ var Dino = (function(){
 
 
 
+
+
+//------------------------------------------------------
+//
+// Расширения базовых классов
+//
+//------------------------------------------------------
+
+
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 
 
+/**
+ * Добавление карринга к классу Function
+ */
+Function.prototype.curry = function(arg) {
+	var F = this;
+	var pre_args = arguments;
+	return function(){
+		var args = [];
+		for(var i = 0; i < pre_args.length; i++) args.push(pre_args[i]);
+		for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+//			args.unshift(arg);
+		return F.apply(this, args);
+	};
+};
+
+Function.prototype.rcurry = function(arg) {
+	var F = this;
+	var post_args = arguments;
+//		for(var i = 0; i < arguments.length; i++) post_args.push(arguments[i]);
+	return function(){
+		var args = [];
+		for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+		for(var i = 0; i < post_args.length; i++) args.push(post_args[i]);
+//			args.push(arg);
+		return F.apply(this, args);
+	};
+};
 
 
 
 
 
+//---------------------------------------------------------------
+//
+// Снова фильтры, но уже в пространстве имен Dino.filters
+//
+//---------------------------------------------------------------
 
+
+
+Dino.filters = (function(){
+	
+	var F = {};
+	
+	// "пустой" фильтр
+	F.nop = function(){ return false };
+	// по индексу
+	F.by_index = function(index, child, i){ return index == i; };
+	// по совпадению набора свойств
+	F.by_props = function(props, child){
+		for(var i in props)
+			if(child[i] != props[i]) return false;
+		return true; 
+	};
+	F.by_class = function(clazz, child){
+		return (child instanceof clazz);
+	}
+	
+	F.ne = function(obj) {
+		return function(it) { return obj != it; };
+	}
+
+	F.eq = function(obj) {
+		return function(it) { return obj == it; };
+	}
+	
+	return F;
+})();
 
