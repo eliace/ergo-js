@@ -21,6 +21,18 @@ var gridData = [{
 }];
 */
 
+var groupData = {
+	'1': {
+		name: 'Группа 1'
+	},
+	'2': {
+		name: 'Группа 2'
+	},
+	'3': {
+		name: 'Группа 3'
+	}
+};
+
 var gridData = [
     {id: '1', name: 'Alice', value: '123', cb: false, group: '1'},
     {id: '2', name: 'Bob', value: '456', cb: true, group: '1'},
@@ -33,35 +45,142 @@ var gridData = [
 
 var customLayout = Ergo.layouts.PlainLayout.extend({
 	
+	
+/*	
+	insert: function(item) {
+		
+		if(!item.options.group)
+			return customLayout.superclass.insert.apply(this, arguments);
+
+		var c = this.container;
+		
+		var g = item.options.group;
+		
+		if(!c.components.has_key(g)) {
+			
+			c.components.add({
+				etype: 'table-row',
+				html: '<tr/>',
+				cls: 'group',
+				tag: 'group',
+				items: [{
+					data: groupData,
+					dataId: g,
+					html: '<td colspan="3" />',
+					content: {
+						etype: 'text',
+						dataId: 'name'
+					}
+				}]
+			}, g);
+			
+		}
+		
+		c.components.get(g).el.after(item.el);
+
+//		if(!item.data || item.tag == 'group') {
+//		}
+		
+		// var g = item.data.get('group');
+		// var c = this.container;
+// 		
+		// if(!c.components.has_key(g)) {
+// 			
+			// c.components.add({
+				// etype: 'table-row',
+				// html: '<tr/>',
+				// cls: 'group',
+				// tag: 'group',
+				// items: [{
+					// data: groupData,
+					// dataId: g,
+					// html: '<td colspan="3" />',
+					// content: {
+						// etype: 'text',
+						// dataId: 'name'
+					// }
+				// }]
+			// }, g);
+// 			
+		// }
+// 		
+		// c.components.get(g).el.after(item.el);		
+		
+	},
+*/	
+	
+	
+	
 	rebuild: function() {
 		
+//		console.log('rebuild');
+		
 		var self = this;
+		var c = this.container;
 		
 		var group = null;
 		
-		this.container.items.each(function(item){
+		// создаем по необходимости группы
+		c.items.each(function(item){
 			var g = item.data.get('group');
 			
-			if(g != group) {
-				self.container.components.add({
+			if(!c.components.has_key(g)) {
+				
+				c.components.add({
 					etype: 'table-row',
 					html: '<tr/>',
 					cls: 'group',
 					items: [{
-						innerText: g,
-						html: '<td colspan="3" />'
+						data: groupData,
+						dataId: g,
+						html: '<td colspan="3" />',
+						content: {
+							etype: 'text',
+							dataId: 'name',
+							style: {'margin-left': 3}
+						}
 					}]
 				}, g);
 				
-				group = g;
+//				console.log('component created');
 				
-//				self.el.append( self.container.components.get(group) );
 			}
 			
-			self.el.append( item.el );
-// 			
-			// if(!self.container.components.has_key(group)) {
-			// }
+		});
+		
+		
+		var items = [];
+		
+		c.items.each(function(item){
+			items.push(item);
+		});
+		
+		// сотировка по полю "id"
+		items.sort(function(w1, w2){
+			var a = w1.data.get('id');
+			var b = w2.data.get('id');
+			if(a < b) return -1;
+			else if(a > b) return 1;
+			return 0;
+		});
+
+		// // сортировка по полю "group"
+		// items.sort(function(w1, w2){
+			// var a = w1.data.get('group');
+			// var b = w2.data.get('group');
+			// if(a < b) return -1;
+			// else if(a > b) return 1;
+			// return 0;
+		// });
+		
+		items.reverse();
+		
+		Ergo.each(items, function(item){
+			var g = item.data.get('group');
+			
+			c.components.get(g).el.after(item.el);
+						
+//			self.el.append( item.el );
 			
 		});
 		
@@ -70,18 +189,33 @@ var customLayout = Ergo.layouts.PlainLayout.extend({
 		
 		
 	}
+
+	
 	
 });
 
 
 
 $.ergo({
-	etype: 'panel',
+	etype: 'editable-panel',
 	title: 'Group',
 	renderTo: '.preview',
 	
 	cls: 'dino-border-all',
-	style: {'background-color': '#fff'},
+	
+	
+  components: {
+    // header: {
+      // state: 'hidden'
+    // },
+    toolbar: {
+      cls: 'dino-border-bottom',
+      defaultItem: {
+        cls: 'plain'
+      }
+    }
+  },
+	
 	
 	content: {
 		etype: 'table-grid',
@@ -99,7 +233,10 @@ $.ergo({
 		
 		tableModel: {
       row: {
-        cls: 'group-row'
+        cls: 'group-row',
+        binding: function(val) {
+        	this.options.group = val.group;
+        }
       },
       cell: {
         style: {'border-bottom': '1px solid #ccc'},
@@ -160,7 +297,30 @@ $.ergo({
 // 				
 			// }
 		// }
-	}
+	},
+	
+  toolbarButtons: ['add'],
+  
+  toolbarButtonSet: {
+    'add': {icon: 'silk-icon-add'}
+  },
+  
+  
+  onAdd: function() {
+  	
+  	this.content.data.add({
+  		id: '6', 
+  		name: 'Xavier', 
+  		value: '789', 
+  		cb: false, 
+  		group: '2'
+  	})
+  	
+  	this.content.body.content.layout.rebuild();
+  	
+//  	growl.info('Add');
+  }
+	
 	
 });
 

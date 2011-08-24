@@ -7,13 +7,14 @@
 	font-size: 14px;
 }
 
+/*
 .group-row:hover {
 	background-color: #ffc;
 }	
-
+*/
 					
 tr.group > td {
 	border-bottom: 1px solid #bbb;
 	color: #888;
-	font-size: 14px;	
+	font-size: 12px;	
 }

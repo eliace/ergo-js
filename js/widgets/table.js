@@ -162,11 +162,12 @@ Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Contain
  */
 Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableCell.prototype */{
 	
-	$html: function() { return '<td></td>'; },
+//	$html: function() { return '<td></td>'; },
 	
-//	defaults: {
+	defaults: {
+		html: '<td/>'
 //		binding: 'skip'		
-//	},
+	},
 		
 	$dataChanged: function() {
 		
