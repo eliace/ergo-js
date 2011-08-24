@@ -63,7 +63,7 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widge
 	
 	
 	$construct: function(o) {
-		o.components.optionsList.layout = new Ergo.core.Layouts.InheritedLayout({parentLayout: this.layout });
+		o.components.optionsList.layout = new Ergo.layouts.InheritedLayout({parentLayout: this.layout });
 
 		Ergo.widgets.Select.superclass.$construct.apply(this, arguments);		
 	},

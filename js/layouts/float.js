@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Ergo.core.Layouts.PlainLayout
+ * @extends Ergo.layouts.PlainLayout
  */
-Ergo.core.Layouts.FloatLayout = Ergo.declare('Ergo.core.Layouts.FloatLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.FloatLayout.prototype */{
+Ergo.layouts.FloatLayout = Ergo.declare('Ergo.layouts.FloatLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.FloatLayout.prototype */{
 	
 	defaults: {
 		name: 'float',
@@ -14,7 +14,7 @@ Ergo.core.Layouts.FloatLayout = Ergo.declare('Ergo.core.Layouts.FloatLayout', 'E
 	},
 	
 	attach: function(c) {
-		Ergo.core.Layouts.FloatLayout.superclass.attach.call(this, c);
+		Ergo.layouts.FloatLayout.superclass.attach.call(this, c);
 		// добавляем элемент-clearfix
 		if(this.options.clearfix) {
 			this.clearfix_el = $('<div class="clearfix"></div>');

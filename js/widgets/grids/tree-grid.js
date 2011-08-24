@@ -5,25 +5,25 @@
 
 /**
  * @class
- * @extends Ergo.core.Layouts.StatefulLayout
+ * @extends Ergo.layouts.StatefulLayout
  */
-Ergo.core.Layouts.TreeGridLayout = Ergo.declare('Ergo.core.Layouts.TreeGridLayout', 'Ergo.core.Layouts.StatefulLayout', /** @lends Ergo.core.Layouts.TreeGridLayout.prototype */{
+Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.layouts.StatefulLayout', /** @lends Ergo.layouts.TreeGridLayout.prototype */{
 	
 //	initialize: function(){
-//		Ergo.core.Layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
+//		Ergo.layouts.TreeGridLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.items = [];
 //	},
 	
 	
 	insert: function(item) {
-		Ergo.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+		Ergo.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
 		if(this.container instanceof Ergo.core.Layout)
 			this.container.insert(item);
 		else {
-//			Ergo.core.Layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+//			Ergo.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 			if(this.container.el.parents().is('body')) item.$afterRender();
 		}
 		
@@ -33,14 +33,14 @@ Ergo.core.Layouts.TreeGridLayout = Ergo.declare('Ergo.core.Layouts.TreeGridLayou
 	},
 	
 	remove: function(item) {		
-		Ergo.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
+		Ergo.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
 		if(this.container instanceof Ergo.core.Layout) {
 			this.container.remove(item);
 		}
 //		else {
-//			Ergo.core.Layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
+//			Ergo.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);
 //		}
 		
 //		Ergo.remove_from_array(this.items, item)
@@ -55,7 +55,7 @@ Ergo.core.Layouts.TreeGridLayout = Ergo.declare('Ergo.core.Layouts.TreeGridLayou
 		if(this.container instanceof Ergo.core.Layout) {
 			while(this.items.length > 0) this.remove(this.items[0]);
 		}
-		Ergo.core.Layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
+		Ergo.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 	},
 	
 	
@@ -97,7 +97,7 @@ Ergo.core.Layouts.TreeGridLayout = Ergo.declare('Ergo.core.Layouts.TreeGridLayou
 
 
 /*
-Ergo.declare('Ergo.core.Layouts.IndentLayout', Ergo.core.Layout, {
+Ergo.declare('Ergo.layouts.IndentLayout', Ergo.core.Layout, {
 
 	
 	
@@ -212,7 +212,7 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 	$init: function(o) {
 		Ergo.widgets.TreeGrid.superclass.$init.apply(this, arguments);
 
-		var bodyLayout = new Ergo.core.Layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
+		var bodyLayout = new Ergo.layouts.TreeGridLayout(/*{updateMode: 'manual'}*/);
 //		bodyLayout.immediateRebuild = false;
 		
 		var o_grid = o.components.body.content;

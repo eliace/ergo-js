@@ -6,11 +6,11 @@
  * Эта компоновка сразу добавляет элемент в контейнер.
  * 
  * @class
- * @name Ergo.core.Layouts.PlainLayout
+ * @name Ergo.layouts.PlainLayout
  * @extends Ergo.core.Layout
  * 
  */
-Ergo.declare('Ergo.core.Layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.core.Layouts.PlainLayout.prototype */{
+Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layouts.PlainLayout.prototype */{
 	
 	
 	defaults: {

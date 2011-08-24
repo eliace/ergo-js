@@ -4,10 +4,10 @@
 
 /**
  * @class
- * @name Ergo.core.Layouts.DockLayout
+ * @name Ergo.layouts.DockLayout
  * @extends Ergo.core.Layout
  */
-Ergo.declare('Ergo.core.Layouts.DockLayout', 'Ergo.core.Layout', /** @lends Ergo.core.Layouts.DockLayout.prototype */{
+Ergo.declare('Ergo.layouts.DockLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.DockLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-dock-layout',

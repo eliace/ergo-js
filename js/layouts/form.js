@@ -6,7 +6,7 @@
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.core.Layouts.FormLayout = Ergo.declare('Ergo.core.Layouts.FormLayout', 'Ergo.core.Layout', /** @lends Ergo.core.Layouts.FormLayout.prototype */{
+Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.FormLayout.prototype */{
 	
 	defaults: {
 		name: 'form'
@@ -16,7 +16,7 @@ Ergo.core.Layouts.FormLayout = Ergo.declare('Ergo.core.Layouts.FormLayout', 'Erg
 	
 	
 	attach: function() {
-		Ergo.core.Layouts.FormLayout.superclass.attach.apply(this, arguments);
+		Ergo.layouts.FormLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0"></table>');
 //		this.body_el = $('tbody', this.el);
@@ -25,7 +25,7 @@ Ergo.core.Layouts.FormLayout = Ergo.declare('Ergo.core.Layouts.FormLayout', 'Erg
 	},
 	
 	detach: function() {
-		Ergo.core.Layouts.FormLayout.superclass.detach.apply(this, arguments);
+		Ergo.layouts.FormLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	
@@ -55,7 +55,7 @@ Ergo.core.Layouts.FormLayout = Ergo.declare('Ergo.core.Layouts.FormLayout', 'Erg
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.core.Layouts.SimpleFormLayout = Ergo.declare('Ergo.core.Layouts.SimpleFormLayout', 'Ergo.core.Layout', /** @lends Ergo.core.Layouts.SimpleFormLayout.prototype */{
+Ergo.layouts.SimpleFormLayout = Ergo.declare('Ergo.layouts.SimpleFormLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.SimpleFormLayout.prototype */{
 	
 	defaults: {
 		name: 'simple-form'

@@ -2,14 +2,14 @@
 //= require "plain"
 
 
-Ergo.declare('Ergo.core.Layouts.BorderLayout', 'Ergo.core.Layouts.PlainLayout', {
+Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 	
 	defaults: {
 		name: 'border'
 	},
 	
 	initialize: function(o){
-		Ergo.core.Layouts.BorderLayout.superclass.initialize.apply(this, arguments);
+		Ergo.layouts.BorderLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.regions = {};
 
@@ -111,7 +111,7 @@ Ergo.declare('Ergo.core.Layouts.BorderLayout', 'Ergo.core.Layouts.PlainLayout', 
 	
 	
 	attach: function() {
-		Ergo.core.Layouts.BorderLayout.superclass.attach.apply(this, arguments);
+		Ergo.layouts.BorderLayout.superclass.attach.apply(this, arguments);
 		
 		this.middle_region = $('<div region="middle"></div>');
 		this.el.append(this.middle_region);
@@ -177,7 +177,7 @@ Ergo.declare('Ergo.core.Layouts.BorderLayout', 'Ergo.core.Layouts.PlainLayout', 
 	
 	
 	update: function(o) {
-		Ergo.core.Layouts.BorderLayout.superclass.update.apply(this, arguments);
+		Ergo.layouts.BorderLayout.superclass.update.apply(this, arguments);
 		
 		var regions_to_upd = (o && o.regions) ? o.regions : ['north', 'south', 'west', 'east', 'center'];
 		

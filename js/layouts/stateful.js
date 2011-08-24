@@ -5,13 +5,13 @@
 
 /**
  * @class
- * @name Ergo.core.Layouts.StatefulLayout
+ * @name Ergo.layouts.StatefulLayout
  * @extends Ergo.core.Layout
  */
-Ergo.declare('Ergo.core.Layouts.StatefulLayout', 'Ergo.core.Layout', /** @lends Ergo.core.Layouts.StatefulLayout.prototype */{
+Ergo.declare('Ergo.layouts.StatefulLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.StatefulLayout.prototype */{
 	
 	initialize: function(o){
-		Ergo.core.Layouts.StatefulLayout.superclass.initialize.call(this, o);
+		Ergo.layouts.StatefulLayout.superclass.initialize.call(this, o);
 		
 		this.items = [];
 		this.immediateRebuild = true;

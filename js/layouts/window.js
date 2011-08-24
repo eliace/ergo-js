@@ -7,9 +7,9 @@ Ergo.topZ = 1;
 
 /**
  * @class
- * @extends Ergo.core.Layouts.PlainLayout
+ * @extends Ergo.layouts.PlainLayout
  */
-Ergo.core.Layouts.WindowLayout = Ergo.declare('Ergo.core.Layouts.WindowLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.WindowLayout.prototype */{
+Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.WindowLayout.prototype */{
 	
 	defaults: {
 		name: 'window',
@@ -22,7 +22,7 @@ Ergo.core.Layouts.WindowLayout = Ergo.declare('Ergo.core.Layouts.WindowLayout', 
 	
 	
 	attach: function() {
-		Ergo.core.Layouts.WindowLayout.superclass.attach.apply(this, arguments);
+		Ergo.layouts.WindowLayout.superclass.attach.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -33,7 +33,7 @@ Ergo.core.Layouts.WindowLayout = Ergo.declare('Ergo.core.Layouts.WindowLayout', 
 	},
 	
 	detach: function() {
-		Ergo.core.Layouts.WindowLayout.superclass.detach.apply(this, arguments);
+		Ergo.layouts.WindowLayout.superclass.detach.apply(this, arguments);
 		this.container.el.empty();
 	},
 	

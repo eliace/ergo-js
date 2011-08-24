@@ -4,6 +4,7 @@
 	padding-left: 3px;
 	border-bottom: 3px solid #bbb;
 	color: #888;
+	font-size: 14px;
 }
 
 .group-row:hover {
@@ -11,3 +12,8 @@
 }	
 
 					
+tr.group > td {
+	border-bottom: 1px solid #bbb;
+	color: #888;
+	font-size: 14px;	
+}

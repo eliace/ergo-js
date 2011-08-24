@@ -5,7 +5,7 @@
 
 
 
-Ergo.declare('Ergo.core.Layouts.GroupLayout', 'Ergo.core.Layouts.PlainLayout', {
+Ergo.declare('Ergo.layouts.GroupLayout', 'Ergo.layouts.PlainLayout', {
 	
 	
 //	defaults: {
@@ -14,7 +14,7 @@ Ergo.declare('Ergo.core.Layouts.GroupLayout', 'Ergo.core.Layouts.PlainLayout', {
 //	
 //	
 //	initialize: function(o) {
-//		Ergo.core.Layouts.GroupLayout.superclass.initialize.apply(this, arguments);
+//		Ergo.layouts.GroupLayout.superclass.initialize.apply(this, arguments);
 //		
 //		this.groups = {};
 //	},

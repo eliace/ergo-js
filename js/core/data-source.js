@@ -70,14 +70,25 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	
 	
 	
-	_val: function() {
+	_val: function(v) {
 //		if('_cached' in this) return this._cached;
-		var v = undefined;
-		if(this.source instanceof Ergo.core.DataSource){
-			v = ('id' in this) ? this.source._val()[this.id]: this.source._val();
-		}
-		else{
-			v = ('id' in this) ? this.source[this.id] : this.source;
+//		var v = undefined;
+
+		if(arguments.length == 0) {
+			if(this.source instanceof Ergo.core.DataSource){
+				v = ('id' in this) ? this.source._val()[this.id]: this.source._val();
+			}
+			else{
+				v = ('id' in this) ? this.source[this.id] : this.source;
+			}			
+		} 
+		else {
+			if (this.source instanceof Ergo.core.DataSource) {
+				('id' in this) ? this.source._val()[this.id] = v : this.source._val(v);
+	  	}
+			else {
+				('id' in this) ? this.source[this.id] = v : this.source = v;
+			}			
 		}
 //		this._cached = v;
 		return v;
@@ -94,7 +105,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	},
 	
 	
-	get_copy: function(i) {
+	copy: function(i) {
 		return Ergo.deep_copy(this.get(i));
 	},
 	
@@ -107,12 +118,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 			
 			var oldValue = this._val();
 			
-			if (this.source instanceof Ergo.core.DataSource) {
-				('id' in this) ? this.source._val()[this.id] = newValue : this.source.set(newValue);
-	  	}
-			else {
-				('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
-			}
+			// if (this.source instanceof Ergo.core.DataSource) {
+				// ('id' in this) ? this.source._val()[this.id] = newValue : this.source.set(newValue);
+	  	// }
+			// else {
+				// ('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
+			// }
+			
+			this._val(newValue);
 
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			

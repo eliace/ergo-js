@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Ergo.core.Layouts.PlainLayout
+ * @extends Ergo.layouts.PlainLayout
  */
-Ergo.core.Layouts.StackLayout = Ergo.declare('Ergo.core.Layouts.StackLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.StackLayout.prototype */{
+Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.StackLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-stack-layout',
@@ -16,7 +16,7 @@ Ergo.core.Layouts.StackLayout = Ergo.declare('Ergo.core.Layouts.StackLayout', 'E
 	
 	
 	attach: function(){
-		Ergo.core.Layouts.StackLayout.superclass.attach.apply(this, arguments);
+		Ergo.layouts.StackLayout.superclass.attach.apply(this, arguments);
 		
 		var self = this;
 		
@@ -27,7 +27,7 @@ Ergo.core.Layouts.StackLayout = Ergo.declare('Ergo.core.Layouts.StackLayout', 'E
 	},
 	
 	detach: function() {
-		Ergo.core.Layouts.StackLayout.superclass.detach.apply(this, arguments);
+		Ergo.layouts.StackLayout.superclass.detach.apply(this, arguments);
 		
 		delete this.container.setActive;
 	},

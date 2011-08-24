@@ -4,7 +4,7 @@
 
 
 /**
- * @name Ergo.core.Layouts
+ * @name Ergo.layouts
  * @namespace
  */
 

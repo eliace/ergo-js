@@ -36,8 +36,8 @@ test('core/widget', function(){
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
 	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
-	ok(w.components.find('component_1') == w.c1, 'Поиск по атрибуту tag в списке компонентов')
-	ok(w.components.find({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
+	ok(w.component('component_1') == w.c1, 'Поиск по атрибуту tag в списке компонентов')
+	ok(w.component({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 
 
 	w = new Ergo.core.Widget({

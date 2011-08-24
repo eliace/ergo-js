@@ -1,6 +1,7 @@
 
 //= require <containers/control-list>
 //= require <layouts/window>
+//= require <extensions/focusable>
 //= require "../panels/panel"
 //= require "../buttons/text-button"
 
@@ -28,6 +29,12 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 						var dlg = this.parent.parent;
 						dlg.dialogButton = this.tag;
 						dlg.close();
+					},
+					extensions: [Ergo.Focusable],
+					events: {
+						'focus': function(e, w) {
+							w.setFocus();
+						}
 					}
 				}
 			}

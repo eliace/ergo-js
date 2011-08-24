@@ -4,9 +4,9 @@
 
 /**
  * @class
- * @extends Ergo.core.Layouts.PlainLayout
+ * @extends Ergo.layouts.PlainLayout
  */
-Ergo.core.Layouts.ColumnLayout = Ergo.declare('Ergo.core.Layouts.ColumnLayout', 'Ergo.core.Layouts.PlainLayout', /** @lends Ergo.core.Layouts.ColumnLayout.prototype */{
+Ergo.layouts.ColumnLayout = Ergo.declare('Ergo.layouts.ColumnLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.ColumnLayout.prototype */{
 	
 	defaults: {
 		name: 'column',
@@ -15,7 +15,7 @@ Ergo.core.Layouts.ColumnLayout = Ergo.declare('Ergo.core.Layouts.ColumnLayout', 
 	},
 	
 	attach: function() {
-		Ergo.core.Layouts.ColumnLayout.superclass.attach.apply(this, arguments);
+		Ergo.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0" style="width:100%"><tbody><tr></tr></tbody></table>');
 		this.row_el = $('tr', this.el);
@@ -24,7 +24,7 @@ Ergo.core.Layouts.ColumnLayout = Ergo.declare('Ergo.core.Layouts.ColumnLayout', 
 	},
 	
 	detach: function() {
-		Ergo.core.Layouts.ColumnLayout.superclass.detach.apply(this, arguments);
+		Ergo.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	

@@ -84,7 +84,7 @@ test('core/container', function(){
 	
 	c.items.get(1).mark = 5;
 	
-	ok(c.items.find('item_1') == c.items.get(0), 'Поиск по атрибуту tag в списке компонентов')
-	ok(c.items.find({mark: 5}) == c.items.get(1), 'Поиск по произвольному атрибуту в списке компонентов')
+	ok(c.item('item_1') == c.items.get(0), 'Поиск по атрибуту tag в списке компонентов')
+	ok(c.item({mark: 5}) == c.items.get(1), 'Поиск по произвольному атрибуту в списке компонентов')
 	
 });

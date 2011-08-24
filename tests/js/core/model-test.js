@@ -2,7 +2,7 @@
 
 test('core/model', function(){
 	
-	var positiveIntegerModel = Ergo.data.Model.extend({
+	var PositiveInteger = Ergo.data.Model.extend({
 		
 		validate: function(v) {
 			return (v >= 0);
@@ -15,14 +15,14 @@ test('core/model', function(){
 	var testModel = Ergo.data.Model.extend({
 		fields: {
 			'name': 'string',
-			'age': positiveIntegerModel
+			'age': PositiveInteger
 		},
 		print: function() {
 			return this._val()['name'];
 		}
 	});
 	
-	var c = new Ergo.data.Collection([], {itemModel: testModel});
+	var c = new Ergo.data.Collection([], {model: testModel});
 	
 	c.add({id: 1, name: 'Alice', age: 21});
 	c.add({id: 2, name: 'Bob'});

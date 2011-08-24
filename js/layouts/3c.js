@@ -6,7 +6,7 @@
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.core.Layouts.ThreeColumnLayout = Ergo.declare('Ergo.core.Layouts.ThreeColumnLayout', Ergo.core.Layout, /** @lends Ergo.core.Layouts.ThreeColumnLayout.prototype */{
+Ergo.layouts.ThreeColumnLayout = Ergo.declare('Ergo.layouts.ThreeColumnLayout', Ergo.core.Layout, /** @lends Ergo.layouts.ThreeColumnLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'dino-3c-layout',
