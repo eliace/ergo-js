@@ -100,6 +100,9 @@
 	}, {
 		"name": "Border",
 		"path": "layouts-border"
+	}, {
+		"name": "Grouping",
+		"path": "layouts-grouping"
 	}]
 }, {
 	"name": "Lists",
