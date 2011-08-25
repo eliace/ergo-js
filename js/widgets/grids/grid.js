@@ -41,6 +41,10 @@ Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
 		
 	}
 	
+	// row: function(i) {
+		// return this.item(i);
+	// }
+	
 	
 	
 }, 'grid');

@@ -150,7 +150,6 @@ Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Contain
 		return this.item(i);
 	}
 	
-	
 }, 'table-row');
 
 

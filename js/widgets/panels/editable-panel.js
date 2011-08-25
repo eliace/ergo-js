@@ -12,11 +12,12 @@ Ergo.declare('Ergo.widgets.EditablePanel', 'Ergo.widgets.Panel', {
 				etype: 'control-list',
 				defaultItem: {
 					etype: 'text-button',
-					onAction: function() {
+					onAction: function(e) {
 						if(this.tag) {
 							var list = this.getParent(Ergo.widgets.EditablePanel);
 							list.events.fire('on'+this.tag.capitalize());
 						}
+						e.baseEvent.stopPropagation();
 					}
 				},
 				items: []				

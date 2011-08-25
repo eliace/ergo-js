@@ -220,6 +220,12 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			}
 		}
 		
+	},
+	
+	
+	
+	getRow: function(i) {
+		return this.body.content.item(i);
 	}
 	
 	

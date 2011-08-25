@@ -241,6 +241,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	},
 	
 	
+	
 	walk: function(callback) {
 		//TODO
 	},

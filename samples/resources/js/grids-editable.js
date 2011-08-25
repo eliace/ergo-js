@@ -163,8 +163,8 @@ var panel = $.ergo({
     pager.setCount( pager.getCount()+1 );
     pager.setIndex( pager.getMaxIndex() );
     
-    var row = grid.content.content.getRow({'data': dataItem});
-    grid.content.el.scrollTop( grid.content.content.el.height() );
+    var row = grid.getRow({'data': dataItem});
+    grid.body.el.scrollTop( grid.body.content.el.height() );
     row.getColumn(0).startEdit();
     
     updateBuffer.add(val);    

@@ -104,7 +104,7 @@ $.ergo({
 			},
       components: {
         button: {
-          cls: 'ui-icon ui-icon-triangle-1-s'
+          cls: 'dino-icon-spinner-down'//'ui-icon ui-icon-triangle-1-s'
         },
         dropdown: {
           content: {
