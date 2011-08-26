@@ -1,4 +1,6 @@
 
+Ergo.DEBUG = true;
+
 
 var listData = [
 	{text: 'Alice', id: 1, group: '1'},
@@ -147,6 +149,67 @@ $.ergo({
 
 
 
+
+
+
+var baseDataSource = new Ergo.core.DataSource(listData);
+
+
+
+var dataView = new Ergo.core.DataSource(baseDataSource);
+
+
+dataView._val = function() {
+	if(arguments.length == 0) {
+		
+		var a = {};
+		
+		var val = Ergo.core.DataSource.prototype._val.call(this);
+		Ergo.each(val, function(v){
+
+			if(!(v.group in a)) {
+				a[v.group] = {text: v.group, items: []};
+			}
+
+			a[v.group].items.push(v);
+			 
+		});
+		
+		return a;
+	}
+	else {
+		
+	}
+}
+
+
+/*
+$.ergo({
+	etype: 'panel',
+	renderTo: '.preview',
+	width: 400,
+	title: 'Плоский список',
+	cls: 'dino-border-all',
+	content: {
+		etype: 'list',
+		data: dataView,
+		dynamic: true,
+		cls: 'dino-text-content',
+		
+		defaultItem: {
+			etype: 'text-item',
+			style: {'display': 'block'},
+			binding: function(val) {
+				this.opt('text', val.text);
+//				this.options.group = val.group;
+			}
+		}		
+	}
+	
+});
+*/
+
+
 /*
 var groupLayout2 = Ergo.layouts.PlainLayout.extend({
 	
@@ -164,7 +227,7 @@ var groupLayout2 = Ergo.layouts.PlainLayout.extend({
 	
 });
 
-
+*/
 
 $.ergo({
 	etype: 'panel',
@@ -175,34 +238,37 @@ $.ergo({
 	style: {'margin-top': 10},
 	content: {
 		etype: 'list',
-		data: groupData,
+		data: dataView,
 		dynamic: true,
 		cls: 'dino-text-content',
 		
 		defaultItem: {
-			etype: 'text-item',
-			cls: 'group-title',
-			style: {'display': 'block'},
-			binding: function(val) {
-				this.opt('text', val.text);
-			},
+			etype: 'box',
 			components: {
+				header: {
+					etype: 'text-item',
+					cls: 'group-title',
+					style: {'display': 'block'},
+					binding: function(val) {
+						this.opt('text', val.text);
+					}					
+				},
 				groupItemList: {
-					dataId: 'users',
+					dataId: 'items',
 					etype: 'list',
 					dynamic: true,
-					layout: new groupLayout2(),
 					defaultItem: {
 						etype: 'text-item',
 						style: {'display': 'block'},
 						binding: function(val) {
 							this.opt('text', val.text);
 						}						
-					}
+					}					
 				}
 			}
+			
 		}		
 	}
 	
 });
-*/
+

@@ -20,7 +20,10 @@ Ergo.declare('Ergo.framework.Application', 'Ergo.core.Object', {
 		
 
 		$(document).ajaxError(function(e, xhr, ajaxOpts, err) {
-			growl.error('<div>'+err.message+' (line: '+err.lineNumber+')</div>'+xhr.responseText, true);
+			if(Ergo.DEBUG)
+				growl.error('<div>'+err.message+' (line: '+err.lineNumber+')</div>'+xhr.responseText, true);
+			else
+				growl.error(xhr.responseText, true);
 		});
 		
 		

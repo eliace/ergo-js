@@ -112,6 +112,8 @@ $(document).ready(function(){
 												var jsPage = $('.js-page').ergo();
 												var cssPage = $('.css-page').ergo();
 												
+												$('.preview-and-code').ergo().content.setCurrentTab(0);
+												
 												$.get('resources/css/'+path+'.css', function(css){
 													
 													preview.el.append('<style>'+css+'</style>');
@@ -148,7 +150,7 @@ $(document).ready(function(){
 					tag: 'preview_and_code',
 					height: 'auto',
 					
-					cls: 'dino-border-all',
+					cls: 'dino-border-all preview-and-code',
 					style: {'padding': 5},
 					
 					content: {

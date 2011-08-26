@@ -131,11 +131,11 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 	},
 	
 	setCurrentTab: function(i) {
-		this.tabs.activateTab(i);
+		this.tabs.setActiveTab(i);
 	},
 	
 	getCurrentTab: function() {
-		return this.tabs.currentTab;
+		return this.tabs.getActiveTab();
 	},
 	
 	getCurrentPage: function() {

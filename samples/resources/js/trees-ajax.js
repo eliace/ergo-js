@@ -3,7 +3,7 @@
 AjaxNode = Ergo.data.Model.extend({
 		
 	fields: {
-		'children': 'AjaxNodeList'
+		children: 'AjaxNodeList'
 	}	
 	
 });
@@ -12,7 +12,7 @@ AjaxNode = Ergo.data.Model.extend({
 AjaxNodeList = Ergo.data.Collection.extend({
 	
 	defaults: {
-		itemModel: 'AjaxNode'
+		model: 'AjaxNode'
 	},
 	
 	fetch: function(id) {
@@ -41,12 +41,6 @@ AjaxNodeList = Ergo.data.Collection.extend({
 
 
 var treeData = new AjaxNodeList([]);  
-
-//$.getJSON('ajax/tree_node.json', {}, function(data){
-//  treeData.source[0] = data;
-//  treeData.events.fire('onValueChanged');
-////  treeData.set(data);
-//});
 
 
   

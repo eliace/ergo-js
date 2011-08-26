@@ -183,14 +183,14 @@ $.ergo({
 	      binding: function(val) {
 	        this.opt('icon', 'silk-icon-'+val.type);
 	        if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
-	      },
+	      }
 				
-				extensions: [{
-					show: function(){
-						this.el.hide();
-						this.el.fadeIn(300);
-					}
-				}]
+//				extensions: [{
+//					show: function(){
+//						this.el.hide();
+//						this.el.fadeIn(300);
+//					}
+//				}]
 	    }
 	  },
 		
