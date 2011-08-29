@@ -264,7 +264,9 @@ var Ergo = (function(){
 	
 	
 	
-	
+	$.isClass = function(obj) {
+		return (obj.superclass !== undefined);
+	}
 	
 	
 	
