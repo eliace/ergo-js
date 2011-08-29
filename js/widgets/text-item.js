@@ -17,7 +17,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 //		layout: 'dock',
 		layout: 'hbox',
 		components: {
-			leftIcon: {
+			icon: {
 				etype: 'icon',
 //				dock: 'left',
 				state: 'hidden'
@@ -26,7 +26,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 				etype: 'text',
 				state: 'hidden'
 			},
-			rightIcon: {
+			xicon: {
 				etype: 'icon',
 //				dock: 'right',
 				state: 'hidden'
@@ -61,31 +61,31 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 		if(o.xicon) key_a.push('xicon');
 		
 		
-		var o_mod = {leftIcon:{}, content:{}, rightIcon:{}};
+		var o_mod = {icon:{}, content:{}, xicon:{}};
 		
 		switch(key_a.join('-')) {
 			case 'icon':
-				o_mod.rightIcon.state = 'hidden';
-				o_mod.leftIcon.dock = 'center';
+				o_mod.xicon.state = 'hidden';
+				o_mod.icon.dock = 'center';
 				o_mod.content.innerHtml = '&nbsp;';
 				o_mod.content.cls = 'l-icon-only';
 				break;
 			case 'text':
-				o_mod.leftIcon.state = 'hidden';
-				o_mod.rightIcon.state = 'hidden';
+				o_mod.icon.state = 'hidden';
+				o_mod.xicon.state = 'hidden';
 				break;
 			case 'xicon':
-				o_mod.leftIcon.state = 'hidden';
-				o_mod.rightIcon.dock = 'center';
+				o_mod.icon.state = 'hidden';
+				o_mod.xicon.dock = 'center';
 				o_mod.content.innerHtml = '&nbsp;';
 				o_mod.content.cls = 'r-icon-only';
 				break;
 			case 'icon-text':
-				o_mod.rightIcon.state = 'hidden';
+				o_mod.xicon.state = 'hidden';
 				o_mod.content.cls = 'l-icon';
 				break;
 			case 'text-xicon':
-				o_mod.leftIcon.state = 'hidden';
+				o_mod.icon.state = 'hidden';
 				o_mod.content.cls = 'r-icon';				
 				break;
 			case 'icon-xicon':
@@ -119,21 +119,21 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 			this.content.states.toggle('hidden', (!o.text && o.text !== ''));
 		}
 		if('icon' in o) {
-			this.leftIcon.states.setOnly(o.icon);
-			this.leftIcon.states.toggle('hidden', !o.icon);
+			this.icon.states.setOnly(o.icon);
+			this.icon.states.toggle('hidden', !o.icon);
 		}
 		if('xicon' in o) {
-			this.rightIcon.states.setOnly(o.xicon);
-			this.rightIcon.states.toggle('hidden', !o.xicon);
+			this.xicon.states.setOnly(o.xicon);
+			this.xicon.states.toggle('hidden', !o.xicon);
 		}
 	
 		
 /*		
 		if('icon' in o) 
-			this.leftIcon.states.setOnly(o.icon);
+			this.icon.states.setOnly(o.icon);
 		if('xicon' in o) {
-			this.rightIcon.states.setOnly(o.xicon);
-			this.rightIcon.states.clear('hidden');
+			this.xicon.states.setOnly(o.xicon);
+			this.xicon.states.clear('hidden');
 		} 
 */			
 		
@@ -144,7 +144,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 			switch(o.pattern) {
 				case 'icon':
 					this.content.states.set('l-icon-only');
-					this.leftIcon.states.clear('hidden', !o.showLeftIcon);					
+					this.icon.states.clear('hidden', !o.showLeftIcon);					
 					break;
 				case 'text':
 					break;
@@ -165,26 +165,26 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 		if('showLeftIcon' in o) {
 			var state = (this.options.text) ? 'l-icon' : 'l-icon-only';
 			this.content.states.toggle(state, o.showLeftIcon);
-			this.leftIcon.states.toggle('hidden', !o.showLeftIcon);
+			this.icon.states.toggle('hidden', !o.showLeftIcon);
 			
 //			// экспериментальный код
 //			var dock = (this.options.text) ? 'left' : 'center';
-//			if(this.leftIcon.options.dock != dock) {
-//				this.leftIcon.opt('dock', dock);
-//				this.layout.insert(this.leftIcon);
+//			if(this.icon.options.dock != dock) {
+//				this.icon.opt('dock', dock);
+//				this.layout.insert(this.icon);
 //			}
 		}
 		if('showRightIcon' in o) {
 			var state = (this.options.text) ? 'r-icon' : 'r-icon-only';
 			this.content.states.toggle(state, o.showRightIcon);
-			this.rightIcon.states.toggle('hidden', !o.showRightIcon);
-//			this.content.rightIcon.states.toggle('hidden', !(o.showRightIcon || false));
+			this.xicon.states.toggle('hidden', !o.showRightIcon);
+//			this.content.xicon.states.toggle('hidden', !(o.showRightIcon || false));
 
 //			// экспериментальный код
 //			var dock = (this.options.text) ? 'right' : 'center';
-//			if(this.rightIcon.options.dock != dock) {
-//				this.rightIcon.opt('dock', dock);
-//				this.layout.insert(this.rightIcon); 				
+//			if(this.xicon.options.dock != dock) {
+//				this.xicon.opt('dock', dock);
+//				this.layout.insert(this.xicon); 				
 //			}
 		}
 */		

@@ -1,4 +1,6 @@
 
+Ergo.DEBUG = true;
+
 $.ergo({
   etype: 'list',
   renderTo: '.preview',

@@ -5,38 +5,38 @@ var listData = ['Alice', 'Bob', 'Charlie', 'Denver', 'Eva', 'Fox', 'George', 'Ha
 
 
 var list_snippet = {
-	etype: 'list-view',
-	style: {'background-color': '#fff'},
-	height: 'auto',
-	dynamic: true,
-	extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation],
+  etype: 'list-view',
+  style: {'background-color': '#fff'},
+  height: 'auto',
+  dynamic: true,
+  extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation],
   defaultItem: {
     icon: 'silk-icon-user-gray',
-		content: {
-			extensions: [Ergo.Editable],
-			editor: {
-				etype: 'text-editor',
-				width: 150
-			},
-		},
-		onDoubleClick: function() {
-			this.content.startEdit();
-		},
-		onClick: function(){
-			this.parent.selection.set(this);
-		}		
+    content: {
+      extensions: [Ergo.Editable],
+      editor: {
+        etype: 'text-editor',
+        width: 150
+      },
+    },
+    onDoubleClick: function() {
+      this.content.startEdit();
+    },
+    onClick: function(){
+      this.parent.selection.set(this);
+    }    
   },
-	
-/*	
-	onKeyDown: function(e)	{
-		
+  
+/*  
+  onKeyDown: function(e)  {
+    
     var catched = false;
     var selected_row = this.selection.get();
     if(selected_row) {
-			
-			var container = selected_row.parent;
       
-			if(e.keyCode == 38) {
+      var container = selected_row.parent;
+      
+      if(e.keyCode == 38) {
         var prev_row = container.items.get(selected_row.index-1);
         if(prev_row) {
           this.selection.add( prev_row );
@@ -60,30 +60,30 @@ var list_snippet = {
         }
         catched = true;
       }
-			if(e.keyCode == 13) {
-				var editable = false;
-				selected_row.walk(function(){
-					if(!editable && this.is(Ergo.Editable)) {
-						editable = this;
-					}
-				});
-				
-				if(editable)
-					editable.startEdit();
-				
-//				var event = new Ergo.events.CancelEvent({target: selected_row});
-//				this.events.fire('onStartEdit', event);
-//				if(!event.isCanceled) {
-//					selected_row.startEdit();
-//				}
-//				selected_row.content.startEdit();
-			}
+      if(e.keyCode == 13) {
+        var editable = false;
+        selected_row.walk(function(){
+          if(!editable && this.is(Ergo.Editable)) {
+            editable = this;
+          }
+        });
+        
+        if(editable)
+          editable.startEdit();
+        
+//        var event = new Ergo.events.CancelEvent({target: selected_row});
+//        this.events.fire('onStartEdit', event);
+//        if(!event.isCanceled) {
+//          selected_row.startEdit();
+//        }
+//        selected_row.content.startEdit();
+      }
     }              
     
     if(catched) e.baseEvent.preventDefault();
-		
-	}
-*/	
+    
+  }
+*/  
 };
 
 
@@ -91,80 +91,80 @@ var list_snippet = {
     
 var panel1 = $.ergo({
   etype: 'editable-panel',
-	title: 'Редактируемый список',
+  title: 'Редактируемый список',
   renderTo: '.preview',
   width: 400,
   height: 240,
-	cls: 'dino-border-all',
-	
-	data: listData,
-	
-	components: {
-		header: {
-			state: 'hidden'
-		},
-		toolbar: {
-			cls: 'dino-border-bottom',
-			defaultItem: {
-				cls: 'plain'
-			}
-		}
-	},
-	
-	content: list_snippet,
-	
-	toolbarButtons: ['add', 'delete', 'save', 'refresh'],
-	
-	toolbarButtonSet: {
-		'add': {icon: 'silk-icon-add'},
-		'delete': {icon: 'silk-icon-delete'},
-		'refresh': {icon: 'silk-icon-arrow-refresh'},
-		'save': {icon: 'silk-icon-disk'},
-	}
-	
+  cls: 'dino-border-all',
+  
+  data: listData,
+  
+  components: {
+    header: {
+      state: 'hidden'
+    },
+    toolbar: {
+      cls: 'dino-border-bottom',
+      defaultItem: {
+        cls: 'plain'
+      }
+    }
+  },
+  
+  content: list_snippet,
+  
+  toolbarButtons: ['add', 'delete', 'save', 'refresh'],
+  
+  toolbarButtonSet: {
+    'add': {icon: 'silk-icon-add'},
+    'delete': {icon: 'silk-icon-delete'},
+    'refresh': {icon: 'silk-icon-arrow-refresh'},
+    'save': {icon: 'silk-icon-disk'},
+  }
+  
 //  editOnDblClick: true
 });  
     
 
-		
+    
 var panel2 = $.ergo({
   etype: 'editable-panel',
-	title: 'Редактируемый список',
+  title: 'Редактируемый список',
   renderTo: '.preview',
   width: 400,
   height: 240,
-	cls: 'dino-border-all',
-	
-	style: {'margin-top': 20},
-	
-	data: listData,
-	
-	components: {
-		header: {
-			state: 'hidden'
-		},
-		toolbar: {
-			weight: 30,
-			cls: 'dino-border-top',
-			defaultItem: {
-				etype: 'icon-button'
-			}
-		}
-	},
-	
-	content: list_snippet,
-	
-	toolbarButtons: ['add', 'delete', 'save', 'refresh'],
-	
-	toolbarButtonSet: {
-		'add': {icon: 'silk-icon-add'},
-		'delete': {icon: 'silk-icon-delete'},
-		'refresh': {icon: 'silk-icon-arrow-refresh'},
-		'save': {icon: 'silk-icon-disk'},
-	}
-	
+  cls: 'dino-border-all',
+  
+  style: {'margin-top': 20},
+  
+  data: listData,
+  
+  components: {
+    header: {
+      state: 'hidden'
+    },
+    toolbar: {
+      weight: 30,
+      cls: 'dino-border-top',
+      defaultItem: {
+        etype: 'icon-button'
+      }
+    }
+  },
+  
+  content: list_snippet,
+  
+  toolbarButtons: ['add', 'delete', 'save', 'refresh'],
+  
+  toolbarButtonSet: {
+    'add': {icon: 'silk-icon-add'},
+    'delete': {icon: 'silk-icon-delete'},
+    'refresh': {icon: 'silk-icon-arrow-refresh'},
+    'save': {icon: 'silk-icon-disk'},
+  }
+  
 //  editOnDblClick: true
 });  
-		
-		
-		
+    
+    
+    

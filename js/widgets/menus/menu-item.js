@@ -60,13 +60,24 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 		Ergo.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
-			Ergo.smart_override(o.components.submenu, {content: {items: o.submenu}});
+			Ergo.smart_override(o.components.submenu, {items: o.submenu});
 //			o.components.submenu.content.items = o.submenu;
 			//FIXME подозрительный код, потому что состояние submenu влияет на компонент icon, которого пока не создано
-			this.states.set('submenu');
-			o.components.icon.state = '';
+//			this.states.set('submenu');
+//			o.components.icon.state = '';
 		}
 
+	},
+	
+	
+	$construct: function(o) {
+		Ergo.widgets.MenuItem.superclass.$construct.apply(this, arguments);
+		
+		if('submenu' in o){
+			this.states.set('submenu');
+			this.icon.states.clear('hidden');
+		}
+						
 	},
 	
 	

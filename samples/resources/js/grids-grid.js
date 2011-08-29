@@ -1,18 +1,18 @@
 
 
 var grid = $.ergo({
-	etype: 'table-grid',
-	renderTo: '.preview',
-	
-	data: [],
-	
-	cls: 'dino-border-all',
-	height: 300,
-	width: 800,
-	
-	components: {
-		pager: {
-			etype: 'pager',
+  etype: 'table-grid',
+  renderTo: '.preview',
+  
+  data: [],
+  
+  cls: 'dino-border-all',
+  height: 300,
+  width: 800,
+  
+  components: {
+    pager: {
+      etype: 'pager',
       count: 200,
       pageSize: 40,
       cls: 'dino-border-top',
@@ -24,23 +24,23 @@ var grid = $.ergo({
           grid.data.source[i] = data_page[j++];
         }
 
-				grid.data.options.filter = function(keys, values) {
+        grid.data.options.filter = function(keys, values) {
           var out = [];
           for(var i = 0; i < values.length; i++)
             if(i >= e.from && i < e.to) out.push(i);
-          return out;					
-				};
-					
+          return out;          
+        };
+          
         grid.data.events.fire('onValueChanged');
-				grid.$layoutChanged();
+        grid.$layoutChanged();
         
-      }			
-		}
-	},
-	
-	
-	
-	
+      }      
+    }
+  },
+  
+  
+  
+  
   tableModel: {
     columns: [{
       dataId: 'id',
@@ -49,12 +49,12 @@ var grid = $.ergo({
     }, {
       dataId: 'string',
       header: 'Строка',
-//			width: 60
+//      width: 60
     }, {
       dataId: 'number',
       header: 'Число',
       format: function(v) { return v.toFixed(2) },
-//			width: 60
+//      width: 60
     }, {
       dataId: 'icon',
       cls: 'silk-icon dino-clickable',
@@ -85,16 +85,16 @@ var grid = $.ergo({
       dataId: 'currency',
       header: 'Цена',
       format: Ergo.format_currency.rcurry('$'),
-//			width: 60
+//      width: 60
     }, {
       dataId: 'date',
       header: 'Дата',
-//			width: 60
+//      width: 60
 //      format: Ergo.format_date
     }]
   }
-	
-	
+  
+  
 });
 
 

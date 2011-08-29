@@ -11,7 +11,7 @@ $.ergo({
   cls: 'dino-border-all',
   data: tgTreeData,
   width: 600,
-	height: 300,
+  height: 300,
 //  content: {
 //    height: 300,//'auto',
 //    state: 'scrollable'
@@ -36,7 +36,7 @@ $.ergo({
         content: {
           icon: true,
           components: {
-            leftIcon: {
+            icon: {
               dataId: 'type',
               binding: function(val) {  this.states.setOnly('silk-icon-'+val); }
             },

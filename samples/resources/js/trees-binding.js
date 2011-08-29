@@ -55,24 +55,24 @@ $.ergo({
   treeModel: {
     node: {
       cls: 'dynamic-tree-node',
-			content: {
-	      components: {
-	        text: {
-	          components: {
-	            leftIcon: {
-	              states: {
-	                'computer': 'silk-icon-computer',
-	                'drive': 'silk-icon-drive',
-	                'folder': 'silk-icon-folder',
-	                'file': 'silk-icon-page',
-	              }
-	            },
-	          },
-	          icon: true,
-	          dataId: 'name'
-	        }        
-	      }				
-			},
+      content: {
+        components: {
+          text: {
+            components: {
+              icon: {
+                states: {
+                  'computer': 'silk-icon-computer',
+                  'drive': 'silk-icon-drive',
+                  'folder': 'silk-icon-folder',
+                  'file': 'silk-icon-page',
+                }
+              },
+            },
+            icon: true,
+            dataId: 'name'
+          }        
+        }        
+      },
       binding: function(val) {
         this.content.text.opt('icon', val.type);
         if(val.type == 'file') this.opt('isLeaf', true);        

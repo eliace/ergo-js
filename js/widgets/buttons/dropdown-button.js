@@ -14,9 +14,9 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.TextButton', {
 //				renderTo: 'body',
 				menuModel: {
 					item: {
-						content: {
-							dataId: 'name'							
-						},
+						// content: {
+							// dataId: 'name'
+						// },
 						onAction: function() {
 							this.getParent(Ergo.widgets.DropdownButton).events.fire('onSelect', {target: this});
 						}

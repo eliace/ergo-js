@@ -1,14 +1,14 @@
     
 
 var bindingData = new Ergo.core.DataSource( Samples.generate_plain_list(30), {
-	range: [0, 5],
-	filter: function(data){
-	  var out = [];
-		var r = this.options.range;
-	  for(var i = 0; i < data.length; i++)
-	    if(i >= r[0] && i < r[1]) out.push(i);                
-	  return out;
-	}
+  range: [0, 5],
+  filter: function(data){
+    var out = [];
+    var r = this.options.range;
+    for(var i = 0; i < data.length; i++)
+      if(i >= r[0] && i < r[1]) out.push(i);                
+    return out;
+  }
 } );
 
 var offset = 0;

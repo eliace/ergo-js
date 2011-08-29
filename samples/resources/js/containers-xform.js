@@ -51,7 +51,7 @@ $.ergo({
           etype: 'icon-button',
           role: 'actor',
           icon: 'dino-icon-search',
-					tabIndex: -1
+          tabIndex: -1
         }
       }
     }
@@ -78,9 +78,9 @@ $.ergo({
       cls: 'dino-form-field',
       dataId: 'continent',
       dataModel: {
-//				type: 'keyvalue',
+//        type: 'keyvalue',
         data: listData
-			},
+      },
       components: {
         dropdown: {
           content: {
@@ -99,9 +99,9 @@ $.ergo({
     content: {
       etype: 'dropdown-editor',
       dataModel: {
-				type: 'keyvalue',
-				data: hashData
-			},
+        type: 'keyvalue',
+        data: hashData
+      },
       components: {
         button: {
           cls: 'dino-icon-spinner-down'//'ui-icon ui-icon-triangle-1-s'

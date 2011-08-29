@@ -22,7 +22,7 @@ var grid = $.ergo({
         details:{
           etype: 'box',
 //          layoutSelector: '.details',
-       		layoutSelector: function() { return this.el.filter('.details'); },
+           layoutSelector: function() { return this.el.filter('.details'); },
           html: '<td colspan="2"></td>',
           content: {
             etype: 'box',
@@ -84,8 +84,8 @@ $.get('ajax/lenta.ru.rss', function(xml){
   });
   gridData.set(feed);
   
-	grid.$layoutChanged();
-	
+  grid.$layoutChanged();
+  
 }, 'text');    
     
     

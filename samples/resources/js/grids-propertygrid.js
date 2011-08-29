@@ -9,6 +9,7 @@ var propertyGrid = $.ergo({
   etype: 'table-grid',
   cls: 'dino-border-all dino-corner-all',
   width: 400,
+  height: 200,
 //  content: {
 //    style: {'font-size': '9pt'}
 //  },
@@ -95,9 +96,9 @@ var propertyGrid = $.ergo({
                 }
               });              
             },
-						store: function(val) {
-							return val;
-						},
+            store: function(val) {
+              return val;
+            },
             extensions: [{
               showDropdown: function() {
                 this.input.el.datepick('show');                

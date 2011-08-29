@@ -1,4 +1,6 @@
 
+Ergo.DEBUG = true;
+
 
 var sampleTree = new Ergo.data.Collection([]);
 
@@ -8,7 +10,7 @@ $(document).ready(function(){
 	
 	var southRegionH = 0;
 	
-	try{
+	try {
 	
 /*
 	// Растягиваем страницу на всю высоту окна	

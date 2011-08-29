@@ -3,7 +3,7 @@ var dlg = $.ergo({
   etype: 'dialog',
   renderTo: '.preview',
   title: 'Диалог',
-  width: '90%',  
+  width: '50%',  
   content: {
     etype: 'box',
 //    height: 'auto',

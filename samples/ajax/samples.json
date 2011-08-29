@@ -21,9 +21,6 @@
 	}, {
 		"name": "Controls",
 		"path": "containers-controls"
-	}, {
-		"name": "Benchmarks",
-		"path": "containers-benchmarks"
 	}]
 }, {
 	"name": "Dialogs",
@@ -139,12 +136,6 @@
 	}, {
 		"name": "Tree (ajax)",
 		"path": "trees-ajax"
-	}, {
-		"name": "binding",
-		"path": "trees-binding"
-	}, {
-		"name": "drag'n'drop",
-		"path": "trees-dragndrop"
 	}]
 }, {
 	"name": "Panels",

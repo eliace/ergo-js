@@ -30,6 +30,22 @@ var menuData = [{
 }]
 
 
+var graphData = [{
+  name: 'Bar',
+  icon: 'bar'
+}, {
+  name: 'Curve',
+  icon: 'curve'
+}, {
+  name: 'Line',
+  icon: 'line'
+}, {
+  name: 'Pie',
+  icon: 'pie'
+}]
+
+
+
 
 $.ergo({
   etype: 'list',
@@ -63,7 +79,7 @@ $.ergo({
       tag: 'america'
     }]
     
-  },*/ {
+  }, {
     etype: 'button',
     style: {'padding-right': 2},
     content: {
@@ -87,23 +103,68 @@ $.ergo({
         cls: 'dino-icon-spinner-down'        
       }]
     }
-  }, {
-    etype: 'text-button',
-    xicon: 'ui-icon ui-icon-triangle-1-s',
-    icon: 'silk-icon-chart-line',
-  }, {
+  }, */{
     etype: 'dropdown-button',
-    text: 'Location',
-    xicon: 'dino-icon-spinner-down',
+    xicon: 'ui-icon ui-icon-triangle-1-s',
+    binding: function(obj) {
+      this.opt('icon', 'silk-icon-chart-'+obj.icon);
+//      this.opt('text', obj.name);
+    },
+    updateOnValueChange: true,
+//    icon: 'silk-icon-chart-line',
+    data: graphData[1],
     components: {
       dropdown: {
-        data: menuData,
+        data: graphData,
+        menuModel: {
+          item: {
+            content: {
+              etype: 'text-item',
+              icon: true,
+              components: {
+                content: {
+                  dataId: 'name'
+                },
+                icon: {
+                  dataId: 'icon',
+                  binding: function(val) { console.log(val); this.opt('cls', 'silk-icon-chart-'+val);}
+                }            
+              }            
+            }            
+          }
+        }
       }
     },
     onSelect: function(e) {
-      growl.info('Selected item: '+e.target.content.getValue());
+      this.data.set(e.target.data.get())
     }
-    
-    
+  }, {
+    etype: 'dropdown-button',
+//    text: 'Location',
+    xicon: 'dino-icon-spinner-down',
+    binding: function(obj) {
+      this.opt('text', obj.name);
+    },
+    content: {
+      width: 60
+    },
+    data: {name: 'Location'},
+    updateOnValueChange: true,
+    components: {
+      dropdown: {
+        data: menuData,
+        menuModel: {
+          item: {
+            content: {
+              dataId: 'name'
+            }            
+          }
+        }
+      }
+    },
+    onSelect: function(e) {
+      this.data.set(e.target.data.get());
+//      growl.info('Selected item: '+e.target.content.getValue());
+    }    
   }]            
 });

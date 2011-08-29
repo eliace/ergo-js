@@ -32,12 +32,12 @@ var box = $.ergo({
             if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);
           },
           content: {
-						components: {
-							text: {
-		            icon: true,
-		            dataId: 'name'								
-							}
-						}
+            components: {
+              text: {
+                icon: true,
+                dataId: 'name'                
+              }
+            }
           }
         }
       }

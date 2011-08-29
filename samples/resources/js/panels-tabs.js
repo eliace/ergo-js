@@ -13,45 +13,45 @@ $.ergo({
   }, {
     tab: {icon: 'silk-icon-plugin', text: 'Tab3'}
   }, {
-		tab: {
-			etype: 'box',
-			layout: 'hbox',
-			components: {
-				check: {
-					etype: 'checkbox',
-					style: {'margin': '0 3px 0'}
-				},
-				text: {
-					etype: 'text',
-					text: 'Who am i?'
-				}
-			}
-		}
-	}],
-	
-	components: {
-		tabs: {
-			layout: 'group',
-			
-			components: {
-				addTab: {
-					etype: 'box',
-					html: '<li/>',
-					cls: 'dino-tabs-item dino-border-all dino-bg-3',
-					style: {'padding-left': 7, 'padding-right': 7},
-					content: {
-						etype: 'action-icon',
-						cls: 'plus-icon',
-						style: {'vertical-align': 'middle', 'display': 'inline-block'}
-					},
-					layoutGroup: 'after'
-				}
-			}
-			
-		}
-	}
-	
-	
+    tab: {
+      etype: 'box',
+      layout: 'hbox',
+      components: {
+        check: {
+          etype: 'checkbox',
+          style: {'margin': '0 3px 0'}
+        },
+        text: {
+          etype: 'text',
+          text: 'Who am i?'
+        }
+      }
+    }
+  }],
+  
+  components: {
+    tabs: {
+      layout: 'group',
+      
+      components: {
+        addTab: {
+          etype: 'box',
+          html: '<li/>',
+          cls: 'dino-tabs-item dino-border-all dino-bg-3',
+          style: {'padding-left': 7, 'padding-right': 7},
+          content: {
+            etype: 'action-icon',
+            cls: 'plus-icon',
+            style: {'vertical-align': 'middle', 'display': 'inline-block'}
+          },
+          layoutGroup: 'after'
+        }
+      }
+      
+    }
+  }
+  
+  
 });
 
     

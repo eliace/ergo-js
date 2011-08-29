@@ -17,7 +17,7 @@ $.ergo({
   width: 210,
   data: requestObj,
   content: {
-		etype: 'list',
+    etype: 'list',
     style: {'padding': '3px', 'font-size': '0.7em'},
     layout: 'simple-form',
     defaultItem: {

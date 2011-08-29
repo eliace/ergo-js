@@ -22,15 +22,15 @@ var gridData = [{
 */
 
 var groupData = {
-	'1': {
-		name: 'Группа 1'
-	},
-	'2': {
-		name: 'Группа 2'
-	},
-	'3': {
-		name: 'Группа 3'
-	}
+  '1': {
+    name: 'Группа 1'
+  },
+  '2': {
+    name: 'Группа 2'
+  },
+  '3': {
+    name: 'Группа 3'
+  }
 };
 
 var gridData = [
@@ -44,166 +44,166 @@ var gridData = [
 
 
 var customLayout = Ergo.layouts.PlainLayout.extend({
-	
-	
-/*	
-	insert: function(item) {
-		
-		if(!item.options.group)
-			return customLayout.superclass.insert.apply(this, arguments);
+  
+  
+/*  
+  insert: function(item) {
+    
+    if(!item.options.group)
+      return customLayout.superclass.insert.apply(this, arguments);
 
-		var c = this.container;
-		
-		var g = item.options.group;
-		
-		if(!c.components.has_key(g)) {
-			
-			c.components.add({
-				etype: 'table-row',
-				html: '<tr/>',
-				cls: 'group',
-				tag: 'group',
-				items: [{
-					data: groupData,
-					dataId: g,
-					html: '<td colspan="3" />',
-					content: {
-						etype: 'text',
-						dataId: 'name'
-					}
-				}]
-			}, g);
-			
-		}
-		
-		c.components.get(g).el.after(item.el);
+    var c = this.container;
+    
+    var g = item.options.group;
+    
+    if(!c.components.has_key(g)) {
+      
+      c.components.add({
+        etype: 'table-row',
+        html: '<tr/>',
+        cls: 'group',
+        tag: 'group',
+        items: [{
+          data: groupData,
+          dataId: g,
+          html: '<td colspan="3" />',
+          content: {
+            etype: 'text',
+            dataId: 'name'
+          }
+        }]
+      }, g);
+      
+    }
+    
+    c.components.get(g).el.after(item.el);
 
-//		if(!item.data || item.tag == 'group') {
-//		}
-		
-		// var g = item.data.get('group');
-		// var c = this.container;
-// 		
-		// if(!c.components.has_key(g)) {
-// 			
-			// c.components.add({
-				// etype: 'table-row',
-				// html: '<tr/>',
-				// cls: 'group',
-				// tag: 'group',
-				// items: [{
-					// data: groupData,
-					// dataId: g,
-					// html: '<td colspan="3" />',
-					// content: {
-						// etype: 'text',
-						// dataId: 'name'
-					// }
-				// }]
-			// }, g);
-// 			
-		// }
-// 		
-		// c.components.get(g).el.after(item.el);		
-		
-	},
-*/	
-	
-	
-	
-	rebuild: function() {
-		
-//		console.log('rebuild');
-		
-		var self = this;
-		var c = this.container;
-		
-		var group = null;
-		
-		// создаем по необходимости группы
-		c.items.each(function(item){
-			var g = item.data.get('group');
-			
-			if(!c.components.has_key(g)) {
-				
-				c.components.add({
-					etype: 'table-row',
-					html: '<tr/>',
-					cls: 'group',
-					items: [{
-						data: groupData,
-						dataId: g,
-						html: '<td colspan="3" />',
-						content: {
-							etype: 'text',
-							dataId: 'name',
-							style: {'margin-left': 3}
-						}
-					}]
-				}, g);
-				
-//				console.log('component created');
-				
-			}
-			
-		});
-		
-		
-		var items = [];
-		
-		c.items.each(function(item){
-			items.push(item);
-		});
-		
-		// сотировка по полю "id"
-		items.sort(function(w1, w2){
-			var a = w1.data.get('id');
-			var b = w2.data.get('id');
-			if(a < b) return -1;
-			else if(a > b) return 1;
-			return 0;
-		});
+//    if(!item.data || item.tag == 'group') {
+//    }
+    
+    // var g = item.data.get('group');
+    // var c = this.container;
+//     
+    // if(!c.components.has_key(g)) {
+//       
+      // c.components.add({
+        // etype: 'table-row',
+        // html: '<tr/>',
+        // cls: 'group',
+        // tag: 'group',
+        // items: [{
+          // data: groupData,
+          // dataId: g,
+          // html: '<td colspan="3" />',
+          // content: {
+            // etype: 'text',
+            // dataId: 'name'
+          // }
+        // }]
+      // }, g);
+//       
+    // }
+//     
+    // c.components.get(g).el.after(item.el);    
+    
+  },
+*/  
+  
+  
+  
+  rebuild: function() {
+    
+//    console.log('rebuild');
+    
+    var self = this;
+    var c = this.container;
+    
+    var group = null;
+    
+    // создаем по необходимости группы
+    c.items.each(function(item){
+      var g = item.data.get('group');
+      
+      if(!c.components.has_key(g)) {
+        
+        c.components.add({
+          etype: 'table-row',
+          html: '<tr/>',
+          cls: 'group',
+          items: [{
+            data: groupData,
+            dataId: g,
+            html: '<td colspan="3" />',
+            content: {
+              etype: 'text',
+              dataId: 'name',
+              style: {'margin-left': 3}
+            }
+          }]
+        }, g);
+        
+//        console.log('component created');
+        
+      }
+      
+    });
+    
+    
+    var items = [];
+    
+    c.items.each(function(item){
+      items.push(item);
+    });
+    
+    // сотировка по полю "id"
+    items.sort(function(w1, w2){
+      var a = w1.data.get('id');
+      var b = w2.data.get('id');
+      if(a < b) return -1;
+      else if(a > b) return 1;
+      return 0;
+    });
 
-		// // сортировка по полю "group"
-		// items.sort(function(w1, w2){
-			// var a = w1.data.get('group');
-			// var b = w2.data.get('group');
-			// if(a < b) return -1;
-			// else if(a > b) return 1;
-			// return 0;
-		// });
-		
-		items.reverse();
-		
-		Ergo.each(items, function(item){
-			var g = item.data.get('group');
-			
-			c.components.get(g).el.after(item.el);
-						
-//			self.el.append( item.el );
-			
-		});
-		
-//		if(this.container.components.has_key())
-		
-		
-		
-	}
+    // // сортировка по полю "group"
+    // items.sort(function(w1, w2){
+      // var a = w1.data.get('group');
+      // var b = w2.data.get('group');
+      // if(a < b) return -1;
+      // else if(a > b) return 1;
+      // return 0;
+    // });
+    
+    items.reverse();
+    
+    Ergo.each(items, function(item){
+      var g = item.data.get('group');
+      
+      c.components.get(g).el.after(item.el);
+            
+//      self.el.append( item.el );
+      
+    });
+    
+//    if(this.container.components.has_key())
+    
+    
+    
+  }
 
-	
-	
+  
+  
 });
 
 
 
 $.ergo({
-	etype: 'editable-panel',
-	title: 'Group',
-	renderTo: '.preview',
-	
-	cls: 'dino-border-all',
-	
-	
+  etype: 'editable-panel',
+  title: 'Group',
+  renderTo: '.preview',
+  
+  cls: 'dino-border-all',
+  
+  
   components: {
     // header: {
       // state: 'hidden'
@@ -215,27 +215,27 @@ $.ergo({
       }
     }
   },
-	
-	
-	content: {
-		etype: 'table-grid',
-		data: gridData,
-		dynamic: true,
-		height: 300,
-		
-		components: {
-			body: {
-				content: {
-					layout: new customLayout()
-				}
-			}
-		},
-		
-		tableModel: {
+  
+  
+  content: {
+    etype: 'table-grid',
+    data: gridData,
+    dynamic: true,
+    height: 300,
+    
+    components: {
+      body: {
+        content: {
+          layout: new customLayout()
+        }
+      }
+    },
+    
+    tableModel: {
       row: {
         cls: 'group-row',
         binding: function(val) {
-        	this.options.group = val.group;
+          this.options.group = val.group;
         }
       },
       cell: {
@@ -255,25 +255,25 @@ $.ergo({
         header: 'Value',
         cls: 'dino-numeric-column',
         width: 100
-      }]			
-		}
-		
-		
-		// defaultItem: {
-			// etype: 'box',
-			// components: {
-				// title: {
+      }]      
+    }
+    
+    
+    // defaultItem: {
+      // etype: 'box',
+      // components: {
+        // title: {
           // etype: 'box',
           // cls: 'group-title',
           // content: {
             // etype: 'text',
             // dataId: 'name'
-          // }					
-				// },
-				// grid: {
-					// etype: 'grid',
-					// dataId: 'items',
-					// gridModel: {
+          // }          
+        // },
+        // grid: {
+          // etype: 'grid',
+          // dataId: 'items',
+          // gridModel: {
             // row: {
               // cls: 'group-row'
             // },
@@ -291,14 +291,14 @@ $.ergo({
               // dataId: 'value',
               // cls: 'dino-numeric-column',
               // width: 100
-            // }]						
-					// }
-				// }
-// 				
-			// }
-		// }
-	},
-	
+            // }]            
+          // }
+        // }
+//         
+      // }
+    // }
+  },
+  
   toolbarButtons: ['add'],
   
   toolbarButtonSet: {
@@ -307,21 +307,21 @@ $.ergo({
   
   
   onAdd: function() {
-  	
-  	this.content.data.add({
-  		id: '6', 
-  		name: 'Xavier', 
-  		value: '789', 
-  		cb: false, 
-  		group: '2'
-  	})
-  	
-  	this.content.body.content.layout.rebuild();
-  	
-//  	growl.info('Add');
+    
+    this.content.data.add({
+      id: '6', 
+      name: 'Xavier', 
+      value: '789', 
+      cb: false, 
+      group: '2'
+    })
+    
+    this.content.body.content.layout.rebuild();
+    
+//    growl.info('Add');
   }
-	
-	
+  
+  
 });
 
 

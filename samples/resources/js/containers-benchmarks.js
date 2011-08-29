@@ -51,43 +51,43 @@ var panel = $.ergo({
           
           var t0 = Ergo.timestamp();
           
-/*					
+/*          
           for(var i = 0; i < testData.length; i++) {
             var el = $('<div></div>');
             el.addClass('test');
-						el.text('Item '+i);
-//						el.click(Ergo.noop);
+            el.text('Item '+i);
+//            el.click(Ergo.noop);
             panel.outputPane.el.append(el);
           }
 */
 
-					
-					var stream = '<div>';
+          
+          var stream = '<div>';
           for(var i = 0; i < testData.length; i++) {
-						var tag = 'div';
-						var baseCls = 'test';
-						var text = 'Item'+i;
-						var id = 'id-'+i;
-						
-						var stream = '';
-						stream += '<'+tag+' id="'+id+'"';
-						if(baseCls) stream += ' class="'+text+'"';
-						stream += '>';
-						if(text) stream += text;
-						stream += '</'+tag+'>';
-						
-          	panel.outputPane.el.append($(stream));
+            var tag = 'div';
+            var baseCls = 'test';
+            var text = 'Item'+i;
+            var id = 'id-'+i;
+            
+            var stream = '';
+            stream += '<'+tag+' id="'+id+'"';
+            if(baseCls) stream += ' class="'+text+'"';
+            stream += '>';
+            if(text) stream += text;
+            stream += '</'+tag+'>';
+            
+            panel.outputPane.el.append($(stream));
 
-//						stream += Ergo.format('<div id="" class=""></div>');
+//            stream += Ergo.format('<div id="" class=""></div>');
 
-//						stream += '<div id="'+id+'" class="'+baseCls+'">'+text+'</div>';
+//            stream += '<div id="'+id+'" class="'+baseCls+'">'+text+'</div>';
           }
-					stream += '</div>';
-					
+          stream += '</div>';
+          
 
           for (var i = 0; i < testData.length; i++) {
-						$('#id-'+i).click(Ergo.noop);
-		  		}
+            $('#id-'+i).click(Ergo.noop);
+          }
 
           
           var t1 = Ergo.timestamp();
