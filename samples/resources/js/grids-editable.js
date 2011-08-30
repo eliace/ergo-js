@@ -141,7 +141,7 @@ var panel = $.ergo({
               return out;
             };
             
-            gridData.events.fire('onValueChanged');
+            gridData.events.fire('value:changed');
             
             panel.content.$layoutChanged();
           }

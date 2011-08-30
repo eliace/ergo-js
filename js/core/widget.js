@@ -625,7 +625,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var self = this;
 	
 		// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод $dataChanged
-		this.data.events.reg('onValueChanged', function() { 
+		this.data.events.reg('value:changed', function() { 
 			if(self.options.updateOnValueChange) self.$dataChanged();
 //			console.log(self.data.val());
 //			// связываем данные с дочерними компонентами виджета

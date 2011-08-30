@@ -31,7 +31,7 @@ var grid = $.ergo({
           return out;          
         };
           
-        grid.data.events.fire('onValueChanged');
+        grid.data.events.fire('value:changed');
         grid.$layoutChanged();
         
       }      

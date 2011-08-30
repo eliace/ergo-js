@@ -178,10 +178,10 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			
 			this.val(newValue);
 
-			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
+			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
 			if(this.source instanceof Ergo.core.DataSource)
-				this.source.events.fire('onEntryChanged', {entry: this});
+				this.source.events.fire('entry:changed', {entry: this});
 			
 			this._changed = true;
 		}
@@ -240,7 +240,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 
 		var e = this.entry(index);
 
-		this.events.fire('onEntryAdded', {'index': index, 'entry': e, 'isLast': isLast});
+		this.events.fire('entry:added', {'index': index, 'entry': e, 'isLast': isLast});
 		
 		return e;
 	},
@@ -277,7 +277,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 				delete value[i];
 			}
 			
-			this.events.fire('onEntryDeleted', {'entry': deleted_entry, 'value': deleted_value});
+			this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});
 		}
 				
 	},
@@ -338,10 +338,9 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	
 	
-	
-	
-	
 });
+
+
 
 
 

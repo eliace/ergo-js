@@ -2,8 +2,11 @@
 //= require <widgets/table>
 
 
-
-Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
+/**
+ * 
+ * @class
+ */
+Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
 	
 	defaults: {
 		html: '<table cellspacing="0"></table>',

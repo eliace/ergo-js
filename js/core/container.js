@@ -27,7 +27,7 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 		
 		/**
 		 * Элементы
-		 * @type {Array}
+		 * @type {Ergo.core.WidgetArray}
 		 */
 		this.items = new Ergo.core.WidgetArray(this);
 		
@@ -274,23 +274,25 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 		var self = this;
 		
 		// если добавлен новый элемент данных, то добавляем новый виджет
-		this.data.events.reg('onEntryAdded', function(e){
+		this.data.events.reg('entry:added', function(e){
 			self.items.add({'data': e.entry}, e.isLast ? null : e.index);
 		}, this);
 		
 		// если элемент данных удален, то удаляем соответствующий виджет
-		this.data.events.reg('onEntryDeleted', function(e){
+		this.data.events.reg('entry:deleted', function(e){
 			self.items.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
 		}, this);
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
-		this.data.events.reg('onEntryChanged', function(e){
+		this.data.events.reg('entry:changed', function(e){
 			self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		}, this);
 
 		// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
-		this.data.events.reg('onValueChanged', function(e){
+		this.data.events.reg('value:changed', function(e){
+
+			// обновляем вложенные элементы контейнера на основе источника данных 
 			
 			self.layout.immediateRebuild = false;
 
@@ -312,6 +314,9 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 			
 		}, this);
 		
+
+
+		// создаем вложенные элементы контейнера на основе источника данных 
 
 		this.layout.immediateRebuild = false;
 				
