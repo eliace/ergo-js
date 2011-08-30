@@ -65,7 +65,7 @@ Ergo.layouts.SimpleFormLayout = Ergo.declare('Ergo.layouts.SimpleFormLayout', 'E
 
 		var o = item.options;
 		
-		var wrapperEl = $('<div class="dino-form-item-wrapper"></div>');
+		var wrapperEl = $('<div class="ergo-form-item-wrapper"></div>');
 		var labelEl = $('<label>'+(o.label || '')+'</label>');
 		var label_pos = o.labelPosition || 'before';
 		

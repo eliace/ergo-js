@@ -14,11 +14,11 @@
 	font-weight: bold;	
 }
 
-.dino-grid-row.hovered {
+.ergo-grid-row.hovered {
 	background-color: #f0f0f0;
 }
 
-.dino-grid-row.details td {
+.ergo-grid-row.details td {
 	border-bottom: 1px solid #ccc;
 }
 

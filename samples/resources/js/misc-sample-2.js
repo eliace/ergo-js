@@ -23,7 +23,7 @@ var news_index = 0;
 $.ergo({
   renderTo: '.preview',
   etype: 'panel',
-  cls: 'dino-border-all',
+  cls: 'ergo-border-all',
   title: 'Листалка',
   width: 850,
   
@@ -54,11 +54,11 @@ $.ergo({
       toolbar: {
         weight: 1,
         etype: 'control-list',
-        cls: 'dino-border-bottom',
+        cls: 'ergo-border-bottom',
         extensions: [Ergo.Selectable],
         defaultItem: {
           style: {'margin': 0},
-          cls: 'dino-border-all',
+          cls: 'ergo-border-all',
           onAction: function() {
             this.getParent({tag: 'widget-2'}).changeView(this.tag);
           }
@@ -67,19 +67,19 @@ $.ergo({
           etype: 'text-button',
           text: 'Компактно',
           tag: 'short',
-          cls: 'dino-corner-left'
+          cls: 'ergo-corner-left'
         }, {
           etype: 'text-button',
           text: 'Развернуто',
           tag: 'full',
-          cls: 'dino-corner-right'
+          cls: 'ergo-corner-right'
         }]
       },
       content: {
         weight: 3,
         etype: 'box',
         html: '<iframe style="display: block"/>',
-        cls: 'dino-border-none',
+        cls: 'ergo-border-none',
         width: '100%',
         height: 'auto',
       },
@@ -87,7 +87,7 @@ $.ergo({
         weight: 2,
         etype: 'list',
         layout: 'stack',
-        cls: 'dino-border-bottom',
+        cls: 'ergo-border-bottom',
         style: {'background-color': '#fff'},
         data: news,
         items: [{

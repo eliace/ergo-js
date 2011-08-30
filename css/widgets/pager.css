@@ -4,17 +4,17 @@
  * PAGER
  */
 
-.dino-pager {
+.ergo-pager {
 	background-color: #eee;
 	padding: 3px;
 	font-size: 10pt;
 }
 
-.dino-pager > * {
+.ergo-pager > * {
 	vertical-align: middle;
 }
 
-.dino-pager > span {
+.ergo-pager > span {
 	margin: 0 3px;
 }
 

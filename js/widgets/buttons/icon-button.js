@@ -6,7 +6,7 @@
 Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	
 	defaults: {
-		cls: 'dino-icon-button',
+		cls: 'ergo-icon-button',
 		content: {
 			etype: 'icon'
 		},

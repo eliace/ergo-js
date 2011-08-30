@@ -4,7 +4,7 @@
  * DIALOG
  */
 
-.dino-overlay {
+.ergo-overlay {
 	opacity: 0.4;
 	background-color: black;
 	z-index: 1000;
@@ -16,7 +16,7 @@
 }	
 
 
-.dino-window {
+.ergo-window {
 /*	position: absolute;*/
 	z-index: 1100;
 	background-color: #fff;
@@ -25,18 +25,18 @@
 
 
 
-.dino-dialog-shadow {
+.ergo-dialog-shadow {
 	-moz-box-shadow: 0 0 .7em #aaa;
 	-webkit-box-shadow: 0 0 .7em #aaa;
 	box-shadow: 0 0 .7em #aaa;
 }
 
-.dino-dialog .dino-window-content {
+.ergo-dialog .ergo-window-content {
 	border: 1px solid #aaa;
 	background-color: #eee;
 }
 
-.dino-dialog-header {
+.ergo-dialog-header {
 	padding: 3px 6px;
 	
 /*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
@@ -49,11 +49,11 @@
 	overflow: hidden;	
 }
 
-.dino-dialog-content {
+.ergo-dialog-content {
 /*	border: 1px solid #aaa;*/
 	margin: 3px;
 }
 
-.dino-dialog-buttons {
+.ergo-dialog-buttons {
 	margin: 3px;	
 }

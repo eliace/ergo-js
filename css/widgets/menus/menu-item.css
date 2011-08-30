@@ -4,7 +4,7 @@
  * MENU
  */
 
-.dino-menu-item {
+.ergo-menu-item {
 	position: relative;
 	display: block;
 	cursor: default;
@@ -13,25 +13,25 @@
 	padding: 2px 18px 2px 10px;
 }	
 
-.dino-menu-item:hover {
+.ergo-menu-item:hover {
 	background-color: #ddd;
 }
 
-.dino-menu-item.disabled {
+.ergo-menu-item.disabled {
 	opacity: .3;
 }
 
-.dino-menu-item.disabled:hover {
+.ergo-menu-item.disabled:hover {
 	background-color: transparent;
 }
 
-.dino-menu-dropdown {
+.ergo-menu-dropdown {
 	border: 1px solid #aaa;
 	background-color: #eee;
 /*	z-index: 2000;*/
 }
 
-.dino-menu-shadow {
+.ergo-menu-shadow {
 	-moz-box-shadow: 1px 1px 3px #aaa;
 	-webkit-box-shadow: 1px 1px 3px #aaa;
 	box-shadow: 1px 1px 3px #aaa;		

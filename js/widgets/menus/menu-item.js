@@ -10,7 +10,7 @@
  */
 Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.MenuItem.prototype */{
 	
-	defaultCls: 'dino-menu-item',
+	defaultCls: 'ergo-menu-item',
 	
 	defaults: {
 		showOnEnter: true,
@@ -23,7 +23,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 			},
 			icon: {
 				etype: 'icon',
-				cls: 'dino-icon-right',
+				cls: 'ergo-icon-right',
 				dock: 'right',
 				state: 'hidden'
 			},
@@ -159,10 +159,10 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 
 Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.containers.DropdownList', {
 	
-	defaultCls: 'dino-menu-dropdown',
+	defaultCls: 'ergo-menu-dropdown',
 	
 	defaults: {
-		cls: 'dino-menu-shadow',
+		cls: 'ergo-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
 		style: {'overflow-y': 'visible'},

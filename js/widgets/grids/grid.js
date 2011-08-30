@@ -57,7 +57,7 @@ Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
 Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.widgets.Box', { 
 	
 	defaults: {
-		baseCls: 'dino-grid',
+		baseCls: 'ergo-grid',
 		components: {
 			header: {
 				etype: 'box',
@@ -71,7 +71,7 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.widgets.Box', {
 					binding: false,
 					headerModel: {
 						cell: {
-							cls: 'dino-grid-h-cell',
+							cls: 'ergo-grid-h-cell',
 							layout: {
 								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
@@ -90,10 +90,10 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.widgets.Box', {
 //					width: '100%',
 					tableModel: {
 						row: {
-							cls: 'dino-grid-row'
+							cls: 'ergo-grid-row'
 						},
 						cell: {
-							cls: 'dino-grid-cell',
+							cls: 'ergo-grid-cell',
 							layout: {
 								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'

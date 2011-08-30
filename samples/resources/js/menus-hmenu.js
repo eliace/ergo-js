@@ -15,7 +15,7 @@ $.ergo({
 //        rightCls: 'ui-icon menu-item-icon'
       },
       submenu: {
-        cls: 'dino-border-all',
+        cls: 'ergo-border-all',
         anchor: 'bottom',
         width: 110
       }

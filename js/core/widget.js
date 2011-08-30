@@ -86,7 +86,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		 * @type Element
 		 */
 		this.el = $(this.$html());
-		this.el.data('dino-widget', this);
+		this.el.data('ergo-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
 		
@@ -794,7 +794,7 @@ $.ergo = Ergo.widget;
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
-		var widget = this.data('dino-widget');
+		var widget = this.data('ergo-widget');
 		if(widget) return widget;
 		if(!o) return undefined;
 		o.html = this;

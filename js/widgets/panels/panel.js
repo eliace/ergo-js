@@ -16,8 +16,8 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 	$html: function() { return '<div></div>'; },
 	
 	defaults: {
-		baseCls: 'dino-panel',
-//		cls: 'dino-border-all dino-corner-top',
+		baseCls: 'ergo-panel',
+//		cls: 'ergo-border-all ergo-corner-top',
 		components: {
 			header: {
 				weight: 10,
@@ -44,7 +44,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 						style: {'margin-right': '3px'},
 		        defaultItem: {
 		          etype: 'icon-button',
-		          baseCls: 'dino-header-button dino-corner-all',
+		          baseCls: 'ergo-header-button ergo-corner-all',
 		          onAction: function(){
 								this.getParent(Ergo.widgets.Panel).events.fire('onHeaderButton', {'button': this.tag});
 		          }
@@ -53,7 +53,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 				}
 			},
 			content: {
-//				cls: 'dino-panel-content',
+//				cls: 'ergo-panel-content',
 				weight: 20,
 				etype: 'box'
 			}
@@ -62,9 +62,9 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 //			}
 		},
 		headerButtonSet: {
-//			'close': {icon: 'dino-icon-dialog-close', tag: 'close'},
-//			'minimize': {icon: 'dino-icon-dialog-minimize', tag: 'minimize'},
-//			'maximize': {icon: 'dino-icon-dialog-maximize', tag: 'maximize'}
+//			'close': {icon: 'ergo-icon-dialog-close', tag: 'close'},
+//			'minimize': {icon: 'ergo-icon-dialog-minimize', tag: 'minimize'},
+//			'maximize': {icon: 'ergo-icon-dialog-maximize', tag: 'maximize'}
 		}		
 	},
 	

@@ -15,15 +15,15 @@
 }
 
 
-.dino-list-tree-node > .tree-list-item:hover {
+.ergo-list-tree-node > .tree-list-item:hover {
 	background-color: #f4f4f4;
 }
 
-.dino-list-tree-node.selected > .tree-list-item {
+.ergo-list-tree-node.selected > .tree-list-item {
 	background-color: #ffc;
 }
 
-.tree-list-item .dino-text-editor {
+.tree-list-item .ergo-text-editor {
 	margin: 2px 0;
 }
 

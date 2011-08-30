@@ -9,7 +9,7 @@ Ergo.widgets.Split = Ergo.declare('Ergo.widgets.Split', 'Ergo.widgets.Box', /** 
 	$html: function() { return '<div>&nbsp;</div>' },
 	
 	defaults: {
-		cls: 'dino-split'
+		cls: 'ergo-split'
 	}	
 	
 }, 'split');

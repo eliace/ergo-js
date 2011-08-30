@@ -19,7 +19,7 @@ var box = $.ergo({
   components: {
     controls: {
       etype: 'control-list',
-      cls: 'dino-border-bottom',
+      cls: 'ergo-border-bottom',
       items: [{
         etype: 'text-button',
         text: '<< Предыдущие 5',
@@ -50,7 +50,7 @@ var box = $.ergo({
       data: bindingData,
       defaultItem: {
         etype: 'box',
-        cls: 'dino-border-all dino-corner-all',
+        cls: 'ergo-border-all ergo-corner-all',
         style: {'margin': '3px', 'padding': '3px'},
         binding: function(val) { this.opt('innerText', val); }
       }

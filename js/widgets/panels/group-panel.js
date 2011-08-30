@@ -8,7 +8,7 @@
 Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
-		baseCls: 'dino-group-panel',
+		baseCls: 'ergo-group-panel',
 		components: {
 			header: {
 				etype: 'box',

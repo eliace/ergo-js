@@ -16,7 +16,7 @@ var box = $.ergo({
   items: [{
     etype: 'box',
     width: 200,
-    cls: 'dino-border-all dino-widget-shadow panel',
+    cls: 'ergo-border-all ergo-widget-shadow panel',
 //    style: {'margin': '10px'},
     region: 'west',
     height: 'auto',
@@ -44,24 +44,24 @@ var box = $.ergo({
     }
   }, {
     etype: 'box',
-    cls: 'dino-border-all dino-widget-shadow panel',
+    cls: 'ergo-border-all ergo-widget-shadow panel',
     height: 'auto'
   }, {
     etype: 'box',
     region: 'east',
     width: 150,
     height: 'auto',
-    cls: 'dino-border-all dino-widget-shadow panel'
+    cls: 'ergo-border-all ergo-widget-shadow panel'
   }, {
     etype: 'box',
     region: 'north',
     height: 100,
-    cls: 'dino-border-all dino-widget-shadow panel'    
+    cls: 'ergo-border-all ergo-widget-shadow panel'    
   }, {
     etype: 'box',
     region: 'south',
     height: 30,
-    cls: 'dino-border-all dino-widget-shadow panel'    
+    cls: 'ergo-border-all ergo-widget-shadow panel'    
   }]
 });
 

@@ -1,14 +1,14 @@
 
-.dino-messagebox-icon {
+.ergo-messagebox-icon {
 	margin: 10px 10px 10px 10px;
 }
 
-.dino-messagebox-msg-base {
+.ergo-messagebox-msg-base {
 	margin: 0 10px;
 	display: block;
 }
 
-.dino-messagebox-msg-ext {
+.ergo-messagebox-msg-ext {
 	margin: 0 10px;
 	font-weight: bold;
 	display: block;

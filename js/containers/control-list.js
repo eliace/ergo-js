@@ -7,7 +7,7 @@
 Ergo.declare('Ergo.containers.ControlList', 'Ergo.containers.List', {
 	
 	defaults: {
-		cls: 'dino-control-list'
+		cls: 'ergo-control-list'
 	}
 	
 //	$itemFactory: function(o) {

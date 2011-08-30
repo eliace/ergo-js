@@ -10,21 +10,21 @@
 Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', /** @lends Ergo.widgets.Pager.prototype */{
 	
 	defaults: {
-		cls: 'dino-pager',
+		cls: 'ergo-pager',
 //		style: {'display': 'inline-block'},
 		binding: false,
 		count: 1,
 		items: [{
 			etype: 'icon-button',
-//			cls: 'dino-corner-all dino-border-none',
-			icon: 'dino-icon-pager-first', //'led-icon-control-rewind',
+//			cls: 'ergo-corner-all ergo-border-none',
+			icon: 'ergo-icon-pager-first', //'led-icon-control-rewind',
 			onAction: function() {
 				this.parent.setIndex(0);
 			}
 		}, {
 			etype: 'icon-button',
-//			cls: 'dino-corner-all dino-border-none',
-			icon: 'dino-icon-pager-prev', //'led-icon-control-backward',
+//			cls: 'ergo-corner-all ergo-border-none',
+			icon: 'ergo-icon-pager-prev', //'led-icon-control-backward',
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()-1);
 			}
@@ -53,15 +53,15 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', 
 			width: 2
 		}, {
 			etype: 'icon-button',
-//			cls: 'dino-corner-all dino-border-none',
-			icon: 'dino-icon-pager-next', //'led-icon-control-play',			
+//			cls: 'ergo-corner-all ergo-border-none',
+			icon: 'ergo-icon-pager-next', //'led-icon-control-play',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getIndex()+1);
 			}
 		}, {
 			etype: 'icon-button',
-//			cls: 'dino-corner-all dino-border-none',
-			icon: 'dino-icon-pager-last', //'led-icon-control-fastforward',			
+//			cls: 'ergo-corner-all ergo-border-none',
+			icon: 'ergo-icon-pager-last', //'led-icon-control-fastforward',			
 			onAction: function() {
 				this.parent.setIndex(this.parent.getMaxIndex());
 			}
@@ -70,7 +70,7 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', 
 			width: 2
 		}, {
 			etype: 'icon-button',
-			cls: 'dino-corner-all dino-border-none',
+			cls: 'ergo-corner-all ergo-border-none',
 			icon: 'led-icon-refresh',
 			onAction: function() {
 				this.parent.events.fire('onRefresh');

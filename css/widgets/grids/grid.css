@@ -5,60 +5,60 @@
  * GRID
  */
 
-.dino-grid {
+.ergo-grid {
 	
 }
 
 /*
-.dino-grid-body {
+.ergo-grid-body {
 	text-align: center;
 }
 */
 
-.dino-grid-header {
+.ergo-grid-header {
 /*	background-color: #f0f0f0;*/
 /*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
 	background-color: #ddd;
 /*	overflow-x: hidden;*/
 }
 
-.dino-grid-content {
+.ergo-grid-content {
 	background-color: #fff;
 /*	padding-right: 18px;  /* отступ для скролла */
 }
 
-.dino-grid-content.scrollable {
+.ergo-grid-content.scrollable {
 /*	padding-right: 18px;  /* отступ для скролла */
 	overflow-y: auto;
 }
 
 
 
-.dino-grid-row {
+.ergo-grid-row {
 	cursor: default;
 	font-size: 9pt;
 	height: 19px;	
 }
 
-.dino-grid-row:hover {
+.ergo-grid-row:hover {
 	background-color: #f4f4f4;/*#eee;*/
 }
 
-.dino-grid-row.selected {
+.ergo-grid-row.selected {
 	background-color: #ffc;
 }
 
 
 
 
-.dino-grid-cell {
+.ergo-grid-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	text-align: center;
 	padding: 0;
 }
 	
-.dino-grid-h-cell {
+.ergo-grid-h-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	color: #444;
@@ -71,20 +71,20 @@
 
 
 
-.dino-icon-column {
+.ergo-icon-column {
 	width: 16px;
 	text-align: center;
 }
 
-.dino-numeric-column {
+.ergo-numeric-column {
 	text-align: right;
 }
 
-.dino-default-column {
+.ergo-default-column {
 	text-align: center;
 }
 
-.dino-text-column {
+.ergo-text-column {
 	text-align: left;
 }
 

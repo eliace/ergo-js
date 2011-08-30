@@ -5,7 +5,7 @@ $.ergo({
   panelModel: {
     page: {height: 100}
   },
-  pagesCls: 'dino-border-all dino-border-no-top',
+  pagesCls: 'ergo-border-all ergo-border-no-top',
   pages: [{
     tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {
@@ -37,7 +37,7 @@ $.ergo({
         addTab: {
           etype: 'box',
           html: '<li/>',
-          cls: 'dino-tabs-item dino-border-all dino-bg-3',
+          cls: 'ergo-tabs-item ergo-border-all ergo-bg-3',
           style: {'padding-left': 7, 'padding-right': 7},
           content: {
             etype: 'action-icon',
@@ -62,7 +62,7 @@ $.ergo({
   panelModel: {
     page: {height: 100}
   },
-  pagesCls: 'dino-border-all dino-border-no-bottom',
+  pagesCls: 'ergo-border-all ergo-border-no-bottom',
   pages: [{
     tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {

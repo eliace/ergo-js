@@ -10,7 +10,7 @@
  */
 Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.widgets.TreeNode', /** @lends Ergo.widgets.BasicTreeNode.prototype */{
 	
-	defaultCls: 'dino-basic-tree-node',
+	defaultCls: 'ergo-basic-tree-node',
 	
 	defaults: {
 		components: {
@@ -22,7 +22,7 @@ Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.wi
 					button: {
 						weight: 10,
 						etype: 'icon',
-						cls: 'dino-tree-node-button',
+						cls: 'ergo-tree-node-button',
 						onClick: function(e) {
 							this.parent.parent.states.toggle('expand-collapse');
 							e.baseEvent.stopPropagation();							
@@ -30,7 +30,7 @@ Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.wi
 					},
 					text: {
 						etype: 'text-item',
-						cls: 'dino-tree-node-content',
+						cls: 'ergo-tree-node-content',
 						weight: 20						
 					}
 				}

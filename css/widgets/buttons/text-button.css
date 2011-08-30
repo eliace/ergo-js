@@ -3,11 +3,11 @@
  * TEXT BUTTON
  */
 
-.dino-text-button > span {
+.ergo-text-button > span {
 	padding: 0 3px;
 }
 
-.dino-text-button {
+.ergo-text-button {
 	cursor: default;
 	line-height: 12px;
 }

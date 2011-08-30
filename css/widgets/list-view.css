@@ -1,22 +1,22 @@
 
 
-.dino-list-view {
+.ergo-list-view {
 	background-color: #fff;
 	overflow-y: auto;
 }
 
 
 
-.dino-list-view > .list-item {
+.ergo-list-view > .list-item {
 	display: block;
 	padding: 0 3px;
 }
 
-.dino-list-view > .list-item:hover {
+.ergo-list-view > .list-item:hover {
 	background-color: #f4f4f4;;
 }
 
-.dino-list-view > .list-item.selected {
+.ergo-list-view > .list-item.selected {
 	background-color: #bdf;
 }
 

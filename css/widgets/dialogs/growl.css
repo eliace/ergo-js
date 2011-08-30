@@ -1,5 +1,5 @@
 
-.dino-growl-box {
+.ergo-growl-box {
 	position: absolute;
 	top: 10px;
 	right: 15px;
@@ -7,7 +7,7 @@
 	font-size: 9pt;
 }
 
-.dino-growl {
+.ergo-growl {
 	width: 300px;
 	margin-bottom: 5px;
 	display: none;
@@ -15,19 +15,19 @@
 	cursor: pointer;
 }
 
-.dino-growl.info {
+.ergo-growl.info {
 	background-color: #eee;
 }
 
-.dino-growl.success {
+.ergo-growl.success {
 	background-color: #cfc;
 }
 
-.dino-growl.warning {
+.ergo-growl.warning {
 	background-color: #ffc;
 }
 
-.dino-growl.critical {
+.ergo-growl.critical {
 	background-color: #fcc;
 }
 

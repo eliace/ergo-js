@@ -4,43 +4,43 @@
  * Icons 
  */
 
-.dino-icon {
+.ergo-icon {
 	width: 16px;
 	height: 16px;
 /*	display: block;*/
 	background-position: 50% 50%;
 }
 
-.icon16 .dino-icon, .icon16.dino-icon {
+.icon16 .ergo-icon, .icon16.ergo-icon {
 	width: 16px;
 	height: 16px;
 }
 
-.icon24 .dino-icon, .icon24.dino-icon {
+.icon24 .ergo-icon, .icon24.ergo-icon {
 	width: 24px;
 	height: 24px;
 }
 
-.icon32 .dino-icon, .icon32.dino-icon {
+.icon32 .ergo-icon, .icon32.ergo-icon {
 	width: 32px;
 	height: 32px;
 }
 
-.icon48 .dino-icon, .icon48.dino-icon {
+.icon48 .ergo-icon, .icon48.ergo-icon {
 	width: 48px;
 	height: 48px;
 }
 
 
 /*
-[dock$=center][class~='dino-icon']  {	margin-top: -8px; }
-[dock^=center][class~='dino-icon'] { 	margin-left: -8px; }
+[dock$=center][class~='ergo-icon']  {	margin-top: -8px; }
+[dock^=center][class~='ergo-icon'] { 	margin-left: -8px; }
 */
-.dino-icon[dock$=center]  {	margin-top: -8px; }
-.dino-icon[dock^=center] { 	margin-left: -8px; }
-.icon16 .dino-icon[dock$=center], .icon16.dino-icon[dock$=center]  {	margin-top: -8px; }
-.icon16 .dino-icon[dock^=center], .icon16.dino-icon[dock^=center]  {	margin-left: -8px; }
-.icon24 .dino-icon[dock$=center], .icon24.dino-icon[dock$=center]  {	margin-top: -12px; }
-.icon24 .dino-icon[dock^=center], .icon24.dino-icon[dock^=center]  {	margin-left: -12px; }
-.icon32 .dino-icon[dock$=center], .icon32.dino-icon[dock$=center]  {	margin-top: -16px; }
-.icon32 .dino-icon[dock^=center], .icon32.dino-icon[dock^=center]  {	margin-left: -16px; }
+.ergo-icon[dock$=center]  {	margin-top: -8px; }
+.ergo-icon[dock^=center] { 	margin-left: -8px; }
+.icon16 .ergo-icon[dock$=center], .icon16.ergo-icon[dock$=center]  {	margin-top: -8px; }
+.icon16 .ergo-icon[dock^=center], .icon16.ergo-icon[dock^=center]  {	margin-left: -8px; }
+.icon24 .ergo-icon[dock$=center], .icon24.ergo-icon[dock$=center]  {	margin-top: -12px; }
+.icon24 .ergo-icon[dock^=center], .icon24.ergo-icon[dock^=center]  {	margin-left: -12px; }
+.icon32 .ergo-icon[dock$=center], .icon32.ergo-icon[dock$=center]  {	margin-top: -16px; }
+.icon32 .ergo-icon[dock^=center], .icon32.ergo-icon[dock^=center]  {	margin-left: -16px; }

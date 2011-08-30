@@ -4,25 +4,25 @@
  * CONTROLS
  */
 
-.dino-control-list {
+.ergo-control-list {
 /*	background-color: #eee;*/
 	padding: 3px;
 }
 
-.dino-control-list > * {
+.ergo-control-list > * {
 	margin-right: 3px;
 	vertical-align: middle;
 }
 
-.dino-control-list.center {
+.ergo-control-list.center {
 	text-align: center;
 }
 
-.dino-control-list.left {
+.ergo-control-list.left {
 	text-align: left;
 }
 
-.dino-control-list.right {
+.ergo-control-list.right {
 	text-align: right;
 }
 

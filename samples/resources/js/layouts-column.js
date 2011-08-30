@@ -5,7 +5,7 @@ $.ergo({
   layout: 'column',
   height: 200,
   items: [{
-    cls: 'dino-border-all',
+    cls: 'ergo-border-all',
     style: {'padding': 10},
     content: {
       etype: 'box',
@@ -15,7 +15,7 @@ $.ergo({
       style: {'border': '1px solid #ccc'}
     }
   }, {
-    cls: 'dino-border-all',
+    cls: 'ergo-border-all',
     content: {
       height: 'auto',
       etype: 'box',

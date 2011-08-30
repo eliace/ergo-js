@@ -5,7 +5,7 @@
 
 Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
-	defaultCls: 'dino-text-field',
+	defaultCls: 'ergo-text-field',
 	
 	defaults: {
 		events: {

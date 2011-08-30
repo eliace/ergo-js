@@ -9,7 +9,7 @@
  */
 Ergo.declare('Ergo.containers.ListView', 'Ergo.containers.List', {
 	
-	defaultCls: 'dino-list-view',
+	defaultCls: 'ergo-list-view',
 	
 	defaults: {
 		dynamic: true,

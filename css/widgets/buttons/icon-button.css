@@ -4,31 +4,31 @@
  * ICON BUTTON
  */
 
-.dino-icon-button {
+.ergo-icon-button {
 	border: 1px solid transparent;
 	background-color: transparent;
 	margin: 0;
 }
 
-.dino-icon-button:hover {
+.ergo-icon-button:hover {
 	border-color: #ccc;	
 	background-color: #e8e8e8;	
 }
 
-.dino-icon-button.clicked {
+.ergo-icon-button.clicked {
 	background-color: #ddd;	
 }
 
-.dino-icon-button.disabled:hover {
+.ergo-icon-button.disabled:hover {
 	background-color: transparent;
 	border: 1px solid transparent;
 }
 
-.dino-icon-button.disabled > * {
+.ergo-icon-button.disabled > * {
 	opacity: .3;
 }
 
-.dino-icon-button.disabled.clicked {
+.ergo-icon-button.disabled.clicked {
 	background-color: #eee;
 }
 

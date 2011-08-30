@@ -107,7 +107,7 @@ Ergo.Editable = function(o) {
 Ergo.Editable.defaultEditor = {
 	etype: 'textfield',
 	autoFit: true,
-	cls: 'dino-text-editor',
+	cls: 'ergo-text-editor',
 	changeOnBlur: true,
 	events: {
 		'keypress': function(e, w) {

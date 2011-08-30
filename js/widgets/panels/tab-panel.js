@@ -12,7 +12,7 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 	
 	$html: function() { return '<div></div>'; },
 	
-	defaultCls: 'dino-tab-panel',
+	defaultCls: 'ergo-tab-panel',
 	
 	defaults: {
 		tabPosition: 'top',
@@ -21,7 +21,7 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 				weight: 1,
 				etype: 'tabs',
 				defaultItem: {
-					cls: 'dino-bg-3 dino-border-all',// dino-corner-top',
+					cls: 'ergo-bg-3 ergo-border-all',// ergo-corner-top',
 					content: {
 						etype: 'text-item'
 //						selectable: false
@@ -36,13 +36,13 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 			tabFooter: {
 				weight: 2,
 				etype: 'box',
-				cls: 'dino-tab-footer'// dino-border-top dino-border-bottom'// dino-border-no-bottom'
+				cls: 'ergo-tab-footer'// ergo-border-top ergo-border-bottom'// ergo-border-no-bottom'
 			},
 			pages: {
 				weight: 3,
 				etype: 'list',
 				layout: 'stack',
-				cls: 'dino-tab-pages',
+				cls: 'ergo-tab-pages',
 				defaultItem: {
 					
 				}

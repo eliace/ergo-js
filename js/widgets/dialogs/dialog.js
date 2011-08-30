@@ -13,7 +13,7 @@
 Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', /** @lends Ergo.widgets.Dialog.prototype */{
 	
 	defaults: {
-		baseCls: 'dino-dialog',
+		baseCls: 'ergo-dialog',
 		layout: 'window',
 //		renderTo: 'body',
 		components: {
@@ -45,9 +45,9 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 			'save': {text: 'Сохранить', tag: 'save'}
 		},
 		headerButtonSet: {
-			'close': {icon: 'dino-icon-dialog-close', tag: 'close'},
-			'minimize': {icon: 'dino-icon-dialog-minimize', tag: 'minimize'},
-			'maximize': {icon: 'dino-icon-dialog-maximize', tag: 'maximize'}
+			'close': {icon: 'ergo-icon-dialog-close', tag: 'close'},
+			'minimize': {icon: 'ergo-icon-dialog-minimize', tag: 'minimize'},
+			'maximize': {icon: 'ergo-icon-dialog-maximize', tag: 'maximize'}
 		},		
 		closeOnOuterClick: false,
 		closeOnEsc: false,

@@ -11,7 +11,7 @@ $.ergo({
       content: {
         components: {
           text: {
-            cls: 'dino-clickable',
+            cls: 'ergo-clickable',
             icon: true,
             components: {
               icon: {
@@ -30,7 +30,7 @@ $.ergo({
               e.dragContext.proxy = $.ergo({
                 etype: 'text',
                 text: this.getText(),
-                cls: 'dino-border-all',
+                cls: 'ergo-border-all',
                 style: {'background-color': '#fff'},
                 opacity: .7
               });
@@ -49,7 +49,7 @@ $.ergo({
         }    
       },
 //      states: {
-//        'dragged': 'dino-hidden'
+//        'dragged': 'ergo-hidden'
 //      }
     }
   },

@@ -7,7 +7,7 @@ var gridData = new Ergo.core.DataSource([]);
 var grid = $.ergo({
   renderTo: '.preview',
   etype: 'table-grid',
-  cls: 'dino-border-all dino-corner-all',
+  cls: 'ergo-border-all ergo-corner-all',
   width: 800,
   tableModel: {
     row: {
@@ -34,7 +34,7 @@ var grid = $.ergo({
       }
     },
     cell: {
-      cls: 'dino-border-none'
+      cls: 'ergo-border-none'
     },
     columns: [{
       content: {

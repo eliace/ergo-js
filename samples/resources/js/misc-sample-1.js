@@ -13,7 +13,7 @@ $.ergo({
   renderTo: '.preview',
   etype: 'panel',
   title: 'Заявка',
-  cls: 'dino-border-all',
+  cls: 'ergo-border-all',
   width: 210,
   data: requestObj,
   content: {

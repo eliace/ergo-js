@@ -18,7 +18,7 @@ Ergo.widgets.MessageBox = Ergo.declare('Ergo.widgets.MessageBox', 'Ergo.widgets.
 				components: {
 					icon: {
 						etype: 'icon',
-						cls: 'dino-messagebox-icon icon32'
+						cls: 'ergo-messagebox-icon icon32'
 					},
 					message: {
 						etype: 'box',
@@ -26,12 +26,12 @@ Ergo.widgets.MessageBox = Ergo.declare('Ergo.widgets.MessageBox', 'Ergo.widgets.
 							baseText: {
 								weight: 10,
 								etype: 'text',
-								cls: 'dino-messagebox-msg-base'								
+								cls: 'ergo-messagebox-msg-base'								
 							},
 							extText: {
 								weight: 20,
 								etype: 'text',
-								cls: 'dino-messagebox-msg-ext'								
+								cls: 'ergo-messagebox-msg-ext'								
 							}
 						}
 					}
@@ -47,9 +47,9 @@ Ergo.widgets.MessageBox = Ergo.declare('Ergo.widgets.MessageBox', 'Ergo.widgets.
 //			'cancel': {text: 'Отмена', tag: 'cancel'}
 		},
 		iconSet: {
-			'info': 'dino-icon-messagebox-info',
-			'critical': 'dino-icon-messagebox-critical',
-			'warning': 'dino-icon-messagebox-warning'
+			'info': 'ergo-icon-messagebox-info',
+			'critical': 'ergo-icon-messagebox-critical',
+			'warning': 'ergo-icon-messagebox-warning'
 		}
 	},
 		

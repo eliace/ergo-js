@@ -84,7 +84,7 @@ $.ergo({
           etype: 'box',
           width: 2,
           height: 24,
-          cls: 'dino-split',
+          cls: 'ergo-split',
           innerHtml: '&nbsp;'
         }*/
         '-']

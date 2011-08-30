@@ -12,7 +12,7 @@ Ergo.widgets.ContextMenu = Ergo.declare('Ergo.widgets.ContextMenu', 'Ergo.widget
 	
 	defaults: {
 //		hideOn: 'hoverOut',
-		baseCls: 'dino-context-menu',
+		baseCls: 'ergo-context-menu',
 //		renderTo: 'body',
 		menuModel: {
 			item: {

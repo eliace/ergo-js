@@ -94,13 +94,13 @@ $.ergo({
         style: {'margin': '0 3px'}
       }, {
         etype: 'box',
-        cls: 'dino-split',
+        cls: 'ergo-split',
         style: {'margin-left': '3px'},
         width: 2,
         height: 16
       }, {
         etype: 'icon',
-        cls: 'dino-icon-spinner-down'        
+        cls: 'ergo-icon-spinner-down'        
       }]
     }
   }, */{
@@ -141,7 +141,7 @@ $.ergo({
   }, {
     etype: 'dropdown-button',
 //    text: 'Location',
-    xicon: 'dino-icon-spinner-down',
+    xicon: 'ergo-icon-spinner-down',
     binding: function(obj) {
       this.opt('text', obj.name);
     },

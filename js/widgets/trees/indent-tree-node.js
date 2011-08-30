@@ -4,7 +4,7 @@
 
 Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 	
-	defaultCls: 'dino-list-tree-node',
+	defaultCls: 'ergo-list-tree-node',
 	
 	defaults: {
 		indent: 0,

@@ -1,6 +1,6 @@
 
 
-$('body > .dino-dropdown-box').remove();
+$('body > .ergo-dropdown-box').remove();
 
 
 var w = $.ergo({

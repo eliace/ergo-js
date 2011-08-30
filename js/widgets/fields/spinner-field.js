@@ -43,10 +43,10 @@ Ergo.declare('Ergo.widgets.SpinnerField', 'Ergo.widgets.TextField', {
 					}
         },
         items: [{
-          cls: 'dino-icon-spinner-up',
+          cls: 'ergo-icon-spinner-up',
           tag: 'up'
         }, {
-          cls: 'dino-icon-spinner-down',
+          cls: 'ergo-icon-spinner-down',
           tag: 'down'
         }]        
       }

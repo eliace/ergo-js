@@ -13,7 +13,7 @@ Ergo.containers.Tabs = Ergo.declare('Ergo.containers.Tabs', 'Ergo.containers.Lis
 	defaults: {
 		defaultItem: {
 			html: '<li/>',
-			cls: 'dino-tabs-item',
+			cls: 'ergo-tabs-item',
 			content: {
 				etype: 'text'
 			},
@@ -39,7 +39,7 @@ Ergo.containers.Tabs = Ergo.declare('Ergo.containers.Tabs', 'Ergo.containers.Lis
 		defaultIndex: 0
 	},
 	
-	defaultCls: 'dino-tabs',
+	defaultCls: 'ergo-tabs',
 	
 	$html: function() { return '<ul></ul>' },
 	

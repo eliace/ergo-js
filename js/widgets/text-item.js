@@ -13,7 +13,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 	$html: function() { return '<span></span>'; },	
 	
 	defaults: {
-		cls: 'dino-text-item',
+		cls: 'ergo-text-item',
 //		layout: 'dock',
 		layout: 'hbox',
 		components: {

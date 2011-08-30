@@ -78,7 +78,7 @@ $.ergo({
           var subtree = this.data.entry('children');
           
           if(!this.options.isLeaf && !subtree._fetched) {
-            this.content.text.opt('xicon', 'dino-icon-loader');
+            this.content.text.opt('xicon', 'ergo-icon-loader');
             
             e.cancel();
             
@@ -103,13 +103,13 @@ $.ergo({
 //          var self = this;
 //          if(val.is_ref) {
 ////            this.content.opt('showRightIcon', true);
-//            this.content.text.xicon.states.set('dino-icon-loader');
+//            this.content.text.xicon.states.set('ergo-icon-loader');
 //            setTimeout(function(){
 //              $.getJSON('ajax/tree_node.json', {}, function(data){
 //                self.data.set('children', [data]);
 //                val.is_ref = false;
 ////                self.content.opt('showRightIcon', false);
-//                self.content.text.xicon.states.clear('dino-icon-loader');
+//                self.content.text.xicon.states.clear('ergo-icon-loader');
 //              });              
 //            }, 400);
 //          }

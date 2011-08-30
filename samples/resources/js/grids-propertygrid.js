@@ -7,13 +7,13 @@ var gridData = new Ergo.core.DataSource();
 var propertyGrid = $.ergo({
   renderTo: '.preview',
   etype: 'table-grid',
-  cls: 'dino-border-all dino-corner-all',
+  cls: 'ergo-border-all ergo-corner-all',
   width: 400,
   height: 200,
 //  content: {
 //    style: {'font-size': '9pt'}
 //  },
-//  headerCls: 'dino-bg-highlight',
+//  headerCls: 'ergo-bg-highlight',
 //  headerModel: {
 //    cell: {
 //      cls: 'grid-header-cell'

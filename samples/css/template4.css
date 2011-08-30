@@ -35,11 +35,11 @@ body input {
 }
 
 
-.dino-split-bar {
+.ergo-split-bar {
 	cursor: col-resize;
 }
 
-.dino-split-bar:hover {
+.ergo-split-bar:hover {
 	background-color: #eee;
 }
 
@@ -54,7 +54,7 @@ body input {
 }
 
 
-.dino-tree-node.collapsed .icon-folder {
+.ergo-tree-node.collapsed .icon-folder {
 	background-image: url(../img/gnome-fs-directory.png);
 }
 
@@ -63,14 +63,14 @@ body input {
 	background-image: url(../img/gnome-fs-directory-accept.png);
 }
 */
-.dino-tree-node.expanded .icon-folder {
+.ergo-tree-node.expanded .icon-folder {
 	background-image: url(../img/gnome-fs-directory-accept.png);	
 }
 
 
 
 /*
-.dino-header-button {
+.ergo-header-button {
 	padding: 0;
 	border: 1px solid transparent;
 	margin-right: 3px;
@@ -78,7 +78,7 @@ body input {
 }
 */
 
-.dino-header-button:hover {
+.ergo-header-button:hover {
 	border: 1px solid #aaa;
 }
 

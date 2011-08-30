@@ -6,7 +6,7 @@ var grid = $.ergo({
   
   data: [],
   
-  cls: 'dino-border-all',
+  cls: 'ergo-border-all',
   height: 300,
   width: 800,
   
@@ -15,7 +15,7 @@ var grid = $.ergo({
       etype: 'pager',
       count: 200,
       pageSize: 40,
-      cls: 'dino-border-top',
+      cls: 'ergo-border-top',
       onIndexChanged: function(e) {
         // генерируем данные и добавляем их в источник данных виджета
         var data_page = Samples.generate_grid_page(e.from, e.to);
@@ -57,7 +57,7 @@ var grid = $.ergo({
 //      width: 60
     }, {
       dataId: 'icon',
-      cls: 'silk-icon dino-clickable',
+      cls: 'silk-icon ergo-clickable',
       width: 30,
       binding: function(val) { this.states.set('silk-icon-'+val); },
     }/*, {

@@ -3,12 +3,12 @@
  * TEXT ITEM
  */
 
-.dino-text-item {
+.ergo-text-item {
 	position: relative;
 	cursor: default;
 }
 
-.dino-text-item span {
+.ergo-text-item span {
 	margin: 0 3px;
 }
 

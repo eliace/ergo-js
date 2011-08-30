@@ -201,7 +201,7 @@ $.ergo({
   title: 'Group',
   renderTo: '.preview',
   
-  cls: 'dino-border-all',
+  cls: 'ergo-border-all',
   
   
   components: {
@@ -209,7 +209,7 @@ $.ergo({
       // state: 'hidden'
     // },
     toolbar: {
-      cls: 'dino-border-bottom',
+      cls: 'ergo-border-bottom',
       defaultItem: {
         cls: 'plain'
       }
@@ -244,16 +244,16 @@ $.ergo({
       columns: [{
         dataId: 'id',
         header: 'ID',
-        cls: 'dino-default-column',
+        cls: 'ergo-default-column',
         width: 60
       }, {
         dataId: 'name',
         header: 'Name',
-        cls: 'dino-text-column',
+        cls: 'ergo-text-column',
       }, {
         dataId: 'value',
         header: 'Value',
-        cls: 'dino-numeric-column',
+        cls: 'ergo-numeric-column',
         width: 100
       }]      
     }
@@ -282,14 +282,14 @@ $.ergo({
             // },
             // columns: [{
               // dataId: 'id',
-              // cls: 'dino-default-column',
+              // cls: 'ergo-default-column',
               // width: 60
             // }, {
               // dataId: 'name',
-              // cls: 'dino-text-column',
+              // cls: 'ergo-text-column',
             // }, {
               // dataId: 'value',
-              // cls: 'dino-numeric-column',
+              // cls: 'ergo-numeric-column',
               // width: 100
             // }]            
           // }
@@ -331,11 +331,11 @@ $.ergo({
   etype: 'box',
   renderTo: '.preview',
   width: 500,
-  cls: 'dino-border-all dino-corner-all',
+  cls: 'ergo-border-all ergo-corner-all',
   components: {
     header: {
       etype: 'table',
-      cls: 'dino-bg-highlight',
+      cls: 'ergo-bg-highlight',
       width: '100%',
       headerModel: {
         cell: {
@@ -349,7 +349,7 @@ $.ergo({
       data: gridData,
       dynamic: true,
       height: 300,//'auto',
-      cls: 'dino-grid-content',
+      cls: 'ergo-grid-content',
       defaultItem: {
         components: {
           title: {
@@ -375,14 +375,14 @@ $.ergo({
               },
               columns: [{
                 dataId: 'id',
-                cls: 'dino-default-column',
+                cls: 'ergo-default-column',
                 width: 60
               }, {
                 dataId: 'name',
-                cls: 'dino-text-column',
+                cls: 'ergo-text-column',
               }, {
                 dataId: 'value',
-                cls: 'dino-numeric-column',
+                cls: 'ergo-numeric-column',
                 width: 100
               }]
             }

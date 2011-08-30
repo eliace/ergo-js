@@ -9,7 +9,7 @@ Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.
 	aaa: 'TextButton',
 	
 	defaults: {
-		cls: 'dino-text-button',
+		cls: 'ergo-text-button',
 		layout: 'hbox',
 		components: {
 			icon: {

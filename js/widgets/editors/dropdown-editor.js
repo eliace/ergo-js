@@ -17,7 +17,7 @@ Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 			},			
       button: {
         etype: 'action-icon',
-        cls: 'dino-clickable',
+        cls: 'ergo-clickable',
 				role: 'actor',
 				onAction: function() {
 					this.parent.showDropdown();
@@ -26,7 +26,7 @@ Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 			dropdown: {
 	      etype: 'dropdown-box',
 //				renderTo: 'body',
-	      cls: 'dino-border-all dino-dropdown-shadow',
+	      cls: 'ergo-border-all ergo-dropdown-shadow',
 //				style: {'display': 'none'},
 				content: {
 					etype: 'list-view',

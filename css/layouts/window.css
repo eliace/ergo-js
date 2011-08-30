@@ -16,13 +16,13 @@
 	top: 50%;	
 }
 
-[layout='window'] > .dino-window-content {
+[layout='window'] > .ergo-window-content {
 	height: 100%;
 }
 
 
 
-[layout='window'] > .dino-overlay {
+[layout='window'] > .ergo-overlay {
 	background-color: black;
 	position: absolute;
 	left: 0;
@@ -32,7 +32,7 @@
 	z-index: 1000;
 }	
 
-[layout='window'] > .dino-window {
+[layout='window'] > .ergo-window {
 	position: absolute;
 	z-index: 1100;
 	background-color: #fff;

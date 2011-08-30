@@ -1,6 +1,6 @@
 
 
-.dino-text-editor {
+.ergo-text-editor {
 	outline: none;
 	margin: 0;
 	padding: 0;
@@ -10,6 +10,6 @@
 	overflow: hidden;
 }
 
-.dino-text-editor.focus {
+.ergo-text-editor.focus {
 	border-color: #68f;	
 }

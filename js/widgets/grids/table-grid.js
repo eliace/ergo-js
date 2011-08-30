@@ -13,7 +13,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			header: {
 				etype: 'box',
 				weight: 10,
-				cls: 'dino-grid-header',
+				cls: 'ergo-grid-header',
 				layout: {
 					etype: 'plain-layout',
 					html: '<div style="overflow-x: hidden"/>'
@@ -26,7 +26,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					binding: false,
 					headerModel: {
 						cell: {
-							cls: 'dino-grid-h-cell',
+							cls: 'ergo-grid-h-cell',
 							layout: {
 								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
@@ -95,10 +95,10 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					etype: 'grid',
 					gridModel: {
 						row: {
-							cls: 'dino-grid-row'
+							cls: 'ergo-grid-row'
 						},
 						cell: {
-							cls: 'dino-grid-cell',
+							cls: 'ergo-grid-cell',
 							layout: {
 								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
@@ -108,7 +108,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					components: {
 						cols: {
 							defaultItem: {
-								cls: 'dino-grid-cell'
+								cls: 'ergo-grid-cell'
 							}
 						}
 					}					

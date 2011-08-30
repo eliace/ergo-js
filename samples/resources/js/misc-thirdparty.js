@@ -11,7 +11,7 @@ $.ergo({
     html: '<div>Autocomplete (<a href="https://github.com/agarzola/jQueryAutocompletePlugin">https://github.com/agarzola/jQueryAutocompletePlugin</a>)</div>'
   }, {
     etype: 'text-field',
-    cls: 'dino-form-field',
+    cls: 'ergo-form-field',
     data: '',
     onCreated: function() {
       this.input.el.autocomplete(acData);
@@ -23,7 +23,7 @@ $.ergo({
     html: '<div>Datepicker (<a href="http://keith-wood.name/datepick.html">http://keith-wood.name/datepick.html</a>)</div>'    
   }, {
     etype: 'text-field',
-    cls: 'dino-form-field',
+    cls: 'ergo-form-field',
     data: '',
     components: {
       button: {

@@ -17,7 +17,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 		initialWidth: 200,
 		initialHeight: 200,
 		updateMode: 'manual',
-		html: '<div class="dino-window-content"/>'
+		html: '<div class="ergo-window-content"/>'
 	},
 	
 	
@@ -26,7 +26,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 		
 		var o = this.options;
 		
-		this.overlay_el = $('<div class="dino-overlay" autoheight="ignore"></div>');
+		this.overlay_el = $('<div class="ergo-overlay" autoheight="ignore"></div>');
 						
 		this.overlay_el.mousedown(function(e){ e.preventDefault(); return false; });
 		

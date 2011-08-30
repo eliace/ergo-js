@@ -9,14 +9,14 @@ $.ergo({
   renderTo: '.preview',
   title: 'List tree',
 
-  cls: 'dino-border-all',
+  cls: 'ergo-border-all',
 
   width: 400,
   height: 300,
   
   content: {
     etype: 'tree',
-    cls: 'tree-list dino-text-content',
+    cls: 'tree-list ergo-text-content',
     
     data: treeData,
     

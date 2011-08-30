@@ -26,7 +26,7 @@ Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.TextEditor', {
         etype: 'list',
 				role: 'actor',
         defaultItem: {
-          cls: 'dino-clickable',
+          cls: 'ergo-clickable',
           etype: 'action-icon',
           style: {'display': 'block', 'border': 'none', 'padding': 0},
           height: 8,
@@ -44,10 +44,10 @@ Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.TextEditor', {
 					}
         },
         items: [{
-          cls: 'dino-icon-spinner-up',
+          cls: 'ergo-icon-spinner-up',
           tag: 'up'
         }, {
-          cls: 'dino-icon-spinner-down',
+          cls: 'ergo-icon-spinner-down',
           tag: 'down'
         }]        
       }

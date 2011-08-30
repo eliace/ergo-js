@@ -10,7 +10,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 	$html: function() {return '<div/>';},
 	
 	defaults: {
-		cls: 'dino-field',
+		cls: 'ergo-field',
 		layout: 'hbox',
     components: {
       input: {

@@ -80,7 +80,7 @@ $(document).ready(function(){
 				items: [{
 					etype: 'box',
 					region: 'west',
-					cls: 'dino-border-all',
+					cls: 'ergo-border-all',
 					width: 200,
 					style: {'background-color': '#fff', 'overflow': 'auto'},
 					height: 'auto',
@@ -98,7 +98,7 @@ $(document).ready(function(){
 											icon: true,
 											xicon: true,
 			      					dataId: 'name',
-											cls: 'dino-clickable',
+											cls: 'ergo-clickable',
 	//										extensions: [Ergo.Clickable],
 	//										state: 'clickable',
 											onClick: function() {
@@ -152,7 +152,7 @@ $(document).ready(function(){
 					tag: 'preview_and_code',
 					height: 'auto',
 					
-					cls: 'dino-border-all preview-and-code',
+					cls: 'ergo-border-all preview-and-code',
 					style: {'padding': 5},
 					
 					content: {
@@ -168,7 +168,7 @@ $(document).ready(function(){
 								}
 							}
 						},
-						pagesCls: 'dino-border-all dino-border-no-top',
+						pagesCls: 'ergo-border-all ergo-border-no-top',
 						pages: [{
 							tab: {text: 'View', icon: 'silk-icon-eye'},
 							cls: 'preview',
@@ -191,14 +191,14 @@ $(document).ready(function(){
 					items: [{
 						etype: 'box',
 						tag: 'preview',
-						cls: 'dino-border-all preview',
+						cls: 'ergo-border-all preview',
 						height: 'auto',
 						style: {'padding': '3px', 'overflow': 'auto'}
 					}, {
 						etype: 'box',
 						tag: 'code',
 						region: 'south',
-//						cls: 'dino-border-all',
+//						cls: 'ergo-border-all',
 						style: {'height': 200},
 //						height: 200,
 						content: {
@@ -218,8 +218,8 @@ $(document).ready(function(){
 							        layout: 'float',
 							        defaultItem: {
 							          etype: 'icon-button',
-							          cls: 'dino-header-button dino-corner-all',
-							          contentCls: 'dino-icon-dialog',
+							          cls: 'ergo-header-button ergo-corner-all',
+							          contentCls: 'ergo-icon-dialog',
 							          onAction: function(){
 							            if(this.tag == 'collapse') {
 														var panel = this.getParent('codePanel');
@@ -247,7 +247,7 @@ $(document).ready(function(){
 							          tag: 'collapse',
 							          content: {
 							            states: {
-							              'exp_col': ['dino-icon-dialog-collapse', 'dino-icon-dialog-expand']
+							              'exp_col': ['ergo-icon-dialog-collapse', 'ergo-icon-dialog-expand']
 							            }
 							          }
 							        }]
@@ -264,7 +264,7 @@ $(document).ready(function(){
 										style: {'background-color': '#fff'}
 									}
 								},
-								pagesCls: 'dino-border-all dino-border-no-top',
+								pagesCls: 'ergo-border-all ergo-border-no-top',
 								pages: [{
 									tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 									cls: 'js-page',

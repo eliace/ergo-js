@@ -4,7 +4,7 @@ var _growl = $.ergo({
   renderTo: 'body',
   hideOnTimeout: true
 //  defaultItem: {
-//    cls: 'dino-dropdown-shadow'    
+//    cls: 'ergo-dropdown-shadow'    
 //  }
 });
 
@@ -19,35 +19,35 @@ $.ergo({
       if(this.tag == 'message') {
         _growl.items.add({
           message: Samples.loremipsum,
-          icon: 'dino-icon-growlbox-info',
+          icon: 'ergo-icon-growlbox-info',
           state: 'info'
         });
       }
       else if(this.tag == 'warning') {
         _growl.items.add({
           message: Samples.loremipsum,
-          icon: 'dino-icon-growlbox-warning',
+          icon: 'ergo-icon-growlbox-warning',
           state: 'warning'
         });
       }
       else if(this.tag == 'success') {
         _growl.items.add({
           message: Samples.loremipsum,
-          icon: 'dino-icon-growlbox-success',
+          icon: 'ergo-icon-growlbox-success',
           state: 'success'
         });
       }
       else if(this.tag == 'error') {
         _growl.items.add({
           message: Samples.loremipsum,
-          icon: 'dino-icon-growlbox-critical',
+          icon: 'ergo-icon-growlbox-critical',
           state: 'critical'
         });
       }
       else if(this.tag == 'prompt') {
         _growl.items.add({
           message: 'Нажмите "Да" для подтверждения и "Нет" для отмены.',
-          icon: 'dino-icon-growlbox-info',
+          icon: 'ergo-icon-growlbox-info',
           state: 'info',
           buttons: ['yes', 'no'],
           buttonSet: {
@@ -61,7 +61,7 @@ $.ergo({
       else if(this.tag == 'html') {
         _growl.items.add({
           htmlMessage: '<div style="font-size: 2em; color: red">Hello!</div>',
-          icon: 'dino-icon-growlbox-info',
+          icon: 'ergo-icon-growlbox-info',
           state: 'info'
         });
       }
