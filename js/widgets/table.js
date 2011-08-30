@@ -194,7 +194,7 @@ Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widge
 //		var h = this._editor.el.parent().height();
 //		this._editor.el.height(h - dh);
 //
-//		this._editor.$bind(this.data);
+//		this._editor.bind(this.data);
 //		this._editor.$dataChanged(); // явно вызываем обновление данных
 //		this._editor.el.focus();
 //		this._editor.el.select();

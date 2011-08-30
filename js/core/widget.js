@@ -1,11 +1,8 @@
 
-//= require "events"
 //= require "data-source"
-//= require "collection"
 //= require "states"
 //= require <layouts/plain>
-//= require "utils"
-//= require "component-collection"
+//= require "widget-collection"
 
 
 
@@ -21,7 +18,7 @@ Ergo.validators = {};
  * Базовый объект для всех виджетов
  * 
  * @class
- * @extends Ergo.events.Observer
+ * @extends Ergo.core.Object
  * @param {Object} o параметры
  */
 Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
@@ -125,7 +122,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.$bind(o.data);	
+		this.bind(o.data);
 		
 		this.$afterBuild();
 		
@@ -147,7 +144,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		var o = this.options;
 		
-		this.components = new Ergo.core.ComponentCollection(this);
+		this.components = new Ergo.core.WidgetCollection(this);
 		
 //		this.components = this.collection; //new Ergo.core.Collection();		
 		
@@ -233,6 +230,19 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 //		if(this.options.debug)	console.log('destroyed');
 	},
+	
+	
+	
+	// factory: function(item) {
+		// if(!(item instanceof Ergo.core.Widget)) {
+			// item = this.options.componentFactory.call(this, item);
+		// }
+		// return item;
+	// },
+	
+	
+	
+	
 	
 	/**
 	 * Хук, вызываемый для определения тэга, на основе которого будет построен виджет
@@ -559,7 +569,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		var parents = this.getParents();
 		
-		return Ergo.find(parents, Ergo.utils.widget_filter(i));
+		return Ergo.find(parents, Ergo.filters.by_widget(i));
 	},
 	
 	
@@ -580,7 +590,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @param {Ergo.data.DataSource|Any} data данные
 	 * @param {Integer} phase
 	 */
-	$bind: function(data, update, phase) {
+	bind: function(data, update, phase) {
 				
 		var o = this.options;
 		
@@ -620,14 +630,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //			console.log(self.data.val());
 //			// связываем данные с дочерними компонентами виджета
 //			self.children.each(function(child){
-//				if(child.dataPhase != 1) child.$bind(self.data, 2);
+//				if(child.dataPhase != 1) child.bind(self.data, 2);
 //			});
 		}, this);
 		
 	
 		// связываем данные с дочерними компонентами виджета
 		this.children.each(function(child){
-			if(child.dataPhase != 1) child.$bind(self.data, false, 2);
+			if(child.dataPhase != 1) child.bind(self.data, false, 2);
 		});
 		
 		if(update) this.$dataChanged();

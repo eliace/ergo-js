@@ -102,7 +102,7 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', 
 	
 	setCount: function(count) {
 		this.total_size = count;
-		this.item('num_pages').opt('innerText', 'из ' + Math.ceil(this.total_size/this.page_size));		
+		this.item({tag: 'num_pages'}).opt('innerText', 'из ' + Math.ceil(this.total_size/this.page_size));		
 	},
 	
 	getCount: function() {
@@ -116,7 +116,7 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', 
 		
 		if(i0 >= 0 && i0 < this.total_size){
 			this.offset = i0;
-			this.item('current_page').opt('value', i+1);
+			this.item({tag: 'current_page'}).opt('value', i+1);
 			this.events.fire('onIndexChanged', {from: i0, to: i1});
 			return true;
 		}

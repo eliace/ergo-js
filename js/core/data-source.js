@@ -2,8 +2,14 @@
 //= require "events"
 
 
-
-Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
+/**
+ * Источник данных
+ * 
+ * @class
+ * @extends Ergo.core.Object
+ * 
+ */
+Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 	
 	defaults: {
 		extensions: [Ergo.Observable],
@@ -27,17 +33,23 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 		
 		var self = this;
 		var o = this.options;
-		var val = this._val();
+		var val = this.val();
 		
 		this.entries = $.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
 		
 		if(!o.lazy) {
-			Ergo.each(val, function(v, i){	self.ensure_entry(i); });
+			Ergo.each(val, function(v, i){	self.ensure(i); });
 		}
 		
 	},
 	
 	
+	/**
+	 * Получение вложенного элемента данных по ключу
+	 * 
+	 * @param {String|Any} i ключ
+	 * @return {Ergo.core.DataSource} элемент данных
+	 */
 	entry: function(i) {
 		
 		var e = this;
@@ -50,33 +62,52 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 			for(var j = 0; j < a.length; j++) e = e.entry(a[j]);
 		}
 				
-		return e.ensure_entry(i);
+		return e.ensure(i);
 	},
 	
 	
-	create_entry: function(i) {
+	/**
+	 * Фабрика вложенных элементов
+	 * 
+	 * По умолчанию используется класс Ergo.core.DataSource
+	 * 
+	 * @param {Any} i ключ
+	 * 
+	 */
+	factory: function(i) {
 		return new Ergo.core.DataSource(this, i);		
 	},
 	
-	
-	ensure_entry: function(i) {
+	/**
+	 * Получение вложенного элемента данных по ключу. Причем, если элемента данных не существует, то он будет создан
+	 * 
+	 * @param {Any} i ключ
+	 */
+	ensure: function(i) {
 		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
 		if(!this.entries.has_key(i)) {
-			this.entries.set(i, this.create_entry(i));
+			this.entries.set(i, this.factory(i));
 		}
 		
 		return this.entries.get(i);
 	},
 	
 	
-	
-	_val: function(v) {
+	/**
+	 * Получение значения источника данных
+	 * 
+	 * Если метод вызывается без аргументов, то он ведет себя как геттер.
+	 * Если определен аргумент, то метод является сеттером.
+	 * 
+	 * @param {Any} [v] значение
+	 */
+	val: function(v) {
 //		if('_cached' in this) return this._cached;
 //		var v = undefined;
 
 		if(arguments.length == 0) {
 			if(this.source instanceof Ergo.core.DataSource){
-				v = ('id' in this) ? this.source._val()[this.id]: this.source._val();
+				v = ('id' in this) ? this.source.val()[this.id]: this.source.val();
 			}
 			else{
 				v = ('id' in this) ? this.source[this.id] : this.source;
@@ -84,7 +115,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 		} 
 		else {
 			if (this.source instanceof Ergo.core.DataSource) {
-				('id' in this) ? this.source._val()[this.id] = v : this.source._val(v);
+				('id' in this) ? this.source.val()[this.id] = v : this.source.val(v);
 	  	}
 			else {
 				('id' in this) ? this.source[this.id] = v : this.source = v;
@@ -95,37 +126,57 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	},
 	
 	
-	// получаем значение
+	/**
+	 * Получение значения атрибута/элемента по ключу
+	 *
+	 * Если ключ не указан или не определен, то берется значение самого источника данных
+	 * 
+	 * @param {Any} [i] ключ
+	 */
 	get: function(i) {
 		if(i === undefined)
-			return this._val();
+			return this.val();
 		else{
-			return this.entry(i)._val();			
+			return this.entry(i).val();			
 		}
 	},
 	
-	
+	/**
+	 * Полная копия значения
+	 * 
+	 * @param {Any} i ключ
+	 */
 	copy: function(i) {
 		return Ergo.deep_copy(this.get(i));
 	},
 	
-	// устанавливаем значение
+	
+	
+	/**
+	 * Установка значения атрибута/элемента по ключу
+	 * 
+	 * Если аргумент один, то изменяется значение самого источника данных
+	 * 
+	 * @param {Any} [i] ключ
+	 * @param {Any} val новое значение
+	 * 
+	 */
 	set: function(i, newValue) {
 		if(arguments.length == 1) {
 			newValue = i;
 			// опустошаем список элементов
 			this.entries.apply_all('destroy');
 			
-			var oldValue = this._val();
+			var oldValue = this.val();
 			
 			// if (this.source instanceof Ergo.core.DataSource) {
-				// ('id' in this) ? this.source._val()[this.id] = newValue : this.source.set(newValue);
+				// ('id' in this) ? this.source.val()[this.id] = newValue : this.source.set(newValue);
 	  	// }
 			// else {
 				// ('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 			// }
 			
-			this._val(newValue);
+			this.val(newValue);
 
 			this.events.fire('onValueChanged', {'oldValue': oldValue, 'newValue': newValue});
 			
@@ -141,9 +192,18 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	},
 	
 	
+	
+	/**
+	 * Добавление нового атрибута/элемента
+	 * 
+	 * 
+	 * @param {Any} value значение нового атрибута
+	 * @param {String|Number} [index] индекс или ключ, куда должен быть добавлен атрибут 
+	 * 
+	 */
 	add: function(value, index) {
 		
-		var values = this._val();		
+		var values = this.val();		
 		
 		var isLast = false;
 			
@@ -167,7 +227,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 				// добавляем новый элемент массива
 				values.splice(index, 0, value);
 
-				this.entries.set(index, this.create_entry(index));
+				this.entries.set(index, this.factory(index));
 				
 			}
 			
@@ -186,17 +246,24 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 	},
 	
 	
-	
+	/**
+	 * Удаление атрибута/элемента из источника данных.
+	 * 
+	 * Если метод вызывается без аргументов, то удаляется сам источник данных из родительского
+	 * 
+	 * @param {String|Number} i ключ
+	 * 
+	 */
 	del: function(i) {
 		
 		if(i === undefined) {
 			if(this.source instanceof Ergo.core.DataSource)
 				this.source.del(this.id);
 			else
-				throw new Error('Cannot delete root data source');
+				throw new Error('Unable to delete root data source');
 		}
 		else {
-			var value = this._val();
+			var value = this.val();
 
 			var deleted_entry = this.entries.remove_at(i);
 			var deleted_value = value[i];
@@ -215,11 +282,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 				
 	},
 	
-		
+	
+	/**
+	 * Последовательный обход всех вложенных элементов с поддержкой фильтрации
+	 * 
+	 * @param {Function} callback 
+	 * 
+	 */
 	iterate: function(callback) {
 		
 		var self = this;
-		var values = this._val();		
+		var values = this.val();		
 		
 		var keys = [];
 		if($.isArray(values)) {
@@ -234,7 +307,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 			keys = this.options.filter.call(this, values, keys);
 		}
 		
-		for(var i in keys){
+		for(var i = 0; i < keys.length; i++){
 			var k = keys[i];
 			callback.call(this, this.entry(k), k, values[k]);			
 		}
@@ -246,13 +319,18 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', {
 		//TODO
 	},
 	
-	
+	/**
+	 * Проверка, изменялся ли источник данных или хотя бы один из его атрибутов/элементов
+	 */
 	changed: function() {
 		if(this._changed) return true;
 		var found = this.entries.find(function(e){ return e.changed(); });
 		return found != null;
 	},
 
+	/*
+	 * Удаление состояния о том, что источник данных или его атрибуты изменялись
+	 */
 	clean: function() {
 		this._changed = false;
 		this.entries.apply_all('clean');

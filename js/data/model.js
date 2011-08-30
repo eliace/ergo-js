@@ -14,7 +14,7 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 	},
 	
 	oid: function() {
-		return this._val()[this.options.oidKey];
+		return this.val()[this.options.oidKey];
 	},
 	
 	
@@ -33,7 +33,7 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 		return (this.format) ? this.format.call(this, v) : v;
 	},
 	
-	create_entry: function(i) {
+	factory: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
@@ -44,8 +44,8 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 		 */		
 		
 		var model = this.fields[i]
-//		if($.isFunction(model)) model = model.call(this, this._val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this._val()[i]);
+//		if($.isFunction(model)) model = model.call(this, this.val()[i]);
+		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.val()[i]);
 		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 		return new model(this, i);

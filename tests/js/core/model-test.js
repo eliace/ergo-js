@@ -18,7 +18,7 @@ test('core/model', function(){
 			'age': PositiveInteger
 		},
 		print: function() {
-			return this._val()['name'];
+			return this.val()['name'];
 		}
 	});
 	

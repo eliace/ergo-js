@@ -53,13 +53,25 @@ Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.eve
 
 
 
-Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
+/*
+ * Диспетчер событий
+ * 
+ * @class
+ * @extends Ergo.core.Object
+ * 
+ */
+Ergo.events.Dispatcher = Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
 	initialize: function(target) {
 		this.events = {}; 
 		this.target = target;
 	},
 	
+	/**
+	 * Регистрируем событие.
+	 * 
+	 * reg(type, callback, target)
+	 */
 	reg: function(type, callback, target) {
 		if(!(type in this.events)) this.events[type] = [];//new Ergo.core.Array();
 		var h_arr = this.events[type];
@@ -67,6 +79,9 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
 		return this;
 	},
 	
+	/**
+	 * Однократная обработка события
+	 */
 	once: function(type, callback, target) {
 		if(!(type in this.events)) this.events[type] = [];
 		var h_arr = this.events[type];
@@ -74,6 +89,14 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
 		return this;
 	},
 	
+	/**
+	 * Убираем регистрацию события.
+	 * 
+	 * unreg(type)
+	 * unreg(callback)
+	 * unreg(type, callback)
+	 * unreg(target)
+	 */
 	unreg: function(arg, arg2) {
 		
 		var events = this.events;
@@ -105,6 +128,14 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
 		this.events = {};
 	},
 	
+	/**
+	 * Инициируем событие.
+	 * 
+	 * fire(type, event)
+	 * 
+	 * type - тип события в формате тип_1.тип_2 ... .тип_N
+	 * 
+	 */
 	fire: function(type, e, baseEvent) {
 		
 		// "ленивая" генерация базового события

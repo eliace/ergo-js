@@ -59,7 +59,7 @@ var propertyGrid = $.ergo({
               }
             },
             binding: function(val) {
-              this.dropdown.$bind(this.data.source.entry('value_list'));
+              this.dropdown.bind(this.data.source.entry('value_list'));
             },
             dropdownOnFocus: true
           });

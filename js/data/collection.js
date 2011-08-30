@@ -10,14 +10,14 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 	
 	
 	getByOID: function(oid) {
-		var a = this._val();
+		var a = this.val();
 		for(var i in a)
 			if(a[i].id == oid) return a[i];
 		return null;
 	},
 	
 	
-	create_entry: function(i) {
+	factory: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
@@ -28,8 +28,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 		 */
 		
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
-//		if($.isFunction(model)) model = model.call(this, this._val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this._val()[i]);
+//		if($.isFunction(model)) model = model.call(this, this.val()[i]);
+		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.val()[i]);
 		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 		return new model(this, i); 

@@ -32,7 +32,7 @@ Ergo.Editable = function(o) {
 		
 		this._editor.$layoutChanged();
 
-		this._editor.$bind(this.data);
+		this._editor.bind(this.data);
 //		this._editor.$dataChanged(); // явно вызываем обновление данных
 		if(this._editor.is(Ergo.Focusable)) {
 			this._prev_focus = Ergo.Focusable.focusManager.current;

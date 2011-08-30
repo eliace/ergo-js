@@ -58,7 +58,7 @@ end
 def compose_files(dest, source_files)
 	
 #	ver = %x[git tag -l].split.last
-	ver = '0.7'
+	ver = '0.7.1'
 	
 #	@name = 'ergoo-' + ver
 	js_name = "ergo-js.js" #"ergo-#{ver}.js"
@@ -165,6 +165,13 @@ end
 
 
 
+def generate_doc(source)
+  js_file = Dir.pwd + '/' + source
+  doc_dir = Dir.pwd + '/docs'
+  Dir.chdir 'tools/jsdoc-toolkit'
+  puts %x[java -jar jsrun.jar app/run.js -t=templates/codeview_1.2 -d=#{doc_dir} -p #{js_file}]
+end
+
 
 
 task :compose do
@@ -193,6 +200,11 @@ task :compose_custom, :target_dir, :paths do |t, args|
 	
 	
 end
+
+
+task :doc do
+  generate_doc 'build/ergo-js.js'
+end 
 
 
 

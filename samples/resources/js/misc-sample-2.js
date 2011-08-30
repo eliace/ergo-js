@@ -36,12 +36,12 @@ $.ergo({
       updateView: function() {
         this.content.el.attr('src', news[news_index].href);
         
-        this.contentSelector.items.get(0).$dataChanged();
-        this.contentSelector.items.get(1).selection.add( this.contentSelector.items.get(1).items.get(news_index) );
+        this.contentSelector.item(0).$dataChanged();
+        this.contentSelector.item(1).selection.add( this.contentSelector.item(1).items.get(news_index) );
       },
       changeView: function(tag) {
-        this.toolbar.selection.add(this.toolbar.items.find(tag));
-        this.contentSelector.layout.activate(tag);        
+        this.toolbar.selection.add(this.toolbar.item({'tag': tag}));
+        this.contentSelector.setActive({'tag': tag});
       }
     }],
     
@@ -60,7 +60,7 @@ $.ergo({
           style: {'margin': 0},
           cls: 'dino-border-all',
           onAction: function() {
-            this.getParent('widget-2').changeView(this.tag);
+            this.getParent({tag: 'widget-2'}).changeView(this.tag);
           }
         },
         items: [{
@@ -110,7 +110,7 @@ $.ergo({
             onAction: function() {
               if(news_index > 0) {
                 news_index--;
-                this.getParent('widget-2').updateView();
+                this.getParent({tag: 'widget-2'}).updateView();
               }
             }
           }, {
@@ -120,7 +120,7 @@ $.ergo({
             onAction: function() {
               if(news_index+1 < news.length) {
                 news_index++;
-                this.getParent('widget-2').updateView();
+                this.getParent({tag: 'widget-2'}).updateView();
               }
             }
           }]
@@ -135,7 +135,7 @@ $.ergo({
             dataId: 'name',
             onAction: function() {
               news_index = this.data.source.id;
-              this.getParent('widget-2').updateView();
+              this.getParent({tag: 'widget-2'}).updateView();
             }
           }
         }]

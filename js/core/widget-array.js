@@ -2,8 +2,17 @@
 //= require "array"
 
 
-
-Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
+/*
+ * Массив виджетов
+ * 
+ * 
+ * @class
+ * @name Ergo.core.WidgetArray
+ * @extends Ergo.core.Array
+ * 
+ * 
+ */
+Ergo.core.WidgetArray = Ergo.declare('Ergo.core.WidgetArray', 'Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
 	
 	defaults: {
 		extensions: [Ergo.Observable]
@@ -14,7 +23,7 @@ Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
 	
 	
 	initialize: function(w, o) {
-		Ergo.core.ItemCollection.superclass.initialize.call(this, null, o);
+		Ergo.core.WidgetArray.superclass.initialize.call(this, null, o);
 		
 		this.widget = w;
 	},
@@ -27,25 +36,28 @@ Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
 		
 		var w = this.widget;
 		
-		if(!(item instanceof Ergo.core.Widget)) {
+//		item = w.factory(item);
+
+		if(!(item instanceof Ergo.core.Widget))
 			item = w.options.itemFactory.call(w, item);
-		}
+
 		
-		item.parent = this.widget;
+		item.parent = w;
 		
 		// выполняем автобиндинг
 		if(w.data && !item.data)
-			item.$bind(w.data, false, 2);
+			item.bind(w.data, false, 2);
 		
 		//FIXME здесь может возникать ошибка, когда children не совпадает с items
 		w.children.add(item, i);
 		w.layout.insert(item, this.src[i]);
 
-		i = Ergo.core.ItemCollection.superclass.add.call(this, item, i);		
+		i = Ergo.core.WidgetArray.superclass.add.call(this, item, i);		
 		
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
 		
+		//FIXME скорее всего вызов метода show должен находиться не здесь
 		if(('show' in item) && item.options.showOnRender) item.show();
 		
 		return item;
@@ -53,7 +65,7 @@ Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
 	},
 	
 	remove_at: function(i) {
-		var item = Ergo.core.ItemCollection.superclass.remove_at.call(this, i);
+		var item = Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
 		
 		var w = this.widget;		
 		
@@ -70,11 +82,6 @@ Ergo.declare('Ergo.core.ItemCollection', 'Ergo.core.Array', {
 		return item;
 	},
 	
-	remove_all: function() {
-		while(this.src.length)
-			this.remove_at(0);
-	},
-
 	destroy_all: function() {
 		while(this.src.length)
 			this.remove_at(0).destroy();

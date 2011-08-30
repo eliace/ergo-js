@@ -1,9 +1,16 @@
 
+//= require "object"
+
 /**
- * Коллекция неупорядоченных пар вида <ключ/значение>
+ * Коллекция пар ключ/значение
+ *
+ * Представляет собой обертку для объектов javascript-класса Object
  * 
+ * @class
+ * @extends Ergo.core.Object
+ *  
  */
-Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
+Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
 		extensions: [Ergo.Observable]
@@ -42,7 +49,7 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 	/**
 	 * Добавление нового значения
 	 * @param {Object} item значение
-	 * @param {Object} i ключ (необязательно)
+	 * @param {Object} [i] ключ
 	 * 
 	 * Аналогично по работе методу set
 	 */
@@ -53,10 +60,13 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 	
 	/**
 	 * Удаление значения
+	 *
+	 * Для удаления используется метод remove_at
+	 *
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		this.remove_at(this.index_of(item));
+		this.remove_at(this.key_of(item));
 		return item;
 	},
 
@@ -73,6 +83,9 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 	
 	/**
 	 * Удаление значения по условию
+	 *
+	 * Для удаления используется метод remove_at
+	 *
 	 * @param {Object} criteria функция-условие
 	 * 
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true 
@@ -82,6 +95,13 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 		keys.sort().reverse();
 		for(var i = 0; i < keys.length; i++) this.remove_at(keys[i]);
 	},
+	
+
+	remove_all: function() {
+		for(i in this.src)
+			this.remove_at(i);
+	},
+	
 	
 	/**
 	 * Очистка коллекции от всех значений
@@ -103,18 +123,36 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 //		
 //	},
 	
+	/**
+	 * Поиск первого элемента, удовлетворяющего критерию
+	 */
 	find: function(criteria) {
 		return Ergo.find(this.src, criteria);
 	},
 	
+	/**
+	 * Поиск всех элементов, удовлетворяющих критерию
+	 */
 	find_all: function(criteria) {
 		return Ergo.filter(this.src, callback);
 	},
 	
+	
+	
+	//
+	//TODO методам filter и map имеет смысл возвращать коллекцию, а не значение
+	//
+	
+	/**
+	 * Фильтрация элементов
+	 */
 	filter: function(callback) {
 		return Ergo.filter(this.src, callback);
 	},
 
+	/**
+	 * Отображение элементов
+	 */
 	map: function(callback) {
 		return Ergo.map(this.src, callback);		
 	},
@@ -136,6 +174,9 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 		return n;
 	},
 	
+	/**
+	 * Проверка, является ли коллекция пустой
+	 */
 	is_empty: function() {
 		return this.size() == 0;
 	},
@@ -144,11 +185,13 @@ Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', {
 	 * Получение ключа элемента
 	 * @param {Object} item
 	 */
-	index_of: function(item) {
-		return Ergo.index_of(this.src, item);
+	key_of: function(item) {
+		return Ergo.key_of(this.src, item);
 	},
 	
 	/**
+	 * Вызов для всех элементов коллекции указанного метода 
+	 *
 	 * @param {Object} m
 	 * @param {Object} args
 	 */

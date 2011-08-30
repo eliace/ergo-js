@@ -211,7 +211,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 		if(this.options.showLeftIcon) this._editor.el.addClass('l-icon');
 		if(this.options.showRightIcon) this._editor.el.addClass('r-icon');
 		
-		this._editor.$bind(this.content.data);
+		this._editor.bind(this.content.data);
 		this._editor.$dataChanged(); // явно вызываем обновление данных
 		this._editor.el.focus();
 		this._editor.el.select();

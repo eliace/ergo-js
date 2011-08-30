@@ -1,7 +1,6 @@
 
-//= require "utils"
+//= require "core"
 
-Ergo.core = {};
 
 Ergo.core.Object = function() {
 	this.initialize.apply(this, arguments);
@@ -17,10 +16,20 @@ Ergo.override(Ergo.core.Object.prototype, {
 	defaults: {
 	},
 	
+	/*
+	 * Инициализация объекта.
+	 * 
+	 * При инициализации решаются две задачи:
+	 *   1. Формирование набора параметров
+	 *   2. Добавление расширений
+	 * 
+	 * 
+	 */
 	initialize: function(opts) {
 		
 		var o = {};
 		
+		// 
 		if(!this.constructor.NO_REBUILD_SKELETON) {
 			var prevDefaults = null;
 			Ergo.hierarchy(this.constructor, function(clazz){
@@ -50,6 +59,14 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 	},
 	
+	
+	/**
+	 * Проверка установленного расширения
+	 * 
+	 * @function
+	 * @name Object.is
+	 * @param {Any} ex расширение
+	 */
 	is: function(ex) {
 		var o = this.options;
 		return ('extensions' in o) ? Ergo.include(o.extensions, ex) : false;

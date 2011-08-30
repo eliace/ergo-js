@@ -1,18 +1,17 @@
 
 //= require "widget"
-//= require "item-collection"
+//= require "widget-array"
 
 
 /**
  * Базовый класс для контейнеров.
  * 
  * @class
- * @name Ergo.core.Container
  * @extends Ergo.core.Widget
  * @param {Object} o параметры
  * 
  */
-Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Container.prototype */ {
+Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Container.prototype */ {
 	
 	
 	defaults: {
@@ -30,7 +29,7 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 		 * Элементы
 		 * @type {Array}
 		 */
-		this.items = new Ergo.core.ItemCollection(this);
+		this.items = new Ergo.core.WidgetArray(this);
 		
 //		if('items' in o)
 //			o.components = o.items;
@@ -129,7 +128,7 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 //		
 //		// выполняем автобиндинг
 //		if(this.data && !item.data)
-//			item.$bind(this.data, false, 2);
+//			item.bind(this.data, false, 2);
 //				
 //		
 //		if('show' in item) item.show();
@@ -244,10 +243,10 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 //	},
 //*/
 	
-	$bind: function(data, update, phase) {
+	bind: function(data, update, phase) {
 		
 		if(!this.options.dynamic) {
-			Ergo.core.Container.superclass.$bind.apply(this, arguments);
+			Ergo.core.Container.superclass.bind.apply(this, arguments);
 			return;
 		}
 		
@@ -286,7 +285,7 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 		
 		// если элемент данных изменен, то создаем новую привязку к данным
 		this.data.events.reg('onEntryChanged', function(e){
-			self.item({data: e.entry}).$bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
+			self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
 //			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 		}, this);
 
@@ -336,10 +335,10 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 		
 //		// всем предопределенным виджетам подсоединяем источники данных
 //		this.eachItem(function(item, i){
-//			item.$bind( self.data.item(i) )
+//			item.bind( self.data.item(i) )
 //		});
 //		this.children.each(function(child){
-//			if(child.dataPhase != 1) child.$bind(self.data, 2);
+//			if(child.dataPhase != 1) child.bind(self.data, 2);
 //		});
 	},
 	
@@ -347,6 +346,15 @@ Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /** @lends Ergo.core.Con
 	item: function(i) {
 		return this.items.find(Ergo.filters.by_widget(i));		
 	}
+	
+	
+	// factory: function(item) {
+		// if(!(item instanceof Ergo.core.Widget)) {
+			// item = this.options.itemFactory.call(this, item);
+		// }
+		// return item;
+	// }
+	
 	
 	
 	/*,

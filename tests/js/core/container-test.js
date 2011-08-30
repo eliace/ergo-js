@@ -58,13 +58,18 @@ test('core/container', function(){
 	c = $.ergo({
 		etype: 'container',
 		html: '<div/>',
+		defaultItem: {
+			tag: 'item'
+		},
 		content: {
 			etype: 'widget',
-			html: '<div/>'
+			html: '<span/>',
+			tag: 'content'
 		}
 	});
 	
 	equals(c.items.size(), 0, 'Элементы контейнера как компоненты не создаются');
+	equals(c.content.tag, 'content', 'Компонент создается с помощью componentFactory');
 	
 	
 	
@@ -84,7 +89,7 @@ test('core/container', function(){
 	
 	c.items.get(1).mark = 5;
 	
-	ok(c.item('item_1') == c.items.get(0), 'Поиск по атрибуту tag в списке компонентов')
+	ok(c.item(0) == c.items.get(0), 'Поиск по ключу в списке компонентов')
 	ok(c.item({mark: 5}) == c.items.get(1), 'Поиск по произвольному атрибуту в списке компонентов')
 	
 });

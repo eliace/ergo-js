@@ -3,9 +3,14 @@
 
 /**
  * Коллекция упорядоченных значений
+ *
+ * Представляет собой обертку для объектов javascript-класса Array
+ *
+ * @class
+ * @extends Ergo.core.Collection
  * 
  */
-Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', {
+Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @lends Ergo.core.Array.prototype */{
 	
 	initialize: function(src, options) {
 		Ergo.core.Array.superclass.initialize.call(this, src || [], options);
@@ -43,6 +48,14 @@ Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', {
 		return item;
 //		this.events.fire('item:remove', {'item': item});
 	},
+	
+	
+	remove_all: function() {
+		while(this.src.length)
+			this.remove_at(0);
+	},
+
+	
 	
 	size: function() {
 		return this.src.length;

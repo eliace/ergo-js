@@ -2,19 +2,12 @@
 //= require "core"
 
 
-
-/**
- * @name Ergo.layouts
- * @namespace
- */
-
-
 /**
  * @class
  * @name Ergo.core.Layout
  * @param {Object} opts
  */
-Ergo.declare('Ergo.core.Layout', Ergo.core.Object, /** @lends Ergo.core.Layout.prototype */ {
+Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout.prototype */ {
 	
 	defaults: {
 		updateMode: 'auto'

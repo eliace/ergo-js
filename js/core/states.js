@@ -8,7 +8,7 @@
 /**
  * @class
  */
-Ergo.StateCollection = Ergo.declare('Ergo.StateCollection', 'Ergo.core.Object', /** @lends Ergo.StateManager.prototype */ {
+Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.StateManager.prototype */ {
 	
 	initialize: function(widget) {
 		this._widget = widget;
@@ -193,7 +193,7 @@ Ergo.StateCollection = Ergo.declare('Ergo.StateCollection', 'Ergo.core.Object', 
 
 
 Ergo.Statable = function() {
-	this.states = new Ergo.StateCollection(this);
+	this.states = new Ergo.core.StateCollection(this);
 }
 
 

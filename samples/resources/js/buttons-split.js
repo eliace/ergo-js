@@ -127,7 +127,7 @@ $.ergo({
                 },
                 icon: {
                   dataId: 'icon',
-                  binding: function(val) { console.log(val); this.opt('cls', 'silk-icon-chart-'+val);}
+                  binding: function(val) { this.opt('cls', 'silk-icon-chart-'+val);}
                 }            
               }            
             }            

@@ -11,7 +11,7 @@ $.ergo({
 //      var content = this.getParent(Ergo.widgets.Panel).content;
       if(this.content) {
         this.content.states.toggle('hidden');
-        this.header.buttons.item(e.button).content.states.toggle('exp_col');                  
+        this.header.buttons.item({tag: e.button}).content.states.toggle('exp_col');                  
       }
     }    
   },

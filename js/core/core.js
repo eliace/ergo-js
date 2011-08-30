@@ -260,12 +260,16 @@ var Ergo = (function(){
 	$.isNumber = function(obj) {
 		return typeof obj == 'number';
 	};	
-	
-	
-	
-	
+	/**
+	 * Является ли объект Ergo-классом
+	 * 
+	 * @name $.isClass
+	 * @function
+	 * @param {Object} obj
+	 * 
+	 */
 	$.isClass = function(obj) {
-		return (obj.superclass !== undefined);
+		return $.isFunction(obj) && (obj.superclass !== undefined);
 	}
 	
 	
@@ -340,6 +344,15 @@ var Ergo = (function(){
 	}
 	
 	
+	/*
+	 * Фильтрация ключей.
+	 * 
+	 * В результат попадают только индексы
+	 * 
+	 * @param {Object|Array} src объект, элементы которого необходимо фильтровать
+	 * @param {Function} callback функция, вызываемая для каждого элемента
+	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
+	 */
 	E.filter_keys = function(src, fn){
 		var result = [];
 		for(var i in src)
@@ -401,12 +414,12 @@ var Ergo = (function(){
 	 * 
 	 * Если критерий не является функцией, то используется метод Ergo.eq
 	 * 
-	 * @name Ergo.index_of
+	 * @name Ergo.key_of
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий 
 	 */
-	E.index_of = function(obj, criteria) {
+	E.key_of = function(obj, criteria) {
 		if(!$.isFunction(criteria))
 			criteria = E.eq.curry(criteria);
 		for(var i in obj)
@@ -415,13 +428,39 @@ var Ergo = (function(){
 	};
 	
 	
-	
+	/**
+	 * Вызов метода для всех элементов коллекции
+	 * 
+	 * Аргументы вызываемого метода передаются в виде массива
+	 * 
+	 * Ergo.apply_all(items, 'show', [10, 45]);
+	 * 
+	 * @name Ergo.apply_all
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {String} m_name имя метода
+	 * @param {Array} [args] список аргументов
+	 * 
+	 */
 	E.apply_all = function(obj, m_name, args) {
 		for(var i in obj) {
 			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
 		}
 	}
 	
+	/**
+	 * Вызов метода для всех элементов коллекции
+	 * 
+	 * Аргументы вызываемого метода начинаются с 3 аргумента
+	 * 
+ 	 * Ergo.call_all(items, 'show', 10, 45);
+	 * 
+	 * @name Ergo.call_all
+	 * @function
+	 * @param {Object|Array} obj коллекция
+	 * @param {String} m_name имя метода
+	 * 
+	 */
 	E.call_all = function(obj, m_name) {
 		var args = [];
 		for(var i = 2; i < arguments.length; i++) args[i-2] = arguments[i];
@@ -433,20 +472,32 @@ var Ergo = (function(){
 	
 	
 	/**
-	 * Проверка, содержится ли элемент в массиве
+	 * Проверка, содержится ли элемент в коллекции
 	 * 
 	 * @name Ergo.array_include
 	 * @function
-	 * @param {Array|Object} arr массив
+	 * @param {Array|Object} obj коллекция
 	 * @param {Any} val значение
 	 */
-	E.include = function(arr, val) {
-		for(var i in arr)
-			if(arr[i] == val) return true;
+	E.include = function(obj, val) {
+		for(var i in obj)
+			if(obj[i] == val) return true;
 //		for(var i = 0; i < arr.length; i++)
 //			if(arr[i] == val) return true;
 		return false;
 	}
+	
+	
+	
+	E.size = function(obj) {
+		if($isArray(obj)) return obj.length;
+
+		var n = 0;
+		for(var i in obj) n++;
+		return n;
+	}
+	
+	
 	
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)
@@ -456,6 +507,7 @@ var Ergo = (function(){
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
+/*	
 	E.array_remove = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
@@ -468,6 +520,7 @@ var Ergo = (function(){
 		
 		return (index != -1);
 	};
+*/	
 	
 	/**
 	 * Полное копирование объекта.
@@ -497,9 +550,6 @@ var Ergo = (function(){
 		return copy;
 	};
 
-	
-	
-	
 	
 	
 	//---------------------------------------------------
@@ -811,6 +861,8 @@ var Ergo = (function(){
 	
 	
 	/**
+	 *  
+	 *
 	 * @name Ergo.timestamp
 	 * @function
 	 */
@@ -834,6 +886,13 @@ var Ergo = (function(){
 	
 	E.loadpath = {};
 	
+	
+	/*
+	 * Синхронная загрузка модулей через Ajax
+	 * 
+	 * В качестве аргументов передается список путей к классам
+	 * 
+	 */
 	E.require = function() {
 		
 		for(var i = 0; i < arguments.length; i++) {
@@ -880,6 +939,12 @@ var Ergo = (function(){
 })();
 
 //var _dino = Ergo;
+
+
+/**
+ * @namespace
+ */
+Ergo.core = {};
 
 
 
@@ -930,6 +995,29 @@ Function.prototype.rcurry = function(arg) {
 
 
 
+/*
+ * Расширяем базовый класс Array методом удаления элемента
+ * 
+ * @name Array.prototype.remove
+ * @function
+ * @param {Any} val элемент массива
+ */
+Array.prototype.remove = function(val) {
+	var index = -1;
+	for(var i = 0; i < this.length; i++) {
+		if(this[i] == val) {
+			index = i;
+			break;
+		}
+	}
+	if(index != -1) this.splice(index, 1);
+	
+	return (index != -1);		
+}
+
+
+
+
 
 //---------------------------------------------------------------
 //
@@ -953,6 +1041,7 @@ Ergo.filters = (function(){
 			if(child[i] != props[i]) return false;
 		return true; 
 	};
+	// по классу
 	F.by_class = function(clazz, child){
 		return (child instanceof clazz);
 	}
@@ -965,13 +1054,14 @@ Ergo.filters = (function(){
 		return function(it) { return obj == it; };
 	}
 	
+	// комплексный фильтр виджетов
 	F.by_widget = function(i) {
 		
 		var f = null;
 		
-		if( $.isNumber(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = F.by_props.curry({'tag': i});
-		else if( $.isFunction(i) && ('superclass' in i) ) f = F.by_class.curry(i);
+		if( $.isNumber(i) || $.isString(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
+//		else if( $.isString(i) ) f = F.by_props.curry({'tag': i});
+		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		
@@ -981,4 +1071,130 @@ Ergo.filters = (function(){
 	
 	return F;
 })();
+
+
+
+
+
+//--------------------------------------------------------------------------
+//
+// Функции перегрузки параметров
+//
+//--------------------------------------------------------------------------
+
+
+Ergo.overrideProp = function(o, srcObj, i) {
+
+	var p = srcObj[i];
+
+	if(i == 'data') i = 'data@'; 										//<-- поле data не перегружается
+	if(i == 'items') i = 'items@'; 										//<-- поле items не перегружается
+	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
+
+//	var shared_opts = {'data': null};
+
+	
+//	if((i in shared_opts)){//Ergo.in_array(ignore, i)){
+//		o[i] = p;
+//	}
+
+	var last_literal = i[i.length-1];
+
+	if(last_literal == '@') {
+		var j = i.substr(0, i.length-1);
+		o[j] = p;
+	}
+	else if(last_literal == '!') {
+		var j = i.substr(0, i.length-1);
+		if(j in o) i = j;
+		o[i] = p;
+	}
+	else if(last_literal == '+') {
+		i = i.substr(0, i.length-1);
+		
+		if(!(i in o)) o[i] = [];
+		if( !$.isArray(o[i]) ) o[i] = [o[i]];
+		p = o[i].concat(p);
+		o[i] = p;
+	}
+	else{
+		//TODO здесь создается полная копия (deep copy) объекта-контейнера
+		if( $.isPlainObject(p) ){
+			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+			Ergo.smart_override(o[i], p);
+		}
+		else if( $.isArray(p) ){
+			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+			Ergo.smart_override(o[i], p);
+		}
+		else {
+			//TODO этот участок кода нужно исправить
+			
+			// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+			if(i in o){
+				// классы сливаются в одну строку, разделенную пробелом
+				if(i == 'cls') p = o[i] + ' ' + p;
+				if( /^on\S/.test(i) ) {
+					if( !$.isArray(o[i]) ) o[i] = [o[i]];
+					p = o[i].concat(p);
+				}
+				if(i == 'state') {
+					p = o[i] + ' ' + p;
+				}
+			}
+			o[i] = p;
+		}
+	}
+	
+}
+
+
+Ergo.smart_override = function(o) {
+
+	// обходим все аргументы, начиная со второго
+	for(var j = 1; j < arguments.length; j++){
+		
+		var srcObj = arguments[j];
+		
+//		if( $.isArray(srcObj) ){
+//			for(var i = 0; i < srcObj.length; i++)
+//				Ergo.utils.overrideProp(o, srcObj, i);
+//		}
+//		else {			
+			for(var i in srcObj)
+				Ergo.overrideProp(o, srcObj, i);
+//		}		
+	}
+	
+	return o;
+}
+
+
+
+Ergo.deep_override = function(o) {
+	
+	for(var j = 1; j < arguments.length; j++){
+	
+		var srcObj = arguments[j];
+		
+		Ergo.each(srcObj, function(p, i){
+			if( $.isPlainObject(p) ){
+				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+				Ergo.deep_override(o[i], p);
+			}
+			else if( $.isArray(p) ){
+				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+				Ergo.deep_override(o[i], p);
+			}
+			else {
+				o[i] = p;
+			}
+		});
+	
+	}
+	
+	return o;
+}
+
+
 
