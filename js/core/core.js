@@ -420,10 +420,18 @@ var Ergo = (function(){
 	 * @param {Function|Any} criteria критерий 
 	 */
 	E.key_of = function(obj, criteria) {
+		
 		if(!$.isFunction(criteria))
 			criteria = E.eq.curry(criteria);
-		for(var i in obj)
-			if(criteria.call(obj, obj[i], i)) return i;
+			
+		if($.isArray(obj)) {
+			for(var i = 0; i < obj.length; i++)
+				if(criteria.call(obj, obj[i], i)) return i;
+		}
+		else {
+			for(var i in obj)
+				if(criteria.call(obj, obj[i], i)) return i;			
+		}
 		return -1;
 	};
 	

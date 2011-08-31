@@ -265,19 +265,24 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		else {
 			var value = this.val();
 
-			var deleted_entry = this.entries.remove_at(i);
+			var deleted_entry = this.entry(i);
+//			var deleted_entry = this.entries.remove_at(i);
 			var deleted_value = value[i];
+			
+			this.entries.remove_at(i);
 			
 			if($.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
-					this.entry(j).id = j;
+					this.entries.get(j).id = j;
 			}
 			else {
 				delete value[i];
 			}
 			
-			this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});
+			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
+			if(deleted_entry)
+				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});
 		}
 				
 	},
@@ -292,15 +297,16 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	iterate: function(callback) {
 		
 		var self = this;
-		var values = this.val();		
+		var values = this.val();
+		var keys = this.keys();
 		
-		var keys = [];
-		if($.isArray(values)) {
-			for(var i = 0; i < values.length; i++) keys.push(i);
-		}
-		else {
-			for(var i in values) keys.push(i);			
-		}
+		// var keys = [];
+		// if($.isArray(values)) {
+			// for(var i = 0; i < values.length; i++) keys.push(i);
+		// }
+		// else {
+			// for(var i in values) keys.push(i);			
+		// }
 		
 		//TODO здесь могут применяться модификаторы списка ключей (сортировка, фильтрация)
 		if(this.options.filter){
@@ -312,6 +318,20 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			callback.call(this, this.entry(k), k, values[k]);			
 		}
 	},
+	
+	
+	keys: function() {
+		var keys = [];
+		var values = this.val();		
+		if($.isArray(values)) {
+			for(var i = 0; i < values.length; i++) keys.push(i);
+		}
+		else {
+			for(var i in values) keys.push(i);			
+		}
+		return keys
+	},
+	
 	
 	
 	

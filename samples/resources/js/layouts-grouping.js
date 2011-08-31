@@ -36,7 +36,7 @@ var groupData = [{
 
 
 
-
+/*
 $.ergo({
   etype: 'panel',
   renderTo: '.preview',
@@ -61,7 +61,7 @@ $.ergo({
   
 });
 
-
+*/
 
 
 var groupLayout = Ergo.layouts.StatefulLayout.extend({
@@ -125,7 +125,7 @@ $.ergo({
   etype: 'panel',
   renderTo: '.preview',
   width: 400,
-  title: 'Сгруппированный список',
+  title: 'Сгруппированный список (GroupLayout)',
   cls: 'ergo-border-all',
   style: {'margin-top': 10},
   content: {
@@ -156,14 +156,169 @@ var baseDataSource = new Ergo.core.DataSource(listData);
 
 
 
-var dataView = new Ergo.core.DataSource(baseDataSource);
+/*
+baseDataSource.group = function(field) {
+	
+	var groups = {};
+	
+	var values = this.val();
+	
+	Ergo.each(values, function(val){
+		var group_id = val.group;
+		if(!(group_id in groups)) {
+			groups[group_id] = [];
+		}
+		groups[group_id].push(val);
+	});
+	
+	var ds = new Ergo.core.DataSource(groups);
+	
+	// добавляем новое значение и автоматически выполняем группировку
+	ds.add_and_group = function(val) {
+		return this.entry(val.group).add(val);
+	};
+	
+	// обновляем группировку
+	ds.regroup = function() {
+		
+	};
+	
+	return ds;
+};
 
 
+baseDataSource.ungroup = function() {
+	
+};
+
+
+
+var groupView = baseDataSource.group();
+*/
+
+
+var groupView = new Ergo.core.DataSource({});
+
+
+groupView.factory = function(i) {
+	var entry = new Ergo.core.DataSource(this, i);
+	entry.entry = function(i) {
+		var e = Ergo.core.DataSource.prototype.entry.apply(this, arguments);
+		return this.val()[i];
+	};
+	return entry;
+}
+
+
+baseDataSource.events.reg('value:changed', function(e){
+	
+	// создаем список групп
+//	var val = e.newValue;
+//	var groups = {};
+	
+	baseDataSource.iterate(function(entry, i){
+		var group_id = entry.get('group');
+		if(!(group_id in groupView.source)) {
+			groupView.source[group_id] = [];
+		}
+		
+		groupView.source[group_id].push(entry);
+//		var gentry = groupView.entry(group_id);
+//		gentry.entries.add(entry);
+	});
+	
+	groupView.events.fire('value:changed');
+	
+});
+
+
+baseDataSource.events.reg('entry:deleted', function(e){
+	
+	var entry = e.entry;
+	
+	// проверяем все группы
+	groupView.iterate(function(g_entry, g_id, g_val){
+		var i = Ergo.key_of(g_val, entry);
+		g_entry.del(i);
+	});
+	
+});
+
+
+baseDataSource.events.reg('entry:added', function(e){
+	
+	var entry = e.entry;
+	
+	var group_id = entry.get('group');
+			
+	// добавляем элемент в группу, если его там еще нет
+	var group_a = groupView.get(group_id);
+	if(!group_a) {
+		group_a = [];
+		groupView.add(group_a, group_id);
+	}
+	if(!Ergo.include(group_a, entry)) {
+		groupView.entry(group_id).add(entry);
+	}
+	
+});
+
+
+
+
+groupView.regroup = function() {
+	
+	baseDataSource.iterate(function(entry){
+		var group_id = entry.get('group');
+				
+		// добавляем элемент в группу, если его там еще нет
+		var group = groupView.get(group_id);
+		if(!Ergo.include(group, entry)) {
+			groupView.entry(group_id).add(entry);
+		}
+		
+		// проверяем все группы на наличие элементов не в своих группах
+		groupView.iterate(function(g_entry, g_id, g_val){
+			var i = Ergo.key_of(g_val, entry);
+			if(g_id != group_id && i != -1) {
+//				var deleted_entry = g_entry.entry(i);
+//				g_entry.entries.remove_at(i);
+//				g_entry.events.fire('entry:deleted', {'entry': deleted_entry, 'value': null});
+				g_entry.del(i);
+			}
+		});
+		
+		
+//		var gentry = groupView.entry(group_id);
+//		gentry.entries.add(entry);
+	});
+	
+	
+	
+};
 
 
 
 /*
-dataView._val = function() {
+baseDataSource.events.reg('entry:changed', function(e){
+	
+	console.log('aaa');
+	
+	var entry = e.entry;
+	var group_id = entry.get('group');
+	
+	var dv_group = groupView.get(group_id);
+	if(!Ergo.include(dv_group, entry.id)) {
+		groupView.entry(group_id).add(entry.id);
+	}
+	
+});
+*/
+
+
+
+/*
+groupView._val = function() {
   if(arguments.length == 0) {
     
     var a = {};
@@ -197,7 +352,7 @@ $.ergo({
   cls: 'ergo-border-all',
   content: {
     etype: 'list',
-    data: dataView,
+    data: groupView,
     dynamic: true,
     cls: 'ergo-text-content',
     
@@ -238,12 +393,12 @@ $.ergo({
   etype: 'panel',
   renderTo: '.preview',
   width: 400,
-  title: 'Сгруппированный список',
+  title: 'Сгруппированный список (GroupData)',
   cls: 'ergo-border-all',
   style: {'margin-top': 10},
   content: {
     etype: 'list',
-    data: dataView,
+    data: groupView,
     dynamic: true,
     cls: 'ergo-text-content',
     
@@ -255,19 +410,25 @@ $.ergo({
           cls: 'group-title',
           style: {'display': 'block'},
           binding: function(val) {
-            this.opt('text', val.text);
+            this.opt('text', 'группа '+this.data.id);
           }          
         },
         groupItemList: {
-          dataId: 'items',
+//          dataId: 'items',
+					id: 'foo',
           etype: 'list',
           dynamic: true,
           defaultItem: {
             etype: 'text-item',
             style: {'display': 'block'},
-            binding: function(val) {
-              this.opt('text', val.text);
-            }            
+            content: {
+            	dataId: 'text',
+            	updateOnValueChange: true
+            }
+            // binding: function(val) {
+            	// console.log(val);
+              // this.opt('text', val.text);
+            // },
           }          
         }
       }
@@ -276,4 +437,17 @@ $.ergo({
   }
   
 });
+
+
+baseDataSource.events.fire('value:changed');
+
+baseDataSource.entry(0).set('text', 'Alice 2');
+
+baseDataSource.entry(0).set('group', '2'); // после изменения поля группировки слует явно вызвать перегруппировку
+groupView.regroup();
+
+baseDataSource.del(2);
+
+baseDataSource.add({'text': 'Fox', 'group': '1'});
+baseDataSource.add({'text': 'Gunde Svan', 'group': '4'});
 
