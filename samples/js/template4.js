@@ -109,6 +109,8 @@ $(document).ready(function(){
 													return;
 												}
 												
+												var desc = $('.desc').ergo();
+												desc.el.empty();
 												var preview = $('.preview').ergo();
 												preview.el.empty();
 												var jsPage = $('.js-page').ergo();
@@ -129,6 +131,12 @@ $(document).ready(function(){
 														sh_highlightDocument();																									
 													});												
 												}, 'text');
+												
+												$.get('resources/desc/'+path+'.html', function(html){
+													desc.el.append(html);
+													preview.$layoutChanged();
+												}, 'html');
+												
 												
 												this.getParent(Ergo.widgets.Tree).selection.set(this.parent.parent);
 											}
@@ -171,9 +179,19 @@ $(document).ready(function(){
 						pagesCls: 'ergo-border-all ergo-border-no-top',
 						pages: [{
 							tab: {text: 'View', icon: 'silk-icon-eye'},
-							cls: 'preview',
-							height: 'auto',
-							style: {'background-color': '#eee', 'padding': 5, 'overflow': 'auto'}
+							components: {
+								banner: {
+//									height: 40,
+									cls: 'desc ergo-border-bottom',
+									style: {'padding': 8, 'margin-bottom': 5, 'font-size': 12, 'color': '#444', 'background-color': '#FCF6E5'}
+								},
+								previewPane: {
+									cls: 'preview',
+									height: 'auto',
+									style: {'padding': 5, 'overflow': 'auto'}
+								}
+							},
+							style: {'background-color': '#eee'}
 						}, {
 							tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 							cls: 'js-page'

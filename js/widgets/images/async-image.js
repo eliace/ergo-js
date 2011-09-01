@@ -10,13 +10,13 @@
  * @class
  * @extends Ergo.core.Widget
  */
-Ergo.utils.AsyncImage = Ergo.declare('Ergo.utils.AsyncImage', 'Ergo.widgets.Box', /** @lends Ergo.utils.AsyncImage.prototype */{
+Ergo.widgets.AsyncImage = Ergo.declare('Ergo.widgets.AsyncImage', 'Ergo.widgets.Box', /** @lends Ergo.utils.AsyncImage.prototype */{
 	
 	
 	$init: function(o) {
-		Ergo.utils.AsyncImage.superclass.$init.call(this, o);
+		Ergo.widgets.AsyncImage.superclass.$init.call(this, o);
 		
-		this.load(o.imageUrl, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
+		this.load(o.src, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		
 //		delete o.renderTo;
 	},

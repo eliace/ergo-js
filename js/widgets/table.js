@@ -223,11 +223,18 @@ Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Erg
 		binding: 'skip'
 	},
 	
+	
+	
+	
 	$opt: function(o) {
 		Ergo.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) this.layout.el.text(o.text);
+		if('text' in o) this.setText(o.text);
 		
+	},
+	
+	setText: function(t) {
+		this.layout.el.text(t);
 	},
 	
 	

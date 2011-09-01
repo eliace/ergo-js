@@ -21,6 +21,7 @@ Ergo.Node = Ergo.data.Model.extend({
       children.add(node.get());
     }
     else {
+    	
       var self = this;
       var first_leaf = children.entries.find(function(entry){ return entry.isLeaf(); });
 
@@ -41,13 +42,7 @@ Ergo.Node = Ergo.data.Model.extend({
 });
 
 
-Ergo.NodeList = Ergo.data.Collection.extend({
-
-  defaults: {
-    itemModel: 'Ergo.Node'
-  }
-    
-});
+Ergo.NodeList = Ergo.data.Collection.extend({	model: 'Ergo.Node' });
 
 
 

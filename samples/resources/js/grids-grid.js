@@ -40,6 +40,39 @@ var grid = $.ergo({
   
   
   
+  headerModel: {
+  	cell: {
+  		onClick: function() {
+  			this.parent.selection.set(this);
+  		},
+  		content: {
+				etype: 'text-item',
+				xicon: 'ergo-icon-spinner-down',
+				style: {'margin-right': -16},
+  		},
+			states: {
+				'selected': function(on) {
+					if(on)
+						this.content.xicon.el.css('visibility', 'visible');
+					else
+						this.content.xicon.el.css('visibility', 'hidden');						
+				}
+			},
+  		extensions: [{
+  			setText: function(t) {
+  				this.content.opt('text', t);
+  			}
+  		}],
+  		onSelectionChanged: function() {
+  			
+  		}
+  	},
+  	row: {
+  		extensions: [Ergo.Selectable]
+  	}
+  },
+  
+  
   
   tableModel: {
     columns: [{
@@ -75,7 +108,7 @@ var grid = $.ergo({
         etype: 'checkbox'
       },
       header: {
-        content: {
+        'content!': {
           etype: 'checkbox',
           checked: false        
         }        

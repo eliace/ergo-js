@@ -412,8 +412,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		if('events' in o){
 			for(var i in o.events){
-				var callback = o.events[i];
-				el.bind(i, callback.rcurry(self));
+				var callback_a = o.events[i];
+				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+				for(var j in callback_a) {
+					var callback = callback_a[j];
+					el.bind(i, callback.rcurry(self));
+				}
 			}
 		}
 		

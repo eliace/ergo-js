@@ -403,8 +403,14 @@ var Ergo = (function(){
 			var x = criteria;
 			criteria = function(it) { return it == x; };
 		}
-		for(var i in obj)
-			if(criteria.call(obj, obj[i], i)) return obj[i];
+		if($.isArray(obj)) {
+			for(var i = 0; i < obj.length; i++)
+				if(criteria.call(obj, obj[i], i)) return obj[i];
+		}
+		else {
+			for(var i in obj)
+				if(criteria.call(obj, obj[i], i)) return obj[i];			
+		}
 		
 		return null;
 	};
@@ -1091,6 +1097,14 @@ Ergo.filters = (function(){
 //--------------------------------------------------------------------------
 
 
+Ergo.jq_events = {
+	'mousedown': 0, 
+	'mouseup': 0, 
+	'mousemove': 0,
+	'click': 0 
+};
+
+
 Ergo.overrideProp = function(o, srcObj, i) {
 
 	var p = srcObj[i];
@@ -1148,6 +1162,10 @@ Ergo.overrideProp = function(o, srcObj, i) {
 				}
 				if(i == 'state') {
 					p = o[i] + ' ' + p;
+				}
+				if(i in Ergo.jq_events) {
+					if( !$.isArray(o[i]) ) o[i] = [o[i]];
+					p = o[i].concat(p);
 				}
 			}
 			o[i] = p;
