@@ -410,6 +410,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 //		profiler.tick('opt', 'ifs');
 		
+		
+		//TODO эта опция должна быть в разделе construct
 		if('events' in o){
 			for(var i in o.events){
 				var callback_a = o.events[i];
@@ -480,16 +482,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		}
 						
 		
-//		//TODO экспериментальная опция
-//		if('overrides' in o) {
-//			Ergo.override(this, o.overrides);
-//		}
-//		
-//		
-//		//TODO экспериментальная опция
-//		for(i in o) {
-//			if(i in this.customOptions) this.customOptions[i].call(this, o[i]);
-//		}
 		
 		
 		

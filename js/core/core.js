@@ -1096,22 +1096,21 @@ Ergo.filters = (function(){
 //
 //--------------------------------------------------------------------------
 
-
-Ergo.jq_events = {
-	'mousedown': 0, 
-	'mouseup': 0, 
-	'mousemove': 0,
-	'click': 0 
-};
-
+Ergo.keep_keys = false;
 
 Ergo.overrideProp = function(o, srcObj, i) {
 
 	var p = srcObj[i];
 
-	if(i == 'data') i = 'data@'; 										//<-- поле data не перегружается
-	if(i == 'items') i = 'items@'; 										//<-- поле items не перегружается
+	if(i == 'data') i = 'data!'; 										//<-- поле data не перегружается
+	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
 	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
+	if(i == 'events') {
+		var p2 = {};
+		for(var j in p)
+			p2[j+'+'] = p[j];
+		p = p2;
+	}
 
 //	var shared_opts = {'data': null};
 
@@ -1122,22 +1121,28 @@ Ergo.overrideProp = function(o, srcObj, i) {
 
 	var last_literal = i[i.length-1];
 
-	if(last_literal == '@') {
+	if(last_literal == '!') {
 		var j = i.substr(0, i.length-1);
-		o[j] = p;
-	}
-	else if(last_literal == '!') {
-		var j = i.substr(0, i.length-1);
-		if(j in o) i = j;
+		if(!Ergo.keep_keys) i = j;
 		o[i] = p;
+		if(Ergo.keep_keys && (j in o)) delete o[j];
 	}
+	// else if(last_literal == '!') {
+		// var j = i.substr(0, i.length-1);
+		// if((j in o) && !Ergo.keep_keys) i = j;
+		// o[i] = p;
+		// if(Ergo.keep_keys && (j in o)) delete o[j];
+	// }
 	else if(last_literal == '+') {
-		i = i.substr(0, i.length-1);
+		var j = i.substr(0, i.length-1);
+		if(!Ergo.keep_keys) i = j;
 		
 		if(!(i in o)) o[i] = [];
 		if( !$.isArray(o[i]) ) o[i] = [o[i]];
 		p = o[i].concat(p);
 		o[i] = p;
+
+		if(Ergo.keep_keys && (j in o)) delete o[j];
 	}
 	else{
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
@@ -1163,10 +1168,6 @@ Ergo.overrideProp = function(o, srcObj, i) {
 				if(i == 'state') {
 					p = o[i] + ' ' + p;
 				}
-				if(i in Ergo.jq_events) {
-					if( !$.isArray(o[i]) ) o[i] = [o[i]];
-					p = o[i].concat(p);
-				}
 			}
 			o[i] = p;
 		}
@@ -1177,6 +1178,13 @@ Ergo.overrideProp = function(o, srcObj, i) {
 
 Ergo.smart_override = function(o) {
 
+	var keep_keys = false;
+	
+	if(!o) {
+		Ergo.keep_keys = keep_keys = true;
+		o = {};
+	}
+
 	// обходим все аргументы, начиная со второго
 	for(var j = 1; j < arguments.length; j++){
 		
@@ -1186,14 +1194,20 @@ Ergo.smart_override = function(o) {
 //			for(var i = 0; i < srcObj.length; i++)
 //				Ergo.utils.overrideProp(o, srcObj, i);
 //		}
-//		else {			
-			for(var i in srcObj)
-				Ergo.overrideProp(o, srcObj, i);
+//		else {
+	
+		for(var i in srcObj)
+			Ergo.overrideProp(o, srcObj, i);				
+	
 //		}		
 	}
 	
+	if(keep_keys)
+		Ergo.keep_keys = false;
+	
 	return o;
 }
+
 
 
 

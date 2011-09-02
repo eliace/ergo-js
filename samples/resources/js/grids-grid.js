@@ -49,6 +49,11 @@ var grid = $.ergo({
 				etype: 'text-item',
 				xicon: 'ergo-icon-spinner-down',
 				style: {'margin-right': -16},
+				components: {
+					xicon: {
+						style: {'visibility': 'hidden'}
+					}
+				}
   		},
 			states: {
 				'selected': function(on) {
@@ -108,10 +113,12 @@ var grid = $.ergo({
         etype: 'checkbox'
       },
       header: {
-        'content!': {
-          etype: 'checkbox',
-          checked: false        
-        }        
+      	content: {
+	        content: {
+	          etype: 'checkbox',
+	          checked: false        
+ 	       }
+      	}
       },
       binding: 'skip'
     }, {

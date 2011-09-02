@@ -31,8 +31,14 @@ test('core/utils', function(){
 	equals('precreated_class1_class2', b.foo(), 'Проверяем, что загруженные классы не загружаются заново');
 	
 	
-	a = Ergo.smart_override({}, {'mousedown': 'a'}, {'mousedown': 'b'});
-	same(a, {mousedown: ['a', 'b']}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
+	a = Ergo.smart_override({}, {events: {'mousedown': 'a'}}, {events: {'mousedown': 'b'}});
+	same(a, {events: {mousedown: ['a', 'b']}}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
+	
+	
+	a = Ergo.smart_override(null, {'a': {name: 'Alice'}}, {'a!': {age: 21}});
+	same(a, {'a!': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
+	b = Ergo.smart_override({'a': {name: 'Bob'}}, a);
+	same(b, {'a': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
 	
 	
 });

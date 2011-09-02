@@ -32,12 +32,15 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 				state: 'hidden'
 			}
 		},
-		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод $events
-		events: {
-			'click': function() {
-				$(this).ergo().events.fire('onAction');
-			}
+		onClick: function(){
+			this.events.fire('onAction');
 		},
+		// Финт ушами.Такой способ обработки событий занимает меньше места, чем метод $events
+		// events: {
+			// 'click': function() {
+				// $(this).ergo().events.fire('onAction');
+			// }
+		// },
 //		editor: {
 //			etype: 'input',
 //			events: {
