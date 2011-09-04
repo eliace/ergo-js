@@ -63,11 +63,11 @@ var grid = $.ergo({
 						this.content.xicon.el.css('visibility', 'hidden');						
 				}
 			},
-  		extensions: [{
-  			setText: function(t) {
+			set: {
+				'text': function(t) {
   				this.content.opt('text', t);
-  			}
-  		}],
+  			}  					
+			},
   		onSelectionChanged: function() {
   			
   		}

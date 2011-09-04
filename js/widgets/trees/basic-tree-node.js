@@ -64,25 +64,31 @@ Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.wi
 			}
 						
 		},
-		expandOnShow: false
+		expandOnShow: false,
+		set: {
+			'text': function(v) { this.content.text.opt('text', v); },
+			'icon': function(v) { this.content.text.opt('icon', v); },
+			'isLeaf': function(v) { this.content.button.states.set('leaf'); }
+		}			
 	},
 	
 	
-	$init: function(o) {
-		Ergo.widgets.BasicTreeNode.superclass.$init.apply(this, arguments);		
-	},
 	
-	$opt: function(o) {
-		Ergo.widgets.BasicTreeNode.superclass.$opt.call(this, o);
-		
-		var c = this.content;
-		
-		if('isLeaf' in o) c.button.states.set('leaf');
-		
-		if('icon' in o) c.text.opt('icon', o.icon);
-		if('text' in o) c.text.opt('text', o.text);
-
-	},
+	// $init: function(o) {
+		// Ergo.widgets.BasicTreeNode.superclass.$init.apply(this, arguments);		
+	// },
+	
+	// $opt: function(o) {
+		// Ergo.widgets.BasicTreeNode.superclass.$opt.call(this, o);
+// 		
+		// var c = this.content;
+// 		
+		// if('isLeaf' in o) c.button.states.set('leaf');
+// 		
+		// if('icon' in o) c.text.opt('icon', o.icon);
+// //		if('text' in o) c.text.opt('text', o.text);
+// 
+	// },
 	
 //	$events: function(self) {
 //		Ergo.widgets.BasicTreeNode.superclass.$events.apply(this, arguments);

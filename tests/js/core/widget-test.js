@@ -82,6 +82,43 @@ test('core/widget', function(){
 	equals(w.c2.el.text(), '21', 'Связывание с полем "age"')
 	
 	
+	var Div = Ergo.core.Widget.extend({
+		defaults: {
+			html: '<div/>'
+		}
+	});
 	
+	
+	w = new Ergo.core.Widget({
+		html: '<div/>',
+		text: 'Text',
+		tag: 'Tag',
+		tooltip: 'Tooltip',
+		id: 'id',
+		tabIndex: 4
+	});
+	
+	equals(w.el.text(), 'Text', 'Установка опции text');
+	equals(w.tag, 'Tag', 'Установка опции tag');
+	equals(w.el.attr('title'), 'Tooltip', 'Установка опции tooltip');
+	equals(w.el.attr('id'), 'id', 'Установка опции id');
+	equals(w.el.attr('tabindex'), 4, 'Установка опции tabIndex');
+	
+	var Class = Ergo.core.Widget.extend({
+		defaults: {
+			set: {
+				'foo': function(v) { this.foo = 1; }
+			}				
+		}
+	});
+	
+	w = new Class({
+		set: {
+			'foo': function(v) { this.foo = 2; }
+		},			
+		foo: 'a'
+	});
+	
+	equals(w.foo, 2, 'Проверка перегрузки сеттера опций');
 	
 });

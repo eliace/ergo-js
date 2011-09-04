@@ -47,7 +47,12 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 				this.events.fire('onAction', e); 
 			if(!event.isCanceled) this.hideSubmenu(true);
 //			e.stopPropagation();
-		}
+		},
+		set: {
+			'text': function(v) {
+				this.content.opt('text', v);				
+			}
+		}			
 	},
 	
 	$init: function(o) {
@@ -84,7 +89,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 	$opt: function(o) {
 		Ergo.widgets.MenuItem.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) this.content.opt('text', o.text);
+//		if('text' in o) this.content.opt('text', o.text);
 	},
 	
 	

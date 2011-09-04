@@ -221,21 +221,26 @@ Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Erg
 	
 	defaults: {
 		binding: 'skip'
+		// set: {
+			// 'text': function(v) {
+				// this.layout.el.text(t);
+			// }
+		// }
 	},
 	
 	
 	
 	
-	$opt: function(o) {
-		Ergo.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
-		
-		if('text' in o) this.setText(o.text);
-		
-	},
-	
-	setText: function(t) {
-		this.layout.el.text(t);
-	},
+	// $opt: function(o) {
+		// Ergo.widgets.TableHeaderCell.superclass.$opt.apply(this, arguments);
+// 		
+		// if('text' in o) this.setText(o.text);
+// 		
+	// },
+// 	
+	// setText: function(t) {
+		// this.layout.el.text(t);
+	// },
 	
 	
 	$dataChanged: function() {

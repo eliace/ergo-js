@@ -21,9 +21,12 @@ Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 			'mouseleave': function(e, self) {
 				self.el.removeClass('clicked');
 			}
-		}
+		},
+		set: {
+			'text': undefined
+		}			
 	},
-
+		
 	$opt: function(o) {
 		Ergo.widgets.IconButton.superclass.$opt.apply(this, arguments);
 		

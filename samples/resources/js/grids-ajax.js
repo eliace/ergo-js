@@ -78,8 +78,8 @@ var grid = $.ergo({
   components: {
     pager: {
       etype: 'pager',
-      count: 55,
-      pageSize: 20,
+      count: 155,
+      pageSize: 40,
       cls: 'ergo-border-top',
       onIndexChanged: function(e) {
         var g = this.parent;

@@ -53,7 +53,34 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		componentFactory: function(o) {
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		},
-		showOnRender: true
+		showOnRender: true,
+		set: {
+			'text': function(v) {	this.layout.el.text(v); },
+			'innerText': function(v) {	this.layout.el.text(v); },
+			'innerHtml': function(v) {	this.layout.el.html(v); },
+			'opacity': function(v) {
+				if($.support.opacity) 
+					this.el.css('opacity', v);
+				else {
+					this.el.css('filter', 'Alpha(opacity:' + (v*100.0) + ')');
+					this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
+				}				
+			},
+			'tooltip': function(v) { this.el.attr('title', v); },
+			'id': function(v) { this.el.attr('id', v); },
+			'tag': function(v) { this.tag = v; },
+			'tabIndex': function(v) { this.el.attr('tabindex', v); },			
+			'role': function(v) { this.el.attr('role', v); },
+			'format': function(v) {
+				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
+			},
+			'validate': function(v) {
+				if($.isArray(v)) this.options.validate = Ergo.filter_list.rcurry(v); //FIXME
+			}
+		},
+		get: {
+			'text': function() { return this.el.text(); }
+		}			
 //		effects: {
 //			show: 'show',
 //			hide: 'hide',
@@ -61,10 +88,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		}
 	},
 	
-	
-//	customOptions: {
-//	},
-
 			
 	initialize: function(o) {
 		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
@@ -167,6 +190,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	$construct: function(o) {
 		
 		var self = this;
+		var el = this.el;
 		
 		if('components' in o) {
 			var arr = [];
@@ -207,7 +231,48 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				}				
 			}
 			
+		}
+		
+		
+		
+		
+		if('events' in o){
+			for(var i in o.events){
+				var callback_a = o.events[i];
+				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+				for(var j in callback_a) {
+					var callback = callback_a[j];
+					el.bind(i, callback.rcurry(self));
+				}
+			}
 		}		
+		
+		
+						
+		if('states' in o){
+			// настраиваем особое поведение состояния hover
+			if('hover' in o.states){
+				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+			}
+		}
+		
+		
+		
+		var regexp = /^on\S/;
+		for(var i in o){
+			if(regexp.test(i)){
+				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+				for(var j = 0; j < chain.length; j++)
+					this.events.reg(i, chain[j]);
+			}
+		}
+
+		
+		if('onClick' in o)
+			el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
+		if('onDoubleClick' in o)
+			el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
+		
 		
 	},
 	
@@ -378,12 +443,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				el.height(o.height);
 			}
 		}
-		if('x' in o) el.css('left', o.x);
-		if('y' in o) el.css('top', o.y);
-		if('tooltip' in o) el.attr('title', o.tooltip);
-		if('id' in o) el.attr('id', this.id = o.id);
-		if('tag' in o) this.tag = o.tag;
-		if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
+		// if('x' in o) el.css('left', o.x); //?
+		// if('y' in o) el.css('top', o.y);  //?
+		// if('tooltip' in o) el.attr('title', o.tooltip);
+		// if('id' in o) el.attr('id', this.id = o.id);
+		// if('tag' in o) this.tag = o.tag;
+		// if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
 		
 		// эти три параметра должны задаваться статически
 		if('style' in o) el.css(o.style);
@@ -392,17 +457,18 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 //			profiler.tick('opt', 'style');		
 		
-		if('innerText' in o) this.layout.el.text(o.innerText);
-		if('innerHtml' in o) this.layout.el.html(o.innerHtml);
-		if('role' in o) el.attr('role', o.role);
-		if('opacity' in o){
-			if($.support.opacity) 
-				el.css('opacity', o.opacity);
-			else {
-				el.css('filter', 'Alpha(opacity:' + (o.opacity*100.0) + ')');
-				el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
-			}
-		}
+//		if('innerText' in o) this.layout.el.text(o.innerText);
+//		if('innerHtml' in o) this.layout.el.html(o.innerHtml);
+//		if('role' in o) el.attr('role', o.role);
+		// if('opacity' in o){
+			// if($.support.opacity) 
+				// el.css('opacity', o.opacity);
+			// else {
+				// el.css('filter', 'Alpha(opacity:' + (o.opacity*100.0) + ')');
+				// el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
+			// }
+		// }
+		
 //		if('unselectable' in o) {
 //			el.css('unselectable');
 //			el.attr('unselectable');
@@ -410,49 +476,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 //		profiler.tick('opt', 'ifs');
 		
-		
-		//TODO эта опция должна быть в разделе construct
-		if('events' in o){
-			for(var i in o.events){
-				var callback_a = o.events[i];
-				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
-				for(var j in callback_a) {
-					var callback = callback_a[j];
-					el.bind(i, callback.rcurry(self));
-				}
-			}
-		}
-		
-		
-		if('states' in o){
-			// настраиваем особое поведение состояния hover
-			if('hover' in o.states){
-				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
-			}
-		}
-						
-						
-						
-		
-		//
-		// Опции, устанавливаемые независимо от режима
-		//
-		
-		var regexp = /^on\S/;
-		for(var i in o){
-			if(regexp.test(i)){
-				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-				for(var j = 0; j < chain.length; j++)
-					this.events.reg(i, chain[j]);
-			}
-		}
-
-		
-		if('onClick' in o)
-			el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
-		if('onDoubleClick' in o)
-			el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
-		
+				
 		
 		
 		
@@ -473,18 +497,26 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		
 		
-		if('format' in o) {
-			if($.isString(o.format)) this.options.format = Ergo.format_obj.curry(o.format);
-		}
-
-		if('validate' in o) {
-			if($.isArray(o.validate)) this.options.validate = Ergo.filter_list.rcurry(o.validate);
-		}
+		// if('format' in o) {
+			// if($.isString(o.format)) this.options.format = Ergo.format_obj.curry(o.format);
+		// }
+// 
+		// if('validate' in o) {
+			// if($.isArray(o.validate)) this.options.validate = Ergo.filter_list.rcurry(o.validate);
+		// }
 						
 		
 		
 		
-		
+		for(var i in o) {
+			// проверяем наличие Java-like сеттеров
+			var java_setter = 'set'+i.capitalize();
+			if(this.java_setter)
+				this[java_setter](o[i]);
+			// если java-like сеттер не найден, проверяем наличие сеттеров опций
+			else if(this.options.set[i])
+				this.options.set[i].call(this, o[i], this.options);
+		}
 
 
 //		profiler.tick('opt', 'other');

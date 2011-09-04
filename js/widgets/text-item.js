@@ -50,12 +50,24 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 //				this.parent.stopEdit();
 //			}
 //		},
-		text: ''
+		text: '',
+		set: {
+			'text': function(v) {
+				this.content.opt('text', v);
+				this.content.states.toggle('hidden', (!v && v !== ''));
+			}
+		},
+		get: {
+			'text': function() {
+				this.content.opt('text');
+			}
+		}
 //		showText: true
 	},
-
-	$init: function(o) {
-		Ergo.widgets.TextItem.superclass.$init.apply(this, arguments);
+	
+	
+//	$init: function(o) {
+//		Ergo.widgets.TextItem.superclass.$init.apply(this, arguments);
 		
 /*		
 		var key_a = [];
@@ -105,22 +117,22 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 		
 //		console.log();
 */		
-	},
+//	},
 	
 	$opt: function(o) {
 		Ergo.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) {
-			this.content.opt('text', o.text);
+//		if('text' in o) {
+//			this.content.opt('text', o.text);
 //			(o.text) ? this.content.opt('innerText', o.text) : this.content.opt('innerHtml', '&nbsp;');
-		}
+//		}
 		if('textFormat' in o) this.content.opt('format', o.textFormat);
 	
 	
-		if('text' in o) {
-			this.content.opt('text', o.text);
-			this.content.states.toggle('hidden', (!o.text && o.text !== ''));
-		}
+		// if('text' in o) {
+			// this.content.opt('text', o.text);
+			// this.content.states.toggle('hidden', (!o.text && o.text !== ''));
+		// }
 		if('icon' in o) {
 			this.icon.states.setOnly(o.icon);
 			this.icon.states.toggle('hidden', !o.icon);

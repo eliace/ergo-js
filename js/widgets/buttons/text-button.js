@@ -6,7 +6,7 @@
 
 Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.Button', /** @lends Ergo.widgets.TextButton.prototype */{
 	
-	aaa: 'TextButton',
+//	aaa: 'TextButton',
 	
 	defaults: {
 		cls: 'ergo-text-button',
@@ -25,17 +25,23 @@ Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.
 				state: 'hidden'
 			}
 		},
-		text: false
+		text: false,
+		set: {
+			'text': function(v) {
+				this.content.opt('text', v);
+				this.content.states.toggle('hidden', (!v && v !== ''));
+			}			
+		}
 	},
 	
-	
+
 	$opt: function(o) {
 		Ergo.widgets.TextButton.superclass.$opt.apply(this, arguments);
 		
-		if('text' in o) {
-			this.content.opt('text', o.text);
-			this.content.states.toggle('hidden', (!o.text && o.text !== ''));
-		}
+		// if('text' in o) {
+			// this.content.opt('text', o.text);
+			// this.content.states.toggle('hidden', (!o.text && o.text !== ''));
+		// }
 		if('icon' in o) {
 			this.icon.states.setOnly(o.icon);
 			this.icon.states.toggle('hidden', !o.icon);
