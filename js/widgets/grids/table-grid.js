@@ -72,8 +72,6 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 							}
 							
 						}
-						
-						
 					}
 				}
 			},
@@ -198,6 +196,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					grid.depressed = null;
 					
 					grid.glass_pane.el.detach();
+					
+//					grid.events.fire('onColumnResize', {columnIndex: depressed.column.index});
 				}
 			}
 		});
@@ -219,6 +219,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				delete this.has_scroll_bar;
 			}
 		}
+
+//		this.events.fire('onLayoutChanged');
 		
 	},
 	

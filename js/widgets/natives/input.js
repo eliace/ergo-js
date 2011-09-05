@@ -7,13 +7,16 @@
 Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.InputField.prototype */{
 	
 	defaults: {
-		html: '<input type="text"/>'
+		html: '<input type="text"/>',
+		set: {
+			'text': function(v) { this.el.val(v); }
+		}
 	},
 	
 	$opt: function(o) {
 		Ergo.widgets.Input.superclass.$opt.call(this, o);
 		
-		if('text' in o) this.el.val(o.text);
+//		if('text' in o) this.el.val(o.text);
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
 		if('name' in o) this.el.attr('name', o.name);
 		if('value' in o) this.el.attr('value', o.value);

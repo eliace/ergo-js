@@ -49,7 +49,8 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 		headerModel: {
 			row: {},
 			cell: {},
-			columns: []
+			columns: [],
+			rows: [{}]
 		}
 	},
 	
@@ -102,7 +103,7 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 				{items: h_columns}
 				);
 		
-		o.components.head.items = [{}];
+		o.components.head.items = o.headerModel.rows;//[{}];
 		
 	},
 	

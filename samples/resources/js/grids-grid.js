@@ -11,10 +11,18 @@ var grid = $.ergo({
   width: 800,
   
   components: {
+  	// sorter: {
+  		// etype: 'list',
+  		// weight: 5,
+  		// defaultItem: {
+  			// etype: 'input'
+  		// },
+  		// items: [{}, {}, {}, {}, {}, {}, {}]
+  	// },
     pager: {
       etype: 'pager',
-      count: 200,
-      pageSize: 40,
+      count: 205,
+      pageSize: 50,
       cls: 'ergo-border-top',
       onIndexChanged: function(e) {
         // генерируем данные и добавляем их в источник данных виджета
@@ -41,40 +49,43 @@ var grid = $.ergo({
   
   
   headerModel: {
-  	cell: {
-  		onClick: function() {
-  			this.parent.selection.set(this);
-  		},
-  		content: {
-				etype: 'text-item',
-				xicon: 'ergo-icon-spinner-down',
-				style: {'margin-right': -16},
-				components: {
-					xicon: {
-						style: {'visibility': 'hidden'}
-					}
-				}
-  		},
-			states: {
-				'selected': function(on) {
-					if(on)
-						this.content.xicon.el.css('visibility', 'visible');
-					else
-						this.content.xicon.el.css('visibility', 'hidden');						
-				}
-			},
-			set: {
-				'text': function(t) {
-  				this.content.opt('text', t);
-  			}  					
-			},
-  		onSelectionChanged: function() {
-  			
-  		}
-  	},
-  	row: {
-  		extensions: [Ergo.Selectable]
-  	}
+    cell: {
+      onClick: function() {
+        this.parent.selection.set(this);
+        this.states.toggle('sorting');
+        var sorting = this.states.is('asc') ? 'asc': 'desc';
+        
+        grid.events.fire('onSortChanged', {column: this.index, 'sorting': sorting});
+                
+      },
+      content: {
+        etype: 'text-item',
+        xicon: 'ergo-icon-sort',
+        style: {'margin-right': -16},
+        components: {
+          xicon: {
+            style: {'visibility': 'hidden'}
+          }
+        }
+      },
+      states: {
+        'selected': function(on) {
+          if(on)
+            this.content.xicon.el.css('visibility', 'visible');
+          else
+            this.content.xicon.el.css('visibility', 'hidden');
+        },
+        'sorting': ['asc', 'desc']
+      },
+      set: {
+        'text': function(t) {
+          this.content.opt('text', t);
+        }            
+      }    	
+    },
+    row: {
+      extensions: [Ergo.Selectable]
+    }
   },
   
   
@@ -112,14 +123,14 @@ var grid = $.ergo({
       content: {
         etype: 'checkbox'
       },
-      header: {
-      	content: {
-	        content: {
-	          etype: 'checkbox',
-	          checked: false        
- 	       }
-      	}
-      },
+      // header: {
+        // content: {
+          // content: {
+            // etype: 'checkbox',
+            // checked: false        
+          // }
+        // }
+      // },
       binding: 'skip'
     }, {
       dataId: 'currency',
@@ -132,6 +143,56 @@ var grid = $.ergo({
 //      width: 60
 //      format: Ergo.format_date
     }]
+  },
+  
+  
+  
+  // onLayoutChanged: function() {
+//   	
+  	// var self = this;
+//   	
+  	// this.header.content.head.item(0).items.each(function(w, i){
+  		// var input = self.sorter.item(i);
+  		// var dw = input.el.outerWidth() - input.el.innerWidth();
+  		// self.sorter.item(i).el.width(w.el.width() - dw);
+// //  		console.log(w.el.width());
+  	// });
+//   	
+//   	
+  // },
+  
+  
+  
+  onColumnResize: {
+  	
+  },
+  
+  
+  onSortChanged: function(e) {
+    
+    var val = this.data.val();
+    var sort_id = this.options.tableModel.columns[e.column].dataId;
+    
+    val.sort(function(a, b){
+      var c1 = a[sort_id];
+      var c2 = b[sort_id];
+      if(e.sorting == 'asc') {
+        if(c1 < c2) return -1;
+        if(c1 > c2) return 1;            
+      }
+      else {
+        if(c1 > c2) return -1;
+        if(c1 < c2) return 1;
+      }
+      return 0;
+    });
+    
+    // Финт ушами
+    // Поскольку количество элементов контейнера (строк таблицы) не изменяется, а меняется только их порядок - 
+    // не будем перестраивать виджет, а просто обновим связь с данными. Это позволит значительно увеличить
+    // скорость обновления
+    this.$dataChanged();
+//    this.data.events.fire('value:changed');
   }
   
   
