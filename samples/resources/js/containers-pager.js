@@ -27,7 +27,7 @@ var box = $.ergo({
           if(offset > 0) {
             offset -= 5;
             bindingData.options.range = [offset, offset+5];
-            bindingData.events.fire('onValueChanged');              
+            bindingData.events.fire('value:changed');              
           }
         }
         
@@ -38,7 +38,7 @@ var box = $.ergo({
           if(offset < 25) {
             offset += 5;
             bindingData.options.range = [offset, offset+5];
-            bindingData.events.fire('onValueChanged');              
+            bindingData.events.fire('value:changed');              
           }
         }
       }]
