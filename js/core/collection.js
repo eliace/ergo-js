@@ -34,9 +34,9 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	unset: function(i) {
-		delete this.src[i];
-	},
+	// unset: function(i) {
+		// delete this.src[i];
+	// },
 	
 	/**
 	 * Получение значения по ключу
@@ -53,10 +53,10 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * 
 	 * Аналогично по работе методу set
 	 */
-	add: function(item, i) {
-		this.src[i] = item;
-//		this.events.fire('item:add', {'item': item});
-	},
+	// add: function(item, i) {
+		// this.src[i] = item;
+// //		this.events.fire('item:add', {'item': item});
+	// },
 	
 	/**
 	 * Удаление значения
