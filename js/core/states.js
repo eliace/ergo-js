@@ -21,6 +21,8 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 	 */
 	set: function(name, change_class) {
 		
+		if(!name || this.is(name)) return;
+		
 		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'set'});
 		this._widget.events.fire('onBeforeStateChange', e);
 		if(e.isCanceled) return;
@@ -30,6 +32,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 		var state = this._widget.options.states[name];
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
+		
 //		else if($.isString(state)) { state_on = state; state_off = ''; }
 		else if($.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
 			this.set(state[0]);
@@ -110,6 +113,9 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 	 */
 	clear: function(name) {
 		
+		if(!name || !this.is(name)) return;
+		
+		
 		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'clear'});
 		this._widget.events.fire('onBeforeStateChange', e);
 		if(e.isCanceled) return;		
@@ -127,7 +133,8 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 		// получаем состояние, определенное для виджета
 		var state = this._widget.options.states[name];		
 //		var state_off, state_on = null;
-		if(state == null) state = name;//{ state_on = name; state_off = ''; }
+		if(state == null) state = name;//{ state_on = name; state_off = ''; }		
+		
 //		else if($.isString(state)) { state_on = state; state_off = ''; }
 		else if($.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
 			this.clear(state[0]);
