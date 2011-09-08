@@ -33,12 +33,12 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		
 		var self = this;
 		var o = this.options;
-		var val = this.val();
+		var val = this.get();
 		
 		this.entries = $.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
 		
 		if(!o.lazy) {
-			Ergo.each(val, function(v, i){	self.ensure(i); });
+			Ergo.each(val, function(v, i){	self.entry(i); });
 		}
 		
 	},
@@ -62,7 +62,12 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			for(var j = 0; j < a.length; j++) e = e.entry(a[j]);
 		}
 				
-		return e.ensure(i);
+		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
+		if(!this.entries.has_key(i)) {
+			this.entries.set(i, this.create(i));
+		}
+		
+		return this.entries.get(i);
 	},
 	
 	
@@ -74,23 +79,10 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 * @param {Any} i ключ
 	 * 
 	 */
-	factory: function(i) {
+	create: function(i) {
 		return new Ergo.core.DataSource(this, i);		
 	},
 	
-	/**
-	 * Получение вложенного элемента данных по ключу. Причем, если элемента данных не существует, то он будет создан
-	 * 
-	 * @param {Any} i ключ
-	 */
-	ensure: function(i) {
-		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!this.entries.has_key(i)) {
-			this.entries.set(i, this.factory(i));
-		}
-		
-		return this.entries.get(i);
-	},
 	
 	
 	/**
@@ -101,21 +93,17 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 * 
 	 * @param {Any} [v] значение
 	 */
-	val: function(v) {
+	_val: function(v) {
 //		if('_cached' in this) return this._cached;
 //		var v = undefined;
 
 		if(arguments.length == 0) {
-			if(this.source instanceof Ergo.core.DataSource){
-				v = ('id' in this) ? this.source.val()[this.id]: this.source.val();
-			}
-			else{
-				v = ('id' in this) ? this.source[this.id] : this.source;
-			}			
+			v = (this.source instanceof Ergo.core.DataSource) ? this.source._val() : this.source;
+			if('id' in this) v = v[this.id];
 		} 
 		else {
 			if (this.source instanceof Ergo.core.DataSource) {
-				('id' in this) ? this.source.val()[this.id] = v : this.source.val(v);
+				('id' in this) ? this.source._val()[this.id] = v : this.source._val(v);
 	  	}
 			else {
 				('id' in this) ? this.source[this.id] = v : this.source = v;
@@ -134,10 +122,11 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 * @param {Any} [i] ключ
 	 */
 	get: function(i) {
-		if(i === undefined)
-			return this.val();
-		else{
-			return this.entry(i).val();			
+		if(i === undefined){
+			return this._val();
+		}
+		else {
+			return this.entry(i).get();			
 		}
 	},
 	
@@ -167,7 +156,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			// опустошаем список элементов
 			this.entries.apply_all('destroy');
 			
-			var oldValue = this.val();
+			var oldValue = this.get();
 			
 			// if (this.source instanceof Ergo.core.DataSource) {
 				// ('id' in this) ? this.source.val()[this.id] = newValue : this.source.set(newValue);
@@ -176,7 +165,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 				// ('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 			// }
 			
-			this.val(newValue);
+			this.get(newValue);
 
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
@@ -203,7 +192,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 */
 	add: function(value, index) {
 		
-		var values = this.val();		
+		var values = this.get();		
 		
 		var isLast = false;
 			
@@ -263,13 +252,11 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 				throw new Error('Unable to delete root data source');
 		}
 		else {
-			var value = this.val();
+			var value = this.get();
 
 			var deleted_entry = this.entry(i);
 //			var deleted_entry = this.entries.remove_at(i);
 			var deleted_value = value[i];
-			
-			this.entries.remove_at(i);
 			
 			if($.isArray(value)) {
 				value.splice(i, 1);
@@ -279,6 +266,8 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			else {
 				delete value[i];
 			}
+			
+			this.entries.remove_at(i);
 			
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
 			if(deleted_entry)
@@ -297,7 +286,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	iterate: function(callback) {
 		
 		var self = this;
-		var values = this.val();
+		var values = this.get();
 		var keys = this.keys();
 		
 		// var keys = [];
@@ -322,7 +311,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	keys: function() {
 		var keys = [];
-		var values = this.val();		
+		var values = this.get();		
 		if($.isArray(values)) {
 			for(var i = 0; i < values.length; i++) keys.push(i);
 		}
