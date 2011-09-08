@@ -10,7 +10,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 	
 	
 	getByOID: function(oid) {
-		var a = this.val();
+		var a = this.get();
 		for(var i in a)
 			if(a[i].id == oid) return a[i];
 		return null;

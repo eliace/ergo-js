@@ -44,6 +44,17 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	},
 	
 	
+	destroy: function() {
+		
+		// очищаем регистрацию обработчиков событий
+		this.events.unreg_all();
+		// удаляем все дочерние элементы
+		this.entries.apply_all('destroy');
+		
+	},
+	
+	
+	
 	/**
 	 * Получение вложенного элемента данных по ключу
 	 * 
@@ -63,11 +74,11 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		}
 				
 		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!this.entries.has_key(i)) {
-			this.entries.set(i, this.create(i));
+		if(!e.entries.has_key(i)) {
+			e.entries.set(i, e.factory(i));
 		}
 		
-		return this.entries.get(i);
+		return e.entries.get(i);
 	},
 	
 	
@@ -79,7 +90,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 * @param {Any} i ключ
 	 * 
 	 */
-	create: function(i) {
+	factory: function(i) {
 		return new Ergo.core.DataSource(this, i);		
 	},
 	
@@ -165,7 +176,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 				// ('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
 			// }
 			
-			this.get(newValue);
+			this._val(newValue);
 
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			

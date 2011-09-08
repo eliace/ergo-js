@@ -2,10 +2,20 @@
 
 test('core/model', function(){
 	
-	var PositiveInteger = Ergo.data.Model.extend({
+	var Types = {};
+	
+	Types.PositiveInteger = Ergo.data.Model.extend({
 		
 		validate: function(v) {
 			return (v >= 0);
+		}
+		
+	});
+	
+	Types.String = Ergo.data.Model.extend({
+		
+		validate: function(v) {
+			return $.isString(v);
 		}
 		
 	});
@@ -14,11 +24,11 @@ test('core/model', function(){
 	
 	var testModel = Ergo.data.Model.extend({
 		fields: {
-			'name': 'string',
-			'age': PositiveInteger
+			'name': Types.String,
+			'age': Types.PositiveInteger
 		},
 		print: function() {
-			return this.val()['name'];
+			return this.get('name');
 		}
 	});
 	
