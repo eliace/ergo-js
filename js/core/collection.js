@@ -27,7 +27,17 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * @param {Object} item значение
 	 */
 	set: function(i, item) {
-		this.src[i] = item;
+		if(arguments.length == 1) {
+			item = i;
+			var old = this.src;
+			this.src = item;
+//			this.events.fire('value:changed', {'value': item, 'oldValue': old});
+		}
+		else {
+			var old = this.src[i];
+			this.src[i] = item;
+//			this.events.fire('item:changed', {'item': item, 'index': i, 'oldItem': old});			
+		}
 	},
 	
 	/**
@@ -57,6 +67,20 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 		// this.src[i] = item;
 // //		this.events.fire('item:add', {'item': item});
 	// },
+
+
+
+	/**
+	 * Удаление значения по ключу
+	 * @param {Object} i ключ
+	 */
+	remove_at: function(i) {
+		var item = this.src[i];
+		delete this.src[i];
+		return item;
+		
+//		this.events.fire('item:removed', {'item': item});
+	},
 	
 	/**
 	 * Удаление значения
@@ -70,17 +94,6 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 		return item;
 	},
 
-	/**
-	 * Удаление значения по ключу
-	 * @param {Object} i ключ
-	 */
-	remove_at: function(i) {
-		var item = this.src[i];
-		delete this.src[i];
-		return item;
-//		this.events.fire('item:remove', {'item': item});
-	},
-	
 	/**
 	 * Удаление значения по условию
 	 *
@@ -107,7 +120,8 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Очистка коллекции от всех значений
 	 */
 	clear: function() {
-		this.src = {};
+		this.remove_all();
+//		this.src = {};
 	},
 	
 	/**

@@ -28,10 +28,7 @@ Ergo.core.WidgetArray = Ergo.declare('Ergo.core.WidgetArray', 'Ergo.core.Array',
 		this.widget = w;
 	},
 	
-	get: function(i) {
-		return this.src[i];
-	},
-	
+
 	add: function(item, i) {
 		
 		var w = this.widget;

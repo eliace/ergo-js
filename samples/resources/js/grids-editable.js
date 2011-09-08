@@ -134,13 +134,15 @@ var panel = $.ergo({
           cls: 'ergo-border-top',
           onIndexChanged: function(e) {
                         
-            gridData.options.filter = function(keys, values){
-              var out = [];
-              for(var idx = 0; idx < values.length; idx++)
-                if(idx >= e.from && idx < e.to) out.push(idx);                
-              return out;
+            gridData.options.filter = function(v, i){//keys, values){
+            	return (i >= e.from && i < e.to)
+              // var out = [];
+              // for(var idx = 0; idx < values.length; idx++)
+                // if(idx >= e.from && idx < e.to) out.push(idx);                
+              // return out;
             };
             
+            //FIXME здесь должен быть метод $dataChanged()
             gridData.events.fire('value:changed');
             
             panel.content.$layoutChanged();

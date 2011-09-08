@@ -29,16 +29,18 @@ var grid = $.ergo({
         var data_page = Samples.generate_grid_page(e.from, e.to);
         var j = 0;
         for(var i = e.from; i < e.to; i++) {
-          grid.data.source[i] = data_page[j++];
+          grid.data.src[i] = data_page[j++];
         }
 
-        grid.data.options.filter = function(keys, values) {
-          var out = [];
-          for(var i = 0; i < values.length; i++)
-            if(i >= e.from && i < e.to) out.push(i);
-          return out;          
+        grid.data.options.filter = function(v, i) {//keys, values) {
+        	return (i >= e.from && i < e.to);
+          // var out = [];
+          // for(var i = 0; i < values.length; i++)
+            // if(i >= e.from && i < e.to) out.push(i);
+          // return out;          
         };
-          
+
+//				grid.data.set(arr);          
         grid.data.events.fire('value:changed');
         grid.$layoutChanged();
         
@@ -170,7 +172,7 @@ var grid = $.ergo({
   
   onSortChanged: function(e) {
     
-    var val = this.data.val();
+    var val = this.data.get();
     var sort_id = this.options.tableModel.columns[e.column].dataId;
     
     val.sort(function(a, b){

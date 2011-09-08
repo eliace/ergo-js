@@ -134,7 +134,10 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 */
 	get: function(i) {
 		if(i === undefined){
-			return this._val();
+			var v = (this.source instanceof Ergo.core.DataSource) ? this.source.get() : this.source;
+			if('id' in this) v = v[this.id];
+			return v;
+//			return this._val();
 		}
 		else {
 			return this.entry(i).get();			
@@ -233,14 +236,15 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			
 		}
 		else {
-			values[index] = value;
+			throw new Error('Method "add" does not support object src');
+//			values[index] = value;
 		}
 
 
 
 		var e = this.entry(index);
 
-		this.events.fire('entry:added', {'index': index, 'entry': e, 'isLast': isLast});
+		this.events.fire('entry:added', {'index': index, 'entry': e});//, 'isLast': isLast});
 		
 		return e;
 	},
@@ -260,7 +264,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			if(this.source instanceof Ergo.core.DataSource)
 				this.source.del(this.id);
 			else
-				throw new Error('Unable to delete root data source');
+				throw new Error('Unable to delete root data src');
 		}
 		else {
 			var value = this.get();
@@ -298,7 +302,14 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		
 		var self = this;
 		var values = this.get();
-		var keys = this.keys();
+//		var keys = this.keys(this.options.filter);
+		
+		var criteria = this.options.filter;
+		Ergo.each(values, function(v, i){
+			if(!criteria || criteria.call(this, v, i)) {
+				callback.call(self, self.entry(i), i, v);				
+			}
+		});
 		
 		// var keys = [];
 		// if($.isArray(values)) {
@@ -309,29 +320,36 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		// }
 		
 		//TODO здесь могут применяться модификаторы списка ключей (сортировка, фильтрация)
-		if(this.options.filter){
-			keys = this.options.filter.call(this, values, keys);
-		}
+		// if(this.options.filter){
+			// keys = this.options.filter.call(this, values, keys);
+		// }
 		
-		for(var i = 0; i < keys.length; i++){
-			var k = keys[i];
-			callback.call(this, this.entry(k), k, values[k]);			
-		}
+		// for(var i = 0; i < keys.length; i++){
+			// var k = keys[i];
+			// callback.call(this, this.entry(k), k, values[k]);			
+		// }
 	},
 	
-	
-	keys: function() {
+/*	
+	keys: function(criteria) {
 		var keys = [];
-		var values = this.get();		
-		if($.isArray(values)) {
-			for(var i = 0; i < values.length; i++) keys.push(i);
-		}
-		else {
-			for(var i in values) keys.push(i);			
-		}
-		return keys
+		var values = this.get();
+		
+		Ergo.each(function(v, i){
+			if(criteria || criteria.call(this, v, i)) keys.push(i);
+		});
+		
+		return keys;
+				
+		// if($.isArray(values)) {
+			// for(var i = 0; i < values.length; i++) keys.push(i);
+		// }
+		// else {
+			// for(var i in values) keys.push(i);			
+		// }
+		// return keys
 	},
-	
+*/	
 	
 	
 	

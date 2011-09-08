@@ -34,7 +34,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 			this.src.splice(i, 0, item);			
 		}
 			
-//		this.events.fire('item:add', {'item': item});
+//		this.events.fire('item:added', {'item': item, 'index': i});
 		return i;
 	},
 	
@@ -46,7 +46,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 		var item = this.src[i]
 		this.src.splice(i, 1);
 		return item;
-//		this.events.fire('item:remove', {'item': item});
+//		this.events.fire('item:removed', {'item': item});
 	},
 	
 	
@@ -61,9 +61,9 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 		return this.src.length;
 	},
 	
-	clear: function() {
-		this.src = [];
-	},
+	// clear: function() {
+		// this.src = [];
+	// },
 	
 	/**
 	 * Первый элемент коллекции
