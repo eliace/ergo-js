@@ -204,7 +204,7 @@ groupView.factory = function(i) {
 	var entry = new Ergo.core.DataSource(this, i);
 	entry.entry = function(i) {
 		var e = Ergo.core.DataSource.prototype.entry.apply(this, arguments);
-		return this.val()[i];
+		return e.get();
 	};
 	return entry;
 }
@@ -259,6 +259,7 @@ baseDataSource.events.reg('entry:added', function(e){
 	}
 	if(!Ergo.include(group_a, entry)) {
 		groupView.entry(group_id).add(entry);
+//		console.log(groupView.entry(group_id).get());
 	}
 	
 });
@@ -441,9 +442,9 @@ $.ergo({
 
 baseDataSource.events.fire('value:changed');
 
-baseDataSource.entry(0).set('text', 'Alice 2');
+baseDataSource.set('0.text', 'Alice 2');
 
-baseDataSource.entry(0).set('group', '2'); // после изменения поля группировки слует явно вызвать перегруппировку
+baseDataSource.set('0.group', '2'); // после изменения поля группировки слует явно вызвать перегруппировку
 groupView.regroup();
 
 baseDataSource.del(2);

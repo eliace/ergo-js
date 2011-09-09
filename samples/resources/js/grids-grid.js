@@ -29,7 +29,7 @@ var grid = $.ergo({
         var data_page = Samples.generate_grid_page(e.from, e.to);
         var j = 0;
         for(var i = e.from; i < e.to; i++) {
-          grid.data.src[i] = data_page[j++];
+          grid.data.source[i] = data_page[j++];
         }
 
         grid.data.options.filter = function(v, i) {//keys, values) {

@@ -21,7 +21,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 	 */
 	set: function(name, change_class) {
 		
-		if(!name || this.is(name)) return;
+//		if(!name || this.is(name)) return;
 		
 		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'set'});
 		this._widget.events.fire('onBeforeStateChange', e);
@@ -113,7 +113,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 	 */
 	clear: function(name) {
 		
-		if(!name || !this.is(name)) return;
+//		if(!name || !this.is(name)) return;
 		
 		
 		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'clear'});

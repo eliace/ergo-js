@@ -2,12 +2,13 @@
 
 var bindingData = new Ergo.core.DataSource( Samples.generate_plain_list(30), {
   range: [0, 5],
-  filter: function(data){
-    var out = [];
+  filter: function(v, i){
     var r = this.options.range;
-    for(var i = 0; i < data.length; i++)
-      if(i >= r[0] && i < r[1]) out.push(i);                
-    return out;
+    return (i >= r[0] && i < r[1]);
+    // var out = [];
+    // for(var i = 0; i < data.length; i++)
+      // if(i >= r[0] && i < r[1]) out.push(i);                
+    // return out;
   }
 } );
 
@@ -27,7 +28,7 @@ var box = $.ergo({
           if(offset > 0) {
             offset -= 5;
             bindingData.options.range = [offset, offset+5];
-            bindingData.events.fire('value:changed');              
+            bindingData.events.fire('value:changed');
           }
         }
         

@@ -126,7 +126,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	
 	/**
-	 * Получение значения атрибута/элемента по ключу
+	 * Получение значения элемента по ключу
 	 *
 	 * Если ключ не указан или не определен, то берется значение самого источника данных
 	 * 
@@ -134,10 +134,10 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 */
 	get: function(i) {
 		if(i === undefined){
-			var v = (this.source instanceof Ergo.core.DataSource) ? this.source.get() : this.source;
-			if('id' in this) v = v[this.id];
-			return v;
-//			return this._val();
+			// var v = (this.source instanceof Ergo.core.DataSource) ? this.source.get() : this.source;
+			// if('id' in this) v = v[this.id];
+			// return v;
+			return this._val();
 		}
 		else {
 			return this.entry(i).get();			
@@ -156,7 +156,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	
 	/**
-	 * Установка значения атрибута/элемента по ключу
+	 * Изменение существующего элемента
 	 * 
 	 * Если аргумент один, то изменяется значение самого источника данных
 	 * 
@@ -171,20 +171,13 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			this.entries.apply_all('destroy');
 			
 			var oldValue = this.get();
-			
-			// if (this.source instanceof Ergo.core.DataSource) {
-				// ('id' in this) ? this.source.val()[this.id] = newValue : this.source.set(newValue);
-	  	// }
-			// else {
-				// ('id' in this) ? this.source[this.id] = newValue : this.source = newValue;
-			// }
-			
+						
 			this._val(newValue);
-
+			
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
 			if(this.source instanceof Ergo.core.DataSource)
-				this.source.events.fire('entry:changed', {entry: this});
+				this.source.events.fire('entry:changed', {entry: this});				
 			
 			this._changed = true;
 		}
@@ -197,7 +190,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	
 	/**
-	 * Добавление нового атрибута/элемента
+	 * Добавление нового элемента
 	 * 
 	 * 
 	 * @param {Any} value значение нового атрибута
@@ -236,8 +229,8 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			
 		}
 		else {
-			throw new Error('Method "add" does not support object src');
-//			values[index] = value;
+//			throw new Error('Method "add" does not support object src');
+			values[index] = value;
 		}
 
 
@@ -251,7 +244,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	
 	
 	/**
-	 * Удаление атрибута/элемента из источника данных.
+	 * Удаление элемента.
 	 * 
 	 * Если метод вызывается без аргументов, то удаляется сам источник данных из родительского
 	 * 
@@ -306,7 +299,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 		
 		var criteria = this.options.filter;
 		Ergo.each(values, function(v, i){
-			if(!criteria || criteria.call(this, v, i)) {
+			if(!criteria || criteria.call(self, v, i)) {
 				callback.call(self, self.entry(i), i, v);				
 			}
 		});
