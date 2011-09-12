@@ -98,7 +98,9 @@ Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.wi
 	$afterBuild: function() {
 		Ergo.widgets.BasicTreeNode.superclass.$afterBuild.apply(this, arguments);
 		
-		(this.options.expandOnShow) ? this.states.set('expand-collapse') : this.states.clear('expand-collapse');
+		this.states.toggle('expand-collapse', this.options.expandOnShow);
+		
+//		(this.options.expandOnShow) ? this.states.set('expand-collapse') : this.states.clear('expand-collapse');
 		
 //		this.states.set( (this.options.expandOnShow) ? 'expanded': 'collapsed' );
 	},

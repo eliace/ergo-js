@@ -285,7 +285,7 @@ Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widg
 		},
 		states: {
 //			'collapsed_trigger': ['collapsed', 'expanded'],
-			'expand_trigger': ['expanded', 'collapsed']
+			'expand_trigger': Ergo.on('expanded').off('collapsed')//['expanded', 'collapsed']
 		}
 	},
 	
@@ -429,7 +429,7 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 							}
 						},
 						states: {
-							'expand_trigger': ['expanded', 'collapsed'],
+							'expand_trigger': Ergo.on('expanded').off('collapsed'),//['expanded', 'collapsed'],
 							'expanded': function(on) {
 								this.button.states.toggle('expanded', on);
 							},

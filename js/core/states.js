@@ -28,11 +28,22 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 		if(e.isCanceled) return;
 		
 		
+		// если имя состояния является регулярным выражением, то устанавливаем все
+		// состояния, которые подходят под это регулярное выражение
+		if(name instanceof RegExp) {
+			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
+			for(var i in names) this.set(i);
+			return this;			
+		}
+		
+		
+		
 		// получаем состояние, определенное для виджета
 		var state = this._widget.options.states[name];
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }
-		
+
+/*		
 //		else if($.isString(state)) { state_on = state; state_off = ''; }
 		else if($.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
 			this.set(state[0]);
@@ -40,6 +51,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 			this._states[name] = true;
 			return this;
 		}
+*/
 		
 //		if( $.isString(state) ) {
 //			this.widget.el.addClass(state);
@@ -121,6 +133,8 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 		if(e.isCanceled) return;		
 
 		
+		// если имя состояния является регулярным выражением, то устанавливаем все
+		// состояния, которые подходят под это регулярное выражение
 		if(name instanceof RegExp) {
 			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
 			for(var i in names) this.clear(i);
@@ -135,6 +149,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 //		var state_off, state_on = null;
 		if(state == null) state = name;//{ state_on = name; state_off = ''; }		
 		
+/*		
 //		else if($.isString(state)) { state_on = state; state_off = ''; }
 		else if($.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
 			this.clear(state[0]);
@@ -142,7 +157,7 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 			delete this._states[name];
 			return this;
 		}
-		
+*/		
 		
 		var change_class = true;
 
@@ -202,6 +217,49 @@ Ergo.core.StateCollection = Ergo.declare('Ergo.core.StateCollection', 'Ergo.core
 Ergo.Statable = function() {
 	this.states = new Ergo.core.StateCollection(this);
 }
+
+
+
+
+
+
+
+Ergo.stateFn = function() {
+
+	var fn = function(on) {
+		var s = this.states;
+		for(var i in fn._on) s.toggle(fn._on[i], on);
+		for(var i in fn._off) s.toggle(fn._off[i], !on);
+	};
+	
+	fn._on = [];
+	fn._off = [];	
+	
+	fn.on = function(){
+		for(var i = 0; i < arguments.length; i++)
+			this._on.push(arguments[i]);		
+		return this;
+	}
+	
+	fn.off = function(){
+		for(var i = 0; i < arguments.length; i++)
+			this._off.push(arguments[i]);
+		return this;		
+	}
+	
+	return fn;
+};
+
+Ergo.on = function() {
+	var f = Ergo.stateFn();
+	return f.on.apply(f, arguments);
+};
+
+Ergo.off = function() {
+	var f = Ergo.stateFn();
+	return f.off.apply(f, arguments);
+};
+
 
 
 

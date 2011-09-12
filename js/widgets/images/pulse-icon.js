@@ -55,7 +55,13 @@ Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Ic
 		
 		this.el.css({'width': this.maxW, 'height': this.maxH});
 		
-		this.image.opt({'width': o.imageWidth, 'height': o.imageHeight, 'x': this.dx, 'y': this.dy});
+		this.image.el.css({
+			'width': o.imageWidth,
+			'height': o.imageHeight,
+			'left': this.dx,
+			'top': this.dy
+		});
+//		this.image.opt({'width': o.imageWidth, 'height': o.imageHeight, 'x': this.dx, 'y': this.dy});
 	},
 	
 	pulseDown: function(){

@@ -25,7 +25,7 @@ Ergo.widgets.TreeNode = Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box'
 			}
 		},
 		states: {
-			'expand-collapse': ['expanded', 'collapsed']
+			'expand-collapse': Ergo.on('expanded').off('collapsed')//['expanded', 'collapsed']
 		}
 	},
 	

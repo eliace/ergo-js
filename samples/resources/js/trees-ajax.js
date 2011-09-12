@@ -11,9 +11,7 @@ AjaxNode = Ergo.data.Model.extend({
 
 AjaxNodeList = Ergo.data.Collection.extend({
   
-  defaults: {
-    model: 'AjaxNode'
-  },
+  model: 'AjaxNode',
   
   fetch: function(id) {
 
@@ -27,8 +25,10 @@ AjaxNodeList = Ergo.data.Collection.extend({
 //    growl.info('ajax/tree/'+id+'.json');
     
     $.getJSON('ajax/tree/'+id+'.json', function(json){
-      self.set(json);
-      deferred.resolve();
+    	setTimeout(function(){
+	      self.set(json);
+	      deferred.resolve();    		
+    	}, 600);
     });
     
     return deferred;
@@ -78,12 +78,12 @@ $.ergo({
           var subtree = this.data.entry('children');
           
           if(!this.options.isLeaf && !subtree._fetched) {
-            this.content.text.opt('xicon', 'ergo-icon-loader');
+            this.content.text.opt('icon', 'ergo-icon-loader');
             
             e.cancel();
             
             subtree.fetch(this.data.oid()).then(function(){
-              self.content.text.opt('xicon', false);
+              self.content.text.opt('icon', 'silk-icon-folder');
               self.states.set('expand-collapse');
             });
           }
@@ -93,28 +93,6 @@ $.ergo({
       
       
       
-//      onStateChange: function(e) {
-//        if(e.state == 'expanded' && e.op == 'set') {
-//          
-//          
-//          
-//          
-//          var val = this.data.get();
-//          var self = this;
-//          if(val.is_ref) {
-////            this.content.opt('showRightIcon', true);
-//            this.content.text.xicon.states.set('ergo-icon-loader');
-//            setTimeout(function(){
-//              $.getJSON('ajax/tree_node.json', {}, function(data){
-//                self.data.set('children', [data]);
-//                val.is_ref = false;
-////                self.content.opt('showRightIcon', false);
-//                self.content.text.xicon.states.clear('ergo-icon-loader');
-//              });              
-//            }, 400);
-//          }
-//        }
-//      }
     }
   }
   
