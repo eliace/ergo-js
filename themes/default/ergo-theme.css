@@ -6,6 +6,7 @@
 .ergo-border-left { border-left: 1px solid #aaa; }
 .ergo-border-right { border-right: 1px solid #aaa; }
 .ergo-border-no-right { border-right: none;}
+.ergo-border-no-left { border-left: none;}
 .ergo-border-no-bottom { border-bottom: none;}
 .ergo-border-no-top { border-top: none;}
 .ergo-border-none { border: none; }

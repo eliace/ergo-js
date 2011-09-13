@@ -77,7 +77,7 @@ var grid = $.ergo({
           else
             this.content.xicon.el.css('visibility', 'hidden');
         },
-        'sorting': ['asc', 'desc']
+        'sorting': Ergo.on('asc').off('desc')
       },
       set: {
         'text': function(t) {

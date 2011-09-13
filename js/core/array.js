@@ -20,6 +20,11 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	},	
 	
 	
+	create: function(v) {
+		return new Ergo.core.Array(v);
+	},
+	
+	
 	/**
 	 * Добавить новый элемент
 	 * @param {Object} item

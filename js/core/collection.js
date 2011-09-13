@@ -21,6 +21,12 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 		this.src = src || {};
 	},
 	
+	
+	create: function(v) {
+		return new Ergo.core.Collection(v);
+	},
+	
+	
 	/**
 	 * Установка значения
 	 * @param {Object} i ключ
@@ -161,14 +167,14 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Фильтрация элементов
 	 */
 	filter: function(callback) {
-		return Ergo.filter(this.src, callback);
+		return this.create( Ergo.filter(this.src, callback) );
 	},
 
 	/**
 	 * Отображение элементов
 	 */
 	map: function(callback) {
-		return Ergo.map(this.src, callback);		
+		return this.create( Ergo.map(this.src, callback) );		
 	},
 	
 	/**

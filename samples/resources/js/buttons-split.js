@@ -166,5 +166,68 @@ $.ergo({
       this.data.set(e.target.data.get());
 //      growl.info('Selected item: '+e.target.content.getValue());
     }    
+  }, {
+  	extensions: [Ergo.Selectable],
+  	defaultComponent: {
+  		etype: 'icon-button',
+  		cls: 'ergo-bg-3',
+  		onClick: function() {
+  			this.parent.selection.set(this);
+  		}
+  	},
+  	components: {
+  		left: {
+  			cls: 'left-checkbox', //ergo-corner-left ergo-no-border-right',
+  			icon: 'silk-icon-male'
+  		},
+  		splitter: {
+  			cls: 'ergo-border-no-left ergo-border-right',
+  			style: {'padding-left': 0, 'padding-right': 0},
+  			width: 1
+  		},
+  		right: {
+  			cls: 'right-checkbox', //ergo-corner-right',
+  			icon: 'silk-icon-female'
+  		}
+  	},
+  	onCreated: function() {
+  		this.selection.set(this.left);
+  	}
+  }, {
+  	extensions: [Ergo.Selectable],
+  	defaultComponent: {
+  		etype: 'button',
+  		cls: 'ergo-bg-3 ergo-border-all',
+  		onClick: function() {
+  			this.parent.selection.set(this);
+  		},
+  		style: {
+  			'color': '#fff',
+  			'font-weight': 'bold',
+  			'text-shadow': '1px 1px 1px #888'
+  		}
+  	},
+  	components: {
+  		left: {
+  			cls: 'left-checkbox',
+  			text: 'ON'
+//  			icon: 'silk-icon-male'
+  		},
+  		splitter: {
+  			cls: 'ergo-border-no-left ergo-border-right',
+  			style: {'padding-left': 0, 'padding-right': 0},
+  			width: 1,
+  			innerHtml: '&nbsp;'
+  		},
+  		right: {
+  			cls: 'right-checkbox off', //ergo-corner-right',
+  			text: 'OFF'
+
+//  			icon: 'silk-icon-female'
+  		}
+  	},
+  	onCreated: function() {
+  		this.selection.set(this.left);
+  	}
   }]            
 });

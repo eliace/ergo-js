@@ -59,6 +59,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 		this.container.el.css('z-index', z*1000+1);
 	
 		$('body').append(this.overlay_el);
+		$('body').append(this.container.el);
 		
 		this.reset();
 		this.container.el.show();
@@ -72,6 +73,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 		
 		this.overlay_el.detach();
 		this.container.el.hide();
+//		this.el.detach();
 	},
 	
 	

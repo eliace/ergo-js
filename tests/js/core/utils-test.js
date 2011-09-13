@@ -41,5 +41,8 @@ test('core/utils', function(){
 	same(b, {'a': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
 	
 	
+	a = Ergo.smart_override({items: [1, 2, 3]}, {items: [8]});
+	same(a, {items:[8,2,3]}, 'Перегрузка массива items')
+	
 });
 	
