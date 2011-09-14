@@ -6,7 +6,8 @@ Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.C
 	
 	
   initialize: function() {
-    Ergo.data.AjaxCollection.superclass.initialize.apply(this, arguments);
+  	this.$super.apply(this, arguments);
+//    Ergo.data.AjaxCollection.superclass.initialize.apply(this, arguments);
     
 //    this._from = 0;
 //    this._to = 0;

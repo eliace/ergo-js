@@ -5,19 +5,26 @@
 Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', {
 	
 	defaults: {
-		html: '<span/>'
-	},
-	
-	$opt: function(o) {
-		Ergo.widgets.Text.superclass.$opt.apply(this, arguments);
-		
-		if('text' in o) {
-			(o.text) ? this.el.text(o.text) : this.el.html('&nbsp;');
+		html: '<span/>',
+		set: {
+			'text': function(v) {
+				(v) ? this.el.text(v) : this.el.html('&nbsp;');
+			}
 		}
 	},
 	
+	// $opt: function(o) {
+		// this.$super(o);
+// //		Ergo.widgets.Text.superclass.$opt.apply(this, arguments);
+// 		
+		// if('text' in o) {
+			// (o.text) ? this.el.text(o.text) : this.el.html('&nbsp;');
+		// }
+	// },
+	
 	$dataChanged: function() {
-		Ergo.widgets.Text.superclass.$dataChanged.apply(this, arguments);
+		this.$super();
+//		Ergo.widgets.Text.superclass.$dataChanged.apply(this, arguments);
 		
 		this.el.text( this.getValue() );
 	},

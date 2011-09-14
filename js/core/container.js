@@ -23,7 +23,8 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 	},
 	
 	$init: function(o) {
-		Ergo.core.Container.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.core.Container.superclass.$init.apply(this, arguments);
 		
 		/**
 		 * Элементы
@@ -49,7 +50,8 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 	
 	
 	$construct: function(o) {
-		Ergo.core.Container.superclass.$construct.apply(this, arguments);
+		this.$super(o);
+//		Ergo.core.Container.superclass.$construct.apply(this, arguments);
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
@@ -246,7 +248,8 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 	bind: function(data, update, phase) {
 		
 		if(!this.options.dynamic) {
-			Ergo.core.Container.superclass.bind.apply(this, arguments);
+			this.$super(data, update, phase);
+//			Ergo.core.Container.superclass.bind.apply(this, arguments);
 			return;
 		}
 		

@@ -39,7 +39,8 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 	},
 	
 	$dataChanged: function() {
-		Ergo.widgets.Field.superclass.$dataChanged.apply(this, arguments);
+		this.$super();
+//		Ergo.widgets.Field.superclass.$dataChanged.apply(this, arguments);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus()) 
 			this.input.el.val( this.getRawValue() );

@@ -30,7 +30,8 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
 	
 	
 	$init: function(o) {
-		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
 		
 		var cols = [];
 		Ergo.each(o.gridModel.columns, function(col){

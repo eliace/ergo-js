@@ -14,8 +14,9 @@ Ergo.layouts.ColumnLayout = Ergo.declare('Ergo.layouts.ColumnLayout', 'Ergo.layo
 //		autoHeight: true
 	},
 	
-	attach: function() {
-		Ergo.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
+	attach: function(c) {
+		this.$super(c);
+//		Ergo.layouts.ColumnLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0" style="width:100%"><tbody><tr></tr></tbody></table>');
 		this.row_el = $('tr', this.el);
@@ -24,7 +25,8 @@ Ergo.layouts.ColumnLayout = Ergo.declare('Ergo.layouts.ColumnLayout', 'Ergo.layo
 	},
 	
 	detach: function() {
-		Ergo.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
+		this.$super();
+//		Ergo.layouts.ColumnLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	

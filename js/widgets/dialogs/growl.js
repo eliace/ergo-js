@@ -48,7 +48,8 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 	
 	
 	$init: function(o) {
-		Ergo.widgets.GrowlBox.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.GrowlBox.superclass.$init.apply(this, arguments);
 		
 		// Добавляем иконку
 		if('icon' in o) {

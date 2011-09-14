@@ -20,7 +20,8 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	 * @param {Object} baseEvent
 	 */
 	initialize: function(overrides, baseEvent) {
-		Ergo.events.Event.superclass.initialize.call(this);
+		this.$super();
+//		Ergo.events.Event.superclass.initialize.call(this);
 		
 		if(overrides) Ergo.override(this, overrides);
 		
@@ -40,7 +41,8 @@ Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.eve
 	 * @param {Object} baseEvent
 	 */
 	initialize: function(overrides, baseEvent) {
-		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
+		this.$super(overrides, baseEvent);
+//		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
 		this.isCanceled = false;
 	},
 	

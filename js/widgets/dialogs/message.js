@@ -55,7 +55,8 @@ Ergo.widgets.MessageBox = Ergo.declare('Ergo.widgets.MessageBox', 'Ergo.widgets.
 		
 	
 	$opt: function(o) {
-		Ergo.widgets.MessageBox.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.MessageBox.superclass.$opt.apply(this, arguments);
 		
 		if('icon' in o) this.content.icon.states.setOnly(this.options.iconSet[o.icon]);
 		if('message' in o) this.content.message.baseText.opt('text', o.message);

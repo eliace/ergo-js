@@ -120,7 +120,8 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 //	},
 	
 	$opt: function(o) {
-		Ergo.widgets.TextItem.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.TextItem.superclass.$opt.apply(this, arguments);
 		
 //		if('text' in o) {
 //			this.content.opt('text', o.text);

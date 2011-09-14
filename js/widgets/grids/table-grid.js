@@ -127,10 +127,11 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function() {
-		Ergo.widgets.TableGrid.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		Ergo.widgets.TableGrid.superclass.$init.apply(this, arguments);
 		
-		var o = this.options;
+//		var o = this.options;
 		
 		// переносим параметр width из колонок в заголовки
 		var h_columns = [];
@@ -152,7 +153,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	$construct: function(o) {
-		Ergo.widgets.TableGrid.superclass.$construct.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.TableGrid.superclass.$construct.apply(this, arguments);
 		
 		var grid = this;
 		
@@ -206,7 +208,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	$layoutChanged: function() {
-		Ergo.widgets.TableGrid.superclass.$layoutChanged.apply(this, arguments);
+		this.$super();
+//		Ergo.widgets.TableGrid.superclass.$layoutChanged.apply(this, arguments);
 		
 		
 		if(this.body.el[0].scrollHeight != this.body.el.height()) {

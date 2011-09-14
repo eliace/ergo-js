@@ -30,14 +30,16 @@ Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 	},
 	
 	$init: function(o) {
-		Ergo.widgets.IndentTreeNode.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.IndentTreeNode.superclass.$init.apply(this, arguments);
 		
 		o.components.subtree.defaultItem.indent = o.indent+1;		
 	},
 	
 	
 	$construct: function(o) {
-		Ergo.widgets.IndentTreeNode.superclass.$construct.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.IndentTreeNode.superclass.$construct.apply(this, arguments);
 		
 		for(var i = 0; i < o.indent; i++) {
 			this.content.indent.items.add({});

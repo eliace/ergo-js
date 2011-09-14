@@ -62,7 +62,8 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 			o.components.submenu.menuModel = o.menuModel;
 		}		
 		
-		Ergo.widgets.MenuItem.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.MenuItem.superclass.$init.apply(this, arguments);
 		
 		if('submenu' in o){
 			Ergo.smart_override(o.components.submenu, {items: o.submenu});
@@ -76,7 +77,8 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 	
 	
 	$construct: function(o) {
-		Ergo.widgets.MenuItem.superclass.$construct.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.MenuItem.superclass.$construct.apply(this, arguments);
 		
 		if('submenu' in o){
 			this.states.set('submenu');
@@ -86,15 +88,16 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 	},
 	
 	
-	$opt: function(o) {
-		Ergo.widgets.MenuItem.superclass.$opt.apply(this, arguments);
-		
-//		if('text' in o) this.content.opt('text', o.text);
-	},
+	// $opt: function(o) {
+		// Ergo.widgets.MenuItem.superclass.$opt.apply(this, arguments);
+// 		
+// //		if('text' in o) this.content.opt('text', o.text);
+	// },
 	
 	
 	$events: function(self) {
-		Ergo.widgets.MenuItem.superclass.$events.apply(this, arguments);
+		this.$super(self);
+//		Ergo.widgets.MenuItem.superclass.$events.apply(this, arguments);
 		
 		this.el.bind('mouseenter', function(){
 			self.hoverSubmenu = true;
@@ -193,7 +196,8 @@ Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.containers.DropdownList', {
 			o.defaultItem.menuModel = o.menuModel;
 		}		
 		
-		Ergo.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.MenuDropdownList.superclass.$init.apply(this, arguments);
 				
 //		if('defaultItem' in o)
 //			Ergo.smart_override(o.defaultItem.components.submenu.defaultItem, o.defaultItem);//o.defaults.subItem, {defaults: {'subItem': o.defaults.subItem}});

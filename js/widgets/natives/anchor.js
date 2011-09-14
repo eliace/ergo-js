@@ -11,7 +11,8 @@ Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 	$html: function() { return '<a href="#" click="return false" />'; },
 	
 	$construct: function(o) {
-		Ergo.widgets.Anchor.superclass.$construct.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Anchor.superclass.$construct.call(this, o);
 		
 		var self = this;
 		
@@ -21,7 +22,8 @@ Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 	},
 	
 	$opt: function(o) {
-		Ergo.widgets.Anchor.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Anchor.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);
@@ -30,7 +32,8 @@ Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 	},
 	
 	$dataChanged: function() {
-		Ergo.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
+		this.$super();
+//		Ergo.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
 		this.el.attr('href',this.getValue());
 //		this.el.text(this.getValue());
 	}	

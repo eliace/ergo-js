@@ -8,7 +8,8 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 	
 	
 	$events: function(self) {
-		Ergo.widgets.Button.superclass.$events.apply(this, arguments);
+		this.$super(self);
+//		Ergo.widgets.Button.superclass.$events.apply(this, arguments);
 
 //		var self = this;
 		
@@ -20,7 +21,8 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 		
 	
 	$opt: function(o) {
-		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
 
 		if('buttonType' in o)
 			this.el.attr('type', o.buttonType);

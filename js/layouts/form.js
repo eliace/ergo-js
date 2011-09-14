@@ -15,8 +15,9 @@ Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.core.Lay
 	
 	
 	
-	attach: function() {
-		Ergo.layouts.FormLayout.superclass.attach.apply(this, arguments);
+	attach: function(c) {
+		this.$super(c);
+//		Ergo.layouts.FormLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = $('<table cellspacing="0" cellpadding="0" border="0"></table>');
 //		this.body_el = $('tbody', this.el);
@@ -25,7 +26,8 @@ Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.core.Lay
 	},
 	
 	detach: function() {
-		Ergo.layouts.FormLayout.superclass.detach.apply(this, arguments);
+		this.$super();
+//		Ergo.layouts.FormLayout.superclass.detach.apply(this, arguments);
 		this.el.remove();
 	},
 	

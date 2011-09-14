@@ -22,7 +22,8 @@ Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Ic
 	
 	
 	$events: function(self) {
-		Ergo.widgets.PulseIcon.superclass.$events.apply(this, arguments);
+		this.$super(self);
+//		Ergo.widgets.PulseIcon.superclass.$events.apply(this, arguments);
 		
 		this.image.el.bind('mouseenter', function(){
 			$(this).clearQueue();
@@ -42,7 +43,8 @@ Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Ic
 	},
 	
 	$opt: function(o){
-		Ergo.widgets.PulseIcon.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.PulseIcon.superclass.$opt.apply(this, arguments);
 		
 		if('src' in o) this.image.el.attr('src', o.src);
 		if(!('imageHeight' in o)) o.imageHeight = o.imageWidth;

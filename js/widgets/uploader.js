@@ -19,8 +19,9 @@ Ergo.widgets.Uploader = Ergo.declare('Ergo.widgets.Uploader', 'Ergo.core.Widget'
 	
 	$html: function() { return '<div class="ergo-uploader"></div>' },
 	
-	$init: function() {
-		Ergo.widgets.Uploader.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		Ergo.widgets.Uploader.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		

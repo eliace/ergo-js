@@ -11,6 +11,8 @@ Ergo.core.Object.extend = function(o) {
 };
 
 
+
+
 Ergo.override(Ergo.core.Object.prototype, {
 	
 	defaults: {
@@ -70,7 +72,13 @@ Ergo.override(Ergo.core.Object.prototype, {
 	is: function(ex) {
 		var o = this.options;
 		return ('extensions' in o) ? Ergo.include(o.extensions, ex) : false;
-	}
+	},
+	
+	
+	$super: function(){
+		var caller = arguments.callee.caller;
+		return caller.__class__.superclass[caller.__name__].apply(this, arguments);
+	}	
 	
 	
 });

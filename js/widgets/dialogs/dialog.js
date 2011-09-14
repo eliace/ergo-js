@@ -58,7 +58,8 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 	
 	
 	$init: function(o) {
-		Ergo.widgets.Dialog.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Dialog.superclass.$init.apply(this, arguments);
 		
 		var self = this;
 		
@@ -84,7 +85,8 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 	},
 
 	$opt: function(o) {
-		Ergo.widgets.Dialog.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Dialog.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.opt('title', o.title);
 	

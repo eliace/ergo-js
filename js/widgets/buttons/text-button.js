@@ -30,11 +30,19 @@ Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.
 			'text': function(v) {
 				this.content.opt('text', v);
 				this.content.states.toggle('hidden', (!v && v !== ''));
-			}			
+			},
+			'icon': function(v) {
+				this.icon.states.setOnly(v);
+				this.icon.states.toggle('hidden', !v);				
+			},
+			'xicon': function(v) {
+				this.xicon.states.setOnly(v);
+				this.xicon.states.toggle('hidden', !v);				
+			}
 		}
-	},
+	}
 	
-
+/*
 	$opt: function(o) {
 		Ergo.widgets.TextButton.superclass.$opt.apply(this, arguments);
 		
@@ -51,7 +59,7 @@ Ergo.widgets.TextButton = Ergo.declare('Ergo.widgets.TextButton', 'Ergo.widgets.
 			this.xicon.states.toggle('hidden', !o.xicon);
 		}
 	}
-	
+*/	
 	
 }, 'text-button');
 

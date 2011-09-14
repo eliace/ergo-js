@@ -21,8 +21,9 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 	},
 	
 	
-	attach: function() {
-		Ergo.layouts.WindowLayout.superclass.attach.apply(this, arguments);
+	attach: function(c) {
+		this.$super(c);
+//		Ergo.layouts.WindowLayout.superclass.attach.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -33,7 +34,8 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 	},
 	
 	detach: function() {
-		Ergo.layouts.WindowLayout.superclass.detach.apply(this, arguments);
+		this.$super();
+//		Ergo.layouts.WindowLayout.superclass.detach.apply(this, arguments);
 		this.container.el.empty();
 	},
 	

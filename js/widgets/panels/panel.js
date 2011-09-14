@@ -69,12 +69,13 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 	},
 	
 	
-	$init: function(o) {
-		Ergo.widgets.Panel.superclass.$init.apply(this, arguments);		
-	},
+	// $init: function(o) {
+		// Ergo.widgets.Panel.superclass.$init.apply(this, arguments);		
+	// },
 	
 	$opt: function(o) {
-		Ergo.widgets.Panel.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Panel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.title.opt('text', o.title);
 		if('icon' in o) this.header.icon.states.setOnly(o.icon);

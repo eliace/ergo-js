@@ -57,10 +57,11 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 	$html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
 
 	
-	$init: function() {
-		Ergo.widgets.Table.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		Ergo.widgets.Table.superclass.$init.apply(this, arguments);
 		
-		var o = this.options;
+//		var o = this.options;
 		
 		var h_columns = o.headerModel.columns;
 		var columns = o.tableModel.columns;
@@ -174,7 +175,8 @@ Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widge
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
+		this.$super();
+//		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	},
 	
 	getRow: function() {
@@ -249,7 +251,8 @@ Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Erg
 		if(this.options.binding == 'auto')
 			this.layout.el.text( this.getValue() );
 		
-		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
+		this.$super();
+//		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	}
 	
 }, 'table-header-cell');

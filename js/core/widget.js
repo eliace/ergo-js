@@ -90,7 +90,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 			
 	initialize: function(o) {
-		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
+		this.$super(o);
+//		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
 
 
 		var o = this.options;

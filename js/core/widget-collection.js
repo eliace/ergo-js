@@ -22,7 +22,8 @@ Ergo.core.WidgetCollection = Ergo.declare('Ergo.core.WidgetCollection', 'Ergo.co
 	
 	
 	initialize: function(w, o) {
-		Ergo.core.WidgetCollection.superclass.initialize.call(this, null, o);
+		this.$super(null, o);
+//		Ergo.core.WidgetCollection.superclass.initialize.call(this, null, o);
 		
 		this._widget = w;
 	},

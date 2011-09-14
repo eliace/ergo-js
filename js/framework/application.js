@@ -6,7 +6,8 @@
 Ergo.declare('Ergo.framework.Application', 'Ergo.core.Object', {
 	
 	initialize: function(o) {
-		Ergo.framework.Application.superclass.initialize.apply(this, arguments);		
+		this.$super(o);
+//		Ergo.framework.Application.superclass.initialize.apply(this, arguments);		
 		
 		var self = this;
 		

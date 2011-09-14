@@ -13,7 +13,8 @@
 Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @lends Ergo.core.Array.prototype */{
 	
 	initialize: function(src, options) {
-		Ergo.core.Array.superclass.initialize.call(this, src || [], options);
+		this.$super(src || [], options);
+//		Ergo.core.Array.superclass.initialize.call(this, src || [], options);
 //		this.src = src || [];
 //		Ergo.Observable.call(this);
 //		this.events = new Ergo.events.Dispatcher();

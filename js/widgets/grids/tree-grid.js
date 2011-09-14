@@ -17,7 +17,8 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 	
 	
 	insert: function(item) {
-		Ergo.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
+		this.$super(item);
+//		Ergo.layouts.TreeGridLayout.superclass.insert.apply(this, arguments);
 		
 		// если эта компоновка является дочерней/зависимой, то передаем элемент родителю
 		if(this.container instanceof Ergo.core.Layout)
@@ -33,7 +34,8 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 	},
 	
 	remove: function(item) {		
-		Ergo.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
+		this.$super(item);
+//		Ergo.layouts.TreeGridLayout.superclass.remove.apply(this, arguments);			
 
 		// если эта компоновка является дочерней/зависимой, то удаляем элемент из родителя
 		if(this.container instanceof Ergo.core.Layout) {
@@ -55,7 +57,8 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 		if(this.container instanceof Ergo.core.Layout) {
 			while(this.items.length > 0) this.remove(this.items[0]);
 		}
-		Ergo.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
+		this.$super();
+//		Ergo.layouts.TreeGridLayout.superclass.clear.apply(this, arguments);		
 	},
 	
 	
@@ -289,10 +292,11 @@ Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widg
 		}
 	},
 	
-	$init: function() {
-		this.constructor.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		this.constructor.superclass.$init.apply(this, arguments);
 		
-		var o = this.options;
+//		var o = this.options;
 
 		if('subtree' in o){
 			o.components.subtree.items = o.subtree;
@@ -447,7 +451,8 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 	
 	
 	$opt: function(o) {
-		Ergo.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.TreeTableCell.superclass.$opt.apply(this, arguments);
 		
 		if('indent' in o){
 			for(var i = 0; i < o.indent; i++){
@@ -462,7 +467,8 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 	
 	
 	$afterRender: function() {
-		Ergo.widgets.TreeTableCell.superclass.$afterRender.apply(this, arguments);
+		this.$super();
+//		Ergo.widgets.TreeTableCell.superclass.$afterRender.apply(this, arguments);
 
 //		var expand = this.options.expandOnShow;
 		

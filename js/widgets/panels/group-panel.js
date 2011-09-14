@@ -20,7 +20,8 @@ Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	$html: function() { return '<fieldset></fieldset>'; },
 	
 	$opt: function(o) {
-		Ergo.widgets.GroupPanel.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.GroupPanel.superclass.$opt.apply(this, arguments);
 		
 		if('title' in o) this.header.opt('innerText', o.title);
 	}

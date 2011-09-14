@@ -4,8 +4,9 @@
 
 Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 	
-	initialize: function(widget) {
-		Ergo.SelectionManager.superclass.initialize.apply(this, arguments);
+	initialize: function(widget, o) {
+		this.$super(o);
+//		Ergo.SelectionManager.superclass.initialize.apply(this, arguments);
 		
 		this.widget = widget
 		this.selection_a = [];

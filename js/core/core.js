@@ -93,8 +93,17 @@ var Ergo = (function(){
 		ctor.prototype.constructor = ctor;
 		ctor.superclass = p_ctor.prototype;
 		ctor.super_ctor = p_ctor;
+
+		for(var i in overrides) {
+			var p = overrides[i];
+			if($.isFunction(p)) {
+				p.__class__ = ctor;
+				p.__name__ = i;
+			}
+		}
 		
 		E.override(ctor.prototype, overrides);
+		
 		
 		if(overrides.etype)
 			_etypes[overrides.etype] = ctor;

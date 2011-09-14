@@ -128,8 +128,9 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 		changeOnBlur: false
 	},
 	
-	$init: function(o) {		
-		Ergo.widgets.DropdownField.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);		
+//		Ergo.widgets.DropdownField.superclass.$init.apply(this, arguments);
 		
 		if('dataModel' in o) {
 			if(o.dataModel.data)
@@ -141,7 +142,8 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 	
 	
 	$events: function(self) {
-		Ergo.widgets.DropdownField.superclass.$events.apply(this, arguments);
+		this.$super(self);		
+//		Ergo.widgets.DropdownField.superclass.$events.apply(this, arguments);
 		
 		var o = this.options;
 		
@@ -193,7 +195,8 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 	},
 	
 	$dataChanged: function() {
-		Ergo.widgets.DropdownField.superclass.$dataChanged.apply(this, arguments);
+		this.$super();		
+//		Ergo.widgets.DropdownField.superclass.$dataChanged.apply(this, arguments);
 		
 		var list = this.dropdown.content;
 		

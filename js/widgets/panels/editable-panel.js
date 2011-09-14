@@ -36,7 +36,8 @@ Ergo.declare('Ergo.widgets.EditablePanel', 'Ergo.widgets.Panel', {
 	
 	
 	$init: function(o) {
-		Ergo.widgets.EditablePanel.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.EditablePanel.superclass.$init.apply(this, arguments);
 				
 		if(o.toolbarButtons) {
 			var buttons = Ergo.map(o.toolbarButtons, function(b){

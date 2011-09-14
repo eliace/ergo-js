@@ -30,7 +30,8 @@ Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.containers.List', /*
 	
 	
 	$init: function(o){
-		Ergo.widgets.Tree.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Tree.superclass.$init.apply(this, arguments);
 		
 		
 		if('subtree' in o) 

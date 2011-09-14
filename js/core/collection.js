@@ -17,7 +17,8 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	},
 	
 	initialize: function(src, options) {
-		Ergo.core.Collection.superclass.initialize.call(this, options);
+		this.$super(options);
+//		Ergo.core.Collection.superclass.initialize.call(this, options);
 		this.src = src || {};
 	},
 	

@@ -14,7 +14,8 @@ Ergo.widgets.AsyncImage = Ergo.declare('Ergo.widgets.AsyncImage', 'Ergo.widgets.
 	
 	
 	$init: function(o) {
-		Ergo.widgets.AsyncImage.superclass.$init.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.AsyncImage.superclass.$init.call(this, o);
 		
 		this.load(o.src, o.renderTo, o.stub, o.maxWidth, o.maxHeight);
 		

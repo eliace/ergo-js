@@ -12,7 +12,8 @@ Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 	$html: function() { return '<label></label>'; },
 	
 	$opt: function(o) {
-		Ergo.widgets.Label.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Label.superclass.$opt.call(this, o);
 		
 		if('text' in o)
 			this.el.text(o.text);

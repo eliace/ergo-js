@@ -14,7 +14,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	},
 	
 	initialize: function(opts){
-		Ergo.core.Layout.superclass.initialize.apply(this, arguments);
+		this.$super(opts);
+//		Ergo.core.Layout.superclass.initialize.apply(this, arguments);
 		
 //		var o = this.options = {};
 //		

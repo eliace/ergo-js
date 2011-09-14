@@ -12,7 +12,8 @@ Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', Ergo.core.Widget, /** @l
 	$html: function() { return '<img/>';},
 	
 	$opt: function(o) {
-		Ergo.widgets.Image.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Image.superclass.$opt.call(this, o);
 		
 		if('src' in o) this.el.attr('src', o.src);
 	},

@@ -37,7 +37,8 @@ Ergo.declare('Ergo.containers.Form', 'Ergo.containers.List', {
 	$html: function() { return '<form method="post"></form>'; },
 	
 	$opt: function(o) {
-		Ergo.containers.Form.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.containers.Form.superclass.$opt.apply(this, arguments);
 		
 		if('action' in o) this.el.attr('action', o.action);
 		if('enctype' in o) this.el.attr('enctype', o.enctype);

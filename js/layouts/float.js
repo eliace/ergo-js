@@ -14,7 +14,8 @@ Ergo.layouts.FloatLayout = Ergo.declare('Ergo.layouts.FloatLayout', 'Ergo.layout
 	},
 	
 	attach: function(c) {
-		Ergo.layouts.FloatLayout.superclass.attach.call(this, c);
+		this.$super(c);
+//		Ergo.layouts.FloatLayout.superclass.attach.call(this, c);
 		// добавляем элемент-clearfix
 		if(this.options.clearfix) {
 			this.clearfix_el = $('<div class="clearfix"></div>');

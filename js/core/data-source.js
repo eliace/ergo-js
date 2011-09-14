@@ -29,7 +29,8 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 			this.id = id;
 		}
 		
-		Ergo.core.DataSource.superclass.initialize.call(this, o || {});
+		this.$super(o || {});
+//		Ergo.core.DataSource.superclass.initialize.call(this, o || {});
 		
 		var self = this;
 		var o = this.options;

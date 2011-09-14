@@ -23,7 +23,8 @@ Ergo.core.WidgetArray = Ergo.declare('Ergo.core.WidgetArray', 'Ergo.core.Array',
 	
 	
 	initialize: function(w, o) {
-		Ergo.core.WidgetArray.superclass.initialize.call(this, null, o);
+		this.$super(null, o);
+//		Ergo.core.WidgetArray.superclass.initialize.call(this, null, o);
 		
 		this.widget = w;
 	},
@@ -49,7 +50,7 @@ Ergo.core.WidgetArray = Ergo.declare('Ergo.core.WidgetArray', 'Ergo.core.Array',
 		w.children.add(item, i);
 		w.layout.insert(item, this.src[i]);
 
-		i = Ergo.core.WidgetArray.superclass.add.call(this, item, i);		
+		i = this.$super(item, i);// Ergo.core.WidgetArray.superclass.add.call(this, item, i);		
 		
 		for(var j = i; j < this.src.length; j++)
 			this.src[j].index = j;
@@ -62,7 +63,7 @@ Ergo.core.WidgetArray = Ergo.declare('Ergo.core.WidgetArray', 'Ergo.core.Array',
 	},
 	
 	remove_at: function(i) {
-		var item = Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
+		var item = this.$super(i); //Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
 		
 		var w = this.widget;		
 		

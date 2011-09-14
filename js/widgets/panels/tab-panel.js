@@ -54,10 +54,11 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 	},
 	
 	
-	$init: function() {
-		Ergo.panels.TabPanel.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		Ergo.panels.TabPanel.superclass.$init.apply(this, arguments);
 				
-		var o = this.options;
+//		var o = this.options;
 
 		if('tabWidth' in o) {
 			if(o.tabPosition == 'left' || o.tabPosition == 'right'){
@@ -95,7 +96,8 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 	
 	
 	$afterBuild: function() {
-		Ergo.panels.TabPanel.superclass.$afterBuild.apply(this, arguments);
+		this.$super();
+//		Ergo.panels.TabPanel.superclass.$afterBuild.apply(this, arguments);
 		
 		// активируем закладку
 		if(!this.tabs.currentTab) this.tabs.setActiveTab(0);
@@ -103,7 +105,8 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 	
 	
 	$opt: function(o) {
-		Ergo.panels.TabPanel.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.panels.TabPanel.superclass.$opt.apply(this, arguments);
 		
 		if('pages' in o){
 			for(var i = 0; i < o.pages.length; i++) this.addPage(o.pages[i]);

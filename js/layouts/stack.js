@@ -15,8 +15,9 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layout
 	},
 	
 	
-	attach: function(){
-		Ergo.layouts.StackLayout.superclass.attach.apply(this, arguments);
+	attach: function(c){
+		this.$super(c);
+//		Ergo.layouts.StackLayout.superclass.attach.apply(this, arguments);
 		
 		var self = this;
 		
@@ -27,7 +28,8 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layout
 	},
 	
 	detach: function() {
-		Ergo.layouts.StackLayout.superclass.detach.apply(this, arguments);
+		this.$super();
+//		Ergo.layouts.StackLayout.superclass.detach.apply(this, arguments);
 		
 		delete this.container.setActive;
 	},

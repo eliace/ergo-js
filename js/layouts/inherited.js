@@ -15,8 +15,9 @@ Ergo.layouts.InheritedLayout = Ergo.declare('Ergo.layouts.InheritedLayout', 'Erg
 //	},
 	
 	
-	attach: function() {
-		Ergo.layouts.InheritedLayout.superclass.attach.apply(this, arguments);
+	attach: function(c) {
+		this.$super(c);
+//		Ergo.layouts.InheritedLayout.superclass.attach.apply(this, arguments);
 		
 		this.el = this.options.parentLayout.el;
 		

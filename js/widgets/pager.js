@@ -81,14 +81,16 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', 
 	
 	
 	$init: function(o) {
-		Ergo.widgets.Pager.superclass.$init.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Pager.superclass.$init.apply(this, arguments);
 		
 		this.total_size = this.offset = 0;
 		this.page_size = 1;
 	},
 	
 	$opt: function(o) {
-		Ergo.widgets.Pager.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Pager.superclass.$opt.apply(this, arguments);
 		
 		if('pageSize' in o){
 			this.page_size = o.pageSize || 1;

@@ -32,10 +32,11 @@ Ergo.widgets.TreeNode = Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box'
 	
 //	$html: function() { return '<li></li>'; },
 	
-	$init: function() {
-		Ergo.widgets.TreeNode.superclass.$init.apply(this, arguments);
+	$init: function(o) {
+		this.$super(o);
+//		Ergo.widgets.TreeNode.superclass.$init.apply(this, arguments);
 		
-		var o = this.options;
+//		var o = this.options;
 		
 		if('subtree' in o){
 			o.components.subtree.items = o.subtree;

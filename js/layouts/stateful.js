@@ -11,7 +11,8 @@
 Ergo.declare('Ergo.layouts.StatefulLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.StatefulLayout.prototype */{
 	
 	initialize: function(o){
-		Ergo.layouts.StatefulLayout.superclass.initialize.call(this, o);
+		this.$super(o);
+//		Ergo.layouts.StatefulLayout.superclass.initialize.call(this, o);
 		
 		this.items = [];
 		this.immediateRebuild = true;

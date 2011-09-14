@@ -14,7 +14,8 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 	},
 	
 	$opt: function(o) {
-		Ergo.widgets.Input.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Input.superclass.$opt.call(this, o);
 		
 //		if('text' in o) this.el.val(o.text);
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
@@ -34,7 +35,8 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.PasswordField.prototype */{
 
 	$opt: function(o) {
-		Ergo.widgets.TextInput.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.TextInput.superclass.$opt.call(this, o);
 		
 		var self = this;
 		
@@ -57,7 +59,8 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 	},
 		
 	$dataChanged: function() {
-		Ergo.widgets.TextInput.superclass.$dataChanged.apply(this);
+		this.$super();
+//		Ergo.widgets.TextInput.superclass.$dataChanged.apply(this);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus) 
 			this.el.val( this.getRawValue() );
@@ -66,7 +69,8 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 	},
 	
 	$events: function(self) {
-		Ergo.widgets.Input.superclass.$events.call(this, self);
+		this.$super(self);
+//		Ergo.widgets.Input.superclass.$events.call(this, self);
 
 		this.el.keydown(function(e) {
 			if(!self.options.readOnly) {
@@ -112,7 +116,8 @@ Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.Input', {
 	},
 	
 	$init: function(o) {
-		Ergo.widgets.Submit.superclass.$init.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Submit.superclass.$init.call(this, o);
 		
 		var self = this;
 		
@@ -142,7 +147,8 @@ Ergo.declare('Ergo.widgets.File', Ergo.widgets.TextInput, {
 	},
 	
 	$opt: function(o) {
-		Ergo.widgets.File.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.File.superclass.$opt.call(this, o);
 
 		if('name' in o) this.el.attr('name', o.name);
 	}
@@ -174,14 +180,16 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 	
 	
 	$opt: function(o) {
-		Ergo.widgets.Checkbox.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('checked' in o)
 			this.el.prop('checked', o.checked);	
 	},
 	
 	$dataChanged: function() {
-		Ergo.widgets.Checkbox.superclass.$dataChanged.apply(this);
+		this.$super();
+//		Ergo.widgets.Checkbox.superclass.$dataChanged.apply(this);
 		this.el.prop('checked', this.getValue() );
 	},
 	

@@ -12,7 +12,8 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
 	$html: function() { return '<option/>'; },
 	
 	$opt: function(o) {
-		Ergo.widgets.SelectOption.superclass.$opt.apply(this, arguments);
+		this.$super(o);
+//		Ergo.widgets.SelectOption.superclass.$opt.apply(this, arguments);
 		
 		if('value' in o) this.el.attr('value', o.value);
 		if('text' in o) this.el.text(o.text);
@@ -44,7 +45,8 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widge
 	},
 	
 	$init: function(o) {
-		Ergo.widgets.Select.superclass.$init.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Select.superclass.$init.call(this, o);
 		
 		if('options' in o) {
 			var items = [];
@@ -65,12 +67,14 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widge
 	$construct: function(o) {
 		o.components.optionsList.layout = new Ergo.layouts.InheritedLayout({parentLayout: this.layout });
 
-		Ergo.widgets.Select.superclass.$construct.apply(this, arguments);		
+		this.$super(o);
+//		Ergo.widgets.Select.superclass.$construct.apply(this, arguments);		
 	},
 	
 		
 	$opt: function(o) {
-		Ergo.widgets.Select.superclass.$opt.call(this, o);
+		this.$super(o);
+//		Ergo.widgets.Select.superclass.$opt.call(this, o);
 /*		
 		if('options' in o){
 			this.el.empty();
@@ -87,13 +91,15 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widge
 	},
 	
 	$events: function(self) {
-		Ergo.widgets.Select.superclass.$events.call(this, self);
+		this.$super(self);
+//		Ergo.widgets.Select.superclass.$events.call(this, self);
 		
 		this.el.change(function() { self.setValue( self.el.val() ); });
 	},
 	
 	$dataChanged: function() {
-		Ergo.widgets.Select.superclass.$dataChanged.call(this);
+		this.$super();
+//		Ergo.widgets.Select.superclass.$dataChanged.call(this);
 		this.el.val( this.getValue() );
 	}
 	

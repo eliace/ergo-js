@@ -24,11 +24,13 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 			if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
 		}
 		
-		Ergo.data.Model.superclass.set.apply(this, arguments);
+		this.$super.apply(this, arguments);
+//		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 	
 	get: function() {
-		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
+		var v = this.$super.apply(this, arguments);
+//		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
 
 		return (this.format) ? this.format.call(this, v) : v;
 	},

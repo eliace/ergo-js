@@ -54,7 +54,7 @@ test('core/object', function(){
 	
 //	var 
 	
-/*	
+
 	function current_function_name() {
    	var re = /^function\s+([^(]+)/;
     return re.exec(arguments.callee.caller.toString())[1];                             
@@ -62,36 +62,54 @@ test('core/object', function(){
 	}
 	
 	
+	var a = [];
+
 	Ergo.declare('my.Class1', 'Ergo.core.Object', {
 		
-		initialize: function() {
-			
-			
+		fn1: function(){
+			a.push(1);
 		},
 		
-		fn1: function(){}
+		fn2: function() {
+			return '1';
+		}
 		
 		
 	});
 
 	Ergo.declare('my.Class2', 'my.Class1', {
 		
-		initialize: function() {
-			
-			
+		fn2: function() {
+			return this.$super() + '2';
 		},
 		
-		fn2: function(){}
-		
+		fn1: function(){
+			this.$super();
+			a.push(2);
+		}
 		
 	});
+
+
+	Ergo.declare('my.Class3', 'my.Class2', {
+		
+		fn2: function() {
+			return this.$super() + '3';
+		},
+		
+		fn1: function(){
+			this.$super();
+			a.push(3);
+		}
+		
+	});
+
 	
+	var obj = new my.Class3();
+	obj.fn1();
 	
-	alert(my.Class2.prototype.fn1);
-	
-//	new my.Class1();
-	
-*/	
+	same(a, [1,2,3], 'Последовательный вызов функций через метод $super');
+	equals(obj.fn2(), '123', 'Последовательный вызов функций через метод $super (с возвращаемым значением)');
 	
 	
 	

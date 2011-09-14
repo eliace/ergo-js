@@ -23,18 +23,19 @@ Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 			}
 		},
 		set: {
-			'text': undefined
+			'text': undefined,
+			'icon': function(v) { this.content.states.set(v); }
 		}			
-	},
-		
-	$opt: function(o) {
-		Ergo.widgets.IconButton.superclass.$opt.apply(this, arguments);
-		
-		if('icon' in o) {
-			this.content.states.set(o.icon);
-		}
-		
 	}
+		
+	// $opt: function(o) {
+		// Ergo.widgets.IconButton.superclass.$opt.apply(this, arguments);
+// 		
+		// if('icon' in o) {
+			// this.content.states.set(o.icon);
+		// }
+// 		
+	// }
 
 }, 'icon-button');
 
