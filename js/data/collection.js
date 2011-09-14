@@ -29,7 +29,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 		
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.val()[i]);
+		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
 		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 		return new model(this, i); 
