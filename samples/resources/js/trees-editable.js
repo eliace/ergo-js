@@ -5,7 +5,7 @@ var clipboard = [];
 Ergo.Node = Ergo.data.Model.extend({
   
   fields: {
-    'children': 'Ergo.NodeList'
+    children: 'Ergo.NodeList'
   },
   
   isLeaf: function() {
@@ -105,7 +105,7 @@ $.ergo({
     
     data: treeData,
     
-    extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.TreeNavigation],
+    extensions: ['selectable', 'focusable', Ergo.TreeNavigation],
     
     height: 'auto',
     
@@ -122,11 +122,11 @@ $.ergo({
           onClick: function() {
             this.getParent(Ergo.widgets.Tree).selection.set(this.parent);
           },
-          extensions: [Ergo.Droppable],
+          extensions: ['droppable', 'contextmenu'],
           components: {
             text: {
               content: {
-                extensions: [Ergo.Editable, Ergo.Draggable],
+                extensions: [Ergo.Editable, 'draggable'],
                 editor: {
                   etype: 'text-editor',
 //                  style: {'font-size': '14px', 'line-height': '14px'},
@@ -175,6 +175,14 @@ $.ergo({
           }
           
         },
+	      // включаем для поддеревьев эффект первого появления (чтобы избежать подергивания дерева)
+	      components: {
+		      subtree: {
+		      	effects: {
+		      		initial: {show: 'show',	delay: 0}
+		      	}
+		      }      	
+	      },
         binding: function(val) {
           this.opt('icon', 'silk-icon-'+val.type);
           if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);

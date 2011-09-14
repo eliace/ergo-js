@@ -55,7 +55,7 @@ $.ergo({
         weight: 1,
         etype: 'control-list',
         cls: 'ergo-border-bottom',
-        extensions: [Ergo.Selectable],
+        extensions: ['selectable'],
         defaultItem: {
           style: {'margin': 0},
           cls: 'ergo-border-all',
@@ -128,7 +128,7 @@ $.ergo({
           etype: 'list-view',
           tag: 'full',
           dynamic: true,
-          extensions: [Ergo.Selectable],
+          extensions: ['selectable'],
           defaultItem: {
             etype: 'text-item',
             icon: 'silk-icon-bullet-orange',

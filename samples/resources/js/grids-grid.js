@@ -86,7 +86,7 @@ var grid = $.ergo({
       }    	
     },
     row: {
-      extensions: [Ergo.Selectable]
+      extensions: [Ergo.extensions.Selectable]
     }
   },
   

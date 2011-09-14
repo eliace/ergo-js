@@ -35,6 +35,14 @@ $.ergo({
             }
           }          
         },
+	      // включаем для поддеревьев эффект первого появления (чтобы избежать подергивания дерева)
+	      components: {
+		      subtree: {
+		      	effects: {
+		      		initial: {show: 'show',	delay: 0}
+		      	}
+		      }      	
+	      },
         binding: function(val) {
           this.content.text.opt('icon', 'silk-icon-'+val.type);
           if(val.type != 'folder' && val.type != 'drive') this.opt('isLeaf', true);

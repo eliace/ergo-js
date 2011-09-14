@@ -6,7 +6,7 @@ Ergo.drag = null;
 //Ergo.Draggable.dragPane = $.ergo({etype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');
 //Ergo.droppableList = [];
 
-Ergo.Draggable = function(o) {
+Ergo.extension('Ergo.extensions.Draggable', function(o) {
 	
 	o.events.mousedown = function(e, w) {
 		
@@ -53,7 +53,7 @@ Ergo.Draggable = function(o) {
 
 //					drag.dragPane = $('<div class="split-pane"></div>');
 					
-					$('body').append(Ergo.Draggable.dragPane.el);
+					$('body').append(Ergo.extensions.Draggable.dragPane.el);
 					$('body').append(drag.proxy.el);
 				}
 				
@@ -62,16 +62,16 @@ Ergo.Draggable = function(o) {
 	};
 	
 	
-	if(!Ergo.Draggable.dragReady) {
+	if(!Ergo.extensions.Draggable.dragReady) {
 		
-		Ergo.Draggable.dragPane = $.ergo({etype: 'glass-pane'});
+		Ergo.extensions.Draggable.dragPane = $.ergo({etype: 'glass-pane'});
 		
-		Ergo.Draggable.dragReady = true;
+		Ergo.extensions.Draggable.dragReady = true;
 //		$('body').append(Ergo.dragPane);
 		
 		//FIXME здесь было бы правильней создавать glass pane, а не использовать body
 		
-		Ergo.Draggable.dragPane.el.mousemove(function(e){
+		Ergo.extensions.Draggable.dragPane.el.mousemove(function(e){
 			var drag = Ergo.drag;
 	
 			if(!drag) return;
@@ -132,10 +132,10 @@ Ergo.Draggable = function(o) {
 			
 		});
 					
-		Ergo.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
+		Ergo.extensions.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
 			
 			// отсоединяем прозрачную панель от страницы
-			Ergo.Draggable.dragPane.el.detach();
+			Ergo.extensions.Draggable.dragPane.el.detach();
 //			Ergo.dragPane.addClass('hidden');
 			
 			var drag = Ergo.drag;		
@@ -179,8 +179,8 @@ Ergo.Draggable = function(o) {
 	}
 	
 	
-};
+}, 'draggable');
 
 
-Ergo.Draggable.dragReady = false;
-Ergo.Draggable.dragPane = null;
+Ergo.extensions.Draggable.dragReady = false;
+Ergo.extensions.Draggable.dragPane = null;

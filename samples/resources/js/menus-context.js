@@ -7,6 +7,7 @@ $.ergo({
     innerText: 'Кликни правой кнопкой мыши в любом месте панели',
     cls: 'preview-text ergo-border-all',
     height: 'auto',
+    extensions: ['contextmenu'],
     contextMenu: {
       etype: 'context-menu',
 //      cls: 'ergo-dropdown-shadow',

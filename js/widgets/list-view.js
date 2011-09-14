@@ -13,7 +13,7 @@ Ergo.declare('Ergo.containers.ListView', 'Ergo.containers.List', {
 	
 	defaults: {
 		dynamic: true,
-		extensions: [Ergo.Selectable],
+		extensions: ['selectable'],
 		defaultItem: {
 			etype: 'text-item',
 			cls: 'list-item'

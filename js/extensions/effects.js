@@ -1,13 +1,18 @@
 
 
 
-Ergo.Effects = function(o) {
+Ergo.extension('Ergo.extensions.Effects', function(o) {
 	
 	this.show = function() {
 		if(this.children.size() == 0) return;
-
+		
 		var effects = this.options.effects;
 		var deferred = $.Deferred();
+		
+		if(effects.initial) {
+			effects = Ergo.override({}, effects, effects.initial);
+			delete this.options.effects.initial;
+		}
 		
 		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
 		return deferred;
@@ -19,6 +24,11 @@ Ergo.Effects = function(o) {
 
 		var effects = this.options.effects;
 		var deferred = $.Deferred();
+
+		if(effects.initial) {
+			effects = Ergo.override({}, effects, effects.initial);
+			delete this.options.effects.initial;
+		}
 		
 		this.el[effects.hide](effects.delay, function(){ deferred.resolve(); });
 		return deferred;		
@@ -30,6 +40,5 @@ Ergo.Effects = function(o) {
 		hide: 'hide',
 		delay: 0
 	}, o.effects);
-	
-	
-};
+		
+}, 'effects');

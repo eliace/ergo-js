@@ -23,7 +23,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 				}
       }
     },
-		extensions: [Ergo.Focusable],
+		extensions: ['focusable'],
 		onFocus: function() {
 			var o = this.options;
 			if(o.rawValueOnFocus)

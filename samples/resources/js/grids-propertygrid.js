@@ -23,7 +23,7 @@ var propertyGrid = $.ergo({
     cell: {
       cls: 'grid-cell',
       binding: 'auto',
-      extensions: [Ergo.Editable]
+      extensions: ['editable']
     },
     columns: [{
       dataId: 'name',
@@ -32,7 +32,7 @@ var propertyGrid = $.ergo({
       dataId: 'value',
       header: 'Значение',
       width: 100,
-      extensions: [Ergo.Clickable],
+//      extensions: [Ergo.Clickable],
 //      state: 'clickable',
       onDoubleClick: function(){
         if( this.opt('editable') ) this.startEdit();

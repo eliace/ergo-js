@@ -129,6 +129,18 @@ var Ergo = (function(){
 	};
 	
 	
+	
+	var aliases = {};
+	
+	
+	E.alias = function(alias, obj) {
+		if(arguments.length == 2)
+			aliases[alias] = obj;
+		else
+			return aliases[alias];
+	}
+	
+	
 	var _etypes = {};
 	
 	/**
@@ -170,6 +182,11 @@ var Ergo = (function(){
 		
 		return clazz;
 	};
+	
+	
+	
+//	E.defineClass = E.declare;
+	
 	
 	
 	

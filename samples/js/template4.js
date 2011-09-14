@@ -88,7 +88,7 @@ $(document).ready(function(){
 						etype: 'tree',
 						data: sampleTree,
 						isDynamic: true,
-						extensions: [Ergo.Selectable],
+						extensions: ['selectable'],
 						treeModel: {
 							node: {
 								expandOnShow: false,

@@ -480,7 +480,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				
 		
 		
-		
+/*		
 		if('contextMenu' in o) {
 			
 			var cm = o.contextMenu;
@@ -495,7 +495,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 			}
 		}
-
+*/
 		
 		
 		// if('format' in o) {
@@ -845,7 +845,7 @@ $.fn.ergo = function(o) {
 
 
 
-
+/*
 $(document).ready(function(){
 	
 //	var drag = null;
@@ -885,4 +885,4 @@ $(document).ready(function(){
 	
 		
 });
-
+*/

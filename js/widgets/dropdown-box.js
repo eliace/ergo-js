@@ -6,7 +6,7 @@ Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'ergo-dropdown-box',
-		extensions: [Ergo.Popup],
+		extensions: ['popup'],
 		style: {'display': 'none'}
 //		layout: 'popup'
 //		hideOn: 'outerClick'

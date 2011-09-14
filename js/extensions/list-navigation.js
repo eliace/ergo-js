@@ -3,7 +3,7 @@
 //= require "focusable"
 
 
-Ergo.ListNavigation = function(o) {
+Ergo.extension('Ergo.extensions.ListNavigation', function(o) {
 	
 	Ergo.smart_override(o, {
 		
@@ -65,4 +65,4 @@ Ergo.ListNavigation = function(o) {
 		
 	});	
 	
-};
+}, 'listnavigation');

@@ -167,7 +167,7 @@ $.ergo({
 //      growl.info('Selected item: '+e.target.content.getValue());
     }    
   }, {
-  	extensions: [Ergo.Selectable],
+  	extensions: ['selectable'],
   	defaultComponent: {
   		etype: 'icon-button',
   		cls: 'ergo-bg-3',
@@ -194,7 +194,7 @@ $.ergo({
   		this.selection.set(this.left);
   	}
   }, {
-  	extensions: [Ergo.Selectable],
+  	extensions: ['selectable'],
   	defaultComponent: {
   		etype: 'button',
   		cls: 'ergo-bg-3 ergo-border-all',

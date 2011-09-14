@@ -30,7 +30,7 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 						dlg.dialogButton = this.tag;
 						dlg.close();
 					},
-					extensions: [Ergo.Focusable],
+					extensions: ['focusable'],
 					events: {
 						'focus': function(e, w) {
 							w.setFocus();

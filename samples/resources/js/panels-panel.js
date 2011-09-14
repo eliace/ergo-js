@@ -11,7 +11,7 @@ $.ergo({
 //      var content = this.getParent(Ergo.widgets.Panel).content;
       if(this.content) {
         this.content.states.toggle('hidden');
-        this.header.buttons.item({tag: e.button}).content.states.toggle('exp_col');                  
+        this.header.buttons.item({tag: e.button}).content.states.toggle('expand-collapse');                  
       }
     }    
   },
@@ -23,11 +23,11 @@ $.ergo({
             contentCls: 'ergo-icon-dialog',
           },
           items: [{
-            icon: 'exp_col',
+            icon: 'expand-collapse',
             tag: 'collapse',
             content: {
               states: {
-                'exp_col': ['ergo-icon-dialog-collapse', 'ergo-icon-dialog-expand']
+                'expand-collapse': Ergo.on('ergo-icon-dialog-collapse').off('ergo-icon-dialog-expand')
               }
             }
           }, {

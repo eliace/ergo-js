@@ -2,7 +2,7 @@
 
 
 
-Ergo.Popup = function(o) {
+Ergo.extension('Ergo.extensions.Popup', function(o) {
 	
 	this.open = function(position) {
 		
@@ -166,4 +166,4 @@ Ergo.Popup = function(o) {
 	}, o.position);
 	
 	
-};
+}, 'popup');

@@ -45,7 +45,7 @@ var panel = $.ergo({
             if(this.options.editable) this.startEdit();
             e.baseEvent.preventDefault();            
           },
-          extensions: [Ergo.Editable],
+          extensions: ['editable'],
           onEdit: function(e) {
             var val = this.getRow().data.get();
             updateBuffer.upd(val);
@@ -125,7 +125,7 @@ var panel = $.ergo({
       },
       components: {
         body: {
-          extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation]
+          extensions: ['selectable', 'focusable', 'listnavigation']
         },        
         pager: {
           etype: 'pager',

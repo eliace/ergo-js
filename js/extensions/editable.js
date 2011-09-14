@@ -3,7 +3,7 @@
 
 
 
-Ergo.Editable = function(o) {
+Ergo.extension('Ergo.extensions.Editable', function(o) {
 
 
 	this.startEdit = function() {
@@ -98,7 +98,7 @@ Ergo.Editable = function(o) {
 	//TODO имеет смысл перенести это в состояния
 	o.editable = ('editable' in o) ? o.editable : true;
 	
-};
+}, 'editable');
 
 
 

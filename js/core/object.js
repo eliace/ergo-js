@@ -51,6 +51,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		if('extensions' in o) {
 			for(i in o.extensions) {
 				var ext = o.extensions[i];
+				if($.isString(ext)) ext = o.extensions[i] = Ergo.alias('extensions:'+ext);
 				if($.isFunction(ext)) ext.call(this, o);
 				else if($.isPlainObject(ext)) Ergo.deep_override(this, ext);
 			}
@@ -71,6 +72,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 */
 	is: function(ex) {
 		var o = this.options;
+		if($.isString(ex)) ex = Ergo.alias('extensions:'+ex);
 		return ('extensions' in o) ? Ergo.include(o.extensions, ex) : false;
 	},
 	
@@ -82,5 +84,30 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	
 });
+
+
+
+
+
+/**
+ * Добавляем метод для регистрации расширений в ErgoJS
+ */
+Ergo.extension = function(ext_name, obj, etype) {
+	
+	// создаем пространство имен для расширения
+	var cp_a = ext_name.split('.');
+	var cp = 'window';
+	for(var i = 0; i < cp_a.length; i++){
+		cp += '.'+cp_a[i];
+		eval( 'if(!'+cp+') '+cp+' = {};' );
+	}		
+	eval(cp + ' = obj;');
+	
+	if(etype)
+		Ergo.alias('extensions:'+etype, obj);
+	
+	return obj;
+}
+
 
 

@@ -45,8 +45,12 @@ Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.wi
 					show: 'slideDown',
 					hide: 'slideUp',
 					delay: 200
+					// initial: {
+						// show: 'show',
+						// delay: 0
+					// }
 				},
-				extensions: [Ergo.Effects]
+				extensions: ['effects']
 			}
 		},
 		states: {

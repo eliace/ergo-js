@@ -31,7 +31,7 @@ Ergo.widgets.LoadingPane = Ergo.declare('Ergo.widgets.LoadingPane', 'Ergo.widget
 		},
 		style: {'display': 'none'},
 		showOnRender: false,
-		extensions: [Ergo.Effects]
+		extensions: ['effects']
 	}
 	
 }, 'loading-pane');
