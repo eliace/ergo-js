@@ -52,6 +52,47 @@ test('core/object', function(){
 
 
 	
+//	var 
+	
+/*	
+	function current_function_name() {
+   	var re = /^function\s+([^(]+)/;
+    return re.exec(arguments.callee.caller.toString())[1];                             
+//		alert(arguments.callee.caller.toString());
+	}
+	
+	
+	Ergo.declare('my.Class1', 'Ergo.core.Object', {
+		
+		initialize: function() {
+			
+			
+		},
+		
+		fn1: function(){}
+		
+		
+	});
+
+	Ergo.declare('my.Class2', 'my.Class1', {
+		
+		initialize: function() {
+			
+			
+		},
+		
+		fn2: function(){}
+		
+		
+	});
+	
+	
+	alert(my.Class2.prototype.fn1);
+	
+//	new my.Class1();
+	
+*/	
+	
 	
 	
 

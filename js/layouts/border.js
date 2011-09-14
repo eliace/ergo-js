@@ -89,7 +89,7 @@ Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 			activeSplitSize = (metrics[activeRegion] == 'width') ? activeSplit.width() : activeSplit.height();
 			activeSplit.addClass('active');
 			$('.split-pane').remove();
-			splitPane = $('<div class="split-pane resizable-'+activeRegion+'" autoheight="ignore"></div>')
+			splitPane = $('<div class="split-pane resizable-'+activeRegion+'" autoheight="ignore" onselectstart="return false;"></div>')
 				.bind('mousemove', self.handlers.split_mousemove)
 				.bind('mouseup', self.handlers.split_mouseup);
 			$('body').append(splitPane);
