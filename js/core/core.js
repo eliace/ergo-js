@@ -212,7 +212,8 @@ var Ergo = (function(){
 //			return null;
 		}
 				
-		return new ctor(options);	
+		return new ctor(options);			
+		
 	};
 
 //	E.widget = E.object;
@@ -961,6 +962,9 @@ var Ergo = (function(){
 			  success: function(){
 			  	//TODO здесь нужно вызывать функцию, оповещающую, что класс загружен
 			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log(errorThrown);
+			  },
 			  async: false
 			});			
 			
@@ -1042,6 +1046,8 @@ Function.prototype.rcurry = function(arg) {
  * @function
  * @param {Any} val элемент массива
  */
+
+/*
 Array.prototype.remove = function(val) {
 	var index = -1;
 	for(var i = 0; i < this.length; i++) {
@@ -1054,7 +1060,7 @@ Array.prototype.remove = function(val) {
 	
 	return (index != -1);		
 }
-
+*/
 
 
 

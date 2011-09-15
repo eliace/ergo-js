@@ -6,7 +6,7 @@
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.FormLayout.prototype */{
+Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.FormLayout.prototype */{
 	
 	defaults: {
 		name: 'form'
@@ -57,7 +57,7 @@ Ergo.layouts.FormLayout = Ergo.declare('Ergo.layouts.FormLayout', 'Ergo.core.Lay
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.layouts.SimpleFormLayout = Ergo.declare('Ergo.layouts.SimpleFormLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.SimpleFormLayout.prototype */{
+Ergo.layouts.SimpleFormLayout = Ergo.declare('Ergo.layouts.SimpleFormLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.SimpleFormLayout.prototype */{
 	
 	defaults: {
 		name: 'simple-form'
