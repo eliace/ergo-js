@@ -16,21 +16,21 @@ var groupData = [{
   id: '1',
   text: 'Группа 1',
   users: [
-    {text: 'Alice', id: 1, group: '1'},
-    {text: 'Bob', id: 2, group: '1'},
+    {text: 'Alice', id: 1},
+    {text: 'Bob', id: 2},
   ]
 }, {
   id: '2',
   text: 'Группа 2',
   users: [
-    {text: 'Charlie', id: 3, group: '2'},
+    {text: 'Charlie', id: 3},
   ]
 }, {
   id: '3',
   text: 'Группа 3',
   users: [
-    {text: 'Dean', id: 4, group: '3'},
-    {text: 'Eva', id: 5, group: '3'},
+    {text: 'Dean', id: 4},
+    {text: 'Eva', id: 5},
   ]
 }];
 
@@ -64,54 +64,45 @@ $.ergo({
 */
 
 
-var groupLayout = Ergo.layouts.StatefulLayout.extend({
+var groupLayout = Ergo.layouts.PlainLayout.extend({
   
-/*  
-  insert: function(item) {
+  update: function() {
     
-    if(!this.groups) this.groups = {};
-    
-    var g = item.data.get('group');
-    
-    if(!this.groups[g]) {
-      var el = $('<div class="group-title">Group '+g+'</div>');
-      this.groups[g] = el;
-      this.el.append(el);
-    }
-    
-    this.groups[g].after(item.el);
-    
-  }
-*/
-
-  
-  rebuild: function() {
+    this.el.empty();
     
     var c = this.container;
     
-    if(!this.groups) this.groups = {};
+    var groups = {};
     
-    var self = this;
+    // получаем хэш групп
+    c.children.each(function(child){
+    	var g = child.data.get('group');
+    	if(!(g in groups)) {
+	    	groups[g] = {
+	    		key: g,
+	    		children: []
+	    	};    		
+    	}
+    	groups[g].children.push(child);
+    });
     
-    for(var i = this.items.length-1; i--; i>= 0) {
+    var keys = [];
+    // преобразуем хэш в массив
+    for(var i in groups)
+    	keys.push(i);
+    	
+    // сортируем массив ключей
+    keys.sort();	
+    
+    for(var i = 0; i < keys.length; i++) {
+    	var group = groups[keys[i]];
+      var el = $('<div class="group-title">группа '+group.key+'</div>');
+      this.el.append(el);
       
-      var item = this.items[i];
-      
-      var g = item.data.get('group');
-            
-      if(!self.groups[g]) {
-        var el = $('<div class="group-title">Hello</div>');
-        self.groups[g] = el;
-        self.el.append(el);
+      for(var j = 0; j < group.children.length; j++) {
+      	this.el.append( group.children[j].el );
       }
-
-      self.groups[g].after(item.el);      
     }
-    
-    // Ergo.each(this.items, function(item){
-//       
-    // });
-    
     
   }
 
@@ -121,7 +112,13 @@ var groupLayout = Ergo.layouts.StatefulLayout.extend({
 
 
 
-$.ergo({
+
+
+
+var baseDataSource = new Ergo.core.DataSource(listData);
+
+
+var w = $.ergo({
   etype: 'panel',
   renderTo: '.preview',
   width: 400,
@@ -130,7 +127,7 @@ $.ergo({
   style: {'margin-top': 10},
   content: {
     etype: 'list',
-    data: listData,
+    data: baseDataSource,
     dynamic: true,
     cls: 'ergo-text-content',
     layout: new groupLayout,
@@ -149,52 +146,125 @@ $.ergo({
 
 
 
+baseDataSource.events.fire('value:changed');
+
+baseDataSource.set('0.text', 'Alice 2');
+
+baseDataSource.set('0.group', '2');
+
+baseDataSource.del(2);
+
+baseDataSource.add({'text': 'Fox', 'group': '1'});
+baseDataSource.add({'text': 'Gunde Svan', 'group': '4'});
+
+
+w.$layoutChanged();
 
 
 
-var baseDataSource = new Ergo.core.DataSource(listData);
 
 
 
 /*
-baseDataSource.group = function(field) {
+Ergo.declare('InheritedLayout2', 'Ergo.core.StatefulLayout', {
 	
-	var groups = {};
+	initialize: function(o, parentLayout) {
+		this.$super(o);
+		this.parent = parentLayout;
+	},
 	
-	var values = this.val();
+	insert: function(item, i) {
+//	var parent = this.parent || this.container.parent.layout;
+		var parent = this.parent.parent.layout;
+			
+		parent.insert(item, i);
+	}
 	
-	Ergo.each(values, function(val){
-		var group_id = val.group;
-		if(!(group_id in groups)) {
-			groups[group_id] = [];
-		}
-		groups[group_id].push(val);
-	});
 	
-	var ds = new Ergo.core.DataSource(groups);
 	
-	// добавляем новое значение и автоматически выполняем группировку
-	ds.add_and_group = function(val) {
-		return this.entry(val.group).add(val);
-	};
-	
-	// обновляем группировку
-	ds.regroup = function() {
-		
-	};
-	
-	return ds;
-};
-
-
-baseDataSource.ungroup = function() {
-	
-};
-
-
-
-var groupView = baseDataSource.group();
+}, 'inherited2-layout');
 */
+
+
+
+
+var groupLayout2 = Ergo.layouts.StatefulLayout.extend({
+	
+	
+	update: function() {
+		
+		var self = this;
+		
+		this.container.walk(function(){
+			if(this.layout instanceof Ergo.layouts.StatefulLayout) {
+				var items = this.layout.items;
+				for(var i = 0; i < items.length; i++)
+					self.el.append( items[i].el );
+			}
+		});
+		
+				
+	}
+	
+});
+
+
+
+
+
+baseDataSource = new Ergo.core.DataSource(groupData);
+
+
+w = $.ergo({
+  etype: 'panel',
+  renderTo: '.preview',
+  width: 400,
+  title: 'Сгруппированный список (GroupLayout)',
+  cls: 'ergo-border-all',
+  style: {'margin-top': 10},
+  content: {
+    etype: 'list',
+    data: baseDataSource,
+    dynamic: true,
+    cls: 'ergo-text-content',
+    layout: new groupLayout2(),
+    
+    defaultItem: {
+      etype: 'text-item',
+      style: {'display': 'block'},
+      binding: function(val) {
+        this.opt('text', val.text);
+      },
+      components: {
+      	subitems: {
+      		etype: 'list',
+      		dataId: 'users',
+      		dynamic: true,
+      		layout: 'stateful',
+			    defaultItem: {
+			      etype: 'text-item',
+			      style: {'display': 'block'},
+			      binding: function(val) {
+			        this.opt('text', val.text);
+			      }
+			    }
+      	}
+      }
+    }    
+  }
+  
+});
+
+
+
+
+
+
+/*
+
+baseDataSource = new Ergo.core.DataSource(listData);
+
+
 
 
 var groupView = new Ergo.core.DataSource({});
@@ -300,95 +370,6 @@ groupView.regroup = function() {
 
 
 
-/*
-baseDataSource.events.reg('entry:changed', function(e){
-	
-	console.log('aaa');
-	
-	var entry = e.entry;
-	var group_id = entry.get('group');
-	
-	var dv_group = groupView.get(group_id);
-	if(!Ergo.include(dv_group, entry.id)) {
-		groupView.entry(group_id).add(entry.id);
-	}
-	
-});
-*/
-
-
-
-/*
-groupView._val = function() {
-  if(arguments.length == 0) {
-    
-    var a = {};
-    
-    var val = Ergo.core.DataSource.prototype._val.call(this);
-    Ergo.each(val, function(v){
-
-      if(!(v.group in a)) {
-        a[v.group] = {text: v.group, items: []};
-      }
-
-      a[v.group].items.push(v);
-       
-    });
-    
-    return a;
-  }
-  else {
-    
-  }
-}
-*/
-
-
-/*
-$.ergo({
-  etype: 'panel',
-  renderTo: '.preview',
-  width: 400,
-  title: 'Плоский список',
-  cls: 'ergo-border-all',
-  content: {
-    etype: 'list',
-    data: groupView,
-    dynamic: true,
-    cls: 'ergo-text-content',
-    
-    defaultItem: {
-      etype: 'text-item',
-      style: {'display': 'block'},
-      binding: function(val) {
-        this.opt('text', val.text);
-//        this.options.group = val.group;
-      }
-    }    
-  }
-  
-});
-*/
-
-
-/*
-var groupLayout2 = Ergo.layouts.PlainLayout.extend({
-  
-  insert: function(item) {
-
-    var parentItem = this.container.parent.parent;
-    
-    console.log(item.el);
-    
-    parentItem.el.after(item.el);
-    
-  }
-  
-  
-  
-});
-
-*/
 
 $.ergo({
   etype: 'panel',
@@ -452,3 +433,4 @@ baseDataSource.del(2);
 baseDataSource.add({'text': 'Fox', 'group': '1'});
 baseDataSource.add({'text': 'Gunde Svan', 'group': '4'});
 
+*/

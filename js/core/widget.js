@@ -345,8 +345,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		}
 	},
 	
-	_theme: function(name) {
-	},
+	// _theme: function(name) {
+	// },
 	
 	/**
 	 * Хук, вызываемый после построения объекта

@@ -34,4 +34,4 @@ Ergo.declare('Ergo.layouts.StatefulLayout', 'Ergo.core.Layout', /** @lends Ergo.
 		this.items = [];
 	}
 	
-});
+}, 'stateful-layout');
