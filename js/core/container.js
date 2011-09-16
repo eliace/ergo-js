@@ -39,7 +39,11 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 	
 	
 	
-	
+	destroy: function() {
+		this.$super();
+		
+		this.items.apply_all('destroy');
+	},
 	
 	
 //	$componentFactory: function(item) {
@@ -301,7 +305,7 @@ Ergo.core.Container = Ergo.declare('Ergo.core.Container', 'Ergo.core.Widget', /*
 
 			// уничтожаем все элементы-виджеты
 			self.items.destroy_all();
-
+			
 //			var t0 = Ergo.timestamp();
 
 			self.data.iterate(function(dataEntry, i){

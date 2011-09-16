@@ -14,11 +14,11 @@ Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.C
     this._fetched = false;
   },
   
-  fetch: function(params) {
+  fetch: function() {
     
     var self = this;
     
-    return $.getJSON(this.options.path, Ergo.override({_: Ergo.timestamp()}, params))
+    return $.getJSON(this.options.path, Ergo.override({_: Ergo.timestamp()}, this.options.queryParams))
     	.always(function(){
     		self._fetched = true;
     	})

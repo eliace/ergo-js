@@ -65,7 +65,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 //			'close': {icon: 'ergo-icon-dialog-close', tag: 'close'},
 //			'minimize': {icon: 'ergo-icon-dialog-minimize', tag: 'minimize'},
 //			'maximize': {icon: 'ergo-icon-dialog-maximize', tag: 'maximize'}
-		}		
+		}
 	},
 	
 	

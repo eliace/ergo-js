@@ -91,25 +91,25 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				
 				content: {
 					etype: 'grid',
-					gridModel: {
-						row: {
-							cls: 'ergo-grid-row'
-						},
-						cell: {
-							cls: 'ergo-grid-cell',
-							layout: {
-								etype: 'plain-layout',
-								html: '<div class="nowrap"></div>'
-							}
-						}
+					dynamic: true,
+					row: {
+						cls: 'ergo-grid-row'
 					},
-					components: {
-						cols: {
-							defaultItem: {
-								cls: 'ergo-grid-cell'
-							}
+					cell: {
+						cls: 'ergo-grid-cell',
+						layout: {
+							etype: 'plain-layout',
+							html: '<div class="nowrap"></div>'
 						}
-					}					
+					}
+					// },
+					// components: {
+						// cols: {
+							// defaultItem: {
+								// cls: 'ergo-grid-cell'
+							// }
+						// }
+					// }					
 				}
 			},
 			splitter: {
@@ -145,7 +145,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			h_columns[i] = h_col;
 		})
 		
-		Ergo.smart_override(o.components.body.content, {'gridModel': o.tableModel});
+		Ergo.smart_override(o.components.body.content, /*{'gridModel': o.tableModel}*/o.tableModel);
 		Ergo.smart_override(o.components.header.content, {'headerModel': o.headerModel || {}}, {headerModel: {columns: h_columns}});
 		
 	},
@@ -189,8 +189,9 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					depressed.column.layout.el.width(new_width);
 					
 					var i = depressed.column.index;
-					
-					grid.body.content.cols.items.get(i).el.width(new_width);
+
+					grid.body.content.layout.columns_el.children().eq(i).width(new_width);
+//					grid.body.content.cols.items.get(i).el.width(new_width);
 					
 					grid.header.content.el.width(width);
 					grid.body.content.el.width(width);

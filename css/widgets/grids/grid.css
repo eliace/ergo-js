@@ -9,6 +9,12 @@
 	
 }
 
+
+.ergo-grid-control-row > td {
+	padding: 0;
+}
+
+
 /*
 .ergo-grid-body {
 	text-align: center;

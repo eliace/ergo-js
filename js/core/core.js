@@ -548,8 +548,8 @@ var Ergo = (function(){
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
-/*	
-	E.array_remove = function(arr, val) {
+	
+	E.remove_from_array = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
 			if(arr[i] == val) {
@@ -561,7 +561,7 @@ var Ergo = (function(){
 		
 		return (index != -1);
 	};
-*/	
+	
 	
 	/**
 	 * Полное копирование объекта.

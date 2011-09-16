@@ -15,6 +15,25 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 //		this.items = [];
 //	},
 	
+	attach: function(c) {
+		this.$super(c);
+		
+		if(!(c instanceof Ergo.core.Layout)) {
+			var row = $('<tr/>');
+			for(var i = 0; i < c.options.columns.length; i++) {
+				var col = c.options.columns[i];
+				var el = $('<td class="ergo-grid-cell"/>');
+				if('width' in col) el.width(col.width);
+				row.append(el);
+			}
+			
+			this.columns_el = row;
+			
+			this.el.append(this.columns_el);
+		}
+		
+	},
+	
 	
 	insert: function(item) {
 		this.$super(item);
@@ -193,15 +212,13 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 					defaultItem: {
 						etype: 'tree-table-row'						
 					},
-					gridModel: {
-						row: {
-							onStateChange: function(e) {
-								if(e.state == 'expanded' || e.state == 'collapsed') {
-									var grid = this.getParent(Ergo.widgets.TreeGrid);
-									if(grid) grid.$layoutChanged();
-								}
-							}							
-						}
+					row: {
+						onStateChange: function(e) {
+							if(e.state == 'expanded' || e.state == 'collapsed') {
+								var grid = this.getParent(Ergo.widgets.TreeGrid);
+								if(grid) grid.$layoutChanged();
+							}
+						}							
 					}
 //					defaultItem: {
 //						etype: 'tree-table-row',
@@ -237,12 +254,14 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 		Ergo.smart_override(o_grid.defaultItem, defaultNode, {defaultSubItem: defaultNode});
 		
 		
-		
+		// Ergo.smart_override(o_grid, {
+		// });
+// 		
+// 		
 		Ergo.smart_override(
 				o_grid.defaultItem.defaultSubItem,
-				o_grid.gridModel.row, 
-				{defaultItem: o_grid.gridModel.cell},
-				{items: o_grid.gridModel.columns}
+				o_grid.row, 
+				{defaultItem: o_grid.cell, items: o_grid.columns}
 		);
 		
 		
@@ -427,7 +446,7 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 									'leaf': 'hidden'
 								}
 							},
-							content: {
+							text: {
 								etype: 'text-item',
 								cls: 'ergo-tree-node-content'
 							}

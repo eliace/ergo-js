@@ -301,3 +301,25 @@ button.plain {
 
 
 
+/*
+ * LIST TREE
+ */
+
+.ergo-list-tree-node.selected > .tree-list-item {
+	background-color: #ffc;
+}
+
+.ergo-list-tree {
+	background-color: #fff;
+}
+
+.ergo-list-tree ul {
+	padding-left: 0px;
+}
+
+.indent {
+	margin-left: 6px;
+	cursor: default;
+}
+
+

@@ -5,7 +5,7 @@ var tgTreeData = new Ergo.core.DataSource([]);
 $.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
 
     
-$.ergo({
+var w = $.ergo({
   etype: 'tree-grid',
   renderTo: '.preview',
   cls: 'ergo-border-all',
@@ -33,18 +33,20 @@ $.ergo({
       etype: 'tree-table-cell',
       header: 'Файл',
       content: {
-        content: {
-          icon: true,
-          components: {
-            icon: {
-              dataId: 'type',
-              binding: function(val) {  this.states.setOnly('silk-icon-'+val); }
-            },
-            content: {
-              dataId: 'name'
-            }
-          }
-        }        
+      	components: {
+	        text: {
+	          icon: true,
+	          components: {
+	            icon: {
+	              dataId: 'type',
+	              binding: function(val) {  this.states.setOnly('silk-icon-'+val); }
+	            },
+	            content: {
+	              dataId: 'name'
+	            }
+	          }
+	        }
+      	}
       },
       binding: function(val) {
         this.opt('isLeaf', (val.type == 'film'));
@@ -59,4 +61,11 @@ $.ergo({
 });  
 
 
-    
+var w = $.ergo({
+	etype: 'button',
+	renderTo: '.preview',
+	text: 'Press me',
+	onAction: function() {
+		tgTreeData.set([]);
+	}
+});

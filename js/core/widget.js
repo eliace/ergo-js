@@ -282,8 +282,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //	}
 	
 	destroy: function() {
+
 		
 		// удаляем элемент и все его содержимое (data + event handlers) из документа
+//		if(this.parent) this.parent.layout.remove(this);
 		if(this.el) this.el.remove();
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();

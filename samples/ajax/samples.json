@@ -43,6 +43,9 @@
 		"name": "Grid",
 		"path": "grids-grid"
 	}, {
+		"name": "Grid2",
+		"path": "grids-grid2"
+	}, {
 		"name": "Grid (editable)",
 		"path": "grids-editable"
 	}, {
