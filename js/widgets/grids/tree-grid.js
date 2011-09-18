@@ -298,7 +298,7 @@ Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widg
 		components: {
 			subtree: {
 				dataId: 'children',
-				etype: 'container',
+				etype: 'widget',
 				dynamic: true,
 				defaultItem: {
 					etype: 'tree-table-row'

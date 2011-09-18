@@ -2,7 +2,7 @@
 //= require <core/widget>
 
 
-//Ergo.validators = {};
+Ergo.validators = {};
 
 
 
@@ -17,5 +17,5 @@ Ergo.validators.RegexpValidator = function(val, regexp) {
 
 
 Ergo.validators.floatNumber = function(val, context) {
-		return val == '' || !isNaN(parseFloat(val));
-	}
+	return val == '' || !isNaN(parseFloat(val));
+}

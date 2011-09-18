@@ -45,7 +45,7 @@ var box = $.ergo({
       }]
     },
     content: {
-      etype: 'list',
+      etype: 'box',
       layout: 'float',
       dynamic: true,
       data: bindingData,

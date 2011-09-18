@@ -44,7 +44,7 @@ $.ergo({
   title: 'Плоский список',
   cls: 'ergo-border-all',
   content: {
-    etype: 'list',
+    etype: 'box',
     data: listData,
     dynamic: true,
     cls: 'ergo-text-content',
@@ -75,7 +75,7 @@ var groupLayout = Ergo.layouts.PlainLayout.extend({
     var groups = {};
     
     // получаем хэш групп
-    c.children.each(function(child){
+    c.items.each(function(child){
     	var g = child.data.get('group');
     	if(!(g in groups)) {
 	    	groups[g] = {
@@ -126,7 +126,7 @@ var w = $.ergo({
   cls: 'ergo-border-all',
   style: {'margin-top': 10},
   content: {
-    etype: 'list',
+    etype: 'box',
     data: baseDataSource,
     dynamic: true,
     cls: 'ergo-text-content',
@@ -195,6 +195,9 @@ var groupLayout2 = Ergo.layouts.StatefulLayout.extend({
 		
 		var self = this;
 		
+		
+		
+		
 		this.container.walk(function(){
 			if(this.layout instanceof Ergo.layouts.StatefulLayout) {
 				var items = this.layout.items;
@@ -223,7 +226,7 @@ w = $.ergo({
   cls: 'ergo-border-all',
   style: {'margin-top': 10},
   content: {
-    etype: 'list',
+    etype: 'box',
     data: baseDataSource,
     dynamic: true,
     cls: 'ergo-text-content',
@@ -237,7 +240,7 @@ w = $.ergo({
       },
       components: {
       	subitems: {
-      		etype: 'list',
+      		etype: 'box',
       		dataId: 'users',
       		dynamic: true,
       		layout: 'stateful',
@@ -379,7 +382,7 @@ $.ergo({
   cls: 'ergo-border-all',
   style: {'margin-top': 10},
   content: {
-    etype: 'list',
+    etype: 'box',
     data: groupView,
     dynamic: true,
     cls: 'ergo-text-content',
@@ -398,7 +401,7 @@ $.ergo({
         groupItemList: {
 //          dataId: 'items',
 					id: 'foo',
-          etype: 'list',
+          etype: 'box',
           dynamic: true,
           defaultItem: {
             etype: 'text-item',

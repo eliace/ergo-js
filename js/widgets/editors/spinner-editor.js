@@ -23,7 +23,7 @@ Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.TextEditor', {
 				}
 			},
       buttons: {
-        etype: 'list',
+        etype: 'box',
 				role: 'actor',
         defaultItem: {
           cls: 'ergo-clickable',

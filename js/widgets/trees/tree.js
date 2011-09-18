@@ -1,5 +1,4 @@
 
-//= require <containers/list>
 //= require <widgets/text-item>
 
 
@@ -12,7 +11,7 @@
  * @class
  * @extends Ergo.containers.List
  */
-Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.containers.List', /** @lends Ergo.widgets.Tree.prototype */{
+Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Tree.prototype */{
 	
 	defaults: {
 		cls: 'ergo-tree',

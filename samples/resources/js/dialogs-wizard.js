@@ -3,7 +3,7 @@ var dlg = $.ergo({
   etype: 'dialog',
   renderTo: '.preview',
   content: {
-    etype: 'list',
+    etype: 'box',
     cls: 'ergo-text-content ergo-border-all',
     layout: 'stack',
     items: [{

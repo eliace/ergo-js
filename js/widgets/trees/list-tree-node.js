@@ -12,7 +12,7 @@ Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 			content: {
 				components: {
 					indent: {
-						etype: 'list',
+						etype: 'box',
 						style: {
 							'display': 'inline'
 						},

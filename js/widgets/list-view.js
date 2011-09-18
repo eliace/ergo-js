@@ -1,5 +1,4 @@
 
-//= require <containers/list>
 //= require <extensions/selectable>
 
 
@@ -7,7 +6,7 @@
  * @class
  * @extends Ergo.containers.ListView
  */
-Ergo.declare('Ergo.containers.ListView', 'Ergo.containers.List', {
+Ergo.declare('Ergo.widgets.ListView', 'Ergo.widgets.Box', {
 	
 	defaultCls: 'ergo-list-view',
 	

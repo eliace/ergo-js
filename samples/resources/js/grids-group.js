@@ -43,8 +43,16 @@ var gridData = [
 
 
 
-var customLayout = Ergo.layouts.PlainLayout.extend({
+var customLayout = Ergo.layouts.GridLayout.extend({
   
+  
+  
+  initialize: function(o) {
+  	this.$super(o);
+  	
+    this.groups = {};
+  	
+  },
   
 /*  
   insert: function(item) {
@@ -118,30 +126,59 @@ var customLayout = Ergo.layouts.PlainLayout.extend({
     var self = this;
     var c = this.container;
     
+    
+    var sorted_items = [];
+    
+    c.items.each(function(item){
+      if(!item._group) sorted_items.push(item);
+    });
+    
+    // сотировка по полю "id"
+    sorted_items.sort(function(w1, w2){
+      var a = w1.data.get('id');
+      var b = w2.data.get('id');
+      if(a < b) return -1;
+      else if(a > b) return 1;
+      return 0;
+    });
+    
+    
+    
     var group = null;
+    
+    for(var i in this.groups) {
+    	c.items.remove(this.groups[i]);
+    	this.groups[i].destroy();
+    }
+
+  	this.groups = {}; 
     
     // создаем по необходимости группы
     c.items.each(function(item){
       var g = item.data.get('group');
       
-      if(!c.components.has_key(g)) {
+      if(!(g in self.groups)) {
         
-        c.components.add({
+//        console.log(g);
+        
+        self.groups[g] = c.items.add({
           etype: 'table-row',
           html: '<tr/>',
           cls: 'group',
-          items: [{
-            data: groupData,
-            dataId: g,
+          'items!': [{
+//            data: groupData,
+//            dataId: g,
             html: '<td colspan="3" />',
             content: {
               etype: 'text',
-              dataId: 'name',
+//              dataId: 'name',
+							text: g,
               style: {'margin-left': 3}
             }
           }]
-        }, g);
+        });
         
+        self.groups[g]._group = true;
 //        console.log('component created');
         
       }
@@ -149,20 +186,22 @@ var customLayout = Ergo.layouts.PlainLayout.extend({
     });
     
     
-    var items = [];
     
-    c.items.each(function(item){
-      items.push(item);
+    group = undefined;
+    
+    Ergo.each(sorted_items, function(item) {
+    	
+    	var g = item.data.get('group');
+    	
+    	if(group != g) {
+    		group = g;
+    		self.el.append(self.groups[g].el);
+    	}
+    	
+    	self.el.append(item.el);
+    	
     });
     
-    // сотировка по полю "id"
-    items.sort(function(w1, w2){
-      var a = w1.data.get('id');
-      var b = w2.data.get('id');
-      if(a < b) return -1;
-      else if(a > b) return 1;
-      return 0;
-    });
 
     // // сортировка по полю "group"
     // items.sort(function(w1, w2){
@@ -173,19 +212,18 @@ var customLayout = Ergo.layouts.PlainLayout.extend({
       // return 0;
     // });
     
-    items.reverse();
-    
-    Ergo.each(items, function(item){
-      var g = item.data.get('group');
-      
-      c.components.get(g).el.after(item.el);
-            
-//      self.el.append( item.el );
-      
-    });
+    // items.reverse();
+//     
+    // Ergo.each(items, function(item){
+      // var g = item.data.get('group');
+//       
+      // c[g].el.after(item.el);
+//             
+// //      self.el.append( item.el );
+//       
+    // });
     
 //    if(this.container.components.has_key())
-    
     
     
   }
@@ -220,7 +258,7 @@ $.ergo({
   content: {
     etype: 'table-grid',
     data: gridData,
-    dynamic: true,
+//    dynamic: true,
     height: 300,
     
     components: {

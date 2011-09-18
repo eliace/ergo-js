@@ -8,19 +8,19 @@
 		"path": "buttons-split"
 	}]
 }, {
-	"name": "Containers",
+	"name": "Forms",
 	"children": [{
 		"name": "Pager",
-		"path": "containers-pager"
+		"path": "forms-pager"
 	}, {
-		"name": "Forms",
-		"path": "containers-form"
+		"name": "Native",
+		"path": "forms-form"
 	}, {
 		"name": "Ergo forms",
-		"path": "containers-xform"
+		"path": "forms-xform"
 	}, {
 		"name": "Controls",
-		"path": "containers-controls"
+		"path": "forms-controls"
 	}]
 }, {
 	"name": "Dialogs",
@@ -42,9 +42,6 @@
 	"children": [{
 		"name": "Grid",
 		"path": "grids-grid"
-	}, {
-		"name": "Grid2",
-		"path": "grids-grid2"
 	}, {
 		"name": "Grid (editable)",
 		"path": "grids-editable"

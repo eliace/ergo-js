@@ -48,7 +48,7 @@ var graphData = [{
 
 
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   cls: 'button-container',
   items: [/*{
@@ -83,7 +83,7 @@ $.ergo({
     etype: 'button',
     style: {'padding-right': 2},
     content: {
-      etype: 'list',
+      etype: 'box',
       layout: 'float',
       items: [{
         etype: 'icon',
@@ -168,7 +168,7 @@ $.ergo({
     }    
   }, {
   	extensions: ['selectable'],
-  	defaultComponent: {
+  	defaultItem: {
   		etype: 'icon-button',
   		cls: 'ergo-bg-3',
   		onClick: function() {
@@ -195,7 +195,7 @@ $.ergo({
   	}
   }, {
   	extensions: ['selectable'],
-  	defaultComponent: {
+  	defaultItem: {
   		etype: 'button',
   		cls: 'ergo-bg-3 ergo-border-all',
   		onClick: function() {

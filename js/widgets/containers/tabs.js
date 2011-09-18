@@ -1,5 +1,4 @@
 
-//= require "list"
 //= require <widgets/natives/all>
 
 
@@ -7,7 +6,7 @@
  * @class
  * @extends Ergo.containers.List
  */
-Ergo.containers.Tabs = Ergo.declare('Ergo.containers.Tabs', 'Ergo.containers.List', /** @lends Ergo.containers.Tabs.prototype */{
+Ergo.widgets.Tabs = Ergo.declare('Ergo.widgets.Tabs', 'Ergo.widgets.Box', /** @lends Ergo.containers.Tabs.prototype */{
 	
 	
 	defaults: {

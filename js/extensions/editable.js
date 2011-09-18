@@ -19,7 +19,7 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 		else
 			this.layout.el.empty();
 		
-		this.components.add(editorOpts, '_editor');
+		this.items.add(editorOpts, '_editor');
 			
 		if(editorOpts.keepContent) {
 			var ed_el = this._editor.el
@@ -59,7 +59,7 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 
 //		if(this._editor.replacement == 'override')
 
-		this.components.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
+		this.items.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
 
 		this.layout.el.children().show();
@@ -76,7 +76,7 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 	
 	this.cancelEdit = function(reason) {
 
-		this.components.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
+		this.items.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
 //		this.events.fire('onEdit', {'reason': reason});
 

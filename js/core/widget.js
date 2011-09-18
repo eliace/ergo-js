@@ -2,14 +2,14 @@
 //= require "data-source"
 //= require "states"
 //= require <layouts/plain>
-//= require "widget-collection"
+//= require "widget-list"
 
 
 
 
-Ergo.formats = {};
-Ergo.parsers = {};
-Ergo.validators = {};
+// Ergo.formats = {};
+// Ergo.parsers = {};
+// Ergo.validators = {};
 
 
 
@@ -46,12 +46,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				layout = Ergo.object(layout);
 			return layout;	
 		},
-		defaultComponent: {
-		},
-		events: {
-		},
-		componentFactory: function(o) {
-			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
+		events: {},
+		defaultItem: {},
+		defaultItemShortcuts: {},
+		itemFactory: function(o) {
+			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
 		},
 		showOnRender: true,
 		set: {
@@ -98,7 +98,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var self = this;
 
 		
-		this.children = new Ergo.core.Array();
+		this.items = new Ergo.core.WidgetList(this);
 
 //		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
 //		var html = o.html;
@@ -168,7 +168,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		var o = this.options;
 		
-		this.components = new Ergo.core.WidgetCollection(this);
+//		this.components = new Ergo.core.WidgetCollection(this);
 		
 //		this.components = this.collection; //new Ergo.core.Collection();		
 		
@@ -215,7 +215,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				delete c._cweight;
 				delete c._cname;
 //				self.addComponent(c, i);
-				self.components.add(c, i);
+				c = self.items.add(c, i);
+//				c.opt('tag', i);
+//				self[i] = c;
 			});
 			
 			// задаем "ленивые" классы компонентов
@@ -234,6 +236,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 		}
 		
+		
+		
+		if('items' in o){
+			for(var i = 0; i < o.items.length; i++)
+				this.items.add(o.items[i]);
+		}		
 		
 		
 		
@@ -294,7 +302,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		// вызываем метод destroy для всех дочерних компонентов
 //		this.children.each(function(child) { child.destroy(); });
-		this.components.apply_all('destroy');
+//		this.components.apply_all('destroy');
+		this.items.apply_all('destroy');
 		
 //		if(this.options.debug)	console.log('destroyed');
 	},
@@ -375,7 +384,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$layoutChanged: function() {
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
-		this.children.apply_all('$layoutChanged');
+		this.items.apply_all('$layoutChanged');
 	},
 	
 	$events: function(self){
@@ -388,7 +397,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$afterRender: function() {
 //		this.children.each(function(c) { c.$afterRender(); });
-		this.children.apply_all('$afterRender');
+		this.items.apply_all('$afterRender');
 	},
 
 	/**
@@ -537,15 +546,15 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	walk: function(callback) {
 		callback.call(this);
-		this.children.each(function(item){
+		this.items.each(function(item){
 			item.walk(callback);
 		});
 	},	
 	
 	
 	
-	component: function(i) {
-		return this.components.find(Ergo.filters.by_widget(i));		
+	item: function(i) {
+		return this.items.find(Ergo.filters.by_widget(i));		
 	},
 	
 	
@@ -624,54 +633,114 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	bind: function(data, update, phase) {
 				
 		var o = this.options;
+		var self = this;
 		
+
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(data == undefined || !o.binding) return;
 		
+		// удаляем все обработчики событий строго источника данных, связанные с текущим виджетом
 		if(this.data)
 			this.data.events.unreg(this);
-		
+
+
 		// если фаза автобиндинга не определена, то присваем ей начальное значение
 		if(!phase) phase = 1;
 		
 		if(update !== false) update = true;
 		
 		this.dataPhase = phase;
-		
-//		if(this.data) data.destroy(); //<-- экспериментальный код
-		
+
+
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
-		if('dataId' in o){
+		if('dataId' in o)
 			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(o.dataId) : new Ergo.core.DataSource(data, o.dataId);
+		else
+			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+
+
+
+		if(o.dynamic) {
+			
+			
+			
+			// если добавлен новый элемент данных, то добавляем новый виджет
+			this.data.events.reg('entry:added', function(e){
+				self.items.add({'data': e.entry}, e.isLast ? null : e.index);
+			}, this);
+			
+			// если элемент данных удален, то удаляем соответствующий виджет
+			this.data.events.reg('entry:deleted', function(e){
+				self.items.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
+			}, this);
+			
+			// если элемент данных изменен, то создаем новую привязку к данным
+			this.data.events.reg('entry:changed', function(e){
+				self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
+	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
+			}, this);
+	
+			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
+			this.data.events.reg('value:changed', function(e){
+	
+				// обновляем вложенные элементы контейнера на основе источника данных 
+				
+				self.layout.immediateRebuild = false;
+	
+				// уничтожаем все элементы-виджеты
+				self.items.apply_all('destroy');
+				
+	//			var t0 = Ergo.timestamp();
+	
+				self.data.iterate(function(dataEntry, i){
+					var item = self.items.add({ 'data': dataEntry });
+					item.dataPhase = 2;
+				});
+			
+	//			var t1 = Ergo.timestamp();
+	//			console.log(t1 - t0);
+					
+				self.layout.immediateRebuild = true;
+				self.layout.rebuild();
+				
+			}, this);
+			
+	
+	
+			// создаем вложенные элементы контейнера на основе источника данных 
+	
+			this.layout.immediateRebuild = false;
+					
+			this.items.apply_all('destroy');
+	
+			this.data.iterate(function(dataEntry, i){
+				self.items.add({ 'data': dataEntry }).dataPhase = 2;
+			});
+	
+			this.layout.immediateRebuild = true;
+			this.layout.rebuild();
+			
+			
 		}
 		else {
-			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+		
+								
+			// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод $dataChanged
+			this.data.events.reg('value:changed', function() { 
+				if(self.options.updateOnValueChange) self.$dataChanged();
+			}, this);
+			
+		
+			// связываем данные с дочерними компонентами виджета
+			this.items.each(function(child){
+				if(child.dataPhase != 1) child.bind(self.data, false, 2);
+			});
+			
 		}
 
 		
-		
-//		if('defaultValue' in o){
-//			if(this.data.get() == null) this.data.set(o.defaultValue);
-//		}
-		var self = this;
-	
-		// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод $dataChanged
-		this.data.events.reg('value:changed', function() { 
-			if(self.options.updateOnValueChange) self.$dataChanged();
-//			console.log(self.data.val());
-//			// связываем данные с дочерними компонентами виджета
-//			self.children.each(function(child){
-//				if(child.dataPhase != 1) child.bind(self.data, 2);
-//			});
-		}, this);
-		
-	
-		// связываем данные с дочерними компонентами виджета
-		this.children.each(function(child){
-			if(child.dataPhase != 1) child.bind(self.data, false, 2);
-		});
-		
 		if(update) this.$dataChanged();
+			
 	},
 	
 	
@@ -798,8 +867,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		if(this.options.stateBinding){
 //			this.states.set( this.getStateValue() );
 //		}
+
+		this.items.apply_all('$dataChanged');
 		
-		this.children.each(function(child) { child.$dataChanged(); });	
+//		this.children.each(function(child) { child.$dataChanged(); });	
 		
 //		this.events.fire('onDataChanged');
 	}

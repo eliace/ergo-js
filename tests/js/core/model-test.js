@@ -57,7 +57,7 @@ test('core/model', function(){
 	var msg;
 	
 	var w = $.ergo({
-		etype: 'list',
+		etype: 'box',
 		data: c,
 		dynamic: true,
 		defaultItem: {

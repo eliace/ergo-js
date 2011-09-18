@@ -4,7 +4,7 @@
 Ergo.extension('Ergo.extensions.Effects', function(o) {
 	
 	this.show = function() {
-		if(this.children.size() == 0) return;
+		if(this.items.is_empty()) return;
 		
 		var effects = this.options.effects;
 		var deferred = $.Deferred();
@@ -20,7 +20,7 @@ Ergo.extension('Ergo.extensions.Effects', function(o) {
 	
 	
 	this.hide = function() {
-		if(this.children.size() == 0) return;
+		if(this.items.is_empty()) return;
 
 		var effects = this.options.effects;
 		var deferred = $.Deferred();

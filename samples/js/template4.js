@@ -53,7 +53,7 @@ $(document).ready(function(){
 		components: {
 			// Логотип
 			logo: {
-				etype: 'list',
+				etype: 'box',
 				id: 'logo',
 				layout: 'hbox',
 				items: [{
@@ -74,7 +74,7 @@ $(document).ready(function(){
 
 			// Содержимое
 			pageContent: {
-				etype: 'list',
+				etype: 'box',
 				layout: 'border',
 				height: 'auto',
 				items: [{
@@ -185,7 +185,7 @@ $(document).ready(function(){
 									cls: 'desc ergo-border-bottom',
 									style: {'padding': 8, 'margin-bottom': 5, 'font-size': 12, 'color': '#444', 'background-color': '#FCF6E5'}
 								},
-								previewPane: {
+								content: {
 									cls: 'preview',
 									height: 'auto',
 									style: {'padding': 5, 'overflow': 'auto'}
@@ -231,7 +231,7 @@ $(document).ready(function(){
 						      },
 						      components: {
 						        buttons: {
-							        etype: 'list',
+							        etype: 'box',
 							        dock: 'right',
 							        layout: 'float',
 							        defaultItem: {

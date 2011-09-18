@@ -44,7 +44,7 @@ Ergo.layouts.GridLayout = Ergo.declare('Ergo.layouts.GridLayout', 'Ergo.layouts.
 
 
 
-Ergo.widgets.Grid2 = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
+Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
 	
 	defaults: {
 		html: '<table cellspacing="0"></table>',

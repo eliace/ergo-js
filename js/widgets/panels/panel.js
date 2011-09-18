@@ -38,7 +38,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.P
 						dock: false
 					},
 	        buttons: {
-		        etype: 'list',
+		        etype: 'box',
 		        dock: 'right',
 		        layout: 'float',
 						style: {'margin-right': '3px'},

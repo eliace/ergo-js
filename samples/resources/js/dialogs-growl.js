@@ -11,7 +11,7 @@ var _growl = $.ergo({
 
 
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   defaultItem: {
     etype: 'text-button',

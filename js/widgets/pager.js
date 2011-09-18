@@ -1,13 +1,14 @@
 
-//= require <containers/control-list>
+//= require "containers/control-list"
 //= require "buttons/icon-button"
+
 
 
 /**
  * @class
  * @extends Ergo.containers.List
  */
-Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.containers.List', /** @lends Ergo.widgets.Pager.prototype */{
+Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Pager.prototype */{
 	
 	defaults: {
 		cls: 'ergo-pager',

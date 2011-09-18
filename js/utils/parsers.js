@@ -3,6 +3,6 @@
 
 //Ergo.converters = {};
 
-Ergo.parsers.floatNumber = function(s) {
-	return parseFloat(s);
-}
+// Ergo.parsers.floatNumber = function(s) {
+	// return parseFloat(s);
+// }

@@ -12,7 +12,7 @@ var grid = $.ergo({
   
   components: {
   	// sorter: {
-  		// etype: 'list',
+  		// etype: 'box',
   		// weight: 5,
   		// defaultItem: {
   			// etype: 'input'

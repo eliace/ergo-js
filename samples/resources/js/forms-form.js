@@ -8,9 +8,13 @@ $.ergo({
 //    labelWidth: 200
 //  },
   items: [{
-    label: 'Текстовое поле',
+    label: 'Строка',
      id: 'field1',
     etype: 'input'
+  }, {
+    label: 'Пароль',
+     id: 'field7',
+    etype: 'password'
   }, {
     label: 'Текст',
     id: 'field2',
@@ -20,7 +24,7 @@ $.ergo({
     id: 'field3',
     etype: 'file'
   }, {
-    label: 'Выбор варианта',
+    label: 'Список',
     id: 'field4',
     etype: 'select',
     options: [
@@ -29,6 +33,14 @@ $.ergo({
       [3, 'лето'],
       [4, 'осень'],
     ]
+  }, {
+    label: 'Чекбокс',
+    id: 'field5',
+    etype: 'checkbox'
+  }, {
+    label: 'Радио',
+    id: 'field6',
+    etype: 'radio'
   }]
 });
 

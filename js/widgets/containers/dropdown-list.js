@@ -1,5 +1,4 @@
 
-//= require "list"
 //= require <widgets/glass-pane>
 //= require <extensions/popup>
 
@@ -7,7 +6,7 @@
  * @class
  * @extends Ergo.containers.List
  */
-Ergo.containers.DropdownList = Ergo.declare('Ergo.containers.DropdownList', 'Ergo.containers.List', /** @lends Ergo.containers.DropdownList.prototype */ {
+Ergo.widgets.DropdownList = Ergo.declare('Ergo.widgets.DropdownList', 'Ergo.widgets.Box', /** @lends Ergo.containers.DropdownList.prototype */ {
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',

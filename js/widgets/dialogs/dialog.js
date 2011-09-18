@@ -1,5 +1,5 @@
 
-//= require <containers/control-list>
+//= require "../containers/control-list"
 //= require <layouts/window>
 //= require <extensions/focusable>
 //= require "../panels/panel"
@@ -94,7 +94,7 @@ Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', 
 		if('buttons' in o) {
 			var self = this;
 			
-			this.buttons.items.destroy_all();
+			this.buttons.items.apply_all('destroy');
 			
 			Ergo.each(o.buttons, function(name){
 				self.buttons.items.add(self.options.buttonSet[name]); //.addItem(self.options.headerButtonSet[name]);//layout.el.append( self.buttons.getItem(name).el );

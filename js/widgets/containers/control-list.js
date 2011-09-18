@@ -1,10 +1,10 @@
 
-//= require "list"
+//= require <widgets/box>
 //= require <widgets/split>
 
 
 
-Ergo.declare('Ergo.containers.ControlList', 'Ergo.containers.List', {
+Ergo.declare('Ergo.widgets.ControlList', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'ergo-control-list'

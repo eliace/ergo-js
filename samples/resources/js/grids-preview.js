@@ -38,7 +38,7 @@ var grid = $.ergo({
     },
     columns: [{
       content: {
-        etype: 'list',
+        etype: 'box',
         cls: 'group',
         defaultItem: {
           style: {'display': 'block'}

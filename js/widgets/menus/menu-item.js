@@ -1,5 +1,5 @@
 
-//= require <containers/dropdown-list>
+//= require <widgets/containers/dropdown-list>
 //= require <widgets/natives/all>
 //= require <widgets/images/all>
 
@@ -128,7 +128,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 	},
 	
 	hasSubmenu: function() {
-		return !this.submenu.children.is_empty();
+		return !this.submenu.items.is_empty();
 	},
 	
 	showSubmenu: function() {
@@ -165,7 +165,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 
 
 
-Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.containers.DropdownList', {
+Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.widgets.DropdownList', {
 	
 	defaultCls: 'ergo-menu-dropdown',
 	

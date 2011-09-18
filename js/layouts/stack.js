@@ -38,9 +38,9 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layout
 	
 	activate: function(i) {
 		
-		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.filters.by_widget(i) );
+		var child = (i instanceof Ergo.core.Widget) ? i : this.container.items.find( Ergo.filters.by_widget(i) );
 		
-		this.container.children.each(function(c){
+		this.container.items.each(function(c){
 			c.el.toggleClass('hidden', (c != child));
 		});
 		

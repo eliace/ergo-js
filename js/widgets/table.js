@@ -1,5 +1,5 @@
 
-//= require <core/container>
+//= require <core/widget>
 
 
 /**
@@ -19,10 +19,10 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 //				}
 //			},
 			head: {
-				etype: 'container',
+				etype: 'widget',
 				html: '<thead></thead>',
 				defaultItem: {
-					etype: 'container',
+					etype: 'widget',
 					html: '<tr></tr>',
 					defaultItem: {
 						etype: 'table-header-cell'
@@ -32,7 +32,7 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 				binding: false
 			},
 			body: {
-				etype: 'container',
+				etype: 'widget',
 				dynamic: true,
 				html: '<tbody></tbody>',
 				defaultItem: {
@@ -133,7 +133,7 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
  * @class
  * @extends Ergo.core.Container
  */
-Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Container', /** @lends Ergo.widgets.TableRow.prototype */{
+Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableRow.prototype */{
 	
 	defaults: {
 		html: '<tr></tr>',

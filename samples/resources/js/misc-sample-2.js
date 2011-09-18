@@ -85,13 +85,13 @@ $.ergo({
       },
       contentSelector: {
         weight: 2,
-        etype: 'list',
+        etype: 'box',
         layout: 'stack',
         cls: 'ergo-border-bottom',
         style: {'background-color': '#fff'},
         data: news,
         items: [{
-          etype: 'list',
+          etype: 'box',
           tag: 'short',
           layout: {
             etype: 'column-layout',

@@ -23,7 +23,7 @@ Ergo.declare('Ergo.widgets.SpinnerField', 'Ergo.widgets.TextField', {
 				}
 			},
       buttons: {
-        etype: 'list',
+        etype: 'box',
 				role: 'actor',
         defaultItem: {
           etype: 'action-icon',

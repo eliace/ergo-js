@@ -1,5 +1,5 @@
 
-//= require <containers/tabs>
+//= require <widgets/containers/tabs>
 //= require <widgets/text-item>
 //= require <layouts/stack>
 
@@ -40,7 +40,7 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.
 			},
 			pages: {
 				weight: 3,
-				etype: 'list',
+				etype: 'box',
 				layout: 'stack',
 				cls: 'ergo-tab-pages',
 				defaultItem: {

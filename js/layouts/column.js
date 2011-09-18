@@ -53,7 +53,7 @@ Ergo.layouts.ColumnLayout = Ergo.declare('Ergo.layouts.ColumnLayout', 'Ergo.layo
 	
 	update: function() {
 		var self = this;
-		this.container.children.each(function(child, i) {
+		this.container.items.each(function(child, i) {
 				var col_el = $('> td', self.row_el).eq(i);
 				col_el.width(child.options.width);
 		});

@@ -1072,7 +1072,6 @@ Array.prototype.remove = function(val) {
 //---------------------------------------------------------------
 
 
-
 Ergo.filters = (function(){
 	
 	var F = {};
@@ -1105,11 +1104,11 @@ Ergo.filters = (function(){
 		
 		var f = null;
 		
-		if( $.isNumber(i) || $.isString(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-//		else if( $.isString(i) ) f = F.by_props.curry({'tag': i});
+		if( $.isNumber(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		else if( $.isString(i) ) f = F.by_props.curry({'_name': i});
+		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;
-		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		
 		return f;
 	}

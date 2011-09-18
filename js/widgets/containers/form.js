@@ -1,5 +1,4 @@
 
-//= require "list"
 
 
 /*
@@ -27,7 +26,7 @@ Ergo.declare('Ergo.widgets.FormItem', 'Ergo.containers.List', {
 
 
 
-Ergo.declare('Ergo.containers.Form', 'Ergo.containers.List', {
+Ergo.declare('Ergo.widgets.Form', 'Ergo.widgets.Box', {
 
 	defaults: {
 //		layout: 'form-layout'

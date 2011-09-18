@@ -29,27 +29,27 @@ $.ergo({
     }
   }],
   
-  components: {
-    tabs: {
-      layout: 'group',
-      
-      components: {
-        addTab: {
-          etype: 'box',
-          html: '<li/>',
-          cls: 'ergo-tabs-item ergo-border-all ergo-bg-3',
-          style: {'padding-left': 7, 'padding-right': 7},
-          content: {
-            etype: 'action-icon',
-            cls: 'plus-icon',
-            style: {'vertical-align': 'middle', 'display': 'inline-block'}
-          },
-          layoutGroup: 'after'
-        }
-      }
-      
-    }
-  }
+  // components: {
+    // tabs: {
+      // layout: 'group',
+//       
+      // components: {
+        // addTab: {
+          // etype: 'box',
+          // html: '<li/>',
+          // cls: 'ergo-tabs-item ergo-border-all ergo-bg-3',
+          // style: {'padding-left': 7, 'padding-right': 7},
+          // content: {
+            // etype: 'action-icon',
+            // cls: 'plus-icon',
+            // style: {'vertical-align': 'middle', 'display': 'inline-block'}
+          // },
+          // layoutGroup: 'after'
+        // }
+      // }
+//       
+    // }
+  // }
   
   
 });

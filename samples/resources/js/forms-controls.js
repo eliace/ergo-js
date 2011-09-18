@@ -12,13 +12,13 @@
 
     
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   items: [{
     etype: 'group-panel',
     title: 'Нативные виджеты',
     content: {
-      etype: 'list',
+      etype: 'box',
       defaultItem: {
         style: {'margin': '3px 0'},
   //      layout: 'float',
@@ -53,7 +53,7 @@ $.ergo({
     etype: 'group-panel',
     title: 'Ergo-виджеты',
     content: {
-      etype: 'list',
+      etype: 'box',
       defaultItem: {
         etype: 'control-list',
         items: [/*{

@@ -1,5 +1,4 @@
 
-//= require <containers/list>
 
 
 /**
@@ -16,7 +15,7 @@ Ergo.widgets.TreeNode = Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box'
 				
 			},
 			subtree: {
-				etype: 'list',
+				etype: 'box',
 				html: '<ul></ul>',
 				style: {'display': 'none'},
 				defaultItem: {

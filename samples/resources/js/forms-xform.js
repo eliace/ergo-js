@@ -25,7 +25,7 @@ var hashData = {
 
   
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   layout: 'simple-form',
   data: xformData,

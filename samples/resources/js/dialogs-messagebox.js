@@ -12,7 +12,7 @@ var dlg = $.ergo({
 });  
 
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   cls: 'ergo-controls',
   defaultItem:{

@@ -1,5 +1,5 @@
 
-//= require <core/container>
+//= require <core/widget>
 
 
 /**
@@ -28,13 +28,14 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
  * @name Ergo.widgets.form.Select
  * @extends Ergo.core.Container
  */
-Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Container', /** @lends Ergo.widgets.form.Select.prototype */{
+Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Select.prototype */{
+	
 	$html: function() { return '<select/>'; },
 	
 	defaults: {
 		components: {
 			optionsList: {
-				etype: 'container',
+				etype: 'widget',
 				defaultItem: {
 					etype: 'select-option'
 				}

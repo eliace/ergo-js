@@ -4,7 +4,7 @@ var acData = 'January February March April May June July August September Novemb
 
 $.ergo({
   renderTo: '.preview',
-  etype: 'list',
+  etype: 'box',
   items: [{
     etype: 'box',
     cls: 'label-box',

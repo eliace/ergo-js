@@ -1,5 +1,5 @@
 
-//= require <containers/control-list>
+//= require "../containers/control-list"
 //= require <layouts/column>
 //= require "../buttons/text-button"
 
@@ -115,7 +115,7 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 
 
 
-Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.containers.List', {
+Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'ergo-growl-box',

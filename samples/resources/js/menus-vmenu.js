@@ -2,7 +2,7 @@
 Ergo.DEBUG = true;
 
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   id: 'vmenu',
   defaultItem: {

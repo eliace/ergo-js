@@ -41,7 +41,7 @@ var propertyGrid = $.ergo({
         var val = this.data.source.get();
 
         if(val.type == 'boolean') {
-          this.components.add({etype: 'checkbox'}, 'content');
+          this.items.add({etype: 'checkbox'}, 'content');
           this.opt('editable', false);
         }
         else if(val.type == 'select') {
@@ -53,7 +53,8 @@ var propertyGrid = $.ergo({
                 cls: 'ui-icon ui-icon-triangle-1-s'
               },
               input: {
-                format: function(val) { 
+                format: function(val) {
+                	console.log(val);
                   return (val === '' || val === undefined) ? '' : this.data.source.get('value_list')[val]; 
                 }
               }

@@ -1,6 +1,6 @@
 
 $.ergo({
-  etype: 'list',
+  etype: 'box',
   renderTo: '.preview',
   layout: 'float',
   items: [{
