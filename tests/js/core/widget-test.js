@@ -42,6 +42,31 @@ test('core/widget', function(){
 
 	w = new Ergo.core.Widget({
 		html: '<div/>',
+		defaultItem: {
+			etype: 'widget',
+			html: '<span/>',
+		},
+		items: [{
+			text: 'item1',
+			tag: 'a'
+		}, {
+			text: 'item2',
+			tag: 'b'
+		}, {
+			text: 'item3',
+			tag: 'c'
+		}]
+	});
+
+	ok(w.item(1).tag == 'b', 'Поиск по ключу в списке компонентов')
+	ok(w.item({tag: 'a'}).index == 0, 'Поиск по тегу')
+//	ok(w.item({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
+
+
+
+
+	w = new Ergo.core.Widget({
+		html: '<div/>',
 		content: {
 			etype: 'widget',
 			html: '<span/>'			

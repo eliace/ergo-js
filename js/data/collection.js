@@ -8,6 +8,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 		model: null
 	},
 	
+	model: null,
+	
 	
 	getByOID: function(oid) {
 		var a = this.get();

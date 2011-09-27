@@ -50,8 +50,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		if(w.data && !item.data)
 			item.bind(w.data, false, 2);
 		
-		//FIXME здесь может возникать ошибка, когда children не совпадает с items
-//		w.children.add(item, i);
+		// добавляем элемент в компоновку
 		w.layout.insert(item, this.src[i]);
 
 		i = this.$super(item, i);// Ergo.core.WidgetArray.superclass.add.call(this, item, i);		

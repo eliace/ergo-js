@@ -157,5 +157,8 @@
 	}, {
 		"name": "Thirdparty",
 		"path": "misc-thirdparty"
+	}, {
+		"name": "Accordion",
+		"path": "misc-accordion"
 	}]
 }]
