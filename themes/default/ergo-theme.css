@@ -219,7 +219,7 @@ button.plain {
 	border-radius: 0 8px 8px 0;
 }
 
-.ergo-form-field input {
+.ergo-form-field [role='input'] {
 /*	margin: 0 3px;*/
 	margin: 2px;
 	width: 0px;  /*  */

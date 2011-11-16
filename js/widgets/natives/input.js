@@ -173,7 +173,7 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 	$events: function(self) {
 //		Ergo.widgets.form.Checkbox.superclass.$events.call(this, self);
 		this.el.change(function(){
-			self.setValue(self.el.prop('checked') ? true : false);
+			self.setValue(self.el.attr('checked') ? true : false);
 			self.events.fire('onAction');
 		});
 	},
@@ -184,17 +184,17 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 //		Ergo.widgets.Checkbox.superclass.$opt.apply(this, arguments);
 		
 		if('checked' in o)
-			this.el.prop('checked', o.checked);	
+			this.el.attr('checked', o.checked);	
 	},
 	
 	$dataChanged: function() {
 		this.$super();
 //		Ergo.widgets.Checkbox.superclass.$dataChanged.apply(this);
-		this.el.prop('checked', this.getValue() );
+		this.el.attr('checked', this.getValue() );
 	},
 	
 	isChecked: function() {
-		return this.el.prop('checked');
+		return this.el.attr('checked');
 	}
 	
 		

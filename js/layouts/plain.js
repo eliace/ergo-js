@@ -89,7 +89,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 
 			// задаем ширину элемента (с учетом отступов), если она не нулевая
 			if(w - dw) 
-				this.el.width(w - dw);
+				this.el.width(w - dw - 1);
 				
 			// отображаем элемент
 			this.el.show();
@@ -159,7 +159,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 			});
 
 			this.el.width(w - dw);
-			this.el.height(h - dh);		
+			this.el.height(Math.floor(h - dh));		
 
 			this.el.show();			
 		}
