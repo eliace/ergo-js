@@ -1,4 +1,6 @@
 
+//= require "../core/data-source"
+
 
 Ergo.DeferredResult = function(targets) {
 	
