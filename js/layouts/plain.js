@@ -58,10 +58,11 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 	
 	clear: function() {
 		this.el.empty(); //WARN еще опасный момент все дочерние DOM-элементы уничтожаются
-	},
+	}
 	
+/*	
 	update: function() {
-		
+				
 		// AUTO WIDTH
 		if(this.container.options.width == 'auto'){
 
@@ -165,5 +166,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 		}
 
 	}
+*/
+
 		
 }, 'plain-layout');

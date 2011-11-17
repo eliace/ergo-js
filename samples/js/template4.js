@@ -76,14 +76,14 @@ $(document).ready(function(){
 			pageContent: {
 				etype: 'box',
 				layout: 'border',
-				height: 'auto',
+				autoHeight: true,
 				items: [{
 					etype: 'box',
 					region: 'west',
 					cls: 'ergo-border-all',
 					width: 200,
 					style: {'background-color': '#fff', 'overflow': 'auto'},
-					height: 'auto',
+					autoHeight: true,
 					content: {
 						etype: 'tree',
 						data: sampleTree,
@@ -158,7 +158,7 @@ $(document).ready(function(){
 				}, {
 					etype: 'box',
 					tag: 'preview_and_code',
-					height: 'auto',
+					autoHeight: true,
 					
 					cls: 'ergo-border-all preview-and-code',
 					style: {'padding': 5},
@@ -172,7 +172,7 @@ $(document).ready(function(){
 								content: {
 									etype: 'box',
 									style: {'overflow-y': 'auto'},//, 'background-color': '#fff'},
-									height: 'auto'
+									autoHeight: true
 								}
 							}
 						},
@@ -187,7 +187,7 @@ $(document).ready(function(){
 								},
 								content: {
 									cls: 'preview',
-									height: 'auto',
+									autoHeight: true,
 									style: {'padding': 5, 'overflow': 'auto'}
 								}
 							},

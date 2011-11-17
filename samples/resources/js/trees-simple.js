@@ -13,7 +13,7 @@ $.ergo({
     etype: 'tree',
     cls: 'simple-tree ergo-text-content',
     
-    height: 'auto',
+    autoHeight: true,
     
     treeModel: {
       node: {

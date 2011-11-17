@@ -81,7 +81,7 @@ $.ergo({
         html: '<iframe style="display: block"/>',
         cls: 'ergo-border-none',
         width: '100%',
-        height: 'auto',
+        autoHeight: true,
       },
       contentSelector: {
         weight: 2,

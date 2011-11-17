@@ -80,7 +80,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				etype: 'box',
 				weight: 20,
 				style: {'overflow': 'auto', 'background-color': '#fff'},
-				height: 'auto',
+				autoHeight: true,
 				
 				events: {
 					'scroll': function(e, w) {

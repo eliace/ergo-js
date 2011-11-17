@@ -384,6 +384,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	$layoutChanged: function() {
+		
+		
+		
+		
+		
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		this.items.apply_all('$layoutChanged');
 	},
@@ -445,16 +450,24 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		profiler.start('opt');
 		
 		if('width' in o) {
-			if(o.width != 'auto') el.width(o.width);
+//			if(o.width != 'auto') el.width(o.width);
+			el.width(o.width);
 		}
 		if('height' in o) {
-			if(o.height == 'auto' || o.height == 'ignore'){ 
-				el.attr('autoheight', o.height);
-			}
-			else {
-				el.removeAttr('autoheight');
-				el.height(o.height);
-			}
+			el.height(o.height);
+			// if(o.height == 'auto' || o.height == 'ignore'){ 
+				// el.attr('autoheight', o.height);
+			// }
+			// else {
+				// el.removeAttr('autoheight');
+				// el.height(o.height);
+			// }
+		}
+		if('autoHeight' in o) {
+			(o.autoHeight) ? el.attr('autoHeight', o.autoHeight) : el.removeAttr('autoHeight');
+		}
+		if('autoWidth' in o) {
+			(o.autoWidth) ? el.attr('autoWidth', o.autoWidth) : el.removeAttr('autoWidth');
 		}
 		// if('x' in o) el.css('left', o.x); //?
 		// if('y' in o) el.css('top', o.y);  //?

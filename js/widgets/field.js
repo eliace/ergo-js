@@ -15,7 +15,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
     components: {
       input: {
         etype: 'input',
-				width: 'auto',
+				autoWidth: true,
 				role: 'input',
 				events: {
 					'focus': function(e, w) {

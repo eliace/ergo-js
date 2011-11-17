@@ -20,7 +20,7 @@ $.ergo({
     
     data: treeData,
     
-    height: 'auto',
+    autoHeight: true,
     
     isDynamic: true,
     

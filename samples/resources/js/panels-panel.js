@@ -41,7 +41,7 @@ $.ergo({
       style: {'padding': '3px'},
        content: {
         etype: 'box',
-        height: 'auto',
+        autoHeight: true,
         cls: 'ergo-widget-content ergo-border-all',
 //        style: {'margin': '3px'},
         innerText: Samples.loremipsum        

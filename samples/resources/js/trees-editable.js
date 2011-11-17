@@ -107,7 +107,7 @@ $.ergo({
     
     extensions: ['selectable', 'focusable', Ergo.extensions.TreeNavigation],
     
-    height: 'auto',
+    autoHeight: true,
     
     isDynamic: true,
     

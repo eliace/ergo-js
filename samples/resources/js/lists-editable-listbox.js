@@ -7,7 +7,7 @@ var listData = ['Alice', 'Bob', 'Charlie', 'Denver', 'Eva', 'Fox', 'George', 'Ha
 var list_snippet = {
   etype: 'list-view',
   style: {'background-color': '#fff'},
-  height: 'auto',
+  autoHeight: true,
   dynamic: true,
   extensions: [Ergo.extensions.Selectable, Ergo.extensions.Focusable, Ergo.extensions.ListNavigation],
   defaultItem: {
