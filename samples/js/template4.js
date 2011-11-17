@@ -125,10 +125,17 @@ $(document).ready(function(){
 													
 													$.getScript('resources/js/'+path+'.js', function(script){
 													
-														jsPage.content.el.html('<pre class="sh_javascript">'+Ergo.escapeHtml(script)+'</pre>');
+//														jsPage.content.el.html('<pre class="sh_javascript">'+Ergo.escapeHtml(script)+'</pre>');
 	
-														// включаем подсветку кода
-														sh_highlightDocument();																									
+//														// включаем подсветку кода
+//														sh_highlightDocument();		
+														
+//														$('.CodeMirror').remove();
+														
+														$('.CodeMirror-scroll').height(jsPage.content.el.height());
+														
+														myCodeMirror.setValue(script);
+																																					
 													});												
 												}, 'text');
 												
@@ -157,8 +164,32 @@ $(document).ready(function(){
 					}
 				}, {
 					etype: 'box',
-					tag: 'preview_and_code',
+					tag: 'preview',
 					autoHeight: true,
+					
+					cls: 'ergo-border-all',
+					
+					components: {
+						banner: {
+//									height: 40,
+							cls: 'desc ergo-border-bottom',
+							style: {'padding': 8, 'margin-bottom': 5, 'font-size': 12, 'color': '#444', 'background-color': '#FCF6E5'}
+						},
+						content: {
+							cls: 'preview',
+							autoHeight: true,
+							style: {'padding': 5, 'overflow': 'auto'}
+						}
+					},
+					style: {'background-color': '#eee'}
+					
+				}, {
+					etype: 'box',
+					tag: 'preview_and_code',
+					region: 'east',
+					autoHeight: true,
+					width: 600,
+					
 					
 					cls: 'ergo-border-all preview-and-code',
 					style: {'padding': 5},
@@ -177,7 +208,7 @@ $(document).ready(function(){
 							}
 						},
 						pagesCls: 'ergo-border-all ergo-border-no-top',
-						pages: [{
+						pages: [/*{
 							tab: {text: 'View', icon: 'silk-icon-eye'},
 							components: {
 								banner: {
@@ -192,7 +223,7 @@ $(document).ready(function(){
 								}
 							},
 							style: {'background-color': '#eee'}
-						}, {
+						},*/ {
 							tab: {text: 'JavaScript', icon: 'silk-icon-script-code'},
 							cls: 'js-page'
 						}, {
@@ -310,6 +341,17 @@ $(document).ready(function(){
 			}
 			
 		}
+	});
+	
+	
+	var myCodeMirror = CodeMirror($('.js-page').ergo().content.el[0], {
+		value: '',
+		mode: 'javascript',
+		onBlur: function() {
+			$('.preview').empty();
+			eval(myCodeMirror.getValue());
+		},
+		lineNumbers: true
 	});
 	
 	
