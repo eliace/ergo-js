@@ -40,7 +40,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 				prevDefaults = clazz.defaults; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaults = Ergo.deep_copy(o);			
+			this.constructor.prototype.defaults = Ergo.deep_copy(o);
 		}
 		else {
 			o = Ergo.deep_copy(this.defaults);
@@ -57,8 +57,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 			}
 		}		
 		
-		if(this.$init)
-			this.$init(o);
+//		if(this.$init)
+//			this.$init(o);
 
 	},
 	
@@ -80,7 +80,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	$super: function(){
 		var caller = arguments.callee.caller;
 		return caller.__class__.superclass[caller.__name__].apply(this, arguments);
-	}	
+	}
 	
 	
 });

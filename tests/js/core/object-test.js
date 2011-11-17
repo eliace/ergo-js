@@ -2,6 +2,17 @@
 
 test('core/object', function(){
 	
+	var objExt = {
+		f: 5
+	};
+	
+	var funcExt = function() {
+		
+		this.g = 6;
+		
+	}
+	
+	
 	var obj = new Ergo.core.Object({
 		id: 'test-id',
 		extensions: [function(){
@@ -10,12 +21,17 @@ test('core/object', function(){
 			ext_func: function() {
 				return 'From extended function';
 			}
-		}]
+		},
+		objExt,
+		funcExt]
 	});
 	
 	equals(obj.options.id, 'test-id', 'Перегрузка параметра');
 	equals(obj.ext_prop, 'Extended property', 'Расширение с помощью функции');
 	equals(obj.ext_func(), 'From extended function', 'Расширение с помощью объекта');
+	equals(obj.f, 5, 'Проверка расширения объектом');
+	ok(obj.is(funcExt), 'Проверка расширения функцией');
+	equals(obj.g, 6, 'Проверка расширения функцией');
 	
 	
 	var Class1 = Ergo.core.Object.extend({

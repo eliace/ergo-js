@@ -105,7 +105,7 @@ $.ergo({
     
     data: treeData,
     
-    extensions: ['selectable', 'focusable', Ergo.TreeNavigation],
+    extensions: ['selectable', 'focusable', Ergo.extensions.TreeNavigation],
     
     height: 'auto',
     
@@ -126,7 +126,7 @@ $.ergo({
           components: {
             text: {
               content: {
-                extensions: [Ergo.Editable, 'draggable'],
+                extensions: ['editable', 'draggable'],
                 editor: {
                   etype: 'text-editor',
 //                  style: {'font-size': '14px', 'line-height': '14px'},

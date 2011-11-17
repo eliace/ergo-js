@@ -9,11 +9,11 @@ var list_snippet = {
   style: {'background-color': '#fff'},
   height: 'auto',
   dynamic: true,
-  extensions: [Ergo.Selectable, Ergo.Focusable, Ergo.ListNavigation],
+  extensions: [Ergo.extensions.Selectable, Ergo.extensions.Focusable, Ergo.extensions.ListNavigation],
   defaultItem: {
     icon: 'silk-icon-user-gray',
     content: {
-      extensions: [Ergo.Editable],
+      extensions: [Ergo.extensions.Editable],
       editor: {
         etype: 'text-editor',
         width: 150

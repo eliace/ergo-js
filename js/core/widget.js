@@ -97,6 +97,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var o = this.options;
 		var self = this;
 
+		this.$init(o);
 		
 		this.items = new Ergo.core.WidgetList(this);
 

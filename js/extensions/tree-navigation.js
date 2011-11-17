@@ -3,7 +3,7 @@
 //= require "focusable"
 
 
-Ergo.TreeNavigation = function(o) {
+Ergo.extensions.TreeNavigation = function(o) {
 	
 	Ergo.smart_override(o, {
 		
