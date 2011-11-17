@@ -348,12 +348,23 @@ $(document).ready(function(){
 		value: '',
 		mode: 'javascript',
 		onBlur: function() {
+			$('.preview').children().not('style').remove();
+			eval(myCodeMirror.getValue());
+		},
+		lineNumbers: true
+	});
+
+/*
+	var cssCodeMirror = CodeMirror($('.css-page').ergo().content.el[0], {
+		value: '',
+		mode: 'css',
+		onBlur: function() {
 			$('.preview').empty();
 			eval(myCodeMirror.getValue());
 		},
 		lineNumbers: true
 	});
-	
+*/	
 	
 		$.getJSON('ajax/samples.json').then(function(json) { sampleTree.set(json); });
 	
