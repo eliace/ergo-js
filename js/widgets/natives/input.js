@@ -72,6 +72,7 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 		this.$super(self);
 //		Ergo.widgets.Input.superclass.$events.call(this, self);
 
+/*
 		this.el.keydown(function(e) {
 			if(!self.options.readOnly) {
 				if(e.keyCode == 13) 
@@ -80,10 +81,11 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 					self.el.val(self.getValue());				
 			}
 		});
+*/		
 		
-//		this.el.change(function() {
-//			self.setValue( self.el.val());
-//		});
+		this.el.change(function() {
+			self.setValue( self.el.val());
+		});
 	}
 	
 		
