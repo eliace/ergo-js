@@ -403,6 +403,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$afterRender: function() {
 //		this.children.each(function(c) { c.$afterRender(); });
+		this.events.fire('onAfterRender');
 		this.items.apply_all('$afterRender');
 	},
 
