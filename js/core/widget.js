@@ -53,7 +53,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
 		},
-		showOnRender: true,
+		showOnRender: false,
 		set: {
 			'text': function(v) {	this.layout.el.text(v); },
 			'innerText': function(v) {	this.layout.el.text(v); },
