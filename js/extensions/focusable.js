@@ -74,8 +74,13 @@ Ergo.extensions.Focusable.focusManager = {
 //	},
 	
 	keypress: function(e) {
-		if(this.current) 
-			this.current.events.fire('onKeyDown', {keyCode: e.keyCode}, e);
+		if(this.current) {
+			var code = e.keyCode;
+			if($.browser.mozilla) {
+				code = code || e.charCode;
+			}
+			this.current.events.fire('onKeyDown', {keyCode: code}, e);			
+		}
 //		if(e.keyCode == 27) this.clear();
 	}
 	

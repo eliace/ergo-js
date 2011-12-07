@@ -88,7 +88,7 @@ Ergo.extensions.TreeNavigation = function(o) {
 				}
 
 				// SPACE
-				else if(e.baseEvent.charCode == 32) {
+				else if(e.keyCode/*.baseEvent.charCode*/ == 32) {
 					selected_node.states.toggle('expand-collapse');
 					catched = true;
 				}
