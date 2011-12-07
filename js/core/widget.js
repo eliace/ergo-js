@@ -147,11 +147,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.bind(o.data);
+		this.bind(o.data, o.dataUpdate);
 		
 		this.$afterBuild();
 		
-		this.events.fire('onCreated');
 		
 //		if(this.options.debug)	console.log('created');		
 		
@@ -375,6 +374,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			var a = o.state.split(' ');
 			Ergo.each(a, function(state) { self.states.set(state); });
 		}
+		
+		this.events.fire('onAfterBuild');
 		
 	},
 
@@ -708,8 +709,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	//			var t0 = Ergo.timestamp();
 	
 				self.data.iterate(function(dataEntry, i){
-					var item = self.items.add({ 'data': dataEntry });
-					item.dataPhase = 2;
+//					self.items.add({}).bind(dataEntry, true, 2);
+					self.items.add({ 'data': dataEntry }).dataPhase = 2;
+//					item.dataPhase = 2;
 				});
 			
 	//			var t1 = Ergo.timestamp();
@@ -729,7 +731,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			this.items.apply_all('destroy');
 	
 			this.data.iterate(function(dataEntry, i){
-				self.items.add({ 'data': dataEntry }).dataPhase = 2;
+//					self.items.add({}).bind(dataEntry, true, 2);
+					self.items.add({ 'data': dataEntry, 'dataUpdate': false }).dataPhase = 2;
 			});
 	
 			this.layout.immediateRebuild = true;
@@ -750,12 +753,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			this.items.each(function(child){
 				if(child.dataPhase != 1) child.bind(self.data, false, 2);
 			});
-			
+
+
 		}
 
 		
 		if(update) this.$dataChanged();
-			
 	},
 	
 	

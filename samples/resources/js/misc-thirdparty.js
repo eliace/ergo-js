@@ -13,7 +13,7 @@ $.ergo({
     etype: 'text-field',
     cls: 'ergo-form-field',
     data: '',
-    onCreated: function() {
+    onAfterBuild: function() {
       this.input.el.autocomplete(acData);
     },
     placeholder: 'Enter month'
@@ -35,7 +35,7 @@ $.ergo({
         }
       }
     },
-    onCreated: function() {
+    onAfterBuild: function() {
       var self = this;
       this.input.el.datepick({
         defaultDate: new Date(),

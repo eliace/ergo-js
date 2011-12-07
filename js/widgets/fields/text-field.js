@@ -33,7 +33,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 //				this.input.el.val(this.getValue());
 
 			if(this.states.is('placeholder')) {
-				this.input.el.val(this.getRawValue());
+				this.input.el.val(this.data.get());
 				this.states.clear('placeholder');				
 			}
 			
