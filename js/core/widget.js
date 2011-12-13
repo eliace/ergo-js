@@ -754,7 +754,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				if(child.dataPhase != 1) child.bind(self.data, false, 2);
 			});
 
-
 		}
 
 		
@@ -784,11 +783,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	/**
 	 * Установка значения, связанного с виджетом
 	 * 
-	 * Если задана функция хранения (store_format), то она используется для преобразования значения
+	 * Если задана функция хранения (store), то она используется для преобразования значения
 	 * 
 	 * @param {Any} val значение
 	 */
-	setValue: function(val, reason) {
+	setValue: function(val/*, reason*/) {
 		var o = this.options;
 		if(this.data){
 			if(o.store) 
@@ -814,7 +813,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 			if(valid) {
 				this.states.clear('invalid');
-				this.events.fire('onValueChanged', {'value': val, 'reason': reason});				
+				this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
 			}
 			else {
 				context.value = val;

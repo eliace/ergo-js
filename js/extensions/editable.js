@@ -53,7 +53,7 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 //		return this.events;
 	};
 	
-	this.stopEdit = function(reason) {
+	this.stopEdit = function(/*reason*/) {
 //		$(window).unbind('keypress', this._key_handler);
 //		if(this._editor.options.focusable) this._editor.clearFocus();
 
@@ -69,12 +69,12 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 			delete this._prev_focus;
 		}
 
-		this.events.fire('onEdit', {'reason': reason});
+		this.events.fire('onEdit'/*, {'reason': reason}*/);
 		
 	};
 	
 	
-	this.cancelEdit = function(reason) {
+	this.cancelEdit = function(/*reason*/) {
 
 		this.items.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
