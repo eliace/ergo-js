@@ -34,6 +34,12 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 
 Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.PasswordField.prototype */{
 
+	defaults: {
+		'change': function(e, self) {
+			self.setValue( self.el.val());			
+		}
+	},
+
 	$opt: function(o) {
 		this.$super(o);
 //		Ergo.widgets.TextInput.superclass.$opt.call(this, o);
@@ -47,7 +53,7 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 		}
 		
 		if(o.rawValueOnFocus){
-			this.el.focus(function() { self.hasFocus = true; self.el.val(self.getRawValue()); self.states.set('raw-value'); });
+			this.el.focus(function() { self.hasFocus = true; self.el.val(self.data.get()); self.states.set('raw-value'); });
 			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()); self.states.clear('raw-value'); });
 		}
 
@@ -63,31 +69,32 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 //		Ergo.widgets.TextInput.superclass.$dataChanged.apply(this);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus) 
-			this.el.val( this.getRawValue() );
+			this.el.val( this.data.get() );
 		else
 			this.el.val( this.getValue() );
-	},
+	}
 	
+/*	
 	$events: function(self) {
 		this.$super(self);
 //		Ergo.widgets.Input.superclass.$events.call(this, self);
 
-/*
-		this.el.keydown(function(e) {
-			if(!self.options.readOnly) {
-				if(e.keyCode == 13) 
-					self.setValue( self.el.val(), 'enterKey');
-				else if(e.keyCode == 27) 
-					self.el.val(self.getValue());				
-			}
-		});
-*/		
+
+		// this.el.keydown(function(e) {
+			// if(!self.options.readOnly) {
+				// if(e.keyCode == 13) 
+					// self.setValue( self.el.val(), 'enterKey');
+				// else if(e.keyCode == 27) 
+					// self.el.val(self.getValue());				
+			// }
+		// });
+		
 		
 		this.el.change(function() {
 			self.setValue( self.el.val());
 		});
 	}
-	
+*/	
 		
 }, 'text-input');
 
@@ -169,9 +176,16 @@ Ergo.declare('Ergo.widgets.File', Ergo.widgets.TextInput, {
 Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widgets.form.Checkbox.prototype */{
 	
 	defaults: {
-		html: '<input type="checkbox"></input>'
+		html: '<input type="checkbox"/>',
+		events: {
+			'change': function(e, self) {
+				self.setValue(self.el.attr('checked') ? true : false);
+				self.events.fire('onAction');
+			}
+		}
 	},
 	
+/*	
 	$events: function(self) {
 //		Ergo.widgets.form.Checkbox.superclass.$events.call(this, self);
 		this.el.change(function(){
@@ -179,7 +193,7 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 			self.events.fire('onAction');
 		});
 	},
-	
+*/	
 	
 	$opt: function(o) {
 		this.$super(o);

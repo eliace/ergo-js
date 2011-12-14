@@ -110,7 +110,7 @@ $.ergo({
       this.opt('icon', 'silk-icon-chart-'+obj.icon);
 //      this.opt('text', obj.name);
     },
-    updateOnValueChange: true,
+    updateOnValueChanged: true,
 //    icon: 'silk-icon-chart-line',
     data: graphData[1],
     components: {
@@ -149,7 +149,7 @@ $.ergo({
       width: 60
     },
     data: {name: 'Location'},
-    updateOnValueChange: true,
+    updateOnValueChanged: true,
     components: {
       dropdown: {
         data: menuData,
@@ -190,7 +190,7 @@ $.ergo({
   			icon: 'silk-icon-female'
   		}
   	},
-  	onCreated: function() {
+  	onAfterBuild: function() {
   		this.selection.set(this.left);
   	}
   }, {
@@ -226,7 +226,7 @@ $.ergo({
 //  			icon: 'silk-icon-female'
   		}
   	},
-  	onCreated: function() {
+  	onAfterBuild: function() {
   		this.selection.set(this.left);
   	}
   }]            

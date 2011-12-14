@@ -14,7 +14,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 	
 	
 	defaults: {
-		autoHeight: false
+//		autoHeight: false
 	},
 	
 	insert: function(item, index) {
@@ -24,7 +24,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 		var el = this.el;
 		
 		if(selector) {
-			el = $.isFunction(selector) ? selector.call(this) : $(selector, this.el);
+			el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
 		}
 		
 		if(index == null)

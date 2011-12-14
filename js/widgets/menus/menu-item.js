@@ -52,7 +52,33 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 			'text': function(v) {
 				this.content.opt('text', v);				
 			}
-		}			
+		},
+		events: {
+			'mouseenter': function(e, w){
+				w.hoverSubmenu = true;
+				if(w.intention) clearTimeout(self.intention);
+				if(w.options.showOnEnter){
+					w.intention = setTimeout(function(){
+						w.intention = null;
+						w.showSubmenu();					
+					}, 300);
+				}
+			},
+			'mouseleave': function(e, w){
+				w.hoverSubmenu = false;
+				if(w.options.hideOnLeave){
+					if(w.intention) clearTimeout(w.intention);
+					if(w.submenu){
+						w.intention = setTimeout(function(){
+							w.intention = null;
+	//						self.submenu.hide();
+							w.hideSubmenu();
+							w.events.fire('onSubmenuHide');
+						}, 300);					
+					}
+				}
+			}			
+		}
 	},
 	
 	$init: function(o) {
@@ -94,7 +120,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 // //		if('text' in o) this.content.opt('text', o.text);
 	// },
 	
-	
+/*	
 	$events: function(self) {
 		this.$super(self);
 //		Ergo.widgets.MenuItem.superclass.$events.apply(this, arguments);
@@ -126,6 +152,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 		});
 		
 	},
+*/	
 	
 	hasSubmenu: function() {
 		return !this.submenu.items.is_empty();

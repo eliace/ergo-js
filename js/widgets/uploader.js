@@ -8,7 +8,8 @@
  */
 Ergo.widgets.Uploader = Ergo.declare('Ergo.widgets.Uploader', 'Ergo.core.Widget', /** @lends Ergo.widgets.Uploader.prototype */{
 	
-	defaultOpions: {
+	defaults: {
+		html: '<div class="ergo-uploader"></div>',
 		components: {
 			'content': {
 				etype: 'text',
@@ -17,7 +18,7 @@ Ergo.widgets.Uploader = Ergo.declare('Ergo.widgets.Uploader', 'Ergo.core.Widget'
 		}
 	},
 	
-	$html: function() { return '<div class="ergo-uploader"></div>' },
+//	$html: function() { return '<div class="ergo-uploader"></div>' },
 	
 	$init: function(o) {
 		this.$super(o);

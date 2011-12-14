@@ -16,7 +16,7 @@ var grid = $.ergo({
         'hover': 'hovered'
       },
       defaultItem: {
-        layoutSelector: function() { return this.el.filter('.base'); } //'.base'
+        layoutSelector: function() { return this.el.filter('.base'); }
       },
       components: {
         details:{

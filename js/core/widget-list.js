@@ -48,7 +48,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		
 		// выполняем автобиндинг
 		if(w.data && !item.data)
-			item.bind(w.data, false, 2);
+			item.bind(w.data, false, false);
 		
 		// добавляем элемент в компоновку
 		w.layout.insert(item, this.src[i]);
@@ -103,6 +103,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		
 		return item;
 	}
+	
 	
 	// destroy_all: function() {
 		// while(this.src.length)

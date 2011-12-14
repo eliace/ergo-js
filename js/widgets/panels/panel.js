@@ -11,9 +11,9 @@
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.widgets.Panel', 'Ergo.core.Widget', /** @lends Ergo.widgets.Panel.prototype */{
+Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
 	
-	$html: function() { return '<div></div>'; },
+//	$html: function() { return '<div></div>'; },
 	
 	defaults: {
 		baseCls: 'ergo-panel',

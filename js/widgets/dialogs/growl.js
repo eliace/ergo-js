@@ -43,7 +43,8 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 		hideOnClick: true,
 		hideOnTimeout: true,
 		delay: 500,
-		timeout: 10000
+		timeout: 10000,
+		showOnRender: true
 	},
 	
 	

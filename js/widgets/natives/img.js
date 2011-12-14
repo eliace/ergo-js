@@ -9,7 +9,12 @@
  */
 Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', Ergo.core.Widget, /** @lends Ergo.widgets.Image.prototype */{
 	
-	$html: function() { return '<img/>';},
+	defaults: {
+		html: '<img/>'
+	},
+	
+	
+//	$html: function() { return '<img/>';},
 	
 	$opt: function(o) {
 		this.$super(o);

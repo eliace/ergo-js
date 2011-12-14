@@ -8,11 +8,12 @@
  * @class
  * @extends Ergo.core.Widget
  */
-Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget', /** @lends Ergo.widgets.TextItem.prototype */{
+Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Text', /** @lends Ergo.widgets.TextItem.prototype */{
 	
-	$html: function() { return '<span></span>'; },	
+//	$html: function() { return '<span></span>'; },	
 	
 	defaults: {
+//		html: '',
 		cls: 'ergo-text-item',
 //		layout: 'dock',
 		layout: 'hbox',
@@ -213,11 +214,11 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.core.Widget'
 //		if(!o.showText) {
 //			this.content.opt('innerHtml', '&nbsp;');
 //		}
-	},
-	
-	getText: function() {
-		return this.content.getText();
 	}
+	
+	// getText: function() {
+		// return this.content.getText();
+	// }
 	
 /*	
 	startEdit: function() {

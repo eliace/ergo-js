@@ -4,9 +4,18 @@
 
 Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
 	
-	$html: function() { return '<button type="button"/>'; },
+	defaults: {
+		html: '<button type="button"/>',
+		events: {
+			'click': function(e, self) {
+				if(!self.states.is('disabled')) self.events.fire('onAction', {}, e);
+			}
+		}
+	},
 	
+//	$html: function() { return '<button type="button"/>'; },
 	
+/*	
 	$events: function(self) {
 		this.$super(self);
 //		Ergo.widgets.Button.superclass.$events.apply(this, arguments);
@@ -18,7 +27,7 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 		});		
 		
 	},
-		
+*/		
 	
 	$opt: function(o) {
 		this.$super(o);

@@ -23,7 +23,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					style: {'table-layout': 'fixed'/*, 'padding-right': 17*/, 'table-layout': 'fixed', 'border-collapse': 'collapse'},
 					width: '100%',
 //					width: null,
-					binding: false,
+//					binding: false,
+					autoBind: false,
 					headerModel: {
 						cell: {
 							cls: 'ergo-grid-h-cell',

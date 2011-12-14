@@ -45,7 +45,7 @@ $.ergo({
       }
     }],
     
-    onCreated: function() {
+    onAfterBuild: function() {
       this.changeView('short');
       this.updateView();
     },

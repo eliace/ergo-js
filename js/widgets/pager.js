@@ -13,7 +13,8 @@ Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.widgets.Box', /** 
 	defaults: {
 		cls: 'ergo-pager',
 //		style: {'display': 'inline-block'},
-		binding: false,
+//		binding: false,
+		autoBind: false,
 		count: 1,
 		items: [{
 			etype: 'icon-button',

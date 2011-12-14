@@ -9,6 +9,7 @@
 Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** @lends Ergo.widgets.Table.prototype */{
 	
 	defaults: {
+		html: '<table cellspacing="0" cellpadding="0" border="0"></table>',
 		components: {
 //			colgroup: {
 //				etype: 'box',
@@ -29,7 +30,8 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 //						wrapEl: '<th></th>'
 					}
 				},
-				binding: false
+				autoBind: false
+//				binding: false
 			},
 			body: {
 				etype: 'widget',
@@ -54,7 +56,7 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 		}
 	},
 	
-	$html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
+//	$html: function() { return '<table cellspacing="0" cellpadding="0" border="0"></table>'; },
 
 	
 	$init: function(o) {
@@ -166,10 +168,14 @@ Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widge
 //	$html: function() { return '<td></td>'; },
 	
 	defaults: {
-		html: '<td/>'
+		html: '<td/>',
+		binding: function(val) {
+			this.layout.el.text(val);
+		}
 //		binding: 'skip'		
 	},
-		
+
+/*		
 	$dataChanged: function() {
 		
 		if(this.options.binding == 'auto')
@@ -178,6 +184,7 @@ Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widge
 		this.$super();
 //		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	},
+*/
 	
 	getRow: function() {
 		return this.parent;
@@ -220,16 +227,22 @@ Ergo.widgets.TableCell = Ergo.declare('Ergo.widgets.TableCell', 'Ergo.core.Widge
  */
 Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableHeaderCell.prototype */{
 	
-	$html: function() { return '<th></th>'; },
+//	$html: function() { return '<th></th>'; },
 	
 	defaults: {
-		binding: 'skip'
+		html: '<th/>',
+//		skipBind: true,
+		binding: function(val) {
+			this.layout.el.text(val);
+		}
+		
+//		binding: 'skip'
 		// set: {
 			// 'text': function(v) {
 				// this.layout.el.text(t);
 			// }
 		// }
-	},
+	}
 	
 	
 	
@@ -245,7 +258,7 @@ Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Erg
 		// this.layout.el.text(t);
 	// },
 	
-	
+/*	
 	$dataChanged: function() {
 		
 		if(this.options.binding == 'auto')
@@ -254,7 +267,7 @@ Ergo.widgets.TableHeaderCell = Ergo.declare('Ergo.widgets.TableHeaderCell', 'Erg
 		this.$super();
 //		Ergo.widgets.TableCell.superclass.$dataChanged.apply(this);
 	}
-	
+*/	
 }, 'table-header-cell');
 
 

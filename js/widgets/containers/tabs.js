@@ -10,6 +10,7 @@ Ergo.widgets.Tabs = Ergo.declare('Ergo.widgets.Tabs', 'Ergo.widgets.Box', /** @l
 	
 	
 	defaults: {
+		html: '<ul></ul>',
 		defaultItem: {
 			html: '<li/>',
 			cls: 'ergo-tabs-item',
@@ -40,7 +41,7 @@ Ergo.widgets.Tabs = Ergo.declare('Ergo.widgets.Tabs', 'Ergo.widgets.Box', /** @l
 	
 	defaultCls: 'ergo-tabs',
 	
-	$html: function() { return '<ul></ul>' },
+//	$html: function() { return '<ul></ul>' },
 	
 	
 	setActiveTab: function(tab){

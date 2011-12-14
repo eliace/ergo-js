@@ -8,9 +8,9 @@
  * @name Ergo.panels.TabPanel
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.panels.TabPanel', 'Ergo.core.Widget', /** @lends Ergo.panels.TabPanel.prototype */{
+Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.TabPanel.prototype */{
 	
-	$html: function() { return '<div></div>'; },
+//	$html: function() { return '<div></div>'; },
 	
 	defaultCls: 'ergo-tab-panel',
 	

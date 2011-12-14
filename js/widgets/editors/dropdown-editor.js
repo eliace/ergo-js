@@ -132,11 +132,12 @@ Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 	},
 	
 	
-	$events: function(self) {
-		this.$super(self);		
+	$construct: function(o) {
+		this.$super(o);		
 //		Ergo.widgets.DropdownEditor.superclass.$events.apply(this, arguments);
 		
-		var o = this.options;
+//		var o = this.options;
+		var self = this;
 		
 		if(o.dropdownOnClick) {
 			this.el.click(function(){	self.showDropdown(); });

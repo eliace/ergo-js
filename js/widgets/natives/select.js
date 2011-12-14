@@ -9,7 +9,12 @@
  */
 Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.SelectOption.prototype */{
 	
-	$html: function() { return '<option/>'; },
+	defaults: {
+		html: '<option/>'
+	},
+	
+	
+//	$html: function() { return '<option/>'; },
 	
 	$opt: function(o) {
 		this.$super(o);
@@ -28,11 +33,12 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
  * @name Ergo.widgets.form.Select
  * @extends Ergo.core.Container
  */
-Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Select.prototype */{
+Ergo.declare('Ergo.widgets.Select', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.Select.prototype */{
 	
-	$html: function() { return '<select/>'; },
+//	$html: function() { return '<select/>'; },
 	
 	defaults: {
+		html: '<select/>',
 		components: {
 			optionsList: {
 				etype: 'widget',
@@ -70,27 +76,28 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 
 		this.$super(o);
 //		Ergo.widgets.Select.superclass.$construct.apply(this, arguments);		
-	},
+	}
 	
-		
+/*		
 	$opt: function(o) {
 		this.$super(o);
 //		Ergo.widgets.Select.superclass.$opt.call(this, o);
-/*		
-		if('options' in o){
-			this.el.empty();
-			for(var i in o.options){
-				var option_el = $('<option/>');
-				option_el.attr('value', i);
-				option_el.text(o.options[i]);
-				this.el.append(option_el);
-			}
-		}
-*/		
+		
+		// if('options' in o){
+			// this.el.empty();
+			// for(var i in o.options){
+				// var option_el = $('<option/>');
+				// option_el.attr('value', i);
+				// option_el.text(o.options[i]);
+				// this.el.append(option_el);
+			// }
+		// }
+		
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 		
-	},
+	}
 	
+
 	$events: function(self) {
 		this.$super(self);
 //		Ergo.widgets.Select.superclass.$events.call(this, self);
@@ -103,5 +110,6 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 //		Ergo.widgets.Select.superclass.$dataChanged.call(this);
 		this.el.val( this.getValue() );
 	}
+*/	
 	
 }, 'select');

@@ -18,7 +18,7 @@ Ergo.extension('Ergo.extensions.ListNavigation', function(o) {
 				var container = selected_row.parent;
 	      
 				if(e.keyCode == 38) {
-	        var prev_row = container.items.get(selected_row.index-1);
+	        var prev_row = selected_row.prev();// container.items.get(selected_row.index-1);
 	        if(prev_row) {
 	          this.selection.add( prev_row );
 	          var pos = prev_row.el.offset().top - this.el.offset().top;
@@ -30,7 +30,7 @@ Ergo.extension('Ergo.extensions.ListNavigation', function(o) {
 	        catched = true;
 	      }
 	      if(e.keyCode == 40) {
-	        var next_row = container.items.get(selected_row.index+1);
+	        var next_row = selected_row.next();// container.items.get(selected_row.index+1);
 	        if(next_row) {
 	          this.selection.add( next_row );
 	          var pos = next_row.el.offset().top - this.el.offset().top;

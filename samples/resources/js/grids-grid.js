@@ -133,7 +133,7 @@ var grid = $.ergo({
           // }
         // }
       // },
-      binding: 'skip'
+      binding: false
     }, {
       dataId: 'currency',
       header: 'Цена',

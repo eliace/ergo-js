@@ -15,12 +15,28 @@ Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Ic
 		pulseDelay: 200,
 		components: {
 			image: {
-				etype: 'image'
+				etype: 'image',
+				events: {
+					'mouseenter': function(e, w){
+						var p = w.parent
+						$(this).clearQueue();
+						$(this).animate({'width': p.maxW, 'height': p.maxH, 'left': 0, 'top': 0}, p.options.pulseDelay, function(){ 
+							p.events.fire('onAfterPulseUp'); 
+						});
+					},
+					'mouseleave': function(e, w){
+						var p = w.parent;
+						var event = new Ergo.events.CancelEvent({}, e);
+						p.events.fire('onBeforePulseDown', event);
+						
+						if(!event.isCanceled) p.pulseDown();
+					}
+				}
 			}
 		}
 	},
 	
-	
+/*	
 	$events: function(self) {
 		this.$super(self);
 //		Ergo.widgets.PulseIcon.superclass.$events.apply(this, arguments);
@@ -41,6 +57,7 @@ Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Ic
 		});
 		
 	},
+*/	
 	
 	$opt: function(o){
 		this.$super(o);

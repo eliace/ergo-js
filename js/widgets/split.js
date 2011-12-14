@@ -6,10 +6,11 @@
  */
 Ergo.widgets.Split = Ergo.declare('Ergo.widgets.Split', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Split.prototype */{
 	
-	$html: function() { return '<div>&nbsp;</div>' },
+//	$html: function() { return '<div>&nbsp;</div>' },
 	
 	defaults: {
-		cls: 'ergo-split'
+//		cls: 'ergo-split',
+		html: '<div class="ergo-split">&nbsp;</div>'
 	}	
 	
 }, 'split');

@@ -10,6 +10,9 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', {
 			'text': function(v) {
 				(v) ? this.el.text(v) : this.el.html('&nbsp;');
 			}
+		},
+		get: {
+			'text': function() { this.el.text(); }
 		}
 	},
 	
@@ -25,12 +28,12 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', {
 	$dataChanged: function() {
 		this.$super();
 //		Ergo.widgets.Text.superclass.$dataChanged.apply(this, arguments);
-		
-		this.el.text( this.getValue() );
-	},
-	
-	getText: function() {
-		return this.el.text();
+		this.opt('text', this.getValue());
+//		this.el.text( this.getValue() );
 	}
+	
+	// getText: function() {
+		// return this.el.text();
+	// }
 		
 }, 'text');

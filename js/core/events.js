@@ -27,7 +27,13 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 		
 //		this.is_stopped = false;
 		this.baseEvent = baseEvent;
+	},
+	
+	
+	cancel: function(){
+		this.canceled = true;
 	}
+	
 	
 });
 

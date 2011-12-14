@@ -5,9 +5,9 @@
 //= require "images/all"
 
 
-Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
+Ergo.declare('Ergo.widgets.Field', 'Ergo.widgets.Box', {
 	
-	$html: function() {return '<div/>';},
+//	$html: function() {return '<div/>';},
 	
 	defaults: {
 		cls: 'ergo-field',
@@ -28,7 +28,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 		onFocus: function() {
 			var o = this.options;
 			if(o.rawValueOnFocus)
-				this.input.el.val(this.getRawValue());			
+				this.input.el.val(this.data.get());			
 		},
 		onKeyDown: function(e) {
 			var o = this.options;
@@ -44,7 +44,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.core.Widget', {
 //		Ergo.widgets.Field.superclass.$dataChanged.apply(this, arguments);
 		
 		if(this.options.rawValueOnFocus && this.hasFocus()) 
-			this.input.el.val( this.getRawValue() );
+			this.input.el.val( this.data.get() );
 		else
 			this.input.el.val( this.getValue() );
 	}	

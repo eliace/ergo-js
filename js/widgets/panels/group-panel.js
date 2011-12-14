@@ -8,6 +8,7 @@
 Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
+		html: '<fieldset/>',
 		baseCls: 'ergo-group-panel',
 		components: {
 			header: {
@@ -17,7 +18,7 @@ Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 		}
 	},
 	
-	$html: function() { return '<fieldset></fieldset>'; },
+//	$html: function() { return '<fieldset></fieldset>'; },
 	
 	$opt: function(o) {
 		this.$super(o);

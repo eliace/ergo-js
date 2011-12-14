@@ -19,9 +19,11 @@ Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 						weight: 5,
 						defaultItem: {
 							etype: 'text',
-							binding: false,
+//							binding: false,
+							autoBind: false,
 							cls: 'indent',
-							innerHtml: '&nbsp;'
+							text: false
+//							innerHtml: '&nbsp;'
 						}
 					}
 				}

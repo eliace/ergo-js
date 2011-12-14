@@ -8,7 +8,11 @@
  */
 Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Anchor.prototype */{
 	
-	$html: function() { return '<a href="#" click="return false" />'; },
+	defaults: {
+		html: '<a href="#" click="return false" />'
+	},
+	
+//	$html: function() { return '<a href="#" click="return false" />'; },
 	
 	$construct: function(o) {
 		this.$super(o);

@@ -38,7 +38,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'unselectable': 'unselectable'
 		},
 		extensions: [Ergo.Observable, Ergo.Statable],
-		binding: 'auto',
+		autoBind: true,
+		autoUpdate: true,
+//		skipBind: false,
+//		binding: 'auto',
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
 				layout = Ergo.object({etype: layout+'-layout'});
@@ -110,7 +113,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		 * Элемент 
 		 * @type Element
 		 */
-		this.el = $(this.$html());
+		this.el = $(o.html);//this.$html());
 		this.el.data('ergo-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
@@ -142,15 +145,19 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.$opt(o);
 		
 		// добавляем обработку событий (deprecated)
-		this.$events(this);
+//		this.$events(this);
+
 		// добавляем элемент в документ
 		this.$render(o.renderTo);
 		
 		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
-		this.bind(o.data, o.dataUpdate);
+		this.bind(o.data, o.autoUpdate);
+				
+		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
+		if(o.autoFetch) this.data.fetch();		
+		
 		
 		this.$afterBuild();
-		
 		
 //		if(this.options.debug)	console.log('created');		
 		
@@ -326,9 +333,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @private
 	 */
-	$html: function() {
-		return this.options.html;
-	},
+	// $html: function() {
+		// return this.options.html;
+	// },
 	
 	/**
 	 * Хук, вызываемый при добавлении виджета на страницу
@@ -344,7 +351,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //			else {
 				$(target).append(this.el);
 //			}
-			
+				
 //			var parentEl = (target instanceof Ergo.core.Widget) ? target.el : $(target);
 //			parentEl.append(this.el);
 			
@@ -386,16 +393,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$layoutChanged: function() {
 		
-		
-		
-		
-		
+		//FIXME возможно следует поменять эту строку на fire('onLayoutChanged')
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
+		
 		this.items.apply_all('$layoutChanged');
 	},
 	
-	$events: function(self){
-	},
+	// $events: function(self){
+	// },
 	
 	/**
 	 * Хук, вызываемый после отрисовки виджета
@@ -568,6 +573,16 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	},	
 	
 	
+	next: function() {
+		if(!this.parent) return null;
+		return this.parent.items.get(this.index+1);
+	},
+	
+	prev: function() {
+		if(!this.parent) return null;
+		return this.parent.items.get(this.index-1);
+	},
+	
 	
 	item: function(i) {
 		return this.items.find(Ergo.filters.by_widget(i));		
@@ -646,14 +661,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @param {Ergo.data.DataSource|Any} data данные
 	 * @param {Integer} phase
 	 */
-	bind: function(data, update, phase) {
+	bind: function(data, update, root) {
 				
 		var o = this.options;
 		var self = this;
 		
 
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
-		if(data == undefined || !o.binding) return;
+		if(data == undefined || !o.autoBind) return;
 		
 		// удаляем все обработчики событий строго источника данных, связанные с текущим виджетом
 		if(this.data)
@@ -661,11 +676,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 
 		// если фаза автобиндинга не определена, то присваем ей начальное значение
-		if(!phase) phase = 1;
+		if(root === undefined) root = true;
 		
-		if(update !== false) update = true;
+//		if(update !== false) update = true;
 		
-		this.dataPhase = phase;
+		this.bindRoot = root;
 
 
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
@@ -677,8 +692,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 
 		if(o.dynamic) {
-			
-			
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
@@ -692,7 +705,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 			// если элемент данных изменен, то создаем новую привязку к данным
 			this.data.events.reg('entry:changed', function(e){
-				self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, 2);
+				//FIXME странное обновление данных
+				self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 	
@@ -710,7 +724,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 				self.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					self.items.add({ 'data': dataEntry }).dataPhase = 2;
+					self.items.add({ 'data': dataEntry }).bindRoot = false;
 //					item.dataPhase = 2;
 				});
 			
@@ -732,7 +746,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					self.items.add({ 'data': dataEntry, 'dataUpdate': false }).dataPhase = 2;
+					self.items.add({ 'data': dataEntry, 'autoUpdate': false }).bindRoot = false;
 			});
 	
 			this.layout.immediateRebuild = true;
@@ -743,21 +757,22 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		else {
 		
 								
-			// если установлен параметр updateOnValueChange, то при изменении связанных данных, будет вызван метод $dataChanged
+			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(self.options.updateOnValueChange) self.$dataChanged();
+				if(o.updateOnValueChanged) self.$dataChanged();
 			}, this);
 			
 		
 			// связываем данные с дочерними компонентами виджета
 			this.items.each(function(child){
-				if(child.dataPhase != 1) child.bind(self.data, false, 2);
+				if(!child.bindRoot) child.bind(self.data, false, false);
 			});
 
 		}
 
 		
-		if(update) this.$dataChanged();
+		if(update !== false) this.$dataChanged();
+
 	},
 	
 	
@@ -828,9 +843,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @returns {Any} undefined, если к виджету данные не подключены
 	 */
-	getRawValue: function() {
-		return (this.data) ? this.data.get() : undefined;
-	},
+	// getRawValue: function() {
+		// return (this.data) ? this.data.get() : undefined;
+	// },
 	
 	
 	
@@ -855,7 +870,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		// если автобиндинг выключен, то прекращаем обновление
 //		if(!this.options.autoBinding) return;
 //		if(this.suppressDataChange) return;
-		
+
+/*		
 		var binding = this.options.binding;
 		
 		if($.isFunction(binding)){
@@ -865,6 +881,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			if( binding.call(this, val) === false) return;
 //			this.opt(o);
 		}
+*/		
 /*		
 		if(binding.options){
 			var o = {};
@@ -884,13 +901,28 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		if(this.options.stateBinding){
 //			this.states.set( this.getStateValue() );
 //		}
+		
+		
+		
+		if(!this.options.autoBind) return;
+		
+		var binding = this.options.binding;
+
+		if(binding){
+			var val = this.getValue();
+			if( binding.call(this, val) === false) return;
+			
+			// var e = new Ergo.events.CancelEvent({value: this.getValue()});
+			// this.events.fire('onDataChanged', e);
+			// if(e.isCanceled) return;
+		}
 
 		this.items.apply_all('$dataChanged');
 		
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		
-//		this.events.fire('onDataChanged');
 	}
+
 	
 }, 'widget');
 

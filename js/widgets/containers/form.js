@@ -29,11 +29,12 @@ Ergo.declare('Ergo.widgets.FormItem', 'Ergo.containers.List', {
 Ergo.declare('Ergo.widgets.Form', 'Ergo.widgets.Box', {
 
 	defaults: {
+		html: '<form method="post"></form>'
 //		layout: 'form-layout'
 	},
 	
 	
-	$html: function() { return '<form method="post"></form>'; },
+//	$html: function() { return '<form method="post"></form>'; },
 	
 	$opt: function(o) {
 		this.$super(o);

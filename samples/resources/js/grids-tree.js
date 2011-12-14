@@ -28,7 +28,7 @@ var w = $.ergo({
       dataId: 'id',
       header: '#',
       width: 40,
-      binding: 'auto'
+//      binding: 'auto'
     }, {
       etype: 'tree-table-cell',
       header: 'Файл',
@@ -55,7 +55,7 @@ var w = $.ergo({
       header: 'Размер',
       width: 100,
       dataId: 'value',
-      binding: 'auto'
+//      binding: 'auto'
     }]
   }
 });  

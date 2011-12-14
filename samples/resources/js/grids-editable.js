@@ -40,7 +40,7 @@ var panel = $.ergo({
 //      headerCls: 'ergo-bg-highlight',
       tableModel: {
         cell: {
-          binding: 'auto',
+//          binding: 'auto',
           onDoubleClick: function(e) {
             if(this.options.editable) this.startEdit();
             e.baseEvent.preventDefault();            
@@ -120,7 +120,7 @@ var panel = $.ergo({
             changeOnEnter: false
           },
 //          editable: false,
-          binding: 'skip'
+          binding: false
         }]
       },
       components: {

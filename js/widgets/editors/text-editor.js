@@ -40,7 +40,7 @@ Ergo.declare('Ergo.widgets.TextEditor', 'Ergo.widgets.Field', {
 				this.parent.cancelEdit('escKey');
 			}
 		},
-    updateOnValueChange: true,
+    updateOnValueChanged: true,
 		changeOnEnter: true
 	}	
 	

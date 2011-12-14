@@ -22,7 +22,7 @@ var propertyGrid = $.ergo({
   tableModel: {
     cell: {
       cls: 'grid-cell',
-      binding: 'auto',
+//      binding: 'auto',
       extensions: ['editable']
     },
     columns: [{
@@ -82,7 +82,7 @@ var propertyGrid = $.ergo({
                 format: function(val){ return val; }
               }
             },
-            onCreated: function() {
+            onAfterBuild: function() {
               var self = this;
               
               this.input.el.datepick({

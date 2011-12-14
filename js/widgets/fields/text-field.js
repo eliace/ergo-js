@@ -51,7 +51,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 //			this.states.toggle('default-text', false);
 		},
 		changeOnBlur: true,
-    updateOnValueChange: true,
+    updateOnValueChanged: true,
 		placeholder: '',
 		
 		format: function(val) {
