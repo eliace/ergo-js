@@ -13,7 +13,7 @@ $.ergo({
 //      cls: 'ergo-dropdown-shadow',
 //    hideOn: 'outerClick',
       onSelect: function(e) {
-        growl.info('Выбран элемент меню: ' + e.target.content.getText());
+        growl.info('Выбран элемент меню: ' + e.target.content.opt('text'));
       },
       items: [
         {text: 'Item 1'},

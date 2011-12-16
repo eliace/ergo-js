@@ -272,9 +272,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		
 		if('onClick' in o)
-			el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
+			this.el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
 		if('onDoubleClick' in o)
-			el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
+			this.el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
 		
 		
 	},
