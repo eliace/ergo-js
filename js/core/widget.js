@@ -100,42 +100,29 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var o = this.options;
 		var self = this;
 
+
+		// инициализируем виджет
 		this.$init(o);
+				
+
 		
+		// создаем список дочерних элементов
 		this.items = new Ergo.core.WidgetList(this);
 
-//		html = o.wrapEl || o.html || html; // оставляем возможность указать html через options
-//		var html = o.html;
-		
 		
 		// создаем новый элемент DOM или используем уже существующий
-		/** 
-		 * Элемент 
-		 * @type Element
-		 */
 		this.el = $(o.html);//this.$html());
 		this.el.data('ergo-widget', this);
 		if(this.defaultCls) this.el.addClass(this.defaultCls);
 
 		
+		// создаем компоновку
 		this.layout = o.layoutFactory(o.layout);
-		
 		//FIXME костыль
 //		if(!this.layout.container) this.layout.attach(this);
 		this.layout.attach(this.layout.options.container || this);
-
-
-		/*
-		 * Этапы, которые должны быть:
-		 * - Подготовка параметров
-		 * - Создание компоновки
-		 * - Создание дочерних элементов
-		 * - Связывание с данными (+ динамическое создание дочерних элементов)
-		 * - Отрисовка
-		 * - Инициализация
-		 */		
-
-//		this.$init(o);//this, arguments);
+		
+		
 		
 		
 		// конструируем виджет
@@ -150,12 +137,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		// добавляем элемент в документ
 		this.$render(o.renderTo);
 		
-		// сначала подключаем данные, чтобы при конструировании виджета эти данные были доступны
+		// подключаем данные и обновляем их, если установлен параметр autoUpdate
 		this.bind(o.data, o.autoUpdate);
-				
-		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
-		if(o.autoFetch) this.data.fetch();		
-		
+						
 		
 		this.$afterBuild();
 		
@@ -171,9 +155,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @private
 	 */
-	$init: function() {
+	$init: function(o) {
 		
-		var o = this.options;
+//		var o = this.options;
 		
 //		this.components = new Ergo.core.WidgetCollection(this);
 		
@@ -188,6 +172,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			})
 		}
 		
+		
+		
 //		if('states' in o) {
 //			if($.isString(o.states)) o.states = [o.states];
 //		}
@@ -198,7 +184,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	$construct: function(o) {
 		
 		var self = this;
-		var el = this.el;
+//		var el = this.el;
+				
 		
 		if('components' in o) {
 			var arr = [];
@@ -258,7 +245,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
 				for(var j in callback_a) {
 					var callback = callback_a[j];
-					el.bind(i, callback.rcurry(self));
+					self.el.bind(i, callback.rcurry(self));
 				}
 			}
 		}		
@@ -304,12 +291,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		if(this.el) this.el.remove();
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
-		//
+		// очищаем компоновку
 		this.layout.clear();		
 		
 		// вызываем метод destroy для всех дочерних компонентов
-//		this.children.each(function(child) { child.destroy(); });
-//		this.components.apply_all('destroy');
 		this.items.apply_all('destroy');
 		
 //		if(this.options.debug)	console.log('destroyed');
@@ -371,6 +356,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @private
 	 */
+	
+
 	$afterBuild: function() {
 		
 		var o = this.options;
@@ -381,10 +368,16 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			var a = o.state.split(' ');
 			Ergo.each(a, function(state) { self.states.set(state); });
 		}
+
+
+		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
+		if(o.autoFetch) this.data.fetch();		
 		
+
 		this.events.fire('onAfterBuild');
 		
 	},
+	
 
 	/**
 	 * Хук, вызываемый при обновлении компоновки
