@@ -766,6 +766,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		if(update !== false) this.$dataChanged();
 
+		this.events.fire('onBind');
 	},
 	
 	
