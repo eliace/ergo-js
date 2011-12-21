@@ -17,7 +17,7 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 //		autoHeight: false
 	},
 	
-	insert: function(item, index) {
+	insert: function(item, index, group) {
 		
 		var selector = item.options.layoutSelector;
 		
@@ -27,14 +27,72 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 			el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
 		}
 		
-		if(index == null)
-			el.append( item.el );
-		else if(index == 0)
-			el.prepend( item.el );
-		else if($.isNumber(index))
-			el.children().eq(index-1).before(item.el);
-		else
-			index.el.before(item.el);
+		var weight = item.options.weight || 0;
+		
+		
+		item._weight = weight;
+		
+		if(index == null) {
+			var after_el = null;
+			el.children().each(function(i, elem){
+				var w = $(elem).ergo();
+				if(w && w._weight > weight) {
+					after_el = $(elem);
+					return false;
+				}
+			});
+			// this.container.items.each(function(it){
+				// if(it._weight > weight) after_a.push(it.el[0]);
+			// });
+
+			if(after_el)
+				after_el.before( item.el );
+			else
+				el.append( item.el );
+		}
+		else if(index === 0) {
+			var before_el = [];
+			var children = el.children();
+			for(var i = children.length-1; i >= 0; i--) {
+				var w = $(children[i]).ergo();
+				if(w && w._weight < weight) before_a.push(children[i]);				
+			}
+			// el.children().each(function(i, elem){
+				// var w = $(elem).ergo();
+				// if(w && w._weight < weight) before_a.push(elem);
+			// });
+
+			if(before_el)
+				before_el.after( item.el );
+			else
+				el.prepend( item.el );
+		}
+		else {
+			
+			var arr = [];
+			var before_el = null;
+			this.container.items.each(function(it){
+				if(it._weight == weight) arr.push(it.el);
+				else if(it._weight < weight) before_el = it.el;
+			});
+
+			if(arr.length == 0) {
+				if(before_el)
+					before_el.after( item.el );
+				else
+					el.prepend( item.el );
+			}
+			else {
+				index.el.before(arr[index-1]);
+			}
+			
+		}
+		// else if(index == 0)
+			// el.prepend( item.el );
+		// else if($.isNumber(index))
+			// el.children().eq(index-1).before(item.el);
+		// else
+			// index.el.before(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 	},

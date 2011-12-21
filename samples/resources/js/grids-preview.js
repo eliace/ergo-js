@@ -21,6 +21,7 @@ var grid = $.ergo({
       components: {
         details:{
           etype: 'box',
+          weight: -1,
 //          layoutSelector: '.details',
            layoutSelector: function() { return this.el.filter('.details'); },
           html: '<td colspan="2"></td>',

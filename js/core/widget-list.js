@@ -27,7 +27,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 	},
 	
 
-	add: function(item, i) {		
+	add: function(item, i, group) {		
 		
 		var key;
 		var w = this.widget;
@@ -51,7 +51,9 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 			item.bind(w.data, false, false);
 		
 		// добавляем элемент в компоновку
-		w.layout.insert(item, this.src[i]);
+//		w.layout.insert(item, this.src[i]);
+		
+		w.layout.insert(item, i);//, group);
 
 		i = this.$super(item, i);// Ergo.core.WidgetArray.superclass.add.call(this, item, i);		
 		

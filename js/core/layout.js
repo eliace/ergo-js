@@ -71,6 +71,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 */
 	insert: function(item, i) {},
 	
+	
 	/**
 	 * удаление элемента-виджета из компоновки
 	 * @param {Object} item

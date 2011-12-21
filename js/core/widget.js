@@ -84,11 +84,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		get: {
 			'text': function() { return this.el.text(); }
 		}			
-//		effects: {
-//			show: 'show',
-//			hide: 'hide',
-//			delay: 0
-//		}
 	},
 	
 			
@@ -108,6 +103,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		// создаем список дочерних элементов
 		this.items = new Ergo.core.WidgetList(this);
+//		this.components = new Ergo.core.Collection(this);
 
 		
 		// создаем новый элемент DOM или используем уже существующий
@@ -191,25 +187,28 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			var arr = [];
 			// преобразуем набор компонентов в массив
 			Ergo.each(o.components, function(c, i){
+				c.weight = ('weight' in c) ? c.weight : 9999;
 				c._cweight = ('weight' in c) ? c.weight : 9999;
 				c._cname = i;
-				arr.push(c);				
+				
+				arr.push(c);
 			});
 			// сортируем массив по весу компонентов
-			arr.sort(function(c1, c2){
-				var a = c1._cweight;
-				var b = c2._cweight;
-				if(a < b) return -1;
-				else if(a > b) return 1;
-				return 0;
-			});
+			// arr.sort(function(c1, c2){
+				// var a = c1._cweight;
+				// var b = c2._cweight;
+				// if(a < b) return -1;
+				// else if(a > b) return 1;
+				// return 0;
+			// });
 			// добавляем компоненты
 			Ergo.each(arr, function(c){
 				var i = c._cname;
+				var w = c._cweight;
 				delete c._cweight;
 				delete c._cname;
 //				self.addComponent(c, i);
-				c = self.items.add(c, i);
+				c = self.items.add(c, i, w);
 //				c.opt('tag', i);
 //				self[i] = c;
 			});
@@ -235,6 +234,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
 				this.items.add(o.items[i]);
+				
 		}		
 		
 		
@@ -717,7 +717,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 				self.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					self.items.add({ 'data': dataEntry }).bindRoot = false;
+					var item = self.items.add({ 'data': dataEntry });//.bindRoot = false;
+					item.bindRoot = false;
+//					item.el.attr('dynamic', true);
 //					item.dataPhase = 2;
 				});
 			
@@ -739,7 +741,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					self.items.add({ 'data': dataEntry, 'autoUpdate': false }).bindRoot = false;
+					var item = self.items.add({ 'data': dataEntry, 'autoUpdate': false });
+					item.bindRoot = false;
+//					item.el.attr('dynamic', true);
 			});
 	
 			this.layout.immediateRebuild = true;

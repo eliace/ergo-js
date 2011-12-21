@@ -146,4 +146,41 @@ test('core/widget', function(){
 	
 	equals(w.foo, 2, 'Проверка перегрузки сеттера опций');
 	
+	
+	
+	
+	w = new Ergo.core.Widget({
+		html: '<div/>',
+		components: {
+			c1: {
+				weight: 1,
+				etype: 'widget',
+				html: '<span/>',
+				tag: 'component_1'
+			},
+			c2: {
+				weight: -1,
+				etype: 'widget',
+				html: '<p/>',
+				tag: 'component_2'
+			}
+		},
+		items: [{
+			etype: 'widget',
+			html: '<span/>',
+			tag: 'item_1'			
+		}]
+	});
+	
+	
+	equals(w.c1._weight, 1, 'Вес компонента c1');
+	equals(w.c2._weight, -1, 'Вес компонента c2');
+	equals(w.item({tag: 'item_1'})._weight, 0, 'Вес элемента item_1');
+	var children = w.layout.el.children();
+	equals(children.length, 3, 'Элементов добавлено в компоновку');
+	equals(children.eq(0).ergo().tag, 'component_2', '')
+	equals(children.eq(1).ergo().tag, 'item_1', '')
+	equals(children.eq(2).ergo().tag, 'component_1', '')
+	
+	
 });
