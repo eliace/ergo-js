@@ -756,7 +756,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(o.updateOnValueChanged) self.$dataChanged();
+				if(o.updateOnValueChanged && !self.lock_data_change) self.$dataChanged();
 			}, this);
 			
 		
@@ -815,7 +815,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 			if(valid) {
 				try{
+					this.lock_data_change = true;
 					this.data.set(val);
+					delete this.lock_data_change;
 				}
 				catch(err) {
 					context.message = err.message;

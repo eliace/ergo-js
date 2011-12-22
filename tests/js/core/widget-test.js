@@ -2,7 +2,7 @@
 
 test('core/widget', function(){
 	
-	var w;
+	var w, a;
 	
 	w = new Ergo.core.Widget({
 		html: '<div/>',
@@ -181,6 +181,44 @@ test('core/widget', function(){
 	equals(children.eq(0).ergo().tag, 'component_2', '')
 	equals(children.eq(1).ergo().tag, 'item_1', '')
 	equals(children.eq(2).ergo().tag, 'component_1', '')
+	
+	
+	
+	/*
+	 * Биндинг
+	 */
+
+	a = [];
+	
+	w = new Ergo.core.Widget({
+		html: '<div/>',
+		data: '',
+		updateOnValueChanged: true,
+		format: function(v) {
+			a.push('format');
+		},
+		binding: function(v) {
+			a.push('binding');			
+		},
+		store: function(v) {
+			a.push('store');			
+		},
+		onAction: function(e) {
+			this.setValue(e.value);
+		}
+	});
+	
+	same(a, ['format', 'binding'], 'При первичном подключении данных вызывается format -> binding');
+
+//	ok(!w.lock_data_change, 'Блокировака dataChange отключена')
+
+	a = [];
+	w.data.set('hello');
+	same(a, ['format', 'binding'], 'При внешнем изменении данных вызывается format -> binding');
+	
+	a = [];
+	w.events.fire('onAction', {'value': 'goodbye'});
+	same(a, ['store'], 'При внутреннем изменении значения виджета вызывается только store');
 	
 	
 });
