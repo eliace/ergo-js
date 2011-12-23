@@ -913,7 +913,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			if( binding.call(this, val) === false) return;
 			
 			// var e = new Ergo.events.CancelEvent({value: this.getValue()});
-			// this.events.fire('onDataChanged', e);
+			this.events.fire('onDataChanged', e);
 			// if(e.isCanceled) return;
 		}
 
