@@ -912,10 +912,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			var val = this.getValue();
 			if( binding.call(this, val) === false) return;
 			
-			// var e = new Ergo.events.CancelEvent({value: this.getValue()});
-			this.events.fire('onDataChanged');//, e);
-			// if(e.isCanceled) return;
 		}
+
+		// var e = new Ergo.events.CancelEvent({value: this.getValue()});
+		this.events.fire('onDataChanged');//, e);
+		// if(e.isCanceled) return;
 
 		this.items.apply_all('$dataChanged');
 		
@@ -930,7 +931,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 Ergo.widget = function(){
 	if(arguments.length == 1) return Ergo.object(arguments[0]);
-	return Ergo.object( Ergo.smart_override.apply(this, arguments) ); //FIXME непонятно зачем вызов через apply
+	return Ergo.object( Ergo.smart_override.apply(this, arguments) );
 };
 
 
