@@ -35,8 +35,10 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.PasswordField.prototype */{
 
 	defaults: {
-		'change': function(e, self) {
-			self.setValue( self.el.val());			
+		events: {
+			'change': function(e, self) {
+				self.setValue( self.el.val());			
+			}			
 		}
 	},
 
