@@ -91,8 +91,8 @@ Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 			activeSplit.addClass('active');
 			$('.split-pane').remove();
 			splitPane = $('<div class="split-pane resizable-'+activeRegion+'" autoheight="ignore" onselectstart="return false;"></div>')
-				.bind('mousemove', self.handlers.split_mousemove)
-				.bind('mouseup', self.handlers.split_mouseup);
+				.on('mousemove', self.handlers.split_mousemove)
+				.on('mouseup', self.handlers.split_mouseup);
 			$('body').append(splitPane);
 			return false;
 		};		
@@ -134,23 +134,23 @@ Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 		switch(region) {
 			case 'center':
 				this.center = item;
-				this.center_region = $('<div region="center" autoheight="ignore"></div>');
+				this.center_region = $('<div region="center" autoHeight="ignore"></div>');
 				this.center_region.append(item.el);
 				this.middle_region.append(this.center_region);
 				break;
 			case 'west':
 				this.west = item;
-				this.west_region = $('<div region="west" autoheight="ignore"></div>');
-				this.west_splitter = $('<div region="west-splitter" autoheight="ignore"></div>');
-				this.west_splitter.bind('mousedown', this.handlers.split_mousedown);
+				this.west_region = $('<div region="west" autoHeight="ignore"></div>');
+				this.west_splitter = $('<div region="west-splitter" autoHeight="ignore"></div>');
+				this.west_splitter.on('mousedown', this.handlers.split_mousedown);
 				this.middle_region.append(this.west_region).append(this.west_splitter);
 				this.west_region.append(item.el);
 				break;
 			case 'east':
 				this.east = item;
-				this.east_region = $('<div region="east" autoheight="ignore"></div>');
-				this.east_splitter = $('<div region="east-splitter" autoheight="ignore"></div>');
-				this.east_splitter.bind('mousedown', this.handlers.split_mousedown);
+				this.east_region = $('<div region="east" autoHeight="ignore"></div>');
+				this.east_splitter = $('<div region="east-splitter" autoHeight="ignore"></div>');
+				this.east_splitter.on('mousedown', this.handlers.split_mousedown);
 				this.middle_region.append(this.east_region).append(this.east_splitter);
 				this.east_region.append(item.el);
 				break;
@@ -158,7 +158,7 @@ Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 				this.north = item;
 				this.north_region = $('<div region="north"></div>');
 				this.north_splitter = $('<div region="north-splitter"></div>');
-				this.north_splitter.bind('mousedown', this.handlers.split_mousedown);
+				this.north_splitter.on('mousedown', this.handlers.split_mousedown);
 				this.el.append(this.north_region).append(this.north_splitter);
 				this.north_region.append(item.el);
 				break;	
@@ -166,7 +166,7 @@ Ergo.declare('Ergo.layouts.BorderLayout', 'Ergo.layouts.PlainLayout', {
 				this.south = item;
 				this.south_region = $('<div region="south"></div>');
 				this.south_splitter = $('<div region="south-splitter"></div>');
-				this.south_splitter.bind('mousedown', this.handlers.split_mousedown);
+				this.south_splitter.on('mousedown', this.handlers.split_mousedown);
 				this.el.append(this.south_splitter).append(this.south_region);
 				this.south_region.append(item.el);
 				break;	

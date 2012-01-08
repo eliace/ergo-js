@@ -284,9 +284,9 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	$.isNumber = function(obj) {
-		return typeof obj == 'number';
-	};	
+	// $.isNumber = function(obj) {
+		// return typeof obj == 'number';
+	// };	
 	/**
 	 * Является ли объект Ergo-классом
 	 * 
@@ -761,7 +761,7 @@ var Ergo = (function(){
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
 		else if($.isBoolean(obj))
 			return ''+obj;
-		else if($.isNumber(obj) || $.isBoolean(obj))
+		else if($.isNumeric(obj) || $.isBoolean(obj))
 			return obj;
 		else if($.isArray(obj)){
 			var items = [];
@@ -1104,7 +1104,7 @@ Ergo.filters = (function(){
 		
 		var f = null;
 		
-		if( $.isNumber(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
+		if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
 		else if( $.isString(i) ) f = F.by_props.curry({'_name': i});
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);

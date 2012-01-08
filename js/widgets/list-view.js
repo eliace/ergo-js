@@ -8,9 +8,10 @@
  */
 Ergo.declare('Ergo.widgets.ListView', 'Ergo.widgets.Box', {
 	
-	defaultCls: 'ergo-list-view',
+//	defaultCls: 'ergo-list-view',
 	
 	defaults: {
+		baseCls: 'ergo-list-view',
 		dynamic: true,
 		extensions: ['selectable'],
 		defaultItem: {

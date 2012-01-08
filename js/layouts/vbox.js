@@ -2,4 +2,10 @@
 //= require "plain"
 
 
-Ergo.declare('Ergo.layouts.HBox', 'Ergo.layouts.PlainLayout', {}, 'vbox-layout');
+Ergo.declare('Ergo.layouts.VBox', 'Ergo.layouts.PlainLayout', {
+	
+	defaults: {
+		name: 'vbox'
+	}
+	
+}, 'vbox-layout');

@@ -12,9 +12,10 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.
 	
 //	$html: function() { return '<div></div>'; },
 	
-	defaultCls: 'ergo-tab-panel',
+//	defaultCls: 'ergo-tab-panel',
 	
 	defaults: {
+		baseCls: 'ergo-tab-panel',
 		tabPosition: 'top',
 		components: {
 			tabs: {

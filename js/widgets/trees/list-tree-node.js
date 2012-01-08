@@ -4,9 +4,10 @@
 
 Ergo.declare('Ergo.widgets.IndentTreeNode', 'Ergo.widgets.BasicTreeNode', {
 	
-	defaultCls: 'ergo-list-tree-node',
+//	defaultCls: 'ergo-list-tree-node',
 	
 	defaults: {
+		baseCls: 'ergo-list-tree-node',
 		indent: 0,
 		components: {
 			content: {

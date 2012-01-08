@@ -94,7 +94,7 @@ if($.browser.msie) {
 		if(e.button == 0) Ergo.extensions.Focusable.focusManager.clear();
 	});
 
-	$(document).bind('keydown', function(e){
+	$(document).on('keydown', function(e){
 		Ergo.extensions.Focusable.focusManager.keypress(e);
 	});	
 	
@@ -108,12 +108,12 @@ else {
 	
 	
 	if($.browser.webkit) {
-		$(window).bind('keydown', function(e){
+		$(window).on('keydown', function(e){
 			Ergo.extensions.Focusable.focusManager.keypress(e);
 		});	
 	}
 	else {
-		$(window).bind('keypress', function(e){
+		$(window).on('keypress', function(e){
 			Ergo.extensions.Focusable.focusManager.keypress(e);
 		});	
 	}

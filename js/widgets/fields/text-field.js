@@ -5,9 +5,10 @@
 
 Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
-	defaultCls: 'ergo-text-field',
+//	defaultCls: 'ergo-text-field',
 	
 	defaults: {
+		baseCls: 'ergo-text-field',
 		events: {
 			'click': function(e) {
 				e.stopPropagation();

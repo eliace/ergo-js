@@ -69,6 +69,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 					this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
 				}				
 			},
+			'width': function(v) { this.el.width(v); },
+			'height': function(v) { this.el.height(v); },
+			'autoWidth': function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
+			'autoHeight': function(v) { v ? this.el.attr('autoHeight', v) : this.el.removeAttr('autoHeight'); },
 			'tooltip': function(v) { this.el.attr('title', v); },
 			'id': function(v) { this.el.attr('id', v); },
 			'tag': function(v) { this.tag = v; },
@@ -106,10 +110,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		this.components = new Ergo.core.Collection(this);
 
 		
+		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
 		this.el = $(o.html);//this.$html());
 		this.el.data('ergo-widget', this);
-		if(this.defaultCls) this.el.addClass(this.defaultCls);
+//		if(this.defaultCls) this.el.addClass(this.defaultCls);
+		if('style' in o) this.el.css(o.style);
+		if('cls' in o) this.el.addClass(o.cls);
+		if('baseCls' in o) this.el.addClass(o.baseCls);
 
 		
 		// создаем компоновку
@@ -216,16 +224,16 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			// задаем "ленивые" классы компонентов
 			for(var i in o.components){
 				var easyCls = ''+i+'Cls';
-				if(easyCls in o) this[i].opt('cls', o[easyCls]);
+				if(easyCls in o) this[i].el.addClass(o[easyCls]);//.opt('cls', o[easyCls]);
 			}
 
-			if('baseCls' in o) {
-				// задаем дочерние классы компонентов
-				for(var i in o.components){
-					var cls = o.baseCls + '-' + i;
-					this[i].el.addClass(cls);
-				}				
-			}
+			// if('baseCls' in o) {
+				// // задаем дочерние классы компонентов
+				// for(var i in o.components){
+					// var cls = o.baseCls + '-' + i;
+					// this[i].el.addClass(cls);
+				// }				
+			// }
 			
 		}
 		
@@ -245,7 +253,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
 				for(var j in callback_a) {
 					var callback = callback_a[j];
-					self.el.bind(i, callback.rcurry(self));
+					self.el.on(i, callback.rcurry(self));
 				}
 			}
 		}		
@@ -395,6 +403,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	// $events: function(self){
 	// },
 	
+	
 	/**
 	 * Хук, вызываемый после отрисовки виджета
 	 * 
@@ -403,7 +412,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	$afterRender: function() {
 //		this.children.each(function(c) { c.$afterRender(); });
 		this.events.fire('onAfterRender');
-		this.items.apply_all('$afterRender');
+//		this.items.apply_all('$afterRender');
 	},
 
 	/**
@@ -448,7 +457,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var el = this.el;
 		
 //		profiler.start('opt');
-		
+/*		
 		if('width' in o) {
 //			if(o.width != 'auto') el.width(o.width);
 			el.width(o.width);
@@ -463,12 +472,15 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				// el.height(o.height);
 			// }
 		}
+
+		
 		if('autoHeight' in o) {
 			(o.autoHeight) ? el.attr('autoHeight', o.autoHeight) : el.removeAttr('autoHeight');
 		}
 		if('autoWidth' in o) {
 			(o.autoWidth) ? el.attr('autoWidth', o.autoWidth) : el.removeAttr('autoWidth');
 		}
+*/		
 		// if('x' in o) el.css('left', o.x); //?
 		// if('y' in o) el.css('top', o.y);  //?
 		// if('tooltip' in o) el.attr('title', o.tooltip);
@@ -477,9 +489,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		// if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
 		
 		// эти три параметра должны задаваться статически
-		if('style' in o) el.css(o.style);
-		if('cls' in o) el.addClass(o.cls);
-		if('baseCls' in o) el.addClass(o.baseCls);
+		// if('style' in o) el.css(o.style);
+		// if('cls' in o) el.addClass(o.cls);
+		// if('baseCls' in o) el.addClass(o.baseCls);
 		
 //			profiler.tick('opt', 'style');		
 		
@@ -537,11 +549,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		for(var i in o) {
 			// проверяем наличие Java-like сеттеров
 			var java_setter = 'set'+i.capitalize();
-			if(this.java_setter)
-				this[java_setter](o[i]);
-			// если java-like сеттер не найден, проверяем наличие сеттеров опций
-			else if(this.options.set[i])
+			// проверяем наличие сеттеров опций
+			if(this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
+			// если сеттер опций не найден, проверяем наличие java-like сеттера
+			else if(this.java_setter)
+				this[java_setter](o[i]);
 		}
 
 
@@ -968,44 +981,3 @@ $.fn.ergo = function(o) {
 
 
 
-/*
-$(document).ready(function(){
-	
-//	var drag = null;
-	
-	
-	//TODO возможно этот код стоит перенести в другое место
-//	if(!Ergo.contextMenuReady){
-		$(document).bind('contextmenu', function(e){
-			var w = $(e.target).ergo();
-			if(!w || !w.contextMenu) {
-				w = undefined;
-				$(e.target).parents().each(function(i, el){
-					var parent = $(el).ergo();
-					if(parent && parent.contextMenu){
-						w = parent;
-						return false;
-					}
-				});
-			}
-			
-//			if(w){
-//				var w = (w.contextMenu) ? w : w.getParent(function(item){ return item.contextMenu; });
-				if(w){
-					var cancel_event = new Ergo.events.CancelEvent({'contextMenu': w.contextMenu});
-					w.events.fire('onContextMenu', cancel_event);
-					if(!cancel_event.isCanceled){
-						w.contextMenu.sourceWidget = w;
-						w.contextMenu.open(e.pageX-2, e.pageY-2);
-					}
-					e.preventDefault();
-				}
-//			}
-		});
-//		Ergo.contextMenuReady = true;
-//	}
-	
-	
-		
-});
-*/

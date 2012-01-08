@@ -25,7 +25,7 @@ Ergo.declare('Ergo.layouts.GroupLayout', 'Ergo.layouts.PlainLayout', {
 		
 		if(index == null)
 			elements.last().after( item.el );
-		else if($.isNumber(index))
+		else if($.isNumeric(index))
 			elements.eq(index-1).after(item.el);
 		else
 			index.el.after(item.el);		

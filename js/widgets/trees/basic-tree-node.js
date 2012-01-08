@@ -10,9 +10,10 @@
  */
 Ergo.widgets.BasicTreeNode = Ergo.declare('Ergo.widgets.BasicTreeNode', 'Ergo.widgets.TreeNode', /** @lends Ergo.widgets.BasicTreeNode.prototype */{
 	
-	defaultCls: 'ergo-basic-tree-node',
+//	defaultCls: 'ergo-basic-tree-node',
 	
 	defaults: {
+		baseCls: 'ergo-basic-tree-node',
 		components: {
 			content: {
 				etype: 'box',

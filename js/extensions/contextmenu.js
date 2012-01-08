@@ -23,7 +23,7 @@ Ergo.extension('Ergo.extensions.ContextMenu', function(o) {
 
 
 // Добавляем к документу обработчик события contextmenu
-$(document).bind('contextmenu', function(e){
+$(document).on('contextmenu', function(e){
 	
 	// ищем виджет с контекстным меню
 	var w = $(e.target).ergo();
