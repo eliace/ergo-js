@@ -113,7 +113,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
 		this.el = $(o.html);//this.$html());
-		this.el.data('ergo-widget', this);
+		this.el.data('e-widget', this);
 //		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		if('style' in o) this.el.css(o.style);
 		if('cls' in o) this.el.addClass(o.cls);
@@ -959,7 +959,7 @@ $.ergo = Ergo.widget;
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
-		var widget = this.data('ergo-widget');
+		var widget = this.data('e-widget');
 		if(widget) return widget;
 		if(!o) return undefined;
 		o.html = this;

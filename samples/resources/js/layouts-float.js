@@ -4,12 +4,12 @@ $.ergo({
   renderTo: '.preview',
   layout: 'float',
   items: [{
-    cls: 'ergo-icon silk-icon-emoticon-smile'
+    cls: 'e-icon silk-icon-emoticon-smile'
   }, {
     cls: 'bar-text-item',
     innerText: 'Hello'
   }, {
-    cls: 'ergo-icon silk-icon-emoticon-unhappy'
+    cls: 'e-icon silk-icon-emoticon-unhappy'
   }]
 });
 

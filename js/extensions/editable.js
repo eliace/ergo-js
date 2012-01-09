@@ -107,7 +107,7 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 Ergo.Editable.defaultEditor = {
 	etype: 'textfield',
 	autoFit: true,
-	cls: 'ergo-text-editor',
+	cls: 'e-text-editor',
 	changeOnBlur: true,
 	events: {
 		'keypress': function(e, w) {

@@ -67,13 +67,13 @@ Ergo.declare('Ergo.framework.Application', 'Ergo.core.Object', {
 				error: function(m, isHtml) {this.msg(m, 'critical', isHtml);},
 				warn: function(m, isHtml) {this.msg(m, 'warning', isHtml);},
 				success: function(m, isHtml) {this.msg(m, 'success', isHtml);},
-//				html: function(m, isHtml) { Ergo.growl.addItem({html: m, icon: 'ergo-icon-growlbox-info'}) },
+//				html: function(m, isHtml) { Ergo.growl.addItem({html: m, icon: 'e-icon-growlbox-info'}) },
 				msg: function(m, type, isHtml) {
 					var s = ($.isString(m)) ? m : Ergo.pretty_print(m);
 					var o = {
-						icon: 'ergo-icon-growlbox-'+type,
+						icon: 'e-icon-growlbox-'+type,
 						state: type,
-						cls: 'ergo-dropdown-shadow'					
+						cls: 'e-dropdown-shadow'					
 					};
 					(isHtml) ? o.htmlMessage = s : o.message = s;
 					self.growl.items.add(o);

@@ -15,7 +15,7 @@ Ergo.layouts.GridLayout = Ergo.declare('Ergo.layouts.GridLayout', 'Ergo.layouts.
 		var row = $('<tr/>');
 		for(var i = 0; i < c.options.columns.length; i++) {
 			var col = Ergo.smart_override({}, c.options.cell, c.options.columns[i]);
-			var el = $('<td class="ergo-grid-cell"/>');
+			var el = $('<td class="e-grid-cell"/>');
 			if('width' in col) el.width(col.width);
 			row.append(el);
 		}

@@ -95,7 +95,7 @@ var panel1 = $.ergo({
   renderTo: '.preview',
   width: 400,
   height: 240,
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   
   data: listData,
   
@@ -104,7 +104,7 @@ var panel1 = $.ergo({
       state: 'hidden'
     },
     toolbar: {
-      cls: 'ergo-border-bottom',
+      cls: 'e-border-bottom',
       defaultItem: {
         cls: 'plain'
       }
@@ -133,7 +133,7 @@ var panel2 = $.ergo({
   renderTo: '.preview',
   width: 400,
   height: 240,
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   
   style: {'margin-top': 20},
   
@@ -145,7 +145,7 @@ var panel2 = $.ergo({
     },
     toolbar: {
       weight: 30,
-      cls: 'ergo-border-top',
+      cls: 'e-border-top',
       defaultItem: {
         etype: 'icon-button'
       }

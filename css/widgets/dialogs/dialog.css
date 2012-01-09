@@ -4,7 +4,7 @@
  * DIALOG
  */
 
-.ergo-overlay {
+.e-overlay {
 	opacity: 0.4;
 	background-color: black;
 	z-index: 1000;
@@ -16,7 +16,7 @@
 }	
 
 
-.ergo-window {
+.e-window {
 /*	position: absolute;*/
 	z-index: 1100;
 	background-color: #fff;
@@ -25,18 +25,18 @@
 
 
 
-.ergo-dialog-shadow {
+.e-dialog-shadow {
 	-moz-box-shadow: 0 0 .7em #aaa;
 	-webkit-box-shadow: 0 0 .7em #aaa;
 	box-shadow: 0 0 .7em #aaa;
 }
 
-.ergo-dialog .ergo-window-content {
+.e-dialog .e-window-content {
 	border: 1px solid #aaa;
 	background-color: #eee;
 }
 
-.ergo-dialog-header {
+.e-dialog-header {
 	padding: 3px 6px;
 	
 /*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
@@ -49,11 +49,11 @@
 	overflow: hidden;	
 }
 
-.ergo-dialog-content {
+.e-dialog-content {
 /*	border: 1px solid #aaa;*/
 	margin: 3px;
 }
 
-.ergo-dialog-buttons {
+.e-dialog-buttons {
 	margin: 3px;	
 }

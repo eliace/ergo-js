@@ -14,7 +14,7 @@ var dlg = $.ergo({
 $.ergo({
   etype: 'box',
   renderTo: '.preview',
-  cls: 'ergo-controls',
+  cls: 'e-controls',
   defaultItem:{
     etype: 'text-button'
   },

@@ -6,7 +6,7 @@ var w = $.ergo({
 	etype: 'box',
 	renderTo: '.preview',
 	
-	cls: 'ergo-border-all',
+	cls: 'e-border-all',
 	
 //	height: 'auto',
 	
@@ -25,7 +25,7 @@ var w = $.ergo({
 			},
 			header: {
 				height: 30,
-				cls: 'ergo-bg-highlight',
+				cls: 'e-bg-highlight',
 				onClick: function() {
 					w.selection.set(this.parent);
 				},

@@ -149,7 +149,7 @@ var Ergo = (function(){
 	 * @param {String} class_name полное имя класса
 	 * @param {String|Object} base_class базовый класс или имя базового класса
 	 * @param {Object} overrides набор свойств и методов нового класса
-	 * @param {String} [etype] ergo-тип (если не указан, то новый класс не регистрируется)
+	 * @param {String} [etype] e-тип (если не указан, то новый класс не регистрируется)
 	 * 
 	 * @name Ergo.declare
 	 * @function
@@ -288,7 +288,7 @@ var Ergo = (function(){
 		// return typeof obj == 'number';
 	// };	
 	/**
-	 * Является ли объект Ergo-классом
+	 * Является ли объект e-классом
 	 * 
 	 * @name $.isClass
 	 * @function

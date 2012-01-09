@@ -14,18 +14,18 @@ Ergo.widgets.LoadingPane = Ergo.declare('Ergo.widgets.LoadingPane', 'Ergo.widget
 			overlay: {
 				weight: 1,
 				etype: 'box',
-				cls: 'ergo-loading-overlay',
+				cls: 'e-loading-overlay',
 				opacity: .7				
 			},
 			message: {
 				weight: 2,
 				etype: 'box',
 				opacity: 1,
-				cls: 'ergo-loading-message',
+				cls: 'e-loading-message',
 				content: {
 					etype: 'text-item',
 					text: 'Загрузка...',
-					icon: 'ergo-icon-loader'
+					icon: 'e-icon-loader'
 				}				
 			}
 		},

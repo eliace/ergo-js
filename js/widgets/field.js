@@ -10,7 +10,7 @@ Ergo.declare('Ergo.widgets.Field', 'Ergo.widgets.Box', {
 //	$html: function() {return '<div/>';},
 	
 	defaults: {
-		cls: 'ergo-field',
+		cls: 'e-field',
 		layout: 'hbox',
     components: {
       input: {

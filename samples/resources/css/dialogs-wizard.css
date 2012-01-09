@@ -1,10 +1,10 @@
 
-.ergo-overlay {
+.e-overlay {
 	opacity: 0.4;
 	background-color: black;
 }	
 
-.ergo-dialog-content {
+.e-dialog-content {
 	width: 400px;
 }
 	

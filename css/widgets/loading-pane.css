@@ -4,7 +4,7 @@
  * LOADING
  */
 
-.ergo-loading-overlay {
+.e-loading-overlay {
 	background-color: #eee;
 	position: absolute;
 	left: 0;
@@ -14,7 +14,7 @@
 	z-index: 10001;
 }	
 
-.ergo-loading-message {
+.e-loading-message {
   left: 50%;
   margin-left: -57px;
   margin-top: -10px;

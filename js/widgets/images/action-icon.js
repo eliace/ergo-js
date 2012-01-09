@@ -4,7 +4,7 @@
 
 Ergo.widgets.ActionIcon = Ergo.declare('Ergo.widgets.ActionIcon', 'Ergo.widgets.Icon', {
 
-//	defaultCls: 'ergo-action-icon',
+//	defaultCls: 'e-action-icon',
 	
 	defaults: {
 		opacity: .7,

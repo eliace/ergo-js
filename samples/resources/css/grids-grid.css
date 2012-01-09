@@ -15,17 +15,17 @@
 */					
 
 
-.ergo-grid-h-cell.x-resizable {
+.e-grid-h-cell.x-resizable {
 	cursor: col-resize;
 }
 
 
 
-.ergo-grid-h-cell.selected.asc .ergo-icon-sort {
+.e-grid-h-cell.selected.asc .e-icon-sort {
 /*	background-image: url(img/sort-down.png);*/
 	background: url(img/ui-icons_888888_256x240.png) -64px -16px;
 }
 
-.ergo-grid-h-cell.selected.desc .ergo-icon-sort {
+.e-grid-h-cell.selected.desc .e-icon-sort {
 	background: url(img/ui-icons_888888_256x240.png) 0px -16px;
 }

@@ -10,7 +10,7 @@ Ergo.widgets.DropdownList = Ergo.declare('Ergo.widgets.DropdownList', 'Ergo.widg
 	
 	defaults: {
 		html: '<div autoheight="ignore"></div>',
-		baseCls: 'ergo-dropdown-list',
+		baseCls: 'e-dropdown-list',
 		extensions: ['popup'],
 		style: {'display': 'none'},
 		effects: {

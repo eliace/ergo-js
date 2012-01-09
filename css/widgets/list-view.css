@@ -1,22 +1,22 @@
 
 
-.ergo-list-view {
+.e-list-view {
 	background-color: #fff;
 	overflow-y: auto;
 }
 
 
 
-.ergo-list-view > .list-item {
+.e-list-view > .list-item {
 	display: block;
 	padding: 0 3px;
 }
 
-.ergo-list-view > .list-item:hover {
+.e-list-view > .list-item:hover {
 	background-color: #f4f4f4;;
 }
 
-.ergo-list-view > .list-item.selected {
+.e-list-view > .list-item.selected {
 	background-color: #bdf;
 }
 

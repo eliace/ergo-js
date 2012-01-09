@@ -30,7 +30,7 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
       button: {
         etype: 'icon-button',
 				role: 'actor',
-				icon: 'ergo-icon-spinner-down',
+				icon: 'e-icon-spinner-down',
 				onAction: function() {
 					this.parent.showDropdown();
 				},
@@ -38,7 +38,7 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
       },
 			dropdown: {
 	      etype: 'dropdown-box',
-	      cls: 'ergo-border-all ergo-dropdown-shadow',
+	      cls: 'e-border-all e-dropdown-shadow',
 //				style: {'display': 'none'},
 				content: {
 					etype: 'list-view',

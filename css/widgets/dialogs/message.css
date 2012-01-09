@@ -1,14 +1,14 @@
 
-.ergo-messagebox-icon {
+.e-messagebox-icon {
 	margin: 10px 10px 10px 10px;
 }
 
-.ergo-messagebox-msg-base {
+.e-messagebox-msg-base {
 	margin: 0 10px;
 	display: block;
 }
 
-.ergo-messagebox-msg-ext {
+.e-messagebox-msg-ext {
 	margin: 0 10px;
 	font-weight: bold;
 	display: block;

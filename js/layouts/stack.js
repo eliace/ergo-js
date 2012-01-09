@@ -9,7 +9,7 @@
 Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.StackLayout.prototype */{
 	
 	defaults: {
-//		containerCls: 'ergo-stack-layout',
+//		containerCls: 'e-stack-layout',
 		name: 'stack',
 		itemCls: 'hidden'
 	},

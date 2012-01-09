@@ -3,11 +3,11 @@
  * TEXT BUTTON
  */
 
-.ergo-text-button > span {
+.e-text-button > span {
 	padding: 0 3px;
 }
 
-.ergo-text-button {
+.e-text-button {
 	cursor: default;
 	line-height: 12px;
 }

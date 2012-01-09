@@ -88,7 +88,7 @@ var grid = $.ergo({
 	etype: 'grid2',
 	renderTo: '.preview',
 	
-	cls: 'ergo-grid ergo-border-all',
+	cls: 'e-grid e-border-all',
 	
 	data: Samples.generate_grid_page(0, 100),
 	
@@ -104,11 +104,11 @@ var grid = $.ergo({
 	}],
 	
 	row: {
-		cls: 'ergo-grid-row'
+		cls: 'e-grid-row'
 	},
 	
 	cell: {
-		cls: 'ergo-grid-cell'
+		cls: 'e-grid-cell'
 	}
 	
 	

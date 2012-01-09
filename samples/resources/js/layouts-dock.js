@@ -9,13 +9,13 @@ $.ergo({
   style: {'position': 'absolute'},
   items: [{
     dock: 'left',
-    cls: 'ergo-icon silk-icon-emoticon-smile'
+    cls: 'e-icon silk-icon-emoticon-smile'
   }, {
     cls: 'text-item',
     innerText: 'Hello'
   }, {
     dock: 'right-bottom',
-    cls: 'ergo-icon silk-icon-emoticon-unhappy'
+    cls: 'e-icon silk-icon-emoticon-unhappy'
   }]
 });
 

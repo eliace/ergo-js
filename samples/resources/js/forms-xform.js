@@ -35,7 +35,7 @@ $.ergo({
     content: {
       dataId: 'text1',
       etype: 'text-field',
-      cls: 'ergo-form-field',
+      cls: 'e-form-field',
       placeholder: 'Введите число...',
       validate: Ergo.validators.floatNumber
     }
@@ -44,13 +44,13 @@ $.ergo({
     content: {
       dataId: 'text',
       etype: 'text-field',
-      cls: 'ergo-form-field',
+      cls: 'e-form-field',
       width: 200,
       components: {
         button: {
           etype: 'icon-button',
           role: 'actor',
-          icon: 'ergo-icon-search',
+          icon: 'e-icon-search',
           tabIndex: -1
         }
       }
@@ -66,7 +66,7 @@ $.ergo({
         button: {
           etype: 'action-icon',
           role: 'actor',
-          cls: 'silk-icon-date ergo-clickable'
+          cls: 'silk-icon-date e-clickable'
         }
       }
     },
@@ -75,7 +75,7 @@ $.ergo({
     label: 'Поле со списком (форма)',
     content: {
       etype: 'dropdown-field',
-      cls: 'ergo-form-field',
+      cls: 'e-form-field',
       dataId: 'continent',
       dataModel: {
 //        type: 'keyvalue',
@@ -104,7 +104,7 @@ $.ergo({
       },
       components: {
         button: {
-          cls: 'ergo-icon-spinner-down'//'ui-icon ui-icon-triangle-1-s'
+          cls: 'e-icon-spinner-down'//'ui-icon ui-icon-triangle-1-s'
         },
         dropdown: {
           content: {
@@ -120,7 +120,7 @@ $.ergo({
     label: 'Счетчик (форма)',
     content: {
       etype: 'spinner-field',
-      cls: 'ergo-form-field',
+      cls: 'e-form-field',
       dataId: 'number',
     }
   }, {

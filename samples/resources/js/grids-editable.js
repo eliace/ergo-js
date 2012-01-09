@@ -14,7 +14,7 @@ var panel = $.ergo({
   etype: 'editable-panel',
   title: 'Редактируемая таблица',
   
-  cls: 'ergo-border-all',// ergo-corner-all',
+  cls: 'e-border-all',// e-corner-all',
   width: 600,
   height: 400,
   data: gridData,
@@ -25,7 +25,7 @@ var panel = $.ergo({
       state: 'hidden'
     },
     toolbar: {
-      cls: 'ergo-border-bottom',
+      cls: 'e-border-bottom',
       defaultItem: {
         cls: 'plain'
       }
@@ -37,7 +37,7 @@ var panel = $.ergo({
       etype: 'table-grid',
 
       
-//      headerCls: 'ergo-bg-highlight',
+//      headerCls: 'e-bg-highlight',
       tableModel: {
         cell: {
 //          binding: 'auto',
@@ -131,7 +131,7 @@ var panel = $.ergo({
           etype: 'pager',
           count: 200,
           pageSize: 40,
-          cls: 'ergo-border-top',
+          cls: 'e-border-top',
           onIndexChanged: function(e) {
                         
             gridData.options.filter = function(v, i){//keys, values){

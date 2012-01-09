@@ -9,7 +9,7 @@ Ergo.widgets.TreeNode = Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box'
 
 	defaults: {
 		html: '<li/>',
-		cls: 'ergo-tree-node',
+		cls: 'e-tree-node',
 		components: {
 			content: {
 				

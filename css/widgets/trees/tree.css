@@ -4,22 +4,22 @@
  * TREE
  */
 
-.ergo-tree {
+.e-tree {
 	white-space: nowrap;
 	overflow: auto;
 }
 
-.ergo-tree ul {
+.e-tree ul {
 	margin: 0;
 	padding-left: 20px;
 }
 
-.ergo-tree-node {
+.e-tree-node {
 	list-style: none outside none;
 	position: relative;
 }
 
-.ergo-tree-node-button {
+.e-tree-node-button {
 /*	position: absolute;
 	top: 0;*/	
 	cursor: pointer;
@@ -27,34 +27,34 @@
 	vertical-align: middle;
 }
 
-.ergo-tree-node-button.leaf {
+.e-tree-node-button.leaf {
 	visibility: hidden;
 }
 
 /*
-.ergo-tree-node.collapsed > ul {
+.e-tree-node.collapsed > ul {
 	display: none;
 }
 */
 
-.ergo-tree-node-content {
+.e-tree-node-content {
 	margin-left: 3px;
 	display: inline-block;
 }
 
 
-.ergo-basic-tree-node > .tree-list-item .ergo-tree-node-content:hover {
+.e-basic-tree-node > .tree-list-item .e-tree-node-content:hover {
 	color: #666;
 }
 
 
-.ergo-basic-tree-node.selected > .tree-list-item .ergo-tree-node-content {
+.e-basic-tree-node.selected > .tree-list-item .e-tree-node-content {
 /*	background-color: #bdf;*/
 	background-color: #ffc;
 }
 
 /*
-.ergo-tree-node.selected > .ergo-tree-node-content {
+.e-tree-node.selected > .e-tree-node-content {
 	color: #11f;
 }
 */

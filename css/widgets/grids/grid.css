@@ -5,66 +5,66 @@
  * GRID
  */
 
-.ergo-grid {
+.e-grid {
 	
 }
 
 
-.ergo-grid-control-row > td {
+.e-grid-control-row > td {
 	padding: 0;
 }
 
 
 /*
-.ergo-grid-body {
+.e-grid-body {
 	text-align: center;
 }
 */
 
-.ergo-grid-header {
+.e-grid-header {
 /*	background-color: #f0f0f0;*/
 /*	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;*/
 	background-color: #ddd;
 /*	overflow-x: hidden;*/
 }
 
-.ergo-grid-content {
+.e-grid-content {
 	background-color: #fff;
 /*	padding-right: 18px;  /* отступ для скролла */
 }
 
-.ergo-grid-content.scrollable {
+.e-grid-content.scrollable {
 /*	padding-right: 18px;  /* отступ для скролла */
 	overflow-y: auto;
 }
 
 
 
-.ergo-grid-row {
+.e-grid-row {
 	cursor: default;
 	font-size: 9pt;
 	height: 19px;	
 }
 
-.ergo-grid-row:hover {
+.e-grid-row:hover {
 	background-color: #f4f4f4;/*#eee;*/
 }
 
-.ergo-grid-row.selected {
+.e-grid-row.selected {
 	background-color: #ffc;
 }
 
 
 
 
-.ergo-grid-cell {
+.e-grid-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	text-align: center;
 	padding: 0;
 }
 	
-.ergo-grid-h-cell {
+.e-grid-h-cell {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	color: #444;
@@ -77,20 +77,20 @@
 
 
 
-.ergo-icon-column {
+.e-icon-column {
 	width: 16px;
 	text-align: center;
 }
 
-.ergo-numeric-column {
+.e-numeric-column {
 	text-align: right;
 }
 
-.ergo-default-column {
+.e-default-column {
 	text-align: center;
 }
 
-.ergo-text-column {
+.e-text-column {
 	text-align: left;
 }
 

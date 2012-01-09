@@ -6,7 +6,7 @@ var grid = $.ergo({
   
   data: [],
   
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   height: 300,
   width: 800,
   
@@ -23,7 +23,7 @@ var grid = $.ergo({
       etype: 'pager',
       count: 205,
       pageSize: 50,
-      cls: 'ergo-border-top',
+      cls: 'e-border-top',
       onIndexChanged: function(e) {
         // генерируем данные и добавляем их в источник данных виджета
         var data_page = Samples.generate_grid_page(e.from, e.to);
@@ -62,7 +62,7 @@ var grid = $.ergo({
       },
       content: {
         etype: 'text-item',
-        xicon: 'ergo-icon-sort',
+        xicon: 'e-icon-sort',
         style: {'margin-right': -16},
         components: {
           xicon: {
@@ -108,7 +108,7 @@ var grid = $.ergo({
 //      width: 60
     }, {
       dataId: 'icon',
-      cls: 'silk-icon ergo-clickable',
+      cls: 'silk-icon e-clickable',
       width: 30,
       binding: function(val) { this.states.set('silk-icon-'+val); },
     }/*, {

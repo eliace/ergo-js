@@ -8,7 +8,7 @@ $.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
 var w = $.ergo({
   etype: 'tree-grid',
   renderTo: '.preview',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   data: tgTreeData,
   width: 600,
   height: 300,

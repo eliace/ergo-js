@@ -4,17 +4,17 @@
  * PAGER
  */
 
-.ergo-pager {
+.e-pager {
 	background-color: #eee;
 	padding: 3px;
 	font-size: 10pt;
 }
 
-.ergo-pager > * {
+.e-pager > * {
 	vertical-align: middle;
 }
 
-.ergo-pager > span {
+.e-pager > span {
 	margin: 0 3px;
 }
 

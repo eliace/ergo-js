@@ -4,7 +4,7 @@ var dlg = $.ergo({
   renderTo: '.preview',
   content: {
     etype: 'box',
-    cls: 'ergo-text-content ergo-border-all',
+    cls: 'e-text-content e-border-all',
     layout: 'stack',
     items: [{
       width: 400,

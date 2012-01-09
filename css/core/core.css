@@ -52,13 +52,13 @@ p {
 }
 
 
-.ergo-center-align {
+.e-center-align {
 	display: block;
 	margin: 0 auto;
 }
 
 /*
-.ergo-glass-pane {
+.e-glass-pane {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -67,6 +67,7 @@ p {
 	z-index: 10000;
 }
 */
+
 
 
 

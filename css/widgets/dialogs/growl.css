@@ -1,5 +1,5 @@
 
-.ergo-growl-box {
+.e-growl-box {
 	position: absolute;
 	top: 10px;
 	right: 15px;
@@ -7,7 +7,7 @@
 	font-size: 9pt;
 }
 
-.ergo-growl {
+.e-growl {
 	width: 300px;
 	margin-bottom: 5px;
 	display: none;
@@ -15,19 +15,19 @@
 	cursor: pointer;
 }
 
-.ergo-growl.info {
+.e-growl.info {
 	background-color: #eee;
 }
 
-.ergo-growl.success {
+.e-growl.success {
 	background-color: #cfc;
 }
 
-.ergo-growl.warning {
+.e-growl.warning {
 	background-color: #ffc;
 }
 
-.ergo-growl.critical {
+.e-growl.critical {
 	background-color: #fcc;
 }
 

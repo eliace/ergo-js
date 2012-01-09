@@ -22,7 +22,7 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 			var row = $('<tr/>');
 			for(var i = 0; i < c.options.columns.length; i++) {
 				var col = c.options.columns[i];
-				var el = $('<td class="ergo-grid-cell"/>');
+				var el = $('<td class="e-grid-cell"/>');
 				if('width' in col) el.width(col.width);
 				row.append(el);
 			}
@@ -146,7 +146,7 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 	
 	defaults: {
 //		wrapEl: '<div></div>',
-//		baseCls: 'ergo-tree-grid',
+//		baseCls: 'e-tree-grid',
 		components: {
 //			header: {
 //				etype: 'box',
@@ -156,7 +156,7 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 //					binding: false,
 //					headerModel: {
 //						cell: {
-//							cls: 'ergo-grid-h-cell',
+//							cls: 'e-grid-h-cell',
 //							layout: {
 //								etype: 'plain-layout',
 //								html: '<div class="nowrap"></div>'
@@ -173,10 +173,10 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 					etype: 'tree-table',
 					tableModel: {
 						row: {
-							cls: 'ergo-tree-grid-row'
+							cls: 'e-tree-grid-row'
 						},
 						cell: {
-							cls: 'ergo-tree-grid-cell',
+							cls: 'e-tree-grid-cell',
 							layout: {
 								etype: 'plain-layout',
 								html: '<div class="nowrap"></div>'
@@ -205,7 +205,7 @@ Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.Tabl
 Ergo.widgets.TreeGrid = Ergo.declare('Ergo.widgets.TreeGrid', 'Ergo.widgets.TableGrid', /** @lends Ergo.widgets.TreeTable.prototype */{
 	
 	defaults: {
-		cls: 'ergo-tree-table',
+		cls: 'e-tree-table',
 		components: {
 			body: {
 				content: {
@@ -290,7 +290,7 @@ Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widg
 //	$html: function() { return '<tr></tr>'; },
 	
 	defaults: {
-		cls: 'ergo-tree-grid-row',
+		cls: 'e-tree-grid-row',
 		indent: 0,
 		defaultItem: {
 			etype: 'table-cell'
@@ -409,7 +409,7 @@ Ergo.widgets.TreeTableRow = Ergo.declare('Ergo.widgets.TreeTableRow', 'Ergo.widg
 Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.widgets.TableCell', /** @lends Ergo.widgets.TreeTableCell.prototype */{
 	
 	defaults: {
-		cls: 'ergo-tree-grid-cell',
+		cls: 'e-tree-grid-cell',
 		layout: {
 //			etype: 'plain-layout',
 //			html: '<div style="position: relative;"></div>'
@@ -425,12 +425,12 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 						// контейнер для вставки отступов
 						etype: 'box',
 						style: {'display': 'inline', 'position': 'relative'},
-						cls: 'ergo-tree-node',
+						cls: 'e-tree-node',
 						components: {
 							button: {
 								etype: 'icon',
 								weight: 1,
-								cls: 'ergo-tree-node-button',
+								cls: 'e-tree-node-button',
 								onClick: function(e) {
 									var row = this.parent.parent.getRow();
 									if(row.states.is('collapsed')){
@@ -448,7 +448,7 @@ Ergo.widgets.TreeTableCell = Ergo.declare('Ergo.widgets.TreeTableCell', 'Ergo.wi
 							},
 							text: {
 								etype: 'text-item',
-								cls: 'ergo-tree-node-content'
+								cls: 'e-tree-node-content'
 							}
 						},
 						states: {

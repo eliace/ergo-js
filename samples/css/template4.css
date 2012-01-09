@@ -35,11 +35,11 @@ body input {
 }
 
 
-.ergo-split-bar {
+.e-split-bar {
 	cursor: col-resize;
 }
 
-.ergo-split-bar:hover {
+.e-split-bar:hover {
 	background-color: #eee;
 }
 
@@ -54,7 +54,7 @@ body input {
 }
 
 
-.ergo-tree-node.collapsed .icon-folder {
+.e-tree-node.collapsed .icon-folder {
 	background-image: url(../img/gnome-fs-directory.png);
 }
 
@@ -63,7 +63,7 @@ body input {
 	background-image: url(../img/gnome-fs-directory-accept.png);
 }
 */
-.ergo-tree-node.expanded .icon-folder {
+.e-tree-node.expanded .icon-folder {
 	background-image: url(../img/gnome-fs-directory-accept.png);	
 }
 
@@ -78,7 +78,7 @@ body input {
 }
 */
 
-.ergo-header-button:hover {
+.e-header-button:hover {
 	border: 1px solid #aaa;
 }
 

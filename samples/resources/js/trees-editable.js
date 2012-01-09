@@ -94,14 +94,14 @@ $.ergo({
   renderTo: '.preview',
   title: 'List tree',
 
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
 
   width: 400,
   height: 300,
   
   content: {
     etype: 'tree',
-    cls: 'tree-list ergo-text-content',
+    cls: 'tree-list e-text-content',
     
     data: treeData,
     
@@ -138,7 +138,7 @@ $.ergo({
                   e.dragContext.proxy = $.ergo({
                     etype: 'text',
                     text: this.getText(),
-                    cls: 'ergo-border-all',
+                    cls: 'e-border-all',
                     style: {'background-color': '#fff'},
                     opacity: .7
                   });

@@ -51,7 +51,7 @@ $.ergo({
     }
   }, {
     etype: 'group-panel',
-    title: 'Ergo-виджеты',
+    title: 'e-виджеты',
     content: {
       etype: 'box',
       defaultItem: {
@@ -84,7 +84,7 @@ $.ergo({
           etype: 'box',
           width: 2,
           height: 24,
-          cls: 'ergo-split',
+          cls: 'e-split',
           innerHtml: '&nbsp;'
         }*/
         '-']

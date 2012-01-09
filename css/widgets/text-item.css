@@ -3,12 +3,12 @@
  * TEXT ITEM
  */
 
-.ergo-text-item {
+.e-text-item {
 	position: relative;
 	cursor: default;
 }
 
-.ergo-text-item span {
+.e-text-item span {
 	margin: 0 3px;
 }
 

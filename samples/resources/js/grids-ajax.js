@@ -53,7 +53,7 @@ var gridData = new AjaxCollection([]);
 var grid = $.ergo({
   etype: 'table-grid',
   renderTo: '.preview',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   
   data: gridData,
   
@@ -80,7 +80,7 @@ var grid = $.ergo({
       etype: 'pager',
       count: 155,
       pageSize: 40,
-      cls: 'ergo-border-top',
+      cls: 'e-border-top',
       onIndexChanged: function(e) {
         var g = this.parent;
         g.loader.show();

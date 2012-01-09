@@ -3,10 +3,10 @@
 
 Ergo.declare('Ergo.widgets.GlassPane', 'Ergo.widgets.Box', {
 	
-//	defaultClass: 'ergo-glass-box',
+//	defaultClass: 'e-glass-box',
 	
 	defaults: {
-		html: '<div class="ergo-glass-pane" autoheight="ignore"/>',
+		html: '<div class="e-glass-pane" autoheight="ignore"/>',
 		events: {
 			'mousedown': function(e) {
 				e.preventDefault();

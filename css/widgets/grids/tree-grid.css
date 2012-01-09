@@ -10,20 +10,20 @@
 }
 
 
-.ergo-tree-grid-header {
+.e-tree-grid-header {
 	background: url(img/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50% #CCCCCC;
 }
 
-.ergo-tree-grid-content {
+.e-tree-grid-content {
 	background-color: #fff;
 }
 */
 
-.ergo-tree-grid-row .indent {
+.e-tree-grid-row .indent {
 	padding-left: 20px;
 }
 
-.ergo-tree-grid-cell {
+.e-tree-grid-cell {
 	text-align: left;
 }
 

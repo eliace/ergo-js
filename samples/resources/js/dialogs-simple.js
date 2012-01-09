@@ -7,7 +7,7 @@ var dlg = $.ergo({
   content: {
     etype: 'box',
 //    height: 'auto',
-    cls: 'ergo-text-content ergo-border-all',
+    cls: 'e-text-content e-border-all',
     innerText: Samples.loremipsum
   },
   buttons: ['ok'],

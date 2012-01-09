@@ -94,13 +94,13 @@ $.ergo({
         style: {'margin': '0 3px'}
       }, {
         etype: 'box',
-        cls: 'ergo-split',
+        cls: 'e-split',
         style: {'margin-left': '3px'},
         width: 2,
         height: 16
       }, {
         etype: 'icon',
-        cls: 'ergo-icon-spinner-down'        
+        cls: 'e-icon-spinner-down'        
       }]
     }
   }, */{
@@ -141,7 +141,7 @@ $.ergo({
   }, {
     etype: 'dropdown-button',
 //    text: 'Location',
-    xicon: 'ergo-icon-spinner-down',
+    xicon: 'e-icon-spinner-down',
     binding: function(obj) {
       this.opt('text', obj.name);
     },
@@ -170,23 +170,23 @@ $.ergo({
   	extensions: ['selectable'],
   	defaultItem: {
   		etype: 'icon-button',
-  		cls: 'ergo-bg-3',
+  		cls: 'e-bg-3',
   		onClick: function() {
   			this.parent.selection.set(this);
   		}
   	},
   	components: {
   		left: {
-  			cls: 'left-checkbox', //ergo-corner-left ergo-no-border-right',
+  			cls: 'left-checkbox', //e-corner-left e-no-border-right',
   			icon: 'silk-icon-male'
   		},
   		splitter: {
-  			cls: 'ergo-border-no-left ergo-border-right',
+  			cls: 'e-border-no-left e-border-right',
   			style: {'padding-left': 0, 'padding-right': 0},
   			width: 1
   		},
   		right: {
-  			cls: 'right-checkbox', //ergo-corner-right',
+  			cls: 'right-checkbox', //e-corner-right',
   			icon: 'silk-icon-female'
   		}
   	},
@@ -197,7 +197,7 @@ $.ergo({
   	extensions: ['selectable'],
   	defaultItem: {
   		etype: 'button',
-  		cls: 'ergo-bg-3 ergo-border-all',
+  		cls: 'e-bg-3 e-border-all',
   		onClick: function() {
   			this.parent.selection.set(this);
   		},
@@ -214,13 +214,13 @@ $.ergo({
 //  			icon: 'silk-icon-male'
   		},
   		splitter: {
-  			cls: 'ergo-border-no-left ergo-border-right',
+  			cls: 'e-border-no-left e-border-right',
   			style: {'padding-left': 0, 'padding-right': 0},
   			width: 1,
   			innerHtml: '&nbsp;'
   		},
   		right: {
-  			cls: 'right-checkbox off', //ergo-corner-right',
+  			cls: 'right-checkbox off', //e-corner-right',
   			text: 'OFF'
 
 //  			icon: 'silk-icon-female'

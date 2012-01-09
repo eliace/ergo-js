@@ -16,17 +16,17 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 //	$html: function() { return '<div></div>'; },
 	
 	defaults: {
-		baseCls: 'ergo-panel',
-//		cls: 'ergo-border-all ergo-corner-top',
+		baseCls: 'e-panel',
+//		cls: 'e-border-all e-corner-top',
 		components: {
 			header: {
 				weight: 10,
+				baseCls: 'e-panel-header',
 				etype: 'box',
 	      layout: {
 	        etype: 'dock-layout',
 	        updateMode: 'auto'
 	      },				
-				baseCls: 'header',
 				components: {
 					icon: {
 						etype: 'icon',
@@ -44,7 +44,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 						style: {'margin-right': '3px'},
 		        defaultItem: {
 		          etype: 'icon-button',
-		          baseCls: 'ergo-header-button ergo-corner-all',
+		          baseCls: 'e-header-button e-corner-all',
 		          onAction: function(){
 								this.getParent(Ergo.widgets.Panel).events.fire('onHeaderButton', {'button': this.tag});
 		          }
@@ -53,7 +53,8 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 				}
 			},
 			content: {
-//				cls: 'ergo-panel-content',
+//				cls: 'e-panel-content',
+				baseCls: 'e-panel-content',
 				weight: 20,
 				etype: 'box'
 			}
@@ -62,9 +63,9 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 //			}
 		},
 		headerButtonSet: {
-//			'close': {icon: 'ergo-icon-dialog-close', tag: 'close'},
-//			'minimize': {icon: 'ergo-icon-dialog-minimize', tag: 'minimize'},
-//			'maximize': {icon: 'ergo-icon-dialog-maximize', tag: 'maximize'}
+//			'close': {icon: 'e-icon-dialog-close', tag: 'close'},
+//			'minimize': {icon: 'e-icon-dialog-minimize', tag: 'minimize'},
+//			'maximize': {icon: 'e-icon-dialog-maximize', tag: 'maximize'}
 		}
 	},
 	

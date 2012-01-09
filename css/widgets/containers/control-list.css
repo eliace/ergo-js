@@ -4,25 +4,25 @@
  * CONTROLS
  */
 
-.ergo-control-list {
+.e-control-list {
 /*	background-color: #eee;*/
 	padding: 3px;
 }
 
-.ergo-control-list > * {
+.e-control-list > * {
 	margin-right: 3px;
 	vertical-align: middle;
 }
 
-.ergo-control-list.center {
+.e-control-list.center {
 	text-align: center;
 }
 
-.ergo-control-list.left {
+.e-control-list.left {
 	text-align: left;
 }
 
-.ergo-control-list.right {
+.e-control-list.right {
 	text-align: right;
 }
 

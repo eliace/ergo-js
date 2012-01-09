@@ -8,10 +8,10 @@
  */
 Ergo.widgets.Icon = Ergo.declare('Ergo.widgets.Icon', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Icon.prototype */{
 	
-//	defaultCls: 'ergo-icon'
+//	defaultCls: 'e-icon'
 	
 	defaults: {
-		baseCls: 'ergo-icon'
+		baseCls: 'e-icon'
 	}
 	
 //	$html: function() { return '<div/>'; }

@@ -6,7 +6,8 @@
 Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 
 	defaults: {
-		cls: 'ergo-growl ergo-border-all ergo-corner-all ergo-widget-shadow',
+		baseCls: 'e-growl',
+		cls: 'e-border-all e-corner-all e-widget-shadow',
 		components: {
 			content: {
 				etype: 'box',
@@ -56,7 +57,7 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 		if('icon' in o) {
 			o.components.content.components.messageIcon = {
 				etype: 'icon',
-				cls: 'icon32 ergo-center-align ' + o.icon,
+				cls: 'icon32 e-center-align ' + o.icon,
 				style: {'margin': '0 10px'}
 //				width: 50
 			}
@@ -66,7 +67,7 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 		if('message' in o) {
 			o.components.content.components.messageContent = {
 				etype: 'text',
-//				cls: 'ergo-widget-content',
+//				cls: 'e-widget-content',
 				text: o.message
 			}			
 		}
@@ -76,7 +77,7 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 			o.components.content.components.htmlContent = {
 				etype: 'box',
 //				html: '<iframe>'+o.htmlMessage+'</iframe>',
-//				cls: 'ergo-widget-content',
+//				cls: 'e-widget-content',
 				innerHtml: o.htmlMessage
 			}			
 		}
@@ -119,7 +120,7 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'ergo-growl-box',
+		baseCls: 'e-growl-box',
 		height: 'ignore',
 		defaultItem: {
 			etype: 'growl',
@@ -144,12 +145,12 @@ Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 			components: {
 				messageIcon: {
 					etype: 'icon',
-					cls: 'icon32 ergo-center-align ' + icon,
+					cls: 'icon32 e-center-align ' + icon,
 					width: 50
 				},
 				messageText: {
 					etype: 'text',
-					cls: 'ergo-widget-content',
+					cls: 'e-widget-content',
 					text: msg
 				}
 			}
@@ -170,12 +171,12 @@ Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 			components: {
 				messageIcon: {
 					etype: 'icon',
-					cls: 'icon32 ergo-center-align ' + icon,
+					cls: 'icon32 e-center-align ' + icon,
 					width: 50
 				},
 				messageText: {
 					etype: 'text',
-					cls: 'ergo-widget-content',
+					cls: 'e-widget-content',
 					text: msg
 				}
 			}

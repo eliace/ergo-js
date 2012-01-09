@@ -9,10 +9,10 @@
  */
 Ergo.widgets.PulseIcon = Ergo.declare('Ergo.widgets.PulseIcon', 'Ergo.widgets.Icon', /** @lends Ergo.widgets.PulseIcon.prototype */{
 	
-//	defaultCls: 'ergo-pulse-icon',
+//	defaultCls: 'e-pulse-icon',
 	
 	defaults: {
-		baseCls: 'ergo-pulse-icon',
+		baseCls: 'e-pulse-icon',
 		pulseDelay: 200,
 		components: {
 			image: {

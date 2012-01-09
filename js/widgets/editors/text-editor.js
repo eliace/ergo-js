@@ -6,7 +6,7 @@ Ergo.declare('Ergo.widgets.TextEditor', 'Ergo.widgets.Field', {
 	
 	defaults: {
 		autoFit: true,
-		cls: 'ergo-text-editor',
+		baseCls: 'e-text-editor',
 		events: {
 			'click': function(e) {
 				e.stopPropagation();

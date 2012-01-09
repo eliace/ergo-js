@@ -16,13 +16,13 @@
 	top: 50%;	
 }
 
-[layout='window'] > .ergo-window-content {
+[layout='window'] > .e-window-content {
 	height: 100%;
 }
 
 
 
-[layout='window'] > .ergo-overlay {
+[layout='window'] > .e-overlay {
 	background-color: black;
 	position: absolute;
 	left: 0;
@@ -32,7 +32,7 @@
 	z-index: 1000;
 }	
 
-[layout='window'] > .ergo-window {
+[layout='window'] > .e-window {
 	position: absolute;
 	z-index: 1100;
 	background-color: #fff;

@@ -4,7 +4,7 @@
  * MENU
  */
 
-.ergo-menu-item {
+.e-menu-item {
 	position: relative;
 	display: block;
 	cursor: default;
@@ -13,25 +13,25 @@
 	padding: 2px 18px 2px 10px;
 }	
 
-.ergo-menu-item:hover {
+.e-menu-item:hover {
 	background-color: #ddd;
 }
 
-.ergo-menu-item.disabled {
+.e-menu-item.disabled {
 	opacity: .3;
 }
 
-.ergo-menu-item.disabled:hover {
+.e-menu-item.disabled:hover {
 	background-color: transparent;
 }
 
-.ergo-menu-dropdown {
+.e-menu-dropdown {
 	border: 1px solid #aaa;
 	background-color: #eee;
 /*	z-index: 2000;*/
 }
 
-.ergo-menu-shadow {
+.e-menu-shadow {
 	-moz-box-shadow: 1px 1px 3px #aaa;
 	-webkit-box-shadow: 1px 1px 3px #aaa;
 	box-shadow: 1px 1px 3px #aaa;		

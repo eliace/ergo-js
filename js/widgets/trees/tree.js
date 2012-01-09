@@ -14,7 +14,7 @@
 Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Tree.prototype */{
 	
 	defaults: {
-		cls: 'ergo-tree',
+		cls: 'e-tree',
 		defaultItem: {
 			etype: 'basic-tree-node',
 //			indent: 0,

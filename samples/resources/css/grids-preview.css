@@ -14,11 +14,11 @@
 	font-weight: bold;	
 }
 
-.ergo-grid-row.hovered {
+.e-grid-row.hovered {
 	background-color: #f0f0f0;
 }
 
-.ergo-grid-row.details td {
+.e-grid-row.details td {
 	border-bottom: 1px solid #ccc;
 }
 

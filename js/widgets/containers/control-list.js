@@ -7,7 +7,7 @@
 Ergo.declare('Ergo.widgets.ControlList', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'ergo-control-list'
+		baseCls: 'e-control-list'
 	}
 	
 //	$itemFactory: function(o) {

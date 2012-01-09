@@ -49,7 +49,7 @@ $.ergo({
 //    etype: 'box',
 //    content: {
     etype: 'icon-button',
-    cls: 'ergo-corner-all',
+    cls: 'e-corner-all',
     contentCls: 'icon48 icon-02',
 //    icon: 'icon-01'//'led-icon-refresh'
 //    }

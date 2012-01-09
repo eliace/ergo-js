@@ -14,7 +14,7 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Text
 	
 	defaults: {
 //		html: '',
-		cls: 'ergo-text-item',
+		cls: 'e-text-item',
 //		layout: 'dock',
 		layout: 'hbox',
 		components: {

@@ -9,7 +9,7 @@
 Ergo.layouts.ThreeColumnLayout = Ergo.declare('Ergo.layouts.ThreeColumnLayout', Ergo.core.Layout, /** @lends Ergo.layouts.ThreeColumnLayout.prototype */{
 	
 	defaults: {
-//		containerCls: 'ergo-3c-layout',
+//		containerCls: 'e-3c-layout',
 		name: '3c',
 		updatePolicy: 'manual'
 	},
@@ -23,13 +23,13 @@ Ergo.layouts.ThreeColumnLayout = Ergo.declare('Ergo.layouts.ThreeColumnLayout', 
 			case 'left':
 				if(this.left) this.left.el.remove(); // удаляем старый элемент из DOM
 				this.left = item;
-				el.addClass('ergo-3c-left');
+				el.addClass('e-3c-left');
 				this.container.el.prepend(el);
 				break;
 			case 'right':
 				if(this.right) this.right.el.remove(); // удаляем старый элемент из DOM
 				this.right = item;
-				el.addClass('ergo-3c-right');
+				el.addClass('e-3c-right');
 				this.container.el.append(el);
 				break;
 			case 'center':
@@ -37,7 +37,7 @@ Ergo.layouts.ThreeColumnLayout = Ergo.declare('Ergo.layouts.ThreeColumnLayout', 
 				if(this.center) this.center.el.remove(); // удаляем старый элемент из DOM
 				
 				this.center = item;
-				el.addClass('ergo-3c-center');
+				el.addClass('e-3c-center');
 				
 				if(this.left) 
 					this.left.el.after(el);

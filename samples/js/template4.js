@@ -1,4 +1,6 @@
 
+
+
 Ergo.DEBUG = true;
 
 
@@ -46,7 +48,6 @@ $(document).ready(function(){
 //	Samples.pool = new Ergo.containers.Box();
 
 	
-	
 	Application = new Ergo.framework.Application({
 //		etype: 'box',
 //		renderTo: 'body',
@@ -80,7 +81,7 @@ $(document).ready(function(){
 				items: [{
 					etype: 'box',
 					region: 'west',
-					cls: 'ergo-border-all',
+					cls: 'e-border-all',
 					width: 200,
 					style: {'background-color': '#fff', 'overflow': 'auto'},
 					autoHeight: true,
@@ -98,7 +99,7 @@ $(document).ready(function(){
 											icon: true,
 											xicon: true,
 			      					dataId: 'name',
-											cls: 'ergo-clickable',
+											cls: 'e-clickable',
 	//										extensions: [Ergo.Clickable],
 	//										state: 'clickable',
 											onClick: function() {
@@ -167,12 +168,12 @@ $(document).ready(function(){
 					tag: 'preview',
 					autoHeight: true,
 					
-					cls: 'ergo-border-all',
+					cls: 'e-border-all',
 					
 					components: {
 						banner: {
 //									height: 40,
-							cls: 'desc ergo-border-bottom',
+							cls: 'desc e-border-bottom',
 							style: {'padding': 8, 'margin-bottom': 5, 'font-size': 12, 'color': '#444', 'background-color': '#FCF6E5'}
 						},
 						content: {
@@ -207,7 +208,7 @@ $(document).ready(function(){
 								}
 							}
 						},
-						pagesCls: 'ergo-border-all ergo-border-no-top',
+						pagesCls: 'e-border-all e-border-no-top',
 						pages: [/*{
 							tab: {text: 'View', icon: 'silk-icon-eye'},
 							components: {
@@ -365,8 +366,12 @@ $(document).ready(function(){
 		lineNumbers: true
 	});
 */	
+
+	
+
 	
 		$.getJSON('ajax/samples.json').then(function(json) { sampleTree.set(json); });
+
 	
 	}
 	catch(e) {

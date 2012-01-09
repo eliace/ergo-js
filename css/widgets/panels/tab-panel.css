@@ -3,11 +3,11 @@
  * TAB PANEL
  */
 
-.ergo-tab-pages {
+.e-tab-pages {
 	background-color: #fff;
 }
 
-.ergo-tab-footer {
+.e-tab-footer {
 	background-color: #f8f8f8;
 /*	height: 3px;*/
 	border-top: 1px solid #aaa;

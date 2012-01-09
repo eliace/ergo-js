@@ -3,7 +3,7 @@ $.ergo({
   etype: 'panel',
   renderTo: '.preview',
   title: 'Панель',
-  cls: 'ergo-panel-shadow ergo-border-all',
+  cls: 'e-panel-shadow e-border-all',
   style: {'margin': '8px'},
 // buttons: ['close', 'minimize', 'maximize'],
   onHeaderButton: function(e) {
@@ -20,18 +20,18 @@ $.ergo({
       components: {
         buttons: {
           defaultItem: {
-            contentCls: 'ergo-icon-dialog',
+            contentCls: 'e-icon-dialog',
           },
           items: [{
             icon: 'expand-collapse',
             tag: 'collapse',
             content: {
               states: {
-                'expand-collapse': Ergo.on('ergo-icon-dialog-collapse').off('ergo-icon-dialog-expand')
+                'expand-collapse': Ergo.on('e-icon-dialog-collapse').off('e-icon-dialog-expand')
               }
             }
           }, {
-            icon: 'ergo-icon-dialog-close'
+            icon: 'e-icon-dialog-close'
           }]
         }
       }
@@ -42,7 +42,7 @@ $.ergo({
        content: {
         etype: 'box',
         autoHeight: true,
-        cls: 'ergo-widget-content ergo-border-all',
+        cls: 'e-widget-content e-border-all',
 //        style: {'margin': '3px'},
         innerText: Samples.loremipsum        
       }

@@ -9,7 +9,7 @@ Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		html: '<fieldset/>',
-		baseCls: 'ergo-group-panel',
+		baseCls: 'e-group-panel',
 		components: {
 			header: {
 				etype: 'box',

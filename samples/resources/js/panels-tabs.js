@@ -5,7 +5,7 @@ $.ergo({
   panelModel: {
     page: {height: 100}
   },
-  pagesCls: 'ergo-border-all ergo-border-no-top',
+  pagesCls: 'e-border-all e-border-no-top',
   pages: [{
     tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {
@@ -37,7 +37,7 @@ $.ergo({
         // addTab: {
           // etype: 'box',
           // html: '<li/>',
-          // cls: 'ergo-tabs-item ergo-border-all ergo-bg-3',
+          // cls: 'e-tabs-item e-border-all e-bg-3',
           // style: {'padding-left': 7, 'padding-right': 7},
           // content: {
             // etype: 'action-icon',
@@ -62,7 +62,7 @@ $.ergo({
   panelModel: {
     page: {height: 100}
   },
-  pagesCls: 'ergo-border-all ergo-border-no-bottom',
+  pagesCls: 'e-border-all e-border-no-bottom',
   pages: [{
     tab: {icon: 'silk-icon-vcard', text: 'Tab1'}
   }, {

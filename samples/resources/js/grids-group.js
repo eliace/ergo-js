@@ -239,7 +239,7 @@ $.ergo({
   title: 'Group',
   renderTo: '.preview',
   
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   
   
   components: {
@@ -247,7 +247,7 @@ $.ergo({
       // state: 'hidden'
     // },
     toolbar: {
-      cls: 'ergo-border-bottom',
+      cls: 'e-border-bottom',
       defaultItem: {
         cls: 'plain'
       }
@@ -282,16 +282,16 @@ $.ergo({
       columns: [{
         dataId: 'id',
         header: 'ID',
-        cls: 'ergo-default-column',
+        cls: 'e-default-column',
         width: 60
       }, {
         dataId: 'name',
         header: 'Name',
-        cls: 'ergo-text-column',
+        cls: 'e-text-column',
       }, {
         dataId: 'value',
         header: 'Value',
-        cls: 'ergo-numeric-column',
+        cls: 'e-numeric-column',
         width: 100
       }]      
     }
@@ -320,14 +320,14 @@ $.ergo({
             // },
             // columns: [{
               // dataId: 'id',
-              // cls: 'ergo-default-column',
+              // cls: 'e-default-column',
               // width: 60
             // }, {
               // dataId: 'name',
-              // cls: 'ergo-text-column',
+              // cls: 'e-text-column',
             // }, {
               // dataId: 'value',
-              // cls: 'ergo-numeric-column',
+              // cls: 'e-numeric-column',
               // width: 100
             // }]            
           // }
@@ -369,11 +369,11 @@ $.ergo({
   etype: 'box',
   renderTo: '.preview',
   width: 500,
-  cls: 'ergo-border-all ergo-corner-all',
+  cls: 'e-border-all e-corner-all',
   components: {
     header: {
       etype: 'table',
-      cls: 'ergo-bg-highlight',
+      cls: 'e-bg-highlight',
       width: '100%',
       headerModel: {
         cell: {
@@ -387,7 +387,7 @@ $.ergo({
       data: gridData,
       dynamic: true,
       height: 300,//'auto',
-      cls: 'ergo-grid-content',
+      cls: 'e-grid-content',
       defaultItem: {
         components: {
           title: {
@@ -413,14 +413,14 @@ $.ergo({
               },
               columns: [{
                 dataId: 'id',
-                cls: 'ergo-default-column',
+                cls: 'e-default-column',
                 width: 60
               }, {
                 dataId: 'name',
-                cls: 'ergo-text-column',
+                cls: 'e-text-column',
               }, {
                 dataId: 'value',
-                cls: 'ergo-numeric-column',
+                cls: 'e-numeric-column',
                 width: 100
               }]
             }

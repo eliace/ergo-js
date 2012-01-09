@@ -10,7 +10,7 @@
 Ergo.declare('Ergo.layouts.DockLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.DockLayout.prototype */{
 	
 	defaults: {
-//		containerCls: 'ergo-dock-layout',
+//		containerCls: 'e-dock-layout',
 		name: 'dock',
 		updateMode: 'none'
 	},
@@ -30,7 +30,7 @@ Ergo.declare('Ergo.layouts.DockLayout', 'Ergo.core.Layout', /** @lends Ergo.layo
 		}
 		else {
 			if(!this.content){
-//				this.content = $('<div class="ergo-dock-content"></div>');
+//				this.content = $('<div class="e-dock-content"></div>');
 				this.content = el;
 //				this.content.append(el);
 			}

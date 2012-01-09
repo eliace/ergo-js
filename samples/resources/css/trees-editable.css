@@ -15,15 +15,15 @@
 }
 
 
-.ergo-list-tree-node > .tree-list-item:hover {
+.e-list-tree-node > .tree-list-item:hover {
 	background-color: #f4f4f4;
 }
 
-.ergo-list-tree-node.selected > .tree-list-item {
+.e-list-tree-node.selected > .tree-list-item {
 	background-color: #ffc;
 }
 
-.tree-list-item .ergo-text-editor {
+.tree-list-item .e-text-editor {
 	margin: 2px 0;
 }
 

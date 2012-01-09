@@ -12,17 +12,17 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.
 	
 //	$html: function() { return '<div></div>'; },
 	
-//	defaultCls: 'ergo-tab-panel',
+//	defaultCls: 'e-tab-panel',
 	
 	defaults: {
-		baseCls: 'ergo-tab-panel',
+		baseCls: 'e-tab-panel',
 		tabPosition: 'top',
 		components: {
 			tabs: {
 				weight: 1,
 				etype: 'tabs',
 				defaultItem: {
-					cls: 'ergo-bg-3 ergo-border-all',// ergo-corner-top',
+					cls: 'e-bg-3 e-border-all',// e-corner-top',
 					content: {
 						etype: 'text-item'
 //						selectable: false
@@ -37,13 +37,13 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.
 			tabFooter: {
 				weight: 2,
 				etype: 'box',
-				cls: 'ergo-tab-footer'// ergo-border-top ergo-border-bottom'// ergo-border-no-bottom'
+				cls: 'e-tab-footer'// e-border-top e-border-bottom'// e-border-no-bottom'
 			},
 			pages: {
 				weight: 3,
 				etype: 'box',
 				layout: 'stack',
-				cls: 'ergo-tab-pages',
+				cls: 'e-tab-pages',
 				defaultItem: {
 					
 				}
@@ -114,8 +114,8 @@ Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.
 		}
 		
 		if('tabPosition' in o){
-			this.tabs.opt('cls', o.tabPosition);
-			this.pages.opt('cls', o.tabPosition);
+			this.tabs.el.addClass(o.tabPosition);
+			this.pages.el.addClass(o.tabPosition);
 		}
 		
 	},

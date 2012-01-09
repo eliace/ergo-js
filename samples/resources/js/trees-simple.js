@@ -3,7 +3,7 @@ $.ergo({
   etype: 'panel',
   title: 'Basic tree',
   renderTo: '.preview',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   
   width: 400,
   height: 300,
@@ -11,7 +11,7 @@ $.ergo({
   
   content: {
     etype: 'tree',
-    cls: 'simple-tree ergo-text-content',
+    cls: 'simple-tree e-text-content',
     
     autoHeight: true,
     

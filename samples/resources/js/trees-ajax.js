@@ -78,7 +78,7 @@ $.ergo({
           var subtree = this.data.entry('children');
           
           if(!this.options.isLeaf && !subtree._fetched) {
-            this.content.text.opt('icon', 'ergo-icon-loader');
+            this.content.text.opt('icon', 'e-icon-loader');
             
             e.cancel();
             

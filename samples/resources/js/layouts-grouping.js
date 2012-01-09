@@ -42,12 +42,12 @@ $.ergo({
   renderTo: '.preview',
   width: 400,
   title: 'Плоский список',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   content: {
     etype: 'box',
     data: listData,
     dynamic: true,
-    cls: 'ergo-text-content',
+    cls: 'e-text-content',
     
     defaultItem: {
       etype: 'text-item',
@@ -123,13 +123,13 @@ var w = $.ergo({
   renderTo: '.preview',
   width: 400,
   title: 'Сгруппированный список (GroupLayout)',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   style: {'margin-top': 10},
   content: {
     etype: 'box',
     data: baseDataSource,
     dynamic: true,
-    cls: 'ergo-text-content',
+    cls: 'e-text-content',
     layout: new groupLayout,
     
     defaultItem: {
@@ -223,13 +223,13 @@ w = $.ergo({
   renderTo: '.preview',
   width: 400,
   title: 'Сгруппированный список (GroupLayout)',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   style: {'margin-top': 10},
   content: {
     etype: 'box',
     data: baseDataSource,
     dynamic: true,
-    cls: 'ergo-text-content',
+    cls: 'e-text-content',
     layout: new groupLayout2(),
     
     defaultItem: {
@@ -379,13 +379,13 @@ $.ergo({
   renderTo: '.preview',
   width: 400,
   title: 'Сгруппированный список (GroupData)',
-  cls: 'ergo-border-all',
+  cls: 'e-border-all',
   style: {'margin-top': 10},
   content: {
     etype: 'box',
     data: groupView,
     dynamic: true,
-    cls: 'ergo-text-content',
+    cls: 'e-text-content',
     
     defaultItem: {
       etype: 'box',
