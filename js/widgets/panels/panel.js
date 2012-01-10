@@ -7,6 +7,8 @@
 
 
 /**
+ * Панель
+ * 
  * @class
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget

@@ -61,14 +61,14 @@ Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.eve
 
 
 
-/*
+/**
  * Диспетчер событий
  * 
  * @class
+ * @name Ergo.events.Dispatcher
  * @extends Ergo.core.Object
- * 
  */
-Ergo.events.Dispatcher = Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
+Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
 	initialize: function(target) {
 		this.events = {}; 

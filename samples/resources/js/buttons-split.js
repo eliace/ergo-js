@@ -51,59 +51,7 @@ $.ergo({
   etype: 'box',
   renderTo: '.preview',
   cls: 'button-container',
-  items: [/*{
-    etype: 'split-button',
-    components: {
-      actionButton: {
-        innerText: 'Africa',
-        width: 80
-      },
-      listButton: {
-        width: 24
-      }
-    },
-    onAction: function(e) {
-      growl.info('Clicked ' + this.selectedItem.tag);
-    },
-    list: [{
-      text: 'Африка',
-      tag: 'africa'
-    }, {
-      text: 'Азия',
-      tag: 'asia'
-    }, {
-      text: 'Европа',
-      tag: 'europe'
-    }, {
-      text: 'Америка',
-      tag: 'america'
-    }]
-    
-  }, {
-    etype: 'button',
-    style: {'padding-right': 2},
-    content: {
-      etype: 'box',
-      layout: 'float',
-      items: [{
-        etype: 'icon',
-        cls: 'silk-icon-user'
-      }, {
-        etype: 'box',
-        innerText: 'Press me',
-        style: {'margin': '0 3px'}
-      }, {
-        etype: 'box',
-        cls: 'e-split',
-        style: {'margin-left': '3px'},
-        width: 2,
-        height: 16
-      }, {
-        etype: 'icon',
-        cls: 'e-icon-spinner-down'        
-      }]
-    }
-  }, */{
+  items: [{
     etype: 'dropdown-button',
     xicon: 'ui-icon ui-icon-triangle-1-s',
     binding: function(obj) {

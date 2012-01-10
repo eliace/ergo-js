@@ -5,7 +5,7 @@
 
 /**
  * @class
- * @extends Ergo.containers.ListBox
+ * @extends Ergo.widgets.Box
  */
 Ergo.widgets.LoadingPane = Ergo.declare('Ergo.widgets.LoadingPane', 'Ergo.widgets.Box', /** @lends Ergo.widgets.LoadingOverlay.prototype */{
 	

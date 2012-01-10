@@ -217,6 +217,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				delete c._cname;
 //				self.addComponent(c, i);
 				c = self.items.add(c, i, w);
+				c.name = i;
 //				c.opt('tag', i);
 //				self[i] = c;
 			});
@@ -579,17 +580,33 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	},	
 	
 	
+	/**
+	 * Получение следующего соседнего элемента, если виджет является элементом коллекции
+	 */
 	next: function() {
 		if(!this.parent) return null;
 		return this.parent.items.get(this.index+1);
 	},
 	
+	/**
+	 * Получение предыдущего соседнего элемента, если виджет является элементом коллекции
+	 */
 	prev: function() {
 		if(!this.parent) return null;
 		return this.parent.items.get(this.index-1);
 	},
 	
-	
+	/**
+	 * Поиск элемента
+	 * 
+	 * @param {int|string|class|Function|Object} индекс|имя|класс|фильтр|шаблон
+	 * 
+	 * w.item(2) - находит элемент с индексом 2
+	 * w.item('header') - находит элемент с именем "header"
+	 * w.item(Ergo.widgets.MyWidget) - элемент класса Ergo.widgets.MyWidget
+	 * w.item({tag: 'hello'}) - элемент, у которого свойство "tag" равно "hello"
+	 *  
+	 */
 	item: function(i) {
 		return this.items.find(Ergo.filters.by_widget(i));		
 	},

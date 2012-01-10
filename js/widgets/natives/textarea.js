@@ -2,13 +2,15 @@
 //= require <core/widget>
 
 /**
- * TextArea
+ * Поле многострочного ввода текста
+ * 
+ * Обертка для тега <textarea/>
  * 
  * @class
- * @name Ergo.widgets.form.TextArea
- * @extends Ergo.widgets.form.TextField
+ * @name Ergo.widgets.TextArea
+ * @extends Ergo.widgets.TextInput
  */
-Ergo.declare('Ergo.widgets.TextArea', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.form.TextArea.prototype */{
+Ergo.declare('Ergo.widgets.TextArea', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.TextArea.prototype */{
 	
 	defaults: {
 		html: '<textarea></textarea>'

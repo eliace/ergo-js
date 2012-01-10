@@ -4,7 +4,7 @@
 
 /**
  * @class
- * @extends Ergo.containers.List
+ * @extends Ergo.widgets.Box
  */
 Ergo.widgets.Tabs = Ergo.declare('Ergo.widgets.Tabs', 'Ergo.widgets.Box', /** @lends Ergo.containers.Tabs.prototype */{
 	

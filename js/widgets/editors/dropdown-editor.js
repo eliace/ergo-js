@@ -1,4 +1,5 @@
 
+//= require <widgets/list-box>
 //= require "text-editor"
 
 
@@ -29,7 +30,7 @@ Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 	      cls: 'e-border-all e-dropdown-shadow',
 //				style: {'display': 'none'},
 				content: {
-					etype: 'list-view',
+					etype: 'list-box',
 					defaultItem: {
 						onClick: function() {
 							this.getParent(Ergo.widgets.DropdownEditor).setSelectedItem(this);															
@@ -177,6 +178,7 @@ Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.TextEditor', {
 		this.dropdown.content.selection.set(item);
 		this.events.fire('onSelect', {target: item});
 		this.setValue( item );//o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
+  	this.$dataChanged();
   	this.hideDropdown();
 	},
 	

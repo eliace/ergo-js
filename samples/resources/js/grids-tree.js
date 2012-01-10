@@ -60,7 +60,7 @@ var w = $.ergo({
   }
 });  
 
-
+/*
 var w = $.ergo({
 	etype: 'button',
 	renderTo: '.preview',
@@ -69,3 +69,4 @@ var w = $.ergo({
 		tgTreeData.set([]);
 	}
 });
+*/

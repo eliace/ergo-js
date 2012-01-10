@@ -3,11 +3,15 @@
 
 
 /**
+ * Метка
+ * 
+ * Обертка для тега <label/>
+ * 
  * @class
- * @name Ergo.widgets.form.Label
+ * @name Ergo.widgets.Label
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Label.prototype */{
+Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.Label.prototype */{
 
 	defaults: {
 		html: '<label/>'

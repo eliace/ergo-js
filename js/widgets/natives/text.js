@@ -2,7 +2,16 @@
 //= require <core/widget>
 
 
-Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', {
+/**
+ * Текст
+ *
+ * Обертка для тега <span/>
+ * 
+ * @class
+ * @name Ergo.widgets.Text
+ * @extends Ergo.core.Widget
+ */
+Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Text.prototype */{
 	
 	defaults: {
 		html: '<span/>',

@@ -2,6 +2,16 @@
 //= require <core/widget>
 
 
+
+/**
+ * Кнопка
+ * 
+ * Обертка для тега <button/>
+ * 
+ * @class
+ * @name Ergo.widgets.Button
+ * @extends Ergo.core.Widget
+ */
 Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
 	
 	defaults: {

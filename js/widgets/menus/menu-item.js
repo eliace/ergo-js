@@ -1,5 +1,5 @@
 
-//= require <widgets/containers/dropdown-list>
+//= require <widgets/dropdown-box>
 //= require <widgets/natives/all>
 //= require <widgets/images/all>
 
@@ -29,7 +29,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 				state: 'hidden'
 			},
 			submenu: {
-				etype: 'menu-dropdown-list',
+				etype: 'menu-dropdown-box',
 				dataId: 'children',
 				binding: function(val) {
 					if(val && val.length > 0) this.parent.states.set('submenu');
@@ -174,7 +174,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 			this.events.fire('onSubmenuHide');
 		}
 		if(hideAll) {
-			if(this.parent instanceof Ergo.widgets.MenuDropdownList) this.parent.hideAll();
+			if(this.parent instanceof Ergo.widgets.MenuDropdownBox) this.parent.hideAll();
 		}
 //		if(hideAll) {// && this.options.isLeaf)
 //			var parentMenuItem = this.getParent(Ergo.widgets.MenuItem);
@@ -193,7 +193,7 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 
 
 
-Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.widgets.DropdownList', {
+Ergo.declare('Ergo.widgets.MenuDropdownBox', 'Ergo.widgets.DropdownBox', {
 	
 //	defaultCls: 'e-menu-dropdown',
 	
@@ -260,7 +260,7 @@ Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.widgets.DropdownList', {
 	
 	
 	
-}, 'menu-dropdown-list');
+}, 'menu-dropdown-box');
 
 
 

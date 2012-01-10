@@ -3,7 +3,7 @@
 
 /**
  * @class
- * @extends Ergo.core.Container
+ * @extends Ergo.widgets.Panel
  */
 Ergo.declare('Ergo.widgets.GroupPanel', 'Ergo.widgets.Panel', {
 	

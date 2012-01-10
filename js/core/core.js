@@ -1119,7 +1119,7 @@ Ergo.filters = (function(){
 		var f = null;
 		
 		if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = F.by_props.curry({'_name': i});
+		else if( $.isString(i) ) f = F.by_props.curry({'name': i});
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;

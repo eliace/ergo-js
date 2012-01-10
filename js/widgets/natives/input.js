@@ -3,8 +3,16 @@
 
 
 
-
-Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.InputField.prototype */{
+/**
+ * Поле ввода
+ * 
+ * Базовый элемент для всех элементов ввода.
+ * 
+ * @class
+ * @name Ergo.widgets.Input
+ * @extends Ergo.core.Widget
+ */
+Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.Input.prototype */{
 	
 	defaults: {
 		html: '<input type="text"/>',
@@ -32,7 +40,16 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.f
 
 
 
-Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.PasswordField.prototype */{
+/**
+ * Поле текстового ввода
+ * 
+ * Обертка для тега <input/>
+ * 
+ * @class
+ * @name Ergo.widgets.TextInput
+ * @extends Ergo.core.Widget
+ */
+Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.widgets.TextInput.prototype */{
 
 	defaults: {
 		events: {
@@ -105,13 +122,15 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 
 
 /**
- * Поле текстового ввода
+ * Поле ввода пароля
+ * 
+ * Обертка для тега <input type="pasword"/>
  * 
  * @class
- * @name Ergo.widgets.form.PasswordField
- * @extends Ergo.widgets.form.InputField
+ * @name Ergo.widgets.Password
+ * @extends Ergo.widgets.TextInput
  */
-Ergo.declare('Ergo.widgets.Password', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.form.PasswordField.prototype */{
+Ergo.declare('Ergo.widgets.Password', 'Ergo.widgets.TextInput', /** @lends Ergo.widgets.Password.prototype */{
 	
 	defaults: {
 		html: '<input type="password"/>'
@@ -120,38 +139,38 @@ Ergo.declare('Ergo.widgets.Password', 'Ergo.widgets.TextInput', /** @lends Ergo.
 }, 'password');
 
 
-Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.Input', {
+
+
+
+/**
+ * Кнопка отправки формы (submit)
+ * 
+ * Обертка для тега <input type="password"/>
+ * 
+ * @class
+ * @name Ergo.widgets.Submit
+ * @extends Ergo.widgets.Input
+ */
+
+Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.TextInput', {
 	
 	defaults: {
 		html: '<input type="submit"/>'
-	},
-	
-	$init: function(o) {
-		this.$super(o);
-//		Ergo.widgets.Submit.superclass.$init.call(this, o);
-		
-		var self = this;
-		
-		this.el.click(function(e){
-			self.events.fire('onAction', {}, e);
-		});
-		
-//		var button_type = this.options.buttonType || 'button';// ('buttonType' in this.options) this.el.attr('type', this.options.buttonType);
-//		this.el.attr('type', button_type);
-		
 	}
-	
+		
 }, 'submit');
 
 
 /**
  * Файл
+ * 
+ * Обертка для тега <input type="file"/>
  *
  * @class
- * @name Ergo.widgets.form.File
- * @extends Ergo.widgets.form.InputField
+ * @name Ergo.widgets.File
+ * @extends Ergo.widgets.TextInput
  */
-Ergo.declare('Ergo.widgets.File', Ergo.widgets.TextInput, {
+Ergo.declare('Ergo.widgets.File', 'Ergo.widgets.TextInput', {
 	
 	defaults: {
 		html: '<input name="file" type="file"/>'
@@ -171,11 +190,13 @@ Ergo.declare('Ergo.widgets.File', Ergo.widgets.TextInput, {
 /**
  * Checkbox
  * 
+ * Обертка для тега <input type="checkbox"/>
+ * 
  * @class
- * @name Ergo.widgets.form.Checkbox
- * @extends Ergo.widgets.form.InputField
+ * @name Ergo.widgets.Checkbox
+ * @extends Ergo.widgets.Input
  */
-Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widgets.form.Checkbox.prototype */{
+Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widgets.Checkbox.prototype */{
 	
 	defaults: {
 		html: '<input type="checkbox"/>',
@@ -223,11 +244,13 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 /**
  * Radio
  * 
+ * Обертка для тега <input type="radio"/>
+ * 
  * @class
- * @name Ergo.widgets.form.Radio
- * @extends Ergo.widgets.form.InputField
+ * @name Ergo.widgets.Radio
+ * @extends Ergo.widgets.Checkbox
  */
-Ergo.declare('Ergo.widgets.Radio', 'Ergo.widgets.Checkbox', /** @lends Ergo.widgets.form.Radio.prototype */{
+Ergo.declare('Ergo.widgets.Radio', 'Ergo.widgets.Checkbox', /** @lends Ergo.widgets.Radio.prototype */{
 	
 	defaults: {
 		html: '<input type="radio"/>'
@@ -237,19 +260,5 @@ Ergo.declare('Ergo.widgets.Radio', 'Ergo.widgets.Checkbox', /** @lends Ergo.widg
 
 
 
-
-
-
-Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.TextInput', {
-	
-	defaults: {
-		html: '<input type="submit"/>'
-	}
-	
-//	$opt: function(o) {
-//		Ergo.widgets.Submit.superclass.$opt.call(this, o);
-//	}
-	
-}, 'submit');
 
 

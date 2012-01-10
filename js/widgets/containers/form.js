@@ -1,25 +1,6 @@
 
 
 
-/*
-Ergo.declare('Ergo.widgets.FormItem', 'Ergo.containers.List', {
-	
-	
-	$init: function(o) {
-		Ergo.widgets.FormItem.superclass.$init.apply(this, arguments);		
-
-		this.label = Ergo.widget({
-			etype: 'label',
-			text: o.label
-		});
-		this.addItem(this.label, 0);	
-	
-	}
-	
-}, 'form-item')
-*/
-
-
 
 
 

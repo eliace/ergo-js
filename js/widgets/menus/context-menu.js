@@ -6,9 +6,9 @@
 
 /**
  * @class
- * @extends Ergo.containers.DropdownList
+ * @extends Ergo.widgets.MenuDropdownBox
  */
-Ergo.widgets.ContextMenu = Ergo.declare('Ergo.widgets.ContextMenu', 'Ergo.widgets.MenuDropdownList', /** @lends Ergo.widgets.ContextMenu.prototype */{
+Ergo.widgets.ContextMenu = Ergo.declare('Ergo.widgets.ContextMenu', 'Ergo.widgets.MenuDropdownBox', /** @lends Ergo.widgets.ContextMenu.prototype */{
 	
 	defaults: {
 //		hideOn: 'hoverOut',

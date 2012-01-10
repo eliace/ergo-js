@@ -1,7 +1,7 @@
 
 //= require "text-field"
 //= require <widgets/dropdown-box>
-//= require <widgets/list-view>
+//= require <widgets/list-box>
 //= require <widgets/buttons/icon-button>
 
 
@@ -41,7 +41,7 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 	      cls: 'e-border-all e-dropdown-shadow',
 //				style: {'display': 'none'},
 				content: {
-					etype: 'list-view',
+					etype: 'list-box',
 					defaultItem: {
 						onClick: function() {
 							this.getParent(Ergo.widgets.DropdownField).setSelectedItem(this);							
@@ -192,6 +192,7 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 		this.dropdown.content.selection.set(item);
 		this.events.fire('onSelect', {target: item});
 		this.setValue( item );//o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
+  	this.$dataChanged();
   	this.hideDropdown();
 	},
 	

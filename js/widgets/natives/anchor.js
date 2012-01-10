@@ -2,11 +2,15 @@
 //= require <core/widget>
 
 /**
+ * Якорь
+ * 
+ * Обертка для тега <anchor/>
+ * 
  * @class
- * @name Ergo.widgets.form.Anchor
+ * @name Ergo.widgets.Anchor
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.Anchor.prototype */{
+Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.Anchor.prototype */{
 	
 	defaults: {
 		html: '<a href="#" click="return false" />'

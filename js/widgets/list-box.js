@@ -3,15 +3,16 @@
 
 
 /**
+ * Список
+ * 
  * @class
- * @extends Ergo.containers.ListView
+ * @name Ergo.widgets.ListBox
+ * @extends Ergo.widgets.Box
  */
-Ergo.declare('Ergo.widgets.ListView', 'Ergo.widgets.Box', {
-	
-//	defaultCls: 'e-list-view',
+Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-list-view',
+		baseCls: 'e-list-box',
 		dynamic: true,
 		extensions: ['selectable'],
 		defaultItem: {
@@ -20,7 +21,7 @@ Ergo.declare('Ergo.widgets.ListView', 'Ergo.widgets.Box', {
 		}
 	}	
 	
-}, 'list-view');
+}, 'list-box');
 
 
 

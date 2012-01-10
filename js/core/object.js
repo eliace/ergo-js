@@ -2,6 +2,13 @@
 //= require "core"
 
 
+
+/**
+ * Объект
+ *
+ * @class
+ * 
+ */
 Ergo.core.Object = function() {
 	this.initialize.apply(this, arguments);
 };

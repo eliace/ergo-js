@@ -3,11 +3,15 @@
 
 
 /**
+ * Элемент выбора
+ * 
+ * Обертка для тега <option/>
+ * 
  * @class
- * @name Ergo.widgets.form.SelectOption
+ * @name Ergo.widgets.SelectOption
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.widgets.form.SelectOption.prototype */{
+Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.widgets.SelectOption.prototype */{
 	
 	defaults: {
 		html: '<option/>'
@@ -29,11 +33,15 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
 
 
 /**
+ * Поле выбора
+ * 
+ * Обертка для тега <select/>
+ * 
  * @class
- * @name Ergo.widgets.form.Select
- * @extends Ergo.core.Container
+ * @name Ergo.widgets.Select
+ * @extends Ergo.widgets.Input
  */
-Ergo.declare('Ergo.widgets.Select', 'Ergo.widgets.Input', /** @lends Ergo.widgets.form.Select.prototype */{
+Ergo.declare('Ergo.widgets.Input', 'Ergo.widgets.Input', /** @lends Ergo.widgets.Select.prototype */{
 	
 //	$html: function() { return '<select/>'; },
 	

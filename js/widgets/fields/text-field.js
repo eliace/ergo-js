@@ -60,13 +60,16 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 			var empty_val = (val === '' || val === null || val === undefined);
 			this.states.toggle('placeholder', empty_val && o.placeholder);
 			return (empty_val) ? o.placeholder : val;
+		},
+		
+		get: {
+			'text': function() { return this.input.el.val(); }
 		}
-	},
-	
-	
-	getText: function() {
-		return this.input.el.val();
 	}
+	
+	// getText: function() {
+		// return this.input.el.val();
+	// }
 	
 //	$opt: function(o) {
 //		Ergo.widgets.TextField.superclass.$opt.apply(this, arguments);

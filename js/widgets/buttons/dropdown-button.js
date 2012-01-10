@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.TextButton', {
 	defaults: {
 		components: {
 			dropdown: {
-				etype: 'menu-dropdown-list',
+				etype: 'menu-dropdown-box',
 				style: {'display': 'none'},
 				hideOn: 'outerClick',
 //				renderTo: 'body',

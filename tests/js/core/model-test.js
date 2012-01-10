@@ -54,24 +54,5 @@ test('core/model', function(){
 	
 	
 	
-	var msg;
-	
-	var w = $.ergo({
-		etype: 'box',
-		data: c,
-		dynamic: true,
-		defaultItem: {
-			content: {
-				dataId: 'age',					
-				onValueInvalid: function(e) {
-					msg = e.message;
-				}
-			}
-		},
-	});
-	
-	w.item(0).content.setValue(-2);
-	
-	equals(msg, 'Invalid value: [-2]', 'При задании некорректного значения должно создаваться событие onValueInvalid');
 	
 });	

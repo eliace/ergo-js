@@ -2,7 +2,11 @@
 //= require <core/widget>
 
 
-
+/**
+ * Редактирование
+ * 
+ * @name Ergo.extensions.Editable
+ */
 Ergo.extension('Ergo.extensions.Editable', function(o) {
 
 

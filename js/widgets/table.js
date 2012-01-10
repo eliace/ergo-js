@@ -133,7 +133,7 @@ Ergo.widgets.Table = Ergo.declare('Ergo.widgets.Table', 'Ergo.core.Widget', /** 
 
 /**
  * @class
- * @extends Ergo.core.Container
+ * @extends Ergo.core.Widget
  */
 Ergo.widgets.TableRow = Ergo.declare('Ergo.widgets.TableRow', 'Ergo.core.Widget', /** @lends Ergo.widgets.TableRow.prototype */{
 	

@@ -6,7 +6,7 @@
 
 /**
  * @class
- * @extends Ergo.containers.List
+ * @extends Ergo.widgets.Box
  */
 Ergo.widgets.Pager = Ergo.declare('Ergo.widgets.Pager', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Pager.prototype */{
 	

@@ -1,22 +1,22 @@
 
 
-.e-list-view {
+.e-list-box {
 	background-color: #fff;
 	overflow-y: auto;
 }
 
 
 
-.e-list-view > .e-list-item {
+.e-list-box > .e-list-item {
 	display: block;
 	padding: 0 3px;
 }
 
-.e-list-view > .e-list-item:hover {
+.e-list-box > .e-list-item:hover {
 	background-color: #f4f4f4;;
 }
 
-.e-list-view > .e-list-item.selected {
+.e-list-box > .e-list-item.selected {
 	background-color: #ffc;/*#bdf;*/
 }
 

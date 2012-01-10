@@ -36,8 +36,7 @@ $.ergo({
       dataId: 'text1',
       etype: 'text-field',
       cls: 'e-form-field',
-      placeholder: 'Введите число...',
-      validate: Ergo.validators.floatNumber
+      placeholder: 'Введите число...'
     }
   },{
     label: 'Поле с кнопкой (форма)',

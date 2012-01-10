@@ -2,9 +2,12 @@
 //= require <core/widget>
 
 /**
- * Изображение.
+ * Изображение
+ * 
+ * Обертка для тега <img/>
  * 
  * @class
+ * @name Ergo.widgets.Image
  * @extends Ergo.core.Widget
  */
 Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', Ergo.core.Widget, /** @lends Ergo.widgets.Image.prototype */{

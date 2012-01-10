@@ -3,12 +3,16 @@
 //= require <widgets/text-item>
 //= require <layouts/stack>
 
+
+
 /**
+ * Панель закладок
+ * 
  * @class
- * @name Ergo.panels.TabPanel
+ * @name Ergo.widgets.TabPanel
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.panels.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.panels.TabPanel.prototype */{
+Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.TabPanel.prototype */{
 	
 //	$html: function() { return '<div></div>'; },
 	

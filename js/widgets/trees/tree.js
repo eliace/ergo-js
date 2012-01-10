@@ -9,7 +9,7 @@
  * Простое дерево с отступами.
  * 
  * @class
- * @extends Ergo.containers.List
+ * @extends Ergo.widgets.Box
  */
 Ergo.widgets.Tree = Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Tree.prototype */{
 	

@@ -96,56 +96,6 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
 
 
 
-/*
-Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Container', {
-	
-	defaults: {
-		html: '<table cellspacing="0"></table>',
-		style: {'border-collapse': 'collapse', 'table-layout': 'fixed'},
-		width: '100%',
-		dynamic: true,
-		defaultItem: {
-			etype: 'table-row'
-		},
-		components: {
-			cols: {
-				etype: 'table-row'
-			}
-		},
-		gridModel: {
-			row: {},
-			cell: {},
-			columns: []
-		}
-	},
-	
-	
-	$init: function(o) {
-		this.$super(o);
-//		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
-		
-		var cols = [];
-		Ergo.each(o.gridModel.columns, function(col){
-			var w = ('width' in col) ? {width: col.width} : {};
-			delete col.width;
-			cols.push(w);
-		});
-		
-		Ergo.smart_override(o.defaultItem, o.gridModel.row, {defaultItem: o.gridModel.cell, items: o.gridModel.columns});
-		Ergo.smart_override(o.components.cols, {items: cols});		
-		
-	}
-	
-	// row: function(i) {
-		// return this.item(i);
-	// }
-	
-	
-	
-}, 'grid');
-
-*/
-
 
 
 

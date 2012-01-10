@@ -8,7 +8,7 @@
 
 /**
  * @class
- * @extends Ergo.containers.ListBox
+ * @extends Ergo.widgets.Panel
  */
 Ergo.widgets.Dialog = Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', /** @lends Ergo.widgets.Dialog.prototype */{
 	
