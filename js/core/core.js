@@ -45,8 +45,9 @@ var Ergo = (function(){
 			var overrides = arguments[j];
 			for(var i in overrides){
 				var prop = overrides[i];
-				if($.isPlainObject(prop)){
-					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
+				if(p && p.constructor == Object){ //$.isPlainObject(prop)){
+//					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
+					if(!(i in obj) || obj[i].constructor != Object) obj[i] = {};
 					  E.override_r(obj[i], prop);
 				}
 				else{
@@ -575,11 +576,13 @@ var Ergo = (function(){
 	E.deep_copy = function(src) {
 		var copy = null;
 		
-		var is_po = $.isPlainObject(src);
-		if(is_po || $.isArray(src)){
+//		var is_po = $.isPlainObject(src);
+//		if(is_po || $.isArray(src)){
+		var is_po = (src && src.constructor == Object);
+		if( src && (is_po || src.constructor == Array)) {
 			copy = is_po ? {} : [];
 			for(var i in src)
-				copy[i] = E.deep_copy(src[i]);				
+				copy[i] = E.deep_copy(src[i]);
 //			E.each(src, function(item, i){
 //				copy[i] = E.deep_copy(item);
 //			});
@@ -971,10 +974,21 @@ var Ergo = (function(){
 		}
 		
 		
-	}
+	};
 	
 	
 	
+	
+	
+	E.glass_pane = function() {
+		
+		return $('<div class="e-glass-pane" autoHeight="ignore"/>')
+			.on('mousedown', function(e){
+				e.preventDefault();
+				return false;				
+			});
+		
+	};
 	
 	
 	
@@ -1129,7 +1143,7 @@ Ergo.filters = (function(){
 
 Ergo.keep_keys = false;
 
-Ergo.overrideProp = function(o, srcObj, i) {
+Ergo.smart_override_prop = function(o, srcObj, i) {
 
 	var p = srcObj[i];
 
@@ -1177,12 +1191,14 @@ Ergo.overrideProp = function(o, srcObj, i) {
 	}
 	else{
 		//TODO здесь создается полная копия (deep copy) объекта-контейнера
-		if( $.isPlainObject(p) ){
-			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+		if( p && p.constructor == Object ) {//$.isPlainObject(p) ){
+//			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+			if(!(i in o) || o[i].constructor != Object) o[i] = {};
 			Ergo.smart_override(o[i], p);
 		}
-		else if( $.isArray(p) ){
-			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+		else if( p && p.constructor == Array ){//$.isArray(p) ){
+//			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+			if(!(i in o) || o[i].constructor != Array) o[i] = [];
 			Ergo.smart_override(o[i], p);
 		}
 		else {
@@ -1228,7 +1244,7 @@ Ergo.smart_override = function(o) {
 //		else {
 	
 		for(var i in srcObj)
-			Ergo.overrideProp(o, srcObj, i);				
+			Ergo.smart_override_prop(o, srcObj, i);				
 	
 //		}		
 	}
@@ -1249,12 +1265,14 @@ Ergo.deep_override = function(o) {
 		var srcObj = arguments[j];
 		
 		Ergo.each(srcObj, function(p, i){
-			if( $.isPlainObject(p) ){
-				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+			if( p && p.constructor == Object ){//$.isPlainObject(p) ){
+//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+				if(!(i in o) || o[i].constructor != Object) o[i] = {};
 				Ergo.deep_override(o[i], p);
 			}
-			else if( $.isArray(p) ){
-				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+			else if( p && p.constructor == Array ) {//$.isArray(p) ){
+//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+				if(!(i in o) || o[i].constructor != Array) o[i] = [];
 				Ergo.deep_override(o[i], p);
 			}
 			else {

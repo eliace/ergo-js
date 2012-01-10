@@ -724,7 +724,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				self.layout.immediateRebuild = false;
 	
 				// уничтожаем все элементы-виджеты
-				self.items.apply_all('destroy');
+//				self.items.apply_all('destroy');
+				self.items.each(function(item) { if(item.dynamic) item.destroy();  });
 				
 	//			var t0 = Ergo.timestamp();
 	
@@ -732,6 +733,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //					self.items.add({}).bind(dataEntry, true, 2);
 					var item = self.items.add({ 'data': dataEntry });//.bindRoot = false;
 					item.bindRoot = false;
+					item.dynamic = true;
 //					item.el.attr('dynamic', true);
 //					item.dataPhase = 2;
 				});
@@ -750,12 +752,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 			this.layout.immediateRebuild = false;
 					
-			this.items.apply_all('destroy');
+//			this.items.apply_all('destroy');
+			this.items.each(function(item) { if(item.dynamic) item.destroy();  });
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					var item = self.items.add({ 'data': dataEntry, 'autoUpdate': false });
 					item.bindRoot = false;
+					item.dynamic = true;
 //					item.el.attr('dynamic', true);
 			});
 	
@@ -819,35 +823,40 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			if(o.store) 
 				val = o.store.call(this, val);
 			
-			var valid = true;
-			var context = {};
-							
-			if(o.validate) {				
-				valid = o.validate.call(this, val, context);
-			}
+			// var valid = true;
+			// var context = {};
+// 							
+			// if(o.validate) {
+				// valid = o.validate.call(this, val, context);
+			// }
 			
-			if(valid) {
-				try{
-					this.lock_data_change = true;
-					this.data.set(val);
-					delete this.lock_data_change;
-				}
-				catch(err) {
-					context.message = err.message;
-					valid = false;
-				}
-			}
+			// if(valid) {
+				// try{
+					// this.lock_data_change = true;
+					// this.data.set(val);
+					// delete this.lock_data_change;
+				// }
+				// catch(err) {
+					// context.message = err.message;
+					// valid = false;
+				// }
+			// }
+
+			this.lock_data_change = true;
+			this.data.set(val);
+			delete this.lock_data_change;
 				 
-			
-			if(valid) {
-				this.states.clear('invalid');
-				this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
-			}
-			else {
-				context.value = val;
-				this.states.set('invalid');
-				this.events.fire('onValueInvalid', context);
-			}
+			this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
+		
+			// if(valid) {
+				// this.states.clear('invalid');
+				// this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
+			// }
+			// else {
+				// context.value = val;
+				// this.states.set('invalid');
+				// this.events.fire('onValueInvalid', context);
+			// }
 		}
 	},
 	

@@ -10,7 +10,7 @@
 }
 
 
-.e-grid-control-row > td {
+.e-grid-row.control > td {
 	padding: 0;
 }
 

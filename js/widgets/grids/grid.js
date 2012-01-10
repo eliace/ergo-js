@@ -6,6 +6,8 @@
  * 
  * @class
  */
+
+/*
 Ergo.layouts.GridLayout = Ergo.declare('Ergo.layouts.GridLayout', 'Ergo.layouts.PlainLayout', {
 	
 	
@@ -37,7 +39,7 @@ Ergo.layouts.GridLayout = Ergo.declare('Ergo.layouts.GridLayout', 'Ergo.layouts.
 	
 	
 }, 'grid-layout');
-
+*/
 
 
 
@@ -50,9 +52,17 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
 		html: '<table cellspacing="0"></table>',
 		style: {'border-collapse': 'collapse', 'table-layout': 'fixed'},
 		width: '100%',
-		layout: 'grid',
+//		layout: 'grid',
 		defaultItem: {
 			etype: 'table-row'
+		},
+		components: {
+			cols: {
+				etype: 'table-row',
+				baseCls: 'control',
+				height: 0,
+				weight: -10
+			}			
 		},
 		columns: []
 	},
@@ -62,15 +72,15 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
 		this.$super(o);
 //		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
 		
-		// var cols = [];
-		// Ergo.each(o.columns, function(col){
-			// var w = ('width' in col) ? {width: col.width} : {};
-			// delete col.width;
-			// cols.push(w);
-		// });
+		var cols = [];
+		Ergo.each(o.columns, function(col){
+			var w = ('width' in col) ? {width: col.width} : {};
+			delete col.width;
+			cols.push(w);
+		});
 		
 		Ergo.smart_override(o.defaultItem, o.row, {defaultItem: o.cell, items: o.columns});
-//		Ergo.smart_override(o.components.cols, {items: cols});
+		Ergo.smart_override(o.components.cols, {items: cols});
 		
 	}
 	

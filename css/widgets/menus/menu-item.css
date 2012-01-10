@@ -28,6 +28,7 @@
 .e-menu-dropdown {
 	border: 1px solid #aaa;
 	background-color: #eee;
+	overflow-y: visible;
 /*	z-index: 2000;*/
 }
 

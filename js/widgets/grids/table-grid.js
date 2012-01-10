@@ -191,8 +191,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					
 					var i = depressed.column.index;
 
-					grid.body.content.layout.columns_el.children().eq(i).width(new_width);
-//					grid.body.content.cols.items.get(i).el.width(new_width);
+//					grid.body.content.layout.columns_el.children().eq(i).width(new_width);
+					grid.body.content.cols.items.get(i).el.width(new_width);
 					
 					grid.header.content.el.width(width);
 					grid.body.content.el.width(width);

@@ -198,11 +198,10 @@ Ergo.declare('Ergo.widgets.MenuDropdownList', 'Ergo.widgets.DropdownList', {
 //	defaultCls: 'e-menu-dropdown',
 	
 	defaults: {
-		baseCls: 'e-menu-dropdown',
-		cls: 'e-menu-shadow',
+		cls: 'e-menu-dropdown e-menu-shadow',
 		hideOn: 'hoverOut',
 		offset: [-1, 1],
-		style: {'overflow-y': 'visible'},
+//		style: {'overflow-y': 'visible'},
 		
 		dynamic: true,
 		defaultItem: {

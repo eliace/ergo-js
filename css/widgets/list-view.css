@@ -7,17 +7,16 @@
 
 
 
-.e-list-view > .list-item {
+.e-list-view > .e-list-item {
 	display: block;
 	padding: 0 3px;
 }
 
-.e-list-view > .list-item:hover {
+.e-list-view > .e-list-item:hover {
 	background-color: #f4f4f4;;
 }
 
-.e-list-view > .list-item.selected {
-	background-color: #bdf;
+.e-list-view > .e-list-item.selected {
+	background-color: #ffc;/*#bdf;*/
 }
-
 

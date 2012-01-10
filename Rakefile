@@ -55,15 +55,15 @@ end
 
 
 
-def compose_files(dest, source_files)
+def compose_files(dest, source_files, postfix='')
 	
 #	ver = %x[git tag -l].split.last
 	ver = '0.8.2'
 	
 #	@name = 'ergoo-' + ver
-	js_name = "ergo-js.js" #"ergo-#{ver}.js"
-	js_name_min = "ergo-js.min.js" #"ergo-#{ver}.min.js"
-	css_name = "ergo-js.css"
+	js_name = "ergo-js#{postfix}.js" #"ergo-#{ver}.js"
+	js_name_min = "ergo-js#{postfix}.min.js" #"ergo-#{ver}.min.js"
+	css_name = "ergo-js#{postfix}.css"
 	
 	@target_path = Pathname.new(dest);
 	@js_path = Pathname.new('js')
@@ -139,7 +139,7 @@ def compose_files(dest, source_files)
 	Kernel.system s
 
 	
-	FileUtils.cp_r 'themes/default', "#{dest}/theme"
+#	FileUtils.cp_r 'themes/default', "#{dest}/theme"
 	
 	
 	
@@ -174,38 +174,53 @@ end
 
 
 
-task :compose do
 
-	compose_files('build', ['js/**/*.js'])
-#	compose_files('build', ['js/widgets/buttons/*.js'])
+namespace :compose do
+
+
+
+  task :all do
+  
+  	compose_files('build', ['js/**/*.js'])
+  #	compose_files('build', ['js/widgets/buttons/*.js'])
+  
+  end
+  
+=begin
+  task :compose_win do
+  
+  	compose_files('build', ['js/**/*.js'])
+  #	compose_files('build', ['js/widgets/buttons/*.js'])
+  
+  end
+=end
+  
+  task :basic do
+  
+    compose_files 'build', ['js/widgets/natives/*.js'], '-basic'
+  # compose_files('build', ['js/widgets/buttons/*.js'])
+  
+  end
+  
+  
+  
+  task :custom, :target_dir, :paths do |t, args|
+  	
+  	source_paths = (args[:paths] || '').split.map {|s| 'js/'+s+'.js'}
+  	
+  	compose_files(args[:target_dir], ['js/core/widget.js']+source_paths)  #'build'['js/**/*.js'])
+  	
+  	
+  end
+  
+  
+  task :doc do
+    generate_doc 'build/ergo-js.js'
+  end 
+
+
 
 end
-
-
-task :compose_win do
-
-	compose_files('build', ['js/**/*.js'])
-#	compose_files('build', ['js/widgets/buttons/*.js'])
-
-end
-
-
-
-
-task :compose_custom, :target_dir, :paths do |t, args|
-	
-	source_paths = (args[:paths] || '').split.map {|s| 'js/'+s+'.js'}
-	
-	compose_files(args[:target_dir], ['core/container.js']+source_paths)  #'build'['js/**/*.js'])
-	
-	
-end
-
-
-task :doc do
-  generate_doc 'build/ergo-js.js'
-end 
-
 
 
 =begin
