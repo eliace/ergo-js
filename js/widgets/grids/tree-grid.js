@@ -18,19 +18,19 @@ Ergo.layouts.TreeGridLayout = Ergo.declare('Ergo.layouts.TreeGridLayout', 'Ergo.
 	attach: function(c) {
 		this.$super(c);
 		
-		if(!(c instanceof Ergo.core.Layout)) {
-			var row = $('<tr/>');
-			for(var i = 0; i < c.options.columns.length; i++) {
-				var col = c.options.columns[i];
-				var el = $('<td class="e-grid-cell"/>');
-				if('width' in col) el.width(col.width);
-				row.append(el);
-			}
-			
-			this.columns_el = row;
-			
-			this.el.append(this.columns_el);
-		}
+		// if(!(c instanceof Ergo.core.Layout)) {
+			// var row = $('<tr/>');
+			// for(var i = 0; i < c.options.columns.length; i++) {
+				// var col = c.options.columns[i];
+				// var el = $('<td class="e-grid-cell"/>');
+				// if('width' in col) el.width(col.width);
+				// row.append(el);
+			// }
+// 			
+			// this.columns_el = row;
+// 			
+			// this.el.append(this.columns_el);
+		// }
 		
 	},
 	

@@ -59,7 +59,7 @@ Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
 		components: {
 			cols: {
 				etype: 'table-row',
-				baseCls: 'control',
+				baseCls: 'e-grid-row control',
 				height: 0,
 				weight: -10
 			}			

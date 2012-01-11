@@ -2,10 +2,10 @@
 var tgTreeData = new Ergo.core.DataSource([]);
 
 
-$.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data) });
+$.getJSON('ajax/file_system.json', {}, function(data) { tgTreeData.set(data); w.$layoutChanged(); });
 
     
-var w = $.ergo({
+w = $.ergo({
   etype: 'tree-grid',
   renderTo: '.preview',
   cls: 'e-border-all',
@@ -59,6 +59,10 @@ var w = $.ergo({
     }]
   }
 });  
+
+
+
+
 
 /*
 var w = $.ergo({

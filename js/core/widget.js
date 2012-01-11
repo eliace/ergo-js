@@ -51,10 +51,14 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		},
 		events: {},
 		defaultItem: {},
+		defaultComponent: {},
 		defaultItemShortcuts: {},
 		itemFactory: function(o) {
 			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
+		},
+		componentFactory: function(o) {
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );			
 		},
 		showOnRender: false,
 		set: {
@@ -216,6 +220,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				delete c._cweight;
 				delete c._cname;
 //				self.addComponent(c, i);
+				c = o.componentFactory.call(self, c);
 				c = self.items.add(c, i, w);
 				c.name = i;
 //				c.opt('tag', i);
@@ -790,7 +795,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(o.updateOnValueChanged && !self.lock_data_change) self.$dataChanged();
+				if(o.updateOnValueChanged /*&& !self.lock_data_change*/) self.$dataChanged();
 			}, this);
 			
 		
@@ -859,9 +864,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				// }
 			// }
 
-			this.lock_data_change = true;
+//			this.lock_data_change = true;
 			this.data.set(val);
-			delete this.lock_data_change;
+//			delete this.lock_data_change;
 				 
 			this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
 		

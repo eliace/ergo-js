@@ -17,6 +17,9 @@ Ergo.declare('Ergo.widgets.Box', 'Ergo.core.Widget', {
 		html: '<div/>',
 		defaultItem: {
 			etype: 'box'
+		},
+		defaultComponent: {
+			etype: 'box'
 		}
 	}
 	

@@ -192,7 +192,7 @@ Ergo.declare('Ergo.widgets.DropdownField', 'Ergo.widgets.TextField', {
 		this.dropdown.content.selection.set(item);
 		this.events.fire('onSelect', {target: item});
 		this.setValue( item );//o.dataModel ? item.data.source.get(o.dataModel.id) : item.data.get() ); //<-- используем data.source, поскольку у элемента определяется dataId из dataModel
-  	this.$dataChanged();
+//  	this.$dataChanged();
   	this.hideDropdown();
 	},
 	
