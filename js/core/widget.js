@@ -947,7 +947,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		var binding = this.options.binding;
 
-		if(binding){
+		if(this.data && binding){
 			var val = this.getValue();
 			if( binding.call(this, val) === false) return;
 			

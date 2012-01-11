@@ -23,7 +23,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 		components: {
 			header: {
 				weight: 10,
-				baseCls: 'e-panel-header',
+				cls: 'e-panel-header',
 				etype: 'box',
 	      layout: {
 	        etype: 'dock-layout',
@@ -56,7 +56,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.P
 			},
 			content: {
 //				cls: 'e-panel-content',
-				baseCls: 'e-panel-content',
+				cls: 'e-panel-content',
 				weight: 20,
 				etype: 'box'
 			}

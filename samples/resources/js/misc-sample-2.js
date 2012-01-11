@@ -125,7 +125,7 @@ $.ergo({
             }
           }]
         }, {
-          etype: 'list-view',
+          etype: 'list-box',
           tag: 'full',
           dynamic: true,
           extensions: ['selectable'],

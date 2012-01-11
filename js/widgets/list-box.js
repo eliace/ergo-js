@@ -1,5 +1,6 @@
 
 //= require <extensions/selectable>
+//= require <widgets/box>
 
 
 /**

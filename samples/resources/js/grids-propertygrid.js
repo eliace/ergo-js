@@ -38,6 +38,7 @@ var propertyGrid = $.ergo({
         if( this.opt('editable') ) this.startEdit();
       },
       binding: function() {
+      	
         var val = this.data.source.get();
 
         if(val.type == 'boolean') {

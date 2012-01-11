@@ -1,6 +1,6 @@
     
 var list = $.ergo({
-  etype: 'list-view',
+  etype: 'list-box',
   renderTo: '.preview',
   width: 400,
   height: 220,

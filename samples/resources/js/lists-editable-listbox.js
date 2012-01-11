@@ -5,7 +5,7 @@ var listData = ['Alice', 'Bob', 'Charlie', 'Denver', 'Eva', 'Fox', 'George', 'Ha
 
 
 var list_snippet = {
-  etype: 'list-view',
+  etype: 'list-box',
   style: {'background-color': '#fff'},
   autoHeight: true,
   dynamic: true,
