@@ -121,6 +121,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			}			
 		}
 		
+				
 //		tableModel: {
 //			
 //		}

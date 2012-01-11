@@ -33,9 +33,11 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		var w = this.widget;
 		
 //		item = w.factory(item);
+		
+		group = group || 'item';
 
 		if(!(item instanceof Ergo.core.Widget))
-			item = w.options.itemFactory.call(w, item);
+			item = w.options[group+'Factory'].call(w, item);
 
 		if(i && $.isString(i)) {
 			key = i;

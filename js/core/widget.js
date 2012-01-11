@@ -52,12 +52,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		events: {},
 		defaultItem: {},
 		defaultComponent: {},
-		defaultItemShortcuts: {},
+		shortcuts: {},
 		itemFactory: function(o) {
-			if($.isString(o)) o = this.options.defaultItemShortcuts[o];
+			if($.isString(o)) o = this.options.shortcuts[o];
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
 		},
 		componentFactory: function(o) {
+			if($.isString(o)) o = this.options.shortcuts[o];
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );			
 		},
 		showOnRender: false,
@@ -111,7 +112,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		// создаем список дочерних элементов
 		this.items = new Ergo.core.WidgetList(this);
-//		this.components = new Ergo.core.Collection(this);
 
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
@@ -220,8 +220,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				delete c._cweight;
 				delete c._cname;
 //				self.addComponent(c, i);
-				c = o.componentFactory.call(self, c);
-				c = self.items.add(c, i, w);
+//				c = o.componentFactory.call(self, c);
+				c = self.items.add(c, i, 'component');
 				c.name = i;
 //				c.opt('tag', i);
 //				self[i] = c;

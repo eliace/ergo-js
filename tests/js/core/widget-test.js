@@ -14,7 +14,7 @@ test('core/widget', function(){
 	
 	w = new Ergo.core.Widget({
 		html: '<div/>',
-		defaultItem: {
+		defaultComponent: {
 			cls: 'test'
 		},
 		components: {
@@ -218,7 +218,7 @@ test('core/widget', function(){
 	
 	a = [];
 	w.events.fire('onAction', {'value': 'goodbye'});
-	same(a, ['store'], 'При внутреннем изменении значения виджета вызывается только store');
+	same(a, ['store', 'format', 'binding'], 'При внутреннем изменении значения виджета вызывается только store -> format -> binding');
 	
 	
 });
