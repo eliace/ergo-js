@@ -19,11 +19,11 @@ var box = $.ergo({
     cls: 'e-border-all e-widget-shadow panel',
 //    style: {'margin': '10px'},
     region: 'west',
-    height: 'auto',
+    autoHeight: true,
     content: {
       etype: 'tree',
       isDynamic: true,
-      height: 'auto',
+      autoHeight: true,
       data: treeData,
       treeModel: {
         node: {
@@ -45,12 +45,12 @@ var box = $.ergo({
   }, {
     etype: 'box',
     cls: 'e-border-all e-widget-shadow panel',
-    height: 'auto'
+    autoHeight: true
   }, {
     etype: 'box',
     region: 'east',
     width: 150,
-    height: 'auto',
+    autoHeight: true,
     cls: 'e-border-all e-widget-shadow panel'
   }, {
     etype: 'box',
