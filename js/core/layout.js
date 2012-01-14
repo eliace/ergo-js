@@ -201,3 +201,17 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 
+
+
+
+
+
+
+
+/**
+ * @namespace Пространство для классов, наследуемых от Ergo.core.Layout
+ */
+Ergo.layouts = {};
+
+
+

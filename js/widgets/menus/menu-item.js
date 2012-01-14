@@ -192,7 +192,12 @@ Ergo.widgets.MenuItem = Ergo.declare('Ergo.widgets.MenuItem', 'Ergo.widgets.Box'
 
 
 
-
+/**
+ * 
+ * @class
+ * @name Ergo.widgets.MenuDropdownBox
+ * @extends Ergo.widgets.DropdownBox
+ */
 Ergo.declare('Ergo.widgets.MenuDropdownBox', 'Ergo.widgets.DropdownBox', {
 	
 //	defaultCls: 'e-menu-dropdown',
