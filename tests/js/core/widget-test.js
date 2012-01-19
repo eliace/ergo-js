@@ -36,8 +36,8 @@ test('core/widget', function(){
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
 	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
-	ok(w.item('c1') == w.c1, 'Поиск по ключу в списке компонентов')
-	ok(w.item({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
+	ok(w.component('c1') == w.c1, 'Поиск по ключу в списке компонентов')
+	ok(w.component({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 
 
 	w = new Ergo.core.Widget({
@@ -74,7 +74,7 @@ test('core/widget', function(){
 	});
 	
 	ok(w.el.children().length == 1 && w.content, 'Компонент content доступен и добавлен в компоновку');
-	ok(w.item('content'), 'Компонент content доступен через коллекцию компонентов')
+	ok(w.component('content'), 'Компонент content доступен через коллекцию компонентов')
 	
 	
 	
@@ -181,7 +181,7 @@ test('core/widget', function(){
 	equals(children.eq(0).ergo().tag, 'component_2', '')
 	equals(children.eq(1).ergo().tag, 'item_1', '')
 	equals(children.eq(2).ergo().tag, 'component_1', '')
-	
+	ok(w.item(0).tag == 'item_1', 'Элемент с индексом 0 имеет тег item_1')
 	
 	
 	/*

@@ -26,18 +26,27 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		this.widget = w;
 	},
 	
+	
+	factory: function(o) {
+		if($.isString(o)) o = this.options.shortcuts[o];
+		return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );
+	},
+	
+	
 
-	add: function(item, i, group) {		
+	add: function(item, i, type) {		
 		
 		var key;
 		var w = this.widget;
 		
 //		item = w.factory(item);
 		
-		group = group || 'item';
+		type = type || 'item';
 
 		if(!(item instanceof Ergo.core.Widget))
-			item = w.options[group+'Factory'].call(w, item);
+			item = (w.options[type+'Factory'] || this.factory).call(w, item);
+			
+		item.type = type;
 
 		if(i && $.isString(i)) {
 			key = i;
@@ -66,11 +75,11 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		if(('show' in item) && item.options.showOnRender) item.show();
 		
 		
-		if(key) {
-			w[key] = item;
-//			item.opt('tag', key);
-			item._name = key;
-		}
+		// if(key) {
+			// w[key] = item;
+// //			item.opt('tag', key);
+			// item._name = key;
+		// }
 		
 		return item;
 //		this.events.fire('item:add', {'item': item});

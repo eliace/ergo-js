@@ -72,17 +72,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			return layout;	
 		},
 		events: {},
-		defaultItem: {},
+//		defaultItem: {},
 		defaultComponent: {},
-		shortcuts: {},
-		itemFactory: function(o) {
-			if($.isString(o)) o = this.options.shortcuts[o];
-			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );			
-		},
 		componentFactory: function(o) {
 			if($.isString(o)) o = this.options.shortcuts[o];
-			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );			
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		},
+		shortcuts: {},
 		showOnRender: false,
 		set: {
 			'text': function(v) {	this.layout.el.text(v); },
@@ -103,6 +99,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'tooltip': function(v) { this.el.attr('title', v); },
 			'id': function(v) { this.el.attr('id', v); },
 			'tag': function(v) { this.tag = v; },
+//			'name': function(v) { this.name = v; },
 			'tabIndex': function(v) { this.el.attr('tabindex', v); },			
 			'role': function(v) { this.el.attr('role', v); },
 			'format': function(v) {
@@ -136,7 +133,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		/**
 		 * @field
 		 * 
-		 * Коллекция элементов виджета
+		 * @description Коллекция элементов виджета
 		 * 
 		 */
 		this.items = new Ergo.core.WidgetList(this);
@@ -147,7 +144,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		/**
 		 * @field
 		 * 
-		 * jQuery-объект, с которым связан виджет
+		 * @description jQuery-объект, с которым связан виджет
 		 * 
 		 */
 		this.el = $(o.html);//this.$html());
@@ -162,7 +159,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		/**
 		 * @field
 		 * 
-		 * Компоновка
+		 * @description Компоновка
 		 * 
 		 */
 		this.layout = o.layoutFactory(o.layout);
@@ -240,10 +237,15 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			// преобразуем набор компонентов в массив
 			Ergo.each(o.components, function(c, i){
 				c.weight = ('weight' in c) ? c.weight : 9999;
-				c._cweight = ('weight' in c) ? c.weight : 9999;
-				c._cname = i;
-				
-				arr.push(c);
+//				c._cweight = ('weight' in c) ? c.weight : 9999;
+//				c._cname = i;
+	
+				c = self.items.add(c, i, 'component');
+	
+				c.name = i;
+				self[i] = c;
+								
+//				arr.push(c);
 			});
 			// сортируем массив по весу компонентов
 			// arr.sort(function(c1, c2){
@@ -255,16 +257,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			// });
 			// добавляем компоненты
 			Ergo.each(arr, function(c){
-				var i = c._cname;
-				var w = c._cweight;
-				delete c._cweight;
-				delete c._cname;
+//				var i = c._cname;
+//				var w = c._cweight;
+//				delete c._cweight;
+//				delete c._cname;
 //				self.addComponent(c, i);
 //				c = o.componentFactory.call(self, c);
-				c = self.items.add(c, i, 'component');
-				c.name = i;
 //				c.opt('tag', i);
-//				self[i] = c;
 			});
 			
 			// задаем "ленивые" классы компонентов
@@ -655,19 +654,27 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 *  
 	 */
 	item: function(i) {
-		return this.items.find(Ergo.filters.by_widget(i));		
+//		return this.items.find(Ergo.filters.by_widget(i));		
+		var filter = Ergo.filters.by_widget(i);
+		var j = 0;
+		return this.items.find(function(item, i){
+			if(item.type == 'item'){
+				if(filter.call(this, item, j)) return true;
+				j++;
+			} 
+//			return item.type == 'item' && ;
+		});
 	},
 	
 	
-	
-/*	
-	$componentFactory: function(item) {
-		if( $.isPlainObject(item) ) {
-			item = Ergo.widget(item);
-		}
-		return item;		
+
+	component: function(i) {
+		var filter = Ergo.filters.by_widget(i);
+		return this.items.find(function(item, j){
+			return item.type == 'component' && filter.call(this, item, j);
+		});
 	},
-*/	
+	
 	
 	
 	
@@ -720,9 +727,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	// Методы работы с подсоединенными данными
 	//---------------------------------------------
 	
-//	isBound: function() {
-//		return (this.data != null);
-//	},
 	
 	
 	/**
@@ -936,16 +940,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 	
 	
-/*	
-	getFormattedValue: function() {
-		var val = this.getValue();
-		return (this.options.format) ? this.options.format.call(this, val) : val;
-	},
-*/	
-	
-	
-//	_dataBound: function(){},
-//	_dataUnbound: function() {},
 
 	/**
 	 * Хук, вызываемый при изменении связанных данных

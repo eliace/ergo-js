@@ -3,7 +3,7 @@
 
 
 
-Ergo.declare('Ergo.framework.Application', 'Ergo.core.Object', {
+Ergo.declare('Ergo.utils.Application', 'Ergo.core.Object', {
 	
 	initialize: function(o) {
 		this.$super(o);
