@@ -116,7 +116,7 @@ $.ergo({
     }    
   }, {
   	extensions: ['selectable'],
-  	defaultItem: {
+  	defaultComponent: {
   		etype: 'icon-button',
   		cls: 'e-bg-3',
   		onClick: function() {
@@ -143,7 +143,7 @@ $.ergo({
   	}
   }, {
   	extensions: ['selectable'],
-  	defaultItem: {
+  	defaultComponent: {
   		etype: 'button',
   		cls: 'e-bg-3 e-border-all',
   		onClick: function() {
