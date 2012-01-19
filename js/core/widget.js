@@ -17,6 +17,28 @@
 /**
  * Базовый объект для всех виджетов
  * 
+ * @example
+ * Get-опции:
+ * 	text
+ * 	innerText
+ * 	innerHtml
+ * 	opacity
+ *	width
+ * 	height
+ * 	autoWidth
+ * 	autoHeight
+ * 	tooltip
+ * 	id
+ * 	tag
+ * 	tabIndex
+ * 	format
+ * 	binding
+ * 	store
+ * 	
+ * Set-опции
+ * 	text
+ * 
+ * 
  * @class
  * @extends Ergo.core.Object
  * @param {Object} o параметры
@@ -85,10 +107,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'role': function(v) { this.el.attr('role', v); },
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
-			},
-			'validate': function(v) {
-				if($.isArray(v)) this.options.validate = Ergo.filter_list.rcurry(v); //FIXME
 			}
+			// 'validate': function(v) {
+				// if($.isArray(v)) this.options.validate = Ergo.filter_list.rcurry(v); //FIXME
+			// }
 		},
 		get: {
 			'text': function() { return this.el.text(); }
@@ -111,13 +133,25 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		
 		// создаем список дочерних элементов
+		/**
+		 * @field
+		 * 
+		 * Коллекция элементов виджета
+		 * 
+		 */
 		this.items = new Ergo.core.WidgetList(this);
 
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
+		/**
+		 * @field
+		 * 
+		 * jQuery-объект, с которым связан виджет
+		 * 
+		 */
 		this.el = $(o.html);//this.$html());
-		this.el.data('e-widget', this);
+		this.el.data('ergo-widget', this);
 //		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		if('style' in o) this.el.css(o.style);
 		if('cls' in o) this.el.addClass(o.cls);
@@ -125,6 +159,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		
 		// создаем компоновку
+		/**
+		 * @field
+		 * 
+		 * Компоновка
+		 * 
+		 */
 		this.layout = o.layoutFactory(o.layout);
 		//FIXME костыль
 //		if(!this.layout.container) this.layout.attach(this);
@@ -604,8 +644,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	/**
 	 * Поиск элемента
 	 * 
-	 * @param {int|string|class|Function|Object} индекс|имя|класс|фильтр|шаблон
+	 * @param {int|string|class|Function|Object} i индекс|имя|класс|фильтр|шаблон
+	 * @returns {Ergo.core.Widget}
 	 * 
+	 * @example
 	 * w.item(2) - находит элемент с индексом 2
 	 * w.item('header') - находит элемент с именем "header"
 	 * w.item(Ergo.widgets.MyWidget) - элемент класса Ergo.widgets.MyWidget
@@ -990,7 +1032,7 @@ $.ergo = Ergo.widget;
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
-		var widget = this.data('e-widget');
+		var widget = this.data('ergo-widget');
 		if(widget) return widget;
 		if(!o) return undefined;
 		o.html = this;
@@ -1002,7 +1044,10 @@ $.fn.ergo = function(o) {
 
 
 
-
+/**
+ * @namespace Пространство для классов, наследуемых от Ergo.core.Widget
+ */
+Ergo.widgets = {};
 
 
 
