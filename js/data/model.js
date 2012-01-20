@@ -3,13 +3,26 @@
 
 
 
-
-Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
+/**
+ * Источник данных как объект.
+ * 
+ * @example
+ * 
+ * 
+ * 
+ * @class
+ * @name Ergo.data.Model
+ * @extends Ergo.core.DataSource
+ */
+Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Model.prototype */{
 	
 	defaults: {
 		oidKey: 'id'
 	},
 	
+	/**
+	 * Определение полей модели
+	 */
 	fields: {
 	},
 	
@@ -17,6 +30,11 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 		return this.get(this.options.oidKey);
 	},
 	
+	/**
+	 * Метод валидации
+	 * @function
+	 */
+	validate: null,
 	
 	set: function(v) {
 		
@@ -28,13 +46,18 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', {
 //		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 	
+/*	
 	get: function() {
 		var v = this.$super.apply(this, arguments);
 //		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
 
 		return (this.format) ? this.format.call(this, v) : v;
 	},
+*/
 	
+	/**
+	 * Фабрика элементов модели (полей).
+	 */
 	factory: function(i) {
 		
 		/**

@@ -6,10 +6,11 @@
  * Источник данных
  * 
  * @class
+ * @name Ergo.core.DataSource
  * @extends Ergo.core.Object
  * 
  */
-Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
+Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 	
 	defaults: {
 		extensions: [Ergo.Observable],
@@ -104,6 +105,7 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 	 * Если определен аргумент, то метод является сеттером.
 	 * 
 	 * @param {Any} [v] значение
+	 * @private
 	 */
 	_val: function(v) {
 //		if('_cached' in this) return this._cached;
@@ -375,6 +377,10 @@ Ergo.core.DataSource = Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', 
 
 
 
+/**
+ * @namespace Пространство для классов, наследуемых от Ergo.core.DataSource
+ */
+Ergo.data = {};
 
 
 

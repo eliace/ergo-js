@@ -75,11 +75,11 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		if(('show' in item) && item.options.showOnRender) item.show();
 		
 		
-		// if(key) {
-			// w[key] = item;
-// //			item.opt('tag', key);
-			// item._name = key;
-		// }
+		if(key) {
+			w[key] = item;
+//			item.opt('tag', key);
+			item.name = key;
+		}
 		
 		return item;
 //		this.events.fire('item:add', {'item': item});
@@ -111,7 +111,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		
 		if(key) {
 			delete w[key];
-			delete item._name;
+			delete item.name;
 		}		
 		
 		return item;

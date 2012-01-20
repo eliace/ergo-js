@@ -3,7 +3,7 @@
 //= require "collection"
 
 
-Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.RESTCollection', 'Ergo.data.Collection', {
+Ergo.data.RESTCollection = Ergo.declare('Ergo.data.RESTCollection', 'Ergo.data.Collection', {
 	
 	
   initialize: function() {

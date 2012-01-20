@@ -2,15 +2,33 @@
 //= require <core/data-source>
 
 
-Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
+
+/**
+ * Источник данных как типизированная коллекция 
+ * 
+ * 
+ * @class
+ * @name Ergo.data.Collection
+ * @extends Ergo.core.DataSource
+ */
+Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.data.Collection.prototype */{
 	
 	defaults: {
 		model: null
 	},
 	
+	/**
+	 * Модель элемента коллекции
+	 * 
+	 * @field
+	 * 
+	 */
 	model: null,
 	
 	
+	/**
+	 * Получение элемента коллекции по OID
+	 */
 	getByOID: function(oid) {
 		var a = this.get();
 		for(var i in a)
@@ -19,6 +37,9 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', {
 	},
 	
 	
+	/**
+	 * Фабрика элементов коллекции
+	 */
 	factory: function(i) {
 		
 		/**

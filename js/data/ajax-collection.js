@@ -2,7 +2,23 @@
 //= require "collection"
 
 
-Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', {
+
+
+/**
+ * JSON-коллекция, загружаемая через AJAX
+ * 
+ * @example
+ * 
+ * Параметры:
+ * 	{String} path - путь запроса (напр. "ajax/users", "user/posts/today")
+ * 	{Object} queryParams - набор параметров запроса (напр. {from: 0, to: 50})
+ * 
+ * 
+ * @class
+ * @name Ergo.data.AjaxCollection
+ * @extends Ergo.data.Collection
+ */
+Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo.data.AjaxCollection.prototype */{
 	
 	
   initialize: function() {
@@ -14,6 +30,12 @@ Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.C
     this._fetched = false;
   },
   
+  
+  /**
+   * Загрузка данных
+   * 
+   * @return {Deferred}
+   */
   fetch: function() {
     
     var self = this;
