@@ -17,38 +17,70 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 //		autoHeight: false
 	},
 	
+	
+	wrap: function(item) {
+		return item.el;
+	},
+	
+	/**
+	 * Вставка элемента
+	 * 
+	 * @param {jQuery} itemEl элемент
+	 * @param {int} index порядковый номер элемента (может быть не определен)
+	 * @param {int} weight вес элемента 
+	 * 
+	 */
 	insert: function(item, index, group) {
 		
 		var selector = item.options.layoutSelector;
 		
 		var el = this.el;
 		
+		var item_el = this.wrap(item);
+		
 		if(selector) {
 			el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
 		}
 		
+		// если вес не указан, то вес считается равным 0
 		var weight = item.options.weight || 0;
 		
 		
 		item._weight = weight;
 		
+		item_el.data('weight', weight);
+		
+		// если индекс не определен, то элемент должен быть добавлен последним в свою группу
 		if(index == null) {
+			// обходим все элементы контейнера в поисках первого с большим весом
 			var after_el = null;
 			el.children().each(function(i, elem){
-				var w = $(elem).ergo();
-				if(w && w._weight > weight) {
+				var w = $(elem).data('weight');
+				if(w > weight) {
 					after_el = $(elem);
 					return false;
 				}
 			});
-			// this.container.items.each(function(it){
-				// if(it._weight > weight) after_a.push(it.el[0]);
-			// });
 
 			if(after_el)
-				after_el.before( item.el );
+				after_el.before( item_el );
 			else
-				el.append( item.el );
+				el.append( item_el );
+				
+			
+			// var after_el = null;
+			// el.children().each(function(i, elem){
+				// var w = $(elem).ergo();
+				// if(w && w._weight > weight) {
+					// after_el = $(elem);
+					// return false;
+				// }
+			// });
+// 
+			// if(after_el)
+				// after_el.before( item_el );
+			// else
+				// el.append( item_el );
 		}
 		else if(index === 0) {
 			var before_el = [];
@@ -63,9 +95,9 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 			// });
 
 			if(before_el)
-				before_el.after( item.el );
+				before_el.after( item_el );
 			else
-				el.prepend( item.el );
+				el.prepend( item_el );
 		}
 		else {
 			
@@ -78,12 +110,12 @@ Ergo.declare('Ergo.layouts.PlainLayout', Ergo.core.Layout, /** @lends Ergo.layou
 
 			if(arr.length == 0) {
 				if(before_el)
-					before_el.after( item.el );
+					before_el.after( item_el );
 				else
-					el.prepend( item.el );
+					el.prepend( item_el );
 			}
 			else {
-				index.el.before(arr[index-1]);
+				item_el.before(arr[index-1]);
 			}
 			
 		}
