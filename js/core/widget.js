@@ -242,8 +242,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 				c = self.items.add(c, i, 'component');
 	
-				c.name = i;
-				self[i] = c;
+//				c.name = i;
+//				self[i] = c;
 								
 //				arr.push(c);
 			});

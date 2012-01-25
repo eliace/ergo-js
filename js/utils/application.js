@@ -28,6 +28,7 @@ Ergo.declare('Ergo.utils.Application', 'Ergo.core.Object', {
 		});
 		
 		
+		
 		this.root = $.ergo(Ergo.smart_override({
 			etype: 'box',
 			renderTo: 'body',

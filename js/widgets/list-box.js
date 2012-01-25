@@ -10,7 +10,7 @@
  * @name Ergo.widgets.ListBox
  * @extends Ergo.widgets.Box
  */
-Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.Box', /** @lends Ergo.widgets.ListBox.prototype */{
 	
 	defaults: {
 		baseCls: 'e-list-box',

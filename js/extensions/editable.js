@@ -23,7 +23,8 @@ Ergo.extension('Ergo.extensions.Editable', function(o) {
 		else
 			this.layout.el.empty();
 		
-		this.items.add(editorOpts, '_editor');
+		// фабрики editor не существует, поэтому будет использована фабрика по умолчанию
+		this.items.add(editorOpts, '_editor', 'editor');
 			
 		if(editorOpts.keepContent) {
 			var ed_el = this._editor.el

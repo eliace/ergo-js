@@ -48,7 +48,7 @@ $(document).ready(function(){
 //	Samples.pool = new Ergo.containers.Box();
 
 	
-	Application = new Ergo.framework.Application({
+	Application = new Ergo.utils.Application({
 //		etype: 'box',
 //		renderTo: 'body',
 		components: {

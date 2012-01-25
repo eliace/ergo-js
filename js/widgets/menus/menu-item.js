@@ -212,7 +212,7 @@ Ergo.declare('Ergo.widgets.MenuDropdownBox', 'Ergo.widgets.DropdownBox', {
 		defaultItem: {
 			etype: 'menu-item'
 		},
-		defaultItemShortcuts: {
+		shortcuts: {
 			'-': {
 				etype: 'split',
 				state: 'horizontal' 
