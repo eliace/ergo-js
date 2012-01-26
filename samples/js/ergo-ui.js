@@ -66,10 +66,10 @@ $(document).ready(function(){
 		}, {
 			etype: 'sample-panel',
 			items: [{
-				etype: 'text-item',
+				etype: 'text-item-2',
 				text: 'Текст'
 			}, {
-				etype: 'text-item',
+				etype: 'text-item-2',
 				text: 'Текст с иконкой слева',
 				icon: ''
 			}]
