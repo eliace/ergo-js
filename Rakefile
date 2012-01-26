@@ -58,9 +58,9 @@ end
 def compose_files(dest, source_files, postfix='')
 	
 #	ver = %x[git tag -l].split.last
-	ver = '0.8.2'
+	ver = '0.7.1'
 	
-#	@name = 'ergoo-' + ver
+#	@name = 'ergo-' + ver
 	js_name = "ergo-js#{postfix}.js" #"ergo-#{ver}.js"
 	js_name_min = "ergo-js#{postfix}.min.js" #"ergo-#{ver}.min.js"
 	css_name = "ergo-js#{postfix}.css"

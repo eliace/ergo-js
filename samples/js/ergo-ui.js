@@ -1,6 +1,12 @@
 
 
-Ergo.require('js.layouts.FormLayout', 'js.widgets.TextField');
+Ergo.require(
+	'js.widgets.TextItem', 
+	'js.layouts.FormLayout', 
+	'js.widgets.Field', 
+	'js.widgets.TextField', 
+	'js.widgets.SelectField'
+);
 
 
 
@@ -26,7 +32,6 @@ $(document).ready(function(){
 		
 		items: [{
 			etype: 'sample-panel',
-			layout: 'form2',
 			items: [{
 				label: 'Имя',
 				etype: 'text-field-2',
@@ -35,6 +40,38 @@ $(document).ready(function(){
 				label: 'Фамилия',
 				etype: 'text-field-2',
 				placeholder: 'Ваша фамилия'
+			}]
+		}, {
+			etype: 'sample-panel',
+			items: [{
+				label: 'Текст',
+				etype: 'text-field-2',
+				multiline: true,
+				placeholder: 'Введите текст'
+			}]
+		}, {
+			etype: 'sample-panel',
+			items: [{
+				label: 'Город',
+				etype: 'select-field-2'
+			}, {
+				label: 'Число',
+				etype: 'select-field-2',
+				buttons: [{
+					iconCls: 'arrow-right'
+				}, {
+					iconCls: 'arrow-left'
+				}]
+			}]
+		}, {
+			etype: 'sample-panel',
+			items: [{
+				etype: 'text-item',
+				text: 'Текст'
+			}, {
+				etype: 'text-item',
+				text: 'Текст с иконкой слева',
+				icon: ''
 			}]
 		}]
 		

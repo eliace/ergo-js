@@ -244,3 +244,5 @@ Ergo.widgets.TextItem = Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Text
 	
 	
 }, 'text-item');
+
+

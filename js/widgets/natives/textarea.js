@@ -16,4 +16,4 @@ Ergo.declare('Ergo.widgets.TextArea', 'Ergo.widgets.TextInput', /** @lends Ergo.
 		html: '<textarea></textarea>'
 	}
 	
-}, 'textarea');
+}, 'text-area');
