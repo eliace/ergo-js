@@ -71,7 +71,7 @@ $(document).ready(function(){
 			}, {
 				etype: 'text-item-2',
 				text: 'Текст с иконкой слева',
-				icon: ''
+				icon: 'test-icon'
 			}]
 		}]
 		

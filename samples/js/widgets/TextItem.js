@@ -10,7 +10,7 @@ Ergo.declare('Ergo.widgets.TextItem2', 'Ergo.widgets.Box', {
 				etype: 'icon',
 				state: 'hidden'
 			},
-			text: {
+			content: {
 				etype: 'text',
 				state: 'hidden'
 			},
@@ -29,10 +29,12 @@ Ergo.declare('Ergo.widgets.TextItem2', 'Ergo.widgets.Box', {
 				this.content.states.toggle('hidden', (!v && v !== ''));
 			},
 			'icon': function(v) {
+				var o = this.options;
 				this.icon.states.setOnly(o.icon);
 				this.icon.states.toggle('hidden', !o.icon);				
 			},
 			'xicon': function(v) {
+				var o = this.options;
 				this.xicon.states.setOnly(o.icon);
 				this.xicon.states.toggle('hidden', !o.icon);				
 			}
