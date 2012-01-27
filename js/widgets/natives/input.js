@@ -237,7 +237,7 @@ Ergo.declare('Ergo.widgets.Checkbox', Ergo.widgets.Input, /** @lends Ergo.widget
 	}
 	
 		
-}, 'checkbox');
+}, 'check');
 
 
 

@@ -1,15 +1,8 @@
 
 //= require "data-source"
 //= require "states"
-//= require <layouts/plain>
+//= require "layout"
 //= require "widget-list"
-
-
-
-
-// Ergo.formats = {};
-// Ergo.parsers = {};
-// Ergo.validators = {};
 
 
 
@@ -52,7 +45,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	defaults: {
-		layout: 'plain',
+		layout: 'default',
 		states: {
 			'hidden': 'hidden',
 			'disabled': 'disabled',
@@ -105,9 +98,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 			}
-			// 'validate': function(v) {
-				// if($.isArray(v)) this.options.validate = Ergo.filter_list.rcurry(v); //FIXME
-			// }
 		},
 		get: {
 			'text': function() { return this.el.text(); }
@@ -256,7 +246,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				// return 0;
 			// });
 			// добавляем компоненты
-			Ergo.each(arr, function(c){
+//			Ergo.each(arr, function(c){
 //				var i = c._cname;
 //				var w = c._cweight;
 //				delete c._cweight;
@@ -264,7 +254,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //				self.addComponent(c, i);
 //				c = o.componentFactory.call(self, c);
 //				c.opt('tag', i);
-			});
+//			});
 			
 			// задаем "ленивые" классы компонентов
 			for(var i in o.components){
@@ -495,101 +485,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$opt: function(o) {
 		
-		var self = this;
+//		var self = this;
 		
 		
 		
-		var el = this.el;
-		
-//		profiler.start('opt');
-/*		
-		if('width' in o) {
-//			if(o.width != 'auto') el.width(o.width);
-			el.width(o.width);
-		}
-		if('height' in o) {
-			el.height(o.height);
-			// if(o.height == 'auto' || o.height == 'ignore'){ 
-				// el.attr('autoheight', o.height);
-			// }
-			// else {
-				// el.removeAttr('autoheight');
-				// el.height(o.height);
-			// }
-		}
-
-		
-		if('autoHeight' in o) {
-			(o.autoHeight) ? el.attr('autoHeight', o.autoHeight) : el.removeAttr('autoHeight');
-		}
-		if('autoWidth' in o) {
-			(o.autoWidth) ? el.attr('autoWidth', o.autoWidth) : el.removeAttr('autoWidth');
-		}
-*/		
-		// if('x' in o) el.css('left', o.x); //?
-		// if('y' in o) el.css('top', o.y);  //?
-		// if('tooltip' in o) el.attr('title', o.tooltip);
-		// if('id' in o) el.attr('id', this.id = o.id);
-		// if('tag' in o) this.tag = o.tag;
-		// if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
-		
-		// эти три параметра должны задаваться статически
-		// if('style' in o) el.css(o.style);
-		// if('cls' in o) el.addClass(o.cls);
-		// if('baseCls' in o) el.addClass(o.baseCls);
-		
-//			profiler.tick('opt', 'style');		
-		
-//		if('innerText' in o) this.layout.el.text(o.innerText);
-//		if('innerHtml' in o) this.layout.el.html(o.innerHtml);
-//		if('role' in o) el.attr('role', o.role);
-		// if('opacity' in o){
-			// if($.support.opacity) 
-				// el.css('opacity', o.opacity);
-			// else {
-				// el.css('filter', 'Alpha(opacity:' + (o.opacity*100.0) + ')');
-				// el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
-			// }
-		// }
-		
-//		if('unselectable' in o) {
-//			el.css('unselectable');
-//			el.attr('unselectable');
-//		}
-
-//		profiler.tick('opt', 'ifs');
-		
-				
-		
-		
-/*		
-		if('contextMenu' in o) {
-			
-			var cm = o.contextMenu;
-			
-			if($.isFunction(cm)) cm = cm.call(this);
-			if(cm && !(cm instanceof Ergo.core.Widget)) cm = Ergo.widget(cm);
-			
-			if(cm) {
-			
-				this.contextMenu = cm;
-	
-			
-			}
-		}
-*/
-		
-		
-		// if('format' in o) {
-			// if($.isString(o.format)) this.options.format = Ergo.format_obj.curry(o.format);
-		// }
-// 
-		// if('validate' in o) {
-			// if($.isArray(o.validate)) this.options.validate = Ergo.filter_list.rcurry(o.validate);
-		// }
-						
-		
-		
+//		var el = this.el;
 		
 		for(var i in o) {
 			// проверяем наличие Java-like сеттеров
@@ -947,42 +847,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	$dataChanged: function() {
-//		// если автобиндинг выключен, то прекращаем обновление
-//		if(!this.options.autoBinding) return;
-//		if(this.suppressDataChange) return;
-
-/*		
-		var binding = this.options.binding;
-		
-		if($.isFunction(binding)){
-//			var o = {};
-			var val = this.getValue();
-//			if(val !== undefined)	
-			if( binding.call(this, val) === false) return;
-//			this.opt(o);
-		}
-*/		
-/*		
-		if(binding.options){
-			var o = {};
-			binding.options.call(this, o);
-			this.opt(o);
-		}
-		if(binding.states)
-			binding.states.call(this, this.states);
-*/		
-		
-//		if(this.options.optBinding) {
-//			var o = {};
-//			this.options.optBinding.call(this, o);
-//			this.opt(o);
-//		}
-				
-//		if(this.options.stateBinding){
-//			this.states.set( this.getStateValue() );
-//		}
-		
-		
 		
 		if(!this.options.autoBind) return;
 		
@@ -990,7 +854,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		if(this.data && binding){
 			var val = this.getValue();
-			if( binding.call(this, val) === false) return;
+			if( binding.call(this, val) === false) return false;
 			
 		}
 

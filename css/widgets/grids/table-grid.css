@@ -1,9 +1,0 @@
-
-.x-resizable {
-	cursor: col-resize;
-}
-
-
-.e-grid-row.control > td > div {
-	height: 0;
-}

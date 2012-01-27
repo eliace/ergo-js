@@ -1,8 +1,8 @@
 
-//= require "plain"
+//= require <core/layout>
 
 
-Ergo.declare('Ergo.layouts.HBox', 'Ergo.layouts.PlainLayout', {
+Ergo.declare('Ergo.layouts.HBox', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'hbox'

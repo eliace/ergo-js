@@ -7,3 +7,4 @@
 //= require "select"
 //= require "text"
 //= require "textarea"
+//= require "box"
