@@ -6,7 +6,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
 	defaults: {
 		fieldContent: {
-			cls: 'e-input-holder',
+			cls: 'e-element-wrapper',
 			components: {
 				input: {
 					etype: 'text-input',

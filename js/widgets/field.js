@@ -6,17 +6,17 @@
 Ergo.declare('Ergo.widgets.Field', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-form-wrapper',
+		cls: 'e-field',
 		extensions: ['focusable'],
 		components: {
 			label: {
-				cls: 'e-form-label',
+				cls: 'e-field-label',
 				content: {
 					etype: 'label'
 				}
 			},
 			content: {
-				cls: 'e-form-holder'
+				cls: 'e-field-content'
 			}
 		},
 		fieldContent: {},

@@ -29,25 +29,19 @@
 //radio button
 @e-radio-radius:10px;
 // checkbox
-@e-checkbox-radius:3px;
-/* Reset
------------------------------------------------------------------------------*/
-* {
-  margin: 0;
-  padding: 0;
-}
-header, nav, section, article, aside, footer {
-  display: block;
-}
-input, textarea {
-  outline:none;
-}
-.unselect {
-  -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   user-select: none;
-}
+@e-check-box-radius:3px;
+
+//resets and common classes
+* { margin: 0;padding: 0;}
+header, nav, section, article, aside, footer {display: block;}
+input, textarea {outline:none;}
+.unselect {-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;}
+.left { float:left;}
+.right {float:right;}
+.clearfix {clear:both}
+
+
+
 /* Content
 -----------------------------------------------------------------------------*/
 body {
@@ -79,7 +73,6 @@ body {
   
 }
 
-
 /* Sidebar Left
 -----------------------------------------------------------------------------*/
 #sideLeft {
@@ -95,15 +88,6 @@ body {
   display:block;
   background:url(images/logo.png);
 }
-
-
-// common classes 
-.left { float:left;}
-.right {float:right;}
-.clearfix {clear:both}
-
-// Ergo UI
-
 .e-pannel {
   background:@e-panel-bg;
   width:750px - @common-padding;
@@ -114,12 +98,12 @@ body {
    margin:0 0 40px 0;
 }
 
-.e-form-wrapper {
+.e-field {
   margin:0 0 40px 0;
   width:@e-form-width;
 
 }
-.e-form-holder {
+.e-field-content {
   background:#efefef;
   background:#dfdfdf \9;
   -webkit-border-radius: @e-form-radius;
@@ -138,21 +122,20 @@ body {
 
 //on focus
 
-.e-form-wrapper.focus >.e-form-holder{
+.e-field.focus >.e-field-content{
   border:1px solid @e-label-bottom-color;
 }
-.e-form-wrapper.focus >.e-form-label{
+.e-field.focus >.e-field-label{
   border-left:1px solid @e-label-bottom-color;
   left:0px \9;
 }
 
 
-
 //error
-.e-form-wrapper.error > .e-form-holder {
+.e-field.error > .e-field-content {
   border:1px solid @e-label-err-bottom-color;
 }
-.e-form-wrapper.error >.e-form-label{
+.e-field.error >.e-field-label{
   border-left:1px solid @e-label-err-bottom-color;
   left:0px \9;
   background: @e-label-err-bottom-color; /* Old browsers */
@@ -166,7 +149,7 @@ body {
   text-shadow:0px 1px 0px @e-label-err-text-shadow-color; 
 }
 // inputs and textareas
-.e-input-holder {
+.e-element-wrapper {
   background:#efefef\9;
    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1);
   -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1)";
@@ -174,19 +157,19 @@ body {
   padding-right: .5em;
   position:relative;
 }
-.e-form-holder input::-webkit-input-placeholder, .e-form-holder textarea::-webkit-input-placeholder, .e-form-holder input:-moz-placeholder {
+.e-field-content input::-webkit-input-placeholder, .e-field-content textarea::-webkit-input-placeholder, .e-field-content input:-moz-placeholder {
   color:#c0bfbf;
 }
-.e-form-holder input:-moz-placeholder,.e-form-holder textarea:-moz-placeholder {
+.e-field-content input:-moz-placeholder,.e-field-content textarea:-moz-placeholder {
    color:#c0bfbf;
  }
 
-.e-form-holder input, .e-form-holder textarea  {
+.e-field-content input, .e-field-content textarea  {
   background: transparent;
   border: 0;
   width: 100%;
   font-size: @e-form-text-size;
-  margin: @e-form-margin 0  @e-form-margin 0;
+  padding: @e-form-margin 0  @e-form-margin 0;
   color:@form-color;
   font-family:Arial;
   resize: none;
@@ -195,11 +178,11 @@ body {
    
  
 }
-.e-form-holder textarea {
+.e-field-content textarea {
   min-height:120px;
 }
 //form labels
-.e-form-label {
+.e-field-label {
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   -webkit-border-radius: @e-label-radius;
   -moz-border-radius: @e-label-radius;
@@ -230,13 +213,12 @@ body {
   margin:1px;
   border:1px solid #dcdcdc;
   position:relative;
- overflow:hidden;
+  overflow:hidden;
   -webkit-border-radius: @e-form-radius;
   -moz-border-radius: @e-form-radius;
   -moz-border-radius:0 \9;
   border-radius: @e-form-radius;
   width:@e-form-width - 6px;
-
   background: #ffffff; /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -271,7 +253,7 @@ body {
   border-right: 8px solid transparent;
   border-top: 8px solid @e-selec-arrow-color;
   position:relative;
-    margin:15px 10px;
+  margin:15px 10px;
 }
 .arrow-up {
   width: 0;
@@ -290,8 +272,7 @@ body {
   border-bottom: 8px solid transparent; 
   border-right:8px solid @e-selec-arrow-color;
   position:relative;
-
-    margin:10px 12px;
+  margin:10px 12px;
 }
 .arrow-right{
   width: 0;
@@ -300,8 +281,7 @@ body {
   border-bottom: 8px solid transparent; 
   border-left:8px solid @e-selec-arrow-color;
   position:relative;
-
-    margin:10px 12px;
+  margin:10px 12px;
 }
 //drop-down select list
 .e-select-droplist {
@@ -312,6 +292,7 @@ body {
   display:block;
   z-index:1000;
    -webkit-border-radius: @e-select-radius;
+   margin-left:-10px;
    border-radius: @e-select-radius;
   -moz-border-radius: @e-select-radius;
   -moz-border-radius:0 \9;
@@ -490,7 +471,7 @@ body {
 }
 
 //radio buttons 
-.e-radio-round {
+.e-radio-box {
   width:16px;
   height:16px;
   display:inline-block;
@@ -505,7 +486,7 @@ body {
   line-height:20px;
   margin:15px 0 0 0;
 }
-.e-inner-round {
+.e-radio-box > .e-checker {
   width:8px;
   height:8px;
   display:inline-block;
@@ -515,21 +496,22 @@ body {
   -moz-border-radius: @e-radio-radius;
   border:1px solid @e-label-bottom-color;
   margin:3px;
-  
+  cursor:pointer;
 }
+
 .e-radio-label {
   display:inline-block;
   margin:0 0 0 15px;
 }
 //checkbox
-.e-checkbox{
+.e-check-box{
   width:16px;
   height:16px;
   display:inline-block;
   background:#efefef;
- -webkit-border-radius: @e-checkbox-radius;
-   border-radius: @e-checkbox-radius;
-  -moz-border-radius: @e-checkbox-radius;
+ -webkit-border-radius: @e-check-box-radius;
+   border-radius: @e-check-box-radius;
+  -moz-border-radius: @e-check-box-radius;
   border:1px solid #d7d7d7;
    -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
@@ -537,16 +519,17 @@ body {
   line-height:20px;
   margin:15px 0 0 0;
 }
-.e-checkbox-selected{
-  color: @e-checkbox-radius;
-  content: "v";
-  position:relative;
-  font-weight:bold;
+.e-check-box > .e-checker{
+  color: @e-check-box-radius;
+  background:url(../img/e-checker.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  width:16px;
+  height:16px;
   top:-3px;
   left:4px;
-  
+  cursor:pointer;
 
-  
 }
 .e-radio-label {
   display:inline-block;
