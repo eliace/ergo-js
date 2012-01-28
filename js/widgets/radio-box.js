@@ -6,9 +6,9 @@
 Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-radio-round',
+		cls: 'e-radio-box',
 		content: {
-			cls: 'e-inner-round'
+			cls: 'e-checker'
 		}
 	}
 	
