@@ -5,9 +5,9 @@
 Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-checkbox',
+		cls: 'e-check-box',
 		content: {
-//			cls: 'e-inner-round'
+			cls: 'e-checker'
 		}
 	}
 	

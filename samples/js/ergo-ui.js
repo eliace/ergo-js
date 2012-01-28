@@ -90,6 +90,17 @@ $(document).ready(function(){
 				},
 				text: 'радиобокс'
 			}]
+		}, {
+			// кнопки
+			etype: 'sample-panel',
+			items: [{
+				etype: 'button-item',
+				text: 'Кнопка'
+			}, {
+				etype: 'button-item',
+				text: 'Кнопка',
+				icon: 'e-icon-tag'
+			}]
 		}]
 		
 	});
