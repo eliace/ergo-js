@@ -535,3 +535,25 @@ body {
   display:inline-block;
   margin:0 0 0 15px;
 }
+//layouts variation
+
+
+
+//icons 16
+@e-icon-size:16px;
+@e-icons-path: "images/icons-@{e-icon-size}";
+
+.e-icon {
+  width:@e-icon-size;
+  height:@e-icon-size;
+  display:block;
+  background-repeat:no-repeat;
+}
+.e-icon-folder { background:url("@{e-icons-path}/e-ico-folder.png")}
+.e-icon-tag { background:url("@{e-icons-path}/e-ico-tag.png")}
+.e-icon-info { background:url("@{e-icons-path}/e-ico-info.png")}
+[layout='hbox'] > * {
+  display:inline-block;
+  vertical-align:middle;
+  padding:8px;
+}

@@ -65,7 +65,7 @@ $(document).ready(function(){
 			}, {
 				etype: 'text-item',
 				text: 'Текст с иконкой слева',
-				icon: 'test-icon'
+				icon: 'e-icon-folder'
 			}]
 		}, {
 			etype: 'sample-panel',
