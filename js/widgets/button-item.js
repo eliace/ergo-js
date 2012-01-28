@@ -10,6 +10,7 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Box', {
 	defaults: {
 		cls: 'e-button-item',
 		layout: 'hbox',
+		html: '<button/>',
 		components: {
 			icon: {
 				etype: 'icon',
