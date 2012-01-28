@@ -13,7 +13,7 @@ Ergo.require(
 Ergo.declare('Sample.widgets.Panel', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-pannel'
+		cls: 'e-panel'
 	}
 	
 }, 'sample-panel');

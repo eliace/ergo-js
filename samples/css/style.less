@@ -48,6 +48,9 @@ input, textarea {
    -webkit-user-select: none;
    user-select: none;
 }
+.hidden {
+  display:none;
+}
 /* Content
 -----------------------------------------------------------------------------*/
 body {
@@ -104,7 +107,7 @@ body {
 
 // Ergo UI
 
-.e-pannel {
+.e-panel {
   background:@e-panel-bg;
   width:750px - @common-padding;
   padding: @common-padding;
@@ -137,7 +140,6 @@ body {
 }
 
 //on focus
-
 .e-form-wrapper.focus >.e-form-holder{
   border:1px solid @e-label-bottom-color;
 }
@@ -145,9 +147,6 @@ body {
   border-left:1px solid @e-label-bottom-color;
   left:0px \9;
 }
-
-
-
 //error
 .e-form-wrapper.error > .e-form-holder {
   border:1px solid @e-label-err-bottom-color;
@@ -168,7 +167,7 @@ body {
 // inputs and textareas
 .e-input-holder {
   background:#efefef\9;
-   filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1);
   -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1)";
   padding-left:10px;
   padding-right: .5em;
@@ -186,15 +185,15 @@ body {
   border: 0;
   width: 100%;
   font-size: @e-form-text-size;
-  margin: @e-form-margin 0  @e-form-margin 0;
+  padding: @e-form-margin 0  @e-form-margin 0;
   color:@form-color;
   font-family:Arial;
   resize: none;
   overflow:hidden;
   position:relative;
-   
- 
 }
+
+
 .e-form-holder textarea {
   min-height:120px;
 }
@@ -230,13 +229,12 @@ body {
   margin:1px;
   border:1px solid #dcdcdc;
   position:relative;
- overflow:hidden;
+  overflow:hidden;
   -webkit-border-radius: @e-form-radius;
   -moz-border-radius: @e-form-radius;
   -moz-border-radius:0 \9;
+  width:100% \9;
   border-radius: @e-form-radius;
-  width:@e-form-width - 6px;
-
   background: #ffffff; /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -249,6 +247,7 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
   cursor:pointer;
   font-size:@e-form-text-size;
+  display:block;
 
 }
 .e-current-select {
@@ -290,8 +289,7 @@ body {
   border-bottom: 8px solid transparent; 
   border-right:8px solid @e-selec-arrow-color;
   position:relative;
-
-    margin:10px 12px;
+  margin:10px 12px;
 }
 .arrow-right{
   width: 0;
@@ -305,7 +303,7 @@ body {
 }
 //drop-down select list
 .e-select-droplist {
-  position: relative;
+ 
   top: @e-form-margin  + @e-form-text-size;
   width: @e-form-width - 4px;
   left:1px;
@@ -314,7 +312,7 @@ body {
    -webkit-border-radius: @e-select-radius;
    border-radius: @e-select-radius;
   -moz-border-radius: @e-select-radius;
-  -moz-border-radius:0 \9;
+ // -moz-border-radius:0 \9;
  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f3f3f3)); /* Chrome,Safari4+ */
@@ -326,6 +324,7 @@ body {
   -moz-box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
   box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
   behavior:url(ie-css3.htc);
+   position: relative;
   //shadow.userAttrs.radius +',makeShadow=true,shadowOpacity=0.2)'; in HTC
 }
 .e-select-droplist ul {
@@ -369,7 +368,7 @@ body {
   -webkit-box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
   -moz-box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
   box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
-  behavior:url(ie-css3.htc);
+ 
   //shadow.userAttrs.radius +',makeShadow=true,shadowOpacity=0.2)'; in HTC
 }
 .e-calendar-title {
@@ -490,36 +489,41 @@ body {
 }
 
 //radio buttons 
+.e-radio-item {
+  margin:10px 0;
+}
 .e-radio-round {
   width:16px;
   height:16px;
   display:inline-block;
   background:#efefef;
- -webkit-border-radius: @e-radio-radius;
-   border-radius: @e-radio-radius;
+  -webkit-border-radius: @e-radio-radius;
+  border-radius: @e-radio-radius;
   -moz-border-radius: @e-radio-radius;
   border:1px solid #d7d7d7;
-   -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   line-height:20px;
-  margin:15px 0 0 0;
+  vertical-align:middle;
+  
 }
 .e-inner-round {
   width:8px;
   height:8px;
-  display:inline-block;
+ margin:3px;
   background: @e-label-top-color;
   -webkit-border-radius: @e-radio-radius;
   border-radius: @e-radio-radius;
   -moz-border-radius: @e-radio-radius;
   border:1px solid @e-label-bottom-color;
-  margin:3px;
+ 
   
 }
 .e-radio-label {
   display:inline-block;
-  margin:0 0 0 15px;
+
+  vertical-align:middle;
 }
 //checkbox
 .e-checkbox{
@@ -535,20 +539,42 @@ body {
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   line-height:20px;
-  margin:15px 0 0 0;
+
 }
 .e-checkbox-selected{
   color: @e-checkbox-radius;
-  content: "v";
   position:relative;
   font-weight:bold;
   top:-3px;
   left:4px;
-  
-
-  
+  z-index:1000;
 }
+
 .e-radio-label {
   display:inline-block;
   margin:0 0 0 15px;
 }
+.e-third-column {
+ font-size:@e-form-text-size;
+}
+//layouts variation
+
+[layout='hbox'] > * {
+  display:inline-block;
+  vertical-align:middle;
+  padding:8px;
+}
+
+//icons 16
+@e-icon-size:16px;
+@e-icons-path: "images/icons-@{e-icon-size}";
+
+.e-icon {
+  width:@e-icon-size;
+  height:@e-icon-size;
+  display:block;
+  background-repeat:no-repeat;
+}
+.e-icon-folder { background:url("@{e-icons-path}/e-ico-folder.png")}
+.e-icon-tag { background:url("@{e-icons-path}/e-ico-tag.png")}
+.e-icon-info { background:url("@{e-icons-path}/e-ico-info.png")}
