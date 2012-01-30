@@ -593,7 +593,40 @@ height:200px;
   background: linear-gradient(top, @e-label-top-color 0%,#f3f3f3 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='8cb20a', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
 }
+
+
+
+
+
 [layout='hbox'] > * {
   display:inline-block;
   vertical-align:middle;
  }
+ 
+
+
+[layout='2c'] > .container {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  
+}
+[layout='2c'] > .container > .content {
+  margin: 0 20px 0 220px;
+  background:#d5d5d5;
+  overflow:auto;
+/*  height:500px;*/
+}
+
+[layout='2c'] > .left_bar {
+  float: left;
+  width:200px;
+/*  height:500px;*/
+  margin-left: -100%;
+  position: relative;
+  background:#c9c9c9;
+
+}
+
+
+

@@ -38,6 +38,9 @@ body {
 	visibility: hidden;
 	height: 0;
 }
+
+
+/*
 .container {
 	width: 100%;
 	float: left;
@@ -48,18 +51,19 @@ body {
 	margin: 0 20px 0 220px;
 	background:#d5d5d5;
 	overflow:auto;
-/*	height:500px;*/
 }
 
 .left_bar {
 	float: left;
 	width:200px;
-/*	height:500px;*/
 	margin-left: -100%;
 	position: relative;
 	background:#c9c9c9;
 
 }
+*/
+
+
 .footer {
 	height: 100px;
 	background:#d5d5d5;
