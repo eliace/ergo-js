@@ -74,21 +74,21 @@ $(document).ready(function(){
 				tabIndex: 0,
 				components: {
 					'icon!': {
-						etype: 'check-box',
-						state: null
+						etype: 'check-box'
 					}
 				},
-				text: 'чекбокс'
+				text: 'чекбокс',
+				icon: true
 			}, {
 				etype: 'text-item',
 				tabIndex: 0,
 				components: {
 					'icon!': {
-						etype: 'radio-box',
-						state: null
+						etype: 'radio-box'
 					}
 				},
-				text: 'радиобокс'
+				text: 'радиобокс',
+				icon: true
 			}]
 		}, {
 			// кнопки
@@ -100,6 +100,23 @@ $(document).ready(function(){
 				etype: 'button-item',
 				text: 'Кнопка',
 				icon: 'e-icon-tag'
+			}]
+		}, {
+			// список
+			etype: 'sample-panel',
+			items: [{
+				etype: 'box',
+				cls: 'e-select-droplist',
+				content: {
+					etype: 'list',
+					items: [
+						{text: 'Печора'},
+						{text: 'Ухта'},
+						{text: 'Сосногорск'},
+						{text: 'Усинск'},
+						{text: 'Сыктывкар'}
+					]
+				}
 			}]
 		}]
 		
