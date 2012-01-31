@@ -118,6 +118,21 @@ $(document).ready(function(){
 					]
 				}
 			}]
+		}, {
+			// окно
+			etype: 'sample-panel',
+			items: [{
+				etype: 'button-item',
+				text: 'Кнопка',
+				onClick: function() {
+					var wnd = $.ergo({
+						etype: 'sample-panel',
+						renderTo: 'body',
+						layout: 'window'
+					});
+					wnd.layout.open();
+				}
+			}]
 		}]
 		
 	});

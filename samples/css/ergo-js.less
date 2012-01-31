@@ -47,7 +47,7 @@ input, textarea {outline:none;}
 -----------------------------------------------------------------------------*/
 body {
   font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-  background: @base-background url(images/BaseBackground.png);
+/*  background: @base-background url(images/BaseBackground.png);*/
   background-repeat:repeat-y;
   color: @base-color;
   line-height:auto;
@@ -76,6 +76,7 @@ body {
 
 /* Sidebar Left
 -----------------------------------------------------------------------------*/
+/*
 #sideLeft {
   float: left;
   width: 100px;
@@ -89,6 +90,8 @@ body {
   display:block;
   background:url(images/logo.png);
 }
+*/
+
 .e-pannel {
   background:@e-panel-bg;
   width:750px - @common-padding;
@@ -629,4 +632,19 @@ height:200px;
 }
 
 
+[layout='window'] {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.e-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #000;
+  opacity: .4; 
+}
 
