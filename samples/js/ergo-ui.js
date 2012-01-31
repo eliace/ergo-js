@@ -106,7 +106,24 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			items: [{
 				etype: 'box',
-				cls: 'e-select-droplist',
+				cls: 'e-list alpha',
+				content: {
+					etype: 'list',
+					items: [
+						{text: 'Печора'},
+						{text: 'Ухта'},
+						{text: 'Сосногорск'},
+						{text: 'Усинск'},
+						{text: 'Сыктывкар'}
+					]
+				}
+			}]
+		}, {
+				// список в дроп панельке
+			etype: 'sample-panel',
+			items: [{
+				etype: 'box',
+				cls: 'e-dropbox alpha',
 				content: {
 					etype: 'list',
 					items: [

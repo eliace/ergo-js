@@ -220,7 +220,7 @@
 }
 
 //drop-down select list
-.e-select-droplist {
+.e-dropbox{
   position: relative;
   top: @e-form-margin  + @e-form-text-size;
   width: @e-form-width - 4px;
@@ -228,8 +228,7 @@
   display:block;
   z-index:1000;
   -webkit-border-radius: @e-select-radius;
-  margin-left:-10px;
-  border-radius: @e-select-radius;
+   border-radius: @e-select-radius;
   -moz-border-radius: @e-select-radius;
   -moz-border-radius:0 \9;
  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -245,24 +244,7 @@
   behavior:url(ie-css3.htc);
   //shadow.userAttrs.radius +',makeShadow=true,shadowOpacity=0.2)'; in HTC
 }
-.e-select-droplist ul {
-  list-style:none;
-  padding-bottom:5px;
-}
-.e-select-droplist ul li {
-  border-bottom:1px solid @separator-color;
-  padding: @e-form-margin;
-  display:block;
-  cursor:pointer;
-  
-}
-.e-select-droplist ul li:last-child {
-  border-bottom:0;
-}
-.e-select-droplist ul li:hover {
-  background:#f9f9f9;
-  color:#626262;
-}
+
 
 //drop-down calendar 
 .e-select-calendar {
@@ -601,17 +583,42 @@
 //lists
 .e-list > *{
   padding:20px;
-
 }
 
+
+
+.e-dropbox ul {
+  padding-bottom:5px;
+  list-style-position:inside;
+}
+.e-dropbox ul li {
+  border-bottom:1px solid @separator-color;
+  padding: @e-form-margin;
+  left:30px;
+  cursor:pointer;
+
+  
+}
+
+.e-dropbox ul li:last-child {
+  border-bottom:0;
+}
+.e-dropbox ul li:hover {
+  background:#f9f9f9;
+  color:#626262;
+}
 .decimal > ul li{
- list-style:decimal;
+ list-style-type:decimal!important;
 }
 .roman > ul li{
- list-style:upper-roman;
+ list-style-type:upper-roman!important;
 }
 .alpha > ul li {
-  list-style:lower-alpha;
+ list-style-type:lower-alpha!important;
+
+}
+.decimal, .roman, .alpha > ul {
+  list-style-position:inside;
 }
 //layouts
 [layout='hbox'] > * {
