@@ -531,7 +531,6 @@
    text-transform:uppercase;
    cursor:pointer;
    -moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;
-   
 }
 
 
@@ -580,6 +579,41 @@
   top:1px!important;
 }
 
+
+//lightbox
+
+.e-overlay {
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  background:transparent url(images/lightbox.png);
+  display:block;
+}
+[layout='window'] {
+  position:fixed;
+  left:50%;
+  top:50%;
+  display:block;
+ 
+}
+//lists
+.e-list > *{
+  padding:20px;
+
+}
+
+.decimal > ul li{
+ list-style:decimal;
+}
+.roman > ul li{
+ list-style:upper-roman;
+}
+.alpha > ul li {
+  list-style:lower-alpha;
+}
+//layouts
 [layout='hbox'] > * {
   display:inline-block;
   vertical-align:middle;
@@ -607,7 +641,5 @@
   margin-left: -100%;
   position: relative;
   background:#c9c9c9;
+
 }
-
-
-
