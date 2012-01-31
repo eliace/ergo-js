@@ -493,6 +493,10 @@
 .e-button-item:active > *{
   position:relative;
   top:1px;
+  
+}
+.e-button-item::-moz-focus-inner {
+  border: 0;
 }
 .e-button-item .e-icon {
   margin:0 5px 0 0;
@@ -618,13 +622,31 @@
   list-style-position:inside;
 }
 //layouts
+[layout='float']{
+  display: inline-block;
+}
+[layout='float']:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+ 
+
+ 
+html[xmlns] [layout='float'] {
+  display: block;
+}
+ 
+* html [layout='float'] {
+  height: 1%;
+}
 [layout='hbox'] > * {
   display:inline-block;
   vertical-align:middle;
 }
- 
-
-
 [layout='2c'] > .container {
   width: 100%;
   float: left;
