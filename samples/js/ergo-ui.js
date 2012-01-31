@@ -150,6 +150,20 @@ $(document).ready(function(){
 					wnd.layout.open();
 				}
 			}]
+		}, {
+			// float компоновка
+			etype: 'sample-panel',
+			layout: 'float',
+			items: [{
+				etype: 'button-item',
+				region: 'left',
+				text: 'Лево'
+			}, {
+				etype: 'button-item',
+				icon: 'e-icon-tag',
+				text: 'Право',
+				region: 'right'
+			}]
 		}]
 		
 	});
