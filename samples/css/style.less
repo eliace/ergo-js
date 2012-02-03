@@ -61,12 +61,15 @@ body {
   display:block;
   background:url(images/logo.png);
 }
-.e-pannel {
+.e-panel {
   background:@e-panel-bg;
   width:750px - @common-padding;
-  padding: @common-padding;
+  
   -webkit-border-radius: @e-panel-radius;
   -moz-border-radius: @e-panel-radius;
   border-radius: @e-panel-radius;
    margin:0 0 40px 0;
+}
+.e-panel > *{
+  padding: @common-padding;
 }

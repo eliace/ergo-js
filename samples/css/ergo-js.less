@@ -29,7 +29,59 @@
 // checkbox
 @e-check-box-radius:3px;
 
+//e-panel 
+.e-panel footer {
+  background:#efefef;
+  border-top:1px dashed #fff;
+   -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+.e-panel .e-pannel-content {
+  border-top:1px solid #fff;
+  border-bottom:1px dashed #c2c2c2;
+   
+}
+.e-panel header {
+  border-bottom:1px solid #e9e9e9;
+}
 
+.e-panel h1, .e-panel h2, .e-panel h3, .e-panel h4 {
+  font-weight:normal;
+}
+.e-panel blockquote {
+  padding:10px 10px  10px 40px;
+  color:#ababab;
+  background:url(images/blockquote.png);
+  background-repeat:no-repeat;
+  background-position:0 5px;
+}
+//upload
+.e-upload-info {
+  color:#5e5e5e;
+  font-size:1em;
+  margin:0 10px;
+}
+.e-upload-filename {
+  margin:0 10px;
+  font-size:1.2em;
+}
+.e-upload-filename .e-icon {
+  margin:0 10px 0 0;
+}
+.e-upload-filename a {
+  margin:0 10px;
+  color:#d2d2d2;
+  text-decoration:none;
+}
+.e-upload-filename a:hover {
+
+  color:#de5353;
+  
+}
+.e-upload-info span{
+  font-style:italic;
+}
 //ergo-forms
 .e-field {
   margin:0 0 40px 0;
@@ -515,7 +567,7 @@
 }
 
 //styled button
-.e-styled-button {
+.e-styled-button-holder {
   height:auto;
   display:inline-block;
   border:1px solid #81ae35;
@@ -530,7 +582,6 @@
    cursor:pointer;
    -moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;
 }
-
 
 .e-styled-button-gradient {
   height:auto;
@@ -553,6 +604,7 @@
   color:#fff;
   
 }
+
 .e-styled-button-dash {
   border:1px dashed #68961b;
   border-bottom:1px dashed #5c8c0b;
@@ -561,6 +613,10 @@
   -moz-border-radius: @e-smaller-radius;
    border-radius: @e-smaller-radius;
   -moz-border-radius:0 \9;
+  cursor:pointer;
+}
+.customInputFileWrapper input {
+  cursor:pointer;
 }
 .e-styled-button:hover > .e-styled-button-gradient {
   background:  @e-label-bottom-color; /* Old browsers */
@@ -763,6 +819,9 @@
   background: linear-gradient(top, #d2540f 1%,#ab4124 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2540f', endColorstr='#ab4124',GradientType=0 ); /* IE6-8 */
 }
+
+
+
 //layouts
 [layout='float']{
   display: inline-block;
