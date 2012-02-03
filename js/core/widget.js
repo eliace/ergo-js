@@ -493,12 +493,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		for(var i in o) {
 			// проверяем наличие Java-like сеттеров
-			var java_setter = 'set'+i.capitalize();
+			var java_setter = 'set'+i.capitalize();			
 			// проверяем наличие сеттеров опций
 			if(this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
-			else if(this.java_setter)
+			else if(this[java_setter])
 				this[java_setter](o[i]);
 		}
 
