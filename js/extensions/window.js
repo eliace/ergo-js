@@ -256,7 +256,7 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 		
 		if(self.options.closeOnOuterClick) self.window.close();
 		 
-		e.prefentDefault(); 
+		e.preventDefault(); 
 		return false; 
 	});
 	

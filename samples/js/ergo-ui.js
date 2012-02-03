@@ -16,6 +16,38 @@ Ergo.declare('Sample.widgets.Panel', 'Ergo.widgets.Box', {
 
 $(document).ready(function(){
 	
+	
+	var growlPanel = $.ergo({
+		etype: 'growl-panel',
+		renderTo: 'body'
+	});
+	
+	
+	growl = {
+		
+		_add: function(msg, msg_title, msg_icon) {
+			growlPanel.addGrowl({
+				icon: msg_icon,
+				message: msg,
+				title: msg_title,
+			});
+		},
+		
+		
+		success: function(msg, title) {
+			this._add(msg, title || 'Завершено', 'e-grouls_complete');
+		},
+
+		warn: function(msg, title) {
+			this._add(msg, title || 'Предупреждение', 'e-grouls_alert');
+		},
+		
+	};
+	
+	
+	
+	
+	
 	$.ergo({
 		etype: 'box',
 		html: '#content',
@@ -25,6 +57,7 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			items: [{
 				label: 'Имя',
+				id: 'my_id',
 				etype: 'text-field',
 				placeholder: 'Ваше имя'
 			}, {
@@ -46,7 +79,42 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			items: [{
 				label: 'Город',
-				etype: 'select-field'
+				etype: 'select-field',
+				
+				onClick: function() {
+					
+					this.dropdown.open();
+					
+				},
+				
+				components: {
+					dropdown: {
+						etype: 'box',
+						extensions: ['effects', 'popup'],
+						position: {
+							global: true,
+							at: 'left bottom'
+						},
+						effects: {
+							show: 'slideDown',
+							hide: 'slideUp',
+							delay: 300
+						},
+						cls: 'e-dropbox',
+						style: {'display': 'none'},
+						content: {
+							etype: 'list',
+							items: [
+								{text: 'Печора'},
+								{text: 'Ухта'},
+								{text: 'Сосногорск'},
+								{text: 'Усинск'},
+								{text: 'Сыктывкар'}
+							]
+						}
+					}
+				}				
+				
 			}, {
 				label: 'Число',
 				etype: 'select-field',
@@ -66,6 +134,10 @@ $(document).ready(function(){
 				etype: 'text-item',
 				text: 'Текст с иконкой слева',
 				icon: 'e-icon-folder'
+			}, {
+				etype: 'text-item',
+				text: 'Текст с иконкой справа',
+				xicon: 'e-icon-folder'
 			}]
 		}, {
 			etype: 'sample-panel',
@@ -216,6 +288,18 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			items: [{
 				etype: 'panel'
+			}]
+		}, {
+			// загрузчик файлов
+			etype: 'sample-panel',
+			items: [{
+				etype: 'button-item',
+				text: 'Success',
+				onClick: function() { growl.success('Нажатие кнопки'); }
+			}, {
+				etype: 'button-item',
+				text: 'Warning',
+				onClick: function() { growl.warn('Нажатие кнопки'); }
 			}]
 		}]
 		

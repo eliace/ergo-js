@@ -39,8 +39,8 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 			},
 			'xicon': function(v) {
 				var o = this.options;
-				this.xicon.states.setOnly(o.icon);
-				this.xicon.states.toggle('hidden', !o.icon);				
+				this.xicon.states.setOnly(o.xicon);
+				this.xicon.states.toggle('hidden', !o.xicon);				
 			}
 		},
 		get: {

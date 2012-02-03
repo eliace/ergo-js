@@ -982,7 +982,7 @@ var Ergo = (function(){
 	
 	E.glass_pane = function() {
 		
-		return $('<div class="e-glass-pane" autoHeight="ignore"/>')
+		return $('<div class="e-glasspane" autoheight="ignore"/>')
 			.on('mousedown', function(e){
 				e.preventDefault();
 				return false;				

@@ -59,6 +59,8 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 				y += offset.top;
 			}
 			
+			this.el.css('position', 'absolute');
+			
 			$('body').append(this.el);
 		}
 				
