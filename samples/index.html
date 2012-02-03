@@ -16,12 +16,106 @@
 		<!-- ErgoJS -->
 		<script type="text/javascript" src="../build/ergo-js.js"></script>
 		<script type="text/javascript" src="js/ergo-ui.js"></script>
+		<script type="text/javascript" src="js/jquery.custom-input-file.js"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				$("#fileupload-1").customInputFile({
+
+					filename : "#filename-1"
+
+				});
+
+				
+
+				$('#clear').bind('click', function() {
+
+					$("#fileupload-1").trigger("clear");
+
+				});
+			});
+
+		</script>
 	</head>
 	<body>
 		<div id="wrapper">
+			<div class="e-glasspane"></div>
 			<section id="middle">
 				<div id="container">
 					<div id="content">
+						<div class="e-pannel">
+							<div class="e-grouls_pannels_holder">
+								<div class="e-grouls_pannels">
+									<div class="e-grouls_pannels_wrapper">
+										<div class="e-grouls_pannels_img e-grouls_question"></div>
+										<div class="e-grouls_pannels_content">
+											<h4>Опрос</h4>
+											<p>
+												Удобна ли новая версия Сайта?
+											</p>
+											<ul>
+												<li>
+													<a href="#" class="e-grouls_yes">Да</a>
+												</li>
+												<li>
+													<a href="#" class="e-grouls_no">Нет</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="e-grouls_pannels">
+									<div class="e-grouls_pannels_wrapper">
+										<div class="e-grouls_pannels_img e-grouls_complete"></div>
+										<div class="e-grouls_pannels_content">
+											<h4>Задача выполнена</h4>
+											<p>
+												Уведомление о выполнении какой либо услуги или действия?
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="e-grouls_pannels">
+									<div class="e-grouls_pannels_wrapper">
+										<div class="e-grouls_pannels_img e-grouls_alert"></div>
+										<div class="e-grouls_pannels_content">
+											<h4>Предупреждение</h4>
+											<p>
+												Безуспешно выполненная задача или ошибка
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="e-pannel">
+							<div class="e-panel">
+								<header>
+									1
+								</header>
+								<div>
+									2
+								</div>
+								<footer>
+									<form action="" method="post">
+										<p>
+											<input type="file" id="fileupload-1" autocomplete="off" />
+										</p>
+										
+									</form>
+									<p>
+										<a id="clear" href="javascript:void(0)">clear</a>
+									</p>
+									<p>
+										Here should be our filenames:
+									</p>
+									<ul>
+										<li id="filename-1"></li>
+										
+									</ul>
+								</footer>
+							</div>
+						</div>
 						<!-- Тестовую разметку создавать здесь-->
 					</div>
 				</div>
