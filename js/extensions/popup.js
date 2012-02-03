@@ -1,5 +1,5 @@
 
-
+//= require <core/object>
 
 
 Ergo.extension('Ergo.extensions.Popup', function(o) {

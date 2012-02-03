@@ -93,6 +93,11 @@ $(document).ready(function(){
 		}, {
 			// кнопки
 			etype: 'sample-panel',
+			
+			defaultItem: {
+				style: {'margin': 5}
+			},
+			
 			items: [{
 				etype: 'button-item',
 				text: 'Кнопка'
@@ -100,6 +105,9 @@ $(document).ready(function(){
 				etype: 'button-item',
 				text: 'Кнопка',
 				icon: 'e-icon-tag'
+			}, {
+				etype: 'styled-button',
+				text: 'Кнопка'
 			}]
 		}, {
 			// список
@@ -117,13 +125,39 @@ $(document).ready(function(){
 						{text: 'Сыктывкар'}
 					]
 				}
+			}, {
+				etype: 'box',
+				cls: 'e-list alpha',
+				content: {
+					etype: 'list',
+					items: [
+						{text: 'Печора'},
+						{text: 'Ухта'},
+						{text: 'Сосногорск'},
+						{text: 'Усинск'},
+						{text: 'Сыктывкар'}
+					]
+				}
+			}, {
+				etype: 'box',
+				cls: 'e-list decimal',
+				content: {
+					etype: 'list',
+					items: [
+						{text: 'Печора'},
+						{text: 'Ухта'},
+						{text: 'Сосногорск'},
+						{text: 'Усинск'},
+						{text: 'Сыктывкар'}
+					]
+				}
 			}]
 		}, {
 				// список в дроп панельке
 			etype: 'sample-panel',
 			items: [{
 				etype: 'box',
-				cls: 'e-dropbox alpha',
+				cls: 'e-dropbox roman',
 				content: {
 					etype: 'list',
 					items: [
@@ -140,14 +174,27 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			items: [{
 				etype: 'button-item',
-				text: 'Кнопка',
+				text: 'Открыть окно',
 				onClick: function() {
 					var wnd = $.ergo({
 						etype: 'sample-panel',
-						renderTo: 'body',
-						layout: 'window'
+						extensions: ['window'],
+						closeOnOuterClick: true,
+						width: '90%',
+						height: 300
 					});
-					wnd.layout.open();
+					wnd.window.open();
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Открыть диалог',
+				onClick: function() {
+					var dlg = $.ergo({
+						etype: 'dialog',
+						width: 200,
+						height: 200
+					});
+					dlg.open();
 				}
 			}]
 		}, {
@@ -163,6 +210,12 @@ $(document).ready(function(){
 				icon: 'e-icon-tag',
 				text: 'Право',
 				region: 'right'
+			}]
+		}, {
+			// панелька
+			etype: 'sample-panel',
+			items: [{
+				etype: 'panel'
 			}]
 		}]
 		
