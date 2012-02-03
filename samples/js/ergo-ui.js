@@ -313,6 +313,7 @@ $(document).ready(function(){
 				}]
 			}
 		}, {
+			// гроулы
 			etype: 'sample-panel',
 			title: 'Гроулы',
 			content: {
@@ -324,6 +325,44 @@ $(document).ready(function(){
 					etype: 'button-item',
 					text: 'Warning',
 					onClick: function() { growl.warn('Нажатие кнопки'); }
+				}]				
+			}
+		}, {
+			// загрузка файлов
+			etype: 'sample-panel',
+			title: 'Загрузка файлов',
+			content: {
+				items: [{
+					style: {'position': 'relative', 'display': 'inline-block'},					
+					items: [{
+						opacity: 0,
+						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+						content: {
+							etype: 'file',
+							html: '<input type="file" size="1">',
+							style: {'font-size': 300, 'margin-top': -50, 'margin-left': -900, 'position': 'absolute', 'cursor': 'pointer'}								
+						}
+						
+					}, {
+						etype: 'button-item',
+						text: 'Загрузить файл',						
+					}]
+				}, {
+					// иконка - загрузчик
+					style: {'position': 'relative', 'display': 'inline-block'},					
+					items: [{
+						opacity: 0,
+						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+						content: {
+							etype: 'file',
+							html: '<input type="file" size="1">',
+							style: {'font-size': 300, 'margin-top': -50, 'margin-left': -900, 'position': 'absolute', 'cursor': 'pointer'}								
+						}
+						
+					}, {
+						etype: 'image',
+						src: 'img/icons-32/e-icon-folder.png'
+					}]
 				}]				
 			}
 		}]
