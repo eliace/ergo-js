@@ -76,6 +76,7 @@
 
         function bind() {
             function onChange() {
+            	
                 var val = $(this).val().replace(/.*(\/|\\)/, "");
 
                 if ($filename.get(0).nodeName.toUpperCase() === 'INPUT') {

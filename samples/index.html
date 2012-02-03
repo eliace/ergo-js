@@ -21,25 +21,27 @@
 			$(function() {
 
 				$("#fileupload-1").customInputFile({
+					filename : "#filename-1",
+					replacement : $('<div />', {
+						"text" : "Загрузка",
+					}),
+					changeCallback : function() {
+						$("#filename-1").prepend('<div class="e-icon e-icon-folder"></div>');
+						$("#filename-1").append('<div ><a id="clear" href="javascript:void(0)">Удалить [x]</a></div>');
+						$('#clear').bind('click', function() {
 
-					filename : "#filename-1"
+							$("#fileupload-1").trigger("clear");
 
+						});
+					}
 				});
 
-				
-
-				$('#clear').bind('click', function() {
-
-					$("#fileupload-1").trigger("clear");
-
-				});
 			});
 
 		</script>
 	</head>
 	<body>
 		<div id="wrapper">
-			<div class="e-glasspane"></div>
 			<section id="middle">
 				<div id="container">
 					<div id="content">
@@ -89,30 +91,46 @@
 							</div>
 						</div>
 						<div class="e-pannel">
-							<div class="e-panel">
+							<div class="e-panel" >
 								<header>
-									1
+									<h2>Заголовок</h2>
 								</header>
-								<div>
-									2
+								<div class="e-pannel-content">
+									<p>
+										Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+										totam rem aperiam, eaque ipsa quae ab illo inventore.Sed ut perspiciatis unde omnis iste natus error
+										sit voluptatem accusantium doloremque laudantium totam rem aperiam, eaque ipsa quae ab.
+									</p>
+									<blockquote>
+										Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+										totam rem aperiam, eaque ipsa quae ab illo inventore.Sed ut perspiciatis unde omnis iste natus error
+										sit voluptatem accusantium doloremque laudantium totam rem aperiam, eaque ipsa quae ab.
+									</blockquote>
+									<p>
+										Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+										totam rem aperiam, eaque ipsa quae ab illo inventore.Sed ut perspiciatis unde omnis iste natus error
+										sit voluptatem accusantium doloremque laudantium totam rem aperiam, eaque ipsa quae ab.
+									</p>
 								</div>
-								<footer>
+								<footer layout="hbox">
 									<form action="" method="post">
-										<p>
-											<input type="file" id="fileupload-1" autocomplete="off" />
-										</p>
-										
+										<div class="e-styled-button-holder">
+											<div class="e-styled-button-gradient">
+												<div class="e-styled-button-dash" layout="hbox">
+													<input type="file" id="fileupload-1" autocomplete="off" />
+												</div>
+											</div>
+										</div>
 									</form>
-									<p>
-										<a id="clear" href="javascript:void(0)">clear</a>
-									</p>
-									<p>
-										Here should be our filenames:
-									</p>
-									<ul>
-										<li id="filename-1"></li>
-										
-									</ul>
+									<div class="e-upload-info">
+										<p>
+											Прикрепите копию паспорта
+										</p>
+										<span>
+											размер файла не более 2mb
+										</span>
+									</div>
+									<div  id="filename-1" class="e-upload-filename" layout="hbox"></div>
 								</footer>
 							</div>
 						</div>
