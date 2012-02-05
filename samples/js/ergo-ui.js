@@ -332,20 +332,25 @@ $(document).ready(function(){
 			etype: 'sample-panel',
 			title: 'Загрузка файлов',
 			content: {
+				layout: 'hbox',
 				items: [{
-					style: {'position': 'relative', 'display': 'inline-block'},					
+					style: {'position': 'relative', 'display': 'inline-block'},
+					events: {
+						'mousedown': function(e, w) { w.item(0).states.set('clicked'); },
+						'mouseup': function(e, w) { w.item(0).states.clear('clicked'); },
+					},
 					items: [{
+						etype: 'button-item',
+						text: 'Загрузить файл',						
+					}, {
 						opacity: 0,
 						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
 						content: {
 							etype: 'file',
 							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'margin-top': -50, 'margin-left': -900, 'position': 'absolute', 'cursor': 'pointer'}								
+							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
 						}
 						
-					}, {
-						etype: 'button-item',
-						text: 'Загрузить файл',						
 					}]
 				}, {
 					// иконка - загрузчик
@@ -356,12 +361,12 @@ $(document).ready(function(){
 						content: {
 							etype: 'file',
 							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'margin-top': -50, 'margin-left': -900, 'position': 'absolute', 'cursor': 'pointer'}								
+							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
 						}
 						
 					}, {
 						etype: 'image',
-						src: 'img/icons-32/e-icon-folder.png'
+						src: 'img/icons-32/e-ico-folder.png'
 					}]
 				}]				
 			}

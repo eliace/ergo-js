@@ -554,11 +554,12 @@
   font-size:@e-form-text-size;
   color:@form-color;
 }
-.e-button-item:active > *{
+.e-button-item:active > *, .e-button-item.clicked > * {
   position:relative;
   top:1px;
   
 }
+
 .e-button-item::-moz-focus-inner {
   border: 0;
 }
