@@ -1,39 +1,51 @@
-@form-color: #626262;
-@common-padding: 20px;
+@form-color: #626262;                 // Цвет текста в формах
 @separator-color:#e3e3e3;
-//ergo-ui 
+
+//ERGO UI (THEME SETTINGS) /////////////////////////////////////////////////////////////////////////////////////////////
 @e-panel-bg : #f3f3f3;
 @e-panel-radius : 5px;
-//ergo form
-@e-form-text-size:1.2em;
-@e-form-radius:0 3px 3px 3px;
-@e-form-width:400px;
-@e-form-margin: 10px;
+
+//ergo field
+@e-field-text-size:1.2em;              // Размер шрифта в формах
+@e-field-radius:0 3px 3px 3px;         // Закругленные углы в формах
+@e-field-width:400px;                  // Ширина форм
+@e-field-margin: 10px;                 // Общий отступ в полях
+@e-field-content-bg:#efefef;           // Фоновый цвет полей
+@e-field-content-border-color:#f8f8f8; // Цвет границы в полях
+@e-field-content-border-size:1px;      // Размер границы в полях
+
 //ergo form labels
-@e-label-radius: 3px 3px 0 0;
-@e-label-top-color: #8cb20a;
-@e-label-bottom-color: #679908;
-@e-label-text-shadow-color: @e-label-bottom-color - #262903;
-//ergo error form labels
-@e-label-err-bottom-color: #d6451b;
-@e-label-err-top-color: #e44e14;
-@e-label-err-text-shadow-color: @e-label-err-bottom-color - #262903;
+@e-label-radius: 3px 3px 0 0;          // Радиус углов в заголовке
+@e-label-top-color: #8cb20a;           // Верхний цвет градиента в заголовке
+@e-label-bottom-color: #679908;        // Нижний цвет градиента в заголовке
+@e-label-text-shadow-color: @e-label-bottom-color - #262903; // Цвет тени под текстом в заголовке
+
+//ergo error form labels              
+@e-label-err-bottom-color: #d6451b;   // Верхний цвет градиента в заголовке при ошибке 
+@e-label-err-top-color: #e44e14;      // Нижний цвет градиента в заголовке при ошибке
+@e-label-err-text-shadow-color: @e-label-err-bottom-color - #262903; // Цвет тени под текстом в заголовке при ошибке
+
 //select form 
-@e-select-radius:5px;
-@e-selec-arrow-color:#a9a9a9;
+@e-select-radius:5px;                 // Радиус выпадающего меню
+@e-select-arrow-color:#a9a9a9;        // Цвет стрелок в выпадающем меню 
+
 //calendar
 @e-small-radius:3px;
 @e-smaller-radius:2px;
+
 //radio button
-@e-radio-radius:10px;
+@e-radio-radius:10px;                 // Делает радио кнопки круглыми
+
 // checkbox
-@e-check-box-radius:3px;
+@e-check-box-radius:3px;              // Радиус углов чекбоксов
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //e-panel 
 .e-panel footer {
   background:#efefef;
   border-top:1px dashed #fff;
-   -webkit-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
 }
@@ -82,19 +94,20 @@
 .e-upload-info span{
   font-style:italic;
 }
+
+
 //ergo-forms
 .e-field {
   margin:0 0 40px 0;
-  width:@e-form-width;
-
+  width:@e-field-width;
 }
 .e-field-content {
-  background:#efefef;
+  background:@e-field-content-bg;
   background:#dfdfdf \9;
-  -webkit-border-radius: @e-form-radius;
-  -moz-border-radius: @e-form-radius;
-  border-radius: @e-form-radius;
-  border: 1px solid #f8f8f8;
+  -webkit-border-radius: @e-field-radius;
+  -moz-border-radius: @e-field-radius;
+  border-radius: @e-field-radius;
+  border: @e-field-content-border-size solid @e-field-content-border-color;
   -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
@@ -104,14 +117,45 @@
   padding:0 5px 3px 0px \9;
   z-index:80;
 }
-
-
+.e-field-and-button-content {
+  background:@e-field-content-bg;
+  background:#dfdfdf \9;
+  -webkit-border-radius: @e-field-radius;
+  -moz-border-radius: @e-field-radius;
+  border-radius: @e-field-radius;
+  border: @e-field-content-border-size solid @e-field-content-border-color;
+  -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  position:relative;
+  clear:both;
+  zoom:1;
+  padding:0 5px 3px 0px \9;
+  z-index:80;
+}
+.e-input-button {
+   float: right;
+   margin-top:2px;
+   margin-right:2px;
+}
+.e-field-and-button-content input[type='text'], .e-field-and-button-content textarea  {
+  background: transparent;
+  border: 0;
+  width: 100%;
+  font-size: @e-field-text-size;
+  padding: @e-field-margin 0  @e-field-margin 0;
+  color:@form-color;
+  font-family:Arial;
+  resize: none;
+  overflow:hidden;
+  position:relative;
+}
 //on focus
 .e-field.focus >.e-field-content{
-  border:1px solid @e-label-bottom-color;
+  border:@e-field-content-border-size solid @e-label-bottom-color;
 }
 .e-field.focus >.e-field-label{
-  border-left:1px solid @e-label-bottom-color;
+  border-left:@e-field-content-border-size solid @e-label-bottom-color;
   left:0px \9;
 }
 
@@ -137,7 +181,7 @@
 
 // inputs and textareas
 .e-element-wrapper {
-  background:#efefef\9;
+  background:#efefef \9;
    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1);
   -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1)";
   padding-left:10px;
@@ -155,8 +199,8 @@
   background: transparent;
   border: 0;
   width: 100%;
-  font-size: @e-form-text-size;
-  padding: @e-form-margin 0  @e-form-margin 0;
+  font-size: @e-field-text-size;
+  padding: @e-field-margin 0  @e-field-margin 0;
   color:@form-color;
   font-family:Arial;
   resize: none;
@@ -201,11 +245,11 @@
   border:1px solid #dcdcdc;
   position:relative;
   overflow:hidden;
-  -webkit-border-radius: @e-form-radius;
-  -moz-border-radius: @e-form-radius;
+  -webkit-border-radius: @e-field-radius;
+  -moz-border-radius: @e-field-radius;
   -moz-border-radius:0 \9;
-  border-radius: @e-form-radius;
-  width:@e-form-width - 6px;
+  border-radius: @e-field-radius;
+  width:@e-field-width - 6px;
   background: #ffffff; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -217,7 +261,7 @@
   background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
   cursor:pointer;
-  font-size:@e-form-text-size;
+  font-size:@e-field-text-size;
 
 }
 .e-current-select {
@@ -238,7 +282,7 @@
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid @e-selec-arrow-color;
+  border-top: 8px solid @e-select-arrow-color;
   position:relative;
   margin:15px 10px;
 }
@@ -247,7 +291,7 @@
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid @e-selec-arrow-color;
+  border-bottom: 8px solid @e-select-arrow-color;
   position:relative;
   margin:15px 10px;
 }
@@ -257,7 +301,7 @@
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent; 
-  border-right:8px solid @e-selec-arrow-color;
+  border-right:8px solid @e-select-arrow-color;
   position:relative;
   margin:10px 12px;
 }
@@ -266,7 +310,7 @@
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent; 
-  border-left:8px solid @e-selec-arrow-color;
+  border-left:8px solid @e-select-arrow-color;
   position:relative;
   margin:10px 12px;
 }
@@ -285,8 +329,8 @@
 
 .e-dropbox{
   position: relative;
-  top: @e-form-margin  + @e-form-text-size;
-  width: @e-form-width - 4px;
+  top: @e-field-margin  + @e-field-text-size;
+  width: @e-field-width - 4px;
   left:1px;
   display:block;
   z-index:1001;
@@ -313,7 +357,7 @@
 //drop-down calendar 
 .e-select-calendar {
   position: relative;
-  top: @e-form-margin  + @e-form-text-size;
+  top: @e-field-margin  + @e-field-text-size;
   width: 200px;
   left:1px;
   display:block;
@@ -457,7 +501,7 @@
   width:16px;
   height:16px;
   display:inline-block;
-  background:#efefef;
+  background:@e-field-content-bg;
  -webkit-border-radius: @e-radio-radius;
    border-radius: @e-radio-radius;
   -moz-border-radius: @e-radio-radius;
@@ -491,7 +535,7 @@
   width:16px;
   height:16px;
   display:inline-block;
-  background:#efefef;
+  background:@e-field-content-bg;
  -webkit-border-radius: @e-check-box-radius;
    border-radius: @e-check-box-radius;
   -moz-border-radius: @e-check-box-radius;
@@ -545,13 +589,13 @@
   background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
   cursor:pointer;
-  font-size:@e-form-text-size;
-  -webkit-border-radius: @e-form-radius;
-  -moz-border-radius: @e-form-radius;
-   border-radius: @e-form-radius;
+  font-size:@e-field-text-size;
+  -webkit-border-radius: @e-field-radius;
+  -moz-border-radius: @e-field-radius;
+   border-radius: @e-field-radius;
   -moz-border-radius:0 \9;
   padding:4px 10px;
-  font-size:@e-form-text-size;
+  font-size:@e-field-text-size;
   color:@form-color;
 }
 .e-button-item:active > *, .e-button-item.clicked > * {
@@ -682,7 +726,7 @@
 }
 .e-dropbox ul li {
   border-bottom:1px solid @separator-color;
-  padding: @e-form-margin;
+  padding: @e-field-margin;
   left:30px;
   cursor:pointer;
 }
