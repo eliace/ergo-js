@@ -113,6 +113,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var o = this.options;
 		var self = this;
 
+		
+		// this.events.on_fire = function(type, e, base_event) {
+			// if(e.bubble && self.parent) self.parent.events.fire(type, e, base_event);
+		// };
+
 
 		// инициализируем виджет
 		this.$init(o);
@@ -304,20 +309,28 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		
 		
+		// var wrap_func = function(handler, e, type) {
+			// var result = handler.call(this, e, type);
+			// if(this.parent) this.parent.events.fire(type, e);
+		// }
+		
+		
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
+				var name = i.charAt(2).toLowerCase() + i.slice(3);
 				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-				for(var j = 0; j < chain.length; j++)
-					this.events.reg(i, chain[j]);
+				for(var j = 0; j < chain.length; j++) {
+					this.events.reg( name, chain[j] );
+				}
 			}
 		}
 
 		
 		if('onClick' in o)
-			this.el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
+			this.el.click(function(e) { self.events.fire('click', {button: e.button}, e) });
 		if('onDoubleClick' in o)
-			this.el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
+			this.el.dblclick(function(e) { self.events.fire('doubleClick', {button: e.button}, e) });
 		
 		
 	},
@@ -879,6 +892,9 @@ Ergo.widget = function(){
 };
 
 
+Ergo.bubble = function(e, type) {
+	if(this.parent) this.parent.events.fire(type, e);
+}
 
 
 

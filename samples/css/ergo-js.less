@@ -519,14 +519,20 @@
   width:8px;
   height:8px;
   display:inline-block;
-  background: @e-label-top-color;
   -webkit-border-radius: @e-radio-radius;
   border-radius: @e-radio-radius;
   -moz-border-radius: @e-radio-radius;
-  border:1px solid @e-label-bottom-color;
+  border:1px solid transparent;/* @e-label-bottom-color;*/
   margin:3px;
   cursor:pointer;
 }
+
+.e-radio-box.checked > .e-checker {
+  background: @e-label-top-color;  
+  border-color: @e-label-bottom-color;
+}
+
+
 
 .e-radio-label {
   display:inline-block;
@@ -551,7 +557,6 @@
 }
 .e-check-box > .e-checker{
   color: @e-check-box-radius;
-  background:url(../img/e-checker.png);
   background-repeat:no-repeat;
   display:inline-block;
   width:16px;
@@ -561,6 +566,13 @@
   cursor:pointer;
 
 }
+
+
+.e-check-box.checked > .e-checker {
+  background:url(../img/e-checker.png);
+}
+
+
 .e-radio-label {
   display:inline-block;
   margin:0 0 0 15px;
@@ -874,6 +886,33 @@
   background: linear-gradient(top, #d2540f 1%,#ab4124 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2540f', endColorstr='#ab4124',GradientType=0 ); /* IE6-8 */
 }
+
+
+
+
+
+//grid
+.e-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.e-grid-header {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+
+
+.e-radio-item.selected .e-checker {
+  background: @e-label-top-color;  
+  border-color: @e-label-bottom-color;  
+}
+
+
+
 
 
 

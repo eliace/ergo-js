@@ -13,6 +13,60 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
 Ergo.LOREMIPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel faucibus mi. In nulla dui, faucibus ac vehicula quis, tempor mollis velit. Quisque ornare erat diam. Morbi at iaculis sapien. Maecenas scelerisque aliquet sollicitudin. In leo sapien, mattis et posuere id, euismod in augue. Nam ac magna sit amet orci suscipit varius non ac nulla. Morbi adipiscing, urna ut pellentesque mattis, leo leo condimentum lacus, vitae imperdiet est lorem in purus. Integer interdum bibendum nisl eget dapibus. Mauris sed tortor eu tortor porta venenatis ac sit amet risus."
 
 
+Ergo.GRID_DATA = [{
+	created_at: '2012-02-19',
+	title: 'Заявление',
+	deadline_at: '2012-03-01',
+	status: 'В работе'
+}, {
+	created_at: '2012-02-18',
+	title: 'Заявление 2',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 3',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 4',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 5',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 6',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 7',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 8',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 9',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 10',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}]
+
+
+
 
 $(document).ready(function(){
 	
@@ -66,6 +120,14 @@ $(document).ready(function(){
 					label: 'Фамилия',
 					etype: 'text-field',
 					placeholder: 'Ваша фамилия'
+				}, {
+					label: 'Адрес проживания',
+					etype: 'text-button-field',
+					placeholder: 'Адрес',
+					buttons: [{
+						icon: 'e-icon-info',
+						text: false
+					}]
 				}]				
 			}
 		}, {
@@ -95,6 +157,10 @@ $(document).ready(function(){
 						
 					},
 					
+					onAction: function(w) {
+						this.dropdown.close();
+					},
+					
 					components: {
 						dropdown: {
 							etype: 'box',
@@ -112,6 +178,11 @@ $(document).ready(function(){
 							style: {'display': 'none'},
 							content: {
 								etype: 'list',
+								defaultItem: {
+									onClick: function(e) {
+										this.events.fire('action', {target: this, after: Ergo.bubble});
+									}
+								},
 								items: [
 									{text: 'Печора'},
 									{text: 'Ухта'},
@@ -164,7 +235,11 @@ $(document).ready(function(){
 						}
 					},
 					text: 'чекбокс',
-					icon: true
+					icon: true,
+					
+					onClick: function() {
+						this.icon.states.toggle('checked');
+					}
 				}, {
 					etype: 'text-item',
 					tabIndex: 0,
@@ -174,7 +249,12 @@ $(document).ready(function(){
 						}
 					},
 					text: 'радиобокс',
-					icon: true
+					icon: true,
+					
+					onClick: function() {
+						this.icon.states.set('checked');
+					}					
+					
 				}]
 			}
 		}, {
@@ -369,6 +449,136 @@ $(document).ready(function(){
 						src: 'img/icons-32/e-ico-folder.png'
 					}]
 				}]				
+			}
+		}, {
+			// радио группа
+			etype: 'sample-panel',
+			title: 'Элементы выбора',
+			content: {
+				etype: 'box',
+				
+				extensions: ['selectable'],
+				
+				onAction: function(e) {
+					this.selection.set(e.target);
+				},
+				
+				defaultItem: {
+					etype: 'text-item',
+					cls: 'e-radio-item',
+					tabIndex: 0,
+					components: {
+						'icon!': {
+							etype: 'radio-box'
+						}
+					},
+					icon: true,
+					
+					onClick: function() {
+						this.events.fire('action', {target: this, after: Ergo.bubble});
+					}
+				},
+				
+				items: [{
+					text: 'Вариант 1'
+				}, {
+					text: 'Вариант 2'
+				}, {
+					text: 'Вариант 3'
+				}]
+			}
+		}, {
+			// грид
+			
+			etype: 'sample-panel',
+			title: 'Грид',
+			content: {
+				
+				components: {
+					
+					// заголовок грида
+					header: {
+						etype: 'grid-header',
+						
+						style: {'font-weight': 'bold'},
+						
+						columns: [{
+							content: {
+								etype: 'check-box'
+							},
+							autoBind: false,
+							width: 30
+						}, {
+							text: 'Дата',
+							width: 100
+						}, {
+							text: 'Заголовок',
+						}, {
+							text: 'Срок исполнения',
+							width: 100
+						}, {
+							text: 'Статус',
+							width: 150
+						}, {
+							text: 'Детали',
+							width: 100
+						}]
+						
+					},
+					
+					// тело грида
+					scrollableContent: {
+						
+						style: {'overflow': 'auto'},
+						
+						height: 200,
+					
+						content: {
+							etype: 'grid',
+							
+							data: Ergo.GRID_DATA,
+							
+							cell: {
+								style: {'border-bottom': '1px solid #ddd'}
+							},
+							
+							columns: [{
+								content: {
+									etype: 'check-box',
+									onClick: function() {
+										this.states.toggle('checked');
+									}
+								},
+								autoBind: false,
+								width: 30
+							}, {
+								header: 'Дата',
+								dataId: 'created_at',
+								width: 100
+							}, {
+								header: 'Заголовок',
+								dataId: 'title'
+							}, {
+								header: 'Срок исполнения',
+								dataId: 'deadline_at',
+								width: 100
+							}, {
+								header: 'Статус',
+								dataId: 'status',
+								width: 150
+							}, {
+								header: 'Детали',
+								width: 100,
+								content: {
+									etype: 'button-item',
+									text: 'детали'
+								}
+							}]
+							
+						}
+					}
+				}			
+			
 			}
 		}]
 		
