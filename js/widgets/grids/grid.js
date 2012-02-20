@@ -17,6 +17,7 @@ Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 		components: {
 			control: {
 				etype: 'grid-row',
+				cls: 'e-grid-control-row',
 				weight: -1
 			}
 		},
