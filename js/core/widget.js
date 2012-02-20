@@ -459,7 +459,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$afterRender: function() {
 //		this.children.each(function(c) { c.$afterRender(); });
-		this.events.fire('onAfterRender');
+		this.events.fire('afterRender');
 		this.items.apply_all('$afterRender');
 	},
 
@@ -827,7 +827,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			this.data.set(val);
 //			delete this.lock_data_change;
 				 
-			this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
+			this.events.fire('valueChanged', {'value': val/*, 'reason': reason*/});				
 		
 			// if(valid) {
 				// this.states.clear('invalid');
@@ -872,7 +872,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		}
 
 		// var e = new Ergo.events.CancelEvent({value: this.getValue()});
-		this.events.fire('onDataChanged');//, e);
+		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
 
 		this.items.apply_all('$dataChanged');

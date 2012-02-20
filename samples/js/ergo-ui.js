@@ -83,7 +83,7 @@ $(document).ready(function(){
 			growlPanel.addGrowl({
 				icon: msg_icon,
 				message: msg,
-				title: msg_title,
+				title: msg_title
 			});
 		},
 		
@@ -94,7 +94,7 @@ $(document).ready(function(){
 
 		warn: function(msg, title) {
 			this._add(msg, title || 'Предупреждение', 'e-grouls_alert');
-		},
+		}
 		
 	};
 	
@@ -417,11 +417,11 @@ $(document).ready(function(){
 					style: {'position': 'relative', 'display': 'inline-block'},
 					events: {
 						'mousedown': function(e, w) { w.item(0).states.set('clicked'); },
-						'mouseup': function(e, w) { w.item(0).states.clear('clicked'); },
+						'mouseup': function(e, w) { w.item(0).states.clear('clicked'); }
 					},
 					items: [{
 						etype: 'button-item',
-						text: 'Загрузить файл',						
+						text: 'Загрузить файл'
 					}, {
 						opacity: 0,
 						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
@@ -512,7 +512,7 @@ $(document).ready(function(){
 							text: 'Дата',
 							width: 100
 						}, {
-							text: 'Заголовок',
+							text: 'Заголовок'
 						}, {
 							text: 'Срок исполнения',
 							width: 100
