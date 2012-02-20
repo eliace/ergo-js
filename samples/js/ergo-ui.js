@@ -538,9 +538,7 @@ $(document).ready(function(){
 							
 							data: Ergo.GRID_DATA,
 							
-							cell: {
-								style: {'border-bottom': '1px solid #ddd'}
-							},
+							
 							
 							columns: [{
 								content: {
