@@ -185,6 +185,7 @@ var Ergo = (function(){
 	};
 	
 	
+	E.etypes = function() { return _etypes; }
 	
 //	E.defineClass = E.declare;
 	

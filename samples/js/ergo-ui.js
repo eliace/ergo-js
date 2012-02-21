@@ -100,13 +100,30 @@ $(document).ready(function(){
 	
 	
 	
-	
+	// var etypes = [];
+// 	
+	// for(var i in Ergo.etypes()) {
+		// etypes.push(i);
+	// }	
 	
 	$.ergo({
 		etype: 'box',
 		html: '#content',
 		
 		items: [{
+			etype: 'sample-panel',
+			title: 'Список etype',
+			content: {
+				etype: 'list',
+				dynamic: true,
+				data: Ergo.etypes(),
+				defaultItem: {
+					binding: function(v) {
+						this.opt('text', Ergo.format('%s (%s)', v.prototype.etype, v.prototype.className));
+					}
+				}
+			}
+		}, {
 			// Поле ввода текста (однострочное)
 			etype: 'sample-panel',
 			title: 'Поле ввода текста (однострочное)',
