@@ -28,7 +28,8 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 	//		this.reset();
 			wnd.show();
 			this.update();
-						
+			
+			self.events.fire('open');
 		},
 		
 		close: function() {
@@ -40,9 +41,14 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			
 			overlay.detach();
 			wnd.hide();
+			
+			if(self.options.destroyOnClose)	self.destroy();
+			
+			
 	//		this.el.detach();
 	
 //			this.events.fire('onClose');
+			self.events.fire('close');
 		},
 		
 		
