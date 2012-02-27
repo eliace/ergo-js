@@ -79,8 +79,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 //	add: function(item) {},
 
 
-	select: function() {
-		return this.el;
+	select: function(item) {
+		var o = this.options;
+		return (o.elementSelector) ? o.elementSelector.call(this, item) : this.el; 
 	},
 
 
