@@ -21,7 +21,7 @@ end
 File.open('icons.css', 'w') do |f|
 	f.puts ".#{iconset_name}-icon {background-position: 50% 50%; background-repeat: no-repeat;}"
 	f.puts
-	filenames.each {|s| f.puts ".#{iconset_name}-icon-#{s[:name]} {background-image: url(#{s[:file]});}"}
+	filenames.each {|s| f.puts ".#{iconset_name}-icon-#{s[:name]} {background: url(#{s[:file]})}"}
 end
 
 

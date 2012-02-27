@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @base-background: #2c2c2c;
 @base-color: #727272;
 @form-color: #626262;
@@ -578,3 +579,79 @@ body {
 .e-icon-folder { background:url("@{e-icons-path}/e-ico-folder.png")}
 .e-icon-tag { background:url("@{e-icons-path}/e-ico-tag.png")}
 .e-icon-info { background:url("@{e-icons-path}/e-ico-info.png")}
+=======
+@base-background: #2c2c2c;
+@base-color: #727272;
+@e-panel-bg : #f3f3f3;
+@common-padding: 20px;
+@e-panel-radius : 5px;
+//resets and common classes
+* { margin: 0;padding: 0; outline:none;}
+header, nav, section, article, aside, footer {display: block;}
+input, textarea {outline:none;}
+.unselect {-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;}
+.left { float:left;}
+.right {float:right;}
+.clearfix {clear:both;}
+.hidden {display:none!important;}
+.invisible {visibility:hidden;}
+
+
+/* Content
+-----------------------------------------------------------------------------*/
+body {
+  font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
+  background: @base-background url(images/BaseBackground.png);
+  background-repeat:repeat-y;
+  color: @base-color;
+  line-height:auto;
+}
+#middle {
+  width: 100%;
+  height: 1%;
+  position: relative;
+}
+#middle:after {
+  content: '.';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+}
+#container {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+}
+#content {
+  padding: 20px 0 400px 180px;
+}
+
+/* Sidebar Left
+-----------------------------------------------------------------------------*/
+#sideLeft {
+  float: left;
+  width: 100px;
+  margin-left: -100%;
+  position: relative;
+  padding:20px;
+}
+.logo a{
+  width:101px;
+  height:43px;
+  display:block;
+  background:url(images/logo.png);
+}
+.e-panel {
+  background:@e-panel-bg;
+/*  width:750px - @common-padding;*/
+  
+  -webkit-border-radius: @e-panel-radius;
+  -moz-border-radius: @e-panel-radius;
+  border-radius: @e-panel-radius;
+   margin:0 0 40px 0;
+}
+.e-panel > *{
+  padding: @common-padding;
+}
+>>>>>>> new_widgets

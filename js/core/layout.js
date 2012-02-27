@@ -57,26 +57,161 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		delete this.container; 
 	},
 	
+	
+	
+	/**
+	 * Оборачивание элемента.
+	 * 
+	 * @param {Ergo.core.Widget} item виджет
+	 * @return {jQuery} jQuery-объект, содержащий обертку и элемент виджета
+	 * 
+	 */
+	wrap: function(item) {
+		return item.el;
+	},
+	
+	
 //	auto_height: function(enable) {
 //		this.options.autoHeight = enable;
 //		(enable) ? this.el.attr('autoheight', 'true') : this.el.removeAttr('autoheight');
 //	},
 	
 //	add: function(item) {},
+
+
+	select: function(item) {
+		var o = this.options;
+		return (o.elementSelector) ? o.elementSelector.call(this, item) : this.el; 
+	},
+
+
+
 	/**
 	 * добавление нового элемента-виджета в компоновку
 	 * 
-	 * @param {Object} item виджет
-	 * @param {Object} i (Optional) ключ
+	 * @param {Ergo.core.Widget} item виджет
+	 * @param {int} index порядковый номер (может быть не определен)
+	 * @param {int} weight вес группы
 	 */
-	insert: function(item, i) {},
+	insert: function(item, index, weight) {
+		
+//		var selector = item.options.layoutSelector;
+		
+//		var el = this.el;
+
+		var el = this.select(item);
+		
+		var item_el = this.wrap(item);
+		
+		// if(selector) {
+			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
+		// }
+		
+		// если вес не указан, то вес считается равным 0
+		var weight = item.options.weight || 0;
+		
+		
+		item._weight = weight;
+		
+		item_el.data('weight', weight);
+		
+		// если индекс не определен, то элемент должен быть добавлен последним в свою группу
+		if(index == null) {
+			// обходим все элементы контейнера в поисках первого с большим весом
+			var after_el = null;
+			el.children().each(function(i, elem){
+				var w = $(elem).data('weight');
+				if(w > weight) {
+					after_el = $(elem);
+					return false;
+				}
+			});
+
+			if(after_el)
+				after_el.before( item_el );
+			else
+				el.append( item_el );
+				
+			
+			// var after_el = null;
+			// el.children().each(function(i, elem){
+				// var w = $(elem).ergo();
+				// if(w && w._weight > weight) {
+					// after_el = $(elem);
+					// return false;
+				// }
+			// });
+// 
+			// if(after_el)
+				// after_el.before( item_el );
+			// else
+				// el.append( item_el );
+		}
+		else if(index === 0) {
+			var before_el = [];
+			var children = el.children();
+			for(var i = children.length-1; i >= 0; i--) {
+				var w = $(children[i]).ergo();
+				if(w && w._weight < weight) before_a.push(children[i]);				
+			}
+			// el.children().each(function(i, elem){
+				// var w = $(elem).ergo();
+				// if(w && w._weight < weight) before_a.push(elem);
+			// });
+
+			if(before_el)
+				before_el.after( item_el );
+			else
+				el.prepend( item_el );
+		}
+		else {
+			
+			var arr = [];
+			var before_el = null;
+			this.container.items.each(function(it){
+				if(it._weight == weight) arr.push(it.el);
+				else if(it._weight < weight) before_el = it.el;
+			});
+
+			if(arr.length == 0) {
+				if(before_el)
+					before_el.after( item_el );
+				else
+					el.prepend( item_el );
+			}
+			else {
+				item_el.before(arr[index-1]);
+			}
+			
+		}
+		// else if(index == 0)
+			// el.prepend( item.el );
+		// else if($.isNumber(index))
+			// el.children().eq(index-1).before(item.el);
+		// else
+			// index.el.before(item.el);
+		
+		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
+	},
 	
 	
 	/**
 	 * удаление элемента-виджета из компоновки
 	 * @param {Object} item
 	 */
-	remove: function(item) {},
+	remove: function(item) {
+		item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);		
+	},
+	
+	
+	/**
+	 * очистка компоновки от всех элементов (уничтожения дочерних элементов не происходит)
+	 */
+	clear: function() {
+		this.el.empty(); //WARN еще опасный момент все дочерние DOM-элементы уничтожаются		
+	},
+	
 	
 	/**
 	 * обновление компоновки (позиции, размеров элементов)
@@ -137,12 +272,14 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				}
 				else {
 //					if(dh == 0) dh = el.height();
-					dh += (el.outerHeight(true) - el.height());
-					el.siblings().not('td, :hidden').each(function(i, sibling){
-						sibling = $(sibling);
-						if(sibling.attr('autoHeight') != 'ignore') 
-							dh += sibling.outerHeight(true)
-					});
+					if(el.attr('autoheight') != 'ignore-siblings') {
+						dh += (el.outerHeight(true) - el.height());
+						el.siblings().not('td, :hidden').each(function(i, sibling){
+							sibling = $(sibling);
+							if(sibling.attr('autoHeight') != 'ignore') 
+								dh += sibling.outerHeight(true)
+						});
+					}
 				}
 			});
 
@@ -191,13 +328,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	/**
 	 * обновление компоновки (порядка, количества элементов)
 	 */
-	rebuild: function() {},
+	rebuild: function() {}
 	
-	/**
-	 * очистка компоновки от всех элементов (уничтожения дочерних элементов не происходит)
-	 */
-	clear: function() {}
-});
+}, 'default-layout');
 
 
 

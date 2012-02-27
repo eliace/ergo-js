@@ -1,96 +1,94 @@
 
-//= require <widgets/table>
-
-
-/**
- * 
- * @class
- */
-
-/*
-Ergo.layouts.GridLayout = Ergo.declare('Ergo.layouts.GridLayout', 'Ergo.layouts.PlainLayout', {
-	
-	
-	attach: function(c) {
-		this.$super(c);
-		
-		var row = $('<tr/>');
-		for(var i = 0; i < c.options.columns.length; i++) {
-			var col = Ergo.smart_override({}, c.options.cell, c.options.columns[i]);
-			var el = $('<td class="e-grid-cell"/>');
-			if('width' in col) el.width(col.width);
-			row.append(el);
-		}
-		
-		this.columns_el = row;
-		
-		this.el.append(this.columns_el);
-	},
-	
-	
-	
-	clear: function() {
-		this.columns_el.detach();
-		this.$super();
-		this.el.append(this.columns_el);
-	}
-	
-	
-	
-	
-}, 'grid-layout');
-*/
 
 
 
-
-
-
-Ergo.widgets.Grid = Ergo.declare('Ergo.widgets.Grid', 'Ergo.core.Widget', {
+Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		html: '<table cellspacing="0"></table>',
-		style: {'border-collapse': 'collapse', 'table-layout': 'fixed'},
-		width: '100%',
-//		layout: 'grid',
-		defaultItem: {
-			etype: 'table-row'
+		html: '<table cellspacing="0" cellpadding="0"/>',
+		
+		layout: {
+			etype: 'default-layout',
+			html: '<tbody/>'
 		},
+		
+		cls: 'e-grid',
+		
 		components: {
-			cols: {
-				etype: 'table-row',
-				baseCls: 'e-grid-row control',
-				height: 0,
-				weight: -10
-			}			
+			control: {
+				etype: 'grid-row',
+				cls: 'e-grid-control-row',
+				weight: -1
+			}
 		},
-		columns: []
+		
+		defaultItem: {
+			etype: 'grid-row'
+		},
+		
+		dynamic: true,
+		
+		columns: [],
+		row: {},
+		cell: {}		
+		
 	},
 	
 	
 	$init: function(o) {
 		this.$super(o);
-//		Ergo.widgets.Grid.superclass.$init.apply(this, arguments);
 		
-		var cols = [];
-		Ergo.each(o.columns, function(col){
-			var w = ('width' in col) ? {width: col.width} : {};
-			delete col.width;
-			cols.push(w);
-		});
+		var control_cols = [];
+		for(var i = 0; i < o.columns.length; i++) {
+			var c = o.columns[i];
+			var col = {};
+			if(c.width) {
+				col.width = c.width;
+				delete c.width;
+			}
+			control_cols.push(col);
+		}
 		
-		Ergo.smart_override(o.defaultItem, o.row, {defaultItem: o.cell, items: o.columns});
-		Ergo.smart_override(o.components.cols, {items: cols});
+		
+		Ergo.smart_override(o.defaultItem, o.row, {items: o.columns, defaultItem: o.cell});
+		Ergo.smart_override(o.components.control, {items: control_cols});
 		
 	}
 	
-	// row: function(i) {
-		// return this.item(i);
-	// }
-	
-	
-	
 }, 'grid');
+
+
+
+
+Ergo.declare('Ergo.widgets.grid.Row','Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<tr/>',
+		
+		defaultItem: {
+			etype: 'grid-cell'
+		}
+	}
+	
+	
+}, 'grid-row');
+
+
+
+Ergo.declare('Ergo.widgets.grid.Cell','Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<td/>',
+		binding: function(v) { this.layout.el.text(v); }		
+	}
+	
+	
+}, 'grid-cell');
+
+
+
+
+
 
 
 

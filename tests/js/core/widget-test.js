@@ -217,8 +217,38 @@ test('core/widget', function(){
 	same(a, ['format', 'binding'], 'При внешнем изменении данных вызывается format -> binding');
 	
 	a = [];
-	w.events.fire('onAction', {'value': 'goodbye'});
+	w.events.fire('action', {'value': 'goodbye'});
 	same(a, ['store', 'format', 'binding'], 'При внутреннем изменении значения виджета вызывается только store -> format -> binding');
+	
+	
+	
+	
+	console.log('-----------------');
+	
+	
+	a = [];
+	
+	w = new Ergo.core.Widget({
+		
+		content: {
+			etype: 'widget',
+			tag: 'content'
+		},
+		
+		onAction: function(e) {
+			a.push( e.text );
+		}
+		
+	});
+	
+	
+	
+	w.content.events.fire('action', {text: 'message', after: Ergo.bubble});
+	
+	same(a, ['message'], 'Сообщение всплывает вверх по дереву виджетов');
+	
+	
+	
 	
 	
 });

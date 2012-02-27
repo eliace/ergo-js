@@ -153,18 +153,37 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 			e = new Ergo.events.Event(e, baseEvent);
 		}
 		
-//		var self = this;
+		var self = this;
 		
 		var h_arr = this.events[type];
 		if(h_arr) {
 			Ergo.each(h_arr, function(h){
-				h.callback.call(h.target, e);
+				h.callback.call(h.target, e, type);
 			});
 			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
 		}
+
+		if(e.after) 
+			e.after.call(this.target, e, type);
+
+//		self.on_fire(type, e, baseEvent);
 		
 		return this;
 	}
+	
+	
+	// bubble: function() {
+// 		
+	// }
+// 	
+// 	
+	// /**
+	 // * Метод, вызываемый после отрабатывания метода fire
+	 // * 
+	 // */
+	// on_fire: function(type, e, base_event) {
+// 		
+	// }
 	
 	
 });

@@ -52,6 +52,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 			key = i;
 			i = undefined;
 //			i = item.options.weight;
+			item.name = key;
 		}
 
 		
@@ -78,7 +79,6 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		if(key) {
 			w[key] = item;
 //			item.opt('tag', key);
-			item.name = key;
 		}
 		
 		return item;

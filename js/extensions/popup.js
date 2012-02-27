@@ -1,5 +1,5 @@
 
-
+//= require <core/object>
 
 
 Ergo.extension('Ergo.extensions.Popup', function(o) {
@@ -59,6 +59,8 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 				y += offset.top;
 			}
 			
+			this.el.css('position', 'absolute');
+			
 			$('body').append(this.el);
 		}
 				
@@ -95,7 +97,7 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 
 		if (!this.options.hideOn || this.options.hideOn == 'outerClick') {
 			// добавляем прозрачную панель в документ
-			$('body').append(this.glass_pane.el);
+			$('body').append(this.glass_pane);
 		}
 		
 		this.events.fire('onShow');
@@ -126,7 +128,7 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 		
 //		this.container.el.hide();
 		
-		this.glass_pane.el.detach();		
+		this.glass_pane.detach();		
 		
 	};
 	
@@ -136,13 +138,20 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 	
 	var self = this;
 	
-	this.glass_pane = $.ergo({
-		etype: 'glass-pane',
-		onClick: function(e) {
-      self.close();
-			e.baseEvent.stopPropagation();								
-		}
-	});
+	this.glass_pane = Ergo.glass_pane()
+		.on('click', function(e){
+			self.close();
+			e.stopPropagation();
+		});
+	
+	
+	// this.glass_pane = $.ergo({
+		// etype: 'glass-pane',
+		// onClick: function(e) {
+      // self.close();
+			// e.baseEvent.stopPropagation();								
+		// }
+	// });
 	
 	
 	Ergo.smart_override(o, {
