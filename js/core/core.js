@@ -63,13 +63,13 @@ var Ergo = (function(){
 	 * @name Ergo.merge
 	 * @function
 	 */
-	  E.merge =   E.override;
+//	  E.merge =   E.override;
 	/**
 	 * Псевдоним для {@link Ergo.override_r}
 	 * @name Ergo.merge_r
 	 * @function
 	 */
-	  E.merge_r = E.override_r;
+//	  E.merge_r = E.override_r;
 	
 	/**
 	 * Создание расширенного класса
@@ -517,12 +517,12 @@ var Ergo = (function(){
 	/**
 	 * Проверка, содержится ли элемент в коллекции
 	 * 
-	 * @name Ergo.array_include
+	 * @name Ergo.includes
 	 * @function
 	 * @param {Array|Object} obj коллекция
 	 * @param {Any} val значение
 	 */
-	E.include = function(obj, val) {
+	E.includes = function(obj, val) {
 		for(var i in obj)
 			if(obj[i] == val) return true;
 //		for(var i = 0; i < arr.length; i++)
