@@ -387,7 +387,8 @@ $(document).ready(function(){
 					title: 'Заголовок',
 					components: {
 						footer: {
-							state: ''
+							state: '',
+							
 						}						
 					}
 				}]
