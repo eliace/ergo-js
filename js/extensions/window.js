@@ -18,18 +18,26 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var overlay = self.overlay_el;
 	
 			var z = Ergo.globals.topZ++;
-			overlay.css('z-index', z*1000);
-			wnd.css('z-index', z*1000+1);
+			overlay.css({'z-index': z*1000, 'display': 'none'});
+			wnd.css({'z-index': z*1000+1, 'display': 'none'});
 		
 			$('body').append(overlay);
 			$('body').append(wnd);
 	//		this.window_el.append(this.el);
 			
-	//		this.reset();
-			wnd.show();
-			this.update();
 			
-			self.events.fire('open');
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			var overlay_eff = wnd_eff.overlay || {show: 'show', hide: 'hide', delay: 0};
+			
+			
+	//		this.reset();
+			overlay[overlay_eff.show](overlay_eff.delay);
+//			wnd.show();
+			this.update(function(){
+				self.events.fire('open');
+				self.$layoutChanged();
+			});
+			
 		},
 		
 		close: function() {
@@ -37,12 +45,18 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var wnd = self.el;
 			var overlay = self.overlay_el;
 	
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			var overlay_eff = wnd_eff.overlay || {show: 'show', hide: 'hide', delay: 0};	
+	
 			Ergo.globals.topZ--;
 			
-			overlay.detach();
-			wnd.hide();
+			$.when( overlay[overlay_eff.hide](overlay_eff.delay) ).done(function(){
+				overlay.detach();				
+			});
+			$.when( wnd[wnd_eff.hide](wnd_eff.delay) ).done(function(){
+				if(self.options.destroyOnClose)	self.destroy();				
+			});
 			
-			if(self.options.destroyOnClose)	self.destroy();
 			
 			
 	//		this.el.detach();
@@ -65,6 +79,24 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var ow = wnd.outerWidth(true);
 			var oh = wnd.outerHeight(true);
 			
+			
+			wnd.css({
+				'margin-left': -ow/2,
+				'margin-top': -oh/2
+			});
+			
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			
+			$.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
+			});
+
+			if(callback) callback.call(self);				
+			
+//			self.events.fire('open');
+			
+			
+			
+/*			
 			wnd.hide();
 			
 			var w0 = self.options.initialWidth;
@@ -83,13 +115,14 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 				// делаем окно видимым
 	//			box.css({'visibility': '', 'display': 'block'});
 				// вызываем функцию-сигнал о том, что окно отображено
-	//			if(callback) callback.call(self);
+				if(callback) callback.call(self);
 				// обновляем компоновку окна
 				self.$layoutChanged();
 			});
+
+*/
 			
 		}
-		
 		
 				
 	}
