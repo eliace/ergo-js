@@ -49,7 +49,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 			},
 			content: {
 				etype: 'growl-box',
-				style: {'display': 'none'}					
+				style: {'display': 'none'}
 			}
 		},
 		timeout: 6000
@@ -59,7 +59,15 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 	addGrowl: function(item) {
 		
 		var box = this.items.add({
-			content: item
+			content: item,
+			onClick: function(){
+				growl
+					.hide() // скрываем гроул
+					.then(function(){ // затем скрываем контейнер
+						box.hide();
+					});
+				
+			}
 		});
 		var growl = box.content;
 		
