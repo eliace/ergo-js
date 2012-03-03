@@ -431,40 +431,18 @@ $(document).ready(function(){
 			content: {
 				layout: 'hbox',
 				items: [{
-					style: {'position': 'relative', 'display': 'inline-block'},
-					events: {
-						'mousedown': function(e, w) { w.item(0).states.set('clicked'); },
-						'mouseup': function(e, w) { w.item(0).states.clear('clicked'); }
-					},
-					items: [{
+					etype: 'upload-item',
+					content: {
 						etype: 'button-item',
-						text: 'Загрузить файл'
-					}, {
-						opacity: 0,
-						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
-						content: {
-							etype: 'file',
-							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
-						}
-						
-					}]
+						text: 'Загрузить файл'						
+					}					
 				}, {
 					// иконка - загрузчик
-					style: {'position': 'relative', 'display': 'inline-block'},					
-					items: [{
-						opacity: 0,
-						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
-						content: {
-							etype: 'file',
-							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
-						}
-						
-					}, {
+					etype: 'upload-item',
+					content: {
 						etype: 'image',
 						src: 'img/icons-32/e-ico-folder.png'
-					}]
+					}					
 				}]				
 			}
 		}, {
