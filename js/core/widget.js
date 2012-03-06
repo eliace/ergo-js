@@ -73,6 +73,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		},
 		shortcuts: {},
 		showOnRender: false,
+		hideOnRender: false,
 		set: {
 			'text': function(v) {	this.layout.el.text(v); },
 			'innerText': function(v) {	this.layout.el.text(v); },
@@ -367,6 +368,15 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 	
 	
+	show: function() {
+		this.el.show();
+	},
+	
+	
+	hide: function() {
+		this.el.hide();
+	},
+	
 	
 	
 	/**
@@ -542,7 +552,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	next: function() {
 		if(!this.parent) return null;
-		return this.parent.items.get(this.index+1);
+		return this.parent.item(this.index+1);
 	},
 	
 	/**
@@ -550,7 +560,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	prev: function() {
 		if(!this.parent) return null;
-		return this.parent.items.get(this.index-1);
+		return this.parent.item(this.index-1);
 	},
 	
 	/**
@@ -841,14 +851,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		}
 	},
 	
-	/**
-	 * Получение значения, связанного с виджетом без применения форматирования.
-	 * 
-	 * @returns {Any} undefined, если к виджету данные не подключены
-	 */
-	// getRawValue: function() {
-		// return (this.data) ? this.data.get() : undefined;
-	// },
+
+
 	
 	
 	

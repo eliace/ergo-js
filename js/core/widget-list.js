@@ -74,6 +74,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		
 		//FIXME скорее всего вызов метода show должен находиться не здесь
 		if(('show' in item) && item.options.showOnRender) item.show();
+		if(('hide' in item) && item.options.hideOnRender) item.hide();
 		
 		
 		if(key) {
