@@ -17,6 +17,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				}
 			},
 			content: {
+				weight: 0,
 				cls: 'e-panel-content'
 				
 			},

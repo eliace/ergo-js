@@ -170,7 +170,7 @@ Ergo.declare('Ergo.widgets.Submit', 'Ergo.widgets.TextInput', {
  * @name Ergo.widgets.File
  * @extends Ergo.widgets.TextInput
  */
-Ergo.declare('Ergo.widgets.File', 'Ergo.widgets.TextInput', {
+Ergo.declare('Ergo.widgets.File', 'Ergo.widgets.Input', {
 	
 	defaults: {
 		html: '<input name="file" type="file"/>'

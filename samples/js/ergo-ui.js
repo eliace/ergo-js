@@ -434,8 +434,11 @@ $(document).ready(function(){
 					etype: 'upload-item',
 					content: {
 						etype: 'button-item',
-						text: 'Загрузить файл'						
-					}					
+						text: 'Загрузить файл'	
+					},
+					onAction: function(e) {
+						growl.success(e.file);
+					}
 				}, {
 					// иконка - загрузчик
 					etype: 'upload-item',
