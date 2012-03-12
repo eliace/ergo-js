@@ -200,13 +200,7 @@ $(document).ready(function(){
 										this.events.fire('action', {target: this, after: Ergo.bubble});
 									}
 								},
-								items: [
-									{text: 'Печора'},
-									{text: 'Ухта'},
-									{text: 'Сосногорск'},
-									{text: 'Усинск'},
-									{text: 'Сыктывкар'}
-								]
+								items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 							}
 						}
 					}				
@@ -305,39 +299,21 @@ $(document).ready(function(){
 					cls: 'e-list alpha',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}, {
 					etype: 'box',
 					cls: 'e-list alpha',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}, {
 					etype: 'box',
 					cls: 'e-list decimal',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}]
 			}
@@ -477,13 +453,7 @@ $(document).ready(function(){
 					}
 				},
 				
-				items: [{
-					text: 'Вариант 1'
-				}, {
-					text: 'Вариант 2'
-				}, {
-					text: 'Вариант 3'
-				}]
+				items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 			}
 		}, {
 			// грид

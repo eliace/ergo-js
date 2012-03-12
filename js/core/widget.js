@@ -68,7 +68,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		defaultItem: {},
 		defaultComponent: {},
 		componentFactory: function(o) {
-			if($.isString(o)) o = this.options.shortcuts[o];
+			if($.isString(o)) {
+				o = this.options.shortcuts[o] || {text: o};
+			}
 			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		},
 		shortcuts: {},
