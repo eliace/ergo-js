@@ -28,7 +28,7 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 	
 	
 	factory: function(o) {
-		if($.isString(o)) o = this.options.shortcuts[o];
+		if($.isString(o)) o = this.options.shortcuts[o] || {text: o};
 		return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );
 	},
 	

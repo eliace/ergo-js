@@ -18,7 +18,7 @@
  * @name Ergo.data.AjaxCollection
  * @extends Ergo.data.Collection
  */
-Ergo.data.AjaxCollection = Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo.data.AjaxCollection.prototype */{
+Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo.data.AjaxCollection.prototype */{
 	
 	defaults: {
 		cache: true
