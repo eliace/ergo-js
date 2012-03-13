@@ -367,12 +367,27 @@ $(document).ready(function(){
 					etype: 'button-item',
 					text: 'Открыть диалог',
 					onClick: function() {
+						
 						var dlg = $.ergo({
 							etype: 'dialog',
-							width: 200,
-							height: 200
+//							width: '50%',
+//							height: '50%',
+							maxWidth: '30%'
 						});
 						dlg.open();
+						
+						
+						setTimeout(function(){
+							dlg.content.items.add({
+								etype: 'box',
+								text: Ergo.LOREMIPSUM
+							}, 'content', 'component');
+							
+														
+							dlg.window.resize();
+							
+						}, 1000);
+						
 					}
 				}]
 			}

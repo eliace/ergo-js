@@ -76,6 +76,27 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var w = wnd.width();
 			var h = wnd.height();
 			
+/*			
+			var max_w = self.options.maxWidth || w;
+			var max_h = self.options.maxHeight || h;
+			
+			// если указана высота в %, ее еще надо рассчитать
+			if ($.isString(max_w) && max_w[max_w.length - 1] == '%') {
+				max_w = wnd.parent().width() * parseFloat(max_w.substr(0, max_w.length - 1)) / 100;
+			}
+				
+			if ($.isString(max_h) && max_h[max_h.length - 1] == '%') {
+				max_h = wnd.parent().height() * parseFloat(max_h.substr(0, max_h.length - 1)) / 100;
+			}
+			
+			
+			if(w > max_w) w = max_w;//wnd.width(max_w);
+			if(h > max_h) h = max_h;//wnd.height(max_h);
+			
+			wnd.width(w);
+			wnd.height(h);
+*/
+			
 			var ow = wnd.outerWidth(true);
 			var oh = wnd.outerHeight(true);
 			
@@ -90,7 +111,7 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			$.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
 			});
 
-			if(callback) callback.call(self);				
+			if(callback) callback.call(self);
 			
 //			self.events.fire('open');
 			
@@ -121,6 +142,47 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			});
 
 */
+			
+		},
+		
+		
+		
+		resize: function() {
+			
+			var wnd = self.el;
+			
+			// сохраняем теущие метрики окна
+			var w = wnd.width();
+			var h = wnd.height();
+			
+			// с помощью css сбрасываем размеры, чтобы окно изменило размер по содержимому
+			wnd.css({'width': self.options.maxWidth || 'auto', 'height': self.options.maxHeight || 'auto'});
+
+			var w2 = wnd.width();
+			var h2 = wnd.height();
+
+			
+			// восстанавливаем метрики окна
+			wnd.width(w);
+			wnd.height(h);
+			
+			var ow = wnd.outerWidth();
+			var oh = wnd.outerHeight();
+			
+			
+			
+			ow += w2 - w;
+			oh += h2 - h;
+			
+			wnd.animate({'width': w2, 'margin-left': -ow/2, 'height': h2, 'margin-top': -oh/2}, 300, function(){
+				// делаем окно видимым
+	//			box.css({'visibility': '', 'display': 'block'});
+				// вызываем функцию-сигнал о том, что окно отображено
+//				if(callback) callback.call(self);
+				// обновляем компоновку окна
+//				self.$layoutChanged();
+				self.events.fire('resize');
+			});
 			
 		}
 		
