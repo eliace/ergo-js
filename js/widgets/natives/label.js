@@ -14,7 +14,8 @@
 Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.Label.prototype */{
 
 	defaults: {
-		html: '<label/>'
+		html: '<label/>',
+		binding: true
 	},
 
 //	$html: function() { return '<label></label>'; },
@@ -30,7 +31,7 @@ Ergo.declare('Ergo.widgets.Label', 'Ergo.core.Widget', /** @lends Ergo.widgets.L
 	},
 	
 	$dataChanged: function() {
-		this.el.text(this.getValue());		
+		if(this.options.binding) this.el.text(this.getValue());		
 	}
 	
 }, 'label');
