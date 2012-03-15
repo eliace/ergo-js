@@ -583,7 +583,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var filter = Ergo.filters.by_widget(i);
 		var j = 0;
 		return this.items.find(function(item, i){
-			if(item.type == 'item'){
+			if(item._type == 'item'){
 				if(filter.call(this, item, j)) return true;
 				j++;
 			} 
@@ -596,7 +596,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	component: function(i) {
 		var filter = Ergo.filters.by_widget(i);
 		return this.items.find(function(item, j){
-			return item.type == 'component' && filter.call(this, item, j);
+			return item._type == 'component' && filter.call(this, item, j);
 		});
 	},
 	
@@ -615,11 +615,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @returns {Array} список родительских виджетов
 	 */
-	getParents: function(list) {
+	parents: function(list) {
 		if(arguments.length == 0) list = [];
-		if(!this.parent) return list;
-		list.push(this.parent);
-		return this.parent.getParents(list);
+		if(!this._parent) return list;
+		list.push(this._parent);
+		return this._parent.parents(list);
 	},
 	
 	/**
@@ -636,14 +636,16 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * 
 	 * @param {Any} [criteria] критерий 
 	 */
-	getParent: function(i) {
+	parent: function(i) {
 		
-		if(arguments.length == 0) return this.parent;
+		if(arguments.length == 0) return this._parent;
 		
-		var parents = this.getParents();
-		
-		return Ergo.find(parents, Ergo.filters.by_widget(i));
+		return Ergo.find(this.parents(), Ergo.filters.by_widget(i));
 	},
+	
+	
+	
+	
 	
 	
 	
@@ -899,7 +901,7 @@ Ergo.widget = function(){
 
 
 Ergo.bubble = function(e, type) {
-	if(this.parent) this.parent.events.fire(type, e);
+	if(this._parent) this._parent.events.fire(type, e);
 }
 
 
