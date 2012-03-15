@@ -36,50 +36,55 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 
 	add: function(item, i, type) {		
 		
-		var key;
+//		var key;
 		var w = this.widget;
 		
 //		item = w.factory(item);
 		
-		type = type || 'item';
+		// если не определен тип компонента
+		if(type == undefined) {
+			// если не определен ключ компонента
+			type = (i && $.isString(i)) ? 'component' : 'item';
+		}
+		
+//		type = type || 'item';
 
+		// создаем виджет с помощью фабрики элементов
 		if(!(item instanceof Ergo.core.Widget))
 			item = (w.options[type+'Factory'] || this.factory).call(w, item);
 			
-		item.type = type;
+		item._type = type;
 
+		// для элементов с текстовыми ключами (компонентов) сохраняем ключ в поле _key
 		if(i && $.isString(i)) {
-			key = i;
+			item._key = i;
 			i = undefined;
-//			i = item.options.weight;
-			item.name = key;
 		}
 
+		// определяем поле _parent
+		item._parent = w;
 		
-		item.parent = w;
-		
-		// выполняем автобиндинг
+		// выполняем иерархическое связывание данных (автобиндинг)
 		if(w.data && !item.data)
 			item.bind(w.data, false, false);
 		
-		// добавляем элемент в компоновку
-//		w.layout.insert(item, this.src[i]);
-		
-		w.layout.insert(item, i);//, group);
+		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
+		w.layout.insert(item, i);
 
-		i = this.$super(item, i);// Ergo.core.WidgetArray.superclass.add.call(this, item, i);		
+		// добавляем элемент в коллекцию
+		i = this.$super(item, i);		
 		
+		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++)
-			this.src[j].index = j;
+			this.src[j]._index = j;
 		
 		//FIXME скорее всего вызов метода show должен находиться не здесь
 		if(('show' in item) && item.options.showOnRender) item.show();
 		if(('hide' in item) && item.options.hideOnRender) item.hide();
 		
-		
-		if(key) {
-			w[key] = item;
-//			item.opt('tag', key);
+		// для элементов с текстовыми ключами (компонентов) добавляем accessor
+		if(item._key) {
+			w[item._key] = item;
 		}
 		
 		return item;
@@ -88,12 +93,13 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 	
 	remove_at: function(i) {
 		
-		var key;
+//		var key;
 		var w = this.widget;		
 		
+		// для компонентов определяем индекс через accessor
 		if($.isString(i)) {
-			key = i;
-			i = w[i].index;
+//			key = i;
+			i = w[i]._index;
 		}
 		
 		
@@ -102,17 +108,20 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		
 //		if('hide' in item) item.hide();		
 				
-//		w.children.remove(item);		
+		// удаляем элемент из компоновки	
 		w.layout.remove(item);
 		
-		delete item.parent;
-
+		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++)
-			this.src[j].index = j;
+			this.src[j]._index = j;
 		
-		if(key) {
-			delete w[key];
-			delete item.name;
+		// поля _parent, _index и _key больше не нужны
+		delete item._parent;
+		delete item._name;
+
+		if(item._key) {
+			delete w[item._key];
+			delete item._key;
 		}		
 		
 		return item;

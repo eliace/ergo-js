@@ -554,7 +554,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	next: function() {
 		if(!this.parent) return null;
-		return this.parent.item(this.index+1);
+		return this.parent.item(this._index+1);
 	},
 	
 	/**
@@ -562,7 +562,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	prev: function() {
 		if(!this.parent) return null;
-		return this.parent.item(this.index-1);
+		return this.parent.item(this._index-1);
 	},
 	
 	/**
