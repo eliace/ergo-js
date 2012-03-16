@@ -1159,7 +1159,7 @@ Ergo.smart_override_prop = function(o, srcObj, i) {
 
 	if(i == 'data') i = 'data!'; 										//<-- поле data не перегружается
 //	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
-	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
+	if(i == 'mixins') i = 'mixins+'; 				//<-- поле mixins сливается
 	if(i == 'events') {
 		var p2 = {};
 		for(var j in p)

@@ -1,7 +1,7 @@
 
 
 
-Ergo.extension('Ergo.extensions.ContextMenu', function(o) {
+Ergo.declare_mixin('Ergo.mixins.ContextMenu', function(o) {
 	
 	Ergo.smart_override(o, {set: {
 		'contextMenu': function(cm) {

@@ -3,7 +3,7 @@
 
 
 
-Ergo.extension('Ergo.extensions.Droppable', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Droppable', function(o) {
 	
 	o.state = o.state ? o.state + ' droppable' : 'droppable';
 	

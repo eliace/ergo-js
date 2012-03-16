@@ -2,7 +2,7 @@
 //= require <core/widget>
 
 
-Ergo.extension('Ergo.extensions.Focusable', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Focusable', function(o) {
 	
 	this.setFocus = function() {
 		this.focusManager.enter(this);		
@@ -17,7 +17,7 @@ Ergo.extension('Ergo.extensions.Focusable', function(o) {
 		this.focusManager.clear(this);
 	}
 	
-	this.focusManager = Ergo.extensions.Focusable.focusManager;
+	this.focusManager = Ergo.mixins.Focusable.focusManager;
 	
 	Ergo.smart_override(o, {
 		events: {
@@ -39,7 +39,7 @@ Ergo.extension('Ergo.extensions.Focusable', function(o) {
 
 
 
-Ergo.extensions.Focusable.focusManager = {
+Ergo.mixins.Focusable.focusManager = {
 	
 	current: null,
 	
@@ -91,11 +91,11 @@ if($.browser.msie) {
 
 	$(document).click(function(e){
 		// убираем фокус по щелчку левой кнопкой мыши
-		if(e.button == 0) Ergo.extensions.Focusable.focusManager.clear();
+		if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
 	});
 
 	$(document).on('keydown', function(e){
-		Ergo.extensions.Focusable.focusManager.keypress(e);
+		Ergo.mixins.Focusable.focusManager.keypress(e);
 	});	
 	
 }
@@ -103,18 +103,18 @@ else {
 
 	$(window).click(function(e){
 		// убираем фокус по щелчку левой кнопкой мыши
-		if(e.button == 0) Ergo.extensions.Focusable.focusManager.clear();
+		if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
 	});
 	
 	
 	if($.browser.webkit) {
 		$(window).on('keydown', function(e){
-			Ergo.extensions.Focusable.focusManager.keypress(e);
+			Ergo.mixins.Focusable.focusManager.keypress(e);
 		});	
 	}
 	else {
 		$(window).on('keypress', function(e){
-			Ergo.extensions.Focusable.focusManager.keypress(e);
+			Ergo.mixins.Focusable.focusManager.keypress(e);
 		});	
 	}
 	

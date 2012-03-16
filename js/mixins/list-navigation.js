@@ -3,7 +3,7 @@
 //= require "focusable"
 
 
-Ergo.extension('Ergo.extensions.ListNavigation', function(o) {
+Ergo.declare_mixin('Ergo.mixins.ListNavigation', function(o) {
 	
 	Ergo.smart_override(o, {
 		

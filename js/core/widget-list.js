@@ -15,7 +15,7 @@
 Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
 	
 	defaults: {
-		extensions: [Ergo.Observable]
+		mixins: [Ergo.Observable]
 	},
 	
 	

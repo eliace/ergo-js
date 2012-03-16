@@ -52,7 +52,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'invalid': 'invalid',
 			'unselectable': 'unselectable'
 		},
-		extensions: [Ergo.Observable, Ergo.Statable],
+		mixins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
 		autoUpdate: true,
 //		skipBind: false,

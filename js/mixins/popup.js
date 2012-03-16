@@ -2,7 +2,7 @@
 //= require <core/object>
 
 
-Ergo.extension('Ergo.extensions.Popup', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	this.open = function(position) {
 		
@@ -22,8 +22,8 @@ Ergo.extension('Ergo.extensions.Popup', function(o) {
 		// получаем целевой элемент, относительно которого отображаем элемент
 		var to_el = null;
 		
-		if(this.parent) 
-			to_el = this.parent.el;
+		if(this._parent) 
+			to_el = this._parent.el;
 		if(p.to) 
 			to_el = $(p.to);
 			

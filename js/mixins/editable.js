@@ -7,7 +7,7 @@
  * 
  * @name Ergo.extensions.Editable
  */
-Ergo.extension('Ergo.extensions.Editable', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 
 
 	this.startEdit = function() {

@@ -6,7 +6,7 @@ Ergo.drag = null;
 //Ergo.Draggable.dragPane = $.ergo({etype: 'glass-box'});//$('<div class="split-pane" autoheight="ignore"></div>');
 //Ergo.droppableList = [];
 
-Ergo.extension('Ergo.extensions.Draggable', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Draggable', function(o) {
 	
 	o.events.mousedown = function(e, w) {
 		
@@ -53,7 +53,7 @@ Ergo.extension('Ergo.extensions.Draggable', function(o) {
 
 //					drag.dragPane = $('<div class="split-pane"></div>');
 					
-					$('body').append(Ergo.extensions.Draggable.dragPane.el);
+					$('body').append(Ergo.mixins.Draggable.dragPane.el);
 					$('body').append(drag.proxy.el);
 				}
 				
@@ -62,16 +62,16 @@ Ergo.extension('Ergo.extensions.Draggable', function(o) {
 	};
 	
 	
-	if(!Ergo.extensions.Draggable.dragReady) {
+	if(!Ergo.mixins.Draggable.dragReady) {
 		
-		Ergo.extensions.Draggable.dragPane = $.ergo({etype: 'glass-pane'});
+		Ergo.mixins.Draggable.dragPane = $.ergo({etype: 'glass-pane'});
 		
-		Ergo.extensions.Draggable.dragReady = true;
+		Ergo.mixins.Draggable.dragReady = true;
 //		$('body').append(Ergo.dragPane);
 		
 		//FIXME здесь было бы правильней создавать glass pane, а не использовать body
 		
-		Ergo.extensions.Draggable.dragPane.el.mousemove(function(e){
+		Ergo.mixins.Draggable.dragPane.el.mousemove(function(e){
 			var drag = Ergo.drag;
 	
 			if(!drag) return;
@@ -132,10 +132,10 @@ Ergo.extension('Ergo.extensions.Draggable', function(o) {
 			
 		});
 					
-		Ergo.extensions.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
+		Ergo.mixins.Draggable.dragPane.el/*$('body')*/.mouseup(function(e){
 			
 			// отсоединяем прозрачную панель от страницы
-			Ergo.extensions.Draggable.dragPane.el.detach();
+			Ergo.mixins.Draggable.dragPane.el.detach();
 //			Ergo.dragPane.addClass('hidden');
 			
 			var drag = Ergo.drag;		
@@ -182,5 +182,5 @@ Ergo.extension('Ergo.extensions.Draggable', function(o) {
 }, 'draggable');
 
 
-Ergo.extensions.Draggable.dragReady = false;
-Ergo.extensions.Draggable.dragPane = null;
+Ergo.mixins.Draggable.dragReady = false;
+Ergo.mixins.Draggable.dragPane = null;

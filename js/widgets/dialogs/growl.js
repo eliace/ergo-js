@@ -1,5 +1,5 @@
 
-//= require <extensions/effects>
+//= require <mixins/effects>
 
 /*
 Ergo.declare('Ergo.layouts.GrowlLayout', 'Ergo.core.Layout', {
@@ -42,7 +42,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		cls: 'e-grouls_pannels_holder',
 		defaultItem: {
 			etype: 'box',
-			extensions: ['effects'],
+			mixins: ['effects'],
 			effects: {
 				hide: 'slideUp',
 				delay: 300

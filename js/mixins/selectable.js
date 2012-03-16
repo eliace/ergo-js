@@ -2,7 +2,7 @@
 //= require <core/widget>
 
 
-Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
+Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 	
 	initialize: function(widget, o) {
 		this.$super(o);
@@ -89,7 +89,7 @@ Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object'
 
 
 
-Ergo.extension('Ergo.extensions.Selectable', function() {
+Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
 	this.selection = new Ergo.SelectionManager(this);
 }, 'selectable');
 

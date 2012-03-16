@@ -13,7 +13,7 @@
 Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
-		extensions: [Ergo.Observable]
+		mixins: [Ergo.Observable]
 	},
 	
 	initialize: function(src, options) {

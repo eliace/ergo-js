@@ -1,7 +1,7 @@
 
 
 
-Ergo.extension('Ergo.extensions.Effects', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 	
 	this.show = function() {
 		if(this.items.is_empty()) return;

@@ -5,7 +5,7 @@
 Ergo.globals.topZ = 1;
 
 
-Ergo.extension('Ergo.extensions.Window', function(o) {
+Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	
 	
 	var self = this;

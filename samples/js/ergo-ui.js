@@ -181,7 +181,7 @@ $(document).ready(function(){
 					components: {
 						dropdown: {
 							etype: 'box',
-							extensions: ['effects', 'popup'],
+							mixins: ['effects', 'popup'],
 							position: {
 								global: true,
 								at: 'left bottom'

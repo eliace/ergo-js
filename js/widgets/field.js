@@ -1,13 +1,13 @@
 
 //= require <widgets/natives/all>
-//= require <extensions/focusable>
+//= require <mixins/focusable>
 
 
 Ergo.declare('Ergo.widgets.Field', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-field',
-		extensions: ['focusable'],
+		mixins: ['focusable'],
 		components: {
 			label: {
 				cls: 'e-field-label',
