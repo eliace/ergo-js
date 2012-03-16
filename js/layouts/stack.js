@@ -51,4 +51,4 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.L
 		
 	}
 		
-}, 'stack-layout');
+}, 'layouts:stack');

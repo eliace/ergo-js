@@ -5,7 +5,7 @@
 /**
  * Редактирование
  * 
- * @name Ergo.extensions.Editable
+ * @name Ergo.mixins.Editable
  */
 Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 

@@ -8,5 +8,5 @@ Ergo.declare('Ergo.layouts.HBox', 'Ergo.core.Layout', {
 		name: 'hbox'
 	}
 	
-}, 'hbox-layout');
+}, 'layouts:hbox');
 

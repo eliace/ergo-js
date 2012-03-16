@@ -149,7 +149,7 @@ Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.core.Layout', /** @lends Ergo.la
 	}
 		
 	
-}, 'window-layout');
+}, 'layouts:window');
 
 
 

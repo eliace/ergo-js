@@ -88,6 +88,7 @@ var Ergo = (function(){
 		}
 		
 		
+		// "магия" наследования
 		var F = function(){};
 		F.prototype = p_ctor.prototype;
 		ctor.prototype = new F();
@@ -95,6 +96,7 @@ var Ergo = (function(){
 		ctor.superclass = p_ctor.prototype;
 		ctor.super_ctor = p_ctor;
 
+		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
 			var p = overrides[i];
 			if($.isFunction(p)) {
@@ -106,9 +108,11 @@ var Ergo = (function(){
 		E.override(ctor.prototype, overrides);
 		
 		
-		if(overrides.etype)
-			_etypes[overrides.etype] = ctor;
+//		if(overrides.etype)
+//			Ergo.alias(overrides.etype, ctor);
+//			_etypes[overrides.etype] = ctor;
 		
+		// добавляем классу метод extend
 		ctor.extend = function(o) { return E.extend(this, o); }
 		
 		return ctor;
@@ -131,18 +135,22 @@ var Ergo = (function(){
 	
 	
 	
-	var aliases = {};
+	var _aliases = {};
 	
 	
 	E.alias = function(alias, obj) {
 		if(arguments.length == 2)
-			aliases[alias] = obj;
+			_aliases[alias] = obj;
 		else
-			return aliases[alias];
-	}
+			return _aliases[alias];
+	};
+	
+	E.aliases = function() {
+		return _aliases;
+	};
 	
 	
-	var _etypes = {};
+//	var _etypes = {};
 	
 	/**
 	 * Объявление класса
@@ -176,7 +184,8 @@ var Ergo = (function(){
 		// регистрируем etype класса (если он есть)
 		if(etype){
 			clazz.prototype.etype = etype;
-			_etypes[etype] = clazz;
+			Ergo.alias(etype, clazz);
+//			_etypes[etype] = clazz;
 		}
 
 		clazz.prototype.className = class_name;
@@ -185,7 +194,7 @@ var Ergo = (function(){
 	};
 	
 	
-	E.etypes = function() { return _etypes; }
+//	E.etypes = function() { return _etypes; }
 	
 //	E.defineClass = E.declare;
 	
@@ -206,7 +215,8 @@ var Ergo = (function(){
 		
 		var etype = options.etype || defaultType;
 		
-		var ctor = _etypes[etype];
+		var ctor = Ergo.alias(etype);
+//		var ctor = _etypes[etype];
 		
 		if(!ctor ){
 //			Ergo.logger.debug('Class for etype "'+etype+'" not found');

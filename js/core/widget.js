@@ -59,7 +59,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //		binding: 'auto',
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
-				layout = Ergo.object({etype: layout+'-layout'});
+				layout = Ergo.object({etype: 'layouts:'+layout});
 			else if(!(layout instanceof Ergo.core.Layout))
 				layout = Ergo.object(layout);
 			return layout;	
@@ -371,12 +371,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 	
 	show: function() {
-		this.el.show();
+		return $.when( this.el.show() );
 	},
 	
 	
 	hide: function() {
-		this.el.hide();
+		return $.when( this.el.hide() );
 	},
 	
 	
@@ -430,6 +430,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		var o = this.options;
 		var self = this;
+		
+		
+		if(o.showOnRender) this.show();
+		if(o.hideOnRender) this.hide();
+		
 		
 		// устанавливаем состояния по умолчанию
 		if('state' in o) {
@@ -901,7 +906,7 @@ Ergo.widget = function(){
 
 
 Ergo.bubble = function(e, type) {
-	if(this._parent) this._parent.events.fire(type, e);
+	if(this._parent && !e.canceled) this._parent.events.fire(type, e);
 }
 
 

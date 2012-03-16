@@ -330,7 +330,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 */
 	rebuild: function() {}
 	
-}, 'default-layout');
+}, 'layouts:default');
 
 
 

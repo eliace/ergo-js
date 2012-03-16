@@ -1,39 +1,6 @@
 
 //= require <mixins/effects>
 
-/*
-Ergo.declare('Ergo.layouts.GrowlLayout', 'Ergo.core.Layout', {
-	
-	defaults: {
-		
-	},
-	
-	
-	wrap: function(item) {
-		
-		var wrapper = $('<div/>');
-		wrapper.append(item.el);
-
-		// добавленный элемент изначально не виден
-		item.el.css('display', 'none');
-		
-		return wrapper;
-	},
-	
-	
-	remove: function(item) {
-		this.$super(item);
-		
-		item.hide().then(function(){ item.el.parent(). });
-	}
-	
-	
-	
-}, 'growl-layout');
-*/
-
-
-
 
 
 Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
@@ -49,7 +16,8 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 			},
 			content: {
 				etype: 'growl-box',
-				style: {'display': 'none'}
+				hideOnRender: true
+//				style: {'display': 'none'}
 			}
 		},
 		timeout: 6000
@@ -102,7 +70,7 @@ Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-grouls_pannels',
-		extensions: ['effects'],
+		mixins: ['effects'],
 		effects: {
 			show: 'fadeIn',
 			hide: 'fadeOut',

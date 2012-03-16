@@ -20,4 +20,4 @@ Ergo.declare('Ergo.layouts.TwoColumnLayout', 'Ergo.core.Layout', {
 	}
 	
 	
-}, '2c-layout');
+}, 'layouts:2c');

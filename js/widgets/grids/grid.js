@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 		html: '<table cellspacing="0" cellpadding="0"/>',
 		
 		layout: {
-			etype: 'default-layout',
+			etype: 'layouts:default',
 			html: '<tbody/>'
 		},
 		

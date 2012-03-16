@@ -18,4 +18,4 @@ Ergo.declare('Ergo.layouts.Float', 'Ergo.core.Layout', {
 	
 	
 	
-}, 'float-layout');
+}, 'layouts:float');

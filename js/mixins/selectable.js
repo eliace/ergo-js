@@ -90,6 +90,16 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 
 
 Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
+	
 	this.selection = new Ergo.SelectionManager(this);
+	
+	// перехватываем событие select
+	Ergo.smart_override(this.options, {
+		onSelect: function(e) {
+			this.selection.set(e.target);
+			e.cancel();
+		}
+	});	
+	
 }, 'selectable');
 

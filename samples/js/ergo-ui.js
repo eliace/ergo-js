@@ -70,7 +70,7 @@ Ergo.GRID_DATA = [{
 
 $(document).ready(function(){
 	
-	
+/*	
 	var growlPanel = $.ergo({
 		etype: 'growl-panel',
 		renderTo: 'body'
@@ -97,7 +97,7 @@ $(document).ready(function(){
 		}
 		
 	};
-	
+*/	
 	
 	
 	// var etypes = [];
@@ -116,7 +116,7 @@ $(document).ready(function(){
 			content: {
 				etype: 'list',
 				dynamic: true,
-				data: Ergo.etypes(),
+				data: Ergo.aliases(),
 				defaultItem: {
 					binding: function(v) {
 						this.opt('text', Ergo.format('%s (%s)', v.prototype.etype, v.prototype.className));
@@ -328,7 +328,7 @@ $(document).ready(function(){
 					onClick: function() {
 						var wnd = $.ergo({
 							etype: 'panel',
-							extensions: ['window'],
+							mixins: ['window'],
 							closeOnOuterClick: true,
 							width: '50%',
 //							height: 300,
@@ -413,6 +413,14 @@ $(document).ready(function(){
 					etype: 'button-item',
 					text: 'Warning',
 					onClick: function() { growl.warn('Нажатие кнопки'); }
+				}, {
+					etype: 'button-item',
+					text: 'Info',
+					onClick: function() { growl.info('Нажатие кнопки'); }
+				}, {
+					etype: 'button-item',
+					text: 'Error',
+					onClick: function() { growl.error('Нажатие кнопки'); }
 				}]				
 			}
 		}, {
@@ -446,11 +454,11 @@ $(document).ready(function(){
 			content: {
 				etype: 'box',
 				
-				extensions: ['selectable'],
+				mixins: ['selectable'],
 				
-				onAction: function(e) {
-					this.selection.set(e.target);
-				},
+				// onAction: function(e) {
+					// this.selection.set(e.target);
+				// },
 				
 				defaultItem: {
 					etype: 'text-item',
@@ -464,7 +472,7 @@ $(document).ready(function(){
 					icon: true,
 					
 					onClick: function() {
-						this.events.fire('action', {target: this, after: Ergo.bubble});
+						this.events.fire('select', {target: this, after: Ergo.bubble});
 					}
 				},
 				
@@ -474,7 +482,7 @@ $(document).ready(function(){
 			// грид
 			
 			etype: 'sample-panel',
-			title: 'Грид',
+			title: 'Табличный грид',
 			content: {
 				
 				components: {
