@@ -33,10 +33,13 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	//		this.reset();
 			overlay[overlay_eff.show](overlay_eff.delay);
 //			wnd.show();
-			this.update(function(){
+			this.update();//function(){});
+			
+			return $.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
 				self.events.fire('open');
 				self.$layoutChanged();
 			});
+			
 			
 		},
 		
@@ -70,8 +73,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			
 			var wnd = self.el;
 			
-			var css_w = wnd.css('width');
-			var css_h = wnd.css('height');
+//			var css_w = wnd.css('width');
+//			var css_h = wnd.css('height');
 			
 			var w = wnd.width();
 			var h = wnd.height();
@@ -97,21 +100,27 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			wnd.height(h);
 */
 			
-			var ow = wnd.outerWidth(true);
-			var oh = wnd.outerHeight(true);
+			var ow = wnd.outerWidth();
+			var oh = wnd.outerHeight();
 			
 			
 			wnd.css({
 				'margin-left': -ow/2,
 				'margin-top': -oh/2
 			});
-			
+
+
+
+
+
+/*			
 			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
 			
 			$.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
 			});
 
 			if(callback) callback.call(self);
+*/
 			
 //			self.events.fire('open');
 			
@@ -146,21 +155,84 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 		},
 		
 		
-		
-		resize: function() {
+/*		
+		resizeContent: function(width, height) {
 			
 			var wnd = self.el;
+			var content = self.content.el;
 			
-			// сохраняем теущие метрики окна
+			// сохраняем теущие размеры окна
 			var w = wnd.width();
 			var h = wnd.height();
 			
 			// с помощью css сбрасываем размеры, чтобы окно изменило размер по содержимому
-			wnd.css({'width': self.options.maxWidth || 'auto', 'height': self.options.maxHeight || 'auto'});
+			wnd.css({'width': 'auto', 'height': 'auto'});
+			
+			
+			var w2 = content.css('width');
+			var h2 = content.css('height');
+			
+			content.css({'width': width, 'height': height});
+			
+//			var w2 = width;
+//			var h2 = height;
+			
+			var ow = wnd.outerWidth();
+			var oh = wnd.outerHeight();
 
-			var w2 = wnd.width();
-			var h2 = wnd.height();
 
+			content.css({'width': w2, 'height': h2});
+
+			// восстанавливаем метрики окна
+			wnd.width(w);
+			wnd.height(h);
+			
+			
+						
+//			ow += w2 - w;
+//			oh += h2 - h;
+			
+			return $.when( content.animate({'width': w2, 'margin-left': -ow/2, 'height': h2, 'margin-top': -oh/2}, 300) );
+		},
+*/		
+		
+		
+		resizeByContent: function(width, height) {
+
+			var wnd = self.el;
+			
+//			self.content.el.css('display', '');
+
+			var dw = wnd.width() - self.content.el.width();
+			var dh = wnd.height() - self.content.el.height();
+
+//			self.content.el.css('display', 'none');
+			
+			return (arguments.length == 0) ? this.resize() : this.resize(width+dw, height+dh);
+		},
+		
+		
+		
+		resize: function(width, height) {
+			
+			var wnd = self.el;
+			
+			// сохраняем теущие размеры окна
+			var w = wnd.width();
+			var h = wnd.height();
+
+			var w2 = width;
+			var h2 = height;
+			
+			if(arguments.length == 0) {
+				wnd.css({'width': self.options.maxWidth || '', 'height': self.options.maxHeight || ''});
+
+				w2 = wnd.width();
+				h2 = wnd.height();				
+			}
+			
+			// с помощью css сбрасываем размеры, чтобы окно изменило размер по содержимому
+//			wnd.css({'width': self.options.maxWidth || 'auto', 'height': self.options.maxHeight || 'auto'});
 			
 			// восстанавливаем метрики окна
 			wnd.width(w);
@@ -174,15 +246,15 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			ow += w2 - w;
 			oh += h2 - h;
 			
-			wnd.animate({'width': w2, 'margin-left': -ow/2, 'height': h2, 'margin-top': -oh/2}, 300, function(){
+			return $.when( wnd.animate({'width': w2, 'margin-left': -ow/2, 'height': h2, 'margin-top': -oh/2}, 300, function(){
 				// делаем окно видимым
 	//			box.css({'visibility': '', 'display': 'block'});
 				// вызываем функцию-сигнал о том, что окно отображено
 //				if(callback) callback.call(self);
 				// обновляем компоновку окна
 //				self.$layoutChanged();
-				self.events.fire('resize');
-			});
+//				self.events.fire('resize');
+			}) );
 			
 		}
 		

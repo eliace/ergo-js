@@ -36,7 +36,7 @@
  * @extends Ergo.core.Object
  * @param {Object} o параметры
  */
-Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
+Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
 	
 	
 	
@@ -134,7 +134,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		 * @description Коллекция элементов виджета
 		 * 
 		 */
-		this.items = new Ergo.core.WidgetList(this);
+		this.children = new Ergo.core.WidgetList(this);
 
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
@@ -238,7 +238,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //				c._cweight = ('weight' in c) ? c.weight : 9999;
 //				c._cname = i;
 	
-				c = self.items.add(c, i, 'component');
+				c = self.children.add(c, i, 'component');
 	
 //				c.name = i;
 //				self[i] = c;
@@ -284,7 +284,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		if('items' in o){
 			for(var i = 0; i < o.items.length; i++)
-				this.items.add(o.items[i]);
+				this.children.add(o.items[i]);
 				
 		}		
 		
@@ -354,7 +354,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.layout.clear();		
 		
 		// вызываем метод destroy для всех дочерних компонентов
-		this.items.apply_all('destroy');
+		this.children.apply_all('destroy');
 		
 //		if(this.options.debug)	console.log('destroyed');
 	},
@@ -432,8 +432,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		var self = this;
 		
 		
-		if(o.showOnRender) this.show();
-		if(o.hideOnRender) this.hide();
+//		if(o.showOnRender) this.show();
+//		if(o.hideOnRender) this.hide();
 		
 		
 		// устанавливаем состояния по умолчанию
@@ -462,7 +462,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		//FIXME возможно следует поменять эту строку на fire('onLayoutChanged')
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
-		this.items.apply_all('$layoutChanged');
+		this.children.apply_all('$layoutChanged');
 	},
 	
 	// $events: function(self){
@@ -475,9 +475,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	$afterRender: function() {
+		
+//		if(this.options.showOnRender)	this.show();
+//		if(this.options.hideOnRender) this.hide();		
+		
 //		this.children.each(function(c) { c.$afterRender(); });
 		this.events.fire('afterRender');
-		this.items.apply_all('$afterRender');
+		this.children.apply_all('$afterRender');
 	},
 
 	/**
@@ -548,7 +552,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	walk: function(callback) {
 		callback.call(this);
-		this.items.each(function(item){
+		this.children.each(function(item){
 			item.walk(callback);
 		});
 	},	
@@ -584,10 +588,10 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 *  
 	 */
 	item: function(i) {
-//		return this.items.find(Ergo.filters.by_widget(i));		
+//		return this.children.find(Ergo.filters.by_widget(i));		
 		var filter = Ergo.filters.by_widget(i);
 		var j = 0;
-		return this.items.find(function(item, i){
+		return this.children.find(function(item, i){
 			if(item._type == 'item'){
 				if(filter.call(this, item, j)) return true;
 				j++;
@@ -600,7 +604,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 	component: function(i) {
 		var filter = Ergo.filters.by_widget(i);
-		return this.items.find(function(item, j){
+		return this.children.find(function(item, j){
 			return item._type == 'component' && filter.call(this, item, j);
 		});
 	},
@@ -701,12 +705,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
-				self.items.add({'data': e.entry}, e.isLast ? null : e.index);
+				self.children.add({'data': e.entry}, e.isLast ? null : e.index);
 			}, this);
 			
 			// если элемент данных удален, то удаляем соответствующий виджет
 			this.data.events.reg('entry:deleted', function(e){
-				self.items.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
+				self.children.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
 			}, this);
 			
 			// если элемент данных изменен, то создаем новую привязку к данным
@@ -725,13 +729,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 				// уничтожаем все элементы-виджеты
 //				self.items.apply_all('destroy');
-				self.items.each(function(item) { if(item.dynamic) item.destroy();  });
+				self.children.each(function(item) { if(item.dynamic) item.destroy();  });
 				
 	//			var t0 = Ergo.timestamp();
 	
 				self.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.items.add({ 'data': dataEntry });//.bindRoot = false;
+					var item = self.children.add({ 'data': dataEntry });//.bindRoot = false;
 					item.bindRoot = false;
 					item.dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -752,12 +756,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	
 			this.layout.immediateRebuild = false;
 					
-//			this.items.apply_all('destroy');
-			this.items.each(function(item) { if(item.dynamic) item.destroy();  });
+//			this.children.apply_all('destroy');
+			this.children.each(function(item) { if(item.dynamic) item.destroy();  });
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.items.add({ 'data': dataEntry, 'autoUpdate': false });
+					var item = self.children.add({ 'data': dataEntry, 'autoUpdate': false });
 					item.bindRoot = false;
 					item.dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -778,7 +782,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			
 		
 			// связываем данные с дочерними компонентами виджета
-			this.items.each(function(child){
+			this.children.each(function(child){
 				if(!child.bindRoot) child.bind(self.data, false, false);
 			});
 
@@ -888,7 +892,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
 
-		this.items.apply_all('$dataChanged');
+		this.children.apply_all('$dataChanged');
 		
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		

@@ -358,30 +358,21 @@ var Ergo = (function(){
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
 	 */
-	E.filter = function(src, fn){
-		return ( $.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
+	E.filter = function(obj, fn){
+		var result;
+		if( $.isArray(obj) ) {
+			result = [];
+			for(var i = 0; i < obj.length; i++)
+				if( fn.call(obj, obj[i], i) ) result.push(obj[i]);
+		}
+		else {
+			result = {};
+			for(var i in obj)
+				if( fn.call(obj, obj[i], i) ) result[i] = obj[i];			
+		}
+		return result;
 	};
-	
-	/**
-	 * @ignore
-	 */
-	var _filter_obj = function(obj, fn) {
-		var result = {};
-		for(var i in obj)
-			if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
-		return result;
-	}
-
-	/**
-	 * @ignore
-	 */	
-	var _filter_arr = function(arr, fn) {
-		var result = [];
-		for(var i = 0; i < arr.length; i++)
-			if( fn.call(arr, arr[i], i) ) result.push(arr[i]);
-		return result;
-	}
-	
+		
 	
 	/*
 	 * Фильтрация ключей.
@@ -400,13 +391,6 @@ var Ergo = (function(){
 	};
 	
 	
-	/**
-	 * Псевдоним для {@link Ergo.filter}
-	 * 
-	 * @name Ergo.find_all
-	 * @function
-	 */
-	E.find_all = E.filter;
 	
 	/**
 	 * Отображение (размерность сохраняется)
@@ -454,6 +438,16 @@ var Ergo = (function(){
 		return null;
 	};
 	
+	
+	/**
+	 * Псевдоним для {@link Ergo.filter}
+	 * 
+	 * @name Ergo.find_all
+	 * @function
+	 */
+	E.find_all = E.filter;
+	
+	
 	/**
 	 * Получение индекса (или ключа) элемента в коллекции
 	 * 
@@ -479,6 +473,9 @@ var Ergo = (function(){
 		}
 		return -1;
 	};
+	
+	
+	E.index_of = E.key_of;
 	
 	
 	/**
@@ -540,6 +537,8 @@ var Ergo = (function(){
 		return false;
 	}
 	
+	E.contains = E.includes;
+
 	
 	
 	E.size = function(obj) {
@@ -878,41 +877,6 @@ var Ergo = (function(){
 	
 	
 	
-/*	
-	
-	E.serialize = function(obj, indent) {
-		
-		if(obj == undefined) return obj;
-		
-		indent = indent || 0;
-		var tabs = '';
-		for(var i = 0; i < indent; i++) tabs += '\t';
-		
-		if(obj.pretty_print) return obj.pretty_print(indent);
-		
-		switch(typeof obj){
-			case 'string':
-				return '"'+obj.replace(/\n/g, '\\n')+'"';
-			case 'object':
-				var items = [];
-				if(E.isArray(obj)){
-					E.each(obj, function(item){
-						items.push(E.pretty_print(item, indent));
-					});
-					return '[' + items.join(', ') + ']';
-				}
-				else{
-					E.each(obj, function(item, key){
-						items.push(tabs + '\t"' + key + '":' + E.pretty_print(item, indent+1));					
-					});
-					return '{\n' + items.join(',\n') + '\n' + tabs + '}';
-				}
-			default:
-				return obj;
-		}
-	};
-*/	
-	
 	
 	
 	/**
@@ -926,15 +890,6 @@ var Ergo = (function(){
 	};
 	
 	
-	
-		
-	
-
-	E.logger = {
-		debug: function(msg) {
-			if(console) console.log(msg);
-		}
-	};
 	
 	
 	
@@ -990,7 +945,7 @@ var Ergo = (function(){
 	
 	
 	
-	
+	//TODO перенести в примеси
 	E.glass_pane = function() {
 		
 		return $('<div class="e-glasspane" autoheight="ignore"/>')

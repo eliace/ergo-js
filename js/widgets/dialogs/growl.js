@@ -26,7 +26,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 	
 	addGrowl: function(item) {
 		
-		var box = this.items.add({
+		var box = this.children.add({
 			content: item,
 			onClick: function(){
 				growl

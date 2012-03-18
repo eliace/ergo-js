@@ -24,7 +24,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 			this.layout.el.empty();
 		
 		// фабрики editor не существует, поэтому будет использована фабрика по умолчанию
-		this.items.add(editorOpts, '_editor', 'editor');
+		this.children.add(editorOpts, '_editor', 'editor');
 			
 		if(editorOpts.keepContent) {
 			var ed_el = this._editor.el
@@ -64,7 +64,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 
 //		if(this._editor.replacement == 'override')
 
-		this.items.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
+		this.children.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
 
 		this.layout.el.children().show();
@@ -81,7 +81,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 	
 	this.cancelEdit = function(/*reason*/) {
 
-		this.items.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
+		this.children.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент		
 		this.$dataChanged(); // явно вызываем обновление данных		
 //		this.events.fire('onEdit', {'reason': reason});
 
