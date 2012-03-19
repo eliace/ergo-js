@@ -80,7 +80,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	is: function(ex) {
 		var o = this.options;
 		if($.isString(ex)) ex = Ergo.alias('extensions:'+ex);
-		return ('extensions' in o) ? Ergo.include(o.extensions, ex) : false;
+		return ('extensions' in o) ? Ergo.includes(o.extensions, ex) : false;
 	},
 	
 	

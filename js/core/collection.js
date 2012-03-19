@@ -182,8 +182,8 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Проверка вхождения значения в коллекцию
 	 * @param {Object} criteria
 	 */
-	include: function(criteria) {
-		return Ergo.include(this.src, callback);
+	includes: function(criteria) {
+		return Ergo.includes(this.src, callback);
 	},
 	
 	/**
