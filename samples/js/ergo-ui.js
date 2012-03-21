@@ -70,34 +70,6 @@ Ergo.GRID_DATA = [{
 
 $(document).ready(function(){
 	
-/*	
-	var growlPanel = $.ergo({
-		etype: 'growl-panel',
-		renderTo: 'body'
-	});
-	
-	
-	growl = {
-		
-		_add: function(msg, msg_title, msg_icon) {
-			growlPanel.addGrowl({
-				icon: msg_icon,
-				message: msg,
-				title: msg_title
-			});
-		},
-		
-		
-		success: function(msg, title) {
-			this._add(msg, title || 'Завершено', 'e-grouls_complete');
-		},
-
-		warn: function(msg, title) {
-			this._add(msg, title || 'Предупреждение', 'e-grouls_alert');
-		}
-		
-	};
-*/	
 	
 	
 	// var etypes = [];
@@ -119,7 +91,7 @@ $(document).ready(function(){
 				data: Ergo.aliases(),
 				defaultItem: {
 					binding: function(v) {
-						this.opt('text', Ergo.format('%s (%s)', v.prototype.etype, v.prototype.className));
+						this.opt('text', Ergo.format('%s (%s)', this.data.id, v.prototype.className));
 					}
 				}
 			}
