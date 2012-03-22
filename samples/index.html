@@ -18,23 +18,15 @@
 		<script type="text/javascript" src="js/ergo-ui.js"></script>
 		<script type="text/javascript" src="js/jquery.custom-input-file.js"></script>
 		<script type="text/javascript">
-			$(function() {
+			$(document).ready(function() {
+		//$("#dev_h").on('click', function() {
+		//$("#dev_c").slideToggle("slow");
+		//});
+		$("#layouts_select").on('click', function() {
+			$("#layouts_list").slideToggle("slow");
 
-				$("#fileupload-1").customInputFile({
-					filename : "#filename-1",
-					replacement : $('<div />', {
-						"text" : "Загрузка"
-					}),
-					changeCallback : function() {
-						$("#filename-1").prepend('<div class="e-icon e-icon-folder"></div>');
-						$("#filename-1").append('<div ><a id="clear" href="javascript:void(0)">Удалить [x]</a></div>');
-						$('#clear').bind('click', function() {
-
-							$("#fileupload-1").trigger("clear");
-
-						});
-					}
-				});
+		return false;
+		});
 
 			});
 
@@ -168,12 +160,40 @@
 							</div>
 						</div-->
 						<!-- Тестовую разметку создавать здесь-->
+						<div class="e-panel" style="width: 730px;">
+							<header>
+								<h2>Заголовок</h2>
+							</header>
+							<div class="e-panel-content">
+								<div class="widget_informer">
+									<ul>
+										<li class="current_widget_info">Информация</li>
+										<li>Код элемента</li>
+									</ul>
+									<div class="widged_informer_content">
+										<p>Описание виджета</p>
+										<p>Описание виджета</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<aside id="sideLeft">
 					<div class="logo">
 						<a href="#"></a>
 					</div>
+					<ul class="ergo_navigation">
+						<li><a href="#">Ergo UI Elements</a></li>
+						<li><a href="#" id="layouts_select">Ergo Layouts</a>
+							<ul id="layouts_list" >
+								<li><a href="#" class="layout_simple_icon"></a></li>
+								<li><a href="#" class="layout_simple_icon"></a></li>
+								<li><a href="#" class="layout_simple_icon"></a></li>
+							</ul>
+						</li>
+						<li><a href="#">Ergo Wiki</a></li>
+					</ul>
 				</aside><!-- #sideLeft -->
 			</section>
 		</div>
