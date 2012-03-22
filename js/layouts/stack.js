@@ -1,12 +1,12 @@
 
-//= require "plain"
+//= require <core/layout>
 
 
 /**
  * @class
- * @extends Ergo.layouts.PlainLayout
+ * @extends Ergo.core.Layout
  */
-Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.StackLayout.prototype */{
+Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.StackLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'e-stack-layout',

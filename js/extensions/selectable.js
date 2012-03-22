@@ -56,14 +56,14 @@ Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object'
       this.selection_a = [w];                  
     }
     
-		this.widget.events.fire('onSelectionChanged');
+		this.widget.events.fire('selectionChanged');
 		
 	},
 	
 	clear: function() {
 		Ergo.each(this.selection_a, function(item){ item.states.clear('selected'); });
 		this.selection_a = [];
-		this.widget.events.fire('onSelectionChanged');
+		this.widget.events.fire('selectionChanged');
 	},
 	
 	

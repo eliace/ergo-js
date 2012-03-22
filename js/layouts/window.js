@@ -1,15 +1,14 @@
 
-//= require "plain"
+//= require <core/layout>
 
 
-Ergo.topZ = 1;
 
 
 /**
  * @class
- * @extends Ergo.layouts.PlainLayout
+ * @extends Ergo.core.Layout
  */
-Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layouts.PlainLayout', /** @lends Ergo.layouts.WindowLayout.prototype */{
+Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.WindowLayout.prototype */{
 	
 	defaults: {
 		name: 'window',
@@ -19,6 +18,9 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 		updateMode: 'manual',
 		html: '<div class="e-window-content"/>'
 	},
+	
+	
+	top_z: 1,
 	
 	
 	attach: function(c) {
@@ -56,7 +58,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 	
 	open: function() {
 
-		var z = Ergo.topZ++;
+		var z = this.top_z++;
 		this.overlay_el.css('z-index', z*1000);
 		this.container.el.css('z-index', z*1000+1);
 	
@@ -71,7 +73,7 @@ Ergo.layouts.WindowLayout = Ergo.declare('Ergo.layouts.WindowLayout', 'Ergo.layo
 	
 	close: function() {
 
-		Ergo.topZ--;
+		this.top_z--;
 		
 		this.overlay_el.detach();
 		this.container.el.hide();

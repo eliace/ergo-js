@@ -1,118 +1,91 @@
 
-//= require "../containers/control-list"
-//= require <layouts/column>
-//= require "../buttons/text-button"
+//= require <extensions/effects>
 
-Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
-
+/*
+Ergo.declare('Ergo.layouts.GrowlLayout', 'Ergo.core.Layout', {
+	
 	defaults: {
-		baseCls: 'e-growl',
-		cls: 'e-border-all e-corner-all e-widget-shadow',
-		components: {
-			content: {
-				etype: 'box',
-				layout: {
-					etype: 'column-layout',
-					valign: 'middle'
-				},
-				components: {
-				}		
-			},
-			buttons: {
-				etype: 'control-list',
-				cls: 'center',
-				defaultItem: {
-					etype: 'text-button',
-					onAction: function() {
-						var growl = this.parent.parent;
-						growl.growlButton = this.tag;
-						growl.hide();
-					}
-				}
-			}
-		},
-		events: {
-			'click': function(e, w) {
-				if(w.options.hideOnClick) w.hide();
-			}
-		},
-		buttonSet: {
-			'ok': {text: 'ОК', tag: 'ok'},
-			'cancel': {text: 'Отмена', tag: 'cancel'},
-			'save': {text: 'Сохранить', tag: 'save'}
-		},
-		hideOnClick: true,
-		hideOnTimeout: true,
-		delay: 500,
-		timeout: 10000,
-		showOnRender: true
+		
 	},
 	
 	
-	$init: function(o) {
-		this.$super(o);
-//		Ergo.widgets.GrowlBox.superclass.$init.apply(this, arguments);
+	wrap: function(item) {
 		
-		// Добавляем иконку
-		if('icon' in o) {
-			o.components.content.components.messageIcon = {
-				etype: 'icon',
-				cls: 'icon32 e-center-align ' + o.icon,
-				style: {'margin': '0 10px'}
-//				width: 50
-			}
-		}
-		
-		// Добавляем сообщение
-		if('message' in o) {
-			o.components.content.components.messageContent = {
-				etype: 'text',
-//				cls: 'e-widget-content',
-				text: o.message
-			}			
-		}
+		var wrapper = $('<div/>');
+		wrapper.append(item.el);
 
-		// Добавляем html
-		if('htmlMessage' in o) {
-			o.components.content.components.htmlContent = {
-				etype: 'box',
-//				html: '<iframe>'+o.htmlMessage+'</iframe>',
-//				cls: 'e-widget-content',
-				innerHtml: o.htmlMessage
-			}			
-		}
+		// добавленный элемент изначально не виден
+		item.el.css('display', 'none');
 		
-		// добавляем кнопки
-		if('buttons' in o) {
-			var buttons = [];
-			Ergo.each(o.buttons, function(key){
-				buttons.push( o.buttonSet[key] );
-			})
-			o.components.buttons.items = buttons;
-		}		
-		
+		return wrapper;
 	},
 	
 	
-	show: function() {
-		var o = this.options;
+	remove: function(item) {
+		this.$super(item);
 		
-		this.el.fadeIn(o.delay);
-		
-		var self = this;
-		if(o.hideOnTimeout){
-			setTimeout(function(){ self.hide(); }, o.timeout);			
-		}
-	},
-	
-	
-	hide: function() {
-		var o = this.options;
-		var self = this;
-		this.el.fadeOut(o.delay, function(){ self.events.fire('onHide', {'source': self});});
+		item.hide().then(function(){ item.el.parent(). });
 	}
 	
-}, 'growl');
+	
+	
+}, 'growl-layout');
+*/
+
+
+
+
+
+Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'e-grouls_pannels_holder',
+		defaultItem: {
+			etype: 'box',
+			extensions: ['effects'],
+			effects: {
+				hide: 'slideUp',
+				delay: 300
+			},
+			content: {
+				etype: 'growl-box',
+				style: {'display': 'none'}					
+			}
+		},
+		timeout: 6000
+	},
+	
+	
+	addGrowl: function(item) {
+		
+		var box = this.items.add({
+			content: item
+		});
+		var growl = box.content;
+		
+		// отображаем гроул
+		growl.show();
+		// устанавливаем время жизни гроула
+		setTimeout(function(){
+			// фиксируем высоту контейнера гроула
+			box.el.height(box.el.height());
+			
+			growl
+				.hide() // скрываем гроул
+				.then(function(){ // затем скрываем контейнер
+					box.hide();
+				});
+		}, growl.options.timeout || this.options.timeout);
+		
+	}
+	
+	
+	
+}, 'growl-panel');
+
+
+
+
 
 
 
@@ -120,84 +93,38 @@ Ergo.widgets.Growl = Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		baseCls: 'e-growl-box',
-		height: 'ignore',
-		defaultItem: {
-			etype: 'growl',
-			onHide: function() {
-				this.parent.items.remove(this).destroy(); 				
+		cls: 'e-grouls_pannels',
+		extensions: ['effects'],
+		effects: {
+			show: 'fadeIn',
+			hide: 'fadeOut',
+			delay: 500
+		},		
+		content: {
+			cls: 'e-grouls_pannels_wrapper',
+			components: {
+				icon: {
+					cls: 'e-grouls_pannels_img'					
+				},
+				content: {
+					cls: 'e-grouls_pannels_content',
+					components: {
+						title: {
+							html: '<h4/>'
+						},
+						message: {
+							html: '<p/>'
+						}
+					}
+				}
 			}
+		},
+		set: {
+			'icon': function(v) { this.content.icon.states.setOnly(v); },
+			'message': function(v) { this.content.content.message.opt('text', v); },
+			'title': function(v) { this.content.content.title.opt('text', v); }
 		}
 	}
 	
 	
-/*	
-	addMessage: function(msg, icon, boxState) {
-		
-		var o = this.options;
-		
-		this.addItem({
-			delay: o.delay,
-			timeout: o.timeout,
-			hideOnTimeout: o.hideOnTimeout,
-			state: boxState,
-			hideOnClick: true,
-			components: {
-				messageIcon: {
-					etype: 'icon',
-					cls: 'icon32 e-center-align ' + icon,
-					width: 50
-				},
-				messageText: {
-					etype: 'text',
-					cls: 'e-widget-content',
-					text: msg
-				}
-			}
-		});
-		
-	},
-	
-	addPrompt: function(icon, msg, buttons) {
-
-		var o = this.options;
-		
-		this.addItem({
-			delay: o.delay,
-			timeout: o.timeout,
-			hideOnTimeout: o.hideOnTimeout,
-			state: boxState,
-			hideOnClick: true,
-			components: {
-				messageIcon: {
-					etype: 'icon',
-					cls: 'icon32 e-center-align ' + icon,
-					width: 50
-				},
-				messageText: {
-					etype: 'text',
-					cls: 'e-widget-content',
-					text: msg
-				}
-			}
-		});
-		
-	},
-	
-	addHtml: function(html) {
-		
-	}
-*/	
-	
-	
-	
-	
 }, 'growl-box');
-
-
-
-
-
-
-
-

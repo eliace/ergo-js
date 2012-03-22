@@ -1,8 +1,8 @@
 
-//= require "plain"
+//= require <core/layout>
 
 
-Ergo.declare('Ergo.layouts.VBox', 'Ergo.layouts.PlainLayout', {
+Ergo.declare('Ergo.layouts.VBox', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'vbox'

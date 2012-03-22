@@ -1,15 +1,8 @@
 
 //= require "data-source"
 //= require "states"
-//= require <layouts/plain>
+//= require "layout"
 //= require "widget-list"
-
-
-
-
-// Ergo.formats = {};
-// Ergo.parsers = {};
-// Ergo.validators = {};
 
 
 
@@ -52,7 +45,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	defaults: {
-		layout: 'plain',
+		layout: 'default',
 		states: {
 			'hidden': 'hidden',
 			'disabled': 'disabled',
@@ -105,9 +98,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 			}
-			// 'validate': function(v) {
-				// if($.isArray(v)) this.options.validate = Ergo.filter_list.rcurry(v); //FIXME
-			// }
 		},
 		get: {
 			'text': function() { return this.el.text(); }
@@ -122,6 +112,11 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		var o = this.options;
 		var self = this;
+
+		
+		// this.events.on_fire = function(type, e, base_event) {
+			// if(e.bubble && self.parent) self.parent.events.fire(type, e, base_event);
+		// };
 
 
 		// инициализируем виджет
@@ -256,7 +251,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				// return 0;
 			// });
 			// добавляем компоненты
-			Ergo.each(arr, function(c){
+//			Ergo.each(arr, function(c){
 //				var i = c._cname;
 //				var w = c._cweight;
 //				delete c._cweight;
@@ -264,7 +259,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 //				self.addComponent(c, i);
 //				c = o.componentFactory.call(self, c);
 //				c.opt('tag', i);
-			});
+//			});
 			
 			// задаем "ленивые" классы компонентов
 			for(var i in o.components){
@@ -314,20 +309,28 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		
 		
 		
+		// var wrap_func = function(handler, e, type) {
+			// var result = handler.call(this, e, type);
+			// if(this.parent) this.parent.events.fire(type, e);
+		// }
+		
+		
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
+				var name = i.charAt(2).toLowerCase() + i.slice(3);
 				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-				for(var j = 0; j < chain.length; j++)
-					this.events.reg(i, chain[j]);
+				for(var j = 0; j < chain.length; j++) {
+					this.events.reg( name, chain[j] );
+				}
 			}
 		}
 
 		
 		if('onClick' in o)
-			this.el.click(function(e) { self.events.fire('onClick', {button: e.button}, e) });
+			this.el.click(function(e) { self.events.fire('click', {button: e.button}, e) });
 		if('onDoubleClick' in o)
-			this.el.dblclick(function(e) { self.events.fire('onDoubleClick', {button: e.button}, e) });
+			this.el.dblclick(function(e) { self.events.fire('doubleClick', {button: e.button}, e) });
 		
 		
 	},
@@ -456,8 +459,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$afterRender: function() {
 //		this.children.each(function(c) { c.$afterRender(); });
-		this.events.fire('onAfterRender');
-//		this.items.apply_all('$afterRender');
+		this.events.fire('afterRender');
+		this.items.apply_all('$afterRender');
 	},
 
 	/**
@@ -495,110 +498,20 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 */
 	$opt: function(o) {
 		
-		var self = this;
+//		var self = this;
 		
 		
 		
-		var el = this.el;
-		
-//		profiler.start('opt');
-/*		
-		if('width' in o) {
-//			if(o.width != 'auto') el.width(o.width);
-			el.width(o.width);
-		}
-		if('height' in o) {
-			el.height(o.height);
-			// if(o.height == 'auto' || o.height == 'ignore'){ 
-				// el.attr('autoheight', o.height);
-			// }
-			// else {
-				// el.removeAttr('autoheight');
-				// el.height(o.height);
-			// }
-		}
-
-		
-		if('autoHeight' in o) {
-			(o.autoHeight) ? el.attr('autoHeight', o.autoHeight) : el.removeAttr('autoHeight');
-		}
-		if('autoWidth' in o) {
-			(o.autoWidth) ? el.attr('autoWidth', o.autoWidth) : el.removeAttr('autoWidth');
-		}
-*/		
-		// if('x' in o) el.css('left', o.x); //?
-		// if('y' in o) el.css('top', o.y);  //?
-		// if('tooltip' in o) el.attr('title', o.tooltip);
-		// if('id' in o) el.attr('id', this.id = o.id);
-		// if('tag' in o) this.tag = o.tag;
-		// if('tabIndex' in o) el.attr('tabindex', o.tabIndex);
-		
-		// эти три параметра должны задаваться статически
-		// if('style' in o) el.css(o.style);
-		// if('cls' in o) el.addClass(o.cls);
-		// if('baseCls' in o) el.addClass(o.baseCls);
-		
-//			profiler.tick('opt', 'style');		
-		
-//		if('innerText' in o) this.layout.el.text(o.innerText);
-//		if('innerHtml' in o) this.layout.el.html(o.innerHtml);
-//		if('role' in o) el.attr('role', o.role);
-		// if('opacity' in o){
-			// if($.support.opacity) 
-				// el.css('opacity', o.opacity);
-			// else {
-				// el.css('filter', 'Alpha(opacity:' + (o.opacity*100.0) + ')');
-				// el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (o.opacity*100.0).toFixed() + ')');				
-			// }
-		// }
-		
-//		if('unselectable' in o) {
-//			el.css('unselectable');
-//			el.attr('unselectable');
-//		}
-
-//		profiler.tick('opt', 'ifs');
-		
-				
-		
-		
-/*		
-		if('contextMenu' in o) {
-			
-			var cm = o.contextMenu;
-			
-			if($.isFunction(cm)) cm = cm.call(this);
-			if(cm && !(cm instanceof Ergo.core.Widget)) cm = Ergo.widget(cm);
-			
-			if(cm) {
-			
-				this.contextMenu = cm;
-	
-			
-			}
-		}
-*/
-		
-		
-		// if('format' in o) {
-			// if($.isString(o.format)) this.options.format = Ergo.format_obj.curry(o.format);
-		// }
-// 
-		// if('validate' in o) {
-			// if($.isArray(o.validate)) this.options.validate = Ergo.filter_list.rcurry(o.validate);
-		// }
-						
-		
-		
+//		var el = this.el;
 		
 		for(var i in o) {
 			// проверяем наличие Java-like сеттеров
-			var java_setter = 'set'+i.capitalize();
+			var java_setter = 'set'+i.capitalize();			
 			// проверяем наличие сеттеров опций
 			if(this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
-			else if(this.java_setter)
+			else if(this[java_setter])
 				this[java_setter](o[i]);
 		}
 
@@ -914,7 +827,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			this.data.set(val);
 //			delete this.lock_data_change;
 				 
-			this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
+			this.events.fire('valueChanged', {'value': val/*, 'reason': reason*/});				
 		
 			// if(valid) {
 				// this.states.clear('invalid');
@@ -947,42 +860,6 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	 * @private
 	 */
 	$dataChanged: function() {
-//		// если автобиндинг выключен, то прекращаем обновление
-//		if(!this.options.autoBinding) return;
-//		if(this.suppressDataChange) return;
-
-/*		
-		var binding = this.options.binding;
-		
-		if($.isFunction(binding)){
-//			var o = {};
-			var val = this.getValue();
-//			if(val !== undefined)	
-			if( binding.call(this, val) === false) return;
-//			this.opt(o);
-		}
-*/		
-/*		
-		if(binding.options){
-			var o = {};
-			binding.options.call(this, o);
-			this.opt(o);
-		}
-		if(binding.states)
-			binding.states.call(this, this.states);
-*/		
-		
-//		if(this.options.optBinding) {
-//			var o = {};
-//			this.options.optBinding.call(this, o);
-//			this.opt(o);
-//		}
-				
-//		if(this.options.stateBinding){
-//			this.states.set( this.getStateValue() );
-//		}
-		
-		
 		
 		if(!this.options.autoBind) return;
 		
@@ -990,12 +867,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		if(this.data && binding){
 			var val = this.getValue();
-			if( binding.call(this, val) === false) return;
+			if( binding.call(this, val) === false) return false;
 			
 		}
 
 		// var e = new Ergo.events.CancelEvent({value: this.getValue()});
-		this.events.fire('onDataChanged');//, e);
+		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
 
 		this.items.apply_all('$dataChanged');
@@ -1015,6 +892,9 @@ Ergo.widget = function(){
 };
 
 
+Ergo.bubble = function(e, type) {
+	if(this.parent) this.parent.events.fire(type, e);
+}
 
 
 
