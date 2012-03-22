@@ -40,23 +40,23 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
 	 */
-	  E.override_r = function(obj) {
-		for(var j = 1; j < arguments.length; j++){
-			var overrides = arguments[j];
-			for(var i in overrides){
-				var prop = overrides[i];
-				if(p && p.constructor == Object){ //$.isPlainObject(prop)){
-//					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
-					if(!(i in obj) || obj[i].constructor != Object) obj[i] = {};
-					  E.override_r(obj[i], prop);
-				}
-				else{
-					obj[i] = prop;
-				}
-			}
-		}
-		return obj;
-	};
+	  // E.override_r = function(obj) {
+		// for(var j = 1; j < arguments.length; j++){
+			// var overrides = arguments[j];
+			// for(var i in overrides){
+				// var prop = overrides[i];
+				// if(p && p.constructor == Object){ //$.isPlainObject(prop)){
+// //					if(!(i in obj) || !$.isPlainObject(obj[i])) obj[i] = {};
+					// if(!(i in obj) || obj[i].constructor != Object) obj[i] = {};
+					  // E.override_r(obj[i], prop);
+				// }
+				// else{
+					// obj[i] = prop;
+				// }
+			// }
+		// }
+		// return obj;
+	// };
 	
 	/**
 	 * Псевдоним для {@link Ergo.override}
@@ -1129,7 +1129,7 @@ Ergo.filters = (function(){
 		var f = null;
 		
 		if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = F.by_props.curry({'name': i});
+		else if( $.isString(i) ) f = F.by_props.curry({'_key': i});
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;

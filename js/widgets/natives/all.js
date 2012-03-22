@@ -9,3 +9,4 @@
 //= require "textarea"
 //= require "box"
 //= require "list"
+//= require "paragraph"

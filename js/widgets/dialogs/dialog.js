@@ -6,24 +6,59 @@
 Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 	
 	defaults: {
+		cls:'e-dialog',
 		extensions: ['window'],
-//		renderTo: 'body',
-		cls: 'e-dialog'
-	}
-	
-	
-/*	
-	open: function() {
-		this.layout.open();
-		this.layout.update();
+		closeOnOuterClick: true,
+		destroyOnClose: true,
+		
+		effects: {
+			show: 'fadeIn',
+			hide: 'fadeOut',
+			delay: 400,
+			overlay: {
+				show: 'fadeIn',
+				hide: 'fadeOut',
+				delay: 400
+			}
+		},
+		
+		buttons: [],
+		
+		buttonShortcuts: {
+			'cancel': {text: 'Отмена', cls:'e-cancel-btn', tag: 'cancel'},
+			'ok': {text: 'Отправить', cls:'e-ok-btn', tag: 'ok'}
+		}
+		
 	},
 	
 	
-	close: function(){
-		this.layout.close();
-	}
-*/	
+	$init: function(o) {
+		this.$super(o);
+		
+		var button_items = [];
+		
+		for(var i = 0; i < o.buttons.length; i++) {
+			button_items.push( o.buttonShortcuts[o.buttons[i]] );
+		}
+
+//		o.components.header.components.buttons.items = button_items;
+		
+	},
 	
+	
+	
+	
+	open: function() {
+		this.window.open();
+		return this;
+	},
+	
+	close: function() {
+		this.window.close();
+		return this;
+	}
+	
+		
 }, 'dialog');
 
 

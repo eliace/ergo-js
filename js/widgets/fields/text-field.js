@@ -12,10 +12,10 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 					etype: 'text-input',
 					events: {
 						'focus': function(e, w) {
-							w.getParent(Ergo.widgets.Field).setFocus();
+							w.parent(Ergo.widgets.Field).setFocus();
 						},
 						'blur': function(e, w) {
-							w.getParent(Ergo.widgets.Field).clearFocus();
+							w.parent(Ergo.widgets.Field).clearFocus();
 						}
 					}
 				}

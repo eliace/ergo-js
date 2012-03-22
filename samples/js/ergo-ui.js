@@ -4,8 +4,8 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 
-		cls: 'e-panel',
 
+		cls: 'e-panel',
 		width: 730
 
 	}
@@ -204,13 +204,7 @@ $(document).ready(function(){
 										this.events.fire('action', {target: this, after: Ergo.bubble});
 									}
 								},
-								items: [
-									{text: 'Печора'},
-									{text: 'Ухта'},
-									{text: 'Сосногорск'},
-									{text: 'Усинск'},
-									{text: 'Сыктывкар'}
-								]
+								items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 							}
 						}
 					}				
@@ -309,39 +303,21 @@ $(document).ready(function(){
 					cls: 'e-list alpha',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}, {
 					etype: 'box',
 					cls: 'e-list alpha',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}, {
 					etype: 'box',
 					cls: 'e-list decimal',
 					content: {
 						etype: 'list',
-						items: [
-							{text: 'Печора'},
-							{text: 'Ухта'},
-							{text: 'Сосногорск'},
-							{text: 'Усинск'},
-							{text: 'Сыктывкар'}
-						]
+						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}]
 			}
@@ -371,12 +347,27 @@ $(document).ready(function(){
 					etype: 'button-item',
 					text: 'Открыть диалог',
 					onClick: function() {
+						
 						var dlg = $.ergo({
 							etype: 'dialog',
-							width: 200,
-							height: 200
+//							width: '50%',
+//							height: '50%',
+							maxWidth: '30%'
 						});
 						dlg.open();
+						
+						
+						setTimeout(function(){
+							dlg.content.items.add({
+								etype: 'box',
+								text: Ergo.LOREMIPSUM
+							}, 'content', 'component');
+							
+														
+							dlg.window.resize();
+							
+						}, 1000);
+						
 					}
 				}]
 			}
@@ -436,40 +427,21 @@ $(document).ready(function(){
 			content: {
 				layout: 'hbox',
 				items: [{
-					style: {'position': 'relative', 'display': 'inline-block'},
-					events: {
-						'mousedown': function(e, w) { w.item(0).states.set('clicked'); },
-						'mouseup': function(e, w) { w.item(0).states.clear('clicked'); }
-					},
-					items: [{
+					etype: 'upload-item',
+					content: {
 						etype: 'button-item',
-						text: 'Загрузить файл'
-					}, {
-						opacity: 0,
-						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
-						content: {
-							etype: 'file',
-							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
-						}
-						
-					}]
+						text: 'Загрузить файл'	
+					},
+					onAction: function(e) {
+						growl.success(e.file);
+					}
 				}, {
 					// иконка - загрузчик
-					style: {'position': 'relative', 'display': 'inline-block'},					
-					items: [{
-						opacity: 0,
-						style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
-						content: {
-							etype: 'file',
-							html: '<input type="file" size="1">',
-							style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'}								
-						}
-						
-					}, {
+					etype: 'upload-item',
+					content: {
 						etype: 'image',
 						src: 'img/icons-32/e-ico-folder.png'
-					}]
+					}					
 				}]				
 			}
 		}, {
@@ -501,13 +473,7 @@ $(document).ready(function(){
 					}
 				},
 				
-				items: [{
-					text: 'Вариант 1'
-				}, {
-					text: 'Вариант 2'
-				}, {
-					text: 'Вариант 3'
-				}]
+				items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 			}
 		}, {
 			// грид

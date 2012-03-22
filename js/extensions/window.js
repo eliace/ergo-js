@@ -18,18 +18,26 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var overlay = self.overlay_el;
 	
 			var z = Ergo.globals.topZ++;
-			overlay.css('z-index', z*1000);
-			wnd.css('z-index', z*1000+1);
+			overlay.css({'z-index': z*1000, 'display': 'none'});
+			wnd.css({'z-index': z*1000+1, 'display': 'none'});
 		
 			$('body').append(overlay);
 			$('body').append(wnd);
 	//		this.window_el.append(this.el);
 			
-	//		this.reset();
-			wnd.show();
-			this.update();
 			
-			self.events.fire('open');
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			var overlay_eff = wnd_eff.overlay || {show: 'show', hide: 'hide', delay: 0};
+			
+			
+	//		this.reset();
+			overlay[overlay_eff.show](overlay_eff.delay);
+//			wnd.show();
+			this.update(function(){
+				self.events.fire('open');
+				self.$layoutChanged();
+			});
+			
 		},
 		
 		close: function() {
@@ -37,12 +45,18 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var wnd = self.el;
 			var overlay = self.overlay_el;
 	
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			var overlay_eff = wnd_eff.overlay || {show: 'show', hide: 'hide', delay: 0};	
+	
 			Ergo.globals.topZ--;
 			
-			overlay.detach();
-			wnd.hide();
+			$.when( overlay[overlay_eff.hide](overlay_eff.delay) ).done(function(){
+				overlay.detach();				
+			});
+			$.when( wnd[wnd_eff.hide](wnd_eff.delay) ).done(function(){
+				if(self.options.destroyOnClose)	self.destroy();				
+			});
 			
-			if(self.options.destroyOnClose)	self.destroy();
 			
 			
 	//		this.el.detach();
@@ -62,9 +76,48 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 			var w = wnd.width();
 			var h = wnd.height();
 			
+/*			
+			var max_w = self.options.maxWidth || w;
+			var max_h = self.options.maxHeight || h;
+			
+			// если указана высота в %, ее еще надо рассчитать
+			if ($.isString(max_w) && max_w[max_w.length - 1] == '%') {
+				max_w = wnd.parent().width() * parseFloat(max_w.substr(0, max_w.length - 1)) / 100;
+			}
+				
+			if ($.isString(max_h) && max_h[max_h.length - 1] == '%') {
+				max_h = wnd.parent().height() * parseFloat(max_h.substr(0, max_h.length - 1)) / 100;
+			}
+			
+			
+			if(w > max_w) w = max_w;//wnd.width(max_w);
+			if(h > max_h) h = max_h;//wnd.height(max_h);
+			
+			wnd.width(w);
+			wnd.height(h);
+*/
+			
 			var ow = wnd.outerWidth(true);
 			var oh = wnd.outerHeight(true);
 			
+			
+			wnd.css({
+				'margin-left': -ow/2,
+				'margin-top': -oh/2
+			});
+			
+			var wnd_eff = o.effects || {show: 'show', hide: 'hide', delay: 0};
+			
+			$.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
+			});
+
+			if(callback) callback.call(self);
+			
+//			self.events.fire('open');
+			
+			
+			
+/*			
 			wnd.hide();
 			
 			var w0 = self.options.initialWidth;
@@ -83,13 +136,55 @@ Ergo.extension('Ergo.extensions.Window', function(o) {
 				// делаем окно видимым
 	//			box.css({'visibility': '', 'display': 'block'});
 				// вызываем функцию-сигнал о том, что окно отображено
-	//			if(callback) callback.call(self);
+				if(callback) callback.call(self);
 				// обновляем компоновку окна
 				self.$layoutChanged();
 			});
+
+*/
+			
+		},
+		
+		
+		
+		resize: function() {
+			
+			var wnd = self.el;
+			
+			// сохраняем теущие метрики окна
+			var w = wnd.width();
+			var h = wnd.height();
+			
+			// с помощью css сбрасываем размеры, чтобы окно изменило размер по содержимому
+			wnd.css({'width': self.options.maxWidth || 'auto', 'height': self.options.maxHeight || 'auto'});
+
+			var w2 = wnd.width();
+			var h2 = wnd.height();
+
+			
+			// восстанавливаем метрики окна
+			wnd.width(w);
+			wnd.height(h);
+			
+			var ow = wnd.outerWidth();
+			var oh = wnd.outerHeight();
+			
+			
+			
+			ow += w2 - w;
+			oh += h2 - h;
+			
+			wnd.animate({'width': w2, 'margin-left': -ow/2, 'height': h2, 'margin-top': -oh/2}, 300, function(){
+				// делаем окно видимым
+	//			box.css({'visibility': '', 'display': 'block'});
+				// вызываем функцию-сигнал о том, что окно отображено
+//				if(callback) callback.call(self);
+				// обновляем компоновку окна
+//				self.$layoutChanged();
+				self.events.fire('resize');
+			});
 			
 		}
-		
 		
 				
 	}

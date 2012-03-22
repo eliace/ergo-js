@@ -265,7 +265,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			this.el.parents().each(function(i, el){
 				el = $(el);
 				var w = el.ergo();
-				if((w && w.options.height) || el.attr('autoHeight') == 'true' || el.is('body')){
+				if((w && w.options.height) || el.attr('autoHeight') == 'true' || el.attr('autoHeight') == 'stop' || el.is('body')){
 					h = el.height();
 //					h = el[0].scrollHeight;
 					return false;

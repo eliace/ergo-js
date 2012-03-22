@@ -18,7 +18,7 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 		html: '<button type="button"/>',
 		events: {
 			'click': function(e, self) {
-				if(!self.states.is('disabled')) self.events.fire('onAction', {}, e);
+				if(!self.states.is('disabled')) self.events.fire('action', {}, e);
 			}
 		}
 	},
