@@ -3,11 +3,11 @@
 Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
-<<<<<<< HEAD
-		cls: 'e-panel'
-=======
+
+		cls: 'e-panel',
+
 		width: 730
->>>>>>> new_widgets
+
 	}
 	
 }, 'sample-panel');
