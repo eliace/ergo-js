@@ -1,16 +1,98 @@
 
-
+/*
 Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 
-
 		cls: 'e-panel',
-		width: 730
+		width: 730,
+		
+		components: {
+			content: {
+				etype: 'panel'
+			}
+		}
+		
+		
 
 	}
 	
 }, 'sample-panel');
+*/
+
+
+
+Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		layout: 'float',
+		
+		width: 800,
+		
+		components: {
+			tabs: {
+				etype: 'box',
+				cls: 'widget-tabs left',
+				defaultItem: {
+					content: {
+						etype: 'para',
+						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
+					},
+					style: {'position': 'relative', 'width': 30, 'top': 5},
+					set: {
+						'text': function(v) { this.content.opt('text', v) }
+					},
+					layout: {
+						etype: 'default-layout',
+						html: '<div class="out_orange_dash"><div class="inner_orange_dash" style="height: 100px"/></div>',
+						htmlSelector: '.inner_orange_dash'
+					}
+				},
+				items: [{cls: 'green_label_current', text: 'Виджеты'}, {cls: 'orange_label', text: 'Javascript'}]
+			},
+			content: {
+				etype: 'panel',
+				cls: 'left',
+				content: {
+					defaultItem: {
+						style: {'min-height': 250}						
+					},
+//					layout: 'stack',
+					items: [{}, {hideOnRender: true}]
+				}
+			}
+		},
+		
+		
+		stackItems: []
+		
+		
+		// defaultItem: {
+			// etype: 'panel'
+		// }
+		
+	},
+	
+	
+	
+	$init: function(o) {
+		this.$super(o);
+		
+		Ergo.smart_override(o.components.content.content.items, o.stackItems);
+		
+	}
+	
+	
+	
+}, 'sample-panel');
+
+
+
+
+
+
+
 
 
 
@@ -117,7 +199,7 @@ $(document).ready(function(){
 		items: [{
 			etype: 'sample-panel',
 			title: 'Список etype',
-			content: {
+			stackItems: [{
 				etype: 'list',
 				dynamic: true,
 				data: Ergo.etypes(),
@@ -126,12 +208,12 @@ $(document).ready(function(){
 						this.opt('text', Ergo.format('%s (%s)', v.prototype.etype, v.prototype.className));
 					}
 				}
-			}
+			}]
 		}, {
 			// Поле ввода текста (однострочное)
 			etype: 'sample-panel',
 			title: 'Поле ввода текста (однострочное)',
-			content: {
+			stackItems: [{
 				items: [{
 					label: 'Имя',
 					id: 'my_id',
@@ -150,24 +232,24 @@ $(document).ready(function(){
 						text: false
 					}]
 				}]				
-			}
+			}]
 		}, {
 			// Поле ввода текста (многострочное)
 			etype: 'sample-panel',
 			title: 'Поле ввода текста (многострочное)',
-			content: {
+			stackItems: [{
 				items: [{
 					label: 'Текст',
 					etype: 'text-field',
 					multiline: true,
 					placeholder: 'Введите текст'
 				}]				
-			}
+			}]
 		}, {
 			// Поле выбора
 			etype: 'sample-panel',
 			title: 'Поле выбора',
-			content: {
+			stackItems: [{
 				items: [{
 					label: 'Город',
 					etype: 'select-field',
@@ -218,12 +300,12 @@ $(document).ready(function(){
 						iconCls: 'arrow-left'
 					}]
 				}]
-			}
+			}]
 		}, {
 			// Текстовый элемент
 			etype: 'sample-panel',
 			title: 'Текстовый элемент',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'text-item',
 					text: 'Текст'
@@ -236,11 +318,11 @@ $(document).ready(function(){
 					text: 'Текст с иконкой справа',
 					xicon: 'e-icon-folder'
 				}]
-			}
+			}]
 		}, {
 			etype: 'sample-panel',
 			title: 'Чекбокс и радиобокс',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'text-item',
 					tabIndex: 0,
@@ -271,12 +353,12 @@ $(document).ready(function(){
 					}					
 					
 				}]
-			}
+			}]
 		}, {
 			// кнопки
 			etype: 'sample-panel',
 			title: 'Кнопки',
-			content: {
+			stackItems: [{
 				defaultItem: {
 					style: {'margin': 5}
 				},
@@ -292,12 +374,12 @@ $(document).ready(function(){
 					etype: 'styled-button',
 					text: 'Кнопка'
 				}]
-			}
+			}]
 		}, {
 			// список
 			etype: 'sample-panel',
 			title: 'Списки',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'box',
 					cls: 'e-list alpha',
@@ -320,12 +402,12 @@ $(document).ready(function(){
 						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}]
-			}
+			}]
 		}, {
 			// окно
 			etype: 'sample-panel',
 			title: 'Окна и диалоги',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'button-item',
 					text: 'Открыть окно',
@@ -370,12 +452,12 @@ $(document).ready(function(){
 						
 					}
 				}]
-			}
+			}]
 		}, {
 			// float компоновка
 			etype: 'sample-panel',
 			title: 'Плавающая компоновка',
-			content: {
+			stackItems: [{
 				layout: 'float',
 				items: [{
 					etype: 'button-item',
@@ -387,12 +469,12 @@ $(document).ready(function(){
 					text: 'Право',
 					region: 'right'
 				}]
-			}
+			}]
 		}, {
 			// панелька
 			etype: 'sample-panel',
 			title: 'Панель',
-			content: {
+			stackItems: [{
 //				style: {'background': '#2c2c2c'},
 				items: [{
 					etype: 'panel',
@@ -404,12 +486,12 @@ $(document).ready(function(){
 						}						
 					}
 				}]
-			}
+			}]
 		}, {
 			// гроулы
 			etype: 'sample-panel',
 			title: 'Гроулы',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'button-item',
 					text: 'Success',
@@ -419,12 +501,12 @@ $(document).ready(function(){
 					text: 'Warning',
 					onClick: function() { growl.warn('Нажатие кнопки'); }
 				}]				
-			}
+			}]
 		}, {
 			// загрузка файлов
 			etype: 'sample-panel',
 			title: 'Загрузка файлов',
-			content: {
+			stackItems: [{
 				layout: 'hbox',
 				items: [{
 					etype: 'upload-item',
@@ -443,12 +525,12 @@ $(document).ready(function(){
 						src: 'img/icons-32/e-ico-folder.png'
 					}					
 				}]				
-			}
+			}]
 		}, {
 			// радио группа
 			etype: 'sample-panel',
 			title: 'Элементы выбора',
-			content: {
+			stackItems: [{
 				etype: 'box',
 				
 				extensions: ['selectable'],
@@ -474,48 +556,52 @@ $(document).ready(function(){
 				},
 				
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
-			}
+			}]
 		}, {
 			// грид
 			
 			etype: 'sample-panel',
 			title: 'Грид',
-			content: {
+			stackItems: [{
+				id: 'my-grid',
 				
 				components: {
 					
 					// заголовок грида
 					header: {
-						etype: 'grid-header',
 						
-						style: {'font-weight': 'bold'},
-						
-						columns: [{
-							content: {
-								etype: 'check-box'
-							},
-							autoBind: false,
-							width: 30
-						}, {
-							text: 'Дата',
-							width: 100
-						}, {
-							text: 'Заголовок'
-						}, {
-							text: 'Срок исполнения',
-							width: 100
-						}, {
-							text: 'Статус',
-							width: 150
-						}, {
-							text: 'Детали',
-							width: 100
-						}]
-						
+						content: {							
+							etype: 'grid-header',
+							
+							style: {'font-weight': 'bold'},
+							
+							columns: [{
+								content: {
+									etype: 'check-box'
+								},
+								autoBind: false,
+								width: 30
+							}, {
+								text: 'Дата',
+								width: 100
+							}, {
+								text: 'Заголовок'
+							}, {
+								text: 'Срок исполнения',
+								width: 100
+							}, {
+								text: 'Статус',
+								width: 150
+							}, {
+								text: 'Детали',
+								width: 100
+							}]
+						}
+												
 					},
 					
 					// тело грида
-					scrollableContent: {
+					content: {
 						
 						style: {'overflow': 'auto'},
 						
@@ -563,16 +649,25 @@ $(document).ready(function(){
 							
 						}
 					}
-				}			
+				},
+				
+				extensions: [{
+					updateHeader: function() {
+						
+						var w = this.content.content.el.width();
+						this.header.content.el.width(w);
+						
+					}					
+				}]
 			
-			}
+			}]
 		}]
 		
 	});
 	
 	
 	
-	
+	$('#my-grid').ergo().updateHeader();
 	
 	
 });

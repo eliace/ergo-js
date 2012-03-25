@@ -442,7 +442,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		if(o.autoFetch) this.data.fetch();		
 		
 
-		this.events.fire('onAfterBuild');
+		this.events.fire('afterBuild');
 		
 	},
 	
