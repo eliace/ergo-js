@@ -199,12 +199,98 @@ $(document).ready(function(){
 	
 	
 	
+	var menuData = [{
+		title: 'Виджеты',
+		children: [{
+			title: 'Тест'
+		}, {
+			title: 'Тест 2'			
+		}, {
+			title: 'Тест 3'			
+		}, {
+			title: 'Тест 4'			
+		}]
+	}, {
+		title: 'Компоновки'
+	}, {
+		title: 'Wiki'
+	}];
+	
+/*	
+	{
+		widgets: [{
+			title: 'aaa',
+			children: [{}, {}]
+		}, {
+			title: 'bbb'
+		}]
+	};
+*/	
+	
+	
+	
+	
+	$.ergo({
+		etype: 'tree-list',
+		renderTo: '#sideLeft',
+		cls: 'ergo_navigation',
+		
+		data: menuData,
+		
+		dynamic: true,
+		
+		defaultSubtree: {
+			dynamic: true,
+			dataId: 'children',
+			extensions: ['effects'],
+			effects: {
+				show: 'slideDown',
+				hide: 'slideUp',
+				delay: 300
+			},
+			transitions: {
+				'expanded >': function() {
+					this.hide();
+				},
+				'> expanded': function() {
+					this.show();
+				}
+			}
+		},
+		defaultNode: {
+			content: {
+				etype: 'anchor',
+				dataId: 'title',
+				onClick: function() {
+					var subtree = this.parent().subtree;
+					if(subtree.states.is('expanded')) {
+						subtree.options.transitions['expanded >'].call(subtree);
+						subtree.states.clear('expanded');
+					}
+					else {
+						subtree.options.transitions['> expanded'].call(subtree);
+						subtree.states.set('expanded');
+					}
+//					this.parent().subtree.show();
+				}
+			}
+		}
+		
+//		items: [{text: 'Виджеты', dataId: 'widgets'}, 'Компоновки', 'Вики']
+		
+	});
+	
+	
+	
+	
 	// var etypes = [];
 // 	
 	// for(var i in Ergo.etypes()) {
 		// etypes.push(i);
-	// }	
-	
+	// }
+
+
+/*	
 	$.ergo({
 		etype: 'box',
 		html: '#content',
@@ -737,6 +823,6 @@ $(document).ready(function(){
 	
 	
 	$('#my-grid').ergo().updateHeader();
-	
+*/	
 	
 });
