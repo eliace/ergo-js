@@ -1,12 +1,111 @@
 
-
+/*
 Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
-		width: 730
+
+		cls: 'e-panel',
+		width: 730,
+		
+		components: {
+			content: {
+				etype: 'panel'
+			}
+		}
+		
+		
+
 	}
 	
 }, 'sample-panel');
+*/
+
+
+
+Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		layout: 'float',
+		
+		width: 800,
+		
+		components: {
+			tabs: {
+				etype: 'box',
+				cls: 'widget-tabs left',
+				mixins: ['selectable'],
+				defaultItem: {
+					content: {
+						etype: 'para',
+						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
+					},
+					style: {'position': 'relative', 'top': 5},
+					set: {
+						'text': function(v) { this.content.opt('text', v) }
+					},
+					layout: {
+						etype: 'layouts:default',
+						html: '<div class="out-dash"><div class="inner-dash" style="height: 100px"/></div>',
+						htmlSelector: '.inner-dash'
+					},
+					onClick: function() {
+						this.parent().selection.set(this);
+					}
+				},
+				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
+			},
+			content: {
+				etype: 'panel',
+				cls: 'left',
+				content: {
+					defaultItem: {
+						style: {'min-height': 250}
+					},
+//					layout: 'stack',
+					items: [{}, {hideOnRender: true}]
+				}
+			}
+		},
+		
+		
+		stackItems: [],
+		
+		
+		
+		set: {
+			'title': function(s) { this.content.opt('title', s); }
+		},
+		
+		onAfterBuild: function() {
+			this.tabs.selection.set(this.tabs.item(0));
+		}
+		
+		// defaultItem: {
+			// etype: 'panel'
+		// }
+		
+	},
+	
+	
+	
+	$init: function(o) {
+		this.$super(o);
+		
+		Ergo.smart_override(o.components.content.content.items, o.stackItems);
+		
+	}
+	
+	
+	
+}, 'sample-panel');
+
+
+
+
+
+
+
 
 
 
@@ -85,7 +184,7 @@ $(document).ready(function(){
 		items: [{
 			etype: 'sample-panel',
 			title: 'Список etype',
-			content: {
+			stackItems: [{
 				etype: 'list',
 				dynamic: true,
 				data: Ergo.aliases(),
@@ -94,12 +193,12 @@ $(document).ready(function(){
 						this.opt('text', Ergo.format('%s (%s)', this.data.id, v.prototype.className));
 					}
 				}
-			}
+			}]
 		}, {
 			// Поле ввода текста (однострочное)
 			etype: 'sample-panel',
-			title: 'Поле ввода текста (однострочное)',
-			content: {
+			title: 'Поле ввода',
+			stackItems: [{
 				items: [{
 					label: 'Имя',
 					id: 'my_id',
@@ -110,6 +209,11 @@ $(document).ready(function(){
 					etype: 'text-field',
 					placeholder: 'Ваша фамилия'
 				}, {
+					label: 'Текст',
+					etype: 'text-field',
+					multiline: true,
+					placeholder: 'Введите текст'
+				}, {
 					label: 'Адрес проживания',
 					etype: 'text-button-field',
 					placeholder: 'Адрес',
@@ -118,24 +222,12 @@ $(document).ready(function(){
 						text: false
 					}]
 				}]				
-			}
-		}, {
-			// Поле ввода текста (многострочное)
-			etype: 'sample-panel',
-			title: 'Поле ввода текста (многострочное)',
-			content: {
-				items: [{
-					label: 'Текст',
-					etype: 'text-field',
-					multiline: true,
-					placeholder: 'Введите текст'
-				}]				
-			}
+			}]
 		}, {
 			// Поле выбора
 			etype: 'sample-panel',
 			title: 'Поле выбора',
-			content: {
+			stackItems: [{
 				items: [{
 					label: 'Город',
 					etype: 'select-field',
@@ -186,12 +278,12 @@ $(document).ready(function(){
 						iconCls: 'arrow-left'
 					}]
 				}]
-			}
+			}]
 		}, {
 			// Текстовый элемент
 			etype: 'sample-panel',
 			title: 'Текстовый элемент',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'text-item',
 					text: 'Текст'
@@ -204,11 +296,11 @@ $(document).ready(function(){
 					text: 'Текст с иконкой справа',
 					xicon: 'e-icon-folder'
 				}]
-			}
+			}]
 		}, {
 			etype: 'sample-panel',
-			title: 'Чекбокс и радиобокс',
-			content: {
+			title: 'Переключатели',
+			stackItems: [{
 				items: [{
 					etype: 'text-item',
 					tabIndex: 0,
@@ -238,13 +330,34 @@ $(document).ready(function(){
 						this.icon.states.set('checked');
 					}					
 					
+				}, {
+					etype: 'box',
+					cls: 'e-choice',
+					components: {
+						left: {
+							etype: 'label',
+							text: 'Да'
+						},
+						content: {
+							content: {
+								text: '|||'
+							}
+						},
+						right: {
+							etype: 'label',
+							text: 'Нет'
+						}
+					},
+					onClick: function() {
+						this.states.toggle('checked');
+					}
 				}]
-			}
+			}]
 		}, {
 			// кнопки
 			etype: 'sample-panel',
 			title: 'Кнопки',
-			content: {
+			stackItems: [{
 				defaultItem: {
 					style: {'margin': 5}
 				},
@@ -260,12 +373,12 @@ $(document).ready(function(){
 					etype: 'styled-button',
 					text: 'Кнопка'
 				}]
-			}
+			}]
 		}, {
 			// список
 			etype: 'sample-panel',
 			title: 'Списки',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'box',
 					cls: 'e-list alpha',
@@ -288,12 +401,12 @@ $(document).ready(function(){
 						items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 					}
 				}]
-			}
+			}]
 		}, {
 			// окно
 			etype: 'sample-panel',
 			title: 'Окна и диалоги',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'button-item',
 					text: 'Открыть окно',
@@ -427,12 +540,12 @@ $(document).ready(function(){
 						
 					}					
 				}]
-			}
+			}]
 		}, {
 			// float компоновка
 			etype: 'sample-panel',
 			title: 'Плавающая компоновка',
-			content: {
+			stackItems: [{
 				layout: 'float',
 				items: [{
 					etype: 'button-item',
@@ -444,12 +557,12 @@ $(document).ready(function(){
 					text: 'Право',
 					region: 'right'
 				}]
-			}
+			}]
 		}, {
 			// панелька
 			etype: 'sample-panel',
 			title: 'Панель',
-			content: {
+			stackItems: [{
 //				style: {'background': '#2c2c2c'},
 				items: [{
 					etype: 'panel',
@@ -457,15 +570,16 @@ $(document).ready(function(){
 					components: {
 						footer: {
 							state: ''
+							
 						}						
 					}
 				}]
-			}
+			}]
 		}, {
 			// гроулы
 			etype: 'sample-panel',
 			title: 'Гроулы',
-			content: {
+			stackItems: [{
 				items: [{
 					etype: 'button-item',
 					text: 'Success',
@@ -483,12 +597,12 @@ $(document).ready(function(){
 					text: 'Error',
 					onClick: function() { growl.error('Нажатие кнопки'); }
 				}]				
-			}
+			}]
 		}, {
 			// загрузка файлов
 			etype: 'sample-panel',
 			title: 'Загрузка файлов',
-			content: {
+			stackItems: [{
 				layout: 'hbox',
 				items: [{
 					etype: 'upload-item',
@@ -507,12 +621,12 @@ $(document).ready(function(){
 						src: 'img/icons-32/e-ico-folder.png'
 					}					
 				}]				
-			}
+			}]
 		}, {
 			// радио группа
 			etype: 'sample-panel',
 			title: 'Элементы выбора',
-			content: {
+			stackItems: [{
 				etype: 'box',
 				
 				mixins: ['selectable'],
@@ -538,48 +652,52 @@ $(document).ready(function(){
 				},
 				
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
-			}
+			}]
 		}, {
 			// грид
 			
 			etype: 'sample-panel',
 			title: 'Табличный грид',
-			content: {
+			stackItems: [{
+				id: 'my-grid',
 				
 				components: {
 					
 					// заголовок грида
 					header: {
-						etype: 'grid-header',
 						
-						style: {'font-weight': 'bold'},
-						
-						columns: [{
-							content: {
-								etype: 'check-box'
-							},
-							autoBind: false,
-							width: 30
-						}, {
-							text: 'Дата',
-							width: 100
-						}, {
-							text: 'Заголовок'
-						}, {
-							text: 'Срок исполнения',
-							width: 100
-						}, {
-							text: 'Статус',
-							width: 150
-						}, {
-							text: 'Детали',
-							width: 100
-						}]
-						
+						content: {							
+							etype: 'grid-header',
+							
+							style: {'font-weight': 'bold'},
+							
+							columns: [{
+								content: {
+									etype: 'check-box'
+								},
+								autoBind: false,
+								width: 30
+							}, {
+								text: 'Дата',
+								width: 100
+							}, {
+								text: 'Заголовок'
+							}, {
+								text: 'Срок исполнения',
+								width: 100
+							}, {
+								text: 'Статус',
+								width: 150
+							}, {
+								text: 'Детали',
+								width: 100
+							}]
+						}
+												
 					},
 					
 					// тело грида
-					scrollableContent: {
+					content: {
 						
 						style: {'overflow': 'auto'},
 						
@@ -590,9 +708,7 @@ $(document).ready(function(){
 							
 							data: Ergo.GRID_DATA,
 							
-							cell: {
-								style: {'border-bottom': '1px solid #ddd'}
-							},
+							
 							
 							columns: [{
 								content: {
@@ -629,16 +745,25 @@ $(document).ready(function(){
 							
 						}
 					}
-				}			
+				},
+				
+				mixins: [{
+					updateHeader: function() {
+						
+						var w = this.content.content.el.width();
+						this.header.content.el.width(w);
+						
+					}					
+				}]
 			
-			}
+			}]
 		}]
 		
 	});
 	
 	
 	
-	
+	$('#my-grid').ergo().updateHeader();
 	
 	
 });

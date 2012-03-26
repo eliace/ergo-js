@@ -79,8 +79,8 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 			this.src[j]._index = j;
 		
 		//FIXME скорее всего вызов метода show должен находиться не здесь
-//		if(item.options.showOnRender) item.show();
-//		if(item.options.hideOnRender) item.hide();
+		if(item.options.showOnRender) item.show();
+		if(item.options.hideOnRender) item.hide();
 		
 		// для элементов с текстовыми ключами (компонентов) добавляем accessor
 		if(item._key) {

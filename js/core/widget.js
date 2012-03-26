@@ -447,7 +447,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(o.autoFetch) this.data.fetch();		
 		
 
-		this.events.fire('onAfterBuild');
+		this.events.fire('afterBuild');
 		
 	},
 	
