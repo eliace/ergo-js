@@ -34,29 +34,33 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			tabs: {
 				etype: 'box',
 				cls: 'widget-tabs left',
+				extensions: ['selectable'],
 				defaultItem: {
 					content: {
 						etype: 'para',
 						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
 					},
-					style: {'position': 'relative', 'width': 30, 'top': 5},
+					style: {'position': 'relative', 'top': 5},
 					set: {
 						'text': function(v) { this.content.opt('text', v) }
 					},
 					layout: {
 						etype: 'default-layout',
-						html: '<div class="out_orange_dash"><div class="inner_orange_dash" style="height: 100px"/></div>',
-						htmlSelector: '.inner_orange_dash'
+						html: '<div class="out-dash"><div class="inner-dash" style="height: 100px"/></div>',
+						htmlSelector: '.inner-dash'
+					},
+					onClick: function() {
+						this.parent().selection.set(this);
 					}
 				},
-				items: [{cls: 'green_label_current', text: 'Виджеты'}, {cls: 'orange_label', text: 'Javascript'}]
+				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
 			},
 			content: {
 				etype: 'panel',
 				cls: 'left',
 				content: {
 					defaultItem: {
-						style: {'min-height': 250}						
+						style: {'min-height': 250}
 					},
 //					layout: 'stack',
 					items: [{}, {hideOnRender: true}]
@@ -65,8 +69,17 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 		},
 		
 		
-		stackItems: []
+		stackItems: [],
 		
+		
+		
+		set: {
+			'title': function(s) { this.content.opt('title', s); }
+		},
+		
+		onAfterBuild: function() {
+			this.tabs.selection.set(this.tabs.item(0));
+		}
 		
 		// defaultItem: {
 			// etype: 'panel'
@@ -212,7 +225,7 @@ $(document).ready(function(){
 		}, {
 			// Поле ввода текста (однострочное)
 			etype: 'sample-panel',
-			title: 'Поле ввода текста (однострочное)',
+			title: 'Поле ввода',
 			stackItems: [{
 				items: [{
 					label: 'Имя',
@@ -224,6 +237,11 @@ $(document).ready(function(){
 					etype: 'text-field',
 					placeholder: 'Ваша фамилия'
 				}, {
+					label: 'Текст',
+					etype: 'text-field',
+					multiline: true,
+					placeholder: 'Введите текст'
+				}, {
 					label: 'Адрес проживания',
 					etype: 'text-button-field',
 					placeholder: 'Адрес',
@@ -231,18 +249,6 @@ $(document).ready(function(){
 						icon: 'e-icon-info',
 						text: false
 					}]
-				}]				
-			}]
-		}, {
-			// Поле ввода текста (многострочное)
-			etype: 'sample-panel',
-			title: 'Поле ввода текста (многострочное)',
-			stackItems: [{
-				items: [{
-					label: 'Текст',
-					etype: 'text-field',
-					multiline: true,
-					placeholder: 'Введите текст'
 				}]				
 			}]
 		}, {
@@ -321,7 +327,7 @@ $(document).ready(function(){
 			}]
 		}, {
 			etype: 'sample-panel',
-			title: 'Чекбокс и радиобокс',
+			title: 'Переключатели',
 			stackItems: [{
 				items: [{
 					etype: 'text-item',
@@ -352,6 +358,27 @@ $(document).ready(function(){
 						this.icon.states.set('checked');
 					}					
 					
+				}, {
+					etype: 'box',
+					cls: 'e-choice',
+					components: {
+						left: {
+							etype: 'label',
+							text: 'Да'
+						},
+						content: {
+							content: {
+								text: '|||'
+							}
+						},
+						right: {
+							etype: 'label',
+							text: 'Нет'
+						}
+					},
+					onClick: function() {
+						this.states.toggle('checked');
+					}
 				}]
 			}]
 		}, {
