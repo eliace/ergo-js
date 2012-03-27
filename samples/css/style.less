@@ -111,11 +111,10 @@ body {
 .e-panel {
   background:@e-panel-bg;
   width:750px - @common-padding;
-  padding: @common-padding;
   -webkit-border-radius: @e-panel-radius;
   -moz-border-radius: @e-panel-radius;
   border-radius: @e-panel-radius;
-   margin:0 0 40px 0;
+  margin:0 0 40px 0;
 }
 
 .e-form-wrapper {
@@ -585,6 +584,7 @@ body {
 @e-panel-bg : #f3f3f3;
 @common-padding: 20px;
 @e-panel-radius : 5px;
+
 //resets and common classes
 * { margin: 0;padding: 0; outline:none;}
 header, nav, section, article, aside, footer {display: block;}
@@ -597,8 +597,7 @@ input, textarea {outline:none;}
 .invisible {visibility:hidden;}
 
 
-/* Content
------------------------------------------------------------------------------*/
+//Content
 body {
   font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
   background: @base-background url(images/BaseBackground.png);
@@ -627,8 +626,7 @@ body {
   padding: 20px 0 100px 180px;
 }
 
-/* Sidebar Left
------------------------------------------------------------------------------*/
+// left sidebar
 #sideLeft {
   float: left;
   width: 100px;
@@ -673,7 +671,7 @@ ul.ergo_navigation > li a:hover{
 }
 .ergo_navigation  ul{
   display:block;
-  background:#222;
+  
   -webkit-border-radius: @e-panel-radius;
   -moz-border-radius: @e-panel-radius;
   border-radius: @e-panel-radius;
@@ -743,12 +741,6 @@ a.layout_simple_icon {
   color:#afafaf;
 }
 
-
-
-
-
-
-
 .tab.green {
   width:30px;
   background: url(images/green_label.png);
@@ -790,7 +782,7 @@ a.layout_simple_icon {
   cursor:pointer;
 }
 .tab.green .inner-dash {
-  border:1px dashed #80b321;
+  border:1px  dashed #80b321;
   border-right:0;
 }
 .tab.green .out-dash {

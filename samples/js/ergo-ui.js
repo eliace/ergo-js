@@ -171,12 +171,136 @@ $(document).ready(function(){
 	
 	
 	
+	var menuData = [{
+		title: 'Виджеты',
+		children: [{
+			title: 'Ввод',
+			name: 'input-field'
+		}, {
+			title: 'Выбор',
+			name: 'select-field'
+		}, {
+			title: 'Текстовый элемент',
+			name: 'text-item'
+		}, {
+			title: 'Переключатели',
+			name: 'switchers'
+		}, {
+			title: 'Кнопки',
+			name: 'buttons'
+		}, {
+			title: 'Списки',
+			name: 'lists'
+		}, {
+			title: 'Диалоги',
+			name: 'dialogs'
+		}, {
+			title: 'Загрузка файлов',
+			name: 'files'
+		}, {
+			title: 'Гриды',
+			name: 'grids'
+		}]
+	}, {
+		title: 'Компоновки'
+	}, {
+		title: 'Wiki'
+	}];
+	
+/*	
+	{
+		widgets: [{
+			title: 'aaa',
+			children: [{}, {}]
+		}, {
+			title: 'bbb'
+		}]
+	};
+*/	
+	
+	
+	
+	
+	$.ergo({
+		etype: 'tree-list',
+		renderTo: '#sideLeft',
+		cls: 'ergo_navigation',
+		
+		data: menuData,
+		
+		dynamic: true,
+		
+		defaultSubtree: {
+			dynamic: true,
+			dataId: 'children',
+			extensions: ['effects'],
+			effects: {
+				show: 'slideDown',
+				hide: 'slideUp',
+				delay: 300
+			},
+			transitions: {
+				'expanded >': function() {
+					this.hide();
+				},
+				'> expanded': function() {
+					this.show();
+				}
+			}
+		},
+		defaultNode: {
+			content: {
+				etype: 'anchor',
+				dataId: 'title',
+				onClick: function() {
+					var subtree = this.parent().subtree;
+					if(subtree.states.is('expanded')) {
+						subtree.options.transitions['expanded >'].call(subtree);
+						subtree.states.clear('expanded');
+					}
+					else {
+						subtree.options.transitions['> expanded'].call(subtree);
+						subtree.states.set('expanded');
+					}
+//					this.parent().subtree.show();
+
+					var data = this.data.source.get();
+					
+					if(data.name) {
+						
+						$('#sample').fadeOut(100, function(){
+							$('#sample').empty();
+							$.getScript('js/'+data.name+'.js')
+								.then(function(){
+									$('#sample').fadeIn(100);
+									$('#sample').children().each(function(i, e){
+										$(e).ergo().$layoutChanged();
+									});
+								});
+						});
+						
+						
+					}
+
+				}
+			}
+		}
+		
+//		items: [{text: 'Виджеты', dataId: 'widgets'}, 'Компоновки', 'Вики']
+		
+	});
+	
+	
+	
+	
 	// var etypes = [];
 // 	
 	// for(var i in Ergo.etypes()) {
 		// etypes.push(i);
-	// }	
-	
+	// }
+
+
+/*	
 	$.ergo({
 		etype: 'box',
 		html: '#content',
@@ -238,7 +362,7 @@ $(document).ready(function(){
 						
 					},
 					
-					onAction: function(w) {
+					onSelect: function(w) {
 						this.dropdown.close();
 					},
 					
@@ -261,7 +385,7 @@ $(document).ready(function(){
 								etype: 'list',
 								defaultItem: {
 									onClick: function(e) {
-										this.events.fire('action', {target: this, after: Ergo.bubble});
+										this.events.fire('select', {target: this, after: Ergo.bubble});
 									}
 								},
 								items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
@@ -372,6 +496,48 @@ $(document).ready(function(){
 				}, {
 					etype: 'styled-button',
 					text: 'Кнопка'
+				}, {
+					etype: 'button-item',
+					text: 'Кнопка',
+					width: 120,
+					
+					onClick: function() {
+						this.dropdown.open();
+					},
+					
+					onSelect: function(e) {
+						this.dropdown.close();
+						this.opt('text', e.target.opt('text'));
+					},
+					
+					components: {
+						dropdown: {
+							etype: 'box',
+							width: 120,
+							extensions: ['effects', 'popup'],
+							position: {
+								global: true,
+								at: 'left bottom'
+							},
+							effects: {
+								show: 'slideDown',
+								hide: 'slideUp',
+								delay: 300
+							},
+							cls: 'e-dropbox roman',
+							style: {'display': 'none'},
+							content: {
+								etype: 'list',
+								defaultItem: {
+									onClick: function(e) {
+										this.events.fire('select', {target: this, after: Ergo.bubble});
+									}
+								},
+								items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
+							}
+						}
+					}
+					
 				}]
 			}]
 		}, {
@@ -764,6 +930,6 @@ $(document).ready(function(){
 	
 	
 	$('#my-grid').ergo().updateHeader();
-	
+*/	
 	
 });

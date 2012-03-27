@@ -25,7 +25,7 @@ Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 		var self = this;
 		
 		this.el.click(function(e){
-			self.events.fire('onAction', {}, e);
+			self.events.fire('action', {}, e);
 		});		
 	},
 	
@@ -42,8 +42,8 @@ Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.
 	$dataChanged: function() {
 		this.$super();
 //		Ergo.widgets.Anchor.superclass.$dataChanged.apply(this, arguments);
-		this.el.attr('href',this.getValue());
-//		this.el.text(this.getValue());
+//		this.el.attr('href',this.getValue());
+		this.el.text(this.getValue());
 	}	
 	
 }, 'anchor');

@@ -385,8 +385,14 @@ var Ergo = (function(){
 	 */
 	E.filter_keys = function(src, fn){
 		var result = [];
-		for(var i in src)
-			if(fn.call(src, src[i], i)) result.push(i);
+		if($.isArray(src)) {
+			for(var i = 0; i < src.length; i++)
+				if(fn.call(src, src[i], i)) result.push(i);
+		}
+		else {
+			for(var i in src)
+				if(fn.call(src, src[i], i)) result.push(i);			
+		}
 		return result;
 	};
 	
