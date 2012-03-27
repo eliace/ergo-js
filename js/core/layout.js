@@ -225,7 +225,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			if(!this.el.not(':hidden')) return;
 			
 			// расчитываем отступы
-			var dw = this.el.outerWidth(true) - this.el.width();
+			var dw = 0;
+			if(this.el.is(':button')) dw = this.el.outerWidth(true) - this.el.outerWidth();
+			else dw = this.el.outerWidth(true) - this.el.width();
 			// скрываем элемент
 			this.el.hide();
 			
