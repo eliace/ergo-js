@@ -25,7 +25,7 @@ $.ergo({
 			etype: 'button-item',
 			text: 'Кнопка',
 			xicon: 'arrow-down',
-			width: 120,
+			width: 150,
 			
 			onClick: function() {
 				this.dropdown.open();
@@ -39,7 +39,7 @@ $.ergo({
 			components: {
 				dropdown: {
 					etype: 'box',
-					width: 120,
+					width: 150,
 					extensions: ['effects', 'popup'],
 					position: {
 						global: true,
