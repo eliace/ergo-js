@@ -61,8 +61,8 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 			i = undefined;
 		}
 
-		// определяем поле _parent
-		item._parent = w;
+		// определяем поле parent
+		item.parent = w;
 		
 		// выполняем иерархическое связывание данных (автобиндинг)
 		if(w.data && !item.data)
@@ -115,14 +115,14 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 		for(var j = i; j < this.src.length; j++)
 			this.src[j]._index = j;
 		
-		// поля _parent, _index и _key больше не нужны
-		delete item._parent;
-		delete item._name;
+		// поля parent, _index и _key больше не нужны
+		delete item.parent;
+		delete item._index;
 
 		if(item._key) {
 			delete w[item._key];
 			delete item._key;
-		}		
+		}
 		
 		return item;
 	}

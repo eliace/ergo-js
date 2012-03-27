@@ -41,7 +41,7 @@ $.ergo({
 				dropdown: {
 					etype: 'box',
 					width: 150,
-					extensions: ['effects', 'popup'],
+					mixins: ['effects', 'popup'],
 					position: {
 						global: true,
 						at: 'left bottom'
@@ -79,7 +79,7 @@ $.ergo({
 			}, {
 				icon: 'button-arrow-down',
 				onClick: function() {
-					this.parent().dropdown.open();
+					this.parent.dropdown.open();
 				}
 			}],
 			
@@ -94,7 +94,7 @@ $.ergo({
 				dropdown: {
 					etype: 'box',
 					width: 160,
-					extensions: ['effects', 'popup'],
+					mixins: ['effects', 'popup'],
 					position: {
 						global: true,
 						at: 'left bottom'

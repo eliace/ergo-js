@@ -13,7 +13,7 @@ $.ergo({
 			onClick: function() {
 				var wnd = $.ergo({
 					etype: 'panel',
-					extensions: ['window'],
+					mixins: ['window'],
 					closeOnOuterClick: true,
 					width: '50%',
 //							height: 300,
@@ -29,6 +29,18 @@ $.ergo({
 			text: 'Открыть диалог',
 			onClick: function() {
 				
+				
+				/*
+				 * Варианты обновления окна:
+				 *  1. известны размеры окна (внешняя граница)
+				 *  2. известны размеры содержимого окна (размеры компонента content)
+				 *  3. не известны размеры ни окна, ни содержимого
+				 * 
+				 * Содержимое может отображаться в окне во время мастабирования, а
+				 * может добавляться после 
+				 *
+				 */ 
+				
 				var dlg = $.ergo({
 					etype: 'dialog',
 //							width: '50%',
@@ -39,19 +51,95 @@ $.ergo({
 				
 				
 				setTimeout(function(){
-					dlg.content.items.add({
+					
+//							dlg.content.el.css('display', 'none');
+					
+					dlg.content.children.add({
 						etype: 'box',
 						text: Ergo.LOREMIPSUM
-					}, 'content', 'component');
+					}, 'content');								
 					
-												
-					dlg.window.resize();
+					dlg.window.update();
+					// изменяем размер окна по содержимому
+					dlg.window.resizeByContent().then(function(){
+					});
 					
 				}, 1000);
 				
 			}
+		}, {
+			etype: 'button-item',
+			text: 'Лайтбокс',
+			onClick: function() {
+				
+				var wnd = $.ergo({
+					etype: 'panel',
+					mixins: ['window'],
+					closeOnOuterClick: true,
+//							width: '50%',
+//							height: 300,
+					title: 'Картинка',
+					content: {
+						width: 200,
+						height: 200,								
+					}
+				});
+				wnd.window.open();
+				
+				
+				var el = $('<img src="img/anime9.jpg">');
+				el.css({'position': 'absolute', 'display': 'none'});
+				el.one('load', function(){
+					
+					var w = el.width();
+					var h = el.height();
+					
+					var kw = 600 / w;
+					var kh = 600 / h;
+					
+					if(kw < kh){
+						w = 600;
+						h *= kw;
+					}
+					else {
+						w *= kh;
+						h = 600;								
+					}
+					
+					
+					
+					
+//							wnd.el.css('display', 'none');
+					
+//							wnd.content.opt('width', w);
+//							wnd.content.opt('height', h);
+// 							
+//							wnd.window.update();
+
+
+					wnd.window.resizeByContent(w, h).then(function(){
+
+						wnd.content.children.add({
+							etype: 'image',
+							hideOnRender: true,
+							html: el,
+							style: {'position': '', 'display': 'none'},
+							width: w,
+							height: h
+						}, 'content').el.fadeIn(300);
+						
+					});
+
+					
+				});
+				
+				$('body').append(el);
+				
+				
+			}					
 		}]
 	}]
+	
 });
 
 
@@ -71,6 +159,14 @@ $.ergo({
 			etype: 'button-item',
 			text: 'Warning',
 			onClick: function() { growl.warn('Нажатие кнопки'); }
+		}, {
+			etype: 'button-item',
+			text: 'Info',
+			onClick: function() { growl.info('Нажатие кнопки'); }
+		}, {
+			etype: 'button-item',
+			text: 'Error',
+			onClick: function() { growl.error('Нажатие кнопки'); }
 		}]				
 	}]
 });

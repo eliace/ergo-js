@@ -624,11 +624,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @returns {Array} список родительских виджетов
 	 */
-	parents: function(list) {
+	getParents: function(list) {
 		if(arguments.length == 0) list = [];
-		if(!this._parent) return list;
-		list.push(this._parent);
-		return this._parent.parents(list);
+		if(!this.parent) return list;
+		list.push(this.parent);
+		return this.parent.getParents(list);
 	},
 	
 	/**
@@ -645,11 +645,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @param {Any} [criteria] критерий 
 	 */
-	parent: function(i) {
+	getParent: function(i) {
 		
-		if(arguments.length == 0) return this._parent;
+		if(arguments.length == 0) return this.parent;
 		
-		return Ergo.find(this.parents(), Ergo.filters.by_widget(i));
+		return Ergo.find(this.getParents(), Ergo.filters.by_widget(i));
 	},
 	
 	
@@ -910,7 +910,7 @@ Ergo.widget = function(){
 
 
 Ergo.bubble = function(e, type) {
-	if(this._parent && !e.canceled) this._parent.events.fire(type, e);
+	if(this.parent && !e.canceled) this.parent.events.fire(type, e);
 }
 
 

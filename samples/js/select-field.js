@@ -24,7 +24,7 @@ $.ergo({
 			components: {
 				dropdown: {
 					etype: 'box',
-					extensions: ['effects', 'popup'],
+					mixins: ['effects', 'popup'],
 					position: {
 						global: true,
 						at: 'left bottom'
@@ -71,7 +71,7 @@ $.ergo({
 	stackItems: [{
 		etype: 'box',
 		
-		extensions: ['selectable'],
+		mixins: ['selectable'],
 		
 		onAction: function(e) {
 			this.selection.set(e.target);

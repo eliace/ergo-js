@@ -95,7 +95,7 @@ $.ergo({
 			}
 		},
 		
-		extensions: [{
+		mixins: [{
 			$layoutChanged: function() {
 				
 				var w = this.content.content.el.width();
