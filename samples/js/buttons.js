@@ -68,13 +68,14 @@ $.ergo({
 		}, {
 			etype: 'box',
 			cls: 'e-split-button',
-			width: 150,
+			width: 160,
 			
 			defaultItem: {
 				etype: 'button-item'
 			},
 			items: [{
 				text: 'Действие',
+				autoWidth: true
 			}, {
 				icon: 'button-arrow-down',
 				onClick: function() {
@@ -92,7 +93,7 @@ $.ergo({
 			components: {
 				dropdown: {
 					etype: 'box',
-					width: 150,
+					width: 160,
 					extensions: ['effects', 'popup'],
 					position: {
 						global: true,
