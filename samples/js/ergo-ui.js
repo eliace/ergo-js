@@ -202,13 +202,32 @@ $(document).ready(function(){
 	var menuData = [{
 		title: 'Виджеты',
 		children: [{
-			title: 'Тест'
+			title: 'Ввод',
+			name: 'input-field'
 		}, {
-			title: 'Тест 2'			
+			title: 'Выбор',
+			name: 'select-field'
 		}, {
-			title: 'Тест 3'			
+			title: 'Текстовый элемент',
+			name: 'text-item'
 		}, {
-			title: 'Тест 4'			
+			title: 'Переключатели',
+			name: 'switchers'
+		}, {
+			title: 'Кнопки',
+			name: 'buttons'
+		}, {
+			title: 'Списки',
+			name: 'lists'
+		}, {
+			title: 'Диалоги',
+			name: 'dialogs'
+		}, {
+			title: 'Загрузка файлов',
+			name: 'files'
+		}, {
+			title: 'Гриды',
+			name: 'grids'
 		}]
 	}, {
 		title: 'Компоновки'
@@ -272,6 +291,25 @@ $(document).ready(function(){
 						subtree.states.set('expanded');
 					}
 //					this.parent().subtree.show();
+
+					var data = this.data.source.get();
+					
+					if(data.name) {
+						
+						$('#sample').fadeOut(100, function(){
+							$('#sample').empty();
+							$.getScript('js/'+data.name+'.js')
+								.then(function(){
+									$('#sample').fadeIn(100);
+									$('#sample').children().each(function(i, e){
+										$(e).ergo().$layoutChanged();
+									});
+								});
+						});
+						
+						
+					}
+
 				}
 			}
 		}
