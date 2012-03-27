@@ -65,6 +65,17 @@ $.ergo({
 				}
 			}
 			
+		}, {
+			etype: 'box',
+			cls: 'e-split-button',
+			defaultItem: {
+				etype: 'button-item'
+			},
+			items: [{
+				text: 'Действие'				
+			}, {
+				icon: 'button-arrow-down'
+			}]
 		}]
 	}]
 });
