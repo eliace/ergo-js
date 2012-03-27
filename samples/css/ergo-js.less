@@ -633,6 +633,21 @@
 .e-buttom-item-arrows {
   
 }
+.e-split-button > button {
+  -webkit-border-radius:3px 0 0 3px;
+  -moz-border-radius:3px 0 0 3px;
+   border-radius:3px 0 0 3px;
+}
+.e-split-button > button + button {
+  border-left:0!important;
+  -webkit-border-radius:0 3px 3px 0;
+  -moz-border-radius:0 3px 3px 0;
+   border-radius:0 3px 3px 0;
+   padding:4px 0;
+}
+.e-split-button > button + button > span{
+   
+}
 .e-button-item:active > *, .e-button-item.clicked > * {
   position:relative;
   top:1px;
