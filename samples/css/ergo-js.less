@@ -526,6 +526,7 @@
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   line-height:20px;
+  margin:0 10px 0 0;
 }
 .e-radio-box > .e-checker {
   width:8px;
@@ -566,6 +567,7 @@
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   line-height:20px;
+  margin:0 10px 0 0;
 }
 .e-check-box > .e-checker{
   color: @e-check-box-radius;
@@ -625,6 +627,9 @@
   padding:4px 10px;
   font-size:@e-field-text-size;
   color:@form-color;
+}
+.e-buttom-item-arrows {
+  
 }
 .e-button-item:active > *, .e-button-item.clicked > * {
   position:relative;
@@ -952,7 +957,9 @@
   border-color: @e-label-bottom-color;  
 }
 
-
+.e-radio-item {
+  cursor:pointer;
+}
 
 //Choice 
 //////////////////////////////////////////////
@@ -981,17 +988,19 @@
 }
 
 .e-choice > div {
-  border:1px solid #EBEBEB;
-  border-top:0;
+    border:1px solid #d7d7d7;
+
   width:40px;
   height:20px;
-  background:@e-field-content-bg;
-  background-repeat:repeat-x;
+  -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
+  box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   float:left;
   cursor:pointer;
    -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  margin:0 10px 0 0;
 }
 
 .e-choice > div > div {
@@ -1011,7 +1020,7 @@
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  color:#1878b7;
+  color:#679908;
   text-align:center;
   float: left;
  }
