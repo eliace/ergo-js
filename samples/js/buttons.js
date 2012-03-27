@@ -24,6 +24,7 @@ $.ergo({
 		}, {
 			etype: 'button-item',
 			text: 'Кнопка',
+			xicon: 'arrow-down',
 			width: 120,
 			
 			onClick: function() {
