@@ -23,9 +23,9 @@ $.ergo({
 			text: 'Кнопка'
 		}, {
 			etype: 'button-item',
-			text: 'Кнопка',
+			text: 'Город',
 			xicon: 'button-arrow-down',
-			width: 150,
+			width: 100,
 
 			
 			onClick: function() {
@@ -34,7 +34,7 @@ $.ergo({
 			
 			onSelect: function(e) {
 				this.dropdown.close();
-				this.opt('text', e.target.opt('text'));
+//				this.opt('text', e.target.opt('text'));
 			},
 			
 			components: {
@@ -68,14 +68,55 @@ $.ergo({
 		}, {
 			etype: 'box',
 			cls: 'e-split-button',
+			width: 150,
+			
 			defaultItem: {
 				etype: 'button-item'
 			},
 			items: [{
-				text: 'Действие'				
+				text: 'Действие',
 			}, {
-				icon: 'button-arrow-down'
-			}]
+				icon: 'button-arrow-down',
+				onClick: function() {
+					this.parent().dropdown.open();
+				}
+			}],
+			
+			
+			
+			onSelect: function(e) {
+				this.dropdown.close();
+				this.item(0).opt('text', e.target.opt('text'));
+			},
+			
+			components: {
+				dropdown: {
+					etype: 'box',
+					width: 150,
+					extensions: ['effects', 'popup'],
+					position: {
+						global: true,
+						at: 'left bottom'
+					},
+					effects: {
+						show: 'slideDown',
+						hide: 'slideUp',
+						delay: 300
+					},
+					cls: 'e-dropbox alpha',
+					style: {'display': 'none'},
+					content: {
+						etype: 'list',
+						defaultItem: {
+							onClick: function(e) {
+								this.events.fire('select', {target: this, after: Ergo.bubble});
+							}
+						},
+						items: ['Создать', 'Обновить', 'Удалить']
+					}
+				}
+			}			
+			
 		}]
 	}]
 });
