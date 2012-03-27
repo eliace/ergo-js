@@ -74,7 +74,7 @@ $.ergo({
 				etype: 'button-item'
 			},
 			items: [{
-				text: 'Действие',
+				text: 'Создать',
 				autoWidth: true
 			}, {
 				icon: 'button-arrow-down',
