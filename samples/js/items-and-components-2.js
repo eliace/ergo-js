@@ -1,6 +1,4 @@
 
-
-
 sample('Компоненты', {
 	etype: 'widget',
 	html: '<div>',
