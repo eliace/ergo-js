@@ -1,60 +1,54 @@
 
-
-$.ergo({
-	renderTo: '#sample',
-	etype: 'sample-panel',
-	title: 'Переключатели',
-	stackItems: [{
-		items: [{
-			etype: 'text-item',
-			tabIndex: 0,
-			components: {
-				'icon!': {
-					etype: 'check-box'
-				}
-			},
-			text: 'чекбокс',
-			icon: true,
-			
-			onClick: function() {
-				this.icon.states.toggle('checked');
+sample('Переключатели', {
+	items: [{
+		etype: 'text-item',
+		tabIndex: 0,
+		components: {
+			'icon!': {
+				etype: 'check-box'
 			}
-		}, {
-			etype: 'text-item',
-			tabIndex: 0,
-			components: {
-				'icon!': {
-					etype: 'radio-box'
-				}
+		},
+		text: 'чекбокс',
+		icon: true,
+		
+		onClick: function() {
+			this.icon.states.toggle('checked');
+		}
+	}, {
+		etype: 'text-item',
+		tabIndex: 0,
+		components: {
+			'icon!': {
+				etype: 'radio-box'
+			}
+		},
+		text: 'радиобокс',
+		icon: true,
+		
+		onClick: function() {
+			this.icon.states.set('checked');
+		}					
+		
+	}, {
+		etype: 'box',
+		cls: 'e-choice',
+		components: {
+			left: {
+				etype: 'label',
+				text: 'Да'
 			},
-			text: 'радиобокс',
-			icon: true,
-			
-			onClick: function() {
-				this.icon.states.set('checked');
-			}					
-			
-		}, {
-			etype: 'box',
-			cls: 'e-choice',
-			components: {
-				left: {
-					etype: 'label',
-					text: 'Да'
-				},
+			content: {
 				content: {
-					content: {
-						text: '|||'
-					}
-				},
-				right: {
-					etype: 'label',
-					text: 'Нет'
+					text: '|||'
 				}
 			},
-			onClick: function() {
-				this.states.toggle('checked');
+			right: {
+				etype: 'label',
+				text: 'Нет'
 			}
-		}]
+		},
+		onClick: function() {
+			this.states.toggle('checked');
+		}
 	}]
 });
