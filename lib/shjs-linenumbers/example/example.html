@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>Highligh with linenumbers Example</title>
+  <link rel="stylesheet" href="style.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="../src/sh_style.css" type="text/css" media="all"/> 
+    <script type="text/javascript" src="../src/sh_main.js"></script> 
+  <script type="text/javascript" src="sh_javascript.min.js"></script>
+</head> 
+<body onload="sh_highlightDocument('', '.min.js');">
+<div id="container">
+<h2>SHJS Linenumbers - Example</h2>
+<p>An example of SHJS linenumbers, you can easely mark and copy the source code
+without accidentally copying the linenumbers as well</p>
+<pre class="sh_javascript">
+//Code snippet from SHJS
+function sh_addClass(element, name) {
+  var htmlClasses = sh_getClasses(element);
+  for (var i = 0; i < htmlClasses.length; i++) {
+    if (name.toLowerCase() === htmlClasses[i].toLowerCase()) {
+      return;
+    }
+  }
+  htmlClasses.push(name);
+  element.className = htmlClasses.join(' ');
+}
+</pre>
+<p>
+SHJS - Syntax Highlighting in JavaScript: <a href="http://shjs.sourceforge.net/">http://shjs.sourceforge.net/</a><br />
+SHJS Linenumbers: <a href="https://github.com/F1skr/SHJS-Linenumbers">https://github.com/F1skr/SHJS-Linenumbers</a>
+</p>
+<p id="license"><a href="http://shjs.sourceforge.net/doc/gplv3.html">Distributed under the GNU General Public License version 3</a></p>
+</div>
+</body>
+</html>
