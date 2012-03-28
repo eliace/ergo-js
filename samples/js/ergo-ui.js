@@ -51,6 +51,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 					},
 					onClick: function() {
 						this.parent.selection.set(this);
+						this.getParent(Sample.widgets.SamplePanel).content.content.setActive(this._index);
 					}
 				},
 				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
@@ -61,10 +62,10 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				width: 730,
 				content: {
 					defaultItem: {
-						style: {'min-height': 250}
+						style: {'min-height': 250, 'max-height': 400, 'overflow-y': 'auto'}
 					},
-//					layout: 'stack',
-					items: [{}, {hideOnRender: true}]
+					layout: 'stack',
+					items: [{}, {}]
 				}
 			}
 		},
@@ -80,6 +81,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 		
 		onAfterBuild: function() {
 			this.tabs.selection.set(this.tabs.item(0));
+			this.content.content.setActive(0);
 		}
 		
 		// defaultItem: {
@@ -168,41 +170,80 @@ Ergo.GRID_DATA = [{
 
 
 
+
+function sample(title, o) {
+	
+	try {
+	
+	$.ergo({
+		renderTo: '#sample',
+		// кнопки
+		etype: 'sample-panel',
+		title: title,
+		stackItems: [o, {etype: 'box', html: '<pre class="sh_javascript"/>'}]
+	});
+	
+	}
+	catch(e) {
+		console.log(e);
+		growl.error(e.message);
+	}
+	
+};
+	
+
+
+
+
+
+
 $(document).ready(function(){
+	
+	
+	$(document).ajaxError(function(e, xhr){
+		growl.error(xhr.statusText);
+	});
+	
+	
+	
 	
 	
 	
 	var menuData = [{
-		title: 'Ядро'
+		title: 'Ядро',
+		children: [{
+			title: 'Элементы и компоненты',
+			name: ['items-and-components-1', 'items-and-components-2']
+		}]
 	}, {
 		title: 'Виджеты',
 		children: [{
 			title: 'Ввод',
-			name: 'input-field'
+			name: ['input-field']
 		}, {
 			title: 'Выбор',
-			name: 'select-field'
+			name: ['select-field', 'select-field-2']
 		}, {
 			title: 'Текстовый элемент',
-			name: 'text-item'
+			name: ['text-item']
 		}, {
 			title: 'Переключатели',
-			name: 'switchers'
+			name: ['switchers']
 		}, {
 			title: 'Кнопки',
-			name: 'buttons'
+			name: ['buttons']
 		}, {
 			title: 'Списки',
-			name: 'lists'
+			name: ['lists']
 		}, {
 			title: 'Диалоги',
-			name: 'dialogs'
+			name: ['dialogs', 'dialogs-2']
 		}, {
 			title: 'Загрузка файлов',
-			name: 'files'
+			name: ['files']
 		}, {
 			title: 'Гриды',
-			name: 'grids'
+			name: ['grids']
 		}]
 	}, {
 		title: 'Компоновки'
@@ -269,17 +310,68 @@ $(document).ready(function(){
 
 					var data = this.data.source.get();
 					
+					
 					if(data.name) {
 						
 						$('#sample').fadeOut(100, function(){
 							$('#sample').empty();
-							$.getScript('js/'+data.name+'.js')
-								.then(function(){
-									$('#sample').fadeIn(100);
-									$('#sample').children().each(function(i, e){
-										$(e).ergo().$layoutChanged();
+							
+							
+							var load_script = function(script_name) {
+								return $.getScript('js/'+script_name+'.js')
+									.then(function(script){
+										
+										var el = $('#sample').children().last();
+										$('.sh_javascript', el).append(Ergo.escapeHtml(script));
+										
+										// $('#sample').children().each(function(i, e){
+											// $('.sh_javascript', $(e)).append(Ergo.escapeHtml(script));
+										// })
+										
+										sh_highlightDocument();
+										
 									});
+							};
+
+							var chain = null;
+							for(var k in data.name) {
+								var js = data.name[k];
+								if(chain)
+									chain = chain.then(load_script.curry(js));
+								else
+									chain = load_script(js);
+								
+/*								
+								
+								$.getScript('js/'+data.name+'.js')
+									.then(function(script){
+										$('#sample').fadeIn(100);
+										$('#sample').children().each(function(i, e){
+											$(e).ergo().$layoutChanged();
+										});
+										
+										
+										$('#sample').children().each(function(i, e){
+											$('.sh_javascript', $(e)).append(Ergo.escapeHtml(script));
+										})
+										
+										sh_highlightDocument();
+										
+									});
+*/									
+									
+							}
+							
+							chain.then(function(){
+								console.log('end');
+								$('#sample').fadeIn(100);
+								$('#sample').children().each(function(i, e){
+									$(e).ergo().$layoutChanged();
 								});
+								
+							});
+							
+							
 						});
 						
 						
@@ -292,6 +384,9 @@ $(document).ready(function(){
 //		items: [{text: 'Виджеты', dataId: 'widgets'}, 'Компоновки', 'Вики']
 		
 	});
+	
+	
+	
 	
 	
 	
