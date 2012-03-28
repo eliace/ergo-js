@@ -1,0 +1,25 @@
+
+
+
+.border-all {
+	border: 1px solid #ccc;
+}
+
+
+.widget-item {
+	color: #fff;
+	font-weight: bold;
+	font-size: 9pt;
+}
+
+.widget-item.green {
+	background-color: green;
+}
+
+.widget-item.red {
+	background-color: red;
+}
+
+.widget-item.blue {
+	background-color: blue;
+}
