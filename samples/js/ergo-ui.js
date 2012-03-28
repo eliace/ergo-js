@@ -50,7 +50,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 						htmlSelector: '.inner-dash'
 					},
 					onClick: function() {
-						this.parent().selection.set(this);
+						this.parent.selection.set(this);
 					}
 				},
 				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
@@ -281,7 +281,7 @@ $(document).ready(function(){
 				etype: 'anchor',
 				dataId: 'title',
 				onClick: function() {
-					var subtree = this.parent().subtree;
+					var subtree = this.parent.subtree;
 					if(subtree.states.is('expanded')) {
 						subtree.options.transitions['expanded >'].call(subtree);
 						subtree.states.clear('expanded');

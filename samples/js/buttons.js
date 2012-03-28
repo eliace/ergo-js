@@ -79,7 +79,7 @@ $.ergo({
 			}, {
 				icon: 'button-arrow-down',
 				onClick: function() {
-					this.parent().dropdown.open();
+					this.parent.dropdown.open();
 				}
 			}],
 			

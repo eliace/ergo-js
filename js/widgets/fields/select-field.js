@@ -23,10 +23,10 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Field', {
 			},
 			events: {
 				'focus': function(e, w) {
-					w.parent(Ergo.widgets.Field).setFocus();
+					w.getParent(Ergo.widgets.Field).setFocus();
 				},
 				'blur': function(e, w) {
-					w.parent(Ergo.widgets.Field).clearFocus();
+					w.getParent(Ergo.widgets.Field).clearFocus();
 				}
 			}
 		},
