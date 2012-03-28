@@ -180,7 +180,7 @@ function sample(title, o) {
 		// кнопки
 		etype: 'sample-panel',
 		title: title,
-		stackItems: [o, {etype: 'box', html: '<pre class="sh_javascript"/>'}]
+		stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
 	});
 	
 	}
@@ -317,60 +317,32 @@ $(document).ready(function(){
 							$('#sample').empty();
 							
 							
+							var n = 0;
+							var on_load = function() {
+								if(++n == data.name.length) {
+									$('#sample').fadeIn(100);
+									$('#sample').children().each(function(i, e){
+										$(e).ergo().$layoutChanged();
+									});									
+									sh_highlightDocument();
+								}
+							};
+							
 							var load_script = function(script_name) {
 								return $.getScript('js/'+script_name+'.js')
 									.then(function(script){
 										
 										var el = $('#sample').children().last();
-										$('.sh_javascript', el).append(Ergo.escapeHtml(script));
+										$('pre.js', el).append(Ergo.escapeHtml(script));
 										
-										// $('#sample').children().each(function(i, e){
-											// $('.sh_javascript', $(e)).append(Ergo.escapeHtml(script));
-										// })
-										
-										sh_highlightDocument();
+										on_load();
 										
 									});
 							};
-
-							var chain = null;
+							
 							for(var k in data.name) {
-								var js = data.name[k];
-								if(chain)
-									chain = chain.then(load_script.curry(js));
-								else
-									chain = load_script(js);
-								
-/*								
-								
-								$.getScript('js/'+data.name+'.js')
-									.then(function(script){
-										$('#sample').fadeIn(100);
-										$('#sample').children().each(function(i, e){
-											$(e).ergo().$layoutChanged();
-										});
-										
-										
-										$('#sample').children().each(function(i, e){
-											$('.sh_javascript', $(e)).append(Ergo.escapeHtml(script));
-										})
-										
-										sh_highlightDocument();
-										
-									});
-*/									
-									
+								load_script( data.name[k] );
 							}
-							
-							chain.then(function(){
-								console.log('end');
-								$('#sample').fadeIn(100);
-								$('#sample').children().each(function(i, e){
-									$(e).ergo().$layoutChanged();
-								});
-								
-							});
-							
 							
 						});
 						
