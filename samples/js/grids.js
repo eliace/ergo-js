@@ -45,7 +45,7 @@ sample('Грид', {
 			
 			style: {'overflow': 'auto'},
 			
-			height: 200,
+			height: 300,
 		
 			content: {
 				etype: 'grid',

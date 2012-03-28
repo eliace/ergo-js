@@ -35,27 +35,10 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				etype: 'box',
+				etype: 'dropdown',
 				width: 150,
-				extensions: ['effects', 'popup'],
-				position: {
-					global: true,
-					at: 'left bottom'
-				},
-				effects: {
-					show: 'slideDown',
-					hide: 'slideUp',
-					delay: 300
-				},
-				cls: 'e-dropbox roman',
-				style: {'display': 'none'},
+				cls: 'roman',
 				content: {
-					etype: 'list',
-					defaultItem: {
-						onClick: function(e) {
-							this.events.fire('select', {target: this, after: Ergo.bubble});
-						}
-					},
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}
 			}
@@ -79,8 +62,6 @@ sample('Кнопки', {
 			}
 		}],
 		
-		
-		
 		onSelect: function(e) {
 			this.dropdown.close();
 			this.item(0).opt('text', e.target.opt('text'));
@@ -88,27 +69,10 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				etype: 'box',
+				etype: 'dropdown',
 				width: 160,
-				extensions: ['effects', 'popup'],
-				position: {
-					global: true,
-					at: 'left bottom'
-				},
-				effects: {
-					show: 'slideDown',
-					hide: 'slideUp',
-					delay: 300
-				},
-				cls: 'e-dropbox alpha',
-				style: {'display': 'none'},
+				cls: 'alpha',
 				content: {
-					etype: 'list',
-					defaultItem: {
-						onClick: function(e) {
-							this.events.fire('select', {target: this, after: Ergo.bubble});
-						}
-					},
 					items: ['Создать', 'Обновить', 'Удалить']
 				}
 			}

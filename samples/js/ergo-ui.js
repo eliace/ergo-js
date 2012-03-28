@@ -1,24 +1,4 @@
 
-/*
-Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
-	
-	defaults: {
-
-		cls: 'e-panel',
-		width: 730,
-		
-		components: {
-			content: {
-				etype: 'panel'
-			}
-		}
-		
-		
-
-	}
-	
-}, 'sample-panel');
-*/
 
 
 
@@ -61,7 +41,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				cls: 'left',
 				content: {
 					defaultItem: {
-						style: {'min-height': 250, 'max-height': 350}
+						style: {'min-height': 300/*, 'max-height': 350*/}
 					},
 					layout: 'stack',
 					items: [{}, {style: {'overflow-y': 'auto'}}]
@@ -82,10 +62,6 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			this.tabs.selection.set(this.tabs.item(0));
 			this.content.content.setActive(0);
 		}
-		
-		// defaultItem: {
-			// etype: 'panel'
-		// }
 		
 	},
 	
@@ -333,10 +309,13 @@ $(document).ready(function(){
 							var n = 0;
 							var on_load = function() {
 								if(++n == data.name.length) {
-									$('#sample').fadeIn(100);
+									$.when( $('#sample').fadeIn(100) ).then(function(){
+									});
 									$('#sample').children().each(function(i, e){
-										$(e).ergo().$layoutChanged();
-									});									
+										var w = $(e).ergo();
+										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
+										w.$layoutChanged();
+									});										
 									sh_highlightDocument();
 								}
 							};
