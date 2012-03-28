@@ -58,6 +58,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			content: {
 				etype: 'panel',
 				cls: 'left',
+				width: 730,
 				content: {
 					defaultItem: {
 						style: {'min-height': 250}
@@ -172,6 +173,8 @@ $(document).ready(function(){
 	
 	
 	var menuData = [{
+		title: 'Ядро'
+	}, {
 		title: 'Виджеты',
 		children: [{
 			title: 'Ввод',

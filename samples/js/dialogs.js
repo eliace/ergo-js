@@ -106,8 +106,7 @@ $.ergo({
 						h = 600;								
 					}
 					
-					
-					
+										
 					
 //							wnd.el.css('display', 'none');
 					
@@ -118,7 +117,10 @@ $.ergo({
 
 
 					wnd.window.resizeByContent(w, h).then(function(){
-
+						
+						wnd.content.el.css({'width': w, 'height': h});
+						
+						
 						wnd.content.children.add({
 							etype: 'image',
 							hideOnRender: true,
