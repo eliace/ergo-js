@@ -119,3 +119,6 @@ pre.sh_sourceCode .sh_value {
 	font-weight: normal;
 	font-style: normal;
 }
+.sh_symbol, .sh_cbracket {
+	color:#fff!important;
+}

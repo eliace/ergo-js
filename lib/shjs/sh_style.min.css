@@ -15,7 +15,7 @@ pre.sh_sourceCode .sh_usertype {
 	color: teal;
 }
 pre.sh_sourceCode .sh_string {
-	color: red;
+	color: #fff;
 	font-family: monospace;
 }
 pre.sh_sourceCode .sh_regexp {
@@ -38,14 +38,14 @@ pre.sh_sourceCode .sh_preproc {
 	font-weight: bold;
 }
 pre.sh_sourceCode .sh_symbol {
-	color: darkred;
+	color: #fff;
 }
 pre.sh_sourceCode .sh_function {
 	color: black;
 	font-weight: bold;
 }
 pre.sh_sourceCode .sh_cbracket {
-	color: red;
+	color: #fff;
 }
 pre.sh_sourceCode .sh_todo {
 	font-weight: bold;
@@ -136,7 +136,7 @@ pre.sh_sourceCode .sh_section {
 	font-weight: bold;
 }
 pre.sh_sourceCode .sh_paren {
-	color: red;
+	color: #fff;
 }
 pre.sh_sourceCode .sh_attribute {
 	color: darkgreen;
