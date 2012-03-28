@@ -61,10 +61,10 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				cls: 'left',
 				content: {
 					defaultItem: {
-						style: {'min-height': 250}
+						style: {'min-height': 250, 'max-height': 350}
 					},
 					layout: 'stack',
-					items: [{}, {}]
+					items: [{}, {style: {'overflow-y': 'auto'}}]
 				}
 			}
 		},
