@@ -74,12 +74,12 @@ $.ergo({
 				etype: 'button-item'
 			},
 			items: [{
-				text: 'Действие',
+				text: 'Создать',
 				autoWidth: true
 			}, {
 				icon: 'button-arrow-down',
 				onClick: function() {
-					this.parent().dropdown.open();
+					this.parent.dropdown.open();
 				}
 			}],
 			

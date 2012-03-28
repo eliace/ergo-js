@@ -34,7 +34,7 @@ test('core/widget', function(){
 	w.c2.mark = 5;
 
 	equals('c1', w.c1._key, 'Поле _key компонента c1 равно "c1"')
-	ok(w == w.c1._parent, 'Поле _parent компонента c1 задано верно')
+	ok(w == w.c1.parent, 'Поле parent компонента c1 задано верно')
 	
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
