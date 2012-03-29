@@ -78,10 +78,6 @@ body {
   float: left;
   overflow: hidden;
 }
-#content {
-  padding: 20px 0 400px 180px;
-  
-}
 
 
 /* Sidebar Left
@@ -91,13 +87,14 @@ body {
   width: 180px;
   margin-left: -100%;
   position: relative;
-  padding:20px;
 }
+
 .logo a{
   width:101px;
   height:43px;
   display:block;
   background:url(images/logo.png);
+  margin:20px;
 }
 
 
@@ -623,7 +620,7 @@ body {
   overflow: hidden;
 }
 #content {
-  padding: 20px 0 100px 250px;
+  padding:20px 0 100px 250px;
 }
 
 // left sidebar
@@ -632,7 +629,7 @@ body {
   width: 200px;
   margin-left: -100%;
   position: relative;
-  padding:20px;
+ 
 }
 .logo a{
   width:101px;
@@ -654,16 +651,27 @@ body {
 
 
 ul.ergo_navigation {
-  margin:50px 0;
+  border-top:1px solid #222;
+  border-bottom:1px solid #333;
+  margin-top:20px;
 }
+
 ul.ergo_navigation > li {
   list-style:none;
-  margin:20px 0;
+  display:block;
+  border-top:1px solid #333;
+  border-bottom:1px solid #222;
+  padding:10px 10px 10px 40px;
+  background: url(images/nav_arrow.png) 10px 10px no-repeat;
+
 }
 
 ul.ergo_navigation > li a{
   color:#fff;
   text-decoration:none;
+
+  display:block;
+  position:relative;
 }
 ul.ergo_navigation > li a:hover{
   color:#c2d50f;
