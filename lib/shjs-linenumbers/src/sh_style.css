@@ -4,7 +4,7 @@ pre.sh_sourceCode, .sh_linenum {
   font-weight: normal;
   font-family: monospace;
   background-color: #f8f8f8;
-  border: 1px solid #d8d8d8;
+ 
   border-width: 1px 1px 1px 0;
   padding: 1em 0.5em;
 }
@@ -13,15 +13,15 @@ pre.sh_sourceCode, .sh_linenum {
   white-space: pre;
   unicode-bidi: embed;
   display: block;
-  background: #e8e8e8;
-  border-width: 1px;
+  background: #353535;
+ color:#888;
   text-align: right;
 }
 
 .sh_Codetable { /* Style for table that is being wrapped around the pre tags */
   border-collapse: collapse;
   width:  100%;
-  margin: -0.5em 0 1.1em;
+ 
 }
 
 .sh_Codetable td {
@@ -30,7 +30,7 @@ pre.sh_sourceCode, .sh_linenum {
 }
 
 .sh_Codetable td.sh_ln { /* Default width of linenumber column */
-  width: 40px;
+  width: 10px;
 }
 
 pre.sh_sourceCode .sh_keyword { color: blue; font-weight: bold; }           /* language keywords */
