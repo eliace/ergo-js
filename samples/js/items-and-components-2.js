@@ -1,32 +1,35 @@
 
-sample('Компоненты', {
+/**
+ * Компоненты - именованные элементы виджета
+ */
+var w = sample('Компоненты', {
 	etype: 'widget',
 	html: '<div>',
-	cls: 'border-all',
 	
 	// этот параметр применяется фабрикой для всех компонентов
 	defaultComponent: {
-		etype: 'widget',
-		html: '<div/>',
-		cls: 'widget-item'
+		etype: 'button-item',
 	},
 	
 	// порядок компонентов определяется параметром weight
 	components: {
 		first: {
-			text: 'Компонент 2',
-			weight: 2,			
-			cls: 'blue'
+			text: '',
+			weight: 2			
 		},
 		second: {
-			text: 'Компонент 3',			
-			weight: 3,
-			cls: 'green'
+			text: '',
+			weight: 3
 		},
 		third: {
 			text: 'Компонент 1',		
-			weight: 1,
-			cls: 'red'
+			weight: 1
 		}
 	}
 });
+
+
+// обратимся к компоненту по имени и зададим текст
+w.component('first').opt('text', 'Компонент 2');
+// обратимся к компоненту с использованием аксессора
+w.second.opt('text', 'Компонент 3');

@@ -2,13 +2,10 @@
 sample('Элементы', {
 	etype: 'widget',
 	html: '<div>',
-	cls: 'border-all',
 	
 	// этот параметр применяется фабрикой для всех элементов
 	defaultItem: {
-		etype: 'widget',
-		html: '<div/>',
-		cls: 'widget-item'
+		etype: 'button-item'
 	},
 	
 	// элементы создаются по порядку

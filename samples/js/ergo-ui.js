@@ -148,7 +148,7 @@ Ergo.GRID_DATA = [{
 
 function sample(title, o) {
 	
-	$.ergo({
+	var panel = $.ergo({
 		renderTo: '#sample',
 		// кнопки
 		etype: 'sample-panel',
@@ -156,6 +156,7 @@ function sample(title, o) {
 		stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
 	});
 	
+	return panel.content.content.item(0);
 };
 	
 
@@ -316,7 +317,7 @@ $(document).ready(function(){
 									});
 									$('#sample').children().each(function(i, e){
 										var w = $(e).ergo();
-										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
+//										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
 										w.$layoutChanged();
 									});										
 									sh_highlightDocument();
