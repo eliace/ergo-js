@@ -16,6 +16,9 @@ pre.sh_sourceCode, .sh_linenum {
   background: #353535;
  color:#888;
   text-align: right;
+  -webkit-border-radius: 5px 0 0 5px;
+   -moz-border-radius: 5px 0 0 5px;
+   border-radius: 5px 0 0 5px;
 }
 
 .sh_Codetable { /* Style for table that is being wrapped around the pre tags */

@@ -3,7 +3,10 @@ pre.sh_sourceCode {
 	color: #cda869;
 	font-weight: normal;
 	font-style: normal;
-   overflow-x:hidden;
+	-webkit-border-radius:0 5px 5px 0;
+   -moz-border-radius:0 5px 5px 0;
+   border-radius:0 5px 5px 0;
+  overflow-x:hidden;
 }
 pre.sh_sourceCode .sh_keyword {
 	color: #ca7840;
