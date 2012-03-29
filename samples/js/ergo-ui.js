@@ -2,6 +2,9 @@
 var menuData = [{
 	title: 'Ядро',
 	children: [{
+		title: 'Виджет',
+		name: ['widget', 'widget-2']
+	}, {
 		title: 'Элементы и компоненты',
 		name: ['items-and-components-1', 'items-and-components-2']
 	}, {
@@ -232,6 +235,10 @@ $(document).ready(function(){
 			});
 		},
 		
+		
+		info: function(msg, title) {
+			this._add(msg, title || 'Информация', 'e-grouls_complete');
+		},
 		
 		success: function(msg, title) {
 			this._add(msg, title || 'Завершено', 'e-grouls_complete');
