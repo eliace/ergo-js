@@ -228,6 +228,9 @@ $(document).ready(function(){
 		children: [{
 			title: 'Элементы и компоненты',
 			name: ['items-and-components-1', 'items-and-components-2']
+		}, {
+			title: 'Данные',
+			name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4']
 		}]
 	}, {
 		title: 'Виджеты',
