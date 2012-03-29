@@ -679,16 +679,13 @@ ul.ergo_navigation > li a:hover{
 }
 .ergo_navigation  ul{
   display:block;
-  
-  -webkit-border-radius: @e-panel-radius;
-  -moz-border-radius: @e-panel-radius;
-  border-radius: @e-panel-radius;
   list-style:none;
-  padding:6px 6px 1px 6px;
-  margin:15px 0;
+  margin:5px 0;
   display:none;
 }
-
+.ergo_navigation  ul li{
+  padding:10px 0;
+}
 a.layout_simple_icon {
   width:87px;
   height:60px;
@@ -749,76 +746,29 @@ a.layout_simple_icon {
   color:#afafaf;
 }
 
-.tab.green {
-  width:30px;
-  background: url(images/green_label.png);
-  color:#fff;
-  cursor:pointer;
-}
-.tab.orange {
-  width:30px;
-  background: url(images/orange_label.png);
-  color:#fff;
-  top:215px;
-  cursor:pointer;
-}
+
 .tab.grey {
   width:30px;
-  background: url(images/grey_label.png);
+  background: #444;
   color:#fff;
   top:215px;
   cursor:pointer;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius:5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
 }
 
-.tab.orange.selected {
-  width:35px;
-  background: url(images/orange_label.png);
-  color:#fff;
-  cursor:pointer;
-
-}
-.tab.green.selected {
-  width:35px;
-  background: url(images/green_label.png);
-  color:#fff;
-  cursor:pointer;
-}
 .tab.grey.selected {
-  width:35px;
-  background: url(images/grey_label.png);
-  color:#fff;
-  cursor:pointer;
+  width:30px;
+  background: #f3f3f3;
+  color:#444!important;
 }
-.tab.green .inner-dash {
-  border:1px  dashed #80b321;
-  border-right:0;
-}
-.tab.green .out-dash {
-  border:1px dashed #648d13;
-  margin:1px;
-  border-right:0;
-}
-.tab.orange .inner-dash {
-  border:1px dashed #e77931;
-  border-right:0;
-}
-.tab.orange .out-dash {
-  border:1px dashed #b04a08;
-  margin:1px;
-  border-right:0;
-}
-.tab.grey .inner-dash {
-  border:1px dashed #737373;
-  border-right:0;
-}
-.tab.grey .out-dash {
-  border:1px dashed #484848;
-  margin:1px;
-  border-right:0;
-}
+
+
+
 .tab.green p, .tab.green.selected p, .tab.orange p, .tab.orange.selected p, .tab.grey p, .tab.grey.selected p {
   text-transform:uppercase;
-  color:#fff;
+ 
   -moz-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
@@ -830,8 +780,8 @@ a.layout_simple_icon {
 }
 
 .tab.selected {
-  margin-left: -5px;
-  width: 35px;
+
+  width: 30px;
 }
 
 

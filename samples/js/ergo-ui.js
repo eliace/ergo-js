@@ -20,7 +20,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 						etype: 'para',
 						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
 					},
-					style: {'position': 'relative', 'top': 5},
+					style: {'position': 'relative', 'top': 60},
 					set: {
 						'text': function(v) { this.content.opt('text', v) }
 					},
@@ -34,7 +34,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 						this.getParent(Sample.widgets.SamplePanel).content.content.setActive(this._index);
 					}
 				},
-				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
+				items: [{cls: 'tab grey', text: 'Виджеты'}, {cls: 'tab grey', text: 'Javascript'}]
 			},
 			content: {
 				etype: 'panel',
