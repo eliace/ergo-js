@@ -126,6 +126,12 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 		this.$init(o);
 				
 
+		// добавляем метод bubble к events
+		this.events.bubble = function(name, e) {
+			e.after = Ergo.bubble;
+			this.fire(name, e);
+		}
+
 		
 		// создаем список дочерних элементов
 		/**
