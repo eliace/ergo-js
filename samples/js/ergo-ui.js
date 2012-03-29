@@ -1,4 +1,52 @@
 
+var menuData = [{
+	title: 'Ядро',
+	children: [{
+		title: 'Элементы и компоненты',
+		name: ['items-and-components-1', 'items-and-components-2']
+	}, {
+		title: 'Данные',
+		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4']
+	}, {
+		title: 'События',
+		name: ['events', 'events-2']
+	}]
+}, {
+	title: 'Виджеты',
+	children: [{
+		title: 'Ввод',
+		name: ['input-field']
+	}, {
+		title: 'Выбор',
+		name: ['select-field', 'select-field-2']
+	}, {
+		title: 'Текстовый элемент',
+		name: ['text-item']
+	}, {
+		title: 'Переключатели',
+		name: ['switchers']
+	}, {
+		title: 'Кнопки',
+		name: ['buttons']
+	}, {
+		title: 'Списки',
+		name: ['lists']
+	}, {
+		title: 'Диалоги',
+		name: ['dialogs', 'dialogs-2']
+	}, {
+		title: 'Загрузка файлов',
+		name: ['files']
+	}, {
+		title: 'Гриды',
+		name: ['grids']
+	}]
+}, {
+	title: 'Компоновки'
+}, {
+	title: 'Wiki'
+}];
+
 
 
 
@@ -200,50 +248,6 @@ $(document).ready(function(){
 	
 	
 	
-	var menuData = [{
-		title: 'Ядро',
-		children: [{
-			title: 'Элементы и компоненты',
-			name: ['items-and-components-1', 'items-and-components-2']
-		}, {
-			title: 'Данные',
-			name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4']
-		}]
-	}, {
-		title: 'Виджеты',
-		children: [{
-			title: 'Ввод',
-			name: ['input-field']
-		}, {
-			title: 'Выбор',
-			name: ['select-field', 'select-field-2']
-		}, {
-			title: 'Текстовый элемент',
-			name: ['text-item']
-		}, {
-			title: 'Переключатели',
-			name: ['switchers']
-		}, {
-			title: 'Кнопки',
-			name: ['buttons']
-		}, {
-			title: 'Списки',
-			name: ['lists']
-		}, {
-			title: 'Диалоги',
-			name: ['dialogs', 'dialogs-2']
-		}, {
-			title: 'Загрузка файлов',
-			name: ['files']
-		}, {
-			title: 'Гриды',
-			name: ['grids']
-		}]
-	}, {
-		title: 'Компоновки'
-	}, {
-		title: 'Wiki'
-	}];
 	
 /*	
 	{
