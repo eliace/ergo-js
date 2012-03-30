@@ -627,9 +627,9 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
   cursor:pointer;
   font-size:@e-field-text-size;
-  -webkit-border-radius: @e-field-radius;
-  -moz-border-radius: @e-field-radius;
-   border-radius: @e-field-radius;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+   border-radius: 3px;
   -moz-border-radius:0 \9;
   padding:4px 10px;
   font-size:@e-field-text-size;
@@ -1126,5 +1126,28 @@ html[xmlns] [layout='float'] {
   margin-left: -100%;
   position: relative;
   background:#c9c9c9;
+}
 
+// Groups
+.e-group  .e-button-item {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-left:0;
+}
+.e-group  .e-button-item:first-child {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+  border-left:1px solid #dedede;
+}
+.e-group  .e-button-item:last-child {
+ -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+.e-group  .e-button-item {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
