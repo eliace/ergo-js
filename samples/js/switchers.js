@@ -1,4 +1,3 @@
-
 sample('Переключатели', {
 	items: [{
 		etype: 'text-item',
@@ -10,7 +9,6 @@ sample('Переключатели', {
 		},
 		text: 'чекбокс',
 		icon: true,
-		
 		onClick: function() {
 			this.icon.states.toggle('checked');
 		}
@@ -28,7 +26,6 @@ sample('Переключатели', {
 		onClick: function() {
 			this.icon.states.set('checked');
 		}					
-		
 	}, {
 		etype: 'box',
 		cls: 'e-choice',

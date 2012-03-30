@@ -1,4 +1,3 @@
-
 // создаем ajax-коллекцию, которая доступна по адресу "ajax/list.json"
 var ajaxData = new Ergo.data.AjaxCollection([], {
 	path: 'ajax/list.json'

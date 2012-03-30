@@ -1,4 +1,3 @@
-
 var menuData = [{
 	title: 'Ядро',
 	children: [{

@@ -1,14 +1,9 @@
-
-
 sample('Элементы выбора', {
 	etype: 'box',
-	
 	extensions: ['selectable'],
-	
 	onAction: function(e) {
 		this.selection.set(e.target);
 	},
-	
 	defaultItem: {
 		etype: 'text-item',
 		cls: 'e-radio-item',
@@ -24,7 +19,6 @@ sample('Элементы выбора', {
 			this.events.fire('action', {target: this, after: Ergo.bubble});
 		}
 	},
-	
 	items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 });
 

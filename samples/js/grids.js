@@ -1,15 +1,8 @@
-
-
-
-
 sample('Грид', {
 	id: 'my-grid',
-	
 	components: {
-		
-		// заголовок грида
-		header: {
-			cls: 'e-grid-header-wrapper',
+		header: {                             
+			cls: 'e-grid-header-wrapper',//Заголовок таблицы
 			
 			content: {							
 				etype: 'grid-header',

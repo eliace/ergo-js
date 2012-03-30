@@ -1,5 +1,3 @@
-
-
 sample('Текстовые элементы', {
 	items: [{
 		etype: 'text-item',
