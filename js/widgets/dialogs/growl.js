@@ -69,6 +69,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 				
 			}
 		});
+		
 		var growl = box.content;
 		
 		// отображаем гроул
