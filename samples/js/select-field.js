@@ -1,15 +1,23 @@
 sample('Поле выбора', {
+	
+	defaultItem: {
+		style: {'margin-bottom': 30}
+	},
+	
+	
 	items: [{
 		label: 'Город',
 		etype: 'select-field',
+		extensions: ['selectable'],
 		
 		onClick: function() {			
 			this.dropdown.open();
 		},
 		
-		onSelect: function(w) {
+		onSelect: function(e) {
+			this.selection.set(e.target);
 			this.dropdown.close();
-			this.opt('text', w.target.opt('text'));
+			this.opt('text', e.target.opt('text'));
 		},
 		
 		components: {
@@ -22,7 +30,7 @@ sample('Поле выбора', {
 			}
 		}				
 		
-	}, {
+	}/*, {
 		label: 'Число',
 		etype: 'select-field',
 		buttons: [{
@@ -30,6 +38,36 @@ sample('Поле выбора', {
 		}, {
 			iconCls: 'arrow-left'
 		}]
+	}*/, {
+		etype: 'box',
+		cls: 'e-group',
+		extensions: ['selectable'],
+		onSelect: function(e) {
+			this.selection.set(e.target);
+			e.cancel();
+		},
+		defaultItem: {
+			etype: 'button-item',
+			onClick: function() {
+				this.events.bubble('select', {target: this});
+			}
+		},
+		items: ['Лево', 'Центр', 'Право']
+	}, {
+		etype: 'box',
+		extensions: ['selectable'],
+		onSelect: function(e) {
+			this.selection.set(e.target);
+		},
+		defaultItem: {
+			etype: 'radio-item',
+			tabIndex: 0,
+			onClick: function(e) {
+				this.events.bubble('select', {target: this});
+				e.cancel();
+			}
+		},
+		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']		
 	}]
 });
 

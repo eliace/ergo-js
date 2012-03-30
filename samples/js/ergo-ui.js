@@ -23,7 +23,7 @@ var menuData = [{
 		name: ['input-field']
 	}, {
 		title: 'Выбор',
-		name: ['select-field', 'select-field-2']
+		name: ['select-field']
 	}, {
 		title: 'Текстовый элемент',
 		name: ['text-item']
