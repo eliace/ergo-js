@@ -34,7 +34,7 @@ sample('Настройка связывания', {
 		etype: 'icon',
 		binding: function(v) {
 			// при изменении данных добавляем класс пиктограммы
-			this.el.addClass((v == 'м') ? 'e-icon-tag' : 'e-icon-info');
+			this.el.addClass((v == 'м') ? 'e-icon-men' : 'e-icon-women');
 		}
 	}]
 	
