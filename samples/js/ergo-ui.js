@@ -294,6 +294,8 @@ $(document).ready(function(){
 		
 		dynamic: true,
 		
+		extensions: ['selectable'],
+		
 		defaultSubtree: {
 			dynamic: true,
 			dataId: 'children',
@@ -303,28 +305,38 @@ $(document).ready(function(){
 				hide: 'slideUp',
 				delay: 300
 			},
-			transitions: {
-				'expanded >': function() {
-					this.hide();
-				},
-				'> expanded': function() {
-					this.show();
-				}
-			}
 		},
 		defaultNode: {
+			
+			transitions: {
+				'expanded >': function() {
+					this.subtree.hide();
+				},
+				'> expanded': function() {
+					this.subtree.show();
+				}
+			},
+			
 			content: {
 				etype: 'anchor',
 				dataId: 'title',
 				onClick: function() {
-					var subtree = this.parent.subtree;
-					if(subtree.states.is('expanded')) {
-						subtree.options.transitions['expanded >'].call(subtree);
-						subtree.states.clear('expanded');
+					var node = this.parent;
+					if(node.states.is('expanded')) {
+						node.options.transitions['expanded >'].call(node);
+						node.states.clear('expanded');
 					}
 					else {
-						subtree.options.transitions['> expanded'].call(subtree);
-						subtree.states.set('expanded');
+						
+						node.parent.items.each(function(c){
+							if(c.states.is('expanded')){
+								c.options.transitions['expanded >'].call(c);
+								c.states.clear('expanded');								
+							}
+						});
+						
+						node.options.transitions['> expanded'].call(node);
+						node.states.set('expanded');						
 					}
 //					this.parent().subtree.show();
 
@@ -370,40 +382,10 @@ $(document).ready(function(){
 									});
 							};
 							
-//							var chain = null;
 							for(var k in data.name) {
 								var js = data.name[k];
-//								if(chain)
-//									chain = chain.then(load_script.curry(js));
-//								else
 								load_script(js);
-								
-/*								
-								
-								$.getScript('js/'+data.name+'.js')
-									.then(function(script){
-										$('#sample').fadeIn(100);
-										$('#sample').children().each(function(i, e){
-											$(e).ergo().$layoutChanged();
-										});
-										
-										
-										$('#sample').children().each(function(i, e){
-											$('.sh_javascript', $(e)).append(Ergo.escapeHtml(script));
-										})
-										
-										sh_highlightDocument();
-										
-									});
-*/									
-									
 							}
-							
-//							chain.then(function(){
-//								
-//							});
-							
-							
 						});
 						
 						
