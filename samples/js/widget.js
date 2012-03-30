@@ -6,7 +6,7 @@ sample('Опции', {
 	// html-тэг виджета, который будет использован для рендеринга
 	html: '<div/>',
 	// ширина
-	width: 300,
+	width: 600,
 	// высота
 	height: 100,
 	// атрибут DOM-элемента id
@@ -31,7 +31,7 @@ sample('Опции', {
 		},
 		// заменим стандартную опцию text
 		'text': function(v) {
-			this.el.text(v + ' - ' + this.opt('childCount'));
+			this.content.opt('text', v + ' (количество дочерних виджетов: ' + this.opt('childCount') + ' шт.)');
 		}
 	},
 	
@@ -43,7 +43,11 @@ sample('Опции', {
 		}
 	},
 	
-	custom: 'custom-class'
+	custom: 'custom-class',
+	
+	content: {
+		etype: 'text'
+	}
 	
 	
 });

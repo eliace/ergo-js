@@ -28,9 +28,9 @@ var w = sample('Компоненты', {
 		fourth: {
 			text: '',
 			weight: 4,
-			// отобразим элемент в виде стандартной кнопки
-			// ее класс Ergo.widgets.Button
-			etype: 'button'
+			// отобразим элемент в виде стилизованной кнопки
+			// ее класс Ergo.widgets.StyledButton
+			etype: 'styled-button'
 		}
 	}
 });
@@ -39,6 +39,6 @@ var w = sample('Компоненты', {
 // обратимся к компоненту по имени и зададим текст
 w.component('first').opt('text', 'Компонент 2');
 // обратимся к компоненту с использованием фильтра по классу
-w.component(Ergo.widgets.Button).opt('text', 'Компонент 4');
+w.component(Ergo.widgets.StyledButton).opt('text', 'Компонент 4');
 // обратимся к компоненту с использованием аксессора
 w.second.opt('text', 'Компонент 3');
