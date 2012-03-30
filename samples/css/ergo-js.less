@@ -605,6 +605,7 @@
   height:@e-icon-size;
   display:block;
   background-repeat:no-repeat;
+  background-position:center center;
 }
 .e-icon-folder { background:url("@{e-icons-path}/e-ico-folder.png")}
 .e-icon-tag { background:url("@{e-icons-path}/e-ico-tag.png")}
@@ -635,9 +636,7 @@
   font-size:@e-field-text-size;
   color:@form-color;
 }
-.e-buttom-item-arrows {
-  
-}
+
 .e-split-button > button {
   -webkit-border-radius:3px 0 0 3px;
   -moz-border-radius:3px 0 0 3px;
@@ -663,7 +662,8 @@
   border: 0;
 }
 .e-button-item .e-icon {
-  margin:0 5px 0 0;
+  margin:0 5px;
+  background-position:center center;
 }
 
 
@@ -1137,6 +1137,7 @@ html[xmlns] [layout='float'] {
   border-radius: 0;
   border-left:0;
 }
+
 .e-group  .e-button-item:first-child {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
