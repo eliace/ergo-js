@@ -97,7 +97,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			'tag': function(v) { this.tag = v; },
 //			'name': function(v) { this.name = v; },
 			'tabIndex': function(v) { this.el.attr('tabindex', v); },			
-			'role': function(v) { this.el.attr('role', v); },
+//			'role': function(v) { this.el.attr('role', v); },
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 			}
@@ -495,7 +495,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
-			return this.options[o];
+			var getter = this.options.get[o];
+			return (getter) ? getter.call(this) : this.options[o];
 		}
 		
 		Ergo.smart_override(this.options, opts);

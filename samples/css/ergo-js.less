@@ -57,6 +57,7 @@
   -webkit-border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
+  
 }
 
 .e-panel .e-panel-content {
@@ -966,6 +967,19 @@
   -moz-border-radius:5px 5px  0 0px;
   border-radius:5px 5px  0 0;
   overflow:hidden;
+}
+.e-grid-header-wrapper {
+   background: @e-label-top-color; /* Old browsers */
+  background: -moz-linear-gradient(top, @e-label-top-color 0%, @e-label-bottom-color 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@e-label-top-color), color-stop(100%,@e-label-bottom-color)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,@e-label-top-color 0%,@e-label-bottom-color 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* IE10+ */
+  background: linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* W3C */
+  //-ms-filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='@e-label-top-color', endColorstr='@e-label-bottom-color',GradientType=0 )"; /* IE6-8 */
+ -webkit-border-radius: 5px 5px  0 0;
+  -moz-border-radius:5px 5px  0 0px;
+  border-radius:5px 5px  0 0;
 }
 .e-grid-header td {
   padding:5px;

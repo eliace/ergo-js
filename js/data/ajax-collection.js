@@ -22,6 +22,8 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
 	
 	defaults: {
 		cache: true
+//		process: function(json) {
+//		}
 	},
 	
 	
@@ -40,13 +42,22 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
    * 
    * @return {Deferred}
    */
-  fetch: function(path, query) {
+  fetch: function(path, query, callback) {
     
     var self = this;
     
     var qPath = this.options.path;
     var qParams = Ergo.override({}, this.options.query);
+    var qCallback = this.options.process;
     
+    for(var i = 0; i < arguments.length; i++) {
+    	var arg = arguments[i];
+    	if($.isString(arg)) qPath = arg;
+    	else if($.isFunction(arg)) qCallback = arg;
+    	else if($.isPlainObject(arg)) qParams = arg;
+    }
+    
+/*    
     if(arguments.length == 2) {
     	qPath = path;
     	qParams = query;
@@ -57,6 +68,7 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     	else
     		qPath = path;
     }
+*/
     
     if(!this.options.cache) qParams._ = Ergo.timestamp();
     
@@ -65,10 +77,12 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     		self._fetched = true;
     	})
     	.success(function(json){
-    		self.set(json);
+    		if(qCallback)
+    			qCallback.call(self, json);
+    		else
+    			self.set(json);			
     	});
   },
-  
   
   
   /**
