@@ -9,7 +9,7 @@ var menuData = [{
 		name: ['items-and-components-1', 'items-and-components-2']
 	}, {
 		title: 'Данные',
-		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4']
+		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4', 'data-binding-5']
 	}, {
 		title: 'События',
 		name: ['events', 'events-2']

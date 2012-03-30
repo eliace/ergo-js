@@ -19,9 +19,6 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 			'text': function(v) {
 				(v) ? this.el.text(v) : this.el.html('&nbsp;');
 			}
-		},
-		get: {
-			'text': function() { this.el.text(); }
 		}
 	},
 	
