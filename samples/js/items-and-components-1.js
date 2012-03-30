@@ -1,26 +1,29 @@
 
-sample('Элементы', {
+var w = sample('Элементы', {
 	etype: 'widget',
 	html: '<div>',
-	cls: 'border-all',
 	
 	// этот параметр применяется фабрикой для всех элементов
 	defaultItem: {
-		etype: 'widget',
-		html: '<div/>',
-		cls: 'widget-item'
+		etype: 'button-item'
 	},
 	
 	// элементы создаются по порядку
 	items: [{
 		cls: 'red',
-		text: 'Элемент 1'
+		text: ''
 	}, {
 		cls: 'blue',
-		text: 'Элемент 2'
+		text: '',
+		tag: 'mytag'    // опция tag задает значение свойства tag
 	}, {
 		cls: 'green',
 		text: 'Элемент 3'
 	}]
 	
 });
+
+// обратимся к элементу по имени и зададим текст
+w.item(0).opt('text', 'Элемент 1');
+// обратимся к элементу с помощью фильтра по значению свойства
+w.item({tag: 'mytag'}).opt('text', 'Элемент 2');

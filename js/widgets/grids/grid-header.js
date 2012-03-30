@@ -1,4 +1,6 @@
 
+//= require <widgets/natives/box>
+
 
 Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 	

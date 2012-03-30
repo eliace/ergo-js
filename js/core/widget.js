@@ -97,7 +97,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			'tag': function(v) { this.tag = v; },
 //			'name': function(v) { this.name = v; },
 			'tabIndex': function(v) { this.el.attr('tabindex', v); },			
-			'role': function(v) { this.el.attr('role', v); },
+//			'role': function(v) { this.el.attr('role', v); },
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 			}
@@ -125,6 +125,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// инициализируем виджет
 		this.$init(o);
 				
+
+		// добавляем метод bubble к events
+		this.events.bubble = function(name, e) {
+			e.after = Ergo.bubble;
+			this.fire(name, e);
+		}
 
 		
 		// создаем список дочерних элементов
@@ -498,7 +504,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
-			return this.options[o];
+			var getter = this.options.get[o];
+			return (getter) ? getter.call(this) : this.options[o];
 		}
 		
 		Ergo.smart_override(this.options, opts);

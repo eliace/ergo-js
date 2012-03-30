@@ -1,24 +1,58 @@
 
-/*
-Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Panel', {
-	
-	defaults: {
+var menuData = [{
+	title: 'Ядро',
+	children: [{
+		title: 'Виджет',
+		name: ['widget', 'widget-2']
+	}, {
+		title: 'Элементы и компоненты',
+		name: ['items-and-components-1', 'items-and-components-2']
+	}, {
+		title: 'Данные',
+		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4', 'data-binding-5']
+	}, {
+		title: 'События',
+		name: ['events', 'events-2']
+	}, {
+		title: 'AJAX',
+		name: ['ajax']
+	}]
+}, {
+	title: 'Виджеты',
+	children: [{
+		title: 'Ввод',
+		name: ['input-field']
+	}, {
+		title: 'Выбор',
+		name: ['select-field', 'select-field-2']
+	}, {
+		title: 'Текстовый элемент',
+		name: ['text-item']
+	}, {
+		title: 'Переключатели',
+		name: ['switchers']
+	}, {
+		title: 'Кнопки',
+		name: ['buttons']
+	}, {
+		title: 'Списки',
+		name: ['lists']
+	}, {
+		title: 'Диалоги',
+		name: ['dialogs', 'dialogs-2']
+	}, {
+		title: 'Загрузка файлов',
+		name: ['files']
+	}, {
+		title: 'Гриды',
+		name: ['grids']
+	}]
+}, {
+	title: 'Компоновки'
+}, {
+	title: 'Wiki'
+}];
 
-		cls: 'e-panel',
-		width: 730,
-		
-		components: {
-			content: {
-				etype: 'panel'
-			}
-		}
-		
-		
-
-	}
-	
-}, 'sample-panel');
-*/
 
 
 
@@ -40,7 +74,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 						etype: 'para',
 						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
 					},
-					style: {'position': 'relative', 'top': 5},
+					style: {'position': 'relative', 'top': 60},
 					set: {
 						'text': function(v) { this.content.opt('text', v) }
 					},
@@ -54,7 +88,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 						this.getParent(Sample.widgets.SamplePanel).content.content.setActive(this._index);
 					}
 				},
-				items: [{cls: 'tab green', text: 'Виджеты'}, {cls: 'tab orange', text: 'Javascript'}]
+				items: [{cls: 'tab grey', text: 'Виджеты'}, {cls: 'tab grey', text: 'Javascript'}]
 			},
 			content: {
 				etype: 'panel',
@@ -62,7 +96,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				width: 730,
 				content: {
 					defaultItem: {
-						style: {'min-height': 250, 'max-height': 400, 'overflow-y': 'auto'}
+						style: {'min-height': 300/*, 'max-height': 350*/}
 					},
 					layout: 'stack',
 					items: [{}, {}]
@@ -83,10 +117,6 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			this.tabs.selection.set(this.tabs.item(0));
 			this.content.content.setActive(0);
 		}
-		
-		// defaultItem: {
-			// etype: 'panel'
-		// }
 		
 	},
 	
@@ -173,22 +203,23 @@ Ergo.GRID_DATA = [{
 
 function sample(title, o) {
 	
-	try {
-	
-	$.ergo({
-		renderTo: '#sample',
-		// кнопки
-		etype: 'sample-panel',
-		title: title,
-		stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
-	});
-	
+	try{
+		var panel = $.ergo({
+			renderTo: '#sample',
+			// кнопки
+			etype: 'sample-panel',
+			title: title,
+			stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
+		});
+		
+		return panel.content.content.item(0);
+		
 	}
 	catch(e) {
-		console.log(e);
 		growl.error(e.message);
 	}
 	
+	return null;
 };
 	
 
@@ -203,53 +234,9 @@ $(document).ready(function(){
 	$(document).ajaxError(function(e, xhr){
 		growl.error(xhr.statusText);
 	});
+		
 	
 	
-	
-	
-	
-	
-	var menuData = [{
-		title: 'Ядро',
-		children: [{
-			title: 'Элементы и компоненты',
-			name: ['items-and-components-1', 'items-and-components-2']
-		}]
-	}, {
-		title: 'Виджеты',
-		children: [{
-			title: 'Ввод',
-			name: ['input-field']
-		}, {
-			title: 'Выбор',
-			name: ['select-field', 'select-field-2']
-		}, {
-			title: 'Текстовый элемент',
-			name: ['text-item']
-		}, {
-			title: 'Переключатели',
-			name: ['switchers']
-		}, {
-			title: 'Кнопки',
-			name: ['buttons']
-		}, {
-			title: 'Списки',
-			name: ['lists']
-		}, {
-			title: 'Диалоги',
-			name: ['dialogs', 'dialogs-2']
-		}, {
-			title: 'Загрузка файлов',
-			name: ['files']
-		}, {
-			title: 'Гриды',
-			name: ['grids']
-		}]
-	}, {
-		title: 'Компоновки'
-	}, {
-		title: 'Wiki'
-	}];
 	
 /*	
 	{
@@ -320,10 +307,13 @@ $(document).ready(function(){
 							var n = 0;
 							var on_load = function() {
 								if(++n == data.name.length) {
-									$('#sample').fadeIn(100);
+									$.when( $('#sample').fadeIn(100) ).then(function(){
+									});
 									$('#sample').children().each(function(i, e){
-										$(e).ergo().$layoutChanged();
-									});									
+										var w = $(e).ergo();
+//										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
+										w.$layoutChanged();
+									});										
 									sh_highlightDocument();
 								}
 							};

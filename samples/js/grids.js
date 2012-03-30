@@ -9,6 +9,7 @@ sample('Грид', {
 		
 		// заголовок грида
 		header: {
+			cls: 'e-grid-header-wrapper',
 			
 			content: {							
 				etype: 'grid-header',
@@ -42,10 +43,11 @@ sample('Грид', {
 		
 		// тело грида
 		content: {
+			cls: 'e-grid-wrapper',
 			
 			style: {'overflow': 'auto'},
 			
-			height: 200,
+			height: 300,
 		
 			content: {
 				etype: 'grid',

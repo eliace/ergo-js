@@ -47,7 +47,7 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Box', {
 		},
 		get: {
 			'text': function() {
-				this.content.opt('text');
+				return this.content.opt('text');
 			}
 		}
 	}
