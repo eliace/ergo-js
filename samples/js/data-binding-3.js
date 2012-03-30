@@ -33,7 +33,7 @@ sample('Настройка связывания', {
 		// при обновлении данных вызвается функция binding
 		binding: function(v) {
 			// при изменении данных добавляем класс пиктограммы
-			this.el.addClass((v == 'м') ? 'e-icon-men' : 'e-icon-women');
+			this.el.addClass((v == 'м') ? 'e-icon-man-sign' : 'e-icon-woman-sign');
 		}
 	}]
 	
