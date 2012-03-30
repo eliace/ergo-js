@@ -5,7 +5,7 @@ var w = sample('Обработчик события', {
 	// "сахарное" объявление обработчика события action
 	onAction: function(e) {
 		// при возникновении события action меняем текст виджета
-		this.opt('text', e.value);
+		this.opt('text', Ergo.format('Событие action', e.value));
 	}
 	
 });

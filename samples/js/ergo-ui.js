@@ -48,7 +48,11 @@ var menuData = [{
 		name: ['grids']
 	}]
 }, {
-	title: 'Компоновки'
+	title: 'Компоновки',
+	children: [{
+		title: 'Форма',
+		name: ['form']
+	}]
 }, {
 	title: 'Wiki'
 }];
@@ -215,7 +219,7 @@ function sample(title, o) {
 		
 	}
 	catch(e) {
-		growl.error(editor.message);
+		growl.error(e.message);
 	}
 	
 	return null;

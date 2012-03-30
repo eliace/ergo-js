@@ -5,38 +5,20 @@ sample('Поле выбора', {
 		label: 'Город',
 		etype: 'select-field',
 		
-		onClick: function() {
-			
+		onClick: function() {			
 			this.dropdown.open();
-			
 		},
 		
 		onSelect: function(w) {
 			this.dropdown.close();
+			this.opt('text', w.target.opt('text'));
 		},
 		
 		components: {
 			dropdown: {
-				etype: 'box',
-				extensions: ['effects', 'popup'],
-				position: {
-					global: true,
-					at: 'left bottom'
-				},
-				effects: {
-					show: 'slideDown',
-					hide: 'slideUp',
-					delay: 300
-				},
-				cls: 'e-dropbox roman',
-				style: {'display': 'none'},
+				etype: 'dropdown',
+				adjusWidth: true,
 				content: {
-					etype: 'list',
-					defaultItem: {
-						onClick: function(e) {
-							this.events.fire('select', {target: this, after: Ergo.bubble});
-						}
-					},
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}
 			}
