@@ -47,7 +47,7 @@ sample('Переключатели', {
 				this.parent.selection.set(this);
 			}
 		},
-		items: [{icon: 'e-icon-men'}, {icon: 'e-icon-women'}],
+		items: [{icon: 'e-icon-man'}, {icon: 'e-icon-woman'}],
 		onAfterBuild: function() {
 			this.selection.set(this.item(0));
 		}
