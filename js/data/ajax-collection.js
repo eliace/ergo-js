@@ -21,7 +21,10 @@
 Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo.data.AjaxCollection.prototype */{
 	
 	defaults: {
-		cache: true
+		cache: true,
+		path: '',
+		query: {},
+		transform: null
 //		process: function(json) {
 //		}
 	},
@@ -48,7 +51,7 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     
     var qPath = this.options.path;
     var qParams = Ergo.override({}, this.options.query);
-    var qCallback = this.options.process;
+    var qCallback = this.options.transform;
     
     for(var i = 0; i < arguments.length; i++) {
     	var arg = arguments[i];
@@ -78,13 +81,12 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     	})
     	.success(function(json){
     		if(qCallback)
-    			qCallback.call(self, json);
-    		else
-    			self.set(json);			
+    			json = qCallback.call(self, json);
+   			self.set(json);
     	});
   },
   
-  
+    
   /**
    * Синхронизация данных с хранилищем
    * 

@@ -13,6 +13,9 @@ var menuData = [{
 	}, {
 		title: 'События',
 		name: ['events', 'events-2']
+	}, {
+		title: 'AJAX',
+		name: ['ajax']
 	}]
 }, {
 	title: 'Виджеты',
@@ -199,15 +202,23 @@ Ergo.GRID_DATA = [{
 
 function sample(title, o) {
 	
-	var panel = $.ergo({
-		renderTo: '#sample',
-		// кнопки
-		etype: 'sample-panel',
-		title: title,
-		stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
-	});
+	try{
+		var panel = $.ergo({
+			renderTo: '#sample',
+			// кнопки
+			etype: 'sample-panel',
+			title: title,
+			stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
+		});
+		
+		return panel.content.content.item(0);
+		
+	}
+	catch(e) {
+		growl.error(editor.message);
+	}
 	
-	return panel.content.content.item(0);
+	return null;
 };
 	
 
@@ -246,7 +257,11 @@ $(document).ready(function(){
 
 		warn: function(msg, title) {
 			this._add(msg, title || 'Предупреждение', 'e-grouls_alert');
-		}
+		},
+		
+		error: function(msg, title) {
+			this._add(msg, title || 'Ошибка', 'e-grouls_alert');
+		}		
 		
 	};
 	
