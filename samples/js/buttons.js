@@ -30,7 +30,7 @@ sample('Кнопки', {
 		
 		onSelect: function(e) {
 			this.dropdown.close();
-//				this.opt('text', e.target.opt('text'));
+			growl.info('Выбран: ' + e.target.opt('text'));
 		},
 		
 		components: {
