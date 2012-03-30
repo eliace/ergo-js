@@ -70,13 +70,21 @@ sample('Кнопки', {
 		components: {
 			dropdown: {
 				etype: 'dropdown',
-				width: 160,
+//				width: 160,
 				cls: 'alpha',
+				adjustWidth: true,
 				content: {
 					items: ['Создать', 'Обновить', 'Удалить']
 				}
 			}
 		}			
 		
+	}, {
+		etype: 'box',
+		cls: 'e-group',
+		defaultItem: {
+			etype: 'button-item'
+		},
+		items: ['Лево', 'Центр', 'Право']
 	}]
 });
