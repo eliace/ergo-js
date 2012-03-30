@@ -1,4 +1,10 @@
 sample('Переключатели', {
+	
+	defaultItem: {
+		style: {'margin-bottom': 20}
+	},
+	
+	
 	items: [{
 		etype: 'text-item',
 		tabIndex: 0,
@@ -12,7 +18,7 @@ sample('Переключатели', {
 		onClick: function() {
 			this.icon.states.toggle('checked');
 		}
-	}, {
+	}/*, {
 		etype: 'text-item',
 		tabIndex: 0,
 		components: {
@@ -26,26 +32,24 @@ sample('Переключатели', {
 		onClick: function() {
 			this.icon.states.set('checked');
 		}					
+	}*/, {
+		etype: 'switcher',
+		left: 'Да',
+		right: 'Нет'
 	}, {
 		etype: 'box',
-		cls: 'e-choice',
-		components: {
-			left: {
-				etype: 'label',
-				text: 'Да'
-			},
-			content: {
-				content: {
-					text: '|||'
-				}
-			},
-			right: {
-				etype: 'label',
-				text: 'Нет'
+		cls: 'e-group',
+		extensions: ['selectable'],
+		defaultItem: {
+			etype: 'button-item',
+			text: false,
+			onClick: function() {
+				this.parent.selection.set(this);
 			}
 		},
-		onClick: function() {
-			this.states.toggle('checked');
+		items: [{icon: 'e-icon-men'}, {icon: 'e-icon-women'}],
+		onAfterBuild: function() {
+			this.selection.set(this.item(0));
 		}
 	}]
 });
