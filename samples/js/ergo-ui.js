@@ -23,7 +23,7 @@ var menuData = [{
 		name: ['input-field']
 	}, {
 		title: 'Выбор',
-		name: ['select-field', 'select-field-2']
+		name: ['select-field']
 	}, {
 		title: 'Текстовый элемент',
 		name: ['text-item']
@@ -47,7 +47,11 @@ var menuData = [{
 		name: ['grids']
 	}]
 }, {
-	title: 'Компоновки'
+	title: 'Компоновки',
+	children: [{
+		title: 'Форма',
+		name: ['form']
+	}]
 }, {
 	title: 'Wiki'
 }];
@@ -214,7 +218,7 @@ function sample(title, o) {
 		
 	}
 	catch(e) {
-		growl.error(editor.message);
+		growl.error(e.message);
 	}
 	
 	return null;
