@@ -1,6 +1,3 @@
-
-
-
 sample('Загрузка файлов', {
 	layout: 'hbox',
 	items: [{

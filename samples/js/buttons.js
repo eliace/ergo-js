@@ -1,6 +1,3 @@
-
-
-
 sample('Кнопки', {		
 		
 	defaultItem: {

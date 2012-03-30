@@ -1,14 +1,9 @@
-
-
 sample('Поле выбора', {
 	items: [{
 		label: 'Город',
 		etype: 'select-field',
-		
 		onClick: function() {
-			
 			this.dropdown.open();
-			
 		},
 		
 		onSelect: function(w) {

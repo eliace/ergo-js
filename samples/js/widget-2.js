@@ -1,11 +1,6 @@
-
-
-
 var w = sample('Обход виджетов', {
 	etype: 'box',
-	
 	layout: 'vbox',
-	
 	components: {
 		title: {
 			etype: 'text',
@@ -26,7 +21,6 @@ var w = sample('Обход виджетов', {
 	}
 	
 });
-
 
 // обходим все дочерние виджеты компонента buttons
 w.buttons.items.each(function(c){

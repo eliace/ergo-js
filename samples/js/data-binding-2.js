@@ -1,4 +1,3 @@
-
 var data = {
 	firstName: 'Иван',
 	middleName: 'Иванович',

@@ -1,4 +1,3 @@
-
 var w = sample('Обработчик события', {
 	etype: 'box',
 	
