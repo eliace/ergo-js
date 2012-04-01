@@ -1,4 +1,5 @@
 
+//= require <widgets/natives/list>
 
 Ergo.declare('Ergo.widgets.AccordionList', 'Ergo.widgets.List', {
 	
