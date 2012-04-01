@@ -6,11 +6,16 @@ var data = {
 	sex: 'м'
 }
 
+
+
+
+
+
 sample('Связывание с данными', {
 	// элементы располагаются вертикально
-	layout: 'vbox',
+	layout: 'view',
 	
-	cls: 'binding-list border-all',
+	cls: 'border-all panel-content',
 	// источником данных является объект data
 	data: data,
 	// видеж text по умолчанию преобразует связанные данные в innerText
@@ -19,14 +24,19 @@ sample('Связывание с данными', {
 	},
 	
 	items: [{
+		label: 'Имя',
 		dataId: 'firstName'
 	}, {
+		label: 'Отчество',
 		dataId: 'middleName'
 	}, {
+		label: 'Фамилия',
 		dataId: 'lastName'
 	}, {
+		label: 'Возраст',
 		dataId: 'age'
 	}, {
+		label: 'Пол',
 		dataId: 'sex'
 	}]
 	

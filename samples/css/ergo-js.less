@@ -1133,6 +1133,32 @@ html[xmlns] [layout='float'] {
   background:#c9c9c9;
 }
 
+/*
+
+.binding-list {
+  width:400px;
+  overflow:hidden;
+}
+*/
+
+[layout='view'] > p{
+  border-bottom:1px dotted #d1d1d1;
+   overflow:hidden;
+   padding:15px 0 0 0;
+}
+[layout='view'] > p > label{
+  font-weight:bold;
+  float:left;
+  
+}
+
+[layout='view'] > p > span{
+  font-weight:normal;
+  float:right;
+ 
+}
+
+
 // Groups
 .e-group  .e-button-item {
   -webkit-border-radius: 0;
@@ -1171,23 +1197,3 @@ html[xmlns] [layout='float'] {
 }
 
 //binding list 
-.binding-list {
-  width:400px;
-  overflow:hidden;
-}
-.binding-list p{
-  border-bottom:1px dotted #d1d1d1;
-   overflow:hidden;
-   padding:15px 0 0 0;
-}
-.binding-list span{
-  font-weight:bold;
-  float:left;
-  
-}
-
-.binding-list span + span{
-  font-weight:normal;
-  float:right;
- 
-}

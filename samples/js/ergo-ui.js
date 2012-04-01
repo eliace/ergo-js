@@ -45,6 +45,9 @@ var menuData = [{
 	}, {
 		title: 'Гриды',
 		name: ['grids']
+	}, {
+		title: 'Деревья',
+		name: ['trees', 'trees-2']
 	}]
 }, {
 	title: 'Компоновки',
@@ -370,7 +373,7 @@ $(document).ready(function(){
 									.then(function(script){
 										
 										var el = $('#sample').children().last();
-										$('pre.js', el).append(Ergo.escapeHtml(script));
+										$('pre.js', el).append(Ergo.escapeHtml(script).replace(/\t/g, '  '));
 										
 										on_load();
 										

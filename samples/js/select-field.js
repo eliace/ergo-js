@@ -6,6 +6,22 @@ sample('Поле выбора', {
 	
 	
 	items: [{
+    etype: 'box',
+    cls: 'e-list roman',
+		extensions: ['selectable'],
+		onSelect: function(e) {
+			this.selection.set(e.target);
+		},
+    content: {
+			etype: 'list',
+			defaultItem: {
+				onClick: function() {
+					this.events.bubble('select', {target: this});				
+				}
+			},
+			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']    	
+    }
+	}, {
 		label: 'Город',
 		etype: 'select-field',
 		extensions: ['selectable'],
