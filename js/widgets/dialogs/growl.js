@@ -79,7 +79,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		growl.el.css('display', 'none');
 		
 		
-		if(this.children.size() == 1) {
+		if(box == this.children.last()) {
 			growl.show();
 		}
 		else {

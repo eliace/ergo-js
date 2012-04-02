@@ -15,6 +15,9 @@ var menuData = [{
 	}, {
 		title: 'AJAX',
 		name: ['ajax']
+	}, {
+		title: 'Модели и коллекции',
+		name: ['data-model']
 	}]
 }, {
 	title: 'Виджеты',

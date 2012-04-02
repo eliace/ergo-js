@@ -38,7 +38,7 @@ $(document).ready(function(){
 				icon: icon,
 				message: Ergo.pretty_print(msg),
 				title: title
-			});
+			}, 0);
 		},
 		
 		

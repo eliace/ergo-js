@@ -108,8 +108,8 @@ var Ergo = (function(){
 		E.override(ctor.prototype, overrides);
 		
 		
-//		if(overrides.etype)
-//			Ergo.alias(overrides.etype, ctor);
+		if(overrides.etype)
+			Ergo.alias(overrides.etype, ctor);
 //			_etypes[overrides.etype] = ctor;
 		
 		// добавляем классу метод extend

@@ -71,7 +71,7 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Mod
 		var model = this.fields[i]
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
 		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
-		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
+		if($.isString(model)) model = eval(Ergo.alias('models:'+model) || model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 		return new model(this, i);
 	}
