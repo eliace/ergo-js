@@ -1,5 +1,3 @@
-
-
 sample('Гроулы', {
 	items: [{
 		etype: 'button-item',

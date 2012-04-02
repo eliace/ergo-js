@@ -1,11 +1,4 @@
-
-
-
-
-
 $(document).ready(function(){
-	
-	
 	var w = $.ergo({
 		etype: 'box',
 		renderTo: 'body',

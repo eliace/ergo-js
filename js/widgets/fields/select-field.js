@@ -32,7 +32,13 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Field', {
 		},
 		buttons: [{
 			iconCls: 'arrow-down'
-		}]
+		}],
+		
+		set: {
+			'text': function(v) {
+				this.content.content.text.opt('text', v);
+			}
+		}
 	},
 	
 	

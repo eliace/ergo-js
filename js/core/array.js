@@ -44,6 +44,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 		return i;
 	},
 	
+	
 	/**
 	 * Удалить элемент по индексу
 	 * @param {Object} i

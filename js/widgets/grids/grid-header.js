@@ -15,7 +15,7 @@ Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 		cls: 'e-grid-header',
 		
 		defaultItem: {
-			etype: 'grid-row'
+			etype: 'grid-header-row'
 		},
 		
 		columns: [],

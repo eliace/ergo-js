@@ -1,5 +1,3 @@
-
-
 sample('Списки', {
 	items: [{
 		etype: 'box',

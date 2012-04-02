@@ -1,4 +1,3 @@
-
 var data = {
 	firstName: 'Иван',
 	middleName: 'Иванович',
@@ -7,12 +6,11 @@ var data = {
 	sex: 'м'
 }
 
-
 sample('Настройка связывания', {
 	// элементы располагаются вертикально
-	layout: 'vbox',
+	layout: 'view',
 	
-	cls: 'binding-list border-all',
+	cls: 'border-all panel-content',
 	// источником данных является объект data
 	data: data,
 	// видеж text по умолчанию преобразует связанные данные в innerText
@@ -21,21 +19,25 @@ sample('Настройка связывания', {
 	},
 	
 	items: [{
+		label: 'ФИО',
 		format: '#{lastName} #{firstName} #{middleName}'
 	}, {
+		label: 'Возраст',
 		format: '#{age} года'
 	}, {
+		label: 'Отношение к воееной службе',
 		format: function(v){
 			return (v.sex == 'м' && v.age >=18 && v.age < 27) ? 'военнообязанный' : 'не военнообязанный';
 		}
 	}, {
+		label: 'Пол',
 		dataId: 'sex',
 		// перегружаем тип виджета, теперь здесь будет пиктограмма
 		etype: 'icon',
 		// при обновлении данных вызвается функция binding
 		binding: function(v) {
 			// при изменении данных добавляем класс пиктограммы
-			this.el.addClass((v == 'м') ? 'e-icon-men' : 'e-icon-women');
+			this.el.addClass((v == 'м') ? 'e-icon-man-sign' : 'e-icon-woman-sign');
 		}
 	}]
 	

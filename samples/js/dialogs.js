@@ -1,6 +1,3 @@
-
-
-
 sample('Окна и диалоги', {		
 	items: [{
 		etype: 'button-item',

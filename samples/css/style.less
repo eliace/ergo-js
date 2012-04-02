@@ -640,8 +640,8 @@ body {
 }
 .e-panel {
   background:@e-panel-bg;
-/*  width:750px - @common-padding;*/
-   -webkit-border-radius: @e-panel-radius;
+ /*width:750px - @common-padding;*/
+  -webkit-border-radius: @e-panel-radius;
   -moz-border-radius: @e-panel-radius;
   border-radius: @e-panel-radius;
    
@@ -650,7 +650,7 @@ body {
   padding: @common-padding;
 }
 
-
+//Navigation
 ul.ergo_navigation {
   border-top:1px solid #222;
   border-bottom:1px solid #333;
@@ -664,7 +664,10 @@ ul.ergo_navigation > li {
   border-bottom:1px solid #222;
   padding:10px 10px 10px 40px;
   background: url(images/nav_arrow.png) 10px 10px no-repeat;
+}
 
+ul.ergo_navigation > li.expanded {
+  background: url(images/nav_arrow_top.png) 10px 10px no-repeat;
 }
 
 ul.ergo_navigation > li a{

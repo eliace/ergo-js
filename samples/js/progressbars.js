@@ -1,5 +1,3 @@
-
-
 $.ergo({
 	renderTo: '#sample',
 	etype: 'sample-panel',
