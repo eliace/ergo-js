@@ -7,12 +7,15 @@ Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.Box', {
 		cls: 'e-radio-item',
 		layout: 'hbox',
 		components: {
-			radio: {
+			left: {
 				etype: 'radio-box'
 			},
 			content: {
 				autoBind: false
 			}
+			// right: {
+				// etype: 'radio-box'
+			// }
 		},
 		set: {
 			'text': function(v) {

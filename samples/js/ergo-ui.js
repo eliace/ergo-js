@@ -198,7 +198,7 @@ $(document).ready(function(){
 				icon: msg_icon,
 				message: msg,
 				title: msg_title
-			});
+			}, 0);
 		},
 		
 		

@@ -159,7 +159,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				// if(w && w._weight < weight) before_a.push(elem);
 			// });
 
-			if(before_el)
+			if(before_el.length > 0)
 				before_el.after( item_el );
 			else
 				el.prepend( item_el );
