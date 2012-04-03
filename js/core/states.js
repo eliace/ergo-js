@@ -4,6 +4,132 @@
 
 
 
+Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
+	
+	
+	initialize: function(widget) {
+		this._widget = widget;
+		this._current = {};
+		this._states = {};
+	},
+	
+	
+	reg: function(name, value) {
+		
+		var s = name.replace(/\s/g, '');
+		this._states[s] = value;
+		
+	},
+	
+	
+	set: function(to) {
+		
+		var from = [];
+		
+		for(var i in this._current) {
+			var s = i+'>'+to;
+			if(s in this._states) {
+				this._states[s].call(this._widget);
+				from.push(i);
+			}
+//			else if
+		}
+		
+		if(from.length == 0) {
+			if(to in this._states)
+				this._states[to].call(this._widget, true);
+			else if('>'+to in this._states)
+				this._states['>'+to].call(this._widget);				
+		}
+		
+
+		for(var i = 0; i < from.length; i++) {
+			delete this._current[from[i]];			
+		}
+		
+
+		this._current[to] = from;
+		
+	},
+	
+	
+	
+	
+	
+	clear: function(from) {
+		
+		var to = this._current[from];
+		
+		for(var i in to) {
+			var s = from+'>'+to[i];
+//			var s2 = i+'>'+from;
+			if(s in this._states) {
+				this._states[s].call(this._widget, true);
+			}
+			// else if(s2 in this._states) {
+				// this._states[s].call(this._widget, false);
+			// }
+		}
+		
+		if(to.length == 0) {
+			if(from in this._states)
+				this._states[from].call(this._widget, false);
+			else if(from+'>' in this._states)
+				this._states[from+'>'].call(this._widget, true);				
+		}
+
+
+		for(var i = 0; i < to.length; i++) {
+			this._current[to[i]] = [from];			
+		}
+		
+		
+/*		
+		var to = [];
+				
+		for(var i in this._current) {
+			var s = name+'>'+i;
+			if(s in this._states) {
+				this._states[s].call(this._widget);
+				to.push(i);
+			}
+		}
+		
+		if(to.length == 0) {
+			if(from in this._states)
+				this._states[from].call(this._widget, false);
+			else if(from+'>' in this._states)
+				this._states[from+'>'].call(this._widget);				
+		}
+		
+
+		for(var i = 0; i < to.length; i++) {
+			this._current[to[i]] = [from];			
+		}
+*/		
+		
+		delete this._current[from];
+		
+	},
+	
+	
+	toggle: function(name) {
+		if(name in this._current)	this.clear(name);
+		else this.set(name);
+	}
+	
+	
+	
+	
+	
+	
+});
+
+
+
+
+
+
 
 /**
  * @class
@@ -35,7 +161,7 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 		if(name instanceof RegExp) {
 			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
 			for(var i in names) this.set(i);
-			return this;			
+			return this;
 		}
 		
 		
