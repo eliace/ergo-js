@@ -11,7 +11,7 @@ sample('Форматирование', {
 	// элементы располагаются вертикально
 	layout: 'view',
 	
-	cls: 'border-all panel-content',
+	cls: 'panel-content',
 	// источником данных является объект data
 	data: data,
 	// видеж text по умолчанию преобразует связанные данные в innerText

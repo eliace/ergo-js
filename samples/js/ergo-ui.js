@@ -57,6 +57,9 @@ var menuData = [{
 	children: [{
 		title: 'Форма',
 		name: ['form']
+	}, {
+		title: 'Пользовательская',
+		name: ['custom-layout']
 	}]
 }, {
 	title: 'Wiki'
@@ -167,10 +170,10 @@ function sample(title, o) {
 			// кнопки
 			etype: 'sample-panel',
 			title: title,
-			stackItems: [o, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
+			stackItems: [{content: o}, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
 		});
 		
-		return panel.content.content.item(0);
+		return panel.content.content.item(0).content;
 		
 	}
 	catch(e) {
@@ -210,8 +213,7 @@ $(document).ready(function(){
 			var n = 0;
 			var on_load = function() {
 				if(++n == sample_a.length) {
-					$.when( $('#sample').fadeIn(100) ).then(function(){
-					});
+					$('#sample').fadeIn(100);
 					$('#sample').children().each(function(i, e){
 						var w = $(e).ergo();
 //										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
