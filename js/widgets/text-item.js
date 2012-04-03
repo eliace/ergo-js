@@ -34,12 +34,12 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 			},
 			'icon': function(v) {
 				var o = this.options;
-				this.icon.states.setOnly(o.icon);
+				this.icon.states.only(o.icon);
 				this.icon.states.toggle('hidden', !o.icon);				
 			},
 			'xicon': function(v) {
 				var o = this.options;
-				this.xicon.states.setOnly(o.xicon);
+				this.xicon.states.only(o.xicon);
 				this.xicon.states.toggle('hidden', !o.xicon);				
 			}
 		},

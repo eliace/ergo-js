@@ -51,7 +51,7 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
       ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Ergo.remove_from_array(this.selection_a, w);
     }
     else {
-      Ergo.each(this.selection_a, function(item){ item.states.clear('selected'); });
+      Ergo.each(this.selection_a, function(item){ item.states.unset('selected'); });
       w.states.set('selected');
       this.selection_a = [w];                  
     }
@@ -61,7 +61,7 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 	},
 	
 	clear: function() {
-		Ergo.each(this.selection_a, function(item){ item.states.clear('selected'); });
+		Ergo.each(this.selection_a, function(item){ item.states.unset('selected'); });
 		this.selection_a = [];
 		this.widget.events.fire('selectionChanged');
 	},

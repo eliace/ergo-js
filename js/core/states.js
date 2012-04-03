@@ -38,16 +38,21 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	set: function(to) {
 		
 		var transitions = this._transitions;
-		var states = this._widget.options.states;
+		var states = this._states;//this._widget.options.states;
 		
 		var from = [];
 		
 		// 1.
+		var def = null;
+		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
 			if(t.to == to && t.from in this._current) {
 				t.action.call(this._widget);
 				from.push(t.from);
+			}
+			else if(t.to == to && !t.from){
+				def = t;
 			}
 		} 
 		// for(var i in this._current) {
@@ -56,6 +61,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				// from.push(i);
 			// }
 		// }
+		
+		if(from.length == 0 && def)
+			def.action.call(this._widget);
 		
 
 		// 2. 
@@ -75,7 +83,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	state_on: function(s) {
 		
-		var states = this._widget.options.states;
+		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
 			var val = states[s];
@@ -93,7 +101,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	state_off: function(s) {
 
-		var states = this._widget.options.states;
+		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
 			var val = states[s];
@@ -114,22 +122,31 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		
 		var transitions = this._transitions;
-		var states = this._widget.options.states;
+		var states = this._states; //this._widget.options.states;
 		
 		var to = [];
 		
 		// 1. 
+		var def = null;
+		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
-			if(t.from == from) {
+			if(t.from == from && t.to) {
 				t.action.call(this._widget);
 				to.push(t.to);
+			}
+			else if(t.from == from && !t.to) {
+				def = t;
 			}
 		}
 		// for(var i in transitions[from]) {
 			// transitions[from][i].call(this._widget);
 			// to.push(i);
 		// }
+		
+		if(to.length == 0 && def)
+			def.action.call(this._widget);
+		
 		
 		// 2. 
 		for(var i = 0; i < to.length; i++) {
@@ -146,9 +163,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 	
 	
-	toggle: function(name) {
-		if(name in this._current)	this.unset(name);
-		else this.set(name);
+	toggle: function(name, sw) {
+		
+		if(arguments.length == 1) sw = !this.is(name);
+		
+		sw ? this.set(name) : this.unset(name);
+
 		return this;
 	},
 	
@@ -390,7 +410,7 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 
 
 Ergo.Statable = function() {
-	this.states = new Ergo.core.StateCollection(this);
+	this.states = new Ergo.core.StateManager(this);
 }
 
 

@@ -61,7 +61,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			if( $.isString(layout) )
 				layout = Ergo.object({etype: 'layouts:'+layout});
 			else if(!(layout instanceof Ergo.core.Layout))
-				layout = Ergo.object(Ergo.override({etype: 'default-layout'}, layout));
+				layout = Ergo.object(Ergo.override({etype: 'layouts:default'}, layout));
 			return layout;	
 		},
 		events: {},
@@ -333,12 +333,28 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 						
 		if('states' in o){
+			for(var i in o.states)
+				this.states.state(i, o.states[i]);
 			// настраиваем особое поведение состояния hover
 			if('hover' in o.states){
-				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.clear('hover') });
+				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
 			}
 		}
 		
+		if('transitions' in o) {
+			for(var i in o.transitions) {
+				var t = o.transitions[i];
+				if($.isPlainObject(t)) {
+					//TODO
+				}
+				else {
+					var a = i.split('>');
+					if(a.length == 1) a.push('');
+					this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
+				}
+			}
+		}
+//				this.states.state(i, o.states[i]);
 		
 		
 		// var wrap_func = function(handler, e, type) {

@@ -10,7 +10,7 @@ test('core/states', function(){
 	
 	
 	
-	
+/*	
 	var fn = Ergo.on('red', 'grey').off('blue', 'white');
 	
 	
@@ -34,16 +34,16 @@ test('core/states', function(){
 	ok(!w.states.is('red') && w.states.is('blue'), 'Переключение композитного состояния');
 	ok(!w.states.is('active'), 'Очищено состояние active');
 
+*/	
 	
 	
-	
-	var sm = new Ergo.core.StateManager( new Ergo.core.Widget({
+	var sm = new Ergo.core.Widget({
 		html: '<div/>',
 		states: {
 			'expanded': function(){ a.push('open'); },
 			'collapsed': function() { a.push('close'); }
 		}
-	}) );
+	}).states;
 	
 	var a = [];
 	

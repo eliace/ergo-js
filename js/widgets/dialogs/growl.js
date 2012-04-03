@@ -143,7 +143,7 @@ Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 			}
 		},
 		set: {
-			'icon': function(v) { this.content.icon.states.setOnly(v); },
+			'icon': function(v) { this.content.icon.states.only(v); },
 			'message': function(v) { this.content.content.message.opt('text', v); },
 			'title': function(v) { this.content.content.title.opt('text', v); }
 		}

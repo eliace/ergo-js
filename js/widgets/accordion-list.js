@@ -11,7 +11,7 @@ Ergo.declare('Ergo.widgets.AccordionList', 'Ergo.widgets.List', {
 					onClick: function() {
 						var p = this.parent;
 						p.parent.children.each(function(c){
-							if(c != p) c.states.clear('expanded');
+							if(c != p) c.states.unset('expanded');
 						});
 						p.states.toggle('expanded');
 					}
@@ -27,11 +27,15 @@ Ergo.declare('Ergo.widgets.AccordionList', 'Ergo.widgets.List', {
 					}
 				}
 			},
-			states: {
-				'expanded': function(on) {
-					(on) ? this.sublist.show() : this.sublist.hide();
-				}
+			transitions: {
+				'> expanded': function() { this.sublist.show(); },
+				'expanded >': function() { this.sublist.hide(); }
 			},
+			// states: {
+				// 'expanded': function(on) {
+					// (on) ? this.sublist.show() : this.sublist.hide();
+				// }
+			// },
 			set: {
 				'text': function(v) {this.content.opt('text', v);}
 			}
