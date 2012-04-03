@@ -1,3 +1,4 @@
+
 var w = sample('Обход виджетов', {
 	etype: 'box',
 	layout: 'vbox',
