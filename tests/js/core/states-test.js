@@ -38,6 +38,7 @@ test('core/states', function(){
 	
 	
 	var sm = new Ergo.core.StateManager( new Ergo.core.Widget({
+		html: '<div/>',
 		states: {
 			'expanded': function(){ a.push('open'); },
 			'collapsed': function() { a.push('close'); }
@@ -91,6 +92,22 @@ test('core/states', function(){
 	same(a, ['open']);
 	sm.toggle('expanded');
 	same(a, ['open', 'slideUp', 'close']);
+	
+	
+	sm.set('red');
+	ok(sm._widget.el.hasClass('red'));
+	sm.unset('red');
+	ok(!sm._widget.el.hasClass('red'));
+	
+	
+
+//	sm.transition(/e-icon-.*/, /e-icon-.*/, function() { a.push('changed'); });
+	
+	sm.only('e-icon-plus');
+	ok(sm._widget.el.hasClass('e-icon-plus'));
+	sm.only('e-icon-minus');
+	ok(!sm._widget.el.hasClass('e-icon-plus'));
+	ok(sm._widget.el.hasClass('e-icon-minus'));
 	
 	
 	

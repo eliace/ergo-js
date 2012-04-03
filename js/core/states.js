@@ -11,7 +11,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		this._widget = widget;
 		this._current = {};
 		this._states = {};
-		this._transitions = {};
+		this._transitions = [];
 	},
 	
 	
@@ -19,9 +19,19 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		var t = this._transitions;
 //		var s = name.replace(/\s/g, '');
-		if(!t[from]) t[from] = {};
-		t[from][to] = value;
+//		if(!t[from]) t[from] = {};
+//		t[from][to] = value;
+		t.push({
+			from: from,
+			to: to,
+			action: value
+		});
 		
+	},
+	
+	
+	state: function(name, value) {
+		this._states[name] = value;
 	},
 	
 	
@@ -32,36 +42,68 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		var from = [];
 		
-		// 1. 
-		for(var i in this._current) {
-//			var s = i+'>'+to;
-			if(i in transitions && to in transitions[i]) {
-				transitions[i][to].call(this._widget);
-				from.push(i);
+		// 1.
+		for(var i = 0; i < transitions.length; i++) {
+			var t = transitions[i];
+			if(t.to == to && t.from in this._current) {
+				t.action.call(this._widget);
+				from.push(t.from);
 			}
-		}
+		} 
+		// for(var i in this._current) {
+			// if(i in transitions && to in transitions[i]) {
+				// transitions[i][to].call(this._widget);
+				// from.push(i);
+			// }
+		// }
 		
-/*		
-		if(from.length == 0) {
-			if(to in this._states)
-				this._states[to].call(this._widget, true);
-			else if('>'+to in this._states)
-				this._states['>'+to].call(this._widget);				
-		}
-*/		
 
 		// 2. 
 		for(var i = 0; i < from.length; i++) {
 			delete this._current[from[i]];			
 		}
 
-		// 3.
-		if(to in states) states[to].call(this._widget);
+		// 3.		
+		this.state_on(to);
 		
-
 		this._current[to] = from;
 		
 		return this;
+	},
+	
+	
+	
+	state_on: function(s) {
+		
+		var states = this._widget.options.states;
+		
+		if(s in states) {
+			var val = states[s];
+			if($.isString(val))
+				this._widget.el.addClass(val);
+			else
+				val.call(this._widget);
+		}
+		else {
+			this._widget.el.addClass(s);
+		}
+		
+	},
+	
+	
+	state_off: function(s) {
+
+		var states = this._widget.options.states;
+		
+		if(s in states) {
+			var val = states[s];
+			if($.isString(val))
+				this._widget.el.removeClass(val);
+		}
+		else {
+			this._widget.el.removeClass(s);
+		}		
+		
 	},
 	
 	
@@ -77,50 +119,28 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		var to = [];
 		
 		// 1. 
-		for(var i in transitions[from]) {
-			transitions[from][i].call(this._widget);
-			to.push(i);
-		}
-		
-		
-/*		
-		var to = this._current[from];
-		
-		if(!to) return this;
-		
-		for(var i in to) {
-			var s = from+'>'+to[i];
-//			var s2 = i+'>'+from;
-			if(s in this._states) {
-				this._states[s].call(this._widget, true);
+		for(var i = 0; i < transitions.length; i++) {
+			var t = transitions[i];
+			if(t.from == from) {
+				t.action.call(this._widget);
+				to.push(t.to);
 			}
-			// else if(s2 in this._states) {
-				// this._states[s].call(this._widget, false);
-			// }
 		}
+		// for(var i in transitions[from]) {
+			// transitions[from][i].call(this._widget);
+			// to.push(i);
+		// }
 		
-		if(to.length == 0) {
-			if(from in this._states)
-				this._states[from].call(this._widget, false);
-			else if(from+'>' in this._states)
-				this._states[from+'>'].call(this._widget, true);				
-		}
-
-
-		for(var i = 0; i < to.length; i++) {
-			this._current[to[i]] = [from];			
-		}
-*/		
-
 		// 2. 
 		for(var i = 0; i < to.length; i++) {
 			this._current[to[i]] = [from];
 			if(to[i] in states) states[to[i]].call(this._widget);
 		}
 
+		// 3.
+		this.state_off(from);
 		
-		delete this._current[from];
-		
+		delete this._current[from];		
 		
 		return this;
 	},
@@ -129,11 +149,19 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	toggle: function(name) {
 		if(name in this._current)	this.unset(name);
 		else this.set(name);
+		return this;
 	},
 	
+	only: function(name) {
+		for(var i in this._current) this.unset(i);
+		this.set(name);	
+		
+		return this;		
+	},	
 	
 	clear: function() {
 		this._current = {};
+		return this;
 	},
 	
 	is: function(name) {
