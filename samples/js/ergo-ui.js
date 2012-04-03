@@ -1,3 +1,7 @@
+
+Ergo.LOREMIPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel faucibus mi. In nulla dui, faucibus ac vehicula quis, tempor mollis velit. Quisque ornare erat diam. Morbi at iaculis sapien. Maecenas scelerisque aliquet sollicitudin. In leo sapien, mattis et posuere id, euismod in augue. Nam ac magna sit amet orci suscipit varius non ac nulla. Morbi adipiscing, urna ut pellentesque mattis, leo leo condimentum lacus, vitae imperdiet est lorem in purus. Integer interdum bibendum nisl eget dapibus. Mauris sed tortor eu tortor porta venenatis ac sit amet risus."
+
+
 var menuData = [{
 	title: 'Ядро',
 	children: [{
@@ -64,6 +68,11 @@ var menuData = [{
 }, {
 	title: 'Wiki'
 }];
+
+
+
+
+
 
 
 
@@ -154,14 +163,16 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 
 
 
-Ergo.LOREMIPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel faucibus mi. In nulla dui, faucibus ac vehicula quis, tempor mollis velit. Quisque ornare erat diam. Morbi at iaculis sapien. Maecenas scelerisque aliquet sollicitudin. In leo sapien, mattis et posuere id, euismod in augue. Nam ac magna sit amet orci suscipit varius non ac nulla. Morbi adipiscing, urna ut pellentesque mattis, leo leo condimentum lacus, vitae imperdiet est lorem in purus. Integer interdum bibendum nisl eget dapibus. Mauris sed tortor eu tortor porta venenatis ac sit amet risus."
 
 
 
 
 
-
-
+/**
+ * 
+ * Инициализация примера
+ * 
+ */
 function sample(title, o) {
 	
 	try{
@@ -187,6 +198,53 @@ function sample(title, o) {
 
 
 
+/**
+ * 
+ * Загрузка примера
+ * 
+ */
+function load_sample(sample_a) {
+	
+	$('#sample').fadeOut(100, function(){
+		$('#sample').empty();
+		
+		
+		var n = 0;
+		var on_load = function() {
+			if(++n == sample_a.length) {
+				$.when( $('#sample').fadeIn(100) ).then(function(){
+				});
+				$('#sample').children().each(function(i, e){
+					var w = $(e).ergo();
+//										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
+					w.$layoutChanged();
+				});										
+				sh_highlightDocument();
+			}
+		};
+		
+		var load_script = function(script_name) {
+			return $.getScript('js/'+script_name+'.js')
+				.then(function(script){
+					
+					var el = $('#sample').children().last();
+					$('pre.js', el).append(Ergo.escapeHtml(script).replace(/\t/g, '  '));
+					
+					on_load();
+											
+				});
+		};
+		
+		for(var k in sample_a)
+			load_script(sample_a[k]);
+	});
+	
+};
+
+
+
+
+
 
 
 $(document).ready(function(){
@@ -199,47 +257,6 @@ $(document).ready(function(){
 	
 	
 	
-	/**
-	 * 
-	 * Загрузка примера
-	 * 
-	 */
-	var load_sample = function(sample_a) {
-		
-		$('#sample').fadeOut(100, function(){
-			$('#sample').empty();
-			
-			
-			var n = 0;
-			var on_load = function() {
-				if(++n == sample_a.length) {
-					$('#sample').fadeIn(100);
-					$('#sample').children().each(function(i, e){
-						var w = $(e).ergo();
-//										w.content.content.item(1).el.height(w.content.content.item(0).el.height());
-						w.$layoutChanged();
-					});										
-					sh_highlightDocument();
-				}
-			};
-			
-			var load_script = function(script_name) {
-				return $.getScript('js/'+script_name+'.js')
-					.then(function(script){
-						
-						var el = $('#sample').children().last();
-						$('pre.js', el).append(Ergo.escapeHtml(script).replace(/\t/g, '  '));
-						
-						on_load();
-												
-					});
-			};
-			
-			for(var k in sample_a)
-				load_script(sample_a[k]);
-		});
-		
-	};
 	
 	
 	
