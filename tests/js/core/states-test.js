@@ -37,81 +37,63 @@ test('core/states', function(){
 	
 	
 	
-	var sm = new Ergo.core.StateManager( new Ergo.core.Widget() );
+	var sm = new Ergo.core.StateManager( new Ergo.core.Widget({
+		states: {
+			'expanded': function(){ a.push('open'); },
+			'collapsed': function() { a.push('close'); }
+		}
+	}) );
 	
 	var a = [];
 	
-	sm.reg('> expanded', function(){	a.push('open'); });
-	sm.reg('> collapsed', function(){	a.push(''); });
-	sm.reg('expanded >', function(){	a.push('close'); });
-	sm.reg('collapsed >', function(){	a.push(''); });
-	sm.reg('expanded > collapsed', function(){	a.push('close'); });
-	sm.reg('collapsed > expanded', function(){	a.push('open'); });
-		
-	sm.set('expanded'); // * > expanded
-	same(sm._current, {'expanded': []});
-	same(a, ['open'])
-	
-	sm.set('collapsed'); // expanded > collapsed
-	same(sm._current, {'collapsed': ['expanded']});
+	sm.unset('collapsed').set('expanded');
+	same(a, ['open']);
+	sm.unset('expanded').set('collapsed');
 	same(a, ['open', 'close']);
-
-
-
-	sm = new Ergo.core.StateManager( new Ergo.core.Widget() );
-	
-	a = [];
-	
-	sm.reg('expanded', function(){	a.push('open'); });
-	sm.reg('collapsed', function(){	a.push('close'); });
-	sm.reg('expanded > collapsed', function(){ a.push('close'); });
-	sm.reg('collapsed > expanded', function(){	a.push('open'); });
-		
-	sm.set('expanded'); // * > expanded
-	same(sm._current, {'expanded': []});
-	same(a, ['open'])
-	
-	sm.set('collapsed'); // expanded > collapsed
-	same(sm._current, {'collapsed': ['expanded']});
-	same(a, ['open', 'close']);
-
-	sm.clear('collapsed');
-	same(sm._current, {'expanded': ['collapsed']});
+	sm.unset('collapsed').set('expanded');
 	same(a, ['open', 'close', 'open']);
 	
 	a = [];
+	sm.clear();
 	
-	sm.set('expanded'); // * > expanded
-	same(sm._current, {'expanded': []});
-	same(a, ['open'])
+	sm.toggle('expanded');
+	same(a, ['open']);
+	sm.toggle('expanded');
+	same(a, ['open']);
+	sm.toggle('expanded');
+	same(a, ['open', 'open']);
 	
-	sm.set('collapsed'); // expanded > collapsed
-	same(sm._current, {'collapsed': ['expanded']});
-	same(a, ['open', 'close']);
 	
-	sm.toggle('collapsed');
-	same(sm._current, {'expanded': ['collapsed']});
-	same(a, ['open', 'close', 'open']);
-	
-	sm.toggle('collapsed');
-	same(a, ['open', 'close', 'open', 'close']);
-
-
-
 	a = [];
+	sm.clear();
 	
-	sm = new Ergo.core.StateManager( new Ergo.core.Widget() );
+	sm.transition('expanded', 'collapsed', function() { a.push('slideUp'); });
+	sm.transition('collapsed', 'expanded', function() { a.push('slideDown'); });
 	
-	sm.reg('expanded', function(){	a.push('open'); });
-	sm.reg('collapsed', function(){	a.push('close'); });
-	sm.reg('expanded > collapsed', function(on){ if(on) {a.push('close')} else {a.push('open');} });
-
+	
+	sm.set('expanded');
+	same(a, ['open']);
+	sm.set('collapsed');
+	same(a, ['open', 'slideUp', 'close']);
+	sm.set('expanded');
+	same(a, ['open', 'slideUp', 'close', 'slideDown', 'open']);
+	
+	a = [];
+	sm.unset('expanded');
+	same(a, ['slideUp', 'close']);
+	ok(sm.is('collapsed'));
+	
+	
+	a = [];
+	sm.clear();
+	
 	sm.toggle('expanded');
-	same(sm._current, {'expanded': ['']});
+	same(a, ['open']);
 	sm.toggle('expanded');
-	same(sm._current, {'collapsed': ['expanded']});
-	sm.toggle('expanded');
-	same(sm._current, {'expanded': ['collapsed']});
-
+	same(a, ['open', 'slideUp', 'close']);
+	
+	
+	
+	
 	
 });

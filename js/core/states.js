@@ -11,54 +11,82 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		this._widget = widget;
 		this._current = {};
 		this._states = {};
+		this._transitions = {};
 	},
 	
 	
-	reg: function(name, value) {
+	transition: function(from, to, value) {
 		
-		var s = name.replace(/\s/g, '');
-		this._states[s] = value;
+		var t = this._transitions;
+//		var s = name.replace(/\s/g, '');
+		if(!t[from]) t[from] = {};
+		t[from][to] = value;
 		
 	},
 	
 	
 	set: function(to) {
 		
+		var transitions = this._transitions;
+		var states = this._widget.options.states;
+		
 		var from = [];
 		
+		// 1. 
 		for(var i in this._current) {
-			var s = i+'>'+to;
-			if(s in this._states) {
-				this._states[s].call(this._widget);
+//			var s = i+'>'+to;
+			if(i in transitions && to in transitions[i]) {
+				transitions[i][to].call(this._widget);
 				from.push(i);
 			}
-//			else if
 		}
 		
+/*		
 		if(from.length == 0) {
 			if(to in this._states)
 				this._states[to].call(this._widget, true);
 			else if('>'+to in this._states)
 				this._states['>'+to].call(this._widget);				
 		}
-		
+*/		
 
+		// 2. 
 		for(var i = 0; i < from.length; i++) {
 			delete this._current[from[i]];			
 		}
+
+		// 3.
+		if(to in states) states[to].call(this._widget);
 		
 
 		this._current[to] = from;
 		
+		return this;
 	},
 	
 	
 	
 	
 	
-	clear: function(from) {
+	unset: function(from) {
 		
+		
+		var transitions = this._transitions;
+		var states = this._widget.options.states;
+		
+		var to = [];
+		
+		// 1. 
+		for(var i in transitions[from]) {
+			transitions[from][i].call(this._widget);
+			to.push(i);
+		}
+		
+		
+/*		
 		var to = this._current[from];
+		
+		if(!to) return this;
 		
 		for(var i in to) {
 			var s = from+'>'+to[i];
@@ -82,44 +110,35 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		for(var i = 0; i < to.length; i++) {
 			this._current[to[i]] = [from];			
 		}
-		
-		
-/*		
-		var to = [];
-				
-		for(var i in this._current) {
-			var s = name+'>'+i;
-			if(s in this._states) {
-				this._states[s].call(this._widget);
-				to.push(i);
-			}
-		}
-		
-		if(to.length == 0) {
-			if(from in this._states)
-				this._states[from].call(this._widget, false);
-			else if(from+'>' in this._states)
-				this._states[from+'>'].call(this._widget);				
-		}
-		
-
-		for(var i = 0; i < to.length; i++) {
-			this._current[to[i]] = [from];			
-		}
 */		
+
+		// 2. 
+		for(var i = 0; i < to.length; i++) {
+			this._current[to[i]] = [from];
+			if(to[i] in states) states[to[i]].call(this._widget);
+		}
+
 		
 		delete this._current[from];
 		
+		
+		return this;
 	},
 	
 	
 	toggle: function(name) {
-		if(name in this._current)	this.clear(name);
+		if(name in this._current)	this.unset(name);
 		else this.set(name);
+	},
+	
+	
+	clear: function() {
+		this._current = {};
+	},
+	
+	is: function(name) {
+		return (name in this._current);
 	}
-	
-	
-	
 	
 	
 	
