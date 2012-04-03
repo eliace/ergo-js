@@ -45,6 +45,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 			extensions: ['effects'],
 			effects: {
 				hide: 'slideUp',
+				show: 'slideDown',
 				delay: 300
 			},
 			content: {
@@ -55,8 +56,8 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		timeout: 6000
 	},
 	
-	
-	addGrowl: function(item) {
+/*	
+	addGrowl: function(item, i) {
 		
 		var box = this.items.add({
 			content: item,
@@ -68,7 +69,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 					});
 				
 			}
-		});
+		}, i);
 		
 		var growl = box.content;
 		
@@ -86,7 +87,52 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 				});
 		}, growl.options.timeout || this.options.timeout);
 		
+	},
+*/	
+	
+	addGrowl: function(item, i) {
+		
+		var box = this.items.add({
+			content: item,
+			onClick: function(){
+				growl
+					.hide() // скрываем гроул
+					.then(function(){ // затем скрываем контейнер
+						box.hide();
+					});
+				
+			}
+		}, i);
+		
+		var growl = box.content;
+		
+		growl.el.css('display', '');
+		box.el.height(box.el.height());
+		growl.el.css('display', 'none');
+		
+		
+		if(this.items.size() == 1) {
+			growl.show();
+		}
+		else {
+			box.el.css('display', 'none');
+			box.show().then(function(){ growl.show();	});			
+		}
+		
+		
+		// устанавливаем время жизни гроула
+		setTimeout(function(){
+			growl
+				.hide() // скрываем гроул
+				.then(function(){ // затем скрываем контейнер
+					box.hide();
+				});
+		}, growl.options.timeout || this.options.timeout);
+		
+		
+		
 	}
+	
 	
 	
 	

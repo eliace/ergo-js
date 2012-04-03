@@ -61,7 +61,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			if( $.isString(layout) )
 				layout = Ergo.object({etype: layout+'-layout'});
 			else if(!(layout instanceof Ergo.core.Layout))
-				layout = Ergo.object(layout);
+				layout = Ergo.object(Ergo.override({etype: 'default-layout'}, layout));
 			return layout;	
 		},
 		events: {},
