@@ -226,9 +226,6 @@ test('core/widget', function(){
 	
 	
 	
-	console.log('-----------------');
-	
-	
 	a = [];
 	
 	w = new Ergo.core.Widget({
@@ -252,6 +249,18 @@ test('core/widget', function(){
 	
 	
 	
+	
+	w = new Ergo.core.Widget();
+	
+	w.children.add({etype: 'widget'});
+	w.children.add({etype: 'widget'});
+	w.children.add({etype: 'widget'});
+	
+	equals(3, w.children.size());
+	
+	w.children.last().destroy();
+	
+	equals(2, w.children.size());
 	
 	
 });

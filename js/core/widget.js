@@ -197,6 +197,29 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	},
 	
 	
+	
+	
+	destroy: function() {
+
+		
+		// удаляем элемент и все его содержимое (data + event handlers) из документа
+		if(this.parent) this.parent.children.remove(this);
+		
+		if(this.el) this.el.remove();
+		// очищаем регистрацию обработчиков событий
+		this.events.unreg_all();
+		// очищаем компоновку
+		this.layout.clear();		
+		
+		// вызываем метод destroy для всех дочерних компонентов
+		this.children.apply_all('destroy');
+		
+//		if(this.options.debug)	console.log('destroyed');
+	},
+	
+	
+	
+	
 	/**
 	 * Хук, вызываемый для инициализации виджета.
 	 * 
@@ -348,22 +371,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //		if(this.options.ui == 'jquery_ui') this._theme_jquery_ui
 //	}
 	
-	destroy: function() {
-
-		
-		// удаляем элемент и все его содержимое (data + event handlers) из документа
-//		if(this.parent) this.parent.layout.remove(this);
-		if(this.el) this.el.remove();
-		// очищаем регистрацию обработчиков событий
-		this.events.unreg_all();
-		// очищаем компоновку
-		this.layout.clear();		
-		
-		// вызываем метод destroy для всех дочерних компонентов
-		this.children.apply_all('destroy');
-		
-//		if(this.options.debug)	console.log('destroyed');
-	},
 	
 	
 	

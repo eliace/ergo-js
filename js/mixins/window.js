@@ -197,7 +197,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 */		
 		
 		
-		resizeByContent: function(width, height) {
+		resizeContent: function(width, height) {
 
 			var wnd = self.el;
 			

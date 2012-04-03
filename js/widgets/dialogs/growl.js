@@ -66,7 +66,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 				growl
 					.hide() // скрываем гроул
 					.then(function(){ // затем скрываем контейнер
-						box.hide();
+						box.hide().then(function(){ box.destroy(); });
 					});
 				
 			}
@@ -93,7 +93,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 			growl
 				.hide() // скрываем гроул
 				.then(function(){ // затем скрываем контейнер
-					box.hide();
+					box.hide().then(function(){ box.destroy(); });
 				});
 		}, growl.options.timeout || this.options.timeout);
 		

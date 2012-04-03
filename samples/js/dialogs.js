@@ -1,5 +1,38 @@
-sample('Окна и диалоги', {		
-	items: [{
+
+
+Ergo.declare('Sample.widgets.BaseWindow', 'Ergo.widgets.Panel', {
+	
+	defaults: {
+		etype: 'panel',
+		mixins: ['window', 'effects'],
+		effects: {
+			show: 'fadeIn',
+			hide: 'fadeOut',
+			delay: 300
+		},
+		closeOnOuterClick: true,
+		destroyOnClose: true,
+		title: 'Окно',
+		content: {
+			style: {'position': 'relative'}
+		}
+	}
+	
+	
+}, 'base-window');
+
+
+
+
+sample('Окна и диалоги', {
+	
+	layout: 'vbox',
+	
+	defaultItem: {
+		style: {'margin-bottom': 10}
+	},
+	
+	items: [/*{
 		etype: 'button-item',
 		text: 'Открыть окно',
 		onClick: function() {
@@ -22,17 +55,6 @@ sample('Окна и диалоги', {
 		onClick: function() {
 			
 			
-			/*
-			 * Варианты обновления окна:
-			 *  1. известны размеры окна (внешняя граница)
-			 *  2. известны размеры содержимого окна (размеры компонента content)
-			 *  3. не известны размеры ни окна, ни содержимого
-			 * 
-			 * Содержимое может отображаться в окне во время мастабирования, а
-			 * может добавляться после 
-			 *
-			 */ 
-				
 			var dlg = $.ergo({
 				etype: 'dialog',
 //							width: '50%',
@@ -59,6 +81,114 @@ sample('Окна и диалоги', {
 			}, 1000);
 			
 		}
+	}, */ {
+		etype: 'button-item',
+		text: 'Окно: [50%, null], контент: null',
+		onClick: function() {
+			
+			var wnd = $.ergo({
+				etype: 'base-window',
+				width: '50%',
+				content: {
+					text: Ergo.LOREMIPSUM
+				}				
+			});
+			wnd.window.open();
+			
+		}
+	}, {
+		etype: 'button-item',
+		text: 'Окно: [800, 600], контент: null',
+		onClick: function() {
+			
+			var wnd = $.ergo({
+				etype: 'base-window',
+				width: 800,
+				height: 500,
+				title: 'Заданы только размеры окна',
+				content: {
+					text: Ergo.LOREMIPSUM,
+					autoHeight: true
+				}				
+			});
+			wnd.window.open();
+			
+		}
+	}, {
+		etype: 'button-item',
+		text: 'Окно: null, контент: [800, 600]',
+		onClick: function() {
+			
+			var wnd = $.ergo({
+				etype: 'base-window',
+				title: 'Заданы только размеры контента',
+				content: {
+					text: Ergo.LOREMIPSUM,
+					width: 800,
+					height: 500
+				}				
+			});
+			wnd.window.open();
+			
+		}
+	}, {
+		etype: 'button-item',
+		text: 'Окно: [200, 200], контент: null + загрузка',
+		onClick: function() {
+			
+			var wnd = $.ergo({
+				etype: 'base-window',
+				width: 200,
+				height: 200,
+				content: {
+					//
+					autoHeight: true
+				}				
+			});
+			wnd.window.open();
+			
+			wnd.content.children.add({
+				etype: 'box',
+				cls: 'loader'				
+			}, '_loader');
+			
+			setTimeout(function(){
+				
+				wnd.content.children.remove_at('_loader'); 
+				
+				wnd.window.resize(800, 600).then(function(){ wnd.$layoutChanged() });
+				
+			}, 1500);
+			
+		}
+	}, {
+		etype: 'button-item',
+		text: 'Окно: null, контент: [200, 200] + загрузка',
+		onClick: function() {
+			
+			var wnd = $.ergo({
+				etype: 'base-window',
+				content: {
+					width: 200,
+					height: 200
+				}
+			});
+			wnd.window.open();
+			
+			wnd.content.children.add({
+				etype: 'box',
+				cls: 'loader'				
+			}, '_loader');
+			
+			setTimeout(function(){
+
+				wnd.content.children.remove_at('_loader'); 
+				
+				wnd.window.resizeContent(800, 600).then(function(){	wnd.content.opt({width: 800, height: 600});	wnd.$layoutChanged();	});
+				
+			}, 1500);
+			
+		}
 	}, {
 		etype: 'button-item',
 		text: 'Лайтбокс',
@@ -68,9 +198,7 @@ sample('Окна и диалоги', {
 				etype: 'panel',
 				mixins: ['window'],
 				closeOnOuterClick: true,
-//							width: '50%',
-//							height: 300,
-				title: 'Картинка',
+				title: 'Лайтбокс',
 				content: {
 					width: 200,
 					height: 200,								
@@ -100,18 +228,9 @@ sample('Окна и диалоги', {
 				
 									
 				
-//							wnd.el.css('display', 'none');
-				
-//							wnd.content.opt('width', w);
-//							wnd.content.opt('height', h);
-// 							
-//							wnd.window.update();
-
-
-				wnd.window.resizeByContent(w, h).then(function(){
+				wnd.window.resizeContent(w, h).then(function(){
 					
 					wnd.content.el.css({'width': w, 'height': h});
-					
 					
 					wnd.content.children.add({
 						etype: 'image',
