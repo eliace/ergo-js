@@ -9,6 +9,7 @@ Ergo.declare('Sample.widgets.TreeNode', 'Ergo.widgets.Box', {
 		components: {
 			icon: {
 				etype: 'icon',
+				cls: 'e-icon-house',
 				weight: -10
 			},
 			content: {
@@ -70,16 +71,28 @@ Ergo.declare('Sample.widgets.TreeNodeList', 'Ergo.widgets.Box', {
 sample('Дерево (иерархический список)', {
 
 	etype: 'x-tree-node-list',
-	
+	cls: 'e-tree',
 	defaultNode: {
+		content: {
+			etype: 'text-item',
+			icon: 'e-icon-house'
+		}
 	},
 	
 	items: [{
 		text: 'Этаж 1',
 		subtreeItems: [{
-			text: '101 каб'
+			text: '101 каб',
+			subtreeItems: [{
+				text: 'Волков А.Н.'
+			}, {
+				text: 'Зайцев С.М.'
+			}]
 		}, {
-			text: '102 каб'
+			text: '102 каб',
+			subtreeItems: [{
+				text: 'Медведев Ф.М.'
+			}]
 		}]
 	}, {
 		text: 'Этаж 2'

@@ -52,7 +52,7 @@ customer.set('sex', 'male');
 
 
 
-sample('Модель данных', {
+var w = sample('Модель данных', {
 	
 	layout: 'view',
 	

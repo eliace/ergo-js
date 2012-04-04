@@ -45,7 +45,7 @@ var menuData = [{
 		name: ['lists']
 	}, {
 		title: 'Диалоги',
-		name: ['dialogs', 'dialogs-2']
+		name: ['dialogs', 'growls', 'alerts']
 	}, {
 		title: 'Загрузка файлов',
 		name: ['files']
@@ -66,7 +66,17 @@ var menuData = [{
 		name: ['custom-layout']
 	}]
 }, {
-	title: 'Wiki'
+	title: 'Wiki',
+	
+},{
+	title: 'Скачать',
+	children: [{
+		title: 'MIN версия',
+	},{
+		title: 'DEV версия',
+	},{
+		title: 'Github',
+	}],
 }];
 
 
@@ -300,6 +310,24 @@ $(document).ready(function(){
 		
 		
 	});
+	
+	
+	
+	
+	var History = window.History;
+	
+		
+  History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+
+    var state = History.getState(); // Note: We are using History.getState() instead of event.state
+      
+		if(state.data && state.data.resource)
+			route(state.data)
+		else
+			open_message_list_page();
+      
+  });
+	
 	
 	
 	
