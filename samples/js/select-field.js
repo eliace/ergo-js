@@ -7,7 +7,7 @@ sample('Поле выбора', {
 	
 	items: [{
     etype: 'box',
-    cls: 'e-list roman',
+    cls: 'e-list roman e-select-list',
 		extensions: ['selectable'],
 		onSelect: function(e) {
 			this.selection.set(e.target);
