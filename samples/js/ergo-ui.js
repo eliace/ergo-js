@@ -42,7 +42,7 @@ var menuData = [{
 		name: ['lists']
 	}, {
 		title: 'Диалоги',
-		name: ['dialogs', 'dialogs-2']
+		name: ['dialogs', 'growls', 'alerts']
 	}, {
 		title: 'Загрузка файлов',
 		name: ['files']
