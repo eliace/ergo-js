@@ -33,3 +33,18 @@
 .panel-content {
 	padding: 10px;
 }
+
+
+
+.tree-icon {
+	background: url('images/accordeon_arrow_right.png');
+}
+
+.expanded > .tree-icon {
+	background: url('images/accordeon_arrow_bottom.png');
+}
+
+.leaf > .tree-icon {
+	display: none;
+}
+

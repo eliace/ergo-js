@@ -6,11 +6,21 @@ Ergo.declare('Sample.widgets.TreeNode', 'Ergo.widgets.Box', {
 		
 		html: '<li/>',
 		
+		states: {
+			'expanded': function(on) {
+				if(on) this.subtree.show();
+				else this.subtree.hide();
+			}
+		},
+		
 		components: {
 			icon: {
 				etype: 'icon',
-				cls: 'e-icon-house',
-				weight: -10
+//				cls: 'e-icon-house',
+				weight: -10,
+				onClick: function() {
+					this.parent.states.toggle('expanded');
+				}
 			},
 			content: {
 				etype: 'text'
@@ -76,6 +86,20 @@ sample('Дерево (иерархический список)', {
 		content: {
 			etype: 'text-item',
 			icon: 'e-icon-house'
+		},
+		components: {
+			icon: {
+				cls: 'tree-icon'
+			},
+			subtree: {
+				style: {'display': 'none'},
+				extensions: ['effects'],
+				effects: {
+					show: 'slideDown',
+					hide: 'slideUp',
+					delay: 300
+				}
+			}
 		}
 	},
 	
@@ -84,14 +108,17 @@ sample('Дерево (иерархический список)', {
 		subtreeItems: [{
 			text: '101 каб',
 			subtreeItems: [{
-				text: 'Волков А.Н.'
+				text: 'Волков А.Н.',
+				state: 'leaf'
 			}, {
-				text: 'Зайцев С.М.'
+				text: 'Зайцев С.М.',
+				state: 'leaf'
 			}]
 		}, {
 			text: '102 каб',
 			subtreeItems: [{
-				text: 'Медведев Ф.М.'
+				text: 'Медведев Ф.М.',
+				state: 'leaf'
 			}]
 		}]
 	}, {
