@@ -1,16 +1,12 @@
 
-
-
-
-
-
 sample('Оповещения', {
 	
 	
 	
 	
 	defaultItem: {
-		etype: 'box',
+		etype: 'alert',
+/*		
 		cls: 'e-notification',
 		components: {
 			closeButton: {
@@ -33,6 +29,7 @@ sample('Оповещения', {
 		set: {
 			'messageHtml': function(s) { this.content.opt('innerHtml', s); }
 		}
+*/		
 	},
 	
 	
