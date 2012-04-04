@@ -9,6 +9,7 @@ Ergo.declare('Sample.widgets.TreeNode', 'Ergo.widgets.Box', {
 		components: {
 			icon: {
 				etype: 'icon',
+				cls: 'e-icon-house',
 				weight: -10
 			},
 			content: {
@@ -70,7 +71,7 @@ Ergo.declare('Sample.widgets.TreeNodeList', 'Ergo.widgets.Box', {
 sample('Дерево (иерархический список)', {
 
 	etype: 'x-tree-node-list',
-	
+	cls: 'e-tree',
 	defaultNode: {
 	},
 	

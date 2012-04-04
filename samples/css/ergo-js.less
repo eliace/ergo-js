@@ -630,6 +630,7 @@
 .e-icon-woman { background:url("@{e-icons-path}/e-ico-woman.png")}
 .e-icon-man-sign { background:url("@{e-icons-path}/e-ico-man-sign.png")}
 .e-icon-woman-sign { background:url("@{e-icons-path}/e-ico-woman-sign.png")}
+.e-icon-house { background:url("@{e-icons-path}/e-ico-house.png")}
 //simple button 
 .e-button-item {
   border:1px solid #dedede;
@@ -1189,16 +1190,19 @@ html[xmlns] [layout='float'] {
   border-radius: 3px 0 0 3px;
   border-left:1px solid #dedede;
 }
+
 .e-group  .e-button-item:last-child {
  -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
 }
+
 .e-group  .e-button-item {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
 }
+
 .e-group  .e-button-item.selected{
   background: #d1d1d1; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -1233,5 +1237,38 @@ html[xmlns] [layout='float'] {
   float:right;
 }
 
+//accordeon 
+.e-accordeon ul{}
 
+.e-accordeon  > li {
+  list-style:none;
+  padding:10px 15px 10px 25px;
+  background: url(images/accordeon_arrow_right.png) no-repeat 0 10px;
+  cursor:pointer;
+}
 
+.e-accordeon  > li ul li {
+  list-style:none;
+  padding:10px 0 0 0;
+}
+
+.e-accordeon  > li.expanded {
+  background: url(images/accordeon_arrow_bottom.png) no-repeat 0 10px;
+}
+
+//tree 
+.e-tree li .e-icon{
+  float:left;
+  margin-right:10px;
+}
+.e-tree li ul li .e-icon{
+ display:none;
+}
+.e-tree li ul li{
+ list-style:none;
+ padding:10px 0 0 20px;
+}
+.e-tree > li{
+  list-style:none;
+  padding:10px;
+}
