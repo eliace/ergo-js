@@ -99,9 +99,11 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 //		var el = this.el;
 
-		var el = this.select(item);
+		var o = this.options;
+
+		var el = (o.select) ? o.select.call(this, item) : this.select(item);
 		
-		var item_el = this.wrap(item);
+		var item_el = (o.wrap) ? o.wrap.call(this.item) : this.wrap(item);
 		
 		// if(selector) {
 			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
@@ -159,7 +161,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				// if(w && w._weight < weight) before_a.push(elem);
 			// });
 
-			if(before_el)
+			if(before_el.length > 0)
 				before_el.after( item_el );
 			else
 				el.prepend( item_el );

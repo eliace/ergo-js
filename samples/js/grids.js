@@ -1,3 +1,57 @@
+
+var gridData = [{
+	created_at: '2012-02-19',
+	title: 'Заявление',
+	deadline_at: '2012-03-01',
+	status: 'В работе'
+}, {
+	created_at: '2012-02-18',
+	title: 'Заявление 2',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 3',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 4',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 5',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 6',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 7',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 8',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 9',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}, {
+	created_at: '2012-02-19',
+	title: 'Заявление 10',
+	deadline_at: '2012-03-01',
+	status: 'На рассмотрении'
+}]
+
+
 sample('Грид', {
 	id: 'my-grid',
 	components: {
@@ -45,9 +99,7 @@ sample('Грид', {
 			content: {
 				etype: 'grid',
 				
-				data: Ergo.GRID_DATA,
-				
-				
+				data: gridData,
 				
 				columns: [{
 					content: {

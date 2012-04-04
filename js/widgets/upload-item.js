@@ -1,5 +1,5 @@
 
-
+//= require <widgets/natives/box>
 
 Ergo.declare('Ergo.widgets.UploadItem', 'Ergo.widgets.Box', {
 	

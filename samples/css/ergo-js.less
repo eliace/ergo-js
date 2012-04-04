@@ -949,6 +949,7 @@ li.selected:hover {
   border-top:1px solid #fff;
   padding:5px;
 }
+
 .e-grid-control-row td{
   padding:0;
   border:0;
@@ -985,7 +986,7 @@ li.selected:hover {
   -moz-border-radius:5px 5px  0 0px;
   border-radius:5px 5px  0 0;
 }
-.e-grid-header td {
+.e-grid-header th {
   padding:5px;
 }
 
@@ -1133,6 +1134,32 @@ html[xmlns] [layout='float'] {
   background:#c9c9c9;
 }
 
+/*
+
+.binding-list {
+  width:400px;
+  overflow:hidden;
+}
+*/
+
+[layout='view'] > p{
+  border-bottom:1px dotted #d1d1d1;
+   overflow:hidden;
+   padding:15px 0 0 0;
+}
+[layout='view'] > p > label{
+  font-weight:bold;
+  float:left;
+  
+}
+
+[layout='view'] > p > span{
+  font-weight:normal;
+  float:right;
+ 
+}
+
+
 // Groups
 .e-group  .e-button-item {
   -webkit-border-radius: 0;
@@ -1171,6 +1198,7 @@ html[xmlns] [layout='float'] {
 }
 
 //binding list 
+
 .binding-list {
   width:400px;
   overflow:hidden;
@@ -1189,5 +1217,6 @@ html[xmlns] [layout='float'] {
   font-weight:normal;
   float:right;
 }
+
 
 
