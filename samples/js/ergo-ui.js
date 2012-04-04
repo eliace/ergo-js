@@ -63,7 +63,17 @@ var menuData = [{
 		name: ['custom-layout']
 	}]
 }, {
-	title: 'Wiki'
+	title: 'Wiki',
+	
+},{
+	title: 'Скачать',
+	children: [{
+		title: 'MIN версия',
+	},{
+		title: 'DEV версия',
+	},{
+		title: 'Github',
+	}],
 }];
 
 
