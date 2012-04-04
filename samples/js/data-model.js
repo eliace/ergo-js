@@ -39,48 +39,61 @@ var customer = new Customer({
 });
 
 
+
+
+
+var w = sample('Модель данных', {
+	components: {
+		alerts: {
+			//
+		},
+		content: {
+			layout: 'view',
+			
+			data: customer,
+			
+			items: [{
+				label: 'Имя',
+				etype: 'text',
+				dataId: 'firstName'
+			}, {
+				label: 'Отчество',
+				etype: 'text',
+				dataId: 'middleName'
+			}, {
+				label: 'Фамилия',
+				etype: 'text',
+				dataId: 'lastName'
+			}, {
+				label: 'Возраст',
+				etype: 'text',
+				dataId: 'age'		
+			}, {
+				label: 'Пол',
+				etype: 'text',
+				dataId: 'sex'		
+			}]
+		}
+	}	
+	
+});
+
+
 // пробуем присвоить полю sex значение "муж"
 try{
 	customer.set('sex', 'муж');	
 }
 catch(e) {
-	growl.warn(e.message);
+	//growl.warn(e.message);
+	w.alerts.children.add({
+		etype: 'alert',
+		cls: 'red',
+		messageHtml: e.message
+	});
 }
 
 // присваиваем коррекное значение полю sex
 customer.set('sex', 'male');	
 
 
-
-var w = sample('Модель данных', {
-	
-	layout: 'view',
-	
-	data: customer,
-	
-	items: [{
-		label: 'Имя',
-		etype: 'text',
-		dataId: 'firstName'
-	}, {
-		label: 'Отчество',
-		etype: 'text',
-		dataId: 'middleName'
-	}, {
-		label: 'Фамилия',
-		etype: 'text',
-		dataId: 'lastName'
-	}, {
-		label: 'Возраст',
-		etype: 'text',
-		dataId: 'age'		
-	}, {
-		label: 'Пол',
-		etype: 'text',
-		dataId: 'sex'		
-	}]
-	
-	
-	
-});
 
