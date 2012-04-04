@@ -333,5 +333,23 @@ $(document).ready(function(){
 	
 	
 	
+	
+	var History = window.History;
+	
+		
+  History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+
+    var state = History.getState(); // Note: We are using History.getState() instead of event.state
+      
+		if(state.data && state.data.resource)
+			route(state.data)
+		else
+			open_message_list_page();
+      
+  });
+	
+	
+	
+	
 		
 });
