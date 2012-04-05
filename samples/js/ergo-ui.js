@@ -275,7 +275,7 @@ $(document).ready(function(){
 	 * Боковое меню
 	 * 
 	 */
-	$.ergo({
+	var menu = $.ergo({
 		etype: 'accordion-list',
 		renderTo: '#sideLeft',
 		cls: 'ergo_navigation',
@@ -299,8 +299,13 @@ $(document).ready(function(){
 							dataId: 'title',
 							onClick: function() {
 								var data = this.data.source.get();
-								if(data.name)
+								if(data.name) {
 									load_sample(data.name);
+									
+									if(typeof(localStorage) != 'undefined') {
+										localStorage.setItem('ergo.last_sample', data.name[0]);
+									}
+								}
 							}
 						}
 					}
@@ -314,6 +319,32 @@ $(document).ready(function(){
 	
 	
 	
+	
+	setTimeout(function(){
+		
+		if(typeof(localStorage) != 'undefined') {
+			var last_sample = localStorage.getItem('ergo.last_sample');
+			
+			menu.children.each(function(c){
+				c.sublist.children.each(function(c2){
+					if(Ergo.includes(c2.data.get('name'), last_sample)) {
+						// TODO сделать, чтобы сначала раскрывалось меню, а затем загружался пример
+						c.content.events.fire('click');
+						c2.content.events.fire('click');
+					}
+				});
+			});
+			
+		}
+		
+		
+	}, 300);
+	
+	
+	
+//	growl.info(localStorage.getItem('ergo.last_sample'));
+	
+/*	
 	var History = window.History;
 	
 		
@@ -321,13 +352,15 @@ $(document).ready(function(){
 
     var state = History.getState(); // Note: We are using History.getState() instead of event.state
       
-		if(state.data && state.data.resource)
-			route(state.data)
-		else
-			open_message_list_page();
+		if(state.data) {
+			growl.info(state.data);
+		}
+//			route(state.data)
+//		else
+//			open_message_list_page();
       
   });
-	
+*/	
 	
 	
 	

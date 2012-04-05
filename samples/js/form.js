@@ -9,6 +9,27 @@ var fromData = {
 
 
 
+/**
+ * 
+ * Элементы:
+ *   
+ * 	- Text (+)
+ * 	- TextArea (+)
+ * 	- Date
+ * 	- Time
+ * 	- Spinner
+ * 	- Slider
+ * 	- Checkbox (+)
+ * 	- Switcher (+)
+ * 	- Toggler (+)
+ * 	- SelectBox (+)
+ * 	- ComboBox
+ * 	- Color
+ * 	- File
+ * 	- Button (+)
+ * 
+ */
+
 
 sample('Форма', {
 	etype: 'panel',
@@ -19,17 +40,18 @@ sample('Форма', {
 		layout: 'form',
 		
 		items: [{
-			etype: 'text-input',
-			dataId: 'lastName',
-			label: 'Фамилия'
-		}, {
-			etype: 'text-input',
+			etype: 'text-field',
 			dataId: 'firstName',
 			label: 'Имя'
 		}, {
-			etype: 'text-input',
-			dataId: 'middleName',
-			label: 'Отчество'
+			etype: 'text-field',
+			dataId: 'firstName',
+			label: 'Справочник',
+			buttons: [{
+				icon: 'e-icon-info'
+			}, {
+				icon: 'e-icon-tag'
+			}]
 		}, {
 			etype: 'box',
 			cls: 'e-group',
@@ -44,7 +66,10 @@ sample('Форма', {
 				}
 			},
 			items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
-		}]	
+		}, {
+			label: 'Адрес',
+			etype: 'select-field'
+		}]
 		
 	}
 	
