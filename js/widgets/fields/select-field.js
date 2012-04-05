@@ -2,15 +2,19 @@
 //= require <widgets/field>
 
 
-Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Field', {
+Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		fieldContent: {
+		
+//		fieldContent: {
 			tabIndex: 0,
 			cls: 'e-select',
 			components: {
 				text: {
 					cls: 'e-current-select'
+				},
+				dropdown: {
+					etype: 'dropdown'
 				}
 			},
 			defaultItem: {
@@ -23,28 +27,36 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Field', {
 			},
 			events: {
 				'focus': function(e, w) {
-					w.getParent(Ergo.widgets.Field).setFocus();
+//					w.getParent(Ergo.widgets.Field).setFocus();
 				},
 				'blur': function(e, w) {
-					w.getParent(Ergo.widgets.Field).clearFocus();
+//					w.getParent(Ergo.widgets.Field).clearFocus();
 				}
-			}
+			},
+//		},
+
+		onClick: function() {
+			this.dropdown.open();
 		},
+		
 		buttons: [{
 			iconCls: 'arrow-down'
 		}],
 		
 		set: {
 			'text': function(v) {
-				this.content.content.text.opt('text', v);
+//				this.content.content.text.opt('text', v);
+				this.text.opt('text', v);
 			}
 		}
 	},
 	
 	
 	$init: function(o) {
-		o.fieldContent.items = o.buttons;
+//		o.fieldContent.items = o.buttons;
 		this.$super(o);
+
+		o.items = o.buttons;
 	}
 	
 }, 'select-field');
