@@ -1,7 +1,7 @@
 
 //= require <widgets/natives/list>
 
-
+/*
 Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.core.Widget', {
 	
 	defaults: {
@@ -59,3 +59,86 @@ Ergo.declare('Ergo.widgets.TreeList', 'Ergo.widgets.List', {
 	}
 		
 }, 'tree-list');
+*/
+
+
+
+
+
+Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		html: '<li/>',
+		
+		states: {
+			'expanded': function(on) {
+				if(on) this.subtree.show();
+				else this.subtree.hide();
+			}
+		},
+		
+		components: {
+			icon: {
+				etype: 'icon',
+				weight: -10,
+				onClick: function() {
+					this.parent.states.toggle('expanded');
+				}
+			},
+			content: {
+				etype: 'text'
+			},
+			subtree: {
+				etype: 'tree-list'
+			}
+		},
+		
+		subtreeItems: [],
+		
+		
+		set: {
+			'text': function(v) { this.content.opt('text', v); }
+		}
+		
+	},
+	
+	
+	$init: function(o) {
+		this.$super(o);
+		
+		Ergo.smart_override(o.components.subtree, {items: o.subtreeItems});
+		
+	}
+	
+	
+}, 'tree-node');
+
+
+
+
+
+Ergo.declare('Ergo.widgets.TreeList', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<ul/>',
+		defaultItem: {
+			etype: 'tree-node'
+		},
+		defaultNode: {}
+	},
+	
+	$init: function(o) {
+		this.$super(o);
+		
+		Ergo.smart_override(o.defaultItem, o.defaultNode, {components: {subtree: {defaultNode: o.defaultNode}}});
+	}
+	
+	
+}, 'tree-list');	
+
+
+
+
+
+

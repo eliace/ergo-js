@@ -9,6 +9,27 @@ var fromData = {
 
 
 
+/**
+ * 
+ * Элементы:
+ *   
+ * 	- Text (+)
+ * 	- TextArea (+)
+ * 	- Date
+ * 	- Time
+ * 	- Spinner
+ * 	- Slider
+ * 	- Checkbox (+)
+ * 	- Switcher (+)
+ * 	- Toggler (+)
+ * 	- SelectBox (+)
+ * 	- ComboBox
+ * 	- Color
+ * 	- File
+ * 	- Button (+)
+ * 
+ */
+
 
 sample('Форма', {
 	etype: 'box',
@@ -16,9 +37,18 @@ sample('Форма', {
 	layout: 'form',
 	
 	items: [{
-		etype: 'text-input',
+		etype: 'text-field',
 		dataId: 'firstName',
 		label: 'Имя'
+	}, {
+		etype: 'text-field',
+		dataId: 'firstName',
+		label: 'Справочник',
+		buttons: [{
+			icon: 'e-icon-info'
+		}, {
+			icon: 'e-icon-tag'
+		}]
 	}, {
 		etype: 'box',
 		cls: 'e-group',
