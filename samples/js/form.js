@@ -17,16 +17,8 @@ sample('Форма', {
 	
 	items: [{
 		etype: 'text-input',
-		dataId: 'lastName',
-		label: 'Фамилия'
-	}, {
-		etype: 'text-input',
 		dataId: 'firstName',
 		label: 'Имя'
-	}, {
-		etype: 'text-input',
-		dataId: 'middleName',
-		label: 'Отчество'
 	}, {
 		etype: 'box',
 		cls: 'e-group',
@@ -41,6 +33,9 @@ sample('Форма', {
 			}
 		},
 		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
+	}, {
+		label: 'Адрес',
+		etype: 'select-field'
 	}]
 	
 	
