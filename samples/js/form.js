@@ -24,7 +24,6 @@ var fromData = {
  * 	- Toggler (+)
  * 	- SelectBox (+)
  * 	- ComboBox
- * 	- Color
  * 	- File
  * 	- Button (+)
  * 
@@ -49,6 +48,30 @@ sample('Форма', {
 		}, {
 			icon: 'e-icon-tag'
 		}]
+	}, {
+		etype: 'text-field',
+//		dataId: 'firstName',
+		label: 'Дата рождения',
+		width: 200,
+		buttons: [{
+			icon: 'e-icon-date',
+		}],
+		onAfterBuild: function() {
+			
+			var self = this;
+			
+			this.el.dynDateTime({
+				cache : true,
+				ifFormat : "%Y.%m.%d",
+				//debug : true,
+				daFormat : "%Y.%m.%d",
+				onUpdate : function(v) {
+//					console.log(self);
+					self.el.val(v.date.print(v.dateFormat));
+//					this.setValue(v.date.print(v.dateFormat));
+				},
+			});			
+		}
 	}, {
 		etype: 'box',
 		cls: 'e-group',
