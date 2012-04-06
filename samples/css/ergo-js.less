@@ -1466,4 +1466,211 @@ html[xmlns] [layout='float'] {
   padding-right: 5px;
 }
 
+/* Календарь */
+
+.calendar {
+  position: relative;
+  display: none;
+  font-size: 1em;
+  color: #505050;
+  cursor: default;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+   -webkit-box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
+  box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
+  behavior:url(ie-css3.htc);
+  border: 1px solid #eee;
+  margin-top: 2px;
+  behavior: url(css/PIE.htc);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.calendar table {
+  font-size: 1.2em;
+  color: #505050;
+  cursor: default;
+}
+.calendar .nav {
+  background: transparent url(menuarrow.gif) no-repeat 100% 100%;
+}
+.calendar thead .title {
+  font-weight: 700;
+  font-size: 1.1em;
+  text-align: center;
+  padding: 1px;
+}
+.calendar thead .name {
+  text-align: center;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 2px;
+}
+.calendar thead tr td > div {
+  text-align:center;
+}
+.calendar thead .weekend {
+  color: #888;
+}
+.calendar thead .hilite {
+  background-color: #eee;
+  cursor: pointer;
+  padding: 0;
+}
+.calendar thead .active {
+  background-color: #b8c0c4;
+  padding: 2px 0 0 2px;
+}
+.calendar tbody .day {
+  width: 2em;
+  text-align: center;
+  cursor: pointer;
+  padding: 2px 4px 2px 2px;
+}
+.calendar tbody .day.othermonth {
+  font-size: 80%;
+  color: #aaa;
+}
+.calendar tbody .day.othermonth.oweekend {
+  color: #faa;
+}
+.calendar table .wn {
+  color: #787878;
+  background: #eee;
+  padding: 2px 3px 2px 2px;
+}
+.calendar tbody td.hilite {
+  background: #eee;
+  behavior: url(css/PIE.htc);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.calendar tbody td.active {
+  padding: 2px 2px 0;
+}
+.calendar tbody td.selected {
+  font-weight: 700;
+  behavior: url(css/PIE.htc);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color: #fff !important;
+  border-bottom:1px solid #95c427;
+  background:  @e-label-bottom-color; /* Old browsers */
+  background: -moz-linear-gradient(top,  #98c532 0%, #6ea118 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#98c532), color-stop(100%,#6ea118)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #98c532 0%,#6ea118 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #98c532 0%,#6ea118 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #98c532 0%,#6ea118 100%); /* IE10+ */
+  background: linear-gradient(top, #98c532 0%,#6ea118 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#98c532', endColorstr='#6ea118',GradientType=0 ); /* IE6-8 */
+}
+.calendar tbody td.weekend {
+  color: #888;
+  margin: 1px;
+}
+.calendar tbody td.today {
+  font-weight: 700;
+}
+.calendar tbody .disabled {
+  color: #999;
+}
+.calendar tbody .emptycell {
+  visibility: hidden;
+}
+.calendar tbody .emptyrow {
+  display: none;
+}
+.calendar tfoot .ttip {
+  background: #fff;
+  display: none;
+  color: #fff;
+  text-align: center;
+  padding: 1px;
+}
+.calendar tfoot .active {
+  padding: 2px 0 0 2px;
+}
+.calendar .combo {
+  position: absolute;
+  display: none;
+  width: 4em;
+  top: 0;
+  left: 0;
+  cursor: default;
+  background: #d8e0e4;
+  font-size: 90%;
+  z-index: 100;
+  padding: 1px;
+}
+.calendar .combo .label-IEfix {
+  width: 4em;
+}
+.calendar .combo .active {
+  background: #c8d0d4;
+  padding: 0;
+}
+.calendar .combo .hilite {
+  background: #048;
+  color: #aef;
+}
+.calendar td.time {
+  border-top: 1px solid #000;
+  text-align: center;
+  background-color: #e8f0f4;
+  padding: 1px 0;
+}
+.calendar td.time .hour, .calendar td.time .minute, .calendar td.time .ampm {
+  border: 1px solid #889;
+  font-weight: 700;
+  background-color: #fff;
+  padding: 0 3px 0 4px;
+}
+.calendar td.time .ampm {
+  text-align: center;
+}
+.calendar td.time .colon {
+  font-weight: 700;
+  padding: 0 2px 0 3px;
+}
+.calendar td.time span.hilite {
+  background-color: #667;
+  color: #fff;
+  border-color: #000;
+}
+.calendar td.time span.active {
+  background-color: #000;
+  color: #619dc5;
+  border-color: #619dc5;
+}
+.select_date_form {
+  behavior: url(PIE.htc);
+  background: #fff;
+  overflow: hidden;
+  padding-right: .5em;
+  padding-left: .5em;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  -webkit-box-shadow: inset 0px 1px 3px 1px #f2f2f2;
+  -moz-box-shadow: inset 0px 1px 3px 1px #f2f2f2;
+  box-shadow: inset 0px 1px 3px 1px #f2f2f2;
+  overflow: hidden;
+}
+
+.select_date_form.focus {
+  border: 1px solid #cfcfcf;
+}
+.select_date_form input {
+  width: 100%;
+  border: 0;
+  padding: 10px 0;
+  height: auto;
+  font-size: 1.3em;
+  color: #545454;
+  background: transparent;
+}
 
