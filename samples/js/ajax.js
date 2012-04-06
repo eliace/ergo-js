@@ -1,6 +1,6 @@
 // создаем ajax-коллекцию, которая доступна по адресу "ajax/list.json"
 var ajaxData = new Ergo.data.AjaxCollection([], {
-	path: 'ajax/list.json'
+	path: 'samples/ajax/list.json'
 });
 
 // создаем свой класс коллекции
@@ -57,4 +57,4 @@ var w = sample('Ajax-коллекция', {
 });
 
 // второй список загружаем явно, причем указываем адрес ресурса здесь же
-w.item(1).data.fetch('ajax/list.json');
+w.item(1).data.fetch('samples/ajax/list.json');

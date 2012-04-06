@@ -1,6 +1,5 @@
 .e-icon {background-position: 50% 50%; background-repeat: no-repeat;}
 
-.e-icon-.directory {background: url(led/icons/.directory)}
 .e-icon-accept {background: url(led/icons/accept.png)}
 .e-icon-add {background: url(led/icons/add.png)}
 .e-icon-arrow-refresh {background: url(led/icons/arrow_refresh.png)}
@@ -43,7 +42,6 @@
 .e-icon-folder {background: url(led/icons/folder.png)}
 .e-icon-group {background: url(led/icons/group.png)}
 .e-icon-hammer {background: url(led/icons/hammer.png)}
-.e-icon-icons {background: url(led/icons/icons)}
 .e-icon-lock {background: url(led/icons/lock.png)}
 .e-icon-male {background: url(led/icons/male.png)}
 .e-icon-new {background: url(led/icons/new.png)}

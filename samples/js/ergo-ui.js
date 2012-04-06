@@ -65,7 +65,16 @@ var menuData = [{
 }, {
 	title: 'Wiki',
 	
-},{
+}, {
+	title: 'Иконки',
+	children: [{
+		title: 'sweeticon',
+		name: ['sweeticon']
+	}/*, {
+		title: 'silk',
+		name: ['silk']
+	}*/]
+}, {
 	title: 'Скачать',
 	children: [{
 		title: 'MIN версия',
@@ -230,7 +239,7 @@ function load_sample(sample_a) {
 		};
 		
 		var load_script = function(script_name) {
-			return $.getScript('js/'+script_name+'.js')
+			return $.getScript('samples/js/'+script_name+'.js')
 				.then(function(script){
 					
 					var el = $('#sample').children().last();
@@ -247,6 +256,31 @@ function load_sample(sample_a) {
 	
 };
 
+
+
+
+
+function load_iconset(name) {
+	
+	var deferred = $.Deferred();
+	
+	$.get('iconsets/'+name+'/icons.css', function(data){
+		var a = data.split('\n');
+		var b = [];
+		for(var i in a) {
+			var s = a[i];
+			var m = s.match(/(e-icon-[^\s]+).*/)
+			if(m) b.push(m[1]);
+		}
+		deferred.resolve(b);
+		
+		data = data.replace(new RegExp(name, 'g'), 'iconsets/'+name);
+		$("<style></style>").appendTo("head").html(data);
+		
+	}, 'text');	
+	
+	return deferred;
+}
 
 
 
@@ -369,6 +403,10 @@ $(document).ready(function(){
 		
 		
 	}, 300);
+	
+	
+	
+	
 	
 	
 	
