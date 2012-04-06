@@ -8,6 +8,10 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		
 		cls: 'e-text-field',
 		
+		layout: {
+			html: '<div/>'
+		},
+		
 		components: {
 			input: {
 				etype: 'text-input',
