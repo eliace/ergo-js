@@ -385,10 +385,11 @@
   box-shadow: 1px 3px 6px rgba(50, 50, 50, 0.2);
   behavior:url(ie-css3.htc);
   //shadow.userAttrs.radius +',makeShadow=true,shadowOpacity=0.2)'; in HTC
-  
 }
 
-
+.e-dropbox ul li {
+  list-style:none;
+}
 //drop-down calendar 
 .e-select-calendar {
   position: relative;
@@ -1440,6 +1441,7 @@ html[xmlns] [layout='float'] {
    border-radius: 3px;
    border: @e-field-content-border-size solid #DCDCDC;
    color:#555;
+   margin-bottom:10px;
 }
 .focus {
   border:1px solid #ccc;
@@ -1674,3 +1676,20 @@ html[xmlns] [layout='float'] {
   background: transparent;
 }
 
+//tales 
+
+.e-tales li{
+  list-style:none;
+  float:left;
+  width:100px;
+  height:120px;
+  overflow:hidden;
+  margin:0 15px 5px 0;
+}
+.e-tales li img {
+   -webkit-border-radius: @e-panel-radius;
+  -moz-border-radius: @e-panel-radius;
+  border-radius: @e-panel-radius;
+  
+  margin-bottom:5px;
+}

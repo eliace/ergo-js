@@ -4,7 +4,7 @@ var listData = [{
 	title: 'Волков В.П.'
 }, {
 	img: 'img/worker_photo.png',
-	title: 'Зайце А.А.'
+	title: 'Зайцев А.А.'
 }, {
 	img: 'img/worker_photo.png',
 	title: 'Енотов С.Н.'
@@ -27,7 +27,7 @@ var listData = [{
 sample('Список тайлов', {
 	
 	etype: 'list',
-	
+	cls:'e-tales',
 //	layout: 'float',
 	
 	data: listData,
@@ -35,9 +35,9 @@ sample('Список тайлов', {
 	dynamic: true,
 	
 	defaultItem: {
-		width: 120,
-		height: 120,
-		style: {'background-color': '#ccc', 'float': 'left'},
+		//width: 120,
+		//height: 120,
+		//style: {'background-color': '#ccc', 'float': 'left'},
 		components: {
 			image: {
 				etype: 'image',
