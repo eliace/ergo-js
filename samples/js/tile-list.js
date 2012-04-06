@@ -1,24 +1,24 @@
 
 var listData = [{
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Волков В.П.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Зайцев А.А.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Енотов С.Н.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Белкин В.С.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Медведев М.П.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Лось А.В.'
 }, {
-	img: 'img/worker_photo.png',
+	img: 'samples/img/worker_photo.png',
 	title: 'Росомахин И.Р.'
 }]
 

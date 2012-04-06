@@ -83,5 +83,23 @@ sample('Кнопки', {
 			etype: 'button-item'
 		},
 		items: ['Лево', 'Центр', 'Право']
+	}, {
+		etype: 'button-item',
+		text: 'Кнопка',
+		icon: 'e-icon-edit',
+		xicon: 'e-icon-flag',
+		width: 300
+	}, {
+		style: {'display': 'block'},
+		etype: 'button-item',
+		text: 'Кнопка',
+		components: {
+			icon: {
+				etype: 'image',
+				src: 'samples/img/worker_photo.png'
+			}
+		},
+		icon: true,
+		layout: 'vbox'		
 	}]
 });
