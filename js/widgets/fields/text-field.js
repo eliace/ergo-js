@@ -20,25 +20,33 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		},
 		
 //		content: {			
-			components: {
-				input: {
-					etype: 'text-input',
-					events: {
-						'focus': function(e, w) {
-	//						w.getParent(Ergo.widgets.Field).setFocus();
-						},
-						'blur': function(e, w) {
-	//						w.getParent(Ergo.widgets.Field).clearFocus();
-						}
+		components: {
+			input: {
+				etype: 'text-input',
+				events: {
+					'focus': function(e, w) {
+//						w.getParent(Ergo.widgets.Field).setFocus();
+					},
+					'blur': function(e, w) {
+//						w.getParent(Ergo.widgets.Field).clearFocus();
 					}
 				}
+			}
 //			}
+		},
+		
+		
+		set: {
+			'text': function(v) { this.input.opt('text', v); }
+		},
+		get: {
+			'text': function() { return this.input.get('text'); }
 		},
 		
 		defaultItem: {
 			etype: 'button-item',
-			cls: 'e-input-button',
-			text: false
+			cls: 'e-input-button'
+//			text: false
 		},
 		
 		buttons: []

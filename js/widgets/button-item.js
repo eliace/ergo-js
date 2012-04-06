@@ -28,7 +28,7 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Box', {
 		onClick: function(){
 			this.events.fire('onAction');
 		},
-		text: '',
+		text: false,
 		set: {
 			'text': function(v) {
 				this.content.opt('text', v);
