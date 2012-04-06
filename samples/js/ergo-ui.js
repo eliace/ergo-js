@@ -39,7 +39,7 @@ var menuData = [{
 		name: ['buttons']
 	}, {
 		title: 'Списки',
-		name: ['lists']
+		name: ['lists', 'tile-list']
 	}, {
 		title: 'Диалоги',
 		name: ['dialogs', 'growls', 'alerts']
