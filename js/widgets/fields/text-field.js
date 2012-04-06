@@ -8,23 +8,20 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		
 		cls: 'e-text-field',
 		
-		layout: {
-			html: '<div/>'
-		},
-		
-		components: {
-			input: {
-				etype: 'text-input',
-				events: {
-					'focus': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).setFocus();
-					},
-					'blur': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).clearFocus();
+		content: {			
+			components: {
+				input: {
+					etype: 'text-input',
+					events: {
+						'focus': function(e, w) {
+	//						w.getParent(Ergo.widgets.Field).setFocus();
+						},
+						'blur': function(e, w) {
+	//						w.getParent(Ergo.widgets.Field).clearFocus();
+						}
 					}
 				}
 			}
-			
 		},
 		
 		defaultItem: {
@@ -42,7 +39,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 	
 	$init: function(o) {
 		
-		if(o.multiline) o.components.input.etype = 'text-area';
+		if(o.multiline) o.content.components.input.etype = 'text-area';
 		
 		o.items = o.buttons;
 		

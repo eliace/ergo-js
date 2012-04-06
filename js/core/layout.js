@@ -13,8 +13,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		updateMode: 'auto'
 	},
 	
-	initialize: function(opts){
-		this.$super(opts);
+	initialize: function(o){
+		this.$super(o);
 //		Ergo.core.Layout.superclass.initialize.apply(this, arguments);
 		
 //		var o = this.options = {};
@@ -103,7 +103,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 		var el = (o.select) ? o.select.call(this, item) : this.select(item);
 		
-		var item_el = (o.wrap) ? o.wrap.call(this.item) : this.wrap(item);
+		var item_el = (o.wrap) ? o.wrap.call(this, item) : this.wrap(item);
 		
 		// if(selector) {
 			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
