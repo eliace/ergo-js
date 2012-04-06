@@ -67,8 +67,8 @@ sample('Форма', {
 				daFormat : "%Y.%m.%d",
 				onUpdate : function(v) {
 //					console.log(self);
-					self.el.val(v.date.print(v.dateFormat));
-//					this.setValue(v.date.print(v.dateFormat));
+//					self.el.val(v.date.print(v.dateFormat));
+					self.opt('text', v.date.print(v.dateFormat));
 				},
 			});			
 		}
@@ -80,7 +80,6 @@ sample('Форма', {
 		extensions: ['selectable'],
 		defaultItem: {
 			etype: 'button-item',
-			text: false,
 			onClick: function() {
 				this.parent.selection.set(this);
 			}
@@ -89,6 +88,21 @@ sample('Форма', {
 	}, {
 		label: 'Адрес',
 		etype: 'select-field'
+	}, {
+		etype: 'text-field',
+		label: 'Файл',
+		buttons: [{
+			etype: 'upload-item',
+			content: {
+				etype: 'button-item',
+				icon: 'e-icon-tag',
+//				text: 'Загрузить файл'	
+			},
+			onAction: function(e) {
+				this.parent.opt('text', e.file);
+//				growl.success(e.file);
+			}
+		}]
 	}]
 	
 	
