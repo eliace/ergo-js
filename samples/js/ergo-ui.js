@@ -349,19 +349,27 @@ $(document).ready(function(){
 	
 	
 	
-	if(typeof(localStorage) != 'undefined') {
-		var last_sample = localStorage.getItem('ergo.last_sample');
+	
+	setTimeout(function(){
 		
-		menu.items.each(function(c){
-			c.sublist.items.each(function(c2){
-				if(Ergo.includes(c2.data.get('name'), last_sample)) {
-					c.content.events.fire('click');
-					c2.content.events.fire('click');
-				}
+		if(typeof(localStorage) != 'undefined') {
+			var last_sample = localStorage.getItem('ergo.last_sample');
+			
+			menu.items.each(function(c){
+				c.sublist.items.each(function(c2){
+					if(Ergo.includes(c2.data.get('name'), last_sample)) {
+						// TODO сделать, чтобы сначала раскрывалось меню, а затем загружался пример
+						c.content.events.fire('click');
+						c2.content.events.fire('click');
+					}
+				});
 			});
-		});
+			
+		}
 		
-	}
+		
+	}, 300);
+	
 	
 	
 //	growl.info(localStorage.getItem('ergo.last_sample'));

@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
 		
 //		fieldContent: {
 			tabIndex: 0,
-			cls: 'e-select',
+			cls: 'e-select-field',
 			components: {
 				text: {
 					cls: 'e-current-select'

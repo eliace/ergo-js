@@ -2,6 +2,57 @@
 //= require <widgets/field>
 
 
+Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		cls: 'e-text-field',
+		
+		components: {
+			input: {
+				etype: 'text-input',
+				events: {
+					'focus': function(e, w) {
+//						w.getParent(Ergo.widgets.Field).setFocus();
+					},
+					'blur': function(e, w) {
+//						w.getParent(Ergo.widgets.Field).clearFocus();
+					}
+				}
+			}
+			
+		},
+		
+		defaultItem: {
+			etype: 'button-item',
+			cls: 'e-input-button',
+			text: false
+		},
+		
+		buttons: []
+		
+		
+		
+	},
+	
+	
+	$init: function(o) {
+		
+		if(o.multiline) o.components.input.etype = 'text-area';
+		
+		o.items = o.buttons;
+		
+		this.$super(o);		
+	}
+	
+	
+	
+	
+}, 'text-field');
+
+
+
+/*
 Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
 	defaults: {
@@ -37,3 +88,5 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Field', {
 	
 	
 }, 'text-field');
+*/
+
