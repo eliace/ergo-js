@@ -653,7 +653,7 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
   -moz-border-radius:0 \9;
-  padding:4px 10px;
+  padding:4px 7px;
   font-size:@e-field-text-size;
   color:@form-color;
   -webkit-box-shadow: 0px 2px 4px rgba(50, 50, 50, 0.08);
@@ -1428,7 +1428,8 @@ html[xmlns] [layout='float'] {
 
 //form collection theme 
 .e-form-item {
-
+  margin:0 0 20px 0;
+  clear:both;
 }
 .e-text-field {
   padding-left:5px;
@@ -1439,8 +1440,11 @@ html[xmlns] [layout='float'] {
    border-radius: 3px;
    border: @e-field-content-border-size solid #DCDCDC;
    color:#555;
-  
 }
+.focus {
+  border:1px solid #ccc;
+}
+
 .e-text-field input {
   width: 100%;
   border:0;
@@ -1461,3 +1465,5 @@ html[xmlns] [layout='float'] {
   overflow: hidden; 
   padding-right: 5px;
 }
+
+
