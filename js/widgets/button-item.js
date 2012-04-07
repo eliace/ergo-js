@@ -14,7 +14,8 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Box', {
 		components: {
 			icon: {
 				etype: 'icon',
-				state: 'hidden'
+				state: 'hidden',
+				cls: 'before'
 			},
 			content: {
 				etype: 'text',
@@ -22,13 +23,14 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Box', {
 			},
 			xicon: {
 				etype: 'icon',
-				state: 'hidden'
+				state: 'hidden',
+				cls: 'after'
 			}
 		},
 		onClick: function(){
 			this.events.fire('onAction');
 		},
-		text: '',
+		text: false,
 		set: {
 			'text': function(v) {
 				this.content.opt('text', v);

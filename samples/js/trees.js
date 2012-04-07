@@ -19,7 +19,7 @@ sample('Дерево (иерархический список)', {
 			},
 			subtree: {
 				style: {'display': 'none'},
-				extensions: ['effects'],
+				mixins: ['effects'],
 				effects: {
 					show: 'slideDown',
 					hide: 'slideUp',

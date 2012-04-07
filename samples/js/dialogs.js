@@ -207,7 +207,7 @@ sample('Окна и диалоги', {
 			wnd.window.open();
 			
 			
-			var el = $('<img src="img/anime9.jpg">');
+			var el = $('<img src="samples/img/anime9.jpg">');
 			el.css({'position': 'absolute', 'display': 'none'});
 			el.one('load', function(){
 				

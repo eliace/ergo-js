@@ -42,7 +42,7 @@ var menuData = [{
 		name: ['buttons']
 	}, {
 		title: 'Списки',
-		name: ['lists']
+		name: ['lists', 'tile-list']
 	}, {
 		title: 'Диалоги',
 		name: ['dialogs', 'growls', 'alerts']
@@ -55,6 +55,9 @@ var menuData = [{
 	}, {
 		title: 'Деревья',
 		name: ['trees', 'trees-2']
+	}, {
+		title: 'Панели',
+		name: ['group-panel']
 	}]
 }, {
 	title: 'Компоновки',
@@ -68,7 +71,16 @@ var menuData = [{
 }, {
 	title: 'Wiki',
 	
-},{
+}, {
+	title: 'Иконки',
+	children: [{
+		title: 'sweeticon',
+		name: ['sweeticon']
+	}/*, {
+		title: 'silk',
+		name: ['silk']
+	}*/]
+}, {
 	title: 'Скачать',
 	children: [{
 		title: 'MIN версия',
@@ -183,7 +195,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
  * Инициализация примера
  * 
  */
-function sample(title, o) {
+function sample(title, o, msg) {
 	
 	try{
 		var panel = $.ergo({
@@ -191,10 +203,36 @@ function sample(title, o) {
 			// кнопки
 			etype: 'sample-panel',
 			title: title,
-			stackItems: [{content: o}, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
+			stackItems: [{content: o}, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}],
+			content: {
+				components: {
+					alerts: {
+						etype: 'box',
+						weight: -5,
+						style: {'padding': '0 20px'},
+						defaultItem: {
+							etype: 'alert'
+						}
+					}
+				}				
+			}
 		});
 		
-		return panel.content.content.item(0).content;
+		var w = panel.content.content.item(0).content;
+		
+		w.alert = function(message, type) {
+			if(!type) type = 'info';
+			
+			panel.content.alerts.children.add({
+				cls: type,
+				messageHtml: message
+			});
+			
+		}
+		
+		if(msg) w.alert(msg);
+		
+		return w;
 		
 	}
 	catch(e) {
@@ -234,7 +272,7 @@ function load_sample(sample_a) {
 		};
 		
 		var load_script = function(script_name) {
-			return $.getScript('js/'+script_name+'.js')
+			return $.getScript('samples/js/'+script_name+'.js')
 				.then(function(script){
 					
 					var el = $('#sample').children().last();
@@ -251,6 +289,31 @@ function load_sample(sample_a) {
 	
 };
 
+
+
+
+
+function load_iconset(name) {
+	
+	var deferred = $.Deferred();
+	
+	$.get('iconsets/'+name+'/icons.css', function(data){
+		var a = data.split('\n');
+		var b = [];
+		for(var i in a) {
+			var s = a[i];
+			var m = s.match(/(e-icon-[^\s]+).*/)
+			if(m) b.push(m[1]);
+		}
+		deferred.resolve(b);
+		
+		data = data.replace(new RegExp(name, 'g'), 'iconsets/'+name);
+		$("<style></style>").appendTo("head").html(data);
+		
+	}, 'text');	
+	
+	return deferred;
+}
 
 
 
@@ -339,6 +402,7 @@ $(document).ready(function(){
 		
 		
 	}, 300);
+	
 	
 	
 	

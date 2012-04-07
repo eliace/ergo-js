@@ -16,5 +16,5 @@ sample('Загрузка файлов', {
 			etype: 'image',
 			src: 'img/icons-32/e-ico-folder.png'
 		}					
-	}]				
+	}]
 });

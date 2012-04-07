@@ -43,38 +43,31 @@ var customer = new Customer({
 
 
 var w = sample('Модель данных', {
-	components: {
-		alerts: {
-			//
-		},
-		content: {
-			layout: 'view',
-			
-			data: customer,
-			
-			items: [{
-				label: 'Имя',
-				etype: 'text',
-				dataId: 'firstName'
-			}, {
-				label: 'Отчество',
-				etype: 'text',
-				dataId: 'middleName'
-			}, {
-				label: 'Фамилия',
-				etype: 'text',
-				dataId: 'lastName'
-			}, {
-				label: 'Возраст',
-				etype: 'text',
-				dataId: 'age'		
-			}, {
-				label: 'Пол',
-				etype: 'text',
-				dataId: 'sex'		
-			}]
-		}
-	}	
+	layout: 'view',
+	
+	data: customer,
+	
+	items: [{
+		label: 'Имя',
+		etype: 'text',
+		dataId: 'firstName'
+	}, {
+		label: 'Отчество',
+		etype: 'text',
+		dataId: 'middleName'
+	}, {
+		label: 'Фамилия',
+		etype: 'text',
+		dataId: 'lastName'
+	}, {
+		label: 'Возраст',
+		etype: 'text',
+		dataId: 'age'		
+	}, {
+		label: 'Пол',
+		etype: 'text',
+		dataId: 'sex'		
+	}]
 	
 });
 
@@ -84,12 +77,7 @@ try{
 	customer.set('sex', 'муж');	
 }
 catch(e) {
-	//growl.warn(e.message);
-	w.alerts.children.add({
-		etype: 'alert',
-		cls: 'red',
-		messageHtml: e.message
-	});
+	w.alert(e.message, 'error');
 }
 
 // присваиваем коррекное значение полю sex

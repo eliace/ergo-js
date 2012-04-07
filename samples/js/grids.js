@@ -102,6 +102,7 @@ sample('Грид', {
 				data: gridData,
 				
 				columns: [{
+					style: {'text-align': 'center'},
 					content: {
 						etype: 'check-box',
 						onClick: function() {

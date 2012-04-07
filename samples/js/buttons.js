@@ -18,8 +18,6 @@ sample('Кнопки', {
 		etype: 'button-item',
 		text: 'Город',
 		xicon: 'button-arrow-down',
-		width: 100,
-
 		
 		onClick: function() {
 			this.dropdown.open();
@@ -31,6 +29,9 @@ sample('Кнопки', {
 		},
 		
 		components: {
+			content: {
+				width: 60,				
+			},
 			dropdown: {
 				etype: 'dropdown',
 				width: 150,
@@ -83,5 +84,33 @@ sample('Кнопки', {
 			etype: 'button-item'
 		},
 		items: ['Лево', 'Центр', 'Право']
+	}, {
+		style: {'display': 'block'},
+		etype: 'button-item',
+		text: 'Кнопка (HBox)',
+		icon: 'e-icon-edit',
+		xicon: 'e-icon-flag',
+		width: 300
+	}, {
+		style: {'display': 'block'},
+		etype: 'button-item',
+		text: 'Кнопка (VBox)',
+		components: {
+			icon: {
+				etype: 'image',
+				src: 'samples/img/worker_photo.png',
+				style: {'margin': '0 auto'}
+			}
+		},
+		icon: true,
+		layout: 'vbox'		
+	}, {
+		style: {'display': 'block'},
+		etype: 'button-item',
+		text: 'Кнопка (Item)',// с очень длинным текстом. Очень-очень длинным',
+		icon: 'e-icon-edit',
+		xicon: 'e-icon-flag',
+		layout: 'item',
+		width: 300
 	}]
 });

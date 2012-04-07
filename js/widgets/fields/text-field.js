@@ -8,6 +8,18 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		
 		cls: 'e-text-field',
 		
+		layout: {
+			wrap: function(item) {
+				if(item._key == 'input') {
+					var wrapper = $('<div/>');
+					wrapper.append(item.el);
+					return wrapper;
+				}
+				return item.el;
+			}
+		},
+		
+//		content: {			
 		components: {
 			input: {
 				etype: 'text-input',
@@ -20,13 +32,22 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 					}
 				}
 			}
-			
+//			}
+		},
+		
+		
+		set: {
+			'text': function(v) { this.input.opt('text', v); },
+			'placeholder': function(v) { this.input.el.attr('placeholder', v); }
+		},
+		get: {
+			'text': function() { return this.input.get('text'); }
 		},
 		
 		defaultItem: {
 			etype: 'button-item',
-			cls: 'e-input-button',
-			text: false
+			cls: 'e-input-button'
+//			text: false
 		},
 		
 		buttons: []

@@ -71,11 +71,15 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 		
 		html: '<li/>',
 		
-		states: {
-			'expanded': function(on) {
-				if(on) this.subtree.show();
-				else this.subtree.hide();
-			}
+		// states: {
+			// 'expanded': function(on) {
+				// if(on) this.subtree.show();
+				// else this.subtree.hide();
+			// }
+		// },
+		transitions: {
+			'> expanded': function() { this.subtree.show(); },
+			'expanded >': function() { this.subtree.hide(); }
 		},
 		
 		components: {
