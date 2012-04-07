@@ -90,6 +90,6 @@ Ergo.SelectionManager = Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object'
 
 
 Ergo.extension('Ergo.extensions.Selectable', function() {
-	this.selection = new Ergo.SelectionManager(this);
+	this.selection = new Ergo.SelectionManager(this);	
 }, 'selectable');
 

@@ -52,6 +52,9 @@ var menuData = [{
 	}, {
 		title: 'Деревья',
 		name: ['trees', 'trees-2']
+	}, {
+		title: 'Панели',
+		name: ['group-panel']
 	}]
 }, {
 	title: 'Компоновки',
@@ -188,7 +191,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
  * Инициализация примера
  * 
  */
-function sample(title, o) {
+function sample(title, o, msg) {
 	
 	try{
 		var panel = $.ergo({
@@ -196,10 +199,36 @@ function sample(title, o) {
 			// кнопки
 			etype: 'sample-panel',
 			title: title,
-			stackItems: [{content: o}, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}]
+			stackItems: [{content: o}, {etype: 'box', html: '<div><pre class="js sh_javascript"/></div>'}],
+			content: {
+				components: {
+					alerts: {
+						etype: 'box',
+						weight: -5,
+						style: {'padding': '0 20px'},
+						defaultItem: {
+							etype: 'alert'
+						}
+					}
+				}				
+			}
 		});
 		
-		return panel.content.content.item(0).content;
+		var w = panel.content.content.item(0).content;
+		
+		w.alert = function(message, type) {
+			if(!type) type = 'info';
+			
+			panel.content.alerts.items.add({
+				cls: type,
+				messageHtml: message
+			});
+			
+		}
+		
+		if(msg) w.alert(msg);
+		
+		return w;
 		
 	}
 	catch(e) {
