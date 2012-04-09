@@ -92,7 +92,7 @@ sample('Форма', {
 		cls: 'e-group',
 		label: 'Пол',
 		dataId: 'sex',
-		extensions: ['selectable'],
+		mixins: ['selectable'],
 		defaultItem: {
 			etype: 'button-item',
 			onClick: function() {

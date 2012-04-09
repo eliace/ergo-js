@@ -138,3 +138,8 @@ Ergo.core.WidgetList = Ergo.declare('Ergo.core.WidgetList', 'Ergo.core.Array', /
 //	}	
 		
 });
+
+
+
+
+
