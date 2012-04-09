@@ -12,19 +12,21 @@ Dir.foreach(Dir.getwd) do |iconset|
     
     filenames = []
     
-    Find.find(icons_pn.realpath) do |path|
+    Find.find(icons_pn) do |path|
+      next if path == icons_pn 
       pn = Pathname.new path
+      next if pn.basename('.*').to_s[0] == '.'
       filenames << {:name => pn.basename('.*').to_s.gsub('_', '-'), :file => icons_pn.join(pn.basename)}
     end
-      
-      filenames.sort! {|a, b| a[:name] <=> b[:name] }
+    
+    filenames.sort! {|a, b| a[:name] <=> b[:name] }
     
     File.open(File.join(iconset, 'icons.css'), 'w') do |f|
       f.puts ".e-icon {background-position: 50% 50%; background-repeat: no-repeat;}"
       f.puts
       filenames.each {|s| f.puts ".e-icon-#{s[:name]} {background: url(#{s[:file]})}"}
     end
-    
+
   end
 end
 

@@ -246,7 +246,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				if(sibling.attr('autoWidth') != 'ignore') 
 					w -= sibling.outerWidth(true);
 			});
-
+			
 			// задаем ширину элемента (с учетом отступов), если она не нулевая
 			if(w - dw) 
 				this.el.width(w - dw);

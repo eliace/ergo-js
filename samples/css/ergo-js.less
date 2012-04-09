@@ -718,9 +718,9 @@
 }
 .e-button-item:active > *, .e-button-item.clicked > * {
   position:relative;
-  top:1px;
-  
+  top:1px; 
 }
+
 
 .e-button-item::-moz-focus-inner {
   border: 0;
@@ -1053,7 +1053,7 @@ li.selected:hover {
   border-radius:5px 5px  0 0;
 }
 .e-grid-header th {
-  padding:5px;
+  padding: 5px 0;
 }
 
 
@@ -1226,6 +1226,35 @@ html[xmlns] [layout='float'] {
 }
 
 
+
+
+
+[layout='item'] > div {
+  position: relative;
+}
+
+[layout='item'] > div > .before {
+  top: 50%;
+  left: 0;
+  margin-top: -8px;
+  position: absolute;
+}
+
+[layout='item'] > div > .after {
+  top: 50%;
+  right: 0;
+  margin-top: -8px;
+  position: absolute;
+}
+
+[layout='item'] > div > span {
+  margin-left: 16px;
+  margin-right: 16px;
+  display: inline-block;
+}
+
+
+
 // Groups
 .e-group  .e-button-item {
   -webkit-border-radius: 0;
@@ -1381,7 +1410,7 @@ html[xmlns] [layout='float'] {
   margin:5px 0;
   position:relative;
 }
-
+/*
 .e-notification.red {
   background:#efd3d3;
   border:1px solid #e6b6b6;
@@ -1402,6 +1431,30 @@ html[xmlns] [layout='float'] {
   border:1px solid #9ec2cf;
   color:#5e8fa0;
 }
+*/
+
+
+.e-notification.error {
+  background:#efd3d3;
+  border:1px solid #e6b6b6;
+  color:#854c4c;
+}
+.e-notification.success {
+  background:#d5eab1;
+  border:1px solid #b4cd89;
+  color:#7b9d41;
+}
+.e-notification.warning {
+  background:#efebcf;
+  border:1px solid #ded598;
+  color:#857b32;
+}
+.e-notification.info {
+  background:#c3dae2;
+  border:1px solid #9ec2cf;
+  color:#5e8fa0;
+}
+
 
 .e-notification-close {
   width:16px;
@@ -1424,7 +1477,7 @@ html[xmlns] [layout='float'] {
    background: url(images/red_close.png);
 }
 
-
+/*
 .e-notification.red .e-notification-close {
   background: url(images/red_close.png);
 }
@@ -1437,6 +1490,22 @@ html[xmlns] [layout='float'] {
 .e-notification.yellow .e-notification-close {
   background: url(images/yellow_close.png);
 }
+*/
+
+.e-notification.error .e-notification-close {
+  background: url(images/red_close.png);
+}
+.e-notification.success .e-notification-close {
+  background: url(images/green_close.png);
+}
+.e-notification.info .e-notification-close {
+  background: url(images/blue_close.png);
+}
+.e-notification.warning .e-notification-close {
+  background: url(images/yellow_close.png);
+}
+
+
 
 
 //form collection theme 

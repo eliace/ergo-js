@@ -1,6 +1,5 @@
 .e-icon {background-position: 50% 50%; background-repeat: no-repeat;}
 
-.e-icon-.directory {background: url(silk/icons/.directory)}
 .e-icon-accept {background: url(silk/icons/accept.png)}
 .e-icon-add {background: url(silk/icons/add.png)}
 .e-icon-anchor {background: url(silk/icons/anchor.png)}
@@ -481,7 +480,6 @@
 .e-icon-html-delete {background: url(silk/icons/html_delete.png)}
 .e-icon-html-go {background: url(silk/icons/html_go.png)}
 .e-icon-html-valid {background: url(silk/icons/html_valid.png)}
-.e-icon-icons {background: url(silk/icons/icons)}
 .e-icon-image {background: url(silk/icons/image.png)}
 .e-icon-image-add {background: url(silk/icons/image_add.png)}
 .e-icon-image-delete {background: url(silk/icons/image_delete.png)}
