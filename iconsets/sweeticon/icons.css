@@ -1,11 +1,16 @@
 .e-icon {background-position: 50% 50%; background-repeat: no-repeat;}
 
 .e-icon-basket {background: url(sweeticon/icons/basket.png)}
+.e-icon-buy {background: url(sweeticon/icons/buy.png)}
+.e-icon-calculate {background: url(sweeticon/icons/calculate.png)}
+.e-icon-chat {background: url(sweeticon/icons/chat.png)}
 .e-icon-clip {background: url(sweeticon/icons/clip.png)}
+.e-icon-comment {background: url(sweeticon/icons/comment.png)}
 .e-icon-date {background: url(sweeticon/icons/date.png)}
 .e-icon-edit {background: url(sweeticon/icons/edit.png)}
 .e-icon-flag {background: url(sweeticon/icons/flag.png)}
 .e-icon-folder {background: url(sweeticon/icons/folder.png)}
+.e-icon-fullsize {background: url(sweeticon/icons/fullsize.png)}
 .e-icon-house {background: url(sweeticon/icons/house.png)}
 .e-icon-icons {background: url(sweeticon/icons/icons)}
 .e-icon-info {background: url(sweeticon/icons/info.png)}
@@ -15,5 +20,8 @@
 .e-icon-search {background: url(sweeticon/icons/search.png)}
 .e-icon-sign {background: url(sweeticon/icons/sign.png)}
 .e-icon-tag {background: url(sweeticon/icons/tag.png)}
+.e-icon-target {background: url(sweeticon/icons/target.png)}
+.e-icon-user {background: url(sweeticon/icons/user.png)}
+.e-icon-users {background: url(sweeticon/icons/users.png)}
 .e-icon-woman {background: url(sweeticon/icons/woman.png)}
 .e-icon-woman-sign {background: url(sweeticon/icons/woman-sign.png)}
