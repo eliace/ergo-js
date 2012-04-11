@@ -1,4 +1,6 @@
 
+//= require <widgets/natives/image>
+
 
 
 /**
