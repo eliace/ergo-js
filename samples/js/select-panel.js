@@ -43,6 +43,12 @@ sample('Панели выбора', {
 			this.content.setActive(e.target._index);
 		},
 		
+		components: {
+			select: {
+				style: {'margin': '10px 20px', 'padding': 0},
+				weight: -5,
+			}
+		},
 		
 		content: {
 			etype: 'box',
@@ -60,7 +66,6 @@ sample('Панели выбора', {
 		components: {
 			select: {
 				etype: 'box',
-				weight: -5,
 				defaultItem: {
 					etype: 'radio-item',
 					onClick: function() { this.events.bubble('select', {target: this}); }
@@ -73,7 +78,6 @@ sample('Панели выбора', {
 		components: {
 			select: {
 				etype: 'box',
-				weight: -5,
 				defaultItem: {
 					etype: 'button-item',
 					onClick: function() { this.events.bubble('select', {target: this}); }
@@ -88,14 +92,12 @@ sample('Панели выбора', {
 			select: {
 				etype: 'select-field',
 				extensions: ['selectable'],
-				weight: -5,
 				
 				onClick: function() {
 					this.dropdown.open();
 				},
 				
 				onSelect: function(e) {
-//					this.selection.set(e.target);
 					this.dropdown.close();
 					this.opt('text', e.target.opt('text'));
 				},
