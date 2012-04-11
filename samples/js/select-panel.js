@@ -32,11 +32,10 @@ sample('Панели выбора', {
 
 	etype: 'box',
 
-	items: [{
+
+	defaultItem: {
 		etype: 'panel',
 		
-		title: 'Радио-кнопки',
-
 		extensions: ['selectable'],
 		
 		onSelect: function(e) {
@@ -44,6 +43,20 @@ sample('Панели выбора', {
 			this.content.setActive(e.target._index);
 		},
 		
+		
+		content: {
+			etype: 'box',
+			layout: 'stack',
+			height: 220,
+			items: selectItems			
+		}
+		
+	},
+
+
+
+	items: [{
+		title: 'Радио-кнопки',
 		components: {
 			select: {
 				etype: 'box',
@@ -53,26 +66,10 @@ sample('Панели выбора', {
 					onClick: function() { this.events.bubble('select', {target: this}); }
 				},
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
-			},
-			content: {
-				etype: 'box',
-				layout: 'stack',
-				height: 220,
-				items: selectItems
 			}
 		}
 	}, {
-		etype: 'panel',
-		
 		title: 'Кнопки',
-
-		extensions: ['selectable'],
-		
-		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.content.setActive(e.target._index);
-		},
-		
 		components: {
 			select: {
 				etype: 'box',
@@ -83,26 +80,10 @@ sample('Панели выбора', {
 				},
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
 			},
-			content: {
-				etype: 'box',
-				layout: 'stack',
-				height: 220,
-				items: selectItems
-			}
 		}
 		
 	}, {
-		etype: 'panel',
-		
 		title: 'Кнопки',
-
-		extensions: ['selectable'],
-		
-		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.content.setActive(e.target._index);
-		},
-		
 		components: {
 			select: {
 				etype: 'select-field',
@@ -128,12 +109,6 @@ sample('Панели выбора', {
 						}
 					}
 				}				
-			},
-			content: {
-				etype: 'box',
-				layout: 'stack',
-				height: 220,
-				items: selectItems
 			}
 		}
 		
