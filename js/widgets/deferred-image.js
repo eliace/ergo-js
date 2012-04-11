@@ -1,5 +1,5 @@
 
-//= require <widgets/natives/image>
+//= require <widgets/natives/img>
 
 
 
