@@ -793,6 +793,13 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 	},
 	
 	
+	isBound: function() {
+		return (this.data != null);
+	},
+	
+	
+	
+	
 	/**
 	 * Получение значения, связанного с виджетом.
 	 * 

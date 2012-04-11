@@ -54,7 +54,7 @@ var menuData = [{
 		name: ['trees', 'trees-2']
 	}, {
 		title: 'Панели',
-		name: ['group-panel']
+		name: ['group-panel', 'select-panel']
 	}]
 }, {
 	title: 'Компоновки',

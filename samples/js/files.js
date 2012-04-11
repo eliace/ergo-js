@@ -14,7 +14,7 @@ sample('Загрузка файлов', {
 		etype: 'upload-item',
 		content: {
 			etype: 'image',
-			src: 'img/icons-32/e-ico-folder.png'
+			src: 'img/icons-32/e-icon-folder.png'
 		}					
 	}]
 });
