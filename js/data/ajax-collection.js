@@ -24,7 +24,7 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
 		cache: true,
 		path: '',
 		query: {},
-		transform: null
+		parse: null
 //		process: function(json) {
 //		}
 	},
@@ -51,7 +51,7 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     
     var qPath = this.options.path;
     var qParams = Ergo.override({}, this.options.query);
-    var qCallback = this.options.transform;
+    var qCallback = this.options.parse;
     
     for(var i = 0; i < arguments.length; i++) {
     	var arg = arguments[i];
