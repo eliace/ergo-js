@@ -8,7 +8,7 @@ load_iconset('sweeticon').then(function(arr){
 	for(var i in arr) {
 		var icon = arr[i];
 		
-		w.items.add({
+		w.children.add({
 			label: icon,
 			content: {
 				cls: icon
