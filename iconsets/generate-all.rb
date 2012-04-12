@@ -16,7 +16,7 @@ Dir.foreach(Dir.getwd) do |iconset|
       next if path == icons_pn 
       pn = Pathname.new path
       next if pn.basename('.*').to_s[0] == '.'
-      filenames << {:name => pn.basename('.*').to_s.gsub('_', '-'), :file => icons_pn.join(pn.basename)}
+      filenames << {:name => pn.basename('.*').to_s.gsub('_', '-'), :file => File.join('icons', pn.basename)} #icons_pn.join(pn.basename)
     end
     
     filenames.sort! {|a, b| a[:name] <=> b[:name] }

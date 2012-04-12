@@ -303,7 +303,7 @@ function load_iconset(name) {
 		}
 		deferred.resolve(b);
 		
-		data = data.replace(new RegExp(name, 'g'), 'iconsets/'+name);
+		data = data.replace(new RegExp('icons/', 'g'), 'iconsets/'+name+'/icons/');
 		$("<style></style>").appendTo("head").html(data);
 		
 	}, 'text');	
