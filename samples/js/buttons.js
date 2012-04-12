@@ -85,6 +85,13 @@ sample('Кнопки', {
 		},
 		items: ['Лево', 'Центр', 'Право']
 	}, {
+		etype: 'box',
+		cls: 'e-group',
+		defaultItem: {
+			etype: 'button-item'
+		},
+		items: ['◄', '►']
+	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (HBox)',

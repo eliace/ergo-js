@@ -13,13 +13,5 @@ sample('Поле ввода', {
 		etype: 'text-field',
 		multiline: true,
 		placeholder: 'Введите текст'
-	}, {
-		label: 'Адрес проживания',
-		etype: 'text-button-field',
-		placeholder: 'Адрес',
-		buttons: [{
-			icon: 'e-icon-info',
-			text: false
-		}]
-	}]				
+	},]				
 });
