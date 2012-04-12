@@ -55,12 +55,15 @@ var menuData = [{
 	}, {
 		title: 'Панели',
 		name: ['group-panel', 'select-panel']
+	}, {
+		title: 'Формы',
+		name: ['form']
 	}]
 }, {
 	title: 'Компоновки',
 	children: [{
 		title: 'Форма',
-		name: ['form']
+		name: ['form-layout']
 	}, {
 		title: 'Пользовательская',
 		name: ['custom-layout']

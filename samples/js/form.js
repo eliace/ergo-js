@@ -1,109 +1,65 @@
 
-var fromData = {
-	firstName: '',
-	lastName: '',
-	middleName: '',
-	age: null,
-	sex: null
-};
+var formData = new Ergo.core.DataSource({
+	// text-input (строка)
+	first_name: 'Иван',
+	middle_name: 'Иванович',
+	last_name: 'Волков',
+	// spinner (число)
+	height: 180,
+	// date-input (дата)
+	birth_date: null,
+	// switcher (булево)
+	left_handed: false,
+	// select (выбор из списка)
+	hair: {
+		id: null,
+		list: ['брюнет', 'шатен', 'рыжий', 'русый', 'блодин', 'седой']
+	},
+	// file (binary/attachment)
+	photo: null
+	
+});
 
 
 
-/**
- * 
- * Элементы:
- *   
- * 	- Text (+)
- * 	- TextArea (+)
- * 	- Date
- * 	- Time
- * 	- Spinner
- * 	- Slider
- * 	- Checkbox (+)
- * 	- Switcher (+)
- * 	- Toggler (+)
- * 	- SelectBox (+)
- * 	- ComboBox
- * 	- File
- * 	- Button (+)
- * 
- */
 
-
-sample('Форма', {
-	etype: 'box',
+sample('Форма с ergo-виджетами', {
 	
 	layout: 'form',
 	
+	data: formData,
+	
 	items: [{
+		label: 'Фамилия',
 		etype: 'text-field',
-		dataId: 'firstName',
-		label: 'Имя'
+		dataId: 'last_name'
 	}, {
+		label: 'Имя',
 		etype: 'text-field',
-		dataId: 'firstName',
-		label: 'Справочник',
+		dataId: 'first_name'
+	}, {
+		label: 'Очество',
+		etype: 'text-field',
+		dataId: 'middle_name'
+	}, {
+		label: 'Рост',
+		etype: 'text-field',
+		dataId: 'height',
 		buttons: [{
-			icon: 'e-icon-info'
-		}, {
-			icon: 'e-icon-tag'
-		}]
-	}, {
-		etype: 'text-field',
-//		dataId: 'firstName',
-		label: 'Дата рождения',
-		width: 200,
-		buttons: [{
-			icon: 'e-icon-date',
-		}],
-		onAfterBuild: function() {
-			
-			var self = this;
-			
-			this.el.dynDateTime({
-				cache : true,
-				ifFormat : "%Y.%m.%d",
-				//debug : true,
-				daFormat : "%Y.%m.%d",
-				onUpdate : function(v) {
-//					console.log(self);
-//					self.el.val(v.date.print(v.dateFormat));
-					self.opt('text', v.date.print(v.dateFormat));
-				},
-			});			
-		}
-	}, {
-		etype: 'box',
-		cls: 'e-group',
-		label: 'Пол',
-		dataId: 'sex',
-		extensions: ['selectable'],
-		defaultItem: {
-			etype: 'button-item',
-			onClick: function() {
-				this.parent.selection.set(this);
-			}
-		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
-	}, {
-		label: 'Адрес',
-		etype: 'select-field'
-	}, {
-		etype: 'text-field',
-		label: 'Файл',
-		buttons: [{
-			etype: 'upload-item',
-			content: {
-				etype: 'button-item',
-				icon: 'e-icon-tag',
-//				text: 'Загрузить файл'	
+			etype: 'box',
+			cls: 'e-group-vert',
+			defaultItem: {
+				etype: 'button-item'
 			},
-			onAction: function(e) {
-				this.parent.opt('text', e.file);
-//				growl.success(e.file);
-			}
-		}]
+			items: [{icon: 'spinner-arrow-up', tag: 'up'}, {icon: 'spinner-arrow-down', tag: 'down'}]
+		}]		
+	}, {
+		label: 'Дата рождения',
+		etype: 'text-field',
+		dataId: 'birth_date',
+		buttons: [{etype: 'icon', cls: 'e-icon-date'}]
 	}]
+	
 	
 	
 });
