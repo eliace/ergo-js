@@ -347,8 +347,20 @@
 }
 .button-arrow-down {
   background: url(images/button-arrow-down.png)center bottom;
- margin-left:5px;
- 
+  margin-left:5px;
+}
+.button-arrow-right {
+ background: url(images/button-arrow-right.png)center bottom;
+
+}
+.button-arrow-left {
+ background: url(images/button-arrow-left.png)center bottom;
+}
+.spinner-arrow-down {
+ background: url(images/spinner-arrow-down.png)center bottom;
+}
+.spinner-arrow-up {
+ background: url(images/spinner-arrow-up.png)center bottom;
 }
 //drop-down select list
 .e-glasspane {
@@ -711,7 +723,6 @@
   -webkit-border-radius:0 3px 3px 0;
   -moz-border-radius:0 3px 3px 0;
    border-radius:0 3px 3px 0;
-   padding:4px 0;
 }
 .e-split-button > button + button > span{
    
@@ -726,7 +737,6 @@
   border: 0;
 }
 .e-button-item .e-icon {
-  margin:0 5px;
   background-position:center center;
 }
 
@@ -1297,7 +1307,28 @@ html[xmlns] [layout='float'] {
   -moz-box-shadow:none;
   box-shadow:none;
 }
-
+.e-group-vert .e-button-item {
+  display:block!important;
+  clear:both!important;
+  padding:0 7px!important;
+}
+.e-group-vert .e-button-item .e-icon{
+  height:10px!important;
+}
+.e-group-vert .e-button-item {
+  border-bottom:0!important;
+  -webkit-border-radius:3px 3px 0 0;
+  -moz-border-radius:3px 3px 0 0;
+   border-radius:3px 3px 0 0;
+  
+}
+.e-group-vert .e-button-item + .e-button-item {
+ 
+  -webkit-border-radius:0 0 3px 3px;
+  -moz-border-radius:0 0 3px 3px;
+   border-radius:0 0 3px 3px;
+   border-bottom:1px solid #DEDEDE!important;
+}
 //binding list                                                            
 
 .binding-list {
