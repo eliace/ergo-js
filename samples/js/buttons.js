@@ -90,7 +90,17 @@ sample('Кнопки', {
 		defaultItem: {
 			etype: 'button-item'
 		},
-		items: ['◄', '►']
+//		items: ['◄', '►']
+		items: [{icon: 'button-arrow-left'}, {icon: 'button-arrow-right'}]
+	}, {
+		etype: 'box',
+		cls: 'e-group-vert',
+		layout: 'vbox',
+		defaultItem: {
+			etype: 'button-item'
+		},
+		style: {'font-size': 8},
+		items: [{icon: 'spinner-arrow-up'}, {icon: 'spinner-arrow-down'}]
 	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
