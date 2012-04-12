@@ -868,6 +868,7 @@ li.selected:hover {
   padding: @e-field-margin;
   left:30px;
   cursor:pointer;
+   list-style-position:inside!important;
 }
 
 .e-dropbox ul li:last-child {
@@ -887,7 +888,7 @@ li.selected:hover {
  list-style-type:lower-alpha!important;
 }
 .decimal, .roman, .alpha > ul {
-  list-style-position:inside;
+  list-style-position:inside!important;
 }
 
 
@@ -1575,13 +1576,16 @@ html[xmlns] [layout='float'] {
   background:transparent;
   resize:none;
   padding:8px 0;
+  font-size:1em!important;
+  font-family:Arial;
 }
 .e-text-field button {
-  float:right
+  float:right;
+
 }
 .e-text-field > div {
   overflow: hidden; 
-  padding-right: 5px;
+ 
 }
 
 /* Календарь */
