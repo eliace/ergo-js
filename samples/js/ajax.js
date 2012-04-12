@@ -8,8 +8,8 @@ MyAjaxCollection = Ergo.data.AjaxCollection.extend({
 	// определяем значения опций по умолчанию
 	defaults: {
 		// задаем метод трансформации результата
-		transform: function(json) {
-			// в качестве примера добавим еще однин элемент списка
+		parse: function(json) {
+			// в качестве примера добавим еще один элемент списка
 			json.push({
 				name: 'Белкина Н.В.'
 			});
