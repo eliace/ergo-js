@@ -140,8 +140,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		 * @description Коллекция элементов виджета
 		 * 
 		 */
-		this.children = new Ergo.core.WidgetList(this);
+		this.children = new Ergo.core.WidgetChildren(this);
 
+		this.components = new Ergo.core.WidgetComponents(this);
+		this.items = new Ergo.core.WidgetItems(this);
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
@@ -639,6 +641,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		});
 	},
 	
+		
 	
 	
 	

@@ -41,6 +41,13 @@ test('core/widget', function(){
 	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
 	ok(w.component('c1') == w.c1, 'Поиск по ключу в списке компонентов')
 	ok(w.component({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
+	
+	ok(w.components.get('c2') == w.c2, 'Доступ через коллекцию компонентов');
+	equals(2, w.components.size(), 'Количество элементов в коллекции компонентов');
+	w.components.remove_at('c1');
+	equals(1, w.components.size(), 'Размер коллекции компонентов послк удаления компонента равен 1');
+	equals(1, w.children.size(), 'Размер списка дочерних виджетов после удаления компонента равен 1');
+	
 
 
 	w = new Ergo.core.Widget({
@@ -185,6 +192,17 @@ test('core/widget', function(){
 	equals(children.eq(1).ergo().tag, 'item_1', '')
 	equals(children.eq(2).ergo().tag, 'component_1', '')
 	ok(w.item(0).tag == 'item_1', 'Элемент с индексом 0 имеет тег item_1')
+	ok(2, w.components.size(), 'Количество компоннетов равно 2');
+	ok(1, w.items.size(), 'Количество элементов равно 1');
+	
+	w.items.add({
+		etype: 'widget',
+		html: '<div/>',
+		tag: 'item_2' 
+	});
+	
+	ok(2, w.items.size(), 'После добавления элемента количество элементов равно 2');
+	
 	
 	
 	/*
