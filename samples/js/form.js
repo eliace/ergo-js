@@ -1,76 +1,105 @@
 
-var fromData = {
-	firstName: '',
-	lastName: '',
-	middleName: '',
-	age: null,
-	sex: null
-};
+var formData = new Ergo.core.DataSource({
+	// text-input (строка)
+	first_name: 'Иван',
+	middle_name: 'Иванович',
+	last_name: 'Волков',
+	// spinner (число)
+	height: 180,
+	// date-input (дата)
+	birth_date: null,
+	// switcher (булево)
+	left_handed: false,
+	// select (выбор из списка)
+	hair: {
+		id: null,
+		list: [{id: 1, title: 'брюнет'}, {id: 2, title: 'шатен'}, {id: 3, title: 'рыжий'}, {id: 4, title: 'русый'}, {id: 5, title: 'блодин'}, {id: 6, title: 'седой'}]
+	},
+	// file (binary/attachment)
+	photo: null
+	
+});
 
 
 
-/**
- * 
- * Элементы:
- *   
- * 	- Text (+)
- * 	- TextArea (+)
- * 	- Date
- * 	- Time
- * 	- Spinner
- * 	- Slider
- * 	- Checkbox (+)
- * 	- Switcher (+)
- * 	- Toggler (+)
- * 	- SelectBox (+)
- * 	- ComboBox
- * 	- File
- * 	- Button (+)
- * 
- */
 
-
-sample('Форма', {
+var w = sample('Форма с ergo-виджетами', {
+	
 	layout: 'form',
 	
+	data: formData,
+	
+	components: {
+		dataView: {
+			label: '',
+			etype: 'box',
+			html: '<pre/>',
+			weight: -10			
+		}
+	},
+	
+	onValueChanged: function() {
+		this.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+	},
+	
 	items: [{
+		label: 'Фамилия',
 		etype: 'text-field',
-		dataId: 'firstName',
-		label: 'Имя'
+		dataId: 'last_name'
 	}, {
+		label: 'Имя',
 		etype: 'text-field',
-		dataId: 'firstName',
-		label: 'Справочник',
+		dataId: 'first_name'
+	}, {
+		label: 'Очество',
+		etype: 'text-field',
+		dataId: 'middle_name'
+	}, {
+		label: 'Рост',
+		etype: 'text-field',
+		dataId: 'height',
 		buttons: [{
-			icon: 'e-icon-info'
-		}, {
-			icon: 'e-icon-tag'
-		}]
-	}, {
-		etype: 'box',
-		cls: 'e-group',
-		label: 'Пол',
-		dataId: 'sex',
-		mixins: ['selectable'],
-		defaultItem: {
-			etype: 'button-item',
-			text: false,
-			onClick: function() {
-				this.parent.selection.set(this);
+			etype: 'box',
+			cls: 'e-group-vert',
+			defaultItem: {
+				etype: 'button-item',
+				onClick: function() {
+					this.events.bubble('action');
+				}
+			},
+			items: [{icon: 'spinner-arrow-up', tag: 'up'}, {icon: 'spinner-arrow-down', tag: 'down'}]
+		}],
+		
+		onAction: function(e) {
+			var v = this.opt('value');
+			if(e.target.tag == 'up')
+				this.opt('value', ++v);
+			else if(e.target.tag == 'down')
+				this.opt('value', --v);
+		},
+		
+		set: {
+			'value': function(v) {
+				if(this.data)
+					this.data.set(v);
+				this.opt('text', v);
+				this.events.bubble('valueChanged');
 			}
 		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
+		get: {
+			'value': function(v) {
+				if(this.data) return this.data.get();
+				return this.opt('text');
+			}
+		}
+		
+		
 	}, {
-		label: 'Адрес',
-		etype: 'select-field'
-	}, {
-		etype: 'text-field',
-//		dataId: 'firstName',
 		label: 'Дата рождения',
-		width: 200,
-		buttons: [{
-			icon: 'e-icon-date',
-		}],
+		etype: 'text-field',
+		dataId: 'birth_date',
+		buttons: [{etype: 'icon', cls: 'e-icon-date'}],
+		
 		onAfterBuild: function() {
 			
 			var self = this;
@@ -81,43 +110,85 @@ sample('Форма', {
 				//debug : true,
 				daFormat : "%Y.%m.%d",
 				onUpdate : function(v) {
-//					console.log(self);
-//					self.el.val(v.date.print(v.dateFormat));
-					self.opt('text', v.date.print(v.dateFormat));
+					self.opt('val', v.date.print(v.dateFormat));
 				},
 			});			
+		},
+		
+		set: {
+			'val': function(v) {
+				this.data.set(v);
+				this.opt('text', v);				
+				this.events.bubble('valueChanged');
+			}
 		}
+		
 	}, {
-		etype: 'box',
-		cls: 'e-group',
-		label: 'Пол',
-		dataId: 'sex',
-		mixins: ['selectable'],
-		defaultItem: {
-			etype: 'button-item',
-			onClick: function() {
-				this.parent.selection.set(this);
+		label: '',
+		etype: 'switcher',
+		left: 'Левша',
+		right: 'Правша',
+		dataId: 'left_handed',
+		
+		onStateChanged: function(e) {
+			if(e.state == 'checked') {
+				this.opt('value', (e.op == 'on'));
 			}
 		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
-	}, {
-		label: 'Адрес',
-		etype: 'select-field'
-	}, {
-		etype: 'text-field',
-		label: 'Файл',
-		buttons: [{
-			etype: 'upload-item',
-			content: {
-				etype: 'button-item',
-				icon: 'e-icon-tag',
-//				text: 'Загрузить файл'	
-			},
-			onAction: function(e) {
-				this.parent.opt('text', e.file);
-//				growl.success(e.file);
+		
+		set: {
+			'value': function(v) {
+				if(this.data) {
+					this.data.set(v);
+				}
+				this.events.bubble('valueChanged');				
 			}
-		}]
+		}
+		
+		
+	}, {
+		label: 'Цвет волос',
+		etype: 'select-field',
+		dataId: 'hair',
+		mixins: ['selectable'],
+		
+		onSelect: function(e) {
+//			this.selection.set(e.target);
+			this.dropdown.close();
+			
+			this.opt('value', e.target.data.get());
+		},
+		
+		components: {
+			dropdown: {
+				dataId: 'list',
+				content: {
+					dynamic: true,
+					defaultItem: {
+						format: '#{title}'
+					}
+				}
+			}
+		},
+		
+		set: {
+			'value': function(v) {
+				if(this.data) {
+					this.data.set('id', v.id);					
+					this.opt('text', v.title);
+				}
+				else {
+					this.opt('text', v);					
+				}
+				this.events.bubble('valueChanged');
+			}
+		}
+		
+		
 	}]
 	
 });
+
+
+w.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+

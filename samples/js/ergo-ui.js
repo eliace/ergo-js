@@ -57,13 +57,16 @@ var menuData = [{
 		name: ['trees', 'trees-2']
 	}, {
 		title: 'Панели',
-		name: ['group-panel']
+		name: ['group-panel', 'select-panel']
+	}, {
+		title: 'Формы',
+		name: ['form']
 	}]
 }, {
 	title: 'Компоновки',
 	children: [{
 		title: 'Форма',
-		name: ['form']
+		name: ['form-layout']
 	}, {
 		title: 'Пользовательская',
 		name: ['custom-layout']
@@ -307,7 +310,7 @@ function load_iconset(name) {
 		}
 		deferred.resolve(b);
 		
-		data = data.replace(new RegExp(name, 'g'), 'iconsets/'+name);
+		data = data.replace(new RegExp('icons/', 'g'), 'iconsets/'+name+'/icons/');
 		$("<style></style>").appendTo("head").html(data);
 		
 	}, 'text');	

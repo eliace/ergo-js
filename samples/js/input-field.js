@@ -14,12 +14,19 @@ sample('Поле ввода', {
 		multiline: true,
 		placeholder: 'Введите текст'
 	}, {
-		label: 'Адрес проживания',
-		etype: 'text-button-field',
-		placeholder: 'Адрес',
+		label: 'Текст',
+		etype: 'text-field',
 		buttons: [{
-			icon: 'e-icon-info',
-			text: false
-		}]
+			etype: 'box',
+			cls: 'e-group-vert',
+			defaultItem: {
+				etype: 'button-item'
+			},
+			items: [{
+				icon: 'spinner-arrow-up'				
+			}, {
+				icon: 'spinner-arrow-down'
+			}]
+		}]		
 	}]				
 });

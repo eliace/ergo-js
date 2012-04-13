@@ -85,6 +85,23 @@ sample('Кнопки', {
 		},
 		items: ['Лево', 'Центр', 'Право']
 	}, {
+		etype: 'box',
+		cls: 'e-group',
+		defaultItem: {
+			etype: 'button-item'
+		},
+//		items: ['◄', '►']
+		items: [{icon: 'button-arrow-left'}, {icon: 'button-arrow-right'}]
+	}, {
+		etype: 'box',
+		cls: 'e-group-vert',
+		layout: 'vbox',
+		defaultItem: {
+			etype: 'button-item'
+		},
+		style: {'font-size': 8},
+		items: [{icon: 'spinner-arrow-up'}, {icon: 'spinner-arrow-down'}]
+	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (HBox)',

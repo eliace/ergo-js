@@ -68,13 +68,16 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 		// 2. 
 		for(var i = 0; i < from.length; i++) {
-			delete this._current[from[i]];			
+			delete this._current[from[i]];
 		}
 
 		// 3.		
 		this.state_on(to);
 		
 		this._current[to] = from;
+		
+		
+		this._widget.events.fire('stateChanged', {from: from, to: to});
 		
 		return this;
 	},
@@ -95,7 +98,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		else {
 			this._widget.el.addClass(s);
 		}
-		
+
+		this._widget.events.fire('stateChanged', {state: s, op: 'on'});		
 	},
 	
 	
@@ -112,6 +116,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			this._widget.el.removeClass(s);
 		}		
 		
+		this._widget.events.fire('stateChanged', {state: s, op: 'off'});
+				
 	},
 	
 	
@@ -265,8 +271,8 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 			
 			self._states[name] = true;
 			
-			self._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
-			self._widget.events.fire('onStateSet', {'state': name});			
+			self._widget.events.fire('stateChanged', {'state': name, 'op': 'set'});
+			self._widget.events.fire('stateSet', {'state': name});			
 		}
 		
 		
@@ -370,8 +376,8 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 		
 		delete this._states[name];
 		
-		this._widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
-		this._widget.events.fire('onStateClear', {'state': name});
+		this._widget.events.fire('stateChanged', {'state': name, 'op': 'clear'});		
+		this._widget.events.fire('stateClear', {'state': name});
 		
 		return this;		
 	},

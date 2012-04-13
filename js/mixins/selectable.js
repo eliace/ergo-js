@@ -97,7 +97,7 @@ Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
 	Ergo.smart_override(this.options, {
 		onSelect: function(e) {
 			this.selection.set(e.target);
-			e.cancel();
+//			e.cancel();
 		}
 	});	
 	

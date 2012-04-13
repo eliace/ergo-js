@@ -7,7 +7,8 @@ Ergo.declare('Ergo.widgets.Switcher', 'Ergo.widgets.Box', {
 		cls: 'e-choice',
 		components: {
 			left: {
-				etype: 'label'
+				etype: 'label',
+				binding: false
 			},
 			content: {
 				content: {
@@ -15,7 +16,8 @@ Ergo.declare('Ergo.widgets.Switcher', 'Ergo.widgets.Box', {
 				}
 			},
 			right: {
-				etype: 'label'
+				etype: 'label',
+				binding: false
 			}
 		},
 		onClick: function() {

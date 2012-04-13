@@ -128,7 +128,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		// добавляем метод bubble к events
 		this.events.bubble = function(name, e) {
+			if(!e) e = {}
 			e.after = Ergo.bubble;
+			e.target = self;
 			this.fire(name, e);
 		}
 
@@ -826,6 +828,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		this.events.fire('onBind');
 	},
+	
+	
+	isBound: function() {
+		return (this.data != null);
+	},
+	
+	
 	
 	
 	/**
