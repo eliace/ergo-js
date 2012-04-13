@@ -25,8 +25,12 @@ Ergo.declare('Ergo.widgets.Switcher', 'Ergo.widgets.Box', {
 		},
 		
 		set: {
-			'left': function(v) { this.left.opt('text', v); },
-			'right': function(v) { this.right.opt('text', v); }
+			'text': function(v) {
+				this.left.opt('text', v[0]);				
+				this.right.opt('text', v[1]);				
+			}
+//			'left': function(v) { this.left.opt('text', v); },
+//			'right': function(v) { this.right.opt('text', v); }
 		}
 	}
 	

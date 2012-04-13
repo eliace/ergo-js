@@ -126,8 +126,7 @@ var w = sample('Форма с ergo-виджетами', {
 	}, {
 		label: '',
 		etype: 'switcher',
-		left: 'Левша',
-		right: 'Правша',
+		text: ['Правша', 'Левша'],
 		dataId: 'left_handed',
 		
 		onStateChanged: function(e) {
