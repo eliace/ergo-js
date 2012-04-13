@@ -128,7 +128,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		// добавляем метод bubble к events
 		this.events.bubble = function(name, e) {
+			if(!e) e = {}
 			e.after = Ergo.bubble;
+			e.target = self;
 			this.fire(name, e);
 		}
 

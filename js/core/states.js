@@ -72,8 +72,8 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 			
 			self._states[name] = true;
 			
-			self._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
-			self._widget.events.fire('onStateSet', {'state': name});			
+			self._widget.events.fire('stateChanged', {'state': name, 'op': 'set'});
+			self._widget.events.fire('stateSet', {'state': name});			
 		}
 		
 		
@@ -177,8 +177,8 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 		
 		delete this._states[name];
 		
-		this._widget.events.fire('onStateChange', {'state': name, 'op': 'clear'});		
-		this._widget.events.fire('onStateClear', {'state': name});
+		this._widget.events.fire('stateChanged', {'state': name, 'op': 'clear'});		
+		this._widget.events.fire('stateClear', {'state': name});
 		
 		return this;		
 	},
