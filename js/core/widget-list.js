@@ -161,9 +161,10 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	},
 
 
-	_as_filtered: function() {
+	_source: function() {
 		var result = {};
-		this._widget.children.each(function(c) { if('_key' in c) result[c._key] = c; });
+		var o = this.options;
+		this._widget.children.each(function(c) { if(c._type == o.type) result[c._key] = c; });
 		return result;
 	},
 	
@@ -180,16 +181,9 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} item значение
 	 */
 	set: function(i, item) {
-		this._widget.children.add(item, i, 'component');
+		this._widget.children.add(item, i, this.options.type);
 	},
 	
-	/**
-	 * Удаление значения по ключу
-	 * @param {Object} i ключ
-	 */
-	unset: function(i) {
-		this.remove_at(i)
-	},
 	
 	
 	
@@ -198,7 +192,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} i
 	 */
 	get: function(i) {
-		return this._as_filtered()[i];
+		return this._source()[i];
 	},
 	
 	/**
@@ -244,7 +238,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true 
 	 */
 	remove_if: function(criteria) {
-		var keys = Ergo.filter_keys(this._as_filtered(), criteria);
+		var keys = Ergo.filter_keys(this._source(), criteria);
 		keys.sort().reverse();
 		var removed = [];
 		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
@@ -271,7 +265,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} delegate
 	 */
 	each: function(callback, delegate) {
-		Ergo.each(this._as_filtered(), callback, delegate);
+		Ergo.each(this._source(), callback, delegate);
 	},
 	
 //	ensure: function(i) {
@@ -282,14 +276,14 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * Поиск первого элемента, удовлетворяющего критерию
 	 */
 	find: function(criteria) {
-		return Ergo.find(this._as_filtered(), criteria);
+		return Ergo.find(this._source(), criteria);
 	},
 	
 	/**
 	 * Поиск всех элементов, удовлетворяющих критерию
 	 */
 	find_all: function(criteria) {
-		return Ergo.filter(this._as_filtered(), callback);
+		return Ergo.filter(this._source(), callback);
 	},
 	
 	
@@ -302,14 +296,14 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * Фильтрация элементов
 	 */
 	filter: function(callback) {
-		return this.create( Ergo.filter(this._as_filtered(), callback) );
+		return this.create( Ergo.filter(this._source(), callback) );
 	},
 
 	/**
 	 * Отображение элементов
 	 */
 	map: function(callback) {
-		return this.create( Ergo.map(this._as_filtered(), callback) );		
+		return this.create( Ergo.map(this._source(), callback) );		
 	},
 	
 	/**
@@ -317,7 +311,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} criteria
 	 */
 	includes: function(criteria) {
-		return Ergo.includes(this._as_filtered(), callback);
+		return Ergo.includes(this._source(), callback);
 	},
 	
 	/**
@@ -325,7 +319,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 */
 	size: function() {
 		var n = 0;
-		var src = this._as_filtered();
+		var src = this._source();
 		for(var i in src) n++;
 		return n;
 	},
@@ -342,7 +336,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} item
 	 */
 	key_of: function(item) {
-		return Ergo.key_of(this._as_filtered(), item);
+		return Ergo.key_of(this._source(), item);
 	},
 	
 	/**
@@ -352,7 +346,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} args
 	 */
 	apply_all: function(m, args) {
-		Ergo.apply_all(this._as_filtered(), m, args);
+		Ergo.apply_all(this._source(), m, args);
 	},
 	
 	
@@ -361,7 +355,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} i ключ
 	 */
 	has_key: function(i) {
-		return (i in this._as_filtered());
+		return (i in this._source());
 	},
 	
 	/**
@@ -369,13 +363,13 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 */
 	keys: function() {
 		var k = [];
-		for(var i in this._as_filtered()) k.push(i);
+		for(var i in this._source()) k.push(i);
 		return k;
 	},
 	
 	
 	add: function(item, i) {
-		this._widget.children.add(item, i, 'component');
+		this._widget.children.add(item, i, this.options.type);
 	}
 	
 
@@ -383,10 +377,10 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 
 
 
-
+/*
 Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 
-	_as_filtered: function() {
+	_source: function() {
 		var result = [];
 		this._widget.children.each(function(c) { if(!('_key' in c)) result.push(c); });
 		return result;
@@ -409,4 +403,4 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	
 	
 });
-
+*/

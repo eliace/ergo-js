@@ -9,7 +9,7 @@ var formData = new Ergo.core.DataSource({
 	// date-input (дата)
 	birth_date: null,
 	// switcher (булево)
-	left_handed: false,
+	left_handed: true,
 	// select (выбор из списка)
 	hair: {
 		id: null,
@@ -110,18 +110,24 @@ var w = sample('Форма с ergo-виджетами', {
 				//debug : true,
 				daFormat : "%Y.%m.%d",
 				onUpdate : function(v) {
-					self.opt('val', v.date.print(v.dateFormat));
+					self.opt('value', v.date.print(v.dateFormat));
 				},
 			});			
 		},
 		
-		set: {
-			'val': function(v) {
-				this.data.set(v);
-				this.opt('text', v);				
-				this.events.bubble('valueChanged');
-			}
-		}
+		binding: function(v) {
+			this.opt('text', v);
+		},
+		
+		updateOnValueChanged: true
+		
+		// set: {
+			// 'val': function(v) {
+				// this.data.set(v);
+				// this.opt('text', v);				
+				// this.events.bubble('valueChanged');
+			// }
+		// }
 		
 	}, {
 		label: '',
@@ -132,18 +138,24 @@ var w = sample('Форма с ergo-виджетами', {
 		
 		onStateChanged: function(e) {
 			if(e.state == 'checked') {
-				this.opt('value', (e.op == 'on'));
+//				this.opt('value', (e.op == 'on'));
 			}
 		},
 		
-		set: {
-			'value': function(v) {
-				if(this.data) {
-					this.data.set(v);
-				}
-				this.events.bubble('valueChanged');				
-			}
-		}
+		binding: function(v) {
+			this.states.toggle('checked', v);
+		},
+		
+		updateOnValueChanged: true
+		
+		// set: {
+			// 'value': function(v) {
+				// if(this.data) {
+					// this.data.set(v);
+				// }
+				// this.events.bubble('valueChanged');				
+			// }
+		// }
 		
 		
 	}, {

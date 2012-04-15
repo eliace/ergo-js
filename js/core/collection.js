@@ -51,9 +51,9 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	// unset: function(i) {
-		// delete this.src[i];
-	// },
+	unset: function(i) {
+		this.remove_at(i);
+	},
 	
 	/**
 	 * Получение значения по ключу

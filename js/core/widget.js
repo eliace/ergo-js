@@ -144,8 +144,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		 */
 		this.children = new Ergo.core.WidgetChildren(this);
 
-		this.components = new Ergo.core.WidgetComponents(this);
-		this.items = new Ergo.core.WidgetItems(this);
+		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
+		this.items = new Ergo.core.WidgetComponents(this, {type: 'item'});
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
@@ -812,7 +812,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(o.updateOnValueChanged /*&& !self.lock_data_change*/) self.$dataChanged();
+				if(o.updateOnValueChanged && !self._lock_data_change) self.$dataChanged();
 			}, this);
 			
 		
@@ -847,12 +847,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	getValue: function() {
 		var val;
 		var o = this.options;
-		if(this.data){
+		if(this.data)
 			val = this.data.get();
-			// если присутствует функция форматирования, то используем ее
-			if(this.options.format)
-				val = o.format.call(this, val);
-		}
+		else
+			val = this.opt('text');
+		
+		// если присутствует функция форматирования, то используем ее
+		if(this.options.format)
+			val = o.format.call(this, val);		
+		
 		return val;
 	},
 	
@@ -865,45 +868,23 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	setValue: function(val/*, reason*/) {
 		var o = this.options;
-		if(this.data){
-			if(o.store) 
-				val = o.store.call(this, val);
-			
-			// var valid = true;
-			// var context = {};
-// 							
-			// if(o.validate) {
-				// valid = o.validate.call(this, val, context);
-			// }
-			
-			// if(valid) {
-				// try{
-					// this.lock_data_change = true;
-					// this.data.set(val);
-					// delete this.lock_data_change;
-				// }
-				// catch(err) {
-					// context.message = err.message;
-					// valid = false;
-				// }
-			// }
-
-//			this.lock_data_change = true;
-			this.data.set(val);
-//			delete this.lock_data_change;
-				 
-			this.events.fire('valueChanged', {'value': val/*, 'reason': reason*/});				
 		
-			// if(valid) {
-				// this.states.clear('invalid');
-				// this.events.fire('onValueChanged', {'value': val/*, 'reason': reason*/});				
-			// }
-			// else {
-				// context.value = val;
-				// this.states.set('invalid');
-				// this.events.fire('onValueInvalid', context);
-			// }
+		if(o.store) 
+			val = o.store.call(this, val);
+		
+		if(this.data){
+
+			this._lock_data_change = true;
+			this.data.set(val);
+			delete this._lock_data_change;
+				 
 		}
+		else {
+			this.opt('text', val);			
+		}
+		
+		this.events.bubble('valueChanged', {'value': val});				
+				
 	},
 	
 
@@ -925,7 +906,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		var binding = this.options.binding;
 
 		if(this.data && binding){
-			var val = this.getValue();
+			var val = this.opt('value');
 			if( binding.call(this, val) === false) return false;
 			
 		}
