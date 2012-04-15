@@ -197,6 +197,10 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 		return n;
 	},
 	
+	count: function() {
+		return this.size();
+	},
+	
 	/**
 	 * Проверка, является ли коллекция пустой
 	 */

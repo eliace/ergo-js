@@ -377,7 +377,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 
 
 
-/*
+
 Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 
 	_source: function() {
@@ -390,9 +390,9 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	
 	create: function(v) {
 		return new Ergo.core.WidgetItems(this._widget);
-	},
+	}
 	
-	
+/*	
 	set: function(i, item) {
 		this._widget.children.add(item, i, 'item');
 	},
@@ -400,7 +400,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	add: function(item, i) {
 		this._widget.children.add(item, i, 'item');
 	}
-	
+*/	
 	
 });
-*/
+

@@ -145,7 +145,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.children = new Ergo.core.WidgetChildren(this);
 
 		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
-		this.items = new Ergo.core.WidgetComponents(this, {type: 'item'});
+		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
 		// создаем новый элемент DOM или используем уже существующий
@@ -764,7 +764,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 				// уничтожаем все элементы-виджеты
 //				self.items.apply_all('destroy');
-				self.children.each(function(item) { if(item.dynamic) item.destroy();  });
+				self.children.each(function(item) { if(item._dynamic) item.destroy();  });
 				
 	//			var t0 = Ergo.timestamp();
 	
@@ -772,7 +772,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //					self.items.add({}).bind(dataEntry, true, 2);
 					var item = self.children.add({ 'data': dataEntry });//.bindRoot = false;
 					item.bindRoot = false;
-					item.dynamic = true;
+					item._dynamic = true;
 //					item.el.attr('dynamic', true);
 //					item.dataPhase = 2;
 				});
@@ -792,13 +792,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = false;
 					
 //			this.children.apply_all('destroy');
-			this.children.each(function(item) { if(item.dynamic) item.destroy();  });
+			this.children.each(function(item) { if(item._dynamic) item.destroy();  });
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					var item = self.children.add({ 'data': dataEntry, 'autoUpdate': false });
 					item.bindRoot = false;
-					item.dynamic = true;
+					item._dynamic = true;
 //					item.el.attr('dynamic', true);
 			});
 	
@@ -812,7 +812,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(o.updateOnDataChanged) self.$dataChanged();
+				/*if(o.updateOnDataChanged)*/ self.$dataChanged();
 			}, this);
 			
 		
@@ -850,7 +850,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(this.data)
 			val = this.data.get();
 		else
-			val = this.opt('text');
+			val = this._value;
+//			val = (o.value) ? o.value.call(this) : this.opt('text');
 		
 		// если присутствует функция форматирования, то используем ее
 		if(this.options.format)
@@ -868,28 +869,34 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	setValue: function(val/*, reason*/) {
 		
-		if(this._lock_value_change) return;
+//		if(this._lock_value_change) return;
 		
 		var o = this.options;
+
+		if(o.store)
+			val = o.store.call(this, val);
 		
-		if(o.binding)
-			o.binding.call(this, val);		
-				
 		if(this.data){
 
-//			if(o.store)
-//				val = o.store.call(this, val);
 
-			this._lock_data_change = true;
-			this.data.set( o.store ? o.store.call(this, val) : val);
-			delete this._lock_data_change;
+//			this._lock_data_change = true;
+//			o.store ? o.store.call(this, val) : this.data.set(val);
+			this.data.set(val);
+//			delete this._lock_data_change;
 				 
 		}
 		else {
-			this.opt('text', val);
+			this._value = val;
+			this.$dataChanged();
+//			o.value ? o.value.call(this, val) : this.opt('text', val);
 		}		
+		
+		
+		
+//		if(o.binding)
+//			o.binding.call(this, val);
 
-		this.events.bubble('valueChanged', {'value': val});				
+//		this.events.bubble('valueChanged', {'value': val});				
 				
 	},
 	
@@ -909,15 +916,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	$dataChanged: function() {
 		
-		if(!this.options.autoBind || this._lock_data_change) return;
+//		if(!this.options.autoBind /*|| this._lock_data_change*/) return;
 		
 		var binding = this.options.binding;
 
-		if(this.data && binding){
-			var val = this.opt('value');
-			this._lock_value_change = true;
-			if( binding.call(this, val) === false) return false;
-			delete this._lock_value_change;
+		if(/*this.data &&*/ binding){
+//			var val = this.getValue();
+//			this._lock_value_change = true;
+			if( binding.call(this, this.getValue()) === false) return false;
+//			delete this._lock_value_change;
 			
 		}
 

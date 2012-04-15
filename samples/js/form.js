@@ -12,7 +12,7 @@ var formData = new Ergo.core.DataSource({
 	left_handed: true,
 	// select (выбор из списка)
 	hair: {
-		id: null,
+		id: 2,
 		list: [{id: 1, title: 'брюнет'}, {id: 2, title: 'шатен'}, {id: 3, title: 'рыжий'}, {id: 4, title: 'русый'}, {id: 5, title: 'блодин'}, {id: 6, title: 'седой'}]
 	},
 	// file (binary/attachment)
@@ -31,21 +31,47 @@ var w = sample('Форма с ergo-виджетами', {
 	
 	components: {
 		dataView: {
+			etype: 'table-grid',
+			
+			data: formData,
+			
+			columns: [{
+				header: 'Наименование',
+				binding: function(v) {
+					this.opt('text', this.data.id);
+				}
+			}, {
+				header: 'Значение',
+				binding: function(v) {
+					if($.isPlainObject(v))
+						this.opt('text', Ergo.pretty_print(v));
+					else
+						this.opt('text', v);
+				}
+			}],
+			
+			
 			label: '',
-			etype: 'box',
-			html: '<pre/>',
+			// etype: 'box',
+			// html: '<pre/>',
 			weight: -10			
 		}
 	},
 	
-	onValueChanged: function() {
-		this.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+	defaultItem: {
+		onDataChanged: function() {
+			this.parent.dataView.$dataChanged();//.opt('text', Ergo.pretty_print(formData.get(), 0));	
+		}
 	},
+	
+	// onValueChanged: function() {
+		// this.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+	// },
 	
 	items: [{
 		label: 'Фамилия',
 		etype: 'text-field',
-		dataId: 'last_name'
+		dataId: 'last_name',
 	}, {
 		label: 'Имя',
 		etype: 'text-field',
@@ -61,6 +87,7 @@ var w = sample('Форма с ergo-виджетами', {
 		buttons: [{
 			etype: 'box',
 			cls: 'e-group-vert',
+			autoBind: false,
 			defaultItem: {
 				etype: 'button-item',
 				onClick: function() {
@@ -71,30 +98,11 @@ var w = sample('Форма с ergo-виджетами', {
 		}],
 		
 		onAction: function(e) {
-			var v = this.opt('value');
-			if(e.target.tag == 'up')
-				this.opt('value', ++v);
-			else if(e.target.tag == 'down')
-				this.opt('value', --v);
-		}
-		
-		
-/*		
-		set: {
-			'value': function(v) {
-				if(this.data)
-					this.data.set(v);
-				this.opt('text', v);
-				this.events.bubble('valueChanged');
-			}
+			var v = this.getValue();
+			if(e.target.tag == 'up') v++
+			else if(e.target.tag == 'down') v--;
+			this.setValue(v);
 		},
-		get: {
-			'value': function(v) {
-				if(this.data) return this.data.get();
-				return this.opt('text');
-			}
-		}
-*/		
 		
 	}, {
 		label: 'Дата рождения',
@@ -117,20 +125,6 @@ var w = sample('Форма с ergo-виджетами', {
 			});			
 		},
 		
-		// binding: function(v) {
-			// this.opt('text', v);
-		// },
-		
-		updateOnDataChanged: true
-		
-		// set: {
-			// 'val': function(v) {
-				// this.data.set(v);
-				// this.opt('text', v);				
-				// this.events.bubble('valueChanged');
-			// }
-		// }
-		
 	}, {
 		label: '',
 		etype: 'switcher',
@@ -138,44 +132,24 @@ var w = sample('Форма с ergo-виджетами', {
 		right: 'Правша',
 		dataId: 'left_handed',
 		
-		// onStateChanged: function(e) {
-			// if(e.state == 'checked') {
-				// this.opt('value', (e.op == 'on'));
-			// }
-		// },
-		
-		// binding: function(v) {
-			// this.states.toggle('checked', v);
-		// },
-		
-		updateOnDataChanged: true
-		
-		// set: {
-			// 'value': function(v) {
-				// if(this.data) {
-					// this.data.set(v);
-				// }
-				// this.events.bubble('valueChanged');				
-			// }
-		// }
-		
-		
 	}, {
 		label: 'Цвет волос',
 		etype: 'select-field',
-		dataId: 'hair',
+		dataId: 'hair.id',
 		mixins: ['selectable'],
 		
 		onSelect: function(e) {
 //			this.selection.set(e.target);
 			this.dropdown.close();
 			
-			this.setValue(e.target.data.get());
+			this.setValue(e.target.data.get('id'));
 		},
 		
 		components: {
 			dropdown: {
 				dataId: 'list',
+				data: formData,
+				dataId: 'hair.list',
 				content: {
 					dynamic: true,
 					defaultItem: {
@@ -184,29 +158,18 @@ var w = sample('Форма с ergo-виджетами', {
 				}
 			}
 		},
-		
-		
-		updateOnDataChanged: true
-		
-/*		
-		set: {
-			'value': function(v) {
-				if(this.data) {
-					this.data.set('id', v.id);					
-					this.opt('text', v.title);
-				}
-				else {
-					this.opt('text', v);					
-				}
-				this.events.bubble('valueChanged');
-			}
+				
+		binding: function(v) {
+			var selected = this.dropdown.content.items.find(function(item){ return (item.data.get('id') == v); });
+			this.selection.set( selected );
+			this.opt('text', selected.getValue());
 		}
-*/
+		
 		
 	}]
 	
 });
 
 
-w.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+//w.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
 

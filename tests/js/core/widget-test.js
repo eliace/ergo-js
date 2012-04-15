@@ -214,15 +214,16 @@ test('core/widget', function(){
 	w = new Ergo.core.Widget({
 		html: '<div/>',
 		data: '',
-		updateOnValueChanged: true,
+		updateOnDataChanged: true,
 		format: function(v) {
 			a.push('format');
 		},
 		binding: function(v) {
-			a.push('binding');			
+			a.push('binding');
 		},
 		store: function(v) {
-			a.push('store');			
+			a.push('store');
+			this.data.set(v);
 		},
 		onAction: function(e) {
 			this.setValue(e.value);

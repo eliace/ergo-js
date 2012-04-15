@@ -51,7 +51,7 @@ var menuData = [{
 		name: ['files']
 	}, {
 		title: 'Гриды',
-		name: ['grids']
+		name: ['grids', 'property-grid']
 	}, {
 		title: 'Деревья',
 		name: ['trees', 'trees-2']
@@ -327,6 +327,7 @@ $(document).ready(function(){
 	
 	
 	$(document).ajaxError(function(e, xhr){
+		console.log(xhr);
 		growl.error(xhr.statusText);
 	});
 		

@@ -34,6 +34,43 @@ Ergo.declare('Ergo.widgets.Switcher', 'Ergo.widgets.Box', {
 			'left': function(v) { this.left.opt('text', v); },
 			'right': function(v) { this.right.opt('text', v); }
 		}
+		
+		// value: function(v) {
+			// if(arguments.length == 0)
+				// return this.states.is('checked');
+			// else
+				// this.states.toggle('checked', v);
+		// }
 	}
+	
+/*	
+	setValue: function(val) {
+		var o = this.options;
+		
+		if(this.data){
+			o.store ? o.store.call(this, val) : this.data.set(val);
+		}
+		else {
+			this.states.toggle('checked', v);
+		}		
+		
+	},
+	
+	getValue: function() {
+		var val;
+		var o = this.options;
+		if(this.data)
+			val = this.data.get();
+		else
+			val = this.states.is('checked');
+		
+		// если присутствует функция форматирования, то используем ее
+		if(this.options.format)
+			val = o.format.call(this, val);		
+		
+		return val;
+		
+	}
+*/	
 	
 }, 'switcher');
