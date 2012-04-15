@@ -16,7 +16,7 @@ sample('Обновление данных', {
 		etype: 'text',
 		// указываем на то, что этот виджет должен обновляться при
 		// изменении источника данных
-		updateOnValueChanged: true
+		updateOnDataChanged: true
 	}]
 	
 	

@@ -7,7 +7,7 @@ var formData = new Ergo.core.DataSource({
 	// spinner (число)
 	height: 180,
 	// date-input (дата)
-	birth_date: null,
+	birth_date: "2000.01.01",
 	// switcher (булево)
 	left_handed: true,
 	// select (выбор из списка)
@@ -76,8 +76,10 @@ var w = sample('Форма с ergo-виджетами', {
 				this.opt('value', ++v);
 			else if(e.target.tag == 'down')
 				this.opt('value', --v);
-		},
+		}
 		
+		
+/*		
 		set: {
 			'value': function(v) {
 				if(this.data)
@@ -92,7 +94,7 @@ var w = sample('Форма с ergo-виджетами', {
 				return this.opt('text');
 			}
 		}
-		
+*/		
 		
 	}, {
 		label: 'Дата рождения',
@@ -115,11 +117,11 @@ var w = sample('Форма с ergo-виджетами', {
 			});			
 		},
 		
-		binding: function(v) {
-			this.opt('text', v);
-		},
+		// binding: function(v) {
+			// this.opt('text', v);
+		// },
 		
-		updateOnValueChanged: true
+		updateOnDataChanged: true
 		
 		// set: {
 			// 'val': function(v) {
@@ -136,17 +138,17 @@ var w = sample('Форма с ergo-виджетами', {
 		right: 'Правша',
 		dataId: 'left_handed',
 		
-		onStateChanged: function(e) {
-			if(e.state == 'checked') {
-//				this.opt('value', (e.op == 'on'));
-			}
-		},
+		// onStateChanged: function(e) {
+			// if(e.state == 'checked') {
+				// this.opt('value', (e.op == 'on'));
+			// }
+		// },
 		
-		binding: function(v) {
-			this.states.toggle('checked', v);
-		},
+		// binding: function(v) {
+			// this.states.toggle('checked', v);
+		// },
 		
-		updateOnValueChanged: true
+		updateOnDataChanged: true
 		
 		// set: {
 			// 'value': function(v) {
@@ -168,7 +170,7 @@ var w = sample('Форма с ergo-виджетами', {
 //			this.selection.set(e.target);
 			this.dropdown.close();
 			
-			this.opt('value', e.target.data.get());
+			this.setValue(e.target.data.get());
 		},
 		
 		components: {
@@ -183,6 +185,10 @@ var w = sample('Форма с ergo-виджетами', {
 			}
 		},
 		
+		
+		updateOnDataChanged: true
+		
+/*		
 		set: {
 			'value': function(v) {
 				if(this.data) {
@@ -195,7 +201,7 @@ var w = sample('Форма с ergo-виджетами', {
 				this.events.bubble('valueChanged');
 			}
 		}
-		
+*/
 		
 	}]
 	

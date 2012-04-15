@@ -35,6 +35,9 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 //			}
 		},
 		
+		binding: function(v) {
+			this.opt('text', v);
+		},
 		
 		set: {
 			'text': function(v) { this.input.opt('text', v); },

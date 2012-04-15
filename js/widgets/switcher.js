@@ -21,7 +21,13 @@ Ergo.declare('Ergo.widgets.Switcher', 'Ergo.widgets.Box', {
 			}
 		},
 		onClick: function() {
-			this.states.toggle('checked');
+			this.setValue(!this.getValue());
+//			this.opt('value', !this.opt('value'));
+//			this.states.toggle('checked');
+		},
+		
+		binding: function(v) {
+			this.states.toggle('checked', v);
 		},
 		
 		set: {

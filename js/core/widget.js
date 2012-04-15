@@ -531,7 +531,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
-			var getter = this.options.get[o];
+			var getter = this.options.get[o] || this['get'+o.capitalize()];
 			return (getter) ? getter.call(this) : this.options[o];
 		}
 		
@@ -812,7 +812,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				if(o.updateOnValueChanged && !self._lock_data_change) self.$dataChanged();
+				if(o.updateOnDataChanged) self.$dataChanged();
 			}, this);
 			
 		
@@ -867,22 +867,28 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @param {Any} val значение
 	 */
 	setValue: function(val/*, reason*/) {
+		
+		if(this._lock_value_change) return;
+		
 		var o = this.options;
 		
-		if(o.store) 
-			val = o.store.call(this, val);
-		
+		if(o.binding)
+			o.binding.call(this, val);		
+				
 		if(this.data){
 
+//			if(o.store)
+//				val = o.store.call(this, val);
+
 			this._lock_data_change = true;
-			this.data.set(val);
+			this.data.set( o.store ? o.store.call(this, val) : val);
 			delete this._lock_data_change;
 				 
 		}
 		else {
-			this.opt('text', val);			
-		}
-		
+			this.opt('text', val);
+		}		
+
 		this.events.bubble('valueChanged', {'value': val});				
 				
 	},
@@ -890,7 +896,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 	
-	
+	// $valueChanged: function() {
+// 		
+	// },
 	
 	
 
@@ -901,13 +909,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	$dataChanged: function() {
 		
-		if(!this.options.autoBind) return;
+		if(!this.options.autoBind || this._lock_data_change) return;
 		
 		var binding = this.options.binding;
 
 		if(this.data && binding){
 			var val = this.opt('value');
+			this._lock_value_change = true;
 			if( binding.call(this, val) === false) return false;
+			delete this._lock_value_change;
 			
 		}
 
