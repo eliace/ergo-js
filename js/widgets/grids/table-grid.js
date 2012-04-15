@@ -1,0 +1,58 @@
+
+
+
+
+Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		components: {
+			header: {
+				cls: 'e-grid-header-wrapper',//Заголовок таблицы
+				content: {
+					etype: 'grid-header'
+				}
+			},
+			content: {
+				cls: 'e-grid-wrapper',				
+				style: {'overflow': 'auto'},
+				content: {
+					etype: 'grid'
+				}
+			}
+		},
+		
+		columns: []
+		
+	},
+	
+	
+	
+	$init: function(o) {
+		
+		var header_cols = [];
+		for(var i = 0; i < o.columns.length; i++) {
+			var h = {};
+			var c = o.columns[i];
+			if('header' in c) h.text = c.header;
+			if('width' in c) h.width = c.width;
+			header_cols.push(h);
+		}
+		
+		Ergo.smart_override(o.components.header.content, {columns: header_cols});
+		Ergo.smart_override(o.components.content.content, {columns: o.columns});
+		
+		this.$super(o);
+	},
+	
+	
+	
+	$layoutChanged: function() {
+		
+		var w = this.content.content.el.width();
+		this.header.content.el.width(w);
+		
+	}					
+	
+	
+}, 'table-grid');

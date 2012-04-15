@@ -48,7 +48,7 @@ var menuData = [{
 		name: ['files']
 	}, {
 		title: 'Гриды',
-		name: ['grids']
+		name: ['grids', 'property-grid']
 	}, {
 		title: 'Деревья',
 		name: ['trees', 'trees-2']
