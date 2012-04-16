@@ -34,8 +34,9 @@ sample('Переключатели', {
 		}					
 	}*/, {
 		etype: 'switcher',
-		left: 'Да',
-		right: 'Нет'
+		text: ['Нет', 'Да']
+//		left: 'Да',
+//		right: 'Нет'
 	}, {
 		etype: 'box',
 		cls: 'e-group',

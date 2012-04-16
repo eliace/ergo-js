@@ -32,14 +32,37 @@ var w = sample('Форма с ergo-виджетами', {
 	components: {
 		dataView: {
 			label: '',
-			etype: 'box',
-			html: '<pre/>',
-			weight: -10			
+//			etype: 'box',
+//			html: '<pre/>',
+			weight: -10,
+			
+			etype: 'table-grid',
+			
+//			data: gridData,
+			
+			columns: [{
+				header: 'Наименование',
+				binding: function(v) {
+					this.opt('text', this.data.id);
+				}
+			}, {
+				header: 'Значение',
+				binding: function(v) {
+					if($.isPlainObject(v))
+						this.opt('text', Ergo.pretty_print(v));
+					else
+						this.opt('text', v);
+				},
+//				updateOnValueChanged: true
+			}]
+			
+						
 		}
 	},
 	
 	onValueChanged: function() {
-		this.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+		this.dataView.$dataChanged();
+//		this.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
 	},
 	
 	items: [{
@@ -126,8 +149,7 @@ var w = sample('Форма с ergo-виджетами', {
 	}, {
 		label: '',
 		etype: 'switcher',
-		left: 'Левша',
-		right: 'Правша',
+		text: ['Правша', 'Левша'],
 		dataId: 'left_handed',
 		
 		onStateChanged: function(e) {
@@ -192,5 +214,5 @@ var w = sample('Форма с ergo-виджетами', {
 });
 
 
-w.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
+//w.dataView.opt('text', Ergo.pretty_print(formData.get(), 0));
 
