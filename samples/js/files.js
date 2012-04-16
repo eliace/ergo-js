@@ -12,9 +12,11 @@ sample('Загрузка файлов', {
 	}, {
 		// иконка - загрузчик
 		etype: 'upload-item',
+		cls: 'e-file-uploader',
 		content: {
-			etype: 'image',
-			src: 'img/icons-32/e-icon-folder.png'
+			etype: 'text-item',
+			icon: 'e-file-uploader-thumb'
+//			src: 'img/icons-32/e-icon-folder.png'
 		}					
 	}]
 });
