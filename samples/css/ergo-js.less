@@ -1169,6 +1169,12 @@ li.selected:hover {
 [layout='float']{
 /*  display: inline-block;*/ /*  Непонятно, зачем inline-block */
 }
+
+[layout='float'] > * {
+  float: left;
+}
+
+
 [layout='float']:after {
   content: ".";
   display: block;
