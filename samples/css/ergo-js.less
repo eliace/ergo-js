@@ -288,7 +288,7 @@
   overflow:hidden;
   white-space:nowrap;
   float:left;
-  padding:10px 10px 10px 10px;
+  padding:7px 10px 7px 10px;
 }
 .e-select-arrow {
   float:right;
@@ -319,7 +319,7 @@
   border-right: 8px solid transparent;
   border-top: 8px solid @e-select-arrow-color;
   position:relative;
-  margin:15px 10px;
+  margin:12px 10px;
 }
 .arrow-up {
   width: 0;
@@ -1023,7 +1023,10 @@ li.selected:hover {
   border-collapse: separate;
   background:#fff;
   margin-bottom:5px;
+  border-left:1px solid #ddd;
+  border-right:1px solid #ddd;
 }
+
 .e-grid  td{
   border-bottom: 1px solid #ddd;
   border-top:1px solid #fff;
@@ -1033,6 +1036,7 @@ li.selected:hover {
 .e-grid-control-row td{
   padding:0;
   border:0;
+  
 }
 .e-grid-header {
    background: @e-label-top-color; /* Old browsers */
@@ -1564,6 +1568,9 @@ html[xmlns] [layout='float'] {
    border: @e-field-content-border-size solid #DCDCDC;
    color:#555;
    margin-bottom:10px;
+}
+.e-text-field > .e-icon {
+  margin:8px;
 }
 .focus {
   border:1px solid #ccc;
