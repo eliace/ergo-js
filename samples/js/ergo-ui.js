@@ -58,6 +58,9 @@ var menuData = [{
 	}, {
 		title: 'Формы',
 		name: ['form']
+	}, {
+		title: 'Скроллбар',
+		name: ['scrollbar']
 	}]
 }, {
 	title: 'Компоновки',
