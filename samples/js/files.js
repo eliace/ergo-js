@@ -1,22 +1,45 @@
 sample('Загрузка файлов', {
-	layout: 'hbox',
+	layout: 'vbox',
 	items: [{
-		etype: 'upload-item',
-		content: {
-			etype: 'button-item',
-			text: 'Загрузить файл'	
-		},
-		onAction: function(e) {
-			growl.success(e.file);
-		}
+		etype: 'text-field',
+		buttons: [{
+			etype: 'upload-item',
+			content: {
+				etype: 'button-item',
+				text: 'Файл'	
+			},
+			onAction: function(e) {
+				this.parent.opt('text', e.file);
+//				growl.success(e.file);
+			}
+			
+		}]		
 	}, {
-		// иконка - загрузчик
-		etype: 'upload-item',
-		cls: 'e-file-uploader',
+		etype: 'panel',
+		
 		content: {
-			etype: 'text-item',
-			icon: 'e-file-uploader-thumb'
-//			src: 'img/icons-32/e-icon-folder.png'
-		}					
+			layout: 'float',
+			
+			defaultItem: {
+				etype: 'image-item',
+				layout: 'vbox',
+				width: 100
+			},
+			
+			components: {
+				addButton: {
+					etype: 'upload-item',
+					cls: 'e-file-uploader',
+					content: {
+						etype: 'text-item',
+						icon: 'e-file-uploader-thumb'
+			//			src: 'img/icons-32/e-icon-folder.png'
+					},
+					onAction: function(e) {
+						this.parent.items.add({text: e.file, image: 'samples/img/girl.png'});
+					}					
+				}
+			}
+		}
 	}]
 });
