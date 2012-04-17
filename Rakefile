@@ -105,6 +105,10 @@ def compose_files(dest, source_files, postfix='')
  
  
 "		
+
+    # добавляем jquery-mousewheel plugin
+    File.open('lib/misc/jquery.mousewheel.js') {|io| out.puts io.read }
+
 		used.each do |src|
       File.open(src) do |f|
       	while not f.eof? do
