@@ -34,7 +34,12 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		for(var i = 0; i < o.columns.length; i++) {
 			var h = {};
 			var c = o.columns[i];
-			if('header' in c) h.text = c.header;
+			if('header' in c) {
+				if($.isPlainObject(c.header)) 
+					Ergo.override(h, c.header);
+				else
+					h.text = c.header;
+			}
 			if('width' in c) h.width = c.width;
 			header_cols.push(h);
 		}

@@ -13,6 +13,12 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				components: {
 					title: {
 						html: '<h2/>'
+					},
+					buttons: {
+						cls: 'buttons',
+						defaultItem: {
+							etype: 'button-item'
+						}
 					}
 				}
 			},
@@ -26,16 +32,27 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				html: '<footer/>',
 				state: 'hidden'
 			}
-		}
+		},
+		
+		headerButtons: [],
+		footerButtons: []
+		
 		// set: {
 			// 'title': function(s) { this.header.title.opt('text', s); }
 		// }
 	},
 	
 	
+	$init: function(o) {
+		this.$super(o);
+		
+		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
+	},
+	
 	setTitle: function(s) {
 		this.header.title.opt('text', s);
 	}
+	
 	
 	
 }, 'panel');

@@ -35,16 +35,12 @@ sample('Список тайлов', {
 	dynamic: true,
 	
 	defaultItem: {
-		//width: 120,
-		//height: 120,
-		//style: {'background-color': '#ccc', 'float': 'left'},
+		etype: 'image-item',
 		components: {
 			image: {
-				etype: 'image',
 				dataId: 'img'
 			},
 			text: {
-				etype: 'text',
 				dataId: 'title'
 			}
 		}
