@@ -50,8 +50,16 @@
 
 .e-panel header {
   border-bottom:1px solid #e9e9e9;
+  overflow:hidden;
+}
+.e-panel  header > h2 {
+  float:left;
+
 }
 
+.e-panel header .buttons {
+  float:right;
+}
 .e-panel .e-panel-content {
   border-top:1px solid #fff;
   overflow:hidden;
@@ -1557,7 +1565,7 @@ html[xmlns] [layout='float'] {
    border-radius: 3px;
    border: @e-field-content-border-size solid #DCDCDC;
    color:#555;
-   margin-bottom:10px;
+ 
 }
 
 .e-text-field > .e-icon {
