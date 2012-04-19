@@ -114,7 +114,7 @@ sample('Кнопки', {
 		text: 'Кнопка (VBox)',
 		components: {
 			icon: {
-				etype: 'image',
+				etype: 'img',
 				src: 'samples/img/worker_photo.png',
 				style: {'margin': '0 auto'}
 			}

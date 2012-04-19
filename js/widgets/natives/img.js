@@ -31,5 +31,5 @@ Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', 'Ergo.core.Widget', /** 
 	}
 	
 	
-}, 'image');
+}, 'img');
 

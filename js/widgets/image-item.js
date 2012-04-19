@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.Box', {
 		cls: 'e-image-item',
 		components: {
 			image: {
-				etype: 'image'
+				etype: 'img'
 			},
 			text: {
 				etype: 'text'

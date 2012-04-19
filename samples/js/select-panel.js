@@ -22,7 +22,7 @@ var selectItems = [{
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {
-	etype: 'image',
+	etype: 'img',
 	src: 'samples/img/worker_photo.png'
 }];
 
@@ -90,22 +90,14 @@ sample('Панели выбора', {
 		title: 'Кнопки',
 		components: {
 			select: {
-				etype: 'select-field',
-				extensions: ['selectable'],
-				
-				onClick: function() {
-					this.dropdown.open();
-				},
-				
+				etype: 'dropdown-select-field',
+
 				onSelect: function(e) {
-					this.dropdown.close();
 					this.opt('text', e.target.opt('text'));
 				},
 				
 				components: {
 					dropdown: {
-						etype: 'dropdown',
-						adjusWidth: true,
 						content: {
 							items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 						}
