@@ -1960,11 +1960,56 @@ fieldset.e-panel {
 
 //Tabs 
 .e-tabs-holder {
-  
+   width:400px;
 }
 .e-tabs-navigation {
   
 }
+
+.e-tabs-navigation ul {
+  
+}
+.e-tabs-navigation ul:after {
+ content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.e-tabs-navigation ul li {
+  list-style:none;
+  float:left;
+  padding:5px 20px;
+  cursor:pointer;
+  color:#666;
+}
+.e-tabs-navigation ul li:hover {
+  color:#444;
+}
+.e-tabs-content {
+  border:1px solid #dcdcdc;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius:  0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+   position:relative;
+  z-index:10;
+  padding:15px;
+  
+}
+.e-tabs-navigation ul li.current {
+  list-style:none;
+  float:left;
+  position:relative;
+  top:1px;
+  border:1px solid #dcdcdc;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius:  5px 5px 0 0;
+  border-radius:  5px 5px 0 0;
+  border-bottom:1px solid #f3f3f3;
+  z-index:200;
+}
+
 
 //Scrollbar
 
