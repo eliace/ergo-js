@@ -12,9 +12,6 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
 			components: {
 				text: {
 					cls: 'e-current-select'
-				},
-				dropdown: {
-					etype: 'dropdown'
 				}
 			},
 			defaultItem: {
@@ -35,10 +32,6 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
 			},
 //		},
 
-		onClick: function() {
-			this.dropdown.open();
-		},
-		
 		buttons: [{
 			iconCls: 'arrow-down'
 		}],

@@ -23,23 +23,14 @@ sample('Поле выбора', {
     }
 	}, {
 		label: 'Город',
-		etype: 'select-field',
-		extensions: ['selectable'],
-		
-		onClick: function() {			
-			this.dropdown.open();
-		},
+		etype: 'dropdown-select-field',
 		
 		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.dropdown.close();
 			this.opt('text', e.target.opt('text'));
 		},
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown',
-				adjusWidth: true,
 				content: {
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}

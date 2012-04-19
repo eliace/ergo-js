@@ -87,7 +87,7 @@ sample('Форма', {
 		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
 	}, {
 		label: 'Адрес',
-		etype: 'select-field'
+		etype: 'dropdown-select-field'
 	}, {
 		etype: 'text-field',
 		label: 'Файл',

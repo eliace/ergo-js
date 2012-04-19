@@ -11,7 +11,8 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.L
 	defaults: {
 //		containerCls: 'e-stack-layout',
 		name: 'stack',
-		itemCls: 'hidden'
+		itemStyle: {'display': 'none'}
+//		itemCls: 'hidden'
 	},
 	
 	

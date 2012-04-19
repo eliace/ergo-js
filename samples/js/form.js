@@ -170,21 +170,21 @@ var w = sample('Форма с ergo-виджетами', {
 		
 	}, {
 		label: 'Цвет волос',
-		etype: 'select-field',
+		etype: 'dropdown-select-field',
 		dataId: 'hair',
 		extensions: ['selectable'],
 		
 		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.dropdown.close();
+//			this.selection.set(e.target);
+//			this.dropdown.close();
 			
 			this.opt('val', e.target.data.get());
 		},
 		
 		components: {
 			dropdown: {
-				dataId: 'list',
 				content: {
+					dataId: 'list',
 					dynamic: true,
 					defaultItem: {
 						format: '#{title}'

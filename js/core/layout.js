@@ -194,6 +194,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			// index.el.before(item.el);
 		
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
+		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
 	},
 	
 	
