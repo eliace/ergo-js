@@ -22,7 +22,9 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			}
 		},
 		
-		columns: []
+		columns: [],
+		row: {},
+		cell: {}
 		
 	},
 	
@@ -45,7 +47,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		}
 		
 		Ergo.smart_override(o.components.header.content, {columns: header_cols});
-		Ergo.smart_override(o.components.content.content, {columns: o.columns});
+		Ergo.smart_override(o.components.content.content, {columns: o.columns, row: o.row, cell: o.cell});
 		
 		this.$super(o);
 	},
