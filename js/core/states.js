@@ -178,8 +178,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		return this;
 	},
 	
-	only: function(name) {
-		for(var i in this._current) this.unset(i);
+	only: function(name, unset_template) {
+		if(unset_template) {
+			if($.isString(unset_template))
+				unset_template = new RegExp('^'+unset_template+'.*$');
+			
+			for(var i in this._current)
+				if(i.match(unset_template)) this.unset(i);			
+		}
+		
 		this.set(name);	
 		
 		return this;		
