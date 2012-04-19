@@ -1,5 +1,5 @@
 
-
+//= require <widgets/panel>
 
 Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 	

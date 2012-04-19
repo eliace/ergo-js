@@ -11,7 +11,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		layout: {
 			wrap: function(item) {
 				if(item._key == 'input') {
-					var wrapper = $('<div/>');
+					var wrapper = $('<div class="input-wrapper"/>');
 					wrapper.append(item.el);
 					return wrapper;
 				}

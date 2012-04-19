@@ -3,7 +3,7 @@ sample('Загрузка файлов', {
 	items: [{
 		etype: 'text-field',
 		buttons: [{
-			etype: 'upload-item',
+			etype: 'upload-box',
 			content: {
 				etype: 'button-item',
 				text: 'Файл'	
@@ -28,7 +28,7 @@ sample('Загрузка файлов', {
 			
 			components: {
 				addButton: {
-					etype: 'upload-item',
+					etype: 'upload-box',
 					cls: 'e-file-uploader',
 					content: {
 						etype: 'text-item',

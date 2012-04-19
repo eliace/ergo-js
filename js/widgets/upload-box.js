@@ -1,7 +1,7 @@
 
 //= require <widgets/natives/box>
 
-Ergo.declare('Ergo.widgets.UploadItem', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		style: {'position': 'relative', 'display': 'inline-block'},
@@ -33,4 +33,4 @@ Ergo.declare('Ergo.widgets.UploadItem', 'Ergo.widgets.Box', {
 		}		
 	}
 	
-}, 'upload-item');
+}, 'upload-box');
