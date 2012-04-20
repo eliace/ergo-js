@@ -22,6 +22,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 //		content: {			
 		components: {
 			input: {
+				weight: 10,
 				etype: 'text-input',
 				events: {
 					'focus': function(e, w) {
