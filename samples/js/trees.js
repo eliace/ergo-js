@@ -9,13 +9,15 @@ sample('Дерево (иерархический список)', {
 	etype: 'tree-list',
 	cls: 'e-tree',
 	defaultNode: {
-		content: {
-			etype: 'text-item',
-			icon: 'e-icon-house'
-		},
 		components: {
 			icon: {
-				cls: 'tree-icon'
+				cls: 'tree-icon',
+				style: {'display': 'inline-block'}
+			},
+			content: {
+				etype: 'text-item',
+				icon: 'e-icon-house',
+				style: {'display': 'inline-block'}
 			},
 			subtree: {
 				style: {'display': 'none'},
@@ -23,7 +25,7 @@ sample('Дерево (иерархический список)', {
 				effects: {
 					show: 'slideDown',
 					hide: 'slideUp',
-					delay: 300
+					delay: 400
 				}
 			}
 		}
@@ -34,15 +36,24 @@ sample('Дерево (иерархический список)', {
 		subtreeItems: [{
 			text: '101 каб',
 			subtreeItems: [{
+				content: {
+					icon: 'e-icon-user'					
+				},
 				text: 'Волков А.Н.',
 				state: 'leaf'
 			}, {
+				content: {
+					icon: 'e-icon-user'					
+				},
 				text: 'Зайцев С.М.',
 				state: 'leaf'
 			}]
 		}, {
 			text: '102 каб',
 			subtreeItems: [{
+				content: {
+					icon: 'e-icon-user'					
+				},
 				text: 'Медведев Ф.М.',
 				state: 'leaf'
 			}]

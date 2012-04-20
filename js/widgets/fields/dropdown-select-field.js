@@ -20,6 +20,10 @@ Ergo.declare('Ergo.widgets.DropdownSelectField', 'Ergo.widgets.SelectField', {
 			}			
 		},
 		
+		buttons: [{
+			iconCls: 'arrow-down'
+		}],
+		
 		onClick: function() {
 			this.dropdown.open();
 		}

@@ -6,6 +6,14 @@ sample('Поле выбора', {
 	
 	
 	items: [{
+		
+		etype: 'list-select-field',
+		
+		content: {
+			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
+		}
+		
+/*		
     etype: 'box',
     cls: 'e-list roman e-select-list',
 		extensions: ['selectable'],
@@ -21,6 +29,7 @@ sample('Поле выбора', {
 			},
 			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']    	
     }
+*/    
 	}, {
 		label: 'Город',
 		etype: 'dropdown-select-field',

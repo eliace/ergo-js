@@ -37,10 +37,10 @@ sample('Список тайлов', {
 	defaultItem: {
 		etype: 'image-item',
 		components: {
-			image: {
+			content: {
 				dataId: 'img'
 			},
-			text: {
+			after: {
 				dataId: 'title'
 			}
 		}
