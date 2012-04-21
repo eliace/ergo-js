@@ -11,24 +11,26 @@ Ergo.declare('Ergo.widgets.IconedBox', 'Ergo.widgets.Box', {
 			before: {
 				etype: 'icon',
 				weight: -1000,
+				cls: 'e-before',
 				state: 'hidden'
 			},
 			after: {
 				etype: 'icon',
 				weight: 1000,
+				cls: 'e-after',
 				state: 'hidden'
 			}
 		},
 		set: {
 			'icon': function(v) {
-				var o = this.options;
-				this.before.states.setOnly(o.icon);
-				this.before.states.toggle('hidden', !o.icon);				
+//				var o = this.options;
+				this.before.states.setOnly(v);
+				this.before.states.toggle('hidden', !v);				
 			},
 			'xicon': function(v) {
-				var o = this.options;
-				this.after.states.setOnly(o.xicon);
-				this.after.states.toggle('hidden', !o.xicon);				
+//				var o = this.options;
+				this.after.states.setOnly(v);
+				this.after.states.toggle('hidden', !v);				
 			}
 		}
 	}

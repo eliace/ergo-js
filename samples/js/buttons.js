@@ -33,7 +33,7 @@ sample('Кнопки', {
 				width: 60,				
 			},
 			dropdown: {
-				etype: 'dropdown',
+				etype: 'dropdown-box',
 				width: 150,
 				cls: 'roman',
 				content: {
@@ -67,7 +67,7 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown',
+				etype: 'dropdown-box',
 //				width: 160,
 				cls: 'alpha',
 				adjustWidth: true,

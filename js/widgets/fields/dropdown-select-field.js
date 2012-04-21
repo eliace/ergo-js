@@ -15,7 +15,7 @@ Ergo.declare('Ergo.widgets.DropdownSelectField', 'Ergo.widgets.SelectField', {
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown',
+				etype: 'dropdown-box',
 				adjustWidth: true
 			}			
 		},

@@ -19,7 +19,7 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedBox', {
 		text: false,
 		set: {
 			'text': function(v) {
-				this.content.opt('text', v);
+				this.content.opt('text', v || 'no-text');
 				this.content.states.toggle('hidden', (!v && v !== ''));
 			}
 		},

@@ -366,7 +366,7 @@
 
 .button-arrow-down {
   background: url(images/button-arrow-down.png)center bottom;
-  margin-left:5px;
+//  margin-left:5px;
 }
 
 .button-arrow-right {
@@ -1583,8 +1583,9 @@ html[xmlns] [layout='float'] {
 .input-wrapper {
   
 }
-//.e-text-field > .input-wrapper > input {
-.e-text-field input {
+
+.e-text-field > .input-wrapper > input {
+//.e-text-field input {
   width: 100%;
   border:0;
   background:transparent;
@@ -2130,5 +2131,15 @@ fieldset.e-panel {
    -ms-user-select: none;
    user-select: none;
 }
+
+
+
+
+.e-button-item > span.hidden {
+  display: inline-block !important;
+  text-indent: -1000000px;
+  width: 0px;
+}
+
 
 

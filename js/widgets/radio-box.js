@@ -1,5 +1,5 @@
 
-//= require "natives/box"
+//= require <widgets/natives/box>
 
 
 

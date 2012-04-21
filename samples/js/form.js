@@ -249,6 +249,19 @@ var w = sample('Форма с ergo-виджетами', {
 		}
 		
 		
+	}, {
+		etype: 'box',
+		
+		content: {
+			etype: 'text-input',
+		events: {
+			'focus': function(e) {
+				growl.info('focus');
+			}
+		}
+		},
+		
+		
 	}]
 	
 	

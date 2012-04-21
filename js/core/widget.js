@@ -501,7 +501,7 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			return (getter) ? getter.call(this) : this.options[o];
 		}
 		
-		Ergo.smart_override(this.options, opts);
+//		Ergo.smart_override(this.options, opts);
 
 		this.$opt(opts);
 		

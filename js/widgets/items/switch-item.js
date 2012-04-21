@@ -18,8 +18,8 @@ Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledBox', {
 		
 		set: {
 			'text': function(v) {
-				this.opt('label', v[0]);				
-				this.opt('xlabel', v[1]);				
+				this.opt('label', v[0]);
+				this.opt('xlabel', v[1]);
 			}
 		}
 	}

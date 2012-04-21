@@ -9,25 +9,27 @@ Ergo.declare('Ergo.widgets.LabeledBox', 'Ergo.widgets.Box', {
 			before: {
 				weight: -1000,
 				etype: 'label',
-				state: 'hidden'
+				state: 'hidden',
+				binding: false
 			},
 			after: {
 				weight: 1000,
 				etype: 'label',
-				state: 'hidden'
+				state: 'hidden',
+				binding: false
 			}
 		},
 		
 		set: {
 			'label': function(v) {
-				var o = this.options;
-				this.before.opt('text', o.label);
-				this.before.states.toggle('hidden', !o.label);				
+//				var o = this.options;
+				this.before.opt('text', v);
+				this.before.states.toggle('hidden', !v);				
 			},
 			'xlabel': function(v) {
-				var o = this.options;
-				this.after.opt('text', o.xlabel);
-				this.after.states.toggle('hidden', !o.xlabel);				
+//				var o = this.options;
+				this.after.opt('text', v);
+				this.after.states.toggle('hidden', !v);				
 			}
 		}
 		

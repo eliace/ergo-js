@@ -3,7 +3,7 @@
 //= require <extensions/popup>
 
 
-Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-dropbox',
@@ -34,4 +34,4 @@ Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.Box', {
 	
 	
 	
-}, 'dropdown');
+}, 'dropdown-box');
