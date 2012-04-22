@@ -91,22 +91,14 @@ sample('Панели выбора', {
 		title: 'Поле с выпадающим списком',
 		components: {
 			select: {
-				etype: 'select-field',
-				mixins: ['selectable'],
-				
-				onClick: function() {
-					this.dropdown.open();
-				},
-				
+				etype: 'dropdown-select-field',
+
 				onSelect: function(e) {
-					this.dropdown.close();
 					this.opt('text', e.target.opt('text'));
 				},
 				
 				components: {
 					dropdown: {
-						etype: 'dropdown',
-						adjusWidth: true,
 						content: {
 							items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 						}

@@ -1,7 +1,7 @@
 
 //= require "anchor"
 //= require "button"
-//= require "img"
+//= require "image"
 //= require "input"
 //= require "label"
 //= require "select"

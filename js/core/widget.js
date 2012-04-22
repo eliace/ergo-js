@@ -267,7 +267,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			var arr = [];
 			// преобразуем набор компонентов в массив
 			Ergo.each(o.components, function(c, i){
-				c.weight = ('weight' in c) ? c.weight : 9999;
+				c.weight = ('weight' in c) ? c.weight : 0;//9999;
 //				c._cweight = ('weight' in c) ? c.weight : 9999;
 //				c._cname = i;
 	
@@ -535,7 +535,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			return (getter) ? getter.call(this) : this.options[o];
 		}
 		
-		Ergo.smart_override(this.options, opts);
+//		Ergo.smart_override(this.options, opts);
 
 		this.$opt(opts);
 		

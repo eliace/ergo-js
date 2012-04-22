@@ -6,6 +6,14 @@ sample('Поле выбора', {
 	
 	
 	items: [{
+		
+		etype: 'list-select-field',
+		
+		content: {
+			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
+		}
+		
+/*		
     etype: 'box',
     cls: 'e-list roman e-select-list',
 		mixins: ['selectable'],
@@ -21,25 +29,17 @@ sample('Поле выбора', {
 			},
 			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']    	
     }
+*/    
 	}, {
 		label: 'Город',
-		etype: 'select-field',
-		mixins: ['selectable'],
-		
-		onClick: function() {			
-			this.dropdown.open();
-		},
+		etype: 'dropdown-select-field',
 		
 		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.dropdown.close();
 			this.opt('text', e.target.opt('text'));
 		},
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown',
-				adjusWidth: true,
 				content: {
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}

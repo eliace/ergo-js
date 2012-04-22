@@ -57,10 +57,13 @@ var menuData = [{
 		name: ['trees', 'trees-2']
 	}, {
 		title: 'Панели',
-		name: ['group-panel', 'select-panel']
+		name: ['panel', 'group-panel', 'select-panel', 'tab-panel']
 	}, {
 		title: 'Формы',
 		name: ['form']
+	}, {
+		title: 'Скроллбар',
+		name: ['scrollbar']
 	}]
 }, {
 	title: 'Компоновки',

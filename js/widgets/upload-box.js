@@ -1,13 +1,15 @@
 
 //= require <widgets/natives/box>
 
-Ergo.declare('Ergo.widgets.UploadItem', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		style: {'position': 'relative', 'display': 'inline-block'},
 		events: {
 			'mousedown': function(e, w) { w.content.states.set('clicked'); },
-			'mouseup': function(e, w) { w.content.states.clear('clicked'); }
+			'mouseup': function(e, w) { w.content.states.clear('clicked'); },
+			'mouseenter': function(e, w) { w.content.states.set('hovered'); },
+			'mouseleave': function(e, w) { w.content.states.clear('hovered'); }
 		},
 		
 		components: {
@@ -31,4 +33,4 @@ Ergo.declare('Ergo.widgets.UploadItem', 'Ergo.widgets.Box', {
 		}		
 	}
 	
-}, 'upload-item');
+}, 'upload-box');

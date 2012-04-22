@@ -127,30 +127,28 @@ var w = sample('Форма с ergo-виджетами', {
 		
 	}, {
 		label: '',
-		etype: 'switcher',
-		left: 'Левша',
-		right: 'Правша',
+		etype: 'switch-item',
+		text: ['Правша', 'Левша'],
 		dataId: 'left_handed',
 		
 	}, {
 		label: 'Цвет волос',
-		etype: 'select-field',
+		etype: 'dropdown-select-field',
 		dataId: 'hair.id',
-		mixins: ['selectable'],
+//		mixins: ['selectable'],
 		
 		onSelect: function(e) {
 //			this.selection.set(e.target);
-			this.dropdown.close();
+//			this.dropdown.close();
 			
 			this.setValue(e.target.data.get('id'));
 		},
 		
 		components: {
 			dropdown: {
-				dataId: 'list',
-				data: formData,
-				dataId: 'hair.list',
 				content: {
+					data: formData,
+					dataId: 'hair.list',
 					dynamic: true,
 					defaultItem: {
 						format: '#{title}'
@@ -161,9 +159,66 @@ var w = sample('Форма с ergo-виджетами', {
 				
 		binding: function(v) {
 			var selected = this.dropdown.content.items.find(function(item){ return (item.data.get('id') == v); });
-			this.selection.set( selected );
-			this.opt('text', selected.getValue());
+			if(selected) {
+				this.selection.set( selected );
+				this.opt('text', selected.getValue());				
+			}
 		}
+		
+		
+	}, {
+		cls: 'e-slider-holder',
+		content: {
+			cls: 'e-slider',
+			content: {
+				cls: 'e-slider-roller',
+				content: {
+					html: '<span/>'
+				},
+				events: {
+					'mousedown': function(e, w) {
+						
+						// сохраняем смещение курсора относительно начала ползунка
+						w._dx = e.pageX - w.parent.el.offset().left - parseInt(w.el.css('margin-left').replace("px", ""));
+						
+						$(window)
+							.one('mouseup', function(e){
+								// отключаем слежение за перемещением мыши
+								$(window).off('mousemove');
+							})
+							.on('mousemove', function(e){
+								var x = e.pageX - w.parent.el.offset().left - w._dx;
+								
+								var max_x = w.parent.el.width() - w.el.outerWidth();
+								
+								var val = x / max_x;
+								
+								val = Math.max(0, val);
+								val = Math.min(1.0, val);
+								
+								w.el.css({'margin-left': val*max_x});
+								
+								w.events.bubble('slide', {value: val});
+							})
+							
+						e.preventDefault();	
+					}
+				}
+			}			
+		}
+		
+		
+	}, {
+		etype: 'box',
+		
+		content: {
+			etype: 'text-input',
+		events: {
+			'focus': function(e) {
+				growl.info('focus');
+			}
+		}
+		},
 		
 		
 	}]

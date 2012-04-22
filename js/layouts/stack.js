@@ -11,7 +11,8 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 	defaults: {
 //		containerCls: 'e-stack-layout',
 		name: 'stack',
-		itemCls: 'hidden'
+		itemStyle: {'display': 'none'}
+//		itemCls: 'hidden'
 	},
 	
 	
@@ -41,8 +42,8 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.filters.by_widget(i) );
 		
 		this.container.children.each(function(c){
-//			(c != child) ? c.hide() : c.show();
-			c.el.toggleClass('hidden', (c != child));
+			(c != child) ? c.hide() : c.show();
+//			c.el.toggleClass('hidden', (c != child));
 		});
 		
 		if(child.layout) child.$layoutChanged();

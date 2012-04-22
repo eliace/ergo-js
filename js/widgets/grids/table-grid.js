@@ -22,7 +22,9 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			}
 		},
 		
-		columns: []
+		columns: [],
+		row: {},
+		cell: {}
 		
 	},
 	
@@ -34,13 +36,18 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		for(var i = 0; i < o.columns.length; i++) {
 			var h = {};
 			var c = o.columns[i];
-			if('header' in c) h.text = c.header;
+			if('header' in c) {
+				if($.isPlainObject(c.header)) 
+					Ergo.override(h, c.header);
+				else
+					h.text = c.header;
+			}
 			if('width' in c) h.width = c.width;
 			header_cols.push(h);
 		}
 		
 		Ergo.smart_override(o.components.header.content, {columns: header_cols});
-		Ergo.smart_override(o.components.content.content, {columns: o.columns});
+		Ergo.smart_override(o.components.content.content, {columns: o.columns, row: o.row, cell: o.cell});
 		
 		this.$super(o);
 	},

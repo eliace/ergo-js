@@ -33,7 +33,7 @@ sample('Кнопки', {
 				width: 60,				
 			},
 			dropdown: {
-				etype: 'dropdown',
+				etype: 'dropdown-box',
 				width: 150,
 				cls: 'roman',
 				content: {
@@ -67,7 +67,7 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown',
+				etype: 'dropdown-box',
 //				width: 160,
 				cls: 'alpha',
 				adjustWidth: true,
@@ -109,12 +109,11 @@ sample('Кнопки', {
 		xicon: 'e-icon-flag',
 		width: 300
 	}, {
-		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (VBox)',
 		components: {
-			icon: {
-				etype: 'image',
+			before: {
+				etype: 'img',
 				src: 'samples/img/worker_photo.png',
 				style: {'margin': '0 auto'}
 			}
@@ -125,8 +124,8 @@ sample('Кнопки', {
 		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (Item)',// с очень длинным текстом. Очень-очень длинным',
-		icon: 'e-icon-edit',
-		xicon: 'e-icon-flag',
+		icon: 'e-icon-edit before',
+		xicon: 'e-icon-flag after',
 		layout: 'item',
 		width: 300
 	}]

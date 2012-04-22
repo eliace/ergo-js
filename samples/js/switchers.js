@@ -6,17 +6,11 @@ sample('Переключатели', {
 	
 	
 	items: [{
-		etype: 'text-item',
+		etype: 'check-item',
 		tabIndex: 0,
-		components: {
-			'icon!': {
-				etype: 'check-box'
-			}
-		},
 		text: 'чекбокс',
-		icon: true,
 		onClick: function() {
-			this.icon.states.toggle('checked');
+			this.content.states.toggle('checked');
 		}
 	}/*, {
 		etype: 'text-item',
@@ -33,9 +27,10 @@ sample('Переключатели', {
 			this.icon.states.set('checked');
 		}					
 	}*/, {
-		etype: 'switcher',
-		left: 'Да',
-		right: 'Нет'
+		etype: 'switch-item',
+		text: ['Нет', 'Да']
+//		left: 'Да',
+//		right: 'Нет'
 	}, {
 		etype: 'box',
 		cls: 'e-group',

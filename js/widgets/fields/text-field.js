@@ -11,7 +11,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 		layout: {
 			wrap: function(item) {
 				if(item._key == 'input') {
-					var wrapper = $('<div/>');
+					var wrapper = $('<div class="input-wrapper"/>');
 					wrapper.append(item.el);
 					return wrapper;
 				}
@@ -22,6 +22,7 @@ Ergo.declare('Ergo.widgets.TextField', 'Ergo.widgets.Box', {
 //		content: {			
 		components: {
 			input: {
+				weight: 10,
 				etype: 'text-input',
 				events: {
 					'focus': function(e, w) {
