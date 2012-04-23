@@ -1,4 +1,5 @@
 
+//= require <widgets/natives/box>
 
 
 Ergo.declare('Ergo.widgets.LabeledBox', 'Ergo.widgets.Box', {
