@@ -17,7 +17,7 @@ var fromData = {
  * 	- TextArea (+)
  * 	- Date
  * 	- Time
- * 	- Spinner
+ * 	- Spinner (+)
  * 	- Slider
  * 	- Checkbox (+)
  * 	- Switcher (+)
@@ -36,11 +36,11 @@ sample('Форма', {
 	layout: 'form',
 	
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'firstName',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'firstName',
 		label: 'Справочник',
 		buttons: [{
@@ -49,7 +49,7 @@ sample('Форма', {
 			icon: 'e-icon-tag'
 		}]
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 //		dataId: 'firstName',
 		label: 'Дата рождения',
 		width: 200,
@@ -79,7 +79,7 @@ sample('Форма', {
 		dataId: 'sex',
 		mixins: ['selectable'],
 		defaultItem: {
-			etype: 'button-item',
+			etype: 'button-box',
 			onClick: function() {
 				this.parent.selection.set(this);
 			}
@@ -87,14 +87,14 @@ sample('Форма', {
 		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
 	}, {
 		label: 'Адрес',
-		etype: 'dropdown-select-field'
+		etype: 'dropdown-box'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Файл',
 		buttons: [{
-			etype: 'upload-item',
+			etype: 'upload-box',
 			content: {
-				etype: 'button-item',
+				etype: 'button-box',
 				icon: 'e-icon-tag',
 //				text: 'Загрузить файл'	
 			},

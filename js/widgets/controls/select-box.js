@@ -1,13 +1,13 @@
 
-//= require <widgets/field>
 
-
-Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
 		tabIndex: 0,
 		cls: 'e-select-field',
+		
+		mixins: ['selectable'],
 
 		content: {
 			cls: 'e-current-select'
@@ -47,4 +47,4 @@ Ergo.declare('Ergo.widgets.SelectField', 'Ergo.widgets.Box', {
 		o.items = o.buttons;
 	}
 	
-}, 'select-field');
+}, 'select-box');

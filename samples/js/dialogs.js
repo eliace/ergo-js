@@ -82,7 +82,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, */ {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Окно: [50%, null], контент: null',
 		onClick: function() {
 			
@@ -97,7 +97,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Окно: [800, 600], контент: null',
 		onClick: function() {
 			
@@ -115,7 +115,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Окно: null, контент: [800, 600]',
 		onClick: function() {
 			
@@ -132,7 +132,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Окно: [200, 200], контент: null + загрузка',
 		onClick: function() {
 			
@@ -162,7 +162,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Окно: null, контент: [200, 200] + загрузка',
 		onClick: function() {
 			
@@ -190,7 +190,7 @@ sample('Окна и диалоги', {
 			
 		}
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Лайтбокс',
 		onClick: function() {
 			

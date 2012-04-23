@@ -31,10 +31,10 @@ var menuData = [{
 	}, {
 		title: 'Выбор',
 		name: ['select-field']
-	}, {
+	}/*, {
 		title: 'Текстовый элемент',
 		name: ['text-item']
-	}, {
+	}*/, {
 		title: 'Переключатели',
 		name: ['switchers']
 	}, {
@@ -346,7 +346,7 @@ $(document).ready(function(){
 	 * 
 	 */
 	var menu = $.ergo({
-		etype: 'accordion-list',
+		etype: 'accordion',
 		renderTo: '#sideLeft',
 		cls: 'ergo_navigation',
 		
@@ -378,11 +378,10 @@ $(document).ready(function(){
 								}
 							}
 						}
-					}
+					}					
 				}
 			}
 		}
-		
 		
 	});
 	
@@ -399,8 +398,10 @@ $(document).ready(function(){
 				c.sublist.children.each(function(c2){
 					if(Ergo.includes(c2.data.get('name'), last_sample)) {
 						// TODO сделать, чтобы сначала раскрывалось меню, а затем загружался пример
-						c.content.events.fire('click');
-						c2.content.events.fire('click');
+						c.states.set('expanded');
+						load_sample(c2.data.get('name'));
+//						c.content.events.fire('click');
+//						c2.content.events.fire('click');
 					}
 				});
 			});

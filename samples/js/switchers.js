@@ -6,7 +6,7 @@ sample('Переключатели', {
 	
 	
 	items: [{
-		etype: 'check-item',
+		etype: 'check-box',
 		tabIndex: 0,
 		text: 'чекбокс',
 		onClick: function() {
@@ -27,7 +27,7 @@ sample('Переключатели', {
 			this.icon.states.set('checked');
 		}					
 	}*/, {
-		etype: 'switch-item',
+		etype: 'switch-box',
 		text: ['Нет', 'Да']
 //		left: 'Да',
 //		right: 'Нет'
@@ -36,7 +36,7 @@ sample('Переключатели', {
 		cls: 'e-group',
 		mixins: ['selectable'],
 		defaultItem: {
-			etype: 'button-item',
+			etype: 'button-box',
 			text: false,
 			onClick: function() {
 				this.parent.selection.set(this);

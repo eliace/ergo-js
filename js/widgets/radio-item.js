@@ -3,7 +3,7 @@
 
 
 
-Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-radio-box',
@@ -12,4 +12,4 @@ Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.Box', {
 		}
 	}
 	
-}, 'radio-box');
+}, 'radio-item');

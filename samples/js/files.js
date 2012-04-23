@@ -1,11 +1,11 @@
 sample('Загрузка файлов', {
 	layout: 'vbox',
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		buttons: [{
 			etype: 'upload-box',
 			content: {
-				etype: 'button-item',
+				etype: 'button-box',
 				text: 'Файл'	
 			},
 			onAction: function(e) {
@@ -21,7 +21,7 @@ sample('Загрузка файлов', {
 			layout: 'float',
 			
 			defaultItem: {
-				etype: 'image-item',
+				etype: 'image-box',
 				layout: 'vbox',
 				width: 100
 			},
@@ -30,8 +30,9 @@ sample('Загрузка файлов', {
 				addButton: {
 					etype: 'upload-box',
 					cls: 'e-file-uploader',
+					weight: 1000,
 					content: {
-						etype: 'text-item',
+						etype: 'text-box',
 						icon: 'e-file-uploader-thumb'
 			//			src: 'img/icons-32/e-icon-folder.png'
 					},

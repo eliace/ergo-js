@@ -7,20 +7,20 @@ var itemList = [{
 		width: 300
 	},
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Фамилия'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Отчество'
 	}]
 }, {
 	tab: 'Закладка 2',
 	layout: 'vbox',
 	defaultItem: {
-		etype: 'button-item'
+		etype: 'button-box'
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {

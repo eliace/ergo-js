@@ -5,17 +5,17 @@ sample('Кнопки', {
 	},
 	
 	items: [{
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Кнопка'
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Кнопка',
 		icon: 'e-icon-tag'
 	}, {
 		etype: 'styled-button',
 		text: 'Кнопка'
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Город',
 		xicon: 'button-arrow-down',
 		
@@ -33,7 +33,7 @@ sample('Кнопки', {
 				width: 60,				
 			},
 			dropdown: {
-				etype: 'dropdown-box',
+				etype: 'dropdown',
 				width: 150,
 				cls: 'roman',
 				content: {
@@ -48,7 +48,7 @@ sample('Кнопки', {
 		width: 160,
 		
 		defaultItem: {
-			etype: 'button-item'
+			etype: 'button-box'
 		},
 		items: [{
 			text: 'Создать',
@@ -67,7 +67,7 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown-box',
+				etype: 'dropdown',
 //				width: 160,
 				cls: 'alpha',
 				adjustWidth: true,
@@ -81,14 +81,14 @@ sample('Кнопки', {
 		etype: 'box',
 		cls: 'e-group',
 		defaultItem: {
-			etype: 'button-item'
+			etype: 'button-box'
 		},
 		items: ['Лево', 'Центр', 'Право']
 	}, {
 		etype: 'box',
 		cls: 'e-group',
 		defaultItem: {
-			etype: 'button-item'
+			etype: 'button-box'
 		},
 //		items: ['◄', '►']
 		items: [{icon: 'button-arrow-left'}, {icon: 'button-arrow-right'}]
@@ -97,23 +97,23 @@ sample('Кнопки', {
 		cls: 'e-group-vert',
 		layout: 'vbox',
 		defaultItem: {
-			etype: 'button-item'
+			etype: 'button-box'
 		},
 		style: {'font-size': 8},
 		items: [{icon: 'spinner-arrow-up'}, {icon: 'spinner-arrow-down'}]
 	}, {
 		style: {'display': 'block'},
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Кнопка (HBox)',
 		icon: 'e-icon-edit',
 		xicon: 'e-icon-flag',
 		width: 300
 	}, {
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Кнопка (VBox)',
 		components: {
 			before: {
-				etype: 'img',
+				etype: 'image',
 				src: 'samples/img/worker_photo.png',
 				style: {'margin': '0 auto'}
 			}
@@ -122,7 +122,7 @@ sample('Кнопки', {
 		layout: 'vbox'		
 	}, {
 		style: {'display': 'block'},
-		etype: 'button-item',
+		etype: 'button-box',
 		text: 'Кнопка (Item)',// с очень длинным текстом. Очень-очень длинным',
 		icon: 'e-icon-edit before',
 		xicon: 'e-icon-flag after',

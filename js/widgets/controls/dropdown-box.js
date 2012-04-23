@@ -1,12 +1,11 @@
 
-//= require "select-field"
+//= require "select-box"
+//= require <widgets/dropdown>
 
 
-Ergo.declare('Ergo.widgets.DropdownSelectField', 'Ergo.widgets.SelectField', {
+Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.SelectBox', {
 	
 	defaults: {
-		
-		mixins: ['selectable'],
 		
 		onSelect: function(e) {
 			this.selection.set(e.target);
@@ -15,7 +14,7 @@ Ergo.declare('Ergo.widgets.DropdownSelectField', 'Ergo.widgets.SelectField', {
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown-box',
+				etype: 'dropdown',
 				adjustWidth: true
 			}			
 		},
@@ -30,4 +29,4 @@ Ergo.declare('Ergo.widgets.DropdownSelectField', 'Ergo.widgets.SelectField', {
 		
 	}
 	
-}, 'dropdown-select-field');
+}, 'dropdown-box');

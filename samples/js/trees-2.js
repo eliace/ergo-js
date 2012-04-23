@@ -2,7 +2,7 @@
 
 sample('Аккордеон', {
 	
-	etype: 'accordion-list',	
+	etype: 'accordion',	
 	cls:'e-accordeon',
 	items: [{
 		text: 'Меню 1',

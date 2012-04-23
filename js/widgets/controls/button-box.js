@@ -1,8 +1,8 @@
 
-//= require <widgets/iconed-box>
+//= require "iconed-box"
 
 
-Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedBox', {
+Ergo.declare('Ergo.widgets.ButtonBox', 'Ergo.widgets.IconedBox', {
 	
 	defaults: {
 		cls: 'e-button-item',
@@ -13,9 +13,9 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedBox', {
 				state: 'hidden'
 			}
 		},
-		onClick: function(){
-			this.events.fire('onAction');
-		},
+//		onClick: function(){
+//			this.events.fire('action');
+//		},
 		text: false,
 		set: {
 			'text': function(v) {
@@ -30,4 +30,4 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedBox', {
 		}
 	}
 		
-}, 'button-item');
+}, 'button-box');

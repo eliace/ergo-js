@@ -11,7 +11,7 @@ sample('Панель группировки', {
 	content: {
 		etype: 'box',
 		defaultItem: {
-			etype: 'radio-item'				
+			etype: 'radio-box'				
 		},
 		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 	}

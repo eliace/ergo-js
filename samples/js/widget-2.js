@@ -11,7 +11,7 @@ var w = sample('Обход виджетов', {
 			etype: 'box',
 			layout: 'vbox',
 			defaultItem: {
-				etype: 'button-item',
+				etype: 'button-box',
 				onClick: function() {
 					// this -> контейнер кнопок -> общий контейнер -> title
 					this.parent.parent.title.opt('text', this.opt('text'));

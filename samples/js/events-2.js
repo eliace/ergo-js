@@ -4,7 +4,7 @@ sample('Всплывание события', {
 	items: [{
 		etype: 'box',
 		content: {
-			etype: 'button-item',
+			etype: 'button-box',
 			text: 'Нажми меня',
 			// событие click одно из событий автоматически генерируемых виджетом
 			onClick: function() {

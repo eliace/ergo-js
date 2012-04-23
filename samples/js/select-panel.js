@@ -6,19 +6,19 @@ var selectItems = [{
 		width: 300
 	},
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Фамилия'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Отчество'
 	}]
 }, {
 	layout: 'vbox',
 	defaultItem: {
-		etype: 'button-item'
+		etype: 'button-box'
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {
@@ -40,7 +40,7 @@ sample('Панели выбора', {
 		
 		onSelect: function(e) {
 //			growl.info('Изменился выбранный элемент');
-//			this.selection.set(e.target);
+			this.selection.set(e.target);
 			this.content.setActive(e.target._index);
 		},
 		
@@ -68,8 +68,8 @@ sample('Панели выбора', {
 			select: {
 				etype: 'box',
 				defaultItem: {
-					etype: 'radio-item',
-					onClick: function() { this.events.bubble('select', {target: this}); }
+					etype: 'radio-box',
+					onClick: function() { this.events.bubble('select'); }
 				},
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
 			}
@@ -80,8 +80,8 @@ sample('Панели выбора', {
 			select: {
 				etype: 'box',
 				defaultItem: {
-					etype: 'button-item',
-					onClick: function() { this.events.bubble('select', {target: this}); }
+					etype: 'button-box',
+					onClick: function() { this.events.bubble('select'); }
 				},
 				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
 			},
@@ -91,7 +91,7 @@ sample('Панели выбора', {
 		title: 'Поле с выпадающим списком',
 		components: {
 			select: {
-				etype: 'dropdown-select-field',
+				etype: 'dropdown-box',
 
 				onSelect: function(e) {
 					this.opt('text', e.target.opt('text'));

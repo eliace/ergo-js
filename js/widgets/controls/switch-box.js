@@ -1,7 +1,7 @@
 
-//= require <widgets/labeled-box>
+//= require "labeled-box"
 
-Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledBox', {
+Ergo.declare('Ergo.widgets.SwitchBox', 'Ergo.widgets.LabeledBox', {
 	
 	defaults: {
 		cls: 'e-choice',
@@ -24,4 +24,4 @@ Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledBox', {
 		}
 	}
 	
-}, 'switch-item');
+}, 'switch-box');

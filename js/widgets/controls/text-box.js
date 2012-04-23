@@ -1,8 +1,8 @@
 
-//= require <widgets/iconed-box>
+//= require "iconed-box"
 
 
-Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedBox', {
+Ergo.declare('Ergo.widgets.TextBox', 'Ergo.widgets.IconedBox', {
 	
 	defaults: {
 		cls: 'e-text-item',
@@ -12,13 +12,13 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedBox', {
 				state: 'hidden'
 			}
 		},
-		onClick: function(){
-			this.events.fire('onAction');
-		},
+//		onClick: function(){
+//			this.events.fire('action');
+//		},
 		text: '',
 		set: {
 			'text': function(v) {
-				this.content.opt('text', v);
+				this.content.opt('text', v || 'no-text');
 				this.content.states.toggle('hidden', (!v && v !== ''));
 			}
 		},
@@ -29,4 +29,4 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedBox', {
 		}
 	}
 		
-}, 'text-item');
+}, 'text-box');

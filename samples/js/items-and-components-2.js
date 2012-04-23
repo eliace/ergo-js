@@ -8,7 +8,7 @@ var w = sample('Компоненты', {
 	
 	// этот параметр применяется фабрикой для всех компонентов
 	defaultComponent: {
-		etype: 'button-item',
+		etype: 'button-box',
 	},
 	
 	// порядок компонентов определяется параметром weight

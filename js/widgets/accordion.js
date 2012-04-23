@@ -1,7 +1,7 @@
 
 //= require <widgets/natives/list>
 
-Ergo.declare('Ergo.widgets.AccordionList', 'Ergo.widgets.List', {
+Ergo.declare('Ergo.widgets.Accordion', 'Ergo.widgets.List', {
 	
 	defaults: {
 		defaultItem: {
@@ -44,5 +44,5 @@ Ergo.declare('Ergo.widgets.AccordionList', 'Ergo.widgets.List', {
 	
 	
 	
-}, 'accordion-list');
+}, 'accordion');
 

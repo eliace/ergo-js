@@ -70,43 +70,23 @@ var w = sample('Форма с ergo-виджетами', {
 	
 	items: [{
 		label: 'Фамилия',
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'last_name',
 	}, {
 		label: 'Имя',
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'first_name'
 	}, {
 		label: 'Очество',
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'middle_name'
 	}, {
 		label: 'Рост',
-		etype: 'text-field',
-		dataId: 'height',
-		buttons: [{
-			etype: 'box',
-			cls: 'e-group-vert',
-			autoBind: false,
-			defaultItem: {
-				etype: 'button-item',
-				onClick: function() {
-					this.events.bubble('action');
-				}
-			},
-			items: [{icon: 'spinner-arrow-up', tag: 'up'}, {icon: 'spinner-arrow-down', tag: 'down'}]
-		}],
-		
-		onAction: function(e) {
-			var v = this.getValue();
-			if(e.target.tag == 'up') v++
-			else if(e.target.tag == 'down') v--;
-			this.setValue(v);
-		},
-		
+		etype: 'spin-box',
+		dataId: 'height'		
 	}, {
 		label: 'Дата рождения',
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'birth_date',
 		buttons: [{etype: 'icon', cls: 'e-icon-date'}],
 		
@@ -127,13 +107,13 @@ var w = sample('Форма с ergo-виджетами', {
 		
 	}, {
 		label: '',
-		etype: 'switch-item',
+		etype: 'switch-box',
 		text: ['Правша', 'Левша'],
 		dataId: 'left_handed',
 		
 	}, {
 		label: 'Цвет волос',
-		etype: 'dropdown-select-field',
+		etype: 'dropdown-box',
 		dataId: 'hair.id',
 //		mixins: ['selectable'],
 		
@@ -206,19 +186,6 @@ var w = sample('Форма с ergo-виджетами', {
 				}
 			}			
 		}
-		
-		
-	}, {
-		etype: 'box',
-		
-		content: {
-			etype: 'text-input',
-		events: {
-			'focus': function(e) {
-				growl.info('focus');
-			}
-		}
-		},
 		
 		
 	}]
