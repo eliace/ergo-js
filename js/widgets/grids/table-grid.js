@@ -1,6 +1,6 @@
 
 
-
+//= require <widgets/natives/box>
 
 Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
