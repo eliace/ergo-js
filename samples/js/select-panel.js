@@ -66,12 +66,16 @@ sample('Панели выбора', {
 		title: 'Радио-кнопки',
 		components: {
 			select: {
-				etype: 'box',
-				defaultItem: {
-					etype: 'radio-box',
-					onClick: function() { this.events.bubble('select'); }
-				},
-				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
+				etype: 'list-select',
+				content: {
+					defaultItem: {
+						etype: 'radio-box',
+						get: {
+							'value': function() { return this.opt('text'); }
+						}
+					},
+					items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],					
+				}
 			}
 		}
 	}, {

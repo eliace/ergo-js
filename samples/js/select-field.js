@@ -7,36 +7,31 @@ sample('Поле выбора', {
 	
 	items: [{
 		
-		etype: 'list-box',
-		
+		etype: 'list-select',
 		content: {
-			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
-		}
-		
-/*		
-    etype: 'box',
-    cls: 'e-list roman e-select-list',
-		mixins: ['selectable'],
-		onSelect: function(e) {
-			this.selection.set(e.target);
-		},
-    content: {
-			etype: 'list',
 			defaultItem: {
-				onClick: function() {
-					this.events.bubble('select', {target: this});				
+				get: {
+					'value': function() { return this.opt('text'); }
 				}
 			},
-			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']    	
-    }
-*/    
+			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']			
+		}
+		
+	}, {
+		etype: 'list-select',
+		content: {
+			defaultItem: {
+				etype: 'radio-box',
+				tabIndex: 0,
+				get: {
+					'value': function() { return this.opt('text'); }
+				}
+			},
+			items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+		}
 	}, {
 		label: 'Город',
 		etype: 'dropdown-select',
-		
-		// onSelect: function(e) {
-			// this.opt('text', e.target.opt('text'));
-		// },
 		
 		components: {
 			dropdown: {
@@ -51,15 +46,7 @@ sample('Поле выбора', {
 			}
 		}				
 		
-	}/*, {
-		label: 'Число',
-		etype: 'select-field',
-		buttons: [{
-			iconCls: 'arrow-right'
-		}, {
-			iconCls: 'arrow-left'
-		}]
-	}*/, {
+	}, {
 		etype: 'box',
 		cls: 'e-group',
 		mixins: ['selectable'],
@@ -74,21 +61,6 @@ sample('Поле выбора', {
 			}
 		},
 		items: ['Лево', 'Центр', 'Право']
-	}, {
-		etype: 'box',
-		mixins: ['selectable'],
-		onSelect: function(e) {
-			this.selection.set(e.target);
-		},
-		defaultItem: {
-			etype: 'radio-box',
-			tabIndex: 0,
-			onClick: function(e) {
-				this.events.bubble('select', {target: this});
-				e.cancel();
-			}
-		},
-		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']		
 	}]
 });
 

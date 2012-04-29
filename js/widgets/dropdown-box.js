@@ -4,7 +4,7 @@
 //= require <widgets/controls/list-box>
 
 
-Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.ListBox', {
+Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-dropbox',
@@ -18,7 +18,13 @@ Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.ListBox', {
 			show: 'slideDown',
 			hide: 'slideUp',
 			delay: 300
-		},		
+		},
+		
+		components: {
+			content: {
+				etype: 'list-box'
+			}
+		},
 
 		style: {'display': 'none'}
 		
@@ -26,4 +32,4 @@ Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.ListBox', {
 	
 	
 	
-}, 'dropdown');
+}, 'dropdown-box');

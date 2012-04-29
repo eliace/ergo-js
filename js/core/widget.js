@@ -77,7 +77,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		showOnRender: false,
 		hideOnRender: false,
 		set: {
-			'text': function(v) {	this.layout.el.text(v); },
+//			'text': function(v) {	this.layout.el.text(v); },
 			'innerText': function(v) {	this.layout.el.text(v); },
 			'innerHtml': function(v) {	this.layout.el.html(v); },
 			'opacity': function(v) {
@@ -103,7 +103,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			}
 		},
 		get: {
-			'text': function() { return this.el.text(); }
+			// 'text': function() { return this.el.text(); }
 		}			
 	},
 	
@@ -837,6 +837,17 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
+	getText: function() {
+		return this.layout.el.text();
+	},
+	
+	
+	setText: function(v) {
+		this.layout.el.text( this.format(v) );
+	},
+	
+	
+	
 	/**
 	 * Получение значения, связанного с виджетом.
 	 * 
@@ -853,9 +864,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			val = this._value;
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 		
-		// если присутствует функция форматирования, то используем ее
-		if(this.options.format)
-			val = o.format.call(this, val);		
+		// // если присутствует функция форматирования, то используем ее
+		if(this.options.valueFormat)
+			val = o.valueFormat.call(this, val);		
 		
 		return val;
 	},
@@ -873,8 +884,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		var o = this.options;
 
-		if(o.store)
-			val = o.store.call(this, val);
+		// if(o.store)
+			// val = o.store.call(this, val);
 		
 		if(this.data){
 
@@ -900,6 +911,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				
 	},
 	
+	
+	
+	format: function(val) {
+		// если присутствует функция форматирования, то используем ее
+		if(this.options.format)
+			val = this.options.format.call(this, val);		
+		return val;
+	},
+	
 
 
 	
@@ -923,7 +943,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(/*this.data &&*/ binding){
 //			var val = this.getValue();
 //			this._lock_value_change = true;
-			if( binding.call(this, this.getValue()) === false) return false;
+			if( binding.call(this, this.opt('value')) === false) return false;
 //			delete this._lock_value_change;
 			
 		}
