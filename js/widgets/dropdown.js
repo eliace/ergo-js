@@ -1,9 +1,10 @@
 
 //= require <mixins/effects>
 //= require <mixins/popup>
+//= require <widgets/controls/list-box>
 
 
-Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.ListBox', {
 	
 	defaults: {
 		cls: 'e-dropbox',
@@ -19,16 +20,7 @@ Ergo.declare('Ergo.widgets.Dropdown', 'Ergo.widgets.Box', {
 			delay: 300
 		},		
 
-		style: {'display': 'none'},
-		
-		content: {
-			etype: 'list',
-			defaultItem: {
-				onClick: function(e) {
-					this.events.bubble('select', {target: this});
-				}
-			}
-		}
+		style: {'display': 'none'}
 		
 	}
 	

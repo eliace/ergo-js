@@ -17,6 +17,12 @@ Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.LabeledBox', {
 			'text': function(v) {
 				this.opt('xlabel', v);
 			}
+		},
+		onClick: function() {
+			this.opt('value', !this.opt('value'));
+		},
+		binding: function(v) {
+			this.content.states.toggle('checked', v);
 		}
 	}
 	

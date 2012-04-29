@@ -9,8 +9,11 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 		
 		mixins: ['selectable'],
 
-		content: {
-			cls: 'e-current-select'
+
+		components: {
+			select: {
+				cls: 'e-current-select'
+			}			
 		},
 		
 		defaultItem: {
@@ -21,20 +24,16 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 				}
 			}
 		},
-		events: {
-			'focus': function(e, w) {
-//					w.getParent(Ergo.widgets.Field).setFocus();
-			},
-			'blur': function(e, w) {
-//					w.getParent(Ergo.widgets.Field).clearFocus();
-			}
-		},
-
+		
 		buttons: [],
+		
+		binding: function(v) {
+			this.opt('text', v);
+		},
 		
 		set: {
 			'text': function(v) {
-				this.content.opt('text', v);
+				this.select.opt('text', v);
 			}
 		}
 	},

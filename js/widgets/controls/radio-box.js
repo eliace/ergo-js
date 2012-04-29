@@ -12,6 +12,12 @@ Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.LabeledBox', {
 				etype: 'radio-item'
 			}
 		},
+		// onClick: function() {
+			// this.opt('value', !this.opt('value'));
+		// },
+		// binding: function(v) {
+			// this.content.states.toggle('checked', v);
+		// },		
 		set: {
 			'text': function(v) {
 				this.opt('xlabel', v);
