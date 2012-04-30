@@ -35,7 +35,7 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 		this.$super();
 //		Ergo.widgets.Text.superclass.$dataChanged.apply(this, arguments);
 
-		if(this.options.autoBind)
+		if(this.options.binding)
 			this.opt('text', this.getValue());
 			
 //		this.el.text( this.getValue() );
