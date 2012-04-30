@@ -122,14 +122,9 @@ var w = sample('Форма с ergo-виджетами', {
 					data: formData,
 					dataId: 'hair.list',
 					defaultItem: {
-						format: '#{title}',
-						set: {
-//							'text': function(v) { this.setText(this.data.get('title')); },
-//							'value': function(v) { this.data.set('id', v); }
-						},
-						get: {
-//							'text': function() { return this.data.get('title'); },
-//							'value': function() { return this.data.get('id'); }
+						format: '#{id}',
+						binding: function(v) {
+							this.opt('text', this.data.get('title'));
 						}
 					}
 				}
