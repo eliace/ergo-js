@@ -1,4 +1,5 @@
 
+//= require <widgets/controls/select-box>
 
 Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	

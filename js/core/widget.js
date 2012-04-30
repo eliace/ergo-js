@@ -865,8 +865,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 		
 		// // если присутствует функция форматирования, то используем ее
-		if(this.options.valueFormat)
-			val = o.valueFormat.call(this, val);		
+//		if(this.options.valueFormat)
+//			val = o.valueFormat.call(this, val);		
 		
 		return val;
 	},

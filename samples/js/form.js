@@ -125,11 +125,11 @@ var w = sample('Форма с ergo-виджетами', {
 						format: '#{title}',
 						set: {
 //							'text': function(v) { this.setText(this.data.get('title')); },
-							'value': function(v) { this.data.set('id', v); }
+//							'value': function(v) { this.data.set('id', v); }
 						},
 						get: {
 //							'text': function() { return this.data.get('title'); },
-							'value': function() { return this.data.get('id'); }
+//							'value': function() { return this.data.get('id'); }
 						}
 					}
 				}
