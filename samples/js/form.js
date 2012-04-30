@@ -113,37 +113,37 @@ var w = sample('Форма с ergo-виджетами', {
 		
 	}, {
 		label: 'Цвет волос',
-		etype: 'dropdown-box',
+		etype: 'dropdown-select',
 		dataId: 'hair.id',
-//		mixins: ['selectable'],
-		
-		onSelect: function(e) {
-//			this.selection.set(e.target);
-//			this.dropdown.close();
-			
-			this.setValue(e.target.data.get('id'));
-		},
 		
 		components: {
 			dropdown: {
 				content: {
 					data: formData,
 					dataId: 'hair.list',
-					dynamic: true,
 					defaultItem: {
-						format: '#{title}'
+						format: '#{title}',
+						set: {
+//							'text': function(v) { this.setText(this.data.get('title')); },
+//							'value': function(v) { this.data.set('id', v); }
+						},
+						get: {
+//							'text': function() { return this.data.get('title'); },
+//							'value': function() { return this.data.get('id'); }
+						}
 					}
 				}
 			}
-		},
-				
-		binding: function(v) {
-			var selected = this.dropdown.content.items.find(function(item){ return (item.data.get('id') == v); });
-			if(selected) {
-				this.selection.set( selected );
-				this.opt('text', selected.getValue());				
-			}
 		}
+		
+				
+		// binding: function(v) {
+			// var selected = this.dropdown.content.items.find(function(item){ return (item.data.get('id') == v); });
+			// if(selected) {
+				// this.selection.set( selected );
+				// this.opt('text', selected.getValue());				
+			// }
+		// }
 		
 		
 	}, {

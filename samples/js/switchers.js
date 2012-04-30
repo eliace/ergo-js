@@ -9,9 +9,9 @@ sample('Переключатели', {
 		etype: 'check-box',
 		tabIndex: 0,
 		text: 'чекбокс',
-		onClick: function() {
-			this.content.states.toggle('checked');
-		}
+//		onClick: function() {
+//			this.content.states.toggle('checked');
+//		}
 	}/*, {
 		etype: 'text-item',
 		tabIndex: 0,

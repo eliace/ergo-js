@@ -40,7 +40,7 @@ sample('Панели выбора', {
 		
 		onSelect: function(e) {
 //			growl.info('Изменился выбранный элемент');
-			this.selection.set(e.target);
+//			this.selection.set(e.target);
 			this.content.setActive(e.target._index);
 		},
 		
@@ -66,12 +66,16 @@ sample('Панели выбора', {
 		title: 'Радио-кнопки',
 		components: {
 			select: {
-				etype: 'box',
-				defaultItem: {
-					etype: 'radio-box',
-					onClick: function() { this.events.bubble('select'); }
-				},
-				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
+				etype: 'list-select',
+				content: {
+					defaultItem: {
+						etype: 'radio-box',
+						get: {
+							'value': function() { return this.opt('text'); }
+						}
+					},
+					items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],					
+				}
 			}
 		}
 	}, {
@@ -91,15 +95,20 @@ sample('Панели выбора', {
 		title: 'Поле с выпадающим списком',
 		components: {
 			select: {
-				etype: 'dropdown-box',
+				etype: 'dropdown-select',
 
-				onSelect: function(e) {
-					this.opt('text', e.target.opt('text'));
-				},
+				// onSelect: function(e) {
+					// this.opt('text', e.target.opt('text'));
+				// },
 				
 				components: {
 					dropdown: {
 						content: {
+							defaultItem: {
+								get: {
+									'value': function() {return this.opt('text');}
+								}								
+							},
 							items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 						}
 					}

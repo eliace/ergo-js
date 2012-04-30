@@ -2,14 +2,14 @@
 //= require "select-box"
 //= require <widgets/natives/list>
 
-Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.SelectBox', {
+Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.List', {
 	
 	defaults: {
 		cls: 'e-list-box',
-		
-		components: {
-			list: {
-				etype: 'list'
+		dynamic: true,
+		defaultItem: {
+			onClick: function(e) {
+				this.events.bubble('select');
 			}
 		}
 		
