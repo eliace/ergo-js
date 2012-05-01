@@ -884,8 +884,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		var o = this.options;
 
-		// if(o.store)
-			// val = o.store.call(this, val);
+		if(o.store)
+			val = o.store.call(this, val);
 		
 		if(this.data){
 
