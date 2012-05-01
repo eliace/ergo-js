@@ -21,10 +21,10 @@ Ergo.declare('Ergo.widgets.SpinBox', 'Ergo.widgets.InputBox', {
 		}],
 		
 		onAction: function(e) {
-			var v = this.getValue();
+			var v = this.opt('value');
 			if(e.target.tag == 'up') v++
 			else if(e.target.tag == 'down') v--;
-			this.setValue(v);
+			this.opt('value', v);
 		}		
 	}
 	

@@ -28,11 +28,17 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 //		this.is_stopped = false;
 		this.baseEvent = baseEvent;
 		this.canceled = false;
+		this.stopped = false;
 	},
 	
 	
 	cancel: function(){
 		this.canceled = true;
+	},
+	
+	stop: function() {
+		if(this.baseEvent) this.baseEvent.stopPropagation();
+		this.stopped = true;
 	}
 	
 	
@@ -159,12 +165,15 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 		var h_arr = this.events[type];
 		if(h_arr) {
 			Ergo.each(h_arr, function(h){
+				// вызываем обработчик события
 				h.callback.call(h.target, e, type);
+				// если усьановлен флаг остановки, то прекращаем обработку событий
+				if(e.stopped) return false;
 			});
 			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
 		}
 
-		if(e.after) 
+		if(e.after && !e.stopped) 
 			e.after.call(this.target, e, type);
 
 //		self.on_fire(type, e, baseEvent);

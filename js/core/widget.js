@@ -843,7 +843,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	setText: function(v) {
-		this.layout.el.text( this.format(v) );
+		this.layout.el.text( v );
 	},
 	
 	
@@ -864,9 +864,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			val = this._value;
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 		
-		// // если присутствует функция форматирования, то используем ее
-		if(this.options.valueFormat)
-			val = o.valueFormat.call(this, val);		
+		// если присутствует функция форматирования, то используем ее
+		if(this.options.format)
+			val = o.format.call(this, val);		
 		
 		return val;
 	},
@@ -912,14 +912,14 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	},
 	
 	
-	
+/*	
 	format: function(val) {
 		// если присутствует функция форматирования, то используем ее
 		if(this.options.format)
 			val = this.options.format.call(this, val);		
 		return val;
 	},
-	
+*/	
 
 
 	
