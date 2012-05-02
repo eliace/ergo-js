@@ -6,7 +6,8 @@
 Ergo.declare('Ergo.widgets.ImageBox', 'Ergo.widgets.LabeledBox', {
 	
 	defaults: {
-		cls: 'e-image-item',
+		cls: 'e-image-box',
+		layout: 'vbox',
 		components: {
 			content: {
 				etype: 'image'

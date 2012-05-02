@@ -22,7 +22,6 @@ sample('Загрузка файлов', {
 			
 			defaultItem: {
 				etype: 'image-box',
-				layout: 'vbox',
 				width: 100
 			},
 			

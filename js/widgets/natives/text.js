@@ -19,8 +19,9 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 			'text': function(v) {
 				(v) ? this.el.text(v) : this.el.html('&nbsp;');
 			}
-		}
-	},
+		},
+		binding: function(v) { this.opt('text', v) }
+	}
 	
 	// $opt: function(o) {
 		// this.$super(o);
@@ -30,7 +31,7 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 			// (o.text) ? this.el.text(o.text) : this.el.html('&nbsp;');
 		// }
 	// },
-	
+/*	
 	$dataChanged: function() {
 		this.$super();
 //		Ergo.widgets.Text.superclass.$dataChanged.apply(this, arguments);
@@ -40,7 +41,7 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 			
 //		this.el.text( this.getValue() );
 	}
-	
+*/	
 	// getText: function() {
 		// return this.el.text();
 	// }

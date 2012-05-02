@@ -18,6 +18,8 @@ sample('Кнопки', {
 		etype: 'dropdown-button',
 		text: 'Город',
 		
+		layout: 'item',
+		
 		width: 120,
 
 		onSelect: function(e) {
@@ -26,7 +28,7 @@ sample('Кнопки', {
 		
 		components: {
 			dropdown: {
-				adjustWidth: true,
+				width: 160,
 				content: {
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}
@@ -34,32 +36,15 @@ sample('Кнопки', {
 		}
 		
 	}, {
-		etype: 'box',
-		cls: 'e-split-button',
+		etype: 'split-button',
 		width: 160,
 		
-		defaultItem: {
-			etype: 'button-box'
-		},
 		items: [{
-			text: 'Создать',
-			autoWidth: true
-		}, {
-			icon: 'button-arrow-down',
-			onClick: function() {
-				this.parent.dropdown.open();
-			}
+			text: 'Создать'
 		}],
-		
-		onSelect: function(e) {
-			this.dropdown.close();
-			this.item(0).opt('text', e.target.opt('text'));
-		},
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown-box',
-				adjustWidth: true,
 				content: {
 					items: ['Создать', 'Обновить', 'Удалить']
 				}
@@ -98,23 +83,18 @@ sample('Кнопки', {
 		xicon: 'e-icon-flag',
 		width: 300
 	}, {
-		etype: 'button-box',
+		// превращаем image-box в image-button
+		etype: 'image-box',
+		cls: 'e-button-item',
+		html: '<button/>',
 		text: 'Кнопка (VBox)',
-		components: {
-			before: {
-				etype: 'image',
-				src: 'samples/img/worker_photo.png',
-				style: {'margin': '0 auto'}
-			}
-		},
-		icon: true,
-		layout: 'vbox'		
+		image: 'samples/img/worker_photo.png'
 	}, {
 		style: {'display': 'block'},
 		etype: 'button-box',
 		text: 'Кнопка (Item)',// с очень длинным текстом. Очень-очень длинным',
-		icon: 'e-icon-edit before',
-		xicon: 'e-icon-flag after',
+		icon: 'e-icon-edit',
+		xicon: 'e-icon-flag',
 		layout: 'item',
 		width: 300
 	}]
