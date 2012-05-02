@@ -38,7 +38,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			else if(at[1] == 'center') y += to_el.outerHeight()/2;
 			
 			if(this.options.adjustWidth)
-				this.el.width(to_el.width());
+				this.el.width(to_el.outerWidth());
 			
 		}	
 			

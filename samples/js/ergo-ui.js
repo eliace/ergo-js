@@ -26,11 +26,14 @@ var menuData = [{
 }, {
 	title: 'Виджеты',
 	children: [{
-		title: 'Ввод',
+		title: 'Ввод значения',
 		name: ['input-field']
 	}, {
-		title: 'Выбор',
+		title: 'Выбор значения',
 		name: ['select-field']
+	}, {
+		title: 'Загрузка файлов',
+		name: ['files']
 	}/*, {
 		title: 'Текстовый элемент',
 		name: ['text-item']
@@ -46,9 +49,6 @@ var menuData = [{
 	}, {
 		title: 'Диалоги',
 		name: ['dialogs', 'growls', 'alerts']
-	}, {
-		title: 'Загрузка файлов',
-		name: ['files']
 	}, {
 		title: 'Гриды',
 		name: ['grids', 'property-grid']

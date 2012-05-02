@@ -15,27 +15,18 @@ sample('Кнопки', {
 		etype: 'styled-button',
 		text: 'Кнопка'
 	}, {
-		etype: 'button-box',
+		etype: 'dropdown-button',
 		text: 'Город',
-		xicon: 'button-arrow-down',
 		
-		onClick: function() {
-			this.dropdown.open();
-		},
-		
+		width: 120,
+
 		onSelect: function(e) {
-			this.dropdown.close();
 			growl.info('Выбран: ' + e.target.opt('text'));
 		},
 		
 		components: {
-			content: {
-				width: 60,				
-			},
 			dropdown: {
-				etype: 'dropdown-box',
-				width: 150,
-				cls: 'roman',
+				adjustWidth: true,
 				content: {
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}
@@ -68,8 +59,6 @@ sample('Кнопки', {
 		components: {
 			dropdown: {
 				etype: 'dropdown-box',
-//				width: 160,
-				cls: 'alpha',
 				adjustWidth: true,
 				content: {
 					items: ['Создать', 'Обновить', 'Удалить']
