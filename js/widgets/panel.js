@@ -9,18 +9,18 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 		components: {
 			header: {
 				weight: -10,
-				html: '<header/>',
+				html: '<header/>',				
 				components: {
 					title: {
-						html: '<h2/>'
-					},
-					buttons: {
-						cls: 'buttons',
-						layout: 'hbox',
-						defaultItem: {
-							etype: 'button-box'
-						}
+//						html: '<h2/>'
 					}
+					// buttons: {
+						// cls: 'buttons',
+						// layout: 'hbox',
+						// defaultItem: {
+							// etype: 'button-box'
+						// }
+					// }
 				}
 			},
 			content: {
@@ -33,10 +33,10 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				html: '<footer/>',
 				state: 'hidden'
 			}
-		},
+		}
 		
-		headerButtons: [],
-		footerButtons: []
+//		headerButtons: [],
+//		footerButtons: []
 		
 		// set: {
 			// 'title': function(s) { this.header.title.opt('text', s); }
@@ -47,7 +47,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 	$init: function(o) {
 		this.$super(o);
 		
-		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
+//		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
 	},
 	
 	setTitle: function(s) {

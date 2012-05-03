@@ -6,7 +6,16 @@ sample('Кнопки панели', {
 	
 	title: 'Заголовок',
 	
-	headerButtons: ['Добавить', 'Удалить', 'Закрыть', 'Отмена'],
+	components: {
+		header: {
+			etype: 'header-box',
+			components: {
+				toolbox: {
+					items: ['Добавить', 'Удалить', 'Закрыть', 'Отмена'],
+				}
+			}
+		}
+	},
 	
 	content: {
 		height: 200

@@ -22,7 +22,14 @@ sample('Загрузка файлов', {
 			
 			defaultItem: {
 				etype: 'image-box',
-				width: 100
+				width: 100,
+				mixins: ['effects'],
+				effects: {
+					show: 'fadeIn',
+					delay: 600
+				},
+				style: {'display': 'none'},
+				showOnRender: true
 			},
 			
 			components: {
