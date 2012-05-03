@@ -81,8 +81,9 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 //			this.el.blur(function() { self.hasFocus = false; self.el.val(self.getValue()) });
 //		}
 		
-	},
+	}
 		
+/*		
 	$dataChanged: function() {
 		this.$super();
 //		Ergo.widgets.TextInput.superclass.$dataChanged.apply(this);
@@ -92,7 +93,7 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 		else
 			this.el.val( this.getValue() );
 	}
-	
+*?	
 /*	
 	$events: function(self) {
 		this.$super(self);
