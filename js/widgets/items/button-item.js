@@ -1,12 +1,15 @@
 
-//= require <widgets/iconed-item>
+//= require <mixins/iconable>
+//= require <widgets/natives/button>
 
 
-Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedItem', {
+Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Button', {
 	
 	defaults: {
 		cls: 'e-button-item',
-		html: '<button/>',
+//		html: '<button/>',
+		mixins: ['iconable'],
+		layout: 'hbox',
 		components: {
 			content: {
 				etype: 'text',

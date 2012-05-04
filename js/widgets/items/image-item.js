@@ -1,13 +1,14 @@
 
 
-//= require <widgets/labeled-item>
+//= require <mixins/labelable>
 
 
-Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.LabeledItem', {
+Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-image-box',
 		layout: 'vbox',
+		mixins: ['labelable'],
 		components: {
 			content: {
 				etype: 'image'

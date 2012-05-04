@@ -266,11 +266,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			var arr = [];
 			// преобразуем набор компонентов в массив
 			Ergo.each(o.components, function(c, i){
-				c.weight = ('weight' in c) ? c.weight : 0;//9999;
+//				c.weight = ('weight' in c) ? c.weight : 0;//9999;
 //				c._cweight = ('weight' in c) ? c.weight : 9999;
 //				c._cname = i;
-	
-				c = self.children.add(c, i, 'component');
+
+//				if(!c.ignore)
+				self.children.add(c, i, 'component');
 	
 //				c.name = i;
 //				self[i] = c;

@@ -1,10 +1,12 @@
 
-//= require <widgets/labeled-item>
+//= require <mixins/labelable>
 
-Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledItem', {
+Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-choice',
+		layout: 'hbox',
+		mixins: ['labelable'],
 		components: {
 			content: {
 				content: {

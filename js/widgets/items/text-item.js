@@ -1,11 +1,12 @@
 
-//= require <widgets/iconed-item>
+//= require <mixins/iconable>
 
 
-Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedItem', {
+Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-text-item',
+		mixins: ['iconable'],
 		components: {
 			content: {
 				etype: 'text',

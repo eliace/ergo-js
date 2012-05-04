@@ -83,7 +83,7 @@ var w = sample('Форма с ergo-виджетами', {
 	}, {
 		label: 'Рост',
 		etype: 'spin-input',
-		dataId: 'height'		
+		dataId: 'height'
 	}, {
 		label: 'Дата рождения',
 		etype: 'input-box',

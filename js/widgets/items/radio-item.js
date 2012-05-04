@@ -1,12 +1,13 @@
 
-//= require <widgets/labeled-item>
+//= require <mixins/labelable>
 //= require <widgets/radio-box>
 
-Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.LabeledItem', {
+Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-radio-item',
-//		layout: 'hbox',
+		layout: 'hbox',
+		mixins: ['labelable'],
 		components: {
 			content: {
 				etype: 'radio-box'

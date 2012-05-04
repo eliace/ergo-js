@@ -1,13 +1,14 @@
 
-//= require <widgets/labeled-item>
-//= require <widgets/check-box>"
+//= require <widgets/check-box>
+//= require <mixins/labelable>
 
 
-Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.LabeledItem', {
+Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-check-item',
-//		layout: 'hbox',
+		layout: 'hbox',
+		mixins: ['labelable'],
 		components: {
 			content: {
 				etype: 'check-box'
