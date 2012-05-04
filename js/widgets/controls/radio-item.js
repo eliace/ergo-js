@@ -1,8 +1,8 @@
 
-//= require "labeled-box"
-//= require <widgets/radio-item>
+//= require "labeled-item"
+//= require <widgets/radio-box>
 
-Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.LabeledBox', {
+Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.LabeledItem', {
 	
 	defaults: {
 		cls: 'e-radio-item',
@@ -25,4 +25,4 @@ Ergo.declare('Ergo.widgets.RadioBox', 'Ergo.widgets.LabeledBox', {
 		}
 	}
 	
-}, 'radio-box');
+}, 'radio-item');

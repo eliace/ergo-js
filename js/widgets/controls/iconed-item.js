@@ -2,7 +2,7 @@
 //= require <widgets/icon>
 //= require <layouts/hbox>
 
-Ergo.declare('Ergo.widgets.IconedBox', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.IconedItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		layout: 'hbox',
@@ -34,4 +34,4 @@ Ergo.declare('Ergo.widgets.IconedBox', 'Ergo.widgets.Box', {
 		}
 	}
 		
-}, 'iconed-box');
+}, 'iconed-item');

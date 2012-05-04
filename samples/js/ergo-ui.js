@@ -71,6 +71,9 @@ var menuData = [{
 		title: 'Форма',
 		name: ['form-layout']
 	}, {
+		title: 'Колоночная',
+		name: ['column-layout']
+	}, {
 		title: 'Пользовательская',
 		name: ['custom-layout']
 	}]

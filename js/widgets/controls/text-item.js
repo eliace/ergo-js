@@ -1,12 +1,11 @@
 
-//= require "iconed-box"
+//= require "iconed-item"
 
 
-Ergo.declare('Ergo.widgets.ButtonBox', 'Ergo.widgets.IconedBox', {
+Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedItem', {
 	
 	defaults: {
-		cls: 'e-button-item',
-		html: '<button/>',
+		cls: 'e-text-item',
 		components: {
 			content: {
 				etype: 'text',
@@ -16,7 +15,7 @@ Ergo.declare('Ergo.widgets.ButtonBox', 'Ergo.widgets.IconedBox', {
 //		onClick: function(){
 //			this.events.fire('action');
 //		},
-		text: false,
+		text: '',
 		set: {
 			'text': function(v) {
 				this.content.opt('text', v || 'no-text');
@@ -25,9 +24,9 @@ Ergo.declare('Ergo.widgets.ButtonBox', 'Ergo.widgets.IconedBox', {
 		},
 		get: {
 			'text': function() {
-				return this.content.opt('text');
+				this.content.opt('text');
 			}
 		}
 	}
 		
-}, 'button-box');
+}, 'text-item');

@@ -48,7 +48,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		},
 		
 		defaultItem: {
-			etype: 'button-box',
+			etype: 'button-item',
 			cls: 'e-input-button'
 //			text: false
 		},

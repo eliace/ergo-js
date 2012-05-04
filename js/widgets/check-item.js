@@ -9,6 +9,9 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
 		content: {
 			cls: 'e-checker'
 		}
+		// onClick: function() {
+			// this.states.toggle('checked');
+		// }
 	}
 	
 }, 'check-item');

@@ -1,9 +1,9 @@
 
-//= require "labeled-box"
-//= require <widgets/check-item>"
+//= require "labeled-item"
+//= require <widgets/check-box>"
 
 
-Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.LabeledBox', {
+Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.LabeledItem', {
 	
 	defaults: {
 		cls: 'e-check-item',
@@ -26,4 +26,4 @@ Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.LabeledBox', {
 		}
 	}
 	
-}, 'check-box');
+}, 'check-item');

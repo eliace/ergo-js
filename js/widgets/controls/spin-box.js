@@ -1,6 +1,6 @@
 
 //= require "input-box"
-//= require "button-box"
+//= require "button-item"
 
 
 Ergo.declare('Ergo.widgets.SpinBox', 'Ergo.widgets.InputBox', {
@@ -12,7 +12,7 @@ Ergo.declare('Ergo.widgets.SpinBox', 'Ergo.widgets.InputBox', {
 			cls: 'e-group-vert',
 			autoBind: false,
 			defaultItem: {
-				etype: 'button-box',
+				etype: 'button-item',
 				onClick: function() {
 					this.events.bubble('action');
 				}

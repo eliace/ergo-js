@@ -1,9 +1,9 @@
 
 
-//= require "labeled-box"
+//= require "labeled-item"
 
 
-Ergo.declare('Ergo.widgets.ImageBox', 'Ergo.widgets.LabeledBox', {
+Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.LabeledItem', {
 	
 	defaults: {
 		cls: 'e-image-box',
@@ -21,4 +21,4 @@ Ergo.declare('Ergo.widgets.ImageBox', 'Ergo.widgets.LabeledBox', {
 	
 	
 	
-}, 'image-box');
+}, 'image-item');
