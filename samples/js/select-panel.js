@@ -18,7 +18,7 @@ var selectItems = [{
 }, {
 	layout: 'vbox',
 	defaultItem: {
-		etype: 'button-box'
+		etype: 'button-item'
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {
@@ -67,28 +67,19 @@ sample('Панели выбора', {
 		components: {
 			select: {
 				etype: 'list-select',
-				content: {
-					defaultItem: {
-						etype: 'radio-box',
-						get: {
-							'value': function() { return this.opt('text'); }
-						}
-					},
-					items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],					
-				}
+				defaultItem: {
+					etype: 'radio-item'
+				},
+				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],					
 			}
 		}
 	}, {
 		title: 'Кнопки',
 		components: {
 			select: {
-				etype: 'box',
-				defaultItem: {
-					etype: 'button-box',
-					onClick: function() { this.events.bubble('select'); }
-				},
-				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
-			},
+				etype: 'button-select',
+				items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+			}
 		}
 		
 	}, {
@@ -104,11 +95,6 @@ sample('Панели выбора', {
 				components: {
 					dropdown: {
 						content: {
-							defaultItem: {
-								get: {
-									'value': function() {return this.opt('text');}
-								}								
-							},
 							items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 						}
 					}

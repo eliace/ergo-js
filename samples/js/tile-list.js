@@ -35,7 +35,7 @@ sample('Список тайлов', {
 	dynamic: true,
 	
 	defaultItem: {
-		etype: 'image-box',
+		etype: 'image-item',
 		format: '#{title}',
 		components: {
 			content: {

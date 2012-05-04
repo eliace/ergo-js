@@ -1,8 +1,8 @@
 
-//= require <widgets/controls/button-box>
+//= require <widgets/controls/button-item>
 
 
-Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
+Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 	
 	defaults: {
 		xicon: 'button-arrow-down',

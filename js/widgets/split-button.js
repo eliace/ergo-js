@@ -1,5 +1,5 @@
 
-//= require <widgets/controls/button-box>
+//= require <widgets/controls/button-item>
 
 Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 	
@@ -7,7 +7,7 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 		cls: 'e-split-button',
 		
 		defaultItem: {
-			etype: 'button-box'
+			etype: 'button-item'
 		},
 		items: [{
 			autoWidth: true

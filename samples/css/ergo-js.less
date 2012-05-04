@@ -921,6 +921,44 @@ li.selected:hover {
 
 
 
+// list-box
+
+.e-list-box {
+  padding-bottom:5px;
+  list-style:none!important;
+}
+
+.e-list-box > div {
+  border-bottom:1px solid @separator-color;
+  padding: @e-field-margin;
+  left:30px;
+  cursor:pointer;
+  list-style-position:inside!important;
+}
+
+.e-list-box > div:last-child {
+  border-bottom:0;
+}
+.e-list-box > div:hover {
+  background:#f9f9f9;
+  color:#626262;
+}
+
+.e-list-box > div.selected {
+  color:#555;
+  background:#e9e9e9;
+}
+
+.e-list-box > div.selected:hover {
+  color:#555;
+  background:#e9e9e9!important;
+}
+
+
+
+
+
+
 //grouls 
 .e-grouls_pannels_holder {
   width:300px;

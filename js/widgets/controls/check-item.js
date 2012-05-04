@@ -10,7 +10,7 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.LabeledItem', {
 //		layout: 'hbox',
 		components: {
 			content: {
-				etype: 'check-item'
+				etype: 'check-box'
 			}
 		},
 		set: {
@@ -23,7 +23,8 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.LabeledItem', {
 		},
 		binding: function(v) {
 			this.content.states.toggle('checked', v);
-		}
+		},
+		value: false
 	}
 	
 }, 'check-item');

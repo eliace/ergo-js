@@ -20,7 +20,7 @@ var itemList = [{
 	tab: 'Закладка 2',
 	layout: 'vbox',
 	defaultItem: {
-		etype: 'button-box'
+		etype: 'button-item'
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {

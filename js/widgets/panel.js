@@ -18,7 +18,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 						// cls: 'buttons',
 						// layout: 'hbox',
 						// defaultItem: {
-							// etype: 'button-box'
+							// etype: 'button-item'
 						// }
 					// }
 				}

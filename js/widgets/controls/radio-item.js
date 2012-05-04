@@ -9,7 +9,7 @@ Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.LabeledItem', {
 //		layout: 'hbox',
 		components: {
 			content: {
-				etype: 'radio-item'
+				etype: 'radio-box'
 			}
 		},
 		// onClick: function() {

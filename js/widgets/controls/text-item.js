@@ -24,7 +24,7 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedItem', {
 		},
 		get: {
 			'text': function() {
-				this.content.opt('text');
+				return this.content.opt('text');
 			}
 		}
 	}

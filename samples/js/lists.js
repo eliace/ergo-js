@@ -25,18 +25,22 @@ sample('Списки', {
 			items: towns
 		}
 	}, {
-		etype: 'list-box',
-		defaultItem: {
-			etype: 'radio-box'
-		},
-		items: towns
+		etype: 'group-panel',
+		title: 'Список с элементами типа "radio-item"',
+		content: {
+			etype: 'list-select',
+			defaultItem: {
+				etype: 'radio-item'
+			},
+			items: towns
+		}
 	}, {
 		etype: 'group-panel',
-		title: 'Список с элементами типа "check-box"',
+		title: 'Список с элементами типа "check-item"',
 		content: {
 			etype: 'list-box',
 			defaultItem: {
-				etype: 'check-box'
+				etype: 'check-item'
 			},
 			items: towns			
 		}

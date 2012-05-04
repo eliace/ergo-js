@@ -16,7 +16,7 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 				cls: 'toolbox',
 				layout: 'hbox',
 				defaultItem: {
-					etype: 'button-box'
+					etype: 'button-item'
 				}
 			}
 		}

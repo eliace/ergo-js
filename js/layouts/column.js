@@ -18,4 +18,4 @@ Ergo.declare('Ergo.layouts.Column', 'Ergo.core.Layout', {
 	}
 	
 	
-}, 'column-layout');
+}, 'layouts:column');

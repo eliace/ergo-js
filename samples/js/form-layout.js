@@ -73,18 +73,10 @@ sample('Форма', {
 			});			
 		}
 	}, {
-		etype: 'box',
-		cls: 'e-group',
+		etype: 'button-select',
 		label: 'Пол',
 		dataId: 'sex',
-		mixins: ['selectable'],
-		defaultItem: {
-			etype: 'button-box',
-			onClick: function() {
-				this.parent.selection.set(this);
-			}
-		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
+		items: [{icon: 'e-icon-man-sign', value: 'male'}, {icon: 'e-icon-woman-sign', value: 'female'}]
 	}, {
 		label: 'Адрес',
 		etype: 'dropdown-box'
@@ -94,7 +86,7 @@ sample('Форма', {
 		buttons: [{
 			etype: 'upload-box',
 			content: {
-				etype: 'button-box',
+				etype: 'button-item',
 				icon: 'e-icon-tag',
 //				text: 'Загрузить файл'	
 			},

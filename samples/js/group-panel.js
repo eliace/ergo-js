@@ -9,9 +9,9 @@ sample('Панель группировки', {
 	width: 650,
 	
 	content: {
-		etype: 'box',
+		etype: 'list-select',
 		defaultItem: {
-			etype: 'radio-box'				
+			etype: 'radio-item'				
 		},
 		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
 	}

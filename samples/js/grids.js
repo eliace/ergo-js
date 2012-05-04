@@ -65,7 +65,7 @@ sample('Грид', {
 				
 				columns: [{
 					content: {
-						etype: 'check-item'
+						etype: 'check-box'
 					},
 					autoBind: false,
 					width: 30
@@ -104,12 +104,12 @@ sample('Грид', {
 				columns: [{
 					style: {'text-align': 'center'},
 					content: {
-						etype: 'check-item',
+						etype: 'check-box',
 						onClick: function() {
 							this.states.toggle('checked');
 						}
 					},
-					autoBind: false,
+					binding: false,
 					width: 30
 				}, {
 					header: 'Дата',
@@ -130,7 +130,7 @@ sample('Грид', {
 					header: 'Детали',
 					width: 100,
 					content: {
-						etype: 'button-box',
+						etype: 'button-item',
 						text: 'детали'
 					}
 				}]

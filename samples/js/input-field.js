@@ -20,7 +20,8 @@ sample('Поле ввода', {
 		placeholder: 'Введите текст'
 	}, {
 		label: 'Текст',
-		etype: 'spin-box'
+		etype: 'spin-box',
+		value: 5
 	}, {
 		label: 'Дата',
 		etype: 'input-box',

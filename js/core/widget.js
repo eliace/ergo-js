@@ -55,8 +55,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		mixins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
 		autoUpdate: true,
-//		skipBind: false,
-//		binding: 'auto',
+		cascading: false,
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
 				layout = Ergo.object({etype: 'layouts:'+layout});
@@ -824,7 +823,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		}
 
 		
-		if(update !== false) this.$dataChanged();
+		if(update !== false) this.$dataChanged(true);
 
 		this.events.fire('onBind');
 	},
@@ -858,10 +857,14 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	getValue: function() {
 		var val;
 		var o = this.options;
+		
 		if(this.data)
 			val = this.data.get();
-		else
+		else if('_value' in this)
 			val = this._value;
+		else
+			val = this.opt('text');
+			
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 		
 		// если присутствует функция форматирования, то используем ее
@@ -934,7 +937,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @private
 	 */
-	$dataChanged: function() {
+	$dataChanged: function(cascade) {
+		
+		// если отключено каскадирование, то обновление не производим
+//		if(cascade && !this.options.cascading) return;
 		
 //		if(!this.options.autoBind /*|| this._lock_data_change*/) return;
 		
@@ -952,7 +958,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
 
-		this.children.apply_all('$dataChanged');
+		if(cascade || this.options.cascading)
+			this.children.apply_all('$dataChanged', [true]);
 		
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		

@@ -5,7 +5,7 @@ sample('Загрузка файлов', {
 		buttons: [{
 			etype: 'upload-box',
 			content: {
-				etype: 'button-box',
+				etype: 'button-item',
 				text: 'Файл'	
 			},
 			onAction: function(e) {
@@ -21,7 +21,7 @@ sample('Загрузка файлов', {
 			layout: 'float',
 			
 			defaultItem: {
-				etype: 'image-box',
+				etype: 'image-item',
 				width: 100,
 				mixins: ['effects'],
 				effects: {
@@ -38,7 +38,7 @@ sample('Загрузка файлов', {
 					cls: 'e-file-uploader',
 					weight: 1000,
 					content: {
-						etype: 'text-box',
+						etype: 'text-item',
 						icon: 'e-file-uploader-thumb'
 			//			src: 'img/icons-32/e-icon-folder.png'
 					},

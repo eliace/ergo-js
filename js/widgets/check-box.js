@@ -2,7 +2,7 @@
 //= require <widgets/natives/box>
 
 
-Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-check-box',
@@ -14,4 +14,4 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
 		// }
 	}
 	
-}, 'check-item');
+}, 'check-box');

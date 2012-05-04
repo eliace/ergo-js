@@ -15,7 +15,7 @@ sample('Дерево (иерархический список)', {
 				style: {'display': 'inline-block'}
 			},
 			content: {
-				etype: 'text-box',
+				etype: 'text-item',
 				icon: 'e-icon-house',
 				style: {'display': 'inline-block'}
 			},
