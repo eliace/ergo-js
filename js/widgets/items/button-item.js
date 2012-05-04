@@ -1,5 +1,5 @@
 
-//= require "iconed-item"
+//= require <widgets/iconed-item>
 
 
 Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedItem', {

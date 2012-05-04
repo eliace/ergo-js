@@ -1,5 +1,5 @@
 
-//= require <widgets/controls/list-box>
+//= require <widgets/list-box>
 
 Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.ListBox', {
 	
@@ -15,12 +15,6 @@ Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.ListBox', {
 			var selected = this.items.find(function(item){ return item.opt('value') == v; });
 			this.selection.set(selected);
 		}		
-		
-		// components: {
-			// content: {
-				// etype: 'list-box'
-			// }
-		// }
 		
 	}
 	

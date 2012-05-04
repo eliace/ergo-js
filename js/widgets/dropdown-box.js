@@ -1,7 +1,7 @@
 
 //= require <mixins/effects>
 //= require <mixins/popup>
-//= require <widgets/controls/list-box>
+//= require <widgets/list-box>
 
 
 Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {

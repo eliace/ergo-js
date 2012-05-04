@@ -1,5 +1,4 @@
 
-
 //= require <widgets/button-group>
 
 Ergo.declare('Ergo.widgets.ButtonSelect', 'Ergo.widgets.ButtonGroup', {

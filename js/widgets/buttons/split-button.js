@@ -1,5 +1,5 @@
 
-//= require <widgets/controls/button-item>
+//= require <widgets/items/button-item>
 
 Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 	

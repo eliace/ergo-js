@@ -1,6 +1,6 @@
 
 
-//= require "labeled-item"
+//= require <widgets/labeled-item>
 
 
 Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.LabeledItem', {

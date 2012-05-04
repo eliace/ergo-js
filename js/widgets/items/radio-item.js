@@ -1,5 +1,5 @@
 
-//= require "labeled-item"
+//= require <widgets/labeled-item>
 //= require <widgets/radio-box>
 
 Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.LabeledItem', {

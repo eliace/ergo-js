@@ -1,6 +1,6 @@
 
 
-//= require <widgets/controls/button-item>
+//= require <widgets/items/button-item>
 
 Ergo.declare('Ergo.widgets.ButtonGroup', 'Ergo.widgets.Box', {
 	

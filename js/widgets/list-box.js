@@ -7,7 +7,6 @@ Ergo.declare('Ergo.widgets.ListBox', 'Ergo.widgets.Box', {
 		cls: 'e-list-box',
 		dynamic: true,
 		defaultItem: {
-			etype: 'text-item',
 			onClick: function(e) {
 				this.events.bubble('select');
 			}

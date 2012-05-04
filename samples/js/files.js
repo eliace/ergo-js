@@ -1,7 +1,7 @@
 sample('Загрузка файлов', {
 	layout: 'vbox',
 	items: [{
-		etype: 'input-box',
+		etype: 'select-box',
 		buttons: [{
 			etype: 'upload-box',
 			content: {

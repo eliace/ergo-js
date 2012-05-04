@@ -1,5 +1,5 @@
 
-//= require "labeled-item"
+//= require <widgets/labeled-item>
 //= require <widgets/check-box>"
 
 

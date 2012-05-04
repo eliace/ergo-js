@@ -1,9 +1,8 @@
 
-//= require "input-box"
-//= require "button-item"
+//= require <widgets/input-box>
 
 
-Ergo.declare('Ergo.widgets.SpinBox', 'Ergo.widgets.InputBox', {
+Ergo.declare('Ergo.widgets.SpinInput', 'Ergo.widgets.InputBox', {
 	
 	defaults: {
 		
@@ -29,4 +28,4 @@ Ergo.declare('Ergo.widgets.SpinBox', 'Ergo.widgets.InputBox', {
 	}
 	
 	
-}, 'spin-box');
+}, 'spin-input');

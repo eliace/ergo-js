@@ -1,5 +1,5 @@
 
-
+//= require <widgets/items/button-item>
 
 Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 	
