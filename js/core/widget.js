@@ -55,7 +55,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		mixins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
 		autoUpdate: true,
-		cascading: false,
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
 				layout = Ergo.object({etype: 'layouts:'+layout});
@@ -812,7 +811,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 								
 			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
 			this.data.events.reg('value:changed', function() { 
-				/*if(o.updateOnDataChanged)*/ self.$dataChanged();
+				/*if(o.updateOnDataChanged)*/ self.$dataChanged(true); // ленивое каскадирование
 			}, this);
 			
 		
@@ -824,9 +823,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		}
 
 		
-		if(update !== false) this.$dataChanged(true);
+		if(update !== false) this.$dataChanged();
 
-		this.events.fire('onBind');
+		this.events.fire('onBound');
 	},
 	
 	
@@ -938,7 +937,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @private
 	 */
-	$dataChanged: function(cascade) {
+	$dataChanged: function(lazy) {
 		
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
@@ -959,8 +958,18 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
 
-		if(cascade || this.options.cascading)
-			this.children.apply_all('$dataChanged', [true]);
+		var self = this;
+
+//		if(cascade !== false) {
+		this.children.each(function(child){
+			// Отменяем обновление дочернего элемента, если:
+			//  1. определен источник данных
+			//  2. источник данных дочернего элемента совпадает с текущим
+			if(lazy && child.data && child.data == self.data) return;
+			child.$dataChanged(lazy);
+		});
+//		}
+//			this.children.apply_all('$dataChanged', [true]);
 		
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		

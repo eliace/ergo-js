@@ -1,7 +1,7 @@
 
 //= require <widgets/list-box>
 
-Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.ListBox', {
+Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
@@ -11,8 +11,14 @@ Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.ListBox', {
 			this.opt('value', e.target.opt('value'));
 		},
 		
+		components: {
+			content: {
+				etype: 'list-box'
+			}
+		},
+		
 		binding: function(v) {
-			var selected = this.items.find(function(item){ return item.opt('value') == v; });
+			var selected = this.content.items.find(function(item){ return item.opt('value') == v; });
 			this.selection.set(selected);
 		}		
 		

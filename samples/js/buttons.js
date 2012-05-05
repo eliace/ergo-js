@@ -53,7 +53,9 @@ sample('Кнопки', {
 		
 	}, {
 		etype: 'button-select',
-		items: ['Лево', 'Центр', 'Право']
+		content: {
+			items: ['Лево', 'Центр', 'Право']			
+		}
 	}, {
 		etype: 'button-group',
 		items: [{icon: 'button-arrow-left'}, {icon: 'button-arrow-right'}]

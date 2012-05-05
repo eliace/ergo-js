@@ -17,10 +17,12 @@ sample('Переключатели', {
 	}, {
 		// создадим переключатель на базе группы кнопок
 		etype: 'button-select',
-		defaultItem: {
-			text: false
+		content: {
+			defaultItem: {
+				text: false
+			},
+			items: [{icon: 'e-icon-man-sign', value: 'male'}, {icon: 'e-icon-woman-sign', value: 'female'}]			
 		},
-		items: [{icon: 'e-icon-man-sign', value: 'male'}, {icon: 'e-icon-woman-sign', value: 'female'}],
 		value: 'male'
 	}]
 });

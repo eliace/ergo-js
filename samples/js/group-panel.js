@@ -10,10 +10,12 @@ sample('Панель группировки', {
 	
 	content: {
 		etype: 'list-select',
-		defaultItem: {
-			etype: 'radio-item'				
-		},
-		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+		content: {
+			defaultItem: {
+				etype: 'radio-item'				
+			},
+			items: ['Вариант 1', 'Вариант 2', 'Вариант 3']			
+		}
 	}
 	
 	

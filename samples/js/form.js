@@ -60,6 +60,7 @@ var w = sample('Форма с ergo-виджетами', {
 	
 	defaultItem: {
 		onDataChanged: function() {
+			growl.success('dataChanged: ' + this.data.get());
 			this.parent.dataView.$dataChanged();//.opt('text', Ergo.pretty_print(formData.get(), 0));	
 		}
 	},

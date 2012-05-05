@@ -29,10 +29,12 @@ sample('Списки', {
 		title: 'Список с элементами типа "radio-item"',
 		content: {
 			etype: 'list-select',
-			defaultItem: {
-				etype: 'radio-item'
-			},
-			items: towns
+			content: {
+				defaultItem: {
+					etype: 'radio-item'
+				},
+				items: towns				
+			}
 		}
 	}, {
 		etype: 'group-panel',

@@ -8,14 +8,18 @@ sample('Поле выбора', {
 	items: [{
 		
 		etype: 'list-select',
-		items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']					
+		content: {
+			items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']					
+		}
 	}, {
 		etype: 'list-select',
-		defaultItem: {
-			etype: 'radio-item',
-			tabIndex: 0
-		},
-		items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+		content: {
+			defaultItem: {
+				etype: 'radio-item',
+				tabIndex: 0
+			},
+			items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+		}
 	}, {
 		label: 'Город',
 		etype: 'dropdown-select',
