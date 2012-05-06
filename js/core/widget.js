@@ -202,7 +202,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	destroy: function() {
-
 		
 		// удаляем элемент и все его содержимое (data + event handlers) из документа
 		if(this.parent) this.parent.children.remove(this);
@@ -269,8 +268,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //				c._cweight = ('weight' in c) ? c.weight : 9999;
 //				c._cname = i;
 
-//				if(!c.ignore)
-				self.children.add(c, i, 'component');
+				if(!c.ignore)
+					self.children.add(c, i, 'component');
 	
 //				c.name = i;
 //				self[i] = c;

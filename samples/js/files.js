@@ -89,7 +89,18 @@ sample('Загрузка файлов', {
 					showOnRender: true,
 					effects: {
 						show: 'fadeIn',
+						hide: 'fadeOut',
 						delay: 400
+					},
+					components: {
+						after: {
+							onClick: function() {
+								var self = this;
+								this.parent.hide().then(function(){
+									self.parent.destroy();									
+								});
+							}
+						}
 					}
 				}
 			}
