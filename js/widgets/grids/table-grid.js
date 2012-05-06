@@ -60,7 +60,12 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		var w = this.content.content.el.width();
 		this.header.content.el.width(w);
 		
-	}					
+	},
+	
+	
+	rows: function() {
+		return this.content.content.items;
+	}
 	
 	
 }, 'table-grid');

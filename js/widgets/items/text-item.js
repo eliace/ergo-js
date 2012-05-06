@@ -7,6 +7,7 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 	defaults: {
 		cls: 'e-text-item',
 		mixins: ['iconable'],
+		layout: 'hbox',
 		components: {
 			content: {
 				etype: 'text',

@@ -48,5 +48,52 @@ sample('Загрузка файлов', {
 				}
 			}
 		}
+	}, {
+		etype: 'panel',
+		
+		onAddFile: function(e) {
+			this.content.items.add({
+				text: e.target.opt('value')
+			});
+		},
+		
+		components: {
+			header: {
+				etype: 'header-box',
+				components: {
+					toolbox: {
+						items: [{
+							etype: 'upload-box',
+							content: {
+								etype: 'button-item',
+								icon: 'e-icon-plus',
+								text: 'Добавить файл'
+							},
+							onAction: function(e) {
+								this.opt('value', e.file);
+								this.events.bubble('addFile');
+							}
+						}]
+					}
+				}
+			},
+			content: {
+				etype: 'list-box',
+				defaultItem: {
+					etype: 'text-item',
+					icon: 'e-icon-clip',
+					xicon: 'e-icon-close',
+					layout: 'item',
+					mixins: ['effects'],
+					style: {'display': 'none'},
+					showOnRender: true,
+					effects: {
+						show: 'fadeIn',
+						delay: 400
+					}
+				}
+			}
+		}
+		
 	}]
 });

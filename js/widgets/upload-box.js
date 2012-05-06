@@ -25,7 +25,7 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 					style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'},
 					events: {
 						'change': function(e, w) {
-							w.events.fire('action', {file: $(this).val(), after: Ergo.bubble}, e);
+							w.events.bubble('action', {file: $(this).val()}, e);
 						}
 					}
 				}				
