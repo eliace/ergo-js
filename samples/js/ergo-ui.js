@@ -78,7 +78,7 @@ var menuData = [{
 		name: ['custom-layout']
 	}]
 }, {
-	title: 'Wiki',
+	title: 'Wiki'
 	
 }, {
 	title: 'Иконки',
@@ -92,12 +92,12 @@ var menuData = [{
 }, {
 	title: 'Скачать',
 	children: [{
-		title: 'MIN версия',
+		title: 'MIN версия'
 	},{
-		title: 'DEV версия',
+		title: 'DEV версия'
 	},{
-		title: 'Github',
-	}],
+		title: 'Github'
+	}]
 }];
 
 
@@ -124,7 +124,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				defaultItem: {
 					content: {
 						etype: 'para',
-						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
+						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9}
 					},
 					style: {'position': 'relative', 'top': 60},
 					set: {

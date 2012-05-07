@@ -6,7 +6,7 @@
 
 sample('Дерево (иерархический список)', {
 
-	etype: 'tree-list',
+	etype: 'tree',
 	cls: 'e-tree',
 	defaultNode: {
 		components: {

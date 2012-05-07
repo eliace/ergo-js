@@ -5,7 +5,7 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 	defaults: {
 		
 		tabIndex: 0,
-		cls: 'e-select-field',
+		cls: 'e-select-box',
 		
 		mixins: ['selectable'],
 

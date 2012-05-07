@@ -6,7 +6,7 @@ Ergo.declare('Ergo.widgets.SlideBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
-		cls: 'e-slider-holder',
+		cls: 'e-slider-box',
 		content: {
 			cls: 'e-slider',
 			content: {

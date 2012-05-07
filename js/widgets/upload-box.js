@@ -4,6 +4,7 @@
 Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
+		cls: 'e-upload-box',
 		style: {'position': 'relative', 'display': 'inline-block'},
 		events: {
 			'mousedown': function(e, w) { w.content.states.set('clicked'); },

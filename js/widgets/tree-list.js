@@ -94,7 +94,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 				etype: 'text'
 			},
 			subtree: {
-				etype: 'tree-list'
+				etype: 'tree'
 			}
 		},
 		
