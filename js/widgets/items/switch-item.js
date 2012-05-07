@@ -4,7 +4,7 @@
 Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-choice',
+		cls: 'e-switch-item',
 		layout: 'hbox',
 		mixins: ['labelable'],
 		components: {

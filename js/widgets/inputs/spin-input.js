@@ -2,9 +2,11 @@
 //= require <widgets/input-box>
 
 
-Ergo.declare('Ergo.widgets.SpinInput', 'Ergo.widgets.InputBox', {
+Ergo.declare('Ergo.widgets.SpinnerInput', 'Ergo.widgets.InputBox', {
 	
 	defaults: {
+		
+		cls: 'e-spinner-input',
 		
 		buttons: [{
 			etype: 'box',
@@ -28,4 +30,4 @@ Ergo.declare('Ergo.widgets.SpinInput', 'Ergo.widgets.InputBox', {
 	}
 	
 	
-}, 'spin-input');
+}, 'spinner-input');
