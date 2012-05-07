@@ -1,3 +1,4 @@
+
 @base-background: #2c2c2c;
 @base-color: #727272;
 @form-color: #626262;
@@ -30,199 +31,48 @@
 @e-radio-radius:10px;
 // checkbox
 @e-checkbox-radius:3px;
-/* Reset
------------------------------------------------------------------------------*/
-* {
-  margin: 0;
-  padding: 0;
-}
-header, nav, section, article, aside, footer {
-  display: block;
-}
-input, textarea {
-  outline:none;
-}
-.unselect {
-  -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   user-select: none;
-}
-.hidden {
-  display:none;
-}
-/* Content
------------------------------------------------------------------------------*/
-body {
-  font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-  background: @base-background url(images/BaseBackground.png);
-  background-repeat:repeat-y;
-  color: @base-color;
-  line-height:auto;
-}
-#middle {
-  width: 100%;
-  height: 1%;
-  position: relative;
-}
-#middle:after {
-  content: '.';
-  display: block;
-  clear: both;
-  visibility: hidden;
-  height: 0;
-}
-#container {
-  width: 100%;
-  float: left;
-  overflow: hidden;
-}
-#content {
-  padding: 20px 0 400px 180px;
-  
-}
 
 
-/* Sidebar Left
------------------------------------------------------------------------------*/
-#sideLeft {
-  float: left;
-  width: 100px;
-  margin-left: -100%;
-  position: relative;
-  padding:20px;
-}
-.logo a{
-  width:101px;
-  height:43px;
-  display:block;
-  background:url(images/logo.png);
-}
-
-
-// common classes 
-.left { float:left;}
-.right {float:right;}
-.clearfix {clear:both}
 
 // Ergo UI
 
+//e-panel
 .e-panel {
   background:@e-panel-bg;
-  width:750px - @common-padding;
-  padding: @common-padding;
   -webkit-border-radius: @e-panel-radius;
   -moz-border-radius: @e-panel-radius;
   border-radius: @e-panel-radius;
-   margin:0 0 40px 0;
+  margin:0 0 20px 0;
 }
 
-.e-form-wrapper {
-  margin:0 0 40px 0;
-  width:@e-form-width;
-
-}
-.e-form-holder {
-  background:#efefef;
-  background:#dfdfdf \9;
-  -webkit-border-radius: @e-form-radius;
-  -moz-border-radius: @e-form-radius;
-  border-radius: @e-form-radius;
-  border: 1px solid #f8f8f8;
-  -webkit-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
-  -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
-  box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
-  position:relative;
-  clear:both;
-  zoom:1;
-  padding:0 5px 3px 0px \9;
-  z-index:80;
+.e-panel > *{
+  padding: @common-padding;
 }
 
-//on focus
-.e-form-wrapper.focus >.e-form-holder{
-  border:1px solid @e-label-bottom-color;
-}
-.e-form-wrapper.focus >.e-form-label{
-  border-left:1px solid @e-label-bottom-color;
-  left:0px \9;
-}
-//error
-.e-form-wrapper.error > .e-form-holder {
-  border:1px solid @e-label-err-bottom-color;
-}
-.e-form-wrapper.error >.e-form-label{
-  border-left:1px solid @e-label-err-bottom-color;
-  left:0px \9;
-  background: @e-label-err-bottom-color; /* Old browsers */
-  background: -moz-linear-gradient(top, @e-label-err-top-color 0%, @e-label-err-bottom-color 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@e-label-err-top-color), color-stop(100%,@e-label-err-bottom-color)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,@e-label-err-top-color 0%,@e-label-err-bottom-color 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, @e-label-err-top-color 0%,@e-label-err-bottom-color 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, @e-label-err-top-color 0%,@e-label-err-bottom-color 100%); /* IE10+ */
-  background: linear-gradient(top, @e-label-err-top-color 0%,@e-label-err-bottom-color 100%); /* W3C */
-  //-ms-filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='@e-label-err-top-color', endColorstr='@e-label-err-bottom-color',GradientType=0 )"; /* IE6-8 */
-  text-shadow:0px 1px 0px @e-label-err-text-shadow-color; 
-}
-// inputs and textareas
-.e-input-holder {
-  background:#efefef\9;
-  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1);
-  -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=2,MakeShadow=false,ShadowOpacity=1)";
-  padding-left:10px;
-  padding-right: .5em;
-  position:relative;
-}
-.e-form-holder input::-webkit-input-placeholder, .e-form-holder textarea::-webkit-input-placeholder, .e-form-holder input:-moz-placeholder {
-  color:#c0bfbf;
-}
-.e-form-holder input:-moz-placeholder,.e-form-holder textarea:-moz-placeholder {
-   color:#c0bfbf;
- }
-
-.e-form-holder input, .e-form-holder textarea  {
-  background: transparent;
-  border: 0;
-  width: 100%;
-  font-size: @e-form-text-size;
-  padding: @e-form-margin 0  @e-form-margin 0;
-  color:@form-color;
-  font-family:Arial;
-  resize: none;
-  overflow:hidden;
-  position:relative;
+.e-panel header {
+  border-bottom:1px solid #e9e9e9;
 }
 
+.e-panel .e-panel-content {
+  border-top:1px solid #fff;
+}
 
-.e-form-holder textarea {
-  min-height:120px;
+.e-panel footer {
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
 }
-//form labels
-.e-form-label {
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-  -webkit-border-radius: @e-label-radius;
-  -moz-border-radius: @e-label-radius;
-  border-radius: @e-label-radius;
-  float: left;
-  background: @e-label-top-color; /* Old browsers */
-  background: -moz-linear-gradient(top, @e-label-top-color 0%, @e-label-bottom-color 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@e-label-top-color), color-stop(100%,@e-label-bottom-color)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,@e-label-top-color 0%,@e-label-bottom-color 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* IE10+ */
-  background: linear-gradient(top, @e-label-top-color 0%,@e-label-bottom-color 100%); /* W3C */
-  //-ms-filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='@e-label-top-color', endColorstr='@e-label-bottom-color',GradientType=0 )"; /* IE6-8 */
- text-shadow:0px 1px 0px @e-label-text-shadow-color; 
-  color: #fff;
-  padding: 2px 15px;
-  display: block;
-  position: relative;
-  top: 1px;
-  left: 1px \9;
-  z-index: 100;
-  border-left: 1px solid @e-panel-bg;
-  border-left: 1px solid #679908 \9;
+
+.e-panel blockquote {
+  padding:10px 10px  10px 40px;
+  color:#ababab;
 }
+
+//e-panel children
+.e-panel .e-panel {
+  background:#f5f5f5;
+  border:1px solid #e2e2e2;
+} 
 
 //Selector
 .e-select {
@@ -262,16 +112,7 @@ body {
 
 }
 
-//select arrows
-.arrow-down {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid @e-selec-arrow-color;
-  position:relative;
-    margin:15px 10px;
-}
+
 .arrow-up {
   width: 0;
   height: 0;
@@ -490,7 +331,7 @@ body {
 
 //radio buttons 
 .e-radio-item {
-  margin:10px 0;
+//  margin:10px 0;
 }
 .e-radio-round {
   width:16px;
@@ -562,7 +403,7 @@ body {
 [layout='hbox'] > * {
   display:inline-block;
   vertical-align:middle;
-  padding:8px;
+  
 }
 
 //icons 16
@@ -575,6 +416,12 @@ body {
   display:block;
   background-repeat:no-repeat;
 }
-.e-icon-folder { background:url("@{e-icons-path}/e-ico-folder.png")}
-.e-icon-tag { background:url("@{e-icons-path}/e-ico-tag.png")}
-.e-icon-info { background:url("@{e-icons-path}/e-ico-info.png")}
+
+
+
+
+
+
+
+
+
