@@ -5,7 +5,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
-		cls: 'e-text-field',
+		cls: 'e-input-box',
 		
 		layout: {
 			wrap: function(item) {

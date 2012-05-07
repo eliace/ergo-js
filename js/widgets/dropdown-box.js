@@ -7,7 +7,7 @@
 Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-dropbox',
+		cls: 'e-dropdown-box',
 		mixins: ['effects', 'popup'],
 		
 		position: {
