@@ -68,8 +68,11 @@ Ergo.declare('Ergo.widgets.grid.HeaderRow','Ergo.widgets.Box', {
 		defaultItem: {
 			etype: 'grid-header-cell'
 		}
-	}
+	},
 	
+	column: function(i) {
+		return this.item(i);
+	}
 	
 }, 'grid-header-row');
 

@@ -68,6 +68,10 @@ Ergo.declare('Ergo.widgets.grid.Row','Ergo.widgets.Box', {
 		defaultItem: {
 			etype: 'grid-cell'
 		}
+	},
+	
+	column: function(i) {
+		return this.item(i);
 	}
 	
 	
