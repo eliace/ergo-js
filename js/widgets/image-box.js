@@ -11,11 +11,67 @@
  * @class
  * @extends Ergo.core.Widget
  */
-Ergo.declare('Ergo.widgets.DeferredImage', 'Ergo.widgets.Image', /** @lends Dino.utils.AsyncImage.prototype */{
+Ergo.declare('Ergo.widgets.ImageBox', 'Ergo.widgets.Box', {
 	
 	
 	defaults: {
+		
+	},
+	
+	
+	
+	
+	load: function(url, width, height) {
+		
+		
+		var img = $.ergo({
+			etype: 'image',
+			src: url,
+			style: {'position': 'absolute', 'display': 'none'},
+			renderTo: 'body'
+		});
+		
+		var deferred = $.Deferred();
+		
+		var self = this;
+		
+		img.el.one('load', function() {
+			
+			// получаем фактические размеры загруженного изображения
+			var w = img.el.width();
+			var h = img.el.height();
+			
+			// получаем требуемые размеры изображения
+			var target_w = width || self.el.width();
+			var target_h = height || self.el.height();
+			
+			
+			var kw = target_w / w;
+			var kh = target_h / h;
+			
+			if(kw < kh){
+				w = target_w;
+				h *= kw;
+			}
+			else {
+				w *= kh;
+				h = target_h;
+			}
+			
+			img.el.width(w);
+			img.el.height(h);
+			
+//			self.events.fire('load', {width: w, height: h, image: img});
+			
+			deferred.resolve(img, w, h);
+//			self.children.add(img, 'content');
+		
+		});
+		
+		return deferred.promise();
 	}
+	
+	
 	
 /*	
 	$html: function() { return '<div></div>';},
@@ -95,4 +151,4 @@ Ergo.declare('Ergo.widgets.DeferredImage', 'Ergo.widgets.Image', /** @lends Dino
 	
 	
 	
-}, 'deferred-image');
+}, 'image-box');

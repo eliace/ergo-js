@@ -201,12 +201,30 @@ sample('Окна и диалоги', {
 				title: 'Лайтбокс',
 				content: {
 					width: 200,
-					height: 200,								
+					height: 200,
+					etype: 'image-box'
 				}
 			});
 			wnd.window.open();
 			
+			wnd.content.load('samples/img/anime9.jpg', 600, 600).then(function(image, w, h){
+
+				wnd.window.resizeContent(w, h).then(function(){
+					
+					wnd.content.el.css({'width': w, 'height': h});
+					
+					image.el.css({'position': '', 'display': 'none'});
+					
+					wnd.content.children.add(image, 'content');
+					
+					image.el.fadeIn(300);
+				});
+				
+			});
 			
+			
+			
+/*			
 			var el = $('<img src="samples/img/anime9.jpg">');
 			el.css({'position': 'absolute', 'display': 'none'});
 			el.one('load', function(){
@@ -247,7 +265,7 @@ sample('Окна и диалоги', {
 			});
 			
 			$('body').append(el);
-			
+*/			
 			
 		}					
 	}]
