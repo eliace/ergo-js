@@ -66,19 +66,16 @@ sample('Кнопки', {
 		style: {'font-size': 8},
 		items: [{icon: 'spinner-arrow-up'}, {icon: 'spinner-arrow-down'}]
 	}, {
+		etype: 'image-button',
+		text: 'Кнопка',
+		image: 'samples/img/worker_photo.png'
+	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (HBox)',
 		icon: 'e-icon-edit',
 		xicon: 'e-icon-flag',
 		width: 300
-	}, {
-		// превращаем image-box в image-button
-		etype: 'image-item',
-		cls: 'e-button-item',
-		html: '<button/>',
-		text: 'Кнопка (VBox)',
-		image: 'samples/img/worker_photo.png'
 	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
