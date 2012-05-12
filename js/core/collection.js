@@ -172,7 +172,7 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	filter: function(callback) {
 		return this.create( Ergo.filter(this.src, callback) );
 	},
-
+	
 	/**
 	 * Отображение элементов
 	 */

@@ -762,7 +762,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 				// уничтожаем все элементы-виджеты
 //				self.items.apply_all('destroy');
-				self.children.each(function(item) { if(item._dynamic) item.destroy();  });
+//				self.children.each(function(item) { if(item._dynamic) item.destroy();  });
+				self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
 				
 	//			var t0 = Ergo.timestamp();
 	
@@ -790,7 +791,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = false;
 					
 //			this.children.apply_all('destroy');
-			this.children.each(function(item) { if(item._dynamic) item.destroy();  });
+//			this.children.each(function(item) { if(item._dynamic) item.destroy();  });
+			self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
