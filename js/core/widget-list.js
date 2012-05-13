@@ -369,7 +369,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	
 	
 	add: function(item, i) {
-		this._widget.children.add(item, i, this.options.type);
+		return this._widget.children.add(item, i, this.options.type);
 	}
 	
 

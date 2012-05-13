@@ -8,29 +8,48 @@ for(var  i = 0; i < 1000; i++) {
 }
 
 
-function render_batch(from, count, offset) {
+function add_batch(n) {
 	
 	var arr = [];
 	
-	for(var  i = from; i < from+count; i++) {
-		arr.push('Item ' + i); 
+	var from = n*batch_size;
+	var to = from + batch_size;
+	
+	
+	var c = w.item(0).content;
+	
+	for(var  i = from; i < to; i++) {
+		var item = c.items.add({text: 'Item '+i, weight: n});
+		item._batch = n;
+//		arr.push('Item ' + i); 
 	}
 	
-	console.log(arr);
 	
-	w.item(0).content.data.set(arr);
+	batches[n] = true;
 	
-	if(offset == undefined) offset = 0;
+//	w.item(0).content.data.set(arr);
 	
-	w.item(0).content.el.css({'padding-top': offset});
+//	if(offset == undefined) offset = 0;
+	
+//	w.item(0).content.el.css({'padding-top': offset});
 		
 }
 
+
+function remove_batch(n) {
+	w.item(0).content.children.filter(function(item){ return item._batch == n; }).apply_all('destroy');
+	delete batches[n];
+}
+
+
+
+
+
 var max_height = 0;
 var item_height = 0;
-var current_batch = 0;
-
-
+var batches = {};
+var batch_size = 50
+var scrolling = false;
 
 
 var w = sample('Пользовательский скроллбар', {
@@ -45,21 +64,18 @@ var w = sample('Пользовательский скроллбар', {
 			this.scrollbar.scrollTo(e.ratio);
 		},
 		
+		onScrollEnd: function(e) {
+			
+		},
+		
 		components: {
 			content: {
 				etype: 'list',
 				
-				data: [],
+//				data: [],
 				
-				dynamic: true,
+//				dynamic: true,
 				
-				
-				
-				
-				
-				mixins: [{
-				}]
-								
 			},
 			scrollbar: {
 				cls: 'e-scrollbar-holder',
@@ -70,10 +86,20 @@ var w = sample('Пользовательский скроллбар', {
 					
 					events: {
 						'mousedown': function(e, w) {
+							scrolling = true;
 							w._dy = e.pageY - w.parent.el.offset().top - parseInt(w.el.css('margin-top').replace("px", ""));
 							$(window)
-								.one('mouseup', function(){
+								.one('mouseup', function(e, w){
 									$(window).off('mousemove');
+
+									scrolling = false;
+
+									var y = e.pageY - w.parent.el.offset().top - w._dy;
+									
+									var max_y = w.parent.el.height() - w.el.outerHeight();
+
+									w.events.bubble('scroll', {ratio: y / max_y});
+									
 								})
 								.on('mousemove', function(e){
 									var y = e.pageY - w.parent.el.offset().top - w._dy;
@@ -183,18 +209,30 @@ var w = sample('Пользовательский скроллбар', {
 				this.content.el.css('margin-top', -y);
 				
 				
-				var batch_h = item_height * 50;
+				var batch_h = item_height * batch_size;
+				var vp_h = this.el.height();
 				
-				if(y > (current_batch+1)*(batch_h-20)) {
-					current_batch++;
-					render_batch(current_batch*50, 50, current_batch*batch_h);
+				
+				var current_batch =  Math.floor(y / batch_h);
+				
+				if(batches[current_batch-2]) {
+					remove_batch(current_batch-2);
+					w.item(0).content.el.css({'padding-top': (current_batch-1)*batch_h});
 				}
-				if(y < (current_batch)*(batch_h-20)) {
-					current_batch--;
-					render_batch(current_batch*50, 50, current_batch*batch_h);
+
+				if(batches[current_batch+2]) {
+					remove_batch(current_batch+2);
 				}
 				
+				if(current_batch > 0 && !batches[current_batch-1]) {
+					add_batch(current_batch-1);
+					w.item(0).content.el.css({'padding-top': (current_batch-1)*batch_h});
+				}
 				
+				if(!batches[current_batch+1]) {
+					add_batch(current_batch+1);
+				}
+								
 			}
 			
 		}],
@@ -210,11 +248,11 @@ var w = sample('Пользовательский скроллбар', {
 	
 });
 
-render_batch(0, 50);
+add_batch(0);
 
 setTimeout(function(){
 	
-	item_height = w.item(0).content.el.height() / 50;
+	item_height = w.item(0).content.el.height() / batch_size;
 	
 	max_height = item_height*1000;
 	
