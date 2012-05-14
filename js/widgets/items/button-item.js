@@ -1,6 +1,7 @@
 
 //= require <mixins/iconable>
 //= require <widgets/natives/button>
+//= require <widgets/natives/box>
 
 
 Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Button', {
