@@ -47,7 +47,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	defaults: {
 		layout: 'default',
 		states: {
-			'hidden': 'hidden',
+//			'hidden': 'hidden',
 			'disabled': 'disabled',
 			'invalid': 'invalid',
 			'unselectable': 'unselectable'
@@ -98,6 +98,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //			'role': function(v) { this.el.attr('role', v); },
 			'format': function(v) {
 				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
+			},
+			'hidden': function(v) {
+				this.el.css('display', v ? 'none' : '');
 			}
 		},
 		get: {

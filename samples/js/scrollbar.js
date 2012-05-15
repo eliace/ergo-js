@@ -108,17 +108,6 @@ var w = sample('Пользовательский скроллбар', {
 									
 									w.events.bubble('scroll', {ratio: y / max_y});
 									
-//									w.parent.parent.scrollContent(y / max_y);
-//									w.parent.parent.scrollScrollbar(y / max_y);
-									
-									
-/*									
-									y = Math.max(0, y);
-									y = Math.min(max_y, y);
-									w.el.css('margin-top', y);
-									
-									w.events.bubble('scrollerMove', {offset: y, ratio: y/max_y});
-*/									
 								})
 
 							e.preventDefault();

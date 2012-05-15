@@ -1203,9 +1203,9 @@ Ergo.smart_override_prop = function(o, srcObj, i) {
 					if( !$.isArray(o[i]) ) o[i] = [o[i]];
 					p = o[i].concat(p);
 				}
-				if(i == 'state') {
-					p = o[i] + ' ' + p;
-				}
+				// if(i == 'state') {
+					// p = o[i] + ' ' + p;
+				// }
 			}
 			o[i] = p;
 		}

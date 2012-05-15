@@ -6,7 +6,7 @@ var menuData = [{
 	title: 'Ядро',
 	children: [{
 		title: 'Виджет',
-		name: ['widget', 'widget-2']
+		name: ['widget', 'widget-options', 'widget-2']
 	}, {
 		title: 'Элементы и компоненты',
 		name: ['items-and-components-1', 'items-and-components-2']
