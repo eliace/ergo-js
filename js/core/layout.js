@@ -170,19 +170,20 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			
 			var arr = [];
 			var before_el = null;
-			this.container.items.each(function(it){
+			this.container.children.each(function(it){
 				if(it._weight == weight) arr.push(it.el);
 				else if(it._weight < weight) before_el = it.el;
 			});
 
-			if(arr.length == 0) {
+			if( !arr[index] ) {
 				if(before_el)
 					before_el.after( item_el );
 				else
 					el.prepend( item_el );
 			}
 			else {
-				item_el.before(arr[index-1]);
+				arr[index].before(item_el);
+//				item_el.before(arr[index-1]);
 			}
 			
 		}

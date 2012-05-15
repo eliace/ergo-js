@@ -66,7 +66,7 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 				growl
 					.hide() // скрываем гроул
 					.then(function(){ // затем скрываем контейнер
-						box.hide().then(function(){ box.destroy(); });
+						box.hide().then(function(){ box.destroy(); box = null; });
 					});
 				
 			}
@@ -90,6 +90,9 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		
 		// устанавливаем время жизни гроула
 		setTimeout(function(){
+			
+			if(!box) return;
+			
 			growl
 				.hide() // скрываем гроул
 				.then(function(){ // затем скрываем контейнер

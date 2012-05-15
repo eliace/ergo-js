@@ -110,7 +110,7 @@
   -moz-box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   box-shadow: inset 0px -1px 3px 2px rgba(197, 197, 197, 0.30);
   line-height:20px;
-  margin:0 10px 0 0;
+//  margin:0 10px 0 0;
 }
 
 .e-radio-box > .e-checker {
@@ -134,6 +134,15 @@
   background: @e-label-top-color;  
   border-color: @e-label-bottom-color;  
 }
+
+.e-radio-item > label.after {
+  margin-left: 10px;
+}
+
+.e-radio-item > label.before {
+  margin-right: 10px;
+}
+
 
 //checkbox
 .e-check-box{
@@ -168,6 +177,19 @@
 .e-check-box.checked > .e-checker {
   background:url(../img/e-checker.png) no-repeat;
 }
+
+
+//check-item
+.e-check-item > label.after {
+  margin-left: 10px;
+}
+
+.e-check-item > label.before {
+  margin-right: 10px;
+}
+
+
+
 
 //simple button 
 .e-button-item {
