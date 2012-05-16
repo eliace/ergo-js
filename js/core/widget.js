@@ -354,7 +354,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 
 		
 		// удаляем элемент и все его содержимое (data + event handlers) из документа
-//		if(this.parent) this.parent.layout.remove(this);
+		if(this.parent) this.parent.items.remove(this);
+		
 		if(this.el) this.el.remove();
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
@@ -728,8 +729,9 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 				self.layout.immediateRebuild = false;
 	
 				// уничтожаем все элементы-виджеты
+				self.items.filter(function(item) { return item.dynamic; }).apply_all('destroy');
 //				self.items.apply_all('destroy');
-				self.items.each(function(item) { if(item.dynamic) item.destroy();  });
+//				self.items.each(function(item) { if(item.dynamic) item.destroy();  });
 				
 	//			var t0 = Ergo.timestamp();
 	
@@ -757,7 +759,8 @@ Ergo.core.Widget = Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @len
 			this.layout.immediateRebuild = false;
 					
 //			this.items.apply_all('destroy');
-			this.items.each(function(item) { if(item.dynamic) item.destroy();  });
+//			this.items.each(function(item) { if(item.dynamic) item.destroy();  });
+			this.items.filter(function(item) { return item.dynamic; }).apply_all('destroy');
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
