@@ -56,7 +56,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		this.options = Ergo.smart_override(o, opts);		
 		
 		if('extensions' in o) {
-			for(i in o.extensions) {
+			for(var i = 0; i < o.extensions.length; i++) {
 				var ext = o.extensions[i];
 				if($.isString(ext)) ext = o.extensions[i] = Ergo.alias('extensions:'+ext);
 				if($.isFunction(ext)) ext.call(this, o);
