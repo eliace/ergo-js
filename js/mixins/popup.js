@@ -76,10 +76,13 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 //		if(dw < 0)	x -= this.el.outerWidth();
 //		if(dh < 0)	y -= this.el.outerWidth();
 		
+		var self = this;
 		
 		this.el.css({'left': x, 'top': y});
 		
-		this.show();
+		this.show().then(function(){
+			self.events.fire('opened');
+		});
 		
 /*		
 		var effects = this.options.effects || {};
@@ -104,8 +107,6 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			// добавляем прозрачную панель в документ
 			$('body').append(this.glass_pane);
 		}
-		
-		this.events.fire('onShow');
 		
 	};
 	
