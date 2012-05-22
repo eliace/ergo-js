@@ -41,7 +41,7 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
  * @name Ergo.widgets.Select
  * @extends Ergo.widgets.Input
  */
-Ergo.declare('Ergo.widgets.Input', 'Ergo.widgets.Input', /** @lends Ergo.widgets.Select.prototype */{
+Ergo.declare('Ergo.widgets.Select', 'Ergo.widgets.Input', /** @lends Ergo.widgets.Select.prototype */{
 	
 //	$html: function() { return '<select/>'; },
 	
