@@ -82,9 +82,12 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 			'expanded >': function() { this.subtree.hide(); }
 		},
 		
+		layout: 'hbox',
+		
 		components: {
 			icon: {
 				etype: 'icon',
+				cls: 'tree-icon',
 				weight: -10,
 				onClick: function() {
 					this.parent.states.toggle('expanded');
@@ -94,7 +97,8 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 				etype: 'text'
 			},
 			subtree: {
-				etype: 'tree'
+				etype: 'tree',
+				style: {'display': 'block'}
 			}
 		},
 		

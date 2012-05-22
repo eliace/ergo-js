@@ -997,7 +997,13 @@ html[xmlns] [layout='float'] {display: block;}
 }
 .e-icon.tree-icon {
   background: url(images/arrow.png)0 0;
+  cursor: pointer;
 }
+
+.e-tree li.leaf > .tree-icon {
+  display: none !important;
+}
+
 .expanded > .e-icon.tree-icon {
   background: url(images/arrow.png)0 16px;
 }
