@@ -28,6 +28,9 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 			'text': function() {
 				return this.content.opt('text');
 			}
+		},
+		binding: function(v) {
+			this.opt('text', v);
 		}
 	}
 		

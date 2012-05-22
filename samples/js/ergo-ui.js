@@ -64,6 +64,9 @@ var menuData = [{
 	}, {
 		title: 'Скроллбар',
 		name: ['scrollbar']
+	}, {
+		title: 'Слайдер',
+		name: ['slider']
 	}]
 }, {
 	title: 'Компоновки',

@@ -8,7 +8,7 @@ sample('Дерево (иерархический список)', {
 
 	etype: 'tree',
 	cls: 'e-tree',
-	defaultNode: {
+	node: {
 		components: {
 			icon: {
 				cls: 'tree-icon',
