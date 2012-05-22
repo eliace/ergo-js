@@ -31,7 +31,8 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 			footer: {
 				weight: 10,
 				html: '<footer/>',
-				state: 'hidden'
+				hidden: true
+//				state: 'hidden'
 			}
 		}
 		
