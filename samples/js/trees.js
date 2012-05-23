@@ -11,7 +11,7 @@ sample('Дерево (иерархический список)', {
 	node: {
 		components: {
 			icon: {
-				cls: 'tree-icon',
+//				cls: 'tree-icon',
 				style: {'display': 'inline-block'}
 			},
 			content: {

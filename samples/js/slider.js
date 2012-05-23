@@ -89,7 +89,7 @@ var w = sample('Слайд-меню', {
 				defaultItem: {
 					etype: 'text-item',
 					format: '#{name}',
-					style: {'font-size': 20, 'margin': 10, 'border-bottom': '1px solid #ddd', 'padding-bottom': 5},
+					style: {'font-size': 16, 'margin': 10, 'border-bottom': '1px solid #ddd', 'padding-bottom': 5},
 					layout: 'item',
 					xicon: 'e-icon-info',
 				}

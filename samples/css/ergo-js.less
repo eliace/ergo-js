@@ -995,12 +995,25 @@ html[xmlns] [layout='float'] {display: block;}
   list-style:none;
   padding:10px;
 }
-.e-icon.tree-icon {
+.e-icon.tree-node-icon {
   background: url(images/arrow.png)0 0;
+  cursor: pointer;
+  display: inline-block;
 }
-.expanded > .e-icon.tree-icon {
+
+.e-tree li.leaf > .tree-node-icon {
+  display: none !important;
+}
+
+.expanded > .e-icon.tree-node-icon {
   background: url(images/arrow.png)0 16px;
 }
+
+.tree-node-content {
+  display: inline-block;
+}
+
+
 //NOTIFICATION                                                           
 .e-notification {
   -webkit-border-radius: @e-select-radius;

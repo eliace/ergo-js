@@ -56,7 +56,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		this.options = Ergo.smart_override(o, opts);		
 		
 		if('mixins' in o) {
-			for(i in o.mixins) {
+			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
 				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, o);

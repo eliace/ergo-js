@@ -1,147 +1,48 @@
 
-//= require <widgets/natives/list>
+//= require <widgets/tree>
 
-/*
-Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.core.Widget', {
+Ergo.declare('Ergo.widgets.TreeListNode', 'Ergo.widgets.TreeNode', {
 	
 	defaults: {
 		components: {
-			content: {
-				etype: 'label'
+			indent: {
+				weight: -30,
+				defaultItem: {
+					cls: 'indent'
+				}
 			},
 			subtree: {
 				etype: 'tree-list'
 			}
-		},
-		// defaultSubtree: {
-		// },
-		// defaultNode: {
-		// },
-		set: {
-			'text': function(v) { this.content.opt('text', v); }
 		}
 	},
+	
 	
 	$init: function(o) {
 		this.$super(o);
 		
-		Ergo.smart_override(o.components.subtree, o.defaultSubtree, {defaultSubtree: o.defaultSubtree, defaultNode: o.defaultNode});
-		
+		var indent = o.indent || 0;
+		var indent_items = [];
+		for(var i = 0; i < indent; i++)
+			indent_items.push({});
+			
+		Ergo.smart_override(o.components.indent, {items: indent_items});
+		Ergo.smart_override(o.components.subtree, {defaultItem: {indent: indent+1}});
 	}
 	
 	
-}, 'tree-node');	
+}, 'tree-list-node');
 
 
 
 
 
-Ergo.declare('Ergo.widgets.TreeList', 'Ergo.widgets.List', {
+Ergo.declare('Ergo.widgets.TreeList', 'Ergo.widgets.Tree', {
 	
 	defaults: {
-		
 		defaultItem: {
-			etype: 'tree-node'
+			etype: 'tree-list-node'
 		}
-		// defaultNode: {
-		// },
-		// defaultSubtree: {
-		// }
-		
-	},
-	
-	
-	$init: function(o) {
-		this.$super(o);
-		
-		Ergo.smart_override(o.defaultItem, o.defaultNode, {defaultSubtree: o.defaultSubtree, defaultNode: o.defaultNode});
-		
 	}
-		
+	
 }, 'tree-list');
-*/
-
-
-
-
-
-Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
-	
-	defaults: {
-		
-		html: '<li/>',
-		
-		// states: {
-			// 'expanded': function(on) {
-				// if(on) this.subtree.show();
-				// else this.subtree.hide();
-			// }
-		// },
-		transitions: {
-			'> expanded': function() { this.subtree.show(); },
-			'expanded >': function() { this.subtree.hide(); }
-		},
-		
-		components: {
-			icon: {
-				etype: 'icon',
-				weight: -10,
-				onClick: function() {
-					this.parent.states.toggle('expanded');
-				}
-			},
-			content: {
-				etype: 'text'
-			},
-			subtree: {
-				etype: 'tree'
-			}
-		},
-		
-		subtreeItems: [],
-		
-		set: {
-			'text': function(v) { this.content.opt('text', v); }
-		}
-		
-	},
-	
-	
-	$init: function(o) {
-		this.$super(o);
-		
-		Ergo.smart_override(o.components.subtree, {items: o.subtreeItems});
-		
-	}
-	
-	
-}, 'tree-node');
-
-
-
-
-
-Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
-	
-	defaults: {
-		html: '<ul/>',
-		defaultItem: {
-			etype: 'tree-node'
-		},
-		node: {}
-	},
-	
-	$init: function(o) {
-		this.$super(o);
-		
-		Ergo.smart_override(o.defaultItem, o.node, {components: {subtree: {node: o.node}}});
-	}
-	
-	
-}, 'tree');	
-
-
-
-
-
-
