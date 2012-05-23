@@ -17,7 +17,8 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 			},
 			content: {
 				etype: 'growl-box',
-				hideOnRender: true
+				hidden: true
+//				hideOnRender: true
 //				style: {'display': 'none'}
 			}
 		},

@@ -22,7 +22,8 @@ $(document).ready(function(){
 		container: $.ergo({
 			etype: 'growl-panel',
 			renderTo: 'body',
-			timeout: 10000
+			timeout: 10000,
+			autoHeight: 'ignore'
 		}),
 		
 		
