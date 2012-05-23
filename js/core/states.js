@@ -179,15 +179,28 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 	
 	only: function(name, unset_template) {
+
+		var states_to_unset = [];
+
 		if(unset_template) {
 			if($.isString(unset_template))
 				unset_template = new RegExp('^'+unset_template+'.*$');
 			
 			for(var i in this._current)
-				if(i.match(unset_template)) this.unset(i);			
+				if(i.match(unset_template)) states_to_unset.push(i);
 		}
-		
-		this.set(name);	
+		else {
+			for(var i in this._current)
+				if(i != name) states_to_unset.push(i);
+		}
+
+		// очищаем состояния, выбранные для удаления
+		for(var i = 0; i < states_to_unset.length; i++) 
+			this.unset(states_to_unset[i]);
+
+		// если состояние еще не установлено, то устанавливаем его
+		if(!this.is(name))
+			this.set(name);	
 		
 		return this;		
 	},	

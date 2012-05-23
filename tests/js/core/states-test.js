@@ -104,8 +104,8 @@ test('core/states', function(){
 //	sm.transition(/e-icon-.*/, /e-icon-.*/, function() { a.push('changed'); });
 	
 	sm.only('e-icon-plus');
-	ok(sm._widget.el.hasClass('e-icon-plus'));
-	sm.only('e-icon-minus');
+	ok(sm._widget.el.hasClass('e-icon-plus'), 'Устанавливаем единственное состояние e-icon-plus');
+	sm.only('e-icon-minus', 'e-icon-plus');
 	ok(!sm._widget.el.hasClass('e-icon-plus'));
 	ok(sm._widget.el.hasClass('e-icon-minus'));
 	
