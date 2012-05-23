@@ -62,7 +62,7 @@ var w = sample('Слайд-меню', {
 	defaultItem: {
 		defaultItem: {
 			onClick: function() {
-				this.parent.parent.add_slide(this.data.get('cities'), 2000);
+				this.parent.parent.add_slide(this.data.get('cities'), 400);
 			}			
 		}
 	},
@@ -73,7 +73,7 @@ var w = sample('Слайд-меню', {
 			text: 'Назад',
 			weight: -10,
 			onClick: function() {
-				this.parent.remove_slide(2000);
+				this.parent.remove_slide(400);
 			}
 		}
 	},
@@ -89,7 +89,7 @@ var w = sample('Слайд-меню', {
 				defaultItem: {
 					etype: 'text-item',
 					format: '#{name}',
-					style: {'font-size': 20, 'margin': 10, 'border-bottom': '1px solid #ddd', 'padding-bottom': 5},
+					style: {'font-size': 16, 'margin': 10, 'border-bottom': '1px solid #ddd', 'padding-bottom': 5},
 					layout: 'item',
 					xicon: 'e-icon-info',
 				}

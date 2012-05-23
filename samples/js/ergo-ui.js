@@ -54,7 +54,7 @@ var menuData = [{
 		name: ['grids', 'property-grid']
 	}, {
 		title: 'Деревья',
-		name: ['trees', 'trees-2']
+		name: ['trees', 'trees-2', 'tree-list']
 	}, {
 		title: 'Панели',
 		name: ['panel', 'group-panel', 'select-panel', 'tab-panel']
