@@ -13,7 +13,15 @@
 Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', 'Ergo.core.Widget', /** @lends Ergo.widgets.Image.prototype */{
 	
 	defaults: {
-		html: '<img/>'
+		html: '<img/>',
+		set: {
+			'src': function(v) {
+				this.el.attr('src', v);
+			}
+		}
+		// binding: function(v) {
+			// this.el.attr( 'src', this.options.src || v );
+		// }
 	},
 	
 	
@@ -23,12 +31,12 @@ Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', 'Ergo.core.Widget', /** 
 		this.$super(o);
 //		Ergo.widgets.Image.superclass.$opt.call(this, o);
 		
-		if('src' in o) this.el.attr('src', o.src);
-	},
-	
-	$dataChanged: function() {
-		this.el.attr( 'src', this.getValue() );
+//		if('src' in o) this.el.attr('src', o.src);
 	}
+	
+	// $dataChanged: function() {
+		// this.el.attr( 'src', this.getValue() );
+	// }
 	
 	
 }, 'image');

@@ -880,7 +880,7 @@ var Ergo = (function(){
 	 * @param {Object} obj объект
 	 */
 	E.format_obj = function(format_str, obj) {
-		if(obj === undefined) return '';
+		if(obj === null || obj === undefined) return '';
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
 			var arr = key.split('.');

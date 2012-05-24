@@ -179,7 +179,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				if(before_el)
 					before_el.after( item_el );
 				else
-					el.prepend( item_el );
+					el.append( item_el );
 			}
 			else {
 				arr[index].before(item_el);
