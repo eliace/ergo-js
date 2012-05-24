@@ -46,16 +46,20 @@ sample('Дерево в виде списка', {
 		},
 		
 		components: {
-			icon: {
-				style: {'display': 'inline-block'}
-			},
 			content: {
-				etype: 'text-item',
-				icon: 'e-icon-house',
-				style: {'display': 'inline-block'},
-				binding: function(v) {
-					this.opt('text', v.title);
-					this.opt('icon', 'e-icon-'+v.type);
+				components: {
+					icon: {
+						style: {'display': 'inline-block'}
+					},
+					text: {
+						etype: 'text-item',
+						icon: 'e-icon-house',
+						style: {'display': 'inline-block'},
+						binding: function(v) {
+							this.opt('text', v.title);
+							this.opt('icon', 'e-icon-'+v.type);
+						}
+					}									
 				}
 			},
 			subtree: {

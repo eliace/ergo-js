@@ -993,7 +993,7 @@ html[xmlns] [layout='float'] {display: block;}
 }
 .e-tree > li{
   list-style:none;
-  padding:10px;
+  padding:5px;
 }
 .e-icon.tree-node-icon {
   background: url(images/arrow.png)0 0;
@@ -1012,6 +1012,36 @@ html[xmlns] [layout='float'] {display: block;}
 .tree-node-content {
   display: inline-block;
 }
+
+
+
+.e-tree-list li {
+  padding: 0px !important;
+}
+
+.e-tree-list .indent {
+  width: 20px;
+  text-indent: -1000000px;
+  display: inline-block;
+}
+
+.e-tree-list .tree-node-content {
+  display: block;
+  padding: 3px 0;
+}
+
+.e-tree-list li.leaf > div .tree-node-icon {
+  display: none !important;
+}
+
+.e-tree-list li .e-icon {
+  float: none;
+}
+
+.e-tree-list .tree-node-content:hover {
+  background-color: #ddd;
+}
+
 
 
 //NOTIFICATION                                                           
