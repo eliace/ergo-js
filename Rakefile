@@ -54,7 +54,6 @@ end
 
 
 
-
 def compose_files(dest, source_files, postfix='')
 	
 #	ver = %x[git tag -l].split.last
