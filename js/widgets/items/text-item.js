@@ -20,7 +20,7 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 		text: '',
 		set: {
 			'text': function(v) {
-				this.content.opt('text', v || 'no-text');
+				this.content.opt('text', v || '@text');
 				this.content.states.toggle('hidden', (!v && v !== ''));
 			}
 		},
