@@ -90,16 +90,22 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		
 		
 		// устанавливаем время жизни гроула
-		setTimeout(function(){
+		var timeout = growl.options.timeout || this.options.timeout;
+		
+		if(timeout) {
+
+			setTimeout(function(){
+				
+				if(!box) return;
+				
+				growl
+					.hide() // скрываем гроул
+					.then(function(){ // затем скрываем контейнер
+						box.hide().then(function(){ box.destroy(); });
+					});
+			}, timeout);
 			
-			if(!box) return;
-			
-			growl
-				.hide() // скрываем гроул
-				.then(function(){ // затем скрываем контейнер
-					box.hide().then(function(){ box.destroy(); });
-				});
-		}, growl.options.timeout || this.options.timeout);
+		}
 		
 		
 		

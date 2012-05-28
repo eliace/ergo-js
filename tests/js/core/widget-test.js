@@ -214,7 +214,7 @@ test('core/widget', function(){
 	w = new Ergo.core.Widget({
 		html: '<div/>',
 		data: '',
-		updateOnDataChanged: true,
+//		updateOnDataChanged: true,
 		format: function(v) {
 			a.push('format');
 		},
@@ -223,7 +223,8 @@ test('core/widget', function(){
 		},
 		store: function(v) {
 			a.push('store');
-			this.data.set(v);
+//			this.data.set(v);
+			return v;
 		},
 		onAction: function(e) {
 			this.setValue(e.value);
@@ -243,6 +244,19 @@ test('core/widget', function(){
 	same(a, ['store', 'format', 'binding'], 'При внутреннем изменении значения виджета вызывается только store -> format -> binding');
 	
 	
+	
+	a = [];
+	
+	w = new Ergo.core.Widget({
+		html: '<div/>',
+		data: 'hello',
+		binding: function(v) {
+			a.push(v);
+		}
+	});
+	
+	w.bind(null);
+	same(a, ['hello', null], 'Связывание с виджетом значения null');
 	
 	
 	a = [];
