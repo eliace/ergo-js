@@ -986,7 +986,7 @@ Ergo.widget = function(){
 
 
 Ergo.bubble = function(e, type) {
-	if(this.parent && !e.canceled) this.parent.events.fire(type, e);
+	if(this.parent && !e.stopped) this.parent.events.fire(type, e);
 }
 
 

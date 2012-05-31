@@ -34,29 +34,30 @@ $(document).ready(function(){
 		 * title [string] заголовок
 		 * icon [string] класс иконки
 		 */
-		_add: function(msg, title, icon) {
+		_add: function(msg, title, icon, timeout) {
 			growl.container.addGrowl({
 				icon: icon,
 				message: Ergo.pretty_print(msg),
-				title: title
+				title: title,
+				timeout: timeout
 			}, 0);
 		},
 		
 		
-		success: function(msg, title) {
-			this._add(msg, title || 'Завершено', 'e-growl-icon-success');
+		success: function(msg, title, timeout) {
+			this._add(msg, title || 'Завершено', 'e-growl-icon-success', timeout);
 		},
 	
-		warn: function(msg, title) {
-			this._add(msg, title || 'Предупреждение', 'e-growl-icon-warn');
+		warn: function(msg, title, timeout) {
+			this._add(msg, title || 'Предупреждение', 'e-growl-icon-warn', timeout);
 		},
 		
-		info: function(msg, title) {
-			this._add(msg, title || 'Сообщение', 'e-growl-icon-info');
+		info: function(msg, title, timeout) {
+			this._add(msg, title || 'Сообщение', 'e-growl-icon-info', timeout);
 		},
 		
-		error: function(msg, title) {
-			this._add(msg, title || 'Ошибка', 'e-growl-icon-error');
+		error: function(msg, title, timeout) {
+			this._add(msg, title || 'Ошибка', 'e-growl-icon-error', timeout);
 		}
 		
 	};
