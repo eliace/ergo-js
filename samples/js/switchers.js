@@ -6,45 +6,23 @@ sample('Переключатели', {
 	
 	
 	items: [{
+		// флажок
 		etype: 'check-item',
 		tabIndex: 0,
 		text: 'чекбокс',
-		onClick: function() {
-			this.content.states.toggle('checked');
-		}
-	}/*, {
-		etype: 'text-item',
-		tabIndex: 0,
-		components: {
-			'icon!': {
-				etype: 'radio-box'
-			}
-		},
-		text: 'радиобокс',
-		icon: true,
-		
-		onClick: function() {
-			this.icon.states.set('checked');
-		}					
-	}*/, {
+	}, {
+		// переключатель
 		etype: 'switch-item',
 		text: ['Нет', 'Да']
-//		left: 'Да',
-//		right: 'Нет'
 	}, {
-		etype: 'box',
-		cls: 'e-group',
-		extensions: ['selectable'],
-		defaultItem: {
-			etype: 'button-item',
-			text: false,
-			onClick: function() {
-				this.parent.selection.set(this);
-			}
+		// создадим переключатель на базе группы кнопок
+		etype: 'button-select',
+		content: {
+			defaultItem: {
+				text: false
+			},
+			items: [{icon: 'e-icon-man-sign', value: 'male'}, {icon: 'e-icon-woman-sign', value: 'female'}]			
 		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
-		onAfterBuild: function() {
-			this.selection.set(this.item(0));
-		}
+		value: 'male'
 	}]
 });

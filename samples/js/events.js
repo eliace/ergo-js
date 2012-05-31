@@ -5,7 +5,7 @@ var w = sample('Обработчик события', {
 	onAction: function(e) {
 		// при возникновении события action меняем текст виджета
 		var t = w.opt('text');
-		this.opt('text', Ergo.format(t + 'action: %s ', e.value));
+		this.opt('text', Ergo.format('%s action: %s ', t, e.value));
 	},
 	
 	text: 'События: '
@@ -15,7 +15,7 @@ var w = sample('Обработчик события', {
 // объявление обработчика события otherAction
 w.events.reg('otherAction', function(e){
 	var t = w.opt('text');
-	this.opt('text', Ergo.format(t + 'otherAction: %s ', e.value));
+	this.opt('text', Ergo.format('%s otherAction: %s ', t, e.value));
 });
 
 // вызываем событие action и передаем параметры для перегрузки объекта события

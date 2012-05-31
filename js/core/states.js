@@ -4,6 +4,225 @@
 
 
 
+Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
+	
+	
+	initialize: function(widget) {
+		this._widget = widget;
+		this._current = {};
+		this._states = {};
+		this._transitions = [];
+	},
+	
+	
+	transition: function(from, to, value) {
+		
+		var t = this._transitions;
+//		var s = name.replace(/\s/g, '');
+//		if(!t[from]) t[from] = {};
+//		t[from][to] = value;
+		t.push({
+			from: from,
+			to: to,
+			action: value
+		});
+		
+	},
+	
+	
+	state: function(name, value) {
+		this._states[name] = value;
+	},
+	
+	
+	set: function(to) {
+		
+		var transitions = this._transitions;
+		var states = this._states;//this._widget.options.states;
+		
+		var from = [];
+		
+		// 1.
+		var def = null;
+		
+		for(var i = 0; i < transitions.length; i++) {
+			var t = transitions[i];
+			if(t.to == to && t.from in this._current) {
+				t.action.call(this._widget);
+				from.push(t.from);
+			}
+			else if(t.to == to && !t.from){
+				def = t;
+			}
+		} 
+		// for(var i in this._current) {
+			// if(i in transitions && to in transitions[i]) {
+				// transitions[i][to].call(this._widget);
+				// from.push(i);
+			// }
+		// }
+		
+		if(from.length == 0 && def)
+			def.action.call(this._widget);
+		
+
+		// 2. 
+		for(var i = 0; i < from.length; i++) {
+			delete this._current[from[i]];
+		}
+
+		// 3.		
+		this.state_on(to);
+		
+		this._current[to] = from;
+		
+		
+		this._widget.events.fire('stateChanged', {from: from, to: to});
+		
+		return this;
+	},
+	
+	
+	
+	state_on: function(s) {
+		
+		var states = this._states;//this._widget.options.states;
+		
+		if(s in states) {
+			var val = states[s];
+			if($.isString(val))
+				this._widget.el.addClass(val);
+			else
+				val.call(this._widget);
+		}
+		else {
+			this._widget.el.addClass(s);
+		}
+
+		this._widget.events.fire('stateChanged', {state: s, op: 'on'});		
+	},
+	
+	
+	state_off: function(s) {
+
+		var states = this._states;//this._widget.options.states;
+		
+		if(s in states) {
+			var val = states[s];
+			if($.isString(val))
+				this._widget.el.removeClass(val);
+		}
+		else {
+			this._widget.el.removeClass(s);
+		}		
+		
+		this._widget.events.fire('stateChanged', {state: s, op: 'off'});
+				
+	},
+	
+	
+	
+	
+	
+	unset: function(from) {
+		
+		
+		var transitions = this._transitions;
+		var states = this._states; //this._widget.options.states;
+		
+		var to = [];
+		
+		// 1. 
+		var def = null;
+		
+		for(var i = 0; i < transitions.length; i++) {
+			var t = transitions[i];
+			if(t.from == from && t.to) {
+				t.action.call(this._widget);
+				to.push(t.to);
+			}
+			else if(t.from == from && !t.to) {
+				def = t;
+			}
+		}
+		// for(var i in transitions[from]) {
+			// transitions[from][i].call(this._widget);
+			// to.push(i);
+		// }
+		
+		if(to.length == 0 && def)
+			def.action.call(this._widget);
+		
+		
+		// 2. 
+		for(var i = 0; i < to.length; i++) {
+			this._current[to[i]] = [from];
+			if(to[i] in states) states[to[i]].call(this._widget);
+		}
+
+		// 3.
+		this.state_off(from);
+		
+		delete this._current[from];		
+		
+		return this;
+	},
+	
+	
+	toggle: function(name, sw) {
+		
+		if(arguments.length == 1) sw = !this.is(name);
+		
+		sw ? this.set(name) : this.unset(name);
+
+		return this;
+	},
+	
+	only: function(name, unset_template) {
+
+		var states_to_unset = [];
+
+		if(unset_template) {
+			if($.isString(unset_template))
+				unset_template = new RegExp('^'+unset_template+'.*$');
+			
+			for(var i in this._current)
+				if(i.match(unset_template)) states_to_unset.push(i);
+		}
+		else {
+			for(var i in this._current)
+				if(i != name) states_to_unset.push(i);
+		}
+
+		// очищаем состояния, выбранные для удаления
+		for(var i = 0; i < states_to_unset.length; i++) 
+			this.unset(states_to_unset[i]);
+
+		// если состояние еще не установлено, то устанавливаем его
+		if(!this.is(name))
+			this.set(name);	
+		
+		return this;		
+	},	
+	
+	clear: function() {
+		this._current = {};
+		return this;
+	},
+	
+	is: function(name) {
+		return (name in this._current);
+	}
+	
+	
+	
+});
+
+
+
+
+
+
 
 /**
  * @class
@@ -35,7 +254,7 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 		if(name instanceof RegExp) {
 			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
 			for(var i in names) this.set(i);
-			return this;			
+			return this;
 		}
 		
 		
@@ -217,7 +436,7 @@ Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.co
 
 
 Ergo.Statable = function() {
-	this.states = new Ergo.core.StateCollection(this);
+	this.states = new Ergo.core.StateManager(this);
 }
 
 

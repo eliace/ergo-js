@@ -18,4 +18,4 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 	}
 	
 	
-}, 'form-layout');
+}, 'layouts:form');

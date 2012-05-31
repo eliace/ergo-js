@@ -10,7 +10,7 @@ test('core/states', function(){
 	
 	
 	
-	
+/*	
 	var fn = Ergo.on('red', 'grey').off('blue', 'white');
 	
 	
@@ -34,6 +34,80 @@ test('core/states', function(){
 	ok(!w.states.is('red') && w.states.is('blue'), 'Переключение композитного состояния');
 	ok(!w.states.is('active'), 'Очищено состояние active');
 
+*/	
+	
+	
+	var sm = new Ergo.core.Widget({
+		html: '<div/>',
+		states: {
+			'expanded': function(){ a.push('open'); },
+			'collapsed': function() { a.push('close'); }
+		}
+	}).states;
+	
+	var a = [];
+	
+	sm.unset('collapsed').set('expanded');
+	same(a, ['open']);
+	sm.unset('expanded').set('collapsed');
+	same(a, ['open', 'close']);
+	sm.unset('collapsed').set('expanded');
+	same(a, ['open', 'close', 'open']);
+	
+	a = [];
+	sm.clear();
+	
+	sm.toggle('expanded');
+	same(a, ['open']);
+	sm.toggle('expanded');
+	same(a, ['open']);
+	sm.toggle('expanded');
+	same(a, ['open', 'open']);
+	
+	
+	a = [];
+	sm.clear();
+	
+	sm.transition('expanded', 'collapsed', function() { a.push('slideUp'); });
+	sm.transition('collapsed', 'expanded', function() { a.push('slideDown'); });
+	
+	
+	sm.set('expanded');
+	same(a, ['open']);
+	sm.set('collapsed');
+	same(a, ['open', 'slideUp', 'close']);
+	sm.set('expanded');
+	same(a, ['open', 'slideUp', 'close', 'slideDown', 'open']);
+	
+	a = [];
+	sm.unset('expanded');
+	same(a, ['slideUp', 'close']);
+	ok(sm.is('collapsed'));
+	
+	
+	a = [];
+	sm.clear();
+	
+	sm.toggle('expanded');
+	same(a, ['open']);
+	sm.toggle('expanded');
+	same(a, ['open', 'slideUp', 'close']);
+	
+	
+	sm.set('red');
+	ok(sm._widget.el.hasClass('red'));
+	sm.unset('red');
+	ok(!sm._widget.el.hasClass('red'));
+	
+	
+
+//	sm.transition(/e-icon-.*/, /e-icon-.*/, function() { a.push('changed'); });
+	
+	sm.only('e-icon-plus');
+	ok(sm._widget.el.hasClass('e-icon-plus'), 'Устанавливаем единственное состояние e-icon-plus');
+	sm.only('e-icon-minus', 'e-icon-plus');
+	ok(!sm._widget.el.hasClass('e-icon-plus'));
+	ok(sm._widget.el.hasClass('e-icon-minus'));
 	
 	
 	

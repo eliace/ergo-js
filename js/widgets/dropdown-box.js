@@ -1,13 +1,14 @@
 
-//= require <extensions/effects>
-//= require <extensions/popup>
+//= require <mixins/effects>
+//= require <mixins/popup>
+//= require <widgets/list-box>
 
 
 Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-dropbox',
-		extensions: ['effects', 'popup'],
+		cls: 'e-dropdown-box',
+		mixins: ['effects', 'popup'],
 		
 		position: {
 			global: true,
@@ -17,18 +18,15 @@ Ergo.declare('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 			show: 'slideDown',
 			hide: 'slideUp',
 			delay: 300
-		},		
-
-		style: {'display': 'none'},
+		},
 		
-		content: {
-			etype: 'list',
-			defaultItem: {
-				onClick: function(e) {
-					this.events.bubble('select', {target: this});
-				}
+		components: {
+			content: {
+				etype: 'list-box'
 			}
-		}
+		},
+
+		style: {'display': 'none'}
 		
 	}
 	

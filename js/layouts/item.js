@@ -9,4 +9,4 @@ Ergo.declare('Ergo.layouts.Item', 'Ergo.core.Layout', {
 		html: '<div/>'
 	}
 	
-}, 'item-layout');
+}, 'layouts:item');

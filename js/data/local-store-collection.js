@@ -1,4 +1,5 @@
 
+//= require <data/collection>
 
 
 Ergo.declare('Ergo.data.LocalStoreCollection', 'Ergo.data.Collection', /** @lends Ergo.data.LocalStoreCollection.prototype */{

@@ -6,10 +6,10 @@ var menuData = [{
 	title: 'Ядро',
 	children: [{
 		title: 'Виджет',
-		name: ['widget', 'widget-2']
+		name: ['widget', 'widget-options', 'widget-2']
 	}, {
 		title: 'Элементы и компоненты',
-		name: ['items-and-components-1', 'items-and-components-2']
+		name: ['items-and-components-1', 'items-and-components-2', 'items-and-components-3']
 	}, {
 		title: 'Данные',
 		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4', 'data-binding-5']
@@ -19,19 +19,25 @@ var menuData = [{
 	}, {
 		title: 'AJAX',
 		name: ['ajax']
+	}, {
+		title: 'Модели и коллекции',
+		name: ['data-model']
 	}]
 }, {
 	title: 'Виджеты',
 	children: [{
-		title: 'Ввод',
+		title: 'Ввод значения',
 		name: ['input-field']
 	}, {
-		title: 'Выбор',
+		title: 'Выбор значения',
 		name: ['select-field']
 	}, {
+		title: 'Загрузка файлов',
+		name: ['files']
+	}/*, {
 		title: 'Текстовый элемент',
 		name: ['text-item']
-	}, {
+	}*/, {
 		title: 'Переключатели',
 		name: ['switchers']
 	}, {
@@ -44,14 +50,11 @@ var menuData = [{
 		title: 'Диалоги',
 		name: ['dialogs', 'growls', 'alerts']
 	}, {
-		title: 'Загрузка файлов',
-		name: ['files']
-	}, {
 		title: 'Гриды',
 		name: ['grids', 'property-grid']
 	}, {
 		title: 'Деревья',
-		name: ['trees', 'trees-2']
+		name: ['trees', 'trees-2', 'tree-list']
 	}, {
 		title: 'Панели',
 		name: ['panel', 'group-panel', 'select-panel', 'tab-panel']
@@ -61,6 +64,9 @@ var menuData = [{
 	}, {
 		title: 'Скроллбар',
 		name: ['scrollbar']
+	}, {
+		title: 'Слайдер',
+		name: ['slider']
 	}]
 }, {
 	title: 'Компоновки',
@@ -68,11 +74,14 @@ var menuData = [{
 		title: 'Форма',
 		name: ['form-layout']
 	}, {
+		title: 'Колоночная',
+		name: ['column-layout']
+	}, {
 		title: 'Пользовательская',
 		name: ['custom-layout']
 	}]
 }, {
-	title: 'Wiki',
+	title: 'Wiki'
 	
 }, {
 	title: 'Иконки',
@@ -86,12 +95,12 @@ var menuData = [{
 }, {
 	title: 'Скачать',
 	children: [{
-		title: 'MIN версия',
+		title: 'MIN версия'
 	},{
-		title: 'DEV версия',
+		title: 'DEV версия'
 	},{
-		title: 'Github',
-	}],
+		title: 'Github'
+	}]
 }];
 
 
@@ -114,18 +123,18 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			tabs: {
 				etype: 'box',
 				cls: 'widget-tabs left',
-				extensions: ['selectable'],
+				mixins: ['selectable'],
 				defaultItem: {
 					content: {
 						etype: 'para',
-						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9},
+						style: {'position': 'absolute', 'left': '50%', 'top': '50%', 'margin-left': -30, 'margin-top': -9}
 					},
 					style: {'position': 'relative', 'top': 60},
 					set: {
 						'text': function(v) { this.content.opt('text', v) }
 					},
 					layout: {
-						etype: 'default-layout',
+						etype: 'layouts:default',
 						html: '<div class="out-dash"><div class="inner-dash" style="height: 100px"/></div>',
 						htmlSelector: '.inner-dash'
 					},
@@ -139,12 +148,13 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 			content: {
 				etype: 'panel',
 				cls: 'left',
+				width: 730,
 				content: {
 					defaultItem: {
 						style: {'min-height': 300/*, 'max-height': 350*/}
 					},
 					layout: 'stack',
-					items: [{}, {style: {'overflow-y': 'auto'}}]
+					items: [{}, {}]
 				}
 			}
 		},
@@ -225,7 +235,7 @@ function sample(title, o, msg) {
 		w.alert = function(message, type) {
 			if(!type) type = 'info';
 			
-			panel.content.alerts.items.add({
+			panel.content.alerts.children.add({
 				cls: type,
 				messageHtml: message
 			});
@@ -325,44 +335,11 @@ function load_iconset(name) {
 $(document).ready(function(){
 	
 	
-	var growlPanel = $.ergo({
-		etype: 'growl-panel',
-		renderTo: 'body'
+	$(document).ajaxError(function(e, xhr){
+		console.log(xhr);
+		growl.error(xhr.statusText);
 	});
-	
-	
-	growl = {
 		
-		_add: function(msg, msg_title, msg_icon) {
-			growlPanel.addGrowl({
-				icon: msg_icon,
-				message: msg,
-				title: msg_title
-			}, 0);
-		},
-		
-		
-		info: function(msg, title) {
-			this._add(msg, title || 'Информация', 'e-grouls_complete');
-		},
-		
-		success: function(msg, title) {
-			this._add(msg, title || 'Завершено', 'e-grouls_complete');
-		},
-
-		warn: function(msg, title) {
-			this._add(msg, title || 'Предупреждение', 'e-grouls_alert');
-		},
-		
-		error: function(msg, title) {
-			this._add(msg, title || 'Ошибка', 'e-grouls_alert');
-		}		
-		
-	};
-	
-	
-	
-	
 	
 	
 	
@@ -375,7 +352,7 @@ $(document).ready(function(){
 	 * 
 	 */
 	var menu = $.ergo({
-		etype: 'accordion-list',
+		etype: 'accordion',
 		renderTo: '#sideLeft',
 		cls: 'ergo_navigation',
 		
@@ -407,11 +384,10 @@ $(document).ready(function(){
 								}
 							}
 						}
-					}
+					}					
 				}
 			}
 		}
-		
 		
 	});
 	
@@ -424,12 +400,14 @@ $(document).ready(function(){
 		if(typeof(localStorage) != 'undefined') {
 			var last_sample = localStorage.getItem('ergo.last_sample');
 			
-			menu.items.each(function(c){
-				c.sublist.items.each(function(c2){
+			menu.children.each(function(c){
+				c.sublist.children.each(function(c2){
 					if(Ergo.includes(c2.data.get('name'), last_sample)) {
 						// TODO сделать, чтобы сначала раскрывалось меню, а затем загружался пример
-						c.content.events.fire('click');
-						c2.content.events.fire('click');
+						c.states.set('expanded');
+						load_sample(c2.data.get('name'));
+//						c.content.events.fire('click');
+//						c2.content.events.fire('click');
 					}
 				});
 			});
@@ -438,9 +416,6 @@ $(document).ready(function(){
 		
 		
 	}, 300);
-	
-	
-	
 	
 	
 	

@@ -18,7 +18,7 @@ Ergo.declare('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 				etype: 'text'
 			}
 		},
-		extensions: ['effects'],
+		mixins: ['effects'],
 		effects: {
 			hide: 'fadeOut',
 			delay: 400

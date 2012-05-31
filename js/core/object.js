@@ -55,12 +55,12 @@ Ergo.override(Ergo.core.Object.prototype, {
 				
 		this.options = Ergo.smart_override(o, opts);		
 		
-		if('extensions' in o) {
-			for(i in o.extensions) {
-				var ext = o.extensions[i];
-				if($.isString(ext)) ext = o.extensions[i] = Ergo.alias('extensions:'+ext);
-				if($.isFunction(ext)) ext.call(this, o);
-				else if($.isPlainObject(ext)) Ergo.deep_override(this, ext);
+		if('mixins' in o) {
+			for(var i = 0; i < o.mixins.length; i++) {
+				var mixin = o.mixins[i];
+				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
+				if($.isFunction(mixin)) mixin.call(this, o);
+				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
 			}
 		}		
 		
@@ -79,8 +79,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 */
 	is: function(ex) {
 		var o = this.options;
-		if($.isString(ex)) ex = Ergo.alias('extensions:'+ex);
-		return ('extensions' in o) ? Ergo.includes(o.extensions, ex) : false;
+		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
+		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
 	},
 	
 	
@@ -97,12 +97,12 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 
 /**
- * Добавляем метод для регистрации расширений в ErgoJS
+ * Добавляем метод для регистрации примесей в ErgoJS
  */
-Ergo.extension = function(ext_name, obj, etype) {
+Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	
 	// создаем пространство имен для расширения
-	var cp_a = ext_name.split('.');
+	var cp_a = mixin_name.split('.');
 	var cp = 'window';
 	for(var i = 0; i < cp_a.length; i++){
 		cp += '.'+cp_a[i];
@@ -110,8 +110,8 @@ Ergo.extension = function(ext_name, obj, etype) {
 	}		
 	eval(cp + ' = obj;');
 	
-	if(etype)
-		Ergo.alias('extensions:'+etype, obj);
+	if(alias)
+		Ergo.alias('mixins:'+alias, obj);
 	
 	return obj;
 }

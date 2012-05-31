@@ -6,13 +6,13 @@ var selectItems = [{
 		width: 300
 	},
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Фамилия'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Отчество'
 	}]
 }, {
@@ -22,7 +22,7 @@ var selectItems = [{
 	},
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {
-	etype: 'img',
+	etype: 'image',
 	src: 'samples/img/worker_photo.png'
 }];
 
@@ -36,10 +36,11 @@ sample('Панели выбора', {
 	defaultItem: {
 		etype: 'panel',
 		
-		extensions: ['selectable'],
+		mixins: ['selectable'],
 		
 		onSelect: function(e) {
-			this.selection.set(e.target);
+//			growl.info('Изменился выбранный элемент');
+//			this.selection.set(e.target);
 			this.content.setActive(e.target._index);
 		},
 		
@@ -65,36 +66,35 @@ sample('Панели выбора', {
 		title: 'Радио-кнопки',
 		components: {
 			select: {
-				etype: 'box',
-				defaultItem: {
-					etype: 'radio-item',
-					onClick: function() { this.events.bubble('select', {target: this}); }
-				},
-				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
+				etype: 'list-select',
+				content: {
+					defaultItem: {
+						etype: 'radio-item'
+					},
+					items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+				}
 			}
 		}
 	}, {
 		title: 'Кнопки',
 		components: {
 			select: {
-				etype: 'box',
-				defaultItem: {
-					etype: 'button-item',
-					onClick: function() { this.events.bubble('select', {target: this}); }
-				},
-				items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
-			},
+				etype: 'button-select',
+				content: {
+					items: ['Вариант 1', 'Вариант 2', 'Вариант 3']
+				}
+			}
 		}
 		
 	}, {
-		title: 'Кнопки',
+		title: 'Поле с выпадающим списком',
 		components: {
 			select: {
-				etype: 'dropdown-select-field',
+				etype: 'dropdown-select',
 
-				onSelect: function(e) {
-					this.opt('text', e.target.opt('text'));
-				},
+				// onSelect: function(e) {
+					// this.opt('text', e.target.opt('text'));
+				// },
 				
 				components: {
 					dropdown: {

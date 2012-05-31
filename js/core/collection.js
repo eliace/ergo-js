@@ -13,7 +13,7 @@
 Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
-		extensions: [Ergo.Observable]
+		mixins: [Ergo.Observable]
 	},
 	
 	initialize: function(src, options) {
@@ -51,9 +51,9 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	// unset: function(i) {
-		// delete this.src[i];
-	// },
+	unset: function(i) {
+		this.remove_at(i);
+	},
 	
 	/**
 	 * Получение значения по ключу
@@ -172,7 +172,7 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	filter: function(callback) {
 		return this.create( Ergo.filter(this.src, callback) );
 	},
-
+	
 	/**
 	 * Отображение элементов
 	 */
@@ -195,6 +195,10 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 		var n = 0;
 		for(var i in this.src) n++;
 		return n;
+	},
+	
+	count: function() {
+		return this.size();
 	},
 	
 	/**

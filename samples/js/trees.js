@@ -6,12 +6,12 @@
 
 sample('Дерево (иерархический список)', {
 
-	etype: 'tree-list',
+	etype: 'tree',
 	cls: 'e-tree',
-	defaultNode: {
+	node: {
 		components: {
 			icon: {
-				cls: 'tree-icon',
+//				cls: 'tree-icon',
 				style: {'display': 'inline-block'}
 			},
 			content: {
@@ -21,7 +21,7 @@ sample('Дерево (иерархический список)', {
 			},
 			subtree: {
 				style: {'display': 'none'},
-				extensions: ['effects'],
+				mixins: ['effects'],
 				effects: {
 					show: 'slideDown',
 					hide: 'slideUp',

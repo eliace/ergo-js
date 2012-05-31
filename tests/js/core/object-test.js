@@ -15,11 +15,11 @@ test('core/object', function(){
 	
 	var obj = new Ergo.core.Object({
 		id: 'test-id',
-		extensions: [function(){
-			this.ext_prop = 'Extended property';
+		mixins: [function(){
+			this.ext_prop = 'Mixed property';
 		}, {
 			ext_func: function() {
-				return 'From extended function';
+				return 'From mixed function';
 			}
 		},
 		objExt,
@@ -27,8 +27,8 @@ test('core/object', function(){
 	});
 	
 	equals(obj.options.id, 'test-id', 'Перегрузка параметра');
-	equals(obj.ext_prop, 'Extended property', 'Расширение с помощью функции');
-	equals(obj.ext_func(), 'From extended function', 'Расширение с помощью объекта');
+	equals(obj.ext_prop, 'Mixed property', 'Расширение с помощью функции');
+	equals(obj.ext_func(), 'From mixed function', 'Расширение с помощью объекта');
 	equals(obj.f, 5, 'Проверка расширения объектом');
 	ok(obj.is(funcExt), 'Проверка расширения функцией');
 	equals(obj.g, 6, 'Проверка расширения функцией');

@@ -1,21 +1,25 @@
 
-//= require <widgets/iconed-box>
+//= require <mixins/iconable>
+//= require <widgets/natives/button>
+//= require <widgets/natives/box>
 
 
-Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.IconedBox', {
+Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Button', {
 	
 	defaults: {
 		cls: 'e-button-item',
-		html: '<button/>',
+//		html: '<button/>',
+		mixins: ['iconable'],
+		layout: 'hbox',
 		components: {
 			content: {
 				etype: 'text',
 				state: 'hidden'
 			}
 		},
-		onClick: function(){
-			this.events.fire('onAction');
-		},
+//		onClick: function(){
+//			this.events.fire('action');
+//		},
 		text: false,
 		set: {
 			'text': function(v) {

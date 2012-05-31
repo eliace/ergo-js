@@ -24,7 +24,7 @@ var w = sample('Обход виджетов', {
 });
 
 // обходим все дочерние виджеты компонента buttons
-w.buttons.items.each(function(c){
+w.buttons.children.each(function(c){
 	// к текстовому содержимому кнопки прибавляем порядковый номер
 	c.opt('text', c.opt('text') + ' ' + (c._index+1));
 });

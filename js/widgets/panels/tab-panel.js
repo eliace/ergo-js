@@ -7,7 +7,7 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 		
 		cls: 'e-tabs-holder',
 		
-		extensions: ['selectable'],
+		mixins: ['selectable'],
 		
 		onSelect: function(e) {
 			this.selection.set(e.target);

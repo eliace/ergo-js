@@ -7,13 +7,13 @@ var itemList = [{
 		width: 300
 	},
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Фамилия'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Отчество'
 	}]
 }, {
@@ -25,7 +25,7 @@ var itemList = [{
 	items: ['Кнопка 1', 'Кнопка 2', 'Кнопка 3', 'Кнопка 4']
 }, {
 	tab: 'Закладка 3',
-	etype: 'img',
+	etype: 'image',
 	src: 'samples/img/worker_photo.png'
 }];
 

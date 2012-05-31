@@ -88,6 +88,7 @@ var Ergo = (function(){
 		}
 		
 		
+		// "магия" наследования
 		var F = function(){};
 		F.prototype = p_ctor.prototype;
 		ctor.prototype = new F();
@@ -95,6 +96,7 @@ var Ergo = (function(){
 		ctor.superclass = p_ctor.prototype;
 		ctor.super_ctor = p_ctor;
 
+		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
 			var p = overrides[i];
 			if($.isFunction(p)) {
@@ -107,8 +109,10 @@ var Ergo = (function(){
 		
 		
 		if(overrides.etype)
-			_etypes[overrides.etype] = ctor;
+			Ergo.alias(overrides.etype, ctor);
+//			_etypes[overrides.etype] = ctor;
 		
+		// добавляем классу метод extend
 		ctor.extend = function(o) { return E.extend(this, o); }
 		
 		return ctor;
@@ -131,18 +135,22 @@ var Ergo = (function(){
 	
 	
 	
-	var aliases = {};
+	var _aliases = {};
 	
 	
 	E.alias = function(alias, obj) {
 		if(arguments.length == 2)
-			aliases[alias] = obj;
+			_aliases[alias] = obj;
 		else
-			return aliases[alias];
-	}
+			return _aliases[alias];
+	};
+	
+	E.aliases = function() {
+		return _aliases;
+	};
 	
 	
-	var _etypes = {};
+//	var _etypes = {};
 	
 	/**
 	 * Объявление класса
@@ -176,7 +184,18 @@ var Ergo = (function(){
 		// регистрируем etype класса (если он есть)
 		if(etype){
 			clazz.prototype.etype = etype;
-			_etypes[etype] = clazz;
+			Ergo.alias(etype, clazz);
+//			_etypes[etype] = clazz;
+		}
+		
+		if('mixins' in overrides) {
+			for(i in overrides.mixins) {
+				var mixin = overrides.mixins[i];
+//				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
+//				if($.isFunction(mixin)) mixin.call(clazz.prototype, clazz.prototype);
+//				else if($.isPlainObject(mixin)) Ergo.deep_override(clazz.prototype, mixin);
+				Ergo.deep_override(clazz.prototype, mixin);
+			}			
 		}
 
 		clazz.prototype.className = class_name;
@@ -185,7 +204,7 @@ var Ergo = (function(){
 	};
 	
 	
-	E.etypes = function() { return _etypes; }
+//	E.etypes = function() { return _etypes; }
 	
 //	E.defineClass = E.declare;
 	
@@ -206,7 +225,8 @@ var Ergo = (function(){
 		
 		var etype = options.etype || defaultType;
 		
-		var ctor = _etypes[etype];
+		var ctor = Ergo.alias(etype);
+//		var ctor = _etypes[etype];
 		
 		if(!ctor ){
 //			Ergo.logger.debug('Class for etype "'+etype+'" not found');
@@ -348,30 +368,21 @@ var Ergo = (function(){
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
 	 */
-	E.filter = function(src, fn){
-		return ( $.isArray(src) ) ? _filter_arr(src, fn) : _filter_obj(src, fn);
+	E.filter = function(obj, fn){
+		var result;
+		if( $.isArray(obj) ) {
+			result = [];
+			for(var i = 0; i < obj.length; i++)
+				if( fn.call(obj, obj[i], i) ) result.push(obj[i]);
+		}
+		else {
+			result = {};
+			for(var i in obj)
+				if( fn.call(obj, obj[i], i) ) result[i] = obj[i];			
+		}
+		return result;
 	};
-	
-	/**
-	 * @ignore
-	 */
-	var _filter_obj = function(obj, fn) {
-		var result = {};
-		for(var i in obj)
-			if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
-		return result;
-	}
-
-	/**
-	 * @ignore
-	 */	
-	var _filter_arr = function(arr, fn) {
-		var result = [];
-		for(var i = 0; i < arr.length; i++)
-			if( fn.call(arr, arr[i], i) ) result.push(arr[i]);
-		return result;
-	}
-	
+		
 	
 	/*
 	 * Фильтрация ключей.
@@ -396,13 +407,6 @@ var Ergo = (function(){
 	};
 	
 	
-	/**
-	 * Псевдоним для {@link Ergo.filter}
-	 * 
-	 * @name Ergo.find_all
-	 * @function
-	 */
-	E.find_all = E.filter;
 	
 	/**
 	 * Отображение (размерность сохраняется)
@@ -450,6 +454,16 @@ var Ergo = (function(){
 		return null;
 	};
 	
+	
+	/**
+	 * Псевдоним для {@link Ergo.filter}
+	 * 
+	 * @name Ergo.find_all
+	 * @function
+	 */
+	E.find_all = E.filter;
+	
+	
 	/**
 	 * Получение индекса (или ключа) элемента в коллекции
 	 * 
@@ -475,6 +489,9 @@ var Ergo = (function(){
 		}
 		return -1;
 	};
+	
+	
+	E.index_of = E.key_of;
 	
 	
 	/**
@@ -536,6 +553,8 @@ var Ergo = (function(){
 		return false;
 	}
 	
+	E.contains = E.includes;
+
 	
 	
 	E.size = function(obj) {
@@ -861,7 +880,7 @@ var Ergo = (function(){
 	 * @param {Object} obj объект
 	 */
 	E.format_obj = function(format_str, obj) {
-		if(obj === undefined) return '';
+		if(obj === null || obj === undefined) return '';
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
 			var arr = key.split('.');
@@ -873,41 +892,6 @@ var Ergo = (function(){
 	
 	
 	
-	
-/*	
-	
-	E.serialize = function(obj, indent) {
-		
-		if(obj == undefined) return obj;
-		
-		indent = indent || 0;
-		var tabs = '';
-		for(var i = 0; i < indent; i++) tabs += '\t';
-		
-		if(obj.pretty_print) return obj.pretty_print(indent);
-		
-		switch(typeof obj){
-			case 'string':
-				return '"'+obj.replace(/\n/g, '\\n')+'"';
-			case 'object':
-				var items = [];
-				if(E.isArray(obj)){
-					E.each(obj, function(item){
-						items.push(E.pretty_print(item, indent));
-					});
-					return '[' + items.join(', ') + ']';
-				}
-				else{
-					E.each(obj, function(item, key){
-						items.push(tabs + '\t"' + key + '":' + E.pretty_print(item, indent+1));					
-					});
-					return '{\n' + items.join(',\n') + '\n' + tabs + '}';
-				}
-			default:
-				return obj;
-		}
-	};
-*/	
 	
 	
 	
@@ -922,15 +906,6 @@ var Ergo = (function(){
 	};
 	
 	
-	
-		
-	
-
-	E.logger = {
-		debug: function(msg) {
-			if(console) console.log(msg);
-		}
-	};
 	
 	
 	
@@ -986,7 +961,7 @@ var Ergo = (function(){
 	
 	
 	
-	
+	//TODO перенести в примеси
 	E.glass_pane = function() {
 		
 		return $('<div class="e-glasspane" autoheight="ignore"/>')
@@ -1165,7 +1140,7 @@ Ergo.smart_override_prop = function(o, srcObj, i) {
 
 	if(i == 'data') i = 'data!'; 										//<-- поле data не перегружается
 //	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
-	if(i == 'extensions') i = 'extensions+'; 				//<-- поле extensions сливается
+	if(i == 'mixins') i = 'mixins+'; 				//<-- поле mixins сливается
 	if(i == 'events') {
 		var p2 = {};
 		for(var j in p)
@@ -1228,9 +1203,9 @@ Ergo.smart_override_prop = function(o, srcObj, i) {
 					if( !$.isArray(o[i]) ) o[i] = [o[i]];
 					p = o[i].concat(p);
 				}
-				if(i == 'state') {
-					p = o[i] + ' ' + p;
-				}
+				// if(i == 'state') {
+					// p = o[i] + ' ' + p;
+				// }
 			}
 			o[i] = p;
 		}

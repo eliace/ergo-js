@@ -17,7 +17,7 @@ var fromData = {
  * 	- TextArea (+)
  * 	- Date
  * 	- Time
- * 	- Spinner
+ * 	- Spinner (+)
  * 	- Slider
  * 	- Checkbox (+)
  * 	- Switcher (+)
@@ -36,11 +36,11 @@ sample('Форма', {
 	layout: 'form',
 	
 	items: [{
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'firstName',
 		label: 'Имя'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		dataId: 'firstName',
 		label: 'Справочник',
 		buttons: [{
@@ -49,7 +49,7 @@ sample('Форма', {
 			icon: 'e-icon-tag'
 		}]
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 //		dataId: 'firstName',
 		label: 'Дата рождения',
 		width: 200,
@@ -73,26 +73,18 @@ sample('Форма', {
 			});			
 		}
 	}, {
-		etype: 'box',
-		cls: 'e-group',
+		etype: 'button-select',
 		label: 'Пол',
 		dataId: 'sex',
-		extensions: ['selectable'],
-		defaultItem: {
-			etype: 'button-item',
-			onClick: function() {
-				this.parent.selection.set(this);
-			}
-		},
-		items: [{icon: 'e-icon-man-sign'}, {icon: 'e-icon-woman-sign'}],
+		items: [{icon: 'e-icon-man-sign', value: 'male'}, {icon: 'e-icon-woman-sign', value: 'female'}]
 	}, {
 		label: 'Адрес',
-		etype: 'dropdown-select-field'
+		etype: 'dropdown-box'
 	}, {
-		etype: 'text-field',
+		etype: 'input-box',
 		label: 'Файл',
 		buttons: [{
-			etype: 'upload-item',
+			etype: 'upload-box',
 			content: {
 				etype: 'button-item',
 				icon: 'e-icon-tag',

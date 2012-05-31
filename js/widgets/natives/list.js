@@ -16,9 +16,9 @@ Ergo.declare('Ergo.widgets.List', 'Ergo.core.Widget', /** @lends Ergo.widgets.Li
 	defaults: {
 		html: '<ul/>',
 		defaultItem: {
-			etype: 'widget',
-			html: '<li/>',
-			binding: function(v) { this.opt('text', v) }
+			etype: 'text',
+			html: '<li/>'
+//			binding: function(v) { this.opt('text', v) }
 		}
 	}
 	

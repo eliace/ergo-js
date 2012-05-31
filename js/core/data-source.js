@@ -13,7 +13,7 @@
 Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 	
 	defaults: {
-		extensions: [Ergo.Observable],
+		mixins: [Ergo.Observable],
 		lazy: true
 	},
 	
@@ -113,7 +113,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		if(arguments.length == 0) {
 			v = (this.source instanceof Ergo.core.DataSource) ? this.source._val() : this.source;
-			if('id' in this) v = v[this.id];
+			if('id' in this) {
+				v = v ? v[this.id] : undefined;
+			}
 		} 
 		else {
 			if (this.source instanceof Ergo.core.DataSource) {

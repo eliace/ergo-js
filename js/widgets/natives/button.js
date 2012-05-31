@@ -44,7 +44,7 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 //		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
 
 		if('buttonType' in o)
-			this.el.attr('type', o.buttonType);
+			this.el.prop('type', o.buttonType);
 		if('tabIndex' in o) 
 			this.el.attr('tabindex', o.tabIndex);
 		if('disabled' in o){

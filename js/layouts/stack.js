@@ -6,7 +6,7 @@
  * @class
  * @extends Ergo.core.Layout
  */
-Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.StackLayout.prototype */{
+Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.layouts.StackLayout.prototype */{
 	
 	defaults: {
 //		containerCls: 'e-stack-layout',
@@ -39,9 +39,9 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.L
 	
 	activate: function(i) {
 		
-		var child = (i instanceof Ergo.core.Widget) ? i : this.container.items.find( Ergo.filters.by_widget(i) );
+		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.filters.by_widget(i) );
 		
-		this.container.items.each(function(c){
+		this.container.children.each(function(c){
 			(c != child) ? c.hide() : c.show();
 //			c.el.toggleClass('hidden', (c != child));
 		});
@@ -52,4 +52,4 @@ Ergo.layouts.StackLayout = Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.L
 		
 	}
 		
-}, 'stack-layout');
+}, 'layouts:stack');

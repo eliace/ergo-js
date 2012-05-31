@@ -1,31 +1,36 @@
 
-//= require <widgets/iconed-box>
+//= require <mixins/iconable>
 
 
-Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.IconedBox', {
+Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'e-text-item',
+		mixins: ['iconable'],
+		layout: 'hbox',
 		components: {
 			content: {
 				etype: 'text',
 				state: 'hidden'
 			}
 		},
-		onClick: function(){
-			this.events.fire('onAction');
-		},
+//		onClick: function(){
+//			this.events.fire('action');
+//		},
 		text: '',
 		set: {
 			'text': function(v) {
-				this.content.opt('text', v);
+				this.content.opt('text', v || '@text');
 				this.content.states.toggle('hidden', (!v && v !== ''));
 			}
 		},
 		get: {
 			'text': function() {
-				this.content.opt('text');
+				return this.content.opt('text');
 			}
+		},
+		binding: function(v) {
+			this.opt('text', v);
 		}
 	}
 		

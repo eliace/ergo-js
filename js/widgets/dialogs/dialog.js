@@ -1,13 +1,13 @@
 
 //= require <widgets/panel>
-//= require <extensions/window>
+//= require <mixins/window>
 
 
 Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		cls:'e-dialog',
-		extensions: ['window'],
+		mixins: ['window'],
 		closeOnOuterClick: true,
 		destroyOnClose: true,
 		

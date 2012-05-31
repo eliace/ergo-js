@@ -8,4 +8,4 @@ Ergo.declare('Ergo.layouts.VBox', 'Ergo.core.Layout', {
 		name: 'vbox'
 	}
 	
-}, 'vbox-layout');
+}, 'layouts:vbox');

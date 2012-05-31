@@ -15,27 +15,20 @@ sample('Кнопки', {
 		etype: 'styled-button',
 		text: 'Кнопка'
 	}, {
-		etype: 'button-item',
+		etype: 'dropdown-button',
 		text: 'Город',
-		xicon: 'button-arrow-down',
 		
-		onClick: function() {
-			this.dropdown.open();
-		},
+		style: {'display': 'block'},
 		
+		width: 100,
+
 		onSelect: function(e) {
-			this.dropdown.close();
 			growl.info('Выбран: ' + e.target.opt('text'));
 		},
 		
 		components: {
-			content: {
-				width: 60,				
-			},
 			dropdown: {
-				etype: 'dropdown-box',
-				width: 150,
-				cls: 'roman',
+				width: 160,
 				content: {
 					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 				}
@@ -43,34 +36,15 @@ sample('Кнопки', {
 		}
 		
 	}, {
-		etype: 'box',
-		cls: 'e-split-button',
+		etype: 'split-button',
 		width: 160,
 		
-		defaultItem: {
-			etype: 'button-item'
-		},
 		items: [{
-			text: 'Создать',
-			autoWidth: true
-		}, {
-			icon: 'button-arrow-down',
-			onClick: function() {
-				this.parent.dropdown.open();
-			}
+			text: 'Создать'
 		}],
-		
-		onSelect: function(e) {
-			this.dropdown.close();
-			this.item(0).opt('text', e.target.opt('text'));
-		},
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown-box',
-//				width: 160,
-				cls: 'alpha',
-				adjustWidth: true,
 				content: {
 					items: ['Создать', 'Обновить', 'Удалить']
 				}
@@ -78,29 +52,23 @@ sample('Кнопки', {
 		}			
 		
 	}, {
-		etype: 'box',
-		cls: 'e-group',
-		defaultItem: {
-			etype: 'button-item'
-		},
-		items: ['Лево', 'Центр', 'Право']
+		etype: 'button-select',
+		content: {
+			items: ['Лево', 'Центр', 'Право']			
+		}
 	}, {
-		etype: 'box',
-		cls: 'e-group',
-		defaultItem: {
-			etype: 'button-item'
-		},
-//		items: ['◄', '►']
+		etype: 'button-group',
 		items: [{icon: 'button-arrow-left'}, {icon: 'button-arrow-right'}]
 	}, {
-		etype: 'box',
+		etype: 'button-group',
 		cls: 'e-group-vert',
 		layout: 'vbox',
-		defaultItem: {
-			etype: 'button-item'
-		},
 		style: {'font-size': 8},
 		items: [{icon: 'spinner-arrow-up'}, {icon: 'spinner-arrow-down'}]
+	}, {
+		etype: 'image-button',
+		text: 'Кнопка',
+		image: 'samples/img/worker_photo.png'
 	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
@@ -109,23 +77,11 @@ sample('Кнопки', {
 		xicon: 'e-icon-flag',
 		width: 300
 	}, {
-		etype: 'button-item',
-		text: 'Кнопка (VBox)',
-		components: {
-			before: {
-				etype: 'img',
-				src: 'samples/img/worker_photo.png',
-				style: {'margin': '0 auto'}
-			}
-		},
-		icon: true,
-		layout: 'vbox'		
-	}, {
 		style: {'display': 'block'},
 		etype: 'button-item',
 		text: 'Кнопка (Item)',// с очень длинным текстом. Очень-очень длинным',
-		icon: 'e-icon-edit before',
-		xicon: 'e-icon-flag after',
+		icon: 'e-icon-edit',
+		xicon: 'e-icon-flag',
 		layout: 'item',
 		width: 300
 	}]

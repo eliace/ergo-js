@@ -1,10 +1,12 @@
 
-//= require <widgets/labeled-box>
+//= require <mixins/labelable>
 
-Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledBox', {
+Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-choice',
+		cls: 'e-switch-item',
+		layout: 'hbox',
+		mixins: ['labelable'],
 		components: {
 			content: {
 				content: {
@@ -13,9 +15,11 @@ Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.LabeledBox', {
 			}
 		},
 		onClick: function() {
-			this.states.toggle('checked');
+			this.opt('value', !this.opt('value'));
 		},
-		
+		binding: function(v) {
+			this.states.toggle('checked', v);			
+		},
 		set: {
 			'text': function(v) {
 				this.opt('label', v[0]);

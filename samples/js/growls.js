@@ -1,12 +1,17 @@
 sample('Гроулы', {
+	etype: 'button-group',
 	items: [{
-		etype: 'button-item',
 		text: 'Success',
 		onClick: function() { growl.success('Нажатие кнопки'); }
 	}, {
-		etype: 'button-item',
 		text: 'Warning',
 		onClick: function() { growl.warn('Нажатие кнопки'); }
+	}, {
+		text: 'Info',
+		onClick: function() { growl.info('Нажатие кнопки'); }
+	}, {
+		text: 'Error',
+		onClick: function() { growl.error('Нажатие кнопки'); }
 	}]				
 });
 
