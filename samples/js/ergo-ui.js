@@ -9,7 +9,7 @@ var menuData = [{
 		name: ['widget', 'widget-options', 'widget-2']
 	}, {
 		title: 'Элементы и компоненты',
-		name: ['items-and-components-1', 'items-and-components-2']
+		name: ['items-and-components-1', 'items-and-components-2', 'items-and-components-3']
 	}, {
 		title: 'Данные',
 		name: ['data-binding', 'data-binding-2', 'data-binding-3', 'data-binding-4', 'data-binding-5']
