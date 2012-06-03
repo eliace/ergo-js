@@ -964,7 +964,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// Отменяем обновление дочернего элемента, если:
 			//  1. определен источник данных
 			//  2. источник данных дочернего элемента совпадает с текущим
+			//  3. дочерний элемент имеет свой независимый источник данных
 			if(lazy && child.data && child.data == self.data) return;
+			if(child.bindRoot) return;
 			child.$dataChanged(lazy);
 		});
 //		}
