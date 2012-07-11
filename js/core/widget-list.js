@@ -396,7 +396,13 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	last: function() {
 		var src = this._source();
 		return src[src.length-1];		
+	},
+	
+	size: function() {
+		var src = this._source();
+		return src.length;
 	}
+	
 	
 /*	
 	set: function(i, item) {

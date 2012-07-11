@@ -75,9 +75,12 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     
     if(!this.options.cache) qParams._ = Ergo.timestamp();
     
+    this.events.fire('beforeFetch');
+    
     return $.getJSON(qPath, qParams)
     	.always(function(){
     		self._fetched = true;
+    		self.events.fire('afterFetch');
     	})
     	.success(function(json){
     		if(qCallback)
