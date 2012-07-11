@@ -97,10 +97,12 @@ def compose_files(dest, source_files, postfix='')
 		
 		out.puts "
 /**
- * Ergo.js (#{ver})
+ * Copyright (c) 2012 Kodanyov Yuriy (http://ergojs.com)
+ * Licensed under the MIT License (LICENSE.txt)
+ *
+ * Version: #{ver}
  * 
- * author: Kodanev Yuriy
- * date: #{Date.today.to_s}
+ * Date: #{Date.today.to_s}
  */
  
  
