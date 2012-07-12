@@ -105,6 +105,7 @@ sample('Грид', {
 		header: 'Срок исполнения',
 		dataId: 'deadline_at',
 		width: 100
+//		hidden: true
 	}, {
 		header: 'Статус',
 		dataId: 'status',
