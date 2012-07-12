@@ -22,6 +22,9 @@ var menuData = [{
 	}, {
 		title: 'Модели и коллекции',
 		name: ['data-model']
+	}, {
+		title: 'AutoHeight',
+		name: ['autoheight']
 	}]
 }, {
 	title: 'Виджеты',

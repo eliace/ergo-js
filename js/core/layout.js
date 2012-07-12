@@ -258,7 +258,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		// AUTO HEIGHT
-		if(this.container.options.autoHeight === true){
+		if(this.container.options.autoHeight){
 
 			if(!this.el.is(":visible")) return;
 			
@@ -290,11 +290,14 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			});
 
 			dh += (this.el.outerHeight(true) - this.el.height());
-			this.el.siblings().not('td, :hidden').each(function(i, sibling){
-				sibling = $(sibling);
-				if(sibling.attr('autoHeight') != 'ignore') 
-					dh += sibling.outerHeight(true)
-			});
+			
+			if(this.el.attr('autoheight') != 'ignore-siblings') {
+				this.el.siblings().not('td, :hidden').each(function(i, sibling){
+					sibling = $(sibling);
+					if(sibling.attr('autoHeight') != 'ignore') 
+						dh += sibling.outerHeight(true)
+				});
+			}
 			
 //			dh -= this.el.height()
 			this.el.height(h - dh);
