@@ -43,6 +43,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					h.text = c.header;
 			}
 			if('width' in c) h.width = c.width;
+			if('hidden' in c) h.hidden = c.hidden;
 			header_cols.push(h);
 		}
 		
