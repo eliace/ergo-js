@@ -66,7 +66,7 @@ var menuData = [{
 		name: ['form']
 	}, {
 		title: 'Скроллбар',
-		name: ['scrollbar']
+		name: ['scrollbar', 'scrollbar-3']
 	}, {
 		title: 'Слайдер',
 		name: ['slider']
