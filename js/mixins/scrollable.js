@@ -99,6 +99,12 @@ Ergo.declare_mixin('Ergo.mixins.Scrollable', function(o) {
 			
 		},
 		
+		onSizeChanged: function() {
+
+			this.updateScrollbar();
+			
+		},
+		
 		
 		events: {
 			'mousewheel': function(e, delta, deltaX, deltaY, w) {
@@ -137,9 +143,18 @@ Ergo.declare_mixin('Ergo.mixins.Scrollable', function(o) {
 		var content_h = this.content.el.height();
 		var sb_h = this.scrollbar.el.height();
 		
-		//TODO если content_h равен 0, то скроллбар вообще не нужно показывать
+		if(box_h >= content_h) {
+			this.scrollbar.hide();
+			return;
+		}
+		
+		
+		if(!this.scrollbar.el.is(':visible')) {
+			this.scrollbar.show();
+		}
 		
 		var x = box_h / content_h;
+		
 		
 //		console.log(x);
 		
