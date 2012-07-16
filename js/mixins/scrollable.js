@@ -76,11 +76,6 @@ Ergo.declare_mixin('Ergo.mixins.Scrollable', function(o) {
 					e.baseEvent.preventDefault();
 				}
 				
-			},
-			content: {
-				etype: 'list',
-				dynamic: true,
-				data: listData
 			}
 		},
 		
