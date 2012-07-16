@@ -78,10 +78,10 @@ var w = sample('Пользовательский скроллбар', {
 				
 			},
 			scrollbar: {
-				cls: 'e-scrollbar-holder',
+				cls: 'e-scrollbar',
 				content: {
+					cls: 'e-scroller',
 					content: {
-						cls: 'e-scrollbar'
 					},
 					
 					events: {

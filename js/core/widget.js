@@ -493,10 +493,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	$layoutChanged: function() {
 		
-		//FIXME возможно следует поменять эту строку на fire('onLayoutChanged')
+		//FIXME возможно следует поменять эту строку на fire('layoutChanged')
 		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
 		this.children.apply_all('$layoutChanged');
+		
+		this.events.fire('layoutChanged');
 	},
 	
 	// $events: function(self){
