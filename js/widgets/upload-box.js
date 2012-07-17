@@ -29,7 +29,9 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 					opacity: 0,
 					events: {
 						'change': function(e, w) {
-							w.events.bubble('action', {file: $(this).val()}, e);
+							var val = $(this).val();
+							if(val)
+								w.events.bubble('action', {file: val}, e);
 						}
 					}
 				}
