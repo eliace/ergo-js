@@ -3,7 +3,7 @@
 listData = [];
 
 
-for(var  i = 0; i < 50; i++) {
+for(var  i = 0; i < 70; i++) {
 	listData.push('Item ' + i); 
 }
 
@@ -14,7 +14,7 @@ var v = sample('Пользовательский скроллбар', {
 	content: {
 		etype: 'box',
 		
-		height: 200,
+		height: 400,
 		
 		mixins: ['scrollable'],
 		

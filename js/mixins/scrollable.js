@@ -109,6 +109,9 @@ Ergo.declare_mixin('Ergo.mixins.Scrollable', function(o) {
 		events: {
 			'mousewheel': function(e, delta, deltaX, deltaY, w) {
 
+				if(!w.scrollbar.el.is(':visible')) return;
+
+
 				// контекст скроллинга
 				var box_h = w.el.height();
 				var content_h = w.content.el.height();
@@ -156,11 +159,14 @@ Ergo.declare_mixin('Ergo.mixins.Scrollable', function(o) {
 		var x = box_h / content_h;
 		
 		
-//		console.log(x);
 		
+		var y = - parseInt(this.content.el.css('margin-top').replace("px", ""));
+				
 		var dh = this.scrollbar.scroller.el.outerHeight(false) - this.scrollbar.scroller.el.height();
 		
 		this.scrollbar.scroller.el.height(Math.max(x*sb_h - dh, 10));
+		
+		this.scrollTo(y);
 	};
 
 	
