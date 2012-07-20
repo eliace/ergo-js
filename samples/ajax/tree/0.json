@@ -1,0 +1,16 @@
+[{
+	"id": 1,
+	"title": "C:",
+	"type": "house",
+	"children": true
+}, {
+	"id": 2,
+	"title": "F:",
+	"type": "house",
+	"children": true
+}, {
+	"id": 3,
+	"title": "G:",
+	"type": "house",
+	"children": true
+}]

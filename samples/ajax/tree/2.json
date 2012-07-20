@@ -1,9 +1,6 @@
-
 [{
-	"name": "Bbbb"
-}, {
-	"name": "Cccc"
-}, {
-	"id": 1,
-	"name": "Dddd"
+	"id": 21,
+	"title": "Фильмы",
+	"type": "folder",
+	"children": true
 }]
