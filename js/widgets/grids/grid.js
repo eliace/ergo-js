@@ -46,6 +46,9 @@ Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 				col.width = c.width;
 				delete c.width;
 			}
+			if(c.hidden) {
+				col.hidden = c.hidden;
+			}
 			control_cols.push(col);
 		}
 		

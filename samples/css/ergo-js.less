@@ -1588,7 +1588,13 @@ fieldset.e-panel {
 
 //Scrollbar
 
-.e-scrollbar-holder {
+.e-scrollable {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.e-scrollbar {
   height:100%;
   background: url(images/scrollbar.png);
   position:absolute;
@@ -1601,24 +1607,30 @@ fieldset.e-panel {
   cursor:pointer;
 }
 
-.e-scrollbar-holder:hover {
+.e-scrollbar:hover {
   background: url(images/scrollbar.png);
   opacity:1;
 }
 
-.e-scrollbar-holder > div {
+.e-scroller {
   padding: 3px;
+  position: relative;
+  width: 6px;
+  height: 50px;
 }
 
-.e-scrollbar {
+.e-scroller > div {
   width:6px;
-  min-height:50px;
+/*  min-height:50px; */
   background: url(images/scrollbar_bg.png);
 //  margin:2px;
   -webkit-border-radius: 5px;
   -moz-border-radius:  5px;
   border-radius:  5px;
   opacity:1;
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
 }
 
 

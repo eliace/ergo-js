@@ -14,25 +14,30 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		},
 		
 		components: {
-			content: {	
+			content: {
+				weight: 10
 			},
 			_uploader: {
 				opacity: 0,
-				html: '<form name="file-uploader" target="uploader-target" method="POST" enctype="multipart/form-data"/>',
+				weight: 20,
+				html: '<form name="file_uploader" method="POST" enctype="multipart/form-data"/>',
 				style: {'overflow': 'hidden', 'position': 'absolute', 'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
 				content: {
 					etype: 'file',
 					html: '<input name="file" type="file" size="1">',
 					style: {'font-size': 300, 'right': 0, 'top': 0, 'position': 'absolute', 'cursor': 'pointer'},
+					opacity: 0,
 					events: {
 						'change': function(e, w) {
-							w.events.bubble('action', {file: $(this).val()}, e);
+							var val = $(this).val();
+							if(val)
+								w.events.bubble('action', {file: val}, e);
 						}
 					}
 				}
-			},
+			}/*,
 			_target: {
-				html: '<iframe name="uploader-target" frameborder="no"/>',
+				html: '<iframe name="uploader_target" frameborder="no" src="about:blank"/>',
 				height: 0,
 				width: 0,
 				events: {
@@ -40,19 +45,45 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 						//FIXME это работает не для всех браузеров
 						var text = w.el[0].contentWindow.document.body.innerHTML;
 						if(text) {
-							text = text.substring(5, text.length-6);
+							var m = text.match(/^<pre.*>(.*)<\/pre>$/);
+							text = m[1];
+//							text = text.substring(5, text.length-6);
 							w.events.bubble('upload', {textData: text});
 						}
 					}
 				}
-			}
+			}*/
 		}		
 	},
 	
 	
-	upload: function(path) {
+	upload: function(path, data) {
+		
+		var target_name = '_target'+Ergo.timestamp();
+		
+		this.components.set(target_name, {
+			etype: 'box',
+			html: '<iframe name="upload'+target_name+'" frameborder="no" src="about:blank"/>',
+			height: 0,
+			width: 0,
+			events: {
+				'load': function(e, w) {
+					//FIXME это работает не для всех браузеров
+					var text = w.el[0].contentWindow.document.body.innerHTML;
+					//FIXME проверка на text == null некорректна
+					if(text) {
+//						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
+//						text = m[1];
+						w.events.bubble('upload', {textData: text, data: data});
+//						w.destroy();
+					}
+				}
+			}			
+		});
+		
 		
 		this._uploader.el.attr('action', path);
+		this._uploader.el.attr('target', 'upload'+target_name);
 		this._uploader.el.submit();
 		
 	}

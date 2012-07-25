@@ -47,6 +47,19 @@ test('core/data', function(){
 	
 	
 	
+	data = new Ergo.core.DataSource([]);
+	
+	data.add('a');
+	data.add('b');
+	data.add('c');
+	data.add('d');
+	data.add('e');
+	
+	data.entry(0).del();
+	same(data.source, ['b', 'c', 'd', 'e'], 'Удаляем первый элемент источника данных');
+	equals(data.entry(1).id, 1, 'Идентификаторы элементов данных меняются, если источник данных - массив');
+	
+	
 //	data = new Ergo.core.DataSource(['Alice', 'Charlie', 'Dan']);
 //	data.add('Bob', 1);
 //	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');

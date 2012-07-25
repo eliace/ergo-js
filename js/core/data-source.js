@@ -271,6 +271,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 //			var deleted_entry = this.entries.remove_at(i);
 			var deleted_value = value[i];
 			
+			
+			this.entries.remove_at(i);
+			
 			if($.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
@@ -279,9 +282,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			else {
 				delete value[i];
 			}
-			
-			this.entries.remove_at(i);
-			
+						
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
 			if(deleted_entry)
 				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});

@@ -22,6 +22,9 @@ var menuData = [{
 	}, {
 		title: 'Модели и коллекции',
 		name: ['data-model']
+	}, {
+		title: 'AutoHeight',
+		name: ['autoheight']
 	}]
 }, {
 	title: 'Виджеты',
@@ -54,7 +57,7 @@ var menuData = [{
 		name: ['grids', 'property-grid']
 	}, {
 		title: 'Деревья',
-		name: ['trees', 'trees-2', 'tree-list']
+		name: ['trees', 'trees-2', 'tree-list', 'trees-3']
 	}, {
 		title: 'Панели',
 		name: ['panel', 'group-panel', 'select-panel', 'tab-panel']
@@ -63,7 +66,7 @@ var menuData = [{
 		name: ['form']
 	}, {
 		title: 'Скроллбар',
-		name: ['scrollbar']
+		name: ['scrollbar', 'scrollbar-3']
 	}, {
 		title: 'Слайдер',
 		name: ['slider']
@@ -151,7 +154,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 				width: 730,
 				content: {
 					defaultItem: {
-						style: {'min-height': 300/*, 'max-height': 350*/}
+						style: {'min-height': 300, 'overflow-x': 'auto'/*, 'max-height': 350*/}
 					},
 					layout: 'stack',
 					items: [{}, {}]

@@ -258,9 +258,11 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		// AUTO HEIGHT
-		if(this.container.options.autoHeight === true){
+		if(this.container.options.autoHeight &&  this.container.options.autoHeight != 'ignore'){
 
 			if(!this.el.is(":visible")) return;
+
+			var debug = (this.container.debug == 'autoheight');
 			
 			this.el.height(0);
 			
@@ -288,13 +290,25 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 					}
 				}
 			});
-
+			
+			
+			if(debug) console.log({h: h, dh: dh});
+			
 			dh += (this.el.outerHeight(true) - this.el.height());
-			this.el.siblings().not('td, :hidden').each(function(i, sibling){
-				sibling = $(sibling);
-				if(sibling.attr('autoHeight') != 'ignore') 
-					dh += sibling.outerHeight(true)
-			});
+
+			if(debug) console.log({h: h, dh: dh});
+			
+			if(this.el.attr('autoheight') != 'ignore-siblings') {
+				this.el.siblings().not('td, :hidden').each(function(i, sibling){
+					sibling = $(sibling);
+					if(sibling.attr('autoHeight') != 'ignore') {
+						dh += sibling.outerHeight(true);
+						if(debug)	console.log({type: 'sibling', el: sibling, h: sibling.outerHeight(true)});
+					}
+				});
+			}
+
+			if(debug) console.log({h: h, dh: dh});
 			
 //			dh -= this.el.height()
 			this.el.height(h - dh);

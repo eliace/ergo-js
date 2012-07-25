@@ -4,7 +4,7 @@
 Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 	
 	this.show = function() {
-		if(this.children.is_empty()) return;
+		if(this.children.is_empty()) return $.Deferred().resolve();
 		
 		var effects = this.options.effects;
 //		var deferred = $.Deferred();
@@ -21,7 +21,7 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 	
 	
 	this.hide = function() {
-		if(this.children.is_empty()) return;
+		if(this.children.is_empty()) return $.Deferred().resolve();
 
 		var effects = this.options.effects;
 //		var deferred = $.Deferred();
