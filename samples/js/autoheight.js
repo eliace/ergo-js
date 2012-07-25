@@ -4,18 +4,21 @@ sample('Автоматический расчет высоты', {
 	items: [{
 		components: {
 			text: {
-				text: 'До:'
+				text: 'До:',
+				cls: 'sample-title',
 			},
 			content: {
+				cls:'before-sample',
 				etype: 'box',
-				style: {'border': '1px solid blue'},
 				height: 300,
 				items: [{
-					style: {'border': '1px solid red', 'float': 'left', 'color': 'red'},
-					width: '60%',
+					style: { 'float': 'left'},
+					cls: 'before-left',
+					width: '56%',
 					text: 'float: left'
 				}, {
-					style: {'border': '1px solid red', 'float': 'right', 'color': 'red'},
+					style: { 'float': 'right'},
+					cls: 'before-right',
 					width: '38%',
 					text: 'float: right'
 				}]
@@ -25,19 +28,22 @@ sample('Автоматический расчет высоты', {
 	}, {
 		components: {
 			text: {
-				text: 'После:'
+				text: 'После:',
+				cls: 'sample-title',
 			},
 			content: {
 				etype: 'box',
-				style: {'border': '1px solid blue'},
+				cls:'after-sample',
 				height: 300,
 				items: [{
-					style: {'border': '1px solid red', 'float': 'left', 'color': 'red'},
-					width: '60%',
+					style: { 'float': 'left'},
+					cls: 'after-left',
+					width: '56%',
 					autoHeight: 'ignore-siblings',
 					text: 'float: left'
 				}, {
-					style: {'border': '1px solid red', 'float': 'right', 'color': 'red'},
+					style: { 'float': 'right'},
+					cls: 'after-right',
 					width: '38%',
 					autoHeight: 'ignore-siblings',
 					text: 'float: right'

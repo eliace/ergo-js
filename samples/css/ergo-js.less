@@ -7,7 +7,7 @@
 
 //ergo field
 @e-field-text-size:1.2em;              // Размер шрифта в формах
-@e-field-radius:0 3px 3px 3px;         // Закругленные углы в формах
+@e-field-radius:3px;         // Закругленные углы в формах
 @e-field-width:400px;                  // Ширина форм
 @e-field-margin: 10px;                 // Общий отступ в полях
 @e-field-content-bg:#efefef;           // Фоновый цвет полей
@@ -100,7 +100,7 @@
   border-right: 8px solid transparent;
   border-top: 8px solid @e-select-arrow-color;
   position:relative;
-  margin:12px 10px;
+  margin:15px 10px;
 }
 
 .arrow-up {
@@ -1451,8 +1451,12 @@ fieldset.e-panel {
 
 .e-file-uploader {
   margin-right:20px;
-
 }
+
+.e-file-uploader:hover .e-file-uploader-thumb  {
+  background: url(images/file_upload.png) 0 70px!important;
+}
+
 .e-file-uploader-thumb {
   width:70px;
   height:70px;
@@ -1460,10 +1464,11 @@ fieldset.e-panel {
    -webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.2);
   -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0.2);
   box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.2);
-  background: url(images/file_upload.png) 0 0;
+  background: url(images/file_upload.png) 0 0!important;
   cursor:pointer;
   position:relative;
 }
+
 .upload_pre img {
   width:70px;
   height:70px;

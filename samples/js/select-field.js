@@ -1,7 +1,7 @@
 sample('Поле выбора', {
 	
 	defaultItem: {
-		style: {'margin-bottom': 30}
+		style: {'margin-bottom': 30},
 	},
 	
 	
