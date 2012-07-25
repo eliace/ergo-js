@@ -2,10 +2,11 @@
 var w = sample('Обход виджетов', {
 	etype: 'box',
 	layout: 'vbox',
+	cls: 'sample-widget',
 	components: {
 		title: {
 			etype: 'text',
-			text: '<пусто>'
+			text: 'Пусто'
 		},
 		buttons: {
 			etype: 'box',

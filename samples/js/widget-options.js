@@ -1,7 +1,7 @@
 var w = sample('Параметры (опции) виджета', {
 	etype: 'widget',
 	html: '<div/>',
-	
+	cls: 'my-widget',
 	// пользовательские сеттеры опций
 	set: {
 		// создадим произвольную опцию
@@ -20,7 +20,7 @@ w.opt('height', 100);
 
 // задаем группу параметров
 w.opt({
-	opacity: .6,
-	color: 'red'
+	opacity: 1,
+	color: '#e3e3e3'
 });
 
