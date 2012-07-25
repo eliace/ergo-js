@@ -3,14 +3,15 @@ sample('Колоночная компоновка', {
 	
 	items: [{
 		etype: 'box',
+		cls: 'my-widget',
 		layout: 'column',
-		style: {'border': '1px solid blue'},
 		items: [{
-			style: {'border': '1px solid red'},
-			width: 200,
+			cls:'before-left',
+			style: {'margin' : '0 20px 0 0'},
+			width: 180,
 			height: 200
 		}, {
-			style: {'border': '1px solid red'},			
+			cls:'before-right',		
 			height: 200
 		}]
 	}]
