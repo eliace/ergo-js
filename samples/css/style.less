@@ -1,4 +1,4 @@
-
+//СТИЛИ ДЛЯ ЭРГО
 @base-background: #2c2c2c;
 @base-color: #727272;
 @form-color: #626262;
@@ -31,6 +31,7 @@
 @e-radio-radius:10px;
 // checkbox
 @e-checkbox-radius:3px;
+
 /* Reset
 -----------------------------------------------------------------------------*/
 * {
@@ -67,20 +68,21 @@ input, textarea {outline:none;}
 .hidden {display:none!important;}
 .invisible {visibility:hidden;}
 
-
 //Content
 body {
   font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-  background: @base-background url(images/BaseBackground.png);
+  background: @base-background url(ergo-images/BaseBackground.png);
   background-repeat:repeat-y;
   color: @base-color;
   line-height:auto;
 }
+
 #middle {
   width: 100%;
   height: 1%;
   position: relative;
 }
+
 #middle:after {
   content: '.';
   display: block;
@@ -88,11 +90,13 @@ body {
   visibility: hidden;
   height: 0;
 }
+
 #container {
   width: 100%;
   float: left;
   overflow: hidden;
 }
+
 #content {
   padding:20px 0 100px 250px;
 }
@@ -110,7 +114,7 @@ body {
   width:101px;
   height:43px;
   display:block;
-  background:url(images/logo.png);
+  background:url(ergo-images/logo.png);
   margin:20px;
 }
 
@@ -127,13 +131,6 @@ body {
   width: 200px;
   margin-left: -100%;
   position: relative;
- 
-}
-.logo a{
-  width:101px;
-  height:43px;
-  display:block;
-  background:url(images/logo.png);
 }
 
 //Navigation
@@ -149,11 +146,11 @@ ul.ergo_navigation > li {
   border-top:1px solid #333;
   border-bottom:1px solid #222;
   padding:10px 10px 10px 40px;
-  background: url(images/nav_arrow.png) 10px 10px no-repeat;
+  background: url(ergo-images/nav_arrow.png) 10px 10px no-repeat;
 }
 
 ul.ergo_navigation > li.expanded {
-  background: url(images/nav_arrow_top.png) 10px 10px no-repeat;
+  background: url(ergo-images/nav_arrow_top.png) 10px 10px no-repeat;
 }
 
 ul.ergo_navigation > li a{
@@ -163,16 +160,19 @@ ul.ergo_navigation > li a{
   display:block;
   position:relative;
 }
+
 ul.ergo_navigation > li a:hover{
   color:#c2d50f;
   text-decoration:none;
 }
+
 .ergo_navigation  ul{
   display:block;
   list-style:none;
   margin:5px 0;
   display:none;
 }
+
 .ergo_navigation  ul li{
   padding:10px 0;
 }
@@ -197,7 +197,6 @@ ul.ergo_navigation > li a:hover{
 
 .tab.green p, .tab.green.selected p, .tab.orange p, .tab.orange.selected p, .tab.grey p, .tab.grey.selected p {
   text-transform:uppercase;
- 
   -moz-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
@@ -216,9 +215,6 @@ ul.ergo_navigation > li a:hover{
   margin:0 0 20px 0;
 }
 
-
-
 .e-icon-ajax-loader {
-  background: url('images/ajax-loader.gif');
+  background: url('ergo-images/ajax-loader.gif');
 }
-
