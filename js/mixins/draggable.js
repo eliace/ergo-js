@@ -39,10 +39,10 @@ Ergo.declare_mixin('Ergo.mixins.Draggable', function(o) {
 			if(!drag.started) {
 				drag.started = true;
 				
-				var event = new Ergo.events.CancelEvent({dragContext: drag});
+				var event = new Ergo.events.Event({dragContext: drag});
 				drag.source.events.fire('onDrag', event);
 				
-				if(event.isCanceled){
+				if(event.canceled){
 					if(drag.proxy) drag.proxy.destroy();
 					Ergo.drag = null;
 					return;

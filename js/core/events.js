@@ -45,25 +45,25 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 });
 
 
-Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
-
-	/**
-	 * @constructs
- 	 * @extends Ergo.events.Event
-	 * @param {Object} overrides
-	 * @param {Object} baseEvent
-	 */
-	initialize: function(overrides, baseEvent) {
-		this.$super(overrides, baseEvent);
-//		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
-		this.isCanceled = false;
-	},
-	
-	cancel: function(){
-		this.isCanceled = true;
-	}
-	
-});
+// Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
+// 
+	// /**
+	 // * @constructs
+ 	 // * @extends Ergo.events.Event
+	 // * @param {Object} overrides
+	 // * @param {Object} baseEvent
+	 // */
+	// initialize: function(overrides, baseEvent) {
+		// this.$super(overrides, baseEvent);
+// //		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
+		// this.isCanceled = false;
+	// },
+// 	
+	// cancel: function(){
+		// this.isCanceled = true;
+	// }
+// 	
+// });
 
 
 
@@ -75,7 +75,7 @@ Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.eve
  * @name Ergo.events.Dispatcher
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
+Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
 	initialize: function(target) {
 		this.events = {}; 
@@ -302,7 +302,7 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 
 
 Ergo.Observable = function() {
-	this.events = new Ergo.events.Dispatcher(this);
+	this.events = new Ergo.events.Observer(this);
 }
 
 

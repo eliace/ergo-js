@@ -43,9 +43,9 @@ $(document).on('contextmenu', function(e){
 
 	// если виджет с контекстным меню найден
 	if(w){
-		var cancel_event = new Ergo.events.CancelEvent({'contextMenu': w.contextMenu});
+		var cancel_event = new Ergo.events.Event({'contextMenu': w.contextMenu});
 		w.events.fire('onContextMenu', cancel_event);
-		if(!cancel_event.isCanceled){
+		if(!cancel_event.canceled){
 			w.contextMenu.sourceWidget = w;
 			w.contextMenu.open(e.pageX-2, e.pageY-2);
 		}
