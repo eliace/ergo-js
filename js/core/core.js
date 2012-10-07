@@ -67,7 +67,7 @@ var Ergo = (function(){
 	
 	
 	
-	var keep_keys = false;
+	var _keep_keys = false;
 	
 	
 	
