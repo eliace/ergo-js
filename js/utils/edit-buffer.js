@@ -7,7 +7,7 @@ Ergo.declare('Ergo.utils.UpdateBuffer', 'Ergo.core.Object', {
 	
 	initialize: function(o){
 		Ergo.utils.UpdateBuffer.superclass.initialize.apply(this, arguments);
-		this.events = new Ergo.events.Dispatcher(this);
+		this.events = new Ergo.events.Observer(this);
 		this.buffer = {};
 		
 		if(o) {

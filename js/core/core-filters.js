@@ -1,6 +1,4 @@
 
-//= require "core"
-
 
 
 
@@ -40,7 +38,7 @@
 	 * @param {Object} item элемент коллекции
 	 * @param {Object} i ключ/индекс элемента
 	 */
-	E.eq = function(obj, item, i) {
+	F.eq = function(obj, item, i) {
 		return obj == item;
 	};
 	
@@ -55,7 +53,7 @@
 	 * @param {Object} item элемент коллекции
 	 * @param {Object} i ключ/индекс элемента
 	 */
-	E.ne = function(obj, item, i) {
+	F.ne = function(obj, item, i) {
 		return obj != item;
 	};
 	

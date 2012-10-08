@@ -626,7 +626,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	item: function(i) {
 //		return this.children.find(Ergo.filters.by_widget(i));		
-		var filter = Ergo.filters.by_widget(i);
+		var filter = Ergo.by_widget(i);
 		var j = 0;
 		return this.children.find(function(item, i){
 			if(item._type == 'item'){
@@ -640,7 +640,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 
 	component: function(i) {
-		var filter = Ergo.filters.by_widget(i);
+		var filter = Ergo.by_widget(i);
 		return this.children.find(function(item, j){
 			return item._type == 'component' && filter.call(this, item, j);
 		});
@@ -687,7 +687,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		if(arguments.length == 0) return this.parent;
 		
-		return Ergo.find(this.getParents(), Ergo.filters.by_widget(i));
+		return Ergo.find(this.getParents(), Ergo.by_widget(i));
 	},
 	
 	
