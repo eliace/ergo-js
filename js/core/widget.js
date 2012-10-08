@@ -1,5 +1,5 @@
 
-//= require "data-source"
+//= require "data"
 //= require "states"
 //= require "layout"
 //= require "widget-list"
@@ -718,7 +718,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(data === undefined || !o.autoBind) return;
 		
-		// удаляем все обработчики событий строго источника данных, связанные с текущим виджетом
+		// удаляем все обработчики событий старого источника данных, связанные с текущим виджетом
 		if(this.data)
 			this.data.events.unreg(this);
 

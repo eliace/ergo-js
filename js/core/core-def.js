@@ -184,7 +184,7 @@ var Ergo = (function(){
 		}
 		
 		if(keep_keys)
-			keep_keys = false;
+			_keep_keys = false;
 		
 		return o;
 	}
