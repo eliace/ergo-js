@@ -1,6 +1,5 @@
 
-//= require <core/data-source>
-
+//= require <core/data>
 
 
 /**

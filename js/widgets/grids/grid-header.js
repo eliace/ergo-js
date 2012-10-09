@@ -26,6 +26,7 @@ Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 			}
 		},
 		
+		autoBind: false,
 		
 		columns: [],
 		row: {},
@@ -85,7 +86,7 @@ Ergo.declare('Ergo.widgets.grid.HeaderCell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<th/>',
-		binding: function(v) { this.opt('text', v); }		
+		binding: function(v) { this.opt('text', v); }
 	}
 	
 	
