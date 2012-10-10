@@ -24,7 +24,7 @@ var menuData = [{
 		name: ['data-model']
 	}, {
 		title: 'AutoHeight',
-		name: ['autoheight']
+		name: ['autoheight', 'autoheight-2']
 	}]
 }, {
 	title: 'Виджеты',

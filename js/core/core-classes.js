@@ -136,7 +136,7 @@
 			}			
 		}
 
-		clazz.prototype.className = class_name;
+		clazz.prototype._class_name = class_name;
 		
 		return clazz;
 	};
