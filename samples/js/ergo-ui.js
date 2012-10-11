@@ -373,6 +373,7 @@ $(document).ready(function(){
 					dynamic: true,
 					dataId: 'children',
 					defaultItem: {
+						etype: 'box',
 						content: {
 							etype: 'anchor',
 							dataId: 'title',
