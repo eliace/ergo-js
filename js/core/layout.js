@@ -299,7 +299,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			dh += (this.el.outerHeight(true) - this.el.height());
 
 			if(debug) console.log({h: h, dh: dh});
-
+			
+			
+			var self = this;
+			
 			// обходим все соседние элементы
 			var h_ratio = 1;
 			this.el.siblings().not('td').each(function(i, sibling){
@@ -312,8 +315,25 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 					h_ratio++;
 					dh += sibling.outerHeight(true) - sibling.height();					
 				}
-			});
-
+			});
+
+			// var h_ratio = 1;
+// 
+			// if(this.container.parent) {
+// 
+			// this.container.parent.children.each(function(sibling){
+				// if(sibling == self.container) return;
+				// var ah = sibling.options.autoHeight;
+				// if(!ah) {
+					// dh += sibling.el.outerHeight(true);
+				// }
+				// else if(ah != 'ignore-siblings') {
+					// h_ratio++;
+					// dh += sibling.el.outerHeight(true) - sibling.el.height();
+				// }
+			// });
+// 
+			// }
 
 			// if(this.el.attr('autoheight') != 'ignore-siblings') {
 				// this.el.siblings().not('td, :hidden').each(function(i, sibling){
