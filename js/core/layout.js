@@ -307,11 +307,13 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			var h_ratio = 1;
 			this.el.siblings().not('td').each(function(i, sibling){
 				sibling = $(sibling);
-				var ah = sibling.attr('autoHeight')
+				var ah = sibling.attr('autoHeight');
+				// элемент видимый
 				if(!ah) {
-					dh += sibling.outerHeight(true);					
+					if(sibling.is(':visible'))
+						dh += sibling.outerHeight(true);
 				}
-				else if(ah != 'ignore-siblings') {
+				else if(ah != 'ignore-siblings' && ah != 'ignore') {
 					h_ratio++;
 					dh += sibling.outerHeight(true) - sibling.height();					
 				}
