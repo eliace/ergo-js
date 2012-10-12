@@ -12,6 +12,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				html: '<header/>',				
 				components: {
 					title: {
+						cls: 'title'
 //						html: '<h2/>'
 					}
 					// buttons: {
