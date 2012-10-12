@@ -22,7 +22,10 @@ Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 			control: {
 				etype: 'grid-row',
 				cls: 'e-grid-control-row',
-				weight: -1
+				weight: -1,
+				defaultItem: {
+					etype: 'grid-header-cell'
+				}				
 			}
 		},
 		

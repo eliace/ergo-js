@@ -61,7 +61,7 @@ $(document).ready(function(){
 	
 	var gridData = new Ergo.data.AjaxCollection([], {path: 'plugins/ajax-grid/ajax/0'});
 	
-	$.ergo({
+	var grid = $.ergo({
 		etype: 'ajax-grid-panel',
 		renderTo: 'body',
 		width: 600,
@@ -97,7 +97,9 @@ $(document).ready(function(){
 		
 	});
 	
-	gridData.fetch();
+	gridData.fetch().then(function(){
+		grid.$layoutChanged();
+	});
 	
 	
 	
