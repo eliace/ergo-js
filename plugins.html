@@ -16,6 +16,7 @@
 		
 		<script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script>
 	
+		<script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script>
 	
 </head>
 <body>
@@ -33,14 +34,14 @@ $(document).ready(function(){
 	$.ergo({
 		etype: 'panel',
 		renderTo: 'body',
-		
-		width: 400,
+		width: 600,
+		height: 300,
+		title: 'Дерево (ajax)',
 		
 		content: {
 //			content: {
 				etype: 'ajax-tree',
 	
-				height: 400,
 				
 				data: treeData				
 //			}
@@ -49,6 +50,45 @@ $(document).ready(function(){
 	});
 	
 	treeData.fetch('plugins/ajax-tree/ajax/tree/0');
+	
+	
+	
+	
+	
+	var gridData = new Ergo.data.AjaxCollection([], {path: 'plugins/ajax-grid/ajax/0'});
+	
+	$.ergo({
+		etype: 'ajax-grid-panel',
+		renderTo: 'body',
+		width: 600,
+		height: 300,
+		title: 'Таблица (ajax)',
+		
+		data: gridData,
+		
+		components: {
+			header: {
+				tools: ['Добавить', 'Удалить']
+			}
+		},
+		
+		
+		content: {
+			columns: [{
+				dataId: 'id',
+				header: 'ID'
+			}, {
+				dataId: 'name',
+				header: 'Имя'
+			}]
+		}
+		
+		
+	});
+	
+	gridData.fetch();
+	
+	
 	
 });	
 	

@@ -1,5 +1,5 @@
 
-
+//= require "model"
 
 
 Ergo.declare('Ergo.data.AjaxModel', 'Ergo.data.Model', {
@@ -11,7 +11,7 @@ Ergo.declare('Ergo.data.AjaxModel', 'Ergo.data.Model', {
   	this.$super.apply(this, arguments);
   	
     this._fetched = false;
-  },
+  }
 	
 	
 	

@@ -54,6 +54,8 @@ Ergo.declare('Ergo.plugins.tree.AjaxTree', 'Ergo.widgets.Tree', {
 	
 	defaults: {
 		
+		cls: 'e-ajax-tree',
+		
 		dynamic: true,
 		
 		node: {
