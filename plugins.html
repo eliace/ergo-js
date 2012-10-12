@@ -40,7 +40,7 @@ $(document).ready(function(){
 		height: 300,
 		title: 'Дерево (ajax)',
 		cls: 'widget',
-		style: {'margin-bottom': 10},
+		style: {'margin-bottom': 20},
 		
 		content: {
 //			content: {
@@ -73,7 +73,7 @@ $(document).ready(function(){
 		
 		components: {
 			header: {
-				tools: ['Добавить', 'Удалить']
+				tools: ['Добавить', 'Удалить', 'Обновить']
 			}
 		},
 		
@@ -85,6 +85,12 @@ $(document).ready(function(){
 			}, {
 				dataId: 'name',
 				header: 'Имя'
+			}, {
+				dataId: 'post',
+				header: 'Должность'
+			}, {
+				dataId: 'department',
+				header: 'Подразделение'
 			}]
 		}
 		
