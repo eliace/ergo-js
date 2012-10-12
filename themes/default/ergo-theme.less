@@ -332,11 +332,17 @@ ul.ergo_navigation > li a:hover{
   border-radius:3px 0 0 3px;
   border-right:none;
 }
-
+.e-toolbox-header .toolbox .e-button-item {
+  border-right:none;
+   -webkit-border-radius:0 ;
+  -moz-border-radius:0;
+  border-radius:0 ;
+}
 .e-toolbox-header .toolbox .e-button-item:last-child {
   -webkit-border-radius:0 3px 3px 0;
   -moz-border-radius:0 3px 3px 0;
   border-radius:0 3px 3px 0;
+  border-right:1px solid #DEDEDE;
 }
 
 .e-grid-wrapper {
@@ -362,6 +368,9 @@ ul.ergo_navigation > li a:hover{
   border-radius:0!important;
 }
 
+.e-grid tr:hover {
+  background:#fffef5;
+}
 .e-grid td {
   padding:7px 5px;
   border-bottom:1px dotted #ccc;
@@ -369,13 +378,18 @@ ul.ergo_navigation > li a:hover{
 
 .e-grid-header th {
   text-align:left;
+  border-left:1px solid #ccc;
   
 }
 .e-grid-header th:first-child {
   padding:5px 0 5px 5px;
+  border-left:none;
 }
+
 .e-grid td {
     border-right:1px dotted #ccc;
+    white-space:nowrap;
+    overflow:hidden;
 }
 
 .e-grid td:last-child {
