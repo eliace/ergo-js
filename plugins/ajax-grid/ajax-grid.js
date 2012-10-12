@@ -6,8 +6,20 @@ Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	defaults: {
 		cls: 'e-icon-button',
 		
-		content: {
-			etype: 'icon'
+		components: {
+			icon: {
+				etype: 'icon'
+			}
+		},
+		
+		
+		set: {
+			'text': function(v) {
+				this.icon.opt('text', v);
+			},
+			'icon': function(v) {
+				this.icon.states.only(v);
+			}
 		}
 		
 	}
@@ -64,11 +76,7 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			etype: 'icon-button'
 		},
 		
-		items: [{
-			
-		}, {
-			
-		}]
+		items: ['<<', '<', {etype: 'text', text: 'Страница'}, {etype: 'text-input'}, '>', '>>']
 		
 	}
 	
@@ -115,7 +123,8 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 			
 			footer: {
 				etype: 'ajax-grid-paginator',
-				autoBind: false
+				autoBind: false,
+				hidden: false
 			}
 			
 		}
