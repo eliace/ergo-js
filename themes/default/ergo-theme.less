@@ -71,7 +71,7 @@ input, textarea {outline:none;}
 //Content
 body {
   font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-  background: @base-background url(ergo-images/BaseBackground.png);
+  background: #f9f9f9;
   background-repeat:repeat-y;
   color: @base-color;
   line-height:auto;
@@ -287,20 +287,22 @@ ul.ergo_navigation > li a:hover{
   padding:10px 0;
 }
 
-.e-grid-header {
-   -webkit-border-radius: 0!important;
-  -moz-border-radius:0!important;
-  border-radius:0!important;
-  overflow:hidden;
+
+// Widgets.widget.e-panel{
+  background:#fff;
+  border:1px solid #dfdfdf;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
-.e-grid-header-wrapper {
-  -webkit-border-radius: 0!important;
-  -moz-border-radius:0!important;
-  border-radius:0!important;
+.e-panel-content {
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
 }
 
-.e-toolbox-header {
+.widget.e-panel header {
   background: #ffffff; /* Old browsers */
   background: -moz-linear-gradient(top,  #ffffff 0%, #efefef 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
@@ -315,7 +317,7 @@ ul.ergo_navigation > li a:hover{
   padding:10px;
 }
 
-.e-toolbox-header .title {
+.widget.e-panel header .title {
   float:left;
   font-size:1.4em;
   padding:5px;
@@ -348,6 +350,19 @@ ul.ergo_navigation > li a:hover{
   margin-bottom:0!important;
 }
 
+.e-grid-header {
+  -webkit-border-radius: 0!important;
+  -moz-border-radius:0!important;
+  border-radius:0!important;
+  overflow:hidden;
+}
+
+.e-grid-header-wrapper {
+  -webkit-border-radius: 0!important;
+  -moz-border-radius:0!important;
+  border-radius:0!important;
+}
+
 .e-grid td {
   padding:10px 5px;
   border-bottom:1px dotted #ccc;
@@ -360,12 +375,9 @@ ul.ergo_navigation > li a:hover{
 .e-grid td:last-child {
     border-right:0;
 }
+
 .e-grid-control-row {
  display:none;
 }
 
-.e-panel-content {
-   -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-}
+
