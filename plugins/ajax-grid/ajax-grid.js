@@ -97,7 +97,7 @@ Ergo.declare('Ergo.plugins.AjaxGridPaginator', 'Ergo.widgets.GridPaginator', {
 Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
-				
+		
 		components: {
 			
 			header: {
