@@ -64,7 +64,35 @@ $(document).ready(function(){
 	
 	
 	
-	var gridData = new Ergo.data.AjaxCollection([], {path: 'plugins/ajax-grid/ajax/0'});
+	var gridData = new Ergo.data.AjaxCollection([], {
+//		mixins: ['pageable'],
+		cache: false,
+		pageSize: 5,
+		totalCount: 0,
+		path: 'plugins/ajax-grid/ajax/0',
+		parse: function(json) {
+			
+			this.options.totalCount = json.total;
+			
+			var data = [];
+			
+			var to = Math.min(json.total, this._to);
+			
+			for(var i = this._from; i < to; i++) data.push(json.data[i]);
+			
+			
+			return data;
+		}
+	});
+	
+	gridData.events.reg('beforeFetch', function(e){
+		
+		e.query.from = this._from;
+		e.query.to = this._to;
+		
+	});
+	
+	
 	
 	var grid = $.ergo({
 		etype: 'ajax-grid-panel',
@@ -102,9 +130,12 @@ $(document).ready(function(){
 		
 	});
 	
-	gridData.fetch().then(function(){
-		grid.$layoutChanged();
-	});
+	
+	grid.footer.content.item(2).setIndex(0);
+	
+	// gridData.fetch().then(function(){
+		// grid.$layoutChanged();
+	// });
 	
 	
 	
@@ -121,8 +152,7 @@ $(document).ready(function(){
 		title: 'Панель инструметов',
 		
 		content: {
-			cls: 'e-tool-box',
-			layout: 'hbox',
+			etype: 'tool-box',
 			items: [{
 				etype: 'button-item',
 				text: 'Печать',

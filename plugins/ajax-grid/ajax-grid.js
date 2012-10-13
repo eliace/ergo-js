@@ -67,6 +67,28 @@ Ergo.declare('Ergo.widgets.ToolboxHeader', 'Ergo.widgets.Box', {
 
 
 
+
+
+
+
+Ergo.declare('Ergo.widgets.ToolBox', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'e-tool-box',
+		layout: 'hbox'
+	}
+	
+	
+	
+}, 'tool-box');	
+
+
+
+
+
+
+
+
 Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -94,14 +116,12 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 		}, {
 			etype: 'text-input',
 			tag: 'current',
-			events: {
-				'change': function(e, w) {
-					w.events.bubble('pageChange');
-				}
-			}
-			// onDataChanged: function() {
-				// this.parent.events.bubble('pageChange');				
-			// }
+			onDataChanged: function() {
+				var i = parseInt( this.opt('value') );
+				if(!isNaN(i))	
+					this.events.bubble('pageChange', {index: i});	
+			},
+			autoBind: false // отключаем авто-биндинг, теперь для хранения значения используется поле _value
 		}, {
 			icon: 'icon-caret-right',
 			tag: 'next',
@@ -114,9 +134,62 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
-		}]
+		}],
 		
-	}
+		
+		onPageChange: function(e) {
+			
+			var action = e.target.tag;
+			
+			var i = this._page_index;
+			
+			if(action == 'current') {
+				i = Math.max(0, e.index);
+				i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), e.index);
+			}
+			else if(action == 'first') i = 0;
+			else if(action == 'previous') i = Math.max(0, i-1);
+			else if(action == 'next') i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), i+1);
+			else if(action == 'last') i = Math.floor(this.data.options.totalCount/this.data.options.pageSize);
+			
+			this._page_index = i;
+			
+			var from = i * this.data.options.pageSize;
+			var to = (i+1) * this.data.options.pageSize;
+			
+			this.data._from = from;
+			this.data._to = to;
+			
+			this.data.fetch();
+			
+			
+			this.item({tag: 'current'}).el.val(i);//.opt('value', i);
+			
+		}
+				
+		
+		
+		// setMaxIndex: function(i) {
+			// this._max_index = i;
+		// },
+// 		
+// 		
+		// setPageSize: function(sz) {
+			// this._page_size = sz;
+		// },
+		
+		
+		
+	},
+	
+	
+	setIndex: function(i) {
+		
+		this._page_index = i;
+					
+		this.item({tag: 'current'}).opt('value', i);
+		
+	}	
 	
 	
 	
@@ -125,15 +198,35 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 
 
 
-Ergo.declare('Ergo.plugins.AjaxGridPaginator', 'Ergo.widgets.GridPaginator', {
+
+
+Ergo.declare_mixin('Ergo.mixins.Pageable', function(o) {
 	
-	defaults: {
+	this._from = 0;
+	this._to = 0;
+	this._count = 0;
+	this._page_size = 0;
+	
+	
+	
+	o.parse = function(json) {
 		
-	}
+		
+		
+		
+		return json;
+	};
+	
+	
+	this.setPageSize = function(sz) {
+		this._page_size = sz;
+	};
 	
 	
 	
-}, 'ajax-grid-paginator');
+}, 'pageable');
+
+
 
 
 
@@ -161,6 +254,7 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 			
 			footer: {
 				content: {
+					etype: 'tool-box',
 					items: [{
 						etype: 'icon-button',
 						icon: 'icon-refresh'
@@ -173,14 +267,6 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 				hidden: false						
 			}
 			
-		},
-		
-		onPageChange: function(e) {
-			
-			console.log(e.target.tag);
-			
-			
-			e.stop();
 		}
 		
 	}
