@@ -76,7 +76,45 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			etype: 'icon-button'
 		},
 		
-		items: ['<<', '<', {etype: 'text', text: 'Страница'}, {etype: 'text-input'}, '>', '>>']
+		items: [{
+			icon: 'icon-backward', 
+			tag: 'first',
+			onClick: function() {
+				this.events.bubble('pageChange');
+			}
+		}, {
+			icon: 'icon-caret-left',
+			tag: 'previous',
+			onClick: function() {
+				this.events.bubble('pageChange');
+			}
+		}, {
+			etype: 'text', 
+			text: 'Страница'
+		}, {
+			etype: 'text-input',
+			tag: 'current',
+			events: {
+				'change': function(e, w) {
+					w.events.bubble('pageChange');
+				}
+			}
+			// onDataChanged: function() {
+				// this.parent.events.bubble('pageChange');				
+			// }
+		}, {
+			icon: 'icon-caret-right',
+			tag: 'next',
+			onClick: function() {
+				this.events.bubble('pageChange');
+			}
+		}, {
+			icon: 'icon-forward',
+			tag: 'last',
+			onClick: function() {
+				this.events.bubble('pageChange');
+			}
+		}]
 		
 	}
 	
@@ -122,11 +160,27 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 			},
 			
 			footer: {
-				etype: 'ajax-grid-paginator',
-				autoBind: false,
-				hidden: false
+				content: {
+					items: [{
+						etype: 'icon-button',
+						icon: 'icon-refresh'
+					}, {
+						cls: 'e-splitter'
+					}, {
+						etype: 'grid-paginator',
+					}]
+				},
+				hidden: false						
 			}
 			
+		},
+		
+		onPageChange: function(e) {
+			
+			console.log(e.target.tag);
+			
+			
+			e.stop();
 		}
 		
 	}

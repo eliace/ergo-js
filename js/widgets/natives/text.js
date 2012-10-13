@@ -21,7 +21,8 @@ Ergo.declare('Ergo.widgets.Text', 'Ergo.core.Widget', /** @lends Ergo.widgets.Te
 			}
 		},
 		binding: function(v) {
-			this.opt('text', v);
+			if(!this.options.text)
+				this.opt('text', v);
 		}
 	}
 	

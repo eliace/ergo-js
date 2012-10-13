@@ -104,11 +104,11 @@ Ergo.declare('Ergo.plugins.tree.AjaxTree', 'Ergo.widgets.Tree', {
 				},
 				content: {
 					etype: 'text-item',
-					icon: 'e-icon-house',
+//					icon: 'e-icon-house',
 					style: {'display': 'inline-block'},
 					binding: function(v) {
 						this.opt('text', v.title);
-						this.opt('icon', 'e-icon-'+v.type);
+//						this.opt('icon', 'e-icon-'+v.type);
 						return false;
 					}							
 				},
