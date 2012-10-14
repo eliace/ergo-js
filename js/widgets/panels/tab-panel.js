@@ -40,7 +40,7 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		var tabs = [];

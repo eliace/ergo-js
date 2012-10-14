@@ -60,7 +60,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		
 		if(o.multiline) o.components.content.etype = 'text-area';
 		

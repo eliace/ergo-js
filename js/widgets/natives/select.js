@@ -59,7 +59,7 @@ Ergo.declare('Ergo.widgets.Select', 'Ergo.widgets.Input', /** @lends Ergo.widget
 		optionsValue: 1
 	},
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 //		Ergo.widgets.Select.superclass.$init.call(this, o);
 		

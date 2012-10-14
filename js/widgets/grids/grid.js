@@ -35,7 +35,7 @@ Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		var control_cols = [];

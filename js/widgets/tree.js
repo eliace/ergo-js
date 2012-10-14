@@ -45,7 +45,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		Ergo.smart_override(o.components.subtree, {items: o.subtreeItems});
@@ -69,7 +69,7 @@ Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
 		node: {}
 	},
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		Ergo.smart_override(o.defaultItem, o.node, {components: {subtree: {node: o.node}}});

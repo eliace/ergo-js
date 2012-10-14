@@ -39,7 +39,7 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 //		o.fieldContent.items = o.buttons;
 		this.$super(o);
 
