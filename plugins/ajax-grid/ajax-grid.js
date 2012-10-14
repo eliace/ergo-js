@@ -145,7 +145,7 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			
 			if(action == 'current') {
 				i = Math.max(0, e.index);
-				i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), e.index);
+				i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), i);
 			}
 			else if(action == 'first') i = 0;
 			else if(action == 'previous') i = Math.max(0, i-1);
@@ -157,14 +157,22 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			var from = i * this.data.options.pageSize;
 			var to = (i+1) * this.data.options.pageSize;
 			
-			this.data._from = from;
-			this.data._to = to;
+			this.data.opt('from', from);
+			this.data.opt('to', to);
 			
-			this.data.fetch();
 			
 			
 			this.item({tag: 'current'}).el.val(i);//.opt('value', i);
+
+			var self = this;
+
+			this.data.fetch().then(function(){
+				self.events.bubble('pageChanged', {index: i});				
+			});
 			
+			
+			
+			e.stop();
 		}
 				
 		
@@ -199,7 +207,7 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 
 
 
-
+/*
 Ergo.declare_mixin('Ergo.mixins.Pageable', function(o) {
 	
 	this._from = 0;
@@ -225,7 +233,7 @@ Ergo.declare_mixin('Ergo.mixins.Pageable', function(o) {
 	
 	
 }, 'pageable');
-
+*/
 
 
 
@@ -267,6 +275,13 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 				hidden: false						
 			}
 			
+		},
+		
+		onPageChanged: function(e) {
+			
+			this.$layoutChanged();
+			
+			e.stop();
 		}
 		
 	}

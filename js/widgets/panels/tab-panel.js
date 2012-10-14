@@ -26,7 +26,7 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 								this.events.bubble('select');
 							}
 						}
-					}					
+					}
 				}
 			},
 			content: {

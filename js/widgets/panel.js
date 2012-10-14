@@ -46,11 +46,11 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
-		this.$super(o);
-		
-//		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
-	},
+	// $init: function(o) {
+		// this.$super(o);
+// 		
+// //		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
+	// },
 	
 	setTitle: function(s) {
 		this.header.title.opt('text', s);

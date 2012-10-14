@@ -231,6 +231,34 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 Ergo.Statable = function() {
 	this.states = new Ergo.core.StateManager(this);
+	
+	var o = this.options;
+	var self = this;
+	
+	if('states' in o){
+		for(var i in o.states)
+			this.states.state(i, o.states[i]);
+		// настраиваем особое поведение состояния hover
+		if('hover' in o.states){
+			this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
+		}
+	}
+	
+	if('transitions' in o) {
+		for(var i in o.transitions) {
+			var t = o.transitions[i];
+			if($.isPlainObject(t)) {
+				//TODO
+			}
+			else {
+				var a = i.split('>');
+				if(a.length == 1) a.push('');
+				this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
+			}
+		}
+	}
+	
+	
 }
 
 

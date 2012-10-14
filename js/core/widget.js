@@ -337,28 +337,32 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 						
-		if('states' in o){
-			for(var i in o.states)
-				this.states.state(i, o.states[i]);
-			// настраиваем особое поведение состояния hover
-			if('hover' in o.states){
-				this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
-			}
-		}
+		// if('states' in o){
+			// for(var i in o.states)
+				// this.states.state(i, o.states[i]);
+			// // настраиваем особое поведение состояния hover
+			// if('hover' in o.states){
+				// this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
+			// }
+		// }
+// 		
+		// if('transitions' in o) {
+			// for(var i in o.transitions) {
+				// var t = o.transitions[i];
+				// if($.isPlainObject(t)) {
+					// //TODO
+				// }
+				// else {
+					// var a = i.split('>');
+					// if(a.length == 1) a.push('');
+					// this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
+				// }
+			// }
+		// }
 		
-		if('transitions' in o) {
-			for(var i in o.transitions) {
-				var t = o.transitions[i];
-				if($.isPlainObject(t)) {
-					//TODO
-				}
-				else {
-					var a = i.split('>');
-					if(a.length == 1) a.push('');
-					this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
-				}
-			}
-		}
+		
+		
+		
 //				this.states.state(i, o.states[i]);
 		
 		
@@ -368,16 +372,16 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// }
 		
 		
-		var regexp = /^on\S/;
-		for(var i in o){
-			if(regexp.test(i)){
-				var name = i.charAt(2).toLowerCase() + i.slice(3);
-				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-				for(var j = 0; j < chain.length; j++) {
-					this.events.reg( name, chain[j] );
-				}
-			}
-		}
+		// var regexp = /^on\S/;
+		// for(var i in o){
+			// if(regexp.test(i)){
+				// var name = i.charAt(2).toLowerCase() + i.slice(3);
+				// var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+				// for(var j = 0; j < chain.length; j++) {
+					// this.events.reg( name, chain[j] );
+				// }
+			// }
+		// }
 
 		
 		if('onClick' in o)
@@ -404,65 +408,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	/**
-	 * Установка параметров (options) виджета.
-	 * 
-	 * Передаваемые параметры применяются и сохраняются в this.options
-	 * 
-	 * @param {Object} o параметры
-	 */
-	opt: function(o) {
-		var opts = o;
-		if(arguments.length == 2){
-			opts = {}
-			opts[arguments[0]] = arguments[1];
-		}
-		else if($.isString(o)){
-			var getter = this.options.get[o] || this['get'+o.capitalize()];
-			return (getter) ? getter.call(this) : this.options[o];
-		}
-		
-		Ergo.smart_override(this.options, opts);
-
-		this.$opt(opts);
-		
-		return this.options;
-	},
-	
-	
-	/**
-	 * Хук, вызываемый для установки параметров.
-	 * 
-	 * Передаваемые параметры только применяются
-	 * 
-	 * @private
-	 * @param {Object} o параметры
-	 */
-	$opt: function(o) {
-		
-//		var self = this;
-		
-		
-		
-//		var el = this.el;
-		
-		for(var i in o) {
-			// проверяем наличие Java-like сеттеров
-			var java_setter = 'set'+i.capitalize();			
-			// проверяем наличие сеттеров опций
-			if(this.options.set[i])
-				this.options.set[i].call(this, o[i], this.options);
-			// если сеттер опций не найден, проверяем наличие java-like сеттера
-			else if(this[java_setter])
-				this[java_setter](o[i]);
-		}
-
-
-//		profiler.tick('opt', 'other');
-//
-//		profiler.stop('opt');
-		
-	},
 	
 	
 	

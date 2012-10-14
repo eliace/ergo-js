@@ -67,7 +67,7 @@ $(document).ready(function(){
 	var gridData = new Ergo.data.AjaxCollection([], {
 //		mixins: ['pageable'],
 		cache: false,
-		pageSize: 5,
+		pageSize: 7,
 		totalCount: 0,
 		path: 'plugins/ajax-grid/ajax/0',
 		parse: function(json) {
@@ -82,15 +82,19 @@ $(document).ready(function(){
 			
 			
 			return data;
+		},
+		set: {
+			'from': function(v) { this.options.query.from = v; },
+			'to': function(v) { this.options.query.to = v; }
 		}
 	});
 	
-	gridData.events.reg('beforeFetch', function(e){
-		
-		e.query.from = this._from;
-		e.query.to = this._to;
-		
-	});
+	// gridData.events.reg('beforeFetch', function(e){
+// 		
+		// e.query.from = this._from;
+		// e.query.to = this._to;
+// 		
+	// });
 	
 	
 	
