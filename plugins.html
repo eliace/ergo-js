@@ -84,8 +84,8 @@ $(document).ready(function(){
 			return data;
 		},
 		set: {
-			'from': function(v) { this.options.query.from = v; },
-			'to': function(v) { this.options.query.to = v; }
+			'from': function(v) { this.options.query.from = this._from = v; },
+			'to': function(v) { this.options.query.to = this._to = v; }
 		}
 	});
 	

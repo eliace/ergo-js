@@ -210,6 +210,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	$pre_construct: function(o) {
 		this.$super(o);
 		
+		
+		var self = this;
 
 
 		// "сахарное" определение контента виджета

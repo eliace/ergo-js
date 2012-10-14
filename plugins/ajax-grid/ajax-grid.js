@@ -1,91 +1,6 @@
 
 
 
-Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
-	
-	defaults: {
-		cls: 'e-icon-button',
-		
-		components: {
-			icon: {
-				etype: 'icon'
-			}
-		},
-		
-		
-		set: {
-			'text': function(v) {
-				this.icon.opt('text', v);
-			},
-			'icon': function(v) {
-				this.icon.states.only(v);
-			}
-		}
-		
-	}
-	
-}, 'icon-button');
-
-
-
-
-
-Ergo.declare('Ergo.widgets.ToolboxHeader', 'Ergo.widgets.Box', {
-	
-	defaults: {
-		cls: 'e-toolbox-header',
-		
-		components: {
-			title: {
-				cls: 'title',
-			},
-			toolbox: {
-				cls: 'toolbox',
-				layout: 'hbox',
-				defaultItem: {
-					etype: 'button-item'
-				}
-			}			
-		}
-		
-	},
-	
-	
-	$init: function(o) {
-		this.$super(o);
-		
-		if(o.tools) {
-			Ergo.smart_override(o.components.toolbox, {items: o.tools});
-		}
-	}
-	
-	
-	
-}, 'toolbox-header');
-
-
-
-
-
-
-
-
-
-Ergo.declare('Ergo.widgets.ToolBox', 'Ergo.widgets.Box', {
-	
-	defaults: {
-		cls: 'e-tool-box',
-		layout: 'hbox'
-	}
-	
-	
-	
-}, 'tool-box');	
-
-
-
-
-
 
 
 
@@ -123,6 +38,11 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			},
 			autoBind: false // отключаем авто-биндинг, теперь для хранения значения используется поле _value
 		}, {
+			etype: 'text',
+			tag: 'total',
+			format: Ergo.format.curry('из %s'),
+			autoBind: false
+		}, {
 			icon: 'icon-caret-right',
 			tag: 'next',
 			onClick: function() {
@@ -143,14 +63,16 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			
 			var i = this._page_index;
 			
+			var page_count = Math.floor(this.data.options.totalCount/this.data.options.pageSize);
+			
 			if(action == 'current') {
 				i = Math.max(0, e.index);
-				i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), i);
+				i = Math.min(page_count, i);
 			}
 			else if(action == 'first') i = 0;
 			else if(action == 'previous') i = Math.max(0, i-1);
-			else if(action == 'next') i = Math.min(Math.floor(this.data.options.totalCount/this.data.options.pageSize), i+1);
-			else if(action == 'last') i = Math.floor(this.data.options.totalCount/this.data.options.pageSize);
+			else if(action == 'next') i = Math.min(page_count, i+1);
+			else if(action == 'last') i = page_count;
 			
 			this._page_index = i;
 			
@@ -167,6 +89,8 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			var self = this;
 
 			this.data.fetch().then(function(){
+				var page_count = Math.floor(self.data.options.totalCount/self.data.options.pageSize);
+				self.item({tag: 'total'}).opt('text', ' из '+page_count);
 				self.events.bubble('pageChanged', {index: i});				
 			});
 			
@@ -248,7 +172,7 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 		components: {
 			
 			header: {
-				etype: 'toolbox-header',
+				etype: 'header-box',
 				autoBind: false
 			},
 			
@@ -269,7 +193,7 @@ Ergo.declare('Ergo.plugns.AjaxGridPanel', 'Ergo.widgets.Panel', {
 					}, {
 						cls: 'e-splitter'
 					}, {
-						etype: 'grid-paginator',
+						etype: 'grid-paginator'
 					}]
 				},
 				hidden: false						
