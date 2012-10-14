@@ -108,7 +108,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		}			
 	},
 	
-			
+/*			
 	initialize: function(o) {
 		this.$super(o);
 //		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
@@ -127,6 +127,105 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.$init(o);
 				
 
+		// добавляем метод bubble к events
+		this.events.bubble = function(name, e) {
+			if(!e) e = {}
+			e.after = Ergo.bubble;
+			e.target = self;
+			this.fire(name, e);
+		}
+
+		
+		// создаем список дочерних элементов
+		this.children = new Ergo.core.WidgetChildren(this);
+
+		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
+		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
+		
+		//TODO этап генерации jQuery-элемента можно оптимизировать
+		// создаем новый элемент DOM или используем уже существующий
+		this.el = $(o.html);//this.$html());
+		this.el.data('ergo-widget', this);
+//		if(this.defaultCls) this.el.addClass(this.defaultCls);
+		if('style' in o) this.el.css(o.style);
+		if('cls' in o) this.el.addClass(o.cls);
+		if('baseCls' in o) this.el.addClass(o.baseCls);
+
+		
+		// создаем компоновку
+		this.layout = o.layoutFactory(o.layout);
+		//FIXME костыль
+//		if(!this.layout.container) this.layout.attach(this);
+		this.layout.attach(this.layout.options.container || this);
+		
+		
+		
+		
+		// конструируем виджет
+		this.$construct(o);
+		
+		// устанавливаем опциональные параметры
+		this.$opt(o);
+		
+		// добавляем обработку событий (deprecated)
+//		this.$events(this);
+
+		// добавляем элемент в документ
+		this.$render(o.renderTo);
+		
+		// подключаем данные и обновляем их, если установлен параметр autoUpdate
+		this.bind(o.data, o.autoUpdate);
+						
+		
+		this.$afterBuild();
+		
+//		if(this.options.debug)	console.log('created');		
+		
+	},
+*/	
+	
+	
+	
+	destroy: function() {
+		
+		// удаляем элемент и все его содержимое (data + event handlers) из документа
+		if(this.parent) this.parent.children.remove(this);
+		
+		if(this.el) this.el.remove();
+		// очищаем регистрацию обработчиков событий
+		this.events.unreg_all();
+		// очищаем компоновку
+		this.layout.clear();		
+		
+		// вызываем метод destroy для всех дочерних компонентов
+		this.children.apply_all('destroy');
+		
+//		if(this.options.debug)	console.log('destroyed');
+	},
+	
+	
+	
+	
+	
+	$pre_construct: function(o) {
+		this.$super(o);
+		
+
+
+		// "сахарное" определение контента виджета
+		if('content' in o){
+			Ergo.smart_override(o, {
+				components: {
+					content: o.content
+				}
+			})
+		}
+
+
+		
+		
+		
+		
 		// добавляем метод bubble к events
 		this.events.bubble = function(name, e) {
 			if(!e) e = {}
@@ -179,48 +278,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		
-		// конструируем виджет
-		this.$construct(o);
-		
-		// устанавливаем опциональные параметры
-		this.$opt(o);
-		
-		// добавляем обработку событий (deprecated)
-//		this.$events(this);
-
-		// добавляем элемент в документ
-		this.$render(o.renderTo);
-		
-		// подключаем данные и обновляем их, если установлен параметр autoUpdate
-		this.bind(o.data, o.autoUpdate);
-						
-		
-		this.$afterBuild();
-		
-//		if(this.options.debug)	console.log('created');		
-		
 	},
-	
-	
-	
-	
-	destroy: function() {
-		
-		// удаляем элемент и все его содержимое (data + event handlers) из документа
-		if(this.parent) this.parent.children.remove(this);
-		
-		if(this.el) this.el.remove();
-		// очищаем регистрацию обработчиков событий
-		this.events.unreg_all();
-		// очищаем компоновку
-		this.layout.clear();		
-		
-		// вызываем метод destroy для всех дочерних компонентов
-		this.children.apply_all('destroy');
-		
-//		if(this.options.debug)	console.log('destroyed');
-	},
-	
 	
 	
 	
@@ -231,6 +289,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @private
 	 */
+	
+/*	
 	$init: function(o) {
 		
 //		var o = this.options;
@@ -255,9 +315,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //		}
 		
 	},
+*/
+
 	
 	
 	$construct: function(o) {
+		
 		
 		var self = this;
 //		var el = this.el;
@@ -390,11 +453,31 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.el.dblclick(function(e) { self.events.fire('doubleClick', {button: e.button}, e) });
 		
 		
+		
+		this.$super(o);		
 	},
 	
 //	_theme: function() {
 //		if(this.options.ui == 'jquery_ui') this._theme_jquery_ui
 //	}
+	
+	
+	
+	
+	$post_construct: function(o) {
+		
+		// добавляем элемент в документ
+		this.$render(o.renderTo);
+		
+		// подключаем данные и обновляем их, если установлен параметр autoUpdate
+		this.bind(o.data, o.autoUpdate);
+						
+		
+		this.$afterBuild();
+
+				
+		this.$super(o);
+	},
 	
 	
 	

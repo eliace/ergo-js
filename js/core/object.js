@@ -23,6 +23,8 @@ Ergo.core.Object.extend = function(o) {
 Ergo.override(Ergo.core.Object.prototype, {
 	
 	defaults: {
+		set: {},
+		get: {}
 	},
 	
 	/*
