@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		cls: 'e-input-box',
 		
 		layout: {
-			wrap: function(item) {
+			wrapper: function(item) {
 				if(item._key == 'content') {
 					var wrapper = $('<div class="input-wrapper"/>');
 					wrapper.append(item.el);

@@ -226,6 +226,31 @@ $(document).ready(function(){
 	
 	
 	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Меню',
+		
+		content: {
+			etype: 'list',
+			cls: 'e-main-menu',
+			mixins: ['selectable'],
+			defaultItem: {
+				onClick: function() {
+					this.parent.selection.set(this);
+				}
+			},
+			items: ['Старница 1', 'Страница 2', 'Страница 3']
+		}
+		
+	});
+	
+	
+	
+	
 });	
 	
 	

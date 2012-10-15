@@ -38,7 +38,8 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 		
 		components: {
 			icon: {
-				etype: 'icon'
+				etype: 'icon',
+				hidden: true
 			},
 			title: {
 				cls: 'title'
