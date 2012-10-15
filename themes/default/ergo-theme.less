@@ -325,6 +325,10 @@ ul.ergo_navigation > li a:hover{
 .e-toolbox-header .toolbox {
   float:right;
 }
+.e-toolbox-header .e-icon {
+  float:left;
+  margin:5px 0 0 0;
+}
 
 .e-toolbox-header .toolbox .e-button-item:first-child {
   -webkit-border-radius:3px 0 0 3px;
@@ -409,7 +413,6 @@ ul.ergo_navigation > li a:hover{
   background: -ms-linear-gradient(top,  #ffffff 0%,#efefef 100%); /* IE10+ */
   background: linear-gradient(top,  #ffffff 0%,#efefef 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
-  padding:5px;
   border-top:1px solid #dfdfdf;
   text-align:center;
 } 
@@ -418,6 +421,9 @@ ul.ergo_navigation > li a:hover{
   padding:0 0 0 20px;
 }
 
+.e-grid-paginator span + input + span {
+  padding:0 20px 0 0;
+}
 .e-grid-paginator input {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -425,9 +431,11 @@ ul.ergo_navigation > li a:hover{
    border:1px solid #dedede;
    width:30px;
    padding:5px;
-   margin:0 20px 0 10px;
+   margin:0 10px;
    position:relative;
    top:-1px;
+   text-align:center;
+   color:#555;
 }
 
 //simple button 
@@ -521,7 +529,7 @@ ul.ergo_navigation > li a:hover{
   background: linear-gradient(top,  #ffffff 0%,#efefef 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
   border-top:1px solid #dfdfdf;
-  padding:0 5px;
+  padding:5px;
 }
 
 .e-tool-box .e-grid-paginator {
@@ -529,11 +537,10 @@ ul.ergo_navigation > li a:hover{
   border:none;
 }
 
-.e-tool-box .e-group {
-  padding:0 15px;
-  border-right:1px solid #ccc;
-  margin-right:10px;
+.e-tool-box > button {
+  float:left;
 }
+
 .e-tool-box .e-group button {
   border:1px solid #dedede;
   background: #ffffff; /* Old browsers */
@@ -599,4 +606,11 @@ ul.ergo_navigation > li a:hover{
   -moz-border-radius:0 3px 3px 0;
   border-radius:0 3px 3px 0;
   border-right:1px solid #DEDEDE!important;
+}
+
+.e-splitter {
+  display:inline-block;
+  border-right:1px solid #ccc;
+  height:28px;
+  margin:0 20px;
 }
