@@ -63,21 +63,21 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			
 			var i = this._page_index;
 			
-			var page_count = Math.floor(this.data.options.totalCount/this.data.options.pageSize);
+			var page_count = this.data.opt('pageCount');// Math.floor(this.data.options.totalCount/this.data.options.pageSize);
 			
 			if(action == 'current') {
-				i = Math.max(0, e.index);
+				i = Math.max(1, e.index);
 				i = Math.min(page_count, i);
 			}
-			else if(action == 'first') i = 0;
-			else if(action == 'previous') i = Math.max(0, i-1);
+			else if(action == 'first') i = 1;
+			else if(action == 'previous') i = Math.max(1, i-1);
 			else if(action == 'next') i = Math.min(page_count, i+1);
 			else if(action == 'last') i = page_count;
 			
 			this._page_index = i;
 			
-			var from = i * this.data.options.pageSize;
-			var to = (i+1) * this.data.options.pageSize;
+			var from = (i-1) * this.data.options.pageSize;
+			var to = i * this.data.options.pageSize;
 			
 			this.data.opt('from', from);
 			this.data.opt('to', to);
@@ -89,8 +89,8 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			var self = this;
 
 			this.data.fetch().then(function(){
-				var page_count = Math.floor(self.data.options.totalCount/self.data.options.pageSize);
-				self.item({tag: 'total'}).opt('text', ' из '+page_count);
+//				var page_count = ; //Math.floor(self.data.options.totalCount/self.data.options.pageSize);
+				self.item({tag: 'total'}).opt('text', ' из '+self.data.opt('pageCount'));
 				self.events.bubble('pageChanged', {index: i});				
 			});
 			

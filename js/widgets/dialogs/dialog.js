@@ -11,6 +11,13 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		closeOnOuterClick: true,
 		destroyOnClose: true,
 		
+		
+		components: {
+			header: {
+				etype: 'header-box'
+			}
+		},
+		
 		effects: {
 			show: 'fadeIn',
 			hide: 'fadeOut',
@@ -26,7 +33,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		
 		buttonShortcuts: {
 			'cancel': {text: 'Отмена', cls:'e-cancel-btn', tag: 'cancel'},
-			'ok': {text: 'Отправить', cls:'e-ok-btn', tag: 'ok'}
+			'ok': {text: 'ОК', cls:'e-ok-btn', tag: 'ok'}
 		}
 		
 	},
@@ -41,7 +48,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 			button_items.push( o.buttonShortcuts[o.buttons[i]] );
 		}
 
-//		o.components.header.components.buttons.items = button_items;
+		o.components.header.tools = button_items;
 		
 	},
 	
