@@ -14,7 +14,16 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		
 		components: {
 			header: {
-				etype: 'header-box'
+				etype: 'header-box',
+				components: {
+					tools: {
+						defaultItem: {
+							onClick: function() {
+								if(this.tag) this.events.bubble(this.tag);
+							}
+						}
+					}
+				}
 			}
 		},
 		
@@ -34,6 +43,11 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		buttonShortcuts: {
 			'cancel': {text: 'Отмена', cls:'e-cancel-btn', tag: 'cancel'},
 			'ok': {text: 'ОК', cls:'e-ok-btn', tag: 'ok'}
+		},
+		
+		
+		onCancel: function() {
+			this.close();
 		}
 		
 	},
