@@ -248,6 +248,16 @@ $(document).ready(function(){
 			etype: 'list',
 			cls: 'e-main-menu',
 			mixins: ['selectable'],
+			components: {
+				logo: {
+					etype: 'box',
+					weight: -10,
+					cls: 'logo',
+					content: {
+						etype: 'image'
+					}
+				}
+			},
 			defaultItem: {
 				onClick: function() {
 					this.parent.selection.set(this);
