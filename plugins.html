@@ -212,7 +212,17 @@ $(document).ready(function(){
 								etype: 'input-box'
 							}, {
 								label: 'Должность',
-								etype: 'dropdown-select'
+								etype: 'dropdown-select',
+								dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+								// components: {
+									// dropdown: {
+										// components: {
+											// content: {
+												// items: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+											// }
+										// }
+									// }
+								// }
 							}]
 						}
 					});
@@ -243,7 +253,7 @@ $(document).ready(function(){
 					this.parent.selection.set(this);
 				}
 			},
-			items: ['Старница 1', 'Страница 2', 'Страница 3']
+			items: ['Страница 1', 'Страница 2', 'Страница 3']
 		}
 		
 	});

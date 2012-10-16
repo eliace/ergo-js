@@ -369,7 +369,7 @@ var Ergo = (function(){
 	//TODO перенести в примеси
 	E.glass_pane = function() {
 		
-		return $('<div class="e-glasspane" autoheight="ignore"/>')
+		return $('<div class="e-glass-pane" autoheight="ignore"/>')
 			.on('mousedown', function(e){
 				e.preventDefault();
 				return false;				

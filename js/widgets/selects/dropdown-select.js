@@ -31,6 +31,18 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 			this.opt('text', selected ? selected.opt('text') : '');
 		}
 		
+	},
+	
+	
+	
+	setDropdownItems: function(list) {
+		
+		this.dropdown.content.items.remove_all();
+		
+		for(var i = 0; i < list.length; i++) {
+			this.dropdown.content.items.add( list[i] );
+		}
+		
 	}
 	
 }, 'dropdown-select');
