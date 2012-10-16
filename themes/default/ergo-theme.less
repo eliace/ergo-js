@@ -330,28 +330,13 @@ ul.ergo_navigation > li a:hover{
   margin:5px 0 0 0;
 }
 
-.e-toolbox-header .toolbox .e-button-item:first-child {
-  -webkit-border-radius:3px 0 0 3px;
-  -moz-border-radius:3px 0 0 3px;
-  border-radius:3px 0 0 3px;
-  border-right:none;
+ .toolbox .e-button-item {
+  margin:0 0 0 5px;
 }
-.e-toolbox-header .toolbox .e-button-item {
-  border-right:none;
-   -webkit-border-radius:0 ;
-  -moz-border-radius:0;
-  border-radius:0 ;
-}
-.e-toolbox-header .toolbox .e-button-item:last-child {
-  -webkit-border-radius:0 3px 3px 0;
-  -moz-border-radius:0 3px 3px 0;
-  border-radius:0 3px 3px 0;
-  border-right:1px solid #DEDEDE;
-}
+
 
 .e-grid-wrapper {
   background:#fff;
-  -webkit-filter:blur(8px);
 }
 
 .e-grid  {
@@ -443,11 +428,21 @@ ul.ergo_navigation > li a:hover{
    color:#555;
 }
 
-
-
 // tree
 .e-ajax-tree {
   margin:15px;
+}
+
+.e-ajax-tree li:hover > .tree-node-icon {
+  background-position:-16px 0;
+  cursor:pointer;
+}
+.e-ajax-tree li.expanded:hover > .tree-node-icon {
+  background-position:-16px -16px;
+  cursor:pointer;
+}
+
+.e-ajax-tree li.expanded:hover > .tree-node-icon {
 }
 
 .e-ajax-tree .e-icon {
@@ -471,6 +466,10 @@ ul.ergo_navigation > li a:hover{
    padding:0 5px;
 }
 
+.e-ajax-tree span:hover  {
+  color:#999;
+  cursor:pointer;
+}
 .e-ajax-tree li ul {
   margin:0 0 0 20px;
 }
@@ -647,8 +646,8 @@ ul.ergo_navigation > li a:hover{
   border-bottom:1px solid #333333;
   border-right:1px solid #333333;
   padding:10px 14px 9px 15px;
-  -webkit-box-shadow: inset  0px 2px 3px 2px rgba(0, 0, 0, 0.8);
-  box-shadow: inset  0px 2px 3px 2px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: inset  0px 2px 3px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: inset  0px 2px 3px 2px rgba(0, 0, 0, 0.4);
 }
 .e-main-menu li:hover {
   color:#fff;
