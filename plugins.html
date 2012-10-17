@@ -21,6 +21,7 @@
 	
 		<script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script>
 	
+		<!--script src="plugins/app-layout.js" type="text/javascript"></script-->
 	
 	
 	<style type="text/css">
@@ -285,11 +286,28 @@ $(document).ready(function(){
 			autoHeight: 'ignore-siblings'
 		}],
 		
-		onAfterBuild: function() {
-			this.setActiveTab(0);
-		}
+		activeTab: 0
 		
 	});
+	
+	
+	
+	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Приложение',
+		width: 600,
+		height: 300,
+		
+		items: []
+		
+		
+	})
 	
 	
 	
