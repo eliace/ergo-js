@@ -245,7 +245,8 @@ $(document).ready(function(){
 					weight: -10,
 					cls: 'logo',
 					content: {
-						etype: 'image', src: 'samples/img/logo.png'
+						etype: 'image', 
+						src: 'samples/img/logo.png'
 					}
 				}
 			},
@@ -255,6 +256,37 @@ $(document).ready(function(){
 				}
 			},
 			items: ['Страница 1', 'Страница 2', 'Страница 3']
+		}
+		
+	});
+	
+	
+	
+	
+	
+	
+	$.ergo({
+		etype: 'tab-panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Закладки',
+		width: 600,
+		height: 300,
+		
+		tabItems: [{
+			tab: 'Закладка 1',
+			autoHeight: 'ignore-siblings'
+		}, {
+			tab: 'Закладка 2',
+			autoHeight: 'ignore-siblings'
+		}, {
+			tab: 'Закладка 3',
+			autoHeight: 'ignore-siblings'
+		}],
+		
+		onAfterBuild: function() {
+			this.setActiveTab(0);
 		}
 		
 	});
