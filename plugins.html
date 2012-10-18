@@ -19,7 +19,7 @@
 		
 		<script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script>
 	
-		<script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script>
+		<!--script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script-->
 	
 		<!--script src="plugins/app-layout.js" type="text/javascript"></script-->
 	
@@ -100,7 +100,7 @@ $(document).ready(function(){
 	
 	
 	var grid = $.ergo({
-		etype: 'ajax-grid-panel',
+		etype: 'grid-panel',
 		renderTo: 'body',
 		width: 600,
 		height: 300,
@@ -112,8 +112,20 @@ $(document).ready(function(){
 		components: {
 			header: {
 				tools: ['Добавить', 'Удалить', 'Обновить']
+			},
+			footer: {
+				content: {
+					items: [{
+						etype: 'icon-button',
+						icon: 'icon-refresh'
+					}, {
+						cls: 'e-splitter'
+					}]
+				}
 			}
 		},
+		
+ 		
 		
 		
 		content: {
@@ -136,7 +148,7 @@ $(document).ready(function(){
 	});
 	
 	
-	grid.footer.content.item(2).setIndex(1);
+	grid.footer.content.paginator.setIndex(1);
 	
 	// gridData.fetch().then(function(){
 		// grid.$layoutChanged();
@@ -322,7 +334,7 @@ $(document).ready(function(){
 								var v = this.getValue();
 								this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
 							}
-						}						
+						}
 					}
 					
 				},
