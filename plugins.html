@@ -17,7 +17,7 @@
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js.js" type="text/javascript"></script>
 		
-		<script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script>
+		<!--script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script-->
 	
 		<!--script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script-->
 	
@@ -41,7 +41,7 @@
 $(document).ready(function(){
 	
 	
-	var treeData = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
+	var treeData = new Ergo.data.TreeNodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
 	
 	
 	
@@ -250,7 +250,7 @@ $(document).ready(function(){
 		
 //		content: {
 			etype: 'main-menu',
-//			logo: 'samples/img/logo.png',
+			logo: 'samples/img/logo.png',
 			items: ['Страница 1', 'Страница 2', 'Страница 3']
 //		}
 		
@@ -315,7 +315,7 @@ $(document).ready(function(){
 						node: {
 							onDataChanged: function() {
 								var v = this.getValue();
-								this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+								this.content.opt('icon', this.data.getLeaf() ? 'icon-file' : 'icon-folder-close' );
 							}
 						}
 					}
@@ -338,6 +338,71 @@ $(document).ready(function(){
 	})
 	
 //	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
+	
+	
+	
+	var person = {
+		first_name: 'Петр',
+		last_name: 'Волков',
+		middle_name: 'Николаевич',
+		birth_date: '12-08-1972',
+		gender: 'male'
+	};
+	
+	$.ergo({
+		etype: 'property-panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Свойства',
+		width: 600,
+		height: 300,
+		
+		
+		data: person,
+		
+		propertyNameFormat: function(v) {
+			return {
+				'first_name': 'Имя',
+				'last_name': 'Фамилия',
+				'middle_name': 'Отчество',
+				'birth_date': 'Дата рождения',
+				'gender': 'Пол'
+			}[v];			
+		}
+		
+		
+/*		
+		content: {
+			etype: 'table-grid',
+			
+			
+			
+			content: {
+				autoHeight: true						
+			},
+			
+			columns: [{
+				header: 'Наименование',
+				binding: function(v) {
+					this.opt('text', this.options.format(this.data.id)); 
+				},
+				format: function(v) {
+				}
+			
+			}, {
+				header: 'Значение'
+			}]
+			
+			
+			
+		}
+*/		
+		
+	});
+	
+	
+	
 	
 	
 	

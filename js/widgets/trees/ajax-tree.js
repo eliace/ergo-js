@@ -1,56 +1,13 @@
 
 
-
-
-Ergo.declare('Ergo.plugins.tree.NodeCollection', 'Ergo.data.AjaxCollection', {
-
-	defaults: {
-	},
-	
-	model: 'Ergo.plugins.tree.NodeModel',
-	
-	path: function() {
-		return (this.source instanceof Ergo.core.DataSource) ? this.source.path() : this.options.path;
-	}
-	
-	
-});
-
-
-Ergo.declare('Ergo.plugins.tree.NodeModel', 'Ergo.data.Model', {
-	
-	defaults: {
-	},
-	
-	fields: {
-		'children': 'Ergo.plugins.tree.NodeCollection'
-	},
-	
-	
-	fetch: function(id) {
-		
-		var self = this;
-		
-		return $.getJSON(this.path()+'/'+id)
-			.always(function(){
-				self._fetched = true;
-			}).success(function(json){
-				self.set('children', json);
-			});
-	},
-	
-	path: function() {
-		return (this.source instanceof Ergo.core.DataSource) ? this.source.path() : this.options.path;
-	}
-	
-	
-});
+//= require <widgets/tree>
 
 
 
 
 
-Ergo.declare('Ergo.plugins.tree.AjaxTree', 'Ergo.widgets.Tree', {
+
+Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.Tree', {
 	
 	defaults: {
 		
@@ -61,11 +18,16 @@ Ergo.declare('Ergo.plugins.tree.AjaxTree', 'Ergo.widgets.Tree', {
 		node: {
 			
 	    binding: function(v) {
-	      this.states.toggle('leaf', !v.children);      
+	      this.opt('leaf', this.data.opt('leaf'));
 	    },
 	    
 	    
-			
+	    set: {
+	    	'leaf': function(v) {
+					this.states.toggle('leaf', v);
+	    	}
+	    },
+	    
 			transitions: {
 				
 	      '> expanded': function() {
@@ -129,6 +91,8 @@ Ergo.declare('Ergo.plugins.tree.AjaxTree', 'Ergo.widgets.Tree', {
 		
 		 
 	}
+	
+	
 	
 	
 	

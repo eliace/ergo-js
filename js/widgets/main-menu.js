@@ -22,6 +22,7 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 		defaultItem: {
 			onClick: function() {
 				this.parent.selection.set(this);
+//				this.events.bubble('select');
 			}
 		}
 	},
@@ -29,6 +30,10 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 	
 	setLogo: function(v) {
 		this.logo.content.opt('src', v);
+	},
+	
+	setSelected: function(i) {
+		this.selection.set( this.item(i) );
 	}
 	
 	

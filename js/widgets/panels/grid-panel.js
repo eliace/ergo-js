@@ -1,7 +1,7 @@
 
 //= require <widgets/panel>
 
-Ergo.declare('Ergo.plugns.GridPanel', 'Ergo.widgets.Panel', {
+Ergo.declare('Ergo.widgets.GridPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		
