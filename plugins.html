@@ -294,6 +294,7 @@ $(document).ready(function(){
 	
 	
 	
+//	var treeData2 = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
 	
 	$.ergo({
 		etype: 'panel',
@@ -301,14 +302,47 @@ $(document).ready(function(){
 		renderTo: 'body',
 		style: {'margin-top': 20},
 		title: 'Приложение',
-		width: 600,
-		height: 300,
+		width: 800,
+		height: 500,
 		
-		items: []
+		content: {
+			layout: 'app',
+			components: {
+				west: {
+					etype: 'panel',
+					cls: 'widget',
+					title: 'Структура организации',
+					
+					content: {
+						etype: 'ajax-tree',
+						data: treeData,
+						
+						node: {
+							onDataChanged: function() {
+								var v = this.getValue();
+								this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+							}
+						}						
+					}
+					
+				},
+				center: {
+					etype: 'panel',
+					cls: 'widget',
+					title: 'Описание'
+				},
+				east: {
+					etype: 'panel',
+					cls: 'widget',
+					title: 'Информация'
+				}
+			}
+		}
 		
 		
 	})
 	
+//	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
 	
 	
 	
