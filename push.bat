@@ -1,1 +1,1 @@
-git push -p 'andrey'
+git push

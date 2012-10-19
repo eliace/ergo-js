@@ -1,1 +1,1 @@
-git pull -p 'andrey'
+git pull
