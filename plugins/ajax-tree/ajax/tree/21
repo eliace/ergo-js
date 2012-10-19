@@ -1,4 +1,8 @@
 [{
+	"title": "Теория большого взрыва",
+	"type": "folder",
+	"children": true  
+}, {
 	"title": "Тачки 2.avi",
 	"type": "clip"
 }, {

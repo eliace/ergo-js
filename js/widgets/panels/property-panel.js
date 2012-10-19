@@ -15,7 +15,7 @@ Ergo.declare('Ergo.widgets.PropertyPanel', 'Ergo.widgets.Panel', {
 			columns: [{
 				header: 'Наименование',
 				binding: function(v) {
-					this.opt('text', this.getParent(Ergo.widgets.PropertyPanel).options.propertyNameFormat(this.data.id)); 
+					this.opt('text', this.options.format(this.data.id));//this.getParent(Ergo.widgets.PropertyPanel).options.propertyNameFormat(this.data.id)); 
 				}
 			}, {
 				header: 'Значение'
@@ -28,6 +28,14 @@ Ergo.declare('Ergo.widgets.PropertyPanel', 'Ergo.widgets.Panel', {
 		}
 		
 		
+	},
+	
+	
+	$pre_construct: function(o) {
+		
+		o.content.columns[0].format = o.propertyNameFormat;
+		
+		this.$super(o);
 	}
 	
 	

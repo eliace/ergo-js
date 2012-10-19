@@ -450,9 +450,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		
 		if('onClick' in o)
-			this.el.click(function(e) { self.events.fire('click', {button: e.button}, e) });
+			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e) });
 		if('onDoubleClick' in o)
-			this.el.dblclick(function(e) { self.events.fire('doubleClick', {button: e.button}, e) });
+			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e) });
 		
 		
 		

@@ -100,8 +100,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			wnd.height(h);
 */
 			
-			var ow = wnd.outerWidth();
-			var oh = wnd.outerHeight();
+			var ow = wnd.outerWidth(false);
+			var oh = wnd.outerHeight(false);
 			
 			
 			wnd.css({
@@ -238,8 +238,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			wnd.width(w);
 			wnd.height(h);
 			
-			var ow = wnd.outerWidth();
-			var oh = wnd.outerHeight();
+			var ow = wnd.outerWidth(false);
+			var oh = wnd.outerHeight(false);
 			
 			
 			
