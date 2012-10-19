@@ -479,8 +479,6 @@ ul.ergo_navigation > li a:hover{
   border:none;
 }
 
-
-
 //simple button 
 .e-icon-button{
   border:1px solid transparent;
@@ -511,7 +509,7 @@ ul.ergo_navigation > li a:hover{
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=0 ); /* IE6-8 */
 }
 
-.e-icon-button.toogle,
+
 .e-icon-button:active {
   background: #d1d1d1; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -709,4 +707,24 @@ ul.ergo_navigation > li a:hover{
   margin:13px 10px;
 }
 
+.disabled:active,
+.disabled:hover,
+.disabled {
+  opacity:0.5;
+  cursor:default!important;
+  background:none!important;
+ 
+}
 
+.disabled:active {
+   border-top:1px solid #dedede;
+}
+
+.disabled:active > *
+.disabled:hover > *,
+.disabled > * {
+  cursor:default!important;
+  background:transparent!important;
+  top:0!important;
+  position:relative!important;
+}
