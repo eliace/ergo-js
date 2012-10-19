@@ -10,10 +10,11 @@ Ergo.declare('Ergo.layouts.AppLayout', 'Ergo.core.Layout', {
 	
 	
 	select: function(item) {
-		var region = item.options.region;
+		var region = item.options.region || item._key;
 		if(region == 'west') return $('aside.west', this.el);
 		if(region == 'east') return $('aside.east', this.el);
-		if(region == 'center') return $('div.center', this.el);
+		if(region == 'center') return $('div.center > div', this.el);
+		return this.el;
 	},
 	
 	

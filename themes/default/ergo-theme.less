@@ -357,8 +357,14 @@ ul.ergo_navigation > li a:hover{
 }
 
 .e-grid-control-row {
- display:none;
+/* display:none;*/
+/*  height: 0px;*/
 }
+
+.e-grid-control-row > td, .e-grid-control-row > th {
+  padding: 0px;
+}
+
 
 .e-grid-paginator {
   background: #ffffff; /* Old browsers */
@@ -580,7 +586,9 @@ ul.ergo_navigation > li a:hover{
 }
 
 
-.e-main-menu {}
+.e-main-menu {
+  overflow:hidden;
+}
 .e-main-menu {
   list-style:none;
   background: #292929; /* Old browsers */
@@ -671,5 +679,17 @@ ul.ergo_navigation > li a:hover{
 }
 
 .e-current-select {
-  padding:9px 10px;
+  padding:8px 10px;
+}
+
+.e-list-box {
+  padding-bottom:0;
+   border-radius:5px;
+   -moz-border-radius:5px;
+   -webkit-border-radius:5px;
+   overflow:hidden;
+}
+
+.e-select-box .arrow-down {
+  margin:13px 10px;
 }

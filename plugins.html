@@ -17,10 +17,11 @@
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js.js" type="text/javascript"></script>
 		
-		<script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script>
+		<!--script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script-->
 	
-		<script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script>
+		<!--script src="plugins/ajax-grid/ajax-grid.js" type="text/javascript"></script-->
 	
+		<!--script src="plugins/app-layout.js" type="text/javascript"></script-->
 	
 	
 	<style type="text/css">
@@ -40,7 +41,7 @@
 $(document).ready(function(){
 	
 	
-	var treeData = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
+	var treeData = new Ergo.data.TreeNodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
 	
 	
 	
@@ -99,7 +100,7 @@ $(document).ready(function(){
 	
 	
 	var grid = $.ergo({
-		etype: 'ajax-grid-panel',
+		etype: 'grid-panel',
 		renderTo: 'body',
 		width: 600,
 		height: 300,
@@ -111,8 +112,20 @@ $(document).ready(function(){
 		components: {
 			header: {
 				tools: ['Добавить', 'Удалить', 'Обновить']
+			},
+			footer: {
+				content: {
+					items: [{
+						etype: 'icon-button',
+						icon: 'icon-refresh'
+					}, {
+						cls: 'e-splitter'
+					}]
+				}
 			}
 		},
+		
+ 		
 		
 		
 		content: {
@@ -135,7 +148,7 @@ $(document).ready(function(){
 	});
 	
 	
-	grid.footer.content.item(2).setIndex(1);
+	grid.footer.content.paginator.setIndex(1);
 	
 	// gridData.fetch().then(function(){
 		// grid.$layoutChanged();
@@ -230,33 +243,16 @@ $(document).ready(function(){
 	
 	
 	$.ergo({
-		etype: 'panel',
+//		etype: 'panel',
 		renderTo: 'body',
 		style: {'margin-top': 20},
-		title: 'Меню',
+//		title: 'Меню',
 		
-		content: {
-			etype: 'list',
-			cls: 'e-main-menu',
-			mixins: ['selectable'],
-			components: {
-				logo: {
-					etype: 'box',
-					weight: -10,
-					cls: 'logo',
-					content: {
-						etype: 'image', 
-						src: 'samples/img/logo.png'
-					}
-				}
-			},
-			defaultItem: {
-				onClick: function() {
-					this.parent.selection.set(this);
-				}
-			},
+//		content: {
+			etype: 'main-menu',
+			logo: 'samples/img/logo.png',
 			items: ['Страница 1', 'Страница 2', 'Страница 3']
-		}
+//		}
 		
 	});
 	
@@ -285,11 +281,127 @@ $(document).ready(function(){
 			autoHeight: 'ignore-siblings'
 		}],
 		
-		onAfterBuild: function() {
-			this.setActiveTab(0);
-		}
+		activeTab: 0
 		
 	});
+	
+	
+	
+	
+	
+//	var treeData2 = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Приложение',
+		width: 800,
+		height: 500,
+		
+		content: {
+			layout: 'app',
+			components: {
+				west: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Структура организации',
+					
+					content: {
+						etype: 'ajax-tree',
+						data: treeData,
+						
+						node: {
+							onDataChanged: function() {
+								var v = this.getValue();
+								this.content.opt('icon', this.data.getLeaf() ? 'icon-file' : 'icon-folder-close' );
+							}
+						}
+					}
+					
+				},
+				center: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Описание'
+				},
+				east: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Информация'
+				}
+			}
+		}
+		
+		
+	})
+	
+//	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
+	
+	
+	
+	var person = {
+		first_name: 'Петр',
+		last_name: 'Волков',
+		middle_name: 'Николаевич',
+		birth_date: '12-08-1972',
+		gender: 'male'
+	};
+	
+	$.ergo({
+		etype: 'property-panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Свойства',
+		width: 600,
+		height: 300,
+		
+		
+		data: person,
+		
+		propertyNameFormat: function(v) {
+			return {
+				'first_name': 'Имя',
+				'last_name': 'Фамилия',
+				'middle_name': 'Отчество',
+				'birth_date': 'Дата рождения',
+				'gender': 'Пол'
+			}[v];			
+		}
+		
+		
+/*		
+		content: {
+			etype: 'table-grid',
+			
+			
+			
+			content: {
+				autoHeight: true						
+			},
+			
+			columns: [{
+				header: 'Наименование',
+				binding: function(v) {
+					this.opt('text', this.options.format(this.data.id)); 
+				},
+				format: function(v) {
+				}
+			
+			}, {
+				header: 'Значение'
+			}]
+			
+			
+			
+		}
+*/		
+		
+	});
+	
+	
 	
 	
 	

@@ -10,6 +10,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 	defaults: {
 		
 		html: '<li/>',
+		cls: 'e-tree-node',
 		
 		transitions: {
 			'> expanded': function() { this.subtree.show(); },
@@ -63,6 +64,7 @@ Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<ul/>',
+		cls: 'e-tree',
 		defaultItem: {
 			etype: 'tree-node'
 		},

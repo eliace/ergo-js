@@ -10,8 +10,12 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 		mixins: ['selectable'],
 		
 		onSelect: function(e) {
-			this.selection.set(e.target);
-			this.content.setActive(e.target._index);
+			
+			this.setActiveTab(e.target._index);
+			// this.selection.set(e.target);
+			// this.content.setActive(e.target._index);
+			e.stop();
+			
 		},
 		
 		components: {
@@ -31,7 +35,10 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 			},
 			content: {
 				layout: 'stack',
-				cls: 'e-tabs-content'
+				cls: 'e-tabs-content',
+				defaultItem: {
+					autoHeight: 'ignore-siblings'
+				}
 			}
 		},
 		
@@ -65,7 +72,14 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 		if(tab) {
 			this.selection.set(tab);
 			this.content.setActive(tab._index);
+			
+			this.events.bubble('tabSelected', {target: this.content.item(tab._index)});			
 		}
+	},
+	
+	
+	getTabItem: function(i) {
+		return this.content.item(i);
 	}
 	
 	
