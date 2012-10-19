@@ -232,7 +232,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.bubble = function(name, e) {
 			if(!e) e = {}
 			e.after = Ergo.bubble;
-			e.target = self;
+			e.target = e.target || self;
 			this.fire(name, e);
 		}
 
