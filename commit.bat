@@ -1,1 +1,1 @@
-git commit -am 'fix'
+git commit -am 'fix' && git pull && git push
