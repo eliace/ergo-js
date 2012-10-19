@@ -43,16 +43,17 @@
   margin: 0;
   padding: 0;
 }
-/*for FireFox*/
-    input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner
-    {   
-        border : 0px;
-    } 
-/*for IE8 */
-    input[type="submit"]:focus, input[type="button"]:focus
-    {     
-        outline : none; 
-    }
+a, :focus {
+outline: none;
+}
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+border: none;
+}
 header, nav, section, article, aside, footer {
   display: block;
 }
