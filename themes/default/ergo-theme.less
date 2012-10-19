@@ -402,12 +402,17 @@ ul.ergo_navigation > li a:hover{
 
 // tree
 .e-tree li ul li {
-  padding:0 0 0 7px;  
+  padding:0;  
 }
 .e-ajax-tree {
   margin:15px;
 }
-
+.e-tree li .e-icon {
+  margin:0 5px 0 0;
+}
+.tree-node-icon {
+  float:left;
+}
 .e-ajax-tree li > .tree-node-icon:hover {
   background-position:-16px 0;
   cursor:pointer;
@@ -443,6 +448,9 @@ ul.ergo_navigation > li a:hover{
   margin:0 0 0 20px;
 }
 
+.tree-node-content {
+  overflow:hidden;
+}
 
 // toolbox
 .e-tool-box {
