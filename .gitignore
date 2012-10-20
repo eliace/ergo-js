@@ -5,3 +5,6 @@
 build
 docs/**
 .directory
+pull.bat
+push.bat
+commit.bat

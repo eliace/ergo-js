@@ -62,6 +62,7 @@ $(document).ready(function(){
 				onDataChanged: function() {
 					var v = this.getValue();
 					this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+					this.content.opt('text', v.title);
 				}
 			}
 							
@@ -174,6 +175,8 @@ $(document).ready(function(){
 				etype: 'button-item',
 				text: 'Печать',
 				icon: 'icon-print'
+			}, {
+				cls: 'e-splitter'
 			}, {
 				etype: 'button-group',
 				defaultItem: {
@@ -315,7 +318,8 @@ $(document).ready(function(){
 						node: {
 							onDataChanged: function() {
 								var v = this.getValue();
-								this.content.opt('icon', this.data.getLeaf() ? 'icon-file' : 'icon-folder-close' );
+								this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+								this.content.opt('text', v.title);
 							}
 						}
 					}

@@ -1,5 +1,6 @@
 
 //= require <widgets/items/button-item>
+//= require <widgets/tool-box>
 
 
 
@@ -44,9 +45,8 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 			title: {
 				cls: 'title'
 			},
-			tools: {
-				cls: 'toolbox',
-				layout: 'hbox',
+			toolbox: {
+				etype: 'tool-box',
 				defaultItem: {
 					etype: 'button-item'
 				}
@@ -60,7 +60,7 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 		this.$super(o);
 		
 		if(o.tools)
-			Ergo.smart_override(o.components.tools, {items: o.tools});
+			Ergo.smart_override(o.components.toolbox, {items: o.tools});
 	}
 	
 	

@@ -1,19 +1,17 @@
 
 
-//= require <widgets/tree>
+//= require <widgets/trees/basic-tree>
 
 
 
 
 
 
-Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.Tree', {
+Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	
 	defaults: {
 		
 		cls: 'e-ajax-tree',
-		
-		dynamic: true,
 		
 		node: {
 			
@@ -52,40 +50,38 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.Tree', {
 	        }
 	      }
 				
-			},
+			}
 			
 			
-			components: {
+//			components: {
 				// content: {
 					// onClick: function() {
 						// this.parent.states.toggle('expanded');
 					// }
 				// },
-				icon: {
-					style: {'display': 'inline-block'}
-				},
-				content: {
-					etype: 'text-item',
-//					icon: 'e-icon-house',
-					style: {'display': 'inline-block'},
-					binding: function(v) {
-						this.opt('text', v.title);
-//						this.opt('icon', 'e-icon-'+v.type);
-						return false;
-					}							
-				},
-				subtree: {
-					hidden: true,
-					dataId: 'children',
-					dynamic: true,
-					mixins: ['effects'],
-					effects: {
-						show: 'slideDown',
-						hide: 'slideUp',
-						delay: 400
-					}
-				}
-			}
+				// icon: {
+					// style: {'display': 'inline-block'}
+				// },
+//				content: {
+					// etype: 'text-item',
+					// style: {'display': 'inline-block'},
+					// binding: function(v) {
+						// this.opt('text', v.title);
+						// return false;
+					// }							
+				// }
+				// subtree: {
+					// hidden: true,
+					// dataId: 'children',
+					// dynamic: true,
+					// mixins: ['effects'],
+					// effects: {
+						// show: 'slideDown',
+						// hide: 'slideUp',
+						// delay: 400
+					// }
+				// }
+//			}
 			
 		}
 		
