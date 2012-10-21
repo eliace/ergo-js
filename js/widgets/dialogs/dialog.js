@@ -16,7 +16,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 			header: {
 				etype: 'header-box',
 				components: {
-					tools: {
+					toolbox: {
 						defaultItem: {
 							onClick: function() {
 								if(this.tag) this.events.bubble(this.tag);

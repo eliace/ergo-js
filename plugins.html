@@ -24,6 +24,9 @@
 		<!--script src="plugins/app-layout.js" type="text/javascript"></script-->
 	
 	
+    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+	
+	
 	<style type="text/css">
 		
 		body {
@@ -493,7 +496,50 @@ $(document).ready(function(){
 				etype: 'select-box',
 				buttons: [{
 					etype: 'icon-button',
-					icon: 'icon-globe'
+					icon: 'icon-globe',
+					onClick: function() {
+						
+						var dlg = $.ergo({
+							etype: 'dialog',
+//							width: 400,
+//							height: 300,
+							title: 'Диалог',
+							cls: 'widget',
+							
+							buttons: ['ok', 'cancel'],
+							
+							content: {
+								id: 'map',
+								width: 600,
+								height: 400
+							},
+							
+							onOpen: function() {
+
+						    var myMap = new ymaps.Map ("map", {
+				            center: [ymaps.geolocation.latitude, ymaps.geolocation.longitude],//[55.76, 37.64], 
+				            zoom: 10
+				        });
+				        
+								// myMap.geoObjects.add(
+								    // new ymaps.Placemark(
+								        // [ymaps.geolocation.latitude, ymaps.geolocation.longitude],
+								        // {
+								            // balloonContentHeader: ymaps.geolocation.country,
+								            // balloonContent: ymaps.geolocation.city,
+								            // balloonContentFooter: ymaps.geolocation.region
+								        // }
+								    // )
+								// );				        
+								
+							}
+							
+						});
+						
+						dlg.open();
+						
+						
+					}
 				}]
 			}, {
 				label: '',
