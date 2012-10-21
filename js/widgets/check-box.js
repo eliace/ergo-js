@@ -8,10 +8,10 @@ Ergo.declare('Ergo.widgets.CheckBox', 'Ergo.widgets.Box', {
 		cls: 'e-check-box',
 		content: {
 			cls: 'e-checker'
+		},
+		onClick: function() {
+			this.states.toggle('checked');
 		}
-		// onClick: function() {
-			// this.states.toggle('checked');
-		// }
 	}
 	
 }, 'check-box');
