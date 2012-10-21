@@ -507,6 +507,105 @@ $(document).ready(function(){
 	
 	
 	
+	
+	
+	var person2 = {
+		first_name: 'Петр',
+		last_name: 'Волков',
+		middle_name: 'Николаевич',
+		birth_date: '12-08-1972',
+		gender: 'female',
+		incidents: 3,
+		post: 'Ведущий специалист'
+	};
+	
+	$.ergo({
+		etype: 'property-panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Свойства',
+		width: 600,
+		height: 400,
+		
+		
+		data: person2,
+		
+		propertyNameFormat: function(v) {
+			var f = {
+				'first_name': 'Имя',
+				'last_name': 'Фамилия',
+				'middle_name': 'Отчество',
+				'birth_date': 'Дата рождения',
+				'gender': 'Пол',
+				'post': 'Должность'
+			}[v];	
+			return f || v;
+		},
+		
+		
+		
+		content: {
+			
+			columns: [{
+			}, {
+				header: 'Значение',
+				binding: function() {
+					var id = this.data.id;
+					
+					if(id == 'first_name') {
+						this.components.set('content', {
+							etype: 'input-box',
+							cls: 'editor'
+						});
+					}
+					else if(id == 'birth_date') {
+						this.components.set('content', {
+							etype: 'select-box',
+							cls: 'editor',
+							buttons: [{
+								etype: 'icon-button',
+								icon: 'icon-calendar'
+							}]							
+						});						
+					}
+					else if(id == 'post') {
+						this.components.set('content', {
+							etype: 'dropdown-select',
+							cls: 'editor',
+							buttons: [{
+								etype: 'icon-button',
+								icon: 'icon-caret-down'
+							}],
+//							dropdownItems: [{text: 'Мужской', value: 'male'}, {text: 'Женский', value: 'female'}],
+							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'],
+							components: {
+								dropdown: {
+									autoBind: false
+								}
+							}
+						});
+					}
+					// else if(id == 'selected') {
+					// }
+					else if(id == 'incidents') {
+						this.components.set('content', {
+							etype: 'spinner-input',
+							cls: 'editor'
+						});												
+					}
+					 
+				}
+			}]
+			
+		}
+		
+	});
+	
+	
+	
+	
+	
 });	
 	
 	
