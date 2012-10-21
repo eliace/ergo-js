@@ -428,7 +428,7 @@ ul.ergo_navigation > li a:hover{
    color:#555;
 }
 
-
+ 
 // input
 .e-input-box {
    background:#fff url(images/input_background.png) repeat-x;
@@ -436,17 +436,23 @@ ul.ergo_navigation > li a:hover{
 
 //input in table edtbl
 .e-input-box.editor {
-  background:#fff url(images/input_background_focus.png) repeat-x;
+  background:#fff;
 }
 .e-select-box.editor,
 .e-input-box.editor {
-  border:1px solid #71c6fc!important; 
+  border:1px solid #569de5!important; 
   -moz-border-radius:0;
   -webkit-border-radius:0;
   border-radius:0;
   box-sizing:border-box;
-  
+}
 
+.e-select-box.editor .e-icon-button {
+  padding:9px!important;
+}
+.e-input-box.e-spinner-input.editor .e-button-item{
+  border:1px solid transparent!important;
+  background:#fff;
 }
 
 // tree
