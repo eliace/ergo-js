@@ -548,8 +548,15 @@ $(document).ready(function(){
 		content: {
 			
 			columns: [{
+				content: {
+					etype: 'text'
+				},
+				binding: false
 			}, {
 				header: 'Значение',
+				content: {
+					etype: 'text'
+				},
 				binding: function() {
 					var id = this.data.id;
 					
@@ -593,6 +600,9 @@ $(document).ready(function(){
 							etype: 'spinner-input',
 							cls: 'editor'
 						});												
+					}
+					else {
+						return false;
 					}
 					 
 				}
