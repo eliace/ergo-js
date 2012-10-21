@@ -18,7 +18,8 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 		},
 		
 		buttons: [{
-			iconCls: 'arrow-down'
+			etype: 'icon-button',
+			icon: 'arrow-down'
 		}],
 		
 		onClick: function() {

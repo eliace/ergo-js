@@ -17,12 +17,12 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 		},
 		
 		defaultItem: {
-			cls: 'e-select-arrow',
-			components: {
-				icon: {
-					etype: 'box'
-				}
-			}
+			cls: 'e-select-arrow'
+			// components: {
+				// icon: {
+					// etype: 'box'
+				// }
+			// }
 		},
 		
 		buttons: [],

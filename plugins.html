@@ -237,6 +237,10 @@ $(document).ready(function(){
 							}, {
 								label: 'Должность',
 								etype: 'dropdown-select',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-caret-down'
+								}],								
 								dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
 							}, {
 								label: 'Дата рождения',
@@ -441,6 +445,64 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Встраиваемые поля редактирования',
+		width: 600,
+		height: 500,
+		
+		content: {
+			layout: 'form',
+			autoHeight: true,
+			style: {'overflow-y': 'auto', 'margin': 20},
+			defaultItem: {
+				cls: 'editor'
+			},
+			items: [{
+				label: 'Имя',
+				etype: 'input-box'
+			}, {
+				label: 'Должность',
+				etype: 'dropdown-select',
+				dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'],
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-caret-down'
+				}]
+			}, {
+				label: 'Дата рождения',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-calendar'
+				}]
+			}, {
+				label: 'Файл',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-paper-clip'
+				}]
+			}, {
+				label: 'Адрес',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-globe'
+				}]
+			}, {
+				label: '',
+				etype: 'spinner-input'
+			}]
+			
+		}
+		
+	});
 	
 	
 	
