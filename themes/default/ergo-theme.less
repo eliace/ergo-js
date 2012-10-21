@@ -344,9 +344,16 @@ ul.ergo_navigation > li a:hover{
   
 }
 .e-grid td {
-  padding:7px 5px;
-  border-bottom:1px dotted #ccc;
+  padding:0;
+  border-bottom:1px solid #e9e9e9;
+  border-top:0;
+ 
   
+}
+
+.e-grid td > span {
+    padding:8px 5px;
+    display:block;
 }
 
 .e-grid-header th {
@@ -355,17 +362,24 @@ ul.ergo_navigation > li a:hover{
   padding: 0 0 7px 5px;
   
 }
+
+.e-grid-header th:last-child {
+  border-right:0;
+  
+}
 .e-grid-header th:first-child {
   padding: 0 0 7px 5px;
 /*  border-left:none;*/
 }
 
 .e-grid td {
-    border-right:1px dotted #ccc;
+    border-right:1px solid #e9e9e9;
     white-space:nowrap;
     overflow:hidden;
 }
-
+.e-grid td:last-child {
+  border-right:0;
+}
 .e-grid td:last-child {
 /*    border-right:0;*/
 }
@@ -418,6 +432,17 @@ ul.ergo_navigation > li a:hover{
 // input
 .e-input-box {
    background:#fff url(images/input_background.png) repeat-x;
+}
+
+//input in table edtbl
+
+.e-input-box.editor {
+  border:1px solid #fff0ba!important; 
+  -moz-border-radius:0;
+  -webkit-border-radius:0;
+  border-radius:0;
+  box-sizing:border-box;
+  background:#fffbec;
 }
 
 // tree
