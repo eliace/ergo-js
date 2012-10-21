@@ -214,7 +214,7 @@ $(document).ready(function(){
 				onClick: function() {
 					
 					var dlg = new Ergo.widgets.Dialog({
-						width: 300,
+						width: 400,
 						height: 300,
 						title: 'Диалог',
 						cls: 'widget',
@@ -223,13 +223,48 @@ $(document).ready(function(){
 						
 						content: {
 							layout: 'form',
+							autoHeight: true,
+							style: {'overflow-y': 'auto'},
 							items: [{
 								label: 'Имя',
 								etype: 'input-box'
 							}, {
+								label: '',
+								etype: 'input-box',
+								content: {
+									etype: 'text-area'
+								}
+							}, {
 								label: 'Должность',
 								etype: 'dropdown-select',
 								dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+							}, {
+								label: 'Дата рождения',
+								etype: 'select-box',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-calendar'
+								}]
+							}, {
+								label: 'Файл',
+								etype: 'select-box',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-paper-clip'
+								}]
+							}, {
+								label: 'Адрес',
+								etype: 'select-box',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-globe'
+								}]
+							}, {
+								label: '',
+								etype: 'check-box'
+							}, {
+								label: '',
+								etype: 'spinner-input'
 							}]
 						}
 					});
