@@ -629,7 +629,7 @@ $(document).ready(function(){
 					}
 					else if(id == 'post') {
 						this.components.set('content', {
-							etype: 'dropdown-select',
+							etype: 'dropdown-input',
 							cls: 'editor',
 							buttons: [{
 								etype: 'icon-button',
@@ -641,6 +641,9 @@ $(document).ready(function(){
 								dropdown: {
 									autoBind: false
 								}
+							},
+							onClick: function(e) {
+								console.log(e.baseEvent);
 							}
 						});
 					}
