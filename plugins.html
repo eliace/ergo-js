@@ -386,7 +386,7 @@ $(document).ready(function(){
 //	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
 	
 	
-	
+/*	
 	var person = {
 		first_name: 'Петр',
 		last_name: 'Волков',
@@ -418,38 +418,12 @@ $(document).ready(function(){
 		}
 		
 		
-/*		
-		content: {
-			etype: 'table-grid',
-			
-			
-			
-			content: {
-				autoHeight: true						
-			},
-			
-			columns: [{
-				header: 'Наименование',
-				binding: function(v) {
-					this.opt('text', this.options.format(this.data.id)); 
-				},
-				format: function(v) {
-				}
-			
-			}, {
-				header: 'Значение'
-			}]
-			
-			
-			
-		}
-*/		
 		
 	});
 	
 	
 	
-	
+/*	
 	$.ergo({
 		etype: 'panel',
 		cls: 'widget',
@@ -501,8 +475,6 @@ $(document).ready(function(){
 						
 						var dlg = $.ergo({
 							etype: 'dialog',
-//							width: 400,
-//							height: 300,
 							title: 'Диалог',
 							cls: 'widget',
 							
@@ -521,17 +493,6 @@ $(document).ready(function(){
 				            zoom: 10
 				        });
 				        
-								// myMap.geoObjects.add(
-								    // new ymaps.Placemark(
-								        // [ymaps.geolocation.latitude, ymaps.geolocation.longitude],
-								        // {
-								            // balloonContentHeader: ymaps.geolocation.country,
-								            // balloonContent: ymaps.geolocation.city,
-								            // balloonContentFooter: ymaps.geolocation.region
-								        // }
-								    // )
-								// );				        
-								
 							}
 							
 						});
@@ -549,7 +510,7 @@ $(document).ready(function(){
 		}
 		
 	});
-	
+*/	
 	
 	
 	
@@ -562,7 +523,8 @@ $(document).ready(function(){
 		birth_date: '12-08-1972',
 		gender: 'female',
 		incidents: 3,
-		post: 'Ведущий специалист'
+		post: 'Ведущий специалист',
+		address: ''
 	};
 	
 	$.ergo({
@@ -597,7 +559,9 @@ $(document).ready(function(){
 				content: {
 					etype: 'text'
 				},
-				binding: false
+				binding: function(v) {
+					this.content.opt('text', this.options.format(this.data.id));
+				}
 			}, {
 				header: 'Значение',
 				content: {
@@ -622,9 +586,50 @@ $(document).ready(function(){
 							}]							
 						});						
 					}
+					else if(id == 'address') {
+						this.components.set('content', {
+							etype: 'select-box',
+							cls: 'editor',
+							buttons: [{
+								etype: 'icon-button',
+								icon: 'icon-globe',
+								
+								onClick: function() {
+									
+									var dlg = $.ergo({
+										etype: 'dialog',
+										title: 'Диалог',
+										cls: 'widget',
+										
+										buttons: ['ok', 'cancel'],
+										
+										content: {
+											id: 'map',
+											width: 600,
+											height: 400
+										},
+										
+										onOpen: function() {
+			
+									    var myMap = new ymaps.Map ("map", {
+							            center: [ymaps.geolocation.latitude, ymaps.geolocation.longitude],//[55.76, 37.64], 
+							            zoom: 10
+							        });
+							        
+										}
+										
+									});
+									
+									dlg.open();
+									
+									
+								}
+							}]							
+						});						
+					}
 					else if(id == 'post') {
 						this.components.set('content', {
-							etype: 'dropdown-select',
+							etype: 'dropdown-input',
 							cls: 'editor',
 							buttons: [{
 								etype: 'icon-button',
@@ -636,6 +641,9 @@ $(document).ready(function(){
 								dropdown: {
 									autoBind: false
 								}
+							},
+							onClick: function(e) {
+								console.log(e.baseEvent);
 							}
 						});
 					}

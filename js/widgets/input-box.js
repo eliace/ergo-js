@@ -22,15 +22,21 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		components: {
 			content: {
 				weight: 10,
-				etype: 'text-input',
+				html: '<input/>',
 				events: {
-					'focus': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).setFocus();
-					},
-					'blur': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).clearFocus();
+					'change': function(e, w) {
+						w.setValue( w.el.val());
 					}
 				}
+//				etype: 'text-input'
+				// events: {
+					// 'focus': function(e, w) {
+// //						w.getParent(Ergo.widgets.Field).setFocus();
+					// },
+					// 'blur': function(e, w) {
+// //						w.getParent(Ergo.widgets.Field).clearFocus();
+					// }
+				// }
 			}
 //			}
 		},
