@@ -557,16 +557,67 @@ $(document).ready(function(){
 			
 			columns: [{
 				content: {
-					etype: 'text'
+					etype: 'text',
+					format: function(v) {
+						return this.data.id;
+					}
 				},
-				binding: function(v) {
-					this.content.opt('text', this.options.format(this.data.id));
-				}
+				binding: false
+				// binding: function(v) {
+					// this.content.opt('text', this.options.format(this.data.id));
+				// }
 			}, {
 				header: 'Значение',
 				content: {
 					etype: 'text'
 				},
+				
+				mixins: ['editable'],
+				
+				state: 'no-selection',
+				
+				editor: {
+					etype: 'input-box',
+					cls: 'editor',
+					events: {
+						'change': function(e, w) {
+							if(w.parent) w.parent.stopEdit();
+						}
+					},
+					content: {
+						events: {
+							'blur': function(e, w) {
+								w.events.bubble('focusOut');
+							}								
+						}
+					},
+					
+					onFocusOut: function() {
+						if(this.parent) this.parent.cancelEdit();					
+					}
+					
+				},
+				
+				binding: false,
+				
+				onDoubleClick: function(e) {
+					
+					this.startEdit();
+					
+					$('input', this.el).focus();
+		      
+		      var self = this;
+		      
+				},
+				
+								
+				onEdit: function() {
+					console.log('edit');
+				}
+				
+				
+				
+/*				
 				binding: function() {
 					var id = this.data.id;
 					
@@ -660,6 +711,7 @@ $(document).ready(function(){
 					}
 					 
 				}
+*/				
 			}]
 			
 		}

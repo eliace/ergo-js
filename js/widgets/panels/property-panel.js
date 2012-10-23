@@ -18,7 +18,11 @@ Ergo.declare('Ergo.widgets.PropertyPanel', 'Ergo.widgets.Panel', {
 					this.opt('text', this.options.format(this.data.id));//this.getParent(Ergo.widgets.PropertyPanel).options.propertyNameFormat(this.data.id)); 
 				}
 			}, {
-				header: 'Значение'
+				header: 'Значение',
+				binding: false,
+				content: {
+					etype: 'text'
+				}
 			}]
 			
 		},

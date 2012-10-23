@@ -22,13 +22,13 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		components: {
 			content: {
 				weight: 10,
-				html: '<input/>',
-				events: {
-					'change': function(e, w) {
-						w.setValue( w.el.val());
-					}
-				}
-//				etype: 'text-input'
+				// html: '<input/>',
+				// events: {
+					// 'change': function(e, w) {
+						// w.setValue( w.el.val());
+					// }
+				// }
+				etype: 'text-input'
 				// events: {
 					// 'focus': function(e, w) {
 // //						w.getParent(Ergo.widgets.Field).setFocus();
@@ -46,7 +46,9 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		},
 		
 		set: {
-			'text': function(v) { this.content.opt('text', v); },
+			'text': function(v) { 
+				this.content.opt('text', v); 
+			},
 			'placeholder': function(v) { this.content.el.attr('placeholder', v); }
 		},
 		get: {

@@ -92,8 +92,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.addClass(val);
-			else
-				val.call(this._widget);
+			else {
+				var add_cls = val.call(this._widget, true);
+				if(add_cls !== false)				
+					this._widget.el.addClass(s);
+			}
 		}
 		else {
 			this._widget.el.addClass(s);
@@ -111,6 +114,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.removeClass(val);
+			else {
+				var rm_cls = val.call(this._widget, false);
+				if(rm_cls !== false)				
+					this._widget.el.removeClass(s);				
+			}
 		}
 		else {
 			this._widget.el.removeClass(s);
