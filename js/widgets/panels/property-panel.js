@@ -14,20 +14,42 @@ Ergo.declare('Ergo.widgets.PropertyPanel', 'Ergo.widgets.Panel', {
 			
 			columns: [{
 				header: 'Наименование',
-				binding: function(v) {
-					this.opt('text', this.options.format(this.data.id));//this.getParent(Ergo.widgets.PropertyPanel).options.propertyNameFormat(this.data.id)); 
-				}
+				content: {
+					etype: 'text',
+					format: function(v) {
+						return this.options.keyFormat(this.data.id);
+					}
+				},
+				binding: false
 			}, {
 				header: 'Значение',
 				binding: false,
 				content: {
 					etype: 'text'
-				}
+				},
+				
+				mixins: ['editable'],
+				
+				state: 'no-selection',
+				
+				editor: {
+					etype: 'input-editor'
+				},
+				
+				onDoubleClick: function(e) {
+					
+					this.startEdit();
+					
+					$('input', this.el).focus();
+		      		      
+				}				
+				
+				
 			}]
 			
 		},
 		
-		propertyNameFormat: function(v) {
+		keyFormat: function(v) {
 			return v;
 		}
 		
@@ -37,7 +59,7 @@ Ergo.declare('Ergo.widgets.PropertyPanel', 'Ergo.widgets.Panel', {
 	
 	$pre_construct: function(o) {
 		
-		o.content.columns[0].format = o.propertyNameFormat;
+		o.content.columns[0].content.keyFormat = o.keyFormat;
 		
 		this.$super(o);
 	}
