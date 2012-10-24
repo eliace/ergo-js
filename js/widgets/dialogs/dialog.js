@@ -48,7 +48,12 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		
 		onCancel: function() {
 			this.close();
+		},
+		
+		onOk: function() {
+			this.close();
 		}
+		
 		
 	},
 	

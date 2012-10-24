@@ -8,9 +8,9 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		style: {'position': 'relative', 'display': 'inline-block'},
 		events: {
 			'mousedown': function(e, w) { w.content.states.set('clicked'); },
-			'mouseup': function(e, w) { w.content.states.clear('clicked'); },
+			'mouseup': function(e, w) { w.content.states.unset('clicked'); },
 			'mouseenter': function(e, w) { w.content.states.set('hovered'); },
-			'mouseleave': function(e, w) { w.content.states.clear('hovered'); }
+			'mouseleave': function(e, w) { w.content.states.unset('hovered'); }
 		},
 		
 		states: {

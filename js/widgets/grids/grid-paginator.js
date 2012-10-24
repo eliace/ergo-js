@@ -23,7 +23,8 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			}
 		}, {
 			etype: 'text', 
-			text: 'Страница'
+			text: 'Страница',
+			autoBind: false
 		}, {
 			etype: 'text-input',
 			tag: 'current',
