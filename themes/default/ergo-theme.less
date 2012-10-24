@@ -339,10 +339,7 @@ ul.ergo_navigation > li a:hover{
   
 }
 
-.e-grid tr:hover {
-  background:#fffef5;
-  
-}
+
 .e-grid td {
   padding:0;
   border-bottom:1px solid #e9e9e9;
@@ -815,7 +812,9 @@ ul.ergo_navigation > li a:hover{
 }
 
 
-
+.disabled .e-icon-button,
+.disabled .e-icon-button:hover,
+.disabled .e-icon-button:active,
 .e-icon-button.disabled:active,
 .e-icon-button.disabled:hover,
 .e-icon-button.disabled {
@@ -937,6 +936,9 @@ background: #d1d1d1; /* Old browsers */
 }
 
 .readonly {
+  background:#fdfdfd url(images/locked.png) no-repeat right center!important;
+}
 
-  background:#fdfdfd url(images/locked.png) no-repeat right center;
+.focus {
+  border:1px solid #569de5!important; 
 }
