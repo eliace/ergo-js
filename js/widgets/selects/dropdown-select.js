@@ -6,8 +6,15 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	defaults: {
 		
 		onSelect: function(e) {
-			this.opt('value', e.target.opt('value'));
-			this.dropdown.close();
+			
+			
+			var self = this;
+			
+			this.dropdown.close()
+				.then(function(){
+					self.opt('value', e.target.opt('value'));
+					self.events.bubble('action');
+				});
 		},
 		
 		components: {

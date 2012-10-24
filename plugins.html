@@ -577,25 +577,7 @@ $(document).ready(function(){
 				state: 'no-selection',
 				
 				editor: {
-					etype: 'input-box',
-					cls: 'editor',
-					events: {
-						'change': function(e, w) {
-							if(w.parent) w.parent.stopEdit();
-						}
-					},
-					content: {
-						events: {
-							'blur': function(e, w) {
-								w.events.bubble('focusOut');
-							}								
-						}
-					},
-					
-					onFocusOut: function() {
-						if(this.parent) this.parent.cancelEdit();					
-					}
-					
+					etype: 'input-editor'
 				},
 				
 				binding: false,
@@ -613,6 +595,34 @@ $(document).ready(function(){
 								
 				onEdit: function() {
 					console.log('edit');
+				},
+				
+				
+				binding: function() {
+					
+					var id = this.data.id;
+					
+					
+					if(id == 'post') {
+						
+						this.opt('editor', {
+							etype: 'select-editor',
+							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+						});
+					}
+					else if(id == 'incidents') {	
+						this.opt('editor', {
+							etype: 'spinner-editor'
+						});
+					}
+					else if(id == 'address') {	
+						this.opt('editor', {
+							etype: 'input-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
+						});
+					}
+					
+					
 				}
 				
 				

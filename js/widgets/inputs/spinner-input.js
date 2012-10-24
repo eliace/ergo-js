@@ -15,13 +15,13 @@ Ergo.declare('Ergo.widgets.SpinnerInput', 'Ergo.widgets.InputBox', {
 			defaultItem: {
 				etype: 'button-item',
 				onClick: function() {
-					this.events.bubble('action');
+					this.events.bubble('spin');
 				}
 			},
 			items: [{icon: 'spinner-arrow-up', tag: 'up'}, {icon: 'spinner-arrow-down', tag: 'down'}]
 		}],
 		
-		onAction: function(e) {
+		onSpin: function(e) {
 			var v = this.opt('value');
 			if(e.target.tag == 'up') v++
 			else if(e.target.tag == 'down') v--;
