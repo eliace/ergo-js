@@ -1,7 +1,7 @@
 
 //= require <widgets/selects/dropdown-select>
 
-Ergo.declare('Ergo.widgets.SelectEditor', 'Ergo.widgets.DropdownSelect', {
+Ergo.declare('Ergo.widgets.DropdownEditor', 'Ergo.widgets.DropdownSelect', {
 	
 	defaults: {
 		
@@ -13,6 +13,6 @@ Ergo.declare('Ergo.widgets.SelectEditor', 'Ergo.widgets.DropdownSelect', {
 		
 	}
 	
-}, 'select-editor');
+}, 'dropdown-editor');
 
 

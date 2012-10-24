@@ -33,6 +33,11 @@
 			padding: 20px;
 		}
 		
+		.focus {
+			border: 1px solid blue;
+		}
+		
+		
 	</style>
 	
 </head>
@@ -115,7 +120,13 @@ $(document).ready(function(){
 		
 		components: {
 			header: {
-				tools: ['Добавить', 'Удалить', 'Обновить']
+				tools: ['Добавить', 'Удалить', 'Обновить', {
+					etype: 'upload-box',
+					content: {
+						etype: 'icon-button',
+						icon: 'icon-upload-alt'
+					}
+				}]
 			},
 			footer: {
 				content: {
@@ -178,6 +189,15 @@ $(document).ready(function(){
 				etype: 'button-item',
 				text: 'Печать',
 				icon: 'icon-print'
+			}, {
+				etype: 'upload-box',
+				content: {
+					etype: 'icon-button',
+					icon: 'icon-upload-alt'
+				}
+			}, {
+					etype: 'icon-button',
+					icon: 'icon-signin'				
 			}, {
 				cls: 'e-splitter'
 			}, {
@@ -516,6 +536,12 @@ $(document).ready(function(){
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	var person2 = {
 		first_name: 'Петр',
 		last_name: 'Волков',
@@ -526,6 +552,108 @@ $(document).ready(function(){
 		post: 'Ведущий специалист',
 		address: ''
 	};
+	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Форма',
+		width: 600,
+		height: 400,
+		
+		content: {
+			content: {
+				layout: 'form',
+				autoHeight: true,
+				style: {'overflow-y': 'auto'},
+				items: [{
+					label: 'Имя',
+					etype: 'input-box',
+					
+					focusable: true,					
+					content: {
+						events: {
+							'focus': function(e, w) {
+								Ergo.focus(w);
+							}
+							// 'blur': function(e, w) {
+								// Ergo.focus();
+							// }
+						}
+					}
+					
+					
+				}, {
+					label: '',
+					etype: 'input-box',
+					content: {
+						etype: 'text-area'
+					}
+				}, {
+					label: 'Должность',
+					etype: 'dropdown-select',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-caret-down'
+					}],								
+					dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+				}, {
+					label: 'Дата рождения',
+					etype: 'select-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-calendar'
+					}]
+				}, {
+					label: 'Файл',
+					etype: 'select-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-paper-clip'
+					}]
+				}, {
+					label: 'Адрес',
+					etype: 'select-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-globe'
+					}]
+				}, {
+					label: '',
+					etype: 'check-box'
+				}, {
+					label: '',
+					etype: 'spinner-input',
+					
+					focusable: true,					
+					content: {
+						events: {
+							'focus': function(e, w) {
+								Ergo.focus(w);
+							}
+							// 'blur': function(e, w) {
+								// Ergo.focus();
+							// }
+						}
+					}
+					
+					
+				}]
+			}
+			
+		}
+		
+		
+	});
+	
+	
+	
+	
+	
+	
 	
 	$.ergo({
 		etype: 'property-panel',
@@ -539,7 +667,7 @@ $(document).ready(function(){
 		
 		data: person2,
 		
-		propertyNameFormat: function(v) {
+		keyFormat: function(v) {
 			var f = {
 				'first_name': 'Имя',
 				'last_name': 'Фамилия',
@@ -556,45 +684,24 @@ $(document).ready(function(){
 		content: {
 			
 			columns: [{
-				content: {
-					etype: 'text',
-					format: function(v) {
-						return this.data.id;
-					}
-				},
-				binding: false
-				// binding: function(v) {
-					// this.content.opt('text', this.options.format(this.data.id));
-				// }
 			}, {
 				header: 'Значение',
-				content: {
-					etype: 'text'
-				},
 				
-				mixins: ['editable'],
-				
-				state: 'no-selection',
-				
-				editor: {
-					etype: 'input-editor'
-				},
-				
-				binding: false,
-				
-				onDoubleClick: function(e) {
-					
-					this.startEdit();
-					
-					$('input', this.el).focus();
-		      
-		      var self = this;
-		      
-				},
-				
-								
 				onEdit: function() {
 					console.log('edit');
+				},
+				
+				editor: {
+					focusable: true,
+					
+					onFocusIn: function() {
+						console.log('focus-in');
+					},
+					
+					onFocusOut: function() {
+						console.log('focus-out');
+					}
+					
 				},
 				
 				
@@ -606,7 +713,7 @@ $(document).ready(function(){
 					if(id == 'post') {
 						
 						this.opt('editor', {
-							etype: 'select-editor',
+							etype: 'dropdown-editor',
 							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
 						});
 					}
@@ -617,12 +724,19 @@ $(document).ready(function(){
 					}
 					else if(id == 'address') {	
 						this.opt('editor', {
-							etype: 'input-editor',
+							etype: 'select-editor',
 							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
 						});
 					}
 					
 					
+				},
+				
+				
+				onDoubleClick: function() {
+		      $(window).one('click', function(e){
+		      	console.log(e);
+		      });
 				}
 				
 				
