@@ -125,13 +125,15 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		}
 		else if( $.isFunction(arg) ){
 			// удаляем указанный обработчик
-			for(var i = 0; i < events.length; i++) {
+//			for(var i = 0; i < events.length; i++) {
+			for(var i in events) {
 				events[i] = Ergo.filter( events[i], function(h) { return h.callback != arg; } );
 			}
 		}
 		else {
 			// удаляем все обработчики для указанного объекта
-			for(var i = 0; i < events.length; i++) {
+//			for(var i = 0; i < e.length; i++) {
+			for(var i in events) {
 				events[i] = Ergo.filter( events[i], function(h) { return h.target != arg; } );
 			}
 		}

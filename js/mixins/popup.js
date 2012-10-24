@@ -80,9 +80,6 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.el.css({'left': x, 'top': y});
 		
-		this.show().then(function(){
-			self.events.fire('opened');
-		});
 		
 /*		
 		var effects = this.options.effects || {};
@@ -108,6 +105,11 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			$('body').append(this.glass_pane);
 		}
 		
+		
+		return this.show().then(function(){
+			self.events.fire('opened');
+		});
+
 	};
 	
 	
@@ -115,7 +117,6 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.isShown = false;
 		
-		this.hide();
 		
 /*		
 		var effects = this.options.effects || {};
@@ -139,6 +140,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.glass_pane.detach();		
 		
+		return this.hide();
 	};
 	
 	

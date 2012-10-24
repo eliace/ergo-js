@@ -191,6 +191,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// удаляем элемент и все его содержимое (data + event handlers) из документа
 		if(this.parent) this.parent.children.remove(this);
 		
+		if(this.data) this.data.events.unreg(this);
+		
 		if(this.el) this.el.remove();
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
@@ -567,7 +569,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// устанавливаем состояния по умолчанию
 		if('state' in o) {
 			var a = o.state.split(' ');
-			Ergo.each(a, function(state) { self.states.set(state); });
+			Ergo.each(a, function(state) {
+				if(state[0] == '!') 
+					self.states.unset(state.substr(1));
+				else 
+					self.states.set(state);
+			});
 		}
 
 
@@ -1012,6 +1019,25 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		
 	}
+	
+
+
+	// setTextSelection: function(v) {
+		// if(!v) {
+      // if($.browser.mozilla){//Firefox
+        // this.el.css('MozUserSelect','none');
+      // }
+      // else if($.browser.msie){//IE
+        // this.el.bind('selectstart',function(){return false;});
+      // }
+      // else{//Opera, etc.
+        // this.el.mousedown(function(){return false;});
+      // }
+		// }
+	// }
+
+
+
 
 	
 }, 'widget');

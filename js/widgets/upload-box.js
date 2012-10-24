@@ -13,6 +13,12 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 			'mouseleave': function(e, w) { w.content.states.clear('hovered'); }
 		},
 		
+		states: {
+			'disabled': function(on) {
+				this._uploader.content.el.attr('disabled', on);
+			}
+		},
+		
 		components: {
 			content: {
 				weight: 10
@@ -61,6 +67,8 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		
 		var target_name = '_target'+Ergo.timestamp();
 		
+		var result = $.Deferred();
+		
 		this.components.set(target_name, {
 			etype: 'box',
 			html: '<iframe name="upload'+target_name+'" frameborder="no" src="about:blank"/>',
@@ -72,9 +80,12 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 					var text = w.el[0].contentWindow.document.body.innerHTML;
 					//FIXME проверка на text == null некорректна
 					if(text) {
-//						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
-//						text = m[1];
-						w.events.bubble('upload', {textData: text, data: data});
+						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
+						var text2 = (m) ? m[1] : null;
+
+//						w.events.bubble('upload', {textData: text, data: data});
+						
+						result.resolve({rawData: text, textData: text2});
 //						w.destroy();
 					}
 				}
@@ -86,6 +97,13 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		this._uploader.el.attr('target', 'upload'+target_name);
 		this._uploader.el.submit();
 		
+		return result;
 	}
+	
+	
+	
+//	setDisabled: function(v) {
+//	}
+	
 	
 }, 'upload-box');

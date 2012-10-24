@@ -108,9 +108,6 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		
 //		if('hide' in item) item.hide();		
 				
-		// удаляем элемент из компоновки	
-		w.layout.remove(item);
-		
 		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++)
 			this.src[j]._index = j;
@@ -123,6 +120,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			delete w[item._key];
 			delete item._key;
 		}
+
+		// удаляем элемент из компоновки	
+		w.layout.remove(item);
+		
 		
 		return item;
 	}
