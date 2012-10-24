@@ -15,6 +15,8 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 
 	this.startEdit = function() {
 		
+		if(!this.options.editable) return;
+		
 		var w = this.layout.el.width();
 		var h = this.layout.el.height();
 
@@ -81,6 +83,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 
 	o.editor = o.editor || 'input-box';
 
+	o.editable = ('editable' in o) ? o.editable : true;
 
 
 }, 'editable');
