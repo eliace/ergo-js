@@ -44,11 +44,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		// 1.
 		var def = null;
+		var deferred = null;
 		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
 			if(t.to == to && t.from in this._current) {
-				t.action.call(this._widget);
+				var result = t.action.call(this._widget);
+				// Если результат является Deferred-объектом, то сохраняем его
+				//FIXME хотя Deferred объекты должны формировать цепочку
+				if(result.resolve)
+					deferred = result;
+				
 				from.push(t.from);
 			}
 			else if(t.to == to && !t.from){
@@ -62,8 +68,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// }
 		// }
 		
-		if(from.length == 0 && def)
-			def.action.call(this._widget);
+		if(from.length == 0 && def) {
+			var result = def.action.call(this._widget);
+			
+			if(result.resolve)
+				deferred = result;
+		}
 		
 
 		// 2. 
@@ -79,7 +89,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		this._widget.events.fire('stateChanged', {from: from, to: to});
 		
-		return this;
+		
+		//FIXME хак, если Deferred не определен
+		if(deferred == null) {
+			deferred = $.Deferred();
+			deferred.resolve();
+		}
+		
+		
+		return deferred;
 	},
 	
 	
@@ -142,11 +160,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		// 1. 
 		var def = null;
+		var deferred = null;
 		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
 			if(t.from == from && t.to) {
-				t.action.call(this._widget);
+				var result = t.action.call(this._widget);
+				// Если результат является Deferred-объектом, то сохраняем его
+				//FIXME хотя Deferred объекты должны формировать цепочку
+				if(result.resolve)
+					deferred = result;				
+				
 				to.push(t.to);
 			}
 			else if(t.from == from && !t.to) {
@@ -158,8 +182,13 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// to.push(i);
 		// }
 		
-		if(to.length == 0 && def)
+		if(to.length == 0 && def) {
 			def.action.call(this._widget);
+			
+			//FIXME
+			if(result.resolve)
+				deferred = result;
+		}
 		
 		
 		// 2. 
@@ -172,8 +201,16 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		this.state_off(from);
 		
 		delete this._current[from];		
+
 		
-		return this;
+		//FIXME хак, если Deferred не определен
+		if(deferred == null) {
+			deferred = $.Deferred();
+			deferred.resolve();
+		}
+		
+		
+		return deferred;
 	},
 	
 	

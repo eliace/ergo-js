@@ -30,9 +30,12 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 				
 	      '> expanded': function() {
 
+					var result = $.Deferred();
+
 	        if(this.data._fetched) {
 	          
-	          this.subtree.show();
+	          this.subtree.show()
+	          	.then(function(){ result.resolve(); });
 	          
 	        }
 	        else {
@@ -45,10 +48,13 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	          
 	          this.data.fetch(v.id).then(function(){
 	          	self.content.opt('xicon', false);
-	          	self.subtree.show();
+	          	self.subtree.show()
+	          		.then(function(){ result.resolve(); });
 	          });
 	          
 	        }
+	        
+	        return result;
 	      }
 				
 			}
