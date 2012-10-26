@@ -20,7 +20,8 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 		components: {
 			dropdown: {
 				etype: 'dropdown-box',
-				adjustWidth: true
+				adjustWidth: true,
+				autoBind: false
 			}			
 		},
 		

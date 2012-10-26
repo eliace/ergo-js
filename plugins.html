@@ -651,7 +651,7 @@
 	
 	
 	$.ergo({
-		etype: 'property-panel',
+		etype: 'panel',
 		cls: 'widget',
 		renderTo: 'body',
 		style: {'margin-top': 20},
@@ -660,23 +660,23 @@
 		height: 400,
 		
 		
-		data: person2,
-		
-		keyFormat: function(v) {
-			var f = {
-				'first_name': 'Имя',
-				'last_name': 'Фамилия',
-				'middle_name': 'Отчество',
-				'birth_date': 'Дата рождения',
-				'gender': 'Пол',
-				'post': 'Должность'
-			}[v];	
-			return f || v;
-		},
-		
-		
-		
 		content: {
+			etype: 'property-grid',
+		
+			data: person2,
+			
+			keyFormat: function(v) {
+				var f = {
+					'first_name': 'Имя',
+					'last_name': 'Фамилия',
+					'middle_name': 'Отчество',
+					'birth_date': 'Дата рождения',
+					'gender': 'Пол',
+					'post': 'Должность'
+				}[v];	
+				return f || v;
+			},
+		
 			
 			columns: [{
 			}, {
@@ -737,12 +737,10 @@
 		      });
 				}
 				
-				
-				
 			}]
-			
-		}
 		
+		}
+			
 	});
 	
 	
