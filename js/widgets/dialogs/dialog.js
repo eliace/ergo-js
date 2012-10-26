@@ -19,7 +19,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 					toolbox: {
 						defaultItem: {
 							onClick: function() {
-								if(this.tag) this.events.bubble(this.tag);
+								if(this.tag) this.events.bubble('action');
 							}
 						}
 					}
@@ -42,18 +42,17 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		
 		buttonShortcuts: {
 			'cancel': {text: 'Отмена', cls:'e-cancel-btn', tag: 'cancel'},
-			'ok': {text: 'ОК', cls:'e-ok-btn', tag: 'ok'}
+			'ok': {text: 'ОК', cls:'e-ok-btn', tag: 'ok'},
+			'yes': {text: 'Да', cls:'e-yes-btn', tag: 'yes'},
+			'no': {text: 'Нет', cls:'e-no-btn', tag: 'no'}
 		},
 		
 		
-		onCancel: function() {
+		onAction: function(e) {
+			this._result = e.target.tag;
+			this.events.fire(this._result);
 			this.close();
-		},
-		
-		onOk: function() {
-			this.close();
-		}
-		
+		}		
 		
 	},
 	
