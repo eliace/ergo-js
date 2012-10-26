@@ -23,7 +23,7 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		var self = this;
 		
 		this.container.setActive = function(i) {
-			self.activate(i);
+			return self.activate(i);
 		};
 		
 	},
@@ -50,6 +50,7 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		
 		this.active = child;
 		
+		return child;
 	}
 		
 }, 'layouts:stack');

@@ -47,6 +47,7 @@ Ergo.declare('Ergo.plugins.Application', 'Ergo.widgets.Box', {
 		
 		var body_el = $('body');
 		
+		var self = this;
 		
 		// Добавляем обработчик события onresize для объекта window
 		$(window).resize(function(){
@@ -54,7 +55,7 @@ Ergo.declare('Ergo.plugins.Application', 'Ergo.widgets.Box', {
 			var dh = body_el.outerHeight(true) - body_el.height();
 			body_el.height($(window).height() - dh);
 			
-			app.$layoutChanged();		
+			self.$layoutChanged();		
 			
 		});
 		

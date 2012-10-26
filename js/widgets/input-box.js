@@ -23,11 +23,11 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 			content: {
 				weight: 10,
 				// html: '<input/>',
-				// events: {
-					// 'change': function(e, w) {
-						// w.setValue( w.el.val());
-					// }
-				// }
+				events: {
+					'change': function(e, w) {
+						w.events.bubble('change');
+					}
+				},
 				etype: 'text-input'
 				// events: {
 					// 'focus': function(e, w) {

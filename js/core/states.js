@@ -52,7 +52,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				var result = t.action.call(this._widget);
 				// Если результат является Deferred-объектом, то сохраняем его
 				//FIXME хотя Deferred объекты должны формировать цепочку
-				if(result.resolve)
+				if(result && result.resolve)
 					deferred = result;
 				
 				from.push(t.from);
@@ -71,7 +71,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		if(from.length == 0 && def) {
 			var result = def.action.call(this._widget);
 			
-			if(result.resolve)
+			if(result && result.resolve)
 				deferred = result;
 		}
 		
@@ -168,7 +168,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				var result = t.action.call(this._widget);
 				// Если результат является Deferred-объектом, то сохраняем его
 				//FIXME хотя Deferred объекты должны формировать цепочку
-				if(result.resolve)
+				if(result && result.resolve)
 					deferred = result;				
 				
 				to.push(t.to);
@@ -186,7 +186,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			def.action.call(this._widget);
 			
 			//FIXME
-			if(result.resolve)
+			if(result && result.resolve)
 				deferred = result;
 		}
 		

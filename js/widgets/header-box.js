@@ -48,7 +48,8 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 			toolbox: {
 				etype: 'tool-box',
 				defaultItem: {
-					etype: 'button-item'
+					etype: 'button-item',
+					autoBind: false
 				}
 			}			
 		}
