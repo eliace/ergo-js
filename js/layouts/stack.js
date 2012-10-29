@@ -26,6 +26,10 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 			return self.activate(i);
 		};
 		
+		this.container.getActive = function() {
+			return self.active;
+		};
+		
 	},
 	
 	detach: function() {

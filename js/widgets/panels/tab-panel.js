@@ -78,6 +78,13 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 	},
 	
 	
+	getActiveTabItem: function() {
+		var tab = this.selection.get();
+		if(tab) {
+			return this.content.item(tab._index);
+		}
+	},
+	
 	getTabItem: function(i) {
 		return this.content.item(i);
 	}
