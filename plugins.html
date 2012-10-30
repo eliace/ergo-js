@@ -46,6 +46,18 @@
 	var treeData = new Ergo.data.TreeNodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
 	
 	
+	var context_menu = $.ergo({
+		etype: 'dropdown-box',
+		content: {
+			items: ['Удалить', 'Добавить', 'Изменить']			
+		},
+		effects: {
+			delay: 0
+		},		
+		hideOn: 'hoverOut'
+	});
+	
+	
 	
 	$.ergo({
 		etype: 'panel',
@@ -65,6 +77,15 @@
 					var v = this.getValue();
 					this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
 					this.content.opt('text', v.title);
+				},
+				mixins: ['contextmenu'],
+				contextMenu: context_menu,
+				
+				content: {
+					onDoubleClick: function() {
+						this.parent.states.toggle('expanded');
+					},
+					state: 'no-selection'
 				}
 			}
 							

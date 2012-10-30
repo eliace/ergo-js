@@ -9,7 +9,7 @@ Ergo.declare_mixin('Ergo.mixins.ContextMenu', function(o) {
 			if(cm && !(cm instanceof Ergo.core.Widget)) cm = Ergo.widget(cm);
 			
 			if(cm)
-				this.contextMenu = cm;
+				this._context_menu = cm;
 		}
 	}});
 	
@@ -27,11 +27,11 @@ $(document).on('contextmenu', function(e){
 	
 	// ищем виджет с контекстным меню
 	var w = $(e.target).ergo();
-	if(!w || !w.contextMenu) {
+	if(!w || !w._context_menu) {
 		w = undefined;
 		$(e.target).parents().each(function(i, el){
 			var parent = $(el).ergo();
-			if(parent && parent.contextMenu){
+			if(parent && parent._context_menu){
 				w = parent;
 				return false;
 			}
@@ -43,11 +43,11 @@ $(document).on('contextmenu', function(e){
 
 	// если виджет с контекстным меню найден
 	if(w){
-		var cancel_event = new Ergo.events.Event({'contextMenu': w.contextMenu});
-		w.events.fire('onContextMenu', cancel_event);
+		var cancel_event = new Ergo.events.Event({'contextMenu': w._context_menu});
+		w.events.fire('contextMenu', cancel_event);
 		if(!cancel_event.canceled){
-			w.contextMenu.sourceWidget = w;
-			w.contextMenu.open(e.pageX-2, e.pageY-2);
+			w._context_menu._target = w;
+			w._context_menu.open(e.pageX-2, e.pageY-2);
 		}
 		e.preventDefault();
 	}
