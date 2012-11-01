@@ -40,7 +40,7 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	        }
 	        else {
 	
-	          this.content.opt('xicon', 'e-icon-ajax-loader');
+	          this.content.opt('xicon', 'ajax-loader');
 	          
 	          var self = this;
 	          
