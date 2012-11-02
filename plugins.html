@@ -746,8 +746,16 @@
 					etype: 'text-box',
 					buttons: [{
 						etype: 'icon-button',
-						icon: 'icon-edit'
+						icon: 'icon-edit',
+						onClick: function() {
+							this.events.bubble('action');
+						}
 					}]
+				},
+				
+				
+				onAction: function() {
+					this.startEdit();
 				},
 				
 				onEdit: function() {
