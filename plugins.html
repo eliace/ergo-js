@@ -669,7 +669,11 @@
 	
 	
 	
-	
+	var MyModel = Ergo.data.Model.extend({
+		fields: {
+			'id': {etype: 'model', readonly: true}
+		}
+	});
 	
 	
 	$.ergo({
@@ -685,7 +689,7 @@
 		content: {
 			etype: 'property-grid',
 		
-			data: person2,
+			data: new MyModel(person2),
 			
 			keyFormat: function(v) {
 				var f = {
@@ -746,10 +750,16 @@
 						});
 					}
 					else if(id == 'id') {
-						this.states.set('readonly');
+//						this.states.set('readonly');
 					}	
 					
 					
+					if(this.data.opt('readonly')) {
+						this.states.toggle('readonly');
+						this.opt('editable', false)
+					}
+					
+//					this.states.toggle('readonly', this.data.opt('readonly'))
 				},
 				
 				

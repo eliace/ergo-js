@@ -37,7 +37,7 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 				this.startEdit();
 				
 				$('input', this.el).focus();
-	      		      
+	     	
 			}				
 			
 			
