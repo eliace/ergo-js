@@ -54,8 +54,8 @@
 		},
 		effects: {
 			delay: 0
-		},		
-		hideOn: 'hoverOut'
+		}		
+//		hideOn: 'hoverOut'
 	});
 	
 	
@@ -353,6 +353,16 @@
 			items: ['Страница 1', 'Страница 2', 'Страница 3']
 //		}
 		
+	});
+	
+	
+	
+	$.ergo({
+		renderTo: 'body',
+		etype: 'main-menu',
+		cls: 'vertical',
+		logo: 'samples/img/logo.png',
+		items: ['Страница 1', 'Страница 2', 'Страница 3']
 	});
 	
 	
@@ -790,7 +800,9 @@
 					
 					if(this.data.opt('readonly')) {
 //						this.states.toggle('readonly');
-						this.opt('editable', false)
+						this.opt('editable', false);
+						this.content.item(0).states.set('disabled');
+						this.content.item(0).opt('icon', 'icon-lock');
 					}
 					
 //					this.states.toggle('readonly', this.data.opt('readonly'))
