@@ -732,11 +732,20 @@
 			}, {
 				header: 'Значение',
 				
+				content: {
+					etype: 'text-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-edit'
+					}]
+				},
+				
 				onEdit: function() {
 					console.log('edit');
 				},
 				
 				editor: {
+					
 					focusable: true,
 					
 					onFocusIn: function() {
@@ -780,7 +789,7 @@
 					
 					
 					if(this.data.opt('readonly')) {
-						this.states.toggle('readonly');
+//						this.states.toggle('readonly');
 						this.opt('editable', false)
 					}
 					
