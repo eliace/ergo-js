@@ -44,7 +44,9 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 		ed_el.width(w - dw);
 		ed_el.height(h - dh);
 		
-		
+		// переводим фокус на вложенный тег <input> (если такое есть)
+		$('input', this.el).focus();
+
 //		this._editor.bind(this.data);
 		
 	};

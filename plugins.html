@@ -24,7 +24,7 @@
 		<!--script src="plugins/app-layout.js" type="text/javascript"></script-->
 	
 	
-    <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+    <!--script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script-->
 	
 	
 	<style type="text/css">
@@ -78,12 +78,14 @@
 				contextMenu: context_menu,
 				
 				content: {
+					cls: 'cursor-default',
 					binding: function(v) {
 						this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
 						this.opt('text', v.title);						
 					},
 					onDoubleClick: function() {
-						this.parent.states.toggle('expanded');
+						if(!this.parent.states.is('leaf'))
+							this.parent.states.toggle('expanded');
 					},
 					state: 'no-selection'
 				}
@@ -746,8 +748,16 @@
 					etype: 'text-box',
 					buttons: [{
 						etype: 'icon-button',
-						icon: 'icon-edit'
+						icon: 'icon-edit',
+						onClick: function() {
+							this.events.bubble('action');
+						}
 					}]
+				},
+				
+				
+				onAction: function() {
+					this.startEdit();
 				},
 				
 				onEdit: function() {
