@@ -8,6 +8,8 @@ Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.SpinnerInput', {
 		
 		cls: 'editor',
 		
+		stopOnFocusOut: true,
+		
 		content: {
 			events: {
 				'blur': function(e, w) {
@@ -20,7 +22,7 @@ Ergo.declare('Ergo.widgets.SpinnerEditor', 'Ergo.widgets.SpinnerInput', {
 		},
 		
 		onFocusOut: function() {
-			if(this.parent) this.parent.stopEdit();					
+			if(this.parent && this.options.stopOnFocusOut) this.parent.stopEdit();					
 		}
 		
 		// onAction: function() {

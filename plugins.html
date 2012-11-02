@@ -314,6 +314,25 @@
 					dlg.open();
 					
 				}
+			}, {
+				etype: 'button-item',
+				text: 'Быстрый диалог',
+				onClick: function() {
+					
+					$.ergo({
+						etype: 'quick-dialog',
+						cls: 'widget',
+						title: 'Быстрый диалог',
+						content: 'Нажмите "ОК", если вы можете прочитать это сообщение',
+						
+						onOk: function() {
+							//TODO
+						}
+						
+					});
+					
+					
+				}
 			}]
 		}
 	});
@@ -744,7 +763,8 @@
 					}
 					else if(id == 'incidents') {	
 						this.opt('editor', {
-							etype: 'spinner-editor'
+							etype: 'spinner-editor',
+							stopOnFocusOut: false
 						});
 					}
 					else if(id == 'address') {	
