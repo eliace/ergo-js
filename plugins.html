@@ -388,17 +388,25 @@
 					etype: 'panel',
 //					cls: 'widget',
 					title: 'Структура организации',
+					width: 200,
 					
 					content: {
 						etype: 'ajax-tree',
 						data: treeData,
 						
 						node: {
-							onDataChanged: function() {
-								var v = this.getValue();
-								this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
-								this.content.opt('text', v.title);
+							content: {
+								binding: function(v) {
+									this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+									this.opt('text', v.title);
+									
+								}
 							}
+							// onDataChanged: function() {
+								// var v = this.getValue();
+								// this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+								// this.content.opt('text', v.title);
+							// }
 						}
 					}
 					
