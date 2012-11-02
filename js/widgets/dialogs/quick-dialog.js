@@ -6,7 +6,7 @@
 Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Dialog', {
 	
 	defaults: {
-		cls: 'e-quick-dialog'		
+		cls: 'quick-dialog'		
 	},
 	
 	
