@@ -74,15 +74,14 @@
 			data: treeData,
 			
 			node: {
-				onDataChanged: function() {
-					var v = this.getValue();
-					this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
-					this.content.opt('text', v.title);
-				},
 				mixins: ['contextmenu'],
 				contextMenu: context_menu,
 				
 				content: {
+					binding: function(v) {
+						this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+						this.opt('text', v.title);						
+					},
 					onDoubleClick: function() {
 						this.parent.states.toggle('expanded');
 					},
@@ -352,14 +351,11 @@
 		height: 300,
 		
 		tabItems: [{
-			tab: 'Закладка 1',
-			autoHeight: 'ignore-siblings'
+			tab: 'Закладка 1'
 		}, {
-			tab: 'Закладка 2',
-			autoHeight: 'ignore-siblings'
+			tab: 'Закладка 2'
 		}, {
-			tab: 'Закладка 3',
-			autoHeight: 'ignore-siblings'
+			tab: 'Закладка 3'
 		}],
 		
 		activeTab: 0
