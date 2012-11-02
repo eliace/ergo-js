@@ -22,12 +22,11 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 			header: 'Значение',
 			binding: false,
 			content: {
-				etype: 'text'
+				etype: 'text',
+				state: 'no-selection'
 			},
 			
 			mixins: ['editable'],
-			
-			state: 'no-selection',
 			
 			editor: {
 				etype: 'input-editor'
