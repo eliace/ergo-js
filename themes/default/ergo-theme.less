@@ -443,9 +443,14 @@ ul.ergo_navigation > li a:hover{
   padding:6px 5px;
   margin:0;
   background:#fff;
+  overflow:hidden;
 
 }
-
+.e-input-box.e-spinner-input.editor .e-group-vert {
+  position:relative;
+  top:-7px;
+  right:-10px;
+}
 
 .e-input-box.editor input {
     font-size:1em;
@@ -463,6 +468,7 @@ ul.ergo_navigation > li a:hover{
 .e-tree li ul li {
   padding:0;  
 }
+
 .e-tree-node.selected:hover {background:none!important;}
 .e-tree-node.selected {background:none;}
 .e-tree-node.selected > .e-text-item.tree-node-content {
@@ -470,6 +476,10 @@ ul.ergo_navigation > li a:hover{
    padding-right:3px;
 }
 
+.e-tree ul {
+  overflow:hidden;
+  white-space:nowrap;
+}
 .e-tree {
   margin:15px;
 }
@@ -501,7 +511,7 @@ ul.ergo_navigation > li a:hover{
 }
 
 .e-tree .e-icon.after {
-  float:right;
+  margin:0 0 0 3px;
 }
 
 .e-tree .leaf > .e-icon {
@@ -511,9 +521,11 @@ ul.ergo_navigation > li a:hover{
    padding:0 5px;
 }
 
+
+
+
 .e-tree  span:hover  {
   color:#999;
-  cursor:pointer;
 }
 .e-tree li ul {
   margin:0 0 0 20px;
@@ -525,6 +537,16 @@ ul.ergo_navigation > li a:hover{
 
 .e-tree-node.leaf {
   margin-left:20px;
+}
+
+
+@media all and (-webkit-min-device-pixel-ratio:0) {
+  .e-tree  span {
+  float:left;
+}
+.e-tree .e-icon.after {
+  float:left;
+} 
 }
 
 .expanded > .e-icon.tree-node-icon {
@@ -971,9 +993,6 @@ background: #d1d1d1; /* Old browsers */
   border:1px solid #569de5!important; 
 }
 
-
-
-
 .e-select-box.editor .e-current-select {
   padding:0;
 }
@@ -989,4 +1008,37 @@ background: #d1d1d1; /* Old browsers */
 
 .editor .e-icon.arrow-down {
   top:6px;
+}
+
+.ajax-loader {
+  background: url(images/ajax_icon.gif) no-repeat center center;
+}
+
+[layout="app"] > div > .west {
+  width:10px;
+}
+
+
+//conteext-menu 
+
+.context-menu .e-list-box {
+  
+}
+
+
+//Main menu vertical 
+
+.e-main-menu.vertical {
+  background:#373737;
+  padding:0 0 20px 0;
+}
+.e-main-menu.vertical .logo {
+  float:none;
+  display:block;
+  margin:15px 20px;
+}
+.e-main-menu.vertical  li {
+  float:none!important;
+  display:block;
+  margin:0;
 }

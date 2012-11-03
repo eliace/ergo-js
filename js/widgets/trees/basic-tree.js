@@ -17,8 +17,8 @@ Ergo.declare('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 					// }
 				// },
 				content: {
-					etype: 'text-item',
-					autoBind: false
+					etype: 'text-item'
+//					autoBind: false
 //					style: {'display': 'inline-block'},
 
 				},

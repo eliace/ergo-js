@@ -23,23 +23,22 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 			binding: false,
 			content: {
 				etype: 'text'
+//				state: 'no-selection'
 			},
 			
 			mixins: ['editable'],
 			
-			state: 'no-selection',
-			
 			editor: {
 				etype: 'input-editor'
-			},
+			}
 			
-			onDoubleClick: function(e) {
-				
-				this.startEdit();
-				
-				$('input', this.el).focus();
-	      		      
-			}				
+			// onDoubleClick: function(e) {
+// 				
+				// this.startEdit();
+// 				
+				// $('input', this.el).focus();
+// 	     	
+			// }				
 			
 			
 		}],
