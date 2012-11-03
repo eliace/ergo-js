@@ -5,7 +5,7 @@ Ergo.declare('Ergo.layouts.AppLayout', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'app',
-		html: '<div class="content"><aside class="west hidden" autoheight="ignore-siblings"/><div class="center" autoheight="ignore-siblings"><div><div class="hack"/></div></div><aside class="east hidden" autoheight="ignore-siblings"/></div>'
+		html: '<div class="content"><aside class="west hidden" autoheight="ignore-siblings"/><div class="west-split" autoheight="ignore-siblings"/><div class="center" autoheight="ignore-siblings"><div><div class="hack"/></div></div><div class="east-split" autoheight="ignore-siblings"/><aside class="east hidden" autoheight="ignore-siblings"/></div>'
 	},
 	
 	
@@ -22,6 +22,9 @@ Ergo.declare('Ergo.layouts.AppLayout', 'Ergo.core.Layout', {
 			return el;
 		}
 		if(region == 'center') return $('div.center > div', this.el);
+		if(region == 'west-split') return $('div.west-split', this.el);
+		if(region == 'east-split') return $('div.east-split', this.el);
+		
 		return this.el;
 	},
 	

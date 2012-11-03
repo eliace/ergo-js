@@ -32,6 +32,17 @@
 		body {
 			padding: 20px;
 		}
+		
+		.west-split,.east-split {
+			display: table-cell;
+			cursor: col-resize;
+		}
+		
+		.cursor-col {
+			cursor: col-resize
+		}
+		
+		
 	</style>
 	
 </head>
@@ -59,6 +70,12 @@
 	});
 	
 	
+	
+	//-------------------------------------------------------------------
+	//
+	// Дерево с AJAX-загрузкой
+	//
+	//-------------------------------------------------------------------
 	
 	$.ergo({
 		etype: 'panel',
@@ -99,6 +116,14 @@
 	
 	
 	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Таблица с постраничной AJAX-загрузкой
+	//
+	//-------------------------------------------------------------------
 	
 	
 	var gridData = new Ergo.data.PageAjaxCollection([], {
@@ -189,10 +214,11 @@
 	
 	
 	
-	/**
-	 * 
-	 * 
-	 */
+	//-------------------------------------------------------------------
+	//
+	// Панель инструментов
+	//
+	//-------------------------------------------------------------------
 	
 	$.ergo({
 		etype: 'panel',
@@ -235,11 +261,13 @@
 	
 	
 	
-	/**
-	 * 
-	 * 
-	 * 
-	 */
+	//-------------------------------------------------------------------
+	//
+	// Диалоги
+	//
+	//-------------------------------------------------------------------
+	
+	
 	$.ergo({
 		etype: 'panel',
 		renderTo: 'body',
@@ -340,7 +368,14 @@
 	});
 	
 	
+
+
 	
+	//-------------------------------------------------------------------
+	//
+	// Горизонтальное меню
+	//
+	//-------------------------------------------------------------------
 	
 	
 	$.ergo({
@@ -359,6 +394,12 @@
 	
 	
 	
+	//-------------------------------------------------------------------
+	//
+	// Вертикальное меню
+	//
+	//-------------------------------------------------------------------	
+	
 	$.ergo({
 		renderTo: 'body',
 		etype: 'main-menu',
@@ -371,6 +412,11 @@
 	
 	
 	
+	//-------------------------------------------------------------------
+	//
+	// Панель с закладками
+	//
+	//-------------------------------------------------------------------
 	
 	$.ergo({
 		etype: 'tab-panel',
@@ -395,6 +441,13 @@
 	
 	
 	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Компоновка с боковыми панелями
+	//
+	//-------------------------------------------------------------------
 	
 	
 //	var treeData2 = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
@@ -449,7 +502,65 @@
 //					cls: 'widget',
 					title: 'Информация'
 				}
-			}
+			},
+			
+			// defaultItem: {
+				// autoHeight: 'ignore-siblings'
+			// },
+			
+			items: [{
+				region: 'west-split',
+				width: 5,
+				cls: 'cursor-col',
+				
+				events: {
+					'mousedown': function(e, w) {
+						
+						
+						var offset = w.el.offset();
+						var from_x = e.pageX;
+						var max_dx = w.parent.center.el.width();
+						var min_dx = -w.parent.west.el.width();
+
+						var ghost = $('<div class="ghost"/>');
+						ghost.css({'position': 'absolute', 'top': offset.top, 'left': offset.left, width: w.el.width(), height: w.el.height(), 'background-color': '#bbb'});
+						$('body').append(ghost);
+
+						
+						var gp = Ergo.glass_pane()
+							.on('mousemove', function(e2){
+								
+								var dx = e2.pageX - from_x;
+								dx = Math.min(dx, max_dx);
+								dx = Math.max(dx, min_dx);
+								
+								ghost.css({'left': offset.left + dx});
+								
+							})
+							.on('mouseup', function(e2){
+								gp.remove();
+								ghost.remove();
+								
+								var dx = e2.pageX - from_x;
+								dx = Math.min(dx, max_dx);
+								dx = Math.max(dx, min_dx);
+								
+								w.parent.west.opt('width', w.parent.west.opt('width')+dx);
+								
+							})
+						
+						$('body').append(gp);
+						
+						
+						
+						
+						
+						
+					}
+				}
+				
+				
+			}]
 		}
 		
 		
@@ -458,139 +569,11 @@
 //	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
 	
 	
-/*	
-	var person = {
-		first_name: 'Петр',
-		last_name: 'Волков',
-		middle_name: 'Николаевич',
-		birth_date: '12-08-1972',
-		gender: 'male'
-	};
-	
-	$.ergo({
-		etype: 'property-panel',
-		cls: 'widget',
-		renderTo: 'body',
-		style: {'margin-top': 20},
-		title: 'Свойства',
-		width: 600,
-		height: 300,
-		
-		
-		data: person,
-		
-		propertyNameFormat: function(v) {
-			return {
-				'first_name': 'Имя',
-				'last_name': 'Фамилия',
-				'middle_name': 'Отчество',
-				'birth_date': 'Дата рождения',
-				'gender': 'Пол'
-			}[v];			
-		}
-		
-		
-		
-	});
-	
-	
-	
-/*	
-	$.ergo({
-		etype: 'panel',
-		cls: 'widget',
-		renderTo: 'body',
-		style: {'margin-top': 20},
-		title: 'Встраиваемые поля редактирования',
-		width: 600,
-		height: 500,
-		
-		content: {
-			layout: 'form',
-			autoHeight: true,
-			style: {'overflow-y': 'auto', 'margin': 20},
-			defaultItem: {
-				cls: 'editor'
-			},
-			items: [{
-				label: 'Имя',
-				etype: 'input-box'
-			}, {
-				label: 'Должность',
-				etype: 'dropdown-select',
-				dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'],
-				buttons: [{
-					etype: 'icon-button',
-					icon: 'icon-caret-down'
-				}]
-			}, {
-				label: 'Дата рождения',
-				etype: 'select-box',
-				buttons: [{
-					etype: 'icon-button',
-					icon: 'icon-calendar'
-				}]
-			}, {
-				label: 'Файл',
-				etype: 'select-box',
-				buttons: [{
-					etype: 'icon-button',
-					icon: 'icon-paper-clip'
-				}]
-			}, {
-				label: 'Адрес',
-				etype: 'select-box',
-				buttons: [{
-					etype: 'icon-button',
-					icon: 'icon-globe',
-					onClick: function() {
-						
-						var dlg = $.ergo({
-							etype: 'dialog',
-							title: 'Диалог',
-							cls: 'widget',
-							
-							buttons: ['ok', 'cancel'],
-							
-							content: {
-								id: 'map',
-								width: 600,
-								height: 400
-							},
-							
-							onOpen: function() {
-
-						    var myMap = new ymaps.Map ("map", {
-				            center: [ymaps.geolocation.latitude, ymaps.geolocation.longitude],//[55.76, 37.64], 
-				            zoom: 10
-				        });
-				        
-							}
-							
-						});
-						
-						dlg.open();
-						
-						
-					}
-				}]
-			}, {
-				label: '',
-				etype: 'spinner-input'
-			}]
-			
-		}
-		
-	});
-*/	
-	
-	
-	
-	
-	
-	
-	
-	
+	//-------------------------------------------------------------------
+	//
+	// Элементы формы (фокус, переходы)
+	//
+	//-------------------------------------------------------------------
 	
 	
 	
@@ -713,6 +696,11 @@
 	
 	
 	
+	//-------------------------------------------------------------------
+	//
+	// Панель редактора свойств
+	//
+	//-------------------------------------------------------------------
 	
 	var MyModel = Ergo.data.Model.extend({
 		fields: {
