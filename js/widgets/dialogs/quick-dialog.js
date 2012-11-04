@@ -21,7 +21,7 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 					toolbox: {
 						defaultItem: {
 							onClick: function() {
-								if(this.tag) this.events.bubble('action');
+								if(this.tag) this.events.bubble('dialogAction');
 							}
 						}
 					}
@@ -50,7 +50,7 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 		},
 		
 		
-		onAction: function(e) {
+		onDialogAction: function(e) {
 			this._result = e.target.tag;
 			this.events.fire(this._result);
 			this.close();

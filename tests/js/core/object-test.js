@@ -16,7 +16,7 @@ test('core/object', function(){
 	var obj = new Ergo.core.Object({
 		id: 'test-id',
 		mixins: [function(){
-			this.ext_prop = 'Mixed property';
+			this.ext_prop = 'Mixed property'
 		}, {
 			ext_func: function() {
 				return 'From mixed function';
@@ -30,8 +30,8 @@ test('core/object', function(){
 	equals(obj.ext_prop, 'Mixed property', 'Расширение с помощью функции');
 	equals(obj.ext_func(), 'From mixed function', 'Расширение с помощью объекта');
 	equals(obj.f, 5, 'Проверка расширения объектом');
-	ok(obj.is(funcExt), 'Проверка расширения функцией');
-	equals(obj.g, 6, 'Проверка расширения функцией');
+//	ok(obj.is(funcExt), 'Проверка расширения функцией');
+//	equals(obj.g, 6, 'Проверка расширения функцией');
 	
 	
 	var Class1 = Ergo.core.Object.extend({

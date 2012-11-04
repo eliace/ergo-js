@@ -55,12 +55,15 @@ Ergo.override(Ergo.core.Object.prototype, {
 			o = Ergo.deep_copy(this.defaults);
 		}
 				
+//		this.options = o;
+//		opts = opts || {};
 		this.options = Ergo.smart_override(o, opts);		
-		
-		
-		
+
+
 		this.$pre_construct(this.options);
 
+//		this.options = Ergo.smart_override(this.options, opts);		
+		
 		this.$construct(this.options);
 
 		this.$post_construct(this.options);
@@ -83,13 +86,13 @@ Ergo.override(Ergo.core.Object.prototype, {
 				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
 			}
 		}
-				
+
 	},
 	
 	
 	
 	$construct: function(o) {
-		this.$opt(o);
+		this.opt(o);
 	},
 	
 	

@@ -3,10 +3,11 @@
 
 Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	
+	mixins: [Ergo.mixins.Dropdownable],
+	
 	defaults: {
-		
+/*		
 		onSelect: function(e) {
-			
 			
 			var self = this;
 			
@@ -24,7 +25,7 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 				autoBind: false
 			}			
 		},
-		
+*/		
 		buttons: [{
 			etype: 'icon-button',
 			icon: 'arrow-down'
@@ -32,18 +33,30 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 		
 		onClick: function() {
 			this.dropdown.open();
-		},
-		
+		}
+/*		
 		binding: function(v) {
-			var selected = this.dropdown.content.items.find(function(item){ return (item.opt('value') == v); });
+			
+			var selected = null;
+			this.dropdown.walk(function(item){
+				if(item.opt('value') == v) {
+					selected = item;
+					return false;
+				}
+			});
+			
+//			var selected = this.dropdown.content.items.find(function(item){ return (item.opt('value') == v); });
 			this.selection.set(selected);
 			this.opt('text', selected ? selected.opt('text') : '');
 		}
-		
-	},
+*/		
+	}
 	
 	
 	
+	
+	
+/*	
 	setDropdownItems: function(list) {
 		
 		this.dropdown.content.items.remove_all();
@@ -53,5 +66,5 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 		}
 		
 	}
-	
+*/	
 }, 'dropdown-select');

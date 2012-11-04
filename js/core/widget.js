@@ -630,7 +630,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @param {Object} callback метод, вызываемый для каждого компонента
 	 */
 	walk: function(callback) {
-		callback.call(this);
+		callback.call(this, this);
 		this.children.each(function(item){
 			item.walk(callback);
 		});

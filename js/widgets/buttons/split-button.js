@@ -30,6 +30,18 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 			}
 		}			
 		
+	},
+	
+	
+	setDropdownItems: function(list) {
+		
+		this.dropdown.content.items.remove_all();
+		
+		for(var i = 0; i < list.length; i++) {
+			this.dropdown.content.items.add( list[i] );
+		}
+		
 	}
+	
 	
 }, 'split-button');

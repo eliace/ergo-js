@@ -31,25 +31,25 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			
 			var at = p.at.split(' ');
 		
-			if(at[0] == 'right') x += to_el.outerWidth();
-			else if(at[0] == 'center') x += to_el.outerWidth()/2;
+			if(at[0] == 'right') x += to_el.outerWidth(false);
+			else if(at[0] == 'center') x += to_el.outerWidth(false)/2;
 	
-			if(at[1] == 'bottom') y += to_el.outerHeight();
-			else if(at[1] == 'center') y += to_el.outerHeight()/2;
+			if(at[1] == 'bottom') y += to_el.outerHeight(false);
+			else if(at[1] == 'center') y += to_el.outerHeight(false)/2;
 			
 			if(this.options.adjustWidth)
-				this.el.width(to_el.outerWidth());
+				this.el.width(to_el.outerWidth(false));
 			
 		}	
 			
 			
 		var my = p.my.split(' ');
 
-		if(my[0] == 'right') x -= this.el.outerWidth();
-		else if(my[0] == 'center') x -= this.el.outerWidth()/2;
+		if(my[0] == 'right') x -= this.el.outerWidth(false);
+		else if(my[0] == 'center') x -= this.el.outerWidth(false)/2;
 
-		if(my[1] == 'bottom') y -= this.el.outerHeight();
-		else if(my[1] == 'center') y -= this.el.outerHeight()/2;
+		if(my[1] == 'bottom') y -= this.el.outerHeight(false);
+		else if(my[1] == 'center') y -= this.el.outerHeight(false)/2;
 		
 		
 		if(p.global) {
