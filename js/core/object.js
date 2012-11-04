@@ -71,6 +71,18 @@ Ergo.override(Ergo.core.Object.prototype, {
 			}
 		}
 
+		opts = opts || {};
+
+		if('mixins' in opts) {
+			for(var i = 0; i < opts.mixins.length; i++) {
+				var mixin = opts.mixins[i];
+				if($.isString(mixin)) mixin = opts.mixins[i] = Ergo.alias('mixins:'+mixin);
+				if($.isFunction(mixin)) mixin.call(this, opts);
+				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
+			}
+		}
+
+
 		this.options = Ergo.smart_override(o, opts);
 
 

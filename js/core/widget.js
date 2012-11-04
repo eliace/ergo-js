@@ -799,7 +799,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// если элемент данных изменен, то создаем новую привязку к данным
 			this.data.events.reg('entry:changed', function(e){
 				//FIXME странное обновление данных
-				self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+				var item = self.item({data: e.entry})
+				if(!item) item = self.items.add({data: e.entry});
+				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 	
