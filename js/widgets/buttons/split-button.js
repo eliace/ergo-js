@@ -6,6 +6,30 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 	defaults: {
 		cls: 'e-split-button',
 		
+		mixins: ['dropdownable', 'selectable'],
+		
+		components: {
+			content: {
+				etype: 'button-item',
+				autoWidth: true
+			},
+			button: {
+				etype: 'icon-button',
+				icon: 'button-arrow-down',
+				onClick: function() {
+					this.parent.dropdown.open();
+				}				
+			}
+		},
+		
+		
+		set: {
+			'text': function(v) {
+				this.content.opt('text', v);
+			}
+		}
+		
+/*		
 		defaultItem: {
 			etype: 'button-item'
 		},
@@ -29,10 +53,10 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 				adjustWidth: true
 			}
 		}			
-		
-	},
+*/		
+	}
 	
-	
+/*	
 	setDropdownItems: function(list) {
 		
 		this.dropdown.content.items.remove_all();
@@ -42,6 +66,6 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 		}
 		
 	}
-	
+*/	
 	
 }, 'split-button');

@@ -1,8 +1,10 @@
 
 
-Ergo.declare_mixin('Ergo.mixins.Dropdownable', {
+Ergo.declare_mixin('Ergo.mixins.Dropdownable', function(o){
 	
-	defaults: {
+	
+	
+	Ergo.smart_override(o, {
 		
 		onSelect: function(e) {
 			
@@ -39,11 +41,11 @@ Ergo.declare_mixin('Ergo.mixins.Dropdownable', {
 			this.opt('text', selected ? selected.opt('text') : '');
 		}
 		
-	},
+	});
 	
 	
 	
-	setDropdownItems: function(list) {
+	this.setDropdownItems = function(list) {
 		
 		this.dropdown.content.items.remove_all();
 		

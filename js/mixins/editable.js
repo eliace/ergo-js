@@ -60,7 +60,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 			this.content.el.show();		
 
 		this.$layoutChanged();
-		this.$dataChanged(); // явно вызываем обновление данных					
+		this.$dataChanged(); // явно вызываем обновление данных
 				
 		
 		this.events.fire('edit');

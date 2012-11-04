@@ -77,6 +77,7 @@ var Ergo = (function(){
 		if(i == 'data') i = 'data!'; 										//<-- поле data не перегружается
 	//	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
 		if(i == 'mixins') i = 'mixins+'; 				//<-- поле mixins сливается
+		if(i == 'plugins') i = 'plugins+'; 				//<-- поле plugins сливается
 		if(i == 'events') {
 			var p2 = {};
 			for(var j in p)

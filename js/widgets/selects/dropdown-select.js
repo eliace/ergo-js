@@ -3,9 +3,10 @@
 
 Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	
-	mixins: [Ergo.mixins.Dropdownable],
-	
 	defaults: {
+		
+		mixins: ['dropdownable'],
+		
 /*		
 		onSelect: function(e) {
 			
