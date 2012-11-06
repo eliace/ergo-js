@@ -52,7 +52,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			'invalid': 'invalid',
 			'unselectable': 'unselectable'
 		},
-		mixins: [Ergo.Observable, Ergo.Statable],
+		plugins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
 		autoUpdate: true,
 		layoutFactory: function(layout) {
@@ -230,13 +230,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		
-		// добавляем метод bubble к events
-		this.events.bubble = function(name, e) {
-			if(!e) e = {}
-			e.after = Ergo.bubble;
-			e.target = e.target || self;
-			this.fire(name, e);
-		}
 
 		
 		// создаем список дочерних элементов
@@ -324,6 +317,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	$construct: function(o) {
+		this.$super(o);
 		
 		
 		var self = this;
@@ -458,7 +452,17 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		
-		this.$super(o);		
+		
+		
+		
+		// добавляем метод bubble к events
+		this.events.bubble = function(name, e) {
+			if(!e) e = {}
+			e.after = Ergo.bubble;
+			e.target = e.target || self;
+			this.fire(name, e);
+		}				
+		
 	},
 	
 //	_theme: function() {
@@ -469,6 +473,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	$post_construct: function(o) {
+		this.$super(o);
 		
 		// добавляем элемент в документ
 		this.$render(o.renderTo);
@@ -478,9 +483,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 						
 		
 		this.$afterBuild();
-
-				
-		this.$super(o);
+		
 	},
 	
 	
@@ -630,7 +633,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @param {Object} callback метод, вызываемый для каждого компонента
 	 */
 	walk: function(callback) {
-		callback.call(this);
+		callback.call(this, this);
 		this.children.each(function(item){
 			item.walk(callback);
 		});
@@ -796,7 +799,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// если элемент данных изменен, то создаем новую привязку к данным
 			this.data.events.reg('entry:changed', function(e){
 				//FIXME странное обновление данных
-				self.item({data: e.entry}).bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+				var item = self.item({data: e.entry})
+				if(!item) item = self.items.add({data: e.entry});
+				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 	

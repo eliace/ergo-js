@@ -133,8 +133,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			if($.isString(val))
 				this._widget.el.removeClass(val);
 			else {
-				var rm_cls = val.call(this._widget, false);
-				if(rm_cls !== false)				
+//				var rm_cls = val.call(this._widget, false);
+//				if(rm_cls !== false)				
 					this._widget.el.removeClass(s);				
 			}
 		}

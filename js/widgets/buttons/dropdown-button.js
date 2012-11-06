@@ -4,23 +4,53 @@
 
 Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 	
+//	mixins: [Ergo.mixins.Dropdownable],
+	
 	defaults: {
 		xicon: 'button-arrow-down',
+		
+		mixins: ['selectable'],
 		
 		onClick: function() {
 			this.dropdown.open();
 		},
 		
 		onSelect: function(e) {
-			this.dropdown.close();
+			
+			var self = this;
+			
+			this.dropdown.close()
+				.then(function(){
+					self.opt('value', e.target.opt('value'));
+					self.events.bubble('action');
+				});
+			
 		},
 		
 		components: {
 			dropdown: {
-				etype: 'dropdown-box'
+				etype: 'dropdown-box',
+				autoBind: false,
+				adjustWidth: true
 			}
 		}
+// 		
+		// binding: function(v) {
+			// var selected = this.dropdown.content.items.find(function(item){ return (item.opt('value') == v); });
+			// this.selection.set(selected);
+			// this.opt('text', selected ? selected.opt('text') : '');
+		// }		
 		
+		
+	},
+	
+	setDropdownItems: function(list) {
+		
+		this.dropdown.content.items.remove_all();
+		
+		for(var i = 0; i < list.length; i++) {
+			this.dropdown.content.items.add( list[i] );
+		}
 		
 	}
 	
