@@ -89,7 +89,7 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 
 
 
-Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
+Ergo.declare_mixin('Ergo.mixins.Selectable', function(o) {
 	
 	this.selection = new Ergo.SelectionManager(this);
 	
@@ -98,7 +98,16 @@ Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
 		// onSelect: function(e) {
 			// this.selection.set(e.target);
 		// }
-	// });	
+	// });
+	
+	// var self = this;
+// 	
+	// if(o.selectOn) {
+		// this.events.reg(o.selectOn, function(e){
+			// self.selection.set(e.target);
+		// });
+	// }
+	
 	
 }, 'selectable');
 
