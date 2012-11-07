@@ -799,6 +799,13 @@ ul.ergo_navigation > li a:hover{
   padding:10px 6px!important;
 }
 
+.e-list-box .e-check-item label {
+  margin:0 0 0 10px;
+}
+
+.e-check-box.checked > .e-checker {
+  background:red;
+}
 
 .e-select-arrow {}
 .e-icon.arrow-down {
@@ -837,8 +844,35 @@ ul.ergo_navigation > li a:hover{
 }
 
 
+.button-arrow-down {
+  background: url(images/button-arrow-down.png) no-repeat center center;
+  margin-left:10px;
+}
 
+.e-split-button .e-button-item{
+  width:auto;
+  min-width:75px;
+  float:left;
+}
 
+.e-split-button .e-icon-button{
+   border:1px solid #dedede;
+  background: #ffffff; /* Old browsers */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f3f3f3)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* IE10+ */
+  background: linear-gradient(top,  #ffffff 0%,#f3f3f3 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
+  float:left;
+ padding:4px 0 3px 0!important;
+}
+
+.e-split-button .e-icon-button .button-arrow-down  {
+  margin:0;
+}
 
 .e-button-item.disabled:active,
 .e-button-item.disabled:hover,
@@ -1062,8 +1096,12 @@ background: #d1d1d1; /* Old browsers */
   padding: 10px;
 }
 
-
-
 .e-check-box.checked > .e-checker {background:url(images/e-checker.png) no-repeat;}
 
+.cursor-col {
+  background:#f2f2f2 url(images/split-dotted.png) no-repeat center center;
+  border-left:1px solid #DFDFDF;
+  border-right:1px solid #DFDFDF;
+  width:6px!important;
+}
 
