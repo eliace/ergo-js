@@ -371,8 +371,26 @@
 						
 					});
 					
-					
 				}
+			}, {
+				etype: 'button-item',
+				text: 'Чеклист',
+				onClick: function() {
+					
+					$.ergo({
+						etype: 'quick-dialog',
+						cls: 'widget',
+						title: 'Диалог',
+						content: {
+							etype: 'list-box',
+							defaultItem: {
+								etype: 'check-item'
+							},
+							items: [{text: 'Завтрак', value: true}, {text: 'Полдник', value: false}, {text: 'Обед', value: false}, {text: 'Ужин', value: false}]
+						}
+					});
+					
+				}				
 			}]
 		}
 	});
@@ -415,7 +433,11 @@
 		etype: 'main-menu',
 		cls: 'vertical',
 		logo: 'samples/img/logo.png',
-		items: ['Страница 1', 'Страница 2', 'Страница 3']
+		items: ['Страница 1', 'Страница 2', 'Страница 3'],
+		
+		onSelectionChanged: function(e) {
+			console.log(e.target);
+		}
 	});
 	
 	
@@ -837,6 +859,10 @@
 		}
 			
 	});
+	
+	
+	
+	
 	
 	
 	
