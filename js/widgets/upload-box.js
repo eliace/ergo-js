@@ -13,9 +13,12 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 			'mouseleave': function(e, w) { w.content.states.unset('hovered'); }
 		},
 		
-		states: {
-			'disabled': function(on) {
-				this._uploader.content.el.attr('disabled', on);
+		transitions: {
+			'> disabled': function() {
+				this._uploader.content.el.attr('disabled', true);
+			},
+			'disabled >': function() {
+				this._uploader.content.el.attr('disabled', false);
 			}
 		},
 		

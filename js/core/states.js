@@ -274,10 +274,10 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 
 
-Ergo.Statable = function() {
+Ergo.Statable = function(o) {
 	this.states = new Ergo.core.StateManager(this);
 	
-	var o = this.options;
+//	var o = this.options;
 	var self = this;
 	
 	if('states' in o){

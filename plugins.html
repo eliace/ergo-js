@@ -198,6 +198,13 @@
 			}, {
 				dataId: 'department',
 				header: 'Подразделение'
+			}, {
+				autoBind: false,
+				content: {
+					etype: 'text',
+					cls: 'action-widget',
+					text: 'Просмотр'
+				}
 			}]
 		}
 		
@@ -582,13 +589,14 @@
 								
 							})
 						
+						gp.css('cursor', 'col-resize');
 						$('body').append(gp);
 						
 						
 						
 						
 						
-						
+						e.preventDefault();
 					}
 				}
 				
