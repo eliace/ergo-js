@@ -33,6 +33,7 @@
 			padding: 20px;
 		}
 		
+/*		
 		.west-split,.east-split {
 			display: table-cell;
 			cursor: col-resize;
@@ -41,6 +42,9 @@
 		.cursor-col {
 			cursor: col-resize
 		}
+*/		
+		
+		
 		
 		
 	</style>
@@ -61,7 +65,7 @@
 		etype: 'dropdown-box',
 		cls: 'context-menu',
 		content: {
-			items: ['Удалить', {cls: 'e-splitter'}, 'Добавить', 'Изменить']			
+			items: ['Удалить', {cls: 'e-splitter'}, 'Добавить', {text: 'Изменить', state: 'disabled'}]			
 		},
 		effects: {
 			delay: 0
@@ -550,17 +554,29 @@
 			
 			items: [{
 				region: 'west-split',
+				etype: 'split-box',
+				left: 'west',
+				right: 'center',
+				update: 'left',
+				
+/*				
 				width: 5,
 				cls: 'cursor-col',
+				left: 'west',
+				right: 'center',
+				update: 'left',
 				
 				events: {
 					'mousedown': function(e, w) {
 						
+						var left = w.parent.children.find(Ergo.by_widget(w.options.left));
+						var right = w.parent.children.find(Ergo.by_widget(w.options.right));
+						var update = this.options.update == 'left' ? left : right;
 						
 						var offset = w.el.offset();
 						var from_x = e.pageX;
-						var max_dx = w.parent.center.el.width();
-						var min_dx = -w.parent.west.el.width();
+						var max_dx = right.el.width();//w.parent.center.el.width();
+						var min_dx = -left.el.width();//w.parent.west.el.width();
 
 						var ghost = $('<div class="ghost"/>');
 						ghost.css({'position': 'absolute', 'top': offset.top, 'left': offset.left, width: w.el.width(), height: w.el.height(), 'background-color': '#bbb'});
@@ -585,7 +601,8 @@
 								dx = Math.min(dx, max_dx);
 								dx = Math.max(dx, min_dx);
 								
-								w.parent.west.opt('width', w.parent.west.opt('width')+dx);
+								update.opt('width', update.opt('width')+dx);
+//								w.parent.west.opt('width', w.parent.west.opt('width')+dx);
 								
 							})
 						
@@ -594,11 +611,10 @@
 						
 						
 						
-						
-						
 						e.preventDefault();
 					}
 				}
+*/				
 				
 				
 			}]
