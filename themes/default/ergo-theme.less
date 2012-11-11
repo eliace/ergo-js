@@ -949,7 +949,8 @@ header .e-tool-box {
 .cursor-default {cursor:default;}
 .cursor-text {cursor:text;}
 .cursor-wait {cursor:wait;}
-.cursor-help {cursor:help}
+.cursor-help {cursor:help;}
+.cursor-col-resize {cursor: col-resize;}
 
 
 .e-select-box .e-icon-button,
@@ -1095,8 +1096,20 @@ background: #d1d1d1; /* Old browsers */
 .context-menu .e-list-box > *:hover {
   background: url(images/context-hover.png)!important;
   color:#444;
-
 }
+
+.context-menu .e-list-box > .disabled:hover {
+  background: none !important;
+  color:#666;
+}
+
+.context-menu .e-list-box .disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+
+
 .context-menu .e-splitter {
   height:0;
   margin:0;
@@ -1129,11 +1142,12 @@ background: #d1d1d1; /* Old browsers */
 
 .e-check-box.checked > .e-checker {background:url(images/e-checker.png) no-repeat;}
 
-.cursor-col {
+.e-split-box {
   background:#f2f2f2 url(images/split-dotted.png) no-repeat center center;
-  border-left:1px solid #DFDFDF;
-  border-right:1px solid #DFDFDF;
+/*  border-left:1px solid #DFDFDF;
+  border-right:1px solid #DFDFDF;*/
   width:6px!important;
+  cursor: col-resize;
 }
 .cursor-col:hover {
   background:#f7f7f7 url(images/split-dotted.png) no-repeat center center;
@@ -1154,3 +1168,42 @@ background: #d1d1d1; /* Old browsers */
 .action-widget:hover {
   background:#f8f8f8;
 }
+
+
+
+
+
+
+
+.e-growl-icon-question {
+  background:url(images/e-grouls_question_img.png);
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+.e-growl-icon-success {
+  background:url(images/e-grouls_complete_img.png);
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+.e-growl-icon-warn {
+  background:url(images/e-grouls_alert_img.png);
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+.e-growl-icon-error {
+  background:url(images/e-grouls_error_img.png);
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+.e-growl-icon-info {
+  background:url(images/e-grouls_info_img.png);
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+
+
