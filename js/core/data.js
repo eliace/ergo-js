@@ -48,6 +48,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	
 	destroy: function() {
 		
+		this.del();
+		
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
 		// удаляем все дочерние элементы
@@ -269,7 +271,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			var deleted_entry = this.entry(i);
 //			var deleted_entry = this.entries.remove_at(i);
-			var deleted_value = value[i];
+			var deleted_value = value ? value[i] : undefined;
 			
 			
 			this.entries.remove_at(i);
@@ -280,7 +282,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					this.entries.get(j).id = j;
 			}
 			else {
-				delete value[i];
+				if(value) delete value[i];
 			}
 						
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
