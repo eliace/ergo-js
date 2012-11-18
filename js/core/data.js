@@ -177,22 +177,27 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			
 			var oldValue = this.get();
 						
-			this._val(newValue);
-
-
+						
+			
+			this.entries.filter(function(e) { return true; }).each(function(e){	e.destroy(); });			
+						
 			// var entries_to_destroy = [];
 // 
 			// this.entries.each(function(e){
-				// //FIXME упрощенная проверка присутствия ключа
-				// if(newValue[e.id] === undefined) entries_to_destroy.push(e);
+// //				//FIXME упрощенная проверка присутствия ключа
+// //				if(newValue[e.id] === undefined) entries_to_destroy.push(e);
+				// entries_to_destroy.push(e);
 			// });
 // 			
 			// for(var i = 0; i < entries_to_destroy.length; i++)
-				// entries_to_destroy[i].del();
+				// entries_to_destroy[i].destroy();
+
 
 			// опустошаем список элементов
-			this.entries.apply_all('destroy');
+//			this.entries.apply_all('destroy');
 
+			this._val(newValue);
+			
 			
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
