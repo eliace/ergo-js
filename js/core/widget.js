@@ -751,10 +751,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	/**
 	 * Подключение данных к виджету
 	 * 
-	 * @param {Ergo.data.DataSource|Any} data данные
-	 * @param {Integer} phase
 	 */
-	bind: function(data, update, root) {
+	bind: function(data, update, pivot) {
 				
 		var o = this.options;
 		var self = this;
@@ -763,17 +761,18 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(this.data == data || data === undefined || !o.autoBind) return;
 		
-		// удаляем все обработчики событий старого источника данных, связанные с текущим виджетом
+		// открепляем источник данных от виджета:
+		//   удаляем все обработчики событий старого источника данных, связанные с текущим виджетом
 		if(this.data)
 			this.data.events.unreg(this);
 
 
-		// если фаза автобиндинга не определена, то присваем ей начальное значение
-		if(root === undefined) root = true;
+		// определяем, является ли источник данных опорным
+		if(pivot === undefined) pivot = true;
+		this._pivot = pivot;
 		
 //		if(update !== false) update = true;
 		
-		this.bindRoot = root;
 
 
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
@@ -783,7 +782,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 
 
-
+		// Если виджет является динамическим (управляется данными)
 		if(o.dynamic) {
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
@@ -814,15 +813,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				// обновляем вложенные элементы контейнера на основе источника данных 
 				self.layout.immediateRebuild = false;
 	
-				// уничтожаем все элементы-виджеты
-				self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+				// // уничтожаем все элементы-виджеты
+				// self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
 				
 	//			var t0 = Ergo.timestamp();
 	
 				self.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.children.add({ 'data': dataEntry });//.bindRoot = false;
-					item.bindRoot = false;
+					var item = self.children.add({ 'data': dataEntry });
+					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
 //					item.dataPhase = 2;
@@ -847,7 +846,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					var item = self.children.add({ 'data': dataEntry, 'autoUpdate': false });
-					item.bindRoot = false;
+					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
 			});
@@ -860,20 +859,23 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		else {
 		
 								
-			// если установлен параметр updateOnValueChanged, то при изменении связанных данных, будет вызван метод $dataChanged
-			this.data.events.reg('value:changed', function() { 
-				/*if(o.updateOnDataChanged)*/ self.$dataChanged(true); // ленивое каскадирование
+			this.data.events.reg('value:changed', function() {
+				// при изменении значения обновляем виджет, но только в "ленивом" режиме
+				/*if(o.updateOnDataChanged)*/ self.$dataChanged(true);
 			}, this);
 			
 		
-			// связываем данные с дочерними компонентами виджета
+			// связываем данные с дочерними компонентами виджета при условии:
+			//	1. если дочерний виджет является опорным (логически связан с другим источником данных), то игнорируем его
+			// 	2. обновление дочернего виджета не производится (оно будет позже иницировано опорным элементом)
+			//	3. дочернtve виджетe явно указывается, что он является опорным
 			this.children.each(function(child){
-				if(!child.bindRoot) child.bind(self.data, false, false);
+				if(!child._pivot) child.bind(self.data, false, false);
 			});
 
 		}
 
-		
+		// обновляем виджет (если это не запрещено в явном виде)
 		if(update !== false) this.$dataChanged();
 
 		this.events.fire('onBound');
@@ -1018,7 +1020,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			//  2. источник данных дочернего элемента совпадает с текущим
 			//  3. дочерний элемент имеет свой независимый источник данных
 			if(lazy && child.data && child.data == self.data) return;
-			if(child.bindRoot || !child.options.autoBind) return;
+			if(child._pivot || !child.options.autoBind) return;
 			child.$dataChanged(lazy);
 		});
 //		}

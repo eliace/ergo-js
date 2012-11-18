@@ -174,12 +174,25 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	set: function(i, newValue) {
 		if(arguments.length == 1) {
 			newValue = i;
-			// опустошаем список элементов
-			this.entries.apply_all('destroy');
 			
 			var oldValue = this.get();
 						
 			this._val(newValue);
+
+
+			// var entries_to_destroy = [];
+// 
+			// this.entries.each(function(e){
+				// //FIXME упрощенная проверка присутствия ключа
+				// if(newValue[e.id] === undefined) entries_to_destroy.push(e);
+			// });
+// 			
+			// for(var i = 0; i < entries_to_destroy.length; i++)
+				// entries_to_destroy[i].del();
+
+			// опустошаем список элементов
+			this.entries.apply_all('destroy');
+
 			
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
