@@ -33,8 +33,13 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 	},
 	
 	setSelected: function(i) {
-		this.selection.set( i ? this.item(i) : i );
+		this.selection.set( i );
+	},
+	
+	clearSelected: function() {
+		this.selection.clear();
 	}
+	
 	
 	
 }, 'main-menu');
