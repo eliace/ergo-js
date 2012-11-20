@@ -252,6 +252,22 @@
 			}, {
 				cls: 'e-splitter'
 			}, {
+                etype: 'button-group',
+                mixins: ['selectable'],
+                onSelect: function(e) {
+                  this.selection.set(e.target);
+                  e.cancel();
+                },
+                defaultItem: {
+                  etype: 'button-item',
+                  onClick: function() {
+                    this.events.bubble('select', {target: this});
+                  }
+                },
+                items: ['Первый', 'Второй', 'Третий']
+            }, {
+				cls: 'e-splitter'
+			}, {
 				etype: 'grid-paginator'
 			}, {
 				cls: 'e-splitter'
