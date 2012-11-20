@@ -228,11 +228,16 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		var states_to_unset = [];
 
 		if(unset_template) {
-			if($.isString(unset_template))
-				unset_template = new RegExp('^'+unset_template+'.*$');
 			
-			for(var i in this._current)
-				if(i.match(unset_template)) states_to_unset.push(i);
+			if($.isArray(unset_template))
+				states_to_unset = unset_template;
+			else {
+				if($.isString(unset_template))
+					unset_template = new RegExp('^'+unset_template+'.*$');
+				
+				for(var i in this._current)
+					if(i.match(unset_template)) states_to_unset.push(i);				
+			}
 		}
 		else {
 			for(var i in this._current)
@@ -274,10 +279,10 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 
 
-Ergo.Statable = function() {
+Ergo.Statable = function(o) {
 	this.states = new Ergo.core.StateManager(this);
 	
-	var o = this.options;
+//	var o = this.options;
 	var self = this;
 	
 	if('states' in o){

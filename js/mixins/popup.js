@@ -81,21 +81,22 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		this.el.css({'left': x, 'top': y});
 		
 		
-/*		
-		var effects = this.options.effects || {};
 		
-		switch(effects['show']){
-			case 'fade':
-				this.el.fadeIn( effects.delay );
-				break;
-			case 'slideDown':
-				this.el.slideDown( effects.delay );
-				break;
-			default:
-				this.el.show();
+		// 
+/*		
+		this.el.height('auto');
+		
+		var max_h = $(document).scrollTop() + $(window).height();
+		var pop_h = this.el.height();
+		var dh = (y + pop_h) - max_h;
+		
+		if(dh > 0) {
+			this.el.height(pop_h - dh);
+			this.el.css({'overflow-y': 'auto'});
 		}
 */		
-//		c.el.show();
+		
+
 		
 		
 		this.isShown = true;
