@@ -678,7 +678,7 @@ header .e-tool-box {
   background: -ms-linear-gradient(top, #d1d1d1 0%,#e8e8e8 15%,#f3f3f3 100%); /* IE10+ */
   background: linear-gradient(top, #d1d1d1 0%,#e8e8e8 15%,#f3f3f3 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-8 */
-  border-top:1px solid #f3f3f3;
+  border-top:1px solid #DEDEDE;
 }
 
 
@@ -703,6 +703,24 @@ header .e-tool-box {
   -moz-border-radius:0 3px 3px 0;
   border-radius:0 3px 3px 0;
   border-right:1px solid #DEDEDE!important;
+}
+.e-group.vertical button:last-child {
+  -webkit-border-radius:0 0 3px 3px;
+  -moz-border-radius:0 0 3px 3px;
+  border-radius:0 0 3px 3px;
+  border-bottom:1px solid #dedede!important;
+}
+.e-group.vertical button {
+    border-right:1px solid #dedede!important;
+    display:block;
+    width:100%;
+     border-bottom:none;
+}
+.e-group.vertical button:first-child {
+  -webkit-border-radius:3px 3px 0 0;
+  -moz-border-radius:3px 3px 0 0;
+  border-radius:3px 3px 0 0;
+  
 }
 
 .e-splitter {
