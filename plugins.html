@@ -278,9 +278,112 @@
 		}
 		
 	});
+	//-------------------------------------------------------------------
+	//
+	// Панель инструментов 2(Селекторы)
+	//
+	//-------------------------------------------------------------------
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Панель инструметов 2(Селекторы)',
+		
+		content: {
+			etype: 'tool-box',
+			items: [{
+                etype: 'button-group',
+                mixins: ['selectable'],
+                onSelect: function(e) {
+                  this.selection.set(e.target);
+                  e.cancel();
+                },
+                defaultItem: {
+                  etype: 'button',
+                  onClick: function() {
+                    this.events.bubble('select', {target: this});
+                  }
+                },
+                items: ['ПервыйСелект', 'ВторойСелект', 'ТретийСелект']
+            }, {
+				cls: 'e-splitter'
+			}, {
+                etype: 'button-group',
+                mixins: ['selectable'],
+                defaultItem: {
+                    etype: 'icon-button',
+                    onClick: function(e){
+                        this.events.bubble('select', {target: this});
+                    }
+                },
+                items: [{icon: 'icon-th-large'}, {icon: 'icon-align-justify'}],
+                onSelect: function(e) {
+                    this.selection.set(e.target);
+                    e.cancel();
+                },
+            }, {
+				cls: 'e-splitter'
+			}, {
+                etype: 'button-group',
+                mixins: ['selectable'],
+                onSelect: function(e) {
+                  this.selection.set(e.target);
+                  e.cancel();
+                },
+                defaultItem: {
+                  etype: 'button-item',
+                  onClick: function() {
+                    this.events.bubble('select', {target: this});
+                  }
+                },
+                items: ['Первый', 'Второй', 'Третий']
+            }]
+		}
+	})
 	
 	
-	
+	//-------------------------------------------------------------------
+	//
+	// Вертикальная группа кнопок
+	//
+	//-------------------------------------------------------------------
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Вертикальная группа кнопок',
+		
+		content: {
+			etype: 'button-group',
+	        cls: 'vertical',
+	        layout: 'vbox',
+	        defaultItem: {
+	            etype: 'button',
+	            onClick: function(e){
+	                this.events.bubble(this.tag, e);
+	            }
+	        },
+	        items: [{
+	            text: 'Отказ', 
+	            tag:'refuse',
+	         }, {
+	            text: 'Регистрация', 
+	            tag: 'registration' 
+	         }, {
+	            text: 'Назначить исполнителя',
+	            tag: ''
+	         }, {
+	            text: 'Запросить обнвление',
+	            tag: ''
+	         }, {
+	            text: 'На пдписание',
+	            tag: ''
+	         }, {
+	            text: 'Подписать',
+	            tag: ''
+	         }]
+		}
+	})
 	
 	//-------------------------------------------------------------------
 	//
