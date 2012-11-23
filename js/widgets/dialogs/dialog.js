@@ -10,6 +10,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		mixins: ['window'],
 		closeOnOuterClick: true,
 		destroyOnClose: true,
+		autoHeight: 'ignore',
 		
 		
 		components: {

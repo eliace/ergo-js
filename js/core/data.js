@@ -178,11 +178,22 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			var oldValue = this.get();
 						
 						
+
+			this.entries
+				.filter(function(e){
+					//FIXME упрощенная проверка присутствия ключа
+					return (newValue[e.id] === undefined);
+				})
+				.each(function(e){	
+					e.destroy(); 
+				});
+
+
 			// удаляем все элементы
-			this.entries.filter(function(e) { return true; }).each(function(e){	e.destroy(); });
+//			this.entries.filter(function(e) { return true; }).each(function(e){	e.destroy(); });
 			// пересоздаем коллекцию элементов
 			// положительный эффект в том, что можно поменять содержимое Object на Array и наоборот
-			this.entries = $.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
+//			this.entries = $.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
 
 						
 			// var entries_to_destroy = [];
