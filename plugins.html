@@ -260,9 +260,11 @@
 				text: 'Действие',
 				dropdownItems: ['Добавить', 'Удалить', 'Изменить']
 			}, {
-				etype: 'split-button',
-//				width: 140,
-				dropdownItems: ['Добавить', 'Удалить', 'Изменить']
+				etype: 'dropdown-select',
+				content: {
+					etype: 'button'
+				},
+				dropdownItems: ['Добавить', 'Удалить', 'Изменить']				
 			}]
 		}
 		
@@ -561,6 +563,7 @@
 						
 						$('body').append(gp);
 						
+						gp.addClass('no-selection');
 						
 						
 						
@@ -648,7 +651,7 @@
 				dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'],
 				
 				onClick: function() {
-					Ergo.focus(this);
+					this.content.el.focus();
 				}
 				
 			}, {
@@ -660,7 +663,8 @@
 				}],
 
 				onClick: function() {
-					Ergo.focus(this);
+					this.content.el.focus();
+					//Ergo.focus(this);
 				}				
 				
 			}, {
@@ -672,7 +676,7 @@
 				}],
 				
 				onClick: function() {
-					Ergo.focus(this);
+					this.content.el.focus();
 				}
 				
 			}, {
@@ -684,7 +688,7 @@
 				}],
 				
 				onClick: function() {
-					Ergo.focus(this);
+					this.content.el.focus();
 				}				
 				
 			}, {
@@ -692,7 +696,7 @@
 				etype: 'check-box',
 				
 				onClick: function() {
-					Ergo.focus(this);
+					this.content.el.focus();
 				}				
 				
 			}, {
