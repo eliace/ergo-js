@@ -140,6 +140,7 @@
 			
 			this.options.totalCount = json.total;
 			
+			// Эмулируем загрузку набора данных
 			var data = [];
 			
 			var to = Math.min(json.total, this.options.to);
@@ -994,14 +995,78 @@
 	
 	
 	
+	//-------------------------------------------------------------------
+	//
+	// Загрузка файлов
+	//
+	//-------------------------------------------------------------------
 	
 	
-	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Загрузка файлов',
+		width: 600,
+		height: 400,
+				
+		content: {
+			
+			items: [{
+				width: 500,
+				etype: 'upload-box',
+				content: {
+					etype: 'select-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-upload-alt'
+					}]					
+				},
+				onFileSelect: function(e) {
+					this.content.opt('value', e.file);
+					
+					// // загружаем файл
+					// this.upload('ajax/upload').success(function(e){
+						// // разбираем ответ
+					// });
+				}				
+			}, {
+				etype: 'panel',
+				header: {
+					etype: 'header-box',
+					tools: [{
+						etype: 'upload-box',
+						content: {
+							etype: 'button-item',
+							icon: 'icon-upload',
+							text: 'Загрузить файл'
+						}
+					}]
+				},
+				onFileSelect: function(e) {
+					this.content.items.add({text: e.file});
+					
+					// // загружаем файл
+					// this.upload('ajax/upload').success(function(e){
+						// // разбираем ответ
+					// });					
+				}				
+			}, {
+				
+			}]
+			
+			
+		}
+
+	});
+
+
 	
 	
 });	
 	
-	
+
 </script>	
 	
 </body>
