@@ -10,6 +10,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		mixins: ['window'],
 		closeOnOuterClick: true,
 		destroyOnClose: true,
+		autoHeight: 'ignore',
 		
 		
 		components: {
@@ -63,7 +64,10 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		var button_items = [];
 		
 		for(var i = 0; i < o.buttons.length; i++) {
-			button_items.push( o.buttonShortcuts[o.buttons[i]] );
+			if($.isString(o.buttons[i]))
+				button_items.push( o.buttonShortcuts[o.buttons[i]] );
+			else
+				button_items.push( o.buttons[i] );
 		}
 
 		o.components.header.tools = button_items;

@@ -117,6 +117,12 @@ var Ergo = (function(){
 	
 			if(_keep_keys && (j in o)) delete o[j];
 		}
+		else if(last_literal == '-') {
+			var j = i.substr(0, i.length-1);
+			if(!_keep_keys) i = j;
+			delete o[i];
+			if(_keep_keys && (j in o)) delete o[j];
+		}
 		else{
 			//TODO здесь создается полная копия (deep copy) объекта-контейнера
 			if( p && p.constructor == Object ) {//$.isPlainObject(p) ){

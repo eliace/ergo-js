@@ -37,6 +37,15 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
+	initilaize: function() {
+		if(arguments.length == 0)
+			this.$super([]);
+		else
+			this.$super.apply(this, arguments);
+	},
+	
+	
+	
 	/**
 	 * Фабрика элементов коллекции
 	 */

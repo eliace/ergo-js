@@ -13,9 +13,12 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 			'mouseleave': function(e, w) { w.content.states.unset('hovered'); }
 		},
 		
-		states: {
-			'disabled': function(on) {
-				this._uploader.content.el.attr('disabled', on);
+		transitions: {
+			'> disabled': function() {
+				this._uploader.content.el.attr('disabled', true);
+			},
+			'disabled >': function() {
+				this._uploader.content.el.attr('disabled', false);
 			}
 		},
 		
@@ -38,6 +41,7 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 							var val = $(this).val();
 							if(val)
 								w.events.bubble('action', {file: val}, e);
+								w.events.bubble('fileSelect', {file: val}, e);
 						}
 					}
 				}
@@ -95,6 +99,13 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		
 		this._uploader.el.attr('action', path);
 		this._uploader.el.attr('target', 'upload'+target_name);
+		
+		if(data) {
+			var data_el = $('<input name="data"/>');
+			data_el.val(JSON.stringify(data));
+			this._uploader.el.append(data_el);			
+		}
+		
 		this._uploader.el.submit();
 		
 		return result;

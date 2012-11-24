@@ -274,7 +274,6 @@
   cursor:pointer;
 }
 
-.e-check-box.checked > .e-checker {background:url(../img/e-checker.png) no-repeat;}
 
 //icons 
 @e-icon-size:16px;
@@ -487,7 +486,7 @@ li.selected:hover {
 
 .e-list-box > div {
   padding: @e-field-margin;
-  left:30px;
+/*  left:30px;*/
   cursor:pointer;
   list-style-position:inside!important;
 }
@@ -555,35 +554,6 @@ li.selected:hover {
   height:100%;
 }
 
-.e-growl-icon-question {
-  background:url(images/e-grouls_question_img.png);
-  background-repeat:no-repeat;
-  background-position: center;
-}
-
-.e-growl-icon-success {
-  background:url(images/e-grouls_complete_img.png);
-  background-repeat:no-repeat;
-  background-position: center;
-}
-
-.e-growl-icon-warn {
-  background:url(images/e-grouls_alert_img.png);
-  background-repeat:no-repeat;
-  background-position: center;
-}
-
-.e-growl-icon-error {
-  background:url(images/e-grouls_error_img.png);
-  background-repeat:no-repeat;
-  background-position: center;
-}
-
-.e-growl-icon-info {
-  background:url(images/e-grouls_info_img.png);
-  background-repeat:no-repeat;
-  background-position: center;
-}
 
 .e-grouls_pannels_content {
   float:left;
@@ -859,7 +829,7 @@ html[xmlns] [layout='float'] {display: block;}
 
 
 [layout="app"] > div > .west {
-  width:280px;
+  width:0px;
   display:table-cell;
   vertical-align: top;  
 }
@@ -871,7 +841,7 @@ html[xmlns] [layout='float'] {display: block;}
 }
 
 [layout="app"] > div > .east {
-  width:280px;
+  width:0px;
   display:table-cell;
   vertical-align: top;
 }
@@ -1073,7 +1043,7 @@ html[xmlns] [layout='float'] {display: block;}
   padding:5px;
 }
 .e-icon.tree-node-icon {
-  background: url(images/arrow.png)0 0;
+/*  background: url(images/arrow.png)0 0;*/
   cursor: pointer;
   display: inline-block;
 }
@@ -1083,7 +1053,7 @@ html[xmlns] [layout='float'] {display: block;}
 }
 
 .expanded > .e-icon.tree-node-icon {
-  background: url(images/arrow.png)0 16px;
+/*  background: url(images/arrow.png)0 16px;*/
 }
 
 .tree-node-content {
@@ -1821,4 +1791,11 @@ e-slider-box {
   -khtml-user-select: none; // webkit (konqueror) browsers
 }
 
+
+
+.ghost {
+  z-index: 1000;
+  background-color: #bbb;
+  position: absolute;
+}
 

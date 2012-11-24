@@ -48,6 +48,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	
 	destroy: function() {
 		
+		this.del();
+		
 		// очищаем регистрацию обработчиков событий
 		this.events.unreg_all();
 		// удаляем все дочерние элементы
@@ -172,12 +174,45 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	set: function(i, newValue) {
 		if(arguments.length == 1) {
 			newValue = i;
-			// опустошаем список элементов
-			this.entries.apply_all('destroy');
 			
 			var oldValue = this.get();
 						
+						
+
+			this.entries
+				.filter(function(e){
+					//FIXME упрощенная проверка присутствия ключа
+					return (newValue[e.id] === undefined);
+				})
+				.each(function(e){	
+					e.destroy(); 
+				});
+
+
+			// удаляем все элементы
+//			this.entries.filter(function(e) { return true; }).each(function(e){	e.destroy(); });
+			// пересоздаем коллекцию элементов
+			// положительный эффект в том, что можно поменять содержимое Object на Array и наоборот
+//			this.entries = $.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
+
+						
+			// var entries_to_destroy = [];
+// 
+			// this.entries.each(function(e){
+// //				//FIXME упрощенная проверка присутствия ключа
+// //				if(newValue[e.id] === undefined) entries_to_destroy.push(e);
+				// entries_to_destroy.push(e);
+			// });
+// 			
+			// for(var i = 0; i < entries_to_destroy.length; i++)
+				// entries_to_destroy[i].destroy();
+
+
+			// опустошаем список элементов
+//			this.entries.apply_all('destroy');
+
 			this._val(newValue);
+			
 			
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
@@ -269,7 +304,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			var deleted_entry = this.entry(i);
 //			var deleted_entry = this.entries.remove_at(i);
-			var deleted_value = value[i];
+			var deleted_value = value ? value[i] : undefined;
 			
 			
 			this.entries.remove_at(i);
@@ -280,7 +315,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					this.entries.get(j).id = j;
 			}
 			else {
-				delete value[i];
+				if(value) delete value[i];
 			}
 						
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
