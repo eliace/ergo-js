@@ -250,7 +250,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	
 
 	remove_all: function() {
-		for(i in this.src)
+		var src = this._source();
+		for(i in src)
 			this.remove_at(i);
 	},
 	
@@ -404,7 +405,15 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	size: function() {
 		var src = this._source();
 		return src.length;
+	},
+	
+	remove_all: function() {
+		var src = this._source();
+		for(var i = 0; i < src.length; i++)
+			this.remove_at(i);
 	}
+	
+	
 	
 	
 /*	
