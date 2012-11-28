@@ -16,6 +16,8 @@
 
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js.js" type="text/javascript"></script>
+
+		<script src="plugins/ergo-growl/ergo-growl.js" type="text/javascript"></script>
 		
 		<!--script src="plugins/ajax-tree/ajax-tree.js" type="text/javascript"></script-->
 	
@@ -275,10 +277,7 @@
 				text: 'Действие',
 				dropdownItems: ['Добавить', 'Удалить', 'Изменить']
 			}, {
-				etype: 'dropdown-select',
-				content: {
-					etype: 'button'
-				},
+				etype: 'split-button',
 				dropdownItems: ['Добавить', 'Удалить', 'Изменить']				
 			}]
 		}
@@ -1064,6 +1063,87 @@
 		}
 
 	});
+
+
+
+
+
+
+	//-------------------------------------------------------------------
+	//
+	// Связывание с данными 
+	//
+	//-------------------------------------------------------------------
+	
+	var posts = ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'];
+
+	var actions = [
+		{id: 'create', title: 'Создать'},
+		{id: 'update', title: 'Изменить'},
+		{id: 'delete', title: 'Удалить'},
+		{id: 'read', title: 'Получить'}
+	]
+
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Связывание с данными',
+		width: 600,
+		height: 400,
+				
+		content: {
+			
+			items: [{
+				etype: 'dropdown-select',
+				dropdownContent: {
+					data: posts,		// у источника данных оперируемое и отображаемое значение совпадают
+					defaultItem: {
+						etype: 'text-item'
+					}
+				}
+			}, {
+				etype: 'dropdown-button',
+				text: 'Выберите значение',
+				dropdownContent: {
+					data: actions,	// у источника данных оперируемое значение (id) не совпадает с отображаемым (title)
+					defaultItem: {
+						etype: 'text-item',
+						get: {
+							'value': function() {
+								return this.data.get('id');
+							}
+						},
+						binding: function() {
+							this.opt('text', this.data.get('title'));
+						}
+					}
+				}
+			}, {
+				
+				dynamic: true,
+				data: posts,
+				defaultItem: {
+					etype: 'text-item',
+					mixins: ['actionable'],
+					action: 'click'
+				},
+				
+				onAction: function(e) {
+					growl.info(e.target.opt('value'));
+				}
+				
+			}]
+			
+			
+			
+		}
+	});
+	
+
 
 
 	

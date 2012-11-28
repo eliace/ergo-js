@@ -54,7 +54,20 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 			}
 		}			
 */		
+	},
+	
+	
+	$pre_construct: function(o) {
+		this.$super(o);
+		
+		if(o.dropdownContent) {
+			Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		}
+		
+		
 	}
+	
+	
 	
 /*	
 	setDropdownItems: function(list) {
