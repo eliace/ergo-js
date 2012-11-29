@@ -28,9 +28,12 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 		},
 		
 		components: {
+			content: {
+				autoBind: false
+			},
 			dropdown: {
 				etype: 'dropdown-box',
-				autoBind: false,
+//				autoBind: false,
 				adjustWidth: true
 			}
 		}
