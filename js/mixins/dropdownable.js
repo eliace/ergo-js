@@ -53,7 +53,7 @@ Ergo.declare_mixin('Ergo.mixins.Dropdownable', function(o){
 			this.dropdown.content.items.add( list[i] );
 		}
 		
-	}
+	}	
 	
 	
 	

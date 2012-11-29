@@ -47,6 +47,20 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 		
 	},
 	
+	
+	
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.dropdownContent) {
+			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		// }
+// 		
+// 		
+	// },
+	
+	
+	
 	setDropdownItems: function(list) {
 		
 		this.dropdown.content.items.remove_all();

@@ -56,6 +56,19 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	
 	
 	
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.dropdownContent) {
+			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		// }
+// 		
+// 		
+	// }
+	
+	
+	
+	
 	
 /*	
 	setDropdownItems: function(list) {
