@@ -275,10 +275,10 @@
 			}, {
 				etype: 'dropdown-button',
 				text: 'Действие',
-				dropdownItems: ['Добавить', 'Удалить', 'Изменить']
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
 			}, {
 				etype: 'split-button',
-				dropdownItems: ['Добавить', 'Удалить', 'Изменить']				
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
 			}]
 		}
 		
@@ -1099,7 +1099,7 @@
 			
 			items: [{
 				etype: 'dropdown-select',
-				dropdownContent: {
+				$dropdown_content: {
 					data: posts,		// у источника данных оперируемое и отображаемое значение совпадают
 					defaultItem: {
 						etype: 'text-item'
@@ -1108,7 +1108,7 @@
 			}, {
 				etype: 'dropdown-button',
 				text: 'Выберите значение',
-				dropdownContent: {
+				$dropdown_content: {
 					data: actions,	// у источника данных оперируемое значение (id) не совпадает с отображаемым (title)
 					defaultItem: {
 						etype: 'text-item',

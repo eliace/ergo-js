@@ -227,7 +227,47 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 		
-		
+		for(var i in o) {
+			if(i[0] == '$') {
+				var key_a = i.split('_');
+				var overrides = {};
+				var val = overrides;
+				
+				while(key_a.length > 0) {
+					var k = key_a.shift();
+					var v = (key_a.length == 0) ? o[i] : {};
+					if(k[0] == '$') {
+						k = k.substring(1);
+						val.components = {};
+						val = val.components[k] = v;
+					}
+					else {
+						val = val[k] = v;
+					}					
+				}
+				
+/*				
+				val[k] = o[i];
+				
+				
+				var key = key_a.shift();
+				while(key_a.length > 0) {
+					if(key[0] == '$') {
+						key = key.substring(1);
+						val.components = {};
+						val = val.components[key] = {};
+					}
+					else {
+						val = val[key] = {};						
+					}
+					key = key_a.shift();
+				}
+				val[key] = o[i];
+*/				
+				
+				Ergo.smart_override(o, overrides);
+			}
+		}
 		
 		
 

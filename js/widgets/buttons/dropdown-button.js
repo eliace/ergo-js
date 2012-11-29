@@ -46,15 +46,15 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 	
 	
 	
-	$pre_construct: function(o) {
-		this.$super(o);
-		
-		if(o.dropdownContent) {
-			Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
-		}
-		
-		
-	},
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.dropdownContent) {
+			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		// }
+// 		
+// 		
+	// },
 	
 	
 	
