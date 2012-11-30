@@ -849,12 +849,14 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.reg('value:changed', function(e){
-	
+				
+				self.rebind(false);
+/*	
 				// обновляем вложенные элементы контейнера на основе источника данных 
 				self.layout.immediateRebuild = false;
 	
 				// // уничтожаем все элементы-виджеты
-				// self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+				self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
 				
 	//			var t0 = Ergo.timestamp();
 	
@@ -872,7 +874,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					
 				self.layout.immediateRebuild = true;
 				self.layout.rebuild();
-				
+*/				
 			}, this);
 			
 	
@@ -881,7 +883,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.layout.immediateRebuild = false;
 					
-			self.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
@@ -901,7 +903,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 								
 			this.data.events.reg('value:changed', function() {
 				// при изменении значения обновляем виджет, но только в "ленивом" режиме
-				/*if(o.updateOnDataChanged)*/ self.$dataChanged(true);
+				/*if(o.updateOnDataChanged)*/ 
+				//self.$dataChanged(true);
+				self.rebind();
 			}, this);
 			
 		
@@ -920,6 +924,70 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		this.events.fire('onBound');
 	},
+	
+	
+	
+	
+	rebind: function(update) {
+		
+		var o = this.options;
+		var self = this;
+		
+
+		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
+		// if('dataId' in o)
+			// data = (data instanceof Ergo.core.DataSource) ? data.entry(o.dataId) : new Ergo.core.DataSource(data, o.dataId);
+		// else
+			// data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+// 		
+		// // если источник данных отличается от уже привязанного, то выполняем новое связвание
+		// if(data != this.data) {
+			// this.bind(data, update, pivot);
+			// return
+		// }
+		
+		
+		if(o.dynamic) {
+			// TODO
+			
+			// обновляем вложенные элементы контейнера на основе источника данных 
+			this.layout.immediateRebuild = false;
+
+			// // уничтожаем все элементы-виджеты
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+			
+//			var t0 = Ergo.timestamp();
+
+			this.data.iterate(function(dataEntry, i){
+//					self.items.add({}).bind(dataEntry, true, 2);
+				var item = self.children.add({ 'data': dataEntry });
+				item._pivot = false;
+				item._dynamic = true;
+//					item.el.attr('dynamic', true);
+//					item.dataPhase = 2;
+			});
+		
+//			var t1 = Ergo.timestamp();
+//			console.log(t1 - t0);
+				
+			this.layout.immediateRebuild = true;
+			this.layout.rebuild();
+			
+			
+		}
+		else {
+			this.children.each(function(child){
+				if(!child._pivot) child.rebind(false);
+			});			
+		}
+		
+		
+		// обновляем виджет (если это не запрещено в явном виде)
+		if(update !== false) this.$dataChanged();
+		
+	},
+	
+	
 	
 	
 	isBound: function() {
