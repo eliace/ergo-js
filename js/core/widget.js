@@ -933,6 +933,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		var o = this.options;
 		var self = this;
 		
+		
+		if(!this.data) return;
 
 		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		// if('dataId' in o)
