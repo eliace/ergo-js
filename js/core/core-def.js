@@ -42,12 +42,12 @@ var Ergo = (function(){
 			E.each(srcObj, function(p, i){
 				if( p && p.constructor == Object ){//$.isPlainObject(p) ){
 	//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
-					if(!(i in o) || o[i].constructor != Object) o[i] = {};
+					if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
 					Ergo.deep_override(o[i], p);
 				}
 				else if( p && p.constructor == Array ) {//$.isArray(p) ){
 	//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
-					if(!(i in o) || o[i].constructor != Array) o[i] = [];
+					if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
 					Ergo.deep_override(o[i], p);
 				}
 				else {
@@ -127,12 +127,12 @@ var Ergo = (function(){
 			//TODO здесь создается полная копия (deep copy) объекта-контейнера
 			if( p && p.constructor == Object ) {//$.isPlainObject(p) ){
 	//			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
-				if(!(i in o) || o[i].constructor != Object) o[i] = {};
+				if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
 				Ergo.smart_override(o[i], p);
 			}
 			else if( p && p.constructor == Array ){//$.isArray(p) ){
 	//			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
-				if(!(i in o) || o[i].constructor != Array) o[i] = [];
+				if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
 				Ergo.smart_override(o[i], p);
 			}
 			else {
