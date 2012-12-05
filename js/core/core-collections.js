@@ -32,13 +32,13 @@
 		if($.isArray(src)){
 			var arr = src;
 			for(var i = 0; i < arr.length; i++){
-				if( callback.call(delegate || arr, arr[i], i) === false ) break;
+				if( callback.call(delegate || arr, arr[i], i) === false ) return false;
 			}
 		}
 		else {
 			var obj = src;
 			for(var i in obj){
-				if( callback.call(delegate || obj, obj[i], i) === false ) break;
+				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
 			}	
 		}
 	}

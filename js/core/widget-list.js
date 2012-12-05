@@ -269,7 +269,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} delegate
 	 */
 	each: function(callback, delegate) {
-		Ergo.each(this._source(), callback, delegate);
+		return Ergo.each(this._source(), callback, delegate);
 	},
 	
 //	ensure: function(i) {
