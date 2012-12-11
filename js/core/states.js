@@ -37,6 +37,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	set: function(to) {
 		
+		// Если состояние уже установлено, то ничего не делаем
+		if(to && (to in this._current)) {
+			deferred = $.Deferred();
+			deferred.resolve();
+			return deferred;			
+		}
+		
+		
+		var self = this;
 		var transitions = this._transitions;
 		var states = this._states;//this._widget.options.states;
 		
@@ -50,10 +59,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var t = transitions[i];
 			if(t.to == to && t.from in this._current) {
 				var result = t.action.call(this._widget);
-				// Если результат является Deferred-объектом, то сохраняем его
-				//FIXME хотя Deferred объекты должны формировать цепочку
-				if(result && result.resolve)
-					deferred = result;
+				// Если результат является Deferred-объектом, то сохраняем его в цепочку
+				if(result && result.done)
+					deferred = deferred ? $.when(deferred, result) : $.when(result);
 				
 				from.push(t.from);
 			}
@@ -71,23 +79,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		if(from.length == 0 && def) {
 			var result = def.action.call(this._widget);
 			
-			if(result && result.resolve)
-				deferred = result;
+			if(result && result.done)
+				deferred = $.when(result);
 		}
 		
 
-		// 2. 
-		for(var i = 0; i < from.length; i++) {
-			delete this._current[from[i]];
-		}
 
-		// 3.		
-		this.state_on(to);
-		
-		this._current[to] = from;
 		
 		
-		this._widget.events.fire('stateChanged', {from: from, to: to});
+		
 		
 		
 		//FIXME хак, если Deferred не определен
@@ -96,6 +96,19 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			deferred.resolve();
 		}
 		
+		deferred.done(function() {
+			
+			// 2. 
+			for(var i = 0; i < from.length; i++) {
+				delete self._current[from[i]];
+			}
+			
+			
+			// 3.
+			self.state_on(to);
+			self._current[to] = from;
+			self._widget.events.fire('stateChanged', {from: from, to: to});
+		});
 		
 		return deferred;
 	},
@@ -152,7 +165,14 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	unset: function(from) {
 		
+		// Если состояние не установлено, то ничего не делаем
+		if(from && !(from in this._current)) {
+			deferred = $.Deferred();
+			deferred.resolve();
+			return deferred;			
+		}
 		
+		var self = this;
 		var transitions = this._transitions;
 		var states = this._states; //this._widget.options.states;
 		
@@ -166,10 +186,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var t = transitions[i];
 			if(t.from == from && t.to) {
 				var result = t.action.call(this._widget);
-				// Если результат является Deferred-объектом, то сохраняем его
-				//FIXME хотя Deferred объекты должны формировать цепочку
-				if(result && result.resolve)
-					deferred = result;				
+				// Если результат является Deferred-объектом, то сохраняем его в цепочку
+				if(result && result.done)
+					deferred = $.when(result);
 				
 				to.push(t.to);
 			}
@@ -183,24 +202,30 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		// }
 		
 		if(to.length == 0 && def) {
-			def.action.call(this._widget);
+			var result = def.action.call(this._widget);
 			
 			//FIXME
-			if(result && result.resolve)
-				deferred = result;
+			if(result && result.done)
+				deferred = $.when(result);
 		}
 		
+
+
+			// 2. 
+			for(var i = 0; i < to.length; i++) {
+				self._current[to[i]] = [from];
+				if(to[i] in states) states[to[i]].call(self._widget);
+			}
+			
+			// 3.
+			self.state_off(from);
+			
+			delete self._current[from];		
 		
-		// 2. 
-		for(var i = 0; i < to.length; i++) {
-			this._current[to[i]] = [from];
-			if(to[i] in states) states[to[i]].call(this._widget);
-		}
 
 		// 3.
-		this.state_off(from);
+//		this.state_off(from);
 		
-		delete this._current[from];		
 
 		
 		//FIXME хак, если Deferred не определен
@@ -208,6 +233,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			deferred = $.Deferred();
 			deferred.resolve();
 		}
+		
+		
+		// deferred.done(function() {
+// 			
+		// });
 		
 		
 		return deferred;

@@ -139,7 +139,7 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * @param {Object} delegate
 	 */
 	each: function(callback, delegate) {
-		Ergo.each(this.src, callback, delegate);
+		return Ergo.each(this.src, callback, delegate);
 	},
 	
 //	ensure: function(i) {

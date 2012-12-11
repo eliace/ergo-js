@@ -21,16 +21,19 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 			
 			this.dropdown.close()
 				.then(function(){
-					self.opt('value', e.target.opt('value'));
+//					self.opt('value', e.target.opt('value'));
 					self.events.bubble('action');
 				});
 			
 		},
 		
 		components: {
+			content: {
+				autoBind: false
+			},
 			dropdown: {
 				etype: 'dropdown-box',
-				autoBind: false,
+//				autoBind: false,
 				adjustWidth: true
 			}
 		}
@@ -46,15 +49,15 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 	
 	
 	
-	$pre_construct: function(o) {
-		this.$super(o);
-		
-		if(o.dropdownContent) {
-			Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
-		}
-		
-		
-	},
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.dropdownContent) {
+			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		// }
+// 		
+// 		
+	// },
 	
 	
 	

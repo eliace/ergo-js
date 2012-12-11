@@ -51,20 +51,20 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 			this.opt('text', selected ? selected.opt('text') : '');
 		}
 */		
-	},
-	
-	
-	
-	
-	$pre_construct: function(o) {
-		this.$super(o);
-		
-		if(o.dropdownContent) {
-			Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
-		}
-		
-		
 	}
+	
+	
+	
+	
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.dropdownContent) {
+			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
+		// }
+// 		
+// 		
+	// }
 	
 	
 	
