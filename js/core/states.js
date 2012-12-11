@@ -38,7 +38,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	set: function(to) {
 		
 		// Если состояние уже установлено, то ничего не делаем
-		if(Ergo.include(this._states, to)) {
+		if(Ergo.includes(this._states, to)) {
 			deferred = $.Deferred();
 			deferred.resolve();
 			return deferred;			
@@ -162,7 +162,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	unset: function(from) {
 		
 		// Если состояние не установлено, то ничего не делаем
-		if(!Ergo.include(this._states, to)) {
+		if(!Ergo.includes(this._states, to)) {
 			deferred = $.Deferred();
 			deferred.resolve();
 			return deferred;			
