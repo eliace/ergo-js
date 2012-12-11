@@ -188,7 +188,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		var to = [];
 		
-		// 1. 
+		// 1. Вызываем 
 		var def = null;
 		var deferred = null;
 		
