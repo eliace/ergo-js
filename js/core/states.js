@@ -161,12 +161,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	unset: function(from) {
 		
-		// Если состояние не установлено, то ничего не делаем
-		if(!Ergo.includes(this._states, to)) {
-			deferred = $.Deferred();
-			deferred.resolve();
-			return deferred;			
-		}
+		// // Если состояние не установлено, то ничего не делаем
+		// if(!Ergo.includes(this._states, to)) {
+			// deferred = $.Deferred();
+			// deferred.resolve();
+			// return deferred;			
+		// }
 		
 		
 		var transitions = this._transitions;
