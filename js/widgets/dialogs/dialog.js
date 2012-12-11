@@ -51,8 +51,12 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 		
 		onAction: function(e) {
 			this._result = e.target.tag;
-			this.events.fire(this._result);
-			this.close();
+			
+			var e = new Ergo.events.Event();
+			this.events.fire(this._result, e);
+			
+			if(!e.canceled) 
+				this.close();
 		}		
 		
 	},
