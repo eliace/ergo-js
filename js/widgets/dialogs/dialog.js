@@ -74,7 +74,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 				button_items.push( o.buttons[i] );
 		}
 
-		o.components.header.tools = button_items;
+		o.components.header.components.toolbox.items = button_items;
 		
 	},
 	
@@ -89,6 +89,11 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 	close: function() {
 		this.window.close();
 		return this;
+	},
+	
+	
+	buttons: function(i) {
+		return this.header.toolbox.item(i);
 	}
 	
 		

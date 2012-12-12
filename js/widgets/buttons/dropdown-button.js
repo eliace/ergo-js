@@ -22,7 +22,7 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 			this.dropdown.close()
 				.then(function(){
 //					self.opt('value', e.target.opt('value'));
-					self.events.bubble('action');
+					self.events.bubble('action', {target: e.target});
 				});
 			
 		},

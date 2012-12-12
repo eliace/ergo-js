@@ -54,15 +54,15 @@ Ergo.declare('Ergo.widgets.HeaderBox', 'Ergo.widgets.Box', {
 			}			
 		}
 		
-	},
-	
-	
-	$pre_construct: function(o) {
-		this.$super(o);
-		
-		if(o.tools)
-			Ergo.smart_override(o.components.toolbox, {items: o.tools});
 	}
+	
+	
+	// $pre_construct: function(o) {
+		// this.$super(o);
+// 		
+		// if(o.tools)
+			// Ergo.smart_override(o.components.toolbox, {items: o.tools});
+	// }
 	
 	
 	
