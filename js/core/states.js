@@ -128,6 +128,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.addClass(val);
+			else if($.isArray(val)) {
+				var add_cls = val[0].call(this._widget, true);
+				if(add_cls !== false)				
+					this._widget.el.addClass(s);
+			}
 			else {
 				var add_cls = val.call(this._widget, true);
 				if(add_cls !== false)				
@@ -150,6 +155,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.removeClass(val);
+			else if($.isArray(val)) {
+				var rm_cls = val[1].call(this._widget);
+				if(rm_cls !== false)				
+					this._widget.el.removeClass(s);				
+			}
 			else {
 //				var rm_cls = val.call(this._widget, false);
 //				if(rm_cls !== false)				
@@ -181,7 +191,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		var to = [];
 		
-		// 1. 
+		// 1. Вызываем 
 		var def = null;
 		var deferreds = [];
 		
