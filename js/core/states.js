@@ -122,6 +122,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	state_on: function(s) {
 		
+		var self = this;
 		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
@@ -129,14 +130,19 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			if($.isString(val))
 				this._widget.el.addClass(val);
 			else if($.isArray(val)) {
-				var add_cls = val[0].call(this._widget, true);
-				if(add_cls !== false)				
-					this._widget.el.addClass(s);
+				$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
+					if(add_cls !== false)				
+						self._widget.el.addClass(s);					
+				});
 			}
 			else {
-				var add_cls = val.call(this._widget, true);
-				if(add_cls !== false)				
-					this._widget.el.addClass(s);
+				$.when( val.call(this._widget, true) ).done(function(add_cls) {
+					if(add_cls !== false)				
+						self._widget.el.addClass(s);					
+				});
+				// var add_cls = val.call(this._widget, true);
+				// if(add_cls !== false)				
+					// this._widget.el.addClass(s);
 			}
 		}
 		else {
@@ -149,6 +155,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	state_off: function(s) {
 
+		var self = this;
 		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
@@ -156,9 +163,13 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			if($.isString(val))
 				this._widget.el.removeClass(val);
 			else if($.isArray(val)) {
-				var rm_cls = val[1].call(this._widget);
-				if(rm_cls !== false)				
-					this._widget.el.removeClass(s);				
+				$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
+					if(rm_cls !== false)
+						self._widget.el.removeClass(s);					
+				});
+				// var rm_cls = val[1].call(this._widget, false);
+				// if(rm_cls !== false)				
+					// this._widget.el.removeClass(s);				
 			}
 			else {
 //				var rm_cls = val.call(this._widget, false);
