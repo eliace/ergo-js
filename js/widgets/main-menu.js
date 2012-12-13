@@ -21,7 +21,7 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 		},
 		defaultItem: {
 			onClick: function() {
-				this.parent.setSelected(this._index);//.selection.set(this);
+				this.parent.setSelected(this);//.selection.set(this);
 //				this.events.bubble('select');
 			}
 		}
@@ -32,8 +32,8 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 		this.logo.content.opt('src', v);
 	},
 	
-	setSelected: function(i) {
-		this.selection.set( this.item(i) );
+	setSelected: function(w) {
+		this.selection.set(w);//this.item(i) );
 	},
 	
 	clearSelected: function() {
