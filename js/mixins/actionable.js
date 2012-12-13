@@ -3,7 +3,7 @@
 Ergo.declare_mixin('Ergo.mixins.Actionable', function(o){
 
 	
-	this.setAction = function(actionEvent) {
+	this.setActionOn = function(actionEvent) {
 		
 		var self = this;
 		

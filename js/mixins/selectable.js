@@ -97,6 +97,18 @@ Ergo.declare_mixin('Ergo.mixins.Selectable', function(o) {
 	
 	this.selection = new Ergo.SelectionManager(this);
 	
+	
+	
+	this.setSelectOn = function(selectEvent) {
+		var self = this;
+		if(selectEvent) {
+			this.events.reg(selectEvent, function(e) {
+				self.selection.set(e.target);
+			});
+		}
+	}
+	
+	
 	// перехватываем событие select
 	// Ergo.smart_override(this.options, {
 		// onSelect: function(e) {

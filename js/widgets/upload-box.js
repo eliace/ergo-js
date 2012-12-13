@@ -40,7 +40,7 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 						'change': function(e, w) {
 							var val = $(this).val();
 							if(val)
-								w.events.bubble('action', {file: val}, e);
+//								w.events.bubble('action', {file: val}, e);
 								w.events.bubble('fileSelect', {file: val}, e);
 						}
 					}
