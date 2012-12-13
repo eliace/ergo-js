@@ -21,7 +21,7 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 		},
 		defaultItem: {
 			onClick: function() {
-				this.parent.selection.set(this);
+				this.parent.setSelected(this);//.selection.set(this);
 //				this.events.bubble('select');
 			}
 		}
