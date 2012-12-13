@@ -32,8 +32,8 @@ Ergo.declare('Ergo.widgets.MainMenu', 'Ergo.widgets.List', {
 		this.logo.content.opt('src', v);
 	},
 	
-	setSelected: function(w) {
-		this.selection.set(w);//this.item(i) );
+	setSelected: function(i) {
+		this.selection.set( (i instanceof Ergo.core.Widget) ? i : this.item(i) );
 	},
 	
 	clearSelected: function() {

@@ -27,6 +27,11 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
 			this.content.states.toggle('checked', v);
 		},
 		value: false
+	},
+	
+	
+	getChecked: function() {
+		return this.content.states.is('checked');
 	}
 	
 }, 'check-item');
