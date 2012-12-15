@@ -674,9 +674,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	walk: function(callback) {
 		if( callback.call(this, this) === false) 
-			return false;
+			return;
 		this.children.each(function(item){
-			return item.walk(callback);
+			item.walk(callback);
 		});
 	},	
 	

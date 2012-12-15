@@ -123,6 +123,123 @@
 	
 	
 	
+	//-------------------------------------------------------------------
+	//
+	// Дерево с частичной загрузкой
+	//
+	//-------------------------------------------------------------------
+	
+	
+	
+Ergo.declare('Ergo.incubator.TreeNodeList', 'Ergo.data.Collection', {
+
+	model: 'Ergo.incubator.TreeNode',
+	
+	iterate: function(callback) {
+		if(this._fetched)
+			this.$super(callback);			
+	},
+	
+	
+	fetch: function() {
+		this._fetched = true;
+		this.events.fire('value:changed');
+		return $.when(this._fetched);
+	}
+	
+	
+});
+
+
+Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Model', {
+	
+	fields: {
+		'children': 'Ergo.incubator.TreeNodeList'
+	},
+	
+	
+	fetch: function(id) {
+		
+		return this.entry('children').fetch();
+		
+		// var self = this;
+// 		
+		// return $.getJSON(this.path()+'/'+id)
+			// .always(function(){
+				// self._fetched = true;
+			// }).success(function(json){
+				// self.set('children', json);
+			// });
+	},
+	
+	getLeaf: function() {
+		return !this.get('children');
+	}
+	
+	
+});
+	
+	
+	
+	
+	
+	treeData = new Ergo.incubator.TreeNodeList([{
+		title: 'каб. 320',
+		children: [{
+			title: 'Волков С.П.'
+		}, {
+			title: 'Зайцев С.Р.'
+		}]
+	}, {
+		title: 'BBB',
+		children: []
+	}, {
+		title: 'CCC',
+		children: []
+	}]);	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		width: 600,
+		height: 300,
+		title: 'Дерево (ajax)',
+		cls: 'widget',
+		style: {'margin-bottom': 20},
+		
+		content: {
+			etype: 'ajax-tree',
+			data: treeData,
+			
+			node: {				
+				content: {
+					cls: 'cursor-default',
+					binding: function(v) {
+						this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+						this.opt('text', v.title);						
+					},
+					onDoubleClick: function() {
+						if(!this.parent.states.is('leaf'))
+							this.parent.states.toggle('expanded');
+					},
+					state: 'no-selection'
+				}
+			}
+							
+		}		
+		
+	});
+	
+	treeData.fetch();
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//-------------------------------------------------------------------

@@ -262,6 +262,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		if(this.container.options.autoHeight) {//} &&  this.container.options.autoHeight != 'ignore'){
 
 			if(!this.el.is(":visible")) return;
+			if(this.el.attr('autoHeight') == 'ignore') return;
 
 			var debug = (this.container.debug == 'autoheight');
 			
