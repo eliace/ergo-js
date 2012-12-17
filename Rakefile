@@ -223,7 +223,8 @@ namespace :compose do
   
   
   task :doc do
-    generate_doc 'build/ergo-js.js'
+    ver = '0.9.1'
+    generate_doc "build/ergo-js-#{ver}.js"
   end 
 
 

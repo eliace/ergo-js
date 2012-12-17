@@ -92,7 +92,7 @@ Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {
 	},
 	
 	
-	buttons: function(i) {
+	button: function(i) {
 		return this.header.toolbox.item(i);
 	}
 	
