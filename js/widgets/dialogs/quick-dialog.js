@@ -75,7 +75,7 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 			button_items.push( o.buttonShortcuts[o.buttons[i]] );
 		}
 
-		o.components.footer.tools = button_items;
+		o.components.footer.components.toolbox.items = button_items;
 		
 	},
 	
