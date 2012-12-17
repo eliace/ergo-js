@@ -10,17 +10,17 @@
  * 
  * 
  * @class
- * @name Ergo.data.Model
+ * @name Ergo.data.Object
  * @extends Ergo.core.DataSource
  */
-Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Model.prototype */{
+Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Object.prototype */{
 	
 	defaults: {
 		oidKey: 'id'
 	},
 	
 	/**
-	 * Определение полей модели
+	 * Определение полей объекта
 	 */
 	fields: {
 	},
@@ -34,6 +34,8 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Mod
 	 * @function
 	 */
 	validate: null,
+	
+	
 	
 	set: function(v) {
 		
@@ -73,21 +75,21 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Mod
 		 *  - задано поле, которое содержит имя класса
 		 */		
 		
-		var model = this.fields[i];
+		var obj = this.fields[i];
 		var o = {};
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
-		if($.isPlainObject(model)) {
-			o = model;
-			model = model.etype;
+		if($.isPlainObject(obj)) {
+			o = obj;
+			obj = obj.etype;
 		}
-		if($.isFunction(model) && !$.isClass(model)) 
-			model = model.call(this, this.get()[i]);
-		if($.isString(model)) 
-			model = eval(Ergo.alias('models:'+model) || model); //TODO здесь лучше загружать класс по зарегистрированному имени
-		model = model || Ergo.core.DataSource;
+		if($.isFunction(obj) && !$.isClass(obj)) 
+			obj = obj.call(this, this.get()[i]);
+		if($.isString(obj)) 
+			obj = eval(Ergo.alias('models:'+obj) || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
+		obj = obj || Ergo.core.DataSource;
 		
-		return new model(this, i, o);
+		return new obj(this, i, o);
 	}
 	
-}, 'models:model');
+}, 'models:object');
 

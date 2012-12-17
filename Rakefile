@@ -9,6 +9,8 @@ Dir.mkdir('build') if not File.exist?('build')
 Dir.mkdir('docs') if not File.exist?('docs') 
 
 
+ERGOJS_VERSION = '0.9.2'
+
 
 class SourceFile
 	attr_accessor :dependencies, :path
@@ -58,7 +60,7 @@ end
 def compose_files(dest, source_files, postfix='')
 	
 #	ver = %x[git tag -l].split.last
-	ver = '0.9.1'
+	ver = ERGOJS_VERSION #'0.9.2'
 	
 #	@name = 'ergo-' + ver
 	js_name = "ergo-js#{postfix}-#{ver}.js"
