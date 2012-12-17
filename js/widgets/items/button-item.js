@@ -14,7 +14,8 @@ Ergo.declare('Ergo.widgets.ButtonItem', 'Ergo.widgets.Button', {
 		components: {
 			content: {
 				etype: 'text',
-				state: 'hidden'
+				state: 'hidden',
+				autoBind: false
 			}
 		},
 //		onClick: function(){

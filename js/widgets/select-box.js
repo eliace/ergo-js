@@ -4,25 +4,25 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
-		tabIndex: 0,
+//		tabIndex: 0,
 		cls: 'e-select-box',
 		
 		mixins: ['selectable'],
 
 
 		components: {
-			select: {
+			content: {
 				cls: 'e-current-select'
 			}			
 		},
 		
 		defaultItem: {
-			cls: 'e-select-arrow',
-			components: {
-				icon: {
-					etype: 'box'
-				}
-			}
+			cls: 'e-select-arrow'
+			// components: {
+				// icon: {
+					// etype: 'box'
+				// }
+			// }
 		},
 		
 		buttons: [],
@@ -33,13 +33,13 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 		
 		set: {
 			'text': function(v) {
-				this.select.opt('text', v);
+				this.content.opt('text', v);
 			}
 		}
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 //		o.fieldContent.items = o.buttons;
 		this.$super(o);
 

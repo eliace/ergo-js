@@ -31,25 +31,25 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			
 			var at = p.at.split(' ');
 		
-			if(at[0] == 'right') x += to_el.outerWidth();
-			else if(at[0] == 'center') x += to_el.outerWidth()/2;
+			if(at[0] == 'right') x += to_el.outerWidth(false);
+			else if(at[0] == 'center') x += to_el.outerWidth(false)/2;
 	
-			if(at[1] == 'bottom') y += to_el.outerHeight();
-			else if(at[1] == 'center') y += to_el.outerHeight()/2;
+			if(at[1] == 'bottom') y += to_el.outerHeight(false);
+			else if(at[1] == 'center') y += to_el.outerHeight(false)/2;
 			
 			if(this.options.adjustWidth)
-				this.el.width(to_el.outerWidth());
+				this.el.width(to_el.outerWidth(false));
 			
 		}	
 			
 			
 		var my = p.my.split(' ');
 
-		if(my[0] == 'right') x -= this.el.outerWidth();
-		else if(my[0] == 'center') x -= this.el.outerWidth()/2;
+		if(my[0] == 'right') x -= this.el.outerWidth(false);
+		else if(my[0] == 'center') x -= this.el.outerWidth(false)/2;
 
-		if(my[1] == 'bottom') y -= this.el.outerHeight();
-		else if(my[1] == 'center') y -= this.el.outerHeight()/2;
+		if(my[1] == 'bottom') y -= this.el.outerHeight(false);
+		else if(my[1] == 'center') y -= this.el.outerHeight(false)/2;
 		
 		
 		if(p.global) {
@@ -66,39 +66,43 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			
 			$('body').append(this.el);
 		}
-				
-//		var view_w = this.el.parent().outerWidth();
-//		var view_h = this.el.parent().outerHeight();
-//		
-//		var dw = view_w - (dd.el.outerWidth() + x);
-//		var dh = view_h - (dd.el.outerHeight() + y);
-//		
-//		if(dw < 0)	x -= this.el.outerWidth();
-//		if(dh < 0)	y -= this.el.outerWidth();
+		
+		
+		
+		// var view_w = this.el.parent().outerWidth();
+		// var view_h = this.el.parent().outerHeight();
+// 		
+		// var dw = view_w - (dd.el.outerWidth() + x);
+		// var dh = view_h - (dd.el.outerHeight() + y);
+// 		
+		// if(dw < 0)	x -= this.el.outerWidth();
+		// if(dh < 0)	y -= this.el.outerWidth();
+		
+		
+		
+		// позиционирование popup-элемента
 		
 		var self = this;
 		
 		this.el.css({'left': x, 'top': y});
 		
-		this.show().then(function(){
-			self.events.fire('opened');
-		});
 		
-/*		
-		var effects = this.options.effects || {};
 		
-		switch(effects['show']){
-			case 'fade':
-				this.el.fadeIn( effects.delay );
-				break;
-			case 'slideDown':
-				this.el.slideDown( effects.delay );
-				break;
-			default:
-				this.el.show();
+		// Усечение размера выпадающего элемента
+		
+		this.el.height('auto');
+		
+		var max_h = $(document).scrollTop() + $(window).height();
+		var pop_h = this.el.height();
+		var dh = (y + pop_h) - max_h;
+		
+		if(dh > 0) {
+			this.el.height(pop_h - dh);
+			this.el.css({'overflow-y': 'auto'});
 		}
-*/		
-//		c.el.show();
+		
+		
+
 		
 		
 		this.isShown = true;
@@ -108,6 +112,11 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			$('body').append(this.glass_pane);
 		}
 		
+		
+		return this.show().then(function(){
+			self.events.fire('opened');
+		});
+
 	};
 	
 	
@@ -115,7 +124,6 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.isShown = false;
 		
-		this.hide();
 		
 /*		
 		var effects = this.options.effects || {};
@@ -139,6 +147,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.glass_pane.detach();		
 		
+		return this.hide();
 	};
 	
 	

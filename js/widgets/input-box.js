@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		cls: 'e-input-box',
 		
 		layout: {
-			wrap: function(item) {
+			wrapper: function(item) {
 				if(item._key == 'content') {
 					var wrapper = $('<div class="input-wrapper"/>');
 					wrapper.append(item.el);
@@ -22,15 +22,21 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		components: {
 			content: {
 				weight: 10,
-				etype: 'text-input',
+				// html: '<input/>',
 				events: {
-					'focus': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).setFocus();
-					},
-					'blur': function(e, w) {
-//						w.getParent(Ergo.widgets.Field).clearFocus();
+					'change': function(e, w) {
+						w.events.bubble('change');
 					}
-				}
+				},
+				etype: 'text-input'
+				// events: {
+					// 'focus': function(e, w) {
+// //						w.getParent(Ergo.widgets.Field).setFocus();
+					// },
+					// 'blur': function(e, w) {
+// //						w.getParent(Ergo.widgets.Field).clearFocus();
+					// }
+				// }
 			}
 //			}
 		},
@@ -40,7 +46,9 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 		},
 		
 		set: {
-			'text': function(v) { this.content.opt('text', v); },
+			'text': function(v) { 
+				this.content.opt('text', v); 
+			},
 			'placeholder': function(v) { this.content.el.attr('placeholder', v); }
 		},
 		get: {
@@ -60,7 +68,7 @@ Ergo.declare('Ergo.widgets.InputBox', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		
 		if(o.multiline) o.components.content.etype = 'text-area';
 		

@@ -2,6 +2,10 @@
 //= require <core/widget>
 
 
+
+/*
+
+
 Ergo.declare_mixin('Ergo.mixins.Focusable', function(o) {
 	
 	this.setFocus = function() {
@@ -119,6 +123,85 @@ else {
 	}
 	
 }
+
+
+*/
+
+
+
+(function(){
+	
+	var E = Ergo;
+	
+	
+	var _focus = undefined;
+	
+	
+	E.focus = function(w) {
+		
+		
+		if(_focus) {
+			_focus.states.unset('focus');
+			_focus.events.bubble('focusOut');
+		}
+		
+		if(w) {
+			w = E.find_focusable(w.el);
+			w.states.set('focus');
+			w.events.bubble('focusIn');
+		}
+		
+		_focus = w;
+	};
+	
+	E.find_focusable = function(el) {
+		
+		var found = null;
+		
+		$(el).parents().andSelf().each(function(i, el){
+			
+			var w = $(el).ergo();
+			if(w && w.options.focusable) {
+				
+				found = w;
+				
+				return false;
+			}
+		});
+		
+		return found;
+	};
+	
+	
+	
+	$(window).click(function(e){
+
+		// если фокус установлен на один из элементов
+		if(e.button == 0 && _focus) {
+			
+			var w = E.find_focusable(e.target);
+			
+			if(!w)
+				Ergo.focus();
+						
+		}
+		
+		
+		
+		
+		// убираем фокус по щелчку левой кнопкой мыши
+//		if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
+	});
+		
+	
+	
+	
+})();
+
+
+
+
+
 
 
 

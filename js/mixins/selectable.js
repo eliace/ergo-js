@@ -51,6 +51,10 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
       ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Ergo.remove_from_array(this.selection_a, w);
     }
     else {
+    	// если элемент уже выбран - повторная выборка не производится
+    	if(this.selection_a[0] == w) 
+    		return;
+    		
       Ergo.each(this.selection_a, function(item){ item.states.unset('selected'); });
       w.states.set('selected');
       this.selection_a = [w];                  
@@ -89,16 +93,37 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 
 
 
-Ergo.declare_mixin('Ergo.mixins.Selectable', function() {
+Ergo.declare_mixin('Ergo.mixins.Selectable', function(o) {
 	
 	this.selection = new Ergo.SelectionManager(this);
+	
+	
+	
+	this.setSelectOn = function(selectEvent) {
+		var self = this;
+		if(selectEvent) {
+			this.events.reg(selectEvent, function(e) {
+				self.selection.set(e.target);
+			});
+		}
+	}
+	
 	
 	// перехватываем событие select
 	// Ergo.smart_override(this.options, {
 		// onSelect: function(e) {
 			// this.selection.set(e.target);
 		// }
-	// });	
+	// });
+	
+	// var self = this;
+// 	
+	// if(o.selectOn) {
+		// this.events.reg(o.selectOn, function(e){
+			// self.selection.set(e.target);
+		// });
+	// }
+	
 	
 }, 'selectable');
 

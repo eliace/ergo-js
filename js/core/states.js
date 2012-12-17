@@ -37,6 +37,13 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	set: function(to) {
 		
+		// Если состояние уже установлено, то ничего не делаем
+		if(to && (to in this._current))
+			return $.when({});
+
+		
+		
+		var self = this;
 		var transitions = this._transitions;
 		var states = this._states;//this._widget.options.states;
 		
@@ -44,11 +51,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		// 1.
 		var def = null;
+		var deferreds = [];
 		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
 			if(t.to == to && t.from in this._current) {
-				t.action.call(this._widget);
+				var result = t.action.call(this._widget);
+				// Если результат является Deferred-объектом, то сохраняем его в цепочку
+//				if(result && result.done)
+				deferreds.push(result);
+//					deferred = deferred ? $.when(deferred, result) : $.when(result);
+				
 				from.push(t.from);
 			}
 			else if(t.to == to && !t.from){
@@ -62,38 +75,75 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// }
 		// }
 		
-		if(from.length == 0 && def)
-			def.action.call(this._widget);
 		
-
-		// 2. 
-		for(var i = 0; i < from.length; i++) {
-			delete this._current[from[i]];
+		if(from.length == 0 && def) {
+			var result = def.action.call(this._widget);
+			
+//			if(result && result.done)
+			deferreds.push(result)
+//				deferred = $.when(result);
 		}
+		
 
-		// 3.		
-		this.state_on(to);
-		
-		this._current[to] = from;
+
 		
 		
-		this._widget.events.fire('stateChanged', {from: from, to: to});
+		// if(deferreds.length == 0)
+			// deferreds.push({});
 		
-		return this;
+		
+		//FIXME хак, если Deferred не определен
+		// if(deferred == null) {
+			// deferred = $.Deferred();
+			// deferred.resolve();
+		// }		
+		
+		
+		
+		return $.when.apply($, deferreds).done(function() {
+			
+			// 2. удаляем все исходные состояния переходов из списка активных состояний
+			for(var i = 0; i < from.length; i++) {
+				delete self._current[from[i]];
+			}			
+			
+			// 3. включаем итоговое состояние
+			self.state_on(to);
+			self._current[to] = from;
+			
+			// 4. оповещаем виджет, что состояние изменилось
+			self._widget.events.fire('stateChanged', {from: from, to: to});
+		});
+		
+//		return deferred;
 	},
 	
 	
 	
 	state_on: function(s) {
 		
+		var self = this;
 		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.addClass(val);
-			else
-				val.call(this._widget);
+			else if($.isArray(val)) {
+				$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
+					if(add_cls !== false)				
+						self._widget.el.addClass(s);					
+				});
+			}
+			else {
+				$.when( val.call(this._widget, true) ).done(function(add_cls) {
+					if(add_cls !== false)				
+						self._widget.el.addClass(s);					
+				});
+				// var add_cls = val.call(this._widget, true);
+				// if(add_cls !== false)				
+					// this._widget.el.addClass(s);
+			}
 		}
 		else {
 			this._widget.el.addClass(s);
@@ -105,12 +155,27 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	state_off: function(s) {
 
+		var self = this;
 		var states = this._states;//this._widget.options.states;
 		
 		if(s in states) {
 			var val = states[s];
 			if($.isString(val))
 				this._widget.el.removeClass(val);
+			else if($.isArray(val)) {
+				$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
+					if(rm_cls !== false)
+						self._widget.el.removeClass(s);					
+				});
+				// var rm_cls = val[1].call(this._widget, false);
+				// if(rm_cls !== false)				
+					// this._widget.el.removeClass(s);				
+			}
+			else {
+//				var rm_cls = val.call(this._widget, false);
+//				if(rm_cls !== false)				
+					this._widget.el.removeClass(s);				
+			}
 		}
 		else {
 			this._widget.el.removeClass(s);
@@ -126,19 +191,30 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	unset: function(from) {
 		
+		// Если состояние не установлено, то ничего не делаем
+		if(from && !(from in this._current)) {
+			return $.when({});			
+		}
 		
+		var self = this;
 		var transitions = this._transitions;
 		var states = this._states; //this._widget.options.states;
 		
 		var to = [];
 		
-		// 1. 
+		// 1. Вызываем 
 		var def = null;
+		var deferreds = [];
 		
 		for(var i = 0; i < transitions.length; i++) {
 			var t = transitions[i];
 			if(t.from == from && t.to) {
-				t.action.call(this._widget);
+				var result = t.action.call(this._widget);
+				// Если результат является Deferred-объектом, то сохраняем его в цепочку
+//				if(result && result.done)
+//					deferred = $.when(result);
+				deferreds.push(result);
+				
 				to.push(t.to);
 			}
 			else if(t.from == from && !t.to) {
@@ -150,22 +226,48 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// to.push(i);
 		// }
 		
-		if(to.length == 0 && def)
-			def.action.call(this._widget);
+		if(to.length == 0 && def) {
+			var result = def.action.call(this._widget);
+			
+			deferreds.push(result);
+			// //FIXME
+			// if(result && result.done)
+				// deferred = $.when(result);
+		}
 		
-		
+
+
 		// 2. 
 		for(var i = 0; i < to.length; i++) {
-			this._current[to[i]] = [from];
-			if(to[i] in states) states[to[i]].call(this._widget);
+			self._current[to[i]] = [from];
+			if(to[i] in states) states[to[i]].call(self._widget);
 		}
+		
+		// 3.
+		self.state_off(from);
+		
+		delete self._current[from];		
+		
 
 		// 3.
-		this.state_off(from);
+//		this.state_off(from);
 		
-		delete this._current[from];		
+
 		
-		return this;
+		//FIXME хак, если Deferred не определен
+		// if(deferred == null) {
+			// deferred = $.Deferred();
+			// deferred.resolve();
+		// }
+		
+		
+		// deferred.done(function() {
+// 			
+		// });
+		
+		
+//		return deferred;
+		return $.when.apply($, deferreds);
 	},
 	
 	
@@ -183,11 +285,16 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		var states_to_unset = [];
 
 		if(unset_template) {
-			if($.isString(unset_template))
-				unset_template = new RegExp('^'+unset_template+'.*$');
 			
-			for(var i in this._current)
-				if(i.match(unset_template)) states_to_unset.push(i);
+			if($.isArray(unset_template))
+				states_to_unset = unset_template;
+			else {
+				if($.isString(unset_template))
+					unset_template = new RegExp('^'+unset_template+'.*$');
+				
+				for(var i in this._current)
+					if(i.match(unset_template)) states_to_unset.push(i);				
+			}
 		}
 		else {
 			for(var i in this._current)
@@ -224,219 +331,41 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 
 
-/**
- * @class
- * @name Ergo.core.StateCollection
- * @extends Ergo.core.Object
- */
-Ergo.declare('Ergo.core.StateCollection', 'Ergo.core.Object', /** @lends Ergo.core.StateCollection.prototype */ {
-	
-	initialize: function(widget) {
-		this._widget = widget;
-		this._states = {};
-	},
-	
-	/**
-	 * Активация состояния
-	 * @param {String} name имя состояния
-	 */
-	set: function(name, change_class) {
-		
-//		if(!name || this.is(name)) return;
-		
-		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'set'});
-		this._widget.events.fire('onBeforeStateChange', e);
-		if(e.isCanceled) return;
-		
-		
-		// если имя состояния является регулярным выражением, то устанавливаем все
-		// состояния, которые подходят под это регулярное выражение
-		if(name instanceof RegExp) {
-			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
-			for(var i in names) this.set(i);
-			return this;
-		}
-		
-		
-		
-		// получаем состояние, определенное для виджета
-		var state = this._widget.options.states[name];
-//		var state_off, state_on = null;
-		if(state == null) state = name;//{ state_on = name; state_off = ''; }
 
-/*		
-//		else if($.isString(state)) { state_on = state; state_off = ''; }
-		else if($.isArray(state)) { //{ state_on = state[0]; state_off = state[1]; }
-			this.set(state[0]);
-			this.clear(state[1]);
-			this._states[name] = true;
-			return this;
-		}
-*/
-		
-//		if( $.isString(state) ) {
-//			this.widget.el.addClass(state);
-//			this.widget.el.removeClass(state_off);
-//		}
 
-		if(arguments.length == 1) change_class = true;
-		
-		
-		var self = this;
-		
-		var state_change_callback = function(change) {
-			
-			if(change !== false)
-				self._widget.el.addClass(state);
-			
-			self._states[name] = true;
-			
-			self._widget.events.fire('stateChanged', {'state': name, 'op': 'set'});
-			self._widget.events.fire('stateSet', {'state': name});			
-		}
-		
-		
-//		var is_deferred = false;
-		
-		if($.isFunction(state)) {
-			var result = state.call(this._widget, true);
-			
-//			if(result instanceof Ergo.core.Deferred) {
-//				if(!result.used) {
-//					result.then(state_change_callback);
-//					is_deferred = true;
-//				}
-//			}
-//			else {
-				change_class = result;
-//			}
-			
-//			change_class &= (result !== false);
-			state = name;
-		}
-		
-//		if(!is_deferred)
-		state_change_callback(change_class);
-		
-//		if(change_class)
-//			this._widget.el.addClass(state);
-//		
-//		this._states[name] = true;
-//		
-//		this._widget.events.fire('onStateChange', {'state': name, 'op': 'set'});
-//		this._widget.events.fire('onStateSet', {'state': name});
-		
-		return this;
-	},
-	
-	/**
-	 * Активация указанного состояния и отключение всех остальных состояний
-	 * @param {String} name
-	 */
-	setOnly: function(name) {
-		for(var i in this._states) this.clear(i);
-		this.set(name);	
-		
-		return this;		
-	},
-	
-	/**
-	 * Дезактивация состояния
-	 * @param {String} name имя состояния
-	 */
-	clear: function(name) {
-		
-//		if(!name || !this.is(name)) return;
-		
-		
-		var e = new Ergo.events.CancelEvent({'state': name, 'op': 'clear'});
-		this._widget.events.fire('onBeforeStateChange', e);
-		if(e.isCanceled) return;		
 
-		
-		// если имя состояния является регулярным выражением, то устанавливаем все
-		// состояния, которые подходят под это регулярное выражение
-		if(name instanceof RegExp) {
-			var names = Ergo.filter(this._states, function(s, i){ return i.match(name); });
-			for(var i in names) this.clear(i);
-			return this;			
-		}
 
-//		// если указанное состояние не определено, то очистку не выполняем
-//		if(!(name in this._states)) return this;
-		
-		// получаем состояние, определенное для виджета
-		var state = this._widget.options.states[name];		
-//		var state_off, state_on = null;
-		if(state == null) state = name;//{ state_on = name; state_off = ''; }		
-		
-/*		
-//		else if($.isString(state)) { state_on = state; state_off = ''; }
-		else if($.isArray(state)) {//{ state_on = state[0]; state_off = state[1]; }
-			this.clear(state[0]);
-			this.set(state[1]);
-			delete this._states[name];
-			return this;
-		}
-*/		
-		
-		var change_class = true;
 
-//		if( $.isString(state) ) {
-//			this._widget.el.removeClass(state);
-////			this._widget.el.addClass(state_off);
-//		}
-		if($.isFunction(state)) {
-			change_class &= (state.call(this._widget, false) !== false);			
-			state = name;
+Ergo.Statable = function(o) {
+	this.states = new Ergo.core.StateManager(this);
+	
+//	var o = this.options;
+	var self = this;
+	
+	if('states' in o){
+		for(var i in o.states)
+			this.states.state(i, o.states[i]);
+		// настраиваем особое поведение состояния hover
+		if('hover' in o.states){
+			this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
 		}
-		
-		if(change_class)
-			this._widget.el.removeClass(state);		
-		
-		delete this._states[name];
-		
-		this._widget.events.fire('stateChanged', {'state': name, 'op': 'clear'});		
-		this._widget.events.fire('stateClear', {'state': name});
-		
-		return this;		
-	},
+	}
 	
-	/**
-	 * Переключение состояния
-	 * @param {String} name имя состояния
-	 * @param {Boolean} sw опциональный флаг, явно указывающий на итоговое состояние (true - включить, false - выключить)
-	 */
-	toggle: function(name, sw) {
-		
-		if(arguments.length == 1) sw = !this.is(name);
-		
-		sw ? this.set(name) : this.clear(name);
-		
-		return sw;
-	},
-	
-	
-	/**
-	 * Проверка состояния
-	 * @param {String} name имя состояния
-	 * @returns {Boolean} активно ли состояние
-	 */
-	is: function(name) {
-		return (name in this._states);
+	if('transitions' in o) {
+		for(var i in o.transitions) {
+			var t = o.transitions[i];
+			if($.isPlainObject(t)) {
+				//TODO
+			}
+			else {
+				var a = i.split('>');
+				if(a.length == 1) a.push('');
+				this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
+			}
+		}
 	}
 	
 	
-	
-});
-
-
-
-
-
-
-Ergo.Statable = function() {
-	this.states = new Ergo.core.StateManager(this);
 }
 
 
@@ -444,42 +373,6 @@ Ergo.Statable = function() {
 
 
 
-
-Ergo.stateFn = function() {
-
-	var fn = function(on) {
-		var s = this.states;
-		for(var i in fn._on) s.toggle(fn._on[i], on);
-		for(var i in fn._off) s.toggle(fn._off[i], !on);
-	};
-	
-	fn._on = [];
-	fn._off = [];	
-	
-	fn.on = function(){
-		for(var i = 0; i < arguments.length; i++)
-			this._on.push(arguments[i]);		
-		return this;
-	}
-	
-	fn.off = function(){
-		for(var i = 0; i < arguments.length; i++)
-			this._off.push(arguments[i]);
-		return this;		
-	}
-	
-	return fn;
-};
-
-Ergo.on = function() {
-	var f = Ergo.stateFn();
-	return f.on.apply(f, arguments);
-};
-
-Ergo.off = function() {
-	var f = Ergo.stateFn();
-	return f.off.apply(f, arguments);
-};
 
 
 

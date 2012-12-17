@@ -47,11 +47,14 @@ test('core/states', function(){
 	
 	var a = [];
 	
-	sm.unset('collapsed').set('expanded');
+	sm.unset('collapsed')
+	sm.set('expanded');
 	same(a, ['open']);
-	sm.unset('expanded').set('collapsed');
+	sm.unset('expanded')
+	sm.set('collapsed');
 	same(a, ['open', 'close']);
-	sm.unset('collapsed').set('expanded');
+	sm.unset('collapsed')
+	sm.set('expanded');
 	same(a, ['open', 'close', 'open']);
 	
 	a = [];

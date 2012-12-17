@@ -13,7 +13,7 @@ test('widgets/box', function(){
 	});
 	
 	equals(w.el[0].tagName, 'DIV', 'Создан элемент с тегом DIV');
-	equals(w.content.className, 'Ergo.widgets.Box', 'Содержимым бокса по умолчанию является бокс');
+	equals(w.content._class_name, 'Ergo.widgets.Box', 'Содержимым бокса по умолчанию является бокс');
 
 	
 	

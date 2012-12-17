@@ -24,7 +24,7 @@ var menuData = [{
 		name: ['data-model']
 	}, {
 		title: 'AutoHeight',
-		name: ['autoheight']
+		name: ['autoheight', 'autoheight-2']
 	}]
 }, {
 	title: 'Виджеты',
@@ -180,7 +180,7 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
 	
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		Ergo.smart_override(o.components.content.content.items, o.stackItems);
@@ -373,6 +373,7 @@ $(document).ready(function(){
 					dynamic: true,
 					dataId: 'children',
 					defaultItem: {
+						etype: 'box',
 						content: {
 							etype: 'anchor',
 							dataId: 'title',

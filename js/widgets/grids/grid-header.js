@@ -22,10 +22,14 @@ Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 			control: {
 				etype: 'grid-row',
 				cls: 'e-grid-control-row',
-				weight: -1
+				weight: -1,
+				defaultItem: {
+					etype: 'grid-header-cell'
+				}				
 			}
 		},
 		
+		autoBind: false,
 		
 		columns: [],
 		row: {},
@@ -34,7 +38,8 @@ Ergo.declare('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 		items: [{}]
 	},
 	
-	$init: function(o) {
+	
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		var control_cols = [];
@@ -85,7 +90,7 @@ Ergo.declare('Ergo.widgets.grid.HeaderCell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<th/>',
-		binding: function(v) { this.opt('text', v); }		
+		binding: function(v) { this.opt('text', v); }
 	}
 	
 	

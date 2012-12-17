@@ -1,5 +1,5 @@
 
-//= require <core/data-source>
+//= require <core/data>
 
 
 
@@ -35,6 +35,15 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 			if(a[i].id == oid) return a[i];
 		return null;
 	},
+	
+	
+	initilaize: function() {
+		if(arguments.length == 0)
+			this.$super([]);
+		else
+			this.$super.apply(this, arguments);
+	},
+	
 	
 	
 	/**

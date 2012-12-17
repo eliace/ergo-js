@@ -8,9 +8,18 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		style: {'position': 'relative', 'display': 'inline-block'},
 		events: {
 			'mousedown': function(e, w) { w.content.states.set('clicked'); },
-			'mouseup': function(e, w) { w.content.states.clear('clicked'); },
+			'mouseup': function(e, w) { w.content.states.unset('clicked'); },
 			'mouseenter': function(e, w) { w.content.states.set('hovered'); },
-			'mouseleave': function(e, w) { w.content.states.clear('hovered'); }
+			'mouseleave': function(e, w) { w.content.states.unset('hovered'); }
+		},
+		
+		transitions: {
+			'> disabled': function() {
+				this._uploader.content.el.attr('disabled', true);
+			},
+			'disabled >': function() {
+				this._uploader.content.el.attr('disabled', false);
+			}
 		},
 		
 		components: {
@@ -31,7 +40,8 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 						'change': function(e, w) {
 							var val = $(this).val();
 							if(val)
-								w.events.bubble('action', {file: val}, e);
+//								w.events.bubble('action', {file: val}, e);
+								w.events.bubble('fileSelect', {file: val}, e);
 						}
 					}
 				}
@@ -61,6 +71,8 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		
 		var target_name = '_target'+Ergo.timestamp();
 		
+		var result = $.Deferred();
+		
 		this.components.set(target_name, {
 			etype: 'box',
 			html: '<iframe name="upload'+target_name+'" frameborder="no" src="about:blank"/>',
@@ -72,9 +84,12 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 					var text = w.el[0].contentWindow.document.body.innerHTML;
 					//FIXME проверка на text == null некорректна
 					if(text) {
-//						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
-//						text = m[1];
-						w.events.bubble('upload', {textData: text, data: data});
+						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
+						var text2 = (m) ? m[1] : null;
+
+//						w.events.bubble('upload', {textData: text, data: data});
+						
+						result.resolve({rawData: text, textData: text2});
 //						w.destroy();
 					}
 				}
@@ -84,8 +99,22 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		
 		this._uploader.el.attr('action', path);
 		this._uploader.el.attr('target', 'upload'+target_name);
+		
+		if(data) {
+			var data_el = $('<input name="data"/>');
+			data_el.val(JSON.stringify(data));
+			this._uploader.el.append(data_el);			
+		}
+		
 		this._uploader.el.submit();
 		
+		return result;
 	}
+	
+	
+	
+//	setDisabled: function(v) {
+//	}
+	
 	
 }, 'upload-box');

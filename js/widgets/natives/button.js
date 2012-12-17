@@ -15,12 +15,12 @@
 Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
 	
 	defaults: {
-		html: '<button type="button"/>',
-		events: {
-			'click': function(e, self) {
-				if(!self.states.is('disabled')) self.events.fire('action', {}, e);
-			}
-		}
+		html: '<button type="button"/>'
+		// events: {
+			// 'click': function(e, self) {
+				// if(!self.states.is('disabled')) self.events.fire('action', {}, e);
+			// }
+		// }
 	},
 	
 //	$html: function() { return '<button type="button"/>'; },

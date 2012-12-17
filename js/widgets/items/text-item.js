@@ -11,7 +11,9 @@ Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {
 		components: {
 			content: {
 				etype: 'text',
-				state: 'hidden'
+				state: 'hidden',
+				binding: false
+//				autoBind: false
 			}
 		},
 //		onClick: function(){
