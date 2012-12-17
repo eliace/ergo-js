@@ -1,8 +1,8 @@
 
-//= require "model"
+//= require "object"
 
 
-Ergo.declare('Ergo.data.AjaxModel', 'Ergo.data.Model', {
+Ergo.declare('Ergo.data.AjaxModel', 'Ergo.data.Object', {
 	
 
 

@@ -54,6 +54,12 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	},
 	
 	
+	
+	fetch: function() {
+		this._fetched = true;
+	},
+	
+	
 //	get: function() {
 //		var v = this.$super.apply(this, arguments);
 //		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
