@@ -80,6 +80,26 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.el.css({'left': x, 'top': y});
 		
+		
+		
+		
+		// Усечение размера выпадающего элемента
+		
+		this.el.height('auto');
+		
+		var max_h = $(document).scrollTop() + $(window).height();
+		var pop_h = this.el.height();
+		var dh = (y + pop_h) - max_h;
+		
+		if(dh > 0) {
+			this.el.height(pop_h - dh);
+			this.el.css({'overflow-y': 'auto'});
+		}
+		
+		
+		
+		
+		
 		this.show().then(function(){
 			self.events.fire('opened');
 		});
@@ -99,6 +119,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		}
 */		
 //		c.el.show();
+				
+		
 		
 		
 		this.isShown = true;
