@@ -170,7 +170,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 				// вызываем обработчик события
 				h.callback.call(h.target, e, type);
 				// если усьановлен флаг остановки, то прекращаем обработку событий
-				if(e.stopped) return false;
+//				if(e.stopped) return false;
 			});
 			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
 		}
