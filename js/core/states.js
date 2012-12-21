@@ -37,6 +37,10 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	set: function(to) {
 		
+		if(to && (to in this._current)) return this;
+		
+		
+		
 		var transitions = this._transitions;
 		var states = this._states;//this._widget.options.states;
 		
@@ -125,6 +129,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	unset: function(from) {
+				
+		if(from && !(from in this._current)) return this;
 		
 		
 		var transitions = this._transitions;
