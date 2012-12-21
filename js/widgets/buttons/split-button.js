@@ -11,7 +11,10 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 		components: {
 			content: {
 				etype: 'button-item',
-				autoWidth: true
+				autoWidth: true,
+				onClick: function() {
+					this.events.bubble('action');
+				}
 			},
 			button: {
 				etype: 'icon-button',
