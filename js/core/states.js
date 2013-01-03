@@ -127,22 +127,25 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		if(s in states) {
 			var val = states[s];
+			
+			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
 				this._widget.el.addClass(val);
+			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if($.isArray(val)) {
-				$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
-					if(add_cls !== false)				
-						self._widget.el.addClass(s);					
-				});
+				if(val.length > 0) {				
+					$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
+						if(add_cls !== false)				
+							self._widget.el.addClass(s);					
+					});
+				}
 			}
+			// в иных случаях ожидается, что состояние содержит функцию
 			else {
 				$.when( val.call(this._widget, true) ).done(function(add_cls) {
 					if(add_cls !== false)				
 						self._widget.el.addClass(s);					
 				});
-				// var add_cls = val.call(this._widget, true);
-				// if(add_cls !== false)				
-					// this._widget.el.addClass(s);
 			}
 		}
 		else {
@@ -153,6 +156,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 	
 	
+	
+	
+	
 	state_off: function(s) {
 
 		var self = this;
@@ -160,21 +166,29 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 		if(s in states) {
 			var val = states[s];
+			
+			// если состояние определено строкой, то строка содержит имя устанавливаемого класса			
 			if($.isString(val))
 				this._widget.el.removeClass(val);
+			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if($.isArray(val)) {
-				$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
-					if(rm_cls !== false)
-						self._widget.el.removeClass(s);					
-				});
-				// var rm_cls = val[1].call(this._widget, false);
-				// if(rm_cls !== false)				
-					// this._widget.el.removeClass(s);				
+				if(val.length > 1) {
+					$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
+						if(rm_cls !== false)
+							self._widget.el.removeClass(s);					
+					});					
+				}
 			}
+			// в иных случаях ожидается, что состояние содержит функцию
 			else {
+				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
+					if(rm_cls !== false)				
+						self._widget.el.removeClass(s);
+				});
+				
 //				var rm_cls = val.call(this._widget, false);
 //				if(rm_cls !== false)				
-					this._widget.el.removeClass(s);				
+//					this._widget.el.removeClass(s);				
 			}
 		}
 		else {

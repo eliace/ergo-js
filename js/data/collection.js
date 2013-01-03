@@ -45,6 +45,12 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
+	fetch: function() {
+		this._fetched = true;
+	},
+	
+	
+	
 	
 	/**
 	 * Фабрика элементов коллекции

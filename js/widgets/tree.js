@@ -17,6 +17,8 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 			'expanded >': function() { this.subtree.hide(); }
 		},
 		
+		
+		
 //		layout: 'hbox',
 		
 		components: {
@@ -43,6 +45,16 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 			'text': function(v) { this.content.opt('text', v); }
 		}
 		
+	},
+	
+	
+	
+	getLeaf: function() {
+		return this.states.is('leaf');
+	},
+	
+	setLeaf: function(v) {
+		this.states.toggle('leaf', v);
 	},
 	
 	
