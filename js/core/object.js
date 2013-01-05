@@ -204,7 +204,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	is: function(ex) {
+	mixed_with: function(ex) {
 		var o = this.options;
 		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
 		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
