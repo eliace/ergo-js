@@ -254,7 +254,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		// 2. 
 		for(var i = 0; i < to.length; i++) {
 			self._current[to[i]] = [from];
-			if(to[i] in states) states[to[i]].call(self._widget);
+			if(to[i] in states) self.state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 		
 		// 3.

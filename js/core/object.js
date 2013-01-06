@@ -75,10 +75,11 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 		opts = opts || {};
 
-		if('mixins' in opts) {
-			for(var i = 0; i < opts.mixins.length; i++) {
-				var mixin = opts.mixins[i];
-				if($.isString(mixin)) mixin = opts.mixins[i] = Ergo.alias('mixins:'+mixin);
+		if('mixins' in opts || '+mixins' in opts) {
+			mixins = opts.mixins ? opts.mixins : opts['+mixins'];
+			for(var i = 0; i < mixins.length; i++) {
+				var mixin = mixins[i];
+				if($.isString(mixin)) mixin = mixins[i] = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, opts);
 				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
 			}

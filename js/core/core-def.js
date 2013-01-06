@@ -73,10 +73,12 @@ var Ergo = (function(){
 	var smart_override_prop = function(o, srcObj, i) {
 	
 		var p = srcObj[i];
+
+
 	
-		if(i == 'data') i = '!data'; 										//<-- поле data не перегружается
+		if(i == 'data') i = '!'+i; 										//<-- поле data не перегружается
 	//	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
-		if(i == 'mixins') i = '+mixins'; 				//<-- поле mixins сливается
+		if(i == 'mixins') i = '+'+i; 				//<-- поле mixins сливается
 //		if(i == 'plugins') i = '+plugins'; 				//<-- поле plugins сливается
 		if(i == 'events') {
 			var p2 = {};

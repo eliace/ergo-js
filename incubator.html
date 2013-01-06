@@ -60,8 +60,6 @@
 	$(document).ready(function(){
 	
 	
-	var treeData = new Ergo.data.tree.NodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
-	
 	
 	var context_menu = $.ergo({
 		etype: 'dropdown-box',
@@ -75,6 +73,70 @@
 //		hideOn: 'hoverOut'
 	});
 	
+
+
+Ergo.declare('Ergo.incubator.AjaxTreeNodeList', 'Ergo.data.Collection', {
+
+	model: 'Ergo.incubator.AjaxTreeNode',
+	
+	iterate: function(callback) {
+		if(this._fetched)
+			this.$super(callback);
+	},
+	
+	
+	fetch: function() {
+		this._fetched = true;
+		this.events.fire('value:changed');
+		return $.when(this._fetched);
+	},
+	
+	
+	purge: function() {
+		this._fetched = false;
+		this.events.fire('value:changed');
+		return $.when(this._fetched);
+	}
+	
+	
+});
+
+
+Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
+	
+	fields: {
+		'children': 'Ergo.incubator.AjaxTreeNodeList'
+	},
+	
+	
+	fetch: function() {
+		
+		return this.entry('children').fetch();
+		
+		// var self = this;
+// 		
+		// return $.getJSON(this.path()+'/'+id)
+			// .always(function(){
+				// self._fetched = true;
+			// }).success(function(json){
+				// self.set('children', json);
+			// });
+	},
+	
+	getLeaf: function() {
+		return !this.get('children');
+	}
+	
+	
+});
+
+
+
+	var treeData = new Ergo.data.tree.NodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
+	
+
+
+
 	
 	
 	//-------------------------------------------------------------------
@@ -83,7 +145,7 @@
 	//
 	//-------------------------------------------------------------------
 	
-	$.ergo({
+	var w = $.ergo({
 		etype: 'panel',
 		renderTo: 'body',
 		width: 600,
@@ -94,6 +156,7 @@
 		
 		content: {
 			etype: 'dynamic-tree',
+			
 			data: treeData,
 			
 			node: {
@@ -121,7 +184,7 @@
 	treeData.fetch('plugins/ajax-tree/ajax/tree/0');
 	
 	
-	
+//	console.log(w.options);
 	
 	//-------------------------------------------------------------------
 	//
