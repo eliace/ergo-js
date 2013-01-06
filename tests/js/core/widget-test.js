@@ -9,7 +9,7 @@ test('core/widget', function(){
 		innerText: 'Text'
 	});
 	
-	equals(w.el.text(), 'Text', 'Установка параметра innerText');
+	equal(w.el.text(), 'Text', 'Установка параметра innerText');
 	
 	
 	w = new Ergo.core.Widget({
@@ -31,22 +31,25 @@ test('core/widget', function(){
 		}
 	});
 	
+	
+	console.log(w.defaults);
+	
 	w.c2.mark = 5;
 
-	equals('c1', w.c1._key, 'Поле _key компонента c1 равно "c1"')
+	equal('c1', w.c1._key, 'Поле _key компонента c1 равно "c1"')
 	ok(w == w.c1.parent, 'Поле parent компонента c1 задано верно')
 	
 	ok(w.c1 && w.c2, 'Компоненты доступны');
 	ok(w.el.children().length == 2, 'Элементы комопонентов добавлены в комопоновку родителя');
-	equals(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
+	equal(w.c1.el.attr('class'), 'test', 'Класс определяется через defaultComponent')
 	ok(w.component('c1') == w.c1, 'Поиск по ключу в списке компонентов')
 	ok(w.component({mark: 5}) == w.c2, 'Поиск по произвольному атрибуту в списке компонентов')
 	
 	ok(w.components.get('c2') == w.c2, 'Доступ через коллекцию компонентов');
-	equals(2, w.components.size(), 'Количество элементов в коллекции компонентов');
+	equal(2, w.components.size(), 'Количество элементов в коллекции компонентов');
 	w.components.remove_at('c1');
-	equals(1, w.components.size(), 'Размер коллекции компонентов послк удаления компонента равен 1');
-	equals(1, w.children.size(), 'Размер списка дочерних виджетов после удаления компонента равен 1');
+	equal(1, w.components.size(), 'Размер коллекции компонентов послк удаления компонента равен 1');
+	equal(1, w.children.size(), 'Размер списка дочерних виджетов после удаления компонента равен 1');
 	
 
 
@@ -113,8 +116,8 @@ test('core/widget', function(){
 		}
 	});
 	
-	equals(w.c1.el.text(), 'Alice', 'Связывание с полем "name"')
-	equals(w.c2.el.text(), '21', 'Связывание с полем "age"')
+	equal(w.c1.el.text(), 'Alice', 'Связывание с полем "name"')
+	equal(w.c2.el.text(), '21', 'Связывание с полем "age"')
 	
 	
 	var Div = Ergo.core.Widget.extend({
@@ -133,11 +136,11 @@ test('core/widget', function(){
 		tabIndex: 4
 	});
 	
-	equals(w.el.text(), 'Text', 'Установка опции text');
-	equals(w.tag, 'Tag', 'Установка опции tag');
-	equals(w.el.attr('title'), 'Tooltip', 'Установка опции tooltip');
-	equals(w.el.attr('id'), 'id', 'Установка опции id');
-	equals(w.el.attr('tabindex'), 4, 'Установка опции tabIndex');
+	equal(w.el.text(), 'Text', 'Установка опции text');
+	equal(w.tag, 'Tag', 'Установка опции tag');
+	equal(w.el.attr('title'), 'Tooltip', 'Установка опции tooltip');
+	equal(w.el.attr('id'), 'id', 'Установка опции id');
+	equal(w.el.attr('tabindex'), 4, 'Установка опции tabIndex');
 	
 	var Class = Ergo.core.Widget.extend({
 		defaults: {
@@ -154,7 +157,7 @@ test('core/widget', function(){
 		foo: 'a'
 	});
 	
-	equals(w.foo, 2, 'Проверка перегрузки сеттера опций');
+	equal(w.foo, 2, 'Проверка перегрузки сеттера опций');
 	
 	
 	
@@ -183,14 +186,14 @@ test('core/widget', function(){
 	});
 	
 	
-	equals(w.c1._weight, 1, 'Вес компонента c1');
-	equals(w.c2._weight, -1, 'Вес компонента c2');
-	equals(w.item({tag: 'item_1'})._weight, 0, 'Вес элемента item_1');
+	equal(w.c1._weight, 1, 'Вес компонента c1');
+	equal(w.c2._weight, -1, 'Вес компонента c2');
+	equal(w.item({tag: 'item_1'})._weight, 0, 'Вес элемента item_1');
 	var children = w.layout.el.children();
-	equals(children.length, 3, 'Элементов добавлено в компоновку');
-	equals(children.eq(0).ergo().tag, 'component_2', '')
-	equals(children.eq(1).ergo().tag, 'item_1', '')
-	equals(children.eq(2).ergo().tag, 'component_1', '')
+	equal(children.length, 3, 'Элементов добавлено в компоновку');
+	equal(children.eq(0).ergo().tag, 'component_2', '')
+	equal(children.eq(1).ergo().tag, 'item_1', '')
+	equal(children.eq(2).ergo().tag, 'component_1', '')
 	ok(w.item(0).tag == 'item_1', 'Элемент с индексом 0 имеет тег item_1')
 	ok(2, w.components.size(), 'Количество компоннетов равно 2');
 	ok(1, w.items.size(), 'Количество элементов равно 1');
@@ -231,17 +234,17 @@ test('core/widget', function(){
 		}
 	});
 	
-	same(a, ['format', 'binding'], 'При первичном подключении данных вызывается format -> binding');
+	deepEqual(a, ['format', 'binding'], 'При первичном подключении данных вызывается format -> binding');
 
 //	ok(!w.lock_data_change, 'Блокировака dataChange отключена')
 
 	a = [];
 	w.data.set('hello');
-	same(a, ['format', 'binding'], 'При внешнем изменении данных вызывается format -> binding');
+	deepEqual(a, ['format', 'binding'], 'При внешнем изменении данных вызывается format -> binding');
 	
 	a = [];
 	w.events.fire('action', {'value': 'goodbye'});
-	same(a, ['store', 'format', 'binding'], 'При внутреннем изменении значения виджета вызывается только store -> format -> binding');
+	deepEqual(a, ['store', 'format', 'binding'], 'При внутреннем изменении значения виджета вызывается только store -> format -> binding');
 	
 	
 	
@@ -256,7 +259,7 @@ test('core/widget', function(){
 	});
 	
 	w.bind(null);
-	same(a, ['hello', null], 'Связывание с виджетом значения null');
+	deepEqual(a, ['hello', null], 'Связывание с виджетом значения null');
 	
 	
 	a = [];
@@ -278,7 +281,7 @@ test('core/widget', function(){
 	
 	w.content.events.fire('action', {text: 'message', after: Ergo.bubble});
 	
-	same(a, ['message'], 'Сообщение всплывает вверх по дереву виджетов');
+	deepEqual(a, ['message'], 'Сообщение всплывает вверх по дереву виджетов');
 	
 	
 	
@@ -289,11 +292,11 @@ test('core/widget', function(){
 	w.children.add({etype: 'widget'});
 	w.children.add({etype: 'widget'});
 	
-	equals(3, w.children.size());
+	equal(3, w.children.size());
 	
 	w.children.last().destroy();
 	
-	equals(2, w.children.size());
+	equal(2, w.children.size());
 	
 	
 });

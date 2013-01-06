@@ -14,8 +14,8 @@ test('core/states', function(){
 	var fn = Ergo.on('red', 'grey').off('blue', 'white');
 	
 	
-	same(fn._on, ['red', 'grey'], '_on');
-	same(fn._off, ['blue', 'white'], '_off');
+	deepEqual(fn._on, ['red', 'grey'], '_on');
+	deepEqual(fn._off, ['blue', 'white'], '_off');
 	
 	
 	
@@ -40,8 +40,8 @@ test('core/states', function(){
 	var sm = new Ergo.core.Widget({
 		html: '<div/>',
 		states: {
-			'expanded': function(){ a.push('open'); },
-			'collapsed': function() { a.push('close'); }
+			'expanded': function(on){ if(on) a.push('open'); },
+			'collapsed': function(on) { if(on) a.push('close'); }
 		}
 	}).states;
 	
@@ -49,23 +49,23 @@ test('core/states', function(){
 	
 	sm.unset('collapsed')
 	sm.set('expanded');
-	same(a, ['open']);
+	deepEqual(a, ['open']);
 	sm.unset('expanded')
 	sm.set('collapsed');
-	same(a, ['open', 'close']);
+	deepEqual(a, ['open', 'close']);
 	sm.unset('collapsed')
 	sm.set('expanded');
-	same(a, ['open', 'close', 'open']);
+	deepEqual(a, ['open', 'close', 'open']);
 	
 	a = [];
 	sm.clear();
 	
 	sm.toggle('expanded');
-	same(a, ['open']);
+	deepEqual(a, ['open']);
 	sm.toggle('expanded');
-	same(a, ['open']);
+	deepEqual(a, ['open']);
 	sm.toggle('expanded');
-	same(a, ['open', 'open']);
+	deepEqual(a, ['open', 'open']);
 	
 	
 	a = [];
@@ -76,15 +76,15 @@ test('core/states', function(){
 	
 	
 	sm.set('expanded');
-	same(a, ['open']);
+	deepEqual(a, ['open']);
 	sm.set('collapsed');
-	same(a, ['open', 'slideUp', 'close']);
+	deepEqual(a, ['open', 'slideUp', 'close']);
 	sm.set('expanded');
-	same(a, ['open', 'slideUp', 'close', 'slideDown', 'open']);
+	deepEqual(a, ['open', 'slideUp', 'close', 'slideDown', 'open']);
 	
 	a = [];
 	sm.unset('expanded');
-	same(a, ['slideUp', 'close']);
+	deepEqual(a, ['slideUp', 'close']);
 	ok(sm.is('collapsed'));
 	
 	
@@ -92,9 +92,9 @@ test('core/states', function(){
 	sm.clear();
 	
 	sm.toggle('expanded');
-	same(a, ['open']);
+	deepEqual(a, ['open']);
 	sm.toggle('expanded');
-	same(a, ['open', 'slideUp', 'close']);
+	deepEqual(a, ['open', 'slideUp', 'close']);
 	
 	
 	sm.set('red');

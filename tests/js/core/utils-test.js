@@ -11,7 +11,7 @@ test('core/utils', function(){
 	Ergo.require('my.classes.Class2');
 		
 	var a = new my.classes.Class2();
-	equals('class1_class2', a.foo(), 'Проверяем загрузку зависимых классов');
+	equal('class1_class2', a.foo(), 'Проверяем загрузку зависимых классов');
 
 	
 	
@@ -28,21 +28,29 @@ test('core/utils', function(){
 	Ergo.require('my.classes.Class2');
 	
 	var b = new my.classes.Class2();
-	equals('precreated_class1_class2', b.foo(), 'Проверяем, что загруженные классы не загружаются заново');
+	equal('precreated_class1_class2', b.foo(), 'Проверяем, что загруженные классы не загружаются заново');
 	
 	
 	a = Ergo.smart_override({}, {events: {'mousedown': 'a'}}, {events: {'mousedown': 'b'}});
-	same(a, {events: {mousedown: ['a', 'b']}}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
+	deepEqual(a, {events: {'+mousedown': ['a', 'b']}}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
+
+	a = {
+		cls: 'classA',
+		smart_override: Ergo.self_smart_override
+	};
+	Ergo.smart_override(a, {cls: 'classB'});
+	delete a.smart_override;
+	deepEqual(a, {cls: ['classA', 'classB']}, 'Перегрузка опций не должна иметь модификаторов');
 	
 	
-	a = Ergo.smart_override(null, {'a': {name: 'Alice'}}, {'a!': {age: 21}});
-	same(a, {'a!': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
+	a = Ergo.smart_override(null, {'a': {name: 'Alice'}}, {'!a': {age: 21}});
+	deepEqual(a, {'!a': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
 	b = Ergo.smart_override({'a': {name: 'Bob'}}, a);
-	same(b, {'a': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
+	deepEqual(b, {'!a': {age: 21}}, 'Модификатор ! оставляет неизменным атрибут');
 	
 	
 	a = Ergo.smart_override({items: [1, 2, 3]}, {items: [8]});
-	same(a, {items:[8,2,3]}, 'Перегрузка массива items')
+	deepEqual(a, {items:[8,2,3]}, 'Перегрузка массива items')
 	
 });
 	

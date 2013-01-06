@@ -66,7 +66,7 @@ var Ergo = (function(){
 	
 	
 	
-	var _keep_keys = false;
+	var _clear = false;
 	
 	
 	
@@ -74,16 +74,18 @@ var Ergo = (function(){
 	
 		var p = srcObj[i];
 	
-		if(i == 'data') i = 'data!'; 										//<-- поле data не перегружается
+		if(i == 'data') i = '!data'; 										//<-- поле data не перегружается
 	//	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
-		if(i == 'mixins') i = 'mixins+'; 				//<-- поле mixins сливается
-		if(i == 'plugins') i = 'plugins+'; 				//<-- поле plugins сливается
+		if(i == 'mixins') i = '+mixins'; 				//<-- поле mixins сливается
+//		if(i == 'plugins') i = '+plugins'; 				//<-- поле plugins сливается
 		if(i == 'events') {
 			var p2 = {};
 			for(var j in p)
-				p2[j+'+'] = p[j];
+				p2['+'+j] = p[j];
 			p = p2;
 		}
+		if(i == 'cls') i = '+'+i;
+		if( /^on\S/.test(i) ) i = '+'+i;
 	
 	//	var shared_opts = {'data': null};
 	
@@ -91,37 +93,45 @@ var Ergo = (function(){
 	//	if((i in shared_opts)){//Ergo.in_array(ignore, i)){
 	//		o[i] = p;
 	//	}
-	
-		var last_literal = i[i.length-1];
-	
-		if(last_literal == '!') {
-			var j = i.substr(0, i.length-1);
-			if(!_keep_keys) i = j;
-			o[i] = p;
-			if(_keep_keys && (j in o)) delete o[j];
+		
+		
+		if('!'+i in o) {
+			i = '!'+i;
 		}
-		// else if(last_literal == '!') {
-			// var j = i.substr(0, i.length-1);
-			// if((j in o) && !Ergo.keep_keys) i = j;
-			// o[i] = p;
-			// if(Ergo.keep_keys && (j in o)) delete o[j];
-		// }
-		else if(last_literal == '+') {
-			var j = i.substr(0, i.length-1);
-			if(!_keep_keys) i = j;
+		else if('+'+i in o) {
+			i = '+'+i;
+		}
+		else if('-'+i in o) {
+			i = '-'+i;
+		}
+	
+	
+		var prefix = i[0];
+
+	
+		if(prefix == '!' || prefix == '+' || prefix == '-') {
 			
-			if(!(i in o)) o[i] = [];
-			if( !$.isArray(o[i]) ) o[i] = [o[i]];
-			p = o[i].concat(p);
-			o[i] = p;
-	
-			if(_keep_keys && (j in o)) delete o[j];
-		}
-		else if(last_literal == '-') {
-			var j = i.substr(0, i.length-1);
-			if(!_keep_keys) i = j;
-			delete o[i];
-			if(_keep_keys && (j in o)) delete o[j];
+			var j = i.substr(1);
+			
+			if(_clear) i = j;
+			
+			if(prefix == '+') {
+				
+				if(!(i in o)) o[i] = [];
+				if( !$.isArray(o[i]) ) o[i] = [o[i]];
+				p = o[i].concat(p);
+				o[i] = p;
+				
+			}
+			else if(prefix == '-') {
+				//TODO
+			}
+			else {
+				o[i] = p;				
+			}
+			
+			
+			if(j in o && !_clear) delete o[j];
 		}
 		else{
 			//TODO здесь создается полная копия (deep copy) объекта-контейнера
@@ -138,18 +148,19 @@ var Ergo = (function(){
 			else {
 				//TODO этот участок кода нужно исправить
 				
-				// если элемент в перегружаемом параметре существует, то он может быть обработан специфически
-				if(i in o){
-					// классы сливаются в одну строку, разделенную пробелом
-					if(i == 'cls') p = o[i] + ' ' + p;
-					if( /^on\S/.test(i) ) {
-						if( !$.isArray(o[i]) ) o[i] = [o[i]];
-						p = o[i].concat(p);
-					}
-					// if(i == 'state') {
-						// p = o[i] + ' ' + p;
+				// // если элемент в перегружаемом параметре существует, то он может быть обработан специфически
+				// if(i in o){
+					// // классы сливаются в одну строку, разделенную пробелом
+// //					if(i == 'cls') p = o[i] + ' ' + p;
+					// if( /^on\S/.test(i) ) {
+						// if( !$.isArray(o[i]) ) o[i] = [o[i]];
+						// p = o[i].concat(p);
 					// }
-				}
+					// // if(i == 'state') {
+						// // p = o[i] + ' ' + p;
+					// // }
+				// }
+				
 				o[i] = p;
 			}
 		}
@@ -165,18 +176,27 @@ var Ergo = (function(){
 	 * 
 	 */
 	E.smart_override = function(o) {
+		
+		// args будет содержать только список перегрузок
+		var args = Array.prototype.slice.call(arguments);
+		args.shift();
+		
+		// если перегружаемый объект содержит метод smart_override, то используем именно его
+		if(o && o.smart_override)
+			return o.smart_override.apply(o, args);
 	
-		var keep_keys = false;
+	
+//		var keep_keys = false;
 		
 		if(!o) {
-			_keep_keys = keep_keys = true;
+//			_keep_keys = keep_keys = true;
 			o = {};
 		}
 	
 		// обходим все аргументы, начиная со второго
-		for(var j = 1; j < arguments.length; j++){
+		for(var j = 0; j < args.length; j++){
 			
-			var srcObj = arguments[j];
+			var srcObj = args[j];
 			
 	//		if( $.isArray(srcObj) ){
 	//			for(var i = 0; i < srcObj.length; i++)
@@ -190,8 +210,8 @@ var Ergo = (function(){
 	//		}		
 		}
 		
-		if(keep_keys)
-			_keep_keys = false;
+		// if(keep_keys)
+			// _keep_keys = false;
 		
 		return o;
 	}
@@ -199,7 +219,27 @@ var Ergo = (function(){
 	
 	
 	
-	
+	E.self_smart_override = function() {
+		
+		// console.log(this);
+		// console.log(arguments);
+		
+		_clear = true;
+		
+		// обходим все аргументы, начиная со второго
+		for(var j = 0; j < arguments.length; j++){
+			
+			var srcObj = arguments[j];
+		
+			for(var i in srcObj)
+				smart_override_prop(this, srcObj, i);
+								
+		}
+		
+		_clear = false;
+		
+		return this;
+	}
 	
 	
 	

@@ -38,7 +38,9 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 */
 	initialize: function(opts) {
 		
-		var o = {};
+		var o = {
+			smart_override: Ergo.self_smart_override
+		};
 		
 		// 
 		if(!this.constructor.NO_REBUILD_SKELETON) {
@@ -52,7 +54,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 			this.constructor.prototype.defaults = Ergo.deep_copy(o);
 		}
 		else {
-			o = Ergo.deep_copy(this.defaults);
+			Ergo.deep_override(o, this.defaults);
 		}
 		
 		

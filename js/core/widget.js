@@ -296,7 +296,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.el.data('ergo-widget', this);
 //		if(this.defaultCls) this.el.addClass(this.defaultCls);
 		if('style' in o) this.el.css(o.style);
-		if('cls' in o) this.el.addClass(o.cls);
+		if('cls' in o) this.el.addClass(o.cls.join(' '));
 		if('baseCls' in o) this.el.addClass(o.baseCls);
 
 		

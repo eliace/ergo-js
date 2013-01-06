@@ -26,10 +26,10 @@ test('core/object', function(){
 		funcExt]
 	});
 	
-	equals(obj.options.id, 'test-id', 'Перегрузка параметра');
-	equals(obj.ext_prop, 'Mixed property', 'Расширение с помощью функции');
-	equals(obj.ext_func(), 'From mixed function', 'Расширение с помощью объекта');
-	equals(obj.f, 5, 'Проверка расширения объектом');
+	equal(obj.options.id, 'test-id', 'Перегрузка параметра');
+	equal(obj.ext_prop, 'Mixed property', 'Расширение с помощью функции');
+	equal(obj.ext_func(), 'From mixed function', 'Расширение с помощью объекта');
+	equal(obj.f, 5, 'Проверка расширения объектом');
 //	ok(obj.is(funcExt), 'Проверка расширения функцией');
 //	equals(obj.g, 6, 'Проверка расширения функцией');
 	
@@ -57,14 +57,14 @@ test('core/object', function(){
 
 	obj = new Class1();
 	
-	equals(obj.options.width, 100, 'Параметр "width" для Class1 равен 100');
-	equals(obj.etype, 'class1', 'etype для Class1 равен "class1"');
+	equal(obj.options.width, 100, 'Параметр "width" для Class1 равен 100');
+	equal(obj.etype, 'class1', 'etype для Class1 равен "class1"');
 
 	obj = new Class2();
 	
-	equals(obj.options.width, 100, 'Параметр "width" для Class2 равен 100');
-	equals(obj.options.height, 10, 'Параметр "height" для Class2 равен 10');
-	equals(obj.etype, 'class2', 'etype для Class2 равен "class2"');
+	equal(obj.options.width, 100, 'Параметр "width" для Class2 равен 100');
+	equal(obj.options.height, 10, 'Параметр "height" для Class2 равен 10');
+	equal(obj.etype, 'class2', 'etype для Class2 равен "class2"');
 
 
 	
@@ -124,8 +124,8 @@ test('core/object', function(){
 	var obj = new my.Class3();
 	obj.fn1();
 	
-	same(a, [1,2,3], 'Последовательный вызов функций через метод $super');
-	equals(obj.fn2(), '123', 'Последовательный вызов функций через метод $super (с возвращаемым значением)');
+	deepEqual(a, [1,2,3], 'Последовательный вызов функций через метод $super');
+	equal(obj.fn2(), '123', 'Последовательный вызов функций через метод $super (с возвращаемым значением)');
 	
 	
 	

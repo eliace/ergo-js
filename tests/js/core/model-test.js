@@ -4,7 +4,7 @@ test('core/model', function(){
 	
 	var Types = {};
 	
-	Types.PositiveInteger = Ergo.data.Model.extend({
+	Types.PositiveInteger = Ergo.data.Object.extend({
 		
 		validate: function(v) {
 			return (v >= 0);
@@ -12,7 +12,7 @@ test('core/model', function(){
 		
 	});
 	
-	Types.String = Ergo.data.Model.extend({
+	Types.String = Ergo.data.Object.extend({
 		
 		validate: function(v) {
 			return $.isString(v);
@@ -22,7 +22,7 @@ test('core/model', function(){
 	
 	
 	
-	var testModel = Ergo.data.Model.extend({
+	var testModel = Ergo.data.Object.extend({
 		fields: {
 			'name': Types.String,
 			'age': Types.PositiveInteger
@@ -37,7 +37,7 @@ test('core/model', function(){
 	c.add({id: 1, name: 'Alice', age: 21});
 	c.add({id: 2, name: 'Bob'});
 	
-	equals(c.entry(0).print(), 'Alice', 'Метод print модели testModel выводит значение поля name');
+	equal(c.entry(0).print(), 'Alice', 'Метод print модели testModel выводит значение поля name');
 	
 	var result = false;
 	try{
@@ -47,10 +47,10 @@ test('core/model', function(){
 		result = true;
 	}
 	ok(result, 'При попытке присвоить некорректное значение генерируется исключение')
-	equals(c.get('0.age'), 21, 'Значение поля age должно оставаться 21')
+	equal(c.get('0.age'), 21, 'Значение поля age должно оставаться 21')
 
 	c.set('0.age', 22);
-	equals(c.get('0.age'), 22, 'Значение поля age должно измениться на 22')
+	equal(c.get('0.age'), 22, 'Значение поля age должно измениться на 22')
 	
 	
 	
