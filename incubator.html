@@ -76,27 +76,42 @@
 
 
 Ergo.declare('Ergo.incubator.AjaxTreeNodeList', 'Ergo.data.Collection', {
-
+	
+	url: 'plugins/ajax-tree/ajax/tree',
+	
 	model: 'Ergo.incubator.AjaxTreeNode',
 	
-	iterate: function(callback) {
-		if(this._fetched)
-			this.$super(callback);
+	// iterate: function(callback) {
+		// if(this._fetched)
+			// this.$super(callback);
+	// },
+	
+	
+	fetch: function(id) {
+		
+		if(!id) id = 0;
+		
+		var o = {
+			type: 'GET',
+			dataType: 'json'
+		};
+		
+		var self = this;
+		
+		return $.ajax(this.url+'/'+id, o)
+			.success(function(data){
+				self._fetched = true;
+				self.set(data);
+			});
+				
 	},
 	
 	
-	fetch: function() {
-		this._fetched = true;
-		this.events.fire('value:changed');
-		return $.when(this._fetched);
-	},
-	
-	
-	purge: function() {
-		this._fetched = false;
-		this.events.fire('value:changed');
-		return $.when(this._fetched);
-	}
+	// purge: function() {
+		// this._fetched = false;
+		// this.events.fire('value:changed');
+		// return $.when(this._fetched);
+	// }
 	
 	
 });
@@ -111,7 +126,7 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 	
 	fetch: function() {
 		
-		return this.entry('children').fetch();
+		return this.entry('children').fetch( this.get('id') );
 		
 		// var self = this;
 // 		
@@ -132,7 +147,7 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 
 
 
-	var treeData = new Ergo.data.tree.NodeList([], {path: 'plugins/ajax-tree/ajax/tree'});
+	var treeData = new Ergo.incubator.AjaxTreeNodeList();
 	
 
 
@@ -181,7 +196,7 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 		
 	});
 	
-	treeData.fetch('plugins/ajax-tree/ajax/tree/0');
+	treeData.fetch();//'plugins/ajax-tree/ajax/tree/0');
 	
 	
 //	console.log(w.options);
