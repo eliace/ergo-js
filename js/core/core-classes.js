@@ -118,6 +118,10 @@
 			eval( 'if(!'+cp+') '+cp+' = {};' );
 		}		
 		eval(cp + ' = clazz;');
+
+		// если псевдоним класса не задан явно, то он может быть указан в новых свойствах
+		if(!etype)
+			etype = overrides.etype;
 		
 		// регистрируем etype класса (если он есть)
 		if(etype){
@@ -142,6 +146,10 @@
 	};
 	
 	
+	/**
+	 * Синоним для Ergo.declare 
+	 */
+	E.defineClass = E.declare;
 	
 	
 	

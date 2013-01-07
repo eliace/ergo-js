@@ -37,7 +37,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
-	initilaize: function() {
+	initialize: function() {
 		if(arguments.length == 0)
 			this.$super([]);
 		else

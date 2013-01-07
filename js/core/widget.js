@@ -620,9 +620,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			});
 		}
 
-
-		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
-		if(o.autoFetch) this.data.fetch();		
 		
 
 		this.events.fire('afterBuild');
@@ -922,6 +919,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		// обновляем виджет (если это не запрещено в явном виде)
 		if(update !== false) this.$dataChanged();
+
+
+		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
+		if(o.autoFetch) this.data.fetch();
+
 
 		this.events.fire('onBound');
 	},
