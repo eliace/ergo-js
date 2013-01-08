@@ -64,7 +64,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				
 				from.push(t.from);
 			}
-			else if(t.to == to && !t.from){
+			else if(t.to == to && t.from == '*'){
 				def = t;
 			}
 		} 
@@ -231,7 +231,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				
 				to.push(t.to);
 			}
-			else if(t.from == from && !t.to) {
+			else if(t.from == from && t.to == '*') {
 				def = t;
 			}
 		}
@@ -374,7 +374,7 @@ Ergo.Statable = function(o) {
 			else {
 				var a = i.split('>');
 				if(a.length == 1) a.push('');
-				this.states.transition($.trim(a[0]), $.trim(a[1]), t);					
+				this.states.transition($.trim(a[0]) || '*', $.trim(a[1]) || '*', t);					
 			}
 		}
 	}

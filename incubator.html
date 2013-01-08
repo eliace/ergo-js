@@ -227,7 +227,7 @@ Ergo.declare('Ergo.incubator.TreeNodeList', 'Ergo.data.Collection', {
 	
 	
 	purge: function() {
-		this._fetched = false;
+		this._fetched = false; 
 		this.events.fire('value:changed');
 		return $.when(this._fetched);
 	}
@@ -315,7 +315,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 				},
 				
 				transitions: {
-					'expanded >': function() {
+					'expanded > *': function() {
 						var self = this;
 						return this.subtree.hide()
 							.then(function() {
@@ -350,38 +350,16 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 	//
 	//-------------------------------------------------------------------
 	
-var GridData = Ergo.data.Collection.extend({
+var GridData = Ergo.data.PageAjaxData.extend({
 	
 	defaults: {
 		url: 'samples/ajax/randomdata.csv',
-		query: {},
-		pageSize: 1,
-		totalCount: 1
+		ajax: {
+			dataType: 'text'
+		},
+		pageSize: 40
 	},
-	
-	
-	
-	initialize: function(o) {
-		this.$super([], o);
-	},
-	
-	
-	fetch: function() {
-		
-		var o = {
-			type: 'GET',
-			dataType: 'text',
-			data: this.options.query
-		};
-		
-		var self = this;
-		
-		return $.ajax(this.options.url, o)
-			.success(function(data){
-				self.set( self.parse(data) );
-			});
-	},
-	
+
 	
 	parse: function(csv) {
 		
@@ -408,26 +386,12 @@ var GridData = Ergo.data.Collection.extend({
 		}
 
 		return data;
-	},	
-	
-	
-	setFrom: function(v) {
-		this.options.query.from = this.options.from = v;
-	},
-	
-	setTo: function(v) {
-		this.options.query.to = this.options.to = v;
-	},
-	
-	getPageCount: function() {
-		return Math.ceil(this.options.totalCount / this.options.pageSize);
 	}	
-	
 	
 });
 	
 	
-	var gridData = new GridData({pageSize: 40});
+	var gridData = new GridData();
 	
 /*	
 	var gridData = new Ergo.data.PageAjaxCollection([], {
@@ -526,7 +490,7 @@ var GridData = Ergo.data.Collection.extend({
 	});
 	
 	
-	grid.footer.content.paginator.setIndex(1);
+	grid.footer.content.paginator.opt('index', 1);
 	
 	// gridData.fetch().then(function(){
 		// grid.$layoutChanged();

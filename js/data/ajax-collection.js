@@ -21,21 +21,18 @@
 Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo.data.AjaxCollection.prototype */{
 	
 	defaults: {
-		cache: true,
-		path: '',
+		url: '',
 		query: {},
-		parse: null
-//		process: function(json) {
-//		}
+		ajax: {
+			cache: true,
+			dataType: 'json'		
+		}
 	},
 	
 	
-  initialize: function() {
-  	this.$super.apply(this, arguments);
-//    Ergo.data.AjaxCollection.superclass.initialize.apply(this, arguments);
-    
-//    this._from = 0;
-//    this._to = 0;
+  initialize: function(o) {
+		this.$super([], o);
+
     this._fetched = false;
   },
   
@@ -45,37 +42,50 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
    * 
    * @return {Deferred}
    */
-  fetch: function(path, query, callback) {
+  fetch: function(url, query, callback) {
     
     var self = this;
     
-    var qPath = this.options.path;
+    var qUrl = this.options.url || this.url;
     var qParams = Ergo.override({}, this.options.query);
-    var qCallback = this.options.parse;
+    var qCallback = this.options.parse || this.parse;
     
     for(var i = 0; i < arguments.length; i++) {
     	var arg = arguments[i];
-    	if($.isString(arg)) qPath = arg;
+    	if($.isString(arg)) qUrl = arg;
     	else if($.isFunction(arg)) qCallback = arg;
     	else if($.isPlainObject(arg)) qParams = arg;
     }
     
     
-    if(!this.options.cache) qParams._ = Ergo.timestamp();
-    
-    this.events.fire('beforeFetch', {path: qPath, query: qParams});
-    
-    return $.getJSON(qPath, qParams)
+		var o = Ergo.override({
+			type: 'GET',
+			data: qParams
+		}, this.options.ajax);
+		
+		var self = this;
+
+
+    this.events.fire('beforeFetch', {url: qUrl, query: qParams});
+		
+		return $.ajax(qUrl, o)
     	.always(function(){
     		self._fetched = true;
     		self.events.fire('afterFetch');
     	})
-    	.success(function(json){
-    		if(qCallback)
-    			json = qCallback.call(self, json);
-   			self.set(json);
-    	});
+			.success(function(data){
+   			self.set( qCallback.call(self, data, 'fetch') );
+			});
+        
+    
   },
+  
+  
+  
+  parse: function(data, op) {
+  	return data;
+  },
+  
   
     
   /**

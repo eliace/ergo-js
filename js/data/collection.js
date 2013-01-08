@@ -50,6 +50,9 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
+	purge: function() {
+		this._fetched = false;
+	},
 	
 	
 	/**
