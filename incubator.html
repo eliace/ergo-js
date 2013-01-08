@@ -350,14 +350,99 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 	//
 	//-------------------------------------------------------------------
 	
+var GridData = Ergo.data.Collection.extend({
 	
+	defaults: {
+		url: 'samples/ajax/randomdata.csv',
+		query: {},
+		pageSize: 1,
+		totalCount: 1
+	},
+	
+	
+	
+	initialize: function(o) {
+		this.$super([], o);
+	},
+	
+	
+	fetch: function() {
+		
+		var o = {
+			type: 'GET',
+			dataType: 'text',
+			data: this.options.query
+		};
+		
+		var self = this;
+		
+		return $.ajax(this.options.url, o)
+			.success(function(data){
+				self.set( self.parse(data) );
+			});
+	},
+	
+	
+	parse: function(csv) {
+		
+		var list = csv.split('\n');
+		
+		
+		this.options.totalCount = list.length;
+		
+		// Эмулируем загрузку набора данных
+		var data = [];
+		
+		var to = Math.min(list.length, this.options.to);
+		
+		for(var i = this.options.from; i < to; i++) {
+			
+			var a = list[i].split('|');			
+			
+			data.push({
+				id: a[0],
+				name: a[1],
+				email: a[2],
+				date: a[3]
+			});
+		}
+
+		return data;
+	},	
+	
+	
+	setFrom: function(v) {
+		this.options.query.from = this.options.from = v;
+	},
+	
+	setTo: function(v) {
+		this.options.query.to = this.options.to = v;
+	},
+	
+	getPageCount: function() {
+		return Math.ceil(this.options.totalCount / this.options.pageSize);
+	}	
+	
+	
+});
+	
+	
+	var gridData = new GridData({pageSize: 40});
+	
+/*	
 	var gridData = new Ergo.data.PageAjaxCollection([], {
 //		mixins: ['pageable'],
 		cache: false,
 		pageSize: 7,
 		totalCount: 1,
-		path: 'plugins/ajax-grid/ajax/0',
+//		path: 'plugins/ajax-grid/ajax/0',
+		path: 'samples/ajax/randomdata.csv',
 		parse: function(json) {
+			
+			
+			console.log(json)
+			
+			
 			
 			this.options.totalCount = json.total;
 			
@@ -372,7 +457,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 			return data;
 		}
 	});
-	
+*/	
 	
 	
 	
@@ -380,7 +465,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 		etype: 'grid-panel',
 		renderTo: 'body',
 		width: 600,
-		height: 300,
+		height: 600,
 		title: 'Таблица (ajax)',
 		cls: 'widget',
 		
@@ -414,23 +499,26 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 		content: {
 			columns: [{
 				dataId: 'id',
-				header: 'ID'
+				header: 'ID',
+				width: 30
 			}, {
 				dataId: 'name',
 				header: 'Имя'
 			}, {
-				dataId: 'post',
-				header: 'Должность'
+				dataId: 'email',
+				header: 'E-mail'
 			}, {
-				dataId: 'department',
-				header: 'Подразделение'
+				dataId: 'date',
+				header: 'Дата',
+				width: 80
 			}, {
 				autoBind: false,
 				content: {
 					etype: 'text',
 					cls: 'action-widget',
 					text: 'Просмотр'
-				}
+				},
+				width: 100
 			}]
 		}
 		

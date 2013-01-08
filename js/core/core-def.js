@@ -97,14 +97,18 @@ var Ergo = (function(){
 	//	}
 		
 		
-		if('!'+i in o) {
-			i = '!'+i;
-		}
-		else if('+'+i in o) {
-			i = '+'+i;
-		}
-		else if('-'+i in o) {
-			i = '-'+i;
+		if(!_clear) {
+		
+			if('!'+i in o) {
+				i = '!'+i;
+			}
+			else if('+'+i in o) {
+				i = '+'+i;
+			}
+			else if('-'+i in o) {
+				i = '-'+i;
+			}
+		
 		}
 	
 	
@@ -179,13 +183,14 @@ var Ergo = (function(){
 	 */
 	E.smart_override = function(o) {
 		
-		// args будет содержать только список перегрузок
-		var args = Array.prototype.slice.call(arguments);
-		args.shift();
 		
 		// если перегружаемый объект содержит метод smart_override, то используем именно его
-		if(o && o.smart_override)
-			return o.smart_override.apply(o, args);
+		if(o && o.smart_override) {
+			// args будет содержать только список перегрузок
+			var args = Array.prototype.slice.call(arguments);
+			args.shift();
+			return o.smart_override.apply(o, args);			
+		}
 	
 	
 //		var keep_keys = false;
@@ -196,9 +201,9 @@ var Ergo = (function(){
 		}
 	
 		// обходим все аргументы, начиная со второго
-		for(var j = 0; j < args.length; j++){
+		for(var j = 1; j < arguments.length; j++){
 			
-			var srcObj = args[j];
+			var srcObj = arguments[j];
 			
 	//		if( $.isArray(srcObj) ){
 	//			for(var i = 0; i < srcObj.length; i++)

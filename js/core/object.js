@@ -129,7 +129,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	$post_construct: function(o) {
 				
-		this.$opt(o);				
+		this.$opt(o);
 
 	},
 	
@@ -180,14 +180,16 @@ Ergo.override(Ergo.core.Object.prototype, {
 //		var el = this.el;
 		
 		for(var i in o) {
-			// проверяем наличие Java-like сеттеров
-			var java_setter = 'set'+i.capitalize();			
 			// проверяем наличие сеттеров опций
 			if(this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
-			else if(this[java_setter])
-				this[java_setter](o[i]);
+			else {
+				// проверяем наличие Java-like сеттеров
+				var java_setter = 'set'+i.capitalize();			
+				if(this[java_setter])
+					this[java_setter](o[i]);
+			}
 		}
 
 

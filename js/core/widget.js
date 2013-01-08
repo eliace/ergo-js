@@ -912,7 +912,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// 	2. обновление дочернего виджета не производится (оно будет позже иницировано опорным элементом)
 			//	3. дочернtve виджетe явно указывается, что он является опорным
 			this.children.each(function(child){
-				if(!child._pivot) child.bind(self.data, false, false);
+				if(!child._pivot && child.data != self.data) child.bind(self.data, false, false);
 			});
 
 		}
@@ -982,7 +982,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		}
 		else {
 			this.children.each(function(child){
-				if(!child._pivot) child.rebind(false);
+				if(!child._pivot && child.data != self.data) child.rebind(false);
 			});			
 		}
 		
