@@ -1,7 +1,7 @@
 
 
 
-Ergo.declare('Ergo.data.PageAjaxCollection', 'Ergo.data.AjaxCollection', {
+Ergo.declare('Ergo.data.PageAjaxData', 'Ergo.data.AjaxCollection', {
 	
 	defaults: {
 		pageSize: 1,
@@ -9,8 +9,17 @@ Ergo.declare('Ergo.data.PageAjaxCollection', 'Ergo.data.AjaxCollection', {
 	},
 	
 	
+	getFrom: function() {
+		return this.options.query.from;
+	},
+	
 	setFrom: function(v) {
 		this.options.query.from = this.options.from = v;
+	},
+
+
+	getTo: function() {
+		return this.options.query.to;
 	},
 	
 	setTo: function(v) {
