@@ -628,7 +628,7 @@ button,
 .e-button-item 
  {
   background-color: #fff;
-  border: solid 1px #d0d0d0;
+  border: solid 1px #d0d0d0!important;
   background-image: -webkit-linear-gradient(bottom, #e6e6e6, #fff);
   background-image: -moz-linear-gradient(bottom, #e6e6e6, #fff);
   background-image: -o-linear-gradient(bottom, #e6e6e6, #fff);
@@ -709,7 +709,7 @@ button.selected:hover,
     border-right:1px solid #dedede!important;
     display:block;
     width:100%;
-     border-bottom:none;
+     border-bottom:none!important;
 }
 
 .e-group[layout="vbox"] button:first-child {
@@ -1087,6 +1087,8 @@ background: #d1d1d1; /* Old browsers */
   background-image: -o-linear-gradient(bottom, #e6e6e6, #fff);
   background-image: -ms-linear-gradient(bottom, #e6e6e6, #fff);
   background-image: linear-gradient(to top, #e6e6e6, #fff);
+  border: 0!important;
+  border-left: 1px solid #dedede!important;
 }
 
 .e-tool-box .e-select-box .arrow-down {
@@ -1095,6 +1097,7 @@ background: #d1d1d1; /* Old browsers */
  border-top: 7px solid #626262;
  top: 0;
 }
+
 .readonly {
   background:#fdfdfd url(images/locked.png) no-repeat right center!important;
 }
