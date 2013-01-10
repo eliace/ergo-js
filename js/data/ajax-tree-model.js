@@ -29,6 +29,7 @@ Ergo.defineClass('Ergo.data.tree.AjaxNodeList', 'Ergo.data.tree.NodeList', {
 		var query = Ergo.override({}, this.options.query);
 		if(id) Ergo.override(query, {id: id})
 		
+		
 		var o = Ergo.override({
 			type: 'GET',
 			data: query
@@ -70,11 +71,11 @@ Ergo.defineClass('Ergo.data.tree.AjaxNode', 'Ergo.data.tree.Node', {
 	},
 	
 	
-	fetch: function() {
-		
-		return this.entry('children').fetch( this.get('id') );
-		
-	},
+	// fetch: function() {
+// 		
+		// return this.entry('children').fetch( this.get('id') );
+// 		
+	// },
 	
 	
 	getUrl: function() {

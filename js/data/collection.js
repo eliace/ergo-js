@@ -30,7 +30,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	/**
 	 * Получение элемента коллекции по OID
 	 */
-	getByID: function(id) {
+	find: function(id) {
 		var a = this.get();
 		for(var i in a)
 			if(a[i][this.options.idKey] == id) return a[i];

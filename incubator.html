@@ -84,13 +84,40 @@
 	//
 	//-------------------------------------------------------------------
 	
-	var treeData = new Ergo.data.tree.AjaxNodeList({url: 'plugins/ajax-tree/ajax/tree'});
 	
-	treeData.events.reg('fetch:before', function(e){
-		var id = e.ajaxOptions.data.id;
-		if(!id) id = 0;
-		e.ajaxUrl = e.ajaxUrl + '/' + id;
+	AjaxTreeData = Ergo.data.tree.AjaxNodeList.extend({
+		
+		url: 'plugins/ajax-tree/ajax/tree',
+		
+		model: Ergo.data.tree.AjaxNode.extend({
+			fields: {
+				'children': 'AjaxTreeData'
+			}
+		}),
+		
+		fetch: function(id) {
+			
+			if(!id) id = 0;
+			
+			var self = this;
+			
+			return $.getJSON(this.url + '/' + id)
+				.success(function(json){
+					self._fetched = true;
+					self.set(json);
+				});
+		}
+		
 	});
+	
+	
+	var treeData = new AjaxTreeData();//NodeList({url: 'plugins/ajax-tree/ajax/tree'});
+	
+	// treeData.events.reg('fetch:before', function(e){
+		// var id = e.ajaxOptions.data.id;
+		// if(!id) id = 0;
+		// e.ajaxUrl = e.ajaxUrl + '/' + id;
+	// });
 	
 	
 	var w = $.ergo({
@@ -112,7 +139,7 @@
 					cls: 'cursor-default',
 					binding: function(v) {
 						this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
-						this.opt('text', v.title);						
+						this.opt('text', v.title);
 					},
 					onDoubleClick: function() {
 						if(!this.parent.states.is('leaf'))
@@ -822,7 +849,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					width: 200,
 					
 					content: {
-						etype: 'ajax-tree',
+						etype: 'dynamic-tree',
 						data: treeData,
 						
 						node: {
@@ -1144,7 +1171,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				
 				binding: function() {
 					
-					var id = this.data.id;
+					var id = this.data._id;
 					
 					
 					if(id == 'post') {

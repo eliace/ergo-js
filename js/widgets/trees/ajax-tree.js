@@ -44,9 +44,9 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	          
 	          var self = this;
 	          
-	          var v = this.getValue();
+//	          var v = this.getValue();
 	          
-	          this.data.fetch(v.id).then(function(){
+	          this.data.fetch(this.data.id()).then(function(){
 	          	self.content.opt('xicon', false);
 	          	self.subtree.show()
 	          		.then(function(){ result.resolve(); });

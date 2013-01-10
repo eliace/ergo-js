@@ -22,6 +22,11 @@ Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
 		'children': 'Ergo.data.tree.NodeList'
 	},
 	
+	
+	fetch: function() {		
+		return this.entry('children').fetch( this.oid() );
+	},
+	
 		
 	getLeaf: function() {
 		return !this.get('children');
