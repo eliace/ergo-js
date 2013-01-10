@@ -10,11 +10,6 @@ Ergo.declare('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
 	
 	model: 'Ergo.data.tree.Node'
 	
-	// path: function() {
-		// return (this.source instanceof Ergo.core.DataSource) ? this.source.path() : this.options.path;
-	// }
-	
-	
 });
 
 
@@ -27,23 +22,7 @@ Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
 		'children': 'Ergo.data.tree.NodeList'
 	},
 	
-	
-	// fetch: function(id) {
-// 		
-		// var self = this;
-// 		
-		// return $.getJSON(this.path()+'/'+id)
-			// .always(function(){
-				// self._fetched = true;
-			// }).success(function(json){
-				// self.set('children', json);
-			// });
-	// },
-	
-	// path: function() {
-		// return (this.source instanceof Ergo.core.DataSource) ? this.source.path() : this.options.path;
-	// },
-	
+		
 	getLeaf: function() {
 		return !this.get('children');
 	}

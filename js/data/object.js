@@ -16,7 +16,7 @@
 Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Object.prototype */{
 	
 	defaults: {
-		oidKey: 'id'
+		idKey: 'id'
 	},
 	
 	/**
@@ -26,7 +26,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	},
 	
 	oid: function() {
-		return this.get(this.options.oidKey);
+		return this.get(this.options.idKey);
 	},
 	
 	/**

@@ -14,7 +14,8 @@
 Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.data.Collection.prototype */{
 	
 	defaults: {
-		model: null
+		model: null,
+		idKey: 'id'
 	},
 	
 	/**
@@ -29,29 +30,46 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	/**
 	 * Получение элемента коллекции по OID
 	 */
-	getByOID: function(oid) {
+	getByID: function(id) {
 		var a = this.get();
 		for(var i in a)
-			if(a[i].id == oid) return a[i];
+			if(a[i][this.options.idKey] == id) return a[i];
 		return null;
 	},
 	
 	
-	initialize: function() {
+	initialize: function(v) {
 		if(arguments.length == 0)
 			this.$super([]);
+		else if(arguments.length == 1) {
+			$.isArray(v) ? this.$super(v) : this.$super([], v);
+		}
 		else
 			this.$super.apply(this, arguments);
 	},
 	
-	
+	/**
+	 * Загрузка данных из хранилища => заполнение коллекции данными
+	 *  
+	 */
 	fetch: function() {
 		this._fetched = true;
 	},
 	
-	
+	/**
+	 * Очистка данных => удаление данных из коллекция
+	 *  
+	 */
 	purge: function() {
 		this._fetched = false;
+	},
+	
+	/**
+	 * Сброс данных в хранилище (принудительная синхронизация)
+	 *  
+	 */
+	flush: function() {
+		
 	},
 	
 	

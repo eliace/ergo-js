@@ -76,104 +76,16 @@
 
 
 
-// Ergo.incubator = {};
-// 
-// Ergo.incubator.AjaxTreeNodeList = Ergo.data.tree.AjaxNodeList.extend({
-	// url: 'plugins/ajax-tree/ajax/tree',
-	// model: Ergo.data.tree.AjaxNode.extend({
-		// fields: {
-			// 'children': 'Ergo.incubator.AjaxTreeNodeList'
-		// }
-	// })
-// });
 
 
-
-/*
-Ergo.declare('Ergo.incubator.AjaxTreeNodeList', 'Ergo.data.Collection', {
-	
-	url: 'plugins/ajax-tree/ajax/tree',
-	
-	model: 'Ergo.incubator.AjaxTreeNode',
-	
-	// iterate: function(callback) {
-		// if(this._fetched)
-			// this.$super(callback);
-	// },
-	
-	
-	fetch: function(id) {
-		
-		if(!id) id = 0;
-		
-		var o = {
-			type: 'GET',
-			dataType: 'json'
-		};
-		
-		var self = this;
-		
-		return $.ajax(this.url+'/'+id, o)
-			.success(function(data){
-				self._fetched = true;
-				self.set(data);
-			});
-				
-	},
-	
-	
-	// purge: function() {
-		// this._fetched = false;
-		// this.events.fire('value:changed');
-		// return $.when(this._fetched);
-	// }
-	
-	
-});
-
-
-Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
-	
-	fields: {
-		'children': 'Ergo.incubator.AjaxTreeNodeList'
-	},
-	
-	
-	fetch: function() {
-		
-		return this.entry('children').fetch( this.get('id') );
-		
-		// var self = this;
-// 		
-		// return $.getJSON(this.path()+'/'+id)
-			// .always(function(){
-				// self._fetched = true;
-			// }).success(function(json){
-				// self.set('children', json);
-			// });
-	},
-	
-	getLeaf: function() {
-		return !this.get('children');
-	}
-	
-	
-});
-*/
-
-
-	var treeData = new Ergo.data.tree.AjaxNodeList([], {url: 'plugins/ajax-tree/ajax/tree'});//Ergo.incubator.AjaxTreeNodeList();
-	
-
-
-
-	
-	
 	//-------------------------------------------------------------------
 	//
 	// Дерево с AJAX-загрузкой
 	//
 	//-------------------------------------------------------------------
+	
+	var treeData = new Ergo.data.tree.AjaxNodeList({url: 'plugins/ajax-tree/ajax/tree'});
+	
 	
 	var w = $.ergo({
 		etype: 'panel',
@@ -189,10 +101,7 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 			
 			data: treeData,
 			
-			node: {
-				mixins: ['contextmenu'],
-				contextMenu: context_menu,
-				
+			node: {				
 				content: {
 					cls: 'cursor-default',
 					binding: function(v) {
@@ -203,7 +112,9 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 						if(!this.parent.states.is('leaf'))
 							this.parent.states.toggle('expanded');
 					},
-					state: 'no-selection'
+					state: 'no-selection',
+					mixins: ['contextmenu'],
+					contextMenu: context_menu
 				}
 			}
 							
@@ -224,7 +135,7 @@ Ergo.declare('Ergo.incubator.AjaxTreeNode', 'Ergo.data.Object', {
 	
 	
 	
-Ergo.declare('Ergo.incubator.TreeNodeList', 'Ergo.data.Collection', {
+Ergo.declare('Ergo.incubator.TreeNodeList', 'Ergo.data.tree.NodeList', {
 
 	model: 'Ergo.incubator.TreeNode',
 	
@@ -251,7 +162,7 @@ Ergo.declare('Ergo.incubator.TreeNodeList', 'Ergo.data.Collection', {
 });
 
 
-Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
+Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.tree.Node', {
 	
 	fields: {
 		'children': 'Ergo.incubator.TreeNodeList'
@@ -262,23 +173,15 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 		
 		return this.entry('children').fetch();
 		
-		// var self = this;
-// 		
-		// return $.getJSON(this.path()+'/'+id)
-			// .always(function(){
-				// self._fetched = true;
-			// }).success(function(json){
-				// self.set('children', json);
-			// });
-	},
-	
-	getLeaf: function() {
-		return !this.get('children');
 	}
+	
+	// getLeaf: function() {
+		// return !this.get('children');
+	// }
 	
 	
 });
-	
+
 	
 	
 	
@@ -314,6 +217,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 		content: {
 			etype: 'dynamic-tree',
 			data: treeData,
+			autoFetch: true,
 			
 			node: {				
 				content: {
@@ -348,7 +252,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.Object', {
 		
 	});
 	
-	treeData.fetch();
+//	treeData.fetch();
 	
 	
 	
