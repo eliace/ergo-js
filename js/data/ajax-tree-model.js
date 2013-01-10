@@ -22,15 +22,25 @@ Ergo.defineClass('Ergo.data.tree.AjaxNodeList', 'Ergo.data.tree.NodeList', {
 	
 	fetch: function(id) {
 		
-		if(!id) id = 0;
+//		if(!id) id = 0;
+
+		var url = this.opt('url');
+		
+		var query = Ergo.override({}, this.options.query);
+		if(id) Ergo.override(query, {id: id})
 		
 		var o = Ergo.override({
-			type: 'GET'
+			type: 'GET',
+			data: query
 		}, this.options.ajax);
 		
 		var self = this;
 		
-		return $.ajax(this.opt('url')+'/'+id, o)
+		var e = new Ergo.events.Event({ajaxUrl: url, ajaxOptions: o});
+		this.events.fire('beforeFetch', e);
+//		if(id != null) url += '/' + id;
+		
+		return $.ajax(e.ajaxUrl, e.ajaxOptions)
 			.success(function(data){
 				self._fetched = true;
 				self.set(data);

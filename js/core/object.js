@@ -148,8 +148,20 @@ Ergo.override(Ergo.core.Object.prototype, {
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
+			// // нужно ли искать значение опции в другой области видимости
+			// if(o.charAt(0) == '@') {
+				// var k = o.substring(1);
+				// var v = this.opt(k);
+				// if(!k) {
+					// var parent = this.parent || this.source;
+					// v = parent.opt(o);
+				// }
+				// return v;
+			// }
+			// else {
 			var getter = this.options.get[o] || this['get'+o.capitalize()];
-			return (getter) ? getter.call(this) : this.options[o];
+			return (getter) ? getter.call(this) : this.options[o];				
+//			}
 		}
 		
 		Ergo.smart_override(this.options, opts);

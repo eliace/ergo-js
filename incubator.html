@@ -86,6 +86,12 @@
 	
 	var treeData = new Ergo.data.tree.AjaxNodeList({url: 'plugins/ajax-tree/ajax/tree'});
 	
+	treeData.events.reg('fetch:before', function(e){
+		var id = e.ajaxOptions.data.id;
+		if(!id) id = 0;
+		e.ajaxUrl = e.ajaxUrl + '/' + id;
+	});
+	
 	
 	var w = $.ergo({
 		etype: 'panel',
@@ -468,6 +474,9 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
 			}, {
 				etype: 'split-button',
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
+			}, {
+				etype: 'dropdown-select',
 				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
 			}]
 		}
