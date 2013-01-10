@@ -624,8 +624,7 @@ header .e-tool-box {
   border-top:1px solid #f3f3f3;
 }
 
-button,
-.e-button-item {
+button {
   background-color: #fff;
   border: solid 1px #d0d0d0;
   background-image: -webkit-linear-gradient(bottom, #e6e6e6, #fff);
@@ -643,8 +642,7 @@ button,
   color:@form-color;
 }
 
-button:hover,
-.e-button-item:hover {
+button:hover {
   background-color: #fff;
   border: solid 1px #d0d0d0;
   background-image: -webkit-linear-gradient(bottom, #e6e6e6, #f5f5f5);
@@ -655,7 +653,6 @@ button:hover,
 }
 
 button:active,
-.e-button-item:active,
 button.selected,
 button.selected:hover,
 .e-icon-button.selected,
@@ -674,40 +671,42 @@ button.selected:hover,
 }
 
 
-.e-group button:first-child,
-.e-group .e-button-item:first-child {
+.e-group button:first-child {
   -webkit-border-radius:3px 0 0 3px;
   -moz-border-radius:3px 0 0 3px;
   border-radius:3px 0 0 3px;
   border-right:none;
 }
-.e-group button,
-.e-group .e-button-item {
+.e-group button {
   border-right:none!important;
    -webkit-border-radius:0 ;
   -moz-border-radius:0;
   border-radius:0 ;
   margin:0!important;
 }
- .e-group button:last-child,
- .e-group .e-button-item:last-child {
+
+.e-group button:last-child,
+{
   -webkit-border-radius:0 3px 3px 0;
   -moz-border-radius:0 3px 3px 0;
   border-radius:0 3px 3px 0;
   border-right:1px solid #DEDEDE!important;
 }
+
 .e-group[layout="vbox"] button:last-child {
   -webkit-border-radius:0 0 3px 3px;
   -moz-border-radius:0 0 3px 3px;
   border-radius:0 0 3px 3px;
   border-bottom:1px solid #dedede!important;
 }
+
 .e-group[layout="vbox"] button {
     border-right:1px solid #dedede!important;
     display:block;
     width:100%;
      border-bottom:none;
 }
+
 .e-group[layout="vbox"] button:first-child {
   -webkit-border-radius:3px 3px 0 0;
   -moz-border-radius:3px 3px 0 0;
@@ -1003,9 +1002,7 @@ button.selected:hover,
 }
 
 //simple button 
-.e-button-item {
-  padding:2px 7px;
-}
+
 .e-icon-button{
   border:1px solid transparent;
   background: none; /* Old browsers */
