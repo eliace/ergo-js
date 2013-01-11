@@ -257,7 +257,7 @@ Ergo.declare('Ergo.incubator.TreeNode', 'Ergo.data.tree.Node', {
 					cls: 'cursor-default',
 					binding: function(v) {
 						this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
-						this.opt('text', v.title);						
+						this.opt('text', v.title);
 					},
 					onDoubleClick: function() {
 						if(!this.parent.states.is('leaf')) 
@@ -990,19 +990,20 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		style: {'margin-top': 20},
 		title: 'Форма',
 		width: 600,
-		height: 400,
+//		height: 400,
 		
 		content: {
 			layout: 'form',
-			autoHeight: true,
+//			autoHeight: true,
 			style: {'overflow-y': 'auto', 'padding': 10},
 			
 			
 			defaultItem: {
-				focusable: true,					
+				focusable: true,
 				content: {
 					events: {
 						'focus': function(e, w) {
+							console.log('focus')
 							Ergo.focus(w);
 						}
 					},

@@ -97,18 +97,14 @@ var Ergo = (function(){
 	//	}
 		
 		
-		if(!_clear) {
-		
-			if('!'+i in o) {
-				i = '!'+i;
-			}
-			else if('+'+i in o) {
-				i = '+'+i;
-			}
-			else if('-'+i in o) {
-				i = '-'+i;
-			}
-		
+		if('!'+i in o) {
+			i = '!'+i;
+		}
+		else if('+'+i in o) {
+			i = '+'+i;
+		}
+		else if('-'+i in o) {
+			i = '-'+i;
 		}
 	
 	
