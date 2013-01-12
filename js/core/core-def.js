@@ -129,24 +129,56 @@ var Ergo = (function(){
 			
 //			if(_clear) i = j;
 			
+			var m = null;
+
+			
 			if(prefix == '+') {
 				
-				var p_dest = o[i] || o[j];
-//				if(!(i in o)) o[i] = [];
-				if( !$.isArray(o[i]) ) o[i] = [o[i]];
-				p = o[i].concat(p);
-				o[i] = p;
+				m = [];
+				
+				if(i in o)
+					m = o[i];
+				if(j in o)
+					m = o[j];
+				
+				if( !$.isArray(m) ) m = [m];
+				
+				m = m.concat(p);
+				
+				if(keep_prefix) {
+					o[j] = m;
+					if(i in o) delete o[i]
+				}
+				else {
+					o[i] = m
+					if(j in o) delete o[j]
+				}
+				
+				// if(!(i in o)) o[i] = [];
+				// if( !$.isArray(o[i]) ) o[i] = [o[i]];
+				// p = o[i].concat(p);
+				// o[i] = p;
 				
 			}
 			else if(prefix == '-') {
 				//TODO
 			}
 			else {
-				o[i] = p;				
+				m = p;
+//				o[i] = p;
 			}
 			
 			
-			if(j in o && !_clear) delete o[j];
+			if(keep_prefix) {
+				o[j] = m;
+				if(i in o) delete o[i]
+			}
+			else {
+				o[i] = m
+				if(j in o) delete o[j]
+			}
+			
+//			if(j in o && !_clear) delete o[j];
 		}
 		else{
 			//TODO здесь создается полная копия (deep copy) объекта-контейнера
