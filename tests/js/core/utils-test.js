@@ -32,7 +32,7 @@ test('core/utils', function(){
 	
 	
 	a = Ergo.smart_override({}, {events: {'mousedown': 'a'}}, {events: {'mousedown': 'b'}});
-	deepEqual(a, {events: {'+mousedown': ['a', 'b']}}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
+	deepEqual(a, {events: {'mousedown': ['a', 'b']}}, 'Перегрузка свойства mousedown должно преобразовывать его к массиву');
 
 	a = {
 		cls: 'classA',

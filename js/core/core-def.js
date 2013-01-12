@@ -70,60 +70,69 @@ var Ergo = (function(){
 	
 	
 	
-	var smart_override_prop = function(o, srcObj, i) {
+	var smart_override_prop = function(o, srcObj, i, context) {
 	
 		var p = srcObj[i];
 
 
-	
-		if(i == 'data') i = '!'+i; 										//<-- поле data не перегружается
-	//	if(i == 'items') i = 'items!'; 										//<-- поле items не перегружается
-		if(i == 'mixins') i = '+'+i; 				//<-- поле mixins сливается
-//		if(i == 'plugins') i = '+plugins'; 				//<-- поле plugins сливается
-		if(i == 'events') {
-			var p2 = {};
-			for(var j in p)
-				p2['+'+j] = p[j];
-			p = p2;
+		var prefix = i[0];
+//		var j = i;
+		
+		var keep_prefix = !_clear;
+
+
+		if(prefix == '!' || prefix == '+' || prefix == '-') {
+			i = i.substring(1);
 		}
-		if(i == 'cls') i = '+'+i;
-		if( /^on\S/.test(i) ) i = '+'+i;
-	
-	//	var shared_opts = {'data': null};
-	
-		
-	//	if((i in shared_opts)){//Ergo.in_array(ignore, i)){
-	//		o[i] = p;
-	//	}
-		
-		
-		if(!_clear) {
-		
+		else {
+			
+			prefix = false;
+			
+			if(i == 'data') prefix = '!'; 										//<-- поле data не перегружается
+			if(i == 'mixins') prefix = '+'; 				//<-- поле mixins сливается
+			if(i == 'cls') prefix = '+';
+			if( /^on\S/.test(i) ) prefix = '+';
+			if(/\/events$/.test(context)) {
+				prefix = '+';
+			}
+			
+			if(prefix)
+				keep_prefix = false;
+			
+			
+			// Если в целевом объекте присутствует префиксная форма, то берется ее префикс
 			if('!'+i in o) {
-				i = '!'+i;
+				prefix = '!';
+//				i = '!'+i;
 			}
 			else if('+'+i in o) {
-				i = '+'+i;
+				prefix = '+';
+//				i = '+'+i;
 			}
 			else if('-'+i in o) {
-				i = '-'+i;
+				prefix = '-';
+//				i = '-'+i;
 			}
-		
+			
 		}
 	
+		
 	
-		var prefix = i[0];
+	
 
 	
-		if(prefix == '!' || prefix == '+' || prefix == '-') {
+		if(prefix) {//prefix == '!' || prefix == '+' || prefix == '-') {
 			
-			var j = i.substr(1);
+			var j = prefix + i;
 			
-			if(_clear) i = j;
+//			var j = i.substr(1);
+			
+//			if(_clear) i = j;
 			
 			if(prefix == '+') {
 				
-				if(!(i in o)) o[i] = [];
+				var p_dest = o[i] || o[j];
+//				if(!(i in o)) o[i] = [];
 				if( !$.isArray(o[i]) ) o[i] = [o[i]];
 				p = o[i].concat(p);
 				o[i] = p;
@@ -144,12 +153,12 @@ var Ergo = (function(){
 			if( p && p.constructor == Object ) {//$.isPlainObject(p) ){
 	//			if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 				if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
-				Ergo.smart_override(o[i], p);
+				smart_override_obj(o[i], p, context+'/'+i);
 			}
 			else if( p && p.constructor == Array ){//$.isArray(p) ){
 	//			if(!(i in o) || !$.isArray(o[i])) o[i] = [];
 				if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
-				Ergo.smart_override(o[i], p);
+				smart_override_obj(o[i], p, context+'/'+i);
 			}
 			else {
 				//TODO этот участок кода нужно исправить
@@ -172,6 +181,21 @@ var Ergo = (function(){
 		}
 		
 	}
+	
+	
+	
+	var smart_override_obj = function(dest, src, context) {
+		
+		if(!dest)
+			dest = {};
+		
+		
+		for(var i in src)
+			smart_override_prop(dest, src, i, context);
+		
+	}
+	
+	
 	
 	
 	/**
@@ -205,14 +229,17 @@ var Ergo = (function(){
 			
 			var srcObj = arguments[j];
 			
+			smart_override_obj(o, srcObj, '');
+
+			// for(var i in srcObj)
+				// smart_override_prop(o, srcObj, i);				
+			
 	//		if( $.isArray(srcObj) ){
 	//			for(var i = 0; i < srcObj.length; i++)
 	//				Ergo.utils.overrideProp(o, srcObj, i);
 	//		}
 	//		else {
 		
-			for(var i in srcObj)
-				smart_override_prop(o, srcObj, i);				
 		
 	//		}		
 		}
@@ -238,8 +265,10 @@ var Ergo = (function(){
 			
 			var srcObj = arguments[j];
 		
-			for(var i in srcObj)
-				smart_override_prop(this, srcObj, i);
+			smart_override_obj(this, srcObj, '');
+		
+			// for(var i in srcObj)
+				// smart_override_prop(this, srcObj, i);
 								
 		}
 		
