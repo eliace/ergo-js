@@ -367,9 +367,13 @@ $(document).ready(function(){
 			components: {
 				content: {
 					etype: 'anchor',
-					dataId: 'title'
+					dataId: 'title',
+					binding: function(v) {
+						this.opt('text', v);
+					}
 				},
 				sublist: {
+					etype: 'box',
 					dynamic: true,
 					dataId: 'children',
 					defaultItem: {

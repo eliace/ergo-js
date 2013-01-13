@@ -63,7 +63,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 //		opts = opts || {};
 //		this.options = o = Ergo.smart_override(o, opts);		
 		
-
+/*
 		if('mixins' in o) {
 			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
@@ -76,17 +76,18 @@ Ergo.override(Ergo.core.Object.prototype, {
 		opts = opts || {};
 
 		if('mixins' in opts) {//} || '+mixins' in opts) {
-			mixins = opts.mixins ? opts.mixins : opts['+mixins'];
-			for(var i = 0; i < mixins.length; i++) {
+//			mixins = opts.mixins; ? opts.mixins : opts['+mixins'];
+			for(var i = 0; i < opts.mixins.length; i++) {
 				var mixin = mixins[i];
 				if($.isString(mixin)) mixin = mixins[i] = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, opts);
 				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
 			}
 		}
-
+*/
 
 		this.options = Ergo.smart_override(o, opts);
+
 
 
 		// определен набор базовых опций - можно выполнить донастройку опций
@@ -110,6 +111,16 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	$pre_construct: function(o) {
 		
+		if('mixins' in o) {
+//			var mixins = o.mixins;
+			for(var i = 0; i < o.mixins.length; i++) {
+				var mixin = o.mixins[i];
+				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
+				if($.isFunction(mixin)) mixin.call(this, o);
+				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
+			}
+		}		
+		
 	},
 	
 	
@@ -119,7 +130,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
-				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('mixins:'+plugin);
+				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
 				plugin.call(this, o);
 			}
 		}
