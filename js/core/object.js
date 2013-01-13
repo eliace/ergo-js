@@ -75,7 +75,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 		opts = opts || {};
 
-		if('mixins' in opts || '+mixins' in opts) {
+		if('mixins' in opts) {//} || '+mixins' in opts) {
 			mixins = opts.mixins ? opts.mixins : opts['+mixins'];
 			for(var i = 0; i < mixins.length; i++) {
 				var mixin = mixins[i];

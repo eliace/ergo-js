@@ -13,7 +13,7 @@
 Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 	
 	defaults: {
-		mixins: [Ergo.Observable],
+		plugins: [Ergo.Observable],
 		lazy: true
 	},
 	
