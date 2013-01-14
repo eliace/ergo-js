@@ -539,36 +539,48 @@ var GridData = Ergo.data.PageAjaxData.extend({
             }, {
 				cls: 'e-splitter'
 			}, {
-                etype: 'button-group',
-                mixins: ['selectable'],
-                defaultItem: {
-                    etype: 'icon-button',
-                    onClick: function(e){
-                        this.events.bubble('select', {target: this});
-                    }
-                },
-                items: [{icon: 'icon-th-large'}, {icon: 'icon-align-justify'}],
-                onSelect: function(e) {
-                    this.selection.set(e.target);
-                    e.cancel();
-                },
-            }, {
+          etype: 'button-group',
+          mixins: ['selectable'],
+          defaultItem: {
+              etype: 'icon-button',
+              onClick: function(e){
+                  this.events.bubble('select', {target: this});
+              }
+          },
+          items: [{icon: 'icon-th-large'}, {icon: 'icon-align-justify'}],
+          onSelect: function(e) {
+              this.selection.set(e.target);
+              e.cancel();
+          },
+      }, {
 				cls: 'e-splitter'
 			}, {
-                etype: 'button-group',
-                mixins: ['selectable'],
-                onSelect: function(e) {
-                  this.selection.set(e.target);
-                  e.cancel();
-                },
-                defaultItem: {
-                  etype: 'button-item',
-                  onClick: function() {
-                    this.events.bubble('select', {target: this});
-                  }
-                },
-                items: ['Первый', 'Второй', 'Третий']
-            }]
+          etype: 'button-group',
+          mixins: ['selectable'],
+          onSelect: function(e) {
+            this.selection.set(e.target);
+            e.cancel();
+          },
+          defaultItem: {
+            etype: 'button-item',
+            onClick: function() {
+              this.events.bubble('select', {target: this});
+            }
+          },
+          items: ['Первый', 'Второй', {text: 'Третий', xicon: 'icon-magic'}]
+      }, {
+				cls: 'e-splitter'
+			}, {
+          etype: 'button-group',
+          mixins: ['selectable'],
+          defaultItem: {
+            etype: 'button-item',
+            onClick: function() {
+              this.events.bubble('select', {target: this});
+            }
+          },
+          items: ['Первый', {icon: 'icon-caret-down', style: {padding: '4px'}}]
+      }]
 		}
 	})
 	
