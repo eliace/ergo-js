@@ -628,6 +628,10 @@ header .e-tool-box {
    border: solid 1px #d0d0d0!important;
 }
 
+button:active span {
+  top:0!important;
+}
+
 button, 
 .e-button-item 
  {
@@ -905,7 +909,7 @@ button.selected:hover,
   float:left;
 }
 
-.e-split-button .e-icon-button{
+.e-split-button .e-icon-button {
   background: #ffffff; /* Old browsers */
   background-color: #fff;
   border: solid 1px #d0d0d0;
@@ -1070,6 +1074,20 @@ button.selected:hover,
 .e-tool-box .e-select-box {
   height: 25px; 
   min-width: 100px;
+  background-color: #fff;
+  background-image: -webkit-linear-gradient(bottom, #e6e6e6, #fff);
+  background-image: -moz-linear-gradient(bottom, #e6e6e6, #fff);
+  background-image: -o-linear-gradient(bottom, #e6e6e6, #fff);
+  background-image: -ms-linear-gradient(bottom, #e6e6e6, #fff);
+  background-image: linear-gradient(to top, #e6e6e6, #fff);
+}
+
+.e-tool-box .e-select-box:hover {
+    background-image: -webkit-linear-gradient(bottom, #e6e6e6, #f5f5f5);
+  background-image: -moz-linear-gradient(bottom, #e6e6e6, #f5f5f5);
+  background-image: -o-linear-gradient(bottom, #e6e6e6, #f5f5f5);
+  background-image: -ms-linear-gradient(bottom, #e6e6e6, #f5f5f5);
+  background-image: linear-gradient(to top, #e6e6e6, #f5f5f5);
 }
 
 .e-tool-box .e-select-box:hover .e-icon-button{
@@ -1386,3 +1404,4 @@ button.selected:hover,
   background-image: -ms-linear-gradient(bottom, #7cbc0a, #91ca2d);
   background-image: linear-gradient(to top, #7cbc0a, #91ca2d);
 }
+
