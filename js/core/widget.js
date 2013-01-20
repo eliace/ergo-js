@@ -49,8 +49,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		states: {
 //			'hidden': 'hidden',
 			'disabled': 'disabled',
-			'invalid': 'invalid',
-			'unselectable': 'unselectable'
+			'invalid': 'invalid'
+//			'unselectable': 'unselectable'
 		},
 		plugins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
@@ -272,45 +272,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 
 		
-		// создаем список дочерних элементов
-		/**
-		 * @field
-		 * 
-		 * @description Коллекция элементов виджета
-		 * 
-		 */
-		this.children = new Ergo.core.WidgetChildren(this);
-
-		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
-		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
-		
-		//TODO этап генерации jQuery-элемента можно оптимизировать
-		// создаем новый элемент DOM или используем уже существующий
-		/**
-		 * @field
-		 * 
-		 * @description jQuery-объект, с которым связан виджет
-		 * 
-		 */
-		this.el = $(o.html);//this.$html());
-		this.el.data('ergo-widget', this);
-//		if(this.defaultCls) this.el.addClass(this.defaultCls);
-		if('style' in o) this.el.css(o.style);
-		if('cls' in o) this.el.addClass(o.cls.join(' '));
-		if('baseCls' in o) this.el.addClass(o.baseCls);
-
-		
-		// создаем компоновку
-		/**
-		 * @field
-		 * 
-		 * @description Компоновка
-		 * 
-		 */
-		this.layout = o.layoutFactory(o.layout);
-		//FIXME костыль
-//		if(!this.layout.container) this.layout.attach(this);
-		this.layout.attach(this.layout.options.container || this);
 		
 		
 		
@@ -362,7 +323,55 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		var self = this;
 //		var el = this.el;
-				
+		
+		
+		// создаем список дочерних элементов
+		/**
+		 * @field
+		 * 
+		 * @description Коллекция элементов виджета
+		 * 
+		 */
+		this.children = new Ergo.core.WidgetChildren(this);
+
+		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
+		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
+		
+		//TODO этап генерации jQuery-элемента можно оптимизировать
+		// создаем новый элемент DOM или используем уже существующий
+		/**
+		 * @field
+		 * 
+		 * @description jQuery-объект, с которым связан виджет
+		 * 
+		 */
+		this.el = $(o.html);//this.$html());
+		this.el.data('ergo-widget', this);
+//		if(this.defaultCls) this.el.addClass(this.defaultCls);
+		if('style' in o) this.el.css(o.style);
+		if('cls' in o) this.el.addClass(o.cls.join(' '));
+		if('baseCls' in o) this.el.addClass(o.baseCls);
+
+		
+		// создаем компоновку
+		/**
+		 * @field
+		 * 
+		 * @description Компоновка
+		 * 
+		 */
+		this.layout = o.layoutFactory(o.layout);
+		//FIXME костыль
+//		if(!this.layout.container) this.layout.attach(this);
+		this.layout.attach(this.layout.options.container || this);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		if('components' in o) {
 			var arr = [];
