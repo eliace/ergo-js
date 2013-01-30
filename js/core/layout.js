@@ -155,7 +155,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			var children = el.children();
 			for(var i = children.length-1; i >= 0; i--) {
 				var w = $(children[i]).ergo();
-				if(w && w._weight < weight) before_a.push(children[i]);				
+				if(w && w._weight < weight) before_a.push($(children[i]));				
 			}
 			// el.children().each(function(i, elem){
 				// var w = $(elem).ergo();
