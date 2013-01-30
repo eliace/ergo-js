@@ -2,6 +2,7 @@
 //= require "data"
 //= require "states"
 //= require "layout"
+//= require "widget-props"
 //= require "widget-list"
 
 
@@ -75,6 +76,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		showOnRender: false,
 		hideOnRender: false,
 		set: {
+/*			
 //			'text': function(v) {	this.layout.el.text(v); },
 			'innerText': function(v) {	this.layout.el.text(v); },
 			'innerHtml': function(v) {	this.layout.el.html(v); },
@@ -102,6 +104,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			'hidden': function(v) {
 				this.el.css('display', v ? 'none' : '');
 			}
+*/			
 		},
 		get: {
 			// 'text': function() { return this.el.text(); }
@@ -531,7 +534,25 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.bind(o.data, o.autoUpdate);
 						
 		
-		this.$afterBuild();
+//		this.$afterBuild();
+	
+		var self = this;
+		
+		
+		// устанавливаем состояния по умолчанию
+		if('state' in o) {
+			var a = o.state.join(' ').split(' ');			
+//			var a = o.state.split(' ');
+			Ergo.each(a, function(state) {
+				if(state[0] == '-') 
+					self.states.unset(state.substr(1));
+				else 
+					self.states.set(state);
+			});
+		}
+		
+		
+		this.events.fire('afterBuild');
 		
 	},
 	
@@ -607,7 +628,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @private
 	 */
 	
-
+/*
 	$afterBuild: function() {
 		
 		var o = this.options;
@@ -634,7 +655,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.fire('afterBuild');
 		
 	},
-	
+*/	
 
 	/**
 	 * Хук, вызываемый при обновлении компоновки
@@ -1011,16 +1032,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	getText: function() {
-		return this.layout.el.text();
-	},
-	
-	
-	setText: function(v) {
-		this.layout.el.text( v );
-	},
-	
-	
 	
 	/**
 	 * Получение значения, связанного с виджетом.
@@ -1173,6 +1184,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 	
 }, 'widget');
+
+
+
+Ergo.override(Ergo.core.Widget.prototype, Ergo.core.WidgetProperties);
+
+
 
 
 
