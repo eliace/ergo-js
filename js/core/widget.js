@@ -33,6 +33,7 @@
  * 
  * 
  * @class
+ * @name Ergo.core.Widget
  * @extends Ergo.core.Object
  * @param {Object} o параметры
  */
