@@ -151,7 +151,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				// el.append( item_el );
 		}
 		else if(index === 0) {
-			var before_el = [];
+			var before_a = [];
 			var children = el.children();
 			for(var i = children.length-1; i >= 0; i--) {
 				var w = $(children[i]).ergo();
@@ -162,8 +162,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				// if(w && w._weight < weight) before_a.push(elem);
 			// });
 
-			if(before_el.length > 0)
-				before_el.after( item_el );
+			if(before_a.length > 0)
+				before_a[before_a.length-1].after( item_el );
 			else
 				el.prepend( item_el );
 		}
