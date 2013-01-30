@@ -46,6 +46,9 @@
 		}
 */		
 		
+		tr.selected {
+			background-color: #FFFCCC;
+		}
 		
 		
 		
@@ -56,6 +59,30 @@
 	
 	
 <script type="text/javascript">
+	
+//	Ergo.widgets.Icon.superclass.defaults.text = 'icon';
+	
+	// Ergo.deep_override(Ergo.widgets.Icon.prototype, {
+		// defaults: {
+			// text: 'icon',
+			// style: {'text-indent': -1000000}
+		// }
+	// });
+
+
+
+	Ergo.deep_override(Ergo.core.Widget.prototype, {
+		setTrailingText: function(s) {
+			this.el.append(s);
+		},
+		setLeadingText: function(s) {
+			this.el.prepend(s);
+		}
+	});
+
+	
+	
+	
 	
 	$(document).ready(function(){
 	
@@ -471,7 +498,9 @@ var GridData = Ergo.data.PageAjaxData.extend({
 			}, {
 				etype: 'button-item',
 				text: 'Печать',
-				icon: 'icon-print'
+				icon: 'icon-print',
+				leadingText: 'aaa',
+				trailingText: 'bbb'
 			}, {
 				etype: 'upload-box',
 				content: {
@@ -619,7 +648,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 	            text: 'Запросить обнвление',
 	            tag: ''
 	         }, {
-	            text: 'На пдписание',
+	            text: 'На подписание',
 	            tag: ''
 	         }, {
 	            text: 'Подписать',
@@ -1141,7 +1170,29 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				}[v];	
 				return f || v;
 			},
-		
+			
+			
+			mixins: ['selectable'],
+			
+			row: {
+				onClick: function() {
+					this.events.bubble('select');
+				},
+				states: {
+					'selected': function(on) {
+						if(on)
+							this.column(1).content.item(0).show();
+						else						
+							this.column(1).content.item(0).hide();
+					}
+				}
+			},
+			
+			onSelect: function(e) {				
+				this.selection.set(e.target);
+			},
+			
+			
 			
 			columns: [{
 			}, {
@@ -1149,9 +1200,11 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				
 				content: {
 					etype: 'text-box',
+					cls: 'show-on-hover',
 					buttons: [{
 						etype: 'icon-button',
-						icon: 'icon-edit',
+						icon: 'icon-pencil',
+						hidden: true,
 						onClick: function() {
 							this.events.bubble('action');
 						}

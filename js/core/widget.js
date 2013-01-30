@@ -2,6 +2,7 @@
 //= require "data"
 //= require "states"
 //= require "layout"
+//= require "widget-props"
 //= require "widget-list"
 
 
@@ -50,8 +51,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		states: {
 //			'hidden': 'hidden',
 			'disabled': 'disabled',
-			'invalid': 'invalid',
-			'unselectable': 'unselectable'
+			'invalid': 'invalid'
+//			'unselectable': 'unselectable'
 		},
 		plugins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
@@ -76,6 +77,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		showOnRender: false,
 		hideOnRender: false,
 		set: {
+/*			
 //			'text': function(v) {	this.layout.el.text(v); },
 			'innerText': function(v) {	this.layout.el.text(v); },
 			'innerHtml': function(v) {	this.layout.el.html(v); },
@@ -103,6 +105,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			'hidden': function(v) {
 				this.el.css('display', v ? 'none' : '');
 			}
+*/			
 		},
 		get: {
 			// 'text': function() { return this.el.text(); }
@@ -273,45 +276,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 
 		
-		// создаем список дочерних элементов
-		/**
-		 * @field
-		 * 
-		 * @description Коллекция элементов виджета
-		 * 
-		 */
-		this.children = new Ergo.core.WidgetChildren(this);
-
-		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
-		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
-		
-		//TODO этап генерации jQuery-элемента можно оптимизировать
-		// создаем новый элемент DOM или используем уже существующий
-		/**
-		 * @field
-		 * 
-		 * @description jQuery-объект, с которым связан виджет
-		 * 
-		 */
-		this.el = $(o.html);//this.$html());
-		this.el.data('ergo-widget', this);
-//		if(this.defaultCls) this.el.addClass(this.defaultCls);
-		if('style' in o) this.el.css(o.style);
-		if('cls' in o) this.el.addClass(o.cls.join(' '));
-		if('baseCls' in o) this.el.addClass(o.baseCls);
-
-		
-		// создаем компоновку
-		/**
-		 * @field
-		 * 
-		 * @description Компоновка
-		 * 
-		 */
-		this.layout = o.layoutFactory(o.layout);
-		//FIXME костыль
-//		if(!this.layout.container) this.layout.attach(this);
-		this.layout.attach(this.layout.options.container || this);
 		
 		
 		
@@ -363,7 +327,55 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		var self = this;
 //		var el = this.el;
-				
+		
+		
+		// создаем список дочерних элементов
+		/**
+		 * @field
+		 * 
+		 * @description Коллекция элементов виджета
+		 * 
+		 */
+		this.children = new Ergo.core.WidgetChildren(this);
+
+		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
+		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
+		
+		//TODO этап генерации jQuery-элемента можно оптимизировать
+		// создаем новый элемент DOM или используем уже существующий
+		/**
+		 * @field
+		 * 
+		 * @description jQuery-объект, с которым связан виджет
+		 * 
+		 */
+		this.el = $(o.html);//this.$html());
+		this.el.data('ergo-widget', this);
+//		if(this.defaultCls) this.el.addClass(this.defaultCls);
+		if('style' in o) this.el.css(o.style);
+		if('cls' in o) this.el.addClass(o.cls.join(' '));
+		if('baseCls' in o) this.el.addClass(o.baseCls);
+
+		
+		// создаем компоновку
+		/**
+		 * @field
+		 * 
+		 * @description Компоновка
+		 * 
+		 */
+		this.layout = o.layoutFactory(o.layout);
+		//FIXME костыль
+//		if(!this.layout.container) this.layout.attach(this);
+		this.layout.attach(this.layout.options.container || this);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		if('components' in o) {
 			var arr = [];
@@ -523,7 +535,25 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.bind(o.data, o.autoUpdate);
 						
 		
-		this.$afterBuild();
+//		this.$afterBuild();
+	
+		var self = this;
+		
+		
+		// устанавливаем состояния по умолчанию
+		if('state' in o) {
+			var a = o.state.join(' ').split(' ');			
+//			var a = o.state.split(' ');
+			Ergo.each(a, function(state) {
+				if(state[0] == '-') 
+					self.states.unset(state.substr(1));
+				else 
+					self.states.set(state);
+			});
+		}
+		
+		
+		this.events.fire('afterBuild');
 		
 	},
 	
@@ -599,7 +629,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @private
 	 */
 	
-
+/*
 	$afterBuild: function() {
 		
 		var o = this.options;
@@ -626,7 +656,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.fire('afterBuild');
 		
 	},
-	
+*/	
 
 	/**
 	 * Хук, вызываемый при обновлении компоновки
@@ -1003,16 +1033,6 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	getText: function() {
-		return this.layout.el.text();
-	},
-	
-	
-	setText: function(v) {
-		this.layout.el.text( v );
-	},
-	
-	
 	
 	/**
 	 * Получение значения, связанного с виджетом.
@@ -1165,6 +1185,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 	
 }, 'widget');
+
+
+
+Ergo.override(Ergo.core.Widget.prototype, Ergo.core.WidgetProperties);
+
+
 
 
 
