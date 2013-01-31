@@ -277,7 +277,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		var e = this.entry(index);
 
-		this.events.fire('entry:added', {'index': index, 'entry': e});//, 'isLast': isLast});
+		this.events.fire('entry:added', {'index': isLast ? undefined : index, 'entry': e});//, 'isLast': isLast});
 		
 		return e;
 	},

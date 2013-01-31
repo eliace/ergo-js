@@ -856,7 +856,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
-				self.children.add({'data': e.entry}, e.isLast ? null : e.index);
+				self.items.add({'data': e.entry}, e.isLast ? null : e.index);
 			}, this);
 			
 			// если элемент данных удален, то удаляем соответствующий виджет
@@ -916,7 +916,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.children.add({ 'data': dataEntry, 'autoUpdate': false });
+					var item = self.items.add({ 'data': dataEntry, 'autoUpdate': false });
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -996,7 +996,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-				var item = self.children.add({ 'data': dataEntry });
+				var item = self.items.add({ 'data': dataEntry });
 				item._pivot = false;
 				item._dynamic = true;
 //					item.el.attr('dynamic', true);

@@ -374,7 +374,18 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	
 	add: function(item, i) {
 		return this._widget.children.add(item, i, this.options.type);
-	}
+	},
+	
+	
+	first: function() {
+		return this._source()[0];
+	},
+	
+	
+	last: function() {
+		var src = this._source();
+		return src[src.length-1];
+	}	
 	
 
 });

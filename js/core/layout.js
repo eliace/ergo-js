@@ -173,7 +173,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			var before_el = null;
 			this.container.children.each(function(it){
 				if(it._weight == weight) arr.push(it.el);
-				else if(it._weight < weight) before_el = it.el;
+				else if(it._weight <= weight) before_el = it.el;
 			});
 
 			if( !arr[index] ) {
