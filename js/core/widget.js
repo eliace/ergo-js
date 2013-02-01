@@ -856,7 +856,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
-				self.items.add({'data': e.entry}, e.isLast ? null : e.index);
+				var item = self.items.add({'data': e.entry}, e.isLast ? null : e.index);
+				item._dynamic = true;
 			}, this);
 			
 			// если элемент данных удален, то удаляем соответствующий виджет

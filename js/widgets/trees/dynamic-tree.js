@@ -42,7 +42,7 @@ Ergo.declare('Ergo.widgets.DynamicTree', 'Ergo.widgets.Tree', {
 	    
 			transitions: {
 				
-	      '> expanded': function() {
+	      '* > expanded': function() {
 					
 					var result = $.Deferred();
 
