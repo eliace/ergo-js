@@ -406,6 +406,11 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	clean: function() {
 		this._changed = false;
 		this.entries.apply_all('clean');
+	},
+	
+	
+	size: function() {
+		return Ergo.size(this._val());
 	}
 	
 	

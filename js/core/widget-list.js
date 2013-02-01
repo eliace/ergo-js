@@ -87,8 +87,11 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			w[item._key] = item;
 		}
 		
-		return item;
+		
+//		console.log('item:add');
 //		this.events.fire('item:add', {'item': item});
+		
+		return item;
 	},
 	
 	remove_at: function(i) {
@@ -124,6 +127,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		// удаляем элемент из компоновки	
 		w.layout.remove(item);
 		
+		
+//		this.events.fire('item:remove', {'item': item});
 		
 		return item;
 	}
