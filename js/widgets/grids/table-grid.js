@@ -18,7 +18,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				style: {'overflow': 'auto'},
 				content: {
 					etype: 'grid'
-				}
+				},
+				autoHeight: true
 			}
 		},
 		
