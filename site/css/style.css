@@ -122,6 +122,13 @@ input {
 	margin:0 20px;
 }
 
+#sideLeft .logo a{
+  width:101px;
+  height:43px;
+  display:block;
+  background:url(images/samples-logo.png)!important;
+  margin:20px;
+}
 .logo a {
 	display:block;
 	width: 170px;
