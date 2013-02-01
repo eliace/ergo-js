@@ -116,7 +116,7 @@ input {
 
 .logo {
 	display: inline-block;
-	width: 152px;
+	width: 170px;
 	height: 70px;
 	float: left;
 	margin:0 20px;
@@ -124,7 +124,7 @@ input {
 
 .logo a {
 	display:block;
-	width: 152px;
+	width: 170px;
 	height: 70px;
 	background: url(images/logo.png) no-repeat;
 }
