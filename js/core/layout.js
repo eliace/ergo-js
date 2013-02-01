@@ -87,6 +87,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 
+
+
+//	text: function
+
 	/**
 	 * добавление нового элемента-виджета в компоновку
 	 * 

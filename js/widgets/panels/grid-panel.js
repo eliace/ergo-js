@@ -13,11 +13,10 @@ Ergo.declare('Ergo.widgets.GridPanel', 'Ergo.widgets.Panel', {
 			},
 			
 			content: {
-				etype: 'table-grid',
-				
-				content: {
-					autoHeight: true						
-				}
+				etype: 'table-grid'
+				// content: {
+					// autoHeight: true
+				// }
 			},
 			
 			footer: {
