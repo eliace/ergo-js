@@ -957,7 +957,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(o.autoFetch) this.data.fetch();
 
 
-		this.events.fire('onBound');
+		this.events.fire('bound');
 	},
 	
 	

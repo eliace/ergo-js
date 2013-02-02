@@ -36,10 +36,10 @@ Ergo.declare('Ergo.widgets.DynamicTree', 'Ergo.widgets.Tree', {
 						
 						var self = this;
 						
-						this.data.reg('entry:added', function(e){
-							if(self.states.is('expanded') && self.data.size() == 1)
+						this.data.events.reg('entry:added', function(e){
+							if(self.parent.states.is('expanded') && self.data.size() == 1)
 								self.show();
-						});
+						}, this);
 						
 					}
 					
