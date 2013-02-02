@@ -30,6 +30,10 @@
 			padding: 20px;
 		}
 		
+		.context-menu {
+			margin-right: 5px;
+			margin-bottom: 5px;
+		}
 		
 	</style>
 	
@@ -89,6 +93,9 @@
 	var context_menu = $.ergo({
 		etype: 'dropdown-box',
 		cls: 'context-menu',
+		position: {
+			boundary: 'push'
+		},		
 		content: {
 			items: [{
 				text: 'Удалить',
@@ -144,8 +151,6 @@
 		onDelete: function() {
 
 			var node = this._target.parent;
-			
-			console.log( node.data.get() );
 			
 			DummyServer.del( node.data.oid() ).then(function(){
 				node.data.del();
@@ -250,6 +255,25 @@
 		
 		
 	});	
+	
+	
+	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		height: 300,
+		cls: 'widget',
+		style: {'margin-bottom': 20},
+		
+		mixins: ['contextmenu'],
+				
+		contextMenu: context_menu
+		
+	});
+	
+	
 
 
 </script>
