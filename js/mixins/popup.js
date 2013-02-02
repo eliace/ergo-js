@@ -162,6 +162,13 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			// добавляем прозрачную панель в документ
 			$('body').append(this.glass_pane);
 		}
+		else if(this.options.hideOn == 'windowClick') {
+			
+			$(window)
+				.one('click', function(e){ self.close(); })
+				.one('contextmenu', function(e){ self.close(); });
+			
+		}
 		
 		
 		return this.show().then(function(){
@@ -206,21 +213,14 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	
 	var self = this;
-	
+
+
 	this.glass_pane = Ergo.glass_pane()
 		.on('click', function(e){
 			self.close();
 			e.stopPropagation();
 		});
 	
-	
-	// this.glass_pane = $.ergo({
-		// etype: 'glass-pane',
-		// onClick: function(e) {
-      // self.close();
-			// e.baseEvent.stopPropagation();								
-		// }
-	// });
 	
 	
 	Ergo.smart_override(o, {

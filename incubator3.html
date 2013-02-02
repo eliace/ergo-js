@@ -44,44 +44,6 @@
 <script type="text/javascript">
 	
 	
-	var DummyServer = {
-		
-		last_id: 1,
-		
-		get: function(path) {
-			return $.when( Ergo.deep_copy(DummyTreeData[path]) );
-		},
-		
-		put: function(obj, parent_id) {
-			var id = this.last_id++;
-			
-			if(!DummyTreeData[parent_id])
-				DummyTreeData[parent_id] = [];
-			
-			obj.id = 'uid-'+id;
-			
-			DummyTreeData[parent_id].push(obj);
-			
-			console.log({'PUT': obj});
-			
-			return $.when( Ergo.deep_copy(obj) );
-		},
-		
-		del: function(id) {
-			
-			console.log(id);
-			
-			Ergo.each(DummyTreeData, function(arr) {
-				new Ergo.core.Array(arr).remove_if(function(item){
-					return item.id == id;
-				});
-			});
-			
-			return $.when(true);
-		}
-		
-		
-	};
 	
 	
 	
@@ -95,7 +57,8 @@
 		cls: 'context-menu',
 		position: {
 			boundary: 'push'
-		},		
+		},
+		hideOn: 'windowClick',
 		content: {
 			items: [{
 				text: 'Удалить',
@@ -134,12 +97,12 @@
 			var parent_id = node.data.oid();
 			
 			if(node.states.is('expanded')) {
-				DummyServer.put(obj, parent_id).then(function(data){
+				DummyTreeProvider.put(obj, parent_id).then(function(data){
 					node.subtree.data.add(data);				
 				});				
 			}
 			else {
-				DummyServer.put(obj, parent_id).then(function(data){
+				DummyTreeProvider.put(obj, parent_id).then(function(data){
 					node.states.set('expanded');
 				});				
 			}
@@ -152,7 +115,7 @@
 
 			var node = this._target.parent;
 			
-			DummyServer.del( node.data.oid() ).then(function(){
+			DummyTreeProvider.del( node.data.oid() ).then(function(){
 				node.data.del();
 			});
 			
@@ -165,7 +128,7 @@
 
 
 	
-	var FileTreeModel = Ergo.incubator.tree.FileNodeList.extend({
+	var FileTreeModel = Ergo.data.tree.AjaxNodeList.extend({
 
 		model: Ergo.data.tree.AjaxNode.extend({
 			fields: {
@@ -184,7 +147,7 @@
 			
 			if(!id) id = 0;
 			
-			return DummyServer.get(id).then(function(data){
+			return DummyTreeProvider.get(id).then(function(data){
 				self._fetched = true;
 				self.set(data);				
 			});

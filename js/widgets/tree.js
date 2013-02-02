@@ -13,8 +13,8 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 		cls: 'e-tree-node',
 		
 		transitions: {
-			'> expanded': function() { this.subtree.show(); },
-			'expanded >': function() { this.subtree.hide(); }
+			'* > expanded': function() { this.subtree.show(); },
+			'expanded > *': function() { this.subtree.hide(); }
 		},
 		
 		

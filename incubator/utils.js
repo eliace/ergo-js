@@ -66,6 +66,49 @@ var DummyTreeData = {
 
 
 
+var DummyTreeProvider = {
+	
+	last_id: 1,
+	
+	get: function(path) {
+		return $.when( Ergo.deep_copy(DummyTreeData[path]) );
+	},
+	
+	put: function(obj, parent_id) {
+		var id = this.last_id++;
+		
+		if(!DummyTreeData[parent_id])
+			DummyTreeData[parent_id] = [];
+		
+		obj.id = 'uid-'+id;
+		
+		DummyTreeData[parent_id].push(obj);
+		
+		console.log({'PUT': obj});
+		
+		return $.when( Ergo.deep_copy(obj) );
+	},
+	
+	del: function(id) {
+		
+		console.log(id);
+		
+		Ergo.each(DummyTreeData, function(arr) {
+			new Ergo.core.Array(arr).remove_if(function(item){
+				return item.id == id;
+			});
+		});
+		
+		return $.when(true);
+	}
+	
+	
+};
+
+
+
+
+
 Ergo.declare('Ergo.incubator.tree.FileNodeList', 'Ergo.data.tree.AjaxNodeList', {
 	
 		model: Ergo.data.tree.AjaxNode.extend({

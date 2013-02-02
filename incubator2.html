@@ -122,7 +122,6 @@ var w = $.ergo({
 		
 		content: {
 			mixins: ['scrollable'],
-//			autoHeight: false,
 			style: {'padding-right': 13, 'overflow': 'hidden'}
 		},
 		
@@ -146,6 +145,34 @@ var w = $.ergo({
 gridData.fetch().then(function(){
 	w.$layoutChanged();	
 });
+
+
+
+
+
+
+
+
+var w = $.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 300,
+	title: 'Грид + постраничная загрузка',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	
+	content: {
+		
+		
+		
+		
+	}
+
+});
+
+
 
 
 </script>
