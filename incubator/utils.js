@@ -183,27 +183,3 @@ var DummyGridProvider = Ergo.core.Object.extend({
 
 
 
-
-
-Ergo.declare('Ergo.incubator.tree.FileNodeList', 'Ergo.data.tree.AjaxNodeList', {
-	
-		model: Ergo.data.tree.AjaxNode.extend({
-			fields: {
-				'children': 'Ergo.incubator.tree.FileNodeList'
-			}
-		}),
-	
-		fetch: function(id) {
-			
-			if(!id) id = 0;
-			
-			var self = this;
-			
-			return $.getJSON(this.opt('url') + '/' + id)
-				.success(function(json){
-					self._fetched = true;
-					self.set(json);
-				});
-		}
-	
-});

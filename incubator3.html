@@ -61,17 +61,20 @@
 		hideOn: 'windowClick',
 		content: {
 			items: [{
-				text: 'Удалить',
-				tag: 'delete'
-			}, 
-			{cls: 'e-splitter'}, 
-			{
-				text: 'Добавить', 
-				tag: 'new'
+				text: 'Новый каталог', 
+				tag: 'newDir'
+			}, {
+				text: 'Новый файл', 
+				tag: 'newFile'
 			}, {
 				text: 'Изменить', 
 //				state: 'disabled',
 				tag: 'edit'
+			}, {
+				cls: 'e-splitter'
+			}, {
+				text: 'Удалить',
+				tag: 'delete'
 			}],
 			defaultItem: {
 				onClick: function() {
@@ -84,7 +87,7 @@
 		},
 		width: 200,
 		
-		onNew: function(e) {
+		onNewDir: function(e) {
 			
 			var node = this._target.parent;
 			
@@ -93,22 +96,26 @@
 				type: "folder",
 				children: []
 			};
-			
-			var parent_id = node.data.oid();
-			
-			if(node.states.is('expanded')) {
-				DummyTreeProvider.put(obj, parent_id).then(function(data){
-					node.subtree.data.add(data);				
-				});				
-			}
-			else {
-				DummyTreeProvider.put(obj, parent_id).then(function(data){
-					node.states.set('expanded');
-				});				
-			}
+						
+			this.addNode(node, obj);
 			
 			this.close();
 		},
+
+		onNewFile: function(e) {
+			
+			var node = this._target.parent;
+			
+			var obj = {
+				title: "Новый файл",
+				type: "file"
+			};
+			
+			this.addNode(node, obj);
+			
+			this.close();
+		},
+
 		
 		
 		onDelete: function() {
@@ -120,7 +127,38 @@
 			});
 			
 			this.close();
-		}
+		},
+		
+		
+		
+		mixins: [{
+			
+			addNode: function(node, obj) {
+				
+				var parent_id = node.data.oid();
+			
+				// если ветка развернута, значит данные уже загружены и останется только добавить к ним новый элемент
+				if(node.states.is('expanded')) {
+					DummyTreeProvider.put(obj, parent_id).then(function(data){
+						node.subtree.data.add(data);				
+					});				
+				}
+				// если ветка свернута, то ее нужно развернуть
+				else {
+					DummyTreeProvider.put(obj, parent_id).then(function(data){
+						// если данные уже загружены, то изменяем их, добавляя новый элемент
+						// иначе при разворачивании дерево синхронизируются с уже измененными данными
+						if(node.data._fetched)
+							node.subtree.data.add(data);
+						node.states.set('expanded');
+					});				
+				}
+				
+			}
+			
+			
+			
+		}]
 		
 		
 //		hideOn: 'hoverOut'
