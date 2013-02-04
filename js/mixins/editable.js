@@ -17,12 +17,24 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 		
 		if(!this.options.editable) return;
 		
+		this.states.set('editing');
+		
 		var w = this.layout.el.width();
 		var h = this.layout.el.height();
 
 		var editor_opts = this.options.editor;
-		if($.isString(editor_opts)) editor_opts = {etype: editor_opts};
+		if($.isString(editor_opts)) editor_opts = {etype: editor_opts};		
 		
+		
+		if(editor_opts.replace) {
+			var replace_a = editor_opts.replace.split(' ');
+			for(var i = 0; i < replace_a.length; i++) {
+				this.component(replace_a[i]).el.hide();
+			}			
+		}
+		else {
+			this.layout.el.text('');
+		}
 		
 		if(this.content)
 			this.content.el.hide();
@@ -47,6 +59,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 		// переводим фокус на вложенный тег <input> (если такое есть)
 		$('input', this.el).focus();
 
+
 //		this._editor.bind(this.data);
 		
 	};
@@ -56,12 +69,25 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 		
 		this.children.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент
 		
-		if(this.content)
-			this.content.el.show();		
+		
+		var ed_opts = this.options.editor;
+		if($.isString(ed_opts)) ed_opts = {etype: ed_opts};
+		
+		if(ed_opts.replace) {
+			var replace_a = ed_opts.replace.split(' ');
+			for(var i = 0; i < replace_a.length; i++) {
+				this.component(replace_a[i]).el.show();
+			}			
+		}
+		
+		// if(this.content)
+			// this.content.el.show();		
 
 		this.$layoutChanged();
 		this.$dataChanged(); // явно вызываем обновление данных
 				
+		
+		this.states.unset('editing');
 		
 		this.events.fire('edit');
 	};
@@ -83,7 +109,7 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 	
 
 
-	o.editor = o.editor || 'input-box';
+	o.editor = o.editor || {etype: 'input-box'}
 
 	o.editable = ('editable' in o) ? o.editable : true;
 

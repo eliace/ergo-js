@@ -8,7 +8,7 @@ Ergo.declare('Ergo.widgets.grid.Grid', 'Ergo.widgets.Box', {
 		html: '<table cellspacing="0" cellpadding="0"/>',
 		
 		layout: {
-			etype: 'layouts:default',
+//			etype: 'layouts:default',
 			html: '<tbody/>'
 		},
 		
@@ -86,12 +86,11 @@ Ergo.declare('Ergo.widgets.grid.Cell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<td/>',
-		layout: {
-			html: '<span/>'
-		},
-		binding: function(v) { this.layout.el.text(v); }		
+		// layout: {
+			// html: '<span/>'
+		// },
+		binding: function(v) { this.opt('text', v); }		
 	}
-	
 	
 }, 'grid-cell');
 
