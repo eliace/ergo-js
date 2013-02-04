@@ -113,8 +113,10 @@ sample('Грид', {
 	}, {
 		header: 'Детали',
 		width: 100,
+		binding: false,
 		content: {
 			etype: 'button-item',
+			autoBind: false,
 			text: 'детали'
 		}
 	}]

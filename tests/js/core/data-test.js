@@ -65,4 +65,11 @@ test('core/data', function(){
 //	same(data.get(), ['Alice', 'Bob', 'Charlie', 'Dan', 'Elle'], 'Добавляем к массиву новый элемент по указанному индексу');
 	
 	
+	
+	
+	
+	
+	
+	
+	
 });	

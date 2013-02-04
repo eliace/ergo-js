@@ -1,6 +1,5 @@
 
-//= require <core/data-source>
-
+//= require <core/data>
 
 
 /**
@@ -38,22 +37,28 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Mod
 	
 	set: function(v) {
 		
-		if(this.validate) {
-			if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
+		// если значение устанавливается именно для нас
+		if(arguments.length == 1) {
+			
+			if(this.options.readonly) return;
+			
+			if(this.validate) {
+				if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
+			}			
 		}
 		
 		this.$super.apply(this, arguments);
 //		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 	
-/*	
-	get: function() {
-		var v = this.$super.apply(this, arguments);
+	
+//	get: function() {
+//		var v = this.$super.apply(this, arguments);
 //		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
 
-		return (this.format) ? this.format.call(this, v) : v;
-	},
-*/
+//		return (this.format) ? this.format.call(this, v) : v;
+//	},
+
 	
 	/**
 	 * Фабрика элементов модели (полей).
@@ -68,13 +73,21 @@ Ergo.declare('Ergo.data.Model', 'Ergo.core.DataSource', /** @lends Ergo.data.Mod
 		 *  - задано поле, которое содержит имя класса
 		 */		
 		
-		var model = this.fields[i]
+		var model = this.fields[i];
+		var o = {};
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
-		if($.isString(model)) model = eval(Ergo.alias('models:'+model) || model); //TODO здесь лучше загружать класс по зарегистрированному имени
+		if($.isPlainObject(model)) {
+			o = model;
+			model = model.etype;
+		}
+		if($.isFunction(model) && !$.isClass(model)) 
+			model = model.call(this, this.get()[i]);
+		if($.isString(model)) 
+			model = eval(Ergo.alias('models:'+model) || model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
-		return new model(this, i);
+		
+		return new model(this, i, o);
 	}
 	
-});
+}, 'models:model');
 

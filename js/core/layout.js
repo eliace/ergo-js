@@ -80,8 +80,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 	select: function(item) {
-		var o = this.options;
-		return (o.elementSelector) ? o.elementSelector.call(this, item) : this.el; 
+		return this.el;
+//		var o = this.options;
+//		return (o.elementSelector) ? o.elementSelector.call(this, item) : this.el; 
 	},
 
 
@@ -93,7 +94,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 * @param {int} index порядковый номер (может быть не определен)
 	 * @param {int} weight вес группы
 	 */
-	insert: function(item, index, weight) {
+	add: function(item, index, weight) {
 		
 //		var selector = item.options.layoutSelector;
 		
@@ -101,9 +102,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 		var o = this.options;
 
-		var el = (o.select) ? o.select.call(this, item) : this.select(item);
+		var el = (o.selector) ? o.selector.call(this, item) : this.select(item);
 		
-		var item_el = (o.wrap) ? o.wrap.call(this, item) : this.wrap(item);
+		var item_el = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
 		
 		// if(selector) {
 			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
@@ -258,13 +259,15 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		// AUTO HEIGHT
-		if(this.container.options.autoHeight &&  this.container.options.autoHeight != 'ignore'){
+		if(this.container.options.autoHeight) {//} &&  this.container.options.autoHeight != 'ignore'){
 
 			if(!this.el.is(":visible")) return;
+			if(this.el.attr('autoHeight') == 'ignore') return;
 
 			var debug = (this.container.debug == 'autoheight');
 			
 			this.el.height(0);
+			
 			
 //			this.el.hide();
 			
@@ -298,20 +301,60 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 			if(debug) console.log({h: h, dh: dh});
 			
-			if(this.el.attr('autoheight') != 'ignore-siblings') {
-				this.el.siblings().not('td, :hidden').each(function(i, sibling){
-					sibling = $(sibling);
-					if(sibling.attr('autoHeight') != 'ignore') {
+			
+			var self = this;
+			
+			// обходим все соседние элементы
+			var h_ratio = 1;
+			this.el.siblings().not('td').each(function(i, sibling){
+				sibling = $(sibling);
+				var ah = sibling.attr('autoHeight');
+				// элемент видимый
+				if(!ah) {
+					if(sibling.is(':visible'))
 						dh += sibling.outerHeight(true);
-						if(debug)	console.log({type: 'sibling', el: sibling, h: sibling.outerHeight(true)});
-					}
-				});
-			}
+				}
+				else if(ah != 'ignore-siblings' && ah != 'ignore') {
+					h_ratio++;
+					dh += sibling.outerHeight(true) - sibling.height();					
+				}
+			});
+
+			// var h_ratio = 1;
+// 
+			// if(this.container.parent) {
+// 
+			// this.container.parent.children.each(function(sibling){
+				// if(sibling == self.container) return;
+				// var ah = sibling.options.autoHeight;
+				// if(!ah) {
+					// dh += sibling.el.outerHeight(true);
+				// }
+				// else if(ah != 'ignore-siblings') {
+					// h_ratio++;
+					// dh += sibling.el.outerHeight(true) - sibling.el.height();
+				// }
+			// });
+// 
+			// }
+
+			// if(this.el.attr('autoheight') != 'ignore-siblings') {
+				// this.el.siblings().not('td, :hidden').each(function(i, sibling){
+					// sibling = $(sibling);
+					// if(sibling.attr('autoHeight') != 'ignore') {
+						// dh += sibling.outerHeight(true);
+						// if(debug)	console.log({type: 'sibling', el: sibling, h: sibling.outerHeight(true)});
+					// }
+				// });
+			// }
+
+
+
 
 			if(debug) console.log({h: h, dh: dh});
 			
 //			dh -= this.el.height()
-			this.el.height(h - dh);
+			this.el.height((h - dh)/h_ratio);
 
 //			this.el.show();
 			

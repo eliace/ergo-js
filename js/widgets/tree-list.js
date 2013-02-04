@@ -52,7 +52,7 @@ Ergo.declare('Ergo.widgets.TreeListNode', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		var indent = o.indent || 0;

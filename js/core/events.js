@@ -45,25 +45,25 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 });
 
 
-Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
-
-	/**
-	 * @constructs
- 	 * @extends Ergo.events.Event
-	 * @param {Object} overrides
-	 * @param {Object} baseEvent
-	 */
-	initialize: function(overrides, baseEvent) {
-		this.$super(overrides, baseEvent);
-//		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
-		this.isCanceled = false;
-	},
-	
-	cancel: function(){
-		this.isCanceled = true;
-	}
-	
-});
+// Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
+// 
+	// /**
+	 // * @constructs
+ 	 // * @extends Ergo.events.Event
+	 // * @param {Object} overrides
+	 // * @param {Object} baseEvent
+	 // */
+	// initialize: function(overrides, baseEvent) {
+		// this.$super(overrides, baseEvent);
+// //		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
+		// this.isCanceled = false;
+	// },
+// 	
+	// cancel: function(){
+		// this.isCanceled = true;
+	// }
+// 	
+// });
 
 
 
@@ -75,7 +75,7 @@ Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.eve
  * @name Ergo.events.Dispatcher
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
+Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
 	initialize: function(target) {
 		this.events = {}; 
@@ -125,13 +125,15 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 		}
 		else if( $.isFunction(arg) ){
 			// удаляем указанный обработчик
-			for(var i = 0; i < events.length; i++) {
+//			for(var i = 0; i < events.length; i++) {
+			for(var i in events) {
 				events[i] = Ergo.filter( events[i], function(h) { return h.callback != arg; } );
 			}
 		}
 		else {
 			// удаляем все обработчики для указанного объекта
-			for(var i = 0; i < events.length; i++) {
+//			for(var i = 0; i < e.length; i++) {
+			for(var i in events) {
 				events[i] = Ergo.filter( events[i], function(h) { return h.target != arg; } );
 			}
 		}
@@ -168,7 +170,7 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 				// вызываем обработчик события
 				h.callback.call(h.target, e, type);
 				// если усьановлен флаг остановки, то прекращаем обработку событий
-				if(e.stopped) return false;
+//				if(e.stopped) return false;
 			});
 			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
 		}
@@ -302,7 +304,22 @@ Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', /** @lends Ergo.event
 
 
 Ergo.Observable = function() {
-	this.events = new Ergo.events.Dispatcher(this);
+	this.events = new Ergo.events.Observer(this);
+	
+	
+	var o = this.options;
+	
+	var regexp = /^on\S/;
+	for(var i in o){
+		if(regexp.test(i)){
+			var name = i.charAt(2).toLowerCase() + i.slice(3);
+			var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+			for(var j = 0; j < chain.length; j++) {
+				this.events.reg( name, chain[j] );
+			}
+		}
+	}
+	
 }
 
 

@@ -10,6 +10,12 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	
 	var self = this;
 	
+	
+	this._body_scroll_lock = {
+		margin_right: 0
+	}
+	
+	
 	this.window = {
 		
 		open: function() {
@@ -35,6 +41,32 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 //			wnd.show();
 			this.update();//function(){});
 			
+			
+			
+			
+			var body_mr = $('body').css('margin-right');
+			var body_w0 = $('body').outerWidth(true);
+			$('body').css('overflow-y', 'hidden');
+			var body_w1 = $('body').outerWidth(true);
+			
+			// если присутствует полоса прокрутки, то заменяем ее на отступ
+			if(body_w1 > body_w0) {
+				var scrollbar_w = body_w1 - body_w0;
+				var body_mr = $('body').css('margin-right');
+				
+				this._body_scroll_lock = {margin_right: body_mr};
+				
+				if(body_mr.substr(body_mr.length-2) == 'px') body_mr = parseInt(body_mr) + scrollbar_w;
+				
+				$('body').css('margin-right', body_mr);
+				
+			}
+			else {
+				this._body_scroll_lock = false;
+			}
+			
+			
+			
 			return $.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
 				self.events.fire('open');
 				self.$layoutChanged();
@@ -57,10 +89,17 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 				overlay.detach();				
 			});
 			$.when( wnd[wnd_eff.hide](wnd_eff.delay) ).done(function(){
-				if(self.options.destroyOnClose)	self.destroy();				
+				if(self.options.destroyOnClose)	self.destroy();
+				
+				if(self._body_scroll_lock) {
+					$('body').css('margin-right', self._body_scroll_lock.margin_right);
+					$('body').css('overflow-y', 'auto');
+				}
+								
 			});
 			
 			
+						
 			
 	//		this.el.detach();
 	
@@ -100,8 +139,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			wnd.height(h);
 */
 			
-			var ow = wnd.outerWidth();
-			var oh = wnd.outerHeight();
+			var ow = wnd.outerWidth(false);
+			var oh = wnd.outerHeight(false);
 			
 			
 			wnd.css({
@@ -238,8 +277,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			wnd.width(w);
 			wnd.height(h);
 			
-			var ow = wnd.outerWidth();
-			var oh = wnd.outerHeight();
+			var ow = wnd.outerWidth(false);
+			var oh = wnd.outerHeight(false);
 			
 			
 			
@@ -425,13 +464,21 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	
 //	this.window_el = $('<div class="e-window"/>');
 	this.overlay_el = $('<div class="e-overlay" autoheight="ignore"/>');
-	this.overlay_el.click(function(e){
+	this.overlay_el.on('click', function(e){
 		
 		if(self.options.closeOnOuterClick) self.window.close();
 		 
 		e.preventDefault(); 
 		return false; 
 	});
+	// this.overlay_el.on('mousewheel', function(e){
+		// e.preventDefault();
+		// return false;
+	// });
+	// this.overlay_el.on('scroll', function(e){
+		// e.preventDefault();
+		// return false;
+	// });
 	
 	Ergo.smart_override(o, {
 		cls: 'e-window',

@@ -30,7 +30,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		
 		var header_cols = [];
 		for(var i = 0; i < o.columns.length; i++) {
@@ -58,6 +58,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	$layoutChanged: function() {
 		this.$super();
 		
+		this.header.content.el.width(0);
 		var w = this.content.content.el.width();
 		this.header.content.el.width(w);
 		

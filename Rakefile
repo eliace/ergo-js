@@ -58,11 +58,11 @@ end
 def compose_files(dest, source_files, postfix='')
 	
 #	ver = %x[git tag -l].split.last
-	ver = '0.8.1'
+	ver = '0.9.1'
 	
 #	@name = 'ergo-' + ver
-	js_name = "ergo-js#{postfix}.js" #"ergo-#{ver}.js"
-	js_name_min = "ergo-js#{postfix}.min.js" #"ergo-#{ver}.min.js"
+	js_name = "ergo-js#{postfix}-#{ver}.js"
+	js_name_min = "ergo-js#{postfix}-#{ver}.min.js" #"ergo-#{ver}.min.js"
 	css_name = "ergo-js#{postfix}.css"
 	
 	@target_path = Pathname.new(dest);
@@ -221,7 +221,8 @@ namespace :compose do
   
   
   task :doc do
-    generate_doc 'build/ergo-js.js'
+    ver = '0.9.1'
+    generate_doc "build/ergo-js-#{ver}.js"
   end 
 
 

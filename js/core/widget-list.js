@@ -69,7 +69,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			item.bind(w.data, false, false);
 		
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
-		w.layout.insert(item, i);
+		w.layout.add(item, i);
 
 		// добавляем элемент в коллекцию
 		i = this.$super(item, i);		
@@ -108,9 +108,6 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		
 //		if('hide' in item) item.hide();		
 				
-		// удаляем элемент из компоновки	
-		w.layout.remove(item);
-		
 		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++)
 			this.src[j]._index = j;
@@ -123,6 +120,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			delete w[item._key];
 			delete item._key;
 		}
+
+		// удаляем элемент из компоновки	
+		w.layout.remove(item);
+		
 		
 		return item;
 	}
@@ -181,6 +182,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} item значение
 	 */
 	set: function(i, item) {
+		if(i in this._widget)
+			this._widget.children.remove_at(i);
 		this._widget.children.add(item, i, this.options.type);
 	},
 	
@@ -247,7 +250,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	
 
 	remove_all: function() {
-		for(i in this.src)
+		var src = this._source();
+		for(i in src)
 			this.remove_at(i);
 	},
 	
@@ -265,7 +269,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} delegate
 	 */
 	each: function(callback, delegate) {
-		Ergo.each(this._source(), callback, delegate);
+		return Ergo.each(this._source(), callback, delegate);
 	},
 	
 //	ensure: function(i) {
@@ -401,7 +405,15 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	size: function() {
 		var src = this._source();
 		return src.length;
+	},
+	
+	remove_all: function() {
+		var src = this._source();
+		for(var i = 0; i < src.length; i++)
+			this.remove_at(i);
 	}
+	
+	
 	
 	
 /*	

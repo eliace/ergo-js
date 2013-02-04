@@ -10,6 +10,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 	defaults: {
 		
 		html: '<li/>',
+		cls: 'e-tree-node',
 		
 		transitions: {
 			'> expanded': function() { this.subtree.show(); },
@@ -45,7 +46,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		Ergo.smart_override(o.components.subtree, {items: o.subtreeItems});
@@ -63,13 +64,14 @@ Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<ul/>',
+		cls: 'e-tree',
 		defaultItem: {
 			etype: 'tree-node'
 		},
 		node: {}
 	},
 	
-	$init: function(o) {
+	$pre_construct: function(o) {
 		this.$super(o);
 		
 		Ergo.smart_override(o.defaultItem, o.node, {components: {subtree: {node: o.node}}});

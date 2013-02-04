@@ -23,7 +23,11 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		var self = this;
 		
 		this.container.setActive = function(i) {
-			self.activate(i);
+			return self.activate(i);
+		};
+		
+		this.container.getActive = function() {
+			return self.active;
 		};
 		
 	},
@@ -39,7 +43,7 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 	
 	activate: function(i) {
 		
-		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.filters.by_widget(i) );
+		var child = (i instanceof Ergo.core.Widget) ? i : this.container.children.find( Ergo.by_widget(i) );
 		
 		this.container.children.each(function(c){
 			(c != child) ? c.hide() : c.show();
@@ -50,6 +54,7 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		
 		this.active = child;
 		
+		return child;
 	}
 		
 }, 'layouts:stack');

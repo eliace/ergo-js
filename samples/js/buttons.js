@@ -22,34 +22,31 @@ sample('Кнопки', {
 		
 		width: 100,
 
-		onSelect: function(e) {
+		onAction: function(e) {
 			growl.info('Выбран: ' + e.target.opt('text'));
 		},
 		
-		components: {
-			dropdown: {
-				width: 160,
-				content: {
-					items: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
-				}
-			}
-		}
+		dropdownItems: ['Печора', 'Ухта', 'Сосногорск', 'Усинск', 'Сыктывкар']
 		
 	}, {
 		etype: 'split-button',
 		width: 160,
 		
-		items: [{
-			text: 'Создать'
-		}],
+		dropdownItems: ['Создать', 'Обновить', 'Удалить'],
 		
-		components: {
-			dropdown: {
-				content: {
-					items: ['Создать', 'Обновить', 'Удалить']
-				}
-			}
-		}			
+//		selected: ''
+		
+		// items: [{
+			// text: 'Создать'
+		// }],
+// 		
+		// components: {
+			// dropdown: {
+				// content: {
+					// items: ['Создать', 'Обновить', 'Удалить']
+				// }
+			// }
+		// }			
 		
 	}, {
 		etype: 'button-select',

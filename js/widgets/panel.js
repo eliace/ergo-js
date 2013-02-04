@@ -12,6 +12,7 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				html: '<header/>',				
 				components: {
 					title: {
+						cls: 'title'
 //						html: '<h2/>'
 					}
 					// buttons: {
@@ -45,11 +46,23 @@ Ergo.declare('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$init: function(o) {
+	// $init: function(o) {
+		// this.$super(o);
+// 		
+// //		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
+	// },
+	
+	$pre_construct: function(o) {
 		this.$super(o);
 		
-//		Ergo.smart_override(o.components.header.components.buttons, {items: o.headerButtons});
+		if(o.header)
+			Ergo.smart_override(o.components.header, o.header);
+
+		if(o.footer)
+			Ergo.smart_override(o.components.footer, o.footer);
+		
 	},
+	
 	
 	setTitle: function(s) {
 		this.header.title.opt('text', s);

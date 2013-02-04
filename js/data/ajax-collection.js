@@ -60,22 +60,10 @@ Ergo.declare('Ergo.data.AjaxCollection', 'Ergo.data.Collection', /** @lends Ergo
     	else if($.isPlainObject(arg)) qParams = arg;
     }
     
-/*    
-    if(arguments.length == 2) {
-    	qPath = path;
-    	qParams = query;
-    }
-    else if(arguments.length == 1) {
-    	if($.isPlainObject(path))
-    		Ergo.override(qParams, path);
-    	else
-    		qPath = path;
-    }
-*/
     
     if(!this.options.cache) qParams._ = Ergo.timestamp();
     
-    this.events.fire('beforeFetch');
+    this.events.fire('beforeFetch', {path: qPath, query: qParams});
     
     return $.getJSON(qPath, qParams)
     	.always(function(){

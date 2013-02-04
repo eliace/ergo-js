@@ -6,19 +6,15 @@ Ergo.declare('Ergo.widgets.Accordion', 'Ergo.widgets.List', {
 	defaults: {
 		defaultItem: {
 			components: {
-				content: {
+				header: {
 					etype: 'text',
 					onClick: function() {
-						var p = this.parent;
-						p.parent.children.each(function(c){
-							if(c != p) c.states.unset('expanded');
-						});
-						p.states.toggle('expanded');
+						this.events.bubble('expand', {target: this.parent});
 					}
 				},
-				sublist: {
+				content: {
 					etype: 'list',
-					style: {'display': 'none'},
+					hidden: true,
 					mixins: ['effects'],
 					effects: {
 						show: 'slideDown',
@@ -28,8 +24,8 @@ Ergo.declare('Ergo.widgets.Accordion', 'Ergo.widgets.List', {
 				}
 			},
 			transitions: {
-				'> expanded': function() { this.sublist.show(); },
-				'expanded >': function() { this.sublist.hide(); }
+				'> expanded': function() { this.content.show(); },
+				'expanded >': function() { this.content.hide(); }
 			},
 			// states: {
 				// 'expanded': function(on) {
@@ -37,8 +33,15 @@ Ergo.declare('Ergo.widgets.Accordion', 'Ergo.widgets.List', {
 				// }
 			// },
 			set: {
-				'text': function(v) {this.content.opt('text', v);}
+				'text': function(v) {this.header.opt('text', v);}
 			}
+		},
+		
+		onExpand: function(e) {
+			this.items.each(function(item){
+				if(item != e.target) item.states.unset('expanded');
+			});
+			e.target.states.set('expanded');
 		}
 	}
 	

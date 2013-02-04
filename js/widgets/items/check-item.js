@@ -19,13 +19,19 @@ Ergo.declare('Ergo.widgets.CheckItem', 'Ergo.widgets.Box', {
 				this.opt('xlabel', v);
 			}
 		},
-		onClick: function() {
+		onClick: function(e) {
 			this.opt('value', !this.opt('value'));
+//			e.baseEvent.stopPropagation();
 		},
 		binding: function(v) {
 			this.content.states.toggle('checked', v);
 		},
 		value: false
+	},
+	
+	
+	getChecked: function() {
+		return this.content.states.is('checked');
 	}
 	
 }, 'check-item');
