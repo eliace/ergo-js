@@ -5,7 +5,7 @@
 
 
 
-
+/*
 
 Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	
@@ -100,3 +100,6 @@ Ergo.declare('Ergo.widgets.AjaxTree', 'Ergo.widgets.BasicTree', {
 	
 	
 }, 'ajax-tree');
+
+*/
+

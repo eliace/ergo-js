@@ -86,6 +86,9 @@ Ergo.declare('Ergo.widgets.grid.Cell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<td/>',
+		layout: {
+			html: '<span/>'
+		},
 		binding: function(v) { this.layout.el.text(v); }		
 	}
 	

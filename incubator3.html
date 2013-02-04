@@ -202,10 +202,11 @@
 					}
 				},
 				mixins: ['effects'],
+				hideOnDestroy: true,
 				effects: {
-					show: 'fadeOut',
-					hide: 'fadeIn',
-					delay: 500
+					show: 'fadeIn',
+					hide: 'fadeOut',
+					delay: 800
 				}
 			},
 			
@@ -226,6 +227,7 @@
 	$.ergo({
 		etype: 'panel',
 		renderTo: 'body',
+		title: 'Контекстное меню',
 		height: 300,
 		cls: 'widget',
 		style: {'margin-bottom': 20},

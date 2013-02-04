@@ -109,6 +109,82 @@ var DummyTreeProvider = {
 
 
 
+
+
+
+
+var DummyGridProvider = Ergo.core.Object.extend({
+	
+	load: function() {
+		
+		var deferred = $.Deferred();
+		
+		$.ajax('samples/ajax/randomdata.csv', {
+			dataType: 'text',
+			context: this
+		})
+		.success(function(text){
+			this._data = this.parse(text);
+			this._loaded = true;
+			deferred.resolve( this._data );
+		});
+		
+		return deferred;
+	},
+	
+	parse: function(csv) {
+		
+		var list = csv.split('\n');
+		
+		
+		this.options.totalCount = list.length;
+		
+		// Эмулируем загрузку набора данных
+		var data = [];
+		
+		var to = Math.min(list.length, this.options.to);
+		
+		for(var i = 0; i < 30; i++) {
+			
+			var a = list[i].split('|');			
+			
+			data.push({
+				id: a[0],
+				name: a[1],
+				email: a[2],
+				date: a[3]
+			});
+		}
+		
+		return data;
+	},
+	
+	
+	data: function() {
+		return Ergo.deep_copy(this._data);
+	},
+	
+	
+	get: function() {
+		var self = this;
+		var deferred = $.Deferred();
+		if(this._loaded)
+			deferred.resolve(this._data());
+		else
+			this.load().then(function() { deferred.resolve(self.data()); });
+		return deferred;
+	}
+	
+	
+	
+});
+
+
+
+
+
+
+
 Ergo.declare('Ergo.incubator.tree.FileNodeList', 'Ergo.data.tree.AjaxNodeList', {
 	
 		model: Ergo.data.tree.AjaxNode.extend({

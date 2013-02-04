@@ -19,6 +19,8 @@
 
 		<script src="plugins/ergo-growl/ergo-growl.js" type="text/javascript"></script>
 		
+		<script src="incubator/utils.js" type="text/javascript"></script>
+		
     <!--script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script-->
 	
 	
@@ -29,6 +31,20 @@
 		}
 		
 		
+		.e-grid-control-row th > span {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		.e-grid-control-row td > span {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+		
+		
+		.my-grid td {
+			border-right: none;
+		}
 		
 	</style>
 	
@@ -101,6 +117,7 @@ var w = $.ergo({
 		
 		etype: 'table-grid',
 		
+/*		
 		components: {
 			header: {
 				content: {
@@ -119,7 +136,7 @@ var w = $.ergo({
 				html: '<span/>'
 			}
 		},
-		
+*/		
 		content: {
 			mixins: ['scrollable'],
 			style: {'padding-right': 13, 'overflow': 'hidden'}
@@ -153,7 +170,7 @@ gridData.fetch().then(function(){
 
 
 
-var w = $.ergo({
+$.ergo({
 	etype: 'panel',
 	renderTo: 'body',
 	width: 600,
@@ -162,16 +179,132 @@ var w = $.ergo({
 	cls: 'widget',
 	style: {'margin-bottom': 20},
 	
+	data: new GridData(),
+	
+	autoFetch: true,
 	
 	content: {
 		
+		etype: 'table-grid',
 		
-		
+		columns: [{
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}]
 		
 	}
 
 });
 
+
+
+
+
+var EditableGridData = Ergo.data.Collection.extend({
+	
+	$construct: function(o) {	
+		this.$super(o);
+		this._provider = new DummyGridProvider();
+	},
+	
+	
+	fetch: function() {
+		var self = this;
+		return this._provider.get().then(function(data){
+			self.set(data);
+			self._fetched = true;
+		});
+	}
+	
+});
+
+
+
+grid = $.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 300,
+	title: 'Грид + редактирование',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new EditableGridData(),
+	
+	content: {
+		
+		cls: 'my-grid',
+		
+		etype: 'table-grid',
+		
+		row: {
+			mixins: ['effects'],
+			effects: {
+				hide: 'fadeOut',
+				delay: 300
+			},
+			hideOnDestroy: true
+		},
+		
+		
+		cell: {
+			mixins: ['editable'],
+			editor: 'input-editor'
+		},
+		
+		columns: [{
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}, {
+			width: 80,
+			binding: false,
+			editable: false,
+			style: {'text-align': 'center'},
+			items: [{
+				etype: 'icon-button',
+				icon: 'icon-pencil',
+				onClick: function() {
+					this.events.bubble('edit', {target: this.parent});
+				}
+			}, {
+				etype: 'icon-button',
+				icon: 'icon-remove',
+				onClick: function() {
+					this.events.bubble('delete', {target: this.parent});
+				}
+			}]
+		}],
+		
+		
+		onDelete: function(e) {
+			var row = e.target;
+			row.data.del();
+		},
+
+		onEdit: function(e) {
+			var row = e.target.parent;
+			row.column(1).startEdit();
+			row.column(0).startEdit();
+		}
+		
+	}
+
+});
+
+grid.data.fetch().then(function(){
+	grid.$layoutChanged();	
+});
+
+
+
+
+//new DummyGridProvider().get().then(function(data) { console.log(data); });
 
 
 
