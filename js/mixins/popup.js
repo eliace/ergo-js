@@ -6,6 +6,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	this.open = function(position) {
 		
+		var self = this;
+		
 //		if(arguments.length == 0) return;
 		
 		if(arguments.length == 2) {
@@ -14,19 +16,26 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 //		var c = this.container;
 		
+		// определяем параметры позиционирования
 		var p = Ergo.smart_override({}, this.options.position, position);
 		
+		// определяем координаты относительно точки "at"
 		var x = p.offset[0];
 		var y = p.offset[1];
 
 		// получаем целевой элемент, относительно которого отображаем элемент
 		var to_el = null;
 		
-		if(this.parent) 
-			to_el = this.parent.el;
+		// определяем элемент, к которому удет привязан popup
+		
 		if(p.to) 
 			to_el = $(p.to);
-			
+		else if(this.parent) 
+			to_el = this.parent.el;
+
+		
+		// определяем смещение из привязки к элементу "to"
+		
 		if(to_el) {
 			
 			var at = p.at.split(' ');
@@ -42,6 +51,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			
 		}	
 			
+		
+		// определяем смещение из привязки точки popup
 			
 		var my = p.my.split(' ');
 
@@ -50,6 +61,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 
 		if(my[1] == 'bottom') y -= this.el.outerHeight(false);
 		else if(my[1] == 'center') y -= this.el.outerHeight(false)/2;
+		
 		
 		
 		if(p.global) {
@@ -82,12 +94,51 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		// позиционирование popup-элемента
 		
-		var self = this;
 		
+		
+		
+		
+		if(p.boundary == 'push') {
+			
+			var max_w = $(document).scrollLeft() + $(window).width();
+			var max_h = $(document).scrollTop() + $(window).height();
+			var pop_h = this.el.outerHeight(true);
+			var pop_w = this.el.outerWidth(true);
+			
+			var dh = (y + pop_h) - max_h;
+			if(dh > 0) {
+				y -= dh;
+			}
+
+			var dw = (x + pop_w) - max_w;
+			if(dw > 0) {
+				x -= dw;
+			}
+			
+		}
+		else if(p.boundary == 'squeeze') {
+			
+			this.el.height('auto');
+			
+			var max_w = $(document).scrollLeft() + $(window).width();
+			var max_h = $(document).scrollTop() + $(window).height();
+			var pop_h = this.el.outerHeight(true);
+			var pop_w = this.el.outerWidth(true);
+			
+			var dh = (y + pop_h) - max_h;
+			if(dh > 0) {
+				this.el.height(pop_h - dh);
+				this.el.css({'overflow-y': 'auto'});
+			}
+			
+		}
+		
+
+
 		this.el.css({'left': x, 'top': y});
 		
 		
-		
+/*		
 		// Усечение размера выпадающего элемента
 		
 		this.el.height('auto');
@@ -101,7 +152,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			this.el.css({'overflow-y': 'auto'});
 		}
 		
-		
+*/		
 
 		
 		
@@ -110,6 +161,13 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		if (!this.options.hideOn || this.options.hideOn == 'outerClick') {
 			// добавляем прозрачную панель в документ
 			$('body').append(this.glass_pane);
+		}
+		else if(this.options.hideOn == 'windowClick') {
+			
+			$(window)
+				.one('click', function(e){ self.close(); })
+				.one('contextmenu', function(e){ self.close(); });
+			
 		}
 		
 		
@@ -155,21 +213,14 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	
 	var self = this;
-	
+
+
 	this.glass_pane = Ergo.glass_pane()
 		.on('click', function(e){
 			self.close();
 			e.stopPropagation();
 		});
 	
-	
-	// this.glass_pane = $.ergo({
-		// etype: 'glass-pane',
-		// onClick: function(e) {
-      // self.close();
-			// e.baseEvent.stopPropagation();								
-		// }
-	// });
 	
 	
 	Ergo.smart_override(o, {
@@ -189,7 +240,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		at: 'left top', 
 		my: 'left top', 
 		offset: [0, 0],
-		global: false
+		global: false,
+		boundary: 'squeeze'
 	}, o.position);
 	
 	

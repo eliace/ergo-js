@@ -90,6 +90,9 @@ Ergo.declare('Ergo.widgets.grid.HeaderCell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<th/>',
+		layout: {
+			html: '<span/>'
+		},
 		binding: function(v) { this.opt('text', v); }
 	}
 	

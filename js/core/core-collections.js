@@ -244,7 +244,7 @@
 	
 	
 	E.size = function(obj) {
-		if($isArray(obj)) return obj.length;
+		if($.isArray(obj)) return obj.length;
 
 		var n = 0;
 		for(var i in obj) n++;

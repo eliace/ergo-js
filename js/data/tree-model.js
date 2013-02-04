@@ -23,8 +23,9 @@ Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	},
 	
 	
-	fetch: function() {		
-		return this.entry('children').fetch( this.oid() );
+	fetch: function() {
+		var self = this;
+		return this.entry('children').fetch( this.oid() ).then(function(){ self._fetched = true });
 	},
 	
 		

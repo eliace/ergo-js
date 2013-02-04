@@ -124,8 +124,14 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			delete item._key;
 		}
 
-		// удаляем элемент из компоновки	
-		w.layout.remove(item);
+		
+		// if(item.options.hideOnDestroy) {
+			// item.hide().then(function(){ w.layout.remove(item); });
+		// }
+		// else {
+			// удаляем элемент из компоновки	
+			w.layout.remove(item);
+		// }			
 		
 		
 //		this.events.fire('item:remove', {'item': item});

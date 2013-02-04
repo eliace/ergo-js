@@ -189,6 +189,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				});
 
 
+			if(this.entries.is_empty())
+				this.entries = $.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
+
 			// удаляем все элементы
 //			this.entries.filter(function(e) { return true; }).each(function(e){	e.destroy(); });
 			// пересоздаем коллекцию элементов

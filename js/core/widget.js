@@ -189,23 +189,29 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 */	
 	
 	
-	
-	destroy: function() {
+	destroy: function(noHide) {
 		
-		// удаляем элемент и все его содержимое (data + event handlers) из документа
-		if(this.parent) this.parent.children.remove(this);
+		var self = this;
 		
-		if(this.data) this.data.events.unreg(this);
+		if(this.options.hideOnDestroy && !noHide) {
+			this.hide().then(function() { self.destroy(true); });
+		}
+		else {
 		
-		if(this.el) this.el.remove();
-		// очищаем регистрацию обработчиков событий
-		this.events.unreg_all();
-		// очищаем компоновку
-		this.layout.clear();		
-		
-		// вызываем метод destroy для всех дочерних компонентов
-		this.children.apply_all('destroy');
-		
+			// удаляем элемент и все его содержимое (data + event handlers) из документа
+			if(this.parent) this.parent.children.remove(this);
+			
+			if(this.data) this.data.events.unreg(this);
+			
+			if(this.el) this.el.remove();
+			// очищаем регистрацию обработчиков событий
+			this.events.unreg_all();
+			// очищаем компоновку
+			this.layout.clear();		
+			
+			// вызываем метод destroy для всех дочерних компонентов
+			this.children.apply_all('destroy');		
+		}
 //		if(this.options.debug)	console.log('destroyed');
 	},
 	
@@ -862,7 +868,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			// если элемент данных удален, то удаляем соответствующий виджет
 			this.data.events.reg('entry:deleted', function(e){
-				self.children.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
+				self.item({data: e.entry}).destroy();
+//				self.children.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
 			}, this);
 			
 			// если элемент данных изменен, то создаем новую привязку к данным
@@ -957,7 +964,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(o.autoFetch) this.data.fetch();
 
 
-		this.events.fire('onBound');
+		this.events.fire('bound');
 	},
 	
 	
