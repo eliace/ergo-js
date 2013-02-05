@@ -173,6 +173,11 @@ else {
 	};
 	
 	
+	E.keypress = function() {
+		
+	};
+	
+	
 	
 	$(window).click(function(e){
 
@@ -185,13 +190,47 @@ else {
 				Ergo.focus();
 						
 		}
-		
-		
-		
-		
+				
 		// убираем фокус по щелчку левой кнопкой мыши
 //		if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
 	});
+		
+		
+		
+		
+	if($.browser.msie) {
+	
+		$(document).click(function(e){
+			// убираем фокус по щелчку левой кнопкой мыши
+			if(e.button == 0) Ergo.focus(false);
+		});
+	
+		$(document).on('keydown', function(e){
+			Ergo.mixins.Focusable.focusManager.keypress(e);
+		});	
+		
+	}
+	else {
+	
+		$(window).click(function(e){
+			// убираем фокус по щелчку левой кнопкой мыши
+			if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
+		});
+		
+		
+		if($.browser.webkit) {
+			$(window).on('keydown', function(e){
+				Ergo.mixins.Focusable.focusManager.keypress(e);
+			});	
+		}
+		else {
+			$(window).on('keypress', function(e){
+				Ergo.mixins.Focusable.focusManager.keypress(e);
+			});	
+		}
+		
+	}
+		
 		
 	
 	
