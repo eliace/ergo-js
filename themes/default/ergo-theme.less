@@ -667,10 +667,15 @@ button,
   -moz-border-radius: 3px;
   border-radius: 3px;
   -moz-border-radius:0 \9;
-  padding:3px 7px;
+  padding:4px 7px;
   font-size:@e-field-text-size;
   color:@form-color;
 }
+@-moz-document url-prefix() 
+{ 
+button, 
+.e-button-item  {padding:3px 7px;}
+} 
 
 button:hover,
 .e-button-item:hover {
