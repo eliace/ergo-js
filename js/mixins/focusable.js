@@ -173,7 +173,15 @@ else {
 	};
 	
 	
-	E.keypress = function() {
+	E.keypress = function(e) {
+		
+		if(_focus) {
+			var code = e.keyCode;
+			if($.browser.mozilla) {
+				code = code || e.charCode;
+			}
+			_focus.events.fire('keyDown', {keyCode: code}, e);			
+		}
 		
 	};
 	
@@ -206,7 +214,7 @@ else {
 		});
 	
 		$(document).on('keydown', function(e){
-			Ergo.mixins.Focusable.focusManager.keypress(e);
+			Ergo.keypress(e);
 		});	
 		
 	}
@@ -214,18 +222,18 @@ else {
 	
 		$(window).click(function(e){
 			// убираем фокус по щелчку левой кнопкой мыши
-			if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
+			if(e.button == 0) Ergo.focus(false);
 		});
 		
 		
 		if($.browser.webkit) {
 			$(window).on('keydown', function(e){
-				Ergo.mixins.Focusable.focusManager.keypress(e);
+				Ergo.keypress(e);
 			});	
 		}
 		else {
 			$(window).on('keypress', function(e){
-				Ergo.mixins.Focusable.focusManager.keypress(e);
+				Ergo.keypress(e);
 			});	
 		}
 		
