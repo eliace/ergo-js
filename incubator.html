@@ -1457,6 +1457,37 @@ var GridData = Ergo.data.PageAjaxData.extend({
 
 		}
 	});
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget left',
+		selected: 0,
+		renderTo: 'body',
+		title: 'ВСЕ РАЗНОЙ ВЫСОТЫ!!! ЧТО ЖЕ ДЕЛАТЬ!?!!??',
+		header: {
+			etype: 'header-box',
+			$toolbox_items: [{
+			    id: 'button-nav',
+				etype: 'button-group',
+				mixins: ['selectable'],
+				items: ['Документы', 'Сервисы', 'Фрагменты'],
+				
+			}, {
+				etype: 'dropdown-select',
+				width: 140,
+				$dropdown_content_items: ['Наименование', 'Код', 'ID']
+			}, {
+				etype: 'icon-button',
+				icon: 'icon-refresh'
+			}]
+		},
+		content: {
+			height: 300
+		}
+	});
+	
+	
+	
+	
 	
 	
 });	
