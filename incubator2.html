@@ -206,7 +206,35 @@ $.ergo({
 			},
 			editor: {
 				etype: 'input-editor',
-				replace: 'content'
+				replace: 'content',
+				
+				focusable: true,
+				stopOnChange: false,
+				onKeyDown: function(e) {
+					if(e.keyCode == 13) {
+						this.opt('value', this.content.el.val());
+//						this.parent.stopEdit();
+						
+						var next = this.parent.next();
+						if(next) 
+							next.startEdit();
+						else
+							this.parent.stopEdit();
+					}
+					else if(e.keyCode == 27) {
+						this.parent.stopEdit();
+					}
+					
+				},
+				content: {
+					events: {
+						'focus': function(e, w) {
+							Ergo.focus(w);
+						}
+					},
+					tabIndex: 1
+				}
+				
 			},
 			state: 'no-selection'
 		},
@@ -217,6 +245,9 @@ $.ergo({
 		}, {
 			dataId: 'email',
 			header: 'E-mail'
+		}, {
+			dataId: 'date',
+			header: 'Дата'
 		}]
 		
 	}
