@@ -12,7 +12,7 @@
 
 		<link rel="stylesheet/less" href="iconsets/font-awesome/less/font-awesome.less" type="text/css" />
 
-		<script src="lib/misc/less-1.3.1.min.js" type="text/javascript"></script>
+		<script src="lib/misc/less-1.3.3.min.js" type="text/javascript"></script>
 
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js-0.9.2.js" type="text/javascript"></script>
@@ -44,6 +44,11 @@
 		
 		.my-grid td {
 			border-right: none;
+		}
+		
+		
+		td.editing > span {
+			padding: 0px;
 		}
 		
 	</style>
@@ -175,7 +180,7 @@ $.ergo({
 	renderTo: 'body',
 	width: 600,
 	height: 300,
-	title: 'Грид + постраничная загрузка',
+	title: 'Грид + редактирование ячеек',
 	cls: 'widget',
 	style: {'margin-bottom': 20},
 	
@@ -186,6 +191,25 @@ $.ergo({
 	content: {
 		
 		etype: 'table-grid',
+		
+		cell: {
+			
+			content: {
+				etype: 'text'
+			},
+			
+			binding: false,
+			
+			mixins: ['editable'],
+			onDoubleClick: function() {
+				this.startEdit();
+			},
+			editor: {
+				etype: 'input-editor',
+				replace: 'content'
+			},
+			state: 'no-selection'
+		},
 		
 		columns: [{
 			dataId: 'name',
@@ -228,7 +252,7 @@ grid = $.ergo({
 	renderTo: 'body',
 	width: 600,
 	height: 300,
-	title: 'Грид + редактирование',
+	title: 'Грид + редактирование строк',
 	cls: 'widget',
 	style: {'margin-bottom': 20},
 	
@@ -252,7 +276,10 @@ grid = $.ergo({
 		
 		cell: {
 			mixins: ['editable'],
-			editor: 'input-editor'
+			editor: {
+				etype: 'input-editor',
+				stopOnFocusOut: false
+			}
 		},
 		
 		columns: [{
@@ -289,8 +316,41 @@ grid = $.ergo({
 
 		onEdit: function(e) {
 			var row = e.target.parent;
-			row.column(1).startEdit();
-			row.column(0).startEdit();
+			
+			
+			var veil = $.ergo({
+				etype: 'box',
+				style: {'position': 'relative'},
+				content: {
+					etype: 'box',
+					style: {'position': 'absolute', 'background-color': '#000'},
+					opacity: 0.1,
+					content: {
+						etype: 'box',
+						opacity: 1,
+						style: {'position': 'absolute', 'background-color': '#fff'}
+					}
+				},
+				weight: -1000
+			});
+			
+			this.content.components.set('_veil', veil);			
+			
+			veil.content.el.width( this.content.el.prop('scrollWidth') );
+			veil.content.el.height( this.content.el.prop('scrollHeight') );
+			
+			var dh = row.el.offset().top - veil.el.offset().top;
+			
+			var box = veil.content.content;
+			
+			box.el.width(row.el.outerWidth(true));
+			box.el.height(row.el.outerHeight(true));
+			
+			box.el.css({'top': dh});
+			
+			
+			// row.column(1).startEdit();
+			// row.column(0).startEdit();
 		}
 		
 	}
