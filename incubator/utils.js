@@ -71,7 +71,7 @@ var DummyTreeProvider = {
 	last_id: 1,
 	
 	get: function(path) {
-		return $.when( Ergo.deep_copy(DummyTreeData[path]) );
+		return $.when( Ergo.deep_copy(DummyTreeData[path]) || [] );
 	},
 	
 	put: function(obj, parent_id) {

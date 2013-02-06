@@ -8,7 +8,12 @@ Ergo.declare('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
 	defaults: {
 	},
 	
-	model: 'Ergo.data.tree.Node'
+	model: 'Ergo.data.tree.Node',
+	
+	purge: function() {
+		this.set([]);
+		this._fetched = false;
+	}
 	
 });
 
@@ -26,6 +31,12 @@ Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	fetch: function() {
 		var self = this;
 		return this.entry('children').fetch( this.oid() ).then(function(){ self._fetched = true });
+	},
+	
+	
+	purge: function() {
+		this.entry('children').purge();
+		this._fetched = false;
 	},
 	
 		
