@@ -439,7 +439,7 @@ grid = $.ergo({
 						items: [{
 							etype: 'icon-button',
 							icon: 'icon-ok',
-							style: {'color': '#0f0'}
+							style: {'color': '#9ad902'}
 						}, {
 							etype: 'icon-button',
 							icon: 'icon-ban-circle',
@@ -462,7 +462,8 @@ grid = $.ergo({
 			var row_editor = $.ergo({
 				etype: 'box',
 				items: row_items,
-				style: {/*'display': 'table-row',*/ 'background-color': '#fff', 'margin-top': -12},
+				
+				cls: 'editor-holder',
 				width: '100%',
 				defaultItem: {
 					style: {'display': 'table-cell', 'border-right': '1px solid transparent'},
