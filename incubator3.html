@@ -141,7 +141,7 @@
 				if(node.states.is('expanded')) {
 					DummyTreeProvider.put(obj, parent_id).then(function(data){
 						node.subtree.data.add(data);				
-					});				
+					});
 				}
 				// если ветка свернута, то ее нужно развернуть
 				else {
@@ -345,6 +345,73 @@
 		
 	});
 	
+
+
+
+
+	var list = [{
+		text: 'Item 1',
+		group: 'g2'
+	}, {
+		text: 'Item 2',
+		group: 'g2'
+	}, {
+		text: 'Item 3',
+		group: 'g1'
+	}, {
+		text: 'Item 4',
+		group: 'g1'
+	}, {
+		text: 'Item 5',
+		group: 'g1'
+	}]
+
+
+
+
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		title: 'Контекстное меню',
+		height: 300,
+		cls: 'widget',
+		style: {'margin-bottom': 20},
+		
+		content: {
+			
+			components: {
+				group1: {
+					etype: 'box',
+					style: {'background-color': '#ccc'},
+					text: 'Группа 1',
+					weight: 1
+				},
+				group2: {
+					etype: 'box',
+					style: {'background-color': '#ccc'},
+					text: 'Группа 2',
+					weight: 2
+				}
+			},
+			
+			
+			data: list,
+			
+			dynamic: true,
+			
+			defaultItem: {
+				etype: 'text-item',
+				binding: function(v) {
+					this.opt('weight', parseInt(v.group[1]));
+					this.content.opt('text', v.text);
+				}
+			}
+			
+		}
+		
+	});
+
+
 	
 
 
