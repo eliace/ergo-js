@@ -17,7 +17,7 @@
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js-0.9.2.js" type="text/javascript"></script>
 
-		<script src="plugins/ergo-growl/ergo-growl.js" type="text/javascript"></script>
+		<!--script src="plugins/ergo-growl/ergo-growl.js" type="text/javascript"></script-->
 		
     <!--script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script-->
 	
@@ -620,33 +620,34 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		
 		content: {
 			etype: 'button-group',
-	        cls: 'vertical',
-	        layout: 'vbox',
-	        defaultItem: {
-	            etype: 'button',
-	            onClick: function(e){
-	                this.events.bubble(this.tag, e);
-	            }
-	        },
-	        items: [{
-	            text: 'Отказ', 
-	            tag:'refuse',
-	         }, {
-	            text: 'Регистрация', 
-	            tag: 'registration' 
-	         }, {
-	            text: 'Назначить исполнителя',
-	            tag: ''
-	         }, {
-	            text: 'Запросить обнвление',
-	            tag: ''
-	         }, {
-	            text: 'На подписание',
-	            tag: ''
-	         }, {
-	            text: 'Подписать',
-	            tag: ''
-	         }]
+			width: 200,
+      cls: 'vertical',
+      layout: 'vbox',
+      defaultItem: {
+          etype: 'button',
+          onClick: function(e){
+              this.events.bubble(this.tag, e);
+          }
+      },
+      items: [{
+          text: 'Отказ', 
+          tag:'refuse',
+       }, {
+          text: 'Регистрация', 
+          tag: 'registration' 
+       }, {
+          text: 'Назначить исполнителя',
+          tag: ''
+       }, {
+          text: 'Запросить обнвление',
+          tag: ''
+       }, {
+          text: 'На подписание',
+          tag: ''
+       }, {
+          text: 'Подписать',
+          tag: ''
+       }]
 		}
 	})
 	
@@ -771,6 +772,32 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					});
 					
 				}				
+			}, {
+				etype: 'button-item',
+				text: 'Гроул',
+				onClick: function() {
+					
+					growls.pushGrowl({
+						etype: 'growl',
+						title: 'Ошибка',
+						message: 'Неправильно введен логин или пароль',
+						icon: 'growl-error-big'						
+					});
+										
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Гроул',
+				onClick: function() {
+					
+					growls2.pushGrowl({
+						etype: 'growl',
+						title: 'Ошибка',
+						message: 'Неправильно введен логин или пароль',
+						icon: 'growl-error-big'						
+					});
+										
+				}
 			}]
 		}
 	});
@@ -811,6 +838,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 	$.ergo({
 		renderTo: 'body',
 		etype: 'main-menu',
+		width: 150,
 		cls: 'vertical',
 		logo: 'samples/img/logo.png',
 		items: ['Страница 1', 'Страница 2', 'Страница 3'],
@@ -1457,6 +1485,10 @@ var GridData = Ergo.data.PageAjaxData.extend({
 
 		}
 	});
+	
+	
+	
+	
 	$.ergo({
 		etype: 'panel',
 		cls: 'widget left',
@@ -1486,6 +1518,193 @@ var GridData = Ergo.data.PageAjaxData.extend({
 	});
 	
 	
+	
+	
+	
+	Ergo.declare('Ergo.widgets.GrowlContainer', 'Ergo.widgets.Box', {
+		
+		defaults: {
+			style: {'position': 'fixed'},//, 'top': 0},//, 'right': 0},
+	
+			defaultItem: {
+				mixins: ['effects'],
+				style: {'border': '1px solid transparent'},
+				effects: {
+					show: 'slideDown',
+					hide: 'slideUp',
+					delay: 300
+				},
+				content: {
+					mixins: ['effects'],
+					effects: {
+						show: 'fadeIn',
+						hide: 'fadeOut',
+						delay: 500
+					}
+				}
+			},
+			
+			newIndex: 0,
+			timeout: 20000,
+			check: 'next'
+		},
+		
+		
+		pushGrowl: function(item) {
+			
+			var wrapper = this.items.add({
+				content: item
+			}, this.options.newIndex);
+			
+			item = wrapper.content;
+			
+			wrapper.el.height(item.el.outerHeight(true));
+			
+			item.el.hide();
+			wrapper.el.hide();
+			
+			if(this.options.check == 'next') {
+				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
+					item.show();
+				});				
+			}
+			else if(this.options.check == 'prev') {
+				$.when((wrapper.prev() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
+					item.show();
+				});
+			}
+			
+			
+			
+			setTimeout(function(){
+				
+				item.hide().then(function(){
+					wrapper.hide().then(function(){
+						wrapper.destroy();
+					});
+				});
+				
+			}, this.options.timeout);
+			
+		}
+		
+	}, 'growl-container');
+	
+	
+	
+	
+	var growls = $.ergo({
+		renderTo: 'body',
+		etype: 'growl-container',
+		style: {'top': 0, 'right': 0}
+	});
+
+
+	var growls2 = $.ergo({
+		renderTo: 'body',
+		etype: 'growl-container',
+		style: {'bottom': 0, 'right': 0},
+		
+		newIndex: undefined,
+		check: 'prev'
+		
+	});
+	
+	
+/*	
+	var growls = $.ergo({
+		renderTo: 'body',
+		etype: 'box',
+		style: {'position': 'fixed', 'top': 0},//, 'right': 0},
+
+		defaultItem: {
+			mixins: ['effects'],
+			style: {'border': '1px solid transparent'},
+			effects: {
+				show: 'slideDown',
+				hide: 'slideUp',
+				delay: 300
+			},
+			content: {
+				mixins: ['effects'],
+				effects: {
+					show: 'fadeIn',
+					hide: 'fadeOut',
+					delay: 500
+				}
+			}
+		},
+		
+		
+		mixins: [{
+			
+			pushFirst: function(item) {
+				
+				var wrapper = this.items.add({
+					content: item
+				}, 0);
+				
+				item = wrapper.content;
+				
+				wrapper.el.height(item.el.outerHeight(true));
+				
+				item.el.hide();
+				wrapper.el.hide();
+				
+				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
+					item.show();
+				});
+				
+				setTimeout(function(){
+					
+					item.hide().then(function(){
+						wrapper.hide().then(function(){
+							wrapper.destroy();
+						});
+					});
+					
+				},20000);
+				
+				
+			},
+			
+			
+			pushLast: function(item) {
+				
+				var wrapper = this.items.add({
+					content: item
+				});
+				
+				item = wrapper.content;
+				
+				wrapper.el.height(item.el.outerHeight(true));
+				
+				item.el.hide();
+				wrapper.el.hide();
+				
+				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
+					item.show();
+				});
+				
+				setTimeout(function(){
+					
+					item.hide().then(function(){
+						wrapper.hide().then(function(){
+							wrapper.destroy();
+						});
+					});
+					
+				},20000);
+				
+				
+			}
+			
+			
+			
+		}]
+		
+	});
+*/	
 	
 	
 	

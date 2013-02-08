@@ -3,6 +3,53 @@
 
 
 
+Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'side-growl',
+		components: {
+			icon: {
+				weight: 10,
+				cls: 'side-growl-icon'
+			},
+			content: {
+				weight: 20,
+				cls: 'growl-content',
+				components: {
+					title: {
+						etype: 'label'
+					},
+					message: {
+						etype: 'para'
+					},
+					closeButton: {
+						cls: 'close-growls'
+					}
+				}
+			}
+		}
+	},
+	
+
+	setTitle: function(s) {
+		this.content.title.opt('text', s);
+	},
+
+	setMessage: function(s) {
+		this.content.message.opt('text', s);
+	},
+	
+	setIcon: function(icon) {
+		this.icon.states.only(icon);
+	}
+	
+	
+}, 'growl');
+
+
+
+
+/*
 Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -25,39 +72,6 @@ Ergo.declare('Ergo.widgets.GrowlPanel', 'Ergo.widgets.Box', {
 		timeout: 6000
 	},
 	
-/*	
-	addGrowl: function(item, i) {
-		
-		var box = this.children.add({
-			content: item,
-			onClick: function(){
-				growl
-					.hide() // скрываем гроул
-					.then(function(){ // затем скрываем контейнер
-						box.hide();
-					});
-				
-			}
-		}, i);
-		
-		var growl = box.content;
-		
-		// отображаем гроул
-		growl.show();
-		// устанавливаем время жизни гроула
-		setTimeout(function(){
-			// фиксируем высоту контейнера гроула
-			box.el.height(box.el.height());
-			
-			growl
-				.hide() // скрываем гроул
-				.then(function(){ // затем скрываем контейнер
-					box.hide();
-				});
-		}, growl.options.timeout || this.options.timeout);
-		
-	},
-*/	
 	
 	addGrowl: function(item, i) {
 		
@@ -161,3 +175,6 @@ Ergo.declare('Ergo.widgets.GrowlBox', 'Ergo.widgets.Box', {
 	
 	
 }, 'growl-box');
+
+*/
+
