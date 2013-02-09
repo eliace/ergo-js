@@ -3,7 +3,7 @@
 .e-icon-basket {background: url(icons/basket.png)}
 .e-icon-buy {background: url(icons/buy.png)}
 .e-icon-calculate {background: url(icons/calculate.png)}
-.e-icon-chat {background: url(icons/chat.png)}
+.e-icon-chat {background: url(icons/chat.png); text-indent: -1000000px}
 .e-icon-clip {background: url(icons/clip.png)}
 .e-icon-close {background: url(icons/close.png)}
 .e-icon-comment {background: url(icons/comment.png)}

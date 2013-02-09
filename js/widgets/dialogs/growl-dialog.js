@@ -3,7 +3,7 @@
 
 
 
-Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
+Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'side-growl',
@@ -44,7 +44,7 @@ Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 	}
 	
 	
-}, 'growl');
+}, 'growl-dialog');
 
 
 

@@ -936,6 +936,7 @@ button.selected:hover,
 .button-arrow-down {
   background: url(images/button-arrow-down.png) no-repeat center center;
   margin-left:10px;
+  text-indent: 1000000px;
 }
 
 .e-split-button .e-button-item{
@@ -954,14 +955,14 @@ button.selected:hover,
   background-image: -ms-linear-gradient(bottom, #e6e6e6, #fff);
   background-image: linear-gradient(to top, #e6e6e6, #fff);
   float:left;
-  padding:5px 0 4px 0!important;
+/*  padding:5px 0 4px 0!important;*/
   display: inline-block;
-  text-indent: -100000px;
-  height: auto;
+/*  height: auto;*/
 }
 
 .e-split-button .e-icon-button .button-arrow-down  {
   margin:0;
+  height: auto;
 }
 
 .e-button-item.disabled:active,
@@ -1560,6 +1561,290 @@ button.selected:hover,
   cursor: pointer;
   opacity: 1;
 }
+
+
+
+
+/* CALENDAR */
+
+.calendar {
+  margin: auto;
+  position: relative;
+  top: 20em;
+}
+.header-calendar {
+  width: 280px;
+  height: 45px;
+  margin: auto;
+  -webkit-box-shadow: inset 0 1px rgba(106,211,255,.39);
+  -moz-box-shadow: inset 0 1px rgba(106,211,255,.39);
+  box-shadow: inset 0 1px rgba(106,211,255,.39);
+  background-image: -webkit-linear-gradient(bottom, #1279bc, #2196db);
+  background-image: -moz-linear-gradient(bottom, #1279bc, #2196db);
+  background-image: -o-linear-gradient(bottom, #1279bc, #2196db);
+  background-image: -ms-linear-gradient(bottom, #1279bc, #2196db);
+  background-image: linear-gradient(to top, #1279bc, #2196db);  
+}
+.header-calendar:before {
+    content: ' ';
+    position: absolute;
+    border-left: 17.5px solid rgba(113, 101, 58, 0);
+    border-right: 17.5px solid rgba(113, 101, 58, 0);
+    border-bottom: 10px solid #2196db;
+    left: 50%;
+    margin-left: -17.5px;
+    top: -9.5px;
+}
+​
+.header-calendar:after {
+    content: "";
+    position: absolute;
+    border-left: 17.5px solid rgba(255, 241, 190, 0);
+    border-right: 17.5px solid rgba(255, 241, 190, 0);
+    border-bottom: 10px solid #2196db;
+    left: 20px;
+    top: -9px;
+}
+
+
+.calendar-button {
+  
+  position: relative;
+  margin: 10px;
+  width: 90px;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+
+  box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  background-image: -webkit-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -moz-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -o-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -ms-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: linear-gradient(to top, #157fc3, #2196db);
+  
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 0 -1px #0d6daa;
+  float: left;
+  overflow: hidden;
+  
+}
+
+/*
+.calendar-button {
+  
+  position: relative;
+  margin: 10px;
+  width: 90px;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+
+  box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  background-image: -webkit-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -moz-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -o-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -ms-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: linear-gradient(to top, #157fc3, #2196db);
+  
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 0 -1px #0d6daa;
+  float: left;
+  overflow: hidden;
+
+​}
+*/
+
+
+.calendar-button:hover {
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  box-shadow: 0 0 1px rgba(0,0,0,.41), inset 0 1px #1bb2ee;
+  background-image: -webkit-linear-gradient(bottom, #127cc0, #1d8ed3);
+  background-image: -moz-linear-gradient(bottom, #127cc0, #1d8ed3);
+  background-image: -o-linear-gradient(bottom, #127cc0, #1d8ed3);
+  background-image: -ms-linear-gradient(bottom, #127cc0, #1d8ed3);
+  background-image: linear-gradient(to top, #127cc0, #1d8ed3);
+  cursor: pointer;
+}
+
+.calendar-button:active {
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,.41);
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,.41);
+  box-shadow: 0 0 1px rgba(0,0,0,.41);
+  background-image: -webkit-linear-gradient(bottom, #127cc0, #1175b3);
+  background-image: -moz-linear-gradient(bottom, #127cc0, #1175b3);
+  background-image: -o-linear-gradient(bottom, #127cc0, #1175b3);
+  background-image: -ms-linear-gradient(bottom, #127cc0, #1175b3);
+  background-image: linear-gradient(to top, #127cc0, #1175b3);
+}
+.calendar-button-month, .calendar-button-year {
+  display: block;
+  position: absolute;
+  left: 830px;
+  top: 285px;
+  width: 90px;
+  background: #ffffff;
+  font-size: 1.3em;
+  color: #666;
+  z-index: 1000;
+  border-radius: 0 0 5px 5px;
+  border: solid 1px #e6e6e6;
+  padding-bottom: 3px;
+  height: 180px;
+  overflow-y: scroll;
+  
+}
+
+
+.calendar-button-month span,.calendar-button-year span {
+  display: block;
+  padding: 1px 0 1px 7px;
+}
+
+.calendar-button-month span:hover, .calendar-button-year span:hover {
+  background: #F5F5F5;
+}
+
+.calendar-button-year {
+  left: 930px;
+}
+.header-calendar div+div {
+  margin-left: 0;
+}
+.calendar-button span {
+  float: left;
+  margin: 2px 0 2px 7px;
+}
+.arrow-calendar-button {
+  position: relative;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+    float: right;
+    top: 45%;
+    margin: -1px 5px 2px 0;    
+}
+.calendar-button.close {
+  float: right;
+  width: 24px;
+  height: 24px;
+}
+.box-calendar {
+  margin: auto;
+  width: 280px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 16px 10px rgba(0,0,0,.07);
+  -moz-box-shadow: 0 16px 10px rgba(0,0,0,.07);
+  box-shadow: 0 16px 10px rgba(0,0,0,.07);
+  border-left: solid 1px #e6e6e6;
+  overflow: hidden;
+}
+.days-of-the-week {
+  position: relative;
+  -webkit-box-shadow: 0 8px 10px rgba(0,0,0,.08);
+  -moz-box-shadow: 0 8px 10px rgba(0,0,0,.08);
+  border-bottom: solid 1px #e6e6e6;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+.days-of-the-week div {
+  font-size: 14px;
+  float: left;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+    width: 40px;
+    color: #666;
+}
+.days-of-the-week div:nth-of-type(6),
+.days-of-the-week div:nth-of-type(7) {
+  color: #dd4509;
+}
+.days-of-the-week div:last-child {
+  border-right: solid 1px #e6e6e6;
+  width: 39px;
+}
+
+.days-of-the-month div:nth-of-type(6),
+.days-of-the-month div:nth-of-type(7),
+.days-of-the-month div:nth-of-type(13),
+.days-of-the-month div:nth-of-type(14),
+.days-of-the-month div:nth-of-type(20),
+.days-of-the-month div:nth-of-type(21),
+.days-of-the-month div:nth-of-type(27),
+.days-of-the-month div:nth-of-type(28),
+.days-of-the-month div:nth-of-type(34),
+.days-of-the-month div:nth-of-type(35) {
+  color: #dd4509;
+
+}
+.days-of-the-month div {
+  font-size: 14px;
+  color: #666;
+  float: left;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+    width: 39px;
+    border-right: solid 1px #e6e6e6;
+    border-bottom: solid 1px #e6e6e6;
+  cursor: pointer
+}
+.days-of-the-month div:hover {
+  background: rgba(254,252,240,1);
+}
+
+.days-of-the-month div.selected {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+    margin: 8px 7px 7px 8px;
+    text-align: center;
+    font-size: 14px;
+  color: #fff;
+  text-shadow: 0 -1px rgba(122,177,211,.75);
+  background-color: #d4d4d4;
+  -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.16);
+  -moz-box-shadow: 0 2px 4px rgba(0,0,0,.16);
+  box-shadow: 0 2px 4px rgba(0,0,0,.16);
+  background-image: -webkit-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -moz-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -o-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: -ms-linear-gradient(bottom, #157fc3, #2196db);
+  background-image: linear-gradient(to top, #157fc3, #2196db);
+  border-bottom: none;
+  border-right: none;
+}
+
+.days-of-the-month div.selected + div {
+  border-left: solid 1px #e6e6e6;
+}
+
+.days-of-the-month div.selected + div + div + div + div + div + div + div {
+  border-top: solid 1px #e6e6e6;
+  height: 39px;
+}
+
+.days-of-the-month div:first-child {
+  border-right: solid 1px #e6e6e6;
+}
+
+
+
 
 
 

@@ -12,7 +12,9 @@
 
 		<link rel="stylesheet/less" href="iconsets/font-awesome/less/font-awesome.less" type="text/css" />
 
-		<script src="lib/misc/less-1.3.1.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="iconsets/sweeticon/icons.css" type="text/css" />
+
+		<script src="lib/misc/less-1.3.3.min.js" type="text/javascript"></script>
 
 		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
 		<script src="build/ergo-js-0.9.2.js" type="text/javascript"></script>
@@ -27,6 +29,8 @@
 		body {
 			padding: 20px;
 		}
+		
+		
 		
 /*		
 		.west-split,.east-split {
@@ -74,6 +78,11 @@
 	});
 
 	
+	Ergo.deep_override(Ergo.widgets.Icon.prototype, {
+		defaults: {
+			cls: 'e-icon e-font-icon'
+		}
+	});
 	
 	
 	
@@ -400,7 +409,15 @@ var GridData = Ergo.data.PageAjaxData.extend({
             }
           },
           items: ['Первый', {icon: 'icon-caret-down', style: {padding: '4px'}}]
-      }]
+      }, {
+				cls: 'e-splitter'      	
+      }, {
+				etype: 'icon',
+				state: 'e-icon-chat'
+			}, {
+				etype: 'icon',
+				state: 'icon-cog'
+			}]
 		}
 	})
 	
@@ -575,11 +592,11 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				text: 'Гроул',
 				onClick: function() {
 					
-					growls.pushGrowl({
-						etype: 'growl',
+					growls.push({
+						etype: 'growl-dialog',
 						title: 'Ошибка',
 						message: 'Неправильно введен логин или пароль',
-						icon: 'growl-error-big'						
+						icon: 'growl-error-big'
 					});
 										
 				}
@@ -588,13 +605,81 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				text: 'Гроул',
 				onClick: function() {
 					
-					growls2.pushGrowl({
-						etype: 'growl',
+					growls2.push({
+						etype: 'growl-dialog',
 						title: 'Ошибка',
 						message: 'Неправильно введен логин или пароль',
 						icon: 'growl-error-big'						
 					});
 										
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Календарь',
+				onClick: function() {
+					
+					var calendar = $.ergo({
+						etype: 'box',
+						renderTo: 'body',
+						mixins: ['popup'],
+						
+						position: {
+							global: true,
+							at: 'left bottom',
+							to: this.el,
+							boundary: false
+						},
+						
+						cls: 'calendar',
+						components: {
+							header: {
+								cls: 'header-calendar',
+								defaultItem: {
+									etype: 'dropdown-select',
+									cls: 'calendar-button'
+								},
+								items: [{
+									text: 'декабрь',
+									xicon: 'arrow-calendar-button'
+								}, {
+									text: '2012 г.',
+									xicon: 'arrow-calendar-button'
+								}, {
+									etype: 'icon-button',
+									cls: 'close'
+								}]
+							},
+							content: {
+								cls: 'box-calendar',
+								components: {
+									daysOfWeek: {
+										cls: 'days-of-the-week',
+										defaultItem: {
+											etype: 'text',
+											html: '<div/>'
+										},
+										items: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+									},
+									daysOfMonth: {
+										cls: 'days-of-the-month',
+										defaultItem: {
+											etype: 'text',
+											html: '<div/>'
+										},
+										items: ['', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '']
+									}
+								}
+							}
+						}
+					});
+					
+					
+					calendar.open();
+					
 				}
 			}]
 		}
@@ -1322,190 +1407,34 @@ var GridData = Ergo.data.PageAjaxData.extend({
 	
 	
 	
-	Ergo.declare('Ergo.widgets.GrowlContainer', 'Ergo.widgets.Box', {
-		
-		defaults: {
-			style: {'position': 'fixed'},//, 'top': 0},//, 'right': 0},
-	
-			defaultItem: {
-				mixins: ['effects'],
-				style: {'border': '1px solid transparent'},
-				effects: {
-					show: 'slideDown',
-					hide: 'slideUp',
-					delay: 300
-				},
-				content: {
-					mixins: ['effects'],
-					effects: {
-						show: 'fadeIn',
-						hide: 'fadeOut',
-						delay: 500
-					}
-				}
-			},
-			
-			newIndex: 0,
-			timeout: 20000,
-			check: 'next'
-		},
-		
-		
-		pushGrowl: function(item) {
-			
-			var wrapper = this.items.add({
-				content: item
-			}, this.options.newIndex);
-			
-			item = wrapper.content;
-			
-			wrapper.el.height(item.el.outerHeight(true));
-			
-			item.el.hide();
-			wrapper.el.hide();
-			
-			if(this.options.check == 'next') {
-				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
-					item.show();
-				});				
-			}
-			else if(this.options.check == 'prev') {
-				$.when((wrapper.prev() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
-					item.show();
-				});
-			}
-			
-			
-			
-			setTimeout(function(){
-				
-				item.hide().then(function(){
-					wrapper.hide().then(function(){
-						wrapper.destroy();
-					});
-				});
-				
-			}, this.options.timeout);
-			
-		}
-		
-	}, 'growl-container');
+
+
 	
 	
 	
 	
 	var growls = $.ergo({
 		renderTo: 'body',
-		etype: 'growl-container',
-		style: {'top': 0, 'right': 0}
+		etype: 'growl',
+		style: {'top': 0, 'right': 0},
+		direction: 'down'
 	});
 
 
 	var growls2 = $.ergo({
 		renderTo: 'body',
-		etype: 'growl-container',
+		etype: 'growl',
 		style: {'bottom': 0, 'right': 0},
-		
-		newIndex: undefined,
-		check: 'prev'
-		
+		direction: 'up'
 	});
 	
 	
-/*	
-	var growls = $.ergo({
-		renderTo: 'body',
-		etype: 'box',
-		style: {'position': 'fixed', 'top': 0},//, 'right': 0},
+	
+	
+	
+	
+	
 
-		defaultItem: {
-			mixins: ['effects'],
-			style: {'border': '1px solid transparent'},
-			effects: {
-				show: 'slideDown',
-				hide: 'slideUp',
-				delay: 300
-			},
-			content: {
-				mixins: ['effects'],
-				effects: {
-					show: 'fadeIn',
-					hide: 'fadeOut',
-					delay: 500
-				}
-			}
-		},
-		
-		
-		mixins: [{
-			
-			pushFirst: function(item) {
-				
-				var wrapper = this.items.add({
-					content: item
-				}, 0);
-				
-				item = wrapper.content;
-				
-				wrapper.el.height(item.el.outerHeight(true));
-				
-				item.el.hide();
-				wrapper.el.hide();
-				
-				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
-					item.show();
-				});
-				
-				setTimeout(function(){
-					
-					item.hide().then(function(){
-						wrapper.hide().then(function(){
-							wrapper.destroy();
-						});
-					});
-					
-				},20000);
-				
-				
-			},
-			
-			
-			pushLast: function(item) {
-				
-				var wrapper = this.items.add({
-					content: item
-				});
-				
-				item = wrapper.content;
-				
-				wrapper.el.height(item.el.outerHeight(true));
-				
-				item.el.hide();
-				wrapper.el.hide();
-				
-				$.when((wrapper.next() == null) ? wrapper.el.show() : wrapper.show()).then(function(){
-					item.show();
-				});
-				
-				setTimeout(function(){
-					
-					item.hide().then(function(){
-						wrapper.hide().then(function(){
-							wrapper.destroy();
-						});
-					});
-					
-				},20000);
-				
-				
-			}
-			
-			
-			
-		}]
-		
-	});
-*/	
 	
 	
 	
