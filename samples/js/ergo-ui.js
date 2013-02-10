@@ -1,7 +1,7 @@
 
 Ergo.LOREMIPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel faucibus mi. In nulla dui, faucibus ac vehicula quis, tempor mollis velit. Quisque ornare erat diam. Morbi at iaculis sapien. Maecenas scelerisque aliquet sollicitudin. In leo sapien, mattis et posuere id, euismod in augue. Nam ac magna sit amet orci suscipit varius non ac nulla. Morbi adipiscing, urna ut pellentesque mattis, leo leo condimentum lacus, vitae imperdiet est lorem in purus. Integer interdum bibendum nisl eget dapibus. Mauris sed tortor eu tortor porta venenatis ac sit amet risus."
 
-
+/*
 var menuData = [{
 	title: 'Ядро',
 	children: [{
@@ -37,10 +37,7 @@ var menuData = [{
 	}, {
 		title: 'Загрузка файлов',
 		name: ['files']
-	}/*, {
-		title: 'Текстовый элемент',
-		name: ['text-item']
-	}*/, {
+	}, {
 		title: 'Переключатели',
 		name: ['switchers']
 	}, {
@@ -91,10 +88,7 @@ var menuData = [{
 	children: [{
 		title: 'sweeticon',
 		name: ['sweeticon']
-	}/*, {
-		title: 'silk',
-		name: ['silk']
-	}*/]
+	}]
 }, {
 	title: 'Скачать',
 	children: [{
@@ -105,7 +99,7 @@ var menuData = [{
 		title: 'Github'
 	}]
 }];
-
+*/
 
 
 
@@ -212,6 +206,8 @@ Ergo.declare('Sample.widgets.SamplePanel', 'Ergo.widgets.Box', {
  */
 function sample(title, o, msg) {
 	
+	o = o || {}
+	
 	try{
 		var panel = $.ergo({
 			renderTo: '#sample',
@@ -266,7 +262,7 @@ function sample(title, o, msg) {
  * Загрузка примера
  * 
  */
-function load_sample(sample_a) {
+function load_sample(sample_a, sample_path) {
 	
 	$('#sample').fadeOut(100, function(){
 		$('#sample').empty();
@@ -287,7 +283,7 @@ function load_sample(sample_a) {
 		};
 		
 		var load_script = function(script_name) {
-			return $.getScript('samples/js/'+script_name+'.js')
+			return $.getScript('samples/js/'+sample_path+'/'+script_name+'.js')
 				.then(function(script){
 					
 					var el = $('#sample').children().last();
@@ -351,6 +347,21 @@ $(document).ready(function(){
 	
 	
 	
+	var MenuData = Ergo.data.Collection.extend({
+		
+		fetch: function() {
+			var self = this;
+			return $.getJSON('samples/ajax/samples.json').then(function(json){
+				self.set(json);
+			});
+		}
+		
+	});
+	
+	
+	
+	
+	
 	
 	
 	/**
@@ -363,7 +374,9 @@ $(document).ready(function(){
 		renderTo: '#sideLeft',
 		cls: 'ergo_navigation',
 		
-		data: menuData,
+		data: new MenuData(),
+		
+		autoFetch: true,
 		
 		dynamic: true,
 		
@@ -386,20 +399,31 @@ $(document).ready(function(){
 							etype: 'anchor',
 							dataId: 'title',
 							onClick: function() {
-								var data = this.data.source.get();
-								if(data.name) {
-									load_sample(data.name);
-									
-									if(typeof(localStorage) != 'undefined') {
-										localStorage.setItem('ergo.last_sample', data.name[0]);
-									}
-								}
+								this.events.bubble('select', {target: this.parent});
 							}
 						}
 					}					
 				}
+			},
+			
+			onSelect: function(e) {
+				
+				var data = e.target.data.get();
+				var group = this.data.get();
+				
+				if(data.name) {
+					load_sample(data.name, group.name);
+					
+					if(typeof(localStorage) != 'undefined') {
+						localStorage.setItem('ergo.last_sample', data.name[0]);
+					}
+				}			
+				
 			}
+			
 		}
+		
+		
 		
 	});
 	

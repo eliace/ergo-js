@@ -1,164 +1,90 @@
 [{
-	"name": "Buttons",
+	"title": "Ядро",
+	"name": "core",
 	"children": [{
-		"name": "All",
-		"path": "buttons-all"
+		"title": "Объект",
+		"name": ["object", "object-2"]
 	}, {
-		"name": "Split",
-		"path": "buttons-split"
+		"title": "Виджет",
+		"name": ["widget", "widget-3", "widget-2"]
+	}, {
+		"title": "Элементы и компоненты",
+		"name": ["items-and-components-1", "items-and-components-2", "items-and-components-3"]
+	}, {
+		"title": "Данные",
+		"name": ["data-binding", "data-binding-2", "data-binding-3", "data-binding-4", "data-binding-5"]
+	}, {
+		"title": "События",
+		"name": ["events", "events-2"]
+	}, {
+		"title": "AJAX",
+		"name": ["ajax"]
+	}, {
+		"title": "Модели и коллекции",
+		"name": ["data-model"]
+	}, {
+		"title": "AutoHeight",
+		"name": ["autoheight", "autoheight-2"]
 	}]
 }, {
-	"name": "Forms",
+	"title": "Данные",
+	"name": "data",
+	"children": []
+
+}, {
+	"title": "Виджеты",
+	"name": "widgets",
 	"children": [{
-		"name": "Pager",
-		"path": "forms-pager"
+		"title": "Ввод значения",
+		"name": ["input-field"]
 	}, {
-		"name": "Native",
-		"path": "forms-form"
+		"title": "Выбор значения",
+		"name": ["select-field"]
 	}, {
-		"name": "Ergo forms",
-		"path": "forms-xform"
+		"title": "Загрузка файлов",
+		"name": ["files"]
 	}, {
-		"name": "Controls",
-		"path": "forms-controls"
+		"title": "Переключатели",
+		"name": ["switchers"]
+	}, {
+		"title": "Кнопки",
+		"name": ["buttons"]
+	}, {
+		"title": "Списки",
+		"name": ["lists", "tile-list"]
+	}, {
+		"title": "Диалоги",
+		"name": ["dialogs", "growls", "alerts"]
+	}, {
+		"title": "Гриды",
+		"name": ["grids", "property-grid"]
+	}, {
+		"title": "Деревья",
+		"name": ["trees", "trees-2", "tree-list", "trees-3"]
+	}, {
+		"title": "Панели",
+		"name": ["panel", "group-panel", "select-panel", "tab-panel"]
+	}, {
+		"title": "Формы",
+		"name": ["form"]
+	}, {
+		"title": "Скроллбар",
+		"name": ["scrollbar", "scrollbar-3"]
+	}, {
+		"title": "Слайдер",
+		"name": ["slider"]
 	}]
 }, {
-	"name": "Dialogs",
+	"title": "Компоновки",
+	"name": "layouts",
 	"children": [{
-		"name": "simple",
-		"path": "dialogs-simple"
+		"title": "Форма",
+		"name": ["form-layout"]
 	}, {
-		"name": "Wizard",
-		"path": "dialogs-wizard"
+		"title": "Колоночная",
+		"name": ["column-layout"]
 	}, {
-		"name": "Message",
-		"path": "dialogs-messagebox"
-	}, {
-		"name": "Growl",
-		"path": "dialogs-growl"
-	}]
-}, {
-	"name": "Grids",
-	"children": [{
-		"name": "Grid",
-		"path": "grids-grid"
-	}, {
-		"name": "Grid (editable)",
-		"path": "grids-editable"
-	}, {
-		"name": "Grid (ajax)",
-		"path": "grids-ajax",
-		"created": true
-	}, {
-		"name": "Tree",
-		"path": "grids-tree"
-	}, {
-		"name": "Group",
-		"path": "grids-group"
-	}, {
-		"name": "Properties",
-		"path": "grids-propertygrid"
-	}, {
-		"name": "Preview",
-		"path": "grids-preview"
-	}]
-}, {
-	"name": "Images",
-	"children": [{
-		"name": "simple",
-		"path": "images-img"
-	}, {
-		"name": "Icon",
-		"path": "images-icon"
-	}, {
-		"name": "Async",
-		"path": "images-async"
-	}, {
-		"name": "ActionIcon",
-		"path": "images-action"
-	}, {
-		"name": "PulseIcon",
-		"path": "images-pulse"
-	}]
-}, {
-	"name": "Layouts",
-	"children": [{
-		"name": "Dock",
-		"path": "layouts-dock"
-	}, {
-		"name": "Float",
-		"path": "layouts-float"
-	}, {
-		"name": "Column",
-		"path": "layouts-column"
-	}, {
-		"name": "SimpleForm",
-		"path": "layouts-simpleform"
-	}, {
-		"name": "Border",
-		"path": "layouts-border"
-	}, {
-		"name": "Grouping",
-		"path": "layouts-grouping"
-	}]
-}, {
-	"name": "Lists",
-	"children": [{
-		"name": "ListBox",
-		"path": "lists-listbox"
-	}, {
-		"name": "ListBox (editable)",
-		"path": "lists-editable-listbox"
-	}]
-}, {
-	"name": "Menus",
-	"children": [{
-		"name": "vertical",
-		"path": "menus-vmenu"
-	}, {
-		"name": "horizontal",
-		"path": "menus-hmenu"
-	}, {
-		"name": "context",
-		"path": "menus-context"
-	}]
-}, {
-	"name": "Trees",
-	"children": [{
-		"name": "Basic",
-		"path": "trees-simple"
-	}, {
-		"name": "List",
-		"path": "trees-indent"
-	}, {
-		"name": "Tree (editable)",
-		"path": "trees-editable"
-	}, {
-		"name": "Tree (ajax)",
-		"path": "trees-ajax"
-	}]
-}, {
-	"name": "Panels",
-	"children": [{
-		"name": "Panel",
-		"path": "panels-panel"
-	}, {
-		"name": "Tabs",
-		"path": "panels-tabs"
-	}]
-}, {
-	"name": "Misc",
-	"children": [{
-		"name": "Sample 1",
-		"path": "misc-sample-1"
-	}, {
-		"name": "Sample 2",
-		"path": "misc-sample-2"
-	}, {
-		"name": "Thirdparty",
-		"path": "misc-thirdparty"
-	}, {
-		"name": "Accordion",
-		"path": "misc-accordion"
+		"title": "Пользовательская",
+		"name": ["custom-layout"]
 	}]
 }]
