@@ -298,8 +298,12 @@ function load_sample(sample_a) {
 				});
 		};
 		
-		for(var k in sample_a)
-			load_script(sample_a[k]);
+		var chain = null;
+		
+		for(var k in sample_a) {
+			chain = chain ? chain.pipe(load_script.curry(sample_a[k])) : load_script(sample_a[k]);
+		}
+			
 	});
 	
 };
@@ -365,8 +369,8 @@ $(document).ready(function(){
 		
 		defaultItem: {
 			components: {
-				content: {
-					etype: 'anchor',
+				header: {
+//					etype: 'anchor',
 					dataId: 'title',
 					binding: function(v) {
 						this.opt('text', v);
