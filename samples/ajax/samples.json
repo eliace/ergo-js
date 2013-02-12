@@ -3,10 +3,10 @@
 	"name": "core",
 	"children": [{
 		"title": "Объект",
-		"name": ["object", "object-2"]
+		"name": ["object", "object-2", "object-3"]
 	}, {
 		"title": "Виджет",
-		"name": ["widget", "widget-3", "widget-2"]
+		"name": ["widget", "widget-2"]
 	}, {
 		"title": "Элементы и компоненты",
 		"name": ["items-and-components-1", "items-and-components-2", "items-and-components-3"]

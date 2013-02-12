@@ -1,4 +1,4 @@
-var smpl = sample('Наследование');
+var smpl = sample('Наследование', {jsOnly: true});
 
 
 

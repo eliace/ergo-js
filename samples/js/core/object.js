@@ -1,4 +1,4 @@
-var smpl = sample('Параметры (опции)');
+var smpl = sample('Параметры (опции)', {jsOnly: true});
 
 
 var obj = new Ergo.core.Object({
