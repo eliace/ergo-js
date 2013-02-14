@@ -66,13 +66,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		},
 		events: {},
 //		defaultItem: {},
-		defaultComponent: {},
-		componentFactory: function(o) {
-			if($.isString(o)) {
-				o = this.options.shortcuts[o] || {text: o};
-			}
-			return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
-		},
+		// defaultComponent: {},
+		// componentFactory: function(o) {
+			// if($.isString(o)) {
+				// o = this.options.shortcuts[o] || {text: o};
+			// }
+			// return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
+		// },
 		shortcuts: {},
 		showOnRender: false,
 		hideOnRender: false,
