@@ -1051,7 +1051,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 	});
 	
 	
-	$.ergo({
+	w = $.ergo({
 		etype: 'panel',
 		cls: 'widget',
 		renderTo: 'body',
@@ -1079,25 +1079,25 @@ var GridData = Ergo.data.PageAjaxData.extend({
 			},
 			
 			
-			mixins: ['selectable'],
-			
-			row: {
-				onClick: function() {
-					this.events.bubble('select');
-				},
-				states: {
-					'selected': function(on) {
-						if(on)
-							this.column(1).content.item(0).show();
-						else						
-							this.column(1).content.item(0).hide();
-					}
-				}
-			},
-			
-			onSelect: function(e) {				
-				this.selection.set(e.target);
-			},
+			// mixins: ['selectable'],
+// 			
+			// row: {
+				// onClick: function() {
+					// this.events.bubble('select');
+				// },
+				// states: {
+					// 'selected': function(on) {
+						// if(on)
+							// this.column(1).content.item(0).show();
+						// else						
+							// this.column(1).content.item(0).hide();
+					// }
+				// }
+			// },
+// 			
+			// onSelect: function(e) {				
+				// this.selection.set(e.target);
+			// },
 			
 			
 			
@@ -1105,6 +1105,13 @@ var GridData = Ergo.data.PageAjaxData.extend({
 			}, {
 				header: 'Значение',
 				
+				width: 250,
+				
+				content: {
+					etype: 'input-editor',
+//					autoWidth: true
+				},
+/*				
 				content: {
 					etype: 'text-box',
 					cls: 'show-on-hover',
@@ -1140,22 +1147,26 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					}
 					
 				},
-				
+*/				
 				
 				binding: function() {
 					
-					var id = this.data._id;
+					var id = this.data.id;
 					
+//					console.log(id);
 					
 					if(id == 'post') {
 						
-						this.opt('editor', {
+//						this.opt('editor', {
+	
+						this.components.set('content', {
 							etype: 'dropdown-editor',
 							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
 						});
 					}
 					else if(id == 'incidents') {	
-						this.opt('editor', {
+//						this.opt('editor', {
+						this.components.set('content', {
 							etype: 'spinner-editor',
 							stopOnFocusOut: false
 						});
@@ -1172,10 +1183,16 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					
 					
 					if(this.data.opt('readonly')) {
+						
+						this.components.set('content', {
+							etype: 'text'
+						});
+						
+						
 //						this.states.toggle('readonly');
-						this.opt('editable', false);
-						this.content.item(0).states.set('disabled');
-						this.content.item(0).opt('icon', 'icon-lock');
+//						this.opt('editable', false);
+//						this.content.item(0).states.set('disabled');
+//						this.content.item(0).opt('icon', 'icon-lock');
 					}
 					
 //					this.states.toggle('readonly', this.data.opt('readonly'))
@@ -1193,6 +1210,9 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		}
 			
 	});
+	
+	
+//	w.options
 	
 	
 	

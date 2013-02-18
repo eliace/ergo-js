@@ -21,10 +21,10 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 		}, {
 			header: 'Значение',
 			binding: false,
-			content: {
-				etype: 'text'
-//				state: 'no-selection'
-			},
+			// content: {
+				// etype: 'text'
+// //				state: 'no-selection'
+			// },
 			
 			mixins: ['editable'],
 			
