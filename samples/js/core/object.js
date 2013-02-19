@@ -1,20 +1,22 @@
-var smpl = sample('Параметры (опции)');
+var smpl = sample('Параметры (опции)', {jsOnly: true});
 
 
 var obj = new Ergo.core.Object({
 	
-	color: 'Зеленый',
+	color: 'Зеленый',								// задаем параметр color
 	
-	title: 'Некоторый текст',
+	title: 'Некоторый текст',				// задаем параметр ешеду
 	
+	// Блок сеттеров (мутаторов)
 	set: {
-		'color': function(v) {
+		'color': function(v) {				// определяем собственный сеттер для color
 			this._color = v;
 		}
 	},
 	
+	// Блок геттеров (аксессоров)
 	get: {
-		'color': function() {
+		'color': function() {					// определяем собственный геттер для color
 			return this._color;
 		}
 	}
@@ -22,6 +24,9 @@ var obj = new Ergo.core.Object({
 });
 
 
+// выводим параметр color, используя метод Object.opt
 smpl.alert( 'Цвет: ' + obj.opt('color') );
+// выводим параметр title
 smpl.alert( 'Заголовок: ' + obj.opt('title') );
+// К установленным параметрам можно получить доступ через свойство Object.options
 smpl.alert( obj.options.title + ' + ' + obj.options.color );

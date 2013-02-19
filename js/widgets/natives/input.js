@@ -18,6 +18,9 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.I
 		html: '<input type="text"/>',
 		set: {
 			'text': function(v) { this.el.val(v); }
+		},
+		get: {
+			'text': function() { return this.el.val(); }
 		}
 	},
 	

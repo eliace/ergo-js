@@ -1,23 +1,30 @@
-var smpl = sample('Наследование');
+var smpl = sample('Наследование', {jsOnly: true});
 
 
-
-Ergo.declare('Samples.foo.MyClass', 'Ergo.core.Widget', {
+// Новый класс создается с помощью метода Ergo.declare
+// У него есть синоним Ergo.defineClass
+Ergo.declare(
+	'Samples.foo.MyClass', 			// полное имя нового класса
+	'Ergo.core.Widget', 				// полное имя базового класса
+	{
 	
+	// блок параметров по-умолчанию
 	defaults: {
 		color: 'Синий',
 		size: 0
 	}
 	
-}, 'my-class');
+	},
+	'my-class'									// псевдоним класса
+);
 
 
-
+// Создаем экземпляр класса с паарметрами по-умолчанию
 var obj = new Samples.foo.MyClass();
 
 smpl.alert( Ergo.format('Цвет: %s, Размер: %s', obj.opt('color'), obj.opt('size')) );
 
-
+// Создаем экземпляр класса и переопределяем color и size
 obj = new Samples.foo.MyClass({
 	color: 'Зеленый',
 	size: 12
@@ -25,7 +32,7 @@ obj = new Samples.foo.MyClass({
 
 smpl.alert( Ergo.format('Цвет: %s, Размер: %s', obj.options.color, obj.options.size) );
 
-
+// Создаем экземпляр класса , испольуя метод Ergo.object
 obj = Ergo.object({
 	etype: 'my-class',
 	color: 'Белый',

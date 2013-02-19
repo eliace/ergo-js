@@ -208,6 +208,7 @@ function sample(title, o, msg) {
 	
 	o = o || {}
 	
+	
 	try{
 		var panel = $.ergo({
 			renderTo: '#sample',
@@ -242,6 +243,14 @@ function sample(title, o, msg) {
 		}
 		
 		if(msg) w.alert(msg);
+		
+		
+		if(o.jsOnly) {
+			panel.tabs.selection.set(panel.tabs.item(1));
+			panel.content.content.setActive(1);
+			panel.tabs.item(0).opt('hidden', true);
+		}
+		
 		
 		return w;
 		
@@ -415,7 +424,7 @@ $(document).ready(function(){
 					load_sample(data.name, group.name);
 					
 					if(typeof(localStorage) != 'undefined') {
-						localStorage.setItem('ergo.last_sample', data.name[0]);
+						localStorage.setItem('ergo.last_sample', JSON.stringify({name: data.name[0], group: group.name}));
 					}
 				}			
 				
@@ -435,13 +444,15 @@ $(document).ready(function(){
 		
 		if(typeof(localStorage) != 'undefined') {
 			var last_sample = localStorage.getItem('ergo.last_sample');
+
+			last_sample = JSON.parse(last_sample);
 			
 			menu.children.each(function(c){
 				c.sublist.children.each(function(c2){
-					if(Ergo.includes(c2.data.get('name'), last_sample)) {
+					if(Ergo.includes(c2.data.get('name'), last_sample.name)) {
 						// TODO сделать, чтобы сначала раскрывалось меню, а затем загружался пример
 						c.states.set('expanded');
-						load_sample(c2.data.get('name'));
+						load_sample(c2.data.get('name'), last_sample.group);
 //						c.content.events.fire('click');
 //						c2.content.events.fire('click');
 					}

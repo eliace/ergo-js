@@ -27,9 +27,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	},
 	
 	
-	factory: function(o) {
+	factory: function(o, type) {
 		if($.isString(o)) o = this.options.shortcuts[o] || {text: o};
-		return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );
+		var default_child = 'default' + type[0].toUpperCase() + type.substring(1);
+		return Ergo.widget( Ergo.smart_override({}, this.options[default_child], o) );
 	},
 	
 	
@@ -51,7 +52,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		// создаем виджет с помощью фабрики элементов
 		if(!(item instanceof Ergo.core.Widget))
-			item = (w.options[type+'Factory'] || this.factory).call(w, item);
+			item = (w.options[type+'Factory'] || this.factory).call(w, item, type);
 			
 		item._type = type;
 
