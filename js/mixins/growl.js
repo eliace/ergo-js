@@ -20,9 +20,10 @@ Ergo.declare_mixin('Ergo.mixins.Growl', function(o) {
 			
 			var container = $('.growl-container');
 			
-			if(container.length == 0) {
+			if(container.length == 0)
 				container = new Ergo.mixins.Growl.Container({renderTo: 'body'});
-			}
+			else
+				container = container.ergo();
 			
 			container.push(self);
 			
@@ -52,7 +53,7 @@ Ergo.declare('Ergo.mixins.Growl.Container', 'Ergo.core.Widget', {
 	defaults: {
 		html: '<div/>',
 		cls: 'growl-container',
-		style: {'position': 'fixed'},
+		style: {'position': 'fixed', 'top': 0, 'right': 0},
 
 		defaultItem: {
 			etype: 'widget',

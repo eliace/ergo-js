@@ -61,8 +61,8 @@ Ergo.declare('Ergo.widgets.DynamicTree', 'Ergo.widgets.Tree', {
 
 	        if(this.data._fetched) {
 	          
-	          this.subtree.show()
-	          	.then(function(){ result.resolve(); });
+	          result = this.subtree.show();
+//	          	.then(function(){ result.resolve(); });
 	          
 	        }
 	        else {

@@ -592,14 +592,16 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				text: 'Гроул',
 				onClick: function() {
 					
-					var g = $.ergo({
-						etype: 'growl-dialog',
-						title: 'Ошибка',
-						message: 'Неправильно введен логин или пароль',
-						icon: 'growl-error-big'
-					});
+					growl.info('Привет');
 					
-					g.open();
+					// var g = $.ergo({
+						// etype: 'growl-dialog',
+						// title: 'Ошибка',
+						// message: 'Неправильно введен логин или пароль',
+						// icon: 'growl-error-big'
+					// });
+// 					
+					// g.open();
 										
 				}
 			}, {
@@ -607,7 +609,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				text: 'Гроул',
 				onClick: function() {
 					
-					var g = ({
+					var g = $.ergo({
 						etype: 'growl-dialog',
 						title: 'Ошибка',
 						message: 'Неправильно введен логин или пароль',

@@ -8,7 +8,12 @@ Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'side-growl',
-		mixins: ['growl'],
+		mixins: ['growl', 'effects'],
+		effects: {
+			show: 'fadeIn',
+			hide: 'fadeOut',
+			delay: 500
+		},
 		components: {
 			icon: {
 				weight: 10,
