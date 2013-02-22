@@ -1,5 +1,6 @@
 
 //= require <mixins/effects>
+//= require <mixins/growl>
 
 
 
@@ -7,6 +8,7 @@ Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'side-growl',
+		mixins: ['growl'],
 		components: {
 			icon: {
 				weight: 10,
@@ -41,7 +43,17 @@ Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 	
 	setIcon: function(icon) {
 		this.icon.states.only(icon);
+	},
+	
+	
+	open: function() {
+		this.growl.open();
+	},
+	
+	close: function() {
+		this.growl.close();
 	}
+	
 	
 	
 }, 'growl-dialog');

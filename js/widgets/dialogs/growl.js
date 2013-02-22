@@ -1,5 +1,5 @@
 
-
+/*
 
 
 Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
@@ -71,3 +71,7 @@ Ergo.declare('Ergo.widgets.Growl', 'Ergo.widgets.Box', {
 	}
 	
 }, 'growl');
+
+
+*/
+
