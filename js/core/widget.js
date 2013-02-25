@@ -207,10 +207,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// очищаем регистрацию обработчиков событий
 			this.events.unreg_all();
 			// очищаем компоновку
-			this.layout.clear();		
+			this.layout.clear();
 			
 			// вызываем метод destroy для всех дочерних компонентов
-			this.children.apply_all('destroy');		
+			this.children.apply_all('destroy');
 		}
 //		if(this.options.debug)	console.log('destroyed');
 	},
@@ -920,7 +920,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.layout.immediateRebuild = false;
 					
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
@@ -998,7 +998,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = false;
 
 			// // уничтожаем все элементы-виджеты
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy');
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
 			
 //			var t0 = Ergo.timestamp();
 
