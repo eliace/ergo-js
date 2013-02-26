@@ -34,6 +34,9 @@ Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 					}
 				}
 			}
+		},
+		onClick: function() {
+			this.growl.close();
 		}
 	},
 	

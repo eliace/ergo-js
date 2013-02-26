@@ -32,7 +32,11 @@ Ergo.declare_mixin('Ergo.mixins.Growl', function(o) {
 		
 		close: function() {
 			
-			//TODO
+			self.hide().then(function(){
+				self._wrapper.hide().then(function(){
+					self._wrapper.destroy();
+				});
+			});
 			
 		}
 		
@@ -103,6 +107,8 @@ Ergo.declare('Ergo.mixins.Growl.Container', 'Ergo.core.Widget', {
 		$.when(is_last ? wrapper.el.show() : wrapper.show()).then(function(){
 			item.show();
 		});				
+		
+		item._wrapper = wrapper;
 		
 		
 		if(this.options.timeout) {
