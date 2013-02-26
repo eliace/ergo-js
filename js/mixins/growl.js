@@ -35,6 +35,7 @@ Ergo.declare_mixin('Ergo.mixins.Growl', function(o) {
 			self.hide().then(function(){
 				self._wrapper.hide().then(function(){
 					self._wrapper.destroy();
+					self.destroy();
 				});
 			});
 			
@@ -118,6 +119,7 @@ Ergo.declare('Ergo.mixins.Growl.Container', 'Ergo.core.Widget', {
 				item.hide().then(function(){
 					wrapper.hide().then(function(){
 						wrapper.destroy();
+						item.destroy();
 					});
 				});
 				
