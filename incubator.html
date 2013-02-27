@@ -645,14 +645,20 @@ var GridData = Ergo.data.PageAjaxData.extend({
 									cls: 'calendar-button'
 								},
 								items: [{
-									text: 'декабрь',
-									xicon: 'arrow-calendar-button'
+									value: 'декабрь',
+									xicon: 'arrow-calendar-button',
+									$dropdown_content_items: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
 								}, {
-									text: '2012 г.',
-									xicon: 'arrow-calendar-button'
+									value: '2012 г.',
+									xicon: 'arrow-calendar-button',
+									$dropdown_content_items: ['2010', '2011', '2012', '2013', '2014', '2015']
 								}, {
 									etype: 'icon-button',
-									cls: 'close'
+									cls: 'close',
+									icon: 'icon-remove',
+									onClick: function() {
+										this.events.bubble('close');
+									}
 								}]
 							},
 							content: {
@@ -680,6 +686,10 @@ var GridData = Ergo.data.PageAjaxData.extend({
 									}
 								}
 							}
+						},
+						
+						onClose: function(e) {
+							this.close();
 						}
 					});
 					
@@ -932,7 +942,8 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		gender: 'female',
 		incidents: 3,
 		post: 'Ведущий специалист',
-		address: ''
+		address: '',
+		active: false
 	};
 	
 	
@@ -1064,7 +1075,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		style: {'margin-top': 20},
 		title: 'Свойства',
 		width: 600,
-		height: 400,
+		height: 450,
 		
 		
 		content: {
@@ -1178,13 +1189,18 @@ var GridData = Ergo.data.PageAjaxData.extend({
 						});
 					}
 					else if(id == 'address') {	
-						this.opt('editor', {
+						this.components.set('content', {
 							etype: 'select-editor',
 							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
 						});
 					}
 					else if(id == 'id') {
 //						this.states.set('readonly');
+					}	
+					else if(id == 'active') {
+						this.components.set('content', {
+							etype: 'check-box'
+						});
 					}	
 					
 					

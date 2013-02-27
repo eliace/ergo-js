@@ -6,7 +6,7 @@ Ergo.declare('Ergo.widgets.SelectEditor', 'Ergo.widgets.SelectBox', {
 	
 	defaults: {
 		
-		
+		cls: 'editor'
 		
 	}
 	

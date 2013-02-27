@@ -8,6 +8,9 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		var self = this;
 		
+		
+		var z = Ergo.globals.topZ++;
+		
 //		if(arguments.length == 0) return;
 		
 		if(arguments.length == 2) {
@@ -138,6 +141,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		this.el.css({'left': x, 'top': y});
 		
 		
+		this.el.css('z-index', 100000 + z*1000+1);
 /*		
 		// Усечение размера выпадающего элемента
 		
@@ -160,6 +164,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 
 		if (!this.options.hideOn || this.options.hideOn == 'outerClick') {
 			// добавляем прозрачную панель в документ
+			this.glass_pane.css('z-index', 100000 + z*1000);
+			
 			$('body').append(this.glass_pane);
 		}
 		else if(this.options.hideOn == 'windowClick') {
@@ -182,26 +188,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		
 		this.isShown = false;
 		
-		
-/*		
-		var effects = this.options.effects || {};
-		
-		var self= this;
-		
-		switch(effects['hide']){
-			case 'fade':
-				this.el.fadeOut( effects.delay, function(){ self.events.fire('onHide'); } );
-				break;
-			case 'slideUp':
-				this.el.slideUp( effects.delay, function(){ self.events.fire('onHide'); } );
-				break;
-			default:
-				this.el.hide();
-				this.events.fire('onHide');
-		}
-*/		
-		
-//		this.container.el.hide();
+		Ergo.globals.topZ--;
 		
 		this.glass_pane.detach();		
 		
