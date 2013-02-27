@@ -451,7 +451,7 @@ ul.ergo_navigation > li a:hover{
 }
 .e-select-box.editor,
 .e-input-box.editor {
-  border:1px solid #569de5!important; 
+  border:1px solid transparent!important; 
   -moz-border-radius:0;
   -webkit-border-radius:0;
   border-radius:0;
@@ -461,7 +461,9 @@ ul.ergo_navigation > li a:hover{
   background:#fff;
   overflow:hidden;
 }
-
+.e-input-box.editor.focus {
+  border:1px solid #569de5!important; 
+}
 
 .editor-holder {
   -webkit-box-shadow: 0 0 32px rgba(0,0,0,.22);
