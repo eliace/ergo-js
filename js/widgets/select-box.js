@@ -12,7 +12,8 @@ Ergo.declare('Ergo.widgets.SelectBox', 'Ergo.widgets.Box', {
 
 		components: {
 			content: {
-				cls: 'e-current-select'
+				cls: 'e-current-select',
+				weight: 10
 			}			
 		},
 		

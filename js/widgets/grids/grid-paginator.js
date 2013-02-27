@@ -118,7 +118,7 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 					
 		this.item({tag: 'current'}).opt('value', i);
 		
-	}	
+	}
 	
 	
 	
