@@ -131,7 +131,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
 				this._widget.el.addClass(val);
-			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
+			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if($.isArray(val)) {
 				if(val.length > 0) {				
 					$.when( val[0].call(this._widget, true) ).done(function(add_cls) {

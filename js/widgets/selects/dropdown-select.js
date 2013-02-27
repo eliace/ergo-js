@@ -29,7 +29,7 @@ Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 */		
 		buttons: [{
 			etype: 'icon-button',
-			icon: 'arrow-down'
+			icon: 'icon-caret-down'
 		}],
 		
 		onClick: function() {
