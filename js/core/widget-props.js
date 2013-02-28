@@ -5,6 +5,8 @@ Ergo.core.WidgetProperties = {
 
 
 	getText: function() {	return this.layout.el.text();	},
+	getWidth: function() {	return this.el.width();	},
+	getHeight: function() {	return this.el.height();	},
 	
 	
 	
