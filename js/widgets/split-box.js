@@ -9,6 +9,7 @@ Ergo.declare('Ergo.widgets.SplitBox', 'Ergo.widgets.Box', {
 		left: '',
 		right: '',
 		update: 'left',
+		invert: false,
 		
 		events: {
 			'mousedown': function(e, w) {
@@ -44,6 +45,8 @@ Ergo.declare('Ergo.widgets.SplitBox', 'Ergo.widgets.Box', {
 						var dx = e2.pageX - from_x;
 						dx = Math.min(dx, max_dx);
 						dx = Math.max(dx, min_dx);
+						
+						if(w.opt('invert')) dx = -dx;
 						
 						update.opt('width', update.opt('width')+dx);
 						

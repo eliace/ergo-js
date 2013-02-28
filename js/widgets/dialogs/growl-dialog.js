@@ -14,6 +14,9 @@ Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {
 			hide: 'fadeOut',
 			delay: 500
 		},
+		
+		autoHeight: 'ignore',
+		
 		components: {
 			icon: {
 				weight: 10,

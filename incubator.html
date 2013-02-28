@@ -78,10 +78,12 @@
 	});
 
 	
-	Ergo.deep_override(Ergo.widgets.Icon.prototype, {
-		defaults: {
+	Ergo.deep_override(Ergo.widgets.Icon.prototype.defaults, {
+//		defaults: {
+//			mode: 'font'
 			cls: 'e-icon e-font-icon'
-		}
+//		}
+//		state: 'e-mode-font'
 	});
 	
 	
@@ -524,11 +526,14 @@ var GridData = Ergo.data.PageAjaxData.extend({
 								}]
 							}, {
 								label: 'Файл',
-								etype: 'select-box',
-								buttons: [{
-									etype: 'icon-button',
-									icon: 'icon-paper-clip'
-								}]
+								etype: 'upload-box',
+								content: {
+									etype: 'select-box',
+									buttons: [{
+										etype: 'icon-button',
+										icon: 'icon-paper-clip'
+									}]									
+								}
 							}, {
 								label: 'Адрес',
 								etype: 'select-box',
@@ -649,9 +654,16 @@ var GridData = Ergo.data.PageAjaxData.extend({
 									xicon: 'arrow-calendar-button',
 									$dropdown_content_items: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
 								}, {
-									value: '2012 г.',
+//									value: '2012 г.',
 									xicon: 'arrow-calendar-button',
-									$dropdown_content_items: ['2010', '2011', '2012', '2013', '2014', '2015']
+//									$dropdown_content_items: ['2010', '2011', '2012', '2013', '2014', '2015'],
+									onAfterBuild: function() {
+										for(var i = 1900; i < 2100; i++) {
+											this.dropdown.content.items.add({text: i, value: i});
+										}
+										this.opt('value', 2013);
+									},
+//									value: 2013
 								}, {
 									etype: 'icon-button',
 									cls: 'close',
@@ -798,7 +810,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		style: {'margin-top': 20},
 		title: 'Приложение',
 		width: 800,
-		height: 500,
+		height: 300,
 		
 		content: {
 			layout: 'app',
@@ -854,65 +866,13 @@ var GridData = Ergo.data.PageAjaxData.extend({
 				right: 'center',
 				update: 'left',
 				
-/*				
-				width: 5,
-				cls: 'cursor-col',
-				left: 'west',
-				right: 'center',
-				update: 'left',
-				
-				events: {
-					'mousedown': function(e, w) {
-						
-						var left = w.parent.children.find(Ergo.by_widget(w.options.left));
-						var right = w.parent.children.find(Ergo.by_widget(w.options.right));
-						var update = this.options.update == 'left' ? left : right;
-						
-						var offset = w.el.offset();
-						var from_x = e.pageX;
-						var max_dx = right.el.width();//w.parent.center.el.width();
-						var min_dx = -left.el.width();//w.parent.west.el.width();
-
-						var ghost = $('<div class="ghost"/>');
-						ghost.css({'position': 'absolute', 'top': offset.top, 'left': offset.left, width: w.el.width(), height: w.el.height(), 'background-color': '#bbb'});
-						$('body').append(ghost);
-
-						
-						var gp = Ergo.glass_pane()
-							.on('mousemove', function(e2){
-								
-								var dx = e2.pageX - from_x;
-								dx = Math.min(dx, max_dx);
-								dx = Math.max(dx, min_dx);
-								
-								ghost.css({'left': offset.left + dx});
-								
-							})
-							.on('mouseup', function(e2){
-								gp.remove();
-								ghost.remove();
-								
-								var dx = e2.pageX - from_x;
-								dx = Math.min(dx, max_dx);
-								dx = Math.max(dx, min_dx);
-								
-								update.opt('width', update.opt('width')+dx);
-//								w.parent.west.opt('width', w.parent.west.opt('width')+dx);
-								
-							})
-						
-						gp.css('cursor', 'col-resize');
-						$('body').append(gp);
-						
-						gp.addClass('no-selection');
-						
-						
-						e.preventDefault();
-					}
-				}
-*/				
-				
-				
+			}, {
+				region: 'east-split',
+				etype: 'split-box',
+				left: 'center',
+				right: 'east',
+				update: 'right',
+				invert: true
 			}]
 		}
 		
@@ -1165,13 +1125,57 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					
 				},
 */				
+
+				editorFactory: function(id) {
+					
+					var o = {
+						etype: 'input-editor'
+					};
+					
+					if(id == 'post') {						
+						o = {
+							etype: 'dropdown-editor',
+							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+						};
+					}
+					else if(id == 'incidents') {	
+						o = {
+							etype: 'spinner-editor',
+							stopOnFocusOut: false
+						};
+					}
+					else if(id == 'address') {	
+						o = {
+							etype: 'select-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
+						};
+					}
+					else if(id == 'id') {
+//						this.states.set('readonly');
+					}	
+					else if(id == 'active') {
+						o = {
+							etype: 'check-box'
+						};
+					}	
+					else if(id == 'birth_date') {
+						o = {
+							etype: 'input-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-calendar'}]
+						};
+					}	
+					
+					return o;
+				},
+
 				
-				binding: function() {
+				onBound: function() {
 					
 					var id = this.data.id;
 					
 //					console.log(id);
 					
+/*					
 					if(id == 'post') {
 						
 //						this.opt('editor', {
@@ -1202,7 +1206,10 @@ var GridData = Ergo.data.PageAjaxData.extend({
 							etype: 'check-box'
 						});
 					}	
-					
+*/					
+
+					this.components.set('content', this.options.editorFactory.call(this, id));
+
 					
 					if(this.data.opt('readonly')) {
 						

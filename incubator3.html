@@ -46,17 +46,13 @@
 	
 	
 	
-	
-	
-	
-	
-
 
 	var context_menu = $.ergo({
 		etype: 'dropdown-box',
+		renderTo: 'body',
 		cls: 'context-menu',
 		position: {
-			boundary: 'push'
+			boundary: 'context'
 		},
 		hideOn: 'windowClick',
 		content: {
@@ -75,6 +71,13 @@
 			}, {
 				text: 'Удалить',
 				tag: 'delete'
+			}, {
+				etype: 'upload-box',
+				style: {'display': 'block'},
+				content: {
+					etype: 'text',
+					text: 'Импорт',
+				}
 			}],
 			defaultItem: {
 				onClick: function() {
@@ -163,7 +166,8 @@
 		
 //		hideOn: 'hoverOut'
 	});
-
+	
+	
 
 	
 	var FileTreeModel = Ergo.data.tree.NodeList.extend({
