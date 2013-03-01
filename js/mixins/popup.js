@@ -204,9 +204,11 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	this.close = function() {
 		
+		if(this.isShown)
+			Ergo.globals.topZ--;
+		
 		this.isShown = false;
 		
-		Ergo.globals.topZ--;
 		
 		this.glass_pane.detach();		
 		

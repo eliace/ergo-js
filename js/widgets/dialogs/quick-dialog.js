@@ -53,7 +53,9 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 		onDialogAction: function(e) {
 			this._result = e.target.tag;
 			this.events.fire(this._result);
-			this.close();
+
+			if(!e.canceled) 
+				this.close();
 		},
 		
 		

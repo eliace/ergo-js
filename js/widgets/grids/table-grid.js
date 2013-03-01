@@ -66,6 +66,24 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	$layoutChanged: function() {
 		this.$super();
 		
+		
+		var header_ctrl = this.header.content.control;
+		var body_ctrl = this.content.content.control;
+		
+		var flex = false;
+		
+		header_ctrl.items.each(function(col){
+			if(!col.options.width) flex = true;
+		});
+		
+		if(flex) {
+			this.content.content.el.css('width', '100%');
+		}
+		else {
+			this.content.content.el.css('width', 'auto');
+		}
+		
+		
 		this.header.content.el.width(0);
 		var w = this.content.content.el.width();
 		this.header.content.el.width(w);
@@ -88,7 +106,10 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			
 			if(index == i) {
 				col.opt('width', width);
+
 				body_cr.item(index).opt('width', width);
+				var db = body_cr.item(index).el.width() - width;
+				body_cr.item(index).el
 			}
 			else {
 				var w = col.options.width || col.el.width();
@@ -96,6 +117,8 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				body_cr.item(index).opt('width', w);
 			}
 		});
+
+		this.$layoutChanged();
 
 		// this.header.content.control.item(i).el.width(width);
 		// this.content.content.control.item(i).el.width(width);
