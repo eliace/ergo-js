@@ -31,46 +31,7 @@
 @e-radio-radius:10px;
 // checkbox
 @e-checkbox-radius:3px;
-
-
 @e-field-text-size:1.2em; 
-
-
-
-/* Reset
--------------------------------------------------s----------------------------*/
-* {
-  margin: 0;
-  padding: 0;
-}
-a, :focus {
-outline: none;
-}
-*::-moz-focus-inner,
-button::-moz-focus-inner,
-input[type="reset"]::-moz-focus-inner,
-input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner,
-select::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
-border: none;
-}
-header, nav, section, article, aside, footer {
-  display: block;
-}
-input, textarea {
-  outline:none;
-}
-.unselect {
-  -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   user-select: none;
-}
-.hidden {
-  display:none;
-}
-li {list-style:none;}
 
 /* Content
 -----------------------------------------------------------------------------*/
@@ -128,14 +89,10 @@ body {
   position: relative;
 }
 
-
-
-
 // common classes 
 .left { float:left;}
 .right {float:right;}
 .clearfix {clear:both}
-
 
 // left sidebar
 #sideLeft {
@@ -197,13 +154,7 @@ ul.ergo_navigation > li a:hover{
   background: url('ergo-images/ajax-loader.gif');
 }
 
-
-
-
-
-
 //demo widgets
-
 .my-widget,
 .before-sample,
 .after-sample {
@@ -270,8 +221,8 @@ ul.ergo_navigation > li a:hover{
   padding:10px 0;
 }
 
-
-// Widgets.widget.e-panel{
+// Widgets
+.widget.e-panel{
   background:#fff;
   border:1px solid #dfdfdf;
   -webkit-border-radius: 5px;
@@ -292,7 +243,6 @@ ul.ergo_navigation > li a:hover{
   -webkit-border-radius: 5px 5px  0 0;
   -moz-border-radius:5px 5px 0 0px;
   border-radius:5px 5px 0 0;
-
 }
 
 .e-panel header {
@@ -310,7 +260,6 @@ ul.ergo_navigation > li a:hover{
   padding:0 5px;
 }
 
-
 .e-grid-wrapper {
   background:#fff;
 }
@@ -319,7 +268,6 @@ ul.ergo_navigation > li a:hover{
   border-right:none;
   border-left:none;
   margin-bottom:0!important;
-  
 }
 
 .e-grid-header {
@@ -342,9 +290,7 @@ ul.ergo_navigation > li a:hover{
   -webkit-border-radius: 0!important;
   -moz-border-radius:0!important;
   border-radius:0!important;
-  
 }
-
 
 .e-grid td {
   padding:0;
@@ -403,7 +349,6 @@ ul.ergo_navigation > li a:hover{
       padding-top: 0;
       padding-bottom: 0;
 }
-    
 
 .e-grid-paginator {
   background: #ffffff; /* Old browsers */
@@ -438,7 +383,6 @@ ul.ergo_navigation > li a:hover{
    text-align:center;
    color:#555;
 }
-
  
 // input
 .e-input-box {
@@ -547,12 +491,10 @@ ul.ergo_navigation > li a:hover{
 .e-tree .leaf > .e-icon {
   display:none!important 
 }
-.e-tree li{
+
+.e-tree li{
    padding:0 5px;
 }
-
-
-
 
 .e-tree  span:hover  {
   color:#999;
@@ -573,7 +515,6 @@ ul.ergo_navigation > li a:hover{
 .e-tree-node.leaf {
   margin-left:20px;
 }
-
 
 @media all and (-webkit-min-device-pixel-ratio:0) {
   .e-tree  span {
@@ -641,7 +582,6 @@ header .e-tool-box {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=0 ); /* IE6-8 */
 }
 
-
 .e-icon-button:active {
   background: #d1d1d1; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -684,10 +624,10 @@ button,
   font-size:@e-field-text-size;
   color:@form-color;
 }
-@-moz-document url-prefix() 
-{ 
-button, 
-.e-button-item  {padding:3px 7px;}
+
+@-moz-document url-prefix() { 
+  button, 
+  .e-button-item  {padding:3px 7px;}
 } 
 
 button:hover,
@@ -863,7 +803,8 @@ button.selected:hover,
 //Диалоговое окно
 // .e-dialog .e-panel-content {
   // padding:15px 15px 0 15px;
-// }
+// }
+
 
 .e-quick-dialog .e-toolbox-header .e-tool-box{
   float:none!important;
@@ -874,7 +815,8 @@ button.selected:hover,
 
 // .e-quick-dialog > .e-panel-content {
   // padding:15px;
-// }
+// }
+
 .e-current-select {
   padding:4px 10px;
 }
@@ -1221,6 +1163,9 @@ button.selected:hover,
   color:#444;
 }
 
+.context-menu .e-list-box > div {
+  padding:5px 10px;
+}
 .context-menu .e-list-box > .disabled:hover {
   background: none !important;
   color:#666;
@@ -1234,12 +1179,13 @@ button.selected:hover,
 
 
 .context-menu .e-splitter {
-  height:0;
-  margin:0;
-  padding:0;
-  border-bottom:1px solid #fff;
-  border-top:1px solid #e2e2e2;
-  display:block;
+  height: 0;
+  margin: 0;
+  padding: 0!important;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #e2e2e2;
+  display: block;
+  cursor: default;
 }
 //Main menu vertical 
 
@@ -1566,8 +1512,6 @@ button.selected:hover,
 }
 
 
-
-
 /* CALENDAR */
 .calendar {
   margin: auto;
@@ -1708,7 +1652,6 @@ button.selected:hover,
   
 }
 
-
 .calendar-button-month span,.calendar-button-year span {
   display: block;
   padding: 1px 0 1px 7px;
@@ -1816,9 +1759,9 @@ button.selected:hover,
   width: 24px;
   height: 24px;
   line-height: 24px;
-    margin: 8px 7px 7px 8px;
-    text-align: center;
-    font-size: 14px;
+  margin: 8px 7px 7px 8px;
+  text-align: center;
+  font-size: 14px;
   color: #fff;
   text-shadow: 0 -1px rgba(122,177,211,.75);
   background-color: #d4d4d4;
