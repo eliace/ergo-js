@@ -30,6 +30,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		
 		onColumnResize: function(e) {
+			
 			this.columnWidth(e.i, e.width);
 		}		
 		
@@ -78,8 +79,26 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	columnWidth: function(i, width) {
-		this.header.content.control.item(i).el.width(width);
-		this.content.content.control.item(i).el.width(width);
+		
+		var body_cr = this.content.content.control;
+		
+		this.header.content.control.items.each(function(col, index){
+			
+//			console.log(col.options.width);
+			
+			if(index == i) {
+				col.opt('width', width);
+				body_cr.item(index).opt('width', width);
+			}
+			else {
+				var w = col.options.width || col.el.width();
+				col.opt('width', w);
+				body_cr.item(index).opt('width', w);
+			}
+		});
+
+		// this.header.content.control.item(i).el.width(width);
+		// this.content.content.control.item(i).el.width(width);
 	}
 
 	
