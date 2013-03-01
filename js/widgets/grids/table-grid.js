@@ -30,6 +30,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		
 		onColumnResize: function(e) {
+			
 			this.columnWidth(e.i, e.width);
 		}		
 		
@@ -65,6 +66,24 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	$layoutChanged: function() {
 		this.$super();
 		
+		
+		var header_ctrl = this.header.content.control;
+		var body_ctrl = this.content.content.control;
+		
+		var flex = false;
+		
+		header_ctrl.items.each(function(col){
+			if(!col.options.width) flex = true;
+		});
+		
+		if(flex) {
+			this.content.content.el.css('width', '100%');
+		}
+		else {
+			this.content.content.el.css('width', 'auto');
+		}
+		
+		
 		this.header.content.el.width(0);
 		var w = this.content.content.el.width();
 		this.header.content.el.width(w);
@@ -78,8 +97,36 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	columnWidth: function(i, width) {
-		this.header.content.control.item(i).el.width(width);
-		this.content.content.control.item(i).el.width(width);
+		
+		var body_cr = this.content.content.control;
+		
+		this.header.content.control.items.each(function(col, index){
+			
+//			console.log(col.options.width);
+			
+			if(index == i) {
+				col.opt('width', width);
+
+				var dx = col.el.width() - width;
+				if(dx) col.el.width(width - dx);
+
+				body_cr.item(index).opt('width', width);
+			}
+			else {
+				var w = col.options.width || col.el.width();
+				col.opt('width', w);
+
+				var dx = col.el.width() - w;
+				if(dx) col.el.width(w - dx);
+
+				body_cr.item(index).opt('width', w);
+			}
+		});
+
+		this.$layoutChanged();
+
+		// this.header.content.control.item(i).el.width(width);
+		// this.content.content.control.item(i).el.width(width);
 	}
 
 	

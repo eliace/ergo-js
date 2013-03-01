@@ -23,7 +23,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			var wnd = self.el;
 			var overlay = self.overlay_el;
 	
-			var z = Ergo.globals.topZ++;
+			var z = ++Ergo.globals.topZ;
 			overlay.css({'z-index': z*1000, 'display': 'none'});
 			wnd.css({'z-index': z*1000+1, 'display': 'none'});
 		

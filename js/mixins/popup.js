@@ -9,7 +9,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 		var self = this;
 		
 		
-		var z = Ergo.globals.topZ++;
+		var z = ++Ergo.globals.topZ;
 		
 //		if(arguments.length == 0) return;
 		
@@ -204,9 +204,11 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 	
 	this.close = function() {
 		
+		if(this.isShown)
+			Ergo.globals.topZ--;
+		
 		this.isShown = false;
 		
-		Ergo.globals.topZ--;
 		
 		this.glass_pane.detach();		
 		
