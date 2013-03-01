@@ -961,7 +961,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
-		if(o.autoFetch) this.data.fetch();
+		if(o.autoFetch) this.data.fetch().then(function(){ self.events.fire('fetch'); });
 
 
 		this.events.fire('bound');
