@@ -78,15 +78,18 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		if(flex) {
 			this.content.content.el.css('width', '100%');
+			
+			this.header.content.el.width(0);
+			var w = this.content.content.el.width();
+			this.header.content.el.width(w);
+			
 		}
 		else {
-			this.content.content.el.css('width', 'auto');
+			this.content.content.el.css('width', '');
+			this.header.content.el.css('width', '');
 		}
 		
 		
-		this.header.content.el.width(0);
-		var w = this.content.content.el.width();
-		this.header.content.el.width(w);
 		
 	},
 	
@@ -106,22 +109,43 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			
 			if(index == i) {
 				col.opt('width', width);
-
-				var dx = col.el.width() - width;
-				if(dx) col.el.width(width - dx);
-
 				body_cr.item(index).opt('width', width);
+
+				var dx = col.el.width() - width;// body_cr.item(index).el.width();
+				if(dx) col.el.width(width - dx);
+				
+				console.log(dx);
+
 			}
 			else {
 				var w = col.options.width || col.el.width();
 				col.opt('width', w);
-
-				var dx = col.el.width() - w;
-				if(dx) col.el.width(w - dx);
-
 				body_cr.item(index).opt('width', w);
+
+				var dx = col.el.width() - w;// body_cr.item(index).el.width();
+
+				console.log(dx);
+
+				// var dx = col.el.width() - w;
+				if(dx) col.el.width(w - dx);
+				
+				// console.log(w);
+				// console.log(dx);
+
 			}
 		});
+		
+		
+		this.header.content.control.items.each(function(col, index){
+						
+				var dx = col.el.width() - body_cr.item(index).el.width();
+			
+			
+//				console.log(dx);
+			
+		});
+		
+		
 
 		this.$layoutChanged();
 
