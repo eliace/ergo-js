@@ -20,8 +20,8 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 				components: {
 					toolbox: {
 						defaultItem: {
-							onClick: function() {
-								if(this.tag) this.events.bubble('dialogAction');
+							onClick: function(e) {
+								if(this.tag) this.events.bubble('dialogAction', e);
 							}
 						}
 					}
