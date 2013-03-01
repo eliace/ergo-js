@@ -6,12 +6,13 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 		cls: 'e-grid-paginator',
 		
 		defaultItem: {
-			etype: 'icon-button'
+			etype: 'icon-button',
 		},
 		
 		items: [{
 			icon: 'icon-backward', 
 			tag: 'first',
+			cls: 'on-start',
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
