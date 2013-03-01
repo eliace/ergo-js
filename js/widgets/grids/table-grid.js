@@ -107,13 +107,18 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			if(index == i) {
 				col.opt('width', width);
 
+				var dx = col.el.width() - width;
+				if(dx) col.el.width(width - dx);
+
 				body_cr.item(index).opt('width', width);
-				var db = body_cr.item(index).el.width() - width;
-				body_cr.item(index).el
 			}
 			else {
 				var w = col.options.width || col.el.width();
 				col.opt('width', w);
+
+				var dx = col.el.width() - w;
+				if(dx) col.el.width(w - dx);
+
 				body_cr.item(index).opt('width', w);
 			}
 		});
