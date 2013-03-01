@@ -25,7 +25,13 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		columns: [],
 		row: {},
-		cell: {}
+		cell: {},
+		
+		
+		
+		onColumnResize: function(e) {
+			this.columnWidth(e.i, e.width);
+		}		
 		
 	},
 	
@@ -68,7 +74,14 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	rows: function() {
 		return this.content.content.items;
+	},
+	
+	
+	columnWidth: function(i, width) {
+		this.header.content.control.item(i).el.width(width);
+		this.content.content.control.item(i).el.width(width);
 	}
+
 	
 	
 }, 'table-grid');

@@ -98,3 +98,12 @@ Ergo.declare('Ergo.widgets.grid.HeaderCell','Ergo.widgets.Box', {
 	
 	
 }, 'grid-header-cell');
+
+
+
+
+
+
+
+
+

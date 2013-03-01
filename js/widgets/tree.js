@@ -23,7 +23,7 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 		
 		components: {
 			icon: {
-				etype: 'icon',
+				etype: 'pic-icon',
 				cls: 'tree-node-icon',
 				weight: -10,
 				onClick: function() {

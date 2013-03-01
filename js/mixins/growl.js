@@ -58,7 +58,8 @@ Ergo.declare('Ergo.mixins.Growl.Container', 'Ergo.core.Widget', {
 	defaults: {
 		html: '<div/>',
 		cls: 'growl-container',
-		style: {'position': 'fixed', 'top': 0, 'right': 0},
+		style: {'position': 'fixed', 'top': 0, 'right': 0, 'z-index': 1000000},
+		autoHeight: 'ignore',
 
 		defaultItem: {
 			etype: 'widget',
