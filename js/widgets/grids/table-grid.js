@@ -87,6 +87,9 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		else {
 			this.content.content.el.css('width', '');
 			this.header.content.el.css('width', '');
+			
+			this.header.content.states.set('fixed');
+			this.content.content.states.set('fixed');
 		}
 		
 		

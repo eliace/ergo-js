@@ -49,6 +49,11 @@
 			padding: 0px;
 		}
 		
+		.e-grid.fixed, .e-grid-header.fixed {
+			width: auto !important;			
+			width: -moz-min-content !important;			
+		}
+		
 	</style>
 	
 </head>
@@ -379,13 +384,16 @@ $.ergo({
 		
 		columns: [{
 			dataId: 'name',
-			header: 'Имя'
+			header: 'Имя',
+//			width: 100
 		}, {
 			dataId: 'email',
-			header: 'E-mail'
+			header: 'E-mail',
+//			width: 200
 		}, {
 			dataId: 'date',
-			header: 'Дата'
+			header: 'Дата',
+//			width: 100
 		}],
 		
 		
