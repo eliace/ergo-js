@@ -18,7 +18,7 @@ Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
 			},
 			button: {
 				etype: 'icon-button',
-				icon: 'button-arrow-down',
+				icon: 'icon-caret-down',
 				onClick: function() {
 					this.parent.dropdown.open();
 				}				

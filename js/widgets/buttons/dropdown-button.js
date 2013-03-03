@@ -7,7 +7,7 @@ Ergo.declare('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonItem', {
 //	mixins: [Ergo.mixins.Dropdownable],
 	
 	defaults: {
-		xicon: 'button-arrow-down',
+		xicon: 'icon-caret-down', //'button-arrow-down',
 		
 		mixins: ['selectable'],
 		
