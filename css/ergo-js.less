@@ -703,7 +703,7 @@ li.selected:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
+//  border-collapse: collapse;
   color:#777;
   -webkit-border-radius: 5px 5px  0 0;
   -moz-border-radius:5px 5px 0 0px;
@@ -728,6 +728,16 @@ li.selected:hover {
 .e-grid-header th {
   padding: 5px 0;
 }
+
+
+
+.e-grid.fixed, .e-grid-header.fixed {
+  width: auto !important;     
+  width: -moz-min-content !important;     
+}
+
+
+
 
 //Choice 
 .e-switch-item {

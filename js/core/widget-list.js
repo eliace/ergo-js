@@ -65,10 +65,6 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		// определяем поле parent
 		item.parent = w;
 		
-		// выполняем иерархическое связывание данных (автобиндинг)
-		if(w.data && !item.data)
-			item.bind(w.data, false, false);
-		
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
 		w.layout.add(item, i);
 
@@ -88,6 +84,11 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			w[item._key] = item;
 		}
 		
+		// выполняем иерархическое связывание данных (автобиндинг)
+		if(w.data && !item.data)
+			item.bind(w.data, false, false);
+		
+
 		
 //		console.log('item:add');
 //		this.events.fire('item:add', {'item': item});
