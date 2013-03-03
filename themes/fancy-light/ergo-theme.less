@@ -594,6 +594,27 @@ div[layout="form"] {
   width: 30px;
 }
 
-.e-grid-paginator span{
+.e-grid-paginator span {
   margin: 0 10px;
+}
+
+.e-grid-paginator .previous,
+.e-grid-paginator .backward {
+  float: left;
+}
+
+.e-grid-paginator .next,
+.e-grid-paginator .forward {
+  float: right;
+}
+
+.e-grid-paginator .previous,
+.e-grid-paginator .next {
+  border-radius: 0 3px 3px 0;
+  border-left: none;
+}
+
+.e-grid-paginator .backward,
+.e-grid-paginator .forward  {
+  border-radius: 3px 0 0 3px;
 }
