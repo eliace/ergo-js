@@ -19,7 +19,12 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				content: {
 					etype: 'grid'
 				},
-				autoHeight: true
+				autoHeight: true,
+				events: {
+					'scroll': function(e, w) {
+						w.events.bubble('scroll');
+					}
+				}
 			}
 		},
 		
@@ -30,9 +35,13 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		
 		onColumnResize: function(e) {
-			
 			this.columnWidth(e.i, e.width);
-		}		
+		},
+		
+		
+		onScroll: function() {
+			this.$scrollChanged();
+		}
 		
 	},
 	
@@ -104,6 +113,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	columnWidth: function(i, width) {
 		
+		
 		var body_cr = this.content.content.control;
 		
 		this.header.content.control.items.each(function(col, index){
@@ -117,7 +127,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				var dx = col.el.width() - width;// body_cr.item(index).el.width();
 				if(dx) col.el.width(width - dx);
 				
-				console.log(dx);
+//				console.log(dx);
 
 			}
 			else {
@@ -127,7 +137,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 				var dx = col.el.width() - w;// body_cr.item(index).el.width();
 
-				console.log(dx);
+//				console.log(dx);
 
 				// var dx = col.el.width() - w;
 				if(dx) col.el.width(w - dx);
@@ -154,6 +164,13 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 		// this.header.content.control.item(i).el.width(width);
 		// this.content.content.control.item(i).el.width(width);
+	},
+	
+	
+	$scrollChanged: function() {
+		
+		this.header.content.el.css('margin-left', -this.content.el.scrollLeft());
+		
 	}
 
 	

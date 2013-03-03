@@ -13,13 +13,13 @@ Ergo.declare('Ergo.widgets.SpinnerInput', 'Ergo.widgets.InputBox', {
 			cls: 'e-group-vert',
 			autoBind: false,
 			defaultItem: {
-				etype: 'button-item',
+				etype: 'icon-button',
 				onClick: function() {
 					this.events.bubble('spin');
 				},
 				components: {
-					before: {
-						mode: 'pic'
+					icon: {
+						etype: 'pic-icon'
 					}
 				}
 			},

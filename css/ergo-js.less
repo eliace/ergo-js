@@ -970,19 +970,19 @@ html[xmlns] [layout='float'] {display: block;}
   box-shadow:none;
 }
 
-.e-group-vert .e-button-item {
+.e-group-vert .e-button-item, .e-group-vert .e-icon-button {
   display:block!important;
   clear:both!important;
   padding:0 5px!important;
 }
 
-.e-group-vert .e-button-item .e-icon{
+.e-group-vert .e-button-item .e-icon, .e-group-vert .e-icon-button .e-icon{
   height:10px!important;
   margin:0;
   padding:0;
 }
 
-.e-group-vert .e-button-item {
+.e-group-vert .e-button-item, .e-group-vert .e-icon-button {
   border-bottom:0!important;
   -webkit-border-radius:3px 3px 0 0;
   -moz-border-radius:3px 3px 0 0;
@@ -992,12 +992,16 @@ html[xmlns] [layout='float'] {display: block;}
   line-height:11px;
 }
 
-.e-group-vert .e-button-item + .e-button-item {
+.e-group-vert .e-button-item + .e-button-item, .e-group-vert .e-icon-button + .e-icon-button {
   -webkit-border-radius:0 0 3px 3px;
   -moz-border-radius:0 0 3px 3px;
    border-radius:0 0 3px 3px;
    border-bottom:1px solid #DEDEDE!important;
 }
+
+
+
+
 
 //binding list                                                            
 .binding-list {

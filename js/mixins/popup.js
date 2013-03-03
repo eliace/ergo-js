@@ -239,7 +239,8 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 				 // e.stopPropagation();
 				 // e.preventDefault();
 			// }
-		}
+		},
+		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты
 	})
 	
 	o.position = Ergo.smart_override({
