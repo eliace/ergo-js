@@ -79,13 +79,16 @@
 	});
 
 	
-	Ergo.deep_override(Ergo.widgets.Icon.prototype.defaults, {
-//		defaults: {
-//			mode: 'font'
-			cls: 'e-icon e-font-icon'
-//		}
-//		state: 'e-mode-font'
-	});
+	// Ergo.deep_override(Ergo.widgets.Icon.prototype.defaults, {
+// //		defaults: {
+// //			mode: 'font'
+			// cls: 'e-icon e-font-icon'
+// //		}
+// //		state: 'e-mode-font'
+	// });
+	
+	Ergo.alias('icon', Ergo.widgets.FontIcon);
+	
 	
 	
 	
