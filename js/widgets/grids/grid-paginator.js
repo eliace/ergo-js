@@ -11,14 +11,15 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 		
 		items: [{
 			icon: 'icon-backward', 
-			tag: 'first',
-			cls: 'on-start',
+			tag: 'backward',
+			cls: 'backward',
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
 		}, {
 			icon: 'icon-caret-left',
 			tag: 'previous',
+			cls: 'previous',
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
@@ -43,12 +44,14 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 		}, {
 			icon: 'icon-caret-right',
 			tag: 'next',
+			cls: 'next',
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
 		}, {
 			icon: 'icon-forward',
-			tag: 'last',
+			tag: 'forward',
+			cls: 'forward',
 			onClick: function() {
 				this.events.bubble('pageChange');
 			}
@@ -67,10 +70,10 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 				i = Math.max(1, e.index);
 				i = Math.min(page_count, i);
 			}
-			else if(action == 'first') i = 1;
+			else if(action == 'backward') i = 1;
 			else if(action == 'previous') i = Math.max(1, i-1);
 			else if(action == 'next') i = Math.min(page_count, i+1);
-			else if(action == 'last') i = page_count;
+			else if(action == 'forward') i = page_count;
 			
 			this._page_index = i;
 			
