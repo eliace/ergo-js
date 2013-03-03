@@ -924,7 +924,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.items.add({ 'data': dataEntry, 'autoUpdate': false });
+					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
+					item.bind(dataEntry, false);
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -1004,7 +1005,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-				var item = self.items.add({ 'data': dataEntry });
+				var item = self.items.add({});//{ 'data': dataEntry });
+				item.bind(dataEntry);
 				item._pivot = false;
 				item._dynamic = true;
 //					item.el.attr('dynamic', true);

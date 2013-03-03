@@ -49,22 +49,6 @@
 			padding: 0px;
 		}
 		
-		.e-grid.fixed, .e-grid-header.fixed {
-			width: auto !important;			
-			width: -moz-min-content !important;			
-		}
-/*		
-		.e-grid-header.fixed th:last-child {
-			border-right: 1px solid #ccc !important;
-		}
-		
-		.e-grid.fixed td:last-child {
-			border-right: 1px solid #e9e9e9 !important;
-		}
-*/		
-		.e-grid-header {
-			border-collapse: inherit;
-		}
 		
 	</style>
 	
@@ -80,6 +64,7 @@ Ergo.alias('icon', Ergo.widgets.FontIcon);
 Ergo.declare('Ergo.widgets.grid.TextCell', 'Ergo.widgets.grid.Cell', {
 	
 	defaults: {
+		binding: false,
 		content: {
 			etype: 'text'
 		}
@@ -227,12 +212,7 @@ $.ergo({
 		etype: 'table-grid',
 		
 		cell: {
-			
-			content: {
-				etype: 'text'
-			},
-			
-			binding: false,
+			etype: 'text-cell',
 			
 			mixins: ['editable'],
 			onDoubleClick: function() {
@@ -569,66 +549,59 @@ var grid2 = $.ergo({
 	
 	content: {
 		
-		etype: 'table-grid',
+		etype: 'property-grid',
 		
-		cell: {
-			
-			
-		},
+		// cell: {
+// 			
+// 			
+		// },
 		
-		columns: [{
-			header: 'Наименование',
-			content: {
-				etype: 'text',
-				format: function(v) {
-					return this.data.id;// this.options.keyFormat(this.data.id);
-				}
-			},
-			binding: false
-		}, {
-			header: 'Значение',
-			binding: false,			
+		// columns: [{
+			// header: 'Наименование',
 			// content: {
-				// etype: 'input-editor'
+				// etype: 'text',
+				// format: function(v) {
+					// return this.data.id;// this.options.keyFormat(this.data.id);
+				// }
 			// },
+			// binding: false
+		// }, {
+			// header: 'Значение',
+			// binding: false,			
+// 			
+// 			
+		// }],
+		
+		
+		editorFactory: function() {
 			
-			editorFactory: function() {
-				
-				var o = {etype: 'input-editor'};
-				
-				var id = this.data.id;
-				
-				if(id == 'birth_date') {
-					o.etype = 'date-editor';
-				}
-				else if(id == 'post') {
-					o = {
-						etype: 'dropdown-editor',
-						$dropdown_content_items: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист', 'Консультант', 'Стажер']
-					};
-				}
-				else if(id == 'incidents') {
-					o.etype = 'spinner-editor';
-				}
-				else if(id == 'active') {
-					o = {
-						etype: 'check-box'
-					};
-					this.el.css('text-align', 'center');
-				}
-				
-				
-				return o;
-			},
+			var o = {etype: 'input-editor'};
 			
-			onBound: function() {
-				
-				this.components.set('content', this.options.editorFactory.apply(this));
-				
+			var id = this.data.id;
+			
+			if(id == 'birth_date') {
+				o.etype = 'date-editor';
+			}
+			else if(id == 'post') {
+				o = {
+					etype: 'dropdown-editor',
+					$dropdown_content_items: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист', 'Консультант', 'Стажер']
+				};
+			}
+			else if(id == 'incidents') {
+				o.etype = 'spinner-editor';
+			}
+			else if(id == 'active') {
+				o = {
+					etype: 'check-box'
+				};
+				this.el.css('text-align', 'center');
 			}
 			
 			
-		}],
+			return o;
+		},
+		
 		
 		
 		$header_content: {

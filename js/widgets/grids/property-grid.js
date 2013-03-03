@@ -14,23 +14,20 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 			content: {
 				etype: 'text',
 				format: function(v) {
-					return this.options.keyFormat(this.data.id);
+					var grid = this.getParent(Ergo.widgets.PropertyGrid);
+					return grid.options.keyFormat(this.data.id);
 				}
 			},
 			binding: false
 		}, {
 			header: 'Значение',
 			binding: false,
-			// content: {
-				// etype: 'text'
-// //				state: 'no-selection'
-			// },
 			
-			mixins: ['editable'],
-			
-			editor: {
-				etype: 'input-editor'
-			}
+			// mixins: ['editable'],
+// 			
+			// editor: {
+				// etype: 'input-editor'
+			// }
 			
 			// onDoubleClick: function(e) {
 // 				
@@ -41,22 +38,37 @@ Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 			// }				
 			
 			
+			onBound: function() {
+				
+				var grid = this.getParent(Ergo.widgets.PropertyGrid);
+				this.components.set('content', grid.options.editorFactory.apply(this));
+				
+			}
+			
+			
 		}],
 				
 		keyFormat: function(v) {
 			return v;
+		},
+		
+		editorFactory: function() {			
+			return {etype: 'input-editor'};
 		}
 		
 		
-	},
-	
-	
-	$pre_construct: function(o) {
-		
-		o.columns[0].content.keyFormat = o.keyFormat;
-		
-		this.$super(o);
 	}
+	
+	// $pre_construct: function(o) {
+// 		
+		// // Параметры keyFormat и editorFactory приходится пробрасывать в параметры ячеек
+		// //
+		// //
+		// o.columns[0].content.keyFormat = o.keyFormat;
+		// o.columns[1].content.editorFactory = o.editorFactory;
+// 		
+		// this.$super(o);
+	// }
 	
 	
 }, 'property-grid');
