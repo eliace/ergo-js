@@ -23,6 +23,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		this.$super(null, o);
 //		Ergo.core.WidgetArray.superclass.initialize.call(this, null, o);
 		
+		this.autobinding = true;
+		
 		this.widget = w;
 	},
 	
@@ -85,7 +87,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		}
 		
 		// выполняем иерархическое связывание данных (автобиндинг)
-		if(w.data && !item.data)
+		if(w.data && !item.data && this.autobinding)
 			item.bind(w.data, false, false);
 		
 
