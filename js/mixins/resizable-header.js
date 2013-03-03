@@ -90,7 +90,8 @@ Ergo.declare_mixin('Ergo.mixins.ResizableHeader', function(o) {
 						gp.css('cursor', 'col-resize');
 						$('body').append(gp);
 				
-				
+						
+						e.preventDefault();
 					}
 				}
 			}

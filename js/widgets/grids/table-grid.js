@@ -19,7 +19,12 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				content: {
 					etype: 'grid'
 				},
-				autoHeight: true
+				autoHeight: true,
+				events: {
+					'scroll': function(e, w) {
+						w.events.bubble('scroll');
+					}
+				}
 			}
 		},
 		
@@ -30,9 +35,13 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		
 		onColumnResize: function(e) {
-			
 			this.columnWidth(e.i, e.width);
-		}		
+		},
+		
+		
+		onScroll: function() {
+			this.$scrollChanged();
+		}
 		
 	},
 	
@@ -78,15 +87,21 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		if(flex) {
 			this.content.content.el.css('width', '100%');
+			
+			this.header.content.el.width(0);
+			var w = this.content.content.el.width();
+			this.header.content.el.width(w);
+			
 		}
 		else {
-			this.content.content.el.css('width', 'auto');
+			this.content.content.el.css('width', '');
+			this.header.content.el.css('width', '');
+			
+			this.header.content.states.set('fixed');
+			this.content.content.states.set('fixed');
 		}
 		
 		
-		this.header.content.el.width(0);
-		var w = this.content.content.el.width();
-		this.header.content.el.width(w);
 		
 	},
 	
@@ -98,6 +113,7 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	columnWidth: function(i, width) {
 		
+		
 		var body_cr = this.content.content.control;
 		
 		this.header.content.control.items.each(function(col, index){
@@ -106,27 +122,55 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			
 			if(index == i) {
 				col.opt('width', width);
-
-				var dx = col.el.width() - width;
-				if(dx) col.el.width(width - dx);
-
 				body_cr.item(index).opt('width', width);
+
+				var dx = col.el.width() - width;// body_cr.item(index).el.width();
+				if(dx) col.el.width(width - dx);
+				
+//				console.log(dx);
+
 			}
 			else {
 				var w = col.options.width || col.el.width();
 				col.opt('width', w);
-
-				var dx = col.el.width() - w;
-				if(dx) col.el.width(w - dx);
-
 				body_cr.item(index).opt('width', w);
+
+				var dx = col.el.width() - w;// body_cr.item(index).el.width();
+
+//				console.log(dx);
+
+				// var dx = col.el.width() - w;
+				if(dx) col.el.width(w - dx);
+				
+				// console.log(w);
+				// console.log(dx);
+
 			}
 		});
+		
+		
+		this.header.content.control.items.each(function(col, index){
+						
+				var dx = col.el.width() - body_cr.item(index).el.width();
+			
+			
+//				console.log(dx);
+			
+		});
+		
+		
 
 		this.$layoutChanged();
 
 		// this.header.content.control.item(i).el.width(width);
 		// this.content.content.control.item(i).el.width(width);
+	},
+	
+	
+	$scrollChanged: function() {
+		
+		this.header.content.el.css('margin-left', -this.content.el.scrollLeft());
+		
 	}
 
 	

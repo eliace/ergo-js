@@ -49,6 +49,23 @@
 			padding: 0px;
 		}
 		
+		.e-grid.fixed, .e-grid-header.fixed {
+			width: auto !important;			
+			width: -moz-min-content !important;			
+		}
+/*		
+		.e-grid-header.fixed th:last-child {
+			border-right: 1px solid #ccc !important;
+		}
+		
+		.e-grid.fixed td:last-child {
+			border-right: 1px solid #e9e9e9 !important;
+		}
+*/		
+		.e-grid-header {
+			border-collapse: inherit;
+		}
+		
 	</style>
 	
 </head>
@@ -145,26 +162,10 @@ var w = $.ergo({
 		
 		etype: 'table-grid',
 		
-/*		
-		components: {
-			header: {
-				content: {
-					cell: {
-						layout: {
-							html: '<span/>'
-						}				
-					}
-				}
-			}
+		$header_content: {
+			mixins: ['resizable-header']
 		},
 		
-		
-		cell: {
-			layout: {
-				html: '<span/>'
-			}
-		},
-*/	
 
 		cell: {
 			etype: 'text-cell'
@@ -186,103 +187,8 @@ var w = $.ergo({
 		}, {
 			dataId: 'email',
 			header: 'E-mail'
-		}],
-		
-		
-		
-		$header_content: {
-			defaultItem: {
-				defaultItem: {
-					events: {
-						'mousemove': function(e, w) {
-							var width = w.el.width();
-							var offset = w.el.offset();
-							var x = e.pageX;
-							
-							var dx = offset.left + width - x
-							
-							if(dx < 4) {
-								w.el.css('cursor', 'col-resize');
-								w.states.set('resize');
-							}
-							else {
-								w.el.css('cursor', 'default');
-								w.states.unset('resize');
-							}
-							
-//							console.log( offset.left + width - x );
-						},
-						'mousedown': function(e, w) {
-							
-							if( !w.states.is('resize') ) return;
-							
-							
-							var offset = w.el.offset();
-							
-							var c = w.parent.parent.parent.parent;
-							
-							// добавляем "призрака"
-							var ghost = $('<div class="ghost"/>');
-							ghost.css({'top': offset.top, 'left': e.pageX, width: 2, height: c.el.height()});
-							$('body').append(ghost);
-							
-							
-							var from_x = e.pageX;
-							var max_x = c.el.offset().left + c.el.width();
-							var min_x = c.el.offset().left;
-							
-							var gp = Ergo.glass_pane()
-								.on('mousemove', function(e2){
-									
-									// var dx = e2.pageX - from_x;
-									// dx = Math.min(dx, max_dx);
-									// dx = Math.max(dx, min_dx);
-									
-									var x = e2.pageX;
-									x = Math.min(x, max_x);
-									x = Math.max(x, min_x);
-									
-									ghost.css({'left': x});
-									
-								})
-								.on('mouseup', function(e2){
-
-									gp.remove();
-									ghost.remove();
-									
-									var dx = e2.pageX - from_x;
-									
-//									w.el.width(  );
-									
-									w.events.bubble('columnResize', {i: w._index, width: w.el.width() + dx});
-//									w.parent.parent.control.item(w._index).el.width( w.el.width() + dx );
-									
-									// var dx = e2.pageX - from_x;
-									// dx = Math.min(dx, max_dx);
-									// dx = Math.max(dx, min_dx);
-// 									
-									// if(w.opt('invert')) dx = -dx;
-									
-//									update.opt('width', update.opt('width')+dx);
-									
-//									left.$layoutChanged();
-//									right.$layoutChanged();
-			//								w.parent.west.opt('width', w.parent.west.opt('width')+dx);
-									
-								})
-							
-							gp.css('cursor', 'col-resize');
-							$('body').append(gp);
-							
-							
-							
-							
-						}
-					}
-				}
-			}
-		}
-		
+		}]
+				
 	}
 	
 });	
@@ -313,7 +219,6 @@ $.ergo({
 	autoFetch: true,
 	
 	onFetch: function() {
-		console.log( this.content.content.content.el.width() );
 		this.$layoutChanged();
 	},
 	
@@ -379,19 +284,31 @@ $.ergo({
 		
 		columns: [{
 			dataId: 'name',
-			header: 'Имя'
+			header: 'Имя',
+//			width: 100
 		}, {
 			dataId: 'email',
-			header: 'E-mail'
+			header: 'E-mail',
+//			width: 200
 		}, {
 			dataId: 'date',
-			header: 'Дата'
+			header: 'Дата',
+//			width: 100
 		}],
 		
 		
 		$header_content: {
 			mixins: ['resizable-header']
 		}
+		
+		// content: {
+			// events: {
+				// 'scroll': function(e, w) {
+// //					console.log(w.el.scrollLeft());
+					// w.parent.header.content.el.css('margin-left', -w.el.scrollLeft());
+				// }
+			// }
+		// }
 		
 	}
 
@@ -418,6 +335,7 @@ var EditableGridData = Ergo.data.Collection.extend({
 	}
 	
 });
+
 
 
 
@@ -615,6 +533,116 @@ grid.data.fetch().then(function(){
 
 
 //new DummyGridProvider().get().then(function(data) { console.log(data); });
+
+
+
+
+
+
+var person = {
+	id: 5,
+	first_name: 'Петр',
+	last_name: 'Волков',
+	middle_name: 'Николаевич',
+	birth_date: '12-08-1972',
+	gender: 'female',
+	incidents: 3,
+	post: 'Ведущий специалист',
+	address: '',
+	active: false
+};
+
+
+
+
+
+var grid2 = $.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 300,
+	title: 'Свойства + редактирование',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new Ergo.data.Object(person),
+	
+	content: {
+		
+		etype: 'table-grid',
+		
+		cell: {
+			
+			
+		},
+		
+		columns: [{
+			header: 'Наименование',
+			content: {
+				etype: 'text',
+				format: function(v) {
+					return this.data.id;// this.options.keyFormat(this.data.id);
+				}
+			},
+			binding: false
+		}, {
+			header: 'Значение',
+			binding: false,			
+			// content: {
+				// etype: 'input-editor'
+			// },
+			
+			editorFactory: function() {
+				
+				var o = {etype: 'input-editor'};
+				
+				var id = this.data.id;
+				
+				if(id == 'birth_date') {
+					o.etype = 'date-editor';
+				}
+				else if(id == 'post') {
+					o = {
+						etype: 'dropdown-editor',
+						$dropdown_content_items: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист', 'Консультант', 'Стажер']
+					};
+				}
+				else if(id == 'incidents') {
+					o.etype = 'spinner-editor';
+				}
+				else if(id == 'active') {
+					o = {
+						etype: 'check-box'
+					};
+					this.el.css('text-align', 'center');
+				}
+				
+				
+				return o;
+			},
+			
+			onBound: function() {
+				
+				this.components.set('content', this.options.editorFactory.apply(this));
+				
+			}
+			
+			
+		}],
+		
+		
+		$header_content: {
+			mixins: ['resizable-header']
+		}
+		
+	}
+
+});
+
+grid2.$layoutChanged();
+
+
+
 
 
 
