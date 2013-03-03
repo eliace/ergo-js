@@ -16,14 +16,14 @@ Ergo.declare('Ergo.widgets.SpinnerInput', 'Ergo.widgets.InputBox', {
 				etype: 'icon-button',
 				onClick: function() {
 					this.events.bubble('spin');
-				},
-				components: {
-					icon: {
-						etype: 'pic-icon'
-					}
 				}
+				// components: {
+					// icon: {
+						// etype: 'pic-icon'
+					// }
+				// }
 			},
-			items: [{icon: 'spinner-arrow-up', tag: 'up'}, {icon: 'spinner-arrow-down', tag: 'down'}]
+			items: [{icon: 'icon-caret-up', tag: 'up'}, {icon: 'icon-caret-down', tag: 'down'}]
 		}],
 		
 		onSpin: function(e) {

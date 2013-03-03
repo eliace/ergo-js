@@ -862,7 +862,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
-				var item = self.items.add({'data': e.entry}, e.isLast ? null : e.index);
+				
+				self.children.autobinding = false;
+				var item = self.items.add({}, e.isLast ? null : e.index);
+				self.children.autobinding = true;
+				item.bind(e.entry);
+				
 				item._dynamic = true;
 			}, this);
 			
@@ -877,7 +882,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				//FIXME странное обновление данных
 				var item = self.item({data: e.entry})
 				if(!item) {
-					item = self.items.add({data: e.entry});
+					self.children.autobinding = false;
+					item = self.items.add({});
+					self.children.autobinding = true;
+					
+					item.bind(e.entry);
 					item._dynamic = true;
 				}
 				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
@@ -924,8 +933,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-					var item = self.items.add({autoBind: false});//{ 'data': dataEntry, 'autoUpdate': false });
-					item.options.autoBind = true;
+					self.children.autobinding = false;
+					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
+					self.children.autobinding = false;
+					
 					item.bind(dataEntry, false);
 					item._pivot = false;
 					item._dynamic = true;
@@ -1006,8 +1017,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 			this.data.iterate(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
-				var item = self.items.add({autoBind: false});//{ 'data': dataEntry });
-				item.options.autoBind = true;
+				self.children.autobinding = false;
+				var item = self.items.add({});//{ 'data': dataEntry });
+				self.children.autobinding = false;
+				
 				item.bind(dataEntry);
 				item._pivot = false;
 				item._dynamic = true;

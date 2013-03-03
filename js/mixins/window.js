@@ -483,7 +483,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	Ergo.smart_override(o, {
 		cls: 'e-window',
 		initialWidth: 200,
-		initialHeight: 200
+		initialHeight: 200,
+		autoHeight: 'ignore'
 	});
 	
 	
