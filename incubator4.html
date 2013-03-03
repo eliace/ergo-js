@@ -62,7 +62,7 @@ var w = $.ergo({
 	etype: 'panel',
 	renderTo: 'body',
 	width: 600,
-	height: 300,
+	height: 600,
 	title: 'Форма',
 	cls: 'widget',
 	style: {'margin-bottom': 20},
@@ -71,8 +71,70 @@ var w = $.ergo({
 		
 		layout: 'form',
 		
+		defaultItem: {
+			focusable: true,
+			content: {
+				events: {
+					'focus': function(e, w) {
+						Ergo.focus(w);
+						e.preventDefault();
+					}
+				},
+				tabIndex: 1
+			}
+		},
+		
+		
 		items: [{
+			label: 'Имя',
+			etype: 'input-box'				
+		}, {
+			label: '',
+			etype: 'input-box',
+			content: {
+				etype: 'text-area'
+			}				
+		}, {
+			label: 'Должность',
+			etype: 'dropdown-select',
+			buttons: [{
+				etype: 'icon-button',
+//						icon: 'icon-caret-down'
+			}],								
+			dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист', 'Консультант', 'Стажер'],
 			
+			
+		}, {
+			label: 'Дата рождения',
+			etype: 'select-box',
+			buttons: [{
+				etype: 'icon-button',
+				icon: 'icon-calendar'
+			}],
+			
+		}, {
+			label: 'Файл',
+			etype: 'select-box',
+			buttons: [{
+				etype: 'icon-button',
+				icon: 'icon-paper-clip'
+			}],
+			
+		}, {
+			label: 'Адрес',
+			etype: 'select-box',
+			buttons: [{
+				etype: 'icon-button',
+				icon: 'icon-globe'
+			}],
+			
+		}, {
+			label: '',
+			etype: 'check-box',
+			
+		}, {
+			label: '',
+			etype: 'spinner-input'
 		}]
 		
 		

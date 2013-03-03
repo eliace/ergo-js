@@ -158,6 +158,7 @@ else {
 		
 		var found = null;
 		
+/*		
 		$(el).parents().andSelf().each(function(i, el){
 			
 			var w = $(el).ergo();
@@ -168,6 +169,30 @@ else {
 				return false;
 			}
 		});
+*/
+		
+		var w = null;
+		
+		$($(el).parents().andSelf().get().reverse()).each(function(i, el){
+			
+			var w2 = $(el).ergo();
+			if(w2) {
+				w = w2;
+				return false;
+			}
+			
+		});
+
+		while(w != null) {
+			
+			if(w.options.focusable) {
+				found = w;
+				break;
+			}
+			
+			w = w.parent;
+		}
+		
 		
 		return found;
 	};
@@ -190,14 +215,25 @@ else {
 	$(window).click(function(e){
 
 		// если фокус установлен на один из элементов
-		if(e.button == 0 && _focus) {
+		if(e.button == 0) {
 			
 			var w = E.find_focusable(e.target);
 			
-			if(!w)
-				Ergo.focus();
+//			if(!w)
+			Ergo.focus(w);
 						
 		}
+
+
+		// // если фокус установлен на один из элементов
+		// if(e.button == 0 && _focus) {
+// 			
+			// var w = E.find_focusable(e.target);
+// 			
+			// if(!w)
+				// Ergo.focus();
+// 						
+		// }
 				
 		// убираем фокус по щелчку левой кнопкой мыши
 //		if(e.button == 0) Ergo.mixins.Focusable.focusManager.clear();
@@ -208,10 +244,10 @@ else {
 		
 	if($.browser.msie) {
 	
-		$(document).click(function(e){
-			// убираем фокус по щелчку левой кнопкой мыши
-			if(e.button == 0) Ergo.focus(false);
-		});
+		// $(document).click(function(e){
+			// // убираем фокус по щелчку левой кнопкой мыши
+			// if(e.button == 0) Ergo.focus(false);
+		// });
 	
 		$(document).on('keydown', function(e){
 			Ergo.keypress(e);
@@ -220,10 +256,10 @@ else {
 	}
 	else {
 	
-		$(window).click(function(e){
-			// убираем фокус по щелчку левой кнопкой мыши
-			if(e.button == 0) Ergo.focus(false);
-		});
+		// $(window).click(function(e){
+			// // убираем фокус по щелчку левой кнопкой мыши
+			// if(e.button == 0) Ergo.focus(false);
+		// });
 		
 		
 		if($.browser.webkit) {
