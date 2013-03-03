@@ -83,7 +83,10 @@ body {
 @-moz-document url-prefix() { 
   .widget.e-panel header .title {
      padding: 9px 15px;
-   } 
+   }
+  .e-split-button .e-icon-button {
+    padding: 6px 10px 6px 10px;
+  }
 } 
 
 .e-panel header .e-tool-box {
@@ -239,6 +242,21 @@ button.black:active,
   background-image: -o-linear-gradient(bottom, #3b3b3b, #454545);
   background-image: -ms-linear-gradient(bottom, #3b3b3b, #454545);
   background-image: linear-gradient(to top, #3b3b3b, #454545);
+}
+
+.e-button-item .e-icon {
+  margin: 0 5px 0 10px;  
+}
+
+.e-split-button .e-icon-button {
+  float: right;
+}
+.e-split-button .e-button-item {
+  float: left;
+  min-width: 80px;
+}
+.e-icon-button {
+  padding: 6px 10px 5px 10px;
 }
 
 //Red button
@@ -410,13 +428,15 @@ button.green:active,
 
 // Groups
 
-.e-group  button {
+.e-group  button,
+.e-group  .e-button-item {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
   border-left:0;
   float: left;
   vertical-align: top;
+  margin: 0!important;
 }
 
 .e-group  button:first-child {
@@ -529,12 +549,16 @@ div[layout="form"] {
 .e-input-box > .input-wrapper > input {
   padding: 6px 5px;
 }
+
 .e-current-select {
   padding: 5px 10px;
   font-size: 14px!important;
   color: #666;
   text-shadow: 0 1px #fff;
+  min-width: 30px;
+  float: left;
 }
+
 .e-select-box {
   background-color: #d1d1d1;
   -webkit-box-shadow: 0 5px 5px rgba(0,0,0,.04), inset 0 1px #fff;
@@ -575,10 +599,16 @@ div[layout="form"] {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
 }
+
+
+.e-select-box button {
+  padding: 5px 10px;
+}
+
+
 .e-select-box button:before {
   border: none;
 }
-
 
 //paginator
 .e-grid-paginator input  {
