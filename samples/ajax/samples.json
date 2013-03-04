@@ -17,9 +17,6 @@
 		"title": "События",
 		"name": ["events", "events-2"]
 	}, {
-		"title": "AJAX",
-		"name": ["ajax"]
-	}, {
 		"title": "Модели и коллекции",
 		"name": ["data-model"]
 	}, {
@@ -29,7 +26,10 @@
 }, {
 	"title": "Данные",
 	"name": "data",
-	"children": []
+	"children": [{
+		"title": "AJAX",
+		"name": ["ajax"]
+	}]
 
 }, {
 	"title": "Виджеты",
