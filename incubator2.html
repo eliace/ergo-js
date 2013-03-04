@@ -148,7 +148,18 @@ var w = $.ergo({
 		etype: 'table-grid',
 		
 		$header_content: {
-			mixins: ['resizable-header']
+			mixins: ['resizable-header'],
+			defaultItem: {
+				defaultItem: {
+					components: {
+						menuButton: {
+							etype: 'icon-button',
+							icon: 'icon-caret-down',
+							weight: 20
+						}
+					}
+				}
+			}
 		},
 		
 
