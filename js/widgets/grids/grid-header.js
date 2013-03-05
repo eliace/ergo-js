@@ -90,11 +90,28 @@ Ergo.declare('Ergo.widgets.grid.HeaderCell','Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<th/>',
-		layout: {
-			html: '<span/>'
-		},
-		binding: function(v) { this.opt('text', v); }
+		// layout: {
+			// html: '<span/>'
+		// },
+//		binding: false,
+		content: {
+			etype: 'text',
+			weight: 10
+		}		
+
+
+//		binding: function(v) { this.opt('text', v); }
+		// components: {
+			// content: {
+				// etype: 'text'
+			// }
+		// }
+	},
+	
+	setText: function(v) {
+		this.content.opt('text', v);
 	}
+	
 	
 	
 }, 'grid-header-cell');
