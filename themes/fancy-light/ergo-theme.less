@@ -975,8 +975,12 @@ div[layout="form"] {
   padding:15px;
 }
 
+.e-tree li {
+  cursor: pointer;
+}
 .e-tree li .e-icon {
   margin:0 5px 0 0;
+  color: #555;
 }
 .tree-node-icon {
   float:left;
@@ -1015,10 +1019,18 @@ div[layout="form"] {
 
 .e-tree  span:hover  {
   color:#999;
+  cursor: pointer;
 }
+
 .e-tree li ul {
   margin:0 0 0 20px;
   padding: 0px;
+}
+
+.e-tree .selected .e-icon,
+.e-tree .selected,
+.e-tree .selected span:hover {
+  color: #4187ca;
 }
 
 .tree-node-content {
