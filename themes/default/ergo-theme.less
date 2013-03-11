@@ -301,11 +301,23 @@ ul.ergo_navigation > li a:hover{
 .e-grid td > span {
     padding:7px;
     display:block;
+    float: left;
 }
 
 .e-grid-header th {
   text-align:left;
   border-right:1px solid #ccc;
+  padding: 0;
+  overflow: hidden;
+}
+
+.e-grid-header th span {
+  float: left;
+}
+
+.e-grid-header th .e-icon-button {
+  float: right;
+  margin: 5px;
 }
 
 .e-grid-header th:last-child {
