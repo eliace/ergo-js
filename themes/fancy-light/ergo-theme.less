@@ -171,6 +171,36 @@ button:hover,
   border: solid 1px #c6c6c6;
 }
 
+button.disabled,
+button.disabled:active,
+button.disabled:hover,
+.e-button-item.disabled,
+.e-button-item.disabled:active,
+.e-button-item.disabled:hover {
+  background-color: #d1d1d1;
+  -webkit-box-shadow: 0 5px 5px rgba(0,0,0,.04), inset 0 1px #fff;
+  -moz-box-shadow: 0 5px 5px rgba(0,0,0,.04), inset 0 1px #fff;
+  box-shadow: 0 5px 5px rgba(0,0,0,.04), inset 0 1px #fff;
+  border: solid 1px #d2d2d2;
+  border-bottom: solid 1px #c6c6c6;
+  background-image: -webkit-linear-gradient(bottom, #e1e1e1, #f9f9f9);
+  background-image: -moz-linear-gradient(bottom, #e1e1e1, #f9f9f9);
+  background-image: -o-linear-gradient(bottom, #e1e1e1, #f9f9f9);
+  background-image: -ms-linear-gradient(bottom, #e1e1e1, #f9f9f9);
+  background-image: linear-gradient(to top, #e1e1e1, #f9f9f9);
+  font-size: 14px!important;
+  color: #bbb;
+  text-shadow: 0 1px #fff;
+  padding: 5px 10px!important;
+  cursor: default;
+  opacity: 0.8;
+}
+
+button.disabled:active span,
+.e-button-item.disabled:active span {
+  position: relative;
+  top: 0!important;
+}
 button:active,
 .e-button-item:active,
 button.selected {
