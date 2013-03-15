@@ -643,7 +643,22 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					g.open();
 										
 				}
-			}, {
+			},{
+				etype: 'button-item',
+				text: 'Гроул',
+				onClick: function() {
+					
+					var g = $.ergo({
+						etype: 'growl-dialog',
+						title: 'Успех',
+						message: 'Вы вошли в систему',
+						icon: 'growl-ok-big'						
+					});
+					
+					g.open();
+										
+				}
+			},{
 				etype: 'button-item',
 				text: 'Календарь',
 				onClick: function() {
@@ -1015,7 +1030,12 @@ var GridData = Ergo.data.PageAjaxData.extend({
 					this.content.el.focus();
 				}				
 				
-			}, {
+			},{
+			label: '',
+			etype: 'radio-item',
+			
+		}, 
+			{
 				label: '',
 				etype: 'check-box',
 				

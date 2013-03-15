@@ -962,7 +962,7 @@ div[layout="form"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   background: #fff!important;
-  margin-top: 10px;
+  margin-top: 5px;
   -webkit-box-shadow: 0 0 7px rgba(0,0,0,.15)!important;
   -moz-box-shadow: 0 0 7px rgba(0,0,0,.15)!important;
   box-shadow: 0 0 7px rgba(0,0,0,.15)!important;
@@ -1017,19 +1017,51 @@ div[layout="form"] {
 }
 
 .tree-node-icon {
-  background: url(images/arrow.png) no-repeat!important;
+   font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+
+  /* sprites.less reset */
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+  width: 20px!important;
+  overflow: hidden;
 }
+
+.tree-node-icon:before { content: "\f0da"; }
 .e-tree li > .tree-node-icon:hover {
   background-position:-16px 0!important;
   cursor:pointer;
 }
-.e-tree li.expanded > .tree-node-icon:hover {
-  background-position:-16px -16px!important;
-  cursor:pointer;
+.e-tree li.expanded > .tree-node-icon {
+    font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  width: 20px;
+  /* sprites.less reset */
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
 }
+.e-tree li.expanded > .tree-node-icon:before { content: "\f0d7"; }
 
-.e-tree li.expanded:hover > .tree-node-icon {
-}
 
 .e-tree .e-icon.before {
   float:left;
@@ -1133,4 +1165,182 @@ div[layout="form"] {
     padding:0 0px;
 }
 
+//Growls
+.side-growl {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 18px rgba(0,0,0,.28);
+  -moz-box-shadow: 0 0 18px rgba(0,0,0,.28);
+  box-shadow: 0 0 18px rgba(0,0,0,.28);
+  margin-bottom: 15px;
+  overflow: hidden;
+  padding: 10px;
+}
 
+.growl-container {
+  padding: 15px;
+}
+
+.side-growl-icon {
+  width: 49px;
+  height: 49px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: rgba(249,249,249,.22);
+  -webkit-box-shadow: inset 0 2px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: inset 0 2px 5px rgba(0,0,0,.2);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.2);
+  position: relative;
+  float: left;
+}
+
+.growl-content {
+  float: left;
+  width: 150px;
+  margin-left: 20px;
+}
+
+.growl-content label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.side-growl-icon.growl-error,
+.side-growl-icon.growl-error-big {
+  font-family: FontAwesome;
+  color: #e44f37;
+  font-size: 30px;
+  position: relative;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+.side-growl-icon.growl-error:before,
+.side-growl-icon.growl-error-big:before {
+  content: "\f05c";
+  position: absolute;
+  top: 10px;
+  left: 12px;
+}
+
+.side-growl-icon.growl-ok-big {
+  font-family: FontAwesome;
+  color: #8ec516;
+  font-size: 30px;
+  position: relative;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+
+.side-growl-icon.growl-ok-big:before {
+  content: "\f058";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.side-growl-icon.e-growl-icon-info {
+  font-family: FontAwesome;
+  color: #e1781b;
+  font-size: 30px;
+  position: relative;
+  font-weight: bold;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+
+.side-growl-icon.e-growl-icon-info:before {
+  content: "\f05a";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+
+//Radio buttons 
+.e-radio-box {
+  border: 1px solid transparent;
+  -webkit-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  -moz-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.e-radio-item.focus {
+  border: none;
+}
+.e-radio-item.focus .e-radio-box {
+-webkit-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  -moz-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 4px #3cbcff, inset 0 2px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 0 4px #3cbcff, inset 0 2px 5px rgba(0,0,0,.2);
+  box-shadow: 0 0 4px #3cbcff, inset 0 2px 5px rgba(0,0,0,.2);
+  border: solid 1px #84b2cf;
+}
+
+.e-radio-item.selected .e-checker {
+  -webkit-border-radius: 5px 6px 6px 5px/5px 5px 6px 6px;
+  -moz-border-radius: 5px 6px 6px 5px/5px 5px 6px 6px;
+  border-radius: 5px 6px 6px 5px/5px 5px 6px 6px;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 1px #5fbcf7;
+  -moz-box-shadow: inset 0 1px #5fbcf7;
+  box-shadow: inset 0 1px #5fbcf7;
+  background-image: -webkit-linear-gradient(bottom, #225a89, #4d93dd);
+  background-image: -moz-linear-gradient(bottom, #225a89, #4d93dd);
+  background-image: -o-linear-gradient(bottom, #225a89, #4d93dd);
+  background-image: -ms-linear-gradient(bottom, #225a89, #4d93dd);
+  background-image: linear-gradient(to top, #225a89, #4d93dd);
+  border: none;
+  width: 9px;
+  height: 9px;
+  display: block;
+}
+
+.e-radio-box .e-checker {
+  display: none;
+}
+
+.e-check-box {
+  border: 1px solid transparent;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.e-check-box .e-checker {
+font-family: FontAwesome;
+  color: #3a7ab8;
+  font-size: 11px;
+  position: relative;
+  font-weight: bold;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+.e-check-box .e-checker:before                   { content: "\f00c";top: -2px;position: relative;left: 1px; }
