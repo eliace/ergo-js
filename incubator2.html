@@ -81,7 +81,11 @@ Ergo.declare('Ergo.widgets.grid.TextCell', 'Ergo.widgets.grid.Cell', {
 
 
 
-
+//-------------------------------------------------------
+//
+// Грид
+//
+//-------------------------------------------------------
 
 
 
@@ -176,7 +180,7 @@ var w = $.ergo({
 		columns: [{
 			dataId: 'id',
 			header: 'ID',
-			width: 30
+			width: 50
 		}, {
 			dataId: 'name',
 			header: 'Имя'
@@ -199,6 +203,14 @@ gridData.fetch().then(function(){
 
 
 
+
+
+
+//-------------------------------------------------------
+//
+// Грид + редактирование ячеек
+//
+//-------------------------------------------------------
 
 
 $.ergo({
@@ -307,6 +319,15 @@ $.ergo({
 
 
 
+
+
+
+
+//-------------------------------------------------------
+//
+// Список + редактирование строк
+//
+//-------------------------------------------------------
 
 
 var EditableGridData = Ergo.data.Collection.extend({
@@ -530,6 +551,13 @@ grid.data.fetch().then(function(){
 
 
 
+//-------------------------------------------------------
+//
+// Свойства + редактирование
+//
+//-------------------------------------------------------
+
+
 var person = {
 	id: 5,
 	first_name: 'Петр',
@@ -586,7 +614,7 @@ var grid2 = $.ergo({
 		
 		editorFactory: function() {
 			
-			console.log(this.data.id);
+//			console.log(this.data.id);
 			
 			var o = {etype: 'input-editor'};
 			
@@ -630,6 +658,303 @@ var grid2 = $.ergo({
 
 grid2.$layoutChanged();
 
+
+
+
+
+
+
+var PageDataProvider = {
+	
+	get: function() {
+		
+		var o = this.options;
+		
+		var result = $.Deferred();
+		
+		$.get('samples/ajax/randomdata.csv').then(function(csv){
+
+//		console.log(query);
+		
+			var list = csv.split('\n');
+			
+			// Эмулируем загрузку набора данных
+			var data = [];
+			
+			var from = o.from || 0;
+			var to = Math.min(list.length, o.to || 0);
+			
+			for(var i = from; i < to; i++) {
+				
+				var a = list[i].split('|');
+				
+				data.push({
+					id: a[0],
+					name: a[1],
+					email: a[2],
+					date: a[3]
+				});
+			}
+				
+			
+			
+			var json = {
+				from: from,
+				to: to,
+				total: list.length,
+				data: data
+			};
+			
+//			console.log(json);
+			
+			result.resolve(json);
+			
+		});
+		
+		return result;
+	}
+	
+};
+
+
+
+
+
+
+grid = $.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 400,
+	title: 'Грид + постраничный вывод',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new Ergo.data.PageCollection({provider: PageDataProvider, pageSize: 30}),
+	
+//	autoFetch: true,
+	
+	onFetch: function() {
+		this.$layoutChanged();
+//		console.log('------------------------');
+	},
+	
+	content: {
+		
+		etype: 'table-grid',
+		
+		cell: {
+			etype: 'text-cell'
+		},
+		
+		columns: [{
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}, {
+			dataId: 'date',
+			header: 'Дата'
+		}],
+		
+		
+		$header_content: {
+			mixins: ['resizable-header'],
+			
+			// defaultItem: {
+				// defaultItem: {
+					// content: {
+						// etype: 'text-item',
+						// layout: 'item',
+						// components: {
+							// 'button': {
+								// etype: 'button-item',
+								// icon: 'icon-caret-down'
+							// }
+						// }
+					// }
+				// }
+			// }
+		},
+		
+		
+		$footer: {
+			etype: 'tool-box',
+			hidden: false,
+			items: [{
+				etype: 'grid-paginator',
+				onBound: function() {
+					this.opt('index', 1);
+//					this.$layoutChanged();
+				}
+			}]
+		}
+		
+		
+	},
+	
+	
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+grid = $.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 400,
+	title: 'Грид + постраничный вывод',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new Ergo.data.PageCollection({provider: PageDataProvider, pageSize: 30}),
+	
+//	autoFetch: true,
+	
+	onFetch: function() {
+		this.$layoutChanged();
+//		console.log('------------------------');
+	},
+	
+	content: {
+		
+		etype: 'table-grid',
+		
+		cell: {
+			etype: 'text-cell'
+		},
+		
+		row: {
+			html: '<tr/><tr class="details"/>',
+			layout: {
+				selector: function(item) {
+					if(item._key == 'details')
+						return this.el.eq(1);
+					return this.el.eq(0);
+				}
+			},
+			components: {
+				details: {
+					etype: 'box',
+					html: '<td colspan="4"/>',
+					content: {
+						hidden: true,
+						etype: 'box',
+						layout: 'view',
+						style: {'padding': 10},
+						items: [{
+							etype: 'text',
+							label: 'Имя',
+							dataId: 'name'
+						}, {
+							etype: 'text',
+							label: 'E-mail',
+							dataId: 'email'
+						}, {
+							etype: 'text',
+							label: 'Дата',
+							dataId: 'date'
+						}]
+					},
+					transitions: {
+						'* > expanded': function() {
+							this.content.el.slideDown(300);
+						},
+						'expanded > *': function() {
+							this.content.el.slideUp(300);							
+						}
+					}
+				}
+			}
+		},
+		
+		columns: [{
+			binding: false,
+			content: {
+				etype: 'icon-button',
+//				icon: 'icon-caret-right',
+				style: {'margin-left': 5},
+				$icon: {
+					width: 16,
+					height: 16,
+					style: {'display': 'block'},
+					state: 'icon-caret-right',
+					states: {
+						'expanded': [function() {
+							this.states.only('icon-caret-down', 'icon-');
+						},
+						function() {
+							this.states.only('icon-caret-right', 'icon-');							
+						}]
+					}
+				},
+				onClick: function() {
+					this.icon.states.toggle('expanded');
+					this.parent.parent.details.states.toggle('expanded');
+				}
+			},
+			width: 40
+		}, {
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}, {
+			dataId: 'date',
+			header: 'Дата'
+		}],
+		
+		
+		$header_content: {
+			mixins: ['resizable-header'],
+			
+			// defaultItem: {
+				// defaultItem: {
+					// content: {
+						// etype: 'text-item',
+						// layout: 'item',
+						// components: {
+							// 'button': {
+								// etype: 'button-item',
+								// icon: 'icon-caret-down'
+							// }
+						// }
+					// }
+				// }
+			// }
+		},
+		
+		
+		$footer: {
+			etype: 'tool-box',
+			hidden: false,
+			items: [{
+				etype: 'grid-paginator',
+				onBound: function() {
+					this.opt('index', 1);
+//					this.$layoutChanged();
+				}
+			}]
+		}
+		
+		
+	},
+	
+	
+
+});
 
 
 

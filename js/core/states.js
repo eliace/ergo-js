@@ -133,7 +133,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				this._widget.el.addClass(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if($.isArray(val)) {
-				if(val.length > 0) {				
+				if(val.length > 0) {
 					$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
 						if(add_cls !== false)				
 							self._widget.el.addClass(s);					
