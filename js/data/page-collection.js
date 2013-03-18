@@ -23,7 +23,7 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 		
 		if(o.provider) {
 			var self = this;
-			return o.provider.get.apply(this, [{
+			return o.provider.get.apply(o.provider, [{
 				from: o.from, 
 				to: o.to
 			}]).then(function(response) {
@@ -33,11 +33,14 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 				o.totalCount = response.total;
 				 
 				self.set(response.data); 
-				self._fetched = true; 
+				self._fetched = true;
+				
+				self.events.fire('fetch');
 			});
 		}
 		else {
 			this._fetched = true;			
+			this.events.fire('fetch');
 		}
 		
 	}
