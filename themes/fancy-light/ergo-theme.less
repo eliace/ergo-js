@@ -51,8 +51,10 @@ body {
 
 
 .e-overlay {
-  background-color:rgba(34, 39, 44, 0.85);
+  background:rgba(34, 39, 44, 0.85);
+ 
 }
+
 //Panels
 .widget.e-panel{
   -webkit-border-radius: 5px;
@@ -68,9 +70,9 @@ body {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
   background-color: #fff;
-  -webkit-box-shadow: inset 0 2px #fff;
-  -moz-box-shadow: inset 0 2px #fff;
-  box-shadow: inset 0 2px #fff;
+  -webkit-box-shadow: inset 0 1px #fff;
+  -moz-box-shadow: inset 0 1px #fff;
+  box-shadow: inset 0 1px #fff;
   border-bottom: solid 1px #d2d2d2;
   background-image: -webkit-linear-gradient(bottom, #eee, #f9f9f9);
   background-image: -moz-linear-gradient(bottom, #eee, #f9f9f9);
@@ -558,6 +560,7 @@ div[layout="form"] {
   -moz-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
   box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
   border: solid 1px transparent;
+  background: #fff;
 }
 
 .e-input-box input[type="text"] {
@@ -1115,9 +1118,16 @@ div[layout="form"] {
   float:left;
 } 
 }
+.e-icon.tree-node-icon {
+  background: none;
+}
+
+.expanded > .e-icon.tree-node-icon  {
+  background: none;
+}
 
 .expanded > .e-icon.tree-node-icon {
-  background: url(images/arrow.png) no-repeat 0 -16px!important;
+  background: none;
 }
 
 
