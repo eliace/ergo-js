@@ -8,7 +8,7 @@
 	
 		<link rel="stylesheet/less" href="css/ergo-js.less" type="text/x-less" />
 
-		<link rel="stylesheet/less" href="themes/default/ergo-theme.less" type="text/-less" />
+		<!--link rel="stylesheet/less" href="themes/default/ergo-theme.less" type="text/-less" /-->
 
 		<link rel="stylesheet/less" href="iconsets/font-awesome/less/font-awesome.less" type="text/css" />
 
@@ -91,8 +91,43 @@
 	
 	
 	
-	
 	$(document).ready(function(){
+	
+	
+	
+		$.ergo({
+			etype: 'dropdown-select',
+			renderTo: 'body',
+			style: {'position': 'fixed', 'right': 10, 'top': 10},
+			$dropdown_content_items: ['default', 'fancy-light'],
+			value: 'default',
+			
+			onDataChanged: function() {
+				var v = this.opt('value');
+				
+				$('#ergo-current-theme').remove();
+				
+				var less_file = 'themes/'+v+'/ergo-theme.less';
+				
+				$.ajax({
+					url: less_file,
+					async: false,
+					success: function(data){
+			      var parser = new(less.Parser);
+			      parser.parse(data, function (err, t) {
+			        if (err) { return console.error(err) }
+			        css = t.toCSS();
+			        $('<style id="ergo-current-theme" type="text/css" />').html(css).appendTo("head");
+			          
+			      });
+			   	},
+			   	dataType: 'text'
+				});
+						
+			}
+		});
+	
+	
 	
 	
 	
@@ -160,7 +195,7 @@ var GridData = Ergo.data.PageAjaxData.extend({
 		
 		for(var i = this.options.from; i < to; i++) {
 			
-			var a = list[i].split('|');			
+			var a = list[i].split('|');
 			
 			data.push({
 				id: a[0],

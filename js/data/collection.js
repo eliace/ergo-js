@@ -56,15 +56,19 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		
 		if(this.options.provider) {
 			var self = this;
-			return this.options.provider.get.apply(this, arguments).then(function(data) { 
-				self.set(data); self._fetched = true; 
+			return this.options.provider.get.apply(this.options.provider, arguments).then(function(data) { 
+				self.set(data); 
+				self._fetched = true;
+				self.events.fire('fetch'); 
 			});
 		}
 		else {
 			this._fetched = true;			
+			this.events.fire('fetch'); 
 		}
 		
 	},
+	
 	
 	/**
 	 * Очистка данных => удаление данных из коллекция

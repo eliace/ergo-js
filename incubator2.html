@@ -8,7 +8,7 @@
 	
 		<link rel="stylesheet/less" href="css/ergo-js.less" type="text/x-less" />
 
-		<link rel="stylesheet/less" href="themes/default/ergo-theme.less" type="text/-less" />
+		<!--link rel="stylesheet/less" href="themes/default/ergo-theme.less" type="text/-less" /-->
 
 		<link rel="stylesheet/less" href="iconsets/font-awesome/less/font-awesome.less" type="text/css" />
 
@@ -81,18 +81,101 @@ Ergo.declare('Ergo.widgets.grid.TextCell', 'Ergo.widgets.grid.Cell', {
 
 
 
-
-
-
-
-var GridData = Ergo.data.AjaxCollection.extend({
+Ergo.declare('Ergo.widgets.grid.BasicHeaderCell', 'Ergo.widgets.grid.HeaderCell', {
 	
 	defaults: {
-		url: 'samples/ajax/randomdata.csv',
-		ajax: {
-			dataType: 'text'
+		binding: false,
+		content: {
+			etype: 'box',
+			html: '<span/>',
+			style: {'position': 'relative', 'padding': 0},
+			components: {
+				content: {
+					etype: 'text',
+					style: {'position': 'relative'}
+				},
+				button: {
+					etype: 'icon-button',
+					icon: 'icon-caret-down',
+					weight: 20,
+					style: {'position': 'absolute', 'right': 0, 'top': 0, 'bottom': 0, 'float': 'none', 'margin': 0, 'border-right': 0, 'border-top': 0, 'border-bottom': 0, 'border-radius': 0, 'padding': 0},
+					components: {
+						icon: {
+							width: 16,
+							height: 16,
+							style: {'display': 'block'}							
+						}
+					}
+				}
+			}
 		}
 	},
+	
+	
+	setText: function(v) {
+		this.content.content.opt('text', v);
+	}
+	
+}, 'basic-header-cell');
+
+
+
+
+
+
+		$.ergo({
+			etype: 'dropdown-select',
+			renderTo: 'body',
+			style: {'position': 'fixed', 'right': 10, 'top': 10},
+			$dropdown_content_items: ['default', 'fancy-light'],
+			value: 'default',
+			
+			onDataChanged: function() {
+				var v = this.opt('value');
+				
+				$('#ergo-current-theme').remove();
+				
+				var less_file = 'themes/'+v+'/ergo-theme.less';
+				
+				$.ajax({
+					url: less_file,
+					async: false,
+					success: function(data){
+			      var parser = new(less.Parser);
+			      parser.parse(data, function (err, t) {
+			        if (err) { return console.error(err) }
+			        css = t.toCSS();
+			        $('<style id="ergo-current-theme" type="text/css" />').html(css).appendTo("head");
+			          
+			      });
+			   	},
+			   	dataType: 'text'
+				});
+						
+			}
+		});
+
+
+
+
+
+
+//-------------------------------------------------------
+//
+// Грид
+//
+//-------------------------------------------------------
+
+
+
+var GridData = Ergo.data.Collection.extend({
+	
+	// defaults: {
+		// url: 'samples/ajax/randomdata.csv',
+		// ajax: {
+			// dataType: 'text'
+		// }
+	// },
 
 	
 	parse: function(csv) {
@@ -125,7 +208,7 @@ var GridData = Ergo.data.AjaxCollection.extend({
 });
 
 	
-var gridData = new GridData();
+var gridData = new GridData({provider: new DummyGridProvider()});
 
 
 	
@@ -151,13 +234,7 @@ var w = $.ergo({
 			mixins: ['resizable-header'],
 			defaultItem: {
 				defaultItem: {
-					components: {
-						menuButton: {
-							etype: 'icon-button',
-							icon: 'icon-caret-down',
-							weight: 20
-						}
-					}
+					etype: 'basic-header-cell'
 				}
 			}
 		},
@@ -176,7 +253,7 @@ var w = $.ergo({
 		columns: [{
 			dataId: 'id',
 			header: 'ID',
-			width: 30
+			width: 40
 		}, {
 			dataId: 'name',
 			header: 'Имя'
@@ -201,6 +278,14 @@ gridData.fetch().then(function(){
 
 
 
+
+//-------------------------------------------------------
+//
+// Грид + редактирование ячеек
+//
+//-------------------------------------------------------
+
+
 $.ergo({
 	etype: 'panel',
 	renderTo: 'body',
@@ -210,11 +295,12 @@ $.ergo({
 	cls: 'widget',
 	style: {'margin-bottom': 20},
 	
-	data: new GridData(),
+	data: new GridData({provider: new DummyGridProvider()}),
 	
 	autoFetch: true,
 	
 	onFetch: function() {
+		console.log('--------------------------------');
 		this.$layoutChanged();
 	},
 	
@@ -309,23 +395,32 @@ $.ergo({
 
 
 
-var EditableGridData = Ergo.data.Collection.extend({
-	
-	$construct: function(o) {	
-		this.$super(o);
-		this._provider = new DummyGridProvider();
-	},
-	
-	
-	fetch: function() {
-		var self = this;
-		return this._provider.get().then(function(data){
-			self.set(data);
-			self._fetched = true;
-		});
-	}
-	
-});
+
+
+//-------------------------------------------------------
+//
+// Список + редактирование строк
+//
+//-------------------------------------------------------
+
+
+// var EditableGridData = Ergo.data.Collection.extend({
+// 	
+	// $construct: function(o) {	
+		// this.$super(o);
+		// this._provider = new DummyGridProvider();
+	// },
+// 	
+// 	
+	// fetch: function() {
+		// var self = this;
+		// return this._provider.get().then(function(data){
+			// self.set(data);
+			// self._fetched = true;
+		// });
+	// }
+// 	
+// });
 
 
 
@@ -339,7 +434,7 @@ grid = $.ergo({
 	cls: 'widget',
 	style: {'margin-bottom': 20},
 	
-	data: new EditableGridData(),
+	data: new Ergo.data.Collection({provider: new DummyGridProvider()}),
 	
 	content: {
 		
@@ -530,6 +625,13 @@ grid.data.fetch().then(function(){
 
 
 
+//-------------------------------------------------------
+//
+// Свойства + редактирование
+//
+//-------------------------------------------------------
+
+
 var person = {
 	id: 5,
 	first_name: 'Петр',
@@ -586,7 +688,7 @@ var grid2 = $.ergo({
 		
 		editorFactory: function() {
 			
-			console.log(this.data.id);
+//			console.log(this.data.id);
 			
 			var o = {etype: 'input-editor'};
 			
@@ -630,6 +732,284 @@ var grid2 = $.ergo({
 
 grid2.$layoutChanged();
 
+
+
+
+
+
+
+var PageDataProvider = {
+	
+	get: function(q) {
+		
+//		var o = this.options;
+		
+		var result = $.Deferred();
+		
+		$.get('samples/ajax/randomdata.csv', function(csv){
+
+//		console.log(query);
+		
+			var list = csv.split('\n');
+			
+			// Эмулируем загрузку набора данных
+			var data = [];
+			
+			var from = q.from || 0;
+			var to = Math.min(list.length, q.to || 0);
+			
+			for(var i = from; i < to; i++) {
+				
+				var a = list[i].split('|');
+				
+				data.push({
+					id: a[0],
+					name: a[1],
+					email: a[2],
+					date: a[3]
+				});
+			}
+				
+			
+			
+			var json = {
+				from: from,
+				to: to,
+				total: list.length,
+				data: data
+			};
+			
+//			console.log(json);
+			
+			result.resolve(json);
+			
+		}, 'text');
+		
+		return result;
+	}
+	
+};
+
+
+
+
+
+
+$.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 400,
+	title: 'Грид + постраничный вывод',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new Ergo.data.PageCollection({provider: PageDataProvider, pageSize: 30}),
+	
+//	autoFetch: true,
+	
+	onFetch: function() {
+		this.$layoutChanged();
+	},
+	
+	content: {
+		
+		etype: 'table-grid',
+		
+		cell: {
+			etype: 'text-cell'
+		},
+		
+		columns: [{
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}, {
+			dataId: 'date',
+			header: 'Дата'
+		}],
+		
+		
+		$header_content: {
+			mixins: ['resizable-header'],
+			
+			// defaultItem: {
+				// defaultItem: {
+					// content: {
+						// etype: 'text-item',
+						// layout: 'item',
+						// components: {
+							// 'button': {
+								// etype: 'button-item',
+								// icon: 'icon-caret-down'
+							// }
+						// }
+					// }
+				// }
+			// }
+		},
+		
+		
+		$footer: {
+			etype: 'tool-box',
+			hidden: false,
+			items: [{
+				etype: 'grid-paginator',
+				onBound: function() {
+					this.opt('index', 1);
+//					this.$layoutChanged();
+				}
+			}]
+		}
+		
+		
+	},
+	
+	
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+$.ergo({
+	etype: 'panel',
+	renderTo: 'body',
+	width: 600,
+	height: 400,
+	title: 'Грид + постраничный вывод',
+	cls: 'widget',
+	style: {'margin-bottom': 20},
+	
+	data: new Ergo.data.PageCollection({provider: PageDataProvider, pageSize: 30}),
+	
+	onFetch: function() {
+		this.$layoutChanged();
+	},
+	
+	content: {
+		
+		etype: 'table-grid',
+		
+		cell: {
+			etype: 'text-cell',
+			style: {'border-bottom': 'none'}
+		},
+		
+		row: {
+			html: '<tr/><tr class="details"/>',
+			layout: {
+				selector: function(item) {
+					if(item._key == 'details')
+						return this.el.eq(1);
+					return this.el.eq(0);
+				}
+			},
+			components: {
+				details: {
+					etype: 'box',
+					html: '<td colspan="4"/>',
+					content: {
+						hidden: true,
+						etype: 'box',
+						layout: 'view',
+						style: {'padding': 10, 'border-top': '1px solid #e9e9e9'},
+						items: [{
+							etype: 'text',
+							label: 'Имя',
+							dataId: 'name'
+						}, {
+							etype: 'text',
+							label: 'E-mail',
+							dataId: 'email'
+						}, {
+							etype: 'text',
+							label: 'Дата',
+							dataId: 'date'
+						}]
+					},
+					transitions: {
+						'* > expanded': function() {
+							this.content.el.slideDown(300);
+						},
+						'expanded > *': function() {
+							this.content.el.slideUp(300);
+						}
+					}
+				}
+			}
+		},
+		
+		columns: [{
+			binding: false,
+			content: {
+				etype: 'icon-button',
+//				icon: 'icon-caret-right',
+				style: {'margin-left': 5},
+				$icon: {
+					width: 16,
+					height: 16,
+					style: {'display': 'block'},
+					state: 'icon-caret-right',
+					states: {
+						'expanded': [function() {
+							this.states.only('icon-caret-down', 'icon-');
+						},
+						function() {
+							this.states.only('icon-caret-right', 'icon-');							
+						}]
+					}
+				},
+				onClick: function() {
+					this.icon.states.toggle('expanded');
+					this.parent.parent.details.states.toggle('expanded');
+				}
+			},
+			width: 40
+		}, {
+			dataId: 'name',
+			header: 'Имя'
+		}, {
+			dataId: 'email',
+			header: 'E-mail'
+		}, {
+			dataId: 'date',
+			header: 'Дата'
+		}],
+		
+		
+		$header_content: {
+			mixins: ['resizable-header'],			
+		},
+		
+		
+		$footer: {
+			etype: 'tool-box',
+			hidden: false,
+			items: [{
+				etype: 'grid-paginator',
+				onBound: function() {
+					this.opt('index', 1);
+				}
+			}]
+		}
+		
+		
+	},
+	
+	
+
+});
 
 
 
