@@ -223,7 +223,9 @@ button:active,
   padding: 6px 10px 4px 10px;
 }
 
-
+button.e-icon-button:active {
+  padding: 5px 10px!important;
+}
 
 //Black button
 button.black,
@@ -547,8 +549,10 @@ div[layout="form"] {
 }
 //input
 .e-form-label {
-  font-size: 16px;
+  font-size: 14px;
   color: #444;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .e-input-box {
@@ -556,11 +560,12 @@ div[layout="form"] {
   -moz-border-radius: 5px;
   border-radius: 5px;
   background-color: #fff;
-  -webkit-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
-  -moz-box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
-  box-shadow: 0 1px #eee, inset 0 2px 5px rgba(0,0,0,.2);
+  -webkit-box-shadow: inset 0 2px 5px rgba(0,0,0,.2);
+  -moz-box-shadow:inset 0 2px 5px rgba(0,0,0,.2);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.2);
   border: solid 1px transparent;
   background: #fff;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .e-input-box input[type="text"] {
@@ -975,6 +980,14 @@ div[layout="form"] {
 .e-list-box {
   padding-bottom: 0;
 }
+
+.e-form-item .e-list-box {
+  background: none!important;
+  background-color: none!important;
+  background-image: none!important;
+  color: #444;
+}
+
 .e-list-box .selected,
 .e-list-box .selected:hover {
   background: none!important;
@@ -1295,6 +1308,7 @@ div[layout="form"] {
 .e-radio-item.focus {
   border: none;
 }
+
 .e-radio-item.focus .e-radio-box {
 -webkit-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
   -moz-border-radius: 7px 8px 8px 7px/7px 7px 8px 8px;
@@ -1340,17 +1354,29 @@ div[layout="form"] {
   padding: 0;
   margin: 0;
   margin-right: 10px;
+  -webkit-font-smoothing: antialiased;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-.e-check-box .e-checker {
+.e-check-box.checked .e-checker {
 font-family: FontAwesome;
   color: #3a7ab8;
-  font-size: 11px;
-  position: relative;
-  font-weight: bold;
+  font-size: 15px;
+  position: absolute;
   font-weight: normal;
   font-style: normal;
+  margin-left: -1px;
   text-decoration: inherit;
   -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.e-check-box .e-checker:before                   { content: "\f00c";top: -2px;position: relative;left: 1px; }
+.e-check-box.checked .e-checker:before                   { content: "\f00c";top: -2px;position: relative;left: 1px; }
