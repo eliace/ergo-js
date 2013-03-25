@@ -88,8 +88,10 @@ Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		if(flex) {
 			this.content.content.el.css('width', '100%');
 			
-			this.header.content.el.width(0);
+//			this.header.content.el.width(0);
+			this.header.content.el.css('position', 'absolute');//.width(0);
 			var w = this.content.content.el.width();
+			this.header.content.el.css('position', '');//.width(0);
 			this.header.content.el.width(w);
 			
 		}

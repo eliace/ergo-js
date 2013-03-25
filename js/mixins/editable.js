@@ -67,6 +67,9 @@ Ergo.declare_mixin('Ergo.mixins.Editable', function(o) {
 
 	this.stopEdit = function() {
 		
+		if(!this.options.editable) return;
+		
+		
 		this.children.remove_at('_editor').destroy(); // удаляем и уничтожаем компонент
 		
 		

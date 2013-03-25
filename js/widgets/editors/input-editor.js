@@ -23,11 +23,11 @@ Ergo.declare('Ergo.widgets.InputEditor', 'Ergo.widgets.InputBox', {
 		},
 		
 		onFocusOut: function() {
-			if(this.parent && this.options.stopOnFocusOut) this.parent.stopEdit();					
+			if(this.parent && this.options.stopOnFocusOut && this.parent.stopEdit) this.parent.stopEdit();					
 		},
 		
 		onChange: function() {
-			if(this.parent && this.options.stopOnChange) this.parent.stopEdit();			
+			if(this.parent && this.options.stopOnChange && this.parent.stopEdit) this.parent.stopEdit();			
 		}
 		
 	}
