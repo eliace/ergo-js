@@ -198,7 +198,7 @@
 	});
 
 
-	var treeData = new FileTreeModel();//{url: 'plugins/ajax-tree/ajax/tree'});
+	var treeData = new FileTreeModel();
 	
 	var w = $.ergo({
 		etype: 'panel',
@@ -219,7 +219,10 @@
 			
 			mixins: ['selectable'],
 			
-			node: {				
+			node: {
+				onBound: function() {
+					this.states.set('expanded');
+				},
 				content: {
 					cls: 'cursor-default',
 					binding: function(v) {

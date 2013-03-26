@@ -206,6 +206,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			if(this.el) this.el.remove();
 			// очищаем регистрацию обработчиков событий
 			this.events.unreg_all();
+			// очищаем регистрацию обработчиков событий
+			Ergo.event_bus.unreg(this);
 			// очищаем компоновку
 			this.layout.clear();
 			
@@ -445,12 +447,20 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		if('events' in o){
-			for(var i in o.events){
+			for(var i in o.events){				
 				var callback_a = o.events[i];
 				callback_a = $.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
 				for(var j in callback_a) {
 					var callback = callback_a[j];
-					self.el.on(i, callback.rcurry(self));
+					
+					if(i.indexOf('bus:') == 0) {
+						// EventBus
+						Ergo.event_bus.reg(i, callback, this);
+					}
+					else {
+						// HTML
+						self.el.on(i, callback.rcurry(self));						
+					}
 				}
 			}
 		}		
