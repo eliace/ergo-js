@@ -110,6 +110,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		var item_el = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
 		
+		if(item_el != item.el) {
+			item._wrapper = item_el;
+		}
+		
 		// if(selector) {
 			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
 		// }
@@ -209,7 +213,12 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 * @param {Object} item
 	 */
 	remove: function(item) {
-		item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+		
+		if(item._wrapper)
+			item._wrapper.remove();
+		else
+			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+			
 		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);		
 	},
 	

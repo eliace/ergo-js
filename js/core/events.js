@@ -301,6 +301,9 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 
 
+Ergo.event_bus = new Ergo.events.Observer();
+
+
 
 
 
