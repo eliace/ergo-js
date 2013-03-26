@@ -4,6 +4,10 @@
 Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 	
 	
+//	o.defaultItem.hidden = true;
+//	o.defaultComponent.hidden = true;
+	
+	
 	this.setActive = function(i) {
 		
 		if(i === undefined || i === null) {
@@ -25,6 +29,10 @@ Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 		
 		return child;
 	}
+	
+	
+	o.active = ('active' in o) ? o.active : 0;
+	
 	
 	
 	
