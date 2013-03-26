@@ -18,8 +18,18 @@ Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 		var child = (i instanceof Ergo.core.Widget) ? i : this.children.find( Ergo.by_widget(i) );
 		
 		this.children.each(function(c){
-			var m = (c != child) ? 'hide' : 'show';
-			(c._wrapper) ? c._wrapper[m]() : c[m]();
+			
+			if(c == child) {
+				c.show();
+			}
+			else {
+				// var el = (c._wrapper) ? c._wrapper : c.el;
+				// if(el.is(':visible'))
+				c.hide();
+			}
+			
+//			var m = (c != child) ? 'hide' : 'show';
+			
 //			(c != child) ? c.hide() : c.show();
 		});
 		

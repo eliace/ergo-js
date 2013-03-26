@@ -16,7 +16,9 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 		
 //		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
 //		return deferred;
-		return $.when( this.el[effects.show](effects.delay) );
+		var el = this._wrapper || this.el;
+
+		return $.when( el[effects.show](effects.delay) );
 	};
 	
 	
@@ -35,7 +37,9 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 		// this.el[effects.hide](effects.delay, function(){ deferred.resolve(); });
 		// return deferred;		
 
-		return $.when( this.el[effects.hide](effects.delay) );
+		var el = this._wrapper || this.el;
+
+		return $.when( el[effects.hide](effects.delay) );
 	};
 	
 	
