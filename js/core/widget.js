@@ -591,12 +591,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	show: function() {
-		return $.when( this.el.show() );
+		return $.when( (this._wrapper || this.el).show() );
 	},
 	
 	
 	hide: function() {
-		return $.when( this.el.hide() );
+		return $.when( (this._wrapper || this.el).hide() );
 	},
 	
 	
