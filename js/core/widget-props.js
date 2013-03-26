@@ -35,7 +35,7 @@ Ergo.core.WidgetProperties = {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},
 	setHidden: function(v) {
-		this.el.css('display', v ? 'none' : '');
+		(this._wrapper || this.el).css('display', v ? 'none' : '');
 	}
 	
 };
