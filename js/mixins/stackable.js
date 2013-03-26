@@ -41,7 +41,7 @@ Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 	}
 	
 	
-	o.active = ('active' in o) ? o.active : 0;
+	o.active = ('active' in o) ? o.active : undefined;
 	
 	
 	
