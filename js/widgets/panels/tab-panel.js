@@ -34,8 +34,9 @@ Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				}
 			},
 			content: {
-				layout: 'stack',
+//				layout: 'stack',
 				cls: 'e-tabs-content',
+				mixins: ['stackable'],
 				defaultItem: {
 					autoHeight: 'ignore-siblings'
 				}

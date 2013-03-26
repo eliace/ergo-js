@@ -14,7 +14,9 @@ Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 		var child = (i instanceof Ergo.core.Widget) ? i : this.children.find( Ergo.by_widget(i) );
 		
 		this.children.each(function(c){
-			(c != child) ? c.hide() : c.show();
+			var m = (c != child) ? 'hide' : 'show';
+			(c._wrapper) ? c._wrapper[m]() : c[m]();
+//			(c != child) ? c.hide() : c.show();
 		});
 		
 		if(child) child.$layoutChanged();
