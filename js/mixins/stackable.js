@@ -3,9 +3,8 @@
 
 Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 	
-	
-//	o.defaultItem.hidden = true;
-//	o.defaultComponent.hidden = true;
+//	o.defaultItem.hideOnRender = true;
+//	o.defaultComponent.hideOnRender = true;
 	
 	
 	this.setActive = function(i) {
@@ -41,7 +40,11 @@ Ergo.declare_mixin('Ergo.mixins.Stackable', function(o) {
 	}
 	
 	
-	o.active = ('active' in o) ? o.active : undefined;
+	// this.children.reg('item:add', function(e){
+		// e.item.hide();
+	// });
+	
+//	o.active = ('active' in o) ? o.active : undefined;
 	
 	
 	

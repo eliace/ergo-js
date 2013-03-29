@@ -455,7 +455,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					
 					if(i.indexOf('bus:') == 0) {
 						// EventBus
-						Ergo.event_bus.reg(i, callback, this);
+						Ergo.event_bus.reg(i.substring(4), callback, this);
 					}
 					else {
 						// HTML

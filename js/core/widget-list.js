@@ -93,7 +93,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		
 //		console.log('item:add');
-//		this.events.fire('item:add', {'item': item});
+		this.events.fire('item:add', {'item': item});
 		
 		return item;
 	},
