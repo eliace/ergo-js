@@ -110,7 +110,7 @@ Ergo.declare('Ergo.mixins.Growl.Container', 'Ergo.core.Widget', {
 			item.show();
 		});				
 		
-		item._wrapper = wrapper;
+//		item._growl_wrapper = wrapper;
 		
 		
 		if(this.options.timeout) {

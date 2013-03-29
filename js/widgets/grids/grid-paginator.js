@@ -69,6 +69,7 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			if(action == 'current') {
 				i = Math.max(1, e.index);
 				i = Math.min(page_count, i);
+//				i = Math.max(1, i);
 			}
 			else if(action == 'backward') i = 1;
 			else if(action == 'previous') i = Math.max(1, i-1);
@@ -79,6 +80,8 @@ Ergo.declare('Ergo.widgets.GridPaginator', 'Ergo.widgets.Box', {
 			
 			var from = (i-1) * this.data.options.pageSize;
 			var to = i * this.data.options.pageSize;
+			
+			from = Math.max(0, from);
 			
 			this.data.opt('from', from);
 			this.data.opt('to', to);
