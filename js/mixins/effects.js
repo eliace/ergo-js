@@ -17,6 +17,9 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 //		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
 //		return deferred;
 		var el = this._wrapper || this.el;
+		
+		// FIXME экспериментальный код
+		if(el.is(':visible')) el.hide();
 
 		return $.when( el[effects.show](effects.delay) );
 	};
