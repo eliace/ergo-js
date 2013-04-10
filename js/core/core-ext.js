@@ -10,7 +10,9 @@ String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.substring(1);
 };
 
-
+String.prototype.trim = function(){
+	return this.replace(/^\s+|\s+$/g, '');
+};
 
 /**
  * Добавление карринга к классу Function

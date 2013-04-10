@@ -425,6 +425,140 @@ $.ergo({
 
 
 
+Ergo.declare('Ergo.widgets.GridRowDialog', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		
+		cls: 'editor-holder',
+		width: '100%',
+		defaultItem: {
+			style: {'display': 'table-cell', 'border-right': '1px solid transparent'},
+		},
+		
+	},
+	
+	
+	
+	open: function(grid, row, data) {
+		
+		// создаем вуаль
+		var veil = $.ergo({
+			etype: 'box',
+			style: {'position': 'relative'},
+			content: {
+				etype: 'box',
+				style: {'position': 'absolute', 'background-color': 'rgba(0, 0, 0, 0.2)'},
+				content: {
+					etype: 'box',
+					style: {'position': 'absolute', 'background-color': '#fff'}
+				}
+			},
+			weight: -1000
+		});
+		
+		
+		grid.content.components.set('_veil', veil);			
+		
+		veil.content.el.width( grid.content.el.prop('scrollWidth') );
+		veil.content.el.height( grid.content.el.prop('scrollHeight') );
+		
+		var dh = row.el.offset().top - veil.el.offset().top;
+		
+		var box = veil.content.content;
+		
+		box.el.width(row.el.outerWidth(true));
+//			box.el.height(row.el.outerHeight(true));
+		box.el.css({'top': dh});
+		
+		
+		var row_items = [];
+		
+		row.items.each(function(col) {
+			row_items.push({
+				width: col.el.width(),
+				dataId: col.data.id
+			});
+			
+			if(col.opt('editable')) {
+				row_items[row_items.length-1].content = {
+					etype: 'input-box',
+					width: 0,
+					style: {'margin': 7}
+				}
+			}
+			else {
+				Ergo.smart_override(row_items[row_items.length-1], {
+					items: [{
+						etype: 'icon-button',
+						icon: 'icon-ok',
+						style: {'color': '#9ad902'},
+						onClick: function() {
+							row.data.set( self.data.get() );
+							$.when(veil.el.fadeOut(300)).then(function(){
+								veil.destroy();									
+							});
+						}						
+					}, {
+						etype: 'icon-button',
+						icon: 'icon-ban-circle',
+						style: {'color': '#f00'},
+						onClick: function() {
+							$.when(veil.el.fadeOut(300)).then(function(){
+								veil.destroy();									
+							});
+						}
+					}],
+					style: {'text-align': 'center'}
+				});
+				
+			}
+			
+			
+		});
+		
+		
+		var self = this;
+		
+		Ergo.each(row_items, function(o) {
+			self.items.add(o);
+		});
+		
+		this.bind( Ergo.deep_copy(data) );
+		
+		
+		veil.content.content.components.set('_editor', this);
+		
+		row.items.each(function(col, i) {
+			
+			if(col.opt('editable')) {
+			
+				var w = self.item(i).layout.el.innerWidth();
+				
+				var input = self.item(i).content;
+				
+				var dw = input.el.outerWidth(true) - input.el.width();
+
+				input.el.width(w - dw);
+			}
+			
+		});
+		
+		
+		veil.hide();
+		
+		veil.el.fadeIn(300);
+		
+		
+	}
+	
+	
+	
+}, 'grid-row-dialog');
+
+
+
+
+
 grid = $.ergo({
 	etype: 'panel',
 	renderTo: 'body',
@@ -495,7 +629,16 @@ grid = $.ergo({
 		onEdit: function(e) {
 			var row = e.target.parent;
 			
+
+			var row_dialog = $.ergo({
+				etype: 'grid-row-dialog',
+//				items: row_items,
+//				data: row.data
+			});
 			
+			row_dialog.open(this, row, row.data.get());
+			
+/*			
 			var veil = $.ergo({
 				etype: 'box',
 				style: {'position': 'relative'},
@@ -569,14 +712,8 @@ grid = $.ergo({
 			
 			
 			var row_editor = $.ergo({
-				etype: 'box',
+				etype: 'row-editor',
 				items: row_items,
-				
-				cls: 'editor-holder',
-				width: '100%',
-				defaultItem: {
-					style: {'display': 'table-cell', 'border-right': '1px solid transparent'},
-				},
 				data: row.data
 			});
 			
@@ -605,6 +742,7 @@ grid = $.ergo({
 			
 			// row.column(1).startEdit();
 			// row.column(0).startEdit();
+*/			
 		}
 		
 	}
