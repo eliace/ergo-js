@@ -182,7 +182,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			this.entries
 				.filter(function(e){
 					//FIXME упрощенная проверка присутствия ключа
-					return (newValue[e.id] === undefined);
+					return (newValue && newValue[e.id] === undefined);
 				})
 				.each(function(e){	
 					e.destroy(); 
