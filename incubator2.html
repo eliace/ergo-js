@@ -549,7 +549,21 @@ Ergo.declare('Ergo.widgets.GridRowDialog', 'Ergo.widgets.Box', {
 		veil.el.fadeIn(300);
 		
 		
+		this._veil = veil;
+	},
+	
+	
+	close: function() {
+		
+		var self = this;
+		
+		$.when(self._veil.el.fadeOut(300)).then(function(){
+			self._veil.destroy();									
+		});
+		
 	}
+	
+	
 	
 	
 	

@@ -101,10 +101,18 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 		this._uploader.el.attr('target', 'upload'+target_name);
 		
 		if(data) {
-			var data_el = $('<input name="data"/>');
-			data_el.val(JSON.stringify(data));
-			this._uploader.el.append(data_el);			
+			for(var name in data) {
+				var val = data[name];
+				var data_el = $('<input name="'+name+'"/>');
+				data_el.val(val);
+				this._uploader.el.append(data_el);			
+			}
+			
+			// var data_el = $('<input name="data"/>');
+			// data_el.val(JSON.stringify(data));
+			// this._uploader.el.append(data_el);			
 		}
+
 		
 		this._uploader.el.submit();
 		
