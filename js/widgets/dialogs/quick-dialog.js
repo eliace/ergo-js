@@ -73,9 +73,17 @@ Ergo.declare('Ergo.widgets.QuickDialog', 'Ergo.widgets.Panel', {
 		
 		var button_items = [];
 		
+		// for(var i = 0; i < o.buttons.length; i++) {
+			// button_items.push( o.buttonShortcuts[o.buttons[i]] );
+		// }
+		
 		for(var i = 0; i < o.buttons.length; i++) {
-			button_items.push( o.buttonShortcuts[o.buttons[i]] );
+			if($.isString(o.buttons[i]))
+				button_items.push( o.buttonShortcuts[o.buttons[i]] );
+			else
+				button_items.push( o.buttons[i] );
 		}
+		
 
 		o.components.footer.components.toolbox.items = button_items;
 		
