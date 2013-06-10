@@ -420,7 +420,9 @@ var Ergo = (function(){
 	
 	
 	
-	
+	E.sort_numbers = function(a, b) {
+		return a - b;
+	};
 	
 	
 	

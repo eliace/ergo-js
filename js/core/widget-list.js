@@ -257,7 +257,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 */
 	remove_if: function(criteria) {
 		var keys = Ergo.filter_keys(this._source(), criteria);
-		keys.sort().reverse();
+		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
 		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
 		return removed;
@@ -436,7 +436,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 	remove_all: function() {
 		var src = this._source();
 		for(var i = 0; i < src.length; i++)
-			this.remove_at(i);
+			this.remove(src[i]);//_at(src[i]._index);
 	}
 	
 	

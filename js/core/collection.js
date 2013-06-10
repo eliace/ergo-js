@@ -112,7 +112,7 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 */
 	remove_if: function(criteria) {
 		var keys = Ergo.filter_keys(this.src, criteria);
-		keys.sort().reverse();
+		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
 		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
 		return removed;
