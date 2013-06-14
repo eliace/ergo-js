@@ -457,8 +457,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 						// EventBus
 						Ergo.event_bus.reg(i.substring(4), callback, this);
 					}
+					else if(i.indexOf('jquery:') == 0) {
+						// jQuery
+						Ergo.event_bus.reg(i.substring(7), callback, this);
+					}
 					else {
-						// HTML
+						// TODO здесь должны добавляться обработчики событий виджета
 						self.el.on(i, callback.rcurry(self));						
 					}
 				}
