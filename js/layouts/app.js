@@ -12,18 +12,18 @@ Ergo.declare('Ergo.layouts.AppLayout', 'Ergo.core.Layout', {
 	select: function(item) {
 		var region = item.options.region || item._key;
 		if(region == 'west') {
-			var el = $('aside.west', this.el);
+			var el = $('aside.west', this.el).first();
 			el.removeClass('hidden');
 			return el;
 		}
 		if(region == 'east') {
-			var el = $('aside.east', this.el);
+			var el = $('aside.east', this.el).first();
 			el.removeClass('hidden');
 			return el;
 		}
-		if(region == 'center') return $('div.center > div', this.el);
-		if(region == 'west-split') return $('div.west-split', this.el);
-		if(region == 'east-split') return $('div.east-split', this.el);
+		if(region == 'center') return $('div.center > div', this.el).first();
+		if(region == 'west-split') return $('div.west-split', this.el).first();
+		if(region == 'east-split') return $('div.east-split', this.el).first();
 		
 		return this.el;
 	},
