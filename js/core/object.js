@@ -155,7 +155,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	opt: function(o) {
 		var opts = o;
 		if(arguments.length == 2){
-			opts = {}
+			opts = {};
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
@@ -175,7 +175,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 //			}
 		}
 		
-		Ergo.smart_override(this.options, opts);
+//		Ergo.smart_override(this.options, opts);
+		Ergo.override(this.options, opts);
 
 		this.$opt(opts);
 		
