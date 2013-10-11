@@ -95,6 +95,9 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 				overlay.detach();				
 			});
 			$.when( wnd[wnd_eff.hide](wnd_eff.delay) ).done(function(){
+
+				self.events.fire('closed');
+
 				if(self.options.destroyOnClose)	self.destroy();
 				
 				if(self._body_scroll_lock) {
@@ -102,7 +105,6 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 					$('body').css('overflow-y', 'auto');
 				}
 								
-				self.events.fire('closed');
 			});
 			
 			
