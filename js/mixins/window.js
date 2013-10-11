@@ -13,7 +13,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	
 	this._body_scroll_lock = {
 		margin_right: 0
-	}
+	};
 	
 	
 	this.window = {
@@ -68,6 +68,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			
 			
 			return $.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
+				self._is_window_visible = true;
 				self.events.fire('open');
 				self.$layoutChanged();
 			});
@@ -76,7 +77,12 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 		},
 		
 		close: function() {
-
+			
+			
+			if(!self._is_window_visible) return;
+			
+			
+			
 			var wnd = self.el;
 			var overlay = self.overlay_el;
 	
@@ -96,10 +102,12 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 					$('body').css('overflow-y', 'auto');
 				}
 								
+				self.events.fire('closed');
 			});
 			
 			
 						
+			self._is_window_visible = false;
 			
 	//		this.el.detach();
 	
@@ -298,7 +306,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 		}
 		
 				
-	}
+	};
 	
 	
 /*	
