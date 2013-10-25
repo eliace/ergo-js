@@ -82,10 +82,11 @@ Ergo.declare('Ergo.widgets.UploadBox', 'Ergo.widgets.Box', {
 				'load': function(e, w) {
 					//FIXME это работает не для всех браузеров
 					var text = w.el[0].contentWindow.document.body.innerHTML;
+					
 					//FIXME проверка на text == null некорректна
 					if(text) {
 						var m = text.match(/^<pre.*>(.*)<\/pre>$/);
-						var text2 = (m) ? m[1] : null;
+						var text2 = (m) ? m[1] : text;
 
 //						w.events.bubble('upload', {textData: text, data: data});
 						
