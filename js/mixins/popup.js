@@ -14,7 +14,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 //		if(arguments.length == 0) return;
 		
 		if(arguments.length == 2) {
-			position = {offset: [arguments[0], arguments[1]]}
+			position = {offset: [arguments[0], arguments[1]]};
 		}
 		
 //		var c = this.container;
@@ -241,7 +241,7 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			// }
 		},
 		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты
-	})
+	});
 	
 	o.position = Ergo.smart_override({
 		to: null, 
