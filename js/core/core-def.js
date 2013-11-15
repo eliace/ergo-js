@@ -184,7 +184,8 @@ var Ergo = (function(){
 				}
 				else {
 					o[i] = m;
-					if(j in o) delete o[j];
+					o[j] = p;
+//					if(j in o) delete o[j];
 				}				
 				
 			}

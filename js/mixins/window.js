@@ -43,28 +43,30 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			
 			
 			
+			if( !self.options.scrollLock ) {
 			
-			var body_mr = $('body').css('margin-right');
-			var body_w0 = $('body').outerWidth(true);
-			$('body').css('overflow-y', 'hidden');
-			var body_w1 = $('body').outerWidth(true);
-			
-			// если присутствует полоса прокрутки, то заменяем ее на отступ
-			if(body_w1 > body_w0) {
-				var scrollbar_w = body_w1 - body_w0;
 				var body_mr = $('body').css('margin-right');
+				var body_w0 = $('body').outerWidth(true);
+				$('body').css('overflow-y', 'hidden');
+				var body_w1 = $('body').outerWidth(true);
 				
-				this._body_scroll_lock = {margin_right: body_mr};
-				
-				if(body_mr.substr(body_mr.length-2) == 'px') body_mr = parseInt(body_mr) + scrollbar_w;
-				
-				$('body').css('margin-right', body_mr);
-				
-			}
-			else {
-				this._body_scroll_lock = false;
-			}
+				// если присутствует полоса прокрутки, то заменяем ее на отступ
+				if(body_w1 > body_w0) {
+					var scrollbar_w = body_w1 - body_w0;
+					var body_mr = $('body').css('margin-right');
+					
+					this._body_scroll_lock = {margin_right: body_mr};
+					
+					if(body_mr.substr(body_mr.length-2) == 'px') body_mr = parseInt(body_mr) + scrollbar_w;
+					
+					$('body').css('margin-right', body_mr);
+					
+				}
+				else {
+					this._body_scroll_lock = false;
+				}
 			
+			}
 			
 			
 			return $.when( wnd[wnd_eff.show](wnd_eff.delay) ).done(function(){
@@ -494,7 +496,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 		cls: 'e-window',
 		initialWidth: 200,
 		initialHeight: 200,
-		autoHeight: 'ignore'
+		autoHeight: 'ignore',
+		scrollLock: true
 	});
 	
 	
