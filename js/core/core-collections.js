@@ -41,7 +41,7 @@
 				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
 			}	
 		}
-	}
+	};
 	
 	/**
 	 * Фильтрация (как правило приводит к уменьшению размерности)
@@ -198,7 +198,7 @@
 		for(var i in obj) {
 			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
 		}
-	}
+	};
 	
 	/**
 	 * Вызов метода для всех элементов коллекции
@@ -219,7 +219,7 @@
 		for(var i in obj) {
 			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args);
 		}
-	}
+	};
 	
 	
 	
@@ -237,7 +237,7 @@
 //		for(var i = 0; i < arr.length; i++)
 //			if(arr[i] == val) return true;
 		return false;
-	}
+	};
 	
 	E.contains = E.includes;
 
@@ -249,7 +249,7 @@
 		var n = 0;
 		for(var i in obj) n++;
 		return n;
-	}
+	};
 	
 	
 	

@@ -58,7 +58,7 @@ var Ergo = (function(){
 		}
 		
 		return o;
-	}
+	};
 	
 	
 	
@@ -148,11 +148,11 @@ var Ergo = (function(){
 				
 				if(keep_prefix) {
 					o[j] = m;
-					if(i in o) delete o[i]
+					if(i in o) delete o[i];
 				}
 				else {
-					o[i] = m
-					if(j in o) delete o[j]
+					o[i] = m;
+					if(j in o) delete o[j];
 				}
 				
 				// if(!(i in o)) o[i] = [];
@@ -162,7 +162,31 @@ var Ergo = (function(){
 				
 			}
 			else if(prefix == '-') {
-				//TODO
+				
+				m = [];
+				
+				if(i in o)
+					m = o[i];
+				if(j in o)
+					m = o[j];
+				
+				if( !$.isArray(m) ) m = [m];
+				
+				if( !$.isArray(p) ) p = [p];
+				
+				for(var k = 0; k < p.length; k++)
+					Ergo.remove_from_array(m, p[k]);
+				
+				
+				if(keep_prefix) {
+					o[j] = m;
+					if(i in o) delete o[i];
+				}
+				else {
+					o[i] = m;
+					if(j in o) delete o[j];
+				}				
+				
 			}
 			else {
 				m = p;
@@ -172,11 +196,11 @@ var Ergo = (function(){
 			
 			if(keep_prefix) {
 				o[j] = m;
-				if(i in o) delete o[i]
+				if(i in o) delete o[i];
 			}
 			else {
-				o[i] = m
-				if(j in o) delete o[j]
+				o[i] = m;
+				if(j in o) delete o[j];
 			}
 			
 //			if(j in o && !_clear) delete o[j];
@@ -213,7 +237,7 @@ var Ergo = (function(){
 			}
 		}
 		
-	}
+	};
 	
 	
 	
@@ -226,7 +250,7 @@ var Ergo = (function(){
 		for(var i in src)
 			smart_override_prop(dest, src, i, context);
 		
-	}
+	};
 	
 	
 	
@@ -281,7 +305,7 @@ var Ergo = (function(){
 			// _keep_keys = false;
 		
 		return o;
-	}
+	};
 	
 	
 	
@@ -308,7 +332,7 @@ var Ergo = (function(){
 		_clear = false;
 		
 		return this;
-	}
+	};
 	
 	
 	
