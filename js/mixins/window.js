@@ -43,7 +43,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			
 			
 			
-			if( !self.options.scrollLock ) {
+			if( self.options.scrollLock ) {
 			
 				var body_mr = $('body').css('margin-right');
 				var body_w0 = $('body').outerWidth(true);
