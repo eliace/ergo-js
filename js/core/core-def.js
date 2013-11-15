@@ -163,30 +163,31 @@ var Ergo = (function(){
 			}
 			else if(prefix == '-') {
 				
-				m = [];
+				// TODO
 				
-				if(i in o)
-					m = o[i];
-				if(j in o)
-					m = o[j];
-				
-				if( !$.isArray(m) ) m = [m];
-				
-				if( !$.isArray(p) ) p = [p];
-				
-				for(var k = 0; k < p.length; k++)
-					Ergo.remove_from_array(m, p[k]);
-				
-				
-				if(keep_prefix) {
-					o[j] = m;
-					if(i in o) delete o[i];
-				}
-				else {
-					o[i] = m;
-					o[j] = p;
-//					if(j in o) delete o[j];
-				}				
+				// m = [];
+// 				
+				// if(i in o)
+					// m = o[i];
+				// if(j in o)
+					// m = o[j];
+// 				
+				// if( !$.isArray(m) ) m = [m];
+// 				
+				// if( !$.isArray(p) ) p = [p];
+// 				
+				// for(var k = 0; k < p.length; k++)
+					// Ergo.remove_from_array(m, p[k]);
+// 				
+// 				
+				// if(keep_prefix) {
+					// o[j] = m;
+					// if(i in o) delete o[i];
+				// }
+				// else {
+					// o[i] = m;
+					// if(j in o) delete o[j];
+				// }				
 				
 			}
 			else {
