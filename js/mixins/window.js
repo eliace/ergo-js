@@ -11,9 +11,9 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	var self = this;
 	
 	
-	this._body_scroll_lock = {
-		margin_right: 0
-	};
+	// this._body_scroll_lock = {
+		// margin_right: 0
+	// };
 	
 	
 	this.window = {
@@ -496,10 +496,10 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 		cls: 'e-window',
 		initialWidth: 200,
 		initialHeight: 200,
-		autoHeight: 'ignore',
-		scrollLock: true
+		autoHeight: 'ignore'
 	});
 	
+	if(!('scrollLock' in o)) o.scrollLock = true;
 	
 	
 }, 'window');
