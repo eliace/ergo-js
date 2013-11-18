@@ -234,7 +234,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				components: {
 					content: o.content
 				}
-			})
+			});
 		}
 
 
