@@ -38,7 +38,7 @@ Ergo.declare_mixin('Ergo.mixins.Dropdownable', function(o){
 			
 	//			var selected = this.dropdown.content.items.find(function(item){ return (item.opt('value') == v); });
 			this.selection.set(selected);
-			this.events.bubble('select');			
+//			this.events.bubble('select');			
 			this.opt('text', selected ? selected.opt('text') : '');
 		}
 		
