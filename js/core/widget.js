@@ -519,9 +519,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		
 		if('onClick' in o)
-			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e) });
+			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); });
 		if('onDoubleClick' in o)
-			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e) });
+			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e); });
 		
 		
 		
@@ -530,7 +530,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		// добавляем метод bubble к events
 		this.events.bubble = function(name, e) {
-			if(!e) e = {}
+			if(!e) e = {};
 			e.after = Ergo.bubble;
 			e.target = e.target || self;
 			this.fire(name, e);
@@ -894,7 +894,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// если элемент данных изменен, то создаем новую привязку к данным
 			this.data.events.reg('entry:changed', function(e){
 				//FIXME странное обновление данных
-				var item = self.item({data: e.entry})
+				var item = self.item({data: e.entry});
 				if(!item) {
 					self.children.autobinding = false;
 					item = self.items.add({});
@@ -987,7 +987,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(update !== false) this.$dataChanged();
 
 
-		this.data.events.reg('fetch', function(){ self.events.fire('fetch') });
+		this.data.events.reg('fetch', function(){ self.events.fire('fetch'); });
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
 		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });

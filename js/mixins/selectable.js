@@ -8,7 +8,7 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
 		this.$super(o);
 //		Ergo.SelectionManager.superclass.initialize.apply(this, arguments);
 		
-		this.widget = widget
+		this.widget = widget;
 		this.selection_a = [];
 		
 	},
@@ -106,7 +106,7 @@ Ergo.declare_mixin('Ergo.mixins.Selectable', function(o) {
 				self.selection.set(e.target);
 			});
 		}
-	}
+	};
 	
 	
 	// перехватываем событие select
