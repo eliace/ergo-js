@@ -9,7 +9,7 @@ Dir.mkdir('build') if not File.exist?('build')
 Dir.mkdir('docs') if not File.exist?('docs') 
 
 
-ERGOJS_VERSION = '0.9.2'
+ERGOJS_VERSION = '0.10'
 
 
 class SourceFile

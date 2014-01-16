@@ -51,7 +51,7 @@
 //			_etypes[overrides.etype] = ctor;
 		
 		// добавляем классу метод extend
-		ctor.extend = function(o) { return E.extend(this, o); }
+		ctor.extend = function(o) { return E.extend(this, o); };
 		
 		return ctor;
 	};
@@ -194,7 +194,7 @@
 	 */
 	$.isClass = function(obj) {
 		return $.isFunction(obj) && (obj.superclass !== undefined);
-	}
+	};
 	
 	
 	
