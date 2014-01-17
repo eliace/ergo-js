@@ -60,14 +60,14 @@
 	/**
 	 * Рекурсивный обход всех базовых классов 
 	 * 
-	 * @name Ergo.hierarchy
+	 * @name Ergo.walk_hierarchy
 	 * @function
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса
 	 */
-	E.hierarchy = function(ctor, callback) {
+	E.walk_hierarchy = function(ctor, callback) {
 		if(!ctor) return;
-		E.hierarchy(ctor.super_ctor, callback);
+		E.walk_hierarchy(ctor.super_ctor, callback);
 		callback.call(this, ctor.prototype);
 	};
 	
@@ -185,7 +185,7 @@
 	
 	
 	/**
-	 * Является ли объект ergo-классом
+	 * Является ли объект классом
 	 * 
 	 * @name $.isClass
 	 * @function

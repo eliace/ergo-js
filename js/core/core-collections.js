@@ -68,7 +68,8 @@
 		}
 		return result;
 	};
-		
+	
+	
 	
 	/*
 	 * Фильтрация ключей.
@@ -91,6 +92,7 @@
 		}
 		return result;
 	};
+	
 	
 	
 	
@@ -148,6 +150,7 @@
 	 * @function
 	 */
 	E.find_all = E.filter;
+	
 	
 	
 	/**
@@ -240,6 +243,7 @@
 	};
 	
 	E.contains = E.includes;
+	E.is_include = E.includes;
 
 	
 	
@@ -256,13 +260,15 @@
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)
 	 * 
-	 * @name Ergo.array_remove
+	 * @name Ergo.remove
 	 * @function
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
 	
-	E.remove_from_array = function(arr, val) {
+	//TODO в качестве значения может выступать критерий, а удаление может происходить как из массива, так и из хэша
+	
+	E.remove = function(arr, val) {
 		var index = -1;
 		for(var i = 0; i < arr.length; i++) {
 			if(arr[i] == val) {

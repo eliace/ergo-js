@@ -50,7 +50,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	 * @param {Object} i
 	 */
 	remove_at: function(i) {
-		var item = this.src[i]
+		var item = this.src[i];
 		this.src.splice(i, 1);
 		return item;
 //		this.events.fire('item:removed', {'item': item});

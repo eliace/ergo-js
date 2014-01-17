@@ -48,7 +48,7 @@ Ergo.declare('Ergo.SelectionManager', 'Ergo.core.Object', {
       });
     }
     else if(ctrlKey) {
-      ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Ergo.remove_from_array(this.selection_a, w);
+      ( w.states.toggle('selected') ) ? this.selection_a.push(w) : Ergo.remove(this.selection_a, w);
     }
     else {
     	// если элемент уже выбран - повторная выборка не производится

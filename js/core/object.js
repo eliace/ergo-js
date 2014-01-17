@@ -45,7 +45,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		// 
 		if(!this.constructor.NO_REBUILD_SKELETON) {
 			var prevDefaults = null;
-			Ergo.hierarchy(this.constructor, function(clazz){
+			Ergo.walk_hierarchy(this.constructor, function(clazz){
 				if(clazz.defaults == prevDefaults) return;
 				if('defaults' in clazz) Ergo.smart_override(o, clazz.defaults);
 				prevDefaults = clazz.defaults; 

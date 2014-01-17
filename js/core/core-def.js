@@ -442,7 +442,7 @@ var Ergo = (function(){
 		for(var i = 0; i < list.length; i++)
 			if(!list[i].call(this, val)) return false;
 		return true;
-	}
+	};
 	
 	
 	
