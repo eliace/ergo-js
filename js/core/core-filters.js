@@ -11,7 +11,7 @@
 
 
 	// "пустой" фильтр
-	F.noop = function(){ return false };
+	F.noop = function(){ return false; };
 	// по индексу
 	F.by_index = function(index, child, i){ return index == i; };
 	// по совпадению набора свойств
@@ -23,7 +23,7 @@
 	// по классу
 	F.by_class = function(clazz, child){
 		return (child instanceof clazz);
-	}
+	};
 	
 	
 	
@@ -78,7 +78,7 @@
 		else if( $.isFunction(i) ) f = i;
 		
 		return f;
-	}
+	};
 
 
 

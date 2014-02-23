@@ -53,7 +53,7 @@
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}
 		else
-			return obj
+			return obj;
 		
 	};
 	
@@ -103,11 +103,11 @@
 		var values = [];
 		for(var i = 1; i < arguments.length; i++) values.push(arguments[i]);
 		return format_str.replace(/(%s)/g, function(str) {
-			var replace_val = ''
+			var replace_val = '';
 			if(str == '%s') replace_val = ''+values.shift();
 			return replace_val;
 		});
-	}
+	};
 	
 	/**
 	 * Форматированный вывод объекта
@@ -137,7 +137,7 @@
 			for(var i = 0; i < arr.length; i++) o = o[arr[i]]; 
 			return o;
 		});		
-	}
+	};
 
 
 

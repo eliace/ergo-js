@@ -275,6 +275,6 @@ Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	
 	return obj;
 }
-
+;
 
 Ergo.defineMixin = Ergo.declare_mixin;

@@ -324,17 +324,6 @@ Ergo.Observable = function() {
 		}
 	}
 	
-}
+};
 
 
-/*
-Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', {
-	
-	initialize: function() {
-		Ergo.events.Observer.superclass.initialize.apply(this, arguments);
-		
-		this.events = new Ergo.events.Dispatcher(this);
-	}
-	
-});
-*/

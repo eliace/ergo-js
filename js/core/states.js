@@ -80,7 +80,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			var result = def.action.call(this._widget);
 			
 //			if(result && result.done)
-			deferreds.push(result)
+			deferreds.push(result);
 //				deferred = $.when(result);
 		}
 		
@@ -108,7 +108,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			}			
 			
 			// 3. включаем итоговое состояние
-			self.state_on(to);
+			self._state_on(to);
 			self._current[to] = from;
 			
 			// 4. оповещаем виджет, что состояние изменилось
@@ -120,7 +120,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	
-	state_on: function(s) {
+	_state_on: function(s) {
 		
 		var self = this;
 		var states = this._states;//this._widget.options.states;
@@ -159,7 +159,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	
-	state_off: function(s) {
+	_state_off: function(s) {
 
 		var self = this;
 		var states = this._states;//this._widget.options.states;
@@ -254,11 +254,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		// 2. 
 		for(var i = 0; i < to.length; i++) {
 			self._current[to[i]] = [from];
-			if(to[i] in states) self.state_on(to[i]); //states[to[i]].call(self._widget);
+			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 		
 		// 3.
-		self.state_off(from);
+		self._state_off(from);
 		
 		delete self._current[from];		
 		
@@ -361,7 +361,7 @@ Ergo.Statable = function(o) {
 			this.states.state(i, o.states[i]);
 		// настраиваем особое поведение состояния hover
 		if('hover' in o.states){
-			this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
+			this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
 		}
 	}
 	
@@ -380,7 +380,7 @@ Ergo.Statable = function(o) {
 	}
 	
 	
-}
+};
 
 
 

@@ -71,14 +71,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	},
 	
 	
-//	auto_height: function(enable) {
-//		this.options.autoHeight = enable;
-//		(enable) ? this.el.attr('autoheight', 'true') : this.el.removeAttr('autoheight');
-//	},
-	
-//	add: function(item) {},
-
-
+	/**
+	 * jQuery-элемент, куда будут добавляться виджеты
+	 *  
+	 */
 	select: function(item) {
 		return this.el;
 //		var o = this.options;
@@ -89,7 +85,6 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 
-//	text: function
 
 	/**
 	 * добавление нового элемента-виджета в компоновку
@@ -106,17 +101,14 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 		var o = this.options;
 
+		// выбираем элемент, куда будет добавляться элемент-виджет
 		var el = (o.selector) ? o.selector.call(this, item) : this.select(item);
-		
+		// создаем обертку (если она необходима) для элемента-виджета
 		var item_el = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
 		
 		if(item_el != item.el) {
 			item._wrapper = item_el;
 		}
-		
-		// if(selector) {
-			// el = $.isFunction(selector) ? selector.call(this) : $(selector, el);
-		// }
 		
 		// если вес не указан, то вес считается равным 0
 		var weight = item.options.weight || 0;
@@ -203,6 +195,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		// else
 			// index.el.before(item.el);
 		
+		// deprecated
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
 	},
@@ -301,7 +294,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 						el.siblings().not('td, :hidden').each(function(i, sibling){
 							sibling = $(sibling);
 							if(sibling.attr('autoHeight') != 'ignore') 
-								dh += sibling.outerHeight(true)
+								dh += sibling.outerHeight(true);
 						});
 					}
 				}
