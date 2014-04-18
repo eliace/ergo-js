@@ -47,6 +47,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 			
 				var body_mr = $('body').css('margin-right');
 				var body_w0 = $('body').outerWidth(true);
+				var overflow_y = $('body').css('overflow-y');
 				$('body').css('overflow-y', 'hidden');
 				var body_w1 = $('body').outerWidth(true);
 				
@@ -55,7 +56,7 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 					var scrollbar_w = body_w1 - body_w0;
 					var body_mr = $('body').css('margin-right');
 					
-					this._body_scroll_lock = {margin_right: body_mr};
+					self._body_scroll_lock = {margin_right: body_mr};
 					
 					if(body_mr.substr(body_mr.length-2) == 'px') body_mr = parseInt(body_mr) + scrollbar_w;
 					
@@ -63,7 +64,10 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 					
 				}
 				else {
-					this._body_scroll_lock = false;
+					self._body_scroll_lock = false;
+					
+					// восстанавливаем overflow
+					$('body').css('overflow-y', overflow_y);
 				}
 			
 			}

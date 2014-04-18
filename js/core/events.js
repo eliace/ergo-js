@@ -313,7 +313,7 @@ Ergo.Observable = function() {
 	
 	var o = this.options;
 	
-	var regexp = /^on\S/;
+	var regexp = /^on[A-Z]/;
 	for(var i in o){
 		if(regexp.test(i)){
 			var name = i.charAt(2).toLowerCase() + i.slice(3);
@@ -324,7 +324,7 @@ Ergo.Observable = function() {
 		}
 	}
 	
-}
+};
 
 
 /*
