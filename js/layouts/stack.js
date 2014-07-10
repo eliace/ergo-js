@@ -27,7 +27,7 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		};
 		
 		this.container.getActive = function() {
-			return self.active;
+			return self._active;
 		};
 		
 	},
@@ -52,7 +52,12 @@ Ergo.declare('Ergo.layouts.StackLayout', 'Ergo.core.Layout', /** @lends Ergo.lay
 		
 		if(child.layout) child.$layoutChanged();
 		
-		this.active = child;
+		if(this._active)
+			this._active.states.unset('active');
+		
+		this._active = child;
+		
+		this._active.states.set('active');
 		
 		return child;
 	}

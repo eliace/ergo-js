@@ -1,5 +1,4 @@
 
-//= require <core/widget>
 
 /**
  * Якорь

@@ -12,6 +12,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		this._current = {};
 		this._states = {};
 		this._transitions = [];
+		this._exclusives = [];
 	},
 	
 	
@@ -28,6 +29,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		});
 		
 	},
+	
+	exclusive: function(name/*. group*/) {
+		var excl_template = new RegExp('^'+name+'.*$');		
+		this._exclusives.push(excl_template);
+	},
+	
 	
 	
 	state: function(name, value) {
@@ -74,6 +81,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				// from.push(i);
 			// }
 		// }
+		
+		if( this._is_exclusive(to) ) {
+			
+			for(var i in this._current)
+				if(this._is_exclusive(i))
+					this.unset(i);
+			
+		}
+		
+		
+		
 		
 		
 		if(from.length == 0 && def) {
@@ -201,7 +219,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	
-	
+	_is_exclusive: function(s) {
+		
+		for(var i = 0; i < this._exclusives.length; i++) {
+			if(s.match(this._exclusives[i])) return true;
+		}
+		
+		return false;
+	},
+
 	
 	unset: function(from) {
 		
@@ -376,6 +402,13 @@ Ergo.Statable = function(o) {
 				if(a.length == 1) a.push('');
 				this.states.transition($.trim(a[0]) || '*', $.trim(a[1]) || '*', t);					
 			}
+		}
+	}
+	
+	
+	if('exclusives' in o) {
+		for(var i in o.exclusives) {
+			this.states.exclusive(o.exclusives[i]);//excl_template);
 		}
 	}
 	

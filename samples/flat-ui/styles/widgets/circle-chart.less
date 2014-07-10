@@ -1,0 +1,243 @@
+.circle-chart-widget {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  width: 200px;
+  height: 200px;
+  //overflow: hidden;
+  .rounded(100%);
+  
+  .circle-wrapper {
+    background-color: #2D3641;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .rounded(100%);
+    
+    
+    
+    .circle-part-1 {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 50%;
+      background-color: #2980b9;
+
+      //overflow: hidden;
+     .border-radius( 100%, 0 , 0, 0);
+    }
+    
+    .circle-part-2 {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display:none;
+      background-color: #2980b9;
+      overflow: hidden;
+      .border-radius( 0, 100% , 0, 0);
+    }
+    
+    .circle-part-3 {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      display:none;
+      background-color: #2980b9;
+      overflow: hidden;
+      .border-radius( 0, 0, 100%, 0);     
+    }
+    
+    .circle-part-4 {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display:none;
+      background-color: #2980b9;
+      overflow: hidden;
+      .border-radius( 0, 0, 0, 100%);   
+    }
+    
+    .circle-overlay {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 50%;
+      background-color: #2D3641;
+      .trans-origin(0 100%);
+      .transition;
+      .border-radius( 100%, 0 , 0, 0);
+
+    }
+    
+    .circle-overlay-fix {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #2D3641;
+      .trans-origin(0 100%);
+      .transition;
+      .border-radius( 99%, 0 , 0, 0);
+      overflow: hidden;
+    }
+    .circle-overlay-fix:before {
+      content: ' ';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #2D3641;
+      .trans-origin(0 100%);
+      .transition;
+      .border-radius( 44%, 0 , 0, 0);
+    }
+  .circle-overlay-fix:after {
+      content: ' ';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #2D3641;
+      .trans-origin(0 100%);
+      .transition;
+      .border-radius( 99%, 0 , 0, 0);
+    }    
+    .circle-hole {
+      width: 70%;
+      height: 70%;
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      background-color: #1b242d;
+      .rounded(100%);
+      z-index: 11;
+      overflow: hidden;
+    }
+  }
+}
+
+
+@iterations: 100;
+.per-loop (@i) when (@i > 0) {
+    .per-@{i} {
+      .circle-overlay{.rotation(@deg:((@i)*3.6deg));};
+     }
+    .per-loop(@i - 1);
+}
+.per-loop (@iterations);
+
+.per-26,
+.per-27,
+.per-28,
+.per-29,
+.per-30,
+.per-31,
+.per-32,
+.per-33,
+.per-34,
+.per-35,
+.per-36,
+.per-37,
+.per-38,
+.per-39,
+.per-40,
+.per-41,
+.per-42,
+.per-43,
+.per-44,
+.per-45,
+.per-46,
+.per-47,
+.per-48,
+.per-49,
+.per-50 {
+  .circle-part-2 {display: block!important;}
+}
+
+.per-51,
+.per-52,
+.per-53,
+.per-54,
+.per-55,
+.per-56,
+.per-57,
+.per-58,
+.per-59,
+.per-60,
+.per-61,
+.per-62,
+.per-63,
+.per-64,
+.per-65,
+.per-66,
+.per-67,
+.per-68,
+.per-69,
+.per-70,
+.per-71,
+.per-72,
+.per-73,
+.per-74,
+.per-75 {
+  .circle-part-2 {display: block!important;}
+  .circle-part-3 { display: block!important;}
+}
+
+.per-76,
+.per-77,
+.per-78,
+.per-79,
+.per-80,
+.per-81,
+.per-82,
+.per-83,
+.per-84,
+.per-85,
+.per-87,
+.per-88,
+.per-89,
+.per-90,
+.per-91,
+.per-92,
+.per-93,
+.per-94,
+.per-95,
+.per-96,
+.per-97,
+.per-98,
+.per-99,
+.per-100 {
+    .circle-part-1 {z-index: 10;}
+    .circle-part-2 {display: block!important;}
+    .circle-part-3 { display: block!important;}
+   .circle-part-4 { display: block!important;}
+}
+
+
+///test data
+.test-circle {
+  display: table;
+  width: 100%!important;
+  height: 100%!important;
+  background: transparent!important;
+  color: #fff!important;
+  text-align: center!important;
+  font-size: 2em;
+ .outline(@first-axis: 0, @second-axis: 0px, @third-axis: 0, @blur: 0, @out-color: transparent)!important;
+  border: 0!important;
+  .rounded(100%;)!important;
+}
+
+.test-circle:focus {
+ .outline(@first-axis: 0, @second-axis: 0px, @third-axis: 0, @blur: 0, @out-color: transparent)!important;
+  border: 0!important;
+}

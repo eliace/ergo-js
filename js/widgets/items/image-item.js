@@ -1,7 +1,5 @@
 
 
-//= require <mixins/labelable>
-
 
 Ergo.declare('Ergo.widgets.ImageItem', 'Ergo.widgets.Box', {
 	

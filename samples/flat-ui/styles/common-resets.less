@@ -1,0 +1,45 @@
+//Resets
+* {outline: none;}
+ul {list-style: none; margin: 0; padding: 0; left: 0;}
+
+//States
+.underlined {
+  text-decoration: underline;
+}
+
+.outline(@first-axis: 0, @second-axis: 0px, @third-axis: 0, @blur: @outline-size, @out-color: @l-blue-color){
+  -webkit-box-shadow: @first-axis @second-axis @third-axis @blur @out-color;
+  -moz-box-shadow: @first-axis @second-axis @third-axis @blur @out-color;
+  box-shadow: @first-axis @second-axis @third-axis @blur @out-color;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: @normal-font-weigh;
+  font-size: 100%;
+  line-height: @base-line;
+  background-color: @first-bg-color;
+  color: @base-text-color;
+}
+
+//Clearfix
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}

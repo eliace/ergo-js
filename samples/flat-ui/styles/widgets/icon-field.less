@@ -1,0 +1,32 @@
+//INPUT WITH ICON BUTTON
+.icon-input-button {
+  position: absolute;
+  right: 0;
+  padding: 0 10px;
+  height: @input-height;
+  background: none!important;
+  color: #627C94;
+  margin: 0;
+}
+
+.icon-input-button:active,
+.icon-input-button:focus,
+.icon-input-button:hover {
+   color: #1b242d
+ }
+ 
+.icon-input-button + .icon-input-button {
+  position: absolute;
+  height: @input-height;
+  background: none!important;
+  right: 30px;
+  padding: 0;
+}
+
+.icon-input-button + input {
+  padding-right: 30px;
+}
+
+.icon-input-button + .icon-input-button + input {
+  padding-right: 60px;
+}

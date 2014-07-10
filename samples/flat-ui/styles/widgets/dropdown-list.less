@@ -1,0 +1,13 @@
+.fm-dropdown-panel {
+ position: relative;
+
+ //show dropdown list
+  .selector-button:focus + .fm-simple-list {
+     position: absolute;
+     display: table;
+     left: 0;
+     top: 0;
+     margin-top: @select-button-height;
+     z-index: 100;
+   }
+}

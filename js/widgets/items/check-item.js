@@ -1,5 +1,5 @@
 
-//= require <widgets/check-box>
+//= require <widgets/boxes/check-box>
 //= require <mixins/labelable>
 
 

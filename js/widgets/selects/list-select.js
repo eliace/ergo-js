@@ -1,5 +1,5 @@
 
-//= require <widgets/list-box>
+//= require <widgets/boxes/list-box>
 
 Ergo.declare('Ergo.widgets.ListSelect', 'Ergo.widgets.Box', {
 	

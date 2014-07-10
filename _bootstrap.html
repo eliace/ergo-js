@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>bootstrap</title>
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+		
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.css">
+
+		<link rel="stylesheet" href="samples/bootstrap/docs.min.css">
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="lib/misc/jquery-1.11.0.min.js"></script>
+		
+		<!-- ErgoJS -->
+		<script type="text/javascript" src="build/ergojs-core.js"></script>
+		<script type="text/javascript" src="build/ergojs-widgets.js"></script>
+		
+	</head>
+
+	<body>
+	
+	
+	<script type="text/javascript">
+		
+$(document).ready(function(){		
+		
+		
+		Ergo.defineClass('Bootstrap.docs.Callout', 'Ergo.widgets.Box', {
+			
+			defaults: {
+				cls: 'bs-callout',
+				state: 'danger',
+				components: {
+					title: {
+						etype: 'title',
+						html: '<h4/>'
+					},
+					content: {
+						etype: 'para'
+					}
+				},
+				states: {
+					'danger': 'bs-callout-danger',
+					'info': 'bs-callout-info'
+				},
+				exclusives: ['danger', 'info']
+			},
+			
+			setTitle: function(v){ 
+				this.title.opt('text', v); 
+			},
+
+			setText: function(v){ 
+				this.content.opt('innerHtml', v); 
+			}
+			
+//			etype: 'bs-callout'
+			
+		}, 'bs-callout');
+		
+		
+		
+		
+		var w = $.ergo({
+			renderTo: 'body',
+			etype: 'box',
+			
+			defaultItem: {
+				etype: 'box',
+				width: '75%',
+				cls: 'bs-docs-section',
+				components: {
+					header: {
+						html: '<h1/>',
+						cls: 'page-header'
+					}
+				},
+				set: {
+					header: function(v) {this.header.opt('text', v);}
+				}
+			},
+			
+			
+			items: [{
+				header: 'Glyphicons',
+				items: [{
+					html: '<h2/>',
+					text: 'Available Glyphs'
+				}, {
+					etype: 'para',
+					innerHtml: 'Includes 200 glyphs in font format from the Glyphicon Halflings set. <a href="http://glyphicons.com/">Glyphicons</a> Halflings are normally not available for free, but their creator has made them available for Bootstrap free of cost. As a thank you, we only ask that you include a link back to <a href="http://glyphicons.com/">Glyphicons</a> whenever possible.' 
+				}, {
+					etype: 'box',
+					cls: 'bs-glyphicons',
+					content: {
+						etype: 'list',
+						cls: 'bs-glyphicons-list',
+						defaultItem: {
+							components: {
+								icon: {
+									etype: 'text',
+									cls: 'glyphicon'
+								},
+								title: {
+									etype: 'text',
+									cls: 'glyphicon-class'
+								}
+							},
+							set: {
+								icon: function(v) { this.icon.states.set(v); },
+								title: function(v) { this.title.opt('text', v); }
+							}
+						},
+						items: [
+							{icon: 'glyphicon-asterisk', title: 'glyphicon glyphicon-asterisk'},
+							{icon: 'glyphicon-plus', title: 'glyphicon glyphicon-plus'},
+							{icon: 'glyphicon-euro', title: 'glyphicon glyphicon-euro'},
+							{icon: 'glyphicon-minus', title: 'glyphicon glyphicon-minus'},
+							{icon: 'glyphicon-cloud', title: 'glyphicon glyphicon-cloud'},
+							{icon: 'glyphicon-envelope', title: 'glyphicon glyphicon-envelope'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'},
+							{icon: 'glyphicon-', title: 'glyphicon glyphicon-'}
+						]
+					}
+				}, {
+					html: '<h2/>',
+					text: 'How to use'					
+				}, {
+					etype: 'para',
+					innerHtml: 'For performance reasons, all icons require a base class and individual icon class. To use, place the following code just about anywhere. Be sure to leave a space between the icon and text for proper padding.'
+				}, {
+					etype: 'bs-callout',
+					title: "Don't mix with other components",
+					text: 'Icon classes cannot be directly combined with other components. They should not be used along with other classes on the same element. Instead, add a nested <code>&lt;span&gt;</code> and apply the icon classes to the <code>&lt;span&gt;</code>.'
+				}, {
+					etype: 'bs-callout',
+					title: "Only for use on empty elements",
+					text: 'Icon classes should only be used on elements that contain no text content and have no child elements.'
+				}, {
+					etype: 'bs-callout',
+					state: 'info',
+					title: "Changing the icon font location",
+					text: 'Bootstrap assumes icon font files will be located in the <code>../fonts/</code> directory, relative to the compiled CSS files. Moving or renaming those font files means updating the CSS in one of three ways:',
+					components: {
+						list: {
+							etype: 'list',
+							items: [
+								{innerHtml: 'Change the <code>@icon-font-path</code> and/or <code>@icon-font-name</code> variables in the source Less files.'},
+								{innerHtml: 'Utilize the <a href="http://lesscss.org/usage/#command-line-usage-relative-urls">relative URLs option</a> provided by the Less compiler.'},
+								{innerHtml: 'Change the <code>url()</code> paths in the compiled CSS.'},
+							]
+						},
+						text2: {
+							etype: 'para',
+							text: 'Use whatever option best suits your specific development setup.'
+						}
+					}
+				}]
+			}]
+			
+			
+		});
+		
+		
+		w.$doLayout();
+		
+});		
+		
+		
+	</script>
+	
+	
+	</body>
+</html>

@@ -1,6 +1,6 @@
 
 //= require <mixins/labelable>
-//= require <widgets/radio-box>
+//= require <widgets/boxes/radio-box>
 
 Ergo.declare('Ergo.widgets.RadioItem', 'Ergo.widgets.Box', {
 	

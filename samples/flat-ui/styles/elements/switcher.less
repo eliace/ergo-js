@@ -1,0 +1,54 @@
+/* SWITCHERS */
+.fm-switcher-item {
+  position: relative;
+  margin: 0 0 10px 0;
+  
+  .switcher {
+    position: absolute;
+  
+    .checkbox { 
+      display: none; 
+    }
+    
+    .trigger {
+      cursor: pointer;
+      position: relative;
+      float: left;
+      width: 30px;
+      height: @checkbox-size;
+      background: @switcher-background;
+      overflow: hidden;
+      .transition;
+      .rounded(@big-radius);
+    }
+    
+    .checkbox:checked + .trigger { 
+      background: @switcher-checked-background; 
+    }
+    
+    .trigger:before {
+      content: '';
+      position: absolute;
+      top: 0; 
+      left: 0; 
+      bottom: 0;
+      width: 12px; 
+      height: 12px;
+      margin: auto 4px;
+      background-color: @switcher-trigger-color;
+      .transition;
+      .rounded(@big-radius);
+    }
+    
+    .checkbox:checked + .trigger:before { 
+      left: 10px;
+      background-color: @switcher-checked-trigger-color;
+    }
+  }
+  
+  .value {
+    color: @base-text-color;
+    margin: 0 0 0 40px;
+    font-size: 1em;
+  }
+}

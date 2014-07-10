@@ -1,5 +1,6 @@
 
 //= require "object"
+//= require "events"
 
 /**
  * Коллекция пар ключ/значение

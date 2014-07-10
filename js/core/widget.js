@@ -605,6 +605,27 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
+	
+	
+	$doLayout: function() {
+		
+		var self = this;
+
+		this.components.each(function(item){
+			if(!item.options.autoRender)
+				self.layout.add(item);
+			item.$doLayout();
+		});
+
+		this.items.each(function(item){
+			if(!item.options.autoRender)
+				self.layout.add(item, item._index);
+			item.$doLayout();
+		});
+		
+	},
+	
+	
 	/**
 	 * Хук, вызываемый для определения тэга, на основе которого будет построен виджет
 	 * 

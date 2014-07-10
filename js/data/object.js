@@ -5,9 +5,6 @@
 /**
  * Источник данных как объект.
  * 
- * @example
- * 
- * 
  * 
  * @class
  * @name Ergo.data.Object

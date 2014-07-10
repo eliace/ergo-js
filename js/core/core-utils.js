@@ -176,6 +176,14 @@
 
 
 
+	//FIXME по большому счету это нужно только для корректной работы с событиями клавиатуры
+	/*Browser detection patch*/
+	E.browser = {};
+	E.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+	E.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+	E.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+	E.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+
 
 
 })();

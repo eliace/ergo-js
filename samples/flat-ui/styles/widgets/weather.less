@@ -1,0 +1,58 @@
+//WEATHER WIDGET
+.fm-weather-widget {
+  display: table;
+  
+  .weather-sign-place {
+    background-color: @weather-widget-sign-background;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    padding: @weather-widget-padding;
+  }
+  
+  .weather-info {
+    background-color: @weather-info-background;
+    
+    display: table-cell;
+    padding: @weather-widget-padding;
+    vertical-align: middle;
+    text-align: center;
+    
+    h4 {
+      margin: 0;
+    }
+    
+    span {
+      margin: 0;
+      font-size: 0.750em;
+    }
+  }
+}
+
+.fm-weather-big {
+  .weather-sign-place {
+    height: @weather-widget-height;
+   
+    i {
+      font-size: @weather-widget-sign-size;
+    }
+  }
+  
+  .weather-info {
+    height: @weather-widget-height;
+  }
+}
+
+.fm-weather-small {
+  .weather-sign-place {
+    height: @weather-widget-height / 1.3333;
+   
+    i {
+      font-size: @weather-widget-sign-size / 1.5;
+    }
+  }
+  
+  .weather-info {
+    height: @weather-widget-height / 1.3333;
+  }
+}

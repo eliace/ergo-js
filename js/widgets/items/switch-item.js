@@ -1,5 +1,4 @@
 
-//= require <mixins/labelable>
 
 Ergo.declare('Ergo.widgets.SwitchItem', 'Ergo.widgets.Box', {
 	

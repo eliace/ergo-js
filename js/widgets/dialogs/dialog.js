@@ -1,6 +1,5 @@
 
 //= require <widgets/panel>
-//= require <mixins/window>
 
 
 Ergo.declare('Ergo.widgets.Dialog', 'Ergo.widgets.Panel', {

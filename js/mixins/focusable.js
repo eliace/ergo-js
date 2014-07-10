@@ -242,7 +242,7 @@ else {
 		
 		
 		
-	if($.browser.msie) {
+	if(Ergo.browser.msie) {
 	
 		// $(document).click(function(e){
 			// // убираем фокус по щелчку левой кнопкой мыши
@@ -262,7 +262,7 @@ else {
 		// });
 		
 		
-		if($.browser.webkit) {
+		if(Ergo.browser.webkit) {
 			$(window).on('keydown', function(e){
 				Ergo.keypress(e);
 			});	

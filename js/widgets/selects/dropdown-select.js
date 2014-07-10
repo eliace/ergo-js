@@ -1,5 +1,5 @@
 
-//= require <widgets/select-box>
+//= require <widgets/boxes/select-box>
 
 Ergo.declare('Ergo.widgets.DropdownSelect', 'Ergo.widgets.SelectBox', {
 	

@@ -1,5 +1,4 @@
 
-//= require <core/widget>
 
 
 
@@ -38,18 +37,28 @@ Ergo.widgets.Button = Ergo.declare('Ergo.widgets.Button', 'Ergo.core.Widget', /*
 		
 	},
 */		
-	
-	$opt: function(o) {
-		this.$super(o);
-//		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
 
-		if('buttonType' in o)
-			this.el.prop('type', o.buttonType);
-		if('tabIndex' in o) 
-			this.el.attr('tabindex', o.tabIndex);
-		if('disabled' in o){
-			(o.disabled) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');
-		}
+
+	setDisabled: function(v) {
+		(v) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');		
+	},
+	
+	setType: function(v) {
+		this.el.prop('type', v);		
 	}
+	
+	
+	// $opt: function(o) {
+		// this.$super(o);
+// //		Ergo.widgets.Button.superclass.$opt.apply(this, arguments);
+// 
+		// if('buttonType' in o)
+			// this.el.prop('type', o.buttonType);
+		// if('tabIndex' in o) 
+			// this.el.attr('tabindex', o.tabIndex);
+		// if('disabled' in o){
+			// (o.disabled) ? this.el.attr('disabled', 'disabled') : this.el.removeAttr('disabled');
+		// }
+	// }
 
 }, 'button');

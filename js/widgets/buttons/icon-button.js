@@ -1,4 +1,6 @@
 
+//= require <widgets/natives/button>
+
 
 Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	

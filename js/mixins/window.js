@@ -501,5 +501,8 @@ Ergo.declare_mixin('Ergo.mixins.Window', function(o) {
 	
 	if(!('scrollLock' in o)) o.scrollLock = true;
 	
+	// сборка опций
+	Ergo.smart_build(o);
+	
 	
 }, 'window');

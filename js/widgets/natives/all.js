@@ -10,3 +10,6 @@
 //= require "box"
 //= require "list"
 //= require "paragraph"
+//= require "title"
+//= require "quote"
+//= require "time"

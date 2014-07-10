@@ -1,5 +1,4 @@
 
-//= require <mixins/iconable>
 //= require <widgets/natives/button>
 //= require <widgets/natives/box>
 

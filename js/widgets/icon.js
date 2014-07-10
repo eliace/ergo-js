@@ -6,7 +6,8 @@
 Ergo.declare('Ergo.widgets.Icon', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-icon'
+		cls: 'e-icon',
+		html: '<i/>',
 //		html: '<div>icon</div>'
 	}
 	

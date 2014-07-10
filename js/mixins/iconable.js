@@ -72,7 +72,7 @@ Ergo.declare_mixin('Ergo.mixins.Iconable', function(o) {
 				// }, 'before', 'component');
 			}
 			else if(!v && ('before' in this)) {
-				this.before.destroy()
+				this.before.destroy();
 			}
 			
 			if('before' in this)
@@ -89,7 +89,7 @@ Ergo.declare_mixin('Ergo.mixins.Iconable', function(o) {
 				// }, 'after', 'component');
 			}
 			else if(!v && ('after' in this)) {
-				this.after.destroy()
+				this.after.destroy();
 			}
 			
 			if('after' in this)

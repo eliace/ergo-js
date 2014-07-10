@@ -2,6 +2,7 @@
 //= require "array"
 
 
+
 /*
  * Массив виджетов
  * 
@@ -30,7 +31,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	
 	
 	factory: function(o, type) {
-		if($.isString(o)) o = this.options.shortcuts[o] || {text: o};
+		if($.isString(o)) o = this.options.shortcuts[o] || {value: o};
 		var default_child = 'default' + type[0].toUpperCase() + type.substring(1);
 		return Ergo.widget( Ergo.smart_override({}, this.options[default_child], o) );
 	},
@@ -68,7 +69,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		item.parent = w;
 		
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
-		w.layout.add(item, i);
+		if(item.options.autoRender)
+			w.layout.add(item, i);
 
 		// добавляем элемент в коллекцию
 		i = this.$super(item, i);		

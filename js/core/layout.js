@@ -171,7 +171,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			
 			var arr = [];
 			var before_el = null;
-			this.container.children.each(function(it){
+//			this.container.children.each(function(it){
+			el.children().each(function(k, child){
+				it = $(child).ergo();
+				if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
 				if(it._weight == weight) arr.push(it.el);
 				else if(it._weight <= weight) before_el = it.el;
 			});
@@ -397,7 +400,24 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	/**
 	 * обновление компоновки (порядка, количества элементов)
 	 */
-	rebuild: function() {}
+	rebuild: function() {},
+	
+	
+	
+	build: function() {
+		
+		var render_list = [];
+		
+		this.container.children.each(function(item){
+			
+			
+			
+		});
+		
+		
+	}
+	
+	
 	
 }, 'layouts:default');
 

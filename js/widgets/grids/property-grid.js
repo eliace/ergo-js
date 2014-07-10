@@ -1,5 +1,5 @@
 
-//= require <widgets/grids/table-grid>
+//= require "table-grid"
 
 Ergo.declare('Ergo.widgets.PropertyGrid', 'Ergo.widgets.TableGrid', {
 	

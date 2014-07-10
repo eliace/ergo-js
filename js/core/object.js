@@ -1,5 +1,4 @@
 
-//= require "core"
 
 
 
@@ -39,7 +38,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	initialize: function(opts) {
 		
 		var o = {
-			smart_override: Ergo.self_smart_override
+//			smart_override: Ergo.self_smart_override
 		};
 		
 		// 
@@ -52,6 +51,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaults = Ergo.deep_copy(o);
+//			Ergo.smart_build(this.constructor.prototype.defaults);
 		}
 		else {
 			Ergo.deep_override(o, this.defaults);
@@ -88,11 +88,13 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 		this.options = Ergo.smart_override(o, opts);
 
-
+		// сборка опций
+		Ergo.smart_build(this.options);
 
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this.$pre_construct(this.options);
 
+		
 //		this.options = Ergo.smart_override(this.options, opts);		
 		
 		// определен весь набор опций - можно выполнять сборку объекта

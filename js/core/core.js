@@ -5,3 +5,5 @@
 //= require "core-collections"
 //= require "core-filters"
 //= require "core-utils"
+//= require "widget"
+

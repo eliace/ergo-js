@@ -66,7 +66,7 @@ var Ergo = (function(){
 	
 	
 	
-	var _clear = false;
+//	var _clear = false;
 	
 	
 	
@@ -78,7 +78,7 @@ var Ergo = (function(){
 		var prefix = i[0];
 //		var j = i;
 		
-		var keep_prefix = !_clear;
+//		var keep_prefix = !_clear;
 
 
 		if(prefix == '!' || prefix == '+' || prefix == '-') {
@@ -97,8 +97,8 @@ var Ergo = (function(){
 				prefix = '+';
 			}
 			
-			if(prefix)
-				keep_prefix = false;
+//			if(prefix)
+//				keep_prefix = false;
 			
 			
 			// Если в целевом объекте присутствует префиксная форма, то берется ее префикс
@@ -145,15 +145,17 @@ var Ergo = (function(){
 				if( !$.isArray(m) ) m = [m];
 				
 				m = m.concat(p);
+
+				o[j] = m;
 				
-				if(keep_prefix) {
-					o[j] = m;
-					if(i in o) delete o[i];
-				}
-				else {
-					o[i] = m;
-					if(j in o) delete o[j];
-				}
+				// if(keep_prefix) {
+					// o[j] = m;
+					// if(i in o) delete o[i];
+				// }
+				// else {
+					// o[i] = m;
+					// if(j in o) delete o[j];
+				// }
 				
 				// if(!(i in o)) o[i] = [];
 				// if( !$.isArray(o[i]) ) o[i] = [o[i]];
@@ -162,6 +164,22 @@ var Ergo = (function(){
 				
 			}
 			else if(prefix == '-') {
+				
+				m = [];
+				
+				if(i in o)
+					m = o[i];
+				if(j in o)
+					m = o[j];
+				
+				if( !$.isArray(m) ) m = [m];
+				
+				m = m.concat(p);
+
+				o[j] = m;
+				
+				
+				
 				
 				// TODO
 				
@@ -192,18 +210,22 @@ var Ergo = (function(){
 			}
 			else {
 				m = p;
+				
+				o[j] = m;
+				
+//				if(m === undefined) delete o[i];
 //				o[i] = p;
 			}
 			
 			
-			if(keep_prefix) {
-				o[j] = m;
-				if(i in o) delete o[i];
-			}
-			else {
-				o[i] = m;
-				if(j in o) delete o[j];
-			}
+			// if(keep_prefix) {
+				// o[j] = m;
+				// if(i in o) delete o[i];
+			// }
+			// else {
+				// o[i] = m;
+				// if(j in o) delete o[j];
+			// }
 			
 //			if(j in o && !_clear) delete o[j];
 		}
@@ -312,6 +334,76 @@ var Ergo = (function(){
 	
 	
 	
+	E.smart_build = function(o) {
+		
+		// применяем модификатор !
+		for(var i in o) {
+			
+			var prefix = i[0];
+			
+			if(prefix == '!') {
+				
+				var j = i.substring(1);
+				
+				if( o[i] === undefined )
+					delete o[j];
+				else
+					o[j] = o[i];
+				
+				delete o[i];
+			}
+			
+		}
+			
+		// применяем модификатор +
+		for(var i in o) {
+			
+			var prefix = i[0];
+			
+			if(prefix == '+') {
+				
+				var j = i.substring(1);
+				
+				var m = (j in o) ? o[j] : [];
+				if( !$.isArray(m) ) m = [m];
+				
+				m = m.concat(o[i]);
+				
+				o[j] = m;
+				
+				delete o[i];
+			}
+		}	
+		
+		// применяем модификатор -
+		for(var i in o) {
+			
+			var prefix = i[0];
+			
+			if(prefix == '-') {
+				
+				var j = i.substring(1);
+				
+				// TODO
+				
+				delete o[i];
+			}
+		}
+		
+		
+			
+		for(var i in o) {
+			if(i == 'items' || i == 'components' || i == 'defaultItem' || i == 'defaultComponent' || i == 'shortcuts') 
+				continue;
+			if(o[i] && o[i].constructor == Object)
+				E.smart_build(o[i]);
+		}
+		
+	};
+	
+	
+	
+/*	
 	E.self_smart_override = function() {
 		
 		// console.log(this);
@@ -335,7 +427,7 @@ var Ergo = (function(){
 		
 		return this;
 	};
-	
+*/	
 	
 	
 	

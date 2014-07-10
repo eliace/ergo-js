@@ -1,6 +1,9 @@
 
 
 //= require <widgets/natives/box>
+//= require "grid-header"
+//= require "grid-body"
+
 
 Ergo.declare('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	

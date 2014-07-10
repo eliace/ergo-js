@@ -1,5 +1,5 @@
 
-//= require <widgets/input-box>
+//= require <widgets/boxes/input-box>
 
 
 Ergo.declare('Ergo.widgets.SpinnerInput', 'Ergo.widgets.InputBox', {

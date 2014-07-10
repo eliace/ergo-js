@@ -1,0 +1,93 @@
+//tabs
+.fm-tabs-vertical {
+  position: relative;
+  
+   .tabs-navigation {
+     top: 0;
+     background-color: @tabs-navigation-background;
+    }
+    
+   &  > label {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    clear: left;
+    position: relative;
+    text-align: left;
+    padding: 10px 20px 14px 20px;
+    width: @vertical-tabs-width;
+    border-left: @tabs-navigation-border-size solid @tabs-navigation-background;
+    background-color: @tabs-navigation-background;
+    .transition;
+    
+    span {
+      float: left;
+    }
+   }
+
+  & > label:hover {
+    border-left: @tabs-navigation-border-size solid @tabs-navagation-hover-background;
+    background-color: @tabs-navagation-hover-background;
+  }
+    
+  input {
+    position: absolute;
+    left: -9999px;
+  }
+ 
+  #ver-tab_1:checked  ~ #ver-tab_l1,
+  #ver-tab_2:checked  ~ #ver-tab_l2,
+  #ver-tab_3:checked  ~ #ver-tab_l3,
+  #ver-tab_3:checked  ~ #ver-tab_l4,
+  #ver-tab_3:checked  ~ #ver-tab_l5,
+  #ver-tab_3:checked  ~ #ver-tab_l6,
+  #ver-tab_3:checked  ~ #ver-tab_l7,
+  #ver-tab_3:checked  ~ #ver-tab_l8,
+  #ver-tab_3:checked  ~ #ver-tab_l9 {
+    background-color: @tabs-content-background;
+    border-left: @tabs-navigation-border-size solid @tabs-navigation-selected-border-color;
+    top: 0;
+    z-index: 3;
+    cursor: default;
+  } 
+  
+  .tabs-wrapper {
+    background-color: @tabs-navigation-background;
+    padding-left: @vertical-tabs-width;
+  }
+  
+  .tabs-content {
+    background-color: @tabs-content-background;
+    position: relative;
+    z-index: 2;
+    height: auto;
+    overflow: hidden;
+    
+    p {
+      margin-left: 20px;
+    }
+  }
+  
+  .tabs-content > div {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    opacity: 0;
+    .transition;
+  }
+  
+  #ver-tab_1:checked ~ .tabs-wrapper .tabs-content #ver-tab_c1,
+  #ver-tab_2:checked ~ .tabs-wrapper .tabs-content #ver-tab_c2,
+  #ver-tab_3:checked ~ .tabs-wrapper .tabs-content #ver-tab_c3,
+  #ver-tab_4:checked ~ .tabs-wrapper .tabs-content #ver-tab_c4,
+  #ver-tab_5:checked ~ .tabs-wrapper .tabs-content #ver-tab_c5,
+  #ver-tab_6:checked ~ .tabs-wrapper .tabs-content #ver-tab_c6,
+  #ver-tab_7:checked ~ .tabs-wrapper .tabs-content #ver-tab_c7,
+  #ver-tab_8:checked ~ .tabs-wrapper .tabs-content #ver-tab_c8,
+  #ver-tab_9:checked ~ .tabs-wrapper .tabs-content #ver-tab_c9 {
+    position: static;
+    left: 0;
+    opacity: 1;
+  }
+}

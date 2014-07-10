@@ -28,7 +28,7 @@ Ergo.declare('Ergo.widgets.SelectOption', 'Ergo.core.Widget', /** @lends Ergo.wi
 		if('text' in o) this.el.text(o.text);
 	}
 	
-}, 'select-option')
+}, 'select-option');
 
 
 

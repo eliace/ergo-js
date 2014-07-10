@@ -1,0 +1,28 @@
+//SPLIT BUTTONS
+.fm-split-buttons {
+  position: relative;
+  padding: 0;
+  
+  & > button {
+    float: left;
+    margin: @split-buttons-margin;
+    left: 0;
+    .border-radius(0);
+  }
+  
+  button:first-child {
+    .border-radius( 0, 0, @min-radius , @min-radius);
+  }
+    
+  button:last-child {
+    border-bottom: 0;
+    .border-radius(@min-radius, @min-radius, 0, 0);
+    margin: 0;
+  }
+  
+  button.selected {
+    background: darken(@button-background, @splut-button-selected-darken);
+    cursor: default;
+  }
+  
+}

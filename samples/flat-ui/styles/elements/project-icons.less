@@ -1,0 +1,110 @@
+.fm-project-icon {
+ .rounded(100%);
+ text-align: center;
+ overflow: hidden;
+ position: relative;
+
+  i {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.fm-project-icon:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  z-index: 9;
+}
+
+
+//Big icon
+.fm-big-icon {
+   line-height: @big-project-icon-size;
+   width: @big-project-icon-size;
+   height: @big-project-icon-size;
+   font-size: @big-project-icon-font-size;
+}
+
+.fm-big-icon:after {
+  width: @big-project-icon-size / 2;
+  height: @big-project-icon-size;
+  left: @big-project-icon-size / 2;
+}
+
+//Middle icon
+.fm-middle-icon {
+   line-height: @middle-project-icon-size;
+   width: @middle-project-icon-size;
+   height: @middle-project-icon-size;
+   font-size: @middle-project-icon-font-size;
+}
+
+.fm-middle-icon:after {
+  width: @middle-project-icon-size / 2;
+  height: @middle-project-icon-size;
+  left: @middle-project-icon-size / 2;
+}
+
+//Small icon
+.fm-small-icon {
+  width: @small-project-icon-size;
+  height: @small-project-icon-size;
+  line-height: @small-project-icon-size;
+  font-size: 1em;
+}
+
+.fm-small-icon:after {
+  width: @small-project-icon-size / 2;
+  height:@small-project-icon-size;
+  left: @small-project-icon-size / 2;
+}
+
+.fm-blue-icon {
+  background-color: @fm-blue-icon-background;
+}
+
+.fm-blue-icon:after {
+  background-color: darken(@fm-blue-icon-background, 7%);
+}
+
+.fm-green-icon {
+  background-color: @fm-green-icon-background;
+}
+
+.fm-green-icon:after {
+  background-color: darken(@fm-green-icon-background, 7%);
+}
+
+.fm-green-sea-icon {
+  background-color: @fm-green-sea-icon-background;
+}
+
+.fm-green-sea-icon:after {
+  background-color: darken(@fm-green-sea-icon-background, 7%);
+}
+
+.fm-yellow-icon {
+  background-color: @fm-yellow-icon-background;
+}
+
+.fm-yellow-icon:after {
+  background-color: darken(@fm-yellow-icon-background, 7%);
+}
+
+.fm-red-icon {
+  background-color: @fm-red-icon-background;
+}
+
+.fm-red-icon:after {
+  background-color: darken(@fm-red-icon-background, 6%);
+}
+
+.fm-purple-icon {
+  background-color: @fm-purple-icon-background;
+}
+
+.fm-purple-icon:after {
+  background-color: darken(@fm-purple-icon-background, 7%);
+}

@@ -1,5 +1,5 @@
 
-//= require <widgets/dialogs/dialog>
+//= require "dialog"
 
 
 

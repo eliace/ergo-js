@@ -1,5 +1,4 @@
 
-//= require <mixins/iconable>
 
 
 Ergo.declare('Ergo.widgets.TextItem', 'Ergo.widgets.Box', {

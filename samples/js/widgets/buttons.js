@@ -12,9 +12,6 @@ sample('Кнопки', {
 		text: 'Кнопка',
 		icon: 'e-icon-tag'
 	}, {
-		etype: 'styled-button',
-		text: 'Кнопка'
-	}, {
 		etype: 'dropdown-button',
 		text: 'Город',
 		

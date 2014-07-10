@@ -1,5 +1,4 @@
 
-//= require <core/widget>
 
 
 
@@ -31,9 +30,9 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.I
 //		if('text' in o) this.el.val(o.text);
 		if('readOnly' in o) this.el.attr('readonly', o.readOnly);
 		if('name' in o) this.el.attr('name', o.name);
-		if('value' in o) this.el.attr('value', o.value);
+//		if('value' in o) this.el.attr('value', o.value);
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
-		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);
+//		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);
 
 	}
 	

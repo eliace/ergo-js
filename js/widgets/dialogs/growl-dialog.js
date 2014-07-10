@@ -1,7 +1,4 @@
 
-//= require <mixins/effects>
-//= require <mixins/growl>
-
 
 
 Ergo.declare('Ergo.widgets.GrowlDialog', 'Ergo.widgets.Box', {

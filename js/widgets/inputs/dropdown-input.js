@@ -1,5 +1,5 @@
 
-//= require <widgets/input-box>
+//= require <widgets/boxes/input-box>
 
 
 
