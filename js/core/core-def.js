@@ -384,16 +384,25 @@ var Ergo = (function(){
 				
 				var j = i.substring(1);
 				
-				// TODO
+				var m = (j in o) ? o[j] : [];
+				if( !$.isArray(m) ) m = [m];
+				
+				for(var n = 0; n < o[i].length; n++) {
+					for(var k = 0; k < m.length; k++) {
+						if(m[k] == o[i][n]) m.splice(k, 1);
+					}
+				}
 				
 				delete o[i];
 			}
 		}
 		
 		
+		if(i == 'items' || i == 'components' || i == 'shortcuts') 
+			return;
 			
 		for(var i in o) {
-			if(i == 'items' || i == 'components' || i == 'defaultItem' || i == 'defaultComponent' || i == 'shortcuts') 
+			if(i == 'defaultItem' || i == 'defaultComponent') 
 				continue;
 			if(o[i] && o[i].constructor == Object)
 				E.smart_build(o[i]);

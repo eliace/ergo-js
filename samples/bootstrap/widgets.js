@@ -13,16 +13,18 @@ Ergo.defineClass('Bootstrap.widgets.ButtonToolbar', 'Ergo.widgets.Box', {
 Ergo.defineClass('Bootstrap.widgets.ButtonGroup', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'btn-group',
+		state: 'horizontal',
 		defaultItem: {
 			etype: 'bs-button'
 		},
 		states: {
-			'large': 'btn-group-lg',
-			'small': 'btn-group-sm',
-			'tiny': 'btn-group-xs'
-		},
-		exclusives: ['large', 'small', 'tiny'],
+			'large:size': 'btn-group-lg',
+			'small:size': 'btn-group-sm',
+			'tiny:size': 'btn-group-xs',
+			'horizontal:dir': 'btn-group',
+			'vertical:dir': 'btn-group-vertical',
+			'justified': 'btn-group-justified'
+		}
 	}
 	
 }, 'btn-group');
@@ -34,7 +36,9 @@ Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.widgets.Box', {
 	defaults: {
 		cls: 'glyphicon',
 		html: '<span/>',
-		exclusives: ['glyphicon-']
+		states: {
+			':icons': ['glyphicon-']
+		}
 	},
 	
 	setValue: function(v) {
@@ -50,19 +54,67 @@ Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.widgets.Box', {
 Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.widgets.Button', {
 	
 	defaults: {
-		cls: 'btn btn-default',
+		cls: 'btn',
+		state: 'default',
 		states: {
-			'large': 'btn-lg',
-			'small': 'btn-sm',
-			'tiny': 'btn-xs'
+			'large:size': 'btn-lg',
+			'small:size': 'btn-sm',
+			'tiny:size': 'btn-xs',
+			'default:role': 'btn-default',
+			'primary:role': 'btn-primary',
+			'success:role': 'btn-success',
+			'info:role': 'btn-info',
+			'warning:role': 'btn-warning',
+			'danger:role': 'btn-danger',
 		},
-		exclusives: ['large', 'small', 'tiny'],
 		binding: function(v) {
 			this.opt('text', v);
 		}
 	}		
 	
 }, 'bs-button');
+
+
+Ergo.defineClass('Bootstrap.widgets.SplitButton', 'Bootstrap.widgets.Button', {
+	
+	defaults: {
+		components: {
+			caret: {
+				etype: 'box',
+				cls: 'caret',
+				html: '<span/>'
+			},
+			split: {
+				etype: 'box',
+				cls: 'sr-only',
+				html: '<span/>'
+			}
+		}
+	},
+	
+	setText: function(v) {
+		this.layout.el.append('         '+v+'         ');
+	},
+	
+	
+}, 'bs-split-button');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Anchor', {
+	
+	defaults: {
+		cls: 'btn btn-default',
+		binding: function(v) {
+			this.opt('text', v);
+		},
+		tabIndex: -1,
+		onClick: function(e) {
+			e.baseEvent.preventDefault();
+		}
+	}		
+	
+}, 'bs-anchor-button');
 
 
 
@@ -139,17 +191,20 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'dropdown clearfix',
+//		mixins: ['easy-popup'],
 		components: {
 			button: {
 				etype: 'bs-button',
 				cls: 'dropdown-toggle',
-				content: {
-					etype: 'text',
-					cls: 'caret'
+				components: {
+					caret: {
+						etype: 'text',
+						cls: 'caret'
+					}
 				},
 				onClick: function(e) {
 					this.events.bubble('action');
-					e.baseEvent.stopPropagation();
+					e.baseEvent.stopImmediatePropagation();
 				}
 			},
 			dropdown: {
@@ -173,12 +228,8 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Ergo.widgets.Box', {
 		var self = this;
 		this.states.set('open');
 		$('html').one('click', function(){
-			self.close();
+			self.states.unset('open');		
 		});
-	},
-	
-	close: function() {
-		this.states.unset('open');		
 	}
 	
 });

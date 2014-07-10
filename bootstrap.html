@@ -1330,11 +1330,7 @@ $.ergo({
   defaultItem: {
     etype: 'btn-group'
   },
-  items: [
-    {items: ['1', '2', '3', '4']},
-    {items: ['5', '6', '7']},
-    {items: ['8']}
-  ]
+  items: [['1', '2', '3', '4'], ['5', '6', '7'], ['8']]
 });	
 </code></pre></div>
 
@@ -1400,26 +1396,22 @@ $.ergo({
       </div>
     </div-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>1<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>2<span class="nt">&lt;/button&gt;</span>
-
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default dropdown-toggle&quot;</span> <span class="na">data-toggle=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
-      Dropdown
-      <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;caret&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
-    <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown-menu&quot;</span> <span class="na">role=</span><span class="s">&quot;menu&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Dropdown link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Dropdown link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;/ul&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript">
+$.ergo({
+  etype: 'btn-group',
+  items: ['1', '2', {
+    etype: 'bs-dropdown',
+    cls: 'btn-group',
+    text: 'Dropdown',
+    $dropdown_items: ['Dropdown link', 'Dropdown link']
+  }]
+});
+</code></pre></div>
 
   <h3 id="btn-groups-vertical">Vertical variation</h3>
   <p>Make a set of buttons appear vertically stacked rather than horizontally. <strong class="text-danger">Split button dropdowns are not supported here.</strong></p>
   <div class="bs-example">
-    <div class="btn-group-vertical">
+    <!--div class="btn-group-vertical">
       <button type="button" class="btn btn-default">Button</button>
       <button type="button" class="btn btn-default">Button</button>
       <div class="btn-group">
@@ -1464,11 +1456,18 @@ $.ergo({
           <li><a href="#">Dropdown link</a></li>
         </ul>
       </div>
-    </div>
+    </div-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group-vertical&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript">
+$.ergo({
+  etype: 'btn-group',
+  state: 'vertical',
+  items: [
+    'Button',
+    'Button'
+  ]
+});
+</code></pre></div>
 
   <h3 id="btn-groups-justified">Justified button groups</h3>
   <p>Make a group of buttons stretch at equal sizes to span the entire width of its parent. Also works with button dropdowns within the button group.</p>
@@ -1485,8 +1484,8 @@ $.ergo({
 
   <h4>With <code>&lt;a&gt;</code> elements</h4>
   <p>Just wrap a series of <code>.btn</code>s in <code>.btn-group.btn-group-justified</code>.</p>
-  <div class="bs-example">
-    <div class="btn-group btn-group-justified">
+  <div class="bs-example" id="btn-groups-justified-a">
+    <!--div class="btn-group btn-group-justified">
       <a class="btn btn-default" role="button">Left</a>
       <a class="btn btn-default" role="button">Middle</a>
       <a class="btn btn-default" role="button">Right</a>
@@ -1507,7 +1506,7 @@ $.ergo({
           <li><a href="#">Separated link</a></li>
         </ul>
       </div>
-    </div>
+    </div-->
   </div>
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group btn-group-justified&quot;</span><span class="nt">&gt;</span>
   ...
@@ -1515,8 +1514,8 @@ $.ergo({
 
   <h4>With <code>&lt;button&gt;</code> elements</h4>
   <p>To use justified button groups with <code>&lt;button&gt;</code> elements, <strong class="text-danger">you must wrap each button in a button group</strong>. Most browsers don't properly apply our CSS for justification to <code>&lt;button&gt;</code> elements, but since we support button dropdowns, we can workaround that.</p>
-  <div class="bs-example">
-    <div class="btn-group btn-group-justified">
+  <div class="bs-example" id="btn-groups-justified-b">
+    <!--div class="btn-group btn-group-justified">
       <div class="btn-group">
         <button type="button" class="btn btn-default">Left</button>
       </div>
@@ -1526,19 +1525,18 @@ $.ergo({
       <div class="btn-group">
         <button type="button" class="btn btn-default">Right</button>
       </div>
-    </div>
+    </div-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group btn-group-justified&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>Left<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>Middle<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>Right<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript">
+$.ergo({
+  etype: 'btn-group',
+  state: 'justified',
+  defaultItem: {
+    etype: 'btn-group'
+  },
+  items: [['Left'], ['Middle'], ['Right']]
+}).$doLayout();
+</code></pre></div>
 </div>
 
 <div class="bs-docs-section">
@@ -1554,7 +1552,7 @@ $.ergo({
   <h3 id="btn-dropdowns-single">Single button dropdowns</h3>
   <p>Turn a button into a dropdown toggle with some basic markup changes.</p>
   <div class="bs-example">
-    <div class="btn-group">
+    <!--div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Default <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
         <li><a href="#">Action</a></li>
@@ -1563,7 +1561,7 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div>
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Primary <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -1573,7 +1571,7 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div>
     <div class="btn-group">
       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Success <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -1583,7 +1581,7 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div>
     <div class="btn-group">
       <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Info <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -1593,7 +1591,7 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div>
     <div class="btn-group">
       <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Warning <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -1603,7 +1601,7 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div>
     <div class="btn-group">
       <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">Danger <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -1613,21 +1611,18 @@ $.ergo({
         <li class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-    </div><!-- /btn-group -->
+    </div-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="c">&lt;!-- Single button --&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default dropdown-toggle&quot;</span> <span class="na">data-toggle=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
-    Action <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;caret&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
-  <span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown-menu&quot;</span> <span class="na">role=</span><span class="s">&quot;menu&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Action<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Another action<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Something else here<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;divider&quot;</span><span class="nt">&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Separated link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript">
+$.ergo({
+  etype: 'bs-dropdown',
+  cls: 'btn-group',
+  '-cls': 'dropdown clearfix',
+  text: 'Default',
+  $button_state: 'default',
+  $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
+});
+</code></pre></div>
 
   <h3 id="btn-dropdowns-split">Split button dropdowns</h3>
   <p>Similarly, create split button dropdowns with the same markup changes, only with a separate button.</p>

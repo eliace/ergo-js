@@ -12,7 +12,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		this._current = {};
 		this._states = {};
 		this._transitions = [];
-		this._exclusives = [];
+		this._exclusives = {};
 	},
 	
 	
@@ -30,15 +30,43 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		
 	},
 	
-	exclusive: function(name/*. group*/) {
-		var excl_template = new RegExp('^'+name+'.*$');		
-		this._exclusives.push(excl_template);
+	
+	exclusive: function(name, g) {
+		
+		var excl_template = new RegExp('^'+name+'.*$');
+
+		var group = this._exclusives[g];
+		if(!group) group = [];
+		this._exclusives[g] = group;
+		
+		group.push(excl_template);		
+	},
+	
+	exclusive_group: function(g, exclusives) {		
+		for(var i = 0; i < exclusives.length; i++)
+			this.exclusive(exclusives[i], g);
 	},
 	
 	
 	
 	state: function(name, value) {
-		this._states[name] = value;
+		
+		// парсим код состояния
+		var i = name.indexOf(':');
+		if( i == 0 ) {
+			var g = name.substr(1);
+			this.exclusive_group(g, value);
+		}
+		else {
+			if( i > 0 ) {
+				var g = name.substr(i+1);
+				name = name.substr(0, i);
+				
+				this.exclusive(name, g);
+			}
+		
+			this._states[name] = value;
+		}
 	},
 	
 	
@@ -82,12 +110,14 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// }
 		// }
 		
-		if( this._is_exclusive(to) ) {
-			
-			for(var i in this._current)
-				if(this._is_exclusive(i))
-					this.unset(i);
-			
+		for(var g in this._exclusives) {
+			if( this._is_exclusive(to, g) ) {
+				
+				for(var i in this._current)
+					if(this._is_exclusive(i, g))
+						this.unset(i);
+				
+			}			
 		}
 		
 		
@@ -219,10 +249,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	
-	_is_exclusive: function(s) {
+	_is_exclusive: function(s, g) {
 		
-		for(var i = 0; i < this._exclusives.length; i++) {
-			if(s.match(this._exclusives[i])) return true;
+		var group = this._exclusives[g];
+		
+		for(var i = 0; i < group.length; i++) {
+			if(s.match(group[i])) return true;
 		}
 		
 		return false;
@@ -406,11 +438,11 @@ Ergo.Statable = function(o) {
 	}
 	
 	
-	if('exclusives' in o) {
-		for(var i in o.exclusives) {
-			this.states.exclusive(o.exclusives[i]);//excl_template);
-		}
-	}
+	// if('exclusives' in o) {
+		// for(var i in o.exclusives) {
+			// this.states.exclusive_group(i, o.exclusives[i]);//excl_template);
+		// }
+	// }
 	
 	
 };
