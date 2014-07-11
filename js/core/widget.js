@@ -623,6 +623,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			item.$doLayout();
 		});
 		
+		return this;
 	},
 	
 	

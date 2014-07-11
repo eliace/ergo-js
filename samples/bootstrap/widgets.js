@@ -142,9 +142,9 @@ Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Anchor', {
 			this.opt('text', v);
 		},
 		tabIndex: -1,
-		onClick: function(e) {
-			e.baseEvent.preventDefault();
-		}
+		// onClick: function(e) {
+			// e.baseEvent.preventDefault();
+		// }
 	}		
 	
 }, 'bs-anchor-button');
@@ -187,9 +187,9 @@ Ergo.defineClass('Bootstrap.widgets.DropdownMenu', 'Ergo.widgets.List', {
 			content: {
 				etype: 'anchor',
 				tabIndex: -1,
-				onClick: function(e) {
-					e.baseEvent.preventDefault();
-				}
+				// onClick: function(e) {
+					// e.baseEvent.preventDefault();
+				// }
 			},
 			binding: function(v) { this.content.opt('text', v); },
 			states: {
@@ -237,7 +237,8 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', 
 				},
 				onClick: function(e) {
 					this.events.bubble('action');
-					e.baseEvent.stopImmediatePropagation();
+					e.baseEvent.stopPropagation();
+					e.baseEvent.preventDefault();
 				}
 			},
 			dropdown: {
@@ -376,7 +377,8 @@ Ergo.defineClass('Bootstrap.widgets.DropdownAddon', 'Bootstrap.widgets.Dropdown'
 	defaults: {
 		states: {
 			'segmented:dir': 'input-group-btn'
-		}
+		},
+		state: 'segmented'
 	}
 	
 }, 'bs-dropdown-addon');
@@ -396,20 +398,59 @@ Ergo.defineClass('Bootstrap.widgets.Nav', 'Ergo.widgets.List', {
 		},
 		mixins: ['selectable'],
 		defaultItem: {
-			content: {
-				etype: 'anchor'
-			},
+			etype: 'bs-nav-item',
 			states: {
 				'selected': 'active'
-			},
-			set: {
-				'text': function(v) { this.content.opt('text', v); }
 			}
-		},
-		
+		}
 	}
 	
 }, 'bs-nav');
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.NavItem', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		components: {
+			content: {
+				etype: 'anchor'
+			}
+		},
+		set: {
+			'text': function(v) { this.content.opt('text', v); }
+		},
+		binding: function(v) { this.opt('text', v); }
+	}
+	
+}, 'bs-nav-item');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.DropdownNavItem', 'Bootstrap.widgets.Dropdown', {
+	
+	defaults: {
+		states: {
+			'dropdown:dir': 'dropdown'
+		},
+		state: 'dropdown',
+		components: {
+			button: {
+				etype: 'anchor',
+				cls: 'dropdown-toggle'
+			}
+		}
+	}
+	
+}, 'bs-dropdown-nav-item');
+
+
+
+
+
+
 
 
 

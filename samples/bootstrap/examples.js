@@ -564,7 +564,7 @@ $(document).ready(function(){
 				etype: 'bs-input-group',
 				$addon: {
 					etype: 'bs-dropdown-addon',
-					state: 'segmented',
+//					state: 'segmented',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 					components: {
 						button2: {
@@ -582,7 +582,7 @@ $(document).ready(function(){
 				$addon: {
 					weight: 1,
 					etype: 'bs-dropdown-addon',
-					state: 'segmented',
+//					state: 'segmented',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 					components: {
 						button2: {
@@ -654,6 +654,39 @@ $(document).ready(function(){
 		items: ['Clickable link', 'Clickable link', {text: 'Disabled link', state: 'disabled'}]
 	}).$doLayout();
 
+
+
+	$.ergo({
+		renderTo: '#nav-dropdowns-a',
+		etype: 'bs-nav',
+		state: 'tabs',
+		items: [{text: 'Home', state: 'selected'}, 'Help', {
+			etype: 'bs-dropdown-nav-item',
+			text: 'Dropdown',
+			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
+		}]
+	}).$doLayout();
+
+	$.ergo({
+		renderTo: '#nav-dropdowns-b',
+		etype: 'bs-nav',
+		state: 'pills',
+		items: [{text: 'Home', state: 'selected'}, 'Help', {
+			etype: 'bs-dropdown-nav-item',
+			text: 'Dropdown',
+			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
+		}]
+	}).$doLayout();
+
+
+	$('html').click(function(e){
+		var el = $(e.target);
+//		console.log(el[0].localName);
+//		console.log(el.attr('href'));
+		if(el[0] && el[0].localName == 'a' && el.attr('href') == '#') {
+			e.preventDefault();
+		}
+	});
 	
 	
 	hljs.initHighlightingOnLoad();

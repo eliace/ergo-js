@@ -334,7 +334,7 @@ var Ergo = (function(){
 	
 	
 	
-	E.smart_build = function(o) {
+	E.smart_build = function(o, key) {
 		
 		// применяем модификатор !
 		for(var i in o) {
@@ -398,14 +398,16 @@ var Ergo = (function(){
 		}
 		
 		
-		if(i == 'items' || i == 'components') 
+		if( k == 'shortcuts' || k == 'components' || k == 'items')
 			return;
+//		if(i == 'items') 
+//			return;
 			
 		for(var i in o) {
-			if(i == 'defaultItem' || i == 'defaultComponent' || i == 'shortcuts') 
+			if(i == 'defaultItem' || i == 'defaultComponent') 
 				continue;
 			if(o[i] && o[i].constructor == Object)
-				E.smart_build(o[i]);
+				E.smart_build(o[i], i);
 		}
 		
 	};
