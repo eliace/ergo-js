@@ -31,6 +31,39 @@ Ergo.defineClass('Bootstrap.widgets.ButtonGroup', 'Ergo.widgets.Box', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.InputGroup', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'input-group',
+		states: {
+			'large:size': 'input-group-lg',
+			'small:size': 'input-group-sm',
+			'tiny:size': 'input-group-xs',
+		},
+		components: {
+			addon: {
+				weight: -1,
+				etype: 'bs-input-addon'
+			},
+			input: {
+				etype: 'input',
+				cls: 'form-control'
+			}
+		}
+	},
+	
+	setPlaceholder: function(v) {
+		this.input.el.attr('placeholder', v);
+	}
+	
+}, 'bs-input-group');
+
+
+
+
+
+
+
 Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -185,12 +218,12 @@ Ergo.defineClass('Bootstrap.widgets.DropdownMenu', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Ergo.widgets.Box', {
+Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', {
 	
 	etype: 'bs-dropdown',
 	
 	defaults: {
-		cls: 'dropdown clearfix',
+//		cls: 'dropdown clearfix',
 //		mixins: ['easy-popup'],
 		components: {
 			button: {
@@ -208,8 +241,7 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Ergo.widgets.Box', {
 				}
 			},
 			dropdown: {
-				etype: 'bs-dropdown-menu',
-//				items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']
+				etype: 'bs-dropdown-menu'
 			}
 		},
 		
@@ -237,6 +269,147 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Ergo.widgets.Box', {
 
 
 
+
+Ergo.defineClass('Bootstrap.widgets.SplitDropdown', 'Bootstrap.widgets.ButtonGroup', {
+	
+	etype: 'bs-split-dropdown',
+	
+	defaults: {
+		components: {
+			button: {
+				etype: 'bs-button',
+				onClick: function(e) {
+					this.events.bubble('action');
+					e.baseEvent.stopPropagation();
+				}
+			},
+			button2: {
+				etype: 'bs-button',
+				cls: 'dropdown-toggle',
+				tag: 'button2',
+				components: {
+					content: {
+						etype: 'text',
+						cls: 'caret',
+						
+					},
+					split: {
+						etype: 'text',
+						cls: 'sr-only',
+						text: 'Toggle Dropdown'
+					}					
+				},
+				onClick: function(e) {
+					this.events.bubble('action');
+					e.baseEvent.stopPropagation();
+				}
+
+			},
+			dropdown: {
+				etype: 'bs-dropdown-menu'
+			}
+		},
+		
+		onAction: function(e) {
+			if(e.target.tag == 'button2')
+				this.open();
+		}
+		
+	},
+	
+	setText: function(v) {
+		this.button.opt('text', v);
+	},
+
+	setType: function(v) {
+		this.button.states.set(v);
+		this.button2.states.set(v);
+	},
+	
+	
+	open: function() {
+		var self = this;
+		this.states.set('open');
+		$('html').one('click', function(){
+			self.states.unset('open');		
+		});
+	}
+	
+});
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.InputAddon', 'Ergo.widgets.Text', {
+	
+	defaults: {
+		cls: 'input-group-addon',
+		defaultComponent: {
+			etype: 'input'
+		}
+	}
+	
+}, 'bs-input-addon');
+
+
+Ergo.defineClass('Bootstrap.widgets.ButtonAddon', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<span/>',
+		cls: 'input-group-btn',
+		content: {
+			etype: 'bs-button'
+		}
+	},
+	
+	setText: function(v) {
+		this.content.opt('text', v);
+	}
+	
+}, 'bs-button-addon');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.DropdownAddon', 'Bootstrap.widgets.Dropdown', {
+	
+	defaults: {
+		states: {
+			'segmented:dir': 'input-group-btn'
+		}
+	}
+	
+}, 'bs-dropdown-addon');
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Nav', 'Ergo.widgets.List', {
+	
+	defaults: {
+		cls: 'nav',
+		states: {
+			'tabs:nav': 'nav-tabs',
+			'pills:nav': 'nav-pills',
+			'stacked': 'nav-stacked',
+			'justified': 'nav-justified'
+		},
+		mixins: ['selectable'],
+		defaultItem: {
+			content: {
+				etype: 'anchor'
+			},
+			states: {
+				'selected': 'active'
+			},
+			set: {
+				'text': function(v) { this.content.opt('text', v); }
+			}
+		},
+		
+	}
+	
+}, 'bs-nav');
 
 
 
