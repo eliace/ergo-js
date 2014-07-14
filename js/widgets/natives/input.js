@@ -34,7 +34,12 @@ Ergo.declare('Ergo.widgets.Input', 'Ergo.core.Widget', /** @lends Ergo.widgets.I
 		if('disabled' in o) this.el.attr('disabled', o.disabled);
 //		if('tabIndex' in o) this.el.attr('tabindex', o.tabIndex);
 
+	},
+	
+	setPlaceholder: function(v) {
+		this.el.attr('placeholder', v);
 	}
+	
 	
 	
 }, 'input');

@@ -1,5 +1,25 @@
 
 
+
+Ergo.defineClass('Bootstrap.widgets.List', 'Ergo.widgets.List', {
+	
+	defaults: {
+		defaultItem: {
+			components: {
+				content: {
+					etype: 'anchor',
+				}
+			},
+			set: {
+				'text': function(v) { this.content.opt('text', v); }
+			}
+		}
+	}
+	
+}, 'bs-list');
+
+
+
 Ergo.defineClass('Bootstrap.widgets.ButtonToolbar', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -53,7 +73,7 @@ Ergo.defineClass('Bootstrap.widgets.InputGroup', 'Ergo.widgets.Box', {
 	},
 	
 	setPlaceholder: function(v) {
-		this.input.el.attr('placeholder', v);
+		this.input.opt('placeholder', v);
 	}
 	
 }, 'bs-input-group');
@@ -458,6 +478,12 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 			html: '<div class="container-fluid"/>'
 		},
 		cls: 'navbar navbar-default',
+		states: {
+			'fixed-top:align': 'navbar-fixed-top',
+			'fixed-bottom:align': 'navbar-fixed-bottom',
+			'static-top:align': 'navbar-static-top',
+			'inverted': 'navbar-inverse'
+		},
 		components: {
 			header: {
 				cls: 'navbar-header',
@@ -474,7 +500,13 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 				}
 			},
 			content: {
-				cls: 'collapse navbar-collapse'
+				cls: 'collapse navbar-collapse',
+				defaultItem: {
+					states: {
+						'left:align': 'navbar-left',
+						'right:align': 'navbar-right'
+					}					
+				}
 			}
 		}
 	},
@@ -488,9 +520,55 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Bootstrap.widgets.NavbarForm', 'Ergo.widgets.Form', {
+Ergo.defineClass('Bootstrap.widgets.NavbarForm', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'navbar-form',
+		html: '<form/>'
+		// layout: {
+			// etype: 'layouts:default',
+			// html: '<div class="form-group"/>'
+		// },
+		// defaultItem: {
+			// cls: 'form-control'
+		// }
+	}
 	
 }, 'bs-navbar-form');
+
+
+Ergo.defineClass('Bootstrap.widgets.FormGroup', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'form-group',
+		defaultItem: {
+			cls: 'form-control'
+		},
+		defaultComponent: {
+			cls: 'form-control'
+		}
+		
+	}
+	
+}, 'bs-form-group');
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Breadcrumb', 'Ergo.widgets.List', {
+	
+	defaults: {
+		
+	}
+	
+}, 'bs-breadcrumb');
+
+
+
+
+
+
 
 
 

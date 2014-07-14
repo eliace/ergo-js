@@ -2192,7 +2192,7 @@
   <p>Place form content within <code>.navbar-form</code> for proper vertical alignment and collapsed behavior in narrow viewports. Use the alignment options to decide where it resides within the navbar content.</p>
   <p>As a heads up, <code>.navbar-form</code> shares much of its code with <code>.form-inline</code> via mixin. <strong class="text-danger">Some form controls, like input groups, may require fixed widths to be show up properly within a navbar.</strong></p>
   <div class="bs-example">
-    <nav class="navbar navbar-default" role="navigation">
+    <!--nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
@@ -2212,14 +2212,9 @@
           </form>
         </div>
       </div>
-    </nav>
+    </nav-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;navbar-form navbar-left&quot;</span> <span class="na">role=</span><span class="s">&quot;search&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Search&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default&quot;</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
-<span class="nt">&lt;/form&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <div class="bs-callout bs-callout-warning">
     <h4>Mobile device caveats</h4>
@@ -2235,7 +2230,7 @@
   <h2 id="navbar-buttons">Buttons</h2>
   <p>Add the <code>.navbar-btn</code> class to <code>&lt;button&gt;</code> elements not residing in a <code>&lt;form&gt;</code> to vertically center them in the navbar.</p>
   <div class="bs-example">
-    <nav class="navbar navbar-default" role="navigation">
+    <!--nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3">
@@ -2250,9 +2245,9 @@
           <button type="button" class="btn btn-default navbar-btn">Sign in</button>
         </div>
       </div>
-    </nav>
+    </nav-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-default navbar-btn&quot;</span><span class="nt">&gt;</span>Sign in<span class="nt">&lt;/button&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <div class="bs-callout bs-callout-warning">
     <h4>Context-specific usage</h4>
@@ -2262,7 +2257,7 @@
   <h2 id="navbar-text">Text</h2>
   <p>Wrap strings of text in an element with <code>.navbar-text</code>, usually on a <code>&lt;p&gt;</code> tag for proper leading and color.</p>
   <div class="bs-example">
-    <nav class="navbar navbar-default" role="navigation">
+    <!--nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4">
@@ -2277,15 +2272,15 @@
           <p class="navbar-text">Signed in as Mark Otto</p>
         </div>
       </div>
-    </nav>
+    </nav-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;navbar-text&quot;</span><span class="nt">&gt;</span>Signed in as Mark Otto<span class="nt">&lt;/p&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="navbar-links">Non-nav links</h2>
   <p>For folks using standard links that are not within the regular navbar navigation component, use the <code>.navbar-link</code> class to add the proper colors for the default and inverse navbar options.</p>
   <div class="bs-example">
-    <nav class="navbar navbar-default" role="navigation">
+    <!--nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-5">
@@ -2300,9 +2295,9 @@
           <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">Mark Otto</a></p>
         </div>
       </div>
-    </nav>
+    </nav-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;navbar-text navbar-right&quot;</span><span class="nt">&gt;</span>Signed in as <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">class=</span><span class="s">&quot;navbar-link&quot;</span><span class="nt">&gt;</span>Mark Otto<span class="nt">&lt;/a&gt;&lt;/p&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="navbar-component-alignment">Component alignment</h2>
@@ -2318,8 +2313,7 @@
   <h2 id="navbar-fixed-top">Fixed to top</h2>
   <p>Add <code>.navbar-fixed-top</code> and include a <code>.container</code> or <code>.container-fluid</code> to center and pad navbar content.</p>
   <div class="bs-example bs-navbar-top-example">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+    <!--nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6">
@@ -2337,15 +2331,11 @@
             <li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
       </div>
-    </nav>
+    </nav-->
   </div><!-- /example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;navbar navbar-default navbar-fixed-top&quot;</span> <span class="na">role=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
-    ...
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/nav&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <div class="bs-callout bs-callout-danger">
     <h4>Body padding required</h4>
@@ -2358,8 +2348,7 @@
   <h2 id="navbar-fixed-bottom">Fixed to bottom</h2>
   <p>Add <code>.navbar-fixed-bottom</code> and include a <code>.container</code> or <code>.container-fluid</code> to center and pad navbar content.</p>
   <div class="bs-example bs-navbar-bottom-example">
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-      <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+    <!--nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-7">
@@ -2377,15 +2366,11 @@
             <li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
       </div>
-    </nav>
+    </nav-->
   </div><!-- /example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;navbar navbar-default navbar-fixed-bottom&quot;</span> <span class="na">role=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
-    ...
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/nav&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <div class="bs-callout bs-callout-danger">
     <h4>Body padding required</h4>
@@ -2399,8 +2384,7 @@
   <p>Create a full-width navbar that scrolls away with the page by adding <code>.navbar-static-top</code> and include a <code>.container</code> or <code>.container-fluid</code> to center and pad navbar content.</p>
   <p>Unlike the <code>.navbar-fixed-*</code> classes, you do not need to change any padding on the <code>body</code>.</p>
   <div class="bs-example bs-navbar-top-example">
-    <nav class="navbar navbar-default navbar-static-top" role="navigation">
-      <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+    <!--nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8">
@@ -2412,30 +2396,24 @@
           <a class="navbar-brand" href="#">Brand</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
       </div>
-    </nav>
+    </nav-->
   </div><!-- /example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;navbar navbar-default navbar-static-top&quot;</span> <span class="na">role=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
-    ...
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/nav&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="navbar-inverted">Inverted navbar</h2>
   <p>Modify the look of the navbar by adding <code>.navbar-inverse</code>.</p>
   <div class="bs-example">
-    <nav class="navbar navbar-inverse" role="navigation">
+    <!--nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9">
             <span class="sr-only">Toggle navigation</span>
@@ -2446,20 +2424,17 @@
           <a class="navbar-brand" href="#">Brand</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
+        </div>
+      </div>
+    </nav-->
   </div><!-- /example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;navbar navbar-inverse&quot;</span> <span class="na">role=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/nav&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 </div>
 
 <div class="bs-docs-section">

@@ -1308,8 +1308,118 @@ $(document).ready(function(){
 
 	example('navbar-forms', {
 		etype: 'bs-navbar',
-		brand: 'Brand'
+		brand: 'Brand',
+		$content_items: [{
+			etype: 'bs-navbar-form',
+			state: 'left',
+			items: [{
+				etype: 'bs-form-group',
+				content: {
+					etype: 'input', 
+					placeholder: 'Search'
+				}
+			}, {
+				etype: 'bs-button',	
+				text: 'Submit',
+				type: 'submit'
+			}]
+		}]
 	});
+
+
+
+
+	example('navbar-buttons', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		$content_items: [{
+			etype: 'bs-button',
+			text: 'Sign in',
+			cls: 'navbar-btn'  //?
+		}]
+	});
+
+
+	example('navbar-text', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		$content_items: [{
+			etype: 'para',
+			text: 'Signed in as Mark Otto',
+			cls: 'navbar-text'  //?
+		}]
+	});
+
+
+	example('navbar-links', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		$content_items: [{
+			etype: 'para',
+			lead: 'Signed in as ',
+			cls: 'navbar-text',
+			state: 'right',
+			content: {
+				etype: 'anchor',
+				text: 'Mark Otto',
+				cls: 'navbar-link'
+			}
+		}]
+	});
+
+
+
+	example('navbar-fixed-top', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		state: 'fixed-top',
+		$content_items: [{
+			etype: 'bs-list',
+			cls: 'nav navbar-nav',
+			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
+		}]
+	});
+
+
+	example('navbar-fixed-bottom', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		state: 'fixed-bottom',
+		$content_items: [{
+			etype: 'bs-list',
+			cls: 'nav navbar-nav',
+			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
+		}]
+	});
+
+
+	example('navbar-static-top', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		state: 'static-top',
+		$content_items: [{
+			etype: 'bs-list',
+			cls: 'nav navbar-nav',
+			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
+		}]
+	});
+
+
+	example('navbar-inverted', {
+		etype: 'bs-navbar',
+		brand: 'Brand',
+		state: 'inverted',
+		$content_items: [{
+			etype: 'bs-list',
+			cls: 'nav navbar-nav',
+			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
+		}]
+	});
+
+
+
+
+
 
 
 
