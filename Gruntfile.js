@@ -38,7 +38,19 @@ module.exports = function(grunt) {
     concat_in_order: {
     	widgets: {
 	      files: {
-	        'build/ergojs-widgets.js': ['main-widgets.js']
+	        'build/ergojs-widgets.js': ['build-widgets.js']
+	      },
+	      options: {
+			    extractRequired: extractor,
+			    extractDeclared: function(filepath) {
+			        return [filepath];
+			    },
+			    onlyConcatRequiredFiles: true      	
+	      }    		
+    	},
+    	widgets_native: {
+	      files: {
+	        'build/ergojs-natives.js': ['build-natives.js']
 	      },
 	      options: {
 			    extractRequired: extractor,
@@ -50,7 +62,7 @@ module.exports = function(grunt) {
     	},
     	core: {
 	      files: {
-	        'build/ergojs-core.js': ['main.js']
+	        'build/ergojs-core.js': ['build-core.js']
 	      },
 	      options: {
 			    extractRequired: extractor,

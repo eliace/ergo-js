@@ -1162,12 +1162,6 @@
 <span class="nt">&lt;/button&gt;</span></code></pre></div>
 </div-->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'glyphicon-button',
-  icon: 'star',
-  text: 'Star',
-  state: 'large'
-})
 </code></pre></div>
 
 
@@ -1194,11 +1188,6 @@ $.ergo({
     </div-->
   </div><!-- /example -->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-dropdown',
-  text: 'Dropdown',
-  $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']
-});	
 </code></pre></div>
 
   <h3 id="dropdowns-alignment">Alignment</h3>
@@ -1235,19 +1224,6 @@ $.ergo({
     </div-->
   </div><!-- /example -->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-dropdown',
-  text: 'Dropdown',
-  $dropdown_items: [
-    {text: 'Dropdown header', state: 'header'}, 
-    'Action', 
-    'Another action', 
-    'Something else here', 
-    '|', 
-    {text: 'Dropdown header', state: 'header'}, 
-    'Separated link'
-  ]
-});	
 </code></pre></div>
 
   <h3 id="dropdowns-disabled">Disabled menu items</h3>
@@ -1266,15 +1242,6 @@ $.ergo({
     </div-->
   </div><!-- /example -->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-dropdown',
-  text: 'Dropdown',
-  $dropdown_items: [
-    'Regular link', 
-    {value: 'Disabled link', state: 'disabled'}, 
-    'Another link', 
-  ]
-});	
 </code></pre></div>
 </div>
 
@@ -1298,10 +1265,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-group',
-  items: ['Left', 'Middle', 'Right']
-});
 </code></pre></div>
 
   <h3 id="btn-groups-toolbar">Button toolbar</h3>
@@ -1325,13 +1288,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-toolbar',
-  defaultItem: {
-    etype: 'btn-group'
-  },
-  items: [['1', '2', '3', '4'], ['5', '6', '7'], ['8']]
-});	
 </code></pre></div>
 
   <h3 id="btn-groups-sizing">Sizing</h3>
@@ -1367,14 +1323,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-toolbar',
-  content: {
-    etype: 'btn-group',
-    state: 'large',
-    items: ['Left', 'Middle', 'Right']
-  }
-});	
 </code></pre></div>
 
   <h3 id="btn-groups-nested">Nesting</h3>
@@ -1397,14 +1345,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-group',
-  items: ['1', '2', {
-    etype: 'bs-dropdown',
-    text: 'Dropdown',
-    $dropdown_items: ['Dropdown link', 'Dropdown link']
-  }]
-});
 </code></pre></div>
 
   <h3 id="btn-groups-vertical">Vertical variation</h3>
@@ -1458,14 +1398,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-group',
-  state: 'vertical',
-  items: [
-    'Button',
-    'Button'
-  ]
-});
 </code></pre></div>
 
   <h3 id="btn-groups-justified">Justified button groups</h3>
@@ -1507,9 +1439,7 @@ $.ergo({
       </div>
     </div-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;btn-group btn-group-justified&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <h4>With <code>&lt;button&gt;</code> elements</h4>
   <p>To use justified button groups with <code>&lt;button&gt;</code> elements, <strong class="text-danger">you must wrap each button in a button group</strong>. Most browsers don't properly apply our CSS for justification to <code>&lt;button&gt;</code> elements, but since we support button dropdowns, we can workaround that.</p>
@@ -1527,14 +1457,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-group',
-  state: 'justified',
-  defaultItem: {
-    etype: 'btn-group'
-  },
-  items: [['Left'], ['Middle'], ['Right']]
-}).$doLayout();
 </code></pre></div>
 </div>
 
@@ -1613,14 +1535,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-dropdown',
-  cls: 'btn-group',
-  '-cls': 'dropdown clearfix',
-  text: 'Default',
-  $button_state: 'default',
-  $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-});
 </code></pre></div>
 
   <h3 id="btn-dropdowns-split">Split button dropdowns</h3>
@@ -1712,12 +1626,6 @@ $.ergo({
     </div-->
   </div>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-split-dropdown',
-  text: 'Default',
-  type: 'default',
-  $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-}).$doLayout();
 </code></pre></div>
 
   <h3 id="btn-dropdowns-sizing">Sizing</h3>
@@ -1767,35 +1675,6 @@ $.ergo({
     </div-->
   </div><!-- /example -->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-toolbar',
-  items: [{
-    etype: 'bs-dropdown',
-    text: 'Large button',
-    $button_state: 'large',
-    $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-  }]
-});
-
-$.ergo({
-  etype: 'btn-toolbar',
-  items: [{
-    etype: 'bs-dropdown',
-    text: 'Small button',
-    $button_state: 'small',
-    $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-  }]
-});
-
-$.ergo({
-  etype: 'btn-toolbar',
-  items: [{
-    etype: 'bs-dropdown',
-    text: 'Extra small button',
-    $button_state: 'tiny',
-    $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-  }]
-});
 </code></pre></div>
 
   <h3 id="btn-dropdowns-dropup">Dropup variation</h3>
@@ -1833,21 +1712,6 @@ $.ergo({
     </div-->
   </div><!-- /example -->
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'btn-toolbar',
-  items: [{
-    etype: 'bs-split-dropdown',
-    text: 'Dropup',
-    state: 'dropup',
-    $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-  }, {
-    etype: 'bs-split-dropdown',
-    text: 'Right dropup',
-    state: 'dropup',
-    type: 'primary',
-    $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-  }]
-});
 </code></pre></div>
 </div>
 
@@ -1892,48 +1756,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-input-group',
-  placeholder: 'Username',
-  components: {
-    button: {
-      weight: -1,
-      etype: 'text',
-      text: '@',
-      cls: 'input-group-addon'
-    }
-  }
-});
-
-$.ergo({
-  etype: 'bs-input-group',
-  components: {
-    button2: {
-      weight: 1,
-      etype: 'text',
-      text: '.00',
-      cls: 'input-group-addon'
-    }
-  }
-});
-
-$.ergo({
-  etype: 'bs-input-group',
-  components: {
-    button: {
-      weight: -1,
-      etype: 'text',
-      text: '$',
-      cls: 'input-group-addon'
-    },
-    button2: {
-      weight: 1,
-      etype: 'text',
-      text: '.00',
-      cls: 'input-group-addon'
-    }
-  }
-});
 </code></pre></div>
 
   <h2 id="input-groups-sizing">Sizing</h2>
@@ -1955,25 +1777,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'bs-input-group',
-  placeholder: 'Username',
-  $addon_text: '@',
-  state: 'large'
-});
-
-$.ergo({
-  etype: 'bs-input-group',
-  placeholder: 'Username',
-  $addon_text: '@'
-});
-
-$.ergo({
-  etype: 'bs-input-group',
-  placeholder: 'Username',
-  $addon_text: '@',
-  state: 'small'
-});
 </code></pre></div>
 
 
@@ -2000,27 +1803,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'box',
-  cls: 'row',
-  items: [{
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon_content: {
-        etype: 'check'
-      }			
-    }]
-  }, {
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon_content: {
-        etype: 'radio'
-      }			
-    }]
-  }]
-});	
 </code></pre></div>
 
 
@@ -2047,30 +1829,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'box',
-  cls: 'row',
-  items: [{
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-        etype: 'bs-button-addon',
-        text: 'Go!'
-      }			
-    }]
-  }, {
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-        weight: 1,
-        etype: 'bs-button-addon',
-        text: 'Go!'
-      }			
-    }]
-  }]
-});
 </code></pre></div>
 
   <h2 id="input-groups-buttons-dropdowns">Buttons with dropdowns</h2>
@@ -2110,32 +1868,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'box',
-  cls: 'row',
-  items: [{
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-        etype: 'bs-dropdown-addon',
-        text: 'Action',
-        $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-      }			
-    }]
-  }, {
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-      weight: 1,
-      etype: 'bs-dropdown-addon',
-        text: 'Action',
-        $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-      }			
-    }]
-  }]
-});	
 </code></pre></div>
 
   <h2 id="input-groups-buttons-segmented">Segmented buttons</h2>
@@ -2182,46 +1914,6 @@ $.ergo({
     </div-->
   </form>
 <div class="highlight"><pre><code class="javascript">
-$.ergo({
-  etype: 'box',
-  cls: 'row',
-  items: [{
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-        etype: 'bs-dropdown-addon',
-        state: 'segmented',
-        $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-        components: {
-          button2: {
-            weight: -2,
-            etype: 'bs-button',
-            text: 'Action'
-          }							
-        }					
-      }
-    }]
-  }, {
-    cls: 'col-lg-6',
-    items: [{
-      etype: 'bs-input-group',
-      $addon: {
-        weight: 1,
-        etype: 'bs-dropdown-addon',
-        state: 'segmented',
-        $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-        components: {
-          button2: {
-            weight: -2,
-            etype: 'bs-button',
-            text: 'Action'
-          }							
-        }					
-      }			
-    }]
-  }]
-});
 </code></pre></div>
 </div>
 
@@ -2233,17 +1925,13 @@ $.ergo({
   <h2 id="nav-tabs">Tabs</h2>
   <p>Note the <code>.nav-tabs</code> class requires the <code>.nav</code> base class.</p>
   <div class="bs-example">
-    <ul class="nav nav-tabs" role="tablist">
+    <!--ul class="nav nav-tabs" role="tablist">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Messages</a></li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-tabs&quot;</span> <span class="na">role=</span><span class="s">&quot;tablist&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Profile<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Messages<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
   <div class="bs-callout bs-callout-info">
     <h4>Requires JavaScript tabs plugin</h4>
     <p>For tabs with tabbable areas, you must use the <a href="../javascript/#tabs">tabs JavaScript plugin</a>.</p>
@@ -2252,28 +1940,22 @@ $.ergo({
   <h2 id="nav-pills">Pills</h2>
   <p>Take that same HTML, but use <code>.nav-pills</code> instead:</p>
   <div class="bs-example">
-    <ul class="nav nav-pills">
+    <!--ul class="nav nav-pills">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Messages</a></li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Profile<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Messages<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
   <p>Pills are also vertically stackable. Just add <code>.nav-stacked</code>.</p>
   <div class="bs-example" id="nav-pills-stacked">
-    <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+    <!--ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Messages</a></li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills nav-stacked&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="nav-justified">Justified</h2>
@@ -2283,7 +1965,7 @@ $.ergo({
     <p>As of v7.0.1, Safari exhibits a bug in which resizing your browser horizontally causes rendering errors in the justified nav that are cleared upon refreshing. This bug is also shown in the <a href="../examples/justified-nav/">justified nav example</a>.</p>
   </div>
   <div class="bs-example" id="nav-justified-a">
-    <ul class="nav nav-tabs nav-justified" role="tablist">
+    <!--ul class="nav nav-tabs nav-justified" role="tablist">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Messages</a></li>
@@ -2293,14 +1975,9 @@ $.ergo({
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Messages</a></li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-tabs nav-justified&quot;</span> <span class="na">role=</span><span class="s">&quot;tablist&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills nav-justified&quot;</span><span class="nt">&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="nav-disabled-links">Disabled links</h2>
@@ -2312,17 +1989,13 @@ $.ergo({
   </div>
 
   <div class="bs-example" id="nav-disabled-links-a">
-    <ul class="nav nav-pills">
+    <!--ul class="nav nav-pills">
       <li><a href="#">Clickable link</a></li>
       <li><a href="#">Clickable link</a></li>
       <li class="disabled"><a href="#">Disabled link</a></li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills&quot;</span><span class="nt">&gt;</span>
-  ...
-  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;disabled&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Disabled link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="nav-dropdowns">Using dropdowns</h2>
@@ -2330,7 +2003,7 @@ $.ergo({
 
   <h3>Tabs with dropdowns</h3>
   <div class="bs-example" id="nav-dropdowns-a">
-    <ul class="nav nav-tabs" role="tablist">
+    <!--ul class="nav nav-tabs" role="tablist">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Help</a></li>
       <li class="dropdown">
@@ -2345,24 +2018,13 @@ $.ergo({
           <li><a href="#">Separated link</a></li>
         </ul>
       </li>
-    </ul>
+    </ul-->
   </div>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-tabs&quot;</span> <span class="na">role=</span><span class="s">&quot;tablist&quot;</span><span class="nt">&gt;</span>
-  ...
-  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;dropdown-toggle&quot;</span> <span class="na">data-toggle=</span><span class="s">&quot;dropdown&quot;</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>
-      Dropdown <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;caret&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
-    <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown-menu&quot;</span> <span class="na">role=</span><span class="s">&quot;menu&quot;</span><span class="nt">&gt;</span>
-      ...
-    <span class="nt">&lt;/ul&gt;</span>
-  <span class="nt">&lt;/li&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
-  <h3>Pills with dropdowns</h3>
-  <div class="bs-example" id="nav-dropdowns-b">
-    <ul class="nav nav-pills">
+  <h3 id="nav-dropdowns-b">Pills with dropdowns</h3>
+  <div class="bs-example">
+    <!--ul class="nav nav-pills">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Help</a></li>
       <li class="dropdown">
@@ -2377,20 +2039,9 @@ $.ergo({
           <li><a href="#">Separated link</a></li>
         </ul>
       </li>
-    </ul>
+    </ul-->
   </div><!-- /example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills&quot;</span><span class="nt">&gt;</span>
-  ...
-  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;dropdown-toggle&quot;</span> <span class="na">data-toggle=</span><span class="s">&quot;dropdown&quot;</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>
-      Dropdown <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;caret&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
-    <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown-menu&quot;</span> <span class="na">role=</span><span class="s">&quot;menu&quot;</span><span class="nt">&gt;</span>
-      ...
-    <span class="nt">&lt;/ul&gt;</span>
-  <span class="nt">&lt;/li&gt;</span>
-  ...
-<span class="nt">&lt;/ul&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 </div>
 
 <div class="bs-docs-section">
@@ -4279,7 +3930,7 @@ $.ergo({
 		
 		<!-- ErgoJS -->
 		<script type="text/javascript" src="build/ergojs-core.js"></script>
-		<script type="text/javascript" src="build/ergojs-widgets.js"></script>
+		<script type="text/javascript" src="build/ergojs-natives.js"></script>
 
 
 		<script type="text/javascript" src="samples/bootstrap/widgets.js"></script>

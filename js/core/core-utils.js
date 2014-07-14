@@ -8,7 +8,7 @@
 	var E = Ergo;
 
 	
-	
+	E.indent_s = '\t';
 	
 	/**
 	 * Печать объекта в удобочитаемой форме
@@ -17,6 +17,7 @@
 	 * @function
 	 * @param {Any} obj любой объект/примитив
 	 * @param {Integer} indent отступ
+	 * @param {Integer} i_symb исимвол отступа
 	 * @returns {String}
 	 */
 	E.pretty_print = function(obj, indent) {
@@ -25,7 +26,7 @@
 		
 		indent = indent || 0;
 		var tabs = '';
-		for(var i = 0; i < indent; i++) tabs += '\t';
+		for(var i = 0; i < indent; i++) tabs += E.indent_s;
 		
 		if(obj.pretty_print) return obj.pretty_print(indent);
 		
@@ -48,7 +49,8 @@
 		else if($.isPlainObject(obj) || !indent){
 			var items = [];
 			E.each(obj, function(item, key){
-				items.push(tabs + '\t' + key + ':' + E.pretty_print(item, indent+1));					
+				if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
+				items.push(tabs + E.indent_s + key + ': ' + E.pretty_print(item, indent+1));					
 			});
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}

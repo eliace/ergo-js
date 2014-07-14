@@ -449,7 +449,48 @@ Ergo.defineClass('Bootstrap.widgets.DropdownNavItem', 'Bootstrap.widgets.Dropdow
 
 
 
+Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<nav/>',
+		layout: {
+			etype: 'layouts:default',
+			html: '<div class="container-fluid"/>'
+		},
+		cls: 'navbar navbar-default',
+		components: {
+			header: {
+				cls: 'navbar-header',
+				components: {
+					toggle: {
+						etype: 'bs-button',
+						cls: 'navbar-toggle'
+					},
+					brand: {
+						etype: 'anchor',
+						href: '#',
+						cls: 'navbar-brand'
+					}
+				}
+			},
+			content: {
+				cls: 'collapse navbar-collapse'
+			}
+		}
+	},
+	
+	setBrand: function(v) {
+		this.header.brand.opt('text', v);
+	}
+	
+}, 'bs-navbar');
 
+
+
+
+Ergo.defineClass('Bootstrap.widgets.NavbarForm', 'Ergo.widgets.Form', {
+	
+}, 'bs-navbar-form');
 
 
 
