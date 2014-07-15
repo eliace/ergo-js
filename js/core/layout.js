@@ -171,17 +171,22 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			
 			var arr = [];
 			var before_el = null;
+			var after_el = null;
 //			this.container.children.each(function(it){
 			el.children().each(function(k, child){
 				it = $(child).ergo();
 				if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
 				if(it._weight == weight) arr.push(it.el);
 				else if(it._weight <= weight) before_el = it.el;
+				else after_el = it.el;
 			});
 
 			if( !arr[index] ) {
+				before_el = arr[index-1] | before_el;
 				if(before_el)
 					before_el.after( item_el );
+				else if(after_el)
+					after_el.before( item_el );
 				else
 					el.append( item_el );
 			}

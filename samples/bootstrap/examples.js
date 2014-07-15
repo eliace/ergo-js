@@ -23,7 +23,7 @@ $(document).ready(function(){
 		
 		$.ergo(o).$doLayout();
 		
-		$(code_selector).append('\n$.ergo('+s+');\n');
+		$(code_selector).append(Ergo.escapeHtml('\n$.ergo('+s+');\n'));
 		
 	};
 
@@ -134,12 +134,12 @@ $(document).ready(function(){
 		cls: 'dropdown clearfix',
 		text: 'Dropdown',
 		$dropdown_items: [
-			{text: 'Dropdown header', state: 'header', '!content': undefined}, 
+			{text: 'Dropdown header', state: 'header', etype: 'box', html: '<li/>' /*'!content': undefined*/}, 
 			'Action', 
 			'Another action', 
 			'Something else here', 
 			'|', 
-			{text: 'Dropdown header', state: 'header', '!content': undefined}, 
+			{text: 'Dropdown header', state: 'header', etype: 'box', html: '<li/>' /*'!content': undefined*/}, 
 			'Separated link'
 		]		
 	});
@@ -168,7 +168,7 @@ $(document).ready(function(){
 		text: 'Dropdown',
 		$dropdown_items: [
 			'Regular link', 
-			{value: 'Disabled link', state: 'disabled'}, 
+			{text: 'Disabled link', state: 'disabled'}, 
 			'Another link', 
 		]
 	});
@@ -1417,10 +1417,347 @@ $(document).ready(function(){
 	});
 
 
+	
+	example_only('breadcrumbs', {
+		etype: 'bs-breadcrumb',
+		items: [{text: 'Home', last: true}]
+	});
+
+	example_only('breadcrumbs', {
+		etype: 'bs-breadcrumb',
+		items: ['Home', {text: 'Library', last: true}]
+	});
+
+	example('breadcrumbs', {
+		etype: 'bs-breadcrumb',
+		items: ['Home', 'Library', {text: 'Data', last: true}]
+	});
 
 
 
 
+
+
+	example('pagination', {
+		etype: 'bs-pagination',
+		items: ['1', '2', '3', '4', '5']
+	});
+
+
+	example('pagination-disabled', {
+		etype: 'bs-pagination',
+		$prevButton_state: 'disabled',
+		items: [{text: '1', state: 'active', $content_content: {etype: 'text', cls: 'sr-only', text: '(current)'}}, '2', '3', '4', '5']
+	});
+
+	example('pagination-sizing', {
+		etype: 'box',
+		content: {
+			etype: 'bs-pagination',
+			state: 'large',
+			items: ['1', '2', '3', '4', '5']
+		}
+	});
+
+	example_only('pagination-sizing', {
+		etype: 'box',
+		content: {
+			etype: 'bs-pagination',
+			items: ['1', '2', '3', '4', '5']
+		}
+	});
+
+	example_only('pagination-sizing', {
+		etype: 'box',
+		content: {
+			etype: 'bs-pagination',
+			state: 'small',
+			items: ['1', '2', '3', '4', '5']
+		}
+	});
+
+
+
+
+	example('pagination-pager', {
+		etype: 'bs-pager'
+	});
+
+	example('pagination-pager-align', {
+		etype: 'bs-pager',
+		components: {
+			prevButton: {
+				text: '← Older',
+				state: 'previous'
+			},
+			nextButton: {
+				text: 'Newer →',
+				state: 'next'
+			}			
+		}
+	});
+
+	example('pagination-pager-disabled', {
+		etype: 'bs-pager',
+		components: {
+			prevButton: {
+				text: '← Older',
+				state: 'previous disabled'
+			},
+			nextButton: {
+				text: 'Newer →',
+				state: 'next'
+			}			
+		}
+	});
+
+
+	example('labels', {
+		etype: 'box',
+		html: '<h1/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+	example_only('labels', {
+		etype: 'box',
+		html: '<h2/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+	example_only('labels', {
+		etype: 'box',
+		html: '<h3/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+	example_only('labels', {
+		etype: 'box',
+		html: '<h4/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+	example_only('labels', {
+		etype: 'box',
+		html: '<h5/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+	example_only('labels', {
+		etype: 'box',
+		html: '<h6/>',
+		text: 'Example heading ',
+		content: {
+			etype: 'bs-label',
+			text: 'New'
+		}
+	});
+
+
+
+	example('labels-appearance', {
+		etype: 'bs-label',
+		text: 'Default',
+		state: 'default'
+	});
+	
+	example_only('labels-appearance', {
+		etype: 'bs-label',
+		text: 'Primary',
+		state: 'primary'
+	});
+
+	example_only('labels-appearance', {
+		etype: 'bs-label',
+		text: 'Success',
+		state: 'success'
+	});
+
+	example_only('labels-appearance', {
+		etype: 'bs-label',
+		text: 'Info',
+		state: 'info'
+	});
+
+	example_only('labels-appearance', {
+		etype: 'bs-label',
+		text: 'warning',
+		state: 'warning'
+	});
+
+	example_only('labels-appearance', {
+		etype: 'bs-label',
+		text: 'Danger',
+		state: 'danger'
+	});
+
+
+
+
+	example('badges', {
+		etype: 'anchor',
+		text: 'Inbox  ',
+		content: {
+			etype: 'bs-badge',
+			text: 42
+		}
+	});
+
+
+
+	example('badges-adapt', {
+		etype: 'bs-nav',
+		state: 'pills',
+		items: [{
+			text: 'Home  ', 
+			$content_content: {
+				etype: 'bs-badge', 
+				value: 42
+			}, 
+			state: 'active'
+		}, 
+		'Profile', 
+		{
+			text: 'Messages  ',
+			$content_content: {
+				etype: 'bs-badge', 
+				value: 3
+			} 
+		}]
+	});
+	
+	example_only('badges-adapt', {
+		etype: 'box',
+		html: '<br>'
+	});
+
+	example_only('badges-adapt', {
+		etype: 'bs-nav',
+		state: 'pills stacked',
+		style: {'max-width': 260},
+		items: [{
+			text: 'Home  ', 
+			$content_content: {
+				etype: 'bs-badge', 
+				value: 42
+			}, 
+			state: 'active'
+		}, 
+		'Profile', 
+		{
+			text: 'Messages  ',
+			$content_content: {
+				etype: 'bs-badge', 
+				value: 3
+			} 
+		}]
+	});
+
+	example_only('badges-adapt', {
+		etype: 'box',
+		html: '<br>'
+	});
+
+	example_only('badges-adapt', {
+		etype: 'bs-button',
+		text: 'Messages  ',
+		state: 'primary',
+		$content: {
+			etype: 'bs-badge',
+			value: 4
+		}
+	});
+	
+	
+	
+	example('jumbotron', {
+		etype: 'bs-jumbotron',
+		components: {
+			header: {
+				etype: 'text',
+				html: '<h1/>',
+				text: 'Hello, world!'
+			},
+			content: {
+				etype: 'para',
+				text: 'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
+			},
+			footer: {
+				etype: 'para',
+				content: {
+					etype: 'bs-anchor-button',
+					text: 'Learn more',
+					state: 'primary large'
+				}
+			}
+		}
+	});
+	
+	
+	
+	example('thumbnails-default', {
+		etype: 'box',
+		cls: 'row',
+		defaultItem: {
+			cls: 'col-xs-6 col-md-3',
+			content: {
+				etype: 'bs-thumbnail',
+				alt: 'Generic placeholder thumbnail'
+			}			
+		},
+		items: [
+			{content: {image: 'holder.js/100%x180'}},
+			{content: {image: 'holder.js/100%x180'}},
+			{content: {image: 'holder.js/100%x180'}},
+			{content: {image: 'holder.js/100%x180'}}
+		]
+	});
+	
+	
+	
+	example('thumbnails-custom-content', {
+		etype: 'box',
+		cls: 'row',
+		defaultItem: {
+			cls: 'col-sm-6 col-md-4',
+			content: {
+				etype: 'bs-thumbnail',
+				alt: 'Generic placeholder thumbnail',
+				components: {
+					caption: {
+						etype: 'box',
+						cls: 'caption'
+					}
+				}
+			}
+		},
+		items: [
+			{content: {image: 'holder.js/100%x180'}},
+			{content: {image: 'holder.js/100%x180'}},
+			{content: {image: 'holder.js/100%x180'}}
+		]		
+	});
+	
+	
 
 
 	$('html').click(function(e){

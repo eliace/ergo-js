@@ -12,7 +12,7 @@
 Ergo.declare('Ergo.widgets.Anchor', 'Ergo.core.Widget', /** @lends Ergo.widgets.Anchor.prototype */{
 	
 	defaults: {
-		html: '<a href="#" click="return false" />'
+		html: '<a href="#" />'
 	},
 	
 //	$html: function() { return '<a href="#" click="return false" />'; },

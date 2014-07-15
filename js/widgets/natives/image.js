@@ -26,6 +26,10 @@ Ergo.widgets.Image = Ergo.declare('Ergo.widgets.Image', 'Ergo.core.Widget', /** 
 	
 	setSrc: function(v) {
 		this.el.attr('src', v);		
+	},
+	
+	setAlt: function(v) {
+		this.el.attr('alt', v);
 	}
 	
 	

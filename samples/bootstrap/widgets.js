@@ -5,18 +5,30 @@ Ergo.defineClass('Bootstrap.widgets.List', 'Ergo.widgets.List', {
 	
 	defaults: {
 		defaultItem: {
-			components: {
-				content: {
-					etype: 'anchor',
-				}
-			},
-			set: {
-				'text': function(v) { this.content.opt('text', v); }
-			}
+			etype: 'bs-list-item'
 		}
 	}
 	
 }, 'bs-list');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.ListItem', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<li/>',
+		components: {
+			content: {
+				etype: 'anchor'
+			}
+		}
+	},
+
+	setText: function(v) { this.content.opt('text', v); }
+	
+}, 'bs-list-item');
+
+
 
 
 
@@ -120,9 +132,9 @@ Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.widgets.Button', {
 			'warning:role': 'btn-warning',
 			'danger:role': 'btn-danger',
 		},
-		binding: function(v) {
-			this.opt('text', v);
-		}
+		// binding: function(v) {
+			// this.opt('text', v);
+		// }
 	}		
 	
 }, 'bs-button');
@@ -158,8 +170,20 @@ Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Anchor', {
 	
 	defaults: {
 		cls: 'btn btn-default',
-		binding: function(v) {
-			this.opt('text', v);
+		// binding: function(v) {
+			// this.opt('text', v);
+		// },
+		state: 'default',
+		states: {
+			'large:size': 'btn-lg',
+			'small:size': 'btn-sm',
+			'tiny:size': 'btn-xs',
+			'default:role': 'btn-default',
+			'primary:role': 'btn-primary',
+			'success:role': 'btn-success',
+			'info:role': 'btn-info',
+			'warning:role': 'btn-warning',
+			'danger:role': 'btn-danger',
 		},
 		tabIndex: -1,
 		// onClick: function(e) {
@@ -204,14 +228,15 @@ Ergo.defineClass('Bootstrap.widgets.DropdownMenu', 'Ergo.widgets.List', {
 	defaults: {
 		cls: 'dropdown-menu',
 		defaultItem: {
-			content: {
-				etype: 'anchor',
-				tabIndex: -1,
+			etype: 'bs-list-item',
+//			content: {
+//				etype: 'anchor',
+//				tabIndex: -1,
 				// onClick: function(e) {
 					// e.baseEvent.preventDefault();
 				// }
-			},
-			binding: function(v) { this.content.opt('text', v); },
+//			},
+//			binding: function(v) { this.content.opt('text', v); },
 			states: {
 				'header': 'dropdown-header'
 			}
@@ -556,16 +581,136 @@ Ergo.defineClass('Bootstrap.widgets.FormGroup', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Bootstrap.widgets.Breadcrumb', 'Ergo.widgets.List', {
+Ergo.defineClass('Bootstrap.widgets.Breadcrumb', 'Bootstrap.widgets.List', {
 	
 	defaults: {
-		
+		html: '<ol/>',
+		cls: 'breadcrumb',
+		itemFactory: function(o) {
+			if($.isString(o)) o = this.options.shortcuts[o] || {text: o};
+			else if($.isArray(o)) o = {items: o};
+			
+			if(o.last)
+				Ergo.smart_override(o, {etype: 'box', html: '<li/>', state: 'active'});
+							
+			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );
+		}
 	}
 	
 }, 'bs-breadcrumb');
 
 
 
+
+Ergo.defineClass('Bootstrap.widgets.Pagination', 'Bootstrap.widgets.List', {
+	
+	defaults: {
+		cls: 'pagination',
+		states: {
+			'large:size': 'pagination-lg',
+			'small:size': 'pagination-sm'
+		},
+		components: {
+			prevButton: {
+				weight: -1,
+				etype: 'bs-list-item',
+				text: '«'
+			},
+			nextButton: {
+				weight: 1,
+				etype: 'bs-list-item',
+				text: '»'				
+			}
+		}
+	}
+	
+}, 'bs-pagination');
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Pager', 'Bootstrap.widgets.List', {
+	
+	defaults: {
+		cls: 'pager',
+		components: {
+			prevButton: {
+				weight: -10,
+				etype: 'bs-list-item',
+				text: 'Previous'
+			},
+			nextButton: {
+				weight: 10,
+				etype: 'bs-list-item',
+				text: 'Next'
+			}
+		}
+	}
+	
+}, 'bs-pager');
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Label', 'Ergo.widgets.Text', {
+	
+	defaults: {
+		cls: 'label',
+		state: 'default',
+		states: {
+			'default:color': 'label-default',
+			'primary:color': 'label-primary',
+			'success:color': 'label-success',
+			'info:color': 'label-info',
+			'warning:color': 'label-warning',
+			'danger:color': 'label-danger'
+		}
+	}
+	
+}, 'bs-label');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Badge', 'Ergo.widgets.Text', {
+	
+	defaults: {
+		cls: 'badge'
+	}
+	
+}, 'bs-badge');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Jumbotron', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'jumbotron'
+	}
+	
+}, 'bs-jumbotron');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Thumbnail', 'Ergo.widgets.Anchor', {
+	
+	defaults: {
+		cls: 'thumbnail',
+		components: {
+			content: {
+				etype: 'image'
+			}
+		}
+	},
+	
+	setImage: function(v) {
+		this.content.opt('src', v);
+	},
+	
+	setAlt: function(v) {
+		this.content.opt('alt', v);
+	}
+	
+}, 'bs-thumbnail');
 
 
 
