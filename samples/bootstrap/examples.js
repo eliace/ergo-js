@@ -1822,9 +1822,387 @@ $(document).ready(function(){
 	
 	
 	
+	example('progress-basic', {
+		etype: 'bs-progress',
+		value: 60
+	});
+	
+	example('progress-label', {
+		etype: 'bs-progress',
+		labeled: true,
+		value: 60
+	});
+	
+	example('progress-low-percentages', {
+		etype: 'bs-progress',
+		labeled: true,
+		value: 0
+	});
+
+	example('progress-low-percentages', {
+		etype: 'bs-progress',
+		labeled: true,
+		value: 2
+	});
+	
+	
+	example('progress-alternatives', {
+		etype: 'bs-progress',
+		appearance: 'success',
+		value: 40
+	});
+	
+	example('progress-alternatives', {
+		etype: 'bs-progress',
+		appearance: 'info',
+		value: 20
+	});
+
+	example('progress-alternatives', {
+		etype: 'bs-progress',
+		appearance: 'warning',
+		value: 60
+	});
+
+	example('progress-alternatives', {
+		etype: 'bs-progress',
+		appearance: 'danger',
+		value: 80
+	});
+	
+
+
+	example('progress-striped', {
+		etype: 'bs-progress',
+		appearance: 'success',
+		striped: true,
+		value: 40
+	});
+	
+	example('progress-striped', {
+		etype: 'bs-progress',
+		appearance: 'info',
+		striped: true,
+		value: 20
+	});
+
+	example('progress-striped', {
+		etype: 'bs-progress',
+		appearance: 'warning',
+		striped: true,
+		value: 60
+	});
+
+	example('progress-striped', {
+		etype: 'bs-progress',
+		appearance: 'danger',
+		striped: true,
+		value: 80
+	});
+
+
+	example('progress-animated', {
+		etype: 'bs-progress',
+		striped: true,
+		animated: true,
+		value: 45
+	});
+
+
+	example('progress-stacked', {
+		etype: 'bs-progress',
+		components: {
+			bar: {
+				value: 35,
+				appearance: 'success'
+			},
+			bar2: {
+				value: 20,
+				striped: true,
+				appearance: 'warning'
+			},
+			bar3: {
+				value: 10,
+				appearance: 'danger'
+			}
+		}
+	});
 	
 	
 	
+	var MEDIA = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+';
+	
+	
+	example('media', {
+		etype: 'bs-media',
+		image: MEDIA,
+		title: 'Media heading',
+		text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '
+	});
+	
+	example_only('media', {
+		etype: 'bs-media',
+		image: MEDIA,
+		title: 'Media heading',
+		text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
+		content: {
+			items: [{
+				etype: 'bs-media',
+				image: MEDIA,
+				title: 'Nested media heading',
+				text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '				
+			}]
+		}
+	});
+	
+	
+
+	example('media-list', {
+		etype: 'list',
+		cls: 'media-list',
+		defaultItem: {
+			etype: 'bs-media'
+		},
+		items: [{			
+//			etype: 'bs-media',
+			image: MEDIA,
+			title: 'Media heading',
+			text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
+			content: {
+				items: [{
+//					etype: 'bs-media',
+					image: MEDIA,
+					title: 'Nested media heading',
+					text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
+					$content_items: [{
+//						etype: 'bs-media',
+						image: MEDIA,
+						title: 'Nested media heading',
+						text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',					
+					}]			
+				}, {
+//					etype: 'bs-media',
+					image: MEDIA,
+					title: 'Nested media heading',
+					text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '								
+				}]
+			}
+		}, {
+//			etype: 'bs-media',
+			$leftBox_pull: 'right',
+			image: MEDIA,
+			title: 'Media heading',
+			text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',			
+		}]
+	});
+
+
+
+
+
+
+	example('list-group', {
+		etype: 'bs-list-group',
+		items: ['Cras justo odio', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
+	});
+
+
+	example('list-group-badges', {
+		etype: 'bs-list-group',
+		defaultItem: {
+			components: {
+				badge: {
+					etype: 'bs-badge'
+				}
+			}
+		},
+		items: [
+			{text: 'Cras justo odio', $badge_value: 14},
+			{text: 'Dapibus ac facilisis in', $badge_value: 2},
+			{text: 'Morbi leo risus', $badge_value: 1}
+		]
+	});
+
+
+	example('list-group-linked', {
+		etype: 'bs-list-group',
+		html: '<div/>',
+		defaultItem: {
+			html: '<a href="#" />'
+//			etype: 'anchor'
+		},
+		items: [{text: 'Cras justo odio', state: 'active'}, 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
+	});
+
+	
+	example('list-group-disabled', {
+		etype: 'bs-list-group',
+		html: '<div/>',
+		defaultItem: {
+			html: '<a href="#" />'
+//			etype: 'anchor'
+		},
+		items: [{text: 'Cras justo odio', state: 'disabled'}, 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
+	});
+
+
+	example('list-group-contextual-classes', {
+		etype: 'box',
+		cls: 'row',
+		defaultItem: {
+			cls: 'col-sm-6'
+		},
+		items: [{
+			content: {
+				etype: 'bs-list-group',
+				items: [
+					{text: 'Cras justo odio', state: 'success'},
+					{text: 'Dapibus ac facilisis in', state: 'info'},
+					{text: 'Morbi leo risus', state: 'warning'},
+					{text: 'Vestibulum at eros', state: 'danger'}
+				]				
+			}
+		}, {
+			content: {
+				etype: 'bs-list-group',
+				html: '<div/>',
+				defaultItem: {
+					html: '<a href="#" />'
+//			etype: 'anchor'
+				},
+				items: [
+					{text: 'Cras justo odio', state: 'success'},
+					{text: 'Dapibus ac facilisis in', state: 'info'},
+					{text: 'Morbi leo risus', state: 'warning'},
+					{text: 'Vestibulum at eros', state: 'danger'}
+				]				
+			}
+		}]
+	});
+
+
+
+
+	example('list-group-custom-content', {
+		etype: 'bs-list-group',
+		html: '<div/>',
+		defaultItem: {
+			html: '<a href="#" />',
+//			etype: 'anchor'
+			components: {
+				title: {
+					etype: 'text',
+					html: '<h4/>'
+				},
+				content: {
+					etype: 'para'
+				}
+			},
+			set: {
+				'title': function(v) {this.title.opt('text', v)},
+				'text': function(v) {this.content.opt('text', v)}
+			}
+		},
+		items: [{
+			title: 'List group item heading', 
+			text: 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.', 
+			state: 'active'
+		}, {
+			title: 'List group item heading', 
+			text: 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.' 
+		}, {
+			title: 'List group item heading', 
+			text: 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.' 
+		}]
+	});
+
+
+
+
+	example('panels-basic', {
+		etype: 'bs-panel',
+		$heading_autoRender: 'no',
+		$body_text: 'Basic panel example'
+	});
+
+
+	example('panels-heading', {
+		etype: 'bs-panel',
+		components: {
+			heading: {
+				text: 'Panel heading without title',
+				$title_autoRender: 'no'				
+			},
+			body: {
+				text: 'Basic panel example'	
+			}
+		}
+	});
+
+
+	example('panels-heading', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example'
+	});
+
+
+	example('panels-footer', {
+		etype: 'bs-panel',
+		components: {
+			heading: {
+				autoRender: 'no'				
+			},
+			body: {
+				text: 'Panel content'	
+			},
+			footer: {
+				text: 'Panel footer',
+				autoRender: false
+			}
+		}
+	});
+
+
+
+	example('panels-alternatives', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example',
+		state: 'primary'
+	});
+
+	example_only('panels-alternatives', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example',
+		state: 'success'
+	});
+
+	example_only('panels-alternatives', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example',
+		state: 'info'
+	});
+
+	example_only('panels-alternatives', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example',
+		state: 'warning'
+	});
+
+	example_only('panels-alternatives', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		$body_text: 'Basic panel example',
+		state: 'danger'
+	});
+
+
+
+
 
 
 	$('html').click(function(e){

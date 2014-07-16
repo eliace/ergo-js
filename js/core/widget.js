@@ -1225,7 +1225,60 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 //		this.children.each(function(child) { child.$dataChanged(); });	
 		
+	},
+
+
+	// $unknown_opt: function(i, v) {
+// 		
+		// // проверяем состояния
+		// if(i in this.states._states) {
+			// this.states.toggle(i, v)
+		// }
+		// // проверяем группы
+		// else if(i in this.states._exclusions) {
+			// this.states.set(v);
+		// }
+// 		
+	// }
+
+	
+	
+	$opt: function(o) {
+		
+//		var self = this;
+		
+		
+		
+//		var el = this.el;
+		
+		for(var i in o) {
+			// проверяем наличие сеттеров опций
+			if(this.options.set[i])
+				this.options.set[i].call(this, o[i], this.options);
+			// если сеттер опций не найден, проверяем наличие java-like сеттера
+			else {
+				// проверяем наличие Java-like сеттеров
+				var java_setter = 'set'+i.capitalize();			
+				if(this[java_setter])
+					this[java_setter](o[i]);
+				else {
+					// проверяем состояния
+					if(i in this.states._states)
+						this.states.toggle(i, o[i])
+					// проверяем группы состояний
+					else if(i in this.states._exclusives)
+						this.states.set(o[i]);
+				}
+			}
+		}
+
+
+//		profiler.tick('opt', 'other');
+//
+//		profiler.stop('opt');
+		
 	}
+	
 	
 
 

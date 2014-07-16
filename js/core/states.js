@@ -437,6 +437,13 @@ Ergo.Statable = function(o) {
 		}
 	}
 	
+	// // генерируем сеттеры и геттеры
+	// for(var i in this._exclusives) {
+// 		
+	// }
+	
+	
+	
 	
 	// if('exclusives' in o) {
 		// for(var i in o.exclusives) {

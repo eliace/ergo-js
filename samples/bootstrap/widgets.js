@@ -757,6 +757,188 @@ Ergo.defineClass('Bootstrap.widgets.Alert', 'Ergo.widgets.Box', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.Progress', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'progress',
+		defaultComponent: {
+			cls: 'progress-bar',
+			states:{
+				'success:appearance': 'progress-bar-success',
+				'info:appearance': 'progress-bar-info',
+				'warning:appearance': 'progress-bar-warning',
+				'danger:appearance': 'progress-bar-danger',
+				'striped': 'progress-bar-striped'
+			},
+			binding: function(v) {
+				this.el.css('width', v+'%');
+	//			this.sr.opt('text', v+'% Complete');
+				this.el.attr('aria-valuenow', v);
+				
+				if(this.options.labeled)
+					this.opt('text', v+'%');				
+			}
+		},
+		components: {
+			bar: {
+			},
+			sr: {
+				etype: 'text',
+				cls: 'sr-only',
+				autoRender: 'ignore'
+			}
+		},
+		binding: function(v) {
+			this.bar.opt('value', v)
+		}
+	},
+	
+	setAppearance: function(v) {
+		this.bar.states.set(v);
+	},
+	
+	setStriped: function(v) {
+		this.bar.states.toggle('striped');
+	},
+	
+	setAnimated: function(v) {
+		this.bar.states.toggle('active');		
+	},
+	
+	setLabeled: function(v) {
+		this.bar.opt('labeled', v);
+	}
+	
+	
+}, 'bs-progress');
+
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Media', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'media',
+		components: {
+			leftBox: {
+				etype: 'anchor',
+//				state: 'pull-left',
+				pull: 'left',
+				states: {
+					'left:pull': 'pull-left',
+					'right:pull': 'pull-right'
+				},
+				components: {
+					content: {
+						etype: 'image'
+					}
+				}
+			},
+			content: {
+				cls: 'media-body',
+				defaultItem: {
+					etype: 'bs-media'
+				},
+				components: {
+					heading: {
+						etype: 'box',
+						html: '<h4/>',
+						cls: 'media-heading'
+					},
+					content: {
+						etype: 'text'
+					}
+				}
+			}
+		}
+	},
+	
+	setImage: function(v) {
+		this.leftBox.content.opt('src', v);
+	},
+	
+	setTitle: function(v) {
+		this.content.heading.opt('text', v);
+	},
+	
+	setText: function(v) {
+		this.content.content.opt('text', v);
+	}
+	
+}, 'bs-media');
+
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.ListGroup', 'Ergo.widgets.List', {
+	
+	defaults: {
+		cls: 'list-group',
+		defaultItem: {
+			cls: 'list-group-item',
+			states: {
+				'success:appearance': 'list-group-item-success',
+				'info:appearance': 'list-group-item-info',
+				'warning:appearance': 'list-group-item-warning',
+				'danger:appearance': 'list-group-item-danger'
+			}
+		}
+	}
+	
+}, 'bs-list-group');
+
+
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Panel', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'panel',
+		appearance: 'default',
+		states: {
+			'default:appearance': 'panel-default',
+			'primary:appearance': 'panel-primary',
+			'success:appearance': 'panel-success',
+			'info:appearance': 'panel-info',
+			'warning:appearance': 'panel-warning',
+			'danger:appearance': 'panel-danger'
+		},		
+		components: {
+			heading: {
+				cls: 'panel-heading',
+				components: {
+					title: {
+						html: '<h3/>',
+						cls: 'panel-title'
+					}
+				}
+			},
+			body: {
+				cls: 'panel-body'
+			},
+			footer: {
+				cls: 'panel-footer',
+				autoRender: 'no'
+			}
+		}
+	},
+	
+	setTitle: function(v) {
+		this.heading.title.opt('text', v);
+	}
+	
+}, 'bs-panel');
+
+
+
+
+
 
 
 

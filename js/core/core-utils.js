@@ -44,7 +44,7 @@
 			return '[' + items.join(', ') + ']';
 		}
 		else if($.isFunction(obj)){
-			return 'function()';
+			return 'function() { ... }';
 		}
 		else if($.isPlainObject(obj) || !indent){
 			var items = [];

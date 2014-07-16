@@ -173,7 +173,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 			// }
 			// else {
 			var getter = this.options.get[o] || this['get'+o.capitalize()];
-			return (getter) ? getter.call(this) : this.options[o];				
+			return (getter) ? getter.call(this) : this.options[o];
 //			}
 		}
 		
@@ -215,6 +215,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 				var java_setter = 'set'+i.capitalize();			
 				if(this[java_setter])
 					this[java_setter](o[i]);
+				// else {
+					// $unknown_opt(i, o[i]);
 			}
 		}
 
@@ -226,6 +228,9 @@ Ergo.override(Ergo.core.Object.prototype, {
 	},
 	
 	
+	// $unknown_opt: function(i) {
+// 		
+	// },
 	
 	
 	/**
