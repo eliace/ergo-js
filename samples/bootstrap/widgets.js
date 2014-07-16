@@ -715,6 +715,50 @@ Ergo.defineClass('Bootstrap.widgets.Thumbnail', 'Ergo.widgets.Anchor', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.Alert', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'alert',
+		states: {
+			'success:appearance': 'alert-success',
+			'info:appearance': 'alert-info',
+			'warning:appearance': 'alert-warning',
+			'danger:appearance': 'alert-danger',
+			'dismissible': function() {
+				this.layout.add(this.closeButton);
+				return 'alert-dismissible';
+			}
+		},
+		components: {
+			title: {
+				etype: 'text',
+				autoRender: true,
+				html: '<strong/>'
+			},
+			closeButton: {
+				etype: 'button',
+				autoRender: 'ignore',
+				cls: 'close',
+				content: {
+					etype: 'text',
+					text: '×'
+				}
+			}
+		}
+	},
+	
+	setTitle: function(v) {
+		this.title.opt('text', v);
+	}
+	
+	
+}, 'bs-alert');
+
+
+
+
+
+
 
 
 

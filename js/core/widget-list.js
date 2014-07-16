@@ -70,7 +70,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		item.parent = w;
 		
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
-		if(item.options.autoRender)
+		if(item.options.autoRender === true)
 			w.layout.add(item, i);
 
 		// добавляем элемент в коллекцию

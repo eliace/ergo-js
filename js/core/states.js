@@ -184,7 +184,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				if(val.length > 0) {
 					$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
 						if(add_cls !== false)				
-							self._widget.el.addClass(s);					
+							self._widget.el.addClass(add_cls || s);					
 					});
 				}
 			}
@@ -192,7 +192,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			else {
 				$.when( val.call(this._widget, true) ).done(function(add_cls) {
 					if(add_cls !== false)				
-						self._widget.el.addClass(s);					
+						self._widget.el.addClass(add_cls || s);					
 				});
 			}
 		}
@@ -223,7 +223,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 				if(val.length > 1) {
 					$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
 						if(rm_cls !== false)
-							self._widget.el.removeClass(s);					
+							self._widget.el.removeClass(rm_cls || s);					
 					});					
 				}
 			}
@@ -231,7 +231,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			else {
 				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
 					if(rm_cls !== false)				
-						self._widget.el.removeClass(s);
+						self._widget.el.removeClass(rm_cls || s);
 				});
 				
 //				var rm_cls = val.call(this._widget, false);

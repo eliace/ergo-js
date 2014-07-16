@@ -1714,6 +1714,11 @@ $(document).ready(function(){
 	
 	
 	
+	
+	var THUMB = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNzEiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijg1LjUiIHk9IjkwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MTcxeDE4MDwvdGV4dD48L3N2Zz4=';
+	
+	
+	
 	example('thumbnails-default', {
 		etype: 'box',
 		cls: 'row',
@@ -1725,10 +1730,10 @@ $(document).ready(function(){
 			}			
 		},
 		items: [
-			{content: {image: 'holder.js/100%x180'}},
-			{content: {image: 'holder.js/100%x180'}},
-			{content: {image: 'holder.js/100%x180'}},
-			{content: {image: 'holder.js/100%x180'}}
+			{content: {image: THUMB}},
+			{content: {image: THUMB}},
+			{content: {image: THUMB}},
+			{content: {image: THUMB}}
 		]
 	});
 	
@@ -1742,20 +1747,82 @@ $(document).ready(function(){
 			content: {
 				etype: 'bs-thumbnail',
 				alt: 'Generic placeholder thumbnail',
+				html: '<div/>',
 				components: {
 					caption: {
 						etype: 'box',
-						cls: 'caption'
+						cls: 'caption',
+						items: [{
+							etype: 'title',
+							html: '<h3/>',
+							text: 'Thumbnail label'
+						}, {
+							etype: 'para',
+							text: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.'
+						}, {
+							etype: 'para',
+							items: [{
+								etype: 'bs-anchor-button',
+								state: 'primary',
+								text: 'Button'
+							}, {
+								etype: 'bs-anchor-button',
+								text: 'Button'
+							}]
+						}]
 					}
 				}
 			}
 		},
 		items: [
-			{content: {image: 'holder.js/100%x180'}},
-			{content: {image: 'holder.js/100%x180'}},
-			{content: {image: 'holder.js/100%x180'}}
+			{content: {image: THUMB}},
+			{content: {image: THUMB}},
+			{content: {image: THUMB}}
 		]		
 	});
+	
+	
+	
+	example('alerts', {
+		etype: 'bs-alert',
+		state: 'success',
+		trail: 'You successfully read this important alert message.',
+		title: 'Well done!  '
+	});
+	
+	example_only('alerts', {
+		etype: 'bs-alert',
+		state: 'info',
+		trail: "This alert needs your attention, but it's not super important.",
+		title: 'Heads up!  '
+	});
+	
+	example_only('alerts', {
+		etype: 'bs-alert',
+		state: 'warning',
+		trail: "Better check yourself, you're not looking too good.",
+		title: 'Warning!  '
+	});
+	
+	example_only('alerts', {
+		etype: 'bs-alert',
+		state: 'danger',
+		trail: "Change a few things up and try submitting again.",
+		title: 'Oh snap!  '
+	});
+	
+	
+	
+	example('alerts-dismissible', {
+		etype: 'bs-alert',
+		state: 'warning dismissible',
+		trail: "Better check yourself, you're not looking too good.",
+		title: 'Warning!  '		
+	});
+	
+	
+	
+	
 	
 	
 
