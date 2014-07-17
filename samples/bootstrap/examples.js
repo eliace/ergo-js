@@ -2091,11 +2091,14 @@ $(document).ready(function(){
 //			etype: 'anchor'
 			components: {
 				title: {
-					etype: 'text',
-					html: '<h4/>'
+					etype: 'html:h4',
+					cls: 'list-group-item-heading'
+//					etype: 'text',
+//					html: '<h4/>'
 				},
 				content: {
-					etype: 'para'
+					etype: 'para',
+					cls: 'list-group-item-text'
 				}
 			},
 			set: {
@@ -2198,6 +2201,107 @@ $(document).ready(function(){
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'danger'
+	});
+
+
+	
+	example('panels-tables', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		components: {
+			body: {
+				text: 'Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.'
+			},
+			table: {
+				etype: 'bootstrap:table',
+				columns: [{
+					text: '#'
+				}, {
+					text: 'First Name'
+				}, {
+					text: 'Last Name'
+				}, {
+					text: 'Username'
+				}],
+				rows: [
+					['1', 'Mark', 'Otto', '@mdo'],
+					['2', 'Jacob', 'Thornton', '@fat'],
+					['3', 'Larry', 'the Bird', '@twitter']
+				]
+			}
+		}
+	});
+
+
+	example('panels-tables-b', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		components: {
+			body: {
+				autoRender: 'no'
+			},
+			table: {
+				etype: 'bootstrap:table',
+				columns: [{
+					text: '#'
+				}, {
+					text: 'First Name'
+				}, {
+					text: 'Last Name'
+				}, {
+					text: 'Username'
+				}],
+				rows: [
+					['1', 'Mark', 'Otto', '@mdo'],
+					['2', 'Jacob', 'Thornton', '@fat'],
+					['3', 'Larry', 'the Bird', '@twitter']
+				]
+			}
+		}
+	});
+
+
+
+	example('panels-list-group', {
+		etype: 'bs-panel',
+		title: 'Panel title',
+		components: {
+			body: {
+				text: 'Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.'
+			},
+			list: {
+				etype: 'bs-list-group',
+				items: ['Cras justo odio', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']				
+			}
+		}
+	});
+
+
+	example('responsive-embed', {
+		etype: 'bootstrap:embed-responsive',
+		aspect: '16by9',
+		content: {
+			etype: 'html:iframe',
+			src: '//www.youtube.com/embed/B9v8avnYuIs'
+		}
+	});
+	
+
+	example('wells', {
+		etype: 'bootstrap:well',
+		text: "Look, I'm in a well!"
+	});
+
+	example('wells-lg', {
+		etype: 'bootstrap:well',
+		text: "Look, I'm in large a well!",
+		size: 'large'
+	});
+
+	example('wells-sm', {
+		etype: 'bootstrap:well',
+		text: "Look, I'm in small a well!",
+		size: 'small'
 	});
 
 

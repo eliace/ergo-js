@@ -77,10 +77,25 @@
 	
 	
 	E.alias = function(alias, obj) {
-		if(arguments.length == 2)
+
+		// var i = alias.indexOf(':');
+		// var ns = 'ergo';
+		// if(i > 0) {
+			// ns = alias.substr(0, i);
+			// alias = alias.substr(i+1);
+		// }
+// 
+		// if( !_aliases[ns] ) _aliases[ns] = {};
+// 		
+		// ns = _aliases[ns];
+		
+	
+		if(arguments.length == 2) {
 			_aliases[alias] = obj;
+		}
 		else
 			return _aliases[alias];
+	
 	};
 	
 	E.aliases = function() {

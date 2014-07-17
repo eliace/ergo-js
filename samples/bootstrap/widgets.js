@@ -499,7 +499,7 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 	defaults: {
 		html: '<nav/>',
 		layout: {
-			etype: 'layouts:default',
+			etype: 'layout:default',
 			html: '<div class="container-fluid"/>'
 		},
 		cls: 'navbar navbar-default',
@@ -940,7 +940,188 @@ Ergo.defineClass('Bootstrap.widgets.Panel', 'Ergo.widgets.Box', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.TableRow', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<tr/>',
+		defaultItem: {
+			html: '<td/>'
+		}
+	}
+	
+}, 'bootstrap:table-row');
 
+
+
+Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<table/>',
+		cls: 'table',
+		components: {
+			head: {
+				html: '<thead/>',
+				defaultItem: {
+					etype: 'bootstrap:table-row',
+					defaultItem: {
+						html: '<th/>'
+					}
+				}
+			},
+			body: {
+				html: '<tbody/>',
+				defaultItem: {
+					etype: 'bootstrap:table-row'
+				}
+			}
+		}
+	},
+	
+	
+	
+	
+	$pre_construct: function(o) {
+		this.$super(o);
+		
+		if('columns' in o) {
+			
+			var hcols = [];
+			Ergo.each(o.columns, function(c){
+				hcols.push(c);
+			});
+			
+			Ergo.smart_override(o.components.head, {items: [{items: hcols}]});
+			
+		}
+		
+		if('rows' in o) {
+
+			Ergo.smart_override(o.components.body, {items: o.rows});
+			
+		}
+		
+	},
+	
+	
+	
+	
+	$construct: function(o) {
+		this.$super(o);
+		
+		var self = this;
+		
+		this._columns = new Bootstrap.table.Columns(this);
+		
+		if('columns' in o) {
+			// Ergo.each(o.columns, function(c, i){
+				// self._columns.add(o.columns);			
+			// });
+			
+			
+			
+		}
+		
+	}
+	
+}, 'bootstrap:table');
+
+
+
+// mixin?
+Ergo.defineClass('Bootstrap.table.Columns', 'Ergo.core.Object', {
+	
+	initialize: function(w, o) {
+		this.$super(null, o);
+		
+		this._widget = w;
+	},
+	
+	
+	add: function(o) {
+		this.head.items.add();
+	}
+	
+	
+	
+});
+
+
+
+
+Ergo.defineClass('Bootstrap.widgets.EmbedResponsive', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'embed-responsive',
+		states: {
+			'16by9:aspect': 'embed-responsive-16by9',
+			'4by3:aspect': 'embed-responsive-4by3'
+		},
+		defaultComponent: {
+			cls: 'embed-responsive-item'
+		}
+	}
+	
+}, 'bootstrap:embed-responsive');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.Well', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'well',
+		states: {
+			'large:size': 'well-lg',
+			'small:size': 'well-sm'
+		}
+	}
+	
+}, 'bootstrap:well');
+
+
+
+
+
+
+
+
+Ergo.defineClass('Ergo.html.Box', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<div/>'
+	}
+	
+}, 'html:box');
+
+
+Ergo.defineClass('Ergo.html.Iframe', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<iframe/>'
+	},
+	
+	setSrc: function(v) {
+		this.el.attr('src', v);
+	}
+	
+}, 'html:iframe');
+
+
+
+
+Ergo.html = function(o, etype) {
+	
+	if(!Ergo.alias(o.etype)) {
+		o.etype = 'html:box';
+		o.html = '<'+etype+'/>';
+	}
+	
+	return Ergo.object(o);
+};
+
+
+Ergo.bootstrap = Ergo.object;
+
+$.bootstrap = Ergo.bootstrap;
 
 
 

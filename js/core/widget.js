@@ -59,9 +59,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		autoUpdate: true,
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
-				layout = Ergo.object({etype: 'layouts:'+layout});
+				layout = $.ergo({etype: 'layout:'+layout});
 			else if(!(layout instanceof Ergo.core.Layout))
-				layout = Ergo.object(Ergo.override({etype: 'layouts:default'}, layout));
+				layout = $.ergo(Ergo.override({etype: 'layout:default'}, layout));
 			return layout;	
 		},
 		events: {},
@@ -1310,10 +1310,12 @@ Ergo.override(Ergo.core.Widget.prototype, Ergo.core.WidgetProperties);
 
 
 
-Ergo.widget = function(){
-	if(arguments.length == 1) return Ergo.object(arguments[0]);
-	return Ergo.object( Ergo.smart_override.apply(this, arguments) );
-};
+//Ergo.widget = function(){
+//	if(arguments.length == 1) return Ergo.object(arguments[0]);
+//	return Ergo.object( Ergo.smart_override.apply(this, arguments) );
+//};
+
+Ergo.widget = Ergo.object;
 
 
 Ergo.bubble = function(e, type) {
@@ -1326,7 +1328,24 @@ Ergo.bubble = function(e, type) {
 // Интегрируемся в jQuery
 //------------------------------
 
-$.ergo = Ergo.widget;
+$.ergo = function() {
+	
+	var o = Ergo.smart_override.apply(this, arguments);
+	
+	var etype = o.etype;
+	var ns = 'widget';
+	var i = etype.indexOf(':');
+	if(i > 0) {
+		ns = etype.substr(0, i);
+		etype = etype.substr(i+1);
+	}
+	
+	if( !Ergo[ns] )
+		throw new Error('Namespace "'+ns+'" not defined');
+
+	
+	return Ergo[ns](o, etype);
+}; //Ergo.widget;
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
@@ -1336,7 +1355,8 @@ $.fn.ergo = function(o) {
 		o.html = this;
 	}
 	else if(arguments.length == 0) return null;
-	return Ergo.widget(o);
+		
+	return $.ergo(o);
 };
 
 

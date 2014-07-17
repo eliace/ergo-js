@@ -424,14 +424,14 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	
 	
 	
-}, 'layouts:default');
+}, 'layout:default');
 
 
 
 
 
 
-
+Ergo.layout = Ergo.object;
 
 
 
