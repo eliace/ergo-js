@@ -1084,6 +1084,69 @@ Ergo.defineClass('Bootstrap.widgets.Well', 'Ergo.widgets.Box', {
 
 
 
+
+Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
+	
+	defaults: {
+//		name: 'grid',
+		cls: 'row',
+//		html: '<div class="row" />',
+		pattern: {
+			// md xs lg
+		}
+	},
+	
+	
+	add: function(item, index, weight) {
+		this.$super(item, index, weight);
+		
+		var o = this.options;
+		
+		for(var i in o.pattern) {
+			var tmpl = o.pattern[i];
+			if( tmpl[item._index] ) {
+				item.el.addClass('col-'+i+'-'+tmpl[item._index]);
+			}
+		}
+		
+	}
+	
+	
+	// wrap: function(item) {
+// 		
+		// var o = this.options;
+// 		
+		// var wrapper = $('<div/>');
+// 		
+		// for(var i in o.templates) {
+			// var tmpl = o.templates[i];
+			// if( tmpl[item._index] ) {
+				// wrapper.addClass('col-'+i+'-'+tmpl[item._index]);
+			// }
+		// }
+// 		
+		// wrapper.append(item.el);
+// 		
+		// return wrapper;		
+	// }
+	
+	
+}, 'layout:grid');
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------
+//
+// ERGO HTML
+//
+//---------------------------------------------------------------
+
 Ergo.defineClass('Ergo.html.Box', 'Ergo.core.Widget', {
 	
 	defaults: {

@@ -37,6 +37,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		this.container = c;
 				
 		if('name' in o) this.container.el.attr('layout', o.name);
+		if('cls' in o) this.container.el.addClass(o.cls.join(' '));
 
 		this.el = this.container.el;
 		
@@ -54,6 +55,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	detach: function() { 
 //		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
 		if('name' in this.options) this.container.el.attr('layout', undefined);
+		if('cls' in o) this.container.el.removeClass(o.cls.join(' '));
 		delete this.container; 
 	},
 	
