@@ -1102,33 +1102,18 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 		
 		var o = this.options;
 		
+		var keys = {'mobile': 'xs', 'tablet': 'sm', 'desktop': 'md'};
+		
 		for(var i in o.pattern) {
 			var tmpl = o.pattern[i];
 			if( tmpl[item._index] ) {
-				item.el.addClass('col-'+i+'-'+tmpl[item._index]);
+				item.el.addClass('col-'+(keys[i] || i)+'-'+tmpl[item._index]);
 			}
 		}
 		
 	}
 	
 	
-	// wrap: function(item) {
-// 		
-		// var o = this.options;
-// 		
-		// var wrapper = $('<div/>');
-// 		
-		// for(var i in o.templates) {
-			// var tmpl = o.templates[i];
-			// if( tmpl[item._index] ) {
-				// wrapper.addClass('col-'+i+'-'+tmpl[item._index]);
-			// }
-		// }
-// 		
-		// wrapper.append(item.el);
-// 		
-		// return wrapper;		
-	// }
 	
 	
 }, 'layout:grid');
