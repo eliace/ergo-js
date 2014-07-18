@@ -13,4 +13,4 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 	}
 	
 	
-}, 'layouts:inherited');
+}, 'layout:inherited');

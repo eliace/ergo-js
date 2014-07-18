@@ -274,6 +274,162 @@ $(document).ready(function(){
 
 
 
+
+	example('tables-example', {
+		etype: 'bootstrap:table',
+		columns: [{
+			text: '#'
+		}, {
+			text: 'First Name'
+		}, {
+			text: 'Last Name'
+		}, {
+			text: 'Username'
+		}],
+		rows: [
+			['1', 'Mark', 'Otto', '@mdo'],
+			['2', 'Jacob', 'Thornton', '@fat'],
+			['3', 'Larry', 'the Bird', '@twitter']
+		]
+	});
+
+
+	example('tables-striped', {
+		etype: 'bootstrap:table',
+		state: 'striped',
+		columns: [{
+			text: '#'
+		}, {
+			text: 'First Name'
+		}, {
+			text: 'Last Name'
+		}, {
+			text: 'Username'
+		}],
+		rows: [
+			['1', 'Mark', 'Otto', '@mdo'],
+			['2', 'Jacob', 'Thornton', '@fat'],
+			['3', 'Larry', 'the Bird', '@twitter']
+		]
+	});
+
+
+	example('tables-bordered', {
+		etype: 'bootstrap:table',
+		state: 'bordered',
+		columns: [{
+			text: '#'
+		}, {
+			text: 'First Name'
+		}, {
+			text: 'Last Name'
+		}, {
+			text: 'Username'
+		}],
+		rows: [
+			[{text: '1', rowspan: 2}, 'Mark', 'Otto', '@mdo'],
+			['Mark', 'Otto', '@TwBootstrap'],
+			['2', 'Jacob', 'Thornton', '@fat'],
+			['3', {text: 'Larry the Bird', colspan: 2}, '@twitter']
+		]
+	});
+
+
+	example('tables-hover-rows', {
+		etype: 'bootstrap:table',
+		state: 'hovered',
+		columns: ['#', 'First Name', 'Last Name', 'Username'],
+		rows: [
+			['1', 'Mark', 'Otto', '@mdo'],
+			['2', 'Jacob', 'Thornton', '@fat'],
+			['3', {text: 'Larry the Bird', colspan: 2}, '@twitter']
+		]
+	});
+
+
+	example('tables-contextual-classes', {
+		etype: 'bootstrap:table',
+		columns: ['#', 'Column heading', {text: 'Column heading',	state: 'info'}, 'Column heading'],
+		rows: [
+			{items: ['1', 'Column content', 'Column content', 'Column content'], state: 'active'},
+			['2', 'Column content', 'Column content', 'Column content'],
+			{items: ['3', 'Column content', 'Column content', 'Column content'], state: 'success'},
+			['4', 'Column content', 'Column content', 'Column content'],
+			{items: ['5', 'Column content', 'Column content', 'Column content'], state: 'info'},
+			['6', 'Column content', 'Column content', 'Column content'],
+			{items: ['7', 'Column content', 'Column content', 'Column content'], state: 'warning'},
+			['8', 'Column content', 'Column content', 'Column content'],
+			{items: ['9', 'Column content', 'Column content', 'Column content'], state: 'danger'}
+		]
+	});
+
+
+	example('tables-responsive', {
+		etype: 'box',
+		cls: 'table-responsive',
+		content: {
+			etype: 'bootstrap:table',
+			columns: ['#', 'Table heading', 'Table heading', 'Table heading', 'Table heading', 'Table heading', 'Table heading'],
+			rows: [
+				['1', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell'],
+				['2', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell'],
+				['3', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell']
+			]
+		}
+	});
+
+	example_only('tables-responsive', {
+		etype: 'box',
+		cls: 'table-responsive',
+		content: {
+			etype: 'bootstrap:table',
+			bordered: true,
+			columns: ['#', 'Table heading', 'Table heading', 'Table heading', 'Table heading', 'Table heading', 'Table heading'],
+			rows: [
+				['1', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell'],
+				['2', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell'],
+				['3', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell', 'Table cell']
+			]
+		}
+	});
+
+
+
+
+
+	example('forms-example', {
+		etype: 'html:form',
+		items: [{
+			etype: 'box',
+			cls: 'form-group',
+			content: {
+				layout: 'inherited',
+				autoRender: 'no',
+				components: {
+					label: {
+						etype: 'html:label',
+						text: 'Email address'
+					},
+					input: {
+						etype: 'html:input',
+						cls: 'form-control',
+						placeholder: 'Enter email'
+					}
+				}
+			}
+		}]
+	})
+
+
+
+
+
+
+
+
+
+
+
 	$('html').click(function(e){
 		var el = $(e.target);
 //		console.log(el[0].localName);

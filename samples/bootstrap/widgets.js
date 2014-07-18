@@ -959,6 +959,10 @@ Ergo.defineClass('Bootstrap.widgets.TableRow', 'Ergo.widgets.Box', {
 				'warning:context': 'warning',
 				'info:context': 'info',
 				'danger:context': 'danger'
+			},
+			set: {
+				'rowspan': function(v) { this.el.attr('rowspan', v) },
+				'colspan': function(v) { this.el.attr('colspan', v) }
 			}
 		}
 	}
@@ -975,7 +979,7 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 		states: {
 			'striped': 'table-striped',
 			'bordered': 'table-bordered',
-			'row-hover': 'table-hover',
+			'hovered': 'table-hover',
 			'condensed': 'table-condensed'
 		},
 		components: {
@@ -1159,6 +1163,7 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 	
 	
 }, 'layout:grid');
+
 
 
 
