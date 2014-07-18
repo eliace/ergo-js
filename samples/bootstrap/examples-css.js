@@ -204,6 +204,74 @@ $(document).ready(function(){
 
 
 
+	example('grid-offsetting', {
+		etype: 'box',
+		cls: 'show-grid',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				desktop: [4, 0, 0, 0, 0, 4]
+			}
+		},
+		items: ['.col-md-4', '.col-md-4 .col-md-offset-4']
+	});
+
+	example('grid-offsetting', {
+		etype: 'box',
+		cls: 'show-grid',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				desktop: [0, 0, 0, 3, 0, 0, 0, 3]
+			}
+		},
+		items: ['.col-md-3 .col-md-offset-3', '.col-md-3 .col-md-offset-3']
+	});
+
+	example('grid-offsetting', {
+		etype: 'box',
+		cls: 'show-grid',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				desktop: [0, 0, 0, 6]
+			}
+		},
+		items: ['.col-md-6 .col-md-offset-3']
+	});
+
+
+
+	example('grid-nesting', {
+		etype: 'box',
+		cls: 'show-grid',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				tablet: [9]
+			}
+		},
+		items: [{
+			text: 'Level 1: .col-sm-9',
+			content: {
+				cls: 'show-grid',
+				layout: {
+					etype: 'layout:grid',
+					pattern: {
+						tablet: [6, 6],
+						mobile: [8, 4]
+					}
+				},
+				items: ['Level 2: .col-xs-8 .col-sm-6', 'Level 2: .col-xs-4 .col-sm-6']
+			}
+		}]
+	});
+
+
+
+
+
+
 
 
 	$('html').click(function(e){

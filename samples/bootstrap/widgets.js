@@ -944,8 +944,22 @@ Ergo.defineClass('Bootstrap.widgets.TableRow', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<tr/>',
+		states: {
+			'active': 'active',
+			'success:context': 'success',
+			'warning:context': 'warning',
+			'info:context': 'info',
+			'danger:context': 'danger'
+		},
 		defaultItem: {
-			html: '<td/>'
+			html: '<td/>',
+			states: {
+				'active': 'active',
+				'success:context': 'success',
+				'warning:context': 'warning',
+				'info:context': 'info',
+				'danger:context': 'danger'
+			}
 		}
 	}
 	
@@ -958,6 +972,12 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 	defaults: {
 		html: '<table/>',
 		cls: 'table',
+		states: {
+			'striped': 'table-striped',
+			'bordered': 'table-bordered',
+			'row-hover': 'table-hover',
+			'condensed': 'table-condensed'
+		},
 		components: {
 			head: {
 				html: '<thead/>',
@@ -1106,9 +1126,31 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 		
 		for(var i in o.pattern) {
 			var tmpl = o.pattern[i];
-			if( tmpl[item._index] ) {
-				item.el.addClass('col-'+(keys[i] || i)+'-'+tmpl[item._index]);
+			
+			var k = -1;
+			var d = 0;
+			for(var j = 0; j < tmpl.length; j++) {
+				if( tmpl[j] > 0 ) {
+					k++;
+				}
+				else {
+					d++;
+				}
+				
+				if( k == item._index ) {
+					item.el.addClass('col-'+(keys[i] || i)+'-'+tmpl[j]);
+					if(d)
+						item.el.addClass('col-'+(keys[i] || i)+'-offset-'+d);
+					break;
+				}
+				
+				if( tmpl[j] > 0 ) d = 0;
+				
 			}
+			
+			// if( tmpl[item._index] ) {
+				// item.el.addClass('col-'+(keys[i] || i)+'-'+tmpl[item._index]);
+			// }
 		}
 		
 	}
