@@ -398,30 +398,105 @@ $(document).ready(function(){
 
 
 	example('forms-example', {
-		etype: 'html:form',
+		etype: 'bootstrap:form',
 		items: [{
-			etype: 'box',
+			etype: 'bootstrap:form-input',
+			label: 'Email address',
+			placeholder: 'Enter email'
+		}, {
+			etype: 'bootstrap:form-input',
+			label: 'Email address',
+			placeholder: 'Enter email',
+			type: 'password'
+		}, {
+			etype: 'bootstrap:form-input',
+			label: 'File input',
+			type: 'file',
+			components: {
+				content: {
+					'-cls': 'form-control'
+				},
+				help: {
+					etype: 'html:p',
+					cls: 'help-block',
+					text: 'Example block-level help text here.'
+				}				
+			}
+		}, {
+			etype: 'bootstrap:form-checkbox',
+			label: ' Check me out         '
+		}, {
+			etype: 'bs-button',
+			type: 'submit',
+			text: 'Submit'
+		}]
+	});
+
+
+
+	example('forms-inline', {
+		etype: 'bootstrap:form',
+		cls: 'form-inline',
+		items: [{
+			etype: 'bootstrap:form-input',
+			label: 'Email address',
+			placeholder: 'Enter email',
+			$label_state: 'sr-only'
+		}, {
 			cls: 'form-group',
 			content: {
-				layout: 'inherited',
-				autoRender: 'no',
-				components: {
-					label: {
-						etype: 'html:label',
-						text: 'Email address'
-					},
-					input: {
+				etype: 'bs-input-group',
+				placeholder: 'Enter email',
+				$addon_text: '@'
+			}
+		}, {
+			etype: 'bootstrap:form-input',
+			label: 'Password',
+			placeholder: 'Password',
+			$label_state: 'sr-only',
+			type: 'password'
+		}, {
+			etype: 'bootstrap:form-checkbox',
+			label: ' Remember me'
+		}, {
+			etype: 'bs-button',
+			type: 'submit',
+			text: 'Sign in'
+		}]
+
+
+	});
+
+
+
+	example('forms-horizontal', {
+		etype: 'bootstrap:form',
+		cls: 'form-horizontal',
+		items: [{
+			etype: 'bootstrap:form-input',
+			label: 'Email address',
+//			placeholder: 'Enter email',
+			layout: {
+				etype: 'layout:grid',
+				'-cls': 'row',
+				pattern: {
+					tablet: [2, 10]
+				}
+			},
+			components: {
+				label: {
+					cls: 'control-label'
+				},
+				'!content': {
+					content: {
 						etype: 'html:input',
 						cls: 'form-control',
-						placeholder: 'Enter email'
+						placeholder: 'Email'
 					}
 				}
 			}
 		}]
-	})
-
-
-
+	});
 
 
 

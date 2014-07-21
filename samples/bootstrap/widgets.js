@@ -1169,6 +1169,101 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.Form', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<form/>',
+		// layout: {
+			// etype: 'layout:default',
+			// wrapper: function(item) {
+				// if(item.options.wrap) {
+					// var w = $('<div class="form-group"/>');
+					// w.append(item.el);
+					// return w;
+				// }
+				// return item.el;
+			// }
+		// },
+
+		// defaultItem: {
+			// cls: 'form-group',
+			// etype: 'bootstrap:form-input'
+			// components: {
+				// label: {
+					// weight: -100,
+					// etype: 'html:label'
+				// },
+				// content: {
+					// cls: 'form-control'
+				// }
+			// },
+			// set: {
+				// 'label': function(v) {this.label.opt('text', v);}
+			// }
+		// }
+	}
+	
+}, 'bootstrap:form');
+
+
+
+Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'form-group',
+		components: {
+			label: {
+				weight: -100,
+				etype: 'html:label'
+			},
+			content: {
+				etype: 'html:input',
+				cls: 'form-control'
+			}
+		}
+	},
+	
+	setLabel: function(v) {
+		this.label.opt('text', v);
+	},
+	
+	setPlaceholder: function(v) {
+		this.content.opt('placeholder', v);
+	},
+	
+	setType: function(v) {
+		this.content.opt('type', v);
+	}
+	
+	
+}, 'bootstrap:form-input');
+
+
+
+
+Ergo.defineClass('Bootstrap.forms.Checkbox', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'checkbox',
+		components: {
+			content: {
+				etype: 'html:label',
+				content: {
+					etype: 'html:input',
+					autoRender: true,
+					type: 'checkbox'
+				}
+//				trail: ' Check me out         '
+			}
+		}
+	},
+	
+	setLabel: function(v) {
+		this.content.opt('trail', v);
+	}
+	
+}, 'bootstrap:form-checkbox');
+
 
 
 
@@ -1199,6 +1294,24 @@ Ergo.defineClass('Ergo.html.Iframe', 'Ergo.core.Widget', {
 	}
 	
 }, 'html:iframe');
+
+
+Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<input/>'
+	},
+	
+	setType: function(v) {
+		this.el.attr('type', v);
+	},
+	
+	setPlaceholder: function(v) {
+		this.el.attr('placeholder', v);
+	}
+	
+	
+}, 'html:input');
 
 
 
