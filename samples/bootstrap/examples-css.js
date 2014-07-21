@@ -472,35 +472,189 @@ $(document).ready(function(){
 	example('forms-horizontal', {
 		etype: 'bootstrap:form',
 		cls: 'form-horizontal',
-		items: [{
-			etype: 'bootstrap:form-input',
-			label: 'Email address',
-//			placeholder: 'Enter email',
+		
+		defaultItem: {
 			layout: {
 				etype: 'layout:grid',
 				'-cls': 'row',
 				pattern: {
 					tablet: [2, 10]
+				},
+				wrapper: function(item) {
+					if(item.options.wrapper !== false) {
+						var wrap = $('<div/>');
+						wrap.append(item.el);
+						return wrap;
+					}
+					return item.el;
+				}
+			}
+			// components: {
+				// label: {
+					// cls: 'control-label',
+					// wrapper: false					
+				// }
+			// }
+		},
+		items: [{
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Email address',
+			placeholder: 'Email'
+		}, {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Password',
+			placeholder: 'Password',
+			type: 'password'			
+		}, {
+			cls: 'form-group',
+			layout: {
+				pattern: {
+					tablet: [0, 0, 10]
 				}
 			},
 			components: {
-				label: {
-					cls: 'control-label'
-				},
-				'!content': {
-					content: {
-						etype: 'html:input',
-						cls: 'form-control',
-						placeholder: 'Email'
-					}
+				content: {
+					etype: 'bootstrap:form-checkbox',
+					label: ' Remember me'
 				}
 			}
+		}, {
+			cls: 'form-group',
+			layout: {
+				pattern: {
+					tablet: [0, 0, 10]
+				}
+			},
+			components: {
+				content: {
+					etype: 'bs-button',
+					type: 'submit',
+					text: 'Sign in'
+				}
+			}
+			
 		}]
 	});
 
 
 
 
+	example('forms-controls', {
+		etype: 'bootstrap:form',
+		content: {
+			etype: 'html:input',
+			cls: 'form-control',
+			placeholder: 'Text input'
+		}
+	});
+
+	example('forms-controls-textarea', {
+		etype: 'bootstrap:form',
+		content: {
+			etype: 'html:textarea',
+			cls: 'form-control',
+			rows: 3
+		}
+	});
+
+	example('forms-controls-cb', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'bootstrap:form-checkbox',
+			label: "Option one is this and that&mdash;be sure to include why it's great"
+		}, {
+			etype: 'bootstrap:form-checkbox',
+			label: 'Option two is disabled',
+			disabled: true
+		}, {
+			etype: 'html:br'
+		}, {
+			etype: 'bootstrap:form-radio',
+			label: "Option one is this and that&mdash;be sure to include why it's great",
+			name: 'optionsRadios'
+		}, {
+			etype: 'bootstrap:form-radio',
+			label: "Option two can be something else and selecting it will deselect option one",
+			name: 'optionsRadios'
+		}, {
+			etype: 'bootstrap:form-radio',
+			label: "Option three is disabled",
+			name: 'optionsRadios',
+			disabled: true
+		}]
+	});
+
+
+
+	example('forms-controls-cb2', {
+		etype: 'bootstrap:form',
+		defaultItem: {
+			etype: 'html:label',
+			cls: 'checkbox-inline',
+			content: {
+				etype: 'html:input',
+				type: 'checkbox',
+				autoRender: true
+			},
+			set: {
+				'text': function(v) {
+					this.opt('trail', v);
+				}
+			}
+		},
+		items: ['1', '2', '3']
+	});
+
+	example('forms-controls-cb2', {
+		etype: 'bootstrap:form',
+		defaultItem: {
+			etype: 'html:label',
+			cls: 'radio-inline',
+			content: {
+				etype: 'html:input',
+				type: 'radio',
+				autoRender: true,
+				name: 'inlineRadioOptions'
+			},
+			set: {
+				'text': function(v) {
+					this.opt('trail', v);
+				}
+			}
+		},
+		items: ['1', '2', '3']
+	});
+
+
+	example('forms-controls-select', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:select',
+			cls: 'form-control',
+			defaultItem: {
+				etype: 'html:option'
+			},
+			items: ['1', '2', '3', '4', '5']
+		}]
+	});
+	
+	example('forms-controls-select', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:select',
+			cls: 'form-control',
+			multiple: true,
+			defaultItem: {
+				etype: 'html:option'
+			},
+			items: ['1', '2', '3', '4', '5'],
+			set: {
+				'multiple': function(v) { this.el.attr('multiple', v); }
+			}
+		}]
+	});
 
 
 

@@ -404,7 +404,7 @@ var Ergo = (function(){
 //			return;
 			
 		for(var i in o) {
-			if(i == 'defaultItem' || i == 'defaultComponent') 
+			if(i == 'defaultItem' || i == 'defaultComponent' || i == 'layout') 
 				continue;
 			if(o[i] && o[i].constructor == Object)
 				E.smart_build(o[i], i);

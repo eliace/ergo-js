@@ -1126,6 +1126,8 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 		
 		var o = this.options;
 		
+		var el = item._wrapper || item.el;
+		
 		var keys = {'mobile': 'xs', 'tablet': 'sm', 'desktop': 'md'};
 		
 		for(var i in o.pattern) {
@@ -1142,9 +1144,9 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 				}
 				
 				if( k == item._index ) {
-					item.el.addClass('col-'+(keys[i] || i)+'-'+tmpl[j]);
+					el.addClass('col-'+(keys[i] || i)+'-'+tmpl[j]);
 					if(d)
-						item.el.addClass('col-'+(keys[i] || i)+'-offset-'+d);
+						el.addClass('col-'+(keys[i] || i)+'-offset-'+d);
 					break;
 				}
 				
@@ -1255,6 +1257,11 @@ Ergo.defineClass('Bootstrap.forms.Checkbox', 'Ergo.widgets.Box', {
 				}
 //				trail: ' Check me out         '
 			}
+		},
+		states: {
+			'disabled': function(on) {
+				this.content.content.opt('disabled', on);
+			}
 		}
 	},
 	
@@ -1263,6 +1270,62 @@ Ergo.defineClass('Bootstrap.forms.Checkbox', 'Ergo.widgets.Box', {
 	}
 	
 }, 'bootstrap:form-checkbox');
+
+
+
+
+Ergo.defineClass('Bootstrap.forms.Radio', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'radio',
+		components: {
+			content: {
+				etype: 'html:label',
+				content: {
+					etype: 'html:input',
+					autoRender: true,
+					type: 'radio'
+				}
+//				trail: ' Check me out         '
+			}
+		},
+		states: {
+			'disabled': function(on) {
+				this.content.content.opt('disabled', on);
+			}
+		}
+	},
+	
+	setLabel: function(v) {
+		this.content.opt('trail', v);
+	},
+	
+	setName: function(v) {
+		this.content.content.opt('name', v);
+	}
+	
+	
+}, 'bootstrap:form-radio');
+
+
+
+
+
+
+Ergo.defineMixin('Bootstrap.mixins.ControlLabel', {
+	
+	options: {
+		components: {
+			label: {
+				weight: -100,
+				etype: 'html:label',
+				cls: 'control-label',
+				wrapper: false
+			}
+		}
+	}
+	
+}, 'mixins:control-label');
 
 
 
@@ -1308,10 +1371,33 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	setPlaceholder: function(v) {
 		this.el.attr('placeholder', v);
+	},
+	
+	setDisabled: function(v) {
+		this.el.attr('disabled', '');
+	},
+	
+	setName: function(v) {
+		this.el.attr('name', v);
 	}
 	
 	
 }, 'html:input');
+
+
+Ergo.defineClass('Ergo.html.Textarea', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<textarea/>'
+	},
+	
+	setRows: function(v) {
+		this.el.attr('rows', v);
+	},
+	
+}, 'html:textarea');
+
+
 
 
 
