@@ -744,6 +744,206 @@ $(document).ready(function(){
 	
 	
 	
+	example('forms-control-feedback', {
+		etype: 'bootstrap:form',
+		defaultItem: {
+			state: 'has-feedback',
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback']			
+		},
+		items: [{
+			label: 'Input with success',
+			state: 'has-success',
+			icon: 'ok'
+		}, {
+			label: 'Input with warning',
+			state: 'has-warning',
+			icon: 'warning-sign'
+		}, {
+			label: 'Input with error',
+			state: 'has-error',
+			icon: 'remove'
+		}]
+	});
+	
+	
+	example('forms-control-feedback-2', {
+		etype: 'bootstrap:horizontal-form',
+		defaultItem: {
+			state: 'has-feedback',
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+			layout: {
+				pattern: {
+					tablet: [3, 9]
+				}
+			}
+		},
+		items: [{
+			label: 'Input with success',
+			state: 'has-success',
+			icon: 'ok'
+		}]
+	});
+
+
+
+	example('forms-control-feedback-3', {
+		etype: 'bootstrap:inline-form',
+		defaultItem: {
+			state: 'has-feedback',
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+		},
+		items: [{
+			label: 'Input with success',
+			state: 'has-success',
+			icon: 'ok'
+		}]
+	});
+
+
+	example('forms-control-feedback-4', {
+		etype: 'bootstrap:form',
+		defaultItem: {
+			state: 'has-feedback',
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+		},
+		items: [{
+			label: 'Input with success',
+			state: 'has-success',
+			icon: 'ok',
+			$label_state: 'sr-only'
+		}]
+	});
+	
+	
+	example('forms-control-sizes', {
+		etype: 'bootstrap:form',
+		content: {
+			cls: 'controls',
+			defaultItem: {
+				cls: 'form-control',
+				states: {
+					'large:size': 'input-lg',
+					'small:size': 'input-sm',
+				}			
+			},
+			items: [{
+				etype: 'html:input',
+				state: 'large',
+				placeholder: '.input-lg'
+			}, {
+				etype: 'html:input',
+				placeholder: 'Default input'
+			}, {
+				etype: 'html:input',
+				state: 'small',
+				placeholder: '.input-sm'
+			}, {
+				etype: 'html:select',
+				state: 'large',
+				items: ['.input-lg']
+			}, {
+				etype: 'html:select',
+				items: ['Default select']
+			}, {
+				etype: 'html:select',
+				state: 'small',
+				items: ['.input-sm']
+			}]
+		}
+	});
+	
+	
+	example('forms-control-sizes-2', {
+		etype: 'bootstrap:horizontal-form',
+		defaultItem: {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label']
+		},
+		items: [{
+			label: 'Large label',
+			placeholder: 'Large input',
+			state: 'large'
+		}, {
+			label: 'Small label',
+			placeholder: 'Small input',
+			state: 'small'
+		}]
+	});
+	
+	
+	example('forms-control-sizes-3', {
+		etype: 'bootstrap:form',
+		content: {
+			layout: {
+				etype: 'layout:grid',
+				pattern: {
+					mobile: [2, 3, 4]
+				},
+				wrapper: function(item) {
+					var w = $('<div/>');
+					w.append(item.el);
+					return w;
+				}
+			},
+			defaultItem: {
+				etype: 'html:input',
+				cls: 'form-control'
+			},
+			defaultOpt: 'placeholder',
+			items: ['.col-xs-2', '.col-xs-3', '.col-xs-4']			
+		}
+	});
+	
+	
+	example('forms-help-text', {
+		etype: 'bootstrap:form',
+		mixins: ['mixins:control-help'],
+		content: {
+			etype: 'html:input',
+			cls: 'form-control'
+		},
+		help: 'A block of help text that breaks onto a new line and may extend beyond one line.'
+	});
+	
+	
+	
+	example('buttons-options', {
+		etype: 'html:box',
+		defaultItem: {
+			etype: 'bs-button'
+		},
+		items: [{
+			state: 'default',
+			text: 'Default'
+		}, {
+			state: 'primary',
+			text: 'Primary'
+		}, {
+			state: 'success',
+			text: 'Success'
+		}, {
+			state: 'info',
+			text: 'Info'
+		}, {
+			state: 'warning',
+			text: 'Warning'
+		}, {
+			state: 'danger',
+			text: 'Danger'
+		}, {
+			state: 'link',
+			text: 'Link'
+		}]
+	});
+	
+	
+	
+	
+	
 	
 	
 	

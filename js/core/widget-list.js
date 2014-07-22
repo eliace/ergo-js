@@ -31,7 +31,15 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	
 	
 	factory: function(o, type) {
-		if($.isString(o)) o = this.options.shortcuts[o] || {text: o};
+		var default_opt = this.options.defaultOpt || 'text';
+		if($.isString(o)) {
+			var v = o;
+			o = this.options.shortcuts[v];
+			if(!o) {
+				o = {}; 
+				o[default_opt] = v;//{text: o};
+			}
+		}
 		else if($.isArray(o)) o = {items: o};
 		var default_child = 'default' + type[0].toUpperCase() + type.substring(1);
 		return $.ergo( Ergo.smart_override({}, this.options[default_child], o) );

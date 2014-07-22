@@ -131,6 +131,7 @@ Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.widgets.Button', {
 			'info:role': 'btn-info',
 			'warning:role': 'btn-warning',
 			'danger:role': 'btn-danger',
+			'link:role': 'btn-link'
 		},
 		// binding: function(v) {
 			// this.opt('text', v);
@@ -1175,37 +1176,19 @@ Ergo.defineClass('Bootstrap.widgets.Form', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<form/>',
-		// layout: {
-			// etype: 'layout:default',
-			// wrapper: function(item) {
-				// if(item.options.wrap) {
-					// var w = $('<div class="form-group"/>');
-					// w.append(item.el);
-					// return w;
-				// }
-				// return item.el;
-			// }
-		// },
-
-		// defaultItem: {
-			// cls: 'form-group',
-			// etype: 'bootstrap:form-input'
-			// components: {
-				// label: {
-					// weight: -100,
-					// etype: 'html:label'
-				// },
-				// content: {
-					// cls: 'form-control'
-				// }
-			// },
-			// set: {
-				// 'label': function(v) {this.label.opt('text', v);}
-			// }
-		// }
 	}
 	
 }, 'bootstrap:form');
+
+
+Ergo.defineClass('Bootstrap.widgets.IForm', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<form/>',
+		cls: 'form-inline'
+	}
+	
+}, 'bootstrap:inline-form');
 
 
 
@@ -1223,7 +1206,9 @@ Ergo.defineClass('Bootstrap.widgets.HForm', 'Ergo.widgets.Box', {
 				},
 				wrapper: function(item) {
 					if(item.options.wrapper !== false) {
-						var wrap = $('<div/>');
+						var wrap = $('div', this.el);
+						if(wrap.length == 0)
+							wrap = $('<div/>');
 						wrap.append(item.el);
 						return wrap;
 					}
@@ -1265,6 +1250,10 @@ Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
 				etype: 'html:input',
 				cls: 'form-control'
 			}
+		},
+		states: {
+			'large:size': 'form-group-lg',
+			'small:size': 'form-group-sm'
 		}
 	},
 	
@@ -1338,13 +1327,19 @@ Ergo.defineClass('Bootstrap.forms.Checkbox', 'Ergo.widgets.Box', {
 		states: {
 			'disabled': function(on) {
 				this.content.content.opt('disabled', on);
-			}
+			},
+			'inline': 'checkbox-inline'
 		}
 	},
 	
 	setLabel: function(v) {
 		this.content.opt('trail', v);
+	},
+	
+	setText: function(v) {
+		this.content.opt('trail', v);
 	}
+	
 	
 }, 'bootstrap:form-checkbox');
 
@@ -1408,6 +1403,50 @@ Ergo.defineMixin('Bootstrap.mixins.ControlLabel', {
 	}
 	
 }, 'mixins:control-label');
+
+
+
+Ergo.defineMixin('Bootstrap.mixins.ControlFeedback', {
+	
+	options: {
+		components: {
+			feedback: {
+				weight: 100,
+				etype: 'glyphicon',
+				cls: 'form-control-feedback',
+//				wrapper: false
+			}
+		}
+//		'+cls': 'has-feedback'
+	},
+	
+	
+	setIcon: function(v) {
+		this.feedback.opt('value', v);
+	}
+	
+}, 'mixins:control-feedback');
+
+
+
+Ergo.defineMixin('Bootstrap.mixins.HelpBlocl', {
+	
+	options: {
+		components: {
+			help: {
+				weight: 200,
+				etype: 'html:span',
+				cls: 'help-block'
+			}
+		}
+	},
+	
+	
+	setHelp: function(v) {
+		this.help.opt('text', v);
+	}
+	
+}, 'mixins:control-help');
 
 
 
@@ -1486,6 +1525,33 @@ Ergo.defineClass('Ergo.html.Textarea', 'Ergo.core.Widget', {
 	},
 	
 }, 'html:textarea');
+
+
+
+Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<select/>',
+		defaultItem: {
+			etype: 'html:option'
+		}
+	},
+	
+	setDisabled: function(v) {
+		this.el.attr('disabled', '');
+	},
+	
+	setName: function(v) {
+		this.el.attr('name', v);
+	},
+	
+	setReadOnly: function(v) {
+		this.el.attr('readonly', v);
+	}
+	
+	
+	
+}, 'html:select');
 
 
 
