@@ -1793,7 +1793,7 @@ the labels using the <code>.sr-only</code> class.</p>
   <h2 id="forms-controls-static">Static control</h2>
   <p>When you need to place plain text next to a form label within a horizontal form, use the <code>.form-control-static</code> class on a <code>&lt;p&gt;</code>.</p>
   <div class="zero-clipboard"><span class="btn-clipboard with-example">Copy</span></div><div class="bs-example">
-    <form class="form-horizontal" role="form">
+    <!--form class="form-horizontal" role="form">
       <div class="form-group">
         <label class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
@@ -1806,29 +1806,16 @@ the labels using the <code>.sr-only</code> class.</p>
           <input class="form-control" id="inputPassword" placeholder="Password" type="password">
         </div>
       </div>
-    </form>
+    </form-->
   </div><!-- /.bs-example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">"form-horizontal"</span> <span class="na">role=</span><span class="s">"form"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">"col-sm-2 control-label"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-sm-10"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"form-control-static"</span><span class="nt">&gt;</span>email@example.com<span class="nt">&lt;/p&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"inputPassword"</span> <span class="na">class=</span><span class="s">"col-sm-2 control-label"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-sm-10"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"inputPassword"</span> <span class="na">placeholder=</span><span class="s">"Password"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/form&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <h2 id="forms-control-focus">Input focus</h2>
   <p>We remove the default <code>outline</code> styles on some form controls and apply a <code>box-shadow</code> in its place for <code>:focus</code>.</p>
   <div class="bs-example">
-    <form role="form">
+    <!--form role="form">
       <input class="form-control" id="focusedInput" value="Demonstrative focus state" type="text">
-    </form>
+    </form-->
   </div>
   <div class="bs-callout bs-callout-info">
     <h4>Demo <code>:focus</code> state</h4>
@@ -1839,11 +1826,11 @@ the labels using the <code>.sr-only</code> class.</p>
   <h2 id="forms-control-disabled">Disabled inputs</h2>
   <p>Add the <code>disabled</code> boolean attribute on an input to prevent user input and trigger a slightly different look.</p>
   <div class="zero-clipboard"><span class="btn-clipboard with-example">Copy</span></div><div class="bs-example">
-    <form role="form">
+    <!--form role="form">
       <input class="form-control" id="disabledInput" placeholder="Disabled input here…" disabled="disabled" type="text">
-    </form>
+    </form-->
   </div><!-- /.bs-example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"disabledInput"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">placeholder=</span><span class="s">"Disabled input here..."</span> <span class="na">disabled</span><span class="nt">&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <h3 id="forms-disabled-fieldsets">Disabled fieldsets</h3>
   <p>Add the <code>disabled</code> attribute to a <code>&lt;fieldset&gt;</code> to disable all the controls within the <code>&lt;fieldset&gt;</code> at once.</p>
@@ -1862,7 +1849,7 @@ the labels using the <code>.sr-only</code> class.</p>
   </div>
 
   <div class="zero-clipboard"><span class="btn-clipboard with-example">Copy</span></div><div class="bs-example">
-    <form role="form">
+    <!--form role="form">
       <fieldset disabled="">
         <div class="form-group">
           <label for="disabledTextInput">Disabled input</label>
@@ -1881,45 +1868,26 @@ the labels using the <code>.sr-only</code> class.</p>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </fieldset>
-    </form>
+    </form-->
   </div><!-- /.bs-example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">role=</span><span class="s">"form"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;fieldset</span> <span class="na">disabled</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"disabledTextInput"</span><span class="nt">&gt;</span>Disabled input<span class="nt">&lt;/label&gt;</span>
-      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"disabledTextInput"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">placeholder=</span><span class="s">"Disabled input"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"disabledSelect"</span><span class="nt">&gt;</span>Disabled select menu<span class="nt">&lt;/label&gt;</span>
-      <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"disabledSelect"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;option&gt;</span>Disabled select<span class="nt">&lt;/option&gt;</span>
-      <span class="nt">&lt;/select&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"checkbox"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;label&gt;</span>
-        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span><span class="nt">&gt;</span> Can't check this
-      <span class="nt">&lt;/label&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">class=</span><span class="s">"btn btn-primary"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;/fieldset&gt;</span>
-<span class="nt">&lt;/form&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="forms-control-readonly">Readonly inputs</h2>
   <p>Add the <code>readonly</code> boolean attribute on an input to prevent user input and style the input as disabled.</p>
   <div class="zero-clipboard"><span class="btn-clipboard with-example">Copy</span></div><div class="bs-example">
-    <form role="form">
+    <!--form role="form">
       <input class="form-control" placeholder="Readonly input here…" readonly="readonly" type="text">
-    </form>
+    </form-->
   </div><!-- /.bs-example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">placeholder=</span><span class="s">"Readonly input here…"</span> <span class="na">readonly</span><span class="nt">&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
 
   <h2 id="forms-control-validation">Validation states</h2>
   <p>Bootstrap includes validation styles for error, warning, and success states on form controls. To use, add <code>.has-warning</code>, <code>.has-error</code>, or <code>.has-success</code> to the parent element. Any <code>.control-label</code>, <code>.form-control</code>, and <code>.help-block</code> within that element will receive the validation styles.</p>
 
   <div class="zero-clipboard"><span class="btn-clipboard with-example">Copy</span></div><div class="bs-example">
-    <form role="form">
+    <!--form role="form">
       <div class="form-group has-success">
         <label class="control-label" for="inputSuccess1">Input with success</label>
         <input class="form-control" id="inputSuccess1" type="text">
@@ -1932,20 +1900,9 @@ the labels using the <code>.sr-only</code> class.</p>
         <label class="control-label" for="inputError1">Input with error</label>
         <input class="form-control" id="inputError1" type="text">
       </div>
-    </form>
+    </form-->
   </div><!-- /.bs-example -->
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group has-success"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">"control-label"</span> <span class="na">for=</span><span class="s">"inputSuccess1"</span><span class="nt">&gt;</span>Input with success<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"inputSuccess1"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group has-warning"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">"control-label"</span> <span class="na">for=</span><span class="s">"inputWarning1"</span><span class="nt">&gt;</span>Input with warning<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"inputWarning1"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group has-error"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">"control-label"</span> <span class="na">for=</span><span class="s">"inputError1"</span><span class="nt">&gt;</span>Input with error<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">id=</span><span class="s">"inputError1"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/div&gt;</span></code></pre></div>
+<div class="highlight"><pre><code class="javascript"></code></pre></div>
 
   <h3>With optional icons</h3>
   <p>You can also add optional feedback icons with the addition of <code>.has-feedback</code> and the right icon.</p>

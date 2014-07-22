@@ -1209,6 +1209,49 @@ Ergo.defineClass('Bootstrap.widgets.Form', 'Ergo.widgets.Box', {
 
 
 
+Ergo.defineClass('Bootstrap.widgets.HForm', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		html: '<form/>',
+		cls: 'form-horizontal',
+		defaultItem: {
+			layout: {
+				etype: 'layout:grid',
+				'-cls': 'row',
+				pattern: {
+					tablet: [2, 10]
+				},
+				wrapper: function(item) {
+					if(item.options.wrapper !== false) {
+						var wrap = $('<div/>');
+						wrap.append(item.el);
+						return wrap;
+					}
+					return item.el;
+				}
+			}
+			// components: {
+				// label: {
+					// cls: 'control-label',
+					// wrapper: false					
+				// }
+			// }
+		},
+	}
+	
+}, 'bootstrap:horizontal-form');
+
+
+
+
+
+
+
+
+
+
+
+
 Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -1235,10 +1278,44 @@ Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
 	
 	setType: function(v) {
 		this.content.opt('type', v);
+	},
+	
+	setReadOnly: function(v) {
+		this.content.opt('readOnly', v);
 	}
 	
 	
 }, 'bootstrap:form-input');
+
+
+
+Ergo.defineClass('Bootstrap.forms.Select', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'form-group',
+		components: {
+			label: {
+				weight: -100,
+				etype: 'html:label'
+			},
+			content: {
+				etype: 'html:select',
+				cls: 'form-control',
+				defaultItem: {
+					etype: 'html:option'
+				}
+			}
+		}
+	},
+	
+	setLabel: function(v) {
+		this.label.opt('text', v);
+	}
+	
+	
+}, 'bootstrap:form-select');
+
+
 
 
 
@@ -1323,6 +1400,11 @@ Ergo.defineMixin('Bootstrap.mixins.ControlLabel', {
 				wrapper: false
 			}
 		}
+	},
+	
+	
+	setLabel: function(v) {
+		this.label.opt('text', v);
 	}
 	
 }, 'mixins:control-label');
@@ -1362,7 +1444,10 @@ Ergo.defineClass('Ergo.html.Iframe', 'Ergo.core.Widget', {
 Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	defaults: {
-		html: '<input/>'
+		html: '<input/>',
+		binding: function(v) {
+			this.el.val(v);
+		}
 	},
 	
 	setType: function(v) {
@@ -1379,7 +1464,12 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	setName: function(v) {
 		this.el.attr('name', v);
+	},
+	
+	setReadOnly: function(v) {
+		this.el.attr('readonly', v);
 	}
+	
 	
 	
 }, 'html:input');

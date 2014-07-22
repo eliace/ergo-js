@@ -470,32 +470,7 @@ $(document).ready(function(){
 
 
 	example('forms-horizontal', {
-		etype: 'bootstrap:form',
-		cls: 'form-horizontal',
-		
-		defaultItem: {
-			layout: {
-				etype: 'layout:grid',
-				'-cls': 'row',
-				pattern: {
-					tablet: [2, 10]
-				},
-				wrapper: function(item) {
-					if(item.options.wrapper !== false) {
-						var wrap = $('<div/>');
-						wrap.append(item.el);
-						return wrap;
-					}
-					return item.el;
-				}
-			}
-			// components: {
-				// label: {
-					// cls: 'control-label',
-					// wrapper: false					
-				// }
-			// }
-		},
+		etype: 'bootstrap:horizontal-form',
 		items: [{
 			etype: 'bootstrap:form-input',
 			mixins: ['mixins:control-label'],
@@ -655,6 +630,124 @@ $(document).ready(function(){
 			}
 		}]
 	});
+	
+	
+	
+	
+	
+	example('forms-controls-static', {
+		etype: 'bootstrap:horizontal-form',
+		items: [{
+			etype: 'html:box',//bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Email address',
+			cls: 'form-group',
+			components: {
+				content: {
+					etype: 'html:p',
+					text: "email@example.com",
+					cls: 'form-control-static',
+					'-cls': 'form-control'
+				}				
+			}
+		}, {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Password',
+			placeholder: 'Password',
+			type: 'password'			
+		}]
+	});
+	
+	
+	example_only('forms-control-focus', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:input',
+			value: 'Demonstrative focus state',
+			cls: 'form-control',
+			id: 'focusedInput'
+		}]
+	});
+	
+	
+	example('forms-control-disabled', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:input',
+			placeholder: 'Disabled input here...',
+			cls: 'form-control',
+			disabled: true
+		}]
+	});
+	
+	
+	example('forms-disabled-fieldsets', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:fieldset',
+			disabled: true,
+			items: [{
+				etype: 'bootstrap:form-input',
+				placeholder: 'Disabled input'
+			}, {
+				etype: 'bootstrap:form-select',
+				$content_items: ['Disabled select']
+			}, {
+				etype: 'bootstrap:form-checkbox',
+				label: "Can't check this "
+			}, {
+				etype: 'bs-button',
+				text: 'Submit',
+				state: 'primary'
+			}],
+			set: {
+				'disabled': function(v) {
+					this.el.attr('disabled', '');
+				}
+			}
+		}]
+	});
+
+	
+	example('forms-control-readonly', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'html:input',
+			cls: 'form-control',
+			placeholder: 'Readonly input here…',
+			readOnly: true
+		}]
+	});
+	
+	
+	example('forms-control-validation', {
+		etype: 'bootstrap:form',
+		items: [{
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Input with success',
+			state: 'has-success'
+		}, {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Input with warning',
+			state: 'has-warning'
+		}, {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label'],
+			label: 'Input with error',
+			state: 'has-error'
+		}]
+	});
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
