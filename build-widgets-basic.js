@@ -1,0 +1,2 @@
+
+//= require <widgets/basic/all>

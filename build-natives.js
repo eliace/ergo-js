@@ -1,2 +1,0 @@
-
-//= require <widgets/natives/all>

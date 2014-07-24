@@ -1,15 +1,26 @@
 
 
 
+
+//---------------------------------------------------------------
+//
+// ERGO BOOTSTRAP
+//
+//---------------------------------------------------------------
+
+
+
+
+
 Ergo.defineClass('Bootstrap.widgets.List', 'Ergo.widgets.List', {
 	
 	defaults: {
 		defaultItem: {
-			etype: 'bs-list-item'
+			etype: 'bootstrap:list-item'
 		}
 	}
 	
-}, 'bs-list');
+}, 'bootstrap:list');
 
 
 
@@ -19,14 +30,14 @@ Ergo.defineClass('Bootstrap.widgets.ListItem', 'Ergo.widgets.Box', {
 		html: '<li/>',
 		components: {
 			content: {
-				etype: 'anchor'
+				etype: 'link'
 			}
 		}
 	},
 
 	setText: function(v) { this.content.opt('text', v); }
 	
-}, 'bs-list-item');
+}, 'bootstrap:list-item');
 
 
 
@@ -38,7 +49,7 @@ Ergo.defineClass('Bootstrap.widgets.ButtonToolbar', 'Ergo.widgets.Box', {
 		cls: 'btn-toolbar'
 	}
 	
-}, 'btn-toolbar');
+}, 'bootstrap:button-toolbar');
 
 
 
@@ -47,7 +58,7 @@ Ergo.defineClass('Bootstrap.widgets.ButtonGroup', 'Ergo.widgets.Box', {
 	defaults: {
 		state: 'horizontal',
 		defaultItem: {
-			etype: 'bs-button'
+			etype: 'bootstrap:button'
 		},
 		states: {
 			'large:size': 'btn-group-lg',
@@ -59,7 +70,7 @@ Ergo.defineClass('Bootstrap.widgets.ButtonGroup', 'Ergo.widgets.Box', {
 		}
 	}
 	
-}, 'btn-group');
+}, 'bootstrap:button-group');
 
 
 
@@ -75,10 +86,10 @@ Ergo.defineClass('Bootstrap.widgets.InputGroup', 'Ergo.widgets.Box', {
 		components: {
 			addon: {
 				weight: -1,
-				etype: 'bs-input-addon'
+				etype: 'bootstrap:input-addon'
 			},
 			input: {
-				etype: 'input',
+				etype: 'html:input',
 				cls: 'form-control'
 			}
 		}
@@ -88,7 +99,7 @@ Ergo.defineClass('Bootstrap.widgets.InputGroup', 'Ergo.widgets.Box', {
 		this.input.opt('placeholder', v);
 	}
 	
-}, 'bs-input-group');
+}, 'bootstrap:input-group');
 
 
 
@@ -96,7 +107,7 @@ Ergo.defineClass('Bootstrap.widgets.InputGroup', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.widgets.Box', {
+Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.core.Widget', {
 	
 	defaults: {
 		cls: 'glyphicon',
@@ -111,12 +122,12 @@ Ergo.defineClass('Bootstrap.widgets.Glyphicon', 'Ergo.widgets.Box', {
 	}
 	
 	
-}, 'glyphicon');
+}, 'bootstrap:glyphicon');
 
 
 
 
-Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.widgets.Button', {
+Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.html.Button', {
 	
 	defaults: {
 		cls: 'btn',
@@ -131,14 +142,15 @@ Ergo.defineClass('Bootstrap.widgets.Button', 'Ergo.widgets.Button', {
 			'info:role': 'btn-info',
 			'warning:role': 'btn-warning',
 			'danger:role': 'btn-danger',
-			'link:role': 'btn-link'
+			'link:role': 'btn-link',
+			'block': 'btn-block'
 		},
 		// binding: function(v) {
 			// this.opt('text', v);
 		// }
 	}		
 	
-}, 'bs-button');
+}, 'bootstrap:button');
 
 
 Ergo.defineClass('Bootstrap.widgets.SplitButton', 'Bootstrap.widgets.Button', {
@@ -146,14 +158,14 @@ Ergo.defineClass('Bootstrap.widgets.SplitButton', 'Bootstrap.widgets.Button', {
 	defaults: {
 		components: {
 			caret: {
-				etype: 'box',
-				cls: 'caret',
-				html: '<span/>'
+				etype: 'html:span',
+				cls: 'caret'
+//				html: '<span/>'
 			},
 			split: {
-				etype: 'box',
-				cls: 'sr-only',
-				html: '<span/>'
+				etype: 'html:span',
+				cls: 'sr-only'
+//				html: '<span/>'
 			}
 		}
 	},
@@ -163,14 +175,14 @@ Ergo.defineClass('Bootstrap.widgets.SplitButton', 'Bootstrap.widgets.Button', {
 	},
 	
 	
-}, 'bs-split-button');
+}, 'bootstrap:split-button');
 
 
 
-Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Anchor', {
+Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Link', {
 	
 	defaults: {
-		cls: 'btn btn-default',
+		cls: 'btn',
 		// binding: function(v) {
 			// this.opt('text', v);
 		// },
@@ -192,7 +204,36 @@ Ergo.defineClass('Bootstrap.widgets.AnchorButton', 'Ergo.widgets.Anchor', {
 		// }
 	}		
 	
-}, 'bs-anchor-button');
+}, 'bootstrap:anchor-button');
+
+
+
+Ergo.defineClass('Bootstrap.widgets.InputButton', 'Ergo.html.Input', {
+	
+	defaults: {
+		cls: 'btn',
+		state: 'default',
+		type: 'button',
+		states: {
+			'large:size': 'btn-lg',
+			'small:size': 'btn-sm',
+			'tiny:size': 'btn-xs',
+			'default:role': 'btn-default',
+			'primary:role': 'btn-primary',
+			'success:role': 'btn-success',
+			'info:role': 'btn-info',
+			'warning:role': 'btn-warning',
+			'danger:role': 'btn-danger',
+		}
+	},
+	
+	setText: function(v) {
+		this.el.val(v);
+	}
+	
+}, 'bootstrap:input-button');
+
+
 
 
 
@@ -202,7 +243,7 @@ Ergo.defineClass('Bootstrap.widgets.GlyphiconButton', 'Bootstrap.widgets.Button'
 	defaults: {
 		components: {
 			icon: {
-				etype: 'glyphicon',
+				etype: 'bootstrap:glyphicon',
 				autoRender: true
 			}
 		}
@@ -217,19 +258,19 @@ Ergo.defineClass('Bootstrap.widgets.GlyphiconButton', 'Bootstrap.widgets.Button'
 		this.layout.el.append( v );
 	}	
 	
-}, 'glyphicon-button');
+}, 'bootstrap:glyphicon-button');
 
 
 
 
 Ergo.defineClass('Bootstrap.widgets.DropdownMenu', 'Ergo.widgets.List', {
 	
-	etype: 'bs-dropdown-menu',
+	etype: 'bootstrap:dropdown-menu',
 	
 	defaults: {
 		cls: 'dropdown-menu',
 		defaultItem: {
-			etype: 'bs-list-item',
+			etype: 'bootstrap:list-item',
 //			content: {
 //				etype: 'anchor',
 //				tabIndex: -1,
@@ -266,18 +307,18 @@ Ergo.defineClass('Bootstrap.widgets.DropdownMenu', 'Ergo.widgets.List', {
 
 Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', {
 	
-	etype: 'bs-dropdown',
+	etype: 'bootstrap:dropdown',
 	
 	defaults: {
 //		cls: 'dropdown clearfix',
 //		mixins: ['easy-popup'],
 		components: {
 			button: {
-				etype: 'bs-button',
+				etype: 'bootstrap:button',
 				cls: 'dropdown-toggle',
 				components: {
 					caret: {
-						etype: 'text',
+						etype: 'html:span',
 						cls: 'caret'
 					}
 				},
@@ -288,7 +329,7 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', 
 				}
 			},
 			dropdown: {
-				etype: 'bs-dropdown-menu'
+				etype: 'bootstrap:dropdown-menu'
 			}
 		},
 		
@@ -319,29 +360,29 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', 
 
 Ergo.defineClass('Bootstrap.widgets.SplitDropdown', 'Bootstrap.widgets.ButtonGroup', {
 	
-	etype: 'bs-split-dropdown',
+	etype: 'bootstrap:split-dropdown',
 	
 	defaults: {
 		components: {
 			button: {
-				etype: 'bs-button',
+				etype: 'bootstrap:button',
 				onClick: function(e) {
 					this.events.bubble('action');
 					e.baseEvent.stopPropagation();
 				}
 			},
 			button2: {
-				etype: 'bs-button',
+				etype: 'bootstrap:button',
 				cls: 'dropdown-toggle',
 				tag: 'button2',
 				components: {
 					content: {
-						etype: 'text',
+						etype: 'html:span',
 						cls: 'caret',
 						
 					},
 					split: {
-						etype: 'text',
+						etype: 'html:span',
 						cls: 'sr-only',
 						text: 'Toggle Dropdown'
 					}					
@@ -353,7 +394,7 @@ Ergo.defineClass('Bootstrap.widgets.SplitDropdown', 'Bootstrap.widgets.ButtonGro
 
 			},
 			dropdown: {
-				etype: 'bs-dropdown-menu'
+				etype: 'bootstrap:dropdown-menu'
 			}
 		},
 		
@@ -393,11 +434,11 @@ Ergo.defineClass('Bootstrap.widgets.InputAddon', 'Ergo.widgets.Text', {
 	defaults: {
 		cls: 'input-group-addon',
 		defaultComponent: {
-			etype: 'input'
+			etype: 'html:input'
 		}
 	}
 	
-}, 'bs-input-addon');
+}, 'bootstrap:input-addon');
 
 
 Ergo.defineClass('Bootstrap.widgets.ButtonAddon', 'Ergo.widgets.Box', {
@@ -406,7 +447,7 @@ Ergo.defineClass('Bootstrap.widgets.ButtonAddon', 'Ergo.widgets.Box', {
 		html: '<span/>',
 		cls: 'input-group-btn',
 		content: {
-			etype: 'bs-button'
+			etype: 'bootstrap:button'
 		}
 	},
 	
@@ -414,7 +455,7 @@ Ergo.defineClass('Bootstrap.widgets.ButtonAddon', 'Ergo.widgets.Box', {
 		this.content.opt('text', v);
 	}
 	
-}, 'bs-button-addon');
+}, 'bootstrap:button-addon');
 
 
 
@@ -427,7 +468,7 @@ Ergo.defineClass('Bootstrap.widgets.DropdownAddon', 'Bootstrap.widgets.Dropdown'
 		state: 'segmented'
 	}
 	
-}, 'bs-dropdown-addon');
+}, 'bootstrap:dropdown-addon');
 
 
 
@@ -444,14 +485,14 @@ Ergo.defineClass('Bootstrap.widgets.Nav', 'Ergo.widgets.List', {
 		},
 		mixins: ['selectable'],
 		defaultItem: {
-			etype: 'bs-nav-item',
+			etype: 'bootstrap:nav-item',
 			states: {
 				'selected': 'active'
 			}
 		}
 	}
 	
-}, 'bs-nav');
+}, 'bootstrap:nav');
 
 
 
@@ -462,7 +503,7 @@ Ergo.defineClass('Bootstrap.widgets.NavItem', 'Ergo.widgets.Box', {
 	defaults: {
 		components: {
 			content: {
-				etype: 'anchor'
+				etype: 'html:a'
 			}
 		},
 		set: {
@@ -471,7 +512,7 @@ Ergo.defineClass('Bootstrap.widgets.NavItem', 'Ergo.widgets.Box', {
 		binding: function(v) { this.opt('text', v); }
 	}
 	
-}, 'bs-nav-item');
+}, 'bootstrap:nav-item');
 
 
 
@@ -484,13 +525,13 @@ Ergo.defineClass('Bootstrap.widgets.DropdownNavItem', 'Bootstrap.widgets.Dropdow
 		state: 'dropdown',
 		components: {
 			button: {
-				etype: 'anchor',
+				etype: 'html:a',
 				cls: 'dropdown-toggle'
 			}
 		}
 	}
 	
-}, 'bs-dropdown-nav-item');
+}, 'bootstrap:dropdown-nav-item');
 
 
 
@@ -515,12 +556,12 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 				cls: 'navbar-header',
 				components: {
 					toggle: {
-						etype: 'bs-button',
+						etype: 'bootstrap:button',
 						cls: 'navbar-toggle'
 					},
 					brand: {
-						etype: 'anchor',
-						href: '#',
+						etype: 'link',
+//						href: '#',
 						cls: 'navbar-brand'
 					}
 				}
@@ -541,7 +582,7 @@ Ergo.defineClass('Bootstrap.widgets.NavBar', 'Ergo.widgets.Box', {
 		this.header.brand.opt('text', v);
 	}
 	
-}, 'bs-navbar');
+}, 'bootstrap:navbar');
 
 
 
@@ -560,7 +601,7 @@ Ergo.defineClass('Bootstrap.widgets.NavbarForm', 'Ergo.widgets.Box', {
 		// }
 	}
 	
-}, 'bs-navbar-form');
+}, 'bootstrap:navbar-form');
 
 
 Ergo.defineClass('Bootstrap.widgets.FormGroup', 'Ergo.widgets.Box', {
@@ -576,7 +617,7 @@ Ergo.defineClass('Bootstrap.widgets.FormGroup', 'Ergo.widgets.Box', {
 		
 	}
 	
-}, 'bs-form-group');
+}, 'bootstrap:form-group');
 
 
 
@@ -592,13 +633,13 @@ Ergo.defineClass('Bootstrap.widgets.Breadcrumb', 'Bootstrap.widgets.List', {
 			else if($.isArray(o)) o = {items: o};
 			
 			if(o.last)
-				Ergo.smart_override(o, {etype: 'box', html: '<li/>', state: 'active'});
+				Ergo.smart_override(o, {etype: 'html:li', state: 'active'});
 							
-			return Ergo.widget( Ergo.smart_override({}, this.options.defaultItem, o) );
+			return $.ergo( Ergo.smart_override({}, this.options.defaultItem, o) );
 		}
 	}
 	
-}, 'bs-breadcrumb');
+}, 'bootstrap:breadcrumb');
 
 
 
@@ -614,18 +655,18 @@ Ergo.defineClass('Bootstrap.widgets.Pagination', 'Bootstrap.widgets.List', {
 		components: {
 			prevButton: {
 				weight: -1,
-				etype: 'bs-list-item',
+				etype: 'bootstrap:list-item',
 				text: '«'
 			},
 			nextButton: {
 				weight: 1,
-				etype: 'bs-list-item',
+				etype: 'bootstrap:list-item',
 				text: '»'				
 			}
 		}
 	}
 	
-}, 'bs-pagination');
+}, 'bootstrap:pagination');
 
 
 
@@ -637,18 +678,18 @@ Ergo.defineClass('Bootstrap.widgets.Pager', 'Bootstrap.widgets.List', {
 		components: {
 			prevButton: {
 				weight: -10,
-				etype: 'bs-list-item',
+				etype: 'bootstrap:list-item',
 				text: 'Previous'
 			},
 			nextButton: {
 				weight: 10,
-				etype: 'bs-list-item',
+				etype: 'bootstrap:list-item',
 				text: 'Next'
 			}
 		}
 	}
 	
-}, 'bs-pager');
+}, 'bootstrap:pager');
 
 
 
@@ -668,7 +709,7 @@ Ergo.defineClass('Bootstrap.widgets.Label', 'Ergo.widgets.Text', {
 		}
 	}
 	
-}, 'bs-label');
+}, 'bootstrap:label');
 
 
 
@@ -678,7 +719,7 @@ Ergo.defineClass('Bootstrap.widgets.Badge', 'Ergo.widgets.Text', {
 		cls: 'badge'
 	}
 	
-}, 'bs-badge');
+}, 'bootstrap:badge');
 
 
 
@@ -688,17 +729,17 @@ Ergo.defineClass('Bootstrap.widgets.Jumbotron', 'Ergo.widgets.Box', {
 		cls: 'jumbotron'
 	}
 	
-}, 'bs-jumbotron');
+}, 'bootstrap:jumbotron');
 
 
 
-Ergo.defineClass('Bootstrap.widgets.Thumbnail', 'Ergo.widgets.Anchor', {
+Ergo.defineClass('Bootstrap.widgets.Thumbnail', 'Ergo.widgets.Link', {
 	
 	defaults: {
 		cls: 'thumbnail',
 		components: {
 			content: {
-				etype: 'image'
+				etype: 'html:img'
 			}
 		}
 	},
@@ -711,7 +752,7 @@ Ergo.defineClass('Bootstrap.widgets.Thumbnail', 'Ergo.widgets.Anchor', {
 		this.content.opt('alt', v);
 	}
 	
-}, 'bs-thumbnail');
+}, 'bootstrap:thumbnail');
 
 
 
@@ -732,16 +773,16 @@ Ergo.defineClass('Bootstrap.widgets.Alert', 'Ergo.widgets.Box', {
 		},
 		components: {
 			title: {
-				etype: 'text',
+				etype: 'html:strong',
 				autoRender: true,
-				html: '<strong/>'
+//				html: '<strong/>'
 			},
 			closeButton: {
-				etype: 'button',
+				etype: 'html:button',
 				autoRender: 'ignore',
 				cls: 'close',
 				content: {
-					etype: 'text',
+					etype: 'html:text',
 					text: '×'
 				}
 			}
@@ -753,7 +794,7 @@ Ergo.defineClass('Bootstrap.widgets.Alert', 'Ergo.widgets.Box', {
 	}
 	
 	
-}, 'bs-alert');
+}, 'bootstrap:alert');
 
 
 
@@ -784,7 +825,7 @@ Ergo.defineClass('Bootstrap.widgets.Progress', 'Ergo.widgets.Box', {
 			bar: {
 			},
 			sr: {
-				etype: 'text',
+				etype: 'html:span',
 				cls: 'sr-only',
 				autoRender: 'ignore'
 			}
@@ -811,7 +852,7 @@ Ergo.defineClass('Bootstrap.widgets.Progress', 'Ergo.widgets.Box', {
 	}
 	
 	
-}, 'bs-progress');
+}, 'bootstrap:progress');
 
 
 
@@ -824,7 +865,7 @@ Ergo.defineClass('Bootstrap.widgets.Media', 'Ergo.widgets.Box', {
 		cls: 'media',
 		components: {
 			leftBox: {
-				etype: 'anchor',
+				etype: 'html:a',
 //				state: 'pull-left',
 				pull: 'left',
 				states: {
@@ -833,23 +874,23 @@ Ergo.defineClass('Bootstrap.widgets.Media', 'Ergo.widgets.Box', {
 				},
 				components: {
 					content: {
-						etype: 'image'
+						etype: 'html:img'
 					}
 				}
 			},
 			content: {
 				cls: 'media-body',
 				defaultItem: {
-					etype: 'bs-media'
+					etype: 'bootstrap:media'
 				},
 				components: {
 					heading: {
-						etype: 'box',
-						html: '<h4/>',
+						etype: 'html:h4',
+//						html: '<h4/>',
 						cls: 'media-heading'
 					},
 					content: {
-						etype: 'text'
+						etype: 'html:text'
 					}
 				}
 			}
@@ -868,7 +909,7 @@ Ergo.defineClass('Bootstrap.widgets.Media', 'Ergo.widgets.Box', {
 		this.content.content.opt('text', v);
 	}
 	
-}, 'bs-media');
+}, 'bootstrap:media');
 
 
 
@@ -890,7 +931,7 @@ Ergo.defineClass('Bootstrap.widgets.ListGroup', 'Ergo.widgets.List', {
 		}
 	}
 	
-}, 'bs-list-group');
+}, 'bootstrap:list-group');
 
 
 
@@ -915,7 +956,8 @@ Ergo.defineClass('Bootstrap.widgets.Panel', 'Ergo.widgets.Box', {
 				cls: 'panel-heading',
 				components: {
 					title: {
-						html: '<h3/>',
+						etype: 'html:h3',
+//						html: '<h3/>',
 						cls: 'panel-title'
 					}
 				}
@@ -934,7 +976,7 @@ Ergo.defineClass('Bootstrap.widgets.Panel', 'Ergo.widgets.Box', {
 		this.heading.title.opt('text', v);
 	}
 	
-}, 'bs-panel');
+}, 'bootstrap:panel');
 
 
 
@@ -962,8 +1004,8 @@ Ergo.defineClass('Bootstrap.widgets.TableRow', 'Ergo.widgets.Box', {
 				'danger:context': 'danger'
 			},
 			set: {
-				'rowspan': function(v) { this.el.attr('rowspan', v) },
-				'colspan': function(v) { this.el.attr('colspan', v) }
+				'rowspan': function(v) { this.el.attr('rowspan', v); },
+				'colspan': function(v) { this.el.attr('colspan', v); }
 			}
 		}
 	}
@@ -1122,6 +1164,14 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 	},
 	
 	
+	wrap: function (item) {
+		
+		if(item.options.noWrapper || this.options.wrapper === false) return item.el;
+		
+		return $('<div/>').append(item.el);
+	},
+	
+	
 	add: function(item, index, weight) {
 		this.$super(item, index, weight);
 		
@@ -1129,7 +1179,7 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 		
 		var el = item._wrapper || item.el;
 		
-		var keys = {'mobile': 'xs', 'tablet': 'sm', 'desktop': 'md'};
+		var keys = {'mobile': 'xs', 'tablet': 'sm', 'desktop': 'md', 'xdesktop': 'lg'};
 		
 		for(var i in o.pattern) {
 			var tmpl = o.pattern[i];
@@ -1181,10 +1231,10 @@ Ergo.defineClass('Bootstrap.widgets.Form', 'Ergo.widgets.Box', {
 }, 'bootstrap:form');
 
 
-Ergo.defineClass('Bootstrap.widgets.IForm', 'Ergo.widgets.Box', {
+Ergo.defineClass('Bootstrap.widgets.IForm', 'Bootstrap.widgets.Form', {
 	
 	defaults: {
-		html: '<form/>',
+//		html: '<form/>',
 		cls: 'form-inline'
 	}
 	
@@ -1192,11 +1242,22 @@ Ergo.defineClass('Bootstrap.widgets.IForm', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Bootstrap.widgets.HForm', 'Ergo.widgets.Box', {
+Ergo.defineClass('Bootstrap.widgets.HForm', 'Bootstrap.widgets.Form', {
 	
 	defaults: {
-		html: '<form/>',
+//		html: '<form/>',
 		cls: 'form-horizontal',
+		
+		layout: {
+			etype: 'layout:default',
+			wrapper: function(item) {
+				if(item.etype != 'bootstrap:form-input') {
+					return $('<div class="form-group" />').append(item.el);
+				}
+				return item.el;
+			}
+		},
+		
 		defaultItem: {
 			layout: {
 				etype: 'layout:grid',
@@ -1205,7 +1266,7 @@ Ergo.defineClass('Bootstrap.widgets.HForm', 'Ergo.widgets.Box', {
 					tablet: [2, 10]
 				},
 				wrapper: function(item) {
-					if(item.options.wrapper !== false) {
+					if(!item.options.noWrapper) {
 						var wrap = $('div', this.el);
 						if(wrap.length == 0)
 							wrap = $('<div/>');
@@ -1278,6 +1339,26 @@ Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
 
 
 
+
+Ergo.defineClass('Bootstrap.forms.File', 'Bootstrap.forms.Input', {
+	
+	defaults: {
+		type: 'file',
+		components: {
+			content: {
+				'-cls': 'form-control'
+			}
+		}
+	}
+	
+	
+}, 'bootstrap:form-file');
+
+
+
+
+
+
 Ergo.defineClass('Bootstrap.forms.Select', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -1290,9 +1371,9 @@ Ergo.defineClass('Bootstrap.forms.Select', 'Ergo.widgets.Box', {
 			content: {
 				etype: 'html:select',
 				cls: 'form-control',
-				defaultItem: {
-					etype: 'html:option'
-				}
+				// defaultItem: {
+					// etype: 'html:option'
+				// }
 			}
 		}
 	},
@@ -1300,6 +1381,8 @@ Ergo.defineClass('Bootstrap.forms.Select', 'Ergo.widgets.Box', {
 	setLabel: function(v) {
 		this.label.opt('text', v);
 	}
+	
+
 	
 	
 }, 'bootstrap:form-select');
@@ -1392,7 +1475,7 @@ Ergo.defineMixin('Bootstrap.mixins.ControlLabel', {
 				weight: -100,
 				etype: 'html:label',
 				cls: 'control-label',
-				wrapper: false
+				noWrapper: true
 			}
 		}
 	},
@@ -1412,7 +1495,7 @@ Ergo.defineMixin('Bootstrap.mixins.ControlFeedback', {
 		components: {
 			feedback: {
 				weight: 100,
-				etype: 'glyphicon',
+				etype: 'bootstrap:glyphicon',
 				cls: 'form-control-feedback',
 //				wrapper: false
 			}
@@ -1429,7 +1512,7 @@ Ergo.defineMixin('Bootstrap.mixins.ControlFeedback', {
 
 
 
-Ergo.defineMixin('Bootstrap.mixins.HelpBlocl', {
+Ergo.defineMixin('Bootstrap.mixins.HelpBlock', {
 	
 	options: {
 		components: {
@@ -1452,126 +1535,13 @@ Ergo.defineMixin('Bootstrap.mixins.HelpBlocl', {
 
 
 
-//---------------------------------------------------------------
-//
-// ERGO HTML
-//
-//---------------------------------------------------------------
+Ergo.$bootstrap = Ergo.object;
 
-Ergo.defineClass('Ergo.html.Box', 'Ergo.core.Widget', {
-	
-	defaults: {
-		html: '<div/>'
-	}
-	
-}, 'html:box');
+// Ergo.$bootstrap = function(o, etype) {
+	// return Ergo.object(o, 'bootstrap:'+etype);
+// };
 
-
-Ergo.defineClass('Ergo.html.Iframe', 'Ergo.core.Widget', {
-	
-	defaults: {
-		html: '<iframe/>'
-	},
-	
-	setSrc: function(v) {
-		this.el.attr('src', v);
-	}
-	
-}, 'html:iframe');
-
-
-Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
-	
-	defaults: {
-		html: '<input/>',
-		binding: function(v) {
-			this.el.val(v);
-		}
-	},
-	
-	setType: function(v) {
-		this.el.attr('type', v);
-	},
-	
-	setPlaceholder: function(v) {
-		this.el.attr('placeholder', v);
-	},
-	
-	setDisabled: function(v) {
-		this.el.attr('disabled', '');
-	},
-	
-	setName: function(v) {
-		this.el.attr('name', v);
-	},
-	
-	setReadOnly: function(v) {
-		this.el.attr('readonly', v);
-	}
-	
-	
-	
-}, 'html:input');
-
-
-Ergo.defineClass('Ergo.html.Textarea', 'Ergo.core.Widget', {
-	
-	defaults: {
-		html: '<textarea/>'
-	},
-	
-	setRows: function(v) {
-		this.el.attr('rows', v);
-	},
-	
-}, 'html:textarea');
-
-
-
-Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
-	
-	defaults: {
-		html: '<select/>',
-		defaultItem: {
-			etype: 'html:option'
-		}
-	},
-	
-	setDisabled: function(v) {
-		this.el.attr('disabled', '');
-	},
-	
-	setName: function(v) {
-		this.el.attr('name', v);
-	},
-	
-	setReadOnly: function(v) {
-		this.el.attr('readonly', v);
-	}
-	
-	
-	
-}, 'html:select');
-
-
-
-
-
-
-Ergo.html = function(o, etype) {
-	
-	if(!Ergo.alias(o.etype)) {
-		o.etype = 'html:box';
-		o.html = '<'+etype+'/>';
-	}
-	
-	return Ergo.object(o);
-};
-
-
-Ergo.bootstrap = Ergo.object;
-
-$.bootstrap = Ergo.bootstrap;
+$.bootstrap = Ergo.$bootstrap;
 
 
 

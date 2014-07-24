@@ -1,5 +1,5 @@
 
-//= require <core/core>
+//= require <core/all>
 
 
 /**

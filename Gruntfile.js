@@ -50,7 +50,7 @@ module.exports = function(grunt) {
     	},
     	widgets_native: {
 	      files: {
-	        'build/ergojs-natives.js': ['build-natives.js']
+	        'build/ergojs-widgets-basic.js': ['build-widgets-basic.js']
 	      },
 	      options: {
 			    extractRequired: extractor,

@@ -43,127 +43,71 @@ $(document).ready(function(){
 	
 	
 	example('glyphicons-examples', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		content: {
-			etype: 'btn-group',
+			etype: 'bootstrap:button-group',
 			defaultItem: {
-				etype: 'glyphicon-button'				
+				etype: 'bootstrap:glyphicon-button'
 			},
-			items: [
-				{icon: 'align-left'},
-				{icon: 'align-center'},
-				{icon: 'align-right'},
-				{icon: 'align-justify'}
-			]
-		}		
-	});
-	
-	
-	example_only('#glyphicons-examples ~ .bs-example:first', {
-		etype: 'btn-toolbar',
-		defaultItem: {
-			etype: 'glyphicon-button',				
-			icon: 'star', 
-			text: 'Star'
-		},
-		items: [
-			{state: 'large'},
-			{},
-			{state: 'small'},
-			{state: 'tiny'}
-		]
-		
-	});
-	
-	
-	// $.ergo({
-		// renderTo: '#glyphicons-example',
-		// etype: 'btn-toolbar',
-		// content: {
-			// etype: 'btn-group',
-			// defaultItem: {
-				// etype: 'glyphicon-button'				
-			// },
-			// items: [
+			defaultOpt: 'icon',
+			items: ['align-left', 'align-center', 'align-right', 'align-justify']
 				// {icon: 'align-left'},
 				// {icon: 'align-center'},
 				// {icon: 'align-right'},
 				// {icon: 'align-justify'}
 			// ]
-		// }
-	// }).$doLayout();
-
-
-	// $.ergo({
-		// renderTo: '#glyphicons-example',
-		// etype: 'btn-toolbar',
-		// defaultItem: {
-			// etype: 'glyphicon-button',				
-			// icon: 'star', 
-			// text: 'Star'
-		// },
-		// items: [
+		}		
+	});
+	
+	
+	example_only('#glyphicons-examples ~ .bs-example:first', {
+		etype: 'bootstrap:button-toolbar',
+		defaultItem: {
+			etype: 'bootstrap:glyphicon-button',				
+			icon: 'star', 
+			text: 'Star'
+		},
+		defaultOpt: 'state',
+		items: ['large', null, 'small', 'tiny']
 			// {state: 'large'},
 			// {},
 			// {state: 'small'},
 			// {state: 'tiny'}
 		// ]
-	// }).$doLayout();
-
+		
+	});
+	
+	
 
 
 	example('dropdowns-example', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'dropdown clearfix',
 		text: 'Dropdown',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']		
 	});
 
 
-	// $.ergo({
-		// renderTo: '#dropdown-example',
-		// etype: 'bs-dropdown',
-		// cls: 'dropdown clearfix',
-		// text: 'Dropdown',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']
-	// }).$doLayout();
-	
 	
 	example('dropdowns-headers', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'dropdown clearfix',
 		text: 'Dropdown',
 		$dropdown_items: [
-			{text: 'Dropdown header', state: 'header', etype: 'box', html: '<li/>' /*'!content': undefined*/}, 
+			{text: 'Dropdown header', state: 'header', etype: 'html:li' /*'!content': undefined*/}, 
 			'Action', 
 			'Another action', 
 			'Something else here', 
 			'|', 
-			{text: 'Dropdown header', state: 'header', etype: 'box', html: '<li/>' /*'!content': undefined*/}, 
+			{text: 'Dropdown header', state: 'header', etype: 'html:li' /*'!content': undefined*/}, 
 			'Separated link'
 		]		
 	});
 	
 
-	// $.ergo({
-		// renderTo: '#dropdown-headers',
-		// etype: 'bs-dropdown',
-		// cls: 'dropdown clearfix',
-		// text: 'Dropdown',
-		// $dropdown_items: [
-			// {text: 'Dropdown header', state: 'header', '!content': undefined}, 
-			// 'Action', 
-			// 'Another action', 
-			// 'Something else here', 
-			// '|', 
-			// {text: 'Dropdown header', state: 'header', '!content': undefined}, 
-			// 'Separated link'
-		// ]
-	// }).$doLayout();
-
 
 	example('dropdowns-disabled', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'dropdown clearfix',
 		text: 'Dropdown',
 		$dropdown_items: [
@@ -173,35 +117,18 @@ $(document).ready(function(){
 		]
 	});
 
-	// $.ergo({
-		// renderTo: '#dropdown-disabled',
-		// etype: 'bs-dropdown',
-		// cls: 'dropdown clearfix',
-		// text: 'Dropdown',
-		// $dropdown_items: [
-			// 'Regular link', 
-			// {value: 'Disabled link', state: 'disabled'}, 
-			// 'Another link', 
-		// ]
-	// }).$doLayout();
 	
 	example('btn-groups-single', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		items: ['Left', 'Middle', 'Right']		
 	});
-	
-	// $.ergo({
-		// renderTo: '#btn-group-single',
-		// etype: 'btn-group',
-		// items: ['Left', 'Middle', 'Right']
-	// }).$doLayout();
 	
 	
 	
 	example('btn-groups-toolbar', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		defaultItem: {
-			etype: 'btn-group'
+			etype: 'bootstrap:button-group'
 		},
 		items: [['1', '2', '3', '4'], ['5', '6', '7'], ['8']]
 	});
@@ -210,21 +137,11 @@ $(document).ready(function(){
 	
 	
 	
-	// $.ergo({
-		// renderTo: '#btn-groups-toolbar + p + div',
-		// etype: 'btn-toolbar',
-		// defaultItem: {
-			// etype: 'btn-group'
-		// },
-		// items: [['1', '2', '3', '4'], ['5', '6', '7'], ['8']]
-	// }).$doLayout();
-	
-	
 	
 	example('btn-groups-sizing', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		content: {
-			etype: 'btn-group',
+			etype: 'bootstrap:button-group',
 			state: 'large',
 			items: ['Left', 'Middle', 'Right']
 		}
@@ -232,26 +149,26 @@ $(document).ready(function(){
 
 
 	example_only('#btn-groups-sizing ~ .bs-example:first', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		content: {
-			etype: 'btn-group',
+			etype: 'bootstrap:button-group',
 			items: ['Left', 'Middle', 'Right']
 		}
 	});
 
 	example_only('#btn-groups-sizing ~ .bs-example:first', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		content: {
-			etype: 'btn-group',
+			etype: 'bootstrap:button-group',
 			state: 'small',
 			items: ['Left', 'Middle', 'Right']
 		}
 	});
 
 	example_only('#btn-groups-sizing ~ .bs-example:first', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		content: {
-			etype: 'btn-group',
+			etype: 'bootstrap:button-group',
 			state: 'tiny',
 			items: ['Left', 'Middle', 'Right']
 		}
@@ -259,77 +176,28 @@ $(document).ready(function(){
 
 	
 
-	// $.ergo({
-		// renderTo: '#btn-groups-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// content: {
-			// etype: 'btn-group',
-			// state: 'large',
-			// items: ['Left', 'Middle', 'Right']
-		// },
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-groups-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// content: {
-			// etype: 'btn-group',
-			// items: ['Left', 'Middle', 'Right']
-		// },
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-groups-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// content: {
-			// etype: 'btn-group',
-			// state: 'small',
-			// items: ['Left', 'Middle', 'Right']
-		// },
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-groups-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// content: {
-			// etype: 'btn-group',
-			// state: 'tiny',
-			// items: ['Left', 'Middle', 'Right']
-		// },
-	// }).$doLayout();
-
 	
 	
 	example('btn-groups-nested', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		items: ['1', '2', {
-			etype: 'bs-dropdown',
+			etype: 'bootstrap:dropdown',
 			text: 'Dropdown',
 			$dropdown_items: ['Dropdown link', 'Dropdown link']
 		}]		
 	});
 	
 
-	// $.ergo({
-		// renderTo: '#btn-groups-nested + p + div',
-		// etype: 'btn-group',
-		// items: ['1', '2', {
-			// etype: 'bs-dropdown',
-			// text: 'Dropdown',
-			// $dropdown_items: ['Dropdown link', 'Dropdown link']
-		// }]
-	// }).$doLayout();
-
 
 
 	example('btn-groups-vertical', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		state: 'vertical',
 		items: [
 			'Button',
 			'Button', 
 			{
-				etype: 'bs-dropdown',
+				etype: 'bootstrap:dropdown',
 				cls: 'btn-group',
 				text: 'Dropdown',
 				$dropdown_items: ['Dropdown link', 'Dropdown link']
@@ -337,19 +205,19 @@ $(document).ready(function(){
 			'Button', 
 			'Button', 
 			{
-				etype: 'bs-dropdown',
+				etype: 'bootstrap:dropdown',
 				cls: 'btn-group',
 				text: 'Dropdown',
 				$dropdown_items: ['Dropdown link', 'Dropdown link']
 			}, 
 			{
-				etype: 'bs-dropdown',
+				etype: 'bootstrap:dropdown',
 				cls: 'btn-group',
 				text: 'Dropdown',
 				$dropdown_items: ['Dropdown link', 'Dropdown link']
 			}, 
 			{
-				etype: 'bs-dropdown',
+				etype: 'bootstrap:dropdown',
 				cls: 'btn-group',
 				text: 'Dropdown',
 				$dropdown_items: ['Dropdown link', 'Dropdown link']
@@ -359,78 +227,34 @@ $(document).ready(function(){
 
 
 
-	// $.ergo({
-		// renderTo: '#btn-groups-vertical + p + div',
-		// etype: 'btn-group',
-		// state: 'vertical',
-		// items: [
-			// 'Button',
-			// 'Button', 
-			// {
-				// etype: 'bs-dropdown',
-				// cls: 'btn-group',
-				// text: 'Dropdown',
-				// $dropdown_items: ['Dropdown link', 'Dropdown link']
-			// },
-			// 'Button', 
-			// 'Button', 
-			// {
-				// etype: 'bs-dropdown',
-				// cls: 'btn-group',
-				// text: 'Dropdown',
-				// $dropdown_items: ['Dropdown link', 'Dropdown link']
-			// }, 
-			// {
-				// etype: 'bs-dropdown',
-				// cls: 'btn-group',
-				// text: 'Dropdown',
-				// $dropdown_items: ['Dropdown link', 'Dropdown link']
-			// }, 
-			// {
-				// etype: 'bs-dropdown',
-				// cls: 'btn-group',
-				// text: 'Dropdown',
-				// $dropdown_items: ['Dropdown link', 'Dropdown link']
-			// } 
-		// ]
-	// }).$doLayout();
 
 
 
 	example('btn-groups-justified', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		state: 'justified',
 		items: ['Left', 'Middle', 'Right'],
 		defaultItem: {
-			etype: 'bs-anchor-button'
+			etype: 'bootstrap:anchor-button'
 		}		
 	});
 
 
-	// $.ergo({
-		// renderTo: '#btn-groups-justified-a',
-		// etype: 'btn-group',
-		// state: 'justified',
-		// items: ['Left', 'Middle', 'Right'],
-		// defaultItem: {
-			// etype: 'bs-anchor-button'
-		// }
-	// }).$doLayout();
 	
 	example('btn-groups-justified', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		state: 'justified',
 		defaultItem: {
-			etype: 'bs-anchor-button',
+			etype: 'bootstrap:anchor-button',
 		},
 		items: ['Left', 'Middle', {
-			etype: 'bs-dropdown',
+			etype: 'bootstrap:dropdown',
 			text: 'Dropdown',
 			cls: 'btn-group',
 			'-cls': 'btn btn-default',
 			components: {
 				button: {
-					etype: 'bs-anchor-button',
+					etype: 'bootstrap:anchor-button',
 				}				
 			},
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
@@ -438,54 +262,22 @@ $(document).ready(function(){
 		
 	});
 
-	// $.ergo({
-		// renderTo: '#btn-groups-justified-a',
-		// etype: 'btn-group',
-		// state: 'justified',
-		// defaultItem: {
-			// etype: 'bs-anchor-button',
-		// },
-		// items: ['Left', 'Middle', {
-			// etype: 'bs-dropdown',
-			// text: 'Dropdown',
-			// cls: 'btn-group',
-			// '-cls': 'btn btn-default',
-			// components: {
-				// button: {
-					// etype: 'bs-anchor-button',
-				// }				
-			// },
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-		// }]
-	// }).$doLayout();
-
 
 
 	example('#btn-groups-justified-b', '#btn-groups-justified-b ~ .highlight code', {
-		etype: 'btn-group',
+		etype: 'bootstrap:button-group',
 		state: 'justified',
 		defaultItem: {
-			etype: 'btn-group'
+			etype: 'bootstrap:button-group'
 		},
 		items: [['Left'], ['Middle'], ['Right']]
 	});
 
 
-	// $.ergo({
-		// renderTo: '#btn-groups-justified-b',
-		// etype: 'btn-group',
-		// state: 'justified',
-		// defaultItem: {
-			// etype: 'btn-group'
-		// },
-		// items: [['Left'], ['Middle'], ['Right']]
-	// }).$doLayout();
-
-
 
 
 	example('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Default',
@@ -494,7 +286,7 @@ $(document).ready(function(){
 	});
 	
 	example_only('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Primary',
@@ -503,7 +295,7 @@ $(document).ready(function(){
 	});
 	
 	example_only('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Success',
@@ -512,7 +304,7 @@ $(document).ready(function(){
 	});
 	
 	example_only('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Info',
@@ -521,7 +313,7 @@ $(document).ready(function(){
 	});
 	
 	example_only('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Warning',
@@ -530,7 +322,7 @@ $(document).ready(function(){
 	});
 	
 	example_only('btn-dropdowns-single', {
-		etype: 'bs-dropdown',
+		etype: 'bootstrap:dropdown',
 		cls: 'btn-group',
 		'-cls': 'dropdown clearfix',
 		text: 'Danger',
@@ -540,166 +332,58 @@ $(document).ready(function(){
 	
 	
 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Default',
-		// $button_state: 'default',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Primary',
-		// $button_state: 'primary',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Success',
-		// $button_state: 'success',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Info',
-		// $button_state: 'info',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Warning',
-		// $button_state: 'warning',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-single + p + div',
-		// etype: 'bs-dropdown',
-		// cls: 'btn-group',
-		// '-cls': 'dropdown clearfix',
-		// text: 'Danger',
-		// $button_state: 'danger',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-
 
 	
 	
 	example('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Default',
 		type: 'default',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 	
 	example_only('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Primary',
 		type: 'primary',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 
 	example_only('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Success',
 		type: 'success',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 
 	example_only('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Info',
 		type: 'info',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 
 	example_only('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Warning',
 		type: 'warning',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 
 	example_only('btn-dropdowns-split', {
-		etype: 'bs-split-dropdown',
+		etype: 'bootstrap:split-dropdown',
 		text: 'Danger',
 		type: 'danger',
 		$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']					
 	});
 	
 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Default',
-		// type: 'default',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Primary',
-		// type: 'primary',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Success',
-		// type: 'success',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Info',
-		// type: 'info',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Warning',
-		// type: 'warning',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-split + p + div',
-		// etype: 'bs-split-dropdown',
-		// text: 'Danger',
-		// type: 'danger',
-		// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']			
-	// }).$doLayout();
-
 
 
 	example('btn-dropdowns-sizing', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		items: [{
-			etype: 'bs-dropdown',
+			etype: 'bootstrap:dropdown',
 			text: 'Large button',
 			$button_state: 'large',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
@@ -707,9 +391,9 @@ $(document).ready(function(){
 	});
 
 	example_only('btn-dropdowns-sizing', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		items: [{
-			etype: 'bs-dropdown',
+			etype: 'bootstrap:dropdown',
 			text: 'Small button',
 			$button_state: 'small',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
@@ -717,9 +401,9 @@ $(document).ready(function(){
 	});
 
 	example_only('btn-dropdowns-sizing', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		items: [{
-			etype: 'bs-dropdown',
+			etype: 'bootstrap:dropdown',
 			text: 'Extra small',
 			$button_state: 'tiny',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
@@ -727,49 +411,17 @@ $(document).ready(function(){
 	});
 
 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// items: [{
-			// etype: 'bs-dropdown',
-			// text: 'Large button',
-			// $button_state: 'large',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-		// }]
-	// }).$doLayout();
-
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// items: [{
-			// etype: 'bs-dropdown',
-			// text: 'Small button',
-			// $button_state: 'small',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-		// }]
-	// }).$doLayout();
-// 
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-sizing + p + div',
-		// etype: 'btn-toolbar',
-		// items: [{
-			// etype: 'bs-dropdown',
-			// text: 'Extra small button',
-			// $button_state: 'tiny',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-		// }]
-	// }).$doLayout();
 
 	
 	example('btn-dropdowns-dropup', {
-		etype: 'btn-toolbar',
+		etype: 'bootstrap:button-toolbar',
 		items: [{
-			etype: 'bs-split-dropdown',
+			etype: 'bootstrap:split-dropdown',
 			text: 'Dropup',
 			state: 'dropup',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
 		}, {
-			etype: 'bs-split-dropdown',
+			etype: 'bootstrap:split-dropdown',
 			text: 'Right dropup',
 			state: 'dropup',
 			type: 'primary',
@@ -780,34 +432,16 @@ $(document).ready(function(){
 	
 	
 	
-	// $.ergo({
-		// renderTo: '#btn-dropdowns-dropup + p + div',
-		// etype: 'btn-toolbar',
-		// items: [{
-			// etype: 'bs-split-dropdown',
-			// text: 'Dropup',
-			// state: 'dropup',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-		// }, {
-			// etype: 'bs-split-dropdown',
-			// text: 'Right dropup',
-			// state: 'dropup',
-			// type: 'primary',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-		// }]
-	// }).$doLayout();
-	
-	
 	
 	
 	example('input-groups-basic', {
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		placeholder: 'Username',
 		$addon_text: '@'		
 	});
 	
 	example('input-groups-basic', {
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		components: {
 			addon: {
 				weight: 1,
@@ -817,57 +451,25 @@ $(document).ready(function(){
 	});
 
 	example('input-groups-basic', {
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		components: {
 			addon: {
 				text: '$',
 			},
 			addon2: {
 				weight: 1,
-				etype: 'bs-input-addon',
+				etype: 'bootstrap:input-addon',
 				text: '.00',
 			}
 		}
 	});
 	
 	
-	// $.ergo({
-		// renderTo: '#input-group-basic',
-		// etype: 'bs-input-group',
-		// placeholder: 'Username',
-		// $addon_text: '@'
-	// }).$doLayout();
-// 	
-	// $.ergo({
-		// renderTo: '#input-group-basic',
-		// etype: 'bs-input-group',
-		// components: {
-			// addon: {
-				// weight: 1,
-				// text: '.00',
-			// }
-		// }
-	// }).$doLayout();
-// 	
-	// $.ergo({
-		// renderTo: '#input-group-basic',
-		// etype: 'bs-input-group',
-		// components: {
-			// addon: {
-				// text: '$',
-			// },
-			// addon2: {
-				// weight: 1,
-				// etype: 'bs-input-addon',
-				// text: '.00',
-			// }
-		// }
-	// }).$doLayout();
 	
 	
 	
 	example('input-groups-sizing', {
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		placeholder: 'Username',
 		$addon_text: '@',
 		state: 'large'
@@ -875,13 +477,13 @@ $(document).ready(function(){
 	
 	example('input-groups-sizing', {
 		renderTo: '#input-groups-sizing + p + .bs-example',
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		placeholder: 'Username',
 		$addon_text: '@'
 	});
 	
 	example('input-groups-sizing', {
-		etype: 'bs-input-group',
+		etype: 'bootstrap:input-group',
 		placeholder: 'Username',
 		$addon_text: '@',
 		state: 'small'
@@ -890,129 +492,82 @@ $(document).ready(function(){
 	
 	
 	
-	// $.ergo({
-		// renderTo: '#input-groups-sizing + p + .bs-example',
-		// etype: 'bs-input-group',
-		// placeholder: 'Username',
-		// $addon_text: '@',
-		// state: 'large'
-	// }).$doLayout();
-// 	
-	// $.ergo({
-		// renderTo: '#input-groups-sizing + p + .bs-example',
-		// etype: 'bs-input-group',
-		// placeholder: 'Username',
-		// $addon_text: '@'
-	// }).$doLayout();
-// 	
-	// $.ergo({
-		// renderTo: '#input-groups-sizing + p + .bs-example',
-		// etype: 'bs-input-group',
-		// placeholder: 'Username',
-		// $addon_text: '@',
-		// state: 'small'
-	// }).$doLayout();
-	
 	
 	example('input-groups-checkboxes-radios', {
 		etype: 'box',
-		cls: 'row',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				desktop: [6, 6]
+			}
+			// wrapper: function(item) {
+				// return $('<div/>').append(item.el);
+			// }
+		},
 		items: [{
-			cls: 'col-lg-6',
-			items: [{
-				etype: 'bs-input-group',
-				$addon_content: {
-					etype: 'check'
-				}			
-			}]
+			etype: 'bootstrap:input-group',
+			$addon_content: {
+				etype: 'html:input',
+				type: 'checkbox'
+			}			
+			
 		}, {
-			cls: 'col-lg-6',
-			items: [{
-				etype: 'bs-input-group',
-				$addon_content: {
-					etype: 'radio'
-				}			
-			}]
+			etype: 'bootstrap:input-group',
+			$addon_content: {
+				etype: 'html:input',
+				type: 'radio'
+			}						
 		}]		
 	});
 	
-	
-	// $.ergo({
-		// renderTo: '#input-groups-checkboxes-radios + p + .bs-example',
-		// etype: 'box',
-		// cls: 'row',
-		// items: [{
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon_content: {
-					// etype: 'check'
-				// }			
-			// }]
-		// }, {
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon_content: {
-					// etype: 'radio'
-				// }			
-			// }]
-		// }]
-	// }).$doLayout();
 	
 	
 	
 	example('input-groups-buttons', {
 		etype: 'box',
-		cls: 'row',
+		layout: {
+			etype: 'layout:grid',
+			pattern: {
+				desktop: [6, 6]
+			}
+		},
 		items: [{
-			cls: 'col-lg-6',
-			items: [{
-				etype: 'bs-input-group',
-				$addon: {
-					etype: 'bs-button-addon',
-					text: 'Go!'
-				}			
-			}]
+			etype: 'bootstrap:input-group',
+			$addon: {
+				etype: 'bootstrap:button-addon',
+				text: 'Go!'
+			}
 		}, {
-			cls: 'col-lg-6',
-			items: [{
-				etype: 'bs-input-group',
-				$addon: {
-					weight: 1,
-					etype: 'bs-button-addon',
-					text: 'Go!'
-				}			
-			}]
+			etype: 'bootstrap:input-group',
+			$addon: {
+				weight: 1,
+				etype: 'bootstrap:button-addon',
+				text: 'Go!'
+			}			
 		}]
-	});
-	
-	
-	// $.ergo({
-		// renderTo: '#input-groups-buttons + p + .bs-example',
-		// etype: 'box',
 		// cls: 'row',
 		// items: [{
 			// cls: 'col-lg-6',
 			// items: [{
-				// etype: 'bs-input-group',
+				// etype: 'bootstrap:input-group',
 				// $addon: {
-					// etype: 'bs-button-addon',
+					// etype: 'bootstrap:button-addon',
 					// text: 'Go!'
 				// }			
 			// }]
 		// }, {
 			// cls: 'col-lg-6',
 			// items: [{
-				// etype: 'bs-input-group',
+				// etype: 'bootstrap:input-group',
 				// $addon: {
 					// weight: 1,
-					// etype: 'bs-button-addon',
+					// etype: 'bootstrap:button-addon',
 					// text: 'Go!'
 				// }			
 			// }]
 		// }]
-	// }).$doLayout();
+	});
+	
 	
 
 
@@ -1022,9 +577,9 @@ $(document).ready(function(){
 		items: [{
 			cls: 'col-lg-6',
 			items: [{
-				etype: 'bs-input-group',
+				etype: 'bootstrap:input-group',
 				$addon: {
-					etype: 'bs-dropdown-addon',
+					etype: 'bootstrap:dropdown-addon',
 					text: 'Action',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
 				}			
@@ -1032,10 +587,10 @@ $(document).ready(function(){
 		}, {
 			cls: 'col-lg-6',
 			items: [{
-				etype: 'bs-input-group',
+				etype: 'bootstrap:input-group',
 				$addon: {
 					weight: 1,
-					etype: 'bs-dropdown-addon',
+					etype: 'bootstrap:dropdown-addon',
 					text: 'Action',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
 				}			
@@ -1044,33 +599,6 @@ $(document).ready(function(){
 	});
 
 
-	// $.ergo({
-		// renderTo: '#input-groups-buttons-dropdowns + p + .bs-example',
-		// etype: 'box',
-		// cls: 'row',
-		// items: [{
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon: {
-					// etype: 'bs-dropdown-addon',
-					// text: 'Action',
-					// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-				// }			
-			// }]
-		// }, {
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon: {
-					// weight: 1,
-					// etype: 'bs-dropdown-addon',
-					// text: 'Action',
-					// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link']						
-				// }			
-			// }]
-		// }]
-	// }).$doLayout();
 	
 	
 	
@@ -1080,15 +608,15 @@ $(document).ready(function(){
 		items: [{
 			cls: 'col-lg-6',
 			items: [{
-				etype: 'bs-input-group',
+				etype: 'bootstrap:input-group',
 				$addon: {
-					etype: 'bs-dropdown-addon',
+					etype: 'bootstrap:dropdown-addon',
 //					state: 'segmented',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 					components: {
 						button2: {
 							weight: -2,
-							etype: 'bs-button',
+							etype: 'bootstrap:button',
 							text: 'Action'
 						}							
 					}					
@@ -1097,16 +625,16 @@ $(document).ready(function(){
 		}, {
 			cls: 'col-lg-6',
 			items: [{
-				etype: 'bs-input-group',
+				etype: 'bootstrap:input-group',
 				$addon: {
 					weight: 1,
-					etype: 'bs-dropdown-addon',
+					etype: 'bootstrap:dropdown-addon',
 //					state: 'segmented',
 					$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 					components: {
 						button2: {
 							weight: -2,
-							etype: 'bs-button',
+							etype: 'bootstrap:button',
 							text: 'Action'
 						}							
 					}					
@@ -1117,81 +645,26 @@ $(document).ready(function(){
 	
 	
 
-	// $.ergo({
-		// renderTo: '#input-groups-buttons-segmented + .bs-example',
-		// etype: 'box',
-		// cls: 'row',
-		// items: [{
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon: {
-					// etype: 'bs-dropdown-addon',
-// //					state: 'segmented',
-					// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-					// components: {
-						// button2: {
-							// weight: -2,
-							// etype: 'bs-button',
-							// text: 'Action'
-						// }							
-					// }					
-				// }
-			// }]
-		// }, {
-			// cls: 'col-lg-6',
-			// items: [{
-				// etype: 'bs-input-group',
-				// $addon: {
-					// weight: 1,
-					// etype: 'bs-dropdown-addon',
-// //					state: 'segmented',
-					// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-					// components: {
-						// button2: {
-							// weight: -2,
-							// etype: 'bs-button',
-							// text: 'Action'
-						// }							
-					// }					
-				// }			
-			// }]
-		// }]
-	// }).$doLayout();
-
 
 	
 	
 	example('nav-tabs', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'tabs',
 		items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
 	});
 	
 
-	// $.ergo({
-		// renderTo: '#nav-tabs + p + .bs-example',
-		// etype: 'bs-nav',
-		// state: 'tabs',
-		// items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
-	// }).$doLayout();
 
 	example('nav-pills', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills',
 		items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
 	});
 
-	// $.ergo({
-		// renderTo: '#nav-pills + p + .bs-example',
-		// etype: 'bs-nav',
-		// state: 'pills',
-		// items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
-	// }).$doLayout();
-	
 	
 	example('#nav-pills-stacked', '#nav-pills-stacked ~ .highlight:first code', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills stacked',
 		defaultItem: {
 			style: {
@@ -1201,125 +674,71 @@ $(document).ready(function(){
 		items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
 	});
 
-	// $.ergo({
-		// renderTo: '#nav-pills-stacked',
-		// etype: 'bs-nav',
-		// state: 'pills stacked',
-		// defaultItem: {
-			// style: {
-				// 'max-width': 300
-			// }
-		// },
-		// items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
-	// }).$doLayout();
 	
 	
 	example('nav-justified', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'tabs justified',
 		items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
 	});
 	
 	example('nav-justified', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills justified',
 		items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
 	});
 	
 	
-	// $.ergo({
-		// renderTo: '#nav-justified-a',
-		// etype: 'bs-nav',
-		// state: 'tabs justified',
-		// items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
-	// }).$doLayout();
-	
-	// $.ergo({
-		// renderTo: '#nav-justified-a',
-		// etype: 'bs-nav',
-		// state: 'pills justified',
-		// items: [{text: 'Home', state: 'selected'}, 'Profile', 'Messages']
-	// }).$doLayout();
 	
 	
 	example('nav-disabled-links', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills',
 		items: ['Clickable link', 'Clickable link', {text: 'Disabled link', state: 'disabled'}]
 	});
 	
 
-	// $.ergo({
-		// renderTo: '#nav-disabled-links-a',
-		// etype: 'bs-nav',
-		// state: 'pills',
-		// items: ['Clickable link', 'Clickable link', {text: 'Disabled link', state: 'disabled'}]
-	// }).$doLayout();
 
 	
 	example('nav-dropdowns', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'tabs',
 		items: [{text: 'Home', state: 'selected'}, 'Help', {
-			etype: 'bs-dropdown-nav-item',
+			etype: 'bootstrap:dropdown-nav-item',
 			text: 'Dropdown',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 		}]
 	});
 
-	// $.ergo({
-		// renderTo: '#nav-dropdowns-a',
-		// etype: 'bs-nav',
-		// state: 'tabs',
-		// items: [{text: 'Home', state: 'selected'}, 'Help', {
-			// etype: 'bs-dropdown-nav-item',
-			// text: 'Dropdown',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-		// }]
-	// }).$doLayout();
-	
-	
 	
 	
 	example('nav-dropdowns-b', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills',
 		items: [{text: 'Home', state: 'selected'}, 'Help', {
-			etype: 'bs-dropdown-nav-item',
+			etype: 'bootstrap:dropdown-nav-item',
 			text: 'Dropdown',
 			$dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
 		}]		
 	});
 	
 	
-	// $.ergo({
-		// renderTo: '#nav-dropdowns-b',
-		// etype: 'bs-nav',
-		// state: 'pills',
-		// items: [{text: 'Home', state: 'selected'}, 'Help', {
-			// etype: 'bs-dropdown-nav-item',
-			// text: 'Dropdown',
-			// $dropdown_items: ['Action', 'Another action', 'Something else here', '|', 'Separated link'],
-		// }]
-	// }).$doLayout();
-
-
 
 
 	example('navbar-forms', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		$content_items: [{
-			etype: 'bs-navbar-form',
+			etype: 'bootstrap:navbar-form',
 			state: 'left',
 			items: [{
-				etype: 'bs-form-group',
+				etype: 'bootstrap:form-group',
 				content: {
-					etype: 'input', 
+					etype: 'html:input', 
 					placeholder: 'Search'
 				}
 			}, {
-				etype: 'bs-button',	
+				etype: 'bootstrap:button',	
 				text: 'Submit',
 				type: 'submit'
 			}]
@@ -1330,10 +749,10 @@ $(document).ready(function(){
 
 
 	example('navbar-buttons', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		$content_items: [{
-			etype: 'bs-button',
+			etype: 'bootstrap:button',
 			text: 'Sign in',
 			cls: 'navbar-btn'  //?
 		}]
@@ -1341,10 +760,10 @@ $(document).ready(function(){
 
 
 	example('navbar-text', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		$content_items: [{
-			etype: 'para',
+			etype: 'html:p',
 			text: 'Signed in as Mark Otto',
 			cls: 'navbar-text'  //?
 		}]
@@ -1352,15 +771,15 @@ $(document).ready(function(){
 
 
 	example('navbar-links', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		$content_items: [{
-			etype: 'para',
+			etype: 'html:p',
 			lead: 'Signed in as ',
 			cls: 'navbar-text',
 			state: 'right',
 			content: {
-				etype: 'anchor',
+				etype: 'link',
 				text: 'Mark Otto',
 				cls: 'navbar-link'
 			}
@@ -1370,11 +789,11 @@ $(document).ready(function(){
 
 
 	example('navbar-fixed-top', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		state: 'fixed-top',
 		$content_items: [{
-			etype: 'bs-list',
+			etype: 'bootstrap:list',
 			cls: 'nav navbar-nav',
 			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
 		}]
@@ -1382,11 +801,11 @@ $(document).ready(function(){
 
 
 	example('navbar-fixed-bottom', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		state: 'fixed-bottom',
 		$content_items: [{
-			etype: 'bs-list',
+			etype: 'bootstrap:list',
 			cls: 'nav navbar-nav',
 			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
 		}]
@@ -1394,11 +813,11 @@ $(document).ready(function(){
 
 
 	example('navbar-static-top', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		state: 'static-top',
 		$content_items: [{
-			etype: 'bs-list',
+			etype: 'bootstrap:list',
 			cls: 'nav navbar-nav',
 			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
 		}]
@@ -1406,11 +825,11 @@ $(document).ready(function(){
 
 
 	example('navbar-inverted', {
-		etype: 'bs-navbar',
+		etype: 'bootstrap:navbar',
 		brand: 'Brand',
 		state: 'inverted',
 		$content_items: [{
-			etype: 'bs-list',
+			etype: 'bootstrap:list',
 			cls: 'nav navbar-nav',
 			items: [{text: 'Home', state: 'active'}, 'Link', 'Link']
 		}]
@@ -1419,17 +838,17 @@ $(document).ready(function(){
 
 	
 	example_only('breadcrumbs', {
-		etype: 'bs-breadcrumb',
+		etype: 'bootstrap:breadcrumb',
 		items: [{text: 'Home', last: true}]
 	});
 
 	example_only('breadcrumbs', {
-		etype: 'bs-breadcrumb',
+		etype: 'bootstrap:breadcrumb',
 		items: ['Home', {text: 'Library', last: true}]
 	});
 
 	example('breadcrumbs', {
-		etype: 'bs-breadcrumb',
+		etype: 'bootstrap:breadcrumb',
 		items: ['Home', 'Library', {text: 'Data', last: true}]
 	});
 
@@ -1439,13 +858,13 @@ $(document).ready(function(){
 
 
 	example('pagination', {
-		etype: 'bs-pagination',
+		etype: 'bootstrap:pagination',
 		items: ['1', '2', '3', '4', '5']
 	});
 
 
 	example('pagination-disabled', {
-		etype: 'bs-pagination',
+		etype: 'bootstrap:pagination',
 		$prevButton_state: 'disabled',
 		items: [{text: '1', state: 'active', $content_content: {etype: 'text', cls: 'sr-only', text: '(current)'}}, '2', '3', '4', '5']
 	});
@@ -1453,7 +872,7 @@ $(document).ready(function(){
 	example('pagination-sizing', {
 		etype: 'box',
 		content: {
-			etype: 'bs-pagination',
+			etype: 'bootstrap:pagination',
 			state: 'large',
 			items: ['1', '2', '3', '4', '5']
 		}
@@ -1462,7 +881,7 @@ $(document).ready(function(){
 	example_only('pagination-sizing', {
 		etype: 'box',
 		content: {
-			etype: 'bs-pagination',
+			etype: 'bootstrap:pagination',
 			items: ['1', '2', '3', '4', '5']
 		}
 	});
@@ -1470,7 +889,7 @@ $(document).ready(function(){
 	example_only('pagination-sizing', {
 		etype: 'box',
 		content: {
-			etype: 'bs-pagination',
+			etype: 'bootstrap:pagination',
 			state: 'small',
 			items: ['1', '2', '3', '4', '5']
 		}
@@ -1480,11 +899,11 @@ $(document).ready(function(){
 
 
 	example('pagination-pager', {
-		etype: 'bs-pager'
+		etype: 'bootstrap:pager'
 	});
 
 	example('pagination-pager-align', {
-		etype: 'bs-pager',
+		etype: 'bootstrap:pager',
 		components: {
 			prevButton: {
 				text: '← Older',
@@ -1498,7 +917,7 @@ $(document).ready(function(){
 	});
 
 	example('pagination-pager-disabled', {
-		etype: 'bs-pager',
+		etype: 'bootstrap:pager',
 		components: {
 			prevButton: {
 				text: '← Older',
@@ -1517,7 +936,7 @@ $(document).ready(function(){
 		html: '<h1/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1527,7 +946,7 @@ $(document).ready(function(){
 		html: '<h2/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1537,7 +956,7 @@ $(document).ready(function(){
 		html: '<h3/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1547,7 +966,7 @@ $(document).ready(function(){
 		html: '<h4/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1557,7 +976,7 @@ $(document).ready(function(){
 		html: '<h5/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1567,7 +986,7 @@ $(document).ready(function(){
 		html: '<h6/>',
 		text: 'Example heading ',
 		content: {
-			etype: 'bs-label',
+			etype: 'bootstrap:label',
 			text: 'New'
 		}
 	});
@@ -1575,37 +994,37 @@ $(document).ready(function(){
 
 
 	example('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'Default',
 		state: 'default'
 	});
 	
 	example_only('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'Primary',
 		state: 'primary'
 	});
 
 	example_only('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'Success',
 		state: 'success'
 	});
 
 	example_only('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'Info',
 		state: 'info'
 	});
 
 	example_only('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'warning',
 		state: 'warning'
 	});
 
 	example_only('labels-appearance', {
-		etype: 'bs-label',
+		etype: 'bootstrap:label',
 		text: 'Danger',
 		state: 'danger'
 	});
@@ -1614,10 +1033,10 @@ $(document).ready(function(){
 
 
 	example('badges', {
-		etype: 'anchor',
+		etype: 'link',
 		text: 'Inbox  ',
 		content: {
-			etype: 'bs-badge',
+			etype: 'bootstrap:badge',
 			text: 42
 		}
 	});
@@ -1625,12 +1044,12 @@ $(document).ready(function(){
 
 
 	example('badges-adapt', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills',
 		items: [{
 			text: 'Home  ', 
 			$content_content: {
-				etype: 'bs-badge', 
+				etype: 'bootstrap:badge', 
 				value: 42
 			}, 
 			state: 'active'
@@ -1639,7 +1058,7 @@ $(document).ready(function(){
 		{
 			text: 'Messages  ',
 			$content_content: {
-				etype: 'bs-badge', 
+				etype: 'bootstrap:badge', 
 				value: 3
 			} 
 		}]
@@ -1651,13 +1070,13 @@ $(document).ready(function(){
 	});
 
 	example_only('badges-adapt', {
-		etype: 'bs-nav',
+		etype: 'bootstrap:nav',
 		state: 'pills stacked',
 		style: {'max-width': 260},
 		items: [{
 			text: 'Home  ', 
 			$content_content: {
-				etype: 'bs-badge', 
+				etype: 'bootstrap:badge', 
 				value: 42
 			}, 
 			state: 'active'
@@ -1666,7 +1085,7 @@ $(document).ready(function(){
 		{
 			text: 'Messages  ',
 			$content_content: {
-				etype: 'bs-badge', 
+				etype: 'bootstrap:badge', 
 				value: 3
 			} 
 		}]
@@ -1678,11 +1097,11 @@ $(document).ready(function(){
 	});
 
 	example_only('badges-adapt', {
-		etype: 'bs-button',
+		etype: 'bootstrap:button',
 		text: 'Messages  ',
 		state: 'primary',
 		$content: {
-			etype: 'bs-badge',
+			etype: 'bootstrap:badge',
 			value: 4
 		}
 	});
@@ -1690,7 +1109,7 @@ $(document).ready(function(){
 	
 	
 	example('jumbotron', {
-		etype: 'bs-jumbotron',
+		etype: 'bootstrap:jumbotron',
 		components: {
 			header: {
 				etype: 'text',
@@ -1698,13 +1117,13 @@ $(document).ready(function(){
 				text: 'Hello, world!'
 			},
 			content: {
-				etype: 'para',
+				etype: 'html:p',
 				text: 'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
 			},
 			footer: {
-				etype: 'para',
+				etype: 'html:p',
 				content: {
-					etype: 'bs-anchor-button',
+					etype: 'bootstrap:anchor-button',
 					text: 'Learn more',
 					state: 'primary large'
 				}
@@ -1725,7 +1144,7 @@ $(document).ready(function(){
 		defaultItem: {
 			cls: 'col-xs-6 col-md-3',
 			content: {
-				etype: 'bs-thumbnail',
+				etype: 'bootstrap:thumbnail',
 				alt: 'Generic placeholder thumbnail'
 			}			
 		},
@@ -1745,7 +1164,7 @@ $(document).ready(function(){
 		defaultItem: {
 			cls: 'col-sm-6 col-md-4',
 			content: {
-				etype: 'bs-thumbnail',
+				etype: 'bootstrap:thumbnail',
 				alt: 'Generic placeholder thumbnail',
 				html: '<div/>',
 				components: {
@@ -1753,20 +1172,20 @@ $(document).ready(function(){
 						etype: 'box',
 						cls: 'caption',
 						items: [{
-							etype: 'title',
-							html: '<h3/>',
+							etype: 'html:h3',
+//							html: '<h3/>',
 							text: 'Thumbnail label'
 						}, {
-							etype: 'para',
+							etype: 'html:p',
 							text: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.'
 						}, {
-							etype: 'para',
+							etype: 'html:p',
 							items: [{
-								etype: 'bs-anchor-button',
+								etype: 'bootstrap:anchor-button',
 								state: 'primary',
 								text: 'Button'
 							}, {
-								etype: 'bs-anchor-button',
+								etype: 'bootstrap:anchor-button',
 								text: 'Button'
 							}]
 						}]
@@ -1784,28 +1203,28 @@ $(document).ready(function(){
 	
 	
 	example('alerts', {
-		etype: 'bs-alert',
+		etype: 'bootstrap:alert',
 		state: 'success',
 		trail: 'You successfully read this important alert message.',
 		title: 'Well done!  '
 	});
 	
 	example_only('alerts', {
-		etype: 'bs-alert',
+		etype: 'bootstrap:alert',
 		state: 'info',
 		trail: "This alert needs your attention, but it's not super important.",
 		title: 'Heads up!  '
 	});
 	
 	example_only('alerts', {
-		etype: 'bs-alert',
+		etype: 'bootstrap:alert',
 		state: 'warning',
 		trail: "Better check yourself, you're not looking too good.",
 		title: 'Warning!  '
 	});
 	
 	example_only('alerts', {
-		etype: 'bs-alert',
+		etype: 'bootstrap:alert',
 		state: 'danger',
 		trail: "Change a few things up and try submitting again.",
 		title: 'Oh snap!  '
@@ -1814,7 +1233,7 @@ $(document).ready(function(){
 	
 	
 	example('alerts-dismissible', {
-		etype: 'bs-alert',
+		etype: 'bootstrap:alert',
 		state: 'warning dismissible',
 		trail: "Better check yourself, you're not looking too good.",
 		title: 'Warning!  '		
@@ -1823,49 +1242,49 @@ $(document).ready(function(){
 	
 	
 	example('progress-basic', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		value: 60
 	});
 	
 	example('progress-label', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		labeled: true,
 		value: 60
 	});
 	
 	example('progress-low-percentages', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		labeled: true,
 		value: 0
 	});
 
 	example('progress-low-percentages', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		labeled: true,
 		value: 2
 	});
 	
 	
 	example('progress-alternatives', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'success',
 		value: 40
 	});
 	
 	example('progress-alternatives', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'info',
 		value: 20
 	});
 
 	example('progress-alternatives', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'warning',
 		value: 60
 	});
 
 	example('progress-alternatives', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'danger',
 		value: 80
 	});
@@ -1873,28 +1292,28 @@ $(document).ready(function(){
 
 
 	example('progress-striped', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'success',
 		striped: true,
 		value: 40
 	});
 	
 	example('progress-striped', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'info',
 		striped: true,
 		value: 20
 	});
 
 	example('progress-striped', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'warning',
 		striped: true,
 		value: 60
 	});
 
 	example('progress-striped', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		appearance: 'danger',
 		striped: true,
 		value: 80
@@ -1902,7 +1321,7 @@ $(document).ready(function(){
 
 
 	example('progress-animated', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		striped: true,
 		animated: true,
 		value: 45
@@ -1910,7 +1329,7 @@ $(document).ready(function(){
 
 
 	example('progress-stacked', {
-		etype: 'bs-progress',
+		etype: 'bootstrap:progress',
 		components: {
 			bar: {
 				value: 35,
@@ -1934,20 +1353,20 @@ $(document).ready(function(){
 	
 	
 	example('media', {
-		etype: 'bs-media',
+		etype: 'bootstrap:media',
 		image: MEDIA,
 		title: 'Media heading',
 		text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '
 	});
 	
 	example_only('media', {
-		etype: 'bs-media',
+		etype: 'bootstrap:media',
 		image: MEDIA,
 		title: 'Media heading',
 		text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
 		content: {
 			items: [{
-				etype: 'bs-media',
+				etype: 'bootstrap:media',
 				image: MEDIA,
 				title: 'Nested media heading',
 				text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '				
@@ -1961,34 +1380,34 @@ $(document).ready(function(){
 		etype: 'list',
 		cls: 'media-list',
 		defaultItem: {
-			etype: 'bs-media'
+			etype: 'bootstrap:media'
 		},
 		items: [{			
-//			etype: 'bs-media',
+//			etype: 'bootstrap:media',
 			image: MEDIA,
 			title: 'Media heading',
 			text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
 			content: {
 				items: [{
-//					etype: 'bs-media',
+//					etype: 'bootstrap:media',
 					image: MEDIA,
 					title: 'Nested media heading',
 					text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',
 					$content_items: [{
-//						etype: 'bs-media',
+//						etype: 'bootstrap:media',
 						image: MEDIA,
 						title: 'Nested media heading',
 						text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       ',					
 					}]			
 				}, {
-//					etype: 'bs-media',
+//					etype: 'bootstrap:media',
 					image: MEDIA,
 					title: 'Nested media heading',
 					text: '         Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.       '								
 				}]
 			}
 		}, {
-//			etype: 'bs-media',
+//			etype: 'bootstrap:media',
 			$leftBox_pull: 'right',
 			image: MEDIA,
 			title: 'Media heading',
@@ -2002,17 +1421,17 @@ $(document).ready(function(){
 
 
 	example('list-group', {
-		etype: 'bs-list-group',
+		etype: 'bootstrap:list-group',
 		items: ['Cras justo odio', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
 	});
 
 
 	example('list-group-badges', {
-		etype: 'bs-list-group',
+		etype: 'bootstrap:list-group',
 		defaultItem: {
 			components: {
 				badge: {
-					etype: 'bs-badge'
+					etype: 'bootstrap:badge'
 				}
 			}
 		},
@@ -2025,10 +1444,11 @@ $(document).ready(function(){
 
 
 	example('list-group-linked', {
-		etype: 'bs-list-group',
+		etype: 'bootstrap:list-group',
 		html: '<div/>',
 		defaultItem: {
-			html: '<a href="#" />'
+			etype: 'link'
+//			html: '<a href="#" />'
 //			etype: 'anchor'
 		},
 		items: [{text: 'Cras justo odio', state: 'active'}, 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
@@ -2036,11 +1456,11 @@ $(document).ready(function(){
 
 	
 	example('list-group-disabled', {
-		etype: 'bs-list-group',
+		etype: 'bootstrap:list-group',
 		html: '<div/>',
 		defaultItem: {
-			html: '<a href="#" />'
-//			etype: 'anchor'
+//			html: '<a href="#" />'
+			etype: 'link'
 		},
 		items: [{text: 'Cras justo odio', state: 'disabled'}, 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
 	});
@@ -2054,7 +1474,7 @@ $(document).ready(function(){
 		},
 		items: [{
 			content: {
-				etype: 'bs-list-group',
+				etype: 'bootstrap:list-group',
 				items: [
 					{text: 'Cras justo odio', state: 'success'},
 					{text: 'Dapibus ac facilisis in', state: 'info'},
@@ -2064,11 +1484,11 @@ $(document).ready(function(){
 			}
 		}, {
 			content: {
-				etype: 'bs-list-group',
+				etype: 'bootstrap:list-group',
 				html: '<div/>',
 				defaultItem: {
-					html: '<a href="#" />'
-//			etype: 'anchor'
+//					html: '<a href="#" />'
+					etype: 'link'
 				},
 				items: [
 					{text: 'Cras justo odio', state: 'success'},
@@ -2084,11 +1504,11 @@ $(document).ready(function(){
 
 
 	example('list-group-custom-content', {
-		etype: 'bs-list-group',
+		etype: 'bootstrap:list-group',
 		html: '<div/>',
 		defaultItem: {
-			html: '<a href="#" />',
-//			etype: 'anchor'
+//			html: '<a href="#" />',
+			etype: 'link',
 			components: {
 				title: {
 					etype: 'html:h4',
@@ -2097,7 +1517,7 @@ $(document).ready(function(){
 //					html: '<h4/>'
 				},
 				content: {
-					etype: 'para',
+					etype: 'html:p',
 					cls: 'list-group-item-text'
 				}
 			},
@@ -2123,14 +1543,14 @@ $(document).ready(function(){
 
 
 	example('panels-basic', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		$heading_autoRender: 'no',
 		$body_text: 'Basic panel example'
 	});
 
 
 	example('panels-heading', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		components: {
 			heading: {
 				text: 'Panel heading without title',
@@ -2144,14 +1564,14 @@ $(document).ready(function(){
 
 
 	example('panels-heading', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example'
 	});
 
 
 	example('panels-footer', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		components: {
 			heading: {
 				autoRender: 'no'				
@@ -2169,35 +1589,35 @@ $(document).ready(function(){
 
 
 	example('panels-alternatives', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'primary'
 	});
 
 	example_only('panels-alternatives', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'success'
 	});
 
 	example_only('panels-alternatives', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'info'
 	});
 
 	example_only('panels-alternatives', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'warning'
 	});
 
 	example_only('panels-alternatives', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		$body_text: 'Basic panel example',
 		state: 'danger'
@@ -2206,7 +1626,7 @@ $(document).ready(function(){
 
 	
 	example('panels-tables', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		components: {
 			body: {
@@ -2234,7 +1654,7 @@ $(document).ready(function(){
 
 
 	example('panels-tables-b', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		components: {
 			body: {
@@ -2263,14 +1683,14 @@ $(document).ready(function(){
 
 
 	example('panels-list-group', {
-		etype: 'bs-panel',
+		etype: 'bootstrap:panel',
 		title: 'Panel title',
 		components: {
 			body: {
 				text: 'Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.'
 			},
 			list: {
-				etype: 'bs-list-group',
+				etype: 'bootstrap:list-group',
 				items: ['Cras justo odio', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']				
 			}
 		}

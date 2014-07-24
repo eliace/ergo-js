@@ -433,7 +433,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 
-Ergo.layout = Ergo.object;
+Ergo.$layout = Ergo.object;
+// Ergo.$layout = function(o, etype) {
+	// return Ergo.object(o, 'layout:'+etype);
+// };
 
 
 

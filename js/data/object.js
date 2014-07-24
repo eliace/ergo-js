@@ -43,7 +43,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			
 			if(this.validate) {
 				if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
-			}			
+			}
 		}
 		
 		this.$super.apply(this, arguments);

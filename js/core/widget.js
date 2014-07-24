@@ -1315,12 +1315,18 @@ Ergo.override(Ergo.core.Widget.prototype, Ergo.core.WidgetProperties);
 //	return Ergo.object( Ergo.smart_override.apply(this, arguments) );
 //};
 
-Ergo.widget = Ergo.object;
+Ergo.$widget = Ergo.object;
+
+// Ergo.$widget = function(o, etype) {
+	// return Ergo.object(o, 'widget:'+etype);
+// };
 
 
 Ergo.bubble = function(e, type) {
 	if(this.parent && !e.stopped) this.parent.events.fire(type, e);
 };
+
+
 
 
 
@@ -1340,11 +1346,12 @@ $.ergo = function() {
 		etype = etype.substr(i+1);
 	}
 	
-	if( !Ergo[ns] )
+	if( !Ergo['$'+ns] )
 		throw new Error('Namespace "'+ns+'" not defined');
 
+	o.etype = ns+':'+etype;
 	
-	return Ergo[ns](o, etype);
+	return Ergo['$'+ns](o, etype);
 }; //Ergo.widget;
 
 $.fn.ergo = function(o) {

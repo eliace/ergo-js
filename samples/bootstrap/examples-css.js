@@ -51,7 +51,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				'md': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1', '.col-md-1']
 	});
@@ -63,7 +64,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				'md': [8, 4]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-md-8', '.col-md-4']
 	});
@@ -75,7 +77,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				'md': [4, 4, 4]
-			}
+			},
+			wrapper: false			
 		},
 		items: ['.col-md-4', '.col-md-4', '.col-md-4']
 	});
@@ -87,7 +90,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				'md': [6, 6]
-			}
+			},
+			wrapper: false			
 		},
 		items: ['.col-md-6', '.col-md-6']
 	});
@@ -106,7 +110,8 @@ $(document).ready(function(){
 			pattern: {
 				'md': [8, 4],
 				'xs': [12, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-xs-12 .col-md-8', '.col-xs-6 .col-md-4']
 	});
@@ -119,7 +124,8 @@ $(document).ready(function(){
 			pattern: {
 				'md': [4, 4, 4],
 				'xs': [6, 6, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-xs-6 .col-md-4', '.col-xs-6 .col-md-4', '.col-xs-6 .col-md-4']
 	});
@@ -131,7 +137,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				'xs': [6, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-xs-6', '.col-xs-6']
 	});
@@ -148,7 +155,8 @@ $(document).ready(function(){
 				'md': [8, 4],
 				'sm': [6],
 				'xs': [12, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-xs-12 .col-sm-6 .col-md-8', '.col-xs-6 .col-md-4']
 	});
@@ -161,7 +169,8 @@ $(document).ready(function(){
 			pattern: {
 				tablet: [4, 4, 4],
 				mobile: [6, 6, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-xs-6 .col-sm-4', '.col-xs-6 .col-sm-4', '.col-xs-6 .col-sm-4']
 	});
@@ -175,7 +184,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				mobile: [9, 4, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: [
 			{text: '.col-xs-9'}, 
@@ -192,7 +202,8 @@ $(document).ready(function(){
 			pattern: {
 				mobile: [6, 6, 6, 6],
 				tablet: [3, 3, 3, 3]
-			}
+			},
+			wrapper: false
 		},
 		items: [
 			{innerHtml: '.col-xs-6 .col-sm-3<br>Resize your viewport or check it out on your phone for an example.'}, 
@@ -211,7 +222,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				desktop: [4, 0, 0, 0, 0, 4]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-md-4', '.col-md-4 .col-md-offset-4']
 	});
@@ -223,7 +235,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				desktop: [0, 0, 0, 3, 0, 0, 0, 3]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-md-3 .col-md-offset-3', '.col-md-3 .col-md-offset-3']
 	});
@@ -235,7 +248,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				desktop: [0, 0, 0, 6]
-			}
+			},
+			wrapper: false
 		},
 		items: ['.col-md-6 .col-md-offset-3']
 	});
@@ -249,7 +263,8 @@ $(document).ready(function(){
 			etype: 'layout:grid',
 			pattern: {
 				tablet: [9]
-			}
+			},
+			wrapper: false
 		},
 		items: [{
 			text: 'Level 1: .col-sm-9',
@@ -260,7 +275,8 @@ $(document).ready(function(){
 					pattern: {
 						tablet: [6, 6],
 						mobile: [8, 4]
-					}
+					},
+					wrapper: false
 				},
 				items: ['Level 2: .col-xs-8 .col-sm-6', 'Level 2: .col-xs-4 .col-sm-6']
 			}
@@ -277,15 +293,7 @@ $(document).ready(function(){
 
 	example('tables-example', {
 		etype: 'bootstrap:table',
-		columns: [{
-			text: '#'
-		}, {
-			text: 'First Name'
-		}, {
-			text: 'Last Name'
-		}, {
-			text: 'Username'
-		}],
+		columns: ['#', 'First Name', 'Last Name', 'Username'],
 		rows: [
 			['1', 'Mark', 'Otto', '@mdo'],
 			['2', 'Jacob', 'Thornton', '@fat'],
@@ -297,15 +305,7 @@ $(document).ready(function(){
 	example('tables-striped', {
 		etype: 'bootstrap:table',
 		state: 'striped',
-		columns: [{
-			text: '#'
-		}, {
-			text: 'First Name'
-		}, {
-			text: 'Last Name'
-		}, {
-			text: 'Username'
-		}],
+		columns: ['#', 'First Name', 'Last Name', 'Username'],
 		rows: [
 			['1', 'Mark', 'Otto', '@mdo'],
 			['2', 'Jacob', 'Thornton', '@fat'],
@@ -317,15 +317,7 @@ $(document).ready(function(){
 	example('tables-bordered', {
 		etype: 'bootstrap:table',
 		state: 'bordered',
-		columns: [{
-			text: '#'
-		}, {
-			text: 'First Name'
-		}, {
-			text: 'Last Name'
-		}, {
-			text: 'Username'
-		}],
+		columns: ['#', 'First Name', 'Last Name', 'Username'],
 		rows: [
 			[{text: '1', rowspan: 2}, 'Mark', 'Otto', '@mdo'],
 			['Mark', 'Otto', '@TwBootstrap'],
@@ -338,6 +330,18 @@ $(document).ready(function(){
 	example('tables-hover-rows', {
 		etype: 'bootstrap:table',
 		state: 'hovered',
+		columns: ['#', 'First Name', 'Last Name', 'Username'],
+		rows: [
+			['1', 'Mark', 'Otto', '@mdo'],
+			['2', 'Jacob', 'Thornton', '@fat'],
+			['3', {text: 'Larry the Bird', colspan: 2}, '@twitter']
+		]
+	});
+
+
+	example('tables-condensed', {
+		etype: 'bootstrap:table',
+		state: 'condensed',
 		columns: ['#', 'First Name', 'Last Name', 'Username'],
 		rows: [
 			['1', 'Mark', 'Otto', '@mdo'],
@@ -409,24 +413,26 @@ $(document).ready(function(){
 			placeholder: 'Enter email',
 			type: 'password'
 		}, {
-			etype: 'bootstrap:form-input',
+			etype: 'bootstrap:form-file',
 			label: 'File input',
-			type: 'file',
-			components: {
-				content: {
-					'-cls': 'form-control'
-				},
-				help: {
-					etype: 'html:p',
-					cls: 'help-block',
-					text: 'Example block-level help text here.'
-				}				
-			}
+//			type: 'file',
+			mixins: ['mixins:control-help'], 
+			help: 'Example block-level help text here.'
+			// components: {
+				// content: {
+					// '-cls': 'form-control'
+				// },
+				// help: {
+					// etype: 'html:p',
+					// cls: 'help-block',
+					// text: 'Example block-level help text here.'
+				// }				
+			// }
 		}, {
 			etype: 'bootstrap:form-checkbox',
 			label: ' Check me out         '
 		}, {
-			etype: 'bs-button',
+			etype: 'bootstrap:button',
 			type: 'submit',
 			text: 'Submit'
 		}]
@@ -445,7 +451,7 @@ $(document).ready(function(){
 		}, {
 			cls: 'form-group',
 			content: {
-				etype: 'bs-input-group',
+				etype: 'bootstrap:input-group',
 				placeholder: 'Enter email',
 				$addon_text: '@'
 			}
@@ -459,7 +465,7 @@ $(document).ready(function(){
 			etype: 'bootstrap:form-checkbox',
 			label: ' Remember me'
 		}, {
-			etype: 'bs-button',
+			etype: 'bootstrap:button',
 			type: 'submit',
 			text: 'Sign in'
 		}]
@@ -483,32 +489,34 @@ $(document).ready(function(){
 			placeholder: 'Password',
 			type: 'password'			
 		}, {
-			cls: 'form-group',
+//			cls: 'form-group',
+//			$layout_pattern_tablet: [0, 0, 10],
 			layout: {
 				pattern: {
 					tablet: [0, 0, 10]
 				}
 			},
-			components: {
-				content: {
+			// components: {
+				// content: {
 					etype: 'bootstrap:form-checkbox',
 					label: ' Remember me'
-				}
-			}
+				// }
+			// }
 		}, {
-			cls: 'form-group',
+//			cls: 'form-group',
+//			$layout_pattern_tablet: [0, 0, 10],
 			layout: {
 				pattern: {
 					tablet: [0, 0, 10]
 				}
 			},
-			components: {
-				content: {
-					etype: 'bs-button',
+			// components: {
+				// content: {
+					etype: 'bootstrap:button',
 					type: 'submit',
 					text: 'Sign in'
-				}
-			}
+				// }
+			// }
 			
 		}]
 	});
@@ -608,9 +616,9 @@ $(document).ready(function(){
 		items: [{
 			etype: 'html:select',
 			cls: 'form-control',
-			defaultItem: {
-				etype: 'html:option'
-			},
+			// defaultItem: {
+				// etype: 'html:option'
+			// },
 			items: ['1', '2', '3', '4', '5']
 		}]
 	});
@@ -621,13 +629,13 @@ $(document).ready(function(){
 			etype: 'html:select',
 			cls: 'form-control',
 			multiple: true,
-			defaultItem: {
-				etype: 'html:option'
-			},
-			items: ['1', '2', '3', '4', '5'],
-			set: {
-				'multiple': function(v) { this.el.attr('multiple', v); }
-			}
+			// defaultItem: {
+				// etype: 'html:option'
+			// },
+			items: ['1', '2', '3', '4', '5']
+			// set: {
+				// 'multiple': function(v) { this.el.attr('multiple', v); }
+			// }
 		}]
 	});
 	
@@ -697,7 +705,7 @@ $(document).ready(function(){
 				etype: 'bootstrap:form-checkbox',
 				label: "Can't check this "
 			}, {
-				etype: 'bs-button',
+				etype: 'bootstrap:button',
 				text: 'Submit',
 				state: 'primary'
 			}],
@@ -914,7 +922,7 @@ $(document).ready(function(){
 	example('buttons-options', {
 		etype: 'html:box',
 		defaultItem: {
-			etype: 'bs-button'
+			etype: 'bootstrap:button'
 		},
 		items: [{
 			state: 'default',
@@ -941,11 +949,144 @@ $(document).ready(function(){
 	});
 	
 	
+	example('buttons-sizes', {
+		etype: 'html:box',
+		defaultItem: {
+			etype: 'html:p'
+		},
+		items: [{
+			items: [{
+				etype: 'bootstrap:button',
+				state: 'primary large',
+				text: 'Large button'
+			}, {
+				etype: 'bootstrap:button',
+				state: 'default large',
+				text: 'Large button'
+			}]
+		}, {
+			items: [{
+				etype: 'bootstrap:button',
+				state: 'primary',
+				text: 'Default button'
+			}, {
+				etype: 'bootstrap:button',
+				state: 'default',
+				text: 'Default button'
+			}]
+		}, {
+			items: [{
+				etype: 'bootstrap:button',
+				state: 'primary small',
+				text: 'Small button'
+			}, {
+				etype: 'bootstrap:button',
+				state: 'default small',
+				text: 'Small button'
+			}]
+		}, {
+			items: [{
+				etype: 'bootstrap:button',
+				state: 'primary tiny',
+				text: 'Extra small button'
+			}, {
+				etype: 'bootstrap:button',
+				state: 'default tiny',
+				text: 'Extra small button'
+			}]
+		}]
+	});
 	
 	
+	example('buttons-block', {
+		etype: 'html:box',
+		content: {
+			etype: 'bootstrap:well',
+			style: {'max-width': 400, 'margin': '0 auto 10px'},
+			items: [{
+				etype: 'bootstrap:button',
+				state: 'primary large block',
+				text: 'Block level button'
+			}, {
+				etype: 'bootstrap:button',
+				state: 'default large block',
+				text: 'Block level button'				
+			}]
+		}
+	});
 	
 	
+	example('buttons-active', {
+		etype: 'html:box',
+		items: [{
+			etype: 'bootstrap:button',
+			state: 'primary large active',
+			text: 'Primary button'
+		}, {
+			etype: 'bootstrap:button',
+			state: 'default large active',
+			text: 'Button'
+		}]
+	});
 	
+	example('buttons-active-2', {
+		etype: 'html:box',
+		items: [{
+			etype: 'bootstrap:anchor-button',
+			state: 'primary large active',
+			text: 'Primary link'
+		}, {
+			etype: 'bootstrap:anchor-button',
+			state: 'default large active',
+			text: 'Link'
+		}]
+	});
+	
+	
+	example('buttons-disabled', {
+		etype: 'html:box',
+		items: [{
+			etype: 'bootstrap:button',
+			state: 'primary large disabled',
+			text: 'Primary button'
+		}, {
+			etype: 'bootstrap:button',
+			state: 'default large disabled',
+			text: 'Button'
+		}]
+	});
+	
+	example('buttons-disabled-2', {
+		etype: 'html:box',
+		items: [{
+			etype: 'bootstrap:anchor-button',
+			state: 'primary large disabled',
+			text: 'Primary link'
+		}, {
+			etype: 'bootstrap:anchor-button',
+			state: 'default large disabled',
+			text: 'Link'
+		}]
+	});
+	
+	
+	example('buttons-tags', {
+		etype: 'html:box',
+		items: [{
+			etype: 'bootstrap:anchor-button',
+			text: 'Link'
+		}, {
+			etype: 'bootstrap:button',
+			text: 'Button'
+		}, {
+			etype: 'bootstrap:input-button',
+			text: 'Input'
+		}, {
+			etype: 'bootstrap:input-button',
+			type: 'submit',
+			text: 'Submit'
+		}]
+	});
 	
 	
 
