@@ -623,6 +623,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			item.$doLayout();
 		});
 		
+		this.$layoutChanged();
+		
 		return this;
 	},
 	
@@ -656,7 +658,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			if(this.el.parents().is('body')){
 				this.$afterRender();
-				this.$layoutChanged();
+//				this.$layoutChanged();
 			}
 			
 		}

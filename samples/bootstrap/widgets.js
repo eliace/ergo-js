@@ -1172,6 +1172,57 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 	},
 	
 	
+	
+	update: function() {
+		
+		var self = this;
+		
+		var o = this.options;
+		
+		
+		var keys = {'mobile': 'xs', 'tablet': 'sm', 'desktop': 'md', 'xdesktop': 'lg'};
+		
+		this.container.children.each(function(item) {
+
+			var el = item._wrapper || item.el;
+			
+			for(var i in o.pattern) {
+				var tmpl = o.pattern[i];
+				
+				var k = -1;
+				var d = 0;
+				for(var j = 0; j < tmpl.length; j++) {
+					if( tmpl[j] > 0 ) {
+						k++;
+					}
+					else if( tmpl[j] < 0 ) {
+						d -= tmpl[j];
+					}
+					else {
+						d++;
+					}
+					
+					if( k == item._index ) {
+						el.addClass('col-'+(keys[i] || i)+'-'+tmpl[j]);
+						if(d)
+							el.addClass('col-'+(keys[i] || i)+'-offset-'+d);
+						break;
+					}
+					
+					if( tmpl[j] > 0 ) d = 0;
+					
+				}
+				
+			}
+			
+		});
+		
+		
+		this.$super();
+	}
+	
+
+/*	
 	add: function(item, index, weight) {
 		this.$super(item, index, weight);
 		
@@ -1211,7 +1262,7 @@ Ergo.defineClass('Bootstrap.layouts.Grid', 'Ergo.core.Layout', {
 		}
 		
 	}
-	
+*/	
 	
 	
 	
@@ -1226,6 +1277,22 @@ Ergo.defineClass('Bootstrap.widgets.Form', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<form/>',
+		layout: {
+			etype: 'layout:default',
+			wrapper: function(item) {
+				
+				var label = item.component('label');
+				
+				if( label ) {
+					item.el.addClass('form-group');
+					// var group = $('<div class="form-group"/>');
+					// group.append( label.el );
+					// return group.append(item.el);
+				}
+				
+				return item.el;
+			}
+		}
 	}
 	
 }, 'bootstrap:form');
@@ -1250,32 +1317,118 @@ Ergo.defineClass('Bootstrap.widgets.HForm', 'Bootstrap.widgets.Form', {
 		
 		layout: {
 			etype: 'layout:default',
+			pattern: {
+				tablet: [2, 10]
+			},
 			wrapper: function(item) {
-				if(item.etype != 'bootstrap:form-input') {
-					return $('<div class="form-group" />').append(item.el);
+				
+				var label = item.component('label');
+				
+				if( label ) {
+					item.el.addClass('form-group');
+					// var group = $('<div class="form-group"/>');
+					// group.append( label.el );
+					// return group.append(item.el);
+//					item.el.append($('<div/>'));
 				}
+				else { 
+					var group = $('<div class="form-group"></div>');
+//					group.append( label.el );
+					var wrap = $('<div/>').append(item.el);
+					return group.append( wrap );
+				}
+				
 				return item.el;
 			}
+
+			
+/*			
+			wrapper: function(item) {
+				
+				var pattern = this.options.pattern;
+				
+				var group = $('<div class="form-group"/>');
+
+				var wrap = $('<div/>').append( item.el );
+				
+				wrap.addClass('col-sm-'+pattern['tablet'][1])
+				
+				var label = item.component('label');
+				
+				if( label ) {
+					group.append( label.el );
+					
+					// for(var i in pattern) {
+// 						
+					// } 
+					label.el.addClass('col-sm-'+pattern['tablet'][0])
+				}
+				else {
+
+					wrap.addClass('col-sm-offset-'+pattern['tablet'][0])
+				}
+				
+				
+				// if(item.etype != 'bootstrap:form-input') {
+					// return $('<div class="form-group" />').append(item.el);
+				// }
+				// return item.el;
+				return group.append(wrap);
+			}
+*/		
 		},
 		
 		defaultItem: {
 			layout: {
-				etype: 'layout:grid',
-				'-cls': 'row',
+				etype: 'layout:default',
 				pattern: {
 					tablet: [2, 10]
 				},
 				wrapper: function(item) {
-					if(!item.options.noWrapper) {
-						var wrap = $('div', this.el);
-						if(wrap.length == 0)
-							wrap = $('<div/>');
-						wrap.append(item.el);
-						return wrap;
+					if(item._key == 'label') return item.el;
+					
+					if(!this.container._wrapper) {
+						
 					}
-					return item.el;
+					
+					var group = this.container._wrapper || this.el;
+					console.log(group);
+					var wrap = $('div', group);
+					if(wrap.length == 0)
+						wrap = $('<div/>');
+					wrap.append(item.el);
+					return wrap;
 				}
+				// wrapper: function(item) {
+// 					
+					// var pattern = this.options.pattern;
+// 					
+// 					
+// 					
+// 					
+					// return 
+				// }
 			}
+			
+			// layout: {
+				// etype: 'layout:grid',
+				// '-cls': 'row',
+				// pattern: {
+					// tablet: [2, 10]
+				// },
+				// wrapper: function(item) {
+					// if(!item.options.noWrapper) {
+						// var wrap = $('div', this.el);
+						// if(wrap.length == 0)
+							// wrap = $('<div/>');
+						// wrap.append(item.el);
+						// return wrap;
+					// }
+					// return item.el;
+				// }
+			// }
+			
+			
 			// components: {
 				// label: {
 					// cls: 'control-label',
@@ -1301,7 +1454,7 @@ Ergo.defineClass('Bootstrap.widgets.HForm', 'Bootstrap.widgets.Form', {
 Ergo.defineClass('Bootstrap.forms.Input', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'form-group',
+//		cls: 'form-group',
 		components: {
 			label: {
 				weight: -100,
@@ -1475,7 +1628,8 @@ Ergo.defineMixin('Bootstrap.mixins.ControlLabel', {
 				weight: -100,
 				etype: 'html:label',
 				cls: 'control-label',
-				noWrapper: true
+				autoRender: 'no'
+//				noWrapper: true
 			}
 		}
 	},

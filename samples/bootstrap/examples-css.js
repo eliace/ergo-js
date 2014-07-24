@@ -221,7 +221,7 @@ $(document).ready(function(){
 		layout: {
 			etype: 'layout:grid',
 			pattern: {
-				desktop: [4, 0, 0, 0, 0, 4]
+				desktop: [4, -4, 4]
 			},
 			wrapper: false
 		},
@@ -234,7 +234,7 @@ $(document).ready(function(){
 		layout: {
 			etype: 'layout:grid',
 			pattern: {
-				desktop: [0, 0, 0, 3, 0, 0, 0, 3]
+				desktop: [-3, 3, -3, 3]
 			},
 			wrapper: false
 		},
@@ -247,7 +247,7 @@ $(document).ready(function(){
 		layout: {
 			etype: 'layout:grid',
 			pattern: {
-				desktop: [0, 0, 0, 6]
+				desktop: [-3, 6]
 			},
 			wrapper: false
 		},
@@ -405,14 +405,27 @@ $(document).ready(function(){
 		etype: 'bootstrap:form',
 		items: [{
 			etype: 'bootstrap:form-input',
+			// etype: 'html:input',
+			// mixins: ['mixins:control-label'],
+			// cls: 'form-control',
 			label: 'Email address',
 			placeholder: 'Enter email'
 		}, {
-			etype: 'bootstrap:form-input',
-			label: 'Email address',
-			placeholder: 'Enter email',
+			etype: 'html:input',
+			mixins: ['mixins:control-label'],
+			cls: 'form-control',
+			label: 'Password',
+			placeholder: 'Password',
 			type: 'password'
 		}, {
+			etype: 'html:input',
+			mixins: ['mixins:control-label', 'mixins:control-help'],
+//			cls: 'form-control',
+			label: 'File',
+			type: 'file',			
+			help: 'Example block-level help text here.',
+			layout: 'inherited'
+		}/*, {
 			etype: 'bootstrap:form-file',
 			label: 'File input',
 //			type: 'file',
@@ -428,7 +441,7 @@ $(document).ready(function(){
 					// text: 'Example block-level help text here.'
 				// }				
 			// }
-		}, {
+		}*/, {
 			etype: 'bootstrap:form-checkbox',
 			label: ' Check me out         '
 		}, {
@@ -479,45 +492,33 @@ $(document).ready(function(){
 		etype: 'bootstrap:horizontal-form',
 		items: [{
 			etype: 'bootstrap:form-input',
-			mixins: ['mixins:control-label'],
+			// etype: 'html:input',
+			// mixins: ['mixins:control-label'],
+			// cls: 'form-control',
 			label: 'Email address',
 			placeholder: 'Email'
 		}, {
-			etype: 'bootstrap:form-input',
+			etype: 'html:input',
 			mixins: ['mixins:control-label'],
+			cls: 'form-control',
 			label: 'Password',
 			placeholder: 'Password',
-			type: 'password'			
+			type: 'password'
 		}, {
-//			cls: 'form-group',
-//			$layout_pattern_tablet: [0, 0, 10],
-			layout: {
-				pattern: {
-					tablet: [0, 0, 10]
-				}
-			},
-			// components: {
-				// content: {
-					etype: 'bootstrap:form-checkbox',
-					label: ' Remember me'
-				// }
-			// }
+			etype: 'bootstrap:form-checkbox',
+			label: ' Remember me'
 		}, {
-//			cls: 'form-group',
-//			$layout_pattern_tablet: [0, 0, 10],
-			layout: {
-				pattern: {
-					tablet: [0, 0, 10]
-				}
-			},
-			// components: {
-				// content: {
-					etype: 'bootstrap:button',
-					type: 'submit',
-					text: 'Sign in'
-				// }
-			// }
-			
+			etype: 'bootstrap:button',
+			type: 'submit',
+			text: 'Sign in'
+		}, {
+			etype: 'html:input',
+			mixins: ['mixins:control-label', 'mixins:control-help'],
+			cls: 'form-control',
+			label: 'Email address',
+			placeholder: 'Email',
+			help: 'Example block-level help text here.',
+			layout: 'inherited'
 		}]
 	});
 
@@ -646,20 +647,25 @@ $(document).ready(function(){
 	example('forms-controls-static', {
 		etype: 'bootstrap:horizontal-form',
 		items: [{
-			etype: 'html:box',//bootstrap:form-input',
+//			etype: 'html:box',//bootstrap:form-input',
 			mixins: ['mixins:control-label'],
 			label: 'Email address',
-			cls: 'form-group',
-			components: {
-				content: {
-					etype: 'html:p',
-					text: "email@example.com",
-					cls: 'form-control-static',
-					'-cls': 'form-control'
-				}				
-			}
+			etype: 'html:p',
+			text: "email@example.com",
+			cls: 'form-control-static',
+//			cls: 'form-group',
+			// components: {
+				// content: {
+					// etype: 'html:p',
+					// text: "email@example.com",
+					// cls: 'form-control-static',
+					// '-cls': 'form-control'
+				// }				
+			// }
 		}, {
-			etype: 'bootstrap:form-input',
+			etype: 'html:input',
+			cls: 'form-control',
+//			etype: 'bootstrap:form-input',
 			mixins: ['mixins:control-label'],
 			label: 'Password',
 			placeholder: 'Password',
@@ -691,16 +697,26 @@ $(document).ready(function(){
 	
 	
 	example('forms-disabled-fieldsets', {
-		etype: 'bootstrap:form',
+		etype: 'html:form',
 		items: [{
-			etype: 'html:fieldset',
+//			etype: 'html:fieldset',
+			etype: 'bootstrap:form',
+			html: '<fieldset/>',
 			disabled: true,
 			items: [{
-				etype: 'bootstrap:form-input',
+//				etype: 'bootstrap:form-input',
+				etype: 'html:input',
+				cls: 'form-control',
+				label: 'Disabled input',
+				mixins: ['mixins:control-label'],				
 				placeholder: 'Disabled input'
 			}, {
-				etype: 'bootstrap:form-select',
-				$content_items: ['Disabled select']
+//				etype: 'bootstrap:form-select',
+				etype: 'html:select',
+				cls: 'form-control',
+				label: 'Disabled select menu',
+				mixins: ['mixins:control-label'],				
+				items: ['Disabled select']
 			}, {
 				etype: 'bootstrap:form-checkbox',
 				label: "Can't check this "
