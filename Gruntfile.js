@@ -73,6 +73,24 @@ module.exports = function(grunt) {
 	      }
 	    }
     },
+    lineremover: {
+    	core: {
+	      files: {
+	        'build/ergojs-core.js': 'build/ergojs-core.js'
+	      },
+	      options: {
+	        exclusionPattern: /^\/\/= require/g
+	      }	      
+    	},
+    	widgets_basic: {
+	      files: {
+	        'build/ergojs-widgets-basic.js': 'build/ergojs-widgets-basic.js'
+	      },
+	      options: {
+	        exclusionPattern: /^\/\/= require/g
+	      }	      
+    	}
+    },
 		jsdoc : {
         docstrap : {
             src: ['build/ergojs-core.js', 'build/ergojs-widgets.js'], 
@@ -91,9 +109,10 @@ module.exports = function(grunt) {
 
 //	console.log( grunt.file.exists('js\\core\\array.js') );
   
+	grunt.loadNpmTasks('grunt-line-remover');  
   grunt.loadNpmTasks('grunt-concat-in-order');
   grunt.loadNpmTasks('grunt-jsdoc');
   
-  grunt.registerTask('default', ['concat_in_order']);
+  grunt.registerTask('default', ['concat_in_order', 'lineremover']);
   
 };
