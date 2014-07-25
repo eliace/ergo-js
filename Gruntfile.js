@@ -3,13 +3,20 @@ var path = require('path');
 
 
 
-var extractor = function(filepath, filecontent) {
+
+var bootstrap_extractor = function(filepath, filecontent) {
+	return extractor.call(this, filepath, filecontent, 'bootstrap');
+}
+
+
+
+var extractor = function(filepath, filecontent, d) {
 			    	
     var workingdir = path.normalize(filepath).split(path.sep);
     workingdir.pop();
     
     var cwd = path.normalize(process.cwd()).split(path.sep);
-    cwd.push('js');
+    cwd.push(d || 'js');//'js');
 		
     var deps = this.getMatches(/\/\/= require "(.*)"/g, filecontent);
     
@@ -71,6 +78,18 @@ module.exports = function(grunt) {
 			    },
 			    onlyConcatRequiredFiles: true      	
 	      }
+	    },
+    	bootstrap: {
+	      files: {
+	        'build/ergojs-bootstrap.js': ['bootstrap/bootstrap.js']
+	      },
+	      options: {
+			    extractRequired: bootstrap_extractor,
+			    extractDeclared: function(filepath) {
+			        return [filepath];
+			    },
+			    onlyConcatRequiredFiles: true      	
+	      }
 	    }
     },
     lineremover: {
@@ -85,6 +104,14 @@ module.exports = function(grunt) {
     	widgets_basic: {
 	      files: {
 	        'build/ergojs-widgets-basic.js': 'build/ergojs-widgets-basic.js'
+	      },
+	      options: {
+	        exclusionPattern: /^\/\/= require/g
+	      }	      
+    	},
+    	widgets_basic: {
+	      files: {
+	        'build/ergojs-bootstrap.js': 'build/ergojs-bootstrap.js'
 	      },
 	      options: {
 	        exclusionPattern: /^\/\/= require/g

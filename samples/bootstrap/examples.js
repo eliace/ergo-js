@@ -732,11 +732,12 @@ $(document).ready(function(){
 			etype: 'bootstrap:navbar-form',
 			state: 'left',
 			items: [{
-				etype: 'bootstrap:form-group',
-				content: {
-					etype: 'html:input', 
-					placeholder: 'Search'
-				}
+//				etype: 'bootstrap:form-group',
+//				content: {
+				etype: 'html:input', 
+				placeholder: 'Search',
+				cls: 'form-control'
+//				}
 			}, {
 				etype: 'bootstrap:button',	
 				text: 'Submit',
