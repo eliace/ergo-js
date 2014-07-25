@@ -105,18 +105,25 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 		// выбираем элемент, куда будет добавляться элемент-виджет
 		var el = (o.selector) ? o.selector.call(this, item) : this.select(item);
+
+		// если вес не указан, то вес считается равным 0
+		var weight = item.options.weight || 0;
+		
+		item._weight = weight;
+
 		// создаем обертку (если она необходима) для элемента-виджета
 		var item_el = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
 		
 		if(item_el != item.el) {
 			item._wrapper = item_el;
+			
+			// экспериментальный код
+			if(item.options.wrapper) {
+				item.wrapper = $.ergo( Ergo.deep_override({etype: 'widget:widget', html: item._wrapper, autoRender: false}, item.options.wrapper) );
+				item.wrapper._weight = weight;
+			}
 		}
 		
-		// если вес не указан, то вес считается равным 0
-		var weight = item.options.weight || 0;
-		
-		
-		item._weight = weight;
 		
 		item_el.data('weight', weight);
 		
@@ -217,8 +224,10 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 */
 	remove: function(item) {
 		
-		if(item._wrapper)
-			item._wrapper.remove();
+		if(item._wrapper) {
+			item._wrapper.remove(); //?
+			item.wrapper.destroy();
+		}
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
 			

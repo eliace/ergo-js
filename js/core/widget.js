@@ -1266,7 +1266,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				else {
 					// проверяем состояния
 					if(i in this.states._states)
-						this.states.toggle(i, o[i])
+						this.states.toggle(i, o[i]);
 					// проверяем группы состояний
 					else if(i in this.states._exclusives)
 						this.states.set(o[i]);
@@ -1302,7 +1302,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 	
-}, 'widget');
+}, 'widget:widget');
 
 
 

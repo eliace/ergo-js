@@ -492,18 +492,22 @@ $(document).ready(function(){
 		etype: 'bootstrap:horizontal-form',
 		items: [{
 			etype: 'bootstrap:form-input',
-			// etype: 'html:input',
-			// mixins: ['mixins:control-label'],
-			// cls: 'form-control',
+//			etype: 'html:input',
+			mixins: ['mixins:control-label'],
+//			cls: 'form-control',
 			label: 'Email address',
-			placeholder: 'Email'
+			placeholder: 'Email',
 		}, {
 			etype: 'html:input',
 			mixins: ['mixins:control-label'],
 			cls: 'form-control',
 			label: 'Password',
 			placeholder: 'Password',
-			type: 'password'
+			type: 'password',
+			wrapper: {
+//				etype: 'html:widget',
+				state: 'has-success'
+			}			
 		}, {
 			etype: 'bootstrap:form-checkbox',
 			label: ' Remember me'
@@ -748,20 +752,35 @@ $(document).ready(function(){
 	example('forms-control-validation', {
 		etype: 'bootstrap:form',
 		items: [{
-			etype: 'bootstrap:form-input',
+			etype: 'html:input',
 			mixins: ['mixins:control-label'],
+			cls: 'form-control',
 			label: 'Input with success',
-			state: 'has-success'
+			wrapper: {
+				state: 'has-success'
+			}
 		}, {
 			etype: 'bootstrap:form-input',
 			mixins: ['mixins:control-label'],
 			label: 'Input with warning',
-			state: 'has-warning'
+			wrapper: {
+				state: 'has-warning'				
+			}
 		}, {
 			etype: 'bootstrap:form-input',
 			mixins: ['mixins:control-label'],
 			label: 'Input with error',
-			state: 'has-error'
+			wrapper: {
+				state: 'has-error'				
+			}
+		}, {
+			etype: 'bootstrap:form-input',
+			mixins: ['mixins:control-label', 'mixins:control-help'],
+			label: 'Input with error',
+			help: 'Help text',
+			wrapper: {
+				state: 'has-error'				
+			}
 		}]
 	});
 	
@@ -771,41 +790,57 @@ $(document).ready(function(){
 	example('forms-control-feedback', {
 		etype: 'bootstrap:form',
 		defaultItem: {
-			state: 'has-feedback',
-			etype: 'bootstrap:form-input',
-			mixins: ['mixins:control-label', 'mixins:control-feedback']			
+//			state: 'has-feedback',
+//			etype: 'bootstrap:form-input',
+			etype: 'html:input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+			cls: 'form-control',
+			layout: 'inherited'
 		},
 		items: [{
 			label: 'Input with success',
 			state: 'has-success',
-			icon: 'ok'
+			icon: 'ok',
+			wrapper: {
+				state: 'has-success'
+			}
 		}, {
 			label: 'Input with warning',
 			state: 'has-warning',
-			icon: 'warning-sign'
+			icon: 'warning-sign',
+			wrapper: {
+				state: 'has-warning'
+			}
 		}, {
 			label: 'Input with error',
 			state: 'has-error',
-			icon: 'remove'
+			icon: 'remove',
+			wrapper: {
+				state: 'has-error'
+			}
 		}]
 	});
 	
 	
 	example('forms-control-feedback-2', {
 		etype: 'bootstrap:horizontal-form',
-		defaultItem: {
-			state: 'has-feedback',
-			etype: 'bootstrap:form-input',
-			mixins: ['mixins:control-label', 'mixins:control-feedback'],
-			layout: {
-				pattern: {
-					tablet: [3, 9]
-				}
+		layout: {
+			pattern: {
+				tablet: [3, 9]
 			}
+		},
+		defaultItem: {
+//			state: 'has-feedback',
+			etype: 'html:input',
+			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+			cls: 'form-control',
+			layout: 'inherited'
 		},
 		items: [{
 			label: 'Input with success',
-			state: 'has-success',
+			wrapper: {
+				state: 'has-success'				
+			},
 			icon: 'ok'
 		}]
 	});
@@ -815,13 +850,17 @@ $(document).ready(function(){
 	example('forms-control-feedback-3', {
 		etype: 'bootstrap:inline-form',
 		defaultItem: {
-			state: 'has-feedback',
-			etype: 'bootstrap:form-input',
+//			state: 'has-feedback',
+			etype: 'html:input',
 			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+			cls: 'form-control',
+			layout: 'inherited'
 		},
 		items: [{
 			label: 'Input with success',
-			state: 'has-success',
+			wrapper: {
+				state: 'has-success'				
+			},
 			icon: 'ok'
 		}]
 	});
@@ -830,13 +869,17 @@ $(document).ready(function(){
 	example('forms-control-feedback-4', {
 		etype: 'bootstrap:form',
 		defaultItem: {
-			state: 'has-feedback',
-			etype: 'bootstrap:form-input',
+//			state: 'has-feedback',
+			etype: 'html:input',
 			mixins: ['mixins:control-label', 'mixins:control-feedback'],
+			cls: 'form-control',
+			layout: 'inherited'
 		},
 		items: [{
 			label: 'Input with success',
-			state: 'has-success',
+			wrapper: {
+				state: 'has-success'			
+			},
 			icon: 'ok',
 			$label_state: 'sr-only'
 		}]
@@ -884,17 +927,22 @@ $(document).ready(function(){
 	example('forms-control-sizes-2', {
 		etype: 'bootstrap:horizontal-form',
 		defaultItem: {
-			etype: 'bootstrap:form-input',
-			mixins: ['mixins:control-label']
+			etype: 'html:input',
+			mixins: ['mixins:control-label'],
+			cls: 'form-control'
 		},
 		items: [{
 			label: 'Large label',
 			placeholder: 'Large input',
-			state: 'large'
+			wrapper: {
+				state: 'form-group-lg'				
+			}
 		}, {
 			label: 'Small label',
 			placeholder: 'Small input',
-			state: 'small'
+			wrapper: {
+				state: 'form-group-sm'				
+			}
 		}]
 	});
 	
