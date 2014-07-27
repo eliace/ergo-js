@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 	        exclusionPattern: /^\/\/= require/g
 	      }	      
     	},
-    	widgets_basic: {
+    	widgets_bootstrap: {
 	      files: {
 	        'build/ergojs-bootstrap.js': 'build/ergojs-bootstrap.js'
 	      },
