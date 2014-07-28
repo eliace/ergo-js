@@ -67,17 +67,31 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 	
 	
 	$pre_construct: function(o) {
-		this.$super(o);
 		
 		if('columns' in o) {
 			
 			var hcols = [];
+			var bcols = [];
 			Ergo.each(o.columns, function(c){
-				hcols.push(c);
+				
+				var col = {};
+				
+				if($.isString(c)) {
+					col.title = c;
+				}
+				else {
+					col = Ergo.deep_copy(c);
+				}
+				
+				bcols.push(col);
+				hcols.push(col.title);
+				
+				delete col.title;
 			});
 			
 			Ergo.smart_override(o.components.head, {items: [{items: hcols}]});
 			
+			Ergo.smart_override(o.components.body, {defaultItem: {items: bcols}});// items: [{items: hcols}]});
 		}
 		
 		if('rows' in o) {
@@ -86,6 +100,7 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 			
 		}
 		
+		this.$super(o);
 	},
 	
 	

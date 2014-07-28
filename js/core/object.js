@@ -114,15 +114,15 @@ Ergo.override(Ergo.core.Object.prototype, {
 	$pre_construct: function(o) {
 		
 		if('mixins' in o) {
-//			var mixins = o.mixins;
 			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
 				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, o);
-				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
+				else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
 			}
-		}		
+		}
 		
+
 	},
 	
 	
