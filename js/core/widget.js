@@ -528,13 +528,20 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		
-		// добавляем метод bubble к events
-		this.events.bubble = function(name, e) {
+		// добавляем метод raise к events
+		this.events.raise = function(name, e) {
 			if(!e) e = {};
-			e.after = Ergo.bubble;
+			e.after = Ergo.raise;
 			e.target = e.target || self;
 			this.fire(name, e);
 		};
+		
+		this.events.sink = function(name, e) {
+			if(!e) e = {};
+			e.after = Ergo.sink;
+			e.target = e.target || self;
+			this.fire(name, e);
+		}
 		
 	},
 	
@@ -1324,12 +1331,16 @@ Ergo.$widget = Ergo.object;
 // };
 
 
-Ergo.bubble = function(e, type) {
+Ergo.raise = function(e, type) {
 	if(this.parent && !e.stopped) this.parent.events.fire(type, e);
 };
 
 
-
+Ergo.sink = function(e, type) {
+	this.children.each(function(child){
+		child.events.fire(type, e);
+	});
+}
 
 
 //------------------------------
