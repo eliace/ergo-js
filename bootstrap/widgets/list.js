@@ -24,7 +24,9 @@ Ergo.defineClass('Bootstrap.widgets.ListItem', 'Ergo.widgets.Box', {
 		}
 	},
 
-	setText: function(v) { this.content.opt('text', v); }
+	setText: function(v) { this.content.opt('text', v); },
+	
+	setHref: function(v) { this.content.opt('href', v); },
 	
 }, 'bootstrap:list-item');
 

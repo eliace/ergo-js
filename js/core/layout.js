@@ -212,6 +212,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		// else
 			// index.el.before(item.el);
 		
+//		item._rendered = true;
+		
 		// deprecated
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
@@ -226,11 +228,15 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		if(item._wrapper) {
 			item._wrapper.remove(); //?
-			item.wrapper.destroy();
+			
+			if(item.wrapper)
+				item.wrapper.destroy();
 		}
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
-			
+		
+//		item._rendered = false;
+		
 		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);		
 	},
 	

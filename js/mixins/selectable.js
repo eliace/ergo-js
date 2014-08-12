@@ -36,6 +36,7 @@ Ergo.defineClass('Ergo.objects.Selection', 'Ergo.core.Object', {
 		
 		this._selected = w;
 		
+		this._widget.events.fire('selection:changed');
 	},
 	
 	get: function() {
@@ -60,13 +61,28 @@ Ergo.defineMixin('Ergo.mixins.Selectable', {
 	setSelectOn: function(selectEvent) {
 		var self = this;
 		if(selectEvent) {
-			this.events.reg(selectEvent, function(e) {
-				self.events.raise('selected', e.target);
-			});
+			var i = selectEvent.indexOf(':');
+			var prefix = false;
+			if(i > 0) {
+				prefix = selectEvent.substr(0, i);
+				selectEvent = selectEvent.substr(i+1);
+			}
+			
+			if( prefix == 'jquery' ) {
+				this.el.on(selectEvent, function(e){
+					self.events.rise('selected', self);
+				});
+			}
+			else {
+				this.events.reg(selectEvent, function(e) {
+					self.events.rise('selected', self);
+				});				
+			}
+			
 		}		
 	}
 	
-});
+}, 'mixins:selectable');
 
 
 
@@ -102,6 +118,26 @@ Ergo.defineMixin('Ergo.mixins.Selection', function(o) {
 			// });
 		// }
 	// };
+	
+	this.setSelected = function(i) {
+		
+		var self = this;
+		
+//		var selectables = [];
+		var callback = Ergo.by_widget(i);
+		
+		this.walk(function(i) {
+			if(callback.call(this, this)) {
+				
+//				this.states.set('active');
+				this.events.rise('selected', this);
+				
+				return false;
+			}
+		});
+		
+	};
+	
 	
 	
 	this.setSelectedItem = function(i) {

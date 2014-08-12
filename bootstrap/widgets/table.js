@@ -60,7 +60,9 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 					etype: 'bootstrap:table-row'
 				}
 			}
-		}
+		},
+		cell: {},
+		row: {}
 	},
 	
 	
@@ -91,7 +93,7 @@ Ergo.defineClass('Bootstrap.widgets.Table', 'Ergo.widgets.Box', {
 			
 			Ergo.smart_override(o.components.head, {items: [{items: hcols}]});
 			
-			Ergo.smart_override(o.components.body, {defaultItem: {items: bcols}});// items: [{items: hcols}]});
+			Ergo.smart_override(o.components.body, {defaultItem: o.row}, {defaultItem: {defaultItem: o.cell}}, {defaultItem: {items: bcols}});// items: [{items: hcols}]});
 		}
 		
 		if('rows' in o) {

@@ -25,7 +25,17 @@ Ergo.core.WidgetProperties = {
 	setWidth: function(v) { this.el.width(v); },
 	setHeight: function(v) { this.el.height(v); },
 	setAutoWidth: function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
-	setAutoHeight: function(v) { v ? this.el.attr('autoHeight', v) : this.el.removeAttr('autoHeight'); },
+	setAutoHeight: function(v) { 
+		if(v) {
+			this.el.attr('autoHeight', v);
+			if(v === true)
+				this.el.css('overflow-y', 'auto');
+		}
+		else {
+			this.el.removeAttr('autoHeight');
+			this.el.css('overflow-y', '');			
+		}
+	},
 	setTooltip: function(v) { this.el.attr('title', v); },
 	setId: function(v) { this.el.attr('id', v); },
 	setTag: function(v) { this.tag = v; },

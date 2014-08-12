@@ -14,12 +14,18 @@ Ergo.defineClass('Bootstrap.widgets.Pagination', 'Bootstrap.widgets.List', {
 			prevButton: {
 				weight: -1,
 				etype: 'bootstrap:list-item',
-				text: '«'
+				text: '«',
+				onClick: function() {
+					this.events.rise('prev');
+				}
 			},
 			nextButton: {
 				weight: 1,
 				etype: 'bootstrap:list-item',
-				text: '»'				
+				text: '»',				
+				onClick: function() {
+					this.events.rise('next');
+				}
 			}
 		}
 	}

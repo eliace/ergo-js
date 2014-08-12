@@ -25,7 +25,7 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', 
 					}
 				},
 				onClick: function(e) {
-					this.events.bubble('action');
+					this.events.raise('action');
 					e.baseEvent.stopPropagation();
 					e.baseEvent.preventDefault();
 				}
@@ -47,11 +47,21 @@ Ergo.defineClass('Bootstrap.widgets.Dropdown', 'Bootstrap.widgets.ButtonGroup', 
 	
 	
 	open: function() {
+		
+		if(Bootstrap._dropdown)
+			Bootstrap._dropdown.close();
+		
 		var self = this;
 		this.states.set('open');
 		$('html').one('click', function(){
-			self.states.unset('open');		
+			self.close();//.states.unset('open');
 		});
+		Bootstrap._dropdown = this;
+	},
+	
+	close: function() {
+		this.states.unset('open');
+		Bootstrap._dropdown = false;
 	}
 	
 });

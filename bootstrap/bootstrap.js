@@ -35,6 +35,7 @@
 //= require <widgets/table>
 //= require <widgets/thumbnail>
 //= require <widgets/well>
+//= require <widgets/modal>
 
 
 
