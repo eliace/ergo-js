@@ -43,9 +43,9 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     
     concat_in_order: {
-    	widgets: {
+    	widgets_all: {
 	      files: {
-	        'build/ergojs-widgets.js': ['build-widgets.js']
+	        'build/ergojs-widgets-all.js': ['build-widgets.js']
 	      },
 	      options: {
 			    extractRequired: extractor,
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 			    onlyConcatRequiredFiles: true      	
 	      }    		
     	},
-    	widgets_native: {
+    	widgets_basic: {
 	      files: {
 	        'build/ergojs-widgets-basic.js': ['build-widgets-basic.js']
 	      },
@@ -96,6 +96,14 @@ module.exports = function(grunt) {
     	core: {
 	      files: {
 	        'build/ergojs-core.js': 'build/ergojs-core.js'
+	      },
+	      options: {
+	        exclusionPattern: /^\/\/= require/g
+	      }	      
+    	},
+    	widgets_all: {
+	      files: {
+	        'build/ergojs-widgets-all.js': 'build/ergojs-widgets-all.js'
 	      },
 	      options: {
 	        exclusionPattern: /^\/\/= require/g

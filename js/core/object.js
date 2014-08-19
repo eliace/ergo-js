@@ -94,6 +94,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this.$pre_construct(this.options);
 
+		// сборка опций
+//		Ergo.smart_build(this.options);
 		
 //		this.options = Ergo.smart_override(this.options, opts);		
 		

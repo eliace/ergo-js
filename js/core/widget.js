@@ -59,9 +59,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		autoUpdate: true,
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
-				layout = $.ergo({etype: 'layout:'+layout});
+				layout = $.ergo({etype: 'layouts:'+layout});
 			else if(!(layout instanceof Ergo.core.Layout))
-				layout = $.ergo(Ergo.override({etype: 'layout:default'}, layout));
+				layout = $.ergo(Ergo.override({etype: 'layouts:default'}, layout));
 			return layout;	
 		},
 		events: {},
@@ -636,8 +636,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		var self = this;
 		
 		this.children.each(function(item){
-			if(!item._rendered && item.options.autoRender !== false)
+			if(!item._rendered && item.options.autoRender !== false) {
+
 				self.layout.add(item, item._index);
+				
+				if(item.options.showOnRender) item.show();
+				if(item.options.hideOnRender) item.hide();				
+			}
 		});
 
 
@@ -1451,7 +1456,7 @@ $.ergo = function() {
 	var o = Ergo.smart_override.apply(this, arguments);
 	
 	var etype = o.etype;
-	var ns = 'widget';
+	var ns = 'widgets';
 	var i = etype.indexOf(':');
 	if(i > 0) {
 		ns = etype.substr(0, i);
@@ -1487,6 +1492,7 @@ $.fn.ergo = function(o) {
 Ergo.widgets = {};
 
 
+Ergo.$widgets = Ergo.object;
 
 
 

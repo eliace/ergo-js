@@ -1,4 +1,3 @@
-//= require <widgets/widgets>
 
 /*
 Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {

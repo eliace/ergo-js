@@ -1,5 +1,4 @@
 
-//= require <widgets/widgets>
 
 
 
@@ -10,7 +9,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 		cls: 'panel',
 		components: {
 			header: {
-				cls: 'panel-header',
+				html: '<header/>',
 				components: {
 					title: {
 						etype: 'html:h3',
@@ -19,10 +18,9 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				}				
 			},
 			content: {
-				cls: 'panel-content'				
 			},
 			footer: {
-				cls: 'panel-footer',				
+				html: '<footer/>',
 				autoRender: false
 			}
 		}

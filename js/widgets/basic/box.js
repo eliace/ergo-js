@@ -1,5 +1,4 @@
 
-//= require <widgets/widgets>
 
 
 

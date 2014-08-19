@@ -308,8 +308,8 @@ Ergo.event_bus = new Ergo.events.Observer();
 
 
 Ergo.Observable = function() {
-	this.events = new Ergo.events.Observer(this);
 	
+	this.events = new Ergo.events.Observer(this);
 	
 	var o = this.options;
 	

@@ -1,6 +1,6 @@
 
 //= require <core/all>
 //= require <data/data>
-//= require <layouts/all>
-//= require <mixins/all>
-//= require <html/all>
+//= require <layouts/layouts>
+//= require <mixins/mixins>
+//= require <html/html>

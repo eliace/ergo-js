@@ -1,5 +1,4 @@
 
-//= require <widgets/widgets>
 
 
 Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', {
