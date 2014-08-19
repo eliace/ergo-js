@@ -15,4 +15,4 @@ Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget', {
 		}
 	}
 	
-}, 'widget:box');
+}, 'widgets:box');

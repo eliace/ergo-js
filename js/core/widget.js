@@ -565,10 +565,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.$super(o);
 		
 		// добавляем элемент в документ
-		this.$render(o.renderTo);
+//		this.$render(o.renderTo);
 		
 		// подключаем данные и обновляем их, если установлен параметр autoUpdate
-		this.bind(o.data, o.autoUpdate);
+		this.$bind(o.data, o.autoUpdate);
 						
 		
 //		this.$afterBuild();
@@ -623,6 +623,43 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
+	$render: function(target) {
+		
+		
+		
+		if(target) {
+			$(target).append(this.el);
+//			target.layout.add(this, this._index);
+		}
+		
+		
+		var self = this;
+		
+		this.children.each(function(item){
+			if(!item._rendered && item.options.autoRender !== false)
+				self.layout.add(item, item._index);
+		});
+
+
+		this.layout.update();
+		
+
+		this.components.each(function(item){
+			item.$render();			
+		});
+
+		this.items.each(function(item){
+			// содержимое динамических элементов отрисовывается через bind
+			if(!item.options.dynamic)
+				item.$render();			
+		});
+		
+	},
+	
+	
+	
+	
+/*	
 	$doLayout: function() {
 
 		var self = this;
@@ -665,7 +702,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		return this;
 	},
-	
+*/	
 	
 	/**
 	 * Хук, вызываемый для определения тэга, на основе которого будет построен виджет
@@ -682,6 +719,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @param {Element|Ergo.core.Widget} target
 	 * @private
 	 */
+/*	
 	$render: function(target) {
 		if(target){
 //			if(target instanceof Ergo.core.Widget) {
@@ -701,7 +739,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 		}
 	},
-	
+*/	
 	// _theme: function(name) {
 	// },
 	
@@ -903,7 +941,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * Подключение данных к виджету
 	 * 
 	 */
-	bind: function(data, update, pivot) {
+	$bind: function(data, update, pivot) {
 				
 		var o = this.options;
 		var self = this;
@@ -942,7 +980,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				self.children.autobinding = false;
 				var item = self.items.add({}, e.isLast ? null : e.index);
 				self.children.autobinding = true;
-				item.bind(e.entry);
+				item.$bind(e.entry);
 				
 				item._dynamic = true;
 			}, this);
@@ -962,10 +1000,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					item = self.items.add({});
 					self.children.autobinding = true;
 					
-					item.bind(e.entry);
+					item.$bind(e.entry);
 					item._dynamic = true;
 				}
-				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+				item.$bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 	
@@ -1014,7 +1052,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
 					self.children.autobinding = false;
 					
-					item.bind(dataEntry, false);
+					item.$bind(dataEntry, false);
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -1023,7 +1061,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = true;
 			this.layout.rebuild();
 			
-			this.$doLayout();
+			this.$render();
 		}
 		else {
 		
@@ -1032,7 +1070,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				// при изменении значения обновляем виджет, но только в "ленивом" режиме
 				/*if(o.updateOnDataChanged)*/ 
 				//self.$dataChanged(true);
-				self.rebind();
+				self.$rebind();
 				
 								
 			}, this);
@@ -1043,7 +1081,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// 	2. обновление дочернего виджета не производится (оно будет позже иницировано опорным элементом)
 			//	3. дочернtve виджетe явно указывается, что он является опорным
 			this.children.each(function(child){
-				if(!child._pivot && child.data != self.data) child.bind(self.data, false, false);
+				if(!child._pivot && child.data != self.data) child.$bind(self.data, false, false);
 			});
 
 		}
@@ -1064,7 +1102,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	rebind: function(update) {
+	$rebind: function(update) {
 		
 		var o = this.options;
 		var self = this;
@@ -1111,7 +1149,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				var item = self.items.add({});//{ 'data': dataEntry });
 				self.children.autobinding = false;
 				
-				item.bind(dataEntry);
+				item.$bind(dataEntry);
 				item._pivot = false;
 				item._dynamic = true;
 //					item.el.attr('dynamic', true);
@@ -1125,7 +1163,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.rebuild();
 
 
-			this.$doLayout();
+			this.$render();
 			
 		}
 		else {
@@ -1137,10 +1175,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				// 1. rebind не вызывается у дочерних элементов со своим dataSource
 				// 2. rebind не вызывается у дочерних элементов с общим dataSource 
 				//      (работает некорректно, если rebind вызывается не событием)
-				if(!child._pivot && child.data != self.data) child.rebind(false);
+				if(!child._pivot && child.data != self.data) child.$rebind(false);
 			});
 			
-			//TODO возможно, здесь нужно вызвать $doLayout() с выключенным каскадированием
+			//TODO возможно, здесь нужно вызвать $render() с выключенным каскадированием
 			
 		}
 		

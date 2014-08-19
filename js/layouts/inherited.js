@@ -13,7 +13,7 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 //		var wrapper = this.container._wrapper;
 		
 //		if(wrapper) {
-			this.container.el.after(item.el);
+			this._widget.el.after(item.el);
 //		}
 		
 		
@@ -28,4 +28,4 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 	}
 	
 	
-}, 'layout:inherited');
+}, 'layouts:inherited');

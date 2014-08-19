@@ -1,36 +1,36 @@
 
-//= require <data/ajax-collection>
-//= require <data/ajax-model>
+//= require <data/collection>
+//= require <data/object>
 
 
-Ergo.declare('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
+Ergo.defineClass('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
 
 	defaults: {
 	},
 	
-	model: 'Ergo.data.tree.Node',
+	model: 'data:node',
 	
 	purge: function() {
 		this.set([]);
 		this._fetched = false;
 	}
 	
-});
+}, 'data:node-list');
 
 
-Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
+Ergo.defineClass('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	
 	defaults: {
 	},
 	
 	fields: {
-		'children': 'Ergo.data.tree.NodeList'
+		'children': 'data:node-list'
 	},
 	
 	
 	fetch: function() {
 		var self = this;
-		return this.entry('children').fetch( this.oid() ).then(function(){ self._fetched = true });
+		return this.entry('children').fetch( this.oid() ).then(function(){ self._fetched = true; });
 	},
 	
 	
@@ -45,5 +45,5 @@ Ergo.declare('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	}
 	
 	
-});
+}, 'data:node');
 

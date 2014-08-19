@@ -1,48 +1,52 @@
 
 
 
-Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
+Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 	
 	this.show = function() {
-		if(this.children.is_empty()) return $.Deferred().resolve();
 		
-		var effects = this.options.effects;
-//		var deferred = $.Deferred();
+		var effect = false;
 		
-		if(effects.initial) {
-			effects = Ergo.override({}, effects, effects.initial);
-			delete this.options.effects.initial;
-		}
-		
-//		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
-//		return deferred;
-		var el = this._wrapper || this.el;
-		
-		// FIXME экспериментальный код
-		if(el.is(':visible')) el.hide();
+		if( !this.children.is_empty() ) {
 
-		return $.when( el[effects.show](effects.delay) );
+			var o = this.options.effects;
+			
+			if(o.initial) {
+				o = Ergo.override({}, o, o.initial);
+				delete this.options.effects.initial;
+			}
+			
+			var el = this._wrapper || this.el;
+			
+			// FIXME экспериментальный код
+			if( !el.is(':visible'))
+				effect = el[o.show](o.delay);
+		}
+
+		return $.when( effect );
 	};
 	
 	
 	this.hide = function() {
-		if(this.children.is_empty()) return $.Deferred().resolve();
-
-		var effects = this.options.effects;
-
-//		var deferred = $.Deferred();
-
-		if(effects.initial) {
-			effects = Ergo.override({}, effects, effects.initial);
-			delete this.options.effects.initial;
-		}
 		
-		// this.el[effects.hide](effects.delay, function(){ deferred.resolve(); });
-		// return deferred;		
+		var effect = false;
+		
+		if( !this.children.is_empty() ) {
 
-		var el = this._wrapper || this.el;
+			var o = this.options.effects;
+	
+			if(o.initial) {
+				o = Ergo.override({}, o, o.initial);
+				delete this.options.effects.initial;
+			}
+			
+			var el = this._wrapper || this.el;
+		
+			if( el.is(':visible'))
+				effect = el[o.hide](o.delay);
+		}
 
-		return $.when( el[effects.hide](effects.delay) );
+		return $.when( effect );
 	};
 	
 	
@@ -51,5 +55,7 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 		hide: 'hide',
 		delay: 0
 	}, o.effects);
-		
-}, 'effects');
+	
+	
+	
+}, 'mixins:effects');

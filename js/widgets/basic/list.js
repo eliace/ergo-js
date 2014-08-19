@@ -5,22 +5,21 @@ Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', {
 	
 	defaults: {
 		html: '<ul/>',
+		dynamic: true,
 		defaultItem: {
-			etype: 'html:li'
+			etype: 'html:li',
+			binding: 'text'
 		}
 	}
 	
-}, 'widget:list');
+}, 'widgets:list');
 
 
 
-Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
 	
 	defaults: {
-		html: '<ol/>',
-		defaultItem: {
-			etype: 'html:li'
-		}
+		html: '<ol/>'
 	}
 	
-}, 'widget:ordered-list');
+}, 'widgets:o-list');

@@ -278,7 +278,7 @@ Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	eval(cp + ' = obj;');
 	
 	if(alias)
-		Ergo.alias('mixins:'+alias, obj);
+		Ergo.alias(alias, obj);
 	
 	return obj;
 }

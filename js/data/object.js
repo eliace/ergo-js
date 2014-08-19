@@ -88,11 +88,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		if($.isFunction(obj) && !$.isClass(obj)) 
 			obj = obj.call(this, this.get()[i]);
 		if($.isString(obj)) 
-			obj = eval(Ergo.alias('models:'+obj) || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
+			obj = eval(Ergo.alias(obj) || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
 		obj = obj || Ergo.core.DataSource;
 		
 		return new obj(this, i, o);
 	}
 	
-}, 'models:object');
+}, 'data:object');
 

@@ -99,7 +99,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		
 		// выполняем иерархическое связывание данных (автобиндинг)
 		if(w.data && !item.data && this.autobinding)
-			item.bind(w.data, false, false);
+			item.$bind(w.data, false, false);
 		
 
 		

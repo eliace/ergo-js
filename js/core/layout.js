@@ -34,17 +34,17 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		var o = this.options;
 		
-		this.container = c;
+		this._widget = c;
 				
-		if('name' in o) this.container.el.attr('layout', o.name);
-		if('cls' in o) this.container.el.addClass(o.cls.join(' '));
+		if('name' in o) this._widget.el.attr('layout', o.name);
+		if('cls' in o) this._widget.el.addClass(o.cls.join(' '));
 
-		this.el = this.container.el;
+		this.el = this._widget.el;
 		
 		if(o.html){
 			var html = $(o.html);
 			this.el = (o.htmlSelector) ? $(o.htmlSelector, html) : html;
-			this.container.el.append(html);
+			this._widget.el.append(html);
 		}
 		
 	},
@@ -54,9 +54,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	 */
 	detach: function() { 
 //		if('containerCls' in this.options) this.container.el.removeClass(this.options.containerCls);
-		if('name' in this.options) this.container.el.attr('layout', undefined);
-		if('cls' in o) this.container.el.removeClass(o.cls.join(' '));
-		delete this.container; 
+		if('name' in this.options) this._widget.el.attr('layout', undefined);
+		if('cls' in o) this._widget.el.removeClass(o.cls.join(' '));
+		delete this._widget; 
 	},
 	
 	
@@ -212,7 +212,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		// else
 			// index.el.before(item.el);
 		
-//		item._rendered = true;
+		item._rendered = true;
 		
 		// deprecated
 		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
@@ -235,9 +235,9 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
 		
-//		item._rendered = false;
+		item._rendered = false;
 		
-		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);		
+		if('itemCls' in this.options) item.el.removeClass(this.options.itemCls);
 	},
 	
 	
@@ -255,12 +255,12 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	update: function() {
 		
 		// AUTO WIDTH
-		if(this.container.options.autoWidth === true){
+		if(this._widget.options.autoWidth === true){
 
 			// если элемент не отображается - его не надо выравнивать
 			if(!this.el.not(':hidden')) return;
 			
-			// расчитываем отступы
+			// рассчитываем отступы
 			var dw = 0;
 			if(this.el.is(':button')) dw = this.el.outerWidth(true) - this.el.outerWidth();
 			else dw = this.el.outerWidth(true) - this.el.width();
@@ -290,12 +290,12 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		// AUTO HEIGHT
-		if(this.container.options.autoHeight) {//} &&  this.container.options.autoHeight != 'ignore'){
+		if(this._widget.options.autoHeight) {//} &&  this.container.options.autoHeight != 'ignore'){
 
 			if(!this.el.is(":visible")) return;
 			if(this.el.attr('autoHeight') == 'ignore') return;
 
-			var debug = (this.container.debug == 'autoheight');
+			var debug = (this._widget.debug == 'autoheight');
 			
 			this.el.height(0);
 			
@@ -392,15 +392,15 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		// AUTO FIT
-		if(this.container.options.autoFit === true){
+		if(this._widget.options.autoFit === true){
 			
 			var dw = this.el.outerWidth() - this.el.width();
 			var dh = this.el.outerHeight() - this.el.height();
 			
 			this.el.hide();
 			
-			var h = this.container.options.height || 0;
-			var w = this.container.options.width || 0;
+			var h = this._widget.options.height || 0;
+			var w = this._widget.options.width || 0;
 			this.el.parents().each(function(i, el){
 				if(!h) h = $(el).height();
 				if(!w) w = $(el).width();
@@ -430,7 +430,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		var render_list = [];
 		
-		this.container.children.each(function(item){
+		this._widget.children.each(function(item){
 			
 			
 			
@@ -441,14 +441,14 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	
 	
 	
-}, 'layout:default');
+}, 'layouts:default');
 
 
 
 
 
 
-Ergo.$layout = Ergo.object;
+//Ergo.$layout = Ergo.object;
 // Ergo.$layout = function(o, etype) {
 	// return Ergo.object(o, 'layout:'+etype);
 // };
