@@ -16,6 +16,7 @@
 //= require <widgets/breadcrumb>
 //= require <widgets/progress>
 //= require <widgets/tooltip>
+//= require "alert"
 
 
 

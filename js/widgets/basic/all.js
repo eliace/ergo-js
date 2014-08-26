@@ -1,5 +1,6 @@
 
 //= require "box"
+//= require "button"
 //= require "icon"
 //= require "link"
 //= require "list"
@@ -7,3 +8,4 @@
 //= require "table"
 //= require "text"
 //= require "tree"
+//= require "line"

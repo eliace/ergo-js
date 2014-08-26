@@ -46,8 +46,8 @@ Ergo.core.WidgetProperties = {
 	},
 	setHidden: function(v) {
 		this.el.css('display', v ? 'none' : '');
-	},
-	setLead: function(v) { this.layout.el.prepend(v); },
-	setTrail: function(v) { this.layout.el.append(v); }
+	}
+	// setLead: function(v) { this.layout.el.prepend(v); },
+	// setTrail: function(v) { this.layout.el.append(v); }
 	
 };

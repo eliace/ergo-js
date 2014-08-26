@@ -1,6 +1,6 @@
 
 
-Ergo.defineMixin('Ergo.mixins.Stackable', function(o) {
+Ergo.defineMixin('Ergo.mixins.Stack', function(o) {
 	
 	Ergo.smart_override(o, {
 		defaultItem: {
@@ -28,12 +28,12 @@ Ergo.defineMixin('Ergo.mixins.Stackable', function(o) {
 		this._active.states.set('active');
 		
 		return child;
-	}
+	};
 	
 	
 	this.getVisible = function() {
 		return this._active;
-	}
+	};
 	
 	
 }, 'mixins:stack');

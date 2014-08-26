@@ -10,6 +10,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 		components: {
 			header: {
 				html: '<header/>',
+				weight: -10,
 				components: {
 					title: {
 						etype: 'html:h3',
@@ -21,6 +22,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 			},
 			footer: {
 				html: '<footer/>',
+				weight: 10,
 				autoRender: false
 			}
 		}

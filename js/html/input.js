@@ -1,5 +1,5 @@
 
-//= require "html"
+
 
 
 Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {

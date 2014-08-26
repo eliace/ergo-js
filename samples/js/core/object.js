@@ -25,8 +25,8 @@ var obj = new Ergo.core.Object({
 
 
 // выводим параметр color, используя метод Object.opt
-smpl.alert( 'Цвет: ' + obj.opt('color') );
+$context.alert( 'Цвет: ' + obj.opt('color') );
 // выводим параметр title
-smpl.alert( 'Заголовок: ' + obj.opt('title') );
+$context.alert( 'Заголовок: ' + obj.opt('title') );
 // К установленным параметрам можно получить доступ через свойство Object.options
-smpl.alert( obj.options.title + ' + ' + obj.options.color );
+$context.alert( obj.options.title + ' + ' + obj.options.color );

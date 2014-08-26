@@ -460,9 +460,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				for(var j in callback_a) {
 					var callback = callback_a[j];
 					
-					if(i.indexOf('bus:') == 0) {
+					if(i.indexOf('ctx:') == 0) {
 						// EventBus
-						Ergo.event_bus.reg(i.substring(4), callback, this);
+						$context.events.reg(i.substring(4), callback, this);
 					}
 					else if(i.indexOf('jquery:') == 0) {
 						// jQuery
@@ -565,7 +565,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.$super(o);
 		
 		// добавляем элемент в документ
-//		this.$render(o.renderTo);
+		if('render' in o)
+			this.$render(o.render);
 		
 		// подключаем данные и обновляем их, если установлен параметр autoUpdate
 		this.$bind(o.data, o.autoUpdate);
@@ -637,8 +638,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		this.children.each(function(item){
 			if(!item._rendered && item.options.autoRender !== false) {
-
-				self.layout.add(item, item._index);
+				
+				item._type == 'item' ? self.layout.add(item, item._index) : self.layout.add(item);
 				
 				if(item.options.showOnRender) item.show();
 				if(item.options.hideOnRender) item.hide();				
@@ -1414,7 +1415,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 	
-}, 'widget:widget');
+}, 'widgets:widget');
 
 
 

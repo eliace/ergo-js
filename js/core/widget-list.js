@@ -16,7 +16,7 @@
 Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
 	
 	defaults: {
-		mixins: [Ergo.Observable]
+		plugins: [Ergo.Observable]
 	},
 	
 	

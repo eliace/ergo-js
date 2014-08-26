@@ -32,19 +32,27 @@ Ergo.defineMixin('Ergo.mixins.Selection', function(o) {
 Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 	
 	Ergo.smart_override(o, {
+		states: {
+			'selected': 'selected'
+		},
 		events: {
 			'jquery:click': function(e, w) {
-				w.select();
+				w.states.set('selected');
+			},
+			'stateChanged': function(e) {
+				if(e.to == 'selected') {
+					this.events.rise('selected');
+				}
 			}
 		}
-	})
+	});
 
 	Ergo.smart_build(o);
 	
-	this.select = function() {
-		this.states.set('selected');
-		this.events.rise('selected');		
-	}
+	// this.select = function() {
+		// this.states.set('selected');
+		// this.events.rise('selected');		
+	// };
 	
 }, 'mixins:selectable');
 

@@ -1,5 +1,5 @@
 
-//= require "html"
+
 
 
 Ergo.defineClass('Ergo.html.Textarea', 'Ergo.core.Widget', {

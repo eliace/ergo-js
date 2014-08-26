@@ -1,5 +1,3 @@
-//= require "html"
-
 
 Ergo.defineClass('Ergo.html.Button', 'Ergo.core.Widget', {
 	

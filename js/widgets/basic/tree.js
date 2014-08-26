@@ -2,18 +2,18 @@
 
 
 
-Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.NodeList', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<ul/>',
-		cls: 'tree',
+//		cls: 'tree',
 		defaultItem: {
-			etype: 'tree-node'
+			etype: 'node'
 		},
 		
 		dynamic: true,
 		
-		node: {			
+		node: {
 			components: {
 				subtree: {
 					hidden: true,
@@ -37,16 +37,15 @@ Ergo.declare('Ergo.widgets.Tree', 'Ergo.widgets.Box', {
 	}
 	
 	
-}, 'widgets:tree');	
+}, 'widgets:node-list');	
 
 
 
-Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Node', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
 		html: '<li/>',
-		cls: 'tree-node',
 		
 		transitions: {
 			'* > expanded': function() { this.subtree.show(); },
@@ -54,18 +53,19 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 		},
 		
 		components: {
-			icon: {
-				etype: 'icon',
-				weight: -10,
-				onClick: function() {
-					this.parent.states.toggle('expanded');
-				}
-			},
+			// caret: {
+				// etype: 'icon',
+				// cls: 'caret',
+				// weight: -10,
+				// onClick: function() {
+					// this.parent.states.toggle('expanded');
+				// }
+			// },
 			content: {
 				etype: 'text'
 			},
 			subtree: {
-				etype: 'tree'
+				etype: 'node-list'
 			}
 		}
 		
@@ -74,21 +74,30 @@ Ergo.declare('Ergo.widgets.TreeNode', 'Ergo.widgets.Box', {
 	
 	setText: function(v) {
 		this.content.opt('text', v);
-	},
-	
-	
-	getLeaf: function() {
-		return this.states.is('leaf');
-	},
-	
-	setLeaf: function(v) {
-		this.states.toggle('leaf', v);
 	}
 	
 	
-}, 'widgets:tree-node');
+	// getLeaf: function() {
+		// return this.states.is('leaf');
+	// },
+// 	
+	// setLeaf: function(v) {
+		// this.states.toggle('leaf', v);
+	// }
+	
+	
+}, 'widgets:node');
 
 
 
+
+Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NodeList', {
+	
+	defaults: {
+		cls: 'tree'
+	}
+
+
+}, 'widgets:tree');
 
 

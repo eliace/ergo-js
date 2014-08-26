@@ -13,7 +13,8 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 //		var wrapper = this.container._wrapper;
 		
 //		if(wrapper) {
-			this._widget.el.after(item.el);
+//			this._widget.el.after(item.el);
+		this._widget.parent.layout.add(item, index, weight);
 //		}
 		
 		

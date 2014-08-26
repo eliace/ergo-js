@@ -86,6 +86,22 @@ Ergo.override(Ergo.core.Object.prototype, {
 		}
 */
 
+		// //TODO возможно, здесь нужно реализовывать примешивание
+// 		
+		// var mixins = [].concat(o.mixins, opts ? opts.mixins : null);
+// 		
+// 		
+// //		if('mixins' in o) {
+		// for(var i = 0; i < mixins.length; i++) {
+			// var mixin = mixins[i];
+			// if($.isString(mixin)) mixin /*= o.mixins[i]*/ = Ergo.alias('mixins:'+mixin);
+			// if($.isFunction(mixin)) mixin.call(this, o);
+			// else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
+		// }
+// //		}
+
+
+
 		this.options = Ergo.smart_override(o, opts);
 
 		// сборка опций
@@ -118,12 +134,11 @@ Ergo.override(Ergo.core.Object.prototype, {
 		if('mixins' in o) {
 			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
-				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
+				if($.isString(mixin)) mixin /*= o.mixins[i]*/ = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, o);
 				else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
 			}
-		}
-		
+		}		
 
 	},
 	
@@ -242,7 +257,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	mixed_with: function(ex) {
+	$is: function(ex) {
 		var o = this.options;
 		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
 		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;

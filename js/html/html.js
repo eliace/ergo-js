@@ -1,5 +1,10 @@
 
-//= require <core/all>
+//= require "iframe"
+//= require "input"
+//= require "select"
+//= require "textarea"
+//= require "button"
+//= require "img"
 
 
 //Ergo.html = {};
