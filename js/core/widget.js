@@ -59,9 +59,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		autoUpdate: true,
 		layoutFactory: function(layout) {
 			if( $.isString(layout) )
-				layout = $.ergo({etype: 'layouts:'+layout});
+				layout = $.ergo({etype: layout}, 'layouts');
 			else if(!(layout instanceof Ergo.core.Layout))
-				layout = $.ergo(Ergo.override({etype: 'layouts:default'}, layout));
+				layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
 			return layout;	
 		},
 		events: {},
@@ -1452,12 +1452,12 @@ Ergo.sink = function(e, type) {
 // Интегрируемся в jQuery
 //------------------------------
 
-$.ergo = function() {
+$.ergo = function(o, ns) {
 	
-	var o = Ergo.smart_override.apply(this, arguments);
+//	var o = Ergo.smart_override.apply(this, arguments);
 	
 	var etype = o.etype;
-	var ns = 'widgets';
+	ns = ns || 'widgets';
 	var i = etype.indexOf(':');
 	if(i > 0) {
 		ns = etype.substr(0, i);

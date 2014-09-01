@@ -16,9 +16,10 @@
 //= require <widgets/breadcrumb>
 //= require <widgets/progress>
 //= require <widgets/tooltip>
+
 //= require "alert"
-
-
+//= require "dropdown-list"
+//= require "dropdown-menu"
 
 
 

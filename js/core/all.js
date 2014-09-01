@@ -6,4 +6,4 @@
 //= require "core-filters"
 //= require "core-utils"
 //= require "widget"
-
+//= require "context"
