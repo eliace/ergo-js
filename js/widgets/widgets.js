@@ -10,6 +10,7 @@
 //= require <widgets/panels/all>
 //= require <widgets/pickers/all>
 //= require <widgets/trees/all>
+//= require <widgets/items/all>
 
 //= require <widgets/accordion>
 //= require <widgets/badge>

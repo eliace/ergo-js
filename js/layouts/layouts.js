@@ -5,3 +5,4 @@
 //= require "form"
 //= require "grid"
 //= require "column"
+//= require "fluid"
