@@ -4,11 +4,6 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'table-grid',
-		// layout: {
-			// wrapper: function(item) {
-				// return $('<div/>').append(item.el);
-			// }
-		// },
 		components: {
 			header: {
 				cls: 'grid-header',
@@ -26,6 +21,17 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					}
 				}
 			}
+		}		
+	},
+	
+	
+	$layoutChanged: function() {
+		
+		var hw = this.header.content.el.width();
+		var cw = this.content.content.el.width();
+		
+		if(hw > cw) {
+			this.header.el.css('padding-right', hw-cw);
 		}
 	},
 	
@@ -82,7 +88,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 						hdr_item.text = col_item.header;
 					}
 					else {
-						hdr_item = col_item.header
+						hdr_item = col_item.header;
 					}
 					delete col_item.header;
 				}
@@ -92,11 +98,11 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				this._widget.content.content.body.options.defaultItem.items.push(col_item);
 
 				this._widget.header.content.control.items.add(col);
-				this._widget.header.content.body.item(0).items.add(hdr_item);
+				this._widget.header.content.body.item(0).items.add(Ergo.smart_override({}, this._widget.options.column, hdr_item));
 			}
 			
 			
-		}
+		};
 		
 		
 		
@@ -137,7 +143,8 @@ Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 				defaultItem: {
 					etype: 'table-row',
 					defaultItem: {
-						etype: 'html:th'
+						html: '<th/>'
+//						etype: 'html:th'
 					}
 				},
 				items: [{}]

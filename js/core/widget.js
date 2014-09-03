@@ -645,10 +645,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				if(item.options.hideOnRender) item.hide();				
 			}
 		});
-
-
-		this.layout.update();
 		
+		
+		this.layout.update();
 
 		this.components.each(function(item){
 			item.$render();			
@@ -659,6 +658,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			if(!item.options.dynamic)
 				item.$render();			
 		});
+
+
+		this.$layoutChanged();
 		
 	},
 	
@@ -790,13 +792,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @private
 	 */
 	$layoutChanged: function() {
-		
+	
 		//FIXME возможно следует поменять эту строку на fire('layoutChanged')
-		if(this.layout.options.updateMode == 'auto') this.layout.update();
+//		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
-		this.children.apply_all('$layoutChanged');
+//		this.children.apply_all('$layoutChanged');
 		
-		this.events.fire('layoutChanged');
+//		this.events.fire('layoutChanged');
 	},
 	
 	// $events: function(self){

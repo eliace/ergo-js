@@ -2,6 +2,8 @@
 //= require "effects"
 //= require "selection"
 //= require "stack"
-//= require "label"
 //= require "popup"
+
+//= require "label"
 //= require "dropdown"
+//= require "caret"
