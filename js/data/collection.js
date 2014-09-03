@@ -58,7 +58,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		
 		if(this.options.provider) {
 			var self = this;
-			return this.options.provider.get(this).then(function(data) { 
+			return this.options.provider.get(this, this.options.query).then(function(data) { 
 				self.set(data); 
 				self._fetched = true;
 				self.events.fire('fetch:after'); 

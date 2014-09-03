@@ -18,15 +18,15 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 	
 	
 	fetch: function() {
+
+		this.events.fire('fetch');
 		
 		var o = this.options;
 		
 		if(o.provider) {
 			var self = this;
-			return o.provider.get.apply(o.provider, [Ergo.deep_override({}, this.options.query, {
-				from: o.from, 
-				to: o.to
-			})]).then(function(response) {
+			return o.provider.get(this, Ergo.deep_override({}, this.options.query, {from: o.from,	to: o.to}))
+				.then(function(response) {
 				
 				o.from = response.from;
 				o.to = response.to;
@@ -35,12 +35,12 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 				self.set(response.data); 
 				self._fetched = true;
 				
-				self.events.fire('fetch');
+				self.events.fire('fetched');
 			});
 		}
 		else {
 			this._fetched = true;			
-			this.events.fire('fetch');
+			this.events.fire('fetched');
 		}
 		
 	}
