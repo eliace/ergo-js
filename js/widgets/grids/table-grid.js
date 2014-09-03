@@ -15,6 +15,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			},
 			content: {
 				cls: 'grid-content',
+				autoHeight: true,
 				components: {
 					content: {
 						etype: 'grid-box'				
@@ -27,8 +28,14 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	$layoutChanged: function() {
 		
+		console.log('grid layout changed');
+		
 		var hw = this.header.content.el.width();
 		var cw = this.content.content.el.width();
+
+		console.log(hw);
+		console.log(cw);
+
 		
 		if(hw > cw) {
 			this.header.el.css('padding-right', hw-cw);

@@ -53,25 +53,27 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	 *  
 	 */
 	fetch: function() {
+
+		this.events.fire('fetch:before'); 
 		
 		if(this.options.provider) {
 			var self = this;
-			return this.options.provider.get.apply(this.options.provider, arguments).then(function(data) { 
+			return this.options.provider.get(this).then(function(data) { 
 				self.set(data); 
 				self._fetched = true;
-				self.events.fire('fetch'); 
+				self.events.fire('fetch:after'); 
 			});
 		}
 		else {
 			this._fetched = true;			
-			this.events.fire('fetch'); 
+			this.events.fire('fetch:after'); 
 		}
 		
 	},
 	
 	
 	/**
-	 * Очистка данных => удаление данных из коллекция
+	 * Очистка данных => удаление данных из коллекции
 	 *  
 	 */
 	purge: function() {

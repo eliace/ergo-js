@@ -7,3 +7,4 @@
 //= require "label"
 //= require "dropdown"
 //= require "caret"
+//= require "loader"

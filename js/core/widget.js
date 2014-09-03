@@ -1018,7 +1018,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.reg('value:changed', function(e){
 				
-				self.rebind(false);
+				self.$rebind(false);
 				
 /*	
 				// обновляем вложенные элементы контейнера на основе источника данных 
@@ -1098,7 +1098,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		if(update !== false) this.$dataChanged();
 
 
-		this.data.events.reg('fetch', function(){ self.events.fire('fetch'); });
+		this.data.events.reg('fetch:before', function(){ self.events.fire('fetch'); });
+		this.data.events.reg('fetch:after', function(){ self.$layoutChanged(); self.events.fire('fetched'); });
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
 		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
@@ -1146,7 +1147,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// обновляем вложенные элементы контейнера на основе источника данных 
 			this.layout.immediateRebuild = false;
 
-			// // уничтожаем все элементы-виджеты
+			// // уничтожаем все динамические элементы
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
 			
 //			var t0 = Ergo.timestamp();
@@ -1187,6 +1188,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			});
 			
 			//TODO возможно, здесь нужно вызвать $render() с выключенным каскадированием
+			
+//			this.$layoutChanged();
 			
 		}
 		
