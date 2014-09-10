@@ -2,7 +2,7 @@
 Ergo.defineClass('Ergo.widgets.ToolBar', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'toolbar',
+		baseCls: 'tool-bar',
 	}
 	
 	

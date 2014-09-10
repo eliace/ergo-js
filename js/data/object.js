@@ -52,8 +52,30 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	
 	
 	
-	fetch: function() {
-		this._fetched = true;
+	fetch: function(id) {
+//		this._fetched = true;
+		var parse = this.options.parser || this.parse;
+		
+		this.events.fire('fetch:before'); 
+		
+		if(this.options.provider) {
+			var self = this;
+			return this.options.provider.find(this, id, this.options.query).then(function(data) { 
+				self.set( parse.call(self, data) ); 
+				self._fetched = true;
+				self.events.fire('fetch:after'); 
+			});
+		}
+		else {
+			this._fetched = true;			
+			this.events.fire('fetch:after'); 
+		}
+
+	},
+	
+	
+	parse: function(v) {
+		return v;
 	},
 	
 	
@@ -91,7 +113,9 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			obj = eval(Ergo.alias(obj) || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
 		obj = obj || Ergo.core.DataSource;
 		
-		return new obj(this, i, o);
+		o.provider = this.options.provider;
+		
+		return new obj(this, i, o);		
 	}
 	
 }, 'data:object');

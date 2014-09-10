@@ -3,7 +3,7 @@
 //= require <data/object>
 
 
-Ergo.defineClass('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
+Ergo.defineClass('Ergo.data.NodeList', 'Ergo.data.Collection', {
 
 	defaults: {
 	},
@@ -18,7 +18,7 @@ Ergo.defineClass('Ergo.data.tree.NodeList', 'Ergo.data.Collection', {
 }, 'data:node-list');
 
 
-Ergo.defineClass('Ergo.data.tree.Node', 'Ergo.data.Object', {
+Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	
 	defaults: {
 	},
@@ -30,7 +30,7 @@ Ergo.defineClass('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	
 	fetch: function() {
 		var self = this;
-		return this.entry('children').fetch( this.oid() ).then(function(){ self._fetched = true; });
+		return this.entry('children').fetch( {id: this.oid()} ).then(function(){ self._fetched = true; });
 	},
 	
 	
@@ -40,8 +40,8 @@ Ergo.defineClass('Ergo.data.tree.Node', 'Ergo.data.Object', {
 	},
 	
 		
-	getLeaf: function() {
-		return !this.get('children');
+	getBranch: function() {
+		return this.get('children');
 	}
 	
 	

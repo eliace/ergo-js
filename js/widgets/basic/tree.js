@@ -65,7 +65,8 @@ Ergo.defineClass('Ergo.widgets.Node', 'Ergo.widgets.Box', {
 				etype: 'text'
 			},
 			subtree: {
-				etype: 'node-list'
+				etype: 'node-list',
+				weight: 100
 			}
 		}
 		
@@ -95,6 +96,9 @@ Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NodeList', {
 	
 	defaults: {
 		cls: 'tree'
+		// node: {
+			// etype: 'link'
+		// }
 	}
 
 

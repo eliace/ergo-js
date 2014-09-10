@@ -199,7 +199,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 		this.$opt(opts);
 		
-		return this.options;
+		return this;//.options;
 	},
 	
 	

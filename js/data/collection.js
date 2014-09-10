@@ -52,14 +52,17 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	 * Загрузка данных из хранилища => заполнение коллекции данными
 	 *  
 	 */
-	fetch: function() {
-
+	fetch: function(q) {
+		
+		var parse = this.options.parser || this.parse;
+		var query = Ergo.override({}, this.options.query, q); 
+		
 		this.events.fire('fetch:before'); 
 		
 		if(this.options.provider) {
 			var self = this;
-			return this.options.provider.get(this, this.options.query).then(function(data) { 
-				self.set(data); 
+			return this.options.provider.find_all(this, query).then(function(data) { 
+				self.set( parse.call(self, data) ); 
 				self._fetched = true;
 				self.events.fire('fetch:after'); 
 			});
@@ -70,6 +73,12 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		}
 		
 	},
+	
+	
+	parse: function(v) {
+		return v;
+	},
+	
 	
 	
 	/**
@@ -105,9 +114,11 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
 		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
-		if($.isString(model)) model = eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
+		if($.isString(model)) model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
-		return new model(this, i); 
+
+		var o = {provider: this.options.provider};
+		return new model(this, i, o);
 	}
 
 	

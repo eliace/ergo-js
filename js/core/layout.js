@@ -125,14 +125,15 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		
 		
-		item_el.data('weight', weight);
+//		item_el.data('weight', weight);
+		item_el[0]._weight = weight;
 		
 		// если индекс не определен, то элемент должен быть добавлен последним в свою группу
 		if(index == null) {
 			// обходим все элементы контейнера в поисках первого с большим весом
 			var after_el = null;
-			el.children().each(function(i, elem){
-				var w = $(elem).data('weight');
+			el.contents().each(function(i, elem){
+				var w = elem._weight;// $(elem).data('weight');
 				if(w > weight) {
 					after_el = $(elem);
 					return false;
@@ -161,7 +162,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		}
 		else if(index === 0) {
 			var before_a = [];
-			var children = el.children();
+			var children = el.contents();
 			for(var i = children.length-1; i >= 0; i--) {
 				var w = $(children[i]).ergo();
 				if(w && w._weight < weight) before_a.push($(children[i]));				
@@ -182,27 +183,31 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			var before_el = null;
 			var after_el = null;
 //			this.container.children.each(function(it){
-			el.children().each(function(k, child){
+			el.contents().each(function(k, child){
 				it = $(child).ergo();
 				if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
-				if(it._weight == weight) arr.push(it.el);
+				if(it._weight == weight) arr.push(it);//.el);
 				else if(it._weight <= weight) before_el = it.el;
 				else after_el = it.el;
 			});
 
-			if( !arr[index] ) {
-				before_el = arr[index-1] | before_el;
+
+			for(var i = 0; i < arr.length; i++) {
+				(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
+			}
+
+//			if( !arr[index] ) {
+//				before_el = arr[index-1] | before_el;
 				if(before_el)
 					before_el.after( item_el );
 				else if(after_el)
 					after_el.before( item_el );
 				else
-					el.append( item_el );
-			}
-			else {
-				arr[index].before(item_el);
-//				item_el.before(arr[index-1]);
-			}
+					el.append( item_el );					
+			// }
+			// else {
+				// arr[index].before(item_el);
+			// }
 			
 		}
 		// else if(index == 0)

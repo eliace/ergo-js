@@ -27,14 +27,15 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	$layoutChanged: function() {
+		this.$super();
 		
-		console.log('grid layout changed');
+//		console.log('grid layout changed');
 		
 		var hw = this.header.content.el.width();
 		var cw = this.content.content.el.width();
 
-		console.log(hw);
-		console.log(cw);
+//		console.log(hw);
+//		console.log(cw);
 
 		
 		if(hw > cw) {
@@ -79,7 +80,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			
 			_widget: this,
 			
-			add: function(column) {
+			add: function(column, key) {
 				
 				var col_item = Ergo.deep_copy(column);
 				var col = {};
@@ -106,7 +107,53 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 				this._widget.header.content.control.items.add(col);
 				this._widget.header.content.body.item(0).items.add(Ergo.smart_override({}, this._widget.options.column, hdr_item));
+			},
+			
+			
+			size: function() {
+				return this._widget.options.columns.length;
+			},
+			
+			
+			get: function(i) {
+				return this._widget.options.columns[i];				
+			},
+			
+			
+			hide: function(i) {
+				
+				this._widget.header.content.control.item(i).el.detach();
+				this._widget.header.content.body.item(0).item(i).el.detach();
+				
+				this._widget.content.content.control.item(i).el.detach();
+				this._widget.content.content.body.items.each(function(row){
+					row.item(i).el.detach();
+				});
+//				this._widget.content.content.control.options.items[i].autoRender = false;
+				this._widget.content.content.body.options.defaultItem.items[i].autoRender = false;
+				
+				this.get(i).hidden = true;
+			},
+			
+			show: function(i) {
+				
+				var w = this._widget.header.content.control.item(i);
+				this._widget.header.content.control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
+				w = this._widget.header.content.body.item(0).item(i);
+				this._widget.header.content.body.item(0).layout.add( w, w._index, w._weight );
+				
+				w = this._widget.content.content.control.item(i);
+				this._widget.content.content.control.layout.add( w, w._index, w._weight );
+				this._widget.content.content.body.items.each(function(row){
+					var cell = row.item(i);
+					row.layout.add(cell, cell._index, cell._weight);
+				});
+				delete this._widget.content.content.body.options.defaultItem.items[i].autoRender;
+
+				this.get(i).hidden = false;
+				
 			}
+			
 			
 			
 		};
@@ -120,6 +167,15 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		
 		
 		
+	},
+	
+	
+	rows: function() {
+		return this.content.content.body.items;
+	},
+	
+	headers: function() {
+		return this.header.content.body.item(0).items;
 	}
 	
 	

@@ -9,3 +9,5 @@
 //= require "text"
 //= require "tree"
 //= require "line"
+//= require "field"
+//= require "check"

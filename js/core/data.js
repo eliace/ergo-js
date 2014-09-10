@@ -429,5 +429,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 Ergo.data = {};
 
 
+Ergo.$data = Ergo.object;
 
 

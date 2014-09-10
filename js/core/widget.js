@@ -363,7 +363,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.el = $(document.createTextNode(''));
 		}
 //		else {
-			this.el.data('ergo-widget', this);			
+//			this.el.data('ergo-widget', this);
+			this.el[0]._ergo = this;			
 //		}
 		
 //		if(this.defaultCls) this.el.addClass(this.defaultCls);
@@ -630,6 +631,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		if(target) {
 			$(target).append(this.el);
+			this._rendered = true;
 //			target.layout.add(this, this._index);
 		}
 		
@@ -1479,7 +1481,7 @@ $.ergo = function(o, ns) {
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
-		var widget = this.data('ergo-widget');
+		var widget = this[0]._ergo;// this.data('ergo-widget');
 		if(widget) return widget;
 		if(!o) return undefined;
 		o.html = this;

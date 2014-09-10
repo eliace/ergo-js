@@ -6,13 +6,14 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 		mixins: ['dropdown'],
 		components: {
 			content: {
+				etype: 'caret-box',
 				cls: 'dropdown-toggle',
-				components: {
-					caret: {
-						etype: 'html:span',
-						cls: 'caret'						
-					}
-				},
+				// components: {
+					// caret: {
+						// etype: 'html:span',
+						// cls: 'caret'						
+					// }
+				// },
 				onClick: function(e) {
 					this.parent.states.toggle('opened');
 					e.baseEvent.stopPropagation();

@@ -11,6 +11,8 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 			Ergo.context._popup.close();
 		}
 		
+		
+		
 		var self = this;
 		
 		if(arguments.length == 2) {
@@ -77,6 +79,28 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		
 		
 		
+		if(p.behaviour == 'contextmenu') {
+			
+			var max_w = $(document).scrollLeft() + $(window).width();
+			var max_h = $(document).scrollTop() + $(window).height();
+			var pop_h = this.el.outerHeight(true);
+			var pop_w = this.el.outerWidth(true);
+			
+			var dh = (y + pop_h) - max_h;
+			if(dh > 0) {
+				y -= pop_h;
+			}
+
+			var dw = (x + pop_w) - max_w;
+			if(dw > 0) {
+				x -= dw;//pop_w;
+			}
+			
+		}
+		
+		
+		
+		
 		// настраиваем размер виджета
 		
 		
@@ -116,7 +140,7 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	Ergo.smart_override(o, {
 		events: {
 			'jquery:mouseleave': function(e, w){ 
-				if(w.options.hideOn == 'hoverOut') w.close(); 
+				if(w.options.closeOn == 'mouseleave') w.close(); 
 			}
 		},
 		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты

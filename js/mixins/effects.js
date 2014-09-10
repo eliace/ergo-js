@@ -20,7 +20,10 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 			
 			// FIXME экспериментальный код
 			if( !el.is(':visible'))
-				effect = el[o.show](o.delay);
+				effect = el[o.show]({
+					duration: o.delay,
+					easing: o.easing || 'swing'
+				});
 		}
 
 		return $.when( effect );

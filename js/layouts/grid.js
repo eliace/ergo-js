@@ -8,6 +8,11 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 	},
 	
 	
+	wrap: function(item) {
+		return $('<div/>').append(item.el);
+	},
+	
+	
 	update: function() {
 		this.$super();
 		

@@ -29,6 +29,15 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	setReadOnly: function(v) {
 		this.el.attr('readonly', v);
+	},
+	
+	
+	getValue: function() {
+		return this.el.val();
+	},
+	
+	setValue: function(v) {
+		this.el.val(v);
 	}
 	
 	

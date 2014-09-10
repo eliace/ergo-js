@@ -8,3 +8,4 @@
 //= require "dropdown"
 //= require "caret"
 //= require "loader"
+//= require "context-menu"
