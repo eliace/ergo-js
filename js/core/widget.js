@@ -993,6 +993,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				item.$bind(e.entry);
 				
 				item._dynamic = true;
+				
+				self.$render();
 			}, this);
 			
 			// если элемент данных удален, то удаляем соответствующий виджет
