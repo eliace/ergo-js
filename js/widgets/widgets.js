@@ -22,6 +22,8 @@
 //= require "dropdown-list"
 //= require "dropdown-menu"
 //= require "grid-pagination"
+//= require "navigation"
+//= require "caret"
 
 
 

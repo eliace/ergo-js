@@ -7,7 +7,7 @@ Ergo.defineMixin('Ergo.mixins.ContextMenu', function(o) {
 		contextMenu: {
 			etype: 'dropdown-list',
 			cls: 'context-menu',
-			render: 'body',
+			renderTo: 'body',
 			autoBind: false,
 			popup: {
 				behaviour: 'contextmenu'

@@ -335,7 +335,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {Function} callback 
 	 * 
 	 */
-	iterate: function(callback) {
+	each: function(callback) {
 		
 		var self = this;
 		var values = this.get();

@@ -43,6 +43,17 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		}
 	},
 	
+
+
+	$pre_construct: function(o) {
+		this.$super(o);		
+		
+		// if(o.row)
+			// Ergo.smart_override(o.components.content.components.content, {components: {body: {defaultItem: o.row}}});
+		
+	},
+
+
 	
 	$construct: function(o) {
 		this.$super(o);
@@ -103,7 +114,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 				
 				this._widget.content.content.control.items.add(col);
-				this._widget.content.content.body.options.defaultItem.items.push(col_item);
+				this._widget.content.content.body.rows.options.defaultItem.items.push(col_item);
 
 				this._widget.header.content.control.items.add(col);
 				this._widget.header.content.body.item(0).items.add(Ergo.smart_override({}, this._widget.options.column, hdr_item));
@@ -120,17 +131,22 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			},
 			
 			
+			each: function(callback) {
+				Ergo.each(this._widget.options.columns, callback);
+			},
+			
+			
 			hide: function(i) {
 				
 				this._widget.header.content.control.item(i).el.detach();
 				this._widget.header.content.body.item(0).item(i).el.detach();
 				
 				this._widget.content.content.control.item(i).el.detach();
-				this._widget.content.content.body.items.each(function(row){
+				this._widget.content.content.body.rows.items.each(function(row){
 					row.item(i).el.detach();
 				});
 //				this._widget.content.content.control.options.items[i].autoRender = false;
-				this._widget.content.content.body.options.defaultItem.items[i].autoRender = false;
+				this._widget.content.content.body.rows.options.defaultItem.items[i].autoRender = false;
 				
 				this.get(i).hidden = true;
 			},
@@ -144,13 +160,49 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				
 				w = this._widget.content.content.control.item(i);
 				this._widget.content.content.control.layout.add( w, w._index, w._weight );
-				this._widget.content.content.body.items.each(function(row){
+				this._widget.content.content.body.rows.items.each(function(row){
 					var cell = row.item(i);
 					row.layout.add(cell, cell._index, cell._weight);
 				});
-				delete this._widget.content.content.body.options.defaultItem.items[i].autoRender;
+				delete this._widget.content.content.body.rows.options.defaultItem.items[i].autoRender;
 
 				this.get(i).hidden = false;
+				
+			},
+			
+			
+			resize: function(i, width) {
+				
+				var self = this;
+				
+				var headers = this._widget.headers();
+				var hdr_control = this._widget.header.content.control;
+				var bdy_control = this._widget.content.content.control;
+
+				
+				this.each(function(col, j){
+					if(i == j) col.width = width;
+					if(!col.width) {
+						// фиксируем ширину плавающей колонки
+//						col.width = hdr_control.item(j).el.width();
+						col.width = headers.get(j).el.width();
+						console.log(col.width);
+						hdr_control.item(j).el.width(col.width);
+						bdy_control.item(j).el.width(col.width);
+					}
+				});
+				
+				
+				hdr_control.item(i).el.width(width);
+				bdy_control.item(i).el.width(width);
+				
+				// var w = this._widget.header.content.control;//.item(i);
+				// w.items.each(function(item){
+				// });
+				// w.el.width(width);
+// 				
+				// w = this._widget.content.content.control.item(i);
+				// w.el.width(width);
 				
 			}
 			
@@ -171,7 +223,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 	
 	rows: function() {
-		return this.content.content.body.items;
+		return this.content.content.body.rows.items;
 	},
 	
 	headers: function() {
@@ -234,12 +286,17 @@ Ergo.defineClass('Ergo.widgets.grid.Box', 'Ergo.widgets.Box', {
 			},
 			body: {
 				html: '<tbody/>',
-				defaultItem: {
-					etype: 'table-row',
-					items: []
-				},
-				
-				dynamic: true
+				components: {
+					rows: {
+						autoRender: false,
+						layout: 'inherited',
+						dynamic: true,						
+						defaultItem: {
+							etype: 'table-row',
+							items: []
+						}						
+					}
+				}
 			}
 		}		
 		

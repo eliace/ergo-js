@@ -126,13 +126,32 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		
 //		item_el.data('weight', weight);
+		item_el[0]._index = index;
+
 		item_el[0]._weight = weight;
+
+		item_el[0]._group = item.options.group;
+		
+		
+		var elements = el.contents();
+		
+		// фильтруем список элементов
+		if(item.options.group) {
+			elements = elements.filter(function(i, elem){
+				return (elem._ergo) ? (elem._ergo.options.group == item.options.group) : false;
+			});
+		}
+		
+		
+		
+		
+		
 		
 		// если индекс не определен, то элемент должен быть добавлен последним в свою группу
 		if(index == null) {
 			// обходим все элементы контейнера в поисках первого с большим весом
 			var after_el = null;
-			el.contents().each(function(i, elem){
+			elements.each(function(i, elem){
 				var w = elem._weight;// $(elem).data('weight');
 				if(w > weight) {
 					after_el = $(elem);
@@ -142,6 +161,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 			if(after_el)
 				after_el.before( item_el );
+			else if(elements.length)
+				elements.last().after( item_el );
 			else
 				el.append( item_el );
 				
@@ -160,55 +181,66 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			// else
 				// el.append( item_el );
 		}
-		else if(index === 0) {
-			var before_a = [];
-			var children = el.contents();
-			for(var i = children.length-1; i >= 0; i--) {
-				var w = $(children[i]).ergo();
-				if(w && w._weight < weight) before_a.push($(children[i]));				
-			}
-			// el.children().each(function(i, elem){
-				// var w = $(elem).ergo();
-				// if(w && w._weight < weight) before_a.push(elem);
-			// });
-
-			if(before_a.length > 0)
-				before_a[before_a.length-1].after( item_el );
-			else
-				el.prepend( item_el );
-		}
+		// else if(index === 0) {
+			// var before_a = [];
+			// for(var i = elements.length-1; i >= 0; i--) {
+				// var w = $(elements[i]).ergo();
+				// if(w && w._weight < weight) before_a.push($(elements[i]));				
+			// }
+// 
+			// if(before_a.length > 0)
+				// before_a[before_a.length-1].after( item_el );
+			// else if(elements.length)
+				// elements.first().before( item_el );
+			// else
+				// el.prepend( item_el );
+		// }
 		else {
+
+			// немножко эвристики
+			var last = elements.last();
 			
-			var arr = [];
-			var before_el = null;
-			var after_el = null;
-//			this.container.children.each(function(it){
-			el.contents().each(function(k, child){
-				it = $(child).ergo();
-				if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
-				if(it._weight == weight) arr.push(it);//.el);
-				else if(it._weight <= weight) before_el = it.el;
-				else after_el = it.el;
-			});
-
-
-			for(var i = 0; i < arr.length; i++) {
-				(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
+			if(elements.length == 0) {
+				el.append( item_el );				
 			}
-
-//			if( !arr[index] ) {
-//				before_el = arr[index-1] | before_el;
+			else if(last[0]._weight == weight && last[0]._index < index){
+				last.after(item_el);
+			}
+			else {	
+			
+				var arr = [];
+				var before_el = null;
+				var after_el = null;
+	//			this.container.children.each(function(it){
+				elements.each(function(k, child){
+					it = $(child).ergo();
+					if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
+					if(it._weight == weight) arr.push(it);//.el);
+					else if(it._weight <= weight) before_el = it.el;
+					else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
+				});
+	
+	
+				for(var i = 0; i < arr.length; i++) {
+					(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
+				}
+	
+	//			if( !arr[index] ) {
+	//				before_el = arr[index-1] | before_el;
 				if(before_el)
 					before_el.after( item_el );
 				else if(after_el)
 					after_el.before( item_el );
+				else if(elements.length)
+					elements.last().after( item_el );
 				else
-					el.append( item_el );					
-			// }
-			// else {
-				// arr[index].before(item_el);
-			// }
-			
+					el.append( item_el ); //FIXME это уже не нужно				
+						
+				// }
+				// else {
+					// arr[index].before(item_el);
+				// }
+			}
 		}
 		// else if(index == 0)
 			// el.prepend( item.el );
@@ -331,11 +363,11 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			});
 			
 			
-			if(debug) console.log({h: h, dh: dh});
+			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
 			dh += (this.el.outerHeight(true) - this.el.height());
 
-			if(debug) console.log({h: h, dh: dh});
+			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
 			
 			var self = this;
@@ -387,7 +419,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 
-			if(debug) console.log({h: h, dh: dh});
+			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
 //			dh -= this.el.height()
 			this.el.height((h - dh)/h_ratio);
@@ -433,13 +465,13 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 	
 	build: function() {
 		
-		var render_list = [];
+//		var render_list = [];
 		
-		this._widget.children.each(function(item){
-			
-			
-			
-		});
+		// this._widget.children.each(function(item){
+// 			
+// 			
+// 			
+		// });
 		
 		
 	}

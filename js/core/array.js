@@ -90,7 +90,16 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 		var k = [];
 		for(var i = 0; i < this.src.length-1; i++) k.push(i);
 		return k;
+	},
+	
+	sort: function(comparator) {
+		this.src.sort(comparator);
+	},
+	
+	copy: function() {
+		return this.create(this.src.slice(0));
 	}
+	
 	
 });
 

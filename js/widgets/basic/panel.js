@@ -13,7 +13,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 				weight: -10,
 				components: {
 					title: {
-						etype: 'html:h3',
+						etype: 'html:span',
 						cls: 'panel-title'
 					}
 				}				

@@ -9,9 +9,13 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				// здесь не должен использоваться caret-box
 				cls: 'dropdown-toggle',
 				components: {
+					content: {
+						etype: 'text'
+					},
 					caret: {
-						etype: 'html:span',
-						cls: 'caret'
+						etype: 'caret'
+						// etype: 'html:span',
+						// cls: 'caret'
 					}
 				},
 				onClick: function(e) {

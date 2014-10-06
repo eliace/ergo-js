@@ -1,10 +1,10 @@
 
-Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NodeList', {
+Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 	
 	defaults: {
 		cls: 'list-tree',
 		
-		node: {
+		nestedItem: {
 			components: {
 				content: {
 					etype: 'link'

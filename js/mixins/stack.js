@@ -3,37 +3,52 @@
 Ergo.defineMixin('Ergo.mixins.Stack', function(o) {
 	
 	Ergo.smart_override(o, {
+//		cls: 'stackable',
 		defaultItem: {
-			hideOnRender: true
+			style: {'display': 'none'}
 		}
 	});
 	
 	
 	
-	this.setVisible = function(i) {
+	this.setActive = function(i) {
 		
 		var child = (i instanceof Ergo.core.Widget) ? i : this.children.find( Ergo.by_widget(i) );
 		
-		this.children.each(function(c){
-			(c != child) ? c.hide() : c.show();
-		});
+		// this.children.each(function(c){
+			// (c != child) ? c.hide() : c.show();
+		// });
 		
 		if(child.layout) child.$layoutChanged();
 		
-		if(this._active)
+		var promise = $.when(true);
+		
+		if(this._active) {
 			this._active.states.unset('active');
-		
+			promise = this._active.hide();
+		}
+
 		this._active = child;
+
+		promise.then(function(){
 		
-		this._active.states.set('active');
+			this._active.states.set('active');
+			this._active.show();
+			
+		}.bind(this));
+		
 		
 		return child;
 	};
 	
 	
-	this.getVisible = function() {
+	this.getActive = function() {
 		return this._active;
 	};
 	
 	
-}, 'mixins:stack');
+	
+	
+//	Ergo.smart_build(o);
+	
+}, 'mixins:stackable');

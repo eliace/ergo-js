@@ -10,9 +10,6 @@ Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
 				content: {
 					etype: 'link'
 				}				
-			},
-			set: {
-				'text': function(v) { this.content.opt('text', v); }
 			}
 		}
 	}

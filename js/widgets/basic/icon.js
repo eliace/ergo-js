@@ -7,7 +7,10 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 	
 	defaults: {
 		html: '<i/>',
-		cls: 'icon'
+		cls: 'icon',
+		binding: function(v) {
+			this.states.set(v);
+		}
 	}
 	
 }, 'widgets:icon');

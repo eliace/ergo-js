@@ -468,7 +468,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					else if(i.indexOf('jquery:') == 0) {
 						// jQuery
 //						Ergo.event_bus.reg(i.substring(7), callback, this);
-						self.el.on(i.substr(7), callback.rcurry(self));						
+						self.el.on(i.substr(7), callback.rcurry(self).bind(this));						
 					}
 					else {
 						// TODO здесь должны добавляться обработчики событий виджета
@@ -566,8 +566,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.$super(o);
 		
 		// добавляем элемент в документ
-		if('render' in o)
-			this.$render(o.render);
+		if('renderTo' in o)
+			this.$render(o.renderTo);
 		
 		// подключаем данные и обновляем их, если установлен параметр autoUpdate
 		this.$bind(o.data, o.autoUpdate);
@@ -649,15 +649,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		});
 		
 		
-		this.layout.update();
 
 		this.components.each(function(item){
-			item.$render();			
+//			if(!item._dynamic)
+				item.$render();
 		});
 
 		this.items.each(function(item){
 			// содержимое динамических элементов отрисовывается через bind
-			if(!item.options.dynamic)
+			if(!item.options.dynamic)  //FIXME
 				item.$render();			
 		});
 
@@ -795,6 +795,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	$layoutChanged: function() {
 	
+		this.layout.update();
 		//FIXME возможно следует поменять эту строку на fire('layoutChanged')
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
@@ -1058,7 +1059,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
 	
-			this.data.iterate(function(dataEntry, i){
+			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
@@ -1156,7 +1157,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 //			var t0 = Ergo.timestamp();
 
-			this.data.iterate(function(dataEntry, i){
+			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 				self.children.autobinding = false;
 				var item = self.items.add({});//{ 'data': dataEntry });

@@ -4,7 +4,7 @@
 Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 	
 	defaults: {
-		node: {
+		nestedItem: {
 			
 			transitions: {
 				'* > expanded': function() {

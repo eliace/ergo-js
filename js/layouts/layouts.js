@@ -6,3 +6,5 @@
 //= require "grid"
 //= require "column"
 //= require "fluid"
+//= require "hbox"
+//= require "table"

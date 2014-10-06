@@ -7,7 +7,7 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 		
 		var effect = false;
 		
-		if( !this.children.is_empty() ) {
+		if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 			var o = this.options.effects;
 			
@@ -19,11 +19,22 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 			var el = this._wrapper || this.el;
 			
 			// FIXME экспериментальный код
-			if( !el.is(':visible'))
-				effect = el[o.show]({
-					duration: o.delay,
-					easing: o.easing || 'swing'
-				});
+			if( !el.is(':visible')) {
+				if( $.isPlainObject(o.show) ) {
+					effect = el[o.show.type]({
+						duration: o.show.delay || o.delay,
+						easing: o.show.easing || 'swing'
+					});					
+				}
+				else {
+					effect = el[o.show]({
+						duration: o.delay,
+						easing: o.easing || 'swing'
+					});
+				}
+				
+			}
+			
 		}
 
 		return $.when( effect );
@@ -34,7 +45,7 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 		
 		var effect = false;
 		
-		if( !this.children.is_empty() ) {
+		if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 			var o = this.options.effects;
 	
@@ -45,8 +56,21 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 			
 			var el = this._wrapper || this.el;
 		
-			if( el.is(':visible'))
-				effect = el[o.hide](o.delay);
+			if( el.is(':visible')) {
+				if( $.isPlainObject(o.hide) ) {
+					effect = el[o.hide.type]({
+						duration: o.hide.delay || o.delay,
+						easing: o.hide.easing || 'swing'
+					});					
+				}
+				else {
+					effect = el[o.hide]({
+						duration: o.delay,
+						easing: o.easing || 'swing'
+					});
+				}				
+			}
+//				effect = el[o.hide](o.delay);
 		}
 
 		return $.when( effect );

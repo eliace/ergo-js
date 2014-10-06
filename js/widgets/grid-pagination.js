@@ -8,19 +8,41 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 			etype: 'text',
 			autoBind: false
 		},
-		items: [{
-			etype: 'button',
-			text: '<<',
-			onClick: function() {
-				this.events.rise('first');
+		components: {
+			firstButton: {
+				etype: 'button',
+				text: '«',
+				weight: -100,
+				onClick: function() {
+					this.events.rise('first');
+				}				
+			},
+			prevButton: {
+				etype: 'button',
+				text: '<',
+				weight: -50,
+				onClick: function() {
+					this.events.rise('previous');
+				}				
+			},
+			nextButton: {
+				etype: 'button',
+				text: '>',
+				weight: 50,
+				onClick: function() {
+					this.events.rise('next');
+				}				
+			},
+			lastButton: {
+				etype: 'button',
+				text: '»',
+				weight: 100,
+				onClick: function() {
+					this.events.rise('last');
+				}							
 			}
-		}, {
-			etype: 'button',
-			text: '<',
-			onClick: function() {
-				this.events.rise('previous');
-			}
-		}, 
+		},
+		items: [ 
 		'Страница ', 
 		{
 			etype: 'field'
@@ -28,18 +50,6 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		' из ', 
 		{
 			etype: 'text'
-		}, {
-			etype: 'button',
-			text: '>',
-			onClick: function() {
-				this.events.rise('next');
-			}
-		}, {
-			etype: 'button',
-			text: '>>',
-			onClick: function() {
-				this.events.rise('last');
-			}			
 		}]
 	},
 	

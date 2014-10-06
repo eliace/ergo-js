@@ -22,21 +22,23 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		var p = Ergo.smart_override({}, this.options.popup, position);
 		
 		// позиционируем виджет
+
+		// определяем координаты относительно точки "at"
+		var x = p.offset[0];
+		var y = p.offset[1];
+		
 		
 		// получаем целевой элемент, относительно которого отображаем элемент
 		var to_el = null;
 		
 		// определяем элемент, к которому будет привязан popup		
-		if(p.to) 
-			to_el = $(p.to);
-		else if(this.parent) 
+		if(p.to) {
+			to_el = $(p.to);			
+		} 
+		else if(this.parent) { 
 			to_el = this.parent.el;
+		}
 		
-		
-		
-		// определяем координаты относительно точки "at"
-		var x = p.offset[0];
-		var y = p.offset[1];
 		
 		
 		// определяем смещение из привязки к элементу "to"
@@ -97,6 +99,13 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 			}
 			
 		}
+		else if(p.behaviour == 'global') {
+			
+			var offset = to_el.offset();
+			x += offset.left;
+			y += offset.top;
+			
+		}
 		
 		
 		
@@ -109,6 +118,7 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		$('html').one('click', function(e) {
 			self.close();
 		});
+		
 		
 		
 		

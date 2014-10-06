@@ -2,7 +2,9 @@
 
 Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', {
 	
-	
+	defaults: {
+		plugins: [Ergo.Observable, Ergo.Statable]		
+	},
 	
 	
 	

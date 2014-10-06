@@ -1,5 +1,96 @@
 
 
+
+Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
+	
+	o.events = Ergo.smart_override({
+		'select': function(e) {
+			this.opt('selected', e.key != null ? e.key : (e.target._name || e.target._index));
+			e.stop();
+		}
+	}, o.events);
+
+	Ergo.smart_build(o);
+	
+	
+	// this.selection = {
+// 		
+		// _widget: this,
+// 		
+		// set: function(v) {
+// 
+// 			
+			// if(this._selected)
+				// this._selected.states.unset('selected');
+// 				
+	// //		this.content.opt('visible', v);
+// 			
+			// this._selected = v;// this.tabs.item(v);
+// 			
+			// if(this._selected)
+				// this._selected.states.set('selected');
+// 			
+			// this.events.fire('selectionChanged');
+// 			
+		// },
+// 		
+		// get: function() {
+// 			
+		// }
+// 		
+	// };
+	
+	
+	
+	this.setSelected = function(key) {
+		
+		
+		// если новый ключ совпадает со старым, то не меняем выборку
+		if(this._selected && this._selected == key) return;
+		
+		// определяем метод поиска
+		var finder = this.options.selectionFinder || this.item;
+		
+		// убираем состояние selected с текущей выборки
+		if(this._selected !== undefined && this._selected !== null) {
+			var target = finder.call(this, this._selected);
+			
+			if( !$.isArray(target)) target = [target];
+	
+			for(var i = 0; i < target.length; i++) {
+				if(target[i]) target[i].states.unset('selected');
+			}
+		}
+
+		this._selected = key;
+
+		// устанавливаем состояние selected на новой выборке
+
+		if(this._selected !== undefined && this._selected !== null) {
+			target = finder.call(this, this._selected);
+			
+			if( !$.isArray(target)) target = [target];
+	
+			for(var i = 0; i < target.length; i++) {
+				if(target[i]) target[i].states.set('selected');
+			}
+		}
+		
+		this.events.fire('selected', {target: this._selected, key: key});
+	};
+	
+	
+	this.getSelected = function() {
+		return this._selected;
+	};
+	
+	
+	
+}, 'mixins:selectable');
+
+
+
+/*
 Ergo.defineMixin('Ergo.mixins.Selection', function(o) {
 
 
@@ -91,3 +182,15 @@ Ergo.defineClass('Ergo.core.Selection', 'Ergo.core.Object', {
 	
 	
 });
+
+*/
+
+
+
+
+
+
+
+
+
+

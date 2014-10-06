@@ -7,6 +7,7 @@ Ergo.defineMixin('Ergo.widgets.Loader', function(o){
 			etype: 'box',
 			cls: 'loader',
 			weight: 100,
+			autoHeight: 'ignore',
 			components: {
 				icon: {
 					etype: 'icon'					

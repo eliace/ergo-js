@@ -7,7 +7,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 		
 		cls: 'tab-panel',
 		
-		mixins: ['selection'],
+		mixins: ['selectable'],
 		
 		components: {
 			header: {
@@ -17,16 +17,38 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				weight: -5,
 				etype: 'tab-bar',
 				defaultItem: {
-					mixins: ['selectable']
+					onClick: function() {
+						this.events.rise('select', {key: this._name || this._index});
+					}					
 				}
 			},
 			content: {
-				mixins: ['stack']
+				mixins: ['stackable'],
+				// defaultItem: {
+					// states: {
+						// 'selected': function(on) {
+							// if(on) {
+								// this.parent.opt('visible', this);
+							// }
+						// }						
+					// }
+				// }
 			}
 		},
 		
+		// onSelectTab: function(e) {
+			// this.opt('selected', e.key);
+			// e.stop();
+		// },
+		
+		selectionFinder: function(key) {
+			return this.tabbar.item(key);//, this.content.item(key)];
+		},
+		
 		onSelected: function(e) {
-			this.content.opt('visible', e.target._index);
+			this.content.opt('active', e.key);
+			this.events.fire('selectTab', {key: e.key});
+			e.stop();
 		}
 		
 	},

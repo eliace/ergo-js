@@ -2,18 +2,18 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.NodeList', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		html: '<ul/>',
 //		cls: 'tree',
 		defaultItem: {
-			etype: 'node'
+			etype: 'nested-item'
 		},
 		
 		dynamic: true,
 		
-		node: {
+		nestedItem: {
 			components: {
 				subtree: {
 					hidden: true,
@@ -33,15 +33,20 @@ Ergo.defineClass('Ergo.widgets.NodeList', 'Ergo.widgets.Box', {
 	$pre_construct: function(o) {
 		this.$super(o);
 		
-		Ergo.smart_override(o.defaultItem, o.node, {components: {subtree: {node: o.node}}});
+		Ergo.smart_override(o.defaultItem, o.nestedItem, {components: {subtree: {nestedItem: o.nestedItem}}});
+	},
+	
+	
+	find: function(key) {
+		
 	}
 	
 	
-}, 'widgets:node-list');	
+}, 'widgets:nested-list');	
 
 
 
-Ergo.defineClass('Ergo.widgets.Node', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		
@@ -65,17 +70,17 @@ Ergo.defineClass('Ergo.widgets.Node', 'Ergo.widgets.Box', {
 				etype: 'text'
 			},
 			subtree: {
-				etype: 'node-list',
+				etype: 'nested-list',
 				weight: 100
 			}
 		}
 		
-	},
-	
-	
-	setText: function(v) {
-		this.content.opt('text', v);
 	}
+	
+	
+	// setText: function(v) {
+		// this.content.opt('text', v);
+	// }
 	
 	
 	// getLeaf: function() {
@@ -87,12 +92,12 @@ Ergo.defineClass('Ergo.widgets.Node', 'Ergo.widgets.Box', {
 	// }
 	
 	
-}, 'widgets:node');
+}, 'widgets:nested-item');
 
 
 
 
-Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NodeList', {
+Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', {
 	
 	defaults: {
 		cls: 'tree'

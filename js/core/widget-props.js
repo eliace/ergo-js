@@ -11,7 +11,12 @@ Ergo.core.WidgetProperties = {
 	
 	
 	
-	setText: function(v) { this.layout.el.text( v ); },
+	setText: function(v) { 
+		if(this.children.size() == 0)
+			this.layout.el.text( v ); 
+		else if(this.content)
+			this.content.opt('text', v); 
+	},
 	setInnerText: function(v) {	this.layout.el.text(v); },
 	setInnerHtml: function(v) {	this.layout.el.html(v); },
 	setOpacity: function(v) {
@@ -39,6 +44,7 @@ Ergo.core.WidgetProperties = {
 	setTooltip: function(v) { this.el.attr('title', v); },
 	setId: function(v) { this.el.attr('id', v); },
 	setTag: function(v) { this.tag = v; },
+	setName: function(v) { this._name = v; },
 //			'name': function(v) { this.name = v; },
 	setTabIndex: function(v) { this.el.attr('tabindex', v); },			
 	setFormat: function(v) {

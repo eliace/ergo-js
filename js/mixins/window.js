@@ -5,6 +5,15 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 	
 	this.open = function() {
 		
+		
+		if(arguments.length == 2) {
+			// x, y
+			var x = arguments[0];
+			var y = arguments[1];
+			
+			this.el.css({'top': y, 'left': x});
+		}
+		
 		// получаем новый индекс z-слоя
 		var z = Ergo.context._z || 0;
 		z++;

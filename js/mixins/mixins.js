@@ -4,9 +4,9 @@
 //= require "stack"
 //= require "popup"
 //= require "window"
+//= require "modal"
 
 //= require "label"
 //= require "dropdown"
-//= require "caret"
 //= require "loader"
 //= require "context-menu"
