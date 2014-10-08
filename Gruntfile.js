@@ -6,7 +6,7 @@ var path = require('path');
 
 var bootstrap_extractor = function(filepath, filecontent) {
 	return extractor.call(this, filepath, filecontent, 'bootstrap');
-}
+};
 
 
 
@@ -137,7 +137,16 @@ module.exports = function(grunt) {
 //                template: '../ink-docstrap/template',
             }
         }
-    }    
+   },
+	  concat_css: {
+	    options: {
+	      // Task-specific options go here.
+	    },
+	    all: {
+	      src: ["css/*.css"],
+	      dest: "build/ergojs.css"
+	    }
+	  }   
   });
   
 // 	grunt.log.write( process.cwd() );
@@ -147,7 +156,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-line-remover');  
   grunt.loadNpmTasks('grunt-concat-in-order');
   grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-concat-css');
   
-  grunt.registerTask('default', ['concat_in_order', 'lineremover']);
+  grunt.registerTask('default', ['concat_in_order', 'lineremover', 'concat_css']);
   
 };

@@ -11,6 +11,7 @@
 //= require <widgets/pickers/all>
 //= require <widgets/trees/all>
 //= require <widgets/items/all>
+//= require <widgets/menus/all>
 
 //= require <widgets/accordion>
 //= require <widgets/badge>

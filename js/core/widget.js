@@ -662,7 +662,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		});
 
 
-		this.$layoutChanged();
+		this.$layoutChanged(false);
 		
 	},
 	
@@ -793,13 +793,14 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @private
 	 */
-	$layoutChanged: function() {
+	$layoutChanged: function(cascade) {
 	
 		this.layout.update();
 		//FIXME возможно следует поменять эту строку на fire('layoutChanged')
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
-//		this.children.apply_all('$layoutChanged');
+		if(cascade !== false)
+			this.children.apply_all('$layoutChanged');
 		
 //		this.events.fire('layoutChanged');
 	},
@@ -838,6 +839,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			item.walk(callback);
 		});
 	},	
+	
+	
 	
 	
 	/**

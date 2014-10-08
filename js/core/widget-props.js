@@ -15,7 +15,9 @@ Ergo.core.WidgetProperties = {
 		if(this.children.size() == 0)
 			this.layout.el.text( v ); 
 		else if(this.content)
-			this.content.opt('text', v); 
+			this.content.opt('text', v);
+		else
+			this.layout.el.text( v ); 		 
 	},
 	setInnerText: function(v) {	this.layout.el.text(v); },
 	setInnerHtml: function(v) {	this.layout.el.html(v); },

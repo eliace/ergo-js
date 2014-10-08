@@ -51,6 +51,29 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 		// определяем метод поиска
 		var finder = this.options.selectionFinder || this.item;
 		
+		
+		if(this._selected) {
+			var target = $.isArray(this._selected) ? this._selected : [this._selected];
+			
+			for(var i = 0; i < target.length; i++) {
+				if(target[i]) target[i].states.unset('selected');
+			}
+		}
+		
+		
+		this._selected = finder.call(this, key);
+		
+		
+		if(this._selected) {
+			var target = $.isArray(this._selected) ? this._selected : [this._selected];
+			
+			for(var i = 0; i < target.length; i++) {
+				if(target[i]) target[i].states.set('selected');
+			}
+		}
+		
+		
+/*		
 		// убираем состояние selected с текущей выборки
 		if(this._selected !== undefined && this._selected !== null) {
 			var target = finder.call(this, this._selected);
@@ -75,8 +98,9 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 				if(target[i]) target[i].states.set('selected');
 			}
 		}
+*/
 		
-		this.events.fire('selected', {target: this._selected, key: key});
+		this.events.fire('selected', {selection: this._selected, key: key});
 	};
 	
 	

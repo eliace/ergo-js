@@ -39,6 +39,16 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	
 	find: function(key) {
 		
+		var path = key.split(':');
+		var w = this;
+		var found = null;
+		for(var i = 0; i < path.length; i++) {
+			w = w.item({_name: path[i]});
+			found = w;
+			w = w.subtree;
+		}
+		
+		return found;
 	}
 	
 	
@@ -75,7 +85,22 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', {
 			}
 		}
 		
-	}
+	},
+	
+	
+	path: function() {
+		
+    var path = [];
+    var w = this;//.parent;
+    while(w._name) {
+      path.push(w._name);
+      w = w.parent.parent;
+    }
+    
+    return path.reverse().join(':');
+	},
+	
+	
 	
 	
 	// setText: function(v) {
