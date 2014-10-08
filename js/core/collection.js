@@ -188,6 +188,11 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	includes: function(criteria) {
 		return Ergo.includes(this.src, callback);
 	},
+
+	is_include: function(criteria) {
+		return Ergo.includes(this.src, callback);
+	},
+
 	
 	/**
 	 * Размер коллекции

@@ -6,9 +6,12 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	
 	this.open = function(position) {
 		
+		var popups = Ergo.context._popups;
 		
-		if(Ergo.context._popup) {
-			Ergo.context._popup.close();
+		// в эксклюзивном режиме закрываем другие всплывающие виджеты
+		if(!popups.is_empty() && this.options.popup.exclusive) {
+			popups.apply_all('close');
+			popups.remove_all();
 		}
 		
 		
@@ -116,15 +119,17 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		// определяем параметры закрытия
 		
 		$('html').one('click', function(e) {
-			self.close();
-		});
+			if(this.options.popup.closeOn == 'outerClick') this.close();
+		}.bind(this));
 		
 		
 		
 		
 		this.el.css({'left': x, 'top': y});
 		
-		Ergo.context._popup = this;
+		// добавляем текущий объект в список всплывших окон
+		popups.add(this);
+		
 		
 		return this.show().then(function(){
 			self.events.fire('opened');
@@ -134,9 +139,15 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	
 	this.close = function() {
 		var self = this;
+		var popups = Ergo.context._popups;
 		
-		if(Ergo.context._popup == this) {
-			delete Ergo.context._popup;
+		var k = popups.key_of(this);
+		if( k > -1 ) {//Ergo.context._popup == this) {
+			
+			if(this != popups.last()) popups.get(k+1).close();  //TODO возможно, будет лучше, если закрытия будут связаны в цепочку
+			
+			Ergo.context._popups.remove(this);
+			
 			return this.hide().then(function(){
 				self.events.fire('closed');
 			});			
@@ -146,11 +157,14 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	
 	
 	
+	if(!Ergo.context._popup)
+		Ergo.context._popups = new Ergo.core.Array();
+	
 	
 	Ergo.smart_override(o, {
 		events: {
 			'jquery:mouseleave': function(e, w){ 
-				if(w.options.closeOn == 'mouseleave') w.close(); 
+				if(w.options.popup.closeOn == 'mouseleave') w.close(); 
 			}
 		},
 		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты
@@ -161,7 +175,9 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		to: null, 
 		at: 'left top', 
 		my: 'left top', 
-		offset: [0, 0]
+		offset: [0, 0],
+		closeOn: 'outerClick',
+		exclusive: true
 	}, o.popup);
 	
 	

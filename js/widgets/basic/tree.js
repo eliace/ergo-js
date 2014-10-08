@@ -33,7 +33,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	$pre_construct: function(o) {
 		this.$super(o);
 		
-		Ergo.smart_override(o.defaultItem, o.nestedItem, {components: {subtree: {nestedItem: o.nestedItem}}});
+		o.defaultItem = Ergo.smart_override({components: {subtree: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
 	},
 	
 	

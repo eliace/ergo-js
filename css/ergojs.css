@@ -154,7 +154,6 @@ body {
   border-radius: 4px;
   cursor: pointer;
   display: inline-block;
-  font-size: 14px;
   font-weight: 400;
   line-height: 1.42857;
   margin-bottom: 0;
@@ -509,7 +508,6 @@ img.btn.circle {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
   display: none;
   float: left;
-  font-size: 14px;
   left: 0;
   list-style: none outside none;
   min-width: 160px;

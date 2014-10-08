@@ -4,7 +4,8 @@
 Ergo.defineClass('Ergo.widgets.Caret', 'Ergo.widgets.Line', {
 	
 	defaults: {
-		cls: 'caret'
+		cls: 'caret',
+		autoBind: false
 	}
 
 }, 'widgets:caret');
