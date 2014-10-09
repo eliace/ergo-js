@@ -48,7 +48,10 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.NestedList', {
 						this.events.rise('expandItem');
 				}
 			}
-		}
+		},
+		binding: function(v) {
+			if(v.children) this.states.set('has-subtree');
+		},
 		
 		// onExpandItem: function(e) {
 			// // FIXME эксклюзивное открытие ветви

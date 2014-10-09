@@ -336,25 +336,6 @@ var Ergo = (function(){
 	
 	E.smart_build = function(o, key) {
 		
-		// применяем модификатор !
-		for(var i in o) {
-			
-			var prefix = i[0];
-			
-			if(prefix == '!') {
-				
-				var j = i.substring(1);
-				
-				if( o[i] === undefined )
-					delete o[j];
-				else
-					o[j] = o[i];
-				
-				delete o[i];
-			}
-			
-		}
-			
 		// применяем модификатор +
 		for(var i in o) {
 			
@@ -396,6 +377,27 @@ var Ergo = (function(){
 				delete o[i];
 			}
 		}
+		
+		// применяем модификатор !
+		for(var i in o) {
+			
+			var prefix = i[0];
+			
+			if(prefix == '!') {
+				
+				var j = i.substring(1);
+				
+				if( o[i] === undefined )
+					delete o[j];
+				else
+					o[j] = o[i];
+				
+				delete o[i];
+			}
+			
+		}
+			
+		
 		
 		
 		if( k == 'shortcuts' || k == 'components' || k == 'items')
