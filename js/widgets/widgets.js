@@ -22,6 +22,7 @@
 //= require "alert"
 //= require "dropdown-list"
 //= require "dropdown-menu"
+//= require "pagination"
 //= require "grid-pagination"
 //= require "navigation"
 //= require "caret"

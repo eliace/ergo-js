@@ -1730,6 +1730,8 @@ input.field {
 
 .pagination {
 	list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .pagination > li {
@@ -1738,16 +1740,34 @@ input.field {
 }
 
 .pagination > li a {
-	border: 1px solid #eee;
+	border: 1px solid #ddd;
 	padding: 6px 12px;
 	margin-left: -1px;
 	text-decoration: none;
-	color: #0A80CB;
+/*	color: #0A80CB;*/
+	color: #444;
+	float: left; /* hack */
 }
 
 .pagination > li:first-child a {
 	margin-left: 0px;
 }
+
+.pagination li > a:hover {
+	background-color: #eee;
+}
+
+.pagination li.selected > a {
+  background-color: #BBBBBB;
+  border-color: #CCCCCC;	
+/*  background-color: #428BCA;
+  border-color: #428BCA;*/
+  color: #FFFFFF;
+  cursor: default;	
+}
+
+
+
 
 
 
@@ -1781,6 +1801,36 @@ input.field {
 	color: #111;
 	background-color: #f7f7f7;
 }
+
+
+li.has-subtree {
+	position: relative;
+}
+
+
+.nav-menu li:not(.has-subtree) > a .caret, .side-menu li:not(.has-subtree) > a .caret {
+	display: none;
+}
+
+
+
+.nav-menu > li > a .caret {
+	margin-top: 0;
+	margin-left: 4px;
+  float: right;
+  right: auto;
+  position: relative;
+	top: 50%;
+}
+
+
+.dropdown-menu > li.has-subtree > a .caret {
+  margin-top: -4px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+}
+
 
 
 
