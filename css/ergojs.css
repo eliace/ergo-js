@@ -745,7 +745,7 @@ ul.tabs > li:hover {
     background-color: transparent; 
     background-image: none;
     color: #555555;
-    font-size: 14px;
+/*    font-size: 14px;*/
     height: 34px;
     line-height: 1.42857;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
@@ -1115,7 +1115,7 @@ ul.tabs > li:hover {
 .grid-box th {
 	padding: 0 0 0 3px;
 	border-right: 1px solid #ddd;
-	font-size: 14px;
+/*	font-size: 14px;*/
 	font-weight: bold;
 	text-align: left;
 }
@@ -1215,7 +1215,7 @@ input.field {
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #555555;
-  font-size: 14px;
+/*  font-size: 14px;*/
   height: 34px;
   line-height: 1.42857;
   padding: 6px;
@@ -1741,7 +1741,7 @@ input.field {
 
 .pagination > li a {
 	border: 1px solid #ddd;
-	padding: 6px 12px;
+	padding: 4px 8px;
 	margin-left: -1px;
 	text-decoration: none;
 /*	color: #0A80CB;*/

@@ -59,32 +59,6 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		this.$super(o);
 		
 		
-//		var cols = [];
-//		var control_items = [];
-		
-//		for(var i in o.columns) {
-			// var col = Ergo.deep_copy(o.columns[i]);
-// 			
-			// if('width' in col) {
-				// control_items.push({width: col.width});
-				// delete col.width;
-			// }
-			// else {
-				// control_items.push({});				
-			// }
-// 			
-// 			
-			// cols.push(col);
-//		}
-		
-		// Ergo.smart_override(this.content.body.options.defaultItem, {items: cols});
-// 		
-// 		
-		// for(var i in control_items) {
-			// this.content.control.items.add(control_items[i]);
-		// }
-		
-		
 		var w = this;
 		
 		this.columns = {
