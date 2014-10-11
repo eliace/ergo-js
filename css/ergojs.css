@@ -1265,6 +1265,8 @@ input.field {
  */
 
 .tool-bar {
+/*	height: 32px;*/
+	padding: 4px;
 }
 
 .tool-bar > * {
@@ -1972,4 +1974,36 @@ tr.summary td {
 .label.error {
   background-color: #D9534F;
 }
+
+
+
+
+
+.locked {
+	position: relative;
+}
+
+
+.locked:after {
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10000;	
+}
+
+
+
+.lock-icon {
+	visibility: hidden;
+}
+
+.locked .lock-icon {
+	visibility: visible;
+}
+
+
+
 

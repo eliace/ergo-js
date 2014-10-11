@@ -1,6 +1,6 @@
 
 //= require "effects"
-//= require "selection"
+//= require "selectable"
 //= require "stack"
 //= require "popup"
 //= require "window"
@@ -9,4 +9,5 @@
 //= require "label"
 //= require "dropdown"
 //= require "loader"
+//= require "locker"
 //= require "context-menu"
