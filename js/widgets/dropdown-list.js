@@ -6,10 +6,18 @@ Ergo.defineClass('Ergo.widgets.DropdownList', 'Ergo.widgets.List', {
 	defaults: {
 		baseCls: 'dropdown-list',
 		style: {'display': 'none'},
-		mixins: ['popup'],
+		mixins: ['popup', 'effects'],
 		shortcuts: {
 			'|': {cls: 'divider'}
-		}
+		},
+		effects: {
+			show: {type: 'slideDown', delay: 200}				
+		},
+		states: {
+			'dropdown:type': 'dropdown',
+			'dropup:type': 'dropup'
+		},
+		type: 'dropdown'
 	}
 	
 }, 'widgets:dropdown-list');

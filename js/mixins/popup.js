@@ -111,6 +111,14 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		}
 		
 		
+
+
+		if(p.behaviour != 'none') {
+			
+			this.el.css({'left': x, 'top': y});
+						
+		}
+		
 		
 		
 		// настраиваем размер виджета
@@ -124,8 +132,6 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		
 		
 		
-		
-		this.el.css({'left': x, 'top': y});
 		
 		// добавляем текущий объект в список всплывших окон
 		popups.add(this);

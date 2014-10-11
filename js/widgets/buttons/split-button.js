@@ -9,6 +9,13 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 			actionButton: {
 				etype: 'button',
 				weight: -10
+			},
+			content: {
+				components: {
+					caret: {
+						'-cls': 'after'
+					}
+				}
 			}
 		}
 	},

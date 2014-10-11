@@ -169,29 +169,129 @@ body {
 
 
 
-.btn.default {
+.btn.default, .btn-box.default {
   background-color: #FFFFFF;
   border-color: #CCCCCC;
   color: #333333;	
 }
 
-.btn.default:hover, .btn.default.selected, .btn-box:hover > .btn.default {
+.btn.default:hover, .btn.default.selected, .btn-box.default > .btn:hover, .btn-box.default > .btn.selected, .btn-box.default.opened > .btn {
 	background-color: #e6e6e6;
 	border-color: #adadad;
 	color: #333333;
 }
 
+.btn-box .btn.default:hover + .btn, .btn-box.default .btn:hover + .btn {
+	border-left-color: #adadad;
+}
 
-.btn.primary {
+
+
+
+.btn.primary, .btn-box.primary > .btn {
   background-color: #428BCA;
   border-color: #357EBD;
   color: #FFFFFF;
 }
 
-.btn.primary:hover, .btn.primary.selected {
+.btn.primary:hover, .btn.primary.selected, .btn-box.primary > .btn:hover, .btn-box.primary > .btn.selected, .btn-box.primary.opened > .btn {
 	background-color: #3071a9;
 	border-color: #285e8e;
 	color: #ffffff;
+}
+
+.btn-box .btn.primary:hover + .btn, .btn-box.primary .btn:hover + .btn {
+	border-left-color: #285e8e;
+}
+
+
+
+.btn.success, .btn-box.success > .btn {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  color: #fff;
+}
+
+.btn.success:hover, .btn.success.selected, .btn-box.success > .btn:hover, .btn-box.success > .btn.selected, .btn-box.success.opened > .btn {
+  background-color: #449d44;
+  border-color: #398439;
+  color: #fff;
+}
+
+.btn-box .btn.success:hover + .btn, .btn-box.success .btn:hover + .btn {
+  border-left-color: #398439;
+}
+
+
+
+.btn.info, .btn-box.info > .btn {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+  color: #fff;
+}
+
+.btn.info:hover, .btn.info.selected, .btn-box.info > .btn:hover, .btn-box.info > .btn.selected, .btn-box.info.opened > .btn {
+  background-color: #31b0d5;
+  border-color: #269abc;
+  color: #fff;
+}
+
+.btn-box .btn.info:hover + .btn, .btn-box.info .btn:hover + .btn {
+  border-left-color: #269abc;
+}
+
+
+
+.btn.warning, .btn-box.warning > .btn {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+  color: #fff;
+}
+
+.btn.warning:hover, .btn.warning.selected, .btn-box.warning > .btn:hover, .btn-box.warning > .btn.selected, .btn-box.warning.opened > .btn {
+  background-color: #ec971f;
+  border-color: #d58512;
+  color: #fff;
+}
+
+.btn-box .btn.warning:hover + .btn, .btn-box.warning .btn:hover + .btn {
+  border-left-color: #d58512;
+}
+
+
+
+.btn.danger, .btn-box.danger > .btn {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: #fff;
+}
+
+.btn.danger:hover, .btn.danger.selected, .btn-box.danger > .btn:hover, .btn-box.danger > .btn.selected, .btn-box.danger.opened > .btn {
+  background-color: #c9302c;
+  border-color: #ac2925;
+  color: #fff;
+}
+
+.btn-box .btn.danger:hover + .btn, .btn-box.danger .btn:hover + .btn {
+  border-left-color: #ac2925;
+}
+
+
+
+.btn.tool, .btn-box.tool > .btn {
+  background-color: #FFFFFF;
+  border-color: #e0e0e0;
+  color: #333333;	
+}
+
+.btn.tool:hover, .btn.tool.selected, .btn-box.tool > .btn:hover, .btn-box.tool > .btn.selected, .btn-box.tool.opened > .btn {
+	background-color: #fff;
+	border-color: #adadad;
+	color: #333333;
+}
+
+.btn-box .btn.tool:hover + .btn, .btn-box.tool .btn:hover + .btn {
+	border-left-color: #adadad;
 }
 
 
@@ -199,12 +299,96 @@ body {
 
 
 
+
+.btn.large {
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1.33;
+  padding: 10px 16px;	
+}
+
+.btn.small {
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 5px 10px;
+}
+
+.btn.tiny {
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 1px 5px;
+}
+
+
+
+
+.btn.outline {
+	background: none;
+}
+
+
+.btn.primary.outline, .btn.primary.flat {
+	color: #428BCA;
+}
+
+.btn.success.outline, .btn.success.flat {
+	color: #5cb85c;
+}
+
+.btn.info.outline, .btn.info.flat {
+	color: #5bc0de;
+}
+
+.btn.warning.outline, .btn.warning.flat {
+	color: #f0ad4e;
+}
+
+.btn.danger.outline, .btn.danger.flat {
+	color: #d9534f;
+}
+
+.btn.primary.outline:hover, .btn.success.outline:hover, .btn.info.outline:hover, .btn.warning.outline:hover, .btn.danger.outline:hover {
+	color: #fff;
+}
+
+.btn.primary.flat:hover, .btn.success.flat:hover, .btn.info.flat:hover, .btn.warning.flat:hover, .btn.danger.flat:hover {
+	color: #fff;
+}
 
 
 
 .btn.flat, .btn-box.flat > .btn {
 	border-color: transparent;
 	background: none;
+}
+
+
+
+.btn > .icon.before, .btn > .caret.before {
+	margin-right: 4px;
+}
+
+.btn > .icon.after, .btn > .caret.after {
+	margin-left: 4px;
+}
+
+
+
+
+
+.btn.round {
+	border-radius: 24px;
+	width: 36px;
+	height: 36px;
+}
+
+.btn.large.round {
+	border-radius: 48px;
+	padding: 10px;
+	width: 48px;
+	height: 48px;
 }
 
 
@@ -228,6 +412,39 @@ body {
 .btn > i.icon {
 /*	width: 0;*/
 }
+
+
+
+
+/*
+ * ICON-BUTTON
+ */
+
+.icon-btn {
+	padding: 6px;
+}
+
+
+
+
+/*
+ * TOOL-BUTTON
+ */
+
+/*
+.btn.tool-btn {
+  background-color: #FFFFFF;
+  border-color: #e0e0e0;
+  color: #333333;	
+}
+
+.btn.tool-btn:hover, .btn.tool-btn.selected {
+	background-color: #fff;
+	border-color: #adadad;
+	color: #333333;
+}
+
+*/
 
 
 
@@ -382,6 +599,8 @@ img.btn.circle {
 }
 
 
+
+
 /*
  * BAND LAYOUT
  */
@@ -431,6 +650,7 @@ img.btn.circle {
 [layout="bar"] {
 /*	display: table;
 	width: 100%;*/
+	padding: 3px;
 }
 
 [layout="bar"] > * {
@@ -514,15 +734,24 @@ img.btn.circle {
   padding: 5px 0;
   position: absolute;
   text-align: left;
-  top: 100%;
   z-index: 1000;
   margin: 0;
 }
 
 
+.dropdown-menu.dropdown, .dropdown-list.dropdown {
+  top: 100%;	
+}
+
+.dropdown-menu.dropup, .dropdown-list.dropup {
+  bottom: 100%;
+}
+
+
+
 .dropdown-list {
   border-radius: 4px;	
-  margin: 2px 0 0;
+  margin: 2px 0;
 }
 
 .dropdown-list > li {
@@ -615,14 +844,14 @@ li.has-submenu > a > .caret {
 }
 
 
-.up > .caret, .up.caret, .desc > .caret {
+.up > .caret, .up.caret, .desc > .caret, .dropup > .caret {
     border-left: 4px solid rgba(0, 0, 0, 0);
     border-right: 4px solid rgba(0, 0, 0, 0);
     border-bottom: 4px solid;
     border-top: none;	
 }
 
-.down > .caret, .down.caret, .asc > .caret {
+.down > .caret, .down.caret, .asc > .caret, .dropdown > .caret {
     border-left: 4px solid rgba(0, 0, 0, 0);
     border-right: 4px solid rgba(0, 0, 0, 0);
     border-bottom: none;
@@ -1395,10 +1624,11 @@ input.field {
 }
 
 
+/*
 .btn.tool:hover {
 	background-color: #34495e;
 }
-
+*/
 
 
 

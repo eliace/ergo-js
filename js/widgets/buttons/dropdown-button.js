@@ -6,13 +6,13 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 	defaults: {
 		baseCls: 'dropdown-button',
 		components: {
-			button: {
+			content: {
 				etype: 'button',
 				cls: 'dropdown-toggle',
 				components: {
 					caret: {
-						etype: 'html:span',
-						cls: 'caret'						
+						etype: 'caret',
+						cls: 'after'
 					}
 				},
 				onClick: function(e) {
@@ -22,10 +22,10 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 				}		
 			},
 			dropdown: {
-				etype: 'dropdown-menu',
+				etype: 'dropdown-list',
 				weight: 100,
 				popup: {
-					at: 'left bottom'
+					behaviour: 'none'
 				},
 				onClosed: function() {
 					this.parent.states.unset('opened');
@@ -37,11 +37,11 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 				on ? this.dropdown.open() : this.dropdown.close();
 			}
 		}
-	},
-	
-	
-	setText: function(v) {
-		this.button.opt('text', v);
 	}
+	
+	
+	// setText: function(v) {
+		// this.button.opt('text', v);
+	// }
 	
 }, 'widgets:dropdown-button');
