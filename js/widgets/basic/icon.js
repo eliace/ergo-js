@@ -13,6 +13,10 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 	
 	setIcon: function(v) {
 		this.states.set(v);		
+	},
+	
+	setText: function(v) {
+		this.states.set(v);		
 	}
 	
 }, 'widgets:icon');
