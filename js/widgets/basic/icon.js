@@ -8,7 +8,7 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 	defaults: {
 		html: '<i/>',
 		cls: 'icon',
-		binding: 'icon'
+		binding: 'text'
 	},
 	
 	setIcon: function(v) {

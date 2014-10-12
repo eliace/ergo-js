@@ -669,6 +669,17 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
+	$unrender: function() {
+		
+		this._rendered = false;
+		
+		this.el.detach();
+		
+	},
+	
+	
+	
+	
 /*	
 	$doLayout: function() {
 

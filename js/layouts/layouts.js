@@ -7,4 +7,5 @@
 //= require "column"
 //= require "fluid"
 //= require "hbox"
+//= require "row"
 //= require "table"

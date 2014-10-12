@@ -20,9 +20,13 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', {
 			'tiny:size': 'tiny',
 			
 			'outline': 'outline',
+			'flat': 'flat',
+			'line': 'line',
+
 			'block': 'block',
 			'round': 'round',
-			'flat': 'flat'
+			
+			'disabled': function(on) { on ? this.layout.el.prop('disabled', 'disabled') : this.layout.el.removeProp('disabled'); return false; }
 		}
 	}
 	
