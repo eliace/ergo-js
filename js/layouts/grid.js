@@ -28,7 +28,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 			var el = item._wrapper || item.el;
 			
-			if(o.pattern) {
+			if(item.options.pattern) {
 				el.addClass('col-'+(item.options.col || o.pattern[item._index]));				
 			}
 			else {

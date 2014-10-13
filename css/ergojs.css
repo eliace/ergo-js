@@ -21,6 +21,12 @@ table {
 }
 
 
+button {
+	margin: 0;
+}
+
+
+
 /*
 body {
 	padding: 0;
@@ -33,12 +39,12 @@ body {
 
 /* CLEARFIX */
 
-.clearfix:before, .clearfix:after, header:before, header:after, .navigation:before, .navigation:after {
+.clearfix:before, .clearfix:after, header:before, header:after, footer:before, footer:after, .navigation:before, .navigation:after, .tool-bar:before, .tool-bar:after {
   content: " ";
   display: table;
 }
 
-.clearfix:after, header:after, .navigation:after {
+.clearfix:after, header:after, footer:after, .navigation:after, .tool-bar:after {
   clear: both;
 }
 
@@ -91,7 +97,8 @@ body {
 }
 
 .panel-title.tiny {
-	padding: 7px 8px;
+	padding: 5px 8px;
+	line-height: 1.5;
 }
 
 
@@ -175,6 +182,7 @@ body {
   vertical-align: middle;
   white-space: nowrap;
   position: relative;
+ 	outline: 0 none;
 }
 
 
@@ -336,7 +344,7 @@ body {
   padding: 5px 10px;
 }
 
-.btn.tiny {
+.btn.tiny, .btn-box.tiny > .btn {
   border-radius: 3px;
   font-size: 12px;
   line-height: 1.5;
@@ -388,28 +396,32 @@ body {
 }
 
 
-.btn.line {
+.btn.line, .btn-box.line > .btn {
 	color: #999;
 	border-color: transparent;
 	background: transparent;
 }
 
-.btn.line:hover {
+.btn.line:hover, .btn-box.line > .btn:hover {
 	border-color: transparent;
 	background: transparent;
 }
 
-.btn.line:active {
+.btn.line:active, .btn-box.line > .btn:active {
 	box-shadow: none;
 }
 
-.btn.default.line:hover {
+.btn.default.line:hover, .btn-box.line > .btn.default:hover, .btn-box.line.opened > .btn.default {
 	color: #444;
 }
 
 .btn.tool.line:hover {
 	color: #0A80CB;
 }
+
+
+
+
 
 
 
@@ -1076,18 +1088,18 @@ ul.tabs > li:hover {
 }
 
 .text-box > input {
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    background-color: transparent; 
-    background-image: none;
-    color: #555555;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  background-color: transparent; 
+  background-image: none;
+  color: #555555;
 /*    font-size: 14px;*/
-    height: 34px;
-    line-height: 1.42857;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    width: 100%;
-    padding: 6px 8px;
-    text-align: left;
+  height: 34px;
+  line-height: 1.42857;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  width: 100%;
+  padding: 6px 8px;
+  text-align: left;
 	float: left;
 }
 
@@ -1099,6 +1111,7 @@ ul.tabs > li:hover {
 
 .text-box.focused > input, .text-box.focused > .addon {
 	border-color: #66afe9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 
@@ -1111,11 +1124,12 @@ ul.tabs > li:hover {
 
 .text-box > .addon {
   color: #555555;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    padding: 0 5px;
-    width: 1%;
-    cursor: default;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  padding: 0 5px;
+  width: 1%;
+  cursor: default;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;  
 }
 
 .text-box > .addon > *:hover {
@@ -1189,8 +1203,8 @@ ul.tabs > li:hover {
 	cursor: pointer !important;	
 }
 
-.select-box:hover {
-	background-color: #e6e6e6;
+.select-box:hover > input, .select-box:hover > .addon {
+/*	background-color: #e6e6e6;*/
 	border-color: #adadad;
 	color: #333333;
 }
@@ -1552,7 +1566,7 @@ input.field {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #555555;
 /*  font-size: 14px;*/
-  height: 34px;
+/*  height: 34px;*/
   line-height: 1.42857;
   padding: 6px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
@@ -1560,6 +1574,18 @@ input.field {
 
 .input {
 	font-family: inherit;
+}
+
+
+.field.invalid {
+  border-color: #a94442;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #a94442;
+}
+
+.field.invalid:focus {
+ border-color: #843534;
+ box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #ce8483;	
 }
 
 
@@ -1580,6 +1606,26 @@ input.field {
 	width: 40px;
 }
 
+.grid-pagination > * {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 2px;
+}
+
+.grid-pagination input {
+	margin: 0 4px;
+	width: 40px;
+	text-align: center;
+}
+
+
+
+.grid-pagination.tiny .btn, .grid-pagination.tiny input {
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 1px 5px;	
+}
 
 
 
@@ -2103,7 +2149,8 @@ input.field {
 
 .pagination > li a {
 	border: 1px solid #ddd;
-	padding: 4px 8px;
+	padding: 6px 12px;
+	line-height: 1.42857;
 	margin-left: -1px;
 	text-decoration: none;
 /*	color: #0A80CB;*/
@@ -2128,6 +2175,13 @@ input.field {
   cursor: default;	
 }
 
+
+
+.pagination.tiny > li a {
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 1px 5px;	
+}
 
 
 

@@ -17,7 +17,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('nextIndex');
+							this.events.rise('index:next');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -32,7 +32,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('prevIndex');
+							this.events.rise('index:prev');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -47,7 +47,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	//				this.parent.parent.opt('index', this.parent);
 						var index = this.parent.opt('name');
 						if(index)
-							this.events.rise('changeIndex', {index: index});
+							this.events.rise('index:change', {index: index});
 						e.preventDefault(); // блокируем выделение текста
 					}
 				}
@@ -58,16 +58,41 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		selectionFinder: function(key) {
 			return this.item({_name: key});
 		},
-		onChangeIndex: function(e) {
-			this.opt('index', e.index);
+		// onChangeIndex: function(e) {
+			// this.opt('index', e.index);
+		// },
+		// onNextIndex: function() {
+			// this.opt('index', this.opt('index')+1);
+		// },
+		// onPrevIndex: function() {
+			// this.opt('index', this.opt('index')-1);
+		// }
+		
+		binding: function(v) {
+			this.opt('index', this.data.opt('index'));
 		},
-		onNextIndex: function() {
-			this.opt('index', this.opt('index')+1);
-		},
-		onPrevIndex: function() {
-			this.opt('index', this.opt('index')-1);
+		
+		
+		events: {
+			'index:next': function(e) {
+				var i = this.data.opt('index')+1;
+				if( i <= this.data.opt('count') )
+					this.events.rise('changeIndex', {index: i});
+			},
+			'index:prev': function(e) {
+				var i = this.data.opt('index')-1;
+				if( i > 0 )
+					this.events.rise('changeIndex', {index: i});
+			},
+			'index:change': function(e) {
+				this.events.rise('changeIndex', {index: e.index});
+			}
 		}
+		
 	},
+	
+	
+	
 	
 	
 	setIndex: function(index) {

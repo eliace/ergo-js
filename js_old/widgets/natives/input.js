@@ -61,7 +61,7 @@ Ergo.declare('Ergo.widgets.TextInput', 'Ergo.widgets.Input', /** @lends Ergo.wid
 	defaults: {
 		events: {
 			'change': function(e, self) {
-				self.setValue( self.el.val());			
+				self.setValue( self.el.val());
 			}			
 		}
 	},

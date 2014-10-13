@@ -1215,7 +1215,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 		
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false) this.$dataChanged();
+		if(update !== false) this.$dataChanged(true);
 		
 		
 	},
@@ -1294,7 +1294,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //		if(o.binding)
 //			o.binding.call(this, val);
 
-//		this.events.bubble('valueChanged', {'value': val});				
+//		this.events.fire('valueChanged', {'value': val});				
 				
 	},
 	
