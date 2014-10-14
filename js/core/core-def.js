@@ -41,6 +41,7 @@ var Ergo = (function(){
 			
 //			E.each(srcObj, function(p, i){
 			for(var i in srcObj) {
+				
 				var p = srcObj[i];
 				
 				if( p && p.constructor == Object ){//$.isPlainObject(p) ){

@@ -48,12 +48,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 */
 	defaults: {
 		layout: 'default',
-		states: {
-//			'hidden': 'hidden',
-			'disabled': 'disabled',
-			'invalid': 'invalid'
-//			'unselectable': 'unselectable'
-		},
+		// states: {
+// //			'hidden': 'hidden',
+			// 'disabled': 'disabled',
+			// 'invalid': 'invalid'
+// //			'unselectable': 'unselectable'
+		// },
 		plugins: [Ergo.Observable, Ergo.Statable],
 		autoBind: true,
 		autoUpdate: true,
@@ -64,7 +64,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
 			return layout;	
 		},
-		events: {},
+//		events: {},
 //		defaultItem: {},
 		// defaultComponent: {},
 		// componentFactory: function(o) {
@@ -73,43 +73,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// }
 			// return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		// },
-		shortcuts: {},
+//		shortcuts: {},
 		showOnRender: false,
 		hideOnRender: false,
-		set: {
-/*			
-//			'text': function(v) {	this.layout.el.text(v); },
-			'innerText': function(v) {	this.layout.el.text(v); },
-			'innerHtml': function(v) {	this.layout.el.html(v); },
-			'opacity': function(v) {
-				if($.support.opacity) 
-					this.el.css('opacity', v);
-				else {
-					this.el.css('filter', 'Alpha(opacity:' + (v*100.0) + ')');
-					this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
-				}				
-			},
-			'width': function(v) { this.el.width(v); },
-			'height': function(v) { this.el.height(v); },
-			'autoWidth': function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
-			'autoHeight': function(v) { v ? this.el.attr('autoHeight', v) : this.el.removeAttr('autoHeight'); },
-			'tooltip': function(v) { this.el.attr('title', v); },
-			'id': function(v) { this.el.attr('id', v); },
-			'tag': function(v) { this.tag = v; },
-//			'name': function(v) { this.name = v; },
-			'tabIndex': function(v) { this.el.attr('tabindex', v); },			
-//			'role': function(v) { this.el.attr('role', v); },
-			'format': function(v) {
-				if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
-			},
-			'hidden': function(v) {
-				this.el.css('display', v ? 'none' : '');
-			}
-*/			
-		},
-		get: {
-			// 'text': function() { return this.el.text(); }
-		}			
+		// set: {
+		// },
+		// get: {
+		// }			
 	},
 	
 /*			
@@ -973,7 +943,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
-		if(this.data == data || data === undefined || !o.autoBind) return;
+		if(this.data == data || data === undefined || o.autoBind === false) return;
 		
 		// открепляем источник данных от виджета:
 		//   удаляем все обработчики событий старого источника данных, связанные с текущим виджетом
@@ -1356,7 +1326,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			//  2. источник данных дочернего элемента совпадает с текущим
 			//  3. дочерний элемент имеет свой независимый источник данных
 			if(lazy && child.data && child.data == self.data) return;
-			if(child._pivot || !child.options.autoBind) return;
+			if(child._pivot || child.options.autoBind === false) return;
 			child.$dataChanged(lazy);
 		});
 //		}

@@ -34,7 +34,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		var default_opt = this.options.defaultOpt || 'text';
 		if($.isString(o)) {
 			var v = o;
-			o = this.options.shortcuts[v];
+			o = (this.options.shortcuts || {})[v];
 			if(!o) {
 				o = {}; 
 				o[default_opt] = v;//{text: o};

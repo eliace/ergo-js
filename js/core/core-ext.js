@@ -7,6 +7,8 @@
 
 
 String.prototype.capitalize = function() {
+//	var s = '';
+//	for(i = 1; i < this.length; i++) s += this[i];
 	return this.charAt(0).toUpperCase() + this.substr(1);
 };
 
