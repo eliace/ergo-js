@@ -1517,6 +1517,26 @@ tr.resize {
 }
 
 
+
+table tr.success > td {
+  background-color: #DFF0D8;	
+}
+
+table tr.info > td {
+  background-color: #D9EDF7;
+}
+
+table tr.warning > td {
+  background-color: #FCF8E3;	
+}
+
+table tr.danger > td {
+  background-color: #F2DEDE;	
+}
+
+
+
+
 /*
  * LOADER
  */
@@ -2181,6 +2201,13 @@ input.field {
   font-size: 12px;
   line-height: 1.5;
   padding: 1px 5px;	
+}
+
+
+.pagination.small > li a {
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 5px 10px;	
 }
 
 

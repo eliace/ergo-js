@@ -39,7 +39,10 @@ var Ergo = (function(){
 		
 			var srcObj = arguments[j];
 			
-			E.each(srcObj, function(p, i){
+//			E.each(srcObj, function(p, i){
+			for(var i in srcObj) {
+				var p = srcObj[i];
+				
 				if( p && p.constructor == Object ){//$.isPlainObject(p) ){
 	//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 					if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
@@ -53,7 +56,7 @@ var Ergo = (function(){
 				else {
 					o[i] = p;
 				}
-			});
+			}
 		
 		}
 		
@@ -82,7 +85,7 @@ var Ergo = (function(){
 
 
 		if(prefix == '!' || prefix == '+' || prefix == '-') {
-			i = i.substring(1);
+			i = i.substr(1);
 		}
 		else {
 			
@@ -343,7 +346,7 @@ var Ergo = (function(){
 			
 			if(prefix == '+') {
 				
-				var j = i.substring(1);
+				var j = i.substr(1);
 				
 				var m = (j in o) ? o[j] : [];
 				if( !$.isArray(m) ) m = [m];
@@ -354,8 +357,41 @@ var Ergo = (function(){
 				
 				delete o[i];
 			}
+			
+			
+			if(prefix == '-') {
+				
+				var j = i.substr(1);
+				
+				var m = (j in o) ? o[j] : [];
+				if( !$.isArray(m) ) m = [m];
+				
+				for(var n = 0; n < o[i].length; n++) {
+					for(var k = 0; k < m.length; k++) {
+						if(m[k] == o[i][n]) m.splice(k, 1);
+					}
+				}
+				
+				delete o[i];
+			}
+
+
+
+			if(prefix == '!') {
+				
+				var j = i.substr(1);
+				
+				if( o[i] === undefined )
+					delete o[j];
+				else
+					o[j] = o[i];
+				
+				delete o[i];
+			}
+			
 		}	
-		
+
+/*		
 		// применяем модификатор -
 		for(var i in o) {
 			
@@ -363,7 +399,7 @@ var Ergo = (function(){
 			
 			if(prefix == '-') {
 				
-				var j = i.substring(1);
+				var j = i.substr(1);
 				
 				var m = (j in o) ? o[j] : [];
 				if( !$.isArray(m) ) m = [m];
@@ -385,7 +421,7 @@ var Ergo = (function(){
 			
 			if(prefix == '!') {
 				
-				var j = i.substring(1);
+				var j = i.substr(1);
 				
 				if( o[i] === undefined )
 					delete o[j];
@@ -397,7 +433,7 @@ var Ergo = (function(){
 			
 		}
 			
-		
+*/		
 		
 		
 		if( k == 'shortcuts' || k == 'components' || k == 'items')

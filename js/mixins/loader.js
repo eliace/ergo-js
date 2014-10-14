@@ -32,6 +32,6 @@ Ergo.defineMixin('Ergo.widgets.Loader', function(o){
 		// 'loading': 'loading'		
 	// }, o.states);
 	
-	Ergo.smart_build(o);
+//	Ergo.smart_build(o);
 	
 }, 'mixins:loader');

@@ -10,7 +10,7 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 		}
 	}, o.events);
 
-	Ergo.smart_build(o);
+//	Ergo.smart_build(o);
 	
 	
 	// this.selection = {

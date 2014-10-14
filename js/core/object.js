@@ -102,7 +102,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 
 
-		this.options = Ergo.smart_override(o, opts);
+		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
 
 		// сборка опций
 		Ergo.smart_build(this.options);
@@ -111,7 +111,8 @@ Ergo.override(Ergo.core.Object.prototype, {
 		this.$pre_construct(this.options);
 
 		// сборка опций
-		Ergo.smart_build(this.options);
+		if(o.mixins && o.mixins.length)
+			Ergo.smart_build(this.options);
 		
 //		this.options = Ergo.smart_override(this.options, opts);		
 		

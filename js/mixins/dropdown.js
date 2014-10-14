@@ -20,6 +20,6 @@ Ergo.defineMixin('Ergo.widgets.Dropdown', function(o){
 		}		
 	}, o.states);
 	
-	Ergo.smart_build(o);
+//	Ergo.smart_build(o);
 	
 }, 'mixins:dropdown');

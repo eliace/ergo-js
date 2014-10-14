@@ -249,7 +249,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					var k = key_a.shift();
 					var v = (key_a.length == 0) ? o[i] : {};
 					if(k[0] == '$') {
-						k = k.substring(1);
+						k = k.substr(1);
 						val.components = {};
 						val = val.components[k] = v;
 					}
@@ -463,7 +463,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					
 					if(i.indexOf('ctx:') == 0) {
 						// EventBus
-						$context.events.reg(i.substring(4), callback, this);
+						$context.events.reg(i.substr(4), callback, this);
 					}
 					else if(i.indexOf('jquery:') == 0) {
 						// jQuery
@@ -1190,8 +1190,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = true;
 			this.layout.rebuild();
 
-
-			this.$render();
+			if(!Ergo.noDynamicRender)
+				this.$render();
 			
 		}
 		else {
@@ -1480,7 +1480,18 @@ $.ergo = function(o, ns) {
 	
 //	var o = Ergo.smart_override.apply(this, arguments);
 	
-	var etype = o.etype;
+	var etype = null;
+	
+	if( $.isArray(o) ) {
+		for(var i = o.length-1; i >= 0; i--) {
+			etype = o[i].etype;
+			if(etype) break;
+		}
+	}
+	else
+		etype = o.etype;
+	
+//	var etype = o.etype;
 	ns = ns || 'widgets';
 	var i = etype.indexOf(':');
 	if(i > 0) {
@@ -1493,7 +1504,7 @@ $.ergo = function(o, ns) {
 
 	o.etype = ns+':'+etype;
 	
-	return Ergo['$'+ns](o, etype);
+	return Ergo['$'+ns](o, ns+':'+etype);
 }; //Ergo.widget;
 
 $.fn.ergo = function(o) {

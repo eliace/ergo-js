@@ -31,6 +31,6 @@ Ergo.defineMixin('Ergo.mixins.ContextMenu', function(o) {
 	}, o.events);
 	
 	
-	Ergo.smart_build(o);	
+//	Ergo.smart_build(o);	
 
 }, 'mixins:context-menu');

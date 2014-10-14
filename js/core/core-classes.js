@@ -176,11 +176,11 @@
 	 * @param {Object} options
 	 * @param {Object} defaultType
 	 */
-	E.object = function(options, defaultType) {
+	E.object = function(options, etype) {//defaultType) {
 		
 		if(options instanceof Ergo.core.Object) return options;
 		
-		var etype = options.etype || defaultType;
+//		var etype = options.etype || defaultType;
 		
 		var ctor = Ergo.alias(etype);
 //		var ctor = _etypes[etype];
@@ -191,7 +191,7 @@
 //			return null;
 		}
 				
-		return new ctor(options);			
+		return new ctor(options);
 		
 	};
 
