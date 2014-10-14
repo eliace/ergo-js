@@ -20,7 +20,7 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 		}
 	},
 	
-	setText: function(v) {
+	set_text: function(v) {
 		this.actionButton.opt('text', v);
 	}
 	

@@ -25,7 +25,7 @@ Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
 	},
 	
 	
-	setTitle: function(v) {
+	set_title: function(v) {
 		this.header.title.opt('text', v);
 	}
 	

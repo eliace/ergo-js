@@ -39,11 +39,11 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				// on ? this.dropdown.open() : this.dropdown.close();
 			// }
 		// }
-	},
-	
-	
-	setText: function(v) {
-		this.content.opt('text', v);
 	}
+	
+	
+	// setText: function(v) {
+		// this.content.opt('text', v);
+	// }
 	
 }, 'widgets:dropdown-box');

@@ -1208,7 +1208,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @returns {Any} undefined, если к виджету данные не подключены
 	 */
-	getValue: function() {
+	get_value: function() {
 		var val;
 		var o = this.options;
 		
@@ -1235,7 +1235,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @param {Any} val значение
 	 */
-	setValue: function(val/*, reason*/) {
+	set_value: function(val/*, reason*/) {
 		
 //		if(this._lock_value_change) return;
 		
@@ -1362,12 +1362,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		for(var i in o) {
 			// проверяем наличие сеттеров опций
-			if(this.options.set[i])
+			if(this.options.set && this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
 			else {
 				// проверяем наличие Java-like сеттеров
-				var java_setter = 'set'+i.capitalize();			
+				var java_setter = 'set_'+i;//.capitalize();			
 				if(this[java_setter])
 					this[java_setter](o[i]);
 				else {

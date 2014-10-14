@@ -17,7 +17,7 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 		binding: 'text'
 	},
 	
-	setText: function(v) {
+	set_text: function(v) {
 		this.el[0].textContent = v;
 	}
 	

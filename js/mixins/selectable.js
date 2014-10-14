@@ -42,7 +42,7 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 	
 	
 	
-	this.setSelected = function(key) {
+	this.set_selected = function(key) {
 		
 		
 		// если новый ключ совпадает со старым, то не меняем выборку
@@ -104,7 +104,7 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 	};
 	
 	
-	this.getSelected = function() {
+	this.get_selected = function() {
 		return this._selected;
 	};
 	

@@ -110,7 +110,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 	
 	
 	
-	setIndex: function(v) {
+	set_index: function(v) {
 		
 	}
 	

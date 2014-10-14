@@ -9,7 +9,7 @@ Ergo.defineClass('Ergo.html.Iframe', 'Ergo.core.Widget', {
 		html: '<iframe/>'
 	},
 	
-	setSrc: function(v) {
+	set_src: function(v) {
 		this.el.attr('src', v);
 	}
 	

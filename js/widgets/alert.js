@@ -30,15 +30,15 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 	},
 	
 	
-	setTitle: function(v) {
+	set_title: function(v) {
 		this.content.title.opt('text', v);
 	},
 	
-	setIcon: function(v) {
+	set_icon: function(v) {
 		this.icon.states.set(v);
 	},
 	
-	setText: function(v) {
+	set_text: function(v) {
 		this.content.message.opt('text', v);
 	}
 	

@@ -95,7 +95,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	
 	
 	
-	setIndex: function(index) {
+	set_index: function(index) {
 
 		var count = this.data.opt('count');
 		

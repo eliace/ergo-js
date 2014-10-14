@@ -29,7 +29,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
 	},
 	
 	
-	setTitle: function(v) {
+	set_title: function(v) {
 		this.header.title.opt('text', v);
 	}
 	

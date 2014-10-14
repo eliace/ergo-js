@@ -12,11 +12,11 @@ Ergo.defineMixin('Ergo.mixins.Label', function(o) {
 	});
 	
 	
-	this.setLabel = function(v) {
+	this.set_label = function(v) {
 		this.label.opt('text', v);
 	};
 	
-	this.getLabel = function(v) {
+	this.get_label = function(v) {
 		this.label.opt('text');
 	};
 

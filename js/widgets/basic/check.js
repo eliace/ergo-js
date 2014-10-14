@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.widgets.Check', 'Ergo.core.Widget', {
 	},
 	
 	
-	setIndeterminate: function(v) {
+	set_indeterminate: function(v) {
 		this.el.prop('indeterminate', v);
 	}
 	

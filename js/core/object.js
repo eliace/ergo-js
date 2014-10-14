@@ -22,8 +22,8 @@ Ergo.core.Object.extend = function(o) {
 Ergo.override(Ergo.core.Object.prototype, {
 	
 	defaults: {
-		set: {},
-		get: {}
+//		set: {},
+//		get: {}
 	},
 	
 	/*
@@ -103,7 +103,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 
 		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
-
+		
 		// сборка опций
 		Ergo.smart_build(this.options);
 
@@ -190,7 +190,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 				// return v;
 			// }
 			// else {
-			var getter = this.options.get[o] || this['get'+o.capitalize()];
+			var getter = (this.options.get && this.options.get[o]) || this['get_'+o];//o.capitalize()];
 			return (getter) ? getter.call(this) : this.options[o];
 //			}
 		}
@@ -225,12 +225,12 @@ Ergo.override(Ergo.core.Object.prototype, {
 		
 		for(var i in o) {
 			// проверяем наличие сеттеров опций
-			if(this.options.set[i])
+			if(this.options.set && this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
 			else {
 				// проверяем наличие Java-like сеттеров
-				var java_setter = 'set'+i.capitalize();			
+				var java_setter = 'set_'+i;//.capitalize();			
 				if(this[java_setter])
 					this[java_setter](o[i]);
 				// else {

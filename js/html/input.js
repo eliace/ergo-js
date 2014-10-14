@@ -11,32 +11,32 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		}
 	},
 	
-	setType: function(v) {
+	set_type: function(v) {
 		this.el.attr('type', v);
 	},
 	
-	setPlaceholder: function(v) {
+	set_placeholder: function(v) {
 		this.el.attr('placeholder', v);
 	},
 	
-	setDisabled: function(v) {
+	set_disabled: function(v) {
 		this.el.attr('disabled', '');
 	},
 	
-	setName: function(v) {
+	set_name: function(v) {
 		this.el.attr('name', v);
 	},
 	
-	setReadOnly: function(v) {
+	set_readOnly: function(v) {
 		this.el.attr('readonly', v);
 	},
 	
 	
-	getValue: function() {
+	get_value: function() {
 		return this.el.val();
 	},
 	
-	setValue: function(v) {
+	set_value: function(v) {
 		this.el.val(v);
 	}
 	

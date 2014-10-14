@@ -11,7 +11,7 @@ Ergo.defineMixin('Ergo.mixins.Stack', function(o) {
 	
 	
 	
-	this.setActive = function(i) {
+	this.set_active = function(i) {
 		
 		var child = (i instanceof Ergo.core.Widget) ? i : this.children.find( Ergo.by_widget(i) );
 		
@@ -42,7 +42,7 @@ Ergo.defineMixin('Ergo.mixins.Stack', function(o) {
 	};
 	
 	
-	this.getActive = function() {
+	this.get_active = function() {
 		return this._active;
 	};
 	

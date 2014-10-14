@@ -8,7 +8,7 @@ Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', {
 		binding: 'text'
 	},
 	
-	setHref: function(v) {
+	set_href: function(v) {
 		this.el.attr('href', v);
 	}
 	

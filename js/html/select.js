@@ -12,19 +12,19 @@ Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
 		}
 	},
 	
-	setDisabled: function(v) {
+	set_disabled: function(v) {
 		this.el.attr('disabled', '');
 	},
 	
-	setName: function(v) {
+	set_name: function(v) {
 		this.el.attr('name', v);
 	},
 	
-	setReadOnly: function(v) {
+	set_readOnly: function(v) {
 		this.el.attr('readonly', v);
 	},
 	
-	setMultiple: function(v) { 
+	set_multiple: function(v) { 
 		this.el.attr('multiple', v); 
 	}
 	

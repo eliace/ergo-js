@@ -11,7 +11,7 @@ Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	},
 	
 	
-	setIcon: function(v) {
+	set_icon: function(v) {
 		this.content.states.set(v);
 	}
 	

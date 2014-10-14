@@ -11,11 +11,11 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 		binding: 'text'
 	},
 	
-	setIcon: function(v) {
+	set_icon: function(v) {
 		this.states.set(v);		
 	},
 	
-	setText: function(v) {
+	set_text: function(v) {
 		this.states.set(v);		
 	}
 	

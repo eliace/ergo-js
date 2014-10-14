@@ -8,7 +8,7 @@ Ergo.defineClass('Ergo.html.Textarea', 'Ergo.core.Widget', {
 		html: '<textarea/>'
 	},
 	
-	setRows: function(v) {
+	set_rows: function(v) {
 		this.el.attr('rows', v);
 	},
 	

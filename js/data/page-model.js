@@ -11,7 +11,7 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 	
 
 	
-	getPageCount: function() {
+	get_pageCount: function() {
 		return Math.ceil(this.options.totalCount / this.options.pageSize);
 	},
 	

@@ -6,7 +6,7 @@ Ergo.defineClass('Ergo.html.Img', 'Ergo.core.Widget', {
 		html: '<img/>'
 	},
 	
-	setSrc: function(v) {
+	set_src: function(v) {
 		this.el.attr('src', v);
 	} 
 	
