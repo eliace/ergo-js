@@ -74,8 +74,8 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
 		// },
 //		shortcuts: {},
-		showOnRender: false,
-		hideOnRender: false,
+//		showOnRender: false,
+//		hideOnRender: false,
 		// set: {
 		// },
 		// get: {
@@ -506,8 +506,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		
+		this.events.rise = Ergo.rise;
+		this.events.sink = Ergo.sink;
 		
 		
+/*		
 		// добавляем метод raise к events
 		this.events.rise = function(name, e) {
 			if(!e) e = {};
@@ -522,7 +525,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			e.target = e.target || self;
 			this.fire(name, e);
 		};
-		
+*/		
 	},
 	
 //	_theme: function() {
@@ -1430,16 +1433,34 @@ Ergo.$widget = Ergo.object;
 // };
 
 
-Ergo.rise = function(e, type) {
+Ergo.after_rise = function(e, type) {
 	if(this.parent && !e.stopped) this.parent.events.fire(type, e);
 };
 
 
-Ergo.sink = function(e, type) {
+Ergo.after_sink = function(e, type) {
 	this.children.each(function(child){
 		child.events.fire(type, e);
 	});
 };
+
+
+Ergo.rise = function(name, e) {
+	if(!e) e = {};
+	e.after = Ergo.after_rise;
+	e.target = e.target || this.target;
+	this.fire(name, e);
+};
+
+Ergo.sink = function(name, e) {
+	if(!e) e = {};
+	e.after = Ergo.after_sink;
+	e.target = e.target || this.target;
+	this.fire(name, e);
+};
+
+
+
 
 
 //------------------------------

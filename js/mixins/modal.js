@@ -23,7 +23,15 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 		this.el.css({'z-index': z*1000+1});
 		
 		$('body').append(this.overlay.el);
-		$('body').append(this.el);
+		
+		this.overlay.el.append(this.el);
+		
+		this._rendered = true;
+		this.overlay._rendered = true;
+//		this.overlay.items.add(this);
+//		$('body').append(this.el);
+		
+		this.$render();
 		
 		this.el.show();
 		

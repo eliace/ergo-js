@@ -201,7 +201,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			var last = elements.last();
 			
 			if(elements.length == 0) {
-				el.append( item_el );				
+				el.append( item_el );
 			}
 			else if(last[0]._weight == weight && last[0]._index < index){
 				last.after(item_el);

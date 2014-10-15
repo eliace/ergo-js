@@ -895,6 +895,14 @@ img.btn.circle {
 }
 
 
+.dropdown-menu.pull-left, .dropdown-list.pull-left {
+	left: auto;
+	right: 0;
+}
+
+
+
+
 
 li.has-submenu {
 	position: relative;
@@ -1786,6 +1794,7 @@ input.field {
 	bottom: 0;
 	background-color: rgba(0,0,0,0.5);
 	display: none;
+	overflow: auto;
 }
 
 
@@ -2444,6 +2453,83 @@ tr.summary td {
 .locked .lock-icon {
 	visibility: visible;
 }
+
+
+
+
+
+
+
+
+
+.list-view td {
+	color: #444;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;	
+}
+
+.list-view th {
+  color: #bbb;
+  font-size: 85%;
+  padding: 8px;
+  text-align: left;
+  text-transform: uppercase;
+  
+}
+
+
+.list-view .grid-header.scrolled {
+  box-shadow: 0 4px 4px -3px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+
+/* override table-grid header */
+
+.list-view > .grid-header {
+  background-color: #fff;
+}
+
+.list-view > .grid-header th {
+ 	border-right: none; 	
+}
+
+
+
+
+
+
+
+.striped tbody tr:nth-child(even) {
+	background-color: #f9f9f9;	
+}
+
+.hovered tbody tr:hover {
+	background-color: #fffff0;
+}
+
+.cell-small td, .cell-small th {
+	padding: 4px;
+}
+
+.cell-large td, .cell-large th {
+	padding: 12px;
+}
+
+
+
+table.bordered td, table.bordered th {
+  border-right: 1px solid #DDDDDD;	
+}
+
+
+
+table.widget thead {
+	background-color: #eee;  		
+}
+
 
 
 
