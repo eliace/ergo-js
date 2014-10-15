@@ -1449,8 +1449,10 @@ $.ergo = function(o, ns) {
 			if(etype) break;
 		}
 	}
-	else
+	else {
 		etype = o.etype;
+		o = [o];
+	}
 	
 //	var etype = o.etype;
 	ns = ns || 'widgets';

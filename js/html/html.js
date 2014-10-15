@@ -23,18 +23,20 @@ Ergo.$html = function(o, etype) {
 	
 	if(!Ergo.alias(etype)) {
 		
-		var _etype = etype;
+//		var _etype = etype;
 		
 		var i = etype.indexOf(':');
 		if(i > 0) {
 //			ns = etype.substr(0, i);
-			_etype = etype.substr(i+1);
+			etype = etype.substr(i+1);
 		}
 		
-		var _o = $.isArray(o) ? o[o.length-1] : o;
+		// var _o = $.isArray(o) ? o[o.length-1] : o;
+// 		
+// //		o.etype = 'html:widget';
+		// _o.html = '<'+_etype+'/>';
 		
-//		o.etype = 'html:widget';
-		_o.html = '<'+_etype+'/>';
+		o.unshift({html: '<'+etype+'/>'});
 		
 		etype = 'html:widget';
 	}
