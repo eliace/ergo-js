@@ -57,6 +57,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 			Ergo.deep_override(o, this.defaults);
 		}
 		
+//			console.log(this.constructor.prototype._class_name);
 		
 		
 //		this.options = o;

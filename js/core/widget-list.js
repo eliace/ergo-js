@@ -180,7 +180,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 
 	defaults: {
-		mixins: [Ergo.Observable]
+		plugins: [Ergo.Observable]
 	},
 	
 	
