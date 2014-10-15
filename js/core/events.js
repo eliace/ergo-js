@@ -157,11 +157,26 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 	fire: function(type, e, baseEvent) {
 		
 		// "ленивая" генерация базового события
-		if(arguments.length == 1) 
-			e = new Ergo.events.Event();
-		else if( $.isPlainObject(e) ){
-			e = new Ergo.events.Event(e, baseEvent);
+		var _event = {
+			baseEvent: baseEvent,
+			stop: function() {
+				if(this.baseEvent) this.baseEvent.stopPropagation();
+				this.stopped = true;
+			}
+		};
+		
+		if(arguments.length == 1) { 
+//			_event = new Ergo.events.Event();
+//			e = new Ergo.events.Event();
 		}
+		else if( $.isPlainObject(e) ){
+			Ergo.override(_event, e);
+//			_event.baseEvent = baseEvent;
+//			e = new Ergo.events.Event(e, baseEvent);
+		}
+		
+		e = _event;
+		
 		
 		var self = this;
 		
@@ -301,7 +316,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 
 
-Ergo.event_bus = new Ergo.events.Observer();
+//Ergo.event_bus = new Ergo.events.Observer();
 
 
 

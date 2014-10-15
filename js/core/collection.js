@@ -14,7 +14,7 @@
 Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
-		mixins: [Ergo.Observable]
+		plugins: [Ergo.Observable]
 	},
 	
 	initialize: function(src, options) {
