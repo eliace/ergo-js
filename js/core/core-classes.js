@@ -113,10 +113,10 @@
 	 * @param {Object} overrides набор свойств и методов нового класса
 	 * @param {String} [etype] e-тип (если не указан, то новый класс не регистрируется)
 	 * 
-	 * @name Ergo.declare
+	 * @name Ergo.defineClass
 	 * @function
 	 */
-	E.declare = function(class_name, bclass, overrides, etype) {
+	E.defineClass = function(class_name, bclass, overrides, etype) {
 		
 		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
 		
@@ -162,19 +162,20 @@
 	
 	
 	/**
-	 * Синоним для Ergo.declare 
+	 * Синоним для Ergo.defineClass
 	 */
-	E.defineClass = E.declare;
+	E.declare = E.defineClass;
 	
 	
 	
 	/**
-	 * Создание экземпляра объекта (должен присутствовать etype в options либо defaultType)
+	 * Создание экземпляра объекта по псевдониму класса
 	 * 
 	 * @name Ergo.object
 	 * @function
-	 * @param {Object} options
-	 * @param {Object} defaultType
+	 * @param {Object} options параметры (опции) экземпляра
+	 * @param {String} etype псевдоним класса
+	 * @return {Ergo.core.Object}
 	 */
 	E.object = function(options, etype) {//defaultType) {
 		

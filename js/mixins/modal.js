@@ -1,6 +1,12 @@
 
 
-Ergo.defineMixin('Ergo.mixins.Window', function(o) {
+/**
+ * Отображает виджет как модальное окно
+ * 
+ * Добавляются методы `open()`, `close()`, `resize()` и компонент `overlay`
+ *  
+ */
+Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 	
 	
 	this.open = function() {
@@ -31,8 +37,10 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 //		this.overlay.items.add(this);
 //		$('body').append(this.el);
 		
-		this.$render();
+		this.render();
 		
+		this.overlay.show();
+
 		this.el.show();
 		
 		// здесь, в зависимости от методики позиционирования, расчитываются параметры
@@ -41,16 +49,23 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 		var w = this.el.width();
 		var h = this.el.height();
 		
+		h = Math.min(h, $(window).height());
+		
 		var x = w/2;
 		var y = h/2;
+
+
+
+
 		
 		this.el.css({'margin-left': -x, 'margin-top': -y});
 		
 		this.el.hide();
 		
-		this.overlay.show();
 		
-		return this.show();
+		return this.show().then(function(){
+			this._layoutChanged();			
+		}.bind(this));
 	};
 	
 	

@@ -1,5 +1,20 @@
 
-Ergo.defineClass('Ergo.widgets.Check', 'Ergo.core.Widget', {
+/**
+ * <input type="checkbox">
+ *  
+ * `etype: 'check'`
+ * 
+ * Опции:
+ * 	`indeterminate`
+ * 
+ * События
+ * 	`action` пользователь изменил значение чекбокса
+ * 
+ * @class
+ * @name Ergo.widgets.Check
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.Check', 'Ergo.core.Widget', /** @lends Ergo.widgets.Check.prototype */{
 	
 	defaults: {
 		html: '<input type="checkbox"/>',

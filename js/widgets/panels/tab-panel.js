@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				}
 			},
 			content: {
-				mixins: ['stackable'],
+				mixins: ['pageable'],
 				// defaultItem: {
 					// states: {
 						// 'selected': function(on) {
@@ -54,9 +54,8 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 	},
 	
 	
-	
-	$construct: function(o) {
-		this.$super(o);
+	_construct: function(o) {
+		this._super(o);
 		
 		this.tabs = new Ergo.core.Tabs(this);
 		
@@ -85,8 +84,8 @@ Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
 	},
 	
 	
-	initialize: function(w, o) {
-		this.$super(o);
+	_initialize: function(w, o) {
+		this._super(o);
 		
 		this._widget = w;
 	},

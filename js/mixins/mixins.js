@@ -1,10 +1,11 @@
 
 //= require "effects"
 //= require "selectable"
-//= require "stack"
+//= require "pageable"
 //= require "popup"
 //= require "window"
 //= require "modal"
+//= require "draggable"
 
 //= require "label"
 //= require "dropdown"

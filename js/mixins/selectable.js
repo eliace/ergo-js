@@ -61,7 +61,7 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 		}
 		
 		
-		this._selected = finder.call(this, key);
+		this._selected = (key instanceof Ergo.core.Object) ? key : finder.call(this, key);
 		
 		
 		if(this._selected) {
@@ -180,8 +180,8 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 Ergo.defineClass('Ergo.core.Selection', 'Ergo.core.Object', {
 	
 	
-	initialize: function(w, o) {
-		this.$super(o);
+	_initialize: function(w, o) {
+		this._super(o);
 		
 		this._widget = w;
 	},

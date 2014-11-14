@@ -1,5 +1,13 @@
 
-
+/**
+ * Добавляет компонент dropdown
+ * 
+ * Состояния:
+ * 	`opened`
+ * 
+ * 
+ * @mixin Ergo.widgets.Dropdown
+ */
 Ergo.defineMixin('Ergo.widgets.Dropdown', function(o){
 	
 	o.components = Ergo.smart_override({

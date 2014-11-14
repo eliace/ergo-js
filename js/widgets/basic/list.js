@@ -1,6 +1,17 @@
 
 
-Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', {
+/**
+ * Список
+ * 
+ * :list
+ *   [~]:html:li
+ *  
+ * 
+ * @class
+ * @name Ergo.widgets.List
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', /** @lends Ergo.widgets.List.prototype */{
 	
 	defaults: {
 		html: '<ul/>',

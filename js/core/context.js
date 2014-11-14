@@ -1,6 +1,13 @@
 
-
-Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', {
+/**
+ * Контекст
+ *
+ * @class
+ * @name Ergo.core.Context
+ * @extends Ergo.core.Object
+ * 
+ */
+Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
 	
 	defaults: {
 		plugins: [Ergo.Observable, Ergo.Statable]		

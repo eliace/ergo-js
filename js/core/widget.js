@@ -11,41 +11,47 @@
 /**
  * Базовый объект для всех виджетов
  * 
- * @example
- * Get-опции:
- * 	text
- * 	innerText
- * 	innerHtml
- * 	opacity
- *	width
- * 	height
- * 	autoWidth
- * 	autoHeight
- * 	tooltip
- * 	id
- * 	tag
- * 	tabIndex
- * 	format
- * 	binding
- * 	store
- * 	
- * Set-опции
- * 	text
+ * Опции:
+ * 	`layout` компоновка дочерних виджетов
+ * 	`layoutFactory` фабрика компоновок
+ * 	`cls` css-классы
+ * 	`style` хэш стилей
+ * 	`html` html-тег виджета
+ * 	`components` хэш компонентов
+ * 	`defaultComponent` опции компонента по умолчанию
+ * 	`componentFactory` фабрика компонентов
+ * 	`items` массив элементов
+ * 	`defaultItem` опции элемента по умолчанию
+ * 	`itemFactory` фабрика элементов
+ * 	`dynamic` флаг динамического связывания
+ * 	`data` связываемые данные
+ * 	`events` хэш событий
+ * 	`states` хэш состояний
+ * 	`transitions` хэш переходов между состояниями
+ * 	`state` предустановленное состояние
+ * 	`rendering` функция создания jQuery-элемента
+ * 	`renderTo` селектор родительского элемента
+ * 	`autoRender` авто-отрисовка при создании
+ * 	`showOnRender` вызов метода show при создании
+ * 	`hideOnRender` вызов метода hide при создании (?)
+ * 	`hideOnDestroy` вызов метода hide при удалении
+ * 	`binding` функция связывания данных с виджетом
+ * 	`value` значение виджета
+ * 
  * 
  * 
  * @class
  * @name Ergo.core.Widget
  * @extends Ergo.core.Object
  * @param {Object} o параметры
+ * @mixes Ergo.WidgetOptions
+ * @mixes Ergo.Observable
+ * @mixes Ergo.Statable
  */
-Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
+Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
 	
 	
 	
-	/**
-	 * @static
-	 * @private
-	 */
 	defaults: {
 		layout: 'default',
 		// states: {
@@ -83,9 +89,9 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	},
 	
 /*			
-	initialize: function(o) {
-		this.$super(o);
-//		Ergo.core.Widget.superclass.initialize.apply(this, arguments);
+	_initialize: function(o) {
+		this._super(o);
+//		Ergo.core.Widget.superclass._initialize.apply(this, arguments);
 
 
 		var o = this.options;
@@ -136,16 +142,16 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		
 		// конструируем виджет
-		this.$construct(o);
+		this._construct(o);
 		
 		// устанавливаем опциональные параметры
-		this.$opt(o);
+		this._opt(o);
 		
 		// добавляем обработку событий (deprecated)
 //		this.$events(this);
 
 		// добавляем элемент в документ
-		this.$render(o.renderTo);
+		this.render(o.renderTo);
 		
 		// подключаем данные и обновляем их, если установлен параметр autoUpdate
 		this.bind(o.data, o.autoUpdate);
@@ -159,12 +165,20 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 */	
 	
 	
-	destroy: function(noHide) {
+	
+	/**
+	 * Уничтожение виджета
+	 * 
+	 * Удаляются связи в виртуальном дереве виджетов, отключается связь с данными,
+	 * удаляется элемент из DOM-дерева, уничтожаются все дочерние виджеты.
+	 * 
+	 */
+	_destroy: function(noHide) {
 		
 		var self = this;
 		
 		if(this.options.hideOnDestroy && !noHide) {
-			this.hide().then(function() { self.destroy(true); });
+			this.hide().then(function() { self._destroy(true); });
 		}
 		else {
 		
@@ -181,18 +195,24 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// очищаем компоновку
 			this.layout.clear();
 			
-			// вызываем метод destroy для всех дочерних компонентов
-			this.children.apply_all('destroy');
+			// вызываем метод _destroy для всех дочерних компонентов
+			this.children.apply_all('_destroy');
 		}
-//		if(this.options.debug)	console.log('destroyed');
+//		if(this.options.debug)	console.log('_destroyed');
 	},
 	
 	
 	
 	
-	
-	$pre_construct: function(o) {
-		this.$super(o);
+	/**
+	 * В фазе преконструирования происходит следующее:
+	 * 
+	 * Преобразуется "сахарное" определение компонентов с префиксом $ 
+	 * 
+	 * 
+	 */
+	_pre_construct: function(o) {
+		this._super(o);
 		
 		
 		var self = this;
@@ -298,9 +318,18 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 */
 
 	
-	
-	$construct: function(o) {
-		this.$super(o);
+	/**
+	 * В фазе конструирования виджета:
+	 * 1. создаются поля
+	 * 2. создается элемнт DOM-дерева (обернутый jQuery)
+	 * 3. создаются компоненты
+	 * 4. создаются элементы
+	 * 5. регистрируются события (виджета, jquery, ctx)
+	 * 6. регистрируются обработчики onClick, onDoubleClick
+	 * 
+	 */
+	_construct: function(o) {
+		this._super(o);
 		
 		
 		var self = this;
@@ -311,12 +340,20 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		/**
 		 * @field
 		 * 
-		 * @description Коллекция элементов виджета
+		 * @description Коллекция дочерних виджетов
 		 * 
 		 */
 		this.children = new Ergo.core.WidgetChildren(this);
-
+		
+		/**
+		 * Коллекция компонентов
+		 * @field
+		 */
 		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
+		/**
+		 * Коллекция элементов
+		 * @field
+		 */
 		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
 		
 		//TODO этап генерации jQuery-элемента можно оптимизировать
@@ -327,33 +364,41 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		 * @description jQuery-объект, с которым связан виджет
 		 * 
 		 */
-		this.el = $(o.html);//this.$html());
 		
-		if(!o.html) {
-			this.el = $(document.createTextNode(''));
+		if(o.rendering) {
+			
+			o.rendering.call(this, o);
+			
 		}
-//		else {
-//			this.el.data('ergo-widget', this);
-			this.el[0]._ergo = this;			
-//		}
+		else {
+			
+			/**
+			 * jQuery-элемент
+			 * @field
+			 */
+			this.el = $(o.html);//this.$html());
+			
+			if(!o.html) {
+				this.el = $(document.createTextNode(''));
+			}
+	
+			if('style' in o) this.el.css(o.style);
+			if('cls' in o) this.el.addClass($.isString(o.cls) ? o.cls : o.cls.join(' '));
+			if('baseCls' in o) this.el.addClass(o.baseCls);
+			
+		}
 		
-//		if(this.defaultCls) this.el.addClass(this.defaultCls);
-		if('style' in o) this.el.css(o.style);
-		if('cls' in o) this.el.addClass($.isString(o.cls) ? o.cls : o.cls.join(' '));
-		if('baseCls' in o) this.el.addClass(o.baseCls);
+		this.el[0]._ergo = this;			
 
 		
-		// создаем компоновку
 		/**
+		 * Компоновка
 		 * @field
-		 * 
-		 * @description Компоновка
-		 * 
 		 */
 		this.layout = o.layoutFactory(o.layout);
 		//FIXME костыль
 //		if(!this.layout.container) this.layout.attach(this);
-		this.layout.attach(this.layout.options.container || this);
+		this.layout.attach(this);//this.layout.options._widget || this);
 		
 		
 		
@@ -399,10 +444,10 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 //			});
 			
 			// задаем "ленивые" классы компонентов
-			for(var i in o.components){
-				var easyCls = ''+i+'Cls';
-				if(easyCls in o) this[i].el.addClass(o[easyCls]);//.opt('cls', o[easyCls]);
-			}
+			// for(var i in o.components){
+				// var easyCls = ''+i+'Cls';
+				// if(easyCls in o) this[i].el.addClass(o[easyCls]);//.opt('cls', o[easyCls]);
+			// }
 
 			// if('baseCls' in o) {
 				// // задаем дочерние классы компонентов
@@ -534,16 +579,22 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	
-	$post_construct: function(o) {
-		this.$super(o);
+	/**
+	 * Фаза постконструирования виджета:
+	 * 1. рендеринг (renderTo)
+	 * 2. подключение данных (data)
+	 * 3. установка состояний (state)
+	 * 
+	 */
+	_post_construct: function(o) {
+		this._super(o);
 		
 		// добавляем элемент в документ
 		if('renderTo' in o)
-			this.$render(o.renderTo);
+			this.render(o.renderTo);
 		
 		// подключаем данные и обновляем их, если установлен параметр autoUpdate
-		this.$bind(o.data, o.autoUpdate);
+		this.bind(o.data, o.autoUpdate);
 						
 		
 //		this.$afterBuild();
@@ -584,12 +635,21 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	
+	/**
+	 * Отображение виджета
+	 * 
+	 * В том случае, если он уже включен в DOM-дерево
+	 */
 	show: function() {
 		return $.when( (this._wrapper || this.el).show() );
 	},
 	
 	
+	/**
+	 * Скрытие виджета
+	 * 
+	 * В том случае, если он уже включен в DOM-дерево
+	 */
 	hide: function() {
 		return $.when( (this._wrapper || this.el).hide() );
 	},
@@ -597,19 +657,25 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	
-	$render: function(target) {
-		
-		
-		
-		if(target) {
-			$(target).append(this.el);
-			this._rendered = true;
-//			target.layout.add(this, this._index);
-		}
+	/**
+	 * Отрисовка (рендеринг) виджета, т.е. добавление его в DOM-дерево
+	 * 
+	 * Если метод вызывается без параметров, а виджет входит в виртуальное дерево
+	 * виджетов, то он будет добавлен в компоновку родителя
+	 * 
+	 * Отрисовка выполняется для всех дочерних виджетов
+	 * 
+	 * После отрисовки вызывается обработчик _layoutChanged
+	 * 
+	 */
+	render: function(target) {
 		
 		
 		var self = this;
+		
+				
+		
+		
 		
 		this.children.each(function(item){
 			if(!item._rendered && item.options.autoRender !== false) {
@@ -619,30 +685,97 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				if(item.options.showOnRender) item.show();
 				if(item.options.hideOnRender) item.hide();				
 			}
-		});
-		
-		
 
+			// if( !(item.options.dynamic && item.data) )  //FIXME
+				// item.render();			
+
+		});
+
+
+
+
+
+
+		// this.children.each(function(item){
+			// item._layoutChanged();
+		// });
+
+
+		this.children.each(function(item){
+			if( !(item.options.dynamic && item.data) )  //FIXME
+				item.render();			
+		});
+
+
+
+
+		if(target !== false && this.parent) {
+			
+			if(!this._rendered && this.options.autoRender !== false) {
+				
+//				console.log(this);
+				
+				this._type == 'item' ? this.parent.layout.add(this, this._index) : this.parent.layout.add(this);
+				
+				if(this.options.showOnRender) this.show();
+				if(this.options.hideOnRender) this.hide();				
+			}
+			
+		}
+		else if(target) {
+			$(target).append(this.el);
+			this._rendered = true;
+//			target.layout.add(this, this._index);
+		}
+
+
+
+
+/*
 		this.components.each(function(item){
 //			if(!item._dynamic)
-				item.$render();
+				item.render();
 		});
 
 		this.items.each(function(item){
 			// содержимое динамических элементов отрисовывается через bind
 			if(!item.options.dynamic)  //FIXME
-				item.$render();			
+				item.render();			
 		});
+*/
 
+/*		
+		if(cascade !== false) {
+		
+			this.children.each(function(item) {
+				if(!item.options.dynamic)  //FIXME
+					item.render(null, false);			
+			});
 
-		this.$layoutChanged(false);
+			this.components.each(function(item){
+					item.render();
+			});
+	
+			this.items.each(function(item){
+				// содержимое динамических элементов отрисовывается через bind
+				if(!item.options.dynamic)  //FIXME
+					item.render();			
+			});
+			
+		}
+*/		
+		
+		this._layoutChanged(false);
 		
 	},
 	
 	
 	
-	
-	$unrender: function() {
+	/**
+	 * Удаление виджета из DOM-дерева
+	 * 
+	 */
+	unrender: function() {
 		
 		this._rendered = false;
 		
@@ -684,7 +817,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 // 
 // }
 		
-//		this.$layoutChanged();
+//		this._layoutChanged();
 		this.layout.update();
 		
 		
@@ -714,7 +847,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * @private
 	 */
 /*	
-	$render: function(target) {
+	render: function(target) {
 		if(target){
 //			if(target instanceof Ergo.core.Widget) {
 //				target.addComponent(this);
@@ -728,7 +861,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			
 			if(this.el.parents().is('body')){
 				this.$afterRender();
-//				this.$layoutChanged();
+//				this._layoutChanged();
 			}
 			
 		}
@@ -773,18 +906,18 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 */	
 
 	/**
-	 * Хук, вызываемый при обновлении компоновки
+	 * Обработчик, вызываемый когда необходимо обновить компоновку
 	 * 
 	 * @private
 	 */
-	$layoutChanged: function(cascade) {
+	_layoutChanged: function(cascade) {
 	
 		this.layout.update();
 		//FIXME возможно следует поменять эту строку на fire('layoutChanged')
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 		
 		if(cascade !== false)
-			this.children.apply_all('$layoutChanged');
+			this.children.apply_all('_layoutChanged');
 		
 //		this.events.fire('layoutChanged');
 	},
@@ -798,6 +931,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @private
 	 */
+/*
 	$afterRender: function() {
 		
 //		if(this.options.showOnRender)	this.show();
@@ -807,12 +941,12 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		this.events.fire('afterRender');
 		this.children.apply_all('$afterRender');
 	},
-
+*/
 	
 	
 	
 	/**
-	 * Рекурсивный обход всех компонентов виджета
+	 * Рекурсивный обход всех дочерних виджетов
 	 * 
 	 * @param {Object} callback метод, вызываемый для каждого компонента
 	 */
@@ -870,7 +1004,15 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	},
 	
 	
-
+	/**
+	 * Поиск компонента
+	 * 
+	 * Поиск элемента
+	 * 
+	 * @param {string|class|Function|Object} i имя|класс|фильтр|шаблон
+	 * @returns {Ergo.core.Widget}
+	 * 
+	 */
 	component: function(i) {
 		var filter = Ergo.by_widget(i);
 		return this.children.find(function(item, j){
@@ -894,11 +1036,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * 
 	 * @returns {Array} список родительских виджетов
 	 */
-	getParents: function(list) {
+	parents: function(list) {
 		if(arguments.length == 0) list = [];
 		if(!this.parent) return list;
 		list.push(this.parent);
-		return this.parent.getParents(list);
+		return this.parent.parents(list);
 	},
 	
 	/**
@@ -907,21 +1049,23 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	 * Если критерий не указан, то возвращается непосредственный родитель
 	 * 
 	 * @example
-	 * a.getParent();
-	 * b.getParent({'data': dataItem});
-	 * c.getParent(Ergo.widgets.Box);
-	 * d.getParent(function(w) { return w.options.width < 100; });
-	 * e.getParent('header');
+	 * a.parent();
+	 * b.parent({'data': dataItem});
+	 * c.parent(Ergo.widgets.Box);
+	 * d.parent(function(w) { return w.options.width < 100; });
+	 * e.parent('header');
 	 * 
 	 * @param {Any} [criteria] критерий 
+	 * 
+	 * @deprecated
 	 */
-	getParent: function(i) {
-		
-		if(arguments.length == 0) return this.parent;
-		
-		return Ergo.find(this.getParents(), Ergo.by_widget(i));
-	},
-	
+	// parent: function(i) {
+// 		
+		// if(arguments.length == 0) return this.parent;
+// 		
+		// return Ergo.find(this.parents(), Ergo.by_widget(i));
+	// },
+// 	
 	
 	
 	
@@ -938,8 +1082,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	/**
 	 * Подключение данных к виджету
 	 * 
+	 * Если опция autoBind = false, то связывание осуществлено не будет.
+	 * 
+	 * @param {Any} data подключаемые данные
 	 */
-	$bind: function(data, update, pivot) {
+	bind: function(data, update, pivot) {
 				
 		var o = this.options;
 		var self = this;
@@ -975,20 +1122,24 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
 				
+				console.log(e);
+				
 				self.children.autobinding = false;
 				var item = self.items.add({}, e.isLast ? null : e.index);
 				self.children.autobinding = true;
-				item.$bind(e.entry);
+				item.bind(e.entry);
 				
 				item._dynamic = true;
 				
-				self.$render();
+				item.render();
 			}, this);
 			
 			// если элемент данных удален, то удаляем соответствующий виджет
 			this.data.events.reg('entry:deleted', function(e){
-				self.item({data: e.entry}).destroy();
-//				self.children.remove( self.item({data: e.entry}) ).destroy();//e.index) );// {data: self.data.item(e.index)});
+				var item = self.item({data: e.entry});
+				if(item)
+					item._destroy();
+//				self.children.remove( self.item({data: e.entry}) )._destroy();//e.index) );// {data: self.data.item(e.index)});
 			}, this);
 			
 			// если элемент данных изменен, то создаем новую привязку к данным
@@ -1000,18 +1151,18 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					item = self.items.add({});
 					self.children.autobinding = true;
 					
-					item.$bind(e.entry);
+					item.bind(e.entry);
 					item._dynamic = true;
 				}
 				
-				item.$bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
-	//			self.getItem( e.item.id ).$dataChanged(); //<-- при изменении элемента обновляется только элемент
+				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 	
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.reg('value:changed', function(e){
 				
-				self.$rebind(false);
+				self._rebind(false);
 				
 			}, this);
 			
@@ -1021,7 +1172,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 			this.layout.immediateRebuild = false;
 					
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy', [true]);
 	
 			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
@@ -1029,16 +1180,16 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
 					self.children.autobinding = false;
 					
-					item.$bind(dataEntry, false);
+					item.bind(dataEntry, false);
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
-			});
+			}, this.options.dynamicFilter);
 	
 			this.layout.immediateRebuild = true;
 			this.layout.rebuild();
 			
-			this.$render();
+			this.render(false);
 		}
 		else {
 		
@@ -1046,11 +1197,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.data.events.reg('value:changed', function(e) {
 				// при изменении значения обновляем виджет, но только в "ленивом" режиме
 				/*if(o.updateOnDataChanged)*/ 
-				//self.$dataChanged(true);
-				self.$rebind();
+				//self._dataChanged(true);
+				self._rebind();
 			}, this);
 
-//			this.data.events.reg('value:changed', this.$rebind.bind(this), this);
+//			this.data.events.reg('value:changed', this._rebind.bind(this), this);
 			
 		
 			// связываем данные с дочерними компонентами виджета при условии:
@@ -1058,17 +1209,17 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			// 	2. обновление дочернего виджета не производится (оно будет позже иницировано опорным элементом)
 			//	3. дочернtve виджетe явно указывается, что он является опорным
 			this.children.each(function(child){
-				if(!child._pivot && child.data != self.data) child.$bind(self.data, false, false);
+				if(!child._pivot && child.data != self.data) child.bind(self.data, false, false);
 			});
 
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false) this.$dataChanged();
+		if(update !== false) this._dataChanged();
 
 
 		this.data.events.reg('fetch:before', function(){ self.events.fire('fetch'); });
-		this.data.events.reg('fetch:after', function(){ self.$layoutChanged(); self.events.fire('fetched'); });
+		this.data.events.reg('fetch:after', function(){ self._layoutChanged(); self.events.fire('fetched'); });
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
 		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
@@ -1080,7 +1231,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	$rebind: function(update) {
+	_rebind: function(update) {
 		
 		var o = this.options;
 		var self = this;
@@ -1088,7 +1239,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		
 		if(!this.data) return;
 		
-		
+//		console.log('rebind');
 
 		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
 		// if('dataId' in o)
@@ -1117,7 +1268,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.immediateRebuild = false;
 
 			// // уничтожаем все динамические элементы
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('destroy', [true]);
+			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy', [true]);
 			
 //			var t0 = Ergo.timestamp();
 
@@ -1127,13 +1278,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				var item = self.items.add({});//{ 'data': dataEntry });
 				self.children.autobinding = false;
 				
-				item.$bind(dataEntry);
+				item.bind(dataEntry);
 				item._pivot = false;
 				item._dynamic = true;
 //					item.el.attr('dynamic', true);
 //					item.dataPhase = 2;
-//				item.$render();
-			});
+//				item.render();
+			}, this.options.dynamicFilter);
 		
 //			var t1 = Ergo.timestamp();
 //			console.log(t1 - t0);
@@ -1142,7 +1293,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			this.layout.rebuild();
 
 //			if(!Ergo.noDynamicRender)
-			this.$render();
+			this.render(false);
 			
 		}
 		else {
@@ -1154,19 +1305,19 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 				// 1. rebind не вызывается у дочерних элементов со своим dataSource
 				// 2. rebind не вызывается у дочерних элементов с общим dataSource 
 				//      (работает некорректно, если rebind вызывается не событием)
-				if(!child._pivot && child.data != self.data) child.$rebind(false);
+				if(!child._pivot && child.data != self.data) child._rebind(false);
 			});
 			
-			//TODO возможно, здесь нужно вызвать $render() с выключенным каскадированием
+			//TODO возможно, здесь нужно вызвать render() с выключенным каскадированием
 			
-//			this.$layoutChanged();
+//			this._layoutChanged();
 			
 		}
 		
 
 		
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false) this.$dataChanged(true);
+		if(update !== false) this._dataChanged(true);
 		
 		
 	},
@@ -1174,7 +1325,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 	
 	
-	isBound: function() {
+	is_bound: function() {
 		return (this.data != null);
 	},
 	
@@ -1236,7 +1387,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 		}
 		else {
 			this._value = val;
-			this.$dataChanged();
+			this._dataChanged();
 //			o.value ? o.value.call(this, val) : this.opt('text', val);
 		}		
 		
@@ -1268,11 +1419,11 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 	
 
 	/**
-	 * Хук, вызываемый при изменении связанных данных
+	 * Обработчик, вызываемый при изменении связанных данных
 	 * 
 	 * @private
 	 */
-	$dataChanged: function(lazy) {
+	_dataChanged: function(lazy) {
 		
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
@@ -1307,13 +1458,13 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 			//  2. источник данных дочернего элемента совпадает с текущим
 			//  3. дочерний элемент имеет свой независимый источник данных
 			if(lazy && child.data && child.data == self.data) return;
-			if(child._pivot || child.options.autoBind === false) return;
-			child.$dataChanged(lazy);
+			if(child._pivot || child.options.autoBind === false) return; //FIXME динамические элементы являются опорными => это условие всегда срабатывает
+			child._dataChanged(lazy);
 		});
 //		}
-//			this.children.apply_all('$dataChanged', [true]);
+//			this.children.apply_all('_dataChanged', [true]);
 		
-//		this.children.each(function(child) { child.$dataChanged(); });	
+//		this.children.each(function(child) { child._dataChanged(); });	
 		
 	},
 
@@ -1333,7 +1484,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 	
 	
-	$opt: function(o) {
+	_opt: function(o) {
 		
 //		var self = this;
 		
@@ -1407,7 +1558,7 @@ Ergo.declare('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget
 
 
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.core.WidgetProperties);
+Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 
 
 
@@ -1491,6 +1642,8 @@ $.ergo = function(o, ns) {
 	return Ergo['$'+ns](o, ns+':'+etype);
 }; //Ergo.widget;
 
+
+
 $.fn.ergo = function(o) {
 	if(this.length > 0){
 		var widget = this[0]._ergo;// this.data('ergo-widget');
@@ -1507,7 +1660,9 @@ $.fn.ergo = function(o) {
 
 
 /**
- * @namespace Пространство для классов, наследуемых от Ergo.core.Widget
+ * Пространство для виджетов
+ * 
+ * @namespace
  */
 Ergo.widgets = {};
 

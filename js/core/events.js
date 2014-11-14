@@ -9,6 +9,9 @@
 
 
 /**
+ * 
+ * @deprecated
+ * 
  * @class
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
@@ -19,9 +22,9 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	 * @param {Object} overrides
 	 * @param {Object} baseEvent
 	 */
-	initialize: function(overrides, baseEvent) {
-		this.$super();
-//		Ergo.events.Event.superclass.initialize.call(this);
+	_initialize: function(overrides, baseEvent) {
+		this._super();
+//		Ergo.events.Event.superclass._initialize.call(this);
 		
 		if(overrides) Ergo.override(this, overrides);
 		
@@ -54,9 +57,9 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	 // * @param {Object} overrides
 	 // * @param {Object} baseEvent
 	 // */
-	// initialize: function(overrides, baseEvent) {
-		// this.$super(overrides, baseEvent);
-// //		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
+	// _initialize: function(overrides, baseEvent) {
+		// this._super(overrides, baseEvent);
+// //		Ergo.events.CancelEvent.superclass._initialize.apply(this, arguments);
 		// this.isCanceled = false;
 	// },
 // 	
@@ -78,7 +81,7 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
  */
 Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
-	initialize: function(target) {
+	_initialize: function(target) {
 		this.events = {}; 
 		this.target = target;
 	},
@@ -225,8 +228,8 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 //	 * @extends Ergo.core.Object
 //	 * @param {Object} target
 //	 */
-//	initialize: function(target) {
-//		Ergo.events.Dispatcher.superclass.initialize.apply(this, arguments);
+//	_initialize: function(target) {
+//		Ergo.events.Dispatcher.superclass._initialize.apply(this, arguments);
 //		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
 //		this.target = target;
 //	},
@@ -321,7 +324,11 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 
 
-
+/**
+ * 
+ * @mixin
+ * 
+ */
 Ergo.Observable = function() {
 	
 	this.events = new Ergo.events.Observer(this);

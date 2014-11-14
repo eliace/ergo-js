@@ -7,15 +7,15 @@
  * @name Ergo.core.Layout
  * @param {Object} opts
  */
-Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout.prototype */ {
+Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout.prototype */ {
 	
 	defaults: {
 		updateMode: 'auto'
 	},
 	
-	initialize: function(o){
-		this.$super(o);
-//		Ergo.core.Layout.superclass.initialize.apply(this, arguments);
+	_initialize: function(o){
+		this._super(o);
+//		Ergo.core.Layout.superclass._initialize.apply(this, arguments);
 		
 //		var o = this.options = {};
 //		
@@ -126,6 +126,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 		
 		
 //		item_el.data('weight', weight);
+
 		item_el[0]._index = index;
 
 		item_el[0]._weight = weight;
@@ -199,7 +200,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 			// немножко эвристики
 			var last = elements.last();
-			
+
 			if(elements.length == 0) {
 				el.append( item_el );
 			}
@@ -207,6 +208,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 				last.after(item_el);
 			}
 			else {	
+
+//				console.log(index, 'layout');
 			
 				var arr = [];
 				var before_el = null;
@@ -219,14 +222,29 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 					else if(it._weight <= weight) before_el = it.el;
 					else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
 				});
+
+
 	
 	
 				for(var i = 0; i < arr.length; i++) {
-					(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
+					if( arr[i]._index >= index  ) {
+						if(!after_el) after_el = arr[i].el;
+					}
+					else {
+						before_el = arr[i].el;
+					}
+//					(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
 				}
 	
 	//			if( !arr[index] ) {
 	//				before_el = arr[index-1] | before_el;
+	
+				// console.log(index);
+				// console.log(arr);
+				// console.log(before_el, after_el);
+	
+	
+	
 				if(before_el)
 					before_el.after( item_el );
 				else if(after_el)
@@ -267,7 +285,7 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 			item._wrapper.remove(); //?
 			
 			if(item.wrapper)
-				item.wrapper.destroy();
+				item.wrapper._destroy();
 		}
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
@@ -492,7 +510,8 @@ Ergo.core.Layout = Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @len
 
 
 /**
- * @namespace Пространство для классов, наследуемых от Ergo.core.Layout
+ *  Пространство имен для компоновок
+ * @namespace
  */
 Ergo.layouts = {};
 

@@ -1,7 +1,7 @@
 
-//= require <widgets/basic/line>
+//= require <widgets/basic/inline>
 
-Ergo.defineClass('Ergo.widgets.Caret', 'Ergo.widgets.Line', {
+Ergo.defineClass('Ergo.widgets.Caret', 'Ergo.widgets.Inline', {
 	
 	defaults: {
 		cls: 'caret',

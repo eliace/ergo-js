@@ -1,7 +1,31 @@
 
 
-
-Ergo.core.WidgetProperties = {
+/**
+ * Общие опции виджетов
+ * 
+ * Опции:
+ * 	`text` текстовое содержимое виджета
+ * 	`innerText` текстовое соержимое тега
+ * 	`innerHtml` html-содержимое тега
+ * 	`opacity` непрозрачность 0..1
+ * 	`width` ширина
+ * 	`height` высота
+ * 	`autoWidth` авто-ширина {@link Ergo.core.Layout}
+ * 	`autoHeight` авто-высота {@link Ergo.core.Layout}
+ * 	`autoBind` авто-связывание данных
+ * 	`autoUpdate` авто-обновление данных
+ * 	`tooltip` всплывающая подсказка
+ * 	`id` HTML id (используется в поиске)
+ * 	`name` имя виджета (используется в поиске)
+ * 	`tabindex` HTML tabindex
+ * 	`format` форматирование связанных данных 
+ * 	`store` преобразование вводимых данных к формату связанных данных
+ * 	`hidden` скрытие элемента
+ * 	
+ * 
+ * @mixin
+ */
+Ergo.WidgetOptions = {
 
 
 //	getText: function() {	return this.layout.el.text();	},
@@ -10,14 +34,13 @@ Ergo.core.WidgetProperties = {
 	
 	
 	
-	
 	set_text: function(v) { 
 		if(this.children.size() == 0)
-			this.layout.el.text( v ); 
+			this.layout.el.text( v == null ? '': v ); 
 		else if(this.content)
-			this.content.opt('text', v);
+			this.content.opt('text', v == null ? '': v);
 		else
-			this.layout.el.text( v ); 		 
+			this.layout.el.text( v == null ? '': v ); 		 
 	},
 	set_innerText: function(v) {	this.layout.el.text(v); },
 	set_innerHtml: function(v) {	this.layout.el.html(v); },
@@ -35,7 +58,7 @@ Ergo.core.WidgetProperties = {
 	set_autoHeight: function(v) { 
 		if(v) {
 			this.el.attr('autoHeight', v);
-			if(v === true)
+			if(v === true || v == 'ignore-siblings')
 				this.el.css('overflow-y', 'auto');
 		}
 		else {
@@ -48,7 +71,7 @@ Ergo.core.WidgetProperties = {
 	set_tag: function(v) { this.tag = v; },
 	set_name: function(v) { this._name = v; },
 //			'name': function(v) { this.name = v; },
-	set_tabIndex: function(v) { this.el.attr('tabindex', v); },			
+	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
 	set_format: function(v) {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},

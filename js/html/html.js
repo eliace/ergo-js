@@ -1,4 +1,9 @@
 
+/**
+ * @namespace Ergo.html 
+ */
+
+
 //= require "iframe"
 //= require "input"
 //= require "select"
@@ -7,9 +12,16 @@
 //= require "img"
 
 
-//Ergo.html = {};
 
-
+/**
+ * Основной класс для виджетов пространства имен $html
+ * 
+ * etype: html:widget
+ *  
+ * @class
+ * @name Ergo.html.Widget
+ * @extends Ergo.core.Widget
+ */
 Ergo.defineClass('Ergo.html.Widget', 'Ergo.core.Widget', {
 	
 	defaults: {

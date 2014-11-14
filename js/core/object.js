@@ -4,12 +4,18 @@
 
 /**
  * Объект
+ * 
+ * Опции:
+ * 	`set` хэш сеттеров
+ * 	`get` хэш геттеров
+ * 	`mixins` список примесей
+ * 
  *
  * @class
  * 
  */
 Ergo.core.Object = function() {
-	this.initialize.apply(this, arguments);
+	this._initialize.apply(this, arguments);
 };
 
 Ergo.core.Object.extend = function(o) {
@@ -19,23 +25,28 @@ Ergo.core.Object.extend = function(o) {
 
 
 
-Ergo.override(Ergo.core.Object.prototype, {
+Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 	
 	defaults: {
 //		set: {},
 //		get: {}
 	},
 	
-	/*
+	/**
 	 * Инициализация объекта.
 	 * 
-	 * При инициализации решаются две задачи:
-	 *   1. Формирование набора параметров
-	 *   2. Добавление расширений
+	 * Процесс инициализации разбивается на три фазы:
+	 * 	1. преконструирование
+	 * 	2. конструирование
+	 * 	3. постконструирование
+	 *
 	 * 
+	 * Для каждой фазы вызывается свой обработчик
+	 * 
+	 * @private
 	 * 
 	 */
-	initialize: function(opts) {
+	_initialize: function(opts) {
 		
 		var o = {
 //			smart_override: Ergo.self_smart_override
@@ -109,7 +120,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 		Ergo.smart_build(this.options);
 
 		// определен набор базовых опций - можно выполнить донастройку опций
-		this.$pre_construct(this.options);
+		this._pre_construct(this.options);
 
 		// сборка опций
 		if(o.mixins && o.mixins.length)
@@ -118,10 +129,10 @@ Ergo.override(Ergo.core.Object.prototype, {
 //		this.options = Ergo.smart_override(this.options, opts);		
 		
 		// определен весь набор опций - можно выполнять сборку объекта
-		this.$construct(this.options);
+		this._construct(this.options);
 
 		// объект готов - можно выполнить донастройку объекта
-		this.$post_construct(this.options);
+		this._post_construct(this.options);
 		
 //		if(this.$init)
 //			this.$init(o);
@@ -130,8 +141,17 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	
 	
-	
-	$pre_construct: function(o) {
+	/**
+	 * Обработчик фазы "преконструирование" объекта
+	 * 
+	 * Как правило на этом этапе происходит донастройка и модификация опций
+	 * 
+	 * По умолчанию здесь происходит подкючение примесей
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 */
+	_pre_construct: function(o) {
 		
 		if('mixins' in o) {
 			for(var i = 0; i < o.mixins.length; i++) {
@@ -145,8 +165,18 @@ Ergo.override(Ergo.core.Object.prototype, {
 	},
 	
 	
-	
-	$construct: function(o) {
+	/**
+	 * Обработчик фазы "конструирование" объекта
+	 * 
+	 * Как правило, здесь происходит создание компонентов 
+	 * 
+	 * По умолчанию происходит подключение плагинов
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 * 
+	 */
+	_construct: function(o) {
 		
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
@@ -159,17 +189,41 @@ Ergo.override(Ergo.core.Object.prototype, {
 	},
 	
 	
-	$post_construct: function(o) {
+	/**
+	 * Обработчик фазы "постконструирование" объекта
+	 * 
+	 * Эта фаза предназначена для конфигурирования сконструированного объекта
+	 * 
+	 * По умолчанию происходит применение опций (вызов метода _opt)
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 */
+	_post_construct: function(o) {
 				
-		this.$opt(o);
+		this._opt(o);
 
 	},
 	
 	
+	
 	/**
-	 * Установка параметров (options) виджета.
+	 * Установка опций (options) виджета.
 	 * 
 	 * Передаваемые параметры применяются и сохраняются в this.options
+	 * 
+	 * Опции применяются/получаются с учетом приоритета:
+	 * 	Для сеттеров:
+	 * 		1. Сеттер-опция из this.options.set
+	 * 		2. Сеттер-метод вида set_<имя сеттера>
+	 * 
+	 * 	Для геттеров:
+	 * 		1. Геттер-опция из this.options.get
+	 * 		2. Геттер-метод вида get_<имя сеттера>
+	 * 
+	 * opt(i) - получение опции i
+	 * opt(i, v) - установка опции i
+	 * opt(o) - установка нескольких опций, передаваемых в виде Hash
 	 * 
 	 * @param {Object} o параметры
 	 */
@@ -199,7 +253,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 //		Ergo.smart_override(this.options, opts);
 		Ergo.override(this.options, opts);
 
-		this.$opt(opts);
+		this._opt(opts);
 		
 		return this;//.options;
 	},
@@ -209,14 +263,12 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	
 	/**
-	 * Хук, вызываемый для установки параметров.
-	 * 
-	 * Передаваемые параметры только применяются
+	 * Обработчик, вызываемый для установки опций.
 	 * 
 	 * @private
-	 * @param {Object} o параметры
+	 * @param {Object} o опции
 	 */
-	$opt: function(o) {
+	_opt: function(o) {
 		
 //		var self = this;
 		
@@ -230,7 +282,7 @@ Ergo.override(Ergo.core.Object.prototype, {
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
 			else {
-				// проверяем наличие Java-like сеттеров
+				// проверяем наличие сеттеров методов
 				var java_setter = 'set_'+i;//.capitalize();			
 				if(this[java_setter])
 					this[java_setter](o[i]);
@@ -261,12 +313,19 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 */
 	$is: function(ex) {
 		var o = this.options;
-		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
+//		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
 		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
 	},
 	
 	
-	$super: function(){
+	/**
+	 * Вызов метода родительского класса из перегруженного метода
+	 * 
+	 * По сути является "синтаксическим сахаром"
+	 * 
+	 * @private
+	 */
+	_super: function(){
 		var caller = arguments.callee.caller;
 		return caller.__class__.superclass[caller.__name__].apply(this, arguments);
 	}

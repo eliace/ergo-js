@@ -1,5 +1,12 @@
 
-
+/**
+ * Добавляет компонент label
+ * 
+ * Опции:
+ * 	`label`
+ * 
+ * @mixin Ergo.mixins.Label
+ */
 Ergo.defineMixin('Ergo.mixins.Label', function(o) {
 
 	Ergo.smart_override(o, {

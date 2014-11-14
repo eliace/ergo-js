@@ -1,6 +1,13 @@
 
 
-
+/**
+ * Перегружаемт методы show() и hide() для поддержки анимации
+ * 
+ * Опции:
+ * 	`effects`
+ * 
+ * @mixin Ergo.mixins.Effects
+ */
 Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 	
 	this.show = function() {

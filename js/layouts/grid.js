@@ -4,32 +4,39 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'grid',
-		pattern: []
+//		pattern: []
 	},
 	
 	
 	wrap: function(item) {
-		return $('<div/>').append(item.el);
+		return $('<div autoheight="ignore-siblings"/>').append(item.el);
 	},
 	
 	
 	update: function() {
-		this.$super();
+		this._super();
+
 		
 		var self = this;
 		
 		var o = this.options;
 		
+		var w = this._widget;
 		
-		var n = this._widget.children.size();
+		var n = w.children.size();
 		var k = (n == 0) ? 1 : (12/n).toFixed();
-				
-		this._widget.children.each(function(item) {
 
+				
+		w.children.each(function(item) {
+			
+			if(!item._rendered) return;
+			
 			var el = item._wrapper || item.el;
 			
-			if(item.options.pattern) {
-				el.addClass('col-'+(item.options.col || o.pattern[item._index]));				
+//			console.log(el._wrapper != null);
+			
+			if(w.options.pattern) {
+				el.addClass('col-'+(item.options.col || w.options.pattern[item._index]));				
 			}
 			else {
 				el.addClass('col-'+k);				

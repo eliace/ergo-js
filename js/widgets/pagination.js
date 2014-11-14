@@ -103,10 +103,10 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		var after_pages = 2;
 		var wrap_pages = 2;
 		
-		this.items.apply_all('destroy');
+		this.items.apply_all('_destroy');
 
 		var min_float = Math.min(before_pages, count);
-		var max_float = Math.max(before_pages, count-after_pages);
+		var max_float = Math.max(min_float, count-after_pages);
 		var min_block = Math.max(min_float, index-wrap_pages-1);
 		var max_block = Math.min(max_float, index+wrap_pages);
 		
@@ -127,7 +127,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		for(var i = max_float; i < count; i++)
 			this.items.add({text: i+1, name: i+1});
 		
-		this.$render();
+		this.render();
 		
 		this.opt('selected', index);
 		

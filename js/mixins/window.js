@@ -21,7 +21,7 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 		// устанавливаем z-index
 		this.el.css({'z-index': z*1000});
 		
-		$('body').append(this.el); // FIXME заменить на $render
+		$('body').append(this.el); // FIXME заменить на render
 		
 		this.el.show();
 		
@@ -33,11 +33,11 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 		// уменьшаем индекс слоя
 		Ergo.context._z--;
 		
-		this.el.hide()
+		this.el.hide();
 
-		this.el.detach(); // FIXME заменить на $unrender
+		this.el.detach(); // FIXME заменить на unrender
 		
-		if(this.options.destroyOnClose)	this.destroy();
+		if(this.options._destroyOnClose)	this._destroy();
 		
 	};
 	
@@ -45,6 +45,18 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 	this.resize = function(w, h) {
 		
 	};
+	
+	
+	
+	this.move = function(x, y) {
+		
+		this.el.css({
+			left: x,
+			top: y
+		});
+		
+	};
+	
 	
 /*	
 	o.components = Ergo.smart_override({

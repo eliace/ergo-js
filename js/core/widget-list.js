@@ -20,9 +20,9 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	},
 	
 	
-	initialize: function(w, o) {
-		this.$super(null, o);
-//		Ergo.core.WidgetArray.superclass.initialize.call(this, null, o);
+	_initialize: function(w, o) {
+		this._super(null, o);
+//		Ergo.core.WidgetArray.superclass._initialize.call(this, null, o);
 		
 		this.autobinding = true;
 		
@@ -74,20 +74,42 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			item._key = i;
 			i = undefined;
 		}
+		else {
+			item._index = i;
+		}
 
 		// определяем поле parent
 		item.parent = w;
 		
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
 		if(item.options.autoRender === true)
-			w.layout.add(item, i);
+			w.layout.add(item, item._index);//i);
+
+		// определяем индекс элемента в children 
+		if(item._index) {
+			for(i = 0; i < this.src.length; i++) {
+				if(('_index' in this.src[i]) && this.src[i]._index == item._index) {
+//					i--;
+					break;
+				}
+			}
+		}
+		else if(i == null && ('_index' in item)) {
+			item._index = 0;
+			for(var j = 0; j < this.src.length; j++)
+				if(this.src[j]._type == item._type) item._index++;
+		}
+
 
 		// добавляем элемент в коллекцию
-		i = this.$super(item, i);		
+		i = this._super(item, i);		
 		
 		// обновляем свойство _index у соседних элементов
-		for(var j = i; j < this.src.length; j++)
-			this.src[j]._index = j;
+		for(var j = i+1; j < this.src.length; j++) {
+			if(this.src[j]._index)
+				this.src[j]._index++;
+		}
+//			this.src[j]._index = j;
 		
 		//FIXME скорее всего вызов метода show должен находиться не здесь
 		if(item.options.autoRender === true) {
@@ -102,7 +124,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		
 		// выполняем иерархическое связывание данных (автобиндинг)
 		if(w.data && !item.data && this.autobinding)
-			item.$bind(w.data, false, false);
+			item.bind(w.data, false, false);
 		
 
 		
@@ -124,14 +146,18 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		}
 		
 		
-		var item = this.$super(i); //Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
+		var item = this._super(i); //Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
 		
 		
 //		if('hide' in item) item.hide();		
 				
 		// обновляем свойство _index у соседних элементов
-		for(var j = i; j < this.src.length; j++)
-			this.src[j]._index = j;
+		for(var j = i; j < this.src.length; j++) {
+			if(this.src[j]._index)
+				this.src[j]._index--;
+		}
+		
+//			this.src[j]._index = j;
 		
 		// поля parent, _index и _key больше не нужны
 		delete item.parent;
@@ -158,9 +184,9 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	}
 	
 	
-	// destroy_all: function() {
+	// _destroy_all: function() {
 		// while(this.src.length)
-			// this.remove_at(0).destroy();
+			// this.remove_at(0)._destroy();
 	// }
 	
 //	find: function(i) {
@@ -184,8 +210,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	},
 	
 	
-	initialize: function(w, o) {
-		this.$super(null, o);
+	_initialize: function(w, o) {
+		this._super(null, o);
 		
 		this._widget = w;
 	},
@@ -451,7 +477,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 		var src = this._source();
 		for(var i = 0; i < src.length; i++)
 			this.remove(src[i]);//_at(src[i]._index);
-	}
+	},
 	
 	
 	

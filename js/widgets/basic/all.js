@@ -8,6 +8,6 @@
 //= require "table"
 //= require "text"
 //= require "tree"
-//= require "line"
+//= require "inline"
 //= require "field"
 //= require "check"

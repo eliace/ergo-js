@@ -3,11 +3,18 @@
 
 
 
-
-Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
+/**
+ * Менеджер состояний
+ * 
+ * 
+ * @class
+ * @name Ergo.core.StateManager
+ * @extends Ergo.core.Object
+ */
+Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 	
 	
-	initialize: function(widget) {
+	_initialize: function(widget) {
 		this._widget = widget;
 		this._current = {};
 		this._states = {};
@@ -33,7 +40,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	exclusive: function(name, g) {
 		
-		var excl_template = new RegExp('^'+name+'.*$');
+//		var excl_template = new RegExp('^'+name+'.*$');
+		var excl_template = new RegExp('^'+name+'$');
 
 		var group = this._exclusives[g];
 		if(!group) group = [];
@@ -70,7 +78,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 	
 	
-	set: function(to) {
+	
+	/**
+	 * Установка состояния
+	 *  
+	 * @param {String} to имя состояния
+	 * @param {Object} data данные, связанные с состоянием
+	 * @returns {$.Deferred}
+	 */
+	set: function(to, data) {
 		
 		// Если состояние уже установлено, то ничего не делаем
 		if(to && (to in this._current))
@@ -156,11 +172,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			}			
 			
 			// 3. включаем итоговое состояние
-			self._state_on(to);
+			self._state_on(to, data);
 			self._current[to] = from;
 			
 			// 4. оповещаем виджет, что состояние изменилось
-			self._widget.events.fire('stateChanged', {from: from, to: to});
+			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
+			
 		});
 		
 //		return deferred;
@@ -168,7 +185,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	
 	
 	
-	_state_on: function(s) {
+	_state_on: function(s, data) {
 		
 		var self = this;
 		var states = this._states;//this._widget.options.states;
@@ -182,7 +199,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if($.isArray(val)) {
 				if(val.length > 0) {
-					$.when( val[0].call(this._widget, true) ).done(function(add_cls) {
+					$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
 						if(add_cls !== false)				
 							self._widget.el.addClass(add_cls || s);					
 					});
@@ -190,7 +207,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
-				$.when( val.call(this._widget, true) ).done(function(add_cls) {
+				$.when( val.call(this._widget, true, data) ).done(function(add_cls) {
 					if(add_cls !== false)				
 						self._widget.el.addClass(add_cls || s);					
 				});
@@ -200,7 +217,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 			this._widget.el.addClass(s);
 		}
 
-		this._widget.events.fire('stateChanged', {state: s, op: 'on'});		
+		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});		
 	},
 	
 	
@@ -261,6 +278,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 
 	
+	/**
+	 * Отключение состояния
+	 *  
+	 * @param {String} from имя состояния
+	 * @returns {$.Deferred}
+	 */
 	unset: function(from) {
 		
 		// Если состояние не установлено, то ничего не делаем
@@ -343,15 +366,34 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 	},
 	
 	
+	
+	/**
+	 * Переключение состояния
+	 *  
+	 * Состояние устанавливается, если флаг равен true и отключается, если флаг false
+	 * 
+	 * @param {String} name имя состояния
+	 * @param {boolean} sw флаг переключения
+	 */
 	toggle: function(name, sw) {
 		
 		if(arguments.length == 1) sw = !this.is(name);
 		
-		sw ? this.set(name) : this.unset(name);
+		return sw ? this.set(name) : this.unset(name);
 
-		return this;
+//		return this;
 	},
 	
+	
+	
+	/**
+	 * Установка состояния и отключение других состояний, попадающих под шаблон
+	 * 
+	 * @deprecated
+	 * 
+	 * @param {String} name имя состояния
+	 * @param {Array|String|RegExp} unset_template шаблон
+	 */
 	only: function(name, unset_template) {
 
 		var states_to_unset = [];
@@ -384,11 +426,23 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 		return this;		
 	},	
 	
+	
+	
+	/**
+	 * Очистка всех состояний
+	 *  
+	 */
 	clear: function() {
 		this._current = {};
 		return this;
 	},
 	
+	
+	/**
+	 * Проверка, установлено ли состояние
+	 *  
+	 * @param {String} name имя состояния
+	 */
 	is: function(name) {
 		return (name in this._current);
 	}
@@ -407,7 +461,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', {
 
 
 
-
+/**
+ * Плагин, добавляющий StateManager к объекту
+ *
+ * @mixin  
+ */
 Ergo.Statable = function(o) {
 	this.states = new Ergo.core.StateManager(this);
 	
@@ -436,20 +494,6 @@ Ergo.Statable = function(o) {
 			}
 		}
 	}
-	
-	// // генерируем сеттеры и геттеры
-	// for(var i in this._exclusives) {
-// 		
-	// }
-	
-	
-	
-	
-	// if('exclusives' in o) {
-		// for(var i in o.exclusives) {
-			// this.states.exclusive_group(i, o.exclusives[i]);//excl_template);
-		// }
-	// }
 	
 	
 };

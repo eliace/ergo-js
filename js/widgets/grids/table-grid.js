@@ -26,8 +26,8 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	},
 	
 	
-	$layoutChanged: function() {
-		this.$super();
+	_layoutChanged: function() {
+		this._super();
 		
 //		console.log('grid layout changed');
 		
@@ -45,8 +45,8 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 	
 
 
-	$pre_construct: function(o) {
-		this.$super(o);		
+	_pre_construct: function(o) {
+		this._super(o);		
 		
 		// if(o.row)
 			// Ergo.smart_override(o.components.content.components.content, {components: {body: {defaultItem: o.row}}});
@@ -55,8 +55,8 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 	
-	$construct: function(o) {
-		this.$super(o);
+	_construct: function(o) {
+		this._super(o);
 		
 		
 		var w = this;

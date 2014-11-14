@@ -1,11 +1,18 @@
 
 
-
+/**
+ * Добавляет компонент contextMenu
+ * 
+ * События:
+ * 	`contextMenu`
+ * 
+ * @mixin Ergo.mixins.ContextMenu
+ */
 Ergo.defineMixin('Ergo.mixins.ContextMenu', function(o) {
 
 	o.components = Ergo.smart_override({
 		contextMenu: {
-			etype: 'dropdown-list',
+			etype: 'dropdown-menu',
 			cls: 'context-menu',
 			renderTo: 'body',
 			autoBind: false,

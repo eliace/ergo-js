@@ -15,11 +15,12 @@
 
 //= require <widgets/accordion>
 //= require <widgets/badge>
-//= require <widgets/breadcrumb>
+//= require <widgets/breadcrumbs>
 //= require <widgets/progress>
 //= require <widgets/tooltip>
 
 //= require "alert"
+//= require "simple-alert"
 //= require "dropdown-list"
 //= require "dropdown-menu"
 //= require "pagination"

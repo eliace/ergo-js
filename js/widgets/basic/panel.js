@@ -1,8 +1,23 @@
 
 
 
-
-Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', {
+/**
+ * Панель
+ * 
+ * :panel
+ * 	header:box
+ * 		title:html:span
+ * 	content:box
+ * 	footer:box
+ * 
+ * Опции:
+ * 	`title`
+ *  
+ * @class
+ * @name Ergo.widgets.Panel
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
 	
 	defaults: {
 		html: '<div/>',

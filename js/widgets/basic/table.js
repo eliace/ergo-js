@@ -1,7 +1,31 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', {
+/**
+ * Таблица
+ * 
+ * :table
+ * 	control
+ * 		[]:html:col
+ * 	head
+ * 		[]:table-row
+ * 			[]:html:th
+ * 	body
+ * 		[~]:table-row
+ *  
+ * 
+ * Опции:
+ * 	`row`
+ * 	`cell`
+ * 	`columns`
+ * 	`rows`
+ * 
+ * 
+ * @class
+ * @name Ergo.widgets.Table
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Table.prototype */{
 	
 	defaults: {
 		html: '<table/>',
@@ -41,7 +65,7 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', {
 
 
 	
-	$pre_construct: function(o) {
+	_pre_construct: function(o) {
 
 /*
 		if('columns' in o) {
@@ -70,25 +94,28 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', {
 			Ergo.smart_override(o.components.body, {defaultItem: o.row}, {defaultItem: {defaultItem: o.cell}}, {defaultItem: {items: bcols}});// items: [{items: hcols}]});
 		}
 */		
-		if('rows' in o) {
-
-			Ergo.smart_override(o.components.body, {items: o.rows});
-			
-		}
+		// if('rows' in o) {
+// 
+			// Ergo.smart_override(o.components.body, {items: o.rows});
+// 			
+		// }
 		
-		this.$super(o);
+		this._super(o);
 		
 	},
 
 
 
 
-	$construct: function(o) {
-		this.$super(o);
+	_construct: function(o) {
+		this._super(o);
 		
 		
 		var w = this;
 		
+		/**
+		 * @field 
+		 */
 		this.columns = {
 			
 			_widget: this,
@@ -211,7 +238,11 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', {
 		}
 
 		
-		
+		if('rows' in o) {
+			for(var i in o.rows) {
+				this.body.items.add(o.rows[i]);
+			}
+		}
 		
 	},
 
@@ -237,7 +268,7 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', {
 Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 	
 	
-	initialize: function(widget) {
+	_initialize: function(widget) {
 		this._widget = widget;
 	},
 	
@@ -268,6 +299,17 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 
 
 
+/**
+ * Строка таблицы
+ * 
+ * :table-row
+ * 	[]:box
+ *  
+ * 
+ * @class
+ * @name Ergo.widgets.TableRow
+ * @extends Ergo.core.Widget
+ */
 Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
 	
 	defaults: {

@@ -38,14 +38,14 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
-	initialize: function(v) {
+	_initialize: function(v) {
 		if(arguments.length == 0)
-			this.$super([]);
+			this._super([]);
 		else if(arguments.length == 1) {
-			$.isArray(v) ? this.$super(v) : this.$super([], v);
+			$.isArray(v) ? this._super(v) : this._super([], v);
 		}
 		else
-			this.$super.apply(this, arguments);
+			this._super.apply(this, arguments);
 	},
 	
 	/**
@@ -54,6 +54,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	 */
 	fetch: function(q) {
 		
+		this._fetched = undefined;
+		
 		var parse = this.options.parser || this.parse;
 		var query = Ergo.override({}, this.options.query, q); 
 		
@@ -61,9 +63,18 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		
 		if(this.options.provider) {
 			var self = this;
-			return this.options.provider.find_all(this, query).then(function(data) { 
-				self.set( parse.call(self, data) ); 
-				self._fetched = true;
+			return this.options.provider.find_all(this, query).then(function(data) {
+				
+				var v = parse.call(self, data);
+				
+				if(self.options.swap && v.length == self.source.length) { 
+					self.source = v;
+					self._fetched = 'swap';
+				}
+				else {
+					self.set( v );
+					self._fetched = true;
+				} 
 				self.events.fire('fetch:after'); 
 			});
 		}
@@ -101,7 +112,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	/**
 	 * Фабрика элементов коллекции
 	 */
-	factory: function(i) {
+	_factory: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.

@@ -1,5 +1,17 @@
 
 
+/**
+ * <input type="text" class="field">
+ *  
+ * `etype: 'field'`
+ * 
+ * События:
+ * 	`change`
+ * 
+ * @class
+ * @name Ergo.widgets.Field
+ * @extends Ergo.core.Widget
+ */
 Ergo.defineClass('Ergo.widgets.Field', 'Ergo.core.Widget', {
 	
 	defaults: {

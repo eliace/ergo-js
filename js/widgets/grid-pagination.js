@@ -42,7 +42,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				}							
 			},
 			current: {
-				etype: 'line',
+				etype: 'inline',
 				autoBind: false,
 				defaultItem: {
 					etype: 'text',
@@ -115,8 +115,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 	}
 	
 	
-	// $construct: function(o) {
-		// this.$super(o);
+	// _construct: function(o) {
+		// this._super(o);
 // 		
 		// this._index = 0;
 	// }

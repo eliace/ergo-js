@@ -55,18 +55,18 @@ module.exports = function(grunt) {
 			    onlyConcatRequiredFiles: true      	
 	      }    		
     	},
-    	widgets_basic: {
-	      files: {
-	        'build/ergojs-widgets-basic.js': ['build-widgets-basic.js']
-	      },
-	      options: {
-			    extractRequired: extractor,
-			    extractDeclared: function(filepath) {
-			        return [filepath];
-			    },
-			    onlyConcatRequiredFiles: true      	
-	      }    		
-    	},
+    	// widgets_basic: {
+	      // files: {
+	        // 'build/ergojs-widgets-basic.js': ['build-widgets-basic.js']
+	      // },
+	      // options: {
+			    // extractRequired: extractor,
+			    // extractDeclared: function(filepath) {
+			        // return [filepath];
+			    // },
+			    // onlyConcatRequiredFiles: true      	
+	      // }    		
+    	// },
     	core: {
 	      files: {
 	        'build/ergojs-core.js': ['build-core.js']
@@ -79,18 +79,18 @@ module.exports = function(grunt) {
 			    onlyConcatRequiredFiles: true      	
 	      }
 	    },
-    	bootstrap: {
-	      files: {
-	        'build/ergojs-bootstrap.js': ['bootstrap/bootstrap.js']
-	      },
-	      options: {
-			    extractRequired: bootstrap_extractor,
-			    extractDeclared: function(filepath) {
-			        return [filepath];
-			    },
-			    onlyConcatRequiredFiles: true      	
-	      }
-	    }
+    	// bootstrap: {
+	      // files: {
+	        // 'build/ergojs-bootstrap.js': ['bootstrap/bootstrap.js']
+	      // },
+	      // options: {
+			    // extractRequired: bootstrap_extractor,
+			    // extractDeclared: function(filepath) {
+			        // return [filepath];
+			    // },
+			    // onlyConcatRequiredFiles: true      	
+	      // }
+	    // }
     },
     lineremover: {
     	core: {
@@ -109,26 +109,27 @@ module.exports = function(grunt) {
 	        exclusionPattern: /^\/\/= require/g
 	      }	      
     	},
-    	widgets_basic: {
-	      files: {
-	        'build/ergojs-widgets-basic.js': 'build/ergojs-widgets-basic.js'
-	      },
-	      options: {
-	        exclusionPattern: /^\/\/= require/g
-	      }	      
-    	},
-    	widgets_bootstrap: {
-	      files: {
-	        'build/ergojs-bootstrap.js': 'build/ergojs-bootstrap.js'
-	      },
-	      options: {
-	        exclusionPattern: /^\/\/= require/g
-	      }	      
-    	}
+    	// widgets_basic: {
+	      // files: {
+	        // 'build/ergojs-widgets-basic.js': 'build/ergojs-widgets-basic.js'
+	      // },
+	      // options: {
+	        // exclusionPattern: /^\/\/= require/g
+	      // }	      
+    	// },
+    	// widgets_bootstrap: {
+	      // files: {
+	        // 'build/ergojs-bootstrap.js': 'build/ergojs-bootstrap.js'
+	      // },
+	      // options: {
+	        // exclusionPattern: /^\/\/= require/g
+	      // }	      
+    	// }
     },
 		jsdoc : {
         docstrap : {
-            src: ['build/ergojs-core.js', 'build/ergojs-widgets.js'], 
+//            src: ['build/ergojs-core.js', 'build/ergojs-widgets-all.js'], 
+            src: ['js/**/*.js'], 
             options: {
                 destination: 'docs',
                 template: "../ink-docstrap/template",
@@ -138,7 +139,7 @@ module.exports = function(grunt) {
             }
         }
    },
-	  concat_css: {
+	 concat_css: {
 	    options: {
 	      // Task-specific options go here.
 	    },
@@ -146,7 +147,23 @@ module.exports = function(grunt) {
 	      src: ["css/*.css"],
 	      dest: "build/ergojs.css"
 	    }
-	  }   
+	  },
+	  compress: {
+		  main: {
+		    options: {
+		      archive: 'build/ergojs-0.11.zip'
+		    },
+		    files: [
+		      {expand: true, cwd: 'build/', src: ['ergojs-core.js', 'ergojs-widgets-all.js', 'ergojs.css'], dest: 'ergojs-0.11/'}
+		    ]
+		  }
+		}/*,
+	  jsdoc2md: {
+      oneOutputFile: {
+          src: "build/ergojs-core.js",
+          dest: "api/documentation.md"
+      }
+	  } */
   });
   
 // 	grunt.log.write( process.cwd() );
@@ -157,7 +174,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concat-in-order');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-concat-css');
+	grunt.loadNpmTasks('grunt-contrib-compress');  
+//	grunt.loadNpmTasks('grunt-jsdoc-to-markdown');  
   
-  grunt.registerTask('default', ['concat_in_order', 'lineremover', 'concat_css']);
+  grunt.registerTask('default', ['concat_in_order', 'lineremover', 'concat_css', 'compress']);
+  grunt.registerTask('docs', ['jsdoc']);
   
 };

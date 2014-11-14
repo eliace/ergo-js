@@ -2,6 +2,7 @@
 //= require "inherited"
 //= require "band"
 //= require "bar"
+//= require "stack"
 //= require "form"
 //= require "grid"
 //= require "column"

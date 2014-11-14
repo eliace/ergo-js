@@ -121,6 +121,34 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		
 		
 		
+		if(p.boundary == 'auto' && to_el) {
+			// изменяем положение виджета в зависимости от расстояния до границы
+			var offset = to_el.offset();
+			var max_x = $(window).width(); 
+			var max_y = $(window).height();
+			var scroll_top = 0;
+			
+			this.el.parents().each(function(i, elem) {
+				scroll_top += $(elem).scrollTop();
+			});
+			
+			if(offset.left + this.el.width() > max_x)
+				this.states.set('pull-left-auto');
+			else
+				this.states.unset('pull-left-auto');
+			
+			if(offset.top + to_el.height() + this.el.outerHeight(true) - scroll_top > max_y)
+				this.states.set('dropup-auto');
+			else if(this.states.is('dropup') && (offset.top - this.el.outerHeight(true) - scroll_top < 0))
+				this.states.set('dropdown-auto');
+			else
+				this.states.set('no-auto');
+			
+			 
+		}
+		
+		
+		
 		// настраиваем размер виджета
 		
 		
@@ -168,6 +196,11 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	
 	
 	Ergo.smart_override(o, {
+		states: {
+			'dropup-auto:auto': 'dropup-auto',
+			'dropdown-auto:auto': 'dropdown-auto',
+			'no-auto:auto': ''
+		},
 		events: {
 			'jquery:mouseleave': function(e, w){ 
 				if(w.options.popup.closeOn == 'mouseleave') w.close(); 
@@ -183,7 +216,8 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		my: 'left top', 
 		offset: [0, 0],
 		closeOn: 'outerClick',
-		exclusive: true
+		exclusive: true,
+		boundary: 'auto'
 	}, o.popup);
 	
 	

@@ -1,7 +1,21 @@
 
 
-
-
+/**
+ * Виджет для <input>
+ * 
+ * etype: html:input
+ *  
+ * опции:
+ * 	- type
+ * 	- placeholder
+ * 	- disabled
+ * 	- name
+ * 	- readonly
+ * 
+ * @class
+ * @name Ergo.html.Input
+ * @extends Ergo.core.Widget
+ */
 Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	defaults: {
@@ -27,7 +41,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		this.el.attr('name', v);
 	},
 	
-	set_readOnly: function(v) {
+	set_readonly: function(v) {
 		this.el.attr('readonly', v);
 	},
 	

@@ -2,6 +2,19 @@
 
 
 
+/**
+ * Вложенный список
+ * 
+ * :nested-list
+ * 	[~]:nested-item
+ *  
+ * Опции:
+ * 	`nestedItem`
+ * 
+ * @class
+ * @name Ergo.widgets.NestedList
+ * @extends Ergo.core.Widget
+ */
 Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -30,14 +43,14 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 		}
 	},
 	
-	$pre_construct: function(o) {
-		this.$super(o);
+	_pre_construct: function(o) {
+		this._super(o);
 		
 		o.defaultItem = Ergo.smart_override({components: {subtree: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
 	},
 	
 	
-	find: function(key) {
+	find_path: function(key) {
 		
 		var path = key.split(':');
 		var w = this;
@@ -45,11 +58,28 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 		for(var i = 0; i < path.length; i++) {
 			w = w.item({_name: path[i]});
 			found = w;
+			if(!w) break;
 			w = w.subtree;
 		}
 		
 		return found;
+	},
+	
+	
+	walk_path: function(key, callback) {
+		
+		var path = key.split(':');
+		var w = this;
+		
+		for(var i = 0; i < path.length; i++) {
+			w = w.item({_name: path[i]});
+			callback.call(this, w);   //TODO необходимо реализовать цепочку асинхронных вызовов
+			w = w.subtree;
+		}
+		
 	}
+	
+	
 	
 	
 }, 'widgets:nested-list');	

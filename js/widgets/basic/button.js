@@ -1,6 +1,20 @@
 
 
-Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', {
+/**
+ * <button/>
+ *  
+ * `etype: 'button'`
+ * 
+ * Состояния:
+ * 	`type` [default, primary, success, info, warning, danger, tool]
+ * 	`size` [large, small, tiny]
+ * 	`disabled`
+ * 
+ * @class
+ * @name Ergo.widgets.Button
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
 	
 	defaults: {
 		html: '<button/>',

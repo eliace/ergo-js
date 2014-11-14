@@ -48,6 +48,8 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 			states: {
 				'expanded': function(on) {
 					this.toggler.states.toggle('opened', on);
+					if(on)
+						this.events.rise('itemExpanded');
 				}
 			}
 		}

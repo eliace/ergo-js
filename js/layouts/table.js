@@ -8,13 +8,13 @@ Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	
 	
 	// construct: function(o) {
-		// this.$super(o);
+		// this._super(o);
 // 		
 	// },
 	
 	
 	update: function() {
-		this.$super();
+		this._super();
 		
 		$('tr.group > td', this.el).attr('colspan', this.options.columns.length);
 		

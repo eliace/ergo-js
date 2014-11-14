@@ -34,6 +34,19 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	
 	
 	
+	_initialize: function(v) {
+		if(arguments.length == 0)
+			this._super({});
+		else if(arguments.length == 1) {
+			this._super({}, v);
+		}
+		else
+			this._super.apply(this, arguments);
+	},
+	
+	
+	
+	
 	set: function(v) {
 		
 		// если значение устанавливается именно для нас
@@ -46,12 +59,16 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			}
 		}
 		
-		this.$super.apply(this, arguments);
+		this._super.apply(this, arguments);
 //		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 	
 	
-	
+	/**
+	 * Подгрузка данных
+	 * 
+	 * 
+	 */
 	fetch: function(id) {
 //		this._fetched = true;
 		var parse = this.options.parser || this.parse;
@@ -59,12 +76,12 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		this.events.fire('fetch:before'); 
 		
 		if(this.options.provider) {
-			var self = this;
+//			var self = this;
 			return this.options.provider.find(this, id, this.options.query).then(function(data) { 
-				self.set( parse.call(self, data) ); 
-				self._fetched = true;
-				self.events.fire('fetch:after'); 
-			});
+				this.set( parse.call(this, data) ); 
+				this._fetched = true;
+				this.events.fire('fetch:after'); 
+			}.bind(this));
 		}
 		else {
 			this._fetched = true;			
@@ -74,13 +91,17 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	},
 	
 	
+	/**
+	 * Обработка "сырых" данных 
+	 * 
+	 */
 	parse: function(v) {
 		return v;
 	},
 	
 	
 //	get: function() {
-//		var v = this.$super.apply(this, arguments);
+//		var v = this._super.apply(this, arguments);
 //		var v = Ergo.data.Model.superclass.get.apply(this, arguments);
 
 //		return (this.format) ? this.format.call(this, v) : v;
@@ -90,7 +111,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	/**
 	 * Фабрика элементов модели (полей).
 	 */
-	factory: function(i) {
+	_factory: function(i) {
 		
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
