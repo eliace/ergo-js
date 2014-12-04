@@ -1,4 +1,6 @@
 
 
 //= require "tree-model"
-//= require "page-model"
+//= require "paged-collection"
+
+//= require "ajax-provider"

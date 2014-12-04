@@ -2,9 +2,9 @@
 
 
 /**
- * <a href="#"/>
+ * Ссылка
  *  
- * `etype: 'link'`
+ * :`link`
  * 
  * Опции:
  * 	`href`
@@ -16,6 +16,7 @@
 Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widgets.Link.prototype */{
 	
 	defaults: {
+		baseCls: 'link',
 		html: '<a href="#"/>',
 		binding: 'text'
 	},

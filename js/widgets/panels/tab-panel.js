@@ -18,7 +18,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				etype: 'tab-bar',
 				defaultItem: {
 					onClick: function() {
-						this.events.rise('select', {key: this._name || this._index});
+						this.events.rise('select', {key: this.opt('name') /*this._name || this._key || this._index*/});
 					}					
 				}
 			},
@@ -41,13 +41,14 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 			// e.stop();
 		// },
 		
-		selectionFinder: function(key) {
+		selector: function(key) {
+			console.log(key);
 			return this.tabbar.item(key);//, this.content.item(key)];
 		},
 		
-		onSelected: function(e) {
-			this.content.opt('active', e.key);
-			this.events.fire('selectTab', {key: e.key});
+		onSelectionChanged: function(e) {
+			this.content.opt('active', e.selection.opt('name'));
+			this.events.fire('selectTab', {key: e.selection.opt('name')});
 			e.stop();
 		}
 		

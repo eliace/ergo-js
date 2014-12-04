@@ -4,14 +4,14 @@
 /**
  * Таблица
  * 
- * :table
- * 	control
- * 		[]:html:col
- * 	head
- * 		[]:table-row
- * 			[]:html:th
- * 	body
- * 		[~]:table-row
+ * :`table`
+ * 	\s control:`box`
+ * 	\s\s [...]:`html:col`
+ * 	\s head:`html:thead`
+ * 	\s\s [...]:`table-row`
+ * 	\s\s\s [...]:`html:th`
+ * 	\s body:`html:tbody`
+ * 	\s\s [~]:`table-row`
  *  
  * 
  * Опции:
@@ -302,8 +302,8 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 /**
  * Строка таблицы
  * 
- * :table-row
- * 	[]:box
+ * :`table-row`
+ * \s	[...]:`box`
  *  
  * 
  * @class

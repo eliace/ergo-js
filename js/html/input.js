@@ -23,6 +23,12 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		binding: function(v) {
 			this.el.val(v);
 		}
+		// events: {
+			// 'jquery:change': function() {
+				// this.events.rise('change', {value: this.el.val()});
+// //				this.opt('value', this.el.val());
+			// }
+		// }
 	},
 	
 	set_type: function(v) {
@@ -43,16 +49,17 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	set_readonly: function(v) {
 		this.el.attr('readonly', v);
-	},
-	
-	
-	get_value: function() {
-		return this.el.val();
-	},
-	
-	set_value: function(v) {
-		this.el.val(v);
 	}
+	
+	
+	
+	// get_value: function() {
+		// return this.el.val();
+	// },
+// 	
+	// set_value: function(v) {
+		// this.el.val(v);
+	// }
 	
 	
 	

@@ -4,7 +4,7 @@
  * Список
  * 
  * :list
- *   [~]:html:li
+ * \s [~]:html:li
  *  
  * 
  * @class

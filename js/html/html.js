@@ -6,6 +6,9 @@
 
 //= require "iframe"
 //= require "input"
+//= require "text-input"
+//= require "checkbox"
+//= require "radio"
 //= require "select"
 //= require "textarea"
 //= require "button"

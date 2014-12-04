@@ -46,10 +46,10 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 	_pre_construct: function(o) {
-		this._super(o);		
+		this._super(o);
 		
-		// if(o.row)
-			// Ergo.smart_override(o.components.content.components.content, {components: {body: {defaultItem: o.row}}});
+		if(o.row)
+			Ergo.smart_override(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: o.row}}}}});
 		
 	},
 

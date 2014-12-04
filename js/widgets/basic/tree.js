@@ -5,8 +5,8 @@
 /**
  * Вложенный список
  * 
- * :nested-list
- * 	[~]:nested-item
+ * :`nested-list`
+ * \s	[~]:`nested-item`
  *  
  * Опции:
  * 	`nestedItem`
@@ -86,7 +86,24 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', {
+
+
+
+/**
+ * Вложенный список
+ * 
+ * :`nested-item`
+ * \s	content:`text`
+ * \s subtree:`nested-list`
+ *  
+ * Опции:
+ * 	`nestedItem`
+ * 
+ * @class
+ * @name Ergo.widgets.NestedItem
+ * @extends Ergo.widgets.Box
+ */
+Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.NestedItem.prototype */{
 	
 	defaults: {
 		
@@ -118,6 +135,10 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', {
 	},
 	
 	
+	
+	/**
+	 * Путь к элементу вложенного списка 
+	 */
 	path: function() {
 		
     var path = [];
@@ -151,8 +172,16 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', {
 
 
 
-
-Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', {
+/**
+ * Дерево
+ * 
+ * :`tree`
+ * 
+ * @class
+ * @name Ergo.widgets.Tree
+ * @extends Ergo.widgets.NestedList
+ */
+Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo.widgets.Tree.prototype */{
 	
 	defaults: {
 		cls: 'tree'

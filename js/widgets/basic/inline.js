@@ -1,18 +1,18 @@
 
 /**
- * <span/>
+ * Строчный элемент
  *  
- * `etype: 'inline'`
+ * :`text`
  * 
  * @class
- * @name Ergo.widgets.Inline
+ * @name Ergo.widgets.Text
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Inline', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 	
 	defaults: {
 		html: '<span/>',
 		binding: 'text'
 	}
 	
-}, 'widgets:inline');
+}, 'widgets:text');

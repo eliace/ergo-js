@@ -50,8 +50,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			this.id = id;
 		}
 		
-		this._super(o || {});
-//		Ergo.core.DataSource.superclass._initialize.call(this, o || {});
+//		this._super(o || {});
+		Ergo.core.DataSource.superclass._initialize.call(this, o || {});
 		
 		var self = this;
 		var o = this.options;
@@ -363,13 +363,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {Function} callback 
 	 * 
 	 */
-	each: function(callback, filter) {
+	each: function(callback, filter, sorter) {
 		
 		var self = this;
 		var values = this.get();
 //		var keys = this.keys(this.options.filter);
 		
 		var criteria = filter || this.options.filter;
+
 		Ergo.each(values, function(v, i){
 			if(!criteria || criteria.call(self, v, i)) {
 				callback.call(self, self.entry(i), i, v);

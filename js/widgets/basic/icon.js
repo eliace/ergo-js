@@ -1,8 +1,8 @@
 
 /**
- * <i class="icon">
+ * Пиктограмма
  *  
- * `etype: 'icon'`
+ * :`icon`
  * 
  * Опции:
  * 	`text`

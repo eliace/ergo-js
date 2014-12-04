@@ -21,8 +21,13 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 	
 	
 	_initialize: function(w, o) {
-		this._super(null, o);
+//		this._super(null, o);
+		
 //		Ergo.core.WidgetArray.superclass._initialize.call(this, null, o);
+		
+		this.options = o;
+		this.src = [];
+//		this.events = new Ergo.events.Observer(this);
 		
 		this.autobinding = true;
 		
@@ -77,7 +82,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		else {
 			item._index = i;
 		}
-
+		
 		// определяем поле parent
 		item.parent = w;
 		
@@ -86,23 +91,38 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			w.layout.add(item, item._index);//i);
 
 		// определяем индекс элемента в children 
-		if(item._index) {
-			for(i = 0; i < this.src.length; i++) {
-				if(('_index' in this.src[i]) && this.src[i]._index == item._index) {
+		if(i != null && ('_index' in item)) {//item._index) {
+			// FIXME здесь нужно немного эвристики
+			// if(this.src[this.src.length-1]._index < item._index)
+				// i = 
+			for(i = this.src.length-1; i >= 0; i--) {
+				if(('_index' in this.src[i]) && this.src[i]._index < item._index) {
 //					i--;
+//					i++;
+					break;
+				}
+			}
+			
+			i++;
+		}
+		else if(i == null && ('_index' in item)) {
+			// FIXME последний индекс лучше сохранять после пересчета
+			item._index = 0;
+			for(var j = this.src.length-1; j >= 0; j--) {
+				if(this.src[j]._type == item._type) {
+					item._index = this.src[j]._index + 1;
 					break;
 				}
 			}
 		}
-		else if(i == null && ('_index' in item)) {
-			item._index = 0;
-			for(var j = 0; j < this.src.length; j++)
-				if(this.src[j]._type == item._type) item._index++;
-		}
 
+//		var i0 = i;
 
 		// добавляем элемент в коллекцию
-		i = this._super(item, i);		
+//		i = this._super(item, i);
+		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
+		
+//		console.log(i0 + ' > '+i);
 		
 		// обновляем свойство _index у соседних элементов
 		for(var j = i+1; j < this.src.length; j++) {
@@ -112,10 +132,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 //			this.src[j]._index = j;
 		
 		//FIXME скорее всего вызов метода show должен находиться не здесь
-		if(item.options.autoRender === true) {
-			if(item.options.showOnRender) item.show();
-			if(item.options.hideOnRender) item.hide();
-		}
+		// if(item.options.autoRender === true) {
+			// if(item.options.showOnRender) item.show();
+			// if(item.options.hideOnRender) item.hide();
+		// }
 		
 		// для элементов с текстовыми ключами (компонентов) добавляем accessor
 		if(item._key) {
@@ -129,7 +149,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		
 //		console.log('item:add');
-		this.events.fire('item:add', {'item': item});
+//		this.events.fire('item:add', {'item': item});
 		
 		return item;
 	},
@@ -139,14 +159,15 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 //		var key;
 		var w = this.widget;		
 		
-		// для компонентов определяем индекс через accessor
-		if($.isString(i)) {
-//			key = i;
-			i = w[i]._index;
-		}
+		// // для компонентов определяем индекс через accessor
+		// if($.isString(i)) {
+// //			key = i;
+			// i = w[i]._index;
+		// }
 		
 		
-		var item = this._super(i); //Ergo.core.WidgetArray.superclass.remove_at.call(this, i);
+//		var item = this._super(i); 
+		var item = Ergo.core.WidgetChildren.superclass.remove_at.call(this, i);
 		
 		
 //		if('hide' in item) item.hide();		
@@ -174,7 +195,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		// }
 		// else {
 			// удаляем элемент из компоновки	
-			w.layout.remove(item);
+		w.layout.remove(item); //FIXME
 		// }			
 		
 		
@@ -211,7 +232,12 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	
 	
 	_initialize: function(w, o) {
-		this._super(null, o);
+//		this._super(null, o);
+		
+		this.options = o;
+		
+		this.src = [];
+//		this.events = new Ergo.events.Observer(this);
 		
 		this._widget = w;
 	},
@@ -238,7 +264,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 */
 	set: function(i, item) {
 		if(i in this._widget)
-			this._widget.children.remove_at(i);
+			this.remove_at(i);
+//			this._widget.children.remove_at(i);
 		this._widget.children.add(item, i, this.options.type);
 	},
 	
@@ -272,7 +299,10 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} i ключ
 	 */
 	remove_at: function(i) {
-		return this._widget.children.remove_at(i);
+//		return this._widget.children.remove_at(i);
+		var removed = this._widget.children.remove_if(function(v) {	return v._key == i;	});
+		
+		return removed.length == 0 ? null : removed[0];
 	},
 	
 	/**
@@ -283,7 +313,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		return this.remove_at(item._index);
+		return this.remove_at(item._key);
 	},
 
 	/**
@@ -479,6 +509,18 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
 			this.remove(src[i]);//_at(src[i]._index);
 	},
 	
+	
+	
+	remove_at: function(i) {
+		var removed = this._widget.children.remove_if(function(v) {	return v._index == i;	});
+		
+		return removed.length == 0 ? null : removed[0];
+	},
+	
+	
+	remove: function(item) {
+		return this.remove_at(item._index);
+	},
 	
 	
 	

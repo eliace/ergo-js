@@ -17,17 +17,33 @@ Ergo.defineMixin('Ergo.widgets.Dropdown', function(o){
 			popup: {
 				at: 'left bottom'
 //				adjust: true
+			},
+			events: {
+				'closed': function() {
+					this.parent.states.unset('opened', false);
+					this.events.rise('dropdownClose');
+				}
+//				'opened': function
 			}
 		}		
 	}, o.components);
 	
 	
+	// o.transitions = Ergo.smart_override({
+		// '* > opened': function() {
+			// return this.dropdown.open();
+		// },
+		// 'opened > *': function() {
+			// return this.dropdown.close();
+		// }
+	// }, o.transitions);
+	
+
 	o.states = Ergo.smart_override({
-		'opened': function(on) {
-			on ? this.dropdown.open() : this.dropdown.close();
+		'opened': function(on, f) {
+			if(f !== false)
+				on ? this.dropdown.open() : this.dropdown.close();
 		}		
 	}, o.states);
-	
-//	Ergo.smart_build(o);
 	
 }, 'mixins:dropdown');

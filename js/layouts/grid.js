@@ -27,7 +27,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 		var k = (n == 0) ? 1 : (12/n).toFixed();
 
 				
-		w.children.each(function(item) {
+		w.children.each(function(item, i) {
 			
 			if(!item._rendered) return;
 			
@@ -36,7 +36,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 //			console.log(el._wrapper != null);
 			
 			if(w.options.pattern) {
-				el.addClass('col-'+(item.options.col || w.options.pattern[item._index]));				
+				el.addClass('col-'+(item.options.col || w.options.pattern[i]));				
 			}
 			else {
 				el.addClass('col-'+k);				

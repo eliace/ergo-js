@@ -62,10 +62,16 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 		
 		this.el.hide();
 		
+//		this.events.fire('open');
 		
-		return this.show().then(function(){
-			this._layoutChanged();			
+		var result = this.show().then(function(){
+			this.events.fire('opened');
+			this._layoutChanged();
 		}.bind(this));
+		
+		this.events.fire('open');
+		
+		return result;
 	};
 	
 	
@@ -80,6 +86,7 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 		}.bind(this));
 		
 		return this.hide().then(function(){
+			this.events.fire('closed');
 			this.el.detach();
 		}.bind(this));
 	};

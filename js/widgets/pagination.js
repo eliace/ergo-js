@@ -55,8 +55,9 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 			autoBind: false					
 		},
 //		dynamic: true,
-		selectionFinder: function(key) {
-			return this.item({_name: key});
+		// выборка происходит только по имени
+		selector: function(key) {
+			return this.item( Ergo.by_opts.curry({name: key}) );
 		},
 		// onChangeIndex: function(e) {
 			// this.opt('index', e.index);
@@ -69,7 +70,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		// }
 		
 		binding: function(v) {
-			this.opt('index', this.data.opt('index'));
+			this.opt('dataIndex', this.data.opt('index'));
 		},
 		
 		
@@ -77,15 +78,15 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 			'index:next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeIndex', {index: i});
+					this.events.rise('changeDataIndex', {index: i});
 			},
 			'index:prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeIndex', {index: i});
+					this.events.rise('changeDataIndex', {index: i});
 			},
 			'index:change': function(e) {
-				this.events.rise('changeIndex', {index: e.index});
+				this.events.rise('changeDataIndex', {index: e.index});
 			}
 		}
 		
@@ -95,7 +96,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	
 	
 	
-	set_index: function(index) {
+	set_dataIndex: function(index) {
 
 		var count = this.data.opt('count');
 		
@@ -129,12 +130,14 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		
 		this.render();
 		
-		this.opt('selected', index);
+		this.selection.set(index);
+		
+//		this.opt('selected', index);
 		
 //		data.opt('index', index);
 //		data.fetch();
 		
-		this.events.fire('indexChanged', {index: index});
+		this.events.fire('dataIndexChanged', {index: index});  //?
 	}
 	
 	

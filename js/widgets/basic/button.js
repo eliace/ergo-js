@@ -1,9 +1,9 @@
 
 
 /**
- * <button/>
+ * Кнопка
  *  
- * `etype: 'button'`
+ * :`button`
  * 
  * Состояния:
  * 	`type` [default, primary, success, info, warning, danger, tool]

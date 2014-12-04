@@ -31,16 +31,20 @@ Ergo.WidgetOptions = {
 //	getText: function() {	return this.layout.el.text();	},
 	get_width: function() {	return this.el.width();	},
 	get_height: function() {	return this.el.height();	},
+	get_name: function() { return this.options.name || this._key || this._index; },
 	
 	
 	
 	set_text: function(v) { 
 		if(this.children.size() == 0)
-			this.layout.el.text( v == null ? '': v ); 
+//			this.layout.el.text( v == null ? '': v ); 
+			this.layout.el[0].textContent = ( v == null ? '': v ); 		 
 		else if(this.content)
 			this.content.opt('text', v == null ? '': v);
 		else
-			this.layout.el.text( v == null ? '': v ); 		 
+//			this.layout.el.text( v == null ? '': v );
+ 			this.layout.el[0].textContent = ( v == null ? '': v ); 		 
+
 	},
 	set_innerText: function(v) {	this.layout.el.text(v); },
 	set_innerHtml: function(v) {	this.layout.el.html(v); },
@@ -76,7 +80,7 @@ Ergo.WidgetOptions = {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},
 	set_hidden: function(v) {
-		this.el.css('display', v ? 'none' : '');
+		(this._wrapper || this.el).css('display', v ? 'none' : '');
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }

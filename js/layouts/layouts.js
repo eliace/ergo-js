@@ -1,12 +1,19 @@
 
 //= require "inherited"
-//= require "band"
-//= require "bar"
-//= require "stack"
-//= require "form"
-//= require "grid"
-//= require "column"
-//= require "fluid"
+
 //= require "hbox"
+//= require "bar"
 //= require "row"
+
+
+//= require "vbox"
+//= require "stack"
+//= require "column"
+
+
+//= require "band"
+//= require "form"
+
+//= require "grid"
 //= require "table"
+//= require "fluid"

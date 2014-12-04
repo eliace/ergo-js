@@ -10,12 +10,13 @@
 Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout.prototype */ {
 	
 	defaults: {
-		updateMode: 'auto'
+//		updateMode: 'auto'
 	},
 	
+/*	
 	_initialize: function(o){
-		this._super(o);
-//		Ergo.core.Layout.superclass._initialize.apply(this, arguments);
+//		this._super(o);
+		Ergo.core.Layout.superclass._initialize.call(this, o);
 		
 //		var o = this.options = {};
 //		
@@ -25,6 +26,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 //		Ergo.smart_override(o, this.defaults, opts);
 		
 	},
+*/	
 	
 	/**
 	 * ассоциация компоновки с виджетом
@@ -114,15 +116,25 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		// создаем обертку (если она необходима) для элемента-виджета
 		var item_el = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
 		
-		if(item_el != item.el) {
-			item._wrapper = item_el;
+		
+		
+		// экспериментальный код
+		if(item.options.wrapper) {
 			
-			// экспериментальный код
-			if(item.options.wrapper) {
-				item.wrapper = $.ergo( Ergo.deep_override({etype: 'widget:widget', html: item._wrapper, autoRender: false}, item.options.wrapper) );
-				item.wrapper._weight = weight;
+			if(item_el == item.el) {
+				item_el = $('<div/>').append(item.el);
 			}
+			
+			item.wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', html: item_el, autoRender: false}, item.options.wrapper) );
+			item.wrapper._weight = weight;
+			
 		}
+		
+		
+		if(item_el != item.el) {
+			item._wrapper = item_el;			
+		}
+				
 		
 		
 //		item_el.data('weight', weight);
@@ -134,13 +146,20 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		item_el[0]._group = item.options.group;
 		
 		
-		var elements = el.contents();
+//		var elements = el.contents();
+		var elements = el[0].childNodes;// new Ergo.core.Array(el[0].childNodes);
 		
 		// фильтруем список элементов
 		if(item.options.group) {
-			elements = elements.filter(function(i, elem){
-				return (elem._ergo) ? (elem._ergo.options.group == item.options.group) : false;
-			});
+			var filtered = [];
+			for(var j = 0; j < elements.length; j++) {
+				var elem = elements[j];
+				if( elem._ergo && elem._ergo.options.group == item.options.group ) filtered.push(elem);
+			}
+			elements = filtered;
+			// elements = Ergo.filter(elements, function(i, elem){
+				// return (elem._ergo) ? (elem._ergo.options.group == item.options.group) : false;
+			// });
 		}
 		
 		
@@ -150,23 +169,49 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		
 		// если индекс не определен, то элемент должен быть добавлен последним в свою группу
 		if(index == null) {
+
+
 			// обходим все элементы контейнера в поисках первого с большим весом
 			var after_el = null;
-			elements.each(function(i, elem){
-				var w = elem._weight;// $(elem).data('weight');
-				if(w > weight) {
-					after_el = $(elem);
-					return false;
-				}
-			});
-
-			if(after_el)
-				after_el.before( item_el );
-			else if(elements.length)
-				elements.last().after( item_el );
-			else
+			
+			// немножко эвристики
+			var last = $(elements[elements.length-1]);
+			
+			
+			if(elements.length == 0) {
 				el.append( item_el );
-				
+			}
+			else if(last[0]._weight <= weight) {//} && last[0]._index < index){
+				last.after(item_el);
+			}
+			else {
+			
+				for(var j = 0; j < elements.length; j++) {
+					var elem = elements[j];
+					var w = elem._weight;// $(elem).data('weight');
+					if(w > weight) {
+						after_el = $(elem);
+						break;
+					}				
+				}
+				// elements.each(function(i, elem){
+					// var w = elem._weight;// $(elem).data('weight');
+					// if(w > weight) {
+						// after_el = $(elem);
+						// return false;
+					// }
+				// });
+	
+				if(after_el)
+					after_el.before( item_el );
+				else if(elements.length)
+					/*elements.last()*/last.after( item_el );
+				else
+					el.append( item_el );
+			}			
+			
+			
+
 			
 			// var after_el = null;
 			// el.children().each(function(i, elem){
@@ -197,17 +242,35 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				// el.prepend( item_el );
 		// }
 		else {
-
+			
+//			var elements = el[0].childNodes;// new Ergo.core.Array(el[0].childNodes);
+			
+			
 			// немножко эвристики
-			var last = elements.last();
+			var last = $(elements[elements.length-1]);
+
+			// if(elements.length > 0)
+				// console.log('last ', last[0]);
+//			console.log('--1--');
+//			console.log(elements.length);
+//			console.log(elements[elements.length-1]);
+//			if(elements.length != 0)
+//			console.log(last[0], last[0]._weight, last[0]._index);
+//			console.log('--2--');
+
+//			console.log(index);
 
 			if(elements.length == 0) {
 				el.append( item_el );
+//				console.log('---1---');
 			}
 			else if(last[0]._weight == weight && last[0]._index < index){
 				last.after(item_el);
+//				console.log('---2---');
 			}
 			else {	
+
+//				console.log('---3---', index, last[0]._index);
 
 //				console.log(index, 'layout');
 			
@@ -215,13 +278,15 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				var before_el = null;
 				var after_el = null;
 	//			this.container.children.each(function(it){
-				elements.each(function(k, child){
+				for(var k = 0; k < elements.length; k++) {
+//				elements.each(function(k, child){
+					var child = elements[k];
 					it = $(child).ergo();
 					if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
 					if(it._weight == weight) arr.push(it);//.el);
 					else if(it._weight <= weight) before_el = it.el;
 					else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
-				});
+				}//);
 
 
 	
@@ -241,7 +306,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	
 				// console.log(index);
 				// console.log(arr);
-				// console.log(before_el, after_el);
+//				console.log(before_el, after_el);
 	
 	
 	
@@ -250,15 +315,20 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				else if(after_el)
 					after_el.before( item_el );
 				else if(elements.length)
-					elements.last().after( item_el );
+					/*elements.last()*/last.after( item_el );
 				else
 					el.append( item_el ); //FIXME это уже не нужно				
-						
+				
+				
+
 				// }
 				// else {
 					// arr[index].before(item_el);
 				// }
 			}
+			
+			
+			
 		}
 		// else if(index == 0)
 			// el.prepend( item.el );
@@ -270,8 +340,8 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		item._rendered = true;
 		
 		// deprecated
-		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
-		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
+//		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
+//		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
 	},
 	
 	
@@ -310,38 +380,42 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	update: function() {
 		
 		// AUTO WIDTH
-		if(this._widget.options.autoWidth === true){
-
+		if(this._widget.options.autoWidth){
+			
+			var _el = this._widget.el;
+			
 			// если элемент не отображается - его не надо выравнивать
-			if(!this.el.not(':hidden')) return;
+			if(!_el.not(':hidden')) return;
 			
 			// рассчитываем отступы
 			var dw = 0;
-			if(this.el.is(':button')) dw = this.el.outerWidth(true) - this.el.outerWidth();
-			else dw = this.el.outerWidth(true) - this.el.width();
+			if(_el.is(':button')) dw = _el.outerWidth(true) - _el.outerWidth();
+			else dw = _el.outerWidth(true) - _el.width();
 			// скрываем элемент
-			this.el.hide();
+			_el.hide();
 			
 			// ищем родителя, у которого определена ширина
 			var w = 0;
-			this.el.parents().each(function(i, el){
+			_el.parents().each(function(i, el){
 				if(!w) w = $(el).width();
 				if(w) return false;
 			});
 			
-			// обходим всех видимых соседей и получаем их ширину
-			this.el.siblings().not(':hidden').each(function(i, sibling){
-				var sibling = $(sibling);
-				if(sibling.attr('autoWidth') != 'ignore') 
-					w -= sibling.outerWidth(true);
-			});
+			if(_el.attr('autowidth') != 'ignore-siblings') {
+				// обходим всех видимых соседей и получаем их ширину
+				_el.siblings().not(':hidden').each(function(i, sibling){
+					var sibling = $(sibling);
+					if(sibling.attr('autoWidth') != 'ignore') 
+						w -= sibling.outerWidth(true);
+				});
+			}
 			
 			// задаем ширину элемента (с учетом отступов), если она не нулевая
 			if(w - dw) 
-				this.el.width(w - dw);
+				_el.width(w - dw);
 				
 			// отображаем элемент
-			this.el.show();
+			_el.show();
 		}
 		
 		// AUTO HEIGHT
@@ -471,6 +545,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 
 			this.el.show();			
 		}
+		
 		
 	},
 	

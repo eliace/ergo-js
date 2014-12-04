@@ -15,7 +15,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.NestedList', {
 							weight: -100
 						},
 						content: {
-							etype: 'text',
+							etype: '&text',
 						},
 						caret: {
 							etype: 'caret',

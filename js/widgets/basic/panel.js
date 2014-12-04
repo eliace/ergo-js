@@ -4,11 +4,11 @@
 /**
  * Панель
  * 
- * :panel
- * 	header:box
- * 		title:html:span
- * 	content:box
- * 	footer:box
+ * :`panel`
+ * \s	header:`box`
+ * \s\s		title:`html:span`
+ * \s	content:`box`
+ * \s	footer:`box`
  * 
  * Опции:
  * 	`title`

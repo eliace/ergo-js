@@ -191,7 +191,7 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 	
 	
 	
-	if(!Ergo.context._popup)
+	if(!Ergo.context._popups)
 		Ergo.context._popups = new Ergo.core.Array();
 	
 	

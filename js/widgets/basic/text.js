@@ -14,7 +14,7 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 /**
  * Текстовое содержимое
  * 
- * :text
+ * :`&text`
  *  
  * Опции:
  * 	`text`
@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
  * @name Ergo.widgets.Text
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
 	
 	defaults: {
 		binding: 'text'
@@ -33,4 +33,4 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 		this.el[0].textContent = (v == null ? '': v);
 	}
 	
-}, 'widgets:text');
+}, 'widgets:&text');

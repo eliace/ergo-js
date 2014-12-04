@@ -1,9 +1,9 @@
 
 
 /**
- * <input type="text" class="field">
+ * Поле ввода
  *  
- * `etype: 'field'`
+ * :`field`
  * 
  * События:
  * 	`change`
@@ -26,6 +26,10 @@ Ergo.defineClass('Ergo.widgets.Field', 'Ergo.core.Widget', {
 				this.events.fire('change', {value: this.el.val()});
 			}			
 		}
+	},
+	
+	set_type: function(v) {
+		this.el.attr('type', v);
 	}
 	
 }, 'widgets:field');

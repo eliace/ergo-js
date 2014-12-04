@@ -63,6 +63,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaults = Ergo.deep_copy(o);
 //			Ergo.smart_build(this.constructor.prototype.defaults);
+
 		}
 		else {
 			Ergo.deep_override(o, this.defaults);
@@ -112,7 +113,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// }
 // //		}
 
-
+		
 
 		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
 		
@@ -291,7 +292,6 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			}
 		}
 
-
 //		profiler.tick('opt', 'other');
 //
 //		profiler.stop('opt');
@@ -346,14 +346,26 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
  */
 Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	
-	// создаем пространство имен для расширения
+	// создаем пространство имен для класса
 	var cp_a = mixin_name.split('.');
-	var cp = 'window';
-	for(var i = 0; i < cp_a.length; i++){
-		cp += '.'+cp_a[i];
-		eval( 'if(!'+cp+') '+cp+' = {};' );
-	}		
-	eval(cp + ' = obj;');
+	var cp = window;
+	for(var i = 0; i < cp_a.length-1; i++){
+		var c = cp_a[i];
+		if(!cp[c]) cp[c] = {};
+		cp = cp[c];
+	}
+	
+	cp[cp_a[cp_a.length-1]] = obj;
+	
+	
+	// создаем пространство имен для расширения
+	// var cp_a = mixin_name.split('.');
+	// var cp = 'window';
+	// for(var i = 0; i < cp_a.length; i++){
+		// cp += '.'+cp_a[i];
+		// eval( 'if(!'+cp+') '+cp+' = {};' );
+	// }		
+	// eval(cp + ' = obj;');
 	
 	if(alias)
 		Ergo.alias(alias, obj);

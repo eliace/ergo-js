@@ -1,7 +1,7 @@
 
 var path = require('path');
 
-
+var ERGO_VERSION = '0.11.3';
 
 
 var bootstrap_extractor = function(filepath, filecontent) {
@@ -151,10 +151,10 @@ module.exports = function(grunt) {
 	  compress: {
 		  main: {
 		    options: {
-		      archive: 'build/ergojs-0.11.zip'
+		      archive: 'build/ergojs-'+ERGO_VERSION+'.zip'
 		    },
 		    files: [
-		      {expand: true, cwd: 'build/', src: ['ergojs-core.js', 'ergojs-widgets-all.js', 'ergojs.css'], dest: 'ergojs-0.11/'}
+		      {expand: true, cwd: 'build/', src: ['ergojs-core.js', 'ergojs-widgets-all.js', 'ergojs.css'], dest: 'ergojs-'+ERGO_VERSION+'/'}
 		    ]
 		  }
 		}/*,

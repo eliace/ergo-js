@@ -10,7 +10,7 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				cls: 'dropdown-toggle',
 				components: {
 					content: {
-						etype: 'text'
+						etype: '&text'
 					},
 					caret: {
 						etype: 'caret'

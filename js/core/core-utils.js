@@ -178,6 +178,74 @@
 
 
 
+
+	E.loadpath = {};
+	
+	
+	/*
+	 * Синхронная загрузка модулей через Ajax
+	 * 
+	 * В качестве аргументов передается список путей к классам
+	 * 
+	 */
+	E.require = function() {
+		
+		for(var i = 0; i < arguments.length; i++) {
+
+			var class_name = arguments[i];
+			
+			//TODO здесь нужно проверить, загружен ли класс
+			try{
+				if( eval('typeof '+class_name) == 'function') continue;
+			}
+			catch(e) {
+			}
+			
+			for(var j in E.loadpath) {
+				if(class_name.search(j) != -1) {
+					class_name = class_name.replace(j, E.loadpath[j]);
+					break;
+				}
+			}
+			
+			var url = class_name.replace(/\./g, '/') + '.js';
+			
+			$.ajax({
+			  url: url,
+			  dataType: "script",
+			  success: function(){
+			  	//TODO здесь нужно вызывать функцию, оповещающую, что класс загружен
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log(errorThrown);
+			  },
+			  async: false
+			});			
+			
+		}
+		
+		
+	};
+	
+	
+	
+	
+	//TODO перенести в примеси
+	E.glass_pane = function() {
+		
+		return $('<div class="e-glass-pane" autoheight="ignore"/>')
+			.on('mousedown', function(e){
+				e.preventDefault();
+				return false;				
+			});
+		
+	};
+
+
+
+
+
+
 	//FIXME по большому счету это нужно только для корректной работы с событиями клавиатуры
 	/*Browser detection patch*/
 	E.browser = {};

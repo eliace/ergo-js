@@ -44,7 +44,8 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 			
 		}
 
-		return $.when( effect );
+		return $.when( effect )
+						.then(function(){ this.events.fire('show'); }.bind(this));		
 	};
 	
 	
@@ -80,7 +81,8 @@ Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 //				effect = el[o.hide](o.delay);
 		}
 
-		return $.when( effect );
+		return $.when( effect )
+						.then(function(){ this.events.fire('hide'); }.bind(this));
 	};
 	
 	

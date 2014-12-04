@@ -103,6 +103,7 @@
 	};
 	
 	
+		
 //	var _etypes = {};
 	
 	/**
@@ -118,7 +119,23 @@
 	 */
 	E.defineClass = function(class_name, bclass, overrides, etype) {
 		
-		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
+		var base_class;
+		
+		if( typeof bclass == 'string' ) {
+			var cp_a = bclass.split('.');
+			var cp = window;
+			for(var i = 0; i < cp_a.length; i++){
+				base_class = cp[cp_a[i]];
+				if(!base_class) break;
+				cp = base_class;
+			}
+			
+		}
+		else {
+			base_class = bclass;
+		}
+		
+//		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
 		
 		if(base_class === undefined)
 			throw 'Unknown base class '+bclass+' for '+class_name;
@@ -127,12 +144,22 @@
 		
 		// создаем пространство имен для класса
 		var cp_a = class_name.split('.');
-		var cp = 'window';
-		for(var i = 0; i < cp_a.length; i++){
-			cp += '.'+cp_a[i];
-			eval( 'if(!'+cp+') '+cp+' = {};' );
-		}		
-		eval(cp + ' = clazz;');
+		var cp = window;
+		for(var i = 0; i < cp_a.length-1; i++){
+			var c = cp_a[i];
+			if(!cp[c]) cp[c] = {};
+			cp = cp[c];
+		}
+		
+		cp[cp_a[cp_a.length-1]] = clazz;
+		
+		// var cp_a = class_name.split('.');
+		// var cp = 'window';
+		// for(var i = 0; i < cp_a.length; i++){
+			// cp += '.'+cp_a[i];
+			// eval( 'if(!'+cp+') '+cp+' = {};' );
+		// }		
+		// eval(cp + ' = clazz;');
 
 		// если псевдоним класса не задан явно, то он может быть указан в новых свойствах
 		if(!etype)

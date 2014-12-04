@@ -15,7 +15,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	
 	defaults: {
 		model: null,
-		idKey: 'id'
+		idKey: 'id',
+		query: {}
 	},
 	
 	/**

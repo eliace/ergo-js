@@ -20,6 +20,12 @@
 			if(child[i] != props[i]) return false;
 		return true; 
 	};
+	// по опциям
+	F.by_opts = function(opts, child){
+		for(var i in opts)
+			if(child.opt(i) != opts[i]) return false;
+		return true; 
+	};
 	// по классу
 	F.by_class = function(clazz, child){
 		return (child instanceof clazz);
@@ -72,7 +78,7 @@
 		var f = null;
 		
 		if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = F.by_props.curry({'_key': i});
+		else if( $.isString(i) ) f = F.by_opts.curry({'name': i});
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;

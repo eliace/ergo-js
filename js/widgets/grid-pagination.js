@@ -42,10 +42,10 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				}							
 			},
 			current: {
-				etype: 'inline',
+				etype: 'text',
 				autoBind: false,
 				defaultItem: {
-					etype: 'text',
+					etype: '&text',
 				},
 				items: [ 
 				'Страница ', 
@@ -64,7 +64,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				}, 
 				' из ', 
 				{
-					etype: 'text'
+					etype: '&text'
 				}]
 				
 			}
@@ -72,25 +72,25 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		
 		events: {
 			'index:first': function(e) {
-				this.events.rise('changeIndex', {index: 1});
+				this.events.rise('changeDataIndex', {index: 1});
 			},
 			'index:last': function(e) {
-				this.events.rise('changeIndex', {index: this.data.opt('count')});
+				this.events.rise('changeDataIndex', {index: this.data.opt('count')});
 			},
 			'index:next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeIndex', {index: i});
+					this.events.rise('changeDataIndex', {index: i});
 			},
 			'index:prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeIndex', {index: i});
+					this.events.rise('changeDataIndex', {index: i});
 			},
 			'index:change': function(e) {
 				var i = e.index;
 				if( !isNaN(i) && i > 0 && i <= this.data.opt('count') )
-					this.events.rise('changeIndex', {index: e.index});
+					this.events.rise('changeDataIndex', {index: e.index});
 //				this.states.set('invalid');
 //					this.opt('value', this.opt('value'));
 				
@@ -110,7 +110,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 	
 	
 	
-	set_index: function(v) {
+	set_dataIndex: function(v) {
 		
 	}
 	

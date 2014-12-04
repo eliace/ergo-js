@@ -1,22 +1,38 @@
 
 
 
-Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
+Ergo.declare('Ergo.data.PagedCollection', 'Ergo.data.Collection', {
 	
 	defaults: {
-		pageSize: 1,
-		totalCount: 1
+		pageSize: 30,
+		totalCount: 0,
+		index: 0
 	},
 	
 	
-
 	
-	get_pageCount: function() {
+	set_index: function(v) {
+		this.options.query.from = (v-1)*this.options.pageSize;
+		this.options.query.to = v*this.options.pageSize;
+	},
+	
+	
+	get_count: function() {
 		return Math.ceil(this.options.totalCount / this.options.pageSize);
 	},
 	
 	
+	parse: function(v) {
+		this.options.totalCount = v.total;
+		this.options.from = v.from;
+		this.options.to = v.to;
+		
+		return v.data;
+	}
 	
+	
+	
+/*	
 	fetch: function() {
 
 		this.events.fire('fetch');
@@ -44,7 +60,7 @@ Ergo.declare('Ergo.data.PageCollection', 'Ergo.data.Collection', {
 		}
 		
 	}
-	
+*/	
 	
 	
 });

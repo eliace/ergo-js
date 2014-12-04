@@ -5,51 +5,127 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 	
 	o.events = Ergo.smart_override({
 		'select': function(e) {
-			this.opt('selected', e.key != null ? e.key : (e.target._name || e.target._index));
+			this.selection.set( e.key != null ? e.key : (e.target._name || e.target._index) );
+			e.stop();
+		},
+		'unselect': function(e) {
+			this.selection.unset( e.key != null ? e.key : (e.target._name || e.target._index) );
 			e.stop();
 		}
 	}, o.events);
 
-//	Ergo.smart_build(o);
+
+	this.selection = {
+		
+		_widget: this,
+		
+		_selected: [],
+		
+		set: function(key) {
+			
+			// определяем метод поиска
+			var finder = this._widget.options.selector || this._widget.item;
+			// режим множественной выборки
+			var multiselect = this._widget.options.multiselect;
 	
 	
-	// this.selection = {
-// 		
-		// _widget: this,
-// 		
-		// set: function(v) {
-// 
-// 			
-			// if(this._selected)
-				// this._selected.states.unset('selected');
-// 				
-	// //		this.content.opt('visible', v);
-// 			
-			// this._selected = v;// this.tabs.item(v);
-// 			
-			// if(this._selected)
-				// this._selected.states.set('selected');
-// 			
-			// this.events.fire('selectionChanged');
-// 			
-		// },
-// 		
-		// get: function() {
-// 			
-		// }
-// 		
-	// };
+			// ищем выбранный элемент
+			var selected = (key instanceof Ergo.core.Object) ? key : finder.call(this._widget, key);
 	
+			// TODO здесь нужно обработать вариант, если элемент не найден
 	
-	
-	this.set_selected = function(key) {
+			
+			// если новый ключ совпадает со старым, то не меняем выборку
+//			for(var i = 0; i < this._selected.length; i++)
+//				if(this._selected[i] == selected) return;
+			
+			
+			// если выборка эксклюзивная, то нужно очистить текущую выборку
+			if(!multiselect) {
+				for(var i = 0; i < this._selected.length; i++) {
+					this._selected[i].states.unset('selected');
+				}
+			}
+			
+			
+			
+			//
+			if(!multiselect)
+				this._selected = [];
+			
+			
+			if(selected == null) return;
+			
+			
+			this._selected.push(selected);
+			
+			
+			selected.states.set('selected');
+			
+					
+			this._widget.events.fire('selectionChanged', {selection: this.get()});		
+		},
 		
 		
+		unset: function(key) {
+			
+			// определяем метод поиска
+			var finder = this._widget.options.selector || this._widget.item;
+			// режим множественной выборки
+			var multiselect = this._widget.options.multiselect;
+			
+			// ищем выбранный элемент
+			var unselected = (key instanceof Ergo.core.Object) ? key : finder.call(this._widget, key);
+			
+			Ergo.remove(this._selected, unselected);
+			
+			unselected.states.unset('selected');
+			
+			
+			this._widget.events.fire('selectionChanged', {selection: this.get()});
+			
+		},
+		
+		
+		get: function() {
+			return (this._widget.options.multiselect) ? this._selected : this._selected[0];
+		},
+		
+		
+		is_empty: function() {
+			return this._selected.length == 0;
+		},
+		
+		size: function() {
+			return this._selected.length;
+		},
+		
+		each: function(fn) {
+			Ergo.each(this._selected, fn);
+		},
+		
+		clear: function() {
+			this._selected = [];
+			this._widget.events.fire('selectionChanged', {selection: this.get()});
+		}
+		
+		
+	};
+
+
+	
+	
+	
+	
+	this.set_selected = function(selection) {
+		this.selection.set(selection);
+//		this._selected = (this.options.multiselect) ? selection : [selection];
+/*		
 		// если новый ключ совпадает со старым, то не меняем выборку
 		if(this._selected && this._selected == key) return;
 		
 		// определяем метод поиска
-		var finder = this.options.selectionFinder || this.item;
+		var finder = this.options.selector || this.item;
 		
 		
 		if(this._selected) {
@@ -71,42 +147,21 @@ Ergo.defineMixin('Ergo.mixins.Selectable', function(o) {
 				if(target[i]) target[i].states.set('selected');
 			}
 		}
+				
 		
+		this.events.fire('changeSelection', {selection: this._selected, key: key});
+*/		
 		
-/*		
-		// убираем состояние selected с текущей выборки
-		if(this._selected !== undefined && this._selected !== null) {
-			var target = finder.call(this, this._selected);
-			
-			if( !$.isArray(target)) target = [target];
-	
-			for(var i = 0; i < target.length; i++) {
-				if(target[i]) target[i].states.unset('selected');
-			}
-		}
-
-		this._selected = key;
-
-		// устанавливаем состояние selected на новой выборке
-
-		if(this._selected !== undefined && this._selected !== null) {
-			target = finder.call(this, this._selected);
-			
-			if( !$.isArray(target)) target = [target];
-	
-			for(var i = 0; i < target.length; i++) {
-				if(target[i]) target[i].states.set('selected');
-			}
-		}
-*/
-		
-		this.events.fire('selected', {selection: this._selected, key: key});
 	};
 	
 	
 	this.get_selected = function() {
-		return this._selected;
+		return this.selection.get();
 	};
+	
+	
+	
+//	this._selected = [];
 	
 	
 	
