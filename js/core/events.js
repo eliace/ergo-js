@@ -329,22 +329,31 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
  * @mixin
  * 
  */
-Ergo.Observable = function() {
+Ergo.Observable = {
 	
-	this.events = new Ergo.events.Observer(this);
+	construct: function(o) {
 	
-	var o = this.options;
+		this.events = new Ergo.events.Observer(this);
+		
+//		var o = this.options;
+				
+	},
 	
-	var regexp = /^on\S/;
-	for(var i in o){
-		if(regexp.test(i)){
-			var name = i.charAt(2).toLowerCase() + i.slice(3);
-			var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-			for(var j = 0; j < chain.length; j++) {
-				this.events.reg( name, chain[j] );
+	
+	post_construct: function(o) {
+		
+		var regexp = /^on\S/;
+		for(var i in o){
+			if(regexp.test(i)){
+				var name = i.charAt(2).toLowerCase() + i.slice(3);
+				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+				for(var j = 0; j < chain.length; j++) {
+					this.events.reg( name, chain[j] );
+				}
 			}
 		}
-	}
+		
+	} 
 	
 };
 

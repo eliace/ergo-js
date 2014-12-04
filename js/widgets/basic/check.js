@@ -14,6 +14,10 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		states: {
 			'checked': function(on) {
 				this.content.states.toggle('fa-check', on);
+				this.states.unset('indeterminate');
+			},
+			'indeterminate': function(on) {
+				this.content.states.toggle('fa-square', on);				
 			}
 		},
 		events: {
@@ -28,6 +32,6 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		binding: function(v) {
 			this.states.toggle('checked', !(!v));
 		}
-	}
+	}	
 	
 }, 'widgets:check');

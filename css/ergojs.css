@@ -2975,6 +2975,13 @@ table.widget thead {
 	border-color: #0a80cb;
 }
 
+.check.indeterminate > i {
+	font-size: 10px;
+	height: 14px;
+}
+
+
+
 
 
 /**

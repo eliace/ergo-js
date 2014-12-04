@@ -123,7 +123,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this._pre_construct(this.options);
 
-		// сборка опций
+		// повторная сборка опций (после PRE_CONSTRUCT могут появиться модификаторы опций)
 		if(o.mixins && o.mixins.length)
 			Ergo.smart_build(this.options);
 		
@@ -154,6 +154,16 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 */
 	_pre_construct: function(o) {
 		
+		// if('plugins' in o) {
+			// for(var i = 0; i < o.plugins.length; i++) {
+				// var plugin = o.plugins[i];
+				// if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+				// if(plugin.pre_construct)
+					// plugin.pre_construct.call(this, o);
+			// }
+		// }
+		
+		
 		if('mixins' in o) {
 			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
@@ -183,7 +193,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
 				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
-				plugin.call(this, o);
+				if(plugin.construct)
+					plugin.construct.call(this, o);
 			}
 		}
 		
@@ -202,8 +213,17 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 */
 	_post_construct: function(o) {
 				
+		if('plugins' in o) {
+			for(var i = 0; i < o.plugins.length; i++) {
+				var plugin = o.plugins[i];
+				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+				if(plugin.post_construct)
+					plugin.post_construct.call(this, o);
+			}
+		}
+		
 		this._opt(o);
-
+		
 	},
 	
 	
