@@ -20,8 +20,8 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				},
 				onClick: function(e) {
 					this.parent.states.toggle('opened');
-					e.baseEvent.stopPropagation();
-					e.baseEvent.preventDefault();  //IE11
+					e.base.stopPropagation();
+					e.base.preventDefault();  //IE11
 				}		
 			},
 			dropdown: {

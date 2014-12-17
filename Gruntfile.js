@@ -1,7 +1,10 @@
 
 var path = require('path');
 
-var ERGO_VERSION = '0.11.3';
+//var ERGO_VERSION = '0.11.3';
+
+
+
 
 
 var bootstrap_extractor = function(filepath, filecontent) {
@@ -38,7 +41,14 @@ var extractor = function(filepath, filecontent, d) {
 
 
 
+
+
+
 module.exports = function(grunt) {
+	
+  var pkg = grunt.file.readJSON('package.json');
+	
+	
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     
@@ -144,17 +154,17 @@ module.exports = function(grunt) {
 	      // Task-specific options go here.
 	    },
 	    all: {
-	      src: ["css/*.css"],
+	      src: ["css/ergojs-core.css", "css/ergojs.css"],
 	      dest: "build/ergojs.css"
 	    }
 	  },
 	  compress: {
 		  main: {
 		    options: {
-		      archive: 'build/ergojs-'+ERGO_VERSION+'.zip'
+		      archive: 'build/ergojs-'+pkg.version+'.zip'
 		    },
 		    files: [
-		      {expand: true, cwd: 'build/', src: ['ergojs-core.js', 'ergojs-widgets-all.js', 'ergojs.css'], dest: 'ergojs-'+ERGO_VERSION+'/'}
+		      {expand: true, cwd: 'build/', src: ['ergojs-core.js', 'ergojs-widgets-all.js', 'ergojs.css'], dest: 'ergojs-'+pkg.version+'/'}
 		    ]
 		  }
 		}/*,
@@ -165,6 +175,9 @@ module.exports = function(grunt) {
       }
 	  } */
   });
+  
+//  console.log(grunt.config.get('pkg.version'));
+  
   
 // 	grunt.log.write( process.cwd() );
 

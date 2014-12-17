@@ -4,6 +4,7 @@
 //= require "hbox"
 //= require "bar"
 //= require "row"
+//= require "hslide"
 
 
 //= require "vbox"

@@ -202,8 +202,8 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 			'no-auto:auto': ''
 		},
 		events: {
-			'jquery:mouseleave': function(e, w){ 
-				if(w.options.popup.closeOn == 'mouseleave') w.close(); 
+			'jquery:mouseleave': function(e){ 
+				if(this.options.popup.closeOn == 'mouseleave') this.close(); 
 			}
 		},
 		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты

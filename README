@@ -1,17 +1,33 @@
 
-Сборка проекта.
+# Быстрый старт
 
-Для сборки используется утилита rake, входящая в пакет разработки Ruby.
 
-Сборка под Windows:
-  1. Устанавливаем Ruby 1.8.7 с http://rubyinstaller.org/
-  2. Запускаем build.bat
 
-Сборка под Linux:
-  1. Устанавливаем Ruby 1.8.7 из репозитария вашего дистрибутива
-  2. Запускаем build.sh
-    
-  
+Скачиваем дистрибутив ErgoJS
 
-Для генератора документации необходима последняя версия Java.
-Подробнее здесь http://code.google.com/p/jsdoc-toolkit/
+Подключаем сценарии ядра и виджетов
+```html
+<script src="lib/ergojs-core.js" type="text/javascript"></script>
+<script src="lib/ergojs-widgets-all.js" type="text/javascript"></script>
+```
+
+Подключаем стили
+```html
+<link href='lib/ergojs.css' rel='stylesheet' type='text/css'>
+```
+
+Самый лучший момент для создания виджетов - после загрузки страницы, поэтому воспользуемся обработчиком события jQuery.ready
+
+```javascript
+$(document).ready(function(){
+
+    // создаем простой виджет и добавляем его в <body/>
+    $.ergo({
+        etype: 'box',
+        renderTo: 'body'
+    });
+
+});
+
+```
+

@@ -466,24 +466,61 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				for(var j in callback_a) {
 					var callback = callback_a[j];
 					
+					// if( $.isString(callback) ) {
+						// var action = callback;
+						// callback = function(e, scope) {
+							// if(scope == 'jquery') e = {base: e};
+							// this.events.rise(action, e);
+						// };
+					// }
+					
 					if(i.indexOf('ctx:') == 0) {
-						// EventBus
+						// Context
 						$context.events.reg(i.substr(4), callback, this);
 					}
 					else if(i.indexOf('jquery:') == 0) {
 						// jQuery
-//						Ergo.event_bus.reg(i.substring(7), callback, this);
-						self.el.on(i.substr(7), callback.rcurry(self).bind(this));						
+						self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));						
 					}
 					else {
-						// TODO здесь должны добавляться обработчики событий виджета
-//						self.el.on(i, callback.rcurry(self));
+						// Widget
 						self.events.reg(i, callback, this);						
 					}
 				}
 			}
 		}		
 		
+		
+		// TODO возможно, это нужно перенести в примесь или плагин
+		if('actions' in o){
+			
+			for(var i in o.actions){				
+				var action_a = o.actions[i];
+				action_a = $.isArray(action_a) ? action_a : [action_a]; //FIXME
+				for(var k = 0; k < action_a.length; k++) {
+					var action = action_a[k];
+					
+					callback = function(e, scope) {
+						if(scope == 'jquery') e = {base: e};
+						this.events.rise(action, e);
+					};
+
+					if(i.indexOf('ctx:') == 0) {
+						// Context
+						$context.events.reg(i.substr(4), callback, this);
+					}
+					else if(i.indexOf('jquery:') == 0) {
+						// jQuery
+						self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));						
+					}
+					else {
+						// Widget
+						self.events.reg(i, callback, this);						
+					}
+					
+				}
+			}
+		}
 		
 						
 		// if('states' in o){
@@ -1120,7 +1157,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			// если добавлен новый элемент данных, то добавляем новый виджет
 			this.data.events.reg('entry:added', function(e){
 				
-				console.log(e);
+//				console.log(e);
 				
 				self.children.autobinding = false;
 				var item = self.items.add({}, e.isLast ? null : e.index);
@@ -1290,8 +1327,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.layout.immediateRebuild = true;
 			this.layout.rebuild();
 
-			if(!Ergo.noDynamicRender)
-				this.render();
+//			if(!Ergo.noDynamicRender)
+			this.render();
 			
 		}
 		else {
@@ -1573,14 +1610,14 @@ Ergo.$widget = Ergo.object;
 // };
 
 
-Ergo.after_rise = function(e, type) {
-	if(this.parent && !e.stopped) this.parent.events.fire(type, e);
+Ergo.after_rise = function(e, type, base) {
+	if(this.parent && !e.stopped) this.parent.events.fire(type, e, base);
 };
 
 
-Ergo.after_sink = function(e, type) {
+Ergo.after_sink = function(e, type, base) {
 	this.children.each(function(child){
-		child.events.fire(type, e);
+		child.events.fire(type, e, base);
 	});
 };
 

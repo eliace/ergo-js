@@ -15,6 +15,7 @@ Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', /** @lends Ergo.widget
 	
 	defaults: {
 		html: '<ul/>',
+		cls: 'list',
 		dynamic: true,
 		defaultItem: {
 			etype: 'html:li',

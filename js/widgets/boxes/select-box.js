@@ -13,7 +13,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 				autoBind: false,
 				onClick: function(e) {
 					this.events.rise('dropdown');
-					e.baseEvent.stopPropagation();
+					e.stop();//baseEvent.stopPropagation();
 				}
 			},
 			addon: {
@@ -28,7 +28,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 				},
 				onClick: function(e) {
 					this.events.rise('dropdown');
-					e.baseEvent.stopPropagation();
+					e.stop();//baseEvent.stopPropagation();
 				}
 			},
 			dropdown: {

@@ -192,7 +192,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
-				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+//				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
 				if(plugin.construct)
 					plugin.construct.call(this, o);
 			}
@@ -216,7 +216,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
-				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+//				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
 				if(plugin.post_construct)
 					plugin.post_construct.call(this, o);
 			}

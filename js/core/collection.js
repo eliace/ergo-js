@@ -14,12 +14,16 @@
 Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
-		plugins: [Ergo.Observable]
+//		plugins: [Ergo.Observable]
 	},
 	
 	_initialize: function(src, options) {
-		this._super(options);
-//		Ergo.core.Collection.superclass._initialize.call(this, options);
+//		this._super(options);
+		Ergo.core.Collection.superclass._initialize.call(this, options);
+
+//		this.options = options;
+//		this.events = new Ergo.events.Observer(this);
+
 		this.src = src || {};
 	},
 	

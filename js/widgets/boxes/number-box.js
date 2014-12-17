@@ -18,8 +18,10 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 								etype: 'icon',
 								html: '<button/>',
 								cls: 'fa fa-fw fa-caret-up',
-								onClick: function() {
-									this.events.rise('up');
+								events: {
+									'jquery:mousedown': function() {
+										this.events.rise('up');
+									}
 								}
 							}
 						}
@@ -32,8 +34,10 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 								etype: 'icon',
 								html: '<button/>',
 								cls: 'fa fa-fw fa-caret-down',
-								onClick: function() {
-									this.events.rise('down');
+								events: {
+									'jquery:mousedown': function() {
+										this.events.rise('down');
+									}
 								}
 							}
 						}

@@ -1,6 +1,6 @@
 {
   "name": "ergo-js",
-  "version": "0.10.0",
+  "version": "0.11.4",
   "description": "ui framework",
   "main": "index.js",
   "directories": {

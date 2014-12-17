@@ -14,7 +14,7 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 //				type: 'button',
 				onClick: function(e) {
 //					this.events.rise('dropdown');
-					e.baseEvent.stopPropagation();
+					e.stop();//baseEvent.stopPropagation();
 				}
 			},
 			addon: {
@@ -29,10 +29,11 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 				},
 				onClick: function(e) {
 					this.events.rise('dropdownOpen');
-					e.baseEvent.stopPropagation();
+					e.stop();//baseEvent.stopPropagation();
 				}
 			},
 			dropdown: {
+				weight: -100, 		// располагаем выпадающий список первым из-за бага Chrome
 				popup: {
 					adjust: true
 				},

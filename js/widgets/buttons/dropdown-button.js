@@ -18,7 +18,7 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 				onClick: function(e) {
 		//			this.states.is('opened') ? 
 					this.parent.states.toggle('opened');
-					e.baseEvent.stopPropagation();
+					e.stop();//baseEvent.stopPropagation();
 				}		
 			},
 			dropdown: {

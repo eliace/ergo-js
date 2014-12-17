@@ -18,6 +18,8 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 //		this._super(o);
 		Ergo.core.Layout.superclass._initialize.call(this, o);
 		
+		this.events = new Ergo.events.Observer(this);
+		
 //		var o = this.options = {};
 //		
 //		Ergo.hierarchy(this.constructor, function(clazz){
@@ -387,12 +389,14 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			// если элемент не отображается - его не надо выравнивать
 			if(!_el.not(':hidden')) return;
 			
+			
 			// рассчитываем отступы
 			var dw = 0;
 			if(_el.is(':button')) dw = _el.outerWidth(true) - _el.outerWidth();
 			else dw = _el.outerWidth(true) - _el.width();
 			// скрываем элемент
-			_el.hide();
+//			_el.hide();
+			_el.addClass('hidden');
 			
 			// ищем родителя, у которого определена ширина
 			var w = 0;
@@ -415,7 +419,9 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				_el.width(w - dw);
 				
 			// отображаем элемент
-			_el.show();
+//			_el.show();
+			
+			_el.removeClass('hidden');
 		}
 		
 		// AUTO HEIGHT
@@ -591,5 +597,26 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 Ergo.layouts = {};
 
 
-Ergo.$layouts = Ergo.object;
+//Ergo.$layouts = Ergo.object;
+
+Ergo.$layouts = function(o, etype) {
+	
+	if(!Ergo.alias(etype)) {
+		
+		var i = etype.indexOf(':');
+		if(i > 0) {
+			etype = etype.substr(i+1);
+		}
+		
+		o.unshift({name: etype});
+		
+		etype = 'layouts:default';
+	}
+	
+	return Ergo.object(o, etype);
+};
+
+
+
+
 

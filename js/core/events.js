@@ -161,9 +161,9 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		
 		// "ленивая" генерация базового события
 		var _event = {
-			baseEvent: baseEvent,
+			base: baseEvent,
 			stop: function() {
-				if(this.baseEvent) this.baseEvent.stopPropagation();
+				if(this.base) this.base.stopPropagation(); //FIXME
 				this.stopped = true;
 			}
 		};

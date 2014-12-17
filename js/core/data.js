@@ -64,9 +64,13 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		 */
 		this.entries = $.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
 		
+//		this.events = new Ergo.events.Observer(this);
+		
 		if(!o.lazy) {
 			Ergo.each(val, function(v, i){	self.entry(i); });
 		}
+		
+//		console.log('-- data --');
 		
 	},
 	
@@ -91,6 +95,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @return {Ergo.core.DataSource} элемент данных
 	 */
 	entry: function(i) {
+		
+//		console.log('-- data entry --');
 		
 		var e = this;
 		
@@ -174,6 +180,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			return this._val();
 		}
 		else {
+//			console.log('-- data get --');
 			return this.entry(i).get();			
 		}
 	},
@@ -304,8 +311,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			values[index] = value;
 		}
 
-
-
+		
 		var e = this.entry(index);
 
 		this.events.fire('entry:added', {'index': isLast ? undefined : index, 'entry': e});//, 'isLast': isLast});
