@@ -7,10 +7,14 @@
 
 
 String.prototype.capitalize = function() {
-	return this.charAt(0).toUpperCase() + this.slice(1);
+//	var s = '';
+//	for(i = 1; i < this.length; i++) s += this[i];
+	return this.charAt(0).toUpperCase() + this.substr(1);
 };
 
-
+String.prototype.trim = function(){
+	return this.replace(/^\s+|\s+$/g, '');
+};
 
 /**
  * Добавление карринга к классу Function
@@ -39,3 +43,5 @@ Function.prototype.rcurry = function(arg) {
 		return F.apply(this, args);
 	};
 };
+
+

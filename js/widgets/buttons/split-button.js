@@ -1,87 +1,28 @@
 
-//= require <widgets/items/button-item>
+//= require "dropdown-button"
 
-Ergo.declare('Ergo.widgets.SplitButton', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 	
 	defaults: {
-		cls: 'e-split-button',
-		
-		mixins: ['dropdownable', 'selectable'],
-		
+		baseCls: 'split-button',
 		components: {
-			content: {
-				etype: 'button-item',
-				autoWidth: true,
-				onClick: function() {
-					this.events.bubble('action');
-				}
+			actionButton: {
+				etype: 'button',
+				weight: -10
 			},
-			button: {
-				etype: 'icon-button',
-				icon: 'button-arrow-down',
-				onClick: function() {
-					this.parent.dropdown.open();
-				}				
-			}
-		},
-		
-		
-		set: {
-			'text': function(v) {
-				this.content.opt('text', v);
+			content: {
+				components: {
+					caret: {
+						'-cls': 'after'
+					}
+				}
 			}
 		}
-		
-/*		
-		defaultItem: {
-			etype: 'button-item'
-		},
-		items: [{
-			autoWidth: true
-		}, {
-			icon: 'button-arrow-down',
-			onClick: function() {
-				this.parent.dropdown.open();
-			}
-		}],
-		
-		onSelect: function(e) {
-			this.dropdown.close();
-			this.item(0).opt('text', e.target.opt('text'));
-		},
-		
-		components: {
-			dropdown: {
-				etype: 'dropdown-box',
-				adjustWidth: true
-			}
-		}			
-*/		
+	},
+	
+	set_text: function(v) {
+		this.actionButton.opt('text', v);
 	}
 	
 	
-	// $pre_construct: function(o) {
-		// this.$super(o);
-// 		
-		// if(o.dropdownContent) {
-			// Ergo.smart_override(o.components.dropdown, {content: o.dropdownContent});
-		// }
-// 		
-// 		
-	// }
-	
-	
-	
-/*	
-	setDropdownItems: function(list) {
-		
-		this.dropdown.content.items.remove_all();
-		
-		for(var i = 0; i < list.length; i++) {
-			this.dropdown.content.items.add( list[i] );
-		}
-		
-	}
-*/	
-	
-}, 'split-button');
+}, 'widgets:split-button');

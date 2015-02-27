@@ -9,6 +9,9 @@
 
 
 /**
+ * 
+ * @deprecated
+ * 
  * @class
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
@@ -19,9 +22,9 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	 * @param {Object} overrides
 	 * @param {Object} baseEvent
 	 */
-	initialize: function(overrides, baseEvent) {
-		this.$super();
-//		Ergo.events.Event.superclass.initialize.call(this);
+	_initialize: function(overrides, baseEvent) {
+		this._super();
+//		Ergo.events.Event.superclass._initialize.call(this);
 		
 		if(overrides) Ergo.override(this, overrides);
 		
@@ -42,6 +45,7 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	}
 	
 	
+	
 });
 
 
@@ -53,9 +57,9 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	 // * @param {Object} overrides
 	 // * @param {Object} baseEvent
 	 // */
-	// initialize: function(overrides, baseEvent) {
-		// this.$super(overrides, baseEvent);
-// //		Ergo.events.CancelEvent.superclass.initialize.apply(this, arguments);
+	// _initialize: function(overrides, baseEvent) {
+		// this._super(overrides, baseEvent);
+// //		Ergo.events.CancelEvent.superclass._initialize.apply(this, arguments);
 		// this.isCanceled = false;
 	// },
 // 	
@@ -77,7 +81,7 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
  */
 Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
 	
-	initialize: function(target) {
+	_initialize: function(target) {
 		this.events = {}; 
 		this.target = target;
 	},
@@ -156,11 +160,26 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 	fire: function(type, e, baseEvent) {
 		
 		// "ленивая" генерация базового события
-		if(arguments.length == 1) 
-			e = new Ergo.events.Event();
-		else if( $.isPlainObject(e) ){
-			e = new Ergo.events.Event(e, baseEvent);
+		var _event = {
+			base: baseEvent,
+			stop: function() {
+				if(this.base) this.base.stopPropagation(); //FIXME
+				this.stopped = true;
+			}
+		};
+		
+		if(arguments.length == 1) { 
+//			_event = new Ergo.events.Event();
+//			e = new Ergo.events.Event();
 		}
+		else if( $.isPlainObject(e) ){
+			Ergo.override(_event, e);
+//			_event.baseEvent = baseEvent;
+//			e = new Ergo.events.Event(e, baseEvent);
+		}
+		
+		e = _event;
+		
 		
 		var self = this;
 		
@@ -209,8 +228,8 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 //	 * @extends Ergo.core.Object
 //	 * @param {Object} target
 //	 */
-//	initialize: function(target) {
-//		Ergo.events.Dispatcher.superclass.initialize.apply(this, arguments);
+//	_initialize: function(target) {
+//		Ergo.events.Dispatcher.superclass._initialize.apply(this, arguments);
 //		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
 //		this.target = target;
 //	},
@@ -300,37 +319,42 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 
 
+//Ergo.event_bus = new Ergo.events.Observer();
 
 
 
-Ergo.Observable = function() {
-	this.events = new Ergo.events.Observer(this);
+
+/**
+ * 
+ * @mixin
+ * 
+ */
+Ergo.Observable = {
+	
+	construct: function(o) {
+	
+		this.events = new Ergo.events.Observer(this);
+		
+//		var o = this.options;
+				
+	},
 	
 	
-	var o = this.options;
-	
-	var regexp = /^on\S/;
-	for(var i in o){
-		if(regexp.test(i)){
-			var name = i.charAt(2).toLowerCase() + i.slice(3);
-			var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-			for(var j = 0; j < chain.length; j++) {
-				this.events.reg( name, chain[j] );
+	post_construct: function(o) {
+		
+		var regexp = /^on\S/;
+		for(var i in o){
+			if(regexp.test(i)){
+				var name = i.charAt(2).toLowerCase() + i.slice(3);
+				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+				for(var j = 0; j < chain.length; j++) {
+					this.events.reg( name, chain[j] );
+				}
 			}
 		}
-	}
-	
-}
-
-
-/*
-Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', {
-	
-	initialize: function() {
-		Ergo.events.Observer.superclass.initialize.apply(this, arguments);
 		
-		this.events = new Ergo.events.Dispatcher(this);
-	}
+	} 
 	
-});
-*/
+};
+
+

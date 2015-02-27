@@ -12,9 +12,9 @@
  */
 Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @lends Ergo.core.Array.prototype */{
 	
-	initialize: function(src, options) {
-		this.$super(src || [], options);
-//		Ergo.core.Array.superclass.initialize.call(this, src || [], options);
+	_initialize: function(src, options) {
+		this._super(src || [], options);
+//		Ergo.core.Array.superclass.__initialize.call(this, src || [], options);
 //		this.src = src || [];
 //		Ergo.Observable.call(this);
 //		this.events = new Ergo.events.Dispatcher();
@@ -50,7 +50,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	 * @param {Object} i
 	 */
 	remove_at: function(i) {
-		var item = this.src[i]
+		var item = this.src[i];
 		this.src.splice(i, 1);
 		return item;
 //		this.events.fire('item:removed', {'item': item});
@@ -90,7 +90,16 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 		var k = [];
 		for(var i = 0; i < this.src.length-1; i++) k.push(i);
 		return k;
+	},
+	
+	sort: function(comparator) {
+		this.src.sort(comparator);
+	},
+	
+	copy: function() {
+		return this.create(this.src.slice(0));
 	}
+	
 	
 });
 

@@ -1,0 +1,2 @@
+
+//= require "modal-dialog"

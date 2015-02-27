@@ -1,0 +1,16 @@
+[{
+	"id": 1,
+	"title": "C:",
+	"type": "folder",
+	"children": true
+}, {
+	"id": 2,
+	"title": "F:",
+	"type": "folder",
+	"children": true
+}, {
+	"id": 3,
+	"title": "G:",
+	"type": "folder",
+	"children": true
+}]

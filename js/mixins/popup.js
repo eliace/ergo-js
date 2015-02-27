@@ -1,32 +1,51 @@
 
-//= require <core/object>
 
-
-Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
+Ergo.defineMixin('Ergo.widgets.Popup', function(o){
+	
+	
 	
 	this.open = function(position) {
 		
-//		if(arguments.length == 0) return;
+		var popups = Ergo.context._popups;
 		
-		if(arguments.length == 2) {
-			position = {offset: [arguments[0], arguments[1]]}
+		// в эксклюзивном режиме закрываем другие всплывающие виджеты
+		if(!popups.is_empty() && this.options.popup.exclusive) {
+			popups.apply_all('close');
+			popups.remove_all();
 		}
 		
-//		var c = this.container;
 		
-		var p = Ergo.smart_override({}, this.options.position, position);
 		
+		var self = this;
+		
+		if(arguments.length == 2) {
+			position = {offset: [arguments[0], arguments[1]]};
+		}
+		
+		var p = Ergo.smart_override({}, this.options.popup, position);
+		
+		// позиционируем виджет
+
+		// определяем координаты относительно точки "at"
 		var x = p.offset[0];
 		var y = p.offset[1];
-
+		
+		
 		// получаем целевой элемент, относительно которого отображаем элемент
 		var to_el = null;
 		
-		if(this.parent) 
+		// определяем элемент, к которому будет привязан popup		
+		if(p.to) {
+			to_el = $(p.to);			
+		} 
+		else if(this.parent) { 
 			to_el = this.parent.el;
-		if(p.to) 
-			to_el = $(p.to);
-			
+		}
+		
+		
+		
+		// определяем смещение из привязки к элементу "to"
+		
 		if(to_el) {
 			
 			var at = p.at.split(' ');
@@ -37,11 +56,14 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 			if(at[1] == 'bottom') y += to_el.outerHeight(false);
 			else if(at[1] == 'center') y += to_el.outerHeight(false)/2;
 			
-			if(this.options.adjustWidth)
-				this.el.width(to_el.outerWidth(false));
+			if(p.adjust)
+//				this.el.width(to_el.outerWidth(false));
+				this.el.css('min-width', to_el.outerWidth(false));
 			
 		}	
-			
+
+
+		// определяем смещение из привязки точки popup
 			
 		var my = p.my.split(' ');
 
@@ -50,147 +72,153 @@ Ergo.declare_mixin('Ergo.mixins.Popup', function(o) {
 
 		if(my[1] == 'bottom') y -= this.el.outerHeight(false);
 		else if(my[1] == 'center') y -= this.el.outerHeight(false)/2;
+
+
+		// if(to_el) {
+			// // смещение целевого элемента
+			// var offset = to_el.offset();
+// 		
+			// x += offset.left;
+			// y += offset.top;
+		// }
 		
 		
-		if(p.global) {
+		
+		if(p.behaviour == 'contextmenu') {
 			
-			if(to_el) {
-				// смещение целевого элемента
-				var offset = to_el.offset();
+			var max_w = $(document).scrollLeft() + $(window).width();
+			var max_h = $(document).scrollTop() + $(window).height();
+			var pop_h = this.el.outerHeight(true);
+			var pop_w = this.el.outerWidth(true);
 			
-				x += offset.left;
-				y += offset.top;
+			var dh = (y + pop_h) - max_h;
+			if(dh > 0) {
+				y -= pop_h;
+			}
+
+			var dw = (x + pop_w) - max_w;
+			if(dw > 0) {
+				x -= dw;//pop_w;
 			}
 			
-			this.el.css('position', 'absolute');
+		}
+		else if(p.behaviour == 'global') {
 			
-			$('body').append(this.el);
-		}
-		
-		
-		
-		// var view_w = this.el.parent().outerWidth();
-		// var view_h = this.el.parent().outerHeight();
-// 		
-		// var dw = view_w - (dd.el.outerWidth() + x);
-		// var dh = view_h - (dd.el.outerHeight() + y);
-// 		
-		// if(dw < 0)	x -= this.el.outerWidth();
-		// if(dh < 0)	y -= this.el.outerWidth();
-		
-		
-		
-		// позиционирование popup-элемента
-		
-		var self = this;
-		
-		this.el.css({'left': x, 'top': y});
-		
-		
-		
-		// Усечение размера выпадающего элемента
-		
-		this.el.height('auto');
-		
-		var max_h = $(document).scrollTop() + $(window).height();
-		var pop_h = this.el.height();
-		var dh = (y + pop_h) - max_h;
-		
-		if(dh > 0) {
-			this.el.height(pop_h - dh);
-			this.el.css({'overflow-y': 'auto'});
+			var offset = to_el.offset();
+			x += offset.left;
+			y += offset.top;
+			
 		}
 		
 		
 
-		
-		
-		this.isShown = true;
 
-		if (!this.options.hideOn || this.options.hideOn == 'outerClick') {
-			// добавляем прозрачную панель в документ
-			$('body').append(this.glass_pane);
+		if(p.behaviour != 'none') {
+			
+			this.el.css({'left': x, 'top': y});
+						
 		}
+		
+		
+		
+		if(p.boundary == 'auto' && to_el) {
+			// изменяем положение виджета в зависимости от расстояния до границы
+			var offset = to_el.offset();
+			var max_x = $(window).width(); 
+			var max_y = $(window).height();
+			var scroll_top = 0;
+			
+			this.el.parents().each(function(i, elem) {
+				scroll_top += $(elem).scrollTop();
+			});
+			
+			if(offset.left + this.el.width() > max_x)
+				this.states.set('pull-left-auto');
+			else
+				this.states.unset('pull-left-auto');
+			
+			if(offset.top + to_el.height() + this.el.outerHeight(true) - scroll_top > max_y)
+				this.states.set('dropup-auto');
+			else if(this.states.is('dropup') && (offset.top - this.el.outerHeight(true) - scroll_top < 0))
+				this.states.set('dropdown-auto');
+			else
+				this.states.set('no-auto');
+			
+			 
+		}
+		
+		
+		
+		// настраиваем размер виджета
+		
+		
+		// определяем параметры закрытия
+		
+		$('html').one('click', function(e) {
+			if(this.options.popup.closeOn == 'outerClick') this.close();
+		}.bind(this));
+		
+		
+		
+		
+		// добавляем текущий объект в список всплывших окон
+		popups.add(this);
 		
 		
 		return this.show().then(function(){
 			self.events.fire('opened');
 		});
-
 	};
 	
 	
 	this.close = function() {
+		var self = this;
+		var popups = Ergo.context._popups;
 		
-		this.isShown = false;
-		
-		
-/*		
-		var effects = this.options.effects || {};
-		
-		var self= this;
-		
-		switch(effects['hide']){
-			case 'fade':
-				this.el.fadeOut( effects.delay, function(){ self.events.fire('onHide'); } );
-				break;
-			case 'slideUp':
-				this.el.slideUp( effects.delay, function(){ self.events.fire('onHide'); } );
-				break;
-			default:
-				this.el.hide();
-				this.events.fire('onHide');
+		var k = popups.key_of(this);
+		if( k > -1 ) {//Ergo.context._popup == this) {
+			
+			if(this != popups.last()) popups.get(k+1).close();  //TODO возможно, будет лучше, если закрытия будут связаны в цепочку
+			
+			Ergo.context._popups.remove(this);
+			
+			return this.hide().then(function(){
+				self.events.fire('closed');
+			});			
 		}
-*/		
 		
-//		this.container.el.hide();
-		
-		this.glass_pane.detach();		
-		
-		return this.hide();
 	};
 	
 	
 	
-	
-	
-	var self = this;
-	
-	this.glass_pane = Ergo.glass_pane()
-		.on('click', function(e){
-			self.close();
-			e.stopPropagation();
-		});
-	
-	
-	// this.glass_pane = $.ergo({
-		// etype: 'glass-pane',
-		// onClick: function(e) {
-      // self.close();
-			// e.baseEvent.stopPropagation();								
-		// }
-	// });
+	if(!Ergo.context._popups)
+		Ergo.context._popups = new Ergo.core.Array();
 	
 	
 	Ergo.smart_override(o, {
+		states: {
+			'dropup-auto:auto': 'dropup-auto',
+			'dropdown-auto:auto': 'dropdown-auto',
+			'no-auto:auto': ''
+		},
 		events: {
-			'mouseleave': function(e, w){ 
-				if(w.options.hideOn == 'hoverOut') w.close(); 
-			},
-			'click': function(e){ 
-				 e.stopPropagation();
-				 e.preventDefault();
+			'jquery:mouseleave': function(e){ 
+				if(this.options.popup.closeOn == 'mouseleave') this.close(); 
 			}
-		}
-	})
+		},
+		autoHeight: 'ignore' // игнорировать высоту контекстного меню при автоматическом расчете высоты
+	});
 	
-	o.position = Ergo.smart_override({
+	
+	o.popup = Ergo.smart_override({
 		to: null, 
 		at: 'left top', 
 		my: 'left top', 
 		offset: [0, 0],
-		global: false
-	}, o.position);
+		closeOn: 'outerClick',
+		exclusive: true,
+		boundary: 'auto'
+	}, o.popup);
 	
 	
-}, 'popup');
+}, 'mixins:popup');

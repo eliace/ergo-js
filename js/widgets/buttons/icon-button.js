@@ -1,26 +1,18 @@
 
-
-Ergo.declare('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
+Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	
 	defaults: {
-		cls: 'e-icon-button',
-		
+		cls: 'icon-btn',
 		components: {
-			icon: {
-				etype: 'icon'
-			}
-		},
-		
-		
-		set: {
-			'text': function(v) {
-				this.icon.opt('text', v);
-			},
-			'icon': function(v) {
-				this.icon.states.only(v);
+			content: {
+				etype: 'icon'			
 			}
 		}
-		
+	},
+	
+	
+	set_icon: function(v) {
+		this.content.states.set(v);
 	}
 	
-}, 'icon-button');
+}, 'widgets:icon-button');

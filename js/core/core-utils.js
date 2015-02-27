@@ -8,7 +8,7 @@
 	var E = Ergo;
 
 	
-	
+	E.indent_s = '\t';
 	
 	/**
 	 * Печать объекта в удобочитаемой форме
@@ -17,6 +17,7 @@
 	 * @function
 	 * @param {Any} obj любой объект/примитив
 	 * @param {Integer} indent отступ
+	 * @param {Integer} i_symb исимвол отступа
 	 * @returns {String}
 	 */
 	E.pretty_print = function(obj, indent) {
@@ -25,7 +26,7 @@
 		
 		indent = indent || 0;
 		var tabs = '';
-		for(var i = 0; i < indent; i++) tabs += '\t';
+		for(var i = 0; i < indent; i++) tabs += E.indent_s;
 		
 		if(obj.pretty_print) return obj.pretty_print(indent);
 		
@@ -43,17 +44,18 @@
 			return '[' + items.join(', ') + ']';
 		}
 		else if($.isFunction(obj)){
-			return 'function()';
+			return 'function() { ... }';
 		}
 		else if($.isPlainObject(obj) || !indent){
 			var items = [];
 			E.each(obj, function(item, key){
-				items.push(tabs + '\t' + key + ':' + E.pretty_print(item, indent+1));					
+				if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
+				items.push(tabs + E.indent_s + key + ': ' + E.pretty_print(item, indent+1));					
 			});
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}
 		else
-			return obj
+			return obj;
 		
 	};
 	
@@ -103,11 +105,11 @@
 		var values = [];
 		for(var i = 1; i < arguments.length; i++) values.push(arguments[i]);
 		return format_str.replace(/(%s)/g, function(str) {
-			var replace_val = ''
+			var replace_val = '';
 			if(str == '%s') replace_val = ''+values.shift();
 			return replace_val;
 		});
-	}
+	};
 	
 	/**
 	 * Форматированный вывод объекта
@@ -137,7 +139,7 @@
 			for(var i = 0; i < arr.length; i++) o = o[arr[i]]; 
 			return o;
 		});		
-	}
+	};
 
 
 
@@ -175,6 +177,82 @@
 	};
 
 
+
+
+	E.loadpath = {};
+	
+	
+	/*
+	 * Синхронная загрузка модулей через Ajax
+	 * 
+	 * В качестве аргументов передается список путей к классам
+	 * 
+	 */
+	E.require = function() {
+		
+		for(var i = 0; i < arguments.length; i++) {
+
+			var class_name = arguments[i];
+			
+			//TODO здесь нужно проверить, загружен ли класс
+			try{
+				if( eval('typeof '+class_name) == 'function') continue;
+			}
+			catch(e) {
+			}
+			
+			for(var j in E.loadpath) {
+				if(class_name.search(j) != -1) {
+					class_name = class_name.replace(j, E.loadpath[j]);
+					break;
+				}
+			}
+			
+			var url = class_name.replace(/\./g, '/') + '.js';
+			
+			$.ajax({
+			  url: url,
+			  dataType: "script",
+			  success: function(){
+			  	//TODO здесь нужно вызывать функцию, оповещающую, что класс загружен
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log(errorThrown);
+			  },
+			  async: false
+			});			
+			
+		}
+		
+		
+	};
+	
+	
+	
+	
+	//TODO перенести в примеси
+	E.glass_pane = function() {
+		
+		return $('<div class="e-glass-pane" autoheight="ignore"/>')
+			.on('mousedown', function(e){
+				e.preventDefault();
+				return false;				
+			});
+		
+	};
+
+
+
+
+
+
+	//FIXME по большому счету это нужно только для корректной работы с событиями клавиатуры
+	/*Browser detection patch*/
+	E.browser = {};
+	E.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+	E.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+	E.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+	E.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
 
 
 

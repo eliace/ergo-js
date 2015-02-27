@@ -1,0 +1,25 @@
+blockquote {
+  color: @blockquote-text-color;
+  font-size: @blockquote-font-size;
+  max-width: @blockquite-width;
+  margin: @blockquite-margin;
+  padding: @blockquite-padding;
+  display: block;
+  position: relative;
+}
+
+blockquote:before {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f10d";
+  font-size: @navigation-font-size;
+  color: @blockquote-text-color;
+}

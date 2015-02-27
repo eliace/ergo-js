@@ -1,0 +1,42 @@
+//Breadcrumbs
+.fm-breadcrumbs {
+  background-color: @breadcrumbs-background-color;
+  padding: @breadcrumbs-padding;
+  margin: @breadcrumbs-margin;
+  
+  ul {
+    margin: 0;
+    
+    li:after {
+    position: relative;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\f105";
+    font-size: @navigation-font-size;
+    top: 1px;
+    margin-left: 10px;
+    color: @breadcrumbs-text-color;
+    }
+    
+    li {
+      float: left;
+      font-size: @navigation-font-size;
+      .rounded(@mid-radius);
+      .transition;
+      padding: 0 10px 0 0;
+     }
+     
+     .current {
+       color: @breadcrumbs-text-color;
+     }
+     
+     .current:after {
+       display: none;
+     }
+   }
+}

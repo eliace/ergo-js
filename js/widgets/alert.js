@@ -1,33 +1,46 @@
 
-//= require <widgets/natives/box>
+//= require <widgets/basic/box>
 
-Ergo.declare('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		cls: 'e-notification',
+		cls: 'alert',
+		layout: 'column',
 		components: {
-			closeButton: {
-				etype: 'icon',
-				cls: 'e-notification-close',
-				onClick: function() {
-					var self = this;
-					this.parent.hide().then(function() { self.parent.destroy(); });
-				}
+			icon: {
+				etype: 'icon'
 			},
 			content: {
-				etype: 'text'
+				components: {
+					title: {
+						cls: 'alert-title',
+						etype: 'html:strong'
+					},
+					message: {
+						cls: 'alert-message',
+						etype: 'box'
+					}					
+				}
+			},
+			xicon: {
+				etype: 'icon',
+				autoRender: false
 			}
-		},
-		mixins: ['effects'],
-		effects: {
-			hide: 'fadeOut',
-			delay: 400
-		},
-		set: {
-			'messageHtml': function(s) { this.content.opt('innerHtml', s); }
-		}		
+		}
+	},
+	
+	
+	set_title: function(v) {
+		this.content.title.opt('text', v);
+	},
+	
+	set_icon: function(v) {
+		this.icon.states.set(v);
+	},
+	
+	set_text: function(v) {
+		this.content.message.opt('text', v);
 	}
 	
 	
-	
-}, 'alert');
+}, 'widgets:alert');

@@ -1,94 +1,117 @@
 
-//= require <widgets/panel>
 
-Ergo.declare('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
+
+Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 	
 	defaults: {
 		
-		cls: 'e-tabs-holder',
+		cls: 'tab-panel',
 		
 		mixins: ['selectable'],
 		
-		onSelect: function(e) {
-			
-			this.setActiveTab(e.target._index);
-			// this.selection.set(e.target);
-			// this.content.setActive(e.target._index);
-			e.stop();
-			
-		},
-		
 		components: {
-			tabs: {
-				cls: 'e-tabs-navigation',
+			header: {
+				autoRender: false
+			},
+			tabbar: {
 				weight: -5,
-				components: {
-					content: {
-						etype: 'list',
-						defaultItem: {
-							onClick: function() {
-								this.events.bubble('select');
-							}
-						}
-					}
+				etype: 'tab-bar',
+				defaultItem: {
+					onClick: function() {
+						this.events.rise('select', {key: this.opt('name') /*this._name || this._key || this._index*/});
+					}					
 				}
 			},
 			content: {
-				layout: 'stack',
-				cls: 'e-tabs-content',
-				defaultItem: {
-					autoHeight: 'ignore-siblings'
-				}
+				mixins: ['pageable'],
+				// defaultItem: {
+					// states: {
+						// 'selected': function(on) {
+							// if(on) {
+								// this.parent.opt('visible', this);
+							// }
+						// }						
+					// }
+				// }
 			}
 		},
 		
-		tabItems: []
+		// onSelectTab: function(e) {
+			// this.opt('selected', e.key);
+			// e.stop();
+		// },
 		
-	},
-	
-	
-	$pre_construct: function(o) {
-		this.$super(o);
+		selector: function(key) {
+			console.log(key);
+			return this.tabbar.item(key);//, this.content.item(key)];
+		},
 		
-		var tabs = [];
-		for(var i = 0; i < o.tabItems.length; i++) {
-			var item = o.tabItems[i];
-			if('tab' in item) {
-				if($.isPlainObject(item.tab)) tabs.push(item.tab);
-				else tabs.push({text: item.tab});
-			}
-			else {
-				tabs.push({text: 'tab'});
-			}
+		onSelectionChanged: function(e) {
+			this.content.opt('active', e.selection.opt('name'));
+			this.events.fire('selectTab', {key: e.selection.opt('name')});
+			e.stop();
 		}
 		
-		Ergo.smart_override(o.components.content, {items: o.tabItems});
-		Ergo.smart_override(o.components.tabs.components.content, {items: tabs});
+	},
+	
+	
+	_construct: function(o) {
+		this._super(o);
 		
-	},
-	
-	setActiveTab: function(key) {
-		var tab = this.tabs.content.item(key);
-		if(tab) {
-			this.selection.set(tab);
-			this.content.setActive(tab._index);
-			
-			this.events.bubble('tabSelected', {target: this.content.item(tab._index)});			
+		this.tabs = new Ergo.core.Tabs(this);
+		
+		if('tabs' in o) {
+			for(var i = 0; i < o.tabs.length; i++)
+				this.tabs.add(o.tabs[i]);
 		}
-	},
-	
-	
-	getActiveTabItem: function() {
-		var tab = this.selection.get();
-		if(tab) {
-			return this.content.item(tab._index);
-		}
-	},
-	
-	getTabItem: function(i) {
-		return this.content.item(i);
+		
+		
 	}
 	
+
+	
+}, 'widgets:tab-panel');
+
+
+
+
+
+
+
+Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
+	
+	defaults: {
+		mixins: [Ergo.Observable]
+	},
 	
 	
-}, 'tab-panel');
+	_initialize: function(w, o) {
+		this._super(o);
+		
+		this._widget = w;
+	},
+	
+	
+	
+	add: function(o) {
+
+		var page = {};
+		var tab = {};
+		
+		if($.isString(o)) {
+			tab = o;
+		}
+		else {
+			page = Ergo.deep_copy(o);
+			tab = o.tab;
+			delete page.tab;
+		}
+		
+		this._widget.tabbar.items.add(tab);
+		this._widget.content.items.add(page);
+		
+	}
+	
+});
+
+

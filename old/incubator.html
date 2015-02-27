@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html class="js canvas canvastext geolocation rgba hsla no-multiplebgs borderimage borderradius boxshadow opacity no-cssanimations csscolumns no-cssgradients no-cssreflections csstransforms no-csstransforms3d no-csstransitions  video audio cufon-active fontface cufon-ready">
+<head>
+	<meta charset="utf-8" />
+	
+	
+		<!-- STYLES -->
+	
+		<link rel="stylesheet/less" href="css/ergo-js.less" type="text/x-less" />
+
+		<!--link rel="stylesheet/less" href="themes/default/ergo-theme.less" type="text/-less" /-->
+
+		<link rel="stylesheet/less" href="iconsets/font-awesome/less/font-awesome.less" type="text/css" />
+
+		<link rel="stylesheet" href="iconsets/sweeticon/icons.css" type="text/css" />
+
+		<script src="lib/misc/less-1.3.3.min.js" type="text/javascript"></script>
+
+		<script src="lib/misc/jquery-1.8.2.min.js" type="text/javascript"></script>
+	
+		<script src="build/ergo-js-0.10.js" type="text/javascript"></script>
+
+		<!--script src="plugins/ergo-growl/ergo-growl.js" type="text/javascript"></script-->
+		
+    <!--script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script-->
+	
+	
+	<style type="text/css">
+		
+		body {
+			padding: 20px;
+		}
+		
+		
+		
+/*		
+		.west-split,.east-split {
+			display: table-cell;
+			cursor: col-resize;
+		}
+		
+		.cursor-col {
+			cursor: col-resize
+		}
+*/		
+		
+		tr.selected {
+			background-color: #FFFCCC;
+		}
+		
+		
+		
+	</style>
+	
+</head>
+<body>
+	
+	
+<script type="text/javascript">
+	
+//	Ergo.widgets.Icon.superclass.defaults.text = 'icon';
+	
+	// Ergo.deep_override(Ergo.widgets.Icon.prototype, {
+		// defaults: {
+			// text: 'icon',
+			// style: {'text-indent': -1000000}
+		// }
+	// });
+
+
+
+	Ergo.deep_override(Ergo.core.Widget.prototype, {
+		setTrailingText: function(s) {
+			this.el.append(s);
+		},
+		setLeadingText: function(s) {
+			this.el.prepend(s);
+		}
+	});
+
+	
+	// Ergo.deep_override(Ergo.widgets.Icon.prototype.defaults, {
+// //		defaults: {
+// //			mode: 'font'
+			// cls: 'e-icon e-font-icon'
+// //		}
+// //		state: 'e-mode-font'
+	// });
+	
+	Ergo.alias('icon', Ergo.widgets.FontIcon);
+	
+	
+	
+	$(document).ready(function(){
+	
+	
+	
+		$.ergo({
+			etype: 'dropdown-select',
+			renderTo: 'body',
+			style: {'position': 'fixed', 'right': 10, 'top': 10},
+			$dropdown_content_items: ['default', 'fancy-light'],
+			value: 'default',
+			
+			onDataChanged: function() {
+				var v = this.opt('value');
+				
+				$('#ergo-current-theme').remove();
+				
+				var less_file = 'themes/'+v+'/ergo-theme.less';
+				
+				$.ajax({
+					url: less_file,
+					async: false,
+					success: function(data){
+			      var parser = new(less.Parser);
+			      parser.parse(data, function (err, t) {
+			        if (err) { return console.error(err) }
+			        css = t.toCSS();
+			        $('<style id="ergo-current-theme" type="text/css" />').html(css).appendTo("head");
+			          
+			      });
+			   	},
+			   	dataType: 'text'
+				});
+						
+			}
+		});
+	
+	
+	
+	
+	
+	
+	
+	AjaxTreeData = Ergo.data.tree.AjaxNodeList.extend({
+		
+		url: 'plugins/ajax-tree/ajax/tree',
+		
+		model: Ergo.data.tree.AjaxNode.extend({
+			fields: {
+				'children': 'AjaxTreeData'
+			}
+		}),
+		
+		fetch: function(id) {
+			
+			if(!id) id = 0;
+			
+			var self = this;
+			
+			return $.getJSON(this.url + '/' + id)
+				.success(function(json){
+					self._fetched = true;
+					self.set(json);
+				});
+		}
+		
+	});
+	
+	
+	var treeData = new AjaxTreeData();//NodeList({url: 'plugins/ajax-tree/ajax/tree'});
+	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Таблица с постраничной AJAX-загрузкой
+	//
+	//-------------------------------------------------------------------
+	
+var GridData = Ergo.data.PageAjaxData.extend({
+	
+	defaults: {
+		url: 'samples/ajax/randomdata.csv',
+		ajax: {
+			dataType: 'text'
+		},
+		pageSize: 40
+	},
+
+	
+	parse: function(csv) {
+		
+		var list = csv.split('\n');
+		
+		
+		this.options.totalCount = list.length;
+		
+		// Эмулируем загрузку набора данных
+		var data = [];
+		
+		var to = Math.min(list.length, this.options.to);
+		
+		for(var i = this.options.from; i < to; i++) {
+			
+			var a = list[i].split('|');
+			
+			data.push({
+				id: a[0],
+				name: a[1],
+				email: a[2],
+				date: a[3]
+			});
+		}
+
+		return data;
+	}	
+	
+});
+	
+	
+	var gridData = new GridData();
+	
+/*	
+	var gridData = new Ergo.data.PageAjaxCollection([], {
+//		mixins: ['pageable'],
+		cache: false,
+		pageSize: 7,
+		totalCount: 1,
+//		path: 'plugins/ajax-grid/ajax/0',
+		path: 'samples/ajax/randomdata.csv',
+		parse: function(json) {
+			
+			
+			console.log(json)
+			
+			
+			
+			this.options.totalCount = json.total;
+			
+			// Эмулируем загрузку набора данных
+			var data = [];
+			
+			var to = Math.min(json.total, this.options.to);
+			
+			for(var i = this.options.from; i < to; i++) data.push(json.data[i]);
+			
+			
+			return data;
+		}
+	});
+*/	
+	
+	
+	
+	var grid = $.ergo({
+		etype: 'grid-panel',
+		renderTo: 'body',
+		width: 600,
+		height: 600,
+		title: 'Таблица (ajax)',
+		cls: 'widget',
+		
+		data: gridData,
+		
+		components: {
+			header: {
+				$toolbox_items: ['Добавить', 'Удалить', 'Обновить', {
+					etype: 'upload-box',
+					content: {
+						etype: 'icon-button',
+						icon: 'icon-upload-alt'
+					}
+				}]
+			},
+			footer: {
+				content: {
+					items: [{
+						etype: 'icon-button',
+						icon: 'icon-refresh'
+					}, {
+						cls: 'e-splitter'
+					}]
+				}
+			}
+		},
+		
+ 		
+		
+		
+		content: {
+			columns: [{
+				dataId: 'id',
+				header: 'ID',
+				width: 30
+			}, {
+				dataId: 'name',
+				header: 'Имя'
+			}, {
+				dataId: 'email',
+				header: 'E-mail'
+			}, {
+				dataId: 'date',
+				header: 'Дата',
+				width: 80
+			}, {
+				autoBind: false,
+				content: {
+					etype: 'text',
+					cls: 'action-widget',
+					text: 'Просмотр'
+				},
+				width: 100
+			}]
+		}
+		
+		
+	});
+	
+	
+	grid.footer.content.paginator.opt('index', 1);
+	
+	// gridData.fetch().then(function(){
+		// grid.$layoutChanged();
+	// });
+	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Панель инструментов
+	//
+	//-------------------------------------------------------------------
+	
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Панель инструметов',
+		
+		content: {
+			etype: 'tool-box',
+			items: [{
+				etype: 'button',
+				text: 'Просто кнопка'
+			}, {
+				etype: 'button-item',
+				text: 'Печать',
+				icon: 'icon-print',
+				leadingText: 'aaa',
+				trailingText: 'bbb'
+			}, {
+				etype: 'upload-box',
+				content: {
+					etype: 'icon-button',
+					icon: 'icon-upload-alt'
+				}
+			}, {
+					etype: 'icon-button',
+					icon: 'icon-signin'				
+			}, {
+				cls: 'e-splitter'
+			}, {
+				etype: 'button-group',
+				defaultItem: {
+					etype: 'button'
+				},
+				items: ['Добавить', 'Удалить', 'Изменить']
+			}, {
+				cls: 'e-splitter'
+			}, {
+				etype: 'grid-paginator'
+			}, {
+				cls: 'e-splitter'
+			}, {
+				etype: 'dropdown-button',
+				text: 'Действие',
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
+			}, {
+				etype: 'split-button',
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
+			}, {
+				etype: 'dropdown-select',
+				$dropdown_content_items: ['Добавить', 'Удалить', 'Изменить']
+			}]
+		}
+		
+	});
+	//-------------------------------------------------------------------
+	//
+	// Панель инструментов 2(Селекторы)
+	//
+	//-------------------------------------------------------------------
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Панель инструметов 2(Селекторы)',
+		
+		content: {
+			etype: 'tool-box',
+			items: [{
+                etype: 'button-group',
+                mixins: ['selectable'],
+                onSelect: function(e) {
+                  this.selection.set(e.target);
+                  e.cancel();
+                },
+                defaultItem: {
+                  etype: 'button',
+                  onClick: function() {
+                    this.events.bubble('select', {target: this});
+                  }
+                },
+                items: ['ПервыйСелект', 'ВторойСелект', 'ТретийСелект']
+            }, {
+				cls: 'e-splitter'
+			}, {
+          etype: 'button-group',
+          mixins: ['selectable'],
+          defaultItem: {
+              etype: 'icon-button',
+              onClick: function(e){
+                  this.events.bubble('select', {target: this});
+              }
+          },
+          items: [{icon: 'icon-th-large'}, {icon: 'icon-align-justify'}],
+          onSelect: function(e) {
+              this.selection.set(e.target);
+              e.cancel();
+          },
+      }, {
+				cls: 'e-splitter'
+			}, {
+          etype: 'button-group',
+          mixins: ['selectable'],
+          onSelect: function(e) {
+            this.selection.set(e.target);
+            e.cancel();
+          },
+          defaultItem: {
+            etype: 'button-item',
+            onClick: function() {
+              this.events.bubble('select', {target: this});
+            }
+          },
+          items: ['Первый', 'Второй', {text: 'Третий', xicon: 'icon-magic'}]
+      }, {
+				cls: 'e-splitter'
+			}, {
+          etype: 'button-group',
+          mixins: ['selectable'],
+          defaultItem: {
+            etype: 'button-item',
+            onClick: function() {
+              this.events.bubble('select', {target: this});
+            }
+          },
+          items: ['Первый', {icon: 'icon-caret-down', style: {padding: '4px'}}]
+      }, {
+				cls: 'e-splitter'      	
+      }, {
+				etype: 'icon',
+				state: 'e-icon-chat'
+			}, {
+				etype: 'icon',
+				state: 'icon-cog'
+			}]
+		}
+	})
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Вертикальная группа кнопок
+	//
+	//-------------------------------------------------------------------
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Вертикальная группа кнопок',
+		
+		content: {
+			etype: 'button-group',
+			width: 200,
+      cls: 'vertical',
+      layout: 'vbox',
+      defaultItem: {
+          etype: 'button',
+          onClick: function(e){
+              this.events.bubble(this.tag, e);
+          }
+      },
+      items: [{
+          text: 'Отказ', 
+          tag:'refuse',
+       }, {
+          text: 'Регистрация', 
+          tag: 'registration' 
+       }, {
+          text: 'Назначить исполнителя',
+          tag: ''
+       }, {
+          text: 'Запросить обнвление',
+          tag: ''
+       }, {
+          text: 'На подписание',
+          tag: ''
+       }, {
+          text: 'Подписать',
+          tag: ''
+       }]
+		}
+	})
+	
+	//-------------------------------------------------------------------
+	//
+	// Диалоги
+	//
+	//-------------------------------------------------------------------
+	
+	
+	$.ergo({
+		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Панель инструметов',
+		
+		content: {
+			etype: 'tool-box',
+			items: [{
+				etype: 'button-item',
+				text: 'Диалог',
+				onClick: function() {
+					
+					var dlg = new Ergo.widgets.Dialog({
+						width: 400,
+						height: 300,
+						title: 'Диалог',
+						cls: 'widget',
+						
+						buttons: ['ok', 'cancel'],
+						
+						content: {
+							layout: 'form',
+							autoHeight: true,
+							style: {'overflow-y': 'auto'},
+							items: [{
+								label: 'Имя',
+								etype: 'input-box'
+							}, {
+								label: '',
+								etype: 'input-box',
+								content: {
+									etype: 'text-area'
+								}
+							}, {
+								label: 'Должность',
+								etype: 'dropdown-select',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-caret-down'
+								}],								
+								dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+							}, {
+								label: 'Дата рождения',
+								etype: 'select-box',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-calendar'
+								}]
+							}, {
+								label: 'Файл',
+								etype: 'upload-box',
+								content: {
+									etype: 'select-box',
+									buttons: [{
+										etype: 'icon-button',
+										icon: 'icon-paper-clip'
+									}]									
+								}
+							}, {
+								label: 'Адрес',
+								etype: 'select-box',
+								buttons: [{
+									etype: 'icon-button',
+									icon: 'icon-globe'
+								}]
+							}, {
+								label: '',
+								etype: 'check-box'
+							}, {
+								label: '',
+								etype: 'spinner-input'
+							}]
+						}
+					});
+					
+					dlg.open();
+					
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Быстрый диалог',
+				onClick: function() {
+					
+					$.ergo({
+						etype: 'quick-dialog',
+						cls: 'widget',
+						title: 'Быстрый диалог',
+						content: { text:'Нажмите "ОК", если вы можете прочитать это сообщение'},
+						
+						
+						onOk: function() {
+							//TODO
+						}
+						
+					});
+					
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Чеклист',
+				onClick: function() {
+					
+					$.ergo({
+						etype: 'quick-dialog',
+						cls: 'widget',
+						title: 'Диалог',
+						content: {
+							etype: 'list-box',
+							defaultItem: {
+								etype: 'check-item'
+							},
+							items: [{text: 'Завтрак', value: true}, {text: 'Полдник', value: false}, {text: 'Обед', value: false}, {text: 'Ужин', value: false}]
+						}
+					});
+					
+				}				
+			}, {
+				etype: 'button-item',
+				text: 'Гроул',
+				onClick: function() {
+					
+					growl.info('Привет');
+					
+					// var g = $.ergo({
+						// etype: 'growl-dialog',
+						// title: 'Ошибка',
+						// message: 'Неправильно введен логин или пароль',
+						// icon: 'growl-error-big'
+					// });
+// 					
+					// g.open();
+										
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Гроул',
+				onClick: function() {
+					
+					var g = $.ergo({
+						etype: 'growl-dialog',
+						title: 'Ошибка',
+						message: 'Неправильно введен логин или пароль',
+						icon: 'growl-error-big'						
+					});
+					
+					g.open();
+										
+				}
+			}, {
+				etype: 'button-item',
+				text: 'Календарь',
+				onClick: function() {
+					
+					var calendar = $.ergo({
+						etype: 'box',
+						renderTo: 'body',
+						mixins: ['popup'],
+						
+						position: {
+							global: true,
+							at: 'left bottom',
+							to: this.el,
+							boundary: false
+						},
+						
+						cls: 'calendar',
+						components: {
+							header: {
+								cls: 'header-calendar',
+								defaultItem: {
+									etype: 'dropdown-select',
+									cls: 'calendar-button'
+								},
+								items: [{
+									value: 'декабрь',
+									xicon: 'arrow-calendar-button',
+									$dropdown_content_items: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
+								}, {
+//									value: '2012 г.',
+									xicon: 'arrow-calendar-button',
+//									$dropdown_content_items: ['2010', '2011', '2012', '2013', '2014', '2015'],
+									onAfterBuild: function() {
+										for(var i = 1900; i < 2100; i++) {
+											this.dropdown.content.items.add({text: i, value: i});
+										}
+										this.opt('value', 2013);
+									},
+//									value: 2013
+								}, {
+									etype: 'icon-button',
+									cls: 'close',
+									icon: 'icon-remove',
+									onClick: function() {
+										this.events.bubble('close');
+									}
+								}]
+							},
+							content: {
+								cls: 'box-calendar',
+								components: {
+									daysOfWeek: {
+										cls: 'days-of-the-week',
+										defaultItem: {
+											etype: 'text',
+											html: '<div/>'
+										},
+										items: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+									},
+									daysOfMonth: {
+										cls: 'days-of-the-month',
+										defaultItem: {
+											etype: 'text',
+											html: '<div/>'
+										},
+										items: ['', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '',
+														'', '', '', '', '', '', '']
+									}
+								}
+							}
+						},
+						
+						onClose: function(e) {
+							this.close();
+						}
+					});
+					
+					
+					calendar.open();
+					
+				}
+			}]
+		}
+	});
+	
+	
+
+
+	
+	//-------------------------------------------------------------------
+	//
+	// Горизонтальное меню
+	//
+	//-------------------------------------------------------------------
+	
+	
+	$.ergo({
+//		etype: 'panel',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+//		title: 'Меню',
+		
+//		content: {
+			etype: 'main-menu',
+			logo: 'samples/img/logo.png',
+			items: ['Страница 1', 'Страница 2', 'Страница 3']
+//		}
+		
+	});
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Вертикальное меню
+	//
+	//-------------------------------------------------------------------	
+	
+	$.ergo({
+		renderTo: 'body',
+		etype: 'main-menu',
+		width: 150,
+		cls: 'vertical',
+		logo: 'samples/img/logo.png',
+		items: ['Страница 1', 'Страница 2', 'Страница 3'],
+		
+		onSelectionChanged: function(e) {
+			console.log(e.target);
+		}
+	});
+	
+	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Панель с закладками
+	//
+	//-------------------------------------------------------------------
+	
+	$.ergo({
+		etype: 'tab-panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Закладки',
+		width: 600,
+		height: 300,
+		
+		tabItems: [{
+			tab: 'Закладка 1'
+		}, {
+			tab: 'Закладка 2'
+		}, {
+			tab: 'Закладка 3'
+		}],
+		
+		activeTab: 0
+		
+	});
+	
+	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Компоновка с боковыми панелями
+	//
+	//-------------------------------------------------------------------
+	
+	
+//	var treeData2 = new Ergo.plugins.tree.NodeCollection([], {path: 'plugins/ajax-tree/ajax/tree'});
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Приложение',
+		width: 800,
+		height: 300,
+		
+		content: {
+			layout: 'app',
+			components: {
+				west: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Структура организации',
+					width: 200,
+					
+					content: {
+						etype: 'dynamic-tree',
+						data: treeData,
+						
+						node: {
+							content: {
+								binding: function(v) {
+									this.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+									this.opt('text', v.title);
+//									this.opt('xicon', 'icon-check');
+								},
+								xicon: 'icon-check'
+							}
+							// onDataChanged: function() {
+								// var v = this.getValue();
+								// this.content.opt('icon', v.children ? 'icon-folder-close' : 'icon-file' );
+								// this.content.opt('text', v.title);
+							// }
+						}
+					}
+					
+				},
+				center: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Описание'
+				},
+				east: {
+					etype: 'panel',
+//					cls: 'widget',
+					title: 'Информация'
+				}
+			},
+			
+			// defaultItem: {
+				// autoHeight: 'ignore-siblings'
+			// },
+			
+			items: [{
+				region: 'west-split',
+				etype: 'split-box',
+				left: 'west',
+				right: 'center',
+				update: 'left',
+				
+			}, {
+				region: 'east-split',
+				etype: 'split-box',
+				left: 'center',
+				right: 'east',
+				update: 'right',
+				invert: true
+			}]
+		}
+		
+		
+	});
+	
+	
+	treeData.fetch();
+	
+//	treeData2.fetch('plugins/ajax-tree/ajax/tree/0');
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Элементы формы (фокус, переходы)
+	//
+	//-------------------------------------------------------------------
+	
+	
+	
+	var person2 = {
+		id: 5,
+		first_name: 'Петр',
+		last_name: 'Волков',
+		middle_name: 'Николаевич',
+		birth_date: '12-08-1972',
+		gender: 'female',
+		incidents: 3,
+		post: 'Ведущий специалист',
+		address: '',
+		active: false
+	};
+	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Форма',
+		width: 600,
+//		height: 400,
+		
+		content: {
+			layout: 'form',
+//			autoHeight: true,
+			style: {'overflow-y': 'auto', 'padding': 10},
+			
+			
+			defaultItem: {
+				focusable: true,
+				content: {
+					events: {
+						'focus': function(e, w) {
+//							console.log('focus')
+							Ergo.focus(w);
+						}
+					},
+					tabIndex: 1
+				}
+			},
+			
+			
+			items: [{
+				label: 'Имя',
+				etype: 'input-box'				
+			}, {
+				label: '',
+				etype: 'input-box',
+				content: {
+					etype: 'text-area'
+				}				
+			}, {
+				label: 'Должность',
+				etype: 'dropdown-select',
+				buttons: [{
+					etype: 'icon-button',
+//						icon: 'icon-caret-down'
+				}],								
+				dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист', 'Консультант', 'Стажер'],
+				
+				onClick: function() {
+					this.content.el.focus();
+				}
+				
+			}, {
+				label: 'Дата рождения',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-calendar'
+				}],
+
+				onClick: function() {
+					this.content.el.focus();
+					//Ergo.focus(this);
+				}				
+				
+			}, {
+				label: 'Файл',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-paper-clip'
+				}],
+				
+				onClick: function() {
+					this.content.el.focus();
+				}
+				
+			}, {
+				label: 'Адрес',
+				etype: 'select-box',
+				buttons: [{
+					etype: 'icon-button',
+					icon: 'icon-globe'
+				}],
+				
+				onClick: function() {
+					this.content.el.focus();
+				}				
+				
+			}, {
+				label: '',
+				etype: 'check-box',
+				
+				onClick: function() {
+					this.content.el.focus();
+				}				
+				
+			}, {
+				label: 'Число',
+				etype: 'spinner-input',
+				id: 'aaa'
+			}]
+		}
+		
+		
+	});
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Панель редактора свойств
+	//
+	//-------------------------------------------------------------------
+	
+	var MyModel = Ergo.data.Object.extend({
+		fields: {
+			'id': {etype: 'object', readonly: true}
+		}
+	});
+	
+	
+	w = $.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Свойства',
+		width: 600,
+		height: 450,
+		
+		
+		content: {
+			etype: 'property-grid',
+		
+			data: new MyModel(person2),
+			
+			keyFormat: function(v) {
+				var f = {
+					'first_name': 'Имя',
+					'last_name': 'Фамилия',
+					'middle_name': 'Отчество',
+					'birth_date': 'Дата рождения',
+					'gender': 'Пол',
+					'post': 'Должность'
+				}[v];	
+				return f || v;
+			},
+			
+			
+			// mixins: ['selectable'],
+// 			
+			// row: {
+				// onClick: function() {
+					// this.events.bubble('select');
+				// },
+				// states: {
+					// 'selected': function(on) {
+						// if(on)
+							// this.column(1).content.item(0).show();
+						// else						
+							// this.column(1).content.item(0).hide();
+					// }
+				// }
+			// },
+// 			
+			// onSelect: function(e) {				
+				// this.selection.set(e.target);
+			// },
+			
+			
+			
+			columns: [{
+			}, {
+				header: 'Значение',
+				
+				width: 250,
+				
+				content: {
+					etype: 'input-editor',
+//					autoWidth: true
+				},
+/*				
+				content: {
+					etype: 'text-box',
+					cls: 'show-on-hover',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-pencil',
+						hidden: true,
+						onClick: function() {
+							this.events.bubble('action');
+						}
+					}]
+				},
+				
+				
+				onAction: function() {
+					this.startEdit();
+				},
+				
+				onEdit: function() {
+					console.log('edit');
+				},
+				
+				editor: {
+					
+					focusable: true,
+					
+					onFocusIn: function() {
+						console.log('focus-in');
+					},
+					
+					onFocusOut: function() {
+						console.log('focus-out');
+					}
+					
+				},
+*/				
+
+				editorFactory: function(id) {
+					
+					var o = {
+						etype: 'input-editor'
+					};
+					
+					if(id == 'post') {						
+						o = {
+							etype: 'dropdown-editor',
+							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+						};
+					}
+					else if(id == 'incidents') {	
+						o = {
+							etype: 'spinner-editor',
+							stopOnFocusOut: false
+						};
+					}
+					else if(id == 'address') {	
+						o = {
+							etype: 'select-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
+						};
+					}
+					else if(id == 'id') {
+//						this.states.set('readonly');
+					}	
+					else if(id == 'active') {
+						o = {
+							etype: 'check-box'
+						};
+					}	
+					else if(id == 'birth_date') {
+						o = {
+							etype: 'input-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-calendar'}]
+						};
+					}	
+					
+					return o;
+				},
+
+				
+				onBound: function() {
+					
+					var id = this.data.id;
+					
+//					console.log(id);
+					
+/*					
+					if(id == 'post') {
+						
+//						this.opt('editor', {
+	
+						this.components.set('content', {
+							etype: 'dropdown-editor',
+							dropdownItems: ['Главный специалист', 'Начальник отдела', 'Ведущий специалист']
+						});
+					}
+					else if(id == 'incidents') {	
+//						this.opt('editor', {
+						this.components.set('content', {
+							etype: 'spinner-editor',
+							stopOnFocusOut: false
+						});
+					}
+					else if(id == 'address') {	
+						this.components.set('content', {
+							etype: 'select-editor',
+							buttons: [{etype: 'icon-button', icon: 'icon-globe'}]
+						});
+					}
+					else if(id == 'id') {
+//						this.states.set('readonly');
+					}	
+					else if(id == 'active') {
+						this.components.set('content', {
+							etype: 'check-box'
+						});
+					}	
+*/					
+
+					this.components.set('content', this.options.editorFactory.call(this, id));
+
+					
+					if(this.data.opt('readonly')) {
+						
+						this.components.set('content', {
+							etype: 'text'
+						});
+						
+						
+//						this.states.toggle('readonly');
+//						this.opt('editable', false);
+//						this.content.item(0).states.set('disabled');
+//						this.content.item(0).opt('icon', 'icon-lock');
+					}
+					
+//					this.states.toggle('readonly', this.data.opt('readonly'))
+				},
+				
+				
+				onDoubleClick: function() {
+		      $(window).one('click', function(e){
+		      	console.log(e);
+		      });
+				}
+				
+			}]
+		
+		}
+			
+	});
+	
+	
+//	w.options
+	
+	
+	
+	
+	//-------------------------------------------------------------------
+	//
+	// Загрузка файлов
+	//
+	//-------------------------------------------------------------------
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Загрузка файлов',
+		width: 600,
+		height: 400,
+				
+		content: {
+			
+			items: [{
+				width: 500,
+				etype: 'upload-box',
+				content: {
+					etype: 'select-box',
+					buttons: [{
+						etype: 'icon-button',
+						icon: 'icon-upload-alt'
+					}]					
+				},
+				onFileSelect: function(e) {
+					this.content.opt('value', e.file);
+					
+					// // загружаем файл
+					// this.upload('ajax/upload').success(function(e){
+						// // разбираем ответ
+					// });
+				}				
+			}, {
+				etype: 'panel',
+				header: {
+					etype: 'header-box',
+					$toolbox_items: [{
+						etype: 'upload-box',
+						content: {
+							etype: 'button-item',
+							icon: 'icon-upload',
+							text: 'Загрузить файл'
+						}
+					}]
+				},
+				onFileSelect: function(e) {
+					this.content.items.add({text: e.file});
+					
+					// // загружаем файл
+					// this.upload('ajax/upload').done(function(e){
+						// // разбираем ответ
+					// });					
+				}				
+			}, {
+				
+			}]
+			
+			
+		}
+
+	});
+
+
+
+
+
+
+	//-------------------------------------------------------------------
+	//
+	// Связывание с данными 
+	//
+	//-------------------------------------------------------------------
+	
+	var posts = ['Главный специалист', 'Начальник отдела', 'Ведущий специалист'];
+
+	var actions = [
+		{id: 'create', title: 'Создать'},
+		{id: 'update', title: 'Изменить'},
+		{id: 'delete', title: 'Удалить'},
+		{id: 'read', title: 'Получить'}
+	]
+
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Связывание с данными',
+		width: 600,
+		height: 400,
+				
+		content: {
+			
+			items: [{
+				etype: 'dropdown-select',
+				$dropdown_content: {
+					data: posts,		// у источника данных оперируемое и отображаемое значение совпадают
+					defaultItem: {
+						etype: 'text-item'
+					}
+				}
+			}, {
+				etype: 'dropdown-button',
+				text: 'Выберите значение',
+				$dropdown_content: {
+					data: actions,	// у источника данных оперируемое значение (id) не совпадает с отображаемым (title)
+					defaultItem: {
+						etype: 'text-item',
+						get: {
+							'value': function() {
+								return this.data.get('id');
+							}
+						},
+						binding: function() {
+							this.opt('text', this.data.get('title'));
+						}
+					}
+				}
+			}, {
+				
+				dynamic: true,
+				data: posts,
+				defaultItem: {
+					etype: 'text-item',
+					mixins: ['actionable'],
+					action: 'click'
+				},
+				
+				onAction: function(e) {
+					growl.info(e.target.opt('value'));
+				}
+				
+			}]
+			
+			
+			
+		}
+	});
+	
+
+
+
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget',
+		renderTo: 'body',
+		style: {'margin-top': 20},
+		title: 'Связывание с данными',
+		width: 600,
+		height: 400,
+				
+		content: {
+			etype: 'accordion',
+			
+			items: [{
+				text: 'Новости',
+				$content_items: ['Все', 'Отдел', 'Ведомство']
+			}, {
+				text: 'Сообщения',
+				$content_items: ['Входящие', 'Отправленные']
+			}, {
+				text: 'Архив'
+			}, {
+				text: 'Справка'
+			}]
+
+		}
+	});
+	
+	
+	
+	
+	$.ergo({
+		etype: 'panel',
+		cls: 'widget left',
+		selected: 0,
+		renderTo: 'body',
+		title: 'ВСЕ РАЗНОЙ ВЫСОТЫ!!! ЧТО ЖЕ ДЕЛАТЬ!?!!??',
+		header: {
+			etype: 'header-box',
+			$toolbox_items: [{
+			    id: 'button-nav',
+				etype: 'button-group',
+				mixins: ['selectable'],
+				items: ['Документы', 'Сервисы', 'Фрагменты'],
+				
+			}, {
+				etype: 'dropdown-select',
+				width: 140,
+				$dropdown_content_items: ['Наименование', 'Код', 'ID']
+			}, {
+				etype: 'icon-button',
+				icon: 'icon-refresh'
+			}]
+		},
+		content: {
+			height: 300
+		}
+	});
+	
+	
+	
+	
+	
+
+
+	
+	
+	
+/*	
+	var growls = $.ergo({
+		renderTo: 'body',
+		etype: 'growl',
+		style: {'top': 0, 'right': 0},
+		direction: 'down'
+	});
+
+
+	var growls2 = $.ergo({
+		renderTo: 'body',
+		etype: 'growl',
+		style: {'bottom': 0, 'right': 0},
+		direction: 'up'
+	});
+*/	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+});	
+	
+
+</script>	
+	
+</body>
+</html>

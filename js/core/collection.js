@@ -1,5 +1,6 @@
 
 //= require "object"
+//= require "events"
 
 /**
  * Коллекция пар ключ/значение
@@ -13,12 +14,16 @@
 Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 	
 	defaults: {
-		mixins: [Ergo.Observable]
+//		plugins: [Ergo.Observable]
 	},
 	
-	initialize: function(src, options) {
-		this.$super(options);
-//		Ergo.core.Collection.superclass.initialize.call(this, options);
+	_initialize: function(src, options) {
+//		this._super(options);
+		Ergo.core.Collection.superclass._initialize.call(this, options);
+
+//		this.options = options;
+//		this.events = new Ergo.events.Observer(this);
+
 		this.src = src || {};
 	},
 	
@@ -112,7 +117,7 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 */
 	remove_if: function(criteria) {
 		var keys = Ergo.filter_keys(this.src, criteria);
-		keys.sort().reverse();
+		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
 		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
 		return removed;
@@ -187,6 +192,11 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	includes: function(criteria) {
 		return Ergo.includes(this.src, callback);
 	},
+
+	is_include: function(criteria) {
+		return Ergo.includes(this.src, callback);
+	},
+
 	
 	/**
 	 * Размер коллекции

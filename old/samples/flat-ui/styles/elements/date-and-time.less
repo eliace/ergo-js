@@ -1,0 +1,58 @@
+//Date and time
+.fm-date-element {
+  font-size: @day-and-time-font-size;
+  font-weight: bold;
+  margin: 0 10px 0 0;
+  
+  .day {
+    background-color: @day-background-color;
+    padding: @day-padding;
+    margin-right: 5px;
+    .rounded(@min-radius)
+  }
+  
+  .month {
+    margin-right: 3px;
+  }
+}
+
+//Blinking dots
+.fm-time-element.blink {
+  .hour:after {
+    animation: blinking 1s infinite linear;
+    -moz-animation: blinking 1s infinite linear;
+    -webkit-animation: blinking 1s infinite linear;
+  }
+  
+  //Keyframes
+  @keyframes blinking {
+    0% {opacity: 100%;}
+    90% {opacity: 0;}
+    100% {opacity: 100%;}
+  }
+
+ @-moz-keyframes blinking {
+    0% {opacity: 100%;}
+    90% {opacity: 0;}    
+    100% { opacity: 100%;}
+  }
+
+  @-webkit-keyframes blinking  {
+    0% {opacity: 100%;}
+    90% {opacity: 0;}
+    100% {opacity: 100%;}
+  }
+}
+
+//Time element
+.fm-time-element {
+  font-size: @day-and-time-font-size;
+  font-weight: bold;
+  margin: 0 10px 0 0;
+  
+  .hour:after {
+    content: ':';
+    margin-left: 3px;
+  }
+}
+

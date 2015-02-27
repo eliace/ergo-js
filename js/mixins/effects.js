@@ -1,39 +1,88 @@
 
 
-
-Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
+/**
+ * Перегружаемт методы show() и hide() для поддержки анимации
+ * 
+ * Опции:
+ * 	`effects`
+ * 
+ * @mixin Ergo.mixins.Effects
+ */
+Ergo.defineMixin('Ergo.mixins.Effects', function(o) {
 	
 	this.show = function() {
-		if(this.children.is_empty()) return $.Deferred().resolve();
 		
-		var effects = this.options.effects;
-//		var deferred = $.Deferred();
+		var effect = false;
 		
-		if(effects.initial) {
-			effects = Ergo.override({}, effects, effects.initial);
-			delete this.options.effects.initial;
+		if( !this.children.is_empty() || this.el.text() ) {  // ?
+
+			var o = this.options.effects;
+			
+			if(o.initial) {
+				o = Ergo.override({}, o, o.initial);
+				delete this.options.effects.initial;
+			}
+			
+			var el = this._wrapper || this.el;
+			
+			// FIXME экспериментальный код
+			if( !el.is(':visible')) {
+				if( $.isPlainObject(o.show) ) {
+					effect = el[o.show.type]({
+						duration: o.show.delay || o.delay,
+						easing: o.show.easing || 'swing'
+					});					
+				}
+				else {
+					effect = el[o.show]({
+						duration: o.delay,
+						easing: o.easing || 'swing'
+					});
+				}
+				
+			}
+			
 		}
-		
-//		this.el[effects.show](effects.delay, function(){ deferred.resolve(); });
-//		return deferred;
-		return $.when( this.el[effects.show](effects.delay) );
+
+		return $.when( effect )
+						.then(function(){ this.events.fire('show'); }.bind(this));		
 	};
 	
 	
 	this.hide = function() {
-		if(this.children.is_empty()) return $.Deferred().resolve();
-
-		var effects = this.options.effects;
-//		var deferred = $.Deferred();
-
-		if(effects.initial) {
-			effects = Ergo.override({}, effects, effects.initial);
-			delete this.options.effects.initial;
-		}
 		
-//		this.el[effects.hide](effects.delay, function(){ deferred.resolve(); });
-//		return deferred;		
-		return $.when( this.el[effects.hide](effects.delay) );
+		var effect = false;
+		
+		if( !this.children.is_empty() || this.el.text() ) {  // ?
+
+			var o = this.options.effects;
+	
+			if(o.initial) {
+				o = Ergo.override({}, o, o.initial);
+				delete this.options.effects.initial;
+			}
+			
+			var el = this._wrapper || this.el;
+		
+			if( el.is(':visible')) {
+				if( $.isPlainObject(o.hide) ) {
+					effect = el[o.hide.type]({
+						duration: o.hide.delay || o.delay,
+						easing: o.hide.easing || 'swing'
+					});					
+				}
+				else {
+					effect = el[o.hide]({
+						duration: o.delay,
+						easing: o.easing || 'swing'
+					});
+				}				
+			}
+//				effect = el[o.hide](o.delay);
+		}
+
+		return $.when( effect )
+						.then(function(){ this.events.fire('hide'); }.bind(this));
 	};
 	
 	
@@ -42,5 +91,7 @@ Ergo.declare_mixin('Ergo.mixins.Effects', function(o) {
 		hide: 'hide',
 		delay: 0
 	}, o.effects);
-		
-}, 'effects');
+	
+	
+	
+}, 'mixins:effects');

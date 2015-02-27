@@ -1,0 +1,90 @@
+//tabs
+.fm-tabs-horizontal {
+  position: relative;
+  
+   .tabs-navigation {
+     overflow: hidden;
+     position: absolute;
+     width: 100%;
+     top: 0;
+     background-color: @tabs-navigation-background;
+     height: @tabs-navigation-height;
+    }
+    
+   > label {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    position: relative;
+    text-align: left;
+    padding: 10px 20px 14px 20px;
+    border-top: @tabs-navigation-border-size solid @tabs-navigation-background;
+    background-color: @tabs-navigation-background;
+    .transition;
+    
+    span {
+      float: left;
+    }
+   }
+
+  > label:hover {
+    border-top: @tabs-navigation-border-size solid @tabs-navagation-hover-background;
+    background-color: @tabs-navagation-hover-background;
+  }
+    
+  input {
+    position: absolute;
+    left: -9999px;
+  }
+ 
+  #hor-tab_1:checked  ~ #hor-tab_l1,
+  #hor-tab_2:checked  ~ #hor-tab_l2,
+  #hor-tab_3:checked  ~ #hor-tab_l3,
+  #hor-tab_3:checked  ~ #hor-tab_l4,
+  #hor-tab_3:checked  ~ #hor-tab_l5,
+  #hor-tab_3:checked  ~ #hor-tab_l6,
+  #hor-tab_3:checked  ~ #hor-tab_l7,
+  #hor-tab_3:checked  ~ #hor-tab_l8,
+  #hor-tab_3:checked  ~ #hor-tab_l9 {
+    background-color: @tabs-content-background;
+    border-top: @tabs-navigation-border-size solid @tabs-navigation-selected-border-color;
+    top: 0;
+    z-index: 3;
+    cursor: default;
+  } 
+
+  .tabs-content {
+    background-color: @tabs-content-background;
+    position: relative;
+    z-index: 2;
+    height: auto;
+    overflow: hidden;
+    
+    p {
+      margin-left: 20px;
+    }
+  }
+  
+  .tabs-content > div {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    opacity: 0;
+    .transition;
+  }
+  
+  #hor-tab_1:checked ~ .tabs-content #hor-tab_c1,
+  #hor-tab_2:checked ~ .tabs-content #hor-tab_c2,
+  #hor-tab_3:checked ~ .tabs-content #hor-tab_c3,
+  #hor-tab_4:checked ~ .tabs-content #hor-tab_c4,
+  #hor-tab_5:checked ~ .tabs-content #hor-tab_c5,
+  #hor-tab_6:checked ~ .tabs-content #hor-tab_c6,
+  #hor-tab_7:checked ~ .tabs-content #hor-tab_c7,
+  #hor-tab_8:checked ~ .tabs-content #hor-tab_c8,
+  #hor-tab_9:checked ~ .tabs-content #hor-tab_c9 {
+    position: static;
+    left: 0;
+    opacity: 1;
+  }
+}

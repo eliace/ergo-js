@@ -51,7 +51,7 @@
 //			_etypes[overrides.etype] = ctor;
 		
 		// добавляем классу метод extend
-		ctor.extend = function(o) { return E.extend(this, o); }
+		ctor.extend = function(o) { return E.extend(this, o); };
 		
 		return ctor;
 	};
@@ -60,14 +60,14 @@
 	/**
 	 * Рекурсивный обход всех базовых классов 
 	 * 
-	 * @name Ergo.hierarchy
+	 * @name Ergo.walk_hierarchy
 	 * @function
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса
 	 */
-	E.hierarchy = function(ctor, callback) {
+	E.walk_hierarchy = function(ctor, callback) {
 		if(!ctor) return;
-		E.hierarchy(ctor.super_ctor, callback);
+		E.walk_hierarchy(ctor.super_ctor, callback);
 		callback.call(this, ctor.prototype);
 	};
 	
@@ -77,10 +77,25 @@
 	
 	
 	E.alias = function(alias, obj) {
-		if(arguments.length == 2)
+
+		// var i = alias.indexOf(':');
+		// var ns = 'ergo';
+		// if(i > 0) {
+			// ns = alias.substr(0, i);
+			// alias = alias.substr(i+1);
+		// }
+// 
+		// if( !_aliases[ns] ) _aliases[ns] = {};
+// 		
+		// ns = _aliases[ns];
+		
+	
+		if(arguments.length == 2) {
 			_aliases[alias] = obj;
+		}
 		else
 			return _aliases[alias];
+	
 	};
 	
 	E.aliases = function() {
@@ -88,6 +103,7 @@
 	};
 	
 	
+		
 //	var _etypes = {};
 	
 	/**
@@ -98,12 +114,28 @@
 	 * @param {Object} overrides набор свойств и методов нового класса
 	 * @param {String} [etype] e-тип (если не указан, то новый класс не регистрируется)
 	 * 
-	 * @name Ergo.declare
+	 * @name Ergo.defineClass
 	 * @function
 	 */
-	E.declare = function(class_name, bclass, overrides, etype) {
+	E.defineClass = function(class_name, bclass, overrides, etype) {
 		
-		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
+		var base_class;
+		
+		if( typeof bclass == 'string' ) {
+			var cp_a = bclass.split('.');
+			var cp = window;
+			for(var i = 0; i < cp_a.length; i++){
+				base_class = cp[cp_a[i]];
+				if(!base_class) break;
+				cp = base_class;
+			}
+			
+		}
+		else {
+			base_class = bclass;
+		}
+		
+//		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
 		
 		if(base_class === undefined)
 			throw 'Unknown base class '+bclass+' for '+class_name;
@@ -112,12 +144,26 @@
 		
 		// создаем пространство имен для класса
 		var cp_a = class_name.split('.');
-		var cp = 'window';
-		for(var i = 0; i < cp_a.length; i++){
-			cp += '.'+cp_a[i];
-			eval( 'if(!'+cp+') '+cp+' = {};' );
-		}		
-		eval(cp + ' = clazz;');
+		var cp = window;
+		for(var i = 0; i < cp_a.length-1; i++){
+			var c = cp_a[i];
+			if(!cp[c]) cp[c] = {};
+			cp = cp[c];
+		}
+		
+		cp[cp_a[cp_a.length-1]] = clazz;
+		
+		// var cp_a = class_name.split('.');
+		// var cp = 'window';
+		// for(var i = 0; i < cp_a.length; i++){
+			// cp += '.'+cp_a[i];
+			// eval( 'if(!'+cp+') '+cp+' = {};' );
+		// }		
+		// eval(cp + ' = clazz;');
+
+		// если псевдоним класса не задан явно, то он может быть указан в новых свойствах
+		if(!etype)
+			etype = overrides.etype;
 		
 		// регистрируем etype класса (если он есть)
 		if(etype){
@@ -142,22 +188,27 @@
 	};
 	
 	
+	/**
+	 * Синоним для Ergo.defineClass
+	 */
+	E.declare = E.defineClass;
 	
 	
 	
 	/**
-	 * Создание экземпляра объекта (должен присутствовать etype в options либо defaultType)
+	 * Создание экземпляра объекта по псевдониму класса
 	 * 
 	 * @name Ergo.object
 	 * @function
-	 * @param {Object} options
-	 * @param {Object} defaultType
+	 * @param {Object} options параметры (опции) экземпляра
+	 * @param {String} etype псевдоним класса
+	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(options, defaultType) {
+	E.object = function(options, etype) {//defaultType) {
 		
 		if(options instanceof Ergo.core.Object) return options;
 		
-		var etype = options.etype || defaultType;
+//		var etype = options.etype || defaultType;
 		
 		var ctor = Ergo.alias(etype);
 //		var ctor = _etypes[etype];
@@ -168,7 +219,7 @@
 //			return null;
 		}
 				
-		return new ctor(options);			
+		return new ctor(options);
 		
 	};
 
@@ -177,7 +228,7 @@
 	
 	
 	/**
-	 * Является ли объект ergo-классом
+	 * Является ли объект классом
 	 * 
 	 * @name $.isClass
 	 * @function
@@ -186,7 +237,7 @@
 	 */
 	$.isClass = function(obj) {
 		return $.isFunction(obj) && (obj.superclass !== undefined);
-	}
+	};
 	
 	
 	

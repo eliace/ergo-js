@@ -1,11 +1,9 @@
 
-//= require <widgets/items/image-item>
-
-Ergo.declare('Ergo.widgets.ImageButton', 'Ergo.widgets.ImageItem', {
+Ergo.defineClass('Ergo.widgets.ImageButton', 'Ergo.html.Img', {
 	
 	defaults: {
-		html: '<button/>',
-		cls: 'e-image-button'
-	}
+		cls: 'btn',
+		state: 'default'
+	}	
 	
-}, 'image-button');
+}, 'widgets:image-button');

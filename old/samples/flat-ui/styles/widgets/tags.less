@@ -1,0 +1,22 @@
+//TAGS
+.fm-tags {
+  font-size: @tags-font-size;
+  margin: @tags-margin;
+  overflow: hidden;
+  
+  .fm-tags-item {
+    float: left;
+    margin: 0 @tags-icon-margin * 2 0 0;
+    
+    a {
+     i {
+       color: @tags-icon-color;
+       margin: 0 @tags-icon-margin 0 0;
+     }
+    }
+  }
+  
+  .tags-item:last-child {
+    margin: 0;
+  }
+}

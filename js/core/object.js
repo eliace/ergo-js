@@ -1,16 +1,21 @@
 
-//= require "core"
 
 
 
 /**
  * Объект
+ * 
+ * Опции:
+ * 	`set` хэш сеттеров
+ * 	`get` хэш геттеров
+ * 	`mixins` список примесей
+ * 
  *
  * @class
  * 
  */
 Ergo.core.Object = function() {
-	this.initialize.apply(this, arguments);
+	this._initialize.apply(this, arguments);
 };
 
 Ergo.core.Object.extend = function(o) {
@@ -20,48 +25,58 @@ Ergo.core.Object.extend = function(o) {
 
 
 
-Ergo.override(Ergo.core.Object.prototype, {
+Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 	
 	defaults: {
-		set: {},
-		get: {}
+//		set: {},
+//		get: {}
 	},
 	
-	/*
+	/**
 	 * Инициализация объекта.
 	 * 
-	 * При инициализации решаются две задачи:
-	 *   1. Формирование набора параметров
-	 *   2. Добавление расширений
+	 * Процесс инициализации разбивается на три фазы:
+	 * 	1. преконструирование
+	 * 	2. конструирование
+	 * 	3. постконструирование
+	 *
 	 * 
+	 * Для каждой фазы вызывается свой обработчик
+	 * 
+	 * @private
 	 * 
 	 */
-	initialize: function(opts) {
+	_initialize: function(opts) {
 		
-		var o = {};
+		var o = {
+//			smart_override: Ergo.self_smart_override
+		};
 		
 		// 
 		if(!this.constructor.NO_REBUILD_SKELETON) {
 			var prevDefaults = null;
-			Ergo.hierarchy(this.constructor, function(clazz){
+			Ergo.walk_hierarchy(this.constructor, function(clazz){
 				if(clazz.defaults == prevDefaults) return;
 				if('defaults' in clazz) Ergo.smart_override(o, clazz.defaults);
 				prevDefaults = clazz.defaults; 
 			});
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaults = Ergo.deep_copy(o);
+//			Ergo.smart_build(this.constructor.prototype.defaults);
+
 		}
 		else {
-			o = Ergo.deep_copy(this.defaults);
+			Ergo.deep_override(o, this.defaults);
 		}
 		
+//			console.log(this.constructor.prototype._class_name);
 		
 		
 //		this.options = o;
 //		opts = opts || {};
 //		this.options = o = Ergo.smart_override(o, opts);		
 		
-
+/*
 		if('mixins' in o) {
 			for(var i = 0; i < o.mixins.length; i++) {
 				var mixin = o.mixins[i];
@@ -73,29 +88,52 @@ Ergo.override(Ergo.core.Object.prototype, {
 
 		opts = opts || {};
 
-		if('mixins' in opts) {
+		if('mixins' in opts) {//} || '+mixins' in opts) {
+//			mixins = opts.mixins; ? opts.mixins : opts['+mixins'];
 			for(var i = 0; i < opts.mixins.length; i++) {
-				var mixin = opts.mixins[i];
-				if($.isString(mixin)) mixin = opts.mixins[i] = Ergo.alias('mixins:'+mixin);
+				var mixin = mixins[i];
+				if($.isString(mixin)) mixin = mixins[i] = Ergo.alias('mixins:'+mixin);
 				if($.isFunction(mixin)) mixin.call(this, opts);
 				else if($.isPlainObject(mixin)) Ergo.deep_override(this, mixin);
 			}
 		}
+*/
 
+		// //TODO возможно, здесь нужно реализовывать примешивание
+// 		
+		// var mixins = [].concat(o.mixins, opts ? opts.mixins : null);
+// 		
+// 		
+// //		if('mixins' in o) {
+		// for(var i = 0; i < mixins.length; i++) {
+			// var mixin = mixins[i];
+			// if($.isString(mixin)) mixin /*= o.mixins[i]*/ = Ergo.alias('mixins:'+mixin);
+			// if($.isFunction(mixin)) mixin.call(this, o);
+			// else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
+		// }
+// //		}
 
-		this.options = Ergo.smart_override(o, opts);
+		
 
+		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
+		
+		// сборка опций
+		Ergo.smart_build(this.options);
 
 		// определен набор базовых опций - можно выполнить донастройку опций
-		this.$pre_construct(this.options);
+		this._pre_construct(this.options);
 
+		// повторная сборка опций (после PRE_CONSTRUCT могут появиться модификаторы опций)
+		if(o.mixins && o.mixins.length)
+			Ergo.smart_build(this.options);
+		
 //		this.options = Ergo.smart_override(this.options, opts);		
 		
 		// определен весь набор опций - можно выполнять сборку объекта
-		this.$construct(this.options);
+		this._construct(this.options);
 
 		// объект готов - можно выполнить донастройку объекта
-		this.$post_construct(this.options);
+		this._post_construct(this.options);
 		
 //		if(this.$init)
 //			this.$init(o);
@@ -104,56 +142,141 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	
 	
-	
-	$pre_construct: function(o) {
+	/**
+	 * Обработчик фазы "преконструирование" объекта
+	 * 
+	 * Как правило на этом этапе происходит донастройка и модификация опций
+	 * 
+	 * По умолчанию здесь происходит подкючение примесей
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 */
+	_pre_construct: function(o) {
 		
+		// if('plugins' in o) {
+			// for(var i = 0; i < o.plugins.length; i++) {
+				// var plugin = o.plugins[i];
+				// if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+				// if(plugin.pre_construct)
+					// plugin.pre_construct.call(this, o);
+			// }
+		// }
+		
+		
+		if('mixins' in o) {
+			for(var i = 0; i < o.mixins.length; i++) {
+				var mixin = o.mixins[i];
+				if($.isString(mixin)) mixin /*= o.mixins[i]*/ = Ergo.alias('mixins:'+mixin);
+				if($.isFunction(mixin)) mixin.call(this, o);
+				else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
+			}
+		}		
+
 	},
 	
 	
-	
-	$construct: function(o) {
+	/**
+	 * Обработчик фазы "конструирование" объекта
+	 * 
+	 * Как правило, здесь происходит создание компонентов 
+	 * 
+	 * По умолчанию происходит подключение плагинов
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 * 
+	 */
+	_construct: function(o) {
 		
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
-				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('mixins:'+plugin);
-				plugin.call(this, o);
+//				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+				if(plugin.construct)
+					plugin.construct.call(this, o);
 			}
 		}
 		
 	},
 	
 	
-	$post_construct: function(o) {
+	/**
+	 * Обработчик фазы "постконструирование" объекта
+	 * 
+	 * Эта фаза предназначена для конфигурирования сконструированного объекта
+	 * 
+	 * По умолчанию происходит применение опций (вызов метода _opt)
+	 * 
+	 * @private
+	 * @param {Object} o опции
+	 */
+	_post_construct: function(o) {
 				
-		this.$opt(o);				
-
+		if('plugins' in o) {
+			for(var i = 0; i < o.plugins.length; i++) {
+				var plugin = o.plugins[i];
+//				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
+				if(plugin.post_construct)
+					plugin.post_construct.call(this, o);
+			}
+		}
+		
+		this._opt(o);
+		
 	},
 	
 	
+	
 	/**
-	 * Установка параметров (options) виджета.
+	 * Установка опций (options) виджета.
 	 * 
 	 * Передаваемые параметры применяются и сохраняются в this.options
+	 * 
+	 * Опции применяются/получаются с учетом приоритета:
+	 * 	Для сеттеров:
+	 * 		1. Сеттер-опция из this.options.set
+	 * 		2. Сеттер-метод вида set_<имя сеттера>
+	 * 
+	 * 	Для геттеров:
+	 * 		1. Геттер-опция из this.options.get
+	 * 		2. Геттер-метод вида get_<имя сеттера>
+	 * 
+	 * opt(i) - получение опции i
+	 * opt(i, v) - установка опции i
+	 * opt(o) - установка нескольких опций, передаваемых в виде Hash
 	 * 
 	 * @param {Object} o параметры
 	 */
 	opt: function(o) {
 		var opts = o;
 		if(arguments.length == 2){
-			opts = {}
+			opts = {};
 			opts[arguments[0]] = arguments[1];
 		}
 		else if($.isString(o)){
-			var getter = this.options.get[o] || this['get'+o.capitalize()];
+			// // нужно ли искать значение опции в другой области видимости
+			// if(o.charAt(0) == '@') {
+				// var k = o.substring(1);
+				// var v = this.opt(k);
+				// if(!k) {
+					// var parent = this.parent || this.source;
+					// v = parent.opt(o);
+				// }
+				// return v;
+			// }
+			// else {
+			var getter = (this.options.get && this.options.get[o]) || this['get_'+o];//o.capitalize()];
 			return (getter) ? getter.call(this) : this.options[o];
+//			}
 		}
 		
-		Ergo.smart_override(this.options, opts);
+//		Ergo.smart_override(this.options, opts);
+		Ergo.override(this.options, opts);
 
-		this.$opt(opts);
+		this._opt(opts);
 		
-		return this.options;
+		return this;//.options;
 	},
 	
 	
@@ -161,14 +284,12 @@ Ergo.override(Ergo.core.Object.prototype, {
 	
 	
 	/**
-	 * Хук, вызываемый для установки параметров.
-	 * 
-	 * Передаваемые параметры только применяются
+	 * Обработчик, вызываемый для установки опций.
 	 * 
 	 * @private
-	 * @param {Object} o параметры
+	 * @param {Object} o опции
 	 */
-	$opt: function(o) {
+	_opt: function(o) {
 		
 //		var self = this;
 		
@@ -177,16 +298,19 @@ Ergo.override(Ergo.core.Object.prototype, {
 //		var el = this.el;
 		
 		for(var i in o) {
-			// проверяем наличие Java-like сеттеров
-			var java_setter = 'set'+i.capitalize();			
 			// проверяем наличие сеттеров опций
-			if(this.options.set[i])
+			if(this.options.set && this.options.set[i])
 				this.options.set[i].call(this, o[i], this.options);
 			// если сеттер опций не найден, проверяем наличие java-like сеттера
-			else if(this[java_setter])
-				this[java_setter](o[i]);
+			else {
+				// проверяем наличие сеттеров методов
+				var java_setter = 'set_'+i;//.capitalize();			
+				if(this[java_setter])
+					this[java_setter](o[i]);
+				// else {
+					// $unknown_opt(i, o[i]);
+			}
 		}
-
 
 //		profiler.tick('opt', 'other');
 //
@@ -195,6 +319,9 @@ Ergo.override(Ergo.core.Object.prototype, {
 	},
 	
 	
+	// $unknown_opt: function(i) {
+// 		
+	// },
 	
 	
 	/**
@@ -204,14 +331,21 @@ Ergo.override(Ergo.core.Object.prototype, {
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	is: function(ex) {
+	$is: function(ex) {
 		var o = this.options;
-		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
+//		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
 		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
 	},
 	
 	
-	$super: function(){
+	/**
+	 * Вызов метода родительского класса из перегруженного метода
+	 * 
+	 * По сути является "синтаксическим сахаром"
+	 * 
+	 * @private
+	 */
+	_super: function(){
 		var caller = arguments.callee.caller;
 		return caller.__class__.superclass[caller.__name__].apply(this, arguments);
 	}
@@ -232,20 +366,32 @@ Ergo.override(Ergo.core.Object.prototype, {
  */
 Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	
-	// создаем пространство имен для расширения
+	// создаем пространство имен для класса
 	var cp_a = mixin_name.split('.');
-	var cp = 'window';
-	for(var i = 0; i < cp_a.length; i++){
-		cp += '.'+cp_a[i];
-		eval( 'if(!'+cp+') '+cp+' = {};' );
-	}		
-	eval(cp + ' = obj;');
+	var cp = window;
+	for(var i = 0; i < cp_a.length-1; i++){
+		var c = cp_a[i];
+		if(!cp[c]) cp[c] = {};
+		cp = cp[c];
+	}
+	
+	cp[cp_a[cp_a.length-1]] = obj;
+	
+	
+	// создаем пространство имен для расширения
+	// var cp_a = mixin_name.split('.');
+	// var cp = 'window';
+	// for(var i = 0; i < cp_a.length; i++){
+		// cp += '.'+cp_a[i];
+		// eval( 'if(!'+cp+') '+cp+' = {};' );
+	// }		
+	// eval(cp + ' = obj;');
 	
 	if(alias)
-		Ergo.alias('mixins:'+alias, obj);
+		Ergo.alias(alias, obj);
 	
 	return obj;
 }
+;
 
-
-
+Ergo.defineMixin = Ergo.declare_mixin;

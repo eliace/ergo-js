@@ -1,0 +1,101 @@
+//SIMPLE TABLE
+.fm-table {
+  table {
+    width: 100%;
+    text-align: @table-text-align;
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    th, td {
+      position: relative;
+      
+    >  span {
+        display: block;
+        padding: @table-span-padding;        
+      }
+    }
+    
+    thead {
+      background-color: @table-header-background;
+    }
+    
+    tbody {
+      tr td{
+        border-bottom: @table-border-width solid @table-border-color; 
+        text-align: @table-text-align;
+      }
+    }
+  }
+}
+
+
+//SELECTABLE TABLE
+.fm-selectable-table {
+  tbody {
+    tr {
+      .transition;
+      td {
+        .transition;
+      }
+    }
+    
+    tr:hover {
+      background-color: @table-hover-background;
+      
+      td {
+        border-bottom: @table-border-width solid @table-hover-background;
+      }
+    }
+  }
+}
+
+
+//EDITABLE TABLE
+.fm-editable-table {
+  .locked:after {
+     position: absolute;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\f023";
+    font-size: @navigation-font-size;
+    margin-left: 10px;
+    top: 10px;
+    right: 15px;
+    color: @table-editable-locked-icon-color;
+  }
+  
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: transparent;
+    color: @table-editable-input-text-color;
+    .rounded(0);
+    padding: 10px 20px;
+    font-weight: normal;
+    z-index: 50;
+  }
+  
+  input:focus,
+  input:hover {
+    background-color: @table-hover-background;
+  }
+  
+  input:focus {
+    z-index: 60;
+  }
+  
+  input[disabled="disabled"]:hover {
+    background: transparent;
+  }
+}

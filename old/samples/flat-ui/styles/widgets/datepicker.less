@@ -1,0 +1,145 @@
+/*!
+ * Datepicker for Bootstrap
+ *
+ * Copyright 2012 Stefan Petre
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+ 
+.datepicker {
+  top: 0;
+  left: 0;
+  padding: 5px;
+  margin-top: 8px!important;
+  .rounded(@min-radius);
+  background-color: #fff;
+  position: absolute;
+  color: #3a3f45;
+  font-size: 0.938em;
+  display: none;
+  .box-shadow(0 5px 21px rgba(0,0,0,.19));
+  &:before {
+    content: '';
+    display: inline-block;
+    border-left:   7px solid transparent;
+    border-right:  7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-bottom-color: rgba(0,0,0,.2);
+    position: absolute;
+    top: -7px;
+    left: 6px;
+  }
+  &:after {
+    content: '';
+    display: inline-block;
+    border-left:   6px solid transparent;
+    border-right:  6px solid transparent;
+    border-bottom: 6px solid #fff;
+    position: absolute;
+    top: -6px;
+    left: 7px;
+    
+  }
+  > div {
+    display: none;
+  }
+  
+  table{
+    width: 100%;
+    margin: 0;
+  }
+  
+  td,
+  th{
+    text-align: center;
+    width: 30px;
+    height: 20px;
+    .rounded(4px);
+  }
+  
+  td {
+    &.day:hover {
+      background-color: #9db7d1;;
+      cursor: pointer;
+      color: #fff;
+    }
+    
+    &.day.disabled {
+      color: #8a939f;
+    }
+    
+    &.old,
+    &.new {
+      color: #9db7d1;
+    }
+    
+    &.active,
+    &.active:hover {
+     background-color: #44b2fb;
+      color: #fff;
+    }
+    
+    span {
+      display: block;
+      width: 47px;
+      height: 54px;
+      line-height: 54px;
+      float: left;
+      margin: 2px;
+      cursor: pointer;
+      .rounded(4px);
+      
+      &:hover {
+        background: #9db7d1;
+        color: #fff;
+      }
+      
+      &.active {
+        background-color: #44b2fb;
+        color: #fff;
+      }
+      
+      &.old {
+        color: #9db7d1;
+      }
+    }
+  }
+  
+  th {
+    &.switch {
+      width: 145px;
+    }
+    &.next,
+    &.prev {
+      font-size: 1em * 1.5;
+    }
+  }
+  
+  thead th {
+    font-weight: normal;
+    font-size: 1.063em;
+  }
+  
+  thead tr:first-child th {
+    cursor: pointer;
+    &:hover{
+      background:#9db7d1;
+      color: #fff;
+    }
+  }
+  /*.dow {
+    border-top: 1px solid #ddd !important;
+  }*/
+}
+.input-append,
+.input-prepend {
+  &.date {
+    .add-on i {
+      display: block;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
