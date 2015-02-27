@@ -131,10 +131,10 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 			autoHeight: 'ignore',
 //			render: 'body',
 			events: {
-				'jquery:click': function(e, w) {
+				'jquery:click': function(e) {
 					
-					if(w.parent.options.closeOn == 'outerClick')
-						w.parent.close();
+					if(this.parent.options.closeOn == 'outerClick')
+						this.parent.close();
 					
 					// блокируем всплывание событий
 					e.preventDefault();

@@ -150,8 +150,16 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			if('id' in this) {
 				v = v ? v[this.id] : undefined;
 			}
+			
+			if(this.options.format)
+				v = this.options.format.call(this, v);			
+			
 		} 
 		else {
+			
+			if(this.options.store)
+				v = this.options.store.call(this, v);			
+			
 			if (this.source instanceof Ergo.core.DataSource) {
 				('id' in this) ? this.source._val()[this.id] = v : this.source._val(v);
 	  	}

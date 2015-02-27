@@ -32,6 +32,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 				}
 			},
 			dropdown: {
+				weight: -100, 		// располагаем выпадающий список первым из-за бага Chrome
 				popup: {
 					adjust: true
 				},
