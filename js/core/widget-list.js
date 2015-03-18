@@ -47,7 +47,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		}
 		else if($.isArray(o)) o = {items: o};
 		var default_child = 'default' + type[0].toUpperCase() + type.substr(1);
-		return $.ergo( [this.options[default_child], o] );
+		return $.ergo( [this.options[default_child], o], null, this._context );
 //		return $.ergo( Ergo.smart_override({}, this.options[default_child], o) );
 	},
 	

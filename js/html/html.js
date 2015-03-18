@@ -34,7 +34,7 @@ Ergo.defineClass('Ergo.html.Widget', 'Ergo.core.Widget', {
 
 
 
-Ergo.$html = function(o, etype) {
+Ergo.$html = function(o, etype, context) {
 	
 	if(!Ergo.alias(etype)) {
 		
@@ -56,6 +56,6 @@ Ergo.$html = function(o, etype) {
 		etype = 'html:widget';
 	}
 	
-	return Ergo.object(o, etype);
+	return Ergo.object(o, etype, context);
 };
 

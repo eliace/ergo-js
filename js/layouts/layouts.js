@@ -18,3 +18,5 @@
 //= require "grid"
 //= require "table"
 //= require "fluid"
+
+//= require "center"

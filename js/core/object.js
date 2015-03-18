@@ -46,7 +46,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @private
 	 * 
 	 */
-	_initialize: function(opts) {
+	_initialize: function(opts, context) {
 		
 		var o = {
 //			smart_override: Ergo.self_smart_override
@@ -113,6 +113,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// }
 // //		}
 
+		this._context = context;
 		
 
 		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);

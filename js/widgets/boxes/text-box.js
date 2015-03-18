@@ -47,6 +47,10 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 	set_placeholder: function(v) {
 		this.content.opt('placeholder', v);
 	},
+
+	set_name: function(v) {
+		this.content.opt('name', v);
+	},
 	
 	
 	

@@ -1126,6 +1126,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		var o = this.options;
 		var self = this;
 		
+		var data_id = o.dataId;
+		
+		if(data_id != null && data_id[0] == '@') {
+			data = this._context[data_id];//[data_id.substr(1)];
+			data_id = undefined;
+		}
 
 		// если данные не определены или биндинг выключен, то биндинг не выполняем
 		if(this.data == data || data === undefined || o.autoBind === false) return;
@@ -1145,8 +1151,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных 
-		if('dataId' in o)
-			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(o.dataId) : new Ergo.core.DataSource(data, o.dataId);
+		if(data_id) //'dataId' in o)
+			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(data_id) : new Ergo.core.DataSource(data, data_id);
 		else
 			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 
@@ -1644,7 +1650,7 @@ Ergo.sink = function(name, e) {
 // Интегрируемся в jQuery
 //------------------------------
 
-$.ergo = function(o, ns) {
+$.ergo = function(o, ns, context) {
 	
 //	var o = Ergo.smart_override.apply(this, arguments);
 	
@@ -1674,7 +1680,7 @@ $.ergo = function(o, ns) {
 
 	o.etype = ns+':'+etype;
 	
-	return Ergo['$'+ns](o, ns+':'+etype);
+	return Ergo['$'+ns](o, ns+':'+etype, context);
 }; //Ergo.widget;
 
 

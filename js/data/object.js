@@ -34,11 +34,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	
 	
 	
-	_initialize: function(v) {
+	_initialize: function(o, v) {
 		if(arguments.length == 0)
 			this._super({});
 		else if(arguments.length == 1) {
-			this._super({}, v);
+			this._super({}, o);
 		}
 		else
 			this._super.apply(this, arguments);

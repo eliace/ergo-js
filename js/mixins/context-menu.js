@@ -24,14 +24,14 @@ Ergo.defineMixin('Ergo.mixins.ContextMenu', function(o) {
 	
 	
 	o.events = Ergo.smart_override({
-		'jquery:contextmenu': function(e, w) {
+		'jquery:contextmenu': function(e) {
 			
 			var x = e.pageX;
 			var y = e.pageY;
 			
-			w.events.rise('contextMenu');
+			this.events.rise('contextMenu');
 				
-			w.contextMenu.open(x, y);
+			this.contextMenu.open(x, y);
 			
 			e.preventDefault();			
 		}

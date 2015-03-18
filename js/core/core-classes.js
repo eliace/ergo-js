@@ -204,7 +204,7 @@
 	 * @param {String} etype псевдоним класса
 	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(options, etype) {//defaultType) {
+	E.object = function(options, etype, context) {//defaultType) {
 		
 		if(options instanceof Ergo.core.Object) return options;
 		
@@ -219,7 +219,7 @@
 //			return null;
 		}
 				
-		return new ctor(options);
+		return new ctor(options, context);
 		
 	};
 
