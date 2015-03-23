@@ -476,7 +476,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 					
 					if(i.indexOf('ctx:') == 0) {
 						// Context
-						$context.events.reg(i.substr(4), callback, this);
+						(this._context || Ergo.context).events.reg(i.substr(4), callback, this);
 					}
 					else if(i.indexOf('jquery:') == 0) {
 						// jQuery

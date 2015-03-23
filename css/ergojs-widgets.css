@@ -26,6 +26,13 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+.paper {
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+	background-color: #fff;
+}
+
+
+
 /*
  * PANEL
  */
@@ -1330,6 +1337,21 @@ li.has-submenu > a > .caret {
 
 
 
+.nav-title {
+  color: #777;
+  font-size: 18px;
+  height: 50px;
+  line-height: 20px;
+  padding: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+
+
+
+
+
 
 /*
 .navigation:after, .navigation > .header:after, .nav-bar > .menu-bar:after, .nav-bar > .user:after {
@@ -2272,6 +2294,18 @@ input.field {
 	color: #111;
 	background-color: #f7f7f7;
 }
+
+.nav-menu > .selected {
+  border-bottom: 1px solid #0a80cb;
+}
+
+.nav-menu > .selected a {
+  color: #000;
+}
+
+
+
+
 
 
 li.has-subtree {
