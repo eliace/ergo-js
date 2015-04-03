@@ -10,7 +10,7 @@
 Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
 	
 	defaults: {
-		plugins: [Ergo.Observable, Ergo.Statable]		
+		plugins: [Ergo.Observable] //, Ergo.Statable]
 	},
 	
 	
@@ -76,16 +76,22 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	},
 	
 	
-	
+	/*
 	state: function(s, fn) {
 		this.states.state(s, function() {
 			fn.apply(this, arguments);
 			return false;
 		}.bind(this));
 	},
+	*/
 	
-	
-	
+		
+	scope: function() {
+
+	},
+
+
+
 	
 	
 	
@@ -108,6 +114,44 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	
 	
 });
+
+
+
+
+Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
+
+
+	_construct: function(o) {
+		this._super(o);
+
+		this.widgets = {};
+
+
+		this.context = null;
+	},
+
+
+
+
+	// получение/создание виджета из пространства контекста
+	widget: function(key, w) {
+
+		if(arguments.length == 1) {
+			return this.widgets[key];
+		}
+		else if(arguments.length == 2) {
+			this.widgets[key] = w;
+		}
+
+
+	}
+
+
+});
+
+
+
+
 
 
 
