@@ -1127,9 +1127,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		var self = this;
 		
 		var data_id = o.dataId;
-		
+
 		if(data_id != null && data_id[0] == '@') {
-			data = this._context[data_id];//[data_id.substr(1)];
+			data = this._context.data( data_id.substr(1) );//[data_id];//[data_id.substr(1)];
 			data_id = undefined;
 		}
 

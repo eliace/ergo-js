@@ -24,7 +24,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		
 		
 		this._scopes = {};
-		this._state = {};
+		this._callbacks = {};
+		this._data = {};
 		
 		
 		if(o.hashLinks) {
@@ -112,7 +113,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 	// получение виджета из контекста (обход всех скоупов)
-	find_widget: function(key) {
+	widget: function(key) {
 
 		for(var i in this._scopes) {
 			var w = this._scopes[i].widgets[key];
@@ -122,21 +123,26 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	},
 
 
-	// // получение данных из контекста (обход всех скоупов)
-	// data: function(key) {
+	// получение данных из контекста
+	data: function(key, v) {
 
-	// 	for(var i in this._scopes) {
-	// 		var d = this._scopes[i].data[key];
-	// 		if(d) return d;
-	// 	}
+		if(arguments.length == 1)
+			return this._data[key];
+		else
+			this._data[key] = v;
 
-	// },
+		// for(var i in this._scopes) {
+		// 	var d = this._scopes[i].data[key];
+		// 	if(d) return d;
+		// }
+
+	},
 
 
 	// регистрация скоупа
 	scope: function(name, callback) {
 
-		this._scopes[name] = callback;
+		this._callbacks[name] = callback;
 
 	},
 
@@ -144,13 +150,18 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// подсоединяем скоуп к контексту
 	join: function(scope_name) {
 
+
+		if(!this._callbacks[scope_name])
+			throw 'Scope ['+scope_name+'] is not registered in context';
+
+
 		var name_a = scope_name.split(':');
 		var group = (name_a.length == 1) ? null : name_a[0];
 
 		// если присутствует скоуп с такой же группой, то закрываем его
 		for(var i in this._scopes) {
 			if(i.indexOf(group+':') != -1) {
-				this.pop(i);
+				this.disjoin(i);
 			}
 		}
 
@@ -160,10 +171,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		var scope = new Ergo.core.Scope();
 		scope._context = this;
 
-		this._state[scope_name] = scope;
+		this._scopes[scope_name] = scope;
 
 		// инициализируем скоуп
-		this._state[scope_name].call(scope, this);
+		this._callbacks[scope_name].call(scope, this, scope);
 
 		// загружаем данные скоупа?
 
@@ -183,7 +194,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// отсоединяем скоуп от контекста
 	disjoin: function(scope_name) {
 
-		var scope = this._state[scope_name];
+		var scope = this._scopes[scope_name];
 
 		// удаляем виджеты скоупа (отсоединяем виджеты от скоупа)
 		for(var i in scope.widgets) {
@@ -200,7 +211,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 	// сменить контекст
-	replace: function(scope_name, params, data) {
+	to: function(scope_name, params, data) {
 
 		// удалить текущий субконтекст?
 
@@ -208,7 +219,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// создаем новый контекст
 		var ctx = new Ergo.core.Context();
 		ctx.params = params;
-		ctx.data = data;
+		ctx._data = data;
 //		ctx._scope = this;
 
 		ctx.join(scope_name);
@@ -239,12 +250,12 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 		this.widgets = {};
 //		this.data = {};
 
-		this.context = null;
+//		this.context = null;
 	},
 
 
 
-/*
+
 	// получение/создание виджета из пространства контекста
 	widget: function(key, w) {
 
@@ -252,11 +263,20 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 			return this.widgets[key];
 		}
 		else if(arguments.length == 2) {
+
+			if($.isPlainObject(w)) {
+				w = $.ergo(w, null, this._context);
+//				w.bind();
+			}
+
 			this.widgets[key] = w;
+
+			return w;
 		}
 
 	}
-*/
+
+
 
 });
 
