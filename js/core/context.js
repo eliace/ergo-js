@@ -2,6 +2,8 @@
 /**
  * Контекст
  *
+ * Сериализуемое состояние приложения
+ *
  * @class
  * @name Ergo.core.Context
  * @extends Ergo.core.Object
@@ -21,6 +23,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		this._super(o);
 		
 		
+		this._scopes = {};
+		this._state = {};
 		
 		
 		if(o.hashLinks) {
@@ -86,13 +90,6 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	*/
 	
 		
-	scope: function() {
-
-	},
-
-
-
-	
 	
 	
 	open_glass_pane: function() {
@@ -110,13 +107,128 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	
 	close_glass_pane: function() {
 		$('.glass-pane').remove();
+	},
+
+
+
+	// получение виджета из контекста (обход всех скоупов)
+	find_widget: function(key) {
+
+		for(var i in this._scopes) {
+			var w = this._scopes[i].widgets[key];
+			if(w) return w;
+		}
+
+	},
+
+
+	// // получение данных из контекста (обход всех скоупов)
+	// data: function(key) {
+
+	// 	for(var i in this._scopes) {
+	// 		var d = this._scopes[i].data[key];
+	// 		if(d) return d;
+	// 	}
+
+	// },
+
+
+	// регистрация скоупа
+	scope: function(name, callback) {
+
+		this._scopes[name] = callback;
+
+	},
+
+
+	// подсоединяем скоуп к контексту
+	join: function(scope_name) {
+
+		var name_a = scope_name.split(':');
+		var group = (name_a.length == 1) ? null : name_a[0];
+
+		// если присутствует скоуп с такой же группой, то закрываем его
+		for(var i in this._scopes) {
+			if(i.indexOf(group+':') != -1) {
+				this.pop(i);
+			}
+		}
+
+
+
+		// создаем скоуп
+		var scope = new Ergo.core.Scope();
+		scope._context = this;
+
+		this._state[scope_name] = scope;
+
+		// инициализируем скоуп
+		this._state[scope_name].call(scope, this);
+
+		// загружаем данные скоупа?
+
+		// рендерим виджеты скоупа (включаем виджеты в скоуп)
+		for(var i in scope.widgets) {
+			
+			var w = scope.widgets[i];
+			
+			if(!w._rendered)
+				w.render('body');
+		}
+
+
+	},
+
+
+	// отсоединяем скоуп от контекста
+	disjoin: function(scope_name) {
+
+		var scope = this._state[scope_name];
+
+		// удаляем виджеты скоупа (отсоединяем виджеты от скоупа)
+		for(var i in scope.widgets) {
+			
+			var w = scope.widgets[i];
+
+			w._destroy();
+			
+		}
+
+		// выгружаем данные?
+
+	},
+
+
+	// сменить контекст
+	replace: function(scope_name, params, data) {
+
+		// удалить текущий субконтекст?
+
+
+		// создаем новый контекст
+		var ctx = new Ergo.core.Context();
+		ctx.params = params;
+		ctx.data = data;
+//		ctx._scope = this;
+
+		ctx.join(scope_name);
+
+		this._subcontext = ctx;
+
 	}
-	
+
 	
 });
 
 
 
+/**
+* Скоуп
+*
+*	Структурный элемент страницы, включающий набор виджетов
+*
+*
+*/
 
 Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 
@@ -125,14 +237,14 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 		this._super(o);
 
 		this.widgets = {};
-
+//		this.data = {};
 
 		this.context = null;
 	},
 
 
 
-
+/*
 	// получение/создание виджета из пространства контекста
 	widget: function(key, w) {
 
@@ -143,9 +255,8 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 			this.widgets[key] = w;
 		}
 
-
 	}
-
+*/
 
 });
 
