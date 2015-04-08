@@ -50,10 +50,15 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 	
 	this.move = function(x, y) {
 		
-		this.el.css({
+		this.el.offset({
 			left: x,
 			top: y
 		});
+
+		// this.el.css({
+		// 	left: x,
+		// 	top: y
+		// });
 		
 	};
 	

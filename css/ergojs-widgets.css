@@ -83,6 +83,56 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+
+
+.panel.default > header {
+  color: #555;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+/*  padding: 8px;*/
+}
+
+
+
+
+.panel.simple {
+  padding: 4px 8px 8px 8px;
+}
+
+
+.panel.simple > header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  color: #888;
+}
+
+
+.panel.simple > header .panel-title {
+  font-size: 16px;
+}
+
+
+
+.panel.light {
+  padding: 8px;
+}
+
+
+.panel.light > header {
+  background-color: #fff;
+  border-bottom: none;
+  color: #000;
+}
+
+.panel.light > header .panel-title {
+  padding: 8px;
+  font-size: 20px;
+}
+
+
+
+
+
 /*
  * LINK
  */
@@ -1968,7 +2018,7 @@ input.field {
 	border: 1px solid #e0e0e0;
 }
 
-.panel.widget > header, .widget-header {
+.widget-header {
 	color: #555;
 	background-color: #f8f8f8;
 	border-bottom: 1px solid #e0e0e0;
