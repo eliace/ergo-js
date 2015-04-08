@@ -147,9 +147,21 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 	
 	
 	o.appearance = Ergo.smart_override({
-		
+
 	}, o.appearance);
 	
 	
+
+	Ergo.smart_override(o, {
+		events: {
+			'jquery:click': function(e) {
+				if(this.options.closeOn == 'outerClick')
+					e.stopPropagation();
+			}
+		}
+	});
+
+
+
 	
 }, 'mixins:modal');
