@@ -154,7 +154,7 @@ module.exports = function(grunt) {
 	      // Task-specific options go here.
 	    },
 	    all: {
-	      src: ["css/ergojs-core.css", "css/ergojs-widgets.css"],
+	      src: ["css/ergojs-core.css", "css/ergojs-widgets.css", "css/ergojs-layouts.css"],
 	      dest: "build/ergojs.css"
 	    }
 	  },

@@ -1,0 +1,240 @@
+
+/*
+ * BAND LAYOUT
+ */
+
+[layout="band"] {
+	display: table;
+}
+
+[layout="band"] label {
+	font-weight: bold;
+	width: 100px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+[layout="band"] > div > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+[layout="band"] > div {
+	padding: 3px 0;
+}
+
+
+/*
+ * FORM LAYOUT
+ */
+
+[layout="form"] > div {
+	margin-bottom: 8px;
+}
+
+[layout="form"] > div > label {
+	font-weight: bold;
+	width: 100px;
+	text-align: left;
+	padding-left: 5px;
+}
+
+
+
+
+/*
+ * BAR LAYOUT
+ */
+
+[layout="bar"] {
+/*	display: table;
+	width: 100%;*/
+/*	padding: 3px;*/
+}
+
+[layout="bar"] > * {
+	display: inline-block;
+/*	margin: 0 3px;*/
+	vertical-align: middle;
+}
+
+[layout="bar"] > *:not(:last-child) {
+	margin-right: 6px;	
+}
+
+
+[layout="bar"].align-left {
+/*	float: left;*/
+	text-align: left;
+}
+
+[layout="bar"].align-right {
+/*	float: right;*/
+	text-align: right;
+}
+
+
+[layout="bar"].align-center {
+	text-align: center;
+}
+
+
+
+
+/*
+ * HBOX LAYOUT
+ */
+
+[layout="hbox"] > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+[layout="hbox"].align-left {
+	text-align: left;
+}
+
+[layout="hbox"].align-right {
+	text-align: right;
+}
+
+
+[layout="hbox"].align-center {
+	text-align: center;
+}
+
+
+
+/*
+ * ROW LAYOUT
+ */
+
+[layout="row"] {
+	padding: 4px;
+}
+
+[layout="row"] > * {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 4px;
+}
+
+[layout="row"].left {
+	text-align: left;
+}
+
+[layout="row"].right {
+	text-align: right;
+}
+
+
+[layout="row"].center {
+	text-align: center;
+}
+
+
+
+
+
+/*
+ * VBOX LAYOUT
+ */
+
+[layout="vbox"] > * {
+	display: block;
+}
+
+
+
+/*
+ * STACK LAYOUT
+ */
+
+[layout="stack"] {
+}
+
+[layout="stack"] > * {
+	display: block;
+}
+
+[layout="stack"] > *:not(:last-child) {
+	margin-bottom: 8px;
+}
+
+
+
+
+/*
+ * COLUMN LAYOUT
+ */
+
+[layout="column"] {
+	display: table;
+}
+
+[layout="column"] > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
+
+
+
+/*
+ * GRID LAYOUT
+ */
+
+[layout="grid"] {
+	display: table;
+	width: 100%;
+}
+
+[layout="grid"] > div {
+	float: left;
+}
+
+
+.col-1 { width: 8.3333%; }
+.col-2 { width: 16.6666%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.3333%; }
+.col-5 { width: 41.6666%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.3333%; }
+.col-8 { width: 66.6666%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.3333%; }
+.col-11 { width: 91.6666%; }
+.col-12 { width: 100%; }
+
+
+
+
+/*
+ * FLUID LAYOUT
+ */
+
+[layout="fluid"] > * {
+	float: left;
+}
+
+/*
+[layout="fluid"] > *:after {
+	clear: both;
+}
+*/
+
+
+/*
+ * CENTER LAYOUT
+ */
+
+[layout="center"] {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+
+
