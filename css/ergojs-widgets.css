@@ -1110,7 +1110,7 @@ li.has-submenu > a > .caret {
  */
 
 .text-box {
-    display: table;	
+    display: table !important;  /* изменение этого стиля ломает верстку */	
 /*    padding: 6px 8px;*/
     position: relative;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075) inset;
