@@ -236,7 +236,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 
 
-		
+		// "сахарное" определение компонентов
 		for(var i in o) {
 			if(i[0] == '$') {
 				var key_a = i.split('_');
@@ -402,50 +402,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			var arr = [];
 			// преобразуем набор компонентов в массив
 			Ergo.each(o.components, function(c, i){
-//				c.weight = ('weight' in c) ? c.weight : 0;//9999;
-//				c._cweight = ('weight' in c) ? c.weight : 9999;
-//				c._cname = i;
 
 				if(!c.ignore)
 					self.children.add(c, i, 'component');
 	
-//				c.name = i;
-//				self[i] = c;
-								
-//				arr.push(c);
 			});
-			// сортируем массив по весу компонентов
-			// arr.sort(function(c1, c2){
-				// var a = c1._cweight;
-				// var b = c2._cweight;
-				// if(a < b) return -1;
-				// else if(a > b) return 1;
-				// return 0;
-			// });
-			// добавляем компоненты
-//			Ergo.each(arr, function(c){
-//				var i = c._cname;
-//				var w = c._cweight;
-//				delete c._cweight;
-//				delete c._cname;
-//				self.addComponent(c, i);
-//				c = o.componentFactory.call(self, c);
-//				c.opt('tag', i);
-//			});
-			
-			// задаем "ленивые" классы компонентов
-			// for(var i in o.components){
-				// var easyCls = ''+i+'Cls';
-				// if(easyCls in o) this[i].el.addClass(o[easyCls]);//.opt('cls', o[easyCls]);
-			// }
-
-			// if('baseCls' in o) {
-				// // задаем дочерние классы компонентов
-				// for(var i in o.components){
-					// var cls = o.baseCls + '-' + i;
-					// this[i].el.addClass(cls);
-				// }				
-			// }
 			
 		}
 		
@@ -466,6 +427,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				for(var j in callback_a) {
 					var callback = callback_a[j];
 					
+					if( $.isString(callback) ) {
+						callback = this[callback];
+					}
 					// if( $.isString(callback) ) {
 						// var action = callback;
 						// callback = function(e, scope) {
