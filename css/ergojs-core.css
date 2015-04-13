@@ -40,6 +40,10 @@ button {
 }
 
 
+textarea {
+  margin: 0;
+}
+
 
 
 /* CLEARFIX */

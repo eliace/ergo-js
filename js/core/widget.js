@@ -625,6 +625,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 	
 	
+
+
+	action: function() {
+		this.events.rise(this.options.name || 'action');
+	},
+
+
 	
 	
 	

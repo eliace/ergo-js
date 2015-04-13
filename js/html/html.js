@@ -13,6 +13,7 @@
 //= require "textarea"
 //= require "button"
 //= require "img"
+//= require "form"
 
 
 

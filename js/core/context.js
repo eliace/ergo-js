@@ -170,6 +170,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// создаем скоуп
 		var scope = new Ergo.core.Scope();
 		scope._context = this;
+		scope._name = scope_name;
 
 		this._scopes[scope_name] = scope;
 
@@ -204,6 +205,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			w._destroy();
 			
 		}
+
+		delete this._scopes[scope_name];
 
 		// выгружаем данные?
 
@@ -274,6 +277,11 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 			return w;
 		}
 
+	},
+
+
+	disjoin: function() {
+		this._context.disjoin(this._name);
 	}
 
 

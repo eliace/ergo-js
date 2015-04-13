@@ -50,7 +50,8 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	set_readonly: function(v) {
 		this.el.attr('readonly', v);
 	}
-	
+
+
 	
 	
 	// get_value: function() {

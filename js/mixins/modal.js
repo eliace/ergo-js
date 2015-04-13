@@ -39,56 +39,71 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 		
 		this.render();
 		
-		this.overlay.show();
-
-		this.el.show();
-		
-		// здесь, в зависимости от методики позиционирования, расчитываются параметры
-		
-		// center
-		var w = this.el.width();
-		var h = this.el.height();
-		
-		h = Math.min(h, $(window).height());
-		
-		var x = w/2;
-		var y = h/2;
 
 
 
 
+		var result = this.overlay.show().then(function(){
+
+
+			//	поскольку оверлей уже отрисовался, можно расчитывать положение окна
+
+			this.el.show();
+			
+			// здесь, в зависимости от методики позиционирования, расчитываются параметры
+			
+			// center
+			var w = this.el.width();
+			var h = this.el.height();
+			
+			h = Math.min(h, $(window).height());
+			
+			var x = w/2;
+			var y = h/2;
+
+
+
+
+			
+			this.el.css({'margin-left': -x, 'margin-top': -y});
+			
+			this.el.hide();
+
+
+			this.show().then(function(){
+				this.events.fire('opened');
+				this._layoutChanged();
+			}.bind(this));
+			
+			this.events.fire('open');
 		
-		this.el.css({'margin-left': -x, 'margin-top': -y});
-		
-		this.el.hide();
-		
-//		this.events.fire('open');
-		
-		var result = this.show().then(function(){
-			this.events.fire('opened');
-			this._layoutChanged();
 		}.bind(this));
+
 		
-		this.events.fire('open');
-		
+
 		return result;
 	};
 	
 	
 	this.close = function() {
 		
+		this.events.fire('close');
+
+
 		Ergo.context._z--;
-		
-		
-//		this.overlay.el.detach();
-		this.overlay.hide().then(function(){
-			this.overlay.el.detach();
-		}.bind(this));
-		
+
 		return this.hide().then(function(){
-			this.events.fire('closed');
-			this.el.detach();
+
+//			this.el.detach();
+
+			this.overlay.hide().then(function(){
+				this.overlay.el.detach();
+				this.events.fire('closed');
+			}.bind(this));
+
 		}.bind(this));
+
+		
 	};
 	
 	
@@ -132,18 +147,18 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 
 
 
-	this.adjust = function() {
+// 	this.adjust = function() {
 
-//		var el = (comp) ? this.component(comp).el : this.el;
+// //		var el = (comp) ? this.component(comp).el : this.el;
 		
-		var w = this.el.width();
-		var h = this.el.height();
+// 		var w = this.el.width();
+// 		var h = this.el.height();
 
-		return $.when(this.el.animate({
-			'margin-left': -w/2,
-			'margin-top': -h/2
-		}));
-	};
+// 		return $.when(this.el.animate({
+// 			'margin-left': -w/2,
+// 			'margin-top': -h/2
+// 		}));
+// 	};
 	
 
 

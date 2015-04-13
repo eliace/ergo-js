@@ -219,6 +219,17 @@
 	float: left;
 }
 
+
+[layout="fluid"].align-left > * {
+	float: left;
+}
+
+[layout="fluid"].align-right > * {
+	float: right;
+}
+
+
+
 /*
 [layout="fluid"] > *:after {
 	clear: both;

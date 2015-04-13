@@ -378,6 +378,27 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+/* Контекстные кнопки */
+
+.btn.contextual {
+  color: #000;
+  opacity: 0.2;
+  text-shadow: 0 1px 0 #fff;
+  background: none;
+  border: none;
+}
+
+.btn.contextual:hover, .btn.contextual:active {
+  color: #000;
+  opacity: 0.5;
+  background: none;
+  box-shadow: none;
+}
+
+
+
+
+
 
 
 
@@ -1122,7 +1143,7 @@ li.has-submenu > a > .caret {
 	vertical-align: middle;
 }
 
-.text-box > input {
+.text-box > input, .text-box > textarea {
   border: 1px solid #CCCCCC;
   border-radius: 4px;
   background-color: transparent; 
@@ -1144,7 +1165,7 @@ li.has-submenu > a > .caret {
 }
 
 
-.text-box.focused > input, .text-box.focused > .addon {
+.text-box.focused > input, .text-box.focused > textarea, .text-box.focused > .addon {
 	border-color: #66afe9;
 }
 
@@ -1298,6 +1319,30 @@ li.has-submenu > a > .caret {
 	color: #fff;
   background-color: #D9534F;
 }
+
+
+
+
+.icon.contextual {
+  color: #000;
+  opacity: 0.3;
+  text-shadow: 0 1px 0 #fff;
+  background: none;
+  border: none;
+}
+
+.icon.contextual:hover, .icon.contextual:active {
+  color: #000;
+  opacity: 0.5;
+  background: none;
+  box-shadow: none;
+}
+
+
+.action-icon {
+  cursor: pointer;
+}
+
 
 
 

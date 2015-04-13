@@ -348,7 +348,10 @@ Ergo.Observable = {
 				var name = i.charAt(2).toLowerCase() + i.slice(3);
 				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
 				for(var j = 0; j < chain.length; j++) {
-					this.events.reg( name, chain[j] );
+					var callback = chain[j];
+					if( $.isString(callback) )
+						callback = this[callback]
+					this.events.reg( name, callback );
 				}
 			}
 		}
