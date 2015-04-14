@@ -1213,6 +1213,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				self._rebind();
 			}, this);
 
+			this.data.events.reg('entry:dirty', function(e) {
+				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
+			}, this);
+
 //			this.data.events.reg('value:changed', this._rebind.bind(this), this);
 			
 		
@@ -1435,7 +1439,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * @private
 	 */
-	_dataChanged: function(lazy) {
+	_dataChanged: function(lazy, cascade) {
 		
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
@@ -1455,11 +1459,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			this._lock_value_change = true;
 //			delete this._lock_value_change;
 			
+			this.events.fire('dataChanged');//, e);
 		}
 
 		// var e = new Ergo.events.CancelEvent({value: this.getValue()});
-		this.events.fire('dataChanged');//, e);
 		// if(e.isCanceled) return;
+
+
+		if(cascade === false)
+			return;
 
 		var self = this;
 

@@ -220,7 +220,19 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			
 			var oldValue = this.get();
 						
-						
+			
+
+			// var filtered = [];
+			// this.entries.each(function(e) {
+			// 	//FIXME упрощенная проверка присутствия ключа
+			// 	if(newValue && newValue[e.id] === undefined)
+			// 		filtered.push(e);
+			// });
+
+			// for(var i = 0; i < filtered.length; i++) {
+			// 	filtered[i]._destroy();
+			// }
+
 
 			this.entries
 				.filter(function(e){
@@ -259,13 +271,22 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			this._val(newValue);
 			
+
+			this.mark_dirty(false);
+
 			
 			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
 			
+			// var ds = this.source;
+			// while(ds) {
+			// 	ds.events.fire('entry:changed', {entry: this});
+			// 	ds = ds.source;
+			// }
+
 			if(this.source instanceof Ergo.core.DataSource)
 				this.source.events.fire('entry:changed', {entry: this});
 			
-			this._changed = true;
+//			this._changed = true;
 		}
 		else {
 			return this.entry(i).set(newValue);
@@ -431,6 +452,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	},
 */	
 	
+
+	mark_dirty: function(do_event) {
+		this._changed = true;
+		
+		if(do_event !== false)
+			this.events.fire('entry:dirty');
+
+		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed) 
+			this.source.mark_dirty();
+	},
+
 	
 	
 	walk: function(callback) {
