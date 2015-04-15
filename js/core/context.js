@@ -115,10 +115,16 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// получение виджета из контекста (обход всех скоупов)
 	widget: function(key) {
 
-		for(var i in this._scopes) {
-			var w = this._scopes[i].widgets[key];
-			if(w) return w;
+		var name_a = key.split('.');
+
+		if(name_a.length == 2) {
+			return this._scopes[name_a[0]].widget(name_a[1]);
 		}
+
+		// for(var i in this._scopes) {
+		// 	var w = this._scopes[i].widgets[key];
+		// 	if(w) return w;
+		// }
 
 	},
 
@@ -175,7 +181,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		this._scopes[scope_name] = scope;
 
 		// инициализируем скоуп
-		this._callbacks[scope_name].call(scope, this, scope);
+		this._callbacks[scope_name].call(this, scope);
 
 		// загружаем данные скоупа?
 
