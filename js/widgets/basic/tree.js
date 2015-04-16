@@ -149,11 +149,14 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.
     }
     
     return path.reverse().join(':');
-	},
+	}
 	
 	
+	// toggle: function() {
+	// 	this.states.toggle('expanded');
+	// }	
 	
-	
+
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
