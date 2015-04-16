@@ -143,7 +143,7 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.
 		
     var path = [];
     var w = this;//.parent;
-    while(w._name) {
+    while(w && w._name) {
       path.push(w._name);
       w = w.parent.parent;
     }
