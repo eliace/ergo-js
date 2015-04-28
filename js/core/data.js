@@ -269,8 +269,11 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// опустошаем список элементов
 //			this.entries.apply_all('_destroy');
 
+
+
 			this._val(newValue);
 			
+
 
 			this.mark_dirty(false);
 

@@ -26,6 +26,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		this._scopes = {};
 		this._callbacks = {};
 		this._data = {};
+		this._params = {};
 		
 		
 		if(o.hashLinks) {
@@ -142,6 +143,14 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// 	if(d) return d;
 		// }
 
+	},
+
+
+	param: function(key, v) {
+		if(arguments.length == 1)
+			return this._params[key];
+		else
+			this._params[key] = v;		
 	},
 
 

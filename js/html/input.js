@@ -40,7 +40,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	},
 	
 	set_disabled: function(v) {
-		this.el.attr('disabled', '');
+		(v) ? this.el.attr('disabled', '') : this.el.removeAttr('disabled');
 	},
 	
 	set_name: function(v) {

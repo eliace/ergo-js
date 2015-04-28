@@ -52,20 +52,44 @@ Ergo.defineMixin('Ergo.mixins.Modal', function(o) {
 			
 			// здесь, в зависимости от методики позиционирования, расчитываются параметры
 			
-			// center
-			var w = this.el.width();
-			var h = this.el.height();
-			
-			h = Math.min(h, $(window).height());
-			
-			var x = w/2;
-			var y = h/2;
+			if(o.position == 'top') {
 
+				// top
+				var w = this.el.width();
+				
+				var x = w/2;
 
+				this.el.css({'margin-left': -x, 'top': 0});
 
+			}
+			else if(o.position == 'right') {
 
-			
-			this.el.css({'margin-left': -x, 'margin-top': -y});
+				// top
+				var h = this.el.height();
+				
+				h = Math.min(h, $(window).height());
+				
+				var y = h/2;
+				
+
+				this.el.css({'right': 0, 'left': 'auto', 'margin-top': -y});
+
+			}
+			else {
+
+				// center
+				var w = this.el.width();
+				var h = this.el.height();
+				
+				h = Math.min(h, $(window).height());
+				
+				var x = w/2;
+				var y = h/2;
+				
+
+				this.el.css({'margin-left': -x, 'margin-top': -y});
+			}
+
 			
 			this.el.hide();
 

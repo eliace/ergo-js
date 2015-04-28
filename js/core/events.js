@@ -181,10 +181,10 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		e = _event;
 		
 		
-		var self = this;
+//		var self = this;
 		
 		var h_arr = this.events[type];
-		if(h_arr) {
+		if(h_arr && h_arr.length) {
 			Ergo.each(h_arr, function(h){
 				// вызываем обработчик события
 				h.callback.call(h.target, e, type);

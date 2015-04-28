@@ -149,7 +149,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		
 //		console.log('item:add');
-//		this.events.fire('item:add', {'item': item});
+		//TODO здесь бы применить метод вызова опций как для компоновки
+		this.widget.events.fire('item:added', {'item': item});
 		
 		return item;
 	},

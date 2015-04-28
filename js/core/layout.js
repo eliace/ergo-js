@@ -156,7 +156,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			var filtered = [];
 			for(var j = 0; j < elements.length; j++) {
 				var elem = elements[j];
-				if( elem._ergo && elem._ergo.options.group == item.options.group ) filtered.push(elem);
+				if( elem._ergo && elem._ergo.options.group == item.options.group ) filtered.push(elem);					
 			}
 			elements = filtered;
 			// elements = Ergo.filter(elements, function(i, elem){
@@ -341,6 +341,8 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		
 		item._rendered = true;
 		
+		this._widget.events.fire('item:rendered', {item: item});
+
 		// deprecated
 //		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 //		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
@@ -484,7 +486,9 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 					h_ratio++;
 					dh += sibling.outerHeight(true) - sibling.height();					
 				}
-			});
+			});
+
+
 
 			// var h_ratio = 1;
 // 
@@ -502,7 +506,9 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				// }
 			// });
 // 
-			// }
+			// }
+
+
 
 			// if(this.el.attr('autoheight') != 'ignore-siblings') {
 				// this.el.siblings().not('td, :hidden').each(function(i, sibling){

@@ -27,7 +27,7 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 		},
 		events: {
 			'jquery:change': function(e) {
-				w.opt('value', this.el.prop('checked'));
+				this.opt('value', this.el.prop('checked'));
 //				w.events.fire('action');
 			}
 		}

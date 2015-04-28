@@ -22,12 +22,13 @@ Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
 	defaults: {
 		html: '<select/>',
 		defaultItem: {
-			etype: 'html:option'
+			etype: 'html:option',
+			binding: 'text'
 		}
 	},
 	
 	set_disabled: function(v) {
-		this.el.attr('disabled', '');
+		(v) ? this.el.attr('disabled', '') : this.el.removeAttr('disabled');
 	},
 	
 	set_name: function(v) {

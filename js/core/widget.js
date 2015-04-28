@@ -1391,9 +1391,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		if(o.store)
 			val = o.store.call(this, val);
-		
-		if(this.data){
 
+		if(this.data){
 
 //			this._lock_data_change = true;
 //			o.store ? o.store.call(this, val) : this.data.set(val);

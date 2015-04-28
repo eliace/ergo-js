@@ -665,7 +665,7 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 .tree li > i {
-	padding-right: 5px;
+	margin-right: 5px;
 	cursor: default;
 }
 
@@ -1912,6 +1912,7 @@ input.field {
 	display: none;
 	overflow: auto;
 	margin-right: -20px;
+  overflow: hidden;
 }
 
 

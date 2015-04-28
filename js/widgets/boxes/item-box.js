@@ -22,7 +22,7 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 		
 		if(this.before._rendered) {
 			var h = this.before.el.outerHeight();
-			var w = this.before.el.outerWidth();
+			var w = this.before.el.outerWidth(true);
 			this.before.el.css({
 				'margin-top': -h/2,
 				'left': this.el.css('padding-left') || 0
@@ -37,7 +37,7 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 
 		if(this.after._rendered) {
 			var h = this.after.el.outerHeight();
-			var w = this.after.el.outerWidth();
+			var w = this.after.el.outerWidth(true);
 			this.after.el.css({
 				'margin-top': -h/2,
 				'right': this.el.css('padding-right') || 0
