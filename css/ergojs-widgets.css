@@ -33,6 +33,31 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+
+
+
+/*
+ * BOX
+ */
+.box-large {
+  padding: 16px;
+}
+
+.box-medium {
+  padding: 8px;
+}
+
+.box-small {
+  padding: 4px;
+}
+
+.box-tiny {
+  padding: 2px;
+}
+
+
+
+
 /*
  * PANEL
  */
@@ -378,6 +403,56 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+/*
+.btn.black {
+  background-color: #1b1c1d;
+  color: #fff;
+}
+
+.btn.yellow {
+  background-color: #f2c61f;
+  color: #fff;  
+}
+
+.btn.green {
+  background-color: #5bbd72;
+  color: #fff;  
+}
+
+.btn.blue {
+  background-color: #3b83c0;
+  color: #fff;  
+}
+
+.btn.orange {
+  background-color: #e07b53;
+  color: #fff;  
+}
+
+.btn.purple {
+  background-color: #564f8a;
+  color: #fff;  
+}
+
+.btn.red {
+  background-color: #d95c5c;
+  color: #fff;  
+}
+
+.btn.pink {
+  background-color: #d9499a;
+  color: #fff;  
+}
+
+.btn.teal {
+  background-color: #00b5ad;
+  color: #fff;  
+}
+*/
+
+
+
+
 /* Контекстные кнопки */
 
 .btn.contextual {
@@ -495,6 +570,43 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 
 
+.btn.tool {
+  color: #444;
+  border-color: #ccc;
+}
+
+
+.btn.tool:hover {
+  background: transparent;
+}
+
+
+.btn.tool.primary:hover {
+  color: #428BCA;
+  border-color: #428BCA;
+}
+
+.btn.tool.success:hover {
+  color: #5cb85c;
+  border-color: #5cb85c;
+}
+
+.btn.tool.info:hover {
+  color: #5bc0de;
+  border-color: #5bc0de;
+}
+
+.btn.tool.warning:hover {
+  color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+.btn.tool.danger:hover {
+  color: #d9534f;
+  border-color: #d9534f;
+}
+
+
 
 
 
@@ -563,6 +675,17 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 .btn > i.icon {
 /*	width: 0;*/
 }
+
+
+
+.btn-block {
+  width: 100%;
+  display: block;
+}
+
+
+
+
 
 
 

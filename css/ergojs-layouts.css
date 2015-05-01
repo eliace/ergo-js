@@ -243,6 +243,16 @@
 }
 
 
+[layout="fluid"] > .pull-left {
+	float: left;
+}
+
+[layout="fluid"] > .pull-right {
+	float: right;
+}
+
+
+
 
 /*
 [layout="fluid"] > *:after {

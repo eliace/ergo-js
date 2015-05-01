@@ -56,7 +56,26 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			// для полифила
 			var location = window.history.location || window.location;
 			
+			var self = this;
+
+			// $(window).on('popstate', function(e) {
+			// 	var p = e.originalEvent.state;
+			// 	if(p) {
+			// 		self._no_history = true;
+			// 		self.events.fire('restore', {scope: p._scope, params: p});
+			// 		self._no_history = false;
+			// 	}
+			// });
+
 			
+			// this.events.reg('scope:joined', function(e) {
+
+			// 	if(e.scope.history && !self._no_history) {
+			// 		window.history.pushState( Ergo.override({_scope: e.scope._name}, self._params), e.scope._name );//, 'title', '#'+url);
+			// 	}
+
+			// });
+
 		}
 		
 		
@@ -176,6 +195,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// если присутствует скоуп с такой же группой, то закрываем его
 		for(var i in this._scopes) {
 			if(i.indexOf(group+':') != -1) {
+				this.events.fire('scope:disjoin', {scope: this._scopes[i]});
 				this.disjoin(i);
 			}
 		}
@@ -203,6 +223,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 				w.render('body');
 		}
 
+
+		this.events.fire('scope:joined', {scope: scope});
 
 	},
 
@@ -244,6 +266,17 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		this._subcontext = ctx;
 
+	},
+
+
+
+	reset: function() {
+
+		for(var i in this._scopes) {
+			this.events.fire('scope:disjoin', {scope: this._scopes[i]});
+			this.disjoin(i);
+		}
+		
 	}
 
 	

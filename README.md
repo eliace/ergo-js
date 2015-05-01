@@ -45,3 +45,13 @@ $(document).ready(function(){
 
 ```
 
+## Road Map
+* Bower dependency management
+* Migration to jQuery 2 (no more IE8 support)
+* Using ES5 getters and setters instead of get_*/set_* properties
+* Plugins and mixins will be the same thing as they have to
+* CSS animations
+* Flex layout
+* Performance optimization
+
+and more new widgets :)

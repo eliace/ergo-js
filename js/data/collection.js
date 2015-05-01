@@ -47,7 +47,9 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		}
 		else
 			this._super.apply(this, arguments);
-	},
+	},
+
+
 	
 	/**
 	 * Загрузка данных из хранилища => заполнение коллекции данными

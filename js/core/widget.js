@@ -1219,7 +1219,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //			this.data.events.reg('value:changed', this._rebind.bind(this), this);
 			
-		
 			// связываем данные с дочерними компонентами виджета при условии:
 			//	1. если дочерний виджет является опорным (логически связан с другим источником данных), то игнорируем его
 			// 	2. обновление дочернего виджета не производится (оно будет позже иницировано опорным элементом)
@@ -1231,14 +1230,17 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false) this._dataChanged();
+		if(update !== false && !this.data.options.fetchable) this._dataChanged();
 
 
-		this.data.events.reg('fetch:before', function(){ self.events.fire('fetch'); });
-		this.data.events.reg('fetch:after', function(){ self._layoutChanged(); self.events.fire('fetched'); });
+//		if( this.data.options.fetchable ) {
 
-		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
-		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
+			this.data.events.reg('fetch:before', function(){ self.events.fire('fetch'); });
+			this.data.events.reg('fetch:after', function(){ self._layoutChanged(); self.events.fire('fetched'); });
+
+			// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
+			if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
+//		}
 
 
 		this.events.fire('bound');
@@ -1310,30 +1312,37 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //			if(!Ergo.noDynamicRender)
 			this.render();
-			
+	
+
+			// обновляем виджет (если это не запрещено в явном виде)
+//			if(update !== false) this._dataChanged(true);
+
 		}
 		else {
 
 //		console.log('rebind (static)');
-
+	
 			this.children.each(function(child){
 //				if(!child._pivot) child.rebind(false);
 				// 1. rebind не вызывается у дочерних элементов со своим dataSource
 				// 2. rebind не вызывается у дочерних элементов с общим dataSource 
 				//      (работает некорректно, если rebind вызывается не событием)
-				if(!child._pivot && child.data != self.data) child._rebind(false);
+				if(!child._pivot && child.data != self.data) {
+						child._rebind(false);
+				} 
 			});
 			
 			//TODO возможно, здесь нужно вызвать render() с выключенным каскадированием
 			
 //			this._layoutChanged();
 			
+			// обновляем виджет (если это не запрещено в явном виде)
+			// динамические элементы пропустим
+			if(update !== false) this._dataChanged(undefined, undefined, true);
 		}
 		
 
 		
-		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false) this._dataChanged(true);
 		
 		
 	},
@@ -1438,7 +1447,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * @private
 	 */
-	_dataChanged: function(lazy, cascade) {
+	_dataChanged: function(lazy, cascade, no_dynamic) {
 		
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
@@ -1472,13 +1481,17 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //		if(cascade !== false) {
 		this.children.each(function(child){
+
+			if(no_dynamic && child.options.dynamic) return;
+
 			// Отменяем обновление дочернего элемента, если:
 			//  1. определен источник данных
 			//  2. источник данных дочернего элемента совпадает с текущим
 			//  3. дочерний элемент имеет свой независимый источник данных
 			if(lazy && child.data && child.data == self.data) return;
 			if(child._pivot || child.options.autoBind === false) return; //FIXME динамические элементы являются опорными => это условие всегда срабатывает
-			child._dataChanged(lazy);
+//			if(lazy && child.options.dynamic) return;
+			child._dataChanged(lazy, cascade, no_dynamic);
 		});
 //		}
 //			this.children.apply_all('_dataChanged', [true]);
