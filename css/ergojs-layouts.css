@@ -1,4 +1,8 @@
 
+
+
+
+
 /*
  * BAND LAYOUT
  */
@@ -60,6 +64,11 @@
 	vertical-align: middle;
 }
 
+[layout="bar"] > .control {
+	display: inline-table;
+	vertical-align: middle;
+}
+
 [layout="bar"] > *:not(:last-child) {
 	margin-right: 6px;	
 }
@@ -89,6 +98,11 @@
 
 [layout="hbox"] > * {
 	display: inline-block;
+	vertical-align: middle;
+}
+
+[layout="hbox"] > .control {
+	display: inline-table;
 	vertical-align: middle;
 }
 
@@ -146,6 +160,10 @@
 	display: block;
 }
 
+[layout="vbox"] > .control {
+	display: table;
+}
+
 
 
 /*
@@ -157,6 +175,10 @@
 
 [layout="stack"] > * {
 	display: block;
+}
+
+[layout="stack"] > .control {
+	display: table;
 }
 
 [layout="stack"] > *:not(:last-child) {

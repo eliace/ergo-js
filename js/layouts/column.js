@@ -6,7 +6,7 @@ Ergo.declare('Ergo.layouts.Column', 'Ergo.core.Layout', {
 	},
 	
 	wrap: function(item) {
-		return $('<div/>').append(item.el);
+		return (item.options.divider) ? item.el : $('<div/>').append(item.el);
 	}
 	
 }, 'layouts:column');

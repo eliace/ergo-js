@@ -25,6 +25,10 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 }
 
 
+.circular {
+  border-radius: 500px;
+}
+
 
 .paper {
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
@@ -53,6 +57,13 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 
 .box-tiny {
   padding: 2px;
+}
+
+
+
+.control {
+  display: inline-table;
+  vertical-align: middle;
 }
 
 
@@ -150,7 +161,7 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 }
 
 .panel.light > header .panel-title {
-  padding: 8px;
+  padding: 8px 0;
   font-size: 20px;
 }
 
@@ -903,6 +914,8 @@ img.btn.circle {
 
 
 
+
+
 /*
  * DROPDOWN
  */
@@ -1254,8 +1267,9 @@ li.has-submenu > a > .caret {
  */
 
 .text-box {
-    display: table !important;  /* изменение этого стиля ломает верстку */	
+    display: inline-table;  /* изменение этого стиля ломает верстку */	
 /*    padding: 6px 8px;*/
+    vertical-align: middle;
     position: relative;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075) inset;
     background-color: #fff;

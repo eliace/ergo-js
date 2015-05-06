@@ -124,7 +124,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this._pre_construct(this.options);
 
-		// повторная сборка опций (после PRE_CONSTRUCT могут появиться модификаторы опций)
+		//FIXME повторная сборка опций (после PRE_CONSTRUCT могут появиться модификаторы опций)
 		if(o.mixins && o.mixins.length)
 			Ergo.smart_build(this.options);
 		

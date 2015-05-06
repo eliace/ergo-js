@@ -4,6 +4,7 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		baseCls: 'text-box',
+		cls: 'control',
 		
 		binding: function(v) {
 			this.content.opt('value', v);
