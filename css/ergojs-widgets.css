@@ -67,6 +67,11 @@ header:after, footer:after, .navigation:after, .tool-bar:after {
 }
 
 
+.box-block {
+  width: 100%;
+}
+
+
 
 
 /*
