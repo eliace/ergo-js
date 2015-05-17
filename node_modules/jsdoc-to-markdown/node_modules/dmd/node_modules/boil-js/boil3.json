@@ -1,6 +1,0 @@
-{
-    "readme":{
-        "template": "{{read readme.hbs true}}",
-        "data": {{read -}}
-    }
-}
