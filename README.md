@@ -5,13 +5,9 @@
 
 Собираем **js** и **css** файлы, готовим дистрибутив
 ```bash
-grunt
+gulp
 ```
 
-Генерируем документацию
-```bash
-grunt docs
-```
 
 
 ## Быстрый старт
@@ -49,7 +45,7 @@ $(document).ready(function(){
 
 ## Release History
 
-### Release 12.1
+#### Release 12.1
 * Migrated to jQuery 2 (no more IE8 support)
 * `mixins` and `plugins` replaced by `include`
 * `events.reg()` and `events.unreg()` renamed to `events.on()` and `events.off()`
