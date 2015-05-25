@@ -1,0 +1,24 @@
+{
+  "name": "ergo-js",
+  "version": "0.12.1",
+  "homepage": "http://ergojs.com",
+  "authors": [
+    "Kodanyov Yuriy <eliace@mail.ru>"
+  ],
+  "description": "ui framework",
+  "keywords": [
+    "javascript",
+    "framework"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}

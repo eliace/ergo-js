@@ -5,7 +5,8 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	defaults: {
 		
 		cls: 'pagination',
-		mixins: ['selectable'],
+//		mixins: ['selectable'],
+		include: 'selectable',
 		dynamic: false,  // отключаем динамическое построение элементов
 		components: {
 			nextBtn: {
@@ -54,20 +55,10 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 			},
 			autoBind: false					
 		},
-//		dynamic: true,
 		// выборка происходит только по имени
-		selector: function(key) {
-			return this.item( Ergo.by_opts.curry({name: key}) );
-		},
-		// onChangeIndex: function(e) {
-			// this.opt('index', e.index);
+		// lookup: function(key) {
+		// 	return this.item( Ergo.by_opts.curry({name: key}) );
 		// },
-		// onNextIndex: function() {
-			// this.opt('index', this.opt('index')+1);
-		// },
-		// onPrevIndex: function() {
-			// this.opt('index', this.opt('index')-1);
-		// }
 		
 		binding: function(v) {
 			this.opt('dataIndex', this.data.opt('index'));

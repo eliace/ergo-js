@@ -1,3 +1,3 @@
 
-//= require "basic-tree"
-//= require "list-tree"
+//= require basic-tree
+//= require list-tree

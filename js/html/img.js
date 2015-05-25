@@ -17,9 +17,12 @@ Ergo.defineClass('Ergo.html.Img', 'Ergo.core.Widget', {
 	defaults: {
 		html: '<img/>'
 	},
+
+	attributes: ['id', 'tabindex', 'src'],
+
 	
-	set_src: function(v) {
-		this.el.attr('src', v);
-	} 
+	// set_src: function(v) {
+	// 	this.el.attr('src', v);
+	// } 
 	
 }, 'html:img');

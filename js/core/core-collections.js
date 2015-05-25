@@ -28,17 +28,15 @@
 	 * @param {Object|Array} src объект, элементы которого необходимо просмотреть
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 */
-	E.each = function(src, callback, delegate){
-		if($.isArray(src)){
-			var arr = src;
-			for(var i = 0; i < arr.length; i++){
-				if( callback.call(delegate || arr, arr[i], i) === false ) return false;
-			}
+	E.each = function(src, callback){
+		if( Array.isArray(src) ){
+			src.forEach(callback);
 		}
 		else {
 			var obj = src;
 			for(var i in obj){
-				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
+				callback.call(obj, obj[i], i);
+//				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
 			}	
 		}
 	};
@@ -56,10 +54,8 @@
 	 */
 	E.filter = function(obj, fn){
 		var result;
-		if( $.isArray(obj) ) {
-			result = [];
-			for(var i = 0; i < obj.length; i++)
-				if( fn.call(obj, obj[i], i) ) result.push(obj[i]);
+		if( Array.isArray(obj) ) {
+			result = obj.filter(fn);
 		}
 		else {
 			result = {};
@@ -82,7 +78,7 @@
 	 */
 	E.filter_keys = function(src, fn){
 		var result = [];
-		if($.isArray(src)) {
+		if(Array.isArray(src)) {
 			for(var i = 0; i < src.length; i++)
 				if(fn.call(src, src[i], i)) result.push(i);
 		}
@@ -106,9 +102,8 @@
 	 */
 	E.map = function(obj, fn) {
 		var a;
-		if($.isArray(obj)) {
-			a = [];
-			for(var i = 0; i < obj.length; i++) a[i] = fn.call(obj, obj[i], i);			
+		if(Array.isArray(obj)) {
+			a = obj.map(fn);
 		}
 		else {
 			a = {};
@@ -130,7 +125,7 @@
 			var x = criteria;
 			criteria = function(it) { return it == x; };
 		}
-		if($.isArray(obj)) {
+		if(Array.isArray(obj)) {
 			for(var i = 0; i < obj.length; i++)
 				if(criteria.call(obj, obj[i], i)) return obj[i];
 		}
@@ -168,7 +163,7 @@
 		if(!$.isFunction(criteria))
 			criteria = E.eq.curry(criteria);
 			
-		if($.isArray(obj)) {
+		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++)
 				if(criteria.call(obj, obj[i], i)) return i;
 		}
@@ -235,11 +230,13 @@
 	 * @param {Any} val значение
 	 */
 	E.includes = function(obj, val) {
-		for(var i in obj)
-			if(obj[i] == val) return true;
-//		for(var i = 0; i < arr.length; i++)
-//			if(arr[i] == val) return true;
-		return false;
+		if( Array.isArray(obj) )
+			return obj.indexOf(obj) != -1;
+		else {
+			for(var i in obj)
+				if(obj[i] === val) return true;			
+			return false;
+		}
 	};
 	
 	E.contains = E.includes;
@@ -248,11 +245,10 @@
 	
 	
 	E.size = function(obj) {
-		if($.isArray(obj)) return obj.length;
 
-		var n = 0;
-		for(var i in obj) n++;
-		return n;
+		if(Array.isArray(obj)) return obj.length;
+
+		return obj.keys().length;
 	};
 	
 	
@@ -268,19 +264,20 @@
 	
 	//TODO в качестве значения может выступать критерий, а удаление может происходить как из массива, так и из хэша
 	
-	E.remove = function(arr, val) {
-		var index = -1;
-		for(var i = 0; i < arr.length; i++) {
-			if(arr[i] == val) {
-				index = i;
-				break;
-			}
-		}
-		if(index != -1) arr.splice(index, 1);
+	// E.remove = function(arr, val) {
+	// 	var index = -1;
+	// 	for(var i = 0; i < arr.length; i++) {
+	// 		if(arr[i] === val) {
+	// 			index = i;
+	// 			break;
+	// 		}
+	// 	}
+	// 	if(index != -1) arr.splice(index, 1);
 		
-		return (index != -1);
-	};
-	
+	// 	return (index != -1);
+	// };
+
+
 	
 	
 	

@@ -1,2 +1,2 @@
 
-//= require "modal-dialog"
+//= require modal-dialog

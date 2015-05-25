@@ -30,26 +30,30 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 			// }
 		// }
 	},
+
+	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly'],
 	
-	set_type: function(v) {
-		this.el.attr('type', v);
-	},
+	// set_type: function(v) {
+	// 	this.el.attr('type', v);
+	// },
 	
-	set_placeholder: function(v) {
-		this.el.attr('placeholder', v);
-	},
+	// set_placeholder: function(v) {
+	// 	this.el.attr('placeholder', v);
+	// },
 	
-	set_disabled: function(v) {
-		(v) ? this.el.attr('disabled', '') : this.el.removeAttr('disabled');
-	},
+	// set_disabled: function(v) {
+	// 	(v) ? this.el.attr('disabled', '') : this.el.removeAttr('disabled');
+	// },
 	
+	// перегружаем параметр name
 	set_name: function(v) {
+		thi._name = v;
 		this.el.attr('name', v);
 	},
 	
-	set_readonly: function(v) {
-		this.el.attr('readonly', v);
-	}
+	// set_readonly: function(v) {
+	// 	this.el.attr('readonly', v);
+	// }
 
 
 	

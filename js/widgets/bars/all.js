@@ -1,4 +1,4 @@
 
-//= require "tab-bar"
-//= require "tool-bar"
-//= require "menu-bar"
+//= require tab-bar
+//= require tool-bar
+//= require menu-bar

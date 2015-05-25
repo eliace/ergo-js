@@ -154,7 +154,7 @@ Ergo.defineMixin('Ergo.widgets.Popup', function(o){
 		
 		// определяем параметры закрытия
 		
-		$('html').one('click', function(e) {
+		$('html').one('mousedown', function(e) {
 			if(this.options.popup.closeOn == 'outerClick') this.close();
 		}.bind(this));
 		

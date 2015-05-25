@@ -53,6 +53,9 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 		this.content.opt('name', v);
 	},
 	
+
+
+	
 	
 	
 	selection_range: function(v0, v1) {

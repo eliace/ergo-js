@@ -1,32 +1,32 @@
 
 
-//= require <widgets/basic/all>
-//= require <widgets/bars/all>
-//= require <widgets/boxes/all>
-//= require <widgets/buttons/all>
-//= require <widgets/dialogs/all>
-//= require <widgets/editors/all>
-//= require <widgets/grids/all>
-//= require <widgets/panels/all>
-//= require <widgets/pickers/all>
-//= require <widgets/trees/all>
-//= require <widgets/items/all>
-//= require <widgets/menus/all>
+//= require basic/all
+//= require bars/all
+//= require boxes/all
+//= require buttons/all
+//= require dialogs/all
+//= require editors/all
+//= require grids/all
+//= require panels/all
+//= require pickers/all
+//= require trees/all
+//= require items/all
+//= require menus/all
 
-//= require <widgets/accordion>
-//= require <widgets/badge>
-//= require <widgets/breadcrumbs>
-//= require <widgets/progress>
-//= require <widgets/tooltip>
+//= require accordion
+//= require badge
+//= require breadcrumbs
+//= require progress
+//= require tooltip
 
-//= require "alert"
-//= require "simple-alert"
-//= require "dropdown-list"
-//= require "dropdown-menu"
-//= require "pagination"
-//= require "grid-pagination"
-//= require "navigation"
-//= require "caret"
+//= require alert
+//= require simple-alert
+//= require dropdown-list
+//= require dropdown-menu
+//= require pagination
+//= require grid-pagination
+//= require navigation
+//= require caret
 
 
 

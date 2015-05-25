@@ -7,7 +7,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 		
 		cls: 'tab-panel',
 		
-		mixins: ['selectable'],
+		include: 'selectable',
 		
 		components: {
 			header: {
@@ -41,8 +41,8 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 			// e.stop();
 		// },
 		
-		selector: function(key) {
-			console.log(key);
+		lookup: function(key) {
+//			console.log(key);
 			return this.tabbar.item(key);//, this.content.item(key)];
 		},
 		

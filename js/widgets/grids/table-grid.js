@@ -109,7 +109,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			
 			
 			each: function(callback) {
-				Ergo.each(this._widget.options.columns, callback);
+				this._widget.options.columns.forEach(callback);
 			},
 			
 			

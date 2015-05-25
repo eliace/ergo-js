@@ -3,7 +3,8 @@
 Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 	
 	defaults: {
-		mixins: ['dropdown'],
+//		mixins: ['dropdown'],
+		include: 'dropdown',
 		components: {
 			content: {
 				// здесь не должен использоваться caret-box

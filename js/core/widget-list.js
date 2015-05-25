@@ -1,5 +1,5 @@
 
-//= require "array"
+//= require array
 
 
 
@@ -16,7 +16,8 @@
 Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
 	
 	defaults: {
-		plugins: [Ergo.Observable]
+//		plugins: [Ergo.Observable]
+		include: 'observable'
 	},
 	
 	
@@ -231,7 +232,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 
 	defaults: {
-		plugins: [Ergo.Observable]
+//		plugins: [Ergo.Observable]
+		include: 'observable'
 	},
 	
 	
@@ -357,8 +359,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} callback
 	 * @param {Object} delegate
 	 */
-	each: function(callback, delegate) {
-		return Ergo.each(this._source(), callback, delegate);
+	each: function(callback) {
+		return Ergo.each(this._source(), callback);
 	},
 	
 //	ensure: function(i) {

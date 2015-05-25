@@ -1,2 +1,2 @@
 
-//= require "tab-panel"
+//= require tab-panel

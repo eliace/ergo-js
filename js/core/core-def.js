@@ -95,6 +95,7 @@ var Ergo = (function(){
 			if(i == 'data') prefix = '!'; 										//<-- поле data не перегружается
 			if(i == 'mixins') prefix = '+'; 				//<-- поле mixins сливается
 			if(i == 'cls') prefix = '+';
+			if(i == 'include') prefix = '+';
 			if(i == 'state') prefix = '+';
 			if( /^on\S/.test(i) ) prefix = '+';
 			if(/\/events$/.test(context)) {
@@ -146,7 +147,7 @@ var Ergo = (function(){
 				if(j in o)
 					m = o[j];
 				
-				if( !$.isArray(m) ) m = [m];
+				if( !Array.isArray(m) ) m = [m];
 				
 				m = m.concat(p);
 
@@ -176,7 +177,7 @@ var Ergo = (function(){
 				if(j in o)
 					m = o[j];
 				
-				if( !$.isArray(m) ) m = [m];
+				if( !Array.isArray(m) ) m = [m];
 				
 				m = m.concat(p);
 
@@ -350,7 +351,7 @@ var Ergo = (function(){
 				var j = i.substr(1);
 				
 				var m = (j in o) ? o[j] : [];
-				if( !$.isArray(m) ) m = [m];
+				if( !Array.isArray(m) ) m = [m];
 				
 				m = m.concat(o[i]);
 				
@@ -365,7 +366,7 @@ var Ergo = (function(){
 				var j = i.substr(1);
 				
 				var m = (j in o) ? o[j] : [];
-				if( !$.isArray(m) ) m = [m];
+				if( !Array.isArray(m) ) m = [m];
 				
 				for(var n = 0; n < o[i].length; n++) {
 					for(var k = 0; k < m.length; k++) {
@@ -443,7 +444,7 @@ var Ergo = (function(){
 //			return;
 			
 		for(var i in o) {
-			if(i == 'defaultItem' || i == 'defaultComponent' || i == 'layout') 
+			if(i == 'defaultItem' || i == 'defaultComponent' || i == 'layout' || i == 'nestedItem') 
 				continue;
 			if(o[i] && o[i].constructor == Object)
 				E.smart_build(o[i], i);
@@ -577,15 +578,6 @@ var Ergo = (function(){
 	// Фильтры
 	//
 	//---------------------------------------------------
-	
-	
-	//FIXME эта функция не так уж нужна
-	E.filter_list = function(val, list) {
-		for(var i = 0; i < list.length; i++)
-			if(!list[i].call(this, val)) return false;
-		return true;
-	};
-	
 	
 	
 	E.sort_numbers = function(a, b) {

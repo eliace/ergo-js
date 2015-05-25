@@ -64,46 +64,14 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 
 
-	
+/*	
 	_pre_construct: function(o) {
 
-/*
-		if('columns' in o) {
-			
-			var hcols = [];
-			var bcols = [];
-			Ergo.each(o.columns, function(c){
-				
-				var col = {};
-				
-				if($.isString(c)) {
-					col.header = c;
-				}
-				else {
-					col = Ergo.deep_copy(c);
-				}
-				
-				bcols.push(col);
-				hcols.push(col.header);
-				
-				delete col.header;
-			});
-			
-			Ergo.smart_override(o.components.head, {items: [{items: hcols}]});
-			
-			Ergo.smart_override(o.components.body, {defaultItem: o.row}, {defaultItem: {defaultItem: o.cell}}, {defaultItem: {items: bcols}});// items: [{items: hcols}]});
-		}
-*/		
-		// if('rows' in o) {
-// 
-			// Ergo.smart_override(o.components.body, {items: o.rows});
-// 			
-		// }
 		
 		this._super(o);
 		
 	},
-
+*/
 
 
 
@@ -154,12 +122,12 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			
 			
 			get: function(i) {
-				return this._widget.options.columns[i];				
+				return this._widget.options.columns[i];
 			},
 			
 			
 			each: function(callback) {
-				Ergo.each(this._widget.options.columns, callback);
+				this._widget.options.columns.forEach(callback);
 			},
 			
 			
@@ -232,16 +200,23 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 		};
 		
 		
+
+		o.columns.forEach(function(col) {
+			w.columns.add(col);
+		});
 		
-		for(var i in o.columns) {
-			this.columns.add(o.columns[i]);
-		}
+		// for(var i in o.columns) {
+		// 	this.columns.add(o.columns[i]);
+		// }
 
 		
 		if('rows' in o) {
-			for(var i in o.rows) {
-				this.body.items.add(o.rows[i]);
-			}
+			o.rows.forEach(function(row) {
+				w.body.items.add(row);
+			});
+			// for(var i in o.rows) {
+			// 	this.body.items.add(o.rows[i]);
+			// }
 		}
 		
 	},

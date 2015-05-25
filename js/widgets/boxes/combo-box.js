@@ -7,7 +7,9 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 	defaults: {
 		cls: 'combo-box',
 		
-		mixins: ['dropdown'],
+//		mixins: ['dropdown'],
+
+		include: 'dropdown',
 		
 		components: {
 			content: {

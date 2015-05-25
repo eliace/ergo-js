@@ -1,6 +1,6 @@
 
-//= require <data/collection>
-//= require <data/object>
+//= require collection
+//= require object
 
 
 Ergo.defineClass('Ergo.data.NodeList', 'Ergo.data.Collection', {

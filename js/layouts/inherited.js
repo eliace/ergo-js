@@ -1,4 +1,3 @@
-//= require <core/layout>
 
 Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 	

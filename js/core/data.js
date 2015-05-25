@@ -1,5 +1,5 @@
 
-//= require "events"
+//= require events
 
 
 /**
@@ -22,7 +22,8 @@
 Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 	
 	defaults: {
-		plugins: [Ergo.Observable],
+//		plugins: [Ergo.Observable],
+		include: 'observable',
 		lazy: true
 	},
 	
@@ -62,12 +63,12 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		 * 
 		 * @field
 		 */
-		this.entries = $.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
+		this.entries = Array.isArray(val) ? new Ergo.core.Array() : new Ergo.core.Collection();
 		
 //		this.events = new Ergo.events.Observer(this);
 		
 		if(!o.lazy) {
-			Ergo.each(val, function(v, i){	self.entry(i); });
+			Ergo.each(val, function(v, i){	self.entry(i); } );
 		}
 		
 //		console.log('-- data --');
@@ -80,7 +81,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		this.del();
 		
 		// очищаем регистрацию обработчиков событий
-		this.events.unreg_all();
+		this.events.off();
 		// удаляем все дочерние элементы
 		this.entries.apply_all('_destroy');
 		
@@ -245,7 +246,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 			if(this.entries.is_empty())
-				this.entries = $.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
+				this.entries = Array.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
 
 			// удаляем все элементы
 //			this.entries.filter(function(e) { return true; }).each(function(e){	e._destroy(); });
@@ -313,7 +314,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		
 		var isLast = false;
 			
-		if($.isArray(values)) {
+		if(Array.isArray(values)) {
 			
 			if(index == null){
 				values.push(value);
@@ -378,7 +379,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			
 			this.entries.remove_at(i);
 			
-			if($.isArray(value)) {
+			if(Array.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
 					this.entries.get(j).id = j;
@@ -409,7 +410,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		
 		var criteria = filter || this.options.filter;
 
-		Ergo.each(values, function(v, i){
+		Ergo.each(values, function(v, i) {
 			if(!criteria || criteria.call(self, v, i)) {
 				callback.call(self, self.entry(i), i, v);
 			}

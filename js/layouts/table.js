@@ -1,4 +1,4 @@
-//= require <core/layout>
+
 
 Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	

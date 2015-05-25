@@ -12,7 +12,8 @@
 Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
 	
 	defaults: {
-		plugins: [Ergo.Observable] //, Ergo.Statable]
+//		plugins: [Ergo.Observable] //, Ergo.Statable]
+		include: 'observable'
 	},
 	
 	

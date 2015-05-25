@@ -45,6 +45,21 @@ $(document).ready(function(){
 
 ```
 
+
+
+## Release History
+
+### Release 12.1
+* Migrated to jQuery 2 (no more IE8 support)
+* `mixins` and `plugins` replaced by `include`
+* `events.reg()` and `events.unreg()` renamed to `events.on()` and `events.off()`
+* events.off() without arguments removes all event listeners
+* New `Array.prototype.remove()` and `Array.prototype.uniq()`
+* Option `selector` of `selectable` mixin renamed to `lookup`
+
+
+
+
 ## Road Map
 * Bower dependency management
 * Migration to jQuery 2 (no more IE8 support)

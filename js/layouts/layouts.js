@@ -1,22 +1,22 @@
 
-//= require "inherited"
+//= require inherited
 
-//= require "hbox"
-//= require "bar"
-//= require "row"
-//= require "hslide"
-
-
-//= require "vbox"
-//= require "stack"
-//= require "column"
+//= require hbox
+//= require bar
+//= require row
+//= require hslide
 
 
-//= require "band"
-//= require "form"
+//= require vbox
+//= require stack
+//= require column
 
-//= require "grid"
-//= require "table"
-//= require "fluid"
 
-//= require "center"
+//= require band
+//= require form
+
+//= require grid
+//= require table
+//= require fluid
+
+//= require center

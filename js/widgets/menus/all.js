@@ -1,6 +1,6 @@
 
 
-//= require "side-menu"
+//= require side-menu
 
 
 

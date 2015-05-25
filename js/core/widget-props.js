@@ -31,7 +31,7 @@ Ergo.WidgetOptions = {
 //	getText: function() {	return this.layout.el.text();	},
 	get_width: function() {	return this.el.width();	},
 	get_height: function() {	return this.el.height();	},
-	get_name: function() { return this.options.name || this._key || this._index; },
+	get_name: function() { return this._name || this._key || this._index; },
 	
 	
 	
@@ -46,16 +46,16 @@ Ergo.WidgetOptions = {
  			this.layout.el[0].textContent = ( v == null ? '': v ); 		 
 
 	},
-	set_innerText: function(v) {	this.layout.el.text(v); },
-	set_innerHtml: function(v) {	this.layout.el.html(v); },
-	set_opacity: function(v) {
-		if($.support.opacity) 
-			this.el.css('opacity', v);
-		else {
-			this.el.css('filter', 'Alpha(opacity:' + (v*100.0) + ')');
-			this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
-		}				
-	},
+	// set_innerText: function(v) {	this.layout.el.text(v); },
+	// set_innerHtml: function(v) {	this.layout.el.html(v); },
+	// set_opacity: function(v) {
+	// 	if($.support.opacity) 
+	// 		this.el.css('opacity', v);
+	// 	else {
+	// 		this.el.css('filter', 'Alpha(opacity:' + (v*100.0) + ')');
+	// 		this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
+	// 	}				
+	// },
 	set_width: function(v) { this.el.width(v); },
 	set_height: function(v) { this.el.height(v); },
 	set_autoWidth: function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
@@ -71,11 +71,11 @@ Ergo.WidgetOptions = {
 		}
 	},
 	set_tooltip: function(v) { this.el.attr('title', v); },
-	set_id: function(v) { this.el.attr('id', v); },
-	set_tag: function(v) { this.tag = v; },
+//	set_id: function(v) { this.el.attr('id', v); },
+//	set_tag: function(v) { this.tag = v; },
 	set_name: function(v) { this._name = v; },
 //			'name': function(v) { this.name = v; },
-	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
+//	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
 	set_format: function(v) {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},
@@ -85,4 +85,12 @@ Ergo.WidgetOptions = {
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
 	
+};
+
+
+
+
+
+Ergo.WidgetAttributes = {
+	attributes: ['id', 'tabindex']
 };

@@ -172,12 +172,10 @@
 //			_etypes[etype] = clazz;
 		}
 		
+
 		if('mixins' in overrides) {
 			for(i in overrides.mixins) {
 				var mixin = overrides.mixins[i];
-//				if($.isString(mixin)) mixin = o.mixins[i] = Ergo.alias('mixins:'+mixin);
-//				if($.isFunction(mixin)) mixin.call(clazz.prototype, clazz.prototype);
-//				else if($.isPlainObject(mixin)) Ergo.deep_override(clazz.prototype, mixin);
 				Ergo.deep_override(clazz.prototype, mixin);
 			}			
 		}
@@ -193,7 +191,8 @@
 	 */
 	E.declare = E.defineClass;
 	
-	
+	E.define = E.defineClass;
+
 	
 	/**
 	 * Создание экземпляра объекта по псевдониму класса

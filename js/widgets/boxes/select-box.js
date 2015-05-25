@@ -5,7 +5,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 	defaults: {
 		cls: 'select-box',
 		
-		mixins: ['dropdown', 'selectable'],
+		include: 'dropdown selectable',
 		
 		components: {
 			content: {
@@ -58,10 +58,8 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 			this.opt('value', e.key);
 		},
 		
-		selector: function(key) {
-			return this.dropdown.item(function(v) {
-				return v.opt('name') == key;
-			});
+		lookup: function(key) {
+			return this.dropdown.item(key);
 		},
 		
 		binding: function(v) {

@@ -116,10 +116,29 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		this._context = context;
 		
 
-		this.options = $.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
+		this.options = Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
 		
 		// сборка опций
 		Ergo.smart_build(this.options);
+
+
+		if('include' in this.options) {
+			this._includes = o.include.join(' ').split(' ').uniq();
+
+			var rebuild = false;
+
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo.alias('includes:'+this._includes[i]);
+				if(inc.defaults) {
+					this.options = Ergo.smart_override({}, inc.defaults, this.options);
+					rebuild = true;
+				}
+			}
+			
+			if(rebuild)
+				Ergo.smart_build(this.options);
+		}
+
 
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this._pre_construct(this.options);
@@ -132,6 +151,9 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		
 		// определен весь набор опций - можно выполнять сборку объекта
 		this._construct(this.options);
+
+
+
 
 		// объект готов - можно выполнить донастройку объекта
 		this._post_construct(this.options);
@@ -172,7 +194,19 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				if($.isFunction(mixin)) mixin.call(this, o);
 				else if($.isPlainObject(mixin)) Ergo.smart_override(this, mixin);
 			}
-		}		
+		}
+
+
+		if('include' in o) {
+//			this._includes = o.include.join(' ').split(' ').uniq();
+
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo.alias('includes:'+this._includes[i]);
+				if(inc._pre_construct)
+					inc._pre_construct.call(this, o);
+			}
+		}
+
 
 	},
 	
@@ -198,6 +232,17 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 					plugin.construct.call(this, o);
 			}
 		}
+
+
+		if(this._includes) {
+//			var mods = o.mods.join(' ').split(' ').uniq();
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo.alias('includes:'+this._includes[i]);
+				if(inc._construct)
+					inc._construct.call(this, o);
+			}
+		}
+
 		
 	},
 	
@@ -213,7 +258,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @param {Object} o опции
 	 */
 	_post_construct: function(o) {
-				
+
 		if('plugins' in o) {
 			for(var i = 0; i < o.plugins.length; i++) {
 				var plugin = o.plugins[i];
@@ -222,7 +267,19 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 					plugin.post_construct.call(this, o);
 			}
 		}
-		
+
+
+
+		if(this._includes) {
+//			var mods = o.mods.join(' ').split(' ').uniq();
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo.alias('includes:'+this._includes[i]);
+				if(inc._post_construct)
+					inc._post_construct.call(this, o);
+			}
+		}
+
+
 		this._opt(o);
 		
 	},
@@ -332,10 +389,11 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	$is: function(ex) {
-		var o = this.options;
+	_is: function(ex) {
+		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
+//		var o = this.options;
 //		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
-		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
+//		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
 	},
 	
 	

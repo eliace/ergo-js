@@ -1,2 +1,2 @@
 
-//= require "table-grid"
+//= require table-grid

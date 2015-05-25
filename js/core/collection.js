@@ -1,6 +1,6 @@
 
-//= require "object"
-//= require "events"
+//= require object
+//= require events
 
 /**
  * Коллекция пар ключ/значение
@@ -141,10 +141,9 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	/**
 	 * Последовательный обход всех значений
 	 * @param {Object} callback
-	 * @param {Object} delegate
 	 */
-	each: function(callback, delegate) {
-		return Ergo.each(this.src, callback, delegate);
+	each: function(callback) {
+		return Ergo.each(this.src, callback);
 	},
 	
 //	ensure: function(i) {

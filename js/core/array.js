@@ -1,5 +1,5 @@
 
-//= require "collection"
+//= require collection
 
 /**
  * Коллекция упорядоченных значений
@@ -62,8 +62,6 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 			this.remove_at(0);
 	},
 
-	
-	
 	size: function() {
 		return this.src.length;
 	},

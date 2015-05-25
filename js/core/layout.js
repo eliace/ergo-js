@@ -1,5 +1,5 @@
 
-//= require "object"
+//= require object
 
 
 /**
@@ -153,12 +153,19 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		
 		// фильтруем список элементов
 		if(item.options.group) {
-			var filtered = [];
-			for(var j = 0; j < elements.length; j++) {
-				var elem = elements[j];
-				if( elem._ergo && elem._ergo.options.group == item.options.group ) filtered.push(elem);					
-			}
-			elements = filtered;
+			elements = Array.prototype.filter.call(elements, function(elem) {
+				return ( elem._ergo && elem._ergo.options.group == item.options.group )
+			});
+
+
+			// var filtered = [];
+			// for(var j = 0; j < elements.length; j++) {
+			// 	var elem = elements[j];
+			// 	if( elem._ergo && elem._ergo.options.group == item.options.group ) filtered.push(elem);					
+			// }
+			// elements = filtered;
+
+
 			// elements = Ergo.filter(elements, function(i, elem){
 				// return (elem._ergo) ? (elem._ergo.options.group == item.options.group) : false;
 			// });

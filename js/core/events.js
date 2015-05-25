@@ -1,5 +1,5 @@
 
-//= require "object"
+//= require object
 
 
 /**
@@ -89,9 +89,9 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 	/**
 	 * Регистрируем событие.
 	 * 
-	 * reg(type, callback, target)
+	 * on(type, callback, target)
 	 */
-	reg: function(type, callback, target) {
+	on: function(type, callback, target) {
 		if(!(type in this.events)) this.events[type] = [];//new Ergo.core.Array();
 		var h_arr = this.events[type];
 		h_arr.push({'callback': callback, 'target': target || this.target});
@@ -111,17 +111,21 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 	/**
 	 * Убираем регистрацию события.
 	 * 
-	 * unreg(type)
-	 * unreg(callback)
-	 * unreg(type, callback)
-	 * unreg(target)
+	 * off(type)
+	 * off(callback)
+	 * off(type, callback)
+	 * off(target)
+	 * off();
 	 */
-	unreg: function(arg, arg2) {
+	off: function(arg, arg2) {
 		
 		var events = this.events;
 		
-		if(arguments.length == 2){
-			events[arg] = Ergo.filter( events[arg], function(h) { return h.callback != arg2; } );
+		if(arguments.length == 0) {
+			this.events = {};
+		}
+		else if(arguments.length == 2){
+			events[arg] = events[arg].filter( function(h) { return h.callback != arg2; } );
 		}
 		else if( $.isString(arg) ){
 			// удаляем все обработчики с данным именем
@@ -131,23 +135,23 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 			// удаляем указанный обработчик
 //			for(var i = 0; i < events.length; i++) {
 			for(var i in events) {
-				events[i] = Ergo.filter( events[i], function(h) { return h.callback != arg; } );
+				events[i] = events[i].filter( function(h) { return h.callback != arg; } );
 			}
 		}
 		else {
 			// удаляем все обработчики для указанного объекта
 //			for(var i = 0; i < e.length; i++) {
 			for(var i in events) {
-				events[i] = Ergo.filter( events[i], function(h) { return h.target != arg; } );
+				events[i] = events[i].filter( function(h) { return h.target != arg; } );
 			}
 		}
 		
 		return this;		
 	},
 	
-	unreg_all: function() {
-		this.events = {};
-	},
+	// unreg_all: function() {
+	// 	this.events = {};
+	// },
 	
 	/**
 	 * Инициируем событие.
@@ -185,13 +189,13 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		
 		var h_arr = this.events[type];
 		if(h_arr && h_arr.length) {
-			Ergo.each(h_arr, function(h){
+			h_arr.forEach( function(h){
 				// вызываем обработчик события
 				h.callback.call(h.target, e, type);
 				// если усьановлен флаг остановки, то прекращаем обработку событий
 //				if(e.stopped) return false;
 			});
-			this.events[type] = Ergo.filter( this.events[type], function(h) { return !h.once; } );
+			this.events[type] = this.events[type].filter( function(h) { return !h.once; } );
 		}
 
 		if(e.after && !e.stopped) 
@@ -220,107 +224,6 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 });
 
 
-//Ergo.declare('Ergo.events.Dispatcher', 'Ergo.core.Object', {
-//	
-//	
-//	/**
-//	 * @constructs
-//	 * @extends Ergo.core.Object
-//	 * @param {Object} target
-//	 */
-//	_initialize: function(target) {
-//		Ergo.events.Dispatcher.superclass._initialize.apply(this, arguments);
-//		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);
-//		this.target = target;
-//	},
-//	
-//	/**
-//	 * Регистрируем событие.
-//	 * 
-//	 * reg(type, callback, target)
-//	 */
-//	reg: function(type, callback, target) {
-//		var node = this.tree.ensure(type);
-//		node.handlers.push({'callback': callback, 'target': target});
-//		return this;
-//	},
-//	
-//	/**
-//	 * Убираем регистрацию события.
-//	 * 
-//	 * unreg(type)
-//	 * unreg(callback)
-//	 * unreg(type, callback)
-//	 * unreg(target)
-//	 */
-//	unreg: function(arg, arg2) {
-//		
-//		if(arguments.length == 2){
-//			var node = this.tree.get(arg);
-//			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
-//			node.handlers = Ergo.filter(node.handlers, Ergo.ne.curry(arg2));
-//		}
-//		else if( $.isString(arg) ){
-//			this.tree.del(arg);
-//		}
-//		else if( $.isFunction(arg) ){
-//			// с одной стороны это очень "жадный" способ удаления, а с другой - убирает некорректно зарегистрированных слушателей
-//			this.tree.traverse(function(node){
-//				node.handlers = Ergo.filter(node.handlers, Ergo.ne.curry(arg));
-//			});
-//		}
-//		else {
-//			this.tree.traverse(function(node){
-//				node.handlers = Ergo.filter(node.handlers, function(h) { return (h.target != arg); });
-//			});
-//		}
-//		
-//		return this;		
-//	},
-//	
-//	/**
-//	 * Инициируем событие.
-//	 * 
-//	 * fire(type, event)
-//	 * 
-//	 * type - тип события в формате тип_1.тип_2 ... .тип_N
-//	 * 
-//	 */
-//	fire: function(type, event, baseEvent) {
-//		
-//		// "ленивая" генерация базового события
-//		if(arguments.length == 1) 
-//			event = new Ergo.events.Event();
-//		else if( $.isPlainObject(event) ){
-//			event = new Ergo.events.Event(event, baseEvent);
-//		}
-//		
-//		var self = this;
-//		
-//		// получаем узел указанного типа
-//		var node0 = this.tree.get( type );
-//		// обходим всех потомков и вызываем все обработчики событий
-//		this.tree.traverse(function(node){
-//			Ergo.each(node.handlers, function(h){
-//				h.callback.call(h.target || self.target, event);
-//			});
-//		}, node0);
-//		
-//		return this;
-//	},
-//	
-//	unreg_all: function(){
-//		this.tree = new Ergo.ObjectTree({}, function(){ return {handlers:[]}; }, ['handlers']);		
-//	}
-//	
-//	
-//});
-
-
-
-
-//Ergo.event_bus = new Ergo.events.Observer();
-
 
 
 
@@ -329,35 +232,31 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
  * @mixin
  * 
  */
-Ergo.Observable = {
-	
-	construct: function(o) {
+Ergo.alias('includes:observable', {
+
+	_construct: function(o) {
 	
 		this.events = new Ergo.events.Observer(this);
-		
-//		var o = this.options;
 				
 	},
 	
 	
-	post_construct: function(o) {
+	_post_construct: function(o) {
 		
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
 				var name = i.charAt(2).toLowerCase() + i.slice(3);
-				var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
+				var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
 				for(var j = 0; j < chain.length; j++) {
 					var callback = chain[j];
 					if( $.isString(callback) )
 						callback = this[callback]
-					this.events.reg( name, callback );
+					this.events.on( name, callback );
 				}
 			}
 		}
 		
 	} 
-	
-};
 
-
+});

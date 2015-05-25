@@ -1,5 +1,5 @@
 
-//= require "events"
+//= require events
 
 
 
@@ -91,7 +91,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		// Если состояние уже установлено, то ничего не делаем
 		if(to && (to in this._current))
 			return $.when({});
-
+
+
 		
 		
 		var self = this;
@@ -153,14 +154,16 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		
 		
 		// if(deferreds.length == 0)
-			// deferreds.push({});
+			// deferreds.push({});
+
 		
 		
 		//FIXME хак, если Deferred не определен
 		// if(deferred == null) {
 			// deferred = $.Deferred();
 			// deferred.resolve();
-		// }		
+		// }
+		
 		
 		
 		
@@ -197,7 +200,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			if($.isString(val))
 				this._widget.el.addClass(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
-			else if($.isArray(val)) {
+			else if( Array.isArray(val) ) {
 				if(val.length > 0) {
 					$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
 						if(add_cls !== false)				
@@ -236,7 +239,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			if($.isString(val))
 				this._widget.el.removeClass(val);
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
-			else if($.isArray(val)) {
+			else if( Array.isArray(val) ) {
 				if(val.length > 1) {
 					$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
 						if(rm_cls !== false)
@@ -289,7 +292,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		// Если состояние не установлено, то ничего не делаем
 		if(from && !(from in this._current)) {
 			return $.when({});			
-		}
+		}
+
+
 		
 		var self = this;
 		var transitions = this._transitions;
@@ -327,7 +332,8 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			deferreds.push(result);
 			// //FIXME
 			// if(result && result.done)
-				// deferred = $.when(result);
+				// deferred = $.when(result);
+
 		}
 		
 
@@ -353,12 +359,14 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		// if(deferred == null) {
 			// deferred = $.Deferred();
 			// deferred.resolve();
-		// }
+		// }
+
 		
 		
 		// deferred.done(function() {
 // 			
-		// });
+		// });
+
 		
 		
 //		return deferred;
@@ -400,7 +408,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 		if(unset_template) {
 			
-			if($.isArray(unset_template))
+			if( $.isArray(unset_template) )
 				states_to_unset = unset_template;
 			else {
 				if($.isString(unset_template))
@@ -466,11 +474,10 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
  *
  * @mixin  
  */
-Ergo.Statable = {
-	
-	
-	
-	construct: function(o) {
+
+Ergo.alias('includes:statable', {
+
+	_construct: function(o) {
 
 		this.states = new Ergo.core.StateManager(this);
 		
@@ -495,18 +502,14 @@ Ergo.Statable = {
 				else {
 					var a = i.split('>');
 					if(a.length == 1) a.push('');
-					this.states.transition($.trim(a[0]) || '*', $.trim(a[1]) || '*', t);					
+					this.states.transition(a[0].trim() || '*', a[1].trim() || '*', t);					
 				}
 			}
 		}
 	
 	}
-	
-};
 
-
-
-
+});
 
 
 

@@ -3,8 +3,10 @@
 .externalToolBuilders
 .tmp_*
 build
+dist
 docs/**
 .directory
 pull.bat
 push.bat
 commit.bat
+node_modules
