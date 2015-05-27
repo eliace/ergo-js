@@ -62,7 +62,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		this._super(o);
 		
 		
-		var w = this;
+		var grid = this;
 		
 		this.columns = {
 			
@@ -188,12 +188,10 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		};
 		
 		
-		
-		for(var i in o.columns) {
-			this.columns.add(o.columns[i]);
-		}
 
-		
+		o.columns.forEach(function(col) {
+			grid.columns.add(col);
+		});
 		
 		
 	},

@@ -47,7 +47,7 @@ Ergo.WidgetOptions = {
 
 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
-	// set_innerHtml: function(v) {	this.layout.el.html(v); },
+	set_innerHtml: function(v) {	this.layout.el.html(v); },
 	// set_opacity: function(v) {
 	// 	if($.support.opacity) 
 	// 		this.el.css('opacity', v);

@@ -22,3 +22,36 @@ Ergo.defineMixin('Ergo.mixins.IconAddon', function(o) {
 
 
 }, 'mixins:icon-addon');
+
+
+
+Ergo.alias('includes:icon-addon', {
+
+	defaults:{ 
+		components: {
+			addon: {
+				cls: 'box',
+				weight: 10,
+				cls: 'addon',
+				components: {
+					icon: {
+						etype: 'icon'
+					}
+				}
+			}			
+		}
+	},
+
+
+	_construct: function(o) {
+
+		this.set_icon = function(v) {
+			this.addon.icon.opt('text', v);
+		}
+
+	}
+
+
+});
+
+

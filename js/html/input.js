@@ -47,7 +47,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	
 	// перегружаем параметр name
 	set_name: function(v) {
-		thi._name = v;
+		this._name = v;
 		this.el.attr('name', v);
 	},
 	

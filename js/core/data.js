@@ -153,7 +153,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			}
 			
 			if(this.options.format)
-				v = this.options.format.call(this, v);			
+				v = this.options.format.call(this, v);
 			
 		} 
 		else {

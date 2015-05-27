@@ -31,6 +31,7 @@ Function.prototype.curry = function(arg) {
 	};
 };
 
+
 Function.prototype.rcurry = function(arg) {
 	var F = this;
 	var post_args = arguments;

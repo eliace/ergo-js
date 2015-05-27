@@ -1,16 +1,22 @@
 
+[![Code Climate](https://codeclimate.com/github/eliace/ergo-js/badges/gpa.svg)](https://codeclimate.com/github/eliace/ergo-js)
 
-## Сборка проекта и документации
 
+## Build
 
-Собираем **js** и **css** файлы, готовим дистрибутив
+Install dependencies
+```bash
+npm install
+```
+
+Build project
 ```bash
 gulp
 ```
 
 
 
-## Быстрый старт
+## Quick start
 
 
 Скачиваем дистрибутив ErgoJS
@@ -49,7 +55,7 @@ $(document).ready(function(){
 * Migrated to jQuery 2 (no more IE8 support)
 * `mixins` and `plugins` replaced by `include`
 * `events.reg()` and `events.unreg()` renamed to `events.on()` and `events.off()`
-* events.off() without arguments removes all event listeners
+* `events.off()` without arguments removes all event listeners
 * New `Array.prototype.remove()` and `Array.prototype.uniq()`
 * Option `selector` of `selectable` mixin renamed to `lookup`
 
@@ -58,9 +64,7 @@ $(document).ready(function(){
 
 ## Road Map
 * Bower dependency management
-* Migration to jQuery 2 (no more IE8 support)
 * Using ES5 getters and setters instead of get_*/set_* properties
-* Plugins and mixins will be the same thing as they have to
 * CSS animations
 * Flex layout
 * Performance optimization
