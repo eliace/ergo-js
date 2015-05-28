@@ -13,6 +13,9 @@
 //= require items/all
 //= require menus/all
 
+//= require mixins/all
+
+
 //= require accordion
 //= require badge
 //= require breadcrumbs

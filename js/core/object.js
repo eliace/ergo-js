@@ -133,6 +133,9 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 					this.options = Ergo.smart_override({}, inc.defaults, this.options);
 					rebuild = true;
 				}
+				if(inc.overrides) {
+					Ergo.override(this, inc.overrides);
+				}
 			}
 			
 			if(rebuild)

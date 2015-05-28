@@ -32,7 +32,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 					hidden: true,
 					dataId: 'children',
 					dynamic: true,
-					mixins: ['effects'],
+					include: 'effects',
 					effects: {
 						show: 'slideDown',
 						hide: 'slideUp',

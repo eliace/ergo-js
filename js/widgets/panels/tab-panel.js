@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				}
 			},
 			content: {
-				mixins: ['pageable'],
+				include: 'pageable',
 				// defaultItem: {
 					// states: {
 						// 'selected': function(on) {

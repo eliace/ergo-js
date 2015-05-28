@@ -3,7 +3,8 @@
 Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 	
 	defaults: {
-		mixins: ['modal', 'effects'],
+
+		include: 'modal effects',
 		
 		cls: 'modal widget',
 		
