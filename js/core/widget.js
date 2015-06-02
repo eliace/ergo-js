@@ -1338,7 +1338,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * @returns {Any} undefined, если к виджету данные не подключены
 	 */
-	get_value: function() {
+	get value() {
 		var val;
 		var o = this.options;
 		
@@ -1365,7 +1365,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * @param {Any} val значение
 	 */
-	set_value: function(val/*, reason*/) {
+	set value(val) {
 		
 //		if(this._lock_value_change) return;
 		
@@ -1526,6 +1526,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				else if(i in this.states._states)
 					this.states.toggle(i, o[i]);
 				// проверяем группы состояний
+				else if( (i in this) && Ergo.setter(this, i) ) {
+					// var desc = Object.getOwnPropertyDescriptor(this, i);
+					// if(desc && desc.set)
+					this[i] = o[i];						
+				}
 				else if(i in this.states._exclusives)
 					this.states.set(o[i]);
 				// проверяем атрибуты

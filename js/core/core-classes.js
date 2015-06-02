@@ -27,19 +27,24 @@
 		
 		
 		// "магия" наследования
-		var F = function(){};
-		F.prototype = p_ctor.prototype;
-		ctor.prototype = new F();
+		// var F = function(){};
+		// F.prototype = p_ctor.prototype;
+		// ctor.prototype = new F();
+		ctor.prototype = Object.create(p_ctor.prototype);
 		ctor.prototype.constructor = ctor;
 		ctor.superclass = p_ctor.prototype;
 		ctor.super_ctor = p_ctor;
 
 		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
-			var p = overrides[i];
-			if($.isFunction(p)) {
-				p.__class__ = ctor;
-				p.__name__ = i;
+			// ignore getters and setters
+			var desc = Object.getOwnPropertyDescriptor(overrides, i);
+			if( !(desc && (desc.get || desc.set)) ) {
+				var p = overrides[i];
+				if($.isFunction(p)) {
+					p.__class__ = ctor;
+					p.__name__ = i;
+				}
 			}
 		}
 		
@@ -71,6 +76,41 @@
 		callback.call(this, ctor.prototype);
 	};
 	
+
+	E.getter = function(obj, i) {
+
+		var desc = Object.getOwnPropertyDescriptor(obj, i);
+		if(desc && desc.get)
+			return desc;
+
+		var ctor = obj.constructor;
+		while(ctor) {
+			var desc = Object.getOwnPropertyDescriptor(ctor.prototype, i);
+			if(desc && desc.get)
+				return desc;
+			ctor = ctor.super_ctor;
+		}
+		return false;
+	};
+
+	E.setter = function(obj, i) {
+
+		var desc = Object.getOwnPropertyDescriptor(obj, i);
+		if(desc && desc.set)
+			return desc;
+
+		var ctor = obj.constructor;
+		while(ctor) {
+			var desc = Object.getOwnPropertyDescriptor(ctor.prototype, i);
+			if(desc && desc.set)
+				return desc;
+			ctor = ctor.super_ctor;
+		}
+		return false;
+	};
+
+
+
 	
 	
 	var _aliases = {};

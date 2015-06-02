@@ -26,6 +26,7 @@
     "gulp-cli": "^0.2.0",
     "gulp-concat": "^2.5.2",
     "gulp-less": "^3.0.3",
+    "gulp-watch": "^4.2.4",
     "through2": "^0.6.5",
     "vinyl": "^0.4.6"
   }

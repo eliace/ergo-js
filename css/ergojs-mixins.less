@@ -1,0 +1,78 @@
+
+@import "ergojs-widgets.less";
+
+
+
+
+.bordered {
+	border: 1px solid @border-color;
+}
+
+.rounded {
+	border-radius: @border-radius;
+}
+
+.circular {
+	border-radius: 50%;	
+}
+
+.paper {
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+	background-color: #fff;
+}
+
+.action {
+	cursor: pointer;	
+}
+
+.block {
+//	display: block;
+	width: 100%;
+}
+
+
+
+.focused {
+	border-color: @focus-color;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);		
+}
+
+
+.after {
+	margin-left: @box-indent;
+}
+
+.before {
+	margin-right: @box-indent;
+}
+
+
+
+.indented > * + * {
+	margin-left: @box-indent;
+}
+
+
+.divided > * + * {
+	border-left: 1px solid @border-color;
+}
+
+
+.padded > * {
+	padding-left: @box-indent;
+	padding-right: @box-indent;
+}
+
+
+
+
+[layout="hbox"].indented > * + * {
+	margin-top: 0px;
+	margin-left: @box-indent;
+}
+
+[layout="vbox"].indented > * + * {
+	margin-left: 0px;
+	margin-top: @box-indent;
+}
+

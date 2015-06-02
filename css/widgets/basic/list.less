@@ -1,0 +1,26 @@
+
+
+
+.list {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+
+
+
+.list.indented > * + * {
+	margin-top: @box-indent;
+	margin-left: 0;
+}
+
+
+.list.divided > * + * {
+	border-top: 1px solid @border-color;
+	border-left: none;
+}
+
+
+.list.padded > * {
+	padding: @box-indent 0;
+}

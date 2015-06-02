@@ -4,15 +4,16 @@
 Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 	
 	defaults: {
-		baseCls: 'dropdown-button',
+//		baseCls: 'dropdown-button',
+		cls: 'dropdown',
 		components: {
 			content: {
 				etype: 'button',
 				cls: 'dropdown-toggle',
 				components: {
 					caret: {
-						etype: 'caret',
-						cls: 'after'
+						etype: 'icon',
+						cls: ['caret', 'after']
 					}
 				},
 				onClick: function(e) {

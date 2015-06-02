@@ -15,18 +15,18 @@ Ergo.alias('includes:label', {
 	defaults: {
 		components: {
 			label: {
-				etype: 'html:label',
-				autoRender: false
+				etype: 'html:label'
+//				autoRender: false
 			}
 		}		
 	},
 
 	overrides: {
-		set_label: function(v) {
+		set_label(v) {
 			this.label.opt('text', v);
 		},
 		
-		get_label: function(v) {
+		get_label() {
 			this.label.opt('text');
 		}
 	}

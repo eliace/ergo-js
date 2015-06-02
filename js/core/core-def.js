@@ -18,7 +18,12 @@ var Ergo = (function(){
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides){
-				obj[i] = overrides[i];
+				var desc = Object.getOwnPropertyDescriptor(overrides, i);
+				if( desc && (desc.set || desc.get) ) {
+					Object.defineProperty(obj, i , desc);
+				}
+				else
+					obj[i] = overrides[i];
 			}
 		}
 		return obj;

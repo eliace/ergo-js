@@ -18,8 +18,8 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widg
 	
 	defaults: {
 		html: '<button/>',
-		cls: 'btn',
-		type: 'default',
+		cls: 'button',
+//		type: 'default',
 		states: {
 			'default:type': 'default',
 			'primary:type': 'primary',

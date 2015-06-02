@@ -1,0 +1,22 @@
+
+
+// .item-box.indented > * + * {
+// 	margin-left: @box-indent;
+// }
+
+
+.item-type(@color; @text: #fff) {
+	background-color: @color;
+	color: @text;
+}
+
+
+.item-box {
+	&.basic { .item-type(@basic); }
+	&.primary { .item-type(@primary); }
+	&.success { .item-type(@success); }
+//	&.info { .item-type(@info); }
+	&.warning { .item-type(@warning); }
+	&.danger { .item-type(@danger); }
+}
+

@@ -7,7 +7,8 @@ Ergo.alias('includes:icon-addon', {
 		components: {
 			icon: {
 				etype: 'icon',
-				cls: 'addon'
+				cls: 'addon',
+				weight: 10
 			}
 			// addon: {
 			// 	cls: 'box',
@@ -25,7 +26,7 @@ Ergo.alias('includes:icon-addon', {
 
 	overrides: {
 		set_icon: function(v) {
-			this.addon.icon.opt('text', v);
+			this.icon.opt('text', v);
 		}
 	}
 

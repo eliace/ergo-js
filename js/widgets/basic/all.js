@@ -12,3 +12,4 @@
 //= require field
 //= require check
 //= require radio
+//= require label

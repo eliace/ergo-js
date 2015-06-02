@@ -1,0 +1,119 @@
+
+
+
+.icon {
+  cursor: default;
+}
+
+
+
+.icon.action, .action .icon {
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+
+
+
+.contextual.icon, .contextual .icon {
+  color: #000;
+  opacity: 0.3;
+  text-shadow: 0 1px 0 #fff;
+  background: none;
+  border: none;
+}
+
+.contextual.icon:hover, .contextual.icon:active, .contextual .icon:hover, .contextual .icon:active {
+  color: #000;
+  opacity: 0.5;
+  background: none;
+  box-shadow: none;
+}
+
+
+.icon.circular {
+  border-style: solid;
+  border-width: 1px;
+  height: 1.5rem;
+  line-height: 1.3rem;
+  text-align: center;
+  width: 1.5rem;
+}
+
+
+
+
+
+.item.icon {
+
+  position: relative;
+
+  > .icon, 
+  &.left > .icon, 
+  &.right > .icon, 
+  > .spinner, 
+  &.left > .spinner, 
+  &.right > .spinner {
+    position: absolute;
+    right: 0;
+    width: 32px;
+    line-height: 1.42857;//20px;
+    height: 100%;
+    text-align: center;
+    pointer-events: none;
+  //  cursor: default;
+    color: @text-color;
+    top: 0;
+  /*  opacity: 0.5;*/
+  }
+
+
+  > .icon:before, 
+  > .icon:after {
+    position: absolute;
+    top: 50%;
+    line-height: 1;
+    margin-top: -0.5em;//-10px;
+    width: 100%;
+    left: 0;
+  }
+
+
+  // > .content, 
+  // &.right > .content {
+  //   padding-right: 32px;
+  // }
+
+
+  &.left > .content {
+    padding-left: 32px;
+  }
+
+  &.left > .icon {
+    left: 0;
+    right: auto;
+  }
+
+
+
+
+  > .spinner:before, 
+  > .spinner:after {
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    margin-top: -8px;
+    left: 50%;  
+    margin-left: -8px;
+  }
+
+
+  // FIXME
+  > .icon.action {
+    pointer-events: auto;
+  }
+
+}
+
+
+

@@ -1,0 +1,41 @@
+
+
+
+
+.box-type(@color; @text: #fff) {
+	background-color: desaturate(@color, 15%);
+	border-color: @color;
+	color: @text;
+}
+
+/*
+.block {
+	&.basic { .box-type(@basic); }
+	&.primary { .box-type(@primary); }
+	&.success { .box-type(@success); }
+	&.info { .box-type(@info); }
+	&.warning { .box-type(@warning); }
+	&.danger { .box-type(@danger); }
+}
+*/
+
+
+.box {
+	padding: 8px;
+	&.tiny { padding: 2px; }
+	&.small { padding: 4px; }
+	&.large { padding: 16px; }
+	&.huge { padding: 32px; }
+}
+
+.box {
+	&.basic { .box-type(@basic); }
+	&.primary { .box-type(@primary); }
+	&.success { .box-type(@success); }
+	&.info { .box-type(@info); }
+	&.warning { .box-type(@warning); }
+	&.danger { .box-type(@danger); }
+}
+
+
+

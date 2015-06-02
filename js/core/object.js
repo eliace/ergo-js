@@ -327,7 +327,14 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				// return v;
 			// }
 			// else {
+
 			var getter = (this.options.get && this.options.get[o]) || this['get_'+o];//o.capitalize()];
+			
+			if( !getter && (o in this) && Ergo.getter(this, o) ) {
+				return this[o];
+			}
+				
+
 			return (getter) ? getter.call(this) : this.options[o];
 //			}
 		}
@@ -366,8 +373,11 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			else {
 				// проверяем наличие сеттеров методов
 				var java_setter = 'set_'+i;//.capitalize();			
-				if(this[java_setter])
+				if( this[java_setter] )
 					this[java_setter](o[i]);
+				else if( (i in this) && Ergo.setter(this, i) ) {
+					this[i] = o[i];
+				}
 				// else {
 					// $unknown_opt(i, o[i]);
 			}

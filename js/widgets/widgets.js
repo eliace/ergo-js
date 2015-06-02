@@ -12,6 +12,7 @@
 //= require trees/all
 //= require items/all
 //= require menus/all
+//= require forms/all
 
 //= require mixins/all
 

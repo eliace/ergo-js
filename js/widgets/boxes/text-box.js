@@ -30,6 +30,15 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 				}
 			}
 		},
+
+
+		states: {
+			'disabled': function(on) {
+				this.content.opt('disabled', on);
+			}
+		},
+
+
 		
 		onChange: function(e) {
 			this.opt('value', e.text);			

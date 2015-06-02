@@ -1,0 +1,243 @@
+
+
+
+
+
+.input {
+	position: relative;
+	display: inline-block;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075) inset;
+}
+
+.input > input {
+	line-height: 1.42857;//20px;
+	padding: 6px 8px;
+	border-radius: @border-radius;
+	color: #444;
+	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+	background: none;
+
+	height: 34px; // ?
+
+	.bordered;
+
+	&:focus {
+		.focused;
+	}
+}
+
+
+
+.input.icon > .icon, .input.icon.left > .icon, .input.icon.right > .icon, 
+.input.icon > .spinner, .input.icon.left > .spinner, .input.icon.right > .spinner {
+	position: absolute;
+	right: 0;
+	width: 32px;
+	line-height: 1.42857;//20px;
+	height: 100%;
+	text-align: center;
+	pointer-events: none;
+//	cursor: default;
+	color: @text-color;
+	top: 0;
+/*	opacity: 0.5;*/
+}
+
+
+.input.icon > .icon:before, .input.icon > .icon:after {
+	position: absolute;
+	top: 50%;
+	line-height: 1;
+	margin-top: -0.5em;//-10px;
+	width: 100%;
+	left: 0;
+}
+
+
+.input.icon > input, .input.icon.right > input {
+	padding-right: 32px;
+}
+
+
+.input.icon.left > input {
+	padding-left: 32px;
+}
+
+.input.icon.left > .icon {
+	left: 0;
+	right: auto;
+}
+
+
+
+
+.input.icon > .spinner:before, .input.icon > .spinner:after {
+	width: 16px;
+	height: 16px;
+	top: 50%;
+	margin-top: -8px;
+	left: 50%;	
+	margin-left: -8px;
+}
+
+
+// FIXME
+.input.icon > .icon.action {
+	pointer-events: auto;
+}
+
+
+
+
+//--------------------------------------------------
+// LAYOUTS
+//--------------------------------------------------
+
+
+[layout="stack"] > .input > input {
+	width: 100%;
+}
+
+
+
+
+//--------------------------------------------------
+// BLOCK
+//--------------------------------------------------
+
+
+.input.block {
+	display: block;
+}
+
+.input.block > input {
+	width: 100%;
+}
+
+
+
+
+//--------------------------------------------------
+// STATES
+//--------------------------------------------------
+
+
+.input.focus > input {
+	.focused;
+}
+
+
+.input.disabled > input {
+	border-color: #ddd;
+	&::-moz-placeholder {
+		color: #ddd;
+	}
+}
+
+
+.input.danger > input {
+	border-color: @border-color-danger;
+	&:focus {
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px @shadow-color-danger;
+		border-color: @border-color-danger-focus;
+	}
+}
+
+
+
+
+
+
+
+
+
+//--------------------------------------------------
+// INPUT GROUP
+//--------------------------------------------------
+
+
+
+.input.group {
+	display: inline-table;
+}
+
+.input.group > * {
+	display: table-cell;
+	vertical-align: middle;
+	.rounded;
+}
+
+.input.group > *:first-child {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+
+.input.group > *:not(:first-child),
+.input.group > *:not(:first-child) > .button {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: none;
+}
+
+.input.group > *:not(:last-child) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+
+
+// .input.group > *:not(input) {
+// 	width: 1%;
+// }
+
+
+
+
+[layout="stack"] > .input.group {
+	display: table;
+	width: 100%;
+}
+
+[layout="stack"] > .input.group > input {
+	width: 100%;
+}
+
+[layout="stack"] > .input.group > *:not(input) {
+	width: 1%;
+}
+
+
+
+.input.group.block > input {
+	width: 100%;
+}
+
+.input.group.block > *:not(input) {
+	width: 1%;
+}
+
+
+
+
+
+
+
+
+.input.group > .label {
+	padding: 6px 8px;
+}
+
+.input.group > * > .button {
+	height: 34px;
+}
+
+
+
+
+
+
+
+
+
+

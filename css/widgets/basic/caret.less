@@ -1,0 +1,62 @@
+
+
+
+.caret, .down.caret, .down > .caret, .dropdown > .caret {
+	&:before {
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-top: 4px solid;
+    display: inline-block;
+    vertical-align: middle;
+    height: 0;
+    width: 0;
+    content: "";
+    margin-top: -2px;
+  }
+}
+
+
+.up.caret, .up > .caret, .dropup > .caret {
+//    border-left: 4px solid rgba(0, 0, 0, 0);
+//    border-right: 4px solid rgba(0, 0, 0, 0);
+	&:before {
+    border-bottom: 4px solid;
+    border-top: none;
+  }
+}
+
+
+
+
+/*
+.up > .caret, .up.caret, 
+.desc > .caret, .desc.caret, 
+.dropup > .caret {
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 4px solid;
+    border-top: none;	
+}
+
+.down > .caret, .down.caret, .asc > .caret, .dropdown > .caret {
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: none;
+    border-top: 4px solid;	
+}
+
+.right > .caret, .right.caret, .toggle > .caret {
+    border-left: 4px solid;
+    border-right: none;
+    border-bottom: 4px solid rgba(0, 0, 0, 0);
+    border-top: 4px solid rgba(0, 0, 0, 0);	
+}
+
+.left > .caret, .left.caret {
+    border-left: none;
+    border-right: 4px solid;
+    border-bottom: 4px solid rgba(0, 0, 0, 0);
+    border-top: 4px solid rgba(0, 0, 0, 0);	
+}
+
+*/

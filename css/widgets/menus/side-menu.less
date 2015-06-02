@@ -1,0 +1,59 @@
+
+
+.side-menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.side-menu ul {
+	padding: 0;
+	list-style: none;
+}
+
+.side-menu li > a {
+	color: @text-color;
+	text-decoration: none;
+	padding: 8px 0 8px 20px;
+	display: block;
+/*	transition: all 0.2s ease 0s;*/
+	position: relative;
+}
+
+
+.side-menu li > a:hover {
+	color: #000;
+}
+
+
+.side-menu li.selected > a {
+	color: @select-color;
+}
+
+
+.side-menu li > a:hover:before, .side-menu li.selected > a:before {
+  background-color: @select-color;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 3px;
+}
+
+.side-menu li > a > .icon {
+	margin-right: 10px;
+}
+
+.side-menu li > a > .caret {
+	position: absolute;
+//	top: 50%;
+//	margin-top: -4px;
+	right: 0;
+	margin-right: 8px;
+}
+
+
+.side-menu li:not(.has-subtree) > a .caret {
+  display: none;
+}

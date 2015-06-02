@@ -1,0 +1,261 @@
+
+.button {
+  -moz-user-select: none;
+  background-image: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.42857;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: relative;
+ 	outline: 0 none;
+
+ 	.bordered;
+ 	.rounded;
+
+ 	&:hover {
+ 		background-color: darken(@white, 5%);
+ 	}
+
+}
+
+
+
+.button:active, .button.active, .button.selected {
+  background-image: none;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+  outline: 0 none;
+  background-color: darken(@white, 8%);
+}
+
+
+
+
+
+
+.button-type(@color; @text: #fff) {
+  background-color: desaturate(@color, 8%);
+  border-color: @color;
+  color: @text;
+  &:hover:not(:disabled) {
+    background-color: darken(@color, 5%);
+    border-color: darken(@color, 5%);
+  }
+  &:active:not(:disabled), &.active, &.selected {
+    background-color: darken(@color, 8%);
+  }
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+
+
+
+//------------------------------------------------
+// TYPES
+//------------------------------------------------
+
+
+.button.basic, .basic > .button {
+  .button-type(@basic, @text-color);
+}
+
+.button.primary, .primary > .button {
+  .button-type(@primary);
+}
+
+.button.success, .success > .button {
+  .button-type(@success);
+}
+
+.button.info, .info > .button {
+  .button-type(@info);
+}
+
+.button.warning, .warning > .button {
+  .button-type(@warning);
+}
+
+.button.danger, .danger > .button {
+  .button-type(@danger);
+}
+
+
+
+//------------------------------------------------
+// COLORS
+//------------------------------------------------
+
+.button.pink { .button-type(@pink); }
+.button.indigo { .button-type(@indigo); }
+.button.teal { .button-type(@teal); }
+.button.orange { .button-type(@orange); }
+.button.purple { .button-type(@purple); }
+
+//.button.brown { .button-type(@brown); }
+.button.black { .button-type(@black); }
+//.button.blue { .button-type(@blue); }
+.button.green { .button-type(@green); }
+.button.red { .button-type(@red); }
+.button.yellow { .button-type(@yellow); }
+
+
+
+
+
+//------------------------------------------------
+// OUTLINED
+//------------------------------------------------
+
+.button_outlined(@color; @text: #fff) {
+  color: darken(@color, 5%);
+  &:hover {
+    color: @text;
+    background-color: darken(@color, 5%);
+  }
+}
+
+
+.button.outlined {
+
+  background-color: transparent;  
+  &:hover {
+    background-color: darken(@white, 5%);
+  }  
+
+  &.basic { .button_outlined(@basic, @text-color); }
+  &.primary { .button_outlined(@primary); }
+  &.success { .button_outlined(@success); }
+  &.warning { .button_outlined(@warning); }
+  &.danger { .button_outlined(@danger); }
+
+}
+
+
+
+//------------------------------------------------
+// TRANSPARENT
+//------------------------------------------------
+
+.button_transparent(@color;) {
+  &:hover {
+    color: darken(@color, 5%);
+    border-color: darken(@color, 5%);
+    background-color: transparent;
+  }
+}
+
+
+
+.transparent {
+
+  &.button, > .button {
+    color: darken(@border-color, 10%);
+    border-color: @border-color;
+    background-color: transparent;
+    &:hover {
+      color: @text-color;// darken(@border-color, 15%);
+      border-color: darken(@border-color, 15%);
+      background-color: transparent;
+    }
+  }
+
+  &.basic {
+    &.button, > .button { .button_transparent(@basic); }
+  }
+  &.primary {
+    &.button, > .button { .button_transparent(@primary); }
+  }
+  &.success {
+    &.button, > .button { .button_transparent(@success); }
+  }
+  &.warning {
+    &.button, > .button { .button_transparent(@warning); }
+  }
+  &.danger {
+    &.button, > .button { .button_transparent(@danger); }
+  }
+
+}
+
+
+/*
+.transparent.basic.button, .transparent > .button {
+
+  &.basic { .button_transparent(@basic); }
+  &.primary { .button_transparent(@primary); }
+  &.success { .button_transparent(@success); }
+  &.warning { .button_transparent(@warning); }
+  &.danger { .button_transparent(@danger); }  
+
+}
+*/
+
+
+//------------------------------------------------
+// CIRCULAR
+//------------------------------------------------
+
+.button.circular {
+  width: 36px;
+  height: 36px;  
+}
+
+
+
+
+//
+// GROUP
+//
+
+
+[layout="hbox"].group > .button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+[layout="hbox"].group > .button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+}
+
+[layout="hbox"].group > .button:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+
+[layout="vbox"].group > .button:first-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+[layout="vbox"].group > .button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+
+[layout="vbox"].group > .button:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+
+
+
+.icon-button {
+  padding: 6px;
+}

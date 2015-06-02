@@ -58,13 +58,13 @@ $(document).ready(function(){
 * `events.off()` without arguments removes all event listeners
 * New `Array.prototype.remove()` and `Array.prototype.uniq()`
 * Option `selector` of `selectable` mixin renamed to `lookup`
+* Using ES5 getters and setters instead of get_*/set_* properties
 
 
 
 
 ## Road Map
 * Bower dependency management
-* Using ES5 getters and setters instead of get_*/set_* properties
 * CSS animations
 * Flex layout
 * Performance optimization

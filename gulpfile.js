@@ -87,9 +87,7 @@ var dependencies = function() {
 
 
 
-gulp.task('default', function() {
-
-	del(['dist/*']);
+gulp.task('scripts', function() {
 
 	gulp.src(["js/core/core.js", "js/data/data.js", "js/layouts/layouts.js", "js/mixins/mixins.js", "js/html/html.js"])
 	  .pipe(dependencies())
@@ -101,10 +99,33 @@ gulp.task('default', function() {
     .pipe(concat("ergojs-widgets-all.js"))
     .pipe(gulp.dest("dist"));
 
-	gulp.src(["css/ergojs-widgets.less"])
+});
+
+
+gulp.task('styles', function() {
+
+	gulp.src(["css/ergojs-layouts.less"])
 	  .pipe(less())
-    .pipe(concat("ergojs.css"))
+    .pipe(concat("ergojs-ex.css"))
     .pipe(gulp.dest("dist"));
 
+});
+
+
+gulp.task('watch', function() {
+	gulp.watch('js/**', ['scripts']);
+	gulp.watch('css/**', ['styles']);
+});
+
+
+
+
+gulp.task('clear', function() {
+
+	del(['dist/*']);
 
 });
+
+
+
+gulp.task('default', ['clear', 'scripts', 'styles']);
