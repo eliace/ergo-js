@@ -3,7 +3,8 @@
 Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	
 	defaults: {
-		columns: []
+		name: 'table'
+//		columns: []
 	},
 	
 	
@@ -13,12 +14,12 @@ Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	// },
 	
 	
-	update: function() {
-		this._super();
+	// update: function() {
+	// 	this._super();
 		
-		$('tr.group > td', this.el).attr('colspan', this.options.columns.length);
+	// 	$('tr.group > td', this.el).attr('colspan', this.options.columns.length);
 		
-	}
+	// }
 	
 	
 }, 'layouts:table');

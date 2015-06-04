@@ -1,12 +1,12 @@
 
-Ergo.declare('Ergo.layouts.Column', 'Ergo.core.Layout', {
+Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
 	
 	defaults: {
-		name: 'column'
+		name: 'columns'
 	},
 	
 	wrap: function(item) {
 		return (item.options.divider) ? item.el : $('<div/>').append(item.el);
 	}
 	
-}, 'layouts:column');
+}, 'layouts:columns');

@@ -34,3 +34,6 @@ Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
 	}
 	
 }, 'widgets:&text');
+
+
+Ergo.alias('widgets:.', Ergo.widgets._Text);

@@ -58,7 +58,11 @@ $(document).ready(function(){
 * `events.off()` without arguments removes all event listeners
 * New `Array.prototype.remove()` and `Array.prototype.uniq()`
 * Option `selector` of `selectable` mixin renamed to `lookup`
-* Using ES5 getters and setters instead of get_*/set_* properties
+* Using ES5 getters and setters (get_*/set_* accessors are deprecated)
+* Less support
+* New layout option `autoClass` adds component name as element class
+* Added `flex` as standalone layout
+* Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
 
 
 
@@ -67,6 +71,7 @@ $(document).ready(function(){
 * Bower dependency management
 * CSS animations
 * Flex layout
+* Mobile support
 * Performance optimization
 
 and more new widgets :)

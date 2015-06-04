@@ -25,7 +25,8 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 				this.opt('value', e.value);			
 			},
 			// действие пользователя
-			'jquery:click': function() {
+			'jquery:click': function(e) {
+//				if(e.button == 0)
 				this.events.fire('change', {value: !this.opt('value')});
 			}
 		},

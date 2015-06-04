@@ -48,31 +48,49 @@
 
 
 
-.indented > * + * {
+.indented > * + *, .items-indent > * + * {
 	margin-left: @box-indent;
 }
 
 
 .divided > * + * {
-	border-left: 1px solid @border-color;
+	border-left: 1px solid @divider-color;
 }
 
 
-.padded > * {
+.padded > *, .items-padding > * {
 	padding-left: @box-indent;
 	padding-right: @box-indent;
 }
 
 
+.text-right {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
 
 
-[layout="hbox"].indented > * + * {
+
+
+
+[layout="hbox"].indented > * + *, [layout="hbox"].items-indent > * + * {
 	margin-top: 0px;
 	margin-left: @box-indent;
 }
 
-[layout="vbox"].indented > * + * {
+[layout="vbox"].indented > * + *, [layout="rows"].indented > * + *, [layout="vbox"].items-indent > * + *, [layout="rows"].items-indent > * + * {
 	margin-left: 0px;
 	margin-top: @box-indent;
 }
 
+[layout="vbox"].divided > * + *, [layout="rows"].divided > * + * {
+	border-top: 1px solid @divider-color;
+	border-left: none;
+}
+
+[layout="vbox"].padded > *, [layout="rows"].padded > *, [layout="vbox"].items-padding > *, [layout="rows"].items-padding > * {
+	padding: @box-indent 0;
+}

@@ -144,6 +144,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		// для элементов с текстовыми ключами (компонентов) добавляем accessor
 		if(item._key) {
 			w[item._key] = item;
+			w['$'+item._key] = item;
 		}
 		
 		// выполняем иерархическое связывание данных (автобиндинг)
@@ -190,6 +191,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		delete item._index;
 
 		if(item._key) {
+			delete w['$'+item._key];
 			delete w[item._key];
 			delete item._key;
 		}

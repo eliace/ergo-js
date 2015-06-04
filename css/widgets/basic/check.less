@@ -1,0 +1,69 @@
+
+
+.check {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  color: @select-color;// #0a80cb;
+  display: inline-block;
+  height: 16px;
+  line-height: 1; //16px;
+  text-align: center;
+  width: 16px;
+  cursor: pointer;
+//	transition: border-color 0.05s ease-in-out 0s, box-shadow 0.05s ease-in-out 0s;
+
+	> i {
+		display: inline-block;
+		height: 16px;
+//		margin-top: -1px;
+		width: 14px;
+		cursor: pointer;
+		vertical-align: middle;		
+	}
+}
+
+.check:hover, label:hover .check {
+	border-color: darken(@border-color, 10%);//#0a80cb;
+}
+
+.check.indeterminate > i {
+	font-size: 10px;
+	height: 14px;
+}
+
+
+
+
+.radio {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+/*  color: #0a80cb;*/
+  display: inline-block;
+  height: 16px;
+  line-height: 1;//16px;
+  text-align: center;
+  width: 16px;
+  cursor: pointer;
+//	transition: border-color 0.05s ease-in-out 0s, box-shadow 0.05s ease-in-out 0s;
+/*	margin: 0 4px;*/
+
+	> div {
+		display: inline-block;
+	  border-radius: 50%;
+		height: 8px;
+//		margin-top: -4px;
+		width: 8px;
+		cursor: pointer;
+		vertical-align: middle;		
+	}
+}
+
+
+.radio:hover, label:hover .radio {
+	border-color: darken(@border-color, 10%);//#0a80cb;
+}
+
+.radio.checked > div {
+  background-color: #0a80cb;	
+}
+

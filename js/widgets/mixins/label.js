@@ -22,11 +22,11 @@ Ergo.alias('includes:label', {
 	},
 
 	overrides: {
-		set_label(v) {
+		set_label: function(v) {
 			this.label.opt('text', v);
 		},
 		
-		get_label() {
+		get_label: function() {
 			this.label.opt('text');
 		}
 	}

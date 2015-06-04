@@ -136,7 +136,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 		if(item_el != item.el) {
 			item._wrapper = item_el;			
 		}
-				
+		
+
+		if(item._key && o.autoClass)
+			item_el.addClass(item._key);
+
 		
 		
 //		item_el.data('weight', weight);

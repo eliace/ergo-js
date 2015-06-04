@@ -44,39 +44,51 @@
 
 
 
-.item.icon {
+.has-stick {
 
   position: relative;
 
-  > .icon, 
-  &.left > .icon, 
-  &.right > .icon, 
-  > .spinner, 
-  &.left > .spinner, 
-  &.right > .spinner {
+//  > .icon, 
+  &.left > .stick.left, 
+  &.right > .stick.right {
+//  > .spinner, 
+//  &.left > .spinner.left, 
+//  &.right > .spinner.right {
     position: absolute;
     right: 0;
     width: 32px;
     line-height: 1.42857;//20px;
     height: 100%;
     text-align: center;
-    pointer-events: none;
+//    pointer-events: none;
   //  cursor: default;
     color: @text-color;
     top: 0;
   /*  opacity: 0.5;*/
+
+    &.icon:before, 
+    &.icon:after {
+      position: absolute;
+      top: 50%;
+      line-height: 1;
+      margin-top: -0.5em;//-10px;
+      width: 100%;
+      left: 0;
+    }
+
+    &.spinner:before, 
+    &.spinner:after {
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      margin-top: -8px;
+      left: 50%;  
+      margin-left: -8px;
+    }
+
   }
 
 
-  > .icon:before, 
-  > .icon:after {
-    position: absolute;
-    top: 50%;
-    line-height: 1;
-    margin-top: -0.5em;//-10px;
-    width: 100%;
-    left: 0;
-  }
 
 
   // > .content, 
@@ -89,7 +101,7 @@
     padding-left: 32px;
   }
 
-  &.left > .icon {
+  &.left > .stick.left {
     left: 0;
     right: auto;
   }
@@ -97,15 +109,6 @@
 
 
 
-  > .spinner:before, 
-  > .spinner:after {
-    width: 16px;
-    height: 16px;
-    top: 50%;
-    margin-top: -8px;
-    left: 50%;  
-    margin-left: -8px;
-  }
 
 
   // FIXME

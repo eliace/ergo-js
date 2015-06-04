@@ -1,10 +1,51 @@
 
 
 
+.label {
+  background-image: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+
+
+
+
+
+.label.circular {
+	border-radius: 1rem;
+  padding: 4px 8px;
+  min-width: 1.45rem;
+  text-align: center;
+}
+
+
+
+.label-type(@color; @text: #fff) {
+  background-color: @color;
+  color: @text;	
+}
 
 
 
 .label {
-	background-color: @border-color;
-//	line-height: 1.42857;
+  background-color: #e8e8e8;
+  color: @text-color;
+
+	&.basic { .label-type(@basic, @text-color); }
+	&.primary { .label-type(@primary); }
+	&.success { .label-type(@success); }
+	&.info { .label-type(@info); }
+	&.warning { .label-type(@warning); }
+	&.danger { .label-type(@danger); }
 }
+
+
+
+.label.ribbon.primary {
+  border-color: #3470A0;
+}
+

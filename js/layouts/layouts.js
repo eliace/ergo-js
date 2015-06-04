@@ -20,3 +20,5 @@
 //= require fluid
 
 //= require center
+
+//= flex
