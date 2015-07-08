@@ -1,0 +1,40 @@
+
+
+.overlay {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+	display: none;
+	overflow: auto;
+	margin-right: -20px;
+  overflow: hidden;
+}
+
+
+
+
+.modal {
+
+	background-color: #fff;
+
+	position: absolute;
+	display: none;
+
+	&.center {
+		left: 50%;
+		top: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		transition: height 0.3s ease 0s, width 0.3s ease 0s;
+	}
+
+
+}
+
+
+
+.modal > * {
+	transition: height 0.3s ease 0s, width 0.3s ease 0s;
+}

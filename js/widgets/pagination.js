@@ -4,7 +4,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	
 	defaults: {
 		
-		cls: 'pagination',
+		baseCls: 'pagination',
 //		mixins: ['selectable'],
 		include: 'selectable',
 		dynamic: false,  // отключаем динамическое построение элементов
@@ -13,7 +13,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 				etype: 'html:li',
 				weight: 100,
 				$content: {
-					etype: 'link',
+					etype: 'html:a',
 					text: '»',
 					binding: false,
 					events: {
@@ -28,7 +28,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 				etype: 'html:li',
 				weight: -100,
 				$content: {
-					etype: 'link',
+					etype: 'html:a',
 					text: '«',
 					binding: false,
 					events: {
@@ -42,7 +42,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		},
 		defaultItem: {
 			$content: {
-				etype: 'link',
+				etype: 'html:a',
 				events: {
 					'jquery:mousedown': function(e) {
 	//				this.parent.parent.opt('index', this.parent);
@@ -62,6 +62,10 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		
 		binding: function(v) {
 			this.opt('dataIndex', this.data.opt('index'));
+		},
+
+		lookup: function(key) {
+			return this.item( Ergo.by_opts.curry({name: key}) );
 		},
 		
 		

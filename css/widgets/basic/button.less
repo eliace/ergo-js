@@ -6,9 +6,11 @@
   cursor: pointer;
   display: inline-block;
   font-weight: 400;
-  line-height: 1.42857;
+  line-height: 1;//1.42857;
+  font-size: 1rem;
   margin-bottom: 0;
-  padding: 6px 12px;
+  padding: 8px 14px;
+  padding: 0.5714rem 1rem;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
@@ -18,7 +20,7 @@
  	.bordered;
  	.rounded;
 
- 	&:hover {
+ 	&:hover:not(:disabled):not(.opened) {
  		background-color: darken(@white, 5%);
  	}
 
@@ -26,7 +28,7 @@
 
 
 
-.button:active, .button.active, .button.selected {
+.button:active:not(.opened), .button.active, .button.selected {
   background-image: none;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
   outline: 0 none;
@@ -42,11 +44,11 @@
   background-color: desaturate(@color, 8%);
   border-color: @color;
   color: @text;
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not(.opened) {
     background-color: darken(@color, 5%);
     border-color: darken(@color, 5%);
   }
-  &:active:not(:disabled), &.active, &.selected {
+  &:active:not(:disabled):not(.opened), &.active, &.selected {
     background-color: darken(@color, 8%);
   }
   &:disabled {
@@ -144,7 +146,7 @@
 // TRANSPARENT
 //------------------------------------------------
 
-.button_transparent(@color;) {
+.button_transparent(@color) {
   &:hover {
     color: darken(@color, 5%);
     border-color: darken(@color, 5%);
@@ -204,9 +206,65 @@
 //------------------------------------------------
 
 .button.circular {
-  width: 36px;
-  height: 36px;  
+  width: 2.571rem;//36px;
+  height: 2.571rem;//36px;
+  padding: 0.5714rem;  //?
 }
+
+
+
+
+//
+// FLAT
+//
+
+.button_flat(@color) {
+  color: lighten(@color, 10%);
+  &:hover {
+    color: @color;
+    background-color: transparent;
+  }
+  &:active {
+    box-shadow: none;
+    text-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+  }
+}
+
+
+
+.button.flat {
+  background-color: transparent;
+  border: none;
+  text-transform: uppercase;
+
+  .button_flat(@text-color);
+
+  &.basic { .button_flat(@basic); }
+  &.primary { .button_flat(@primary); }
+  &.info { .button_flat(@info); }
+  &.success { .button_flat(@success); }
+  &.warning { .button_flat(@warning); }
+  &.danger { .button_flat(@danger); }
+
+}
+
+
+
+
+
+//
+// RISED
+//
+
+.button.rised {
+  box-shadow: 1px 2px 2px rgba(0,0,0,0.3);
+  &:active {
+//    box-shadow: -1px 0px 2px rgba(0,0,0,0.3);
+  }
+}
+
+
+
 
 
 
@@ -257,5 +315,31 @@
 
 
 .icon-button {
-  padding: 6px;
+  padding: 0.5714rem;
+  width: 2.571rem;
 }
+
+
+
+
+
+
+.button.side {
+
+  > .right, > .left {
+    background-color: rgba(0,0,0,0.07);
+  }
+
+  &.icon-right {
+    padding-right: 2.286em + 1em;
+  }
+
+  &.icon-left {
+    padding-left: 2.286em + 1em;
+  }
+
+}
+
+
+
+

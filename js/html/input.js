@@ -50,7 +50,19 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		this._name = v;
 		this.el.attr('name', v);
 	},
+
+
+	set text(v) {
+		this.el.val(v);
+	},
+
+
+	set hidden(v) {
+		this.el.prop('hidden', true);
+	}
 	
+
+
 	// set_readonly: function(v) {
 	// 	this.el.attr('readonly', v);
 	// }

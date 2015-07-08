@@ -1,0 +1,54 @@
+
+
+
+.select {
+	.bordered;
+	.rounded;
+
+	display: inline-block;
+	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+	cursor: pointer;
+	min-width: 11rem;
+
+	display: inline-table;
+
+	> .text {
+		line-height: 1.42857; //20px;
+		padding: 0.4286rem 0.5714rem; //6px 8px;
+		padding-right: 0;
+	  background-color: transparent; 
+	  background-image: none;
+	  border: none;
+	  cursor: inherit;
+		height: 34px;
+		text-align: left;
+
+		display: table-cell;
+		width: 100%;
+	}
+
+
+	&.placeholder > .text {
+		color: @muted-color;
+	}
+
+
+	> .caret {
+		cursor: inherit;
+	}
+
+
+	&:hover {
+		border-color: darken(@border-color, 10%);
+		box-shadow: 0 0 4px rgba(0,0,0,0.15);
+	}
+
+	> input.text {
+		cursor: auto;
+	}
+
+}
+
+
+
+

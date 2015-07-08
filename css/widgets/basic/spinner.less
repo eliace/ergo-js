@@ -1,0 +1,96 @@
+
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+ 
+@-webkit-keyframes spinner {
+    to {-webkit-transform: rotate(360deg);}
+}
+ 
+.spinner {
+//  top: 50%;
+//  width: 32px;
+//  height: 32px;
+  // width: 1em;
+  // height: 1em;
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+}
+ 
+.spinner:before {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  margin-left: -0.5em;
+  margin-top: -0.5em;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+}
+
+
+.spinner:after {
+/*	border: 0.2em solid rgba(255, 255, 255, 0.15);*/
+	border: 2px solid #bbb;
+  border-radius: 50%;
+  content: "";
+  width: 1em;
+  height: 1em;
+//  height: 32px;
+//  width: 32px;
+  position: absolute;
+  margin-left: -0.5em;
+  margin-top: -0.5em;
+  top: 50%;
+  left: 50%;
+}
+
+ 
+.spinner:not(:required):before {
+  content: '';
+  border-radius: 50%;
+  border-top: 2px solid #666;
+  border-right: 2px solid transparent;
+  animation: spinner .6s linear infinite;
+  -webkit-animation: spinner .6s linear infinite;
+}
+
+
+
+// .inverted .spinner:not(:required):before {
+// 	border-top-color: #fff;
+// }
+
+// .inverted .spinner:after {
+// 	border-color: #555;
+// }
+
+
+.spinner.tiny:before, .spinner.tiny:after {
+  width: 16px;
+  height: 16px;	
+}
+
+
+.spinner.small:before, .spinner.small:after {
+  width: 24px;
+  height: 24px;	
+}
+
+.spinner.medium {
+//  width: 32px;
+//  height: 32px;
+  font-size: 2.286rem;
+}
+
+.spinner.large {
+  width: 64px;
+  height: 64px;			
+}
+
+
+
+

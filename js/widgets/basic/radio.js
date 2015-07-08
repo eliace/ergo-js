@@ -4,10 +4,10 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'radio',
-		components: {
-			content: {
-			}
-		},
+		// components: {
+		// 	content: {
+		// 	}
+		// },
 		events: {
 			'change': function(e) {
 				this.opt('value', e.value);

@@ -18,6 +18,7 @@
 //= require grid
 //= require table
 //= require fluid
+//= require tiles
 
 //= require center
 

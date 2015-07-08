@@ -4,11 +4,11 @@
 Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
 	
 	defaults: {
-		baseCls: 'dropdown-menu',
+		baseCls: 'menu',
 		defaultItem: {
 			components: {
 				content: {
-					etype: 'link'
+					etype: 'html:a'
 				}				
 			}
 		}

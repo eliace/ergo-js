@@ -290,7 +290,8 @@ Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
 	defaults: {
 		html: '<tr/>',
 		defaultItem: {
-			html: '<td/>'
+			etype: 'html:td'
+//			html: '<td/>'
 			// set: {
 				// 'text': function(v) {
 				// }

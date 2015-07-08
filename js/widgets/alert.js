@@ -5,7 +5,7 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		cls: 'alert',
-		layout: 'column',
+		layout: 'columns',
 		components: {
 			icon: {
 				etype: 'icon'

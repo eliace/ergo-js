@@ -1,82 +1,96 @@
 
 
-@keyframes spinner {
-    to {transform: rotate(360deg);}
-}
- 
-@-webkit-keyframes spinner {
-    to {-webkit-transform: rotate(360deg);}
-}
- 
-.spinner {
-//  margin: -24px auto 0;
-  top: 50%;
-  width: 32px;
-  height: 32px;
+
+
+
+
+
+
+.loadable {
   position: relative;
 }
- 
-.spinner:before {
+
+
+.loader {
   position: absolute;
-  width: 32px;
-  height: 32px;
-  z-index: 3;
+  left: 0;
+  right: 0;
   top: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,0.9);  
 }
 
 
-.spinner:after {
-/*	border: 0.2em solid rgba(255, 255, 255, 0.15);*/
-	border: 2px solid #bbb;
-  border-radius: 50%;
-  content: "";
-  height: 32px;
+.loader.inverted {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+
+
+.loader .icon {
+  color: #fff;
+  left: 50%;
+  margin-left: -24px;
+  margin-top: -24px;
+  position: relative;
+  top: 50%; 
+}
+
+
+
+
+
+
+
+.loader-text {
+//  color: #fff;
+  font-size: 1rem;
+  margin-left: -100%;
+  margin-right: -100%;
+  padding-top: 32px;
+  text-align: center;
+}
+
+
+
+
+
+.loader > .spinner {
+  display: block;
   position: absolute;
-  width: 32px;
-  top: 0;
-}
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 
- 
-.spinner:not(:required):before {
-  content: '';
-  border-radius: 50%;
-  border-top: 2px solid #666;
-  border-right: 2px solid transparent;
-  animation: spinner .6s linear infinite;
-  -webkit-animation: spinner .6s linear infinite;
+  &:before, &:after {
+    top: 0;
+    margin-top: 0;
+  }
+
 }
 
 
 
-.inverted .spinner:not(:required):before {
-	border-top-color: #fff;
+
+.loader.inverted {
+
+  > .spinner {
+    &:not(:required):before {
+      border-top-color: #fff;
+    }
+    &:after {
+      border-color: #555;
+    }
+  }
+
+  .loader-text {
+    color: #fff;
+  }
 }
 
-.inverted .spinner:after {
-	border-color: #555;
-}
 
 
-.spinner.tiny:before, .spinner.tiny:after {
-  width: 16px;
-  height: 16px;	
-}
-
-
-.spinner.small:before, .spinner.small:after {
-  width: 24px;
-  height: 24px;	
-}
-
-.spinner.medium {
-  width: 32px;
-  height: 32px;		
-}
-
-.spinner.large {
-  width: 64px;
-  height: 64px;			
-}
 
 
 

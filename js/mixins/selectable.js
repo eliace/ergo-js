@@ -6,11 +6,11 @@ Ergo.alias('includes:selectable', {
 	defaults: {
 		events: {
 			'select': function(e) {
-				this.selection.set( e.key != null ? e.key : (e.target._name || e.target._index) );
+				this.selection.set( e.key != null ? e.key : (e.target.opt('name') || e.target._index) );
 				e.stop();
 			},
 			'unselect': function(e) {
-				this.selection.unset( e.key != null ? e.key : (e.target._name || e.target._index) );
+				this.selection.unset( e.key != null ? e.key : (e.target.opt('name') || e.target._index) );
 				e.stop();
 			}
 		}

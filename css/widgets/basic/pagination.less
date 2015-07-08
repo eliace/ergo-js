@@ -1,0 +1,45 @@
+
+
+.pagination {
+	list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination > li {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.pagination > li a {
+	padding: 10px 12px;
+	line-height: 1;//1.42857;
+	margin-left: -1px;
+	text-decoration: none;
+/*	color: #0A80CB;*/
+	color: #666;
+	display: inline-block;
+	cursor: pointer;
+//	color: #444;
+//	float: left; /* hack */
+}
+
+.pagination > li:first-child a {
+	margin-left: 0px;
+}
+
+.pagination li > a:hover {
+	color: @text-color;
+//	background-color: #eee;
+}
+
+.pagination li.selected > a {
+	background-color: rgba(0,0,0,0.05);
+//  background-color: #428BCA;/*#BBBBBB;*/
+//  border-color: #CCCCCC;	
+/*  background-color: #428BCA;
+  border-color: #428BCA;*/
+//  color: #FFFFFF;
+	color: @text-color;
+  cursor: default;	
+}

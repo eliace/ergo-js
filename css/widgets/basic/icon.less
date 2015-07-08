@@ -2,7 +2,9 @@
 
 
 .icon {
-  cursor: default;
+  cursor: inherit;
+  display: inline-block;
+  line-height: 1;
 }
 
 
@@ -31,6 +33,14 @@
 }
 
 
+
+.inverted .icon.contextual {
+  color: #f0f0f0;
+  text-shadow: 0 1px 0 #000;
+}
+
+
+
 .icon.circular {
   border-style: solid;
   border-width: 1px;
@@ -44,25 +54,26 @@
 
 
 
-.has-stick {
+.has-icon {
 
   position: relative;
 
-//  > .icon, 
-  &.left > .stick.left, 
-  &.right > .stick.right {
+  &.at-left > .icon.before,
+  &.at-right > .icon.after, 
+  &.at-left > .icon.left, 
+  &.at-right > .icon.right {
 //  > .spinner, 
 //  &.left > .spinner.left, 
 //  &.right > .spinner.right {
     position: absolute;
     right: 0;
-    width: 32px;
+    width: 2.286em;
     line-height: 1.42857;//20px;
     height: 100%;
     text-align: center;
 //    pointer-events: none;
   //  cursor: default;
-    color: @text-color;
+//    color: @text-color;
     top: 0;
   /*  opacity: 0.5;*/
 
@@ -78,13 +89,24 @@
 
     &.spinner:before, 
     &.spinner:after {
-      width: 16px;
-      height: 16px;
+//      width: 16px;
+//      height: 16px;
+      line-height: 1;
       top: 50%;
-      margin-top: -8px;
+      margin-top: -0.5em;
       left: 50%;  
-      margin-left: -8px;
+      margin-left: -0.5em;
     }
+
+
+    &.caret:before,
+    &.caret:after {
+      margin-top: -1px;
+      margin-left: -4px;
+      width: 0;
+      left: 50%;
+    }
+
 
   }
 
@@ -97,16 +119,20 @@
   // }
 
 
-  &.left > .content {
-    padding-left: 32px;
+  &.at-left {
+    padding-left: 2.286em;
   }
 
-  &.left > .stick.left {
+  &.at-left > .icon.before,
+  &.at-left > .left {
     left: 0;
     right: auto;
   }
 
 
+  &.at-right {
+    padding-right: 2.286em;
+  }
 
 
 
@@ -117,6 +143,7 @@
   }
 
 }
+
 
 
 

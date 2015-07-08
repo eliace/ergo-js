@@ -5,7 +5,7 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 	
 	defaults: {
 //		baseCls: 'dropdown-button',
-		cls: 'dropdown',
+		include: 'dropdown',
 		components: {
 			content: {
 				etype: 'button',
@@ -23,21 +23,21 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 				}		
 			},
 			dropdown: {
-				etype: 'dropdown-list',
+//				etype: 'dropdown-list',
 				weight: 100,
 				popup: {
 					behaviour: 'none'
-				},
-				onClosed: function() {
-					this.parent.states.unset('opened');
 				}
-			}
-		},
-		states: {
-			'opened': function(on) {
-				on ? this.dropdown.open() : this.dropdown.close();
+				// onClosed: function() {
+				// 	this.parent.states.unset('opened');
+				// }
 			}
 		}
+		// states: {
+		// 	'opened': function(on) {
+		// 		on ? this.dropdown.open() : this.dropdown.close();
+		// 	}
+		// }
 	}
 	
 	

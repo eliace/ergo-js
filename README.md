@@ -63,6 +63,7 @@ $(document).ready(function(){
 * New layout option `autoClass` adds component name as element class
 * Added `flex` as standalone layout
 * Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
+* New `autoRender` option value `non-empty` renders only non-empty containers
 
 
 

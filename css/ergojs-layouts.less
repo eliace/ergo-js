@@ -1,5 +1,5 @@
 
-@import "ergojs-mixins.less";
+@import "ergojs-widgets.less";
 
 
 
@@ -35,6 +35,23 @@
 }
 
 
+[layout="hbox"] {
+
+	&.item-align-right, &.__right {
+		text-align: right;
+	}
+
+	&.item-align-center, &.__center {
+		text-align: center;
+	}
+
+	&.item-align-left, &.__left {
+		text-align: left;
+	}
+
+}
+
+
 
 
 //----------------------------------------
@@ -62,15 +79,15 @@
 		vertical-align: middle;
 	}
 
-	&.items-top > * {
+	&.items-align-top > *, &.__top > * {
 		vertical-align: top;
 	}
 
-	&.items-middle > * {
+	&.items-align-middle > *, &.__middle > * {
 		vertical-align: middle;
 	}
 
-	&.items-bottom > * {
+	&.items-align-bottom > *, &.__bottom > * {
 		vertical-align: bottom;
 	}
 
@@ -131,11 +148,11 @@
 [layout="fluid"] > * {
 	float: left;
 
-	&.align-right {
+	&.align-right, &.right {
 		float: right;
 	}
 
-	&.align-left {
+	&.align-left, &.left {
 		float: left;
 	}
 
@@ -148,7 +165,41 @@
 
 [layout="flex"] {
 	display: flex;
+
+
+	&.items-top > *, &.__top > * {
+		align-items: flex-start;
+	}
+
+	&.items-middle > *, &.__middle > * {
+		align-items: center;
+	}
+
+	&.items-bottom > *, &.__bottom > * {
+		align-items: flex-end;
+	}
+
 }
 
 
 
+
+//----------------------------------------
+// TILES
+//----------------------------------------
+
+[layout="tiles"] {
+	
+	> * {
+		float: left;
+	}
+
+	&.two > * { width: 50%; }
+	&.three > * { width: 33.3333%; }
+	&.four > * { width: 25%; }
+	&.five > * { width: 20%; }
+	&.six > * { width: 16.6666%; }
+	&.seven > * { width: 14.2857%; }
+	&.eight > * { width: 12.5%; }
+
+}

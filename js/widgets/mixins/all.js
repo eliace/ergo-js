@@ -6,3 +6,4 @@
 //= require locker
 //= require context-menu
 //= require icon-addon
+//= require image

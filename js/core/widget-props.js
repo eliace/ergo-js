@@ -79,7 +79,7 @@ Ergo.WidgetOptions = {
 	set_format: function(v) {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},
-	set_hidden: function(v) {
+	set hidden(v) {
 		(this._wrapper || this.el).css('display', v ? 'none' : '');
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },

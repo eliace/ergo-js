@@ -15,11 +15,14 @@ Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', /** @lends Ergo.widget
 	
 	defaults: {
 		html: '<ul/>',
-		cls: 'list',
+		baseCls: 'list',
 		dynamic: true,
 		defaultItem: {
 			etype: 'html:li',
 			binding: 'text'
+		},
+		defaultComponent: {
+			etype: 'html:li'			
 		}
 	}
 	

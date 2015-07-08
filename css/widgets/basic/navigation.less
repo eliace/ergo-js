@@ -1,0 +1,42 @@
+
+
+.navigation {
+
+	&.divided {
+		border-bottom: 1px solid @border-color;
+	}
+
+
+
+}
+
+
+
+.nav-header() {
+	margin: 0; 
+	padding: 0.5714rem 0;
+}
+
+
+.navigation {
+	> .header { .nav-header }
+	> h1 { .nav-header }
+	> h2 { .nav-header }
+	> h3 { .nav-header }
+	> h4 { .nav-header }
+	> h5 { .nav-header }
+}
+
+
+
+.navigation.box {
+	.bordered;
+
+	box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
+}
+
+
+.navigation.underlined {
+	.border-bottom;
+	box-shadow: 0px 7px 8px -8px rgba(0,0,0,0.2);	
+}

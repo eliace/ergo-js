@@ -538,11 +538,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		if('onClick' in o)
 			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); });
-		if('onFastClick' in o)
-			this.el.mousedown(function(e) { if(!self.states.is('disabled') && e.button === 0) self.events.fire('click', {button: e.button}, e); });
 		if('onDoubleClick' in o)
 			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e); });
 		
+//		if(o.fastclick)
+//			this.el.mousedown(function(e) { if(!self.states.is('disabled') && e.button === 0) self.events.fire('click', {button: e.button}, e); });
 		
 		
 		
@@ -679,8 +679,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		
 		this.children.each(function(item){
-			if(!item._rendered && item.options.autoRender !== false) {
-				
+			if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0)) {
 				
 				item._type == 'item' ? self.layout.add(item, item._index) : self.layout.add(item);
 				
@@ -710,8 +709,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-
-		if(target !== false && this.parent) {
+		if( (target !== false || (this.options.autoRender == 'non-empty' && !this.children.src.length == 0)) && this.parent) {
 			
 			if(!this._rendered && this.options.autoRender !== false) {
 				
@@ -1071,6 +1069,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				
 		var o = this.options;
 		var self = this;
+		var w = this;
 		
 		var data_id = o.dataId;
 
@@ -1210,11 +1209,16 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //		if( this.data.options.fetchable ) {
 
-			this.data.events.on('fetch:before', function(){ self.events.fire('fetch'); });
-			this.data.events.on('fetch:after', function(){ self._layoutChanged(); self.events.fire('fetched'); });
+		this.data.events.on('fetch:before', function(){ 
+			w.events.fire('fetch'); 
+		});
+		this.data.events.on('fetch:after', function(){ 
+			w._layoutChanged(); 
+			w.events.fire('fetched'); 
+		});
 
-			// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
-			if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
+		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
+		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
 //		}
 
 
@@ -1524,6 +1528,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				var java_setter = 'set_'+i;//.capitalize();			
 				if(this[java_setter])
 					this[java_setter](o[i]);
+				// // проверяем состояния
+				// else if(this.layout._etype == 'layouts:'+i)
+				// 	this.layout
 				// проверяем состояния
 				else if(i in this.states._states)
 					this.states.toggle(i, o[i]);
@@ -1634,7 +1641,8 @@ $.ergo = function(o, ns, context) {
 	
 	if( Array.isArray(o) ) {
 		for(var i = o.length-1; i >= 0; i--) {
-			etype = o[i].etype;
+			if(o[i])
+				etype = o[i].etype;
 			if(etype) break;
 		}
 	}
@@ -1642,6 +1650,8 @@ $.ergo = function(o, ns, context) {
 		etype = o.etype;
 		o = [o];
 	}
+
+
 	
 //	var etype = o.etype;
 	ns = ns || 'widgets';

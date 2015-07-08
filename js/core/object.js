@@ -143,6 +143,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		}
 
 
+//		this._constructing = true;		
+
 		// определен набор базовых опций - можно выполнить донастройку опций
 		this._pre_construct(this.options);
 
@@ -151,18 +153,17 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			Ergo.smart_build(this.options);
 		
 //		this.options = Ergo.smart_override(this.options, opts);		
-		
+
 		// определен весь набор опций - можно выполнять сборку объекта
 		this._construct(this.options);
-
-
-
 
 		// объект готов - можно выполнить донастройку объекта
 		this._post_construct(this.options);
 		
 //		if(this.$init)
 //			this.$init(o);
+
+//		delete this._constructing;
 
 	},
 	

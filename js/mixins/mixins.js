@@ -6,4 +6,5 @@
 //= require window
 //= require modal
 //= require draggable
+//= require fastclick
 

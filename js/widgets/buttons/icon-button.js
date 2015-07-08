@@ -2,7 +2,7 @@
 Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 	
 	defaults: {
-		cls: 'icon-btn',
+		cls: 'icon-button',
 		components: {
 			content: {
 				etype: 'icon'			

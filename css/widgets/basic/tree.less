@@ -1,0 +1,62 @@
+
+
+.tree {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+
+	.tree {
+		display: block;		
+	}
+}
+
+
+.basic.tree {
+	.tree {
+		padding-left: 20px;
+	}
+	// .item > *:not(ul) {
+	// 	display: inline-block;
+	// }
+	.item > ul {
+		display: block;
+	}
+	.item > .toggle {
+		width: 1.2rem;
+		text-align: center;
+	}
+	.item:not(.expandable) > .toggle {
+//		display: none;
+		visibility: hidden;
+	}
+}
+
+// .basic.tree .item {
+
+// }
+
+
+// .basic.tree > .item > .toggle {
+// 	display: none;
+// 	width: 1rem;
+// 	text-align: center;
+// }
+
+
+// .basic.tree > .item.expandable > .toggle {
+// 	display: inline-block;
+// }
+
+
+
+
+.tree .item.expanded > .toggle {
+	opacity: 1;
+	color: @text-color;
+	&:hover {
+		color: @select-color;
+	}
+}
+
+
+

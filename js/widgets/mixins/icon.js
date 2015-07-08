@@ -7,6 +7,9 @@ Ergo.alias('includes:icon', {
 			icon: {
 				etype: 'icon',
 				weight: -10
+			},
+			content: {
+				etype: '.'
 			}
 		}
 	},
@@ -30,6 +33,9 @@ Ergo.alias('includes:xicon', {
 			xicon: {
 				etype: 'icon',
 				weight: 10
+			},
+			content: {
+				etype: '.'
 			}
 		}
 	},

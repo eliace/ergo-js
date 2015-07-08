@@ -1,0 +1,85 @@
+
+
+
+.alert {
+
+	.bordered;
+
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 15px;
+  width: 100%;
+}
+
+
+
+.alert_type(@color) {
+  background-color: screen(@color, #ddd);
+  border-color: screen(@color, #bbb);
+  color: darken(@color, 10%);
+}
+
+
+
+.alert {
+
+	&.basic{ .alert_type(#aaa); }
+	&.primary{ .alert_type(@primary); }
+	&.success{ .alert_type(@success); }
+	&.info{ .alert_type(@info); }
+	&.warning{ .alert_type(@warning); }
+	&.danger{ .alert_type(@danger); }
+
+}
+
+
+
+
+
+// .alert.success {
+//   background-color: #DFF0D8;
+//   border-color: #D6E9C6;
+//   color: #3C763D;	
+// }
+
+// .alert.info {
+//   background-color: #D9EDF7;
+//   border-color: #BCE8F1;
+//   color: #31708F;	
+// }
+
+// .alert.warning {
+//   background-color: #FCF8E3;
+//   border-color: #FAEBCC;
+//   color: #8A6D3B;
+// }
+
+// .alert.danger {
+//     background-color: #F2DEDE;
+//     border-color: #EBCCD1;
+//     color: #A94442;
+// }
+
+
+
+.alert > div:first-child {
+	width: 1%;
+}
+
+
+.alert-title, .alert-message {
+	padding-left: 10px;
+}
+
+
+
+
+.alert.simple {
+	border-width: 0 0 0 4px;
+	border-radius: 0;
+	border-style: solid;
+}
+
+.alert.simple strong {
+	margin-right: 4px;
+}

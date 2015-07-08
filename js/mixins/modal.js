@@ -309,12 +309,13 @@ Ergo.alias('includes:modal', {
 
 			var result = modal.overlay.show().then(function(){
 
-
+/*
 				//	поскольку оверлей уже отрисовался, можно расчитывать положение окна
 
 				this.el.show();
 				
 				// здесь, в зависимости от методики позиционирования, расчитываются параметры
+				
 				
 				if(o.position == 'top') {
 
@@ -356,7 +357,7 @@ Ergo.alias('includes:modal', {
 
 				
 				this.el.hide();
-
+*/
 
 				this.show().then(function(){
 					this.events.fire('opened');
@@ -414,19 +415,21 @@ Ergo.alias('includes:modal', {
 				var w0 = el.css('width');//width();
 				var h0 = el.css('height');//height();
 				
-				el.css({'width': w, 'height': h});
+//				setTimeout(function(){
+					el.css({'width': w, 'height': h});
+//				}, 1)
 				
 				var w1 = this.el.width();
 				var h1 = this.el.height();
 				
-				el.css({'width': w0, 'height': h0});
+				// el.css({'width': w0, 'height': h0});
 				
-				el.animate({
-					width: w,
-					height: h,
-					// 'margin-left': -w/2,
-					// 'margin-top': -h/2
-				});
+				// el.animate({
+				// 	width: w,
+				// 	height: h,
+				// 	// 'margin-left': -w/2,
+				// 	// 'margin-top': -h/2
+				// });
 
 			}
 			else {
@@ -434,11 +437,12 @@ Ergo.alias('includes:modal', {
 				h1 = this.el.height();			
 			}
 			
-			return $.when(this.el.animate({
-				'margin-left': -w1/2,
-				'margin-top': -h1/2
-			}));
+			// return $.when(this.el.animate({
+			// 	'margin-left': -w1/2,
+			// 	'margin-top': -h1/2
+			// }));
 			
+			return $.when(true);
 		}
 
 

@@ -1,6 +1,6 @@
 
 
-Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.NestedList', {
+Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 	
 	defaults: {
 		baseCls: 'side-menu',

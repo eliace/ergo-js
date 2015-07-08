@@ -29,10 +29,11 @@ Ergo.alias('includes:effects', {
 		show: function() {
 			
 			var effect = false;
-			
+
 			if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
+			
 				
 				if(o.initial) {
 					o = Ergo.override({}, o, o.initial);
@@ -43,7 +44,10 @@ Ergo.alias('includes:effects', {
 				
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
-					if( $.isPlainObject(o.show) ) {
+					if(this._no_effects) {
+						effect = el.show();
+					}
+					else if( $.isPlainObject(o.show) ) {
 						effect = el[o.show.type]({
 							duration: o.show.delay || o.delay,
 							easing: o.show.easing || 'swing'

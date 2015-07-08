@@ -106,7 +106,7 @@ gulp.task('styles', function() {
 
 	gulp.src(["css/ergojs-layouts.less"])
 	  .pipe(less())
-    .pipe(concat("ergojs-ex.css"))
+    .pipe(concat("ergojs.css"))
     .pipe(gulp.dest("dist"));
 
 });

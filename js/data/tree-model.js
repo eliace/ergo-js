@@ -18,6 +18,9 @@ Ergo.defineClass('Ergo.data.NodeList', 'Ergo.data.Collection', {
 }, 'data:node-list');
 
 
+
+
+
 Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	
 	defaults: {
@@ -29,8 +32,9 @@ Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	
 	
 	fetch: function() {
-		var self = this;
-		return this.entry('children').fetch( {id: this.oid()} ).then(function(){ self._fetched = true; });
+		var d = this;
+		d.events.fire('fetch:before');
+		return d.entry('children').fetch( {id: d.oid()} ).then(function(){ d._fetched = true; d.events.fire('fetch:after'); });
 	},
 	
 	

@@ -131,8 +131,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			if( this._is_exclusive(to, g) ) {
 				
 				for(var i in this._current)
-					if(this._is_exclusive(i, g))
-						this.unset(i);
+					if(this._is_exclusive(i, g)) {
+						this._state_off(i);
+						delete self._current[i];		
+					}
+//						this.unset(i);
 				
 			}			
 		}
@@ -201,12 +204,14 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				this._widget.el.addClass(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				if(val.length > 0) {
-					$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
-						if(add_cls !== false)				
-							self._widget.el.addClass(add_cls || s);					
-					});
-				}
+				this._widget.el.addClass(val[0]);
+				this._widget.el.removeClass(val[1]);
+				// if(val.length > 0) {
+				// 	$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
+				// 		if(add_cls !== false)				
+				// 			self._widget.el.addClass(add_cls || s);					
+				// 	});
+				// }
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
@@ -240,12 +245,15 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				this._widget.el.removeClass(val);
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				if(val.length > 1) {
-					$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
-						if(rm_cls !== false)
-							self._widget.el.removeClass(rm_cls || s);					
-					});					
-				}
+				this._widget.el.addClass(val[1]);
+				this._widget.el.removeClass(val[0]);
+
+				// if(val.length > 1) {
+				// 	$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
+				// 		if(rm_cls !== false)
+				// 			self._widget.el.removeClass(rm_cls || s);					
+				// 	});					
+				// }
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
@@ -325,6 +333,28 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			// transitions[from][i].call(this._widget);
 			// to.push(i);
 		// }
+
+
+
+
+		for(var g in this._exclusives) {
+			if( this._is_exclusive(from, g) && this._exclusives[g].length == 2 ) {
+
+				var group = this._exclusives[g];
+
+				var regexp = from.match(group[0]) ? group[1] : group[0];
+
+				for(var i in this._states)
+					if( i.match(regexp) ) {
+						this._state_on(i);
+						self._current[i] = from;
+					}
+			}
+		}
+
+
+
+
 		
 		if(to.length == 0 && def) {
 			var result = def.action.call(this._widget);

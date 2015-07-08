@@ -193,8 +193,15 @@
 	 * 
 	 */
 	E.apply_all = function(obj, m_name, args) {
-		for(var i in obj) {
-			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
+		if( Array.isArray(obj) ) {
+			for(var i = 0; i < obj.length; i++) {
+				if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
+			}
+		}
+		else {
+			for(var i in obj) {
+				if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
+			}			
 		}
 	};
 	

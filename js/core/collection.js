@@ -231,8 +231,8 @@ Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', 
 	 * @param {Object} m
 	 * @param {Object} args
 	 */
-	apply_all: function(m, args) {
-		Ergo.apply_all(this.src, m, args);
+	apply_all: function(m, args, reverse) {
+		Ergo.apply_all(this.src, m, args, reverse);
 	},
 	
 	
