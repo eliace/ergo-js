@@ -3,7 +3,6 @@
 .externalToolBuilders
 .tmp_*
 build
-dist
 docs/**
 .directory
 pull.bat
