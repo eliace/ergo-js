@@ -15,11 +15,17 @@ gulp
 ```
 
 
+## Bower
+
+Install as bower component
+
+```bash
+bower install ergo-js
+```
+
 
 ## Quick start
 
-
-Скачиваем дистрибутив ErgoJS
 
 Подключаем сценарии ядра и виджетов
 ```html
@@ -64,12 +70,12 @@ $(document).ready(function(){
 * Added `flex` as standalone layout
 * Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
 * New `autoRender` option value `non-empty` renders only non-empty containers
+* Install ergo-js as bower dependency
 
 
 
 
 ## Road Map
-* Bower dependency management
 * CSS animations
 * Flex layout
 * Mobile support
