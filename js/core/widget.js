@@ -679,7 +679,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		
 		this.children.each(function(item){
-			if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0)) {
+			if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {
 				
 				item._type == 'item' ? self.layout.add(item, item._index) : self.layout.add(item);
 				
@@ -709,7 +709,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		if( (target !== false || (this.options.autoRender == 'non-empty' && !this.children.src.length == 0)) && this.parent) {
+		if( (target !== false || (this.options.autoRender == 'non-empty' && (!this.children.src.length == 0 || this.options.text))) && this.parent) {
 			
 			if(!this._rendered && this.options.autoRender !== false) {
 				

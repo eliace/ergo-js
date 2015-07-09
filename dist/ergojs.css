@@ -1938,20 +1938,20 @@ label:hover .radio {
 .has-dropdown.drop-right > .dropdown.menu {
   margin: 0 0 0 -4px;
 }
-.side.menu {
-  width: 240px;
-}
-.side.menu > * {
+.side.menu > *,
+.vertical.menu > * {
   display: block;
   position: relative;
 }
-.side.menu > * > a {
+.side.menu > * > a,
+.vertical.menu > * > a {
   text-transform: none;
   font-size: 1em;
   padding: 0.5714rem 1rem;
   display: block;
 }
-.side.menu.underlined > .selected::after {
+.side.menu.underlined > .selected::after,
+.vertical.menu.underlined > .selected::after {
   border-bottom: none;
   border-left: 2px solid #0288d1;
   margin-bottom: 0;
@@ -1959,22 +1959,26 @@ label:hover .radio {
   position: absolute;
   height: 100%;
 }
-.side.menu.underlined.divided {
+.side.menu.underlined.divided,
+.vertical.menu.underlined.divided {
   border-bottom: none;
   border-right: 1px solid #eee;
 }
-.side.menu.tabular > * {
+.side.menu.tabular > *,
+.vertical.menu.tabular > * {
   border-bottom: 1px solid transparent;
   border-right: none;
   margin-bottom: 0;
 }
-.side.menu.tabular > *.selected {
+.side.menu.tabular > *.selected,
+.vertical.menu.tabular > *.selected {
   border-color: #cccccc;
   border-radius: 0.2857rem 0 0 0.2857rem;
   margin-right: -1px;
   border-right: 1px solid #fff;
 }
-.side.menu.tabular.divided {
+.side.menu.tabular.divided,
+.vertical.menu.tabular.divided {
   border-bottom: none;
   border-right: 1px solid #cccccc;
 }
@@ -2143,6 +2147,32 @@ label:hover .radio {
 .table.grid > .grid-header > table {
   width: 100%;
   table-layout: fixed;
+}
+.has-sidebar {
+  position: relative;
+}
+.has-sidebar.at-left > .content {
+  margin-left: 200px;
+}
+.has-sidebar.medium > .sidebar {
+  width: 200px;
+}
+.has-sidebar.medium > .content {
+  margin-left: 200px;
+}
+.has-sidebar.small > .sidebar {
+  width: 160px;
+}
+.has-sidebar.small > .content {
+  margin-left: 160px;
+}
+.sidebar {
+  width: 200px;
+  position: absolute;
+}
+.sidebar > .header {
+  padding: 1rem 1rem;
+  margin: 0;
 }
 .tools > .icon {
   padding: 0.5714rem 0;

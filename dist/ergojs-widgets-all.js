@@ -2710,6 +2710,52 @@ Ergo.alias('includes:xicon', {
 
 
 
+Ergo.alias('includes:before-icon', {
+
+	defaults:{ 
+		components: {
+			icon: {
+				etype: 'icon',
+				weight: -10,
+				cls: 'before'
+			}
+		}
+	},
+
+
+	overrides: {
+		set_icon: function(v) {
+			this.icon.opt('text', v);
+		}
+	}
+
+});
+
+
+
+
+Ergo.alias('includes:after-icon', {
+
+	defaults:{ 
+		components: {
+			icon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'after'
+			}
+		}
+	},
+
+
+	overrides: {
+		set_icon: function(v) {
+			this.icon.opt('text', v);
+		}
+	}
+
+});
+
+
 /**
  * Добавляет компонент dropdown
  * 
