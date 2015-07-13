@@ -10,7 +10,7 @@
   font-size: 1rem;
   margin-bottom: 0;
   padding: 8px 14px;
-  padding: 0.5714rem 1rem;
+  padding: 0.5714em 1em;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
@@ -28,7 +28,7 @@
 
 
 
-.button:active:not(.opened), .button.active, .button.selected {
+.button:active:not(:disabled):not(.opened), .button.active, .button.selected {
   background-image: none;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
   outline: 0 none;
@@ -100,13 +100,27 @@
 .button.teal { .button-type(@teal); }
 .button.orange { .button-type(@orange); }
 .button.purple { .button-type(@purple); }
-
 //.button.brown { .button-type(@brown); }
 .button.black { .button-type(@black); }
 //.button.blue { .button-type(@blue); }
 .button.green { .button-type(@green); }
 .button.red { .button-type(@red); }
 .button.yellow { .button-type(@yellow); }
+
+
+
+
+//------------------------------------------------
+// SIZES
+//------------------------------------------------
+
+.button.tiny { font-size: 0.7143rem; }
+.button.small { font-size: 0.8571rem; }
+.button.medium { font-size: 1rem; }
+.button.large { font-size: 1.286rem; }
+.button.huge { font-size: 1.571rem; }
+.button.giant { font-size: 2rem; }
+
 
 
 
@@ -147,7 +161,7 @@
 //------------------------------------------------
 
 .button_transparent(@color) {
-  &:hover {
+  &:hover:not(:disabled):not(.opened) {
     color: darken(@color, 5%);
     border-color: darken(@color, 5%);
     background-color: transparent;
@@ -162,7 +176,7 @@
     color: darken(@border-color, 10%);
     border-color: @border-color;
     background-color: transparent;
-    &:hover {
+    &:hover:not(:disabled):not(.opened) {
       color: @text-color;// darken(@border-color, 15%);
       border-color: darken(@border-color, 15%);
       background-color: transparent;
@@ -206,9 +220,9 @@
 //------------------------------------------------
 
 .button.circular {
-  width: 2.571rem;//36px;
-  height: 2.571rem;//36px;
-  padding: 0.5714rem;  //?
+  width: 2.571em;//36px;
+  height: 2.571em;//36px;
+  padding: 0.5714em;  //?
 }
 
 
@@ -220,7 +234,7 @@
 
 .button_flat(@color) {
   color: lighten(@color, 10%);
-  &:hover {
+  &:hover:not(:disabled):not(.opened) {
     color: @color;
     background-color: transparent;
   }
@@ -324,17 +338,17 @@
 
 
 
-.button.side {
+.button.has-icon {
 
-  > .right, > .left {
+  > .icon.right, > .icon.left {
     background-color: rgba(0,0,0,0.07);
   }
 
-  &.icon-right {
+  &.at-right {
     padding-right: 2.286em + 1em;
   }
 
-  &.icon-left {
+  &.at-left {
     padding-left: 2.286em + 1em;
   }
 

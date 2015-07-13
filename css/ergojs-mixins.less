@@ -21,7 +21,7 @@
 	cursor: pointer;	
 }
 
-.block {
+.block, .fluid {
 //	display: block;
 	width: 100%;
 }
@@ -162,6 +162,7 @@
 //	}
 
 
+
 	// &.padded > *:not(.no-padding), 
 	// &.padding-items > *:not(.no-padding) {
 	// 	padding-left: @box-indent;
@@ -204,6 +205,12 @@
 		padding-bottom: @box-indent;
 	}
 
+	&.__indent-x2 > *:not(.no-indent) {
+		padding-top: @box-indent * 2;
+		padding-bottom: @box-indent * 2;
+	}
+
+
 	&.__divide > * + *:not(.no-divide) {
 		border-top: 1px solid @divider-color;
 	}
@@ -211,6 +218,12 @@
 	&.__hover > *:hover:not(.no-hover) {
 		background-color: rgba(0,0,0,0.05);// @hover-color;
 	}
+
+
+	// &.padded > *:not(.no-padding) {
+
+	// }
+
 
 
 }
@@ -287,3 +300,45 @@
 // [layout="vbox"].padded > *, [layout="rows"].padded > *, [layout="vbox"].items-padding > *:not(.no-padding), [layout="rows"].items-padding > *:not(.no-padding) {
 // 	padding: @box-indent 0;
 // }
+
+.mix-text-type(@color) {
+	color: @color;
+	border-color: @color;
+}
+
+
+
+.mix-text-types() {
+
+	&.basic { .mix-text-type(@basic); }
+	&.primary { .mix-text-type(@primary); }
+	&.success { .mix-text-type(@success); }
+	&.info { .mix-text-type(@info); }
+	&.warning { .mix-text-type(@warning); }
+	&.danger { .mix-text-type(@danger); }
+
+  &.red { .mix-text-type(@red); }
+  &.pink { .mix-text-type(@pink); }
+  &.purple { .mix-text-type(@purple); }
+//  &.deep-purple { .mix-text-type(@deep-purple); }
+  &.indigo { .mix-text-type(@indigo); }
+  &.blue { .mix-text-type(@blue); }
+//  &.light-blue { .mix-text-type(@light-blue); }
+  &.teal { .mix-text-type(@teal); }
+  &.cyan { .mix-text-type(@cyan); }
+  &.green { .mix-text-type(@green); }
+//  &.light-green { .mix-text-type(@light-green); }
+  &.lime { .mix-text-type(@lime); }
+  &.yellow { .mix-text-type(@yellow); }
+  &.amber { .mix-text-type(@amber); }
+  &.orange { .mix-text-type(@orange); }
+//  &.deep-orange { .mix-text-type(@deep-orange); }
+  &.brown { .mix-text-type(@brown); }
+  &.grey { .mix-text-type(@grey); }
+  &.blue-grey { .mix-text-type(@blue-grey); }
+  &.white { .mix-text-type(@white); }
+  &.black { .mix-text-type(@black); }
+
+}
+
+

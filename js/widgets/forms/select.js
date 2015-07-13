@@ -6,7 +6,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 	
 	defaults: {
 
-		cls: 'select side icon-right',
+		cls: 'select has-icon at-right',
 
 		include: 'dropdown selectable',
 

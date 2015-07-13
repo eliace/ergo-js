@@ -7,24 +7,124 @@
 	position: relative;
 	display: inline-block;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075) inset;
-}
 
-.input > input, .input > textarea {
-	line-height: 1.42857;//20px;
-	padding: 6px 8px;
-	border-radius: @border-radius;
-	color: #444;
-	background: none;
-	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 
-	height: 34px; // ?
 
-	.bordered;
 
-	&:focus {
-		.focused;
+
+	> input, > textarea {
+		line-height: 1.42857;//20px;
+		padding: 0.4286em 0.5714em;
+		border-radius: @border-radius;
+		color: #444;
+		background: none;
+		transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+		font-size: inherit;
+
+	//	height: 34px; // ?
+
+		.bordered;
+
+		&:focus {
+			.focused;
+		}
+
 	}
+
+
+
+
+	&.underlined {
+		box-shadow: none;//0 2px 2px rgba(0, 0, 0, 0.075) inset;		
+		> input {
+			border-color: transparent;
+			border-bottom: 1px solid @border-color;
+		}
+		> input:focus {
+			box-shadow: none;
+		}
+	}
+
+
 }
+
+
+
+
+
+.input.has-icon {
+
+	> .icon {
+		position: absolute;
+		right: 0;
+		width: 2.286em;
+		line-height: 1.42857;//20px;
+		height: 100%;
+		text-align: center;
+		pointer-events: none;
+	//	cursor: default;
+		color: rgba(0,0,0,0.3);
+		top: 0;
+
+
+		&:before, &:after {
+			position: absolute;
+			top: 50%;
+			line-height: 1;
+			margin-top: -0.5em;//-10px;
+			width: 100%;
+			left: 0;
+		}
+
+		&.action {
+			pointer-events: auto;			
+		}
+
+		&.spinner:after, &.spinner:before {
+			width: 16px;
+			height: 16px;
+			top: 50%;
+			margin-top: -8px;
+			left: 50%;	
+			margin-left: -8px;			
+		}
+
+	}
+
+
+	&.at-left {
+
+		padding-left: 0;
+
+		> input {	
+			padding-left: 2.286em; 
+		}
+		> .icon.left {
+			left: 0;
+			right: auto;			
+		}
+	}
+
+
+	&.at-right {
+
+		padding-right: 0;
+
+		> input {
+			padding-right: 2.286em;
+		}
+		> .icon.right {
+			left: auto;
+			right: 0;			
+		}
+	}
+
+
+
+}
+
+
+
 
 
 
@@ -32,35 +132,37 @@
 .input.icon > .spinner, .input.icon.left > .spinner, .input.icon.right > .spinner {
 	position: absolute;
 	right: 0;
-	width: 32px;
+	width: 2.286em;
 	line-height: 1.42857;//20px;
 	height: 100%;
 	text-align: center;
 	pointer-events: none;
 //	cursor: default;
-	color: @text-color;
+//	color: @text-color;
 	top: 0;
 /*	opacity: 0.5;*/
 }
 
 
-.input.icon > .icon:before, .input.icon > .icon:after {
-	position: absolute;
-	top: 50%;
-	line-height: 1;
-	margin-top: -0.5em;//-10px;
-	width: 100%;
-	left: 0;
+.input.icon > .icon {
+	&:before, &:after {
+		position: absolute;
+		top: 50%;
+		line-height: 1;
+		margin-top: -0.5em;//-10px;
+		width: 100%;
+		left: 0;
+	}
 }
 
 
 /*.input.icon > input,*/ .input.icon.right > input {
-	padding-right: 32px;
+	padding-right: 2.286em;
 }
 
 
 .input.icon.left > input {
-	padding-left: 32px;
+	padding-left: 2.286em;
 }
 
 .input.icon.left > .icon {
@@ -106,13 +208,14 @@
 //--------------------------------------------------
 
 
-.input.block {
+.input.block, .input.fluid {
 	display: block;
 }
 
-.input.block > input, .input.block > textarea {
+.input.block > input, .input.block > textarea, .input.fluid > input, .input.fluid > textarea {
 	width: 100%;
 }
+
 
 
 
@@ -149,6 +252,16 @@
 
 
 
+//------------------------------------------------
+// SIZES
+//------------------------------------------------
+
+.input.tiny { font-size: 0.7143rem; }
+.input.small { font-size: 0.8571rem; }
+.input.medium { font-size: 1rem; }
+.input.large { font-size: 1.286rem; }
+.input.huge { font-size: 1.571rem; }
+.input.giant { font-size: 2rem; }
 
 
 
@@ -210,11 +323,11 @@
 
 
 
-.input.group.block > input {
+.input.group.block > input, .input.group.fluid > input {
 	width: 100%;
 }
 
-.input.group.block > *:not(input) {
+.input.group.block > *:not(input), .input.group.fluid > *:not(input) {
 	width: 1%;
 }
 

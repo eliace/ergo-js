@@ -5,12 +5,16 @@
 	position: relative;
 
 	&.at-left > .content {
-		margin-left: 200px;
+		margin-left: 240px;
 //		position: relative;
 	}
 
 
 
+	&.large {
+		> .sidebar { width: 240px; }
+		> .content { margin-left: 240px; }
+	}
 	&.medium {
 		> .sidebar { width: 200px; }
 		> .content { margin-left: 200px; }
@@ -25,11 +29,26 @@
 
 
 .sidebar {
-	width: 200px;
+	width: 240px;
 	position: absolute;
+	height: 100%;
 
 	> .header {	
-		padding: 1rem 1rem;
+		padding: 1rem;
 		margin: 0
 	}
+
+	&.left.divided {
+		border-right: 1px solid #eee;
+	}
+
+
+	&.large {
+		width: 240px;
+
+		> .header {	
+			padding: 1.143rem;
+		}
+	}
 }
+

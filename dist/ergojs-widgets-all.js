@@ -2499,6 +2499,9 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		this.content.opt('name', v);
 	},
 	
+	set type(v) {
+		this.content.opt('type', v);
+	},
 
 
 	
@@ -2537,7 +2540,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 	
 	defaults: {
 
-		cls: 'select side icon-right',
+		cls: 'select has-icon at-right',
 
 		include: 'dropdown selectable',
 
@@ -2719,13 +2722,16 @@ Ergo.alias('includes:before-icon', {
 				weight: -10,
 				cls: 'before'
 			}
-		}
+		},
+		// content: {
+		// 	etype: '.'
+		// }
 	},
 
 
 	overrides: {
 		set_icon: function(v) {
-			this.icon.opt('text', v);
+			this.$icon.opt('text', v);
 		}
 	}
 
@@ -2743,17 +2749,79 @@ Ergo.alias('includes:after-icon', {
 				weight: 10,
 				cls: 'after'
 			}
+		},
+		// content: {
+		// 	etype: '.'
+		// }
+	},
+
+
+	overrides: {
+		set_icon: function(v) {
+			this.$icon.opt('text', v);
+		}
+	}
+
+});
+
+
+
+Ergo.alias('includes:icon:at-left', {
+
+	defaults:{ 
+		cls: 'has-icon at-left',
+		components: {
+			icon: {
+				etype: 'icon',
+				weight: -10,
+				cls: 'left'
+			},
+			content: {
+				etype: '.'
+			}
 		}
 	},
 
 
 	overrides: {
 		set_icon: function(v) {
-			this.icon.opt('text', v);
+			this.$icon.opt('text', v);
 		}
 	}
 
 });
+
+
+
+
+Ergo.alias('includes:icon:at-right', {
+
+	defaults:{ 
+		cls: 'has-icon at-right',
+		components: {
+			icon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'right'
+			},
+			content: {
+				etype: '.'
+			}
+		}
+	},
+
+
+	overrides: {
+		set_icon: function(v) {
+			this.$icon.opt('text', v);
+		}
+	}
+
+});
+
+
+
+
 
 
 /**
@@ -3269,58 +3337,89 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 	
 	defaults: {
 		baseCls: 'grid-pagination',
+		cls: 'pagination',
+		defaultComponent: {
+			etype: 'menu-item',
+			// components: {
+			// 	content: {
+			// 		etype: 'html:a'
+			// 	}
+			// }
+		},
 		components: {
 			firstButton: {
-				etype: 'button',
-				state: 'flat tool',
-				text: '«',
+				// etype: 'button',
+				// state: 'flat tool',
+				components: {
+					content: {
+						cls: 'icon move first'
+					}
+				},
+//				text: '«',
 				weight: -100,
 				onClick: function() {
 					this.events.rise('index:first');
 				}				
 			},
 			prevButton: {
-				etype: 'button',
-				state: 'flat tool',
-				text: '<',
+//				etype: 'button',
+//				state: 'flat tool',
+//				text: '<',
+				components: {
+					content: {
+						cls: 'icon move prev'
+					}
+				},
 				weight: -50,
 				onClick: function() {
 					this.events.rise('index:prev');
 				}				
 			},
 			nextButton: {
-				etype: 'button',
-				state: 'flat tool',
-				text: '>',
+//				etype: 'button',
+//				state: 'flat tool',
+//				text: '>',
+				components: {
+					content: {
+						cls: 'icon move next'
+					}
+				},
 				weight: 50,
 				onClick: function() {
 					this.events.rise('index:next');
 				}				
 			},
 			lastButton: {
-				etype: 'button',
-				state: 'flat tool',
-				text: '»',
+				components: {
+					content: {
+						cls: 'icon move last'
+					}
+				},
+				// etype: 'button',
+				// state: 'flat tool',
+//				text: '»',
 				weight: 100,
 				onClick: function() {
 					this.events.rise('index:last');
 				}							
 			},
 			current: {
-				etype: 'text',
+				etype: 'html:li',
+				cls: 'text muted',
 				autoBind: false,
 				defaultItem: {
-					etype: '&text',
+					etype: '.',
 				},
 				items: [ 
-				'Страница ', 
+				'Стр. ', 
 				{
-					etype: 'field',
+					etype: 'input',
+					cls: 'underlined',
 					onChange: function(e) {
 						
-						var i = parseInt(e.value);
+						var i = parseInt(e.text);
 						
-						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.value.length));
+						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
 						
 						if( !this.states.is('invalid') )
 							this.events.rise('index:change', {index: i});							
@@ -3329,7 +3428,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				}, 
 				' из ', 
 				{
-					etype: '&text'
+					etype: '.'
 				}]
 				
 			}

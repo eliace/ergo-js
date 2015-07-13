@@ -22,6 +22,7 @@
 
 		&.selected > a {
 			background-color: rgba(0,0,0,0.05);
+			color: @select-color;
 		}
 
 	}
@@ -251,9 +252,17 @@
 
 
 
-.side.menu, .vertical.menu {
+.vertical.menu {
 
 //	width: 240px;
+
+	&.large {
+		> * > a {
+			padding: 0.8571rem 1.143rem;
+		}		
+	}
+
+
 
 
 	> * {
@@ -323,4 +332,10 @@
 
 }
 
+
+
+// ?
+.menu > * > a > .icon.float-right {
+	margin-top: 2px;
+}
 

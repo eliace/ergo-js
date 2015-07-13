@@ -129,6 +129,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo.alias('includes:'+this._includes[i]);
+				if(!inc)
+					throw new Error('Include [includes:'+this._includes[i]+'] not found');
 				if(inc.defaults) {
 					this.options = Ergo.smart_override({}, inc.defaults, this.options);
 					rebuild = true;

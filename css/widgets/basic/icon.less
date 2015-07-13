@@ -17,7 +17,8 @@
 
 
 
-.contextual.icon, .contextual .icon {
+
+.contextual.icon, .contextual .icon {//, a.icon {
   color: #000;
   opacity: 0.3;
   text-shadow: 0 1px 0 #fff;
@@ -25,7 +26,9 @@
   border: none;
 }
 
-.contextual.icon:hover, .contextual.icon:active, .contextual .icon:hover, .contextual .icon:active {
+//a.icon:hover, a.icon:active,
+.contextual.icon:hover, .contextual.icon:active, 
+.contextual .icon:hover, .contextual .icon:active {
   color: #000;
   opacity: 0.5;
   background: none;
@@ -34,6 +37,7 @@
 
 
 
+//.inverted a.icon,
 .inverted .icon.contextual {
   color: #f0f0f0;
   text-shadow: 0 1px 0 #000;
@@ -146,4 +150,7 @@
 
 
 
+.icon.muted {
+  color: rgba(0,0,0,0.5);
+}
 

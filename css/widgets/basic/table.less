@@ -53,8 +53,15 @@
 
 .table {
 
+	margin-top: 1rem;
+
 	tr:not(:last-of-type) > td {
 	  border-bottom: 1px solid #ddd;
+	}
+
+
+	tr.disabled > td {
+		color: @disabled-color;
 	}
 
 

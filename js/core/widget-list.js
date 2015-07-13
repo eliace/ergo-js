@@ -26,7 +26,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		
 //		Ergo.core.WidgetArray.superclass._initialize.call(this, null, o);
 		
-		this.options = o;
+		this.options = o || {};
 		this.src = [];
 //		this.events = new Ergo.events.Observer(this);
 		
@@ -210,7 +210,53 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 //		this.events.fire('item:remove', {'item': item});
 		
 		return item;
+	},
+
+
+
+
+	each: function(callback, filter, sorter) {
+
+		var c = this;
+
+		var values = this.src;
+
+		var filter = filter || c.options.filter;
+		var sorter = sorter || c.options.sorter;
+
+		if(filter || sorter) {
+
+			var kv_a = [];
+
+			// Filtering source and mapping it to KV-array
+			Ergo.each(values, function(v, i) {
+				if(!filter || filter.call(c, v, i)) {
+					kv_a.push( [i, v] );
+				}
+			});
+
+
+
+			if(sorter) {
+				// Sorting KV-array
+				kv_a.sort( sorter );
+			}
+
+
+			for(var i = 0; i < kv_a.length; i++) {
+				var kv = kv_a[i];
+				callback.call(c, kv[1], i);//kv[0]);
+			}
+
+		}
+		else {
+			// Basic each
+			Ergo.each(this.src, callback);
+
+		}
+
 	}
+
 	
 	
 	// _destroy_all: function() {

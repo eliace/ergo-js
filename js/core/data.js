@@ -404,17 +404,49 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 */
 	each: function(callback, filter, sorter) {
 		
-		var self = this;
-		var values = this.get();
+		var ds = this;
+
+		var values = ds.get();
 //		var keys = this.keys(this.options.filter);
 		
-		var criteria = filter || this.options.filter;
+		var filter = filter || ds.options.filter;
+		var sorter = sorter || ds.options.sorter;
 
-		Ergo.each(values, function(v, i) {
-			if(!criteria || criteria.call(self, v, i)) {
-				callback.call(self, self.entry(i), i, v);
+
+		if( filter || sorter ) {
+
+			var kv_a = [];
+
+			// Filtering source and mapping it to KV-array
+			Ergo.each(values, function(v, i) {
+				if(!filter || filter.call(ds, v, i)) {
+					kv_a.push( [i, v] );
+	//				callback.call(self, self.entry(i), i, v);
+				}
+			});
+
+
+
+			if(sorter) {
+				// Sorting KV-array
+				kv_a.sort( sorter );
 			}
-		});
+
+
+			for(var i = 0; i < kv_a.length; i++) {
+				var kv = kv_a[i];
+				callback.call(ds, ds.entry(kv[0]), kv[0], kv[1]);
+			}
+
+		}
+		else {
+
+			Ergo.each(values, function(v, i) {
+				callback.call(ds, ds.entry(i), i, v);
+			});
+
+		}
+
 		
 		// var keys = [];
 		// if($.isArray(values)) {

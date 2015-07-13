@@ -191,11 +191,11 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		var name_a = scope_name.split(':');
-		var group = (name_a.length == 1) ? null : name_a[0];
+		var group = (name_a.length == 1) ? null : name_a[name_a.length-1];
 
-		// если присутствует скоуп с такой же группой, то закрываем его
+		// если присутствует скоуп с такой же группой, то отсоединяем его
 		for(var i in this._scopes) {
-			if(i.indexOf(group+':') != -1) {
+			if(i.indexOf(':'+group) != -1) {
 				this.events.fire('scope:disjoin', {scope: this._scopes[i]});
 				this.disjoin(i);
 			}

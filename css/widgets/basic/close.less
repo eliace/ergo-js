@@ -13,3 +13,35 @@
   font-style: normal;
   vertical-align: middle;
 }
+
+
+
+
+.icon.move {
+	font-family: inherit;
+	width: 2.429em;
+	text-align: center;
+//	height: 1em;	
+	&::before {
+	  font-size: 1.571em;
+	  font-style: normal;
+	  vertical-align: middle;		
+	}
+}
+
+
+.icon.move.last:before {
+  content: "»";
+}
+
+.icon.move.first:before {
+  content: "«";
+}
+
+.icon.move.next:before {
+  content: ">";
+}
+
+.icon.move.prev:before {
+  content: "<";
+}
