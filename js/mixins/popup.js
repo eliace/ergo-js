@@ -113,8 +113,7 @@ Ergo.alias('includes:popup', {
 				// x += offset.left;
 				// y += offset.top;
 			// }
-			
-			
+						
 			
 			if(p.behaviour == 'contextmenu') {
 				
@@ -140,7 +139,11 @@ Ergo.alias('includes:popup', {
 				var offset = to_el.offset();
 				x += offset.left;
 				y += offset.top;
+
+				y += to_el.outerHeight(false);
+
 				
+				this.el.css({'left': x, 'top': y});
 			}
 			
 			

@@ -2632,6 +2632,18 @@ label:hover .radio {
 .table tr.disabled > td {
   color: #dddddd;
 }
+.table tr.box.error > td {
+  background-color: #fde8e8;
+  background-color: #e1615e;
+  border-color: #ef5350;
+  color: #ffffff;
+}
+.table tr.text.error > td {
+  color: #eb2521;
+}
+.table tr.text.error > td .link {
+  color: #eb2521;
+}
 .table.celled tr > td + td,
 .table.celled tr > th + th {
   border-left: 1px solid #ddd;
@@ -2640,7 +2652,7 @@ label:hover .radio {
   background-color: #f8f8f8;
 }
 .table.hovered > tbody tr:hover {
-  background-color: #fffff0;
+  background-color: #f4f4f4;
 }
 .table.fluid {
   width: 100%;
@@ -2849,6 +2861,9 @@ label:hover .radio {
   left: 0;
   list-style: none outside none;
   z-index: 1000;
+  position: absolute;
+}
+.popup.global {
   position: absolute;
 }
 .has-popup {

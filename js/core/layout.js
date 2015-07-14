@@ -536,8 +536,10 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 
 			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
-//			dh -= this.el.height()
-			this.el.height((h - dh)/h_ratio);
+//			this.el.height((h - dh)/h_ratio);
+			this.el.height('');
+
+			this.el.css('min-height', (h - dh)/h_ratio);
 
 //			this.el.show();
 			

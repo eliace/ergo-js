@@ -4055,8 +4055,10 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 
 			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
-//			dh -= this.el.height()
-			this.el.height((h - dh)/h_ratio);
+//			this.el.height((h - dh)/h_ratio);
+			this.el.height('');
+
+			this.el.css('min-height', (h - dh)/h_ratio);
 
 //			this.el.show();
 			
@@ -8885,8 +8887,7 @@ Ergo.alias('includes:popup', {
 				// x += offset.left;
 				// y += offset.top;
 			// }
-			
-			
+						
 			
 			if(p.behaviour == 'contextmenu') {
 				
@@ -8912,7 +8913,11 @@ Ergo.alias('includes:popup', {
 				var offset = to_el.offset();
 				x += offset.left;
 				y += offset.top;
+
+				y += to_el.outerHeight(false);
+
 				
+				this.el.css({'left': x, 'top': y});
 			}
 			
 			

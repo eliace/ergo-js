@@ -99,6 +99,27 @@
 
 
 
+
+
+
+.box-type(@color) {
+  background-color: screen(@color, #ddd);
+//  border-color: screen(@color, #bbb);
+//  color: darken(@color, 10%);	
+}
+
+.text-type(@color) {
+//  background-color: screen(@color, #ddd);
+//  border-color: screen(@color, #bbb);
+  color: darken(@color, 10%);
+
+  .link {
+		color: darken(@color, 10%);  	
+  }
+}
+
+
+
 // .indented > * {
 // 	padding: @box-indent;
 // }

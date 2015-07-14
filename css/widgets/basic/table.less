@@ -65,6 +65,14 @@
 	}
 
 
+	tr.box.error > td {
+		.box-type(@danger);
+	}
+
+	tr.text.error > td {
+		.text-type(@danger);
+	}
+
 
 
 	&.celled {
@@ -81,7 +89,7 @@
 
 	&.hovered > tbody {
 		tr:hover {
-			background-color: @hover-color-2;	
+			background-color: @hover-color;	
 		}
 	}
 
