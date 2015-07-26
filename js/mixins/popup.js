@@ -194,6 +194,9 @@ Ergo.alias('includes:popup', {
 				if(this.options.popup.closeOn == 'outerClick') this.close();
 			}.bind(this));
 			
+			Ergo.context.events.once('outerClick', function(e) {
+				if(this.options.popup.closeOn == 'outerClick') this.close();
+			}.bind(this), this);
 			
 			
 			
@@ -217,6 +220,8 @@ Ergo.alias('includes:popup', {
 				if(this != popups.last()) popups.get(k+1).close();  //TODO возможно, будет лучше, если закрытия будут связаны в цепочку
 				
 				Ergo.context._popups.remove(this);
+
+				Ergo.context.events.off(this);
 				
 				return this.hide().then(function(){
 					self.events.fire('closed');

@@ -28,7 +28,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 				},
 				onClick: function(e) {
 					this.events.rise('dropdown');
-					e.stop();//baseEvent.stopPropagation();
+					e.stop();
 				}
 			},
 			dropdown: {
@@ -48,6 +48,13 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 				},
 			}
 		},
+
+		selection: {
+			lookup: function(key) {
+				return this.dropdown.item(key);
+			}
+		},
+
 		
 		onDropdown: function(e) {
 			this.states.toggle('opened');
@@ -58,9 +65,6 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 			this.opt('value', e.key);
 		},
 		
-		lookup: function(key) {
-			return this.dropdown.item(key);
-		},
 		
 		binding: function(v) {
 			this.opt('selected', v);

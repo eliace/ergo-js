@@ -11,18 +11,18 @@ Ergo.declare('Ergo.data.PagedCollection', 'Ergo.data.Collection', {
 	
 	
 	
-	set_index: function(v) {
+	set index(v) {
 		this.options.query.from = (v-1)*this.options.pageSize;
 		this.options.query.to = v*this.options.pageSize;
 	},
 	
 	
-	get_count: function() {
+	get count() {
 		return Math.ceil(this.options.totalCount / this.options.pageSize);
 	},
 	
 	
-	parse: function(v) {
+	_parse: function(v) {
 		this.options.totalCount = v.total;
 		this.options.from = v.from;
 		this.options.to = v.to;

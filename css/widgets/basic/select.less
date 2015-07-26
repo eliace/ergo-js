@@ -47,6 +47,33 @@
 		cursor: auto;
 	}
 
+
+	&.flat {
+		box-shadow: none;//0 2px 2px rgba(0, 0, 0, 0.075) inset;		
+		box-shadow: none;
+		border-right: none;
+		border-left: none;
+		border-top-color: transparent;
+		border-bottom-width: 0.07143em;
+		border-bottom-style: solid;
+		border-radius: 0;
+
+ 		&.focus:not(.disabled) {
+ 			border-bottom-width: 0.1429em;
+ 			> .text {
+				height: 33px;
+ 				padding-bottom: 0.4286em - 0.07143em;
+ 			}
+ 		}
+
+ 		&.disabled > input {
+ 			border-top-color: transparent;
+ 		}
+
+	}
+
+
+
 }
 
 

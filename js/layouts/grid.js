@@ -35,8 +35,37 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 			
 //			console.log(el._wrapper != null);
 			
+			
 			if(w.options.pattern) {
-				el.addClass('col-'+(item.options.col || w.options.pattern[i]));				
+				
+				var offset = 0;
+				var n = 0;
+				var p = 0;
+				for(var j = 0; j < w.options.pattern.length; j++) {
+					p = w.options.pattern[j];
+					// если размер отрицательный, то добавляем его к смещению
+					if(p < 0) {
+						offset += p;
+					}
+					// если размер положительный
+					else {
+						// если размер соответствует элементу с меньшим порядковым номером
+						if(n < i) {
+							offset = 0;
+							n++;
+						}
+						else {
+							break;
+						}
+					}
+				}
+	
+				if(n == i) {
+					el.addClass('col-'+(item.options.col || p));
+					if(offset < 0)
+						el.addClass('col-offset'+offset);
+//					el.addClass('col-'+(item.options.col || w.options.pattern[i]));				
+				}
 			}
 			else {
 				el.addClass('col-'+k);				

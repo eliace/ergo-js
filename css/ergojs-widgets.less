@@ -7,6 +7,8 @@
 @import "widgets/basic/close.less";
 
 @import "widgets/basic/box.less";
+@import "widgets/basic/text.less";
+
 @import "widgets/basic/list.less";
 @import "widgets/basic/button.less";
 @import "widgets/basic/label.less";
@@ -30,7 +32,8 @@
 @import "widgets/basic/table.less";
 @import "widgets/basic/sidebar.less";
 @import "widgets/basic/divider.less";
-@import "widgets/basic/text.less";
+@import "widgets/basic/block.less";
+@import "widgets/basic/chips.less";
 
 @import "widgets/basic/tools.less";
 
@@ -75,25 +78,25 @@
 
 
 
-.text-basic, .text-muted { color: @basic; }
-.text-primary { color: @basic; }
-.text-success { color: @basic; }
-.text-info { color: @basic; }
-.text-warning { color: @basic; }
-.text-danger { color: @basic; }
+// .text-basic, .text-muted { color: @basic; }
+// .text-primary { color: @basic; }
+// .text-success { color: @basic; }
+// .text-info { color: @basic; }
+// .text-warning { color: @basic; }
+// .text-danger { color: @basic; }
 
 
-.bg(@color) {
-	background-color: @color;
-}
+// .bg(@color) {
+// 	background-color: @color;
+// }
 
 
-.bg-basic 	{ .bg(@basic); }
-.bg-primary { .bg(@primary); }
-.bg-success { .bg(@success); }
-.bg-info 		{ .bg(@info); }
-.bg-warning { .bg(@warning); }
-.bg-danger 	{ .bg(@danger); }
+// .bg-basic 	{ .bg(@basic); }
+// .bg-primary { .bg(@primary); }
+// .bg-success { .bg(@success); }
+// .bg-info 		{ .bg(@info); }
+// .bg-warning { .bg(@warning); }
+// .bg-danger 	{ .bg(@danger); }
 
 
 
@@ -110,7 +113,18 @@
 
 
 
+.no-padding { padding: 0; }
+.lite.padding { padding: 0.2857rem; }
+.normal.padding { padding: 0.5714rem; }
+.heavy.padding { padding: 1.143rem; }
+.massive.padding { padding: 2.286rem; }
 
+
+
+
+
+
+// ?
 .margin {	margin: @box-indent; }
 .margin-top {	margin-top: @box-indent; }
 .margin-bottom { margin-bottom: @box-indent; }

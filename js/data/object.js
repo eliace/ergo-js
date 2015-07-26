@@ -19,10 +19,16 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	 */
 	fields: {
 	},
-	
-	oid: function() {
+
+
+
+	_oid: function() {
 		return this.get(this.options.idKey);
 	},
+	
+	// oid: function() {
+	// 	return this.get(this.options.idKey);
+	// },
 	
 	/**
 	 * Метод валидации
@@ -68,15 +74,20 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	 * 
 	 */
 	fetch: function(id) {
+
+		// if(arguments.length == 0)
+		// 	id = this.id;
+
 //		this._fetched = true;
-		var parse = this.options.parser || this.parse;
+		var parser = this.options.parser || this._parse;
+		var provider = this.options.provider;
 		
 		this.events.fire('fetch:before'); 
 		
-		if(this.options.provider) {
+		if(provider) {
 //			var self = this;
-			return this.options.provider.find(this, id, this.options.query).then(function(data) { 
-				this.set( parse.call(this, data) ); 
+			return provider.find(this, id, this.options.query).then(function(data) { 
+				this.set( parser.call(this, data) ); 
 				this._fetched = true;
 				this.events.fire('fetch:after'); 
 			}.bind(this));
@@ -93,9 +104,55 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	 * Обработка "сырых" данных 
 	 * 
 	 */
-	parse: function(v) {
+	_parse: function(v) {
 		return v;
 	},
+
+
+
+
+
+	flush: function() {
+
+		var id = this._oid();
+
+		var composer = this.options.composer || this._compose;
+		var provider = this.options.provider;
+
+		this.events.fire('flush:before'); 
+
+		if(provider) {
+
+			var data = composer.call(this, this.get());
+
+			// create
+			if(id == null) {
+				return provider.create(this, data, this.options.query).then(function(data) { 
+					this.events.fire('flush:after'); 
+				}.bind(this));
+			}
+			// update
+			else {
+				return provider.update(this, id, data, this.options.query).then(function(data) { 
+					this.events.fire('flush:after'); 
+				}.bind(this));
+			}			
+		}
+		else {
+			this.events.fire('flush:after'); 			
+		}
+
+	},
+
+
+	_compose: function(v) {
+		return v;
+	},
+
+
+
+
+	
 	
 	
 //	get: function() {
@@ -104,6 +161,9 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 //		return (this.format) ? this.format.call(this, v) : v;
 //	},
+
+
+
 
 	
 	/**
@@ -116,7 +176,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		 * Причем, могут быть такие случаи:
 		 *  - задана сама функция
 		 *  - задано имя класса
-		 *  - задано поле, которое содержит имя класса
+		 *  - задано поле, которое содержит псевдоним класса
 		 */		
 		
 		var obj = this.fields[i];
@@ -129,7 +189,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		if($.isFunction(obj) && !$.isClass(obj)) 
 			obj = obj.call(this, this.get()[i]);
 		if($.isString(obj)) 
-			obj = eval(Ergo.alias(obj) || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
+			obj = Ergo.alias(obj);// || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
 		obj = obj || Ergo.core.DataSource;
 		
 		o.provider = this.options.provider;

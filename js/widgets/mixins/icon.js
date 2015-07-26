@@ -51,8 +51,7 @@ Ergo.alias('includes:xicon', {
 
 
 
-
-Ergo.alias('includes:before-icon', {
+Ergo.alias('includes:icon:before', {
 
 	defaults:{ 
 		components: {
@@ -60,11 +59,12 @@ Ergo.alias('includes:before-icon', {
 				etype: 'icon',
 				weight: -10,
 				cls: 'before'
+			},
+			content: {
+				etype: '.',
+				binding: false
 			}
-		},
-		// content: {
-		// 	etype: '.'
-		// }
+		}
 	},
 
 
@@ -79,7 +79,8 @@ Ergo.alias('includes:before-icon', {
 
 
 
-Ergo.alias('includes:after-icon', {
+
+Ergo.alias('includes:icon:after', {
 
 	defaults:{ 
 		components: {
@@ -87,11 +88,12 @@ Ergo.alias('includes:after-icon', {
 				etype: 'icon',
 				weight: 10,
 				cls: 'after'
+			},
+			content: {
+				etype: '.',
+				binding: false
 			}
-		},
-		// content: {
-		// 	etype: '.'
-		// }
+		}
 	},
 
 
@@ -112,7 +114,7 @@ Ergo.alias('includes:icon:at-left', {
 		components: {
 			icon: {
 				etype: 'icon',
-				weight: -10,
+				weight: 10,
 				cls: 'left'
 			},
 			content: {

@@ -26,7 +26,7 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
 	
 	defaults: {
-		binding: 'text'
+//		binding: 'text'
 	},
 	
 	set_text: function(v) {
@@ -37,3 +37,24 @@ Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
 
 
 Ergo.alias('widgets:.', Ergo.widgets._Text);
+
+
+
+
+/**
+ * Строчный элемент
+ *  
+ * :`text`
+ * 
+ * @class
+ * @name Ergo.widgets.Text
+ * @extends Ergo.core.Widget
+ */
+Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<span/>',
+		binding: 'text'
+	}
+	
+}, 'widgets:text');

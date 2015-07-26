@@ -7,3 +7,6 @@
 //= require context-menu
 //= require icon-addon
 //= require image
+
+
+//= require simple-selection

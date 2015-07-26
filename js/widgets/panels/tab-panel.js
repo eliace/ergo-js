@@ -40,10 +40,12 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 			// this.opt('selected', e.key);
 			// e.stop();
 		// },
-		
-		lookup: function(key) {
-//			console.log(key);
-			return this.tabbar.item(key);//, this.content.item(key)];
+
+		selection: {
+			lookup: function(key) {
+	//			console.log(key);
+				return this.tabbar.item(key);//, this.content.item(key)];
+			}
 		},
 		
 		onSelectionChanged: function(e) {

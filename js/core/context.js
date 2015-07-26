@@ -136,7 +136,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// получение виджета из контекста (обход всех скоупов)
 	widget: function(key) {
 
-		var name_a = key.split('.');
+		var name_a = key.split('@');
 
 		if(name_a.length == 2) {
 			return this._scopes[name_a[0]].widget(name_a[1]);
@@ -185,6 +185,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// подсоединяем скоуп к контексту
 	join: function(scope_name) {
 
+		var ctx = this;
 
 		if(!this._callbacks[scope_name])
 			throw 'Scope ['+scope_name+'] is not registered in context';
@@ -211,21 +212,26 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		this._scopes[scope_name] = scope;
 
 		// инициализируем скоуп
-		this._callbacks[scope_name].call(this, scope);
+		var promise = this._callbacks[scope_name].call(this, scope);
 
 		// загружаем данные скоупа?
 
-		// рендерим виджеты скоупа (включаем виджеты в скоуп)
-		for(var i in scope.widgets) {
-			
-			var w = scope.widgets[i];
-			
-			if(!w._rendered)
-				w.render('body');
-		}
+		$.when(promise).done(function() {
+
+			// рендерим виджеты скоупа (включаем виджеты в скоуп)
+			for(var i in scope.widgets) {
+				
+				var w = scope.widgets[i];
+				
+				if(!w._rendered)
+					w.render('body');
+			}
 
 
-		this.events.fire('scope:joined', {scope: scope});
+			ctx.events.fire('scope:joined', {scope: scope});
+
+		});
+
 
 	},
 

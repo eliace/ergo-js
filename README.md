@@ -62,7 +62,6 @@ $(document).ready(function(){
 * `mixins` and `plugins` replaced by `include`
 * `events.reg()` and `events.unreg()` renamed to `events.on()` and `events.off()`
 * `events.off()` without arguments removes all event listeners
-* New `Array.prototype.remove()` and `Array.prototype.uniq()`
 * Option `selector` of `selectable` mixin renamed to `lookup`
 * Using ES5 getters and setters (get_*/set_* accessors are deprecated)
 * Less support
@@ -71,11 +70,17 @@ $(document).ready(function(){
 * Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
 * New `autoRender` option value `non-empty` renders only non-empty containers
 * Install ergo-js as bower dependency
+* `format` syntax extended to use predefinded formatters: `'#{property|format}'`
+* Filtering and sorting became part of widget (`renderFilter`/`renderSorter` and `dynamicFilter`/`dynamicSorter`)
+* New event shortcut syntax (`onClick: 'action:selectItem'` calls method `action` with arg `selectItem`)
+* New `action` method rises specified event
 
 
 
 
 ## Road Map
+* Multikey datasource
+* Focus management
 * CSS animations
 * Flex layout
 * Mobile support

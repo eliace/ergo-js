@@ -8,7 +8,8 @@ Ergo.defineClass('Ergo.widgets.Label', 'Ergo.core.Widget', {
 		binding: 'text',
 		components: {
 			content: {
-				etype: '&text'
+				etype: '.',
+				binding: false
 			}
 		}
 	}

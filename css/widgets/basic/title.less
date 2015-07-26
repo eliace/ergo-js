@@ -4,6 +4,8 @@
 
 	margin: 0;
 	font-weight: 700;
+	display: block;
+	font-size: 1.143rem;
 
 	&.lite {
 		font-weight: 400;
@@ -14,12 +16,44 @@
 	}
 
 	&.divided {
-		border-bottom: 1px solid #ccc;
+		padding-bottom: 0.2857em;//0.1429em;
+		border-bottom: 1px solid @border-color;		
+	}
+
+	&.underlined {
+		padding-bottom: 0.2857em;//0.1429em;
+		border-width: 2px;
+		border-bottom-style: solid;
 	}
 
 
+	&.weak {
+		font-weight: 400;
+		border-width: 1px;
+	}
 
-	.mix-text-types();
+	&.strong {
+		text-transform: uppercase;
+		font-size: 1rem;
+
+		&h1, &.giant { font-size: 1.714rem; }
+		&h2, &.huge { font-size: 1.286rem; }
+		&h3, &.large { font-size: 1.143rem; }
+		&h4, &.medium { font-size: 1rem; }
+		&h5, &.small { font-size: 0.8571rem; }
+		&h6, &.tiny { font-size: 0.7143rem; }
+
+	}
+
+
+//	.mix-text-types();
+
+
+
+	> * {
+		display: inline-block;
+		vertical-align: middle;
+	}
 
 
 
@@ -60,8 +94,24 @@
 
 
 
-	&.sub {
-		font-size: 0.8571em;
+
+
+	// &.sub {
+	// 	font-weight: 400;
+	// 	display: block;
+
+	// 	&h1, &.giant { font-size: 2rem; }
+	// 	&h2, &.huge { font-size: 1.714rem; }
+	// 	&h3, &.large { font-size: 1.286rem; }
+	// 	&h4, &.medium { font-size: 1.143rem; }
+	// 	&h5, &.small { font-size: 1rem; }
+	// 	&h6, &.tiny { font-size: 0.8571rem; }
+	// }
+
+
+	&.sub.title {
+		color: #888;
+		font-size: 0.7143em;//0.8571em;
 		font-weight: 400;
 		display: block;
 	}

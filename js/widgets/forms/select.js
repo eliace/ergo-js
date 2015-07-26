@@ -16,10 +16,11 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'icon',
 				cls: 'caret after',
 				weight: 10,
-				onClick: function(e) {
-					this.events.rise('dropdown');
-					e.stop();
-				}
+				onClick: 'action:dropdown'
+				// onClick: function(e) {
+				// 	this.events.rise('dropdown');
+				// 	e.stop();
+				// }
 			},
 
 			// 'input': {
@@ -31,10 +32,11 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				binding: false,
 				cls: 'text',
-				onClick: function(e) {
-					this.events.rise('dropdown');
-					e.stop();
-				}
+				onClick: 'action:dropdown'
+				// onClick: function(e) {
+				// 	this.events.rise('dropdown');
+				// 	e.stop();
+				// }
 			},
 
 			'dropdown': {
@@ -43,17 +45,19 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 					adjust: true
 				},
 				defaultItem: {
-					onClick: function(e) {
-						this.events.rise('select');
-					}
+					onClick: 'action:select'
+					// onClick: function(e) {
+					// 	this.events.rise('select');
+					// }
 				}
 			}
 
 		},
 
-
-		lookup: function(key) {
-			return this.$dropdown.item(key);
+		selection: {
+			lookup: function(key) {
+				return this.$dropdown.item(key);
+			}
 		},
 
 
@@ -77,6 +81,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 		onSelect: function(e) {
 			this.opt('value', e.target.opt('name'));
+			this.states.unset('opened');
 	//		this.$dropdown.close();
 		}
 	}

@@ -123,7 +123,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 
 		if('include' in this.options) {
-			this._includes = o.include.join(' ').split(' ').uniq();
+			this._includes = Ergo.uniq( o.include.join(' ').split(' ') );
 
 			var rebuild = false;
 

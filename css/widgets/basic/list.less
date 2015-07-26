@@ -73,6 +73,8 @@
 	  min-width: 160px;
 	  text-align: left;
 	  cursor: default;
+		overflow-y: auto;
+		overflow-x: hidden;
 
 	  > li {
 			cursor: default;
@@ -164,12 +166,11 @@
 
 
 
-
 .list > .item.selected {
-	background-color: @select-bg;
-	color: @white;	
+	background-color: fade(@select-bg, 70%);
+//	color: @white;
+//	transition: background-color 0.07s ease-in-out 0s, color 0.07s ease-in-out 0s;	
 }
-
 
 
 

@@ -11,18 +11,20 @@
  * @name Ergo.widgets.List
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.List', 'Ergo.core.Widget', /** @lends Ergo.widgets.List.prototype */{
+Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widgets.List.prototype */{
 	
 	defaults: {
 		html: '<ul/>',
 		baseCls: 'list',
 		dynamic: true,
 		defaultItem: {
-			etype: 'html:li',
+			html: '<li/>',
+//			etype: 'html:li',
 			binding: 'text'
 		},
 		defaultComponent: {
-			etype: 'html:li'			
+			html: '<li/>'
+//			etype: 'html:li'			
 		}
 	}
 	

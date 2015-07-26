@@ -137,7 +137,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			item._wrapper = item_el;			
 		}
 		
-
+		// экспериментальный код
 		if(item._key && o.autoClass)
 			item_el.addClass(item._key);
 
@@ -294,34 +294,42 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				for(var k = 0; k < elements.length; k++) {
 //				elements.each(function(k, child){
 					var child = elements[k];
-					it = $(child).ergo();
-					if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
-					if(it._weight == weight) arr.push(it);//.el);
-					else if(it._weight <= weight) before_el = it.el;
-					else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
+					
+					// it = $(child).ergo();
+					// if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
+					// if(it._weight == weight) arr.push(it);//.el);
+					// else if(it._weight <= weight) before_el = it.el;
+					// else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
+
+					if(child._weight == weight) arr.push( child );//.el);
+					else if(child._weight <= weight) before_el = $(child);
+
+					else if(!after_el /* || it._weight > after_el._weight*/) after_el = $(child);
 				}//);
 
 
 	
 	
+				// for(var i = 0; i < arr.length; i++) {
+				// 	if( arr[i]._index >= index  ) {
+				// 		if(!after_el) after_el = arr[i].el;
+				// 	}
+				// 	else {
+				// 		before_el = arr[i].el;
+				// 	}
+				// }
+
+
 				for(var i = 0; i < arr.length; i++) {
 					if( arr[i]._index >= index  ) {
-						if(!after_el) after_el = arr[i].el;
+						if(!after_el) after_el = $(arr[i]);
 					}
 					else {
-						before_el = arr[i].el;
+						before_el = $(arr[i]);
 					}
-//					(arr[i]._index > index) ? after_el = arr[i].el : before_el = arr[i].el;
 				}
-	
-	//			if( !arr[index] ) {
-	//				before_el = arr[index-1] | before_el;
-	
-				// console.log(index);
-				// console.log(arr);
-//				console.log(before_el, after_el);
-	
-	
+
+
 	
 				if(before_el)
 					before_el.after( item_el );
@@ -537,9 +545,22 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			if(Ergo.context.debug) console.log({h: h, dh: dh});
 			
 //			this.el.height((h - dh)/h_ratio);
-			this.el.height('');
 
-			this.el.css('min-height', (h - dh)/h_ratio);
+			if( this.options.autoHeightType == 'min' ) {
+
+				this.el.height('');
+
+				this.el.css('min-height', (h - dh)/h_ratio);
+			}
+			else if( this.options.autoHeightType == 'max' ) {
+
+				this.el.height('');
+
+				this.el.css('max-height', (h - dh)/h_ratio);
+			}
+			else {
+				this.el.height((h - dh)/h_ratio);
+			}
 
 //			this.el.show();
 			

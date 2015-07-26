@@ -45,10 +45,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				
 		if(arguments.length == 2) {
 			if($.isPlainObject(id)) o = id;
-			else this.id = id;
+			else this._id = id;
 		}
 		else if(arguments.length == 3) {
-			this.id = id;
+			this._id = id;
 		}
 		
 //		this._super(o || {});
@@ -131,6 +131,12 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		return new Ergo.core.DataSource(this, i);		
 	},
 	
+
+
+	_parse: null,
+
+	_compose: null,
+
 	
 	
 	/**
@@ -148,24 +154,25 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		if(arguments.length == 0) {
 			v = (this.source instanceof Ergo.core.DataSource) ? this.source._val() : this.source;
-			if('id' in this) {
-				v = v ? v[this.id] : undefined;
+			if('_id' in this) {
+				v = v ? v[this._id] : undefined;
 			}
-			
-			if(this.options.format)
-				v = this.options.format.call(this, v);
+
+			if(this.options.unformat)
+				v = this.options.unformat.call(this, v);			
 			
 		} 
 		else {
-			
-			if(this.options.store)
-				v = this.options.store.call(this, v);			
+
+			if(this.options.format)
+				v = this.options.format.call(this, v);
+
 			
 			if (this.source instanceof Ergo.core.DataSource) {
-				('id' in this) ? this.source._val()[this.id] = v : this.source._val(v);
+				('_id' in this) ? this.source._val()[this._id] = v : this.source._val(v);
 	  	}
 			else {
-				('id' in this) ? this.source[this.id] = v : this.source = v;
+				('_id' in this) ? this.source[this._id] = v : this.source = v;
 			}			
 		}
 //		this._cached = v;
@@ -178,18 +185,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 *
 	 * Если ключ не указан или не определен, то берется значение самого источника данных
 	 * 
-	 * @param {Numbre|String} [i] ключ
+	 * @param {Number|String} [i] ключ
 	 * @returns {Any}
 	 */
 	get: function(i) {
 		if(i === undefined){
-			// var v = (this.source instanceof Ergo.core.DataSource) ? this.source.get() : this.source;
-			// if('id' in this) v = v[this.id];
-			// return v;
 			return this._val();
 		}
 		else {
-//			console.log('-- data get --');
 			return this.entry(i).get();			
 		}
 	},
@@ -238,7 +241,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			this.entries
 				.filter(function(e){
 					//FIXME упрощенная проверка присутствия ключа
-					return (newValue && newValue[e.id] === undefined);
+					return (newValue && newValue[e._id] === undefined);
 				})
 				.each(function(e){	
 					e._destroy(); 
@@ -327,7 +330,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				for(var i = values.length-1; i >= index; i--){
 					var e = this.entries.get(i);
 					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
-					e.id = i+1;
+					e._id = i+1;
 					this.entries.set(i+1, e);
 				}
 				
@@ -365,7 +368,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		
 		if(i === undefined) {
 			if(this.source instanceof Ergo.core.DataSource)
-				this.source.del(this.id);
+				this.source.del(this._id);
 			else
 				throw new Error('Unable to delete root data src');
 		}
@@ -382,7 +385,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			if(Array.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
-					this.entries.get(j).id = j;
+					this.entries.get(j)._id = j;
 			}
 			else {
 				if(value) delete value[i];

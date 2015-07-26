@@ -54,6 +54,9 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 	
 	
 	
+	set text(v) {
+		this.content.opt('placeholder', v);
+	},
 	
 	set placeholder(v) {
 		this.content.opt('placeholder', v);

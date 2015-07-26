@@ -53,19 +53,22 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					}
 				}
 			},
-			autoBind: false					
+			autoBind: false
 		},
 		// выборка происходит только по имени
 		// lookup: function(key) {
 		// 	return this.item( Ergo.by_opts.curry({name: key}) );
 		// },
+
+		selection: {
+			lookup: function(key) {
+				return this.item( Ergo.by_opts.curry({name: key}) );
+			}
+		},
+
 		
 		binding: function(v) {
 			this.opt('dataIndex', this.data.opt('index'));
-		},
-
-		lookup: function(key) {
-			return this.item( Ergo.by_opts.curry({name: key}) );
 		},
 		
 		

@@ -42,21 +42,21 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widg
 			
 			'disabled': function(on) { on ? this.layout.el.prop('disabled', 'disabled') : this.layout.el.removeProp('disabled'); return false; }
 		}
-	},
-	
-	
-	_construct: function(o) {
-		Ergo.widgets.Button.superclass._construct.call(this, o);
-		
-		var self = this;
-		
-		if(o.action) {
-			this.el.on('click', function(e) {
-				self.events.rise(o.action, null, e);
-			});
-		}
-		
 	}
+	
+	
+	// _construct: function(o) {
+	// 	Ergo.widgets.Button.superclass._construct.call(this, o);
+		
+	// 	var self = this;
+		
+	// 	if(o.action) {
+	// 		this.el.on('click', function(e) {
+	// 			self.events.rise(o.action, null, e);
+	// 		});
+	// 	}
+		
+	// }
 	
 	
 }, 'widgets:button');

@@ -195,7 +195,9 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 				// если усьановлен флаг остановки, то прекращаем обработку событий
 //				if(e.stopped) return false;
 			});
-			this.events[type] = this.events[type].filter( function(h) { return !h.once; } );
+			// ?
+			if(this.events[type])
+				this.events[type] = this.events[type].filter( function(h) { return !h.once; } );
 		}
 
 		if(e.after && !e.stopped) 
@@ -250,8 +252,10 @@ Ergo.alias('includes:observable', {
 				var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
 				for(var j = 0; j < chain.length; j++) {
 					var callback = chain[j];
-					if( $.isString(callback) )
-						callback = this[callback]
+					if( $.isString(callback) ) {
+						var a = callback.split(':');						
+						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+					}
 					this.events.on( name, callback );
 				}
 			}

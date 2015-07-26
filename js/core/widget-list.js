@@ -203,7 +203,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		// }
 		// else {
 			// удаляем элемент из компоновки	
-		w.layout.remove(item); //FIXME
+//		w.layout.remove(item); //FIXME
 		// }			
 		
 		
@@ -217,7 +217,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	each: function(callback, filter, sorter) {
 
-		var c = this;
+		var c = this.widget; // возможно не лучшее решение, но практичное
 
 		var values = this.src;
 
@@ -255,7 +255,31 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		}
 
-	}
+	},
+
+
+
+	remove_all: function() {
+
+		var w = this.widget;		
+
+		for(var i = 0; i < this.src.length; i++) {
+			var item = this.src[i];
+
+			delete item.parent;
+			delete item._index;
+
+			if(item._key) {
+				delete w['$'+item._key];
+				delete w[item._key];
+				delete item._key;
+			}
+
+		}
+
+		this.src.length = 0; // possible bugs
+	},
+
 
 	
 	

@@ -11,14 +11,13 @@
 //= require stack
 //= require column
 
-
-//= require band
-//= require form
-
 //= require grid
 //= require table
 //= require fluid
 //= require tiles
+
+//= require band
+//= require form
 
 //= require center
 

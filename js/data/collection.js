@@ -57,7 +57,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		
 		this._fetched = undefined;
 		
-		var parse = this.options.parser || this.parse;
+		var parse = this.options.parser || this._parse;
 		var query = Ergo.override({}, this.options.query, q); 
 		
 		this.events.fire('fetch:before'); 
@@ -87,7 +87,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 	
 	
-	parse: function(v) {
+	_parse: function(v) {
 		return v;
 	},
 	

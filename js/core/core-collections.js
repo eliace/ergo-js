@@ -30,6 +30,8 @@
 	 */
 	E.each = function(src, callback){
 		if( Array.isArray(src) ){
+			// for(var i = 0; i < src.length; i++)
+			// 	callback.call(src, src[i], i)
 			src.forEach(callback);
 		}
 		else {
@@ -259,6 +261,50 @@
 	};
 	
 	
+
+
+
+/**
+	 * Удаление элементов массива
+	 */
+	E.remove = function(obj, criteria) {
+		
+		if( !$.isFunction(criteria) ) {
+			criteria = function(item) { return item === criteria; };
+		}
+
+		var indices = [];
+
+		for(var i = 0; i < obj.length; i++) {
+			if( criteria.call(obj, obj[i], i) ) indices.push(i);
+		}
+
+		var arr = this;
+
+		var removed = [];
+
+		indices.reverse().forEach( function(i) { 
+			removed.push(arr[i]); 
+			arr.splice(i, 1); 
+		} );
+
+		return removed;
+	};
+		
+
+
+	E.uniq = function(obj) {
+		var result = [];
+		for(var i = 0; i < obj.length; i++) {
+			if(result.indexOf(obj[i]) == -1) result.push(obj[i]);
+		}
+		return result;
+	};
+
+
+
+
+
 	
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)

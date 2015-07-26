@@ -1,10 +1,10 @@
 
 
-.button-box {
+.button-box, .buttons {
   display: inline-block;
 }
 
-.button-box > * {
+.button-box > *, .buttons > * {
   display: inline-block;
 }
 
@@ -21,22 +21,28 @@
 //----------------------------------------------------
 
 
-.button-box.group > .button:first-of-type {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+.button-box.group, .buttons.group {
+
+  > .button:first-of-type {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > .button:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+
+  > .button:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+
 }
 
 
-.button-box.group > .button:not(:first-of-type) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left: none;
-}
-
-.button-box.group > .button:not(:last-of-type) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
 
 
 
