@@ -204,7 +204,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				this.children.get(i)._destroy(true);
 			}
 
-			if(!eventsOnly) {
+//			if(!eventsOnly) {
 
 				// удаляем элемент и все его содержимое (data + event handlers) из документа
 				if(this.parent) 
@@ -218,7 +218,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				// очищаем компоновку
 				this.layout.clear();
 
-			}
+//			}
 
 
 			

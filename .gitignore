@@ -9,3 +9,4 @@ pull.bat
 push.bat
 commit.bat
 node_modules
+vendor

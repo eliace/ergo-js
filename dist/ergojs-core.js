@@ -1417,8 +1417,8 @@ Function.prototype.rcurry = function(arg) {
 		
 		var f = null;
 		
-		if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isString(i) ) f = F.by_opts.curry({'name': i});
+		if( $.isString(i) ) f = F.by_opts.curry({'name': i});
+		else if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
 		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
 		else if( $.isClass(i) ) f = F.by_class.curry(i);
 		else if( $.isFunction(i) ) f = i;
@@ -2351,9 +2351,11 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		// "ленивая" генерация базового события
 		var _event = {
 			base: baseEvent,
-			stop: function() {
+			stop: function(immediate) {
 				if(this.base) this.base.stopPropagation(); //FIXME
 				this.stopped = true;
+				if(immediate)
+					this.stopedImmediate = true;
 			}
 		};
 		
@@ -2374,18 +2376,23 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		
 		var h_arr = this.events[type];
 		if(h_arr && h_arr.length) {
-			h_arr.forEach( function(h){
-				// вызываем обработчик события
+			for(var i = h_arr.length-1; i >= 0; i--) {
+				var h = h_arr[i];
 				h.callback.call(h.target, e, type);
-				// если усьановлен флаг остановки, то прекращаем обработку событий
-//				if(e.stopped) return false;
-			});
+				if(e.stoppedImmediate) break;
+			}		
+// 			h_arr.forEach( function(h){
+// 				// вызываем обработчик события
+// 				h.callback.call(h.target, e, type);
+// 				// если усьановлен флаг остановки, то прекращаем обработку событий
+// //				if(e.stopped) return false;
+// 			});
 			// ?
 			if(this.events[type])
 				this.events[type] = this.events[type].filter( function(h) { return !h.once; } );
 		}
 
-		if(e.after && !e.stopped) 
+		if(e.after && !e.stopped)
 			e.after.call(this.target, e, type);
 
 //		self.on_fire(type, e, baseEvent);
@@ -4249,10 +4256,20 @@ Ergo.$layouts = function(o, etype) {
 Ergo.WidgetOptions = {
 
 
+	get text() { 
+		if(this.children.size() == 0)
+			return this.layout.el[0].textContent;
+		else if(this.content)
+			return this.content.opt('text');
+		else
+ 			return this.layout.el[0].textContent;
+	},
 //	getText: function() {	return this.layout.el.text();	},
 	get_width: function() {	return this.el.width();	},
 	get_height: function() {	return this.el.height();	},
 	get name() { return this._name || this._key || this._index; },
+
+
 	
 	
 	
@@ -4294,7 +4311,7 @@ Ergo.WidgetOptions = {
 	set_tooltip: function(v) { this.el.attr('title', v); },
 //	set_id: function(v) { this.el.attr('id', v); },
 //	set_tag: function(v) { this.tag = v; },
-	set name(v) { this._name = v; },
+	set name(v) { this._name = ''+v; },
 //			'name': function(v) { this.name = v; },
 //	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
 	set_format: function(v) {
@@ -5510,7 +5527,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				this.children.get(i)._destroy(true);
 			}
 
-			if(!eventsOnly) {
+//			if(!eventsOnly) {
 
 				// удаляем элемент и все его содержимое (data + event handlers) из документа
 				if(this.parent) 
@@ -5524,7 +5541,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				// очищаем компоновку
 				this.layout.clear();
 
-			}
+//			}
 
 
 			
@@ -7605,6 +7622,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 				this.set( parser.call(this, data) ); 
 				this._fetched = true;
 				this.events.fire('fetch:after'); 
+				return data;
 			}.bind(this));
 		}
 		else {
@@ -7638,18 +7656,24 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 		if(provider) {
 
-			var data = composer.call(this, this.get());
-
 			// create
 			if(id == null) {
+
+				var data = composer.call(this, this.get(), 'create');
+
 				return provider.create(this, data, this.options.query).then(function(data) { 
-					this.events.fire('flush:after'); 
+					this.events.fire('flush:after');
+					return data;
 				}.bind(this));
 			}
 			// update
 			else {
+
+				var data = composer.call(this, this.get(), 'update');
+
 				return provider.update(this, id, data, this.options.query).then(function(data) { 
 					this.events.fire('flush:after'); 
+					return data;
 				}.bind(this));
 			}			
 		}
@@ -8714,7 +8738,9 @@ Ergo.alias('includes:selectable', {
 				selected.states.set('selected');
 				
 						
-				this._widget.events.fire('selectionChanged', {selection: this.get()});		
+				this._widget.events.fire('selectionChanged', {selection: this.get()});
+
+				return selected;
 			},
 			
 			

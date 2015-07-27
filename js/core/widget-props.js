@@ -28,10 +28,20 @@
 Ergo.WidgetOptions = {
 
 
+	get text() { 
+		if(this.children.size() == 0)
+			return this.layout.el[0].textContent;
+		else if(this.content)
+			return this.content.opt('text');
+		else
+ 			return this.layout.el[0].textContent;
+	},
 //	getText: function() {	return this.layout.el.text();	},
 	get_width: function() {	return this.el.width();	},
 	get_height: function() {	return this.el.height();	},
 	get name() { return this._name || this._key || this._index; },
+
+
 	
 	
 	
@@ -73,7 +83,7 @@ Ergo.WidgetOptions = {
 	set_tooltip: function(v) { this.el.attr('title', v); },
 //	set_id: function(v) { this.el.attr('id', v); },
 //	set_tag: function(v) { this.tag = v; },
-	set name(v) { this._name = v; },
+	set name(v) { this._name = ''+v; },
 //			'name': function(v) { this.name = v; },
 //	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
 	set_format: function(v) {

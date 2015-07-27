@@ -2085,14 +2085,14 @@ label.selected {
   top: 0;
   /*  opacity: 0.5;*/
 }
-.has-icon.at-left > .icon.before.icon:before,
-.has-icon.at-right > .icon.after.icon:before,
-.has-icon.at-left > .icon.left.icon:before,
-.has-icon.at-right > .icon.right.icon:before,
-.has-icon.at-left > .icon.before.icon:after,
-.has-icon.at-right > .icon.after.icon:after,
-.has-icon.at-left > .icon.left.icon:after,
-.has-icon.at-right > .icon.right.icon:after {
+.has-icon.at-left > .icon.before:before,
+.has-icon.at-right > .icon.after:before,
+.has-icon.at-left > .icon.left:before,
+.has-icon.at-right > .icon.right:before,
+.has-icon.at-left > .icon.before:after,
+.has-icon.at-right > .icon.after:after,
+.has-icon.at-left > .icon.left:after,
+.has-icon.at-right > .icon.right:after {
   position: absolute;
   top: 50%;
   line-height: 1;
@@ -2476,6 +2476,15 @@ label.selected {
 }
 .select.flat.disabled > input {
   border-top-color: transparent;
+}
+.select.has-icon > .icon.spinner:after,
+.select.has-icon > .icon.spinner:before {
+  width: 1em;
+  height: 1em;
+  top: 50%;
+  margin-top: -0.5em;
+  left: 50%;
+  margin-left: -0.5em;
 }
 .link {
   text-decoration: none;

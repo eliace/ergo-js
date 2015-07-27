@@ -14,7 +14,8 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'icon': {
 				etype: 'icon',
-				cls: 'caret after',
+				cls: 'right',
+				icon: 'caret',
 				weight: 10,
 				onClick: 'action:dropdown'
 				// onClick: function(e) {
@@ -74,6 +75,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 		},
 
 
+//		onDropdown: function
 
 		onDropdown: function() {
 			this.states.toggle('opened');
@@ -85,5 +87,12 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 	//		this.$dropdown.close();
 		}
 	}
-	
+
+
+	// _process_dropdown: function() {
+	// 	this.states.toggle('opened');		
+	// }
+
+
+
 }, 'widgets:select');

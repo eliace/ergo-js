@@ -75,8 +75,8 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	 */
 	fetch: function(id) {
 
-		// if(arguments.length == 0)
-		// 	id = this.id;
+		if(arguments.length == 0)
+			id = this._oid();
 
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
@@ -90,6 +90,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 				this.set( parser.call(this, data) ); 
 				this._fetched = true;
 				this.events.fire('fetch:after'); 
+				return data;
 			}.bind(this));
 		}
 		else {
@@ -123,18 +124,24 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 		if(provider) {
 
-			var data = composer.call(this, this.get());
-
 			// create
 			if(id == null) {
+
+				var data = composer.call(this, this.get(), 'create');
+
 				return provider.create(this, data, this.options.query).then(function(data) { 
-					this.events.fire('flush:after'); 
+					this.events.fire('flush:after');
+					return data;
 				}.bind(this));
 			}
 			// update
 			else {
+
+				var data = composer.call(this, this.get(), 'update');
+
 				return provider.update(this, id, data, this.options.query).then(function(data) { 
 					this.events.fire('flush:after'); 
+					return data;
 				}.bind(this));
 			}			
 		}

@@ -86,7 +86,9 @@ Ergo.alias('includes:selectable', {
 				selected.states.set('selected');
 				
 						
-				this._widget.events.fire('selectionChanged', {selection: this.get()});		
+				this._widget.events.fire('selectionChanged', {selection: this.get()});
+
+				return selected;
 			},
 			
 			

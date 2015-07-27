@@ -166,9 +166,11 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		// "ленивая" генерация базового события
 		var _event = {
 			base: baseEvent,
-			stop: function() {
+			stop: function(immediate) {
 				if(this.base) this.base.stopPropagation(); //FIXME
 				this.stopped = true;
+				if(immediate)
+					this.stopedImmediate = true;
 			}
 		};
 		
@@ -189,18 +191,23 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		
 		var h_arr = this.events[type];
 		if(h_arr && h_arr.length) {
-			h_arr.forEach( function(h){
-				// вызываем обработчик события
+			for(var i = h_arr.length-1; i >= 0; i--) {
+				var h = h_arr[i];
 				h.callback.call(h.target, e, type);
-				// если усьановлен флаг остановки, то прекращаем обработку событий
-//				if(e.stopped) return false;
-			});
+				if(e.stoppedImmediate) break;
+			}		
+// 			h_arr.forEach( function(h){
+// 				// вызываем обработчик события
+// 				h.callback.call(h.target, e, type);
+// 				// если усьановлен флаг остановки, то прекращаем обработку событий
+// //				if(e.stopped) return false;
+// 			});
 			// ?
 			if(this.events[type])
 				this.events[type] = this.events[type].filter( function(h) { return !h.once; } );
 		}
 
-		if(e.after && !e.stopped) 
+		if(e.after && !e.stopped)
 			e.after.call(this.target, e, type);
 
 //		self.on_fire(type, e, baseEvent);

@@ -70,7 +70,7 @@ $(document).ready(function(){
 * Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
 * New `autoRender` option value `non-empty` renders only non-empty containers
 * Install ergo-js as bower dependency
-* `format` syntax extended to use predefinded formatters: `'#{property|format}'`
+* `format` shortcut syntax extended to use predefinded formatters: `'#{property|format}'`
 * Filtering and sorting became part of widget (`renderFilter`/`renderSorter` and `dynamicFilter`/`dynamicSorter`)
 * New event shortcut syntax (`onClick: 'action:selectItem'` calls method `action` with arg `selectItem`)
 * New `action` method rises specified event
@@ -84,6 +84,7 @@ $(document).ready(function(){
 * CSS animations
 * Flex layout
 * Mobile support
+* Themes
 * Performance optimization
 
 and more new widgets :)
