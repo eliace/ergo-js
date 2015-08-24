@@ -1,7 +1,6 @@
 
 
 .table td {
-	color: @text-color;
   padding: 0.5714rem;	
 }
 
@@ -53,14 +52,20 @@
 
 .table {
 
-	margin-top: 1rem;
+//	margin-top: 1rem;
+
+
+	tr {
+		color: @text-color;
+	}
+
 
 	tr:not(:last-of-type) > td {
 	  border-bottom: 1px solid #ddd;
 	}
 
 
-	tr.disabled > td {
+	tr.disabled {
 		color: @disabled-color;
 	}
 

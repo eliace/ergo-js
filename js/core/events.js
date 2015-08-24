@@ -194,7 +194,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 			for(var i = h_arr.length-1; i >= 0; i--) {
 				var h = h_arr[i];
 				h.callback.call(h.target, e, type);
-				if(e.stoppedImmediate) break;
+				if(e.stopedImmediate) break;
 			}		
 // 			h_arr.forEach( function(h){
 // 				// вызываем обработчик события

@@ -1029,6 +1029,18 @@ Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
 
 
 
+
+Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
+	
+	defaults: {
+		html: '<div contenteditable="true"/>',
+		binding: 'text'
+	}
+	
+}, 'widgets:edit');
+
+
+
 Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 
 	defaults: {
@@ -1110,6 +1122,7 @@ Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
 	
 	
 }, 'widgets:nested-menu-item');
+
 
 
 
@@ -2827,6 +2840,37 @@ Ergo.alias('includes:icon:after', {
 
 
 
+
+Ergo.alias('includes:xicon:after', {
+
+	defaults:{ 
+		components: {
+			xicon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'after'
+			},
+			content: {
+				etype: '.',
+				binding: false
+			}
+		}
+	},
+
+
+	overrides: {
+		set_xicon: function(v) {
+			this.$xicon.opt('text', v);
+		}
+	}
+
+});
+
+
+
+
+
+
 Ergo.alias('includes:icon:at-left', {
 
 	defaults:{ 
@@ -2881,6 +2925,31 @@ Ergo.alias('includes:icon:at-right', {
 });
 
 
+
+Ergo.alias('includes:xicon:at-right', {
+
+	defaults:{ 
+		cls: 'has-icon at-right',
+		components: {
+			xicon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'right'
+			},
+			content: {
+				etype: '.'
+			}
+		}
+	},
+
+
+	overrides: {
+		set_xicon: function(v) {
+			this.$xicon.opt('text', v);
+		}
+	}
+
+});
 
 
 
@@ -3332,7 +3401,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 				events: {
 					'jquery:mousedown': function(e) {
 	//				this.parent.parent.opt('index', this.parent);
-						var index = this.parent.opt('name');
+						var index = parseInt( this.parent.opt('name') );
 						if(index)
 							this.events.rise('index:change', {index: index});
 						e.preventDefault(); // блокируем выделение текста

@@ -46,7 +46,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 				events: {
 					'jquery:mousedown': function(e) {
 	//				this.parent.parent.opt('index', this.parent);
-						var index = this.parent.opt('name');
+						var index = parseInt( this.parent.opt('name') );
 						if(index)
 							this.events.rise('index:change', {index: index});
 						e.preventDefault(); // блокируем выделение текста

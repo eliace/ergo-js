@@ -35,12 +35,17 @@
   background-color: #e8e8e8;
   color: @text-color;
 
-	&.basic { .label-type(@basic, @text-color); }
-	&.primary { .label-type(@primary); }
-	&.success { .label-type(@success); }
-	&.info { .label-type(@info); }
-	&.warning { .label-type(@warning); }
-	&.danger { .label-type(@danger); }
+
+  &.single-line {
+    white-space: nowrap;          
+  }
+
+	// &.basic { .label-type(@basic, @text-color); }
+	// &.primary { .label-type(@primary); }
+	// &.success { .label-type(@success); }
+	// &.info { .label-type(@info); }
+	// &.warning { .label-type(@warning); }
+	// &.danger { .label-type(@danger); }
 
 
 //   &.red { .label-type(@red); }

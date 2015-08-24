@@ -107,6 +107,37 @@ Ergo.alias('includes:icon:after', {
 
 
 
+
+Ergo.alias('includes:xicon:after', {
+
+	defaults:{ 
+		components: {
+			xicon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'after'
+			},
+			content: {
+				etype: '.',
+				binding: false
+			}
+		}
+	},
+
+
+	overrides: {
+		set_xicon: function(v) {
+			this.$xicon.opt('text', v);
+		}
+	}
+
+});
+
+
+
+
+
+
 Ergo.alias('includes:icon:at-left', {
 
 	defaults:{ 
@@ -161,5 +192,30 @@ Ergo.alias('includes:icon:at-right', {
 });
 
 
+
+Ergo.alias('includes:xicon:at-right', {
+
+	defaults:{ 
+		cls: 'has-icon at-right',
+		components: {
+			xicon: {
+				etype: 'icon',
+				weight: 10,
+				cls: 'right'
+			},
+			content: {
+				etype: '.'
+			}
+		}
+	},
+
+
+	overrides: {
+		set_xicon: function(v) {
+			this.$xicon.opt('text', v);
+		}
+	}
+
+});
 
 

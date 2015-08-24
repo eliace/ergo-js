@@ -31,7 +31,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		// }
 	},
 
-	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly'],
+	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly', 'size'],
 	
 	// set_type: function(v) {
 	// 	this.el.attr('type', v);

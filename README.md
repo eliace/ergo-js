@@ -69,17 +69,20 @@ $(document).ready(function(){
 * Added `flex` as standalone layout
 * Component shortcuts should be prefixed with `$` (access to component like `widget.myComponent` is deprecated)
 * New `autoRender` option value `non-empty` renders only non-empty containers
-* Install ergo-js as bower dependency
-* `format` shortcut syntax extended to use predefinded formatters: `'#{property|format}'`
+* Installing ergo-js as bower dependency
+* `format` shortcut syntax extended to use predefinded formatters: `'#{property|format}'` or `'#{*|format}'`
 * Filtering and sorting became part of widget (`renderFilter`/`renderSorter` and `dynamicFilter`/`dynamicSorter`)
 * New event shortcut syntax (`onClick: 'action:selectItem'` calls method `action` with arg `selectItem`)
 * New `action` method rises specified event
+* Multikey datasource support: `a+b+c`
+* New autoHeight mode `fit` adjusts widget height to container if it lesser than container height
+* New static option `as` combines `cls` and `state` behaviour
+
 
 
 
 
 ## Road Map
-* Multikey datasource
 * Focus management
 * CSS animations
 * Flex layout

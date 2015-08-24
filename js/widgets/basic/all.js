@@ -17,5 +17,6 @@
 //= require title
 //= require image
 //= require chips
+//= require edit
 
 //= require menu

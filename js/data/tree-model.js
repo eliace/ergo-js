@@ -34,7 +34,7 @@ Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	fetch: function() {
 		var d = this;
 		d.events.fire('fetch:before');
-		return d.entry('children').fetch( {id: d.oid()} ).then(function(){ d._fetched = true; d.events.fire('fetch:after'); });
+		return d.entry('children').fetch( {id: d._oid()} ).then(function(){ d._fetched = true; d.events.fire('fetch:after'); });
 	},
 	
 	

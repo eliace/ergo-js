@@ -342,10 +342,12 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 	 * @param {Object} item значение
 	 */
 	set: function(i, item) {
-		if(i in this._widget)
-			this.remove_at(i);
+		// if(i in this._widget)
+		// 	this.remove_at(i);
+		if( ('$'+i) in this._widget)
+			this._widget['$'+i]._destroy();
 //			this._widget.children.remove_at(i);
-		this._widget.children.add(item, i, this.options.type);
+		return this._widget.children.add(item, i, this.options.type);
 	},
 	
 	

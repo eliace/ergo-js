@@ -160,6 +160,27 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 
 	
+
+	invoke: function(action) {
+
+		var oid = this._oid();
+
+		var provider = this.options.provider;
+		var composer = this.options.composer || this._compose;
+
+		if(provider) {
+
+			var data = composer.call(this, this.get(), action);
+
+			return provider[action](this, oid, data, this.options.query).then(function(data) {
+				// ?
+				return data;
+			});
+		}
+
+	},
+
+
 	
 	
 //	get: function() {

@@ -50,6 +50,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		else if(arguments.length == 3) {
 			this._id = id;
 		}
+
+		if('_id' in this) {
+			if(typeof id == 'string')
+				this._id = this._id.split('+');
+			else
+				this._id = [this._id];
+		}
+
 		
 //		this._super(o || {});
 		Ergo.core.DataSource.superclass._initialize.call(this, o || {});
@@ -155,24 +163,73 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		if(arguments.length == 0) {
 			v = (this.source instanceof Ergo.core.DataSource) ? this.source._val() : this.source;
 			if('_id' in this) {
-				v = v ? v[this._id] : undefined;
+				if(v) {
+					// single key
+					if(this._id.length == 1) {
+						v = v[this._id[0]];
+					}
+					// multi key
+					else {
+						var mv = {};
+						for(var i = 0; i < this._id.length; i++)
+							mv[this._id[i]] = v[this._id[i]];
+						v = mv;
+					}
+				}
+				else {
+					v = undefined;
+				}
 			}
 
-			if(this.options.unformat)
-				v = this.options.unformat.call(this, v);			
+			// if(this.options.unformat)
+			// 	v = this.options.unformat.call(this, v);			
 			
+
 		} 
 		else {
 
-			if(this.options.format)
-				v = this.options.format.call(this, v);
+			// if(this.options.format)
+			// 	v = this.options.format.call(this, v);
 
-			
 			if (this.source instanceof Ergo.core.DataSource) {
-				('_id' in this) ? this.source._val()[this._id] = v : this.source._val(v);
+				if('_id' in this) {
+					var src = this.source._val();
+					// single key
+					if(this._id.length == 1) {
+						src[this._id[0]] = v 
+					}
+					// multi key
+					else {
+						for(var i = 0; i < this._id.length; i++) {
+							var key = this._id[i];
+							if(key in v)
+								src[key] = v[key];
+						}
+					}
+				}
+				else {
+					this.source._val(v);
+				} 
 	  	}
 			else {
-				('_id' in this) ? this.source[this._id] = v : this.source = v;
+				if('_id' in this) {
+					var src = this.source;
+					// single key
+					if(this._id.length == 1) {
+						src[this._id[0]] = v 
+					}
+					// multi key
+					else {
+						for(var i = 0; i < this._id.length; i++) {
+							var key = this._id[i];
+							if(key in v)
+								src[key] = v[key];
+						}
+					}
+				}
+				else {
+					this.source = v;
+				}
 			}			
 		}
 //		this._cached = v;
@@ -241,7 +298,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			this.entries
 				.filter(function(e){
 					//FIXME упрощенная проверка присутствия ключа
-					return (newValue && newValue[e._id] === undefined);
+					return (newValue && newValue[e._id.join('+')] === undefined);
 				})
 				.each(function(e){	
 					e._destroy(); 
@@ -330,7 +387,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				for(var i = values.length-1; i >= index; i--){
 					var e = this.entries.get(i);
 					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
-					e._id = i+1;
+					e._id[0] = i+1;
 					this.entries.set(i+1, e);
 				}
 				
@@ -368,7 +425,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		
 		if(i === undefined) {
 			if(this.source instanceof Ergo.core.DataSource)
-				this.source.del(this._id);
+				this.source.del(this._id.join('+'));
 			else
 				throw new Error('Unable to delete root data src');
 		}
@@ -385,7 +442,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			if(Array.isArray(value)) {
 				value.splice(i, 1);
 				for(var j = i; j < value.length; j++)
-					this.entries.get(j)._id = j;
+					this.entries.get(j)._id[0] = j;
 			}
 			else {
 				if(value) delete value[i];

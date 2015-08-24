@@ -1,7 +1,6 @@
 
 
 
-
 .menu {
 
 	list-style: none;
@@ -13,16 +12,16 @@
 	> * {
 		> a {
 			cursor: pointer;
-			color: #666;
+//			color: #666;
 		}
 
-		> a:hover {
+		&:not(.selected):hover > a {
 			color: @text-color;
 		}
 
 		&.selected > a {
 			background-color: rgba(0,0,0,0.05);
-			color: @select-color;
+//			color: @select-color;
 		}
 
 	}
@@ -109,15 +108,31 @@
 
 
 
+}
 
 
 
+.inverted .menu {
 
+	> * {
+		> a {
+			cursor: pointer;
+			color: rgba(255,255,255,0.6);
+		}
 
+		> a:hover {
+			color: rgba(255,255,255,1);
+		}
+
+		&.selected > a {
+			background-color: rgba(0,0,0,0.05);
+			color: rgba(255,255,255,1);
+		}
+
+	}
 
 
 }
-
 
 
 
@@ -132,15 +147,19 @@
 		display: inline-block;
 
 		> a {
-			padding: 1.286rem;
+			padding: 1.286em;
 			display: inline-block;
 			text-transform: uppercase;
 			font-size: 0.8571em;
 			line-height: 1;
 		}
 
+		&:not(.selected) {
+			color: #666;
+		}
+
 		&.selected > a {
-			color: @text-color;
+//			color: @text-color;
 			background-color: rgba(0,0,0,0.05);
 		}
 
@@ -164,20 +183,24 @@
 
 
 
+
+
 .menu.underlined {
 
 	> * {
+//		display: inline-block;
+
 
 		&.selected > a {
-			color: @select-color;
+//			color: @select-color;
 			background-color: transparent;
 		}
 
 		&.selected:after {
-			border-bottom: 2px solid @select-color;
+			border-bottom: 2px solid;// @select-color;
 	    content: "";
 	    display: block;
-	    margin-bottom: -2px;
+//	    margin-bottom: -2px;
 		}
 
 	}
@@ -283,7 +306,7 @@
 
 		> .selected::after {
 			border-bottom: none;
-			border-left: 2px solid @select-color;
+			border-left: 0.1429em solid;// @select-color;
 			margin-bottom: 0;
 			top: 0;
 			position: absolute;

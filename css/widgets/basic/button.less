@@ -256,6 +256,10 @@
 //    box-shadow: none;
 //    text-shadow: 0px 0px 1px rgba(0,0,0,0.1);
   }
+  &:disabled {
+    color: fade(@color, 40%);
+    cursor: default;
+  }  
 }
 
 
@@ -273,6 +277,10 @@
   &.success { .button_flat(@success); }
   &.warning { .button_flat(@warning); }
   &.danger { .button_flat(@danger); }
+
+  &.red { .button_flat(@red); }
+  &.amber { .button_flat(@amber); }
+  &.deep-orange { .button_flat(@deep-orange); }
 
 }
 

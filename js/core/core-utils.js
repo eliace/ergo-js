@@ -145,16 +145,19 @@
 					console.warn('Format ['+a[1]+'] is not registered');
 			}
 
-			var arr = key.split('.');
-			for(var i = 0; i < arr.length; i++) {
-				if(o == null) return o;
-				o = o[arr[i]]; 
+			if(key && key != '*') {
+				var arr = key.split('.');
+				for(var i = 0; i < arr.length; i++) {
+					if(o == null) return o;
+					o = o[arr[i]]; 
+				}
 			}
+
 
 			if(fmt)
 				o = fmt(o);
 
-			return o;
+			return o === undefined ? '' : o;
 		});		
 	};
 
@@ -257,6 +260,28 @@
 			});
 		
 	};
+
+
+
+
+
+	E.debounce = function debounce(func, wait, immediate) {
+		var timeout;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
+		};
+	};
+
+
+
 
 
 

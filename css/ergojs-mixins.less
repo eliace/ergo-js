@@ -74,8 +74,8 @@
 
 
 .shadow {}
-.shadow-bottom {  box-shadow: 0 0 12px rgba(0,0,0,0.7);}
-
+//.shadow-bottom {  box-shadow: 0 0 12px rgba(0,0,0,0.7);}
+.shadow-bottom { box-shadow: 0px 5px 6px -6px rgba(0,0,0,0.2); }
 
 
 
@@ -91,6 +91,7 @@
 .rised {
 	box-shadow: 1px 2px 2px rgba(0,0,0,0.25);
 }
+
 
 
 
@@ -227,15 +228,36 @@
 
 
 
+	&.__indent.__lite > *:not(.no-indent) {
+		padding-top: 0.2857rem;
+		padding-bottom: 0.2857rem;
+	}
+
 	&.__indent > *:not(.no-indent) {
 		padding-top: @box-indent;
 		padding-bottom: @box-indent;
 	}
 
-	&.__indent-x2 > *:not(.no-indent) {
-		padding-top: @box-indent * 2;
-		padding-bottom: @box-indent * 2;
+	&.__indent.__heavy > *:not(.no-indent) {
+		padding-top: 1.143rem;
+		padding-bottom: 1.143rem;
 	}
+
+	&.__indent.__massive > *:not(.no-indent) {
+		padding-top: 2.286rem;
+		padding-bottom: 2.286rem;
+	}
+
+
+	// &.__indent-x2 > *:not(.no-indent) {
+	// 	padding-top: @box-indent * 2;
+	// 	padding-bottom: @box-indent * 2;
+	// }
+
+
+
+
+
 
 
 	&.__divide > * + *:not(.no-divide) {
@@ -245,6 +267,12 @@
 	&.__hover > *:hover:not(.no-hover) {
 		background-color: rgba(0,0,0,0.05);// @hover-color;
 	}
+
+
+	&.__stripe > *:nth-child(odd) {
+		background-color: @stripe-color;
+	}
+
 
 
 	// &.padded > *:not(.no-padding) {
@@ -272,10 +300,29 @@
 
 
 
+	&.__indent.__lite > * + * > *:not(.no-indent) {
+		padding-top: 0.2857rem;
+		padding-bottom: 0.2857rem;
+	}
+
 	&.__indent > * + * > *:not(.no-indent) {
 		padding-top: @box-indent;
 		padding-bottom: @box-indent;
 	}
+
+	&.__indent.__heavy > * + * > *:not(.no-indent) {
+		padding-top: 1.143rem;
+		padding-bottom: 1.143rem;
+	}
+
+	&.__indent.__massive > * + * > *:not(.no-indent) {
+		padding-top: 2.286rem;
+		padding-bottom: 2.286rem;
+	}
+
+
+
+
 
 
 	&.__divide > * + * > *:not(.no-divide) {
@@ -286,6 +333,9 @@
 		background-color: rgba(0,0,0,0.05);// @hover-color;
 	}
 
+	&.__stripe > *:nth-child(odd) {
+		background-color: @stripe-color;
+	}
 
 }
 
@@ -329,6 +379,9 @@
 		background-color: rgba(0,0,0,0.05);// @hover-color;
 	}
 
+	&.__stripe > *:nth-child(odd) {
+		background-color: @stripe-color;
+	}
 
 	// &.padded > *:not(.no-padding) {
 
@@ -356,6 +409,10 @@
 
 	&.__hover > *:hover:not(.no-hover) {
 		background-color: rgba(0,0,0,0.05);// @hover-color;
+	}
+
+	&.__stripe > *:nth-child(odd) {
+		background-color: @stripe-color;
 	}
 
 
@@ -430,9 +487,70 @@
 // 	padding: @box-indent 0;
 // }
 
+
+
+
+
+
+.mix-line-type(@color) {
+	border-color: @color;
+}
+
+
+
+.mix-line-types() {
+
+	&.basic { .mix-line-type(@basic); }
+	&.primary { .mix-line-type(@primary); }
+	&.success { .mix-line-type(@success); }
+	&.info { .mix-line-type(@info); }
+	&.warning { .mix-line-type(@warning); }
+	&.danger { .mix-line-type(@danger); }
+  &.dark { .mix-line-type(@dark); }
+
+  &.red { .mix-line-type(@red); }
+  &.pink { .mix-line-type(@pink); }
+  &.purple { .mix-line-type(@purple); }
+  &.deep-purple { .mix-line-type(@deep-purple); }
+  &.indigo { .mix-line-type(@indigo); }
+  &.blue { .mix-line-type(@blue); }
+  &.light-blue { .mix-line-type(@light-blue); }
+  &.teal { .mix-line-type(@teal); }
+  &.cyan { .mix-line-type(@cyan); }
+  &.green { .mix-line-type(@green); }
+  &.light-green { .mix-line-type(@light-green); }
+  &.lime { .mix-line-type(@lime); }
+  &.yellow { .mix-line-type(@yellow); }
+  &.amber { .mix-line-type(@amber); }
+  &.orange { .mix-line-type(@orange); }
+  &.deep-orange { .mix-line-type(@deep-orange); }
+  &.brown { .mix-line-type(@brown); }
+  &.grey { .mix-line-type(@grey); }
+  &.blue-grey { .mix-line-type(@blue-grey); }
+  &.white { .mix-line-type(@white); }
+  &.black { .mix-line-type(@black); }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 .mix-text-type(@color) {
 	color: @color;
 	border-color: @color;
+
+	&.minor {
+		color: fade(@color, 50%);
+	}
+
 }
 
 
@@ -445,6 +563,7 @@
 	&.info { .mix-text-type(@info); }
 	&.warning { .mix-text-type(@warning); }
 	&.danger { .mix-text-type(@danger); }
+  &.dark { .mix-text-type(@dark); }
 
   &.red { .mix-text-type(@red); }
   &.pink { .mix-text-type(@pink); }
@@ -468,6 +587,7 @@
   &.white { .mix-text-type(@white); }
   &.black { .mix-text-type(@black); }
 
+
 }
 
 
@@ -476,6 +596,12 @@
 .mix-box-type(@color) {
 	background-color: @color;
 	color: #fff;
+
+	&.minor {
+		background-color: fade(@color, 10%);
+		color: @color;
+	}
+
 }
 
 
@@ -488,6 +614,7 @@
 	&.info { .mix-box-type(@info); }
 	&.warning { .mix-box-type(@warning); }
 	&.danger { .mix-box-type(@danger); }
+  &.dark 					{ .mix-box-type(@dark); }
 
 
   &.red 					{ .mix-box-type(@red); }
@@ -512,11 +639,62 @@
   &.white 				{ .mix-box-type(@white); }
   &.black 				{ .mix-box-type(@black); }
 
+
 }
 
 
 
 
+
+
+/*
+.mix-select-type(@color) {
+	.selected: {
+		color: @color;
+		border-color: @color;
+	}
+	.selected:hover: {
+		color: darken(@color, 8%);
+		border-color: darken(@color, 8%);
+	}
+}
+
+
+
+.mix-select-types() {
+
+	&.basic { .mix-text-type(@basic); }
+	&.primary { .mix-text-type(@primary); }
+	&.success { .mix-text-type(@success); }
+	&.info { .mix-text-type(@info); }
+	&.warning { .mix-text-type(@warning); }
+	&.danger { .mix-text-type(@danger); }
+  &.dark { .mix-text-type(@dark); }
+
+  &.red { .mix-text-type(@red); }
+  &.pink { .mix-text-type(@pink); }
+  &.purple { .mix-text-type(@purple); }
+  &.deep-purple { .mix-text-type(@deep-purple); }
+  &.indigo { .mix-text-type(@indigo); }
+  &.blue { .mix-text-type(@blue); }
+  &.light-blue { .mix-text-type(@light-blue); }
+  &.teal { .mix-text-type(@teal); }
+  &.cyan { .mix-text-type(@cyan); }
+  &.green { .mix-text-type(@green); }
+  &.light-green { .mix-text-type(@light-green); }
+  &.lime { .mix-text-type(@lime); }
+  &.yellow { .mix-text-type(@yellow); }
+  &.amber { .mix-text-type(@amber); }
+  &.orange { .mix-text-type(@orange); }
+  &.deep-orange { .mix-text-type(@deep-orange); }
+  &.brown { .mix-text-type(@brown); }
+  &.grey { .mix-text-type(@grey); }
+  &.blue-grey { .mix-text-type(@blue-grey); }
+  &.white { .mix-text-type(@white); }
+  &.black { .mix-text-type(@black); }
+
+
+}
 
 
 
@@ -533,8 +711,10 @@
 // }
 
 
-
-
+.menu {
+	.mix-select-types();
+}
+*/
 
 
 
@@ -544,22 +724,25 @@
 .text, 
 .title, 
 .icon, 
-.box.inverted, 
-.button.inverted, 
-.label.inverted {
+.box {
 	.mix-text-types();
 }
 
 
 // DEFAULT BOX TYPES
 
-.box, 
-.button, 
-.label,
-.text.inverted, 
-.title.inverted, 
-.icon.inverted {
+.inverted, 
+.fill,
+//tr.fill > td,
+//.button, 
+.label {
 	.mix-box-types();
+}
+
+
+.line {
+	border-left: 3px solid;
+	.mix-line-types();	
 }
 
 

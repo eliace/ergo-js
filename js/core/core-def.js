@@ -100,6 +100,7 @@ var Ergo = (function(){
 			if(i == 'data') prefix = '!'; 										//<-- поле data не перегружается
 			if(i == 'mixins') prefix = '+'; 				//<-- поле mixins сливается
 			if(i == 'cls') prefix = '+';
+			if(i == 'as') prefix = '+';
 			if(i == 'include') prefix = '+';
 			if(i == 'state') prefix = '+';
 			if( /^on\S/.test(i) ) prefix = '+';

@@ -451,6 +451,31 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			if(!this.el.is(":visible")) return;
 			if(this.el.attr('autoHeight') == 'ignore') return;
 
+
+			if(this.el.attr('autoHeight') == 'fit') {
+
+				var h0 = this.el.height();
+				var dh = this.el.outerHeight() - this.el.height();
+				
+				this.el.hide();
+				
+				var h = this._widget.options.height || 0;
+				this.el.parents().each(function(i, el){
+					if(!h) h = $(el).height();
+					if(h) return false;
+				});
+
+				h = Math.floor(h - dh);
+				
+				if(h > h0)
+					this.el.height(h);
+
+				this.el.show();			
+
+				return;
+			}
+
+
 			var debug = (this._widget.debug == 'autoheight');
 			
 			this.el.height(0);
