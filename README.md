@@ -44,10 +44,11 @@ bower install ergo-js
 $(document).ready(function(){
 
     // создаем простой виджет и добавляем его в <body/>
-    $.ergo({
-        etype: 'box',
-        renderTo: 'body'
+    var w = $.ergo({
+        etype: 'box'
     });
+
+    w.render('body');
 
 });
 
@@ -74,7 +75,7 @@ $(document).ready(function(){
 * Filtering and sorting became part of widget (`renderFilter`/`renderSorter` and `dynamicFilter`/`dynamicSorter`)
 * New event shortcut syntax (`onClick: 'action:selectItem'` calls method `action` with arg `selectItem`)
 * New `action` method rises specified event
-* Multikey datasource support: `a+b+c`
+* Multikey datasource support: `dataId: ['a', 'b', 'c']`
 * New autoHeight mode `fit` adjusts widget height to container if it lesser than container height
 * New static option `as` combines `cls` and `state` behaviour
 

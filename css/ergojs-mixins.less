@@ -598,9 +598,16 @@
 	color: #fff;
 
 	&.minor {
-		background-color: fade(@color, 10%);
+//		background-color: fade(@color, 10%);
+		background-color: fade(screen(@color, #ddd), 90%);
 		color: @color;
+		border-color: fade(@color, 50%);
 	}
+
+	// &.half-minor {
+	// 	background-color: fade(@color, 80%);
+	// 	color: @color;
+	// }
 
 }
 

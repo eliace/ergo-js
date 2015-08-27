@@ -1,0 +1,44 @@
+
+
+/*
+ * GROWL LIST
+ */
+
+.growls {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: fixed;
+	margin: 1rem;
+//	min-width: 300px;
+
+
+	&.top { top: 0;	}
+	&.bottom { bottom: 0; }
+	&.left { left: 0;	}
+	&.right { right: 0;	}
+	&.center {
+		&.top, &.bottom {
+			left: 50%; transform: translateX(-50%);		
+		}
+		&.left, &.right {
+			top: 50%; transform: translateY(-50%);		
+		}
+	}
+
+}
+
+// .growl.ne {
+// 	right: 0;
+// 	top: 0;
+// }
+
+// .growl .alert {
+// 	margin: 0;
+// }
+
+
+// .growl > li {
+// 	margin-bottom: 3px;
+// }
+

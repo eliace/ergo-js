@@ -13,6 +13,7 @@
 //= require items/all
 //= require menus/all
 //= require forms/all
+//= require containers/all
 
 //= require mixins/all
 
@@ -31,8 +32,6 @@
 //= require grid-pagination
 //= require navigation
 //= require caret
-
-
 
 
 

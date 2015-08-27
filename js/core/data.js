@@ -52,8 +52,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 		if('_id' in this) {
-			if(typeof id == 'string')
-				this._id = this._id.split('+');
+			// if(typeof id == 'string')
+			// 	this._id = this._id.split('+');
+			if(Array.isArray(id))
+				this._id = id;
 			else
 				this._id = [this._id];
 		}
@@ -174,6 +176,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 						for(var i = 0; i < this._id.length; i++)
 							mv[this._id[i]] = v[this._id[i]];
 						v = mv;
+						// var mv = [];
+						// for(var i = 0; i < this._id.length; i++)
+						// 	mv.push( v[this._id[i]] );
+						// v = mv;
 					}
 				}
 				else {
@@ -205,6 +211,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 							if(key in v)
 								src[key] = v[key];
 						}
+						// for(var i in v){//var i = 0; i < this._id.length; i++) {
+						// 	src[this._id[i]] = v[i];
+						// }
 					}
 				}
 				else {
@@ -225,6 +234,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 							if(key in v)
 								src[key] = v[key];
 						}
+						// for(var i in v) {//var i = 0; i < this._id.length; i++) {
+						// 	src[this._id[i]] = v[i];
+						// }
 					}
 				}
 				else {

@@ -894,8 +894,9 @@ h5 {
 .inverted.basic.minor,
 .fill.basic.minor,
 .label.basic.minor {
-  background-color: rgba(204, 204, 204, 0.1);
+  background-color: rgba(248, 248, 248, 0.9);
   color: #cccccc;
+  border-color: rgba(204, 204, 204, 0.5);
 }
 .inverted.primary,
 .fill.primary,
@@ -906,8 +907,9 @@ h5 {
 .inverted.primary.minor,
 .fill.primary.minor,
 .label.primary.minor {
-  background-color: rgba(2, 119, 189, 0.1);
+  background-color: rgba(221, 237, 246, 0.9);
   color: #0277bd;
+  border-color: rgba(2, 119, 189, 0.5);
 }
 .inverted.success,
 .fill.success,
@@ -918,8 +920,9 @@ h5 {
 .inverted.success.minor,
 .fill.success.minor,
 .label.success.minor {
-  background-color: rgba(76, 175, 80, 0.1);
+  background-color: rgba(231, 244, 232, 0.9);
   color: #4caf50;
+  border-color: rgba(76, 175, 80, 0.5);
 }
 .inverted.info,
 .fill.info,
@@ -930,8 +933,9 @@ h5 {
 .inverted.info.minor,
 .fill.info.minor,
 .label.info.minor {
-  background-color: rgba(129, 212, 250, 0.1);
+  background-color: rgba(238, 249, 254, 0.9);
   color: #81d4fa;
+  border-color: rgba(129, 212, 250, 0.5);
 }
 .inverted.warning,
 .fill.warning,
@@ -942,8 +946,9 @@ h5 {
 .inverted.warning.minor,
 .fill.warning.minor,
 .label.warning.minor {
-  background-color: rgba(255, 193, 7, 0.1);
+  background-color: rgba(255, 247, 222, 0.9);
   color: #ffc107;
+  border-color: rgba(255, 193, 7, 0.5);
 }
 .inverted.danger,
 .fill.danger,
@@ -954,8 +959,9 @@ h5 {
 .inverted.danger.minor,
 .fill.danger.minor,
 .label.danger.minor {
-  background-color: rgba(239, 83, 80, 0.1);
+  background-color: rgba(253, 232, 232, 0.9);
   color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.5);
 }
 .inverted.dark,
 .fill.dark,
@@ -966,8 +972,9 @@ h5 {
 .inverted.dark.minor,
 .fill.dark.minor,
 .label.dark.minor {
-  background-color: rgba(55, 71, 79, 0.1);
+  background-color: rgba(228, 230, 232, 0.9);
   color: #37474f;
+  border-color: rgba(55, 71, 79, 0.5);
 }
 .inverted.red,
 .fill.red,
@@ -978,8 +985,9 @@ h5 {
 .inverted.red.minor,
 .fill.red.minor,
 .label.red.minor {
-  background-color: rgba(244, 67, 54, 0.1);
+  background-color: rgba(254, 230, 228, 0.9);
   color: #f44336;
+  border-color: rgba(244, 67, 54, 0.5);
 }
 .inverted.pink,
 .fill.pink,
@@ -990,8 +998,9 @@ h5 {
 .inverted.pink.minor,
 .fill.pink.minor,
 .label.pink.minor {
-  background-color: rgba(233, 30, 99, 0.1);
+  background-color: rgba(252, 225, 234, 0.9);
   color: #e91e63;
+  border-color: rgba(233, 30, 99, 0.5);
 }
 .inverted.purple,
 .fill.purple,
@@ -1002,8 +1011,9 @@ h5 {
 .inverted.purple.minor,
 .fill.purple.minor,
 .label.purple.minor {
-  background-color: rgba(156, 39, 176, 0.1);
+  background-color: rgba(242, 226, 244, 0.9);
   color: #9c27b0;
+  border-color: rgba(156, 39, 176, 0.5);
 }
 .inverted.deep-purple,
 .fill.deep-purple,
@@ -1014,8 +1024,9 @@ h5 {
 .inverted.deep-purple.minor,
 .fill.deep-purple.minor,
 .label.deep-purple.minor {
-  background-color: rgba(103, 58, 183, 0.1);
+  background-color: rgba(235, 229, 245, 0.9);
   color: #673ab7;
+  border-color: rgba(103, 58, 183, 0.5);
 }
 .inverted.indigo,
 .fill.indigo,
@@ -1026,8 +1037,9 @@ h5 {
 .inverted.indigo.minor,
 .fill.indigo.minor,
 .label.indigo.minor {
-  background-color: rgba(63, 81, 181, 0.1);
+  background-color: rgba(229, 232, 245, 0.9);
   color: #3f51b5;
+  border-color: rgba(63, 81, 181, 0.5);
 }
 .inverted.blue,
 .fill.blue,
@@ -1038,8 +1050,9 @@ h5 {
 .inverted.blue.minor,
 .fill.blue.minor,
 .label.blue.minor {
-  background-color: rgba(33, 150, 243, 0.1);
+  background-color: rgba(225, 241, 253, 0.9);
   color: #2196f3;
+  border-color: rgba(33, 150, 243, 0.5);
 }
 .inverted.light-blue,
 .fill.light-blue,
@@ -1050,8 +1063,9 @@ h5 {
 .inverted.light-blue.minor,
 .fill.light-blue.minor,
 .label.light-blue.minor {
-  background-color: rgba(3, 169, 244, 0.1);
+  background-color: rgba(221, 244, 254, 0.9);
   color: #03a9f4;
+  border-color: rgba(3, 169, 244, 0.5);
 }
 .inverted.teal,
 .fill.teal,
@@ -1062,8 +1076,9 @@ h5 {
 .inverted.teal.minor,
 .fill.teal.minor,
 .label.teal.minor {
-  background-color: rgba(0, 150, 136, 0.1);
+  background-color: rgba(221, 241, 239, 0.9);
   color: #009688;
+  border-color: rgba(0, 150, 136, 0.5);
 }
 .inverted.cyan,
 .fill.cyan,
@@ -1074,8 +1089,9 @@ h5 {
 .inverted.cyan.minor,
 .fill.cyan.minor,
 .label.cyan.minor {
-  background-color: rgba(0, 188, 212, 0.1);
+  background-color: rgba(221, 246, 249, 0.9);
   color: #00bcd4;
+  border-color: rgba(0, 188, 212, 0.5);
 }
 .inverted.green,
 .fill.green,
@@ -1086,8 +1102,9 @@ h5 {
 .inverted.green.minor,
 .fill.green.minor,
 .label.green.minor {
-  background-color: rgba(76, 175, 80, 0.1);
+  background-color: rgba(231, 244, 232, 0.9);
   color: #4caf50;
+  border-color: rgba(76, 175, 80, 0.5);
 }
 .inverted.light-green,
 .fill.light-green,
@@ -1098,8 +1115,9 @@ h5 {
 .inverted.light-green.minor,
 .fill.light-green.minor,
 .label.light-green.minor {
-  background-color: rgba(139, 195, 74, 0.1);
+  background-color: rgba(240, 247, 231, 0.9);
   color: #8bc34a;
+  border-color: rgba(139, 195, 74, 0.5);
 }
 .inverted.lime,
 .fill.lime,
@@ -1110,8 +1128,9 @@ h5 {
 .inverted.lime.minor,
 .fill.lime.minor,
 .label.lime.minor {
-  background-color: rgba(205, 220, 57, 0.1);
+  background-color: rgba(248, 250, 229, 0.9);
   color: #cddc39;
+  border-color: rgba(205, 220, 57, 0.5);
 }
 .inverted.yellow,
 .fill.yellow,
@@ -1122,8 +1141,9 @@ h5 {
 .inverted.yellow.minor,
 .fill.yellow.minor,
 .label.yellow.minor {
-  background-color: rgba(253, 216, 53, 0.1);
+  background-color: rgba(255, 250, 228, 0.9);
   color: #fdd835;
+  border-color: rgba(253, 216, 53, 0.5);
 }
 .inverted.amber,
 .fill.amber,
@@ -1134,8 +1154,9 @@ h5 {
 .inverted.amber.minor,
 .fill.amber.minor,
 .label.amber.minor {
-  background-color: rgba(255, 193, 7, 0.1);
+  background-color: rgba(255, 247, 222, 0.9);
   color: #ffc107;
+  border-color: rgba(255, 193, 7, 0.5);
 }
 .inverted.orange,
 .fill.orange,
@@ -1146,8 +1167,9 @@ h5 {
 .inverted.orange.minor,
 .fill.orange.minor,
 .label.orange.minor {
-  background-color: rgba(255, 152, 0, 0.1);
+  background-color: rgba(255, 241, 221, 0.9);
   color: #ff9800;
+  border-color: rgba(255, 152, 0, 0.5);
 }
 .inverted.deep-orange,
 .fill.deep-orange,
@@ -1158,8 +1180,9 @@ h5 {
 .inverted.deep-orange.minor,
 .fill.deep-orange.minor,
 .label.deep-orange.minor {
-  background-color: rgba(255, 87, 34, 0.1);
+  background-color: rgba(255, 233, 226, 0.9);
   color: #ff5722;
+  border-color: rgba(255, 87, 34, 0.5);
 }
 .inverted.brown,
 .fill.brown,
@@ -1170,8 +1193,9 @@ h5 {
 .inverted.brown.minor,
 .fill.brown.minor,
 .label.brown.minor {
-  background-color: rgba(121, 85, 72, 0.1);
+  background-color: rgba(237, 232, 231, 0.9);
   color: #795548;
+  border-color: rgba(121, 85, 72, 0.5);
 }
 .inverted.grey,
 .fill.grey,
@@ -1182,8 +1206,9 @@ h5 {
 .inverted.grey.minor,
 .fill.grey.minor,
 .label.grey.minor {
-  background-color: rgba(158, 158, 158, 0.1);
+  background-color: rgba(242, 242, 242, 0.9);
   color: #9e9e9e;
+  border-color: rgba(158, 158, 158, 0.5);
 }
 .inverted.blue-grey,
 .fill.blue-grey,
@@ -1194,8 +1219,9 @@ h5 {
 .inverted.blue-grey.minor,
 .fill.blue-grey.minor,
 .label.blue-grey.minor {
-  background-color: rgba(96, 125, 139, 0.1);
+  background-color: rgba(234, 238, 240, 0.9);
   color: #607d8b;
+  border-color: rgba(96, 125, 139, 0.5);
 }
 .inverted.white,
 .fill.white,
@@ -1206,8 +1232,9 @@ h5 {
 .inverted.white.minor,
 .fill.white.minor,
 .label.white.minor {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
   color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 .inverted.black,
 .fill.black,
@@ -1218,8 +1245,9 @@ h5 {
 .inverted.black.minor,
 .fill.black.minor,
 .label.black.minor {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(221, 221, 221, 0.9);
   color: #000000;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 .line {
   border-left: 3px solid;
@@ -3626,7 +3654,6 @@ label:hover .radio {
 .alert {
   border: 1px solid #cccccc;
   border-radius: 4px;
-  margin-bottom: 20px;
   padding: 15px;
   width: 100%;
 }
@@ -4101,6 +4128,38 @@ label:hover .radio {
 }
 .tools > .icon {
   padding: 0.5714rem 0;
+}
+/*
+ * GROWL LIST
+ */
+.growls {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: fixed;
+  margin: 1rem;
+}
+.growls.top {
+  top: 0;
+}
+.growls.bottom {
+  bottom: 0;
+}
+.growls.left {
+  left: 0;
+}
+.growls.right {
+  right: 0;
+}
+.growls.center.top,
+.growls.center.bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.growls.center.left,
+.growls.center.right {
+  top: 50%;
+  transform: translateY(-50%);
 }
 .button-box,
 .buttons {

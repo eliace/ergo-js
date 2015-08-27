@@ -41,7 +41,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		if(arguments.length == 0)
 			this._super([]);
 		else if(arguments.length == 1) {
-			$.isArray(v) ? this._super(v) : this._super([], v);
+			Array.isArray(v) ? this._super(v) : this._super([], v);
 		}
 		else
 			this._super.apply(this, arguments);
