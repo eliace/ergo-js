@@ -61,10 +61,16 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		var query = Ergo.override({}, this.options.query, q); 
 		
 		this.events.fire('fetch:before'); 
+
+		var provider = this.options.provider;
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
+
 		
-		if(this.options.provider) {
+		if(provider) {
 			var self = this;
-			return this.options.provider.find_all(this, query).then(function(data) {
+			return provider.find_all(this, query).then(function(data) {
 				
 				var v = parse.call(self, data);
 				

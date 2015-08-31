@@ -515,6 +515,12 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 	disjoin: function() {
 
 		this._context.disjoin(this._name);
+	},
+
+
+
+	get params() {
+		return this._params;
 	}
 
 

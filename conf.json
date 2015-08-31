@@ -9,6 +9,7 @@
     },
     "plugins": ["plugins/markdown"],
     "templates": {
+        "theme": "yeti",
         "cleverLinks": false,
         "monospaceLinks": false
     },
@@ -16,7 +17,7 @@
         "encoding": "utf8",
         "recurse": true,        
         "destination": "./docs/",
-        "template": "node_modules/jaguarjs-jsdoc"
+        "template": "node_modules/ink-docstrap/template"
     }
 }
 

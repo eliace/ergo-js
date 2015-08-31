@@ -8,7 +8,7 @@
  * Опции:
  * 	`set` хэш сеттеров
  * 	`get` хэш геттеров
- * 	`mixins` список примесей
+ * 	`include` список примесей
  * 
  *
  * @class
@@ -178,7 +178,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию здесь происходит подкючение примесей
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 */
 	_pre_construct: function(o) {
@@ -224,7 +224,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию происходит подключение плагинов
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 * 
 	 */
@@ -260,7 +260,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию происходит применение опций (вызов метода _opt)
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 */
 	_post_construct: function(o) {
@@ -290,10 +290,21 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		
 	},
 	
+
+	/**
+	 * Обработчик удаления объекта
+	 *
+	 * @protected
+	 */
+	_destroy: function() {
+		//
+	},
+
+
 	
 	
 	/**
-	 * Установка опций (options) виджета.
+	 * Установка опций (options) объекта.
 	 * 
 	 * Передаваемые параметры применяются и сохраняются в this.options
 	 * 
@@ -405,7 +416,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	_is: function(ex) {
+	is: function(ex) {
 		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
 //		var o = this.options;
 //		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
@@ -438,6 +449,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 /**
  * Добавляем метод для регистрации примесей в ErgoJS
+ *
+ * @deprecated
  */
 Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	

@@ -1,6 +1,10 @@
 
 
-
+/**
+ *
+ * @mixin selectable
+ *
+ */
 Ergo.alias('includes:selectable', {
 
 	defaults: {

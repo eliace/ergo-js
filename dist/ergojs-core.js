@@ -1761,7 +1761,7 @@ Function.prototype.debounce = function(wait, immediate) {
  * Опции:
  * 	`set` хэш сеттеров
  * 	`get` хэш геттеров
- * 	`mixins` список примесей
+ * 	`include` список примесей
  * 
  *
  * @class
@@ -1931,7 +1931,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию здесь происходит подкючение примесей
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 */
 	_pre_construct: function(o) {
@@ -1977,7 +1977,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию происходит подключение плагинов
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 * 
 	 */
@@ -2013,7 +2013,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * 
 	 * По умолчанию происходит применение опций (вызов метода _opt)
 	 * 
-	 * @private
+	 * @protected
 	 * @param {Object} o опции
 	 */
 	_post_construct: function(o) {
@@ -2043,10 +2043,21 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		
 	},
 	
+
+	/**
+	 * Обработчик удаления объекта
+	 *
+	 * @protected
+	 */
+	_destroy: function() {
+		//
+	},
+
+
 	
 	
 	/**
-	 * Установка опций (options) виджета.
+	 * Установка опций (options) объекта.
 	 * 
 	 * Передаваемые параметры применяются и сохраняются в this.options
 	 * 
@@ -2158,7 +2169,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	_is: function(ex) {
+	is: function(ex) {
 		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
 //		var o = this.options;
 //		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
@@ -2191,6 +2202,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 /**
  * Добавляем метод для регистрации примесей в ErgoJS
+ *
+ * @deprecated
  */
 Ergo.declare_mixin = function(mixin_name, obj, alias) {
 	
@@ -2464,7 +2477,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 /**
  * 
- * @mixin
+ * @mixin observable
  * 
  */
 Ergo.alias('includes:observable', {
@@ -3628,7 +3641,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 /**
  * Плагин, добавляющий StateManager к объекту
  *
- * @mixin  
+ * @mixin statable
  */
 
 Ergo.alias('includes:statable', {
@@ -5472,32 +5485,6 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
  * Базовый объект для всех виджетов
  * 
  * Опции:
- * 	`layout` компоновка дочерних виджетов
- * 	`layoutFactory` фабрика компоновок
- * 	`cls` css-классы
- * 	`style` хэш стилей
- * 	`html` html-тег виджета
- * 	`components` хэш компонентов
- * 	`defaultComponent` опции компонента по умолчанию
- * 	`componentFactory` фабрика компонентов
- * 	`items` массив элементов
- * 	`defaultItem` опции элемента по умолчанию
- * 	`itemFactory` фабрика элементов
- * 	`dynamic` флаг динамического связывания
- * 	`data` связываемые данные
- * 	`events` хэш событий
- * 	`states` хэш состояний
- * 	`transitions` хэш переходов между состояниями
- * 	`state` предустановленное состояние
- * 	`rendering` функция создания jQuery-элемента
- * 	`renderTo` селектор родительского элемента
- * 	`autoRender` авто-отрисовка при создании
- * 	`showOnRender` вызов метода show при создании
- * 	`hideOnRender` вызов метода hide при создании (?)
- * 	`hideOnDestroy` вызов метода hide при удалении
- * 	`binding` функция связывания данных с виджетом
- * 	`value` значение виджета
- * 	`wrapper` опции "обертки"
  * 
  * 
  * 
@@ -5505,9 +5492,65 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
  * @name Ergo.core.Widget
  * @extends Ergo.core.Object
  * @param {Object} o параметры
- * @mixes Ergo.WidgetOptions
- * @mixes Ergo.Observable
- * @mixes Ergo.Statable
+ * @param {string} o.layout компоновка дочерних виджетов
+ * @param {function} o.layoutFactory фабрика компоновок
+ * @param {string} o.as css-классы или состояния (аналог cls и state)
+ * @param {string} o.cls css-классы
+ * @param {object} o.style хэш стилей
+ * @param {string} o.html html-тег виджета
+ * @param {object} o.components хэш компонентов
+ * @param {object} o.defaultComponent опции компонента по умолчанию
+ * @param {function} o.componentFactory фабрика компонентов
+ * @param {array} o.items массив элементов
+ * @param {object} o.defaultItem опции элемента по умолчанию
+ * @param {function} o.itemFactory фабрика элементов
+ * @param {boolean} o.dynamic флаг динамического связывания
+ * @param {object|array|string} o.data связываемые данные
+ * @param {string} o.dataId ключ в источнике данных
+ * @param {object} o.events хэш событий
+ * @param {object} o.states хэш состояний
+ * @param {object} o.transitions хэш переходов между состояниями
+ * @param {string} o.state предустановленное состояние
+ * @param {function} o.rendering функция создания jQuery-элемента
+ * @param {string} o.renderTo селектор родительского элемента
+ * @param {boolean} o.showOnRender вызов метода show при создании
+ * @param {boolean} o.hideOnDestroy вызов метода hide при удалении
+ * @param {string|function} o.binding функция связывания данных с виджетом
+ * @param {Any} o.value значение виджета
+ * @param {object} o.wrapper опции "обертки"
+ * @param {function} o.format форматирование "сырого" значения к строке, отображаемой виджетом
+ * @param {function} o.unformat преобразование отображаемго/редактируемого значения в "сырые" данные
+ * @param {boolean} o.autoBind автоматическое связывание с данными
+ * @param {boolean} o.autoRender авто-отрисовка при создании
+ * @param {boolean} o.autoHeight автоматический расчет высоты
+ * @param {boolean} o.autoWidth автоматический расчет ширины
+ *
+ * @mixes observable
+ * @mixes statable
+ *
+ * @fires dataChanged
+ * @fires fetch
+ * @fires fetched
+ * @fires bound
+ * @fires afterBuild
+ * @fires click
+ * @fires doubleClick
+ *
+ * @property {object} options
+ * @property {Ergo.core.Layout} layout
+ * @property {jQuery} el
+ * @property {Ergo.core.DataSource} data
+ * @property {Ergo.core.Observer} events
+ * @property {Ergo.core.StateManager} states
+ * @property {Ergo.core.WidgetChildren} children
+ * @property {Ergo.core.WidgetItems} items
+ * @property {Ergo.core.WidgetComponents} components
+ * @property {string} text
+ * @property {any} name
+ * @property {string} width
+ * @property {string} height
+ * 
+ *
  */
 Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
 	
@@ -5636,7 +5679,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * Удаляются связи в виртуальном дереве виджетов, отключается связь с данными,
 	 * удаляется элемент из DOM-дерева, уничтожаются все дочерние виджеты.
-	 * 
+	 *
+	 * @protected 
 	 */
 	_destroy: function(eventsOnly) {
 		
@@ -5762,40 +5806,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 	
 	
-	/**
-	 * Хук, вызываемый для инициализации виджета.
-	 * 
-	 * Чаще всего используется для модификации параметров.
-	 * 
-	 * @private
-	 */
-	
-/*	
-	$init: function(o) {
-		
-//		var o = this.options;
-		
-//		this.components = new Ergo.core.WidgetCollection(this);
-		
-//		this.components = this.collection; //new Ergo.core.Collection();		
-		
-		// "сахарное" определение контента виджета
-		if('content' in o){
-			Ergo.smart_override(o, {
-				components: {
-					content: o.content
-				}
-			})
-		}
-		
-		
-		
-//		if('states' in o) {
-//			if($.isString(o.states)) o.states = [o.states];
-//		}
-		
-	},
-*/
 
 	
 	/**
@@ -5853,10 +5863,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 		else {
 			
-			/**
-			 * jQuery-элемент
-			 * @field
-			 */
 			this.el = $(o.html);//this.$html());
 			
 			if(!o.html) {
@@ -5884,7 +5890,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		/**
 		 * Компоновка
-		 * @field
 		 */
 		this.layout = (o.layoutFactory || this.layoutFactory)(o.layout || 'default');
 		//FIXME костыль
@@ -6138,7 +6143,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 	
 
-
+	/**
+	 *
+	 *
+	 */
 	action: function(event, eventType, v) {
 
 		v = v || this.opt('name');
@@ -6722,10 +6730,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		this.events.fire('bound');
 	},
+
+
+
+	unbind: function() {
+		//
+	},
 	
 	
 	
-	
+	/**
+	 *
+	 * @protected
+	 */
 	_rebind: function(update) {
 		
 		var o = this.options;
@@ -6838,7 +6855,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	/**
 	 * Получение значения, связанного с виджетом.
 	 * 
-	 * Если задана функция форматирования (format), то она используется для преобразования результата
+	 * Если задана функция форматирования (`options.format`), то она используется для преобразования результата
 	 * 
 	 * @returns {Any} undefined, если к виджету данные не подключены
 	 */
@@ -6865,7 +6882,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	/**
 	 * Установка значения, связанного с виджетом
 	 * 
-	 * Если задана функция хранения (store), то она используется для преобразования значения
+	 * Если задана функция хранения (`options.unformat`), то она используется для преобразования значения
 	 * 
 	 * @param {Any} val значение
 	 */
@@ -6875,8 +6892,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		var o = this.options;
 
+		// deprecated
 		if(o.store)
 			val = o.store.call(this, val);
+
+		if(o.unformat)
+			val = o.unformat.call(this, val);
 
 		if(this.data){
 
@@ -6891,7 +6912,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this._dataChanged();
 //			o.value ? o.value.call(this, val) : this.opt('text', val);
 		}		
-		
 		
 		
 //		if(o.binding)
@@ -6920,9 +6940,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 
 	/**
-	 * Обработчик, вызываемый при изменении связанных данных
-	 * 
-	 * @private
+	 * Каскадное обновление связывания
+	 *
+	 * Если указана функция связывания (`options.binding`), то она используется для обновления виджета
+	 *
+ 	 * @param {Boolean} lazy если true, то не будут обновляться дочерние виджеты, имеющие тот же источник данных
+ 	 * @param {Boolean} cascade если равно false, то все дочерние виджеты не будут обновляться
+ 	 * @param {Boolean} noDynamic если равно true, то не будут обновляться дочерние виджеты, имеющие динамическое связывание
+ 	 *
+	 * @protected
 	 */
 	_dataChanged: function(lazy, cascade, no_dynamic) {
 		
@@ -6944,6 +6970,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			this._lock_value_change = true;
 //			delete this._lock_value_change;
 			
+			/**
+			 *
+			 *
+			 */
 			this.events.fire('dataChanged');//, e);
 		}
 
@@ -6992,7 +7022,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	// }
 
 
-
+	/**
+	 * Установка значения опций
+	 *
+	 * Порядок поиска опций:
+	 * 1. обработчик в `options.set`
+	 * 2. сеттер set_*
+	 * 3. состояния
+	 * 4. ES5-сеттер
+	 * 5. группа эксклюзивных состояний
+	 * 6. список атрибутов
+	 *
+	 * @param {object} o опции
+	 */
 	_opt: function(o) {
 		
 //		var self = this;
@@ -7730,6 +7772,12 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 	disjoin: function() {
 
 		this._context.disjoin(this._name);
+	},
+
+
+
+	get params() {
+		return this._params;
 	}
 
 
@@ -7818,10 +7866,16 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		var query = Ergo.override({}, this.options.query, q); 
 		
 		this.events.fire('fetch:before'); 
+
+		var provider = this.options.provider;
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
+
 		
-		if(this.options.provider) {
+		if(provider) {
 			var self = this;
-			return this.options.provider.find_all(this, query).then(function(data) {
+			return provider.find_all(this, query).then(function(data) {
 				
 				var v = parse.call(self, data);
 				
@@ -8018,8 +8072,12 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			
 			if(this.options.readonly) return;
 			
-			if(this.validate) {
-				if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
+
+			var validator = this.options.validator || this._validate;
+
+			if(validator) {
+				if( !validator.call(this, v) ) 
+					throw new Error('Invalid value: ['+v+']');
 			}
 		}
 		
@@ -8041,6 +8099,9 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
 		var provider = this.options.provider;
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
 		
 		this.events.fire('fetch:before'); 
 		
@@ -8831,14 +8892,20 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 	},
 	
 	wrap: function(item) {
-		var w = $('<div/>');
+		var w = $('<div class="form-item"/>');
 		if(!item.$label && item.options.label) {
 			item.$label = $.ergo({etype: 'html:label', text: item.options.label});
+		}
+		if(!item.$message && item.options.message) {
+			item.$message = $.ergo({etype: 'text', text: item.options.message, as: 'sub'});
 		}
 		if(item.$label) {
 			w.append(item.$label.el);
 		}
 		w.append(item.el);
+		if(item.$message) {
+			w.append(item.$message.el);
+		}
 		return w;
 	}
 
@@ -9101,7 +9168,11 @@ Ergo.alias('includes:effects', {
 
 
 
-
+/**
+ *
+ * @mixin selectable
+ *
+ */
 Ergo.alias('includes:selectable', {
 
 	defaults: {

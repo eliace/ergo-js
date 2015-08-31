@@ -58,8 +58,12 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			
 			if(this.options.readonly) return;
 			
-			if(this.validate) {
-				if( !this.validate.call(this, v) ) throw new Error('Invalid value: ['+v+']');
+
+			var validator = this.options.validator || this._validate;
+
+			if(validator) {
+				if( !validator.call(this, v) ) 
+					throw new Error('Invalid value: ['+v+']');
 			}
 		}
 		
@@ -81,6 +85,9 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
 		var provider = this.options.provider;
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
 		
 		this.events.fire('fetch:before'); 
 		

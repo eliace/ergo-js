@@ -14,13 +14,13 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 /**
  * Текстовое содержимое
  * 
- * :`&text`
+ * :`.`
  *  
  * Опции:
  * 	`text`
  * 
  * @class
- * @name Ergo.widgets.Text
+ * @name Ergo.widgets._Text
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
@@ -45,6 +45,8 @@ Ergo.alias('widgets:.', Ergo.widgets._Text);
  * Строчный элемент
  *  
  * :`text`
+ *
+ * binding: `text`
  * 
  * @class
  * @name Ergo.widgets.Text

@@ -1574,6 +1574,9 @@ h5 {
 .text.tiny {
   font-size: 0.7143em;
 }
+.error .text {
+  color: #ef5350;
+}
 .list {
   list-style: none;
   padding-left: 0;
@@ -2560,6 +2563,10 @@ h5 {
 label.selected {
   color: #0288d1;
 }
+.error .label,
+.error label {
+  color: #ef5350;
+}
 .icon {
   cursor: inherit;
   display: inline-block;
@@ -2916,6 +2923,20 @@ label.selected {
 .input.disabled > input::-moz-placeholder,
 .input.disabled > textarea::-moz-placeholder {
   color: #ddd;
+}
+.error.input > input,
+.error.input > textarea,
+.error .input > input,
+.error .input > textarea {
+  border-color: #ef5350;
+  color: #ef5350;
+}
+.error.input > input:focus,
+.error.input > textarea:focus,
+.error .input > input:focus,
+.error .input > textarea:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(239, 83, 80, 0.6);
+  border-color: #ef5350;
 }
 /*
 
@@ -4126,6 +4147,15 @@ label:hover .radio {
 [contenteditable=true]:empty:not(:focus):before {
   content: attr(data-placeholder);
 }
+/*
+.form-item {
+	&.error {
+		> label, > .message, input {
+			color: @red;
+		}
+	}
+}
+*/
 .tools > .icon {
   padding: 0.5714rem 0;
 }
@@ -4634,6 +4664,9 @@ label:hover .radio {
 }
 [layout="hform"] > div + div {
   padding-left: 0.5714rem;
+}
+[layout="hform"] > div > .sub {
+  font-size: 0.7143em;
 }
 [layout="vform"] > div {
   display: table;

@@ -502,7 +502,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 /**
  * Плагин, добавляющий StateManager к объекту
  *
- * @mixin  
+ * @mixin statable
  */
 
 Ergo.alias('includes:statable', {

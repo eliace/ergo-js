@@ -1,16 +1,14 @@
 
 /**
- * Добавляет компонент dropdown
+ * Добавляет компонент $dropdown
  * 
  * Состояния:
  * 	`opened`
  * 
+ * @fires dropdownClosed
  * 
- * @mixin Ergo.widgets.Dropdown
+ * @mixin dropdown
  */
-
-
- 
 Ergo.alias('includes:dropdown', {
 
 	defaults: {
@@ -40,10 +38,10 @@ Ergo.alias('includes:dropdown', {
 			'left:drop': 'drop-left',
 			'right:drop': 'drop-right',
 			'opened': function(on, f) {
-//				if(f !== false)
 				on ? this.dropdown.open() : this.dropdown.close();
 			}			
 		}
 	}
 
 });
+

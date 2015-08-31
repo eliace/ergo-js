@@ -12,32 +12,6 @@
  * Базовый объект для всех виджетов
  * 
  * Опции:
- * 	`layout` компоновка дочерних виджетов
- * 	`layoutFactory` фабрика компоновок
- * 	`cls` css-классы
- * 	`style` хэш стилей
- * 	`html` html-тег виджета
- * 	`components` хэш компонентов
- * 	`defaultComponent` опции компонента по умолчанию
- * 	`componentFactory` фабрика компонентов
- * 	`items` массив элементов
- * 	`defaultItem` опции элемента по умолчанию
- * 	`itemFactory` фабрика элементов
- * 	`dynamic` флаг динамического связывания
- * 	`data` связываемые данные
- * 	`events` хэш событий
- * 	`states` хэш состояний
- * 	`transitions` хэш переходов между состояниями
- * 	`state` предустановленное состояние
- * 	`rendering` функция создания jQuery-элемента
- * 	`renderTo` селектор родительского элемента
- * 	`autoRender` авто-отрисовка при создании
- * 	`showOnRender` вызов метода show при создании
- * 	`hideOnRender` вызов метода hide при создании (?)
- * 	`hideOnDestroy` вызов метода hide при удалении
- * 	`binding` функция связывания данных с виджетом
- * 	`value` значение виджета
- * 	`wrapper` опции "обертки"
  * 
  * 
  * 
@@ -45,9 +19,65 @@
  * @name Ergo.core.Widget
  * @extends Ergo.core.Object
  * @param {Object} o параметры
- * @mixes Ergo.WidgetOptions
- * @mixes Ergo.Observable
- * @mixes Ergo.Statable
+ * @param {string} o.layout компоновка дочерних виджетов
+ * @param {function} o.layoutFactory фабрика компоновок
+ * @param {string} o.as css-классы или состояния (аналог cls и state)
+ * @param {string} o.cls css-классы
+ * @param {object} o.style хэш стилей
+ * @param {string} o.html html-тег виджета
+ * @param {object} o.components хэш компонентов
+ * @param {object} o.defaultComponent опции компонента по умолчанию
+ * @param {function} o.componentFactory фабрика компонентов
+ * @param {array} o.items массив элементов
+ * @param {object} o.defaultItem опции элемента по умолчанию
+ * @param {function} o.itemFactory фабрика элементов
+ * @param {boolean} o.dynamic флаг динамического связывания
+ * @param {object|array|string} o.data связываемые данные
+ * @param {string} o.dataId ключ в источнике данных
+ * @param {object} o.events хэш событий
+ * @param {object} o.states хэш состояний
+ * @param {object} o.transitions хэш переходов между состояниями
+ * @param {string} o.state предустановленное состояние
+ * @param {function} o.rendering функция создания jQuery-элемента
+ * @param {string} o.renderTo селектор родительского элемента
+ * @param {boolean} o.showOnRender вызов метода show при создании
+ * @param {boolean} o.hideOnDestroy вызов метода hide при удалении
+ * @param {string|function} o.binding функция связывания данных с виджетом
+ * @param {Any} o.value значение виджета
+ * @param {object} o.wrapper опции "обертки"
+ * @param {function} o.format форматирование "сырого" значения к строке, отображаемой виджетом
+ * @param {function} o.unformat преобразование отображаемго/редактируемого значения в "сырые" данные
+ * @param {boolean} o.autoBind автоматическое связывание с данными
+ * @param {boolean} o.autoRender авто-отрисовка при создании
+ * @param {boolean} o.autoHeight автоматический расчет высоты
+ * @param {boolean} o.autoWidth автоматический расчет ширины
+ *
+ * @mixes observable
+ * @mixes statable
+ *
+ * @fires dataChanged
+ * @fires fetch
+ * @fires fetched
+ * @fires bound
+ * @fires afterBuild
+ * @fires click
+ * @fires doubleClick
+ *
+ * @property {object} options
+ * @property {Ergo.core.Layout} layout
+ * @property {jQuery} el
+ * @property {Ergo.core.DataSource} data
+ * @property {Ergo.core.Observer} events
+ * @property {Ergo.core.StateManager} states
+ * @property {Ergo.core.WidgetChildren} children
+ * @property {Ergo.core.WidgetItems} items
+ * @property {Ergo.core.WidgetComponents} components
+ * @property {string} text
+ * @property {any} name
+ * @property {string} width
+ * @property {string} height
+ * 
+ *
  */
 Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
 	
@@ -176,7 +206,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * 
 	 * Удаляются связи в виртуальном дереве виджетов, отключается связь с данными,
 	 * удаляется элемент из DOM-дерева, уничтожаются все дочерние виджеты.
-	 * 
+	 *
+	 * @protected 
 	 */
 	_destroy: function(eventsOnly) {
 		
@@ -302,40 +333,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 	
 	
-	/**
-	 * Хук, вызываемый для инициализации виджета.
-	 * 
-	 * Чаще всего используется для модификации параметров.
-	 * 
-	 * @private
-	 */
-	
-/*	
-	$init: function(o) {
-		
-//		var o = this.options;
-		
-//		this.components = new Ergo.core.WidgetCollection(this);
-		
-//		this.components = this.collection; //new Ergo.core.Collection();		
-		
-		// "сахарное" определение контента виджета
-		if('content' in o){
-			Ergo.smart_override(o, {
-				components: {
-					content: o.content
-				}
-			})
-		}
-		
-		
-		
-//		if('states' in o) {
-//			if($.isString(o.states)) o.states = [o.states];
-//		}
-		
-	},
-*/
 
 	
 	/**
@@ -393,10 +390,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 		else {
 			
-			/**
-			 * jQuery-элемент
-			 * @field
-			 */
 			this.el = $(o.html);//this.$html());
 			
 			if(!o.html) {
@@ -424,7 +417,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		/**
 		 * Компоновка
-		 * @field
 		 */
 		this.layout = (o.layoutFactory || this.layoutFactory)(o.layout || 'default');
 		//FIXME костыль
@@ -678,7 +670,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 	
 
-
+	/**
+	 *
+	 *
+	 */
 	action: function(event, eventType, v) {
 
 		v = v || this.opt('name');
@@ -1262,10 +1257,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		this.events.fire('bound');
 	},
+
+
+
+	unbind: function() {
+		//
+	},
 	
 	
 	
-	
+	/**
+	 *
+	 * @protected
+	 */
 	_rebind: function(update) {
 		
 		var o = this.options;
@@ -1378,7 +1382,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	/**
 	 * Получение значения, связанного с виджетом.
 	 * 
-	 * Если задана функция форматирования (format), то она используется для преобразования результата
+	 * Если задана функция форматирования (`options.format`), то она используется для преобразования результата
 	 * 
 	 * @returns {Any} undefined, если к виджету данные не подключены
 	 */
@@ -1405,7 +1409,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	/**
 	 * Установка значения, связанного с виджетом
 	 * 
-	 * Если задана функция хранения (store), то она используется для преобразования значения
+	 * Если задана функция хранения (`options.unformat`), то она используется для преобразования значения
 	 * 
 	 * @param {Any} val значение
 	 */
@@ -1415,8 +1419,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		
 		var o = this.options;
 
+		// deprecated
 		if(o.store)
 			val = o.store.call(this, val);
+
+		if(o.unformat)
+			val = o.unformat.call(this, val);
 
 		if(this.data){
 
@@ -1431,7 +1439,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this._dataChanged();
 //			o.value ? o.value.call(this, val) : this.opt('text', val);
 		}		
-		
 		
 		
 //		if(o.binding)
@@ -1460,9 +1467,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	
 
 	/**
-	 * Обработчик, вызываемый при изменении связанных данных
-	 * 
-	 * @private
+	 * Каскадное обновление связывания
+	 *
+	 * Если указана функция связывания (`options.binding`), то она используется для обновления виджета
+	 *
+ 	 * @param {Boolean} lazy если true, то не будут обновляться дочерние виджеты, имеющие тот же источник данных
+ 	 * @param {Boolean} cascade если равно false, то все дочерние виджеты не будут обновляться
+ 	 * @param {Boolean} noDynamic если равно true, то не будут обновляться дочерние виджеты, имеющие динамическое связывание
+ 	 *
+	 * @protected
 	 */
 	_dataChanged: function(lazy, cascade, no_dynamic) {
 		
@@ -1484,6 +1497,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			this._lock_value_change = true;
 //			delete this._lock_value_change;
 			
+			/**
+			 *
+			 *
+			 */
 			this.events.fire('dataChanged');//, e);
 		}
 
@@ -1532,7 +1549,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	// }
 
 
-
+	/**
+	 * Установка значения опций
+	 *
+	 * Порядок поиска опций:
+	 * 1. обработчик в `options.set`
+	 * 2. сеттер set_*
+	 * 3. состояния
+	 * 4. ES5-сеттер
+	 * 5. группа эксклюзивных состояний
+	 * 6. список атрибутов
+	 *
+	 * @param {object} o опции
+	 */
 	_opt: function(o) {
 		
 //		var self = this;

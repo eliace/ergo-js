@@ -238,7 +238,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 
 /**
  * 
- * @mixin
+ * @mixin observable
  * 
  */
 Ergo.alias('includes:observable', {

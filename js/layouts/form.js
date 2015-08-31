@@ -32,14 +32,20 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 	},
 	
 	wrap: function(item) {
-		var w = $('<div/>');
+		var w = $('<div class="form-item"/>');
 		if(!item.$label && item.options.label) {
 			item.$label = $.ergo({etype: 'html:label', text: item.options.label});
+		}
+		if(!item.$message && item.options.message) {
+			item.$message = $.ergo({etype: 'text', text: item.options.message, as: 'sub'});
 		}
 		if(item.$label) {
 			w.append(item.$label.el);
 		}
 		w.append(item.el);
+		if(item.$message) {
+			w.append(item.$message.el);
+		}
 		return w;
 	}
 

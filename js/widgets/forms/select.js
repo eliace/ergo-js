@@ -2,6 +2,22 @@
 
 
 
+/**
+ * Элемент с выпадающим списком и выборкой
+ *  
+ * 
+ * @class
+ * @name Ergo.widgets.Select
+ * @extends Ergo.widgets.Box
+ *
+ * @mixes dropdown
+ * @mixes selectable
+ *
+ * @fires dropdown
+ * @fires select
+ *
+ *
+ */
 Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 	
 	defaults: {
