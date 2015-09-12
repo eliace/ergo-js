@@ -58,7 +58,8 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			}
 		},
 		row: {},
-		cell: {}
+		cell: {},
+		columns: []
 	},
 	
 

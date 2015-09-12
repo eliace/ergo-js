@@ -7,4 +7,4 @@
 //= require modal
 //= require draggable
 //= require fastclick
-
+//= require router

@@ -2563,6 +2563,9 @@ h5 {
 label.selected {
   color: #0288d1;
 }
+.label .icon {
+  line-height: inherit;
+}
 .error .label,
 .error label {
   color: #ef5350;

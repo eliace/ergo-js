@@ -2,30 +2,30 @@
 
 
 /**
- * Источник данных как типизированная коллекция 
- * 
- * 
+ * Источник данных как типизированная коллекция
+ *
+ *
  * @class
  * @name Ergo.data.Collection
  * @extends Ergo.core.DataSource
  */
 Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.data.Collection.prototype */{
-	
+
 	defaults: {
 		model: null,
 		idKey: 'id',
 		query: {}
 	},
-	
+
 	/**
 	 * Модель элемента коллекции
-	 * 
+	 *
 	 * @field
-	 * 
+	 *
 	 */
 	model: null,
-	
-	
+
+
 	/**
 	 * Получение элемента коллекции по OID
 	 */
@@ -35,8 +35,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 			if(a[i][this.options.idKey] == id) return a[i];
 		return null;
 	},
-	
-	
+
+
 	_initialize: function(v) {
 		if(arguments.length == 0)
 			this._super([]);
@@ -48,110 +48,116 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 
 
-	
+
 	/**
 	 * Загрузка данных из хранилища => заполнение коллекции данными
-	 *  
+	 *
 	 */
 	fetch: function(q) {
-		
+
 		this._fetched = undefined;
-		
+
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q); 
-		
-		this.events.fire('fetch:before'); 
+		var query = Ergo.override({}, this.options.query, q);
+
+		this.events.fire('fetch:before');
 
 		var provider = this.options.provider;
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
-		
+
 		if(provider) {
 			var self = this;
 			return provider.find_all(this, query).then(function(data) {
-				
+
 				var v = parse.call(self, data);
-				
-				if(self.options.swap && v.length == self.source.length) { 
+
+				if(self.options.swap && v.length == self.source.length) {
 					self.source = v;
 					self._fetched = 'swap';
 				}
 				else {
 					self.set( v );
 					self._fetched = true;
-				} 
-				self.events.fire('fetch:after'); 
+				}
+				self.events.fire('fetch:after');
 			});
 		}
 		else {
-			this._fetched = true;			
-			this.events.fire('fetch:after'); 
+			this._fetched = true;
+			this.events.fire('fetch:after');
 		}
-		
+
 	},
 
 
 	sync: function(q) {
 
 		this._fetched = undefined;
-		
+
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q); 
-		
-		this.events.fire('fetch:before'); 
-		
-		if(this.options.provider) {
+		var query = Ergo.override({}, this.options.query, q);
+
+		var provider = this.options.provider;
+
+		this.events.fire('fetch:before');
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
+
+
+		if(provider) {
 			var self = this;
-			return this.options.provider.find_all(this, query).then(function(data) {
-				
+			return provider.find_all(this, query).then(function(data) {
+
 				var v = parse.call(self, data);
-				
-				if(v.length == self.source.length) { 
+
+				if(v.length == self.source.length) {
 					self.source = v;
 					self.events.fire('value:sync');
 				}
 				else {
 					self.set( v );
-				} 
+				}
 				self._fetched = true;
-				self.events.fire('fetch:after'); 
+				self.events.fire('fetch:after');
 			});
 		}
 		else {
-			this._fetched = true;			
-			this.events.fire('fetch:after'); 
+			this._fetched = true;
+			this.events.fire('fetch:after');
 		}
 
 	},
 
 
-	
-	
+
+
 	_parse: function(v) {
 		return v;
 	},
-	
+
 	_compose: function(v) {
 		return v;
 	},
-	
-	
+
+
 	/**
 	 * Очистка данных => удаление данных из коллекции
-	 *  
+	 *
 	 */
 	purge: function() {
 		this._fetched = false;
 	},
-	
+
 	/**
 	 * Сброс данных в хранилище (принудительная синхронизация)
-	 *  
+	 *
 	 */
 	flush: function() {
-		
+
 	},
 
 
@@ -161,6 +167,9 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 		var provider = this.options.provider;
 		var composer = this.options.composer || this._compose;
+
+		if( $.isString(provider) )
+			provider = Ergo.alias('providers:'+provider);
 
 		if(provider) {
 
@@ -178,13 +187,13 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 
 
-	
-	
+
+
 	/**
 	 * Фабрика элементов коллекции
 	 */
 	_factory: function(i) {
-		
+
 		/**
 		 * Фабрика должна создавать элементы с помощью функции-генератора класса.
 		 * Причем, могут быть такие случаи:
@@ -192,7 +201,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		 *  - задано имя класса
 		 *  - задано поле, которое содержит имя класса
 		 */
-		
+
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
 		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
@@ -203,6 +212,6 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		return new model(this, i, o);
 	}
 
-	
-	
+
+
 });

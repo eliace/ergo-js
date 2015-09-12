@@ -7,10 +7,10 @@
  * @class
  * @name Ergo.core.Context
  * @extends Ergo.core.Object
- * 
+ *
  */
 Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
-	
+
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
 		include: 'observable',
@@ -18,35 +18,43 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		events: {
 			'scope:restore': function(e) {
 
-				console.log('- history', e.scope, e.params);
+				console.log('- history', e.scope, e.hash, e.params);
 
-				this.restore(e.params);
+				// если имя скоупа определено, то подключаем его
+				if(e.scope)
+					this.join(e.scope, e.params);
+//				this.restore(e.scope, e.params, e.hash);
 			},
 			'scope:joined': function(e) {
 
-				if(e.scope.history && !this._no_history) {
+				var scope = e.scope;
+
+				if(scope._history && !this._no_history) {
 
 
-					var name_a = e.scope._name.split(':');
-					var p = {};
-					p[name_a[0]] = (name_a.length > 1) ? name_a[1] : true;
-					window.history.pushState( Ergo.override(p, this._params), e.scope._name );//, 'title', '#'+url);
+					// var name_a = e.scope._name.split(':');
+					// var p = {};
+					// p[name_a[0]] = (name_a.length > 1) ? name_a[1] : true;
+					// var p = Ergo.override(p, this._params[e.scope._name]);
+					var chain = scope._chain.join('.');
+					var p = Ergo.deep_override({_scope: chain}, scope._params);
+					window.history.pushState( p, scope._name, scope._route );//, 'title', '#'+url);
 
-					console.log('+ history', e.scope._name, Ergo.override(p, this._params));
+					console.log('+ history', scope._route, scope._name, p);
 
-				}				
+				}
 			}
 		}
 	},
-	
-	
-	
-	
-	
+
+
+
+
+
 	_construct: function(o) {
 		this._super(o);
-		
-		
+
+
 		this._scopes = {};
 		this._callbacks = {};
 		this._depends = {};
@@ -68,10 +76,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 
-		
-		
+
+
 		if(o.hashLinks) {
-			
+
 			// обрабатываем нажатие ссылок
 			$('html').click(function(e){
 				var el = $(e.target);
@@ -79,7 +87,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		//		console.log(el.attr('href'));
 				if(el[0] && el[0].localName == 'a' && el.attr('href') == '#') {
 					e.preventDefault();
-					
+
 					// !
 					// var w = el.ergo();
 					// if(w && w.opt('link')) {
@@ -87,16 +95,16 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 					// }
 				}
 			});
-			
-			
+
+
 		}
-		
-		
+
+
 		if(o.history) {
-			
+
 			// для полифила
 			var location = window.history.location || window.location;
-			
+
 			var ctx = this;
 
 
@@ -106,13 +114,13 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 				var p = e.originalEvent.state;
 
-				console.log('popstate');
+				console.log('popstate', p);
 //				console.log(e.originalEvent);
 //				console.log(p);
 
 				if(p) {
 					ctx._no_history = true;
-					ctx.events.fire('scope:restore', {scope: p._scope, params: p});
+					ctx.events.fire('scope:restore', {scope: p._scope, params: p, hash: window.location.hash});
 					ctx._no_history = false;
 				}
 				else {
@@ -138,7 +146,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			// 	}
 			// });
 
-			
+
 			// this.events.reg('scope:joined', function(e) {
 
 			// 	if(e.scope.history && !self._no_history) {
@@ -148,31 +156,31 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			// });
 
 		}
-		
-		
-		
-		
+
+
+
+
 		if(o.windowBox) {
-			
+
 			// обновляем компоновку при изменении размеров окна
 			$(window).on('resize', function(){
-				
+
 				//устанавливаем высоту <body> по высоте окна
 				$('body').height(window.innerHeight);
 				// обновляем компоновку
 				$context.app._layoutChanged();
-				
+
 			});
-			
-			
-			$('body').height(window.innerHeight);		
+
+
+			$('body').height(window.innerHeight);
 		}
 
-		
-		
+
+
 	},
-	
-	
+
+
 	/*
 	state: function(s, fn) {
 		this.states.state(s, function() {
@@ -181,23 +189,23 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		}.bind(this));
 	},
 	*/
-	
-		
-	
-	
+
+
+
+
 	open_glass_pane: function() {
 		var gp = $('<div class="glass-pane" autoheight="ignore"/>')
 			.on('mousedown', function(e){
 				e.preventDefault();
-				return false;				
-			});		
-			
-		$('body').append(gp);	
-			
+				return false;
+			});
+
+		$('body').append(gp);
+
 		return gp;
 	},
-	
-	
+
+
 	close_glass_pane: function() {
 		$('.glass-pane').remove();
 	},
@@ -243,7 +251,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		if(arguments.length == 1)
 			return this._params[key];
 		else
-			this._params[key] = v;		
+			this._params[key] = v;
 	},
 
 
@@ -265,40 +273,76 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			this._callbacks[name] = callback;
 		}
 		else {
-			this._callbacks[name] = arguments[2];			
-			this._depends[name] = Object.isArray(arguments[1]) ? arguments[1] : [arguments[1]] ;
+			this._callbacks[name] = arguments[2];
+			this._depends[name] = Array.isArray(arguments[1]) ? arguments[1] : [arguments[1]] ;
 		}
 
 	},
 
 
 	// подсоединяем скоуп к контексту
-	join: function(scope_name, parent, container) {
+	join: function(scope_name, params, overrides) {
 
 		var ctx = this;
+
+		var parent = null;
+
+		var chain = scope_name.split('.');
+
+		console.log('scope chain', chain);
+
+		if( chain.length > 1 ) {
+			// инициализируем базовые скоупы
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), params );
+		}
+
+		scope_name = chain[chain.length-1];
+
 
 		if(!this._callbacks[scope_name])
 			throw 'Scope ['+scope_name+'] is not registered in context';
 
 
-		var name_a = scope_name.split(':');
-		var group = (name_a.length == 1) ? null : name_a[name_a.length-1];
 
-		// если присутствует скоуп с такой же группой, то отсоединяем его
-		for(var i in this._scopes) {
-			if(i.indexOf(':'+group) != -1) {
-				this.events.fire('scope:disjoin', {scope: this._scopes[i]});
-				this.disjoin(i);
-			}
+
+		if( parent ) {
+			// отсоединяем вложенные скоупы
+			// FIXME считается, что они эксклюзивны по отношению к текущему
+			for( var i in parent._children )
+				this.disjoin( parent._children[i] );
 		}
 
-		// если отсутствует базовый скоуп, то сначала присоединяем его
-		if( this._depends[scope_name] ) {
-			this._depends[scope_name].forEach(function(base_scope) {
-				if( !this._scopes[base_scope] )
-					ctx.join(base_scope);
-			});
-		}
+		// var name_a = scope_name.split(':');
+		// var group = (name_a.length == 1) ? null : name_a[name_a.length-1];
+		//
+		// // если присутствует скоуп с такой же группой, то отсоединяем его
+		// for(var i in this._scopes) {
+		// 	if(i.indexOf(':'+group) != -1) {
+		// 		this.events.fire('scope:disjoin', {scope: this._scopes[i]});
+		// 		this.disjoin(i);
+		// 	}
+		// }
+
+
+		// // если отсутствует базовый скоуп, то сначала присоединяем его
+		// if( this._depends[scope_name] ) {
+		// 	var base_scopes = this._depends[scope_name];
+		//
+		// 	var base_scope = null;
+		// 	for(var i = 0; i < base_scopes.length; i++) {
+		// 		base_scope = this._scopes[base_scopes[i]];
+		// 		if(base_scope)
+		// 			break;
+		// 	}
+		//
+		// 	if( !base_scope ) {
+		// 		ctx.join(base_scopes[0]);
+		// 		base_scope = this._scopes[base_scopes[0]]
+		// 	}
+		//
+		// 	parent = base_scope;
+		//
+		// }
 
 
 		this._params[scope_name] = this._params[scope_name] || {};
@@ -308,8 +352,14 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		scope._context = this;
 		scope._name = scope_name;
 		scope._parent = parent;
-		scope._params = this._params[scope_name];
-		scope._container = container;
+		scope._params = Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+//		scope._container = container;
+
+		Ergo.override(scope, overrides);
+
+		scope._chain = parent ? parent._chain.concat(scope_name) : [scope_name];
+
+
 
 		if(parent)
 			parent._children[scope_name] = scope;
@@ -319,8 +369,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		var deferred = $.Deferred();
 
+		scope._promise = deferred.promise();
+
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, scope._params, deferred.promise()) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
 
 		// загружаем данные скоупа?
 
@@ -329,12 +381,16 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 			// рендерим виджеты скоупа (включаем виджеты в скоуп)
 			for(var i in scope.widgets) {
-				
+
 				var w = scope.widgets[i];
-				
+
 				if(!w._rendered) {
-					if(scope._container)
-						scope._container.set(i, w);
+					// если у родителя определен контейнер, используем его
+					if(parent && parent._container) {
+						parent._container.components.set(i, w);
+						w.render();
+					}
+					// инче рендерим виджет в <body>
 					else
 						w.render('body');
 				}
@@ -343,46 +399,50 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 			ctx.events.fire('scope:joined', {scope: scope});
 
-//			console.log('joined');
+			console.log('join:'+scope_name);
 
 			deferred.resolve(scope, scope._params);
 		});
 
-		return deferred.promise();
+		return scope;//._promise;
 	},
 
 
 	// отсоединяем скоуп от контекста
-	disjoin: function(scope_name) {
+	disjoin: function(scope) {
 
-		var scope = this._scopes[scope_name];
+		if( $.isString(scope) )
+			scope = this._scopes[scope];
+
+
+		this.events.fire('scope:disjoin', {scope: scope});
 
 
 		// отсоединяем вложенные скоупы
 		for(var i in scope._children) {
-			this.disjoin(i);
+			this.disjoin( scope._children[i] );
 		}
 
 
 		// удаляем виджеты скоупа (отсоединяем виджеты от скоупа)
 		for(var i in scope.widgets) {
-			
+
 			var w = scope.widgets[i];
 
 			console.log('destroy', i);
 
 
 			w._destroy();
-			
+
 		}
 
 
-		delete this._scopes[scope_name];
+		delete this._scopes[scope._name];
 
-		console.log('disjoin', scope_name);
+		console.log('disjoin', scope._name);
 
 		if(scope._parent)
-			delete scope._parent._children[scope_name];
+			delete scope._parent._children[scope._name];
 
 
 
@@ -417,7 +477,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			this.events.fire('scope:disjoin', {scope: this._scopes[i]});
 			this.disjoin(i);
 		}
-		
+
 	},
 
 
@@ -442,26 +502,28 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	// 		this.restore( $context.options.main )
 	// 	}
 
-		this._no_history = false;				
+		this._no_history = false;
 	},
 
 
-	restore: function(p) {
+	restore: function(name, p) {
 
-		// обходим параметры
-		for(var i in p) {
-			for(var j in this._callbacks) {
-				var s = ''+i+':'+p[i];
-				if(i == j || s == j) {
-	//				console.log('restore', i);
-					$context.join(j);
-				}
-			}
-		}
+		$context.join(name, p);
+
+	// 	// обходим параметры
+	// 	for(var i in p) {
+	// 		for(var j in this._callbacks) {
+	// 			var s = ''+i+':'+p[i];
+	// 			if(i == j || s == j) {
+	// //				console.log('restore', i);
+	// 				$context.join(j);
+	// 			}
+	// 		}
+	// 	}
 
 	}
 
-	
+
 });
 
 
