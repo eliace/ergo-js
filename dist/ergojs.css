@@ -4171,6 +4171,7 @@ label:hover .radio {
   list-style: none;
   position: fixed;
   margin: 1rem;
+  z-index: 10000;
 }
 .growls.top {
   top: 0;

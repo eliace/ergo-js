@@ -11,6 +11,7 @@
 	position: fixed;
 	margin: 1rem;
 //	min-width: 300px;
+	z-index: 10000;
 
 
 	&.top { top: 0;	}
@@ -19,10 +20,10 @@
 	&.right { right: 0;	}
 	&.center {
 		&.top, &.bottom {
-			left: 50%; transform: translateX(-50%);		
+			left: 50%; transform: translateX(-50%);
 		}
 		&.left, &.right {
-			top: 50%; transform: translateY(-50%);		
+			top: 50%; transform: translateY(-50%);
 		}
 	}
 
@@ -41,4 +42,3 @@
 // .growl > li {
 // 	margin-bottom: 3px;
 // }
-

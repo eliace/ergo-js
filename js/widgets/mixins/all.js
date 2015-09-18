@@ -7,6 +7,6 @@
 //= require context-menu
 //= require icon-addon
 //= require image
-
+//= require growls
 
 //= require simple-selection
