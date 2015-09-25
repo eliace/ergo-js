@@ -116,11 +116,9 @@ h5 {
 .before {
   margin-right: 0.2857em;
 }
-.fluid-right,
 .float-right {
   float: right;
 }
-.fluid-left,
 .float-left {
   float: left;
 }
@@ -144,7 +142,7 @@ h5 {
 .box-type(@color) {
   background-color: screen(@color, #ddd);
 //  border-color: screen(@color, #bbb);
-//  color: darken(@color, 10%);	
+//  color: darken(@color, 10%);
 }
 
 .text-type(@color) {
@@ -153,7 +151,7 @@ h5 {
   color: darken(@color, 10%);
 
   .link {
-		color: darken(@color, 10%);  	
+		color: darken(@color, 10%);
   }
 }
 
@@ -164,15 +162,15 @@ h5 {
 //	.items {
 
 		&.__gap > * + *:not(.no-gap) {
-			margin-left: @box-indent;		
+			margin-left: @box-indent;
 		}
 
 		&.__gap-x2 > * + *:not(.no-gap) {
-			margin-left: @box-indent * 2;		
+			margin-left: @box-indent * 2;
 		}
 
 		&.__gap-x4 > * + *:not(.no-gap) {
-			margin-left: @box-indent * 4;		
+			margin-left: @box-indent * 4;
 		}
 
 
@@ -194,18 +192,18 @@ h5 {
 
 
 
-	// &.padded > *:not(.no-padding), 
+	// &.padded > *:not(.no-padding),
 	// &.padding-items > *:not(.no-padding) {
 	// 	padding-left: @box-indent;
 	// 	padding-right: @box-indent;
 	// }
 
-	// &.indented > * + *:not(.no-indent), 
+	// &.indented > * + *:not(.no-indent),
 	// &.indent-items > * + *:not(.no-indent) {
 	// 	margin-left: @box-indent;
 	// }
 
-	// &.divided > * + *:not(.no-divide), 
+	// &.divided > * + *:not(.no-divide),
 	// &.divide-items > * + *:not(.no-divide) {
 	// 	border-left: 1px solid @divider-color;
 	// }
@@ -3032,7 +3030,7 @@ label.selected {
   background-image: none;
   border: none;
   cursor: inherit;
-  height: 34px;
+  height: 32px;
   text-align: left;
   display: table-cell;
   width: 100%;
@@ -3759,12 +3757,13 @@ label:hover .radio {
   cursor: default;
   clear: both;
   display: block;
-  padding: 0.4286rem 1.143rem;
   white-space: nowrap;
   text-decoration: none;
 }
 .menu.dropdown > * > a {
   color: #444444;
+  padding: 0.4286rem 1.143rem;
+  display: block;
 }
 .menu.dropdown > *:hover {
   z-index: 1001;
@@ -4023,7 +4022,7 @@ label:hover .radio {
   background-color: #f8f8f8;
 }
 .table.hovered > tbody tr:hover {
-  background-color: #f4f4f4;
+  background-color: rgba(0, 0, 0, 0.03);
 }
 .table.fluid {
   width: 100%;

@@ -3,17 +3,17 @@
 
 
 
-/*
+/**
  * Массив виджетов
  *
  *
  * @class
- * @name Ergo.core.WidgetArray
+ * @name Ergo.core.WidgetChildren
  * @extends Ergo.core.Array
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
+Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.WidgetChildren.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable]
@@ -301,8 +301,17 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-
-Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
+/**
+ * Коллекция компонентов виджета
+ *
+ *
+ * @class
+ * @name Ergo.core.WidgetComponents
+ * @extends Ergo.core.Array
+ *
+ *
+ */
+Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.core.WidgetComponents.prototype */ {
 
 	defaults: {
 //		plugins: [Ergo.Observable]
@@ -559,7 +568,17 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', {
 
 
 
-Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', {
+/**
+ * Коллекция элементов виджета
+ *
+ *
+ * @class
+ * @name Ergo.core.WidgetItems
+ * @extends Ergo.core.WidgetComponents
+ *
+ *
+ */
+Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetItems.prototype */ {
 
 	_source: function() {
 		var result = [];

@@ -4,8 +4,8 @@
 
 /**
  * Элемент с выпадающим списком и выборкой
- *  
- * 
+ *
+ *
  * @class
  * @name Ergo.widgets.Select
  * @extends Ergo.widgets.Box
@@ -19,7 +19,7 @@
  *
  */
 Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 
 		cls: 'select has-icon at-right',
@@ -80,12 +80,11 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 		binding: function(v) {
 
-			this.opt('selected', v);
-			
-			var selected = this.selection.get();
+			var selected = this.selection.set( v );
 
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
+			
 			this.states.toggle('placeholder', v == null);
 
 		},
@@ -106,7 +105,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 	// _process_dropdown: function() {
-	// 	this.states.toggle('opened');		
+	// 	this.states.toggle('opened');
 	// }
 
 

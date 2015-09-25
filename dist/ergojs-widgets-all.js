@@ -864,6 +864,221 @@ Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends 
 
 
 
+
+Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
+	
+	defaults: {
+		cls: 'input',
+		
+		binding: function(v) {
+			this.content.opt('value', v);
+		},
+		
+		components: {
+			content: {
+				etype: 'html:input',
+				autoBind: false,
+				events: {
+					'jquery:keyup': function() {
+						this.events.rise('changeText', {text: this.el.val()});
+					},
+					// 'jquery:focus': function() {
+					// 	this.events.rise('focus', {focus: true});
+					// },
+					// 'jquery:blur': function() {
+					// 	this.events.rise('focus', {focus: false});
+					// },
+					'jquery:change': function() {
+						this.events.rise('change', {text: this.el.val()});
+					}
+				}
+			}
+		},
+
+
+		states: {
+			'disabled': function(on) {
+				this.content.opt('disabled', on);
+			}
+		},
+
+
+		
+		onChange: function(e) {
+			this.opt('value', e.text);			
+		}
+		
+		// onFocus: function(e) {
+		// 	this.states.toggle('focused', e.focus);			
+		// }
+		
+	},
+	
+	
+	
+	
+	set text(v) {
+		this.content.opt('placeholder', v);
+	},
+	
+	set placeholder(v) {
+		this.content.opt('placeholder', v);
+	},
+
+	set name(v) {
+		this.content.opt('name', v);
+	},
+	
+	set type(v) {
+		this.content.opt('type', v);
+	},
+
+
+	
+/*	
+	
+	selection_range: function(v0, v1) {
+		
+		var elem = this.content.el[0];
+
+    if (elem.setSelectionRange) {
+      elem.setSelectionRange(v0, v1);
+    } 
+    else if (elem.createTextRange) {
+      var range = elem.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', v0);
+      range.moveStart('character', v1);
+      range.select();
+    }
+		
+	},
+	
+	cursor_position: function(v) {
+		this.selection_range(v, v);		
+	}
+
+*/	
+	
+}, 'widgets:input');
+
+
+
+
+
+/**
+ * Элемент с выпадающим списком и выборкой
+ *
+ *
+ * @class
+ * @name Ergo.widgets.Select
+ * @extends Ergo.widgets.Box
+ *
+ * @mixes dropdown
+ * @mixes selectable
+ *
+ * @fires dropdown
+ * @fires select
+ *
+ *
+ */
+Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
+
+	defaults: {
+
+		cls: 'select has-icon at-right',
+
+		include: 'dropdown selectable',
+
+		components: {
+
+			'icon': {
+				etype: 'icon',
+				cls: 'right',
+				icon: 'caret',
+				weight: 10,
+				onClick: 'action:dropdown'
+				// onClick: function(e) {
+				// 	this.events.rise('dropdown');
+				// 	e.stop();
+				// }
+			},
+
+			// 'input': {
+			// 	etype: 'html:input',
+			// 	hidden: true,
+			// },
+
+			'content': {
+				etype: 'text',
+				binding: false,
+				cls: 'text',
+				onClick: 'action:dropdown'
+				// onClick: function(e) {
+				// 	this.events.rise('dropdown');
+				// 	e.stop();
+				// }
+			},
+
+			'dropdown': {
+				weight: -100,
+				popup: {
+					adjust: true
+				},
+				defaultItem: {
+					onClick: 'action:select'
+					// onClick: function(e) {
+					// 	this.events.rise('select');
+					// }
+				}
+			}
+
+		},
+
+		selection: {
+			lookup: function(key) {
+				return this.$dropdown.item(key);
+			}
+		},
+
+
+		binding: function(v) {
+
+			var selected = this.selection.set( v );
+
+//			this.$input.opt('text', v);
+			this.$content.opt('text', selected ? selected.opt('text') : null);
+			
+			this.states.toggle('placeholder', v == null);
+
+		},
+
+
+//		onDropdown: function
+
+		onDropdown: function() {
+			this.states.toggle('opened');
+		},
+
+		onSelect: function(e) {
+			this.opt('value', e.target.opt('name'));
+			this.states.unset('opened');
+	//		this.$dropdown.close();
+		}
+	}
+
+
+	// _process_dropdown: function() {
+	// 	this.states.toggle('opened');
+	// }
+
+
+
+}, 'widgets:select');
+
+
+
+
 Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 	
 	defaults: {
@@ -1125,6 +1340,7 @@ Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
 	
 	
 }, 'widgets:nested-menu-item');
+
 
 
 
@@ -1542,32 +1758,35 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 
 
 Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		cls: 'button-box',
+//		as: 'button-box',
+		layout: 'hbox',
 		defaultItem: {
-			etype: 'button'
+			etype: 'button',
+			name: 'button',
+			onClick: 'action'
 		},
-		states: {
-			'default:type': 'default',
-			'primary:type': 'primary',
-			'success:type': 'success',
-			'info:type': 'info',
-			'warning:type': 'warning',
-			'danger:type': 'danger',
-			'tool:type': 'tool',
-			
-			'small:size': 'small',
-			'large:size': 'large',
-			'tiny:size': 'tiny',
-			
-			'outline': 'outline',
-			'block': 'block',
-			'round': 'round',
-			'flat': 'flat'
-		}
+		// states: {
+		// 	'default:type': 'default',
+		// 	'primary:type': 'primary',
+		// 	'success:type': 'success',
+		// 	'info:type': 'info',
+		// 	'warning:type': 'warning',
+		// 	'danger:type': 'danger',
+		// 	'tool:type': 'tool',
+		//
+		// 	'small:size': 'small',
+		// 	'large:size': 'large',
+		// 	'tiny:size': 'tiny',
+		//
+		// 	'outline': 'outline',
+		// 	'block': 'block',
+		// 	'round': 'round',
+		// 	'flat': 'flat'
+		// }
 	}
-	
+
 }, 'widgets:button-box');
 
 
@@ -2496,224 +2715,6 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
-	
-	defaults: {
-		cls: 'input',
-		
-		binding: function(v) {
-			this.content.opt('value', v);
-		},
-		
-		components: {
-			content: {
-				etype: 'html:input',
-				autoBind: false,
-				events: {
-					'jquery:keyup': function() {
-						this.events.rise('changeText', {text: this.el.val()});
-					},
-					// 'jquery:focus': function() {
-					// 	this.events.rise('focus', {focus: true});
-					// },
-					// 'jquery:blur': function() {
-					// 	this.events.rise('focus', {focus: false});
-					// },
-					'jquery:change': function() {
-						this.events.rise('change', {text: this.el.val()});
-					}
-				}
-			}
-		},
-
-
-		states: {
-			'disabled': function(on) {
-				this.content.opt('disabled', on);
-			}
-		},
-
-
-		
-		onChange: function(e) {
-			this.opt('value', e.text);			
-		}
-		
-		// onFocus: function(e) {
-		// 	this.states.toggle('focused', e.focus);			
-		// }
-		
-	},
-	
-	
-	
-	
-	set text(v) {
-		this.content.opt('placeholder', v);
-	},
-	
-	set placeholder(v) {
-		this.content.opt('placeholder', v);
-	},
-
-	set name(v) {
-		this.content.opt('name', v);
-	},
-	
-	set type(v) {
-		this.content.opt('type', v);
-	},
-
-
-	
-/*	
-	
-	selection_range: function(v0, v1) {
-		
-		var elem = this.content.el[0];
-
-    if (elem.setSelectionRange) {
-      elem.setSelectionRange(v0, v1);
-    } 
-    else if (elem.createTextRange) {
-      var range = elem.createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', v0);
-      range.moveStart('character', v1);
-      range.select();
-    }
-		
-	},
-	
-	cursor_position: function(v) {
-		this.selection_range(v, v);		
-	}
-
-*/	
-	
-}, 'widgets:input');
-
-
-
-
-
-/**
- * Элемент с выпадающим списком и выборкой
- *  
- * 
- * @class
- * @name Ergo.widgets.Select
- * @extends Ergo.widgets.Box
- *
- * @mixes dropdown
- * @mixes selectable
- *
- * @fires dropdown
- * @fires select
- *
- *
- */
-Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
-	
-	defaults: {
-
-		cls: 'select has-icon at-right',
-
-		include: 'dropdown selectable',
-
-		components: {
-
-			'icon': {
-				etype: 'icon',
-				cls: 'right',
-				icon: 'caret',
-				weight: 10,
-				onClick: 'action:dropdown'
-				// onClick: function(e) {
-				// 	this.events.rise('dropdown');
-				// 	e.stop();
-				// }
-			},
-
-			// 'input': {
-			// 	etype: 'html:input',
-			// 	hidden: true,
-			// },
-
-			'content': {
-				etype: 'text',
-				binding: false,
-				cls: 'text',
-				onClick: 'action:dropdown'
-				// onClick: function(e) {
-				// 	this.events.rise('dropdown');
-				// 	e.stop();
-				// }
-			},
-
-			'dropdown': {
-				weight: -100,
-				popup: {
-					adjust: true
-				},
-				defaultItem: {
-					onClick: 'action:select'
-					// onClick: function(e) {
-					// 	this.events.rise('select');
-					// }
-				}
-			}
-
-		},
-
-		selection: {
-			lookup: function(key) {
-				return this.$dropdown.item(key);
-			}
-		},
-
-
-		binding: function(v) {
-
-			this.opt('selected', v);
-			
-			var selected = this.selection.get();
-
-//			this.$input.opt('text', v);
-			this.$content.opt('text', selected ? selected.opt('text') : null);
-			this.states.toggle('placeholder', v == null);
-
-		},
-
-
-//		onDropdown: function
-
-		onDropdown: function() {
-			this.states.toggle('opened');
-		},
-
-		onSelect: function(e) {
-			this.opt('value', e.target.opt('name'));
-			this.states.unset('opened');
-	//		this.$dropdown.close();
-		}
-	}
-
-
-	// _process_dropdown: function() {
-	// 	this.states.toggle('opened');		
-	// }
-
-
-
-}, 'widgets:select');
-
-
-
-
-
-
-
 
 
 
@@ -2776,6 +2777,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 
 
 
+
 /**
  * Добавляет компонент label
  * 
@@ -2814,7 +2816,7 @@ Ergo.alias('includes:label', {
 
 Ergo.alias('includes:icon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -2840,7 +2842,7 @@ Ergo.alias('includes:icon', {
 
 Ergo.alias('includes:xicon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			xicon: {
 				etype: 'icon',
@@ -2865,7 +2867,7 @@ Ergo.alias('includes:xicon', {
 
 Ergo.alias('includes:icon:before', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -2894,7 +2896,7 @@ Ergo.alias('includes:icon:before', {
 
 Ergo.alias('includes:icon:after', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -2922,7 +2924,7 @@ Ergo.alias('includes:icon:after', {
 
 Ergo.alias('includes:xicon:after', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			xicon: {
 				etype: 'icon',
@@ -2952,7 +2954,7 @@ Ergo.alias('includes:xicon:after', {
 
 Ergo.alias('includes:icon:at-left', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-left',
 		components: {
 			icon: {
@@ -2980,7 +2982,7 @@ Ergo.alias('includes:icon:at-left', {
 
 Ergo.alias('includes:icon:at-right', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-right',
 		components: {
 			icon: {
@@ -3007,7 +3009,7 @@ Ergo.alias('includes:icon:at-right', {
 
 Ergo.alias('includes:xicon:at-right', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-right',
 		components: {
 			xicon: {
@@ -3032,27 +3034,90 @@ Ergo.alias('includes:xicon:at-right', {
 
 
 
+Ergo.alias('includes:caret', {
+
+	defaults:{
+		components: {
+			caret: {
+				etype: 'icon',
+        as: '+caret',
+				weight: 10
+			},
+			content: {
+				etype: '.'
+			}
+		}
+	}
+
+
+	// overrides: {
+	// 	set caret(v) {
+	// 		this.$caret.opt('text', v);
+	// 	}
+	// }
+
+});
+
+
+
+
+Ergo.alias('includes:caret:at-right', {
+
+	defaults:{
+		cls: 'has-icon at-right',
+		components: {
+			caret: {
+				etype: 'icon',
+				weight: 10,
+				as: '+right +caret'
+			},
+			content: {
+				etype: '.'
+			}
+		}
+	}
+
+
+	// overrides: {
+	// 	set_icon: function(v) {
+	// 		this.$icon.opt('text', v);
+	// 	}
+	// }
+
+});
+
 
 /**
  * Добавляет компонент $dropdown
- * 
+ *
  * Состояния:
  * 	`opened`
- * 
+ *
  * @fires dropdownClosed
- * 
+ *
  * @mixin dropdown
  */
 Ergo.alias('includes:dropdown', {
 
 	defaults: {
 //		drop: 'down',
-		cls: 'has-dropdown',
+		as: '+has-dropdown',
 		components: {
 			dropdown: {
-				etype: 'dropdown-list',
-				cls: 'dropdown',
+				etype: 'list',
+				as: 'dropdown',
+				include: 'popup effects',
 				weight: 100,
+				style: {'display': 'none'},
+				// TODO неплохо бы сделать шорткаты примесями
+				shortcuts: {
+					'|': {cls: 'divider'}
+				},
+				effects: {
+					show: {type: 'slideDown', delay: 200},
+					hide: {type: 'slideUp', delay: 200}
+				},
+
 	// 			popup: {
 	// 				at: 'left bottom'
 	// //				adjust: true
@@ -3064,7 +3129,7 @@ Ergo.alias('includes:dropdown', {
 					}
 	//				'opened': function
 				}
-			}			
+			}
 		},
 		states: {
 			'up:drop': 'drop-up',
@@ -3072,13 +3137,67 @@ Ergo.alias('includes:dropdown', {
 			'left:drop': 'drop-left',
 			'right:drop': 'drop-right',
 			'opened': function(on, f) {
-				on ? this.dropdown.open() : this.dropdown.close();
-			}			
+				on ? this.$dropdown.open() : this.$dropdown.close();
+			}
 		}
 	}
 
 });
 
+
+
+
+
+
+
+
+
+Ergo.alias('includes:dropdown:sub', {
+
+	defaults: {
+//		drop: 'down',
+		as: '+has-dropdown',
+		components: {
+			sub: {
+				etype: 'list',
+				as: 'dropdown',
+				include: 'popup effects',
+				weight: 100,
+				style: {'display': 'none'},
+				// TODO неплохо бы сделать шорткаты примесями
+				shortcuts: {
+					'|': {cls: 'divider'}
+				},
+				effects: {
+					show: {type: 'slideDown', delay: 200},
+					hide: {type: 'slideUp', delay: 200}
+				},
+
+	// 			popup: {
+	// 				at: 'left bottom'
+	// //				adjust: true
+	// 			},
+				events: {
+					'closed': function() {
+						this.parent.states.unset('opened', false);
+						this.events.rise('dropdownClosed');
+					}
+	//				'opened': function
+				}
+			}
+		},
+		states: {
+			'up:drop': 'drop-up',
+			'down:drop': '',
+			'left:drop': 'drop-left',
+			'right:drop': 'drop-right',
+			'opened': function(on, f) {
+				on ? this.$sub.open() : this.$sub.close();
+			}
+		}
+	}
+
+});
 
 
 
@@ -3355,6 +3474,7 @@ Ergo.alias('includes:item-click-selection', {
 	}
 
 });
+
 
 
 

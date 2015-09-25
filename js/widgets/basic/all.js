@@ -9,7 +9,8 @@
 //= require text
 //= require nested
 //= require tree
-//= require field
+//= require input
+//= require select
 //= require check
 //= require radio
 //= require label

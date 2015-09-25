@@ -195,6 +195,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 
 
+
 //	get: function() {
 //		var v = this._super.apply(this, arguments);
 //		var v = Ergo.data.Model.superclass.get.apply(this, arguments);

@@ -1,6 +1,7 @@
 
 //= require label
 //= require icon
+//= require caret
 //= require dropdown
 //= require loader
 //= require locker

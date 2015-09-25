@@ -47,7 +47,7 @@
 	// DROPDOWN
 	//----------
 	&.dropdown {
-	  
+
 		.bordered;
 //		.rounded;
 
@@ -63,12 +63,13 @@
 		  clear: both;
 		  display: block;
 //		  line-height: 1.429;
-		  padding: 0.4286rem 1.143rem;
 		  white-space: nowrap;
-		  text-decoration: none;  	
+		  text-decoration: none;
 
 		  > a {
 		  	color: @text-color;
+				padding: 0.4286rem 1.143rem;
+				display: block;
 		  }
 
 			&:hover {
@@ -222,7 +223,7 @@
 
 		border: 1px solid transparent;
 		border-bottom: none;
-    margin-bottom: -1px;			
+    margin-bottom: -1px;
 
 		&.selected {
 			border: 1px solid @border-color;
@@ -282,7 +283,7 @@
 	&.large {
 		> * > a {
 			padding: 0.8571rem 1.143rem;
-		}		
+		}
 	}
 
 
@@ -361,4 +362,3 @@
 .menu > * > a > .icon.float-right {
 	margin-top: 2px;
 }
-

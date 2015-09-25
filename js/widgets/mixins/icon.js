@@ -2,7 +2,7 @@
 
 Ergo.alias('includes:icon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -28,7 +28,7 @@ Ergo.alias('includes:icon', {
 
 Ergo.alias('includes:xicon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			xicon: {
 				etype: 'icon',
@@ -53,7 +53,7 @@ Ergo.alias('includes:xicon', {
 
 Ergo.alias('includes:icon:before', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -82,7 +82,7 @@ Ergo.alias('includes:icon:before', {
 
 Ergo.alias('includes:icon:after', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -110,7 +110,7 @@ Ergo.alias('includes:icon:after', {
 
 Ergo.alias('includes:xicon:after', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			xicon: {
 				etype: 'icon',
@@ -140,7 +140,7 @@ Ergo.alias('includes:xicon:after', {
 
 Ergo.alias('includes:icon:at-left', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-left',
 		components: {
 			icon: {
@@ -168,7 +168,7 @@ Ergo.alias('includes:icon:at-left', {
 
 Ergo.alias('includes:icon:at-right', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-right',
 		components: {
 			icon: {
@@ -195,7 +195,7 @@ Ergo.alias('includes:icon:at-right', {
 
 Ergo.alias('includes:xicon:at-right', {
 
-	defaults:{ 
+	defaults:{
 		cls: 'has-icon at-right',
 		components: {
 			xicon: {
@@ -217,5 +217,3 @@ Ergo.alias('includes:xicon:at-right', {
 	}
 
 });
-
-

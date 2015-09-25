@@ -2,5 +2,3 @@
 
 //= require input
 //= require select
-
-

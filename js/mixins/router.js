@@ -66,13 +66,13 @@ Ergo.alias('includes:router', {
 
         routes[p] = {
           name: n,
-          history: !r.states,
+          history: !r.routes,
           path: p
         };
 
-        if(r.states) {
-          for(var i = 0; i < r.states.length; i++)
-            f(r.states[i], routes[p]);
+        if(r.routes) {
+          for(var i = 0; i < r.routes.length; i++)
+            f(r.routes[i], routes[p]);
         }
       };
 
@@ -99,8 +99,8 @@ Ergo.alias('includes:router', {
           console.log('route to', path, route);
 
           var o = {
-            _route: '#!'+path,
-            _history: route.history
+            path: '#!'+path,
+            history: route.history
           };
 
           this.join( route.name, match, o );
@@ -109,6 +109,11 @@ Ergo.alias('includes:router', {
         }
       }
 
+    },
+
+
+    back: function() {
+      window.history.back();
     }
 
 

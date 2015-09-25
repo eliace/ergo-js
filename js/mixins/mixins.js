@@ -8,3 +8,5 @@
 //= require draggable
 //= require fastclick
 //= require router
+//= require history
+//= require provider-methods

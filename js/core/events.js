@@ -9,15 +9,15 @@
 
 
 /**
- * 
+ *
  * @deprecated
- * 
+ *
  * @class
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
 Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
-	
+
 	/**
 	 * @param {Object} overrides
 	 * @param {Object} baseEvent
@@ -25,32 +25,32 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 	_initialize: function(overrides, baseEvent) {
 		this._super();
 //		Ergo.events.Event.superclass._initialize.call(this);
-		
+
 		if(overrides) Ergo.override(this, overrides);
-		
+
 //		this.is_stopped = false;
 		this.baseEvent = baseEvent;
 		this.canceled = false;
 		this.stopped = false;
 	},
-	
-	
+
+
 	cancel: function(){
 		this.canceled = true;
 	},
-	
+
 	stop: function() {
 		if(this.baseEvent) this.baseEvent.stopPropagation();
 		this.stopped = true;
 	}
-	
-	
-	
+
+
+
 });
 
 
 // Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
-// 
+//
 	// /**
 	 // * @constructs
  	 // * @extends Ergo.events.Event
@@ -62,11 +62,11 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 // //		Ergo.events.CancelEvent.superclass._initialize.apply(this, arguments);
 		// this.isCanceled = false;
 	// },
-// 	
+//
 	// cancel: function(){
 		// this.isCanceled = true;
 	// }
-// 	
+//
 // });
 
 
@@ -74,21 +74,21 @@ Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event
 
 /**
  * Диспетчер событий
- * 
+ *
  * @class
- * @name Ergo.events.Dispatcher
+ * @name Ergo.core.Observer
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.Dispatcher.prototype */{
-	
+Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
+
 	_initialize: function(target) {
-		this.events = {}; 
+		this.events = {};
 		this.target = target;
 	},
-	
+
 	/**
 	 * Регистрируем событие.
-	 * 
+	 *
 	 * on(type, callback, target)
 	 */
 	on: function(type, callback, target) {
@@ -97,7 +97,7 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		h_arr.push({'callback': callback, 'target': target || this.target});
 		return this;
 	},
-	
+
 	/**
 	 * Однократная обработка события
 	 */
@@ -107,10 +107,10 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 		h_arr.push({'callback': callback, 'target': target || this.target, 'once': true});
 		return this;
 	},
-	
+
 	/**
 	 * Убираем регистрацию события.
-	 * 
+	 *
 	 * off(type)
 	 * off(callback)
 	 * off(type, callback)
@@ -118,9 +118,9 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 	 * off();
 	 */
 	off: function(arg, arg2) {
-		
+
 		var events = this.events;
-		
+
 		if(arguments.length == 0) {
 			this.events = {};
 		}
@@ -145,24 +145,24 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 				events[i] = events[i].filter( function(h) { return h.target != arg; } );
 			}
 		}
-		
-		return this;		
+
+		return this;
 	},
-	
+
 	// unreg_all: function() {
 	// 	this.events = {};
 	// },
-	
+
 	/**
 	 * Инициируем событие.
-	 * 
+	 *
 	 * fire(type, event)
-	 * 
+	 *
 	 * type - тип события в формате тип_1.тип_2 ... .тип_N
-	 * 
+	 *
 	 */
 	fire: function(type, e, baseEvent) {
-		
+
 		// "ленивая" генерация базового события
 		var _event = {
 			base: baseEvent,
@@ -173,8 +173,8 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 					this.stopedImmediate = true;
 			}
 		};
-		
-		if(arguments.length == 1) { 
+
+		if(arguments.length == 1) {
 //			_event = new Ergo.events.Event();
 //			e = new Ergo.events.Event();
 		}
@@ -183,19 +183,19 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 //			_event.baseEvent = baseEvent;
 //			e = new Ergo.events.Event(e, baseEvent);
 		}
-		
+
 		e = _event;
-		
-		
+
+
 //		var self = this;
-		
+
 		var h_arr = this.events[type];
 		if(h_arr && h_arr.length) {
 			for(var i = h_arr.length-1; i >= 0; i--) {
 				var h = h_arr[i];
 				h.callback.call(h.target, e, type);
 				if(e.stopedImmediate) break;
-			}		
+			}
 // 			h_arr.forEach( function(h){
 // 				// вызываем обработчик события
 // 				h.callback.call(h.target, e, type);
@@ -211,47 +211,46 @@ Ergo.declare('Ergo.events.Observer', 'Ergo.core.Object', /** @lends Ergo.events.
 			e.after.call(this.target, e, type);
 
 //		self.on_fire(type, e, baseEvent);
-		
+
 		return this;
 	}
-	
-	
+
+
 	// bubble: function() {
-// 		
+//
 	// }
-// 	
-// 	
+//
+//
 	// /**
 	 // * Метод, вызываемый после отрабатывания метода fire
-	 // * 
+	 // *
 	 // */
 	// on_fire: function(type, e, base_event) {
-// 		
+//
 	// }
-	
-	
+
+
 });
 
 
 
 
-
 /**
- * 
+ *
  * @mixin observable
- * 
+ *
  */
 Ergo.alias('includes:observable', {
 
 	_construct: function(o) {
-	
-		this.events = new Ergo.events.Observer(this);
-				
+
+		this.events = new Ergo.core.Observer(this);
+
 	},
-	
-	
+
+
 	_post_construct: function(o) {
-		
+
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){
@@ -260,14 +259,14 @@ Ergo.alias('includes:observable', {
 				for(var j = 0; j < chain.length; j++) {
 					var callback = chain[j];
 					if( $.isString(callback) ) {
-						var a = callback.split(':');						
+						var a = callback.split(':');
 						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
 					}
 					this.events.on( name, callback );
 				}
 			}
 		}
-		
-	} 
+
+	}
 
 });

@@ -12,17 +12,17 @@
 
 
 (function(){
-	
+
 	var E = Ergo;
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Последовательный обход каждого элемента массива или хэша
-	 * 
+	 *
 	 * в jquery есть функция $.each, но меня не устраивает порядок аргументов в замыкании
-	 * 
+	 *
 	 * @name Ergo.each
 	 * @function
 	 * @param {Object|Array} src объект, элементы которого необходимо просмотреть
@@ -39,20 +39,20 @@
 			for(var i in obj){
 				callback.call(obj, obj[i], i);
 //				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
-			}	
+			}
 		}
 	};
-	
+
 	/**
 	 * Фильтрация (как правило приводит к уменьшению размерности)
-	 * 
+	 *
 	 * Элемент попадает в итоговый объект
-	 * 
+	 *
 	 * @name Ergo.filter
 	 * @function
 	 * @param {Object|Array} src объект, элементы которого необходимо фильтровать
 	 * @param {Function} callback функция, вызываемая для каждого элемента
-	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
+	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src
 	 */
 	E.filter = function(obj, fn){
 		var result;
@@ -62,21 +62,21 @@
 		else {
 			result = {};
 			for(var i in obj)
-				if( fn.call(obj, obj[i], i) ) result[i] = obj[i];			
+				if( fn.call(obj, obj[i], i) ) result[i] = obj[i];
 		}
 		return result;
 	};
-	
-	
-	
+
+
+
 	/*
 	 * Фильтрация ключей.
-	 * 
+	 *
 	 * В результат попадают только индексы
-	 * 
+	 *
 	 * @param {Object|Array} src объект, элементы которого необходимо фильтровать
 	 * @param {Function} callback функция, вызываемая для каждого элемента
-	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src 
+	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src
 	 */
 	E.filter_keys = function(src, fn){
 		var result = [];
@@ -86,17 +86,17 @@
 		}
 		else {
 			for(var i in src)
-				if(fn.call(src, src[i], i)) result.push(i);			
+				if(fn.call(src, src[i], i)) result.push(i);
 		}
 		return result;
 	};
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Отображение (размерность сохраняется)
-	 * 
+	 *
 	 * @name Ergo.map
 	 * @function
 	 * @param {Object|Array} src коллекция
@@ -109,18 +109,41 @@
 		}
 		else {
 			a = {};
-			for(var i in obj) a[i] = fn.call(obj, obj[i], i);			
+			for(var i in obj) a[i] = fn.call(obj, obj[i], i);
 		}
-		return a;	
+		return a;
 	};
-	
+
+
+	/**
+	 * Свертка (размерность сохраняется)
+	 *
+	 * @name Ergo.reduce
+	 * @function
+	 * @param {Object|Array} src коллекция
+	 * @param {Function} callback функция, вызываемая для каждого элемента
+	 * @param {Any} initValue начальное значение (по умолчанию: [])
+	 */
+	E.reduce = function(obj, fn, init_value) {
+		var a = init_value || [];
+		if(Array.isArray(obj)) {
+			obj.reduce(fn, a);
+		}
+		else {
+			for(var i in obj)
+				fn.call(obj, a, obj[i], i, obj);
+		}
+		return a;
+	}
+
+
 	/**
 	 * Поиск первого элемента, удовлетворяющего критерию
-	 * 
+	 *
 	 * @name Ergo.find
 	 * @function
 	 * @param {Object|Array} obj коллекция
-	 * @param {Function|Any} criteria критерий 
+	 * @param {Function|Any} criteria критерий
 	 */
 	E.find = function(obj, criteria) {
 		if(!$.isFunction(criteria)){
@@ -133,66 +156,66 @@
 		}
 		else {
 			for(var i in obj)
-				if(criteria.call(obj, obj[i], i)) return obj[i];			
+				if(criteria.call(obj, obj[i], i)) return obj[i];
 		}
-		
+
 		return null;
 	};
-	
-	
+
+
 	/**
 	 * Псевдоним для {@link Ergo.filter}
-	 * 
+	 *
 	 * @name Ergo.find_all
 	 * @function
 	 */
 	E.find_all = E.filter;
-	
-	
-	
+
+
+
 	/**
 	 * Получение индекса (или ключа) элемента в коллекции
-	 * 
+	 *
 	 * Если критерий не является функцией, то используется метод Ergo.eq
-	 * 
+	 *
 	 * @name Ergo.key_of
 	 * @function
 	 * @param {Object|Array} obj коллекция
-	 * @param {Function|Any} criteria критерий 
+	 * @param {Function|Any} criteria критерий
 	 */
 	E.key_of = function(obj, criteria) {
-		
+
 		if(!$.isFunction(criteria))
 			criteria = E.eq.curry(criteria);
-			
+
 		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++)
 				if(criteria.call(obj, obj[i], i)) return i;
 		}
 		else {
 			for(var i in obj)
-				if(criteria.call(obj, obj[i], i)) return i;			
+				if(criteria.call(obj, obj[i], i)) return i;
 		}
 		return -1;
 	};
-	
-	
+
+
 	E.index_of = E.key_of;
-	
-	
+
+
 	/**
 	 * Вызов метода для всех элементов коллекции
-	 * 
+	 *
 	 * Аргументы вызываемого метода передаются в виде массива
-	 * 
+	 *
 	 * Ergo.apply_all(items, 'show', [10, 45]);
-	 * 
+	 *
 	 * @name Ergo.apply_all
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {String} m_name имя метода
 	 * @param {Array} [args] список аргументов
-	 * 
+	 *
 	 */
 	E.apply_all = function(obj, m_name, args) {
 		if( Array.isArray(obj) ) {
@@ -203,22 +226,22 @@
 		else {
 			for(var i in obj) {
 				if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
-			}			
+			}
 		}
 	};
-	
+
 	/**
 	 * Вызов метода для всех элементов коллекции
-	 * 
+	 *
 	 * Аргументы вызываемого метода начинаются с 3 аргумента
-	 * 
+	 *
  	 * Ergo.call_all(items, 'show', 10, 45);
-	 * 
+	 *
 	 * @name Ergo.call_all
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {String} m_name имя метода
-	 * 
+	 *
 	 */
 	E.call_all = function(obj, m_name) {
 		var args = [];
@@ -227,12 +250,12 @@
 			if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args);
 		}
 	};
-	
-	
-	
+
+
+
 	/**
 	 * Проверка, содержится ли элемент в коллекции
-	 * 
+	 *
 	 * @name Ergo.includes
 	 * @function
 	 * @param {Array|Object} obj коллекция
@@ -243,24 +266,24 @@
 			return obj.indexOf(obj) != -1;
 		else {
 			for(var i in obj)
-				if(obj[i] === val) return true;			
+				if(obj[i] === val) return true;
 			return false;
 		}
 	};
-	
+
 	E.contains = E.includes;
 	E.is_include = E.includes;
 
-	
-	
+
+
 	E.size = function(obj) {
 
 		if(Array.isArray(obj)) return obj.length;
 
 		return obj.keys().length;
 	};
-	
-	
+
+
 
 
 
@@ -268,7 +291,7 @@
 	 * Удаление элементов массива
 	 */
 	E.remove = function(obj, criteria) {
-		
+
 		if( !$.isFunction(criteria) ) {
 			criteria = function(item) { return item === criteria; };
 		}
@@ -283,14 +306,14 @@
 
 		var removed = [];
 
-		indices.reverse().forEach( function(i) { 
-			removed.push(arr[i]); 
-			arr.splice(i, 1); 
+		indices.reverse().forEach( function(i) {
+			removed.push(arr[i]);
+			arr.splice(i, 1);
 		} );
 
 		return removed;
 	};
-		
+
 
 
 	E.uniq = function(obj) {
@@ -305,18 +328,18 @@
 
 
 
-	
+
 	/**
 	 * Удаление элемента из массива (массив уменьшает размерность)
-	 * 
+	 *
 	 * @name Ergo.remove
 	 * @function
 	 * @param {Object} arr массив
 	 * @param {Object} val удаляемый элемент
 	 */
-	
+
 	//TODO в качестве значения может выступать критерий, а удаление может происходить как из массива, так и из хэша
-	
+
 	// E.remove = function(arr, val) {
 	// 	var index = -1;
 	// 	for(var i = 0; i < arr.length; i++) {
@@ -326,12 +349,12 @@
 	// 		}
 	// 	}
 	// 	if(index != -1) arr.splice(index, 1);
-		
+
 	// 	return (index != -1);
 	// };
 
 
-	
-	
-	
+
+
+
 })();

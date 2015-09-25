@@ -7,3 +7,4 @@
 //= require core-utils
 //= require widget
 //= require context
+//= require scope

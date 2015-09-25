@@ -58,6 +58,10 @@ $(document).ready(function(){
 
 ## Release History
 
+#### Release 12.2
+* History arranged as include
+* Include `provider-methods` adds provider methods prefixed with `$` to data source
+
 #### Release 12.1
 * Migrated to jQuery 2 (no more IE8 support)
 * `mixins` and `plugins` replaced by `include`
@@ -90,5 +94,6 @@ $(document).ready(function(){
 * Mobile support
 * Themes
 * Performance optimization
+* Test coverage
 
 and more new widgets :)
