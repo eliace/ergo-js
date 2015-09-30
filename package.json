@@ -1,8 +1,13 @@
 {
   "name": "ergo-js",
-  "version": "0.12.1",
-  "description": "ui framework",
-  "main": "index.js",
+  "version": "0.12.2",
+  "description": "Declarative javascript UI framework",
+  "keywords": [
+    "framework",
+    "javascript",
+    "ria"
+  ],
+  "main": "dist/ergojs-core.js",
   "directories": {
     "doc": "docs",
     "test": "tests"

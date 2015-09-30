@@ -58,11 +58,12 @@ $(document).ready(function(){
 
 ## Release History
 
-#### Release 12.2
+#### Release 0.12.2
 * History arranged as include
+* Router also arranged as include
 * Include `provider-methods` adds provider methods prefixed with `$` to data source
 
-#### Release 12.1
+#### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
 * `mixins` and `plugins` replaced by `include`
 * `events.reg()` and `events.unreg()` renamed to `events.on()` and `events.off()`
