@@ -251,6 +251,46 @@ Ergo.alias('includes:observable', {
 
 	_post_construct: function(o) {
 
+
+		if('events' in o){
+			for(var i in o.events){
+				var callback_a = o.events[i];
+				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+				for(var j in callback_a) {
+					var callback = callback_a[j];
+
+					if( $.isString(callback) ) {
+						var a = callback.split(':');
+						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+					}
+
+					var name_a = i.split(':');
+
+					if( name_a.length == 2 && this[name_a[0]] ) {
+						this[name_a[0]].events.on( name_a[1], callback, this );
+					}
+					else {
+						this.events.on(i, callback, this);
+					}
+
+					// if(i.indexOf('ctx:') == 0) {
+					// 	// Context
+					// 	(this._context || Ergo.context).events.on(i.substr(4), callback, this);
+					// }
+					// else if(i.indexOf('jquery:') == 0) {
+					// 	// jQuery
+					// 	self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));
+					// }
+					// else {
+					// 	// Widget
+					// 	this.events.on(i, callback, this);
+					// }
+				}
+			}
+		}
+
+
+
 		var regexp = /^on\S/;
 		for(var i in o){
 			if(regexp.test(i)){

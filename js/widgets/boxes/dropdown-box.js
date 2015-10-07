@@ -1,7 +1,7 @@
 
 
 Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 //		mixins: ['dropdown'],
 		include: 'dropdown',
@@ -11,7 +11,7 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				cls: 'dropdown-toggle',
 				components: {
 					content: {
-						etype: '&text'
+						etype: '.'
 					},
 					caret: {
 						etype: 'caret'
@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 					this.parent.states.toggle('opened');
 					e.base.stopPropagation();
 					e.base.preventDefault();  //IE11
-				}		
+				}
 			},
 			dropdown: {
 				weight: 100,
@@ -41,10 +41,10 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 			// }
 		// }
 	}
-	
-	
+
+
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
-	
+
 }, 'widgets:dropdown-box');

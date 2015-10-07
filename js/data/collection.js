@@ -45,6 +45,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		}
 		else
 			this._super.apply(this, arguments);
+
 	},
 
 

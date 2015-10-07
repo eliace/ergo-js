@@ -81,6 +81,7 @@ var Ergo = (function(){
 
 	var smart_override_prop = function(o, srcObj, i, context) {
 
+
 		var p = srcObj[i];
 
 
@@ -282,8 +283,9 @@ var Ergo = (function(){
 			dest = {};
 
 
-		for(var i in src)
+		for(var i in src) {
 			smart_override_prop(dest, src, i, context);
+		}
 
 	};
 
@@ -612,6 +614,10 @@ var Ergo = (function(){
 })();
 
 //var _dino = Ergo;
+
+
+// alias for Ergo
+var ergo = Ergo;
 
 
 /**

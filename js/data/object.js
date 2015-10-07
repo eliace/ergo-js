@@ -58,7 +58,6 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 			if(this.options.readonly) return;
 
-
 			var validator = this.options.validator || this._validate;
 
 			if(validator) {

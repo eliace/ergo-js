@@ -1,7 +1,7 @@
 
 
 Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
-	
+
 	defaults: {
 		baseCls: 'side-menu',
 		nestedItem: {
@@ -15,7 +15,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 							weight: -100
 						},
 						content: {
-							etype: '&text',
+							etype: '.',
 						},
 						caret: {
 							etype: 'caret',
@@ -31,15 +31,15 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					},
 					binding: false,
 					onClick: function() {
-						
+
 						if( !this.data.get('children') ) {
 							this.events.rise('menuAction', {target: this.parent, key: this.parent.path()});
 						}
 						else {
-							this.parent.states.toggle('expanded');							
+							this.parent.states.toggle('expanded');
 						}
 					}
-				}				
+				}
 			},
 			states: {
 				'expanded': function(on) {
@@ -52,17 +52,17 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 		binding: function(v) {
 			if(v.children) this.states.set('has-subtree');
 		},
-		
+
 		// onExpandItem: function(e) {
 			// // FIXME эксклюзивное открытие ветви
 			// this.items.each(function(item){
 				// if(e.target != item && item.states.is('expanded'))
 					// item.states.unset('expanded');
-			// });					
+			// });
 		// }
-		
+
 	}
-	
-	
-	
+
+
+
 }, 'widgets:side-menu');

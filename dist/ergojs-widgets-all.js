@@ -560,64 +560,41 @@ Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
 
 /*
 Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
-	
+
 	defaults: {
 		html: '<span/>',
 		binding: 'text'
 	}
-	
+
 }, 'widget:text');
 */
 
 
-/**
- * Текстовое содержимое
- * 
- * :`.`
- *  
- * Опции:
- * 	`text`
- * 
- * @class
- * @name Ergo.widgets._Text
- * @extends Ergo.core.Widget
- */
-Ergo.defineClass('Ergo.widgets._Text', 'Ergo.core.Widget', {
-	
-	defaults: {
-//		binding: 'text'
-	},
-	
-	set_text: function(v) {
-		this.el[0].textContent = (v == null ? '': v);
-	}
-	
-}, 'widgets:&text');
 
 
-Ergo.alias('widgets:.', Ergo.widgets._Text);
+Ergo.alias('widgets:.', Ergo.html._Text);
 
 
 
 
 /**
  * Строчный элемент
- *  
+ *
  * :`text`
  *
  * binding: `text`
- * 
+ *
  * @class
  * @name Ergo.widgets.Text
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
-	
+
 	defaults: {
 		html: '<span/>',
 		binding: 'text'
 	}
-	
+
 }, 'widgets:text');
 
 
@@ -1813,7 +1790,7 @@ Ergo.defineClass('Ergo.widgets.CaretBox', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 //		mixins: ['dropdown'],
 		include: 'dropdown',
@@ -1823,7 +1800,7 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 				cls: 'dropdown-toggle',
 				components: {
 					content: {
-						etype: '&text'
+						etype: '.'
 					},
 					caret: {
 						etype: 'caret'
@@ -1835,7 +1812,7 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 					this.parent.states.toggle('opened');
 					e.base.stopPropagation();
 					e.base.preventDefault();  //IE11
-				}		
+				}
 			},
 			dropdown: {
 				weight: 100,
@@ -1853,12 +1830,12 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 			// }
 		// }
 	}
-	
-	
+
+
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
-	
+
 }, 'widgets:dropdown-box');
 
 
@@ -2638,7 +2615,7 @@ Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 
 
 Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
-	
+
 	defaults: {
 		baseCls: 'side-menu',
 		nestedItem: {
@@ -2652,7 +2629,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 							weight: -100
 						},
 						content: {
-							etype: '&text',
+							etype: '.',
 						},
 						caret: {
 							etype: 'caret',
@@ -2668,15 +2645,15 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					},
 					binding: false,
 					onClick: function() {
-						
+
 						if( !this.data.get('children') ) {
 							this.events.rise('menuAction', {target: this.parent, key: this.parent.path()});
 						}
 						else {
-							this.parent.states.toggle('expanded');							
+							this.parent.states.toggle('expanded');
 						}
 					}
-				}				
+				}
 			},
 			states: {
 				'expanded': function(on) {
@@ -2689,19 +2666,19 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 		binding: function(v) {
 			if(v.children) this.states.set('has-subtree');
 		},
-		
+
 		// onExpandItem: function(e) {
 			// // FIXME эксклюзивное открытие ветви
 			// this.items.each(function(item){
 				// if(e.target != item && item.states.is('expanded'))
 					// item.states.unset('expanded');
-			// });					
+			// });
 		// }
-		
+
 	}
-	
-	
-	
+
+
+
 }, 'widgets:side-menu');
 
 
@@ -3573,16 +3550,17 @@ Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 				etype: 'html:strong'
 			},
 			content: {
-				etype: '&text'
+				etype: '.'
 			}
 		}
 	},
 
 	set_title: function(v) {
 		this.title.opt('text', v);
-	}	
+	}
 
 }, 'widgets:simple-alert');
+
 
 
 

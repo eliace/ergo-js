@@ -3,16 +3,23 @@ Ergo.alias('includes:history', {
 
   defaults: {
     events: {
-			'scope:restore': function(e) {
+			'scopeRestore': function(e) {
 
 				console.log('- history', e.scope, e.hash, e.params);
 
+        if(e.params) {
+          if(e.scope)
+  					this.join(e.scope, e.params);
+        }
+        else {
+          ctx.reset();
+          ctx.init();
+        }
+
 				// если имя скоупа определено, то подключаем его
-				if(e.scope)
-					this.join(e.scope, e.params);
 //				this.restore(e.scope, e.params, e.hash);
 			},
-			'scope:joined': function(e) {
+			'scopeJoin': function(e) {
 
 				var scope = e.scope;
 
@@ -50,15 +57,15 @@ Ergo.alias('includes:history', {
 //				console.log(e.originalEvent);
 //				console.log(p);
 
-      if(p) {
+//      if(p) {
         ctx._no_history = true;
-        ctx.events.fire('scope:restore', {scope: p._scope, params: p, hash: window.location.hash});
+        ctx.events.fire('scopeRestore', {/*scope: p._scope,*/ params: p, hash: window.location.hash});
         ctx._no_history = false;
-      }
-      else {
-        ctx.reset();
-        ctx.init();
-      }
+      // }
+      // else {
+      //   ctx.reset();
+      //   ctx.init();
+      // }
 
 
     //	console.log('popstate:', e.originalEvent);

@@ -122,6 +122,31 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	attributes: [],
 
+	// FIXME
+	jquery: {
+		events: {
+			on: function(name, callback, w) {
+				w.el.on(name, callback.rcurry('jquery').bind(w));  //FIXME it could be simpler
+			}
+		}
+	},
+
+
+
+
+	// FIXME
+	get ctx() {
+		return (this._context || Ergo.context);
+	},
+
+	// ctx: {
+	// 	events: {
+	// 		on: function(name, callback, w) {
+	// 			(w._context || Ergo.context).events.on(name, callback, w);
+	// 		}
+	// 	}
+	// },
+
 /*
 	_initialize: function(o) {
 		this._super(o);
@@ -451,124 +476,48 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		if('events' in o){
-			for(var i in o.events){
-				var callback_a = o.events[i];
-				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
-				for(var j in callback_a) {
-					var callback = callback_a[j];
-
-					if( $.isString(callback) ) {
-						var a = callback.split(':');
-						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
-//						callback = this[callback];
-					}
-					// if( $.isString(callback) ) {
-						// var action = callback;
-						// callback = function(e, scope) {
-							// if(scope == 'jquery') e = {base: e};
-							// this.events.rise(action, e);
-						// };
-					// }
-
-					if(i.indexOf('ctx:') == 0) {
-						// Context
-						(this._context || Ergo.context).events.on(i.substr(4), callback, this);
-					}
-					else if(i.indexOf('jquery:') == 0) {
-						// jQuery
-						self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));
-					}
-					else {
-						// Widget
-						self.events.on(i, callback, this);
-					}
-				}
-			}
-		}
-
-
-		// // TODO возможно, это нужно перенести в примесь или плагин
-		// if('actions' in o){
-
-		// 	for(var i in o.actions){
-		// 		var action_a = o.actions[i];
-		// 		action_a = Array.isArray(action_a) ? action_a : [action_a]; //FIXME
-		// 		for(var k = 0; k < action_a.length; k++) {
-		// 			var action = action_a[k];
-
-		// 			callback = function(e, scope) {
-		// 				if(scope == 'jquery') e = {base: e};
-		// 				this.events.rise(action, e);
-		// 			};
-
-		// 			if(i.indexOf('ctx:') == 0) {
-		// 				// Context
-		// 				$context.events.on(i.substr(4), callback, this);
-		// 			}
-		// 			else if(i.indexOf('jquery:') == 0) {
-		// 				// jQuery
-		// 				self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));
-		// 			}
-		// 			else {
-		// 				// Widget
-		// 				self.events.on(i, callback, this);
-		// 			}
-
-		// 		}
-		// 	}
-		// }
-
-
-		// if('states' in o){
-			// for(var i in o.states)
-				// this.states.state(i, o.states[i]);
-			// // настраиваем особое поведение состояния hover
-			// if('hover' in o.states){
-				// this.el.hover(function(){ self.states.set('hover') }, function(){ self.states.unset('hover') });
-			// }
-		// }
+// 		if('events' in o){
+// 			for(var i in o.events){
+// 				var callback_a = o.events[i];
+// 				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+// 				for(var j in callback_a) {
+// 					var callback = callback_a[j];
 //
-		// if('transitions' in o) {
-			// for(var i in o.transitions) {
-				// var t = o.transitions[i];
-				// if($.isPlainObject(t)) {
-					// //TODO
-				// }
-				// else {
-					// var a = i.split('>');
-					// if(a.length == 1) a.push('');
-					// this.states.transition($.trim(a[0]), $.trim(a[1]), t);
-				// }
-			// }
-		// }
+// 					if( $.isString(callback) ) {
+// 						var a = callback.split(':');
+// 						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+// //						callback = this[callback];
+// 					}
+// 					// if( $.isString(callback) ) {
+// 						// var action = callback;
+// 						// callback = function(e, scope) {
+// 							// if(scope == 'jquery') e = {base: e};
+// 							// this.events.rise(action, e);
+// 						// };
+// 					// }
+//
+// 					if(i.indexOf('ctx:') == 0) {
+// 						// Context
+// 						(this._context || Ergo.context).events.on(i.substr(4), callback, this);
+// 					}
+// 					else if(i.indexOf('jquery:') == 0) {
+// 						// jQuery
+// 						self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));
+// 					}
+// 					else {
+// 						// Widget
+// 						self.events.on(i, callback, this);
+// 					}
+// 				}
+// 			}
+// 		}
 
 
-
-
-//				this.states.state(i, o.states[i]);
-
-
-		// var wrap_func = function(handler, e, type) {
-			// var result = handler.call(this, e, type);
-			// if(this.parent) this.parent.events.fire(type, e);
-		// }
-
-
-		// var regexp = /^on\S/;
-		// for(var i in o){
-			// if(regexp.test(i)){
-				// var name = i.charAt(2).toLowerCase() + i.slice(3);
-				// var chain = ( !$.isArray(o[i]) ) ? [o[i]] : o[i];
-				// for(var j = 0; j < chain.length; j++) {
-					// this.events.reg( name, chain[j] );
-				// }
-			// }
-		// }
 
 
 		if('onClick' in o)
-			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); });
+			this.el[0].addEventListener('click', function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); })
+//			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); });
 		if('onDoubleClick' in o)
 			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e); });
 
@@ -581,23 +530,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		this.events.sink = Ergo.sink;
 
 
-/*
-		// добавляем метод raise к events
-		this.events.rise = function(name, e) {
-			if(!e) e = {};
-			e.after = Ergo.rise;
-			e.target = e.target || self;
-			this.fire(name, e);
-		};
-
-		this.events.sink = function(name, e) {
-			if(!e) e = {};
-			e.after = Ergo.sink;
-			e.target = e.target || self;
-			this.fire(name, e);
-		};
-*/
 	},
+
+
+
+
+
 
 //	_theme: function() {
 //		if(this.options.ui == 'jquery_ui') this._theme_jquery_ui
@@ -1226,7 +1164,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				self._rebind();
 			}, this);
 
-			this.data.events.on('entry:dirty', function(e) {
+			this.data.events.on('entryDirty', function(e) {
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			}, this);
 

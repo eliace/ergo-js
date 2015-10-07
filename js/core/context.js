@@ -32,17 +32,17 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		this._params = {};
 
 
-		if('events' in o) {
-			for(var i in o.events) {
-				var callback_a = o.events[i];
-				for(var j = 0; j < callback_a.length; j++) {
-					var callback = callback_a[j];
-					if( $.isFunction(callback) ) {
-						this.events.on(i, callback, this);
-					}
-				}
-			}
-		}
+		// if('events' in o) {
+		// 	for(var i in o.events) {
+		// 		var callback_a = o.events[i];
+		// 		for(var j = 0; j < callback_a.length; j++) {
+		// 			var callback = callback_a[j];
+		// 			if( $.isFunction(callback) ) {
+		// 				this.events.on(i, callback, this);
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 
 
@@ -337,8 +337,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			}
 
 
-			ctx.events.fire('scope:joined', {scope: scope});
-			scope.events.fire('joined');
+			ctx.events.fire('scopeJoin', {scope: scope});
+			scope.events.fire('join');
 
 			console.log('join:'+scope_name);
 
@@ -356,7 +356,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			scope = this._scopes[scope];
 
 
-		this.events.fire('scope:disjoin', {scope: scope});
+		scope.events.fire('disjoin', {scope: scope});
+		this.events.fire('scopeDisjoin', {scope: scope});
 
 
 		// отсоединяем вложенные скоупы
@@ -416,7 +417,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	reset: function() {
 
 		for(var i in this._scopes) {
-			this.events.fire('scope:disjoin', {scope: this._scopes[i]});
+//			this.events.fire('scope:disjoin', {scope: this._scopes[i]});
 			this.disjoin(i);
 		}
 

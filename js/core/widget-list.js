@@ -17,7 +17,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	defaults: {
 //		plugins: [Ergo.Observable]
-		include: 'observable'
+//		include: 'observable'
 	},
 
 
@@ -315,7 +315,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 
 	defaults: {
 //		plugins: [Ergo.Observable]
-		include: 'observable'
+//		include: 'observable'
 	},
 
 

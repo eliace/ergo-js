@@ -9,13 +9,13 @@ Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 				etype: 'html:strong'
 			},
 			content: {
-				etype: '&text'
+				etype: '.'
 			}
 		}
 	},
 
 	set_title: function(v) {
 		this.title.opt('text', v);
-	}	
+	}
 
 }, 'widgets:simple-alert');

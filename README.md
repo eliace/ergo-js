@@ -62,6 +62,9 @@ $(document).ready(function(){
 * History arranged as include
 * Router also arranged as include
 * Include `provider-methods` adds provider methods prefixed with `$` to data source
+* Default formatter supports format pipeline: `format: '#{prop|format_1|format_2}'`
+* Binding events to `observable` properties through `events` option (`data:entryDirty` fires on `entryDirty` event of `data`)
+* Alias `ergo` for `Ergo`
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
@@ -89,12 +92,18 @@ $(document).ready(function(){
 
 
 ## Road Map
-* Focus management
+* Focus management and keyboard support
 * CSS animations
 * Flex layout
 * Mobile support
 * Themes
 * Performance optimization
 * Test coverage
+* Simplify Ergo collections
+* Change nested property accessor from `_` to `__` (like BEM)
+* Detect states as boolean options
+* Composite weight
+* Local storage provider
+* `scope` property instead `context` (?)
 
 and more new widgets :)
