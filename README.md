@@ -65,6 +65,12 @@ $(document).ready(function(){
 * Default formatter supports format pipeline: `format: '#{prop|format_1|format_2}'`
 * Binding events to `observable` properties through `events` option (`data:entryDirty` fires on `entryDirty` event of `data`)
 * Alias `ergo` for `Ergo`
+* Lazy initializing `children`, `items`, `components` and `layout`
+* Single child widget has no layout and renders with raw append
+* New `Ergo.core.Event` methods: `interrupt`, `yield`
+* `widgets:select` supports dropdown navigation by default
+* `widgets:select` focusable by default
+* New `focusable` include adds `tabindex=0`
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
@@ -104,6 +110,7 @@ $(document).ready(function(){
 * Detect states as boolean options
 * Composite weight
 * Local storage provider
-* `scope` property instead `context` (?)
+* `scope` injecting instead `context` (?)
+* Injecting scope and context data
 
 and more new widgets :)

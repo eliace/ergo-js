@@ -2,7 +2,7 @@
 
 /**
  * Общие опции виджетов
- * 
+ *
  * Опции:
  * 	`text` текстовое содержимое виджета
  * 	`innerText` текстовое соержимое тега
@@ -18,21 +18,23 @@
  * 	`id` HTML id (используется в поиске)
  * 	`name` имя виджета (используется в поиске)
  * 	`tabindex` HTML tabindex
- * 	`format` форматирование связанных данных 
+ * 	`format` форматирование связанных данных
  * 	`store` преобразование вводимых данных к формату связанных данных
  * 	`hidden` скрытие элемента
- * 	
- * 
+ *
+ *
  * @mixin
  */
 Ergo.WidgetOptions = {
 
 
-	get text() { 
-		if(this.children.size() == 0)
+	get text() {
+		if(!this.__c)
+			return this.el[0].textContent;
+		else if(this.children.size() == 0)
 			return this.layout.el[0].textContent;
-		else if(this.content)
-			return this.content.opt('text');
+		else if(this.$content)
+			return this.$content.opt('text');
 		else
  			return this.layout.el[0].textContent;
 	},
@@ -42,34 +44,36 @@ Ergo.WidgetOptions = {
 	get name() { return this._name || this._key || this._index; },
 
 
-	
-	
-	
-	set text(v) { 
-		if(this.children.size() == 0)
-//			this.layout.el.text( v == null ? '': v ); 
-			this.layout.el[0].textContent = ( v == null ? '': v ); 		 
-		else if(this.content)
-			this.content.opt('text', v == null ? '': v);
+
+
+
+	set text(v) {
+		if(!this.__c)
+			this.el[0].textContent = ( v == null ? '': v );
+		else if(this.children.size() == 0)
+//			this.layout.el.text( v == null ? '': v );
+			this.layout.el[0].textContent = ( v == null ? '': v );
+		else if(this.$content)
+			this.$content.opt('text', v == null ? '': v);
 		else
 //			this.layout.el.text( v == null ? '': v );
- 			this.layout.el[0].textContent = ( v == null ? '': v ); 		 
+ 			this.layout.el[0].textContent = ( v == null ? '': v );
 
 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
 	set_innerHtml: function(v) {	this.layout.el.html(v); },
 	// set_opacity: function(v) {
-	// 	if($.support.opacity) 
+	// 	if($.support.opacity)
 	// 		this.el.css('opacity', v);
 	// 	else {
 	// 		this.el.css('filter', 'Alpha(opacity:' + (v*100.0) + ')');
-	// 		this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');				
-	// 	}				
+	// 		this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');
+	// 	}
 	// },
 	set_width: function(v) { this.el.width(v); },
 	set_height: function(v) { this.el.height(v); },
 	set_autoWidth: function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
-	set_autoHeight: function(v) { 
+	set_autoHeight: function(v) {
 		if(v) {
 			this.el.attr('autoHeight', v);
 			if(v === true || v == 'ignore-siblings')
@@ -77,7 +81,7 @@ Ergo.WidgetOptions = {
 		}
 		else {
 			this.el.removeAttr('autoHeight');
-			this.el.css('overflow-y', '');			
+			this.el.css('overflow-y', '');
 		}
 	},
 	set_tooltip: function(v) { this.el.attr('title', v); },
@@ -85,7 +89,7 @@ Ergo.WidgetOptions = {
 //	set_tag: function(v) { this.tag = v; },
 	set name(v) { this._name = ''+v; },
 //			'name': function(v) { this.name = v; },
-//	set_tabindex: function(v) { this.el.attr('tabindex', v); },			
+//	set_tabindex: function(v) { this.el.attr('tabindex', v); },
 	set_format: function(v) {
 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
 	},
@@ -94,7 +98,7 @@ Ergo.WidgetOptions = {
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
-	
+
 };
 
 

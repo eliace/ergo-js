@@ -151,10 +151,10 @@
 
 .button.outlined {
 
-  background-color: transparent;  
+  background-color: transparent;
   &:hover {
     background-color: darken(@white, 5%);
-  }  
+  }
 
   &.basic { .button_outlined(@basic, @text-color); }
   &.primary { .button_outlined(@primary); }
@@ -219,7 +219,7 @@
   &.primary { .button_transparent(@primary); }
   &.success { .button_transparent(@success); }
   &.warning { .button_transparent(@warning); }
-  &.danger { .button_transparent(@danger); }  
+  &.danger { .button_transparent(@danger); }
 
 }
 */
@@ -259,7 +259,7 @@
   &:disabled {
     color: fade(@color, 40%);
     cursor: default;
-  }  
+  }
 }
 
 
@@ -307,7 +307,7 @@
 .button.inactive:not(.selected) {
   background-color: #eee;
   border-color: #eee;
-  color: #666; 
+  color: #666;
 
   &:hover:not(:disabled):not(.opened) {
     background-color: #e8e8e8;
@@ -338,7 +338,7 @@
   border-left: none;
 }
 
-[layout="hbox"].group > .button:not(:last-child) {
+[layout="hbox"].group > .button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -391,11 +391,3 @@
   }
 
 }
-
-
-
-
-
-
-
-

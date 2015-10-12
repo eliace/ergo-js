@@ -3,21 +3,24 @@
 
 
 Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'input',
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		components: {
 			content: {
 				etype: 'html:input',
 				autoBind: false,
 				events: {
-					'jquery:keyup': function() {
-						this.events.rise('changeText', {text: this.el.val()});
+					'jquery:keyup': function(e) {
+						this.events.rise('keyUp', {text: this.el.val()}, e);
+					},
+					'jquery:keydown': function(e) {
+						this.events.rise('keyDown', {text: this.el.val()}, e);
 					},
 					// 'jquery:focus': function() {
 					// 	this.events.rise('focus', {focus: true});
@@ -25,9 +28,9 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 					// 'jquery:blur': function() {
 					// 	this.events.rise('focus', {focus: false});
 					// },
-					'jquery:change': function() {
-						this.events.rise('change', {text: this.el.val()});
-					}
+					// 'jquery:change': function() {
+					// 	this.events.rise('change', {text: this.el.val()});
+					// }
 				}
 			}
 		},
@@ -40,24 +43,24 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		},
 
 
-		
+
 		onChange: function(e) {
-			this.opt('value', e.text);			
+			this.opt('value', e.value);
 		}
-		
+
 		// onFocus: function(e) {
-		// 	this.states.toggle('focused', e.focus);			
+		// 	this.states.toggle('focused', e.focus);
 		// }
-		
+
 	},
-	
-	
-	
-	
+
+
+
+
 	set text(v) {
 		this.content.opt('placeholder', v);
 	},
-	
+
 	set placeholder(v) {
 		this.content.opt('placeholder', v);
 	},
@@ -65,22 +68,22 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 	set name(v) {
 		this.content.opt('name', v);
 	},
-	
+
 	set type(v) {
 		this.content.opt('type', v);
 	},
 
 
-	
-/*	
-	
+
+/*
+
 	selection_range: function(v0, v1) {
-		
+
 		var elem = this.content.el[0];
 
     if (elem.setSelectionRange) {
       elem.setSelectionRange(v0, v1);
-    } 
+    }
     else if (elem.createTextRange) {
       var range = elem.createTextRange();
       range.collapse(true);
@@ -88,13 +91,13 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
       range.moveStart('character', v1);
       range.select();
     }
-		
+
 	},
-	
+
 	cursor_position: function(v) {
-		this.selection_range(v, v);		
+		this.selection_range(v, v);
 	}
 
-*/	
-	
+*/
+
 }, 'widgets:input');

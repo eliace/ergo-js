@@ -22,9 +22,13 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 	defaults: {
 
-		cls: 'select has-icon at-right',
+		as: 'select has-icon at-right',
 
-		include: 'dropdown selectable',
+		include: ['dropdown', 'selectable', 'focusable'] ,
+
+		// states: {
+		// 	'placeholder': 'placeholder'
+		// },
 
 		components: {
 
@@ -58,10 +62,13 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'dropdown': {
 				weight: -100,
+				include: 'list-navigator',
+				as: 'hovered',
 				popup: {
 					adjust: true
 				},
 				defaultItem: {
+					as: 'item',
 					onClick: 'action:select'
 					// onClick: function(e) {
 					// 	this.events.rise('select');
@@ -70,6 +77,36 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			}
 
 		},
+
+		events: {
+			'jquery:keydown': function(e) {
+
+				if(e.keyCode == KEY_UP) {
+					if(!this.selected || this.states.is('opened')) {
+						this.$dropdown.navigator.prev();
+					}
+					this.states.set('opened');
+					e.preventDefault();
+				}
+				else if(e.keyCode == KEY_DOWN) {
+					if(!this.selected || this.states.is('opened')) {
+						this.$dropdown.navigator.next();
+					}
+					this.states.set('opened');
+					e.preventDefault();
+				}
+				else if(e.keyCode == KEY_ENTER) {
+					this.events.fire('select', {target: this.$dropdown.navigator.selected})
+				}
+				else if(e.keyCode == 27) {
+					this.states.unset('opened');
+				}
+
+			}
+			// 'select': function() {
+			// }
+		},
+
 
 		selection: {
 			lookup: function(key) {
@@ -82,9 +119,10 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			var selected = this.selection.set( v );
 
+			this.$dropdown.navigator.selected = selected;
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
-			
+
 			this.states.toggle('placeholder', v == null);
 
 		},

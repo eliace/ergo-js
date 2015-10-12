@@ -31,13 +31,13 @@
 
 
 		&.__indent > * > .item:not(.no-indent) {
-			padding: @box-indent 0;	
+			padding: @box-indent 0;
 		}
 
 		&.__gap > * + * {
 			> .item:not(.no-gap) {
 				margin-top: @box-indent;
-				margin-left: 0;		
+				margin-left: 0;
 			}
 		}
 
@@ -63,7 +63,7 @@
 	// DROPDOWN
 	//----------
 	&.dropdown {
-	  
+
 		.bordered;
 		.rounded;
 
@@ -83,7 +83,7 @@
 //		  line-height: 1.429;
 		  padding: 0.4286rem 1.143rem;
 		  white-space: nowrap;
-		  text-decoration: none;  	
+		  text-decoration: none;
 
 			&:hover {
 				z-index: 1001;
@@ -167,20 +167,7 @@
 
 
 .list > .item.selected {
-	background-color: fade(@select-bg, 70%);
+	background-color: rgba(0,0,0,0.1);// fade(@select-bg, 70%);
 //	color: @white;
-//	transition: background-color 0.07s ease-in-out 0s, color 0.07s ease-in-out 0s;	
+//	transition: background-color 0.07s ease-in-out 0s, color 0.07s ease-in-out 0s;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

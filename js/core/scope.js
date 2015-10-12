@@ -38,7 +38,7 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 		else if(arguments.length == 2) {
 
 			if($.isPlainObject(w)) {
-				w = $.ergo(w, null, this._context);
+				w = $.ergo(w, null, this);
 //				w.bind();
 			}
 

@@ -19,6 +19,9 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 		html: '<textarea/>',
 		binding: function(v) {
 			this.el.val(v);
+		},
+		events: {
+			'jquery:change': '_change'
 		}
 	},
 
@@ -43,8 +46,12 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 
 	set hidden(v) {
 		this.el.prop('hidden', true);
-	}
+	},
 
+
+	_change: function(e) {
+		this.events.rise('change', {value: this.el.val()});
+	}
 
 
 }, 'html:textarea');

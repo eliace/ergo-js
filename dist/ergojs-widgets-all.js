@@ -843,21 +843,24 @@ Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends 
 
 
 Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'input',
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		components: {
 			content: {
 				etype: 'html:input',
 				autoBind: false,
 				events: {
-					'jquery:keyup': function() {
-						this.events.rise('changeText', {text: this.el.val()});
+					'jquery:keyup': function(e) {
+						this.events.rise('keyUp', {text: this.el.val()}, e);
+					},
+					'jquery:keydown': function(e) {
+						this.events.rise('keyDown', {text: this.el.val()}, e);
 					},
 					// 'jquery:focus': function() {
 					// 	this.events.rise('focus', {focus: true});
@@ -865,9 +868,9 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 					// 'jquery:blur': function() {
 					// 	this.events.rise('focus', {focus: false});
 					// },
-					'jquery:change': function() {
-						this.events.rise('change', {text: this.el.val()});
-					}
+					// 'jquery:change': function() {
+					// 	this.events.rise('change', {text: this.el.val()});
+					// }
 				}
 			}
 		},
@@ -880,24 +883,24 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		},
 
 
-		
+
 		onChange: function(e) {
-			this.opt('value', e.text);			
+			this.opt('value', e.value);
 		}
-		
+
 		// onFocus: function(e) {
-		// 	this.states.toggle('focused', e.focus);			
+		// 	this.states.toggle('focused', e.focus);
 		// }
-		
+
 	},
-	
-	
-	
-	
+
+
+
+
 	set text(v) {
 		this.content.opt('placeholder', v);
 	},
-	
+
 	set placeholder(v) {
 		this.content.opt('placeholder', v);
 	},
@@ -905,22 +908,22 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 	set name(v) {
 		this.content.opt('name', v);
 	},
-	
+
 	set type(v) {
 		this.content.opt('type', v);
 	},
 
 
-	
-/*	
-	
+
+/*
+
 	selection_range: function(v0, v1) {
-		
+
 		var elem = this.content.el[0];
 
     if (elem.setSelectionRange) {
       elem.setSelectionRange(v0, v1);
-    } 
+    }
     else if (elem.createTextRange) {
       var range = elem.createTextRange();
       range.collapse(true);
@@ -928,15 +931,15 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
       range.moveStart('character', v1);
       range.select();
     }
-		
+
 	},
-	
+
 	cursor_position: function(v) {
-		this.selection_range(v, v);		
+		this.selection_range(v, v);
 	}
 
-*/	
-	
+*/
+
 }, 'widgets:input');
 
 
@@ -963,9 +966,13 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 	defaults: {
 
-		cls: 'select has-icon at-right',
+		as: 'select has-icon at-right',
 
-		include: 'dropdown selectable',
+		include: ['dropdown', 'selectable', 'focusable'] ,
+
+		// states: {
+		// 	'placeholder': 'placeholder'
+		// },
 
 		components: {
 
@@ -999,10 +1006,13 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'dropdown': {
 				weight: -100,
+				include: 'list-navigator',
+				as: 'hovered',
 				popup: {
 					adjust: true
 				},
 				defaultItem: {
+					as: 'item',
 					onClick: 'action:select'
 					// onClick: function(e) {
 					// 	this.events.rise('select');
@@ -1011,6 +1021,36 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			}
 
 		},
+
+		events: {
+			'jquery:keydown': function(e) {
+
+				if(e.keyCode == KEY_UP) {
+					if(!this.selected || this.states.is('opened')) {
+						this.$dropdown.navigator.prev();
+					}
+					this.states.set('opened');
+					e.preventDefault();
+				}
+				else if(e.keyCode == KEY_DOWN) {
+					if(!this.selected || this.states.is('opened')) {
+						this.$dropdown.navigator.next();
+					}
+					this.states.set('opened');
+					e.preventDefault();
+				}
+				else if(e.keyCode == KEY_ENTER) {
+					this.events.fire('select', {target: this.$dropdown.navigator.selected})
+				}
+				else if(e.keyCode == 27) {
+					this.states.unset('opened');
+				}
+
+			}
+			// 'select': function() {
+			// }
+		},
+
 
 		selection: {
 			lookup: function(key) {
@@ -1023,9 +1063,10 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			var selected = this.selection.set( v );
 
+			this.$dropdown.navigator.selected = selected;
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
-			
+
 			this.states.toggle('placeholder', v == null);
 
 		},
@@ -1737,7 +1778,7 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
 
 	defaults: {
-//		as: 'button-box',
+		as: 'buttons',
 		layout: 'hbox',
 		defaultItem: {
 			etype: 'button',

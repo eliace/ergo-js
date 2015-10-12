@@ -163,6 +163,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 //		var id = this._oid();
 
 		var composer = this.options.composer || this._compose;
+		var parser = this.options.parser || this._parse;
 		var provider = this.options.provider;
 
 		this.events.fire('flush:before');
@@ -176,7 +177,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 			return provider.update(this, data, this.options.query).then(function(data) {
 				this.events.fire('flush:after');
-				return data;
+				return parser.call(this, data, 'update');
 			}.bind(this));
 
 		}

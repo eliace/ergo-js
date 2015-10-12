@@ -3,7 +3,7 @@
 Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
 
 	defaults: {
-//		as: 'button-box',
+		as: 'buttons',
 		layout: 'hbox',
 		defaultItem: {
 			etype: 'button',

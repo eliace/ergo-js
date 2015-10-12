@@ -2,6 +2,7 @@
 //= require effects
 //= require selectable
 //= require pageable
+//= require focusable
 //= require popup
 //= require window
 //= require modal
@@ -10,3 +11,4 @@
 //= require router
 //= require history
 //= require provider-methods
+//= require list-navigator

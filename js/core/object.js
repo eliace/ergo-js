@@ -15,7 +15,11 @@
  *
  */
 Ergo.core.Object = function() {
-	this._initialize.apply(this, arguments);
+	// possible optimization
+	var a = new Array(arguments.length);
+	for(var i = 0; i < arguments.length; i++)
+		a[i] = arguments[i];
+	this._initialize.apply(this, a);
 };
 
 Ergo.core.Object.extend = function(o) {
@@ -46,7 +50,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @private
 	 *
 	 */
-	_initialize: function(opts, context) {
+	_initialize: function(opts, scope) {
 
 		var o = {
 //			smart_override: Ergo.self_smart_override
@@ -113,7 +117,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// }
 // //		}
 
-		this._context = context;
+		this._scope = scope;
 
 
 		this.options = Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
@@ -128,7 +132,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			var rebuild = false;
 
 			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo.alias('includes:'+this._includes[i]);
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
 				if(!inc)
 					throw new Error('Include [includes:'+this._includes[i]+'] not found');
 				if(inc.defaults) {
@@ -207,7 +211,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 //			this._includes = o.include.join(' ').split(' ').uniq();
 
 			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo.alias('includes:'+this._includes[i]);
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
 				if(inc._pre_construct)
 					inc._pre_construct.call(this, o);
 			}
@@ -243,7 +247,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if(this._includes) {
 //			var mods = o.mods.join(' ').split(' ').uniq();
 			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo.alias('includes:'+this._includes[i]);
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
 				if(inc._construct)
 					inc._construct.call(this, o);
 			}
@@ -279,7 +283,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if(this._includes) {
 //			var mods = o.mods.join(' ').split(' ').uniq();
 			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo.alias('includes:'+this._includes[i]);
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
 				if(inc._post_construct)
 					inc._post_construct.call(this, o);
 			}
