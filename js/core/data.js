@@ -575,10 +575,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		this._changed = true;
 
 		if(do_event !== false)
-			this.events.fire('entryDirty');
+			this.events.fire('entry:dirty');
 
 		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
-			this.source.mark_dirty();
+			this.source.mark_dirty(true);
 	},
 
 
