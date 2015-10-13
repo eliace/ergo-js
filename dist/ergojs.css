@@ -4163,6 +4163,9 @@ label:hover .radio {
 	}
 }
 */
+.text.field {
+  padding: 0.5rem 0;
+}
 .tools > .icon {
   padding: 0.5714rem 0;
 }

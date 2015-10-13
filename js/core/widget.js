@@ -910,19 +910,18 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-
 	filter: function(type, criteria) {
 
 		if(type == 'render') {
-			if(criteria)
-				this.options.renderFilter = criteria;
+//			if(criteria)
+			this.options.renderFilter = criteria;
 			this._rerender();
 		}
 
 		if(type == 'compose') {
 			if(this.options.dynamic) {
-				if(criteria)
-					this.options.dynamicFilter = criteria;
+//				if(criteria)
+				this.options.dynamicFilter = criteria;
 				this._rebind();
 			}
 		}
@@ -1153,11 +1152,21 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //		if(update !== false) update = true;
 
-		// data injection
+		//TODO custom data injector
 		if( $.isString(data) ) {
-			var name_a = data.split(':');
-			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			data = src[name_a[1]];
+			var w = this;
+			while(!w._scope) {
+				w = w.parent;
+			}
+			if(w._scope) {
+				data = w._scope[data];
+			}
+			else {
+				throw new Error('Can not inject scope datasource into detached widget');
+			}
+			// var name_a = data.split(':');
+			// var src = (name_a.length == 1) ? this : this[name_a[0]];
+			// data = src[name_a[1]];
 		}
 
 
@@ -1210,6 +1219,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
+
+
+			this.data.events.on('entryDirty', function(e){
+				if( self.options.dynamicFilter )
+					self._rebind(false);
+			});
+
+
 
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.on('value:changed', function(e){

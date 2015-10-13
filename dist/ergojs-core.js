@@ -6521,19 +6521,18 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-
 	filter: function(type, criteria) {
 
 		if(type == 'render') {
-			if(criteria)
-				this.options.renderFilter = criteria;
+//			if(criteria)
+			this.options.renderFilter = criteria;
 			this._rerender();
 		}
 
 		if(type == 'compose') {
 			if(this.options.dynamic) {
-				if(criteria)
-					this.options.dynamicFilter = criteria;
+//				if(criteria)
+				this.options.dynamicFilter = criteria;
 				this._rebind();
 			}
 		}
@@ -6764,11 +6763,21 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //		if(update !== false) update = true;
 
-		// data injection
+		//TODO custom data injector
 		if( $.isString(data) ) {
-			var name_a = data.split(':');
-			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			data = src[name_a[1]];
+			var w = this;
+			while(!w._scope) {
+				w = w.parent;
+			}
+			if(w._scope) {
+				data = w._scope[data];
+			}
+			else {
+				throw new Error('Can not inject scope datasource into detached widget');
+			}
+			// var name_a = data.split(':');
+			// var src = (name_a.length == 1) ? this : this[name_a[0]];
+			// data = src[name_a[1]];
 		}
 
 
@@ -6821,6 +6830,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
+
+
+			this.data.events.on('entryDirty', function(e){
+				if( self.options.dynamicFilter )
+					self._rebind(false);
+			});
+
+
 
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.on('value:changed', function(e){
@@ -9102,11 +9119,11 @@ Ergo.declare('Ergo.layouts.Band', 'Ergo.core.Layout', {
 
 
 Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
-	
+
 	defaults: {
 		name: 'form'
 	},
-	
+
 	wrap: function(item) {
 		var w = $('<div/>');
 		if(!item.$label && item.options.label) {
@@ -9118,8 +9135,8 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 		w.append(item.el);
 		return w;
 	}
-	
-	
+
+
 }, 'layouts:form');
 
 
@@ -9127,11 +9144,11 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 
 
 Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
-	
+
 	defaults: {
 		name: 'hform'
 	},
-	
+
 	wrap: function(item) {
 		var w = $('<div class="form-item"/>');
 		if(!item.$label && item.options.label) {
@@ -9150,7 +9167,7 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 		return w;
 	}
 
-	
+
 }, 'layouts:hform');
 
 
@@ -9159,11 +9176,11 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 
 
 Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
-	
+
 	defaults: {
 		name: 'vform'
 	},
-	
+
 	wrap: function(item) {
 		var w = $('<div/>');
 		if(!item.$label && item.options.label) {
@@ -9173,7 +9190,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 			w.append(item.$label.el);
 		}
 
-		var w2 = $('<div/>');
+		var w2 = $('<div class="form-item"/>');
 		w2.append(item.el);
 
 		w.append(w2);
@@ -9187,26 +9204,26 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 //		this._super();
 
-		
+
 		var self = this;
-		
+
 		var o = this.options;
-		
+
 		var w = this._widget;
-		
+
 		// var sz = w.children.size();
 		// var k = (sz == 0) ? 1 : (12/sz).toFixed();
 
-				
+
 		w.children.each(function(item, i) {
-			
+
 			if(!item._rendered) return;
-			
+
 			var el = item._wrapper.children().filter('div') || item.el;
-			
+
 //			console.log(item._wrapper);
-			
-			
+
+
 			if(w.options.pattern) {
 
 				if(item.$label)
@@ -9215,7 +9232,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 				el.addClass('col-offset-'+w.options.pattern[0]);
 
 				el.addClass('col-'+w.options.pattern[1]);
-				
+
 			}
 			else {
 				if(item.$label)
@@ -9225,18 +9242,18 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 				el.addClass('col-6');
 			}
-						
+
 		});
-		
 
 
-		
+
+
 	}
 
 
 
 
-	
+
 }, 'layouts:vform');
 
 
