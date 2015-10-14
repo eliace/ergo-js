@@ -2284,11 +2284,17 @@ Ergo.defineMixin = Ergo.declare_mixin;
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.core.Event = function(baseEvent) {
-	this.base = baseEvent;
-}
+Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 
-Ergo.override(Ergo.core.Event.prototype, {
+	_initialize: function(baseEvent) {
+		this.base = baseEvent;
+	},
+
+// Ergo.core.Event = function(baseEvent) {
+// 	this.base = baseEvent;
+// }
+//
+// Ergo.override(Ergo.core.Event.prototype, {
 
 	stop: function(immediate) {
 		if(this.base) this.base.stopPropagation(); //FIXME
@@ -2303,6 +2309,9 @@ Ergo.override(Ergo.core.Event.prototype, {
 	},
 	yield: function() {
 		this._yielded = true;
+	},
+	cancel: function() {
+		this.canceled = true;
 	}
 
 });
@@ -2495,7 +2504,7 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 		if(h_arr && h_arr.length) {
 
 			var yielded = [];
-			
+
 			for(var i = h_arr.length-1; i >= 0; i--) {
 				var h = h_arr[i];
 				if(e._yielded) {
@@ -3206,10 +3215,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		this._changed = true;
 
 		if(do_event !== false)
-			this.events.fire('entryDirty');
+			this.events.fire('entry:dirty');
 
 		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
-			this.source.mark_dirty();
+			this.source.mark_dirty(true);
 	},
 
 
@@ -6827,6 +6836,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 					item._dynamic = true;
 				}
 
+				//FIXME _rebind ?
 				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
@@ -10114,23 +10124,23 @@ Ergo.alias('includes:modal', {
 					'jquery:click': function(e) {
 
 						Ergo.context.events.fire('outerClick', {type: 'overlay'});
-						
+
 						if(this.parent.options.closeOn == 'outerClick')
 							this.parent.close();
-						
+
 						// блокируем всплывание событий
 						e.preventDefault();
 						return false;
 					}
 				}
-			}	
+			}
 		},
 		events: {
 			'jquery:click': function(e) {
 				Ergo.context.events.fire('outerClick', {type: 'modal'});
 //				if(this.options.closeOn == 'outerClick')
 				e.stopPropagation();
-			}			
+			}
 		}
 	},
 
@@ -10138,38 +10148,38 @@ Ergo.alias('includes:modal', {
 	overrides: {
 
 		open: function() {
-			
+
 			var o = this.options;
 
 			var modal = this;
-			
+
 			if(arguments.length == 2) {
 				// x, y
 				var x = arguments[0];
 				var y = arguments[1];
-				
+
 				modal.el.css({'top': y, 'left': x});
 			}
-			
+
 			// получаем новый индекс z-слоя
 			var z = Ergo.context._z || 0;
 			z++;
-			
+
 			// устанавливаем z-index
 			modal.overlay.el.css({'z-index': z*1000});
 			modal.el.css({'z-index': z*1000+1});
-			
+
 			$('body').append(modal.overlay.el);
-			
+
 			modal.overlay.el.append(modal.el);
-			
+
 			modal._rendered = true;
 			modal.overlay._rendered = true;
 	//		this.overlay.items.add(this);
 	//		$('body').append(this.el);
-			
+
 			modal.render();
-			
+
 
 
 
@@ -10180,15 +10190,15 @@ Ergo.alias('includes:modal', {
 				//	поскольку оверлей уже отрисовался, можно расчитывать положение окна
 
 				this.el.show();
-				
+
 				// здесь, в зависимости от методики позиционирования, расчитываются параметры
-				
-				
+
+
 				if(o.position == 'top') {
 
 					// top
 					var w = this.el.width();
-					
+
 					var x = w/2;
 
 					this.el.css({'margin-left': -x, 'top': 0});
@@ -10198,11 +10208,11 @@ Ergo.alias('includes:modal', {
 
 					// top
 					var h = this.el.height();
-					
+
 					h = Math.min(h, $(window).height());
-					
+
 					var y = h/2;
-					
+
 
 					this.el.css({'right': 0, 'left': 'auto', 'margin-top': -y});
 
@@ -10212,17 +10222,17 @@ Ergo.alias('includes:modal', {
 					// center
 					var w = this.el.width();
 					var h = this.el.height();
-					
+
 					h = Math.min(h, $(window).height());
-					
+
 					var x = w/2;
 					var y = h/2;
-					
+
 
 					this.el.css({'margin-left': -x, 'margin-top': -y});
 				}
 
-				
+
 				this.el.hide();
 */
 
@@ -10230,23 +10240,28 @@ Ergo.alias('includes:modal', {
 					this.events.fire('opened');
 					this._layoutChanged();
 				}.bind(this));
-				
+
 				this.events.fire('open');
-			
+
 			}.bind(this));
 
-			
+
 
 			return result;
 		},
-		
-		
+
+
 		//
 		// Close modal
 		//
 		close: function() {
-			
-			this.events.fire('close');
+
+			var e = new Ergo.core.Event();
+
+			this.events.fire('close', e);
+
+			if(e.canceled)
+				return;
 
 
 			Ergo.context._z--;
@@ -10262,35 +10277,35 @@ Ergo.alias('includes:modal', {
 
 			}.bind(this));
 
-			
+
 		},
-		
-		
+
+
 		/**
 		 *
 		 * Resize modal
 		 *
 		 */
 		resize: function(w, h, comp) {
-			
+
 			var w1, h1;
 
 			if(arguments.length > 0) {
 
 				var el = (comp) ? this.component(comp).el : this.el;
-				
+
 				var w0 = el.css('width');//width();
 				var h0 = el.css('height');//height();
-				
+
 //				setTimeout(function(){
 					el.css({'width': w, 'height': h});
 //				}, 1)
-				
+
 				var w1 = this.el.width();
 				var h1 = this.el.height();
-				
+
 				// el.css({'width': w0, 'height': h0});
-				
+
 				// el.animate({
 				// 	width: w,
 				// 	height: h,
@@ -10301,14 +10316,14 @@ Ergo.alias('includes:modal', {
 			}
 			else {
 				w1 = this.el.width();
-				h1 = this.el.height();			
+				h1 = this.el.height();
 			}
-			
+
 			// return $.when(this.el.animate({
 			// 	'margin-left': -w1/2,
 			// 	'margin-top': -h1/2
 			// }));
-			
+
 			return $.when(true);
 		}
 
@@ -10317,8 +10332,6 @@ Ergo.alias('includes:modal', {
 
 
 });
-
-
 
 
 Ergo.defineMixin('Ergo.mixins.Draggable', function(o) {
@@ -10633,16 +10646,21 @@ Ergo.alias('includes:provider-methods', {
       for(var i in provider) {
         var p = provider[i];
         if( $.isFunction(p) ) {
-          this['$'+i] = function() {
+
+          this['$'+i] = function(action) {
             var composer = this.options.composer || this._compose;
             var parser = this.options.parser || this._parse;
 
             var data = composer.call(this, this.get(), action);
 
-            p.bind(provider, this).apply(arguments).then(function(data) {
-      				return parser.call(this, data, i);
-      			});;
-          } //p.bind(provider, this);
+            var args = [];
+            for(var j = 1; j < arguments.length; j++)
+              args.push(arguments[j]);
+
+            $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+      				return parser.call(this, data, action);
+      			});
+          }.bind(this, i) //p.bind(provider, this);
         }
       }
 

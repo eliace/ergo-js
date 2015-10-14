@@ -71,6 +71,7 @@ $(document).ready(function(){
 * `widgets:select` supports dropdown navigation by default
 * `widgets:select` focusable by default
 * New `focusable` include adds `tabindex=0`
+* Cancel closing modal dialog with `event.cancel()`
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
