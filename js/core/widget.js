@@ -1217,7 +1217,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				}
 
 				//FIXME _rebind ?
-				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+//				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 
