@@ -16,11 +16,17 @@
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.core.Event = function(baseEvent) {
-	this.base = baseEvent;
-}
+Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 
-Ergo.override(Ergo.core.Event.prototype, {
+	_initialize: function(baseEvent) {
+		this.base = baseEvent;
+	},
+
+// Ergo.core.Event = function(baseEvent) {
+// 	this.base = baseEvent;
+// }
+//
+// Ergo.override(Ergo.core.Event.prototype, {
 
 	stop: function(immediate) {
 		if(this.base) this.base.stopPropagation(); //FIXME
@@ -35,6 +41,9 @@ Ergo.override(Ergo.core.Event.prototype, {
 	},
 	yield: function() {
 		this._yielded = true;
+	},
+	cancel: function() {
+		this.canceled = true;
 	}
 
 });
@@ -227,7 +236,7 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 		if(h_arr && h_arr.length) {
 
 			var yielded = [];
-			
+
 			for(var i = h_arr.length-1; i >= 0; i--) {
 				var h = h_arr[i];
 				if(e._yielded) {

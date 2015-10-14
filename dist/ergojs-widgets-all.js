@@ -2079,23 +2079,23 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 
 
 Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
-	
+
 	defaults: {
 
 		include: 'modal effects',
-		
+
 		cls: 'modal widget',
-		
+
 		closeOn: 'outerClick',
-		
+
 		renderTo: 'body',
-		
+
 		effects: {
 			'show': {type: 'fadeIn', delay: 400}
 		},
-		
+
 		width: 600,
-				
+
 		components: {
 			footer: {
 				autoRender: true,
@@ -2118,36 +2118,37 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 //				items: []
 			}
 		},
-		
+
 		onClick: function(e) {
 			e.stop();
 		},
-		
+
 		onDialogAction: function(e) {
-			
+
 			if(e.action)
-				this.events.fire(e.action);
-			
-			this.close();
+				this.events.fire(e.action, e);
+
+			if(!e.canceled)
+				this.close();
 		}
 	}
-	
-	
-/*	
+
+
+/*
 	_construct: function(o) {
 		this._super(o);
-		
+
 		if(o.dialogButtons) {
-			
+
 			for(var btn in o.dialogButtons) {
-				this.footer.buttons.items.add(btn);			
+				this.footer.buttons.items.add(btn);
 			}
-			
+
 		}
-		
+
 	}
-*/	
-	
+*/
+
 }, 'widgets:modal-dialog');
 
 
