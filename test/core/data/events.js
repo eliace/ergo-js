@@ -1,34 +1,50 @@
 var expect = chai.expect;
 
-describe('DataSource events', function(){
+describe('DataSource', function(){
 
-  describe('entry:changed', function() {
+  describe('Events', function() {
 
-		it('should fires entry:changed event', function(done) {
+		it('should fires `changed` when set value', function() {
 
-      var ds = new Ergo.core.DataSource({a: 'Alice'});
+      var result = false;
 
-      ds.events.on('entry:changed', function(e) {
-        expect(e.entry).not.to.be.null;
-        done();
+      var ds = new Ergo.core.DataSource('Alice');
+
+      ds.events.on('changed', function(e) {
+
+        result = true;
+
+        expect(e.oldValue).is.eq('Alice');
+        expect(e.newValue).is.eq('Bob');
       });
 
-      ds.set('a', 'Bob');
+      ds.set('Bob');
 
+      expect(result).to.be.ok;
 		});
 
 
-    it('should rises entry:changed event', function(done) {
+    it('should fires `entry:changed` and `dirty` events', function() {
 
-      var ds = new Ergo.core.DataSource( {person: {a: 'Alice'}} );
+      var result = [];
+
+      var ds = new Ergo.core.DataSource( {a: 'Alice'} );
 
       ds.events.on('entry:changed', function(e) {
-        expect(e.entry).not.to.be.null;
-        done();
+        result.push('entry:changed');
+
+        expect(e.entry).to.be.not.null
       });
 
-      ds.set('person.a', 'Bob');
+      ds.events.on('dirty', function(e) {
+        result.push('dirty');
 
+      });
+
+
+      ds.set('a', 'Bob');
+
+      expect(result).to.be.eql(['dirty', 'entry:changed']);
 		});
 
 

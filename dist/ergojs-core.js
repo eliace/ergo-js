@@ -2284,11 +2284,12 @@ Ergo.defineMixin = Ergo.declare_mixin;
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
+Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 
 	_initialize: function(baseEvent) {
 		this.base = baseEvent;
 	},
+
 
 // Ergo.core.Event = function(baseEvent) {
 // 	this.base = baseEvent;
@@ -2992,10 +2993,11 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
-			this.mark_dirty(false);
+
+			this.mark_dirty();
 
 
-			this.events.fire('value:changed', {'oldValue': oldValue, 'newValue': newValue});
+			this.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
 
 			// var ds = this.source;
 			// while(ds) {
@@ -3003,8 +3005,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// 	ds = ds.source;
 			// }
 
-			if(this.source instanceof Ergo.core.DataSource)
+			if(this.source instanceof Ergo.core.DataSource) {
 				this.source.events.fire('entry:changed', {entry: this});
+			}
 
 //			this._changed = true;
 		}
@@ -3063,7 +3066,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		var e = this.entry(index);
 
-		this.mark_dirty();
+		this.mark_dirty(true);
 
 		this.events.fire('entry:added', {'index': isLast ? undefined : index, 'entry': e});//, 'isLast': isLast});
 
@@ -3107,7 +3110,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			}
 
 
-			this.mark_dirty();
+			this.mark_dirty(true);
 
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
 			if(deleted_entry) {
@@ -3116,6 +3119,56 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 	},
+
+
+
+	unset: function(i) {
+		if(arguments.length == 1) {
+			this.entry(i).unset();
+		}
+		else {
+
+			var src = this.source;
+			var value = src;
+
+			if( src instanceof Ergo.core.DataSource ) {
+				value = src._val();
+			}
+
+			var deleted_value = this._val(); //value ? value[this._id[0]] : undefined;
+
+			if(Array.isArray(value)) {
+
+				value.splice(this._id[0], 1);
+
+				if( src instanceof Ergo.core.DataSource ) {
+					for(var j = this._id[0]; j < value.length; j++) {
+						var e = src.entries.get(j);
+						if(e)
+							e._id[0] = j
+					}
+				}
+			}
+			else {
+				if(value) {
+					for(var j = 0; j < this._id.length; j++)
+						delete value[this._id[j]];
+				}
+			}
+
+			if( src instanceof Ergo.core.DataSource ) {
+				src.entries.remove(this);
+				src.mark_dirty(true);
+				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
+			}
+
+
+			this.events.fire('changed', {'oldValue': deleted_value, 'newValue': undefined});
+		}
+	},
+
+
+
 
 
 	/**
@@ -3214,8 +3267,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	mark_dirty: function(do_event) {
 		this._changed = true;
 
-		if(do_event !== false)
-			this.events.fire('entry:dirty');
+		if(do_event)
+			this.events.fire('dirty');
 
 		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
 			this.source.mark_dirty(true);
@@ -6837,7 +6890,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				}
 
 				//FIXME _rebind ?
-				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+//				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
 			}, this);
 
@@ -6889,25 +6942,25 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.render(false);
 		}
 		else {
+			// STATIC BIND
 
-
-			this.data.events.on('value:changed', function(e) {
+			this.data.events.on('changed', function(e) {
 				// при изменении значения обновляем виджет, но только в "ленивом" режиме
 				/*if(o.updateOnDataChanged)*/
 				//self._dataChanged(true);
 				self._rebind();
 			}, this);
 
-			this.data.events.on('entryDirty', function(e) {
+			this.data.events.on('dirty', function(e) {
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			}, this);
 
 
-			this.data.events.on('value:sync', function(e){
-
-				self._dataChanged();
-
-			}, this);
+			// this.data.events.on('value:sync', function(e){
+			//
+			// 	self._dataChanged();
+			//
+			// }, this);
 
 
 //			this.data.events.on('value:changed', this._rebind.bind(this), this);

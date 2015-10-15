@@ -1269,25 +1269,25 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.render(false);
 		}
 		else {
+			// STATIC BIND
 
-
-			this.data.events.on('value:changed', function(e) {
+			this.data.events.on('changed', function(e) {
 				// при изменении значения обновляем виджет, но только в "ленивом" режиме
 				/*if(o.updateOnDataChanged)*/
 				//self._dataChanged(true);
 				self._rebind();
 			}, this);
 
-			this.data.events.on('entryDirty', function(e) {
+			this.data.events.on('dirty', function(e) {
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			}, this);
 
 
-			this.data.events.on('value:sync', function(e){
-
-				self._dataChanged();
-
-			}, this);
+			// this.data.events.on('value:sync', function(e){
+			//
+			// 	self._dataChanged();
+			//
+			// }, this);
 
 
 //			this.data.events.on('value:changed', this._rebind.bind(this), this);

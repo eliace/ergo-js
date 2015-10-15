@@ -16,11 +16,12 @@
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
+Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 
 	_initialize: function(baseEvent) {
 		this.base = baseEvent;
 	},
+
 
 // Ergo.core.Event = function(baseEvent) {
 // 	this.base = baseEvent;
