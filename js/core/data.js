@@ -365,7 +365,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// }
 
 			if(this.source instanceof Ergo.core.DataSource) {
-				this.source.events.fire('entry:changed', {entry: this});
+				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
+				this.source.events.fire('diff', {updated: [this]});
 			}
 
 //			this._changed = true;
@@ -427,7 +428,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		this.mark_dirty(true);
 
-		this.events.fire('entry:added', {'index': isLast ? undefined : index, 'entry': e});//, 'isLast': isLast});
+		this.events.fire('entry:added', {'index': isLast ? undefined : index, entry: e});//, 'isLast': isLast});
+		this.events.fire('diff', {created: [e]});
 
 		return e;
 	},
@@ -441,6 +443,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
+/*
 	del: function(i) {
 
 		if(i === undefined) {
@@ -473,17 +476,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
 			if(deleted_entry) {
-				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});
+				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value, deleted: [deleted_entry]});
 			}
 		}
 
 	},
+*/
 
 
-
-	unset: function(i) {
+	del: function(i) {
 		if(arguments.length == 1) {
-			this.entry(i).unset();
+			this.entry(i).del();
 		}
 		else {
 
@@ -502,11 +505,13 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 				if( src instanceof Ergo.core.DataSource ) {
 					for(var j = this._id[0]; j < value.length; j++) {
-						var e = src.entries.get(j);
+						var e = src.entries.get(j+1);
 						if(e)
 							e._id[0] = j
 					}
 				}
+
+
 			}
 			else {
 				if(value) {
@@ -519,6 +524,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				src.entries.remove(this);
 				src.mark_dirty(true);
 				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
+				this.source.events.fire('diff', {deleted: [this]});
 			}
 
 
@@ -599,6 +605,34 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// var k = keys[i];
 			// callback.call(this, this.entry(k), k, values[k]);
 		// }
+	},
+
+
+
+	diff: function(difference, filter, sorter) {
+
+		var ds = this;
+
+		// DELETED
+		for(var i = 0; i < difference.deleted.length; i++) {
+			var d = difference.created[i];
+			this.events.fire('entry:deleted', {entry: d.entry});
+		}
+
+		// CREATED
+		for(var i = 0; i < difference.created.length; i++) {
+			var d = difference.created[i];
+			if(!filter || filter.call(this, d.value, d.id)) {
+				var index = d.id;
+				if(sorter) {
+					// FIXME поменять поиск на бинарный
+				}
+			}
+		}
+
+
+
+
 	},
 
 /*

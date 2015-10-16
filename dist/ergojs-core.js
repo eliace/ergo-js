@@ -3006,7 +3006,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// }
 
 			if(this.source instanceof Ergo.core.DataSource) {
-				this.source.events.fire('entry:changed', {entry: this});
+				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
+				this.source.events.fire('diff', {updated: [this]});
 			}
 
 //			this._changed = true;
@@ -3068,7 +3069,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		this.mark_dirty(true);
 
-		this.events.fire('entry:added', {'index': isLast ? undefined : index, 'entry': e});//, 'isLast': isLast});
+		this.events.fire('entry:added', {'index': isLast ? undefined : index, entry: e});//, 'isLast': isLast});
+		this.events.fire('diff', {created: [e]});
 
 		return e;
 	},
@@ -3082,6 +3084,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
+/*
 	del: function(i) {
 
 		if(i === undefined) {
@@ -3114,17 +3117,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
 			if(deleted_entry) {
-				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value});
+				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value, deleted: [deleted_entry]});
 			}
 		}
 
 	},
+*/
 
 
-
-	unset: function(i) {
+	del: function(i) {
 		if(arguments.length == 1) {
-			this.entry(i).unset();
+			this.entry(i).del();
 		}
 		else {
 
@@ -3143,11 +3146,13 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 				if( src instanceof Ergo.core.DataSource ) {
 					for(var j = this._id[0]; j < value.length; j++) {
-						var e = src.entries.get(j);
+						var e = src.entries.get(j+1);
 						if(e)
 							e._id[0] = j
 					}
 				}
+
+
 			}
 			else {
 				if(value) {
@@ -3160,6 +3165,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				src.entries.remove(this);
 				src.mark_dirty(true);
 				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
+				this.source.events.fire('diff', {deleted: [this]});
 			}
 
 
@@ -3240,6 +3246,34 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// var k = keys[i];
 			// callback.call(this, this.entry(k), k, values[k]);
 		// }
+	},
+
+
+
+	diff: function(difference, filter, sorter) {
+
+		var ds = this;
+
+		// DELETED
+		for(var i = 0; i < difference.deleted.length; i++) {
+			var d = difference.created[i];
+			this.events.fire('entry:deleted', {entry: d.entry});
+		}
+
+		// CREATED
+		for(var i = 0; i < difference.created.length; i++) {
+			var d = difference.created[i];
+			if(!filter || filter.call(this, d.value, d.id)) {
+				var index = d.id;
+				if(sorter) {
+					// FIXME поменять поиск на бинарный
+				}
+			}
+		}
+
+
+
+
 	},
 
 /*
@@ -6828,10 +6862,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		//TODO custom data injector
 		if( $.isString(data) ) {
 			var w = this;
-			while(!w._scope) {
+			while(w && !w._scope) {
 				w = w.parent;
 			}
-			if(w._scope) {
+			if(w && w._scope) {
 				data = w._scope[data];
 			}
 			else {
@@ -6853,68 +6887,80 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// Если виджет является динамическим (управляется данными)
 		if(o.dynamic) {
 
-			// если добавлен новый элемент данных, то добавляем новый виджет
-			this.data.events.on('entry:added', function(e){
+// 			// если добавлен новый элемент данных, то добавляем новый виджет
+// 			this.data.events.on('entry:added', function(e){
+//
+// //				console.log(e);
+//
+// 				self.children.autobinding = false;
+// 				var item = self.items.add({}, e.isLast ? null : e.index);
+// 				self.children.autobinding = true;
+// 				item.bind(e.entry);
+//
+// 				item._dynamic = true;
+//
+// 				item.render();
+// 			}, this);
 
-//				console.log(e);
+// 			// если элемент данных удален, то удаляем соответствующий виджет
+// 			this.data.events.on('entry:deleted', function(e){
+// 				var item = self.item({data: e.entry});
+// 				if(item)
+// 					item._destroy();
+// //				self.children.remove( self.item({data: e.entry}) )._destroy();//e.index) );// {data: self.data.item(e.index)});
+// 			}, this);
 
-				self.children.autobinding = false;
-				var item = self.items.add({}, e.isLast ? null : e.index);
-				self.children.autobinding = true;
-				item.bind(e.entry);
-
-				item._dynamic = true;
-
-				item.render();
-			}, this);
-
-			// если элемент данных удален, то удаляем соответствующий виджет
-			this.data.events.on('entry:deleted', function(e){
-				var item = self.item({data: e.entry});
-				if(item)
-					item._destroy();
-//				self.children.remove( self.item({data: e.entry}) )._destroy();//e.index) );// {data: self.data.item(e.index)});
-			}, this);
-
-			// если элемент данных изменен, то создаем новую привязку к данным
-			this.data.events.on('entry:changed', function(e){
-				//FIXME странное обновление данных
-				var item = self.item({data: e.entry});
-				if(!item) {
-					self.children.autobinding = false;
-					item = self.items.add({});
-					self.children.autobinding = true;
-
-					item.bind(e.entry);
-					item._dynamic = true;
-				}
-
-				//FIXME _rebind ?
-//				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
-	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
-			}, this);
+// 			// если элемент данных изменен, то создаем новую привязку к данным
+// 			this.data.events.on('entry:changed', function(e){
+// 				//FIXME странное обновление данных
+// 				var item = self.item({data: e.entry});
+// 				if(!item) {
+// 					self.children.autobinding = false;
+// 					item = self.items.add({});
+// 					self.children.autobinding = true;
+//
+// 					item.bind(e.entry);
+// 					item._dynamic = true;
+// 				}
+//
+// 				//FIXME _rebind ?
+// //				item.bind(/*self.data.entry(e.entry.id)*/e.entry, false, false);
+// 	//			self.getItem( e.item.id )._dataChanged(); //<-- при изменении элемента обновляется только элемент
+// 			}, this);
 
 
-			this.data.events.on('entryDirty', function(e){
-				if( self.options.dynamicFilter )
-					self._rebind(false);
-			});
+			// this.data.events.on('entryDirty', function(e){
+			// 	if( self.options.dynamicFilter )
+			// 		self._rebind(false);
+			// });
 
 
 
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
-			this.data.events.on('value:changed', function(e){
+			this.data.events.on('changed', function(e){
 
 				self._rebind(false);
 
 			}, this);
 
 
-			this.data.events.on('value:sync', function(e){
+			// this.data.events.on('value:sync', function(e){
+			//
+			// 	self._dataChanged();
+			//
+			// }, this);
 
-				self._dataChanged();
 
-			}, this);
+			this.data.events.on('dirty', function(e){
+				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
+			});
+
+
+			this.data.events.on('diff', function(e) {
+
+				self._diff( e.created || [], e.deleted || [], e.updated || [] );
+
+			});
 
 
 
@@ -6954,6 +7000,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.data.events.on('dirty', function(e) {
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			}, this);
+
 
 
 			// this.data.events.on('value:sync', function(e){
@@ -7108,6 +7155,88 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			if(update !== false) this._dataChanged(undefined, undefined, true);
 		}
 
+
+
+
+
+	},
+
+
+
+	_diff: function(created, deleted, updated) {
+
+		var filter = this.options.dynamicFilter;
+		var sorter = this.options.dynamicSorter;
+
+		// DELETED
+		for(var i = 0; i < deleted.length; i++) {
+			var e = deleted[i];
+			var item = this.item({data: e});
+			if(item)
+				item._destroy();
+		}
+
+		// CREATED
+		for(var i = 0; i < created.length; i++) {
+			var e = created[i];
+			var index = e._id[0];
+			var value = e._val();
+			if(!filter || filter.call(this, e._val(), index)) {
+				var after = null;
+				if(sorter) {
+					var kv0 = [index, value];
+					// FIXME поменять поиск на бинарный
+					this.items.each(function(item) {
+						var kv1 = [item.data._id[0], item.data._val()];
+						if( sorter.call(e, kv1, kv0) >= 0 ) {
+							after = item;
+							return false;
+						}
+					});
+				}
+
+				// добавляем элемент последним
+				this.children.autobinding = false;
+				var item = this.items.add({}, after ? after._index : null);
+				this.children.autobinding = true;
+				item.bind(e);
+
+				item._dynamic = true;
+
+				item.render();
+
+			}
+		}
+
+
+		// UPDATED
+		for(var i = 0; i < updated.length; i++) {
+			var e = updated[i];
+			var _item = this.item({data: e});
+			var index = e._id[0];
+			var value = e._val();
+			if(filter && !filter.call(this, e._val(), index)) {
+				_item._destroy();
+			}
+			else if(sorter){
+				var after = null;
+				var kv0 = [index, value];
+				this.items.each(function(item) {
+					var kv1 = [item.data._id[0], item.data._val()];
+					if( sorter.call(e, kv0, kv1) >= 0 ) {
+						after = item;
+						return false;
+					}
+				});
+
+				if(after != _item) {
+					this.items.remove(_item);
+					this.items.add(_item);
+				}
+
+			}
+
+		}
 
 
 
@@ -8001,6 +8130,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 Ergo.context = new Ergo.core.Context();
+
+$context = Ergo.context;
 
 
 
@@ -10710,7 +10841,7 @@ Ergo.alias('includes:provider-methods', {
             for(var j = 1; j < arguments.length; j++)
               args.push(arguments[j]);
 
-            $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+            return $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
       				return parser.call(this, data, action);
       			});
           }.bind(this, i) //p.bind(provider, this);

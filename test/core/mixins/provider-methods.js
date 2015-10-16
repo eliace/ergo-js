@@ -27,10 +27,12 @@ describe('Include "provider-methods"', function(){
 
       var order = new Ergo.test.Order({provider:ordersProvider})
 
-      order.$done();
-      order.$cancel();
+      order.$done()
+				.then(function() { result.push('after-done') });
+      order.$cancel()
+			.then(function() { result.push('after-cancel') });
 
-      expect(result).to.eql(['done', 'cancel'])
+      expect(result).to.eql(['done', 'after-done', 'cancel', 'after-cancel']);
 
 		});
 	});

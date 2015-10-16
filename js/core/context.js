@@ -478,3 +478,5 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 Ergo.context = new Ergo.core.Context();
+
+$context = Ergo.context;
