@@ -2284,7 +2284,7 @@ Ergo.defineMixin = Ergo.declare_mixin;
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
+Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 
 	_initialize: function(baseEvent) {
 		this.base = baseEvent;
@@ -5759,6 +5759,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		return ($context || Ergo.context); //FIXME костыль
 	},
 
+	get scope() {
+		var w = this;
+		while(w) {
+			if(w._scope)
+				return w._scope;
+			w = w.parent;
+		}
+	},
+
 
 	// ctx: {
 	// 	events: {
@@ -6202,6 +6211,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 		return this.__l;
 	},
+
+
 
 
 //	_theme: function() {
@@ -6774,19 +6785,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		//TODO custom data injector
 		if( $.isString(data) ) {
-			var w = this;
-			while(!w._scope) {
-				w = w.parent;
-			}
-			if(w._scope) {
-				data = w._scope[data];
-			}
-			else {
-				throw new Error('Can not inject scope datasource into detached widget');
-			}
-			// var name_a = data.split(':');
-			// var src = (name_a.length == 1) ? this : this[name_a[0]];
-			// data = src[name_a[1]];
+			// var w = this;
+			// while(!w._scope) {
+			// 	w = w.parent;
+			// }
+			// if(w._scope) {
+			// 	data = w._scope[data];
+			// }
+			// else {
+			// 	throw new Error('Can not inject scope datasource into detached widget');
+			// }
+			var name_a = data.split(':');
+			var src = (name_a.length == 1) ? this : this[name_a[0]];
+			data = src[name_a[1]];
 		}
 
 
@@ -6842,10 +6853,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			}, this);
 
 
-			this.data.events.on('entryDirty', function(e){
-				if( self.options.dynamicFilter )
-					self._rebind(false);
-			});
+			// this.data.events.on('entryDirty', function(e){
+			// 	if( self.options.dynamicFilter )
+			// 		self._rebind(false);
+			// });
 
 
 
@@ -10657,7 +10668,7 @@ Ergo.alias('includes:provider-methods', {
             for(var j = 1; j < arguments.length; j++)
               args.push(arguments[j]);
 
-            $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+            return $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
       				return parser.call(this, data, action);
       			});
           }.bind(this, i) //p.bind(provider, this);

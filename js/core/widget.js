@@ -139,6 +139,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		return ($context || Ergo.context); //FIXME костыль
 	},
 
+	get scope() {
+		var w = this;
+		while(w) {
+			if(w._scope)
+				return w._scope;
+			w = w.parent;
+		}
+	},
+
 
 	// ctx: {
 	// 	events: {
@@ -582,6 +591,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 		return this.__l;
 	},
+
+
 
 
 //	_theme: function() {
@@ -1154,19 +1165,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		//TODO custom data injector
 		if( $.isString(data) ) {
-			var w = this;
-			while(!w._scope) {
-				w = w.parent;
-			}
-			if(w._scope) {
-				data = w._scope[data];
-			}
-			else {
-				throw new Error('Can not inject scope datasource into detached widget');
-			}
-			// var name_a = data.split(':');
-			// var src = (name_a.length == 1) ? this : this[name_a[0]];
-			// data = src[name_a[1]];
+			// var w = this;
+			// while(!w._scope) {
+			// 	w = w.parent;
+			// }
+			// if(w._scope) {
+			// 	data = w._scope[data];
+			// }
+			// else {
+			// 	throw new Error('Can not inject scope datasource into detached widget');
+			// }
+			var name_a = data.split(':');
+			var src = (name_a.length == 1) ? this : this[name_a[0]];
+			data = src[name_a[1]];
 		}
 
 
@@ -1222,10 +1233,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			}, this);
 
 
-			this.data.events.on('entryDirty', function(e){
-				if( self.options.dynamicFilter )
-					self._rebind(false);
-			});
+			// this.data.events.on('entryDirty', function(e){
+			// 	if( self.options.dynamicFilter )
+			// 		self._rebind(false);
+			// });
 
 
 

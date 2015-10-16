@@ -22,7 +22,7 @@ Ergo.alias('includes:provider-methods', {
             for(var j = 1; j < arguments.length; j++)
               args.push(arguments[j]);
 
-            $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+            return $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
       				return parser.call(this, data, action);
       			});
           }.bind(this, i) //p.bind(provider, this);
