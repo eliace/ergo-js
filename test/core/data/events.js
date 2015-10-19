@@ -24,14 +24,14 @@ describe('DataSource', function(){
 		});
 
 
-    it('should fires `entry:changed` and `dirty` events', function() {
+    it('should fires `diff` and `dirty` events', function() {
 
       var result = [];
 
       var ds = new Ergo.core.DataSource( {a: 'Alice'} );
 
-      ds.events.on('entry:changed', function(e) {
-        result.push('entry:changed');
+      ds.events.on('diff', function(e) {
+        result.push('diff');
 
         expect(e.entry).to.be.not.null
       });
@@ -44,7 +44,7 @@ describe('DataSource', function(){
 
       ds.set('a', 'Bob');
 
-      expect(result).to.be.eql(['dirty', 'entry:changed']);
+      expect(result).to.be.eql(['dirty', 'diff']);
 		});
 
 

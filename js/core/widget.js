@@ -139,6 +139,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		return ($context || Ergo.context); //FIXME костыль
 	},
 
+	get scope() {
+		var w = this;
+		while(w) {
+			if(w._scope)
+				return w._scope;
+			w = w.parent;
+		}
+	},
+
+	// set scope(scope) {
+	// 	this
+	// }
+
 
 	// ctx: {
 	// 	events: {
@@ -582,6 +595,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 		return this.__l;
 	},
+
+
 
 
 //	_theme: function() {
@@ -1154,19 +1169,19 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		//TODO custom data injector
 		if( $.isString(data) ) {
-			var w = this;
-			while(w && !w._scope) {
-				w = w.parent;
-			}
-			if(w && w._scope) {
-				data = w._scope[data];
-			}
-			else {
-				throw new Error('Can not inject scope datasource into detached widget');
-			}
-			// var name_a = data.split(':');
-			// var src = (name_a.length == 1) ? this : this[name_a[0]];
-			// data = src[name_a[1]];
+			// var w = this;
+			// while(!w._scope) {
+			// 	w = w.parent;
+			// }
+			// if(w._scope) {
+			// 	data = w._scope[data];
+			// }
+			// else {
+			// 	throw new Error('Can not inject scope datasource into detached widget');
+			// }
+			var name_a = data.split(':');
+			var src = (name_a.length == 1) ? this : this[name_a[0]];
+			data = src[name_a[1]];
 		}
 
 
@@ -1232,7 +1247,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			// если изменилось само значение массива, то уничожаем все элементы-виджеты и создаем их заново
 			this.data.events.on('changed', function(e){
 
-				self._rebind(false);
+				// если diff не определен, то перерисовываем все
+				var diff = (e.created || e.updated || e.deleted) ? {created: e.created, updated: e.updated, deleted: e.deleted} : null;
+
+				self._rebind(false, diff);
 
 			}, this);
 
@@ -1243,17 +1261,17 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			//
 			// }, this);
 
-
+			// для корректного порядка обновления
 			this.data.events.on('dirty', function(e){
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			});
 
-
+			// изменилось количество элементов данных или их содержимое
 			this.data.events.on('diff', function(e) {
 
-				self._diff( e.created || [], e.deleted || [], e.updated || [] );
+				self._rebind( false, {created: e.created, updated: e.updated, deleted: e.deleted} );
 
-			});
+			}, this);
 
 
 
@@ -1322,6 +1340,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(update !== false && !this.data.options.fetchable) this._dataChanged();
 
 
+		// подключаем события data:
+		this._bindNsEvents('data');
+
+
 //		if( this.data.options.fetchable ) {
 
 		this.data.events.on('fetch:before', function(){
@@ -1352,7 +1374,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 *
 	 * @protected
 	 */
-	_rebind: function(update) {
+	_rebind: function(update, diff) {
 
 		var o = this.options;
 		var self = this;
@@ -1383,39 +1405,46 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(o.dynamic) {
 			// TODO
 
-//		console.log('rebind (dynamic)');
+			if(diff) {
+				this._dataDiff(diff.created, diff.deleted, diff.updated);
 
-			// обновляем вложенные элементы контейнера на основе источника данных
-//			this.layout.immediateRebuild = false;
+//				this._dataChanged(false, false);
+			}
+			else {
 
-			// // уничтожаем все динамические элементы
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+	//		console.log('rebind (dynamic)');
 
-//			var t0 = Ergo.timestamp();
+				// обновляем вложенные элементы контейнера на основе источника данных
+	//			this.layout.immediateRebuild = false;
 
-			this.data.each(function(dataEntry, i){
-//					self.items.add({}).bind(dataEntry, true, 2);
-				self.children.autobinding = false;
-				var item = self.items.add({});//{ 'data': dataEntry });
-				self.children.autobinding = false;
+				// // уничтожаем все динамические элементы
+				this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
 
-				item.bind(dataEntry);
-				item._pivot = false;
-				item._dynamic = true;
-//					item.el.attr('dynamic', true);
-//					item.dataPhase = 2;
-//				item.render();
-			}, this.options.dynamicFilter, this.options.dynamicSorter);
+	//			var t0 = Ergo.timestamp();
 
-//			var t1 = Ergo.timestamp();
-//			console.log(t1 - t0);
+				this.data.each(function(dataEntry, i){
+	//					self.items.add({}).bind(dataEntry, true, 2);
+					self.children.autobinding = false;
+					var item = self.items.add({});//{ 'data': dataEntry });
+					self.children.autobinding = false;
 
-			// this.layout.immediateRebuild = true;
-			// this.layout.rebuild();
+					item.bind(dataEntry);
+					item._pivot = false;
+					item._dynamic = true;
+	//					item.el.attr('dynamic', true);
+	//					item.dataPhase = 2;
+	//				item.render();
+				}, this.options.dynamicFilter, this.options.dynamicSorter);
 
-//			if(!Ergo.noDynamicRender)
-			this.render();
+	//			var t1 = Ergo.timestamp();
+	//			console.log(t1 - t0);
 
+				// this.layout.immediateRebuild = true;
+				// this.layout.rebuild();
+
+	//			if(!Ergo.noDynamicRender)
+				this.render();
+			}
 
 			// обновляем виджет (если это не запрещено в явном виде)
 //			if(update !== false) this._dataChanged(true);
@@ -1456,79 +1485,179 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-	_diff: function(created, deleted, updated) {
+	_dataDiff: function(created, deleted, updated) {
 
 		var filter = this.options.dynamicFilter;
 		var sorter = this.options.dynamicSorter;
 
-		// DELETED
-		for(var i = 0; i < deleted.length; i++) {
-			var e = deleted[i];
-			var item = this.item({data: e});
-			if(item)
-				item._destroy();
+
+		if(deleted) {
+//			this.items.each(function(item) { console.log('k', item._index); });
+			// DELETED
+			for(var i = 0; i < deleted.length; i++) {
+				var e = deleted[i];
+				var item = this.item({data: e});
+				if(item)
+					item._destroy();
+			}
+//			this.items.each(function(item) { console.log('m', item._index); });
 		}
 
-		// CREATED
-		for(var i = 0; i < created.length; i++) {
-			var e = created[i];
-			var index = e._id[0];
-			var value = e._val();
-			if(!filter || filter.call(this, e._val(), index)) {
-				var after = null;
-				if(sorter) {
+
+
+		if(created) {
+			// CREATED
+			for(var i = 0; i < created.length; i++) {
+				var e = created[i];
+				var index = e._id[0];
+				var value = e._val();
+				if(!filter || filter.call(this, e._val(), index)) {
+					var after = null;
+					if(sorter) {
+//						console.log('sort add', index, value);
+						var kv0 = [index, value];
+						// FIXME поменять поиск на бинарный
+						after = this.items.find(function(item) {
+							var kv1 = [item.data._id[0], item.data._val()];
+							if( sorter.call(e, kv0, kv1) <= 0 ) {
+//								console.log(kv1[1]);
+								return true;
+							}
+						});
+					}
+
+					// добавляем элемент последним
+					this.children.autobinding = false;
+					var item = this.items.add({}, after ? after._index : null);
+					this.children.autobinding = true;
+					item.bind(e, true, false);
+
+					item._dynamic = true;
+
+					item.render();
+
+
+				}
+			}
+		}
+
+
+
+
+		if(updated) {
+			// UPDATED
+
+			for(var i = 0; i < updated.length; i++) {
+
+
+				var e = updated[i];
+				var _item = this.item({data: e});
+				var index = e._id[0];
+				var value = e._val();
+
+				if(filter) {
+					if(!filter.call(this, e._val(), index)) {
+						_item._destroy();
+						_item = null;
+					}
+					else if(!_item) {
+
+//						console.log('---', index, value);
+
+						// ищем первый элемент, у которого индекс больше либо равен новому
+						var after = this.items.find(function(item) {
+//							console.log(item.data._id[0]);
+							if( index <= item.data._id[0] ) {
+								return true;
+							}
+						});
+
+						// добавляем элемент последним
+						this.children.autobinding = false;
+						var item = this.items.add({}, after ? after._index : null);
+						this.children.autobinding = true;
+						item.bind(e, false, false);  // обновляться здесь не надо
+
+						item._dynamic = true;
+
+						item.render();
+
+					}
+				}
+
+
+
+//				console.log('before sort', this.items.size())
+
+				if(sorter && _item) {
+
+
+//					console.log('sort', index, value);
+
+//					var after = null;
 					var kv0 = [index, value];
-					// FIXME поменять поиск на бинарный
-					this.items.each(function(item) {
+					var after = this.items.find(function(item) {
 						var kv1 = [item.data._id[0], item.data._val()];
-						if( sorter.call(e, kv1, kv0) >= 0 ) {
-							after = item;
-							return false;
+						if( item != _item && sorter.call(e, kv0, kv1) <= 0 ) {
+//							console.log(kv1[1]);
+							return true;
+//							return false;
 						}
 					});
+
+
+
+
+//					console.log(this.items.size(), _item, _item._index)
+
+
+//					console.log('sort', after, _item);
+
+					// if( after && after._index == _item._index+1 ) {
+					// 	// ничего не делаем
+					// }
+					// else {
+						this.items.remove(_item);
+
+//						console.log(this.items.size())
+//						console.log(after._index);
+
+//						this.items.each(function(item) { console.log('n', item._index); });
+
+
+						this.items.add(_item, after ? after._index : null);
+
+//						this.items.each(function(item) { console.log('m', item._index); });
+
+//					}
+
+//					if(after != _item) {
+// 						if(after) {
+// //							console.log('after', after.data.get());
+// 							this.items.remove(_item);
+// 							this.items.add(_item, after._index);
+// 						}
+// 						else {
+// 							this.items.remove(_item);
+// 							this.items.add(_item);
+// 						}
+						// if(after && _item._index < after._index) {
+						// 	this.items.remove(_item);
+						// 	this.items.add(_item, after._index-1);
+						// }
+						// else {
+						// }
+//					}
+
 				}
 
-				// добавляем элемент последним
-				this.children.autobinding = false;
-				var item = this.items.add({}, after ? after._index : null);
-				this.children.autobinding = true;
-				item.bind(e);
 
-				item._dynamic = true;
 
-				item.render();
+//				console.log('after sort', this.items.size())
+
+
 
 			}
-		}
-
-
-		// UPDATED
-		for(var i = 0; i < updated.length; i++) {
-			var e = updated[i];
-			var _item = this.item({data: e});
-			var index = e._id[0];
-			var value = e._val();
-			if(filter && !filter.call(this, e._val(), index)) {
-				_item._destroy();
-			}
-			else if(sorter){
-				var after = null;
-				var kv0 = [index, value];
-				this.items.each(function(item) {
-					var kv1 = [item.data._id[0], item.data._val()];
-					if( sorter.call(e, kv0, kv1) >= 0 ) {
-						after = item;
-						return false;
-					}
-				});
-
-				if(after != _item) {
-					this.items.remove(_item);
-					this.items.add(_item);
-				}
-
-			}
-
 		}
 
 
@@ -1699,6 +1828,40 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			this.children.apply_all('_dataChanged', [true]);
 
 //		this.children.each(function(child) { child._dataChanged(); });
+
+	},
+
+
+
+	_bindNsEvents: function(ns) {
+
+		var o = this.options;
+
+		//FIXME bind data events
+		if('events' in o) {
+			for(var i in o.events){
+
+				var name_a = i.split(':');
+
+				if( name_a.length == 2 && name_a[0] == ns ) {
+
+					var callback_a = o.events[i];
+					callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+					for(var j in callback_a) {
+						var callback = callback_a[j];
+
+						if( $.isString(callback) ) {
+							var a = callback.split(':');
+							callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+						}
+
+						this[name_a[0]].events.on(name_a[1], callback, this);
+
+					}
+				}
+			}
+		}
+
 
 	},
 

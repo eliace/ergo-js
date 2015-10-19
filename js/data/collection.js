@@ -75,9 +75,11 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 				var v = parse.call(self, data);
 
-				if(self.options.swap && v.length == self.source.length) {
-					self.source = v;
-					self._fetched = 'swap';
+				if(self.options.sync) {
+					self.sync( v );
+					self._fetched = true;
+					// self.source = v;
+					// self._fetched = 'swap';
 				}
 				else {
 					self.set( v );
@@ -94,6 +96,17 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 
 
+
+
+
+
+	// _merge: function(oldData, newData) {
+	//
+	//
+	// },
+
+
+/*
 	sync: function(q) {
 
 		this._fetched = undefined;
@@ -133,7 +146,7 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 		return $.when(null);
 	},
-
+*/
 
 
 

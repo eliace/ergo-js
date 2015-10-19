@@ -38,7 +38,7 @@
 			var obj = src;
 			for(var i in obj){
 				callback.call(obj, obj[i], i);
-//				if( callback.call(delegate || obj, obj[i], i) === false ) return false;
+//				if( callback.call(obj, obj[i], i) === false ) return false;
 			}
 		}
 	};

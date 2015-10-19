@@ -2,7 +2,7 @@
 var expect = chai.expect;
 
 describe('Widget', function(){
-	describe('Dynamic Binding', function() {
+	describe('Dynamic Diff', function() {
 
 		it('should change dynamic items on diff', function() {
 
@@ -34,7 +34,8 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(2);
 
-			expect(bindings).to.be.eql([['Alice', 'Charlie']]);
+			console.log('delete', bindings);
+			expect(bindings).to.be.eql([/*'Bob', */['Alice', 'Charlie']]);
 
 
 			// CREATE
@@ -45,7 +46,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(3);
 
-			console.log(bindings);
+			console.log('create', bindings);
 			expect(bindings).to.be.eql([['Alice', 'Alice', 'Charlie'], 'Alice']);
 
 
@@ -57,7 +58,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(3);
 
-			console.log(bindings);
+			console.log('update', bindings);
 			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie'], 'Bob']);
 
 
@@ -102,7 +103,7 @@ describe('Widget', function(){
 			expect(ds.entries.size()).to.be.eq(3);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Charlie']);
 
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie']]);
+			expect(bindings).to.be.eql([/*'Dave', */['Alice', 'Bob', 'Charlie']]);
 
 
 			// CREATE
@@ -169,7 +170,20 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Oz', 'Charlie', 'Eve', 'Dave'], 'Oz']);
+			expect(bindings).to.be.eql([['Oz', 'Charlie', 'Eve', 'Dave']]);
+
+
+			// UPDATE X
+			bindings = [];
+
+			ds.set(2, 'Frank');
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(4);
+			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Frank', 'Dave']);
+
+			console.log(bindings);
+			expect(bindings).to.be.eql([['Oz', 'Charlie', 'Frank', 'Dave'], 'Frank']);
 
 		});
 
@@ -217,7 +231,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Bob']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Bob', 'Alice']]);
+			expect(bindings).to.be.eql([/*'Charlie', */['Bob', 'Alice']]);
 
 
 			// CREATE
@@ -259,6 +273,58 @@ describe('Widget', function(){
 			console.log(bindings);
 			expect(bindings).to.be.eql([['Dave', 'Bob', 'Eve', 'Chuck'], 'Eve']);
 
+
+		});
+
+
+
+		it('should rebuild dynamic items on dirty', function() {
+
+			var bindings = [];
+
+			var data = [{ref: 'http://ergojs.com'}, {ref: 'http://my.org'}];
+
+			var filter = function(v, i) {
+				return v.ref.indexOf('https://') == -1;
+			}
+
+			var box = $.ergo({
+				etype: 'html:div',
+				dynamic: true,
+				dynamicFilter: filter,
+				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				defaultItem: {
+					etype: 'html:div',
+					binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+					$content: {
+						etype: 'html:a',
+						dataId: 'ref',
+						binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+					}
+				},
+				events: {
+					'data:dirty': function(e) {
+						this._dataDiff([], [], e.updated);
+					}
+				}
+			});
+
+			box.bind(data);
+
+			// box.data.events.on('dirty', function(e) {
+			// 	this._dataDiff([], [], e.updated);
+			// }, box);
+
+
+
+			bindings = [];
+
+			box.data.set('0.ref', 'https://github.com');
+
+			expect(box.items.size()).to.be.eq(1);
+
+			console.log(bindings);
+			expect(bindings).to.be.eql([{ref: 'https://github.com'}, [{ref: 'https://github.com'}, {ref: 'http://my.org'}]]);
 
 		});
 

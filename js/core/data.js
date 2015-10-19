@@ -299,6 +299,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
+
+
 			// var filtered = [];
 			// this.entries.each(function(e) {
 			// 	//FIXME упрощенная проверка присутствия ключа
@@ -353,10 +355,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
-			this.mark_dirty();
 
 
-			this.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
 
 			// var ds = this.source;
 			// while(ds) {
@@ -365,9 +365,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			// }
 
 			if(this.source instanceof Ergo.core.DataSource) {
-				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
-				this.source.events.fire('diff', {updated: [this]});
+//				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
+				if(!this.source._no_diff) {
+					this.mark_dirty();
+					this.source.events.fire('diff', {updated: [this]});
+				}
 			}
+
+			this.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
 
 //			this._changed = true;
 		}
@@ -426,10 +431,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		var e = this.entry(index);
 
-		this.mark_dirty(true);
 
-		this.events.fire('entry:added', {'index': isLast ? undefined : index, entry: e});//, 'isLast': isLast});
-		this.events.fire('diff', {created: [e]});
+//		this.events.fire('entry:added', {'index': isLast ? undefined : index, entry: e});//, 'isLast': isLast});
+		if(!this._no_diff) {
+			this.mark_dirty(true);
+			this.events.fire('diff', {created: [e]});
+		}
+
+//		e.events.fire('changed', {created: [e]}); // ?
 
 		return e;
 	},
@@ -490,6 +499,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 		else {
 
+//			this.events.fire('changed', {/*'oldValue': deleted_value, 'newValue': undefined,*/ deleted: [this]});
+
 			var src = this.source;
 			var value = src;
 
@@ -520,15 +531,18 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				}
 			}
 
-			if( src instanceof Ergo.core.DataSource ) {
+
+
+			if( this.source instanceof Ergo.core.DataSource ) {
 				src.entries.remove(this);
-				src.mark_dirty(true);
-				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
-				this.source.events.fire('diff', {deleted: [this]});
+				if(!this.source._no_diff) {
+					this.source.mark_dirty(true);
+//				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
+					this.source.events.fire('diff', {deleted: [this]});
+				}
 			}
 
 
-			this.events.fire('changed', {'oldValue': deleted_value, 'newValue': undefined});
 		}
 	},
 
@@ -609,31 +623,132 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
-	diff: function(difference, filter, sorter) {
+	sync: function(newData) {
 
-		var ds = this;
+		var valueUid = (this.options.valueUid || this._valueUid);
+		var valueEql = (this.options.valueEql || this._valueEql);
 
-		// DELETED
-		for(var i = 0; i < difference.deleted.length; i++) {
-			var d = difference.created[i];
-			this.events.fire('entry:deleted', {entry: d.entry});
+		var oldData = this._val();
+
+		var diff = {
+			created: [],
+			deleted: [],
+			updated: []
 		}
 
-		// CREATED
-		for(var i = 0; i < difference.created.length; i++) {
-			var d = difference.created[i];
-			if(!filter || filter.call(this, d.value, d.id)) {
-				var index = d.id;
-				if(sorter) {
-					// FIXME поменять поиск на бинарный
-				}
+//		console.log('sync', oldData, newData);
+
+		this._no_diff = true;
+
+		// for arrays
+
+		var value_m = {};
+		for(var i = 0; i < newData.length; i++) {
+			//TODO способ получения ключа может быть сложнее
+			var uid = valueUid.call(this, newData[i], i);
+			// if(this.options.idKey) {
+			// 	value_m[newData[i][this.options.idKey]] = {value: newData[i], index: i};
+			// }
+			// else {
+			value_m[uid] = {value: newData[i], index: i};
+//			}
+		}
+
+//		console.log('sync', value_m);
+
+		for(var i = 0; i < oldData.length; i++) {
+			var v = oldData[i];
+			var k = valueUid.call(this, v, i);
+//			var k = (this.options.idKey) ? v[this.options.idKey] : i;
+			if( k in value_m ) {
+				delete value_m[k];
+			}
+			else {
+				// DELETE
+				diff.deleted.push( this.entry(i) );
+//				this.del(k);
 			}
 		}
 
+		for(var i = diff.deleted.length-1; i >= 0; i-- ) {
+			diff.deleted[i].del();
+		}
 
+
+		for(var k in value_m) {
+			var v = value_m[k].value;
+			var i = value_m[k].index;
+			// CREATE
+			diff.created.push( this.add(v, i) );
+		}
+
+
+		this._val( newData );
+
+
+		for(var i = 0; i < newData.length; i++) {
+			if( !valueEql(oldData[i], newData[i]) ) {
+//			if( JSON.stringify(oldData[i]) !== JSON.stringify(newData[i]) ) {
+				diff.updated.push( this.entry(i) );
+			}
+		}
+
+		// if(diff.updated.length != 0) {
+		// }
+
+		this._no_diff = false;
+
+		this.mark_dirty(true);
+
+//		console.log('sync diff', diff, oldData, newData);
+
+		this.events.fire('diff', diff);
+
+		// for(var i = diff.created.length-1; i >= 0; i-- ) {
+		// 	diff.created[i].events.fire('changed');
+		// }
+		for(var i = diff.updated.length-1; i >= 0; i-- ) {
+			diff.updated[i].events.fire('changed');
+		}
 
 
 	},
+
+
+	_valueEql: function(a, b) {
+		return JSON.stringify(a) === JSON.stringify(b);
+	},
+
+	_valueUid: function(v, i) {
+		return i;
+	},
+
+
+	// diff: function(difference, filter, sorter) {
+	//
+	// 	var ds = this;
+	//
+	// 	// DELETED
+	// 	for(var i = 0; i < difference.deleted.length; i++) {
+	// 		var d = difference.created[i];
+	// 		this.events.fire('entry:deleted', {entry: d.entry});
+	// 	}
+	//
+	// 	// CREATED
+	// 	for(var i = 0; i < difference.created.length; i++) {
+	// 		var d = difference.created[i];
+	// 		if(!filter || filter.call(this, d.value, d.id)) {
+	// 			var index = d.id;
+	// 			if(sorter) {
+	// 				// FIXME поменять поиск на бинарный
+	// 			}
+	// 		}
+	// 	}
+	//
+	//
+	//
+	//
+	// },
 
 /*
 	keys: function(criteria) {
@@ -657,14 +772,14 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 */
 
 
-	mark_dirty: function(do_event) {
+	mark_dirty: function(do_event, e) {
 		this._changed = true;
 
 		if(do_event)
-			this.events.fire('dirty');
+			this.events.fire('dirty', e || {});
 
 		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
-			this.source.mark_dirty(true);
+			this.source.mark_dirty(true, {updated: [this]});
 	},
 
 

@@ -127,11 +127,13 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 //		i = this._super(item, i);
 		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
 
+
+
 //		console.log(i0 + ' > '+i);
 
 		// обновляем свойство _index у соседних элементов
 		for(var j = i+1; j < this.src.length; j++) {
-			if(this.src[j]._index)
+			if('_index' in this.src[j])
 				this.src[j]._index++;
 		}
 //			this.src[j]._index = j;
@@ -612,7 +614,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 
 	remove_at: function(i) {
-		var removed = this._widget.children.remove_if(function(v) {	return v._index == i;	});
+		var removed = this._widget.children.remove_if(function(v) {	return v._index === i;	});
 
 		return removed.length == 0 ? null : removed[0];
 	},

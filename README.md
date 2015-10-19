@@ -63,7 +63,7 @@ $(document).ready(function(){
 * Router also arranged as include
 * Include `provider-methods` adds provider methods prefixed with `$` to data source
 * Default formatter supports format pipeline: `format: '#{prop|format_1|format_2}'`
-* Binding events to `observable` properties through `events` option (`data:entryDirty` fires on `entryDirty` event of `data`)
+* Binding events to `observable` properties through `events` option (`data:dirty` fires on `dirty` event of `data`)
 * Alias `ergo` for `Ergo`
 * Lazy initializing `children`, `items`, `components` and `layout`
 * Single child widget has no layout and renders with raw append
@@ -72,6 +72,13 @@ $(document).ready(function(){
 * `widgets:select` focusable by default
 * New `focusable` include adds `tabindex=0`
 * Cancel closing modal dialog with `event.cancel()`
+* DataSource events `entry:added`, `entry:deleted` and `entry:changed` are deprecated
+* New datasource events: `changed`, `dirty`, `diff`
+* New datasource method `sync(newValue)` produces diff from new and old values
+* New datasouce functional options `valueUid: (value, index)` and `valueEql: (value1, value2)`
+* Injecting `scope` instead `context` (but `ctx:` prefix still available)
+* Binding scope events to widget with `scope:` prefix
+* String value of `data` option binds widget properties as data (nested properties not supported)
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
@@ -111,7 +118,6 @@ $(document).ready(function(){
 * Detect states as boolean options
 * Composite weight
 * Local storage provider
-* `scope` injecting instead `context` (?)
-* Injecting scope and context data
+
 
 and more new widgets :)
