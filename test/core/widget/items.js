@@ -27,6 +27,32 @@ describe('Widget', function(){
 		});
 
 
+    it('should add dynamic items', function() {
+
+      var data = ['Alice', 'Bob', 'Charlie']
+
+      var box = $.ergo({
+        etype: 'html:div',
+        dynamic: true,
+        data: data,
+        defaultItem: {
+          etype: 'html:div',
+          binding: 'text'
+        }
+      });
+
+      console.log('begin add 0');
+      box.data.add('Dave', 0);
+      console.log('end add 0');
+
+      expect(box.data.entry(0)._val()).to.be.eq('Dave');
+      expect(box.item(0).opt('text')).to.be.eq('Dave');
+
+
+		});
+
+
+
 	})
 
 

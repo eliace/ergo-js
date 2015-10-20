@@ -5245,6 +5245,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	add: function(item, i, type) {
 
+//		console.log('i', i);
+
 //		var key;
 		var w = this.widget;
 
@@ -5308,6 +5310,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 //		var i0 = i;
 
+
+//		console.log('i', i);
 		// добавляем элемент в коллекцию
 //		i = this._super(item, i);
 		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
@@ -7336,24 +7340,38 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				var e = created[i];
 				var index = e._id[0];
 				var value = e._val();
+
 				if(!filter || filter.call(this, e._val(), index)) {
-					var after = null;
-					if(sorter) {
-//						console.log('sort add', index, value);
+
+					// если есть фильтрация и сортировка, то индексы не совпадают, поэтому нужен поиск
+					if( filter || sorter ) {
+						var after = null;
 						var kv0 = [index, value];
 						// FIXME поменять поиск на бинарный
 						after = this.items.find(function(item) {
 							var kv1 = [item.data._id[0], item.data._val()];
-							if( sorter.call(e, kv0, kv1) <= 0 ) {
+							if( (sorter && sorter.call(e, kv0, kv1) <= 0) || (!sorter && kv0[0] <= kv1[0]) ) {
 //								console.log(kv1[1]);
 								return true;
 							}
 						});
+
+						index = after ? after._index : null;
 					}
+
+
+// 					if(sorter) {
+// //						console.log('sort add', index, value);
+// 					}
+// 					// TODO нужен тест с фильтром и позиционированием
+//
+// 					if(filter || sorter)
+
+
 
 					// добавляем элемент последним
 					this.children.autobinding = false;
-					var item = this.items.add({}, after ? after._index : null);
+					var item = this.items.add({}, index);
 					this.children.autobinding = true;
 					item.bind(e, true, false);
 

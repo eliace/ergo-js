@@ -60,6 +60,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	add: function(item, i, type) {
 
+//		console.log('i', i);
+
 //		var key;
 		var w = this.widget;
 
@@ -123,6 +125,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 //		var i0 = i;
 
+
+//		console.log('i', i);
 		// добавляем элемент в коллекцию
 //		i = this._super(item, i);
 		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
