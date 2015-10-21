@@ -11228,6 +11228,9 @@ Ergo.alias('includes:list-navigator', {
 
 
 			scroll_to: function(item) {
+
+				if(!item)	return;
+
 				var h = _w.el.height();
 				var s_top = _w.el.scrollTop();
 				var hi = item.el.outerHeight();
@@ -11238,6 +11241,7 @@ Ergo.alias('includes:list-navigator', {
 				else if ( p < 0) {
 					_w.el.scrollTop( s_top + p );
 				}
+				
 			}
 
 		};
