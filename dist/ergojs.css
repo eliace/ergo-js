@@ -1619,6 +1619,7 @@ h5 {
   cursor: default;
   overflow-y: auto;
   overflow-x: hidden;
+  max-height: 200px;
 }
 .list.dropdown > li {
   cursor: default;
@@ -4338,7 +4339,7 @@ label:hover .radio {
 
 
 .dropdown > .popup {
-  top: 100%;  
+  top: 100%;
   margin: 4px 0;
 }
 
@@ -4417,7 +4418,7 @@ label:hover .radio {
 
 
 .dropright > .popup {
-  top: 100%;  
+  top: 100%;
   margin: 4px 0;
 }
 
@@ -4444,16 +4445,16 @@ label:hover .radio {
   position: absolute;
   text-align: left;
   z-index: 1000;
-//  margin: 0;	
+//  margin: 0;
 
-  border-radius: 4px;	
+  border-radius: 4px;
   margin: 4px 0;
 
 }
 
 
 .list.dropdown {
-  top: 100%;	
+  top: 100%;
 }
 
 
@@ -4463,8 +4464,8 @@ label:hover .radio {
 
 
 .dropdown-auto {
-  top: 100%;  
-  bottom: auto;	
+  top: 100%;
+  bottom: auto;
 }
 
 
@@ -4488,7 +4489,7 @@ label:hover .radio {
 
   // &:hover {
 		// background-color: #f5f5f5;
-		// color: #262626;  	
+		// color: #262626;
   // }
 }
 

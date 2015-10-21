@@ -9,65 +9,41 @@ Ergo.alias('includes:list-navigator', {
 		this.navigator = {
 
 			get selected() {
-				return this._selected;
+				return this.__sel;
 			},
 
 			set selected(item) {
-				if(this._selected)
-					this._selected.states.unset('selected');
+				if(this.__sel)
+					this.__sel.states.unset('selected');
 
-				this._selected = item;
+				this.__sel = item;
 
-				if(this._selected)
-					this._selected.states.set('selected');
+				if(this.__sel)
+					this.__sel.states.set('selected');
 			},
 
 
 
 
 			next: function() {
-				var item = this.selected;
-				if(item) {
-					while(item = item.next()) {
-						if(item._rendered)
-							break;
-					}
-//					item = _w.item(item._index + 1);
-//					item = item.el.next().ergo();
-				}
-				else {
-					item = _w.items.first();
-					while(item) {
-						if(item._rendered)
-							break;
-						item = item.next();
-					}
-//					item = _w.item(0);
-//					item = _w.el.children().first().ergo();
+				var item = this.selected ? this.selected.next() : _w.items.first();
+
+				while(item) {
+					if(item._rendered)
+						break;
+					item = item.next();
 				}
 
 				this.selected = item;
 			},
 
 			prev: function() {
-				var item = this.selected;
-				if(item) {
-          while(item = item.prev()) {
-						if(item._rendered)
-							break;
-					}
-//					item = _w.item(item._index - 1);
-//					item = item.el.prev().ergo();
-				}
-				else {
-          item = _w.items.last();
-					while(item) {
-						if(item._rendered)
-							break;
-						item = item.prev();
-					}
-//					item = _w.item( _w.items.size() );
-//					item = _w.el.children().last().ergo();
+				var item = this.selected ? this.selected.prev() : _w.items.last();
+
+				while(item) {
+					if(item._rendered)
+						break;
+					item = item.prev();
 				}
 
 				this.selected = item;

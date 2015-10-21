@@ -1039,11 +1039,17 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 					this.states.set('opened');
 					e.preventDefault();
 				}
-				else if(e.keyCode == KEY_ENTER) {
+
+			},
+
+			'jquery:keyup': function(e) {
+
+				if(e.keyCode == KEY_ENTER) {
 					this.events.fire('select', {target: this.$dropdown.navigator.selected})
 				}
-				else if(e.keyCode == 27) {
+				if(e.keyCode == 27) {
 					this.states.unset('opened');
+					this._dataChanged();
 				}
 
 			}
@@ -1053,10 +1059,19 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 		selection: {
-			lookup: function(key) {
-				return this.$dropdown.item(key);
-			}
-		},
+	    lookup: function(name) {
+	      var s = JSON.stringify(name);
+	      return this.$dropdown.items.find(function(item) {
+	        return s === JSON.stringify(item.opt('name'))
+	      });
+	    }
+	  },
+
+		// selection: {
+		// 	lookup: function(key) {
+		// 		return this.$dropdown.item(key);
+		// 	}
+		// },
 
 
 		binding: function(v) {
@@ -1067,10 +1082,11 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
 
-			this.states.toggle('placeholder', v == null);
-
 		},
 
+		onDataChanged: function() {
+			this.states.toggle('placeholder', this.opt('value') == null);
+		},
 
 //		onDropdown: function
 

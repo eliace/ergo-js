@@ -768,6 +768,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 							item.el[0]._weight = item._weight;
 							self.el.append(item.el);
 						}
+
+						item._rendered = true;
 					}
 					else {
 						item._type == 'item' ? self.layout.add(item, item._index) : self.layout.add(item);
@@ -809,6 +811,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 						this.el[0]._weight = this._weight;
 						this.parent.el.append(this.el);
 					}
+
+					this._rendered = true;
 				}
 				else {
 					this._type == 'item' ? this.parent.layout.add(this, this._index) : this.parent.layout.add(this);
