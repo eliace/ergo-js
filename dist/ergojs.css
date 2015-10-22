@@ -3099,6 +3099,7 @@ label.selected {
   float: left;
   margin-top: 3px;
   margin-bottom: 3px;
+  line-height: 1;
 }
 .link {
   text-decoration: none;
