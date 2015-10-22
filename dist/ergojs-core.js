@@ -2998,8 +2998,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
-
-
 			// var ds = this.source;
 			// while(ds) {
 			// 	ds.events.fire('entry:changed', {entry: this});
@@ -3009,12 +3007,21 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			if(this.source instanceof Ergo.core.DataSource) {
 //				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
 				if(!this.source._no_diff) {
-					this.mark_dirty();
 					this.source.events.fire('diff', {updated: [this]});
+//					this.mark_dirty();
 				}
 			}
 
 			this.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
+
+			if(this.source instanceof Ergo.core.DataSource) {
+//				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
+				if(!this.source._no_diff) {
+//					this.source.events.fire('diff', {updated: [this]});
+					this.mark_dirty();
+				}
+			}
+
 
 //			this._changed = true;
 		}
@@ -3076,11 +3083,12 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 //		this.events.fire('entry:added', {'index': isLast ? undefined : index, entry: e});//, 'isLast': isLast});
 		if(!this._no_diff) {
-			this.mark_dirty(true);
 			this.events.fire('diff', {created: [e]});
+			this.mark_dirty(true);
 		}
 
 //		e.events.fire('changed', {created: [e]}); // ?
+
 
 		return e;
 	},
@@ -3178,9 +3186,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			if( this.source instanceof Ergo.core.DataSource ) {
 				src.entries.remove(this);
 				if(!this.source._no_diff) {
-					this.source.mark_dirty(true);
 //				src.events.fire('entry:deleted', {'entry': this, 'value': deleted_value});
 					this.source.events.fire('diff', {deleted: [this]});
+					this.source.mark_dirty(true);
 				}
 			}
 
@@ -3340,7 +3348,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		this._no_diff = false;
 
-		this.mark_dirty(true);
 
 //		console.log('sync diff', diff, oldData, newData);
 
@@ -3353,6 +3360,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			diff.updated[i].events.fire('changed');
 		}
 
+		this.mark_dirty(true);
 
 	},
 
@@ -3417,11 +3425,12 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	mark_dirty: function(do_event, e) {
 		this._changed = true;
 
+		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
+			this.source.mark_dirty(true, {updated: [this]});
+
 		if(do_event)
 			this.events.fire('dirty', e || {});
 
-		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
-			this.source.mark_dirty(true, {updated: [this]});
 	},
 
 

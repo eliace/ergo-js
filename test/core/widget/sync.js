@@ -7,7 +7,7 @@ describe('Widget', function(){
 
 			var bindings = [];
 
-			var ds = new Ergo.core.DataSource(['Alice', 'Bob', 'Charlie'], {idKey: false});
+			var ds = new Ergo.core.DataSource(['Alice', 'Bob', 'Charlie']/*, {idKey: false}*/);
 
 			var box = $.ergo({
 				etype: 'html:div',
@@ -35,7 +35,7 @@ describe('Widget', function(){
       expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Charlie']);
 
 			console.log('delete', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Charlie'], 'Charlie']);
+			expect(bindings).to.be.eql(['Charlie', ['Alice', 'Charlie']]);
 
 
 			// CREATE
@@ -48,7 +48,7 @@ describe('Widget', function(){
       expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Alice', 'Charlie']);
 
 			console.log('create', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Alice', 'Charlie'], 'Charlie', 'Alice']);
+			expect(bindings).to.be.eql(['Charlie', 'Alice', ['Alice', 'Alice', 'Charlie']]);
 
 
 			// UPDATE
@@ -60,7 +60,7 @@ describe('Widget', function(){
 			expect(ds.entries.size()).to.be.eq(3);
 
 			console.log('update', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie'], 'Bob']);
+			expect(bindings).to.be.eql(['Bob', ['Alice', 'Bob', 'Charlie']]);
 
 
 		});
@@ -116,7 +116,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Frank']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie', 'Frank'], 'Frank']);
+			expect(bindings).to.be.eql(['Frank', ['Alice', 'Bob', 'Charlie', 'Frank']]);
 
 
 			// UPDATE (VISIBLE)
@@ -129,7 +129,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie', 'Dave'], 'Dave']);
+			expect(bindings).to.be.eql(['Dave', ['Alice', 'Bob', 'Charlie', 'Dave']]);
 
 
 
@@ -143,7 +143,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
 
 			console.log('sync delete hidden', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Charlie', 'Dave'], 'Dave', 'Charlie']);
+			expect(bindings).to.be.eql(['Dave', 'Charlie', ['Alice', 'Charlie', 'Dave']]);
 
 
 			// CREATE (HIDDEN)
@@ -156,7 +156,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
 
 			console.log('sync create hidden', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Charlie', 'Eve', 'Dave'], 'Dave']);
+			expect(bindings).to.be.eql(['Dave', ['Alice', 'Charlie', 'Eve', 'Dave']]);
 
 
 
@@ -222,7 +222,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Bob']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Bob', 'Alice'], 'Alice']); // 1 delete
+			expect(bindings).to.be.eql(['Alice', ['Bob', 'Alice']]); // 1 delete
 
 
 //      box.items.each(function(item) { console.log('i', item._index); });
@@ -239,7 +239,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Bob', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Alice'], 'Alice', 'Bob', 'Dave']); // 1 create + 2 updates
+			expect(bindings).to.be.eql(['Alice', 'Bob', 'Dave', ['Dave', 'Bob', 'Alice']]); // 1 create + 2 updates
 
 
 			// CREATE X
@@ -252,7 +252,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Alice', 'Bob', 'Chuck', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Alice', 'Chuck'], 'Chuck']); // 1 create
+			expect(bindings).to.be.eql(['Chuck', ['Dave', 'Bob', 'Alice', 'Chuck']]); // 1 create
 
 
 
@@ -266,7 +266,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Bob', 'Chuck', 'Dave', 'Eve']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Eve', 'Chuck'], 'Eve']);
+			expect(bindings).to.be.eql(['Eve', ['Dave', 'Bob', 'Eve', 'Chuck']]);
 
 
 		});

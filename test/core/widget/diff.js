@@ -47,7 +47,7 @@ describe('Widget', function(){
 			expect(ds.entries.size()).to.be.eq(3);
 
 			console.log('create', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Alice', 'Charlie'], 'Alice']);
+			expect(bindings).to.be.eql(['Alice', ['Alice', 'Alice', 'Charlie']]);
 
 
 			// UPDATE
@@ -59,7 +59,7 @@ describe('Widget', function(){
 			expect(ds.entries.size()).to.be.eq(3);
 
 			console.log('update', bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie'], 'Bob']);
+			expect(bindings).to.be.eql(['Bob', ['Alice', 'Bob', 'Charlie']]);
 
 
 		});
@@ -116,7 +116,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Frank']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie', 'Frank'], 'Frank']);
+			expect(bindings).to.be.eql(['Frank', ['Alice', 'Bob', 'Charlie', 'Frank']]);
 
 
 			// UPDATE
@@ -129,7 +129,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Alice', 'Bob', 'Charlie', 'Dave'], 'Dave']);
+			expect(bindings).to.be.eql(['Dave', ['Alice', 'Bob', 'Charlie', 'Dave']]);
 
 
 
@@ -183,7 +183,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Frank', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Oz', 'Charlie', 'Frank', 'Dave'], 'Frank']);
+			expect(bindings).to.be.eql(['Frank', ['Oz', 'Charlie', 'Frank', 'Dave']]);
 
 		});
 
@@ -244,7 +244,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Bob', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Alice'], 'Dave']);
+			expect(bindings).to.be.eql(['Dave', ['Dave', 'Bob', 'Alice']]);
 
 
 			// CREATE X
@@ -257,7 +257,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Alice', 'Bob', 'Chuck', 'Dave']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Alice', 'Chuck'], 'Chuck']);
+			expect(bindings).to.be.eql(['Chuck', ['Dave', 'Bob', 'Alice', 'Chuck']]);
 
 
 
@@ -271,7 +271,7 @@ describe('Widget', function(){
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Bob', 'Chuck', 'Dave', 'Eve']);
 
 			console.log(bindings);
-			expect(bindings).to.be.eql([['Dave', 'Bob', 'Eve', 'Chuck'], 'Eve']);
+			expect(bindings).to.be.eql(['Eve', ['Dave', 'Bob', 'Eve', 'Chuck']]);
 
 
 		});
@@ -323,8 +323,8 @@ describe('Widget', function(){
 
 			expect(box.items.size()).to.be.eq(1);
 
-			console.log(bindings);
-			expect(bindings).to.be.eql([{ref: 'https://github.com'}, [{ref: 'https://github.com'}, {ref: 'http://my.org'}]]);
+			console.log('should rebuild dynamic items on dirty', bindings);
+			expect(bindings).to.be.eql(['https://github.com', /*{ref: 'https://github.com'},*/ [{ref: 'https://github.com'}, {ref: 'http://my.org'}]]);
 
 		});
 

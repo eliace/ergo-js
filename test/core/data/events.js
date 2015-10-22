@@ -44,7 +44,7 @@ describe('DataSource', function(){
 
       ds.set('a', 'Bob');
 
-      expect(result).to.be.eql(['dirty', 'diff']);
+      expect(result).to.be.eql(['diff', 'dirty']);
 		});
 
 
