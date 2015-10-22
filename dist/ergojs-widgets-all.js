@@ -981,7 +981,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				cls: 'right',
 				icon: 'caret',
 				weight: 10,
-				onClick: 'action:dropdown'
+				onClick: 'action:toggleDropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
 				// 	e.stop();
@@ -997,7 +997,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				binding: false,
 				cls: 'text',
-				onClick: 'action:dropdown'
+				onClick: 'action:toggleDropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
 				// 	e.stop();
@@ -1011,9 +1011,10 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				popup: {
 					adjust: true
 				},
+				onOuterClick: 'action:cancelSelect',
 				defaultItem: {
 					as: 'item',
-					onClick: 'action:select'
+					onClick: 'action:changeSelect',
 					// onClick: function(e) {
 					// 	this.events.rise('select');
 					// }
@@ -1045,11 +1046,14 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			'jquery:keyup': function(e) {
 
 				if(e.keyCode == KEY_ENTER) {
-					this.events.fire('select', {target: this.$dropdown.navigator.selected})
+//					this._change( this.$dropdown.navigator.selected.opt('name') );
+					this.events.fire('changeSelect', {target: this.$dropdown.navigator.selected})
 				}
 				if(e.keyCode == 27) {
-					this.states.unset('opened');
-					this._dataChanged();
+//					this._close();
+//					this.states.unset('opened');
+					// this._dataChanged();
+					this.events.fire('cancelSelect');
 				}
 
 			}
@@ -1078,7 +1082,6 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			var selected = this.selection.set( v );
 
-			this.$dropdown.navigator.selected = selected;
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
 
@@ -1088,23 +1091,35 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			this.states.toggle('placeholder', this.opt('value') == null);
 		},
 
+		onSelectionChanged: function() {
+			this.$dropdown.navigator.selected = this.selected;
+		},
+
 //		onDropdown: function
 
-		onDropdown: function() {
+		onToggleDropdown: function() {
 			this.states.toggle('opened');
 		},
 
-		onSelect: function(e) {
+	// 	onSelect: function(e) {
+	// //		this.$dropdown.close();
+	// 	},
+
+		onChangeSelect: function(e) {
 			this.opt('value', e.target.opt('name'));
 			this.states.unset('opened');
-	//		this.$dropdown.close();
+		},
+
+		onCancelSelect: function() {
+			this._dataChanged(); // обновляем связывание
+			this.states.unset('opened');
 		}
-	}
 
 
-	// _process_dropdown: function() {
-	// 	this.states.toggle('opened');
-	// }
+
+	},
+
+
 
 
 

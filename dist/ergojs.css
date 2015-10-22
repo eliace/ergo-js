@@ -1619,7 +1619,7 @@ h5 {
   cursor: default;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 200px;
+  max-height: 250px;
 }
 .list.dropdown > li {
   cursor: default;

@@ -79,6 +79,7 @@ $(document).ready(function(){
 * Injecting `scope` instead `context` (but `ctx:` prefix still available)
 * Binding scope events to widget with `scope:` prefix
 * String value of `data` option binds widget properties as data (nested properties not supported)
+* `width` and `height` options now uses `outerWidth/outerHeight` methods
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)

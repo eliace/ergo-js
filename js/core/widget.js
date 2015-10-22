@@ -758,16 +758,16 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			this.children.each(function(item){
 				if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {
 
-					if(this.children.src.length == 1) {
+					if(this.children.src.length == 1 && item._type != 'item') {
 							// если элемент один, то компоновка ему еще не нужна
-						if(item._type == 'item') {
-							item.el[0]._index = item._index;
-							self.el.append(item.el);
-						}
-						else {
+						// if(item._type == 'item') {
+						// 	item.el[0]._index = item._index;
+						// 	self.el.append(item.el);
+						// }
+						// else {
 							item.el[0]._weight = item._weight;
 							self.el.append(item.el);
-						}
+//						}
 
 						item._rendered = true;
 					}
@@ -801,16 +801,16 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //				console.log(this);
 
-				if(this.parent.children.src.length == 1) {
+				if(this.parent.children.src.length == 1 && this._type != 'item') {
 						// если элемент один, то компоновка ему еще не нужна
-					if(this._type == 'item') {
-						this.el[0]._index = this._index;
-						this.parent.el.append(this.el);
-					}
-					else {
+					// if(this._type == 'item') {
+					// 	this.el[0]._index = this._index;
+					// 	this.parent.el.append(this.el);
+					// }
+					// else {
 						this.el[0]._weight = this._weight;
 						this.parent.el.append(this.el);
-					}
+//					}
 
 					this._rendered = true;
 				}

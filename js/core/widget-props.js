@@ -39,8 +39,8 @@ Ergo.WidgetOptions = {
  			return this.layout.el[0].textContent;
 	},
 //	getText: function() {	return this.layout.el.text();	},
-	get_width: function() {	return this.el.width();	},
-	get_height: function() {	return this.el.height();	},
+	get_width: function() {	return this.el.outerWidth();	},
+	get_height: function() {	return this.el.outerHeight();	},
 	get name() { return this._name || this._key || this._index; },
 
 
@@ -70,8 +70,8 @@ Ergo.WidgetOptions = {
 	// 		this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');
 	// 	}
 	// },
-	set_width: function(v) { this.el.width(v); },
-	set_height: function(v) { this.el.height(v); },
+	set_width: function(v) { this.el.outerWidth(v); },
+	set_height: function(v) { this.el.outerHeight(v); },
 	set_autoWidth: function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
 	set_autoHeight: function(v) {
 		if(v) {
