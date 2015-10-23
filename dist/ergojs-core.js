@@ -3060,7 +3060,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				for(var i = values.length-1; i >= index; i--){
 					var e = this.entries.get(i);
 					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
-					e._id[0] = i+1;
+					if(e)
+						e._id[0] = i+1;
+						
 					this.entries.set(i+1, e);
 				}
 
@@ -7412,11 +7414,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				var value = e._val();
 
 				if(filter) {
-					if(!filter.call(this, e._val(), index)) {
-						_item._destroy();
-						_item = null;
+					if( !filter.call(this, e._val(), index) ) {
+						if( _item ) {
+							_item._destroy();
+							_item = null;
+						}
 					}
-					else if(!_item) {
+					else if( !_item ) {
 
 //						console.log('---', index, value);
 

@@ -1574,11 +1574,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				var value = e._val();
 
 				if(filter) {
-					if(!filter.call(this, e._val(), index)) {
-						_item._destroy();
-						_item = null;
+					if( !filter.call(this, e._val(), index) ) {
+						if( _item ) {
+							_item._destroy();
+							_item = null;
+						}
 					}
-					else if(!_item) {
+					else if( !_item ) {
 
 //						console.log('---', index, value);
 

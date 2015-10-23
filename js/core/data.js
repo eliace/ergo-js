@@ -418,7 +418,9 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 				for(var i = values.length-1; i >= index; i--){
 					var e = this.entries.get(i);
 					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
-					e._id[0] = i+1;
+					if(e)
+						e._id[0] = i+1;
+						
 					this.entries.set(i+1, e);
 				}
 

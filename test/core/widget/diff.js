@@ -185,7 +185,23 @@ describe('Widget', function(){
 			console.log(bindings);
 			expect(bindings).to.be.eql(['Frank', ['Oz', 'Charlie', 'Frank', 'Dave']]);
 
+
+			// UPDATE X
+			bindings = [];
+
+			ds.set(0, 'Eve');
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(4);
+			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Frank', 'Dave']);
+
+			console.log(bindings);
+			expect(bindings).to.be.eql([['Eve', 'Charlie', 'Frank', 'Dave']]);
+
 		});
+
+
+
 
 
 
