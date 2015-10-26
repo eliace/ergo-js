@@ -1254,7 +1254,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				// если diff не определен, то перерисовываем все
 				var diff = (e.created || e.updated || e.deleted) ? {created: e.created, updated: e.updated, deleted: e.deleted} : null;
 
-				self._rebind(false, diff);
+				self._rebind(true, diff);
 
 			}, this);
 
@@ -1476,12 +1476,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //			this._layoutChanged();
 
-			// обновляем виджет (если это не запрещено в явном виде)
-			// динамические элементы пропустим
-			if(update !== false) this._dataChanged(undefined, undefined, true);
 		}
 
 
+		// обновляем виджет (если это не запрещено в явном виде)
+		// динамические элементы пропустим
+		if(update !== false)
+			this._dataChanged(undefined, undefined, true);
 
 
 

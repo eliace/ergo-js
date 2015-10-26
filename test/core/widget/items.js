@@ -51,6 +51,33 @@ describe('Widget', function(){
 
 
 
+    it('should set dynamic items', function() {
+
+      var bindings = [];
+
+      var box = $.ergo({
+        etype: 'html:div',
+        dynamic: true,
+        data: [],
+        defaultItem: {
+          etype: 'html:div',
+          binding: 'text'
+        },
+        binding: function(v) {
+          bindings.push( v );
+        }
+      });
+
+      box.data.set(['Alice', 'Bob', 'Charlie']);
+
+      expect(bindings).to.be.eql([[], ['Alice', 'Bob', 'Charlie']]);
+
+
+		});
+
+
+
+
 	})
 
 

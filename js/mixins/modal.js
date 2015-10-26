@@ -30,7 +30,7 @@ Ergo.alias('includes:modal', {
 				Ergo.context.events.fire('outerClick', {type: 'modal'});
 //				if(this.options.closeOn == 'outerClick')
 				e.stopPropagation();
-			}
+			},
 		}
 	},
 
