@@ -5,9 +5,40 @@ Ergo.alias('includes:router', {
     hashUrl: true
   },
 
+
+
+  _construct: function(o) {
+
+    var w = this;
+
+    this.router = {
+
+      restore: function() {
+
+        console.log('router restore', window.location.hash);
+
+        if( window.location.hash ) {
+          // FIXME
+          w.to(window.location.hash.slice(2));
+        }
+        else {
+          // FIXME
+          w.to('');
+        }
+      }
+
+    }
+
+
+  },
+
+
+
   overrides: {
 
+
     absolutePath: function(path) {
+      if( !path ) return path;
       if( path[0] == '/' ) return path;
 
       if( this.options.hashUrl ) {

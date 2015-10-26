@@ -8204,7 +8204,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), params );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), params, Ergo.override({restored: true}, o) );
 		}
 
 		scope_name = chain[chain.length-1];
@@ -10954,9 +10954,40 @@ Ergo.alias('includes:router', {
     hashUrl: true
   },
 
+
+
+  _construct: function(o) {
+
+    var w = this;
+
+    this.router = {
+
+      restore: function() {
+
+        console.log('router restore', window.location.hash);
+
+        if( window.location.hash ) {
+          // FIXME
+          w.to(window.location.hash.slice(2));
+        }
+        else {
+          // FIXME
+          w.to('');
+        }
+      }
+
+    }
+
+
+  },
+
+
+
   overrides: {
 
+
     absolutePath: function(path) {
+      if( !path ) return path;
       if( path[0] == '/' ) return path;
 
       if( this.options.hashUrl ) {
