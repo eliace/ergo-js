@@ -172,6 +172,9 @@ describe('Widget', function(){
 			console.log(bindings);
 			expect(bindings).to.be.eql([['Oz', 'Charlie', 'Eve', 'Dave']]);
 
+
+
+
 		});
 
 

@@ -420,7 +420,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					// this.events.fire('onIndexChanged', {'oldIndex': j, 'newIndex': (j-1)});
 					if(e)
 						e._id[0] = i+1;
-						
+
 					this.entries.set(i+1, e);
 				}
 
@@ -681,7 +681,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 		for(var i = diff.deleted.length-1; i >= 0; i-- ) {
-			diff.deleted[i].del();
+			if(diff.deleted[i])
+				diff.deleted[i].del();
 		}
 
 
@@ -717,7 +718,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		// 	diff.created[i].events.fire('changed');
 		// }
 		for(var i = diff.updated.length-1; i >= 0; i-- ) {
-			diff.updated[i].events.fire('changed');
+			if(diff.updated[i])
+				diff.updated[i].events.fire('changed');
 		}
 
 		this.mark_dirty(true);
