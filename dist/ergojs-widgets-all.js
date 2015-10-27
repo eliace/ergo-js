@@ -2773,6 +2773,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 	defaults: {
 		as: 'growls __gap',
 //		renderTo: 'body',
+		autoHeight: 'ignore',
 		defaultItem: {
 			include: 'effects',
 			effects: {
@@ -2798,7 +2799,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 				this.el.height(this.el.height());
 				this.content.hide().then(function(){
 					this._destroy();//.el.slideUp(300);
-				}.bind(this));			
+				}.bind(this));
 			}
 		},
 		timeout: 6000
@@ -2811,10 +2812,10 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 		var item = this.items.add({
 			$content: growl
 		});
-		
+
 		this.render();
-		
-		
+
+
 		setTimeout(function() {
 			item.events.fire('close');
 		}, this.options.timeout);
@@ -2824,6 +2825,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 
 
 }, 'widgets:growls');
+
 
 
 
