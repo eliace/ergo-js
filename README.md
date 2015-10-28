@@ -80,6 +80,7 @@ $(document).ready(function(){
 * Binding scope events to widget with `scope:` prefix
 * String value of `data` option binds widget properties as data (nested properties not supported)
 * `width` and `height` options now uses `outerWidth/outerHeight` methods
+* Datasource validator rises `valid` or `invalid` events
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)

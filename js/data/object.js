@@ -62,8 +62,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 			if(validator) {
 				if( validator.call(this, v) === false ) {
-					this.events.fire('invalid', {value: v});
+					this.events.fire('invalid', {value: v, entry: this});
 					return;
+				}
+				else {
+					this.events.fire('valid', {value: v, entry: this});
 				}
 //					throw new Error('Invalid value: ['+v+']');
 			}

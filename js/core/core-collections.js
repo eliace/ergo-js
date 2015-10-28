@@ -292,24 +292,33 @@
 	 */
 	E.remove = function(obj, criteria) {
 
+		var f = criteria;
+
 		if( !$.isFunction(criteria) ) {
-			criteria = function(item) { return item === criteria; };
+			f = function(item, i) { return item === criteria; };
 		}
 
 		var indices = [];
 
 		for(var i = 0; i < obj.length; i++) {
-			if( criteria.call(obj, obj[i], i) ) indices.push(i);
+			if( f.call(obj, obj[i], i) ) {
+				indices.push(i);
+			}
 		}
 
-		var arr = this;
+//		var arr = this;
 
 		var removed = [];
 
-		indices.reverse().forEach( function(i) {
-			removed.push(arr[i]);
-			arr.splice(i, 1);
-		} );
+		for(var i = indices.length-1; i >= 0; i--) {
+			removed.push(obj[i]);
+			obj.splice(i, 1);
+		}
+
+		// indices.reverse().forEach( function(i) {
+		// 	removed.push(arr[i]);
+		// 	arr.splice(i, 1);
+		// } );
 
 		return removed;
 	};
