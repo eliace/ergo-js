@@ -30,11 +30,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	// 	return this.get(this.options.idKey);
 	// },
 
-	/**
-	 * Метод валидации
-	 * @function
-	 */
-	validate: null,
+	// /**
+	//  * Метод валидации
+	//  * @function
+	//  */
+	// validate: null,
 
 
 
@@ -61,8 +61,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			var validator = this.options.validator || this._validate;
 
 			if(validator) {
-				if( !validator.call(this, v) )
-					throw new Error('Invalid value: ['+v+']');
+				if( validator.call(this, v) === false ) {
+					this.events.fire('invalid', {value: v});
+					return;
+				}
+//					throw new Error('Invalid value: ['+v+']');
 			}
 		}
 

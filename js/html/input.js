@@ -24,7 +24,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': '_change'
+			'jquery:change': 'changeAction'
 		}
 		// onChange: function(e) {
 		// 	this.opt('value', this.el.val());
@@ -67,10 +67,13 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		this.el.prop('hidden', true);
 	},
 
-	_change: function(e) {
-		this.events.rise('change', {value: this.el.val()});
-	}
+	// _change: function(e) {
+	// 	this.events.rise('change', {value: this.el.val()});
+	// },
 
+	changeAction: function(e) {
+		this.events.rise('change', {value: this.el.val()});
+	},
 
 
 	// set_readonly: function(v) {

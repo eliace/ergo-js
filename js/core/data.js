@@ -9,10 +9,9 @@
  * 	`lazy` "ленивое" создание элементов (только когда происходит обращение по ключу)
  *
  * События:
- * 	`value:changed` изменился источник данных
- * 	`entry:changed` изменился элемент
- * 	`entry:added` добавлен элемент
- * 	`entry:deleted` удален элемент
+ * 	`changed` изменился источник данных
+ * 	`diff`
+ * 	`dirty`
  *
  * @class
  * @name Ergo.core.DataSource
@@ -109,22 +108,22 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 //		console.log('-- data entry --');
 
-		var e = this;
+		var ds = this;
 
 		// если ключ - строка, то он может быть составным
 		if($.isString(i)) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
-			for(var j = 0; j < a.length; j++) e = e.entry(a[j]);
+			for(var j = 0; j < a.length; j++) ds = ds.entry(a[j]);
 		}
 
 		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!e.entries.has_key(i)) {
-			e.entries.set(i, e._factory(i));
+		if(!ds.entries.has_key(i)) {
+			ds.entries.set(i, ds._factory(i));
 		}
 
-		return e.entries.get(i);
+		return ds.entries.get(i);
 	},
 
 

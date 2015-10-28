@@ -8,7 +8,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		cls: 'input',
 
 		binding: function(v) {
-			this.content.opt('value', v);
+			this.$content.opt('value', v);
 		},
 
 		components: {
@@ -38,7 +38,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 		states: {
 			'disabled': function(on) {
-				this.content.opt('disabled', on);
+				this.$content.opt('disabled', on);
 			}
 		},
 
@@ -46,6 +46,18 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 		onChange: function(e) {
 			this.opt('value', e.value);
+		},
+
+		onKeyUp: function(e) {
+
+			var keyCode = e.base.keyCode;
+
+			if(keyCode == KEY_UP || keyCode == KEY_DOWN || keyCode == KEY_ENTER || keyCode == KEY_ESC) {
+				// TODO обработка служебных символов
+			}
+			else {
+				this.events.fire('input', {text: e.text, keyCode: keyCode});
+			}
 		}
 
 		// onFocus: function(e) {

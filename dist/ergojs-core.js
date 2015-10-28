@@ -2651,10 +2651,9 @@ Ergo.alias('includes:observable', {
  * 	`lazy` "ленивое" создание элементов (только когда происходит обращение по ключу)
  *
  * События:
- * 	`value:changed` изменился источник данных
- * 	`entry:changed` изменился элемент
- * 	`entry:added` добавлен элемент
- * 	`entry:deleted` удален элемент
+ * 	`changed` изменился источник данных
+ * 	`diff`
+ * 	`dirty`
  *
  * @class
  * @name Ergo.core.DataSource
@@ -2751,22 +2750,22 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 //		console.log('-- data entry --');
 
-		var e = this;
+		var ds = this;
 
 		// если ключ - строка, то он может быть составным
 		if($.isString(i)) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
-			for(var j = 0; j < a.length; j++) e = e.entry(a[j]);
+			for(var j = 0; j < a.length; j++) ds = ds.entry(a[j]);
 		}
 
 		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!e.entries.has_key(i)) {
-			e.entries.set(i, e._factory(i));
+		if(!ds.entries.has_key(i)) {
+			ds.entries.set(i, ds._factory(i));
 		}
 
-		return e.entries.get(i);
+		return ds.entries.get(i);
 	},
 
 
@@ -8822,11 +8821,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	// 	return this.get(this.options.idKey);
 	// },
 
-	/**
-	 * Метод валидации
-	 * @function
-	 */
-	validate: null,
+	// /**
+	//  * Метод валидации
+	//  * @function
+	//  */
+	// validate: null,
 
 
 
@@ -8853,8 +8852,11 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			var validator = this.options.validator || this._validate;
 
 			if(validator) {
-				if( !validator.call(this, v) )
-					throw new Error('Invalid value: ['+v+']');
+				if( validator.call(this, v) === false ) {
+					this.events.fire('invalid', {value: v});
+					return;
+				}
+//					throw new Error('Invalid value: ['+v+']');
 			}
 		}
 
@@ -11372,7 +11374,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': '_change'
+			'jquery:change': 'changeAction'
 		}
 		// onChange: function(e) {
 		// 	this.opt('value', this.el.val());
@@ -11415,10 +11417,13 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 		this.el.prop('hidden', true);
 	},
 
-	_change: function(e) {
-		this.events.rise('change', {value: this.el.val()});
-	}
+	// _change: function(e) {
+	// 	this.events.rise('change', {value: this.el.val()});
+	// },
 
+	changeAction: function(e) {
+		this.events.rise('change', {value: this.el.val()});
+	},
 
 
 	// set_readonly: function(v) {
@@ -11462,12 +11467,32 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 		// binding: function(v) {
 		// 	this.el.val(v);
 		// },
-		// events: {
-		// 	'jquery:keydown': 'action:input'
-		// },
+		events: {
+			'jquery:keyup': function(e) {
+				this.events.rise('keyUp', {text: this.el.val()}, e);
+			},
+			'jquery:keydown': function(e) {
+				this.events.rise('keyDown', {text: this.el.val()}, e);
+			}
+		},
+
 		onChange: function(e) {
-			this.opt('value', e.value);//this.el.val());
+			this.opt('value', e.value);
+		},
+
+		onKeyUp: function(e) {
+
+			var keyCode = e.base.keyCode;
+
+			if(keyCode == KEY_UP || keyCode == KEY_DOWN || keyCode == KEY_ENTER || keyCode == KEY_ESC) {
+				// TODO обработка служебных символов
+			}
+			else {
+				this.events.fire('input', {text: e.text, keyCode: keyCode});
+			}
 		}
+
+
 		// events: {
 		// 	'jquery:change': function() {
 		// 		this.opt('value', this.el.val());
@@ -11506,7 +11531,7 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 			this.el.prop('checked', v);
 		},
 		onChange: function(e) {
-			this.opt('value', this.el.prop('checked'));
+			this.opt('value', e.value);//this.el.prop('checked'));
 		}
 // 		events: {
 // 			'jquery:change': function(e) {
@@ -11522,9 +11547,14 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 	},
 
 
-	_change: function() {
+	// _change: function() {
+	// 	this.events.rise('change', {value: this.el.prop('checked')});
+	// },
+
+	changeAction: function() {
 		this.events.rise('change', {value: this.el.prop('checked')});
 	}
+
 
 
 }, 'html:checkbox');
@@ -11629,7 +11659,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': '_change'
+			'jquery:change': 'changeAction'
 		}
 	},
 
@@ -11657,7 +11687,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 	},
 
 
-	_change: function(e) {
+	changeAction: function(e) {
 		this.events.rise('change', {value: this.el.val()});
 	}
 

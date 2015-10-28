@@ -21,7 +21,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': '_change'
+			'jquery:change': 'changeAction'
 		}
 	},
 
@@ -49,7 +49,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 	},
 
 
-	_change: function(e) {
+	changeAction: function(e) {
 		this.events.rise('change', {value: this.el.val()});
 	}
 
