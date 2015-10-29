@@ -283,20 +283,21 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 //			if(!eventsOnly) {
 
-				// удаляем элемент и все его содержимое (data + event handlers) из документа
-				if(this.parent && root !== false)
-					this.parent.children.remove(this);
+			// удаляем элемент и все его содержимое (data + event handlers) из документа
+			if(this.parent && root !== false)
+				this.parent.children.remove(this);
 
-				if(this.__c) {
+			if(this.__c) {
 
-					this.children.remove_all();
+				this.children.remove_all();
 
-					// очищаем компоновку
-					this.layout.clear();
-				}
+				// очищаем компоновку
+				this.layout.clear();
+			}
 
-				if(this.el)
-					this.el.remove();
+			if(this.el) {
+				this.el.remove();
+			}
 
 //			}
 
@@ -307,6 +308,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			// }
 
 //			this.children.apply_all('_destroy');
+
+			this._destroyed = true;
 
 		};
 

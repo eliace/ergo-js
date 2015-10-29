@@ -4,6 +4,9 @@
 Ergo.alias('includes:modal', {
 
 	defaults: {
+
+		destroyOnClose: true,
+
 		components: {
 			overlay: {
 				etype: 'html:div',
@@ -163,6 +166,10 @@ Ergo.alias('includes:modal', {
 				this.overlay.hide().then(function(){
 					this.overlay.el.detach();
 					this.events.fire('closed');
+
+					if(this.options.destroyOnClose)
+						this._destroy();
+
 				}.bind(this));
 
 			}.bind(this));

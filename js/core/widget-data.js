@@ -457,33 +457,41 @@ Ergo.WidgetData = {
 				var index = e._id[0];
 				var value = e._val();
 
+
 				if(!filter || filter.call(this, e._val(), index)) {
 
-					// если есть фильтрация и сортировка, то индексы не совпадают, поэтому нужен поиск
-					if( filter || sorter ) {
-						var after = null;
-						var kv0 = [index, value];
-						// FIXME поменять поиск на бинарный
-						after = this.items.find(function(item) {
+// 					// если есть фильтрация и сортировка, то индексы не совпадают, поэтому нужен поиск
+// 					if( filter || sorter ) {
+// 						var after = null;
+// 						var kv0 = [index, value];
+// 						// FIXME поменять поиск на бинарный
+// 						after = this.items.find(function(item) {
+// 							var kv1 = [item.data._id[0], item.data._val()];
+// 							if( (sorter && sorter.call(e, kv0, kv1) <= 0) || (!sorter && kv0[0] <= kv1[0]) ) {
+// //								console.log(kv1[1]);
+// 								return true;
+// 							}
+// 						});
+//
+// 						index = after ? after._index : null;
+// 					}
+
+					var kv0 = [index, value];
+					var after = this.items.find(function(item) {
+						if(sorter) {
 							var kv1 = [item.data._id[0], item.data._val()];
-							if( (sorter && sorter.call(e, kv0, kv1) <= 0) || (!sorter && kv0[0] <= kv1[0]) ) {
-//								console.log(kv1[1]);
+							if( sorter.call(e, kv0, kv1) <= 0 ) {
 								return true;
 							}
-						});
+						}
+						else {
+							if( index <= item.data._id[0] ) {
+								return true;
+							}
+						}
+					});
 
-						index = after ? after._index : null;
-					}
-
-
-// 					if(sorter) {
-// //						console.log('sort add', index, value);
-// 					}
-// 					// TODO нужен тест с фильтром и позиционированием
-//
-// 					if(filter || sorter)
-
-
+					index = after ? after._index : null;
 
 					// добавляем элемент последним
 					this.children.autobinding = false;
@@ -514,6 +522,64 @@ Ergo.WidgetData = {
 				var index = e._id[0];
 				var value = e._val();
 
+
+
+				if(filter) {
+					if( !filter.call(this, e._val(), index) ) {
+						if( _item ) {
+							_item._destroy();
+							_item = null;
+						}
+						continue;
+					}
+				}
+
+//				console.log(index, value);
+
+				var kv0 = [index, value];
+
+				var after = this.items.find(function(item) {
+					if(sorter) {
+						var kv1 = [item.data._id[0], item.data._val()];
+						// TODO возможно не нужно исключать себя из проверки
+						if( item != _item && sorter.call(e, kv0, kv1) <= 0 ) {
+							return true;
+						}
+					}
+					else {
+						if( index <= item.data._id[0] ) {
+							return true;
+						}
+					}
+				});
+
+
+				index = after ? after._index : null;
+
+				if( !_item ) {
+
+					this.children.autobinding = false;
+					_item = this.items.add({}, index);
+					this.children.autobinding = true;
+					_item.bind(e, false, false);  // обновляться здесь не надо
+
+					_item._dynamic = true;
+
+					_item.render();
+
+				}
+				else {
+
+					if(index != _item._index+1) {
+						this.items.remove(_item);
+						this.items.add(_item, index);
+					}
+
+				}
+
+
+
+/*
 				if(filter) {
 					if( !filter.call(this, e._val(), index) ) {
 						if( _item ) {
@@ -615,7 +681,7 @@ Ergo.WidgetData = {
 
 
 //				console.log('after sort', this.items.size())
-
+*/
 
 
 			}

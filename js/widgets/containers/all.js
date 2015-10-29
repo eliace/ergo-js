@@ -1,2 +1,3 @@
 
 //= require growls
+//= require buttons

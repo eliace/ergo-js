@@ -6,7 +6,7 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 		include: 'modal effects',
 
-		cls: 'modal widget',
+		as: 'modal dialog',
 
 		closeOn: 'outerClick',
 
@@ -25,16 +25,17 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 //				etype: 'tool-bar',
 				components: {
 					buttons: {
+						etype: 'buttons',
 						layout: 'bar',
-						defaultItem: {
-							etype: 'button',
-							onClick: function() {
-								this.events.rise('dialogAction', {action: this.opt('name')});
-								// var name = this.opt('name');
-								// if(name)
-									// this.events.rise(name);
-							}
-						}
+						// defaultItem: {
+						// 	etype: 'button',
+						// 	onClick: function() {
+						// 		this.events.rise('action', {action: this.opt('name')});
+						// 		// var name = this.opt('name');
+						// 		// if(name)
+						// 			// this.events.rise(name);
+						// 	}
+						// }
 					}
 				}
 //				items: []
@@ -45,13 +46,15 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			e.stop();
 		},
 
-		onDialogAction: function(e) {
+		onAction: function(e) {
 
-			if(e.action)
-				this.events.fire(e.action, e);
+//			if(e.action)
+			this.events.fire(e.target.opt('name'), e);
 
 			if(!e.canceled)
 				this.close();
+
+			e.stop();
 		}
 	}
 

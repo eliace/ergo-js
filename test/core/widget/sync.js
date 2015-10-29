@@ -277,5 +277,132 @@ describe('Widget', function(){
 
 
 
+		//-------------------------------------------------------------------------
+		//
+		//
+		//
+		//-------------------------------------------------------------------------
+		it('should change FILTERED+SORTED dynamic items on sync', function() {
+
+			var bindings = [];
+
+			// сортировка по возрастанию
+			var sorter = function(a, b) {
+				a = a[1];
+				b = b[1];
+				if( a < b ) return -1;
+				if( a > b ) return 1;
+				return 0;
+			};
+
+			// длина строки больше 3 символов
+			var filter = function(v) { return v.length > 3; };
+
+
+			var ds = new Ergo.core.DataSource(['Bob', 'Charlie', 'Alice', 'Dave', 'Eve']);
+
+			var box = $.ergo({
+				etype: 'html:div',
+				dynamic: true,
+				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				defaultItem: {
+					etype: 'html:div',
+					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+				},
+				dynamicSorter: sorter,
+				dynamicFilter: filter
+			});
+
+			box.bind(ds);
+
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(4);
+			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
+
+
+			// DELETE (visible)
+			bindings = [];
+
+			ds.sync(['Bob', 'Charlie', 'Dave', 'Eve']);
+
+			expect(box.items.size()).to.be.eq(2);
+			expect(ds.entries.size()).to.be.eq(4);
+			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Dave']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql(['Dave', ['Bob', 'Charlie', 'Dave', 'Eve']]); // 1 delete
+
+
+			// CREATE (visible)
+			bindings = [];
+
+			ds.sync(['Bob', 'Frank', 'Charlie', 'Dave', 'Eve']);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Dave', 'Frank']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql(['Dave', 'Charlie', 'Frank', ['Bob', 'Frank', 'Charlie', 'Dave', 'Eve']]);
+
+
+			// UPDATE (visible)
+			bindings = [];
+
+			ds.sync(['Bob', 'Frank', 'Charlie', 'Joe', 'Eve']);
+
+			expect(box.items.size()).to.be.eq(2);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql([['Bob', 'Frank', 'Charlie', 'Joe', 'Eve']]);
+
+
+
+			// DELETE (hidden)
+			bindings = [];
+
+			ds.sync(['Frank', 'Charlie', 'Joe', 'Eve']);
+
+			expect(box.items.size()).to.be.eq(2);
+			expect(ds.entries.size()).to.be.eq(4);
+			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql(['Charlie', 'Frank', ['Frank', 'Charlie', 'Joe', 'Eve']]);
+
+
+			// CREATE (hidden)
+			bindings = [];
+
+			ds.sync(['Frank', 'Charlie', 'Joe', 'Ann', 'Eve']);
+
+			expect(box.items.size()).to.be.eq(2);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql([['Frank', 'Charlie', 'Joe', 'Ann', 'Eve']]);
+
+
+			// UPDATE (hidden)
+			bindings = [];
+
+			ds.sync(['Frank', 'Charlie', 'Joe', 'Ann', 'Brian']);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Brian', 'Charlie', 'Frank']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql(['Brian', ['Frank', 'Charlie', 'Joe', 'Ann', 'Brian']]);
+
+
+
+		});
+
+
   });
 });
