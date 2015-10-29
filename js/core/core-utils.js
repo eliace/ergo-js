@@ -166,6 +166,33 @@
 
 
 
+	E.unformat_obj = function(format_str, obj) {
+
+		var n=0;
+
+		var tmpl = ufmt.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+
+		var keys = []
+
+		tmpl = tmpl.replace(/#\\{\s*(.+?)\s*\\}/g, function(str, key) {
+		  keys.push(key);
+		  return '(.+?)'
+		});
+
+		var m = s.match(tmpl);
+
+		if( keys[0] == '*') {
+			return m[1];
+		}
+		else {
+			var v = {}
+			keys.forEach(function(key, i) {
+			  v[key] = m[i+1]
+			})
+			return v;
+		}
+
+	};
 
 
 

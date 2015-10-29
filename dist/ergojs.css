@@ -887,364 +887,364 @@ h5 {
   color: rgba(0, 0, 0, 0.5);
 }
 .inverted.basic,
-.fill.basic,
+.filled.basic,
 .label.basic {
   background-color: #cccccc;
   color: #fff;
 }
 .inverted.basic.minor,
-.fill.basic.minor,
+.filled.basic.minor,
 .label.basic.minor {
   background-color: rgba(248, 248, 248, 0.9);
   color: #cccccc;
   border-color: rgba(204, 204, 204, 0.5);
 }
 .inverted.primary,
-.fill.primary,
+.filled.primary,
 .label.primary {
   background-color: #0277bd;
   color: #fff;
 }
 .inverted.primary.minor,
-.fill.primary.minor,
+.filled.primary.minor,
 .label.primary.minor {
   background-color: rgba(221, 237, 246, 0.9);
   color: #0277bd;
   border-color: rgba(2, 119, 189, 0.5);
 }
 .inverted.success,
-.fill.success,
+.filled.success,
 .label.success {
   background-color: #4caf50;
   color: #fff;
 }
 .inverted.success.minor,
-.fill.success.minor,
+.filled.success.minor,
 .label.success.minor {
   background-color: rgba(231, 244, 232, 0.9);
   color: #4caf50;
   border-color: rgba(76, 175, 80, 0.5);
 }
 .inverted.info,
-.fill.info,
+.filled.info,
 .label.info {
   background-color: #81d4fa;
   color: #fff;
 }
 .inverted.info.minor,
-.fill.info.minor,
+.filled.info.minor,
 .label.info.minor {
   background-color: rgba(238, 249, 254, 0.9);
   color: #81d4fa;
   border-color: rgba(129, 212, 250, 0.5);
 }
 .inverted.warning,
-.fill.warning,
+.filled.warning,
 .label.warning {
   background-color: #ffc107;
   color: #fff;
 }
 .inverted.warning.minor,
-.fill.warning.minor,
+.filled.warning.minor,
 .label.warning.minor {
   background-color: rgba(255, 247, 222, 0.9);
   color: #ffc107;
   border-color: rgba(255, 193, 7, 0.5);
 }
 .inverted.danger,
-.fill.danger,
+.filled.danger,
 .label.danger {
   background-color: #ef5350;
   color: #fff;
 }
 .inverted.danger.minor,
-.fill.danger.minor,
+.filled.danger.minor,
 .label.danger.minor {
   background-color: rgba(253, 232, 232, 0.9);
   color: #ef5350;
   border-color: rgba(239, 83, 80, 0.5);
 }
 .inverted.dark,
-.fill.dark,
+.filled.dark,
 .label.dark {
   background-color: #37474f;
   color: #fff;
 }
 .inverted.dark.minor,
-.fill.dark.minor,
+.filled.dark.minor,
 .label.dark.minor {
   background-color: rgba(228, 230, 232, 0.9);
   color: #37474f;
   border-color: rgba(55, 71, 79, 0.5);
 }
 .inverted.red,
-.fill.red,
+.filled.red,
 .label.red {
   background-color: #f44336;
   color: #fff;
 }
 .inverted.red.minor,
-.fill.red.minor,
+.filled.red.minor,
 .label.red.minor {
   background-color: rgba(254, 230, 228, 0.9);
   color: #f44336;
   border-color: rgba(244, 67, 54, 0.5);
 }
 .inverted.pink,
-.fill.pink,
+.filled.pink,
 .label.pink {
   background-color: #e91e63;
   color: #fff;
 }
 .inverted.pink.minor,
-.fill.pink.minor,
+.filled.pink.minor,
 .label.pink.minor {
   background-color: rgba(252, 225, 234, 0.9);
   color: #e91e63;
   border-color: rgba(233, 30, 99, 0.5);
 }
 .inverted.purple,
-.fill.purple,
+.filled.purple,
 .label.purple {
   background-color: #9c27b0;
   color: #fff;
 }
 .inverted.purple.minor,
-.fill.purple.minor,
+.filled.purple.minor,
 .label.purple.minor {
   background-color: rgba(242, 226, 244, 0.9);
   color: #9c27b0;
   border-color: rgba(156, 39, 176, 0.5);
 }
 .inverted.deep-purple,
-.fill.deep-purple,
+.filled.deep-purple,
 .label.deep-purple {
   background-color: #673ab7;
   color: #fff;
 }
 .inverted.deep-purple.minor,
-.fill.deep-purple.minor,
+.filled.deep-purple.minor,
 .label.deep-purple.minor {
   background-color: rgba(235, 229, 245, 0.9);
   color: #673ab7;
   border-color: rgba(103, 58, 183, 0.5);
 }
 .inverted.indigo,
-.fill.indigo,
+.filled.indigo,
 .label.indigo {
   background-color: #3f51b5;
   color: #fff;
 }
 .inverted.indigo.minor,
-.fill.indigo.minor,
+.filled.indigo.minor,
 .label.indigo.minor {
   background-color: rgba(229, 232, 245, 0.9);
   color: #3f51b5;
   border-color: rgba(63, 81, 181, 0.5);
 }
 .inverted.blue,
-.fill.blue,
+.filled.blue,
 .label.blue {
   background-color: #2196f3;
   color: #fff;
 }
 .inverted.blue.minor,
-.fill.blue.minor,
+.filled.blue.minor,
 .label.blue.minor {
   background-color: rgba(225, 241, 253, 0.9);
   color: #2196f3;
   border-color: rgba(33, 150, 243, 0.5);
 }
 .inverted.light-blue,
-.fill.light-blue,
+.filled.light-blue,
 .label.light-blue {
   background-color: #03a9f4;
   color: #fff;
 }
 .inverted.light-blue.minor,
-.fill.light-blue.minor,
+.filled.light-blue.minor,
 .label.light-blue.minor {
   background-color: rgba(221, 244, 254, 0.9);
   color: #03a9f4;
   border-color: rgba(3, 169, 244, 0.5);
 }
 .inverted.teal,
-.fill.teal,
+.filled.teal,
 .label.teal {
   background-color: #009688;
   color: #fff;
 }
 .inverted.teal.minor,
-.fill.teal.minor,
+.filled.teal.minor,
 .label.teal.minor {
   background-color: rgba(221, 241, 239, 0.9);
   color: #009688;
   border-color: rgba(0, 150, 136, 0.5);
 }
 .inverted.cyan,
-.fill.cyan,
+.filled.cyan,
 .label.cyan {
   background-color: #00bcd4;
   color: #fff;
 }
 .inverted.cyan.minor,
-.fill.cyan.minor,
+.filled.cyan.minor,
 .label.cyan.minor {
   background-color: rgba(221, 246, 249, 0.9);
   color: #00bcd4;
   border-color: rgba(0, 188, 212, 0.5);
 }
 .inverted.green,
-.fill.green,
+.filled.green,
 .label.green {
   background-color: #4caf50;
   color: #fff;
 }
 .inverted.green.minor,
-.fill.green.minor,
+.filled.green.minor,
 .label.green.minor {
   background-color: rgba(231, 244, 232, 0.9);
   color: #4caf50;
   border-color: rgba(76, 175, 80, 0.5);
 }
 .inverted.light-green,
-.fill.light-green,
+.filled.light-green,
 .label.light-green {
   background-color: #8bc34a;
   color: #fff;
 }
 .inverted.light-green.minor,
-.fill.light-green.minor,
+.filled.light-green.minor,
 .label.light-green.minor {
   background-color: rgba(240, 247, 231, 0.9);
   color: #8bc34a;
   border-color: rgba(139, 195, 74, 0.5);
 }
 .inverted.lime,
-.fill.lime,
+.filled.lime,
 .label.lime {
   background-color: #cddc39;
   color: #fff;
 }
 .inverted.lime.minor,
-.fill.lime.minor,
+.filled.lime.minor,
 .label.lime.minor {
   background-color: rgba(248, 250, 229, 0.9);
   color: #cddc39;
   border-color: rgba(205, 220, 57, 0.5);
 }
 .inverted.yellow,
-.fill.yellow,
+.filled.yellow,
 .label.yellow {
   background-color: #fdd835;
   color: #fff;
 }
 .inverted.yellow.minor,
-.fill.yellow.minor,
+.filled.yellow.minor,
 .label.yellow.minor {
   background-color: rgba(255, 250, 228, 0.9);
   color: #fdd835;
   border-color: rgba(253, 216, 53, 0.5);
 }
 .inverted.amber,
-.fill.amber,
+.filled.amber,
 .label.amber {
   background-color: #ffc107;
   color: #fff;
 }
 .inverted.amber.minor,
-.fill.amber.minor,
+.filled.amber.minor,
 .label.amber.minor {
   background-color: rgba(255, 247, 222, 0.9);
   color: #ffc107;
   border-color: rgba(255, 193, 7, 0.5);
 }
 .inverted.orange,
-.fill.orange,
+.filled.orange,
 .label.orange {
   background-color: #ff9800;
   color: #fff;
 }
 .inverted.orange.minor,
-.fill.orange.minor,
+.filled.orange.minor,
 .label.orange.minor {
   background-color: rgba(255, 241, 221, 0.9);
   color: #ff9800;
   border-color: rgba(255, 152, 0, 0.5);
 }
 .inverted.deep-orange,
-.fill.deep-orange,
+.filled.deep-orange,
 .label.deep-orange {
   background-color: #ff5722;
   color: #fff;
 }
 .inverted.deep-orange.minor,
-.fill.deep-orange.minor,
+.filled.deep-orange.minor,
 .label.deep-orange.minor {
   background-color: rgba(255, 233, 226, 0.9);
   color: #ff5722;
   border-color: rgba(255, 87, 34, 0.5);
 }
 .inverted.brown,
-.fill.brown,
+.filled.brown,
 .label.brown {
   background-color: #795548;
   color: #fff;
 }
 .inverted.brown.minor,
-.fill.brown.minor,
+.filled.brown.minor,
 .label.brown.minor {
   background-color: rgba(237, 232, 231, 0.9);
   color: #795548;
   border-color: rgba(121, 85, 72, 0.5);
 }
 .inverted.grey,
-.fill.grey,
+.filled.grey,
 .label.grey {
   background-color: #9e9e9e;
   color: #fff;
 }
 .inverted.grey.minor,
-.fill.grey.minor,
+.filled.grey.minor,
 .label.grey.minor {
   background-color: rgba(242, 242, 242, 0.9);
   color: #9e9e9e;
   border-color: rgba(158, 158, 158, 0.5);
 }
 .inverted.blue-grey,
-.fill.blue-grey,
+.filled.blue-grey,
 .label.blue-grey {
   background-color: #607d8b;
   color: #fff;
 }
 .inverted.blue-grey.minor,
-.fill.blue-grey.minor,
+.filled.blue-grey.minor,
 .label.blue-grey.minor {
   background-color: rgba(234, 238, 240, 0.9);
   color: #607d8b;
   border-color: rgba(96, 125, 139, 0.5);
 }
 .inverted.white,
-.fill.white,
+.filled.white,
 .label.white {
   background-color: #ffffff;
   color: #fff;
 }
 .inverted.white.minor,
-.fill.white.minor,
+.filled.white.minor,
 .label.white.minor {
   background-color: rgba(255, 255, 255, 0.9);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.5);
 }
 .inverted.black,
-.fill.black,
+.filled.black,
 .label.black {
   background-color: #000000;
   color: #fff;
 }
 .inverted.black.minor,
-.fill.black.minor,
+.filled.black.minor,
 .label.black.minor {
   background-color: rgba(221, 221, 221, 0.9);
   color: #000000;
