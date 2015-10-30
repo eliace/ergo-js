@@ -696,10 +696,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// 	v = this.opt('name');
 		// }
 
-		if( !v || $.isNumeric(v) )
-			throw Error('Invalid action name ['+v+"]");
+		// if( v == null /*|| $.isNumeric(v)*/ )
+		// 	throw new Error('Invalid action name ['+v+"]");
 
-		this.events.rise(v, event);
+		this.events.rise(''+v, event);
 
 		if(event.stop)
 			event.stop();

@@ -1,13 +1,13 @@
 
 
-Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Buttons', 'Ergo.widgets.Box', {
 
 	defaults: {
 		as: 'buttons',
-		layout: 'hbox',
+//		layout: 'hbox',
 		defaultItem: {
 			etype: 'button',
-			name: 'button',
+			name: 'action',
 			onClick: 'action'
 		}
 	}
