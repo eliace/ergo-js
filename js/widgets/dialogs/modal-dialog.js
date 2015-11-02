@@ -27,6 +27,14 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 					buttons: {
 						etype: 'buttons',
 						layout: 'bar',
+						defaultItem: {
+							'!onClick': 'action:dialogAction'
+							// onClick: function(e) {
+							// 	this.events.rise('dialogAction');
+							// 	e.interrupt(); // no default buttons action
+							// }
+						}
+//						onClick: 'action:dialogAction'
 						// defaultItem: {
 						// 	etype: 'button',
 						// 	onClick: function() {
@@ -46,12 +54,13 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			e.stop();
 		},
 
-		onAction: function(e) {
+		onDialogAction: function(e) {
 
+//			var event = new Ergo.core.CancelEvent();
 //			if(e.action)
-			this.events.fire(e.target.opt('name'), e);
+			var event = this.events.fire(e.target.opt('name'), {}, e);
 
-			if(!e.canceled)
+			if(!event.canceled)
 				this.close();
 
 			e.stop();

@@ -195,25 +195,25 @@ Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
 
 /**
  * Панель
- * 
+ *
  * :`panel`
  * \s	header:`box`
  * \s\s		title:`html:span`
  * \s	content:`box`
  * \s	footer:`box`
- * 
+ *
  * Опции:
  * 	`title`
- *  
+ *
  * @class
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
-	
+
 	defaults: {
 //		html: '<div/>',
-		cls: 'panel',
+		as: 'panel',
 		components: {
 			header: {
 				etype: 'html:header',
@@ -225,7 +225,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 						autoRender: 'non-empty'
 //						cls: 'panel-title'
 					}
-				}				
+				}
 			},
 			content: {
 			},
@@ -237,12 +237,12 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			}
 		}
 	},
-	
-	
+
+
 	set_title: function(v) {
 		this.$header.$title.opt('text', v);
 	}
-	
+
 }, 'widgets:panel');
 
 
@@ -892,7 +892,10 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 			var keyCode = e.base.keyCode;
 
-			if(keyCode == KEY_UP || keyCode == KEY_DOWN || keyCode == KEY_ENTER || keyCode == KEY_ESC) {
+			if(keyCode == Ergo.KeyCode.ESC
+				|| Ergo.KeyCode.DOWN
+				|| Ergo.KeyCode.ENTER
+				|| Ergo.KeyCode.ESC) {
 				// TODO обработка служебных символов
 			}
 			else {
@@ -1094,6 +1097,8 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			var selected = this.selection.set( v );
 
+			this.$dropdown.navigator.selected = this.selected;
+
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
 
@@ -1103,9 +1108,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			this.states.toggle('placeholder', this.opt('value') == null);
 		},
 
-		onSelectionChanged: function() {
-			this.$dropdown.navigator.selected = this.selected;
-		},
+		// onSelectionChanged: function() {
+		// 	this.$dropdown.navigator.selected = this.selected;
+		// },
 
 //		onDropdown: function
 
@@ -2148,6 +2153,14 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 					buttons: {
 						etype: 'buttons',
 						layout: 'bar',
+						defaultItem: {
+							'!onClick': 'action:dialogAction'
+							// onClick: function(e) {
+							// 	this.events.rise('dialogAction');
+							// 	e.interrupt(); // no default buttons action
+							// }
+						}
+//						onClick: 'action:dialogAction'
 						// defaultItem: {
 						// 	etype: 'button',
 						// 	onClick: function() {
@@ -2167,12 +2180,13 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			e.stop();
 		},
 
-		onAction: function(e) {
+		onDialogAction: function(e) {
 
+//			var event = new Ergo.core.CancelEvent();
 //			if(e.action)
-			this.events.fire(e.target.opt('name'), e);
+			var event = this.events.fire(e.target.opt('name'), {}, e);
 
-			if(!e.canceled)
+			if(!event.canceled)
 				this.close();
 
 			e.stop();

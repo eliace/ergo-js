@@ -401,6 +401,7 @@ describe('Widget', function(){
 
 
 
+
 		});
 
 
@@ -429,10 +430,10 @@ describe('Widget', function(){
 			// длина строки больше 3 символов
 			var filter = function(v) { return v.title.length > 3; };
 
-			var identifier = function(v) { return v.title; }
+			var identifier = function(v) { return v.id; }
 
 
-			var ds = new Ergo.core.DataSource([{title: 'Bob'}, {title: 'Charlie'}, {title: 'Alice'}, {title: 'Dave'}, {title: 'Eve'}], {valueUid: identifier});
+			var ds = new Ergo.core.DataSource([{id: 1, title: 'Bob'}, {id: 2, title: 'Charlie'}, {id: 3, title: 'Alice'}, {id: 4, title: 'Dave'}, {id: 5, title: 'Eve'}], {valueUid: identifier});
 
 			var box = $.ergo({
 				etype: 'html:div',
@@ -457,82 +458,147 @@ describe('Widget', function(){
 			// DELETE (visible)
 			bindings = [];
 
-			ds.sync([{title: 'Bob'}, {title: 'Charlie'}, {title: 'Dave'}, {title: 'Eve'}]);
+			ds.sync([{id: 1, title: 'Bob'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Dave'}, {id: 5, title: 'Eve'}]);
+
+
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(3);
 			expect([box.item(0).value.title, box.item(1).value.title]).to.be.eql(['Charlie', 'Dave']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([[{title: 'Bob'}, {title: 'Charlie'}, {title: 'Dave'}, {title: 'Eve'}]]);
+			expect(bindings).to.be.eql([[{id: 1, title: 'Bob'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Dave'}, {id: 5, title: 'Eve'}]]);
+
+
 
 
 			// CREATE (visible)
 			bindings = [];
 
-			ds.sync([{title: 'Bob'}, {title: 'Frank'}, {title: 'Charlie'}, {title: 'Dave'}, {title: 'Eve'}]);
+			ds.sync([{id: 1, title: 'Bob'}, {id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Dave'}, {id: 5, title: 'Eve'}]);
+
 
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Charlie', 'Dave', 'Frank']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([{title: 'Frank'}, [{title: 'Bob'}, {title: 'Frank'}, {title: 'Charlie'}, {title: 'Dave'}, {title: 'Eve'}]]);
+			expect(bindings).to.be.eql([{id: 6, title: 'Frank'}, [{id: 1, title: 'Bob'}, {id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Dave'}, {id: 5, title: 'Eve'}]]);
+
+
 
 
 			// UPDATE (visible)
 			bindings = [];
 
-			ds.sync([{title: 'Bob'}, {title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Eve'}]);
+			ds.sync([{id: 1, title: 'Bob'}, {id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 5, title: 'Eve'}]);
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value.title, box.item(1).value.title]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([[{title: 'Bob'}, {title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Eve'}]]);
+			expect(bindings).to.be.eql([[{id: 1, title: 'Bob'}, {id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 5, title: 'Eve'}]]);
 
 
 
 			// DELETE (hidden)
 			bindings = [];
 
-			ds.sync([{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Eve'}]);
+			ds.sync([{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 5, title: 'Eve'}]);
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value.title, box.item(1).value.title]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([[{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Eve'}]]);
+			expect(bindings).to.be.eql([[{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 5, title: 'Eve'}]]);
+
 
 
 			// CREATE (hidden)
 			bindings = [];
 
-			ds.sync([{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Eve'}]);
+			ds.sync([{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 5, title: 'Eve'}]);
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value.title, box.item(1).value.title]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([[{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Eve'}]]);
+			expect(bindings).to.be.eql([[{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 5, title: 'Eve'}]]);
 
 
 			// UPDATE (hidden)
 			bindings = [];
 
-			ds.sync([{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Brian'}]);
+			ds.sync([{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 5, title: 'Brian'}]);
 
 			expect(box.items.size()).to.be.eq(3);
-			expect(ds.entries.size()).to.be.eq(6);
+			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Brian', 'Charlie', 'Frank']);
 
 //			console.log(bindings);
-			expect(bindings).to.be.eql([{title: 'Brian'}, [{title: 'Frank'}, {title: 'Charlie'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Brian'}]]);
+			expect(bindings).to.be.eql([{id: 5, title: 'Brian'}, [{id: 6, title: 'Frank'}, {id: 2, title: 'Charlie'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 5, title: 'Brian'}]]);
 
 
+
+			// DELETE + CREATE (visible)
+			bindings = [];
+
+			ds.sync([{id: 6, title: 'Frank'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 8, title: 'Helen'}, {id: 5, title: 'Brian'}]);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Brian', 'Frank', 'Helen']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql([{id: 8, title: 'Helen'}, [{id: 6, title: 'Frank'}, {id: 4, title: 'Joe'}, {id: 7, title: 'Ann'}, {id: 8, title: 'Helen'}, {id: 5, title: 'Brian'}]]);
+
+
+
+
+			// REORDER (visible)
+			bindings = [];
+
+			ds.sync([{id: 4, title: 'Joe'}, {id: 5, title: 'Brian'}, {id: 6, title: 'Frank'}, {id: 8, title: 'Helen'}, {id: 7, title: 'Ann'}]);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Brian', 'Frank', 'Helen']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql([{id: 6, title: 'Frank'}, {id: 5, title: 'Brian'}, [{id: 4, title: 'Joe'}, {id: 5, title: 'Brian'}, {id: 6, title: 'Frank'}, {id: 8, title: 'Helen'}, {id: 7, title: 'Ann'}]]);
+
+
+
+
+			// UPDATE ALL
+			bindings = [];
+
+			ds.sync([{id: 4, title: 'Jo2'}, {id: 5, title: 'Bria2'}, {id: 6, title: 'Fran2'}, {id: 8, title: 'Hele2'}, {id: 7, title: 'An2'}]);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Bria2', 'Fran2', 'Hele2']);
+
+			console.log(bindings);
+			expect(bindings).to.be.eql([{id: 8, title: 'Hele2'}, {id: 6, title: 'Fran2'}, {id: 5, title: 'Bria2'}, [{id: 4, title: 'Jo2'}, {id: 5, title: 'Bria2'}, {id: 6, title: 'Fran2'}, {id: 8, title: 'Hele2'}, {id: 7, title: 'An2'}]]);
+
+
+/*
+			// DELETE + UPDATE (visible)
+			bindings = [];
+
+			ds.sync([{title: 'Frank'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Helen'}, {title: 'Brian'}]);
+
+			expect(box.items.size()).to.be.eq(3);
+			expect(ds.entries.size()).to.be.eq(5);
+			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Brian', 'Frank', 'Helen']);
+
+//			console.log(bindings);
+			expect(bindings).to.be.eql([{title: 'Helen'}, [{title: 'Frank'}, {title: 'Joe'}, {title: 'Ann'}, {title: 'Helen'}, {title: 'Brian'}]]);
+*/
 
 		});
 

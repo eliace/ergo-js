@@ -272,7 +272,7 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 
 //		self.on_fire(type, e, baseEvent);
 
-		return this;
+		return e;
 	}
 
 

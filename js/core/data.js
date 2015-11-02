@@ -118,12 +118,21 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			for(var j = 0; j < a.length; j++) ds = ds.entry(a[j]);
 		}
 
-		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!ds.entries.has_key(i)) {
-			ds.entries.set(i, ds._factory(i));
+		var e = ds.entries.get(i);
+
+		if(!e) {
+			e = ds._factory(i);
+			ds.entries.set(i, e);
 		}
 
-		return ds.entries.get(i);
+		return e;
+
+		// // если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
+		// if(!ds.entries.has_key(i)) {
+		// 	ds.entries.set(i, ds._factory(i));
+		// }
+		//
+		// return ds.entries.get(i);
 	},
 
 
@@ -531,7 +540,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					}
 				}
 
-
 			}
 			else {
 				if(value) {
@@ -654,16 +662,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		var value_m = {};
 		for(var i = 0; i < newData.length; i++) {
 			//TODO способ получения ключа может быть сложнее
-			var uid = valueUid.call(this, newData[i], i);
+			var v = newData[i];
+			var k = valueUid.call(this, v, i);
 			// if(this.options.idKey) {
 			// 	value_m[newData[i][this.options.idKey]] = {value: newData[i], index: i};
 			// }
 			// else {
-			value_m[uid] = {value: newData[i], index: i};
+			value_m[k] = {value: newData[i], index: i};
 //			}
 		}
 
-//		console.log('sync', value_m);
+//		console.log('sync', JSON.stringify(value_m));
 
 		for(var i = 0; i < oldData.length; i++) {
 			var v = oldData[i];
@@ -675,21 +684,21 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			else {
 				// DELETE
 				diff.deleted.push( this.entry(i) );
-//				this.del(k);
 			}
 		}
 
 		for(var i = diff.deleted.length-1; i >= 0; i-- ) {
-			if(diff.deleted[i])
-				diff.deleted[i].del();
+			diff.deleted[i].del();
 		}
 
 
 		for(var k in value_m) {
 			var v = value_m[k].value;
 			var i = value_m[k].index;
+
 			// CREATE
 			diff.created.push( this.add(v, i) );
+
 		}
 
 
@@ -706,6 +715,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		// if(diff.updated.length != 0) {
 		// }
 
+
 		this._no_diff = false;
 
 
@@ -717,8 +727,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		// 	diff.created[i].events.fire('changed');
 		// }
 		for(var i = diff.updated.length-1; i >= 0; i-- ) {
-			if(diff.updated[i])
-				diff.updated[i].events.fire('changed');
+			diff.updated[i].events.fire('changed');
 		}
 
 		this.mark_dirty(true);

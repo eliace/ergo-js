@@ -140,6 +140,9 @@ h5 {
 .items > * {
   display: inline-block;
 }
+.hidden {
+  display: none;
+}
 /*
 
 .box-type(@color) {
@@ -1251,6 +1254,21 @@ h5 {
   border-color: rgba(0, 0, 0, 0.5);
 }
 .line {
+  border-left: 3px solid;
+}
+.line.line-top {
+  border-top: 3px solid;
+  border-left: none;
+}
+.line.line-right {
+  border-right: 3px solid;
+  border-left: none;
+}
+.line.line-bottom {
+  border-bottom: 3px solid;
+  border-left: none;
+}
+.line.line-left {
   border-left: 3px solid;
 }
 .line.basic {
@@ -4526,6 +4544,7 @@ label:hover .radio {
   overflow: auto;
   margin-right: -20px;
   overflow: hidden;
+  width: 100%;
 }
 .modal {
   background-color: #fff;

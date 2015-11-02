@@ -3,25 +3,25 @@
 
 /**
  * Панель
- * 
+ *
  * :`panel`
  * \s	header:`box`
  * \s\s		title:`html:span`
  * \s	content:`box`
  * \s	footer:`box`
- * 
+ *
  * Опции:
  * 	`title`
- *  
+ *
  * @class
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
-	
+
 	defaults: {
 //		html: '<div/>',
-		cls: 'panel',
+		as: 'panel',
 		components: {
 			header: {
 				etype: 'html:header',
@@ -33,7 +33,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 						autoRender: 'non-empty'
 //						cls: 'panel-title'
 					}
-				}				
+				}
 			},
 			content: {
 			},
@@ -45,10 +45,10 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			}
 		}
 	},
-	
-	
+
+
 	set_title: function(v) {
 		this.$header.$title.opt('text', v);
 	}
-	
+
 }, 'widgets:panel');

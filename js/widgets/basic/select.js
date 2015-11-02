@@ -138,6 +138,8 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			var selected = this.selection.set( v );
 
+			this.$dropdown.navigator.selected = this.selected;
+
 //			this.$input.opt('text', v);
 			this.$content.opt('text', selected ? selected.opt('text') : null);
 
@@ -147,9 +149,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			this.states.toggle('placeholder', this.opt('value') == null);
 		},
 
-		onSelectionChanged: function() {
-			this.$dropdown.navigator.selected = this.selected;
-		},
+		// onSelectionChanged: function() {
+		// 	this.$dropdown.navigator.selected = this.selected;
+		// },
 
 //		onDropdown: function
 

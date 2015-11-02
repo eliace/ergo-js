@@ -46,7 +46,7 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 	// 	this.events.rise('change', {value: this.el.prop('checked')});
 	// },
 
-	changeAction: function() {
+	do_change: function() {
 		this.events.rise('change', {value: this.el.prop('checked')});
 	}
 

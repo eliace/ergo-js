@@ -37,7 +37,7 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 
 			var keyCode = e.base.keyCode;
 
-			if(keyCode == KEY_UP || keyCode == KEY_DOWN || keyCode == KEY_ENTER || keyCode == KEY_ESC) {
+			if(keyCode == Ergo.KeyCode.ESC || Ergo.KeyCode.DOWN || Ergo.KeyCode.ENTER || Ergo.KeyCode.ESC) {
 				// TODO обработка служебных символов
 			}
 			else {

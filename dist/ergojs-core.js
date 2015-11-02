@@ -596,7 +596,12 @@ var Ergo = (function(){
 
 
 
-
+	E.KeyCode = {
+		UP: 38,
+		DOWN: 40,
+		ENTER: 13,
+		ESC: 27
+	};
 
 
 
@@ -2576,7 +2581,7 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 
 //		self.on_fire(type, e, baseEvent);
 
-		return this;
+		return e;
 	}
 
 
@@ -2796,12 +2801,21 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			for(var j = 0; j < a.length; j++) ds = ds.entry(a[j]);
 		}
 
-		// если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
-		if(!ds.entries.has_key(i)) {
-			ds.entries.set(i, ds._factory(i));
+		var e = ds.entries.get(i);
+
+		if(!e) {
+			e = ds._factory(i);
+			ds.entries.set(i, e);
 		}
 
-		return ds.entries.get(i);
+		return e;
+
+		// // если ключ существует, то возвращаем соответствующий элемент, иначе - создаем новый
+		// if(!ds.entries.has_key(i)) {
+		// 	ds.entries.set(i, ds._factory(i));
+		// }
+		//
+		// return ds.entries.get(i);
 	},
 
 
@@ -3209,7 +3223,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					}
 				}
 
-
 			}
 			else {
 				if(value) {
@@ -3332,16 +3345,17 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		var value_m = {};
 		for(var i = 0; i < newData.length; i++) {
 			//TODO способ получения ключа может быть сложнее
-			var uid = valueUid.call(this, newData[i], i);
+			var v = newData[i];
+			var k = valueUid.call(this, v, i);
 			// if(this.options.idKey) {
 			// 	value_m[newData[i][this.options.idKey]] = {value: newData[i], index: i};
 			// }
 			// else {
-			value_m[uid] = {value: newData[i], index: i};
+			value_m[k] = {value: newData[i], index: i};
 //			}
 		}
 
-//		console.log('sync', value_m);
+//		console.log('sync', JSON.stringify(value_m));
 
 		for(var i = 0; i < oldData.length; i++) {
 			var v = oldData[i];
@@ -3353,21 +3367,21 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 			else {
 				// DELETE
 				diff.deleted.push( this.entry(i) );
-//				this.del(k);
 			}
 		}
 
 		for(var i = diff.deleted.length-1; i >= 0; i-- ) {
-			if(diff.deleted[i])
-				diff.deleted[i].del();
+			diff.deleted[i].del();
 		}
 
 
 		for(var k in value_m) {
 			var v = value_m[k].value;
 			var i = value_m[k].index;
+
 			// CREATE
 			diff.created.push( this.add(v, i) );
+
 		}
 
 
@@ -3384,6 +3398,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		// if(diff.updated.length != 0) {
 		// }
 
+
 		this._no_diff = false;
 
 
@@ -3395,8 +3410,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		// 	diff.created[i].events.fire('changed');
 		// }
 		for(var i = diff.updated.length-1; i >= 0; i-- ) {
-			if(diff.updated[i])
-				diff.updated[i].events.fire('changed');
+			diff.updated[i].events.fire('changed');
 		}
 
 		this.mark_dirty(true);
@@ -11468,6 +11482,41 @@ Ergo.alias('includes:list-navigator', {
 
 
 
+Ergo.alias('includes:user-input', {
+
+  defaults: {
+    events: {
+      'jquery:keyup': 'do_input'
+    }
+  },
+
+
+  overrides: {
+
+    do_input: function(e) {
+
+      var keyCode = e.keyCode;
+
+      var text = this.el.val();
+
+			if(keyCode == Ergo.KeyCode.UP
+				|| keyCode == Ergo.KeyCode.DOWN
+				|| keyCode == Ergo.KeyCode.ENTER
+				|| keyCode == Ergo.KeyCode.ESC) {
+				// TODO обработка служебных символов
+			}
+			else {
+				this.events.rise('input', {text: text, keyCode: keyCode});
+			}
+    }
+
+  }
+
+});
+
+
+
+
 
 
 
@@ -11533,7 +11582,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': 'changeAction'
+			'jquery:change': 'do_change'
 		}
 		// onChange: function(e) {
 		// 	this.opt('value', this.el.val());
@@ -11580,7 +11629,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	// 	this.events.rise('change', {value: this.el.val()});
 	// },
 
-	changeAction: function(e) {
+	do_change: function(e) {
 		this.events.rise('change', {value: this.el.val()});
 	},
 
@@ -11643,7 +11692,7 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 
 			var keyCode = e.base.keyCode;
 
-			if(keyCode == KEY_UP || keyCode == KEY_DOWN || keyCode == KEY_ENTER || keyCode == KEY_ESC) {
+			if(keyCode == Ergo.KeyCode.ESC || Ergo.KeyCode.DOWN || Ergo.KeyCode.ENTER || Ergo.KeyCode.ESC) {
 				// TODO обработка служебных символов
 			}
 			else {
@@ -11710,7 +11759,7 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 	// 	this.events.rise('change', {value: this.el.prop('checked')});
 	// },
 
-	changeAction: function() {
+	do_change: function() {
 		this.events.rise('change', {value: this.el.prop('checked')});
 	}
 
@@ -11818,7 +11867,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': 'changeAction'
+			'jquery:change': 'do_change'
 		}
 	},
 
@@ -11846,7 +11895,7 @@ Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 	},
 
 
-	changeAction: function(e) {
+	do_change: function(e) {
 		this.events.rise('change', {value: this.el.val()});
 	}
 

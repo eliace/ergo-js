@@ -24,7 +24,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 			this.el.val(v);
 		},
 		events: {
-			'jquery:change': 'changeAction'
+			'jquery:change': 'do_change'
 		}
 		// onChange: function(e) {
 		// 	this.opt('value', this.el.val());
@@ -71,7 +71,7 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	// 	this.events.rise('change', {value: this.el.val()});
 	// },
 
-	changeAction: function(e) {
+	do_change: function(e) {
 		this.events.rise('change', {value: this.el.val()});
 	},
 

@@ -12,3 +12,4 @@
 //= require history
 //= require provider-methods
 //= require list-navigator
+//= require user-input
