@@ -10805,6 +10805,8 @@ Ergo.alias('includes:modal', {
 
 	defaults: {
 
+		autoHeight: 'ignore',
+
 		destroyOnClose: true,
 
 		components: {
@@ -11242,7 +11244,7 @@ Ergo.alias('includes:router', {
 
 
 
-    to: function(path) {
+    to: function(path, params, opts) {
 
       // преобразуем к абсолютному пути
       path = this.absolutePath(path);
@@ -11261,12 +11263,14 @@ Ergo.alias('includes:router', {
             history: route.history
           };
 
-          this.join( route.name, match, o );
+          Ergo.override(match, params); // merge path params and route params
+          Ergo.smart_override(o, opts); //
 
-          break;
+          return this.join( route.name, match, o );
         }
       }
 
+      return $.when(null);
     },
 
 

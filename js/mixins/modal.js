@@ -5,6 +5,8 @@ Ergo.alias('includes:modal', {
 
 	defaults: {
 
+		autoHeight: 'ignore',
+
 		destroyOnClose: true,
 
 		components: {

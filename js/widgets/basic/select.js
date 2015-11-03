@@ -112,9 +112,13 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 					this.events.fire('cancelSelect');
 				}
 
+			},
+
+			'jquery:blur': function(e) {
+				this.events.fire('cancelSelect');
 			}
-			// 'select': function() {
-			// }
+
+
 		},
 
 
@@ -141,13 +145,16 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			this.$dropdown.navigator.selected = this.selected;
 
 //			this.$input.opt('text', v);
-			this.$content.opt('text', selected ? selected.opt('text') : null);
 
+
+
+			this.opt('text', selected ? selected.opt('text') : null);
+
+			this._checkPlaceholder();
 		},
 
-		onDataChanged: function() {
-			this.states.toggle('placeholder', this.opt('value') == null);
-		},
+		// onDataChanged: function() {
+		// },
 
 		// onSelectionChanged: function() {
 		// 	this.$dropdown.navigator.selected = this.selected;
@@ -176,6 +183,20 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 	},
+
+
+	_checkPlaceholder: function() {
+		var selected = this.selection.get();
+		this.states.toggle('placeholder', !selected);
+		if(!selected) {
+			this.opt('text', this.options.placeholder );
+		}
+	},
+
+
+	set placeholder(v) {
+		this._checkPlaceholder();
+	}
 
 
 
