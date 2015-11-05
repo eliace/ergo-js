@@ -699,7 +699,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// if( v == null /*|| $.isNumeric(v)*/ )
 		// 	throw new Error('Invalid action name ['+v+"]");
 
-		this.events.rise(''+v, event);
+		this.events.rise(''+v, {}, event);
 
 		if(event.stop)
 			event.stop();

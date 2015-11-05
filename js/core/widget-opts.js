@@ -87,7 +87,7 @@ Ergo.WidgetOptions = {
 	set tooltip(v) { this.el.attr('title', v); },
 //	set_id: function(v) { this.el.attr('id', v); },
 //	set_tag: function(v) { this.tag = v; },
-	set name(v) { this._name = ''+v; },
+	set name(v) { this._name = v; },
 //			'name': function(v) { this.name = v; },
 //	set_tabindex: function(v) { this.el.attr('tabindex', v); },
 	set format(v) {

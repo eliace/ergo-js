@@ -30,13 +30,29 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 // Ergo.override(Ergo.core.Event.prototype, {
 
 	stop: function(immediate) {
-		if(this.base) this.base.stopPropagation(); //FIXME
+//		if(this.base) this.base.stopPropagation(); //FIXME
+		var e = this.base;
+		while(e) {
+			if(e.stopPropagation) {
+				e.stopPropagation();
+				break;
+			}
+			e = e.base;
+		}
 		this.stopped = true;
 		if(immediate)
 			this.stopedImmediate = true;
 	},
 	interrupt: function() {
-		if(this.base) this.base.stopImmediatePropagation(); //FIXME
+		var e = this.base;
+		while(e) {
+			if(e.stopImmediatePropagation) {
+				e.stopImmediatePropagation();
+				break;
+			}
+			e = e.base;
+		}
+//		if(this.base) this.base.stopImmediatePropagation(); //FIXME
 		this.stopped = true;
 		this.stopedImmediate = true;
 	},

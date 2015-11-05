@@ -37,7 +37,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				cls: 'right',
 				icon: 'caret',
 				weight: 10,
-				onClick: 'action:toggleDropdown'
+				onClick: 'action:dropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
 				// 	e.stop();
@@ -53,7 +53,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				binding: false,
 				cls: 'text',
-				onClick: 'action:toggleDropdown'
+				onClick: 'action:dropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
 				// 	e.stop();
@@ -162,7 +162,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //		onDropdown: function
 
-		onToggleDropdown: function() {
+		onDropdown: function() {
 			this.states.toggle('opened');
 		},
 

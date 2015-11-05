@@ -311,8 +311,9 @@
 		var removed = [];
 
 		for(var i = indices.length-1; i >= 0; i--) {
-			removed.push(obj[i]);
-			obj.splice(i, 1);
+			var idx = indices[i];
+			removed.push(obj[idx]);
+			obj.splice(idx, 1);
 		}
 
 		// indices.reverse().forEach( function(i) {

@@ -1333,8 +1333,9 @@ Function.prototype.debounce = function(wait, immediate) {
 		var removed = [];
 
 		for(var i = indices.length-1; i >= 0; i--) {
-			removed.push(obj[i]);
-			obj.splice(i, 1);
+			var idx = indices[i];
+			removed.push(obj[idx]);
+			obj.splice(idx, 1);
 		}
 
 		// indices.reverse().forEach( function(i) {
@@ -2339,13 +2340,29 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 // Ergo.override(Ergo.core.Event.prototype, {
 
 	stop: function(immediate) {
-		if(this.base) this.base.stopPropagation(); //FIXME
+//		if(this.base) this.base.stopPropagation(); //FIXME
+		var e = this.base;
+		while(e) {
+			if(e.stopPropagation) {
+				e.stopPropagation();
+				break;
+			}
+			e = e.base;
+		}
 		this.stopped = true;
 		if(immediate)
 			this.stopedImmediate = true;
 	},
 	interrupt: function() {
-		if(this.base) this.base.stopImmediatePropagation(); //FIXME
+		var e = this.base;
+		while(e) {
+			if(e.stopImmediatePropagation) {
+				e.stopImmediatePropagation();
+				break;
+			}
+			e = e.base;
+		}
+//		if(this.base) this.base.stopImmediatePropagation(); //FIXME
 		this.stopped = true;
 		this.stopedImmediate = true;
 	},
@@ -3153,47 +3170,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
-/*
-	del: function(i) {
-
-		if(i === undefined) {
-			if(this.source instanceof Ergo.core.DataSource)
-				this.source.del(this._id.join('+'));
-			else
-				throw new Error('Unable to delete root data src');
-		}
-		else {
-			var value = this.get();
-
-			var deleted_entry = this.entry(i);
-//			var deleted_entry = this.entries.remove_at(i);
-			var deleted_value = value ? value[i] : undefined;
-
-
-			this.entries.remove_at(i);
-
-			if(Array.isArray(value)) {
-				value.splice(i, 1);
-				for(var j = i; j < value.length; j++)
-					this.entries.get(j)._id[0] = j;
-			}
-			else {
-				if(value) delete value[i];
-			}
-
-
-			this.mark_dirty(true);
-
-			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
-			if(deleted_entry) {
-				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value, deleted: [deleted_entry]});
-			}
-		}
-
-	},
-*/
-
-
 	del: function(i) {
 		if(arguments.length == 1) {
 			this.entry(i).del();
@@ -3244,6 +3220,34 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 		}
+	},
+
+
+
+
+	/**
+	 * Удаление элемента.
+	 *
+	 * @param {Any} [v] элемент
+	 *
+	 */
+	rm: function(v) {
+
+		var val = this._val();
+
+		var k = null;
+		var criteria = JSON.stringify(v);
+		Ergo.find(val, function(obj, i) {
+			if( JSON.stringify(obj) === criteria ) {
+				k = i;
+				return true; // прекращаем обход
+			}
+		});
+
+		if( k != null) {
+			this.del(k);
+		}
+
 	},
 
 
@@ -4856,7 +4860,7 @@ Ergo.WidgetOptions = {
 	set tooltip(v) { this.el.attr('title', v); },
 //	set_id: function(v) { this.el.attr('id', v); },
 //	set_tag: function(v) { this.tag = v; },
-	set name(v) { this._name = ''+v; },
+	set name(v) { this._name = v; },
 //			'name': function(v) { this.name = v; },
 //	set_tabindex: function(v) { this.el.attr('tabindex', v); },
 	set format(v) {
@@ -7536,7 +7540,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// if( v == null /*|| $.isNumeric(v)*/ )
 		// 	throw new Error('Invalid action name ['+v+"]");
 
-		this.events.rise(''+v, event);
+		this.events.rise(''+v, {}, event);
 
 		if(event.stop)
 			event.stop();
@@ -10162,7 +10166,7 @@ Ergo.alias('includes:selectable', {
 
 			_widget: this,
 
-			_selected: [],
+			_selected: null,
 
 			set: function(key) {
 
@@ -10187,22 +10191,41 @@ Ergo.alias('includes:selectable', {
 
 				// если выборка эксклюзивная, то нужно очистить текущую выборку
 				if(!multiselect) {
-					for(var i = 0; i < this._selected.length; i++) {
-						this._selected[i].states.unset('selected');
+					if(this._selected) {
+						this._selected.states.unset('selected');
+					}
+
+					// for(var i = 0; i < this._selected.length; i++) {
+					// 	this._selected[i].states.unset('selected');
+					// }
+				}
+				else {
+
+					if(!this._selected)
+						this._selected = {};
+
+					if(this._selected[key]) {
+						this._selected[key].states.unset('selected');
 					}
 				}
 
 
 
-				//
-				if(!multiselect)
-					this._selected = [];
+				// //
+				// if(!multiselect)
+				// 	this._selected = [];
 
 
 				if(selected == null) return;
 
 
-				this._selected.push(selected);
+				if(!multiselect) {
+					this._selected = selected;
+				}
+				else {
+					this._selected[key] = selected;
+				}
+//				this._selected.push(selected);
 
 
 				selected.states.set('selected');
@@ -10226,7 +10249,19 @@ Ergo.alias('includes:selectable', {
 				// ищем выбранный элемент
 				var unselected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
 
-				Ergo.remove(this._selected, unselected);
+
+
+				if(unselected == null) return;
+
+
+				if(!multiselect) {
+					this._selected = null;
+				}
+				else {
+					delete this._selected[key];
+				}
+
+//				Ergo.remove(this._selected, unselected);
 //				this._selected.remove(unselected);
 
 				unselected.states.unset('selected');
@@ -10237,9 +10272,13 @@ Ergo.alias('includes:selectable', {
 			},
 
 
-			get: function() {
-				var o = this._widget.options.selection || {};
-				return (o.multiselect) ? this._selected : this._selected[0];
+			get: function(i) {
+				if(arguments.length == 0) {
+					return this._selected;
+				}
+				else {
+					return this._selected ? this._selected[i] : null;
+				}
 			},
 
 
@@ -10252,7 +10291,22 @@ Ergo.alias('includes:selectable', {
 			},
 
 			each: function(fn) {
-				this._selected.forEach(fn);
+				var o = this._widget.options.selection || {};
+
+				if(!o.multiselect) {
+					fn.call(this, this._selected);
+				}
+				else {
+					for(var i in this._selected) {
+						fn.call(this, this._selected[i]);
+					}
+				}
+
+				// for(var item in this._selected) {
+				//
+				// }
+				//
+				// this._selected.forEach(fn);
 			},
 
 			clear: function() {

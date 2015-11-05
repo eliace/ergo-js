@@ -44,7 +44,7 @@ Ergo.alias('includes:selectable', {
 
 			_widget: this,
 
-			_selected: [],
+			_selected: null,
 
 			set: function(key) {
 
@@ -69,22 +69,41 @@ Ergo.alias('includes:selectable', {
 
 				// если выборка эксклюзивная, то нужно очистить текущую выборку
 				if(!multiselect) {
-					for(var i = 0; i < this._selected.length; i++) {
-						this._selected[i].states.unset('selected');
+					if(this._selected) {
+						this._selected.states.unset('selected');
+					}
+
+					// for(var i = 0; i < this._selected.length; i++) {
+					// 	this._selected[i].states.unset('selected');
+					// }
+				}
+				else {
+
+					if(!this._selected)
+						this._selected = {};
+
+					if(this._selected[key]) {
+						this._selected[key].states.unset('selected');
 					}
 				}
 
 
 
-				//
-				if(!multiselect)
-					this._selected = [];
+				// //
+				// if(!multiselect)
+				// 	this._selected = [];
 
 
 				if(selected == null) return;
 
 
-				this._selected.push(selected);
+				if(!multiselect) {
+					this._selected = selected;
+				}
+				else {
+					this._selected[key] = selected;
+				}
+//				this._selected.push(selected);
 
 
 				selected.states.set('selected');
@@ -108,7 +127,19 @@ Ergo.alias('includes:selectable', {
 				// ищем выбранный элемент
 				var unselected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
 
-				Ergo.remove(this._selected, unselected);
+
+
+				if(unselected == null) return;
+
+
+				if(!multiselect) {
+					this._selected = null;
+				}
+				else {
+					delete this._selected[key];
+				}
+
+//				Ergo.remove(this._selected, unselected);
 //				this._selected.remove(unselected);
 
 				unselected.states.unset('selected');
@@ -119,9 +150,13 @@ Ergo.alias('includes:selectable', {
 			},
 
 
-			get: function() {
-				var o = this._widget.options.selection || {};
-				return (o.multiselect) ? this._selected : this._selected[0];
+			get: function(i) {
+				if(arguments.length == 0) {
+					return this._selected;
+				}
+				else {
+					return this._selected ? this._selected[i] : null;
+				}
 			},
 
 
@@ -134,7 +169,22 @@ Ergo.alias('includes:selectable', {
 			},
 
 			each: function(fn) {
-				this._selected.forEach(fn);
+				var o = this._widget.options.selection || {};
+
+				if(!o.multiselect) {
+					fn.call(this, this._selected);
+				}
+				else {
+					for(var i in this._selected) {
+						fn.call(this, this._selected[i]);
+					}
+				}
+
+				// for(var item in this._selected) {
+				//
+				// }
+				//
+				// this._selected.forEach(fn);
 			},
 
 			clear: function() {

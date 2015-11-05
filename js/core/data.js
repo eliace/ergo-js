@@ -470,47 +470,6 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
-/*
-	del: function(i) {
-
-		if(i === undefined) {
-			if(this.source instanceof Ergo.core.DataSource)
-				this.source.del(this._id.join('+'));
-			else
-				throw new Error('Unable to delete root data src');
-		}
-		else {
-			var value = this.get();
-
-			var deleted_entry = this.entry(i);
-//			var deleted_entry = this.entries.remove_at(i);
-			var deleted_value = value ? value[i] : undefined;
-
-
-			this.entries.remove_at(i);
-
-			if(Array.isArray(value)) {
-				value.splice(i, 1);
-				for(var j = i; j < value.length; j++)
-					this.entries.get(j)._id[0] = j;
-			}
-			else {
-				if(value) delete value[i];
-			}
-
-
-			this.mark_dirty(true);
-
-			// элемента могло и не быть в кэше и, если это так, то событие не генерируется
-			if(deleted_entry) {
-				this.events.fire('entry:deleted', {'entry': deleted_entry, 'value': deleted_value, deleted: [deleted_entry]});
-			}
-		}
-
-	},
-*/
-
-
 	del: function(i) {
 		if(arguments.length == 1) {
 			this.entry(i).del();
@@ -561,6 +520,34 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 		}
+	},
+
+
+
+
+	/**
+	 * Удаление элемента.
+	 *
+	 * @param {Any} [v] элемент
+	 *
+	 */
+	rm: function(v) {
+
+		var val = this._val();
+
+		var k = null;
+		var criteria = JSON.stringify(v);
+		Ergo.find(val, function(obj, i) {
+			if( JSON.stringify(obj) === criteria ) {
+				k = i;
+				return true; // прекращаем обход
+			}
+		});
+
+		if( k != null) {
+			this.del(k);
+		}
+
 	},
 
 

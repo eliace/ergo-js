@@ -81,6 +81,9 @@ $(document).ready(function(){
 * String value of `data` option binds widget properties as data (nested properties not supported)
 * `width` and `height` options now uses `outerWidth/outerHeight` methods
 * Datasource validator rises `valid` or `invalid` events
+* New datasource method `rm` removes entry by value
+* `selectable` include uses hash object as multiselect container and no container for single select
+* New include `user-input` adds event `input` on keyup if not a special key (esc, tab, left arrow etc) pressed
 
 #### Release 0.12.1
 * Migrated to jQuery 2 (no more IE8 support)
