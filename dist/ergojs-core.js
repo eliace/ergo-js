@@ -8732,6 +8732,19 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 	},
 
 
+	find_entry: function(id) {
+
+		var valueUid = (this.options.valueUid || this._valueUid);
+
+		var a = this.get();
+		for(var i in a)
+			if(valueUid.call(this, a[i], i) == id) return this.entry(i);
+		return null;
+	},
+
+
+
+
 	_initialize: function(v) {
 		if(arguments.length == 0)
 			this._super([]);
@@ -11571,6 +11584,53 @@ Ergo.alias('includes:user-input', {
   }
 
 });
+
+
+
+Ergo.alias('includes:expandable', {
+
+	defaults: {
+		components: {
+			sub: {
+				hidden: true
+			}
+		},
+		transitions: {
+			'* > expanded': function() {
+				this.$sub.show();
+			},
+			'expanded > *': function() {
+				this.$sub.hide();
+			}
+		},
+		events: {
+			'expand': function(e) {
+				this.states.toggle('expanded');
+//				e.stop();
+			}
+		}
+	}
+
+});
+
+
+
+Ergo.alias('includes:exclusive-expand', {
+
+	defaults: {
+		events: {
+			'expand': function() {
+				// схлапываем соседние узлы
+	      this.parent.items.each(function(item) {
+	        if(item != this && item.states.is('expanded'))
+	          item.states.unset('expanded');
+	      }.bind(this));
+			}
+		}
+	}
+
+});
+
 
 
 
