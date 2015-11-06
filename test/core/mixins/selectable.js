@@ -16,11 +16,11 @@ describe('Include "selectable"', function(){
 
       w.selection.set(1);
 
-      expect(w.selection._selected.length).to.be.eq(1);
+      expect(w.selection._selected[1]).to.be.not.null;
 
       w.selection.unset(1);
 
-      expect(w.selection._selected.length).to.be.eq(0);
+      expect(w.selection._selected[1]).to.be.undefined;
 
 		});
 

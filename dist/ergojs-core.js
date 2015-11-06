@@ -6334,6 +6334,8 @@ Ergo.WidgetData = {
 		var sorter = this.options.dynamicSorter;
 
 
+//		console.log(created, deleted, updated);
+
 		if(deleted) {
 //			this.items.each(function(item) { console.log('k', item._index); });
 			// DELETED
@@ -6391,6 +6393,8 @@ Ergo.WidgetData = {
 
 					index = after ? after._index : null;
 
+//					console.log('create', index);
+
 					// добавляем элемент последним
 					this.children.autobinding = false;
 					var item = this.items.add({}, index);
@@ -6423,7 +6427,7 @@ Ergo.WidgetData = {
 
 
 				if(filter) {
-					if( !filter.call(this, e._val(), index) ) {
+					if( !filter.call(this, value, index) ) {
 						if( _item ) {
 							_item._destroy();
 							_item = null;
@@ -6432,7 +6436,8 @@ Ergo.WidgetData = {
 					}
 				}
 
-//				console.log(index, value);
+				console.log('kv', index, value);
+
 
 				var kv0 = [index, value];
 
@@ -6454,6 +6459,8 @@ Ergo.WidgetData = {
 
 				index = after ? after._index : null;
 
+				console.log('update', index, !_item);
+
 				if( !_item ) {
 
 					this.children.autobinding = false;
@@ -6468,118 +6475,19 @@ Ergo.WidgetData = {
 				}
 				else {
 
+					console.log('relocate', _item._index, ' => ', index, ' of ', this.items.size());
+
 					if(index != _item._index+1) {
 						this.items.remove(_item);
+						_item.unrender()
 						this.items.add(_item, index);
+						_item.render()
 					}
 
 				}
 
 
 
-/*
-				if(filter) {
-					if( !filter.call(this, e._val(), index) ) {
-						if( _item ) {
-							_item._destroy();
-							_item = null;
-						}
-					}
-					else if( !_item ) {
-
-//						console.log('---', index, value);
-
-						// ищем первый элемент, у которого индекс больше либо равен новому
-						var after = this.items.find(function(item) {
-//							console.log(item.data._id[0]);
-							if( index <= item.data._id[0] ) {
-								return true;
-							}
-						});
-
-						// добавляем элемент последним
-						this.children.autobinding = false;
-						var item = this.items.add({}, after ? after._index : null);
-						this.children.autobinding = true;
-						item.bind(e, false, false);  // обновляться здесь не надо
-
-						item._dynamic = true;
-
-						item.render();
-
-					}
-				}
-
-
-
-//				console.log('before sort', this.items.size())
-
-				if(sorter && _item) {
-
-
-//					console.log('sort', index, value);
-
-//					var after = null;
-					var kv0 = [index, value];
-					var after = this.items.find(function(item) {
-						var kv1 = [item.data._id[0], item.data._val()];
-						if( item != _item && sorter.call(e, kv0, kv1) <= 0 ) {
-//							console.log(kv1[1]);
-							return true;
-//							return false;
-						}
-					});
-
-
-
-
-//					console.log(this.items.size(), _item, _item._index)
-
-
-//					console.log('sort', after, _item);
-
-					// if( after && after._index == _item._index+1 ) {
-					// 	// ничего не делаем
-					// }
-					// else {
-						this.items.remove(_item);
-
-//						console.log(this.items.size())
-//						console.log(after._index);
-
-//						this.items.each(function(item) { console.log('n', item._index); });
-
-
-						this.items.add(_item, after ? after._index : null);
-
-//						this.items.each(function(item) { console.log('m', item._index); });
-
-//					}
-
-//					if(after != _item) {
-// 						if(after) {
-// //							console.log('after', after.data.get());
-// 							this.items.remove(_item);
-// 							this.items.add(_item, after._index);
-// 						}
-// 						else {
-// 							this.items.remove(_item);
-// 							this.items.add(_item);
-// 						}
-						// if(after && _item._index < after._index) {
-						// 	this.items.remove(_item);
-						// 	this.items.add(_item, after._index-1);
-						// }
-						// else {
-						// }
-//					}
-
-				}
-
-
-
-//				console.log('after sort', this.items.size())
-*/
 
 
 			}
