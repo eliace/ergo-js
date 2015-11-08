@@ -266,7 +266,9 @@ describe('Widget', function(){
 			// CREATE X
 			bindings = [];
 
+//			console.log('-----------------');
 			ds.add('Chuck');
+//			console.log('-----------------');
 
 			expect(box.items.size()).to.be.eq(4);
 			expect(ds.entries.size()).to.be.eq(4);

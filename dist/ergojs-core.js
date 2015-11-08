@@ -4278,13 +4278,18 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			// немножко эвристики
 			var last = $(elements[elements.length-1]);
 
+//			index = 0;
 
 			if(elements.length == 0) {
 				el.append( item_el );
 			}
-			else if(last[0]._weight <= weight) {//} && last[0]._index < index){
+			else if(last[0]._weight <= weight) {
 				last.after(item_el);
 			}
+			// else if(last[0]._weight == weight) {
+			// 	last.after(item_el);
+			// 	index = last[0]._index+1;
+			// }
 			else {
 
 				for(var j = 0; j < elements.length; j++) {
@@ -4294,6 +4299,9 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 						after_el = $(elem);
 						break;
 					}
+					// else if(w == weight) {
+					// 	index = elem._index+1;
+					// }
 				}
 				// elements.each(function(i, elem){
 					// var w = elem._weight;// $(elem).data('weight');
@@ -4302,6 +4310,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 						// return false;
 					// }
 				// });
+
 
 				if(after_el)
 					after_el.before( item_el );
@@ -4313,6 +4322,8 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 
 
 
+
+//			item_el[0]._index = index;
 
 			// var after_el = null;
 			// el.children().each(function(i, elem){
@@ -5372,6 +5383,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			for(var j = this.src.length-1; j >= 0; j--) {
 				if(this.src[j]._type == item._type) {
 					item._index = this.src[j]._index + 1;
+					item.el[0]._index = item._index; //WARN это действие должно осуществляться в layout
 					break;
 				}
 			}
@@ -5391,8 +5403,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		// обновляем свойство _index у соседних элементов
 		for(var j = i+1; j < this.src.length; j++) {
-			if('_index' in this.src[j])
+			if('_index' in this.src[j]) {
 				this.src[j]._index++;
+				this.src[j].el[0]._index++; //WARN это действие должно осуществляться в layout
+			}
 		}
 //			this.src[j]._index = j;
 
@@ -5441,8 +5455,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++) {
-			if(this.src[j]._index)
+			if('_index' in this.src[j]) {
 				this.src[j]._index--;
+				this.src[j].el[0]._index--;
+			}
 		}
 
 //			this.src[j]._index = j;
@@ -6334,6 +6350,77 @@ Ergo.WidgetData = {
 		var sorter = this.options.dynamicSorter;
 
 
+
+
+/*
+		var _qfind = function(items, comparator) {
+
+			var after = null;
+
+			if( comparator(items.first()) < 0 ) {
+				after = items.first();
+			}
+			else if( comparator(items.last()) > 0 ) {
+				after = null;
+			}
+			else {
+				var min_x = 0;
+				var max_x = items.size()-1;
+
+//						var n = this.items.size()+1;
+				while(min_x < max_x) {
+
+//								console.log(!!sorter, min_x, max_x);
+
+					// n--;
+					//
+					// if(n == 0) {
+					// 	console.error('error');
+					// 	throw new Exception('error');
+					// }
+
+					var x = Math.ceil((max_x + min_x)/2);
+
+//								console.log('x', x);
+
+					after = items.get(x);
+
+					if(max_x == x || min_x == x) {
+						break;
+					}
+
+
+					var cmp = comparator(after);
+
+
+//								console.log('compare', cmp);
+
+
+					if(cmp < 0) {
+						// min_x < ? < x < max_x
+						max_x = x;
+					}
+					else if(cmp > 0) {
+						// if(min_x == x)
+						// 	break;
+						// min_x < x < ? < max_x
+						min_x = x;
+					}
+					else {
+						break;
+					}
+
+				}
+			}
+
+
+			return after;
+		}
+*/
+
+
+		console.log( 'Diff (create, delete, update)', created && created.length, deleted && deleted.length, updated && updated.length );
+
 //		console.log(created, deleted, updated);
 
 		if(deleted) {
@@ -6360,29 +6447,35 @@ Ergo.WidgetData = {
 
 				if(!filter || filter.call(this, e._val(), index)) {
 
-// 					// если есть фильтрация и сортировка, то индексы не совпадают, поэтому нужен поиск
-// 					if( filter || sorter ) {
-// 						var after = null;
-// 						var kv0 = [index, value];
-// 						// FIXME поменять поиск на бинарный
-// 						after = this.items.find(function(item) {
-// 							var kv1 = [item.data._id[0], item.data._val()];
-// 							if( (sorter && sorter.call(e, kv0, kv1) <= 0) || (!sorter && kv0[0] <= kv1[0]) ) {
-// //								console.log(kv1[1]);
-// 								return true;
-// 							}
-// 						});
-//
-// 						index = after ? after._index : null;
-// 					}
-
 					var kv0 = [index, value];
+
+//					console.log('kv', index, value);
+
+
+					// var compare = function(item) {
+					// 	if(sorter) {
+					// 		var kv1 = [item.data._id[0], item.data._val()];
+					// 		return sorter.call(e, kv0, kv1)
+					// 	}
+					// 	else {
+					// 		return kv0[0] - item.data._id[0];
+					// 	}
+					// }
+					//
+					//
+					//
+					//
+					//
+					// var after = _qfind(this.items, compare);
+
+
 					var after = this.items.find(function(item) {
 						if(sorter) {
-							var kv1 = [item.data._id[0], item.data._val()];
-							if( sorter.call(e, kv0, kv1) <= 0 ) {
-								return true;
-							}
+							return true;
+							// var kv1 = [item.data._id[0], item.data._val()];
+							// if( sorter.call(e, kv0, kv1) <= 0 ) {
+							// 	return true;
+							// }
 						}
 						else {
 							if( index <= item.data._id[0] ) {
@@ -6391,7 +6484,10 @@ Ergo.WidgetData = {
 						}
 					});
 
-					index = after ? after._index : null;
+					if(sorter)
+						index = null;
+					else
+						index = after ? after._index : null;
 
 //					console.log('create', index);
 
@@ -6416,6 +6512,8 @@ Ergo.WidgetData = {
 		if(updated) {
 			// UPDATED
 
+			var n_upd = 0;
+
 			for(var i = 0; i < updated.length; i++) {
 
 
@@ -6436,18 +6534,35 @@ Ergo.WidgetData = {
 					}
 				}
 
-				console.log('kv', index, value);
+//				console.log('kv', index, value);
 
 
 				var kv0 = [index, value];
 
+
+				// var compare = function(item) {
+				// 	if(sorter) {
+				// 		var kv1 = [item.data._id[0], item.data._val()];
+				// 		return (item == _item) ? 1 : sorter.call(e, kv0, kv1)
+				// 	}
+				// 	else {
+				// 		return kv0[0] - item.data._id[0];
+				// 	}
+				// }
+				//
+				//
+				// var after = _qfind(this.items, compare);
+
+
+
 				var after = this.items.find(function(item) {
 					if(sorter) {
-						var kv1 = [item.data._id[0], item.data._val()];
-						// TODO возможно не нужно исключать себя из проверки
-						if( item != _item && sorter.call(e, kv0, kv1) <= 0 ) {
-							return true;
-						}
+						return true;
+						// var kv1 = [item.data._id[0], item.data._val()];
+						// // TODO возможно не нужно исключать себя из проверки
+						// if( item != _item && sorter.call(e, kv0, kv1) <= 0 ) {
+						// 	return true;
+						// }
 					}
 					else {
 						if( index <= item.data._id[0] ) {
@@ -6457,9 +6572,12 @@ Ergo.WidgetData = {
 				});
 
 
-				index = after ? after._index : null;
+				if(sorter)
+					index = null;
+				else
+					index = after ? after._index : null;
 
-				console.log('update', index, !_item);
+//				console.log('update', index, !_item);
 
 				if( !_item ) {
 
@@ -6475,13 +6593,17 @@ Ergo.WidgetData = {
 				}
 				else {
 
-					console.log('relocate', _item._index, ' => ', index, ' of ', this.items.size());
+//					console.log('relocate', _item._index, ' => ', index, ' of ', this.items.size());
 
-					if(index != _item._index+1) {
-						this.items.remove(_item);
-						_item.unrender()
-						this.items.add(_item, index);
-						_item.render()
+					if(!sorter) {
+						// FIXME
+						if(index != _item._index+1) {
+							n_upd++;
+							this.items.remove(_item);
+							_item.unrender()
+							this.items.add(_item, index);
+							_item.render()
+						}
 					}
 
 				}
@@ -6491,6 +6613,159 @@ Ergo.WidgetData = {
 
 
 			}
+
+
+			console.log('обновлений позиции', n_upd);
+		}
+
+
+
+
+
+
+		if( sorter ) {
+
+//			var item_values = [];
+//			var item_indices = [];
+
+			var kv_a = [];
+			this.items.each(function(item, i) {
+				kv_a.push( [item.data._id[0], item.data._val(), i, item] );
+//				item_values.push(item.data._val());//.timeState);
+//				item_indices.push(item._index);//.timeState);
+			});
+
+			// Sorting KV-array
+			kv_a.sort(sorter);
+
+
+			var offset_a = [];
+
+//			var values = [];
+//			var indices = [];
+
+			kv_a.forEach(function(kv, i) {
+				offset_a[kv[2]] = kv[2] - i;
+//				indices.push(kv[2]);
+//				values.push(kv[1]);//.timeState);
+			});
+
+//			console.log( 'indices', indices );
+//			console.log( 'item_values', JSON.parse(JSON.stringify(item_values)) );
+//			console.log( 'item_indices', JSON.parse(JSON.stringify(item_indices)) );
+//			console.log( 'values', JSON.parse(JSON.stringify(values)) );
+//			console.log( 'corrections', JSON.parse(JSON.stringify(corr_a)) );
+
+			var n = 0;
+
+			var measure_a = [];
+
+			var moved_a = [];
+
+			while( n < kv_a.length+1 ) {
+
+
+
+				var max_measure = [-1,-1];
+
+				measure_a = [];
+
+				for(var i = 0; i < kv_a.length; i++) {
+	//				var i_item = this.items.get(i);
+					var i_index = i - offset_a[i];
+
+					if( moved_a[i_index] )
+						continue;
+
+					var measure = [-1, -1, -1];
+
+
+					for(var j = 0; j < kv_a.length; j++) {
+						var j_index = j - offset_a[j];
+
+	//					var j_item = this.items.get(j);
+						if( (j < i && j_index > i_index) || (j > i && j_index < i_index) ) {
+							if(measure[0] == -1) {
+								measure[1] = j;// Math.min(measure[1], j);
+							}
+							measure[2] = j;//Math.max(measure[2], j);
+							measure[0]++;
+						}
+					}
+
+					measure_a[i] = measure;
+
+					if(measure[0] > max_measure[0]) {
+						max_measure[0] = measure[0];
+						max_measure[1] = measure[1];
+						max_measure[2] = measure[2];
+						max_measure[3] = i;
+					}
+
+				}
+
+				if(max_measure[0] == -1)
+					break;
+
+
+				n++;
+
+
+
+				// var k = 0;
+				//
+				// for(var i = 0; i < measure_a.length; i++) {
+				// 	if(max_measure[0] == measure_a[i][0])
+				// 		k++;
+				// }
+
+//				console.log( 'max measure, count', max_measure, k);
+
+				// выполняем перемещение
+				var _i = max_measure[3];
+				var _j = (max_measure[2] > max_measure[3]) ? max_measure[2] : max_measure[1];
+
+				var _item = this.items.get(_i);
+
+//				console.log('index', _i, _j);
+
+				//TODO нужно оптимизировать с помощью функции items.move()
+				_item.unrender()
+				this.items.remove(_item);
+				this.items.add(_item, _j);
+				_item.render()
+
+
+				moved_a[_i-offset_a[_i]] = true;
+
+
+				var i_offset = offset_a[_i];
+
+				if(_j < _i) {
+					for(var i = _i; i > _j; i--) {
+						offset_a[i] = offset_a[i-1]+1;
+					}
+//					offset_a[_j] = offset_a[_j+1]
+				}
+				if(_j > _i) {
+					for(var i = _i; i < _j; i++) {
+						offset_a[i] = offset_a[i+1]-1;
+					}
+//					offset_a[_j] = offset_a[_j-1]
+				}
+
+				offset_a[_j] = i_offset + (_j - _i);
+
+			}
+
+
+			console.log( 'итераций', n );
+			// console.log( 'measures', measure_a );
+			// console.log( 'offsets', offset_a );
+
+
+
+
 		}
 
 

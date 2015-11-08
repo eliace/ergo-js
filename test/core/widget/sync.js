@@ -346,14 +346,14 @@ describe('Widget', function(){
 			// CREATE (visible)
 			bindings = [];
 
-			console.log('-----------------');
+			console.log('-----------------------');
 			ds.sync(['Bob', 'Frank', 'Charlie', 'Dave', 'Eve']);
-			console.log('-----------------');
+			console.log('-----------------------');
 
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Dave', 'Frank']);
-			expect([box.el.children().eq(0)[0]._index, box.el.children().eq(1)[0]._index, box.el.children().eq(2)[0]._index]).to.be.eql([0,1,2]);
+//			expect([box.el.children().eq(0)[0]._index, box.el.children().eq(1)[0]._index, box.el.children().eq(2)[0]._index]).to.be.eql([0,1,2]);
 			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Charlie', 'Dave', 'Frank']);
 
 //			console.log(bindings);
@@ -368,6 +368,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql([['Bob', 'Frank', 'Charlie', 'Joe', 'Eve']]);
@@ -382,6 +383,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Charlie', 'Frank', ['Frank', 'Charlie', 'Joe', 'Eve']]);
@@ -395,6 +397,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql([['Frank', 'Charlie', 'Joe', 'Ann', 'Eve']]);
@@ -408,6 +411,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Brian', 'Charlie', 'Frank']);
+			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Brian', 'Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Brian', ['Frank', 'Charlie', 'Joe', 'Ann', 'Brian']]);

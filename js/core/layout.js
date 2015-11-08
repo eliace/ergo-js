@@ -190,13 +190,18 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			// немножко эвристики
 			var last = $(elements[elements.length-1]);
 
+//			index = 0;
 
 			if(elements.length == 0) {
 				el.append( item_el );
 			}
-			else if(last[0]._weight <= weight) {//} && last[0]._index < index){
+			else if(last[0]._weight <= weight) {
 				last.after(item_el);
 			}
+			// else if(last[0]._weight == weight) {
+			// 	last.after(item_el);
+			// 	index = last[0]._index+1;
+			// }
 			else {
 
 				for(var j = 0; j < elements.length; j++) {
@@ -206,6 +211,9 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 						after_el = $(elem);
 						break;
 					}
+					// else if(w == weight) {
+					// 	index = elem._index+1;
+					// }
 				}
 				// elements.each(function(i, elem){
 					// var w = elem._weight;// $(elem).data('weight');
@@ -214,6 +222,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 						// return false;
 					// }
 				// });
+
 
 				if(after_el)
 					after_el.before( item_el );
@@ -225,6 +234,8 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 
 
 
+
+//			item_el[0]._index = index;
 
 			// var after_el = null;
 			// el.children().each(function(i, elem){

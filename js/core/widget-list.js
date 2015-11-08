@@ -118,6 +118,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			for(var j = this.src.length-1; j >= 0; j--) {
 				if(this.src[j]._type == item._type) {
 					item._index = this.src[j]._index + 1;
+					item.el[0]._index = item._index; //WARN это действие должно осуществляться в layout
 					break;
 				}
 			}
@@ -137,8 +138,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		// обновляем свойство _index у соседних элементов
 		for(var j = i+1; j < this.src.length; j++) {
-			if('_index' in this.src[j])
+			if('_index' in this.src[j]) {
 				this.src[j]._index++;
+				this.src[j].el[0]._index++; //WARN это действие должно осуществляться в layout
+			}
 		}
 //			this.src[j]._index = j;
 
@@ -187,8 +190,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 		// обновляем свойство _index у соседних элементов
 		for(var j = i; j < this.src.length; j++) {
-			if(this.src[j]._index)
+			if('_index' in this.src[j]) {
 				this.src[j]._index--;
+				this.src[j].el[0]._index--;
+			}
 		}
 
 //			this.src[j]._index = j;
