@@ -110,6 +110,15 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		var ds = this;
 
+		// multikey
+		if( this._id && this._id.length > 1 ) {
+			this._id.forEach(function(id) {
+				if(id == i) {
+					ds = ds.source;
+				}
+			});
+		}
+
 		// если ключ - строка, то он может быть составным
 		if($.isString(i)) {
 			var a = i.split('.');
@@ -387,6 +396,19 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 					this.mark_dirty();
 				}
 			}
+
+
+			// var self = this;
+			//
+			// // FIXME
+			// if(this.source instanceof Ergo.core.DataSource) {
+			// 	this.source.entries.each(function(e) {
+			// 		e._id.forEach(function(id) {
+			// 			if(id == self._id[0])
+			// 				e.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
+			// 		})
+			// 	});
+			// }
 
 
 //			this._changed = true;

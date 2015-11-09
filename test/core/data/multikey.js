@@ -53,6 +53,7 @@ describe('DataSource', function(){
 			var ds2 = new Ergo.core.DataSource(ds, ['a', 'b']);
 
 			expect( ds2.get() ).to.deep.equal( {a: 'Alice', b: 'Bob'} );
+			expect( ds.get(['a', 'b']) ).to.deep.equal( {a: 'Alice', b: 'Bob'} );
 
 		})
 
@@ -67,6 +68,35 @@ describe('DataSource', function(){
 			expect( ds.get() ).to.deep.equal( {a: 'Alice', b: 'Billy', c: 'Charlie'} );
 
 		})
+
+
+		it('should update multikey value on source key change', function() {
+
+			var ds = new Ergo.core.DataSource({	a: 'Alice',	b: 'Bob',	c: 'Charlie' });
+			var ds2 = new Ergo.core.DataSource(ds, ['a', 'b']);
+
+			var messages = [];
+
+
+//			var ds2 = ds.entry(['a', 'b']);  //add entry to entry cache
+
+			ds2.entry('a').events.on('changed', function(e) {
+				messages.push('a');
+			});
+
+
+			ds.set('a', 'Amanda');
+
+			expect( ds.entry('a') ).to.be.eq( ds2.entry('a') );
+			
+
+			expect( ds2.entry('a').get() ).to.be.eq( 'Amanda' );
+//			expect( ds.entry('a').get() ).to.be.eq( 'Amanda' );
+			expect( messages ).to.be.deep.eq( ['a'] );
+
+		})
+
+
 
 	})
 
