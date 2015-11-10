@@ -1010,6 +1010,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'content': {
 				etype: 'text',
+				include: 'placeholder',
 				binding: false,
 				cls: 'text',
 				onClick: 'action:dropdown'
@@ -1109,7 +1110,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			this.opt('text', selected ? selected.opt('text') : null);
 
-			this._checkPlaceholder();
+//			this.updatePlaceholder();
 		},
 
 		// onDataChanged: function() {
@@ -1144,18 +1145,18 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 	},
 
 
-	_checkPlaceholder: function() {
-		var selected = this.selection.get();
-		this.states.toggle('placeholder', !selected);
-		if(!selected) {
-			this.opt('text', this.options.placeholder );
-		}
-	},
-
-
-	set placeholder(v) {
-		this._checkPlaceholder();
-	}
+	// _checkPlaceholder: function() {
+	// 	var selected = this.selection.get();
+	// 	this.states.toggle('placeholder', !selected);
+	// 	if(!selected) {
+	// 		this.opt('text', this.options.placeholder );
+	// 	}
+	// },
+	//
+	//
+	// set placeholder(v) {
+	// 	this._checkPlaceholder();
+	// }
 
 
 
@@ -2885,8 +2886,8 @@ Ergo.defineClass('Ergo.widgets.Buttons', 'Ergo.widgets.Box', {
 //		layout: 'hbox',
 		defaultItem: {
 			etype: 'button',
-			name: 'action',
-			onClick: 'action'
+//			name: 'action',
+			onClick: 'action:action'
 		}
 	}
 

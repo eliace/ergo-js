@@ -43,6 +43,7 @@ describe('Widget', function(){
           }
       });
 
+
 			var t0 = ergo.timestamp();
 
       w.render('#sample');

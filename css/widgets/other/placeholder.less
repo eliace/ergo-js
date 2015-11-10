@@ -1,0 +1,25 @@
+
+
+.ph:empty:before {
+  content: attr(data-ph);
+  color: rgba(0,0,0,0.2);
+}
+
+
+input, textarea {
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder,
+  &:-moz-placeholder,
+  &:-ms-input-placeholder {
+    opacity: 1;
+    color: rgba(0,0,0,0.2);
+  }
+}
+
+
+input, textarea {
+  &::-moz-placeholder {
+    opacity: 1;
+    color: rgba(0,0,0,0.2);
+  }
+}

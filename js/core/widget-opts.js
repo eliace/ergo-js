@@ -102,6 +102,8 @@ Ergo.WidgetOptions = {
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
 
+	//TODO placeholder?
+
 };
 
 

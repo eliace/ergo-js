@@ -7,8 +7,8 @@ Ergo.defineClass('Ergo.widgets.Buttons', 'Ergo.widgets.Box', {
 //		layout: 'hbox',
 		defaultItem: {
 			etype: 'button',
-			name: 'action',
-			onClick: 'action'
+//			name: 'action',
+			onClick: 'action:action'
 		}
 	}
 

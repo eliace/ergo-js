@@ -4422,7 +4422,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 					// else if(it._weight <= weight) before_el = it.el;
 					// else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
 
-					if(child._weight == weight) arr.push( child );//.el);
+					if(child._weight == weight/* && child._index != null*/) arr.push( child );//.el);
 					else if(child._weight <= weight) before_el = $(child);
 
 					else if(!after_el /* || it._weight > after_el._weight*/) after_el = $(child);
@@ -4907,6 +4907,8 @@ Ergo.WidgetOptions = {
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
+
+	//TODO placeholder?
 
 };
 
@@ -6587,7 +6589,7 @@ Ergo.WidgetData = {
 						// }
 					}
 					else {
-						if( index <= item.data._id[0] ) {
+						if( item != _item && index <= item.data._id[0] ) {
 							return true;
 						}
 					}
@@ -6621,8 +6623,8 @@ Ergo.WidgetData = {
 						// FIXME
 						if(index != _item._index+1) {
 							n_upd++;
-							this.items.remove(_item);
 							_item.unrender()
+							this.items.remove(_item);
 							this.items.add(_item, index);
 							_item.render()
 						}
@@ -6637,7 +6639,7 @@ Ergo.WidgetData = {
 			}
 
 
-			console.log('обновлений позиции', n_upd);
+//			console.log('обновлений позиции', n_upd);
 		}
 
 
@@ -6781,7 +6783,8 @@ Ergo.WidgetData = {
 			}
 
 
-			console.log( 'итераций', n );
+//			console.log( 'итераций', n );
+
 			// console.log( 'measures', measure_a );
 			// console.log( 'offsets', offset_a );
 
@@ -11835,6 +11838,38 @@ Ergo.alias('includes:exclusive-expand', {
 	}
 
 });
+
+
+Ergo.alias('includes:placeholder', {
+
+  overrides: {
+
+    set placeholder(v) {
+      var tag = this.el.prop('tagName').toLowerCase();
+      if(tag == 'input' || tag == 'textarea') {
+        if(v != null) {
+          this.el.prop('placeholder', v);
+        }
+        else {
+          this.el.removeProp('placeholder');
+        }
+      }
+      else {
+        if(v != null) {
+          this.el.attr('data-ph', v);
+          this.states.set('ph');
+        }
+        else {
+          this.el.removeAttr('data-ph');
+          this.states.unset('ph');
+        }
+      }
+    }
+
+  }
+
+});
+
 
 
 

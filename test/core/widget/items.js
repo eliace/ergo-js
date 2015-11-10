@@ -76,6 +76,63 @@ describe('Widget', function(){
 		});
 
 
+    it('should set dynamic item with component', function() {
+
+
+      var data = ['Alice', 'Bob'];
+
+      var box = $.ergo({
+        etype: 'html:div',
+        dynamic: true,
+//        data: data,
+        $comp: {
+          etype: 'html:div',
+          binding: 'text',
+          text: 'Text'
+        },
+        defaultItem: {
+          etype: 'html:div',
+          binding: 'text'
+        }
+      });
+
+      box.render('body');
+
+      box.bind(data);
+
+      expect( box.items.size() ).to.be.eq(2);
+//      expect( box.components.size() ).to.be.eq(1);
+
+      expect( box.items.get(0).opt('text') ).to.be.eq('Alice');
+      expect( box.items.get(1).opt('text') ).to.be.eq('Bob');
+
+      expect( box.el.children().eq(0).text() ).to.be.eq('Alice');
+      expect( box.el.children().eq(1).text() ).to.be.eq('Bob');
+
+
+      console.log('-----------------------');
+      box.data.entry(0).set('Charlie');
+      console.log('-----------------------');
+
+      expect( box.items.get(0).opt('text') ).to.be.eq('Charlie');
+      expect( box.items.get(1).opt('text') ).to.be.eq('Bob');
+
+      expect( box.$comp._index ).to.be.undefined;
+      expect( box.$comp._weight ).to.be.undefined;
+
+      expect( box.items.get(0)._index ).to.be.eq(0);
+      expect( box.items.get(1)._index ).to.be.eq(1);
+      expect( box.items.get(0).el[0]._index ).to.be.eq(0);
+      expect( box.items.get(1).el[0]._index ).to.be.eq(1);
+
+      expect( box.el.children().eq(0).text() ).to.be.eq('Charlie');
+      expect( box.el.children().eq(1).text() ).to.be.eq('Bob');
+
+
+
+      box._destroy();
+    });
+
 
 
 	})

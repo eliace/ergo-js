@@ -14,3 +14,4 @@
 //= require list-navigator
 //= require user-input
 //= require expandable
+//= require placeholder

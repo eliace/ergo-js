@@ -4172,7 +4172,7 @@ label:hover .radio {
   font-size: 0.8em;
 }
 [contenteditable=true]:empty:not(:focus):before {
-  content: attr(data-placeholder);
+  content: attr(data-ph);
 }
 /*
 .form-item {
@@ -4559,6 +4559,26 @@ label:hover .radio {
 }
 .modal > * {
   transition: height 0.3s ease 0s, width 0.3s ease 0s;
+}
+.ph:empty:before {
+  content: attr(data-ph);
+  color: rgba(0, 0, 0, 0.2);
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+input::-moz-placeholder,
+textarea::-moz-placeholder,
+input:-moz-placeholder,
+textarea:-moz-placeholder,
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  opacity: 1;
+  color: rgba(0, 0, 0, 0.2);
+}
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  opacity: 1;
+  color: rgba(0, 0, 0, 0.2);
 }
 /*
 .group {

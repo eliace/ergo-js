@@ -312,7 +312,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 					// else if(it._weight <= weight) before_el = it.el;
 					// else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
 
-					if(child._weight == weight) arr.push( child );//.el);
+					if(child._weight == weight/* && child._index != null*/) arr.push( child );//.el);
 					else if(child._weight <= weight) before_el = $(child);
 
 					else if(!after_el /* || it._weight > after_el._weight*/) after_el = $(child);

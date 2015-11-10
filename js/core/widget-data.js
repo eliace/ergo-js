@@ -651,7 +651,7 @@ Ergo.WidgetData = {
 						// }
 					}
 					else {
-						if( index <= item.data._id[0] ) {
+						if( item != _item && index <= item.data._id[0] ) {
 							return true;
 						}
 					}
@@ -685,8 +685,8 @@ Ergo.WidgetData = {
 						// FIXME
 						if(index != _item._index+1) {
 							n_upd++;
-							this.items.remove(_item);
 							_item.unrender()
+							this.items.remove(_item);
 							this.items.add(_item, index);
 							_item.render()
 						}
@@ -701,7 +701,7 @@ Ergo.WidgetData = {
 			}
 
 
-			console.log('обновлений позиции', n_upd);
+//			console.log('обновлений позиции', n_upd);
 		}
 
 
@@ -845,7 +845,8 @@ Ergo.WidgetData = {
 			}
 
 
-			console.log( 'итераций', n );
+//			console.log( 'итераций', n );
+
 			// console.log( 'measures', measure_a );
 			// console.log( 'offsets', offset_a );
 
