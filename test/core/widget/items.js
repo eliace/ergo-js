@@ -110,9 +110,7 @@ describe('Widget', function(){
       expect( box.el.children().eq(1).text() ).to.be.eq('Bob');
 
 
-      console.log('-----------------------');
       box.data.entry(0).set('Charlie');
-      console.log('-----------------------');
 
       expect( box.items.get(0).opt('text') ).to.be.eq('Charlie');
       expect( box.items.get(1).opt('text') ).to.be.eq('Bob');

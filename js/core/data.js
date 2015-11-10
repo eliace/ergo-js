@@ -389,6 +389,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			this.events.fire('changed', {'oldValue': oldValue, 'newValue': newValue});
 
+//			console.log('set', oldValue, newValue);
+
 			if(this.source instanceof Ergo.core.DataSource) {
 //				this.source.events.fire('entry:changed', {entry: this, changed: [this]});
 				if(!this.source._no_diff) {
@@ -804,8 +806,24 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 	mark_dirty: function(do_event, e) {
 		this._changed = true;
 
-		if(this.source && this.source instanceof Ergo.core.DataSource)// && !this.source._changed)
+		if(this.source && this.source instanceof Ergo.core.DataSource) {// && !this.source._changed)
+
+
+			var self = this;
+
+			this.source.entries.each(function(src_entry) {
+				if(src_entry != self && src_entry._id.length > 1) {
+					src_entry._id.forEach(function(id) {
+						// FIXME
+						if(id == self._id[0]) {
+							src_entry.events.fire('dirty', e || {});
+						}
+					})
+				}
+			})
+
 			this.source.mark_dirty(true, {updated: [this]});
+		}
 
 		if(do_event)
 			this.events.fire('dirty', e || {});

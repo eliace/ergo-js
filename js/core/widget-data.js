@@ -505,7 +505,7 @@ Ergo.WidgetData = {
 */
 
 
-		console.log( 'Diff (create, delete, update)', created && created.length, deleted && deleted.length, updated && updated.length );
+//		console.log( 'Diff (create, delete, update)', created && created.length, deleted && deleted.length, updated && updated.length );
 
 //		console.log(created, deleted, updated);
 

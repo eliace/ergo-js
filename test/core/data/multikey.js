@@ -88,14 +88,50 @@ describe('DataSource', function(){
 			ds.set('a', 'Amanda');
 
 			expect( ds.entry('a') ).to.be.eq( ds2.entry('a') );
-			
+
 
 			expect( ds2.entry('a').get() ).to.be.eq( 'Amanda' );
 //			expect( ds.entry('a').get() ).to.be.eq( 'Amanda' );
 			expect( messages ).to.be.deep.eq( ['a'] );
 
-		})
+		});
 
+
+
+		it('should binding multikey widget on value change', function() {
+
+			var data = {	a: 'Alice',	b: 'Bob',	c: 'Charlie' };
+
+			var messages = [];
+
+			var box = $.ergo({
+				etype: 'html:div',
+				data: data,
+				items: [{
+					etype: 'html:div',
+					dataId: 'a',
+					binding: function(v) { messages.push(v); }
+				}, {
+					etype: 'html:div',
+					dataId: 'b',
+					binding: function(v) { messages.push(v); }
+				}, {
+					etype: 'html:div',
+					dataId: ['a', 'b'],
+					binding: function(v) { messages.push(v); }
+				}]
+			});
+
+
+			messages = [];
+
+			console.log('-----------------------');
+			box.item(0).opt('value', 'Amanda');
+			console.log('-----------------------');
+
+			expect( messages ).to.be.deep.eq( ['Amanda', { a: 'Amanda', b: 'Bob' }] )
+
+		});
 
 
 	})
