@@ -2330,6 +2330,7 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 
 	_initialize: function(baseEvent) {
 		this.base = baseEvent;
+		this._queue = [];
 	},
 
 
@@ -2366,8 +2367,18 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 		this.stopped = true;
 		this.stopedImmediate = true;
 	},
-	yield: function() {
-		this._yielded = true;
+	yield: function(callback) {
+
+		while(this._queue.length) {
+			var h = this._queue.pop();
+			h.callback.call(h.target, this);
+			if(this.stopedImmediate) break;
+		}
+
+		// if( !this._yielded ) {
+		// 	this._yielded = [];
+		// }
+		// this._yielded.push(callback);
 	},
 	cancel: function() {
 		this.canceled = true;
@@ -2562,23 +2573,38 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 		var h_arr = this.events[type];
 		if(h_arr && h_arr.length) {
 
-			var yielded = [];
+//			var yielded = [];
 
-			for(var i = h_arr.length-1; i >= 0; i--) {
-				var h = h_arr[i];
-				if(e._yielded) {
-					yielded.push(h);
-				}
-				else {
-					h.callback.call(h.target, e, type);
-					if(e.stopedImmediate) break;
-				}
-			}
+			e._queue = h_arr.slice();
 
-			for(var i = yielded.length-1; i >= 0; i--) {
-				var h = yielded[i];
+			while(e._queue.length) {
+				var h = e._queue.pop();
 				h.callback.call(h.target, e, type);
+				if(e.stopedImmediate) break;
 			}
+
+			// for(var i = h_arr.length-1; i >= 0; i--) {
+			// 	var h = h_arr[i];
+			// 	// if(e._yielded) {
+			// 	// 	yielded.push(h);
+			// 	// }
+			// 	// else {
+			// 	h.callback.call(h.target, e, type);
+			// 	if(e.stopedImmediate) break;
+			// 	// }
+			// }
+			//
+			//
+			// if(e._yielded) {
+			// 	e._yielded.reverse().forEach(function(callback) {
+			// 		callback(e);
+			// 	});
+			// }
+
+			// for(var i = yielded.length-1; i >= 0; i--) {
+			// 	var h = yielded[i];
+			// 	h.callback.call(h.target, e, type);
+			// }
 
 // 			h_arr.forEach( function(h){
 // 				// вызываем обработчик события

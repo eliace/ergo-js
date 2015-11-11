@@ -125,9 +125,7 @@ describe('DataSource', function(){
 
 			messages = [];
 
-			console.log('-----------------------');
 			box.item(0).opt('value', 'Amanda');
-			console.log('-----------------------');
 
 			expect( messages ).to.be.deep.eq( ['Amanda', { a: 'Amanda', b: 'Bob' }] )
 
