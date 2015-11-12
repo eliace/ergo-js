@@ -509,17 +509,34 @@ Ergo.WidgetData = {
 
 //		console.log(created, deleted, updated);
 
+var self = this;
+
+
+
 		if(deleted) {
 //			this.items.each(function(item) { console.log('k', item._index); });
 			// DELETED
 			for(var i = 0; i < deleted.length; i++) {
 				var e = deleted[i];
 				var item = this.item({data: e});
-				if(item)
+				if(item) {
 					item._destroy();
+				}
 			}
 //			this.items.each(function(item) { console.log('m', item._index); });
 		}
+
+
+
+		// this.items.each(function(item) {
+		// 	var ok = false;
+		// 	self.data.entries.each(function(entry) {
+		// 		if( entry == item.data )
+		// 			ok = true;
+		// 	});
+		// 	if(!ok)
+		// 		console.warn('before create', item);
+		// });
 
 
 
@@ -592,6 +609,17 @@ Ergo.WidgetData = {
 			}
 		}
 
+
+
+		// this.items.each(function(item) {
+		// 	var ok = false;
+		// 	self.data.entries.each(function(entry) {
+		// 		if( entry == item.data )
+		// 			ok = true;
+		// 	});
+		// 	if(!ok)
+		// 		console.warn('before update', item);
+		// });
 
 
 

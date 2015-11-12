@@ -187,12 +187,12 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 
-	param: function(key, v) {
-		if(arguments.length == 1)
-			return this._params[key];
-		else
-			this._params[key] = v;
-	},
+	// param: function(key, v) {
+	// 	if(arguments.length == 1)
+	// 		return this._params[key];
+	// 	else
+	// 		this._params[key] = v;
+	// },
 
 
 	// регистрация скоупа
@@ -285,14 +285,14 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// }
 
 
-		this._params[scope_name] = this._params[scope_name] || {};
+//		this._params[scope_name] = this._params[scope_name] || {};
 
 		// создаем скоуп
 		var scope = new Ergo.core.Scope(o);
 		scope._context = this;
 		scope._name = scope_name;
 		scope._parent = parent;
-		scope._params = Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+		scope._params = params;// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
 //		scope._container = container;
 
 //		Ergo.override(scope, overrides);

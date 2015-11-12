@@ -46,7 +46,7 @@ describe('Widget', function(){
 
       w.item(0).el.click();
 
-      console.log( w.$defaultAct.opt('name') );
+//      console.log( w.$defaultAct.opt('name') );
 
       expect(result).to.be.eql(['defaultAct', 'hello', 'goodbye', '0']);
 

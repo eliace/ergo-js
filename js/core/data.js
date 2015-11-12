@@ -653,6 +653,8 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 	sync: function(newData) {
 
+		var self = this;
+
 		var valueUid = (this.options.valueUid || this._valueUid);
 		var valueEql = (this.options.valueEql || this._valueEql);
 
@@ -703,14 +705,18 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 
-		for(var k in value_m) {
-			var v = value_m[k].value;
-			var i = value_m[k].index;
+		Object.keys(value_m)
+			.map(function(k) { return value_m[k] })
+			.sort(function(a,b) { return a.index-b.index; })
+			.forEach(function(val) {
 
-			// CREATE
-			diff.created.push( this.add(v, i) );
+				var v = val.value;
+				var i = val.index;
 
-		}
+				// CREATE
+				diff.created.push( self.add(v, i) );
+
+		});
 
 
 		this._val( newData );

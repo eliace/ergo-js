@@ -912,16 +912,20 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 
 
-	set text(v) {
-		this.content.opt('placeholder', v);
-	},
+	// set text(v) {
+	// 	this.$content.opt('placeholder', v);
+	// },
 
 	set placeholder(v) {
-		this.content.opt('placeholder', v);
+		this.$content.opt('placeholder', v);
 	},
 
 	set name(v) {
-		this.content.opt('name', v);
+		this.$content.opt('name', v);
+	},
+
+	get name() {
+		return this.$content.opt('name');
 	},
 
 	set type(v) {
