@@ -292,7 +292,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		scope._context = this;
 		scope._name = scope_name;
 		scope._parent = parent;
-		scope._params = params;// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+		scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
 //		scope._container = container;
 
 //		Ergo.override(scope, overrides);

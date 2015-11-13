@@ -55,9 +55,16 @@ Ergo.alias('includes:selectable', {
 				// режим множественной выборки
 				var multiselect = o.multiselect;
 
-
+				var selected = null;
 				// ищем выбранный элемент
-				var selected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
+				if( key instanceof Ergo.core.Object ) {
+					selected = key;
+					key = selected.opt('name');
+				}
+				else {
+					selected = lookup.call(this._widget, key);
+				}
+//				var selected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
 
 				// TODO здесь нужно обработать вариант, если элемент не найден
 
@@ -72,10 +79,6 @@ Ergo.alias('includes:selectable', {
 					if(this._selected) {
 						this._selected.states.unset('selected');
 					}
-
-					// for(var i = 0; i < this._selected.length; i++) {
-					// 	this._selected[i].states.unset('selected');
-					// }
 				}
 				else {
 
@@ -109,7 +112,7 @@ Ergo.alias('includes:selectable', {
 				selected.states.set('selected');
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get()});
+				this._widget.events.fire('selectionChanged', {selection: this.get(), selected: selected});
 
 				return selected;
 			},
@@ -124,8 +127,26 @@ Ergo.alias('includes:selectable', {
 				// режим множественной выборки
 				var multiselect = o.multiselect;
 
-				// ищем выбранный элемент
-				var unselected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
+
+				var unselected = null;
+
+				if( arguments.length == 0 ) {
+					unselected = this._selected;
+				}
+				else {
+					// ищем выбранный элемент
+//					unselected = (key instanceof Ergo.core.Object) ? key : lookup.call(this._widget, key);
+
+					if( key instanceof Ergo.core.Object ) {
+						unselected = key;
+						key = unselected.opt('name');
+					}
+					else {
+						unselected = lookup.call(this._widget, key);
+					}
+
+
+				}
 
 
 
@@ -145,7 +166,7 @@ Ergo.alias('includes:selectable', {
 				unselected.states.unset('selected');
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get()});
+				this._widget.events.fire('selectionChanged', {selection: this.get(), unselected: unselected});
 
 			},
 
@@ -157,6 +178,37 @@ Ergo.alias('includes:selectable', {
 				else {
 					return this._selected ? this._selected[i] : null;
 				}
+			},
+
+
+			toggle: function(key) {
+				var o = this._widget.options.selection || {};
+
+				// определяем метод поиска
+				var lookup = o.lookup || this._widget.item;
+
+				var selected = null;
+
+				if( key instanceof Ergo.core.Object ) {
+					selected = key;
+					key = selected.opt('name');
+				}
+				else {
+					selected = lookup.call(this._widget, key);
+				}
+
+
+				if(!selected)
+					return;
+
+
+				if( selected.states.is('selected') ) {
+					this.unset(key);
+				}
+				else {
+					this.set(key);
+				}
+
 			},
 
 
@@ -188,10 +240,14 @@ Ergo.alias('includes:selectable', {
 			},
 
 			clear: function() {
+				var o = this._widget.options.selection || {};
+
 				this.each(function(selected) {
 					selected.states.unset('selected');
 				});
-				this._selected = [];
+
+				this._selected = o.multiselect ? {} : null;
+
 				this._widget.events.fire('selectionChanged', {selection: this.get()});
 			}
 

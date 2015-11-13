@@ -37,11 +37,14 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 
 			var keyCode = e.base.keyCode;
 
-			if(keyCode == Ergo.KeyCode.ESC || Ergo.KeyCode.DOWN || Ergo.KeyCode.ENTER || Ergo.KeyCode.ESC) {
+			if(keyCode == Ergo.KeyCode.ESC
+				|| keyCode == Ergo.KeyCode.DOWN
+				|| keyCode == Ergo.KeyCode.ENTER
+				|| keyCode == Ergo.KeyCode.ESC) {
 				// TODO обработка служебных символов
 			}
 			else {
-				this.events.fire('input', {text: e.text, keyCode: keyCode});
+				this.events.rise('input', {text: e.text, keyCode: keyCode});
 			}
 		}
 

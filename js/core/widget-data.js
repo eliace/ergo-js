@@ -218,12 +218,12 @@ Ergo.WidgetData = {
 
 //		if( this.data.options.fetchable ) {
 
-		this.data.events.on('fetch:before', function(){
-			w.events.fire('fetch');
-		}, this);
-		this.data.events.on('fetch:after', function(){
+		// this.data.events.on('fetch:before', function(){
+		// 	w.events.fire('fetch');
+		// }, this);
+		this.data.events.on('fetched', function(){
 			w._layoutChanged();
-			w.events.fire('fetched');
+//			w.events.fire('fetched');
 		}, this);
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()

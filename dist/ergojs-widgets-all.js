@@ -3534,7 +3534,7 @@ Ergo.alias('includes:growls', {
           icon: 'fa-times',
           title: title || 'Ошибка!',
           text: msg,
-          state: 'danger'
+          as: 'danger'
     		});
     	},
       'warning': function(msg, title) {
@@ -3542,7 +3542,7 @@ Ergo.alias('includes:growls', {
           icon: 'fa-bell-o',
           title: title || 'Внимание!',
           text: msg,
-          state: 'warning'
+          as: 'warning'
     		});
     	},
       'info': function(msg, title) {
@@ -3550,7 +3550,7 @@ Ergo.alias('includes:growls', {
           icon: 'fa-info',
           title: title || 'Информация!',
           text: msg,
-          state: 'info'
+          as: 'info'
     		});
     	},
       'success': function(msg, title) {
@@ -3558,7 +3558,7 @@ Ergo.alias('includes:growls', {
           icon: 'fa-check',
           title: title || 'Готово!',
           text: msg,
-          state: 'success'
+          as: 'success'
     		});
     	}
     }
