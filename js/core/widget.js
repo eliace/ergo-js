@@ -138,7 +138,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	// FIXME
 	get ctx() {
-		return ($context || Ergo.context); //FIXME костыль
+		var scope = this.scope;
+		return scope ? scope._context : Ergo.context; //FIXME костыль
 	},
 
 	get scope() {

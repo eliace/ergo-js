@@ -6,7 +6,11 @@ Ergo.alias('includes:provider-methods', {
   _construct: function(o) {
 
     if(o.provider) {
-      var provider = $.isString(o.provider) ? Ergo.alias(o.provider) : o.provider;
+
+      var provider = o.provider;
+
+      if( $.isString(provider) )
+        provider = Ergo.alias('providers:'+provider);
 
       for(var i in provider) {
         var p = provider[i];

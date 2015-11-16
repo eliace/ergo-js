@@ -548,7 +548,7 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	$.isString = function(obj) {
+	E.isString = $.isString = function(obj) {
 		return typeof obj == 'string';
 	};
 	/**
@@ -558,7 +558,7 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	$.isBoolean = function(obj) {
+	E.isString = $.isBoolean = function(obj) {
 		return typeof obj == 'boolean';
 	};
 	/**

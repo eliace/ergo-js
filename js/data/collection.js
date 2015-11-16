@@ -99,6 +99,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 					self._fetched = true;
 				}
 				self.events.fire('fetched');
+
+				return data;
 			});
 		}
 		else {
@@ -107,7 +109,6 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		}
 
 	},
-
 
 
 

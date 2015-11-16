@@ -548,7 +548,7 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	$.isString = function(obj) {
+	E.isString = $.isString = function(obj) {
 		return typeof obj == 'string';
 	};
 	/**
@@ -558,7 +558,7 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	$.isBoolean = function(obj) {
+	E.isString = $.isBoolean = function(obj) {
 		return typeof obj == 'boolean';
 	};
 	/**
@@ -2854,7 +2854,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 		// если ключ - строка, то он может быть составным
-		if($.isString(i)) {
+		if( Ergo.isString(i) ) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
@@ -7273,7 +7273,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	// FIXME
 	get ctx() {
-		return ($context || Ergo.context); //FIXME костыль
+		var scope = this.scope;
+		return scope ? scope._context : Ergo.context; //FIXME костыль
 	},
 
 	get scope() {
@@ -9232,6 +9233,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 					self._fetched = true;
 				}
 				self.events.fire('fetched');
+
+				return data;
 			});
 		}
 		else {
@@ -9240,7 +9243,6 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 		}
 
 	},
-
 
 
 
@@ -12049,7 +12051,11 @@ Ergo.alias('includes:provider-methods', {
   _construct: function(o) {
 
     if(o.provider) {
-      var provider = $.isString(o.provider) ? Ergo.alias(o.provider) : o.provider;
+
+      var provider = o.provider;
+
+      if( $.isString(provider) )
+        provider = Ergo.alias('providers:'+provider);
 
       for(var i in provider) {
         var p = provider[i];
