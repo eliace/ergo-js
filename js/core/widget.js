@@ -150,6 +150,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 	},
 
+	set scope(v) {
+		this._scope = v;
+		this._bindNsEvents('scope');
+	},
+
 	// set scope(scope) {
 	// 	this
 	// }
@@ -336,6 +341,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	_pre_construct: function(o) {
 		Ergo.core.Widget.superclass._pre_construct.call(this, o);
 //		this._super(o);
+
 
 
 		var self = this;
@@ -1039,7 +1045,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 							callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
 						}
 
-						this[name_a[0]].events.on(name_a[1], callback, this);
+						if( this[name_a[0]].events ) {
+							this[name_a[0]].events.on(name_a[1], callback, this);
+						}
 
 					}
 				}
@@ -1147,6 +1155,99 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		else if(!(layout instanceof Ergo.core.Layout))
 			layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
 		return layout;
+	},
+
+
+
+
+	get __skeleton() {
+
+		var s = {
+			components: [],
+			items: [],
+			states: [],
+			events: [],
+			options: {}
+		};
+
+
+
+		var exclusions = {
+			components: true,
+			items: true,
+			set: true,
+			get: true,
+			mixins: true,
+			defaultItem: true,
+			defaultComponent: true,
+			nestedItem: true,
+			events: true,
+			states: true,
+			attributes: true,
+			__skeleton: true,
+			include: true,
+			children: true
+		};
+
+		// simple options
+		for(var i in this.options) {
+			if( !(i in exclusions) && !/on\S/.test(i) ) {
+				s.options[i] = ['get', 'set'];
+			}
+		}
+
+		// get/set options
+		if( this.options.get ) {
+			for(var i in get) {
+				if( !(i in s.options) ) {
+					s.options[i] = ['get'];
+				}
+			}
+		}
+		if( this.options.set ) {
+			for(var i in set) {
+				if( !(i in s.options) ) {
+					s.options[i].push('set');
+				}
+			}
+		}
+
+		// state options
+		for(var i in this.states._states) {
+			s.options[i] = ['get', 'set'];
+		}
+		for(var i in this.states._exclusives) {
+			s.options[i] = ['get', 'set'];
+		}
+
+		// property options
+		var w = this;
+		while(w) {
+			for(var i in w) {
+				var desc = Object.getOwnPropertyDescriptor(w, i);
+				if(desc && !(i in exclusions)) {
+					if(desc.get) {
+						s.options[i] = s.options[i] ? s.options[i].concat('get') : ['get'];
+					}
+					if(desc.set) {
+						s.options[i] = s.options[i] ? s.options[i].concat('set') : ['set'];
+					}
+				}
+			}
+			w = w.constructor.superclass;
+		}
+
+
+		this.components.each(function(c, i) {
+			s.components.push(i);
+		})
+
+
+		s.states = Object.keys(this.states._states);
+
+		s.events = Object.keys(this.events.events);
+
+		return s;
 	}
 
 
@@ -1247,7 +1348,15 @@ $.ergo = function(o, ns, scope) {
 		o = [o];
 	}
 
-
+	// var ns = null;
+	// var scope = null;
+	//
+	// if( $.isString(ns_or_scope) ) {
+	// 	ns = ns_or_scope;
+	// }
+	// else {
+	// 	scope = ns_or_scope;
+	// }
 
 //	var etype = o.etype;
 	ns = ns || 'widgets';
@@ -1262,7 +1371,15 @@ $.ergo = function(o, ns, scope) {
 
 	o.etype = ns+':'+etype;
 
-	return Ergo['$'+ns](o, ns+':'+etype, scope);
+	var w = Ergo['$'+ns](o, ns+':'+etype);//, scope);
+
+	scope = scope || Ergo._scope;
+
+	if(scope && w.opt('scopeKey')) {
+		scope.widget( w.opt('scopeKey'), w );
+	}
+
+	return w;
 }; //Ergo.widget;
 
 

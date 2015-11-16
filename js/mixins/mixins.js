@@ -15,3 +15,4 @@
 //= require user-input
 //= require expandable
 //= require placeholder
+//= require local-storage

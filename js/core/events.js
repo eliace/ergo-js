@@ -368,7 +368,7 @@ Ergo.alias('includes:observable', {
 
 					var name_a = i.split(':');
 
-					if( name_a.length == 2 && this[name_a[0]] ) {
+					if( name_a.length == 2 && this[name_a[0]] && this[name_a[0]].events ) {
 						this[name_a[0]].events.on( name_a[1], callback, this );
 					}
 					else {

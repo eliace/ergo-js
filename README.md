@@ -27,23 +27,23 @@ bower install ergo-js
 ## Quick start
 
 
-Подключаем сценарии ядра и виджетов
+Add scripts
 ```html
 <script src="lib/ergojs-core.js" type="text/javascript"></script>
 <script src="lib/ergojs-widgets-all.js" type="text/javascript"></script>
 ```
 
-Подключаем стили
+Add styles
 ```html
 <link href='lib/ergojs.css' rel='stylesheet' type='text/css'>
 ```
 
-Самый лучший момент для создания виджетов - после загрузки страницы, поэтому воспользуемся обработчиком события jQuery.ready
+Now ergo ready to use
 
 ```javascript
 $(document).ready(function(){
 
-    // создаем простой виджет и добавляем его в <body/>
+    // creates simple widget and renders it into <body/>
     var w = $.ergo({
         etype: 'box'
     });
@@ -57,6 +57,10 @@ $(document).ready(function(){
 
 
 ## Release History
+
+#### Release 0.12.3
+
+
 
 #### Release 0.12.2
 * History arranged as include
@@ -123,6 +127,8 @@ $(document).ready(function(){
 * Detect states as boolean options
 * Composite weight
 * Local storage provider
+* Add properties (with `props` option)
+* `get` and `set` options should generate getters and setters
 
 
 and more new widgets :)

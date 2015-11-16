@@ -40,11 +40,13 @@ Ergo.alias('includes:selectable', {
 
 	_construct: function(opts) {
 
+		var o = opts.selection || {};
+
 		this.selection = {
 
 			_widget: this,
 
-			_selected: null,
+			_selected: (o.multiselect) ? {} : null,
 
 			set: function(key) {
 

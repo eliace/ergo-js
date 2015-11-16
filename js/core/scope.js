@@ -43,6 +43,7 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 			}
 
 			this.widgets[key] = w;
+			w.scope = this;
 
 			return w;
 		}
@@ -51,6 +52,9 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 
 
 	disjoin: function() {
+
+		//TODO здесь нужно удалить все виджеты скоупа
+
 		this._context.disjoin(this._name);
 	},
 

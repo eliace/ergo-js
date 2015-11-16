@@ -2,7 +2,58 @@
 Ergo.alias('includes:router', {
 
   defaults: {
-    hashUrl: true
+    hashUrl: true,
+    events: {
+      'restore': function(e) {
+
+        console.log('restore from route', window.location.hash);
+
+        var hash_a = window.location.hash.split('?');
+        var path = hash_a[0];
+
+        // восстанавлливаем параметры URL
+        if(hash_a.length > 1) {
+
+          var query = {};
+
+          var query_a = hash_a[1].split('&');
+
+          for(var i = 0; i < query_a.length; i++) {
+            var p_a = query_a[i].split('=');
+            var p_name = decodeURIComponent(p_a[0]);
+            if( p_name ) {
+              if( p_a.length == 1 ) {
+                query[p_name] = '';
+              }
+              else {
+                query[p_name] = decodeURIComponent(p_a[1].replace(/\+/g, " "));
+              }
+            }
+          }
+
+          e.params.query = query;
+        }
+
+
+        // url = url.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        // var regex = new RegExp("[\\?&]" + url + "=([^&#]*)"),
+        //     results = regex.exec(location.search);
+        // return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+
+        //FIXME
+        path = path ? path.slice(2) : '';
+
+
+        e.name = this.restoreFromPath( path, e.params, e.opts );
+
+        console.log('router restore', e.params);
+
+        // this.to( path, e.params );
+        //
+        // e.interrupt();
+      }
+
+    }
   },
 
 
@@ -13,19 +64,9 @@ Ergo.alias('includes:router', {
 
     this.router = {
 
-      restore: function() {
-
-        console.log('router restore', window.location.hash);
-
-        if( window.location.hash ) {
-          // FIXME
-          w.to(window.location.hash.slice(2));
-        }
-        else {
-          // FIXME
-          w.to('');
-        }
-      }
+      // restore: function(params) {
+      //
+      // }
 
     }
 
@@ -35,6 +76,15 @@ Ergo.alias('includes:router', {
 
 
   overrides: {
+
+
+    buildQuery: function(params) {
+      var query = [];
+      for(var i in params) {
+        query.push( encodeURIComponent(i) + '=' + encodeURIComponent(params[i]) );
+      }
+      return query.join('&');
+    },
 
 
     absolutePath: function(path) {
@@ -115,7 +165,7 @@ Ergo.alias('includes:router', {
 
 
 
-    to: function(path, params, opts) {
+    restoreFromPath: function(path, params, opts) {
 
       // преобразуем к абсолютному пути
       path = this.absolutePath(path);
@@ -127,21 +177,73 @@ Ergo.alias('includes:router', {
         var match = this.routeMatch(path, route.path);
         if( match ) {
 
-          console.log('route to', path, route);
-
           var o = {
             path: '#!'+path,
             history: route.history
           };
 
-          Ergo.override(match, params); // merge path params and route params
-          Ergo.smart_override(o, opts); //
+          Ergo.override(params, match); // merge path params and route params
+          Ergo.smart_override(opts, o); //
 
-          return this.join( route.name, match, o );
+          return route.name;// {name: route.name, params: match, options: o};// this.join( route.name, match, o );
         }
       }
 
+      return null;
+    },
+
+
+
+    to: function(path, params, opts) {
+
+      params = params || {};
+      opts = opts || {};
+
+
+      var name = this.restoreFromPath(path, params, opts);
+
+      console.log('route to', name, params, opts);
+
+      if( name ) {
+
+        if(params && params.query) {
+          opts.path += '?' + this.buildQuery(params.query);
+        }
+
+        return this.join( name, params, opts );
+      }
+
       return $.when(null);
+
+      // // преобразуем к абсолютному пути
+      // path = this.absolutePath(path);
+      //
+      // for(var i in this._routes) {
+      //
+      //   var route = this._routes[i];
+      //
+      //   var match = this.routeMatch(path, route.path);
+      //   if( match ) {
+      //
+      //     console.log('route to', path, params, route);
+      //
+      //     var o = {
+      //       path: '#!'+path,
+      //       history: route.history
+      //     };
+      //
+      //     if(params && params.query) {
+      //       o.path += '?' + this.buildQuery(params.query);
+      //     }
+      //
+      //     Ergo.override(match, params); // merge path params and route params
+      //     Ergo.smart_override(o, opts); //
+      //
+      //     return this.join( route.name, match, o );
+      //   }
+      // }
+      //
+      // return $.when(null);
     },
 
 

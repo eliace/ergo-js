@@ -15,6 +15,12 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
 		include: 'observable',
 
+		events: {
+			'restore': function(e) {
+				//TODO здесь нужно указывать парметры по умолчанию
+			}
+		}
+
 	},
 
 
@@ -311,8 +317,20 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		scope._promise = deferred.promise();
 
+		var _scope = Ergo._scope;
+
+		Ergo._scope = scope;
+
+
+//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
+		ctx.events.fire('scope:join', {scope: scope, params: scope._params});
+		scope.events.fire('join');
+		
+
 		// инициализируем скоуп
 		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
+
+		Ergo._scope = _scope;
 
 		// загружаем данные скоупа?
 
@@ -324,7 +342,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 				var w = scope.widgets[i];
 
-				if(!w._rendered) {
+				if(!w.parent && !w._rendered) {
 					// если у родителя определен контейнер, используем его
 					if(parent && parent._container) {
 						parent._container.components.set(i, w);
@@ -337,8 +355,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			}
 
 
-			ctx.events.fire('scopeJoin', {scope: scope});
-			scope.events.fire('join');
+			ctx.events.fire('scope:joined', {scope: scope, params: scope._params});
+			scope.events.fire('joined');
 
 			console.log('join:'+scope_name);
 
@@ -357,7 +375,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		scope.events.fire('disjoin', {scope: scope});
-		this.events.fire('scopeDisjoin', {scope: scope});
+		this.events.fire('scope:disjoin', {scope: scope, params: scope._params});
 
 
 		// отсоединяем вложенные скоупы
@@ -426,7 +444,12 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 	init: function() {
 
-		var ctx = this;
+		var e = this.events.fire('restore', {name: null, params: {}, opts: {}});
+
+
+		this.join( e.name, e.params, e.options );
+
+//		var ctx = this;
 
 /*
 		var p = window.history.state;
@@ -448,25 +471,25 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		this._no_history = false;
 */
-	},
-
-
-	restore: function(name, p) {
-
-		$context.join(name, p);
-
-	// 	// обходим параметры
-	// 	for(var i in p) {
-	// 		for(var j in this._callbacks) {
-	// 			var s = ''+i+':'+p[i];
-	// 			if(i == j || s == j) {
-	// //				console.log('restore', i);
-	// 				$context.join(j);
-	// 			}
-	// 		}
-	// 	}
-
 	}
+
+
+	// restore: function(name, p) {
+	//
+	// 	$context.join(name, p);
+	//
+	// // 	// обходим параметры
+	// // 	for(var i in p) {
+	// // 		for(var j in this._callbacks) {
+	// // 			var s = ''+i+':'+p[i];
+	// // 			if(i == j || s == j) {
+	// // //				console.log('restore', i);
+	// // 				$context.join(j);
+	// // 			}
+	// // 		}
+	// // 	}
+	//
+	// }
 
 
 });

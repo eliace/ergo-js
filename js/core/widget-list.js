@@ -52,7 +52,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		if( $.isString(default_child) )
 			default_child = {etype: default_child};
 
-		return $.ergo( [default_child, o], null, this.scope );
+		return $.ergo( [default_child, o] );//, null, this.scope );
 //		return $.ergo( Ergo.smart_override({}, this.options[default_child], o) );
 	},
 
