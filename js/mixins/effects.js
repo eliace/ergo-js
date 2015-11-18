@@ -2,10 +2,10 @@
 
 /**
  * Перегружаемт методы show() и hide() для поддержки анимации
- * 
+ *
  * Опции:
  * 	`effects`
- * 
+ *
  * @mixin Ergo.mixins.Effects
  */
 
@@ -18,7 +18,7 @@ Ergo.alias('includes:effects', {
 		effects: {
 			show: 'show',
 			hide: 'hide',
-			delay: 0			
+			delay: 0
 		}
 	},
 
@@ -27,21 +27,21 @@ Ergo.alias('includes:effects', {
 	overrides: {
 
 		show: function() {
-			
+
 			var effect = false;
 
-			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
-			
-				
+
+
 				if(o.initial) {
 					o = Ergo.override({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
-				
+
 				var el = this._wrapper || this.el;
-				
+
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
 					if(this._no_effects) {
@@ -51,7 +51,7 @@ Ergo.alias('includes:effects', {
 						effect = el[o.show.type]({
 							duration: o.show.delay || o.delay,
 							easing: o.show.easing || 'swing'
-						});					
+						});
 					}
 					else {
 						effect = el[o.show]({
@@ -59,47 +59,47 @@ Ergo.alias('includes:effects', {
 							easing: o.easing || 'swing'
 						});
 					}
-					
+
 				}
-				
-			}
+
+//			}
 
 			return $.when( effect )
-							.then(function(){ this.events.fire('show'); }.bind(this));		
+							.then(function(){ this.events.fire('show'); }.bind(this));
 		},
 
 
 		hide: function() {
-			
+
 			var effect = false;
-			
-			if( !this.children.is_empty() || this.el.text() ) {  // ?
+
+//			if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
-		
+
 				if(o.initial) {
 					o = Ergo.override({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
-				
+
 				var el = this._wrapper || this.el;
-			
+
 				if( el.is(':visible')) {
 					if( $.isPlainObject(o.hide) ) {
 						effect = el[o.hide.type]({
 							duration: o.hide.delay || o.delay,
 							easing: o.hide.easing || 'swing'
-						});					
+						});
 					}
 					else {
 						effect = el[o.hide]({
 							duration: o.delay,
 							easing: o.easing || 'swing'
 						});
-					}				
+					}
 				}
 	//				effect = el[o.hide](o.delay);
-			}
+//			}
 
 			return $.when( effect )
 							.then(function(){ this.events.fire('hide'); }.bind(this));
@@ -111,4 +111,3 @@ Ergo.alias('includes:effects', {
 
 
 });
-

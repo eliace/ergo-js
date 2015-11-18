@@ -59,7 +59,7 @@ $(document).ready(function(){
 ## Release History
 
 #### Release 0.12.3
-
+* Call context changed to widget for `dynamicFilter`, `dynamicSorter`, `renderFilter` and `renderSorter`
 
 
 #### Release 0.12.2

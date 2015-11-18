@@ -153,6 +153,9 @@ Ergo.WidgetData = {
 
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
 
+			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
+			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+
 			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
@@ -163,7 +166,7 @@ Ergo.WidgetData = {
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
-			}, this.options.dynamicFilter, this.options.dynamicSorter);
+			}, filter, sorter);
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
@@ -294,6 +297,10 @@ Ergo.WidgetData = {
 
 	//			var t0 = Ergo.timestamp();
 
+				var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
+				var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+
+
 				this.data.each(function(dataEntry, i){
 	//					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
@@ -306,7 +313,7 @@ Ergo.WidgetData = {
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, this.options.dynamicFilter, this.options.dynamicSorter);
+				}, filter, sorter);
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);
@@ -432,8 +439,10 @@ Ergo.WidgetData = {
 
 	_dataDiff: function(created, deleted, updated) {
 
-		var filter = this.options.dynamicFilter;
-		var sorter = this.options.dynamicSorter;
+		var o = this.options
+
+		var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : null;
+		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
 
 
 
@@ -509,7 +518,7 @@ Ergo.WidgetData = {
 
 //		console.log(created, deleted, updated);
 
-var self = this;
+		var self = this;
 
 
 
@@ -548,7 +557,7 @@ var self = this;
 				var value = e._val();
 
 
-				if(!filter || filter.call(this, e._val(), index)) {
+				if(!filter || filter(e._val(), index)) {
 
 					var kv0 = [index, value];
 
@@ -639,7 +648,7 @@ var self = this;
 
 
 				if(filter) {
-					if( !filter.call(this, value, index) ) {
+					if( !filter(value, index) ) {
 						if( _item ) {
 							_item._destroy();
 							_item = null;

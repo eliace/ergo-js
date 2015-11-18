@@ -175,20 +175,44 @@ Ergo.WidgetRender = {
 	/**
 	 * Перерисовка виджета
 	 *
+	 * Е
+	 *
 	 * @protected
 	 *
 	 */
-	_rerender: function() {
+	_rerender: function(update, diff) {
 
 		var w = this;
+		var o = this.options;
+		var filter = o.renderFilter ? o.renderFilter.bind(this) : null;
+		var sorter = o.renderSorter ? o.renderSorter.bind(this) : null;
 
 		// если .children не проинициализирован, значит перерисовывать нечего
 		if(!this.__c) return;
+
+
+		if( this._rendered ) {
+			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
+				this.unrender();
+//				w.layout.remove( this );
+			}
+		}
+		else if( this.parent ) {
+			if( this.options.autoRender !== false && !(this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
+				this.render();
+//				this._type == 'item' ? this.parent.layout.add(this, this._index /*item._index*/) : this.parent.layout.add(this, undefined, this._weight);
+			}
+		}
+
+
 
 		this.children.each(function(item){
 			if(item._rendered)
 				item.unrender();
 		});
+
+
+
 
 
 		this.children.each(function(item, i){
@@ -198,8 +222,12 @@ Ergo.WidgetRender = {
 
 			}
 
-		}, this.options.renderFilter, this.options.renderSorter);
+		}, filter, sorter);
 
+
+
+		if(update !== false)
+			this._layoutChanged();
 
 	},
 

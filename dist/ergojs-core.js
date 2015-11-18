@@ -3335,7 +3335,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			// Filtering source and mapping it to KV-array
 			Ergo.each(values, function(v, i) {
-				if(!filter || filter.call(ds, v, i)) {
+				if(!filter || filter(v, i)) {
 					kv_a.push( [i, v] );
 	//				callback.call(self, self.entry(i), i, v);
 				}
@@ -5588,7 +5588,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 			// Filtering source and mapping it to KV-array
 			Ergo.each(values, function(v, i) {
-				if(!filter || filter.call(c, v, i)) {
+				if(!filter || filter(v, i)) {
 					kv_a.push( [i, v] );
 				}
 			});
@@ -6149,6 +6149,9 @@ Ergo.WidgetData = {
 
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
 
+			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
+			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+
 			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
@@ -6159,7 +6162,7 @@ Ergo.WidgetData = {
 					item._pivot = false;
 					item._dynamic = true;
 //					item.el.attr('dynamic', true);
-			}, this.options.dynamicFilter, this.options.dynamicSorter);
+			}, filter, sorter);
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
@@ -6290,6 +6293,10 @@ Ergo.WidgetData = {
 
 	//			var t0 = Ergo.timestamp();
 
+				var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
+				var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+
+
 				this.data.each(function(dataEntry, i){
 	//					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
@@ -6302,7 +6309,7 @@ Ergo.WidgetData = {
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, this.options.dynamicFilter, this.options.dynamicSorter);
+				}, filter, sorter);
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);
@@ -6428,8 +6435,10 @@ Ergo.WidgetData = {
 
 	_dataDiff: function(created, deleted, updated) {
 
-		var filter = this.options.dynamicFilter;
-		var sorter = this.options.dynamicSorter;
+		var o = this.options
+
+		var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : null;
+		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
 
 
 
@@ -6505,7 +6514,7 @@ Ergo.WidgetData = {
 
 //		console.log(created, deleted, updated);
 
-var self = this;
+		var self = this;
 
 
 
@@ -6544,7 +6553,7 @@ var self = this;
 				var value = e._val();
 
 
-				if(!filter || filter.call(this, e._val(), index)) {
+				if(!filter || filter(e._val(), index)) {
 
 					var kv0 = [index, value];
 
@@ -6635,7 +6644,7 @@ var self = this;
 
 
 				if(filter) {
-					if( !filter.call(this, value, index) ) {
+					if( !filter(value, index) ) {
 						if( _item ) {
 							_item._destroy();
 							_item = null;
@@ -7073,20 +7082,44 @@ Ergo.WidgetRender = {
 	/**
 	 * Перерисовка виджета
 	 *
+	 * Е
+	 *
 	 * @protected
 	 *
 	 */
-	_rerender: function() {
+	_rerender: function(update, diff) {
 
 		var w = this;
+		var o = this.options;
+		var filter = o.renderFilter ? o.renderFilter.bind(this) : null;
+		var sorter = o.renderSorter ? o.renderSorter.bind(this) : null;
 
 		// если .children не проинициализирован, значит перерисовывать нечего
 		if(!this.__c) return;
+
+
+		if( this._rendered ) {
+			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
+				this.unrender();
+//				w.layout.remove( this );
+			}
+		}
+		else if( this.parent ) {
+			if( this.options.autoRender !== false && !(this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
+				this.render();
+//				this._type == 'item' ? this.parent.layout.add(this, this._index /*item._index*/) : this.parent.layout.add(this, undefined, this._weight);
+			}
+		}
+
+
 
 		this.children.each(function(item){
 			if(item._rendered)
 				item.unrender();
 		});
+
+
+
 
 
 		this.children.each(function(item, i){
@@ -7096,8 +7129,12 @@ Ergo.WidgetRender = {
 
 			}
 
-		}, this.options.renderFilter, this.options.renderSorter);
+		}, filter, sorter);
 
+
+
+		if(update !== false)
+			this._layoutChanged();
 
 	},
 
@@ -7273,8 +7310,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	// FIXME
 	get ctx() {
-		var scope = this.scope;
-		return scope ? scope._context : Ergo.context; //FIXME костыль
+		// var scope = this.scope;
+		// return scope ? scope._context : Ergo.context;
+		return $context || Ergo.context; //FIXME костыль
 	},
 
 	get scope() {
@@ -10461,10 +10499,10 @@ Ergo.declare('Ergo.layouts.Center', 'Ergo.core.Layout', {
 
 /**
  * Перегружаемт методы show() и hide() для поддержки анимации
- * 
+ *
  * Опции:
  * 	`effects`
- * 
+ *
  * @mixin Ergo.mixins.Effects
  */
 
@@ -10477,7 +10515,7 @@ Ergo.alias('includes:effects', {
 		effects: {
 			show: 'show',
 			hide: 'hide',
-			delay: 0			
+			delay: 0
 		}
 	},
 
@@ -10486,21 +10524,21 @@ Ergo.alias('includes:effects', {
 	overrides: {
 
 		show: function() {
-			
+
 			var effect = false;
 
-			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
-			
-				
+
+
 				if(o.initial) {
 					o = Ergo.override({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
-				
+
 				var el = this._wrapper || this.el;
-				
+
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
 					if(this._no_effects) {
@@ -10510,7 +10548,7 @@ Ergo.alias('includes:effects', {
 						effect = el[o.show.type]({
 							duration: o.show.delay || o.delay,
 							easing: o.show.easing || 'swing'
-						});					
+						});
 					}
 					else {
 						effect = el[o.show]({
@@ -10518,47 +10556,47 @@ Ergo.alias('includes:effects', {
 							easing: o.easing || 'swing'
 						});
 					}
-					
+
 				}
-				
-			}
+
+//			}
 
 			return $.when( effect )
-							.then(function(){ this.events.fire('show'); }.bind(this));		
+							.then(function(){ this.events.fire('show'); }.bind(this));
 		},
 
 
 		hide: function() {
-			
+
 			var effect = false;
-			
-			if( !this.children.is_empty() || this.el.text() ) {  // ?
+
+//			if( !this.children.is_empty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
-		
+
 				if(o.initial) {
 					o = Ergo.override({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
-				
+
 				var el = this._wrapper || this.el;
-			
+
 				if( el.is(':visible')) {
 					if( $.isPlainObject(o.hide) ) {
 						effect = el[o.hide.type]({
 							duration: o.hide.delay || o.delay,
 							easing: o.hide.easing || 'swing'
-						});					
+						});
 					}
 					else {
 						effect = el[o.hide]({
 							duration: o.delay,
 							easing: o.easing || 'swing'
 						});
-					}				
+					}
 				}
 	//				effect = el[o.hide](o.delay);
-			}
+//			}
 
 			return $.when( effect )
 							.then(function(){ this.events.fire('hide'); }.bind(this));
@@ -10570,7 +10608,6 @@ Ergo.alias('includes:effects', {
 
 
 });
-
 
 
 

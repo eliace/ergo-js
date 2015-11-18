@@ -601,7 +601,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 			// Filtering source and mapping it to KV-array
 			Ergo.each(values, function(v, i) {
-				if(!filter || filter.call(ds, v, i)) {
+				if(!filter || filter(v, i)) {
 					kv_a.push( [i, v] );
 	//				callback.call(self, self.entry(i), i, v);
 				}

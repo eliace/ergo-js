@@ -241,7 +241,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 			// Filtering source and mapping it to KV-array
 			Ergo.each(values, function(v, i) {
-				if(!filter || filter.call(c, v, i)) {
+				if(!filter || filter(v, i)) {
 					kv_a.push( [i, v] );
 				}
 			});
