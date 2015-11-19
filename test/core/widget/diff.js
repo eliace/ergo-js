@@ -303,6 +303,7 @@ describe('Widget', function(){
 			var data = [{ref: 'http://ergojs.com'}, {ref: 'http://my.org'}];
 
 			var filter = function(v, i) {
+				console.log('filter value', v);
 				return v.ref.indexOf('https://') == -1;
 			}
 
@@ -333,11 +334,13 @@ describe('Widget', function(){
 			// 	this._dataDiff([], [], e.updated);
 			// }, box);
 
+			console.log('data', box.data);
 
 
 			bindings = [];
 
 			box.data.set('0.ref', 'https://github.com');
+
 
 			expect(box.items.size()).to.be.eq(1);
 
