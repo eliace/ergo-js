@@ -2348,10 +2348,10 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 //
 // Ergo.override(Ergo.core.Event.prototype, {
 
-	stop: function(immediate) {
+	stop: function(stopHtmlEvent) {
 //		if(this.base) this.base.stopPropagation(); //FIXME
 		var e = this.base;
-		while(e) {
+		while(e && stopHtmlEvent !== false) {
 			if(e.stopPropagation) {
 				e.stopPropagation();
 				break;
@@ -2359,12 +2359,12 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
 			e = e.base;
 		}
 		this.stopped = true;
-		if(immediate)
-			this.stopedImmediate = true;
+		// if(immediate)
+		// 	this.stopedImmediate = true;
 	},
-	interrupt: function() {
+	interrupt: function(interruptHtmlEvent) {
 		var e = this.base;
-		while(e) {
+		while(e && interruptHtmlEvent !== false) {
 			if(e.stopImmediatePropagation) {
 				e.stopImmediatePropagation();
 				break;
@@ -4296,14 +4296,14 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				item_el = $('<div/>').append(item.el);
 			}
 
-			item.wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', html: item_el, autoRender: false}, item.options.wrapper) );
-			item.wrapper._weight = weight;
+			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', html: item_el, autoRender: false}, item.options.wrapper) );
+			item._wrapper._weight = weight;
 
 		}
 
 
 		if(item_el != item.el) {
-			item._wrapper = item_el;
+			item._wrapper_el = item_el;
 		}
 
 		// экспериментальный код
@@ -4329,7 +4329,6 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			elements = Array.prototype.filter.call(elements, function(elem) {
 				return ( elem._ergo && elem._ergo.options.group == item.options.group )
 			});
-
 
 			// var filtered = [];
 			// for(var j = 0; j < elements.length; j++) {
@@ -4554,11 +4553,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	 */
 	remove: function(item) {
 
-		if(item._wrapper) {
-			item._wrapper.remove(); //?
+		if(item._wrapper_el) {
+			item._wrapper_el.remove(); //?
 
-			if(item.wrapper)
-				item.wrapper._destroy();
+			if(item._wrapper)
+				item._wrapper._destroy();
 		}
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
@@ -4962,7 +4961,8 @@ Ergo.WidgetOptions = {
 		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
 	},
 	set hidden(v) {
-		(this._wrapper || this.el).css('display', v ? 'none' : '');
+		(this._wrapper_el || this.el).css('display', v ? 'none' : '');
+//		this.el.css('display', v ? 'none' : '');
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
@@ -6050,7 +6050,11 @@ Ergo.WidgetData = {
 			// }
 			var name_a = data.split(':');
 			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			data = src[name_a[1]];
+			var prop_a = name_a[1].split('.');
+			while(prop_a.length) {
+				src = src[prop_a.shift()];
+			}
+			data = src;// src[name_a[1]];
 		}
 
 
@@ -7896,8 +7900,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 *
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
-	show: function() {
-		return $.when( (this._wrapper || this.el).show() );
+	show: function(wrapperAware) {
+		return $.when( wrapperAware ? (this._wrapper_el || this.el).show() : this.el.show() );
 	},
 
 
@@ -7906,8 +7910,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 *
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
-	hide: function() {
-		return $.when( (this._wrapper || this.el).hide() );
+	hide: function(wrapperAware) {
+		return $.when( wrapperAware ? (this._wrapper_el || this.el).hide() : this.el.hide() );
 	},
 
 
@@ -10100,43 +10104,43 @@ Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
 
 
 Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
-	
+
 	defaults: {
 		name: 'grid',
 //		pattern: []
 	},
-	
-	
+
+
 	wrap: function(item) {
 		return $('<div autoheight="ignore-siblings"/>').append(item.el);
 	},
-	
-	
+
+
 	update: function() {
 		this._super();
 
-		
+
 		var self = this;
-		
+
 		var o = this.options;
-		
+
 		var w = this._widget;
-		
+
 		var n = w.children.size();
 		var k = (n == 0) ? 1 : (12/n).toFixed();
 
-				
+
 		w.children.each(function(item, i) {
-			
+
 			if(!item._rendered) return;
-			
-			var el = item._wrapper || item.el;
-			
+
+			var el = item._wrapper_el || item.el;
+
 //			console.log(el._wrapper != null);
-			
-			
+
+
 			if(w.options.pattern) {
-				
+
 				var offset = 0;
 				var n = 0;
 				var p = 0;
@@ -10158,23 +10162,23 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 						}
 					}
 				}
-	
+
 				if(n == i) {
 					el.addClass('col-'+(item.options.col || p));
 					if(offset < 0)
 						el.addClass('col-offset'+offset);
-//					el.addClass('col-'+(item.options.col || w.options.pattern[i]));				
+//					el.addClass('col-'+(item.options.col || w.options.pattern[i]));
 				}
 			}
 			else {
-				el.addClass('col-'+k);				
+				el.addClass('col-'+k);
 			}
-			
-			
-/*			
+
+
+/*
 			for(var i in o.pattern) {
 				var j = o.pattern[i];
-				
+
 				var k = -1;
 				var d = 0;
 				// for(var j = 0; j < tmpl.length; j++) {
@@ -10187,26 +10191,26 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 					// else {
 						// d++;
 					// }
-					
+
 //					if( k == item._index ) {
 						el.addClass('col-'+j);
 //						if(d)
 //							el.addClass('col-'+'-offset-'+d);
 //						break;
 //					}
-					
+
 //					if( j > 0 ) d = 0;
-					
+
 //				}
-				
+
 			}
-*/			
+*/
 		});
-		
-		
+
+
 	}
-	
-	
+
+
 }, 'layouts:grid');
 
 
@@ -10406,7 +10410,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 			if(!item._rendered) return;
 
-			var el = item._wrapper.children().filter('div') || item.el;
+			var el = item._wrapper_el.children().filter('div') || item.el;
 
 //			console.log(item._wrapper);
 
@@ -10538,7 +10542,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = this._wrapper || this.el;
+				var el = this._wrapper_el || this.el;
 
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
@@ -10580,7 +10584,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = this._wrapper || this.el;
+				var el = this._wrapper_el || this.el;
 
 				if( el.is(':visible')) {
 					if( $.isPlainObject(o.hide) ) {
@@ -12085,7 +12089,6 @@ Ergo.alias('includes:history', {
 
 Ergo.alias('includes:provider-methods', {
 
-
   _construct: function(o) {
 
     if(o.provider) {
@@ -12105,11 +12108,11 @@ Ergo.alias('includes:provider-methods', {
 
             var data = composer.call(this, this.get(), action);
 
-            var args = [];
+            var args = [this];
             for(var j = 1; j < arguments.length; j++)
               args.push(arguments[j]);
 
-            return $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+            return $.when(provider[action].apply(provider, args)).then(function(data) {
       				return parser.call(this, data, action);
       			});
           }.bind(this, i) //p.bind(provider, this);

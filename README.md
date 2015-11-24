@@ -38,7 +38,7 @@ Add styles
 <link href='lib/ergojs.css' rel='stylesheet' type='text/css'>
 ```
 
-Now ergo ready to use
+Now ergo is ready to use
 
 ```javascript
 $(document).ready(function(){
@@ -60,6 +60,9 @@ $(document).ready(function(){
 
 #### Release 0.12.3
 * Call context changed to widget for `dynamicFilter`, `dynamicSorter`, `renderFilter` and `renderSorter`
+* Disabling aware of `widget._wrapper` with `widget.show(false)` or `widget.hide(false)`
+* Disabling aware of html event propagation with `event.stop(false)`
+* Disabling aware of html event immediate propagation with `event.interupt(false)`
 
 
 #### Release 0.12.2
@@ -124,11 +127,12 @@ $(document).ready(function(){
 * Test coverage
 * Simplify Ergo collections
 * Change nested property accessor from `_` to `__` (like BEM)
-* Detect states as boolean options
 * Composite weight
 * Local storage provider
 * Add properties (with `props` option)
+* Add overriding methods (with `overrides` option)
 * `get` and `set` options should generate getters and setters
+* Extend widget/state to replace context/scope
 
 
 and more new widgets :)

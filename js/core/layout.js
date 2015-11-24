@@ -127,14 +127,14 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				item_el = $('<div/>').append(item.el);
 			}
 
-			item.wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', html: item_el, autoRender: false}, item.options.wrapper) );
-			item.wrapper._weight = weight;
+			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', html: item_el, autoRender: false}, item.options.wrapper) );
+			item._wrapper._weight = weight;
 
 		}
 
 
 		if(item_el != item.el) {
-			item._wrapper = item_el;
+			item._wrapper_el = item_el;
 		}
 
 		// экспериментальный код
@@ -160,7 +160,6 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			elements = Array.prototype.filter.call(elements, function(elem) {
 				return ( elem._ergo && elem._ergo.options.group == item.options.group )
 			});
-
 
 			// var filtered = [];
 			// for(var j = 0; j < elements.length; j++) {
@@ -385,11 +384,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	 */
 	remove: function(item) {
 
-		if(item._wrapper) {
-			item._wrapper.remove(); //?
+		if(item._wrapper_el) {
+			item._wrapper_el.remove(); //?
 
-			if(item.wrapper)
-				item.wrapper._destroy();
+			if(item._wrapper)
+				item._wrapper._destroy();
 		}
 		else
 			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются

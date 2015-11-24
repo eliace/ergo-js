@@ -101,7 +101,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 			if(!item._rendered) return;
 
-			var el = item._wrapper.children().filter('div') || item.el;
+			var el = item._wrapper_el.children().filter('div') || item.el;
 
 //			console.log(item._wrapper);
 

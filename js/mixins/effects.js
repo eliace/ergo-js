@@ -40,7 +40,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = this._wrapper || this.el;
+				var el = this._wrapper_el || this.el;
 
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
@@ -82,7 +82,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = this._wrapper || this.el;
+				var el = this._wrapper_el || this.el;
 
 				if( el.is(':visible')) {
 					if( $.isPlainObject(o.hide) ) {

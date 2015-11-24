@@ -2,7 +2,6 @@
 
 Ergo.alias('includes:provider-methods', {
 
-
   _construct: function(o) {
 
     if(o.provider) {
@@ -22,11 +21,11 @@ Ergo.alias('includes:provider-methods', {
 
             var data = composer.call(this, this.get(), action);
 
-            var args = [];
+            var args = [this];
             for(var j = 1; j < arguments.length; j++)
               args.push(arguments[j]);
 
-            return $.when(provider[action].bind(provider, this).apply(args)).then(function(data) {
+            return $.when(provider[action].apply(provider, args)).then(function(data) {
       				return parser.call(this, data, action);
       			});
           }.bind(this, i) //p.bind(provider, this);

@@ -97,7 +97,8 @@ Ergo.WidgetOptions = {
 		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
 	},
 	set hidden(v) {
-		(this._wrapper || this.el).css('display', v ? 'none' : '');
+		(this._wrapper_el || this.el).css('display', v ? 'none' : '');
+//		this.el.css('display', v ? 'none' : '');
 	}
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }

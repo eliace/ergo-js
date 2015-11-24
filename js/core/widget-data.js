@@ -53,7 +53,11 @@ Ergo.WidgetData = {
 			// }
 			var name_a = data.split(':');
 			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			data = src[name_a[1]];
+			var prop_a = name_a[1].split('.');
+			while(prop_a.length) {
+				src = src[prop_a.shift()];
+			}
+			data = src;// src[name_a[1]];
 		}
 
 
