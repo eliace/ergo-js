@@ -63,6 +63,8 @@ $(document).ready(function(){
 * Disabling aware of `widget._wrapper` with `widget.show(false)` or `widget.hide(false)`
 * Disabling aware of html event propagation with `event.stop(false)`
 * Disabling aware of html event immediate propagation with `event.interupt(false)`
+* New `Ergo.data.Object` and `Ergo.data.Collection` method `drop()` which is exposed to provider method `delete()`
+* `_oid()` method replaced by `oid` property so it marked as deprecated
 
 
 #### Release 0.12.2
@@ -83,7 +85,7 @@ $(document).ready(function(){
 * New datasource events: `changed`, `dirty`, `diff`
 * New datasource method `sync(newValue)` produces diff from new and old values
 * New datasouce functional options `valueUid: (value, index)` and `valueEql: (value1, value2)`
-* Injecting `scope` instead `context` (but `ctx:` prefix still available)
+* Injecting `scope` instead of `context` (but `ctx:` prefix still available)
 * Binding scope events to widget with `scope:` prefix
 * String value of `data` option binds widget properties as data (nested properties not supported)
 * `width` and `height` options now uses `outerWidth/outerHeight` methods
@@ -133,6 +135,7 @@ $(document).ready(function(){
 * Add overriding methods (with `overrides` option)
 * `get` and `set` options should generate getters and setters
 * Extend widget/state to replace context/scope
+* Rendering to widgets of another scope by name
 
 
 and more new widgets :)

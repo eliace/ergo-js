@@ -11,7 +11,8 @@
 Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Object.prototype */{
 
 	defaults: {
-		idKey: 'id'
+		idKey: 'id',
+		oidKey: 'id'
 	},
 
 	/**
@@ -24,6 +25,10 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 	_oid: function() {
 		return this.get(this.options.idKey);
+	},
+
+	get oid() {
+		return this.get(this.options.oidKey);
 	},
 
 	// oid: function() {
@@ -85,7 +90,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	fetch: function(id) {
 
 		if(arguments.length == 0)
-			id = this._oid();
+			id = this.oid;
 
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
@@ -127,7 +132,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 	flush: function() {
 
-		var id = this._oid();
+		var oid = this.oid;
 
 		var composer = this.options.composer || this._compose;
 		var parser = this.options.parser || this._parse;
@@ -141,30 +146,33 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		if(provider) {
 
 			// create
-			if(id == null) {
+			if(oid == null) {
 
 				var data = composer.call(this, this.get(), 'create');
 
-				return provider.create(this, data, this.options.query).then(function(data) {
-					this.events.fire('flushed');
-					return parser.call(this, data, 'create');
-				}.bind(this));
+				return provider.create(this, data, this.options.query)
+					.done(function(data) {
+						this.events.fire('flushed');
+						return parser.call(this, data, 'create');
+					}.bind(this));
 			}
 			// update
 			else {
 
 				var data = composer.call(this, this.get(), 'update');
 
-				return provider.update(this, id, data, this.options.query).then(function(data) {
-					this.events.fire('flushed');
-					return parser.call(this, data, 'update');
-				}.bind(this));
+				return provider.update(this, oid, data, this.options.query)
+					.then(function(data) {
+						this.events.fire('flushed');
+						return parser.call(this, data, 'update');
+					}.bind(this));
 			}
 		}
 		else {
 			this.events.fire('flushed');
 		}
 
+		return $.when(null);
 	},
 
 
@@ -174,30 +182,57 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 
 
+	drop: function() {
 
+		var oid = this.oid;
 
-
-	invoke: function(action) {
-
-		var oid = this._oid();
-
-		var provider = this.options.provider;
-		var composer = this.options.composer || this._compose;
+		this.events.fire('drop');
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
 		if(provider) {
 
-			var data = composer.call(this, this.get(), action);
+			return provider.delete(this, oid)
+				.done(function(data) {
+					this.events.fire('dropped');
+					return data;
+				}.bind(this));
 
-			return provider[action](this, oid, data, this.options.query).then(function(data) {
-				// ?
-				return data;
-			});
+		}
+		else {
+			this.events.fire('dropped');
 		}
 
+
+		return $.when(null);
 	},
+
+
+
+
+
+	// invoke: function(action) {
+	//
+	// 	var oid = this._oid();
+	//
+	// 	var provider = this.options.provider;
+	// 	var composer = this.options.composer || this._compose;
+	//
+	// 	if( $.isString(provider) )
+	// 		provider = Ergo.alias('providers:'+provider);
+	//
+	// 	if(provider) {
+	//
+	// 		var data = composer.call(this, this.get(), action);
+	//
+	// 		return provider[action](this, oid, data, this.options.query).then(function(data) {
+	// 			// ?
+	// 			return data;
+	// 		});
+	// 	}
+	//
+	// },
 
 
 

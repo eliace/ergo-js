@@ -164,7 +164,12 @@ Ergo.WidgetRender = {
 
 		return $.when( (this.options.hideOnUnrender || this.options.renderEffects) ? this.hide() : true )
 			.then(function() {
-				this.el.detach();
+				if(this.parent && this.parent.__l) {
+					this.parent.layout.remove(this);
+				}
+				else {
+					this.el.detach();
+				}
 			}.bind(this));
 
 	},
@@ -175,7 +180,7 @@ Ergo.WidgetRender = {
 	/**
 	 * Перерисовка виджета
 	 *
-	 * Е
+	 *
 	 *
 	 * @protected
 	 *
@@ -191,6 +196,7 @@ Ergo.WidgetRender = {
 		if(!this.__c) return;
 
 
+		// обработка `non-empty`
 		if( this._rendered ) {
 			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
 				this.unrender();
@@ -205,7 +211,7 @@ Ergo.WidgetRender = {
 		}
 
 
-
+		// убираем из DOM-дерева все элементы
 		this.children.each(function(item){
 			if(item._rendered)
 				item.unrender();
@@ -214,7 +220,7 @@ Ergo.WidgetRender = {
 
 
 
-
+		// добавляем в DOM-дерево элементы
 		this.children.each(function(item, i){
 			if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {
 
@@ -225,7 +231,7 @@ Ergo.WidgetRender = {
 		}, filter, sorter);
 
 
-
+		// обновляем компоновку
 		if(update !== false)
 			this._layoutChanged();
 

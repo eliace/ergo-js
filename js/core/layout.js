@@ -51,6 +51,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			this._widget.el.append(html);
 		}
 
+		this._widget.events.on('diff', function(e) {
+			// перестраиваем компоновку
+			this._rebuild(e.updated);
+		}.bind(this));
+
 	},
 
 	/**
@@ -391,7 +396,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				item._wrapper._destroy();
 		}
 		else
-			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+			item.el.detach();//remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
 
 		item._rendered = false;
 
@@ -633,7 +638,19 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	/**
 	 * обновление компоновки (порядка, количества элементов)
 	 */
-	rebuild: function() {},
+	_rebuild: function(updated) {
+
+		console.log('REBUILD LAYOUT', updated);
+
+		if(updated) {
+			for(var i = 0; i < updated.length; i++) {
+				var item = updated[i];
+				item.unrender();
+				item.render();
+			}
+		}
+
+	},
 
 
 

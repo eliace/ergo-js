@@ -4220,6 +4220,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 			this._widget.el.append(html);
 		}
 
+		this._widget.events.on('diff', function(e) {
+			// перестраиваем компоновку
+			this._rebuild(e.updated);
+		}.bind(this));
+
 	},
 
 	/**
@@ -4560,7 +4565,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 				item._wrapper._destroy();
 		}
 		else
-			item.el.remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+			item.el.detach();//remove(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
 
 		item._rendered = false;
 
@@ -4802,7 +4807,19 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.Object', /** @lends Ergo.core.Layout
 	/**
 	 * обновление компоновки (порядка, количества элементов)
 	 */
-	rebuild: function() {},
+	_rebuild: function(updated) {
+
+		console.log('REBUILD LAYOUT', updated);
+
+		if(updated) {
+			for(var i = 0; i < updated.length; i++) {
+				var item = updated[i];
+				item.unrender();
+				item.render();
+			}
+		}
+
+	},
 
 
 
@@ -6446,7 +6463,7 @@ Ergo.WidgetData = {
 		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
 
 
-
+		var rerender_a = [];
 
 /*
 		var _qfind = function(items, comparator) {
@@ -6723,10 +6740,12 @@ Ergo.WidgetData = {
 						// FIXME
 						if(index != _item._index+1) {
 							n_upd++;
-							_item.unrender()
+//							_item.unrender()
 							this.items.remove(_item);
 							this.items.add(_item, index);
-							_item.render()
+//							_item.render()
+
+							rerender_a.push( _item );
 						}
 					}
 
@@ -6854,10 +6873,12 @@ Ergo.WidgetData = {
 //				console.log('index', _i, _j);
 
 				//TODO нужно оптимизировать с помощью функции items.move()
-				_item.unrender()
+//				_item.unrender()
 				this.items.remove(_item);
 				this.items.add(_item, _j);
-				_item.render()
+//				_item.render()
+
+				rerender_a.push( _item );
 
 
 				moved_a[_i-offset_a[_i]] = true;
@@ -6894,16 +6915,16 @@ Ergo.WidgetData = {
 		}
 
 
+		this.events.fire('diff', {updated: rerender_a});
+
+	}
 
 
-	},
 
 
-
-
-	is_bound: function() {
-		return (this.data != null);
-	},
+	// is_bound: function() {
+	// 	return (this.data != null);
+	// },
 
 
 
@@ -7076,7 +7097,12 @@ Ergo.WidgetRender = {
 
 		return $.when( (this.options.hideOnUnrender || this.options.renderEffects) ? this.hide() : true )
 			.then(function() {
-				this.el.detach();
+				if(this.parent && this.parent.__l) {
+					this.parent.layout.remove(this);
+				}
+				else {
+					this.el.detach();
+				}
 			}.bind(this));
 
 	},
@@ -7087,7 +7113,7 @@ Ergo.WidgetRender = {
 	/**
 	 * Перерисовка виджета
 	 *
-	 * Е
+	 *
 	 *
 	 * @protected
 	 *
@@ -7103,6 +7129,7 @@ Ergo.WidgetRender = {
 		if(!this.__c) return;
 
 
+		// обработка `non-empty`
 		if( this._rendered ) {
 			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.children.src.length == 0 && !this.options.text) ) {
 				this.unrender();
@@ -7117,7 +7144,7 @@ Ergo.WidgetRender = {
 		}
 
 
-
+		// убираем из DOM-дерева все элементы
 		this.children.each(function(item){
 			if(item._rendered)
 				item.unrender();
@@ -7126,7 +7153,7 @@ Ergo.WidgetRender = {
 
 
 
-
+		// добавляем в DOM-дерево элементы
 		this.children.each(function(item, i){
 			if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {
 
@@ -7137,7 +7164,7 @@ Ergo.WidgetRender = {
 		}, filter, sorter);
 
 
-
+		// обновляем компоновку
 		if(update !== false)
 			this._layoutChanged();
 
@@ -7476,7 +7503,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				this.children.remove_all();
 
 				// очищаем компоновку
-				this.layout.clear();
+				this.layout.clear();  //?
 			}
 
 			if(this.el) {
@@ -9394,28 +9421,58 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 
 
-	/**
-	 * @deprecated
-	 */
-	invoke: function(action) {
 
-		var provider = this.options.provider;
-		var composer = this.options.composer || this._compose;
+	drop: function(id) {
+
+		this.events.fire('drop');
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
 		if(provider) {
 
-			var data = composer.call(this, this.get(), action);
+			return provider.delete(this, id)
+				.done(function(data) {
+					this.events.fire('dropped');
+					return data;
+				}.bind(this));
 
-			return provider[action](this, this.options.query).then(function(data) {
-				// ?
-				return data;
-			});
+		}
+		else {
+			this.events.fire('dropped');
 		}
 
+
+		return $.when(null);
 	},
+
+
+
+
+
+
+	/**
+	 * @deprecated
+	 */
+	// invoke: function(action) {
+	//
+	// 	var provider = this.options.provider;
+	// 	var composer = this.options.composer || this._compose;
+	//
+	// 	if( $.isString(provider) )
+	// 		provider = Ergo.alias('providers:'+provider);
+	//
+	// 	if(provider) {
+	//
+	// 		var data = composer.call(this, this.get(), action);
+	//
+	// 		return provider[action](this, this.options.query).then(function(data) {
+	// 			// ?
+	// 			return data;
+	// 		});
+	// 	}
+	//
+	// },
 
 
 
@@ -9463,7 +9520,8 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Object.prototype */{
 
 	defaults: {
-		idKey: 'id'
+		idKey: 'id',
+		oidKey: 'id'
 	},
 
 	/**
@@ -9476,6 +9534,10 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 	_oid: function() {
 		return this.get(this.options.idKey);
+	},
+
+	get oid() {
+		return this.get(this.options.oidKey);
 	},
 
 	// oid: function() {
@@ -9537,7 +9599,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 	fetch: function(id) {
 
 		if(arguments.length == 0)
-			id = this._oid();
+			id = this.oid;
 
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
@@ -9579,7 +9641,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 	flush: function() {
 
-		var id = this._oid();
+		var oid = this.oid;
 
 		var composer = this.options.composer || this._compose;
 		var parser = this.options.parser || this._parse;
@@ -9593,30 +9655,33 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 		if(provider) {
 
 			// create
-			if(id == null) {
+			if(oid == null) {
 
 				var data = composer.call(this, this.get(), 'create');
 
-				return provider.create(this, data, this.options.query).then(function(data) {
-					this.events.fire('flushed');
-					return parser.call(this, data, 'create');
-				}.bind(this));
+				return provider.create(this, data, this.options.query)
+					.done(function(data) {
+						this.events.fire('flushed');
+						return parser.call(this, data, 'create');
+					}.bind(this));
 			}
 			// update
 			else {
 
 				var data = composer.call(this, this.get(), 'update');
 
-				return provider.update(this, id, data, this.options.query).then(function(data) {
-					this.events.fire('flushed');
-					return parser.call(this, data, 'update');
-				}.bind(this));
+				return provider.update(this, oid, data, this.options.query)
+					.then(function(data) {
+						this.events.fire('flushed');
+						return parser.call(this, data, 'update');
+					}.bind(this));
 			}
 		}
 		else {
 			this.events.fire('flushed');
 		}
 
+		return $.when(null);
 	},
 
 
@@ -9626,30 +9691,57 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 
 
 
+	drop: function() {
 
+		var oid = this.oid;
 
-
-	invoke: function(action) {
-
-		var oid = this._oid();
-
-		var provider = this.options.provider;
-		var composer = this.options.composer || this._compose;
+		this.events.fire('drop');
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
 		if(provider) {
 
-			var data = composer.call(this, this.get(), action);
+			return provider.delete(this, oid)
+				.done(function(data) {
+					this.events.fire('dropped');
+					return data;
+				}.bind(this));
 
-			return provider[action](this, oid, data, this.options.query).then(function(data) {
-				// ?
-				return data;
-			});
+		}
+		else {
+			this.events.fire('dropped');
 		}
 
+
+		return $.when(null);
 	},
+
+
+
+
+
+	// invoke: function(action) {
+	//
+	// 	var oid = this._oid();
+	//
+	// 	var provider = this.options.provider;
+	// 	var composer = this.options.composer || this._compose;
+	//
+	// 	if( $.isString(provider) )
+	// 		provider = Ergo.alias('providers:'+provider);
+	//
+	// 	if(provider) {
+	//
+	// 		var data = composer.call(this, this.get(), action);
+	//
+	// 		return provider[action](this, oid, data, this.options.query).then(function(data) {
+	// 			// ?
+	// 			return data;
+	// 		});
+	// 	}
+	//
+	// },
 
 
 
@@ -9720,7 +9812,6 @@ Ergo.defineClass('Ergo.data.NodeList', 'Ergo.data.Collection', {
 
 
 
-
 Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 
 	defaults: {
@@ -9734,7 +9825,7 @@ Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	fetch: function() {
 		var d = this;
 		d.events.fire('fetch');
-		return d.entry('children').fetch( {id: d._oid()} ).then(function(){ d._fetched = true; d.events.fire('fetched'); });
+		return d.entry('children').fetch( {id: d.oid} ).then(function(){ d._fetched = true; d.events.fire('fetched'); });
 	},
 
 

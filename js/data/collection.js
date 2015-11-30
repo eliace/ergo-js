@@ -217,28 +217,58 @@ Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.dat
 
 
 
-	/**
-	 * @deprecated
-	 */
-	invoke: function(action) {
 
-		var provider = this.options.provider;
-		var composer = this.options.composer || this._compose;
+	drop: function(id) {
+
+		this.events.fire('drop');
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
 		if(provider) {
 
-			var data = composer.call(this, this.get(), action);
+			return provider.delete(this, id)
+				.done(function(data) {
+					this.events.fire('dropped');
+					return data;
+				}.bind(this));
 
-			return provider[action](this, this.options.query).then(function(data) {
-				// ?
-				return data;
-			});
+		}
+		else {
+			this.events.fire('dropped');
 		}
 
+
+		return $.when(null);
 	},
+
+
+
+
+
+
+	/**
+	 * @deprecated
+	 */
+	// invoke: function(action) {
+	//
+	// 	var provider = this.options.provider;
+	// 	var composer = this.options.composer || this._compose;
+	//
+	// 	if( $.isString(provider) )
+	// 		provider = Ergo.alias('providers:'+provider);
+	//
+	// 	if(provider) {
+	//
+	// 		var data = composer.call(this, this.get(), action);
+	//
+	// 		return provider[action](this, this.options.query).then(function(data) {
+	// 			// ?
+	// 			return data;
+	// 		});
+	// 	}
+	//
+	// },
 
 
 

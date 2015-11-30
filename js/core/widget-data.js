@@ -449,7 +449,7 @@ Ergo.WidgetData = {
 		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
 
 
-
+		var rerender_a = [];
 
 /*
 		var _qfind = function(items, comparator) {
@@ -726,10 +726,12 @@ Ergo.WidgetData = {
 						// FIXME
 						if(index != _item._index+1) {
 							n_upd++;
-							_item.unrender()
+//							_item.unrender()
 							this.items.remove(_item);
 							this.items.add(_item, index);
-							_item.render()
+//							_item.render()
+
+							rerender_a.push( _item );
 						}
 					}
 
@@ -857,10 +859,12 @@ Ergo.WidgetData = {
 //				console.log('index', _i, _j);
 
 				//TODO нужно оптимизировать с помощью функции items.move()
-				_item.unrender()
+//				_item.unrender()
 				this.items.remove(_item);
 				this.items.add(_item, _j);
-				_item.render()
+//				_item.render()
+
+				rerender_a.push( _item );
 
 
 				moved_a[_i-offset_a[_i]] = true;
@@ -897,16 +901,16 @@ Ergo.WidgetData = {
 		}
 
 
+		this.events.fire('diff', {updated: rerender_a});
+
+	}
 
 
-	},
 
 
-
-
-	is_bound: function() {
-		return (this.data != null);
-	},
+	// is_bound: function() {
+	// 	return (this.data != null);
+	// },
 
 
 

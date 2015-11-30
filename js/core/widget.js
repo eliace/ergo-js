@@ -299,7 +299,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				this.children.remove_all();
 
 				// очищаем компоновку
-				this.layout.clear();
+				this.layout.clear();  //?
 			}
 
 			if(this.el) {
