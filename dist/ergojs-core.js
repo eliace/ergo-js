@@ -7928,7 +7928,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	show: function(wrapperAware) {
-		return $.when( wrapperAware ? (this._wrapper_el || this.el).show() : this.el.show() );
+		return $.when( wrapperAware !== false ? (this._wrapper_el || this.el).show() : this.el.show() );
 	},
 
 
@@ -7938,7 +7938,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	hide: function(wrapperAware) {
-		return $.when( wrapperAware ? (this._wrapper_el || this.el).hide() : this.el.hide() );
+		return $.when( wrapperAware !== false ? (this._wrapper_el || this.el).hide() : this.el.hide() );
 	},
 
 
