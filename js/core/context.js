@@ -245,10 +245,9 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		scope_name = chain[chain.length-1];
 
 
-		if(!this._callbacks[scope_name])
+		if(!this._callbacks[scope_name]) {
 			throw 'Scope ['+scope_name+'] is not registered in context';
-
-
+		}
 
 
 		if( parent ) {
@@ -257,6 +256,19 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			for( var i in parent._children )
 				this.disjoin( parent._children[i] );
 		}
+
+
+		var scope = this._scopes[scope_name];
+
+
+		if( !scope ) {
+			// var scope = this._scopes[scope_name];
+			// ctx.events.fire('scope:rejoin', {scope: scope, params: scope._params});
+			// scope.events.fire('rejoin');
+			//
+			// console.log('rejoin:'+scope_name);
+			// return this._scopes[scope_name];
+
 
 		// var name_a = scope_name.split(':');
 		// var group = (name_a.length == 1) ? null : name_a[name_a.length-1];
@@ -293,39 +305,42 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 //		this._params[scope_name] = this._params[scope_name] || {};
 
-		// создаем скоуп
-		var scope = new Ergo.core.Scope(o);
-		scope._context = this;
-		scope._name = scope_name;
-		scope._parent = parent;
-		scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
-//		scope._container = container;
+			// создаем скоуп
+			scope = new Ergo.core.Scope(o);
+			scope._context = this;
+			scope._name = scope_name;
+			scope._parent = parent;
+			scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+	//		scope._container = container;
 
-//		Ergo.override(scope, overrides);
+	//		Ergo.override(scope, overrides);
 
-		scope._chain = parent ? parent._chain.concat(scope_name) : [scope_name];
-
-
-
-		if(parent)
-			parent._children[scope_name] = scope;
-
-		this._scopes[scope_name] = scope;
+			scope._chain = parent ? parent._chain.concat(scope_name) : [scope_name];
 
 
-		var deferred = $.Deferred();
 
-		scope._promise = deferred.promise();
+			if(parent)
+				parent._children[scope_name] = scope;
 
-		var _scope = Ergo._scope;
-
-		Ergo._scope = scope;
+			this._scopes[scope_name] = scope;
 
 
-//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
+			var deferred = $.Deferred();
+
+			scope._promise = deferred.promise();
+
+			var _scope = Ergo._scope;
+
+			Ergo._scope = scope;
+
+
+		}
+
+
+	//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
 		ctx.events.fire('scope:join', {scope: scope, params: scope._params});
 		scope.events.fire('join');
-		
+
 
 		// инициализируем скоуп
 		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
@@ -333,6 +348,9 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		Ergo._scope = _scope;
 
 		// загружаем данные скоупа?
+
+
+
 
 
 		$.when(initPromise).done(function() {
@@ -359,6 +377,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			scope.events.fire('joined');
 
 			console.log('join:'+scope_name);
+
+			scope._joined = true;
 
 			deferred.resolve(scope, scope._params);
 		});
