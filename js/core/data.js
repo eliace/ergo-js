@@ -415,6 +415,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 //			this._changed = true;
+			return this;
 		}
 		else {
 			return this.entry(i).set(newValue);
@@ -673,62 +674,126 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 		// for arrays
 
-		var value_m = {};
-		for(var i = 0; i < newData.length; i++) {
-			//TODO способ получения ключа может быть сложнее
-			var v = newData[i];
-			var k = valueUid.call(this, v, i);
-			// if(this.options.idKey) {
-			// 	value_m[newData[i][this.options.idKey]] = {value: newData[i], index: i};
-			// }
-			// else {
-			value_m[k] = {value: newData[i], index: i};
-//			}
-		}
+		if( Array.isArray(oldData) && Array.isArray(newData) ) {
 
-//		console.log('sync', JSON.stringify(value_m));
+			var value_m = {};
 
-		for(var i = 0; i < oldData.length; i++) {
-			var v = oldData[i];
-			var k = valueUid.call(this, v, i);
-//			var k = (this.options.idKey) ? v[this.options.idKey] : i;
-			if( k in value_m ) {
-				delete value_m[k];
+			for(var i = 0; i < newData.length; i++) {
+				//TODO способ получения ключа может быть сложнее
+				var v = newData[i];
+				var k = valueUid.call(this, v, i);
+				// if(this.options.idKey) {
+				// 	value_m[newData[i][this.options.idKey]] = {value: newData[i], index: i};
+				// }
+				// else {
+				value_m[k] = {value: newData[i], index: i};
+	//			}
 			}
-			else {
-				// DELETE
-				diff.deleted.push( this.entry(i) );
+
+	//		console.log('sync', JSON.stringify(value_m));
+
+			for(var i = 0; i < oldData.length; i++) {
+				var v = oldData[i];
+				var k = valueUid.call(this, v, i);
+	//			var k = (this.options.idKey) ? v[this.options.idKey] : i;
+				if( k in value_m ) {
+					delete value_m[k];
+				}
+				else {
+					// DELETE
+					diff.deleted.push( this.entry(i) );
+				}
 			}
-		}
 
-		for(var i = diff.deleted.length-1; i >= 0; i-- ) {
-			diff.deleted[i].del();
-		}
-
-
-		Object.keys(value_m)
-			.map(function(k) { return value_m[k] })
-			.sort(function(a,b) { return a.index-b.index; })
-			.forEach(function(val) {
-
-				var v = val.value;
-				var i = val.index;
-
-				// CREATE
-				diff.created.push( self.add(v, i) );
-
-		});
-
-
-		this._val( newData );
-
-
-		for(var i = 0; i < newData.length; i++) {
-			if( !valueEql(oldData[i], newData[i]) ) {
-//			if( JSON.stringify(oldData[i]) !== JSON.stringify(newData[i]) ) {
-				diff.updated.push( this.entry(i) );
+			for(var i = diff.deleted.length-1; i >= 0; i-- ) {
+				diff.deleted[i].del();
 			}
+
+
+			Object.keys(value_m)
+				.map(function(k) { return value_m[k] })
+				.sort(function(a,b) { return a.index-b.index; })
+				.forEach(function(val) {
+
+					var v = val.value;
+					var i = val.index;
+
+					// CREATE
+					diff.created.push( self.add(v, i) );
+
+				});
+
+
+			this._val( newData );
+
+
+			for(var i = 0; i < newData.length; i++) {
+				if( !valueEql(oldData[i], newData[i]) ) {
+	//			if( JSON.stringify(oldData[i]) !== JSON.stringify(newData[i]) ) {
+					diff.updated.push( this.entry(i) );
+				}
+			}
+
+
 		}
+		// for objects
+		else {
+
+			var value_m = {};
+
+			// строим ассоциацию uid-ов и значений
+			for(var i in newData) {
+				var v = newData[i];
+				var k = valueUid.call(this, v, i);
+				value_m[k] = {value: newData[i], index: i};
+			}
+
+			// составляем список uid-ов для удаления
+			for(var i in oldData) {
+
+				var v = oldData[i];
+				var k = valueUid.call(this, v, i);
+
+				if( k in value_m ) {
+					delete value_m[k];
+				}
+				else {
+					// DELETE
+					diff.deleted.push( this.entry(i) );
+				}
+			}
+
+			// удаляем элементы данных
+			for(var i = diff.deleted.length-1; i >= 0; i-- ) {
+				diff.deleted[i].del();
+			}
+
+			// добавляем новые элементы данных
+			Object.keys(value_m)
+				.map(function(k) { return value_m[k] })
+				.forEach(function(val) {
+
+					var v = val.value;
+					var i = val.index;
+
+					// CREATE
+					diff.created.push( self.set(i, v) );
+
+				});
+
+
+			// обновляем значение
+			this._val( newData );
+
+			// различающиеся элементы помечаем для обновления
+			for(var i in newData) {
+				if( !valueEql(oldData[i], newData[i]) ) {
+					diff.updated.push( this.entry(i) );
+				}
+			}
+
+		}
+
 
 		// if(diff.updated.length != 0) {
 		// }

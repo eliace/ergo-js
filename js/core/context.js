@@ -325,9 +325,6 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			this._scopes[scope_name] = scope;
 
 
-			var deferred = $.Deferred();
-
-			scope._promise = deferred.promise();
 
 			var _scope = Ergo._scope;
 
@@ -335,6 +332,13 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		}
+
+
+
+		var deferred = $.Deferred();
+
+		scope._promise = deferred.promise();
+
 
 
 	//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});

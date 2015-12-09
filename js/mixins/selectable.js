@@ -50,6 +50,8 @@ Ergo.alias('includes:selectable', {
 
 			set: function(key) {
 
+				if(key == undefined) return null;
+
 				var o = this._widget.options.selection || {};
 
 				// определяем метод поиска
@@ -91,7 +93,6 @@ Ergo.alias('includes:selectable', {
 						this._selected[key].states.unset('selected');
 					}
 				}
-
 
 
 				// //
