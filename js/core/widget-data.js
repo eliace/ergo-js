@@ -140,7 +140,7 @@ Ergo.WidgetData = {
 			// для корректного порядка обновления
 			this.data.events.on('dirty', function(e){
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
-			});
+			}, this);
 
 			// изменилось количество элементов данных или их содержимое
 			this.data.events.on('diff', function(e) {
@@ -190,6 +190,7 @@ Ergo.WidgetData = {
 			this.data.events.on('dirty', function(e) {
 				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 			}, this);
+
 
 
 

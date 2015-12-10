@@ -1,7 +1,7 @@
 var expect = chai.expect;
 
 describe('Widget', function(){
-	describe('Dynamic Sync', function() {
+	describe('Dynamic Sync Array', function() {
 
 		it('should change dynamic items on sync', function() {
 
