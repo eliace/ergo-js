@@ -8993,7 +8993,6 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			scope._context = this;
 			scope._name = scope_name;
 			scope._parent = parent;
-			scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
 	//		scope._container = container;
 
 	//		Ergo.override(scope, overrides);
@@ -9007,15 +9006,11 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 			this._scopes[scope_name] = scope;
 
-
-
-			var _scope = Ergo._scope;
-
-			Ergo._scope = scope;
-
-
 		}
 
+
+
+		scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
 
 
 		var deferred = $.Deferred();
@@ -9028,6 +9023,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		ctx.events.fire('scope:join', {scope: scope, params: scope._params});
 		scope.events.fire('join');
 
+
+		var _scope = Ergo._scope;
+
+		Ergo._scope = scope;
 
 		// инициализируем скоуп
 		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
@@ -9067,7 +9066,12 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 			scope._joined = true;
 
-			deferred.resolve(scope, scope._params);
+			try {
+				deferred.resolve(scope, scope._params);
+			}
+			catch(err) {
+				console.log(err);
+			}
 		});
 
 		return scope;//._promise;
@@ -9117,6 +9121,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		// выгружаем данные?
 
 	},
+
 
 
 // 	// сменить контекст
