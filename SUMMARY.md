@@ -1,5 +1,5 @@
 # Summary
 
 * [Введение](tutorial/vvedenie.md)
-* Виджет
+* [Виджет](tutorial/yadro/vidzhet.md)
 
