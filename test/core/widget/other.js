@@ -7,6 +7,7 @@ describe('Widget', function(){
 
       var result = [];
 
+
       var w = $.ergo({
         etype: 'box',
         $defaultAct: {
@@ -40,9 +41,10 @@ describe('Widget', function(){
       });
 
 
-      w.$defaultAct.el.click();
-      w.$namedAct.el.click();
-      w.$explicitNamedAct.el.click();
+
+      w.$defaultAct.jquery.el.click();
+      w.$namedAct.jquery.el.click();
+      w.$explicitNamedAct.jquery.el.click();
 
       w.item(0).el.click();
 

@@ -53,7 +53,7 @@ Ergo.alias('includes:modal', {
 				var x = arguments[0];
 				var y = arguments[1];
 
-				modal.el.css({'top': y, 'left': x});
+				modal.jquery.el.css({'top': y, 'left': x});
 			}
 
 			// получаем новый индекс z-слоя
@@ -61,12 +61,14 @@ Ergo.alias('includes:modal', {
 			z++;
 
 			// устанавливаем z-index
-			modal.overlay.el.css({'z-index': z*1000});
-			modal.el.css({'z-index': z*1000+1});
+			modal.overlay.jquery.el.css({'z-index': z*1000});
+			modal.jquery.el.css({'z-index': z*1000+1});
 
-			$('body').append(modal.overlay.el);
+			document.body.appendChild( modal.overlay.el );
+//			$('body').append(modal.overlay.jquery.el);
 
-			modal.overlay.el.append(modal.el);
+			modal.overlay.el.appendChild( modal.el );
+//			modal.overlay.jquery.el.append(modal.jquery.el);
 
 			modal._rendered = true;
 			modal.overlay._rendered = true;
@@ -166,7 +168,8 @@ Ergo.alias('includes:modal', {
 	//			this.el.detach();
 
 				this.overlay.hide().then(function(){
-					this.overlay.el.detach();
+					$ergo.dom.remove( this.overlay.el );
+//					this.overlay.el.detach();
 					this.events.fire('closed');
 
 					if(this.options.destroyOnClose)

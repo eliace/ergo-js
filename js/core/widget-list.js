@@ -46,13 +46,18 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 				o[default_opt] = v;//{text: o};
 			}
 		}
-		else if($.isArray(o)) o = {items: o};
+		else if(Array.isArray(o)) o = {items: o};
 		var default_child = 'default' + type[0].toUpperCase() + type.substr(1);
-		default_child = this.options[default_child];
-		if( $.isString(default_child) )
-			default_child = {etype: default_child};
+		default_child = this.options[default_child] || [];
 
-		return $.ergo( [default_child, o] );//, null, this.scope );
+		for(var i = 0; i < default_child.length; i++) {
+			if( $.isString(default_child[i]) ) {
+				default_child[i] = {etype: default_child[i]};
+			}
+//			default_child[i] = $ergo.copy(default_child[i]);
+		}
+
+		return $.ergo( default_child.concat(o) );//, null, this.scope );
 //		return $.ergo( Ergo.smart_override({}, this.options[default_child], o) );
 	},
 
@@ -118,7 +123,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 			for(var j = this.src.length-1; j >= 0; j--) {
 				if(this.src[j]._type == item._type) {
 					item._index = this.src[j]._index + 1;
-					item.el[0]._index = item._index; //WARN это действие должно осуществляться в layout
+					item.el._index = item._index; //WARN это действие должно осуществляться в layout
 					break;
 				}
 			}
@@ -140,7 +145,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		for(var j = i+1; j < this.src.length; j++) {
 			if('_index' in this.src[j]) {
 				this.src[j]._index++;
-				this.src[j].el[0]._index++; //WARN это действие должно осуществляться в layout
+				this.src[j].el._index++; //WARN это действие должно осуществляться в layout
 			}
 		}
 //			this.src[j]._index = j;
@@ -165,7 +170,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 //		console.log('item:add');
 		//TODO здесь бы применить метод вызова опций как для компоновки
-		this.widget.events.fire('item:added', {'item': item});
+		this.widget.events.fire('item#added', {'item': item});
 
 		return item;
 	},
@@ -192,7 +197,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		for(var j = i; j < this.src.length; j++) {
 			if('_index' in this.src[j]) {
 				this.src[j]._index--;
-				this.src[j].el[0]._index--;
+				this.src[j].el._index--;
 			}
 		}
 

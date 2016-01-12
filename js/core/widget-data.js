@@ -63,9 +63,9 @@ Ergo.WidgetData = {
 
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных
 		if(data_id) //'dataId' in o)
-			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(data_id) : new Ergo.core.DataSource(data, data_id);
+			this.__dta = (data instanceof Ergo.core.DataSource) ? data.entry(data_id) : new Ergo.core.DataSource(data, data_id);
 		else
-			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+			this.__dta = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 
 
 		// Если виджет является динамическим (управляется данными)
@@ -221,7 +221,9 @@ Ergo.WidgetData = {
 
 
 		// подключаем события data:
-		this._bindNsEvents('data');
+//		this._bindNsEvents('data');
+
+		this._bindEvents('data');
 
 
 //		if( this.data.options.fetchable ) {
@@ -246,6 +248,7 @@ Ergo.WidgetData = {
 
 	unbind: function() {
 		//
+		delete this._dta;
 	},
 
 
@@ -260,7 +263,7 @@ Ergo.WidgetData = {
 		var self = this;
 
 
-		if(!this.data) return;
+		if(!this.__dta) return;
 
 //		console.log('rebind');
 
@@ -393,10 +396,12 @@ Ergo.WidgetData = {
 
 		if(/*this.data &&*/ binding){
 			if( $.isString(binding) ) {
-				this.opt(binding, this.opt('value'));
+				this[binding] = this.value;
+//				this.opt(binding, this.opt('value'));
 			}
 			else {
-				if( binding.call(this, this.opt('value')) === false) return false;
+//				if( binding.call(this, this.opt('value')) === false) return false;
+				if( binding.call(this, this.value) === false) return false;
 			}
 //			var val = this.getValue();
 //			this._lock_value_change = true;

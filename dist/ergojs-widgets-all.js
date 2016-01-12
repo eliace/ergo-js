@@ -3,17 +3,18 @@
 
 /**
  * Блочный элемент, у которого все дочерние элементы тоже имеют тип `box`
- *  
+ *
  * :`box`
- * 
+ *
  * @class
  * @name Ergo.widgets.Box
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widgets.Box.prototype */{
-	
+
 	defaults: {
-		html: '<div/>',
+		tag: 'div',
+//		html: '<div/>',
 		defaultItem: {
 			etype: 'box'
 		},
@@ -21,7 +22,7 @@ Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widget
 			etype: 'box'
 		}
 	}
-	
+
 }, 'widgets:box');
 
 
@@ -90,33 +91,33 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widg
 
 /**
  * Пиктограмма
- *  
+ *
  * :`icon`
- * 
+ *
  * Опции:
  * 	`text`
  * 	`icon`
- * 
+ *
  * @class
  * @name Ergo.widgets.Icon
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
-	
+
 	defaults: {
-		html: '<i/>',
-		cls: 'icon',
+		tag: 'i',
+		as: 'icon',
 		binding: 'text'
 	},
-	
-	set_icon: function(v) {
-		this.states.set(v);		
+
+	set icon(v) {
+		this.states.set(v);
 	},
-	
-	set_text: function(v) {
-		this.states.set(v);		
+
+	set text(v) {
+		this.states.set(v);
 	}
-	
+
 }, 'widgets:icon');
 
 
@@ -124,28 +125,30 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 
 /**
  * Ссылка
- *  
+ *
  * :`link`
- * 
+ *
  * Опции:
  * 	`href`
- * 
+ *
  * @class
  * @name Ergo.widgets.Link
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widgets.Link.prototype */{
-	
+
 	defaults: {
-		baseCls: 'link',
-		html: '<a href="#"/>',
+		as: 'link',
+		tag: 'a',
+		href: '#',
+//		html: '<a href="#"/>',
 		binding: 'text'
 	},
-	
-	set_href: function(v) {
-		this.el.attr('href', v);
+
+	set href(v) {
+		this.el.setAttribute('href', v);
 	}
-	
+
 }, 'widgets:link');
 
 
@@ -603,39 +606,41 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 
 /**
  * Вложенный список
- * 
+ *
  * :`nested-list`
  * \s	[~]:`nested-item`
- *  
+ *
  * Опции:
  * 	`nestedItem`
- * 
+ *
  * @class
  * @name Ergo.widgets.NestedList
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		html: '<ul/>',
+		tag: 'ul',
 //		cls: 'tree',
 		dynamic: true,
 		defaultItem: {
 			etype: 'nested-item'
 		}
-		
+
 	},
-	
+
 	_pre_construct: function(o) {
 		this._super(o);
-		
-		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+
+//		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+		o.defaultItem.unshift(o.nestedItem)
+		o.defaultItem.unshift({components: {sub: {nestedItem: o.nestedItem}}});
 	},
 
 
 
 	find_path: function(key) {
-		
+
 		var path = key.split(':');
 		var w = this;
 		var found = null;
@@ -645,28 +650,28 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 			if(!w) break;
 			w = w.$sub;
 		}
-		
+
 		return found;
 	},
-	
-	
+
+
 	walk_path: function(key, callback) {
-		
+
 		var path = key.split(':');
 		var w = this;
-		
+
 		for(var i = 0; i < path.length; i++) {
 			w = w.item({_name: path[i]});
 			callback.call(this, w);   //TODO необходимо реализовать цепочку асинхронных вызовов
 			w = w.$sub;
 		}
-		
+
 	}
 
-	
-	
-	
-}, 'widgets:nested-list');	
+
+
+
+}, 'widgets:nested-list');
 
 
 
@@ -675,24 +680,24 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 /**
  * Вложенный список
- * 
+ *
  * :`nested-item`
  * \s	content:`text`
  * \s subtree:`nested-list`
- *  
+ *
  * Опции:
  * 	`nestedItem`
- * 
+ *
  * @class
  * @name Ergo.widgets.NestedItem
  * @extends Ergo.widgets.Box
  */
 Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.NestedItem.prototype */{
-	
+
 	defaults: {
-		
-		html: '<li/>',
-		
+
+		tag: 'li',
+
 		components: {
 			content: {
 				etype: 'text'
@@ -705,31 +710,28 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.
 				weight: 100
 			}
 		}
-		
+
 	},
-	
-	
-	
+
+
+
 	/**
-	 * Путь к элементу вложенного списка 
+	 * Путь к элементу вложенного списка
 	 */
 	path: function() {
-		
+
     var path = [];
     var w = this;//.parent;
     while(w && w._name) {
       path.push(w._name);
       w = w.parent.parent;
     }
-    
+
     return path.reverse().join(':');
 	}
-	
-	
+
+
 }, 'widgets:nested-item');
-
-
-
 
 
 
@@ -2745,7 +2747,7 @@ Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 
 	defaults: {
-		baseCls: 'side-menu',
+		as: 'side-menu',
 		nestedItem: {
 			components: {
 				content: {
@@ -2753,7 +2755,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					components: {
 						icon: {
 							etype: 'icon',
-							cls: 'before',
+							as: 'before',
 							weight: -100
 						},
 						content: {
@@ -3324,9 +3326,9 @@ Ergo.alias('includes:dropdown:sub', {
 });
 
 
-
+/*
 Ergo.defineMixin('Ergo.widgets.Loader', function(o){
-	
+
 	o.components = Ergo.smart_override({
 		loader: {
 			etype: 'box',
@@ -3335,63 +3337,66 @@ Ergo.defineMixin('Ergo.widgets.Loader', function(o){
 			autoHeight: 'ignore',
 			components: {
 				icon: {
-					etype: 'icon'					
+					etype: 'icon'
 				}
 			}
-		}		
+		}
 	}, o.components);
 
 
 	o.events = Ergo.smart_override({
 		'fetch': function() {
 			this.states.set('loading');
-		},		
+		},
 		'fetched': function() {
 			this.states.unset('loading');
-		}		
+		}
 	}, o.events);
 
 	Ergo.smart_override(o, {cls: 'loadable'});
-	
+
 	// o.states = Ergo.smart_override({
-		// 'loading': 'loading'		
+		// 'loading': 'loading'
 	// }, o.states);
-	
+
 //	Ergo.smart_build(o);
-	
+
 }, 'mixins:loader');
+*/
 
 
+/*
 Ergo.defineMixin('Ergo.widgets.Lockable', function(o){
-	
+
 	o.components = Ergo.smart_override({
 		locker: {
 			etype: 'box',
 			cls: 'locker',
 			weight: 1000,
 			autoHeight: 'ignore',
-		}		
+		}
 	}, o.components);
 
 
 	// o.events = Ergo.smart_override({
 		// 'fetch': function() {
 			// this.states.set('loading');
-		// },		
+		// },
 		// 'fetched': function() {
 			// this.states.unset('loading');
-		// }		
+		// }
 	// }, o.events);
 
 //	Ergo.smart_override(o, {cls: 'lockable'});
-	
+
 	o.states = Ergo.smart_override({
-		'locked': 'locked'		
+		'locked': 'locked'
 	}, o.states);
-	
+
 //	Ergo.smart_build(o);
-	
+
 }, 'mixins:lockable');
+*/
 
 
 

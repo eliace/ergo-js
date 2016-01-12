@@ -30,17 +30,17 @@ Ergo.WidgetOptions = {
 
 	get text() {
 		if(!this.__c)
-			return this.el[0].textContent;
+			return this.el.textContent;
 		else if(this.children.size() == 0)
-			return this.layout.el[0].textContent;
+			return this.layout.el.textContent;
 		else if(this.$content)
 			return this.$content.opt('text');
 		else
- 			return this.layout.el[0].textContent;
+ 			return this.layout.el.textContent;
 	},
 //	getText: function() {	return this.layout.el.text();	},
-	get_width: function() {	return this.el.outerWidth();	},
-	get_height: function() {	return this.el.outerHeight();	},
+	get width() {	return this.el.outerWidth();	},
+	get height() { return this.el.outerHeight();	},
 	get name() { return this._name || this._key || this._index; },
 
 
@@ -49,19 +49,19 @@ Ergo.WidgetOptions = {
 
 	set text(v) {
 		if(!this.__c)
-			this.el[0].textContent = ( v == null ? '': v );
+			this.el.textContent = ( v == null ? '': v );
 		else if(this.children.size() == 0)
 //			this.layout.el.text( v == null ? '': v );
-			this.layout.el[0].textContent = ( v == null ? '': v );
+			this.layout.el.textContent = ( v == null ? '': v );
 		else if(this.$content)
 			this.$content.opt('text', v == null ? '': v);
 		else
 //			this.layout.el.text( v == null ? '': v );
- 			this.layout.el[0].textContent = ( v == null ? '': v );
+ 			this.layout.el.textContent = ( v == null ? '': v );
 
 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
-	set_innerHtml: function(v) {	this.layout.el.html(v); },
+	set innerHtml(v) {	this.layout.el.html(v); },
 	// set_opacity: function(v) {
 	// 	if($.support.opacity)
 	// 		this.el.css('opacity', v);
@@ -70,17 +70,17 @@ Ergo.WidgetOptions = {
 	// 		this.el.css('-ms-filter', 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + (v*100.0).toFixed() + ')');
 	// 	}
 	// },
-	set_width: function(v) { this.el.outerWidth(v); },
-	set_height: function(v) { this.el.outerHeight(v); },
-	set_autoWidth: function(v) { v ? this.el.attr('autoWidth', v) : this.el.removeAttr('autoWidth'); },
-	set_autoHeight: function(v) {
+	set width(v) { this.el.outerWidth(v); },
+	set height(v) { this.el.outerHeight(v); },
+	set autoWidth(v) { v ? this.el.setAttribut('autoWidth', v) : this.el.removeAttribute('autoWidth'); },
+	set autoHeight(v) {
 		if(v) {
-			this.el.attr('autoHeight', v);
+			this.el.setAttribute('autoHeight', v);
 			if(v === true || v == 'ignore-siblings')
 				this.el.css('overflow-y', 'auto');
 		}
 		else {
-			this.el.removeAttr('autoHeight');
+			this.el.removeAttribute('autoHeight');
 			this.el.css('overflow-y', '');
 		}
 	},
@@ -99,11 +99,21 @@ Ergo.WidgetOptions = {
 	set hidden(v) {
 		(this._wrapper_el || this.el).css('display', v ? 'none' : '');
 //		this.el.css('display', v ? 'none' : '');
-	}
+	},
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
 
 	//TODO placeholder?
+
+
+	set id(v) {
+		this.el.setAttribute('id', v);
+	},
+
+	set tabindex(v) {
+		this.el.setAttribute('tabindex', v);
+	}
+
 
 };
 

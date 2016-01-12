@@ -323,6 +323,7 @@ describe('Widget', function(){
 				},
 				events: {
 					'data:dirty': function(e) {
+						console.log(e);
 						this._dataDiff([], [], e.updated);
 					}
 				}
@@ -335,6 +336,7 @@ describe('Widget', function(){
 			// }, box);
 
 			console.log('data', box.data);
+			console.log(box.items.size());
 
 
 			bindings = [];

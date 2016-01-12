@@ -63,7 +63,7 @@ describe('Widget', function(){
       });
 
       expect( w.states.is('test2') ).to.be.true;
-      expect( w.el.hasClass('cls2') ).to.be.true;
+      expect( w.el.classList.contains('cls2') ).to.be.true;
 
     });
 

@@ -4,6 +4,85 @@
 Ergo.WidgetRender = {
 
 
+
+	render: function(target) {
+
+//		console.log('render');
+
+//    var el = this.el;
+
+		// есть дочерние элементы
+		if( this.__c ) {
+
+			var self = this;
+
+			// сначала добавляем все элементы в DOM
+			this.__c.src.forEach(function(item) {
+
+				if(!item._rendered) {
+					item.render();
+					// if( self.__c.src.length == 1 && item._type != 'item' ) {
+					// 	item.el._weight = item._weight;
+			    //   self.el.appendChild(item.el);
+					// 	item._rendered = true;
+					// }
+					// else {
+					// 	item._type == 'item' ? self.layout.add(item, item._index) : self.layout.add(item);
+					// }
+				}
+
+//				item.render(false);
+
+	    });
+
+			// this.__c.src.forEach(function(item) {
+			// });
+		}
+		// нет дочерних элементов
+		else {
+
+		}
+
+
+
+		if( this.parent && target !== false ) {
+
+			if(!this._rendered) {
+				if( this.parent.__c.src.length == 1 && this._type != 'item' ) {
+					this.el._weight = this._weight;
+					this.parent.el.appendChild(this.el);
+					this._rendered = true;
+				}
+				else {
+					this._type == 'item' ? this.parent.layout.add(this, this._index) : this.parent.layout.add(this);
+				}
+			}
+
+		}
+		else if(target) {
+			target.appendChild(this.el);
+			this._rendered = true;
+		}
+
+
+
+//    target.appendChild(el);
+  },
+
+
+
+
+
+	unrender: function() {
+
+		this._rendered = false;
+
+		return $.when(true);
+	},
+
+
+
+
   /**
 	 * Отрисовка (рендеринг) виджета, т.е. добавление его в DOM-дерево
 	 *
@@ -15,6 +94,9 @@ Ergo.WidgetRender = {
 	 * После отрисовки вызывается обработчик _layoutChanged
 	 *
 	 */
+
+
+/*
 	render: function(target, cascade) {
 
 
@@ -111,39 +193,6 @@ Ergo.WidgetRender = {
 
 
 
-/*
-		this.components.each(function(item){
-//			if(!item._dynamic)
-				item.render();
-		});
-
-		this.items.each(function(item){
-			// содержимое динамических элементов отрисовывается через bind
-			if(!item.options.dynamic)  //FIXME
-				item.render();
-		});
-*/
-
-/*
-		if(cascade !== false) {
-
-			this.children.each(function(item) {
-				if(!item.options.dynamic)  //FIXME
-					item.render(null, false);
-			});
-
-			this.components.each(function(item){
-					item.render();
-			});
-
-			this.items.each(function(item){
-				// содержимое динамических элементов отрисовывается через bind
-				if(!item.options.dynamic)  //FIXME
-					item.render();
-			});
-
-		}
-*/
 
 		if(cascade !== false)
 			this._layoutChanged();
@@ -151,13 +200,16 @@ Ergo.WidgetRender = {
 
 		return $.when( (this.options.showOnRender || this.options.renderEffects) ? this.show() : true );
 	},
-
+*/
 
 
 	/**
 	 * Удаление виджета из DOM-дерева
 	 *
 	 */
+
+
+/*
 	unrender: function() {
 
 		this._rendered = false;
@@ -173,7 +225,7 @@ Ergo.WidgetRender = {
 			}.bind(this));
 
 	},
-
+*/
 
 
 
@@ -256,7 +308,7 @@ Ergo.WidgetRender = {
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 
 		if(cascade !== false && this.__c)
-			this.children.apply_all('_layoutChanged');
+			this.__c.apply_all('_layoutChanged');
 
 //		this.events.fire('layoutChanged');
 	},

@@ -147,6 +147,8 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 		this.target = target;
 	},
 
+
+
 	/**
 	 * Регистрируем событие.
 	 *
@@ -337,6 +339,119 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 
 
 
+
+Ergo.alias('mixins:observable', {
+
+
+	get events() {
+		if(!this.__evt) {
+			this.__evt = new Ergo.core.Observer(this);
+			this._bindEvents();
+
+			var o = this.options;
+
+			var regexp = /^on\S/;
+			for(var i in o){
+				if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
+					var name = i.charAt(2).toLowerCase() + i.slice(3);
+					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
+					for(var j = 0; j < chain.length; j++) {
+						var callback = chain[j];
+						if( $.isString(callback) ) {
+							var a = callback.split(':');
+							callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+						}
+						this.__evt.on( name, callback );
+					}
+				}
+			}
+
+		}
+		return this.__evt;
+	},
+
+
+	// _bindShortcutEvents: function() {
+	//
+	//
+	// },
+
+
+	_bindEvents: function(targetProperty) {
+
+		var o = this.options;
+
+		var target = targetProperty ? this[targetProperty] : this;
+
+		if(!target)
+			throw new Error('Target property "'+targetProperty+'" not found');
+
+		if('events' in o) {
+
+			for(var i in o.events){
+
+				var name_a = i.split(':');
+
+				var eventName = i;
+
+				if(name_a[0] == targetProperty && name_a.length > 1) {
+					eventName = name_a[1];
+				}
+				else if(name_a.length > 1 || targetProperty) {
+					continue;
+				}
+
+
+				var callback_a = o.events[i];
+				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
+				for(var j in callback_a) {
+					var callback = callback_a[j];
+
+					if( $.isString(callback) ) {
+						var a = callback.split(':');
+						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+					}
+
+					target.events.on(eventName, callback, this);
+				}
+			}
+		}
+
+	},
+
+
+
+	on: function() {
+		this.events.on.apply(this.events, arguments);
+	},
+
+	off: function() {
+		this.events.off.apply(this.events, arguments);
+	},
+
+	fire: function() {
+		this.events.on.fire(this.events, arguments);
+	}
+
+	// off: function(type, callback) {
+	// 	var name_a = type.split(':');
+	// 	var obj = this;
+	// 	if(name_a.length > 1) {
+	// 		obj = this[name_a[0]];
+	// 		type = name_a[1];
+	// 	}
+	// 	obj.events.on(type, callback, this);
+	// }
+
+
+
+});
+
+
+
+
+
+
 /**
  *
  * @mixin observable
@@ -351,11 +466,19 @@ Ergo.alias('includes:observable', {
 	},
 
 
+
+
 	_post_construct: function(o) {
 
 
 		if('events' in o){
 			for(var i in o.events){
+
+				var name_a = i.split(':');
+
+				// вложенные события игнорируем
+				if( name_a.length > 1 ) continue;
+
 				var callback_a = o.events[i];
 				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
 				for(var j in callback_a) {
@@ -366,14 +489,13 @@ Ergo.alias('includes:observable', {
 						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
 					}
 
-					var name_a = i.split(':');
-
-					if( name_a.length == 2 && this[name_a[0]] && this[name_a[0]].events ) {
-						this[name_a[0]].events.on( name_a[1], callback, this );
-					}
-					else {
-						this.events.on(i, callback, this);
-					}
+					// if( name_a.length == 2 && this[name_a[0]] && this[name_a[0]].events ) {
+					// 	console.log(i);
+					// 	this[name_a[0]].events.on( name_a[1], callback, this );
+					// }
+					// else {
+					this.events.on(i, callback, this);
+					// }
 
 					// if(i.indexOf('ctx:') == 0) {
 					// 	// Context
@@ -392,10 +514,9 @@ Ergo.alias('includes:observable', {
 		}
 
 
-
 		var regexp = /^on\S/;
 		for(var i in o){
-			if(regexp.test(i)){
+			if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
 				var name = i.charAt(2).toLowerCase() + i.slice(3);
 				var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
 				for(var j = 0; j < chain.length; j++) {
@@ -408,6 +529,7 @@ Ergo.alias('includes:observable', {
 				}
 			}
 		}
+
 
 	}
 

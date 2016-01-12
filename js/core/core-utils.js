@@ -8,6 +8,37 @@
 	var E = Ergo;
 
 
+
+	E.dom = {
+
+		remove: function(elem) {
+			if(elem.parentNode) {
+				elem.parentNode.removeChild(elem);
+			}
+		},
+
+		clear: function(elem) {
+			while (elem.firstChild) elem.removeChild(elem.firstChild);			
+		},
+
+		insertAfter: function(elem, after) {
+			after.parentNode.insertBefore(elem, after.nextSibling);
+		},
+
+		insertBefore: function(elem, before) {
+			before.parentNode.insertBefore(elem, before);
+		}
+
+	};
+
+
+
+
+
+
+
+
+
 	E.indent_s = '\t';
 
 	/**
@@ -84,6 +115,8 @@
 	E.timestamp = function() {
 		return new Date().getTime();
 	};
+
+	E.ms = E.timestamp;
 
 
 

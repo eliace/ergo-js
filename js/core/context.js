@@ -371,7 +371,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 					}
 					// инче рендерим виджет в <body>
 					else
-						w.render('body');
+						w.render(document.body);
 				}
 			}
 

@@ -4,6 +4,30 @@ describe('Widget', function(){
 
   describe('Items', function() {
 
+
+
+    it('should override defaultItem', function() {
+
+      var box = $.ergo({
+        etype: 'html:div',
+        defaultItem: {
+          etype: 'html:div'
+        },
+        items: [{text: 'Alice'}, {text: 'Bob'}]
+      });
+
+      console.log('----------------------');
+      console.log( box.options );
+      console.log('----------------------');
+
+    })
+
+
+
+
+
+
+
 		it('should add items', function() {
 
       var box = $.ergo({
@@ -106,8 +130,8 @@ describe('Widget', function(){
       expect( box.items.get(0).opt('text') ).to.be.eq('Alice');
       expect( box.items.get(1).opt('text') ).to.be.eq('Bob');
 
-      expect( box.el.children().eq(0).text() ).to.be.eq('Alice');
-      expect( box.el.children().eq(1).text() ).to.be.eq('Bob');
+      expect( $(box.el).children().eq(0).text() ).to.be.eq('Alice');
+      expect( $(box.el).children().eq(1).text() ).to.be.eq('Bob');
 
 
       box.data.entry(0).set('Charlie');
@@ -120,11 +144,11 @@ describe('Widget', function(){
 
       expect( box.items.get(0)._index ).to.be.eq(0);
       expect( box.items.get(1)._index ).to.be.eq(1);
-      expect( box.items.get(0).el[0]._index ).to.be.eq(0);
-      expect( box.items.get(1).el[0]._index ).to.be.eq(1);
+      expect( box.items.get(0).el._index ).to.be.eq(0);
+      expect( box.items.get(1).el._index ).to.be.eq(1);
 
-      expect( box.el.children().eq(0).text() ).to.be.eq('Charlie');
-      expect( box.el.children().eq(1).text() ).to.be.eq('Bob');
+      expect( $(box.el).children().eq(0).text() ).to.be.eq('Charlie');
+      expect( $(box.el).children().eq(1).text() ).to.be.eq('Bob');
 
 
 

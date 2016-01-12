@@ -22,7 +22,19 @@
 
 		if(typeof ctor == 'object') {
 			overrides = ctor;
-			ctor = function(){ p_ctor.apply(this, arguments); };
+			ctor = function(){
+				if(this.constructor === Object) {
+					var a = [this];
+					for(var i = 0; i < arguments.length; i++) {
+						a.push(arguments[i]);
+					}
+//					console.log([this].concat(arguments));
+					return new (ctor.bind.apply(ctor, a))()
+				}
+				else {
+					p_ctor.apply(this, arguments);
+				}
+			};
 		}
 
 
@@ -245,9 +257,11 @@
 	 * @param {String} etype псевдоним класса
 	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(options, etype, context) {//defaultType) {
+	E.object = function(ns, options, alias, context) {//defaultType) {
 
 		if(options instanceof Ergo.core.Object) return options;
+
+		var etype = ns+':'+alias;
 
 //		var etype = options.etype || defaultType;
 

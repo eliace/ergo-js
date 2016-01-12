@@ -201,11 +201,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
-				this._widget.el.addClass(val);
+				this._widget.el.classList.add(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.addClass(val[0]);
-				this._widget.el.removeClass(val[1]);
+				this._widget.el.classList.add(val[0]);
+				this._widget.el.classList.remove(val[1]);
 				// if(val.length > 0) {
 				// 	$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
 				// 		if(add_cls !== false)
@@ -217,12 +217,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			else {
 				$.when( val.call(this._widget, true, data) ).done(function(add_cls) {
 					if(add_cls !== false)
-						self._widget.el.addClass(add_cls || s);
+						self._widget.el.classList.add(add_cls || s);
 				});
 			}
 		}
 		else {
-			this._widget.el.addClass(s);
+			this._widget.el.classList.add(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});
@@ -242,11 +242,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
-				this._widget.el.removeClass(val);
+				this._widget.el.classList.remove(val);
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.addClass(val[1]);
-				this._widget.el.removeClass(val[0]);
+				this._widget.el.classList.add(val[1]);
+				this._widget.el.classList.remove(val[0]);
 
 				// if(val.length > 1) {
 				// 	$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
@@ -259,7 +259,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			else {
 				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
 					if(rm_cls !== false)
-						self._widget.el.removeClass(rm_cls || s);
+						self._widget.el.classList.remove(rm_cls || s);
 				});
 
 //				var rm_cls = val.call(this._widget, false);
@@ -268,7 +268,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			}
 		}
 		else {
-			this._widget.el.removeClass(s);
+			this._widget.el.classList.remove(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'off'});

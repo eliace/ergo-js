@@ -33,7 +33,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(2);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Charlie']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Alice', 'Charlie']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Alice', 'Charlie']);
 
 //			console.log('delete', bindings);
 			expect(bindings).to.be.eql(['Charlie', ['Alice', 'Charlie']]);
@@ -47,7 +47,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(3);
       expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Alice', 'Charlie']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Alice', 'Alice', 'Charlie']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Alice', 'Alice', 'Charlie']);
 
 //			console.log('create', bindings);
 			expect(bindings).to.be.eql(['Charlie', 'Alice', ['Alice', 'Alice', 'Charlie']]);
@@ -213,7 +213,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(3);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Bob', 'Charlie']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Alice', 'Bob', 'Charlie']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Alice', 'Bob', 'Charlie']);
 
 
 //      box.items.each(function(item) { console.log('i', item._index); });
@@ -226,7 +226,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(2);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Alice', 'Bob']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Alice', 'Bob']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Alice', 'Bob']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Alice', ['Bob', 'Alice']]); // 1 delete
@@ -244,7 +244,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(3);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Bob', 'Dave']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Alice', 'Bob', 'Dave']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Alice', 'Bob', 'Dave']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Alice', 'Bob', 'Dave', ['Dave', 'Bob', 'Alice']]); // 1 create + 2 updates
@@ -258,7 +258,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(4);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Alice', 'Bob', 'Chuck', 'Dave']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text(), box.el.children().eq(3).text()]).to.be.eql(['Alice', 'Bob', 'Chuck', 'Dave']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text(), box.jquery.el.children().eq(3).text()]).to.be.eql(['Alice', 'Bob', 'Chuck', 'Dave']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Chuck', ['Dave', 'Bob', 'Alice', 'Chuck']]); // 1 create
@@ -273,7 +273,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(4);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value, box.item(3).value]).to.be.eql(['Bob', 'Chuck', 'Dave', 'Eve']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text(), box.el.children().eq(3).text()]).to.be.eql(['Bob', 'Chuck', 'Dave', 'Eve']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text(), box.jquery.el.children().eq(3).text()]).to.be.eql(['Bob', 'Chuck', 'Dave', 'Eve']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Eve', ['Dave', 'Bob', 'Eve', 'Chuck']]);
@@ -326,7 +326,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Alice', 'Charlie', 'Dave']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Alice', 'Charlie', 'Dave']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Alice', 'Charlie', 'Dave']);
 
 
 			// DELETE (visible)
@@ -337,7 +337,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Dave']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Dave']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Dave']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Dave', ['Bob', 'Charlie', 'Dave', 'Eve']]); // 1 delete
@@ -351,8 +351,8 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Charlie', 'Dave', 'Frank']);
-//			expect([box.el.children().eq(0)[0]._index, box.el.children().eq(1)[0]._index, box.el.children().eq(2)[0]._index]).to.be.eql([0,1,2]);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Charlie', 'Dave', 'Frank']);
+//			expect([box.jquery.el.children().eq(0)[0]._index, box.jquery.el.children().eq(1)[0]._index, box.jquery.el.children().eq(2)[0]._index]).to.be.eql([0,1,2]);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Charlie', 'Dave', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Dave', 'Charlie', 'Frank', ['Bob', 'Frank', 'Charlie', 'Dave', 'Eve']]);
@@ -366,7 +366,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql([['Bob', 'Frank', 'Charlie', 'Joe', 'Eve']]);
@@ -381,7 +381,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(4);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Charlie', 'Frank', ['Frank', 'Charlie', 'Joe', 'Eve']]);
@@ -395,7 +395,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value]).to.be.eql(['Charlie', 'Frank']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text()]).to.be.eql(['Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql([['Frank', 'Charlie', 'Joe', 'Ann', 'Eve']]);
@@ -409,7 +409,7 @@ describe('Widget', function(){
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value, box.item(1).value, box.item(2).value]).to.be.eql(['Brian', 'Charlie', 'Frank']);
-			expect([box.el.children().eq(0).text(), box.el.children().eq(1).text(), box.el.children().eq(2).text()]).to.be.eql(['Brian', 'Charlie', 'Frank']);
+			expect([box.jquery.el.children().eq(0).text(), box.jquery.el.children().eq(1).text(), box.jquery.el.children().eq(2).text()]).to.be.eql(['Brian', 'Charlie', 'Frank']);
 
 //			console.log(bindings);
 			expect(bindings).to.be.eql(['Brian', ['Frank', 'Charlie', 'Joe', 'Ann', 'Brian']]);

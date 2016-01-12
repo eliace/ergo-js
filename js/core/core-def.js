@@ -17,13 +17,14 @@ var Ergo = (function(){
 	E.override = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
-			for(var i in overrides){
+			for(var i in overrides) {
 				var desc = Object.getOwnPropertyDescriptor(overrides, i);
 				if( desc && (desc.set || desc.get) ) {
 					Object.defineProperty(obj, i , desc);
 				}
-				else
+				else {
 					obj[i] = overrides[i];
+				}
 			}
 		}
 		return obj;
@@ -40,7 +41,7 @@ var Ergo = (function(){
 	 */
 	E.deep_override = function(o) {
 
-		for(var j = 1; j < arguments.length; j++){
+		for(var j = 1; j < arguments.length; j++) {
 
 			var srcObj = arguments[j];
 
@@ -69,6 +70,80 @@ var Ergo = (function(){
 		return o;
 	};
 
+
+
+
+	E.copy = function(srcObj) {
+		var o = {};
+		for(var i in srcObj) {
+			o[i] = srcObj[i];
+		}
+		return o;
+	};
+
+
+
+	// var ruleTypes = {
+	// 	handlers: function(a, b) {
+	// 		for(var i in b) {
+	//
+	// 		}
+	// 	}
+	// };
+
+
+
+
+	E.mergeOptions = function(o, sources, rules) {
+
+		sources = Array.isArray(sources) ? sources : [sources];
+
+		for(var i = 0; i < sources.length; i++) {
+			for(var j in sources[i]) {
+				var name = (j[0] == '~' || j[0] == '!') ? j.substr(1) : j;
+				var rule = rules[name] || rules['*'];
+				// если определено правило, то опции будут представлять из себя коллекцию
+				if( rule && rule.constructor === Object ) {
+					o[name] = E.mergeOptions(o[name] || {}, sources[i][j], rule);
+				}
+				else if( rule ) {
+
+					var a = o[name];
+					var b = sources[i][j];
+					a = Array.isArray(a) ? a : [a];
+					b = Array.isArray(b) ? b : [b];
+
+					if( !o[name] ) {
+						o[name] = b;
+					}
+					else if(j[0] == '!') {
+						// переписываем опцию
+						o[name] = b;
+					}
+					else if(j[0] == '~') {
+						// находим разницу
+						for(var n = 0; n < b.length; n++) {
+							$ergo.remove(a, b[n]);
+						}
+						o[name] = a;
+					}
+					// else if( ruleTypes[rule] ) {
+					// 	o[name] = ruleTypes[rule].call(this, a, b);
+					// }
+					else {
+						// находим сумму
+						o[name] = a.concat(b);
+					}
+
+				}
+				else {
+					o[name] = sources[i][j];
+				}
+			}
+		}
+
+		return o;
+	}
 
 
 
@@ -660,7 +735,7 @@ Array.prototype.remove = function(val) {
 }
 */
 
-
+$ergo = Ergo;
 
 
 Ergo.globals = {

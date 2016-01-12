@@ -3,7 +3,7 @@
 Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 
 	defaults: {
-		baseCls: 'side-menu',
+		as: 'side-menu',
 		nestedItem: {
 			components: {
 				content: {
@@ -11,7 +11,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					components: {
 						icon: {
 							etype: 'icon',
-							cls: 'before',
+							as: 'before',
 							weight: -100
 						},
 						content: {
