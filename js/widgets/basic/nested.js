@@ -31,8 +31,11 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 		this._super(o);
 
 //		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
-		o.defaultItem.unshift(o.nestedItem)
-		o.defaultItem.unshift({components: {sub: {nestedItem: o.nestedItem}}});
+		// o.defaultItem.unshift(o.nestedItem)
+		// o.defaultItem.unshift({components: {sub: {nestedItem: o.nestedItem}}});
+//		o.defaultItem = [{components: {sub: {nestedItem: o.nestedItem}}}].concat(o.nestedItem, o.defaultItem);
+//		console.log('nested', [o.nestedItem, o.defaultItem]);
+		o.defaultItem = $ergo.mergeOptions( {components: {sub: {nestedItem: o.nestedItem}}}, [o.nestedItem, o.defaultItem] );
 	},
 
 

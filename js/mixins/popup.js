@@ -1,9 +1,10 @@
 
+$ergo.rules['popup'] = ['object'];
 
-Ergo.alias('includes:popup', {
+$ergo.alias('includes:popup', {
 
 	defaults: {
-		cls: 'popup',
+		as: 'popup',
 		popup: {
 			to: null,
 			at: 'left top',
@@ -53,7 +54,7 @@ Ergo.alias('includes:popup', {
 				position = {};//offset: [arguments[0], arguments[1]]};
 			}
 
-			var p = Ergo.smart_override({}, this.options.popup, position);
+			var p = $ergo.mergeOptions({}, [this.options.popup, position]);
 
 			// позиционируем виджет
 

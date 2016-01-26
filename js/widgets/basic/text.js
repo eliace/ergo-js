@@ -32,7 +32,7 @@ Ergo.alias('widgets:.', Ergo.html._Text);
 Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<span/>',
+		tag: 'span',
 		binding: 'text'
 	}
 

@@ -40,11 +40,13 @@ describe('Widget', function(){
         }
       });
 
+			w.render(); // обязательно для IE
 
 
-      w.$defaultAct.jquery.el.click();
-      w.$namedAct.jquery.el.click();
-      w.$explicitNamedAct.jquery.el.click();
+
+      w.$defaultAct.el.click();
+      w.$namedAct.el.click();
+      w.$explicitNamedAct.el.click();
 
       w.item(0).el.click();
 

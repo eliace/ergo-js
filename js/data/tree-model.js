@@ -43,7 +43,7 @@ Ergo.defineClass('Ergo.data.Node', 'Ergo.data.Object', {
 	},
 
 
-	get_branch: function() {
+	get branch() {
 		return this.get('children');
 	}
 

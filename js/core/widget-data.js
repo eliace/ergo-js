@@ -68,6 +68,9 @@ Ergo.WidgetData = {
 			this.__dta = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
 
 
+
+
+
 		// Если виджет является динамическим (управляется данными)
 		if(o.dynamic) {
 
@@ -159,6 +162,8 @@ Ergo.WidgetData = {
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+			var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
+
 
 			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
@@ -169,27 +174,48 @@ Ergo.WidgetData = {
 					item.bind(dataEntry, false);
 					item._pivot = false;
 					item._dynamic = true;
+
 //					item.el.attr('dynamic', true);
-			}, filter, sorter);
+			}, filter, sorter, pager);
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
 
-			this.render(false);
+
+			filter = o.renderFilter ? o.renderFilter.bind(this) : undefined;
+			sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
+			pager = o.renderPager ? o.renderPager.bind(this) : undefined;
+
+			this.items.each(function(item, i) {
+
+				item.render(null, null, i);
+				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
+				// 	self.vdom.add(item, i);
+				// }
+			}, filter, sorter, pager);
+
+//			this._layoutChanged();
+
 		}
 		else {
 			// STATIC BIND
 
-			this.data.events.on('changed', function(e) {
-				// при изменении значения обновляем виджет, но только в "ленивом" режиме
-				/*if(o.updateOnDataChanged)*/
-				//self._dataChanged(true);
-				self._rebind();
-			}, this);
 
-			this.data.events.on('dirty', function(e) {
-				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
-			}, this);
+			if(this.options.binding) {
+
+
+				this.data.events.on('changed', function(e) {
+					// при изменении значения обновляем виджет, но только в "ленивом" режиме
+					/*if(o.updateOnDataChanged)*/
+					//self._dataChanged(true);
+					self._rebind();
+				}, this);
+
+				this.data.events.on('dirty', function(e) {
+					self._dataChanged(false, false); // ленивое обновление данных без каскадирования
+				}, this);
+
+			}
 
 
 
@@ -228,13 +254,10 @@ Ergo.WidgetData = {
 
 //		if( this.data.options.fetchable ) {
 
-		// this.data.events.on('fetch:before', function(){
-		// 	w.events.fire('fetch');
+		// this.data.events.on('fetched', function(){
+		// 	// ?
+		// 	w._layoutChanged();
 		// }, this);
-		this.data.events.on('fetched', function(){
-			w._layoutChanged();
-//			w.events.fire('fetched');
-		}, this);
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
 		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
@@ -307,6 +330,7 @@ Ergo.WidgetData = {
 
 				var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 				var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+				var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
 				this.data.each(function(dataEntry, i){
@@ -321,7 +345,7 @@ Ergo.WidgetData = {
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, filter, sorter);
+				}, filter, sorter, pager);
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);
@@ -330,7 +354,21 @@ Ergo.WidgetData = {
 				// this.layout.rebuild();
 
 	//			if(!Ergo.noDynamicRender)
+//				this.render();
+
+
+				// filter = o.renderFilter ? o.renderFilter.bind(this) : undefined;
+				// sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
+				// pager = o.renderPager ? o.renderPager.bind(this) : undefined;
+				//
+				// this.items.each(function(item, i) {
+				// 	if(item._dynamic && !item._rendered) {
+				// 		item.render();
+				// 	}
+				// }, filter, sorter, pager);
+
 				this.render();
+
 			}
 
 			// обновляем виджет (если это не запрещено в явном виде)
@@ -394,7 +432,7 @@ Ergo.WidgetData = {
 
 		var binding = this.options.binding;
 
-		if(/*this.data &&*/ binding){
+		if(binding && (('__dta' in this) || ('__val' in this))){
 			if( $.isString(binding) ) {
 				this[binding] = this.value;
 //				this.opt(binding, this.opt('value'));
@@ -449,10 +487,11 @@ Ergo.WidgetData = {
 
 	_dataDiff: function(created, deleted, updated) {
 
-		var o = this.options
+		var o = this.options;
 
 		var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : null;
 		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
+		var pager = o.dynamicPager ? o.dynamicPager.bind(this) : null;
 
 
 		var rerender_a = [];
@@ -755,6 +794,11 @@ Ergo.WidgetData = {
 
 
 
+		//
+		// [id0, val0, index, item]
+		//
+
+
 
 
 
@@ -774,6 +818,20 @@ Ergo.WidgetData = {
 			kv_a.sort(sorter);
 
 
+			$ergo.fixDisorder(kv_a, function(i, j) {
+
+				var _item = this.items.get(i);
+
+				//TODO нужно оптимизировать с помощью функции items.move()
+				this.items.remove(_item);
+				this.items.add(_item, j);
+
+				rerender_a.push( _item );
+
+			}.bind(this));
+
+
+/*
 			var offset_a = [];
 
 //			var values = [];
@@ -894,7 +952,7 @@ Ergo.WidgetData = {
 				offset_a[_j] = i_offset + (_j - _i);
 
 			}
-
+*/
 
 //			console.log( 'итераций', n );
 
@@ -908,6 +966,7 @@ Ergo.WidgetData = {
 
 
 		this.events.fire('diff', {updated: rerender_a});
+
 
 	}
 

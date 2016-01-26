@@ -11,6 +11,8 @@ describe('Object', function(){
         b: 'Bob'
       });
 
+
+
       expect(obj.options.a).to.be.eq('Alice');
       expect(obj.options.b).to.be.eq('Bob');
 
@@ -24,7 +26,7 @@ describe('Object', function(){
       expect(obj.options.b).to.be.eq('Dave');
       expect( obj.opt('b') ).to.be.eq('Dave');
 
-    })
+    });
 
 
     it('should use property getters and setters', function() {
@@ -43,7 +45,11 @@ describe('Object', function(){
       expect(obj._a).to.be.eq('Alice');
       expect(obj.a).to.be.eq('Alice');
 
-    })
+    });
+
+
+
+
 
 
 
@@ -109,7 +115,7 @@ describe('Object', function(){
 
       var rules = {
         cls: 'list',
-        events: { '*': 'list' },
+        events: ['object', { '*': 'list' }],
         as: 'list'
       }
 
@@ -161,6 +167,8 @@ describe('Object', function(){
         }
       }],
       rules);
+
+//      console.log('options', o);
 
       expect( o.a ).to.be.eq('Bob');
       expect( o.b() ).to.be.eq(-1);

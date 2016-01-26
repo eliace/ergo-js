@@ -89,7 +89,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 	},
 
 	set type(v) {
-		this.content.opt('type', v);
+		this.$content.opt('type', v);
 	},
 
 

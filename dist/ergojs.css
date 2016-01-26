@@ -4162,11 +4162,11 @@ label:hover .radio {
 .block > * {
   margin-top: 0.8571rem;
 }
-.chips > * {
+.chip > * {
   display: inline-block;
   vertical-align: middle;
 }
-.chips .description {
+.chip .description {
   display: block;
   color: rgba(0, 0, 0, 0.5);
   font-size: 0.8em;

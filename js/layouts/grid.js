@@ -9,12 +9,13 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 
 	wrap: function(item) {
-		return $('<div autoheight="ignore-siblings"/>').append(item.el);
+		return $('<div autoheight="ignore-siblings"/>').append(item.el)[0];
 	},
 
 
 	update: function() {
-		this._super();
+		Ergo.layouts.Grid.superclass.update.call(this);
+//		this._super();
 
 
 		var self = this;
@@ -31,7 +32,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 			if(!item._rendered) return;
 
-			var el = item._wrapper_el || item.el;
+			var el = $(item.vdom.outerEl);
 
 //			console.log(el._wrapper != null);
 

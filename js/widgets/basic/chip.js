@@ -1,14 +1,13 @@
 
 
-
-Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Chip', 'Ergo.widgets.Box', {
 
 	defaults: {
-		cls: 'chips',
+		cls: 'chip',
 		components: {
 			image: {
 				etype: 'image',
-				cls: 'circular small before',
+				as: 'circular small before',
 				weight: -10
 			},
 			content: {
@@ -19,7 +18,7 @@ Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
 					},
 					description: {
 						etype: 'text',
-						cls: 'description'
+						as: 'description'
 					}
 				}
 			}
@@ -36,4 +35,4 @@ Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
 	}
 
 
-}, 'widgets:chips');
+}, 'widgets:chip');

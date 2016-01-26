@@ -13,8 +13,8 @@
  */
 Ergo.defineClass('Ergo.html._Text', 'Ergo.core.Widget', {
 
-	set_text: function(v) {
-		this.el[0].textContent = (v == null ? '': v);
-	}
+	// set_text: function(v) {
+	// 	this.el[0].textContent = (v == null ? '': v);
+	// }
 
 }, 'html:.');

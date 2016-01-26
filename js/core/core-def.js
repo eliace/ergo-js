@@ -92,24 +92,97 @@ var Ergo = (function(){
 	// };
 
 
+	E.rules = {
+		include: 'list',
+		set: ['override'],
+		get: ['override'],
+		events: ['object', {'*': 'list'}],
+		as: 'list',
+		data: false,
+		// cls: 'list',
+		// stt: 'list',
+		defaultItem: ['object'],
+		defaultComponent: ['object'],
+		nestedItem: ['object'],
+//		'$*': ['object'],
+		components: ['object', {'*': ['object']}],
+		items: ['array', {'*': ['object']}],
+		states: ['object'],//, {'*': 'list'}],
+		transitions: ['object'],//, {'*': 'list'}]
+	};
+
+
 
 
 	E.mergeOptions = function(o, sources, rules) {
 
 		sources = Array.isArray(sources) ? sources : [sources];
 
+		rules = rules || E.rules;
+
 		for(var i = 0; i < sources.length; i++) {
 			for(var j in sources[i]) {
 				var name = (j[0] == '~' || j[0] == '!') ? j.substr(1) : j;
 				var rule = rules[name] || rules['*'];
-				// если определено правило, то опции будут представлять из себя коллекцию
-				if( rule && rule.constructor === Object ) {
-					o[name] = E.mergeOptions(o[name] || {}, sources[i][j], rule);
+
+				var a = o[name];
+				var b = sources[i][j];
+
+				// FIXME
+				if( j[0] == '$' ) {
+					rule = ['object'];
 				}
+
+				// если определено правило, то опции будут представлять из себя коллекцию
+				if( rule && rule.constructor === Array ) {
+
+					if( b == null ) {
+						o[name] = b;
+					}
+					else if(rule[0] == 'override') {
+						o[name] = (a == null) ? b : E.deep_override(a, b);
+					}
+					else if( b.constructor === Object ) {
+						a = a || {};
+						b = b;
+						o[name] = E.mergeOptions(a, b, rule[1]);
+					}
+					else if( b.constructor === Array ) {
+						a = a || [];
+						b = [b];
+						o[name] = E.mergeOptions(a, b, rule[1]);
+					}
+					// if( /*o[name] != null &&*/ (b.constructor === Object || b.constructor === Array) ) {
+					// 	if( rule[0] == 'object' ) {
+					// 		a = a || {};
+					// 		b = b;
+					// 		o[name] = E.mergeOptions(a, b, rule[1]);
+					// 	}
+					// 	else if( rule[0] == 'array' ) {
+					// 		a = a || [];
+					// 		b = [b];
+					// 		o[name] = E.mergeOptions(a, b, rule[1]);
+					// 	}
+					// 	else if( rule[0] == 'override' ) {
+					// 		o[name] = (a == null) ? b : E.override(a, b);
+					// 	}
+					//
+					// }
+					else {
+						o[name] = b;
+					}
+
+					// if( b instanceof Object ) {
+					//
+					// }
+					// var a = (rule[0] == 'array') ? (a || []) : (a || {});
+					// var b = (rule[0] == 'array') ? [b] : b;
+				}
+				// else if( rule && rule.constructor === Array ) {
+				// 	o[name] = E.mergeOptions(o[name] || [], sources[i][j], rule[0]);
+				// }
 				else if( rule ) {
 
-					var a = o[name];
-					var b = sources[i][j];
 					a = Array.isArray(a) ? a : [a];
 					b = Array.isArray(b) ? b : [b];
 
@@ -137,7 +210,7 @@ var Ergo = (function(){
 
 				}
 				else {
-					o[name] = sources[i][j];
+					o[name] = b;
 				}
 			}
 		}
@@ -153,7 +226,7 @@ var Ergo = (function(){
 //	var _clear = false;
 
 
-
+/*
 	var smart_override_prop = function(o, srcObj, i, context) {
 
 
@@ -363,7 +436,7 @@ var Ergo = (function(){
 		}
 
 	};
-
+*/
 
 
 
@@ -374,6 +447,7 @@ var Ergo = (function(){
 	 * @function
 	 *
 	 */
+/*
 	E.smart_override = function(o) {
 
 
@@ -476,49 +550,47 @@ var Ergo = (function(){
 
 		}
 
-/*
-		// применяем модификатор -
-		for(var i in o) {
+		// // применяем модификатор -
+		// for(var i in o) {
+		//
+		// 	var prefix = i[0];
+		//
+		// 	if(prefix == '-') {
+		//
+		// 		var j = i.substr(1);
+		//
+		// 		var m = (j in o) ? o[j] : [];
+		// 		if( !$.isArray(m) ) m = [m];
+		//
+		// 		for(var n = 0; n < o[i].length; n++) {
+		// 			for(var k = 0; k < m.length; k++) {
+		// 				if(m[k] == o[i][n]) m.splice(k, 1);
+		// 			}
+		// 		}
+		//
+		// 		delete o[i];
+		// 	}
+		// }
+		//
+		// // применяем модификатор !
+		// for(var i in o) {
+		//
+		// 	var prefix = i[0];
+		//
+		// 	if(prefix == '!') {
+		//
+		// 		var j = i.substr(1);
+		//
+		// 		if( o[i] === undefined )
+		// 			delete o[j];
+		// 		else
+		// 			o[j] = o[i];
+		//
+		// 		delete o[i];
+		// 	}
+		//
+		// }
 
-			var prefix = i[0];
-
-			if(prefix == '-') {
-
-				var j = i.substr(1);
-
-				var m = (j in o) ? o[j] : [];
-				if( !$.isArray(m) ) m = [m];
-
-				for(var n = 0; n < o[i].length; n++) {
-					for(var k = 0; k < m.length; k++) {
-						if(m[k] == o[i][n]) m.splice(k, 1);
-					}
-				}
-
-				delete o[i];
-			}
-		}
-
-		// применяем модификатор !
-		for(var i in o) {
-
-			var prefix = i[0];
-
-			if(prefix == '!') {
-
-				var j = i.substr(1);
-
-				if( o[i] === undefined )
-					delete o[j];
-				else
-					o[j] = o[i];
-
-				delete o[i];
-			}
-
-		}
-
-*/
 
 
 		if( k == 'shortcuts' || k == 'components' || k == 'items')
@@ -534,7 +606,7 @@ var Ergo = (function(){
 		}
 
 	};
-
+*/
 
 
 /*
@@ -633,7 +705,7 @@ var Ergo = (function(){
 	 * @function
 	 * @param {Object} obj
 	 */
-	E.isString = $.isBoolean = function(obj) {
+	E.isBoolean = $.isBoolean = function(obj) {
 		return typeof obj == 'boolean';
 	};
 	/**
@@ -735,7 +807,7 @@ Array.prototype.remove = function(val) {
 }
 */
 
-$ergo = Ergo;
+//$ergo = Ergo;
 
 
 Ergo.globals = {

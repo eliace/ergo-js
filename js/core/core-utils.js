@@ -18,7 +18,7 @@
 		},
 
 		clear: function(elem) {
-			while (elem.firstChild) elem.removeChild(elem.firstChild);			
+			while (elem.firstChild) elem.removeChild(elem.firstChild);
 		},
 
 		insertAfter: function(elem, after) {
@@ -27,7 +27,60 @@
 
 		insertBefore: function(elem, before) {
 			before.parentNode.insertBefore(elem, before);
-		}
+		},
+
+		prependChild: function(elem, child) {
+			if(elem.childNodes[0]) {
+				elem.insertBefore(child, elem.childNodes[0]);
+			}
+			else {
+				elem.appendChild(elem);
+			}
+		},
+
+
+		addClass: function(el, cls) {
+			if( cls && (el instanceof Element) ) {
+				(''+cls).split(' ').forEach(function(c) {
+
+					if(!c) return;
+
+					if(el.classList) {
+						el.classList.add(c);
+					}
+					else {
+						// IE9
+						var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
+						if(!re.test(el.className)) {
+							el.className = (el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
+						}
+					}
+				});
+			}
+		},
+
+
+		numberStyleToPx: function(k, v) {
+	    // postfixes
+	    var partials = [['padding', 'margin', 'border'], ['top', 'right', 'bottom', 'left']];
+	    for(var i = 0; i < partials[0].length; i++) {
+				if(partials[0][i] == k) return v+'px';
+	      for(var j = 0; j < partials[1].length; j++) {
+	        if(partials[0][i]+'-'+partials[1][j] == k) return v+'px';
+	      }
+	    }
+	    // prefixes
+	    partials = [['width', 'height'], ['max', 'min']];
+	    for(var i = 0; i < partials[0].length; i++) {
+				if(partials[0][i] == k) return v+'px';
+	      for(var j = 0; j < partials[1].length; j++) {
+	        if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
+	      }
+	    }
+	    return v;
+	  }
+
+
 
 	};
 
@@ -35,8 +88,130 @@
 
 
 
+	E.fixDisorder = function(kv_a, callback) {
+
+		// разница между индексами и позициями
+		var indexDeltas = [];
+
+		kv_a.forEach(function(kv, i) {
+			indexDeltas[kv[2]] = kv[2] - i;
+		});
 
 
+
+		var n = 0;
+
+		var indexDisorders = [];
+
+		var moved_a = [];
+
+		while( n < kv_a.length+1 ) {
+
+
+			// 0 -
+			// 1 -
+			// 2 -
+			// 3 - индекс
+			var maxDisorder = [-1,-1];
+
+			indexDisorders = [];
+
+			for(var i = 0; i < kv_a.length; i++) {
+				// индекс элемента i
+				var i_index = i - indexDeltas[i];
+
+				// пропускаем элемент, если мы его уже переместили
+				if( moved_a[i_index] )
+					continue;
+
+				// 0 количество нарушений
+				// 1 позиция первого нарушения
+				// 2 позиция последнего нарушения
+				var disorder = [-1, -1, -1];
+
+				//
+				for(var j = 0; j < kv_a.length; j++) {
+					// индекс элемента j
+					var j_index = j - indexDeltas[j];
+
+					// если присутствует нарушение порядка, запоминаем его
+					if( (j < i && j_index > i_index) || (j > i && j_index < i_index) ) {
+						if(disorder[0] == -1) {
+							disorder[1] = j;
+						}
+						disorder[2] = j;
+						disorder[0]++;
+					}
+				}
+
+				// обновляем информацию о нарушении
+				indexDisorders[i] = disorder;
+
+				// запоминаем наибольшее нарушение
+				if(disorder[0] > maxDisorder[0]) {
+					maxDisorder[0] = disorder[0];
+					maxDisorder[1] = disorder[1];
+					maxDisorder[2] = disorder[2];
+					maxDisorder[3] = i;
+				}
+
+			}
+
+			// если наибольшее нарушение не определено - исправление закончено
+			if(maxDisorder[0] == -1)
+				break;
+
+
+			n++;
+
+
+
+			// var k = 0;
+			//
+			// for(var i = 0; i < measure_a.length; i++) {
+			// 	if(max_measure[0] == measure_a[i][0])
+			// 		k++;
+			// }
+
+//				console.log( 'max measure, count', max_measure, k);
+
+			// выполняем перемещение
+			var _i = maxDisorder[3];
+			var _j = (maxDisorder[2] > maxDisorder[3]) ? maxDisorder[2] : maxDisorder[1];
+
+
+			// уведомляем о перемещении
+			callback(_i, _j);
+
+			// запоминаем перемещенный индекс
+			moved_a[_i-indexDeltas[_i]] = true;
+
+			// корректируем дельту после перемещения
+			var i_delta = indexDeltas[_i];
+
+			if(_j < _i) {
+				for(var i = _i; i > _j; i--) {
+					indexDeltas[i] = indexDeltas[i-1]+1;
+				}
+			}
+			if(_j > _i) {
+				for(var i = _i; i < _j; i++) {
+					indexDeltas[i] = indexDeltas[i+1]-1;
+				}
+			}
+
+			indexDeltas[_j] = i_delta + (_j - _i);
+
+		}
+
+
+	}
+
+
+
+
+
+	E.print = JSON.stringify;
 
 
 	E.indent_s = '\t';

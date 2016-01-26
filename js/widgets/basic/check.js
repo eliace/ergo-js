@@ -2,7 +2,7 @@
 
 
 Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'check',
 		components: {
@@ -13,16 +13,16 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		},
 		states: {
 			'checked': function(on) {
-				this.content.states.toggle('fa-check', on);
+				this.$content.states.toggle('fa-check', on);
 				this.states.unset('indeterminate');
 			},
 			'indeterminate': function(on) {
-				this.content.states.toggle('fa-square', on);				
+				this.$content.states.toggle('fa-square', on);
 			}
 		},
 		events: {
 			'change': function(e) {
-				this.opt('value', e.value);			
+				this.opt('value', e.value);
 			},
 			// действие пользователя
 			'jquery:click': function(e) {
@@ -33,6 +33,6 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		binding: function(v) {
 			this.states.toggle('checked', !(!v));
 		}
-	}	
-	
+	}
+
 }, 'widgets:check');

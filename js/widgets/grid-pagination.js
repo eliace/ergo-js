@@ -1,10 +1,9 @@
 
 
 Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		baseCls: 'grid-pagination',
-		cls: 'pagination',
+		as: 'pagination grid-pagination',
 		defaultComponent: {
 			etype: 'menu-item',
 			// components: {
@@ -25,8 +24,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '«',
 				weight: -100,
 				onClick: function() {
-					this.events.rise('index:first');
-				}				
+					this.events.rise('index#first');
+				}
 			},
 			prevButton: {
 //				etype: 'button',
@@ -34,13 +33,13 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '<',
 				components: {
 					content: {
-						cls: 'icon move prev'
+						as: 'icon move prev'
 					}
 				},
 				weight: -50,
 				onClick: function() {
-					this.events.rise('index:prev');
-				}				
+					this.events.rise('index#prev');
+				}
 			},
 			nextButton: {
 //				etype: 'button',
@@ -48,18 +47,18 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '>',
 				components: {
 					content: {
-						cls: 'icon move next'
+						as: 'icon move next'
 					}
 				},
 				weight: 50,
 				onClick: function() {
-					this.events.rise('index:next');
-				}				
+					this.events.rise('index#next');
+				}
 			},
 			lastButton: {
 				components: {
 					content: {
-						cls: 'icon move last'
+						as: 'icon move last'
 					}
 				},
 				// etype: 'button',
@@ -67,8 +66,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '»',
 				weight: 100,
 				onClick: function() {
-					this.events.rise('index:last');
-				}							
+					this.events.rise('index#last');
+				}
 			},
 			current: {
 				etype: 'html:li',
@@ -77,80 +76,80 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				defaultItem: {
 					etype: '.',
 				},
-				items: [ 
-				'Стр. ', 
+				items: [
+				'Стр. ',
 				{
 					etype: 'input',
-					cls: 'underlined',
+					as: 'underlined',
 					onChange: function(e) {
-						
+
 						var i = parseInt(e.text);
-						
+
 						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
-						
+
 						if( !this.states.is('invalid') )
-							this.events.rise('index:change', {index: i});							
-						
+							this.events.rise('index#change', {index: i});
+
 					}
-				}, 
-				' из ', 
+				},
+				' из ',
 				{
 					etype: '.'
 				}]
-				
+
 			}
 		},
-		
+
 		events: {
-			'index:first': function(e) {
+			'index#first': function(e) {
 				this.events.rise('changeDataIndex', {index: 1});
 			},
-			'index:last': function(e) {
+			'index#last': function(e) {
 				this.events.rise('changeDataIndex', {index: this.data.opt('count')});
 			},
-			'index:next': function(e) {
+			'index#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:prev': function(e) {
+			'index#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:change': function(e) {
+			'index#change': function(e) {
 				var i = e.index;
 				if( !isNaN(i) && i > 0 && i <= this.data.opt('count') )
 					this.events.rise('changeDataIndex', {index: e.index});
 //				this.states.set('invalid');
 //					this.opt('value', this.opt('value'));
-				
-			}			
+
+			}
 		},
 
 		binding: function(v) {
-			
-			this.current.item(1).opt('value', this.data.opt('index'));
-			this.current.item(3).opt('text', this.data.opt('count'));
-			
+
+			this.$current.item(1).opt('value', this.data.opt('index'));
+			this.$current.item(3).opt('text', this.data.opt('count'));
+
 		}
-	
-	
+
+
 	},
-	
-	
-	
-	
+
+
+
+
 	set_dataIndex: function(v) {
-		
+
 	}
-	
-	
+
+
 	// _construct: function(o) {
 		// this._super(o);
-// 		
+//
 		// this._index = 0;
 	// }
-	
-	
+
+
 }, 'widgets:grid-pagination');

@@ -117,8 +117,23 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'jquery:blur': function(e) {
 				this.events.fire('cancelSelect');
-			}
+			},
 
+
+			'dropdown': function(e) {
+				this.states.toggle('opened');
+			},
+
+			'changeSelect': function(e) {
+				this.value = e.target.name;
+//				this.opt('value', e.target.opt('name'));
+				this.states.unset('opened');
+			},
+
+			'cancelSelect': function(e) {
+				this._dataChanged(); // обновляем связывание
+				this.states.unset('opened');
+			}
 
 		},
 
@@ -147,9 +162,8 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //			this.$input.opt('text', v);
 
-
-
-			this.opt('text', selected ? selected.opt('text') : null);
+			this.text = selected ? selected.text : null;
+//			this.opt('text', selected ? selected.opt('text') : null);
 
 //			this.updatePlaceholder();
 		},
@@ -163,23 +177,23 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //		onDropdown: function
 
-		onDropdown: function() {
-			this.states.toggle('opened');
-		},
+		// onDropdown: function() {
+		// 	this.states.toggle('opened');
+		// },
 
 	// 	onSelect: function(e) {
 	// //		this.$dropdown.close();
 	// 	},
 
-		onChangeSelect: function(e) {
-			this.opt('value', e.target.opt('name'));
-			this.states.unset('opened');
-		},
-
-		onCancelSelect: function() {
-			this._dataChanged(); // обновляем связывание
-			this.states.unset('opened');
-		}
+		// onChangeSelect: function(e) {
+		// 	this.opt('value', e.target.opt('name'));
+		// 	this.states.unset('opened');
+		// },
+		//
+		// onCancelSelect: function() {
+		// 	this._dataChanged(); // обновляем связывание
+		// 	this.states.unset('opened');
+		// }
 
 
 

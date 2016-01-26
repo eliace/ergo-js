@@ -63,12 +63,91 @@ describe('Widget', function(){
       });
 
       expect( w.states.is('test2') ).to.be.true;
-      expect( w.el.classList.contains('cls2') ).to.be.true;
+      expect( w.el.hasClass('cls2') ).to.be.true;
 
     });
 
 
 
+		it('should use component shortcuts', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+				$a: {
+					text: 'Alice'
+				},
+				defaultItem: {
+					$content: {
+						foo: 'Bob'
+					}
+				},
+				items: [{}, {$content__foo: 'Charlie'}, {$content__items: ['foo1', 'foo2', 'foo3']}]
+      });
+
+			expect(w.$a.text).to.be.eq('Alice');
+			expect(w.item(0).$content.opt('foo')).to.be.eq('Bob');
+			expect(w.item(1).$content.opt('foo')).to.be.eq('Charlie');
+			expect(w.item(2).$content.items.size()).to.be.eq(3);
+
+
+
+    });
+
+
+
+		it('should override setters/getters', function() {
+
+			var w = $.ergo({
+        etype: 'box',
+				defaultItem: {
+					get: {
+						'a': function() {return 'Alice'}
+					}
+				},
+				items: [{
+					get: {
+						'b': function() {return 'Bob'}
+					}
+				}]
+      });
+
+			expect(w.item(0).a).to.be.eq('Alice');
+			expect(w.item(0).b).to.be.eq('Bob');
+
+    });
+
+
+
+
+		it('should set construct options', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+        as: 'cls'
+      });
+
+      expect( w.el.hasClass('cls') ).to.be.true;
+
+    });
+
+
+
+
+/*
+		it('should set merge defaultItem', function() {
+
+      var w = $.ergo({
+				etype: 'box',
+				defaultItem: {
+					a: 'Alice'
+				},
+				items: [{}, {b: 'Bob'}, {a: 'Adam'}]
+      });
+
+			console.log( w.item(0).options );
+
+    });
+*/
 
   });
 });

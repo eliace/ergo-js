@@ -1,8 +1,8 @@
 
 Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
-	
+
 	defaults: {
-		baseCls: 'breadcrumbs',
+		cls: 'breadcrumbs',
 		defaultItem: {
 			components: {
 				content: {
@@ -18,5 +18,5 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
 			}
 		}
 	}
-	
-}, 'widgets:breadcrumbs');	
+
+}, 'widgets:breadcrumbs');

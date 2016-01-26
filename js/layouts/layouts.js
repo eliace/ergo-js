@@ -13,7 +13,7 @@
 
 //= require grid
 //= require table
-//= require fluid
+//= require float
 //= require tiles
 
 //= require band
@@ -21,4 +21,4 @@
 
 //= require center
 
-//= flex
+//= require flex

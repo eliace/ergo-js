@@ -24,7 +24,7 @@ Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widget
 	},
 
 	set href(v) {
-		this.el.setAttribute('href', v);
+		this.vdom.el.setAttribute('href', v);
 	}
 
 }, 'widgets:link');

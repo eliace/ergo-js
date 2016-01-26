@@ -1,15 +1,18 @@
 
-Ergo.declare('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'hslide',
-		html: '<div style="white-space: nowrap; display: inline-block"/>',
-		include: ['observable']
+		// html: '<div style="white-space: nowrap; display: inline-block"/>',
+		// include: ['observable']
 	},
 
+	html: '<div style="white-space: nowrap; display: inline-block"/>',
 
-	_construct: function(o) {
-		this._super(o);
+
+	_initialize: function() {
+		Ergo.layouts.HSlide.superclass._initialize.apply(this, arguments);
+//		this._super(o);
 
 		this._offset = 0;
 	},
@@ -18,11 +21,11 @@ Ergo.declare('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 
 
 	slide_next: function() {
-		var width = this._widget.el.width();
+		var width = $(this.el).width();
 //		if(!this._offset) this._offset = 0;
 		this._offset += width;
-		if(this._offset > this.el.width() - width) {
-			this._offset = this.el.width() - width;
+		if(this._offset > $(this.innerEl).width() - width) {
+			this._offset = $(this.innerEl).width() - width;
 //			this.nextBtn.states.set('disabled');
 		}
 		else {
@@ -30,13 +33,13 @@ Ergo.declare('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 		}
 //		this.prevBtn.states.unset('disabled');
 
-		this.el.css('margin-left', -this._offset);
+		$(this.innerEl).css('margin-left', -this._offset);
 
-		this.events.fire('slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
+		this._widget.events.fire('layout#slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
 	},
 
 	slide_prev: function() {
-		var width = this._widget.el.width();
+		var width = $(this.el).width();
 //		if(!this._offset) this._offset = 0;
 		this._offset -= width;
 		if(this._offset <= 0) {
@@ -49,36 +52,38 @@ Ergo.declare('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 
 //		this.nextBtn.states.unset('disabled');
 
-		this.el.css('margin-left', -this._offset);
+		$(this.innerEl).css('margin-left', -this._offset);
 
-		this.events.fire('slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
+		this._widget.events.fire('layout#slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
 	},
+
+
 
 	slide_to_item: function(item, bias) {
 
 		bias = bias || 0;
 
 		var x = this._item_offset(item);//this._widget.item(i).el.position().left + this._offset;//_item_offset(i);
-		var w = item.el.outerWidth(true);
-		var frame_w = this._widget.el.width();
-		var box_w = this.el.width();
+		var w = $(item.vdom.el).outerWidth(true);
+		var frame_w = $(this.el).width();
+		var box_w = $(this.innerEl).width();
 
 		if(x - bias < this._offset) {
 			this._offset = Math.max(x - bias, 0);
-			this.el.css('margin-left', -this._offset);
+			$(this.innerEl).css('margin-left', -this._offset);
 		}
 		else if(x+w+bias > this._offset+frame_w) {
 			this._offset = Math.min(box_w-frame_w, x+w-frame_w+bias);
-			this.el.css('margin-left', -this._offset);
+			$(this.innerEl).css('margin-left', -this._offset);
 		}
 
-		this.events.fire('slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
+		this._widget.events.fire('layout#slide', {hasPrev: this.has_prev(), hasNext: this.has_next()});
 	},
 
 
 	_item_offset: function(item) {
-		var offset = item.el.offset();
-		var offset0 = this.el.offset();
+		var offset = $(item.vdom.el).offset();
+		var offset0 = $(this.innerEl).offset();
 
 		return offset.left - offset0.left;
 	},
@@ -89,8 +94,8 @@ Ergo.declare('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 	},
 
 	has_next: function() {
-		var frame_w = this._widget.el.width();
-		var w = this.el.width();
+		var frame_w = $(this.el).width();
+		var w = $(this.innerEl).width();
 		return (w - this._offset) > frame_w;
 	}
 

@@ -16,8 +16,8 @@ Ergo.alias('includes:icon', {
 
 
 	overrides: {
-		set_icon: function(v) {
-			this.icon.opt('text', v);
+		set icon(v) {
+			this.$icon.opt('text', v);
 		}
 	}
 
@@ -42,8 +42,8 @@ Ergo.alias('includes:xicon', {
 
 
 	overrides: {
-		set_xicon: function(v) {
-			this.xicon.opt('text', v);
+		set xicon(v) {
+			this.$xicon.opt('text', v);
 		}
 	}
 
@@ -58,7 +58,7 @@ Ergo.alias('includes:icon:before', {
 			icon: {
 				etype: 'icon',
 				weight: -10,
-				cls: 'before'
+				as: 'before'
 			},
 			content: {
 				etype: '.',
@@ -69,7 +69,7 @@ Ergo.alias('includes:icon:before', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -87,7 +87,7 @@ Ergo.alias('includes:icon:after', {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'after'
+				as: 'after'
 			},
 			content: {
 				etype: '.',
@@ -98,7 +98,7 @@ Ergo.alias('includes:icon:after', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -115,7 +115,7 @@ Ergo.alias('includes:xicon:after', {
 			xicon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'after'
+				as: 'after'
 			},
 			content: {
 				etype: '.',
@@ -126,7 +126,7 @@ Ergo.alias('includes:xicon:after', {
 
 
 	overrides: {
-		set_xicon: function(v) {
+		set xicon(v) {
 			this.$xicon.opt('text', v);
 		}
 	}
@@ -141,12 +141,12 @@ Ergo.alias('includes:xicon:after', {
 Ergo.alias('includes:icon:at-left', {
 
 	defaults:{
-		cls: 'has-icon at-left',
+		as: 'has-icon at-left',
 		components: {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'left'
+				as: 'left'
 			},
 			content: {
 				etype: '.'
@@ -156,7 +156,7 @@ Ergo.alias('includes:icon:at-left', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -169,12 +169,12 @@ Ergo.alias('includes:icon:at-left', {
 Ergo.alias('includes:icon:at-right', {
 
 	defaults:{
-		cls: 'has-icon at-right',
+		as: 'has-icon at-right',
 		components: {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'right'
+				as: 'right'
 			},
 			content: {
 				etype: '.'
@@ -184,7 +184,7 @@ Ergo.alias('includes:icon:at-right', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -196,12 +196,12 @@ Ergo.alias('includes:icon:at-right', {
 Ergo.alias('includes:xicon:at-right', {
 
 	defaults:{
-		cls: 'has-icon at-right',
+		as: 'has-icon at-right',
 		components: {
 			xicon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'right'
+				as: 'right'
 			},
 			content: {
 				etype: '.'
@@ -211,7 +211,7 @@ Ergo.alias('includes:xicon:at-right', {
 
 
 	overrides: {
-		set_xicon: function(v) {
+		set xicon(v) {
 			this.$xicon.opt('text', v);
 		}
 	}

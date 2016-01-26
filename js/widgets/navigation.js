@@ -1,13 +1,13 @@
 
 
 Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		baseCls: 'navigation',
-		html: '<nav/>',
+		cls: 'navigation',
+		tag: 'nav',
 		components: {
 			header: {
-				layout: 'fluid',
+				layout: 'float',
 				cls: 'header',
 				components: {
 					title: {
@@ -17,17 +17,17 @@ Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
 				}
 			},
 			content: {
-				layout: 'fluid',
+				layout: 'float',
 				cls: 'content'
 			}
 		}
-		
+
 	},
-	
-	
-	set_title: function(v) {
-		this.header.title.opt('text', v);
+
+
+	set title(v) {
+		this.$header.$title.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:navigation');

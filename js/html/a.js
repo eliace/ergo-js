@@ -9,10 +9,14 @@
 Ergo.defineClass('Ergo.html.A', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<a/>'
+		tag: 'a'
 	},
 
-  attributes: ['id', 'tabindex', 'href']
+  attributes: ['id', 'tabindex', 'href'],
+
+	set href(v) {
+		this.vdom.el.setAttribute('href', v);
+	}
 
 
 }, 'html:a');

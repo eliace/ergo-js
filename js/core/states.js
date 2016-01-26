@@ -90,7 +90,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 		// Если состояние уже установлено, то ничего не делаем
 		if(to && (to in this._current))
-			return $.when({});
+			return false;//$.when({});
 
 
 
@@ -168,10 +168,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		// }
 
 
-
-
-		return $.when.apply($, deferreds).done(function() {
-
+		var changeState = function() {
 			// 2. удаляем все исходные состояния переходов из списка активных состояний
 			for(var i = 0; i < from.length; i++) {
 				delete self._current[from[i]];
@@ -184,7 +181,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			// 4. оповещаем виджет, что состояние изменилось
 			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
 
-		});
+			return true;
+		}
+
+
+
+		return (deferreds.length == 0) ? changeState.call(this) : $.when.apply($, deferreds).done(changeState);
 
 //		return deferred;
 	},
@@ -200,12 +202,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			var val = states[s];
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
-			if($.isString(val))
-				this._widget.el.classList.add(val);
+			if($.isString(val)) {
+				this._widget.vdom.addClass(val);
+			}
+//				this._widget.el.classList.add(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.classList.add(val[0]);
-				this._widget.el.classList.remove(val[1]);
+				this._widget.vdom.addClass(val);
+				this._widget.vdom.removeClass(val[1]);
+				// this._widget.el.classList.add(val[0]);
+				// this._widget.el.classList.remove(val[1]);
+
 				// if(val.length > 0) {
 				// 	$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
 				// 		if(add_cls !== false)
@@ -217,12 +224,12 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			else {
 				$.when( val.call(this._widget, true, data) ).done(function(add_cls) {
 					if(add_cls !== false)
-						self._widget.el.classList.add(add_cls || s);
+						self._widget.vdom.addClass(add_cls || s);
 				});
 			}
 		}
 		else {
-			this._widget.el.classList.add(s);
+			this._widget.vdom.addClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});
@@ -242,11 +249,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
-				this._widget.el.classList.remove(val);
+				this._widget.vdom.removeClass(val);
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.classList.add(val[1]);
-				this._widget.el.classList.remove(val[0]);
+				this._widget.vdom.addClass(val[1]);
+				this._widget.vdom.removeClass(val[0]);
 
 				// if(val.length > 1) {
 				// 	$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
@@ -259,7 +266,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			else {
 				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
 					if(rm_cls !== false)
-						self._widget.el.classList.remove(rm_cls || s);
+						self._widget.vdom.removeClass(rm_cls || s);
 				});
 
 //				var rm_cls = val.call(this._widget, false);
@@ -268,7 +275,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			}
 		}
 		else {
-			this._widget.el.classList.remove(s);
+			this._widget.vdom.removeClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'off'});
@@ -299,7 +306,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 		// Если состояние не установлено, то ничего не делаем
 		if(from && !(from in this._current)) {
-			return $.when({});
+			return false;//$.when({});
 		}
 
 
@@ -400,7 +407,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 
 //		return deferred;
-		return $.when.apply($, deferreds);
+		return (deferreds.length == 0) ? true : $.when.apply($, deferreds);
 	},
 
 
@@ -494,6 +501,60 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 
 
+Ergo.alias('mixins:statable', {
+
+	get states() {
+		if( !this.__stt ) {
+			this.__stt = new Ergo.core.StateManager(this);
+			this._bindStates();
+		}
+		return this.__stt;
+	},
+
+
+
+	set stt(v) {
+		var self = this;
+		if(Array.isArray(v)) {
+			v = v.join(' ');
+		}
+		v.split(' ').forEach(function(s) {
+			self.states.set(s);
+		});
+	},
+
+
+
+	_bindStates: function() {
+		var o = this.options;
+
+		if('states' in o){
+			for(var i in o.states)
+				this.states.state(i, o.states[i]);
+			// // настраиваем особое поведение состояния hover ?
+			// if('hover' in o.states) {
+			// 	this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
+			// }
+		}
+
+		if('transitions' in o) {
+			for(var i in o.transitions) {
+				var t = o.transitions[i];
+				if($.isPlainObject(t)) {
+					//TODO
+				}
+				else {
+					var a = i.split('>');
+					if(a.length == 1) a.push('');
+					this.states.transition(a[0].trim() || '*', a[1].trim() || '*', t);
+				}
+			}
+		}
+
+	}
+
+
+});
 
 
 
@@ -518,7 +579,7 @@ Ergo.alias('includes:statable', {
 			for(var i in o.states)
 				this.states.state(i, o.states[i]);
 			// настраиваем особое поведение состояния hover
-			if('hover' in o.states){
+			if('hover' in o.states) {
 				this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
 			}
 		}
@@ -536,6 +597,19 @@ Ergo.alias('includes:statable', {
 				}
 			}
 		}
+
+	},
+
+
+	overrides: {
+
+		set stt(v) {
+			var self = this;
+			v.split(' ').forEach(function(s) {
+				self.states.set(s);
+			});
+		}
+
 
 	}
 

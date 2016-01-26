@@ -2,25 +2,25 @@
 //= require <widgets/boxes/button-box>
 
 Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
-	
+
 	defaults: {
 //		baseCls: 'dropdown-button',
 		include: 'dropdown',
 		components: {
 			content: {
 				etype: 'button',
-				cls: 'dropdown-toggle',
+				as: 'dropdown-toggle',
 				components: {
 					caret: {
 						etype: 'icon',
-						cls: ['caret', 'after']
+						as: 'caret after'
 					}
 				},
 				onClick: function(e) {
-		//			this.states.is('opened') ? 
+		//			this.states.is('opened') ?
 					this.parent.states.toggle('opened');
 					e.stop();//baseEvent.stopPropagation();
-				}		
+				}
 			},
 			dropdown: {
 //				etype: 'dropdown-list',
@@ -39,10 +39,10 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 		// 	}
 		// }
 	}
-	
-	
+
+
 	// setText: function(v) {
 		// this.button.opt('text', v);
 	// }
-	
+
 }, 'widgets:dropdown-button');

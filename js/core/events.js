@@ -16,19 +16,20 @@
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
-
-	_initialize: function(baseEvent) {
-		this.base = baseEvent;
-		this._queue = [];
-	},
-
-
-// Ergo.core.Event = function(baseEvent) {
-// 	this.base = baseEvent;
-// }
+// Ergo.defineClass('Ergo.core.Event', 'Ergo.core.Object', /** @lends Ergo.events.Event.prototype */{
 //
-// Ergo.override(Ergo.core.Event.prototype, {
+// 	_initialize: function(baseEvent) {
+// 		this.base = baseEvent;
+// 		this._queue = [];
+// 	},
+
+
+Ergo.core.Event = function(baseEvent) {
+	this.base = baseEvent;
+	this._queue = [];
+}
+
+Ergo.override(Ergo.core.Event.prototype, {
 
 	stop: function(stopHtmlEvent) {
 //		if(this.base) this.base.stopPropagation(); //FIXME
@@ -140,12 +141,20 @@ Ergo.declare('Ergo.core.Event', Ergo.core.Object, /** @lends Ergo.events.Event.p
  * @name Ergo.core.Observer
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
+// Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
+//
+// 	_initialize: function(target) {
+// 		this.events = {};
+// 		this.target = target;
+// 	},
 
-	_initialize: function(target) {
-		this.events = {};
-		this.target = target;
-	},
+
+Ergo.core.Observer = function(target) {
+	this.events = {};
+	this.target = target;
+}
+
+Ergo.override(Ergo.core.Observer.prototype, {
 
 
 
@@ -250,7 +259,7 @@ Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Obse
 //			_event = new Ergo.events.Event();
 //			e = new Ergo.events.Event();
 		}
-		else if( $.isPlainObject(_event) ){
+		else if( _event.constructor === Object ){
 			Ergo.override(e, _event);
 //			_event.baseEvent = baseEvent;
 //			e = new Ergo.events.Event(e, baseEvent);
@@ -398,6 +407,8 @@ Ergo.alias('mixins:observable', {
 					eventName = name_a[1];
 				}
 				else if(name_a.length > 1 || targetProperty) {
+					// инициализируем свойство
+					this[targetProperty || name_a[0]];
 					continue;
 				}
 
@@ -430,7 +441,7 @@ Ergo.alias('mixins:observable', {
 	},
 
 	fire: function() {
-		this.events.on.fire(this.events, arguments);
+		this.events.fire.apply(this.events, arguments);
 	}
 
 	// off: function(type, callback) {

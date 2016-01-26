@@ -246,7 +246,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		if(!this._callbacks[scope_name]) {
-			throw 'Scope ['+scope_name+'] is not registered in context';
+			throw new Error('Scope ['+scope_name+'] is not registered in context');
 		}
 
 

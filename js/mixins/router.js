@@ -182,8 +182,8 @@ Ergo.alias('includes:router', {
             history: route.history
           };
 
-          Ergo.override(params, match); // merge path params and route params
-          Ergo.smart_override(opts, o); //
+          $ergo.override(params, match); // merge path params and route params
+          $ergo.mergeOptions(opts, [o]); //
 
           return route.name;// {name: route.name, params: match, options: o};// this.join( route.name, match, o );
         }

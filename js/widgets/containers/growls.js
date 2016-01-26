@@ -29,7 +29,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 			},
 			onClose: function() {
 				this.el.height(this.el.height());
-				this.content.hide().then(function(){
+				this.$content.hide().then(function(){
 					this._destroy();//.el.slideUp(300);
 				}.bind(this));
 			}
@@ -45,7 +45,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 			$content: growl
 		});
 
-		this.render();
+		item.render();
 
 
 		setTimeout(function() {

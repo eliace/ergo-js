@@ -1,7 +1,7 @@
 
 
 Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
-	
+
 	defaults: {
 		name: 'tiles'
 	},
@@ -14,7 +14,7 @@ Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
 
 		var tiles = this.options.size;
 
-		this.el.addClass( tiles > sizes.length ? 'tiles-'+tiles : sizes[tiles-1] );		
+		$(this.el).addClass( tiles > sizes.length ? 'tiles-'+tiles : sizes[tiles-1] );
 	},
 
 
@@ -24,8 +24,8 @@ Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
 	wrap: function(item) {
 		var el = $('<div/>').append(item.el);
 //		el.css({'width': '25%'});
-		return el;
+		return el[0];
 	}
 
-	
+
 }, 'layouts:tiles');

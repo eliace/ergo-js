@@ -45,7 +45,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		set: false,
 		get: false,
 //		override: false,
-		events: {'*': 'list'}
+		events: ['object', {'*': 'list'}]
 	},
 
 	/**
@@ -77,7 +77,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			var prevDefaults = null;
 			Ergo.walk_hierarchy(this.constructor, function(clazz){
 				if(clazz.defaults == prevDefaults) return;
-				if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults, clazz.rules);
+				if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults);
 				prevDefaults = clazz.defaults;
 			});
 
@@ -102,7 +102,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 //		this._scope = scope;
 
 
-		this.options = $ergo.mergeOptions(o, opts, this.rules) //Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
+		this.options = $ergo.mergeOptions(o, opts) //Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
 
 
 		// сборка опций
@@ -119,7 +119,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				if(!inc)
 					throw new Error('Include [includes:'+this._includes[i]+'] not found');
 				if(inc.defaults) {
-					this.options = $ergo.mergeOptions({}, [inc.defaults, this.options], this.rules);  //FIXME
+					this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
 					rebuild = true;
 				}
 				if(inc.overrides) {

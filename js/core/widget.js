@@ -6,7 +6,7 @@
 //= require widget-list
 //= require widget-data
 //= require widget-render
-//= require jquery
+//= require widget-jquery
 
 
 
@@ -96,7 +96,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //		plugins: [Ergo.Observable, Ergo.Statable],
 //		autoBind: true,
 //		autoUpdate: true,
-		include: [/*'observable',*/ 'statable'],
+//		include: [/*'observable',*/ 'statable'],
 
 		// layoutFactory: function(layout) {
 		// 	if( $.isString(layout) )
@@ -125,12 +125,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	rules: {
 		as: 'list',
-		defaultItem: 'list',
-		defaultComponent: 'list',
-		nestedItem: 'list',
-		components: {},//{'*': 'list'},
-		items: []//{'*': 'list'}
+		defaultItem: ['object'],
+		defaultComponent: ['object'],
+		nestedItem: ['object'],
+		components: ['object', {'*': ['object']}],
+		items: ['array', {'*': ['object']}],
+		states: ['object'],//, {'*': 'list'}],
+		transitions: ['object'],//, {'*': 'list'}]
 	},
+
 
 
 	// set scope(scope) {
@@ -183,8 +186,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			if(this.__c) {
 
 				// удаление в обратном порядке быстрее
-				for(var i = this.children.src.length-1; i >=0 ; i--) {
-					this.children.src[i]._destroy(false);
+				for(var i = this.__c.src.length-1; i >=0 ; i--) {
+					this.__c.src[i]._destroy(false);
 				}
 
 			}
@@ -200,11 +203,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 				this.children.remove_all();
 
 				// очищаем компоновку
-				this.layout.clear();  //?
+//				this.layout.clear();  //?
 			}
 
-			if(this.el) {
-				$ergo.dom.remove(this.el);
+			if(this.__vdom) {
+				this.__vdom.clear();
+
+//				$ergo.dom.remove(this.el);
 //				this.el.remove();
 			}
 
@@ -222,10 +227,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		};
 
-		if( root !== false )
-			this.unrender().then( destroy.bind(this) );
-		else
+		if( root !== false ) {
+			this.unrender()
 			destroy.call(this);
+			//			this.unrender().then( destroy.bind(this) );
+		}
+		else {
+			destroy.call(this);
+		}
 
 //		}
 //		if(this.options.debug)	console.log('_destroyed');
@@ -271,7 +280,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 					}
 				}
 
-				$ergo.mergeOptions(o, overrides, this.rules);
+				$ergo.mergeOptions(o, overrides);
 			}
 		}
 
@@ -382,69 +391,137 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// this.layout.attach(this);//this.layout.options._widget || this);
 */
 
+		var _widget = this;
 
-		if(o.rendering) {
-
-			o.rendering.call(this, o);
-
-		}
-		else {
-
-			if( o.tag ) {
-				this.el = document.createElement(o.tag);
-			}
-			else {
-				this.el = document.createTextNode('');
-			}
-
-
-//			var _el = this.el;
-		}
+//		if(o.layout) {
+//		this.layout = o.layout;
+//		}
 
 
 
 
-		// инициализируем свойство `dom`
-		this.dom = {
+// 		var _dom = {
+//
+// 			style: function(k, v) {
+// 				if(arguments.length == 2) {
+// 					v = (typeof v === 'number') ? v + 'px' : v;
+// 					_dom.el.style[k] = v;
+// 				}
+// 				else if(arguments.length == 1 && k) {
+// 					if( k.constructor === Object ) {
+// 						for(var i in k) {
+// 							var v = k[i];
+// 							v = (typeof v === 'number') ? v + 'px' : v;
+// 							_dom.el.style[i] = v;
+// 						}
+// 					}
+// 					else if( k.constructor === String ) {
+// 						return _dom.el.style[k];
+// 					}
+// 				}
+// 			},
+//
+// 			addClass: function(cls) {
+// 				if( cls && _dom.el instanceof Element ) {
+// 					(''+cls).split(' ').forEach(function(c) {
+//
+// 						if(!c) return;
+//
+// 						if(_dom.el.classList) {
+// 							_dom.el.classList.add(c);
+// 						}
+// 						else {
+// 							// IE9
+// 							var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
+// 							if(!re.test(_dom.el.className)) {
+// 								_dom.el.className = (_dom.el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
+// 							}
+// 						}
+// 					});
+// 				}
+// 			},
+//
+// 			removeClass: function(cls) {
+// 				if( cls && _dom.el instanceof Element ) {
+// 					(''+cls).split(' ').forEach(function(c) {
+//
+// 						if(!c) return;
+//
+// 						if(_dom.el.classList) {
+// 							_dom.el.classList.remove(c);
+// 						}
+// 						else {
+// 							// IE9
+// 							var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
+// 							_dom.el.className = _dom.el.className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
+// 						}
+// 					});
+// 				}
+// 			},
+//
+// 			remove: function() {
+// 				if(_dom.el.parentNode) {
+// 					_dom.el.parentNode.removeChild(_dom.el);
+// 				}
+// 			}
+//
+// 		};
+//
+// 		if(o.rendering) {
+//
+// 			o.rendering.call(this, o);
+//
+// 		}
+// 		else {
+//
+// 			if( o.tag ) {
+// 				_dom.el = (o.tag.constructor === String) ? document.createElement(o.tag) : o.tag;
+// //				_dom.el = document.createElement(o.tag);
+// 			}
+// 			else {
+// 				_dom.el = document.createTextNode('');
+// 			}
+//
+// //			var _el = this.el;
+// 		}
+//
+// 		_dom.el._ergo = this;
+//
+//
+//
+//
+// 		// инициализируем свойство `dom`
+// 		_dom.events = {
+// 			_listeners: {},
+//
+// 			on: function(name, callback) {
+// 				_widget.events.on('dom#'+name, callback);
+// 				if(!this._listeners[name]) {
+// 					this._listeners[name] = function(e) { this.events.fire('dom#'+name, {}, e); }.bind(_widget);
+// 					_dom.el.addEventListener(name, this._listeners[name]);
+// 				}
+// 			},
+//
+// 			off: function(name) {
+// 				_widget.events.off('dom#'+name);
+// 				for(var i in this._listeners) {
+// 					_dom.el.removeEventListener(name);
+// 				}
+// 			}
+//
+// 		};
+//
+//
+// 		this.dom = _dom;
 
-			events: {
-				_widget: this,
-				_listeners: {},
-
-				on: function(name, callback) {
-					this._widget.events.on('dom#'+name, callback);
-					if(!this._listeners[name]) {
-						this._listeners[name] = function(e) { this.events.fire('dom#'+name, e); }.bind(this._widget);
-						this._widget.el.addEventListener(name, this._listeners[name]);
-					}
-//						this._widget.el.addEventListener(name, callback.bind(this.widget));
-				},
-
-				off: function(name) {
-					this._widget.events.off('dom#'+name);
-					for(var i in this._listeners) {
-						this._widget.el.removeEventListener(name);
-					}
-				}
-			},
-
-			// _destroy: function() {
-			// 	if(_el.parentNode) {
-			// 		_el.parentNode.removeChild(_el);
-			// 	}
-			// 	for(var i in this.events.)
-			// }
-		}
-
-		this._bindEvents('dom');
 
 
+		// if(o.tag)
+		// 	this.layout;
 
-
-
-		if('layout' in o) {
-			this.layout;
-		}
+		// if('layout' in o) {
+		// 	this.layout;
+		// }
 
 
 
@@ -551,20 +628,39 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 		if('as' in o) {
-      var clsList = o.as.join(' ').split(' ');
-      for(var i = 0; i < clsList.length; i++) {
-        this.el.classList.add(clsList[i]);
-      }
+      var as = o.as.join(' ').split(' ');
+
+			for(var i = 0; i < as.length; i++) {
+				if(as[i][0] == '+')
+					this.states.set(as[i].substr(1));
+				else if(as[i][0] == '-')
+					this.states.unset(as[i].substr(1));
+				else {
+//					this.dom.el.classList.add(as[i]);
+					this.vdom.addClass(as[i]);
+				}
+			}
+
+      // for(var i = 0; i < clsList.length; i++) {
+      //   this.dom.addClass(clsList[i]);
+      // }
     }
 
 
 //		console.log(this.events.events);
 		if(this.events.events['click']) {
-			this.dom.events.on('click', function(e) { this.events.fire('click', {originalEvent: e}); }.bind(this));
+			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 		}
 
 
+		if('renderTo' in o) {
+			this.render(o.renderTo);
+		}
 
+
+		if('data' in o) {
+			this.data = o.data;
+		}
 
 /*
 		// добавляем элемент в документ
@@ -660,24 +756,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-	/**
-	 * Отображение виджета
-	 *
-	 * В том случае, если он уже включен в DOM-дерево
-	 */
-	show: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this._wrapper_el || this.el).show() : $(this.el).show() );
-	},
-
-
-	/**
-	 * Скрытие виджета
-	 *
-	 * В том случае, если он уже включен в DOM-дерево
-	 */
-	hide: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this._wrapper_el || this.el).hide() : $(this.el).hide() );
-	},
 
 
 
@@ -806,7 +884,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * @returns {Ergo.core.Widget}
 	 *
 	 */
-	component: function(i) {
+	comp: function(i) {
 		var finder = Ergo.by_widget(i);
 		return this.children.find(function(item, j){
 			return item._type == 'component' && finder.call(this, item, j);
@@ -908,6 +986,18 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 	},
 
+
+
+	get vdom() {
+		if(!this.__vdom) {
+			this._bindVDOM();
+		}
+		return this.__vdom;
+	},
+
+
+
+
 	// get dom() {
 	// 	var el = this.el;
 	// 	if(!this.__dom) {
@@ -923,20 +1013,28 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	// },
 
 
-	get layout() {
-		if(!this.__l) {
-			var o = this.options;
-			if(o.layout) {
- 			 this.__l = (o.layoutFactory || this.layoutFactory)(o.layout);
-			}
-			else {
-			 this.__l = new Ergo.core.Layout();
-			}
-
- 			this.__l.attach(this);//this.layout.options._widget || this);
-		}
-		return this.__l;
-	},
+	// get layout() {
+	// 	if(!this.__l) {
+	// 		var o = this.options;
+	// 		if(o.layout) {
+ // 			 this.__l = (o.layoutFactory || this.layoutFactory)(o.layout);
+	// 		}
+	// 		else {
+	// 		 this.__l = new Ergo.core.Layout();
+	// 		}
+	//
+ // 			this.__l.attach(this);//this.layout.options._widget || this);
+	//
+	// 		if( o.dynamic ) {
+	// 			this.events.on('diff', function(e) {
+	// 				// перестраиваем компоновку
+	// 				this._rerender(false, {created: e.created, deleted: e.deleted, updated: e.updated});
+	// 			}.bind(this));
+	// 		}
+	//
+	// 	}
+	// 	return this.__l;
+	// },
 
 
 
@@ -958,10 +1056,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		if(this.data)
 			val = this.data.get();
-		else if('_value' in this)
-			val = this._value;
+//		else if('__val' in this)
 		else
-			val = this.opt('text');
+			val = this.__val;
+		// else
+		// 	val = this.opt('text');
 
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 
@@ -994,14 +1093,13 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		if(this.data){
 
-//			this._lock_data_change = true;
-//			o.store ? o.store.call(this, val) : this.data.set(val);
+			// связывание будет обновлено автоматически
 			this.data.set(val);
-//			delete this._lock_data_change;
 
 		}
 		else {
-			this._value = val;
+			this.__val = val;
+			// а здесь связывание нужно обновить
 			this._dataChanged();
 //			o.value ? o.value.call(this, val) : this.opt('text', val);
 		}
@@ -1101,7 +1199,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 _opt: function(o) {
 
  		for(var i in o) {
- 			if( !(i in this.rules) ) {
+ 			if( !(i in $ergo.rules) ) {
  				if( (i in this) && $ergo.setter(this, i) ) {
  					this[i] = o[i];
  				}
@@ -1190,6 +1288,30 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
 		return layout;
 	},
+
+
+
+
+
+	rise: function(name, e, baseEvent) {
+		if(!e) e = {};
+		e.target = e.target || this;
+		e = this.events.fire(name, e, baseEvent);
+		if(this.parent && !e.stopped) {
+			this.parent.rise(name, e);
+		}
+	},
+
+
+	sink: function(name, e, baseEvent) {
+		if(!e) e = {};
+		e.target = e.target || this;
+		e = this.events.fire(name, e, baseEvent);
+		if(this.parent && !e.stopped) {
+			this.parent.rise(name, e);
+		}
+	}
+
 
 
 
@@ -1312,7 +1434,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
+Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 
@@ -1320,6 +1442,7 @@ Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetData);
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetRender);
 
+Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
 
 /*
 Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetAttributes);
@@ -1374,7 +1497,7 @@ Ergo.sink = function(name, e, baseEvent) {
 // Интегрируемся в jQuery
 //------------------------------
 
-$.ergo = function(o, ns, scope) {
+$ergo = Ergo.override(function(o, ns, scope) {
 
 //	var o = Ergo.smart_override.apply(this, arguments);
 
@@ -1390,6 +1513,11 @@ $.ergo = function(o, ns, scope) {
 	else {
 		etype = o.etype;
 		o = [o];
+	}
+
+
+	if(!etype) {
+		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
 	}
 
 	// var ns = null;
@@ -1424,13 +1552,16 @@ $.ergo = function(o, ns, scope) {
 	}
 
 	return w;
-}; //Ergo.widget;
+
+}, Ergo);
+
+$.ergo = $ergo;
 
 
 
 $.fn.ergo = function(o) {
 	if(this.length > 0){
-		var widget = this[0]._ergo;// this.data('ergo-widget');
+		var widget = (this[0]._vdom) ? this[0]._vdom._widget : undefined;// this.data('ergo-widget');
 		if(widget) return widget;
 		if(!o) return undefined;
 		o.html = this;
@@ -1439,6 +1570,11 @@ $.fn.ergo = function(o) {
 
 	return $.ergo(o);
 };
+
+
+
+
+
 
 
 

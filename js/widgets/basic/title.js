@@ -1,11 +1,11 @@
 
 
 Ergo.defineClass('Ergo.widgets.Title', 'Ergo.core.Widget', {
-	
+
 	defaults: {
-		html: '<span/>',
+		tag: 'span',
 		cls: 'title'
 //		binding: 'text'
 	}
-	
+
 }, 'widgets:title');

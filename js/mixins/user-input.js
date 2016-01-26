@@ -15,7 +15,13 @@ Ergo.alias('includes:user-input', {
 
       var keyCode = e.keyCode;
 
-      var text = this.el.val();
+      // var text = this.el.val();
+      //
+
+      var text = this.vdom.el.value || this.vdom.el.textContent;
+
+      console.log('input', text, this.value, this.__val );
+
 
 			if(keyCode == Ergo.KeyCode.UP
 				|| keyCode == Ergo.KeyCode.DOWN

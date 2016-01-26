@@ -1,17 +1,17 @@
 
 Ergo.declare('Ergo.layouts.Band', 'Ergo.core.Layout', {
-	
+
 	defaults: {
 		name: 'band'
 	},
-	
+
 	wrap: function(item) {
 		var w = $('<div/>');
-		if(item.label)
-			w.append(item.label.el);
+		if(item.$label)
+			w.append(item.$label.el);
 		w.append(item.el);
-		return w;
+		return w[0];
 	}
-	
-	
+
+
 }, 'layouts:band');

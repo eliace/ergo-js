@@ -3,7 +3,7 @@
 Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 
 	defaults: {
-		baseCls: 'menu',
+		cls: 'menu',
 		defaultItem: {
 			etype: 'menu-item'
 		}
@@ -17,7 +17,7 @@ Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 	defaults: {
-		html: '<li/>',
+		tag: 'li',
 		components: {
 			content: {
 				etype: 'html:a'
@@ -36,7 +36,7 @@ Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
-	
+
 	defaults: {
 //		html: '<ul/>',
 //		cls: 'tree',
@@ -44,26 +44,27 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 		defaultItem: {
 			etype: 'nested-menu-item'
 		}
-		
+
 	},
-	
+
 	_pre_construct: function(o) {
 		this._super(o);
-		
-		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+
+//		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+		o.defaultItem = $ergo.mergeOptions({components: {sub: {nestedItem: o.nestedItem}}}, [o.nestedItem, o.defaultItem]);
 	}
-	
-	
-}, 'widgets:nested-menu');	
+
+
+}, 'widgets:nested-menu');
 
 
 
 
 Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
-	
+
 	defaults: {
-		
-//		html: '<li/>',		
+
+//		html: '<li/>',
 		components: {
 			// content: {
 			// 	etype: 'html:a'
@@ -76,8 +77,8 @@ Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
 				weight: 100
 			}
 		}
-		
+
 	}
-	
-	
+
+
 }, 'widgets:nested-menu-item');
