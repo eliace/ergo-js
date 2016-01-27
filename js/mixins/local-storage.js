@@ -10,7 +10,7 @@ Ergo.alias('includes:local-storage', {
 //        console.log('localStorage restore', e.params);
 
       },
-      'scope:join': function(e) {
+      'scope#join': function(e) {
 
 
         if(e.params) {
@@ -26,7 +26,7 @@ Ergo.alias('includes:local-storage', {
         }
 
       },
-      'scope:disjoin': function(e) {
+      'scope#disjoin': function(e) {
 
 //        console.log('localStorage save', e.scope._name, e.params);
 

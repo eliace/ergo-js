@@ -133,6 +133,37 @@ describe('Widget', function(){
 
 
 
+
+		it('should override includes', function() {
+
+			$ergo.alias('includes:test', {
+				defaults: {
+					a: 'Alice'
+				}
+			});
+
+			$ergo.alias('includes:test2', {
+				defaults: {
+					b: 'Bob'
+				}
+			});
+
+
+      var w = $.ergo({
+        etype: 'box',
+				defaultItem: {
+					include: 'test'
+				},
+				items: [{include: 'test2'}]
+      });
+
+      expect( w.item(0).options.include ).to.be.eql(['test', 'test2']);
+
+    });
+
+
+
+
 /*
 		it('should set merge defaultItem', function() {
 

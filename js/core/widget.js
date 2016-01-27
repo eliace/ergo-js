@@ -652,6 +652,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 		}
 
+		if(this.events.events['doubleClick']) {
+			this.vdom.events.on('doubleClick', function(e) { this.events.fire('doubleClick', {}, e); });
+		}
+
 
 		if('renderTo' in o) {
 			this.render(o.renderTo);
@@ -884,7 +888,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * @returns {Ergo.core.Widget}
 	 *
 	 */
-	comp: function(i) {
+	component: function(i) {
 		var finder = Ergo.by_widget(i);
 		return this.children.find(function(item, j){
 			return item._type == 'component' && finder.call(this, item, j);

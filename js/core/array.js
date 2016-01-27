@@ -37,6 +37,9 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 			i = this.src.length-1;
 		}
 		else {
+			if(i > this.src.length) {
+				console.warn('Add item at index greater than array length may cause errors');
+			}
 			this.src.splice(i, 0, item);
 		}
 

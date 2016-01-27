@@ -19,11 +19,11 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable],
-		include: 'observable',
+//		include: 'observable',
 		lazy: true
 	},
 
@@ -941,6 +941,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 });
 
+
+
+
+Ergo.override(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 

@@ -3238,11 +3238,11 @@ Ergo.alias('includes:observable', {
  * @extends Ergo.core.Object
  *
  */
-Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable],
-		include: 'observable',
+//		include: 'observable',
 		lazy: true
 	},
 
@@ -4163,6 +4163,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 
 
+Ergo.override(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
+
+
+
 /**
  * Пространство имен для данных
  *
@@ -4234,21 +4238,33 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 	state: function(name, value) {
 
-		// парсим код состояния
-		var i = name.indexOf(':');
-		if( i == 0 ) {
-			var g = name.substr(1);
-			this.exclusive_group(g, value);
+		// добавляем эксклюзивные группы
+		if(value && value.constructor === Object) {
+			var group = this._exclusives[name] || [];
+			for(var i in value) {
+				this.state(i, value[i]);
+				group.push(new RegExp('^'+i+'$'));
+			}
+			this._exclusives[name] = group;
 		}
 		else {
-			if( i > 0 ) {
-				var g = name.substr(i+1);
-				name = name.substr(0, i);
 
-				this.exclusive(name, g);
+			//FIXME парсим код состояния
+			var i = name.indexOf(':');
+			if( i == 0 ) {
+				var g = name.substr(1);
+				this.exclusive_group(g, value);
 			}
+			else {
+				if( i > 0 ) {
+					var g = name.substr(i+1);
+					name = name.substr(0, i);
 
-			this._states[name] = value;
+					this.exclusive(name, g);
+				}
+
+				this._states[name] = value;
+			}
 		}
 	},
 
@@ -4394,6 +4410,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				// 			self._widget.el.addClass(add_cls || s);
 				// 	});
 				// }
+			}
+			else if(val.constructor == Object) {
+				console.warn('State group ['+s+'] can not be used as state');
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
@@ -6289,6 +6308,9 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 			i = this.src.length-1;
 		}
 		else {
+			if(i > this.src.length) {
+				console.warn('Add item at index greater than array length may cause errors');
+			}
 			this.src.splice(i, 0, item);
 		}
 
@@ -7576,71 +7598,6 @@ Ergo.WidgetData = {
 
 		var rerender_a = [];
 
-/*
-		var _qfind = function(items, comparator) {
-
-			var after = null;
-
-			if( comparator(items.first()) < 0 ) {
-				after = items.first();
-			}
-			else if( comparator(items.last()) > 0 ) {
-				after = null;
-			}
-			else {
-				var min_x = 0;
-				var max_x = items.size()-1;
-
-//						var n = this.items.size()+1;
-				while(min_x < max_x) {
-
-//								console.log(!!sorter, min_x, max_x);
-
-					// n--;
-					//
-					// if(n == 0) {
-					// 	console.error('error');
-					// 	throw new Exception('error');
-					// }
-
-					var x = Math.ceil((max_x + min_x)/2);
-
-//								console.log('x', x);
-
-					after = items.get(x);
-
-					if(max_x == x || min_x == x) {
-						break;
-					}
-
-
-					var cmp = comparator(after);
-
-
-//								console.log('compare', cmp);
-
-
-					if(cmp < 0) {
-						// min_x < ? < x < max_x
-						max_x = x;
-					}
-					else if(cmp > 0) {
-						// if(min_x == x)
-						// 	break;
-						// min_x < x < ? < max_x
-						min_x = x;
-					}
-					else {
-						break;
-					}
-
-				}
-			}
-
-
-			return after;
-		}
-*/
 
 
 //		console.log( 'Diff (create, delete, update)', created && created.length, deleted && deleted.length, updated && updated.length );
@@ -9333,6 +9290,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 		}
 
+		if(this.events.events['doubleClick']) {
+			this.vdom.events.on('doubleClick', function(e) { this.events.fire('doubleClick', {}, e); });
+		}
+
 
 		if('renderTo' in o) {
 			this.render(o.renderTo);
@@ -9565,7 +9526,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * @returns {Ergo.core.Widget}
 	 *
 	 */
-	comp: function(i) {
+	component: function(i) {
 		var finder = Ergo.by_widget(i);
 		return this.children.find(function(item, j){
 			return item._type == 'component' && finder.call(this, item, j);
@@ -10609,7 +10570,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 	//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
-		ctx.events.fire('scope:join', {scope: scope, params: scope._params});
+		ctx.events.fire('scope#join', {scope: scope, params: scope._params});
 		scope.events.fire('join');
 
 
@@ -10648,7 +10609,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			}
 
 
-			ctx.events.fire('scope:joined', {scope: scope, params: scope._params});
+			ctx.events.fire('scope#joined', {scope: scope, params: scope._params});
 			scope.events.fire('joined');
 
 			console.log('join:'+scope_name);
@@ -10675,7 +10636,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		scope.events.fire('disjoin', {scope: scope});
-		this.events.fire('scope:disjoin', {scope: scope, params: scope._params});
+		this.events.fire('scope#disjoin', {scope: scope, params: scope._params});
 
 
 		// отсоединяем вложенные скоупы
@@ -13775,7 +13736,7 @@ Ergo.alias('includes:history', {
 				// если имя скоупа определено, то подключаем его
 //				this.restore(e.scope, e.params, e.hash);
 			},
-			'scope:joined': function(e) {
+			'scope#joined': function(e) {
 
 
 				var scope = e.scope;
@@ -13817,15 +13778,20 @@ Ergo.alias('includes:history', {
 //				console.log(e.originalEvent);
 //				console.log(p);
 
-//      if(p) {
+      if(p) {
 
-      // восстановление скоупа по данным состояния history
+        // восстановление скоупа по данным состояния history
 
-      var e = ctx.events.fire('restore', {name: null, params: {history: p}, opt: {}});///*scope: p._scope,*/ params: p, hash: window.location.hash});
+        var e = ctx.events.fire('restore', {name: null, params: {history: p}, opt: {}});///*scope: p._scope,*/ params: p, hash: window.location.hash});
 
-      ctx._no_history = true;
-      ctx.join(e.name, e.params, e.opts);
-      ctx._no_history = false;
+        ctx._no_history = true;
+        ctx.join(e.name, e.params, e.opts);
+        ctx._no_history = false;
+
+      }
+      else {
+        console.warn('No popstate data. Scope can not be restored!');
+      }
 
       // }
       // else {
@@ -14096,7 +14062,7 @@ Ergo.alias('includes:local-storage', {
 //        console.log('localStorage restore', e.params);
 
       },
-      'scope:join': function(e) {
+      'scope#join': function(e) {
 
 
         if(e.params) {
@@ -14112,7 +14078,7 @@ Ergo.alias('includes:local-storage', {
         }
 
       },
-      'scope:disjoin': function(e) {
+      'scope#disjoin': function(e) {
 
 //        console.log('localStorage save', e.scope._name, e.params);
 

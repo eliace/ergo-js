@@ -32,10 +32,10 @@ describe('Widget', function(){
         }
       });
 
-      expect(box3.comp('a').options.x).to.be.eq('Alice');
-      expect(box3.comp('b').options.x).to.be.eq('Adam');
-      expect(box3.comp('c').options.x).to.be.eq('Alice');
-      expect(box3.comp('c').options.y).to.be.eq('Bob');
+      expect(box3.component('a').options.x).to.be.eq('Alice');
+      expect(box3.component('b').options.x).to.be.eq('Adam');
+      expect(box3.component('c').options.x).to.be.eq('Alice');
+      expect(box3.component('c').options.y).to.be.eq('Bob');
 
     });
 

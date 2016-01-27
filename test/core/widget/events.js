@@ -94,7 +94,7 @@ describe('Widget', function(){
 			});
 
 
-			w.item(0).comp('content').rise('risedEvent');
+			w.item(0).component('content').rise('risedEvent');
 
 			expect(messages).to.be.eql(['event3', 'event2', 'event11', 'event1']);
 
@@ -132,7 +132,7 @@ describe('Widget', function(){
 			});
 
 
-			w.item(0).comp('content').rise('risedEvent');
+			w.item(0).component('content').rise('risedEvent');
 
 			expect(messages).to.be.eql(['event3', 'event2']);
 

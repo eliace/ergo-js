@@ -77,27 +77,27 @@ describe('Widget', function(){
 
       w.render();
 
-			expect(w.comp('a').vdom.el._pos).to.be.eq(0);
-			expect(w.comp('b').vdom.el._pos).to.be.eq(1);
-			expect(w.comp('a').vdom.el._weight).to.be.eq(0);
-			expect(w.comp('b').vdom.el._weight).to.be.eq(0);
+			expect(w.component('a').vdom.el._pos).to.be.eq(0);
+			expect(w.component('b').vdom.el._pos).to.be.eq(1);
+			expect(w.component('a').vdom.el._weight).to.be.eq(0);
+			expect(w.component('b').vdom.el._weight).to.be.eq(0);
 
 
-			var comp = w.comp('a');
+			var comp = w.component('a');
 
 			comp.unrender();
       w.components.remove(comp);
 
-      expect(w.comp('b').el.text()).to.be.eq('Bob');
-      expect(w.comp('b').vdom.el._pos).to.be.eq(0);
+      expect(w.component('b').el.text()).to.be.eq('Bob');
+      expect(w.component('b').vdom.el._pos).to.be.eq(0);
 
 			w.components.set('a', comp);
 			comp.render();
 
-			expect(w.comp('a').el.text()).to.be.eq('Alice');
-			expect(w.comp('b').el.text()).to.be.eq('Bob');
-      expect(w.comp('a').vdom.el._pos).to.be.eq(1);
-			expect(w.comp('b').vdom.el._pos).to.be.eq(0);
+			expect(w.component('a').el.text()).to.be.eq('Alice');
+			expect(w.component('b').el.text()).to.be.eq('Bob');
+      expect(w.component('a').vdom.el._pos).to.be.eq(1);
+			expect(w.component('b').vdom.el._pos).to.be.eq(0);
 
 			comp = w.components.set('c', {text: 'Charlie', weight: -1});
       comp.render();
@@ -105,13 +105,13 @@ describe('Widget', function(){
 			expect(w.el.children().eq(0).text()).to.be.eq('Charlie');
 			expect(w.el.children().eq(1).text()).to.be.eq('Bob');
 			expect(w.el.children().eq(2).text()).to.be.eq('Alice');
-			expect(w.comp('a').el.text()).to.be.eq('Alice');
-			expect(w.comp('b').el.text()).to.be.eq('Bob');
-			expect(w.comp('c').el.text()).to.be.eq('Charlie');
-      expect(w.comp('a').vdom.el._pos).to.be.eq(1);
-			expect(w.comp('b').vdom.el._pos).to.be.eq(0);
-			expect(w.comp('c').vdom.el._pos).to.be.eq(0);
-			expect(w.comp('c').vdom.el._weight).to.be.eq(-1);
+			expect(w.component('a').el.text()).to.be.eq('Alice');
+			expect(w.component('b').el.text()).to.be.eq('Bob');
+			expect(w.component('c').el.text()).to.be.eq('Charlie');
+      expect(w.component('a').vdom.el._pos).to.be.eq(1);
+			expect(w.component('b').vdom.el._pos).to.be.eq(0);
+			expect(w.component('c').vdom.el._pos).to.be.eq(0);
+			expect(w.component('c').vdom.el._weight).to.be.eq(-1);
 
 
 

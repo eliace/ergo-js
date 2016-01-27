@@ -21,7 +21,7 @@ Ergo.alias('includes:history', {
 				// если имя скоупа определено, то подключаем его
 //				this.restore(e.scope, e.params, e.hash);
 			},
-			'scope:joined': function(e) {
+			'scope#joined': function(e) {
 
 
 				var scope = e.scope;
@@ -63,15 +63,20 @@ Ergo.alias('includes:history', {
 //				console.log(e.originalEvent);
 //				console.log(p);
 
-//      if(p) {
+      if(p) {
 
-      // восстановление скоупа по данным состояния history
+        // восстановление скоупа по данным состояния history
 
-      var e = ctx.events.fire('restore', {name: null, params: {history: p}, opt: {}});///*scope: p._scope,*/ params: p, hash: window.location.hash});
+        var e = ctx.events.fire('restore', {name: null, params: {history: p}, opt: {}});///*scope: p._scope,*/ params: p, hash: window.location.hash});
 
-      ctx._no_history = true;
-      ctx.join(e.name, e.params, e.opts);
-      ctx._no_history = false;
+        ctx._no_history = true;
+        ctx.join(e.name, e.params, e.opts);
+        ctx._no_history = false;
+
+      }
+      else {
+        console.warn('No popstate data. Scope can not be restored!');
+      }
 
       // }
       // else {

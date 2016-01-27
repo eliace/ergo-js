@@ -59,21 +59,33 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 	state: function(name, value) {
 
-		// парсим код состояния
-		var i = name.indexOf(':');
-		if( i == 0 ) {
-			var g = name.substr(1);
-			this.exclusive_group(g, value);
+		// добавляем эксклюзивные группы
+		if(value && value.constructor === Object) {
+			var group = this._exclusives[name] || [];
+			for(var i in value) {
+				this.state(i, value[i]);
+				group.push(new RegExp('^'+i+'$'));
+			}
+			this._exclusives[name] = group;
 		}
 		else {
-			if( i > 0 ) {
-				var g = name.substr(i+1);
-				name = name.substr(0, i);
 
-				this.exclusive(name, g);
+			//FIXME парсим код состояния
+			var i = name.indexOf(':');
+			if( i == 0 ) {
+				var g = name.substr(1);
+				this.exclusive_group(g, value);
 			}
+			else {
+				if( i > 0 ) {
+					var g = name.substr(i+1);
+					name = name.substr(0, i);
 
-			this._states[name] = value;
+					this.exclusive(name, g);
+				}
+
+				this._states[name] = value;
+			}
 		}
 	},
 
@@ -219,6 +231,9 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				// 			self._widget.el.addClass(add_cls || s);
 				// 	});
 				// }
+			}
+			else if(val.constructor == Object) {
+				console.warn('State group ['+s+'] can not be used as state');
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {

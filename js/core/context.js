@@ -337,7 +337,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 	//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
-		ctx.events.fire('scope:join', {scope: scope, params: scope._params});
+		ctx.events.fire('scope#join', {scope: scope, params: scope._params});
 		scope.events.fire('join');
 
 
@@ -376,7 +376,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			}
 
 
-			ctx.events.fire('scope:joined', {scope: scope, params: scope._params});
+			ctx.events.fire('scope#joined', {scope: scope, params: scope._params});
 			scope.events.fire('joined');
 
 			console.log('join:'+scope_name);
@@ -403,7 +403,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 		scope.events.fire('disjoin', {scope: scope});
-		this.events.fire('scope:disjoin', {scope: scope, params: scope._params});
+		this.events.fire('scope#disjoin', {scope: scope, params: scope._params});
 
 
 		// отсоединяем вложенные скоупы
