@@ -132,12 +132,12 @@ Ergo.alias('includes:modal', {
 				this.el.hide();
 */
 
-				this.show().then(function(){
+				this.events.fire('open');
+
+				return this.show().then(function(){
 					this.events.fire('opened');
 					this._layoutChanged();
 				}.bind(this));
-
-				this.events.fire('open');
 
 			}.bind(this));
 

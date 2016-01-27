@@ -695,7 +695,12 @@ Ergo.WidgetData = {
 
 					_item._dynamic = true;
 
-					_item.render();
+					if(!sorter) {
+						rerender_a.push( _item );
+					}
+					else {
+						_item.render();
+					}
 
 				}
 				else {

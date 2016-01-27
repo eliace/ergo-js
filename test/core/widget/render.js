@@ -245,20 +245,20 @@ describe('Widget', function(){
 
 
 
-		it('should render on `autoRender`=true', function() {
-
-      var w = $.ergo({
-        etype: 'box'
-      });
-
-			w.render();
-
-      var item = w.items.add({autoRender: true});
-
-			expect(w.el.children().length).to.be.eq(1);
-
-
-		});
+		// it('should render on `autoRender`=true', function() {
+		//
+    //   var w = $.ergo({
+    //     etype: 'box'
+    //   });
+		//
+		// 	w.render();
+		//
+    //   var item = w.items.add({autoRender: true});
+		//
+		// 	expect(w.el.children().length).to.be.eq(1);
+		//
+		//
+		// });
 
 
   })

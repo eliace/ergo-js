@@ -6556,8 +6556,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
-		if(item.options.autoRender === true)
-			w.vdom.add(item, item._index);//i);
+		// if(item.options.autoRender === true)
+		// 	w.vdom.add(item, item._index);//i);
 
 
 		// выполняем иерархическое связывание данных (автобиндинг)
@@ -7797,7 +7797,12 @@ Ergo.WidgetData = {
 
 					_item._dynamic = true;
 
-					_item.render();
+					if(!sorter) {
+						rerender_a.push( _item );
+					}
+					else {
+						_item.render();
+					}
 
 				}
 				else {
@@ -8608,10 +8613,9 @@ Ergo.alias('mixins:jquery', {
 	get height() { return this.el.outerHeight();	},
 
 
-  $render: function(target) {
-    return target ? this.render($(target)[0]) : this.render();
-  },
-
+  // $render: function(target) {
+  //   return target ? this.render($(target)[0]) : this.render();
+  // },
 
   /**
 	 * Отображение виджета
@@ -8619,7 +8623,7 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	show: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this.vdom.outerEl).show() : this.el.show() );
+		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).show() : this.el.show() );
 	},
 
 
@@ -8629,8 +8633,11 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	hide: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this.vdom.outerEl).hide() : this.el.hide() );
-	},
+		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).hide() : this.el.hide() );
+	}
+
+
+
 
 
 
@@ -9952,7 +9959,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(this.parent && !e.stopped) {
 			this.parent.rise(name, e);
 		}
-	}
+	},
+
+
+
+
+
 
 
 
@@ -11231,7 +11243,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			}
 		}
 
-		this._super.apply(this, arguments);
+		return this._super.apply(this, arguments);
 //		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 
@@ -13256,12 +13268,12 @@ Ergo.alias('includes:modal', {
 				this.el.hide();
 */
 
-				this.show().then(function(){
+				this.events.fire('open');
+
+				return this.show().then(function(){
 					this.events.fire('opened');
 					this._layoutChanged();
 				}.bind(this));
-
-				this.events.fire('open');
 
 			}.bind(this));
 

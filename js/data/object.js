@@ -77,7 +77,7 @@ Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Ob
 			}
 		}
 
-		this._super.apply(this, arguments);
+		return this._super.apply(this, arguments);
 //		Ergo.data.Model.superclass.set.apply(this, arguments);
 	},
 

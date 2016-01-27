@@ -20,13 +20,13 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 		components: {
 			footer: {
-				autoRender: true,
-				layout: 'row',
+				autoRender: 'non-empty',
+//				layout: 'row',
 //				etype: 'tool-bar',
 				components: {
 					buttons: {
 						etype: 'buttons',
-						layout: 'bar',
+//						layout: 'bar',
 						defaultItem: {
 							'!onClick': 'action:dialogAction'
 							// onClick: function(e) {

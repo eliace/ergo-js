@@ -1314,7 +1314,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(this.parent && !e.stopped) {
 			this.parent.rise(name, e);
 		}
-	}
+	},
+
+
+
+
+
 
 
 

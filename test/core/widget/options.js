@@ -148,16 +148,26 @@ describe('Widget', function(){
 				}
 			});
 
+			$ergo.alias('includes:test3', {
+				defaults: {
+					c: 'Charlie'
+				}
+			});
+
 
       var w = $.ergo({
         etype: 'box',
 				defaultItem: {
-					include: 'test'
+					include: 'test test2'
 				},
-				items: [{include: 'test2'}]
+				items: [{include: 'test3'}]
       });
 
-      expect( w.item(0).options.include ).to.be.eql(['test', 'test2']);
+			expect( w.item(0).options.include ).to.be.eql(['test test2', 'test3']);
+			expect( w.item(0)._includes ).to.be.eql(['test', 'test2', 'test3']);
+			expect( w.item(0).options.a ).to.be.eql('Alice');
+			expect( w.item(0).options.b ).to.be.eql('Bob');
+
 
     });
 

@@ -37,10 +37,9 @@ Ergo.alias('mixins:jquery', {
 	get height() { return this.el.outerHeight();	},
 
 
-  $render: function(target) {
-    return target ? this.render($(target)[0]) : this.render();
-  },
-
+  // $render: function(target) {
+  //   return target ? this.render($(target)[0]) : this.render();
+  // },
 
   /**
 	 * Отображение виджета
@@ -48,7 +47,7 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	show: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this.vdom.outerEl).show() : this.el.show() );
+		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).show() : this.el.show() );
 	},
 
 
@@ -58,8 +57,11 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	hide: function(wrapperAware) {
-		return $.when( wrapperAware !== false ? $(this.vdom.outerEl).hide() : this.el.hide() );
-	},
+		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).hide() : this.el.hide() );
+	}
+
+
+
 
 
 
