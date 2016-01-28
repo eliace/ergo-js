@@ -19,6 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "mocha": "~2.4.4",
+    "chai": "~3.5.0"
   }
 }

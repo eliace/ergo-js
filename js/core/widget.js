@@ -653,7 +653,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 
 		if(this.events.events['doubleClick']) {
-			this.vdom.events.on('doubleClick', function(e) { this.events.fire('doubleClick', {}, e); });
+			this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
 		}
 
 
@@ -1000,6 +1000,31 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	},
 
 
+
+	get scope() {
+		return this.__scp;
+	},
+
+	set scope(v) {
+		if(v != null) {
+			this.__scp;
+			this._bindEvents('scope');
+		}
+		else if(this.__scp) {
+			this.__scp.off(this);
+			delete this.__scp;
+		}
+
+	},
+
+
+	get context() {
+		if(!this.__ctx) {
+			this.__ctx = (this.__scp) ? this.__scp._context : Ergo.context;
+			this._bindEvents('context');
+		}
+		return this.__ctx;
+	},
 
 
 	// get dom() {

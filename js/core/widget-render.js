@@ -472,20 +472,27 @@ Ergo.WidgetRender = {
 		}
 
 
+
 		if(created) {
 			for(var i = 0; i < created.length; i++) {
 				var item = created[i];
 				var index = item._index;
 
-				if(!filter || filter(item)) {
-
-					// при наличии сортировки индекс виджета не важен
-					if(sorter) {
-						index = null;
+				if(filter) {
+					if( !filter(item, item._index) ) {
+						// если элемент не прошел фильтр, то не будем его добавлять в vdom
+						continue;
 					}
 
-					vdom.add(item, item._index);
 				}
+
+				// // при наличии сортировки индекс виджета не важен
+				// if(sorter) {
+				// 	index = null;
+				// }
+
+//				vdom.render(item);
+				item.render();
 
 			}
 		}
@@ -496,15 +503,27 @@ Ergo.WidgetRender = {
 			for(var i = 0; i < updated.length; i++) {
 				var item = updated[i];
 
+				if(filter) {
+					if( !filter(item, item._index) ) {
+						// если элемент не прошел фильтр и отрисован, то убираем его из VDOM
+						if(item._rendered) {
+							vdom.remove(item);
+						}
+						continue;
+					}
+				}
+
+
 				// если элемент не отрисован рисуем его в позицию item._index
 				if(!item._rendered) {
 					vdom.add(item, item._index);
 				}
 				// если есть sorter, то обновлять отрисованный элемент нет смысла
-				else if(!sorter){
-					vdom.remove(item);
-					vdom.add(item, item._index);
-				}
+				// else if(!sorter){
+				// 	// MOVE
+				// 	vdom.remove(item);
+				// 	vdom.add(item, item._index);
+				// }
 
 			}
 
@@ -516,7 +535,10 @@ Ergo.WidgetRender = {
 
 			var kv_a = [];
 			this.items.each(function(item, i) {
-				kv_a.push( [item._index, item, item.dom.el._pos, item.dom] );
+				// добавляем только отрисованные элементы
+				if(item._rendered) {
+					kv_a.push( [item._index, item, item.dom.el._pos, item.dom] );
+				}
 			});
 
 

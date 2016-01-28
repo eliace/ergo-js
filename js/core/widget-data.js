@@ -386,7 +386,7 @@ Ergo.WidgetData = {
 					// 1. rebind не вызывается у дочерних элементов со своим dataSource
 					// 2. rebind не вызывается у дочерних элементов с общим dataSource
 					//      (работает некорректно, если rebind вызывается не событием)
-					if(!child._pivot && (child.data != self.data || update === false)) {
+					if(!child._pivot && (child.data != self.data || update === false || child.options.binding)) {
 							child._rebind(false);
 					}
 				});
@@ -495,6 +495,7 @@ Ergo.WidgetData = {
 
 
 		var rerender_a = [];
+		var rerender_new_a = [];
 
 
 
@@ -595,7 +596,8 @@ Ergo.WidgetData = {
 
 					item._dynamic = true;
 
-					item.render();
+//					item.render();
+					rerender_new_a.push(item);
 
 
 				}
@@ -695,12 +697,13 @@ Ergo.WidgetData = {
 
 					_item._dynamic = true;
 
-					if(!sorter) {
-						rerender_a.push( _item );
-					}
-					else {
-						_item.render();
-					}
+					rerender_new_a.push( _item );
+					// if(!sorter) {
+					// 	rerender_a.push( _item );
+					// }
+					// else {
+//						_item.render();
+//					}
 
 				}
 				else {
@@ -905,7 +908,7 @@ Ergo.WidgetData = {
 		}
 
 
-		this.events.fire('diff', {updated: rerender_a});
+		this.events.fire('diff', {created: rerender_new_a, updated: rerender_a});
 
 
 	}
