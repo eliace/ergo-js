@@ -50,6 +50,33 @@ describe('Object', function(){
 
 
 
+    it('should override setters and getters separatly', function() {
+
+      Ergo.defineClass('Ergo.core.TestClass', 'Ergo.core.Object', {
+        get a() {
+          return this._a;
+        }
+      });
+
+      Ergo.defineClass('Ergo.core.TestClass2', 'Ergo.core.TestClass', {
+        set a(v) {
+          this._a = v;
+        }
+      });
+
+
+      var obj = new Ergo.core.TestClass2({
+        a: 'Alice'
+      });
+
+      expect(obj.options.a).to.be.eq('Alice');
+      expect(obj._a).to.be.eq('Alice');
+      expect(obj.a).to.be.eq('Alice');
+
+    });
+
+
+
 
 
 

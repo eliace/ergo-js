@@ -887,7 +887,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 				// TODO обработка служебных символов
 			}
 			else {
-				this.events.rise('input', {text: e.text, keyCode: keyCode});
+				this.rise('input', {text: e.text, keyCode: keyCode});
 			}
 		}
 

@@ -5892,9 +5892,9 @@ Ergo.WidgetOptions = {
 //	getText: function() {	return this.layout.el.text();	},
 	// get width() {	return this.el.outerWidth();	},
 	// get height() { return this.el.outerHeight();	},
-	get name() { return this._name || this._key || this._index; },
-
-
+	get name() {
+		return this._name || this._key || this._index;
+	},
 
 
 
@@ -7488,7 +7488,7 @@ Ergo.WidgetData = {
 					// 1. rebind не вызывается у дочерних элементов со своим dataSource
 					// 2. rebind не вызывается у дочерних элементов с общим dataSource
 					//      (работает некорректно, если rebind вызывается не событием)
-					if(!child._pivot && (child.data != self.data || update === false)) {
+					if(!child._pivot && (child.data != self.data || update === false || child.options.binding)) {
 							child._rebind(false);
 					}
 				});
@@ -7597,6 +7597,7 @@ Ergo.WidgetData = {
 
 
 		var rerender_a = [];
+		var rerender_new_a = [];
 
 
 
@@ -7697,7 +7698,8 @@ Ergo.WidgetData = {
 
 					item._dynamic = true;
 
-					item.render();
+//					item.render();
+					rerender_new_a.push(item);
 
 
 				}
@@ -7797,12 +7799,13 @@ Ergo.WidgetData = {
 
 					_item._dynamic = true;
 
-					if(!sorter) {
-						rerender_a.push( _item );
-					}
-					else {
-						_item.render();
-					}
+					rerender_new_a.push( _item );
+					// if(!sorter) {
+					// 	rerender_a.push( _item );
+					// }
+					// else {
+//						_item.render();
+//					}
 
 				}
 				else {
@@ -8007,7 +8010,7 @@ Ergo.WidgetData = {
 		}
 
 
-		this.events.fire('diff', {updated: rerender_a});
+		this.events.fire('diff', {created: rerender_new_a, updated: rerender_a});
 
 
 	}
@@ -8498,20 +8501,27 @@ Ergo.WidgetRender = {
 		}
 
 
+
 		if(created) {
 			for(var i = 0; i < created.length; i++) {
 				var item = created[i];
 				var index = item._index;
 
-				if(!filter || filter(item)) {
-
-					// при наличии сортировки индекс виджета не важен
-					if(sorter) {
-						index = null;
+				if(filter) {
+					if( !filter(item, item._index) ) {
+						// если элемент не прошел фильтр, то не будем его добавлять в vdom
+						continue;
 					}
 
-					vdom.add(item, item._index);
 				}
+
+				// // при наличии сортировки индекс виджета не важен
+				// if(sorter) {
+				// 	index = null;
+				// }
+
+//				vdom.render(item);
+				item.render();
 
 			}
 		}
@@ -8522,15 +8532,27 @@ Ergo.WidgetRender = {
 			for(var i = 0; i < updated.length; i++) {
 				var item = updated[i];
 
+				if(filter) {
+					if( !filter(item, item._index) ) {
+						// если элемент не прошел фильтр и отрисован, то убираем его из VDOM
+						if(item._rendered) {
+							vdom.remove(item);
+						}
+						continue;
+					}
+				}
+
+
 				// если элемент не отрисован рисуем его в позицию item._index
 				if(!item._rendered) {
 					vdom.add(item, item._index);
 				}
 				// если есть sorter, то обновлять отрисованный элемент нет смысла
-				else if(!sorter){
-					vdom.remove(item);
-					vdom.add(item, item._index);
-				}
+				// else if(!sorter){
+				// 	// MOVE
+				// 	vdom.remove(item);
+				// 	vdom.add(item, item._index);
+				// }
 
 			}
 
@@ -8542,7 +8564,10 @@ Ergo.WidgetRender = {
 
 			var kv_a = [];
 			this.items.each(function(item, i) {
-				kv_a.push( [item._index, item, item.dom.el._pos, item.dom] );
+				// добавляем только отрисованные элементы
+				if(item._rendered) {
+					kv_a.push( [item._index, item, item.dom.el._pos, item.dom] );
+				}
 			});
 
 
@@ -9298,7 +9323,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		}
 
 		if(this.events.events['doubleClick']) {
-			this.vdom.events.on('doubleClick', function(e) { this.events.fire('doubleClick', {}, e); });
+			this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
 		}
 
 
@@ -9645,6 +9670,31 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	},
 
 
+
+	get scope() {
+		return this.__scp;
+	},
+
+	set scope(v) {
+		if(v != null) {
+			this.__scp;
+			this._bindEvents('scope');
+		}
+		else if(this.__scp) {
+			this.__scp.off(this);
+			delete this.__scp;
+		}
+
+	},
+
+
+	get context() {
+		if(!this.__ctx) {
+			this.__ctx = (this.__scp) ? this.__scp._context : Ergo.context;
+			this._bindEvents('context');
+		}
+		return this.__ctx;
+	},
 
 
 	// get dom() {

@@ -48,9 +48,9 @@ Ergo.WidgetOptions = {
 //	getText: function() {	return this.layout.el.text();	},
 	// get width() {	return this.el.outerWidth();	},
 	// get height() { return this.el.outerHeight();	},
-	get name() { return this._name || this._key || this._index; },
-
-
+	get name() {
+		return this._name || this._key || this._index;
+	},
 
 
 
