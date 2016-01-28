@@ -466,6 +466,8 @@ Ergo.WidgetRender = {
 		var vdom = this.vdom;
 
 
+		console.log(arguments);
+
 
 		if(deleted) {
 
@@ -519,11 +521,11 @@ Ergo.WidgetRender = {
 					vdom.add(item, item._index);
 				}
 				// если есть sorter, то обновлять отрисованный элемент нет смысла
-				// else if(!sorter){
-				// 	// MOVE
-				// 	vdom.remove(item);
-				// 	vdom.add(item, item._index);
-				// }
+				else if(!sorter){
+					// MOVE
+					vdom.remove(item);
+					vdom.add(item, item._index);
+				}
 
 			}
 

@@ -20,7 +20,15 @@ var Ergo = (function(){
 			for(var i in overrides) {
 				var desc = Object.getOwnPropertyDescriptor(overrides, i);
 				if( desc && (desc.set || desc.get) ) {
-					Object.defineProperty(obj, i , desc);
+					var descOrig = Object.getOwnPropertyDescriptor(obj, i);
+					if(descOrig) {
+						descOrig.set = desc.set || descOrig.set;
+						descOrig.get = desc.get || descOrig.get;
+					}
+					else {
+						descOrig = desc;
+					}
+					Object.defineProperty(obj, i , descOrig);
 				}
 				else {
 					obj[i] = overrides[i];
@@ -29,6 +37,49 @@ var Ergo = (function(){
 		}
 		return obj;
 	};
+
+
+	// E.merge = function(obj) {
+	// 	for(var j = 1; j < arguments.length; j++){
+	// 		var overrides = arguments[j] || {};
+	// 		for(var i in overrides) {
+	// 			var desc = Object.getOwnPropertyDescriptor(overrides, i);
+	// 			if( desc && (desc.set || desc.get) ) {
+	// 				//
+	// 			}
+	// 			else {
+	// 				obj[i] = overrides[i];
+	// 			}
+	// 		}
+	// 	}
+	// 	return obj;
+	// };
+
+
+	// с объектом сливаются геттеры/сеттеры, которых в нем нет
+	E.mergeGettersAndSetters = function(obj) {
+		for(var j = 1; j < arguments.length; j++){
+			var overrides = arguments[j] || {};
+			for(var i in overrides) {
+				var desc = Object.getOwnPropertyDescriptor(overrides, i);
+				if( desc && (desc.set || desc.get) ) {
+					var desc2 = Object.getOwnPropertyDescriptor(obj, i);
+					if(desc2) {
+						desc2.set = desc2.set || desc.set;
+						desc2.get = desc2.get || desc.get;
+					}
+					else {
+						desc2 = desc;
+					}
+					Object.defineProperty(obj, i , desc2);
+				}
+			}
+		}
+		return obj;
+	};
+
+
+
 
 
 
@@ -836,16 +887,18 @@ Ergo.globals = {
 	 */
 	E.extend = function(p_ctor, ctor, overrides) {
 
-		if(typeof ctor == 'object') {
-			overrides = ctor;
-			ctor = function(){
+		var c = ctor;
+
+		if(typeof c == 'object') {
+			overrides = c;
+			c = function(){
 				if(this.constructor === Object) {
 					var a = [this];
 					for(var i = 0; i < arguments.length; i++) {
 						a.push(arguments[i]);
 					}
 //					console.log([this].concat(arguments));
-					return new (ctor.bind.apply(ctor, a))()
+					return new (c.bind.apply(c, a))()
 				}
 				else {
 					p_ctor.apply(this, arguments);
@@ -858,10 +911,10 @@ Ergo.globals = {
 		// var F = function(){};
 		// F.prototype = p_ctor.prototype;
 		// ctor.prototype = new F();
-		ctor.prototype = Object.create(p_ctor.prototype);
-		ctor.prototype.constructor = ctor;
-		ctor.superclass = p_ctor.prototype;
-		ctor.super_ctor = p_ctor;
+		c.prototype = Object.create(p_ctor.prototype);
+		c.prototype.constructor = c;
+		c.superclass = p_ctor.prototype;
+		c.super_ctor = p_ctor;
 
 		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
@@ -870,23 +923,25 @@ Ergo.globals = {
 			if( !(desc && (desc.get || desc.set)) ) {
 				var p = overrides[i];
 				if($.isFunction(p)) {
-					p.__class__ = ctor;
+					p.__class__ = c;
 					p.__name__ = i;
 				}
 			}
 		}
 
-		E.override(ctor.prototype, overrides);
+		E.mergeGettersAndSetters(c.prototype, c.superclass);
+
+		E.override(c.prototype, overrides);
 
 
 		if(overrides.etype)
-			Ergo.alias(overrides.etype, ctor);
+			Ergo.alias(overrides.etype, c);
 //			_etypes[overrides.etype] = ctor;
 
 		// добавляем классу метод extend
-		ctor.extend = function(o) { return E.extend(this, o); };
+		c.extend = function(o) { return E.extend(this, o); };
 
-		return ctor;
+		return c;
 	};
 
 
@@ -8495,6 +8550,8 @@ Ergo.WidgetRender = {
 		var vdom = this.vdom;
 
 
+		console.log(arguments);
+
 
 		if(deleted) {
 
@@ -8548,11 +8605,11 @@ Ergo.WidgetRender = {
 					vdom.add(item, item._index);
 				}
 				// если есть sorter, то обновлять отрисованный элемент нет смысла
-				// else if(!sorter){
-				// 	// MOVE
-				// 	vdom.remove(item);
-				// 	vdom.add(item, item._index);
-				// }
+				else if(!sorter){
+					// MOVE
+					vdom.remove(item);
+					vdom.add(item, item._index);
+				}
 
 			}
 

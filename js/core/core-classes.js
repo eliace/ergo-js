@@ -20,16 +20,18 @@
 	 */
 	E.extend = function(p_ctor, ctor, overrides) {
 
-		if(typeof ctor == 'object') {
-			overrides = ctor;
-			ctor = function(){
+		var c = ctor;
+
+		if(typeof c == 'object') {
+			overrides = c;
+			c = function(){
 				if(this.constructor === Object) {
 					var a = [this];
 					for(var i = 0; i < arguments.length; i++) {
 						a.push(arguments[i]);
 					}
 //					console.log([this].concat(arguments));
-					return new (ctor.bind.apply(ctor, a))()
+					return new (c.bind.apply(c, a))()
 				}
 				else {
 					p_ctor.apply(this, arguments);
@@ -42,10 +44,10 @@
 		// var F = function(){};
 		// F.prototype = p_ctor.prototype;
 		// ctor.prototype = new F();
-		ctor.prototype = Object.create(p_ctor.prototype);
-		ctor.prototype.constructor = ctor;
-		ctor.superclass = p_ctor.prototype;
-		ctor.super_ctor = p_ctor;
+		c.prototype = Object.create(p_ctor.prototype);
+		c.prototype.constructor = c;
+		c.superclass = p_ctor.prototype;
+		c.super_ctor = p_ctor;
 
 		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
@@ -54,23 +56,25 @@
 			if( !(desc && (desc.get || desc.set)) ) {
 				var p = overrides[i];
 				if($.isFunction(p)) {
-					p.__class__ = ctor;
+					p.__class__ = c;
 					p.__name__ = i;
 				}
 			}
 		}
 
-		E.override(ctor.prototype, overrides);
+		E.mergeGettersAndSetters(c.prototype, c.superclass);
+
+		E.override(c.prototype, overrides);
 
 
 		if(overrides.etype)
-			Ergo.alias(overrides.etype, ctor);
+			Ergo.alias(overrides.etype, c);
 //			_etypes[overrides.etype] = ctor;
 
 		// добавляем классу метод extend
-		ctor.extend = function(o) { return E.extend(this, o); };
+		c.extend = function(o) { return E.extend(this, o); };
 
-		return ctor;
+		return c;
 	};
 
 

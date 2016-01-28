@@ -20,7 +20,15 @@ var Ergo = (function(){
 			for(var i in overrides) {
 				var desc = Object.getOwnPropertyDescriptor(overrides, i);
 				if( desc && (desc.set || desc.get) ) {
-					Object.defineProperty(obj, i , desc);
+					var descOrig = Object.getOwnPropertyDescriptor(obj, i);
+					if(descOrig) {
+						descOrig.set = desc.set || descOrig.set;
+						descOrig.get = desc.get || descOrig.get;
+					}
+					else {
+						descOrig = desc;
+					}
+					Object.defineProperty(obj, i , descOrig);
 				}
 				else {
 					obj[i] = overrides[i];
@@ -29,6 +37,49 @@ var Ergo = (function(){
 		}
 		return obj;
 	};
+
+
+	// E.merge = function(obj) {
+	// 	for(var j = 1; j < arguments.length; j++){
+	// 		var overrides = arguments[j] || {};
+	// 		for(var i in overrides) {
+	// 			var desc = Object.getOwnPropertyDescriptor(overrides, i);
+	// 			if( desc && (desc.set || desc.get) ) {
+	// 				//
+	// 			}
+	// 			else {
+	// 				obj[i] = overrides[i];
+	// 			}
+	// 		}
+	// 	}
+	// 	return obj;
+	// };
+
+
+	// с объектом сливаются геттеры/сеттеры, которых в нем нет
+	E.mergeGettersAndSetters = function(obj) {
+		for(var j = 1; j < arguments.length; j++){
+			var overrides = arguments[j] || {};
+			for(var i in overrides) {
+				var desc = Object.getOwnPropertyDescriptor(overrides, i);
+				if( desc && (desc.set || desc.get) ) {
+					var desc2 = Object.getOwnPropertyDescriptor(obj, i);
+					if(desc2) {
+						desc2.set = desc2.set || desc.set;
+						desc2.get = desc2.get || desc.get;
+					}
+					else {
+						desc2 = desc;
+					}
+					Object.defineProperty(obj, i , desc2);
+				}
+			}
+		}
+		return obj;
+	};
+
+
+
 
 
 
