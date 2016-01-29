@@ -127,7 +127,12 @@ Ergo.WidgetRender = {
 				// }
 				// else {
 
-				this.parent.vdom.addAfter(this, beforeItem, this.options.weight);
+				if(beforeItem && beforeItem.options.weight == this.options.weight) {
+					this.parent.vdom.addAfter(this, beforeItem, this.options.weight);
+				}
+				else {
+					this.parent.vdom.addAfter(this, undefined, this.options.weight);
+				}
 
 				// if(forcedIndex != null) {
 				// 	this._type == 'item' ? this.parent.vdom.add(this, forcedIndex) : this.parent.vdom.add(this);

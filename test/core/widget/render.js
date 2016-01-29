@@ -123,6 +123,41 @@ describe('Widget', function(){
 
 
 
+		it('should render items and components', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+				components: {
+					a: {
+						text: 'Alice',
+						weight: -10
+					},
+					b: {
+						text: 'Bob',
+						weight: 10
+					}
+				},
+				items: ['Charlie']
+      });
+
+      w.render();
+
+			expect( w.el.children().length ).to.be.eql(3);
+			expect( w.el.children().eq(0)[0]._weight ).to.be.eql(-10);
+			expect( w.el.children().eq(1)[0]._weight ).to.be.eql(0);
+			expect( w.el.children().eq(2)[0]._weight ).to.be.eql(10);
+			expect( w.el.children().eq(0).text() ).to.be.eql('Alice');
+			expect( w.el.children().eq(1).text() ).to.be.eql('Charlie');
+			expect( w.el.children().eq(2).text() ).to.be.eql('Bob');
+
+		});
+
+
+
+
+
+
+
 		it('should unrender', function() {
 
       var w = $.ergo({
