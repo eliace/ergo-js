@@ -11,6 +11,7 @@
 
 
 
+
 /**
  * Базовый объект для всех виджетов
  *
@@ -1007,7 +1008,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	set scope(v) {
 		if(v != null) {
-			this.__scp;
+			this.__scp = v;
 			this._bindEvents('scope');
 		}
 		else if(this.__scp) {

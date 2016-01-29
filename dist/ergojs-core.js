@@ -8550,7 +8550,8 @@ Ergo.WidgetRender = {
 
 
 			// сначала добавляем все неотрисованные элементы в DOM
-			this.__c.stream(filter, sorter, pager, function(child, i, prev) {
+			var prev = null;
+			this.__c.stream(filter, sorter, pager, function(child, i) {
 
 				// // динамические элемены не рисуем
 				// if(item._dynamic && item.data) {
@@ -8558,8 +8559,15 @@ Ergo.WidgetRender = {
 				// }
 
 //				if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {  // options.text?
-				if(!child._rendered)
+				if(!child._rendered) {
 					child.render(null, false, prev);
+				}
+
+				if(child._rendered) {
+					prev = child;
+				}
+
+
 					// if( self.__c.src.length == 1 && item._type != 'item' ) {
 					// 	item.el._weight = item._weight;
 			    //   self.el.appendChild(item.el);
@@ -8966,7 +8974,7 @@ Ergo.WidgetRender = {
 
 				item.render();  //FIXME куда рендерим?
 
-				console.log('create', item.text, item._index, item.vdom.outerEl._pos);
+//				console.log('create', item.text, item._index, item.vdom.outerEl._pos);
 
 			}
 		}
@@ -8991,12 +8999,12 @@ Ergo.WidgetRender = {
 		}
 
 
-		console.log('disorder', kv_a);
-		var texts = [];
-		for(var i = 0; i < this.vdom.innerEl.childNodes.length; i++) {
-			texts.push(this.vdom.innerEl.childNodes[i].textContent);
-		}
-		console.log('text', texts);
+		// console.log('disorder', kv_a);
+		// var texts = [];
+		// for(var i = 0; i < this.vdom.innerEl.childNodes.length; i++) {
+		// 	texts.push(this.vdom.innerEl.childNodes[i].textContent);
+		// }
+		// console.log('text', texts);
 
 
 		$ergo.fixDisorder(kv_a, function(i, j, kv_i, kv_j) {
@@ -9006,7 +9014,7 @@ Ergo.WidgetRender = {
 
 //			var _item = this.items.get(i);
 
-			console.log('move', i, j, item_i, item_j);//kv_i[1].text, kv_j[1].text, i, j, kv_i[1].vdom.outerEl._pos, kv_j[1].vdom.outerEl._pos);
+//			console.log('move', i, j, item_i, item_j);//kv_i[1].text, kv_j[1].text, i, j, kv_i[1].vdom.outerEl._pos, kv_j[1].vdom.outerEl._pos);
 
 			//TODO нужно оптимизировать с помощью функции items.move()
 			vdom.remove(item_i);
@@ -9196,6 +9204,7 @@ Ergo.alias('mixins:jquery', {
 
 
 });
+
 
 
 
@@ -10206,7 +10215,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	set scope(v) {
 		if(v != null) {
-			this.__scp;
+			this.__scp = v;
 			this._bindEvents('scope');
 		}
 		else if(this.__scp) {

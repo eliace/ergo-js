@@ -160,6 +160,22 @@ describe('Widget', function(){
 
 
 
+		it('should not render non-render and auto-render items', function() {
+
+			var w = $.ergo({
+        etype: 'box',
+				items: ['Alice', {text: 'Bob', autoRender: false}, 'Charlie']
+      });
+
+			w.render();
+
+			expect(w.el.children().length).to.be.eq(2);
+
+		});
+
+
+
+
 		it('should render filtered', function() {
 
 			var filter = function(item) {
