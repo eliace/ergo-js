@@ -188,7 +188,8 @@ Ergo.WidgetData = {
 
 			this.items.stream(filter, sorter, pager, function(item, i, prev) {
 
-				item.render(null, null, prev);
+				item.render(null, null, prev); //FIXME возможны проблемы с условной отрисовкой
+
 				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
 				// 	self.vdom.add(item, i);
 				// }
@@ -201,7 +202,7 @@ Ergo.WidgetData = {
 			// STATIC BIND
 
 
-			if(this.options.binding) {
+			if(this._pivot || this.options.binding) {
 
 
 				this.data.events.on('changed', function(e) {
@@ -288,7 +289,7 @@ Ergo.WidgetData = {
 
 		if(!this.__dta) return;
 
-//		console.log('rebind');
+		console.log('rebind', this);
 
 		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных
 		// if('dataId' in o)
@@ -386,8 +387,8 @@ Ergo.WidgetData = {
 					// 1. rebind не вызывается у дочерних элементов со своим dataSource
 					// 2. rebind не вызывается у дочерних элементов с общим dataSource
 					//      (работает некорректно, если rebind вызывается не событием)
-					if(!child._pivot && (child.data != self.data || update === false || child.options.binding)) {
-							child._rebind(false);
+					if(!child._pivot && (child.data != self.data || update === false || !child.options.binding)) {
+						child._rebind(false);
 					}
 				});
 

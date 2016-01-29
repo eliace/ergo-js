@@ -221,9 +221,7 @@ describe('Widget', function(){
 			// DELETE
 			bindings = [];
 
-			console.log('--------------------------------------');
 			ds.sync(['Bob', 'Alice']);
-			console.log('--------------------------------------');
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(2);
