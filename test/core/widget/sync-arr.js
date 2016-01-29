@@ -221,7 +221,9 @@ describe('Widget', function(){
 			// DELETE
 			bindings = [];
 
+			console.log('--------------------------------------');
 			ds.sync(['Bob', 'Alice']);
+			console.log('--------------------------------------');
 
 			expect(box.items.size()).to.be.eq(2);
 			expect(ds.entries.size()).to.be.eq(2);
@@ -346,9 +348,7 @@ describe('Widget', function(){
 			// CREATE (visible)
 			bindings = [];
 
-			console.log('----------------------------');
 			ds.sync(['Bob', 'Frank', 'Charlie', 'Dave', 'Eve']);
-			console.log('----------------------------');
 
 			expect(box.items.size()).to.be.eq(3);
 			expect(ds.entries.size()).to.be.eq(5);

@@ -180,6 +180,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 	 * @param {int} index порядковый номер (может быть не определен)
 	 * @param {int} weight вес группы
 	 */
+/*
 	add: function(item, pos, weight, group) {
 
 //		var selector = item.options.layoutSelector;
@@ -354,7 +355,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 //					after_el.before( item_el );
 				else if(elements.length)
 					$ergo.dom.insertAfter(item_el, last);
-//					/*elements.last()*/last.after( item_el );
+//					last.after( item_el );
 				else
 					el.appendChild( item_el );
 //					el.append( item_el );
@@ -442,12 +443,12 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 					// if(!it || it == item) return; //если элемент еще не отрисован, это вызовет ошибку
 					// if(it._weight == weight) arr.push(it);//.el);
 					// else if(it._weight <= weight) before_el = it.el;
-					// else if(!after_el /* || it._weight > after_el._weight*/) after_el = it.el;
+					// else if(!after_el ) after_el = it.el;
 
-					if(child._weight == weight/* && child._index != null*/) arr.push( child );//.el);
+					if(child._weight == weight) arr.push( child );//.el);
 					else if(child._weight <= weight) before_el = child;
 
-					else if(!after_el /* || it._weight > after_el._weight*/) after_el = child;
+					else if(!after_el ) after_el = child;
 				}//);
 
 
@@ -483,7 +484,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 //					after_el.before( item_el );
 				else if(elements.length)
 					$ergo.dom.insertAfter( item_el, last );
-//					/*elements.last()*/last.after( item_el );
+//					last.after( item_el );
 				else {
 					el.appendChild( item_el );
 //					el.append( item_el ); //FIXME это уже не нужно
@@ -532,6 +533,315 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 //		if('itemCls' in this.options) item.el.addClass(this.options.itemCls);
 //		if('itemStyle' in this.options) item.el.css(this.options.itemStyle);
 	},
+*/
+
+	_groupElements: function(group) {
+
+		var beforeEl = null;
+		var afterEl = null;
+
+		var elements = this.innerEl.childNodes;
+
+
+		for(var i = 0; i < group.length; i++) {
+			var g = group[i];
+			var groupElements = [];
+
+//				var lastEl = elements[elements.length-1];
+
+			for(var j = 0; j < elements.length; j++) {
+				var siblingEl = elements[j];
+				var siblingGroup = siblingEl._group[i];
+				// та же группа (вес+индекс)
+				if(siblingGroup[0] == g[0] && siblingGroup[1] == g[1]) {
+					groupElements.push(elements[j]);
+				}
+				// меньшая группа (вес+индекс)
+				else if(siblingGroup[0] < g[0] || siblingGroup[1] < g[1]) {
+					beforeEl = siblingEl;
+				}
+				// большая группа (вес+индекс)
+				else if(siblingGroup[0] > g[0] && siblingGroup[1] > g[1]) {
+					afterEl = siblingEl;
+				}
+			}
+
+			elements = groupElements;
+		}
+
+		return elements;
+	},
+
+
+
+	at: function(pos, weight, group) {
+
+		var w = weight || 0;
+
+		var elements = this.innerEl.childNodes;
+
+		if(group) {
+			elements = this._groupElements(group);
+		}
+
+		for(var i = 0; i < elements.length; i++) {
+			if( elements[i]._pos == pos && elements[i]._weight == w ) {
+				return elements[i];
+			}
+		}
+
+		return null;
+	},
+
+
+
+	addBefore: function(item, otherItem, w, group) {
+
+		var o = this.options;
+
+		var itemEl = item.vdom.outerEl;
+
+		var pos = 0;
+		var weight = w || 0;
+
+
+		// выбираем элемент, куда будет добавляться элемент-виджет
+		var targetEl = (o.selector) ? o.selector.call(this, item) : this.select(item);
+
+		// создаем обертку (если она необходима) для элемента-виджета
+		var itemEl = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
+
+
+
+		if(item.options.wrapper) {
+
+			if(itemEl == item.__vdom.el) {
+				itemEl = document.createElement('div');
+				itemEl.appendChild(item.__vdom.el);
+//				item_el = $('<div/>').append(item.dom.el);
+			}
+
+			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper._weight = weight;
+
+		}
+
+
+		if(itemEl != item.__vdom.el) {
+			item.__vdom.outerEl = itemEl;
+		}
+
+		// экспериментальный код
+		if(item._key && item.options.autoClass) {
+			$ergo.dom.addClass(item_el, item._key);
+		}
+
+
+
+
+		var elements = this.innerEl.childNodes;
+
+
+		if(!otherItem && group) {
+
+			elements = this._groupElements(group);
+
+		}
+
+		var lastEl = elements[elements.length-1];
+		var firstEl = elements[0];
+
+
+
+		// если указан предыдущий элемент
+		if(otherItem) {
+
+			var otherEl = otherItem.vdom.outerEl;
+
+			$ergo.dom.insertBefore(itemEl, otherEl);
+
+			pos = otherEl._pos;
+
+			// увеличиваем индекс всех последующих элементов того же веса
+			var _el = itemEl.nextSibling;
+			while(_el && _el._weight == weight) {
+				_el._pos++;
+				_el = _el.nextSibling;
+			}
+
+		}
+		// если элементов в DOM вообще нет
+		else if(elements.length == 0) {
+			this.innerEl.appendChild(itemEl);
+		}
+		// если вес элемента меньше минимального веса
+		else if(firstEl._weight > weight) {
+			$ergo.dom.insertBefore(itemEl, firstEl);
+		}
+		// добавляем элемент в конец группы
+		else {
+			// ищем последний элемент меньшего веса или первый элемент большего веса
+			var beforeEl = null;
+			var afterEl = null;
+			for(var i = 0; i < elements.length; i++) {
+				var _el = elements[i];
+				if(_el._weight < weight) {
+					beforeEl = _el;
+				}
+				else {
+					afterEl = _el;
+					break;
+				}
+			}
+
+			if(beforeEl) {
+				$ergo.dom.insertAfter(itemEl, beforeEl);
+				pos = beforeEl._pos;
+			}
+			else if(afterEl) {
+				$ergo.dom.insertBefore(itemEl, afterEl);
+			}
+
+
+		}
+
+
+		itemEl._pos = pos;
+		itemEl._weight = weight;
+		itemEl._group = group;
+
+		item._rendered = true;
+
+		this._widget.events.fire('item#rendered', {item: item});
+
+
+	},
+
+
+
+
+	addAfter: function(item, otherItem, w, group) {
+
+		var o = this.options;
+
+		var itemEl = item.vdom.outerEl;
+
+		var pos = 0;
+		var weight = w || 0;
+
+
+		// выбираем элемент, куда будет добавляться элемент-виджет
+		var targetEl = (o.selector) ? o.selector.call(this, item) : this.select(item);
+
+		// создаем обертку (если она необходима) для элемента-виджета
+		var itemEl = (o.wrapper) ? o.wrapper.call(this, item) : this.wrap(item);
+
+
+
+		if(item.options.wrapper) {
+
+			if(itemEl == item.__vdom.el) {
+				itemEl = document.createElement('div');
+				itemEl.appendChild(item.__vdom.el);
+//				item_el = $('<div/>').append(item.dom.el);
+			}
+
+			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper._weight = weight;
+
+		}
+
+
+		if(itemEl != item.__vdom.el) {
+			item.__vdom.outerEl = itemEl;
+		}
+
+		// экспериментальный код
+		if(item._key && item.options.autoClass) {
+			$ergo.dom.addClass(item_el, item._key);
+		}
+
+
+
+
+		var elements = this.innerEl.childNodes;
+
+
+		if(!otherItem && group) {
+
+			elements = this._groupElements(group);
+
+		}
+
+		var lastEl = elements[elements.length-1];
+
+
+
+		// если указан предыдущий элемент
+		if(otherItem) {
+
+			var otherEl = otherItem.vdom.outerEl;
+
+			$ergo.dom.insertAfter(itemEl, otherEl);
+
+			pos = otherEl._pos+1;
+
+			// увеличиваем индекс всех последующих элементов того же веса
+			var _el = itemEl.nextSibling;
+			while(_el && _el._weight == weight) {
+				_el._pos++;
+				_el = _el.nextSibling;
+			}
+
+		}
+		// если элементов в DOM вообще нет
+		else if(elements.length == 0) {
+			this.innerEl.appendChild(itemEl);
+		}
+		// если вес элемента больше максимального веса
+		else if(lastEl._weight <= weight) {
+			this.innerEl.appendChild(itemEl);
+			pos = lastEl._pos+1;
+		}
+		// добавляем элемент в конец группы
+		else {
+			// ищем последний элемент меньшего веса или первый элемент большего веса
+			var beforeEl = null;
+			var afterEl = null;
+			for(var i = 0; i < elements.length; i++) {
+				var _el = elements[i];
+				if(_el._weight <= weight) {
+					beforeEl = _el;
+				}
+				else {
+					afterEl = _el;
+					break;
+				}
+			}
+
+			if(beforeEl) {
+				$ergo.dom.insertAfter(itemEl, beforeEl);
+				pos = beforeEl._pos;
+			}
+			else if(afterEl) {
+				$ergo.dom.insertBefore(itemEl, afterEl);
+			}
+
+
+		}
+
+
+		itemEl._pos = pos;
+		itemEl._weight = weight;
+		itemEl._group = group;
+
+		item._rendered = true;
+
+		this._widget.events.fire('item#rendered', {item: item});
+	},
+
+
+
 
 
 	/**

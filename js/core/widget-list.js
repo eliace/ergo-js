@@ -255,47 +255,88 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-	each: function(callback, filter, sorter) {
+	each: function(callback/* filter, sorter*/) {
+
+		// var c = this._widget; // возможно не лучшее решение, но практичное
+		//
+		// var values = this.src;
+		//
+		// var filter = filter || c.options.filter;
+		// var sorter = sorter || c.options.sorter;
+		//
+		// if(filter || sorter) {
+		//
+		// 	var kv_a = [];
+		//
+		// 	// Filtering source and mapping it to KV-array
+		// 	values.forEach(function(v, i) {
+		// 		if(!filter || filter(v, i)) {
+		// 			kv_a.push( [i, v] );
+		// 		}
+		// 	});
+		//
+		//
+		// 	if(sorter) {
+		// 		// Sorting KV-array
+		// 		kv_a.sort( sorter );
+		// 	}
+		//
+		//
+		// 	for(var i = 0; i < kv_a.length; i++) {
+		// 		var kv = kv_a[i];
+		// 		var prev = i ? kv_a[i-1][1] : undefined;
+		// 		callback.call(c, kv[1], i, prev);//kv[0]);
+		// 	}
+		//
+		// }
+		// else {
+			// Basic each
+			this.src.forEach(callback);
+//			Ergo.each(this.src, callback);
+
+//		}
+
+	},
+
+
+
+	stream: function(filter, sorter, pager, callback) {
 
 		var c = this._widget; // возможно не лучшее решение, но практичное
 
-		var values = this.src;
-
 		var filter = filter || c.options.filter;
 		var sorter = sorter || c.options.sorter;
+		var pager = pager || c.options.pager;
 
-		if(filter || sorter) {
+		var kv_a = [];
 
-			var kv_a = [];
-
-			// Filtering source and mapping it to KV-array
-			values.forEach(function(v, i) {
-				if(!filter || filter(v, i)) {
-					kv_a.push( [i, v] );
-				}
-			});
-
-
-			if(sorter) {
-				// Sorting KV-array
-				kv_a.sort( sorter );
+		// Filtering source and mapping it to KV-array
+		this.src.forEach(function(v, i) {
+			if(!filter || filter(v, i)) {
+				kv_a.push( [i, v] );
 			}
+		});
 
 
-			for(var i = 0; i < kv_a.length; i++) {
-				var kv = kv_a[i];
-				callback.call(c, kv[1], i);//kv[0]);
-			}
-
+		if(sorter) {
+			// Sorting KV-array
+			kv_a.sort( sorter );
 		}
-		else {
-			// Basic each
-			values.forEach(callback);
-//			Ergo.each(this.src, callback);
 
+
+		for(var i = 0; i < kv_a.length; i++) {
+			var kv = kv_a[i];
+			var prev = (i > 0) ? kv_a[i-1][1] : undefined;
+			callback.call(c, kv[1], i, prev);//kv[0]);
 		}
+
+		//TODO pager
 
 	},
+
+
+
+
 
 
 
@@ -490,47 +531,87 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	// 	return Ergo.each(this._source, callback);
 	// },
 
-	each: function(callback, filter, sorter) {
+	each: function(callback/*, filter, sorter*/) {
+
+		// var c = this._widget; // возможно не лучшее решение, но практичное
+		//
+		// var values = this._source;
+		//
+		// var filter = filter || c.options.filter;
+		// var sorter = sorter || c.options.sorter;
+		//
+		// if(filter || sorter) {
+		//
+		// 	var kv_a = [];
+		//
+		// 	// Filtering source and mapping it to KV-array
+		// 	values.forEach(function(v, i) {
+		// 		if(!filter || filter(v, i)) {
+		// 			kv_a.push( [i, v] );
+		// 		}
+		// 	});
+		//
+		//
+		// 	if(sorter) {
+		// 		// Sorting KV-array
+		// 		kv_a.sort( sorter );
+		// 	}
+		//
+		//
+		// 	for(var i = 0; i < kv_a.length; i++) {
+		// 		var kv = kv_a[i];
+		// 		var prev = (i > 0) ? kv_a[i-1][1] : undefined;
+		// 		callback.call(c, kv[1], i, prev);//kv[0]);
+		// 	}
+		//
+		// }
+		// else {
+			// Basic each
+			this._source.forEach(callback);
+//			Ergo.each(this.src, callback);
+
+//		}
+
+	},
+
+
+
+
+	stream: function(filter, sorter, pager, callback) {
 
 		var c = this._widget; // возможно не лучшее решение, но практичное
 
-		var values = this._source;
-
 		var filter = filter || c.options.filter;
 		var sorter = sorter || c.options.sorter;
+		var pager = pager || c.options.pager;
 
-		if(filter || sorter) {
+		var kv_a = [];
 
-			var kv_a = [];
-
-			// Filtering source and mapping it to KV-array
-			values.forEach(function(v, i) {
-				if(!filter || filter(v, i)) {
-					kv_a.push( [i, v] );
-				}
-			});
-
-
-			if(sorter) {
-				// Sorting KV-array
-				kv_a.sort( sorter );
+		// Filtering source and mapping it to KV-array
+		this._source.forEach(function(v, i) {
+			if(!filter || filter(v, i)) {
+				kv_a.push( [i, v] );
 			}
+		});
 
 
-			for(var i = 0; i < kv_a.length; i++) {
-				var kv = kv_a[i];
-				callback.call(c, kv[1], i);//kv[0]);
-			}
-
+		if(sorter) {
+			// Sorting KV-array
+			kv_a.sort( sorter );
 		}
-		else {
-			// Basic each
-			values.forEach(callback);
-//			Ergo.each(this.src, callback);
 
+
+		for(var i = 0; i < kv_a.length; i++) {
+			var kv = kv_a[i];
+			var prev = (i > 0) ? kv_a[i-1][1] : undefined;
+			callback.call(c, kv[1], i, prev);//kv[0]);
 		}
+
+		//TODO pager
 
 	},
+
+
 
 
 //	ensure: function(i) {

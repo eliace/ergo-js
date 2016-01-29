@@ -181,7 +181,7 @@
 
 
 			// уведомляем о перемещении
-			callback(_i, _j);
+			callback(_i, _j, kv_a[_i], kv_a[_j]);
 
 			// запоминаем перемещенный индекс
 			moved_a[_i-indexDeltas[_i]] = true;

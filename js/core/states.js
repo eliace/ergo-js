@@ -11,7 +11,7 @@
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
+Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
 
 	_initialize: function(widget) {

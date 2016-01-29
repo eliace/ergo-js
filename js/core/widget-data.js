@@ -186,13 +186,13 @@ Ergo.WidgetData = {
 			sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
 			pager = o.renderPager ? o.renderPager.bind(this) : undefined;
 
-			this.items.each(function(item, i) {
+			this.items.stream(filter, sorter, pager, function(item, i, prev) {
 
-				item.render(null, null, i);
+				item.render(null, null, prev);
 				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
 				// 	self.vdom.add(item, i);
 				// }
-			}, filter, sorter, pager);
+			});
 
 //			this._layoutChanged();
 

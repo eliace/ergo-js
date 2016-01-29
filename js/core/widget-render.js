@@ -52,7 +52,7 @@ Ergo.WidgetRender = {
 
 
 
-	render: function(target, cascade, forcedIndex) {
+	render: function(target, cascade, beforeItem) {
 
 //		console.log('render');
 
@@ -71,10 +71,11 @@ Ergo.WidgetRender = {
 			var o = this.options;
 			var filter = o.renderFilter ? o.renderFilter.bind(this) : null;
 			var sorter = o.renderSorter ? o.renderSorter.bind(this) : null;
+			var pager = o.renderPager ? o.renderPager.bind(this) : null;
 
 
 			// сначала добавляем все неотрисованные элементы в DOM
-			this.__c.each(function(child) {
+			this.__c.stream(filter, sorter, pager, function(child, i, prev) {
 
 				// // динамические элемены не рисуем
 				// if(item._dynamic && item.data) {
@@ -83,7 +84,7 @@ Ergo.WidgetRender = {
 
 //				if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.children.src.length == 0 && !item.options.text)) {  // options.text?
 				if(!child._rendered)
-					child.render(null, false);
+					child.render(null, false, prev);
 					// if( self.__c.src.length == 1 && item._type != 'item' ) {
 					// 	item.el._weight = item._weight;
 			    //   self.el.appendChild(item.el);
@@ -96,7 +97,7 @@ Ergo.WidgetRender = {
 
 //				item.render(false);
 
-	    },  filter, sorter);
+	    });
 
 			// this.__c.src.forEach(function(item) {
 			// });
@@ -117,12 +118,16 @@ Ergo.WidgetRender = {
 				// 	this._rendered = true;
 				// }
 				// else {
-				if(forcedIndex != null) {
-					this._type == 'item' ? this.parent.vdom.add(this, forcedIndex) : this.parent.vdom.add(this);
-				}
-				else {
-					this._type == 'item' ? this.parent.vdom.add(this, this._index) : this.parent.vdom.add(this);
-				}
+
+				this.parent.vdom.addAfter(this, beforeItem, this.options.weight);
+
+				// if(forcedIndex != null) {
+				// 	this._type == 'item' ? this.parent.vdom.add(this, forcedIndex) : this.parent.vdom.add(this);
+				// }
+				// else {
+				// 	this._type == 'item' ? this.parent.vdom.add(this, this._index) : this.parent.vdom.add(this);
+				// }
+
 //				}
 			}
 
@@ -383,6 +388,7 @@ Ergo.WidgetRender = {
 
 			var filter = o.renderFilter ? o.renderFilter.bind(this) : null;
 			var sorter = o.renderSorter ? o.renderSorter.bind(this) : null;
+			var pager = o.renderPager ? o.renderPager.bind(this) : null;
 
 			// Полная перерисовка
 
@@ -396,9 +402,10 @@ Ergo.WidgetRender = {
 
 
 			// добавляем в DOM-дерево элементы
-			this.__c.each(function(child, i){
+			this.__c.stream(filter, sorter, pager, function(child, i, prev){
 				if(!child._rendered && child.options.autoRender !== false) {
-					child._type == 'item' ? this.vdom.add(child, i) : this.vdom.add(child);
+					this.vdom.addAfter(child, prev, child.options.weight);
+//					child._type == 'item' ? this.vdom.add(child, i) : this.vdom.add(child);
 //					item.render();
 				}
 
@@ -407,7 +414,7 @@ Ergo.WidgetRender = {
 				// 	item._type == 'item' ? w.layout.add(item, i /*item._index*/) : w.layout.add(item, undefined, i);
 				//
 				// }
-			}, filter, sorter);
+			});
 
 		}
 
@@ -466,9 +473,83 @@ Ergo.WidgetRender = {
 		var vdom = this.vdom;
 
 
-		console.log(arguments);
 
 
+		if(created) {
+			for(var i = 0; i < created.length; i++) {
+				var item = created[i];
+				var index = item._index;
+
+				if(filter) {
+					if( !filter(item, item._index) ) {
+						// если элемент не прошел фильтр, то не будем его добавлять в vdom
+						continue;
+					}
+
+				}
+
+
+				item.render();  //FIXME куда рендерим?
+
+				console.log('create', item.text, item._index, item.vdom.outerEl._pos);
+
+			}
+		}
+
+
+
+
+		var kv_a = [];
+//		var prev = undefined;
+		this.items.each(function(item, i) {
+			// добавляем только отфильтрованные отрисованные элементы
+			if(item._rendered && (!filter || filter(item, item._index))) {
+				kv_a.push( [item._index, item, item.vdom.el._pos, item.vdom] );
+//				prev = item;
+			}
+		});
+
+
+		if(sorter) {
+			// Sorting KV-array
+			kv_a.sort(sorter);
+		}
+
+
+		console.log('disorder', kv_a);
+		var texts = [];
+		for(var i = 0; i < this.vdom.innerEl.childNodes.length; i++) {
+			texts.push(this.vdom.innerEl.childNodes[i].textContent);
+		}
+		console.log('text', texts);
+
+
+		$ergo.fixDisorder(kv_a, function(i, j, kv_i, kv_j) {
+
+			var item_i = this.vdom.at(i)._vdom._widget;
+			var item_j = this.vdom.at(j)._vdom._widget;
+
+//			var _item = this.items.get(i);
+
+			console.log('move', i, j, item_i, item_j);//kv_i[1].text, kv_j[1].text, i, j, kv_i[1].vdom.outerEl._pos, kv_j[1].vdom.outerEl._pos);
+
+			//TODO нужно оптимизировать с помощью функции items.move()
+			vdom.remove(item_i);
+//			vdom.add(_item, j);
+			if(i < j) {
+				vdom.addAfter(item_i, item_j, item_i.options.weight);
+			}
+			else {
+				vdom.addBefore(item_i, item_j, item_i.options.weight);
+			}
+
+		}.bind(this));
+
+
+
+
+
+/*
 		if(deleted) {
 
 		}
@@ -494,7 +575,7 @@ Ergo.WidgetRender = {
 				// }
 
 //				vdom.render(item);
-				item.render();
+				item.render();  //FIXME куда рендерим?
 
 			}
 		}
@@ -560,7 +641,7 @@ Ergo.WidgetRender = {
 
 
 		}
-
+*/
 
 	}
 

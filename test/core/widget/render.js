@@ -29,6 +29,7 @@ describe('Widget', function(){
       w.items.remove(item)
 
       expect(w.items.size()).to.be.eq(1);
+			expect(w.el.children().length).to.be.eq(1);
       expect(w.item(0)._index).to.be.eq(0);
       expect(w.item(0).el.text()).to.be.eq('Bob');
       expect(w.item(0).vdom.el._pos).to.be.eq(0);
@@ -36,7 +37,7 @@ describe('Widget', function(){
 
 
       w.items.add(item, null);
-			item.render();
+			item.render(); // рендерим в конец равновесных элементов
 
       expect(w.items.size()).to.be.eq(2);
       expect(w.item(0)._index).to.be.eq(0);
@@ -47,7 +48,8 @@ describe('Widget', function(){
       expect(w.item(1).vdom.el._pos).to.be.eq(1);
 
       item = w.items.add({text: 'Charlie'}, 1);
-      item.render();
+
+			w.render();
 
 			expect(w.items.size()).to.be.eq(3);
 			expect(w.el.children().length).to.be.eq(3);
