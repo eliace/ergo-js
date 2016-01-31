@@ -2087,9 +2087,12 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 				etype: 'button',
 				as: 'dropdown-toggle',
 				components: {
+					content: {
+						etype: '.'
+					},
 					caret: {
 						etype: 'icon',
-						as: 'caret after'
+						as: ['caret', 'after']
 					}
 				},
 				onClick: function(e) {

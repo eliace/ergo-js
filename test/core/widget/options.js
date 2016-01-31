@@ -119,21 +119,6 @@ describe('Widget', function(){
 
 
 
-		it('should set construct options', function() {
-
-      var w = $.ergo({
-        etype: 'box',
-        as: 'cls'
-      });
-
-      expect( w.el.hasClass('cls') ).to.be.true;
-
-    });
-
-
-
-
-
 		it('should override includes', function() {
 
 			$ergo.alias('includes:test', {
@@ -171,6 +156,59 @@ describe('Widget', function(){
 
     });
 
+
+
+		it('should set override style', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+				defaultItem: {
+					style: {'color': '#aaa', 'width': '10%'}
+				},
+				items: [{
+					style: {'color': '#bbb'}
+				}]
+      });
+
+			expect( w.item(0).options.style.color ).to.be.eql('#bbb');
+			expect( w.item(0).options.style.width ).to.be.eql('10%');
+
+    });
+
+
+
+
+		it('should set construct options', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+        as: 'cls'
+      });
+
+      expect( w.el.hasClass('cls') ).to.be.true;
+
+    });
+
+
+
+
+
+
+		it('should bind property data', function() {
+
+      var w = $.ergo({
+        etype: 'box'
+      });
+
+			w.storage = {
+				val: 4
+			};
+
+			w.data = 'storage';
+
+      expect( w.data.get() ).to.be.eql({val: 4});
+
+    });
 
 
 

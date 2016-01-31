@@ -37,6 +37,8 @@ Ergo.WidgetData = {
 		if(pivot === undefined) pivot = true;
 		this._pivot = pivot;
 
+
+
 //		if(update !== false) update = true;
 
 		//TODO custom data injector
@@ -52,11 +54,18 @@ Ergo.WidgetData = {
 			// 	throw new Error('Can not inject scope datasource into detached widget');
 			// }
 			var name_a = data.split(':');
-			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			var prop_a = name_a[1].split('.');
-			while(prop_a.length) {
-				src = src[prop_a.shift()];
+			var src = this[name_a[0]];
+			if(name_a[1]) {
+				var prop_a = name_a[1].split('.');
+				while(prop_a.length) {
+					src = src[prop_a.shift()];
+				}
 			}
+			// var src = (name_a.length == 1) ? this : this[name_a[0]];
+			// var prop_a = name_a[1].split('.');
+			// while(prop_a.length) {
+			// 	src = src[prop_a.shift()];
+			// }
 			data = src;// src[name_a[1]];
 		}
 
@@ -127,9 +136,13 @@ Ergo.WidgetData = {
 			this.data.events.on('changed', function(e){
 
 				// если diff не определен, то перерисовываем все
-				var diff = (e.created || e.updated || e.deleted) ? {created: e.created, updated: e.updated, deleted: e.deleted} : null;
-
-				self._rebind(true, diff);
+				if(e.created || e.updated || e.deleted) {
+					self._rebind(true, e);
+				}
+				else {
+					self._rebind(false);
+					self._dataChanged(false, false);  //FIXME это нужно делать параметрами _rebind
+				}
 
 			}, this);
 
@@ -171,8 +184,8 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
 					self.children.autobinding = false;
 
-					item.bind(dataEntry, false);
-					item._pivot = false;
+					item.bind(dataEntry, false, false);
+//					item._pivot = false;
 					item._dynamic = true;
 
 //					item.el.attr('dynamic', true);
@@ -186,9 +199,14 @@ Ergo.WidgetData = {
 			sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
 			pager = o.renderPager ? o.renderPager.bind(this) : undefined;
 
-			this.items.stream(filter, sorter, pager, function(item, i, prev) {
+			var prev = undefined;
+			this.items.stream(filter, sorter, pager, function(item, i) {
 
 				item.render(null, null, prev); //FIXME возможны проблемы с условной отрисовкой
+
+				if(item._rendered) {
+					prev = item;
+				}
 
 				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
 				// 	self.vdom.add(item, i);
@@ -201,11 +219,11 @@ Ergo.WidgetData = {
 		else {
 			// STATIC BIND
 
-
 			if(this._pivot || this.options.binding) {
 
 
 				this.data.events.on('changed', function(e) {
+
 					// при изменении значения обновляем виджет, но только в "ленивом" режиме
 					/*if(o.updateOnDataChanged)*/
 					//self._dataChanged(true);
@@ -281,7 +299,7 @@ Ergo.WidgetData = {
 	 *
 	 * @protected
 	 */
-	_rebind: function(update, diff) {
+	_rebind: function(update, diff, initial) {
 
 		var o = this.options;
 		var self = this;
@@ -289,7 +307,9 @@ Ergo.WidgetData = {
 
 		if(!this.__dta) return;
 
-		console.log('rebind', this);
+		initial = initial || this;
+
+//		console.log('rebind', this);
 
 		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных
 		// if('dataId' in o)
@@ -310,6 +330,9 @@ Ergo.WidgetData = {
 
 
 		if(o.dynamic) {
+
+//			console.log('rebind (dynamic)');
+
 			// TODO
 
 			if(diff) {
@@ -340,8 +363,8 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry });
 					self.children.autobinding = false;
 
-					item.bind(dataEntry);
-					item._pivot = false;
+					item.bind(dataEntry, undefined, false);
+//					item._pivot = false;
 					item._dynamic = true;
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
@@ -378,7 +401,8 @@ Ergo.WidgetData = {
 		}
 		else {
 
-//		console.log('rebind (static)');
+
+//			console.log('rebind (static)', this._pivot);
 
 			if(this.__c) {
 
@@ -387,8 +411,12 @@ Ergo.WidgetData = {
 					// 1. rebind не вызывается у дочерних элементов со своим dataSource
 					// 2. rebind не вызывается у дочерних элементов с общим dataSource
 					//      (работает некорректно, если rebind вызывается не событием)
-					if(!child._pivot && (child.data != self.data || update === false || !child.options.binding)) {
-						child._rebind(false);
+
+					// дочерний элемент не является опорным
+					// дочерний элнмент не является динамическим, связанным с данными инициатора rebind
+					// дочерний элемент не имеет биндинга
+					if(!child._pivot && !(initial.data == child.data && child.options.dynamic) && (child.data != self.data || update === false || !child.options.binding)) {
+						child._rebind(false, undefined, initial);
 					}
 				});
 
@@ -426,6 +454,8 @@ Ergo.WidgetData = {
 	 */
 	_dataChanged: function(lazy, cascade, no_dynamic) {
 
+//		this.events.fire('refresh');//, e);
+
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
 
@@ -434,6 +464,7 @@ Ergo.WidgetData = {
 		var binding = this.options.binding;
 
 		if(binding && (('__dta' in this) || ('__val' in this))){
+
 			if( $.isString(binding) ) {
 				this[binding] = this.value;
 //				this.opt(binding, this.opt('value'));

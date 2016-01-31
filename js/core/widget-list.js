@@ -308,29 +308,35 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		var sorter = sorter || c.options.sorter;
 		var pager = pager || c.options.pager;
 
-		var kv_a = [];
+		if(filter || sorter || pager) {
 
-		// Filtering source and mapping it to KV-array
-		this.src.forEach(function(v, i) {
-			if(!filter || filter(v, i)) {
-				kv_a.push( [i, v] );
+			var kv_a = [];
+
+			// Filtering source and mapping it to KV-array
+			this.src.forEach(function(v, i) {
+				if(!filter || filter(v, i)) {
+					kv_a.push( [i, v] );
+				}
+			});
+
+
+			if(sorter) {
+				// Sorting KV-array
+				kv_a.sort( sorter );
 			}
-		});
 
 
-		if(sorter) {
-			// Sorting KV-array
-			kv_a.sort( sorter );
+			for(var i = 0; i < kv_a.length; i++) {
+				var kv = kv_a[i];
+//				var prev = (i > 0) ? kv_a[i-1][1] : undefined;
+				callback.call(c, kv[1], i);//kv[0]);
+			}
+
+			//TODO pager
 		}
-
-
-		for(var i = 0; i < kv_a.length; i++) {
-			var kv = kv_a[i];
-			var prev = (i > 0) ? kv_a[i-1][1] : undefined;
-			callback.call(c, kv[1], i, prev);//kv[0]);
+		else{
+			this.src.forEach(callback.bind(c));
 		}
-
-		//TODO pager
 
 	},
 
@@ -585,29 +591,37 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 		var sorter = sorter || c.options.sorter;
 		var pager = pager || c.options.pager;
 
-		var kv_a = [];
 
-		// Filtering source and mapping it to KV-array
-		this._source.forEach(function(v, i) {
-			if(!filter || filter(v, i)) {
-				kv_a.push( [i, v] );
+		if(filter || sorter || pager) {
+
+			var kv_a = [];
+
+			// Filtering source and mapping it to KV-array
+			this._source.forEach(function(v, i) {
+				if(!filter || filter(v, i)) {
+					kv_a.push( [i, v] );
+				}
+			});
+
+
+			if(sorter) {
+				// Sorting KV-array
+				kv_a.sort( sorter );
 			}
-		});
 
 
-		if(sorter) {
-			// Sorting KV-array
-			kv_a.sort( sorter );
+			for(var i = 0; i < kv_a.length; i++) {
+				var kv = kv_a[i];
+//				var prev = (i > 0) ? kv_a[i-1][1] : undefined;
+				callback.call(c, kv[1], i);//kv[0]);
+			}
+
+			//TODO pager
+
 		}
-
-
-		for(var i = 0; i < kv_a.length; i++) {
-			var kv = kv_a[i];
-			var prev = (i > 0) ? kv_a[i-1][1] : undefined;
-			callback.call(c, kv[1], i, prev);//kv[0]);
+		else{
+			this._source.forEach(callback.bind(c));
 		}
-
-		//TODO pager
 
 	},
 

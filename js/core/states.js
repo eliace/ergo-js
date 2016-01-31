@@ -20,6 +20,7 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 		this._states = {};
 		this._transitions = [];
 		this._exclusives = {};
+//		thi._substates = {};
 	},
 
 
@@ -99,6 +100,44 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 	 * @returns {$.Deferred}
 	 */
 	set: function(to, data) {
+
+		if(!to) {
+			return false;
+		}
+
+		var to_a = to.split('.');
+
+		var parent = null;
+
+		// устанавливаем базовые состояния, убираем
+		if(to_a.length > 1) {
+
+			to = to_a.pop();
+
+			// восстанавливаем состояния
+			for(var i = 0; i < to_a.length; i++) {
+				var stt = to_a[i];
+				if(!this._current[stt]) {
+					this._state_on(stt, data);
+					this._current[stt] = {
+						from: null, //FIXME
+						data: data,
+						parent: parent
+					}
+				}
+				parent = stt;
+			}
+
+			// отключаем эксклюзивные состояния
+			for(var i in this._current) {
+				var stt = this._current[i];
+				if(stt.parent == parent) {
+					this.unset(i);
+					break;
+				}
+			}
+
+		}
 
 		// Если состояние уже установлено, то ничего не делаем
 		if(to && (to in this._current))
@@ -188,10 +227,14 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 
 			// 3. включаем итоговое состояние
 			self._state_on(to, data);
-			self._current[to] = from;
+			self._current[to] = {
+				from: from,
+				data: data,
+				parent: parent
+			};
 
 			// 4. оповещаем виджет, что состояние изменилось
-			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
+//			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
 
 			return true;
 		}
@@ -369,7 +412,10 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 				for(var i in this._states)
 					if( i.match(regexp) ) {
 						this._state_on(i);
-						self._current[i] = from;
+						self._current[i] = {
+							from: from,
+							data: data
+						}
 					}
 			}
 		}
@@ -392,7 +438,7 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 
 		// 2.
 		for(var i = 0; i < to.length; i++) {
-			self._current[to[i]] = [from];
+			self._current[to[i]] = {from: [from], data: data};
 			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 

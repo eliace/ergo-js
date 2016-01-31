@@ -112,7 +112,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if('include' in this.options) {
 			this._includes = Ergo.uniq( o.include.join(' ').split(' ') );
 
-			var rebuild = false;
+//			var rebuild = false;
 
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo._aliases['includes:'+this._includes[i]];
@@ -120,7 +120,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 					throw new Error('Include [includes:'+this._includes[i]+'] not found');
 				if(inc.defaults) {
 					this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
-					rebuild = true;
+//					rebuild = true;
 				}
 				if(inc.overrides) {
 					Ergo.override(this, inc.overrides);

@@ -685,7 +685,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 			var afterEl = null;
 			for(var i = 0; i < elements.length; i++) {
 				var _el = elements[i];
-				if(_el._weight < weight) {
+				if(_el._weight != null && _el._weight < weight) {
 					beforeEl = _el;
 				}
 				else {
@@ -777,8 +777,15 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 
 
 
+		// сомнительная оптимизация
+		if(otherItem && otherItem.vdom.outerEl == lastEl) {
+//			console.log('element insert after (fast)');
+			this.innerEl.appendChild(itemEl);
+			pos = lastEl._pos+1;
+		}
 		// если указан предыдущий элемент
-		if(otherItem) {
+		else if(otherItem) {
+//			console.log('element insert after');
 
 			var otherEl = otherItem.vdom.outerEl;
 
@@ -805,12 +812,14 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 		}
 		// добавляем элемент в конец группы
 		else {
+//			console.log('element lookup');
+
 			// ищем последний элемент меньшего веса или первый элемент большего веса
 			var beforeEl = null;
 			var afterEl = null;
 			for(var i = 0; i < elements.length; i++) {
 				var _el = elements[i];
-				if(_el._weight <= weight) {
+				if(_el._weight == null || _el._weight <= weight) {
 					beforeEl = _el;
 				}
 				else {

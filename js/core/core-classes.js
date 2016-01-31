@@ -211,13 +211,13 @@
 
 		cp[cp_a[cp_a.length-1]] = clazz;
 
-		// var cp_a = class_name.split('.');
-		// var cp = 'window';
-		// for(var i = 0; i < cp_a.length; i++){
-			// cp += '.'+cp_a[i];
-			// eval( 'if(!'+cp+') '+cp+' = {};' );
-		// }
-		// eval(cp + ' = clazz;');
+//		cp[cp_a[cp_a.length-1]] = new Function("base_class", 'return function c() { return base_class.apply(this, arguments); }')(base_class)
+
+		// function() {
+		// 	return base_class.apply(this, arguments);
+		// };
+
+
 
 		// если псевдоним класса не задан явно, то он может быть указан в новых свойствах
 		if(!etype)

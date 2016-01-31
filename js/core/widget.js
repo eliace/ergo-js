@@ -317,6 +317,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //		var el = this.el;
 
 
+
+
 		// создаем список дочерних элементов
 		/**
 		 * @field
@@ -655,6 +657,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		if(this.events.events['doubleClick']) {
 			this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
+		}
+
+
+		if(Ergo._scope) {
+			this.scope = Ergo._scope;
 		}
 
 
@@ -1582,8 +1589,8 @@ $ergo = Ergo.override(function(o, ns, scope) {
 
 	scope = scope || Ergo._scope;
 
-	if(scope && w.options.scopeKey) {//w.opt('scopeKey')) {
-		scope.widget( w.opt('scopeKey'), w );
+	if(scope && w.options.sid) {//w.opt('scopeKey')) {
+		scope.addWidget( w.options.sid, w );
 	}
 
 	return w;

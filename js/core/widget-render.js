@@ -415,11 +415,17 @@ Ergo.WidgetRender = {
 
 
 			// добавляем в DOM-дерево элементы
-			this.__c.stream(filter, sorter, pager, function(child, i, prev){
+			var prev = undefined;
+			this.__c.stream(filter, sorter, pager, function(child, i){
+				
 				if(!child._rendered && child.options.autoRender !== false) {
 					this.vdom.addAfter(child, prev, child.options.weight);
 //					child._type == 'item' ? this.vdom.add(child, i) : this.vdom.add(child);
 //					item.render();
+				}
+
+				if(child._rendered) {
+					prev = child;
 				}
 
 				// if(!item._rendered && item.options.autoRender !== false && !(item.options.autoRender == 'non-empty' && item.__c.src.length == 0 && !item.options.text)) {

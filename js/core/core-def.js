@@ -159,6 +159,7 @@ var Ergo = (function(){
 		components: ['object', {'*': ['object']}],
 		items: ['array', {'*': ['object']}],
 		states: ['object'],//, {'*': 'list'}],
+		style: ['override'],//, {'*': 'list'}],
 		transitions: ['object'],//, {'*': 'list'}]
 	};
 
