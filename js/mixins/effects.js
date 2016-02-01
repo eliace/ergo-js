@@ -10,7 +10,7 @@
  */
 
 
-$ergo.rules['effects'] = ['object'];
+$ergo.rules['effects'] = ['override'];
 
 
 

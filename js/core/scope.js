@@ -91,7 +91,7 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 				container = scope._widget;
 			}
 
-			var container = container || this._context;
+			var container = container || this._context._widget;
 
 			// если виджет не встроен и не отрисован
 			if(!w.parent && !w._rendered) {

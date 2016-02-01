@@ -10001,6 +10001,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.data = o.data;
 		}
 
+
+
+		this._bindEvents('context');
+
 /*
 		// добавляем элемент в документ
 		if('renderTo' in o)
@@ -10357,11 +10361,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 	get context() {
-		if(!this.__ctx) {
-			this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
-			this._bindEvents('context');
-		}
-		return this.__ctx;
+		return $context || Ergo.context;
+		// if(!this.__ctx) {
+		// 	this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
+		// 	this._bindEvents('context');
+		// }
+		// return this.__ctx;
 	},
 
 
@@ -10972,12 +10977,11 @@ Ergo.$widgets = $ergo.object.bind(this, 'widgets');
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.Context.prototype */{
+Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
-//		include: 'observable',
-		tag: 'div',
+		include: 'observable',
 
 		events: {
 			'restore': function(e) {
@@ -11000,6 +11004,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.C
 		this._depends = {};
 		this._data = {};
 		this._params = {};
+
+		this._widget = null;
 
 
 		// if('events' in o) {
@@ -11615,7 +11621,7 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 				container = scope._widget;
 			}
 
-			var container = container || this._context;
+			var container = container || this._context._widget;
 
 			// если виджет не встроен и не отрисован
 			if(!w.parent && !w._rendered) {
@@ -13139,7 +13145,7 @@ Ergo.declare('Ergo.layouts.Flex', 'Ergo.core.Layout', {
  */
 
 
-$ergo.rules['effects'] = ['object'];
+$ergo.rules['effects'] = ['override'];
 
 
 

@@ -679,6 +679,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			this.data = o.data;
 		}
 
+
+
+		this._bindEvents('context');
+
 /*
 		// добавляем элемент в документ
 		if('renderTo' in o)
@@ -1035,11 +1039,12 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 	get context() {
-		if(!this.__ctx) {
-			this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
-			this._bindEvents('context');
-		}
-		return this.__ctx;
+		return $context || Ergo.context;
+		// if(!this.__ctx) {
+		// 	this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
+		// 	this._bindEvents('context');
+		// }
+		// return this.__ctx;
 	},
 
 

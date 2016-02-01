@@ -3254,7 +3254,7 @@ Ergo.alias('includes:dropdown', {
 //				style: {'display': 'none'},
 				// TODO неплохо бы сделать шорткаты примесями
 				shortcuts: {
-					'|': {cls: 'divider'}
+					'|': {as: 'divider'}
 				},
 				effects: {
 					show: {type: 'slideDown', delay: 200},

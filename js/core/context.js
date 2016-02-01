@@ -9,12 +9,11 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.Context.prototype */{
+Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
-//		include: 'observable',
-		tag: 'div',
+		include: 'observable',
 
 		events: {
 			'restore': function(e) {
@@ -37,6 +36,8 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.C
 		this._depends = {};
 		this._data = {};
 		this._params = {};
+
+		this._widget = null;
 
 
 		// if('events' in o) {
