@@ -2603,7 +2603,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			opts = {};
 			opts[arguments[0]] = arguments[1];
 		}
-		else if($.isString(o)){
+		else if(typeof o == 'string'){
 
 			// или геттер
 			if( (o in this) && $ergo.getter(this, o) ) {
@@ -3397,7 +3397,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 		}
 
 		// если ключ - строка, то он может быть составным
-		if( $.isString(i) ) {
+		if( typeof i == 'string' ) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
@@ -9972,6 +9972,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
     }
 
 
+		if('style' in o) {
+			this.style = this.vdom.setStyle(o.style);
+		}
+
+
 //		console.log(this.events.events);
 		if(this.events.events['click']) {
 			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
@@ -11234,7 +11239,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params, {$cojoin: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {prejoined: true}) );
 		}
 
 		scope_name = chain[chain.length-1];

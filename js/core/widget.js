@@ -650,6 +650,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
     }
 
 
+		if('style' in o) {
+			this.style = this.vdom.setStyle(o.style);
+		}
+
+
 //		console.log(this.events.events);
 		if(this.events.events['click']) {
 			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });

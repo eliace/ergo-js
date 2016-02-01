@@ -276,7 +276,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Widget', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params, {$cojoin: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {prejoined: true}) );
 		}
 
 		scope_name = chain[chain.length-1];

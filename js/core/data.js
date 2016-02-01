@@ -121,7 +121,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 		}
 
 		// если ключ - строка, то он может быть составным
-		if( $.isString(i) ) {
+		if( typeof i == 'string' ) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа

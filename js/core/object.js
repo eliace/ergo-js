@@ -349,7 +349,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			opts = {};
 			opts[arguments[0]] = arguments[1];
 		}
-		else if($.isString(o)){
+		else if(typeof o == 'string'){
 
 			// или геттер
 			if( (o in this) && $ergo.getter(this, o) ) {
