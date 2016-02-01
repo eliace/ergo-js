@@ -10332,6 +10332,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 	get scope() {
+		if(!this.__scp && this.parent) {
+			this.__scp = this.parent.scope;
+		}
 		return this.__scp;
 	},
 
