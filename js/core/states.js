@@ -101,7 +101,8 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 	 */
 	set: function(to, data) {
 
-		if(!to) {
+		if(!to || (typeof to !== 'string')) {
+			console.warn('State key ['+$ergo.print(to)+'] must be of type string');
 			return false;
 		}
 
@@ -413,8 +414,8 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 					if( i.match(regexp) ) {
 						this._state_on(i);
 						self._current[i] = {
-							from: from,
-							data: data
+							from: from
+//							data: data
 						}
 					}
 			}

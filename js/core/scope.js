@@ -46,6 +46,20 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 		this.widgets[key] = widget;
 		widget.scope = this;
 
+		return widget;
+	},
+
+
+
+	widget: function(k, w) {
+
+		if(arguments.length == 1) {
+			return this.widgets[k];
+		}
+		else {
+			return this.addWidget(k, w);
+		}
+
 	},
 
 
@@ -71,7 +85,13 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 
 			var w = this.widgets[i];
 
-			var container = this._widget || this._context;
+			// ищем контейнер, куда можно присоединиться
+			var container = null//this._widget;
+			for(var scope = this._parent; scope && !container; scope = scope._parent) {
+				container = scope._widget;
+			}
+
+			var container = container || this._context;
 
 			// если виджет не встроен и не отрисован
 			if(!w.parent && !w._rendered) {

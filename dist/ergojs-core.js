@@ -4337,7 +4337,8 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 	 */
 	set: function(to, data) {
 
-		if(!to) {
+		if(!to || (typeof to !== 'string')) {
+			console.warn('State key ['+$ergo.print(to)+'] must be of type string');
 			return false;
 		}
 
@@ -4649,8 +4650,8 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 					if( i.match(regexp) ) {
 						this._state_on(i);
 						self._current[i] = {
-							from: from,
-							data: data
+							from: from
+//							data: data
 						}
 					}
 			}
@@ -11561,6 +11562,20 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 		this.widgets[key] = widget;
 		widget.scope = this;
 
+		return widget;
+	},
+
+
+
+	widget: function(k, w) {
+
+		if(arguments.length == 1) {
+			return this.widgets[k];
+		}
+		else {
+			return this.addWidget(k, w);
+		}
+
 	},
 
 
@@ -11586,7 +11601,13 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 
 			var w = this.widgets[i];
 
-			var container = this._widget || this._context;
+			// ищем контейнер, куда можно присоединиться
+			var container = null//this._widget;
+			for(var scope = this._parent; scope && !container; scope = scope._parent) {
+				container = scope._widget;
+			}
+
+			var container = container || this._context;
 
 			// если виджет не встроен и не отрисован
 			if(!w.parent && !w._rendered) {
