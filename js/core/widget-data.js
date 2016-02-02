@@ -58,10 +58,10 @@ Ergo.WidgetData = {
 			if(src == null) {
 				throw new Error('Injecting data source ['+data+'] is undefined');
 			}
-			if(src && !src.data) {
-				throw new Error('Injecting data source ['+data+'] has no property \"data\"');
-			}
-			src = src.data;
+			// if(src && !src.data) {
+			// 	throw new Error('Injecting data source ['+data+'] has no property \"data\"');
+			// }
+			// src = src.data;
 			if(name_a[1]) {
 				var prop_a = name_a[1].split('.');
 				while(prop_a.length) {

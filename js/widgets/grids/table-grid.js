@@ -117,16 +117,22 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			},
 
 
+
 			hide: function(i) {
 
-				this._widget.$header.$content.$control.item(i).el.detach();
-				this._widget.$header.$content.$body.item(0).item(i).el.detach();
+				this._widget.$header.$content.$control.item(i).unrender();//.el.detach();
+				this._widget.$header.$content.$control.item(i).options.autoRender = false;
+				this._widget.$header.$content.$body.item(0).item(i).unrender();//.el.detach();
+				this._widget.$header.$content.$body.item(0).item(i).options.autoRender = false;
 
-				this._widget.$content.$content.$control.item(i).el.detach();
+				this._widget.$content.$content.$control.item(i).unrender();//el.detach();
+				this._widget.$content.$content.$control.item(i).options.autoRender = false;//el.detach();
 				this._widget.$content.$content.$body.$rows.items.each(function(row){
-					row.item(i).el.detach();
+					row.item(i).unrender();//.el.detach();
+					// ?
 				});
 //				this._widget.content.content.control.options.items[i].autoRender = false;
+
 				this._widget.$content.$content.$body.$rows.options.defaultItem.items[i].autoRender = false;
 
 				this.get(i).hidden = true;
@@ -135,17 +141,24 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 			show: function(i) {
 
 				var w = this._widget.$header.$content.$control.item(i);
-				this._widget.$header.$content.$control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
+				w.options.autoRender = true;
+				this._widget.$header.$content.$control.render();
+//				this._widget.$header.$content.$control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
 				w = this._widget.$header.$content.$body.item(0).item(i);
-				this._widget.$header.$content.$body.item(0).layout.add( w, w._index, w._weight );
+				w.options.autoRender = true;
+				this._widget.$header.$content.$body.item(0).render();
+//				this._widget.$header.$content.$body.item(0).layout.add( w, w._index, w._weight );
 
 				w = this._widget.$content.$content.$control.item(i);
-				this._widget.$content.$content.$control.layout.add( w, w._index, w._weight );
-				this._widget.$content.$content.$body.rows.items.each(function(row){
-					var cell = row.item(i);
-					row.layout.add(cell, cell._index, cell._weight);
+				w.options.autoRender = true;
+				this._widget.$content.$content.$control.render();
+//				this._widget.$content.$content.$control.layout.add( w, w._index, w._weight );
+				this._widget.$content.$content.$body.$rows.items.each(function(row){
+					row.render();
+//					var cell = row.item(i);
+//					row.layout.add(cell, cell._index, cell._weight);
 				});
-				delete this._widget.$content.$content.$body.rows.options.defaultItem.items[i].autoRender;
+				delete this._widget.$content.$content.$body.$rows.options.defaultItem.items[i].autoRender;
 
 				this.get(i).hidden = false;
 

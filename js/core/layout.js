@@ -639,7 +639,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 
 
 
-		var elements = this.innerEl.childNodes;
+		var elements = targetEl.childNodes;
 
 
 		if(!otherItem && group) {
@@ -672,7 +672,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 		}
 		// если элементов в DOM вообще нет
 		else if(elements.length == 0) {
-			this.innerEl.appendChild(itemEl);
+			targetEl.appendChild(itemEl);
 		}
 		// если вес элемента меньше минимального веса
 		else if(firstEl._weight > weight) {
@@ -756,6 +756,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 			item.__vdom.outerEl = itemEl;
 		}
 
+		// FIXME
+		if(otherItem && otherItem.__vdom.targetKey != item.__vdom.targetKey) {
+			otherItem = null;
+		}
+
 		// экспериментальный код
 		if(item._key && item.options.autoClass) {
 			$ergo.dom.addClass(item_el, item._key);
@@ -764,7 +769,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 
 
 
-		var elements = this.innerEl.childNodes;
+		var elements = targetEl.childNodes;
 
 
 		if(!otherItem && group) {
@@ -780,7 +785,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 		// сомнительная оптимизация
 		if(otherItem && otherItem.vdom.outerEl == lastEl) {
 //			console.log('element insert after (fast)');
-			this.innerEl.appendChild(itemEl);
+			targetEl.appendChild(itemEl);
 			pos = lastEl._pos+1;
 		}
 		// если указан предыдущий элемент
@@ -803,11 +808,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 		}
 		// если элементов в DOM вообще нет
 		else if(elements.length == 0) {
-			this.innerEl.appendChild(itemEl);
+			targetEl.appendChild(itemEl);
 		}
 		// если вес элемента больше максимального веса
 		else if(lastEl._weight <= weight) {
-			this.innerEl.appendChild(itemEl);
+			targetEl.appendChild(itemEl);
 			pos = lastEl._pos+1;
 		}
 		// добавляем элемент в конец группы
@@ -819,7 +824,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 			var afterEl = null;
 			for(var i = 0; i < elements.length; i++) {
 				var _el = elements[i];
-				if(_el._weight == null || _el._weight <= weight) {
+				if( (_el._weight || 0) <= weight) {
 					beforeEl = _el;
 				}
 				else {
@@ -876,7 +881,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 				item._wrapper._destroy();
 		}
 		else {
-			item.vdom.detach(); //TODO опасный момент: все дочерние DOM-элементы уничтожаются
+			item.vdom.detach(); //TODO опасный момент: все дочерние DOM-элементы не уничтожаются
 		}
 
 		item._rendered = false;
@@ -959,7 +964,7 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 			if(_el.attr('autoHeight') == 'fit') {
 
 				var h0 = _el.height();
-				var dh = _el.outerHeight() - this.el.height();
+				var dh = _el.outerHeight() - _el.height();
 
 				_el.hide();
 

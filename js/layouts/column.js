@@ -14,11 +14,13 @@ Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
 			if(elements.length == 0) {
 				_el = $('<div class="col '+item.options.col+'"/>')[0];
 				_el._col = item.options.col;
+				item.vdom.targetKey = item.options.col;
 				this.el.appendChild(_el);
 			}
-			else if( item.options.col > elements[elements.length-1]._col ) {
+			else if( item.options.col > (elements[elements.length-1]._col || 0) ) {
 				_el = $('<div class="col '+item.options.col+'"/>')[0];
 				_el._col = item.options.col;
+				item.vdom.targetKey = item.options.col;
 				this.el.appendChild(_el);
 			}
 			else {
@@ -27,9 +29,10 @@ Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
 						_el = elements[i];
 						break;
 					}
-					if( item.options.col < elements[i]._col ) {
+					if( item.options.col < (elements[i]._col || 0) ) {
 						_el = $('<div class="col '+item.options.col+'"/>')[0];
 						_el._col = item.options.col;
+						item.vdom.targetKey = item.options.col;
 						$ergo.dom.prependChild(this.el, _el);
 //						this.el.prepend(_el);
 						break;

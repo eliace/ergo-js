@@ -212,6 +212,12 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 	},
 
 
+
+	get data() {
+		return this._data;
+	},
+
+
 /*
 	// получение данных из контекста
 	data: function(key, v) {
