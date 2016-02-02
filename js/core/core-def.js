@@ -262,6 +262,9 @@ var Ergo = (function(){
 					}
 
 				}
+				else if( a && b && b.constructor == Object ) {
+					$ergo.deep_override(o[name], b);
+				}
 				else {
 					o[name] = b;
 				}

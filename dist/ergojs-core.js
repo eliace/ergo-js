@@ -262,6 +262,9 @@ var Ergo = (function(){
 					}
 
 				}
+				else if( a && b && b.constructor == Object ) {
+					$ergo.deep_override(o[name], b);
+				}
 				else {
 					o[name] = b;
 				}
@@ -8618,13 +8621,14 @@ Ergo.WidgetRender = {
 
 
 
+
 	_bindVDOM: function() {
 
 		var o = this.options;
 
 		if(o.layout) {
 			if(typeof o.layout === 'string') {
-				var clazz = $ergo.alias('layouts:'+o.layout);
+				var clazz = $ergo.alias(o.layout) || $ergo.alias('layouts:'+o.layout);
 				if(!clazz) {
 					throw new Error('Unknown layout ['+o.layout+']');
 				}
@@ -9030,7 +9034,7 @@ Ergo.WidgetRender = {
 			// добавляем в DOM-дерево элементы
 			var prev = undefined;
 			this.__c.stream(filter, sorter, pager, function(child, i){
-				
+
 				if(!child._rendered && child.options.autoRender !== false) {
 					this.vdom.addAfter(child, prev, child.options.weight);
 //					child._type == 'item' ? this.vdom.add(child, i) : this.vdom.add(child);
