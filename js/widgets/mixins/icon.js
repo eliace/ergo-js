@@ -62,7 +62,7 @@ Ergo.alias('includes:icon:before', {
 			},
 			content: {
 				etype: '.',
-				binding: false
+//				binding: false
 			}
 		}
 	},

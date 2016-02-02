@@ -201,7 +201,9 @@ describe('Widget', function(){
       });
 
 			w.storage = {
-				val: 4
+				data: {
+					val: 4
+				}
 			};
 
 			w.data = 'storage';

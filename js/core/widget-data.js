@@ -55,9 +55,19 @@ Ergo.WidgetData = {
 			// }
 			var name_a = data.split(':');
 			var src = this[name_a[0]];
+			if(src == null) {
+				throw new Error('Injecting data source ['+data+'] is undefined');
+			}
+			if(src && !src.data) {
+				throw new Error('Injecting data source ['+data+'] has no property \"data\"');
+			}
+			src = src.data;
 			if(name_a[1]) {
 				var prop_a = name_a[1].split('.');
 				while(prop_a.length) {
+					if(src == null) {
+						throw new Error('Injecting data source property ['+data+'] does not exist');
+					}
 					src = src[prop_a.shift()];
 				}
 			}

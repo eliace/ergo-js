@@ -119,16 +119,17 @@ Ergo.WidgetOptions = {
 	},
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
-	set style(v) {
-		this.vdom.setStyle(v);
-	},
-
-	set cls(v) {
-		// if(Array.isArray(v)) {
-		// 	v = v.join(' ');
-		// }
-		this.vdom.addClass(v);
-	},
+// 	set style(v) {
+// 		this.vdom.setStyle(v);
+// 	},
+//
+// 	set cls(v) {
+// 		this.vdom.el.className = v;
+// 		// if(Array.isArray(v)) {
+// 		// 	v = v.join(' ');
+// 		// }
+// //		this.vdom.addClass(v);
+// 	},
 
 
 	//TODO placeholder?

@@ -106,7 +106,7 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 
 	defaults: {
 		tag: 'i',
-		as: 'icon'
+		cls: 'icon'
 //		binding: 'text'
 	},
 
@@ -3018,7 +3018,7 @@ Ergo.alias('includes:icon:before', {
 			},
 			content: {
 				etype: '.',
-				binding: false
+//				binding: false
 			}
 		}
 	},

@@ -521,6 +521,15 @@
 
 
 
+	E.measure = function(callback) {
+		var t0 = E.ms();
+		callback();
+		var t1 = E.ms();
+		return (t1-t0)
+	};
+
+
+
 
 
 

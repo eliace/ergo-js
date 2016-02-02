@@ -526,6 +526,17 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// 	this.layout;
 		// }
 
+		//FIXME это нужно перенести в vdom
+
+		if('style' in o) {
+			this.vdom.setStyle(o.style);
+		}
+
+		if('cls' in o) {
+			this.vdom.setClass(o.cls);
+		}
+
+
 
 
 
@@ -630,13 +641,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		Ergo.core.Widget.superclass._post_construct.call(this, o);
 
 
+
+
 		if('as' in o) {
       var as = o.as.join(' ').split(' ');
 
 			for(var i = 0; i < as.length; i++) {
-				if(as[i][0] == '+')
+				if(as[i][0] == '+' || as[i][0] == '&')
 					this.states.set(as[i].substr(1));
-				else if(as[i][0] == '-')
+				else if(as[i][0] == '-' || as[i][0] == '!')
 					this.states.unset(as[i].substr(1));
 				else {
 //					this.dom.el.classList.add(as[i]);
@@ -648,11 +661,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
       //   this.dom.addClass(clsList[i]);
       // }
     }
-
-
-		if('style' in o) {
-			this.style = this.vdom.setStyle(o.style);
-		}
 
 
 //		console.log(this.events.events);
@@ -683,41 +691,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		this._bindEvents('context');
 
-/*
-		// добавляем элемент в документ
-		if('renderTo' in o)
-			this.render(o.renderTo);
-
-		// подключаем данные и обновляем их, если установлен параметр autoUpdate
-		if('data' in o)
-			this.bind(o.data, o.autoUpdate);
-
-
-//		this.$afterBuild();
-
-		var self = this;
-
-
-		// устанавливаем состояния по умолчанию
-		if('state' in o) {
-			o.state.join(' ').split(' ').forEach(function(state) {
-				if(state[0] == '-')
-					self.states.unset(state.substr(1));
-				else
-					self.states.set(state);
-			});
-		}
-
-		if(o.as) {
-			var as = o.as.join(' ').split(' ');
-			for(var i = 0; i < as.length; i++) {
-				if(as[i][0] == '+')
-					this.states.set(as[i].substr(1));
-				else if(as[i][0] == '-')
-					this.states.unset(as[i].substr(1));
-			}
-		}
-*/
 
 
 		this.events.fire('afterBuild');

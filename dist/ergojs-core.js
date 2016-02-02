@@ -149,6 +149,7 @@ var Ergo = (function(){
 		get: ['override'],
 		events: ['object', {'*': 'list'}],
 		as: 'list',
+		cls: 'list',
 		data: false,
 		// cls: 'list',
 		// stt: 'list',
@@ -2230,6 +2231,15 @@ Function.prototype.debounce = function(wait, immediate) {
 			timeout = setTimeout(later, wait);
 			if (callNow) func.apply(context, args);
 		};
+	};
+
+
+
+	E.measure = function(callback) {
+		var t0 = E.ms();
+		callback();
+		var t1 = E.ms();
+		return (t1-t0)
 	};
 
 
@@ -4675,7 +4685,7 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 
 		// 2.
 		for(var i = 0; i < to.length; i++) {
-			self._current[to[i]] = {from: [from], data: data};
+			self._current[to[i]] = {from: [from]/*, data: data*/};
 			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 
@@ -5005,6 +5015,14 @@ Ergo.override(Ergo.core.VDOM.prototype, {
 			else if( k.constructor === String ) {
 				return this.el.style[k];
 			}
+		}
+	},
+
+
+
+	setClass: function(cls) {
+		if( cls && this.el instanceof Element ) {
+			this.el.className = cls.join(' ');
 		}
 	},
 
@@ -6386,16 +6404,17 @@ Ergo.WidgetOptions = {
 	},
 	// setLead: function(v) { this.layout.el.prepend(v); },
 	// setTrail: function(v) { this.layout.el.append(v); }
-	set style(v) {
-		this.vdom.setStyle(v);
-	},
-
-	set cls(v) {
-		// if(Array.isArray(v)) {
-		// 	v = v.join(' ');
-		// }
-		this.vdom.addClass(v);
-	},
+// 	set style(v) {
+// 		this.vdom.setStyle(v);
+// 	},
+//
+// 	set cls(v) {
+// 		this.vdom.el.className = v;
+// 		// if(Array.isArray(v)) {
+// 		// 	v = v.join(' ');
+// 		// }
+// //		this.vdom.addClass(v);
+// 	},
 
 
 	//TODO placeholder?
@@ -7675,9 +7694,19 @@ Ergo.WidgetData = {
 			// }
 			var name_a = data.split(':');
 			var src = this[name_a[0]];
+			if(src == null) {
+				throw new Error('Injecting data source ['+data+'] is undefined');
+			}
+			if(src && !src.data) {
+				throw new Error('Injecting data source ['+data+'] has no property \"data\"');
+			}
+			src = src.data;
 			if(name_a[1]) {
 				var prop_a = name_a[1].split('.');
 				while(prop_a.length) {
+					if(src == null) {
+						throw new Error('Injecting data source property ['+data+'] does not exist');
+					}
 					src = src[prop_a.shift()];
 				}
 			}
@@ -9848,6 +9877,17 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// 	this.layout;
 		// }
 
+		//FIXME это нужно перенести в vdom
+
+		if('style' in o) {
+			this.vdom.setStyle(o.style);
+		}
+
+		if('cls' in o) {
+			this.vdom.setClass(o.cls);
+		}
+
+
 
 
 
@@ -9952,13 +9992,15 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		Ergo.core.Widget.superclass._post_construct.call(this, o);
 
 
+
+
 		if('as' in o) {
       var as = o.as.join(' ').split(' ');
 
 			for(var i = 0; i < as.length; i++) {
-				if(as[i][0] == '+')
+				if(as[i][0] == '+' || as[i][0] == '&')
 					this.states.set(as[i].substr(1));
-				else if(as[i][0] == '-')
+				else if(as[i][0] == '-' || as[i][0] == '!')
 					this.states.unset(as[i].substr(1));
 				else {
 //					this.dom.el.classList.add(as[i]);
@@ -9970,11 +10012,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
       //   this.dom.addClass(clsList[i]);
       // }
     }
-
-
-		if('style' in o) {
-			this.style = this.vdom.setStyle(o.style);
-		}
 
 
 //		console.log(this.events.events);
@@ -10005,41 +10042,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		this._bindEvents('context');
 
-/*
-		// добавляем элемент в документ
-		if('renderTo' in o)
-			this.render(o.renderTo);
-
-		// подключаем данные и обновляем их, если установлен параметр autoUpdate
-		if('data' in o)
-			this.bind(o.data, o.autoUpdate);
-
-
-//		this.$afterBuild();
-
-		var self = this;
-
-
-		// устанавливаем состояния по умолчанию
-		if('state' in o) {
-			o.state.join(' ').split(' ').forEach(function(state) {
-				if(state[0] == '-')
-					self.states.unset(state.substr(1));
-				else
-					self.states.set(state);
-			});
-		}
-
-		if(o.as) {
-			var as = o.as.join(' ').split(' ');
-			for(var i = 0; i < as.length; i++) {
-				if(as[i][0] == '+')
-					this.states.set(as[i].substr(1));
-				else if(as[i][0] == '-')
-					this.states.unset(as[i].substr(1));
-			}
-		}
-*/
 
 
 		this.events.fire('afterBuild');

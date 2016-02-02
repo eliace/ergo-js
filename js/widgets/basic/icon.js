@@ -16,7 +16,7 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 
 	defaults: {
 		tag: 'i',
-		as: 'icon'
+		cls: 'icon'
 //		binding: 'text'
 	},
 

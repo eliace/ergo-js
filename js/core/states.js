@@ -439,7 +439,7 @@ Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.c
 
 		// 2.
 		for(var i = 0; i < to.length; i++) {
-			self._current[to[i]] = {from: [from], data: data};
+			self._current[to[i]] = {from: [from]/*, data: data*/};
 			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 

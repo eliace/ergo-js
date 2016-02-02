@@ -7,6 +7,8 @@ describe('Context', function(){
 
       var ctx = new Ergo.core.Context({});
 
+			ctx._widget = Ergo.widgets.Box();
+
       ctx.scopes.scope('main', function($scope) {
 
         var w = $ergo({

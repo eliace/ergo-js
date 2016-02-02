@@ -149,6 +149,7 @@ var Ergo = (function(){
 		get: ['override'],
 		events: ['object', {'*': 'list'}],
 		as: 'list',
+		cls: 'list',
 		data: false,
 		// cls: 'list',
 		// stt: 'list',
