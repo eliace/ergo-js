@@ -11481,10 +11481,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 	init: function() {
 
-		var e = this.events.fire('restore', {name: null, params: {}, opts: {}});
+		var e = this.events.fire('restore', {name: null, params: {}});//, opts: {}});
 
 
-		this.join( e.name, e.params, e.options );
+		this.join( e.name, e.params );//, e.options );
 
 //		var ctx = this;
 
@@ -14368,7 +14368,7 @@ Ergo.alias('includes:router', {
             }
           }
 
-          e.params.query = query;
+          e.params.$query = query;
         }
 
 
@@ -14381,7 +14381,7 @@ Ergo.alias('includes:router', {
         path = path ? path.slice(2) : '';
 
 
-        e.name = this.restoreFromPath( path, e.params, e.opts );
+        e.name = this.restoreFromPath( path, e.params );//, e.opts );
 
         console.log('router restore', e.params);
 
@@ -14502,7 +14502,7 @@ Ergo.alias('includes:router', {
 
 
 
-    restoreFromPath: function(path, params, opts) {
+    restoreFromPath: function(path, params) {//}, opts) {
 
       // преобразуем к абсолютному пути
       path = this.absolutePath(path);
@@ -14515,12 +14515,12 @@ Ergo.alias('includes:router', {
         if( match ) {
 
           var o = {
-            path: '#!'+path,
-            history: route.history
+            $path: '#!'+path,
+            $history: route.history
           };
 
-          $ergo.override(params, match); // merge path params and route params
-          $ergo.mergeOptions(opts, [o]); //
+          $ergo.override(params, match, o); // merge path params and route params
+//          $ergo.mergeOptions(opts, [o]); //
 
           return route.name;// {name: route.name, params: match, options: o};// this.join( route.name, match, o );
         }
@@ -14531,23 +14531,23 @@ Ergo.alias('includes:router', {
 
 
 
-    to: function(path, params, opts) {
+    to: function(path, params) {//}, opts) {
 
       params = params || {};
-      opts = opts || {};
+//      opts = opts || {};
 
 
-      var name = this.restoreFromPath(path, params, opts);
+      var name = this.restoreFromPath(path, params);//, opts);
 
-      console.log('route to', name, params, opts);
+      console.log('route to', name, params);//, opts);
 
       if( name ) {
 
-        if(params && params.query) {
-          opts.path += '?' + this.buildQuery(params.query);
+        if(params && params.$query) {
+          params.$path += '?' + this.buildQuery(params.$query);
         }
 
-        return this.join( name, params, opts );
+        return this.join( name, params );//, opts );
       }
 
       return $.when(null);
@@ -14622,7 +14622,7 @@ Ergo.alias('includes:history', {
 
 				var scope = e.scope;
 
-				if(scope.options.history && !this._no_history) {
+				if(scope._params.$history && !this._no_history) {
 
           console.log('join history', e);
 
@@ -14634,9 +14634,9 @@ Ergo.alias('includes:history', {
 					// var p = Ergo.override(p, this._params[e.scope._name]);
 //					var chain = scope._chain.join('.');
 //					var p = Ergo.deep_override({_scope: chain}, scope._params);
-					window.history.pushState( p, scope._name, scope.opt('path') );//, 'title', '#'+url);
+					window.history.pushState( p, scope._name, scope._params.$path );//opt('path') );//, 'title', '#'+url);
 
-					console.log('+ history', scope.opt('path'), scope._name, p);
+					console.log('+ history', /*scope.opt('path')*/scope._params.$path, scope._name, p);
 
 				}
 			}
@@ -14663,10 +14663,10 @@ Ergo.alias('includes:history', {
 
         // восстановление скоупа по данным состояния history
 
-        var e = ctx.events.fire('restore', {name: null, params: {history: p}, opt: {}});///*scope: p._scope,*/ params: p, hash: window.location.hash});
+        var e = ctx.events.fire('restore', {name: null, params: {history: p}/*, opt: {}*/});///*scope: p._scope,*/ params: p, hash: window.location.hash});
 
         ctx._no_history = true;
-        ctx.join(e.name, e.params, e.opts);
+        ctx.join(e.name, e.params);//, e.opts);
         ctx._no_history = false;
 
       }

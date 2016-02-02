@@ -506,10 +506,10 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 	init: function() {
 
-		var e = this.events.fire('restore', {name: null, params: {}, opts: {}});
+		var e = this.events.fire('restore', {name: null, params: {}});//, opts: {}});
 
 
-		this.join( e.name, e.params, e.options );
+		this.join( e.name, e.params );//, e.options );
 
 //		var ctx = this;
 
