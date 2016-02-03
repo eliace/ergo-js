@@ -4984,18 +4984,39 @@ Ergo.override(Ergo.core.VDOM.prototype, {
       },
 
       off: function(name) {
-        vdom.el.removeEventListener(name);
-        delete this.listeners[name];
+				if(arguments.length == 0) {
+					for(var i in this.listeners) {
+						vdom.el.removeEventListener(i);
+					}
+					this.listeners = {};
+				}
+				else {
+	        vdom.el.removeEventListener(name);
+	        delete this.listeners[name];
+				}
         // _widget.events.off('dom#'+name);
         // for(var i in this._listeners) {
         //   vdom.el.removeEventListener(name);
         // }
       }
+
     }
 
 
     //FIXME идеологически это неправильно
     this.el._vdom = this;
+
+	},
+
+
+
+	_destroy: function() {
+
+		// осоединяемся от DOM
+		this.detach();
+
+		// удаляем все обработчики событий
+		this.events.off();
 
 	},
 
@@ -9033,7 +9054,7 @@ Ergo.WidgetRender = {
 
 			// добавляем в DOM-дерево элементы
 			var prev = undefined;
-			this.__c.stream(filter, sorter, pager, function(child, i){
+			this.__c.stream(filter, sorter, pager, function(child, i) {
 
 				if(!child._rendered && child.options.autoRender !== false) {
 					child.render(null, false, prev);
@@ -9569,8 +9590,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			}
 
 			if(this.__vdom) {
-				this.__vdom.clear();
-
+//				this.__vdom.clear();
+				this.__vdom._destroy();
 //				$ergo.dom.remove(this.el);
 //				this.el.remove();
 			}
@@ -15522,7 +15543,8 @@ Ergo.defineClass('Ergo.html.Form', 'Ergo.core.Widget', {
 
 	defaults: {
 //		html: '<form method="POST"/>'
-		tag: 'form'
+		tag: 'form',
+		method: 'POST'
 	},
 
 	set action(v) {

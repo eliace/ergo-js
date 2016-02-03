@@ -417,7 +417,7 @@ Ergo.WidgetRender = {
 
 			// добавляем в DOM-дерево элементы
 			var prev = undefined;
-			this.__c.stream(filter, sorter, pager, function(child, i){
+			this.__c.stream(filter, sorter, pager, function(child, i) {
 
 				if(!child._rendered && child.options.autoRender !== false) {
 					child.render(null, false, prev);

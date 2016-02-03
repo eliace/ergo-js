@@ -17,7 +17,8 @@ Ergo.defineClass('Ergo.html.Form', 'Ergo.core.Widget', {
 
 	defaults: {
 //		html: '<form method="POST"/>'
-		tag: 'form'
+		tag: 'form',
+		method: 'POST'
 	},
 
 	set action(v) {

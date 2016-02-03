@@ -55,18 +55,39 @@ Ergo.override(Ergo.core.VDOM.prototype, {
       },
 
       off: function(name) {
-        vdom.el.removeEventListener(name);
-        delete this.listeners[name];
+				if(arguments.length == 0) {
+					for(var i in this.listeners) {
+						vdom.el.removeEventListener(i);
+					}
+					this.listeners = {};
+				}
+				else {
+	        vdom.el.removeEventListener(name);
+	        delete this.listeners[name];
+				}
         // _widget.events.off('dom#'+name);
         // for(var i in this._listeners) {
         //   vdom.el.removeEventListener(name);
         // }
       }
+
     }
 
 
     //FIXME идеологически это неправильно
     this.el._vdom = this;
+
+	},
+
+
+
+	_destroy: function() {
+
+		// осоединяемся от DOM
+		this.detach();
+
+		// удаляем все обработчики событий
+		this.events.off();
 
 	},
 
