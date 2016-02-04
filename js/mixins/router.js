@@ -8,31 +8,24 @@ Ergo.alias('includes:router', {
 
         console.log('restore from route', window.location.hash);
 
+        var query = {};
+
+        // восстанавлливаем параметры из hash
         var hash_a = window.location.hash.split('?');
         var path = hash_a[0];
 
-        // восстанавлливаем параметры URL
         if(hash_a.length > 1) {
-
-          var query = {};
-
-          var query_a = hash_a[1].split('&');
-
-          for(var i = 0; i < query_a.length; i++) {
-            var p_a = query_a[i].split('=');
-            var p_name = decodeURIComponent(p_a[0]);
-            if( p_name ) {
-              if( p_a.length == 1 ) {
-                query[p_name] = '';
-              }
-              else {
-                query[p_name] = decodeURIComponent(p_a[1].replace(/\+/g, " "));
-              }
-            }
-          }
-
-          e.params.$query = query;
+          $ergo.override( query, $ergo.parseQueryString(hash_a[1]) );
         }
+
+        // восстанавлливаем параметры из search
+        var search = window.location.search;
+
+        if(search.length > 1) {
+          $ergo.override( query, $ergo.parseQueryString(search.substr(1)) );
+        }
+
+        e.params.$query = query;
 
 
         // url = url.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
