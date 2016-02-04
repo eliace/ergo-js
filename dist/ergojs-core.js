@@ -152,6 +152,7 @@ var Ergo = (function(){
 		cls: false,//'list',
 		data: false,
 		etype: false,
+		tag: false,
 		// cls: 'list',
 		// stt: 'list',
 		defaultItem: ['object'],
@@ -1241,6 +1242,89 @@ Function.prototype.debounce = function(wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+
+
+
+(function(){
+
+
+  var dom = {};
+
+
+
+	dom.remove = function(elem) {
+		if(elem.parentNode) {
+			elem.parentNode.removeChild(elem);
+		}
+	};
+
+	dom.clear = function(elem) {
+		while (elem.firstChild) elem.removeChild(elem.firstChild);
+	};
+
+  dom.insertAfter = function(elem, after) {
+		after.parentNode.insertBefore(elem, after.nextSibling);
+	};
+
+	dom.insertBefore = function(elem, before) {
+		before.parentNode.insertBefore(elem, before);
+	};
+
+	dom.prependChild = function(elem, child) {
+		if(elem.childNodes[0]) {
+			elem.insertBefore(child, elem.childNodes[0]);
+		}
+		else {
+			elem.appendChild(elem);
+		}
+	};
+
+
+	dom.addClass = function(el, cls) {
+		if( cls && (el instanceof Element) ) {
+			(''+cls).split(' ').forEach(function(c) {
+
+				if(!c) return;
+
+				if(el.classList) {
+					el.classList.add(c);
+				}
+				else {
+					// IE9
+					var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
+					if(!re.test(el.className)) {
+						el.className = (el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
+					}
+				}
+			});
+		}
+	};
+
+
+	dom.numberStyleToPx = function(k, v) {
+    // postfixes
+    var partials = [['padding', 'margin', 'border'], ['top', 'right', 'bottom', 'left']];
+    for(var i = 0; i < partials[0].length; i++) {
+			if(partials[0][i] == k) return v+'px';
+      for(var j = 0; j < partials[1].length; j++) {
+        if(partials[0][i]+'-'+partials[1][j] == k) return v+'px';
+      }
+    }
+    // prefixes
+    partials = [['width', 'height'], ['max', 'min']];
+    for(var i = 0; i < partials[0].length; i++) {
+			if(partials[0][i] == k) return v+'px';
+      for(var j = 0; j < partials[1].length; j++) {
+        if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
+      }
+    }
+    return v;
+  };
+
+
+  Ergo.dom = dom;
+
+})();
 
 
 
@@ -3286,6 +3370,10 @@ Ergo.alias('mixins:observable', {
 
 	fire: function() {
 		this.events.fire.apply(this.events, arguments);
+	},
+
+	emit: function() {
+		this.events.fire.apply(this.events, arguments);
 	}
 
 	// off: function(type, callback) {
@@ -4364,7 +4452,19 @@ Ergo.$data = Ergo.object;
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
+
+
+Ergo.core.StateManager = function(target) {
+	this._widget = target;
+	this._current = {};
+	this._states = {};
+	this._transitions = [];
+	this._exclusives = {};
+}
+
+Ergo.override(Ergo.core.StateManager.prototype, {
+
+//Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
 
 	_initialize: function(widget) {
@@ -10136,8 +10236,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 */
 
-		this.events.rise = Ergo.rise;
-		this.events.sink = Ergo.sink;
 
 	},
 
@@ -10188,14 +10286,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 //		console.log(this.events.events);
-		if(this.events.events['click']) {
-			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
-		}
-
-		if(this.events.events['doubleClick']) {
-			this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
-		}
-
 
 		if(Ergo._scope) {
 			this.scope = Ergo._scope;
@@ -10217,7 +10307,22 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		this.events.fire('afterBuild');
+		if(this.__evt) {
+
+			if(this.events.events['click']) {
+				this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
+			}
+
+			if(this.events.events['doubleClick']) {
+				this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
+			}
+
+			this.events.fire('afterBuild');
+		}
+
+
+		// this.events.rise = Ergo.rise;
+		// this.events.sink = Ergo.sink;
 
 	},
 
@@ -10710,7 +10815,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			else if( (i in this) && $ergo.hasGetter(this, i) ) {
 				return this[i];
 			}
-			else if(i in this.states._states) {
+			else if((this.__stt) && (i in this.__stt._states)) {
 				return this.states.is(i);
 			}
 			// else {
@@ -11005,6 +11110,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
+
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
@@ -11092,7 +11198,9 @@ $ergo = Ergo.override(function(o, ns, scope) {
 
 
 	if(!etype) {
-		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
+//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.pretty_print(o)+'');
+		etype = 'widget';
+//		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
 	}
 
 	// var ns = null;
@@ -11900,6 +12008,7 @@ Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
 
 
 });
+
 
 
 

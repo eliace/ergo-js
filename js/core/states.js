@@ -11,7 +11,19 @@
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
+
+
+Ergo.core.StateManager = function(target) {
+	this._widget = target;
+	this._current = {};
+	this._states = {};
+	this._transitions = [];
+	this._exclusives = {};
+}
+
+Ergo.override(Ergo.core.StateManager.prototype, {
+
+//Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
 
 	_initialize: function(widget) {

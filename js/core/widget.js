@@ -578,8 +578,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 */
 
-		this.events.rise = Ergo.rise;
-		this.events.sink = Ergo.sink;
 
 	},
 
@@ -630,14 +628,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 //		console.log(this.events.events);
-		if(this.events.events['click']) {
-			this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
-		}
-
-		if(this.events.events['doubleClick']) {
-			this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
-		}
-
 
 		if(Ergo._scope) {
 			this.scope = Ergo._scope;
@@ -659,7 +649,22 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		this.events.fire('afterBuild');
+		if(this.__evt) {
+
+			if(this.events.events['click']) {
+				this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
+			}
+
+			if(this.events.events['doubleClick']) {
+				this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
+			}
+
+			this.events.fire('afterBuild');
+		}
+
+
+		// this.events.rise = Ergo.rise;
+		// this.events.sink = Ergo.sink;
 
 	},
 
@@ -1152,7 +1157,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			else if( (i in this) && $ergo.hasGetter(this, i) ) {
 				return this[i];
 			}
-			else if(i in this.states._states) {
+			else if((this.__stt) && (i in this.__stt._states)) {
 				return this.states.is(i);
 			}
 			// else {
@@ -1447,6 +1452,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
+
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
@@ -1534,7 +1540,9 @@ $ergo = Ergo.override(function(o, ns, scope) {
 
 
 	if(!etype) {
-		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
+//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.pretty_print(o)+'');
+		etype = 'widget';
+//		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
 	}
 
 	// var ns = null;

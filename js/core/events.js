@@ -442,6 +442,10 @@ Ergo.alias('mixins:observable', {
 
 	fire: function() {
 		this.events.fire.apply(this.events, arguments);
+	},
+
+	emit: function() {
+		this.events.fire.apply(this.events, arguments);
 	}
 
 	// off: function(type, callback) {

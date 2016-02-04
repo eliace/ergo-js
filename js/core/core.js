@@ -2,6 +2,7 @@
 //= require core-def
 //= require core-classes
 //= require core-ext
+//= require core-dom
 //= require core-collections
 //= require core-filters
 //= require core-utils
