@@ -2249,6 +2249,30 @@ Function.prototype.debounce = function(wait, immediate) {
 
 
 
+	E.parseQueryString = function(queryStr) {
+
+		var query = {};
+
+		var query_a = queryStr.split('&');
+
+		for(var i = 0; i < query_a.length; i++) {
+			var p_a = query_a[i].split('=');
+			var p_name = decodeURIComponent(p_a[0]);
+			if( p_name ) {
+				if( p_a.length == 1 ) {
+					query[p_name] = '';
+				}
+				else {
+					query[p_name] = decodeURIComponent(p_a[1].replace(/\+/g, " "));
+				}
+			}
+		}
+
+		return query;
+	}
+
+
+
 
 
 
@@ -5064,18 +5088,39 @@ Ergo.override(Ergo.core.VDOM.prototype, {
       },
 
       off: function(name) {
-        vdom.el.removeEventListener(name);
-        delete this.listeners[name];
+				if(arguments.length == 0) {
+					for(var i in this.listeners) {
+						vdom.el.removeEventListener(i);
+					}
+					this.listeners = {};
+				}
+				else {
+	        vdom.el.removeEventListener(name);
+	        delete this.listeners[name];
+				}
         // _widget.events.off('dom#'+name);
         // for(var i in this._listeners) {
         //   vdom.el.removeEventListener(name);
         // }
       }
+
     }
 
 
     //FIXME идеологически это неправильно
     this.el._vdom = this;
+
+	},
+
+
+
+	_destroy: function() {
+
+		// осоединяемся от DOM
+		this.detach();
+
+		// удаляем все обработчики событий
+		this.events.off();
 
 	},
 
@@ -9184,10 +9229,11 @@ Ergo.WidgetRender = {
 
 			// добавляем в DOM-дерево элементы
 			var prev = undefined;
-			this.__c.stream(filter, sorter, pager, function(child, i){
+			this.__c.stream(filter, sorter, pager, function(child, i) {
 
 				if(!child._rendered && child.options.autoRender !== false) {
-					this.vdom.addAfter(child, prev, child.options.weight);
+					child.render(null, false, prev);
+//					this.vdom.addAfter(child, prev, child.options.weight);
 //					child._type == 'item' ? this.vdom.add(child, i) : this.vdom.add(child);
 //					item.render();
 				}
@@ -9720,8 +9766,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			}
 
 			if(this.__vdom) {
-				this.__vdom.clear();
-
+//				this.__vdom.clear();
+				this.__vdom._destroy();
 //				$ergo.dom.remove(this.el);
 //				this.el.remove();
 			}
@@ -14489,31 +14535,24 @@ Ergo.alias('includes:router', {
 
         console.log('restore from route', window.location.hash);
 
+        var query = {};
+
+        // восстанавлливаем параметры из hash
         var hash_a = window.location.hash.split('?');
         var path = hash_a[0];
 
-        // восстанавлливаем параметры URL
         if(hash_a.length > 1) {
-
-          var query = {};
-
-          var query_a = hash_a[1].split('&');
-
-          for(var i = 0; i < query_a.length; i++) {
-            var p_a = query_a[i].split('=');
-            var p_name = decodeURIComponent(p_a[0]);
-            if( p_name ) {
-              if( p_a.length == 1 ) {
-                query[p_name] = '';
-              }
-              else {
-                query[p_name] = decodeURIComponent(p_a[1].replace(/\+/g, " "));
-              }
-            }
-          }
-
-          e.params.$query = query;
+          $ergo.override( query, $ergo.parseQueryString(hash_a[1]) );
         }
+
+        // восстанавлливаем параметры из search
+        var search = window.location.search;
+
+        if(search.length > 1) {
+          $ergo.override( query, $ergo.parseQueryString(search.substr(1)) );
+        }
+
+        e.params.$query = query;
 
 
         // url = url.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -15661,7 +15700,8 @@ Ergo.defineClass('Ergo.html.Form', 'Ergo.core.Widget', {
 
 	defaults: {
 //		html: '<form method="POST"/>'
-		tag: 'form'
+		tag: 'form',
+		method: 'POST'
 	},
 
 	set action(v) {

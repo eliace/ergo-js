@@ -531,6 +531,30 @@
 
 
 
+	E.parseQueryString = function(queryStr) {
+
+		var query = {};
+
+		var query_a = queryStr.split('&');
+
+		for(var i = 0; i < query_a.length; i++) {
+			var p_a = query_a[i].split('=');
+			var p_name = decodeURIComponent(p_a[0]);
+			if( p_name ) {
+				if( p_a.length == 1 ) {
+					query[p_name] = '';
+				}
+				else {
+					query[p_name] = decodeURIComponent(p_a[1].replace(/\+/g, " "));
+				}
+			}
+		}
+
+		return query;
+	}
+
+
+
 
 
 

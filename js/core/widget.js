@@ -209,8 +209,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 			}
 
 			if(this.__vdom) {
-				this.__vdom.clear();
-
+//				this.__vdom.clear();
+				this.__vdom._destroy();
 //				$ergo.dom.remove(this.el);
 //				this.el.remove();
 			}
