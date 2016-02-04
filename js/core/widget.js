@@ -3,6 +3,7 @@
 //= require states
 //= require layout
 //= require widget-opts
+//= require widget-props
 //= require widget-list
 //= require widget-data
 //= require widget-render
@@ -560,41 +561,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-// 		if('events' in o){
-// 			for(var i in o.events){
-// 				var callback_a = o.events[i];
-// 				callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
-// 				for(var j in callback_a) {
-// 					var callback = callback_a[j];
-//
-// 					if( $.isString(callback) ) {
-// 						var a = callback.split(':');
-// 						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
-// //						callback = this[callback];
-// 					}
-// 					// if( $.isString(callback) ) {
-// 						// var action = callback;
-// 						// callback = function(e, scope) {
-// 							// if(scope == 'jquery') e = {base: e};
-// 							// this.events.rise(action, e);
-// 						// };
-// 					// }
-//
-// 					if(i.indexOf('ctx:') == 0) {
-// 						// Context
-// 						(this._context || Ergo.context).events.on(i.substr(4), callback, this);
-// 					}
-// 					else if(i.indexOf('jquery:') == 0) {
-// 						// jQuery
-// 						self.el.on(i.substr(7), callback.rcurry('jquery').bind(this));
-// 					}
-// 					else {
-// 						// Widget
-// 						self.events.on(i, callback, this);
-// 					}
-// 				}
-// 			}
-// 		}
 
 
 
@@ -728,7 +694,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * @param {string} name Имя события
 	 *
 	 */
-	action: function(event, eventType, v) {
+	action: function(v, event, eventType) {
 
 		v = v || this.opt('name');
 		// if(arguments.length == 1) {
@@ -741,7 +707,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 		this.events.rise(''+v, {}, event);
 
-		if(event.stop)
+		if(eventType != v && event.stop)
 			event.stop();
 	},
 
@@ -1155,41 +1121,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-/*
-	_bindPropertyEvents: function(ns) {
-
-		var o = this.options;
-
-		//FIXME bind data events
-		if('events' in o) {
-			for(var i in o.events){
-
-				var name_a = i.split(':');
-
-				if( name_a.length == 2 && name_a[0] == ns ) {
-
-					var callback_a = o.events[i];
-					callback_a = Array.isArray(callback_a) ? callback_a : [callback_a]; //FIXME
-					for(var j in callback_a) {
-						var callback = callback_a[j];
-
-						if( $.isString(callback) ) {
-							var a = callback.split(':');
-							callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
-						}
-
-						if( this[name_a[0]].events ) {
-//							console.log(i);
-							this[name_a[0]].events.on(name_a[1], callback, this);
-						}
-
-					}
-				}
-			}
-		}
-
-	},
-*/
 
 	// $unknown_opt: function(i, v) {
 //
@@ -1203,6 +1134,62 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// }
 //
 	// }
+
+
+
+
+
+	prop: function(i, v) {
+
+		if(arguments.length == 1) {
+
+			if( this.options.get && (i in this.options.get) ) {
+				return this.options.get[i].bind(this)();
+			}
+			else if( i in this.props.get ) {
+				return this.props.get[i].bind(this)();
+			}
+			else if( (i in this) && $ergo.hasGetter(this, i) ) {
+				return this[i];
+			}
+			else if(i in this.states._states) {
+				return this.states.is(i);
+			}
+			// else {
+			// 	console.warn('Property ['+i+'] not found');
+			// }
+
+			return;
+		}
+		else if(arguments.length == 2) {
+
+			if( this.options.set && (i in this.options.set) ) {
+				this.options.set[i].bind(this)(v);
+			}
+			else if( (i in this.props.set) ) {
+				this.props.set[i].bind(this)(v);
+			}
+			else if( (i in this) && $ergo.hasSetter(this, i) ) {
+				this[i] = v;
+			}
+			else if(i in this.states._states) {
+				this.states.toggle(i, v);
+			}
+			//FIXME
+			else if(i in this.states._exclusives) {
+				this.states.set(v);
+			}
+			// else {
+			// 	console.warn('Property ['+i+'] not found');
+			// }
+
+			return this;
+		}
+
+	},
+
+
+
 
 
 	/**
@@ -1219,23 +1206,23 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 * @param {object} o опции
 	 */
 
-	 _opt: function(o) {
-
- 		for(var i in o) {
- 			if( !(i in $ergo.rules) ) {
- 				if( (i in this) && $ergo.setter(this, i) ) {
- 					this[i] = o[i];
- 				}
-				else if(i in this.states._states) {
-					this.states.toggle(i, o[i]);
-				}
-				else if(i in this.states._exclusives) {
-					this.states.set(o[i]);
-				}
- 			}
- 		}
-
- 	},
+	//  _opt: function(o) {
+	//
+ // 		for(var i in o) {
+ // 			if( !(i in $ergo.rules) ) {
+ // 				if( (i in this) && $ergo.setter(this, i) ) {
+ // 					this[i] = o[i];
+ // 				}
+	// 			else if(i in this.states._states) {
+	// 				this.states.toggle(i, o[i]);
+	// 			}
+	// 			else if(i in this.states._exclusives) {
+	// 				this.states.set(o[i]);
+	// 			}
+ // 			}
+ // 		}
+	//
+ // 	},
 
 
 
@@ -1465,6 +1452,8 @@ Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
+
+Ergo.deep_override(Ergo.core.Widget.prototype, Ergo.WidgetProps);
 
 Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetData);
 

@@ -40,13 +40,19 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// options
 	},
 
-	rules: {
-		include: 'list',
-		set: false,
-		get: false,
-//		override: false,
-		events: ['object', {'*': 'list'}]
+
+	props: {
+		get: {},
+		set: {}
 	},
+
+// 	rules: {
+// 		include: 'list',
+// 		set: false,
+// 		get: false,
+// //		override: false,
+// 		events: ['object', {'*': 'list'}]
+// 	},
 
 	/**
 	 * Инициализация объекта.
@@ -65,7 +71,9 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	_initialize: function(opts) {//}, scope) {
 
 		var o = {
-//			smart_override: Ergo.self_smart_override
+		};
+
+		var p = {
 		};
 
 		var r = {
@@ -81,16 +89,24 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				prevDefaults = clazz.defaults;
 			});
 
-			var prevRules = null;
+			// var prevRules = null;
+			// Ergo.walk_hierarchy(this.constructor, function(clazz){
+			// 	if(clazz.rules == prevRules) return;
+			// 	if('rules' in clazz) $ergo.deep_override(r, clazz.rules);
+			// 	prevRules = clazz.rules;
+			// });
+
+			var prevProps = null;
 			Ergo.walk_hierarchy(this.constructor, function(clazz){
-				if(clazz.rules == prevRules) return;
-				if('rules' in clazz) $ergo.deep_override(r, clazz.rules);
-				prevRules = clazz.rules;
+				if(clazz.props == prevProps) return;
+				if('props' in clazz) $ergo.deep_override(p, clazz.props);
+				prevProps = clazz.props;
 			});
 
 			this.constructor.NO_REBUILD_SKELETON = true;
 			this.constructor.prototype.defaults = Ergo.deep_copy(o);
-			this.constructor.prototype.rules = Ergo.deep_copy(r);
+			this.constructor.prototype.props = Ergo.deep_copy(p);
+//			this.constructor.prototype.rules = Ergo.deep_copy(r);
 //			Ergo.smart_build(this.constructor.prototype.defaults);
 
 		}
@@ -305,7 +321,14 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		}
 
 
-		this._opt(o);
+
+		for(var i in o) {
+			if( !(i in Ergo.rules) ) {
+				this.prop(i, o[i]);
+			}
+		}
+
+//		this._opt(o);
 
 	},
 
@@ -351,25 +374,73 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		}
 		else if(typeof o == 'string'){
 
-			// или геттер
-			if( (o in this) && $ergo.getter(this, o) ) {
-				return this[o];
-			}
+			// // или геттер
+			// if( (o in this.options.get) ) {
+			// 	return this.options.get[o].bind(this)();
+			// }
+			// else if( (o in this.props.get) ) {
+			// 	return this.props.get[o].bind(this)();
+			// }
+			// else if( (o in this) && $ergo.hasGetter(this, o) ) {
+			// 	return this[o];
+			// }
+			var p = this.prop(o);
 
 			// или сохраненную опцию
-			return this.options[o];
+			return (p !== undefined) ? p : this.options[o];
 		}
 
 //		Ergo.smart_override(this.options, opts);
 		Ergo.override(this.options, opts);
 
+		for(var i in opts) {
+			if( !(i in Ergo.rules) ) {
+				this.prop(i, opts[i]);
+			}
+		}
 
-		this._opt(opts);
+//		this._opt(opts);
 
 		return this;
 	},
 
 
+
+	prop: function(i, v) {
+
+		if(arguments.length == 1) {
+
+			if( this.options.get && (i in this.options.get) ) {
+				return this.options.get[i].bind(this)();
+			}
+			else if( (i in this.props.get) ) {
+				return this.props.get[i].bind(this)();
+			}
+			else if( (i in this) && $ergo.hasGetter(this, i) ) {
+				return this[i];
+			}
+//			else {
+//				console.warn('Property ['+i+'] not found');
+//			}
+
+			return;
+		}
+		else if(arguments.length == 2) {
+
+			if( this.options.set && (i in this.options.set) ) {
+				this.options.set[i].bind(this)(v);
+			}
+			else if( (i in this.props.set) ) {
+				this.props.set[i].bind(this)(v);
+			}
+			else if( (i in this) && $ergo.hasSetter(this, i) ) {
+				this[i] = v;
+			}
+
+			return this;
+		}
+
+	},
 
 
 	/**
@@ -378,17 +449,25 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @private
 	 * @param {Object} o опции
 	 */
-	_opt: function(o) {
-
-		for(var i in o) {
-			if( !(i in this.rules) ) {
-				if( (i in this) && $ergo.setter(this, i) ) {
-					this[i] = o[i];
-				}
-			}
-		}
-
-	},
+	// _opt: function(o) {
+	//
+	// 	for(var i in o) {
+	// 		if( !(i in Ergo.rules) ) {
+	//
+	// 			if( (i in this.options.set) ) {
+	// 				return this.options.set[i].bind(this)(o[i]);
+	// 			}
+	// 			else if( (i in this.props.set) ) {
+	// 				return this.props.set[i].bind(this)();
+	// 			}
+	// 			else if( (i in this) && $ergo.hasSetter(this, i) ) {
+	// 				this[i] = o[i];
+	// 			}
+	//
+	// 		}
+	// 	}
+	//
+	// },
 
 
 	// $unknown_opt: function(i) {

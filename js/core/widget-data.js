@@ -272,8 +272,14 @@ Ergo.WidgetData = {
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false && !this.data.options.fetchable) this._dataChanged();
+		if(update !== false && !this.data.fetch) this._dataChanged();
 
+
+		if(this.data.fetch) {
+			this.data.on('fetched', function() {
+				this._layoutChanged();				
+			}.bind(this), this);
+		}
 
 		// подключаем события data:
 //		this._bindNsEvents('data');
@@ -293,7 +299,7 @@ Ergo.WidgetData = {
 //		}
 
 
-		this.events.fire('bound');
+//		this.events.fire('bound');
 	},
 
 
@@ -473,15 +479,15 @@ Ergo.WidgetData = {
 
 		var binding = this.options.binding;
 
-		if(binding && (('__dta' in this) || ('__val' in this))){
+		if(binding && (('__dta' in this) || ('__val' in this))){ //FIXME неочевидная оптимизация
 
-			if( $.isString(binding) ) {
-				this[binding] = this.value;
-//				this.opt(binding, this.opt('value'));
+			if( typeof binding == 'string' ) {
+//				this[binding] = this.value;
+				this.prop(binding, this.value);
 			}
 			else {
-//				if( binding.call(this, this.opt('value')) === false) return false;
 				if( binding.call(this, this.value) === false) return false;
+//				if( binding.call(this, this.value) === false) return false;
 			}
 //			var val = this.getValue();
 //			this._lock_value_change = true;

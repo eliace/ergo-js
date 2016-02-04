@@ -62,6 +62,8 @@ Ergo.WidgetOptions = {
 			this.vdom.innerEl.textContent = ( v == null ? '': v );
 		}
 
+		this.__txt = v;
+
 // 		if(!this.__c)
 // 			this.dom.el.textContent = ( v == null ? '': v );
 // 		else if(this.children.size() == 0)
@@ -75,7 +77,7 @@ Ergo.WidgetOptions = {
 
 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
-	set innerHtml(v) {	this.vdom.innerEl.innerHTML = (v || ''); },
+//	set innerHtml(v) {	this.vdom.innerEl.innerHTML = (v || ''); },
 	// set_opacity: function(v) {
 	// 	if($.support.opacity)
 	// 		this.el.css('opacity', v);
@@ -86,66 +88,49 @@ Ergo.WidgetOptions = {
 	// },
 	// set width(v) { this.el.outerWidth(v); },
 	// set height(v) { this.el.outerHeight(v); },
-	set autoWidth(v) {
-		v ? this.vdom.el.setAttribute('autoWidth', v) : this.vdom.el.removeAttribute('autoWidth');
-	},
-	set autoHeight(v) {
-		if(v) {
-			this.vdom.el.setAttribute('autoHeight', v);
-			if(v === true || v == 'ignore-siblings')
-				this.vdom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
-		}
-		else {
-			this.vdom.el.removeAttribute('autoHeight');
-			this.vdom.setStyle('overflow-y', '');
-//			this.el.css('overflow-y', '');
-//			this.el.style['overflow-y'] = '';
-		}
-	},
-//	set_id: function(v) { this.el.attr('id', v); },
-//	set_tag: function(v) { this.tag = v; },
+
+
+
+// 	set autoWidth(v) {
+// 		v ? this.vdom.el.setAttribute('autoWidth', v) : this.vdom.el.removeAttribute('autoWidth');
+// 	},
+// 	set autoHeight(v) {
+// 		if(v) {
+// 			this.vdom.el.setAttribute('autoHeight', v);
+// 			if(v === true || v == 'ignore-siblings')
+// 				this.vdom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
+// 		}
+// 		else {
+// 			this.vdom.el.removeAttribute('autoHeight');
+// 			this.vdom.setStyle('overflow-y', '');
+// //			this.el.css('overflow-y', '');
+// //			this.el.style['overflow-y'] = '';
+// 		}
+// 	},
+
+
+
+
 	set name(v) { this._name = v; },
-//			'name': function(v) { this.name = v; },
-//	set_tabindex: function(v) { this.el.attr('tabindex', v); },
-	set format(v) {
-		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
-	},
-	set unformat(v) {
-		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
-	},
+
+
+// 	set format(v) {
+// 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
+// 	},
+// 	set unformat(v) {
+// 		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
+// 	},
+
+	//FIXME для совместимости
 	set hidden(v) {
 		this.vdom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
 //		this.el.css('display', v ? 'none' : '');
 	},
-	// setLead: function(v) { this.layout.el.prepend(v); },
-	// setTrail: function(v) { this.layout.el.append(v); }
-// 	set style(v) {
-// 		this.vdom.setStyle(v);
-// 	},
-//
-// 	set cls(v) {
-// 		this.vdom.el.className = v;
-// 		// if(Array.isArray(v)) {
-// 		// 	v = v.join(' ');
-// 		// }
-// //		this.vdom.addClass(v);
-// 	},
+
+
 
 
 	//TODO placeholder?
-
-
-	set id(v) {
-		this.vdom.el.setAttribute('id', v);
-	},
-
-	set tabindex(v) {
-		this.vdom.el.setAttribute('tabindex', v);
-	},
-
-	set tooltip(v) {
-		this.vdom.el.setAttribute('title', v);
-	}
 
 
 

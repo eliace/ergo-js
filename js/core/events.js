@@ -368,7 +368,7 @@ Ergo.alias('mixins:observable', {
 						var callback = chain[j];
 						if( $.isString(callback) ) {
 							var a = callback.split(':');
-							callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
 						}
 						this.__evt.on( name, callback );
 					}
@@ -418,9 +418,9 @@ Ergo.alias('mixins:observable', {
 				for(var j in callback_a) {
 					var callback = callback_a[j];
 
-					if( $.isString(callback) ) {
+					if( typeof callback == 'string' ) {
 						var a = callback.split(':');
-						callback = (a.length == 1) ? this[callback] : this[a[0]].rcurry(a[1]).bind(this);
+						callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
 					}
 
 					target.events.on(eventName, callback, this);

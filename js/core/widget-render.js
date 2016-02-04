@@ -60,7 +60,7 @@ Ergo.WidgetRender = {
 //    var el = this.el;
 
 		// нет дочерних элементов и non-empty не рисуем
-		if( this.options.autoRender == 'non-empty' && !this.options.text && (!this.__c || this.__c.src.length == 0) ) {
+		if( this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0) ) {
 			return;
 		}
 
@@ -377,13 +377,13 @@ Ergo.WidgetRender = {
 
 		// обработка `non-empty`
 		if( this._rendered ) {
-			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.__c.src.length == 0 && !this.options.text) ) {
+			if( this.options.autoRender !== true && (this.options.autoRender == 'non-empty' && this.__c.src.length == 0 && !this.__txt) ) {
 				this.unrender();
 //				w.layout.remove( this );
 			}
 		}
 		else if( this.parent ) {
-			if( this.options.autoRender !== false && !(this.options.autoRender == 'non-empty' && this.__c.src.length == 0 && !this.options.text) ) {
+			if( this.options.autoRender !== false && !(this.options.autoRender == 'non-empty' && this.__c.src.length == 0 && !this.__txt) ) {
 				this.render();
 //				this._type == 'item' ? this.parent.layout.add(this, this._index /*item._index*/) : this.parent.layout.add(this, undefined, this._weight);
 			}

@@ -128,6 +128,7 @@ describe('Widget', function(){
       box.data.add('Dave', 0);
 
       expect(box.data.entry(0)._val()).to.be.eq('Dave');
+      expect(box.item(0).text).to.be.eq('Dave');
       expect(box.item(0).opt('text')).to.be.eq('Dave');
 
 

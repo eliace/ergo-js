@@ -93,7 +93,7 @@
 	};
 
 
-	E.getter = function(obj, i) {
+	E.hasGetter = function(obj, i) {
 
 		var desc = Object.getOwnPropertyDescriptor(obj, i);
 		if(desc && desc.get)
@@ -109,7 +109,7 @@
 		return false;
 	};
 
-	E.setter = function(obj, i) {
+	E.hasSetter = function(obj, i) {
 
 		var desc = Object.getOwnPropertyDescriptor(obj, i);
 		if(desc && desc.set)

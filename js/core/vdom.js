@@ -96,7 +96,7 @@ Ergo.override(Ergo.core.VDOM.prototype, {
 
 	setClass: function(cls) {
 		if( cls && this.el instanceof Element ) {
-			this.el.className = cls.join(' ');
+			this.el.className = cls;//.join(' ');
 		}
 	},
 

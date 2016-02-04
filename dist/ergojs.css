@@ -2547,6 +2547,9 @@ h5 {
 .button.has-icon.at-left {
   padding-left: 3.286em;
 }
+.button.dropdown-toggle {
+  line-height: 0.99;
+}
 .label {
   background-image: none;
   border-radius: 4px;

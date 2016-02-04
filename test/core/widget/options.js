@@ -178,7 +178,7 @@ describe('Widget', function(){
 
 
 
-		it('should set construct options', function() {
+		it('should set `as` option', function() {
 
       var w = $.ergo({
         etype: 'box',
@@ -186,6 +186,30 @@ describe('Widget', function(){
       });
 
       expect( w.el.hasClass('cls') ).to.be.true;
+
+    });
+
+
+
+		it('should set `format` option', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+        format: function(v) {
+					return v;
+				}
+      });
+
+			expect( typeof w.options.format ).to.be.eq('function');
+
+
+			var w = $.ergo({
+        etype: 'box',
+        format: '#{a}'
+      });
+
+			expect( typeof w.options.format ).to.be.eq('function');
+
 
     });
 

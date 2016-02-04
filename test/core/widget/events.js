@@ -167,6 +167,38 @@ describe('Widget', function(){
 
 
 
+		it('should rise handled event', function() {
+
+			var messages = [];
+
+			var w = $.ergo({
+				etype: 'box',
+				onTest: function(e) {
+					messages.push('box');
+				},
+				$content: {
+					onTest: function(e) {
+						messages.push('content');
+					},
+					items: [{
+						onTest: function(e) {
+							messages.push('item');
+						},
+						onInit: 'rise:test'
+					}]
+				}
+			});
+
+
+			w.$content.item(0).fire('init');
+
+			expect(messages).to.be.eql(['item', 'content', 'box']);
+
+		});
+
+
+
+
 		// it('should fire nested event when property does not exist', function() {
 		//
 		// 	var messages = [];
