@@ -2,7 +2,7 @@
 //= require <widgets/basic/box>
 
 Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'alert',
 		layout: 'columns',
@@ -19,7 +19,7 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 					message: {
 						cls: 'alert-message',
 						etype: 'box'
-					}					
+					}
 				}
 			},
 			xicon: {
@@ -28,19 +28,19 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
-	
-	set_title: function(v) {
-		this.content.title.opt('text', v);
+
+
+	set title(v) {
+		this.$content.$title.opt('text', v);
 	},
-	
-	set_icon: function(v) {
-		this.icon.states.set(v);
+
+	set icon(v) {
+		this.$icon.states.set(v);
 	},
-	
-	set_text: function(v) {
-		this.content.message.opt('text', v);
+
+	set text(v) {
+		this.$content.$message.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:alert');

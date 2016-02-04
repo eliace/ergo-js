@@ -2,7 +2,7 @@
 
 
 Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
-	
+
 	defaults: {
 
 		cls: 'tree basic',
@@ -10,7 +10,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 		nestedItem: {
 
 			cls: 'item',
-			
+
 			transitions: {
 				'* > expanded': function() {
 					// загружаем данные поддерева и открываем его
@@ -29,12 +29,12 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 					});
 				}
 			},
-			
+
 			components: {
 				toggler: {
 					etype: 'icon',
-					cls: 'toggle contextual action',
-					state: 'caret',
+					as: 'toggle contextual action +caret',
+//					stt: 'caret',
 					weight: -100,
 					autoBind: false,
 					onClick: function() {
@@ -61,5 +61,5 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 			}
 		}
 	}
-	
+
 }, 'widgets:basic-tree');

@@ -20,13 +20,13 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 		components: {
 			footer: {
-				autoRender: true,
-				layout: 'row',
+				autoRender: 'non-empty',
+//				layout: 'row',
 //				etype: 'tool-bar',
 				components: {
 					buttons: {
 						etype: 'buttons',
-						layout: 'bar',
+//						layout: 'bar',
 						defaultItem: {
 							'!onClick': 'action:dialogAction'
 							// onClick: function(e) {
@@ -50,21 +50,41 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			}
 		},
 
-		onClick: function(e) {
-			e.stop();
-		},
+		events: {
 
-		onDialogAction: function(e) {
+			'click': function(e) {
+				e.stop();
+			},
+			
+			'dialogAction': function(e) {
 
-//			var event = new Ergo.core.CancelEvent();
-//			if(e.action)
-			var event = this.events.fire(e.target.opt('name'), {}, e);
+	//			var event = new Ergo.core.CancelEvent();
+	//			if(e.action)
+				var event = this.events.fire(e.target.opt('name'), {}, e);
 
-			if(!event.canceled)
-				this.close();
+				if(!event.canceled)
+					this.close();
 
-			e.stop();
+				e.stop();
+			}
+
 		}
+
+// 		onClick: function(e) {
+// 			e.stop();
+// 		},
+//
+// 		onDialogAction: function(e) {
+//
+// //			var event = new Ergo.core.CancelEvent();
+// //			if(e.action)
+// 			var event = this.events.fire(e.target.opt('name'), {}, e);
+//
+// 			if(!event.canceled)
+// 				this.close();
+//
+// 			e.stop();
+// 		}
 	}
 
 

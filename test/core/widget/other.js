@@ -7,6 +7,7 @@ describe('Widget', function(){
 
       var result = [];
 
+
       var w = $.ergo({
         etype: 'box',
         $defaultAct: {
@@ -38,6 +39,9 @@ describe('Widget', function(){
           result.push('0');
         }
       });
+
+			w.render(); // обязательно для IE
+
 
 
       w.$defaultAct.el.click();

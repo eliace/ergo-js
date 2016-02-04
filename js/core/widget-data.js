@@ -37,6 +37,8 @@ Ergo.WidgetData = {
 		if(pivot === undefined) pivot = true;
 		this._pivot = pivot;
 
+
+
 //		if(update !== false) update = true;
 
 		//TODO custom data injector
@@ -52,20 +54,40 @@ Ergo.WidgetData = {
 			// 	throw new Error('Can not inject scope datasource into detached widget');
 			// }
 			var name_a = data.split(':');
-			var src = (name_a.length == 1) ? this : this[name_a[0]];
-			var prop_a = name_a[1].split('.');
-			while(prop_a.length) {
-				src = src[prop_a.shift()];
+			var src = this[name_a[0]];
+			if(src == null) {
+				throw new Error('Injecting data source ['+data+'] is undefined');
 			}
+			// if(src && !src.data) {
+			// 	throw new Error('Injecting data source ['+data+'] has no property \"data\"');
+			// }
+			// src = src.data;
+			if(name_a[1]) {
+				var prop_a = name_a[1].split('.');
+				while(prop_a.length) {
+					if(src == null) {
+						throw new Error('Injecting data source property ['+data+'] does not exist');
+					}
+					src = src[prop_a.shift()];
+				}
+			}
+			// var src = (name_a.length == 1) ? this : this[name_a[0]];
+			// var prop_a = name_a[1].split('.');
+			// while(prop_a.length) {
+			// 	src = src[prop_a.shift()];
+			// }
 			data = src;// src[name_a[1]];
 		}
 
 
 		// если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных
 		if(data_id) //'dataId' in o)
-			this.data = (data instanceof Ergo.core.DataSource) ? data.entry(data_id) : new Ergo.core.DataSource(data, data_id);
+			this.__dta = (data instanceof Ergo.core.DataSource) ? data.entry(data_id) : new Ergo.core.DataSource(data, data_id);
 		else
-			this.data = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+			this.__dta = (data instanceof Ergo.core.DataSource) ? data : new Ergo.core.DataSource(data);
+
+
+
 
 
 		// Если виджет является динамическим (управляется данными)
@@ -124,9 +146,13 @@ Ergo.WidgetData = {
 			this.data.events.on('changed', function(e){
 
 				// если diff не определен, то перерисовываем все
-				var diff = (e.created || e.updated || e.deleted) ? {created: e.created, updated: e.updated, deleted: e.deleted} : null;
-
-				self._rebind(true, diff);
+				if(e.created || e.updated || e.deleted) {
+					self._rebind(true, e);
+				}
+				else {
+					self._rebind(false);
+					self._dataChanged(false, false);  //FIXME это нужно делать параметрами _rebind
+				}
 
 			}, this);
 
@@ -159,6 +185,8 @@ Ergo.WidgetData = {
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+			var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
+
 
 			this.data.each(function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
@@ -166,30 +194,57 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
 					self.children.autobinding = false;
 
-					item.bind(dataEntry, false);
-					item._pivot = false;
+					item.bind(dataEntry, false, false);
+//					item._pivot = false;
 					item._dynamic = true;
+
 //					item.el.attr('dynamic', true);
-			}, filter, sorter);
+			}, filter, sorter, pager);
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
 
-			this.render(false);
+
+			filter = o.renderFilter ? o.renderFilter.bind(this) : undefined;
+			sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
+			pager = o.renderPager ? o.renderPager.bind(this) : undefined;
+
+			var prev = undefined;
+			this.items.stream(filter, sorter, pager, function(item, i) {
+
+				item.render(null, null, prev); //FIXME возможны проблемы с условной отрисовкой
+
+				if(item._rendered) {
+					prev = item;
+				}
+
+				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
+				// 	self.vdom.add(item, i);
+				// }
+			});
+
+//			this._layoutChanged();
+
 		}
 		else {
 			// STATIC BIND
 
-			this.data.events.on('changed', function(e) {
-				// при изменении значения обновляем виджет, но только в "ленивом" режиме
-				/*if(o.updateOnDataChanged)*/
-				//self._dataChanged(true);
-				self._rebind();
-			}, this);
+			if(this._pivot || this.options.binding) {
 
-			this.data.events.on('dirty', function(e) {
-				self._dataChanged(false, false); // ленивое обновление данных без каскадирования
-			}, this);
+
+				this.data.events.on('changed', function(e) {
+
+					// при изменении значения обновляем виджет, но только в "ленивом" режиме
+					/*if(o.updateOnDataChanged)*/
+					//self._dataChanged(true);
+					self._rebind();
+				}, this);
+
+				this.data.events.on('dirty', function(e) {
+					self._dataChanged(false, false); // ленивое обновление данных без каскадирования
+				}, this);
+
+			}
 
 
 
@@ -217,35 +272,41 @@ Ergo.WidgetData = {
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false && !this.data.options.fetchable) this._dataChanged();
+		if(update !== false && !this.data.fetch) this._dataChanged();
 
+
+		if(this.data.fetch) {
+			this.data.on('fetched', function() {
+				this._layoutChanged();				
+			}.bind(this), this);
+		}
 
 		// подключаем события data:
-		this._bindNsEvents('data');
+//		this._bindNsEvents('data');
+
+		this._bindEvents('data');
 
 
 //		if( this.data.options.fetchable ) {
 
-		// this.data.events.on('fetch:before', function(){
-		// 	w.events.fire('fetch');
+		// this.data.events.on('fetched', function(){
+		// 	// ?
+		// 	w._layoutChanged();
 		// }, this);
-		this.data.events.on('fetched', function(){
-			w._layoutChanged();
-//			w.events.fire('fetched');
-		}, this);
 
 		// если установлен параметр autoFetch, то у источника данных вызывается метод fetch()
 		if(o.autoFetch)	this.data.fetch();//.then(function(){ self.events.fire('fetch'); });
 //		}
 
 
-		this.events.fire('bound');
+//		this.events.fire('bound');
 	},
 
 
 
 	unbind: function() {
 		//
+		delete this._dta;
 	},
 
 
@@ -254,15 +315,17 @@ Ergo.WidgetData = {
 	 *
 	 * @protected
 	 */
-	_rebind: function(update, diff) {
+	_rebind: function(update, diff, initial) {
 
 		var o = this.options;
 		var self = this;
 
 
-		if(!this.data) return;
+		if(!this.__dta) return;
 
-//		console.log('rebind');
+		initial = initial || this;
+
+//		console.log('rebind', this);
 
 		// // если определен параметр dataId, то источником данных будет дочерний элемент, если нет - то сам источник данных
 		// if('dataId' in o)
@@ -283,6 +346,9 @@ Ergo.WidgetData = {
 
 
 		if(o.dynamic) {
+
+//			console.log('rebind (dynamic)');
+
 			// TODO
 
 			if(diff) {
@@ -304,6 +370,7 @@ Ergo.WidgetData = {
 
 				var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 				var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
+				var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
 				this.data.each(function(dataEntry, i){
@@ -312,13 +379,13 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry });
 					self.children.autobinding = false;
 
-					item.bind(dataEntry);
-					item._pivot = false;
+					item.bind(dataEntry, undefined, false);
+//					item._pivot = false;
 					item._dynamic = true;
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, filter, sorter);
+				}, filter, sorter, pager);
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);
@@ -327,7 +394,21 @@ Ergo.WidgetData = {
 				// this.layout.rebuild();
 
 	//			if(!Ergo.noDynamicRender)
+//				this.render();
+
+
+				// filter = o.renderFilter ? o.renderFilter.bind(this) : undefined;
+				// sorter = o.renderSorter ? o.renderSorter.bind(this) : undefined;
+				// pager = o.renderPager ? o.renderPager.bind(this) : undefined;
+				//
+				// this.items.each(function(item, i) {
+				// 	if(item._dynamic && !item._rendered) {
+				// 		item.render();
+				// 	}
+				// }, filter, sorter, pager);
+
 				this.render();
+
 			}
 
 			// обновляем виджет (если это не запрещено в явном виде)
@@ -336,7 +417,8 @@ Ergo.WidgetData = {
 		}
 		else {
 
-//		console.log('rebind (static)');
+
+//			console.log('rebind (static)', this._pivot);
 
 			if(this.__c) {
 
@@ -345,8 +427,12 @@ Ergo.WidgetData = {
 					// 1. rebind не вызывается у дочерних элементов со своим dataSource
 					// 2. rebind не вызывается у дочерних элементов с общим dataSource
 					//      (работает некорректно, если rebind вызывается не событием)
-					if(!child._pivot && (child.data != self.data || update === false)) {
-							child._rebind(false);
+
+					// дочерний элемент не является опорным
+					// дочерний элнмент не является динамическим, связанным с данными инициатора rebind
+					// дочерний элемент не имеет биндинга
+					if(!child._pivot && !(initial.data == child.data && child.options.dynamic) && (child.data != self.data || update === false || !child.options.binding)) {
+						child._rebind(false, undefined, initial);
 					}
 				});
 
@@ -384,6 +470,8 @@ Ergo.WidgetData = {
 	 */
 	_dataChanged: function(lazy, cascade, no_dynamic) {
 
+//		this.events.fire('refresh');//, e);
+
 		// если отключено каскадирование, то обновление не производим
 //		if(cascade && !this.options.cascading) return;
 
@@ -391,12 +479,15 @@ Ergo.WidgetData = {
 
 		var binding = this.options.binding;
 
-		if(/*this.data &&*/ binding){
-			if( $.isString(binding) ) {
-				this.opt(binding, this.opt('value'));
+		if(binding && (('__dta' in this) || ('__val' in this))){ //FIXME неочевидная оптимизация
+
+			if( typeof binding == 'string' ) {
+//				this[binding] = this.value;
+				this.prop(binding, this.value);
 			}
 			else {
-				if( binding.call(this, this.opt('value')) === false) return false;
+				if( binding.call(this, this.value) === false) return false;
+//				if( binding.call(this, this.value) === false) return false;
 			}
 //			var val = this.getValue();
 //			this._lock_value_change = true;
@@ -444,79 +535,16 @@ Ergo.WidgetData = {
 
 	_dataDiff: function(created, deleted, updated) {
 
-		var o = this.options
+		var o = this.options;
 
 		var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : null;
 		var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : null;
+		var pager = o.dynamicPager ? o.dynamicPager.bind(this) : null;
 
 
 		var rerender_a = [];
+		var rerender_new_a = [];
 
-/*
-		var _qfind = function(items, comparator) {
-
-			var after = null;
-
-			if( comparator(items.first()) < 0 ) {
-				after = items.first();
-			}
-			else if( comparator(items.last()) > 0 ) {
-				after = null;
-			}
-			else {
-				var min_x = 0;
-				var max_x = items.size()-1;
-
-//						var n = this.items.size()+1;
-				while(min_x < max_x) {
-
-//								console.log(!!sorter, min_x, max_x);
-
-					// n--;
-					//
-					// if(n == 0) {
-					// 	console.error('error');
-					// 	throw new Exception('error');
-					// }
-
-					var x = Math.ceil((max_x + min_x)/2);
-
-//								console.log('x', x);
-
-					after = items.get(x);
-
-					if(max_x == x || min_x == x) {
-						break;
-					}
-
-
-					var cmp = comparator(after);
-
-
-//								console.log('compare', cmp);
-
-
-					if(cmp < 0) {
-						// min_x < ? < x < max_x
-						max_x = x;
-					}
-					else if(cmp > 0) {
-						// if(min_x == x)
-						// 	break;
-						// min_x < x < ? < max_x
-						min_x = x;
-					}
-					else {
-						break;
-					}
-
-				}
-			}
-
-
-			return after;
-		}
-*/
 
 
 //		console.log( 'Diff (create, delete, update)', created && created.length, deleted && deleted.length, updated && updated.length );
@@ -616,7 +644,8 @@ Ergo.WidgetData = {
 
 					item._dynamic = true;
 
-					item.render();
+//					item.render();
+					rerender_new_a.push(item);
 
 
 				}
@@ -716,7 +745,13 @@ Ergo.WidgetData = {
 
 					_item._dynamic = true;
 
-					_item.render();
+					rerender_new_a.push( _item );
+					// if(!sorter) {
+					// 	rerender_a.push( _item );
+					// }
+					// else {
+//						_item.render();
+//					}
 
 				}
 				else {
@@ -750,6 +785,11 @@ Ergo.WidgetData = {
 
 
 
+		//
+		// [id0, val0, index, item]
+		//
+
+
 
 
 
@@ -769,6 +809,20 @@ Ergo.WidgetData = {
 			kv_a.sort(sorter);
 
 
+			$ergo.fixDisorder(kv_a, function(i, j) {
+
+				var _item = this.items.get(i);
+
+				//TODO нужно оптимизировать с помощью функции items.move()
+				this.items.remove(_item);
+				this.items.add(_item, j);
+
+				rerender_a.push( _item );
+
+			}.bind(this));
+
+
+/*
 			var offset_a = [];
 
 //			var values = [];
@@ -889,7 +943,7 @@ Ergo.WidgetData = {
 				offset_a[_j] = i_offset + (_j - _i);
 
 			}
-
+*/
 
 //			console.log( 'итераций', n );
 
@@ -902,7 +956,8 @@ Ergo.WidgetData = {
 		}
 
 
-		this.events.fire('diff', {updated: rerender_a});
+		this.events.fire('diff', {created: rerender_new_a, updated: rerender_a});
+
 
 	}
 

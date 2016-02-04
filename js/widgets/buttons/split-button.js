@@ -2,9 +2,9 @@
 //= require "dropdown-button"
 
 Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
-	
+
 	defaults: {
-		cls: 'split group',
+		as: 'split group',
 		components: {
 			actionButton: {
 				etype: 'button',
@@ -13,16 +13,16 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 			content: {
 				components: {
 					caret: {
-						'-cls': 'after'
+						'~as': 'after'
 					}
 				}
 			}
 		}
 	},
-	
+
 	set text(v) {
-		this.actionButton.opt('text', v);
+		this.$actionButton.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:split-button');

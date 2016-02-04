@@ -21,7 +21,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 	defaults: {
 //		html: '<div/>',
-		as: 'panel',
+		cls: 'panel',
 		components: {
 			header: {
 				etype: 'html:header',
@@ -47,7 +47,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 	},
 
 
-	set_title: function(v) {
+	set title(v) {
 		this.$header.$title.opt('text', v);
 	}
 

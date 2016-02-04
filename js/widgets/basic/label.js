@@ -3,7 +3,7 @@
 Ergo.defineClass('Ergo.widgets.Label', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<label/>',
+		tag: 'label',
 		cls: 'label',
 		binding: 'text',
 		components: {

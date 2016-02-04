@@ -19,9 +19,10 @@
 Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<input/>',
+		tag: 'input',
 		binding: function(v) {
 			this.el.val(v);
+//			this.dom.el.value = v;
 		},
 		events: {
 			'jquery:change': 'do_change'
@@ -52,9 +53,9 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	// },
 
 	// перегружаем параметр name
-	set_name: function(v) {
+	set name(v) {
 		this._name = v;
-		this.el.attr('name', v);
+		this.vdom.el.setAttribute('name', v);
 	},
 
 
@@ -65,6 +66,14 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 
 	set hidden(v) {
 		this.el.prop('hidden', true);
+	},
+
+	set type(v) {
+		this.vdom.el.setAttribute('type', v);
+	},
+
+	set placeholder(v) {
+		this.vdom.el.setAttribute('placeholder', v);
 	},
 
 	// _change: function(e) {

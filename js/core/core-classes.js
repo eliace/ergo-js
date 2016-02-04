@@ -20,9 +20,23 @@
 	 */
 	E.extend = function(p_ctor, ctor, overrides) {
 
-		if(typeof ctor == 'object') {
-			overrides = ctor;
-			ctor = function(){ p_ctor.apply(this, arguments); };
+		var c = ctor;
+
+		if(typeof c == 'object') {
+			overrides = c;
+			c = function(){
+				if(this.constructor === Object) {
+					var a = [this];
+					for(var i = 0; i < arguments.length; i++) {
+						a.push(arguments[i]);
+					}
+//					console.log([this].concat(arguments));
+					return new (c.bind.apply(c, a))()
+				}
+				else {
+					p_ctor.apply(this, arguments);
+				}
+			};
 		}
 
 
@@ -30,10 +44,10 @@
 		// var F = function(){};
 		// F.prototype = p_ctor.prototype;
 		// ctor.prototype = new F();
-		ctor.prototype = Object.create(p_ctor.prototype);
-		ctor.prototype.constructor = ctor;
-		ctor.superclass = p_ctor.prototype;
-		ctor.super_ctor = p_ctor;
+		c.prototype = Object.create(p_ctor.prototype);
+		c.prototype.constructor = c;
+		c.superclass = p_ctor.prototype;
+		c.super_ctor = p_ctor;
 
 		// для всех функций определяем класс и имя функции
 		for(var i in overrides) {
@@ -42,23 +56,25 @@
 			if( !(desc && (desc.get || desc.set)) ) {
 				var p = overrides[i];
 				if($.isFunction(p)) {
-					p.__class__ = ctor;
+					p.__class__ = c;
 					p.__name__ = i;
 				}
 			}
 		}
 
-		E.override(ctor.prototype, overrides);
+		E.mergeGettersAndSetters(c.prototype, c.superclass);
+
+		E.override(c.prototype, overrides);
 
 
 		if(overrides.etype)
-			Ergo.alias(overrides.etype, ctor);
+			Ergo.alias(overrides.etype, c);
 //			_etypes[overrides.etype] = ctor;
 
 		// добавляем классу метод extend
-		ctor.extend = function(o) { return E.extend(this, o); };
+		c.extend = function(o) { return E.extend(this, o); };
 
-		return ctor;
+		return c;
 	};
 
 
@@ -77,7 +93,7 @@
 	};
 
 
-	E.getter = function(obj, i) {
+	E.hasGetter = function(obj, i) {
 
 		var desc = Object.getOwnPropertyDescriptor(obj, i);
 		if(desc && desc.get)
@@ -93,7 +109,7 @@
 		return false;
 	};
 
-	E.setter = function(obj, i) {
+	E.hasSetter = function(obj, i) {
 
 		var desc = Object.getOwnPropertyDescriptor(obj, i);
 		if(desc && desc.set)
@@ -195,13 +211,13 @@
 
 		cp[cp_a[cp_a.length-1]] = clazz;
 
-		// var cp_a = class_name.split('.');
-		// var cp = 'window';
-		// for(var i = 0; i < cp_a.length; i++){
-			// cp += '.'+cp_a[i];
-			// eval( 'if(!'+cp+') '+cp+' = {};' );
-		// }
-		// eval(cp + ' = clazz;');
+//		cp[cp_a[cp_a.length-1]] = new Function("base_class", 'return function c() { return base_class.apply(this, arguments); }')(base_class)
+
+		// function() {
+		// 	return base_class.apply(this, arguments);
+		// };
+
+
 
 		// если псевдоним класса не задан явно, то он может быть указан в новых свойствах
 		if(!etype)
@@ -245,9 +261,11 @@
 	 * @param {String} etype псевдоним класса
 	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(options, etype, context) {//defaultType) {
+	E.object = function(ns, options, alias, context) {//defaultType) {
 
 		if(options instanceof Ergo.core.Object) return options;
+
+		var etype = ns+':'+alias;
 
 //		var etype = options.etype || defaultType;
 

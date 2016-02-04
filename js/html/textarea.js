@@ -16,7 +16,7 @@
 Ergo.defineClass('Ergo.html.TextArea', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<textarea/>',
+		tag: 'textarea',
 		binding: function(v) {
 			this.el.val(v);
 		},

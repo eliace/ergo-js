@@ -38,27 +38,28 @@ Ergo.defineClass('Ergo.html.Widget', 'Ergo.core.Widget', {
 
 
 
-Ergo.$html = function(o, etype, context) {
+Ergo.$html = function(o, etype) {
 
-	if(!Ergo.alias(etype)) {
+	if(!Ergo.alias('html:'+etype)) {
 
 //		var _etype = etype;
 
-		var i = etype.indexOf(':');
-		if(i > 0) {
-//			ns = etype.substr(0, i);
-			etype = etype.substr(i+1);
-		}
+// 		var i = etype.indexOf(':');
+// 		if(i > 0) {
+// //			ns = etype.substr(0, i);
+// 			etype = etype.substr(i+1);
+// 		}
 
 		// var _o = $.isArray(o) ? o[o.length-1] : o;
 //
 // //		o.etype = 'html:widget';
 		// _o.html = '<'+_etype+'/>';
 
-		o.unshift({html: '<'+etype+'/>'});
+//		o.unshift({html: '<'+etype+'/>'});
+		o.unshift({tag: etype});
 
-		etype = 'html:widget';
+		etype = 'widget';
 	}
 
-	return Ergo.object(o, etype, context);
+	return Ergo.object('html', o, etype);
 };

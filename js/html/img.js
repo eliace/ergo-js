@@ -15,14 +15,14 @@
 Ergo.defineClass('Ergo.html.Img', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<img/>'
+		tag: 'img'
 	},
 
-	attributes: ['id', 'tabindex', 'src']
+	attributes: ['id', 'tabindex', 'src'],
 
 
-	// set_src: function(v) {
-	// 	this.el.attr('src', v);
-	// }
+	set src(v) {
+		this.vdom.el.setAttribute('src', v);
+	}
 
 }, 'html:img');

@@ -3,17 +3,18 @@
 
 /**
  * Блочный элемент, у которого все дочерние элементы тоже имеют тип `box`
- *  
+ *
  * :`box`
- * 
+ *
  * @class
  * @name Ergo.widgets.Box
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widgets.Box.prototype */{
-	
+
 	defaults: {
-		html: '<div/>',
+		tag: 'div',
+//		html: '<div/>',
 		defaultItem: {
 			etype: 'box'
 		},
@@ -21,30 +22,30 @@ Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widget
 			etype: 'box'
 		}
 	}
-	
+
 }, 'widgets:box');
 
 
 
 /**
  * Кнопка
- *  
+ *
  * :`button`
- * 
+ *
  * Состояния:
  * 	`type` [default, primary, success, info, warning, danger, tool]
  * 	`size` [large, small, tiny]
  * 	`disabled`
- * 
+ *
  * @class
  * @name Ergo.widgets.Button
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
-	
+
 	defaults: {
-		html: '<button/>',
-		cls: 'button',
+		tag: 'button',
+		as: 'button',
 //		type: 'default',
 		states: {
 			'default:type': 'default',
@@ -54,69 +55,69 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widg
 			'warning:type': 'warning',
 			'danger:type': 'danger',
 			'tool:type': 'tool',
-			
+
 			'small:size': 'small',
 			'large:size': 'large',
 			'tiny:size': 'tiny',
-			
+
 			'outline': 'outline',
 			'flat': 'flat',
 			'line': 'line',
 
 			'block': 'block',
 			'round': 'round',
-			
-			'disabled': function(on) { on ? this.layout.el.prop('disabled', 'disabled') : this.layout.el.removeProp('disabled'); return false; }
+
+			'disabled': function(on) { on ? this.vdom.el.setAttribute('disabled', '') : this.vdom.el.removeAttribute('disabled'); return false; }
 		}
 	}
-	
-	
+
+
 	// _construct: function(o) {
 	// 	Ergo.widgets.Button.superclass._construct.call(this, o);
-		
+
 	// 	var self = this;
-		
+
 	// 	if(o.action) {
 	// 		this.el.on('click', function(e) {
 	// 			self.events.rise(o.action, null, e);
 	// 		});
 	// 	}
-		
+
 	// }
-	
-	
+
+
 }, 'widgets:button');
 
 
 /**
  * Пиктограмма
- *  
+ *
  * :`icon`
- * 
+ *
  * Опции:
  * 	`text`
  * 	`icon`
- * 
+ *
  * @class
  * @name Ergo.widgets.Icon
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
-	
+
 	defaults: {
-		html: '<i/>',
-		cls: 'icon',
-		binding: 'text'
+		tag: 'i',
+		cls: 'icon'
+//		binding: 'text'
 	},
-	
-	set_icon: function(v) {
-		this.states.set(v);		
+
+	set icon(v) {
+		this.states.set(v);
 	},
-	
-	set_text: function(v) {
-		this.states.set(v);		
+
+	set text(v) {
+		this.states.set(v);
 	}
-	
+
 }, 'widgets:icon');
 
 
@@ -124,70 +125,72 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 
 /**
  * Ссылка
- *  
+ *
  * :`link`
- * 
+ *
  * Опции:
  * 	`href`
- * 
+ *
  * @class
  * @name Ergo.widgets.Link
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widgets.Link.prototype */{
-	
+
 	defaults: {
-		baseCls: 'link',
-		html: '<a href="#"/>',
+		as: 'link',
+		tag: 'a',
+		href: '#',
+//		html: '<a href="#"/>',
 		binding: 'text'
 	},
-	
-	set_href: function(v) {
-		this.el.attr('href', v);
+
+	set href(v) {
+		this.vdom.el.setAttribute('href', v);
 	}
-	
+
 }, 'widgets:link');
 
 
 
 /**
  * Список
- * 
+ *
  * :list
  * \s [~]:html:li
- *  
- * 
+ *
+ *
  * @class
  * @name Ergo.widgets.List
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widgets.List.prototype */{
-	
+
 	defaults: {
-		html: '<ul/>',
-		baseCls: 'list',
+		tag: 'ul',
+		cls: 'list',
 		dynamic: true,
 		defaultItem: {
-			html: '<li/>',
+			tag: 'li',
 //			etype: 'html:li',
 			binding: 'text'
 		},
 		defaultComponent: {
-			html: '<li/>'
-//			etype: 'html:li'			
+			tag: 'li'
+//			etype: 'html:li'
 		}
 	}
-	
+
 }, 'widgets:list');
 
 
 
 Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
-	
+
 	defaults: {
-		html: '<ol/>'
+		tag: 'ol'
 	}
-	
+
 }, 'widgets:o-list');
 
 
@@ -213,7 +216,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 	defaults: {
 //		html: '<div/>',
-		as: 'panel',
+		cls: 'panel',
 		components: {
 			header: {
 				etype: 'html:header',
@@ -239,7 +242,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 	},
 
 
-	set_title: function(v) {
+	set title(v) {
 		this.$header.$title.opt('text', v);
 	}
 
@@ -250,7 +253,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 /**
  * Таблица
- * 
+ *
  * :`table`
  * 	\s control:`box`
  * 	\s\s [...]:`html:col`
@@ -259,26 +262,26 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
  * 	\s\s\s [...]:`html:th`
  * 	\s body:`html:tbody`
  * 	\s\s [~]:`table-row`
- *  
- * 
+ *
+ *
  * Опции:
  * 	`row`
  * 	`cell`
  * 	`columns`
  * 	`rows`
- * 
- * 
+ *
+ *
  * @class
  * @name Ergo.widgets.Table
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Table.prototype */{
-	
+
 	defaults: {
-		html: '<table/>',
+		tag: 'table',
 		components: {
 			control: {
-				html: '<colgroup/>',
+				tag: 'colgroup',
 				defaultItem: {
 					etype: 'html:col'
 				},
@@ -308,16 +311,16 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 		cell: {},
 		columns: []
 	},
-	
 
 
 
-/*	
+
+/*
 	_pre_construct: function(o) {
 
-		
+
 		this._super(o);
-		
+
 	},
 */
 
@@ -325,23 +328,23 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 	_construct: function(o) {
 		this._super(o);
-		
-		
+
+
 		var w = this;
-		
+
 		/**
-		 * @field 
+		 * @field
 		 */
 		this.columns = {
-			
+
 			_widget: this,
-			
+
 			add: function(column, key) {
-				
+
 				var col_item = Ergo.deep_copy(column);
 				var col = {};
 				var hdr_item = {};
-				
+
 				if('width' in col_item) {
 					col.width = col_item.width;
 					delete col_item.width;
@@ -357,67 +360,67 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 					delete col_item.header;
 				}
 
-				
-				this._widget.control.items.add(col);
-				this._widget.head.item(0).items.add(Ergo.smart_override({}, this._widget.options.column, hdr_item));
-				this._widget.body.options.defaultItem.items.push(col_item);
+
+				this._widget.$control.items.add(col);
+				this._widget.$head.item(0).items.add( $ergo.mergeOptions({}, [this._widget.options.column, hdr_item]) );
+				this._widget.$body.options.defaultItem.items.push(col_item);
 			},
-			
-			
+
+
 			size: function() {
 				return this._widget.options.columns.length;
 			},
-			
-			
+
+
 			get: function(i) {
 				return this._widget.options.columns[i];
 			},
-			
-			
+
+
 			each: function(callback) {
 				this._widget.options.columns.forEach(callback);
 			},
-			
-			
+
+
 			hide: function(i) {
-				
-				this._widget.control.item(i).el.detach();
-				this._widget.head.item(0).item(i).el.detach();
-				this._widget.body.items.each(function(row){
+
+				this._widget.$control.item(i).el.detach();
+				this._widget.$head.item(0).item(i).el.detach();
+				this._widget.$body.items.each(function(row){
 					row.item(i).el.detach();
 				});
 //				this._widget.content.content.control.options.items[i].autoRender = false;
-				this._widget.body.options.defaultItem.items[i].autoRender = false;
-				
+				this._widget.$body.options.defaultItem.items[i].autoRender = false;
+
 				this.get(i).hidden = true;
 			},
-			
+
 			show: function(i) {
-				
-				var w = this._widget.control.item(i);
-				this._widget.control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
-				w = this._widget.head.item(0).item(i);
-				this._widget.head.item(0).layout.add( w, w._index, w._weight );
-				
-				this._widget.body.items.each(function(row){
+
+				var w = this._widget.$control.item(i);
+				this._widget.$control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
+				w = this._widget.$head.item(0).item(i);
+				this._widget.$head.item(0).layout.add( w, w._index, w._weight );
+
+				this._widget.$body.items.each(function(row){
 					var cell = row.item(i);
 					row.layout.add(cell, cell._index, cell._weight);
 				});
-				delete this._widget.body.options.defaultItem.items[i].autoRender;
+				delete this._widget.$body.options.defaultItem.items[i].autoRender;
 
 				this.get(i).hidden = false;
-				
-			},
-			
-			
-			resize: function(i, width) {
-				
-				var self = this;
-				
-				var headers = this._widget.headers();
-				var control = this._widget.control;
 
-				
+			},
+
+
+			resize: function(i, width) {
+
+				var self = this;
+
+				var headers = this._widget.headers();
+				var control = this._widget.$control;
+
+
 				this.each(function(col, j){
 					if(i == j) col.width = width;
 					if(!col.width) {
@@ -428,59 +431,59 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 						control.item(j).el.width(col.width);
 					}
 				});
-				
-				
+
+
 				control.item(i).el.width(width);
 //				bdy_control.item(i).el.width(width);
-				
+
 				// var w = this._widget.header.content.control;//.item(i);
 				// w.items.each(function(item){
 				// });
 				// w.el.width(width);
-// 				
+//
 				// w = this._widget.content.content.control.item(i);
 				// w.el.width(width);
-				
+
 			}
-			
-			
-			
+
+
+
 		};
-		
-		
+
+
 
 		o.columns.forEach(function(col) {
 			w.columns.add(col);
 		});
-		
+
 		// for(var i in o.columns) {
 		// 	this.columns.add(o.columns[i]);
 		// }
 
-		
+
 		if('rows' in o) {
 			o.rows.forEach(function(row) {
-				w.body.items.add(row);
+				w.$body.items.add(row);
 			});
 			// for(var i in o.rows) {
 			// 	this.body.items.add(o.rows[i]);
 			// }
 		}
-		
+
 	},
 
 
 	rows: function() {
-		return this.body.items;
+		return this.$body.items;
 	},
-	
+
 	headers: function() {
-		return this.head.item(0).items;
+		return this.$head.item(0).items;
 	}
 
-	
-	
-	
+
+
+
 }, 'widgets:table');
 
 
@@ -489,33 +492,33 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 /*
 Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
-	
-	
+
+
 	_initialize: function(widget) {
 		this._widget = widget;
 	},
-	
-	
-	
+
+
+
 	add: function(o) {
 		// 1. добавляем опции в заголовок
 		// 2. добавляем опции в строки
 		// 3. добавляем ячейку в заголовок
 		// 4. добавляем ячейку во все строки
 	},
-	
-	
+
+
 	get: function(i) {
-		// получение чего-то 
+		// получение чего-то
 	},
-	
-	
+
+
 	remove_at: function(i) {
-		
+
 	}
-	
-	
-	
+
+
+
 });
 */
 
@@ -524,19 +527,19 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 
 /**
  * Строка таблицы
- * 
+ *
  * :`table-row`
  * \s	[...]:`box`
- *  
- * 
+ *
+ *
  * @class
  * @name Ergo.widgets.TableRow
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		html: '<tr/>',
+		tag: 'tr',
 		defaultItem: {
 			etype: 'html:td'
 //			html: '<td/>'
@@ -547,15 +550,8 @@ Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
 //			etype: 'html:td'
 		}
 	}
-	
+
 }, 'widgets:table-row');
-
-
-
-
-
-
-
 
 
 /*
@@ -591,7 +587,7 @@ Ergo.alias('widgets:.', Ergo.html._Text);
 Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<span/>',
+		tag: 'span',
 		binding: 'text'
 	}
 
@@ -603,39 +599,44 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
 
 /**
  * Вложенный список
- * 
+ *
  * :`nested-list`
  * \s	[~]:`nested-item`
- *  
+ *
  * Опции:
  * 	`nestedItem`
- * 
+ *
  * @class
  * @name Ergo.widgets.NestedList
  * @extends Ergo.core.Widget
  */
 Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		html: '<ul/>',
+		tag: 'ul',
 //		cls: 'tree',
 		dynamic: true,
 		defaultItem: {
 			etype: 'nested-item'
 		}
-		
+
 	},
-	
+
 	_pre_construct: function(o) {
 		this._super(o);
-		
-		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+
+//		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+		// o.defaultItem.unshift(o.nestedItem)
+		// o.defaultItem.unshift({components: {sub: {nestedItem: o.nestedItem}}});
+//		o.defaultItem = [{components: {sub: {nestedItem: o.nestedItem}}}].concat(o.nestedItem, o.defaultItem);
+//		console.log('nested', [o.nestedItem, o.defaultItem]);
+		o.defaultItem = $ergo.mergeOptions( {components: {sub: {nestedItem: o.nestedItem}}}, [o.nestedItem, o.defaultItem] );
 	},
 
 
 
 	find_path: function(key) {
-		
+
 		var path = key.split(':');
 		var w = this;
 		var found = null;
@@ -645,28 +646,28 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 			if(!w) break;
 			w = w.$sub;
 		}
-		
+
 		return found;
 	},
-	
-	
+
+
 	walk_path: function(key, callback) {
-		
+
 		var path = key.split(':');
 		var w = this;
-		
+
 		for(var i = 0; i < path.length; i++) {
 			w = w.item({_name: path[i]});
 			callback.call(this, w);   //TODO необходимо реализовать цепочку асинхронных вызовов
 			w = w.$sub;
 		}
-		
+
 	}
 
-	
-	
-	
-}, 'widgets:nested-list');	
+
+
+
+}, 'widgets:nested-list');
 
 
 
@@ -675,24 +676,24 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 /**
  * Вложенный список
- * 
+ *
  * :`nested-item`
  * \s	content:`text`
  * \s subtree:`nested-list`
- *  
+ *
  * Опции:
  * 	`nestedItem`
- * 
+ *
  * @class
  * @name Ergo.widgets.NestedItem
  * @extends Ergo.widgets.Box
  */
 Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.NestedItem.prototype */{
-	
+
 	defaults: {
-		
-		html: '<li/>',
-		
+
+		tag: 'li',
+
 		components: {
 			content: {
 				etype: 'text'
@@ -705,46 +706,43 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.
 				weight: 100
 			}
 		}
-		
+
 	},
-	
-	
-	
+
+
+
 	/**
-	 * Путь к элементу вложенного списка 
+	 * Путь к элементу вложенного списка
 	 */
 	path: function() {
-		
+
     var path = [];
     var w = this;//.parent;
     while(w && w._name) {
       path.push(w._name);
       w = w.parent.parent;
     }
-    
+
     return path.reverse().join(':');
 	}
-	
-	
+
+
 }, 'widgets:nested-item');
-
-
-
 
 
 
 
 /**
  * Дерево
- * 
+ *
  * :`tree`
- * 
+ *
  * @class
  * @name Ergo.widgets.Tree
  * @extends Ergo.widgets.NestedList
  */
 Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo.widgets.Tree.prototype */{
-	
+
 	defaults: {
 //		cls: 'tree'
 		// node: {
@@ -755,7 +753,7 @@ Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo
 		defaultItem: {
 			etype: 'tree-item'
 		},
-		
+
 		nestedItem: {
 			components: {
 				sub: {
@@ -785,58 +783,48 @@ Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo
 
 
 Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends Ergo.widgets.TreeItem.prototype */{
-	
+
 	defaults: {
-		
-		html: '<li/>',
-		
+
+		tag: 'li',
+
 		transitions: {
 			'* > expanded': function() { this.$sub.show(); },
 			'expanded > *': function() { this.$sub.hide(); }
 		},
-		
+
 		components: {
-			// caret: {
-				// etype: 'icon',
-				// cls: 'caret',
-				// weight: -10,
-				// onClick: function() {
-					// this.parent.states.toggle('expanded');
-				// }
-			// },
 			sub: {
 				etype: 'tree'
 			}
 		}
-		
+
 	},
-	
-	
-	
-	
-	
+
+
+
+
+
 	// toggle: function() {
 	// 	this.states.toggle('expanded');
-	// }	
-	
+	// }
+
 
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
-	
-	
+
+
 	// getLeaf: function() {
 		// return this.states.is('leaf');
 	// },
-// 	
+//
 	// setLeaf: function(v) {
 		// this.states.toggle('leaf', v);
 	// }
-	
-	
+
+
 }, 'widgets:tree-item');
-
-
 
 
 
@@ -899,7 +887,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 				// TODO обработка служебных символов
 			}
 			else {
-				this.events.rise('input', {text: e.text, keyCode: keyCode});
+				this.rise('input', {text: e.text, keyCode: keyCode});
 			}
 		}
 
@@ -929,7 +917,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 	},
 
 	set type(v) {
-		this.content.opt('type', v);
+		this.$content.opt('type', v);
 	},
 
 
@@ -1080,8 +1068,23 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'jquery:blur': function(e) {
 				this.events.fire('cancelSelect');
-			}
+			},
 
+
+			'dropdown': function(e) {
+				this.states.toggle('opened');
+			},
+
+			'changeSelect': function(e) {
+				this.value = e.target.name;
+//				this.opt('value', e.target.opt('name'));
+				this.states.unset('opened');
+			},
+
+			'cancelSelect': function(e) {
+				this._dataChanged(); // обновляем связывание
+				this.states.unset('opened');
+			}
 
 		},
 
@@ -1110,9 +1113,8 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //			this.$input.opt('text', v);
 
-
-
-			this.opt('text', selected ? selected.opt('text') : null);
+			this.text = selected ? selected.text : null;
+//			this.opt('text', selected ? selected.opt('text') : null);
 
 //			this.updatePlaceholder();
 		},
@@ -1126,23 +1128,23 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //		onDropdown: function
 
-		onDropdown: function() {
-			this.states.toggle('opened');
-		},
+		// onDropdown: function() {
+		// 	this.states.toggle('opened');
+		// },
 
 	// 	onSelect: function(e) {
 	// //		this.$dropdown.close();
 	// 	},
 
-		onChangeSelect: function(e) {
-			this.opt('value', e.target.opt('name'));
-			this.states.unset('opened');
-		},
-
-		onCancelSelect: function() {
-			this._dataChanged(); // обновляем связывание
-			this.states.unset('opened');
-		}
+		// onChangeSelect: function(e) {
+		// 	this.opt('value', e.target.opt('name'));
+		// 	this.states.unset('opened');
+		// },
+		//
+		// onCancelSelect: function() {
+		// 	this._dataChanged(); // обновляем связывание
+		// 	this.states.unset('opened');
+		// }
 
 
 
@@ -1172,7 +1174,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'check',
 		components: {
@@ -1183,16 +1185,16 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		},
 		states: {
 			'checked': function(on) {
-				this.content.states.toggle('fa-check', on);
+				this.$content.states.toggle('fa-check', on);
 				this.states.unset('indeterminate');
 			},
 			'indeterminate': function(on) {
-				this.content.states.toggle('fa-square', on);				
+				this.$content.states.toggle('fa-square', on);
 			}
 		},
 		events: {
 			'change': function(e) {
-				this.opt('value', e.value);			
+				this.opt('value', e.value);
 			},
 			// действие пользователя
 			'jquery:click': function(e) {
@@ -1203,14 +1205,14 @@ Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
 		binding: function(v) {
 			this.states.toggle('checked', !(!v));
 		}
-	}	
-	
+	}
+
 }, 'widgets:check');
 
 
 
 Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'radio',
 		// components: {
@@ -1218,20 +1220,21 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 		// 	}
 		// },
 		events: {
-			'change': function(e) {
-				this.opt('value', e.value);
-			},
 			// действие пользователя
 			'jquery:click': function() {
 				this.events.rise('change', {value: !this.opt('value')});
+			},
+			'change': function(e) {
+				this.opt('value', e.value);
 			}
 		},
 		binding: function(v) {
+			console.log('radio invalidate', v);
 			this.states.toggle('checked', !(!v));
-		}		
+		}
 	}
-	
-	
+
+
 }, 'widgets:radio');
 
 
@@ -1239,7 +1242,7 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 Ergo.defineClass('Ergo.widgets.Label', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<label/>',
+		tag: 'label',
 		cls: 'label',
 		binding: 'text',
 		components: {
@@ -1277,13 +1280,13 @@ Ergo.defineClass('Ergo.widgets.Item', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.widgets.Title', 'Ergo.core.Widget', {
-	
+
 	defaults: {
-		html: '<span/>',
+		tag: 'span',
 		cls: 'title'
 //		binding: 'text'
 	}
-	
+
 }, 'widgets:title');
 
 
@@ -1299,15 +1302,14 @@ Ergo.defineClass('Ergo.widgets.Image', 'Ergo.html.Img', {
 
 
 
-
-Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Chip', 'Ergo.widgets.Box', {
 
 	defaults: {
-		cls: 'chips',
+		cls: 'chip',
 		components: {
 			image: {
 				etype: 'image',
-				cls: 'circular small before',
+				as: 'circular small before',
 				weight: -10
 			},
 			content: {
@@ -1318,7 +1320,7 @@ Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
 					},
 					description: {
 						etype: 'text',
-						cls: 'description'
+						as: 'description'
 					}
 				}
 			}
@@ -1335,18 +1337,25 @@ Ergo.defineClass('Ergo.widgets.Chips', 'Ergo.widgets.Box', {
 	}
 
 
-}, 'widgets:chips');
+}, 'widgets:chip');
 
 
 
 
 Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
-	
+
 	defaults: {
-		html: '<div contenteditable="true"/>',
+		tag: 'div',//'<div contenteditable="true"/>',
 		binding: 'text'
+	},
+
+
+	_construct: function(o) {
+		Ergo.widgets.Edit.superclass._construct.call(this, o);
+
+		this.vdom.el.setAttribute('contenteditable', true);
 	}
-	
+
 }, 'widgets:edit');
 
 
@@ -1354,7 +1363,7 @@ Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
 Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 
 	defaults: {
-		baseCls: 'menu',
+		cls: 'menu',
 		defaultItem: {
 			etype: 'menu-item'
 		}
@@ -1368,7 +1377,7 @@ Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 	defaults: {
-		html: '<li/>',
+		tag: 'li',
 		components: {
 			content: {
 				etype: 'html:a'
@@ -1387,7 +1396,7 @@ Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
-	
+
 	defaults: {
 //		html: '<ul/>',
 //		cls: 'tree',
@@ -1395,26 +1404,27 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 		defaultItem: {
 			etype: 'nested-menu-item'
 		}
-		
+
 	},
-	
+
 	_pre_construct: function(o) {
 		this._super(o);
-		
-		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+
+//		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
+		o.defaultItem = $ergo.mergeOptions({components: {sub: {nestedItem: o.nestedItem}}}, [o.nestedItem, o.defaultItem]);
 	}
-	
-	
-}, 'widgets:nested-menu');	
+
+
+}, 'widgets:nested-menu');
 
 
 
 
 Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
-	
+
 	defaults: {
-		
-//		html: '<li/>',		
+
+//		html: '<li/>',
 		components: {
 			// content: {
 			// 	etype: 'html:a'
@@ -1427,10 +1437,10 @@ Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
 				weight: 100
 			}
 		}
-		
+
 	}
-	
-	
+
+
 }, 'widgets:nested-menu-item');
 
 
@@ -2037,21 +2047,21 @@ Ergo.defineClass('Ergo.widgets.LinkButton', 'Ergo.widgets.Link', {
 
 
 Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
-	
+
 	defaults: {
 		cls: 'icon-button',
 		components: {
 			content: {
-				etype: 'icon'			
+				etype: 'icon'
 			}
 		}
 	},
-	
-	
-	set_icon: function(v) {
-		this.content.states.set(v);
+
+
+	set icon(v) {
+		this.$content.states.set(v);
 	}
-	
+
 }, 'widgets:icon-button');
 
 
@@ -2068,25 +2078,28 @@ Ergo.defineClass('Ergo.widgets.ImageButton', 'Ergo.html.Img', {
 
 
 Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
-	
+
 	defaults: {
 //		baseCls: 'dropdown-button',
 		include: 'dropdown',
 		components: {
 			content: {
 				etype: 'button',
-				cls: 'dropdown-toggle',
+				as: 'dropdown-toggle',
 				components: {
+					content: {
+						etype: '.'
+					},
 					caret: {
 						etype: 'icon',
-						cls: ['caret', 'after']
+						as: ['caret', 'after']
 					}
 				},
 				onClick: function(e) {
-		//			this.states.is('opened') ? 
+		//			this.states.is('opened') ?
 					this.parent.states.toggle('opened');
 					e.stop();//baseEvent.stopPropagation();
-				}		
+				}
 			},
 			dropdown: {
 //				etype: 'dropdown-list',
@@ -2105,21 +2118,21 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 		// 	}
 		// }
 	}
-	
-	
+
+
 	// setText: function(v) {
 		// this.button.opt('text', v);
 	// }
-	
+
 }, 'widgets:dropdown-button');
 
 
 
 
 Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
-	
+
 	defaults: {
-		cls: 'split group',
+		as: 'split group',
 		components: {
 			actionButton: {
 				etype: 'button',
@@ -2128,18 +2141,18 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 			content: {
 				components: {
 					caret: {
-						'-cls': 'after'
+						'~as': 'after'
 					}
 				}
 			}
 		}
 	},
-	
+
 	set text(v) {
-		this.actionButton.opt('text', v);
+		this.$actionButton.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:split-button');
 
 
@@ -2172,13 +2185,13 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 		components: {
 			footer: {
-				autoRender: true,
-				layout: 'row',
+				autoRender: 'non-empty',
+//				layout: 'row',
 //				etype: 'tool-bar',
 				components: {
 					buttons: {
 						etype: 'buttons',
-						layout: 'bar',
+//						layout: 'bar',
 						defaultItem: {
 							'!onClick': 'action:dialogAction'
 							// onClick: function(e) {
@@ -2202,21 +2215,41 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			}
 		},
 
-		onClick: function(e) {
-			e.stop();
-		},
+		events: {
 
-		onDialogAction: function(e) {
+			'click': function(e) {
+				e.stop();
+			},
+			
+			'dialogAction': function(e) {
 
-//			var event = new Ergo.core.CancelEvent();
-//			if(e.action)
-			var event = this.events.fire(e.target.opt('name'), {}, e);
+	//			var event = new Ergo.core.CancelEvent();
+	//			if(e.action)
+				var event = this.events.fire(e.target.opt('name'), {}, e);
 
-			if(!event.canceled)
-				this.close();
+				if(!event.canceled)
+					this.close();
 
-			e.stop();
+				e.stop();
+			}
+
 		}
+
+// 		onClick: function(e) {
+// 			e.stop();
+// 		},
+//
+// 		onDialogAction: function(e) {
+//
+// //			var event = new Ergo.core.CancelEvent();
+// //			if(e.action)
+// 			var event = this.events.fire(e.target.opt('name'), {}, e);
+//
+// 			if(!event.canceled)
+// 				this.close();
+//
+// 			e.stop();
+// 		}
 	}
 
 
@@ -2244,7 +2277,7 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 
 Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'table-grid',
 		components: {
@@ -2261,62 +2294,66 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 				autoHeight: true,
 				components: {
 					content: {
-						etype: 'grid-box'				
+						etype: 'grid-box'
 					}
 				}
 			}
-		}		
+		}
 	},
-	
-	
+
+
 	_layoutChanged: function() {
 		this._super();
-		
+
 //		console.log('grid layout changed');
-		
-		var hw = this.header.content.el.width();
-		var cw = this.content.content.el.width();
+
+		var hw = this.$header.$content.el.width();
+		var cw = this.$content.$content.el.width();
 
 //		console.log(hw);
 //		console.log(cw);
 
-		
+
 		if(hw > cw) {
-			this.header.el.css('padding-right', hw-cw);
+			this.$header.el.css('padding-right', hw-cw);
 		}
 	},
-	
+
 
 
 	_pre_construct: function(o) {
 		this._super(o);
 
-		if(o.cell)
-			Ergo.smart_override(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: {defaultItem: o.cell}}}}}});
-		
-		if(o.row)
-			Ergo.smart_override(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: o.row}}}}});
-		
+		if(o.cell) {
+			$ergo.mergeOptions(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: {defaultItem: o.cell}}}}}});
+//			Ergo.smart_override(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: {defaultItem: o.cell}}}}}});
+		}
+
+		if(o.row) {
+			$ergo.mergeOptions(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: o.row}}}}});
+//			Ergo.smart_override(o.components.content.components.content, {components: {body: {components: {rows: {defaultItem: o.row}}}}});
+		}
+
 	},
 
 
-	
+
 	_construct: function(o) {
 		this._super(o);
-		
-		
+
+
 		var grid = this;
-		
+
 		this.columns = {
-			
+
 			_widget: this,
-			
+
 			add: function(column, key) {
-				
+
 				var col_item = Ergo.deep_copy(column);
 				var col = {};
 				var hdr_item = {};
-				
+
 				if('width' in col_item) {
 					col.width = col_item.width;
 					delete col_item.width;
@@ -2332,74 +2369,87 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 					delete col_item.header;
 				}
 
-				
-				this._widget.content.content.control.items.add(col);
-				this._widget.content.content.body.rows.options.defaultItem.items.push(col_item);
 
-				this._widget.header.content.control.items.add(col);
-				this._widget.header.content.body.item(0).items.add(Ergo.smart_override({}, this._widget.options.column, hdr_item));
+				this._widget.$content.$content.$control.items.add(col);
+				this._widget.$content.$content.$body.$rows.options.defaultItem.items.push(col_item);
+
+				this._widget.$header.$content.$control.items.add(col);
+				this._widget.$header.$content.$body.item(0).items.add($ergo.mergeOptions({}, [this._widget.options.column, hdr_item]));
 			},
-			
-			
+
+
 			size: function() {
 				return this._widget.options.columns.length;
 			},
-			
-			
+
+
 			get: function(i) {
-				return this._widget.options.columns[i];				
+				return this._widget.options.columns[i];
 			},
-			
-			
+
+
 			each: function(callback) {
 				this._widget.options.columns.forEach(callback);
 			},
-			
-			
+
+
+
 			hide: function(i) {
-				
-				this._widget.header.content.control.item(i).el.detach();
-				this._widget.header.content.body.item(0).item(i).el.detach();
-				
-				this._widget.content.content.control.item(i).el.detach();
-				this._widget.content.content.body.rows.items.each(function(row){
-					row.item(i).el.detach();
+
+				this._widget.$header.$content.$control.item(i).unrender();//.el.detach();
+				this._widget.$header.$content.$control.item(i).options.autoRender = false;
+				this._widget.$header.$content.$body.item(0).item(i).unrender();//.el.detach();
+				this._widget.$header.$content.$body.item(0).item(i).options.autoRender = false;
+
+				this._widget.$content.$content.$control.item(i).unrender();//el.detach();
+				this._widget.$content.$content.$control.item(i).options.autoRender = false;//el.detach();
+				this._widget.$content.$content.$body.$rows.items.each(function(row){
+					row.item(i).unrender();//.el.detach();
+					// ?
 				});
 //				this._widget.content.content.control.options.items[i].autoRender = false;
-				this._widget.content.content.body.rows.options.defaultItem.items[i].autoRender = false;
-				
+
+				this._widget.$content.$content.$body.$rows.options.defaultItem.items[i].autoRender = false;
+
 				this.get(i).hidden = true;
 			},
-			
+
 			show: function(i) {
-				
-				var w = this._widget.header.content.control.item(i);
-				this._widget.header.content.control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
-				w = this._widget.header.content.body.item(0).item(i);
-				this._widget.header.content.body.item(0).layout.add( w, w._index, w._weight );
-				
-				w = this._widget.content.content.control.item(i);
-				this._widget.content.content.control.layout.add( w, w._index, w._weight );
-				this._widget.content.content.body.rows.items.each(function(row){
-					var cell = row.item(i);
-					row.layout.add(cell, cell._index, cell._weight);
+
+				var w = this._widget.$header.$content.$control.item(i);
+				w.options.autoRender = true;
+				this._widget.$header.$content.$control.render();
+//				this._widget.$header.$content.$control.layout.add( w, w._index, w._weight );//.item(i).el.detach();
+				w = this._widget.$header.$content.$body.item(0).item(i);
+				w.options.autoRender = true;
+				this._widget.$header.$content.$body.item(0).render();
+//				this._widget.$header.$content.$body.item(0).layout.add( w, w._index, w._weight );
+
+				w = this._widget.$content.$content.$control.item(i);
+				w.options.autoRender = true;
+				this._widget.$content.$content.$control.render();
+//				this._widget.$content.$content.$control.layout.add( w, w._index, w._weight );
+				this._widget.$content.$content.$body.$rows.items.each(function(row){
+					row.render();
+//					var cell = row.item(i);
+//					row.layout.add(cell, cell._index, cell._weight);
 				});
-				delete this._widget.content.content.body.rows.options.defaultItem.items[i].autoRender;
+				delete this._widget.$content.$content.$body.$rows.options.defaultItem.items[i].autoRender;
 
 				this.get(i).hidden = false;
-				
-			},
-			
-			
-			resize: function(i, width) {
-				
-				var self = this;
-				
-				var headers = this._widget.headers();
-				var hdr_control = this._widget.header.content.control;
-				var bdy_control = this._widget.content.content.control;
 
-				
+			},
+
+
+			resize: function(i, width) {
+
+				var self = this;
+
+				var headers = this._widget.headers();
+				var hdr_control = this._widget.$header.$content.$control;
+				var bdy_control = this._widget.$content.$content.$control;
+
+
 				this.each(function(col, j){
 					if(i == j) col.width = width;
 					if(!col.width) {
@@ -2411,45 +2461,45 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 						bdy_control.item(j).el.width(col.width);
 					}
 				});
-				
-				
+
+
 				hdr_control.item(i).el.width(width);
 				bdy_control.item(i).el.width(width);
-				
+
 				// var w = this._widget.header.content.control;//.item(i);
 				// w.items.each(function(item){
 				// });
 				// w.el.width(width);
-// 				
+//
 				// w = this._widget.content.content.control.item(i);
 				// w.el.width(width);
-				
+
 			}
-			
-			
-			
+
+
+
 		};
-		
-		
+
+
 
 		o.columns.forEach(function(col) {
 			grid.columns.add(col);
 		});
-		
-		
+
+
 	},
-	
-	
+
+
 	rows: function() {
-		return this.content.content.body.rows.items;
+		return this.$content.$content.$body.$rows.items;
 	},
-	
+
 	headers: function() {
-		return this.header.content.body.item(0).items;
+		return this.$header.$content.$body.item(0).items;
 	}
-	
-	
-	
+
+
+
 }, 'widgets:table-grid');
 
 
@@ -2458,68 +2508,68 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		html: '<table/>',
+		tag: 'table',
 //		cls: 'grid-header',
 		cls: 'grid-box header',
 		components: {
 			control: {
-				html: '<colgroup/>',
+				tag: 'colgroup',
 				defaultItem: {
 					etype: 'html:col'
 				},
 				weight: -1
 			},
 			body: {
-				html: '<thead/>',
+				tag: 'thead',
 				defaultItem: {
 					etype: 'table-row',
 					defaultItem: {
-						html: '<th/>'
+						tag: 'th'
 //						etype: 'html:th'
 					}
 				},
 				items: [{}]
 			}
-		}		
+		}
 	}
-	
+
 }, 'widgets:grid-header');
 
 
 
 Ergo.defineClass('Ergo.widgets.grid.Box', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		html: '<table/>',
+		tag: 'table',
 		cls: 'grid-box',
 		components: {
 			control: {
-				html: '<colgroup/>',
+				tag: 'colgroup',
 				defaultItem: {
-					html: '<col/>'
+					tag: 'col'
 				},
 				weight: -1
 			},
 			body: {
-				html: '<tbody/>',
+				tag: 'tbody',
 				components: {
 					rows: {
 						autoRender: false,
 						layout: 'inherited',
-						dynamic: true,						
+						dynamic: true,
 						defaultItem: {
 							etype: 'table-row',
 							items: []
-						}						
+						}
 					}
 				}
 			}
-		}		
-		
+		}
+
 	}
-	
+
 }, 'widgets:grid-box');
 
 
@@ -2653,7 +2703,7 @@ Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
 
 
 Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
-	
+
 	defaults: {
 
 		cls: 'tree basic',
@@ -2661,7 +2711,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 		nestedItem: {
 
 			cls: 'item',
-			
+
 			transitions: {
 				'* > expanded': function() {
 					// загружаем данные поддерева и открываем его
@@ -2680,12 +2730,12 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 					});
 				}
 			},
-			
+
 			components: {
 				toggler: {
 					etype: 'icon',
-					cls: 'toggle contextual action',
-					state: 'caret',
+					as: 'toggle contextual action +caret',
+//					stt: 'caret',
 					weight: -100,
 					autoBind: false,
 					onClick: function() {
@@ -2712,7 +2762,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 			}
 		}
 	}
-	
+
 }, 'widgets:basic-tree');
 
 
@@ -2745,7 +2795,7 @@ Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 
 	defaults: {
-		baseCls: 'side-menu',
+		as: 'side-menu',
 		nestedItem: {
 			components: {
 				content: {
@@ -2753,7 +2803,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					components: {
 						icon: {
 							etype: 'icon',
-							cls: 'before',
+							as: 'before',
 							weight: -100
 						},
 						content: {
@@ -2785,7 +2835,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 			},
 			states: {
 				'expanded': function(on) {
-					this.content.caret.states.set(on ? 'opened' : 'closed');
+					this.$content.$caret.states.set(on ? 'opened' : 'closed');
 					if(on)
 						this.events.rise('itemExpanded');
 				}
@@ -2852,7 +2902,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 			},
 			onClose: function() {
 				this.el.height(this.el.height());
-				this.content.hide().then(function(){
+				this.$content.hide().then(function(){
 					this._destroy();//.el.slideUp(300);
 				}.bind(this));
 			}
@@ -2868,7 +2918,7 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 			$content: growl
 		});
 
-		this.render();
+		item.render();
 
 
 		setTimeout(function() {
@@ -2904,10 +2954,10 @@ Ergo.defineClass('Ergo.widgets.Buttons', 'Ergo.widgets.Box', {
 
 /**
  * Добавляет компонент label
- * 
+ *
  * Опции:
  * 	`label`
- * 
+ *
  * @mixin Ergo.mixins.Label
  */
 
@@ -2921,21 +2971,22 @@ Ergo.alias('includes:label', {
 				etype: 'html:label'
 //				autoRender: false
 			}
-		}		
+		}
 	},
 
 	overrides: {
-		set_label: function(v) {
-			this.label.opt('text', v);
+		set label(v) {
+			this.$label.opt('text', v);
 		},
-		
-		get_label: function() {
-			this.label.opt('text');
+
+		get label() {
+			this.$label.opt('text');
 		}
 	}
 
 
 });
+
 
 
 Ergo.alias('includes:icon', {
@@ -2954,8 +3005,8 @@ Ergo.alias('includes:icon', {
 
 
 	overrides: {
-		set_icon: function(v) {
-			this.icon.opt('text', v);
+		set icon(v) {
+			this.$icon.opt('text', v);
 		}
 	}
 
@@ -2980,8 +3031,8 @@ Ergo.alias('includes:xicon', {
 
 
 	overrides: {
-		set_xicon: function(v) {
-			this.xicon.opt('text', v);
+		set xicon(v) {
+			this.$xicon.opt('text', v);
 		}
 	}
 
@@ -2996,18 +3047,18 @@ Ergo.alias('includes:icon:before', {
 			icon: {
 				etype: 'icon',
 				weight: -10,
-				cls: 'before'
+				as: 'before'
 			},
 			content: {
 				etype: '.',
-				binding: false
+//				binding: false
 			}
 		}
 	},
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -3025,7 +3076,7 @@ Ergo.alias('includes:icon:after', {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'after'
+				as: 'after'
 			},
 			content: {
 				etype: '.',
@@ -3036,7 +3087,7 @@ Ergo.alias('includes:icon:after', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -3053,7 +3104,7 @@ Ergo.alias('includes:xicon:after', {
 			xicon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'after'
+				as: 'after'
 			},
 			content: {
 				etype: '.',
@@ -3064,7 +3115,7 @@ Ergo.alias('includes:xicon:after', {
 
 
 	overrides: {
-		set_xicon: function(v) {
+		set xicon(v) {
 			this.$xicon.opt('text', v);
 		}
 	}
@@ -3079,12 +3130,12 @@ Ergo.alias('includes:xicon:after', {
 Ergo.alias('includes:icon:at-left', {
 
 	defaults:{
-		cls: 'has-icon at-left',
+		as: 'has-icon at-left',
 		components: {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'left'
+				as: 'left'
 			},
 			content: {
 				etype: '.'
@@ -3094,7 +3145,7 @@ Ergo.alias('includes:icon:at-left', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -3107,12 +3158,12 @@ Ergo.alias('includes:icon:at-left', {
 Ergo.alias('includes:icon:at-right', {
 
 	defaults:{
-		cls: 'has-icon at-right',
+		as: 'has-icon at-right',
 		components: {
 			icon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'right'
+				as: 'right'
 			},
 			content: {
 				etype: '.'
@@ -3122,7 +3173,7 @@ Ergo.alias('includes:icon:at-right', {
 
 
 	overrides: {
-		set_icon: function(v) {
+		set icon(v) {
 			this.$icon.opt('text', v);
 		}
 	}
@@ -3134,12 +3185,12 @@ Ergo.alias('includes:icon:at-right', {
 Ergo.alias('includes:xicon:at-right', {
 
 	defaults:{
-		cls: 'has-icon at-right',
+		as: 'has-icon at-right',
 		components: {
 			xicon: {
 				etype: 'icon',
 				weight: 10,
-				cls: 'right'
+				as: 'right'
 			},
 			content: {
 				etype: '.'
@@ -3149,7 +3200,7 @@ Ergo.alias('includes:xicon:at-right', {
 
 
 	overrides: {
-		set_xicon: function(v) {
+		set xicon(v) {
 			this.$xicon.opt('text', v);
 		}
 	}
@@ -3232,10 +3283,11 @@ Ergo.alias('includes:dropdown', {
 				as: 'dropdown',
 				include: 'popup effects',
 				weight: 100,
-				style: {'display': 'none'},
+				hidden: true,
+//				style: {'display': 'none'},
 				// TODO неплохо бы сделать шорткаты примесями
 				shortcuts: {
-					'|': {cls: 'divider'}
+					'|': {as: 'divider'}
 				},
 				effects: {
 					show: {type: 'slideDown', delay: 200},
@@ -3324,9 +3376,9 @@ Ergo.alias('includes:dropdown:sub', {
 });
 
 
-
+/*
 Ergo.defineMixin('Ergo.widgets.Loader', function(o){
-	
+
 	o.components = Ergo.smart_override({
 		loader: {
 			etype: 'box',
@@ -3335,63 +3387,66 @@ Ergo.defineMixin('Ergo.widgets.Loader', function(o){
 			autoHeight: 'ignore',
 			components: {
 				icon: {
-					etype: 'icon'					
+					etype: 'icon'
 				}
 			}
-		}		
+		}
 	}, o.components);
 
 
 	o.events = Ergo.smart_override({
 		'fetch': function() {
 			this.states.set('loading');
-		},		
+		},
 		'fetched': function() {
 			this.states.unset('loading');
-		}		
+		}
 	}, o.events);
 
 	Ergo.smart_override(o, {cls: 'loadable'});
-	
+
 	// o.states = Ergo.smart_override({
-		// 'loading': 'loading'		
+		// 'loading': 'loading'
 	// }, o.states);
-	
+
 //	Ergo.smart_build(o);
-	
+
 }, 'mixins:loader');
+*/
 
 
+/*
 Ergo.defineMixin('Ergo.widgets.Lockable', function(o){
-	
+
 	o.components = Ergo.smart_override({
 		locker: {
 			etype: 'box',
 			cls: 'locker',
 			weight: 1000,
 			autoHeight: 'ignore',
-		}		
+		}
 	}, o.components);
 
 
 	// o.events = Ergo.smart_override({
 		// 'fetch': function() {
 			// this.states.set('loading');
-		// },		
+		// },
 		// 'fetched': function() {
 			// this.states.unset('loading');
-		// }		
+		// }
 	// }, o.events);
 
 //	Ergo.smart_override(o, {cls: 'lockable'});
-	
+
 	o.states = Ergo.smart_override({
-		'locked': 'locked'		
+		'locked': 'locked'
 	}, o.states);
-	
+
 //	Ergo.smart_build(o);
-	
+
 }, 'mixins:lockable');
+*/
 
 
 
@@ -3616,9 +3671,9 @@ Ergo.alias('includes:item-click-selection', {
 
 
 Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
-	
+
 	defaults: {
-		baseCls: 'breadcrumbs',
+		cls: 'breadcrumbs',
 		defaultItem: {
 			components: {
 				content: {
@@ -3634,8 +3689,8 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
 			}
 		}
 	}
-	
-}, 'widgets:breadcrumbs');	
+
+}, 'widgets:breadcrumbs');
 
 
 
@@ -3643,7 +3698,7 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
 
 
 Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
 		cls: 'alert',
 		layout: 'columns',
@@ -3660,7 +3715,7 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 					message: {
 						cls: 'alert-message',
 						etype: 'box'
-					}					
+					}
 				}
 			},
 			xicon: {
@@ -3669,21 +3724,21 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
-	
-	set_title: function(v) {
-		this.content.title.opt('text', v);
+
+
+	set title(v) {
+		this.$content.$title.opt('text', v);
 	},
-	
-	set_icon: function(v) {
-		this.icon.states.set(v);
+
+	set icon(v) {
+		this.$icon.states.set(v);
 	},
-	
-	set_text: function(v) {
-		this.content.message.opt('text', v);
+
+	set text(v) {
+		this.$content.$message.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:alert');
 
 
@@ -3691,7 +3746,7 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 
 	defaults: {
-		cls: 'alert simple',
+		as: 'alert simple',
 		components: {
 			title: {
 				etype: 'html:strong'
@@ -3702,8 +3757,8 @@ Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 		}
 	},
 
-	set_title: function(v) {
-		this.title.opt('text', v);
+	set title(v) {
+		this.$title.opt('text', v);
 	}
 
 }, 'widgets:simple-alert');
@@ -3732,27 +3787,27 @@ Ergo.defineClass('Ergo.widgets.DropdownList', 'Ergo.widgets.List', {
 
 
 Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
-	
+
 	defaults: {
-		baseCls: 'menu',
+		cls: 'menu',
 		defaultItem: {
 			components: {
 				content: {
 					etype: 'html:a'
-				}				
+				}
 			}
 		}
 	}
-	
+
 }, 'widgets:dropdown-menu');
 
 
 
 Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
-	
+
 	defaults: {
-		
-		baseCls: 'pagination',
+
+		cls: 'pagination',
 //		mixins: ['selectable'],
 		include: 'selectable',
 		dynamic: false,  // отключаем динамическое построение элементов
@@ -3766,7 +3821,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index:next');
+							this.events.rise('index#next');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -3781,11 +3836,11 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index:prev');
+							this.events.rise('index#prev');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
-				}			
+				}
 			}
 		},
 		defaultItem: {
@@ -3796,7 +3851,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	//				this.parent.parent.opt('index', this.parent);
 						var index = parseInt( this.parent.opt('name') );
 						if(index)
-							this.events.rise('index:change', {index: index});
+							this.events.rise('index#change', {index: index});
 						e.preventDefault(); // блокируем выделение текста
 					}
 				}
@@ -3814,89 +3869,88 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 			}
 		},
 
-		
+
 		binding: function(v) {
 			this.opt('dataIndex', this.data.opt('index'));
 		},
-		
-		
+
+
 		events: {
-			'index:next': function(e) {
+			'index#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:prev': function(e) {
+			'index#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:change': function(e) {
+			'index#change': function(e) {
 				this.events.rise('changeDataIndex', {index: e.index});
 			}
 		}
-		
+
 	},
-	
-	
-	
-	
-	
-	set_dataIndex: function(index) {
+
+
+
+
+
+	set dataIndex(index) {
 
 		var count = this.data.opt('count');
-		
+
 		var before_pages = 2;
 		var after_pages = 2;
 		var wrap_pages = 2;
-		
+
 		this.items.apply_all('_destroy');
 
 		var min_float = Math.min(before_pages, count);
 		var max_float = Math.max(min_float, count-after_pages);
 		var min_block = Math.max(min_float, index-wrap_pages-1);
 		var max_block = Math.min(max_float, index+wrap_pages);
-		
+
 		// BEFORE
 		for(var i = 0; i < min_float; i++)
 			this.items.add({text: i+1, name: i+1});
-		
+
 		if(min_block - min_float > 0)
 			this.items.add({text: '...'});
-		
+
 		for(var i = min_block; i < max_block; i++)
 			this.items.add({text: i+1, name: i+1});
 
 		if(max_float - max_block > 0)
 			this.items.add({text: '...'});
-		
+
 		// AFTER
 		for(var i = max_float; i < count; i++)
 			this.items.add({text: i+1, name: i+1});
-		
+
 		this.render();
-		
+
 		this.selection.set(index);
-		
+
 //		this.opt('selected', index);
-		
+
 //		data.opt('index', index);
 //		data.fetch();
-		
+
 		this.events.fire('dataIndexChanged', {index: index});  //?
 	}
-	
-	
-	
+
+
+
 }, 'widgets:pagination');
 
 
 
 Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		baseCls: 'grid-pagination',
-		cls: 'pagination',
+		as: 'pagination grid-pagination',
 		defaultComponent: {
 			etype: 'menu-item',
 			// components: {
@@ -3917,8 +3971,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '«',
 				weight: -100,
 				onClick: function() {
-					this.events.rise('index:first');
-				}				
+					this.events.rise('index#first');
+				}
 			},
 			prevButton: {
 //				etype: 'button',
@@ -3926,13 +3980,13 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '<',
 				components: {
 					content: {
-						cls: 'icon move prev'
+						as: 'icon move prev'
 					}
 				},
 				weight: -50,
 				onClick: function() {
-					this.events.rise('index:prev');
-				}				
+					this.events.rise('index#prev');
+				}
 			},
 			nextButton: {
 //				etype: 'button',
@@ -3940,18 +3994,18 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '>',
 				components: {
 					content: {
-						cls: 'icon move next'
+						as: 'icon move next'
 					}
 				},
 				weight: 50,
 				onClick: function() {
-					this.events.rise('index:next');
-				}				
+					this.events.rise('index#next');
+				}
 			},
 			lastButton: {
 				components: {
 					content: {
-						cls: 'icon move last'
+						as: 'icon move last'
 					}
 				},
 				// etype: 'button',
@@ -3959,8 +4013,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '»',
 				weight: 100,
 				onClick: function() {
-					this.events.rise('index:last');
-				}							
+					this.events.rise('index#last');
+				}
 			},
 			current: {
 				etype: 'html:li',
@@ -3969,94 +4023,94 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				defaultItem: {
 					etype: '.',
 				},
-				items: [ 
-				'Стр. ', 
+				items: [
+				'Стр. ',
 				{
 					etype: 'input',
-					cls: 'underlined',
+					as: 'underlined',
 					onChange: function(e) {
-						
+
 						var i = parseInt(e.text);
-						
+
 						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
-						
+
 						if( !this.states.is('invalid') )
-							this.events.rise('index:change', {index: i});							
-						
+							this.events.rise('index#change', {index: i});
+
 					}
-				}, 
-				' из ', 
+				},
+				' из ',
 				{
 					etype: '.'
 				}]
-				
+
 			}
 		},
-		
+
 		events: {
-			'index:first': function(e) {
+			'index#first': function(e) {
 				this.events.rise('changeDataIndex', {index: 1});
 			},
-			'index:last': function(e) {
+			'index#last': function(e) {
 				this.events.rise('changeDataIndex', {index: this.data.opt('count')});
 			},
-			'index:next': function(e) {
+			'index#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:prev': function(e) {
+			'index#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
 					this.events.rise('changeDataIndex', {index: i});
 			},
-			'index:change': function(e) {
+			'index#change': function(e) {
 				var i = e.index;
 				if( !isNaN(i) && i > 0 && i <= this.data.opt('count') )
 					this.events.rise('changeDataIndex', {index: e.index});
 //				this.states.set('invalid');
 //					this.opt('value', this.opt('value'));
-				
-			}			
+
+			}
 		},
 
 		binding: function(v) {
-			
-			this.current.item(1).opt('value', this.data.opt('index'));
-			this.current.item(3).opt('text', this.data.opt('count'));
-			
+
+			this.$current.item(1).opt('value', this.data.opt('index'));
+			this.$current.item(3).opt('text', this.data.opt('count'));
+
 		}
-	
-	
+
+
 	},
-	
-	
-	
-	
+
+
+
+
 	set_dataIndex: function(v) {
-		
+
 	}
-	
-	
+
+
 	// _construct: function(o) {
 		// this._super(o);
-// 		
+//
 		// this._index = 0;
 	// }
-	
-	
+
+
 }, 'widgets:grid-pagination');
 
 
 
 Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
-	
+
 	defaults: {
-		baseCls: 'navigation',
-		html: '<nav/>',
+		cls: 'navigation',
+		tag: 'nav',
 		components: {
 			header: {
-				layout: 'fluid',
+				layout: 'float',
 				cls: 'header',
 				components: {
 					title: {
@@ -4066,19 +4120,19 @@ Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
 				}
 			},
 			content: {
-				layout: 'fluid',
+				layout: 'float',
 				cls: 'content'
 			}
 		}
-		
+
 	},
-	
-	
-	set_title: function(v) {
-		this.header.title.opt('text', v);
+
+
+	set title(v) {
+		this.$header.$title.opt('text', v);
 	}
-	
-	
+
+
 }, 'widgets:navigation');
 
 

@@ -1,31 +1,47 @@
 
 Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
-	
+
 	// select: function(item) {
 		// return this.container.parent.el;
 	// }
-	
-	add: function(item, index, weight) {
-		
-//		var _select = this.container.parent.layout.options.selector;
-		
-//		var wrapper = this.container._wrapper;
-		
-//		if(wrapper) {
-//			this._widget.el.after(item.el);
-		this._widget.parent.layout.add(item, index, weight);
-//		}
-		
-		
-//		if(this.container._wrapper)
-//			this.container.parent.layout.options.selector = function() { return wrapper; }
-		
-//		this.container.parent.layout.add(item, index, weight);
-		
-//		if(this.container._wrapper)
-//			this.container.parent.layout.options.selector= _select;
-		
+
+
+	_initialize: function() {
+		Ergo.layouts.Inherited.superclass._initialize.apply(this, arguments);
+
+		// отключаем отрисовку
+		this._widget.options.autoRender = false;
+	},
+
+
+
+	// add: function(item, index, weight, group) {
+	//
+	// 	var g = [[this._widget.options.weight, this._widget._index]];
+	//
+	// 	this._widget.parent.vdom.add(item, index, weight, group ? g.concat(group) : g);
+	//
+	// },
+
+
+	addAfter: function(item, otherItem, weight, group) {
+
+		var g = [[this._widget.options.weight, this._widget._index]];  //FIXME this._widget._index некорректный индекс
+
+		this._widget.parent.vdom.addAfter(item, otherItem, weight, group ? g.concat(group) : g);
+
+	},
+
+
+	addBefore: function(item, otherItem, weight, group) {
+
+		var g = [[this._widget.options.weight, this._widget._index]];  //FIXME this._widget._index некорректный индекс
+
+		this._widget.parent.vdom.addBefore(item, otherItem, weight, group ? g.concat(group) : g);
+
 	}
-	
-	
+
+
+
+
 }, 'layouts:inherited');

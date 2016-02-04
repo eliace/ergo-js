@@ -14,7 +14,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 
 	_initialize: function(src, options) {
 //		this._super(src || [], options);
-		Ergo.core.Array.superclass._initialize.call(this, src || [], options);
+		Ergo.core.Array.superclass._initialize.call(this, src || []);//, options);
 //		this.src = src || [];
 //		Ergo.Observable.call(this);
 //		this.events = new Ergo.events.Dispatcher();
@@ -37,6 +37,9 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 			i = this.src.length-1;
 		}
 		else {
+			if(i > this.src.length) {
+				console.warn('Add item at index greater than array length may cause errors');
+			}
 			this.src.splice(i, 0, item);
 		}
 

@@ -20,10 +20,11 @@ Ergo.alias('includes:dropdown', {
 				as: 'dropdown',
 				include: 'popup effects',
 				weight: 100,
-				style: {'display': 'none'},
+				hidden: true,
+//				style: {'display': 'none'},
 				// TODO неплохо бы сделать шорткаты примесями
 				shortcuts: {
-					'|': {cls: 'divider'}
+					'|': {as: 'divider'}
 				},
 				effects: {
 					show: {type: 'slideDown', delay: 200},

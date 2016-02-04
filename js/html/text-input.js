@@ -21,40 +21,47 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 		// 	this.el.val(v);
 		// },
 		events: {
+			// jquery
 			'jquery:keyup': function(e) {
 				this.events.rise('keyUp', {text: this.el.val()}, e);
 			},
 			'jquery:keydown': function(e) {
 				this.events.rise('keyDown', {text: this.el.val()}, e);
-			}
-		},
+			},
+			// widget
+			'change': function(e) {
+				this.opt('value', e.value);
+			},
+			'keyUp': function(e) {
+				var keyCode = e.base.keyCode;
 
-		onChange: function(e) {
-			this.opt('value', e.value);
-		},
+				if(keyCode == Ergo.KeyCode.ESC
+					|| keyCode == Ergo.KeyCode.DOWN
+					|| keyCode == Ergo.KeyCode.ENTER
+					|| keyCode == Ergo.KeyCode.ESC) {
+					// TODO обработка служебных символов
+				}
+				else {
+					this.events.rise('input', {text: e.text, keyCode: keyCode});
+				}
 
-		onKeyUp: function(e) {
-
-			var keyCode = e.base.keyCode;
-
-			if(keyCode == Ergo.KeyCode.ESC
-				|| keyCode == Ergo.KeyCode.DOWN
-				|| keyCode == Ergo.KeyCode.ENTER
-				|| keyCode == Ergo.KeyCode.ESC) {
-				// TODO обработка служебных символов
-			}
-			else {
-				this.events.rise('input', {text: e.text, keyCode: keyCode});
 			}
 		}
 
+		// onChange: function(e) {
+		// 	this.opt('value', e.value);
+		// },
+		//
+		// onKeyUp: function(e) {
+		//
+		// }
 
 		// events: {
 		// 	'jquery:change': function() {
 		// 		this.opt('value', this.el.val());
 		// 	}
 		// }
-	},
+	}
 
 
 }, 'html:text-input');

@@ -15,7 +15,7 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 			w.append(item.$label.el);
 		}
 		w.append(item.el);
-		return w;
+		return w[0];
 	}
 
 
@@ -46,7 +46,7 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 		if(item.$message) {
 			w.append(item.$message.el);
 		}
-		return w;
+		return w[0];
 	}
 
 
@@ -77,7 +77,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 		w.append(w2);
 
-		return w;
+		return w[0];
 	},
 
 
@@ -85,6 +85,8 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 	update: function() {
 
 //		this._super();
+
+		console.log('update vform');
 
 
 		var self = this;
@@ -101,7 +103,7 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 			if(!item._rendered) return;
 
-			var el = item._wrapper_el.children().filter('div') || item.el;
+			var el = $(item.vdom.outerEl).children().filter('div') || $(item.el);
 
 //			console.log(item._wrapper);
 
@@ -109,16 +111,16 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 			if(w.options.pattern) {
 
 				if(item.$label)
-					item.$label.el.addClass('col-'+w.options.pattern[0]);
+					item.$label.vdom.addClass('col-'+w.options.pattern[0]);
 				else
-				el.addClass('col-offset-'+w.options.pattern[0]);
+					el.addClass('col-offset-'+w.options.pattern[0]);
 
 				el.addClass('col-'+w.options.pattern[1]);
 
 			}
 			else {
 				if(item.$label)
-					item.$label.el.addClass('col-6');
+					item.$label.vdom.addClass('col-6');
 				else
 					el.addClass('col-offset-6');
 

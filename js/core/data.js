@@ -19,11 +19,11 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
 
 	defaults: {
 //		plugins: [Ergo.Observable],
-		include: 'observable',
+//		include: 'observable',
 		lazy: true
 	},
 
@@ -121,7 +121,7 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 		}
 
 		// если ключ - строка, то он может быть составным
-		if( $.isString(i) ) {
+		if( typeof i == 'string' ) {
 			var a = i.split('.');
 			var i = a.pop();
 			// двигаемся внутрь объекта по элементам ключа
@@ -941,6 +941,10 @@ Ergo.declare('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.Da
 
 });
 
+
+
+
+Ergo.override(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 

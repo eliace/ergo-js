@@ -9,7 +9,7 @@
 Ergo.defineClass('Ergo.html.Label', 'Ergo.core.Widget', {
 
 	defaults: {
-		html: '<label/>'
+		tag: 'label'
 	},
 
 

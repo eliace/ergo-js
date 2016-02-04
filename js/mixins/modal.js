@@ -61,15 +61,16 @@ Ergo.alias('includes:modal', {
 			z++;
 
 			// устанавливаем z-index
-			modal.overlay.el.css({'z-index': z*1000});
+			modal.$overlay.el.css({'z-index': z*1000});
 			modal.el.css({'z-index': z*1000+1});
 
-			$('body').append(modal.overlay.el);
+			modal.$overlay.render('body');
+//			$('body').append(modal.$overlay.el);
 
-			modal.overlay.el.append(modal.el);
+			modal.$overlay.el.append( modal.el );
 
 			modal._rendered = true;
-			modal.overlay._rendered = true;
+			modal.$overlay._rendered = true;
 	//		this.overlay.items.add(this);
 	//		$('body').append(this.el);
 
@@ -79,7 +80,7 @@ Ergo.alias('includes:modal', {
 
 
 
-			var result = modal.overlay.show().then(function(){
+			var result = modal.$overlay.show().then(function(){
 
 /*
 				//	поскольку оверлей уже отрисовался, можно расчитывать положение окна
@@ -131,12 +132,12 @@ Ergo.alias('includes:modal', {
 				this.el.hide();
 */
 
-				this.show().then(function(){
+				this.events.fire('open');
+
+				return this.show().then(function(){
 					this.events.fire('opened');
 					this._layoutChanged();
 				}.bind(this));
-
-				this.events.fire('open');
 
 			}.bind(this));
 
@@ -151,9 +152,7 @@ Ergo.alias('includes:modal', {
 		//
 		close: function() {
 
-			var e = new Ergo.core.Event();
-
-			this.events.fire('close', e);
+			var e = this.events.fire('close');
 
 			if(e.canceled)
 				return;
@@ -165,8 +164,9 @@ Ergo.alias('includes:modal', {
 
 	//			this.el.detach();
 
-				this.overlay.hide().then(function(){
-					this.overlay.el.detach();
+				this.$overlay.hide().then(function(){
+					$ergo.dom.remove( this.$overlay.el );
+//					this.overlay.el.detach();
 					this.events.fire('closed');
 
 					if(this.options.destroyOnClose)

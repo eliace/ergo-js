@@ -11,7 +11,7 @@
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
+Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
 
 	_initialize: function(widget) {
@@ -20,6 +20,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		this._states = {};
 		this._transitions = [];
 		this._exclusives = {};
+//		thi._substates = {};
 	},
 
 
@@ -59,21 +60,33 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 	state: function(name, value) {
 
-		// парсим код состояния
-		var i = name.indexOf(':');
-		if( i == 0 ) {
-			var g = name.substr(1);
-			this.exclusive_group(g, value);
+		// добавляем эксклюзивные группы
+		if(value && value.constructor === Object) {
+			var group = this._exclusives[name] || [];
+			for(var i in value) {
+				this.state(i, value[i]);
+				group.push(new RegExp('^'+i+'$'));
+			}
+			this._exclusives[name] = group;
 		}
 		else {
-			if( i > 0 ) {
-				var g = name.substr(i+1);
-				name = name.substr(0, i);
 
-				this.exclusive(name, g);
+			//FIXME парсим код состояния
+			var i = name.indexOf(':');
+			if( i == 0 ) {
+				var g = name.substr(1);
+				this.exclusive_group(g, value);
 			}
+			else {
+				if( i > 0 ) {
+					var g = name.substr(i+1);
+					name = name.substr(0, i);
 
-			this._states[name] = value;
+					this.exclusive(name, g);
+				}
+
+				this._states[name] = value;
+			}
 		}
 	},
 
@@ -88,9 +101,48 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 	 */
 	set: function(to, data) {
 
+		if(!to || (typeof to !== 'string')) {
+			console.warn('State key ['+$ergo.print(to)+'] must be of type string');
+			return false;
+		}
+
+		var to_a = to.split('.');
+
+		var parent = null;
+
+		// устанавливаем базовые состояния, убираем
+		if(to_a.length > 1) {
+
+			to = to_a.pop();
+
+			// восстанавливаем состояния
+			for(var i = 0; i < to_a.length; i++) {
+				var stt = to_a[i];
+				if(!this._current[stt]) {
+					this._state_on(stt, data);
+					this._current[stt] = {
+						from: null, //FIXME
+						data: data,
+						parent: parent
+					}
+				}
+				parent = stt;
+			}
+
+			// отключаем эксклюзивные состояния
+			for(var i in this._current) {
+				var stt = this._current[i];
+				if(stt.parent == parent) {
+					this.unset(i);
+					break;
+				}
+			}
+
+		}
+
 		// Если состояние уже установлено, то ничего не делаем
 		if(to && (to in this._current))
-			return $.when({});
+			return false;//$.when({});
 
 
 
@@ -168,10 +220,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 		// }
 
 
-
-
-		return $.when.apply($, deferreds).done(function() {
-
+		var changeState = function() {
 			// 2. удаляем все исходные состояния переходов из списка активных состояний
 			for(var i = 0; i < from.length; i++) {
 				delete self._current[from[i]];
@@ -179,12 +228,21 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 			// 3. включаем итоговое состояние
 			self._state_on(to, data);
-			self._current[to] = from;
+			self._current[to] = {
+				from: from,
+				data: data,
+				parent: parent
+			};
 
 			// 4. оповещаем виджет, что состояние изменилось
-			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
+//			self._widget.events.fire('stateChanged', {from: from, to: to, data: data});
 
-		});
+			return true;
+		}
+
+
+
+		return (deferreds.length == 0) ? changeState.call(this) : $.when.apply($, deferreds).done(changeState);
 
 //		return deferred;
 	},
@@ -200,12 +258,17 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			var val = states[s];
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
-			if($.isString(val))
-				this._widget.el.addClass(val);
+			if($.isString(val)) {
+				this._widget.vdom.addClass(val);
+			}
+//				this._widget.el.classList.add(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.addClass(val[0]);
-				this._widget.el.removeClass(val[1]);
+				this._widget.vdom.addClass(val);
+				this._widget.vdom.removeClass(val[1]);
+				// this._widget.el.classList.add(val[0]);
+				// this._widget.el.classList.remove(val[1]);
+
 				// if(val.length > 0) {
 				// 	$.when( val[0].call(this._widget, true, data) ).done(function(add_cls) {
 				// 		if(add_cls !== false)
@@ -213,16 +276,19 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				// 	});
 				// }
 			}
+			else if(val.constructor == Object) {
+				console.warn('State group ['+s+'] can not be used as state');
+			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
 				$.when( val.call(this._widget, true, data) ).done(function(add_cls) {
 					if(add_cls !== false)
-						self._widget.el.addClass(add_cls || s);
+						self._widget.vdom.addClass(add_cls || s);
 				});
 			}
 		}
 		else {
-			this._widget.el.addClass(s);
+			this._widget.vdom.addClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});
@@ -242,11 +308,11 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
 			if($.isString(val))
-				this._widget.el.removeClass(val);
+				this._widget.vdom.removeClass(val);
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.el.addClass(val[1]);
-				this._widget.el.removeClass(val[0]);
+				this._widget.vdom.addClass(val[1]);
+				this._widget.vdom.removeClass(val[0]);
 
 				// if(val.length > 1) {
 				// 	$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
@@ -259,7 +325,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			else {
 				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
 					if(rm_cls !== false)
-						self._widget.el.removeClass(rm_cls || s);
+						self._widget.vdom.removeClass(rm_cls || s);
 				});
 
 //				var rm_cls = val.call(this._widget, false);
@@ -268,7 +334,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 			}
 		}
 		else {
-			this._widget.el.removeClass(s);
+			this._widget.vdom.removeClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'off'});
@@ -299,7 +365,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 		// Если состояние не установлено, то ничего не делаем
 		if(from && !(from in this._current)) {
-			return $.when({});
+			return false;//$.when({});
 		}
 
 
@@ -347,7 +413,10 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 				for(var i in this._states)
 					if( i.match(regexp) ) {
 						this._state_on(i);
-						self._current[i] = from;
+						self._current[i] = {
+							from: from
+//							data: data
+						}
 					}
 			}
 		}
@@ -370,7 +439,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 		// 2.
 		for(var i = 0; i < to.length; i++) {
-			self._current[to[i]] = [from];
+			self._current[to[i]] = {from: [from]/*, data: data*/};
 			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
 
@@ -400,7 +469,7 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 
 //		return deferred;
-		return $.when.apply($, deferreds);
+		return (deferreds.length == 0) ? true : $.when.apply($, deferreds);
 	},
 
 
@@ -494,6 +563,60 @@ Ergo.declare('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.
 
 
 
+Ergo.alias('mixins:statable', {
+
+	get states() {
+		if( !this.__stt ) {
+			this.__stt = new Ergo.core.StateManager(this);
+			this._bindStates();
+		}
+		return this.__stt;
+	},
+
+
+
+	set stt(v) {
+		var self = this;
+		if(Array.isArray(v)) {
+			v = v.join(' ');
+		}
+		v.split(' ').forEach(function(s) {
+			self.states.set(s);
+		});
+	},
+
+
+
+	_bindStates: function() {
+		var o = this.options;
+
+		if('states' in o){
+			for(var i in o.states)
+				this.states.state(i, o.states[i]);
+			// // настраиваем особое поведение состояния hover ?
+			// if('hover' in o.states) {
+			// 	this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
+			// }
+		}
+
+		if('transitions' in o) {
+			for(var i in o.transitions) {
+				var t = o.transitions[i];
+				if($.isPlainObject(t)) {
+					//TODO
+				}
+				else {
+					var a = i.split('>');
+					if(a.length == 1) a.push('');
+					this.states.transition(a[0].trim() || '*', a[1].trim() || '*', t);
+				}
+			}
+		}
+
+	}
+
+
+});
 
 
 
@@ -518,7 +641,7 @@ Ergo.alias('includes:statable', {
 			for(var i in o.states)
 				this.states.state(i, o.states[i]);
 			// настраиваем особое поведение состояния hover
-			if('hover' in o.states){
+			if('hover' in o.states) {
 				this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
 			}
 		}
@@ -536,6 +659,19 @@ Ergo.alias('includes:statable', {
 				}
 			}
 		}
+
+	},
+
+
+	overrides: {
+
+		set stt(v) {
+			var self = this;
+			v.split(' ').forEach(function(s) {
+				self.states.set(s);
+			});
+		}
+
 
 	}
 

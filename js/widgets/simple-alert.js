@@ -3,7 +3,7 @@
 Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 
 	defaults: {
-		cls: 'alert simple',
+		as: 'alert simple',
 		components: {
 			title: {
 				etype: 'html:strong'
@@ -14,8 +14,8 @@ Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 		}
 	},
 
-	set_title: function(v) {
-		this.title.opt('text', v);
+	set title(v) {
+		this.$title.opt('text', v);
 	}
 
 }, 'widgets:simple-alert');
