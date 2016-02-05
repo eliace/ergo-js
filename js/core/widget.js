@@ -645,13 +645,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		this._bindEvents('context');
+		this._bindEvents();//'context');
 
 
 
 		if(this.__evt) {
 
 			if(this.events.events['click']) {
+				console.log('bind click');
 				this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 			}
 
@@ -710,7 +711,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// if( v == null /*|| $.isNumeric(v)*/ )
 		// 	throw new Error('Invalid action name ['+v+"]");
 
-		this.events.rise(''+v, {}, event);
+		this.rise(''+v, {}, event);
 
 		if(eventType != v && event.stop)
 			event.stop();
@@ -1540,9 +1541,9 @@ $ergo = Ergo.override(function(o, ns, scope) {
 
 
 	if(!etype) {
-//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.pretty_print(o)+'');
+//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
 		etype = 'widget';
-//		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
+//		throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
 	}
 
 	// var ns = null;

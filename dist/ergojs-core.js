@@ -152,7 +152,7 @@ var Ergo = (function(){
 		cls: false,//'list',
 		data: false,
 		etype: false,
-		tag: false,
+//		tag: false,
 		// cls: 'list',
 		// stt: 'list',
 		defaultItem: ['object'],
@@ -1248,29 +1248,29 @@ Function.prototype.debounce = function(wait, immediate) {
 (function(){
 
 
-  var dom = {};
+  var DOM = {};
 
 
 
-	dom.remove = function(elem) {
+	DOM.remove = function(elem) {
 		if(elem.parentNode) {
 			elem.parentNode.removeChild(elem);
 		}
 	};
 
-	dom.clear = function(elem) {
+	DOM.clear = function(elem) {
 		while (elem.firstChild) elem.removeChild(elem.firstChild);
 	};
 
-  dom.insertAfter = function(elem, after) {
+  DOM.insertAfter = function(elem, after) {
 		after.parentNode.insertBefore(elem, after.nextSibling);
 	};
 
-	dom.insertBefore = function(elem, before) {
+	DOM.insertBefore = function(elem, before) {
 		before.parentNode.insertBefore(elem, before);
 	};
 
-	dom.prependChild = function(elem, child) {
+	DOM.prependChild = function(elem, child) {
 		if(elem.childNodes[0]) {
 			elem.insertBefore(child, elem.childNodes[0]);
 		}
@@ -1280,7 +1280,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	};
 
 
-	dom.addClass = function(el, cls) {
+	DOM.addClass = function(el, cls) {
 		if( cls && (el instanceof Element) ) {
 			(''+cls).split(' ').forEach(function(c) {
 
@@ -1301,7 +1301,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	};
 
 
-	dom.numberStyleToPx = function(k, v) {
+	DOM.numberStyleToPx = function(k, v) {
     // postfixes
     var partials = [['padding', 'margin', 'border'], ['top', 'right', 'bottom', 'left']];
     for(var i = 0; i < partials[0].length; i++) {
@@ -1322,7 +1322,7 @@ Function.prototype.debounce = function(wait, immediate) {
   };
 
 
-  Ergo.dom = dom;
+  Ergo.dom = DOM;
 
 })();
 
@@ -1811,82 +1811,6 @@ Function.prototype.debounce = function(wait, immediate) {
 
 
 
-	E.dom = {
-
-		remove: function(elem) {
-			if(elem.parentNode) {
-				elem.parentNode.removeChild(elem);
-			}
-		},
-
-		clear: function(elem) {
-			while (elem.firstChild) elem.removeChild(elem.firstChild);
-		},
-
-		insertAfter: function(elem, after) {
-			after.parentNode.insertBefore(elem, after.nextSibling);
-		},
-
-		insertBefore: function(elem, before) {
-			before.parentNode.insertBefore(elem, before);
-		},
-
-		prependChild: function(elem, child) {
-			if(elem.childNodes[0]) {
-				elem.insertBefore(child, elem.childNodes[0]);
-			}
-			else {
-				elem.appendChild(elem);
-			}
-		},
-
-
-		addClass: function(el, cls) {
-			if( cls && (el instanceof Element) ) {
-				(''+cls).split(' ').forEach(function(c) {
-
-					if(!c) return;
-
-					if(el.classList) {
-						el.classList.add(c);
-					}
-					else {
-						// IE9
-						var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-						if(!re.test(el.className)) {
-							el.className = (el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
-						}
-					}
-				});
-			}
-		},
-
-
-		numberStyleToPx: function(k, v) {
-	    // postfixes
-	    var partials = [['padding', 'margin', 'border'], ['top', 'right', 'bottom', 'left']];
-	    for(var i = 0; i < partials[0].length; i++) {
-				if(partials[0][i] == k) return v+'px';
-	      for(var j = 0; j < partials[1].length; j++) {
-	        if(partials[0][i]+'-'+partials[1][j] == k) return v+'px';
-	      }
-	    }
-	    // prefixes
-	    partials = [['width', 'height'], ['max', 'min']];
-	    for(var i = 0; i < partials[0].length; i++) {
-				if(partials[0][i] == k) return v+'px';
-	      for(var j = 0; j < partials[1].length; j++) {
-	        if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
-	      }
-	    }
-	    return v;
-	  }
-
-
-
-	};
-
-
 
 
 
@@ -2022,14 +1946,14 @@ Function.prototype.debounce = function(wait, immediate) {
 	/**
 	 * Печать объекта в удобочитаемой форме
 	 *
-	 * @name Ergo.pretty_print
+	 * @name Ergo.prettyPrint
 	 * @function
 	 * @param {Any} obj любой объект/примитив
 	 * @param {Integer} indent отступ
 	 * @param {Integer} i_symb исимвол отступа
 	 * @returns {String}
 	 */
-	E.pretty_print = function(obj, indent) {
+	E.prettyPrint = function(obj, indent) {
 
 		if(obj == undefined) return undefined;
 
@@ -2037,7 +1961,7 @@ Function.prototype.debounce = function(wait, immediate) {
 		var tabs = '';
 		for(var i = 0; i < indent; i++) tabs += E.indent_s;
 
-		if(obj.pretty_print) return obj.pretty_print(indent);
+		if(obj.prettyPrint) return obj.prettyPrint(indent);
 
 		if($.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
@@ -2048,7 +1972,7 @@ Function.prototype.debounce = function(wait, immediate) {
 		else if($.isArray(obj)){
 			var items = [];
 			E.each(obj, function(item){
-				items.push(E.pretty_print(item, indent));
+				items.push(E.prettyPrint(item, indent));
 			});
 			return '[' + items.join(', ') + ']';
 		}
@@ -2059,7 +1983,7 @@ Function.prototype.debounce = function(wait, immediate) {
 			var items = [];
 			E.each(obj, function(item, key){
 				if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
-				items.push(tabs + E.indent_s + key + ': ' + E.pretty_print(item, indent+1));
+				items.push(tabs + E.indent_s + key + ': ' + E.prettyPrint(item, indent+1));
 			});
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}
@@ -3283,25 +3207,9 @@ Ergo.alias('mixins:observable', {
 	get events() {
 		if(!this.__evt) {
 			this.__evt = new Ergo.core.Observer(this);
-			this._bindEvents();
+//			this._bindEvents();
 
-			var o = this.options;
-
-			var regexp = /^on\S/;
-			for(var i in o){
-				if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
-					var name = i.charAt(2).toLowerCase() + i.slice(3);
-					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
-					for(var j = 0; j < chain.length; j++) {
-						var callback = chain[j];
-						if( $.isString(callback) ) {
-							var a = callback.split(':');
-							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
-						}
-						this.__evt.on( name, callback );
-					}
-				}
-			}
+//			var o = this.options;
 
 		}
 		return this.__evt;
@@ -3354,6 +3262,28 @@ Ergo.alias('mixins:observable', {
 					target.events.on(eventName, callback, this);
 				}
 			}
+		}
+
+
+		if( target == this ) {
+
+			var regexp = /^on\S/;
+			for(var i in o){
+				if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
+					var name = i.charAt(2).toLowerCase() + i.slice(3);
+					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
+					for(var j = 0; j < chain.length; j++) {
+						var callback = chain[j];
+						if( $.isString(callback) ) {
+							var a = callback.split(':');
+							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
+						}
+						this.events.on( name, callback );
+					}
+				}
+			}
+
+
 		}
 
 	},
@@ -10303,13 +10233,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		this._bindEvents('context');
+		this._bindEvents();//'context');
 
 
 
 		if(this.__evt) {
 
 			if(this.events.events['click']) {
+				console.log('bind click');
 				this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 			}
 
@@ -10368,7 +10299,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// if( v == null /*|| $.isNumeric(v)*/ )
 		// 	throw new Error('Invalid action name ['+v+"]");
 
-		this.events.rise(''+v, {}, event);
+		this.rise(''+v, {}, event);
 
 		if(eventType != v && event.stop)
 			event.stop();
@@ -11198,9 +11129,9 @@ $ergo = Ergo.override(function(o, ns, scope) {
 
 
 	if(!etype) {
-//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.pretty_print(o)+'');
+//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
 		etype = 'widget';
-//		throw new Error('Object etype is not defined \n'+$ergo.pretty_print(o)+'');
+//		throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
 	}
 
 	// var ns = null;

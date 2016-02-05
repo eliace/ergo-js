@@ -152,7 +152,7 @@ var Ergo = (function(){
 		cls: false,//'list',
 		data: false,
 		etype: false,
-		tag: false,
+//		tag: false,
 		// cls: 'list',
 		// stt: 'list',
 		defaultItem: ['object'],

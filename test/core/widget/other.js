@@ -43,6 +43,10 @@ describe('Widget', function(){
 			w.render(); // обязательно для IE
 
 
+//			w.$defaultAct.emit('click');
+
+			// var event = new Event("click", {bubbles : true, cancelable : true});
+			// w.$defaultAct.vdom.el.dispatchEvent(event);
 
       w.$defaultAct.el.click();
       w.$namedAct.el.click();

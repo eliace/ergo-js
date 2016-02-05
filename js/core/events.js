@@ -355,25 +355,9 @@ Ergo.alias('mixins:observable', {
 	get events() {
 		if(!this.__evt) {
 			this.__evt = new Ergo.core.Observer(this);
-			this._bindEvents();
+//			this._bindEvents();
 
-			var o = this.options;
-
-			var regexp = /^on\S/;
-			for(var i in o){
-				if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
-					var name = i.charAt(2).toLowerCase() + i.slice(3);
-					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
-					for(var j = 0; j < chain.length; j++) {
-						var callback = chain[j];
-						if( $.isString(callback) ) {
-							var a = callback.split(':');
-							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
-						}
-						this.__evt.on( name, callback );
-					}
-				}
-			}
+//			var o = this.options;
 
 		}
 		return this.__evt;
@@ -426,6 +410,28 @@ Ergo.alias('mixins:observable', {
 					target.events.on(eventName, callback, this);
 				}
 			}
+		}
+
+
+		if( target == this ) {
+
+			var regexp = /^on\S/;
+			for(var i in o){
+				if( i[0] == 'o' && i[1] == 'n' && regexp.test(i)){
+					var name = i.charAt(2).toLowerCase() + i.slice(3);
+					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
+					for(var j = 0; j < chain.length; j++) {
+						var callback = chain[j];
+						if( $.isString(callback) ) {
+							var a = callback.split(':');
+							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
+						}
+						this.events.on( name, callback );
+					}
+				}
+			}
+
+
 		}
 
 	},

@@ -41,20 +41,14 @@ describe('Widget', function(){
 					'a:someEvent': function() {
 						messages.push('event');
 					}
-				},
-				get: {
-					'a': function() {
-						if(!this.__a) {
-							this.__a = new Ergo.core.Widget();
-							this._bindEvents('a');
-						}
-						return this.__a;
-					}
 				}
 			});
 
+			w.a = new Ergo.core.Widget();
+			w._bindEvents('a');
+
 			// здесь __a уже должен быть проинициализирован
-			w.__a.events.fire('someEvent');
+			w.a.events.fire('someEvent');
 
 			expect( messages ).to.be.deep.eq( ['event'] );
 

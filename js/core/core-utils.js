@@ -9,82 +9,6 @@
 
 
 
-	E.dom = {
-
-		remove: function(elem) {
-			if(elem.parentNode) {
-				elem.parentNode.removeChild(elem);
-			}
-		},
-
-		clear: function(elem) {
-			while (elem.firstChild) elem.removeChild(elem.firstChild);
-		},
-
-		insertAfter: function(elem, after) {
-			after.parentNode.insertBefore(elem, after.nextSibling);
-		},
-
-		insertBefore: function(elem, before) {
-			before.parentNode.insertBefore(elem, before);
-		},
-
-		prependChild: function(elem, child) {
-			if(elem.childNodes[0]) {
-				elem.insertBefore(child, elem.childNodes[0]);
-			}
-			else {
-				elem.appendChild(elem);
-			}
-		},
-
-
-		addClass: function(el, cls) {
-			if( cls && (el instanceof Element) ) {
-				(''+cls).split(' ').forEach(function(c) {
-
-					if(!c) return;
-
-					if(el.classList) {
-						el.classList.add(c);
-					}
-					else {
-						// IE9
-						var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-						if(!re.test(el.className)) {
-							el.className = (el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
-						}
-					}
-				});
-			}
-		},
-
-
-		numberStyleToPx: function(k, v) {
-	    // postfixes
-	    var partials = [['padding', 'margin', 'border'], ['top', 'right', 'bottom', 'left']];
-	    for(var i = 0; i < partials[0].length; i++) {
-				if(partials[0][i] == k) return v+'px';
-	      for(var j = 0; j < partials[1].length; j++) {
-	        if(partials[0][i]+'-'+partials[1][j] == k) return v+'px';
-	      }
-	    }
-	    // prefixes
-	    partials = [['width', 'height'], ['max', 'min']];
-	    for(var i = 0; i < partials[0].length; i++) {
-				if(partials[0][i] == k) return v+'px';
-	      for(var j = 0; j < partials[1].length; j++) {
-	        if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
-	      }
-	    }
-	    return v;
-	  }
-
-
-
-	};
-
-
 
 
 
@@ -220,14 +144,14 @@
 	/**
 	 * Печать объекта в удобочитаемой форме
 	 *
-	 * @name Ergo.pretty_print
+	 * @name Ergo.prettyPrint
 	 * @function
 	 * @param {Any} obj любой объект/примитив
 	 * @param {Integer} indent отступ
 	 * @param {Integer} i_symb исимвол отступа
 	 * @returns {String}
 	 */
-	E.pretty_print = function(obj, indent) {
+	E.prettyPrint = function(obj, indent) {
 
 		if(obj == undefined) return undefined;
 
@@ -235,7 +159,7 @@
 		var tabs = '';
 		for(var i = 0; i < indent; i++) tabs += E.indent_s;
 
-		if(obj.pretty_print) return obj.pretty_print(indent);
+		if(obj.prettyPrint) return obj.prettyPrint(indent);
 
 		if($.isString(obj))
 			return '"'+obj.replace(/\n/g, '\\n')+'"';
@@ -246,7 +170,7 @@
 		else if($.isArray(obj)){
 			var items = [];
 			E.each(obj, function(item){
-				items.push(E.pretty_print(item, indent));
+				items.push(E.prettyPrint(item, indent));
 			});
 			return '[' + items.join(', ') + ']';
 		}
@@ -257,7 +181,7 @@
 			var items = [];
 			E.each(obj, function(item, key){
 				if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
-				items.push(tabs + E.indent_s + key + ': ' + E.pretty_print(item, indent+1));
+				items.push(tabs + E.indent_s + key + ': ' + E.prettyPrint(item, indent+1));
 			});
 			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
 		}
