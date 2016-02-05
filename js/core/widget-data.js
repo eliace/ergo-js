@@ -272,12 +272,15 @@ Ergo.WidgetData = {
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false && !this.data.fetch) this._dataChanged();
+		if(update !== false /*&& !this.data.fetch*/) {
+			this._dataChanged();
+		}
+
 
 
 		if(this.data.fetch) {
 			this.data.on('fetched', function() {
-				this._layoutChanged();				
+				this._layoutChanged();
 			}.bind(this), this);
 		}
 

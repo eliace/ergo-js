@@ -4,6 +4,35 @@ var expect = chai.expect;
 describe('Widget', function(){
 	describe('Data', function() {
 
+
+		// it('should cascade binding', function() {
+		//
+		// 	var messages = [];
+		//
+		// 	var f = function(v) {
+		// 		messages.push(v);
+		// 	}
+		//
+		// 	var w = $.ergo({
+		// 		etype: 'box',
+		// 		binding: v,
+    //     $content: {
+		// 			binding: v,
+    //       $list: {
+		// 				binding: v
+    //       }
+    //     },
+    //     data: []
+		// 	});
+		//
+    //   w.data.set(['Alice', 'Bob', 'Charlie']);
+		//
+    //   expect( w.$content.$list.items.size() ).to.be.eq(3);
+		//
+		// });
+
+
+
     it('should cascade rebind widgets without binding', function() {
 
 			var w = $.ergo({

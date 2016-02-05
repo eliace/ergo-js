@@ -8109,12 +8109,15 @@ Ergo.WidgetData = {
 		}
 
 		// обновляем виджет (если это не запрещено в явном виде)
-		if(update !== false && !this.data.fetch) this._dataChanged();
+		if(update !== false /*&& !this.data.fetch*/) {
+			this._dataChanged();
+		}
+
 
 
 		if(this.data.fetch) {
 			this.data.on('fetched', function() {
-				this._layoutChanged();				
+				this._layoutChanged();
 			}.bind(this), this);
 		}
 
@@ -8978,9 +8981,9 @@ Ergo.WidgetRender = {
 
 
 		// обновляем компоновку
-		if(cascade !== false) {
-			this._layoutChanged();
-		}
+//		if(cascade !== false) {
+			this._layoutChanged(cascade);
+//		}
 
 
 		if( this.options.showOnRender || this.options.renderEffects ) {
@@ -9253,8 +9256,9 @@ Ergo.WidgetRender = {
 
 
 		// обновляем компоновку
-		if(cascade !== false)
-			this._layoutChanged();
+//		if(cascade !== false) {
+			this._layoutChanged(cascade);
+//		}
 
 	},
 
@@ -9281,7 +9285,7 @@ Ergo.WidgetRender = {
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 
 		if(cascade !== false && this.__c && !(this.data && this.options.dynamic)) {
-			this.__c.apply_all('_layoutChanged', cascade);
+			this.__c.apply_all('_layoutChanged');
 		}
 
 //		this.events.fire('layoutChanged');
@@ -11448,7 +11452,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {prejoined: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {$prejoin: true}) );
 		}
 
 		scope_name = chain[chain.length-1];
@@ -14807,7 +14811,7 @@ Ergo.alias('includes:history', {
 
 				if(scope._params.$history && !this._no_history) {
 
-          console.log('join history', e);
+//          console.log('join history', e);
 
           var p = e.params.history || {};
 

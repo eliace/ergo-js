@@ -166,9 +166,9 @@ Ergo.WidgetRender = {
 
 
 		// обновляем компоновку
-		if(cascade !== false) {
-			this._layoutChanged();
-		}
+//		if(cascade !== false) {
+			this._layoutChanged(cascade);
+//		}
 
 
 		if( this.options.showOnRender || this.options.renderEffects ) {
@@ -441,8 +441,9 @@ Ergo.WidgetRender = {
 
 
 		// обновляем компоновку
-		if(cascade !== false)
-			this._layoutChanged();
+//		if(cascade !== false) {
+			this._layoutChanged(cascade);
+//		}
 
 	},
 
@@ -469,7 +470,7 @@ Ergo.WidgetRender = {
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 
 		if(cascade !== false && this.__c && !(this.data && this.options.dynamic)) {
-			this.__c.apply_all('_layoutChanged', cascade);
+			this.__c.apply_all('_layoutChanged');
 		}
 
 //		this.events.fire('layoutChanged');
