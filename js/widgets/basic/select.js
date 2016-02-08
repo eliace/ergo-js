@@ -22,7 +22,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 	defaults: {
 
-		as: 'select has-icon at-right',
+		cls: 'select',
+
+		as: 'has-icon at-right',
 
 		include: ['dropdown', 'selectable', 'focusable'] ,
 
@@ -34,7 +36,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'icon': {
 				etype: 'icon',
-				cls: 'right',
+				as: 'right',
 				icon: 'caret',
 				weight: 10,
 				onClick: 'action:dropdown'
@@ -53,7 +55,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				include: 'placeholder',
 				binding: false,
-				cls: 'text',
+				as: 'text',
 				onClick: 'action:dropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
@@ -104,19 +106,19 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 				if(e.keyCode == KEY_ENTER) {
 //					this._change( this.$dropdown.navigator.selected.opt('name') );
-					this.events.fire('changeSelect', {target: this.$dropdown.navigator.selected})
+					this.emit('changeSelect', {target: this.$dropdown.navigator.selected})
 				}
 				if(e.keyCode == 27) {
 //					this._close();
 //					this.states.unset('opened');
 					// this._dataChanged();
-					this.events.fire('cancelSelect');
+					this.emit('cancelSelect');
 				}
 
 			},
 
 			'jquery:blur': function(e) {
-				this.events.fire('cancelSelect');
+				this.emit('cancelSelect');
 			},
 
 
@@ -125,8 +127,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			},
 
 			'changeSelect': function(e) {
-				this.value = e.target.name;
-//				this.opt('value', e.target.opt('name'));
+				this.opt('value', e.target.opt('name'));
 				this.states.unset('opened');
 			},
 
@@ -140,9 +141,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 		selection: {
 	    lookup: function(name) {
-	      var s = JSON.stringify(name);
+	      var s = $ergo.print(name);
 	      return this.$dropdown.items.find(function(item) {
-	        return s === JSON.stringify(item.opt('name'))
+	        return s === $ergo.print(item.opt('name'));
 	      });
 	    }
 	  },
@@ -162,7 +163,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //			this.$input.opt('text', v);
 
-			this.text = selected ? selected.text : null;
+			this.opt('text', selected ? selected.opt('text') : null);
 //			this.opt('text', selected ? selected.opt('text') : null);
 
 //			this.updatePlaceholder();

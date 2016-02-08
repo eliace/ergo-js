@@ -43,7 +43,7 @@ describe('Object', function(){
 
       expect(obj.options.a).to.be.eq('Alice');
       expect(obj._a).to.be.eq('Alice');
-      expect(obj.a).to.be.eq('Alice');
+      expect(obj.prop('a')).to.be.eq('Alice');
 
     });
 

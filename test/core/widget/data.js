@@ -5,6 +5,24 @@ describe('Widget', function(){
 	describe('Data', function() {
 
 
+
+		it('should bind to nested property data', function() {
+
+      var w = $.ergo({
+        etype: 'box'
+      });
+
+			w.storage = {
+				val: 4
+			};
+
+			w.data = 'storage';
+
+      expect( w.data.get() ).to.be.eql({val: 4});
+
+    });
+
+
 		// it('should cascade binding', function() {
 		//
 		// 	var messages = [];

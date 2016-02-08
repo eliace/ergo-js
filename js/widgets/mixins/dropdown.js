@@ -38,17 +38,19 @@ Ergo.alias('includes:dropdown', {
 				events: {
 					'closed': function() {
 						this.parent.states.unset('opened', false);
-						this.events.rise('dropdownClosed');
+						this.rise('dropdownClosed');
 					}
 	//				'opened': function
 				}
 			}
 		},
 		states: {
-			'up:drop': 'drop-up',
-			'down:drop': '',
-			'left:drop': 'drop-left',
-			'right:drop': 'drop-right',
+			drop: {
+				'up': 'drop-up',
+				'down': '',
+				'left': 'drop-left',
+				'right': 'drop-right'
+			},
 			'opened': function(on, f) {
 				on ? this.$dropdown.open() : this.$dropdown.close();
 			}
@@ -93,17 +95,19 @@ Ergo.alias('includes:dropdown:sub', {
 				events: {
 					'closed': function() {
 						this.parent.states.unset('opened', false);
-						this.events.rise('dropdownClosed');
+						this.rise('dropdownClosed');
 					}
 	//				'opened': function
 				}
 			}
 		},
 		states: {
-			'up:drop': 'drop-up',
-			'down:drop': '',
-			'left:drop': 'drop-left',
-			'right:drop': 'drop-right',
+			drop: {
+				'up': 'drop-up',
+				'down': '',
+				'left': 'drop-left',
+				'right': 'drop-right'
+			},
 			'opened': function(on, f) {
 				on ? this.$sub.open() : this.$sub.close();
 			}

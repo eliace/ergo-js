@@ -8,7 +8,9 @@
 *
 */
 
-Ergo.defineClass('Ergo.core.Scope', 'Ergo.core.Object', {
+Ergo.defineClass('Ergo.core.Scope', null, {
+
+	extends: 'Ergo.core.Object',
 
 	defaults: {
 		include: 'observable'

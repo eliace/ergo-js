@@ -20,12 +20,17 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 //		binding: 'text'
 	},
 
-	set icon(v) {
-		this.states.set(v);
-	},
+	props: {
+		set: {
+			icon: function(v) {
+				this.states.set(v);
+			},
 
-	set text(v) {
-		this.states.set(v);
+			text: function(v) {
+				this.states.set(v);
+			}
+
+		}
 	}
 
 }, 'widgets:icon');

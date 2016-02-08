@@ -84,8 +84,9 @@
  *
  *
  */
-Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Widget.prototype */{
+Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype */{
 
+	extends: 'Ergo.core.Object',
 
 	defaults: {
 //		layout: 'default',
@@ -125,16 +126,16 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// }
 	},
 
-	rules: {
-		as: 'list',
-		defaultItem: ['object'],
-		defaultComponent: ['object'],
-		nestedItem: ['object'],
-		components: ['object', {'*': ['object']}],
-		items: ['array', {'*': ['object']}],
-		states: ['object'],//, {'*': 'list'}],
-		transitions: ['object'],//, {'*': 'list'}]
-	},
+	// rules: {
+	// 	as: 'list',
+	// 	defaultItem: ['object'],
+	// 	defaultComponent: ['object'],
+	// 	nestedItem: ['object'],
+	// 	components: ['object', {'*': ['object']}],
+	// 	items: ['array', {'*': ['object']}],
+	// 	states: ['object'],//, {'*': 'list'}],
+	// 	transitions: ['object'],//, {'*': 'list'}]
+	// },
 
 
 
@@ -253,8 +254,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 *
 	 * @protected
 	 */
-	_pre_construct: function(o) {
-		Ergo.core.Widget.superclass._pre_construct.call(this, o);
+	_preConstruct: function(o) {
+		Ergo.core.Widget.superclass._preConstruct.call(this, o);
 //		this._super(o);
 
 
@@ -404,119 +405,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-// 		var _dom = {
-//
-// 			style: function(k, v) {
-// 				if(arguments.length == 2) {
-// 					v = (typeof v === 'number') ? v + 'px' : v;
-// 					_dom.el.style[k] = v;
-// 				}
-// 				else if(arguments.length == 1 && k) {
-// 					if( k.constructor === Object ) {
-// 						for(var i in k) {
-// 							var v = k[i];
-// 							v = (typeof v === 'number') ? v + 'px' : v;
-// 							_dom.el.style[i] = v;
-// 						}
-// 					}
-// 					else if( k.constructor === String ) {
-// 						return _dom.el.style[k];
-// 					}
-// 				}
-// 			},
-//
-// 			addClass: function(cls) {
-// 				if( cls && _dom.el instanceof Element ) {
-// 					(''+cls).split(' ').forEach(function(c) {
-//
-// 						if(!c) return;
-//
-// 						if(_dom.el.classList) {
-// 							_dom.el.classList.add(c);
-// 						}
-// 						else {
-// 							// IE9
-// 							var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-// 							if(!re.test(_dom.el.className)) {
-// 								_dom.el.className = (_dom.el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
-// 							}
-// 						}
-// 					});
-// 				}
-// 			},
-//
-// 			removeClass: function(cls) {
-// 				if( cls && _dom.el instanceof Element ) {
-// 					(''+cls).split(' ').forEach(function(c) {
-//
-// 						if(!c) return;
-//
-// 						if(_dom.el.classList) {
-// 							_dom.el.classList.remove(c);
-// 						}
-// 						else {
-// 							// IE9
-// 							var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-// 							_dom.el.className = _dom.el.className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
-// 						}
-// 					});
-// 				}
-// 			},
-//
-// 			remove: function() {
-// 				if(_dom.el.parentNode) {
-// 					_dom.el.parentNode.removeChild(_dom.el);
-// 				}
-// 			}
-//
-// 		};
-//
-// 		if(o.rendering) {
-//
-// 			o.rendering.call(this, o);
-//
-// 		}
-// 		else {
-//
-// 			if( o.tag ) {
-// 				_dom.el = (o.tag.constructor === String) ? document.createElement(o.tag) : o.tag;
-// //				_dom.el = document.createElement(o.tag);
-// 			}
-// 			else {
-// 				_dom.el = document.createTextNode('');
-// 			}
-//
-// //			var _el = this.el;
-// 		}
-//
-// 		_dom.el._ergo = this;
-//
-//
-//
-//
-// 		// инициализируем свойство `dom`
-// 		_dom.events = {
-// 			_listeners: {},
-//
-// 			on: function(name, callback) {
-// 				_widget.events.on('dom#'+name, callback);
-// 				if(!this._listeners[name]) {
-// 					this._listeners[name] = function(e) { this.events.fire('dom#'+name, {}, e); }.bind(_widget);
-// 					_dom.el.addEventListener(name, this._listeners[name]);
-// 				}
-// 			},
-//
-// 			off: function(name) {
-// 				_widget.events.off('dom#'+name);
-// 				for(var i in this._listeners) {
-// 					_dom.el.removeEventListener(name);
-// 				}
-// 			}
-//
-// 		};
-//
-//
-// 		this.dom = _dom;
 
 
 
@@ -528,17 +416,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		// }
 
 		//FIXME это нужно перенести в vdom
-
-		if('style' in o) {
-			this.vdom.setStyle(o.style);
-		}
-
-		if('cls' in o) {
-			this.vdom.setClass(o.cls);
-		}
-
-
-
 
 
 		if('components' in o) {
@@ -562,6 +439,34 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
+
+		if('style' in o) {
+			this.vdom.setStyle(o.style);
+		}
+
+		if('cls' in o) {
+			this.vdom.setClass(o.cls);
+		}
+
+		if('css' in o) {
+			this.vdom.setStyle(o.css);
+		}
+
+		if('stt' in o) {
+			var stt = o.stt;
+			if(Array.isArray(stt)) {
+				stt = stt.join(' ');
+			}
+			stt.split(' ').forEach(function(s) {
+				self.states.set(s);
+			});
+		}
+
+
+
+
+
+		this._bindEvents();
 
 
 /*
@@ -600,9 +505,9 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	 *
 	 * @protected
 	 */
-	_post_construct: function(o) {
+	_postConstruct: function(o) {
 //		this._super(o);
-		Ergo.core.Widget.superclass._post_construct.call(this, o);
+		Ergo.core.Widget.superclass._postConstruct.call(this, o);
 
 
 
@@ -645,14 +550,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
-		this._bindEvents();//'context');
-
-
 
 		if(this.__evt) {
 
 			if(this.events.events['click']) {
-				console.log('bind click');
 				this.vdom.events.on('click', function(e) { this.events.fire('click', {}, e); });
 			}
 
@@ -957,6 +858,7 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 	get vdom() {
 		if(!this.__vdom) {
 			this._bindVDOM();
+			this._bindEvents('vdom');
 		}
 		return this.__vdom;
 	},
@@ -984,12 +886,14 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 	get context() {
-		return $context || Ergo.context;
-		// if(!this.__ctx) {
-		// 	this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
-		// 	this._bindEvents('context');
-		// }
-		// return this.__ctx;
+//		return $context || Ergo.context;
+		//TODO возможен случай когда контекст отличается
+		if(!this.__ctx) {
+			this.__ctx = $context || Ergo.context;
+//			this.__ctx = (this.scope) ? this.scope._context : Ergo.context;
+			this._bindEvents('context');
+		}
+		return this.__ctx;
 	},
 
 
@@ -1033,10 +937,31 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 
 
+	get name() {
+		return this._name || this._key || this._index;
+	},
+
+	set name(v) {
+		this._name = v;
+	},
 
 
 
+	set format(v) {
+		this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
+	},
 
+	get format() {
+		return this.__fmt;
+	},
+
+	set unformat(v) {
+		this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
+	},
+
+	get unformat() {
+		return this.__ufmt;
+	},
 
 	/**
 	 * Получение значения, связанного с виджетом.
@@ -1060,8 +985,8 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 
 		// если присутствует функция форматирования, то используем ее
-		if(this.options.format)
-			val = o.format.call(this, val);
+		if(this.__fmt)
+			val = this.__fmt.call(this, val);
 
 		return val;
 	},
@@ -1080,11 +1005,11 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		var o = this.options;
 
 		// deprecated
-		if(o.store)
-			val = o.store.call(this, val);
+//		if(o.store)
+//			val = o.store.call(this, val);
 
-		if(o.unformat)
-			val = o.unformat.call(this, val);
+		if(this.__ufmt)
+			val = this.__ufmt.call(this, val);
 
 		if(this.data){
 
@@ -1150,10 +1075,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(arguments.length == 1) {
 
 			if( this.options.get && (i in this.options.get) ) {
-				return this.options.get[i].bind(this)();
+				return this.options.get[i].bind(this)(i);
 			}
 			else if( i in this.props.get ) {
-				return this.props.get[i].bind(this)();
+				return this.props.get[i].bind(this)(i);
 			}
 			else if( (i in this) && $ergo.hasGetter(this, i) ) {
 				return this[i];
@@ -1170,10 +1095,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		else if(arguments.length == 2) {
 
 			if( this.options.set && (i in this.options.set) ) {
-				this.options.set[i].bind(this)(v);
+				this.options.set[i].bind(this)(v, i);
 			}
 			else if( (i in this.props.set) ) {
-				this.props.set[i].bind(this)(v);
+				this.props.set[i].bind(this)(v, i);
 			}
 			else if( (i in this) && $ergo.hasSetter(this, i) ) {
 				this[i] = v;
@@ -1323,8 +1248,10 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 		if(!e) e = {};
 		e.target = e.target || this;
 		e = this.events.fire(name, e, baseEvent);
-		if(this.parent && !e.stopped) {
-			this.parent.rise(name, e);
+		if(!e.stopped) {
+			this.children.each(function(child){
+				child.sink(name, e);
+			});
 		}
 	},
 
@@ -1521,65 +1448,6 @@ Ergo.sink = function(name, e, baseEvent) {
 // Интегрируемся в jQuery
 //------------------------------
 
-$ergo = Ergo.override(function(o, ns, scope) {
-
-//	var o = Ergo.smart_override.apply(this, arguments);
-
-	var etype = null;
-
-	if( Array.isArray(o) ) {
-		for(var i = o.length-1; i >= 0; i--) {
-			if(o[i])
-				etype = o[i].etype;
-			if(etype) break;
-		}
-	}
-	else {
-		etype = o.etype;
-		o = [o];
-	}
-
-
-	if(!etype) {
-//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
-		etype = 'widget';
-//		throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
-	}
-
-	// var ns = null;
-	// var scope = null;
-	//
-	// if( $.isString(ns_or_scope) ) {
-	// 	ns = ns_or_scope;
-	// }
-	// else {
-	// 	scope = ns_or_scope;
-	// }
-
-//	var etype = o.etype;
-	ns = ns || 'widgets';
-	var i = etype.indexOf(':');
-	if(i > 0) {
-		ns = etype.substr(0, i);
-		etype = etype.substr(i+1);
-	}
-
-	if( !Ergo['$'+ns] )
-		throw new Error('Namespace "'+ns+'" not defined');
-
-	o.etype = ns+':'+etype;
-
-	var w = Ergo['$'+ns](o, etype);//, scope);
-
-	scope = scope || Ergo._scope;
-
-	if(scope && w.options.sid) {//w.opt('scopeKey')) {
-		scope.addWidget( w.options.sid, w );
-	}
-
-	return w;
-
-}, Ergo);
 
 $.ergo = $ergo;
 

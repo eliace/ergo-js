@@ -12,7 +12,9 @@
  * @name Ergo.html.Img
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Img', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.Img', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'img'
@@ -20,9 +22,14 @@ Ergo.defineClass('Ergo.html.Img', 'Ergo.core.Widget', {
 
 	attributes: ['id', 'tabindex', 'src'],
 
-
-	set src(v) {
-		this.vdom.el.setAttribute('src', v);
+	props: {
+		set: {
+			src: function(v) {
+				this.vdom.el.setAttribute('src', v);
+			}
+		}
 	}
+
+
 
 }, 'html:img');

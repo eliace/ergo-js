@@ -26,25 +26,52 @@ describe('DataSource', function(){
 
     it('should fires `diff` and `dirty` events', function() {
 
-      var result = [];
+      var messages = [];
 
-      var ds = new Ergo.core.DataSource( {a: 'Alice'} );
+      var ds = new Ergo.core.DataSource( {a: 'Alice'}, {
+        events: {
+          'diff': function(e) {
+            messages.push('diff');
 
-      ds.events.on('diff', function(e) {
-        result.push('diff');
+            expect(e.entry).to.be.not.null
+          },
+          'dirty': function(e) {
+            messages.push('dirty');
+          }
+        }
+      } );
 
-        expect(e.entry).to.be.not.null
-      });
-
-      ds.events.on('dirty', function(e) {
-        result.push('dirty');
-
-      });
+      // ds.on('diff', function(e) {
+      //   messages.push('diff');
+      //
+      //   expect(e.entry).to.be.not.null
+      // });
+      //
+      // ds.on('dirty', function(e) {
+      //   messages.push('dirty');
+      // });
 
 
       ds.set('a', 'Bob');
 
-      expect(result).to.be.eql(['diff', 'dirty']);
+      expect(messages).to.be.eql(['diff', 'dirty']);
+
+
+
+      messages = [];
+
+      ds.add({c: 'Charlie'});
+
+      expect(messages).to.be.eql(['diff', 'dirty']);
+
+
+      messages = [];
+
+      ds.entry(0).del();
+
+      expect(messages).to.be.eql(['diff', 'dirty']);
+
+
 		});
 
 

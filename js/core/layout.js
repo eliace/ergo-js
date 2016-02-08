@@ -28,7 +28,9 @@
 //
 // Ergo.override(Ergo.core.Layout.prototype, {
 
-Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.prototype */ {
+Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ {
+
+	extends: 'Ergo.core.VDOM',
 
 	defaults: {
 //		updateMode: 'auto'
@@ -550,6 +552,11 @@ Ergo.declare('Ergo.core.Layout', 'Ergo.core.VDOM', /** @lends Ergo.core.Layout.p
 //				var lastEl = elements[elements.length-1];
 
 			for(var j = 0; j < elements.length; j++) {
+
+				if(!elements[j]._group) {
+					continue;
+				}
+
 				var siblingEl = elements[j];
 				var siblingGroup = siblingEl._group[i];
 				// та же группа (вес+индекс)

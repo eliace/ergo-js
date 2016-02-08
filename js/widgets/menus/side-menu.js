@@ -33,7 +33,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					onClick: function() {
 
 						if( !this.data.get('children') ) {
-							this.events.rise('menuAction', {target: this.parent, key: this.parent.path()});
+							this.rise('menuAction', {target: this.parent, key: this.parent.path()});
 						}
 						else {
 							this.parent.states.toggle('expanded');
@@ -45,7 +45,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 				'expanded': function(on) {
 					this.$content.$caret.states.set(on ? 'opened' : 'closed');
 					if(on)
-						this.events.rise('itemExpanded');
+						this.rise('itemExpanded');
 				}
 			}
 		},

@@ -18,13 +18,13 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				// state: 'flat tool',
 				components: {
 					content: {
-						cls: 'icon move first'
+						as: 'icon move first'
 					}
 				},
 //				text: '«',
 				weight: -100,
 				onClick: function() {
-					this.events.rise('index#first');
+					this.rise('page#first');
 				}
 			},
 			prevButton: {
@@ -38,7 +38,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				},
 				weight: -50,
 				onClick: function() {
-					this.events.rise('index#prev');
+					this.rise('page#prev');
 				}
 			},
 			nextButton: {
@@ -52,7 +52,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				},
 				weight: 50,
 				onClick: function() {
-					this.events.rise('index#next');
+					this.rise('page#next');
 				}
 			},
 			lastButton: {
@@ -66,7 +66,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '»',
 				weight: 100,
 				onClick: function() {
-					this.events.rise('index#last');
+					this.rise('page#last');
 				}
 			},
 			current: {
@@ -85,10 +85,10 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 
 						var i = parseInt(e.text);
 
-						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
+						this.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
 
-						if( !this.states.is('invalid') )
-							this.events.rise('index#change', {index: i});
+						if( !this.is('invalid') )
+							this.rise('page#change', {index: i});
 
 					}
 				},
@@ -101,26 +101,26 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		},
 
 		events: {
-			'index#first': function(e) {
-				this.events.rise('changeDataIndex', {index: 1});
+			'page#first': function(e) {
+				this.rise('changeDataIndex', {index: 1});
 			},
-			'index#last': function(e) {
-				this.events.rise('changeDataIndex', {index: this.data.opt('count')});
+			'page#last': function(e) {
+				this.rise('changeDataIndex', {index: this.data.opt('count')});
 			},
-			'index#next': function(e) {
+			'page#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#prev': function(e) {
+			'page#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#change': function(e) {
+			'page#change': function(e) {
 				var i = e.index;
 				if( !isNaN(i) && i > 0 && i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: e.index});
+					this.rise('changeDataIndex', {index: e.index});
 //				this.states.set('invalid');
 //					this.opt('value', this.opt('value'));
 
@@ -135,21 +135,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		}
 
 
-	},
-
-
-
-
-	set_dataIndex: function(v) {
-
 	}
 
-
-	// _construct: function(o) {
-		// this._super(o);
-//
-		// this._index = 0;
-	// }
 
 
 }, 'widgets:grid-pagination');

@@ -24,7 +24,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 		cls: 'panel',
 		components: {
 			header: {
-				etype: 'html:header',
+				tag: 'header',
 //				html: '<header/>',
 				weight: -10,
 				components: {
@@ -38,7 +38,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			content: {
 			},
 			footer: {
-				etype: 'html:footer',
+				tag: 'footer',
 //				html: '<footer/>',
 				weight: 10,
 				autoRender: 'non-empty'
@@ -47,8 +47,13 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 	},
 
 
-	set title(v) {
-		this.$header.$title.opt('text', v);
+	props: {
+		set: {
+			title: function(v) {
+				this.$header.$title.opt('text', v);
+			}
+		}
 	}
+
 
 }, 'widgets:panel');

@@ -17,7 +17,9 @@
  * @name Ergo.html.Checkbox
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.Checkbox.prototype */{
+Ergo.defineClass('Ergo.html.Checkbox', null, /** @lends Ergo.html.Checkbox.prototype */{
+
+	extends: 'Ergo.html.Input',
 
 	defaults: {
 //		html: '<input type="checkbox"/>',
@@ -26,7 +28,13 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 			this.el.prop('checked', v);
 		},
 		onChange: function(e) {
-			this.opt('value', e.value);//this.el.prop('checked'));
+			this.prop('value', e.value);//this.el.prop('checked'));
+		},
+
+		states: {
+			indeterminate: function(on) {
+				this.el.prop('indeterminate', v);
+			}
 		}
 // 		events: {
 // 			'jquery:change': function(e) {
@@ -37,9 +45,9 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 	},
 
 
-	set_indeterminate: function(v) {
-		this.el.prop('indeterminate', v);
-	},
+	// set_indeterminate: function(v) {
+	// 	this.el.prop('indeterminate', v);
+	// },
 
 
 	// _change: function() {
@@ -47,7 +55,7 @@ Ergo.defineClass('Ergo.html.Checkbox', 'Ergo.html.Input', /** @lends Ergo.html.C
 	// },
 
 	do_change: function() {
-		this.events.rise('change', {value: this.el.prop('checked')});
+		this.rise('change', {value: this.el.prop('checked')});
 	}
 
 

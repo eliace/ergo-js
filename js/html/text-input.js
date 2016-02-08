@@ -13,7 +13,9 @@
  * @name Ergo.html.TextInput
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
+Ergo.defineClass('Ergo.html.TextInput', null, {
+
+	extends: 'Ergo.html.Input',
 
 	defaults: {
 		type: 'text',
@@ -23,14 +25,14 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 		events: {
 			// jquery
 			'jquery:keyup': function(e) {
-				this.events.rise('keyUp', {text: this.el.val()}, e);
+				this.rise('keyUp', {text: this.el.val()}, e);
 			},
 			'jquery:keydown': function(e) {
-				this.events.rise('keyDown', {text: this.el.val()}, e);
+				this.rise('keyDown', {text: this.el.val()}, e);
 			},
 			// widget
 			'change': function(e) {
-				this.opt('value', e.value);
+				this.prop('value', e.value);
 			},
 			'keyUp': function(e) {
 				var keyCode = e.base.keyCode;
@@ -42,7 +44,7 @@ Ergo.defineClass('Ergo.html.TextInput', 'Ergo.html.Input', {
 					// TODO обработка служебных символов
 				}
 				else {
-					this.events.rise('input', {text: e.text, keyCode: keyCode});
+					this.rise('input', {text: e.text, keyCode: keyCode});
 				}
 
 			}

@@ -10,12 +10,12 @@
 Ergo.alias('includes:pageable', {
 
 	defaults: {
-		cls: 'pageable'
+		as: 'pageable'
 	},
 
 	overrides: {
 
-		set_active: function(i) {
+		set active(i) {
 
 			var child = (i instanceof Ergo.core.Widget) ? i : this.children.find( Ergo.by_widget(i) );
 
@@ -23,30 +23,32 @@ Ergo.alias('includes:pageable', {
 				// (c != child) ? c.hide() : c.show();
 			// });
 
-			if(child.layout) child._layoutChanged();
+			if(child) {
+				child._layoutChanged();
+			}
 
-			var promise = $.when(true);
+//			var promise = $.when(true);
 
 			if(this._active) {
-				this._active.states.unset('active');
+				this._active.unset('active');
 				promise = this._active.hide();
 			}
 
 			this._active = child;
 
-			promise.then(function(){
+//			promise.then(function(){
 
-				this._active.states.set('active');
+				this._active.set('active');
 				this._active.show();
 
-			}.bind(this));
+//			}.bind(this));
 
 
 			return child;
 		},
 
 
-		get_active: function() {
+		get active() {
 			return this._active;
 		}
 

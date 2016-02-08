@@ -6,7 +6,7 @@ Ergo.alias('includes:item-click-selection', {
 		defaultItem: {
 			events: {
 				'jquery:click': function() {
-					this.events.rise('itemSelect');
+					this.rise('itemSelect');
 				}
 			}
 		},

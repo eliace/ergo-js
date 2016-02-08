@@ -20,9 +20,19 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 		}
 	},
 
-	set text(v) {
-		this.$actionButton.opt('text', v);
+	props: {
+		set: {
+			text: function(v) {
+				this.$actionButton.opt('text', v);
+			}
+		},
+		get: {
+			text: function(v) {
+				return this.$actionButton.opt('text');
+			}
+		}
 	}
+
 
 
 }, 'widgets:split-button');

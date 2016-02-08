@@ -16,15 +16,15 @@ Ergo.WidgetRender = {
 				if(!clazz) {
 					throw new Error('Unknown layout ['+o.layout+']');
 				}
-				this.__vdom = new (clazz)(o.tag, this);
+				this.__vdom = new (clazz)(o.tag, this, null, o.tagNS);
 			}
 			else if( o.layout.constructor === Object ) {
 				var name = o.layout.etype || 'default';
-				this.__vdom = new ($ergo.alias('layouts:'+name))(o.tag, this, o.layout);
+				this.__vdom = new ($ergo.alias('layouts:'+name))(o.tag, this, o.layout, o.tagNS);
 //				this.__vdom = new Ergo.core.Layout(o.tag, this, o.layout);
 			}
 			else if( o.layout.constructor === Function ) {
-				this.__vdom = o.layout.call(this, o.tag);
+				this.__vdom = o.layout.call(this, o.tag, null, o.tagNS);
 			}
 			else {
 				console.error('Can not create vdom for layout ['+o.layout+']');
@@ -32,7 +32,7 @@ Ergo.WidgetRender = {
 //		 this.__vdom = (o.layoutFactory || this.layoutFactory)(layout);
 		}
 		else {
-		 this.__vdom = new Ergo.core.Layout(o.tag, this);
+		 this.__vdom = new Ergo.core.Layout(o.tag, this, null, o.tagNS);
 		}
 
 //		this.__vdom.attach(this);//this.layout.options._widget || this);
@@ -45,8 +45,6 @@ Ergo.WidgetRender = {
 			}.bind(this));
 		}
 
-
-		this._bindEvents('vdom');
 	},
 
 

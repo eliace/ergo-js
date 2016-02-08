@@ -2571,6 +2571,9 @@ h5 {
 .label.single-line {
   white-space: nowrap;
 }
+.label.transparent {
+  background-color: transparent;
+}
 .label.medium {
   padding: 0.4286rem 0.7143rem;
 }
@@ -2652,6 +2655,12 @@ label.selected {
   line-height: 1.857;
   text-align: center;
   width: 2em;
+}
+.icon.label {
+  width: auto;
+}
+.icon.button {
+  width: auto;
 }
 .has-icon {
   position: relative;
@@ -4042,6 +4051,9 @@ label:hover .radio {
 .table tr.disabled {
   color: #dddddd;
 }
+.table tr.resize {
+  cursor: col-resize;
+}
 .table.celled tr > td + td,
 .table.celled tr > th + th {
   border-left: 1px solid #ddd;
@@ -4582,6 +4594,22 @@ input::-moz-placeholder,
 textarea::-moz-placeholder {
   opacity: 1;
   color: rgba(0, 0, 0, 0.2);
+}
+.glass-pane {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000000;
+}
+.resize-handler {
+  position: absolute;
+  width: 3px;
+  background-color: #bbb;
+}
+.pageable > *:not(.active) {
+  display: none;
 }
 /*
 .group {

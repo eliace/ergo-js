@@ -9,7 +9,9 @@
  * @name Ergo.data.Collection
  * @extends Ergo.core.DataSource
  */
-Ergo.declare('Ergo.data.Collection', 'Ergo.core.DataSource', /** @lends Ergo.data.Collection.prototype */{
+Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.prototype */{
+
+	extends: 'Ergo.core.DataSource',
 
 	defaults: {
 		model: null,

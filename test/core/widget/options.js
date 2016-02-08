@@ -3,7 +3,7 @@ var expect = chai.expect;
 describe('Widget', function(){
 	describe('Options', function() {
 
-    it('should set simple option', function() {
+    it('should set default option', function() {
 
       var w = $.ergo({
         etype: 'box',
@@ -15,7 +15,7 @@ describe('Widget', function(){
     });
 
 
-    it('should set property option', function() {
+    it('should set class property as option', function() {
 
       Ergo.defineClass('Ergo.test.MyWidget', 'Ergo.core.Widget', {
         set test(v) {
@@ -35,9 +35,9 @@ describe('Widget', function(){
 
 
 
-    it('should set state', function() {
+    it('should set `states` option', function() {
 
-      var w = $.ergo({
+			var w = $.ergo({
         etype: 'box',
         states: {
           'test': 'test-class'
@@ -47,23 +47,22 @@ describe('Widget', function(){
 
       expect( w.states.is('test') ).to.be.true;
 
-    });
 
-
-
-    it('should set exclusive state', function() {
 
       var w = $.ergo({
         etype: 'box',
         states: {
-          'test1:test': 'cls1',
-          'test2:test': 'cls2'
+					test: {
+	          'test1': 'cls1',
+	          'test2': 'cls2'
+					}
         },
         test: 'test2'
       });
 
       expect( w.states.is('test2') ).to.be.true;
       expect( w.el.hasClass('cls2') ).to.be.true;
+
 
     });
 
@@ -84,7 +83,7 @@ describe('Widget', function(){
 				items: [{}, {$content__foo: 'Charlie'}, {$content__items: ['foo1', 'foo2', 'foo3']}]
       });
 
-			expect(w.$a.text).to.be.eq('Alice');
+			expect(w.$a.opt('text')).to.be.eq('Alice');
 			expect(w.item(0).$content.opt('foo')).to.be.eq('Bob');
 			expect(w.item(1).$content.opt('foo')).to.be.eq('Charlie');
 			expect(w.item(2).$content.items.size()).to.be.eq(3);
@@ -95,7 +94,7 @@ describe('Widget', function(){
 
 
 
-		it('should override setters/getters', function() {
+		it('should set property `get` and `set`', function() {
 
 			var w = $.ergo({
         etype: 'box',
@@ -111,15 +110,15 @@ describe('Widget', function(){
 				}]
       });
 
-			expect(w.item(0).a).to.be.eq('Alice');
-			expect(w.item(0).b).to.be.eq('Bob');
+			expect(w.item(0).prop('a')).to.be.eq('Alice');
+			expect(w.item(0).prop('b')).to.be.eq('Bob');
 
     });
 
 
 
 
-		it('should override includes', function() {
+		it('should set `include` option', function() {
 
 			$ergo.alias('includes:test', {
 				defaults: {
@@ -158,7 +157,7 @@ describe('Widget', function(){
 
 
 
-		it('should set override style', function() {
+		it('should set `style` option', function() {
 
       var w = $.ergo({
         etype: 'box',
@@ -173,8 +172,26 @@ describe('Widget', function(){
 			expect( w.item(0).options.style.color ).to.be.eql('#bbb');
 			expect( w.item(0).options.style.width ).to.be.eql('10%');
 
+			expect( w.options.defaultItem.style ).to.be.eql({'color': '#aaa', 'width': '10%'});
+
+//			console.log('options', w.options);
+
     });
 
+
+
+
+		it('should set `stt` option', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+				stt: 'aaa'
+      });
+
+			expect( w.options.stt ).to.be.eql('aaa');
+			expect( w.states.is('aaa') ).to.be.true;
+
+    });
 
 
 
@@ -197,10 +214,12 @@ describe('Widget', function(){
         etype: 'box',
         format: function(v) {
 					return v;
-				}
+				},
+				value: 4
       });
 
-			expect( typeof w.options.format ).to.be.eq('function');
+			expect( typeof w.format ).to.be.eq('function');
+			expect( w.value ).to.be.eq(4)
 
 
 			var w = $.ergo({
@@ -208,31 +227,54 @@ describe('Widget', function(){
         format: '#{a}'
       });
 
-			expect( typeof w.options.format ).to.be.eq('function');
+			expect( typeof w.format ).to.be.eq('function');
 
 
     });
 
 
 
-
-
-
-		it('should bind property data', function() {
+		it('should set `unformat` option', function() {
 
       var w = $.ergo({
-        etype: 'box'
+        etype: 'box',
+        unformat: function(v) {
+					return v;
+				},
+				value: 4
       });
 
-			w.storage = {
-				val: 4
-			};
+			expect( typeof w.unformat ).to.be.eq('function');
+			expect( w.value ).to.be.eq(4)
 
-			w.data = 'storage';
 
-      expect( w.data.get() ).to.be.eql({val: 4});
+			var w = $.ergo({
+        etype: 'box',
+        unformat: '#{a}',
+				value: 'Alice'
+      });
+
+			expect( typeof w.unformat ).to.be.eq('function');
+
 
     });
+
+
+
+
+		it('should set `value` option', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+        value: 'Alice'
+      });
+
+      expect( w.value ).to.be.eq('Alice');
+
+    });
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 
 Ergo.alias('includes:focusable', {
 
-	_post_construct: function(o) {
+	_postConstruct: function(o) {
 
 		this.el.attr('tabindex', 0);
 

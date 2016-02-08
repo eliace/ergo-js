@@ -4,7 +4,7 @@
 Ergo.alias('includes:fastclick', {
 
 
-	_post_construct: function(o) {
+	_postConstruct: function(o) {
 
 		var w = this;
 

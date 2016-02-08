@@ -47,7 +47,7 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 
 	},
 
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 		this._super(o);
 
 //		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки

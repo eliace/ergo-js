@@ -110,12 +110,17 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
 //		binding: 'text'
 	},
 
-	set icon(v) {
-		this.states.set(v);
-	},
+	props: {
+		set: {
+			icon: function(v) {
+				this.states.set(v);
+			},
 
-	set text(v) {
-		this.states.set(v);
+			text: function(v) {
+				this.states.set(v);
+			}
+
+		}
 	}
 
 }, 'widgets:icon');
@@ -219,7 +224,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 		cls: 'panel',
 		components: {
 			header: {
-				etype: 'html:header',
+				tag: 'header',
 //				html: '<header/>',
 				weight: -10,
 				components: {
@@ -233,7 +238,7 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 			content: {
 			},
 			footer: {
-				etype: 'html:footer',
+				tag: 'footer',
 //				html: '<footer/>',
 				weight: 10,
 				autoRender: 'non-empty'
@@ -242,9 +247,14 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
 	},
 
 
-	set title(v) {
-		this.$header.$title.opt('text', v);
+	props: {
+		set: {
+			title: function(v) {
+				this.$header.$title.opt('text', v);
+			}
+		}
 	}
+
 
 }, 'widgets:panel');
 
@@ -316,7 +326,7 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 
 /*
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 
 
 		this._super(o);
@@ -622,7 +632,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 	},
 
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 		this._super(o);
 
 //		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
@@ -836,7 +846,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		cls: 'input',
 
 		binding: function(v) {
-			this.$content.opt('value', v);
+			this.$content.value = v;
 		},
 
 		components: {
@@ -845,10 +855,10 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 				autoBind: false,
 				events: {
 					'jquery:keyup': function(e) {
-						this.events.rise('keyUp', {text: this.el.val()}, e);
+						this.rise('keyUp', {text: this.el.val()}, e);
 					},
 					'jquery:keydown': function(e) {
-						this.events.rise('keyDown', {text: this.el.val()}, e);
+						this.rise('keyDown', {text: this.el.val()}, e);
 					},
 					// 'jquery:focus': function() {
 					// 	this.events.rise('focus', {focus: true});
@@ -866,14 +876,14 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 		states: {
 			'disabled': function(on) {
-				this.$content.opt('disabled', on);
+				this.$content.states.toggle('disabled', on);
 			}
 		},
 
 
 
 		onChange: function(e) {
-			this.opt('value', e.value);
+			this.value = e.value;
 		},
 
 		onKeyUp: function(e) {
@@ -899,26 +909,42 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 
 
+	props: {
+
+		set: {
+			placeholder: function(v) {
+				this.$content.opt('placeholder', v);
+			},
+
+			type: function(v) {
+				this.$content.opt('type', v);
+			},
+		}
+
+	},
+
+
+
 
 	// set text(v) {
 	// 	this.$content.opt('placeholder', v);
 	// },
 
-	set placeholder(v) {
-		this.$content.opt('placeholder', v);
-	},
+	// set placeholder(v) {
+	// 	this.$content.opt('placeholder', v);
+	// },
 
 	set name(v) {
-		this.$content.opt('name', v);
+		this.$content.name = v;
 	},
 
 	get name() {
-		return this.$content.opt('name');
+		return this.$content.name;
 	},
 
-	set type(v) {
-		this.$content.opt('type', v);
-	},
+	// set type(v) {
+	// 	this.$content.opt('type', v);
+	// },
 
 
 
@@ -973,7 +999,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 	defaults: {
 
-		as: 'select has-icon at-right',
+		cls: 'select',
+
+		as: 'has-icon at-right',
 
 		include: ['dropdown', 'selectable', 'focusable'] ,
 
@@ -985,7 +1013,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'icon': {
 				etype: 'icon',
-				cls: 'right',
+				as: 'right',
 				icon: 'caret',
 				weight: 10,
 				onClick: 'action:dropdown'
@@ -1004,7 +1032,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				include: 'placeholder',
 				binding: false,
-				cls: 'text',
+				as: 'text',
 				onClick: 'action:dropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
@@ -1055,19 +1083,19 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 				if(e.keyCode == KEY_ENTER) {
 //					this._change( this.$dropdown.navigator.selected.opt('name') );
-					this.events.fire('changeSelect', {target: this.$dropdown.navigator.selected})
+					this.emit('changeSelect', {target: this.$dropdown.navigator.selected})
 				}
 				if(e.keyCode == 27) {
 //					this._close();
 //					this.states.unset('opened');
 					// this._dataChanged();
-					this.events.fire('cancelSelect');
+					this.emit('cancelSelect');
 				}
 
 			},
 
 			'jquery:blur': function(e) {
-				this.events.fire('cancelSelect');
+				this.emit('cancelSelect');
 			},
 
 
@@ -1076,8 +1104,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 			},
 
 			'changeSelect': function(e) {
-				this.value = e.target.name;
-//				this.opt('value', e.target.opt('name'));
+				this.opt('value', e.target.opt('name'));
 				this.states.unset('opened');
 			},
 
@@ -1091,9 +1118,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 		selection: {
 	    lookup: function(name) {
-	      var s = JSON.stringify(name);
+	      var s = $ergo.print(name);
 	      return this.$dropdown.items.find(function(item) {
-	        return s === JSON.stringify(item.opt('name'))
+	        return s === $ergo.print(item.opt('name'));
 	      });
 	    }
 	  },
@@ -1113,7 +1140,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 //			this.$input.opt('text', v);
 
-			this.text = selected ? selected.text : null;
+			this.opt('text', selected ? selected.opt('text') : null);
 //			this.opt('text', selected ? selected.opt('text') : null);
 
 //			this.updatePlaceholder();
@@ -1173,37 +1200,38 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Check', 'Ergo.widgets.Box', {
 
 	defaults: {
 		cls: 'check',
 		components: {
 			content: {
 				etype: 'icon',
-				cls: 'fa'
+				as: 'fa'
 			}
 		},
 		states: {
 			'checked': function(on) {
-				this.$content.states.toggle('fa-check', on);
-				this.states.unset('indeterminate');
+				this.$content.toggle('fa-check', on);
+				this.unset('indeterminate');
 			},
 			'indeterminate': function(on) {
-				this.$content.states.toggle('fa-square', on);
+				this.$content.toggle('fa-square', on);
 			}
 		},
 		events: {
-			'change': function(e) {
-				this.opt('value', e.value);
-			},
+			// 'change': function(e) {
+			// 	this.opt('value', e.value);
+			// },
 			// действие пользователя
 			'jquery:click': function(e) {
 //				if(e.button == 0)
-				this.events.fire('change', {value: !this.opt('value')});
+				this.opt('value', !this.opt('value'));
+				this.emit('change', {value: this.opt('value')});
 			}
 		},
 		binding: function(v) {
-			this.states.toggle('checked', !(!v));
+			this.toggle('checked', !(!v));
 		}
 	}
 
@@ -1407,7 +1435,7 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 
 	},
 
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 		this._super(o);
 
 //		o.defaultItem = Ergo.smart_override({components: {sub: {nestedItem: o.nestedItem}}}, o.nestedItem, o.defaultItem); //FIXME эмуляция обратной перегрузки
@@ -2148,9 +2176,19 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 		}
 	},
 
-	set text(v) {
-		this.$actionButton.opt('text', v);
+	props: {
+		set: {
+			text: function(v) {
+				this.$actionButton.opt('text', v);
+			}
+		},
+		get: {
+			text: function(v) {
+				return this.$actionButton.opt('text');
+			}
+		}
 	}
+
 
 
 }, 'widgets:split-button');
@@ -2321,7 +2359,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 		this._super(o);
 
 		if(o.cell) {
@@ -2757,7 +2795,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 				'expanded': function(on) {
 					this.$toggler.states.toggle('opened', on);
 					if(on)
-						this.events.rise('itemExpanded');
+						this.rise('itemExpanded');
 				}
 			}
 		}
@@ -2825,7 +2863,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 					onClick: function() {
 
 						if( !this.data.get('children') ) {
-							this.events.rise('menuAction', {target: this.parent, key: this.parent.path()});
+							this.rise('menuAction', {target: this.parent, key: this.parent.path()});
 						}
 						else {
 							this.parent.states.toggle('expanded');
@@ -2837,7 +2875,7 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 				'expanded': function(on) {
 					this.$content.$caret.states.set(on ? 'opened' : 'closed');
 					if(on)
-						this.events.rise('itemExpanded');
+						this.rise('itemExpanded');
 				}
 			}
 		},
@@ -3301,17 +3339,19 @@ Ergo.alias('includes:dropdown', {
 				events: {
 					'closed': function() {
 						this.parent.states.unset('opened', false);
-						this.events.rise('dropdownClosed');
+						this.rise('dropdownClosed');
 					}
 	//				'opened': function
 				}
 			}
 		},
 		states: {
-			'up:drop': 'drop-up',
-			'down:drop': '',
-			'left:drop': 'drop-left',
-			'right:drop': 'drop-right',
+			drop: {
+				'up': 'drop-up',
+				'down': '',
+				'left': 'drop-left',
+				'right': 'drop-right'
+			},
 			'opened': function(on, f) {
 				on ? this.$dropdown.open() : this.$dropdown.close();
 			}
@@ -3356,17 +3396,19 @@ Ergo.alias('includes:dropdown:sub', {
 				events: {
 					'closed': function() {
 						this.parent.states.unset('opened', false);
-						this.events.rise('dropdownClosed');
+						this.rise('dropdownClosed');
 					}
 	//				'opened': function
 				}
 			}
 		},
 		states: {
-			'up:drop': 'drop-up',
-			'down:drop': '',
-			'left:drop': 'drop-left',
-			'right:drop': 'drop-right',
+			drop: {
+				'up': 'drop-up',
+				'down': '',
+				'left': 'drop-left',
+				'right': 'drop-right'
+			},
 			'opened': function(on, f) {
 				on ? this.$sub.open() : this.$sub.close();
 			}
@@ -3530,7 +3572,7 @@ Ergo.alias('includes:icon-addon', {
 
 Ergo.alias('includes:+image', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			image: {
 				etype: 'html:img',
@@ -3545,8 +3587,8 @@ Ergo.alias('includes:+image', {
 
 
 	overrides: {
-		set_image: function(v) {
-			this.image.opt('src', v);
+		set image(v) {
+			this.$image.opt('src', v);
 		}
 	}
 
@@ -3631,7 +3673,7 @@ Ergo.alias('includes:item-click-selection', {
 		defaultItem: {
 			events: {
 				'jquery:click': function() {
-					this.events.rise('itemSelect');
+					this.rise('itemSelect');
 				}
 			}
 		},
@@ -3653,6 +3695,7 @@ Ergo.alias('includes:item-click-selection', {
 	}
 
 });
+
 
 
 
@@ -3709,12 +3752,13 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 			content: {
 				components: {
 					title: {
-						cls: 'alert-title',
-						etype: 'html:strong'
+						tag: 'strong',
+						as: 'alert-title',
+//						etype: 'html:strong'
 					},
 					message: {
-						cls: 'alert-message',
-						etype: 'box'
+						as: 'alert-message'
+//						etype: 'box'
 					}
 				}
 			},
@@ -3726,17 +3770,23 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 	},
 
 
-	set title(v) {
-		this.$content.$title.opt('text', v);
-	},
+	props: {
+		set: {
+			title: function(v) {
+				this.$content.$title.opt('text', v);
+			},
 
-	set icon(v) {
-		this.$icon.states.set(v);
-	},
+			icon: function(v) {
+				this.$icon.set(v);
+			},
 
-	set text(v) {
-		this.$content.$message.opt('text', v);
+			text: function(v) {
+				this.$content.$message.opt('text', v);
+			}
+		}
 	}
+
+
 
 
 }, 'widgets:alert');
@@ -3821,7 +3871,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index#next');
+							this.rise('page#next');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -3836,7 +3886,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index#prev');
+							this.rise('page#prev');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -3851,7 +3901,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	//				this.parent.parent.opt('index', this.parent);
 						var index = parseInt( this.parent.opt('name') );
 						if(index)
-							this.events.rise('index#change', {index: index});
+							this.rise('page#change', {index: index});
 						e.preventDefault(); // блокируем выделение текста
 					}
 				}
@@ -3876,18 +3926,18 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 
 
 		events: {
-			'index#next': function(e) {
+			'page#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#prev': function(e) {
+			'page#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#change': function(e) {
-				this.events.rise('changeDataIndex', {index: e.index});
+			'page#change': function(e) {
+				this.rise('changeDataIndex', {index: e.index});
 			}
 		}
 
@@ -3938,7 +3988,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 //		data.opt('index', index);
 //		data.fetch();
 
-		this.events.fire('dataIndexChanged', {index: index});  //?
+		this.emit('dataIndexChanged', {index: index});  //?
 	}
 
 
@@ -3965,13 +4015,13 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				// state: 'flat tool',
 				components: {
 					content: {
-						cls: 'icon move first'
+						as: 'icon move first'
 					}
 				},
 //				text: '«',
 				weight: -100,
 				onClick: function() {
-					this.events.rise('index#first');
+					this.rise('page#first');
 				}
 			},
 			prevButton: {
@@ -3985,7 +4035,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				},
 				weight: -50,
 				onClick: function() {
-					this.events.rise('index#prev');
+					this.rise('page#prev');
 				}
 			},
 			nextButton: {
@@ -3999,7 +4049,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 				},
 				weight: 50,
 				onClick: function() {
-					this.events.rise('index#next');
+					this.rise('page#next');
 				}
 			},
 			lastButton: {
@@ -4013,7 +4063,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 //				text: '»',
 				weight: 100,
 				onClick: function() {
-					this.events.rise('index#last');
+					this.rise('page#last');
 				}
 			},
 			current: {
@@ -4032,10 +4082,10 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 
 						var i = parseInt(e.text);
 
-						this.states.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
+						this.toggle('invalid', (isNaN(i) || (i).toString().length != e.text.length));
 
-						if( !this.states.is('invalid') )
-							this.events.rise('index#change', {index: i});
+						if( !this.is('invalid') )
+							this.rise('page#change', {index: i});
 
 					}
 				},
@@ -4048,26 +4098,26 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		},
 
 		events: {
-			'index#first': function(e) {
-				this.events.rise('changeDataIndex', {index: 1});
+			'page#first': function(e) {
+				this.rise('changeDataIndex', {index: 1});
 			},
-			'index#last': function(e) {
-				this.events.rise('changeDataIndex', {index: this.data.opt('count')});
+			'page#last': function(e) {
+				this.rise('changeDataIndex', {index: this.data.opt('count')});
 			},
-			'index#next': function(e) {
+			'page#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#prev': function(e) {
+			'page#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#change': function(e) {
+			'page#change': function(e) {
 				var i = e.index;
 				if( !isNaN(i) && i > 0 && i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: e.index});
+					this.rise('changeDataIndex', {index: e.index});
 //				this.states.set('invalid');
 //					this.opt('value', this.opt('value'));
 
@@ -4082,21 +4132,8 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 		}
 
 
-	},
-
-
-
-
-	set_dataIndex: function(v) {
-
 	}
 
-
-	// _construct: function(o) {
-		// this._super(o);
-//
-		// this._index = 0;
-	// }
 
 
 }, 'widgets:grid-pagination');

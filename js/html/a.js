@@ -6,7 +6,9 @@
  * @name Ergo.html.Label
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.A', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.A', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'a'
@@ -14,9 +16,12 @@ Ergo.defineClass('Ergo.html.A', 'Ergo.core.Widget', {
 
   attributes: ['id', 'tabindex', 'href'],
 
-	set href(v) {
-		this.vdom.el.setAttribute('href', v);
+	props: {
+		set: {
+			'href': function(v) {
+				this.vdom.el.setAttribute('href', v);
+			}
+		}
 	}
-
 
 }, 'html:a');

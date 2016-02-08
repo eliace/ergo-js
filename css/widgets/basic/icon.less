@@ -46,7 +46,7 @@
 }
 
 //a.icon:hover, a.icon:active,
-.contextual.icon:hover, .contextual.icon:active, 
+.contextual.icon:hover, .contextual.icon:active,
 .contextual .icon:hover, .contextual .icon:active {
   color: #000;
   opacity: 0.5;
@@ -74,6 +74,14 @@
 }
 
 
+.icon.label {
+  width: auto;
+}
+
+.icon.button {
+  width: auto;  
+}
+
 
 
 
@@ -82,11 +90,11 @@
   position: relative;
 
   &.at-left > .icon.before,
-  &.at-right > .icon.after, 
-  &.at-left > .icon.left, 
+  &.at-right > .icon.after,
+  &.at-left > .icon.left,
   &.at-right > .icon.right {
-//  > .spinner, 
-//  &.left > .spinner.left, 
+//  > .spinner,
+//  &.left > .spinner.left,
 //  &.right > .spinner.right {
     position: absolute;
     right: 0;
@@ -100,7 +108,7 @@
     top: 0;
   /*  opacity: 0.5;*/
 
-    &:before, 
+    &:before,
     &:after {
       position: absolute;
       top: 50%;
@@ -110,14 +118,14 @@
       left: 0;
     }
 
-    &.spinner:before, 
+    &.spinner:before,
     &.spinner:after {
 //      width: 16px;
 //      height: 16px;
       line-height: 1;
       top: 50%;
       margin-top: -0.5em;
-      left: 50%;  
+      left: 50%;
       margin-left: -0.5em;
     }
 
@@ -139,7 +147,7 @@
 
 
 
-  // > .content, 
+  // > .content,
   // &.right > .content {
   //   padding-right: 32px;
   // }
@@ -170,7 +178,7 @@
       padding-right: 3.429em;
     }
 
-    > .icon.left, 
+    > .icon.left,
     > .icon.right {
       font-size: 1.5rem;
     }
@@ -191,4 +199,3 @@
 .icon.muted {
   color: rgba(0,0,0,0.5);
 }
-

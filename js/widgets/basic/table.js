@@ -66,7 +66,7 @@ Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widge
 
 
 /*
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 
 
 		this._super(o);

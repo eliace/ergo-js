@@ -2,7 +2,7 @@
 
 Ergo.alias('includes:+image', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			image: {
 				etype: 'html:img',
@@ -17,8 +17,8 @@ Ergo.alias('includes:+image', {
 
 
 	overrides: {
-		set_image: function(v) {
-			this.image.opt('src', v);
+		set image(v) {
+			this.$image.opt('src', v);
 		}
 	}
 

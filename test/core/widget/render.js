@@ -214,7 +214,7 @@ describe('Widget', function(){
 		it('should render filtered', function() {
 
 			var filter = function(item) {
-				return item.text.length > 3;
+				return item.opt('text').length > 3;
 			};
 
 			var w = $.ergo({

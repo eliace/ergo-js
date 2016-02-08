@@ -73,6 +73,16 @@
         if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
       }
     }
+
+    // prefixes
+    partials = [['top', 'right', 'bottom', 'left'], []];
+    for(var i = 0; i < partials[0].length; i++) {
+			if(partials[0][i] == k) return v+'px';
+      for(var j = 0; j < partials[1].length; j++) {
+        if(partials[1][j]+'-'+partials[0][i] == k) return v+'px';
+      }
+    }
+
     return v;
   };
 

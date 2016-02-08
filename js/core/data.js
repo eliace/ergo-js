@@ -19,7 +19,9 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.prototype */{
+
+	extends: 'Ergo.core.Object',
 
 	defaults: {
 //		plugins: [Ergo.Observable],
@@ -81,6 +83,10 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 			Ergo.each(val, function(v, i){	self.entry(i); } );
 		}
 
+
+
+		this._bindEvents();
+
 //		console.log('-- data --');
 
 	},
@@ -88,12 +94,21 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 
 	_destroy: function() {
 
-		this.del();
+//		var src = this.source;
+
+//		this.del();
 
 		// очищаем регистрацию обработчиков событий
 		this.events.off();
 		// удаляем все дочерние элементы
 		this.entries.apply_all('_destroy');
+		// while(this.entries.size()) {
+		// 	this.entries.first()._destroy();
+		// }
+
+		if( this.source instanceof Ergo.core.DataSource ) {
+			this.source.entries.remove(this);
+		}
 
 	},
 

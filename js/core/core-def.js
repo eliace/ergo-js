@@ -195,7 +195,8 @@ var Ergo = (function(){
 						o[name] = b;
 					}
 					else if(rule[0] == 'override') {
-						o[name] = (a == null) ? b : E.deep_override(a, b);
+//						o[name] = (a == null) ? b : E.deep_override(a, b);
+						o[name] = (a == null) ? E.deep_copy(b) : E.deep_override(a, b);
 					}
 					else if( b.constructor === Object ) {
 						a = a || {};
@@ -268,7 +269,7 @@ var Ergo = (function(){
 					$ergo.deep_override(o[name], b);
 				}
 				else {
-					o[name] = b;
+					o[name] = $ergo.deep_copy(b);
 				}
 			}
 		}

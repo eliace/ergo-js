@@ -13,12 +13,13 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 			content: {
 				components: {
 					title: {
-						cls: 'alert-title',
-						etype: 'html:strong'
+						tag: 'strong',
+						as: 'alert-title',
+//						etype: 'html:strong'
 					},
 					message: {
-						cls: 'alert-message',
-						etype: 'box'
+						as: 'alert-message'
+//						etype: 'box'
 					}
 				}
 			},
@@ -30,17 +31,23 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 	},
 
 
-	set title(v) {
-		this.$content.$title.opt('text', v);
-	},
+	props: {
+		set: {
+			title: function(v) {
+				this.$content.$title.opt('text', v);
+			},
 
-	set icon(v) {
-		this.$icon.states.set(v);
-	},
+			icon: function(v) {
+				this.$icon.set(v);
+			},
 
-	set text(v) {
-		this.$content.$message.opt('text', v);
+			text: function(v) {
+				this.$content.$message.opt('text', v);
+			}
+		}
 	}
+
+
 
 
 }, 'widgets:alert');

@@ -18,7 +18,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index#next');
+							this.rise('page#next');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -33,7 +33,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 					binding: false,
 					events: {
 						'jquery:mousedown': function(e) {
-							this.events.rise('index#prev');
+							this.rise('page#prev');
 							e.preventDefault(); // блокируем выделение текста
 						}
 					}
@@ -48,7 +48,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 	//				this.parent.parent.opt('index', this.parent);
 						var index = parseInt( this.parent.opt('name') );
 						if(index)
-							this.events.rise('index#change', {index: index});
+							this.rise('page#change', {index: index});
 						e.preventDefault(); // блокируем выделение текста
 					}
 				}
@@ -73,18 +73,18 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 
 
 		events: {
-			'index#next': function(e) {
+			'page#next': function(e) {
 				var i = this.data.opt('index')+1;
 				if( i <= this.data.opt('count') )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#prev': function(e) {
+			'page#prev': function(e) {
 				var i = this.data.opt('index')-1;
 				if( i > 0 )
-					this.events.rise('changeDataIndex', {index: i});
+					this.rise('changeDataIndex', {index: i});
 			},
-			'index#change': function(e) {
-				this.events.rise('changeDataIndex', {index: e.index});
+			'page#change': function(e) {
+				this.rise('changeDataIndex', {index: e.index});
 			}
 		}
 
@@ -135,7 +135,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 //		data.opt('index', index);
 //		data.fetch();
 
-		this.events.fire('dataIndexChanged', {index: index});  //?
+		this.emit('dataIndexChanged', {index: index});  //?
 	}
 
 

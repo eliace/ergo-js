@@ -8,7 +8,7 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 		cls: 'input',
 
 		binding: function(v) {
-			this.$content.opt('value', v);
+			this.$content.value = v;
 		},
 
 		components: {
@@ -17,10 +17,10 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 				autoBind: false,
 				events: {
 					'jquery:keyup': function(e) {
-						this.events.rise('keyUp', {text: this.el.val()}, e);
+						this.rise('keyUp', {text: this.el.val()}, e);
 					},
 					'jquery:keydown': function(e) {
-						this.events.rise('keyDown', {text: this.el.val()}, e);
+						this.rise('keyDown', {text: this.el.val()}, e);
 					},
 					// 'jquery:focus': function() {
 					// 	this.events.rise('focus', {focus: true});
@@ -38,14 +38,14 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 		states: {
 			'disabled': function(on) {
-				this.$content.opt('disabled', on);
+				this.$content.states.toggle('disabled', on);
 			}
 		},
 
 
 
 		onChange: function(e) {
-			this.opt('value', e.value);
+			this.value = e.value;
 		},
 
 		onKeyUp: function(e) {
@@ -71,26 +71,42 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
 
 
 
+	props: {
+
+		set: {
+			placeholder: function(v) {
+				this.$content.opt('placeholder', v);
+			},
+
+			type: function(v) {
+				this.$content.opt('type', v);
+			},
+		}
+
+	},
+
+
+
 
 	// set text(v) {
 	// 	this.$content.opt('placeholder', v);
 	// },
 
-	set placeholder(v) {
-		this.$content.opt('placeholder', v);
-	},
+	// set placeholder(v) {
+	// 	this.$content.opt('placeholder', v);
+	// },
 
 	set name(v) {
-		this.$content.opt('name', v);
+		this.$content.name = v;
 	},
 
 	get name() {
-		return this.$content.opt('name');
+		return this.$content.name;
 	},
 
-	set type(v) {
-		this.$content.opt('type', v);
-	},
+	// set type(v) {
+	// 	this.$content.opt('type', v);
+	// },
 
 
 

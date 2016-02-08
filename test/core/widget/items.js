@@ -38,7 +38,7 @@ describe('Widget', function(){
         items: [{}, {a: 'Adam'}, {b: 'Bob'}]
       });
 
-      console.log( 'options', box3 );
+//      console.log( 'options', box3 );
 
       expect(box3.item(0).options.a).to.be.eq('Alice');
       expect(box3.item(1).options.a).to.be.eq('Adam');
@@ -128,7 +128,6 @@ describe('Widget', function(){
       box.data.add('Dave', 0);
 
       expect(box.data.entry(0)._val()).to.be.eq('Dave');
-      expect(box.item(0).text).to.be.eq('Dave');
       expect(box.item(0).opt('text')).to.be.eq('Dave');
 
 
@@ -266,6 +265,31 @@ describe('Widget', function(){
 
       expect(messages).to.be.eql(['Alice', 'Bob', 'Charlie']);
 
+
+    });
+
+
+
+
+
+    it('should copy defaultItem options', function() {
+
+      var w = $.ergo({
+        etype: 'box',
+				defaultItem: {
+					style: {'color': '#aaa', 'width': '10%'},
+          query: {a: 'Alice', b: 'Bob'}
+				},
+				items: [{
+					style: {'color': '#bbb'},
+          query: {a: 'Astra'}
+				}]
+      });
+
+      expect( w.options.defaultItem.style ).to.be.eql({'color': '#aaa', 'width': '10%'});
+      expect( w.options.defaultItem.query ).to.be.eql({a: 'Alice', b: 'Bob'});
+
+//			console.log('options', w.options);
 
     });
 

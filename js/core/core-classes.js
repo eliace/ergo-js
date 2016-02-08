@@ -179,6 +179,11 @@
 
 		var base_class;
 
+		// `extends` class property
+		if('extends' in overrides) {
+			bclass = overrides.extends;
+		}
+
 		if( typeof bclass == 'string' ) {
 			var cp_a = bclass.split('.');
 			var cp = window;
@@ -192,6 +197,7 @@
 		else {
 			base_class = bclass;
 		}
+
 
 //		base_class = (typeof bclass == 'string') ? eval(bclass) : bclass;
 

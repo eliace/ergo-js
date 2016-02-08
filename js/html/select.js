@@ -17,7 +17,9 @@
  * @name Ergo.html.Select
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.Select', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'select',
@@ -27,21 +29,26 @@ Ergo.defineClass('Ergo.html.Select', 'Ergo.core.Widget', {
 		}
 	},
 
-	set_disabled: function(v) {
-		(v) ? this.el.attr('disabled', '') : this.el.removeAttr('disabled');
-	},
+	props: {
+		set: {
+			name: function(v) {
+				this.el.attr('name', v);
+			},
 
-	set_name: function(v) {
-		this.el.attr('name', v);
-	},
+			readonly: function(v) {
+				this.el.attr('readonly', v);
+			},
 
-	set_readonly: function(v) {
-		this.el.attr('readonly', v);
-	},
+			multiple: function(v) {
+				this.el.attr('multiple', v);
+			},
 
-	set_multiple: function(v) {
-		this.el.attr('multiple', v);
+			disabled: function(v) {
+				(v) ? this.vdom.el.setAttribute('disabled', '') : this.vdom.el.removeAttribute('disabled');
+			}
+		}
 	}
+
 
 
 }, 'html:select');

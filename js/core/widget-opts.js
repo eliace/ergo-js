@@ -28,54 +28,45 @@
 Ergo.WidgetOptions = {
 
 
-	get text() {
-		if(this.$content) {
-			return this.$content.opt('text');
-		}
-		else {
-			return this.vdom.innerEl.textContent;
-		}
-
-		// if(!this.__c)
-		// 	return this.__l.el.textContent;
-		// // else if(this.children.size() == 0)
-		// // 	return this.layout.el.textContent;
-		// else if(this.$content)
-		// 	return this.$content.opt('text');
-		// else
- 	// 		return this.__l.containerEl.textContent;
-	},
+	// get text() {
+	// 	if(this.$content) {
+	// 		return this.$content.opt('text');
+	// 	}
+	// 	else {
+	// 		return this.vdom.innerEl.textContent;
+	// 	}
+	// },
 //	getText: function() {	return this.layout.el.text();	},
 	// get width() {	return this.el.outerWidth();	},
 	// get height() { return this.el.outerHeight();	},
-	get name() {
-		return this._name || this._key || this._index;
-	},
+	// get name() {
+	// 	return this._name || this._key || this._index;
+	// },
 
 
 
-	set text(v) {
-		if(this.$content) {
-			this.$content.opt('text', v == null ? '': v);
-		}
-		else {
-			this.vdom.innerEl.textContent = ( v == null ? '': v );
-		}
-
-		this.__txt = v;
-
-// 		if(!this.__c)
-// 			this.dom.el.textContent = ( v == null ? '': v );
-// 		else if(this.children.size() == 0)
-// //			this.layout.el.text( v == null ? '': v );
-// 			this.layout.el.textContent = ( v == null ? '': v );
-// 		else if(this.$content)
+// 	set text(v) {
+// 		if(this.$content) {
 // 			this.$content.opt('text', v == null ? '': v);
-// 		else
-// //			this.layout.el.text( v == null ? '': v );
-//  			this.layout.el.textContent = ( v == null ? '': v );
-
-	},
+// 		}
+// 		else {
+// 			this.vdom.innerEl.textContent = ( v == null ? '': v );
+// 		}
+//
+// 		this.__txt = v;
+//
+// // 		if(!this.__c)
+// // 			this.dom.el.textContent = ( v == null ? '': v );
+// // 		else if(this.children.size() == 0)
+// // //			this.layout.el.text( v == null ? '': v );
+// // 			this.layout.el.textContent = ( v == null ? '': v );
+// // 		else if(this.$content)
+// // 			this.$content.opt('text', v == null ? '': v);
+// // 		else
+// // //			this.layout.el.text( v == null ? '': v );
+// //  			this.layout.el.textContent = ( v == null ? '': v );
+//
+// 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
 //	set innerHtml(v) {	this.vdom.innerEl.innerHTML = (v || ''); },
 	// set_opacity: function(v) {
@@ -111,7 +102,7 @@ Ergo.WidgetOptions = {
 
 
 
-	set name(v) { this._name = v; },
+//	set name(v) { this._name = v; },
 
 
 // 	set format(v) {
@@ -122,10 +113,10 @@ Ergo.WidgetOptions = {
 // 	},
 
 	//FIXME для совместимости
-	set hidden(v) {
-		this.vdom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
-//		this.el.css('display', v ? 'none' : '');
-	},
+// 	set hidden(v) {
+// 		this.vdom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
+// //		this.el.css('display', v ? 'none' : '');
+// 	},
 
 
 

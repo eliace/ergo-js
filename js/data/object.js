@@ -8,7 +8,9 @@
  * @name Ergo.data.Object
  * @extends Ergo.core.DataSource
  */
-Ergo.declare('Ergo.data.Object', 'Ergo.core.DataSource', /** @lends Ergo.data.Object.prototype */{
+Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype */{
+
+	extends: 'Ergo.core.DataSource',
 
 	defaults: {
 		idKey: 'id',

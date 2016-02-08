@@ -1,37 +1,38 @@
 
 
 
-Ergo.defineClass('Ergo.wigets.Check', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Check', 'Ergo.widgets.Box', {
 
 	defaults: {
 		cls: 'check',
 		components: {
 			content: {
 				etype: 'icon',
-				cls: 'fa'
+				as: 'fa'
 			}
 		},
 		states: {
 			'checked': function(on) {
-				this.$content.states.toggle('fa-check', on);
-				this.states.unset('indeterminate');
+				this.$content.toggle('fa-check', on);
+				this.unset('indeterminate');
 			},
 			'indeterminate': function(on) {
-				this.$content.states.toggle('fa-square', on);
+				this.$content.toggle('fa-square', on);
 			}
 		},
 		events: {
-			'change': function(e) {
-				this.opt('value', e.value);
-			},
+			// 'change': function(e) {
+			// 	this.opt('value', e.value);
+			// },
 			// действие пользователя
 			'jquery:click': function(e) {
 //				if(e.button == 0)
-				this.events.fire('change', {value: !this.opt('value')});
+				this.opt('value', !this.opt('value'));
+				this.emit('change', {value: this.opt('value')});
 			}
 		},
 		binding: function(v) {
-			this.states.toggle('checked', !(!v));
+			this.toggle('checked', !(!v));
 		}
 	}
 

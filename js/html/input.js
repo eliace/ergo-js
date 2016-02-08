@@ -16,7 +16,9 @@
  * @name Ergo.html.Input
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.Input', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'input',
@@ -25,8 +27,14 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 //			this.dom.el.value = v;
 		},
 		events: {
-			'jquery:change': 'do_change'
+			'jquery:change': 'do_change',
+			'jquery:input': 'do_change'
+			// 'vdom:input': function(e) {
+			// 	this.prop('value', this.vdom.el.value);
+			// }
 		}
+
+
 		// onChange: function(e) {
 		// 	this.opt('value', this.el.val());
 		// }
@@ -39,6 +47,36 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	},
 
 	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly', 'size'],
+
+
+	props: {
+		set: {
+
+			text: function(v) {
+				this.el.val(v);
+			},
+
+			hidden: function(v) {
+				this.el.prop('hidden', true);
+			},
+
+			type: function(v) {
+				this.vdom.el.setAttribute('type', v);
+			},
+
+			placeholder: function(v) {
+				this.vdom.el.setAttribute('placeholder', v);
+			}
+
+		},
+		get: {
+
+			text: function() {
+				return this.el.val();
+			}
+
+		}
+	},
 
 	// set_type: function(v) {
 	// 	this.el.attr('type', v);
@@ -59,29 +97,30 @@ Ergo.defineClass('Ergo.html.Input', 'Ergo.core.Widget', {
 	},
 
 
-	set text(v) {
-		this.el.val(v);
-	},
+	// set text(v) {
+	// 	this.el.val(v);
+	// },
 
 
-	set hidden(v) {
-		this.el.prop('hidden', true);
-	},
-
-	set type(v) {
-		this.vdom.el.setAttribute('type', v);
-	},
-
-	set placeholder(v) {
-		this.vdom.el.setAttribute('placeholder', v);
-	},
+	// set hidden(v) {
+	// 	this.el.prop('hidden', true);
+	// },
+	//
+	// set type(v) {
+	// 	this.vdom.el.setAttribute('type', v);
+	// },
+	//
+	// set placeholder(v) {
+	// 	this.vdom.el.setAttribute('placeholder', v);
+	// },
 
 	// _change: function(e) {
 	// 	this.events.rise('change', {value: this.el.val()});
 	// },
 
 	do_change: function(e) {
-		this.events.rise('change', {value: this.el.val()});
+		this.opt('value', this.el.val());
+		this.rise('change', {value: this.el.val()});
 	},
 
 

@@ -496,7 +496,7 @@ Ergo.override(Ergo.core.StateManager.prototype, {
 	 */
 	toggle: function(name, sw) {
 
-		if(arguments.length == 1) sw = !this.is(name);
+		if(arguments.length == 1 || typeof sw != 'boolean') sw = !this.is(name);
 
 		return sw ? this.set(name) : this.unset(name);
 
@@ -587,15 +587,15 @@ Ergo.alias('mixins:statable', {
 
 
 
-	set stt(v) {
-		var self = this;
-		if(Array.isArray(v)) {
-			v = v.join(' ');
-		}
-		v.split(' ').forEach(function(s) {
-			self.states.set(s);
-		});
-	},
+	// set stt(v) {
+	// 	var self = this;
+	// 	if(Array.isArray(v)) {
+	// 		v = v.join(' ');
+	// 	}
+	// 	v.split(' ').forEach(function(s) {
+	// 		self.states.set(s);
+	// 	});
+	// },
 
 
 
@@ -625,6 +625,25 @@ Ergo.alias('mixins:statable', {
 			}
 		}
 
+	},
+
+
+
+
+	is: function(name) {
+		return this.states.is(name);
+	},
+
+	set: function(name) {
+		this.states.set(name);
+	},
+
+	unset: function(name) {
+		this.states.unset(name);
+	},
+
+	toggle: function(name, on) {
+		this.states.toggle(name, on);
 	}
 
 
@@ -640,6 +659,8 @@ Ergo.alias('mixins:statable', {
  * @mixin statable
  */
 
+
+/*
 Ergo.alias('includes:statable', {
 
 	_construct: function(o) {
@@ -689,3 +710,4 @@ Ergo.alias('includes:statable', {
 
 
 });
+*/

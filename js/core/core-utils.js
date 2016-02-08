@@ -139,7 +139,12 @@
 	E.print = JSON.stringify;
 
 
-	E.indent_s = '\t';
+	E.indent_s = '  ';
+
+	E.prettyPrint = function(obj) {
+		return JSON.stringify(obj, null, E.indent_s);
+	}
+
 
 	/**
 	 * Печать объекта в удобочитаемой форме
@@ -151,44 +156,44 @@
 	 * @param {Integer} i_symb исимвол отступа
 	 * @returns {String}
 	 */
-	E.prettyPrint = function(obj, indent) {
-
-		if(obj == undefined) return undefined;
-
-		indent = indent || 0;
-		var tabs = '';
-		for(var i = 0; i < indent; i++) tabs += E.indent_s;
-
-		if(obj.prettyPrint) return obj.prettyPrint(indent);
-
-		if($.isString(obj))
-			return '"'+obj.replace(/\n/g, '\\n')+'"';
-		else if($.isBoolean(obj))
-			return ''+obj;
-		else if($.isNumeric(obj) || $.isBoolean(obj))
-			return obj;
-		else if($.isArray(obj)){
-			var items = [];
-			E.each(obj, function(item){
-				items.push(E.prettyPrint(item, indent));
-			});
-			return '[' + items.join(', ') + ']';
-		}
-		else if($.isFunction(obj)){
-			return 'function() { ... }';
-		}
-		else if($.isPlainObject(obj) || !indent){
-			var items = [];
-			E.each(obj, function(item, key){
-				if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
-				items.push(tabs + E.indent_s + key + ': ' + E.prettyPrint(item, indent+1));
-			});
-			return '{\n' + items.join(',\n') + '\n' + tabs + '}';
-		}
-		else
-			return obj;
-
-	};
+	// E.prettyPrint = function(obj, indent) {
+	//
+	// 	if(obj == undefined) return undefined;
+	//
+	// 	indent = indent || 0;
+	// 	var tabs = '';
+	// 	for(var i = 0; i < indent; i++) tabs += E.indent_s;
+	//
+	// 	if(obj.prettyPrint) return obj.prettyPrint(indent);
+	//
+	// 	if($.isString(obj))
+	// 		return '"'+obj.replace(/\n/g, '\\n')+'"';
+	// 	else if($.isBoolean(obj))
+	// 		return ''+obj;
+	// 	else if($.isNumeric(obj) || $.isBoolean(obj))
+	// 		return obj;
+	// 	else if($.isArray(obj)){
+	// 		var items = [];
+	// 		E.each(obj, function(item){
+	// 			items.push(E.prettyPrint(item, indent));
+	// 		});
+	// 		return '[' + items.join(', ') + ']';
+	// 	}
+	// 	else if($.isFunction(obj)){
+	// 		return 'function() { ... }';
+	// 	}
+	// 	else if($.isPlainObject(obj) || !indent){
+	// 		var items = [];
+	// 		E.each(obj, function(item, key){
+	// 			if(key[0] == '!' || key[0] == '-' || key[0] == '+') key = "'"+key+"'";
+	// 			items.push(tabs + E.indent_s + key + ': ' + E.prettyPrint(item, indent+1));
+	// 		});
+	// 		return '{\n' + items.join(',\n') + '\n' + tabs + '}';
+	// 	}
+	// 	else
+	// 		return obj;
+	//
+	// };
 
 
 	/**
@@ -212,11 +217,11 @@
 	 * @name Ergo.timestamp
 	 * @function
 	 */
-	E.timestamp = function() {
+	E.ms = E.timestamp = function() {
 		return new Date().getTime();
 	};
 
-	E.ms = E.timestamp;
+//	E.ms = E.timestamp;
 
 
 
@@ -299,7 +304,7 @@
 
 
 
-	E.unformat_obj = function(format_str, obj) {
+	E.unformat_obj = function(ufmt, s) {
 
 		var n=0;
 
@@ -308,22 +313,53 @@
 		var keys = []
 
 		tmpl = tmpl.replace(/#\\{\s*(.+?)\s*\\}/g, function(str, key) {
+
+			key = key.replace(/\\\*|\\\|/g, function(s) {
+			  return s.substr(1);
+			});
+
 		  keys.push(key);
 		  return '(.+?)'
 		});
 
-		var m = s.match(tmpl);
+		var m = s.match('^'+tmpl+'$');
 
-		if( keys[0] == '*') {
-			return m[1];
+		var obj = {};
+
+		for(var i = 0; i < keys.length; i++ ) {
+			var k = keys[i];
+			var v = m[i+1];
+			var key_a = k.split('|');
+			k = key_a.shift(0);
+
+			key_a.forEach(function(fmt) {
+				fmt = Ergo.alias('formats:'+fmt);
+				if(!fmt) {
+					console.warn('Unformat ['+a[i]+'] is not registered');
+				}
+				v = fmt(v);
+			});
+
+			if(k == '*') {
+				return v;
+			}
+			else {
+				obj[k] = v;
+			}
 		}
-		else {
-			var v = {}
-			keys.forEach(function(key, i) {
-			  v[key] = m[i+1]
-			})
-			return v;
-		}
+
+		return obj;
+
+		// if( keys[0] == '*') {
+		// 	return m[1];
+		// }
+		// else {
+		// 	var v = {}
+		// 	keys.forEach(function(key, i) {
+		// 	  v[key] = m[i+1]
+		// 	})
+		// 	return v;
+		// }
 
 	};
 

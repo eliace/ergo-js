@@ -45,7 +45,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 		this._super(o);
 
 		if(o.cell) {

@@ -152,19 +152,13 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 //		this._constructing = true;
 
 		// определен набор базовых опций - можно выполнить донастройку опций
-		this._pre_construct(this.options);
-
-		// //FIXME повторная сборка опций (после PRE_CONSTRUCT могут появиться модификаторы опций)
-		// if(o.mixins && o.mixins.length)
-		// 	Ergo.smart_build(this.options);
-
-//		this.options = Ergo.smart_override(this.options, opts);
+		this._preConstruct(this.options);
 
 		// определен весь набор опций - можно выполнять сборку объекта
 		this._construct(this.options);
 
 		// объект готов - можно выполнить донастройку объекта
-		this._post_construct(this.options);
+		this._postConstruct(this.options);
 
 //		if(this.$init)
 //			this.$init(o);
@@ -208,7 +202,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @protected
 	 * @param {Object} o опции
 	 */
-	_pre_construct: function(o) {
+	_preConstruct: function(o) {
 
 		// динамическое подключение расширений
 		if('include' in o) {
@@ -216,8 +210,8 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._pre_construct)
-					inc._pre_construct.call(this, o);
+				if(inc._preConstruct)
+					inc._preConstruct.call(this, o);
 			}
 		}
 
@@ -226,6 +220,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		// 	$ergo.override(this, o.override);
 		// }
 
+/*
 		// динамическое создание свойств (то же самое можно сделать с помощью overrides)
 		var props = null;
 
@@ -247,7 +242,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		if(props) {
 			Object.defineProperties(this, props);
 		}
-
+*/
 
 	},
 
@@ -298,7 +293,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @protected
 	 * @param {Object} o опции
 	 */
-	_post_construct: function(o) {
+	_postConstruct: function(o) {
 
 // 		if('plugins' in o) {
 // 			for(var i = 0; i < o.plugins.length; i++) {
@@ -315,13 +310,13 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 //			var mods = o.mods.join(' ').split(' ').uniq();
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._post_construct)
-					inc._post_construct.call(this, o);
+				if(inc._postConstruct)
+					inc._postConstruct.call(this, o);
 			}
 		}
 
 
-
+		// инициализируем свойства
 		for(var i in o) {
 			if( !(i in Ergo.rules) ) {
 				this.prop(i, o[i]);
@@ -482,11 +477,15 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 * @name Object.is
 	 * @param {Any} ex расширение
 	 */
-	is: function(ex) {
-		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
-//		var o = this.options;
-//		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
-//		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
+// 	is: function(ex) {
+// 		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
+// //		var o = this.options;
+// //		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
+// //		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
+// 	},
+
+	includes: function(ex) {
+		return (this._includes) ? $ergo.contains(this._includes, ex) : false;
 	},
 
 
@@ -509,6 +508,76 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 });
 
+
+
+
+
+
+$ergo = Ergo.override(function(o, ns, scope) {
+
+//	var o = Ergo.smart_override.apply(this, arguments);
+
+	var etype = null;
+
+	if( Array.isArray(o) ) {
+		for(var i = o.length-1; i >= 0; i--) {
+			if(o[i])
+				etype = o[i].etype;
+			if(etype) break;
+		}
+	}
+	else {
+		etype = o.etype;
+		o = [o];
+	}
+
+
+	if(!etype) {
+//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
+		etype = 'widget';
+//		throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
+	}
+
+	// var ns = null;
+	// var scope = null;
+	//
+	// if( $.isString(ns_or_scope) ) {
+	// 	ns = ns_or_scope;
+	// }
+	// else {
+	// 	scope = ns_or_scope;
+	// }
+
+//	var etype = o.etype;
+	ns = ns || 'widgets';
+	var i = etype.indexOf(':');
+	if(i > 0) {
+		ns = etype.substr(0, i);
+		etype = etype.substr(i+1);
+	}
+
+	if( !Ergo['$'+ns] )
+		throw new Error('Namespace "'+ns+'" not defined');
+
+	o.etype = ns+':'+etype;
+
+	var w = Ergo['$'+ns](o, etype);//, scope);
+
+	scope = scope || Ergo._scope;
+
+	if(scope && w.options.sid) {//w.opt('scopeKey')) {
+		scope.addWidget( w.options.sid, w );
+	}
+
+	return w;
+
+}, Ergo);
+
+
+
+
+
+Ergo.$objects = $ergo.object.bind(this, 'objects');
 
 
 

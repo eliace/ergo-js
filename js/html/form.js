@@ -13,7 +13,9 @@
  * @name Ergo.html.Form
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Form', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.Form', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 //		html: '<form method="POST"/>'
@@ -21,12 +23,18 @@ Ergo.defineClass('Ergo.html.Form', 'Ergo.core.Widget', {
 		method: 'POST'
 	},
 
-	set action(v) {
-		this.vdom.el.setAttribute('action', v);
-	},
 
-	set method(v) {
-		this.vdom.el.setAttribute('method', v);
+	props: {
+		set: {
+			action: function(v) {
+				this.vdom.el.setAttribute('action', v);
+			},
+
+			method: function(v) {
+				this.vdom.el.setAttribute('method', v);
+			}
+		}
 	}
+
 
 }, 'html:form');

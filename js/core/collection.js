@@ -258,9 +258,10 @@ Ergo.core.Collection = function(src) {
 	 * Список всех ключей в коллекции
 	 */
 	keys: function() {
-		var k = [];
-		for(var i in this.src) k.push(i);
-		return k;
+		return Object.keys(this.src);
+		// var k = [];
+		// for(var i in this.src) k.push(i);
+		// return k;
 	}
 
 });

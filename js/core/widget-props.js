@@ -6,18 +6,29 @@ Ergo.WidgetProps = {
   props: {
 
     get: {
-      // text: function() {
-    	// 	if(this.$content) {
-    	// 		return this.$content.opt('text');
-    	// 	}
-    	// 	else {
-    	// 		return this.vdom.innerEl.textContent;
-    	// 	}
-    	// },
-
+      text: function() {
+    		if(this.$content) {
+    			return this.$content.opt('text');
+    		}
+    		else {
+    			return this.vdom.innerEl.textContent;
+    		}
+    	}
     },
 
     set: {
+
+      text: function(v) {
+    		if(this.$content) {
+    			this.$content.opt('text', v == null ? '': v);
+    		}
+    		else {
+    			this.vdom.innerEl.textContent = ( v == null ? '': v );
+    		}
+
+    		this.__txt = v;  //TODO пока это нужно только для оптимизации отрисовки
+    	},
+
       innerHtml: function(v) {
         this.vdom.innerEl.innerHTML = (v || '');
       },
@@ -40,14 +51,6 @@ Ergo.WidgetProps = {
     		}
     	},
 
-
-      format: function(v) {
-    		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
-    	},
-
-    	unformat: function(v) {
-    		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
-    	},
 
     	hidden: function(v) {
     		this.vdom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
@@ -75,5 +78,5 @@ Ergo.WidgetProps = {
     }
 
   }
-  
+
 };

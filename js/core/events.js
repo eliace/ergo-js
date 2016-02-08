@@ -489,7 +489,7 @@ Ergo.alias('includes:observable', {
 
 
 
-	_post_construct: function(o) {
+	_postConstruct: function(o) {
 
 
 		if('events' in o){

@@ -29,7 +29,9 @@
  * @name Ergo.html.Widget
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Widget', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.html.Widget', null, {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 	}
