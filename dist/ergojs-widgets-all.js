@@ -985,7 +985,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'icon': {
 				etype: 'icon',
-				cls: 'right',
+				as: 'right',
 				icon: 'caret',
 				weight: 10,
 				onClick: 'action:dropdown'
@@ -1004,7 +1004,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 				etype: 'text',
 				include: 'placeholder',
 				binding: false,
-				cls: 'text',
+				as: 'text',
 				onClick: 'action:dropdown'
 				// onClick: function(e) {
 				// 	this.events.rise('dropdown');
@@ -2317,6 +2317,10 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		if(hw > cw) {
 			this.$header.el.css('padding-right', hw-cw);
 		}
+		else if(hw < cw) {
+			this.$header.el.css('padding-right', 0);
+		}
+
 	},
 
 

@@ -41,6 +41,10 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 		if(hw > cw) {
 			this.$header.el.css('padding-right', hw-cw);
 		}
+		else if(hw < cw) {
+			this.$header.el.css('padding-right', 0);
+		}
+
 	},
 
 
