@@ -13542,7 +13542,7 @@ Ergo.alias('includes:selectable', {
 
 				// если выборка эксклюзивная, то нужно очистить текущую выборку
 				if(!multiselect) {
-					if(this._selected) {
+					if(this._selected && !this._selected._destroyed) {
 						this._selected.states.unset('selected');
 					}
 				}
@@ -13551,10 +13551,11 @@ Ergo.alias('includes:selectable', {
 					if(!this._selected)
 						this._selected = {};
 
-					if(this._selected[key]) {
+					if(this._selected[key] && !this._selected[key]._destroyed) {
 						this._selected[key].states.unset('selected');
 					}
 				}
+
 
 
 				// //
