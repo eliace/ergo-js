@@ -3,7 +3,7 @@
 
 Ergo.alias('includes:icon-addon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -19,17 +19,23 @@ Ergo.alias('includes:icon-addon', {
 			// 			etype: 'icon'
 			// 		}
 			// 	}
-			// }			
+			// }
 		}
 	},
 
-
-	overrides: {
-		set_icon: function(v) {
-			this.icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
+
+	// overrides: {
+	// 	set_icon: function(v) {
+	// 		this.icon.opt('text', v);
+	// 	}
+	// }
+
 });
-
-

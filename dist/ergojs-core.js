@@ -282,6 +282,52 @@ var Ergo = (function(){
 
 
 
+	E.mergeInclude = function(obj, inc) {
+
+		// for(var j = 0; j < includes.length; j++) {
+		// 	var inc = includes[j];
+
+			for(var i in inc) {
+				var desc = Object.getOwnPropertyDescriptor(inc, i);
+				if( desc && (desc.set || desc.get) ) {
+					var desc2 = Object.getOwnPropertyDescriptor(obj, i);
+					if(desc2) {
+						desc2.set = desc2.set || desc.set;
+						desc2.get = desc2.get || desc.get;
+					}
+					else {
+						desc2 = desc;
+					}
+					Object.defineProperty(obj, i , desc2);
+				}
+				else if(i == 'defaults') {
+					obj.options = $ergo.mergeOptions({}, [inc[i], obj.options]);
+				}
+				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' || i == '_postDestroy' || i == '_preDestroy') {
+					// skip
+				}
+
+				else if(typeof inc[i] == 'object') {
+					obj[i] = $ergo.deep_override(obj[i], inc[i]);
+				}
+				else {
+					obj[i] = inc[i];
+				}
+
+
+
+			}
+
+//		}
+
+		return obj;
+	};
+
+
+
+
+
+
 //	var _clear = false;
 
 
@@ -924,7 +970,7 @@ Ergo.globals = {
 		c.superclass = p_ctor.prototype;
 		c.super_ctor = p_ctor;
 
-		// для всех функций определяем класс и имя функции
+		// для всех функций определяем класс и имя функции (для _super)
 		for(var i in overrides) {
 			// ignore getters and setters
 			var desc = Object.getOwnPropertyDescriptor(overrides, i);
@@ -937,14 +983,26 @@ Ergo.globals = {
 			}
 		}
 
+		// переносим геттеры и сеттеры
 		E.mergeGettersAndSetters(c.prototype, c.superclass);
 
+		// перегружаем параметрами класса
 		E.override(c.prototype, overrides);
 
+		// добавляем примеси
+		if(overrides.mixins) {
+			overrides.mixins.forEach(function(mixin) {
+				if(typeof mixin == 'string') {
+					mixin = $ergo.alias('mixins:'+mixin);
+				}
+				$ergo.deep_override(c.prototype, mixin);
+			});
+		}
 
-		if(overrides.etype)
-			Ergo.alias(overrides.etype, c);
-//			_etypes[overrides.etype] = ctor;
+		// регистрируем
+		if(overrides.etype) {
+			$ergo.alias(overrides.etype, c);
+		}
 
 		// добавляем классу метод extend
 		c.extend = function(o) { return E.extend(this, o); };
@@ -2387,6 +2445,7 @@ Ergo.core.Object.extend = function(o) {
 
 
 
+
 Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
 	defaults: {
@@ -2485,15 +2544,18 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(!inc)
+				if(!inc) {
 					throw new Error('Include [includes:'+this._includes[i]+'] not found');
-				if(inc.defaults) {
-					this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
-//					rebuild = true;
 				}
-				if(inc.overrides) {
-					Ergo.override(this, inc.overrides);
-				}
+
+				$ergo.mergeInclude(this, inc);
+
+				// if(inc.defaults) {
+				// 	this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
+				// }
+				// if(inc.overrides) {
+				// 	Ergo.override(this, inc.overrides);
+				// }
 			}
 
 			// if(rebuild) {
@@ -2732,10 +2794,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			// else if( (o in this) && $ergo.hasGetter(this, o) ) {
 			// 	return this[o];
 			// }
-			var p = this.prop(o);
-
-			// или сохраненную опцию
-			return (p !== undefined) ? p : this.options[o];
+			return this.prop(o, null, this.options[o]);
 		}
 
 //		Ergo.smart_override(this.options, opts);
@@ -2754,12 +2813,15 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 
 
-	prop: function(i, v) {
+	prop: function(i, v, defaultValue) {
 
-		if(arguments.length == 1) {
+		if(arguments.length == 1 || arguments.length == 3) {
 
 			if( this.options.get && (i in this.options.get) ) {
 				return this.options.get[i].bind(this)();
+			}
+			else if( (i in this.props) && this.props[i].get ) {
+				return this.props[i].get.bind(this)(i);
 			}
 			else if( (i in this.props.get) ) {
 				return this.props.get[i].bind(this)();
@@ -2767,16 +2829,16 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			else if( (i in this) && $ergo.hasGetter(this, i) ) {
 				return this[i];
 			}
-//			else {
-//				console.warn('Property ['+i+'] not found');
-//			}
 
-			return;
+			return defaultValue;
 		}
 		else if(arguments.length == 2) {
 
 			if( this.options.set && (i in this.options.set) ) {
 				this.options.set[i].bind(this)(v);
+			}
+			else if( (i in this.props) && this.props[i].set ) {
+				this.props[i].set.bind(this)(v, i);
 			}
 			else if( (i in this.props.set) ) {
 				this.props.set[i].bind(this)(v);
@@ -10703,21 +10765,21 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-	set format(v) {
-		this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
-	},
-
-	get format() {
-		return this.__fmt;
-	},
-
-	set unformat(v) {
-		this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
-	},
-
-	get unformat() {
-		return this.__ufmt;
-	},
+	// set format(v) {
+	// 	this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
+	// },
+	//
+	// get format() {
+	// 	return this.__fmt;
+	// },
+	//
+	// set unformat(v) {
+	// 	this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
+	// },
+	//
+	// get unformat() {
+	// 	return this.__ufmt;
+	// },
 
 	/**
 	 * Получение значения, связанного с виджетом.
@@ -10741,8 +10803,10 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 
 		// если присутствует функция форматирования, то используем ее
-		if(this.__fmt)
-			val = this.__fmt.call(this, val);
+		var fmt = this._format || this.options.format;
+		if(fmt) {
+			val = (typeof fmt == 'string') ? $ergo.format_obj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
+		}
 
 		return val;
 	},
@@ -10764,10 +10828,12 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 //		if(o.store)
 //			val = o.store.call(this, val);
 
-		if(this.__ufmt)
-			val = this.__ufmt.call(this, val);
+		var ufmt = this._unformat || this.options.unformat;
+		if(ufmt) {
+			val = (typeof ufmt == 'string') ? $ergo.unformat_obj.call(this, ufmt, val) : ufmt.call(this, val);//this.__ufmt.call(this, val);
+		}
 
-		if(this.data){
+		if(this.data) {
 
 			// связывание будет обновлено автоматически
 			this.data.set(val);
@@ -10826,12 +10892,15 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-	prop: function(i, v) {
+	prop: function(i, v, defaultValue) {
 
-		if(arguments.length == 1) {
+		if(arguments.length == 1 || arguments.length == 3) {
 
 			if( this.options.get && (i in this.options.get) ) {
 				return this.options.get[i].bind(this)(i);
+			}
+			else if( (i in this.props) && this.props[i].get ) {
+				return this.props[i].get.bind(this)(i);
 			}
 			else if( i in this.props.get ) {
 				return this.props.get[i].bind(this)(i);
@@ -10842,16 +10911,16 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 			else if((this.__stt) && (i in this.__stt._states)) {
 				return this.states.is(i);
 			}
-			// else {
-			// 	console.warn('Property ['+i+'] not found');
-			// }
 
-			return;
+			return defaultValue;
 		}
 		else if(arguments.length == 2) {
 
 			if( this.options.set && (i in this.options.set) ) {
 				this.options.set[i].bind(this)(v, i);
+			}
+			else if( (i in this.props) && this.props[i].set ) {
+				this.props[i].set.bind(this)(v, i);
 			}
 			else if( (i in this.props.set) ) {
 				this.props.set[i].bind(this)(v, i);
@@ -13458,7 +13527,7 @@ Ergo.alias('includes:effects', {
 
 
 
-	overrides: {
+//	overrides: {
 
 		show: function() {
 
@@ -13541,7 +13610,7 @@ Ergo.alias('includes:effects', {
 
 
 
-	}
+//	}
 
 
 });
@@ -13573,17 +13642,15 @@ Ergo.alias('includes:selectable', {
 	},
 
 
-	overrides: {
-
-		set selected(selection) {
-			this.selection.set(selection);
-		},
-
-		get selected() {
-			return this.selection.get();
-		}
-
+	set selected(selection) {
+		this.selection.set(selection);
 	},
+
+	get selected() {
+		return this.selection.get();
+	},
+
+
 
 
 	_construct: function(opts) {
@@ -13826,7 +13893,7 @@ Ergo.alias('includes:pageable', {
 		as: 'pageable'
 	},
 
-	overrides: {
+//	overrides: {
 
 		set active(i) {
 
@@ -13866,7 +13933,7 @@ Ergo.alias('includes:pageable', {
 		}
 
 
-	}
+//	}
 
 
 });
@@ -13914,7 +13981,7 @@ $ergo.alias('includes:popup', {
 
 
 
-	overrides: {
+//	overrides: {
 
 		open: function(position) {
 
@@ -14119,10 +14186,10 @@ $ergo.alias('includes:popup', {
 				});
 			}
 
-		}
+		},
 
 
-	},
+//	},
 
 
 
@@ -14219,7 +14286,7 @@ Ergo.defineMixin('Ergo.mixins.Window', function(o) {
 
 Ergo.alias('includes:window', {
 
-	overrides: {
+//	overrides: {
 
 		open: function() {
 
@@ -14281,7 +14348,7 @@ Ergo.alias('includes:window', {
 
 		}
 
-	}
+//	}
 
 
 });
@@ -14327,8 +14394,6 @@ Ergo.alias('includes:modal', {
 		}
 	},
 
-
-	overrides: {
 
 		open: function() {
 
@@ -14515,7 +14580,6 @@ Ergo.alias('includes:modal', {
 		}
 
 
-	}
 
 
 });
@@ -14688,7 +14752,7 @@ Ergo.alias('includes:router', {
 
 
 
-  overrides: {
+//  overrides: {
 
 
     buildQuery: function(params) {
@@ -14865,7 +14929,7 @@ Ergo.alias('includes:router', {
     }
 
 
-  }
+//  }
 
 
 });
@@ -15101,7 +15165,7 @@ Ergo.alias('includes:user-input', {
   },
 
 
-  overrides: {
+//  overrides: {
 
     do_input: function(e) {
 
@@ -15126,7 +15190,7 @@ Ergo.alias('includes:user-input', {
 			}
     }
 
-  }
+//  }
 
 });
 
@@ -15179,7 +15243,7 @@ Ergo.alias('includes:exclusive-expand', {
 
 Ergo.alias('includes:placeholder', {
 
-  overrides: {
+//  overrides: {
 
     set placeholder(v) {
       var tag = this.el.prop('tagName').toLowerCase();
@@ -15203,7 +15267,7 @@ Ergo.alias('includes:placeholder', {
       }
     }
 
-  }
+//  }
 
 });
 

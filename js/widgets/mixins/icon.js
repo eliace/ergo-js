@@ -15,9 +15,11 @@ Ergo.alias('includes:icon', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -41,9 +43,11 @@ Ergo.alias('includes:xicon', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 
@@ -68,9 +72,11 @@ Ergo.alias('includes:icon:before', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -97,9 +103,11 @@ Ergo.alias('includes:icon:after', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -125,9 +133,11 @@ Ergo.alias('includes:xicon:after', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 
@@ -155,9 +165,11 @@ Ergo.alias('includes:icon:at-left', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -183,9 +195,11 @@ Ergo.alias('includes:icon:at-right', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -210,9 +224,11 @@ Ergo.alias('includes:xicon:at-right', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 

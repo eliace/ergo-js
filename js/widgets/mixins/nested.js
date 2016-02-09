@@ -9,13 +9,16 @@ Ergo.alias('includes:nested', {
 		}
 	},
 
-	overrides: {
-		set_label: function(v) {
-			this.label.opt('text', v);
+	props: {
+		set: {
+			label: function(v) {
+				this.$label.opt('text', v);
+			}
 		},
-		
-		get_label: function() {
-			this.label.opt('text');
+		get: {
+			label: function() {
+				return this.$label.opt('text');
+			}
 		}
 	}
 

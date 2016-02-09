@@ -947,21 +947,21 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-	set format(v) {
-		this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
-	},
-
-	get format() {
-		return this.__fmt;
-	},
-
-	set unformat(v) {
-		this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
-	},
-
-	get unformat() {
-		return this.__ufmt;
-	},
+	// set format(v) {
+	// 	this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
+	// },
+	//
+	// get format() {
+	// 	return this.__fmt;
+	// },
+	//
+	// set unformat(v) {
+	// 	this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
+	// },
+	//
+	// get unformat() {
+	// 	return this.__ufmt;
+	// },
 
 	/**
 	 * Получение значения, связанного с виджетом.
@@ -985,8 +985,10 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 //			val = (o.value) ? o.value.call(this) : this.opt('text');
 
 		// если присутствует функция форматирования, то используем ее
-		if(this.__fmt)
-			val = this.__fmt.call(this, val);
+		var fmt = this._format || this.options.format;
+		if(fmt) {
+			val = (typeof fmt == 'string') ? $ergo.format_obj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
+		}
 
 		return val;
 	},
@@ -1008,10 +1010,12 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 //		if(o.store)
 //			val = o.store.call(this, val);
 
-		if(this.__ufmt)
-			val = this.__ufmt.call(this, val);
+		var ufmt = this._unformat || this.options.unformat;
+		if(ufmt) {
+			val = (typeof ufmt == 'string') ? $ergo.unformat_obj.call(this, ufmt, val) : ufmt.call(this, val);//this.__ufmt.call(this, val);
+		}
 
-		if(this.data){
+		if(this.data) {
 
 			// связывание будет обновлено автоматически
 			this.data.set(val);
@@ -1070,12 +1074,15 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-	prop: function(i, v) {
+	prop: function(i, v, defaultValue) {
 
-		if(arguments.length == 1) {
+		if(arguments.length == 1 || arguments.length == 3) {
 
 			if( this.options.get && (i in this.options.get) ) {
 				return this.options.get[i].bind(this)(i);
+			}
+			else if( (i in this.props) && this.props[i].get ) {
+				return this.props[i].get.bind(this)(i);
 			}
 			else if( i in this.props.get ) {
 				return this.props.get[i].bind(this)(i);
@@ -1086,16 +1093,16 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 			else if((this.__stt) && (i in this.__stt._states)) {
 				return this.states.is(i);
 			}
-			// else {
-			// 	console.warn('Property ['+i+'] not found');
-			// }
 
-			return;
+			return defaultValue;
 		}
 		else if(arguments.length == 2) {
 
 			if( this.options.set && (i in this.options.set) ) {
 				this.options.set[i].bind(this)(v, i);
+			}
+			else if( (i in this.props) && this.props[i].set ) {
+				this.props[i].set.bind(this)(v, i);
 			}
 			else if( (i in this.props.set) ) {
 				this.props.set[i].bind(this)(v, i);

@@ -25,17 +25,15 @@ Ergo.alias('includes:selectable', {
 	},
 
 
-	overrides: {
-
-		set selected(selection) {
-			this.selection.set(selection);
-		},
-
-		get selected() {
-			return this.selection.get();
-		}
-
+	set selected(selection) {
+		this.selection.set(selection);
 	},
+
+	get selected() {
+		return this.selection.get();
+	},
+
+
 
 
 	_construct: function(opts) {

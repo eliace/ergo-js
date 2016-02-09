@@ -3012,13 +3012,16 @@ Ergo.alias('includes:label', {
 		}
 	},
 
-	overrides: {
-		set label(v) {
-			this.$label.opt('text', v);
+	props: {
+		set: {
+			label: function(v) {
+				this.$label.opt('text', v);
+			}
 		},
-
-		get label() {
-			this.$label.opt('text');
+		get: {
+			label: function() {
+				this.$label.opt('text');
+			}
 		}
 	}
 
@@ -3042,9 +3045,11 @@ Ergo.alias('includes:icon', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -3068,9 +3073,11 @@ Ergo.alias('includes:xicon', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 
@@ -3095,9 +3102,11 @@ Ergo.alias('includes:icon:before', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -3124,9 +3133,11 @@ Ergo.alias('includes:icon:after', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -3152,9 +3163,11 @@ Ergo.alias('includes:xicon:after', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 
@@ -3182,9 +3195,11 @@ Ergo.alias('includes:icon:at-left', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -3210,9 +3225,11 @@ Ergo.alias('includes:icon:at-right', {
 	},
 
 
-	overrides: {
-		set icon(v) {
-			this.$icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
@@ -3237,9 +3254,11 @@ Ergo.alias('includes:xicon:at-right', {
 	},
 
 
-	overrides: {
-		set xicon(v) {
-			this.$xicon.opt('text', v);
+	props: {
+		set: {
+			xicon: function(v) {
+				this.$xicon.prop('text', v);
+			}
 		}
 	}
 
@@ -3537,7 +3556,7 @@ Ergo.alias('includes:context-menu', {
 
 Ergo.alias('includes:icon-addon', {
 
-	defaults:{ 
+	defaults:{
 		components: {
 			icon: {
 				etype: 'icon',
@@ -3553,20 +3572,26 @@ Ergo.alias('includes:icon-addon', {
 			// 			etype: 'icon'
 			// 		}
 			// 	}
-			// }			
+			// }
 		}
 	},
 
-
-	overrides: {
-		set_icon: function(v) {
-			this.icon.opt('text', v);
+	props: {
+		set: {
+			icon: function(v) {
+				this.$icon.prop('text', v);
+			}
 		}
 	}
 
+
+	// overrides: {
+	// 	set_icon: function(v) {
+	// 		this.icon.opt('text', v);
+	// 	}
+	// }
+
 });
-
-
 
 
 
@@ -3586,9 +3611,11 @@ Ergo.alias('includes:+image', {
 	},
 
 
-	overrides: {
-		set image(v) {
-			this.$image.opt('src', v);
+	props: {
+		set: {
+			image: function(v) {
+				this.$image.opt('src', v);
+			}
 		}
 	}
 
@@ -3686,12 +3713,12 @@ Ergo.alias('includes:item-click-selection', {
 	},
 
 
-	overrides: {
-
-		set index(v) {
-			this.selection.set(v);
+	props: {
+		set: {
+			index: function(v) {
+				this.selection.set(v);
+			}
 		}
-
 	}
 
 });

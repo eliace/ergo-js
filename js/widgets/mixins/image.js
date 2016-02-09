@@ -16,9 +16,11 @@ Ergo.alias('includes:+image', {
 	},
 
 
-	overrides: {
-		set image(v) {
-			this.$image.opt('src', v);
+	props: {
+		set: {
+			image: function(v) {
+				this.$image.opt('src', v);
+			}
 		}
 	}
 

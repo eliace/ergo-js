@@ -38,7 +38,7 @@ var dependencies = function() {
 		deps.forEach(function(dep) {
 			var filepath = path.normalize( path.join(dir, dep+'.js') );
 			if( fs.existsSync(filepath) ) {
-    		
+
     		var f = new File({
     			path: filepath,
     			contents: fs.readFileSync(filepath)
@@ -76,7 +76,7 @@ var dependencies = function() {
 
   	}
 
-  	callback();		
+  	callback();
 	}
 
 
@@ -89,7 +89,7 @@ var dependencies = function() {
 
 gulp.task('scripts', function() {
 
-	gulp.src(["js/core/core.js", "js/data/data.js", "js/layouts/layouts.js", "js/mixins/mixins.js", "js/html/html.js"])
+	gulp.src(["js/core/core.js", "js/data/data.js", "js/layouts/layouts.js", "js/includes/includes.js", "js/html/html.js"])
 	  .pipe(dependencies())
     .pipe(concat("ergojs-core.js"))
     .pipe(gulp.dest("dist"));

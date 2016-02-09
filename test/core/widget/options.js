@@ -94,7 +94,7 @@ describe('Widget', function(){
 
 
 
-		it('should set property `get` and `set`', function() {
+		it('should use instance properties `get` and `set`', function() {
 
 			var w = $.ergo({
         etype: 'box',
@@ -113,7 +113,49 @@ describe('Widget', function(){
 			expect(w.item(0).prop('a')).to.be.eq('Alice');
 			expect(w.item(0).prop('b')).to.be.eq('Bob');
 
+
     });
+
+
+
+		it('should use class properties `get` and `set`', function() {
+
+			Ergo.defineClass('Ergo.core.TestClass', null, {
+				extends: 'Ergo.core.Object',
+				props: {
+					set: {
+						a: function(v) { this._a = v; }
+					},
+					get: {
+						a: function() { return this._a; }
+					},
+					'b': {
+						set: function(v) {this._b = v;},
+						get: function() {return this._b;}
+					}
+				},
+				get c() {
+          return this._c;
+        },
+				set c(v) {
+          this._c = v;
+        }
+      });
+
+
+			var w = new Ergo.core.TestClass({
+				a: 'Alice',
+				b: 'Bob',
+				c: 'Charlie'
+      });
+
+			expect(w.prop('a')).to.be.eq('Alice');
+			expect(w.prop('b')).to.be.eq('Bob');
+			expect(w.prop('c')).to.be.eq('Charlie');
+
+
+    });
+
 
 
 
@@ -218,16 +260,19 @@ describe('Widget', function(){
 				value: 4
       });
 
-			expect( typeof w.format ).to.be.eq('function');
+//			expect( typeof w.format ).to.be.eq('function');
 			expect( w.value ).to.be.eq(4)
 
 
 			var w = $.ergo({
         etype: 'box',
-        format: '#{a}'
+        format: '#{a}',
+				value: {a: 'Alice'}
       });
 
-			expect( typeof w.format ).to.be.eq('function');
+			expect( w.value ).to.be.eq('Alice');
+
+//			expect( typeof w.format ).to.be.eq('function');
 
 
     });
@@ -238,14 +283,15 @@ describe('Widget', function(){
 
       var w = $.ergo({
         etype: 'box',
+				value: 4,
         unformat: function(v) {
-					return v;
-				},
-				value: 4
+					return '!'+v;
+				}
       });
 
-			expect( typeof w.unformat ).to.be.eq('function');
-			expect( w.value ).to.be.eq(4)
+//			expect( typeof w.unformat ).to.be.eq('function');
+			expect( w.__val ).to.be.eq('!4');
+			expect( w.value ).to.be.eq('!4')
 
 
 			var w = $.ergo({
@@ -254,7 +300,9 @@ describe('Widget', function(){
 				value: 'Alice'
       });
 
-			expect( typeof w.unformat ).to.be.eq('function');
+//			expect( typeof w.unformat ).to.be.eq('function');
+			expect( w.__val ).to.be.eql({a: 'Alice'});
+			expect( w.value ).to.be.eql({a: 'Alice'});
 
 
     });

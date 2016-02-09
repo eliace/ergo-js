@@ -34,6 +34,7 @@ Ergo.core.Object.extend = function(o) {
 
 
 
+
 Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
 	defaults: {
@@ -132,15 +133,18 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 			for(var i = 0; i < this._includes.length; i++) {
 				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(!inc)
+				if(!inc) {
 					throw new Error('Include [includes:'+this._includes[i]+'] not found');
-				if(inc.defaults) {
-					this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
-//					rebuild = true;
 				}
-				if(inc.overrides) {
-					Ergo.override(this, inc.overrides);
-				}
+
+				$ergo.mergeInclude(this, inc);
+
+				// if(inc.defaults) {
+				// 	this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
+				// }
+				// if(inc.overrides) {
+				// 	Ergo.override(this, inc.overrides);
+				// }
 			}
 
 			// if(rebuild) {
@@ -379,10 +383,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			// else if( (o in this) && $ergo.hasGetter(this, o) ) {
 			// 	return this[o];
 			// }
-			var p = this.prop(o);
-
-			// или сохраненную опцию
-			return (p !== undefined) ? p : this.options[o];
+			return this.prop(o, null, this.options[o]);
 		}
 
 //		Ergo.smart_override(this.options, opts);
@@ -401,12 +402,15 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 
 
-	prop: function(i, v) {
+	prop: function(i, v, defaultValue) {
 
-		if(arguments.length == 1) {
+		if(arguments.length == 1 || arguments.length == 3) {
 
 			if( this.options.get && (i in this.options.get) ) {
 				return this.options.get[i].bind(this)();
+			}
+			else if( (i in this.props) && this.props[i].get ) {
+				return this.props[i].get.bind(this)(i);
 			}
 			else if( (i in this.props.get) ) {
 				return this.props.get[i].bind(this)();
@@ -414,16 +418,16 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			else if( (i in this) && $ergo.hasGetter(this, i) ) {
 				return this[i];
 			}
-//			else {
-//				console.warn('Property ['+i+'] not found');
-//			}
 
-			return;
+			return defaultValue;
 		}
 		else if(arguments.length == 2) {
 
 			if( this.options.set && (i in this.options.set) ) {
 				this.options.set[i].bind(this)(v);
+			}
+			else if( (i in this.props) && this.props[i].set ) {
+				this.props[i].set.bind(this)(v, i);
 			}
 			else if( (i in this.props.set) ) {
 				this.props.set[i].bind(this)(v);

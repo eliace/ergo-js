@@ -103,10 +103,8 @@ describe('Object', function(){
         defaults: {
           op: '+'
         },
-        overrides: {
-          set a(v) { this._a = v; },
-          get a() { return this._a; }
-        }
+        set a(v) { this._a = v; },
+        get a() { return this._a; }
       });
 
 

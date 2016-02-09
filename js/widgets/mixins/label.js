@@ -21,13 +21,16 @@ Ergo.alias('includes:label', {
 		}
 	},
 
-	overrides: {
-		set label(v) {
-			this.$label.opt('text', v);
+	props: {
+		set: {
+			label: function(v) {
+				this.$label.opt('text', v);
+			}
 		},
-
-		get label() {
-			this.$label.opt('text');
+		get: {
+			label: function() {
+				this.$label.opt('text');
+			}
 		}
 	}
 

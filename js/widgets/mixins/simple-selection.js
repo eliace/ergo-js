@@ -19,12 +19,12 @@ Ergo.alias('includes:item-click-selection', {
 	},
 
 
-	overrides: {
-
-		set index(v) {
-			this.selection.set(v);
+	props: {
+		set: {
+			index: function(v) {
+				this.selection.set(v);
+			}
 		}
-
 	}
 
 });

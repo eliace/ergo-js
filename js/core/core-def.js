@@ -282,6 +282,52 @@ var Ergo = (function(){
 
 
 
+	E.mergeInclude = function(obj, inc) {
+
+		// for(var j = 0; j < includes.length; j++) {
+		// 	var inc = includes[j];
+
+			for(var i in inc) {
+				var desc = Object.getOwnPropertyDescriptor(inc, i);
+				if( desc && (desc.set || desc.get) ) {
+					var desc2 = Object.getOwnPropertyDescriptor(obj, i);
+					if(desc2) {
+						desc2.set = desc2.set || desc.set;
+						desc2.get = desc2.get || desc.get;
+					}
+					else {
+						desc2 = desc;
+					}
+					Object.defineProperty(obj, i , desc2);
+				}
+				else if(i == 'defaults') {
+					obj.options = $ergo.mergeOptions({}, [inc[i], obj.options]);
+				}
+				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' || i == '_postDestroy' || i == '_preDestroy') {
+					// skip
+				}
+
+				else if(typeof inc[i] == 'object') {
+					obj[i] = $ergo.deep_override(obj[i], inc[i]);
+				}
+				else {
+					obj[i] = inc[i];
+				}
+
+
+
+			}
+
+//		}
+
+		return obj;
+	};
+
+
+
+
+
+
 //	var _clear = false;
 
 

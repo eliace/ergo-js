@@ -49,7 +49,7 @@
 		c.superclass = p_ctor.prototype;
 		c.super_ctor = p_ctor;
 
-		// для всех функций определяем класс и имя функции
+		// для всех функций определяем класс и имя функции (для _super)
 		for(var i in overrides) {
 			// ignore getters and setters
 			var desc = Object.getOwnPropertyDescriptor(overrides, i);
@@ -62,14 +62,26 @@
 			}
 		}
 
+		// переносим геттеры и сеттеры
 		E.mergeGettersAndSetters(c.prototype, c.superclass);
 
+		// перегружаем параметрами класса
 		E.override(c.prototype, overrides);
 
+		// добавляем примеси
+		if(overrides.mixins) {
+			overrides.mixins.forEach(function(mixin) {
+				if(typeof mixin == 'string') {
+					mixin = $ergo.alias('mixins:'+mixin);
+				}
+				$ergo.deep_override(c.prototype, mixin);
+			});
+		}
 
-		if(overrides.etype)
-			Ergo.alias(overrides.etype, c);
-//			_etypes[overrides.etype] = ctor;
+		// регистрируем
+		if(overrides.etype) {
+			$ergo.alias(overrides.etype, c);
+		}
 
 		// добавляем классу метод extend
 		c.extend = function(o) { return E.extend(this, o); };
