@@ -966,7 +966,6 @@ Ergo.defineClass('Ergo.core.Widget', 'Ergo.core.Object', /** @lends Ergo.core.Wi
 
 	set scope(v) {
 		if(v != null && this.__scp != v) {
-			console.log('set scope');
 			this.__scp = v;
 			this._bindEvents('scope');
 		}
