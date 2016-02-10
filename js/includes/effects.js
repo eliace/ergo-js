@@ -32,13 +32,13 @@ Ergo.alias('includes:effects', {
 
 			var effect = false;
 
-//			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.isEmpty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
 
 
 				if(o.initial) {
-					o = Ergo.override({}, o, o.initial);
+					o = Ergo.merge({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
 
@@ -75,12 +75,12 @@ Ergo.alias('includes:effects', {
 
 			var effect = false;
 
-//			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.isEmpty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
 
 				if(o.initial) {
-					o = Ergo.override({}, o, o.initial);
+					o = Ergo.merge({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
 

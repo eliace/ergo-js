@@ -78,7 +78,7 @@
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src
 	 */
-	E.filter_keys = function(src, fn){
+	E.filterKeys = function(src, fn){
 		var result = [];
 		if(Array.isArray(src)) {
 			for(var i = 0; i < src.length; i++)
@@ -169,7 +169,7 @@
 	 * @name Ergo.find_all
 	 * @function
 	 */
-	E.find_all = E.filter;
+	E.findAll = E.filter;
 
 
 
@@ -183,10 +183,10 @@
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий
 	 */
-	E.key_of = function(obj, criteria) {
+	E.keyOf = function(obj, criteria) {
 
 		if(!$.isFunction(criteria))
-			criteria = E.eq.curry(criteria);
+			criteria = E.eq.bind(this, criteria);
 
 		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++)
@@ -200,7 +200,7 @@
 	};
 
 
-	E.index_of = E.key_of;
+	E.indexOf = E.keyOf;
 
 
 	/**
@@ -208,16 +208,16 @@
 	 *
 	 * Аргументы вызываемого метода передаются в виде массива
 	 *
-	 * Ergo.apply_all(items, 'show', [10, 45]);
+	 * Ergo.applyAll(items, 'show', [10, 45]);
 	 *
-	 * @name Ergo.apply_all
+	 * @name Ergo.applyAll
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {String} m_name имя метода
 	 * @param {Array} [args] список аргументов
 	 *
 	 */
-	E.apply_all = function(obj, m_name, args) {
+	E.applyAll = function(obj, m_name, args) {
 		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++) {
 				if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
@@ -243,7 +243,7 @@
 	 * @param {String} m_name имя метода
 	 *
 	 */
-	E.call_all = function(obj, m_name) {
+	E.callAll = function(obj, m_name) {
 		var args = [];
 		for(var i = 2; i < arguments.length; i++) args[i-2] = arguments[i];
 		for(var i in obj) {
@@ -272,7 +272,7 @@
 	};
 
 	E.contains = E.includes;
-	E.is_include = E.includes;
+//	E.is_include = E.includes;
 
 
 

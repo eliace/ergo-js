@@ -1,6 +1,8 @@
 
 
-Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Form', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'form'
@@ -25,7 +27,9 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
+Ergo.defineClass('Ergo.layouts.HForm', {
+
+	extends: 'Ergo.layouts.Grid',
 
 	defaults: {
 		name: 'hform'
@@ -57,7 +61,9 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 
 
 
-Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
+Ergo.defineClass('Ergo.layouts.VForm', {
+
+	extends: 'Ergo.layouts.Grid',
 
 	defaults: {
 		name: 'vform'

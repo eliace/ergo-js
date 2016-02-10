@@ -14,7 +14,7 @@ var Ergo = (function(){
 	 * @name Ergo.override
 	 * @function
 	 */
-	E.override = function(obj) {
+	E.merge = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides) {
@@ -39,6 +39,7 @@ var Ergo = (function(){
 	};
 
 
+
 	// E.merge = function(obj) {
 	// 	for(var j = 1; j < arguments.length; j++){
 	// 		var overrides = arguments[j] || {};
@@ -57,7 +58,7 @@ var Ergo = (function(){
 
 
 	// с объектом сливаются геттеры/сеттеры, которых в нем нет
-	E.mergeGettersAndSetters = function(obj) {
+	E.mergeProperties = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides) {
@@ -86,11 +87,11 @@ var Ergo = (function(){
 	/**
 	 * Полное копирование свойств одного объекта в другой (перегрузка)
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
-	 * @name @Ergo.deep_override
+	 * @name @Ergo.deepMerge
 	 * @function
 	 *
 	 */
-	E.deep_override = function(o) {
+	E.deepMerge = function(o) {
 
 		for(var j = 1; j < arguments.length; j++) {
 
@@ -104,12 +105,12 @@ var Ergo = (function(){
 				if( p && p.constructor == Object ){//$.isPlainObject(p) ){
 	//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 					if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
-					Ergo.deep_override(o[i], p);
+					Ergo.deepMerge(o[i], p);
 				}
 				else if( p && p.constructor == Array ) {//$.isArray(p) ){
 	//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
 					if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
-					Ergo.deep_override(o[i], p);
+					Ergo.deepMerge(o[i], p);
 				}
 				else {
 					o[i] = p;
@@ -120,6 +121,11 @@ var Ergo = (function(){
 
 		return o;
 	};
+
+
+
+
+
 
 
 
@@ -178,7 +184,7 @@ var Ergo = (function(){
 		for(var i = 0; i < sources.length; i++) {
 			for(var j in sources[i]) {
 				var name = (j[0] == '~' || j[0] == '!') ? j.substr(1) : j;
-				var rule = rules[name] || rules['*'];
+				var rule = (rules[name] != null) ? rules[name] : rules['*'];
 
 				var a = o[name];
 				var b = sources[i][j];
@@ -195,8 +201,8 @@ var Ergo = (function(){
 						o[name] = b;
 					}
 					else if(rule[0] == 'override') {
-//						o[name] = (a == null) ? b : E.deep_override(a, b);
-						o[name] = (a == null) ? E.deep_copy(b) : E.deep_override(a, b);
+//						o[name] = (a == null) ? b : E.deepMerge(a, b);
+						o[name] = (a == null) ? E.deep_copy(b) : E.deepMerge(a, b);
 					}
 					else if( b.constructor === Object ) {
 						a = a || {};
@@ -220,7 +226,7 @@ var Ergo = (function(){
 					// 		o[name] = E.mergeOptions(a, b, rule[1]);
 					// 	}
 					// 	else if( rule[0] == 'override' ) {
-					// 		o[name] = (a == null) ? b : E.override(a, b);
+					// 		o[name] = (a == null) ? b : E.merge(a, b);
 					// 	}
 					//
 					// }
@@ -237,6 +243,9 @@ var Ergo = (function(){
 				// else if( rule && rule.constructor === Array ) {
 				// 	o[name] = E.mergeOptions(o[name] || [], sources[i][j], rule[0]);
 				// }
+				else if( rule === false ) {
+					o[name] = b;
+				}
 				else if( rule ) {
 
 					a = Array.isArray(a) ? a : [a];
@@ -266,7 +275,7 @@ var Ergo = (function(){
 
 				}
 				else if( a && b && b.constructor == Object ) {
-					$ergo.deep_override(o[name], b);
+					$ergo.deepMerge(o[name], b);
 				}
 				else {
 					o[name] = $ergo.deep_copy(b);
@@ -303,12 +312,12 @@ var Ergo = (function(){
 				else if(i == 'defaults') {
 					obj.options = $ergo.mergeOptions({}, [inc[i], obj.options]);
 				}
-				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' || i == '_postDestroy' || i == '_preDestroy') {
+				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' /*|| i == '_postDestroy' || i == '_preDestroy'*/) {
 					// skip
 				}
 
 				else if(typeof inc[i] == 'object') {
-					obj[i] = $ergo.deep_override(obj[i], inc[i]);
+					obj[i] = $ergo.deepMerge(obj[i], inc[i]);
 				}
 				else {
 					obj[i] = inc[i];
@@ -322,6 +331,17 @@ var Ergo = (function(){
 
 		return obj;
 	};
+
+
+
+
+
+	E.override = E.merge;
+	E.deepOverride = E.deepMerge;
+	E.overrideOptions = E.mergeOptions;
+	E.overrideProperties = E.mergeProperties;
+	E.overrideInclude = E.mergeInclude;
+
 
 
 
@@ -984,10 +1004,10 @@ Ergo.globals = {
 		}
 
 		// переносим геттеры и сеттеры
-		E.mergeGettersAndSetters(c.prototype, c.superclass);
+		E.mergeProperties(c.prototype, c.superclass);
 
 		// перегружаем параметрами класса
-		E.override(c.prototype, overrides);
+		E.merge(c.prototype, overrides);
 
 		// добавляем примеси
 		if(overrides.mixins) {
@@ -995,7 +1015,7 @@ Ergo.globals = {
 				if(typeof mixin == 'string') {
 					mixin = $ergo.alias('mixins:'+mixin);
 				}
-				$ergo.deep_override(c.prototype, mixin);
+				$ergo.deepMerge(c.prototype, mixin);
 			});
 		}
 
@@ -1019,9 +1039,9 @@ Ergo.globals = {
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса
 	 */
-	E.walk_hierarchy = function(ctor, callback) {
+	E.walkPrototypes = function(ctor, callback) {
 		if(!ctor) return;
-		E.walk_hierarchy(ctor.super_ctor, callback);
+		E.walkPrototypes(ctor.super_ctor, callback);
 		callback.call(this, ctor.prototype);
 	};
 
@@ -1108,14 +1128,13 @@ Ergo.globals = {
 	 * @name Ergo.defineClass
 	 * @function
 	 */
-	E.defineClass = function(class_name, bclass, overrides, etype) {
+	E.defineClass = function(class_name, overrides, etype) {
 
 		var base_class;
 
 		// `extends` class property
-		if('extends' in overrides) {
-			bclass = overrides.extends;
-		}
+		bclass = overrides.extends;
+		
 
 		if( typeof bclass == 'string' ) {
 			var cp_a = bclass.split('.');
@@ -1173,7 +1192,7 @@ Ergo.globals = {
 		if('mixins' in overrides) {
 			for(i in overrides.mixins) {
 				var mixin = overrides.mixins[i];
-				Ergo.deep_override(clazz.prototype, mixin);
+				Ergo.deepMerge(clazz.prototype, mixin);
 			}
 		}
 
@@ -1186,9 +1205,9 @@ Ergo.globals = {
 	/**
 	 * Синоним для Ergo.defineClass
 	 */
-	E.declare = E.defineClass;
+//	E.declare = E.defineClass;
 
-	E.define = E.defineClass;
+//	E.define = E.defineClass;
 
 
 	/**
@@ -1233,8 +1252,8 @@ Ergo.globals = {
 	 * @param {Object} obj
 	 *
 	 */
-	$.isClass = function(obj) {
-		return $.isFunction(obj) && (obj.superclass !== undefined);
+	E.isClass = function(obj) {
+		return (typeof obj == 'function') && (obj.superclass !== undefined);
 	};
 
 
@@ -1263,6 +1282,8 @@ String.prototype.capitalize = function() {
 /**
  * Добавление карринга к классу Function
  */
+
+/*
 Function.prototype.curry = function(arg) {
 	var F = this;
 	var pre_args = arguments;
@@ -1307,6 +1328,7 @@ Function.prototype.debounce = function(wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+*/
 
 
 
@@ -1481,7 +1503,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	 * @param {Function} callback функция, вызываемая для каждого элемента
 	 * @returns {Object|Array} отфильтрованный объект или массив, в зависимости типа src
 	 */
-	E.filter_keys = function(src, fn){
+	E.filterKeys = function(src, fn){
 		var result = [];
 		if(Array.isArray(src)) {
 			for(var i = 0; i < src.length; i++)
@@ -1572,7 +1594,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	 * @name Ergo.find_all
 	 * @function
 	 */
-	E.find_all = E.filter;
+	E.findAll = E.filter;
 
 
 
@@ -1586,10 +1608,10 @@ Function.prototype.debounce = function(wait, immediate) {
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий
 	 */
-	E.key_of = function(obj, criteria) {
+	E.keyOf = function(obj, criteria) {
 
 		if(!$.isFunction(criteria))
-			criteria = E.eq.curry(criteria);
+			criteria = E.eq.bind(this, criteria);
 
 		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++)
@@ -1603,7 +1625,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	};
 
 
-	E.index_of = E.key_of;
+	E.indexOf = E.keyOf;
 
 
 	/**
@@ -1611,16 +1633,16 @@ Function.prototype.debounce = function(wait, immediate) {
 	 *
 	 * Аргументы вызываемого метода передаются в виде массива
 	 *
-	 * Ergo.apply_all(items, 'show', [10, 45]);
+	 * Ergo.applyAll(items, 'show', [10, 45]);
 	 *
-	 * @name Ergo.apply_all
+	 * @name Ergo.applyAll
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {String} m_name имя метода
 	 * @param {Array} [args] список аргументов
 	 *
 	 */
-	E.apply_all = function(obj, m_name, args) {
+	E.applyAll = function(obj, m_name, args) {
 		if( Array.isArray(obj) ) {
 			for(var i = 0; i < obj.length; i++) {
 				if(obj[i][m_name]) obj[i][m_name].apply(obj[i], args || []);
@@ -1646,7 +1668,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	 * @param {String} m_name имя метода
 	 *
 	 */
-	E.call_all = function(obj, m_name) {
+	E.callAll = function(obj, m_name) {
 		var args = [];
 		for(var i = 2; i < arguments.length; i++) args[i-2] = arguments[i];
 		for(var i in obj) {
@@ -1675,7 +1697,7 @@ Function.prototype.debounce = function(wait, immediate) {
 	};
 
 	E.contains = E.includes;
-	E.is_include = E.includes;
+//	E.is_include = E.includes;
 
 
 
@@ -1851,10 +1873,10 @@ Function.prototype.debounce = function(wait, immediate) {
 
 		var f = null;
 
-		if( $.isString(i) ) f = F.by_opts.curry({'name': i});
-		else if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
-		else if( $.isClass(i) ) f = F.by_class.curry(i);
+		if( $.isString(i) ) f = $ergo.curry(F.by_opts, {'name': i});
+		else if( $.isNumeric(i) ) f = $ergo.curry(F.by_index, i);//return this.widgets[i]; // упрощаем
+		else if( $.isPlainObject(i) ) f = $ergo.curry(F.by_props, i);
+		else if( $ergo.isClass(i) ) f = $ergo.curry(F.by_class, i);
 		else if( $.isFunction(i) ) f = i;
 
 		return f;
@@ -2340,6 +2362,34 @@ Function.prototype.debounce = function(wait, immediate) {
 
 
 
+	E.curry = function(func) {
+		var F = func;
+		var post_args = arguments;
+		return function(){
+			var args = [];
+			for(var i = 1; i < post_args.length; i++) args.push(post_args[i]);
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+	//			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+
+
+	E.rcurry = function(func) {
+		var F = func;
+		var post_args = arguments;
+		return function(){
+			var args = [];
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+			for(var i = 1; i < post_args.length; i++) args.push(post_args[i]);
+	//			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+
+
+
+
 
 	E.debounce = function debounce(func, wait, immediate) {
 		var timeout;
@@ -2446,7 +2496,7 @@ Ergo.core.Object.extend = function(o) {
 
 
 
-Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
+Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
 	defaults: {
 		// options
@@ -2495,7 +2545,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		//
 		if(!this.constructor.NO_REBUILD_SKELETON) {
 			var prevDefaults = null;
-			Ergo.walk_hierarchy(this.constructor, function(clazz){
+			Ergo.walkPrototypes(this.constructor, function(clazz){
 				if(clazz.defaults == prevDefaults) return;
 				if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults);
 				prevDefaults = clazz.defaults;
@@ -2504,14 +2554,14 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			// var prevRules = null;
 			// Ergo.walk_hierarchy(this.constructor, function(clazz){
 			// 	if(clazz.rules == prevRules) return;
-			// 	if('rules' in clazz) $ergo.deep_override(r, clazz.rules);
+			// 	if('rules' in clazz) $ergo.deepMerge(r, clazz.rules);
 			// 	prevRules = clazz.rules;
 			// });
 
 			var prevProps = null;
-			Ergo.walk_hierarchy(this.constructor, function(clazz){
+			Ergo.walkPrototypes(this.constructor, function(clazz){
 				if(clazz.props == prevProps) return;
-				if('props' in clazz) $ergo.deep_override(p, clazz.props);
+				if('props' in clazz) $ergo.deepMerge(p, clazz.props);
 				prevProps = clazz.props;
 			});
 
@@ -2523,7 +2573,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 		}
 		else {
-			Ergo.deep_override(o, this.defaults);
+			Ergo.deepMerge(o, this.defaults);
 		}
 
 
@@ -2554,7 +2604,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				// 	this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
 				// }
 				// if(inc.overrides) {
-				// 	Ergo.override(this, inc.overrides);
+				// 	Ergo.merge(this, inc.overrides);
 				// }
 			}
 
@@ -2632,7 +2682,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 		// // динамическая перегрузка
 		// if('override' in o) {
-		// 	$ergo.override(this, o.override);
+		// 	$ergo.merge(this, o.override);
 		// }
 
 /*
@@ -2750,6 +2800,16 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 */
 	_destroy: function() {
 		//
+		
+		if(this._includes) {
+//			var mods = o.mods.join(' ').split(' ').uniq();
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
+				if(inc._destroy)
+					inc._destroy.call(this);
+			}
+		}
+
 	},
 
 
@@ -2798,7 +2858,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		}
 
 //		Ergo.smart_override(this.options, opts);
-		Ergo.override(this.options, opts);
+		Ergo.merge(this.options, opts);
 
 		for(var i in opts) {
 			if( !(i in Ergo.rules) ) {
@@ -2928,7 +2988,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 
 
-$ergo = Ergo.override(function(o, ns, scope) {
+$ergo = Ergo.merge(function(o, ns, scope) {
 
 //	var o = Ergo.smart_override.apply(this, arguments);
 
@@ -3065,7 +3125,7 @@ Ergo.core.Event = function(baseEvent) {
 	this._queue = [];
 }
 
-Ergo.override(Ergo.core.Event.prototype, {
+Ergo.merge(Ergo.core.Event.prototype, {
 
 	stop: function(stopHtmlEvent) {
 //		if(this.base) this.base.stopPropagation(); //FIXME
@@ -3114,7 +3174,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 });
 
 
-// Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
+// Ergo.defineClass('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 //
 // 	/**
 // 	 * @param {Object} overrides
@@ -3124,7 +3184,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 // 		this._super();
 // //		Ergo.events.Event.superclass._initialize.call(this);
 //
-// 		if(overrides) Ergo.override(this, overrides);
+// 		if(overrides) Ergo.merge(this, overrides);
 //
 // //		this.is_stopped = false;
 // 		this.baseEvent = baseEvent;
@@ -3147,7 +3207,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 // });
 
 
-// Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
+// Ergo.defineClass('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
 //
 	// /**
 	 // * @constructs
@@ -3177,7 +3237,7 @@ Ergo.override(Ergo.core.Event.prototype, {
  * @name Ergo.core.Observer
  * @extends Ergo.core.Object
  */
-// Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
+// Ergo.defineClass('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
 //
 // 	_initialize: function(target) {
 // 		this.events = {};
@@ -3190,7 +3250,7 @@ Ergo.core.Observer = function(target) {
 	this.target = target;
 }
 
-Ergo.override(Ergo.core.Observer.prototype, {
+Ergo.merge(Ergo.core.Observer.prototype, {
 
 
 
@@ -3296,7 +3356,7 @@ Ergo.override(Ergo.core.Observer.prototype, {
 //			e = new Ergo.events.Event();
 		}
 		else if( _event.constructor === Object ){
-			Ergo.override(e, _event);
+			Ergo.merge(e, _event);
 //			_event.baseEvent = baseEvent;
 //			e = new Ergo.events.Event(e, baseEvent);
 		}
@@ -3478,6 +3538,10 @@ Ergo.alias('mixins:observable', {
 		this.events.on.apply(this.events, arguments);
 	},
 
+	once: function() {
+		this.events.once.apply(this.events, arguments);
+	},
+
 	off: function() {
 		this.events.off.apply(this.events, arguments);
 	},
@@ -3614,7 +3678,7 @@ Ergo.alias('includes:observable', {
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototype */{
 
 	extends: 'Ergo.core.Object',
 
@@ -3675,7 +3739,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 //		this.events = new Ergo.events.Observer(this);
 
 		if(!o.lazy) {
-			Ergo.each(val, function(v, i){	self.entry(i); } );
+			$ergo.each(val, function(v, i){	self.entry(i); } );
 		}
 
 
@@ -3696,7 +3760,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 		// очищаем регистрацию обработчиков событий
 		this.events.off();
 		// удаляем все дочерние элементы
-		this.entries.apply_all('_destroy');
+		this.entries.applyAll('_destroy');
 		// while(this.entries.size()) {
 		// 	this.entries.first()._destroy();
 		// }
@@ -3881,6 +3945,12 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	},
 
 
+
+	raw: function() {
+		return this._val();
+	},
+
+
 	/**
 	 * Получение значения элемента по ключу
 	 *
@@ -3951,7 +4021,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 				});
 
 
-			if(this.entries.is_empty())
+			if(this.entries.isEmpty())
 				this.entries = Array.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
 
 			// удаляем все элементы
@@ -3974,7 +4044,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 
 
 			// опустошаем список элементов
-//			this.entries.apply_all('_destroy');
+//			this.entries.applyAll('_destroy');
 
 
 
@@ -4534,7 +4604,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	 */
 	clean: function() {
 		this._changed = false;
-		this.entries.apply_all('clean');
+		this.entries.applyAll('clean');
 	},
 
 
@@ -4544,7 +4614,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	 * @returns {Number}
 	 */
 	size: function() {
-		return Ergo.size(this._val());
+		return $ergo.size(this._val());
 	}
 
 
@@ -4554,7 +4624,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 
 
 
-Ergo.override(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
+Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 
@@ -4591,7 +4661,7 @@ Ergo.core.StateManager = function(target) {
 	this._exclusives = {};
 }
 
-Ergo.override(Ergo.core.StateManager.prototype, {
+Ergo.merge(Ergo.core.StateManager.prototype, {
 
 //Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
@@ -5297,7 +5367,7 @@ Ergo.core.VDOM = function() {
 
 
 
-Ergo.override(Ergo.core.VDOM.prototype, {
+Ergo.merge(Ergo.core.VDOM.prototype, {
 
 
 	_initialize: function(tag, widget, options, ns) {
@@ -5494,9 +5564,9 @@ Ergo.override(Ergo.core.VDOM.prototype, {
 //
 // }
 //
-// Ergo.override(Ergo.core.Layout.prototype, {
+// Ergo.merge(Ergo.core.Layout.prototype, {
 
-Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ {
+Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
 	extends: 'Ergo.core.VDOM',
 
@@ -5685,7 +5755,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: item_el, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: item_el, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}
@@ -6096,7 +6166,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}
@@ -6221,7 +6291,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}
@@ -6922,8 +6992,8 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
- Ergo.override(Ergo.core.Collection.prototype, {
-// Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
+ $ergo.merge(Ergo.core.Collection.prototype, {
+// Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -6940,7 +7010,7 @@ Ergo.core.Collection = function(src) {
 	},
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.Collection(v);
 	},
 
@@ -6969,7 +7039,7 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} i ключ
 	 */
 	unset: function(i) {
-		this.remove_at(i);
+		this.removeAt(i);
 	},
 
 	/**
@@ -6998,7 +7068,7 @@ Ergo.core.Collection = function(src) {
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	remove_at: function(i) {
+	removeAt: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
 		return item;
@@ -7009,36 +7079,39 @@ Ergo.core.Collection = function(src) {
 	/**
 	 * Удаление значения
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		this.remove_at(this.key_of(item));
+		this.removeAt(this.keyOf(item));
 		return item;
 	},
 
 	/**
 	 * Удаление значения по условию
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} criteria функция-условие
 	 *
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true
 	 */
-	remove_if: function(criteria) {
-		var keys = Ergo.filter_keys(this.src, criteria);
+	removeIf: function(criteria) {
+		var keys = Ergo.filterKeys(this.src, criteria);
 		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
-		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
+		for(var i = 0; i < keys.length; i++) {
+			removed.push( this.removeAt(keys[i]) );
+		}
 		return removed;
 	},
 
 
-	remove_all: function() {
-		for(i in this.src)
-			this.remove_at(i);
+	removeAll: function() {
+		for(i in this.src) {
+			this.removeAt(i);
+		}
 	},
 
 
@@ -7046,7 +7119,7 @@ Ergo.core.Collection = function(src) {
 	 * Очистка коллекции от всех значений
 	 */
 	clear: function() {
-		this.remove_all();
+		this.removeAll();
 //		this.src = {};
 	},
 
@@ -7055,7 +7128,7 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} callback
 	 */
 	each: function(callback) {
-		return Ergo.each(this.src, callback);
+		return $ergo.each(this.src, callback);
 	},
 
 //	ensure: function(i) {
@@ -7072,8 +7145,8 @@ Ergo.core.Collection = function(src) {
 	/**
 	 * Поиск всех элементов, удовлетворяющих критерию
 	 */
-	find_all: function(criteria) {
-		return Ergo.filter(this.src, callback);
+	findAll: function(criteria) {
+		return Ergo.findAll(this.src, callback);
 	},
 
 
@@ -7086,14 +7159,14 @@ Ergo.core.Collection = function(src) {
 	 * Фильтрация элементов
 	 */
 	filter: function(callback) {
-		return this.create( Ergo.filter(this.src, callback) );
+		return this._factory( Ergo.filter(this.src, callback) );
 	},
 
 	/**
 	 * Отображение элементов
 	 */
 	map: function(callback) {
-		return this.create( Ergo.map(this.src, callback) );
+		return this._factory( Ergo.map(this.src, callback) );
 	},
 
 	/**
@@ -7101,40 +7174,40 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} criteria
 	 */
 	includes: function(criteria) {
-		return Ergo.includes(this.src, callback);
+		return Ergo.contains(this.src, callback);
 	},
 
-	is_include: function(criteria) {
-		return Ergo.includes(this.src, callback);
+	isInclude: function(criteria) {
+		return Ergo.contains(this.src, callback);
 	},
 
 
 	/**
 	 * Размер коллекции
 	 */
-	size: function() {
+	count: function() {
 		var n = 0;
 		for(var i in this.src) n++;
 		return n;
 	},
 
-	count: function() {
-		return this.size();
+	size: function() {
+		return this.count();
 	},
 
 	/**
 	 * Проверка, является ли коллекция пустой
 	 */
-	is_empty: function() {
-		return this.size() == 0;
+	isEmpty: function() {
+		return this.count() == 0;
 	},
 
 	/**
 	 * Получение ключа элемента
 	 * @param {Object} item
 	 */
-	key_of: function(item) {
-		return Ergo.key_of(this.src, item);
+	keyOf: function(item) {
+		return Ergo.keyOf(this.src, item);
 	},
 
 	/**
@@ -7143,8 +7216,8 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} m
 	 * @param {Object} args
 	 */
-	apply_all: function(m, args, reverse) {
-		Ergo.apply_all(this.src, m, args, reverse);
+	applyAll: function(m, args, reverse) {
+		$ergo.applyAll(this.src, m, args, reverse);
 	},
 
 
@@ -7152,7 +7225,7 @@ Ergo.core.Collection = function(src) {
 	 * Проверка наличия элемента с указанным ключом
 	 * @param {Object} i ключ
 	 */
-	has_key: function(i) {
+	hasKey: function(i) {
 		return (i in this.src);
 	},
 
@@ -7161,9 +7234,6 @@ Ergo.core.Collection = function(src) {
 	 */
 	keys: function() {
 		return Object.keys(this.src);
-		// var k = [];
-		// for(var i in this.src) k.push(i);
-		// return k;
 	}
 
 });
@@ -7180,18 +7250,16 @@ Ergo.core.Collection = function(src) {
  * @extends Ergo.core.Collection
  *
  */
-Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @lends Ergo.core.Array.prototype */{
+Ergo.core.Array = Ergo.defineClass('Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
+
+	extends: 'Ergo.core.Collection',
 
 	_initialize: function(src, options) {
-//		this._super(src || [], options);
 		Ergo.core.Array.superclass._initialize.call(this, src || []);//, options);
-//		this.src = src || [];
-//		Ergo.Observable.call(this);
-//		this.events = new Ergo.events.Dispatcher();
 	},
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.Array(v);
 	},
 
@@ -7222,7 +7290,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	 * Удалить элемент по индексу
 	 * @param {Object} i
 	 */
-	remove_at: function(i) {
+	removeAt: function(i) {
 		var item = this.src[i];
 		this.src.splice(i, 1);
 		return item;
@@ -7230,12 +7298,12 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	},
 
 
-	remove_all: function() {
+	removeAll: function() {
 		while(this.src.length)
-			this.remove_at(0);
+			this.removeAt(0);
 	},
 
-	size: function() {
+	count: function() {
 		return this.src.length;
 	},
 
@@ -7268,7 +7336,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	},
 
 	copy: function() {
-		return this.create(this.src.slice(0));
+		return this._factory(this.src.slice(0));
 	}
 
 
@@ -7289,7 +7357,9 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.WidgetChildren.prototype */{
+Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren.prototype */{
+
+	extends: 'Ergo.core.Array',
 
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -7475,7 +7545,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-	remove_at: function(i) {
+	removeAt: function(i) {
 
 //		var key;
 		var w = this._widget;
@@ -7488,7 +7558,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 //		var item = this._super(i);
-		var item = Ergo.core.WidgetChildren.superclass.remove_at.call(this, i);
+		var item = Ergo.core.WidgetChildren.superclass.removeAt.call(this, i);
 
 
 //		if('hide' in item) item.hide();
@@ -7622,7 +7692,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-	remove_all: function() {
+	removeAll: function() {
 
 		var w = this._widget;
 
@@ -7648,7 +7718,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	// _destroy_all: function() {
 		// while(this.src.length)
-			// this.remove_at(0)._destroy();
+			// this.removeAt(0)._destroy();
 	// }
 
 //	find: function(i) {
@@ -7674,7 +7744,9 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.core.WidgetComponents.prototype */ {
+Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetComponents.prototype */ {
+
+	extends: 'Ergo.core.Array',
 
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -7706,7 +7778,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.WidgetComponents(this._widget);
 	},
 
@@ -7718,10 +7790,10 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 */
 	set: function(i, item) {
 		// if(i in this._widget)
-		// 	this.remove_at(i);
+		// 	this.removeAt(i);
 		if( ('$'+i) in this._widget)
 			this._widget['$'+i]._destroy();
-//			this._widget.children.remove_at(i);
+//			this._widget.children.removeAt(i);
 		return this._widget.children.add(item, i, this._type);
 	},
 
@@ -7754,9 +7826,9 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	remove_at: function(i) {
-//		return this._widget.children.remove_at(i);
-		var removed = this._widget.children.remove_if(function(v) {	return v._key == i;	});
+	removeAt: function(i) {
+//		return this._widget.children.removeAt(i);
+		var removed = this._widget.children.removeIf(function(v) {	return v._key == i;	});
 
 		return removed.length == 0 ? null : removed[0];
 	},
@@ -7764,36 +7836,36 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Удаление значения
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		return this.remove_at(item._key);
+		return this.removeAt(item._key);
 	},
 
 	/**
 	 * Удаление значения по условию
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} criteria функция-условие
 	 *
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true
 	 */
-	remove_if: function(criteria) {
+	removeIf: function(criteria) {
 		var keys = Ergo.filter_keys(this._source, criteria);
 		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
-		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
+		for(var i = 0; i < keys.length; i++) removed.push( this.removeAt(keys[i]) );
 		return removed;
 	},
 
 
-	remove_all: function() {
+	removeAll: function() {
 		var src = this._source;
 		for(i in src)
-			this.remove_at(i);
+			this.removeAt(i);
 	},
 
 
@@ -7801,7 +7873,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * Очистка коллекции от всех значений
 	 */
 	clear: function() {
-		this.remove_all();
+		this.removeAll();
 	},
 
 	/**
@@ -7918,7 +7990,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Поиск всех элементов, удовлетворяющих критерию
 	 */
-	find_all: function(criteria) {
+	findAll: function(criteria) {
 		return Ergo.filter(this._source, callback);
 	},
 
@@ -7953,7 +8025,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Размер коллекции
 	 */
-	size: function() {
+	count: function() {
 		var n = 0;
 		var src = this._source;
 		for(var i in src) n++;
@@ -7963,16 +8035,16 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Проверка, является ли коллекция пустой
 	 */
-	is_empty: function() {
-		return this.size() == 0;
+	isEmpty: function() {
+		return this.count() == 0;
 	},
 
 	/**
 	 * Получение ключа элемента
 	 * @param {Object} item
 	 */
-	key_of: function(item) {
-		return Ergo.key_of(this._source, item);
+	keyOf: function(item) {
+		return Ergo.keyOf(this._source, item);
 	},
 
 	/**
@@ -7981,8 +8053,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * @param {Object} m
 	 * @param {Object} args
 	 */
-	apply_all: function(m, args) {
-		Ergo.apply_all(this._source, m, args);
+	applyAll: function(m, args) {
+		Ergo.applyAll(this._source, m, args);
 	},
 
 
@@ -8034,7 +8106,9 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetItems.prototype */ {
+Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.prototype */ {
+
+	extends: 'Ergo.core.WidgetComponents',
 
 	_type: 'item',
 
@@ -8046,7 +8120,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.WidgetItems(this._widget);
 	},
 
@@ -8056,12 +8130,12 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 		return src[src.length-1];
 	},
 
-	size: function() {
+	count: function() {
 		var src = this._source;
 		return src.length;
 	},
 
-	remove_all: function() {
+	removeAll: function() {
 		var src = this._source;
 		for(var i = 0; i < src.length; i++)
 			this.remove(src[i]);//_at(src[i]._index);
@@ -8069,15 +8143,15 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 
 
-	remove_at: function(i) {
-		var removed = this._widget.children.remove_if(function(v) {	return v._index === i;	});
+	removeAt: function(i) {
+		var removed = this._widget.children.removeIf(function(v) {	return v._index === i;	});
 
 		return removed.length == 0 ? null : removed[0];
 	},
 
 
 	remove: function(item) {
-		return this.remove_at(item._index);
+		return this.removeAt(item._index);
 	},
 
 
@@ -8277,7 +8351,7 @@ Ergo.WidgetData = {
 
 //			this.layout.immediateRebuild = false;
 
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+			this.children.filter(function(c){ return c._dynamic; }).applyAll('_destroy');
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
@@ -8463,7 +8537,7 @@ Ergo.WidgetData = {
 	//			this.layout.immediateRebuild = false;
 
 				// // уничтожаем все динамические элементы
-				this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+				this.children.filter(function(c){ return c._dynamic; }).applyAll('_destroy');
 
 	//			var t0 = Ergo.timestamp();
 
@@ -8623,7 +8697,7 @@ Ergo.WidgetData = {
 			child._dataChanged(lazy, cascade, no_dynamic);
 		});
 //		}
-//			this.children.apply_all('_dataChanged', [true]);
+//			this.children.applyAll('_dataChanged', [true]);
 
 //		this.children.each(function(child) { child._dataChanged(); });
 
@@ -9542,7 +9616,7 @@ Ergo.WidgetRender = {
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 
 		if(cascade !== false && this.__c && !(this.data && this.options.dynamic)) {
-			this.__c.apply_all('_layoutChanged');
+			this.__c.applyAll('_layoutChanged');
 		}
 
 //		this.events.fire('layoutChanged');
@@ -9902,7 +9976,7 @@ Ergo.alias('mixins:jquery', {
  *
  *
  */
-Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype */{
+Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	extends: 'Ergo.core.Object',
 
@@ -9923,7 +9997,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 		// 	if( $.isString(layout) )
 		// 		layout = $.ergo({etype: layout}, 'layouts');
 		// 	else if(!(layout instanceof Ergo.core.Layout))
-		// 		layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
+		// 		layout = $.ergo(Ergo.merge({etype: 'default'}, layout), 'layouts');
 		// 	return layout;
 		// },
 //		events: {},
@@ -9982,8 +10056,12 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 	 * @protected
 	 */
 	_destroy: function(root) {
+		Ergo.core.Widget.superclass._destroy.call(this);
 
 		var self = this;
+
+
+		this.events.fire('beforeDestroy');
 
 		// if(this.options.hideOnDestroy && !noHide) {
 			// return this.hide().then(function() { self._destroy(true); });
@@ -9996,10 +10074,13 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 				this.data.events.off(this);
 
 			// очищаем регистрацию обработчиков событий
-			($context || Ergo.context).events.off(this);
+			if(this.context) {
+				this.context.events.off(this);
+			}
 
-			if(this.scope)
+			if(this.scope) {
 				this.scope.events.off(this); //FIXME события могут быть прикреплены не только к скоупуs
+			}
 
 			// очищаем регистрацию обработчиков событий
 			this.events.off();
@@ -10021,7 +10102,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 			if(this.__c) {
 
-				this.children.remove_all();
+				this.children.removeAll();
 
 				// очищаем компоновку
 //				this.layout.clear();  //?
@@ -10038,11 +10119,11 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 			// вызываем метод _destroy для всех дочерних компонентов
-			// while( !this.children.is_empty() ) {
+			// while( !this.children.isEmpty() ) {
 			// 	this.children.first()._destroy(true);
 			// }
 
-//			this.children.apply_all('_destroy');
+//			this.children.applyAll('_destroy');
 
 			this._destroyed = true;
 
@@ -10379,7 +10460,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 				this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
 			}
 
-			this.events.fire('afterBuild');
+			this.events.fire('afterConstruct');
 		}
 
 
@@ -11051,7 +11132,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 		if( $.isString(layout) )
 			layout = $.ergo({etype: layout}, 'layouts');
 		else if(!(layout instanceof Ergo.core.Layout))
-			layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
+			layout = $.ergo(Ergo.merge({etype: 'default'}, layout), 'layouts');
 		return layout;
 	},
 
@@ -11206,24 +11287,24 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 
-Ergo.deep_override(Ergo.core.Widget.prototype, Ergo.WidgetProps);
+Ergo.deepMerge(Ergo.core.Widget.prototype, Ergo.WidgetProps);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetData);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetData);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetRender);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetRender);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
 
 /*
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetAttributes);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetAttributes);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetRender);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetRender);
 */
 
 
@@ -11319,7 +11400,9 @@ Ergo.$widgets = $ergo.object.bind(this, 'widgets');
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
+Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
+
+	extends: 'Ergo.core.Object',
 
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
@@ -11443,7 +11526,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			// this.events.reg('scope:joined', function(e) {
 
 			// 	if(e.scope.history && !self._no_history) {
-			// 		window.history.pushState( Ergo.override({_scope: e.scope._name}, self._params), e.scope._name );//, 'title', '#'+url);
+			// 		window.history.pushState( Ergo.merge({_scope: e.scope._name}, self._params), e.scope._name );//, 'title', '#'+url);
 			// 	}
 
 			// });
@@ -11593,7 +11676,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {$prejoin: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}) );
 		}
 
 		scope_name = chain[chain.length-1];
@@ -11666,7 +11749,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			scope._parent = parent;
 	//		scope._container = container;
 
-	//		Ergo.override(scope, overrides);
+	//		Ergo.merge(scope, overrides);
 
 			scope._chain = parent ? parent._chain.concat(scope_name) : [scope_name];
 
@@ -11681,7 +11764,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 
-		scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+		scope._params = params || {};// Ergo.merge(this._params[scope_name], params);// this._params[scope_name];
 
 
 		var deferred = $.Deferred();
@@ -11700,7 +11783,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		Ergo._scope = scope;
 
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || true;
 
 		Ergo._scope = _scope;
 
@@ -11886,7 +11969,7 @@ $context = Ergo.context;
 *
 */
 
-Ergo.defineClass('Ergo.core.Scope', null, {
+Ergo.defineClass('Ergo.core.Scope', {
 
 	extends: 'Ergo.core.Object',
 
@@ -12070,7 +12153,7 @@ Ergo.defineClass('Ergo.core.Scope', null, {
  * @name Ergo.data.Collection
  * @extends Ergo.core.DataSource
  */
-Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.prototype */{
+Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototype */{
 
 	extends: 'Ergo.core.DataSource',
 
@@ -12135,7 +12218,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 		this._fetched = undefined;
 
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q);
+		var query = Ergo.merge({}, this.options.query, q);
 
 		this.events.fire('fetch');
 
@@ -12147,7 +12230,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 
 		if(provider) {
 			var self = this;
-			return provider.find_all(this, query).then(function(data) {
+			return provider.findAll(this, query).then(function(data) {
 
 				var v = parse.call(self, data);
 
@@ -12189,7 +12272,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 		this._fetched = undefined;
 
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q);
+		var query = Ergo.merge({}, this.options.query, q);
 
 		var provider = this.options.provider;
 
@@ -12354,7 +12437,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
+		if($.isFunction(model) && !$ergo.isClass(model)) model = model.call(this, this.get()[i]);
 		if($.isString(model)) model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 
@@ -12376,7 +12459,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
  * @name Ergo.data.Object
  * @extends Ergo.core.DataSource
  */
-Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype */{
+Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 
 	extends: 'Ergo.core.DataSource',
 
@@ -12638,7 +12721,7 @@ Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype
 			o = obj;
 			obj = obj.etype;
 		}
-		if($.isFunction(obj) && !$.isClass(obj))
+		if($.isFunction(obj) && !$ergo.isClass(obj))
 			obj = obj.call(this, this.get()[i]);
 		if($.isString(obj))
 			obj = Ergo.alias(obj);// || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
@@ -12656,7 +12739,7 @@ Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype
 
 
 
-Ergo.defineClass('Ergo.data.NodeList', null, {
+Ergo.defineClass('Ergo.data.NodeList', {
 
 	extends: 'Ergo.data.Collection',
 
@@ -12675,7 +12758,7 @@ Ergo.defineClass('Ergo.data.NodeList', null, {
 
 
 
-Ergo.defineClass('Ergo.data.Node', null, {
+Ergo.defineClass('Ergo.data.Node', {
 
 	extends: 'Ergo.data.Object',
 
@@ -12710,7 +12793,7 @@ Ergo.defineClass('Ergo.data.Node', null, {
 
 
 
-Ergo.defineClass('Ergo.data.PagedCollection', null, {
+Ergo.defineClass('Ergo.data.PagedCollection', {
 
 	extends: 'Ergo.data.Collection',
 
@@ -12752,7 +12835,7 @@ Ergo.defineClass('Ergo.data.PagedCollection', null, {
 
 		if(o.provider) {
 			var self = this;
-			return o.provider.get(this, Ergo.deep_override({}, this.options.query, {from: o.from,	to: o.to}))
+			return o.provider.get(this, Ergo.deepMerge({}, this.options.query, {from: o.from,	to: o.to}))
 				.then(function(response) {
 
 				o.from = response.from;
@@ -12778,7 +12861,7 @@ Ergo.defineClass('Ergo.data.PagedCollection', null, {
 
 
 
-Ergo.defineClass('Ergo.data.AjaxProvider', null, {
+Ergo.defineClass('Ergo.data.AjaxProvider', {
 
 	extends: 'Ergo.core.Object',
 
@@ -12794,7 +12877,7 @@ Ergo.defineClass('Ergo.data.AjaxProvider', null, {
 	},
 
 
-	find_all: function(ds, query) {
+	findAll: function(ds, query) {
 		return $.ajax({
 			url: this._url,
 			data: query,
@@ -12813,7 +12896,7 @@ Ergo.defineClass('Ergo.data.AjaxProvider', null, {
 
 
 
-Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 
 	// select: function(item) {
 		// return this.container.parent.el;
@@ -12861,7 +12944,10 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 }, 'layouts:inherited');
 
 
-Ergo.declare('Ergo.layouts.HBox', 'Ergo.core.Layout', {
+Ergo.alias('layouts:contents', Ergo.layouts.Inherited);
+
+
+Ergo.defineClass('Ergo.layouts.HBox', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'hbox'
@@ -12870,16 +12956,18 @@ Ergo.declare('Ergo.layouts.HBox', 'Ergo.core.Layout', {
 }, 'layouts:hbox');
 
 
-Ergo.declare('Ergo.layouts.Bar', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Bar', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'bar'
 	}
-	
+
 }, 'layouts:bar');
 
 
-Ergo.declare('Ergo.layouts.Row', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Row', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'rows'
@@ -12999,7 +13087,7 @@ Ergo.defineClass('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.VBox', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.VBox', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'vbox'
@@ -13008,7 +13096,7 @@ Ergo.declare('Ergo.layouts.VBox', 'Ergo.core.Layout', {
 }, 'layouts:vbox');
 
 
-Ergo.declare('Ergo.layouts.Stack', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Stack', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'stack'
@@ -13017,7 +13105,9 @@ Ergo.declare('Ergo.layouts.Stack', 'Ergo.core.Layout', {
 }, 'layouts:stack');
 
 
-Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Columns', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'columns'
@@ -13088,7 +13178,9 @@ Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
 
 
 
-Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Grid', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'grid',
@@ -13112,7 +13204,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 		var w = this._widget;
 
-		var n = w.children.size();
+		var n = w.children.count();
 		var k = (n == 0) ? 1 : (12/n).toFixed();
 
 
@@ -13201,7 +13293,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'table'
@@ -13227,7 +13319,7 @@ Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
 
 
 /*
-Ergo.declare('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'fluid'
@@ -13236,7 +13328,9 @@ Ergo.declare('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
 }, 'layouts:fluid');
 */
 
-Ergo.declare('Ergo.layouts.Float', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Float', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'float'
@@ -13246,7 +13340,7 @@ Ergo.declare('Ergo.layouts.Float', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'tiles'
@@ -13277,7 +13371,9 @@ Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
 }, 'layouts:tiles');
 
 
-Ergo.declare('Ergo.layouts.Band', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Band', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'band'
@@ -13296,7 +13392,9 @@ Ergo.declare('Ergo.layouts.Band', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Form', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'form'
@@ -13321,7 +13419,9 @@ Ergo.declare('Ergo.layouts.Form', 'Ergo.core.Layout', {
 
 
 
-Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
+Ergo.defineClass('Ergo.layouts.HForm', {
+
+	extends: 'Ergo.layouts.Grid',
 
 	defaults: {
 		name: 'hform'
@@ -13353,7 +13453,9 @@ Ergo.declare('Ergo.layouts.HForm', 'Ergo.layouts.Grid', {
 
 
 
-Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
+Ergo.defineClass('Ergo.layouts.VForm', {
+
+	extends: 'Ergo.layouts.Grid',
 
 	defaults: {
 		name: 'vform'
@@ -13438,40 +13540,44 @@ Ergo.declare('Ergo.layouts.VForm', 'Ergo.layouts.Grid', {
 
 
 
-Ergo.declare('Ergo.layouts.Center', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Center', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'center'
 	},
-	
-	
+
+
 	update: function() {
 		this._super();
-		
+
 		// var box_w = this._widget.parent.el.width();
 		// var box_h = this._widget.parent.el.width();
 
 		var w = this._widget.el.width();
 		var h = this._widget.el.height();
-		
+
 		this._widget.el.css({
 			'margin-left': -w/2,
 			'margin-top': -h/2
 		});
-		
+
 	}
-	
-	
+
+
 }, 'layouts:center');
 
 
 
-Ergo.declare('Ergo.layouts.Flex', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Flex', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'flex'
 	},
-	
+
 }, 'layouts:flex');
 
 
@@ -13533,13 +13639,13 @@ Ergo.alias('includes:effects', {
 
 			var effect = false;
 
-//			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.isEmpty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
 
 
 				if(o.initial) {
-					o = Ergo.override({}, o, o.initial);
+					o = Ergo.merge({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
 
@@ -13576,12 +13682,12 @@ Ergo.alias('includes:effects', {
 
 			var effect = false;
 
-//			if( !this.children.is_empty() || this.el.text() ) {  // ?
+//			if( !this.children.isEmpty() || this.el.text() ) {  // ?
 
 				var o = this.options.effects;
 
 				if(o.initial) {
-					o = Ergo.override({}, o, o.initial);
+					o = Ergo.merge({}, o, o.initial);
 					delete this.options.effects.initial;
 				}
 
@@ -13678,7 +13784,7 @@ Ergo.alias('includes:selectable', {
 				// ищем выбранный элемент
 				if( key instanceof Ergo.core.Object ) {
 					selected = key;
-					key = selected.opt('name');
+					key = selected.prop('name');
 				}
 				else {
 					selected = lookup.call(this._widget, key);
@@ -13696,7 +13802,7 @@ Ergo.alias('includes:selectable', {
 				// если выборка эксклюзивная, то нужно очистить текущую выборку
 				if(!multiselect) {
 					if(this._selected) {
-						this._selected.states.unset('selected');
+						this._selected.unset('selected');
 					}
 				}
 				else {
@@ -13705,7 +13811,7 @@ Ergo.alias('includes:selectable', {
 						this._selected = {};
 
 					if(this._selected[key]) {
-						this._selected[key].states.unset('selected');
+						this._selected[key].unset('selected');
 					}
 				}
 
@@ -13727,10 +13833,15 @@ Ergo.alias('includes:selectable', {
 //				this._selected.push(selected);
 
 
-				selected.states.set('selected');
+				selected.set('selected');
+
+				// если виджет будет удален, то нужно его выбросить из выборки
+				selected.events.once('beforeDestroy', function() {
+					this._selected = null;
+				}, this);
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get(), selected: selected});
+				this._widget.emit('selectionChanged', {selection: this.get(), selected: selected});
 
 				return selected;
 			},
@@ -13781,10 +13892,12 @@ Ergo.alias('includes:selectable', {
 //				Ergo.remove(this._selected, unselected);
 //				this._selected.remove(unselected);
 
-				unselected.states.unset('selected');
+				unselected.unset('selected');
+
+				unselected.off(this);
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get(), unselected: unselected});
+				this._widget.emit('selectionChanged', {selection: this.get(), unselected: unselected});
 
 			},
 
@@ -13820,7 +13933,7 @@ Ergo.alias('includes:selectable', {
 					return;
 
 
-				if( selected.states.is('selected') ) {
+				if( selected.is('selected') ) {
 					this.unset(key);
 				}
 				else {
@@ -13830,11 +13943,15 @@ Ergo.alias('includes:selectable', {
 			},
 
 
-			is_empty: function() {
+			isEmpty: function() {
 				return this._selected.length == 0;
 			},
 
 			size: function() {
+				return this._selected.length;
+			},
+
+			count: function() {
 				return this._selected.length;
 			},
 
@@ -13861,12 +13978,12 @@ Ergo.alias('includes:selectable', {
 				var o = this._widget.options.selection || {};
 
 				this.each(function(selected) {
-					selected.states.unset('selected');
+					selected.unset('selected');
 				});
 
 				this._selected = o.multiselect ? {} : null;
 
-				this._widget.events.fire('selectionChanged', {selection: this.get()});
+				this._widget.emit('selectionChanged', {selection: this.get()});
 			}
 
 
@@ -13988,9 +14105,9 @@ $ergo.alias('includes:popup', {
 			var popups = Ergo.context._popups;
 
 			// в эксклюзивном режиме закрываем другие всплывающие виджеты
-			if(!popups.is_empty() && this.options.popup.exclusive) {
-				popups.apply_all('close');
-				popups.remove_all();
+			if(!popups.isEmpty() && this.options.popup.exclusive) {
+				popups.applyAll('close');
+				popups.removeAll();
 			}
 
 
@@ -14170,7 +14287,7 @@ $ergo.alias('includes:popup', {
 			var self = this;
 			var popups = Ergo.context._popups;
 
-			var k = popups.key_of(this);
+			var k = popups.keyOf(this);
 			if( k > -1 ) {//Ergo.context._popup == this) {
 
 				if(this != popups.last()) popups.get(k+1).close();  //TODO возможно, будет лучше, если закрытия будут связаны в цепочку
@@ -14699,14 +14816,14 @@ Ergo.alias('includes:router', {
         var path = hash_a[0];
 
         if(hash_a.length > 1) {
-          $ergo.override( query, $ergo.parseQueryString(hash_a[1]) );
+          $ergo.merge( query, $ergo.parseQueryString(hash_a[1]) );
         }
 
         // восстанавлливаем параметры из search
         var search = window.location.search;
 
         if(search.length > 1) {
-          $ergo.override( query, $ergo.parseQueryString(search.substr(1)) );
+          $ergo.merge( query, $ergo.parseQueryString(search.substr(1)) );
         }
 
         e.params.$query = query;
@@ -14859,7 +14976,7 @@ Ergo.alias('includes:router', {
             $history: route.history
           };
 
-          $ergo.override(params, match, o); // merge path params and route params
+          $ergo.merge(params, match, o); // merge path params and route params
 //          $ergo.mergeOptions(opts, [o]); //
 
           return route.name;// {name: route.name, params: match, options: o};// this.join( route.name, match, o );
@@ -14913,7 +15030,7 @@ Ergo.alias('includes:router', {
       //       o.path += '?' + this.buildQuery(params.query);
       //     }
       //
-      //     Ergo.override(match, params); // merge path params and route params
+      //     Ergo.merge(match, params); // merge path params and route params
       //     Ergo.smart_override(o, opts); //
       //
       //     return this.join( route.name, match, o );
@@ -14971,9 +15088,9 @@ Ergo.alias('includes:history', {
 					// var name_a = e.scope._name.split(':');
 					// var p = {};
 					// p[name_a[0]] = (name_a.length > 1) ? name_a[1] : true;
-					// var p = Ergo.override(p, this._params[e.scope._name]);
+					// var p = Ergo.merge(p, this._params[e.scope._name]);
 //					var chain = scope._chain.join('.');
-//					var p = Ergo.deep_override({_scope: chain}, scope._params);
+//					var p = Ergo.deepMerge({_scope: chain}, scope._params);
 					window.history.pushState( p, scope._name, scope._params.$path );//opt('path') );//, 'title', '#'+url);
 
 					console.log('+ history', /*scope.opt('path')*/scope._params.$path, scope._name, p);
@@ -15160,14 +15277,14 @@ Ergo.alias('includes:user-input', {
 
   defaults: {
     events: {
-      'jquery:keyup': 'do_input'
+      'jquery:input': 'do_input'
     }
   },
 
 
 //  overrides: {
 
-    do_input: function(e) {
+    do_input: function(eventName, e) {
 
       var keyCode = e.keyCode;
 
@@ -15186,7 +15303,7 @@ Ergo.alias('includes:user-input', {
 				// TODO обработка служебных символов
 			}
 			else {
-				this.events.rise('input', {text: text, keyCode: keyCode});
+				this.rise('input', {text: text, keyCode: keyCode});
 			}
     }
 
@@ -15294,7 +15411,7 @@ Ergo.alias('includes:local-storage', {
 
 //           var json = JSON.parse( window.localStorage.getItem(this.options.lsKey) ) || {};
 //           json[e.scope._name] = e.params.ls;
-// //          Ergo.override( json.params, e.params.ls);
+// //          Ergo.merge( json.params, e.params.ls);
 //           window.localStorage.setItem(this.options.lsKey, JSON.stringify(json));
         }
 
@@ -15306,7 +15423,7 @@ Ergo.alias('includes:local-storage', {
         if(e.params && e.params.ls) {
           var json = JSON.parse( window.localStorage.getItem(this.options.lsKey) ) || {};
           json[e.scope._name] = e.params.ls;
-//          Ergo.override( json.params, e.params.ls);
+//          Ergo.merge( json.params, e.params.ls);
           window.localStorage.setItem(this.options.lsKey, JSON.stringify(json));
         }
 
@@ -15349,7 +15466,7 @@ Ergo.alias('includes:local-storage', {
  * @name Ergo.html.Iframe
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Iframe', null, {
+Ergo.defineClass('Ergo.html.Iframe', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15385,7 +15502,7 @@ Ergo.defineClass('Ergo.html.Iframe', null, {
  * @name Ergo.html.Input
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Input', null, {
+Ergo.defineClass('Ergo.html.Input', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15527,7 +15644,7 @@ Ergo.defineClass('Ergo.html.Input', null, {
  * @name Ergo.html.TextInput
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.TextInput', null, {
+Ergo.defineClass('Ergo.html.TextInput', {
 
 	extends: 'Ergo.html.Input',
 
@@ -15601,7 +15718,7 @@ Ergo.defineClass('Ergo.html.TextInput', null, {
  * @name Ergo.html.Checkbox
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Checkbox', null, /** @lends Ergo.html.Checkbox.prototype */{
+Ergo.defineClass('Ergo.html.Checkbox', /** @lends Ergo.html.Checkbox.prototype */{
 
 	extends: 'Ergo.html.Input',
 
@@ -15658,7 +15775,7 @@ Ergo.defineClass('Ergo.html.Checkbox', null, /** @lends Ergo.html.Checkbox.proto
  * @name Ergo.html.Radio
  * @extends Ergo.html.Checkbox
  */
-Ergo.defineClass('Ergo.html.Radio', null, /** @lends Ergo.html.Radio.prototype */{
+Ergo.defineClass('Ergo.html.Radio', /** @lends Ergo.html.Radio.prototype */{
 
 	extends: 'Ergo.html.Checkbox',
 
@@ -15696,7 +15813,7 @@ Ergo.defineClass('Ergo.html.Radio', null, /** @lends Ergo.html.Radio.prototype *
  * @name Ergo.html.Select
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Select', null, {
+Ergo.defineClass('Ergo.html.Select', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15747,7 +15864,7 @@ Ergo.defineClass('Ergo.html.Select', null, {
  * @name Ergo.html.Textarea
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.TextArea', null, {
+Ergo.defineClass('Ergo.html.TextArea', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15812,7 +15929,7 @@ Ergo.defineClass('Ergo.html.TextArea', null, {
  * @name Ergo.html.Button
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Button', null, {
+Ergo.defineClass('Ergo.html.Button', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15836,7 +15953,7 @@ Ergo.defineClass('Ergo.html.Button', null, {
  * @name Ergo.html.Img
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Img', null, {
+Ergo.defineClass('Ergo.html.Img', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15866,7 +15983,7 @@ Ergo.defineClass('Ergo.html.Img', null, {
  * @name Ergo.html.Label
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Label', null, {
+Ergo.defineClass('Ergo.html.Label', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15894,7 +16011,7 @@ Ergo.defineClass('Ergo.html.Label', null, {
  * @name Ergo.html.Label
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.A', null, {
+Ergo.defineClass('Ergo.html.A', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -15927,7 +16044,7 @@ Ergo.defineClass('Ergo.html.A', null, {
  * @name Ergo.widgets._Text
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html._Text', null, {
+Ergo.defineClass('Ergo.html._Text', {
 
   extends: 'Ergo.core.Widget',
 
@@ -15952,7 +16069,7 @@ Ergo.defineClass('Ergo.html._Text', null, {
  * @name Ergo.html.Form
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Form', null, {
+Ergo.defineClass('Ergo.html.Form', {
 
 	extends: 'Ergo.core.Widget',
 
@@ -16009,7 +16126,7 @@ Ergo.defineClass('Ergo.html.Form', null, {
  * @name Ergo.html.Widget
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Widget', null, {
+Ergo.defineClass('Ergo.html.Widget', {
 
 	extends: 'Ergo.core.Widget',
 

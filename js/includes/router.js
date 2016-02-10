@@ -15,14 +15,14 @@ Ergo.alias('includes:router', {
         var path = hash_a[0];
 
         if(hash_a.length > 1) {
-          $ergo.override( query, $ergo.parseQueryString(hash_a[1]) );
+          $ergo.merge( query, $ergo.parseQueryString(hash_a[1]) );
         }
 
         // восстанавлливаем параметры из search
         var search = window.location.search;
 
         if(search.length > 1) {
-          $ergo.override( query, $ergo.parseQueryString(search.substr(1)) );
+          $ergo.merge( query, $ergo.parseQueryString(search.substr(1)) );
         }
 
         e.params.$query = query;
@@ -175,7 +175,7 @@ Ergo.alias('includes:router', {
             $history: route.history
           };
 
-          $ergo.override(params, match, o); // merge path params and route params
+          $ergo.merge(params, match, o); // merge path params and route params
 //          $ergo.mergeOptions(opts, [o]); //
 
           return route.name;// {name: route.name, params: match, options: o};// this.join( route.name, match, o );
@@ -229,7 +229,7 @@ Ergo.alias('includes:router', {
       //       o.path += '?' + this.buildQuery(params.query);
       //     }
       //
-      //     Ergo.override(match, params); // merge path params and route params
+      //     Ergo.merge(match, params); // merge path params and route params
       //     Ergo.smart_override(o, opts); //
       //
       //     return this.join( route.name, match, o );

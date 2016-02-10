@@ -12,7 +12,7 @@
  * @name Ergo.html.Iframe
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Iframe', null, {
+Ergo.defineClass('Ergo.html.Iframe', {
 
 	extends: 'Ergo.core.Widget',
 

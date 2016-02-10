@@ -10,18 +10,16 @@
  * @extends Ergo.core.Collection
  *
  */
-Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @lends Ergo.core.Array.prototype */{
+Ergo.core.Array = Ergo.defineClass('Ergo.core.Array', /** @lends Ergo.core.Array.prototype */{
+
+	extends: 'Ergo.core.Collection',
 
 	_initialize: function(src, options) {
-//		this._super(src || [], options);
 		Ergo.core.Array.superclass._initialize.call(this, src || []);//, options);
-//		this.src = src || [];
-//		Ergo.Observable.call(this);
-//		this.events = new Ergo.events.Dispatcher();
 	},
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.Array(v);
 	},
 
@@ -52,7 +50,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	 * Удалить элемент по индексу
 	 * @param {Object} i
 	 */
-	remove_at: function(i) {
+	removeAt: function(i) {
 		var item = this.src[i];
 		this.src.splice(i, 1);
 		return item;
@@ -60,12 +58,12 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	},
 
 
-	remove_all: function() {
+	removeAll: function() {
 		while(this.src.length)
-			this.remove_at(0);
+			this.removeAt(0);
 	},
 
-	size: function() {
+	count: function() {
 		return this.src.length;
 	},
 
@@ -98,7 +96,7 @@ Ergo.core.Array = Ergo.declare('Ergo.core.Array', 'Ergo.core.Collection', /** @l
 	},
 
 	copy: function() {
-		return this.create(this.src.slice(0));
+		return this._factory(this.src.slice(0));
 	}
 
 

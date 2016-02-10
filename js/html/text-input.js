@@ -13,7 +13,7 @@
  * @name Ergo.html.TextInput
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.TextInput', null, {
+Ergo.defineClass('Ergo.html.TextInput', {
 
 	extends: 'Ergo.html.Input',
 

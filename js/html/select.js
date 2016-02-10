@@ -17,7 +17,7 @@
  * @name Ergo.html.Select
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Select', null, {
+Ergo.defineClass('Ergo.html.Select', {
 
 	extends: 'Ergo.core.Widget',
 

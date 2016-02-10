@@ -1,6 +1,6 @@
 
 
-Ergo.declare('Ergo.layouts.Table', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Table', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'table'

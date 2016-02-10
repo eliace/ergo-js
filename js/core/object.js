@@ -35,7 +35,7 @@ Ergo.core.Object.extend = function(o) {
 
 
 
-Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
+Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
 	defaults: {
 		// options
@@ -84,7 +84,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		//
 		if(!this.constructor.NO_REBUILD_SKELETON) {
 			var prevDefaults = null;
-			Ergo.walk_hierarchy(this.constructor, function(clazz){
+			Ergo.walkPrototypes(this.constructor, function(clazz){
 				if(clazz.defaults == prevDefaults) return;
 				if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults);
 				prevDefaults = clazz.defaults;
@@ -93,14 +93,14 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 			// var prevRules = null;
 			// Ergo.walk_hierarchy(this.constructor, function(clazz){
 			// 	if(clazz.rules == prevRules) return;
-			// 	if('rules' in clazz) $ergo.deep_override(r, clazz.rules);
+			// 	if('rules' in clazz) $ergo.deepMerge(r, clazz.rules);
 			// 	prevRules = clazz.rules;
 			// });
 
 			var prevProps = null;
-			Ergo.walk_hierarchy(this.constructor, function(clazz){
+			Ergo.walkPrototypes(this.constructor, function(clazz){
 				if(clazz.props == prevProps) return;
-				if('props' in clazz) $ergo.deep_override(p, clazz.props);
+				if('props' in clazz) $ergo.deepMerge(p, clazz.props);
 				prevProps = clazz.props;
 			});
 
@@ -112,7 +112,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 		}
 		else {
-			Ergo.deep_override(o, this.defaults);
+			Ergo.deepMerge(o, this.defaults);
 		}
 
 
@@ -143,7 +143,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 				// 	this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
 				// }
 				// if(inc.overrides) {
-				// 	Ergo.override(this, inc.overrides);
+				// 	Ergo.merge(this, inc.overrides);
 				// }
 			}
 
@@ -221,7 +221,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 		// // динамическая перегрузка
 		// if('override' in o) {
-		// 	$ergo.override(this, o.override);
+		// 	$ergo.merge(this, o.override);
 		// }
 
 /*
@@ -339,6 +339,16 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 	 */
 	_destroy: function() {
 		//
+		
+		if(this._includes) {
+//			var mods = o.mods.join(' ').split(' ').uniq();
+			for(var i = 0; i < this._includes.length; i++) {
+				var inc = Ergo._aliases['includes:'+this._includes[i]];
+				if(inc._destroy)
+					inc._destroy.call(this);
+			}
+		}
+
 	},
 
 
@@ -387,7 +397,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 		}
 
 //		Ergo.smart_override(this.options, opts);
-		Ergo.override(this.options, opts);
+		Ergo.merge(this.options, opts);
 
 		for(var i in opts) {
 			if( !(i in Ergo.rules) ) {
@@ -517,7 +527,7 @@ Ergo.override(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype 
 
 
 
-$ergo = Ergo.override(function(o, ns, scope) {
+$ergo = Ergo.merge(function(o, ns, scope) {
 
 //	var o = Ergo.smart_override.apply(this, arguments);
 

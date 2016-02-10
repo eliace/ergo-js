@@ -84,7 +84,7 @@
  *
  *
  */
-Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype */{
+Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	extends: 'Ergo.core.Object',
 
@@ -105,7 +105,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 		// 	if( $.isString(layout) )
 		// 		layout = $.ergo({etype: layout}, 'layouts');
 		// 	else if(!(layout instanceof Ergo.core.Layout))
-		// 		layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
+		// 		layout = $.ergo(Ergo.merge({etype: 'default'}, layout), 'layouts');
 		// 	return layout;
 		// },
 //		events: {},
@@ -164,8 +164,12 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 	 * @protected
 	 */
 	_destroy: function(root) {
+		Ergo.core.Widget.superclass._destroy.call(this);
 
 		var self = this;
+
+
+		this.events.fire('beforeDestroy');
 
 		// if(this.options.hideOnDestroy && !noHide) {
 			// return this.hide().then(function() { self._destroy(true); });
@@ -178,10 +182,13 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 				this.data.events.off(this);
 
 			// очищаем регистрацию обработчиков событий
-			($context || Ergo.context).events.off(this);
+			if(this.context) {
+				this.context.events.off(this);
+			}
 
-			if(this.scope)
+			if(this.scope) {
 				this.scope.events.off(this); //FIXME события могут быть прикреплены не только к скоупуs
+			}
 
 			// очищаем регистрацию обработчиков событий
 			this.events.off();
@@ -203,7 +210,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 			if(this.__c) {
 
-				this.children.remove_all();
+				this.children.removeAll();
 
 				// очищаем компоновку
 //				this.layout.clear();  //?
@@ -220,11 +227,11 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 			// вызываем метод _destroy для всех дочерних компонентов
-			// while( !this.children.is_empty() ) {
+			// while( !this.children.isEmpty() ) {
 			// 	this.children.first()._destroy(true);
 			// }
 
-//			this.children.apply_all('_destroy');
+//			this.children.applyAll('_destroy');
 
 			this._destroyed = true;
 
@@ -561,7 +568,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 				this.vdom.events.on('dblclick', function(e) { this.events.fire('doubleClick', {}, e); });
 			}
 
-			this.events.fire('afterBuild');
+			this.events.fire('afterConstruct');
 		}
 
 
@@ -1233,7 +1240,7 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 		if( $.isString(layout) )
 			layout = $.ergo({etype: layout}, 'layouts');
 		else if(!(layout instanceof Ergo.core.Layout))
-			layout = $.ergo(Ergo.override({etype: 'default'}, layout), 'layouts');
+			layout = $.ergo(Ergo.merge({etype: 'default'}, layout), 'layouts');
 		return layout;
 	},
 
@@ -1388,24 +1395,24 @@ Ergo.defineClass('Ergo.core.Widget', null, /** @lends Ergo.core.Widget.prototype
 
 
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 
-Ergo.deep_override(Ergo.core.Widget.prototype, Ergo.WidgetProps);
+Ergo.deepMerge(Ergo.core.Widget.prototype, Ergo.WidgetProps);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetData);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetData);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetRender);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetRender);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:jquery'));
 
 /*
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetAttributes);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetAttributes);
 
-Ergo.override(Ergo.core.Widget.prototype, Ergo.WidgetRender);
+Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetRender);
 */
 
 

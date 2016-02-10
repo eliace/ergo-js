@@ -10,7 +10,7 @@
  * @name Ergo.html.Radio
  * @extends Ergo.html.Checkbox
  */
-Ergo.defineClass('Ergo.html.Radio', null, /** @lends Ergo.html.Radio.prototype */{
+Ergo.defineClass('Ergo.html.Radio', /** @lends Ergo.html.Radio.prototype */{
 
 	extends: 'Ergo.html.Checkbox',
 

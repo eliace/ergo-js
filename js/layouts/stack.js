@@ -1,5 +1,5 @@
 
-Ergo.declare('Ergo.layouts.Stack', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Stack', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'stack'

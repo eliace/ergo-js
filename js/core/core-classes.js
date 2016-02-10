@@ -63,10 +63,10 @@
 		}
 
 		// переносим геттеры и сеттеры
-		E.mergeGettersAndSetters(c.prototype, c.superclass);
+		E.mergeProperties(c.prototype, c.superclass);
 
 		// перегружаем параметрами класса
-		E.override(c.prototype, overrides);
+		E.merge(c.prototype, overrides);
 
 		// добавляем примеси
 		if(overrides.mixins) {
@@ -74,7 +74,7 @@
 				if(typeof mixin == 'string') {
 					mixin = $ergo.alias('mixins:'+mixin);
 				}
-				$ergo.deep_override(c.prototype, mixin);
+				$ergo.deepMerge(c.prototype, mixin);
 			});
 		}
 
@@ -98,9 +98,9 @@
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса
 	 */
-	E.walk_hierarchy = function(ctor, callback) {
+	E.walkPrototypes = function(ctor, callback) {
 		if(!ctor) return;
-		E.walk_hierarchy(ctor.super_ctor, callback);
+		E.walkPrototypes(ctor.super_ctor, callback);
 		callback.call(this, ctor.prototype);
 	};
 
@@ -187,14 +187,13 @@
 	 * @name Ergo.defineClass
 	 * @function
 	 */
-	E.defineClass = function(class_name, bclass, overrides, etype) {
+	E.defineClass = function(class_name, overrides, etype) {
 
 		var base_class;
 
 		// `extends` class property
-		if('extends' in overrides) {
-			bclass = overrides.extends;
-		}
+		bclass = overrides.extends;
+		
 
 		if( typeof bclass == 'string' ) {
 			var cp_a = bclass.split('.');
@@ -252,7 +251,7 @@
 		if('mixins' in overrides) {
 			for(i in overrides.mixins) {
 				var mixin = overrides.mixins[i];
-				Ergo.deep_override(clazz.prototype, mixin);
+				Ergo.deepMerge(clazz.prototype, mixin);
 			}
 		}
 
@@ -265,9 +264,9 @@
 	/**
 	 * Синоним для Ergo.defineClass
 	 */
-	E.declare = E.defineClass;
+//	E.declare = E.defineClass;
 
-	E.define = E.defineClass;
+//	E.define = E.defineClass;
 
 
 	/**
@@ -312,8 +311,8 @@
 	 * @param {Object} obj
 	 *
 	 */
-	$.isClass = function(obj) {
-		return $.isFunction(obj) && (obj.superclass !== undefined);
+	E.isClass = function(obj) {
+		return (typeof obj == 'function') && (obj.superclass !== undefined);
 	};
 
 

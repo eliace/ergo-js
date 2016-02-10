@@ -1,5 +1,5 @@
 
-Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 
 	// select: function(item) {
 		// return this.container.parent.el;
@@ -45,3 +45,6 @@ Ergo.declare('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 
 
 }, 'layouts:inherited');
+
+
+Ergo.alias('layouts:contents', Ergo.layouts.Inherited);

@@ -21,7 +21,7 @@ Ergo.alias('includes:local-storage', {
 
 //           var json = JSON.parse( window.localStorage.getItem(this.options.lsKey) ) || {};
 //           json[e.scope._name] = e.params.ls;
-// //          Ergo.override( json.params, e.params.ls);
+// //          Ergo.merge( json.params, e.params.ls);
 //           window.localStorage.setItem(this.options.lsKey, JSON.stringify(json));
         }
 
@@ -33,7 +33,7 @@ Ergo.alias('includes:local-storage', {
         if(e.params && e.params.ls) {
           var json = JSON.parse( window.localStorage.getItem(this.options.lsKey) ) || {};
           json[e.scope._name] = e.params.ls;
-//          Ergo.override( json.params, e.params.ls);
+//          Ergo.merge( json.params, e.params.ls);
           window.localStorage.setItem(this.options.lsKey, JSON.stringify(json));
         }
 

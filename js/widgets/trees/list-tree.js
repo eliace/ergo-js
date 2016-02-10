@@ -1,5 +1,5 @@
 
-Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
+Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 	
 	defaults: {
 		cls: 'list-tree',

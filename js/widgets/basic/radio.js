@@ -11,15 +11,15 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 		events: {
 			// действие пользователя
 			'jquery:click': function() {
-				this.events.rise('change', {value: !this.opt('value')});
+				this.rise('change', {value: !this.opt('value')});
 			},
 			'change': function(e) {
-				this.opt('value', e.value);
+				this.prop('value', e.value);
 			}
 		},
 		binding: function(v) {
 			console.log('radio invalidate', v);
-			this.states.toggle('checked', !(!v));
+			this.toggle('checked', !(!v));
 		}
 	}
 

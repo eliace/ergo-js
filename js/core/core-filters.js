@@ -77,10 +77,10 @@
 
 		var f = null;
 
-		if( $.isString(i) ) f = F.by_opts.curry({'name': i});
-		else if( $.isNumeric(i) ) f = F.by_index.curry(i);//return this.widgets[i]; // упрощаем
-		else if( $.isPlainObject(i) ) f = F.by_props.curry(i);
-		else if( $.isClass(i) ) f = F.by_class.curry(i);
+		if( $.isString(i) ) f = $ergo.curry(F.by_opts, {'name': i});
+		else if( $.isNumeric(i) ) f = $ergo.curry(F.by_index, i);//return this.widgets[i]; // упрощаем
+		else if( $.isPlainObject(i) ) f = $ergo.curry(F.by_props, i);
+		else if( $ergo.isClass(i) ) f = $ergo.curry(F.by_class, i);
 		else if( $.isFunction(i) ) f = i;
 
 		return f;

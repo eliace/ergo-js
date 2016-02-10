@@ -463,6 +463,34 @@
 
 
 
+	E.curry = function(func) {
+		var F = func;
+		var post_args = arguments;
+		return function(){
+			var args = [];
+			for(var i = 1; i < post_args.length; i++) args.push(post_args[i]);
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+	//			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+
+
+	E.rcurry = function(func) {
+		var F = func;
+		var post_args = arguments;
+		return function(){
+			var args = [];
+			for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+			for(var i = 1; i < post_args.length; i++) args.push(post_args[i]);
+	//			args.push(arg);
+			return F.apply(this, args);
+		};
+	};
+
+
+
+
 
 	E.debounce = function debounce(func, wait, immediate) {
 		var timeout;

@@ -468,7 +468,7 @@ Ergo.WidgetRender = {
 //		if(this.layout.options.updateMode == 'auto') this.layout.update();
 
 		if(cascade !== false && this.__c && !(this.data && this.options.dynamic)) {
-			this.__c.apply_all('_layoutChanged');
+			this.__c.applyAll('_layoutChanged');
 		}
 
 //		this.events.fire('layoutChanged');

@@ -61,7 +61,7 @@ Ergo.alias('includes:selectable', {
 				// ищем выбранный элемент
 				if( key instanceof Ergo.core.Object ) {
 					selected = key;
-					key = selected.opt('name');
+					key = selected.prop('name');
 				}
 				else {
 					selected = lookup.call(this._widget, key);
@@ -79,7 +79,7 @@ Ergo.alias('includes:selectable', {
 				// если выборка эксклюзивная, то нужно очистить текущую выборку
 				if(!multiselect) {
 					if(this._selected) {
-						this._selected.states.unset('selected');
+						this._selected.unset('selected');
 					}
 				}
 				else {
@@ -88,7 +88,7 @@ Ergo.alias('includes:selectable', {
 						this._selected = {};
 
 					if(this._selected[key]) {
-						this._selected[key].states.unset('selected');
+						this._selected[key].unset('selected');
 					}
 				}
 
@@ -110,10 +110,15 @@ Ergo.alias('includes:selectable', {
 //				this._selected.push(selected);
 
 
-				selected.states.set('selected');
+				selected.set('selected');
+
+				// если виджет будет удален, то нужно его выбросить из выборки
+				selected.events.once('beforeDestroy', function() {
+					this._selected = null;
+				}, this);
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get(), selected: selected});
+				this._widget.emit('selectionChanged', {selection: this.get(), selected: selected});
 
 				return selected;
 			},
@@ -164,10 +169,12 @@ Ergo.alias('includes:selectable', {
 //				Ergo.remove(this._selected, unselected);
 //				this._selected.remove(unselected);
 
-				unselected.states.unset('selected');
+				unselected.unset('selected');
+
+				unselected.off(this);
 
 
-				this._widget.events.fire('selectionChanged', {selection: this.get(), unselected: unselected});
+				this._widget.emit('selectionChanged', {selection: this.get(), unselected: unselected});
 
 			},
 
@@ -203,7 +210,7 @@ Ergo.alias('includes:selectable', {
 					return;
 
 
-				if( selected.states.is('selected') ) {
+				if( selected.is('selected') ) {
 					this.unset(key);
 				}
 				else {
@@ -213,11 +220,15 @@ Ergo.alias('includes:selectable', {
 			},
 
 
-			is_empty: function() {
+			isEmpty: function() {
 				return this._selected.length == 0;
 			},
 
 			size: function() {
+				return this._selected.length;
+			},
+
+			count: function() {
 				return this._selected.length;
 			},
 
@@ -244,12 +255,12 @@ Ergo.alias('includes:selectable', {
 				var o = this._widget.options.selection || {};
 
 				this.each(function(selected) {
-					selected.states.unset('selected');
+					selected.unset('selected');
 				});
 
 				this._selected = o.multiselect ? {} : null;
 
-				this._widget.events.fire('selectionChanged', {selection: this.get()});
+				this._widget.emit('selectionChanged', {selection: this.get()});
 			}
 
 

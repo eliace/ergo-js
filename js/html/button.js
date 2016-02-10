@@ -8,7 +8,7 @@
  * @name Ergo.html.Button
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Button', null, {
+Ergo.defineClass('Ergo.html.Button', {
 
 	extends: 'Ergo.core.Widget',
 

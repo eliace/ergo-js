@@ -9,7 +9,9 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.Context.prototype */{
+Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
+
+	extends: 'Ergo.core.Object',
 
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
@@ -133,7 +135,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			// this.events.reg('scope:joined', function(e) {
 
 			// 	if(e.scope.history && !self._no_history) {
-			// 		window.history.pushState( Ergo.override({_scope: e.scope._name}, self._params), e.scope._name );//, 'title', '#'+url);
+			// 		window.history.pushState( Ergo.merge({_scope: e.scope._name}, self._params), e.scope._name );//, 'title', '#'+url);
 			// 	}
 
 			// });
@@ -283,7 +285,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.override(params || {}, {$prejoin: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}) );
 		}
 
 		scope_name = chain[chain.length-1];
@@ -356,7 +358,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 			scope._parent = parent;
 	//		scope._container = container;
 
-	//		Ergo.override(scope, overrides);
+	//		Ergo.merge(scope, overrides);
 
 			scope._chain = parent ? parent._chain.concat(scope_name) : [scope_name];
 
@@ -371,7 +373,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 
 
 
-		scope._params = params || {};// Ergo.override(this._params[scope_name], params);// this._params[scope_name];
+		scope._params = params || {};// Ergo.merge(this._params[scope_name], params);// this._params[scope_name];
 
 
 		var deferred = $.Deferred();
@@ -390,7 +392,7 @@ Ergo.defineClass('Ergo.core.Context', 'Ergo.core.Object', /** @lends Ergo.core.C
 		Ergo._scope = scope;
 
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.override({}, scope._params), scope._promise) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || true;
 
 		Ergo._scope = _scope;
 

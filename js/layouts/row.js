@@ -1,5 +1,5 @@
 
-Ergo.declare('Ergo.layouts.Row', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Row', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'rows'

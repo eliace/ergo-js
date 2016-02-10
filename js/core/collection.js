@@ -20,8 +20,8 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
- Ergo.override(Ergo.core.Collection.prototype, {
-// Ergo.core.Collection = Ergo.declare('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
+ $ergo.merge(Ergo.core.Collection.prototype, {
+// Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -38,7 +38,7 @@ Ergo.core.Collection = function(src) {
 	},
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.Collection(v);
 	},
 
@@ -67,7 +67,7 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} i ключ
 	 */
 	unset: function(i) {
-		this.remove_at(i);
+		this.removeAt(i);
 	},
 
 	/**
@@ -96,7 +96,7 @@ Ergo.core.Collection = function(src) {
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	remove_at: function(i) {
+	removeAt: function(i) {
 		var item = this.src[i];
 		delete this.src[i];
 		return item;
@@ -107,36 +107,39 @@ Ergo.core.Collection = function(src) {
 	/**
 	 * Удаление значения
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		this.remove_at(this.key_of(item));
+		this.removeAt(this.keyOf(item));
 		return item;
 	},
 
 	/**
 	 * Удаление значения по условию
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} criteria функция-условие
 	 *
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true
 	 */
-	remove_if: function(criteria) {
-		var keys = Ergo.filter_keys(this.src, criteria);
+	removeIf: function(criteria) {
+		var keys = Ergo.filterKeys(this.src, criteria);
 		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
-		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
+		for(var i = 0; i < keys.length; i++) {
+			removed.push( this.removeAt(keys[i]) );
+		}
 		return removed;
 	},
 
 
-	remove_all: function() {
-		for(i in this.src)
-			this.remove_at(i);
+	removeAll: function() {
+		for(i in this.src) {
+			this.removeAt(i);
+		}
 	},
 
 
@@ -144,7 +147,7 @@ Ergo.core.Collection = function(src) {
 	 * Очистка коллекции от всех значений
 	 */
 	clear: function() {
-		this.remove_all();
+		this.removeAll();
 //		this.src = {};
 	},
 
@@ -153,7 +156,7 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} callback
 	 */
 	each: function(callback) {
-		return Ergo.each(this.src, callback);
+		return $ergo.each(this.src, callback);
 	},
 
 //	ensure: function(i) {
@@ -170,8 +173,8 @@ Ergo.core.Collection = function(src) {
 	/**
 	 * Поиск всех элементов, удовлетворяющих критерию
 	 */
-	find_all: function(criteria) {
-		return Ergo.filter(this.src, callback);
+	findAll: function(criteria) {
+		return Ergo.findAll(this.src, callback);
 	},
 
 
@@ -184,14 +187,14 @@ Ergo.core.Collection = function(src) {
 	 * Фильтрация элементов
 	 */
 	filter: function(callback) {
-		return this.create( Ergo.filter(this.src, callback) );
+		return this._factory( Ergo.filter(this.src, callback) );
 	},
 
 	/**
 	 * Отображение элементов
 	 */
 	map: function(callback) {
-		return this.create( Ergo.map(this.src, callback) );
+		return this._factory( Ergo.map(this.src, callback) );
 	},
 
 	/**
@@ -199,40 +202,40 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} criteria
 	 */
 	includes: function(criteria) {
-		return Ergo.includes(this.src, callback);
+		return Ergo.contains(this.src, callback);
 	},
 
-	is_include: function(criteria) {
-		return Ergo.includes(this.src, callback);
+	isInclude: function(criteria) {
+		return Ergo.contains(this.src, callback);
 	},
 
 
 	/**
 	 * Размер коллекции
 	 */
-	size: function() {
+	count: function() {
 		var n = 0;
 		for(var i in this.src) n++;
 		return n;
 	},
 
-	count: function() {
-		return this.size();
+	size: function() {
+		return this.count();
 	},
 
 	/**
 	 * Проверка, является ли коллекция пустой
 	 */
-	is_empty: function() {
-		return this.size() == 0;
+	isEmpty: function() {
+		return this.count() == 0;
 	},
 
 	/**
 	 * Получение ключа элемента
 	 * @param {Object} item
 	 */
-	key_of: function(item) {
-		return Ergo.key_of(this.src, item);
+	keyOf: function(item) {
+		return Ergo.keyOf(this.src, item);
 	},
 
 	/**
@@ -241,8 +244,8 @@ Ergo.core.Collection = function(src) {
 	 * @param {Object} m
 	 * @param {Object} args
 	 */
-	apply_all: function(m, args, reverse) {
-		Ergo.apply_all(this.src, m, args, reverse);
+	applyAll: function(m, args, reverse) {
+		$ergo.applyAll(this.src, m, args, reverse);
 	},
 
 
@@ -250,7 +253,7 @@ Ergo.core.Collection = function(src) {
 	 * Проверка наличия элемента с указанным ключом
 	 * @param {Object} i ключ
 	 */
-	has_key: function(i) {
+	hasKey: function(i) {
 		return (i in this.src);
 	},
 
@@ -259,9 +262,6 @@ Ergo.core.Collection = function(src) {
 	 */
 	keys: function() {
 		return Object.keys(this.src);
-		// var k = [];
-		// for(var i in this.src) k.push(i);
-		// return k;
 	}
 
 });

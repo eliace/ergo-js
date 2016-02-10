@@ -19,6 +19,8 @@ String.prototype.capitalize = function() {
 /**
  * Добавление карринга к классу Function
  */
+
+/*
 Function.prototype.curry = function(arg) {
 	var F = this;
 	var pre_args = arguments;
@@ -63,3 +65,4 @@ Function.prototype.debounce = function(wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+*/

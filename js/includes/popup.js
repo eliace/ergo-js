@@ -36,9 +36,9 @@ $ergo.alias('includes:popup', {
 			var popups = Ergo.context._popups;
 
 			// в эксклюзивном режиме закрываем другие всплывающие виджеты
-			if(!popups.is_empty() && this.options.popup.exclusive) {
-				popups.apply_all('close');
-				popups.remove_all();
+			if(!popups.isEmpty() && this.options.popup.exclusive) {
+				popups.applyAll('close');
+				popups.removeAll();
 			}
 
 
@@ -218,7 +218,7 @@ $ergo.alias('includes:popup', {
 			var self = this;
 			var popups = Ergo.context._popups;
 
-			var k = popups.key_of(this);
+			var k = popups.keyOf(this);
 			if( k > -1 ) {//Ergo.context._popup == this) {
 
 				if(this != popups.last()) popups.get(k+1).close();  //TODO возможно, будет лучше, если закрытия будут связаны в цепочку

@@ -3,7 +3,7 @@
 //= require object
 
 
-Ergo.defineClass('Ergo.data.NodeList', null, {
+Ergo.defineClass('Ergo.data.NodeList', {
 
 	extends: 'Ergo.data.Collection',
 
@@ -22,7 +22,7 @@ Ergo.defineClass('Ergo.data.NodeList', null, {
 
 
 
-Ergo.defineClass('Ergo.data.Node', null, {
+Ergo.defineClass('Ergo.data.Node', {
 
 	extends: 'Ergo.data.Object',
 

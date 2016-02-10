@@ -1,5 +1,7 @@
 
-Ergo.declare('Ergo.layouts.Band', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Band', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'band'

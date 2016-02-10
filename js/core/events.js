@@ -29,7 +29,7 @@ Ergo.core.Event = function(baseEvent) {
 	this._queue = [];
 }
 
-Ergo.override(Ergo.core.Event.prototype, {
+Ergo.merge(Ergo.core.Event.prototype, {
 
 	stop: function(stopHtmlEvent) {
 //		if(this.base) this.base.stopPropagation(); //FIXME
@@ -78,7 +78,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 });
 
 
-// Ergo.declare('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
+// Ergo.defineClass('Ergo.events.Event', Ergo.core.Object, /** @lends Ergo.events.Event.prototype */{
 //
 // 	/**
 // 	 * @param {Object} overrides
@@ -88,7 +88,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 // 		this._super();
 // //		Ergo.events.Event.superclass._initialize.call(this);
 //
-// 		if(overrides) Ergo.override(this, overrides);
+// 		if(overrides) Ergo.merge(this, overrides);
 //
 // //		this.is_stopped = false;
 // 		this.baseEvent = baseEvent;
@@ -111,7 +111,7 @@ Ergo.override(Ergo.core.Event.prototype, {
 // });
 
 
-// Ergo.declare('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
+// Ergo.defineClass('Ergo.events.CancelEvent', 'Ergo.events.Event', /** @lends Ergo.events.CancelEvent.prototype */{
 //
 	// /**
 	 // * @constructs
@@ -141,7 +141,7 @@ Ergo.override(Ergo.core.Event.prototype, {
  * @name Ergo.core.Observer
  * @extends Ergo.core.Object
  */
-// Ergo.declare('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
+// Ergo.defineClass('Ergo.core.Observer', 'Ergo.core.Object', /** @lends Ergo.core.Observer.prototype */{
 //
 // 	_initialize: function(target) {
 // 		this.events = {};
@@ -154,7 +154,7 @@ Ergo.core.Observer = function(target) {
 	this.target = target;
 }
 
-Ergo.override(Ergo.core.Observer.prototype, {
+Ergo.merge(Ergo.core.Observer.prototype, {
 
 
 
@@ -260,7 +260,7 @@ Ergo.override(Ergo.core.Observer.prototype, {
 //			e = new Ergo.events.Event();
 		}
 		else if( _event.constructor === Object ){
-			Ergo.override(e, _event);
+			Ergo.merge(e, _event);
 //			_event.baseEvent = baseEvent;
 //			e = new Ergo.events.Event(e, baseEvent);
 		}
@@ -440,6 +440,10 @@ Ergo.alias('mixins:observable', {
 
 	on: function() {
 		this.events.on.apply(this.events, arguments);
+	},
+
+	once: function() {
+		this.events.once.apply(this.events, arguments);
 	},
 
 	off: function() {

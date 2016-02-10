@@ -523,7 +523,7 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 	},
 
 
-	remove_at: function(i) {
+	removeAt: function(i) {
 
 	}
 
@@ -645,7 +645,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 
 
-	find_path: function(key) {
+	findPath: function(key) {
 
 		var path = key.split(':');
 		var w = this;
@@ -661,7 +661,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	},
 
 
-	walk_path: function(key, callback) {
+	walkPath: function(key, callback) {
 
 		var path = key.split(':');
 		var w = this;
@@ -1250,15 +1250,15 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 		events: {
 			// действие пользователя
 			'jquery:click': function() {
-				this.events.rise('change', {value: !this.opt('value')});
+				this.rise('change', {value: !this.opt('value')});
 			},
 			'change': function(e) {
-				this.opt('value', e.value);
+				this.prop('value', e.value);
 			}
 		},
 		binding: function(v) {
 			console.log('radio invalidate', v);
-			this.states.toggle('checked', !(!v));
+			this.toggle('checked', !(!v));
 		}
 	}
 
@@ -1724,14 +1724,14 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 
 
 Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
-	
+
 	defaults: {
 		cls: 'combo-box',
-		
+
 //		mixins: ['dropdown'],
 
 		include: 'dropdown',
-		
+
 		components: {
 			content: {
 //				type: 'button',
@@ -1748,10 +1748,10 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 						etype: 'icon',
 						html: '<button/>',
 						cls: 'fa fa-fw fa-caret-down'
-					}				
+					}
 				},
 				onClick: function(e) {
-					this.events.rise('dropdownOpen');
+					this.rise('dropdownOpen');
 					e.stop();//baseEvent.stopPropagation();
 				}
 			},
@@ -1762,7 +1762,7 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 				},
 				defaultItem: {
 					onClick: function() {
-						this.events.rise('action', {key: this.opt('key')});
+						this.rise('action', {key: this.opt('key')});
 					},
 					get: {
 						'key': function() {
@@ -1772,32 +1772,32 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 				},
 			}
 		},
-		
-		
-		
+
+
+
 		onDropdownOpen: function(e) {
 			this.states.set('opened');
 		},
-		
-		
+
+
 		onAction: function(e) {
 			this.opt('value', e.key);
 		}
-		
+
 		// selector: function(key) {
 			// return this.dropdown.item(function(v) {
 				// return v.opt('key') == key;
 			// });
 		// },
-		
+
 		// binding: function(v) {
 // //			this.opt('selected', v);
 			// this.content.opt('value', v);//this._selected.opt('text'));
 		// }
-		
-	
-	}	
-	
+
+
+	}
+
 }, 'widgets:combo-box');
 
 
@@ -2804,7 +2804,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 }, 'widgets:basic-tree');
 
 
-Ergo.declare('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
+Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 	
 	defaults: {
 		cls: 'list-tree',
@@ -3513,10 +3513,10 @@ Ergo.defineMixin('Ergo.widgets.Lockable', function(o){
 
 /**
  * Добавляет компонент contextMenu
- * 
+ *
  * События:
  * 	`contextMenu`
- * 
+ *
  * @mixin Ergo.mixins.ContextMenu
  */
 
@@ -3536,16 +3536,16 @@ Ergo.alias('includes:context-menu', {
 		},
 		events: {
 			'jquery:contextmenu': function(e) {
-				
+
 				var x = e.pageX;
 				var y = e.pageY;
-				
-				this.events.rise('contextMenu');
-					
+
+				this.rise('contextMenu');
+
 				this.contextMenu.open(x, y);
-				
-				e.preventDefault();			
-			}			
+
+				e.preventDefault();
+			}
 		}
 	}
 
@@ -3942,7 +3942,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 
 		selection: {
 			lookup: function(key) {
-				return this.item( Ergo.by_opts.curry({name: key}) );
+				return this.item( Ergo.by_opts.bind(this, {name: key}) );
 			}
 		},
 
@@ -3982,7 +3982,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		var after_pages = 2;
 		var wrap_pages = 2;
 
-		this.items.apply_all('_destroy');
+		this.items.applyAll('_destroy');
 
 		var min_float = Math.min(before_pages, count);
 		var max_float = Math.max(min_float, count-after_pages);

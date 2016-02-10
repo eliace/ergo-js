@@ -62,7 +62,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 
 		selection: {
 			lookup: function(key) {
-				return this.item( Ergo.by_opts.curry({name: key}) );
+				return this.item( Ergo.by_opts.bind(this, {name: key}) );
 			}
 		},
 
@@ -102,7 +102,7 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 		var after_pages = 2;
 		var wrap_pages = 2;
 
-		this.items.apply_all('_destroy');
+		this.items.applyAll('_destroy');
 
 		var min_float = Math.min(before_pages, count);
 		var max_float = Math.max(min_float, count-after_pages);

@@ -181,7 +181,7 @@ Ergo.WidgetData = {
 
 //			this.layout.immediateRebuild = false;
 
-			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+			this.children.filter(function(c){ return c._dynamic; }).applyAll('_destroy');
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
@@ -367,7 +367,7 @@ Ergo.WidgetData = {
 	//			this.layout.immediateRebuild = false;
 
 				// // уничтожаем все динамические элементы
-				this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+				this.children.filter(function(c){ return c._dynamic; }).applyAll('_destroy');
 
 	//			var t0 = Ergo.timestamp();
 
@@ -527,7 +527,7 @@ Ergo.WidgetData = {
 			child._dataChanged(lazy, cascade, no_dynamic);
 		});
 //		}
-//			this.children.apply_all('_dataChanged', [true]);
+//			this.children.applyAll('_dataChanged', [true]);
 
 //		this.children.each(function(child) { child._dataChanged(); });
 

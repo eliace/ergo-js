@@ -17,7 +17,7 @@
  * @name Ergo.html.Checkbox
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Checkbox', null, /** @lends Ergo.html.Checkbox.prototype */{
+Ergo.defineClass('Ergo.html.Checkbox', /** @lends Ergo.html.Checkbox.prototype */{
 
 	extends: 'Ergo.html.Input',
 

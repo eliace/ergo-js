@@ -13,7 +13,9 @@
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core.WidgetChildren.prototype */{
+Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren.prototype */{
+
+	extends: 'Ergo.core.Array',
 
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -199,7 +201,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-	remove_at: function(i) {
+	removeAt: function(i) {
 
 //		var key;
 		var w = this._widget;
@@ -212,7 +214,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 //		var item = this._super(i);
-		var item = Ergo.core.WidgetChildren.superclass.remove_at.call(this, i);
+		var item = Ergo.core.WidgetChildren.superclass.removeAt.call(this, i);
 
 
 //		if('hide' in item) item.hide();
@@ -346,7 +348,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 
 
-	remove_all: function() {
+	removeAll: function() {
 
 		var w = this._widget;
 
@@ -372,7 +374,7 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 
 	// _destroy_all: function() {
 		// while(this.src.length)
-			// this.remove_at(0)._destroy();
+			// this.removeAt(0)._destroy();
 	// }
 
 //	find: function(i) {
@@ -398,7 +400,9 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.core.WidgetComponents.prototype */ {
+Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetComponents.prototype */ {
+
+	extends: 'Ergo.core.Array',
 
 // 	defaults: {
 // //		plugins: [Ergo.Observable]
@@ -430,7 +434,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.WidgetComponents(this._widget);
 	},
 
@@ -442,10 +446,10 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 */
 	set: function(i, item) {
 		// if(i in this._widget)
-		// 	this.remove_at(i);
+		// 	this.removeAt(i);
 		if( ('$'+i) in this._widget)
 			this._widget['$'+i]._destroy();
-//			this._widget.children.remove_at(i);
+//			this._widget.children.removeAt(i);
 		return this._widget.children.add(item, i, this._type);
 	},
 
@@ -478,9 +482,9 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * Удаление значения по ключу
 	 * @param {Object} i ключ
 	 */
-	remove_at: function(i) {
-//		return this._widget.children.remove_at(i);
-		var removed = this._widget.children.remove_if(function(v) {	return v._key == i;	});
+	removeAt: function(i) {
+//		return this._widget.children.removeAt(i);
+		var removed = this._widget.children.removeIf(function(v) {	return v._key == i;	});
 
 		return removed.length == 0 ? null : removed[0];
 	},
@@ -488,36 +492,36 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Удаление значения
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} item значение
 	 */
 	remove: function(item) {
-		return this.remove_at(item._key);
+		return this.removeAt(item._key);
 	},
 
 	/**
 	 * Удаление значения по условию
 	 *
-	 * Для удаления используется метод remove_at
+	 * Для удаления используется метод removeAt
 	 *
 	 * @param {Object} criteria функция-условие
 	 *
 	 * Значение удаляеся, если результат, возвращаемый criteria равен true
 	 */
-	remove_if: function(criteria) {
+	removeIf: function(criteria) {
 		var keys = Ergo.filter_keys(this._source, criteria);
 		keys.sort(Ergo.sort_numbers).reverse();
 		var removed = [];
-		for(var i = 0; i < keys.length; i++) removed.push( this.remove_at(keys[i]) );
+		for(var i = 0; i < keys.length; i++) removed.push( this.removeAt(keys[i]) );
 		return removed;
 	},
 
 
-	remove_all: function() {
+	removeAll: function() {
 		var src = this._source;
 		for(i in src)
-			this.remove_at(i);
+			this.removeAt(i);
 	},
 
 
@@ -525,7 +529,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * Очистка коллекции от всех значений
 	 */
 	clear: function() {
-		this.remove_all();
+		this.removeAll();
 	},
 
 	/**
@@ -642,7 +646,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Поиск всех элементов, удовлетворяющих критерию
 	 */
-	find_all: function(criteria) {
+	findAll: function(criteria) {
 		return Ergo.filter(this._source, callback);
 	},
 
@@ -677,7 +681,7 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Размер коллекции
 	 */
-	size: function() {
+	count: function() {
 		var n = 0;
 		var src = this._source;
 		for(var i in src) n++;
@@ -687,16 +691,16 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	/**
 	 * Проверка, является ли коллекция пустой
 	 */
-	is_empty: function() {
-		return this.size() == 0;
+	isEmpty: function() {
+		return this.count() == 0;
 	},
 
 	/**
 	 * Получение ключа элемента
 	 * @param {Object} item
 	 */
-	key_of: function(item) {
-		return Ergo.key_of(this._source, item);
+	keyOf: function(item) {
+		return Ergo.keyOf(this._source, item);
 	},
 
 	/**
@@ -705,8 +709,8 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
 	 * @param {Object} m
 	 * @param {Object} args
 	 */
-	apply_all: function(m, args) {
-		Ergo.apply_all(this._source, m, args);
+	applyAll: function(m, args) {
+		Ergo.applyAll(this._source, m, args);
 	},
 
 
@@ -758,7 +762,9 @@ Ergo.declare('Ergo.core.WidgetComponents', 'Ergo.core.Array', /** @lends Ergo.co
  *
  *
  */
-Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetItems.prototype */ {
+Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.prototype */ {
+
+	extends: 'Ergo.core.WidgetComponents',
 
 	_type: 'item',
 
@@ -770,7 +776,7 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 
 
-	create: function(v) {
+	_factory: function(v) {
 		return new Ergo.core.WidgetItems(this._widget);
 	},
 
@@ -780,12 +786,12 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 		return src[src.length-1];
 	},
 
-	size: function() {
+	count: function() {
 		var src = this._source;
 		return src.length;
 	},
 
-	remove_all: function() {
+	removeAll: function() {
 		var src = this._source;
 		for(var i = 0; i < src.length; i++)
 			this.remove(src[i]);//_at(src[i]._index);
@@ -793,15 +799,15 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 
 
-	remove_at: function(i) {
-		var removed = this._widget.children.remove_if(function(v) {	return v._index === i;	});
+	removeAt: function(i) {
+		var removed = this._widget.children.removeIf(function(v) {	return v._index === i;	});
 
 		return removed.length == 0 ? null : removed[0];
 	},
 
 
 	remove: function(item) {
-		return this.remove_at(item._index);
+		return this.removeAt(item._index);
 	},
 
 

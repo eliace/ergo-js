@@ -1,6 +1,6 @@
 
 
-Ergo.declare('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'tiles'

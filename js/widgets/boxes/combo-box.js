@@ -3,14 +3,14 @@
 
 
 Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
-	
+
 	defaults: {
 		cls: 'combo-box',
-		
+
 //		mixins: ['dropdown'],
 
 		include: 'dropdown',
-		
+
 		components: {
 			content: {
 //				type: 'button',
@@ -27,10 +27,10 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 						etype: 'icon',
 						html: '<button/>',
 						cls: 'fa fa-fw fa-caret-down'
-					}				
+					}
 				},
 				onClick: function(e) {
-					this.events.rise('dropdownOpen');
+					this.rise('dropdownOpen');
 					e.stop();//baseEvent.stopPropagation();
 				}
 			},
@@ -41,7 +41,7 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 				},
 				defaultItem: {
 					onClick: function() {
-						this.events.rise('action', {key: this.opt('key')});
+						this.rise('action', {key: this.opt('key')});
 					},
 					get: {
 						'key': function() {
@@ -51,30 +51,30 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 				},
 			}
 		},
-		
-		
-		
+
+
+
 		onDropdownOpen: function(e) {
 			this.states.set('opened');
 		},
-		
-		
+
+
 		onAction: function(e) {
 			this.opt('value', e.key);
 		}
-		
+
 		// selector: function(key) {
 			// return this.dropdown.item(function(v) {
 				// return v.opt('key') == key;
 			// });
 		// },
-		
+
 		// binding: function(v) {
 // //			this.opt('selected', v);
 			// this.content.opt('value', v);//this._selected.opt('text'));
 		// }
-		
-	
-	}	
-	
+
+
+	}
+
 }, 'widgets:combo-box');

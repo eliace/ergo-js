@@ -9,7 +9,7 @@
  * @name Ergo.data.Collection
  * @extends Ergo.core.DataSource
  */
-Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.prototype */{
+Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototype */{
 
 	extends: 'Ergo.core.DataSource',
 
@@ -74,7 +74,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 		this._fetched = undefined;
 
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q);
+		var query = Ergo.merge({}, this.options.query, q);
 
 		this.events.fire('fetch');
 
@@ -86,7 +86,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 
 		if(provider) {
 			var self = this;
-			return provider.find_all(this, query).then(function(data) {
+			return provider.findAll(this, query).then(function(data) {
 
 				var v = parse.call(self, data);
 
@@ -128,7 +128,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 		this._fetched = undefined;
 
 		var parse = this.options.parser || this._parse;
-		var query = Ergo.override({}, this.options.query, q);
+		var query = Ergo.merge({}, this.options.query, q);
 
 		var provider = this.options.provider;
 
@@ -293,7 +293,7 @@ Ergo.defineClass('Ergo.data.Collection', null, /** @lends Ergo.data.Collection.p
 
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
-		if($.isFunction(model) && !$.isClass(model)) model = model.call(this, this.get()[i]);
+		if($.isFunction(model) && !$ergo.isClass(model)) model = model.call(this, this.get()[i]);
 		if($.isString(model)) model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 

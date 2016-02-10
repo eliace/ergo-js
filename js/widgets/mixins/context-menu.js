@@ -2,10 +2,10 @@
 
 /**
  * Добавляет компонент contextMenu
- * 
+ *
  * События:
  * 	`contextMenu`
- * 
+ *
  * @mixin Ergo.mixins.ContextMenu
  */
 
@@ -25,16 +25,16 @@ Ergo.alias('includes:context-menu', {
 		},
 		events: {
 			'jquery:contextmenu': function(e) {
-				
+
 				var x = e.pageX;
 				var y = e.pageY;
-				
-				this.events.rise('contextMenu');
-					
+
+				this.rise('contextMenu');
+
 				this.contextMenu.open(x, y);
-				
-				e.preventDefault();			
-			}			
+
+				e.preventDefault();
+			}
 		}
 	}
 

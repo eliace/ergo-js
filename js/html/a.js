@@ -6,7 +6,7 @@
  * @name Ergo.html.Label
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.A', null, {
+Ergo.defineClass('Ergo.html.A', {
 
 	extends: 'Ergo.core.Widget',
 

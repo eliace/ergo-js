@@ -19,7 +19,7 @@
  * @extends Ergo.core.Object
  *
  */
-Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.prototype */{
+Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototype */{
 
 	extends: 'Ergo.core.Object',
 
@@ -80,7 +80,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 //		this.events = new Ergo.events.Observer(this);
 
 		if(!o.lazy) {
-			Ergo.each(val, function(v, i){	self.entry(i); } );
+			$ergo.each(val, function(v, i){	self.entry(i); } );
 		}
 
 
@@ -101,7 +101,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 		// очищаем регистрацию обработчиков событий
 		this.events.off();
 		// удаляем все дочерние элементы
-		this.entries.apply_all('_destroy');
+		this.entries.applyAll('_destroy');
 		// while(this.entries.size()) {
 		// 	this.entries.first()._destroy();
 		// }
@@ -286,6 +286,12 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	},
 
 
+
+	raw: function() {
+		return this._val();
+	},
+
+
 	/**
 	 * Получение значения элемента по ключу
 	 *
@@ -356,7 +362,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 				});
 
 
-			if(this.entries.is_empty())
+			if(this.entries.isEmpty())
 				this.entries = Array.isArray(newValue) ? new Ergo.core.Array() : new Ergo.core.Collection();
 
 			// удаляем все элементы
@@ -379,7 +385,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 
 
 			// опустошаем список элементов
-//			this.entries.apply_all('_destroy');
+//			this.entries.applyAll('_destroy');
 
 
 
@@ -939,7 +945,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	 */
 	clean: function() {
 		this._changed = false;
-		this.entries.apply_all('clean');
+		this.entries.applyAll('clean');
 	},
 
 
@@ -949,7 +955,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 	 * @returns {Number}
 	 */
 	size: function() {
-		return Ergo.size(this._val());
+		return $ergo.size(this._val());
 	}
 
 
@@ -959,7 +965,7 @@ Ergo.defineClass('Ergo.core.DataSource', null, /** @lends Ergo.core.DataSource.p
 
 
 
-Ergo.override(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
+Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 

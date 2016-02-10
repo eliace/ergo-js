@@ -1,6 +1,6 @@
 
 
-Ergo.declare('Ergo.layouts.VBox', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.VBox', 'Ergo.core.Layout', {
 	
 	defaults: {
 		name: 'vbox'

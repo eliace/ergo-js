@@ -1,5 +1,7 @@
 
-Ergo.declare('Ergo.layouts.Columns', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Columns', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'columns'

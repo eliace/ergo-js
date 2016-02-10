@@ -263,7 +263,7 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
 	},
 
 
-	remove_at: function(i) {
+	removeAt: function(i) {
 
 	}
 

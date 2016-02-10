@@ -43,5 +43,29 @@ describe('Include "selectable"', function(){
 
 		});
 
+
+		it('should remove destroyed widgets from selection', function() {
+
+			var w = $.ergo({
+        etype: 'box',
+        include: 'selectable',
+        selection: {
+          multiselect: true
+        },
+        items: ['Alice', 'Bob', 'Charlie', 'Dave']
+      });
+
+      w.selection.set(1);
+
+			expect( w.selection.get() ).to.exist;
+
+			w.item(1)._destroy();
+
+			expect( w.selection.get() ).to.not.exist;
+
+		});
+
+
+
 	});
 });

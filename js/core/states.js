@@ -21,7 +21,7 @@ Ergo.core.StateManager = function(target) {
 	this._exclusives = {};
 }
 
-Ergo.override(Ergo.core.StateManager.prototype, {
+Ergo.merge(Ergo.core.StateManager.prototype, {
 
 //Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 

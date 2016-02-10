@@ -13,7 +13,7 @@ Ergo.core.VDOM = function() {
 
 
 
-Ergo.override(Ergo.core.VDOM.prototype, {
+Ergo.merge(Ergo.core.VDOM.prototype, {
 
 
 	_initialize: function(tag, widget, options, ns) {

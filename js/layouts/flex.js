@@ -1,9 +1,11 @@
 
 
-Ergo.declare('Ergo.layouts.Flex', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Flex', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'flex'
 	},
-	
+
 }, 'layouts:flex');

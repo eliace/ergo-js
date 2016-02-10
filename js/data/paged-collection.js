@@ -1,7 +1,7 @@
 
 
 
-Ergo.defineClass('Ergo.data.PagedCollection', null, {
+Ergo.defineClass('Ergo.data.PagedCollection', {
 
 	extends: 'Ergo.data.Collection',
 
@@ -43,7 +43,7 @@ Ergo.defineClass('Ergo.data.PagedCollection', null, {
 
 		if(o.provider) {
 			var self = this;
-			return o.provider.get(this, Ergo.deep_override({}, this.options.query, {from: o.from,	to: o.to}))
+			return o.provider.get(this, Ergo.deepMerge({}, this.options.query, {from: o.from,	to: o.to}))
 				.then(function(response) {
 
 				o.from = response.from;

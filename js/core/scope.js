@@ -8,7 +8,7 @@
 *
 */
 
-Ergo.defineClass('Ergo.core.Scope', null, {
+Ergo.defineClass('Ergo.core.Scope', {
 
 	extends: 'Ergo.core.Object',
 

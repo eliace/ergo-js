@@ -1,6 +1,6 @@
 
 /*
-Ergo.declare('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
 
 	defaults: {
 		name: 'fluid'
@@ -9,7 +9,9 @@ Ergo.declare('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
 }, 'layouts:fluid');
 */
 
-Ergo.declare('Ergo.layouts.Float', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Float', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'float'

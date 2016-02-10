@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Grid', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'grid',
@@ -24,7 +26,7 @@ Ergo.defineClass('Ergo.layouts.Grid', 'Ergo.core.Layout', {
 
 		var w = this._widget;
 
-		var n = w.children.size();
+		var n = w.children.count();
 		var k = (n == 0) ? 1 : (12/n).toFixed();
 
 

@@ -8,7 +8,7 @@
  * @name Ergo.data.Object
  * @extends Ergo.core.DataSource
  */
-Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype */{
+Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 
 	extends: 'Ergo.core.DataSource',
 
@@ -270,7 +270,7 @@ Ergo.defineClass('Ergo.data.Object', null, /** @lends Ergo.data.Object.prototype
 			o = obj;
 			obj = obj.etype;
 		}
-		if($.isFunction(obj) && !$.isClass(obj))
+		if($.isFunction(obj) && !$ergo.isClass(obj))
 			obj = obj.call(this, this.get()[i]);
 		if($.isString(obj))
 			obj = Ergo.alias(obj);// || obj); //TODO здесь лучше загружать класс по зарегистрированному имени

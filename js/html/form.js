@@ -13,7 +13,7 @@
  * @name Ergo.html.Form
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Form', null, {
+Ergo.defineClass('Ergo.html.Form', {
 
 	extends: 'Ergo.core.Widget',
 

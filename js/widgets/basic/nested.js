@@ -40,7 +40,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 
 
 
-	find_path: function(key) {
+	findPath: function(key) {
 
 		var path = key.split(':');
 		var w = this;
@@ -56,7 +56,7 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
 	},
 
 
-	walk_path: function(key, callback) {
+	walkPath: function(key, callback) {
 
 		var path = key.split(':');
 		var w = this;

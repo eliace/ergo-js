@@ -14,7 +14,7 @@ var Ergo = (function(){
 	 * @name Ergo.override
 	 * @function
 	 */
-	E.override = function(obj) {
+	E.merge = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides) {
@@ -39,6 +39,7 @@ var Ergo = (function(){
 	};
 
 
+
 	// E.merge = function(obj) {
 	// 	for(var j = 1; j < arguments.length; j++){
 	// 		var overrides = arguments[j] || {};
@@ -57,7 +58,7 @@ var Ergo = (function(){
 
 
 	// с объектом сливаются геттеры/сеттеры, которых в нем нет
-	E.mergeGettersAndSetters = function(obj) {
+	E.mergeProperties = function(obj) {
 		for(var j = 1; j < arguments.length; j++){
 			var overrides = arguments[j] || {};
 			for(var i in overrides) {
@@ -86,11 +87,11 @@ var Ergo = (function(){
 	/**
 	 * Полное копирование свойств одного объекта в другой (перегрузка)
 	 * @param {Object} obj целевой объект, которому будут добавлены новые свойства
-	 * @name @Ergo.deep_override
+	 * @name @Ergo.deepMerge
 	 * @function
 	 *
 	 */
-	E.deep_override = function(o) {
+	E.deepMerge = function(o) {
 
 		for(var j = 1; j < arguments.length; j++) {
 
@@ -104,12 +105,12 @@ var Ergo = (function(){
 				if( p && p.constructor == Object ){//$.isPlainObject(p) ){
 	//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
 					if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
-					Ergo.deep_override(o[i], p);
+					Ergo.deepMerge(o[i], p);
 				}
 				else if( p && p.constructor == Array ) {//$.isArray(p) ){
 	//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
 					if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
-					Ergo.deep_override(o[i], p);
+					Ergo.deepMerge(o[i], p);
 				}
 				else {
 					o[i] = p;
@@ -120,6 +121,11 @@ var Ergo = (function(){
 
 		return o;
 	};
+
+
+
+
+
 
 
 
@@ -178,7 +184,7 @@ var Ergo = (function(){
 		for(var i = 0; i < sources.length; i++) {
 			for(var j in sources[i]) {
 				var name = (j[0] == '~' || j[0] == '!') ? j.substr(1) : j;
-				var rule = rules[name] || rules['*'];
+				var rule = (rules[name] != null) ? rules[name] : rules['*'];
 
 				var a = o[name];
 				var b = sources[i][j];
@@ -195,8 +201,8 @@ var Ergo = (function(){
 						o[name] = b;
 					}
 					else if(rule[0] == 'override') {
-//						o[name] = (a == null) ? b : E.deep_override(a, b);
-						o[name] = (a == null) ? E.deep_copy(b) : E.deep_override(a, b);
+//						o[name] = (a == null) ? b : E.deepMerge(a, b);
+						o[name] = (a == null) ? E.deep_copy(b) : E.deepMerge(a, b);
 					}
 					else if( b.constructor === Object ) {
 						a = a || {};
@@ -220,7 +226,7 @@ var Ergo = (function(){
 					// 		o[name] = E.mergeOptions(a, b, rule[1]);
 					// 	}
 					// 	else if( rule[0] == 'override' ) {
-					// 		o[name] = (a == null) ? b : E.override(a, b);
+					// 		o[name] = (a == null) ? b : E.merge(a, b);
 					// 	}
 					//
 					// }
@@ -237,6 +243,9 @@ var Ergo = (function(){
 				// else if( rule && rule.constructor === Array ) {
 				// 	o[name] = E.mergeOptions(o[name] || [], sources[i][j], rule[0]);
 				// }
+				else if( rule === false ) {
+					o[name] = b;
+				}
 				else if( rule ) {
 
 					a = Array.isArray(a) ? a : [a];
@@ -266,7 +275,7 @@ var Ergo = (function(){
 
 				}
 				else if( a && b && b.constructor == Object ) {
-					$ergo.deep_override(o[name], b);
+					$ergo.deepMerge(o[name], b);
 				}
 				else {
 					o[name] = $ergo.deep_copy(b);
@@ -303,12 +312,12 @@ var Ergo = (function(){
 				else if(i == 'defaults') {
 					obj.options = $ergo.mergeOptions({}, [inc[i], obj.options]);
 				}
-				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' || i == '_postDestroy' || i == '_preDestroy') {
+				else if( i == '_postConstruct' || i == '_preConstruct' || i == '_construct' || i == '_destroy' /*|| i == '_postDestroy' || i == '_preDestroy'*/) {
 					// skip
 				}
 
 				else if(typeof inc[i] == 'object') {
-					obj[i] = $ergo.deep_override(obj[i], inc[i]);
+					obj[i] = $ergo.deepMerge(obj[i], inc[i]);
 				}
 				else {
 					obj[i] = inc[i];
@@ -322,6 +331,17 @@ var Ergo = (function(){
 
 		return obj;
 	};
+
+
+
+
+
+	E.override = E.merge;
+	E.deepOverride = E.deepMerge;
+	E.overrideOptions = E.mergeOptions;
+	E.overrideProperties = E.mergeProperties;
+	E.overrideInclude = E.mergeInclude;
+
 
 
 

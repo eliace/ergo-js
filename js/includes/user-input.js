@@ -4,14 +4,14 @@ Ergo.alias('includes:user-input', {
 
   defaults: {
     events: {
-      'jquery:keyup': 'do_input'
+      'jquery:input': 'do_input'
     }
   },
 
 
 //  overrides: {
 
-    do_input: function(e) {
+    do_input: function(eventName, e) {
 
       var keyCode = e.keyCode;
 
@@ -30,7 +30,7 @@ Ergo.alias('includes:user-input', {
 				// TODO обработка служебных символов
 			}
 			else {
-				this.events.rise('input', {text: text, keyCode: keyCode});
+				this.rise('input', {text: text, keyCode: keyCode});
 			}
     }
 

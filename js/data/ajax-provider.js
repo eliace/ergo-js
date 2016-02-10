@@ -1,6 +1,6 @@
 
 
-Ergo.defineClass('Ergo.data.AjaxProvider', null, {
+Ergo.defineClass('Ergo.data.AjaxProvider', {
 
 	extends: 'Ergo.core.Object',
 
@@ -16,7 +16,7 @@ Ergo.defineClass('Ergo.data.AjaxProvider', null, {
 	},
 
 
-	find_all: function(ds, query) {
+	findAll: function(ds, query) {
 		return $.ajax({
 			url: this._url,
 			data: query,

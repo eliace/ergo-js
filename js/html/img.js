@@ -12,7 +12,7 @@
  * @name Ergo.html.Img
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.Img', null, {
+Ergo.defineClass('Ergo.html.Img', {
 
 	extends: 'Ergo.core.Widget',
 

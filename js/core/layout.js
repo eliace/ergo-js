@@ -26,9 +26,9 @@
 //
 // }
 //
-// Ergo.override(Ergo.core.Layout.prototype, {
+// Ergo.merge(Ergo.core.Layout.prototype, {
 
-Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ {
+Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
 	extends: 'Ergo.core.VDOM',
 
@@ -217,7 +217,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: item_el, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: item_el, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}
@@ -628,7 +628,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}
@@ -753,7 +753,7 @@ Ergo.declare('Ergo.core.Layout', null, /** @lends Ergo.core.Layout.prototype */ 
 //				item_el = $('<div/>').append(item.dom.el);
 			}
 
-			item._wrapper = $.ergo( Ergo.deep_override({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
+			item._wrapper = $.ergo( Ergo.deepMerge({etype: 'widgets:widget', tag: itemEl, autoRender: false}, item.options.wrapper) );
 			item._wrapper._weight = weight;
 
 		}

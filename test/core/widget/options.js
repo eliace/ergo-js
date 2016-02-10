@@ -323,6 +323,19 @@ describe('Widget', function(){
 
 
 
+		it('should set `data` option', function() {
+
+			var d = ['Alice'];
+
+      var w = $.ergo({
+        etype: 'box',
+        data: d
+      });
+
+			expect( w.options.data == d ).to.be.true;
+      expect( w.data.get() == d ).to.be.true;
+
+    });
 
 
 

@@ -13,7 +13,7 @@
  * @name Ergo.html.Textarea
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.html.TextArea', null, {
+Ergo.defineClass('Ergo.html.TextArea', {
 
 	extends: 'Ergo.core.Widget',
 

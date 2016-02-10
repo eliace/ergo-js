@@ -35,9 +35,9 @@ Ergo.alias('includes:history', {
 					// var name_a = e.scope._name.split(':');
 					// var p = {};
 					// p[name_a[0]] = (name_a.length > 1) ? name_a[1] : true;
-					// var p = Ergo.override(p, this._params[e.scope._name]);
+					// var p = Ergo.merge(p, this._params[e.scope._name]);
 //					var chain = scope._chain.join('.');
-//					var p = Ergo.deep_override({_scope: chain}, scope._params);
+//					var p = Ergo.deepMerge({_scope: chain}, scope._params);
 					window.history.pushState( p, scope._name, scope._params.$path );//opt('path') );//, 'title', '#'+url);
 
 					console.log('+ history', /*scope.opt('path')*/scope._params.$path, scope._name, p);
