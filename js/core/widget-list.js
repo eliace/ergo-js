@@ -353,6 +353,10 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 		for(var i = 0; i < this.src.length; i++) {
 			var item = this.src[i];
 
+			// if(item._rendered) {
+			// 	item.unrender();
+			// }
+
 			delete item.parent;
 			delete item._index;
 
@@ -361,6 +365,8 @@ Ergo.declare('Ergo.core.WidgetChildren', 'Ergo.core.Array', /** @lends Ergo.core
 				delete w[item._key];
 				delete item._key;
 			}
+
+			item._destroy();
 
 		}
 
@@ -787,8 +793,10 @@ Ergo.declare('Ergo.core.WidgetItems', 'Ergo.core.WidgetComponents', /** @lends E
 
 	remove_all: function() {
 		var src = this._source;
-		for(var i = 0; i < src.length; i++)
-			this.remove(src[i]);//_at(src[i]._index);
+		for(var i = 0; i < src.length; i++) {
+			src[i]._destroy();
+		}
+//			this.remove(src[i]);//_at(src[i]._index);
 	},
 
 
