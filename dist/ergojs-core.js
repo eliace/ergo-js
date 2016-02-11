@@ -5090,12 +5090,12 @@ Ergo.override(Ergo.core.VDOM.prototype, {
       off: function(name) {
 				if(arguments.length == 0) {
 					for(var i in this.listeners) {
-						vdom.el.removeEventListener(i);
+						vdom.el.removeEventListener(i, this.listeners[i]);
 					}
 					this.listeners = {};
 				}
 				else {
-	        vdom.el.removeEventListener(name);
+	        vdom.el.removeEventListener(name, this.listeners[name]);
 	        delete this.listeners[name];
 				}
         // _widget.events.off('dom#'+name);
