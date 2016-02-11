@@ -190,7 +190,7 @@ Ergo.WidgetRender = {
 			if(this.parent) {
 				this.parent.vdom.remove(this);
 			}
-			else {
+			else if(this.__vdom) {
 				this.__vdom.detach();
 			}
 		};
