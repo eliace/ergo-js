@@ -11,7 +11,7 @@ Ergo.alias('includes:user-input', {
 
   overrides: {
 
-    do_input: function(e) {
+    do_input: function(name, e) {
 
       var keyCode = e.keyCode;
 
@@ -20,7 +20,7 @@ Ergo.alias('includes:user-input', {
 
       var text = this.vdom.el.value || this.vdom.el.textContent;
 
-      console.log('input', text, this.value, this.__val );
+//      console.log('input', text, this.value, this.__val );
 
 
 			if(keyCode == Ergo.KeyCode.UP
