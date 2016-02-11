@@ -1,13 +1,4 @@
 
-/*
-Ergo.defineClass('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
-
-	defaults: {
-		name: 'fluid'
-	}
-
-}, 'layouts:fluid');
-*/
 
 Ergo.defineClass('Ergo.layouts.Float', {
 

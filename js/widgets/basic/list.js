@@ -11,7 +11,9 @@
  * @name Ergo.widgets.List
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widgets.List.prototype */{
+Ergo.defineClass('Ergo.widgets.List', /** @lends Ergo.widgets.List.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'ul',
@@ -32,7 +34,9 @@ Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widget
 
 
 
-Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.OrderedList', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		tag: 'ol'

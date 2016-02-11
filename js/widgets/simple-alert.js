@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.SimpleAlert', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'alert simple',

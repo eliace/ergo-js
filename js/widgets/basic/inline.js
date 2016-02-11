@@ -8,7 +8,9 @@
  * @name Ergo.widgets.Text
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Text', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'span',

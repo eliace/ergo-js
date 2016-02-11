@@ -2,7 +2,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Input', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'input',

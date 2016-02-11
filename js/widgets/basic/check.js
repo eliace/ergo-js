@@ -1,7 +1,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.Check', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Check', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'check',

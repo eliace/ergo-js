@@ -1,7 +1,9 @@
 
 //= require "dropdown-list"
 
-Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
+Ergo.defineClass('Ergo.widgets.DropdownMenu', {
+
+	extends: 'Ergo.widgets.DropdownList',
 
 	defaults: {
 		cls: 'menu',

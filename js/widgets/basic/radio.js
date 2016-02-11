@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Radio', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'radio',

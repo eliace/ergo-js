@@ -25,7 +25,9 @@
  * @name Ergo.widgets.Table
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Table.prototype */{
+Ergo.defineClass('Ergo.widgets.Table', /** @lends Ergo.widgets.Table.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',
@@ -286,7 +288,9 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
  * @name Ergo.widgets.TableRow
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.TableRow', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'tr',

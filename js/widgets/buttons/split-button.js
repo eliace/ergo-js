@@ -1,7 +1,9 @@
 
 //= require "dropdown-button"
 
-Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
+Ergo.defineClass('Ergo.widgets.SplitButton', {
+
+	extends: 'Ergo.widgets.DropdownButton',
 
 	defaults: {
 		as: 'split group',

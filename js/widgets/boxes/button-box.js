@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.ButtonBox', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'buttons',

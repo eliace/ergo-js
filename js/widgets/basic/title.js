@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Title', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Title', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'span',

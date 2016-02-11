@@ -1,5 +1,7 @@
 
-Ergo.defineClass('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.HSlide', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'hslide',

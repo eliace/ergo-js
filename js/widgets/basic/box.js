@@ -10,7 +10,9 @@
  * @name Ergo.widgets.Box
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widgets.Box.prototype */{
+Ergo.defineClass('Ergo.widgets.Box',  /** @lends Ergo.widgets.Box.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'div',

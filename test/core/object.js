@@ -52,13 +52,15 @@ describe('Object', function(){
 
     it('should override setters and getters separatly', function() {
 
-      Ergo.defineClass('Ergo.core.TestClass', 'Ergo.core.Object', {
+      Ergo.defineClass('Ergo.core.TestClass', {
+        extends: 'Ergo.core.Object',
         get a() {
           return this._a;
         }
       });
 
-      Ergo.defineClass('Ergo.core.TestClass2', 'Ergo.core.TestClass', {
+      Ergo.defineClass('Ergo.core.TestClass2', {
+        extends: 'Ergo.core.TestClass',
         set a(v) {
           this._a = v;
         }

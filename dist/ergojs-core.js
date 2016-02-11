@@ -1133,8 +1133,8 @@ Ergo.globals = {
 		var base_class;
 
 		// `extends` class property
-		bclass = overrides.extends;
-		
+		bclass = overrides.extends || Ergo.core.Object;
+
 
 		if( typeof bclass == 'string' ) {
 			var cp_a = bclass.split('.');
@@ -1219,7 +1219,7 @@ Ergo.globals = {
 	 * @param {String} etype псевдоним класса
 	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(ns, options, alias, context) {//defaultType) {
+	E.object = function(ns, alias, options, context) {//defaultType) {
 
 		if(options instanceof Ergo.core.Object) return options;
 
@@ -2800,7 +2800,7 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 	 */
 	_destroy: function() {
 		//
-		
+
 		if(this._includes) {
 //			var mods = o.mods.join(' ').split(' ').uniq();
 			for(var i = 0; i < this._includes.length; i++) {
@@ -3036,7 +3036,7 @@ $ergo = Ergo.merge(function(o, ns, scope) {
 
 	o.etype = ns+':'+etype;
 
-	var w = Ergo['$'+ns](o, etype);//, scope);
+	var w = Ergo['$'+ns](etype, o);//, scope);
 
 	scope = scope || Ergo._scope;
 
@@ -6747,7 +6747,7 @@ Ergo.$layouts = function(o, etype) {
 		etype = 'default';
 	}
 
-	return Ergo.object('layouts', o, etype);
+	return Ergo.object('layouts', etype, o);
 };
 
 
@@ -12896,7 +12896,9 @@ Ergo.defineClass('Ergo.data.AjaxProvider', {
 
 
 
-Ergo.defineClass('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Inherited', {
+
+	extends: 'Ergo.core.Layout',
 
 	// select: function(item) {
 		// return this.container.parent.el;
@@ -12947,12 +12949,14 @@ Ergo.defineClass('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
 Ergo.alias('layouts:contents', Ergo.layouts.Inherited);
 
 
-Ergo.defineClass('Ergo.layouts.HBox', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.HBox', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'hbox'
-	}	
-	
+	}
+
 }, 'layouts:hbox');
 
 
@@ -12967,7 +12971,9 @@ Ergo.defineClass('Ergo.layouts.Bar', {
 }, 'layouts:bar');
 
 
-Ergo.defineClass('Ergo.layouts.Row', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Row', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'rows'
@@ -12980,7 +12986,9 @@ Ergo.defineClass('Ergo.layouts.Row', 'Ergo.core.Layout', {
 }, 'layouts:rows');
 
 
-Ergo.defineClass('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.HSlide', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'hslide',
@@ -13087,21 +13095,25 @@ Ergo.defineClass('Ergo.layouts.HSlide', 'Ergo.core.Layout', {
 
 
 
-Ergo.defineClass('Ergo.layouts.VBox', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.VBox', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'vbox'
-	}	
-	
+	}
+
 }, 'layouts:vbox');
 
 
-Ergo.defineClass('Ergo.layouts.Stack', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Stack', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'stack'
 	}
-	
+
 }, 'layouts:stack');
 
 
@@ -13293,40 +13305,33 @@ Ergo.defineClass('Ergo.layouts.Grid', {
 
 
 
-Ergo.defineClass('Ergo.layouts.Table', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.Table', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'table'
 //		columns: []
 	},
-	
-	
+
+
 	// construct: function(o) {
 		// this._super(o);
-// 		
+//
 	// },
-	
-	
+
+
 	// update: function() {
 	// 	this._super();
-		
+
 	// 	$('tr.group > td', this.el).attr('colspan', this.options.columns.length);
-		
+
 	// }
-	
-	
+
+
 }, 'layouts:table');
 
 
-/*
-Ergo.defineClass('Ergo.layouts.Fluid', 'Ergo.core.Layout', {
-
-	defaults: {
-		name: 'fluid'
-	}
-
-}, 'layouts:fluid');
-*/
 
 Ergo.defineClass('Ergo.layouts.Float', {
 
@@ -13340,7 +13345,9 @@ Ergo.defineClass('Ergo.layouts.Float', {
 
 
 
-Ergo.defineClass('Ergo.layouts.Tiles', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Tiles', {
+
+	extends: 'Ergo.core.Layout',
 
 	defaults: {
 		name: 'tiles'
@@ -16137,7 +16144,7 @@ Ergo.defineClass('Ergo.html.Widget', {
 
 
 
-Ergo.$html = function(o, etype) {
+Ergo.$html = function(etype, o) {
 
 	if(!Ergo.alias('html:'+etype)) {
 
@@ -16160,5 +16167,5 @@ Ergo.$html = function(o, etype) {
 		etype = 'widget';
 	}
 
-	return Ergo.object('html', o, etype);
+	return Ergo.object('html', etype, o);
 };

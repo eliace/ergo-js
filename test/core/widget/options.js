@@ -17,7 +17,10 @@ describe('Widget', function(){
 
     it('should set class property as option', function() {
 
-      Ergo.defineClass('Ergo.test.MyWidget', 'Ergo.core.Widget', {
+      Ergo.defineClass('Ergo.test.MyWidget', {
+
+				extends: 'Ergo.core.Widget',
+
         set test(v) {
           this._property = v;
         }
@@ -120,7 +123,7 @@ describe('Widget', function(){
 
 		it('should use class properties `get` and `set`', function() {
 
-			Ergo.defineClass('Ergo.core.TestClass', null, {
+			Ergo.defineClass('Ergo.core.TestClass', {
 				extends: 'Ergo.core.Object',
 				props: {
 					set: {

@@ -1,5 +1,7 @@
 
-Ergo.defineClass('Ergo.layouts.Inherited', 'Ergo.core.Layout', {
+Ergo.defineClass('Ergo.layouts.Inherited', {
+
+	extends: 'Ergo.core.Layout',
 
 	// select: function(item) {
 		// return this.container.parent.el;

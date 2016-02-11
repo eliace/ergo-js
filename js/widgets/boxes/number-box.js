@@ -1,8 +1,10 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
-	
+Ergo.defineClass('Ergo.widgets.NumberBox', {
+
+	extends: 'Ergo.widgets.TextBox',
+
 	defaults: {
 		cls: 'number',
 		components: {
@@ -45,13 +47,13 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 				}
 			}
 		},
-		
+
 		step: 1,
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		events: {
 			'up': function(e) {
 				this.up();
@@ -61,24 +63,24 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 				this.down();
 				e.stop();
 			}
-		}	
+		}
 	},
-	
-	
+
+
 	up: function() {
 		var v = this.opt('value');
 		var step = this.options.step;
 		this.opt('value', (v ? (v+step) : step));
 	},
-	
+
 	down: function() {
 		var v = this.opt('value');
 		var step = this.options.step;
-		this.opt('value', (v ? (v-step) : -step));		
+		this.opt('value', (v ? (v-step) : -step));
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }, 'widgets:number-box');

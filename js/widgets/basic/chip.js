@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Chip', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Chip', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'chip',

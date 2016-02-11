@@ -192,8 +192,8 @@
 		var base_class;
 
 		// `extends` class property
-		bclass = overrides.extends;
-		
+		bclass = overrides.extends || Ergo.core.Object;
+
 
 		if( typeof bclass == 'string' ) {
 			var cp_a = bclass.split('.');
@@ -278,7 +278,7 @@
 	 * @param {String} etype псевдоним класса
 	 * @return {Ergo.core.Object}
 	 */
-	E.object = function(ns, options, alias, context) {//defaultType) {
+	E.object = function(ns, alias, options, context) {//defaultType) {
 
 		if(options instanceof Ergo.core.Object) return options;
 

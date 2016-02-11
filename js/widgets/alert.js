@@ -1,7 +1,9 @@
 
 //= require <widgets/basic/box>
 
-Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Alert', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'alert',

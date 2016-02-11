@@ -18,7 +18,9 @@
  *
  *
  */
-Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Select', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 
@@ -53,7 +55,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'content': {
 				etype: 'text',
-				include: 'placeholder',
+				include: ['placeholder'],
 				binding: false,
 				as: 'text',
 				onClick: 'action:dropdown'
@@ -65,7 +67,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'dropdown': {
 				weight: -100,
-				include: 'list-navigator',
+				include: ['list-navigator'],
 				as: 'hovered',
 				popup: {
 					adjust: true

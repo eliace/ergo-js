@@ -1,12 +1,14 @@
 
 
-Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
-	
+Ergo.defineClass('Ergo.widgets.SelectBox', {
+
+	extends: 'Ergo.widgets.TextBox',
+
 	defaults: {
 		cls: 'select-box',
-		
+
 		include: 'dropdown selectable',
-		
+
 		components: {
 			content: {
 				type: 'button',
@@ -24,7 +26,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 						etype: 'icon',
 						html: '<button/>',
 						cls: 'fa fa-fw fa-caret-down'
-					}				
+					}
 				},
 				onClick: function(e) {
 					this.events.rise('dropdown');
@@ -55,23 +57,23 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 			}
 		},
 
-		
+
 		onDropdown: function(e) {
 			this.states.toggle('opened');
 		},
-		
-		
+
+
 		onAction: function(e) {
 			this.opt('value', e.key);
 		},
-		
-		
+
+
 		binding: function(v) {
 			this.opt('selected', v);
 			this.content.opt('value', this.selection.get().opt('text'));
 		}
-		
-	
-	}	
-	
+
+
+	}
+
 }, 'widgets:select-box');

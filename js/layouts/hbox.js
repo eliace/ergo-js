@@ -1,8 +1,10 @@
 
-Ergo.defineClass('Ergo.layouts.HBox', 'Ergo.core.Layout', {
-	
+Ergo.defineClass('Ergo.layouts.HBox', {
+
+	extends: 'Ergo.core.Layout',
+
 	defaults: {
 		name: 'hbox'
-	}	
-	
+	}
+
 }, 'layouts:hbox');

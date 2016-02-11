@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.DropdownBox', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 //		mixins: ['dropdown'],

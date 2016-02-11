@@ -2,7 +2,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
+Ergo.defineClass('Ergo.widgets.ComboBox', {
+
+	extends: 'Ergo.widgets.TextBox',
 
 	defaults: {
 		cls: 'combo-box',

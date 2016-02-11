@@ -10,7 +10,9 @@
  * @name Ergo.widgets.Tree
  * @extends Ergo.widgets.NestedList
  */
-Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo.widgets.Tree.prototype */{
+Ergo.defineClass('Ergo.widgets.Tree', /** @lends Ergo.widgets.Tree.prototype */{
+
+	extends: 'Ergo.widgets.NestedList',
 
 	defaults: {
 //		cls: 'tree'
@@ -51,7 +53,9 @@ Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo
 
 
 
-Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends Ergo.widgets.TreeItem.prototype */{
+Ergo.defineClass('Ergo.widgets.TreeItem', /** @lends Ergo.widgets.TreeItem.prototype */{
+
+	extends: 'Ergo.widgets.NestedItem',
 
 	defaults: {
 

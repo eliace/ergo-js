@@ -15,7 +15,9 @@
  * @name Ergo.widgets.NestedList
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.NestedList', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'ul',
@@ -93,7 +95,9 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
  * @name Ergo.widgets.NestedItem
  * @extends Ergo.widgets.Box
  */
-Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.NestedItem.prototype */{
+Ergo.defineClass('Ergo.widgets.NestedItem', /** @lends Ergo.widgets.NestedItem.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 

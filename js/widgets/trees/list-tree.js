@@ -1,6 +1,8 @@
 
-Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
-	
+Ergo.defineClass('Ergo.widgets.ListTree', {
+
+	extends: 'Ergo.widgets.NestedList',
+
 	defaults: {
 		cls: 'list-tree',
 		
@@ -12,8 +14,5 @@ Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 			}
 		}
 	},
-	
-}, 'widgets:list-tree');	
 
-
-
+}, 'widgets:list-tree');

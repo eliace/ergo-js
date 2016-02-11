@@ -1,15 +1,17 @@
 
 
-Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.TextBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		baseCls: 'text-box',
 		cls: 'control',
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		components: {
 			content: {
 				etype: 'html:input',
@@ -39,21 +41,21 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 		},
 
 
-		
+
 		onChange: function(e) {
-			this.opt('value', e.text);			
+			this.opt('value', e.text);
 		},
-		
+
 		onFocus: function(e) {
-			this.states.toggle('focused', e.focus);			
+			this.states.toggle('focused', e.focus);
 		}
-		
+
 	},
-	
-	
-	
-	
-	
+
+
+
+
+
 	set_placeholder: function(v) {
 		this.content.opt('placeholder', v);
 	},
@@ -61,19 +63,19 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 	set_name: function(v) {
 		this.content.opt('name', v);
 	},
-	
 
 
-	
-	
-	
+
+
+
+
 	selection_range: function(v0, v1) {
-		
+
 		var elem = this.content.el[0];
 
     if (elem.setSelectionRange) {
       elem.setSelectionRange(v0, v1);
-    } 
+    }
     else if (elem.createTextRange) {
       var range = elem.createTextRange();
       range.collapse(true);
@@ -81,11 +83,11 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
       range.moveStart('character', v1);
       range.select();
     }
-		
+
 	},
-	
+
 	cursor_position: function(v) {
-		this.selection_range(v, v);		
+		this.selection_range(v, v);
 	}
-	
+
 }, 'widgets:text-box');

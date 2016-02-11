@@ -1,7 +1,9 @@
 
 //= require <widgets/boxes/button-box>
 
-Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
+Ergo.defineClass('Ergo.widgets.DropdownButton', {
+
+	extends: 'Ergo.widgets.ButtonBox',
 
 	defaults: {
 //		baseCls: 'dropdown-button',

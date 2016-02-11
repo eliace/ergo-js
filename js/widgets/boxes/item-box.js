@@ -1,7 +1,9 @@
 
 
-Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.ItemBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		baseCls: 'item-box',
 		components: {
@@ -15,11 +17,11 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
+
 	_layoutChanged: function() {
 		this._super();
-		
-		
+
+
 		if(this.before._rendered) {
 			var h = this.before.el.outerHeight();
 			var w = this.before.el.outerWidth(true);
@@ -27,7 +29,7 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 				'margin-top': -h/2,
 				'left': this.el.css('padding-left') || 0
 			});
-			
+
 			if(this.content) {
 				this.content.el.css({
 					'margin-left': w
@@ -42,17 +44,16 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 				'margin-top': -h/2,
 				'right': this.el.css('padding-right') || 0
 			});
-			
+
 			if(this.content) {
 				this.content.el.css({
 					'margin-right': w
 				});
 			}
-			
-		}
-		
-	}	
-	
-	
-}, 'widgets:item-box');
 
+		}
+
+	}
+
+
+}, 'widgets:item-box');

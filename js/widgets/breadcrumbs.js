@@ -1,5 +1,7 @@
 
-Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Breadcrumbs', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'breadcrumbs',

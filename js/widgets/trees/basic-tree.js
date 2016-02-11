@@ -1,7 +1,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
+Ergo.defineClass('Ergo.widgets.BasicTree', {
+
+	extends: 'Ergo.widgets.Tree',
 
 	defaults: {
 

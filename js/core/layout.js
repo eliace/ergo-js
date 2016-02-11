@@ -1209,5 +1209,5 @@ Ergo.$layouts = function(o, etype) {
 		etype = 'default';
 	}
 
-	return Ergo.object('layouts', o, etype);
+	return Ergo.object('layouts', etype, o);
 };

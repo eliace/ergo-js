@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.TableGrid', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'table-grid',
@@ -231,7 +233,9 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.grid.Header', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',
@@ -263,7 +267,9 @@ Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.grid.Box', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.grid.Box', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',

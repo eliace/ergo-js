@@ -15,7 +15,8 @@ describe('Include "provider-methods"', function(){
         }
       }
 
-      Ergo.defineClass('Ergo.test.Order', 'Ergo.data.Object', {
+      Ergo.defineClass('Ergo.test.Order', {
+				extends: 'Ergo.data.Object',
         defaults: {
           include: 'provider-methods'
         },

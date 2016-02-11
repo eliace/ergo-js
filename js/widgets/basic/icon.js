@@ -12,7 +12,9 @@
  * @name Ergo.widgets.Icon
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Icon', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'i',

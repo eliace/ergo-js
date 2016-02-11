@@ -17,7 +17,9 @@
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
+Ergo.defineClass('Ergo.widgets.Panel', /** @lends Ergo.widgets.Panel.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 //		html: '<div/>',

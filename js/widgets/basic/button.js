@@ -14,7 +14,9 @@
  * @name Ergo.widgets.Button
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
+Ergo.defineClass('Ergo.widgets.Button', /** @lends Ergo.widgets.Button.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'button',

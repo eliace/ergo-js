@@ -1,7 +1,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.Item', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Item', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'item',

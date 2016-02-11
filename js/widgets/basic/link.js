@@ -13,7 +13,9 @@
  * @name Ergo.widgets.Link
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widgets.Link.prototype */{
+Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		as: 'link',

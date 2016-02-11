@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
+Ergo.defineClass('Ergo.widgets.ModalDialog', {
+
+	extens: 'Ergo.widgets.Panel',
 
 	defaults: {
 
@@ -55,7 +57,7 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			'click': function(e) {
 				e.stop();
 			},
-			
+
 			'dialogAction': function(e) {
 
 	//			var event = new Ergo.core.CancelEvent();

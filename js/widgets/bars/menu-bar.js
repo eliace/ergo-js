@@ -1,14 +1,16 @@
 
 
-Ergo.defineClass('Ergo.widgets.MenuBar', 'Ergo.widgets.List', {
-	
-	defaults: {		
+Ergo.defineClass('Ergo.widgets.MenuBar', {
+
+	extends: 'Ergo.widgets.List',
+
+	defaults: {
 		baseCls: 'menu-bar',
 		defaultItem: {
 			html: '<li/>',
 			components: {
 				content: {
-					etype: 'link'					
+					etype: 'link'
 				}
 			},
 			set: {
@@ -16,6 +18,6 @@ Ergo.defineClass('Ergo.widgets.MenuBar', 'Ergo.widgets.List', {
 			}
 		},
 	}
-	
-	
+
+
 }, 'widgets:menu-bar');

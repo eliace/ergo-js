@@ -1,7 +1,9 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Edit', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'div',//'<div contenteditable="true"/>',

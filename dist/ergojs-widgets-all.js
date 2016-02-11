@@ -10,7 +10,9 @@
  * @name Ergo.widgets.Box
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widgets.Box.prototype */{
+Ergo.defineClass('Ergo.widgets.Box',  /** @lends Ergo.widgets.Box.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'div',
@@ -41,7 +43,9 @@ Ergo.defineClass('Ergo.widgets.Box', 'Ergo.core.Widget',  /** @lends Ergo.widget
  * @name Ergo.widgets.Button
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widgets.Button.prototype */{
+Ergo.defineClass('Ergo.widgets.Button', /** @lends Ergo.widgets.Button.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'button',
@@ -102,7 +106,9 @@ Ergo.defineClass('Ergo.widgets.Button', 'Ergo.core.Widget', /** @lends Ergo.widg
  * @name Ergo.widgets.Icon
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Icon', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'i',
@@ -140,7 +146,9 @@ Ergo.defineClass('Ergo.widgets.Icon', 'Ergo.core.Widget', {
  * @name Ergo.widgets.Link
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widgets.Link.prototype */{
+Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		as: 'link',
@@ -169,7 +177,9 @@ Ergo.defineClass('Ergo.widgets.Link', 'Ergo.core.Widget', /** @lends Ergo.widget
  * @name Ergo.widgets.List
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widgets.List.prototype */{
+Ergo.defineClass('Ergo.widgets.List', /** @lends Ergo.widgets.List.prototype */{
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'ul',
@@ -190,7 +200,9 @@ Ergo.defineClass('Ergo.widgets.List', 'Ergo.widgets.Box', /** @lends Ergo.widget
 
 
 
-Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.OrderedList', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		tag: 'ol'
@@ -217,7 +229,9 @@ Ergo.defineClass('Ergo.widgets.OrderedList', 'Ergo.widgets.List', {
  * @name Ergo.widgets.Panel
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Panel.prototype */{
+Ergo.defineClass('Ergo.widgets.Panel', /** @lends Ergo.widgets.Panel.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 //		html: '<div/>',
@@ -285,7 +299,9 @@ Ergo.defineClass('Ergo.widgets.Panel', 'Ergo.widgets.Box', /** @lends Ergo.widge
  * @name Ergo.widgets.Table
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Table', 'Ergo.widgets.Box', /** @lends Ergo.widgets.Table.prototype */{
+Ergo.defineClass('Ergo.widgets.Table', /** @lends Ergo.widgets.Table.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',
@@ -546,7 +562,9 @@ Ergo.defineClass('Ergo.controllers.Columns', 'Ergo.core.Object', {
  * @name Ergo.widgets.TableRow
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.TableRow', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'tr',
@@ -564,16 +582,6 @@ Ergo.defineClass('Ergo.widgets.TableRow', 'Ergo.widgets.Box', {
 }, 'widgets:table-row');
 
 
-/*
-Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
-
-	defaults: {
-		html: '<span/>',
-		binding: 'text'
-	}
-
-}, 'widget:text');
-*/
 
 
 
@@ -594,7 +602,9 @@ Ergo.alias('widgets:.', Ergo.html._Text);
  * @name Ergo.widgets.Text
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Text', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'span',
@@ -620,7 +630,9 @@ Ergo.defineClass('Ergo.widgets.Text', 'Ergo.core.Widget', {
  * @name Ergo.widgets.NestedList
  * @extends Ergo.core.Widget
  */
-Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.NestedList', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'ul',
@@ -698,7 +710,9 @@ Ergo.defineClass('Ergo.widgets.NestedList', 'Ergo.widgets.Box', {
  * @name Ergo.widgets.NestedItem
  * @extends Ergo.widgets.Box
  */
-Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.widgets.NestedItem.prototype */{
+Ergo.defineClass('Ergo.widgets.NestedItem', /** @lends Ergo.widgets.NestedItem.prototype */{
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 
@@ -751,7 +765,9 @@ Ergo.defineClass('Ergo.widgets.NestedItem', 'Ergo.widgets.Box', /** @lends Ergo.
  * @name Ergo.widgets.Tree
  * @extends Ergo.widgets.NestedList
  */
-Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo.widgets.Tree.prototype */{
+Ergo.defineClass('Ergo.widgets.Tree', /** @lends Ergo.widgets.Tree.prototype */{
+
+	extends: 'Ergo.widgets.NestedList',
 
 	defaults: {
 //		cls: 'tree'
@@ -792,7 +808,9 @@ Ergo.defineClass('Ergo.widgets.Tree', 'Ergo.widgets.NestedList', /** @lends Ergo
 
 
 
-Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends Ergo.widgets.TreeItem.prototype */{
+Ergo.defineClass('Ergo.widgets.TreeItem', /** @lends Ergo.widgets.TreeItem.prototype */{
+
+	extends: 'Ergo.widgets.NestedItem',
 
 	defaults: {
 
@@ -840,7 +858,9 @@ Ergo.defineClass('Ergo.widgets.TreeItem', 'Ergo.widgets.NestedItem', /** @lends 
 
 
 
-Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Input', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'input',
@@ -995,7 +1015,9 @@ Ergo.defineClass('Ergo.widgets.Input', 'Ergo.widgets.Box', {
  *
  *
  */
-Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Select', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 
@@ -1030,7 +1052,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'content': {
 				etype: 'text',
-				include: 'placeholder',
+				include: ['placeholder'],
 				binding: false,
 				as: 'text',
 				onClick: 'action:dropdown'
@@ -1042,7 +1064,7 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 			'dropdown': {
 				weight: -100,
-				include: 'list-navigator',
+				include: ['list-navigator'],
 				as: 'hovered',
 				popup: {
 					adjust: true
@@ -1200,7 +1222,9 @@ Ergo.defineClass('Ergo.widgets.Select', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Check', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Check', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'check',
@@ -1239,7 +1263,9 @@ Ergo.defineClass('Ergo.widgets.Check', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Radio', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'radio',
@@ -1267,7 +1293,9 @@ Ergo.defineClass('Ergo.widgets.Radio', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Label', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Label', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'label',
@@ -1286,7 +1314,9 @@ Ergo.defineClass('Ergo.widgets.Label', 'Ergo.core.Widget', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Item', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Item', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'item',
@@ -1307,7 +1337,9 @@ Ergo.defineClass('Ergo.widgets.Item', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Title', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Title', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'span',
@@ -1319,7 +1351,9 @@ Ergo.defineClass('Ergo.widgets.Title', 'Ergo.core.Widget', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Image', 'Ergo.html.Img', {
+Ergo.defineClass('Ergo.widgets.Image', {
+
+	extends: 'Ergo.html.Img',
 
 	defaults: {
 		cls: 'image'
@@ -1329,8 +1363,9 @@ Ergo.defineClass('Ergo.widgets.Image', 'Ergo.html.Img', {
 
 
 
+Ergo.defineClass('Ergo.widgets.Chip', {
 
-Ergo.defineClass('Ergo.widgets.Chip', 'Ergo.widgets.Box', {
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'chip',
@@ -1370,7 +1405,9 @@ Ergo.defineClass('Ergo.widgets.Chip', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
+Ergo.defineClass('Ergo.widgets.Edit', {
+
+	extends: 'Ergo.core.Widget',
 
 	defaults: {
 		tag: 'div',//'<div contenteditable="true"/>',
@@ -1388,7 +1425,9 @@ Ergo.defineClass('Ergo.widgets.Edit', 'Ergo.core.Widget', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Menu', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		cls: 'menu',
@@ -1402,7 +1441,9 @@ Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.MenuItem', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'li',
@@ -1423,7 +1464,9 @@ Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
+Ergo.defineClass('Ergo.widgets.NestedMenu', {
+
+	extends: 'Ergo.widgets.Menu',
 
 	defaults: {
 //		html: '<ul/>',
@@ -1448,7 +1491,9 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
+Ergo.defineClass('Ergo.widgets.NestedMenuItem', {
+
+	extends: 'Ergo.widgets.MenuItem',
 
 	defaults: {
 
@@ -1497,42 +1542,48 @@ Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
 
 
 
-Ergo.defineClass('Ergo.widgets.TabBar', 'Ergo.widgets.List', {
-	
+Ergo.defineClass('Ergo.widgets.TabBar', {
+
+	extends: 'Ergo.widgets.List',
+
 	defaults: {
-		
+
 		cls: 'tabs tab-bar',
 		dynamic: false,
 		defaultItem: {
-		}				
-		
-		
+		}
+
+
 	}
-	
-	
+
+
 }, 'widgets:tab-bar');
 
 
-Ergo.defineClass('Ergo.widgets.ToolBar', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.ToolBar', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		baseCls: 'tool-bar'
 	}
-	
-	
+
+
 }, 'widgets:tool-bar');
 
 
 
-Ergo.defineClass('Ergo.widgets.MenuBar', 'Ergo.widgets.List', {
-	
-	defaults: {		
+Ergo.defineClass('Ergo.widgets.MenuBar', {
+
+	extends: 'Ergo.widgets.List',
+
+	defaults: {
 		baseCls: 'menu-bar',
 		defaultItem: {
 			html: '<li/>',
 			components: {
 				content: {
-					etype: 'link'					
+					etype: 'link'
 				}
 			},
 			set: {
@@ -1540,8 +1591,8 @@ Ergo.defineClass('Ergo.widgets.MenuBar', 'Ergo.widgets.List', {
 			}
 		},
 	}
-	
-	
+
+
 }, 'widgets:menu-bar');
 
 
@@ -1551,16 +1602,18 @@ Ergo.defineClass('Ergo.widgets.MenuBar', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.TextBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		baseCls: 'text-box',
 		cls: 'control',
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		components: {
 			content: {
 				etype: 'html:input',
@@ -1590,21 +1643,21 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 		},
 
 
-		
+
 		onChange: function(e) {
-			this.opt('value', e.text);			
+			this.opt('value', e.text);
 		},
-		
+
 		onFocus: function(e) {
-			this.states.toggle('focused', e.focus);			
+			this.states.toggle('focused', e.focus);
 		}
-		
+
 	},
-	
-	
-	
-	
-	
+
+
+
+
+
 	set_placeholder: function(v) {
 		this.content.opt('placeholder', v);
 	},
@@ -1612,19 +1665,19 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
 	set_name: function(v) {
 		this.content.opt('name', v);
 	},
-	
 
 
-	
-	
-	
+
+
+
+
 	selection_range: function(v0, v1) {
-		
+
 		var elem = this.content.el[0];
 
     if (elem.setSelectionRange) {
       elem.setSelectionRange(v0, v1);
-    } 
+    }
     else if (elem.createTextRange) {
       var range = elem.createTextRange();
       range.collapse(true);
@@ -1632,24 +1685,26 @@ Ergo.defineClass('Ergo.widgets.TextBox', 'Ergo.widgets.Box', {
       range.moveStart('character', v1);
       range.select();
     }
-		
+
 	},
-	
+
 	cursor_position: function(v) {
-		this.selection_range(v, v);		
+		this.selection_range(v, v);
 	}
-	
+
 }, 'widgets:text-box');
 
 
 
-Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
-	
+Ergo.defineClass('Ergo.widgets.SelectBox', {
+
+	extends: 'Ergo.widgets.TextBox',
+
 	defaults: {
 		cls: 'select-box',
-		
+
 		include: 'dropdown selectable',
-		
+
 		components: {
 			content: {
 				type: 'button',
@@ -1667,7 +1722,7 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 						etype: 'icon',
 						html: '<button/>',
 						cls: 'fa fa-fw fa-caret-down'
-					}				
+					}
 				},
 				onClick: function(e) {
 					this.events.rise('dropdown');
@@ -1698,32 +1753,34 @@ Ergo.defineClass('Ergo.widgets.SelectBox', 'Ergo.widgets.TextBox', {
 			}
 		},
 
-		
+
 		onDropdown: function(e) {
 			this.states.toggle('opened');
 		},
-		
-		
+
+
 		onAction: function(e) {
 			this.opt('value', e.key);
 		},
-		
-		
+
+
 		binding: function(v) {
 			this.opt('selected', v);
 			this.content.opt('value', this.selection.get().opt('text'));
 		}
-		
-	
-	}	
-	
+
+
+	}
+
 }, 'widgets:select-box');
 
 
 
 
 
-Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
+Ergo.defineClass('Ergo.widgets.ComboBox', {
+
+	extends: 'Ergo.widgets.TextBox',
 
 	defaults: {
 		cls: 'combo-box',
@@ -1803,8 +1860,10 @@ Ergo.defineClass('Ergo.widgets.ComboBox', 'Ergo.widgets.TextBox', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
-	
+Ergo.defineClass('Ergo.widgets.NumberBox', {
+
+	extends: 'Ergo.widgets.TextBox',
+
 	defaults: {
 		cls: 'number',
 		components: {
@@ -1847,13 +1906,13 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 				}
 			}
 		},
-		
+
 		step: 1,
-		
+
 		binding: function(v) {
 			this.content.opt('value', v);
 		},
-		
+
 		events: {
 			'up': function(e) {
 				this.up();
@@ -1863,31 +1922,33 @@ Ergo.defineClass('Ergo.widgets.NumberBox', 'Ergo.widgets.TextBox', {
 				this.down();
 				e.stop();
 			}
-		}	
+		}
 	},
-	
-	
+
+
 	up: function() {
 		var v = this.opt('value');
 		var step = this.options.step;
 		this.opt('value', (v ? (v+step) : step));
 	},
-	
+
 	down: function() {
 		var v = this.opt('value');
 		var step = this.options.step;
-		this.opt('value', (v ? (v-step) : -step));		
+		this.opt('value', (v ? (v-step) : -step));
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }, 'widgets:number-box');
 
 
 
-Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.ButtonBox', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'buttons',
@@ -1920,8 +1981,10 @@ Ergo.defineClass('Ergo.widgets.ButtonBox', 'Ergo.widgets.Box', {
 }, 'widgets:button-box');
 
 
-Ergo.defineClass('Ergo.widgets.CaretBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.CaretBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		components: {
 			// content: {
@@ -1933,16 +1996,18 @@ Ergo.defineClass('Ergo.widgets.CaretBox', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
+
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
-	
+
 }, 'widgets:caret-box');
 
 
 
-Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.DropdownBox', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 //		mixins: ['dropdown'],
@@ -1993,8 +2058,10 @@ Ergo.defineClass('Ergo.widgets.DropdownBox', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.ItemBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		baseCls: 'item-box',
 		components: {
@@ -2008,11 +2075,11 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
+
 	_layoutChanged: function() {
 		this._super();
-		
-		
+
+
 		if(this.before._rendered) {
 			var h = this.before.el.outerHeight();
 			var w = this.before.el.outerWidth(true);
@@ -2020,7 +2087,7 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 				'margin-top': -h/2,
 				'left': this.el.css('padding-left') || 0
 			});
-			
+
 			if(this.content) {
 				this.content.el.css({
 					'margin-left': w
@@ -2035,18 +2102,18 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 				'margin-top': -h/2,
 				'right': this.el.css('padding-right') || 0
 			});
-			
+
 			if(this.content) {
 				this.content.el.css({
 					'margin-right': w
 				});
 			}
-			
+
 		}
-		
-	}	
-	
-	
+
+	}
+
+
 }, 'widgets:item-box');
 
 
@@ -2063,18 +2130,21 @@ Ergo.defineClass('Ergo.widgets.ItemBox', 'Ergo.widgets.Box', {
 
 
 
+Ergo.defineClass('Ergo.widgets.LinkButton', {
 
-Ergo.defineClass('Ergo.widgets.LinkButton', 'Ergo.widgets.Link', {
-	
+	extends: 'Ergo.widgets.Link',
+
 	defaults: {
 		cls: 'btn',
 		state: 'default'
 	}
-	
+
 }, 'widgets:link-button');
 
 
-Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
+Ergo.defineClass('Ergo.widgets.IconButton', {
+
+	extends: 'Ergo.widgets.Button',
 
 	defaults: {
 		cls: 'icon-button',
@@ -2093,19 +2163,23 @@ Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
 }, 'widgets:icon-button');
 
 
-Ergo.defineClass('Ergo.widgets.ImageButton', 'Ergo.html.Img', {
-	
+Ergo.defineClass('Ergo.widgets.ImageButton', {
+
+	extends: 'Ergo.html.Img',
+
 	defaults: {
 		cls: 'btn',
 		state: 'default'
-	}	
-	
+	}
+
 }, 'widgets:image-button');
 
 
 
 
-Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
+Ergo.defineClass('Ergo.widgets.DropdownButton', {
+
+	extends: 'Ergo.widgets.ButtonBox',
 
 	defaults: {
 //		baseCls: 'dropdown-button',
@@ -2157,7 +2231,9 @@ Ergo.defineClass('Ergo.widgets.DropdownButton', 'Ergo.widgets.ButtonBox', {
 
 
 
-Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
+Ergo.defineClass('Ergo.widgets.SplitButton', {
+
+	extends: 'Ergo.widgets.DropdownButton',
 
 	defaults: {
 		as: 'split group',
@@ -2203,7 +2279,9 @@ Ergo.defineClass('Ergo.widgets.SplitButton', 'Ergo.widgets.DropdownButton', {
 
 
 
-Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
+Ergo.defineClass('Ergo.widgets.ModalDialog', {
+
+	extens: 'Ergo.widgets.Panel',
 
 	defaults: {
 
@@ -2258,7 +2336,7 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 			'click': function(e) {
 				e.stop();
 			},
-			
+
 			'dialogAction': function(e) {
 
 	//			var event = new Ergo.core.CancelEvent();
@@ -2314,7 +2392,9 @@ Ergo.defineClass('Ergo.widgets.ModalDialog', 'Ergo.widgets.Panel', {
 
 
 
-Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.TableGrid', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'table-grid',
@@ -2545,7 +2625,9 @@ Ergo.defineClass('Ergo.widgets.TableGrid', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.grid.Header', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',
@@ -2577,7 +2659,9 @@ Ergo.defineClass('Ergo.widgets.grid.Header', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.grid.Box', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.grid.Box', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'table',
@@ -2616,14 +2700,16 @@ Ergo.defineClass('Ergo.widgets.grid.Box', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
-	
+Ergo.defineClass('Ergo.widgets.TabPanel', {
+
+	extends: 'Ergo.widgets.Panel',
+
 	defaults: {
-		
+
 		cls: 'tab-panel',
-		
+
 		include: 'selectable',
-		
+
 		components: {
 			header: {
 				autoRender: false
@@ -2634,7 +2720,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				defaultItem: {
 					onClick: function() {
 						this.events.rise('select', {key: this.opt('name') /*this._name || this._key || this._index*/});
-					}					
+					}
 				}
 			},
 			content: {
@@ -2645,12 +2731,12 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 							// if(on) {
 								// this.parent.opt('visible', this);
 							// }
-						// }						
+						// }
 					// }
 				// }
 			}
 		},
-		
+
 		// onSelectTab: function(e) {
 			// this.opt('selected', e.key);
 			// e.stop();
@@ -2662,31 +2748,31 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				return this.tabbar.item(key);//, this.content.item(key)];
 			}
 		},
-		
+
 		onSelectionChanged: function(e) {
 			this.content.opt('active', e.selection.opt('name'));
 			this.events.fire('selectTab', {key: e.selection.opt('name')});
 			e.stop();
 		}
-		
+
 	},
-	
-	
+
+
 	_construct: function(o) {
 		this._super(o);
-		
+
 		this.tabs = new Ergo.core.Tabs(this);
-		
+
 		if('tabs' in o) {
 			for(var i = 0; i < o.tabs.length; i++)
 				this.tabs.add(o.tabs[i]);
 		}
-		
-		
-	}
-	
 
-	
+
+	}
+
+
+
 }, 'widgets:tab-panel');
 
 
@@ -2695,26 +2781,28 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 
 
 
-Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
-	
+Ergo.defineClass('Ergo.core.Tabs', {
+
+	extends: 'Ergo.core.Object',
+
 	defaults: {
 		mixins: [Ergo.Observable]
 	},
-	
-	
+
+
 	_initialize: function(w, o) {
 		this._super(o);
-		
+
 		this._widget = w;
 	},
-	
-	
-	
+
+
+
 	add: function(o) {
 
 		var page = {};
 		var tab = {};
-		
+
 		if($.isString(o)) {
 			tab = o;
 		}
@@ -2723,12 +2811,12 @@ Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
 			tab = o.tab;
 			delete page.tab;
 		}
-		
+
 		this._widget.tabbar.items.add(tab);
 		this._widget.content.items.add(page);
-		
+
 	}
-	
+
 });
 
 
@@ -2738,9 +2826,9 @@ Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
 
 
 
+Ergo.defineClass('Ergo.widgets.BasicTree', {
 
-
-Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
+	extends: 'Ergo.widgets.Tree',
 
 	defaults: {
 
@@ -2804,8 +2892,10 @@ Ergo.defineClass('Ergo.widgets.BasicTree', 'Ergo.widgets.Tree', {
 }, 'widgets:basic-tree');
 
 
-Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
-	
+Ergo.defineClass('Ergo.widgets.ListTree', {
+
+	extends: 'Ergo.widgets.NestedList',
+
 	defaults: {
 		cls: 'list-tree',
 		
@@ -2817,8 +2907,8 @@ Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 			}
 		}
 	},
-	
-}, 'widgets:list-tree');	
+
+}, 'widgets:list-tree');
 
 
 
@@ -2827,10 +2917,9 @@ Ergo.defineClass('Ergo.widgets.ListTree', 'Ergo.widgets.NestedList', {
 
 
 
+Ergo.defineClass('Ergo.widgets.SideMenu', {
 
-
-
-Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
+	extends: 'Ergo.widgets.Tree',
 
 	defaults: {
 		as: 'side-menu',
@@ -2911,7 +3000,9 @@ Ergo.defineClass('Ergo.widgets.SideMenu', 'Ergo.widgets.Tree', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Growls', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		as: 'growls __gap',
@@ -2971,7 +3062,9 @@ Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Buttons', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Buttons', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'buttons',
@@ -3740,7 +3833,9 @@ Ergo.alias('includes:item-click-selection', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Breadcrumbs', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'breadcrumbs',
@@ -3767,7 +3862,9 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Alert', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'alert',
@@ -3820,7 +3917,9 @@ Ergo.defineClass('Ergo.widgets.Alert', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.SimpleAlert', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'alert simple',
@@ -3843,8 +3942,10 @@ Ergo.defineClass('Ergo.widgets.SimpleAlert', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.DropdownList', 'Ergo.widgets.List', {
-	
+Ergo.defineClass('Ergo.widgets.DropdownList', {
+
+	extends: 'Ergo.widgets.List',
+
 	defaults: {
 //		baseCls: 'dropdown-list',
 		style: {'display': 'none'},
@@ -3857,13 +3958,15 @@ Ergo.defineClass('Ergo.widgets.DropdownList', 'Ergo.widgets.List', {
 			hide: {type: 'slideUp', delay: 200}
 		}
 	}
-	
+
 }, 'widgets:dropdown-list');
 
 
 
 
-Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
+Ergo.defineClass('Ergo.widgets.DropdownMenu', {
+
+	extends: 'Ergo.widgets.DropdownList',
 
 	defaults: {
 		cls: 'menu',
@@ -3880,7 +3983,9 @@ Ergo.defineClass('Ergo.widgets.DropdownMenu', 'Ergo.widgets.DropdownList', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Pagination', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 
@@ -4024,7 +4129,9 @@ Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.GridPagination', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'pagination grid-pagination',
@@ -4167,7 +4274,9 @@ Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Navigation', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'navigation',
@@ -4202,14 +4311,17 @@ Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Caret', 'Ergo.widgets.Text', {
-	
+Ergo.defineClass('Ergo.widgets.Caret', {
+
+	extends: 'Ergo.widgets.Text',
+
 	defaults: {
 		cls: 'caret',
 		autoBind: false
 	}
 
 }, 'widgets:caret');
+
 
 
 

@@ -1,6 +1,8 @@
 
-Ergo.defineClass('Ergo.widgets.CaretBox', 'Ergo.widgets.Box', {
-	
+Ergo.defineClass('Ergo.widgets.CaretBox', {
+
+	extends: 'Ergo.widgets.Box',
+
 	defaults: {
 		components: {
 			// content: {
@@ -12,9 +14,9 @@ Ergo.defineClass('Ergo.widgets.CaretBox', 'Ergo.widgets.Box', {
 			}
 		}
 	},
-	
+
 	// setText: function(v) {
 		// this.content.opt('text', v);
 	// }
-	
+
 }, 'widgets:caret-box');

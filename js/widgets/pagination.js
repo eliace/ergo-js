@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Pagination', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Pagination', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 

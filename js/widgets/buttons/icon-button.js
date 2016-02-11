@@ -1,5 +1,7 @@
 
-Ergo.defineClass('Ergo.widgets.IconButton', 'Ergo.widgets.Button', {
+Ergo.defineClass('Ergo.widgets.IconButton', {
+
+	extends: 'Ergo.widgets.Button',
 
 	defaults: {
 		cls: 'icon-button',

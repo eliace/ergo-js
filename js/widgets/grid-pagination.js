@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.GridPagination', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.GridPagination', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		as: 'pagination grid-pagination',

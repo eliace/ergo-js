@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Growls', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Growls', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		as: 'growls __gap',

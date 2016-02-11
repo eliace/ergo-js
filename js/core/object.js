@@ -339,7 +339,7 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 	 */
 	_destroy: function() {
 		//
-		
+
 		if(this._includes) {
 //			var mods = o.mods.join(' ').split(' ').uniq();
 			for(var i = 0; i < this._includes.length; i++) {
@@ -575,7 +575,7 @@ $ergo = Ergo.merge(function(o, ns, scope) {
 
 	o.etype = ns+':'+etype;
 
-	var w = Ergo['$'+ns](o, etype);//, scope);
+	var w = Ergo['$'+ns](etype, o);//, scope);
 
 	scope = scope || Ergo._scope;
 

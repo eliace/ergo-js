@@ -40,7 +40,7 @@ Ergo.defineClass('Ergo.html.Widget', {
 
 
 
-Ergo.$html = function(o, etype) {
+Ergo.$html = function(etype, o) {
 
 	if(!Ergo.alias('html:'+etype)) {
 
@@ -63,5 +63,5 @@ Ergo.$html = function(o, etype) {
 		etype = 'widget';
 	}
 
-	return Ergo.object('html', o, etype);
+	return Ergo.object('html', etype, o);
 };

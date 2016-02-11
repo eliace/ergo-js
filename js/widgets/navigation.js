@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Navigation', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.Navigation', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		cls: 'navigation',

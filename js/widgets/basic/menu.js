@@ -1,6 +1,8 @@
 
 
-Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
+Ergo.defineClass('Ergo.widgets.Menu', {
+
+	extends: 'Ergo.widgets.List',
 
 	defaults: {
 		cls: 'menu',
@@ -14,7 +16,9 @@ Ergo.defineClass('Ergo.widgets.Menu', 'Ergo.widgets.List', {
 
 
 
-Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
+Ergo.defineClass('Ergo.widgets.MenuItem', {
+
+	extends: 'Ergo.widgets.Box',
 
 	defaults: {
 		tag: 'li',
@@ -35,7 +39,9 @@ Ergo.defineClass('Ergo.widgets.MenuItem', 'Ergo.widgets.Box', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
+Ergo.defineClass('Ergo.widgets.NestedMenu', {
+
+	extends: 'Ergo.widgets.Menu',
 
 	defaults: {
 //		html: '<ul/>',
@@ -60,7 +66,9 @@ Ergo.defineClass('Ergo.widgets.NestedMenu', 'Ergo.widgets.Menu', {
 
 
 
-Ergo.defineClass('Ergo.widgets.NestedMenuItem', 'Ergo.widgets.MenuItem', {
+Ergo.defineClass('Ergo.widgets.NestedMenuItem', {
+
+	extends: 'Ergo.widgets.MenuItem',
 
 	defaults: {
 

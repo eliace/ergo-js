@@ -1,14 +1,16 @@
 
 
 
-Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
-	
+Ergo.defineClass('Ergo.widgets.TabPanel', {
+
+	extends: 'Ergo.widgets.Panel',
+
 	defaults: {
-		
+
 		cls: 'tab-panel',
-		
+
 		include: 'selectable',
-		
+
 		components: {
 			header: {
 				autoRender: false
@@ -19,7 +21,7 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				defaultItem: {
 					onClick: function() {
 						this.events.rise('select', {key: this.opt('name') /*this._name || this._key || this._index*/});
-					}					
+					}
 				}
 			},
 			content: {
@@ -30,12 +32,12 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 							// if(on) {
 								// this.parent.opt('visible', this);
 							// }
-						// }						
+						// }
 					// }
 				// }
 			}
 		},
-		
+
 		// onSelectTab: function(e) {
 			// this.opt('selected', e.key);
 			// e.stop();
@@ -47,31 +49,31 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 				return this.tabbar.item(key);//, this.content.item(key)];
 			}
 		},
-		
+
 		onSelectionChanged: function(e) {
 			this.content.opt('active', e.selection.opt('name'));
 			this.events.fire('selectTab', {key: e.selection.opt('name')});
 			e.stop();
 		}
-		
+
 	},
-	
-	
+
+
 	_construct: function(o) {
 		this._super(o);
-		
+
 		this.tabs = new Ergo.core.Tabs(this);
-		
+
 		if('tabs' in o) {
 			for(var i = 0; i < o.tabs.length; i++)
 				this.tabs.add(o.tabs[i]);
 		}
-		
-		
-	}
-	
 
-	
+
+	}
+
+
+
 }, 'widgets:tab-panel');
 
 
@@ -80,26 +82,28 @@ Ergo.defineClass('Ergo.widgets.TabPanel', 'Ergo.widgets.Panel', {
 
 
 
-Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
-	
+Ergo.defineClass('Ergo.core.Tabs', {
+
+	extends: 'Ergo.core.Object',
+
 	defaults: {
 		mixins: [Ergo.Observable]
 	},
-	
-	
+
+
 	_initialize: function(w, o) {
 		this._super(o);
-		
+
 		this._widget = w;
 	},
-	
-	
-	
+
+
+
 	add: function(o) {
 
 		var page = {};
 		var tab = {};
-		
+
 		if($.isString(o)) {
 			tab = o;
 		}
@@ -108,12 +112,10 @@ Ergo.defineClass('Ergo.core.Tabs', 'Ergo.core.Object', {
 			tab = o.tab;
 			delete page.tab;
 		}
-		
+
 		this._widget.tabbar.items.add(tab);
 		this._widget.content.items.add(page);
-		
+
 	}
-	
+
 });
-
-
