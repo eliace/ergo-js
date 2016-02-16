@@ -108,7 +108,7 @@ Ergo.defineClass('Ergo.core.Tabs', {
 			tab = o;
 		}
 		else {
-			page = Ergo.deep_copy(o);
+			page = Ergo.deepCopy(o);
 			tab = o.tab;
 			delete page.tab;
 		}

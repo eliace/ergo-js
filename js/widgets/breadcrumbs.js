@@ -15,7 +15,7 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', {
 		components: {
 			current: {
 				etype: 'html:li',
-				binding: 'text',
+//				binding: 'text',
 				weight: 100
 			}
 		}

@@ -100,20 +100,36 @@ var Ergo = (function(){
 //			E.each(srcObj, function(p, i){
 			for(var i in srcObj) {
 
-				var p = srcObj[i];
+				var desc = Object.getOwnPropertyDescriptor(srcObj, i);
 
-				if( p && p.constructor == Object ){//$.isPlainObject(p) ){
-	//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
-					if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
-					Ergo.deepMerge(o[i], p);
-				}
-				else if( p && p.constructor == Array ) {//$.isArray(p) ){
-	//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
-					if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
-					Ergo.deepMerge(o[i], p);
+				if(desc && (desc.get || desc.set) ) {
+					var descOrig = Object.getOwnPropertyDescriptor(o, i);
+					if(descOrig) {
+						descOrig.set = desc.set || descOrig.set;
+						descOrig.get = desc.get || descOrig.get;
+					}
+					else {
+						descOrig = desc;
+					}
+					Object.defineProperty(o, i , descOrig);
 				}
 				else {
-					o[i] = p;
+
+					var p = srcObj[i];
+
+					if( p && p.constructor == Object ){//$.isPlainObject(p) ){
+		//				if(!(i in o) || !$.isPlainObject(o[i])) o[i] = {};
+						if(!(i in o) || (o[i] && o[i].constructor != Object)) o[i] = {};
+						Ergo.deepMerge(o[i], p);
+					}
+					else if( p && p.constructor == Array ) {//$.isArray(p) ){
+		//				if(!(i in o) || !$.isArray(o[i])) o[i] = [];
+						if(!(i in o) || (o[i] && o[i].constructor != Array)) o[i] = [];
+						Ergo.deepMerge(o[i], p);
+					}
+					else {
+						o[i] = p;
+					}
 				}
 			}
 
@@ -202,7 +218,7 @@ var Ergo = (function(){
 					}
 					else if(rule[0] == 'override') {
 //						o[name] = (a == null) ? b : E.deepMerge(a, b);
-						o[name] = (a == null) ? E.deep_copy(b) : E.deepMerge(a, b);
+						o[name] = (a == null) ? E.deepCopy(b) : E.deepMerge(a, b);
 					}
 					else if( b.constructor === Object ) {
 						a = a || {};
@@ -278,7 +294,7 @@ var Ergo = (function(){
 					$ergo.deepMerge(o[name], b);
 				}
 				else {
-					o[name] = $ergo.deep_copy(b);
+					o[name] = $ergo.deepCopy(b);
 				}
 			}
 		}

@@ -887,7 +887,7 @@ Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 			if(item._wrapper)
 				item._wrapper._destroy();
 		}
-		else {
+		else if(item.__vdom) {
 			item.vdom.detach(); //TODO опасный момент: все дочерние DOM-элементы не уничтожаются
 		}
 

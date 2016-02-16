@@ -7,7 +7,7 @@ Ergo.defineClass('Ergo.widgets.Edit', {
 
 	defaults: {
 		tag: 'div',//'<div contenteditable="true"/>',
-		binding: 'text'
+		binding: 'prop:text'
 	},
 
 

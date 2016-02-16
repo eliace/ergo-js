@@ -316,7 +316,7 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 * @returns {Any}
 	 */
 	copy: function(i) {
-		return Ergo.deep_copy(this.get(i));
+		return Ergo.deepCopy(this.get(i));
 	},
 
 

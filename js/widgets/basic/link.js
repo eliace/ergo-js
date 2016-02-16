@@ -22,7 +22,7 @@ Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
 		tag: 'a',
 		href: '#',
 //		html: '<a href="#"/>',
-		binding: 'text'
+		binding: 'prop:text'
 	},
 
 	set href(v) {

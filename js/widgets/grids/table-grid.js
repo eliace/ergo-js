@@ -76,7 +76,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', {
 
 			add: function(column, key) {
 
-				var col_item = Ergo.deep_copy(column);
+				var col_item = Ergo.deepCopy(column);
 				var col = {};
 				var hdr_item = {};
 

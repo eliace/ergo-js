@@ -7,7 +7,7 @@ Ergo.defineClass('Ergo.widgets.Label', {
 	defaults: {
 		tag: 'label',
 		cls: 'label',
-		binding: 'text',
+//		binding: 'text',
 		components: {
 			content: {
 				etype: '.',

@@ -13,8 +13,8 @@ Ergo.defineClass('Ergo.widgets.Text', {
 	extends: 'Ergo.core.Widget',
 
 	defaults: {
-		tag: 'span',
-		binding: 'text'
+		tag: 'span'
+//		binding: 'text'
 	}
 
 }, 'widgets:text');

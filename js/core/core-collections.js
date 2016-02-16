@@ -235,9 +235,9 @@
 	 *
 	 * Аргументы вызываемого метода начинаются с 3 аргумента
 	 *
- 	 * Ergo.call_all(items, 'show', 10, 45);
+ 	 * Ergo.callAll(items, 'show', 10, 45);
 	 *
-	 * @name Ergo.call_all
+	 * @name Ergo.callAll
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {String} m_name имя метода

@@ -259,14 +259,23 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 //			_event = new Ergo.events.Event();
 //			e = new Ergo.events.Event();
 		}
-		else if( _event.constructor === Object ){
-			Ergo.merge(e, _event);
-//			_event.baseEvent = baseEvent;
-//			e = new Ergo.events.Event(e, baseEvent);
+		else if(_event.constructor === Object) {
+			$ergo.merge(e, _event);
 		}
-		else {
+		else if(_event instanceof Ergo.core.Event) {
 			e = _event;
 		}
+		else {
+			e.$data = _event;
+		}
+// 		else if( _event.constructor === Object ){
+// 			Ergo.merge(e, _event);
+// //			_event.baseEvent = baseEvent;
+// //			e = new Ergo.events.Event(e, baseEvent);
+// 		}
+// 		else {
+// 			e = _event;
+// 		}
 
 
 
@@ -326,6 +335,11 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 //		self.on_fire(type, e, baseEvent);
 
 		return e;
+	},
+
+
+	emit: function() {
+		this.fire.apply(this, arguments);
 	}
 
 
@@ -404,7 +418,16 @@ Ergo.alias('mixins:observable', {
 
 					if( typeof callback == 'string' ) {
 						var a = callback.split(':');
-						callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
+						// action
+						var action = $ergo.alias('actions:'+a[0]) || this[a[0]];
+						if( action ==  null ) {
+							//TODO missed action
+							callback = this._missedAction.bind(this, callback);
+						}
+						else {
+							callback = action.bind(this, a[1]);
+						}
+//						callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
 					}
 
 					target.events.on(eventName, callback, this);
@@ -422,9 +445,19 @@ Ergo.alias('mixins:observable', {
 					var chain = ( !Array.isArray(o[i]) ) ? [o[i]] : o[i];
 					for(var j = 0; j < chain.length; j++) {
 						var callback = chain[j];
-						if( $.isString(callback) ) {
+						if( typeof callback == 'string' ) {
 							var a = callback.split(':');
-							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
+//							callback = (a.length == 1) ? this[callback].bind(this, null) : this[a[0]]/*.rcurry(a[1])*/.bind(this, a[1]);
+							// action
+							var action = $ergo.alias('actions:'+a[0]) || this[a[0]];
+							if( action ==  null ) {
+								//TODO missed action
+								callback = this._missedAction.bind(this, callback);
+							}
+							else {
+								callback = action.bind(this, a[1]);
+							}
+
 						}
 						this.events.on( name, callback );
 					}

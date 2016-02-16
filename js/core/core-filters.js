@@ -98,5 +98,58 @@
 
 
 
+	A = Ergo;
+
+
+	A.EventAction = function(name, value) {
+		this.emit(name, value);
+	};
+
+	A.StateAction = function(name, value) {
+		if(value instanceof Ergo.core.Event) {
+			value = value.$data;
+		}
+		this.set(name, value);
+	}
+
+	A.PropAction = function(name, value) {
+		if(value instanceof Ergo.core.Event) {
+			value = value.$data;
+		}
+		this.prop(name, value);
+	}
+
+	A.ClsAction = function(name, value) {
+		value ? this.vdom.addClass(name) : this.vdom.removeClass(name);
+	}
+
+
+	A.Action = function(name, value) {
+		this._widget[name](value);
+	}
+
+
+	Ergo.alias('actions:event', A.EventAction);
+	Ergo.alias('actions:state', A.StateAction);
+	Ergo.alias('actions:prop', A.PropAction);
+
+	Ergo.alias('actions:cls', A.ClsAction);
+
+
+
+
+	A.DOMAttribute = {
+		set: function(v, name) {
+			this.vdom.el.setAttribute(name, v);
+		},
+		get: function(name) {
+			return this.el.vdom.getAttribute(name);
+		}
+	}
+
+
+
+
+//	Ergo = A;
 
 })();

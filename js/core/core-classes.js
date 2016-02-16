@@ -65,8 +65,6 @@
 		// переносим геттеры и сеттеры
 		E.mergeProperties(c.prototype, c.superclass);
 
-		// перегружаем параметрами класса
-		E.merge(c.prototype, overrides);
 
 		// добавляем примеси
 		if(overrides.mixins) {
@@ -77,6 +75,9 @@
 				$ergo.deepMerge(c.prototype, mixin);
 			});
 		}
+
+		// перегружаем параметрами класса
+		E.merge(c.prototype, overrides);
 
 		// регистрируем
 		if(overrides.etype) {
@@ -248,12 +249,12 @@
 		}
 
 
-		if('mixins' in overrides) {
-			for(i in overrides.mixins) {
-				var mixin = overrides.mixins[i];
-				Ergo.deepMerge(clazz.prototype, mixin);
-			}
-		}
+		// if('mixins' in overrides) {
+		// 	for(i in overrides.mixins) {
+		// 		var mixin = overrides.mixins[i];
+		// 		Ergo.deepMerge(clazz.prototype, mixin);
+		// 	}
+		// }
 
 		clazz.prototype._class_name = class_name;
 

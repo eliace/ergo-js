@@ -10,7 +10,7 @@ describe('Widget', function(){
       var w = $.ergo({
         etype: 'box',
         defaultItem: {
-          binding: 'text'
+          binding: 'prop:text'
         },
         dynamic: true,
         dynamicSorter: function(a, b) {

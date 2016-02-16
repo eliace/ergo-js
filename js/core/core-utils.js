@@ -249,6 +249,41 @@
 		});
 	};
 
+
+
+	E.formatValue = function(key, obj) {
+
+		var o = obj;
+
+		var fmt_a = [];
+		if( key.indexOf('|') > 0 ) {
+			var a = key.split('|');
+			key = a[0];
+			for(var i = 1; i < a.length; i++) {
+				fmt = Ergo.alias('formats:'+a[i]);
+				if(!fmt)
+					console.warn('Format ['+a[i]+'] is not registered');
+				fmt_a.push(fmt);
+			}
+		}
+
+		if(key && key != '*') {
+			var arr = key.split('.');
+			for(var i = 0; i < arr.length; i++) {
+				if(o == null) return o;
+				o = o[arr[i]];
+			}
+		}
+
+
+		for(var i = 0; i < fmt_a.length; i++)
+			o = fmt_a[i](o);
+
+		return o === undefined ? '' : o;
+	};
+
+
+
 	/**
 	 * Форматированный вывод объекта
 	 *
@@ -271,6 +306,14 @@
 	 */
 	E.format_obj = function(format_str, obj) {
 		if(obj === null || obj === undefined) return '';
+
+		var m = format_str.match(/^{{([^}{]+?)}}$/);
+
+		if(m) {
+
+		}
+
+
 		return format_str.replace(/#{\s*(.+?)\s*}/g, function(str, key) {
 			var o = obj;
 
@@ -374,7 +417,28 @@
 	 * @function
 	 * @param {Any} src копируемый объект
 	 */
-	E.deep_copy = function(src) {
+	E.deepCopy = function(src) {
+
+		if(src && src.constructor == Object) {
+			var copy = {};
+			for(var i in src) {
+				copy[i] = E.deepCopy(src[i]);
+			}
+			return copy;
+		}
+		else if(src && src.constructor == Array) {
+			var copy = [];
+			for(var i = 0; i < src.length; i++) {
+				copy[i] = E.deepCopy(src[i]);
+			}
+			return copy;
+		}
+		else {
+			return src;
+		}
+
+
+/*
 		var copy = null;
 
 //		var is_po = $.isPlainObject(src);
@@ -383,7 +447,7 @@
 		if( src && (is_po || src.constructor == Array)) {
 			copy = is_po ? {} : [];
 			for(var i in src)
-				copy[i] = E.deep_copy(src[i]);
+				copy[i] = E.deepCopy(src[i]);
 //			E.each(src, function(item, i){
 //				copy[i] = E.deep_copy(item);
 //			});
@@ -393,6 +457,7 @@
 		}
 
 		return copy;
+*/
 	};
 
 

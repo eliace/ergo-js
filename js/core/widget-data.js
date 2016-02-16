@@ -485,8 +485,16 @@ Ergo.WidgetData = {
 		if(binding && (('__dta' in this) || ('__val' in this))){ //FIXME неочевидная оптимизация
 
 			if( typeof binding == 'string' ) {
+				var a = binding.split(':');
+				var action = $ergo.alias('actions:'+a[0]) || this[a[0]];
+				if(action == null) {
+					this._missedAction(binding, this.value);
+				}
+				else {
+					action.call(this, a[1], this.value);
+				}
 //				this[binding] = this.value;
-				this.prop(binding, this.value);
+//				this.prop(binding, this.value);
 			}
 			else {
 				if( binding.call(this, this.value) === false) return false;

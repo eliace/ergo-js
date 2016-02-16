@@ -88,6 +88,8 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	extends: 'Ergo.core.Object',
 
+	mixins: ['observable', 'statable'],
+
 	defaults: {
 //		layout: 'default',
 		// states: {
@@ -446,6 +448,12 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
+		this._bindEvents();
+
+		this._bindStates();
+
+
+
 
 		if('style' in o) {
 			this.vdom.setStyle(o.style);
@@ -472,8 +480,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-
-		this._bindEvents();
 
 
 /*
@@ -994,7 +1000,19 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 		// если присутствует функция форматирования, то используем ее
 		var fmt = this._format || this.options.format;
 		if(fmt) {
-			val = (typeof fmt == 'string') ? $ergo.format_obj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
+			if(typeof fmt == 'string') {
+				var m = fmt.match(/^#{([^}{]+?)}$/);
+				if( m ) {
+					val = $ergo.formatValue.call(this, m[1], val);
+				}
+				else {
+					val = $ergo.format_obj.call(this, fmt, val);
+				}
+			}
+			else {
+				val = fmt.call(this, val);
+			}
+//			val = (typeof fmt == 'string') ? $ergo.format_obj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
 		}
 
 		return val;
@@ -1121,7 +1139,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 				this.states.toggle(i, v);
 			}
 			//FIXME
-			else if(i in this.states._exclusives) {
+			else if(i in this.states._groups) {
 				this.states.set(v);
 			}
 			// else {
@@ -1273,6 +1291,19 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
+	_missedState: function(name, on, data) {
+		on ? this.vdom.addClass(name) : this.vdom.removeClass(name);
+	},
+
+
+
+	// _missedAction: function(name, on, data) {
+	// 	on ? this.vdom.addClass(name) : this.vdom.removeClass(name);
+	// }
+
+
+
+
 
 
 
@@ -1395,9 +1426,9 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
+//Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:observable'));
 
-Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
+//Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
 Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 

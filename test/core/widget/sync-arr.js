@@ -12,10 +12,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); this.opt('text', v) },
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); this.opt('text', v) },
 				}
 			});
 
@@ -81,10 +81,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); }
 				},
 				dynamicFilter: filter
 			});
@@ -200,10 +200,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); this.opt('text', v) }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); this.opt('text', v) }
 				},
 				dynamicSorter: sorter
 			});
@@ -311,10 +311,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); this.opt('text', v) }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); this.opt('text', v) }
 				},
 				dynamicSorter: sorter,
 				dynamicFilter: filter
@@ -453,10 +453,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); }
 				},
 				dynamicSorter: sorter,
 				dynamicFilter: filter

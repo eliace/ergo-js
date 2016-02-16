@@ -6,6 +6,27 @@ describe('Widget', function(){
 
 
 
+    it('should create component shortcuts', function() {
+
+      var box = $.ergo({
+        etype: 'box',
+        components: {
+          a: {text: 'Alice'},
+          b: {text: 'Bob'}
+        }
+      });
+
+      box.components.set('c', {text: 'Charlie'});
+
+      expect( box.$a ).to.exist;
+      expect( box.$b ).to.exist;
+      expect( box.$c ).to.exist;
+
+
+    });
+
+
+
     it('should override defaultComponent', function() {
 
       var box = $.ergo({

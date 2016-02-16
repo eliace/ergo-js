@@ -4312,8 +4312,9 @@ label:hover .radio {
 }
 .side-menu li.selected > a {
   color: #0288d1;
+  background-color: rgba(0, 0, 0, 0.01);
 }
-.side-menu li > a:hover:before,
+/*.side-menu li > a:hover:before,*/
 .side-menu li.selected > a:before {
   background-color: #0288d1;
   bottom: 0;
@@ -4322,6 +4323,11 @@ label:hover .radio {
   position: absolute;
   top: 0;
   width: 3px;
+}
+/*.side-menu.at-left li > a:hover:before,*/
+.side-menu.at-left li.selected > a:before {
+  left: auto;
+  right: 0;
 }
 .side-menu li > a > .icon {
   margin-right: 10px;

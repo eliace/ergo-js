@@ -28,10 +28,11 @@
 
 .side-menu li.selected > a {
 	color: @select-color;
+	background-color: rgba(0,0,0,0.01);
 }
 
 
-.side-menu li > a:hover:before, .side-menu li.selected > a:before {
+/*.side-menu li > a:hover:before,*/ .side-menu li.selected > a:before {
   background-color: @select-color;
   bottom: 0;
   content: "";
@@ -40,6 +41,12 @@
   top: 0;
   width: 3px;
 }
+
+/*.side-menu.at-left li > a:hover:before,*/ .side-menu.at-left li.selected > a:before {
+	left: auto;
+	right: 0;
+}
+
 
 .side-menu li > a > .icon {
 	margin-right: 10px;

@@ -56,14 +56,14 @@ describe('Widget', function(){
         etype: 'box',
         states: {
 					test: {
-	          'test1': 'cls1',
-	          'test2': 'cls2'
+	          'test1': 'cls:cls1',
+	          'test2': 'cls:cls2'
 					}
         },
         test: 'test2'
       });
 
-      expect( w.states.is('test2') ).to.be.true;
+      expect( w.is('test2') ).to.be.true;
       expect( w.el.hasClass('cls2') ).to.be.true;
 
 

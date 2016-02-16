@@ -121,7 +121,7 @@ describe('Widget', function(){
         data: data,
         defaultItem: {
           etype: 'html:div',
-          binding: 'text'
+          binding: 'prop:text'
         }
       });
 
@@ -171,13 +171,13 @@ describe('Widget', function(){
 //        data: data,
         $comp: {
           etype: 'html:div',
-          binding: 'text',
+          binding: 'prop:text',
           text: 'Text',
           weight: 1
         },
         defaultItem: {
           etype: 'html:div',
-          binding: 'text'
+          binding: 'prop:text'
         }
       });
 

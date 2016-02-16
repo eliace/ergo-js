@@ -105,14 +105,15 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 			});
 
 			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaults = Ergo.deep_copy(o);
-			this.constructor.prototype.props = Ergo.deep_copy(p);
+			this.constructor.prototype.defaults = Ergo.deepCopy(o);
+			this.constructor.prototype.props = Ergo.deepCopy(p);
 //			this.constructor.prototype.rules = Ergo.deep_copy(r);
 //			Ergo.smart_build(this.constructor.prototype.defaults);
 
 		}
 		else {
-			Ergo.deepMerge(o, this.defaults);
+			o = $ergo.deepCopy(this.defaults);// JSON.parse(JSON.stringify(this.defaults));
+//			Ergo.deepMerge(o, this.defaults);
 		}
 
 
@@ -397,7 +398,7 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 		}
 
 //		Ergo.smart_override(this.options, opts);
-		Ergo.merge(this.options, opts);
+		$ergo.merge(this.options, opts);
 
 		for(var i in opts) {
 			if( !(i in Ergo.rules) ) {
@@ -449,6 +450,13 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 			return this;
 		}
 
+	},
+
+
+
+	_missedAction: function(name, value) {
+		console.warn('Action ['+name+'] is undefined');
+//		this.prop(name, value);
 	},
 
 

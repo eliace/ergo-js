@@ -93,7 +93,7 @@ Ergo.defineClass('Ergo.widgets.Table', /** @lends Ergo.widgets.Table.prototype *
 
 			add: function(column, key) {
 
-				var col_item = Ergo.deep_copy(column);
+				var col_item = Ergo.deepCopy(column);
 				var col = {};
 				var hdr_item = {};
 

@@ -19,6 +19,7 @@ Ergo.core.StateManager = function(target) {
 	this._states = {};
 	this._transitions = [];
 	this._exclusives = {};
+	this._groups = {};
 }
 
 Ergo.merge(Ergo.core.StateManager.prototype, {
@@ -32,6 +33,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 		this._states = {};
 		this._transitions = [];
 		this._exclusives = {};
+		this._groups = {};
 //		thi._substates = {};
 	},
 
@@ -72,14 +74,24 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 
 	state: function(name, value) {
 
+		if(arguments.length == 1) {
+			return this._current[name];
+		}
+
 		// добавляем эксклюзивные группы
 		if(value && value.constructor === Object) {
-			var group = this._exclusives[name] || [];
+			var group = this._groups[name] || {};
 			for(var i in value) {
 				this.state(i, value[i]);
-				group.push(new RegExp('^'+i+'$'));
+				group[i] = true;
 			}
-			this._exclusives[name] = group;
+			this._groups[name] = group;
+			// var group = this._exclusives[name] || [];
+			// for(var i in value) {
+			// 	this.state(i, value[i]);
+			// 	group.push(new RegExp('^'+i+'$'));
+			// }
+			// this._exclusives[name] = group;
 		}
 		else {
 
@@ -121,6 +133,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 		var to_a = to.split('.');
 
 		var parent = null;
+		var group = null;
 
 		// устанавливаем базовые состояния, убираем
 		if(to_a.length > 1) {
@@ -131,24 +144,27 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			for(var i = 0; i < to_a.length; i++) {
 				var stt = to_a[i];
 				if(!this._current[stt]) {
+
+					var g = null;
+					for(var i in this._groups) {
+						if( this._groups[i][stt] ) {
+							g = i;
+							break;
+						}
+					}
+
 					this._state_on(stt, data);
 					this._current[stt] = {
+						name: stt,
 						from: null, //FIXME
 						data: data,
-						parent: parent
+						parent: parent,
+						group: g
 					}
 				}
 				parent = stt;
 			}
 
-			// отключаем эксклюзивные состояния
-			for(var i in this._current) {
-				var stt = this._current[i];
-				if(stt.parent == parent) {
-					this.unset(i);
-					break;
-				}
-			}
 
 		}
 
@@ -191,18 +207,44 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			// }
 		// }
 
+/*
 		for(var g in this._exclusives) {
 			if( this._is_exclusive(to, g) ) {
 
 				for(var i in this._current)
 					if(this._is_exclusive(i, g)) {
-						this._state_off(i);
+						this._state_off(i, self._current[i]);
 						delete self._current[i];
 					}
 //						this.unset(i);
 
 			}
 		}
+*/
+
+
+		// TODO ищем только первую группу, а нужно - все
+		for(var i in this._groups) {
+			if( this._groups[i][to] ) {
+				group = i;
+				break;
+			}
+		}
+
+		// if(parent && !group) {
+		// 	group = parent.
+		// }
+
+		// отключаем эксклюзивные состояния
+		for(var i in this._current) {
+			var stt = this._current[i];
+			if( stt.group == group && (group || (parent != null && stt.parent == parent)) ) {
+				this.unset(i);
+				break;
+			}
+		}
+
+
 
 
 
@@ -241,9 +283,11 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			// 3. включаем итоговое состояние
 			self._state_on(to, data);
 			self._current[to] = {
+				name: to,
 				from: from,
 				data: data,
-				parent: parent
+				parent: parent,
+				group: group
 			};
 
 			// 4. оповещаем виджет, что состояние изменилось
@@ -270,8 +314,17 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			var val = states[s];
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
-			if($.isString(val)) {
-				this._widget.vdom.addClass(val);
+			if(typeof val == 'string') {
+				// action
+				var a = val.split(':');
+				var action = $ergo.alias('actions:'+a[0]) || this._widget[a[0]];
+				if(action == null) {
+					this._widget._missedAction(val, true, data);
+				}
+				else {
+					action.call(this._widget, a[1], true);
+				}
+//				this._widget.vdom.addClass(val);
 			}
 //				this._widget.el.classList.add(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
@@ -293,14 +346,16 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
-				$.when( val.call(this._widget, true, data) ).done(function(add_cls) {
-					if(add_cls !== false)
-						self._widget.vdom.addClass(add_cls || s);
-				});
+				val.call(this._widget, true, data);
+				// $.when( val.call(this._widget, true, data) ).done(function(add_cls) {
+				// 	if(add_cls !== false)
+				// 		self._widget.vdom.addClass(add_cls || s);
+				// });
 			}
 		}
 		else {
-			this._widget.vdom.addClass(s);
+			this._widget._missedState(s, true, data);
+//			this._widget.vdom.addClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});
@@ -310,7 +365,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 
 
 
-	_state_off: function(s) {
+	_state_off: function(s, data) {
 
 		var self = this;
 		var states = this._states;//this._widget.options.states;
@@ -319,8 +374,19 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			var val = states[s];
 
 			// если состояние определено строкой, то строка содержит имя устанавливаемого класса
-			if($.isString(val))
-				this._widget.vdom.removeClass(val);
+			if(typeof val == 'string') {
+				// action
+				var a = val.split(':');
+				var action = $ergo.alias('actions:'+a[0]) || this._widget[a[0]];
+				if(action == null) {
+					this._widget._missedAction(val, false, data);
+				}
+				else {
+					action.call(this._widget, a[1], false);
+				}
+//				this._widget.vdom.removeClass(val);
+			}
+
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
 				this._widget.vdom.addClass(val[1]);
@@ -335,10 +401,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			}
 			// в иных случаях ожидается, что состояние содержит функцию
 			else {
-				$.when( val.call(this._widget, false) ).done(function(rm_cls) {
-					if(rm_cls !== false)
-						self._widget.vdom.removeClass(rm_cls || s);
-				});
+				val.call(this._widget, false, data);
+
+
+				// $.when( val.call(this._widget, false) ).done(function(rm_cls) {
+				// 	if(rm_cls !== false)
+				// 		self._widget.vdom.removeClass(rm_cls || s);
+				// });
 
 //				var rm_cls = val.call(this._widget, false);
 //				if(rm_cls !== false)
@@ -346,7 +415,8 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 			}
 		}
 		else {
-			this._widget.vdom.removeClass(s);
+//			this._widget.vdom.removeClass(s);
+			this._widget._missedState(s, false, data);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'off'});
@@ -415,23 +485,23 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 
 
 
-		for(var g in this._exclusives) {
-			if( this._is_exclusive(from, g) && this._exclusives[g].length == 2 ) {
-
-				var group = this._exclusives[g];
-
-				var regexp = from.match(group[0]) ? group[1] : group[0];
-
-				for(var i in this._states)
-					if( i.match(regexp) ) {
-						this._state_on(i);
-						self._current[i] = {
-							from: from
-//							data: data
-						}
-					}
-			}
-		}
+// 		for(var g in this._exclusives) {
+// 			if( this._is_exclusive(from, g) && this._exclusives[g].length == 2 ) {
+//
+// 				var group = this._exclusives[g];
+//
+// 				var regexp = from.match(group[0]) ? group[1] : group[0];
+//
+// 				for(var i in this._states)
+// 					if( i.match(regexp) ) {
+// 						this._state_on(i);
+// 						self._current[i] = {
+// 							from: from
+// //							data: data
+// 						}
+// 					}
+// 			}
+// 		}
 
 
 
@@ -456,7 +526,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 		}
 
 		// 3.
-		self._state_off(from);
+		self._state_off(from, self._current[from]);
 
 		delete self._current[from];
 
@@ -580,7 +650,6 @@ Ergo.alias('mixins:statable', {
 	get states() {
 		if( !this.__stt ) {
 			this.__stt = new Ergo.core.StateManager(this);
-			this._bindStates();
 		}
 		return this.__stt;
 	},
@@ -603,8 +672,9 @@ Ergo.alias('mixins:statable', {
 		var o = this.options;
 
 		if('states' in o){
-			for(var i in o.states)
+			for(var i in o.states) {
 				this.states.state(i, o.states[i]);
+			}
 			// // настраиваем особое поведение состояния hover ?
 			// if('hover' in o.states) {
 			// 	this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
@@ -625,6 +695,11 @@ Ergo.alias('mixins:statable', {
 			}
 		}
 
+	},
+
+
+	_missedState: function(name, on) {
+		console.warn('State ['+name+'] is undefined');
 	},
 
 

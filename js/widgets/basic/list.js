@@ -22,7 +22,7 @@ Ergo.defineClass('Ergo.widgets.List', /** @lends Ergo.widgets.List.prototype */{
 		defaultItem: {
 			tag: 'li',
 //			etype: 'html:li',
-			binding: 'text'
+			binding: 'prop:text'
 		},
 		defaultComponent: {
 			tag: 'li'

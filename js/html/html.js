@@ -40,6 +40,43 @@ Ergo.defineClass('Ergo.html.Widget', {
 
 
 
+
+Ergo.defineClass('Ergo.widgets.Html', {
+
+	extends: 'Ergo.core.Widget',
+
+	defaults: {
+		defaultItem: {
+			etype: 'html'
+		},
+		defaultComponent: {
+			etype: 'html'
+		}
+	},
+
+	props: {
+		'href': $ergo.DOMAttribute,
+		'forName': {
+			set: function(v) { this.vdom.el.setAttribute('for', v) },
+			get: function(v) { return this.vdom.el.getAttribute('for') }
+		},
+		'checked': {
+			set: function(v) { this.vdom.el.checked = !!v; },//setAttribute('checked', '') : this.vdom.el.removeAttribute('checked') },
+			get: function(v) { return this.vdom.el.checked; }//.hasAttribute('checked') }
+		},
+		'src': $ergo.DOMAttribute,
+		'type': $ergo.DOMAttribute,
+		'placeholder': $ergo.DOMAttribute,
+	}
+
+}, 'widgets:html');
+
+
+
+
+
+
+
 Ergo.$html = function(etype, o) {
 
 	if(!Ergo.alias('html:'+etype)) {

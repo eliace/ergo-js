@@ -155,7 +155,7 @@ Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
 		tag: 'a',
 		href: '#',
 //		html: '<a href="#"/>',
-		binding: 'text'
+		binding: 'prop:text'
 	},
 
 	set href(v) {
@@ -188,7 +188,7 @@ Ergo.defineClass('Ergo.widgets.List', /** @lends Ergo.widgets.List.prototype */{
 		defaultItem: {
 			tag: 'li',
 //			etype: 'html:li',
-			binding: 'text'
+			binding: 'prop:text'
 		},
 		defaultComponent: {
 			tag: 'li'
@@ -367,7 +367,7 @@ Ergo.defineClass('Ergo.widgets.Table', /** @lends Ergo.widgets.Table.prototype *
 
 			add: function(column, key) {
 
-				var col_item = Ergo.deep_copy(column);
+				var col_item = Ergo.deepCopy(column);
 				var col = {};
 				var hdr_item = {};
 
@@ -607,8 +607,8 @@ Ergo.defineClass('Ergo.widgets.Text', {
 	extends: 'Ergo.core.Widget',
 
 	defaults: {
-		tag: 'span',
-		binding: 'text'
+		tag: 'span'
+//		binding: 'text'
 	}
 
 }, 'widgets:text');
@@ -1300,7 +1300,7 @@ Ergo.defineClass('Ergo.widgets.Label', {
 	defaults: {
 		tag: 'label',
 		cls: 'label',
-		binding: 'text',
+//		binding: 'text',
 		components: {
 			content: {
 				etype: '.',
@@ -1411,7 +1411,7 @@ Ergo.defineClass('Ergo.widgets.Edit', {
 
 	defaults: {
 		tag: 'div',//'<div contenteditable="true"/>',
-		binding: 'text'
+		binding: 'prop:text'
 	},
 
 
@@ -2468,7 +2468,7 @@ Ergo.defineClass('Ergo.widgets.TableGrid', {
 
 			add: function(column, key) {
 
-				var col_item = Ergo.deep_copy(column);
+				var col_item = Ergo.deepCopy(column);
 				var col = {};
 				var hdr_item = {};
 
@@ -2807,7 +2807,7 @@ Ergo.defineClass('Ergo.core.Tabs', {
 			tab = o;
 		}
 		else {
-			page = Ergo.deep_copy(o);
+			page = Ergo.deepCopy(o);
 			tab = o.tab;
 			delete page.tab;
 		}
@@ -3849,7 +3849,7 @@ Ergo.defineClass('Ergo.widgets.Breadcrumbs', {
 		components: {
 			current: {
 				etype: 'html:li',
-				binding: 'text',
+//				binding: 'text',
 				weight: 100
 			}
 		}

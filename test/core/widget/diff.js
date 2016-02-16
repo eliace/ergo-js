@@ -13,10 +13,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); }
 				}
 			});
 
@@ -79,10 +79,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); }
 				},
 				dynamicFilter: filter
 			});
@@ -222,10 +222,10 @@ describe('Widget', function(){
 			var box = $.ergo({
 				etype: 'html:div',
 				dynamic: true,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); }
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); }
 				},
 				dynamicSorter: sorter
 			});
@@ -311,14 +311,14 @@ describe('Widget', function(){
 				etype: 'html:div',
 				dynamic: true,
 				dynamicFilter: filter,
-				binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+				binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 				defaultItem: {
 					etype: 'html:div',
-					binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+					binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 					$content: {
 						etype: 'html:a',
 						dataId: 'ref',
-						binding: function(v) { bindings.push(Ergo.deep_copy(v)); },
+						binding: function(v) { bindings.push(Ergo.deepCopy(v)); },
 					}
 				},
 				events: {
