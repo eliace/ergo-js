@@ -330,7 +330,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 			// 	filtered[i]._destroy();
 			// }
 
-
+			this._no_diff = true;
 			this.entries
 				.filter(function(e){
 					//FIXME упрощенная проверка присутствия ключа
@@ -339,6 +339,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 				.each(function(e){
 					e._destroy();
 				});
+			delete this._no_diff;
 
 
 			if(this.entries.is_empty())

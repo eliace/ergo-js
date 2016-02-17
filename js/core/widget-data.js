@@ -181,7 +181,9 @@ Ergo.WidgetData = {
 
 //			this.layout.immediateRebuild = false;
 
+			this.data._no_diff = true;
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+			delete this.data._no_diff;
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
@@ -367,7 +369,9 @@ Ergo.WidgetData = {
 	//			this.layout.immediateRebuild = false;
 
 				// // уничтожаем все динамические элементы
+				this.data._no_diff = true;
 				this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+				delete this.data._no_diff;
 
 	//			var t0 = Ergo.timestamp();
 

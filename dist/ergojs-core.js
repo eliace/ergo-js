@@ -3723,7 +3723,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 			// 	filtered[i]._destroy();
 			// }
 
-
+			this._no_diff = true;
 			this.entries
 				.filter(function(e){
 					//FIXME упрощенная проверка присутствия ключа
@@ -3732,6 +3732,7 @@ Ergo.defineClass('Ergo.core.DataSource', 'Ergo.core.Object', /** @lends Ergo.cor
 				.each(function(e){
 					e._destroy();
 				});
+			delete this._no_diff;
 
 
 			if(this.entries.is_empty())
@@ -8026,7 +8027,9 @@ Ergo.WidgetData = {
 
 //			this.layout.immediateRebuild = false;
 
+			this.data._no_diff = true;
 			this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+			delete this.data._no_diff;
 
 			var filter = o.dynamicFilter ? o.dynamicFilter.bind(this) : undefined;
 			var sorter = o.dynamicSorter ? o.dynamicSorter.bind(this) : undefined;
@@ -8212,7 +8215,9 @@ Ergo.WidgetData = {
 	//			this.layout.immediateRebuild = false;
 
 				// // уничтожаем все динамические элементы
+				this.data._no_diff = true;
 				this.children.filter(function(c){ return c._dynamic; }).apply_all('_destroy');
+				delete this.data._no_diff;
 
 	//			var t0 = Ergo.timestamp();
 
