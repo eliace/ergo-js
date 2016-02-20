@@ -10,18 +10,21 @@
  * 	`lazy` "ленивое" создание элементов (только когда происходит обращение по ключу)
  *
  * События:
- * 	`changed` изменился источник данных
- * 	`diff`
- * 	`dirty`
+ * 	@fires Ergo.core.Event#changed
+ * 	@fires Event#diff
+ * 	@fires Event#dirty
  *
  * @class
  * @name Ergo.core.DataSource
  * @extends Ergo.core.Object
+ * @mixes observable
  *
  */
 Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototype */{
 
 	extends: 'Ergo.core.Object',
+
+	mixins: ['observable'],
 
 	defaults: {
 //		plugins: [Ergo.Observable],
@@ -32,11 +35,6 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 	_initialize: function(src, id, o) {
 
-		/**
-		 * Ключ связанных данных в источнике данных
-		 *
-		 * @field id
-		 */
 
 		/**
 		 * Источник данных
@@ -45,6 +43,11 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		 */
 		this.source = src;
 
+		/**
+		 * Ключ связанных данных в источнике данных
+		 *
+		 * @field _id
+		 */
 		if(arguments.length == 2) {
 			if($.isPlainObject(id)) o = id;
 			else this._id = id;
@@ -56,10 +59,12 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		if('_id' in this) {
 			// if(typeof id == 'string')
 			// 	this._id = this._id.split('+');
-			if(Array.isArray(id))
+			if(Array.isArray(id)) {
 				this._id = id;
-			else
+			}
+			else {
 				this._id = [this._id];
+			}
 		}
 
 
@@ -101,10 +106,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		// очищаем регистрацию обработчиков событий
 		this.events.off();
 		// удаляем все дочерние элементы
-		this.entries.applyAll('_destroy');
-		// while(this.entries.size()) {
-		// 	this.entries.first()._destroy();
-		// }
+//		this.entries.applyAll('_destroy');
+		while(this.entries.count()) {
+			this.entries.last()._destroy()
+		}
 
 		if( this.source instanceof Ergo.core.DataSource ) {
 			this.source.entries.remove(this);
@@ -117,8 +122,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	/**
 	 * Получение вложенного элемента данных по ключу
 	 *
+	 * Если элемента данных нет, то он будет создан
+	 *
 	 * @param {String|Any} i ключ
-	 * @return {Ergo.core.DataSource} элемент данных
+	 * @return {Ergo.core.DataSource} entry элемент данных
 	 */
 	entry: function(i) {
 
@@ -168,6 +175,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 *
 	 * @param {Any} i ключ
 	 * @returns {Ergo.core.DataSource}
+	 *
+	 * @protected
 	 *
 	 */
 	_factory: function(i) {
@@ -286,7 +295,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 
-
+	/**
+	 * "Сырое" значение, ассоциированное с источником данных
+	 * @returns {Any}
+	 */
 	raw: function() {
 		return this._val();
 	},
@@ -310,12 +322,12 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 	/**
-	 * Полная копия значения
+	 * Полная копия "сырых" данных
 	 *
 	 * @param {Number|String} i ключ
 	 * @returns {Any}
 	 */
-	copy: function(i) {
+	rawCopy: function(i) {
 		return Ergo.deepCopy(this.get(i));
 	},
 
@@ -325,6 +337,9 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 * Изменение существующего элемента
 	 *
 	 * Если аргумент один, то изменяется значение самого источника данных
+	 *
+	 * @emits Ergo.core.Event#changed
+	 * @emits Ergo.core.Event#diff
 	 *
 	 * @param {String|Number} [i] ключ
 	 * @param {Any} val новое значение
@@ -449,6 +464,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	/**
 	 * Добавление нового элемента
 	 *
+	 * @emits Ergo.core.Event#changed
+	 * @emits Ergo.core.Event#diff
 	 *
 	 * @param {Any} value значение нового атрибута
 	 * @param {String|Number} [index] индекс или ключ, куда должен быть добавлен атрибут
@@ -514,6 +531,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 *
 	 * Если метод вызывается без аргументов, то удаляется сам источник данных из родительского
 	 *
+	 * @emits Ergo.core.Event#diff
+	 *
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
@@ -573,9 +592,9 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Удаление элемента.
+	 * Удаление элемента по значению.
 	 *
-	 * @param {Any} [v] элемент
+	 * @param {Any} [v] значение элемента
 	 *
 	 */
 	rm: function(v) {
@@ -602,12 +621,15 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Последовательный обход всех вложенных элементов с поддержкой фильтрации
+	 * Последовательный обход всех вложенных элементов с поддержкой фильтрации и сортировки
 	 *
+	 * @param {Function} filter фильтр
+	 * @param {Function} sorter сортировка
+	 * @param {Function} pager страница
 	 * @param {Function} callback
 	 *
 	 */
-	each: function(callback, filter, sorter) {
+	stream: function(filter, sorter, pager, callback) {
 
 		var ds = this;
 
@@ -673,7 +695,17 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 
-
+	/**
+	 * Обновление данных с синхронизацией
+	 *
+	 * Определяется разница между новыми и старыми данными, формируется diff-объект и
+	 * генерируется событие `diff`
+	 *
+	 * @emits Ergo.core.Event#diff
+	 *
+	 * @params {Any} newData новые данные
+	 *
+	 */
 	sync: function(newData) {
 
 		var self = this;
@@ -950,7 +982,7 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Количество элементов в источнике данных
+	 * Количество элементов "сырых" данных
 	 *
 	 * @returns {Number}
 	 */
@@ -965,7 +997,7 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 
-Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
+//Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 

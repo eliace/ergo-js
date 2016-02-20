@@ -8,7 +8,6 @@
  * Представляет собой обертку для объектов javascript-класса Object
  *
  * @class
- * @extends Ergo.core.Object
  *
  */
 Ergo.core.Collection = function(src) {
@@ -20,7 +19,7 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
- $ergo.merge(Ergo.core.Collection.prototype, {
+$ergo.merge(Ergo.core.Collection.prototype, {
 // Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
 // 	defaults: {
@@ -28,12 +27,6 @@ Ergo.core.Collection = function(src) {
 // 	},
 //
 	_initialize: function(src) {
-//		this._super(options);
-//		Ergo.core.Collection.superclass._initialize.call(this, options);
-
-//		this.options = options;
-//		this.events = new Ergo.events.Observer(this);
-
 		this.src = src || {};
 	},
 
@@ -136,6 +129,9 @@ Ergo.core.Collection = function(src) {
 	},
 
 
+	/**
+	 * Удаление всех элементов коллекции
+	 */
 	removeAll: function() {
 		for(i in this.src) {
 			this.removeAt(i);
@@ -143,9 +139,6 @@ Ergo.core.Collection = function(src) {
 	},
 
 
-	/**
-	 * Очистка коллекции от всех значений
-	 */
 	clear: function() {
 		this.removeAll();
 //		this.src = {};
@@ -201,13 +194,13 @@ Ergo.core.Collection = function(src) {
 	 * Проверка вхождения значения в коллекцию
 	 * @param {Object} criteria
 	 */
-	includes: function(criteria) {
+	contains: function(criteria) {
 		return Ergo.contains(this.src, callback);
 	},
 
-	isInclude: function(criteria) {
-		return Ergo.contains(this.src, callback);
-	},
+	// isInclude: function(criteria) {
+	// 	return Ergo.contains(this.src, callback);
+	// },
 
 
 	/**

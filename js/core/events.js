@@ -10,8 +10,6 @@
 
 /**
  *
- * @deprecated
- *
  * @class
  * @name Ergo.events.Event
  * @extends Ergo.core.Object
@@ -154,7 +152,7 @@ Ergo.core.Observer = function(target) {
 	this.target = target;
 }
 
-Ergo.merge(Ergo.core.Observer.prototype, {
+Ergo.merge(Ergo.core.Observer.prototype, /** @lends Ergo.core.Observer.prototype */{
 
 
 
@@ -226,11 +224,16 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 	// },
 
 	/**
-	 * Инициируем событие.
+	 * Генерация события
+	 * @param {string} name наименование события
+	 * @param {Any} data данные события
+	 * @param {Ergo.core.Event} baseEvent инициирующее событие
 	 *
-	 * fire(type, event)
+	 * Обработка данных:
+	 *  * Object - "слияние" с объектом события
+	 *  * Event - "проброс" события
 	 *
-	 * type - тип события в формате тип_1.тип_2 ... .тип_N
+	 *  Остальные типы данных будут записаны в поле $data
 	 *
 	 */
 	fire: function(type, _event, baseEvent) {
@@ -361,29 +364,32 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 
 
 
+/**
+ * @mixin observable
+ *
+ */
+Ergo.alias('mixins:observable', /** @lends observable */ {
 
-
-Ergo.alias('mixins:observable', {
-
-
+	/**
+	 * Обработчик событий
+	 * @returns {Ergo.core.Observer}
+	 */
 	get events() {
 		if(!this.__evt) {
 			this.__evt = new Ergo.core.Observer(this);
-//			this._bindEvents();
-
-//			var o = this.options;
-
 		}
 		return this.__evt;
 	},
 
 
-	// _bindShortcutEvents: function() {
-	//
-	//
-	// },
-
-
+	/**
+	 * Подписка на события, указанные в опции `events`
+	 *
+	 * Подписка может быть выполнена на события полей объекта
+	 *
+	 * @param {string} [targetProperty] имя целевого поля
+	 *
+	 */
 	_bindEvents: function(targetProperty) {
 
 		var o = this.options;
@@ -469,24 +475,43 @@ Ergo.alias('mixins:observable', {
 
 	},
 
-
-
+	/**
+	 * Подписка на событие
+	 * @see {@link Ergo.core.Observer#on}
+	 */
 	on: function() {
 		this.events.on.apply(this.events, arguments);
 	},
 
+	/**
+	 * Единовременная подписка на событие
+	 * @see {@link Ergo.core.Observer#once}
+	 */
 	once: function() {
 		this.events.once.apply(this.events, arguments);
 	},
 
+	/**
+	 * Отключение подписки на событие
+	 * @see {@link Ergo.core.Observer#off}
+	 */
 	off: function() {
 		this.events.off.apply(this.events, arguments);
 	},
 
+	/**
+	 * Генерация события
+	 * @deprecated
+	 */
 	fire: function() {
 		this.events.fire.apply(this.events, arguments);
 	},
 
+	/**
+	 * Генерация события
+	 *
+	 * @see {@link Ergo.core.Observer#fire}
+	 */
 	emit: function() {
 		this.events.fire.apply(this.events, arguments);
 	}
@@ -512,7 +537,6 @@ Ergo.alias('mixins:observable', {
 
 /**
  *
- * @mixin observable
  *
  */
 Ergo.alias('includes:observable', {

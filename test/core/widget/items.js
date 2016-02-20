@@ -295,6 +295,37 @@ describe('Widget', function(){
 
 
 
+    it('should not update dynamic widget on set', function() {
+
+      var messages = [];
+
+      var w = $.ergo({
+        etype: 'box',
+        dynamic: true,
+				defaultItem: {
+          binding: 'prop:text'
+				},
+        events: {
+          'data:dirty': function() {
+            messages.push('dirty');
+          },
+          'data:changed': function() {
+            messages.push('changed');
+          }
+        }
+      });
+
+      w.data = ['Alice', 'Bob', 'Charlie'];
+
+      w.data.set([]);
+
+      expect(messages).to.be.eql(['changed']);
+
+    });
+
+
+
+
 
 	})
 

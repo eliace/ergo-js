@@ -11,8 +11,6 @@
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-
-
 Ergo.core.StateManager = function(target) {
 	this._widget = target;
 	this._current = {};
@@ -22,7 +20,7 @@ Ergo.core.StateManager = function(target) {
 	this._groups = {};
 }
 
-Ergo.merge(Ergo.core.StateManager.prototype, {
+Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.prototype */{
 
 //Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
@@ -71,7 +69,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	},
 
 
-
+	/**
+	 * Добавление нового состояния
+	 *
+	 * @param {String} name наименование
+	 * @param {String|Function} состояние
+	 *
+	 */
 	state: function(name, value) {
 
 		if(arguments.length == 1) {
@@ -121,7 +125,6 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 *
 	 * @param {String} to имя состояния
 	 * @param {Object} data данные, связанные с состоянием
-	 * @returns {$.Deferred}
 	 */
 	set: function(to, data) {
 
@@ -441,7 +444,6 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 * Отключение состояния
 	 *
 	 * @param {String} from имя состояния
-	 * @returns {$.Deferred}
 	 */
 	unset: function(from) {
 
@@ -583,37 +585,37 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 * @param {String} name имя состояния
 	 * @param {Array|String|RegExp} unset_template шаблон
 	 */
-	only: function(name, unset_template) {
-
-		var states_to_unset = [];
-
-		if(unset_template) {
-
-			if( $.isArray(unset_template) )
-				states_to_unset = unset_template;
-			else {
-				if($.isString(unset_template))
-					unset_template = new RegExp('^'+unset_template+'.*$');
-
-				for(var i in this._current)
-					if(i.match(unset_template)) states_to_unset.push(i);
-			}
-		}
-		else {
-			for(var i in this._current)
-				if(i != name) states_to_unset.push(i);
-		}
-
-		// очищаем состояния, выбранные для удаления
-		for(var i = 0; i < states_to_unset.length; i++)
-			this.unset(states_to_unset[i]);
-
-		// если состояние еще не установлено, то устанавливаем его
-		if(!this.is(name))
-			this.set(name);
-
-		return this;
-	},
+	// only: function(name, unset_template) {
+	//
+	// 	var states_to_unset = [];
+	//
+	// 	if(unset_template) {
+	//
+	// 		if( $.isArray(unset_template) )
+	// 			states_to_unset = unset_template;
+	// 		else {
+	// 			if($.isString(unset_template))
+	// 				unset_template = new RegExp('^'+unset_template+'.*$');
+	//
+	// 			for(var i in this._current)
+	// 				if(i.match(unset_template)) states_to_unset.push(i);
+	// 		}
+	// 	}
+	// 	else {
+	// 		for(var i in this._current)
+	// 			if(i != name) states_to_unset.push(i);
+	// 	}
+	//
+	// 	// очищаем состояния, выбранные для удаления
+	// 	for(var i = 0; i < states_to_unset.length; i++)
+	// 		this.unset(states_to_unset[i]);
+	//
+	// 	// если состояние еще не установлено, то устанавливаем его
+	// 	if(!this.is(name))
+	// 		this.set(name);
+	//
+	// 	return this;
+	// },
 
 
 
@@ -644,8 +646,12 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 
 
 
-
-Ergo.alias('mixins:statable', {
+/**
+ * Состояния
+ *
+ * @mixin statable
+ */
+Ergo.alias('mixins:statable', /** @lends statable */ {
 
 	get states() {
 		if( !this.__stt ) {
@@ -667,7 +673,10 @@ Ergo.alias('mixins:statable', {
 	// },
 
 
-
+	/**
+	 * Регистрация состояний, указанных в опции `states`
+	 *
+	 */
 	_bindStates: function() {
 		var o = this.options;
 
@@ -698,6 +707,13 @@ Ergo.alias('mixins:statable', {
 	},
 
 
+	/**
+	 * Обработчик "потерянного" состояния
+	 *
+	 * @param {String} name имя состояния
+	 * @param {Boolean} on начение состояния
+	 *
+	 */
 	_missedState: function(name, on) {
 		console.warn('State ['+name+'] is undefined');
 	},
@@ -723,66 +739,3 @@ Ergo.alias('mixins:statable', {
 
 
 });
-
-
-
-
-
-/**
- * Плагин, добавляющий StateManager к объекту
- *
- * @mixin statable
- */
-
-
-/*
-Ergo.alias('includes:statable', {
-
-	_construct: function(o) {
-
-		this.states = new Ergo.core.StateManager(this);
-
-	//	var o = this.options;
-		var self = this;
-
-		if('states' in o){
-			for(var i in o.states)
-				this.states.state(i, o.states[i]);
-			// настраиваем особое поведение состояния hover
-			if('hover' in o.states) {
-				this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
-			}
-		}
-
-		if('transitions' in o) {
-			for(var i in o.transitions) {
-				var t = o.transitions[i];
-				if($.isPlainObject(t)) {
-					//TODO
-				}
-				else {
-					var a = i.split('>');
-					if(a.length == 1) a.push('');
-					this.states.transition(a[0].trim() || '*', a[1].trim() || '*', t);
-				}
-			}
-		}
-
-	},
-
-
-	overrides: {
-
-		set stt(v) {
-			var self = this;
-			v.split(' ').forEach(function(s) {
-				self.states.set(s);
-			});
-		}
-
-
-	}
-
-
-});
-*/

@@ -8,12 +8,12 @@
  *
  *
  * @class
- * @name Ergo.core.WidgetChildren
+ * @name Ergo.core.Children
  * @extends Ergo.core.Array
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren.prototype */{
+Ergo.defineClass('Ergo.core.Children', /** @lends Ergo.core.Children.prototype */{
 
 	extends: 'Ergo.core.Array',
 
@@ -146,7 +146,7 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
 //		console.log('i', i);
 		// добавляем элемент в коллекцию
 //		i = this._super(item, i);
-		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
+		i = Ergo.core.Children.superclass.add.call(this, item, i);
 
 
 
@@ -214,7 +214,7 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
 
 
 //		var item = this._super(i);
-		var item = Ergo.core.WidgetChildren.superclass.removeAt.call(this, i);
+		var item = Ergo.core.Children.superclass.removeAt.call(this, i);
 
 
 //		if('hide' in item) item.hide();
@@ -395,12 +395,12 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
  *
  *
  * @class
- * @name Ergo.core.WidgetComponents
+ * @name Ergo.core.Components
  * @extends Ergo.core.Array
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetComponents.prototype */ {
+Ergo.defineClass('Ergo.core.Components', /** @lends Ergo.core.Components.prototype */ {
 
 	extends: 'Ergo.core.Array',
 
@@ -435,7 +435,7 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
 
 
 	_factory: function(v) {
-		return new Ergo.core.WidgetComponents(this._widget);
+		return new Ergo.core.Components(this._widget);
 	},
 
 
@@ -675,7 +675,7 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
 	 * @param {Object} criteria
 	 */
 	includes: function(criteria) {
-		return Ergo.includes(this._source, callback);
+		return Ergo.contains(this._source, callback);
 	},
 
 	/**
@@ -757,14 +757,14 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
  *
  *
  * @class
- * @name Ergo.core.WidgetItems
- * @extends Ergo.core.WidgetComponents
+ * @name Ergo.core.Items
+ * @extends Ergo.core.Components
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.prototype */ {
+Ergo.defineClass('Ergo.core.Items', /** @lends Ergo.core.Items.prototype */ {
 
-	extends: 'Ergo.core.WidgetComponents',
+	extends: 'Ergo.core.Components',
 
 	_type: 'item',
 
@@ -777,7 +777,7 @@ Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.proto
 
 
 	_factory: function(v) {
-		return new Ergo.core.WidgetItems(this._widget);
+		return new Ergo.core.Items(this._widget);
 	},
 
 

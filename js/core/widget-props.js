@@ -1,6 +1,9 @@
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetProps = {
 
   props: {

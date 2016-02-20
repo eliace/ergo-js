@@ -11,7 +11,7 @@ Ergo.defineClass('Ergo.widgets.BasicTree', {
 
 		nestedItem: {
 
-			cls: 'item',
+			as: 'item',
 
 			transitions: {
 				'* > expanded': function() {
@@ -40,18 +40,20 @@ Ergo.defineClass('Ergo.widgets.BasicTree', {
 					weight: -100,
 					autoBind: false,
 					onClick: function() {
-						this.parent.states.toggle('expanded');
+						this.parent.toggle('expanded');
 					},
 					states: {
-						'opened:type': 'se',
-						'closed:type': ''
+						type: {
+							'opened': 'cls:se',
+							'closed': 'cls:'
+						}
 					}
 				},
 				// content: {
 				// 	etype: 'link'
 				// },
 				sub: {
-					cls: 'tree'
+					as: 'tree'
 				}
 			},
 			states: {

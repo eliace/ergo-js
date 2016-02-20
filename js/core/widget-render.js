@@ -1,11 +1,21 @@
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetRender = {
 
 
 
 
+	/**
+	 * Подключение VDOM к виджету
+	 *
+	 * Если опция autoBind = false, то связывание осуществлено не будет.
+	 *
+	 * @param {Object|Array|String} data подключаемые данные
+	 */
 	_bindVDOM: function() {
 
 		var o = this.options;
@@ -50,7 +60,14 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Отрисовка виджета
+	 *
+	 * @param {DOMElement|String} target целевой объект отрисовки
+	 * @param {true|false} cascade каскадное обновление компоновки
+	 * @param {Ergo.core.Widget} beforeItem элемент, после которого будет добавлен виджет
+	 *
+	 */
 	render: function(target, cascade, beforeItem) {
 
 //		console.log('render');
@@ -179,7 +196,10 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Удаление виджета из VDOM/компоновки
+	 *
+	 */
 	unrender: function() {
 
 		this._rendered = false;
@@ -450,7 +470,7 @@ Ergo.WidgetRender = {
 
 
   /**
-	 * Обработчик, вызываемый когда необходимо обновить компоновку
+	 * Обработчик обновления компоновки (vdom)
 	 *
 	 * @protected
 	 */
@@ -477,7 +497,11 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Обработчик обновления компоновки на основе diff
+	 *
+	 * @protected
+	 */
 	_renderDiff: function(created, deleted, updated) {
 
 //		console.log('render diff', arguments);

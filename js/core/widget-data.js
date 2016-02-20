@@ -1,6 +1,9 @@
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetData = {
 
 
@@ -9,7 +12,7 @@ Ergo.WidgetData = {
 	 *
 	 * Если опция autoBind = false, то связывание осуществлено не будет.
 	 *
-	 * @param {Object|Array|string} data подключаемые данные
+	 * @param {Object|Array|String} data подключаемые данные
 	 */
 	bind: function(data, update, pivot) {
 
@@ -188,7 +191,7 @@ Ergo.WidgetData = {
 			var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
-			this.data.each(function(dataEntry, i){
+			this.data.stream(filter, sorter, pager, function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
@@ -199,7 +202,7 @@ Ergo.WidgetData = {
 					item._dynamic = true;
 
 //					item.el.attr('dynamic', true);
-			}, filter, sorter, pager);
+			});
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
@@ -376,7 +379,7 @@ Ergo.WidgetData = {
 				var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
-				this.data.each(function(dataEntry, i){
+				this.data.stream(filter, sorter, pager, function(dataEntry, i) {
 	//					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
 					var item = self.items.add({});//{ 'data': dataEntry });
@@ -388,7 +391,7 @@ Ergo.WidgetData = {
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, filter, sorter, pager);
+				});
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);

@@ -75,6 +75,48 @@ describe('DataSource', function(){
 		});
 
 
+
+    it('should not emit `dirty` event on destroy', function() {
+
+      var messages = [];
+
+      var ds = new Ergo.core.DataSource([{
+        name: 'Alice',
+      }, {
+        name: 'Bob'
+      }, {
+        name: 'Charlie'
+      }], {
+        events: {
+          'dirty': function() {
+            messages.push('dirty');
+          }
+        }
+      });
+
+
+      ds.entry(0);
+      ds.entry(1);
+      ds.entry(2);
+
+      while(ds.entries.count()) {
+        ds.entries.last()._destroy()
+      }
+
+      expect(messages).to.be.eql([]);
+
+//      ds.set([]);
+
+//      ds.entries.applyAll('_destroy');
+
+//      console.log('dirty', messages, ds.entries.count());
+
+
+    });
+
+
+
+
 	})
 
 

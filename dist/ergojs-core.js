@@ -2602,29 +2602,29 @@ Function.prototype.debounce = function(wait, immediate) {
  * Объект
  *
  * Опции:
- * 	`set` хэш сеттеров
- * 	`get` хэш геттеров
- * 	`include` список примесей
+ *   `set` хэш сеттеров
+ *   `get` хэш геттеров
+ *   `include` список примесей
  *
  *
  * @class
  *
  */
-Ergo.core.Object = function() {
-	// possible optimization
-	var a = new Array(arguments.length);
-	for(var i = 0; i < arguments.length; i++)
-		a[i] = arguments[i];
+Ergo.core.Object = function () {
+  // possible optimization
+  var a = new Array(arguments.length);
+  for (var i = 0; i < arguments.length; i++)
+    a[i] = arguments[i];
 
-	// if( this.constructor === Object ) {
-	// 	return new (Function.prototype.bind.apply(objectConstructor, arguments));
-	// }
-	// else {
-	this._initialize.apply(this, a);
+  // if( this.constructor === Object ) {
+  //   return new (Function.prototype.bind.apply(objectConstructor, arguments));
+  // }
+  // else {
+  this._initialize.apply(this, a);
 };
 
-Ergo.core.Object.extend = function(o) {
-	return Ergo.extend(this, o);
+Ergo.core.Object.extend = function (o) {
+  return Ergo.extend(this, o);
 };
 
 
@@ -2633,491 +2633,397 @@ Ergo.core.Object.extend = function(o) {
 
 Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
-	defaults: {
-		// options
-	},
-
-
-	props: {
-		get: {},
-		set: {}
-	},
-
-// 	rules: {
-// 		include: 'list',
-// 		set: false,
-// 		get: false,
-// //		override: false,
-// 		events: ['object', {'*': 'list'}]
-// 	},
-
-	/**
-	 * Инициализация объекта.
-	 *
-	 * Процесс инициализации разбивается на три фазы:
-	 * 	1. преконструирование
-	 * 	2. конструирование
-	 * 	3. постконструирование
-	 *
-	 *
-	 * Для каждой фазы вызывается свой обработчик
-	 *
-	 * @private
-	 *
-	 */
-	_initialize: function(opts) {//}, scope) {
+  defaults: {
+    // options
+  },
+
+
+  props: {
+    get: {},
+    set: {}
+  },
+
+  /**
+   * Инициализация объекта.
+   *
+   * Процесс инициализации разбивается на три фазы:
+   *   1. преконструирование
+   *   2. конструирование
+   *   3. постконструирование
+   *
+   *
+   * Для каждой фазы вызывается свой обработчик
+   *
+   * @private
+   *
+   */
+  _initialize: function (opts) {//}, scope) {
 
-		var o = {
-		};
+    var o = {
+    };
 
-		var p = {
-		};
+    var p = {
+    };
 
-		var r = {
+    var r = {
 
-		}
+    }
 
-		//
-		if(!this.constructor.NO_REBUILD_SKELETON) {
-			var prevDefaults = null;
-			Ergo.walkPrototypes(this.constructor, function(clazz){
-				if(clazz.defaults == prevDefaults) return;
-				if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults);
-				prevDefaults = clazz.defaults;
-			});
+    //
+    if(!this.constructor.NO_REBUILD_SKELETON) {
+      var prevDefaults = null;
+      Ergo.walkPrototypes(this.constructor, function(clazz){
+        if(clazz.defaults == prevDefaults) return;
+        if('defaults' in clazz) $ergo.mergeOptions(o, clazz.defaults);
+        prevDefaults = clazz.defaults;
+      });
 
-			// var prevRules = null;
-			// Ergo.walk_hierarchy(this.constructor, function(clazz){
-			// 	if(clazz.rules == prevRules) return;
-			// 	if('rules' in clazz) $ergo.deepMerge(r, clazz.rules);
-			// 	prevRules = clazz.rules;
-			// });
+      // var prevRules = null;
+      // Ergo.walk_hierarchy(this.constructor, function(clazz){
+      //   if(clazz.rules == prevRules) return;
+      //   if('rules' in clazz) $ergo.deepMerge(r, clazz.rules);
+      //   prevRules = clazz.rules;
+      // });
 
-			var prevProps = null;
-			Ergo.walkPrototypes(this.constructor, function(clazz){
-				if(clazz.props == prevProps) return;
-				if('props' in clazz) $ergo.deepMerge(p, clazz.props);
-				prevProps = clazz.props;
-			});
+      var prevProps = null;
+      Ergo.walkPrototypes(this.constructor, function(clazz){
+        if(clazz.props == prevProps) return;
+        if('props' in clazz) $ergo.deepMerge(p, clazz.props);
+        prevProps = clazz.props;
+      });
 
-			this.constructor.NO_REBUILD_SKELETON = true;
-			this.constructor.prototype.defaults = Ergo.deepCopy(o);
-			this.constructor.prototype.props = Ergo.deepCopy(p);
-//			this.constructor.prototype.rules = Ergo.deep_copy(r);
-//			Ergo.smart_build(this.constructor.prototype.defaults);
+      this.constructor.NO_REBUILD_SKELETON = true;
+      this.constructor.prototype.defaults = Ergo.deepCopy(o);
+      this.constructor.prototype.props = Ergo.deepCopy(p);
+//      this.constructor.prototype.rules = Ergo.deep_copy(r);
+//      Ergo.smart_build(this.constructor.prototype.defaults);
 
-		}
-		else {
-			o = $ergo.deepCopy(this.defaults);// JSON.parse(JSON.stringify(this.defaults));
-//			Ergo.deepMerge(o, this.defaults);
-		}
+    }
+    else {
+      o = $ergo.deepCopy(this.defaults);// JSON.parse(JSON.stringify(this.defaults));
+//      Ergo.deepMerge(o, this.defaults);
+    }
 
 
-//		this._scope = scope;
+//    this._scope = scope;
 
 
-		this.options = $ergo.mergeOptions(o, opts) //Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
+    this.options = $ergo.mergeOptions(o, opts) //Array.isArray(opts) ? Ergo.smart_override.apply(this, [o].concat(opts)) : Ergo.smart_override(o, opts);
 
+
+    // сборка опций
+//    Ergo.smart_build(this.options);
 
-		// сборка опций
-//		Ergo.smart_build(this.options);
+
+    if('include' in this.options) {
+      this._includes = Ergo.uniq( o.include.join(' ').split(' ') );
+
+//      var rebuild = false;
+
+      for(var i = 0; i < this._includes.length; i++) {
+        var inc = Ergo._aliases['includes:'+this._includes[i]];
+        if(!inc) {
+          throw new Error('Include [includes:'+this._includes[i]+'] not found');
+        }
 
+        $ergo.mergeInclude(this, inc);
 
-		if('include' in this.options) {
-			this._includes = Ergo.uniq( o.include.join(' ').split(' ') );
+        // if(inc.defaults) {
+        //   this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
+        // }
+        // if(inc.overrides) {
+        //   Ergo.merge(this, inc.overrides);
+        // }
+      }
+
+      // if(rebuild) {
+      //   Ergo.smart_build(this.options);
+      // }
+    }
+
+
+//    this._constructing = true;
+
+    // определен набор базовых опций - можно выполнить донастройку опций
+    this._preConstruct(this.options);
+
+    // определен весь набор опций - можно выполнять сборку объекта
+    this._construct(this.options);
+
+    // объект готов - можно выполнить донастройку объекта
+    this._postConstruct(this.options);
+
+//    if(this.$init)
+//      this.$init(o);
+
+//    delete this._constructing;
 
-//			var rebuild = false;
+  },
 
-			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(!inc) {
-					throw new Error('Include [includes:'+this._includes[i]+'] not found');
-				}
 
-				$ergo.mergeInclude(this, inc);
 
-				// if(inc.defaults) {
-				// 	this.options = $ergo.mergeOptions({}, [inc.defaults, this.options]);  //FIXME
-				// }
-				// if(inc.overrides) {
-				// 	Ergo.merge(this, inc.overrides);
-				// }
-			}
+  //--------------------------------------------------------------------------
+  // Хуки
+  //--------------------------------------------------------------------------
+
+
+  /**
+   * Обработчик фазы "преконструирование" объекта
+   *
+   * Как правило на этом этапе происходит донастройка и модификация опций
+   *
+   * По умолчанию здесь происходит подкючение примесей
+   *
+   * @protected
+   * @param {Object} o опции
+   */
+  _preConstruct: function (o) {
+
+    // динамическое подключение расширений
+    if('include' in o) {
+//      this._includes = o.include.join(' ').split(' ').uniq();
 
-			// if(rebuild) {
-			// 	Ergo.smart_build(this.options);
-			// }
-		}
-
-
-//		this._constructing = true;
-
-		// определен набор базовых опций - можно выполнить донастройку опций
-		this._preConstruct(this.options);
-
-		// определен весь набор опций - можно выполнять сборку объекта
-		this._construct(this.options);
-
-		// объект готов - можно выполнить донастройку объекта
-		this._postConstruct(this.options);
-
-//		if(this.$init)
-//			this.$init(o);
-
-//		delete this._constructing;
-
-	},
-
-
-
-	//--------------------------------------------------------------------------
-	// Свойства
-	//--------------------------------------------------------------------------
-
-	/**
-	 * Обработчик событий
-	 *
-	 */
-	// get events() {
-	// 	if(!this.__events) {
-	// 		this.__events = new Ergo.core.Observer(this.options.events, this);
-	// 	}
-	// 	return this.__events;
-	// },
-
-
-
-
-	//--------------------------------------------------------------------------
-	// Хуки
-	//--------------------------------------------------------------------------
-
-
-	/**
-	 * Обработчик фазы "преконструирование" объекта
-	 *
-	 * Как правило на этом этапе происходит донастройка и модификация опций
-	 *
-	 * По умолчанию здесь происходит подкючение примесей
-	 *
-	 * @protected
-	 * @param {Object} o опции
-	 */
-	_preConstruct: function(o) {
-
-		// динамическое подключение расширений
-		if('include' in o) {
-//			this._includes = o.include.join(' ').split(' ').uniq();
-
-			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._preConstruct)
-					inc._preConstruct.call(this, o);
-			}
-		}
-
-		// // динамическая перегрузка
-		// if('override' in o) {
-		// 	$ergo.merge(this, o.override);
-		// }
-
-/*
-		// динамическое создание свойств (то же самое можно сделать с помощью overrides)
-		var props = null;
-
-		if('set' in o) {
-			props = {};
-			for(var i in o.set) {
-				props[i] = { set: o.set[i] }
-			}
-		}
-
-		if('get' in o) {
-			props = props || {};
-			for(var i in o.get) {
-				props[i] = props[i] || {};
-				props[i].get = o.get[i];
-			}
-		}
-
-		if(props) {
-			Object.defineProperties(this, props);
-		}
-*/
-
-	},
-
-
-	/**
-	 * Обработчик фазы "конструирование" объекта
-	 *
-	 * Как правило, здесь происходит создание компонентов
-	 *
-	 * По умолчанию происходит подключение плагинов
-	 *
-	 * @protected
-	 * @param {Object} o опции
-	 *
-	 */
-	_construct: function(o) {
-
-// 		if('plugins' in o) {
-// 			for(var i = 0; i < o.plugins.length; i++) {
-// 				var plugin = o.plugins[i];
-// //				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
-// 				if(plugin.construct)
-// 					plugin.construct.call(this, o);
-// 			}
-// 		}
-
-
-		if(this._includes) {
-//			var mods = o.mods.join(' ').split(' ').uniq();
-			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._construct)
-					inc._construct.call(this, o);
-			}
-		}
-
-
-	},
-
-
-	/**
-	 * Обработчик фазы "постконструирование" объекта
-	 *
-	 * Эта фаза предназначена для конфигурирования сконструированного объекта
-	 *
-	 * По умолчанию происходит применение опций (вызов метода _opt)
-	 *
-	 * @protected
-	 * @param {Object} o опции
-	 */
-	_postConstruct: function(o) {
-
-// 		if('plugins' in o) {
-// 			for(var i = 0; i < o.plugins.length; i++) {
-// 				var plugin = o.plugins[i];
-// //				if($.isString(plugin)) plugin = o.plugins[i] = Ergo.alias('plugins:'+plugin);
-// 				if(plugin.post_construct)
-// 					plugin.post_construct.call(this, o);
-// 			}
-// 		}
-
-
-
-		if(this._includes) {
-//			var mods = o.mods.join(' ').split(' ').uniq();
-			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._postConstruct)
-					inc._postConstruct.call(this, o);
-			}
-		}
-
-
-		// инициализируем свойства
-		for(var i in o) {
-			if( !(i in Ergo.rules) ) {
-				this.prop(i, o[i]);
-			}
-		}
-
-//		this._opt(o);
-
-	},
-
-
-	/**
-	 * Обработчик удаления объекта
-	 *
-	 * @protected
-	 */
-	_destroy: function() {
-		//
-
-		if(this._includes) {
-//			var mods = o.mods.join(' ').split(' ').uniq();
-			for(var i = 0; i < this._includes.length; i++) {
-				var inc = Ergo._aliases['includes:'+this._includes[i]];
-				if(inc._destroy)
-					inc._destroy.call(this);
-			}
-		}
-
-	},
-
-
-
-
-	/**
-	 * Установка опций (options) объекта.
-	 *
-	 * Передаваемые параметры применяются и сохраняются в this.options
-	 *
-	 * Опции применяются/получаются с учетом приоритета:
-	 * 	Для сеттеров:
-	 * 		1. Сеттер-опция из this.options.set
-	 * 		2. Сеттер-метод вида set_<имя сеттера>
-	 *
-	 * 	Для геттеров:
-	 * 		1. Геттер-опция из this.options.get
-	 * 		2. Геттер-метод вида get_<имя сеттера>
-	 *
-	 * opt(i) - получение опции i
-	 * opt(i, v) - установка опции i
-	 * opt(o) - установка нескольких опций, передаваемых в виде Hash
-	 *
-	 * @param {Object} o параметры
-	 */
-	opt: function(o) {
-		var opts = o;
-
-		if(arguments.length == 2){
-			opts = {};
-			opts[arguments[0]] = arguments[1];
-		}
-		else if(typeof o == 'string'){
-
-			// // или геттер
-			// if( (o in this.options.get) ) {
-			// 	return this.options.get[o].bind(this)();
-			// }
-			// else if( (o in this.props.get) ) {
-			// 	return this.props.get[o].bind(this)();
-			// }
-			// else if( (o in this) && $ergo.hasGetter(this, o) ) {
-			// 	return this[o];
-			// }
-			return this.prop(o, null, this.options[o]);
-		}
-
-//		Ergo.smart_override(this.options, opts);
-		$ergo.merge(this.options, opts);
-
-		for(var i in opts) {
-			if( !(i in Ergo.rules) ) {
-				this.prop(i, opts[i]);
-			}
-		}
-
-//		this._opt(opts);
-
-		return this;
-	},
-
-
-
-	prop: function(i, v, defaultValue) {
-
-		if(arguments.length == 1 || arguments.length == 3) {
-
-			if( this.options.get && (i in this.options.get) ) {
-				return this.options.get[i].bind(this)();
-			}
-			else if( (i in this.props) && this.props[i].get ) {
-				return this.props[i].get.bind(this)(i);
-			}
-			else if( (i in this.props.get) ) {
-				return this.props.get[i].bind(this)();
-			}
-			else if( (i in this) && $ergo.hasGetter(this, i) ) {
-				return this[i];
-			}
-
-			return defaultValue;
-		}
-		else if(arguments.length == 2) {
-
-			if( this.options.set && (i in this.options.set) ) {
-				this.options.set[i].bind(this)(v);
-			}
-			else if( (i in this.props) && this.props[i].set ) {
-				this.props[i].set.bind(this)(v, i);
-			}
-			else if( (i in this.props.set) ) {
-				this.props.set[i].bind(this)(v);
-			}
-			else if( (i in this) && $ergo.hasSetter(this, i) ) {
-				this[i] = v;
-			}
-
-			return this;
-		}
-
-	},
-
-
-
-	_missedAction: function(name, value) {
-		console.warn('Action ['+name+'] is undefined');
-//		this.prop(name, value);
-	},
-
-
-	/**
-	 * Обработчик, вызываемый для установки опций.
-	 *
-	 * @private
-	 * @param {Object} o опции
-	 */
-	// _opt: function(o) {
-	//
-	// 	for(var i in o) {
-	// 		if( !(i in Ergo.rules) ) {
-	//
-	// 			if( (i in this.options.set) ) {
-	// 				return this.options.set[i].bind(this)(o[i]);
-	// 			}
-	// 			else if( (i in this.props.set) ) {
-	// 				return this.props.set[i].bind(this)();
-	// 			}
-	// 			else if( (i in this) && $ergo.hasSetter(this, i) ) {
-	// 				this[i] = o[i];
-	// 			}
-	//
-	// 		}
-	// 	}
-	//
-	// },
-
-
-	// $unknown_opt: function(i) {
-//
-	// },
-
-
-	/**
-	 * Проверка установленного расширения
-	 *
-	 * @function
-	 * @name Object.is
-	 * @param {Any} ex расширение
-	 */
-// 	is: function(ex) {
-// 		return (this._includes) ? Ergo.includes(this._includes, ex) : false;
-// //		var o = this.options;
-// //		if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
-// //		return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
-// 	},
-
-	includes: function(ex) {
-		return (this._includes) ? $ergo.contains(this._includes, ex) : false;
-	},
-
-
-	/**
-	 * Вызов метода родительского класса из перегруженного метода
-	 *
-	 * По сути является "синтаксическим сахаром"
-	 *
-	 * @private
-	 */
-	_super: function(){
-		var caller = arguments.callee.caller;
-		return caller.__class__.superclass[caller.__name__].apply(this, arguments);
-	},
+      for(var i = 0; i < this._includes.length; i++) {
+        var inc = Ergo._aliases['includes:'+this._includes[i]];
+        if(inc._preConstruct)
+          inc._preConstruct.call(this, o);
+      }
+    }
+
+    // // динамическая перегрузка
+    // if('override' in o) {
+    //   $ergo.merge(this, o.override);
+    // }
+
+  },
+
+
+  /**
+   * Обработчик фазы "конструирование" объекта
+   *
+   * Как правило, здесь происходит создание компонентов
+   *
+   * По умолчанию происходит подключение плагинов
+   *
+   * @protected
+   * @param {Object} o опции
+   *
+   */
+  _construct: function (o) {
+
+    if(this._includes) {
+//      var mods = o.mods.join(' ').split(' ').uniq();
+      for(var i = 0; i < this._includes.length; i++) {
+        var inc = Ergo._aliases['includes:'+this._includes[i]];
+        if(inc._construct)
+          inc._construct.call(this, o);
+      }
+    }
+
+
+  },
+
+
+  /**
+   * Обработчик фазы "постконструирование" объекта
+   *
+   * Эта фаза предназначена для конфигурирования сконструированного объекта
+   *
+   * По умолчанию происходит инициализация свойств
+   *
+   * @protected
+   * @param {Object} o опции
+   */
+  _postConstruct: function(o) {
+
+    if(this._includes) {
+//      var mods = o.mods.join(' ').split(' ').uniq();
+      for(var i = 0; i < this._includes.length; i++) {
+        var inc = Ergo._aliases['includes:'+this._includes[i]];
+        if(inc._postConstruct)
+          inc._postConstruct.call(this, o);
+      }
+    }
+
+
+    // инициализируем свойства
+    for(var i in o) {
+      if( !(i in Ergo.rules) ) {
+        this.prop(i, o[i]);
+      }
+    }
+
+//    this._opt(o);
+
+  },
+
+
+  /**
+   * Обработчик удаления объекта
+   *
+   * @protected
+   */
+  _destroy: function() {
+    //
+
+    if(this._includes) {
+//      var mods = o.mods.join(' ').split(' ').uniq();
+      for(var i = 0; i < this._includes.length; i++) {
+        var inc = Ergo._aliases['includes:'+this._includes[i]];
+        if(inc._destroy)
+          inc._destroy.call(this);
+      }
+    }
+
+  },
+
+
+
+
+  /**
+   * Установка опций (options) объекта.
+   *
+   * Передаваемые параметры применяются и сохраняются в this.options
+   *
+   * @param {Object} o параметры
+   */
+  opt: function(o) {
+    var opts = o;
+
+    if(arguments.length == 2){
+      opts = {};
+      opts[arguments[0]] = arguments[1];
+    }
+    else if(typeof o == 'string'){
+
+      // // или геттер
+      // if( (o in this.options.get) ) {
+      //   return this.options.get[o].bind(this)();
+      // }
+      // else if( (o in this.props.get) ) {
+      //   return this.props.get[o].bind(this)();
+      // }
+      // else if( (o in this) && $ergo.hasGetter(this, o) ) {
+      //   return this[o];
+      // }
+      return this.prop(o, null, this.options[o]);
+    }
+
+//    Ergo.smart_override(this.options, opts);
+    $ergo.merge(this.options, opts);
+
+    for(var i in opts) {
+      if( !(i in Ergo.rules) ) {
+        this.prop(i, opts[i]);
+      }
+    }
+
+//    this._opt(opts);
+
+    return this;
+  },
+
+
+  /**
+   * Изменение/получение свойства
+   *
+   * @example
+   * // если указано только name, то метод работает как геттер
+   * obj.prop('text')
+   *
+   * // если указаны оба аргумента, то метод работает как сеттер
+   * obj.prop('text', 'Hello, world!');
+   *
+   * @param {string} name имя свойства
+   * @param {Any} [value] значение свойства
+   *
+   */
+  prop: function(i, v, defaultValue) {
+
+    if(arguments.length == 1 || arguments.length == 3) {
+
+      if( this.options.get && (i in this.options.get) ) {
+        return this.options.get[i].bind(this)();
+      }
+      else if( (i in this.props) && this.props[i].get ) {
+        return this.props[i].get.bind(this)(i);
+      }
+      else if( (i in this.props.get) ) {
+        return this.props.get[i].bind(this)();
+      }
+      else if( (i in this) && $ergo.hasGetter(this, i) ) {
+        return this[i];
+      }
+
+      return defaultValue;
+    }
+    else if(arguments.length == 2) {
+
+      if( this.options.set && (i in this.options.set) ) {
+        this.options.set[i].bind(this)(v);
+      }
+      else if( (i in this.props) && this.props[i].set ) {
+        this.props[i].set.bind(this)(v, i);
+      }
+      else if( (i in this.props.set) ) {
+        this.props.set[i].bind(this)(v);
+      }
+      else if( (i in this) && $ergo.hasSetter(this, i) ) {
+        this[i] = v;
+      }
+
+      return this;
+    }
+
+  },
+
+
+  /**
+   * Обработчик "потерянного" действия
+   *
+   * @param {string} name имя действия
+   * @param {*} value значение действия
+   *
+   * @protected
+   *
+   */
+  _missedAction: function(name, value) {
+    console.warn('Action ['+name+'] is undefined');
+//    this.prop(name, value);
+  },
+
+
+
+  /**
+   * Проверка установленного включения `include`
+   *
+   * @function
+   * @param {string} name имя включения
+   */
+//   is: function(ex) {
+//     return (this._includes) ? Ergo.includes(this._includes, ex) : false;
+// //    var o = this.options;
+// //    if($.isString(ex)) ex = Ergo.alias('mixins:'+ex);
+// //    return ('mixins' in o) ? Ergo.includes(o.mixins, ex) : false;
+//   },
+
+  includes: function(ex) {
+    return (this._includes) ? $ergo.contains(this._includes, ex) : false;
+  },
+
+
+  /**
+   * Вызов метода родительского класса из перегруженного метода
+   *
+   * По сути является "синтаксическим сахаром"
+   *
+   * @deprecated
+   * @private
+   */
+  _super: function(){
+    var caller = arguments.callee.caller;
+    return caller.__class__.superclass[caller.__name__].apply(this, arguments);
+  },
 
 
 
@@ -3133,61 +3039,61 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
 
 $ergo = Ergo.merge(function(o, ns, scope) {
 
-//	var o = Ergo.smart_override.apply(this, arguments);
+//  var o = Ergo.smart_override.apply(this, arguments);
 
-	var etype = null;
+  var etype = null;
 
-	if( Array.isArray(o) ) {
-		for(var i = o.length-1; i >= 0; i--) {
-			if(o[i])
-				etype = o[i].etype;
-			if(etype) break;
-		}
-	}
-	else {
-		etype = o.etype;
-		o = [o];
-	}
+  if( Array.isArray(o) ) {
+    for(var i = o.length-1; i >= 0; i--) {
+      if(o[i])
+        etype = o[i].etype;
+      if(etype) break;
+    }
+  }
+  else {
+    etype = o.etype;
+    o = [o];
+  }
 
 
-	if(!etype) {
-//		console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
-		etype = 'widget';
-//		throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
-	}
+  if(!etype) {
+//    console.warn('Etype is missed. Using `widget` ettype by default \n'+$ergo.prettyPrint(o)+'');
+    etype = 'widget';
+//    throw new Error('Object etype is not defined \n'+$ergo.prettyPrint(o)+'');
+  }
 
-	// var ns = null;
-	// var scope = null;
-	//
-	// if( $.isString(ns_or_scope) ) {
-	// 	ns = ns_or_scope;
-	// }
-	// else {
-	// 	scope = ns_or_scope;
-	// }
+  // var ns = null;
+  // var scope = null;
+  //
+  // if( $.isString(ns_or_scope) ) {
+  //   ns = ns_or_scope;
+  // }
+  // else {
+  //   scope = ns_or_scope;
+  // }
 
-//	var etype = o.etype;
-	ns = ns || 'widgets';
-	var i = etype.indexOf(':');
-	if(i > 0) {
-		ns = etype.substr(0, i);
-		etype = etype.substr(i+1);
-	}
+//  var etype = o.etype;
+  ns = ns || 'widgets';
+  var i = etype.indexOf(':');
+  if(i > 0) {
+    ns = etype.substr(0, i);
+    etype = etype.substr(i+1);
+  }
 
-	if( !Ergo['$'+ns] )
-		throw new Error('Namespace "'+ns+'" not defined');
+  if( !Ergo['$'+ns] )
+    throw new Error('Namespace "'+ns+'" not defined');
 
-	o.etype = ns+':'+etype;
+  o.etype = ns+':'+etype;
 
-	var w = Ergo['$'+ns](etype, o);//, scope);
+  var w = Ergo['$'+ns](etype, o);//, scope);
 
-	scope = scope || Ergo._scope;
+  scope = scope || Ergo._scope;
 
-	if(scope && w.options.sid) {//w.opt('scopeKey')) {
-		scope.addWidget( w.options.sid, w );
-	}
+  if(scope && w.options.sid) {//w.opt('scopeKey')) {
+    scope.addWidget( w.options.sid, w );
+  }
 
-	return w;
+  return w;
 
 }, Ergo);
 
@@ -3207,31 +3113,31 @@ Ergo.$objects = $ergo.object.bind(this, 'objects');
 //  */
 // Ergo.declare_mixin = function(mixin_name, obj, alias) {
 //
-// 	// создаем пространство имен для класса
-// 	var cp_a = mixin_name.split('.');
-// 	var cp = window;
-// 	for(var i = 0; i < cp_a.length-1; i++){
-// 		var c = cp_a[i];
-// 		if(!cp[c]) cp[c] = {};
-// 		cp = cp[c];
-// 	}
+//   // создаем пространство имен для класса
+//   var cp_a = mixin_name.split('.');
+//   var cp = window;
+//   for(var i = 0; i < cp_a.length-1; i++){
+//     var c = cp_a[i];
+//     if(!cp[c]) cp[c] = {};
+//     cp = cp[c];
+//   }
 //
-// 	cp[cp_a[cp_a.length-1]] = obj;
+//   cp[cp_a[cp_a.length-1]] = obj;
 //
 //
-// 	// создаем пространство имен для расширения
-// 	// var cp_a = mixin_name.split('.');
-// 	// var cp = 'window';
-// 	// for(var i = 0; i < cp_a.length; i++){
-// 		// cp += '.'+cp_a[i];
-// 		// eval( 'if(!'+cp+') '+cp+' = {};' );
-// 	// }
-// 	// eval(cp + ' = obj;');
+//   // создаем пространство имен для расширения
+//   // var cp_a = mixin_name.split('.');
+//   // var cp = 'window';
+//   // for(var i = 0; i < cp_a.length; i++){
+//     // cp += '.'+cp_a[i];
+//     // eval( 'if(!'+cp+') '+cp+' = {};' );
+//   // }
+//   // eval(cp + ' = obj;');
 //
-// 	if(alias)
-// 		Ergo.alias(alias, obj);
+//   if(alias)
+//     Ergo.alias(alias, obj);
 //
-// 	return obj;
+//   return obj;
 // }
 // ;
 //
@@ -3248,8 +3154,6 @@ Ergo.$objects = $ergo.object.bind(this, 'objects');
 
 
 /**
- *
- * @deprecated
  *
  * @class
  * @name Ergo.events.Event
@@ -3393,7 +3297,7 @@ Ergo.core.Observer = function(target) {
 	this.target = target;
 }
 
-Ergo.merge(Ergo.core.Observer.prototype, {
+Ergo.merge(Ergo.core.Observer.prototype, /** @lends Ergo.core.Observer.prototype */{
 
 
 
@@ -3465,11 +3369,16 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 	// },
 
 	/**
-	 * Инициируем событие.
+	 * Генерация события
+	 * @param {string} name наименование события
+	 * @param {Any} data данные события
+	 * @param {Ergo.core.Event} baseEvent инициирующее событие
 	 *
-	 * fire(type, event)
+	 * Обработка данных:
+	 *  * Object - "слияние" с объектом события
+	 *  * Event - "проброс" события
 	 *
-	 * type - тип события в формате тип_1.тип_2 ... .тип_N
+	 *  Остальные типы данных будут записаны в поле $data
 	 *
 	 */
 	fire: function(type, _event, baseEvent) {
@@ -3600,29 +3509,32 @@ Ergo.merge(Ergo.core.Observer.prototype, {
 
 
 
+/**
+ * @mixin observable
+ *
+ */
+Ergo.alias('mixins:observable', /** @lends observable */ {
 
-
-Ergo.alias('mixins:observable', {
-
-
+	/**
+	 * Обработчик событий
+	 * @returns {Ergo.core.Observer}
+	 */
 	get events() {
 		if(!this.__evt) {
 			this.__evt = new Ergo.core.Observer(this);
-//			this._bindEvents();
-
-//			var o = this.options;
-
 		}
 		return this.__evt;
 	},
 
 
-	// _bindShortcutEvents: function() {
-	//
-	//
-	// },
-
-
+	/**
+	 * Подписка на события, указанные в опции `events`
+	 *
+	 * Подписка может быть выполнена на события полей объекта
+	 *
+	 * @param {string} [targetProperty] имя целевого поля
+	 *
+	 */
 	_bindEvents: function(targetProperty) {
 
 		var o = this.options;
@@ -3708,24 +3620,43 @@ Ergo.alias('mixins:observable', {
 
 	},
 
-
-
+	/**
+	 * Подписка на событие
+	 * @see {@link Ergo.core.Observer#on}
+	 */
 	on: function() {
 		this.events.on.apply(this.events, arguments);
 	},
 
+	/**
+	 * Единовременная подписка на событие
+	 * @see {@link Ergo.core.Observer#once}
+	 */
 	once: function() {
 		this.events.once.apply(this.events, arguments);
 	},
 
+	/**
+	 * Отключение подписки на событие
+	 * @see {@link Ergo.core.Observer#off}
+	 */
 	off: function() {
 		this.events.off.apply(this.events, arguments);
 	},
 
+	/**
+	 * Генерация события
+	 * @deprecated
+	 */
 	fire: function() {
 		this.events.fire.apply(this.events, arguments);
 	},
 
+	/**
+	 * Генерация события
+	 *
+	 * @see {@link Ergo.core.Observer#fire}
+	 */
 	emit: function() {
 		this.events.fire.apply(this.events, arguments);
 	}
@@ -3751,7 +3682,6 @@ Ergo.alias('mixins:observable', {
 
 /**
  *
- * @mixin observable
  *
  */
 Ergo.alias('includes:observable', {
@@ -3845,18 +3775,21 @@ Ergo.alias('includes:observable', {
  * 	`lazy` "ленивое" создание элементов (только когда происходит обращение по ключу)
  *
  * События:
- * 	`changed` изменился источник данных
- * 	`diff`
- * 	`dirty`
+ * 	@fires Ergo.core.Event#changed
+ * 	@fires Event#diff
+ * 	@fires Event#dirty
  *
  * @class
  * @name Ergo.core.DataSource
  * @extends Ergo.core.Object
+ * @mixes observable
  *
  */
 Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototype */{
 
 	extends: 'Ergo.core.Object',
+
+	mixins: ['observable'],
 
 	defaults: {
 //		plugins: [Ergo.Observable],
@@ -3867,11 +3800,6 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 	_initialize: function(src, id, o) {
 
-		/**
-		 * Ключ связанных данных в источнике данных
-		 *
-		 * @field id
-		 */
 
 		/**
 		 * Источник данных
@@ -3880,6 +3808,11 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		 */
 		this.source = src;
 
+		/**
+		 * Ключ связанных данных в источнике данных
+		 *
+		 * @field _id
+		 */
 		if(arguments.length == 2) {
 			if($.isPlainObject(id)) o = id;
 			else this._id = id;
@@ -3891,10 +3824,12 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		if('_id' in this) {
 			// if(typeof id == 'string')
 			// 	this._id = this._id.split('+');
-			if(Array.isArray(id))
+			if(Array.isArray(id)) {
 				this._id = id;
-			else
+			}
+			else {
 				this._id = [this._id];
+			}
 		}
 
 
@@ -3936,10 +3871,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 		// очищаем регистрацию обработчиков событий
 		this.events.off();
 		// удаляем все дочерние элементы
-		this.entries.applyAll('_destroy');
-		// while(this.entries.size()) {
-		// 	this.entries.first()._destroy();
-		// }
+//		this.entries.applyAll('_destroy');
+		while(this.entries.count()) {
+			this.entries.last()._destroy()
+		}
 
 		if( this.source instanceof Ergo.core.DataSource ) {
 			this.source.entries.remove(this);
@@ -3952,8 +3887,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	/**
 	 * Получение вложенного элемента данных по ключу
 	 *
+	 * Если элемента данных нет, то он будет создан
+	 *
 	 * @param {String|Any} i ключ
-	 * @return {Ergo.core.DataSource} элемент данных
+	 * @return {Ergo.core.DataSource} entry элемент данных
 	 */
 	entry: function(i) {
 
@@ -4003,6 +3940,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 *
 	 * @param {Any} i ключ
 	 * @returns {Ergo.core.DataSource}
+	 *
+	 * @protected
 	 *
 	 */
 	_factory: function(i) {
@@ -4121,7 +4060,10 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 
-
+	/**
+	 * "Сырое" значение, ассоциированное с источником данных
+	 * @returns {Any}
+	 */
 	raw: function() {
 		return this._val();
 	},
@@ -4145,12 +4087,12 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 	/**
-	 * Полная копия значения
+	 * Полная копия "сырых" данных
 	 *
 	 * @param {Number|String} i ключ
 	 * @returns {Any}
 	 */
-	copy: function(i) {
+	rawCopy: function(i) {
 		return Ergo.deepCopy(this.get(i));
 	},
 
@@ -4160,6 +4102,9 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 * Изменение существующего элемента
 	 *
 	 * Если аргумент один, то изменяется значение самого источника данных
+	 *
+	 * @emits Ergo.core.Event#changed
+	 * @emits Ergo.core.Event#diff
 	 *
 	 * @param {String|Number} [i] ключ
 	 * @param {Any} val новое значение
@@ -4284,6 +4229,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	/**
 	 * Добавление нового элемента
 	 *
+	 * @emits Ergo.core.Event#changed
+	 * @emits Ergo.core.Event#diff
 	 *
 	 * @param {Any} value значение нового атрибута
 	 * @param {String|Number} [index] индекс или ключ, куда должен быть добавлен атрибут
@@ -4349,6 +4296,8 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	 *
 	 * Если метод вызывается без аргументов, то удаляется сам источник данных из родительского
 	 *
+	 * @emits Ergo.core.Event#diff
+	 *
 	 * @param {String|Number} [i] ключ
 	 *
 	 */
@@ -4408,9 +4357,9 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Удаление элемента.
+	 * Удаление элемента по значению.
 	 *
-	 * @param {Any} [v] элемент
+	 * @param {Any} [v] значение элемента
 	 *
 	 */
 	rm: function(v) {
@@ -4437,12 +4386,15 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Последовательный обход всех вложенных элементов с поддержкой фильтрации
+	 * Последовательный обход всех вложенных элементов с поддержкой фильтрации и сортировки
 	 *
+	 * @param {Function} filter фильтр
+	 * @param {Function} sorter сортировка
+	 * @param {Function} pager страница
 	 * @param {Function} callback
 	 *
 	 */
-	each: function(callback, filter, sorter) {
+	stream: function(filter, sorter, pager, callback) {
 
 		var ds = this;
 
@@ -4508,7 +4460,17 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 
-
+	/**
+	 * Обновление данных с синхронизацией
+	 *
+	 * Определяется разница между новыми и старыми данными, формируется diff-объект и
+	 * генерируется событие `diff`
+	 *
+	 * @emits Ergo.core.Event#diff
+	 *
+	 * @params {Any} newData новые данные
+	 *
+	 */
 	sync: function(newData) {
 
 		var self = this;
@@ -4785,7 +4747,7 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 	/**
-	 * Количество элементов в источнике данных
+	 * Количество элементов "сырых" данных
 	 *
 	 * @returns {Number}
 	 */
@@ -4800,7 +4762,7 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 
-Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
+//Ergo.merge(Ergo.core.DataSource.prototype, Ergo.alias('mixins:observable'));
 
 
 
@@ -4827,8 +4789,6 @@ Ergo.$data = Ergo.object;
  * @name Ergo.core.StateManager
  * @extends Ergo.core.Object
  */
-
-
 Ergo.core.StateManager = function(target) {
 	this._widget = target;
 	this._current = {};
@@ -4838,7 +4798,7 @@ Ergo.core.StateManager = function(target) {
 	this._groups = {};
 }
 
-Ergo.merge(Ergo.core.StateManager.prototype, {
+Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.prototype */{
 
 //Ergo.defineClass('Ergo.core.StateManager', 'Ergo.core.Object', /** @lends Ergo.core.StateManager.prototype */{
 
@@ -4887,7 +4847,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	},
 
 
-
+	/**
+	 * Добавление нового состояния
+	 *
+	 * @param {String} name наименование
+	 * @param {String|Function} состояние
+	 *
+	 */
 	state: function(name, value) {
 
 		if(arguments.length == 1) {
@@ -4937,7 +4903,6 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 *
 	 * @param {String} to имя состояния
 	 * @param {Object} data данные, связанные с состоянием
-	 * @returns {$.Deferred}
 	 */
 	set: function(to, data) {
 
@@ -5257,7 +5222,6 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 * Отключение состояния
 	 *
 	 * @param {String} from имя состояния
-	 * @returns {$.Deferred}
 	 */
 	unset: function(from) {
 
@@ -5399,37 +5363,37 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 	 * @param {String} name имя состояния
 	 * @param {Array|String|RegExp} unset_template шаблон
 	 */
-	only: function(name, unset_template) {
-
-		var states_to_unset = [];
-
-		if(unset_template) {
-
-			if( $.isArray(unset_template) )
-				states_to_unset = unset_template;
-			else {
-				if($.isString(unset_template))
-					unset_template = new RegExp('^'+unset_template+'.*$');
-
-				for(var i in this._current)
-					if(i.match(unset_template)) states_to_unset.push(i);
-			}
-		}
-		else {
-			for(var i in this._current)
-				if(i != name) states_to_unset.push(i);
-		}
-
-		// очищаем состояния, выбранные для удаления
-		for(var i = 0; i < states_to_unset.length; i++)
-			this.unset(states_to_unset[i]);
-
-		// если состояние еще не установлено, то устанавливаем его
-		if(!this.is(name))
-			this.set(name);
-
-		return this;
-	},
+	// only: function(name, unset_template) {
+	//
+	// 	var states_to_unset = [];
+	//
+	// 	if(unset_template) {
+	//
+	// 		if( $.isArray(unset_template) )
+	// 			states_to_unset = unset_template;
+	// 		else {
+	// 			if($.isString(unset_template))
+	// 				unset_template = new RegExp('^'+unset_template+'.*$');
+	//
+	// 			for(var i in this._current)
+	// 				if(i.match(unset_template)) states_to_unset.push(i);
+	// 		}
+	// 	}
+	// 	else {
+	// 		for(var i in this._current)
+	// 			if(i != name) states_to_unset.push(i);
+	// 	}
+	//
+	// 	// очищаем состояния, выбранные для удаления
+	// 	for(var i = 0; i < states_to_unset.length; i++)
+	// 		this.unset(states_to_unset[i]);
+	//
+	// 	// если состояние еще не установлено, то устанавливаем его
+	// 	if(!this.is(name))
+	// 		this.set(name);
+	//
+	// 	return this;
+	// },
 
 
 
@@ -5460,8 +5424,12 @@ Ergo.merge(Ergo.core.StateManager.prototype, {
 
 
 
-
-Ergo.alias('mixins:statable', {
+/**
+ * Состояния
+ *
+ * @mixin statable
+ */
+Ergo.alias('mixins:statable', /** @lends statable */ {
 
 	get states() {
 		if( !this.__stt ) {
@@ -5483,7 +5451,10 @@ Ergo.alias('mixins:statable', {
 	// },
 
 
-
+	/**
+	 * Регистрация состояний, указанных в опции `states`
+	 *
+	 */
 	_bindStates: function() {
 		var o = this.options;
 
@@ -5514,6 +5485,13 @@ Ergo.alias('mixins:statable', {
 	},
 
 
+	/**
+	 * Обработчик "потерянного" состояния
+	 *
+	 * @param {String} name имя состояния
+	 * @param {Boolean} on начение состояния
+	 *
+	 */
 	_missedState: function(name, on) {
 		console.warn('State ['+name+'] is undefined');
 	},
@@ -5539,69 +5517,6 @@ Ergo.alias('mixins:statable', {
 
 
 });
-
-
-
-
-
-/**
- * Плагин, добавляющий StateManager к объекту
- *
- * @mixin statable
- */
-
-
-/*
-Ergo.alias('includes:statable', {
-
-	_construct: function(o) {
-
-		this.states = new Ergo.core.StateManager(this);
-
-	//	var o = this.options;
-		var self = this;
-
-		if('states' in o){
-			for(var i in o.states)
-				this.states.state(i, o.states[i]);
-			// настраиваем особое поведение состояния hover
-			if('hover' in o.states) {
-				this.el.hover(function(){ self.states.set('hover'); }, function(){ self.states.unset('hover'); });
-			}
-		}
-
-		if('transitions' in o) {
-			for(var i in o.transitions) {
-				var t = o.transitions[i];
-				if($.isPlainObject(t)) {
-					//TODO
-				}
-				else {
-					var a = i.split('>');
-					if(a.length == 1) a.push('');
-					this.states.transition(a[0].trim() || '*', a[1].trim() || '*', t);
-				}
-			}
-		}
-
-	},
-
-
-	overrides: {
-
-		set stt(v) {
-			var self = this;
-			v.split(' ').forEach(function(s) {
-				self.states.set(s);
-			});
-		}
-
-
-	}
-
-
-});
-*/
 
 
 
@@ -7141,6 +7056,9 @@ Ergo.WidgetAttributes = {
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetProps = {
 
   props: {
@@ -7231,7 +7149,6 @@ Ergo.WidgetProps = {
  * Представляет собой обертку для объектов javascript-класса Object
  *
  * @class
- * @extends Ergo.core.Object
  *
  */
 Ergo.core.Collection = function(src) {
@@ -7243,7 +7160,7 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
- $ergo.merge(Ergo.core.Collection.prototype, {
+$ergo.merge(Ergo.core.Collection.prototype, {
 // Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
 // 	defaults: {
@@ -7251,12 +7168,6 @@ Ergo.core.Collection = function(src) {
 // 	},
 //
 	_initialize: function(src) {
-//		this._super(options);
-//		Ergo.core.Collection.superclass._initialize.call(this, options);
-
-//		this.options = options;
-//		this.events = new Ergo.events.Observer(this);
-
 		this.src = src || {};
 	},
 
@@ -7359,6 +7270,9 @@ Ergo.core.Collection = function(src) {
 	},
 
 
+	/**
+	 * Удаление всех элементов коллекции
+	 */
 	removeAll: function() {
 		for(i in this.src) {
 			this.removeAt(i);
@@ -7366,9 +7280,6 @@ Ergo.core.Collection = function(src) {
 	},
 
 
-	/**
-	 * Очистка коллекции от всех значений
-	 */
 	clear: function() {
 		this.removeAll();
 //		this.src = {};
@@ -7424,13 +7335,13 @@ Ergo.core.Collection = function(src) {
 	 * Проверка вхождения значения в коллекцию
 	 * @param {Object} criteria
 	 */
-	includes: function(criteria) {
+	contains: function(criteria) {
 		return Ergo.contains(this.src, callback);
 	},
 
-	isInclude: function(criteria) {
-		return Ergo.contains(this.src, callback);
-	},
+	// isInclude: function(criteria) {
+	// 	return Ergo.contains(this.src, callback);
+	// },
 
 
 	/**
@@ -7603,12 +7514,12 @@ Ergo.core.Array = Ergo.defineClass('Ergo.core.Array', /** @lends Ergo.core.Array
  *
  *
  * @class
- * @name Ergo.core.WidgetChildren
+ * @name Ergo.core.Children
  * @extends Ergo.core.Array
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren.prototype */{
+Ergo.defineClass('Ergo.core.Children', /** @lends Ergo.core.Children.prototype */{
 
 	extends: 'Ergo.core.Array',
 
@@ -7741,7 +7652,7 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
 //		console.log('i', i);
 		// добавляем элемент в коллекцию
 //		i = this._super(item, i);
-		i = Ergo.core.WidgetChildren.superclass.add.call(this, item, i);
+		i = Ergo.core.Children.superclass.add.call(this, item, i);
 
 
 
@@ -7809,7 +7720,7 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
 
 
 //		var item = this._super(i);
-		var item = Ergo.core.WidgetChildren.superclass.removeAt.call(this, i);
+		var item = Ergo.core.Children.superclass.removeAt.call(this, i);
 
 
 //		if('hide' in item) item.hide();
@@ -7990,12 +7901,12 @@ Ergo.defineClass('Ergo.core.WidgetChildren', /** @lends Ergo.core.WidgetChildren
  *
  *
  * @class
- * @name Ergo.core.WidgetComponents
+ * @name Ergo.core.Components
  * @extends Ergo.core.Array
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetComponents.prototype */ {
+Ergo.defineClass('Ergo.core.Components', /** @lends Ergo.core.Components.prototype */ {
 
 	extends: 'Ergo.core.Array',
 
@@ -8030,7 +7941,7 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
 
 
 	_factory: function(v) {
-		return new Ergo.core.WidgetComponents(this._widget);
+		return new Ergo.core.Components(this._widget);
 	},
 
 
@@ -8270,7 +8181,7 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
 	 * @param {Object} criteria
 	 */
 	includes: function(criteria) {
-		return Ergo.includes(this._source, callback);
+		return Ergo.contains(this._source, callback);
 	},
 
 	/**
@@ -8352,14 +8263,14 @@ Ergo.defineClass('Ergo.core.WidgetComponents', /** @lends Ergo.core.WidgetCompon
  *
  *
  * @class
- * @name Ergo.core.WidgetItems
- * @extends Ergo.core.WidgetComponents
+ * @name Ergo.core.Items
+ * @extends Ergo.core.Components
  *
  *
  */
-Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.prototype */ {
+Ergo.defineClass('Ergo.core.Items', /** @lends Ergo.core.Items.prototype */ {
 
-	extends: 'Ergo.core.WidgetComponents',
+	extends: 'Ergo.core.Components',
 
 	_type: 'item',
 
@@ -8372,7 +8283,7 @@ Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.proto
 
 
 	_factory: function(v) {
-		return new Ergo.core.WidgetItems(this._widget);
+		return new Ergo.core.Items(this._widget);
 	},
 
 
@@ -8422,6 +8333,9 @@ Ergo.defineClass('Ergo.core.WidgetItems', /** @lends Ergo.core.WidgetItems.proto
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetData = {
 
 
@@ -8430,7 +8344,7 @@ Ergo.WidgetData = {
 	 *
 	 * Если опция autoBind = false, то связывание осуществлено не будет.
 	 *
-	 * @param {Object|Array|string} data подключаемые данные
+	 * @param {Object|Array|String} data подключаемые данные
 	 */
 	bind: function(data, update, pivot) {
 
@@ -8609,7 +8523,7 @@ Ergo.WidgetData = {
 			var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
-			this.data.each(function(dataEntry, i){
+			this.data.stream(filter, sorter, pager, function(dataEntry, i){
 //					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
@@ -8620,7 +8534,7 @@ Ergo.WidgetData = {
 					item._dynamic = true;
 
 //					item.el.attr('dynamic', true);
-			}, filter, sorter, pager);
+			});
 
 			// this.layout.immediateRebuild = true;
 			// this.layout.rebuild();
@@ -8797,7 +8711,7 @@ Ergo.WidgetData = {
 				var pager = o.dynamicPager ? o.dynamicPager.bind(this) : undefined;
 
 
-				this.data.each(function(dataEntry, i){
+				this.data.stream(filter, sorter, pager, function(dataEntry, i) {
 	//					self.items.add({}).bind(dataEntry, true, 2);
 					self.children.autobinding = false;
 					var item = self.items.add({});//{ 'data': dataEntry });
@@ -8809,7 +8723,7 @@ Ergo.WidgetData = {
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
-				}, filter, sorter, pager);
+				});
 
 	//			var t1 = Ergo.timestamp();
 	//			console.log(t1 - t0);
@@ -9408,11 +9322,21 @@ Ergo.WidgetData = {
 
 
 
+/**
+ * @lends Ergo.core.Widget.prototype
+ */
 Ergo.WidgetRender = {
 
 
 
 
+	/**
+	 * Подключение VDOM к виджету
+	 *
+	 * Если опция autoBind = false, то связывание осуществлено не будет.
+	 *
+	 * @param {Object|Array|String} data подключаемые данные
+	 */
 	_bindVDOM: function() {
 
 		var o = this.options;
@@ -9457,7 +9381,14 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Отрисовка виджета
+	 *
+	 * @param {DOMElement|String} target целевой объект отрисовки
+	 * @param {true|false} cascade каскадное обновление компоновки
+	 * @param {Ergo.core.Widget} beforeItem элемент, после которого будет добавлен виджет
+	 *
+	 */
 	render: function(target, cascade, beforeItem) {
 
 //		console.log('render');
@@ -9586,7 +9517,10 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Удаление виджета из VDOM/компоновки
+	 *
+	 */
 	unrender: function() {
 
 		this._rendered = false;
@@ -9857,7 +9791,7 @@ Ergo.WidgetRender = {
 
 
   /**
-	 * Обработчик, вызываемый когда необходимо обновить компоновку
+	 * Обработчик обновления компоновки (vdom)
 	 *
 	 * @protected
 	 */
@@ -9884,7 +9818,11 @@ Ergo.WidgetRender = {
 
 
 
-
+	/**
+	 * Обработчик обновления компоновки на основе diff
+	 *
+	 * @protected
+	 */
 	_renderDiff: function(created, deleted, updated) {
 
 //		console.log('render diff', arguments);
@@ -10180,7 +10118,7 @@ Ergo.alias('mixins:jquery', {
  * @param {string} o.as css-классы или состояния (аналог cls и state)
  * @param {string} o.cls css-классы
  * @param {object} o.style хэш стилей
- * @param {string} o.html html-тег виджета
+ * @param {string} o.tag html-тег виджета
  * @param {object} o.components хэш компонентов
  * @param {object} o.defaultComponent опции компонента по умолчанию
  * @param {function} o.componentFactory фабрика компонентов
@@ -10188,18 +10126,16 @@ Ergo.alias('mixins:jquery', {
  * @param {object} o.defaultItem опции элемента по умолчанию
  * @param {function} o.itemFactory фабрика элементов
  * @param {boolean} o.dynamic флаг динамического связывания
- * @param {object|array|string} o.data связываемые данные
  * @param {string} o.dataId ключ в источнике данных
  * @param {object} o.events хэш событий
  * @param {object} o.states хэш состояний
  * @param {object} o.transitions хэш переходов между состояниями
- * @param {string} o.state предустановленное состояние
- * @param {function} o.rendering функция создания jQuery-элемента
+ * @param {string} o.stt предустановленное состояние
+ * @param {function} o.rendering обработчик перерисовки
  * @param {string} o.renderTo селектор родительского элемента
  * @param {boolean} o.showOnRender вызов метода show при создании
  * @param {boolean} o.hideOnDestroy вызов метода hide при удалении
- * @param {string|function} o.binding функция связывания данных с виджетом
- * @param {Any} o.value значение виджета
+ * @param {string|function} o.binding обработчик связывания данных с виджетом
  * @param {object} o.wrapper опции "обертки"
  * @param {function} o.format форматирование "сырого" значения к строке, отображаемой виджетом
  * @param {function} o.unformat преобразование отображаемго/редактируемого значения в "сырые" данные
@@ -10211,27 +10147,17 @@ Ergo.alias('mixins:jquery', {
  * @mixes observable
  * @mixes statable
  *
- * @fires dataChanged
- * @fires fetch
- * @fires fetched
- * @fires bound
- * @fires afterBuild
- * @fires click
- * @fires doubleClick
- *
- * @property {object} options
- * @property {Ergo.core.Layout} layout
+ * @property {object} options Опции
+ * @property {Ergo.core.VDOM} vdom Узел виртуального DOM
  * @property {jQuery} el
- * @property {Ergo.core.DataSource} data
- * @property {Ergo.core.Observer} events
- * @property {Ergo.core.StateManager} states
- * @property {Ergo.core.WidgetChildren} children
- * @property {Ergo.core.WidgetItems} items
- * @property {Ergo.core.WidgetComponents} components
- * @property {string} text
- * @property {any} name
- * @property {string} width
- * @property {string} height
+ * @property {Ergo.core.DataSource} data Связанный источник данных
+ * @property {Ergo.core.Observer} events Обработчик событий
+ * @property {Ergo.core.StateManager} states Обработчик состояний
+ * @property {Ergo.core.Items} items Элементы
+ * @property {Ergo.core.Components} components Компоненты
+ * @property {any} name Служебное имя/индекс/ключ
+ * @property {any} value Значение
+ * @property {Ergo.core.Widget} parent Родительский виджет
  *
  *
  */
@@ -10242,69 +10168,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	mixins: ['observable', 'statable'],
 
 	defaults: {
-//		layout: 'default',
-		// states: {
-// //			'hidden': 'hidden',
-			// 'disabled': 'disabled',
-			// 'invalid': 'invalid'
-// //			'unselectable': 'unselectable'
-		// },
-//		plugins: [Ergo.Observable, Ergo.Statable],
-//		autoBind: true,
-//		autoUpdate: true,
-//		include: [/*'observable',*/ 'statable'],
-
-		// layoutFactory: function(layout) {
-		// 	if( $.isString(layout) )
-		// 		layout = $.ergo({etype: layout}, 'layouts');
-		// 	else if(!(layout instanceof Ergo.core.Layout))
-		// 		layout = $.ergo(Ergo.merge({etype: 'default'}, layout), 'layouts');
-		// 	return layout;
-		// },
-//		events: {},
-//		defaultItem: {},
-		// defaultComponent: {},
-		// componentFactory: function(o) {
-			// if($.isString(o)) {
-				// o = this.options.shortcuts[o] || {text: o};
-			// }
-			// return Ergo.widget( Ergo.smart_override({}, this.options.defaultComponent, o) );
-		// },
-//		shortcuts: {},
-//		showOnRender: false,
-//		hideOnRender: false,
-		// set: {
-		// },
-		// get: {
-		// }
 	},
-
-	// rules: {
-	// 	as: 'list',
-	// 	defaultItem: ['object'],
-	// 	defaultComponent: ['object'],
-	// 	nestedItem: ['object'],
-	// 	components: ['object', {'*': ['object']}],
-	// 	items: ['array', {'*': ['object']}],
-	// 	states: ['object'],//, {'*': 'list'}],
-	// 	transitions: ['object'],//, {'*': 'list'}]
-	// },
-
-
-
-	// set scope(scope) {
-	// 	this
-	// }
-
-
-	// ctx: {
-	// 	events: {
-	// 		on: function(name, callback, w) {
-	// 			(w._context || Ergo.context).events.on(name, callback, w);
-	// 		}
-	// 	}
-	// },
-
 
 
 
@@ -10481,34 +10345,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-		// создаем список дочерних элементов
-		/**
-		 * @field
-		 *
-		 * @description Коллекция дочерних виджетов
-		 *
-		 */
-//		this.children = new Ergo.core.WidgetChildren(this);
-
-		/**
-		 * Коллекция компонентов
-		 * @field
-		 */
-//		this.components = new Ergo.core.WidgetComponents(this, {type: 'component'});
-		/**
-		 * Коллекция элементов
-		 * @field
-/		 */
-//		this.items = new Ergo.core.WidgetItems(this, {type: 'item'});
-
-		//TODO этап генерации jQuery-элемента можно оптимизировать
-		// создаем новый элемент DOM или используем уже существующий
-		/**
-		 * @field
-		 *
-		 * @description jQuery-объект, с которым связан виджет
-		 *
-		 */
 
 
 /*
@@ -10633,31 +10469,8 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-/*
-		if('onClick' in o)
-			this.el[0].addEventListener('click', function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); })
-//			this.el.click(function(e) { if(!self.states.is('disabled')) self.events.fire('click', {button: e.button}, e); });
-		if('onDoubleClick' in o)
-			this.el.dblclick(function(e) { if(!self.states.is('disabled')) self.events.fire('doubleClick', {button: e.button}, e); });
-
-//		if(o.fastclick)
-//			this.el.mousedown(function(e) { if(!self.states.is('disabled') && e.button === 0) self.events.fire('click', {button: e.button}, e); });
-
-
-
-*/
-
-
 	},
 
-
-
-
-
-
-//	_theme: function() {
-//		if(this.options.ui == 'jquery_ui') this._theme_jquery_ui
-//	}
 
 
 
@@ -10764,6 +10577,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	 * @param {string} eventContext контекст события (`jquery`, `scope` и т.д.)
 	 * @param {string} name Имя события
 	 *
+	 * @deprecated
 	 */
 	action: function(v, event, eventType) {
 
@@ -10945,30 +10759,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 		return this.parent.parents(list);
 	},
 
-	/*
-	 * Получение родительского виджета
-	 *
-	 * Если критерий не указан, то возвращается непосредственный родитель
-	 *
-	 * @example
-	 * a.parent();
-	 * b.parent({'data': dataItem});
-	 * c.parent(Ergo.widgets.Box);
-	 * d.parent(function(w) { return w.options.width < 100; });
-	 * e.parent('header');
-	 *
-	 * @param {Any} [criteria] критерий
-	 *
-	 * @deprecated
-	 */
-	// parent: function(i) {
-//
-		// if(arguments.length == 0) return this.parent;
-//
-		// return Ergo.find(this.parents(), Ergo.by_widget(i));
-	// },
-//
-
 
 
 
@@ -10981,24 +10771,23 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-
 	get children() {
 		if(!this.__c) {
-			this.__c = new Ergo.core.WidgetChildren(this);
+			this.__c = new Ergo.core.Children(this);
 		}
 		return this.__c;
 	},
 
 	get components() {
 		if(!this.__cmp) {
-			this.__cmp = new Ergo.core.WidgetComponents(this, {type: 'component'});
+			this.__cmp = new Ergo.core.Components(this, {type: 'component'});
 		}
 		return this.__cmp;
 	},
 
 	get items() {
 		if(!this.__itm) {
-			this.__itm = new Ergo.core.WidgetItems(this, {type: 'item'});
+			this.__itm = new Ergo.core.Items(this, {type: 'item'});
 		}
 		return this.__itm;
 	},
@@ -11018,7 +10807,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	},
 
 
-
 	get vdom() {
 		if(!this.__vdom) {
 			this._bindVDOM();
@@ -11026,7 +10814,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 		}
 		return this.__vdom;
 	},
-
 
 
 	get scope() {
@@ -11047,7 +10834,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 		}
 
 	},
-
 
 	get context() {
 //		return $context || Ergo.context;
@@ -11100,7 +10886,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	// },
 
 
-
 	get name() {
 		return this._name || this._key || this._index;
 	},
@@ -11127,13 +10912,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	// 	return this.__ufmt;
 	// },
 
-	/**
-	 * Получение значения, связанного с виджетом.
-	 *
-	 * Если задана функция форматирования (`options.format`), то она используется для преобразования результата
-	 *
-	 * @returns {Any} undefined, если к виджету данные не подключены
-	 */
 	get value() {
 		var val;
 		var o = this.options;
@@ -11169,13 +10947,9 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 		return val;
 	},
 
-	/**
-	 * Установка значения, связанного с виджетом
-	 *
-	 * Если задана функция хранения (`options.unformat`), то она используется для преобразования значения
-	 *
-	 * @param {Any} val значение
-	 */
+
+
+
 	set value(val) {
 
 //		if(this._lock_value_change) return;
@@ -11306,19 +11080,6 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-	/**
-	 * Установка значения опций
-	 *
-	 * Порядок поиска опций:
-	 * 1. обработчик в `options.set`
-	 * 2. сеттер set_*
-	 * 3. состояния
-	 * 4. ES5-сеттер
-	 * 5. группа эксклюзивных состояний
-	 * 6. список атрибутов
-	 *
-	 * @param {object} o опции
-	 */
 
 	//  _opt: function(o) {
 	//
@@ -11404,7 +11165,9 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 */
 
 
-
+	/**
+	 *
+	 */
 	layoutFactory: function(layout) {
 		if( $.isString(layout) )
 			layout = $.ergo({etype: layout}, 'layouts');
@@ -11416,7 +11179,11 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-
+	/**
+	 * "Всплытие" события по дереву виджетов
+	 *
+	 * @see {@link Ergo.core.Observer#fire}
+	 */
 	rise: function(name, e, baseEvent) {
 		if(!e) e = {};
 		e.target = e.target || this;
@@ -11427,6 +11194,11 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	},
 
 
+	/**
+	 * "Погружение" события по дереву виджетов
+	 *
+	 * @see {@link Ergo.core.Observer#fire}
+	 */
 	sink: function(name, e, baseEvent) {
 		if(!e) e = {};
 		e.target = e.target || this;
@@ -11441,7 +11213,11 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 
-
+	/**
+	 * Обработчик "потерянного" состояния
+	 *
+	 * Устанавливает класс `vdom`
+	 */
 	_missedState: function(name, on, data) {
 		on ? this.vdom.addClass(name) : this.vdom.removeClass(name);
 	},
@@ -11581,7 +11357,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 //Ergo.merge(Ergo.core.Widget.prototype, Ergo.alias('mixins:statable'));
 
-Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
+//Ergo.merge(Ergo.core.Widget.prototype, Ergo.WidgetOptions);
 
 Ergo.deepMerge(Ergo.core.Widget.prototype, Ergo.WidgetProps);
 
