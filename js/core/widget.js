@@ -808,7 +808,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 
 	// set format(v) {
-	// 	this.__fmt = (typeof v == 'string') ? $ergo.format_obj.curry(v) : v;
+	// 	this.__fmt = (typeof v == 'string') ? $ergo.formatObj.curry(v) : v;
 	// },
 	//
 	// get format() {
@@ -816,7 +816,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	// },
 	//
 	// set unformat(v) {
-	// 	this.__ufmt = (typeof v == 'string') ? $ergo.unformat_obj.curry(v) : v;
+	// 	this.__ufmt = (typeof v == 'string') ? $ergo.unformatObj.curry(v) : v;
 	// },
 	//
 	// get unformat() {
@@ -846,13 +846,13 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 					val = $ergo.formatValue.call(this, m[1], val);
 				}
 				else {
-					val = $ergo.format_obj.call(this, fmt, val);
+					val = $ergo.formatObj.call(this, fmt, val);
 				}
 			}
 			else {
 				val = fmt.call(this, val);
 			}
-//			val = (typeof fmt == 'string') ? $ergo.format_obj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
+//			val = (typeof fmt == 'string') ? $ergo.formatObj.call(this, fmt, val) : fmt.call(this, val);// this.__fmt.call(this, val);
 		}
 
 		return val;
@@ -873,8 +873,15 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 		var ufmt = this._unformat || this.options.unformat;
 		if(ufmt) {
-			val = (typeof ufmt == 'string') ? $ergo.unformat_obj.call(this, ufmt, val) : ufmt.call(this, val);//this.__ufmt.call(this, val);
+			val = (typeof ufmt == 'string') ? $ergo.unformatObj.call(this, ufmt, val) : ufmt.call(this, val);//this.__ufmt.call(this, val);
 		}
+
+		var fmt = this._format || this.options.format;
+		if( (fmt && !ufmt) || (!fmt && ufmt) ) {
+			console.warn('No matching format and unformat');
+		}
+
+
 
 		if(this.data) {
 
@@ -1096,7 +1103,16 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 	 * @see {@link Ergo.core.Observer#fire}
 	 */
 	rise: function(name, e, baseEvent) {
-		if(!e) e = {};
+		if(e == null) {
+			e = {};
+		}
+		else if( e instanceof Ergo.core.Event || e.constructor == Object ) {
+			//
+		}
+		else {
+			e = {$data: e}
+		}
+//		if(!e) e = {};
 		e.target = e.target || this;
 		e = this.events.fire(name, e, baseEvent);
 		if(this.parent && !e.stopped) {
@@ -1297,31 +1313,31 @@ Ergo.$widget = Ergo.object;
 // };
 
 
-Ergo.after_rise = function(e, type, base) {
-	if(this.parent && !e.stopped) this.parent.events.fire(type, e, base);
-};
-
-
-Ergo.after_sink = function(e, type, base) {
-	this.children.each(function(child){
-		child.events.fire(type, e, base);
-	});
-};
-
-
-Ergo.rise = function(name, e, baseEvent) {
-	if(!e) e = {};//new Ergo.core.Event();
-	e.after = Ergo.after_rise;
-	e.target = e.target || this.target;
-	this.fire(name, e, baseEvent);
-};
-
-Ergo.sink = function(name, e, baseEvent) {
-	if(!e) e = {};//new Ergo.core.Event();
-	e.after = Ergo.after_sink;
-	e.target = e.target || this.target;
-	this.fire(name, e, baseEvent);
-};
+// Ergo.after_rise = function(e, type, base) {
+// 	if(this.parent && !e.stopped) this.parent.events.fire(type, e, base);
+// };
+//
+//
+// Ergo.after_sink = function(e, type, base) {
+// 	this.children.each(function(child){
+// 		child.events.fire(type, e, base);
+// 	});
+// };
+//
+//
+// Ergo.rise = function(name, e, baseEvent) {
+// 	if(!e) e = {};//new Ergo.core.Event();
+// 	e.after = Ergo.after_rise;
+// 	e.target = e.target || this.target;
+// 	this.fire(name, e, baseEvent);
+// };
+//
+// Ergo.sink = function(name, e, baseEvent) {
+// 	if(!e) e = {};//new Ergo.core.Event();
+// 	e.after = Ergo.after_sink;
+// 	e.target = e.target || this.target;
+// 	this.fire(name, e, baseEvent);
+// };
 
 
 

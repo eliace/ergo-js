@@ -10,4 +10,6 @@
 //= require image
 //= require growls
 
+//= require editor-input
+
 //= require simple-selection

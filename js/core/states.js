@@ -9,7 +9,6 @@
  *
  * @class
  * @name Ergo.core.StateManager
- * @extends Ergo.core.Object
  */
 Ergo.core.StateManager = function(target) {
 	this._widget = target;
@@ -445,7 +444,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 	 *
 	 * @param {String} from имя состояния
 	 */
-	unset: function(from) {
+	unset: function(from, data) {
 
 		// Если состояние не установлено, то ничего не делаем
 		if(from && !(from in this._current)) {
@@ -526,6 +525,9 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 			self._current[to[i]] = {from: [from]/*, data: data*/};
 			if(to[i] in states) self._state_on(to[i]); //states[to[i]].call(self._widget);
 		}
+
+
+		$ergo.deepMerge(self._current[from], data);
 
 		// 3.
 		self._state_off(from, self._current[from]);
@@ -725,12 +727,12 @@ Ergo.alias('mixins:statable', /** @lends statable */ {
 		return this.states.is(name);
 	},
 
-	set: function(name) {
-		this.states.set(name);
+	set: function(name, data) {
+		this.states.set(name, data);
 	},
 
-	unset: function(name) {
-		this.states.unset(name);
+	unset: function(name, data) {
+		this.states.unset(name, data);
 	},
 
 	toggle: function(name, on) {

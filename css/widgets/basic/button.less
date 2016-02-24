@@ -249,6 +249,7 @@
   &:hover:not(:disabled):not(.opened) {
     color: @color;
     background-color: rgba(0,0,0,0.03);
+    border-color: transparent;
     box-shadow: none;
   }
   &:active {
@@ -266,7 +267,7 @@
 
 .button.flat {
   background-color: transparent;
-  border: none;
+  border: 1px solid transparent;
   text-transform: uppercase;
 
   .button_flat(@text-color);
@@ -278,6 +279,7 @@
   &.warning { .button_flat(@warning); }
   &.danger { .button_flat(@danger); }
 
+  &.blue { .button_flat(@blue); }
   &.red { .button_flat(@red); }
   &.amber { .button_flat(@amber); }
   &.deep-orange { .button_flat(@deep-orange); }

@@ -16,7 +16,7 @@ Ergo.defineClass('Ergo.widgets.Chip', {
 				etype: 'text',
 				components: {
 					content: {
-						etype: '.'
+//						etype: '.'
 					},
 					description: {
 						etype: 'text',
@@ -28,12 +28,17 @@ Ergo.defineClass('Ergo.widgets.Chip', {
 	},
 
 
-	set img(v) {
-		this.$image.opt('src', v);
-	},
-
-	set description(v) {
-		this.$content.$description.opt('text', v);
+	props: {
+		'img': {
+			set: function(v) {
+				this.$image.prop('src', v);
+			}
+		},
+		'description': {
+			set: function(v) {
+				this.$content.$description.prop('text', v);
+			}
+		}
 	}
 
 

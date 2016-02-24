@@ -140,7 +140,7 @@ Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototy
 
 		if(provider) {
 			var self = this;
-			return provider.find_all(this, query).then(function(data) {
+			return provider.findAll(this, query).then(function(data) {
 
 				var v = parse.call(self, data);
 

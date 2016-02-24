@@ -61,7 +61,7 @@ describe('Include "selectable"', function(){
 
 			w.item(1)._destroy();
 
-			expect( w.selection.get() ).to.not.exist;
+			expect( w.selection.get() ).to.eql({});
 
 		});
 

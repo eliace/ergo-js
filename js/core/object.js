@@ -99,7 +99,7 @@ Ergo.merge(Ergo.core.Object.prototype, /** @lends Ergo.core.Object.prototype */{
       this.constructor.NO_REBUILD_SKELETON = true;
       this.constructor.prototype.defaults = Ergo.deepCopy(o);
       this.constructor.prototype.props = Ergo.deepCopy(p);
-//      this.constructor.prototype.rules = Ergo.deep_copy(r);
+//      this.constructor.prototype.rules = Ergo.deepCopy(r);
 //      Ergo.smart_build(this.constructor.prototype.defaults);
 
     }

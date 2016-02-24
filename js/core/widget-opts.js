@@ -106,10 +106,10 @@ Ergo.WidgetOptions = {
 
 
 // 	set format(v) {
-// 		if($.isString(v)) this.options.format = Ergo.format_obj.curry(v);
+// 		if($.isString(v)) this.options.format = Ergo.formatObj.curry(v);
 // 	},
 // 	set unformat(v) {
-// 		if($.isString(v)) this.options.unformat = Ergo.unformat_obj.curry(v);
+// 		if($.isString(v)) this.options.unformat = Ergo.unformatObj.curry(v);
 // 	},
 
 	//FIXME для совместимости

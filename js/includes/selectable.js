@@ -114,7 +114,22 @@ Ergo.alias('includes:selectable', {
 
 				// если виджет будет удален, то нужно его выбросить из выборки
 				selected.events.once('beforeDestroy', function() {
-					this._selected = null;
+
+					if(!multiselect && this._selected == selected) {
+						this._selected = null;
+					}
+					else if(multiselect) {
+						for(var i in this._selected) {
+							if(this._selected[i] == selected) {
+								delete this._selected[i];
+								break;
+							}
+						}
+					}
+
+					this._widget.emit('selectionChanged', {selection: this.get(), unselected: selected});
+
+
 				}, this);
 
 
@@ -219,17 +234,24 @@ Ergo.alias('includes:selectable', {
 
 			},
 
+			first: function() {
+				if(!o.multiselect) {
+					return this._selected;
+				}
+				return $ergo.first(this._selected);
+			},
+
 
 			isEmpty: function() {
-				return this._selected.length == 0;
+				return $ergo.count(this._selected) == 0;
 			},
 
 			size: function() {
-				return this._selected.length;
+				return $ergo.count(this._selected);
 			},
 
 			count: function() {
-				return this._selected.length;
+				return $ergo.count(this._selected);
 			},
 
 			each: function(fn) {

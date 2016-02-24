@@ -141,12 +141,19 @@
 
 	E.indent_s = '  ';
 
+	/**
+	 * Печать объекта в удобочитаемой форме
+	 *
+	 * @function
+	 *
+	 * @returns {String}
+	 */
 	E.prettyPrint = function(obj) {
 		return JSON.stringify(obj, null, E.indent_s);
 	}
 
 
-	/**
+	/*
 	 * Печать объекта в удобочитаемой форме
 	 *
 	 * @name Ergo.prettyPrint
@@ -214,7 +221,7 @@
 	/**
 	 *
 	 *
-	 * @name Ergo.timestamp
+	 * @name Ergo.ms
 	 * @function
 	 */
 	E.ms = E.timestamp = function() {
@@ -250,7 +257,14 @@
 	};
 
 
-
+	/**
+	 * Форматированный вывод значения
+	 *
+	 * Поддерживается конвеер с разделителем `|`
+	 *
+	 * @name Ergo.formatValue
+	 * @function
+	 */
 	E.formatValue = function(key, obj) {
 
 		var o = obj;
@@ -295,16 +309,16 @@
 	 * 	email_count: 3
 	 * }
 	 *
-	 * Ergo.format_obj("#{first_name} #{last_name} has #{email_count} e-mails", record);
+	 * Ergo.formatObj("#{first_name} #{last_name} has #{email_count} e-mails", record);
 	 *
 	 * Output: Alice Green has 3 e-mails
 	 *
-	 * @name Ergo.format_obj
+	 * @name Ergo.formatObj
 	 * @function
 	 * @param {Object} format_str строка форматирования
 	 * @param {Object} obj объект
 	 */
-	E.format_obj = function(format_str, obj) {
+	E.formatObj = function(format_str, obj) {
 		if(obj === null || obj === undefined) return '';
 
 		var m = format_str.match(/^{{([^}{]+?)}}$/);
@@ -347,7 +361,14 @@
 
 
 
-	E.unformat_obj = function(ufmt, s) {
+	/**
+	 * Извлечение из строки значений
+	 *
+	 * @name Ergo.unformatObj
+	 * @function
+	 *
+	 */
+	E.unformatObj = function(ufmt, s) {
 
 		var n=0;
 
@@ -413,7 +434,7 @@
 	 *
 	 * Копируются вложенные простые объекты и массивы
 	 *
-	 * @name Ergo.deep_copy
+	 * @name Ergo.deepCopy
 	 * @function
 	 * @param {Any} src копируемый объект
 	 */
@@ -449,7 +470,7 @@
 			for(var i in src)
 				copy[i] = E.deepCopy(src[i]);
 //			E.each(src, function(item, i){
-//				copy[i] = E.deep_copy(item);
+//				copy[i] = E.deepCopy(item);
 //			});
 		}
 		else{
@@ -466,12 +487,6 @@
 	E.loadpath = {};
 
 
-	/*
-	 * Синхронная загрузка модулей через Ajax
-	 *
-	 * В качестве аргументов передается список путей к классам
-	 *
-	 */
 	E.require = function() {
 
 		for(var i = 0; i < arguments.length; i++) {

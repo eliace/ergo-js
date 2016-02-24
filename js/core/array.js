@@ -71,16 +71,10 @@ Ergo.core.Array = Ergo.defineClass('Ergo.core.Array', /** @lends Ergo.core.Array
 		// this.src = [];
 	// },
 
-	/**
-	 * Первый элемент коллекции
-	 */
 	first: function() {
 		return this.src[0];
 	},
 
-	/**
-	 * Последний элемент коллекции
-	 */
 	last: function() {
 		return this.src[this.src.length-1];
 	},

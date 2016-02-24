@@ -19,7 +19,7 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
-$ergo.merge(Ergo.core.Collection.prototype, {
+$ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prototype */{
 // Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
 // 	defaults: {
@@ -255,6 +255,23 @@ $ergo.merge(Ergo.core.Collection.prototype, {
 	 */
 	keys: function() {
 		return Object.keys(this.src);
-	}
+	},
+
+
+	/**
+	 * Первый элемент коллекции
+	 */
+	first: function() {
+		return this.src(Object.keys(this.src)[0]);
+	},
+
+	/**
+	 * Последний элемент коллекции
+	 */
+	last: function() {
+		var keys = Object.keys(this.src);
+		return this.src(keys[keys.length-1]);
+	},
+
 
 });

@@ -11,7 +11,7 @@ Ergo.WidgetProps = {
     get: {
       text: function() {
     		if(this.$content) {
-    			return this.$content.opt('text');
+    			return this.$content.prop('text');
     		}
     		else {
     			return this.vdom.innerEl.textContent;
@@ -23,7 +23,7 @@ Ergo.WidgetProps = {
 
       text: function(v) {
     		if(this.$content) {
-    			this.$content.opt('text', v == null ? '': v);
+    			this.$content.prop('text', v == null ? '': v);
     		}
     		else {
     			this.vdom.innerEl.textContent = ( v == null ? '': v );

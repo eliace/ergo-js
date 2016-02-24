@@ -6,13 +6,11 @@
 /**
  * Источник данных
  *
- * Опции:
- * 	`lazy` "ленивое" создание элементов (только когда происходит обращение по ключу)
  *
  * События:
  * 	@fires Ergo.core.Event#changed
- * 	@fires Event#diff
- * 	@fires Event#dirty
+ * 	@fires Ergo.core.Event#diff
+ * 	@fires Ergo.core.Event#dirty
  *
  * @class
  * @name Ergo.core.DataSource

@@ -125,17 +125,19 @@ Ergo.defineClass('Ergo.widgets.Select', {
 
 
 			'dropdown': function(e) {
-				this.states.toggle('opened');
+				if( !this.is('disabled') ) {
+					this.toggle('opened');
+				}
 			},
 
 			'changeSelect': function(e) {
 				this.opt('value', e.target.opt('name'));
-				this.states.unset('opened');
+				this.unset('opened');
 			},
 
 			'cancelSelect': function(e) {
 				this._dataChanged(); // обновляем связывание
-				this.states.unset('opened');
+				this.unset('opened');
 			}
 
 		},

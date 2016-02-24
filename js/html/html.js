@@ -41,7 +41,19 @@ Ergo.defineClass('Ergo.html.Widget', {
 
 
 
-Ergo.defineClass('Ergo.widgets.Html', {
+/**
+ * Универсальный виджет для простых html-элементов
+ *
+ * etype: `widgets:html`
+ *
+ * Свойства: `href`, `forName`, `checked`, `src`, `type`, `placeholder`
+ *
+ * @class
+ * @name Ergo.widgets.Html
+ * @extends Ergo.core.Widget
+ */
+
+Ergo.defineClass('Ergo.widgets.Html', /** @lends Ergo.widgets.Html.prototype */{
 
 	extends: 'Ergo.core.Widget',
 

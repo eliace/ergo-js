@@ -94,7 +94,7 @@
 	/**
 	 * Рекурсивный обход всех базовых классов
 	 *
-	 * @name Ergo.walk_hierarchy
+	 * @name Ergo.walkPrototypes
 	 * @function
 	 * @param {Object} ctor класс, для которого нужно выполнить обход
 	 * @param {Function} callback метод, вызывваемый для каждого базового класса

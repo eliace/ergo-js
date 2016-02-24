@@ -79,6 +79,11 @@ Ergo.WidgetRender = {
 			return;
 		}
 
+		// для краткой формы отрисовки
+		if(arguments.length == 0 && !this._rendered && this.parent) {
+			return this.parent.render();
+		}
+
 
 		// есть дочерние элементы и виджет явно не управляетя данными
 		if( this.__c) {

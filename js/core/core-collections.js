@@ -166,7 +166,7 @@
 	/**
 	 * Псевдоним для {@link Ergo.filter}
 	 *
-	 * @name Ergo.find_all
+	 * @name Ergo.findAll
 	 * @function
 	 */
 	E.findAll = E.filter;
@@ -178,7 +178,7 @@
 	 *
 	 * Если критерий не является функцией, то используется метод Ergo.eq
 	 *
-	 * @name Ergo.key_of
+	 * @name Ergo.keyOf
 	 * @function
 	 * @param {Object|Array} obj коллекция
 	 * @param {Function|Any} criteria критерий
@@ -276,11 +276,25 @@
 
 
 
-	E.size = function(obj) {
+	E.count = function(obj) {
 
-		if(Array.isArray(obj)) return obj.length;
+		if(Array.isArray(obj)) {
+			return obj.length;
+		}
 
-		return obj.keys().length;
+		return Object.keys(obj).length;
+	};
+
+	E.size = E.count;
+
+
+	E.first = function(obj) {
+
+		if(Array.isArray(obj)) {
+			return obj[0];
+		}
+
+		return obj[Object.keys(obj)[0]];
 	};
 
 
