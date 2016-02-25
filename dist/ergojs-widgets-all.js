@@ -2286,9 +2286,10 @@ Ergo.defineClass('Ergo.widgets.SplitButton', {
 
 
 
+
 Ergo.defineClass('Ergo.widgets.ModalDialog', {
 
-	extens: 'Ergo.widgets.Panel',
+	extends: 'Ergo.widgets.Panel',
 
 	defaults: {
 
