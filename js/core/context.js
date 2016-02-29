@@ -13,9 +13,11 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 	extends: 'Ergo.core.Object',
 
+	mixins: ['observable'],
+
 	defaults: {
 //		plugins: [Ergo.Observable] //, Ergo.Statable]
-		include: 'observable',
+//		include: 'observable',
 
 		events: {
 			'restore': function(e) {
@@ -162,6 +164,10 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		}
 
 
+
+
+
+		this._bindEvents();
 
 	},
 
