@@ -15,16 +15,14 @@ Ergo.alias('includes:item-click-selection', {
 				this.opt('index', e.target.opt('name'));
 //				e.stop();
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			index: function(v) {
 				this.selection.set(v);
 			}
 		}
+
 	}
 
 });

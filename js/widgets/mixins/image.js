@@ -12,16 +12,14 @@ Ergo.alias('includes:+image', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			image: function(v) {
 				this.$image.opt('src', v);
 			}
 		}
+
 	}
 
 });

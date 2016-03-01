@@ -3112,10 +3112,8 @@ Ergo.alias('includes:label', {
 				etype: 'html:label'
 //				autoRender: false
 			}
-		}
-	},
+		},
 
-	props: {
 		set: {
 			label: function(v) {
 				this.$label.opt('text', v);
@@ -3126,8 +3124,8 @@ Ergo.alias('includes:label', {
 				this.$label.opt('text');
 			}
 		}
-	}
 
+	}
 
 });
 
@@ -3644,15 +3642,14 @@ Ergo.alias('includes:icon-addon', {
 			// 		}
 			// 	}
 			// }
-		}
-	},
+		},
 
-	props: {
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
 			}
 		}
+
 	}
 
 
@@ -3678,16 +3675,14 @@ Ergo.alias('includes:+image', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			image: function(v) {
 				this.$image.opt('src', v);
 			}
 		}
+
 	}
 
 });
@@ -3872,16 +3867,14 @@ Ergo.alias('includes:item-click-selection', {
 				this.opt('index', e.target.opt('name'));
 //				e.stop();
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			index: function(v) {
 				this.selection.set(v);
 			}
 		}
+
 	}
 
 });

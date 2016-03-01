@@ -18,10 +18,8 @@ Ergo.alias('includes:label', {
 				etype: 'html:label'
 //				autoRender: false
 			}
-		}
-	},
+		},
 
-	props: {
 		set: {
 			label: function(v) {
 				this.$label.opt('text', v);
@@ -32,7 +30,7 @@ Ergo.alias('includes:label', {
 				this.$label.opt('text');
 			}
 		}
-	}
 
+	}
 
 });
