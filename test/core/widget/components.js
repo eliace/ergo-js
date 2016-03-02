@@ -75,7 +75,7 @@ describe('Widget', function(){
       expect(c0).to.exist;
       expect(box.components.get('a')).to.exist;
 
-      console.log('components', box.components.get('a'));
+//      console.log('components', box.components.get('a'));
 
       expect(box.components.size()).to.be.eq(1);
 

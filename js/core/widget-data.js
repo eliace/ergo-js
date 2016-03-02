@@ -197,9 +197,10 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry, 'autoUpdate': false });
 					self.children.autobinding = false;
 
+					item._dynamic = true;
+
 					item.bind(dataEntry, false, false);
 //					item._pivot = false;
-					item._dynamic = true;
 
 //					item.el.attr('dynamic', true);
 			});
@@ -232,7 +233,7 @@ Ergo.WidgetData = {
 		else {
 			// STATIC BIND
 
-			if(this._pivot || this.options.binding) {
+			if(this._pivot || this.options.binding || this._dynamic) {
 
 
 				this.data.events.on('changed', function(e) {
@@ -246,6 +247,9 @@ Ergo.WidgetData = {
 				this.data.events.on('dirty', function(e) {
 					self._dataChanged(false, false); // ленивое обновление данных без каскадирования
 				}, this);
+
+				// отмечаем, что виджет реагирует на изменение данных
+				this._static = true;
 
 			}
 
@@ -385,9 +389,10 @@ Ergo.WidgetData = {
 					var item = self.items.add({});//{ 'data': dataEntry });
 					self.children.autobinding = false;
 
+					item._dynamic = true;
+
 					item.bind(dataEntry, undefined, false);
 //					item._pivot = false;
-					item._dynamic = true;
 	//					item.el.attr('dynamic', true);
 	//					item.dataPhase = 2;
 	//				item.render();
@@ -437,7 +442,7 @@ Ergo.WidgetData = {
 					// дочерний элемент не является опорным
 					// дочерний элнмент не является динамическим, связанным с данными инициатора rebind
 					// дочерний элемент не имеет биндинга
-					if(!child._pivot && !(initial.data == child.data && child.options.dynamic) && (child.data != self.data || update === false || !child.options.binding)) {
+					if(!child._pivot && !(initial.data == child.data && child.options.dynamic) && (child.data != self.data || update === false || !child._static)) {//child.options.binding)) {
 						child._rebind(false, undefined, initial);
 					}
 				});
@@ -654,9 +659,9 @@ Ergo.WidgetData = {
 					this.children.autobinding = false;
 					var item = this.items.add({}, index);
 					this.children.autobinding = true;
+					item._dynamic = true;
 					item.bind(e, true, false);
 
-					item._dynamic = true;
 
 //					item.render();
 					rerender_new_a.push(item);
@@ -755,9 +760,8 @@ Ergo.WidgetData = {
 					this.children.autobinding = false;
 					_item = this.items.add({}, index);
 					this.children.autobinding = true;
-					_item.bind(e, false, false);  // обновляться здесь не надо
-
 					_item._dynamic = true;
+					_item.bind(e, false, false);  // обновляться здесь не надо
 
 					rerender_new_a.push( _item );
 					// if(!sorter) {

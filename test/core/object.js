@@ -148,7 +148,7 @@ describe('Object', function(){
 
 
       var customizer = function(a, b, i) {
-        console.log(a, b, i);
+//        console.log(a, b, i);
         var rule = rules[i];
 //        return rule ? ruleTypes[rule].call(this, a, b) : b;
         // если для опции есть правило

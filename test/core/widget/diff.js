@@ -303,7 +303,7 @@ describe('Widget', function(){
 			var data = [{ref: 'http://ergojs.com'}, {ref: 'http://my.org'}];
 
 			var filter = function(v, i) {
-				console.log('filter value', v);
+//				console.log('filter value', v);
 				return v.ref.indexOf('https://') == -1;
 			}
 
@@ -323,7 +323,7 @@ describe('Widget', function(){
 				},
 				events: {
 					'data:dirty': function(e) {
-						console.log(e);
+//						console.log(e);
 						this._dataDiff([], [], e.updated);
 					}
 				}
@@ -335,8 +335,8 @@ describe('Widget', function(){
 			// 	this._dataDiff([], [], e.updated);
 			// }, box);
 
-			console.log('data', box.data);
-			console.log(box.items.size());
+//			console.log('data', box.data);
+//			console.log(box.items.size());
 
 
 			bindings = [];

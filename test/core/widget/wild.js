@@ -10,11 +10,11 @@ describe('Widget', function(){
       	valueUid: function(v) {
       		return v.id;
       	},
-          events:{
-          'diff':function(e) {
-            console.log('diff',e)
-          }
-        },
+        // events:{
+        //   'diff':function(e) {
+        //     console.log('diff',e)
+        //   }
+        // },
       })
 
       d.set(DATA_0)

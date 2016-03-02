@@ -597,7 +597,7 @@ describe('Widget', function(){
 			expect(ds.entries.size()).to.be.eq(5);
 			expect([box.item(0).value.title, box.item(1).value.title, box.item(2).value.title]).to.be.eql(['Bria2', 'Fran2', 'Hele2']);
 
-			console.log(bindings);
+//			console.log(bindings);
 			expect(bindings).to.be.eql([{id: 8, title: 'Hele2'}, {id: 6, title: 'Fran2'}, {id: 5, title: 'Bria2'}, [{id: 4, title: 'Jo2'}, {id: 5, title: 'Bria2'}, {id: 6, title: 'Fran2'}, {id: 8, title: 'Hele2'}, {id: 7, title: 'An2'}]]);
 
 

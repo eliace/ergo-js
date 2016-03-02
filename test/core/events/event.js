@@ -220,7 +220,7 @@ describe('Events', function(){
       obj._bindEvents();
       obj._bindStates();
 
-			console.log(obj.events);
+//			console.log(obj.events);
 
       obj.emit('a', true);
       obj.emit('b', true);
@@ -229,7 +229,7 @@ describe('Events', function(){
 			obj.emit('e', true);
 			obj.emit('f', true);
 
-			console.log( messages );
+//			console.log( messages );
 
 
       expect(messages).to.be.eql([['x', true], ['y', true], ['e', true], ['w', true], ['e', true], ['v', true]]);
