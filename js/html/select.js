@@ -44,7 +44,7 @@ Ergo.defineClass('Ergo.html.Select', {
 			},
 
 			disabled: function(v) {
-				(v) ? this.vdom.el.setAttribute('disabled', '') : this.vdom.el.removeAttribute('disabled');
+				(v) ? this.dom.el.setAttribute('disabled', '') : this.dom.el.removeAttribute('disabled');
 			}
 		}
 	}

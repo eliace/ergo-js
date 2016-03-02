@@ -56,7 +56,7 @@ Ergo.defineClass('Ergo.html.TextArea', {
 	// перегружаем параметр name
 	set name(v) {
 		this._name = v;
-		this.vdom.el.setAttribute('name', v);
+		this.dom.el.setAttribute('name', v);
 	},
 
 

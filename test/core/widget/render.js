@@ -18,8 +18,8 @@ describe('Widget', function(){
 //      item = w.item(1);
       expect(w.item(0)._index).to.be.eq(0);
       expect(w.item(1)._index).to.be.eq(1);
-      expect(w.item(0).vdom.el._pos).to.be.eq(0);
-      expect(w.item(1).vdom.el._pos).to.be.eq(1);
+      expect(w.item(0).dom.el._pos).to.be.eq(0);
+      expect(w.item(1).dom.el._pos).to.be.eq(1);
 
 
       var item = w.item(0);
@@ -32,7 +32,7 @@ describe('Widget', function(){
 			expect(w.el.children().length).to.be.eq(1);
       expect(w.item(0)._index).to.be.eq(0);
       expect(w.item(0).el.text()).to.be.eq('Bob');
-      expect(w.item(0).vdom.el._pos).to.be.eq(0);
+      expect(w.item(0).dom.el._pos).to.be.eq(0);
 
 
 
@@ -44,8 +44,8 @@ describe('Widget', function(){
       expect(w.item(1)._index).to.be.eq(1);
       expect(w.item(0).el.text()).to.be.eq('Bob');
       expect(w.item(1).el.text()).to.be.eq('Alice');
-      expect(w.item(0).vdom.el._pos).to.be.eq(0);
-      expect(w.item(1).vdom.el._pos).to.be.eq(1);
+      expect(w.item(0).dom.el._pos).to.be.eq(0);
+      expect(w.item(1).dom.el._pos).to.be.eq(1);
 
       item = w.items.add({text: 'Charlie'}, 1);
 
@@ -59,9 +59,9 @@ describe('Widget', function(){
       expect(w.item(0).el.text()).to.be.eq('Bob');
       expect(w.item(1).el.text()).to.be.eq('Charlie');
       expect(w.item(2).el.text()).to.be.eq('Alice');
-      expect(w.item(0).vdom.el._pos).to.be.eq(0);
-      expect(w.item(1).vdom.el._pos).to.be.eq(1);
-      expect(w.item(2).vdom.el._pos).to.be.eq(2);
+      expect(w.item(0).dom.el._pos).to.be.eq(0);
+      expect(w.item(1).dom.el._pos).to.be.eq(1);
+      expect(w.item(2).dom.el._pos).to.be.eq(2);
 
     });
 
@@ -79,10 +79,10 @@ describe('Widget', function(){
 
       w.render();
 
-			expect(w.component('a').vdom.el._pos).to.be.eq(0);
-			expect(w.component('b').vdom.el._pos).to.be.eq(1);
-			expect(w.component('a').vdom.el._weight).to.be.eq(0);
-			expect(w.component('b').vdom.el._weight).to.be.eq(0);
+			expect(w.component('a').dom.el._pos).to.be.eq(0);
+			expect(w.component('b').dom.el._pos).to.be.eq(1);
+			expect(w.component('a').dom.el._weight).to.be.eq(0);
+			expect(w.component('b').dom.el._weight).to.be.eq(0);
 
 
 			var comp = w.component('a');
@@ -91,15 +91,15 @@ describe('Widget', function(){
       w.components.remove(comp);
 
       expect(w.component('b').el.text()).to.be.eq('Bob');
-      expect(w.component('b').vdom.el._pos).to.be.eq(0);
+      expect(w.component('b').dom.el._pos).to.be.eq(0);
 
 			w.components.set('a', comp);
 			comp.render();
 
 			expect(w.component('a').el.text()).to.be.eq('Alice');
 			expect(w.component('b').el.text()).to.be.eq('Bob');
-      expect(w.component('a').vdom.el._pos).to.be.eq(1);
-			expect(w.component('b').vdom.el._pos).to.be.eq(0);
+      expect(w.component('a').dom.el._pos).to.be.eq(1);
+			expect(w.component('b').dom.el._pos).to.be.eq(0);
 
 			comp = w.components.set('c', {text: 'Charlie', weight: -1});
       comp.render();
@@ -110,10 +110,10 @@ describe('Widget', function(){
 			expect(w.component('a').el.text()).to.be.eq('Alice');
 			expect(w.component('b').el.text()).to.be.eq('Bob');
 			expect(w.component('c').el.text()).to.be.eq('Charlie');
-      expect(w.component('a').vdom.el._pos).to.be.eq(1);
-			expect(w.component('b').vdom.el._pos).to.be.eq(0);
-			expect(w.component('c').vdom.el._pos).to.be.eq(0);
-			expect(w.component('c').vdom.el._weight).to.be.eq(-1);
+      expect(w.component('a').dom.el._pos).to.be.eq(1);
+			expect(w.component('b').dom.el._pos).to.be.eq(0);
+			expect(w.component('c').dom.el._pos).to.be.eq(0);
+			expect(w.component('c').dom.el._weight).to.be.eq(-1);
 
 
 

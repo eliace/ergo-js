@@ -27,11 +27,11 @@ Ergo.defineClass('Ergo.html.Form', {
 	props: {
 		set: {
 			action: function(v) {
-				this.vdom.el.setAttribute('action', v);
+				this.dom.el.setAttribute('action', v);
 			},
 
 			method: function(v) {
-				this.vdom.el.setAttribute('method', v);
+				this.dom.el.setAttribute('method', v);
 			}
 		}
 	}

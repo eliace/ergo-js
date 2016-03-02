@@ -1,5 +1,5 @@
 
-//= require vdom
+//= require dom
 
 
 Ergo.core.VDOM = function() {
@@ -18,7 +18,7 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
 
 	_initialize: function(tag, widget, options, ns) {
 
-    var vdom = this;
+    var dom = this;
 
     this._widget = widget;
     this.options = options || {};
@@ -51,29 +51,29 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
       listeners: {},
 
       on: function(name, callback) {
-        this.listeners[name] = callback.bind(vdom._widget);
-        vdom.el.addEventListener(name, this.listeners[name]);
+        this.listeners[name] = callback.bind(dom._widget);
+        dom.el.addEventListener(name, this.listeners[name]);
         // widget.events.on('dom#'+name, callback);
         // if(!this.listeners[name]) {
         //   this.listeners[name] = function(e) { this.events.fire('dom#'+name, {}, e); }.bind(widget);
-        //   vdom.el.addEventListener(name, this.listeners[name]);
+        //   dom.el.addEventListener(name, this.listeners[name]);
         // }
       },
 
       off: function(name) {
 				if(arguments.length == 0) {
 					for(var i in this.listeners) {
-						vdom.el.removeEventListener(i, this.listeners[i]);
+						dom.el.removeEventListener(i, this.listeners[i]);
 					}
 					this.listeners = {};
 				}
 				else {
-	        vdom.el.removeEventListener(name, this.listeners[name]);
+	        dom.el.removeEventListener(name, this.listeners[name]);
 	        delete this.listeners[name];
 				}
         // _widget.events.off('dom#'+name);
         // for(var i in this._listeners) {
-        //   vdom.el.removeEventListener(name);
+        //   dom.el.removeEventListener(name);
         // }
       }
 
@@ -81,7 +81,7 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
 
 
     //FIXME идеологически это неправильно
-    this.el._vdom = this;
+    this.el._dom = this;
 
 	},
 
@@ -129,19 +129,19 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
 
 	addClass: function(cls) {
 		if( cls && this.el instanceof Element ) {
-      var vdom = this;
+      var dom = this;
 			(''+cls).split(' ').forEach(function(c) {
 
 				if(!c) return;
 
-				if(vdom.el.classList) {
-					vdom.el.classList.add(c);
+				if(dom.el.classList) {
+					dom.el.classList.add(c);
 				}
 				else {
 					// IE9
 					var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-					if(!re.test(vdom.el.className)) {
-						vdom.el.className = (vdom.el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
+					if(!re.test(dom.el.className)) {
+						dom.el.className = (dom.el.className + " " + c).replace(/\s+/g, " ").replace(/(^ | $)/g, "")
 					}
 				}
 			});
@@ -150,18 +150,18 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
 
 	removeClass: function(cls) {
 		if( cls && this.el instanceof Element ) {
-      var vdom = this;
+      var dom = this;
 			(''+cls).split(' ').forEach(function(c) {
 
 				if(!c) return;
 
-				if(vdom.el.classList) {
-					vdom.el.classList.remove(c);
+				if(dom.el.classList) {
+					dom.el.classList.remove(c);
 				}
 				else {
 					// IE9
 					var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");
-					vdom.el.className = vdom.el.className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
+					dom.el.className = dom.el.className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
 				}
 			});
 		}

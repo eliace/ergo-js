@@ -21,7 +21,7 @@ Ergo.defineClass('Ergo.layouts.Inherited', {
 	//
 	// 	var g = [[this._widget.options.weight, this._widget._index]];
 	//
-	// 	this._widget.parent.vdom.add(item, index, weight, group ? g.concat(group) : g);
+	// 	this._widget.parent.dom.add(item, index, weight, group ? g.concat(group) : g);
 	//
 	// },
 
@@ -30,7 +30,7 @@ Ergo.defineClass('Ergo.layouts.Inherited', {
 
 		var g = [[this._widget.options.weight, this._widget._index]];  //FIXME this._widget._index некорректный индекс
 
-		this._widget.parent.vdom.addAfter(item, otherItem, weight, group ? g.concat(group) : g);
+		this._widget.parent.dom.addAfter(item, otherItem, weight, group ? g.concat(group) : g);
 
 	},
 
@@ -39,7 +39,7 @@ Ergo.defineClass('Ergo.layouts.Inherited', {
 
 		var g = [[this._widget.options.weight, this._widget._index]];  //FIXME this._widget._index некорректный индекс
 
-		this._widget.parent.vdom.addBefore(item, otherItem, weight, group ? g.concat(group) : g);
+		this._widget.parent.dom.addBefore(item, otherItem, weight, group ? g.concat(group) : g);
 
 	}
 

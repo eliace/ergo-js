@@ -25,7 +25,7 @@ Ergo.defineClass('Ergo.html.Img', {
 	props: {
 		set: {
 			src: function(v) {
-				this.vdom.el.setAttribute('src', v);
+				this.dom.el.setAttribute('src', v);
 			}
 		}
 	}

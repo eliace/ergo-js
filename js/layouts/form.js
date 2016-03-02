@@ -109,7 +109,7 @@ Ergo.defineClass('Ergo.layouts.VForm', {
 
 			if(!item._rendered) return;
 
-			var el = $(item.vdom.outerEl).children().filter('div') || $(item.el);
+			var el = $(item.dom.outerEl).children().filter('div') || $(item.el);
 
 //			console.log(item._wrapper);
 
@@ -117,7 +117,7 @@ Ergo.defineClass('Ergo.layouts.VForm', {
 			if(w.options.pattern) {
 
 				if(item.$label)
-					item.$label.vdom.addClass('col-'+w.options.pattern[0]);
+					item.$label.dom.addClass('col-'+w.options.pattern[0]);
 				else
 					el.addClass('col-offset-'+w.options.pattern[0]);
 
@@ -126,7 +126,7 @@ Ergo.defineClass('Ergo.layouts.VForm', {
 			}
 			else {
 				if(item.$label)
-					item.$label.vdom.addClass('col-6');
+					item.$label.dom.addClass('col-6');
 				else
 					el.addClass('col-offset-6');
 

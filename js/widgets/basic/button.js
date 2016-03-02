@@ -42,7 +42,7 @@ Ergo.defineClass('Ergo.widgets.Button', /** @lends Ergo.widgets.Button.prototype
 			'block': 'block',
 			'round': 'round',
 
-			'disabled': function(on) { on ? this.vdom.el.setAttribute('disabled', '') : this.vdom.el.removeAttribute('disabled'); return false; }
+			'disabled': function(on) { on ? this.dom.el.setAttribute('disabled', '') : this.dom.el.removeAttribute('disabled'); return false; }
 		}
 	}
 

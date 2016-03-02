@@ -17,7 +17,7 @@ Ergo.defineClass('Ergo.html.Label', {
 	props: {
 		set: {
 			_for: function(v) {
-		    this.vdom.el.setAttribute('for', v);
+		    this.dom.el.setAttribute('for', v);
 		  }
 		}
 	}

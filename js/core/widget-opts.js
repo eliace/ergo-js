@@ -33,7 +33,7 @@ Ergo.WidgetOptions = {
 	// 		return this.$content.opt('text');
 	// 	}
 	// 	else {
-	// 		return this.vdom.innerEl.textContent;
+	// 		return this.dom.innerEl.textContent;
 	// 	}
 	// },
 //	getText: function() {	return this.layout.el.text();	},
@@ -50,7 +50,7 @@ Ergo.WidgetOptions = {
 // 			this.$content.opt('text', v == null ? '': v);
 // 		}
 // 		else {
-// 			this.vdom.innerEl.textContent = ( v == null ? '': v );
+// 			this.dom.innerEl.textContent = ( v == null ? '': v );
 // 		}
 //
 // 		this.__txt = v;
@@ -68,7 +68,7 @@ Ergo.WidgetOptions = {
 //
 // 	},
 	// set_innerText: function(v) {	this.layout.el.text(v); },
-//	set innerHtml(v) {	this.vdom.innerEl.innerHTML = (v || ''); },
+//	set innerHtml(v) {	this.dom.innerEl.innerHTML = (v || ''); },
 	// set_opacity: function(v) {
 	// 	if($.support.opacity)
 	// 		this.el.css('opacity', v);
@@ -83,17 +83,17 @@ Ergo.WidgetOptions = {
 
 
 // 	set autoWidth(v) {
-// 		v ? this.vdom.el.setAttribute('autoWidth', v) : this.vdom.el.removeAttribute('autoWidth');
+// 		v ? this.dom.el.setAttribute('autoWidth', v) : this.dom.el.removeAttribute('autoWidth');
 // 	},
 // 	set autoHeight(v) {
 // 		if(v) {
-// 			this.vdom.el.setAttribute('autoHeight', v);
+// 			this.dom.el.setAttribute('autoHeight', v);
 // 			if(v === true || v == 'ignore-siblings')
-// 				this.vdom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
+// 				this.dom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
 // 		}
 // 		else {
-// 			this.vdom.el.removeAttribute('autoHeight');
-// 			this.vdom.setStyle('overflow-y', '');
+// 			this.dom.el.removeAttribute('autoHeight');
+// 			this.dom.setStyle('overflow-y', '');
 // //			this.el.css('overflow-y', '');
 // //			this.el.style['overflow-y'] = '';
 // 		}
@@ -114,7 +114,7 @@ Ergo.WidgetOptions = {
 
 	//FIXME для совместимости
 // 	set hidden(v) {
-// 		this.vdom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
+// 		this.dom.outerEl.style.display = (v ? 'none' : '');//.css('display', v ? 'none' : '');
 // //		this.el.css('display', v ? 'none' : '');
 // 	},
 

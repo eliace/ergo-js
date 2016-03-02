@@ -222,7 +222,7 @@ Ergo.WidgetData = {
 				}
 
 				// if(item._dynamic && !item._rendered && item.options.autoRender !== false) {
-				// 	self.vdom.add(item, i);
+				// 	self.dom.add(item, i);
 				// }
 			});
 

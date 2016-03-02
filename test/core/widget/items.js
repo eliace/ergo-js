@@ -206,8 +206,8 @@ describe('Widget', function(){
 
       expect( box.items.get(0)._index ).to.be.eq(0);
       expect( box.items.get(1)._index ).to.be.eq(1);
-      expect( box.items.get(0).vdom.el._pos ).to.be.eq(0);
-      expect( box.items.get(1).vdom.el._pos ).to.be.eq(1);
+      expect( box.items.get(0).dom.el._pos ).to.be.eq(0);
+      expect( box.items.get(1).dom.el._pos ).to.be.eq(1);
 
       expect( $(box.el).children().eq(0).text() ).to.be.eq('Charlie');
       expect( $(box.el).children().eq(1).text() ).to.be.eq('Bob');

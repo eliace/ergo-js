@@ -14,7 +14,7 @@ Ergo.defineClass('Ergo.widgets.Edit', {
 	_construct: function(o) {
 		Ergo.widgets.Edit.superclass._construct.call(this, o);
 
-		this.vdom.el.setAttribute('contenteditable', true);
+		this.dom.el.setAttribute('contenteditable', true);
 	}
 
 }, 'widgets:edit');

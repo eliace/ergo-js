@@ -9,7 +9,7 @@ $ergo.alias('includes:editor-input', {
 			autoBind: false,
 			binding: 'prop:text',
 			events: {
-				'vdom:keydown': function(e) {
+				'dom:keydown': function(e) {
 					if( e.keyCode == 13 ) {
 						this.rise('key.enter');
 						e.stopImmediatePropagation();
@@ -21,7 +21,7 @@ $ergo.alias('includes:editor-input', {
 						e.stopImmediatePropagation();
 					}
 				},
-				'vdom:keyup': function(e) {
+				'dom:keyup': function(e) {
 //					else {
 //						console.log( this.prop('text') );
 						var b = this.options.binding;
@@ -30,14 +30,14 @@ $ergo.alias('includes:editor-input', {
 						this.options.binding = b;
 //					}
 				},
-        'vdom:blur': function() {
+        'dom:blur': function() {
           this.rise('blur');
         }
 			},
 
 			set: {
 				'caretPosition': function(v) {
-					var el = this.vdom.el;
+					var el = this.dom.el;
 					var sel = window.getSelection();
 
 					el.focus();

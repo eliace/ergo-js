@@ -23,7 +23,7 @@ Ergo.defineClass('Ergo.html.Iframe', {
 	props: {
 		set: {
 			'src': function(v) {
-				this.vdom.el.setAttribute('src', v);
+				this.dom.el.setAttribute('src', v);
 			}
 		}
 	}

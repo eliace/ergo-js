@@ -26,7 +26,7 @@ Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
 	},
 
 	set href(v) {
-		this.vdom.el.setAttribute('href', v);
+		this.dom.el.setAttribute('href', v);
 	}
 
 }, 'widgets:link');

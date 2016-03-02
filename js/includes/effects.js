@@ -42,7 +42,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = $(this.vdom.outerEl);//_wrapper_el || this.el);
+				var el = $(this.dom.outerEl);//_wrapper_el || this.el);
 
 				// FIXME экспериментальный код
 				if( !el.is(':visible')) {
@@ -84,7 +84,7 @@ Ergo.alias('includes:effects', {
 					delete this.options.effects.initial;
 				}
 
-				var el = $(this.vdom.outerEl);//_wrapper_el || this.dom.el);
+				var el = $(this.dom.outerEl);//_wrapper_el || this.dom.el);
 
 				if( el.is(':visible')) {
 					if( $.isPlainObject(o.hide) ) {

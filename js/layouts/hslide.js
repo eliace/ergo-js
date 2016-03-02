@@ -66,7 +66,7 @@ Ergo.defineClass('Ergo.layouts.HSlide', {
 		bias = bias || 0;
 
 		var x = this._item_offset(item);//this._widget.item(i).el.position().left + this._offset;//_item_offset(i);
-		var w = $(item.vdom.el).outerWidth(true);
+		var w = $(item.dom.el).outerWidth(true);
 		var frame_w = $(this.el).width();
 		var box_w = $(this.innerEl).width();
 
@@ -84,7 +84,7 @@ Ergo.defineClass('Ergo.layouts.HSlide', {
 
 
 	_item_offset: function(item) {
-		var offset = $(item.vdom.el).offset();
+		var offset = $(item.dom.el).offset();
 		var offset0 = $(this.innerEl).offset();
 
 		return offset.left - offset0.left;

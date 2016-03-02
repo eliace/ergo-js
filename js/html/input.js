@@ -29,8 +29,8 @@ Ergo.defineClass('Ergo.html.Input', {
 		events: {
 			'jquery:change': 'do_change',
 			'jquery:input': 'input'
-			// 'vdom:input': function(e) {
-			// 	this.prop('value', this.vdom.el.value);
+			// 'dom:input': function(e) {
+			// 	this.prop('value', this.dom.el.value);
 			// }
 		}
 
@@ -61,11 +61,11 @@ Ergo.defineClass('Ergo.html.Input', {
 			},
 
 			type: function(v) {
-				this.vdom.el.setAttribute('type', v);
+				this.dom.el.setAttribute('type', v);
 			},
 
 			placeholder: function(v) {
-				this.vdom.el.setAttribute('placeholder', v);
+				this.dom.el.setAttribute('placeholder', v);
 			}
 
 		},
@@ -93,7 +93,7 @@ Ergo.defineClass('Ergo.html.Input', {
 	// перегружаем параметр name
 	set name(v) {
 		this._name = v;
-		this.vdom.el.setAttribute('name', v);
+		this.dom.el.setAttribute('name', v);
 	},
 
 
@@ -107,11 +107,11 @@ Ergo.defineClass('Ergo.html.Input', {
 	// },
 	//
 	// set type(v) {
-	// 	this.vdom.el.setAttribute('type', v);
+	// 	this.dom.el.setAttribute('type', v);
 	// },
 	//
 	// set placeholder(v) {
-	// 	this.vdom.el.setAttribute('placeholder', v);
+	// 	this.dom.el.setAttribute('placeholder', v);
 	// },
 
 	// _change: function(e) {
@@ -124,8 +124,8 @@ Ergo.defineClass('Ergo.html.Input', {
 	},
 
 	input: function(e) {
-		this.prop('value', this.vdom.el.value);
-		this.emit('input', this.vdom.el.value);//this.el.val());//this.prop('val'));
+		this.prop('value', this.dom.el.value);
+		this.emit('input', this.dom.el.value);//this.el.val());//this.prop('val'));
 	},
 
 

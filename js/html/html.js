@@ -69,12 +69,12 @@ Ergo.defineClass('Ergo.widgets.Html', /** @lends Ergo.widgets.Html.prototype */{
 	props: {
 		'href': $ergo.DOMAttribute,
 		'forName': {
-			set: function(v) { this.vdom.el.setAttribute('for', v) },
-			get: function(v) { return this.vdom.el.getAttribute('for') }
+			set: function(v) { this.dom.el.setAttribute('for', v) },
+			get: function(v) { return this.dom.el.getAttribute('for') }
 		},
 		'checked': {
-			set: function(v) { this.vdom.el.checked = !!v; },//setAttribute('checked', '') : this.vdom.el.removeAttribute('checked') },
-			get: function(v) { return this.vdom.el.checked; }//.hasAttribute('checked') }
+			set: function(v) { this.dom.el.checked = !!v; },//setAttribute('checked', '') : this.dom.el.removeAttribute('checked') },
+			get: function(v) { return this.dom.el.checked; }//.hasAttribute('checked') }
 		},
 		'src': $ergo.DOMAttribute,
 		'type': $ergo.DOMAttribute,

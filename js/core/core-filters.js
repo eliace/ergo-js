@@ -120,7 +120,7 @@
 	}
 
 	A.ClsAction = function(name, value) {
-		value ? this.vdom.addClass(name) : this.vdom.removeClass(name);
+		value ? this.dom.addClass(name) : this.dom.removeClass(name);
 	}
 
 
@@ -140,10 +140,10 @@
 
 	A.DOMAttribute = {
 		set: function(v, name) {
-			this.vdom.el.setAttribute(name, v);
+			this.dom.el.setAttribute(name, v);
 		},
 		get: function(name) {
-			return this.el.vdom.getAttribute(name);
+			return this.el.dom.getAttribute(name);
 		}
 	}
 

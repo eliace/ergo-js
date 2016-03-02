@@ -3,7 +3,7 @@
 Ergo.alias('mixins:jquery', {
 
   get el() {
-    return $(this.vdom.el);
+    return $(this.dom.el);
   },
 
 
@@ -47,7 +47,7 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	show: function(wrapperAware) {
-		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).show() : this.el.show() );
+		return $.when( (wrapperAware !== false) ? $(this.dom.outerEl).show() : this.el.show() );
 	},
 
 
@@ -57,7 +57,7 @@ Ergo.alias('mixins:jquery', {
 	 * В том случае, если он уже включен в DOM-дерево
 	 */
 	hide: function(wrapperAware) {
-		return $.when( (wrapperAware !== false) ? $(this.vdom.outerEl).hide() : this.el.hide() );
+		return $.when( (wrapperAware !== false) ? $(this.dom.outerEl).hide() : this.el.hide() );
 	}
 
 

@@ -71,7 +71,7 @@ Ergo.defineClass('Ergo.widgets.Button', /** @lends Ergo.widgets.Button.prototype
 			'block': 'block',
 			'round': 'round',
 
-			'disabled': function(on) { on ? this.vdom.el.setAttribute('disabled', '') : this.vdom.el.removeAttribute('disabled'); return false; }
+			'disabled': function(on) { on ? this.dom.el.setAttribute('disabled', '') : this.dom.el.removeAttribute('disabled'); return false; }
 		}
 	}
 
@@ -159,7 +159,7 @@ Ergo.defineClass('Ergo.widgets.Link', /** @lends Ergo.widgets.Link.prototype */{
 	},
 
 	set href(v) {
-		this.vdom.el.setAttribute('href', v);
+		this.dom.el.setAttribute('href', v);
 	}
 
 }, 'widgets:link');
@@ -1425,7 +1425,7 @@ Ergo.defineClass('Ergo.widgets.Edit', {
 	_construct: function(o) {
 		Ergo.widgets.Edit.superclass._construct.call(this, o);
 
-		this.vdom.el.setAttribute('contenteditable', true);
+		this.dom.el.setAttribute('contenteditable', true);
 	}
 
 }, 'widgets:edit');
@@ -3806,7 +3806,7 @@ $ergo.alias('includes:editor-input', {
 			autoBind: false,
 			binding: 'prop:text',
 			events: {
-				'vdom:keydown': function(e) {
+				'dom:keydown': function(e) {
 					if( e.keyCode == 13 ) {
 						this.rise('key.enter');
 						e.stopImmediatePropagation();
@@ -3818,7 +3818,7 @@ $ergo.alias('includes:editor-input', {
 						e.stopImmediatePropagation();
 					}
 				},
-				'vdom:keyup': function(e) {
+				'dom:keyup': function(e) {
 //					else {
 //						console.log( this.prop('text') );
 						var b = this.options.binding;
@@ -3827,14 +3827,14 @@ $ergo.alias('includes:editor-input', {
 						this.options.binding = b;
 //					}
 				},
-        'vdom:blur': function() {
+        'dom:blur': function() {
           this.rise('blur');
         }
 			},
 
 			set: {
 				'caretPosition': function(v) {
-					var el = this.vdom.el;
+					var el = this.dom.el;
 					var sel = window.getSelection();
 
 					el.focus();

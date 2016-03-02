@@ -18,7 +18,7 @@ Ergo.alias('includes:user-input', {
       // var text = this.el.val();
       //
 
-      var text = this.vdom.el.value || this.vdom.el.textContent;
+      var text = this.dom.el.value || this.dom.el.textContent;
 
       console.log('input', text, this.value, this.__val );
 

@@ -326,13 +326,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 				else {
 					action.call(this._widget, a[1], true);
 				}
-//				this._widget.vdom.addClass(val);
+//				this._widget.dom.addClass(val);
 			}
 //				this._widget.el.classList.add(val);
 			// если состояние определено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.vdom.addClass(val);
-				this._widget.vdom.removeClass(val[1]);
+				this._widget.dom.addClass(val);
+				this._widget.dom.removeClass(val[1]);
 				// this._widget.el.classList.add(val[0]);
 				// this._widget.el.classList.remove(val[1]);
 
@@ -351,13 +351,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 				val.call(this._widget, true, data);
 				// $.when( val.call(this._widget, true, data) ).done(function(add_cls) {
 				// 	if(add_cls !== false)
-				// 		self._widget.vdom.addClass(add_cls || s);
+				// 		self._widget.dom.addClass(add_cls || s);
 				// });
 			}
 		}
 		else {
 			this._widget._missedState(s, true, data);
-//			this._widget.vdom.addClass(s);
+//			this._widget.dom.addClass(s);
 		}
 
 		this._widget.events.fire('stateChanged', {state: s, op: 'on', data: data});
@@ -386,13 +386,13 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 				else {
 					action.call(this._widget, a[1], false);
 				}
-//				this._widget.vdom.removeClass(val);
+//				this._widget.dom.removeClass(val);
 			}
 
 			// если состояние опрелено массивом, то первый элемент содержит состояние ON, а второй элемент состояние OFF
 			else if( Array.isArray(val) ) {
-				this._widget.vdom.addClass(val[1]);
-				this._widget.vdom.removeClass(val[0]);
+				this._widget.dom.addClass(val[1]);
+				this._widget.dom.removeClass(val[0]);
 
 				// if(val.length > 1) {
 				// 	$.when( val[1].call(this._widget, false) ).done(function(rm_cls) {
@@ -408,7 +408,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 
 				// $.when( val.call(this._widget, false) ).done(function(rm_cls) {
 				// 	if(rm_cls !== false)
-				// 		self._widget.vdom.removeClass(rm_cls || s);
+				// 		self._widget.dom.removeClass(rm_cls || s);
 				// });
 
 //				var rm_cls = val.call(this._widget, false);
@@ -417,7 +417,7 @@ Ergo.merge(Ergo.core.StateManager.prototype, /** @lends Ergo.core.StateManager.p
 			}
 		}
 		else {
-//			this._widget.vdom.removeClass(s);
+//			this._widget.dom.removeClass(s);
 			this._widget._missedState(s, false, data);
 		}
 

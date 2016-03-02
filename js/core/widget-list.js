@@ -182,7 +182,7 @@ Ergo.defineClass('Ergo.core.Children', /** @lends Ergo.core.Children.prototype *
 
 		// добавляем элемент в компоновку с индексом i (для компонентов он равен undefined)
 		// if(item.options.autoRender === true)
-		// 	w.vdom.add(item, item._index);//i);
+		// 	w.dom.add(item, item._index);//i);
 
 
 		// выполняем иерархическое связывание данных (автобиндинг)

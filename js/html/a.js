@@ -19,7 +19,7 @@ Ergo.defineClass('Ergo.html.A', {
 	props: {
 		set: {
 			'href': function(v) {
-				this.vdom.el.setAttribute('href', v);
+				this.dom.el.setAttribute('href', v);
 			}
 		}
 	}

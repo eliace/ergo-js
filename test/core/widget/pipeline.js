@@ -38,7 +38,7 @@ describe('Widget', function(){
 			expect(values).to.be.eql(['Alice', 'Bob', 'Charlie', 'Dave', 'Eva']);
 
 			values = [];
-      w.vdom.each(function(el) { values.push(el.textContent) })
+      w.dom.each(function(el) { values.push(el.textContent) })
 			expect(values).to.be.eql(['Eva', 'Dave', 'Charlie', 'Bob', 'Alice']);
 
 

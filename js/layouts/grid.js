@@ -34,7 +34,7 @@ Ergo.defineClass('Ergo.layouts.Grid', {
 
 			if(!item._rendered) return;
 
-			var el = $(item.vdom.outerEl);
+			var el = $(item.dom.outerEl);
 
 //			console.log(el._wrapper != null);
 
