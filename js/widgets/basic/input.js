@@ -10,7 +10,8 @@ Ergo.defineClass('Ergo.widgets.Input', {
 		cls: 'input',
 
 		binding: function(v) {
-			this.$content.value = v;
+			this.$content.prop('text', v);
+//			this.$content.value = v;
 		},
 
 		components: {
@@ -47,7 +48,8 @@ Ergo.defineClass('Ergo.widgets.Input', {
 
 
 		onChange: function(e) {
-			this.value = e.value;
+			this.prop('value', e.$data);
+//			this.value = e.value;
 		},
 
 		onKeyUp: function(e) {

@@ -15679,7 +15679,7 @@ Ergo.defineClass('Ergo.html.Input', {
 //			this.dom.el.value = v;
 		},
 		events: {
-			'jquery:change': 'do_change',
+			'jquery:change': 'change',
 			'jquery:input': 'input'
 			// 'dom:input': function(e) {
 			// 	this.prop('value', this.dom.el.value);
@@ -15698,7 +15698,7 @@ Ergo.defineClass('Ergo.html.Input', {
 		// }
 	},
 
-	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly', 'size'],
+//	attributes: ['id', 'tabindex', 'type', 'placeholder', 'disabled', 'readonly', 'size'],
 
 
 	props: {
@@ -15770,9 +15770,9 @@ Ergo.defineClass('Ergo.html.Input', {
 	// 	this.events.rise('change', {value: this.el.val()});
 	// },
 
-	do_change: function(e) {
-		this.opt('value', this.el.val());
-		this.rise('change', {value: this.el.val()});
+	change: function(e) {
+		this.prop('value', this.dom.el.value);
+		this.rise('change', this.dom.el.value);
 	},
 
 	input: function(e) {
