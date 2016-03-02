@@ -20,15 +20,14 @@ Ergo.alias('includes:icon-addon', {
 			// 		}
 			// 	}
 			// }
-		}
-	},
+		},
 
-	props: {
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
 			}
 		}
+
 	}
 
 

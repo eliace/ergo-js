@@ -46,10 +46,10 @@ Ergo.alias('includes:dropdown', {
 		},
 		states: {
 			drop: {
-				'up': 'drop-up',
-				'down': '',
-				'left': 'drop-left',
-				'right': 'drop-right'
+				'up': 'cls:drop-up',
+				'down': 'cls:',
+				'left': 'cls:drop-left',
+				'right': 'cls:drop-right'
 			},
 			'opened': function(on, f) {
 				on ? this.$dropdown.open() : this.$dropdown.close();
@@ -58,7 +58,6 @@ Ergo.alias('includes:dropdown', {
 	}
 
 });
-
 
 
 
@@ -103,10 +102,10 @@ Ergo.alias('includes:dropdown:sub', {
 		},
 		states: {
 			drop: {
-				'up': 'drop-up',
-				'down': '',
-				'left': 'drop-left',
-				'right': 'drop-right'
+				'up': 'cls:drop-up',
+				'down': 'cls:',
+				'left': 'cls:drop-left',
+				'right': 'cls:drop-right'
 			},
 			'opened': function(on, f) {
 				on ? this.$sub.open() : this.$sub.close();

@@ -3112,10 +3112,8 @@ Ergo.alias('includes:label', {
 				etype: 'html:label'
 //				autoRender: false
 			}
-		}
-	},
+		},
 
-	props: {
 		set: {
 			label: function(v) {
 				this.$label.opt('text', v);
@@ -3126,8 +3124,8 @@ Ergo.alias('includes:label', {
 				this.$label.opt('text');
 			}
 		}
-	}
 
+	}
 
 });
 
@@ -3135,7 +3133,7 @@ Ergo.alias('includes:label', {
 
 Ergo.alias('includes:icon', {
 
-	defaults:{
+	defaults: {
 		components: {
 			icon: {
 				etype: 'icon',
@@ -3144,11 +3142,8 @@ Ergo.alias('includes:icon', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
@@ -3172,11 +3167,7 @@ Ergo.alias('includes:xicon', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			xicon: function(v) {
 				this.$xicon.prop('text', v);
@@ -3201,11 +3192,7 @@ Ergo.alias('includes:icon:before', {
 				etype: '.',
 //				binding: false
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
@@ -3232,11 +3219,7 @@ Ergo.alias('includes:icon:after', {
 				etype: '.',
 				binding: false
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
@@ -3262,11 +3245,7 @@ Ergo.alias('includes:xicon:after', {
 				etype: '.',
 				binding: false
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			xicon: function(v) {
 				this.$xicon.prop('text', v);
@@ -3294,11 +3273,7 @@ Ergo.alias('includes:icon:at-left', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
@@ -3324,11 +3299,7 @@ Ergo.alias('includes:icon:at-right', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
@@ -3353,18 +3324,14 @@ Ergo.alias('includes:xicon:at-right', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
-
-
-	props: {
+		},
 		set: {
 			xicon: function(v) {
 				this.$xicon.prop('text', v);
 			}
 		}
 	}
-
+	
 });
 
 
@@ -3469,10 +3436,10 @@ Ergo.alias('includes:dropdown', {
 		},
 		states: {
 			drop: {
-				'up': 'drop-up',
-				'down': '',
-				'left': 'drop-left',
-				'right': 'drop-right'
+				'up': 'cls:drop-up',
+				'down': 'cls:',
+				'left': 'cls:drop-left',
+				'right': 'cls:drop-right'
 			},
 			'opened': function(on, f) {
 				on ? this.$dropdown.open() : this.$dropdown.close();
@@ -3481,7 +3448,6 @@ Ergo.alias('includes:dropdown', {
 	}
 
 });
-
 
 
 
@@ -3526,10 +3492,10 @@ Ergo.alias('includes:dropdown:sub', {
 		},
 		states: {
 			drop: {
-				'up': 'drop-up',
-				'down': '',
-				'left': 'drop-left',
-				'right': 'drop-right'
+				'up': 'cls:drop-up',
+				'down': 'cls:',
+				'left': 'cls:drop-left',
+				'right': 'cls:drop-right'
 			},
 			'opened': function(on, f) {
 				on ? this.$sub.open() : this.$sub.close();
@@ -3676,15 +3642,14 @@ Ergo.alias('includes:icon-addon', {
 			// 		}
 			// 	}
 			// }
-		}
-	},
+		},
 
-	props: {
 		set: {
 			icon: function(v) {
 				this.$icon.prop('text', v);
 			}
 		}
+
 	}
 
 
@@ -3710,16 +3675,14 @@ Ergo.alias('includes:+image', {
 			content: {
 				etype: '.'
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			image: function(v) {
 				this.$image.opt('src', v);
 			}
 		}
+
 	}
 
 });
@@ -3904,16 +3867,14 @@ Ergo.alias('includes:item-click-selection', {
 				this.opt('index', e.target.opt('name'));
 //				e.stop();
 			}
-		}
-	},
+		},
 
-
-	props: {
 		set: {
 			index: function(v) {
 				this.selection.set(v);
 			}
 		}
+
 	}
 
 });

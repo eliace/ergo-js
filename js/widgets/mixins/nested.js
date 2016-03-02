@@ -6,10 +6,8 @@ Ergo.alias('includes:nested', {
 	defaults: {
 		defaultItem: {
 			etype: 'nested-item'
-		}
-	},
+		},
 
-	props: {
 		set: {
 			label: function(v) {
 				this.$label.opt('text', v);
@@ -20,7 +18,7 @@ Ergo.alias('includes:nested', {
 				return this.$label.opt('text');
 			}
 		}
-	}
 
+	}
 
 });
