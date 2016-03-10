@@ -28,7 +28,7 @@ Ergo.defineClass('Ergo.html.Input', {
 		},
 		events: {
 			'jquery:change': 'change',
-			'jquery:input': 'input'
+//			'jquery:input': 'input'
 			// 'dom:input': function(e) {
 			// 	this.prop('value', this.dom.el.value);
 			// }

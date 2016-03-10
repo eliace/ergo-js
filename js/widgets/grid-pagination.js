@@ -73,7 +73,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', {
 			},
 			current: {
 				etype: 'html:li',
-				cls: 'text muted',
+				as: 'text muted',
 				autoBind: false,
 				defaultItem: {
 					etype: '.',

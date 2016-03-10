@@ -7432,7 +7432,7 @@ $ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prot
 	 * Первый элемент коллекции
 	 */
 	first: function() {
-		return this.src(Object.keys(this.src)[0]);
+		return this.src[Object.keys(this.src)[0]];
 	},
 
 	/**
@@ -7440,8 +7440,8 @@ $ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prot
 	 */
 	last: function() {
 		var keys = Object.keys(this.src);
-		return this.src(keys[keys.length-1]);
-	},
+		return this.src[keys[keys.length-1]];
+	}
 
 
 });
@@ -15680,7 +15680,7 @@ Ergo.defineClass('Ergo.html.Input', {
 		},
 		events: {
 			'jquery:change': 'change',
-			'jquery:input': 'input'
+//			'jquery:input': 'input'
 			// 'dom:input': function(e) {
 			// 	this.prop('value', this.dom.el.value);
 			// }
