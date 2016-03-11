@@ -9440,13 +9440,13 @@ Ergo.WidgetRender = {
 //    var el = this.el;
 
 		// нет дочерних элементов и non-empty не рисуем
-		if( this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0) ) {
+		if( (this.options.autoRender === false && target !== true) || (this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0)) ) {
 			return;
 		}
 
 		// для краткой формы отрисовки
 		if(arguments.length == 0 && !this._rendered && this.parent) {
-			return this.parent.render();
+			return this.parent.render(true);
 		}
 
 
@@ -9543,7 +9543,10 @@ Ergo.WidgetRender = {
 					target = document.getElementsByTagName(target)[0];
 				}
 			}
-			if(target) {
+			if(target === true) {
+				this._rendered = true;
+			}
+			else {
 				target.appendChild(this.dom.outerEl);
 				this._rendered = true;
 			}
