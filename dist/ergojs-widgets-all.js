@@ -901,27 +901,32 @@ Ergo.defineClass('Ergo.widgets.Input', {
 			}
 		},
 
+		events: {
+			'change': function(e) {
+				this.prop('value', e.$data);
+			},
+			'keyUp': function(e) {
 
+				var keyCode = e.base.keyCode;
 
-		onChange: function(e) {
-			this.prop('value', e.$data);
-//			this.value = e.value;
-		},
-
-		onKeyUp: function(e) {
-
-			var keyCode = e.base.keyCode;
-
-			if(keyCode == Ergo.KeyCode.ESC
-				|| keyCode == Ergo.KeyCode.DOWN
-				|| keyCode == Ergo.KeyCode.ENTER
-				|| keyCode == Ergo.KeyCode.ESC) {
-				// TODO обработка служебных символов
-			}
-			else {
-				this.rise('input', {text: e.text, keyCode: keyCode});
+				if(keyCode == Ergo.KeyCode.ESC
+					|| keyCode == Ergo.KeyCode.DOWN
+					|| keyCode == Ergo.KeyCode.ENTER
+					|| keyCode == Ergo.KeyCode.ESC) {
+					// TODO обработка служебных символов
+				}
+				else {
+					this.rise('input', {text: e.text, keyCode: keyCode});
+				}
 			}
 		}
+
+// 		onChange: function(e) {
+// 			this.prop('value', e.$data);
+// //			this.value = e.value;
+// 		},
+
+//		onKeyUp:
 
 		// onFocus: function(e) {
 		// 	this.states.toggle('focused', e.focus);
@@ -4269,7 +4274,7 @@ Ergo.defineClass('Ergo.widgets.GridPagination', {
 			},
 			current: {
 				etype: 'html:li',
-				cls: 'text muted',
+				as: 'text muted',
 				autoBind: false,
 				defaultItem: {
 					etype: '.',

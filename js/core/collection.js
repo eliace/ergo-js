@@ -19,6 +19,7 @@ Ergo.core.Collection = function(src) {
 	this._initialize.apply(this, a);
 }
 
+
 $ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prototype */{
 // Ergo.core.Collection = Ergo.defineClass('Ergo.core.Collection', 'Ergo.core.Object', /** @lends Ergo.core.Collection.prototype */{
 //
@@ -262,7 +263,7 @@ $ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prot
 	 * Первый элемент коллекции
 	 */
 	first: function() {
-		return this.src(Object.keys(this.src)[0]);
+		return this.src[Object.keys(this.src)[0]];
 	},
 
 	/**
@@ -270,8 +271,8 @@ $ergo.merge(Ergo.core.Collection.prototype, /** @lends Ergo.core.Collection.prot
 	 */
 	last: function() {
 		var keys = Object.keys(this.src);
-		return this.src(keys[keys.length-1]);
-	},
+		return this.src[keys[keys.length-1]];
+	}
 
 
 });
