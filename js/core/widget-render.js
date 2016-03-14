@@ -8,7 +8,6 @@ Ergo.WidgetRender = {
 
 
 
-
 	/**
 	 * Подключение VDOM к виджету
 	 *
@@ -63,6 +62,14 @@ Ergo.WidgetRender = {
 	/**
 	 * Отрисовка виджета
 	 *
+	 * @example
+	 *
+	 * w.render();
+	 * w.render(true);
+	 * w.render('body');
+	 * w.render('#some-id');
+	 * w.render('.some-class');
+	 *
 	 * @param {DOMElement|String} target целевой объект отрисовки
 	 * @param {true|false} cascade каскадное обновление компоновки
 	 * @param {Ergo.core.Widget} beforeItem элемент, после которого будет добавлен виджет
@@ -75,13 +82,13 @@ Ergo.WidgetRender = {
 //    var el = this.el;
 
 		// нет дочерних элементов и non-empty не рисуем
-		if( this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0) ) {
+		if( (this.options.autoRender === false && target !== true) || (this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0)) ) {
 			return;
 		}
 
 		// для краткой формы отрисовки
 		if(arguments.length == 0 && !this._rendered && this.parent) {
-			return this.parent.render();
+			return this.parent.render(true);
 		}
 
 
@@ -140,7 +147,7 @@ Ergo.WidgetRender = {
 
 		if( this.parent && target == null ) {//} && (target == null || (this.options.autoRender == 'non-empty' && (!this.__c || !this.__c.src.length == 0 || this.options.text))) ) {
 
-			if(!this._rendered && this.options.autoRender !== false) {
+			if(!this._rendered && this.options.autoRender !== false && this.options.autoRender !== 'ignore') {
 				// if( this.parent.__c.src.length == 1 && this._type != 'item' ) {
 				// 	this.dom.el._weight = this._weight;
 				// 	this.parent.dom.el.appendChild(this.dom.el);
@@ -178,7 +185,10 @@ Ergo.WidgetRender = {
 					target = document.getElementsByTagName(target)[0];
 				}
 			}
-			if(target) {
+			if(target === true) {
+				this._rendered = true;
+			}
+			else if(target) {
 				target.appendChild(this.dom.outerEl);
 				this._rendered = true;
 			}

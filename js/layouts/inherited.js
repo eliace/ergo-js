@@ -12,7 +12,7 @@ Ergo.defineClass('Ergo.layouts.Inherited', {
 		Ergo.layouts.Inherited.superclass._initialize.apply(this, arguments);
 
 		// отключаем отрисовку
-		this._widget.options.autoRender = false;
+		this._widget.options.autoRender = 'ignore';
 	},
 
 
