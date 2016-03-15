@@ -9541,6 +9541,9 @@ Ergo.WidgetRender = {
 			}
 
 		}
+		else if(target === true) {
+			this._rendered = true;
+		}
 		else if(target) {
 			if( target.constructor === String ) {
 				if(target[0] == '#') {
@@ -9553,9 +9556,6 @@ Ergo.WidgetRender = {
 					target = document.getElementsByTagName(target)[0];
 				}
 			}
-			// if(target === true) {
-			// 	this._rendered = true;
-			// }
 			if(target) {
 				target.appendChild(this.dom.outerEl);
 				this._rendered = true;
