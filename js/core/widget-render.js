@@ -147,7 +147,7 @@ Ergo.WidgetRender = {
 
 
 
-		if( this.parent && target == null ) {//} && (target == null || (this.options.autoRender == 'non-empty' && (!this.__c || !this.__c.src.length == 0 || this.options.text))) ) {
+		if( this.parent && (target == null || target === true) ) {//} && (target == null || (this.options.autoRender == 'non-empty' && (!this.__c || !this.__c.src.length == 0 || this.options.text))) ) {
 
 			if(!this._rendered && this.options.autoRender !== false && this.options.autoRender !== 'ignore') {
 				// if( this.parent.__c.src.length == 1 && this._type != 'item' ) {
@@ -187,10 +187,10 @@ Ergo.WidgetRender = {
 					target = document.getElementsByTagName(target)[0];
 				}
 			}
-			if(target === true) {
-				this._rendered = true;
-			}
-			else if(target) {
+			// if(target === true) {
+			// 	this._rendered = true;
+			// }
+			if(target) {
 				target.appendChild(this.dom.outerEl);
 				this._rendered = true;
 			}
