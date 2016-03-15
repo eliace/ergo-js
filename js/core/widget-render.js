@@ -81,10 +81,12 @@ Ergo.WidgetRender = {
 
 //    var el = this.el;
 
+
 		// нет дочерних элементов и non-empty не рисуем
 		if( (this.options.autoRender === false && target !== true) || (this.options.autoRender == 'non-empty' && !this.__txt && (!this.__c || this.__c.src.length == 0)) ) {
 			return;
 		}
+
 
 		// для краткой формы отрисовки
 		if(arguments.length == 0 && !this._rendered && this.parent) {
