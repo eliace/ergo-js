@@ -1079,7 +1079,12 @@ Ergo.defineClass('Ergo.widgets.Select', {
 				onOuterClick: 'action:cancelSelect',
 				defaultItem: {
 					as: 'item',
-					onClick: 'action:changeSelect',
+					onClick: function(e) {
+						if(!this.is('disabled')) {
+							this.rise('changeSelect');
+						}
+						e.stop();
+					} //'action:changeSelect',
 					// onClick: function(e) {
 					// 	this.events.rise('select');
 					// }
