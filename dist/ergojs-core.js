@@ -12735,7 +12735,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 
 	flush: function() {
 
-		var oid = this.oid;
+//		var oid = this.oid;
 
 		var composer = this.options.composer || this._compose;
 		var parser = this.options.parser || this._parse;
@@ -12754,7 +12754,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 				var data = composer.call(this, this.get(), 'create');
 
 				return provider.create(this, data, this.options.query)
-					.done(function(data) {
+					.then(function(data) {
 						this.events.fire('flushed');
 						return parser.call(this, data, 'create');
 					}.bind(this));
@@ -12764,7 +12764,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 
 				var data = composer.call(this, this.get(), 'update');
 
-				return provider.update(this, oid, data, this.options.query)
+				return provider.update(this, this.oid, data, this.options.query)
 					.then(function(data) {
 						this.events.fire('flushed');
 						return parser.call(this, data, 'update');
