@@ -76,7 +76,7 @@ Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototy
 		var parse = this.options.parser || this._parse;
 		var query = Ergo.merge({}, this.options.query, q);
 
-		this.events.fire('fetch');
+		this.events.fire('fetch', {query: query});
 
 		var provider = this.options.provider;
 

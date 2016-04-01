@@ -90,7 +90,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 	 *
 	 *
 	 */
-	fetch: function(id) {
+	fetch: function(id, q) {
 
 		if(arguments.length == 0)
 			id = this.oid;
@@ -98,15 +98,16 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
 		var provider = this.options.provider;
+		var query = Ergo.merge({}, this.options.query, q);
 
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
-		this.events.fire('fetch');
+		this.events.fire('fetch', {query: query});
 
 		if(provider) {
 //			var self = this;
-			return provider.find(this, id, this.options.query).then(function(data) {
+			return provider.find(this, id, query).then(function(data) {
 				this.set( parser.call(this, data) );
 				this._fetched = true;
 				this.events.fire('fetched');
