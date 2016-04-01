@@ -12698,7 +12698,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 	 */
 	fetch: function(id, q) {
 
-		if (id == null || !$ergo.isObject(id)) {
+		if (id == null || $ergo.isObject(id)) {
 			id = this.oid;
 		}
 
