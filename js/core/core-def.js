@@ -860,6 +860,11 @@ var Ergo = (function(){
 		// return typeof obj == 'number';
 	// };
 
+	E.isObject = function(obj) {
+		return obj.constructor === 'object';
+	}
+
+
 
 
 

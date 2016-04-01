@@ -860,6 +860,11 @@ var Ergo = (function(){
 		// return typeof obj == 'number';
 	// };
 
+	E.isObject = function(obj) {
+		return obj.constructor === 'object';
+	}
+
+
 
 
 
@@ -12693,8 +12698,9 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 	 */
 	fetch: function(id, q) {
 
-		if(arguments.length == 0)
+		if (id == null || !$ergo.isObject(id)) {
 			id = this.oid;
+		}
 
 //		this._fetched = true;
 		var parser = this.options.parser || this._parse;
@@ -12704,7 +12710,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 		if( $.isString(provider) )
 			provider = Ergo.alias('providers:'+provider);
 
-		this.events.fire('fetch', {query: query});
+		this.events.fire('fetch', {query: query, id: id});
 
 		if(provider) {
 //			var self = this;
