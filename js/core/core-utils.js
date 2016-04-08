@@ -10,6 +10,21 @@
 
 
 
+	E.deferred = function() {
+		return {
+			promise: function() {
+				var self = this;
+				return this._promise = this._promise || new Promise(function(resolve, reject) {
+					self.resolve = resolve;
+					self.reject = reject;
+				});
+			}
+		}
+	}
+
+
+
+
 
 
 	E.fixDisorder = function(kv_a, callback) {

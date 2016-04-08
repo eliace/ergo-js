@@ -26,6 +26,14 @@ Ergo.defineClass('Ergo.core.Scope', {
 //		this.data = {};
 		this._widget = widget;
 
+		this._promise = null;
+
+	},
+
+
+
+	promise: function() {
+		return this._promise;
 	},
 
 

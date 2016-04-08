@@ -1998,6 +1998,21 @@ Function.prototype.debounce = function(wait, immediate) {
 
 
 
+	E.deferred = function() {
+		return {
+			promise: function() {
+				var self = this;
+				return this._promise = this._promise || new Promise(function(resolve, reject) {
+					self.resolve = resolve;
+					self.reject = reject;
+				});
+			}
+		}
+	}
+
+
+
+
 
 
 	E.fixDisorder = function(kv_a, callback) {
@@ -11819,7 +11834,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 */
 
 	// подсоединяем скоуп к контексту
-	join: function(scope_name, params, widget) {
+	join: function(scope_name, params, widget, promise) {
 
 		var ctx = this;
 
@@ -11829,9 +11844,12 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		console.log('scope chain', chain);
 
+//		var deferred = promise ? null : $ergo.deferred();
+		promise = promise || Promise.resolve(true);
+
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}) );
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}), undefined, promise);
 		}
 
 		scope_name = chain[chain.length-1];
@@ -11922,15 +11940,16 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		scope._params = params || {};// Ergo.merge(this._params[scope_name], params);// this._params[scope_name];
 
 
-		var deferred = $.Deferred();
 
-		scope._promise = deferred.promise();
+//		var deferred = $.Deferred();
+
+		scope._promise = promise;// || deferred.promise();
 
 
 
 	//		ctx.events.fire('scope:prejoin', {scope: scope, params: scope._params});
-		ctx.events.fire('scope#join', {scope: scope, params: scope._params});
-		scope.events.fire('join');
+		ctx.events.emit('scope#join', {scope: scope, params: scope._params});
+		scope.events.emit('join');
 
 
 		var _scope = Ergo._scope;
@@ -11948,7 +11967,8 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 
 
-		$.when(initPromise).done(function() {
+//		Promise.resolve(initPromise).then(function() {
+//		$.when(initPromise).then(function() {
 
 			// встраиваем и рендерим виджеты
 			scope.createWidgets();
@@ -11960,13 +11980,16 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 			scope._joined = true;
 
-			try {
-				deferred.resolve(scope, scope._params);
-			}
-			catch(err) {
-				console.log(err);
-			}
-		});
+			// try {
+			// 	console.log('deferred', deferred);
+			// 	if(deferred) {
+			// 		deferred.resolve(scope);//, scope._params);
+			// 	}
+			// }
+			// catch(err) {
+			// 	console.log(err);
+			// }
+//		});
 
 		return scope;//._promise;
 	},
@@ -12142,6 +12165,14 @@ Ergo.defineClass('Ergo.core.Scope', {
 //		this.data = {};
 		this._widget = widget;
 
+		this._promise = null;
+
+	},
+
+
+
+	promise: function() {
+		return this._promise;
 	},
 
 
