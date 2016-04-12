@@ -279,7 +279,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 */
 
 	// подсоединяем скоуп к контексту
-	join: function(scope_name, params, widget, promise) {
+	join: function(scope_name, params, widget) {
 
 		var ctx = this;
 
@@ -290,12 +290,14 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		console.log('scope chain', chain);
 
 //		var deferred = promise ? null : $ergo.deferred();
-		promise = promise || Promise.resolve(true);
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}), undefined, promise);
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}));
 		}
+
+		var promise = parent ? parent._promise : Promise.resolve(true);
+
 
 		scope_name = chain[chain.length-1];
 
@@ -408,8 +410,9 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		// загружаем данные скоупа?
 
-
-
+		scope._promise = scope._promise.then(function() {
+			return initPromise;
+		})// (initPromise instanceof Promise) ? initPromise : scope._promise;
 
 
 //		Promise.resolve(initPromise).then(function() {
