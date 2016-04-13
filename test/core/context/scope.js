@@ -67,26 +67,26 @@ describe('Context', function(){
 			var messages = [];
 
 			ctx.scopes.scope('first', function($scope) {
-				$scope._promise.then(function() {
-					console.log('first');
-					messages.push('first');
-				});
+
 				expect(messages).to.be.eql([]);
+
+				return function() {
+					messages.push('first');
+				}
 			});
 
 			ctx.scopes.scope('second', function($scope) {
-				$scope._promise.then(function() {
-					console.log('second');
-					messages.push('second');
-				});
 				expect(messages).to.be.eql([]);
+				return function() {
+					messages.push('second');
+				}
 			});
 
 			ctx.scopes.scope('third', function($scope) {
-				$scope._promise.then(function() {
-					messages.push('third');
-				});
 				expect(messages).to.be.eql([]);
+				return function() {
+					messages.push('second');
+				}
 			});
 
 
@@ -99,6 +99,34 @@ describe('Context', function(){
 
 
 		});
+
+
+
+		it('should set $prejoin and $implicit', function() {
+
+			var ctx = new Ergo.core.Context({});
+
+			var messages = [];
+
+			ctx.scopes.scope('first', function($scope, $params) {
+				messages.push($params.$prejoin);
+			});
+
+			ctx.scopes.scope('second', function($scope, $params) {
+				messages.push($params.$prejoin);
+			});
+
+			ctx.scopes.scope('third', function($scope, $params) {
+				messages.push($params.$prejoin);
+			});
+
+
+			ctx.join('first.second.third', {});
+
+			expect(messages).to.be.eql([true,true,undefined]);
+
+		});
+
 
 
 

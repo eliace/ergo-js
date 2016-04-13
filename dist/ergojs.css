@@ -4745,6 +4745,10 @@ textarea::-moz-placeholder {
   border-left: 1px solid #cccccc;
   border-right: 1px solid #cccccc;
 }
+[autoheight="true"],
+[autoheight="ignore-siblings"] {
+  overflow-y: auto;
+}
 [layout="form"] > div {
   margin-bottom: 0.5714rem;
 }

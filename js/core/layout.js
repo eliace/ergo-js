@@ -7,10 +7,6 @@
 
 
 
-
-
-
-
 /**
  * @class
  * @name Ergo.core.Layout
@@ -1034,19 +1030,22 @@ Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
 			// обходим все соседние элементы
 			var h_ratio = 1;
-			_el.siblings().not('td').each(function(i, sibling){
-				sibling = $(sibling);
-				var ah = sibling.attr('autoHeight');
-				// элемент видимый
-				if(!ah) {
-					if(sibling.is(':visible'))
-						dh += sibling.outerHeight(true);
-				}
-				else if(ah != 'ignore-siblings' && ah != 'ignore') {
-					h_ratio++;
-					dh += sibling.outerHeight(true) - sibling.height();
-				}
-			});
+
+			if(_el.attr('autoHeight') != 'ignore-siblings') {
+				_el.siblings().not('td').each(function(i, sibling){
+					sibling = $(sibling);
+					var ah = sibling.attr('autoHeight');
+					// элемент видимый
+					if(!ah) {
+						if(sibling.is(':visible'))
+							dh += sibling.outerHeight(true);
+					}
+					else if(ah != 'ignore-siblings' && ah != 'ignore') {
+						h_ratio++;
+						dh += sibling.outerHeight(true) - sibling.height();
+					}
+				});
+			}
 
 
 

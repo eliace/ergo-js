@@ -293,7 +293,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}));
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge({}, params, {$prejoin: true, $implicit: true}));
 		}
 
 		var promise = parent ? parent._promise : Promise.resolve(true);
@@ -410,9 +410,8 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		// загружаем данные скоупа?
 
-		scope._promise = scope._promise.then(function() {
-			return initPromise;
-		})// (initPromise instanceof Promise) ? initPromise : scope._promise;
+		scope._promise = scope._promise.then( (typeof initPromise == 'function') ? initPromise : function() {	return initPromise;	})
+		// (initPromise instanceof Promise) ? initPromise : scope._promise;
 
 
 //		Promise.resolve(initPromise).then(function() {

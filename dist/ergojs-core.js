@@ -5760,10 +5760,6 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
 
 
 
-
-
-
-
 /**
  * @class
  * @name Ergo.core.Layout
@@ -6787,19 +6783,22 @@ Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
 			// обходим все соседние элементы
 			var h_ratio = 1;
-			_el.siblings().not('td').each(function(i, sibling){
-				sibling = $(sibling);
-				var ah = sibling.attr('autoHeight');
-				// элемент видимый
-				if(!ah) {
-					if(sibling.is(':visible'))
-						dh += sibling.outerHeight(true);
-				}
-				else if(ah != 'ignore-siblings' && ah != 'ignore') {
-					h_ratio++;
-					dh += sibling.outerHeight(true) - sibling.height();
-				}
-			});
+
+			if(_el.attr('autoHeight') != 'ignore-siblings') {
+				_el.siblings().not('td').each(function(i, sibling){
+					sibling = $(sibling);
+					var ah = sibling.attr('autoHeight');
+					// элемент видимый
+					if(!ah) {
+						if(sibling.is(':visible'))
+							dh += sibling.outerHeight(true);
+					}
+					else if(ah != 'ignore-siblings' && ah != 'ignore') {
+						h_ratio++;
+						dh += sibling.outerHeight(true) - sibling.height();
+					}
+				});
+			}
 
 
 
@@ -7147,12 +7146,12 @@ Ergo.WidgetProps = {
     	autoHeight: function(v) {
     		if(v) {
     			this.dom.el.setAttribute('autoHeight', v);
-    			if(v === true || v == 'ignore-siblings')
-    				this.dom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
+    			// if(v === true || v == 'ignore-siblings')
+    			// 	this.dom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
     		}
     		else {
     			this.dom.el.removeAttribute('autoHeight');
-    			this.dom.setStyle('overflow-y', '');
+//    			this.dom.setStyle('overflow-y', '');
     //			this.el.css('overflow-y', '');
     //			this.el.style['overflow-y'] = '';
     		}
@@ -11848,7 +11847,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		if( chain.length > 1 ) {
 			// инициализируем базовые скоупы
-			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge(params || {}, {$prejoin: true}));
+			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge({}, params, {$prejoin: true, $implicit: true}));
 		}
 
 		var promise = parent ? parent._promise : Promise.resolve(true);
@@ -11965,9 +11964,8 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 		// загружаем данные скоупа?
 
-		scope._promise = scope._promise.then(function() {
-			return initPromise;
-		})// (initPromise instanceof Promise) ? initPromise : scope._promise;
+		scope._promise = scope._promise.then( (typeof initPromise == 'function') ? initPromise : function() {	return initPromise;	})
+		// (initPromise instanceof Promise) ? initPromise : scope._promise;
 
 
 //		Promise.resolve(initPromise).then(function() {

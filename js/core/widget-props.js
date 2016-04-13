@@ -43,12 +43,12 @@ Ergo.WidgetProps = {
     	autoHeight: function(v) {
     		if(v) {
     			this.dom.el.setAttribute('autoHeight', v);
-    			if(v === true || v == 'ignore-siblings')
-    				this.dom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
+    			// if(v === true || v == 'ignore-siblings')
+    			// 	this.dom.setStyle('overflow-y', 'auto');//.el.style['overflow-y'] = 'auto';//('overflow-y', 'auto');
     		}
     		else {
     			this.dom.el.removeAttribute('autoHeight');
-    			this.dom.setStyle('overflow-y', '');
+//    			this.dom.setStyle('overflow-y', '');
     //			this.el.css('overflow-y', '');
     //			this.el.style['overflow-y'] = '';
     		}
