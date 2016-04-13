@@ -26,7 +26,7 @@ Ergo.alias('includes:history', {
 
 				var scope = e.scope;
 
-				if(scope._params.$history && !this._no_history) {
+				if(scope._params.$history && !this._no_history && !scope._params.$implicit) {
 
 //          console.log('join history', e);
 

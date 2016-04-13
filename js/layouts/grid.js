@@ -11,7 +11,7 @@ Ergo.defineClass('Ergo.layouts.Grid', {
 
 
 	wrap: function(item) {
-		return $('<div autoheight="ignore-siblings"/>').append(item.el)[0];
+		return $('<div autoheight="ignore-siblings" style="overflow-y: initial"/>').append(item.el)[0];
 	},
 
 

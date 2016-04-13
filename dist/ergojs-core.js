@@ -13391,7 +13391,7 @@ Ergo.defineClass('Ergo.layouts.Grid', {
 
 
 	wrap: function(item) {
-		return $('<div autoheight="ignore-siblings"/>').append(item.el)[0];
+		return $('<div autoheight="ignore-siblings" style="overflow-y: initial"/>').append(item.el)[0];
 	},
 
 
@@ -15298,7 +15298,7 @@ Ergo.alias('includes:history', {
 
 				var scope = e.scope;
 
-				if(scope._params.$history && !this._no_history) {
+				if(scope._params.$history && !this._no_history && !scope._params.$implicit) {
 
 //          console.log('join history', e);
 
