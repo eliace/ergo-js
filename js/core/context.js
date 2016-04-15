@@ -86,7 +86,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 
 			get: function(name) {
-				return ctx._scopes[i];
+				return ctx._scopes[name];
 			}
 
 		};
