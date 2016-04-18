@@ -15437,7 +15437,11 @@ Ergo.alias('includes:list-navigator', {
 
 
 			next: function() {
-				var item = this.selected ? this.selected.next() : _w.items.first();
+				var item = this.selected ? this.selected.next() : null;
+
+				if(item == null) {
+					item = _w.items.first();
+				}
 
 				while(item) {
 					if(item._rendered)
@@ -15451,7 +15455,11 @@ Ergo.alias('includes:list-navigator', {
 			},
 
 			prev: function() {
-				var item = this.selected ? this.selected.prev() : _w.items.last();
+				var item = this.selected ? this.selected.prev() : null;
+
+				if(item == null) {
+					item = _w.items.last();
+				}
 
 				while(item) {
 					if(item._rendered)
@@ -15479,7 +15487,7 @@ Ergo.alias('includes:list-navigator', {
 				else if ( p < 0) {
 					_w.el.scrollTop( s_top + p );
 				}
-				
+
 			}
 
 		};
