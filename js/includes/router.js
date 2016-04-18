@@ -27,7 +27,6 @@ Ergo.alias('includes:router', {
 
         e.params.$query = query;
 
-
         // url = url.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         // var regex = new RegExp("[\\?&]" + url + "=([^&#]*)"),
         //     results = regex.exec(location.search);
@@ -40,6 +39,8 @@ Ergo.alias('includes:router', {
         e.name = this.restoreFromPath( path, e.params );//, e.opts );
 
         console.log('router restore', e.params);
+
+
 
         // this.to( path, e.params );
         //

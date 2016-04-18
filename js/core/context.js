@@ -524,7 +524,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 	init: function() {
 
-		var e = this.events.fire('restore', {name: null, params: {}});//, opts: {}});
+		var e = this.events.fire('restore', {name: null, params: {$restored: true}});//, opts: {}});
 
 
 		this.join( e.name, e.params );//, e.options );

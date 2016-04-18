@@ -67,7 +67,7 @@ Ergo.alias('includes:history', {
 
         // восстановление скоупа по данным состояния history
 
-        var e = ctx.events.fire('restore', {name: null, params: {history: p}/*, opt: {}*/});///*scope: p._scope,*/ params: p, hash: window.location.hash});
+        var e = ctx.events.fire('restore', {name: null, params: {history: p, $restored: true}/*, opt: {}*/});///*scope: p._scope,*/ params: p, hash: window.location.hash});
 
         ctx._no_history = true;
         ctx.join(e.name, e.params);//, e.opts);

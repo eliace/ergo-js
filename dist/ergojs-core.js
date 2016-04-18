@@ -12078,7 +12078,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 
 	init: function() {
 
-		var e = this.events.fire('restore', {name: null, params: {}});//, opts: {}});
+		var e = this.events.fire('restore', {name: null, params: {$restored: true}});//, opts: {}});
 
 
 		this.join( e.name, e.params );//, e.options );
@@ -15047,7 +15047,6 @@ Ergo.alias('includes:router', {
 
         e.params.$query = query;
 
-
         // url = url.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         // var regex = new RegExp("[\\?&]" + url + "=([^&#]*)"),
         //     results = regex.exec(location.search);
@@ -15060,6 +15059,8 @@ Ergo.alias('includes:router', {
         e.name = this.restoreFromPath( path, e.params );//, e.opts );
 
         console.log('router restore', e.params);
+
+
 
         // this.to( path, e.params );
         //
@@ -15339,7 +15340,7 @@ Ergo.alias('includes:history', {
 
         // восстановление скоупа по данным состояния history
 
-        var e = ctx.events.fire('restore', {name: null, params: {history: p}/*, opt: {}*/});///*scope: p._scope,*/ params: p, hash: window.location.hash});
+        var e = ctx.events.fire('restore', {name: null, params: {history: p, $restored: true}/*, opt: {}*/});///*scope: p._scope,*/ params: p, hash: window.location.hash});
 
         ctx._no_history = true;
         ctx.join(e.name, e.params);//, e.opts);
