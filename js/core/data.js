@@ -7,10 +7,18 @@
  * Источник данных
  *
  *
+ * @param {Object} o параметры
+ * @param {function} o.valueEql функция сравнения (comparator)
+ * @param {function} o.valueUid функция идентификации (identifier)
+ * @param {function} o.filter функция фильтрации
+ * @param {function} o.sorter функция сортировки
+ *
+ *
  * События:
  * 	@fires Ergo.core.Event#changed
  * 	@fires Ergo.core.Event#diff
  * 	@fires Ergo.core.Event#dirty
+ *
  *
  * @class
  * @name Ergo.core.DataSource
@@ -183,9 +191,9 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 
 
-	_parse: null,
+//	_parse: null,
 
-	_compose: null,
+//	_compose: null,
 
 
 
@@ -869,10 +877,24 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 	},
 
 
+	/**
+	 * Функция сравнения (comparator) двух значений A и B
+	 *
+	 * @param  {Any} a значение A
+	 * @param  {Any} b значение B
+	 * @return {boolean} значения равны
+	 */
 	_valueEql: function(a, b) {
 		return JSON.stringify(a) === JSON.stringify(b);
 	},
 
+	/**
+	 * Функция идентификатора (identifier) значения
+	 *
+	 * @param  {Any} v значение
+	 * @param  {String|Integer} i ключ значения в источнике данных
+	 * @return {Any}   уникальный идентификатор
+	 */
 	_valueUid: function(v, i) {
 		return i;
 	},
