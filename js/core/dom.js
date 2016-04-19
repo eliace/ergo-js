@@ -2,7 +2,7 @@
 //= require dom
 
 
-Ergo.core.VDOM = function() {
+Ergo.core.DOM = function() {
 	var a = new Array(arguments.length);
 	for(var i = 0; i < arguments.length; i++)
 		a[i] = arguments[i];

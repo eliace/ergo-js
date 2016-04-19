@@ -5593,7 +5593,7 @@ Ergo.alias('mixins:statable', /** @lends statable */ {
 
 
 
-Ergo.core.VDOM = function() {
+Ergo.core.DOM = function() {
 	var a = new Array(arguments.length);
 	for(var i = 0; i < arguments.length; i++)
 		a[i] = arguments[i];
@@ -5786,22 +5786,11 @@ Ergo.merge(Ergo.core.VDOM.prototype, {
  * @class
  * @name Ergo.core.Layout
  * @param {Object} opts
+ * @extends Ergo.core.DOM
  */
-
-// Ergo.core.Layout = function() {
-// 	var a = new Array(arguments.length);
-// 	for(var i = 0; i < arguments.length; i++)
-// 		a[i] = arguments[i];
-//
-// 	this._initialize.apply(this, arguments);
-//
-// }
-//
-// Ergo.merge(Ergo.core.Layout.prototype, {
-
 Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
-	extends: 'Ergo.core.VDOM',
+	extends: 'Ergo.core.DOM',
 
 	defaults: {
 //		updateMode: 'auto'
@@ -5837,19 +5826,6 @@ Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 
 
 	},
-
-
-
-
-	// get inner() {
-	// 	return (this.innerEl == this.el) ? this : new Ergo.core.VDOM(this.innerEl);
-	// },
-	//
-	// get outer() {
-	// 	return (this.outerEl == this.el) ? this : new Ergo.core.VDOM(this.outerEl);
-	// },
-
-
 
 
 
@@ -6916,7 +6892,7 @@ Ergo.defineClass('Ergo.core.Layout', /** @lends Ergo.core.Layout.prototype */ {
 	 */
 	_rebuild: function(updated) {
 
-		console.log('REBUILD LAYOUT', updated);
+//		console.log('REBUILD LAYOUT', updated);
 
 		// if(updated) {
 		// 	for(var i = 0; i < updated.length; i++) {
