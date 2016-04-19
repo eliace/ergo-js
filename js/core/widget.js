@@ -59,7 +59,7 @@
  * @mixes statable
  *
  * @property {object} options Опции
- * @property {Ergo.core.VDOM} dom Узел виртуального DOM
+ * @property {Ergo.core.DOM} dom Узел виртуального DOM
  * @property {jQuery} el
  * @property {Ergo.core.DataSource} data Связанный источник данных
  * @property {Ergo.core.Observer} events Обработчик событий
@@ -720,7 +720,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	get dom() {
 		if(!this.__dom) {
-			this._bindVDOM();
+			this._bindDOM();
 			this._bindEvents('dom');
 		}
 		return this.__dom;

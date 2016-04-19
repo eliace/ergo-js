@@ -5604,7 +5604,7 @@ Ergo.core.DOM = function() {
 
 
 
-Ergo.merge(Ergo.core.VDOM.prototype, {
+Ergo.merge(Ergo.core.DOM.prototype, {
 
 
 	_initialize: function(tag, widget, options, ns) {
@@ -9392,13 +9392,13 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Подключение VDOM к виджету
+	 * Подключение DOM к виджету
 	 *
 	 * Если опция autoBind = false, то связывание осуществлено не будет.
 	 *
 	 * @param {Object|Array|String} data подключаемые данные
 	 */
-	_bindVDOM: function() {
+	_bindDOM: function() {
 
 		var o = this.options;
 
@@ -9597,7 +9597,7 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Удаление виджета из VDOM/компоновки
+	 * Удаление виджета из DOM/компоновки
 	 *
 	 */
 	unrender: function() {
@@ -10227,7 +10227,7 @@ Ergo.alias('mixins:jquery', {
  * @mixes statable
  *
  * @property {object} options Опции
- * @property {Ergo.core.VDOM} dom Узел виртуального DOM
+ * @property {Ergo.core.DOM} dom Узел виртуального DOM
  * @property {jQuery} el
  * @property {Ergo.core.DataSource} data Связанный источник данных
  * @property {Ergo.core.Observer} events Обработчик событий
@@ -10888,7 +10888,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	get dom() {
 		if(!this.__dom) {
-			this._bindVDOM();
+			this._bindDOM();
 			this._bindEvents('dom');
 		}
 		return this.__dom;
