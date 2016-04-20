@@ -60,7 +60,7 @@ describe('Context', function(){
 
 
 
-		it('should call scope promise chain after join all the scopes', function() {
+		it('should call scope promise chain after join all the scopes', function(done) {
 
 			var ctx = new Ergo.core.Context({});
 
@@ -85,7 +85,7 @@ describe('Context', function(){
 			ctx.scopes.scope('third', function($scope) {
 				expect(messages).to.be.eql([]);
 				return function() {
-					messages.push('second');
+					messages.push('third');
 				}
 			});
 
@@ -95,6 +95,7 @@ describe('Context', function(){
 				.promise()
 				.then(function() {
 					expect(messages).to.be.eql(['first', 'second', 'third']);
+					done();
 				});
 
 
@@ -127,6 +128,42 @@ describe('Context', function(){
 
 		});
 
+
+
+
+		it('should be scope as then argument', function(done) {
+
+			var ctx = new Ergo.core.Context({});
+
+			var messages = [];
+
+			ctx.scopes.scope('first', function($scope, $params) {
+				return function(s) {
+					messages.push(s._name);
+				}
+			});
+
+			ctx.scopes.scope('second', function($scope, $params) {
+				return function(s) {
+					messages.push(s._name);
+				}
+			});
+
+			ctx.scopes.scope('third', function($scope, $params) {
+				return function(s) {
+					messages.push(s._name);
+				}
+			});
+
+
+			ctx.join('first.second.third')
+			.promise()
+			.then(function() {
+				expect(messages).to.be.eql(['first', 'second', 'third']);
+				done();
+			});
+
+		});
 
 
 
