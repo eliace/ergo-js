@@ -11958,7 +11958,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		Ergo._scope = scope;
 
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || scope;
 
 		Ergo._scope = _scope;
 
