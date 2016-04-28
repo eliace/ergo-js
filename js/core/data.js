@@ -375,8 +375,19 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 			this.entries
 				.filter(function(e){
+					// if( newValue ) {
+					// 	var n = 0;
+					// 	for(var i = 0; i < e._id.length; i++)	{
+					// 		if( newValue[e._id[i]] === undefined ) {
+					// 			n++;
+					// 		}
+					// 	}
+					// 	return n == e._id.length;
+					// }
+					// return false;
 					//FIXME упрощенная проверка присутствия ключа
-					return (newValue && newValue[e._id.join('+')] === undefined);
+					// плюс к этому нельзя удалять источник данных, если он связан с чем-то событиями
+					return (newValue && newValue[e._id.join('+')] === undefined) && Object.keys(e.events.events).length == 0 ;
 				})
 				.each(function(e){
 					e._destroy();
