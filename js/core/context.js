@@ -486,6 +486,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 			delete scope._parent._children[scope._name];
 
 		scope.events.fire('disjoined');
+		this.events.fire('scope#disjoined', {scope: scope, params: scope._params});
 
 
 		// выгружаем данные?
