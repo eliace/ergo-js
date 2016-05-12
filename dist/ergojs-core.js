@@ -12637,7 +12637,7 @@ Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototy
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
 		if($.isFunction(model) && !$ergo.isClass(model)) model = model.call(this, this.get()[i]);
-		if($.isString(model)) model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
+		if(typeof model === 'string') model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 
 		var o = {provider: this.options.provider};
