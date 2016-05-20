@@ -296,7 +296,6 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge({}, params, {$prejoin: true, $implicit: true}));
 		}
 
-		var promise = parent ? parent._promise : Promise.resolve(true);
 
 
 		scope_name = chain[chain.length-1];
@@ -387,6 +386,9 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		scope._params = params || {};// Ergo.merge(this._params[scope_name], params);// this._params[scope_name];
 
 
+		// возможно, не самое лучшее решение, но оно работает
+		var promise = parent ? parent._promise.then(function() {return scope;}) : Promise.resolve(scope);
+
 
 //		var deferred = $.Deferred();
 
@@ -404,7 +406,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		Ergo._scope = scope;
 
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || scope;
 
 		Ergo._scope = _scope;
 
@@ -484,6 +486,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 			delete scope._parent._children[scope._name];
 
 		scope.events.fire('disjoined');
+		this.events.fire('scope#disjoined', {scope: scope, params: scope._params});
 
 
 		// выгружаем данные?

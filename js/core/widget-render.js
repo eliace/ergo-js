@@ -9,13 +9,13 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Подключение VDOM к виджету
+	 * Подключение DOM к виджету
 	 *
 	 * Если опция autoBind = false, то связывание осуществлено не будет.
 	 *
 	 * @param {Object|Array|String} data подключаемые данные
 	 */
-	_bindVDOM: function() {
+	_bindDOM: function() {
 
 		var o = this.options;
 
@@ -214,7 +214,7 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Удаление виджета из VDOM/компоновки
+	 * Удаление виджета из DOM/компоновки
 	 *
 	 */
 	unrender: function() {

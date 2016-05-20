@@ -219,6 +219,45 @@ describe('Widget', function(){
 		});
 
 
+		it('should keep event binding on rebind', function() {
+
+			var data = new Ergo.core.DataSource({a: 'Alice', b: 'Bob'});
+
+			var messages = [];
+
+			var w = $ergo({
+				etype: 'box',
+				data: data,
+				binding: function(v) {
+					messages.push(v);
+				},
+				$content: {
+					dataId: ['a', 'b'],
+					binding: function(v) {
+						messages.push(v);
+					},
+					$content: {
+						dataId: 'a',
+						binding: function(v) {
+							messages.push(v);
+						},
+					}
+				}
+			});
+
+			expect(messages).to.be.eql([{a: 'Alice', b: 'Bob'}, {a: 'Alice', b: 'Bob'}, 'Alice']);
+
+			expect(Object.keys(w.$content.data.events.events)).to.be.eql(['changed', 'dirty']);
+
+			messages = [];
+
+			data.set({a: 'Alfred', b: 'Beth'});
+
+			expect(messages).to.be.eql([{a: 'Alfred', b: 'Beth'}, {a: 'Alfred', b: 'Beth'}, 'Alfred']);
+
+			expect(Object.keys(w.$content.data.events.events)).to.be.eql(['changed', 'dirty']);
+
+		});
 
 
 

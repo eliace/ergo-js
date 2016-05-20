@@ -4189,8 +4189,19 @@ Ergo.defineClass('Ergo.core.DataSource', /** @lends Ergo.core.DataSource.prototy
 
 			this.entries
 				.filter(function(e){
+					// if( newValue ) {
+					// 	var n = 0;
+					// 	for(var i = 0; i < e._id.length; i++)	{
+					// 		if( newValue[e._id[i]] === undefined ) {
+					// 			n++;
+					// 		}
+					// 	}
+					// 	return n == e._id.length;
+					// }
+					// return false;
 					//FIXME упрощенная проверка присутствия ключа
-					return (newValue && newValue[e._id.join('+')] === undefined);
+					// плюс к этому нельзя удалять источник данных, если он связан с чем-то событиями
+					return (newValue && newValue[e._id.join('+')] === undefined) && Object.keys(e.events.events).length == 0 ;
 				})
 				.each(function(e){
 					e._destroy();
@@ -5604,7 +5615,7 @@ Ergo.core.DOM = function() {
 
 
 
-Ergo.merge(Ergo.core.VDOM.prototype, {
+Ergo.merge(Ergo.core.DOM.prototype, {
 
 
 	_initialize: function(tag, widget, options, ns) {
@@ -9392,13 +9403,13 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Подключение VDOM к виджету
+	 * Подключение DOM к виджету
 	 *
 	 * Если опция autoBind = false, то связывание осуществлено не будет.
 	 *
 	 * @param {Object|Array|String} data подключаемые данные
 	 */
-	_bindVDOM: function() {
+	_bindDOM: function() {
 
 		var o = this.options;
 
@@ -9597,7 +9608,7 @@ Ergo.WidgetRender = {
 
 
 	/**
-	 * Удаление виджета из VDOM/компоновки
+	 * Удаление виджета из DOM/компоновки
 	 *
 	 */
 	unrender: function() {
@@ -10227,7 +10238,7 @@ Ergo.alias('mixins:jquery', {
  * @mixes statable
  *
  * @property {object} options Опции
- * @property {Ergo.core.VDOM} dom Узел виртуального DOM
+ * @property {Ergo.core.DOM} dom Узел виртуального DOM
  * @property {jQuery} el
  * @property {Ergo.core.DataSource} data Связанный источник данных
  * @property {Ergo.core.Observer} events Обработчик событий
@@ -10888,7 +10899,7 @@ Ergo.defineClass('Ergo.core.Widget', /** @lends Ergo.core.Widget.prototype */{
 
 	get dom() {
 		if(!this.__dom) {
-			this._bindVDOM();
+			this._bindDOM();
 			this._bindEvents('dom');
 		}
 		return this.__dom;
@@ -11848,7 +11859,6 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 			parent = this._scopes[chain[chain.length-2]] || this.join( chain.splice(0,chain.length-1).join('.'), $ergo.merge({}, params, {$prejoin: true, $implicit: true}));
 		}
 
-		var promise = parent ? parent._promise : Promise.resolve(true);
 
 
 		scope_name = chain[chain.length-1];
@@ -11939,6 +11949,9 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		scope._params = params || {};// Ergo.merge(this._params[scope_name], params);// this._params[scope_name];
 
 
+		// возможно, не самое лучшее решение, но оно работает
+		var promise = parent ? parent._promise.then(function() {return scope;}) : Promise.resolve(scope);
+
 
 //		var deferred = $.Deferred();
 
@@ -11956,7 +11969,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 		Ergo._scope = scope;
 
 		// инициализируем скоуп
-		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || true;
+		var initPromise = this._callbacks[scope_name].call(this, scope, Ergo.merge({}, scope._params), scope._promise) || scope;
 
 		Ergo._scope = _scope;
 
@@ -12036,6 +12049,7 @@ Ergo.defineClass('Ergo.core.Context', /** @lends Ergo.core.Context.prototype */{
 			delete scope._parent._children[scope._name];
 
 		scope.events.fire('disjoined');
+		this.events.fire('scope#disjoined', {scope: scope, params: scope._params});
 
 
 		// выгружаем данные?
@@ -12623,7 +12637,7 @@ Ergo.defineClass('Ergo.data.Collection', /** @lends Ergo.data.Collection.prototy
 		var model = this.options.model || this.model; // модель можно определить либо в опциях, либо в классе, причем опции имеют больший приоритет
 //		if($.isFunction(model)) model = model.call(this, this.val()[i]);
 		if($.isFunction(model) && !$ergo.isClass(model)) model = model.call(this, this.get()[i]);
-		if($.isString(model)) model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
+		if(typeof model === 'string') model = Ergo.alias(model);// eval(model); //TODO здесь лучше загружать класс по зарегистрированному имени
 		model = model || Ergo.core.DataSource;
 
 		var o = {provider: this.options.provider};
@@ -12911,7 +12925,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 		}
 		if($.isFunction(obj) && !$ergo.isClass(obj))
 			obj = obj.call(this, this.get()[i]);
-		if($.isString(obj))
+		if(typeof obj === 'string')
 			obj = Ergo.alias(obj);// || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
 		obj = obj || Ergo.core.DataSource;
 

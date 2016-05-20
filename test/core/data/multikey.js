@@ -132,6 +132,43 @@ describe('DataSource', function(){
 		});
 
 
+
+		it('should binding multikey widget on value change 2', function() {
+
+			var data = { a: 'Alice',	b: 'Bob',	c: 'Charlie' };
+
+			var messages = [];
+
+			var box = $.ergo({
+				etype: 'html:div',
+				data: data,
+				$content: {
+					dataId: ['a', 'b'],
+					binding: function(v) { messages.push(v); },
+					items: [{
+						etype: 'html:div',
+						dataId: 'a',
+						binding: function(v) { messages.push(v); }
+					}, {
+						etype: 'html:div',
+						dataId: 'b',
+						binding: function(v) { messages.push(v); }
+					}]
+				}
+			});
+
+			messages = [];
+
+			box.$content.opt('value', {a: 'Amanda', b: 'Bill'});
+
+//			console.log('multikey', messages);
+
+			expect( messages ).to.be.deep.eq( [{a: 'Amanda', b: 'Bill'}, 'Amanda', 'Bill'] )
+
+		});
+
+
+
 	})
 
 

@@ -275,7 +275,7 @@ Ergo.defineClass('Ergo.data.Object', /** @lends Ergo.data.Object.prototype */{
 		}
 		if($.isFunction(obj) && !$ergo.isClass(obj))
 			obj = obj.call(this, this.get()[i]);
-		if($.isString(obj))
+		if(typeof obj === 'string')
 			obj = Ergo.alias(obj);// || obj); //TODO здесь лучше загружать класс по зарегистрированному имени
 		obj = obj || Ergo.core.DataSource;
 
