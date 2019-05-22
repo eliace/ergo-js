@@ -13,12 +13,24 @@ const Options = class {
   }
 
   merge(nextOpts) {
-    if (nextOpts) {
+    if (nextOpts != null) {
       if (nextOpts instanceof Options) {
         this._raw = this._raw.concat(nextOpts._raw)
       }
       else {
         this._raw.push(nextOpts)
+      }
+    }
+    return this
+  }
+
+  mergeBefore(prevOpts) {
+    if (prevOpts != null) {
+      if (prevOpts instanceof Options) {
+        this.raw = prevOpts._raw.concat(this._raw)
+      }
+      else {
+        this._raw.unshift(prevOpts)
       }
     }
     return this

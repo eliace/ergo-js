@@ -2,19 +2,31 @@ import {init, Html} from './src'
 import {createProjector} from 'maquette'
 import {Layouts, Section, ContainerLayout, Notification, MediaLayout, Image, Button, Delete, LevelLayout, Icon} from './src/bulma'
 
-console.log(Layouts)
-
 const projector = createProjector()
+
+let showHeart = true
+
+const Bindings = {
+  Text: function(v) {this.opt('text', v)}
+}
 
 const app = new Html({
 //  components: {
     $header: {
       type: Section,
       layout: Layouts.Container,
+      data: {x: 'pushed'},
+      dataBinding: function(v) {
+        console.log('extra binding')
+      },
 //      components: {
       $content: {
         type: Notification,
-        items: ['This container is ', {html: 'strong', text: 'centered', props: {class: 'aaa'}}, ' on desktop.']
+        items: [
+          'This container is ',
+          {html: 'strong', text: 'centered', class: 'aaa', dataId: 'x', dataBinding: Bindings.Text},
+          ' on desktop.'
+        ]
       }
     },
     $media: {
@@ -29,9 +41,7 @@ const app = new Html({
           src: 'https://bulma.io/images/placeholders/128x128.png'
         },
         $content: {
-          props: {
-            class: 'content'
-          },
+          class: 'content',
           $content: {
             html: 'p',
             items: [
@@ -77,6 +87,7 @@ setTimeout(() => {
   const c = app.child('header.content.item-1')
   c.opt('html', 'i')
   c.set('test')
+  c.data.set('some text')
   projector.scheduleRender()
 }, 3000)
 

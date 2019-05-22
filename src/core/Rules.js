@@ -34,10 +34,15 @@ const StringArray = (x, y) => {
   return arr
 }
 
+const Overlap = (x, y) => {
+  return y
+}
+
 
 module.exports = {
   Option,
   OptionCollection,
   OptionArray,
-  StringArray
+  StringArray,
+  Overlap
 }

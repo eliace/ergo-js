@@ -23,8 +23,9 @@ class FaIcon extends Icon {
   }
   static OPTIONS = {
     text: {
-      init: function(v, o) {
-        o.components.content.merge({as: 'fa-'+v})
+      set: function(v) {
+        this.$content.opt('as', ['fa-'+v])
+//        o.components.content.merge({as: 'fa-'+v})
       }
     }
   }

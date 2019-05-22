@@ -17,8 +17,9 @@ class Image extends Html {
   static OPTIONS = {
     ...Html.OPTIONS,
     src: {
-      init: function(v, o) {
-        o.components.content.merge({props: {src: v}})
+      set: function(v) {
+        console.log(v)
+        this.$content.opt('src', v)//.components.content.merge({props: {src: v}})
       }
     }
   }
