@@ -1,4 +1,5 @@
 import Section from './Section'
+import Navbar from './Navbar'
+import Menu from './Menu'
 
-
-export {Section}
+export {Navbar, Section, Menu}

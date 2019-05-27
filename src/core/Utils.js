@@ -1,6 +1,6 @@
 
 
-const deepClone = (o) => {
+export const deepClone = (o) => {
   if (o != null) {
     if (o.constructor === Object) {
       const copy = {}

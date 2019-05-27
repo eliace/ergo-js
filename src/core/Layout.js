@@ -6,13 +6,14 @@ const Layout = class {
     this.options = o
   }
 
-  render(c) {
+  render(html, props, children) {
 //    return this.combine(c.children.sort(this.compare))
     // return {
     //   props: c.props,
     //   children: this.combine(c.children.sort(this.compare))
     // }
-    return h(c.html, c.props, this.combine(c.children.sort(this.compare)))
+
+    return h(html, props, this.combine(children.sort(this.compare)))
   }
 
   // renderText(c) {

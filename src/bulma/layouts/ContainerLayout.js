@@ -3,9 +3,10 @@ import {h} from 'maquette'
 
 class ContainerLayout extends Layout {
 
-  render(c) {
-    const wrapper = h('div.container', this.combine(c.children.sort(this.compare)))
-    return h(c.html, c.props, [wrapper])
+  render(html, props, children) {
+    console.log('container', props)
+    const wrapper = h('div.container', this.combine(children.sort(this.compare)))
+    return h(html, props, [wrapper])
   }
 }
 

@@ -7,9 +7,7 @@ class Section extends Html {
 
 Section.prototype.defaultOpts = {
   html: 'section',
-  props: {
-    class: 'section'
-  }
+  class: 'section'
 }
 
 export default Section

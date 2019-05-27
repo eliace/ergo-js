@@ -3,15 +3,15 @@ import {h} from 'maquette'
 
 class LevelLayout extends Layout {
 
-  render(c) {
+  render(html, props, children) {
     let centerItems = []
     let leftItems = []
     let rightItems = []
-    c.children.forEach(child => {
-      if (child.options.level == 'left') {
+    children.forEach(child => {
+      if (child.options.levelLeft) {
         leftItems.push(child)
       }
-      else if (child.options.level == 'right') {
+      else if (child.options.levelRight) {
         rightItems.push(child)
       }
       else {
@@ -26,7 +26,7 @@ class LevelLayout extends Layout {
     }
     centerItems = this.combine(centerItems)
 //    console.log(centerItems.length)
-    return h(c.html+'.level', c.props, leftItems.concat(centerItems).concat(rightItems))
+    return h(html+'.level', props, leftItems.concat(centerItems).concat(rightItems))
   }
 
   combine(children, level) {
