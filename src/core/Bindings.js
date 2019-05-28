@@ -9,6 +9,11 @@ const Bindings = {
 //    console.log(items.length, this.children.length)
     let add = {}
     let update = []
+
+    // if (source.id == 'comments') {
+    //   debugger
+    // }
+
 //    let del = []
     source.stream((entry, i) => {
 //      console.log(entry.get())
@@ -55,6 +60,10 @@ const Bindings = {
     const o = this.options
 
     let def = {...o.components}
+
+    // if (source.src.id == 'posts') {
+    //   debugger
+    // }
 
     source.each((entry, i) => {
 //      console.log(v, key)

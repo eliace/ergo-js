@@ -3,7 +3,52 @@ import {createProjector} from 'maquette'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src/bulma'
 
-const projector = createProjector()
+let perfCounter = 0
+
+const projector = createProjector({
+  performanceLogger(stage, event) {
+    if (stage == 'renderStart') {
+      perfCounter = new Date().getTime()
+    }
+    else if (stage == 'renderDone') {
+      console.log('perf [render]', new Date().getTime() - perfCounter, event)
+      setTimeout(doAnalysis, 1500)
+    }
+    else {
+//      console.log(stage, event)
+    }
+
+  }
+})
+
+function doAnalysis() {
+  const stats = {
+    componentCount: 0,
+    entryCount: 0,
+    subscriptionCount: 0
+  }
+  app.walk(() => stats.componentCount++)
+
+  for (let i in app.sources) {
+    app.sources[i].walk(e => {
+      stats.entryCount++
+      stats.subscriptionCount += e.observers.length
+    })
+  }
+
+  console.log(stats)
+}
+
+
+function hasRoot(c, root) {
+  while (c != null) {
+    if (c == root) {
+      return true
+    }
+    c = c.parent
+  }
+  return false
+}
 
 // const Bindings = {
 //   Text: function(v) {this.opt('text', v)},
@@ -259,6 +304,22 @@ const app = new Html({
             // },
             $content: {
               type: Content,
+              stateComponents: function(v) {
+                return {
+                  comments: v.showComments
+                }
+              },
+              state: function(v) {
+                return {
+                  text: v.name
+                }
+              },
+              // bindings: [
+              //   {source: 'state', target: 'components', map: Bindings.Components}
+              // ],
+              // bindings: {
+              //   components: ['state', Bindings.Components]
+              // },
               // sources: {
               //   local: {
               //     comments: false
@@ -306,8 +367,9 @@ const app = new Html({
                     .then(response => response.json())
                     .then(json => {
 //                      console.log(json)
-                      this.sources.state.set('comments', json)
-                      this.sources.state.set('showComments', false)
+                      this.sources.state.mergeWith({comments: json, showComments: false})
+                      // this.sources.state.set('comments', json)
+                      // this.sources.state.set('showComments', false)
                   //    app.sources.state.set('user', json.data)
                       projector.scheduleRender()
                     })

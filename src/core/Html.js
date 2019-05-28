@@ -262,7 +262,7 @@ const Html = class {
       if (this.layout == null) {
         this.layout = defaultFactory(this.options.layout, Layout)
       }
-      this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), this.children)
+      this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children])
     }
     else {
       this.vnode = this.vnode || h(this.html, deepClone(this.props), [this.text])
@@ -297,36 +297,40 @@ const Html = class {
     return null
   }
 
-  opt(name, v) {
+  opt(name, value) {
 
-    // if (name && name.constructor === Object) {
-    //   this.options = {...this.options, ...name}
-    // }
 
-    if (this.options[name] == v) {
+    if (name && name.constructor === Object) {
+      //TODO сливаем опции
+    }
+
+    if (this.options[name] == value) {
       return this
     }
 
 //    console.log('opt', name, v)
 
-    this.options[name] = v
+    this.options[name] = value
 
     if (name == 'text') {
       if (this.$content) {
-        this.$content.opt('text', String(v))
+        this.$content.opt('text', String(value))
       }
       else {
-        this.text = String(v)
+        this.text = String(value)
       }
-      this.options[name] = String(v)
+//      this.options[name] = String(v)
     }
     else if (name == 'html') {
-      this.html = v
+      this.html = value
     }
     else if (name == 'as') {
-      if (v.length) {
-        this.props['class'] = classNames(this.props['class'], v.join(' '))
+      if (value.length) {
+        this.props['class'] = classNames(this.props['class'], value.join(' '))
       }
+    }
+    else if (name == 'dynamicComponents') {
+
     }
     // else if (name == 'key') {
     //   this.props.key = v
@@ -334,15 +338,16 @@ const Html = class {
     else if (this.constructor.OPTIONS[name]) {
       const desc = this.constructor.OPTIONS[name]
       if (desc.set) {
-        desc.set.call(this, v)
+        desc.set.call(this, value)
       }
     }
     else if (HTML_OPTIONS[name] === true) {
-      this.props[name] = v
+      this.props[name] = value
     }
     else if (HTML_OPTIONS[name]) {
-      this.props[HTML_OPTIONS[name]] = v
+      this.props[HTML_OPTIONS[name]] = value
     }
+
     this.rerender()
     return this
   }
@@ -415,6 +420,7 @@ const Html = class {
     comp.parent = this
     this['$'+i] = comp
 
+
 //    if (i == 'mainMenu') debugger
 
     // const ctx = this.sources
@@ -433,31 +439,21 @@ const Html = class {
   }
 
   removeComponent(key) {
+
     let child = (typeof key === 'object') ? key : this['$'+key]
 
     if (child) {
       const i = this.children.indexOf(child)
       this.children.splice(i, 1)
-    }
-    else {
-      let removed = false
-      for(let i = 0; i < this.children.length; i++) {
-        let c = this.children[i]
-        if (c.index == key) {
-          child = c
-          this.children.remove(c)
-          removed = true
-        }
-        else if (removed && c.index) {
-          c.index--
-        }
+
+      delete this['$'+key]
+
+      delete child.parent
+      child.destroy()
+
+      if (this.vnode) {
+        this.rerender()
       }
-    }
-
-    delete this['$'+key]
-
-    if (this.vnode) {
-      this.rerender()
     }
 
     return child
@@ -509,7 +505,10 @@ const Html = class {
 
   destroy() {
     for (let i in this.sources) {
-      this.sources[i].unjoin()
+      this.sources[i].unjoin(this)
+    }
+    for (let i = 0; i < this.children.length; i++) {
+      this.children[i].destroy();
     }
     // if (this.data) {
     //   this.data.unjoin(this)
@@ -517,6 +516,11 @@ const Html = class {
     // if (this.state) {
     //   this.state.unjoin(this)
     // }
+  }
+
+  walk(callback) {
+    callback(this)
+    this.children.forEach(c => c.walk(callback))
   }
 
   // removeAllComponents() {

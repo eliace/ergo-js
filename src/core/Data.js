@@ -2,6 +2,11 @@
 
 class Source {
 
+  // возможные опции:
+  // - кэширование get
+  // - удаление свободных наблюдаемых объектов
+  // - модель данных
+
   constructor(v, k) {
     this.id = k
     this.src = v
@@ -157,6 +162,13 @@ class Source {
         break
       }
     }
+
+    // if (this.observers.length == 0 && this.isNested) {
+    //   let n = Array.isArray(this.entries) ? this.entities.length : Object.keys(this.entries).length
+    //   if (!n) {
+    //     delete this.src.entries[this.id]
+    //   }
+    // }
   }
 
   update(direction) {
@@ -219,10 +231,11 @@ class Source {
     // if (this.isNested)
   }
 
-
   stream(callback, filter, sorter, pager) {
 
     // TODO filter + sorter + pager
+
+    // TODO потоку не обязательно сразу же создавать вложенный observable
 
     let v = this.get()
 
@@ -238,7 +251,7 @@ class Source {
     }
   }
 
-
+  // ?
   each(callback) {
 
     let v = this.get()
@@ -253,6 +266,28 @@ class Source {
         callback.call(this, this.entry(k), k, v)
       }
     }
+  }
+
+  walk(callback) {
+    callback(this)
+    for (let i in this.entries) {
+      this.entries[i].walk(callback)
+    }
+  }
+
+  mergeWith(v) {
+    let oldVal = this.get()
+
+    if (Array.isArray(v)) {
+      for (let i = 0; i < v.length; i++) {
+        oldVal[i] = v[i]
+      }
+    }
+    else {
+      Object.assign(oldVal, v)
+    }
+
+    this.update()
   }
 
 }
