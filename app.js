@@ -207,7 +207,8 @@ const app = new Html({
           $content: {
             html: 'img',
             styles: {
-              'maxWidth': '1.75rem'
+              maxWidth: '1.75rem',
+              borderRadius: '50%'
             },
             stateId: 'user',
             stateBinding: function(v) {
@@ -534,7 +535,7 @@ const app = new Html({
               }
             },
             items: [{
-              items: ['Name', 'Capital', 'Region', 'Area', 'Population']
+              items: ['Name', 'Capital', 'Region', 'Area', 'Population', 'Flag']
             }]
           },
           $body: {
@@ -571,6 +572,15 @@ const app = new Html({
                 stateId: 'area'
               }, {
                 stateId: 'population'
+              }, {
+                $content: {
+                  html: 'img',
+                  height: '1rem',
+                  stateId: 'flag',
+                  stateBinding: function(v) {
+                    this.opt('src', v)
+                  }
+                }
               }]
             }
           }
