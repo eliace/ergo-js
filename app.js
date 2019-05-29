@@ -23,16 +23,20 @@ const projector = createProjector({
 
 function doAnalysis() {
   const stats = {
-    componentCount: 0,
-    entryCount: 0,
-    subscriptionCount: 0
+    components: 0,
+    entries: 0,
+    subscriptions: 0,
+    hangingNodes: 0
   }
-  app.walk(() => stats.componentCount++)
+  app.walk(() => stats.components++)
 
   for (let i in app.sources) {
     app.sources[i].walk(e => {
-      stats.entryCount++
-      stats.subscriptionCount += e.observers.length
+      stats.entries++
+      stats.subscriptions += e.observers.length
+      e.observers.forEach(obs => {
+        if (!hasRoot(obs.target, app)) stats.hangingNodes++
+      })
     })
   }
 
@@ -104,9 +108,10 @@ const Actions = {
 //    setTimeout(() => {
       let t0 = new Date().getTime()
       if (menuKey == 'posts') {
-        app.sources.block.set('posts', true)
-        app.sources.block.set('mainContent', false)
-        app.sources.block.set('countries', false)
+        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false})
+        // app.sources.block.set('posts', true)
+        // app.sources.block.set('mainContent', false)
+        // app.sources.block.set('countries', false)
       }
       else if (menuKey == 'sources') {
         app.sources.block.set('posts', false)
@@ -129,6 +134,12 @@ const Actions = {
 const Custom = {
   JsonText: function(v) {
     this.opt('text', JSON.stringify(v, null, 2))
+  },
+  Src: function(v) {
+    return {src: v}
+  },
+  All: function(v) {
+    return v
   }
 }
 
@@ -211,15 +222,23 @@ const app = new Html({
               borderRadius: '50%'
             },
             stateId: 'user',
-            stateBinding: function(v) {
-              this.opt('src', v.avatar)
+            stateChanged: function(v) {
+              return {src: v.avatar}
             }
           }
         },
         $name: {
           stateId: 'user',
-          stateBinding: function(v) {
-            this.opt('text', v.first_name + ' ' + v.last_name)
+          state: function(v) {
+            return {text: v.first_name + ' ' + v.last_name}
+          },
+          bindings: {
+            state: {
+              id: 'user',
+              map: function(v) {
+                return {text: v.first_name + ' ' + v.last_name}
+              }
+            }
           }
         }
       }
@@ -233,26 +252,47 @@ const app = new Html({
     },
     $content: {
       layout: Layouts.Columns,
-      blockBindingComponents: Bindings.Components,
+      blockComponents: Custom.All,
+      dynamic: {
+        state: {
+          components: function(v) {return {comp1: true}}
+        }
+      },
+      dynamic: {
+        block: {
+          options: Custom.Text
+        }
+      },
+      dynamic: {
+        block: {
+          components: function(v) {return {comments: v.isShown}},
+          items: true,
+          with: 'comments',
+          options: function(v) {return {text: v.name}}
+        }
+      },
+//      blockBindingComponents: Bindings.Components,
 //      dynamicComponents: true,
       $mainMenu: {
         type: Menu,
         column: 'is-one-fifth',
         blockId: 'current',
         stateId: 'mainMenu',
-        stateBinding: Bindings.Items,
+        stateItems: Custom.All,
+//        stateBinding: Bindings.Items,
         defaultItem: {
           layout: Layouts.PassThrough,
           $label: {
             type: Menu.Label,
             stateId: 'name',
-            stateBinding: Bindings.Text
+            state: Bindings.Text,// function(v)Binding: Bindings.Text
           },
           $list: {
             type: Menu.List,
             stateId: 'items',
-            stateBindingItems: Bindings.Items,
-            blockBinding: function(v) {
+            stateItems: Custom.All,
+//            stateBindingItems: Bindings.Items,
+            block: function(v) {
 //              console.log('change [selection]', v, this.children)
               this.children.forEach(child => {
 //                console.log(child, child.props.key)
@@ -262,11 +302,27 @@ const app = new Html({
               })
             },
             defaultItem: {
-              stateBinding: function(v) {
-//                console.log('binding', v)
-                this.opt('text', v.name)
-                this.opt('key', v.id)
-//                console.log(JSON.stringify(this.props))
+//               block: function(v) {
+// //                console.log('select', v, this.props.key)
+//                 return {selected: v == this.props.key}
+//   // //              const out = {}
+//   // //              debugger
+//   //               this.children.forEach(child => {
+//   // //                console.log(child, child.props.key)
+//   //                 if (child.index != null) {
+//   //                   child.opt('selected', v == child.props.key)
+//   //                 }
+//   //               })
+//   // //              return out
+//               },
+//               stateBinding: function(v) {
+// //                console.log('binding', v)
+//                 this.opt('text', v.name)
+//                 this.opt('key', v.id)
+// //                console.log(JSON.stringify(this.props))
+//               },
+              state: function(v) {
+                return {text: v.name, key: v.id}
               },
               onClick: function(e) {
 //                console.log('click target', this)
@@ -287,9 +343,11 @@ const app = new Html({
           }
         },
         items: [{
-          stateBinding: Custom.JsonText
+//          state: function(v) {return {text: JSON.stringify(v)}}
+//          stateBinding: Custom.JsonText
         }, {
-          selectionBinding: Custom.JsonText
+          block: Custom.JsonText
+//          selectionBinding: Custom.JsonText
         }]
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
@@ -297,7 +355,7 @@ const app = new Html({
       $posts: {
         $list: {
           stateId: 'posts',
-          stateBindingItems: Bindings.Items,
+          stateItems: Custom.All,
           defaultItem: {
             layout: Layouts.Media,
             // styles: {
@@ -306,15 +364,35 @@ const app = new Html({
             $content: {
               type: Content,
               stateComponents: function(v) {
-                return {
-                  comments: v.showComments
-                }
+                return {comments: v.showComments === true}
               },
-              state: function(v) {
-                return {
-                  text: v.name
+              state: function(v, source) {
+
+//                 const out = {
+// //                  $components: {comments: v.showComments === true}
+//                 }
+                if (v.comments == null && !v.loadingComments) {
+                  v.loadingComments = true // это значение не связывается с компонентами
+                  fetch('https://jsonplaceholder.typicode.com/comments?postId='+v.id)
+                    .then(response => response.json())
+                    .then(json => {
+                      source.mergeWith({comments: json, loadingComments: false})
+                      projector.scheduleRender()
+                    })
                 }
+
+//                return out
               },
+              // stateComponents: function(v) {
+              //   return {
+              //     comments: v.showComments
+              //   }
+              // },
+              // state: function(v) {
+              //   return {
+              //     text: v.name
+              //   }
+              // },
               // bindings: [
               //   {source: 'state', target: 'components', map: Bindings.Components}
               // ],
@@ -326,7 +404,7 @@ const app = new Html({
               //     comments: false
               //   }
               // },
-              stateBindingComponents: Bindings.Components,
+//              stateBindingComponents: Bindings.Components,
 //              blockId: 'postComments',
               // stateBindingComponents: function(v) {
               //   const comps = {
@@ -358,7 +436,7 @@ const app = new Html({
 // //                  if (v.comments)
 //                 })
 //               },
-              stateBinding: function(v) {
+              /*stateBinding: function(v) {
   //              console.log('update [post]', v)
                 if (v.comments == null) {
                   v.comments = {loading: true}
@@ -375,17 +453,17 @@ const app = new Html({
                       projector.scheduleRender()
                     })
                 }
-              },
+              },*/
               $content: {
                 html: 'p',
                 $title: {
                   html: 'strong',
                   stateId: 'title',
-                  stateBinding: Bindings.Text
+                  state: Bindings.Text
                 },
                 $content: {
                   stateId: 'body',
-                  stateBinding: Bindings.Text
+                  state: Bindings.Text
                 },
                 $actions: {
                   html: 'small',
@@ -415,7 +493,7 @@ const app = new Html({
                     //     }
                     //   }
                     // },
-                    stateBinding: function(v) {
+                    state: function(v) {
                       if (v.comments) {
 //                        console.log('post', v)
                         if (v.showComments) {
@@ -435,11 +513,11 @@ const app = new Html({
                   }]
                 }
               },
-              $showComments: {
+              $comments: {
                 weight: 10,
                 layout: Layouts.PassThrough,
                 stateId: 'comments',
-                stateBindingItems: Bindings.Items,
+                stateItems: Custom.All,
                 defaultItem: {
                   layout: Layouts.Media,
                   $content: {
@@ -449,17 +527,17 @@ const app = new Html({
                       $title: {
                         html: 'strong',
                         stateId: 'name',
-                        stateBinding: Bindings.Text
+                        state: Bindings.Text
                       },
                       $email: {
                         html: 'small',
                         styles: {marginLeft: '0.5rem'},
                         stateId: 'email',
-                        stateBinding: Bindings.Text
+                        state: Bindings.Text
                       },
                       $content: {
                         stateId: 'body',
-                        stateBinding: Bindings.Text
+                        state: Bindings.Text
                       },
                     },
                   },
@@ -475,11 +553,11 @@ const app = new Html({
               //   bindTo: 'src'
               // },
               userId: 'avatar',
-              userBinding: function(v) {
-                  this.opt('src', v)
+              user: function(v) {
+                return {src: v}
               },
 //              stateId: 'user',
-              stateBinding: function(v) {
+              state: function(v) {
 //                console.log('update [post.avatar]', v)
                 let user = this.sources.users.get(v.userId)
 //                console.log('user', user)
@@ -510,15 +588,15 @@ const app = new Html({
         layout: Layouts.Container,
         stateId: 'countries',
 //        stateBindingItems: Bindings.Items,
-        stateBinding: function(v) {
+        state: function(v, source) {
           if (v == null) {
             console.log('start loading countries.')
-            this.sources.state.set({loading: true})
+            source.set({loading: true})
             fetch('https://restcountries.eu/rest/v2/all')
               .then(response => response.json())
               .then(json => {
                 console.log('end loading countries.', json)
-                this.sources.state.set(json)
+                source.set(json)
                 projector.scheduleRender()
               })
           }
@@ -540,7 +618,7 @@ const app = new Html({
           },
           $body: {
             html: 'tbody',
-            stateBindingItems: Bindings.Items,
+            stateItems: Custom.All,
             defaultItem: {
               html: 'tr',
               // stateBinding: function(v) {
@@ -560,7 +638,7 @@ const app = new Html({
               // $population: {}
               defaultItem: {
                 html: 'td',
-                stateBinding: Bindings.Text
+                state: Bindings.Text
               },
               items: [{
                 stateId: 'name'
@@ -577,9 +655,7 @@ const app = new Html({
                   html: 'img',
                   height: '1rem',
                   stateId: 'flag',
-                  stateBinding: function(v) {
-                    this.opt('src', v)
-                  }
+                  state: function(v) {return {src: v}}
                 }
               }]
             }

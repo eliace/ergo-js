@@ -104,6 +104,14 @@ const Html = class {
 
 //    console.log(opts)
 
+    this.sources = {}
+
+    if (opts.sources) {
+      for (let i in opts.sources) {
+    //        console.log('local', i)
+        this.bind(opts.sources[i], i)
+      }
+    }
 
     // постобработка "сахарных" опций
 
@@ -113,10 +121,15 @@ const Html = class {
       var o = opts[i]
 
       if (i[0] == '$') {
+        var compKey = i.substr(1)
+
+        if (compKey == 'items' || compKey == 'components' || this.sources[compKey]) {
+          continue
+        }
+
         // ленивая инициализация расширенных опций компонентов
         extOpts['components'] = extOpts['components'] || {}
 
-        var compKey = i.substr(1)
         extOpts['components'][compKey] = o
       }
     }
@@ -126,32 +139,43 @@ const Html = class {
     this.options = opts
 
 
-    this.sources = {}
-
-    // if (context) {
-    //   for (let i in context) {
-    //     console.log('global', i)
-    //     this.bind(source, i)
-    //   }
-    // }
-
-    if (opts.sources) {
-      for (let i in opts.sources) {
-//        console.log('local', i)
-        this.bind(opts.sources[i], i)
-      }
-    }
 
     this.dynamicItems = false
     this.dynamicComponents = false
     for (let i in this.sources) {
-      if (opts[i+'BindingItems']) {
+      if (opts[i+'BindingItems'] || opts[i+'Items']) {
         this.dynamicItems = true
       }
-      if (opts[i+'BindingComponents']) {
+      if (opts[i+'BindingComponents'] || opts[i+'Components']) {
         this.dynamicComponents = true
       }
     }
+
+    if (opts['$items']) {
+      this.dynamicItems = true
+    }
+    if (opts['$components']) {
+      this.dynamicComponents = true
+    }
+
+    // // выполняем первичный маппинг? чтобы понять, необходимо ли создавать дочерние элементы
+    // const srcOpts = {}
+    // for (let i in this.sources) {
+    //   if (opts[i]) {
+    //     let o = opts[i].call(this, this.sources[i].get(), this.sources[i])
+    //     if (o) {
+    //       if (o['components'] || o['$components']) {
+    //         this.dynamicComponents = true
+    //       }
+    //       if (o['items'] || o['$items']) {
+    //         this.dynamicItems = true
+    //       }
+    //       srcOpts[i] = o
+    //     }
+    //   }
+    // }
+
+    // проверяем первичный биндинг на наличие компонентов или элементов
 //    console.log(this.sources)
 
     // создание компонентов и элементов
@@ -237,18 +261,63 @@ const Html = class {
     }
 
 
+    if (opts['$items']) {
+      this.opt('$items', opts['$items'])
+    }
+    if (opts['$components']) {
+      this.opt('$components', opts['$components'])
+    }
+
     // применяем биндинг элементов и компонентов
     for (let i in this.sources) {
-      if (opts[i+'BindingItems'] || opts[i+'BindingComponents']) {
-        this.rebind(this.sources[i].get(), i, this.sources[i])
+      // if (opts[i+'BindingItems'] || opts[i+'BindingComponents']) {
+      //   this.rebind(this.sources[i].get(), i, this.sources[i])
+      // }
+      if (opts[i+'Items']) {
+        this.opt('$items', opts[i+'Items'].call(this, this.sources[i].get(), this.sources[i]), i)
+      }
+      else if (opts[i+'Components']) {
+        this.opt('$components', opts[i+'Components'].call(this, this.sources[i].get(), this.sources[i]), i)
       }
     }
     // применяем биндинг опций
     for (let i in this.sources) {
-      if (opts[i+'Binding']) {
-        this.rebind(this.sources[i].get(), i, this.sources[i])
+      // if (opts[i+'Binding']) {
+      //   this.rebind(this.sources[i].get(), i, this.sources[i])
+      // }
+      if (opts[i]) {
+        const o = opts[i].call(this, this.sources[i].get(), this.sources[i])
+        for (let j in o) {
+          this.opt(j, o[j])
+        }
+      }
+      if (opts['$'+i]) {
+        const o = opts['$'+i].call(this, this.sources[i].get(), this.sources[i])
+        for (let j in o) {
+          this.opt(j, o[j])
+        }
       }
     }
+
+//     for (let i in srcOpts) {
+//       let o = srcOpts[i]
+//       for (let j in o) {
+//         if (j == 'components' || j == '$components' || j == 'items' || j == '$items') {
+//           this.opt(j, o[j], i)
+//         }
+//       }
+// //      this.rebindOpts(srcOpts[i], i)
+//     }
+//
+//     for (let i in srcOpts) {
+//       let o = srcOpts[i]
+//       for (let j in o) {
+//         if (!(j == 'components' || j == '$components' || j == 'items' || j == '$items')) {
+//           this.opt(j, o[j], i)
+//         }
+//       }
+// //      this.rebindOpts(srcOpts[i], i)
+//     }
 
 //    console.log('desc', this.constructor.optDesc)
 //    console.log(opts)
@@ -297,7 +366,7 @@ const Html = class {
     return null
   }
 
-  opt(name, value) {
+  opt(name, value, key) {
 
 
     if (name && name.constructor === Object) {
@@ -310,7 +379,9 @@ const Html = class {
 
 //    console.log('opt', name, v)
 
-    this.options[name] = value
+    if (name[0] != '$') {
+      this.options[name] = value
+    }
 
     if (name == 'text') {
       if (this.$content) {
@@ -329,7 +400,71 @@ const Html = class {
         this.props['class'] = classNames(this.props['class'], value.join(' '))
       }
     }
-    else if (name == 'dynamicComponents') {
+    else if (name == '$components') {
+      if (typeof value === 'function') {
+        value = value.call(this)
+      }
+      let o = this.options
+      let def = {...o.components}
+      for (let i in value) {
+        if (o.components && o.components[i]) {
+          const s = value[i]
+          if (s !== false && !this['$'+i]) {
+            this.addComponent(i, o.components[i])
+          }
+          else if (s === false && this['$'+i]) {
+            this.removeComponent(i)
+          }
+          delete def[i]
+        }
+      }
+      for (let i in def) {
+        this.addComponent(i, o.components[i])
+      }
+    }
+    else if (name == '$items') {
+      if (typeof value === 'function') {
+        value = value.call(this)
+      }
+      const o = this.options
+      let items = this.children.filter(child => child.index != null)
+  //    console.log(items.length, this.children.length)
+      let add = {}
+      let update = []
+
+      this.sources[key].stream((entry, i) => {
+  //      console.log(entry.get())
+        let found = null
+        for (let j = 0; j < items.length; j++) {
+          const item = items[j]
+          if (item.options.sources[key] == entry) {
+            update.push(item)
+            found = item
+            break
+          }
+        }
+        if (!found) {
+          add[i] = entry
+  //        console.log('to add', entry, update.length, this)
+        }
+        else {
+          items.splice(items.indexOf(found), 1)
+        }
+      })
+
+  //    console.log('reconcile', Object.keys(add).length, update.length, items.length)
+
+      items.forEach(item => this.removeItem(item))
+
+      Object.keys(add).forEach(i => {
+        let entry = add[i]
+        this.addItem(new Options({sources: {[key]: entry}}, o.items ? o.items[i] : null), Number(i)/*, {...this.sources, ...{[key]: entry}}*/)
+      })
+
+      // update.forEach(item => {
+      //   let src = item.sources[key]
+      //   item.rebind(src.get(), key, src)
+      // })
 
     }
     // else if (name == 'key') {
@@ -510,6 +645,8 @@ const Html = class {
     for (let i = 0; i < this.children.length; i++) {
       this.children[i].destroy();
     }
+
+//    delete this.parent
     // if (this.data) {
     //   this.data.unjoin(this)
     // }
@@ -718,7 +855,8 @@ const Html = class {
       source = (v instanceof Source) ? v : new Source(v)
     }
 
-    if (o[i+'Id'] || o[i+'Binding'] || o[i+'BindingItems'] || o[i+'BindingComponents'] || o.binding) {
+    if (o[i+'Id'] || o['$items'] /*|| o[i+'Binding'] || o[i+'BindingItems'] || o[i+'BindingComponents']*/
+    /*|| o.binding*/ || o[i] || o[i+'Items'] || o[i+'Components']) {
       source.join(this, this.rebind, this.unbind, i)
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
@@ -739,7 +877,7 @@ const Html = class {
   rebind(v, key, source) {
     const o = this.options
 
-//    console.log('rebind', v, key, source)
+//    console.log('rebind', key)
 //    const source = this.sources[key]
 
 //     if (o[key+'Dynamic']) {
@@ -772,17 +910,26 @@ const Html = class {
 //
 //     }
 //     else {
-      if (o[key+'BindingItems']) {
-        o[key+'BindingItems'].call(this, v, key, source)
+      // if (o[key+'BindingItems']) {
+      //   o[key+'BindingItems'].call(this, v, key, source)
+      // }
+      // if (o[key+'BindingComponents']) {
+      //   o[key+'BindingComponents'].call(this, v, key, source)
+      // }
+      // if (o[key+'Binding']) {
+      //   o[key+'Binding'].call(this, v, key, source)
+      // }
+      // if (o.binding) {
+      //   o.binding.call(this)
+      // }
+      if (o[key+'Items']) {
+        this.opt('$items', o[key+'Items'].call(this, v, source), key)
       }
-      if (o[key+'BindingComponents']) {
-        o[key+'BindingComponents'].call(this, v, key, source)
+      if (o[key+'Components']) {
+        this.opt('$components', o[key+'Components'].call(this, v, source), key)
       }
-      if (o[key+'Binding']) {
-        o[key+'Binding'].call(this, v, key, source)
-      }
-      if (o.binding) {
-        o.binding.call(this)
+      if (o[key]) {
+        this.rebindOpts(o[key].call(this, v, source), key)
       }
 //    }
 
@@ -790,6 +937,12 @@ const Html = class {
 
   unbind() {
 
+  }
+
+  rebindOpts(o, key) {
+    for (let i in o) {
+      this.opt(i, o[i], key)
+    }
   }
 
 }

@@ -133,6 +133,19 @@ class Source {
       }
       delete this.cache
 
+      if (this.entries)
+
+      if (Array.isArray(this.entries)) {
+        if (this.entries.length) {
+          console.warn('toggling object value')
+        }
+      }
+      else {
+        if (Object.keys(this.entries).length) {
+          console.warn('toggling object value')
+        }
+      }
+
       this.update() // ?
     }
     else {
@@ -147,6 +160,7 @@ class Source {
           let v = this.isNested ? this.src.get()[this.id] : this.src[this.id]
           v[k] = !v[k]
         }
+        this.update('asc')
       }
     }
   }
@@ -281,13 +295,23 @@ class Source {
     if (Array.isArray(v)) {
       for (let i = 0; i < v.length; i++) {
         oldVal[i] = v[i]
+        if (this.entries[i]) {
+          delete this.entries[i].cache
+          this.entries[i].update('desc')
+        }
       }
     }
     else {
-      Object.assign(oldVal, v)
+      for (let i in v) {
+        oldVal[i] = v[i]
+        if (this.entries[i]) {
+          delete this.entries[i].cache
+          this.entries[i].update('desc')
+        }
+      }
     }
 
-    this.update()
+    this.update('asc')
   }
 
 }
