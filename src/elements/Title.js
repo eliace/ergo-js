@@ -1,4 +1,4 @@
-import {Html} from '../../core'
+import {Html} from '../core'
 
 class Title extends Html {
 

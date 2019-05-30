@@ -1,4 +1,4 @@
-import {Html} from '../../core'
+import {Html} from '../core'
 //import styles from 'bulma/css/bulma.css'
 
 class Section extends Html {

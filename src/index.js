@@ -1,11 +1,8 @@
-import {createProjector} from 'maquette'
-import {Html, State, Options, Source, Bindings} from './core'
-//import {Section} from './bulma'
+export * from './components'
+export * from './layouts'
+export * from './elements'
+export * from './core'
 
-const projector = createProjector()
+import './styles'
 
-function init(target, root) {
-  projector.append(target, root)
-}
-
-export {init, Html, State, Options, Source, Bindings}
+//export {init, Html, State, Options, Source, Bindings}

@@ -1,9 +1,11 @@
-import {init, Html, State, Source, Bindings} from './src'
 import {createProjector} from 'maquette'
-import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src/bulma'
+import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src'
+
+import {ElementsPage} from './pages'
 
 let perfCounter = 0
+let perfAnalysis = null
 
 const projector = createProjector({
   performanceLogger(stage, event) {
@@ -12,7 +14,11 @@ const projector = createProjector({
     }
     else if (stage == 'renderDone') {
       console.log('perf [render]', new Date().getTime() - perfCounter, event)
-      setTimeout(doAnalysis, 1500)
+      if (perfAnalysis) {
+        clearTimeout(perfAnalysis)
+        perfAnalysis = 0
+      }
+      perfAnalysis = setTimeout(doAnalysis, 1500)
     }
     else {
 //      console.log(stage, event)
@@ -108,7 +114,7 @@ const Actions = {
 //    setTimeout(() => {
       let t0 = new Date().getTime()
       if (menuKey == 'posts') {
-        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false})
+        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false})
         // app.sources.block.set('posts', true)
         // app.sources.block.set('mainContent', false)
         // app.sources.block.set('countries', false)
@@ -117,11 +123,16 @@ const Actions = {
         app.sources.block.set('posts', false)
         app.sources.block.set('mainContent', true)
         app.sources.block.set('countries', false)
+        app.sources.block.set('elements', false)
       }
       else if (menuKey == 'countries') {
         app.sources.block.set('posts', false)
         app.sources.block.set('mainContent', false)
         app.sources.block.set('countries', true)
+        app.sources.block.set('elements', false)
+      }
+      else if (menuKey == 'elements') {
+        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true})
       }
       let t1 = new Date().getTime()
       console.log(t1-t0)
@@ -132,6 +143,8 @@ const Actions = {
 }
 
 const Custom = {
+  ...Bindings,
+
   JsonText: function(v) {
     this.opt('text', JSON.stringify(v, null, 2))
   },
@@ -153,11 +166,12 @@ const app = new Html({
       mainContent: false,
       posts: true,
       current: 'posts',
-      countries: false
+      countries: false,
+      elements: false
     },
     state: {
       mainMenu: [{
-        name: 'General',
+        name: 'Demo',
         items: [{
           id: 'posts',
           name: 'Posts'
@@ -169,13 +183,16 @@ const app = new Html({
           name: 'Countries'
         }]
       }, {
-        name: 'Administration',
+        name: 'Lib',
         items: [{
-          id: 'team_settings',
-          name: 'Team Settings'
+          id: 'elements',
+          name: 'Elements'
         }, {
-          id: 'manage_your_team',
-          name: 'Manage Your Team'
+          id: 'components',
+          name: 'Components'
+        }, {
+          id: 'layouts',
+          name: 'Layouts'
         }]
       }],
       user: {},
@@ -222,23 +239,15 @@ const app = new Html({
               borderRadius: '50%'
             },
             stateId: 'user',
-            stateChanged: function(v) {
+            stateOptions: function(v) {
               return {src: v.avatar}
             }
           }
         },
         $name: {
           stateId: 'user',
-          state: function(v) {
+          stateOptions: function (v) {
             return {text: v.first_name + ' ' + v.last_name}
-          },
-          bindings: {
-            state: {
-              id: 'user',
-              map: function(v) {
-                return {text: v.first_name + ' ' + v.last_name}
-              }
-            }
           }
         }
       }
@@ -253,75 +262,39 @@ const app = new Html({
     $content: {
       layout: Layouts.Columns,
       blockComponents: Custom.All,
-      dynamic: {
-        state: {
-          components: function(v) {return {comp1: true}}
-        }
-      },
-      dynamic: {
-        block: {
-          options: Custom.Text
-        }
-      },
-      dynamic: {
-        block: {
-          components: function(v) {return {comments: v.isShown}},
-          items: true,
-          with: 'comments',
-          options: function(v) {return {text: v.name}}
-        }
-      },
-//      blockBindingComponents: Bindings.Components,
-//      dynamicComponents: true,
       $mainMenu: {
         type: Menu,
         column: 'is-one-fifth',
-        blockId: 'current',
-        stateId: 'mainMenu',
-        stateItems: Custom.All,
-//        stateBinding: Bindings.Items,
+        dynamic: {
+          block: {id: 'current'},
+          state: {id: 'mainMenu', items: Custom.All}
+        },
         defaultItem: {
           layout: Layouts.PassThrough,
           $label: {
             type: Menu.Label,
-            stateId: 'name',
-            state: Bindings.Text,// function(v)Binding: Bindings.Text
+            dynamic: {
+              state: {id: 'name', options: Bindings.Text}// function(v)Binding: Bindings.Text
+            }
           },
           $list: {
             type: Menu.List,
-            stateId: 'items',
-            stateItems: Custom.All,
-//            stateBindingItems: Bindings.Items,
-            block: function(v) {
-//              console.log('change [selection]', v, this.children)
-              this.children.forEach(child => {
-//                console.log(child, child.props.key)
-                if (child.index != null) {
-                  child.opt('selected', v == child.props.key)
+            dynamic: {
+              state: {id: 'items', items: Custom.All},
+              block: {
+                options: function(v) {
+  //              console.log('change [selection]', v, this.children)
+                  this.children.forEach(child => {
+    //                console.log(child, child.props.key)
+                    if (child.index != null) {
+                      child.opt('selected', v == child.props.key)
+                    }
+                  })
                 }
-              })
+              }
             },
             defaultItem: {
-//               block: function(v) {
-// //                console.log('select', v, this.props.key)
-//                 return {selected: v == this.props.key}
-//   // //              const out = {}
-//   // //              debugger
-//   //               this.children.forEach(child => {
-//   // //                console.log(child, child.props.key)
-//   //                 if (child.index != null) {
-//   //                   child.opt('selected', v == child.props.key)
-//   //                 }
-//   //               })
-//   // //              return out
-//               },
-//               stateBinding: function(v) {
-// //                console.log('binding', v)
-//                 this.opt('text', v.name)
-//                 this.opt('key', v.id)
-// //                console.log(JSON.stringify(this.props))
-//               },
-              state: function(v) {
+              stateOptions: function(v) {
                 return {text: v.name, key: v.id}
               },
               onClick: function(e) {
@@ -346,16 +319,16 @@ const app = new Html({
 //          state: function(v) {return {text: JSON.stringify(v)}}
 //          stateBinding: Custom.JsonText
         }, {
-          block: Custom.JsonText
-//          selectionBinding: Custom.JsonText
+          blockOptions: Custom.JsonText
         }]
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
       },
       $posts: {
         $list: {
-          stateId: 'posts',
-          stateItems: Custom.All,
+          dynamic: {
+            state: {id: 'posts', items: Custom.All}
+          },
           defaultItem: {
             layout: Layouts.Media,
             // styles: {
@@ -366,7 +339,7 @@ const app = new Html({
               stateComponents: function(v) {
                 return {comments: v.showComments === true}
               },
-              state: function(v, source) {
+              stateOptions: function(v, source) {
 
 //                 const out = {
 // //                  $components: {comments: v.showComments === true}
@@ -458,42 +431,21 @@ const app = new Html({
                 html: 'p',
                 $title: {
                   html: 'strong',
-                  stateId: 'title',
-                  state: Bindings.Text
+                  dynamic: {
+                    state: {id: 'title', options: Bindings.Text}
+                  }
                 },
                 $content: {
-                  stateId: 'body',
-                  state: Bindings.Text
+                  dynamic: {
+                    state: {id: 'body', options: Bindings.Text}
+                  }
                 },
                 $actions: {
                   html: 'small',
 //                  layout: Layouts.Level,
                   items: [{
                     html: 'a',
-                    // stateBinding: function() {
-                    //   const state = this.sources.state.get()
-                    //   const local = this.sources.local.get()
-                    //
-                    //   if (state.comments) {
-                    //     if (local.comments) {
-                    //       this.opt('text', 'Hide comments')
-                    //     }
-                    //     else {
-                    //       this.opt('text', 'Show '+state.comments.length+' comments')
-                    //     }
-                    //   }
-                    // },
-                    // localBinding: function(v) {
-                    //   if (this.sources.state.get('comments')) {
-                    //     if (v.comments) {
-                    //       this.opt('text', 'Hide comments')
-                    //     }
-                    //     else {
-                    //       this.opt('text', 'Show '+this.sources.state.get('comments').length+' comments')
-                    //     }
-                    //   }
-                    // },
-                    state: function(v) {
+                    stateOptions: function(v) {
                       if (v.comments) {
 //                        console.log('post', v)
                         if (v.showComments) {
@@ -516,8 +468,9 @@ const app = new Html({
               $comments: {
                 weight: 10,
                 layout: Layouts.PassThrough,
-                stateId: 'comments',
-                stateItems: Custom.All,
+                dynamic: {
+                  state: {id: 'comments', items: Custom.All}
+                },
                 defaultItem: {
                   layout: Layouts.Media,
                   $content: {
@@ -526,18 +479,21 @@ const app = new Html({
                       html: 'p',
                       $title: {
                         html: 'strong',
-                        stateId: 'name',
-                        state: Bindings.Text
+                        dynamic: {
+                          state: {id: 'name', options: Bindings.Text}
+                        }
                       },
                       $email: {
                         html: 'small',
                         styles: {marginLeft: '0.5rem'},
-                        stateId: 'email',
-                        state: Bindings.Text
+                        dynamic: {
+                          state: {id: 'email', options: Bindings.Text}
+                        }
                       },
                       $content: {
-                        stateId: 'body',
-                        state: Bindings.Text
+                        dynamic: {
+                          state: {id: 'body', options: Bindings.Text}
+                        }
                       },
                     },
                   },
@@ -552,31 +508,33 @@ const app = new Html({
               //   key: 'avatar',
               //   bindTo: 'src'
               // },
-              userId: 'avatar',
-              user: function(v) {
-                return {src: v}
-              },
-//              stateId: 'user',
-              state: function(v) {
-//                console.log('update [post.avatar]', v)
-                let user = this.sources.users.get(v.userId)
-//                console.log('user', user)
-                if (user == null/* || !user.id*/) {
-                  console.log('start loading user...')
-                  this.sources.users.set(v.userId, {loading: true})
-                  fetch('https://reqres.in/api/users/'+v.userId)
-                    .then(response => response.json())
-                    .then(json => {
-                      console.log('end loading user.')
-                      this.sources.users.set(json.data.id, json.data)
-                      projector.scheduleRender()
-                    })
-                }
-                if (this.sources.user == null) {
-                  this.options.sources.user = this.sources.users.entry(v.userId)
-                  this.bind(this.options.sources.user, 'user')
-                  if (user) {
-                    this.rebind(this.sources.user.get(), 'user', this.sources.user)
+              dynamic: {
+                user: {
+                  id: 'avatar',
+                  options: Custom.Src
+                },
+                state: {
+                  options: function (v) {
+                    let user = this.sources.users.get(v.userId)
+    //                console.log('user', user)
+                    if (user == null/* || !user.id*/) {
+                      console.log('start loading user...')
+                      this.sources.users.set(v.userId, {loading: true})
+                      fetch('https://reqres.in/api/users/'+v.userId)
+                        .then(response => response.json())
+                        .then(json => {
+                          console.log('end loading user.')
+                          this.sources.users.set(json.data.id, json.data)
+                          projector.scheduleRender()
+                        })
+                    }
+                    if (this.sources.user == null) {
+                      this.options.sources.user = this.sources.users.entry(v.userId)
+                      this.bind(this.options.sources.user, 'user')
+                      if (user) {
+                        this.rebind(this.sources.user.get(), 'user', this.sources.user)
+                      }
+                    }
                   }
                 }
               }
@@ -587,8 +545,7 @@ const app = new Html({
       $countries: {
         layout: Layouts.Container,
         stateId: 'countries',
-//        stateBindingItems: Bindings.Items,
-        state: function(v, source) {
+        stateOptions: function(v, source) {
           if (v == null) {
             console.log('start loading countries.')
             source.set({loading: true})
@@ -638,7 +595,7 @@ const app = new Html({
               // $population: {}
               defaultItem: {
                 html: 'td',
-                state: Bindings.Text
+                stateOptions: Bindings.Text
               },
               items: [{
                 stateId: 'name'
@@ -655,18 +612,19 @@ const app = new Html({
                   html: 'img',
                   height: '1rem',
                   stateId: 'flag',
-                  state: function(v) {return {src: v}}
+                  stateOptions: function(v) {return {src: v}}
                 }
               }]
             }
           }
         }
-      }
+      },
+      $elements: ElementsPage()
     }
   }
 })
 
-console.log(app)
+//console.log(app)
 
 //console.log(app.$media.$content.state.get())
 

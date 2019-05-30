@@ -1,4 +1,4 @@
-import {Layout} from '../../core'
+import {Layout} from '../core'
 import {h} from 'maquette'
 
 class ContainerLayout extends Layout {

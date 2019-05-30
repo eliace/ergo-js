@@ -1,4 +1,4 @@
-import {Layout} from '../../core'
+import {Layout} from '../core'
 import {h} from 'maquette'
 
 export default class ColumnsLayout extends Layout {

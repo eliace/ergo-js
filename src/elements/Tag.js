@@ -1,4 +1,4 @@
-import {Html} from '../../core'
+import {Html} from '../core'
 
 export default class Tag extends Html {
 

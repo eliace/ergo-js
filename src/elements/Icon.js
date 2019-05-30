@@ -1,4 +1,4 @@
-import {Html} from '../../core'
+import {Html} from '../core'
 import 'font-awesome/scss/font-awesome.scss'
 
 class Icon extends Html {

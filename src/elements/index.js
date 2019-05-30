@@ -9,6 +9,7 @@ import Progress from './Progress'
 import Table from './Table'
 import Tag from './Tag'
 import Title from './Title'
+import List from './List'
 
 export {
   Box,
@@ -21,5 +22,6 @@ export {
   Progress,
   Table,
   Tag,
-  Title
+  Title,
+  List
 }
