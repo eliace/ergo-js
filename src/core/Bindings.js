@@ -3,6 +3,18 @@ import Options from './Options'
 
 const Bindings = {
 
+  Items2: function(v, key, source) {
+
+    const items = []
+    source.stream((entry, i) => {
+      items.push({sources: {[key]: entry}})
+    })
+
+    return items
+  },
+
+
+
   Items: function(v, key, source) {
     const o = this.options
     let items = this.children.filter(child => child.index != null)

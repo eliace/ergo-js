@@ -450,6 +450,23 @@ const Html = class {
         this.props['class'] = classNames(this.props['class'], value.join(' '))
       }
     }
+    else if (name == 'items') {
+      this.removeAllItems()
+      for (let i = 0; i < value.length; i++) {
+        this.addItem(value[i])
+      }
+    }
+    else if (name == 'components') {
+      for (let i in value) {
+        const component = value[i]
+        if (component == this['$'+i]) {
+          // пропускаем
+        }
+        else {
+          this.addComponent(i, component)
+        }
+      }
+    }
     else if (name == '$components') {
       // if (typeof value === 'function') {
       //   value = value.call(this)

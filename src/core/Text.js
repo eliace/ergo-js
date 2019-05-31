@@ -18,6 +18,10 @@ const Text = class {
     }
   }
 
+  destroy() {
+
+  }
+
 }
 
 export default Text
