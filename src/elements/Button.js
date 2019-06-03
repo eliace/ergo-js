@@ -9,4 +9,12 @@ export default class Button extends Html {
     }
   }
 
+  static OPTIONS = {
+    selected: {
+      set: function (v) {
+        this.opt('classes', {'is-selected': v})
+      }
+    }
+  }
+
 }

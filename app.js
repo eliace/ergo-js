@@ -2,7 +2,12 @@ import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src'
 
-import {ElementsPage} from './pages'
+import {ElementsPage, ComponentsPage} from './pages'
+
+//import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/all'
+import './app.scss'
+
 
 let perfCounter = 0
 let perfAnalysis = null
@@ -114,25 +119,19 @@ const Actions = {
 //    setTimeout(() => {
       let t0 = new Date().getTime()
       if (menuKey == 'posts') {
-        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false})
-        // app.sources.block.set('posts', true)
-        // app.sources.block.set('mainContent', false)
-        // app.sources.block.set('countries', false)
+        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false, componentsPage: false})
       }
       else if (menuKey == 'sources') {
-        app.sources.block.set('posts', false)
-        app.sources.block.set('mainContent', true)
-        app.sources.block.set('countries', false)
-        app.sources.block.set('elements', false)
+        app.sources.block.mergeWith({posts: false, mainContent: true, countries: false, elements: false, componentsPage: false})
       }
       else if (menuKey == 'countries') {
-        app.sources.block.set('posts', false)
-        app.sources.block.set('mainContent', false)
-        app.sources.block.set('countries', true)
-        app.sources.block.set('elements', false)
+        app.sources.block.mergeWith({posts: false, mainContent: false, countries: true, elements: false, componentsPage: false})
       }
       else if (menuKey == 'elements') {
-        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true})
+        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true, componentsPage: false})
+      }
+      else if (menuKey == 'components') {
+        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: false, componentsPage: true})
       }
       let t1 = new Date().getTime()
       console.log(t1-t0)
@@ -146,6 +145,7 @@ const Custom = {
   ...Bindings,
 
   JsonText: function(v) {
+//    return JSON.stringify(v, null, 2)
     this.opt('text', JSON.stringify(v, null, 2))
   },
   Src: function(v) {
@@ -156,8 +156,23 @@ const Custom = {
   }
 }
 
+const Mutate = {
+  Text: function (v) {
+    return {text: v}
+  },
+  Src: function (v) {
+    return {src: v}
+  },
+  DynamicItems: function (v, key) {
+    return {$items: key}
+  }
+}
+
+
+
 
 const app = new Html({
+  as: 'app',
 //  state: rootState,
 //  data: rootData,
   sources: {
@@ -167,7 +182,8 @@ const app = new Html({
       posts: true,
       current: 'posts',
       countries: false,
-      elements: false
+      elements: false,
+      componentsPage: false
     },
     state: {
       mainMenu: [{
@@ -204,7 +220,7 @@ const app = new Html({
 //  dynamic: true,
   $navbar: {
     type: Navbar,
-    as: 'is-dark',
+    as: 'is-dark is-fixed-top',
 //    dynamic: true,
     $brand: {
       type: Navbar.Brand,
@@ -239,14 +255,14 @@ const app = new Html({
               borderRadius: '50%'
             },
             stateId: 'user',
-            stateOptions: function(v) {
+            stateChanged: function (v) {
               return {src: v.avatar}
             }
           }
         },
         $name: {
           stateId: 'user',
-          stateOptions: function (v) {
+          stateChanged: function (v) {
             return {text: v.first_name + ' ' + v.last_name}
           }
         }
@@ -261,45 +277,79 @@ const app = new Html({
     },
     $content: {
       layout: Layouts.Columns,
-      blockComponents: Custom.All,
+      dynamic: true,
+      blockChanged: function (v, key) {
+        return {$components: key}
+      },
+//      blockComponents: Custom.All,
       $mainMenu: {
         type: Menu,
         column: 'is-one-fifth',
-        dynamic: {
-          block: {id: 'current'},
-          state: {id: 'mainMenu', items: Custom.All}
+        blockId: 'current',
+        stateId: 'mainMenu',
+        dynamic: true,
+        stateChanged: function (v, key) {
+          return {$items: key}
         },
+        // dynamic: {
+        //   block: {id: 'current'},
+        //   state: {id: 'mainMenu', items: Custom.All}
+        // },
         defaultItem: {
           layout: Layouts.PassThrough,
           $label: {
             type: Menu.Label,
-            dynamic: {
-              state: {id: 'name', options: Bindings.Text}// function(v)Binding: Bindings.Text
+            stateId: 'name',
+            stateChanged: function (v) {
+              return {text: v}
             }
+            // dynamic: {
+            //   state: {id: 'name', options: Bindings.Text}// function(v)Binding: Bindings.Text
+            // }
           },
           $list: {
             type: Menu.List,
-            dynamic: {
-              state: {id: 'items', items: Custom.All},
-              block: {
-                options: function(v) {
-  //              console.log('change [selection]', v, this.children)
-                  this.children.forEach(child => {
-    //                console.log(child, child.props.key)
-                    if (child.index != null) {
-                      child.opt('selected', v == child.props.key)
-                    }
-                  })
-                }
-              }
+            dynamic: true,
+            stateId: 'items',
+            stateChanged: function (v, key) {
+              return {$items: key}
             },
+            binding: function (v, sources, key) {
+//              if (!key || key == 'state') {
+//                this.opt('$items', 'state')
+//              }
+//              if (!key || key == 'block') {
+                this.children.forEach(child => {
+                  if (child.index != null) {
+                    child.opt('selected', v.block == child.options.key)
+                  }
+                })
+//              }
+            },
+  //           dynamic: {
+  //             state: {id: 'items', items: Custom.All},
+  //             block: {
+  //               options: function(v) {
+  // //              console.log('change [selection]', v, this.children)
+  //                 this.children.forEach(child => {
+  //   //                console.log(child, child.props.key)
+  //                   if (child.index != null) {
+  //                     child.opt('selected', v == child.props.key)
+  //                   }
+  //                 })
+  //               }
+  //             }
+  //           },
             defaultItem: {
-              stateOptions: function(v) {
-                return {text: v.name, key: v.id}
+              stateChanged: function (v) {
+                return {key: v.id, text: v.name}
               },
+              // stateOptions: function(v) {
+              //   return {text: v.name, key: v.id}
+              // },
               onClick: function(e) {
 //                console.log('click target', this)
-                Actions.selectMainMenu(this.props.key)
+                Actions.selectMainMenu(this.options.key)
 //                console.log(this.sources.selection, app.sources.selection.entry('current'))
 //                this.sources.selection.set(this.props.key)
               }
@@ -319,6 +369,12 @@ const app = new Html({
 //          state: function(v) {return {text: JSON.stringify(v)}}
 //          stateBinding: Custom.JsonText
         }, {
+//           binding: function (v, sources, key) {
+//             if(key && key != 'block') return
+// //            debugger
+//             console.log('binding main')
+//             return {text: Custom.JsonText(v.block)}
+//           }
           blockOptions: Custom.JsonText
         }]
 //        state: rootState,
@@ -326,9 +382,34 @@ const app = new Html({
       },
       $posts: {
         $list: {
-          dynamic: {
-            state: {id: 'posts', items: Custom.All}
+          dynamic: true,
+          stateId: 'posts',
+          stateChanged: function (v, key) {
+            return {$items: key}
           },
+//           binding: function (v, sources, key) {
+//             console.log('binding posts', key)
+// //            if (!key || key == 'state') {
+// //              return {$items: 'state'}
+// //              debugger
+//               this.opt('$items', 'state')
+// //            }
+//           },
+          // defaultItem: {
+          //   layout: Layouts.Media,
+          //   $content: {
+          //     type: Content,
+          //     $content: {
+          //       html: 'p',
+          //       $title: {
+          //         html: 'strong',
+          //       }
+          //     }
+          //   }
+          // },
+          // dynamic: {
+          //   state: {id: 'posts', items: Custom.All}
+          // },
           defaultItem: {
             layout: Layouts.Media,
             // styles: {
@@ -336,126 +417,106 @@ const app = new Html({
             // },
             $content: {
               type: Content,
-              stateComponents: function(v) {
-                return {comments: v.showComments === true}
-              },
-              stateOptions: function(v, source) {
+              dynamic: true,
+              stateChanged: function (v, key) {
+//                if (!key || key == 'state') {
+//                  console.log('bind single post', v.showComments)
+                  this.opt('$components', new Source({comments: v.showComments === true}))
 
-//                 const out = {
-// //                  $components: {comments: v.showComments === true}
-//                 }
-                if (v.comments == null && !v.loadingComments) {
-                  v.loadingComments = true // это значение не связывается с компонентами
-                  fetch('https://jsonplaceholder.typicode.com/comments?postId='+v.id)
-                    .then(response => response.json())
-                    .then(json => {
-                      source.mergeWith({comments: json, loadingComments: false})
-                      projector.scheduleRender()
-                    })
+                  if (v.comments == null && !v.loadingComments) {
+                    v.loadingComments = true // это значение не связывается с компонентами
+                    const promise = fetch('https://jsonplaceholder.typicode.com/comments?postId='+v.id)
+                      .then(response => response.json())
+                      .then(json => {return {comments: json}})
+                    this.sources[key].emit('mergeWith', promise, this, 'fetch')
+                      // .then(json => {
+                      //   this.sources[key].mergeWith({comments: json, loadingComments: false})
+                      //   projector.scheduleRender()
+                      // })
+                  }
+//                }
+              },
+              stateEffects: function (effect) {
+                if (effect.context) {
+                  let baseName = 'on'+effect.context.substr(0, 1).toUpperCase()+effect.context.substr(1)
+                  if (this.options[baseName] && effect.status == 'wait') {
+                    this.options[baseName].call(this)
+                  }
+                  if (this.options[baseName+'Done'] && effect.status == 'done') {
+                    this.options[baseName+'Done'].call(this)
+                  }
                 }
-
-//                return out
-              },
-              // stateComponents: function(v) {
-              //   return {
-              //     comments: v.showComments
-              //   }
-              // },
-              // state: function(v) {
-              //   return {
-              //     text: v.name
-              //   }
-              // },
-              // bindings: [
-              //   {source: 'state', target: 'components', map: Bindings.Components}
-              // ],
-              // bindings: {
-              //   components: ['state', Bindings.Components]
-              // },
-              // sources: {
-              //   local: {
-              //     comments: false
-              //   }
-              // },
-//              stateBindingComponents: Bindings.Components,
-//              blockId: 'postComments',
-              // stateBindingComponents: function(v) {
-              //   const comps = {
-              //     content: true,
-              //     comments: v.showComments
-              //   }
-              //
-              //   const o = this.options
-              //   for (let i in comps) {
-              //     if (o.components && o.components[i]) {
-              //       const s = comps[i]
-              //       if (s && !this['$'+i]) {
-              //         this.addComponent(i, o.components[i])//new Options({sources: {[key]: entry}}, o.components[i]))
-              //       }
-              //       else if (!s && this['$'+i]) {
-              //         this.removeComponent(i)
-              //       }
-              //     }
-              //   }
-              // },
-//               stateBindingComponents: function(...args) {
-//                 console.log('dynamic post')
-//                 Bindings.Components.call(this, args[0], args[1], args[2], (v, i) => {
-//                   if (i == 'comments') {
-//
+//                 if (effect.context == 'fetch_comments') {
+//                   if (effect.status == 'wait') {
+//                     console.log('start loading', effect.context)
 //                   }
-//                   return true
-// //                  console.log(v)
-// //                  if (v.comments)
-//                 })
-//               },
-              /*stateBinding: function(v) {
-  //              console.log('update [post]', v)
-                if (v.comments == null) {
-                  v.comments = {loading: true}
-  //                this.sources.state.set('comments', {loading: true})
-  //                let postId = this.sources.state.src.get({loading: true})
-                  fetch('https://jsonplaceholder.typicode.com/comments?postId='+v.id)
-                    .then(response => response.json())
-                    .then(json => {
-//                      console.log(json)
-                      this.sources.state.mergeWith({comments: json, showComments: false})
-                      // this.sources.state.set('comments', json)
-                      // this.sources.state.set('showComments', false)
-                  //    app.sources.state.set('user', json.data)
-                      projector.scheduleRender()
-                    })
-                }
-              },*/
+//                   else if (effect.status == 'done') {
+//                     console.log('end loading', effect.context)
+//                     projector.scheduleRender()
+//                   }
+//                   else {
+//                     console.log('effect', effect)
+//                   }
+// //                  console.log('effect', effect)
+//                 }
+              },
+              onFetch: function () {
+                console.log('fetch begin')
+              },
+              onFetchDone: function () {
+                console.log('fetch end')
+              },
               $content: {
                 html: 'p',
                 $title: {
                   html: 'strong',
-                  dynamic: {
-                    state: {id: 'title', options: Bindings.Text}
+                  stateId: 'title',
+                  stateChanged: function (v) {
+                    return {text: v}
                   }
+                  // dynamic: {
+                  //   state: {id: 'title', options: Bindings.Text}
+                  // }
                 },
                 $content: {
-                  dynamic: {
-                    state: {id: 'body', options: Bindings.Text}
+                  stateId: 'body',
+                  stateChanged: function (v) {
+                    return {text: v}
                   }
+                  // dynamic: {
+                  //   state: {id: 'body', options: Bindings.Text}
+                  // }
                 },
                 $actions: {
                   html: 'small',
 //                  layout: Layouts.Level,
                   items: [{
                     html: 'a',
-                    stateOptions: function(v) {
+                    stateChanged: function (v, key) {
+//                      console.log('bind actions', v.showComments)
+//                      const post = v.state
                       if (v.comments) {
+                        return {text: v.showComments ? 'Hide comments' : ('Show '+v.comments.length+' comments')}
 //                        console.log('post', v)
-                        if (v.showComments) {
-                          this.opt('text', 'Hide comments')
-                        }
-                        else {
-                          this.opt('text', 'Show '+v.comments.length+' comments')
-                        }
+                        // if (v.showComments) {
+                        //   this.opt('text', 'Hide comments')
+                        // }
+                        // else {
+                        //   this.opt('text', 'Show '+post.comments.length+' comments')
+                        // }
                       }
                     },
+//                     stateOptions: function(v) {
+//                       if (v.comments) {
+// //                        console.log('post', v)
+//                         if (v.showComments) {
+//                           this.opt('text', 'Hide comments')
+//                         }
+//                         else {
+//                           this.opt('text', 'Show '+v.comments.length+' comments')
+//                         }
+//                       }
+//                     },
                     onClick: function(e) {
                       this.sources.state.toggle('showComments')
 //                      this.sources.state.set('showComments', !this.sources.state.get('showComments'))
@@ -468,9 +529,11 @@ const app = new Html({
               $comments: {
                 weight: 10,
                 layout: Layouts.PassThrough,
-                dynamic: {
-                  state: {id: 'comments', items: Custom.All}
-                },
+                stateId: 'comments',
+                stateChanged: Mutate.DynamicItems,
+                // dynamic: {
+                //   state: {id: 'comments', items: Custom.All}
+                // },
                 defaultItem: {
                   layout: Layouts.Media,
                   $content: {
@@ -479,24 +542,24 @@ const app = new Html({
                       html: 'p',
                       $title: {
                         html: 'strong',
-                        dynamic: {
-                          state: {id: 'name', options: Bindings.Text}
-                        }
+                        stateId: 'name',
+                        stateChanged: Mutate.Text
+                        // dynamic: {
+                        //   state: {id: 'name', options: Bindings.Text}
+                        // }
                       },
                       $email: {
                         html: 'small',
                         styles: {marginLeft: '0.5rem'},
-                        dynamic: {
-                          state: {id: 'email', options: Bindings.Text}
-                        }
+                        stateId: 'email',
+                        stateChanged: Mutate.Text
                       },
                       $content: {
-                        dynamic: {
-                          state: {id: 'body', options: Bindings.Text}
-                        }
-                      },
-                    },
-                  },
+                        stateId: 'body',
+                        stateChanged: Mutate.Text
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -504,40 +567,69 @@ const app = new Html({
               type: Image,
               as: 'is-64x64',
               mediaLeft: true,
+              userChanged: function (v) {
+                return {src: v.avatar}
+              },
               // user: {
               //   key: 'avatar',
               //   bindTo: 'src'
               // },
-              dynamic: {
-                user: {
-                  id: 'avatar',
-                  options: Custom.Src
-                },
-                state: {
-                  options: function (v) {
-                    let user = this.sources.users.get(v.userId)
-    //                console.log('user', user)
-                    if (user == null/* || !user.id*/) {
-                      console.log('start loading user...')
-                      this.sources.users.set(v.userId, {loading: true})
-                      fetch('https://reqres.in/api/users/'+v.userId)
-                        .then(response => response.json())
-                        .then(json => {
-                          console.log('end loading user.')
-                          this.sources.users.set(json.data.id, json.data)
-                          projector.scheduleRender()
-                        })
-                    }
-                    if (this.sources.user == null) {
-                      this.options.sources.user = this.sources.users.entry(v.userId)
-                      this.bind(this.options.sources.user, 'user')
-                      if (user) {
-                        this.rebind(this.sources.user.get(), 'user', this.sources.user)
-                      }
-                    }
-                  }
+//              dynamic: {
+              stateChanged: function (post, key) {
+                let user = this.sources.users.get(post.userId)
+
+//                console.log('user', user)
+                if (user == null) {
+                  console.log('start loading user...')
+                  this.sources.users.set(post.userId, {loading: true})
+                  fetch('https://reqres.in/api/users/'+post.userId)
+                    .then(response => response.json())
+                    .then(json => {
+                      console.log('end loading user.')
+                      this.sources.users.set(json.data.id, json.data)
+                      projector.scheduleRender()
+                    })
                 }
-              }
+                if (this.sources.user == null) {
+                  this.opt('$sources', {user: this.sources.users.entry(post.userId)})
+                  // FIXME здесь должен вызываться метод this.opt({sources: {user: ?}})
+                  // this.options.sources.user = this.sources.users.entry(post.userId)
+                  // this.bind(this.options.sources.user, 'user')
+                  // if (user) {
+                  //   this.rebind(this.sources.user.get(), 'user', this.sources.user)
+                  // }
+                }
+
+              },
+    //             user: {
+    //               id: 'avatar',
+    //               options: Custom.Src
+    //             },
+    //             state: {
+    //               options: function (v) {
+    //                 let user = this.sources.users.get(v.userId)
+    // //                console.log('user', user)
+    //                 if (user == null/* || !user.id*/) {
+    //                   console.log('start loading user...')
+    //                   this.sources.users.set(v.userId, {loading: true})
+    //                   fetch('https://reqres.in/api/users/'+v.userId)
+    //                     .then(response => response.json())
+    //                     .then(json => {
+    //                       console.log('end loading user.')
+    //                       this.sources.users.set(json.data.id, json.data)
+    //                       projector.scheduleRender()
+    //                     })
+    //                 }
+    //                 if (this.sources.user == null) {
+    //                   this.options.sources.user = this.sources.users.entry(v.userId)
+    //                   this.bind(this.options.sources.user, 'user')
+    //                   if (user) {
+    //                     this.rebind(this.sources.user.get(), 'user', this.sources.user)
+    //                   }
+    //                 }
+    //               }
+    //             }
+              // }
             }
           }
         }
@@ -545,17 +637,51 @@ const app = new Html({
       $countries: {
         layout: Layouts.Container,
         stateId: 'countries',
-        stateOptions: function(v, source) {
+        // binding: function (v, sources) {
+        //   if (v.state == null) {
+        //     console.log('start loading countries.')
+        //     sources.state.set({loading: true})
+        //     fetch('https://restcountries.eu/rest/v2/all')
+        //       .then(response => response.json())
+        //       .then(json => {
+        //         debugger
+        //         console.log('end loading countries.', json)
+        //         sources.state.set(json)
+        //         projector.scheduleRender()
+        //       })
+        //   }
+        //
+        // },
+        stateChanged: function(v, key) {
           if (v == null) {
-            console.log('start loading countries.')
-            source.set({loading: true})
-            fetch('https://restcountries.eu/rest/v2/all')
+            const promise = fetch('https://restcountries.eu/rest/v2/all')
               .then(response => response.json())
-              .then(json => {
-                console.log('end loading countries.', json)
-                source.set(json)
-                projector.scheduleRender()
-              })
+            this.sources[key].emit('set', promise, null, 'fetch countries')
+
+            // console.log('start loading countries.')
+            // source.set({loading: true})
+            // fetch('https://restcountries.eu/rest/v2/all')
+            //   .then(response => response.json())
+            //   .then(json => {
+            //     console.log('end loading countries.', json)
+            //     source.set(json)
+            //     projector.scheduleRender()
+            //   })
+          }
+        },
+        stateEffects: function (effect) {
+          if (effect.status == 'wait') {
+            console.log('begin effect', effect.event, effect.context)
+          }
+          else if (effect.status == 'error') {
+            console.log('failed effect', effect.event, effect.context)
+          }
+          else if (effect.status == 'done') {
+            console.log('end effect', effect.context, 'of', effect.event)
+            projector.scheduleRender()
+          }
+          else {
+            console.log ('effect', effect)
           }
         },
         $table: {
@@ -575,7 +701,9 @@ const app = new Html({
           },
           $body: {
             html: 'tbody',
-            stateItems: Custom.All,
+            dynamic: true,
+            stateChanged: Mutate.DynamicItems,
+//            stateItems: Custom.All,
             defaultItem: {
               html: 'tr',
               // stateBinding: function(v) {
@@ -595,7 +723,7 @@ const app = new Html({
               // $population: {}
               defaultItem: {
                 html: 'td',
-                stateOptions: Bindings.Text
+                stateChanged: Mutate.Text
               },
               items: [{
                 stateId: 'name'
@@ -612,14 +740,15 @@ const app = new Html({
                   html: 'img',
                   height: '1rem',
                   stateId: 'flag',
-                  stateOptions: function(v) {return {src: v}}
+                  stateChanged: Mutate.Src
                 }
               }]
             }
           }
         }
       },
-      $elements: ElementsPage()
+      $elements: ElementsPage(),
+      $componentsPage: ComponentsPage()
     }
   }
 })

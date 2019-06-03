@@ -4,6 +4,7 @@ import Options from './Options'
 import State from './State'
 import Source from './Data'
 import Bindings from './Bindings'
+import Text from './Text'
 
 export {
   Html,
@@ -11,5 +12,6 @@ export {
   Options,
   State,
   Source,
-  Bindings
+  Bindings,
+  Text
 }

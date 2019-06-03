@@ -1,5 +1,5 @@
 import {Html} from '../core'
-import 'font-awesome/scss/font-awesome.scss'
+//import 'font-awesome/scss/font-awesome.scss'
 
 class Icon extends Html {
 
@@ -26,6 +26,11 @@ class FaIcon extends Icon {
       set: function(v) {
         this.$content.opt('as', ['fa-'+v])
 //        o.components.content.merge({as: 'fa-'+v})
+      }
+    },
+    icon: {
+      initOrSet: function (v) {
+        this.$content.opt('classes', {['fa-'+v]: true})
       }
     }
   }

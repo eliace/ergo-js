@@ -3,13 +3,17 @@ import Media from './MediaLayout'
 import Level from './LevelLayout'
 import Columns from './ColumnsLayout'
 import PassThrough from './PassThroughLayout'
+import Rows from './RowsLayout'
+import Content from './ContentLayout'
 
 const Layouts = {
   Container,
   Media,
   Level,
   Columns,
-  PassThrough
+  Rows,
+  PassThrough,
+  Content
 }
 
 export {Layouts}

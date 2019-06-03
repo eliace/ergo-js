@@ -1,6 +1,7 @@
 import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src'
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Tabs, IconBox} from './src'
+
 
 const projector = createProjector()
 
@@ -12,41 +13,25 @@ document.addEventListener('DOMContentLoaded', function () {
   projector.append(document.body, render);
 });
 
-const TRUE = function (v) {
-  return []
-}
-
 const app = new Html({
   sources: {
-    data: ['Alice', 'Bob', 'Charlie']
+    data: ['Alice', 'Bob', 'Charlie'],
+    selection: 'Bob'
   },
-  bindTo: 'data',
-  items: ['1', '2'],
-  dataItems: TRUE,
-  dataOptions: function (v, source) {
-    this.opt('items', itemStream(v, 'data', source))
-    return {
+  dataChanged: function (v) {
+    console.log('data', this.opt('selected'))
+  },
+  selectionChanged: function (v) {
+    console.log('selection')
+    this.opt('value')
+    this.opt('selected', true)
+  },
+  selectionEffects: function (event, data) {
+    if (event == 'init' || event == 'set') {
+      this.options.onSelected && this.options.onSelected.call(this, data)
     }
   },
-  defaultItem: {
-    dataOptions: function (v) {
-      return {text: v}
-    }
+  onSelected: function (v) {
+    console.log('onselected', v)
   }
 })
-
-
-function itemStream(v, key, source) {
-
-  const items = []
-  source.stream((entry, i) => {
-    items.push({key: i, sources: {[key]: entry}})
-  })
-
-  return items
-}
-
-
-// app.opt('items', itemStream(null, 'data', app.sources.data))
-//
-// projector.scheduleRender()

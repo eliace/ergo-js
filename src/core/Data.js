@@ -84,7 +84,7 @@ class Source {
         }
       }
       //TODO удалить все entries
-      this.update() // ?
+      this.update(null, 'set') // ?
     }
     else {
 //      console.log('set', k, v)
@@ -106,7 +106,7 @@ class Source {
             this.src[this.id][k] = v
           }
           // если дочерних элементов для ключа нет, то остальные обновлять не нужно
-          this.update('asc')
+          this.update('asc', 'set')
         }
 
         // if (this.entries[k]) {
@@ -120,6 +120,8 @@ class Source {
         // this.entry(k).update()
       }
     }
+
+    return v
   }
 
   toggle(k) {
@@ -165,8 +167,8 @@ class Source {
     }
   }
 
-  join(target, dataChanged, dataRemoved, key) {
-    this.observers.push({target, dataChanged, dataRemoved, key})
+  join(target, dataChanged, dataRemoved, key, dataEffects) {
+    this.observers.push({target, dataChanged, dataRemoved, key, dataEffects})
   }
 
   unjoin(target) {
@@ -185,18 +187,34 @@ class Source {
     // }
   }
 
-  update(direction) {
+  update(direction, event) {
     if (!this._updating) {
       this._updating = true
   //    delete this.cache
-      if (this.isNested && direction != 'desc') {
-        this.src.update('asc')
+      if (this.isNested && direction != 'desc' && direction != 'none') {
+        this.src.update('asc', event)
       }
-      this.observers.forEach(t => t.dataChanged.call(t.target, this.get(), t.key, this))
+      this.observers.forEach(t => {
+        t.dataChanged.call(t.target, this.get(), t.key)
+        // let v = this.get()
+        // if (typeof t.dataChanged == 'function') {
+        //   t.dataChanged.call(t.target, v, t.key)
+        // }
+        // else {
+          // for (let i = 0; i < t.dataChanged.length; i++) {
+          //   v = t.dataChanged[i].call(t.target, v, t.key)
+          //   if (v === undefined) break // обеспечивает безусловное исполнение первого элемента цепочки
+          // }
+//        }
+//        t.dataChanged.call(t.target, this.get()/*, this*/, t.key)
+        // if (t.dataEffects) {
+        //   t.dataEffects.call(t.target, 'done', this.get(), {event})
+        // }
+      })
 
-      if (direction != 'asc') {
+      if (direction != 'asc' && direction != 'none') {
         for (let i in this.entries) {
-          this.entries[i].update('desc');
+          this.entries[i].update('desc', event);
         }
       }
       this._updating = false
@@ -312,6 +330,131 @@ class Source {
     }
 
     this.update('asc')
+  }
+
+
+  notify (effect, watcher) {
+    this.observers.forEach(t => {
+      if (effect.target == null || effect.target == t.target) {
+        if (t.dataEffects) {
+          t.dataEffects.call(t.target, effect)
+        }
+      }
+    })
+  }
+
+
+  emit (event, data, target, context) {
+
+    if (this[event]) {
+      if (data instanceof Promise) {
+
+        if (!this.effects) {
+          this.effects = {}
+        }
+
+        const id = window.performance.now()
+
+        const e = {id, event, data, target, context, status: 'wait'}
+
+        this.effects[id] = e
+
+        this.notify(e)
+//        this.emit('wait', data, e.target, e)
+        // this.observers.forEach(t => {
+        //   if (t.dataEffects) {
+        //     t.dataEffects.call(t.target, 'wait', data, target)
+        //   }
+        // })
+
+        data
+        .then (value => {
+          const eff = this.effects[id]
+          if (eff) {
+            delete this.effects[id]
+            eff.status = 'done'
+            this.emit(eff.event, value, eff.target, eff.context)
+          }
+        })
+        .catch (err => {
+          console.error(err)
+          const eff = this.effects[id]
+          if (eff) {
+            delete this.effects[id]
+            eff.data = err
+            eff.status = 'error'
+            this.notify(eff)
+          }
+        })
+
+        return
+//        debugger
+      }
+      else {
+        const out = this[event](data)
+        this.notify({status: 'done', event, data, target, context})
+        return out
+      }
+    }
+
+
+    if (event == 'init') {
+
+      this.observers.forEach(t => {
+        if (target == null || target == t.target) {
+          t.dataChanged.call(t.target, this.get(), t.key)
+          // let v = this.get()
+          // // if (typeof t.dataChanged == 'function') {
+          // //   t.dataChanged.call(t.target, v, t.key)
+          // // }
+          // // else {
+          //   for (let i = 0; i < t.dataChanged.length; i++) {
+          //     v = t.dataChanged[i].call(t.target, v, t.key)
+          //     if (v === undefined) break // обеспечивает безусловное исполнение первого элемента цепочки
+          //   }
+//          }
+//          t.dataChanged.call(t.target, this.get()/*, this*/, t.key)
+          // if (t.dataEffects) {
+          //   t.dataEffects.call(t.target, event, this.get(), t.target)
+          // }
+        }
+        // else if (!target) {
+        //
+        // }
+      })
+      this.notify({status: 'done', event, target, context, data})
+    }
+    else {
+      this.observers.forEach(t => {
+        // if (target && target == t.target) {
+        // }
+        // else if (!target) {
+        //
+        // }
+        if (target == null || target == t.target) {
+          if (t.dataEffects) {
+            t.dataEffects.call(t.target, event, data, target, context)
+          }
+        }
+      })
+    }
+
+    // if (this[event]) {
+    //   if (effect) {
+    //     if (typeof effect === 'function') {
+    //       const v = this[event](data)
+    //       this.observers.forEach(watcher => {
+    //         effect.call(watcher.target, v)
+    //       })
+    //     }
+    //     else {
+    //       this[event](data)
+    //     }
+    //   }
+    //   else {
+    //     this[event](data)
+    //   }
+    // }
   }
 
 }

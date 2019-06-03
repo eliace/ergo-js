@@ -10,6 +10,7 @@ import Table from './Table'
 import Tag from './Tag'
 import Title from './Title'
 import List from './List'
+import IconBox from './IconBox'
 
 export {
   Box,
@@ -23,5 +24,6 @@ export {
   Table,
   Tag,
   Title,
-  List
+  List,
+  IconBox
 }

@@ -1,6 +1,24 @@
 import {Html} from '../core'
 import {List} from '../elements'
 
+class Tab extends Html {
+  static defaultOpts = {
+    components: {
+      content: {
+        html: 'a'
+      }
+    }
+  }
+  static OPTIONS = {
+    selected: {
+      set: function (v) {
+        this.opt('classes', {'is-active': v})
+      }
+    }
+  }
+}
+
+
 class Tabs extends Html {
   static defaultOpts = {
     class: 'tabs',
@@ -8,29 +26,28 @@ class Tabs extends Html {
       list: {
         type: List,
         defaultItem: {
-          components: {
-            content: {
-              html: 'a'
-            }
-          }
+          type: Tab
         }
       }
     }
   }
   static OPTIONS = {
     tabs: {
-      set: function(v) {
-//        v.forEach(t => )
+      set: function (v) {
+        if (this.$list) {
+          this.$list.opt('items', v)
+        }
       }
     },
-    $tabs: {
-      set: function (v, k) {
-        if (this.$list) {
-          this.$list.opt('$items', v, k)
-        }
+    defaultTab: {
+      init: function (v) {
+//        this.options.components.list.merge({defaultItem: v})
+        this.$list.options.defaultItem.merge(v)
       }
     }
   }
+
+  static Tab = Tab
 }
 
 

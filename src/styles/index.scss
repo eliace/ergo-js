@@ -1,1 +1,8 @@
-@import '~bulma'
+@import '~bulma';
+
+
+.rows {
+  > .row {
+    padding: .5rem 0;
+  }
+}
