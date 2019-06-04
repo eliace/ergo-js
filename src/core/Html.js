@@ -21,7 +21,10 @@ const DEFAULT_RULES = {
 const DEFAULT_EVENTS = {
   onClick: 'onclick',
   onMouseDown: 'onmousedown',
-  onMouseUp: 'onmouseup'
+  onMouseUp: 'onmouseup',
+  onEnterAnimation: 'enterAnimation',
+  onExitAnimation: 'exitAnimation',
+  onUpdateAnimation: 'updateAnimation'
 }
 
 const HTML_OPTIONS = {

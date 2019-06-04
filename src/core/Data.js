@@ -13,6 +13,7 @@ class Source {
     this.entries = Array.isArray(v) ? [] : {}
     this.observers = []
     this.isNested = v instanceof Source
+//    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
   }
 
@@ -333,18 +334,225 @@ class Source {
   }
 
 
-  notify (effect, watcher) {
+  notify (event, data, target) {
     this.observers.forEach(t => {
-      if (effect.target == null || effect.target == t.target) {
+      if (target == null || target == t.target) {
         if (t.dataEffects) {
-          t.dataEffects.call(t.target, effect)
+          t.dataEffects.call(t.target, event, data, t.key)
         }
       }
     })
   }
 
+  // effect (effect) {
+  //
+  //   if (effect) {
+  //
+  //     effect = {...effect, event, data, target}
+  //
+  //     if (!this.effects) {
+  //       this.effects = {}
+  //       this.waiting = []
+  //     }
+  //
+  //     if (effect.waitFor) {
+  //       this.waiting.push(effect)
+  //       effect = null
+  //     }
+  //   }
+  //
+  //   if (effect) {
+  //     const id = window.performance.now()
+  //
+  //     this.effects[id] = effect
+  //
+  //     if (effect.resolver instanceof Promise) {
+  //       effect.resolver
+  //         .then(v => {
+  //           const e = this.effects[id]
+  //           delete this.effects[id]
+  //           if (e) {
+  //             this.emit(e.name+':'+'done', v, e.target)
+  //           }
+  //         })
+  //         .catch(err => {
+  //           const e = this.effects[id]
+  //           delete this.effects[id]
+  //           if (e) {
+  //             this.emit(e.name+':'+'fail', err, e.target)
+  //           }
+  //         })
+  // //        this.emit(effect.name+':'+'begin', null, target)
+  //     }
+  //     else {
+  //       if (this[effect.event]) {
+  //         this[effect.event](effect.data)
+  //       }
+  //       this.emit(effect.name+':'+'done', effect.data, effect.target)
+  //     }
+  //   }
+  //
+  //   return effect
+  // }
 
-  emit (event, data, target, context) {
+  emit (event, data, target, effects) {
+
+    if (effects) {
+
+      if (!this.effects) {
+        this.effects = {}
+        this.waiting = []
+      }
+
+      if (!Array.isArray(effects)) {
+        effects = [effects]
+      }
+
+      let isWaiting = false
+      const active = []
+      const delayed = []
+      for (let i = 0; i < effects.length; i++) {
+        let effect = effects[i]
+
+        effect = {...effect, event, data, target}
+
+        if (effect.waitFor) {
+          delayed.push(effect)
+//          this.emit(effect.name+':'+'wait', null, effect.target)
+        }
+        else {
+          active.push(effect)
+        }
+      }
+
+      if (active.length) {
+        for (let i = 0; i < active.length; i++) {
+          let effect = active[i]
+
+          const id = window.performance.now()
+
+          this.effects[id] = effect
+
+          if (effect.resolver instanceof Promise) {
+            effect.resolver
+              .then(v => {
+                const e = this.effects[id]
+                delete this.effects[id]
+                if (e) {
+                  this.emit(e.name+':'+'done', v, e.target)
+                }
+              })
+              .catch(err => {
+                const e = this.effects[id]
+                delete this.effects[id]
+                if (e) {
+                  this.emit(e.name+':'+'fail', err, e.target)
+                }
+              })
+              this.emit(effect.name, null, target)
+          }
+          else {
+            if (this[effect.event]) {
+              this[effect.event](effect.data)
+            }
+            this.emit(effect.name+':'+'done', effect.data, effect.target)
+          }
+
+        }
+
+        return
+      }
+
+      if (delayed.length) {
+//        this.waiting.concat(delayed)
+
+        if (this[event]) {
+          this[event](data)
+        }
+
+        for (let i = 0; i < delayed.length; i++) {
+          let effect = delayed[i]
+          this.waiting.push(effect)
+          this.notify(effect.name+':'+'wait', null, effect.target)
+//          this.emit(effect.name+':'+'wait', null, effect.target)
+        }
+
+        return
+      }
+
+    }
+
+//    if (effect) {
+
+//       const id = window.performance.now()
+//
+//       this.effects[id] = effect
+//
+//       if (effect.resolver instanceof Promise) {
+//         effect.resolver
+//           .then(v => {
+//             const e = this.effects[id]
+//             delete this.effects[id]
+//             if (e) {
+//               this.emit(e.name+':'+'done', v, e.target)
+//             }
+//           })
+//           .catch(err => {
+//             const e = this.effects[id]
+//             delete this.effects[id]
+//             if (e) {
+//               this.emit(e.name+':'+'fail', err, e.target)
+//             }
+//           })
+// //        this.emit(effect.name+':'+'begin', null, target)
+//       }
+//       else {
+//         if (this[event]) {
+//           this[event](data)
+//         }
+//         this.emit(effect.name+':'+'done', data, target)
+//       }
+
+
+    // }
+    // else {
+    if (this[event]) {
+      this[event](data)
+    }
+    else if (event == 'init') { // changed
+      this.observers.forEach(t => {
+        if (target == null || target == t.target) {
+          t.dataChanged.call(t.target, this.get(), t.key)
+        }
+      })
+    }
+    this.notify(event, data, target)
+//    }
+
+    if (this.waiting && this.waiting.length) {
+//      debugger
+      for (let i = 0; i < this.waiting.length; i++) {
+        const eff = this.waiting[i]
+        for (let j = 0; j < eff.waitFor.length; j++) {
+          if (eff.waitFor[j] == event) {
+            eff.waitFor.splice(j, 1)
+            break
+          }
+        }
+        if (eff.waitFor.length == 0) {
+          this.waiting.splice(i, 1)
+          this.emit(eff.event, eff.data, eff.target, {...eff, waitFor: false, resolver: eff.use(data)})
+          break
+        }
+      }
+    }
+
+
+  }
+
+
+
+  emit2 (event, data, target, context) {
 
     if (this[event]) {
       if (data instanceof Promise) {

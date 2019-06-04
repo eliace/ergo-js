@@ -2,7 +2,7 @@ import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src'
 
-import {ElementsPage, ComponentsPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/all'
@@ -116,23 +116,37 @@ const Actions = {
 //    console.log('selectMenu', menuKey)
     app.sources.block.set('current', menuKey)
 
+    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage']
+
+
+    const pageData = {
+      posts: menuKey == 'posts',
+      mainContent: menuKey == 'sources',
+      countries: menuKey == 'countries',
+      elements: menuKey == 'elements',
+      componentsPage: menuKey == 'components',
+      layoutsPage: menuKey == 'layouts',
+      animationsPage: menuKey == 'animations'
+    }
+
 //    setTimeout(() => {
       let t0 = new Date().getTime()
-      if (menuKey == 'posts') {
-        app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false, componentsPage: false})
-      }
-      else if (menuKey == 'sources') {
-        app.sources.block.mergeWith({posts: false, mainContent: true, countries: false, elements: false, componentsPage: false})
-      }
-      else if (menuKey == 'countries') {
-        app.sources.block.mergeWith({posts: false, mainContent: false, countries: true, elements: false, componentsPage: false})
-      }
-      else if (menuKey == 'elements') {
-        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true, componentsPage: false})
-      }
-      else if (menuKey == 'components') {
-        app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: false, componentsPage: true})
-      }
+      app.sources.block.mergeWith(pageData)
+      // if (menuKey == 'posts') {
+      //   app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false, componentsPage: false, animationsPage: false})
+      // }
+      // else if (menuKey == 'sources') {
+      //   app.sources.block.mergeWith({posts: false, mainContent: true, countries: false, elements: false, componentsPage: false})
+      // }
+      // else if (menuKey == 'countries') {
+      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: true, elements: false, componentsPage: false})
+      // }
+      // else if (menuKey == 'elements') {
+      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true, componentsPage: false})
+      // }
+      // else if (menuKey == 'components') {
+      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: false, componentsPage: true})
+      // }
       let t1 = new Date().getTime()
       console.log(t1-t0)
     //     projector.scheduleRender()
@@ -183,7 +197,8 @@ const app = new Html({
       current: 'posts',
       countries: false,
       elements: false,
-      componentsPage: false
+      componentsPage: false,
+      animationsPage: false
     },
     state: {
       mainMenu: [{
@@ -209,6 +224,9 @@ const app = new Html({
         }, {
           id: 'layouts',
           name: 'Layouts'
+        }, {
+          id: 'animations',
+          name: 'Animations'
         }]
       }],
       user: {},
@@ -748,7 +766,8 @@ const app = new Html({
         }
       },
       $elements: ElementsPage(),
-      $componentsPage: ComponentsPage()
+      $componentsPage: ComponentsPage(),
+      $animationsPage: AnimationsPage(projector)
     }
   }
 })
