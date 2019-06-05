@@ -353,6 +353,14 @@ const Html = class {
     //     }
     //   }
     // }
+    for (let i in this.sources) {
+      if (opts[i+'Effectors']) {
+        const effectors = opts[i+'Effectors']
+        for (let j in effectors) {
+          this.sources[i].use(j, effectors[j], this)
+        }
+      }
+    }
 
 
     this._binding_chain = []

@@ -45,13 +45,19 @@ const Mixins = {
         // }
       },
       onMouseDown: function() {
+//        this.sources.selection.set()
 //        this.sources.selection.emit('set', this.options.key || this.options.text, this.options.onSelected)
-        this.sources.selection.emit('set', this.options.key || this.options.text)
+        this.sources.selection.emit('set', this.options.key || this.options.text, null, 'selected')
+//        console.log(this.sources.selection.ns())
       },
-      selectionEffects: function (effect) {
-        if (effect.status == 'done') {
-          this.options.onSelected && this.options.onSelected.call(this, effect.data == (this.opt('key') || this.opt('text')))
+      selectionEffects: function (event, v) {
+//        console.log('selection', event, v)
+        if (event == 'selected' || event == 'init') {
+          this.options.onSelected && this.options.onSelected.call(this, v == (this.opt('key') || this.opt('text')))
         }
+        // if (effect.status == 'done') {
+        //   this.options.onSelected && this.options.onSelected.call(this, effect.data == (this.opt('key') || this.opt('text')))
+        // }
       }
       // selectionEffects: {
       //   'changed'

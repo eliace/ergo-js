@@ -344,58 +344,28 @@ class Source {
     })
   }
 
-  // effect (effect) {
-  //
-  //   if (effect) {
-  //
-  //     effect = {...effect, event, data, target}
-  //
-  //     if (!this.effects) {
-  //       this.effects = {}
-  //       this.waiting = []
-  //     }
-  //
-  //     if (effect.waitFor) {
-  //       this.waiting.push(effect)
-  //       effect = null
-  //     }
-  //   }
-  //
-  //   if (effect) {
-  //     const id = window.performance.now()
-  //
-  //     this.effects[id] = effect
-  //
-  //     if (effect.resolver instanceof Promise) {
-  //       effect.resolver
-  //         .then(v => {
-  //           const e = this.effects[id]
-  //           delete this.effects[id]
-  //           if (e) {
-  //             this.emit(e.name+':'+'done', v, e.target)
-  //           }
-  //         })
-  //         .catch(err => {
-  //           const e = this.effects[id]
-  //           delete this.effects[id]
-  //           if (e) {
-  //             this.emit(e.name+':'+'fail', err, e.target)
-  //           }
-  //         })
-  // //        this.emit(effect.name+':'+'begin', null, target)
-  //     }
-  //     else {
-  //       if (this[effect.event]) {
-  //         this[effect.event](effect.data)
-  //       }
-  //       this.emit(effect.name+':'+'done', effect.data, effect.target)
-  //     }
-  //   }
-  //
-  //   return effect
-  // }
 
-  emit (event, data, target, effects) {
+  use (name, ctor, context) {
+    if (!this.effectors) {
+      this.effectors = {}
+    }
+    this.effectors[name] = {ctor, context}
+  }
+
+  unuse (name) {
+    delete this.effectors[name]
+  }
+
+
+
+  waitAndEmit (event, data, target, effects) {
+    return this.emit(event, data, target, effects, true)
+  }
+
+
+  emit (event, data, target, effects, isDeferred) {
+
+    let eventKey = isDeferred ? '_' + Math.random().toString(16).slice(2) : null
 
     if (effects) {
 
@@ -408,13 +378,17 @@ class Source {
         effects = [effects]
       }
 
-      let isWaiting = false
+//      let isWaiting = false
       const active = []
       const delayed = []
       for (let i = 0; i < effects.length; i++) {
         let effect = effects[i]
 
-        effect = {...effect, event, data, target}
+        if (typeof effect == 'string') {
+          effect = {name: effect}
+        }
+
+        effect = {...effect, event, data, target, key: effect.key || eventKey}
 
         if (effect.waitFor) {
           delayed.push(effect)
@@ -425,21 +399,43 @@ class Source {
         }
       }
 
+      const immediate = []
+
       if (active.length) {
         for (let i = 0; i < active.length; i++) {
           let effect = active[i]
 
-          const id = window.performance.now()
 
-          this.effects[id] = effect
+
+          // if (!effect.resolver && effect.use) {
+          //   effect.resolver = effect.use
+          // }
 
           if (effect.resolver instanceof Promise) {
+            const id = '_' + Math.random().toString(16).slice(2)
+            this.effects[id] = effect
             effect.resolver
               .then(v => {
                 const e = this.effects[id]
                 delete this.effects[id]
                 if (e) {
+                  console.log('done', e.name, e.target)
                   this.emit(e.name+':'+'done', v, e.target)
+                  if (isDeferred) {
+                    let stopWait = true
+                    for (let n in this.effects) {
+                      if (this.effects[n].key == eventKey) {
+                        stopWait = false
+                        break
+                      }
+                    }
+                    if (stopWait && this[event]) {
+                      console.log('stop wait', event)
+                      this[event](v)
+                    }
+                    console.log('notify', e.event, v, e.name)
+                    this.notify(e.event, v, e.target)
+                  }
                 }
               })
               .catch(err => {
@@ -449,73 +445,112 @@ class Source {
                   this.emit(e.name+':'+'fail', err, e.target)
                 }
               })
-              this.emit(effect.name, null, target)
+
+              this.emit(effect.name, effect.data, target)
           }
           else {
-            if (this[effect.event]) {
-              this[effect.event](effect.data)
-            }
-            this.emit(effect.name+':'+'done', effect.data, effect.target)
+            immediate.push(effect)
+            // if (this[effect.event]) {
+            //   this[effect.event](effect.data)
+            // }
+            // this.emit(effect.name+':'+'done', effect.data, effect.target)
           }
 
         }
-
-        return
+//        return
       }
+
+      if (!isDeferred && this[event]) {
+        this[event](data)
+      }
+
+      if (immediate.length) {
+        for (let i = 0; i < immediate.length; i++) {
+          const effect = immediate[i]
+
+          if (effect.effector) {
+            const effector = this.effectors[effect.effector]
+            effect.name = effect.effector
+            effect.resolver = effector.ctor.call(effector.context, data)
+          }
+
+          if (effect.resolver instanceof Promise) {
+            const id = '_' + Math.random().toString(16).slice(2)
+            console.log(effect.name, id, effect.key)
+            this.effects[id] = effect
+            effect.resolver
+              .then(v => {
+                const e = this.effects[id]
+                delete this.effects[id]
+                if (e) {
+                  console.log('done', e.name, e.target)
+                  this.emit(e.name+':'+'done', v, e.target)
+                  if (isDeferred) {
+                    let stopWait = true
+                    for (let n in this.effects) {
+                      console.log('check key', this.effects[n].name, this.effects[n].key, eventKey)
+                      if (this.effects[n].key == eventKey) {
+                        stopWait = false
+                        break
+                      }
+                    }
+                    if (stopWait && this[event]) {
+                      console.log('stop wait', event)
+                      this[event](v)
+                    }
+                    if (stopWait) {
+                      this.notify(e.event, v, e.target)
+                    }
+                  }
+                }
+              })
+              .catch(err => {
+                const e = this.effects[id]
+                delete this.effects[id]
+                if (e) {
+                  this.emit(e.name+':'+'fail', err, e.target)
+                }
+              })
+  //            this.emit(effect.name, null, target)
+          }
+
+          console.log('notify', effect.name, effect.target, this.observers)
+          this.notify(effect.name, effect.data, effect.target)
+//          console.log('emit effect', effect.name)
+//          this.emit(effect.name, effect.data, effect.target)
+        }
+      }
+
+//
+//       if (effect.effector) {
+// //          debugger
+//         const effector = this.effectors[effect.effector]
+//         effect.name = effect.effector
+//         effect.resolver = effector.ctor.call(effector.context)
+//       }
+//
+
 
       if (delayed.length) {
 //        this.waiting.concat(delayed)
 
-        if (this[event]) {
-          this[event](data)
-        }
+        // if (this[event]) {
+        //   this[event](data)
+        // }
 
         for (let i = 0; i < delayed.length; i++) {
           let effect = delayed[i]
           this.waiting.push(effect)
-          this.notify(effect.name+':'+'wait', null, effect.target)
+//          this.notify(effect.name+':'+'wait', null, effect.target)
 //          this.emit(effect.name+':'+'wait', null, effect.target)
         }
 
-        return
+//        return
       }
 
+      return
     }
 
-//    if (effect) {
-
-//       const id = window.performance.now()
-//
-//       this.effects[id] = effect
-//
-//       if (effect.resolver instanceof Promise) {
-//         effect.resolver
-//           .then(v => {
-//             const e = this.effects[id]
-//             delete this.effects[id]
-//             if (e) {
-//               this.emit(e.name+':'+'done', v, e.target)
-//             }
-//           })
-//           .catch(err => {
-//             const e = this.effects[id]
-//             delete this.effects[id]
-//             if (e) {
-//               this.emit(e.name+':'+'fail', err, e.target)
-//             }
-//           })
-// //        this.emit(effect.name+':'+'begin', null, target)
-//       }
-//       else {
-//         if (this[event]) {
-//           this[event](data)
-//         }
-//         this.emit(effect.name+':'+'done', data, target)
-//       }
-
-
-    // }
-    // else {
     if (this[event]) {
       this[event](data)
     }
@@ -526,6 +561,7 @@ class Source {
         }
       })
     }
+
     this.notify(event, data, target)
 //    }
 
@@ -533,6 +569,7 @@ class Source {
 //      debugger
       for (let i = 0; i < this.waiting.length; i++) {
         const eff = this.waiting[i]
+//        console.log('check wait', eff.waitFor, event)
         for (let j = 0; j < eff.waitFor.length; j++) {
           if (eff.waitFor[j] == event) {
             eff.waitFor.splice(j, 1)
@@ -540,9 +577,10 @@ class Source {
           }
         }
         if (eff.waitFor.length == 0) {
+          console.log('run', eff.event, eff.name, eff.key)
           this.waiting.splice(i, 1)
-          this.emit(eff.event, eff.data, eff.target, {...eff, waitFor: false, resolver: eff.use(data)})
-          break
+          this.emit(eff.event, eff.data, eff.target, {...eff, waitFor: false, resolver: eff.use ? eff.use(data) : eff.resolver})
+          continue
         }
       }
     }
@@ -552,117 +590,18 @@ class Source {
 
 
 
-  emit2 (event, data, target, context) {
 
-    if (this[event]) {
-      if (data instanceof Promise) {
 
-        if (!this.effects) {
-          this.effects = {}
-        }
-
-        const id = window.performance.now()
-
-        const e = {id, event, data, target, context, status: 'wait'}
-
-        this.effects[id] = e
-
-        this.notify(e)
-//        this.emit('wait', data, e.target, e)
-        // this.observers.forEach(t => {
-        //   if (t.dataEffects) {
-        //     t.dataEffects.call(t.target, 'wait', data, target)
-        //   }
-        // })
-
-        data
-        .then (value => {
-          const eff = this.effects[id]
-          if (eff) {
-            delete this.effects[id]
-            eff.status = 'done'
-            this.emit(eff.event, value, eff.target, eff.context)
-          }
-        })
-        .catch (err => {
-          console.error(err)
-          const eff = this.effects[id]
-          if (eff) {
-            delete this.effects[id]
-            eff.data = err
-            eff.status = 'error'
-            this.notify(eff)
-          }
-        })
-
-        return
-//        debugger
+  ns () {
+    const keys = []
+    let s = this
+    while (s) {
+      if (s.id) {
+        keys.push(s.id)
       }
-      else {
-        const out = this[event](data)
-        this.notify({status: 'done', event, data, target, context})
-        return out
-      }
+      s = s.src
     }
-
-
-    if (event == 'init') {
-
-      this.observers.forEach(t => {
-        if (target == null || target == t.target) {
-          t.dataChanged.call(t.target, this.get(), t.key)
-          // let v = this.get()
-          // // if (typeof t.dataChanged == 'function') {
-          // //   t.dataChanged.call(t.target, v, t.key)
-          // // }
-          // // else {
-          //   for (let i = 0; i < t.dataChanged.length; i++) {
-          //     v = t.dataChanged[i].call(t.target, v, t.key)
-          //     if (v === undefined) break // обеспечивает безусловное исполнение первого элемента цепочки
-          //   }
-//          }
-//          t.dataChanged.call(t.target, this.get()/*, this*/, t.key)
-          // if (t.dataEffects) {
-          //   t.dataEffects.call(t.target, event, this.get(), t.target)
-          // }
-        }
-        // else if (!target) {
-        //
-        // }
-      })
-      this.notify({status: 'done', event, target, context, data})
-    }
-    else {
-      this.observers.forEach(t => {
-        // if (target && target == t.target) {
-        // }
-        // else if (!target) {
-        //
-        // }
-        if (target == null || target == t.target) {
-          if (t.dataEffects) {
-            t.dataEffects.call(t.target, event, data, target, context)
-          }
-        }
-      })
-    }
-
-    // if (this[event]) {
-    //   if (effect) {
-    //     if (typeof effect === 'function') {
-    //       const v = this[event](data)
-    //       this.observers.forEach(watcher => {
-    //         effect.call(watcher.target, v)
-    //       })
-    //     }
-    //     else {
-    //       this[event](data)
-    //     }
-    //   }
-    //   else {
-    //     this[event](data)
-    //   }
-    // }
+    return keys.join(':')
   }
 
 }

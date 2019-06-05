@@ -443,10 +443,16 @@ const app = new Html({
 
                   if (v.comments == null && !v.loadingComments) {
                     v.loadingComments = true // это значение не связывается с компонентами
-                    const promise = fetch('https://jsonplaceholder.typicode.com/comments?postId='+v.id)
-                      .then(response => response.json())
-                      .then(json => {return {comments: json}})
-                    this.sources[key].emit('mergeWith', promise, this, 'fetch')
+                    const loadComments = (id) => {
+                      return fetch('https://jsonplaceholder.typicode.com/comments?postId='+id)
+                        .then(response => response.json())
+                        .then(json => {return {comments: json}})
+                    }
+                    const effect = {
+                      name: 'fetch',
+                      resolver: loadComments(v.id)
+                    }
+                    this.sources[key].waitAndEmit('mergeWith', null, null, [effect])
                       // .then(json => {
                       //   this.sources[key].mergeWith({comments: json, loadingComments: false})
                       //   projector.scheduleRender()
@@ -454,16 +460,22 @@ const app = new Html({
                   }
 //                }
               },
-              stateEffects: function (effect) {
-                if (effect.context) {
-                  let baseName = 'on'+effect.context.substr(0, 1).toUpperCase()+effect.context.substr(1)
-                  if (this.options[baseName] && effect.status == 'wait') {
-                    this.options[baseName].call(this)
-                  }
-                  if (this.options[baseName+'Done'] && effect.status == 'done') {
-                    this.options[baseName+'Done'].call(this)
-                  }
+              stateEffects: function (name) {
+                console.log(name)
+                if (name == 'fetch:done') {
+                  projector.scheduleRender()
                 }
+              },
+              // stateEffects: function (effect) {
+              //   if (effect.context) {
+              //     let baseName = 'on'+effect.context.substr(0, 1).toUpperCase()+effect.context.substr(1)
+              //     if (this.options[baseName] && effect.status == 'wait') {
+              //       this.options[baseName].call(this)
+              //     }
+              //     if (this.options[baseName+'Done'] && effect.status == 'done') {
+              //       this.options[baseName+'Done'].call(this)
+              //     }
+              //   }
 //                 if (effect.context == 'fetch_comments') {
 //                   if (effect.status == 'wait') {
 //                     console.log('start loading', effect.context)
@@ -477,7 +489,7 @@ const app = new Html({
 //                   }
 // //                  console.log('effect', effect)
 //                 }
-              },
+//              },
               onFetch: function () {
                 console.log('fetch begin')
               },
@@ -672,9 +684,15 @@ const app = new Html({
         // },
         stateChanged: function(v, key) {
           if (v == null) {
-            const promise = fetch('https://restcountries.eu/rest/v2/all')
-              .then(response => response.json())
-            this.sources[key].emit('set', promise, null, 'fetch countries')
+            const loadAllCountries = function (projector) {
+              return fetch('https://restcountries.eu/rest/v2/all')
+                .then(response => response.json())
+            }
+            const effects = [{
+              name: 'fetch',
+              resolver: loadAllCountries(projector)
+            }]
+            this.sources[key].waitAndEmit('set', null, null, effects)
 
             // console.log('start loading countries.')
             // source.set({loading: true})
@@ -687,21 +705,27 @@ const app = new Html({
             //   })
           }
         },
-        stateEffects: function (effect) {
-          if (effect.status == 'wait') {
-            console.log('begin effect', effect.event, effect.context)
-          }
-          else if (effect.status == 'error') {
-            console.log('failed effect', effect.event, effect.context)
-          }
-          else if (effect.status == 'done') {
-            console.log('end effect', effect.context, 'of', effect.event)
+        stateEffects: function (name) {
+          console.log(name)
+          if (name == 'fetch:done') {
             projector.scheduleRender()
           }
-          else {
-            console.log ('effect', effect)
-          }
         },
+        // stateEffects: function (effect) {
+        //   if (effect.status == 'wait') {
+        //     console.log('begin effect', effect.event, effect.context)
+        //   }
+        //   else if (effect.status == 'error') {
+        //     console.log('failed effect', effect.event, effect.context)
+        //   }
+        //   else if (effect.status == 'done') {
+        //     console.log('end effect', effect.context, 'of', effect.event)
+        //     projector.scheduleRender()
+        //   }
+        //   else {
+        //     console.log ('effect', effect)
+        //   }
+        // },
         $table: {
           html: 'table',
           class: 'table',

@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, IconBox, Text, Box, Button} from '../src'
+import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Events} from '../src'
 
 import 'animate.css'
 
@@ -43,6 +43,18 @@ const doTransition = function (el) {
   })
 }
 
+const doGlobalAnimation = function (target, projector, v) {
+  return new Promise(function (resolve, reject) {
+    Events.on('animationend', function (e) {
+//      if (e.target == target.vnode.domNode) {
+        console.log ('animationend', target)
+        resolve(v)
+        projector.scheduleRender()
+        Events.off('animationend', target)
+//      }
+    }, target)
+  })
+}
 
 
 export default (projector) => {
@@ -58,6 +70,30 @@ export default (projector) => {
       as: 'modal is-active',
       $overlay: {
         as: 'modal-background',
+        modalEffectors: {
+          showOverlay: function () {
+            // конструируем эффект
+            return doGlobalAnimation(this, projector)
+          },
+          hideOverlay: function (v) {
+            return doGlobalAnimation(this, projector, v)
+          }
+        },
+        modalEffects: function (event) {
+          console.log('overlay event', event)
+          if (event == 'showOverlay') {
+            this.opt('classes', {'animated': true, 'fadeIn': true})
+          }
+          else if (event == 'showOverlay:done') {
+            this.opt('classes', {'animated': false, 'fadeIn': false})
+          }
+          else if (event == 'hideOverlay') {
+            this.opt('classes', {'animated': true, 'fadeOut': true})
+          }
+          else if (event == 'hideOverlay:done') {
+            this.opt('classes', {'animated': false, 'fadeOut': false})
+          }
+        }
       },
       $content: {
         as: 'modal-content',
@@ -72,63 +108,97 @@ export default (projector) => {
           items: [{
             html: 'input',
             modalEffects: function (event) {
-              if (event == 'showContentAnimation:done') {
+              if (event == 'focusInput') {
                 this.vnode.domNode.focus()
               }
             }
           }]
         },
-        onUpdateAnimation: function (el) {
-          this.sources.modal.emit('updateAnimation', el)
+        modalEffectors: {
+          showContent: function () {
+            return doGlobalAnimation(this, projector)
+          },
+          hideContent: function (v) {
+            return doGlobalAnimation(this, projector, v)
+          }
         },
+        modalEffects: function (event) {
+          console.log('content event', event)
+          if (event == 'showContent') {
+            this.opt('classes', {'animated': true, 'slideInDown': true, 'is-hidden': false})
+          }
+          else if (event == 'showContent:done') {
+            this.opt('classes', {'animated': false, 'slideInDown': false})
+          }
+          else if (event == 'hideContent') {
+            this.opt('classes', {'animated': true, 'slideOutUp': true})
+          }
+          else if (event == 'hideContent:done') {
+            this.opt('classes', {'animated': false, 'slideOutUp': false, 'is-hidden': true})
+          }
+          else if (event == 'mergeWith') {
+            debugger
+            projector.scheduleRender()
+          }
+        }
+        // onUpdateAnimation: function (el) {
+        //   this.sources.modal.emit('updateAnimation', el)
+        // },
       },
       $closeBtn: {
         as: 'modal-close is-large',
         onClick: function () {
-          this.sources.modal.set('modal', false)
+          const effects = [{
+            effector: 'hideContent'
+          }, {
+            effector: 'hideOverlay',
+            waitFor: ['hideContent:done']
+          }]
+//          this.sources.modal.set('modal', false)
+          this.sources.modal.waitAndEmit('mergeWith', {modal: false}, null, effects)
         }
       },
-      modalChanged: function (v, key) {
-        console.log('add classes')
-//        this.$content.opt('classes', {'animated': v.modal, 'fadeIn': v.modal})
-      },
-      modalEffects: function (event, data, key) {
-        console.log('event', event)
-        if (event == 'showOverlayAnimation:done') {
-//          this.$overlay.opt('classes', {'animated': false, 'fadeIn': false})
-          this.$content.opt('classes', {'animated': true, 'tada': true, 'is-hidden': false})
-//          projector.renderNow()
-          projector.scheduleRender()
-        }
-        else if (event == 'showOverlayAnimation:wait') {
-//          debugger
-          this.$overlay.opt('classes', {'animated': true, 'fadeIn': true})
-//          projector.scheduleRender()
-        }
-        else if (event == 'showContentAnimation:done') {
-          this.$content.opt('classes', {'animated': false, 'tada': false, 'is-hidden': false})
-//          projector.renderNow()
-          projector.scheduleRender()
-        }
-      },
-      onEnterAnimation: function (el) {
-//        requestAnimationFrame(() => {
-        this.sources.modal.emit('enterAnimation', el)
-//        });
-      }
+//       modalChanged: function (v, key) {
+// //        console.log('add classes')
+// //        this.$content.opt('classes', {'animated': v.modal, 'fadeIn': v.modal})
+//       },
+//       _modalEffects: function (event, data, key) {
+//         console.log('event', event)
+//         if (event == 'showOverlayAnimation:done') {
+// //          this.$overlay.opt('classes', {'animated': false, 'fadeIn': false})
+//           this.$content.opt('classes', {'animated': true, 'tada': true, 'is-hidden': false})
+// //          projector.renderNow()
+//           projector.scheduleRender()
+//         }
+//         else if (event == 'showOverlayAnimation:wait') {
+// //          debugger
+//           this.$overlay.opt('classes', {'animated': true, 'fadeIn': true})
+// //          projector.scheduleRender()
+//         }
+//         else if (event == 'showContentAnimation:done') {
+//           this.$content.opt('classes', {'animated': false, 'tada': false, 'is-hidden': false})
+// //          projector.renderNow()
+//           projector.scheduleRender()
+//         }
+//       },
+//       onEnterAnimation: function (el) {
+// //        requestAnimationFrame(() => {
+//         this.sources.modal.emit('enterAnimation', el)
+// //        });
+//       }
     },
     $openModalBtn: {
       type: Button,
       text: 'Open Modal',
       onClick: function () {
         const effects = [{
-          waitFor: ['showOverlayAnimation:done'],
-          use: doTransition,
-          name: 'showContentAnimation'
+          effector: 'showOverlay'
         }, {
-          name: 'showOverlayAnimation',
-          waitFor: ['enterAnimation'],
-          use: doTransition
+          effector: 'showContent',
+//          waitFor: ['showOverlay:done']
+        }, {
+          name: 'focusInput',
+          waitFor: ['showContent:done']
         }]
 
         this.sources.modal.emit('mergeWith', {modal: true}, null, effects)
