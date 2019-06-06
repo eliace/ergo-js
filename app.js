@@ -870,6 +870,19 @@ setTimeout(() => {
 }, 3000)
 */
 
+
+new Promise(function(resolve) {
+  setTimeout(() => {
+    resolve()
+  }, 2000)
+})
+.then(function (...args) {
+  console.log('args', args)
+})
+
+
+
+
 const render = () => {
   return app.render()
 }

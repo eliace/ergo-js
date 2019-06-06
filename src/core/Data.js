@@ -526,12 +526,12 @@ class Source {
 
     if (result instanceof Promise) {
       result
-        .then((...thenArgs) => {
+        .then((v) => {
           // убираем эффект из списка активных
           delete this._acting[effect.id]
-          this.emit(effect.name+':done', {params: thenArgs, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-          effect.originalEvent.params = thenArgs
-          delete effect.originalEvent.data
+          this.emit(effect.name+':done', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+          effect.originalEvent.params = v === undefined ? [] : [v]
+          effect.originalEvent.data = v
           this.tryResolve(effect.originalEvent)
         })
     }
