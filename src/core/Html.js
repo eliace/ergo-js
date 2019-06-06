@@ -373,7 +373,7 @@ const Html = class {
       const i = this._binding_chain.shift()
 //      this.sources[i].update('none', 'init')
       // заменить на прямой вызов update
-      this.sources[i].emit('init', this.sources[i].get(), this)
+      this.sources[i].emit('init', {data: this})//this.sources[i].get(), this)
       // const o = opts[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
       // for (let j in o) {
       //   this.opt(j, o[j])
@@ -485,7 +485,7 @@ const Html = class {
       if (this._binding_chain) {
         while (this._binding_chain.length) {
           const i = this._binding_chain.shift()
-          this.sources[i].emit('init', null, this)
+          this.sources[i].emit('init', {data: this})//, null, this)
           // const o = this.options[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
           // for (let j in o) {
           //   this.opt(j, o[j])
@@ -593,7 +593,7 @@ const Html = class {
         }
       }
       for (let i in value) {
-        this.sources[i].emit('init', null, this)
+        this.sources[i].emit('init', {data: this})//, null, this)
 //        this.rebind(this.sources[i].get(), i, this.sources[i])
       }
     }

@@ -12,3 +12,26 @@ body {
   height: 100%;
   overflow-y: auto;
 }
+
+
+
+.collapse-box {
+  max-width: 400px;
+}
+
+.collapse-item {
+  max-height: 100px;
+  overflow: hidden;
+
+  > .notification {
+    max-height: 88px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.collapse {
+  max-height: 0;
+  transition: max-height 1s;
+}

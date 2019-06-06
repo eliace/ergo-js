@@ -250,12 +250,17 @@ class Source {
       if (this.entries[k]) {
         let entry = this.entries[k]
         if (Array.isArray(this.entries)) {
-          this.entries.splice(k, 1)
+//          this.entries.splice(k, 1)
+          this.entries.pop() //TODO пробуем
+          // кэш надо глубже почистить
+          for (let i = k; i < this.entries.length; i++) {
+            delete this.entries[k].cache
+          }
         }
         else {
           delete this.entries[k]
         }
-        entry.targets.forEach(t => t.dataRemoved.call(t.target))
+        this.update(null, 'remove')
       }
 
 //      this.targets.forEach(t => t.dataChanged.call(t.target, v))
@@ -334,7 +339,30 @@ class Source {
   }
 
 
-  notify (event, data, target) {
+  add (v) {
+
+    let arr = null
+
+    if (this.id == null) {
+      arr = this.src
+    }
+    else if (this.isNested) {
+      arr = this.src.get()[this.id]
+    }
+    else {
+      arr = this.src[this.id]
+    }
+
+    arr.push(v)
+
+    //TODO удалить все entries
+    this.update(null, 'add') // ?
+
+    return arr.length-1 // недеемся, что при апдейте ничего добавилось :)
+  }
+
+
+  notify2 (event, data, target) {
     this.observers.forEach(t => {
       if (target == null || target == t.target) {
         if (t.dataEffects) {
@@ -356,14 +384,235 @@ class Source {
     delete this.effectors[name]
   }
 
+  init (target) {
+//    console.log('init', target)
+    this.observers.forEach(t => {
+      if (target == null || target == t.target) {
+        t.dataChanged.call(t.target, this.get(), t.key)
+      }
+    })
+  }
 
 
-  waitAndEmit (event, data, target, effects) {
+  emit (eventName, eventData, eventTarget) {
+
+    const pre = []
+    const post = []
+
+    // генерирем ключ события
+    let eventKey = '_' + Math.random().toString(16).slice(2)
+
+    // обрабатываемое событие
+    let event = {name: eventName, key: eventKey, target: eventTarget, ...eventData}
+
+    // после появления события, необходимо проверить, есть ли готовые к активации эффекты
+    if (this._waiting) {
+      for (let i = this._waiting.length-1; i >= 0; i--) {
+        let eff = this._waiting[i]
+        if (eff.watch) {
+          if (eff.watch.call(this, event, this)) {
+            // если эффект начал работу, убираем его из списка на ожидании
+            this._waiting.splice(i, 1)
+            // активируем эффект
+            const activated = this.activate(eff)
+            if (activated.mode == 'pre') {
+              pre.push(activated)
+            }
+            else {
+              post.push(activated)
+            }
+          }
+        }
+        else {
+          // если эффект начал работу, убираем его из списка на ожидании
+          this._waiting.splice(i, 1)
+          // эффекты, у которых нет наблюдения, активируются после первого события
+          const activated = this.activate(eff)
+          if (activated.mode == 'pre') {
+            pre.push(activated)
+          }
+          else {
+            post.push(activated)
+          }
+        }
+      }
+    }
+
+    // Пре-эффекты
+    for (let i = 0; i < pre.length; i++) {
+      this.prepare(pre[i], event)
+    }
+
+    if (this[event.name]) {
+      this.tryResolve(event)
+    }
+    else {
+      this.observers.forEach(t => {
+        if (event.target == null || event.target == t.target) {
+          if (t.dataEffects) {
+            t.dataEffects.call(t.target, event, t.key)
+          }
+        }
+      })
+    }
+
+    // Пре-эффекты
+    for (let i = 0; i < post.length; i++) {
+      this.prepare(post[i], event)
+    }
+
+    // // пробуем сохранить оригинальное сообщение
+    // if (!event.resolved) {
+    //   if (!this._unresolved) {
+    //     this._unresolved = {}
+    //   }
+    //   if (!this._unresolved[event.key]) {
+    //     console.log('defer', event)
+    //     this._unresolved[event.key] = event
+    //   }
+    // }
+
+    return this
+  }
+
+  activate (effect) {
+
+    if (!this._acting) {
+      this._acting = {}
+    }
+
+    let activated = null
+
+    if (typeof effect == 'string') {
+      // ищем эффектор
+      activated = {name: effect}
+    }
+    else {
+      activated = effect
+    }
+
+    activated.id = '_' + Math.random().toString(16).slice(2)
+
+    this._acting[activated.id] = activated
+
+    return activated
+  }
+
+  prepare (effect, event) {
+
+    // помечаем эффект ключем вызвавшего его события
+    effect.eventKey = event.originalKey || event.key
+    effect.originalEvent = event.originalEvent || event
+
+    let result = null
+
+    if (effect.effector) {
+      const effector = this.effectors[effect.effector]
+      console.log('effector', effector)
+      effect.resolver = effect.resolver || effector.ctor
+      effect.target = effect.target || effector.context
+//      effect.resolver = effect.resolver || effector.ctor.call(effector.target, effect)
+      effect.name = effect.name || effect.effector
+//      effect = {resolver: effector.ctor.call(effector.target, effect), name: effect.effector, ...effect}
+    }
+
+    //  время решать эффект
+    if (typeof effect.resolver == 'function') {
+      result = effect.resolver.apply(effect.target, effect.params || event.params || [event.data])
+    }
+    else {
+      result = effect.params || event.params || [event.data]
+    }
+
+    if (result instanceof Promise) {
+      result
+        .then((...thenArgs) => {
+          // убираем эффект из списка активных
+          delete this._acting[effect.id]
+          this.emit(effect.name+':done', {params: thenArgs, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+          effect.originalEvent.params = thenArgs
+          delete effect.originalEvent.data
+          this.tryResolve(effect.originalEvent)
+        })
+    }
+    else {
+      delete this._acting[effect.id]
+    }
+
+    this.emit(effect.name, {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+  }
+
+  tryResolve (event) {
+    if (this[event.name]) {
+      let readyToResolve = true
+      if (this._acting) {
+//        console.log('tryResolve', this._acting, event)
+        for (let i in this._acting) {
+          if (this._acting[i].eventKey == event.key) {
+            readyToResolve = false
+            break
+          }
+        }
+      }
+      if (readyToResolve) {
+        if (event.resolved) {
+          console.warn('Event already resolved', event)
+        }
+        else {
+          event.resolved = true
+
+          let result = null
+          // if (event.name != 'init') {
+          //   debugger
+          // }
+
+//          console.log('result', event, result)
+
+          if ('params' in event) {
+            result = this[event.name].apply(this, event.params)
+          }
+          else if ('data' in event) {
+            result = this[event.name](event.data)
+          }
+          else {
+            result = this[event.name]()
+          }
+
+          this.observers.forEach(t => {
+            if (event.target == null || event.target == t.target) {
+              if (t.dataEffects) {
+                t.dataEffects.call(t.target, event, t.key)
+              }
+            }
+          })
+
+          return result
+        }
+      }
+    }
+  }
+
+
+  wait (effects) {
+
+    if (!this._waiting) {
+      this._waiting = []
+    }
+
+    for (let i = 0; i < effects.length; i++) {
+      this._waiting.push(effects[i])
+    }
+
+    return this
+  }
+
+
+  waitAndEmit2 (event, data, target, effects) {
     return this.emit(event, data, target, effects, true)
   }
 
 
-  emit (event, data, target, effects, isDeferred) {
+  emit2 (event, data, target, effects, isDeferred) {
 
     let eventKey = isDeferred ? '_' + Math.random().toString(16).slice(2) : null
 

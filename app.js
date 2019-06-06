@@ -448,11 +448,12 @@ const app = new Html({
                         .then(response => response.json())
                         .then(json => {return {comments: json}})
                     }
-                    const effect = {
+                    const effects = [{
                       name: 'fetch',
-                      resolver: loadComments(v.id)
-                    }
-                    this.sources[key].waitAndEmit('mergeWith', null, null, [effect])
+                      resolver: loadComments,
+                      mode: 'pre'
+                    }]
+                    this.sources[key].wait(effects).emit('mergeWith', {data: v.id})
                       // .then(json => {
                       //   this.sources[key].mergeWith({comments: json, loadingComments: false})
                       //   projector.scheduleRender()
@@ -460,9 +461,9 @@ const app = new Html({
                   }
 //                }
               },
-              stateEffects: function (name) {
-                console.log(name)
-                if (name == 'fetch:done') {
+              stateEffects: function (event) {
+                console.log(event)
+                if (event.name == 'fetch:done') {
                   projector.scheduleRender()
                 }
               },
@@ -684,15 +685,16 @@ const app = new Html({
         // },
         stateChanged: function(v, key) {
           if (v == null) {
-            const loadAllCountries = function (projector) {
+            const loadAllCountries = function () {
               return fetch('https://restcountries.eu/rest/v2/all')
                 .then(response => response.json())
             }
             const effects = [{
               name: 'fetch',
-              resolver: loadAllCountries(projector)
+              resolver: loadAllCountries,
+              mode: 'pre'
             }]
-            this.sources[key].waitAndEmit('set', null, null, effects)
+            this.sources[key].wait(effects).emit('set', null)
 
             // console.log('start loading countries.')
             // source.set({loading: true})
@@ -705,9 +707,9 @@ const app = new Html({
             //   })
           }
         },
-        stateEffects: function (name) {
-          console.log(name)
-          if (name == 'fetch:done') {
+        stateEffects: function (event) {
+          console.log(event)
+          if (event.name == 'fetch:done') {
             projector.scheduleRender()
           }
         },

@@ -46,6 +46,7 @@ function emit_dom (name, event) {
 
 
 document.addEventListener('animationend', (e) => emit_dom(e.type, e))
+document.addEventListener('transitionend', (e) => emit_dom(e.type, e))
 
 
 export default {

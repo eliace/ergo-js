@@ -10,8 +10,8 @@ class Notification extends Html {
         type: Delete
       },
       content: {
-        html: 'span'
-//        type: Text
+//        html: 'div'
+        type: Text
       }
     }
   }

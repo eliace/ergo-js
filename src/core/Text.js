@@ -12,7 +12,7 @@ const Text = class {
     return this.value
   }
 
-  set(k, v) {
+  opt(k, v) {
     if (k == 'text') {
       this.value = v
     }

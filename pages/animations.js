@@ -1,6 +1,9 @@
-import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Events} from '../src'
+import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Buttons, Events, Notification} from '../src'
 
 import 'animate.css'
+
+const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.'
+
 
 let browserSpecificTransitionEndEventName = 'webkitTransitionEnd' | 'transitionend';
 let browserSpecificAnimationEndEventName = 'webkitAnimationEnd' | 'animationend';
@@ -43,13 +46,24 @@ const doTransition = function (el) {
   })
 }
 
-const doGlobalAnimation = function (target, projector, v) {
+const doGlobalAnimation = function (target, projector) {
+//  debugger
   return new Promise(function (resolve, reject) {
     Events.on('animationend', function (e) {
 //      if (e.target == target.vnode.domNode) {
         console.log ('animationend', target)
-        resolve(v)
-        projector.scheduleRender()
+        resolve()
+//        projector.scheduleRender()
+        Events.off('transitionend', target)
+        Events.off('animationend', target)
+//      }
+    }, target)
+    Events.on('transitionend', function (e) {
+//      if (e.target == target.vnode.domNode) {
+        console.log ('transitionend', target)
+        resolve()
+//        projector.scheduleRender()
+        Events.off('transitionend', target)
         Events.off('animationend', target)
 //      }
     }, target)
@@ -60,7 +74,7 @@ const doGlobalAnimation = function (target, projector, v) {
 export default (projector) => {
   return {
     sources: {
-      modal: {modal: false}
+      modal: {modal: false, notifications: []}
     },
     dynamic: true,
     modalChanged: function (v, key) {
@@ -81,17 +95,18 @@ export default (projector) => {
         },
         modalEffects: function (event) {
           console.log('overlay event', event)
-          if (event == 'showOverlay') {
+          if (event.name == 'showOverlay') {
             this.opt('classes', {'animated': true, 'fadeIn': true})
           }
-          else if (event == 'showOverlay:done') {
+          else if (event.name == 'showOverlay:done') {
             this.opt('classes', {'animated': false, 'fadeIn': false})
           }
-          else if (event == 'hideOverlay') {
+          else if (event.name == 'hideOverlay') {
             this.opt('classes', {'animated': true, 'fadeOut': true})
           }
-          else if (event == 'hideOverlay:done') {
+          else if (event.name == 'hideOverlay:done') {
             this.opt('classes', {'animated': false, 'fadeOut': false})
+            projector.scheduleRender()
           }
         }
       },
@@ -108,7 +123,7 @@ export default (projector) => {
           items: [{
             html: 'input',
             modalEffects: function (event) {
-              if (event == 'focusInput') {
+              if (event.name == 'focusInput') {
                 this.vnode.domNode.focus()
               }
             }
@@ -124,21 +139,21 @@ export default (projector) => {
         },
         modalEffects: function (event) {
           console.log('content event', event)
-          if (event == 'showContent') {
+          if (event.name == 'showContent') {
             this.opt('classes', {'animated': true, 'slideInDown': true, 'is-hidden': false})
+            projector.scheduleRender()
           }
-          else if (event == 'showContent:done') {
+          else if (event.name == 'showContent:done') {
             this.opt('classes', {'animated': false, 'slideInDown': false})
           }
-          else if (event == 'hideContent') {
+          else if (event.name == 'hideContent') {
             this.opt('classes', {'animated': true, 'slideOutUp': true})
           }
-          else if (event == 'hideContent:done') {
+          else if (event.name == 'hideContent:done') {
             this.opt('classes', {'animated': false, 'slideOutUp': false, 'is-hidden': true})
-          }
-          else if (event == 'mergeWith') {
-            debugger
             projector.scheduleRender()
+          }
+          else if (event.name == 'mergeWith') {
           }
         }
         // onUpdateAnimation: function (el) {
@@ -149,13 +164,15 @@ export default (projector) => {
         as: 'modal-close is-large',
         onClick: function () {
           const effects = [{
-            effector: 'hideContent'
+            effector: 'hideContent',
+            mode: 'pre'
           }, {
             effector: 'hideOverlay',
-            waitFor: ['hideContent:done']
+            mode: 'pre'
+//            waitFor: ['hideContent:done']
           }]
 //          this.sources.modal.set('modal', false)
-          this.sources.modal.waitAndEmit('mergeWith', {modal: false}, null, effects)
+          this.sources.modal.wait(effects).emit('mergeWith', {data: {modal: false}})
         }
       },
 //       modalChanged: function (v, key) {
@@ -187,23 +204,98 @@ export default (projector) => {
 // //        });
 //       }
     },
-    $openModalBtn: {
-      type: Button,
-      text: 'Open Modal',
-      onClick: function () {
-        const effects = [{
-          effector: 'showOverlay'
-        }, {
-          effector: 'showContent',
-//          waitFor: ['showOverlay:done']
-        }, {
-          name: 'focusInput',
-          waitFor: ['showContent:done']
-        }]
+    $notifications: {
+      as: 'collapse-box',
+      styles: {
+        'position': 'fixed',
+        'top': '1rem',
+        'right': '1rem',
+        'z-index': '40'
+      },
+      dynamic: true,
+      modalId: 'notifications',
+      modalChanged: function (v, key) {
+        this.opt('$items', key)
+      },
+      defaultItem: {
+        as: 'collapse-item',
+        $content: {
+          type: Notification,
+          modalChanged: function (v, key) {
+            this.opt('text', v.text)
+          },
+          $closeBtn: {
+            onClick: function () {
+              const effects = [{
+                effector: 'hide',
+                mode: 'pre'
+              }, {
+                effector: 'collapse',
+                mode: 'pre',
+                watch: function (event) { return event.name == 'hide:done' }
+              }]
+              this.sources.modal.wait(effects).emit('remove')
+//              this.sources.modal.remove()
+            }
+          }
+        },
+        modalEffectors: {
+          hide: function () {
+            return doGlobalAnimation(this)
+          },
+          collapse: function () {
+            return doGlobalAnimation(this)
+          }
+        },
+        modalEffects: function (event) {
+          console.log('collapsible event', event)
+          if (event.name == 'hide') {
+            this.opt('classes', {/*collapse: true,*/ animated: true, flipOutX: true})
+          }
+          else if (event.name == 'hide:done') {
+            this.opt('classes', {/*collapse: true,*/ animated: false, flipOutX: false})
+          }
+          else if (event.name == 'collapse') {
+            this.opt('classes', {collapse: true, 'is-invisible': true})
+            projector.scheduleRender()
+          }
+          else if (event.name == 'collapse:done') {
+            this.opt('classes', {collapse: false, 'is-invisible': false})
+            projector.scheduleRender()
+          }
+        }
+      }
+    },
+    $buttons: {
+      type: Buttons,
+      $openModalBtn: {
+        type: Button,
+        text: 'Open Modal',
+        onClick: function () {
+          const effects = [{
+            effector: 'showOverlay'
+          }, {
+            effector: 'showContent',
+  //          watch: function (event) {return event.name == 'showOverlay:done'}
+  //          waitFor: ['showOverlay:done']
+          }, {
+            name: 'focusInput',
+            watch: function (event) {return event.name == 'showContent:done'}
+  //          waitFor: ['showContent:done']
+          }]
 
-        this.sources.modal.emit('mergeWith', {modal: true}, null, effects)
+          this.sources.modal.wait(effects).emit('mergeWith', {data: {modal: true}})
 
-//        this.sources.modal.set('modal', true)
+  //        this.sources.modal.set('modal', true)
+        }
+      },
+      $openNotifyBtn: {
+        type: Button,
+        text: 'Show notification',
+        onClick: function () {
+
+          this.sources.modal.entry('notifications').add({text: LOREM_IPSUM + new Date().getTime()})
+        }
       }
     }
   }

@@ -47,13 +47,13 @@ const Mixins = {
       onMouseDown: function() {
 //        this.sources.selection.set()
 //        this.sources.selection.emit('set', this.options.key || this.options.text, this.options.onSelected)
-        this.sources.selection.emit('set', this.options.key || this.options.text, null, 'selected')
+        this.sources.selection.wait([{name: 'selected'}]).emit('set', {data: this.options.key || this.options.text})
 //        console.log(this.sources.selection.ns())
       },
-      selectionEffects: function (event, v) {
-//        console.log('selection', event, v)
-        if (event == 'selected' || event == 'init') {
-          this.options.onSelected && this.options.onSelected.call(this, v == (this.opt('key') || this.opt('text')))
+      selectionEffects: function (event) {
+//        console.log('selection', event)
+        if (event.name == 'selected' || event.name == 'init') {
+          this.options.onSelected && this.options.onSelected.call(this, this.sources.selection.get() == (this.opt('key') || this.opt('text')))
         }
         // if (effect.status == 'done') {
         //   this.options.onSelected && this.options.onSelected.call(this, effect.data == (this.opt('key') || this.opt('text')))
