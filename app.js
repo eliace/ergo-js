@@ -23,7 +23,7 @@ const projector = createProjector({
         clearTimeout(perfAnalysis)
         perfAnalysis = 0
       }
-      perfAnalysis = setTimeout(doAnalysis, 1500)
+      perfAnalysis = setTimeout(doAnalysis, 100)
     }
     else {
 //      console.log(stage, event)
@@ -462,7 +462,7 @@ const app = new Html({
 //                }
               },
               stateEffects: function (event) {
-                console.log(event)
+//                console.log(event)
                 if (event.name == 'fetch:done') {
                   projector.scheduleRender()
                 }
@@ -696,6 +696,16 @@ const app = new Html({
             }]
             this.sources[key].wait(effects).emit('set', null)
 
+            // const FetchAllCountries = {
+            //   name: 'fetch',
+            //   use: () => {
+            //     return fetch('https://restcountries.eu/rest/v2/all')
+            //     .then(response => response.json())
+            //   }
+            // }
+            //
+            // this.domains[dn].when(FetchAllCountries).emit('set').then()
+
             // console.log('start loading countries.')
             // source.set({loading: true})
             // fetch('https://restcountries.eu/rest/v2/all')
@@ -869,16 +879,6 @@ setTimeout(() => {
   projector.scheduleRender()
 }, 3000)
 */
-
-
-new Promise(function(resolve) {
-  setTimeout(() => {
-    resolve()
-  }, 2000)
-})
-.then(function (...args) {
-  console.log('args', args)
-})
 
 
 

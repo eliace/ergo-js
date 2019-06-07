@@ -49,26 +49,139 @@ const doTransition = function (el) {
 const doGlobalAnimation = function (target, projector) {
 //  debugger
   return new Promise(function (resolve, reject) {
-    Events.on('animationend', function (e) {
+
+    const callback = function (e) {
 //      if (e.target == target.vnode.domNode) {
         console.log ('animationend', target)
         resolve()
 //        projector.scheduleRender()
-        Events.off('transitionend', target)
-        Events.off('animationend', target)
+//        Events.off('transitionend', target)
+        target.off('animationend', callback)
 //      }
-    }, target)
-    Events.on('transitionend', function (e) {
+    }
+
+    target.on('animationend', callback)
+//     Events.on('transitionend', function (e) {
+// //      if (e.target == target.vnode.domNode) {
+//         console.log ('transitionend', target)
+//         resolve()
+// //        projector.scheduleRender()
+//         Events.off('transitionend', target)
+//         Events.off('animationend', target)
+// //      }
+//     }, target)
+  })
+}
+
+
+
+const doGlobalTransition = function (target, projector) {
+//  debugger
+  return new Promise(function (resolve, reject) {
+
+    const callback = function (e) {
 //      if (e.target == target.vnode.domNode) {
         console.log ('transitionend', target)
         resolve()
 //        projector.scheduleRender()
-        Events.off('transitionend', target)
-        Events.off('animationend', target)
+        target.off('transitionend', callback)
+//        Events.off('animationend', target)
 //      }
-    }, target)
+    }
+
+    target.on('transitionend', callback)
   })
 }
+
+
+
+function renderAfter(promise, projector) {
+  return new Promise(function (resolve, reject) {
+    promise
+      .then(v => {
+        resolve(v)
+        projector.scheduleRender()
+      })
+      .catch(err => {
+        reject(err)
+        console.error(err)
+        projector.scheduleRender()
+      })
+  })
+}
+
+
+function timer(t) {
+  return new Promise(function(resolve) {
+    setTimeout(() => resolve(), t)
+  })
+}
+
+
+
+const Mixins = {
+  LiveEvents: function () {
+    this.on = function (name, callback) {
+      if (!this._domEvents) {
+        this._domEvents = []
+      }
+
+      const event = {name, callback, attached: false}
+
+      if (this.vnode && this.vnode.domNode) {
+        this.vnode.domNode.addEventListener(name, callback)
+        event.domNode = this.vnode.domNode
+        event.attached = true
+      }
+
+      this._domEvents.push(event)
+    }
+    this.off = function (name, callback) {
+      if (this._domEvents) {
+        for (let i = this._domEvents.length-1; i >= 0; i--) {
+          let event = this._domEvents
+          if (event.name == name && (event.callback == callback || !callback)) {
+            this._domEvents.splice(i, 1)
+            event.domNode.removeEventListener(ecent.name, event.callback)
+          }
+        }
+      }
+    }
+    return {
+      onAfterCreate: function (el) {
+        console.log('after create')
+        if (this._domEvents) {
+          this._domEvents.forEach(event => {
+            if (!event.attached) {
+              el.addEventListener(event.name, event.callback)
+              event.domNode = el
+              event.attached = true
+            }
+            if (event.domNode != el) {
+              console.warn('Missing dom event', event)
+            }
+          })
+        }
+      },
+      onAfterUpdate: function (el) {
+        console.log('after update')
+        if (this._domEvents) {
+          this._domEvents.forEach(event => {
+            if (!event.attached) {
+              el.addEventListener(event.name, event.callback)
+              event.domNode = el
+              event.attached = true
+              console.warn('Missing dom event', event)
+            }
+          })
+        }
+      }
+    }
+  }
+}
+
+
+
 
 
 export default (projector) => {
@@ -84,17 +197,23 @@ export default (projector) => {
       as: 'modal is-active',
       $overlay: {
         as: 'modal-background',
+        mixins: [Mixins.LiveEvents],
         modalEffectors: {
+          // custom: {
+          //   use: (t) => renderAfter(timer(t), projector),
+          //   ready: () => this.opt('classes', {hello: true}),
+          //   done: () =>
+          // },
           showOverlay: function () {
             // конструируем эффект
-            return doGlobalAnimation(this, projector)
+            return renderAfter(doGlobalAnimation(this), projector)
           },
           hideOverlay: function (v) {
-            return doGlobalAnimation(this, projector, v)
+            return renderAfter(doGlobalAnimation(this), projector)
           }
         },
         modalEffects: function (event) {
-          console.log('overlay event', event)
+//          console.log('overlay event', event)
           if (event.name == 'showOverlay') {
             this.opt('classes', {'animated': true, 'fadeIn': true})
           }
@@ -106,7 +225,7 @@ export default (projector) => {
           }
           else if (event.name == 'hideOverlay:done') {
             this.opt('classes', {'animated': false, 'fadeOut': false})
-            projector.scheduleRender()
+//            projector.scheduleRender()
           }
         }
       },
@@ -129,19 +248,21 @@ export default (projector) => {
             }
           }]
         },
+        mixins: [Mixins.LiveEvents],
         modalEffectors: {
           showContent: function () {
-            return doGlobalAnimation(this, projector)
+            this.on()
+            return renderAfter(doGlobalAnimation(this), projector)
           },
           hideContent: function (v) {
-            return doGlobalAnimation(this, projector, v)
+            return renderAfter(doGlobalAnimation(this), projector)
           }
         },
         modalEffects: function (event) {
-          console.log('content event', event)
+//          console.log('content event', event)
           if (event.name == 'showContent') {
             this.opt('classes', {'animated': true, 'slideInDown': true, 'is-hidden': false})
-            projector.scheduleRender()
+//            projector.scheduleRender()
           }
           else if (event.name == 'showContent:done') {
             this.opt('classes', {'animated': false, 'slideInDown': false})
@@ -151,7 +272,7 @@ export default (projector) => {
           }
           else if (event.name == 'hideContent:done') {
             this.opt('classes', {'animated': false, 'slideOutUp': false, 'is-hidden': true})
-            projector.scheduleRender()
+//            projector.scheduleRender()
           }
           else if (event.name == 'mergeWith') {
           }
@@ -239,17 +360,27 @@ export default (projector) => {
             }
           }
         },
+        mixins: [Mixins.LiveEvents],
         modalEffectors: {
+          show: function () {
+            return renderAfter(doGlobalAnimation(this), projector)
+          },
           hide: function () {
-            return doGlobalAnimation(this)
+            return renderAfter(doGlobalAnimation(this), projector)
           },
           collapse: function () {
-            return doGlobalAnimation(this)
+            return renderAfter(doGlobalTransition(this), projector)
           }
         },
         modalEffects: function (event) {
-          console.log('collapsible event', event)
-          if (event.name == 'hide') {
+//          console.log('collapsible event', event)
+          if (event.name == 'show') {
+            this.opt('classes', {animated: true, flipInX: true})
+          }
+          else if (event.name == 'show:done') {
+            this.opt('classes', {animated: false, flipInX: false})
+          }
+          else if (event.name == 'hide') {
             this.opt('classes', {/*collapse: true,*/ animated: true, flipOutX: true})
           }
           else if (event.name == 'hide:done') {
@@ -257,11 +388,11 @@ export default (projector) => {
           }
           else if (event.name == 'collapse') {
             this.opt('classes', {collapse: true, 'is-invisible': true})
-            projector.scheduleRender()
+//            projector.scheduleRender()
           }
           else if (event.name == 'collapse:done') {
             this.opt('classes', {collapse: false, 'is-invisible': false})
-            projector.scheduleRender()
+//            projector.scheduleRender()
           }
         }
       }
@@ -294,7 +425,35 @@ export default (projector) => {
         text: 'Show notification',
         onClick: function () {
 
-          this.sources.modal.entry('notifications').add({text: LOREM_IPSUM + new Date().getTime()})
+          const openNotif = [{
+            effector: 'show'
+          }]
+
+          const waitAndCloseNotif = [{
+            name: 'timer',
+            effector: () => renderAfter(timer(5000), projector),
+            mode: 'pre'
+          }, {
+            effector: 'hide',
+            mode: 'pre',
+            watch: function (event) { return event.name == 'timer:done' }
+          }, {
+            effector: 'collapse',
+            mode: 'pre',
+            watch: function (event) { return event.name == 'hide:done' }
+          }]
+
+
+          this.sources.modal.entry('notifications')
+            .add({text: LOREM_IPSUM + new Date().getTime()})
+            // .with(openNotif),
+            // .and()
+            // .when(waitAndCloseNotif)
+            // .emit('remove')
+            .wait(openNotif)
+            .emit('_')
+            .wait(waitAndCloseNotif)
+            .emit('remove')
         }
       }
     }

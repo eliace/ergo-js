@@ -24,7 +24,10 @@ const DEFAULT_EVENTS = {
   onMouseUp: 'onmouseup',
   onEnterAnimation: 'enterAnimation',
   onExitAnimation: 'exitAnimation',
-  onUpdateAnimation: 'updateAnimation'
+  onUpdateAnimation: 'updateAnimation',
+  onAfterCreate: 'afterCreate',
+  onUpdateAnimation: 'updateAnimation',
+  onAfterUpdate: 'afterUpdate'
 }
 
 const HTML_OPTIONS = {
@@ -615,6 +618,8 @@ const Html = class {
           let add = {}
           let update = []
 
+          console.log('items', value.get())
+
           value.stream((entry, i) => {
       //      console.log(entry.get())
             let found = null
@@ -969,7 +974,7 @@ const Html = class {
 
   walk(callback) {
     callback(this)
-    this.children.forEach(c => c.walk(callback))
+    this.children.forEach(c => c.walk && c.walk(callback))
   }
 
 
