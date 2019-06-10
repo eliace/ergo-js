@@ -1,7 +1,13 @@
 @import './src/styles';
 
+$fa-font-path : "~node_modules/@fortawesome/fontawesome-free/webfonts";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+
 html {
   height: 100%;
+  overflow-y: hidden;
 }
 
 body {
@@ -35,3 +41,84 @@ body {
   max-height: 0;
   transition: max-height 1s;
 }
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 2.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
+
+.fade-leave /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 1;
+}
+
+
+
+.input-box {
+  position: relative;
+  .placeholder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #ccc;
+    padding-top: 0.375em;
+    padding-left: 0.625em;
+  }
+  .input {
+    background: none;
+  }
+}
+
+
+
+
+.dropdown-content {
+  padding: 0;
+  overflow: auto;
+  max-height: 200px;
+}
+
+.dropdown-placeholder {
+  color: #ccc;
+}
+
+.dropdown-select {
+  .dropdown-icon {
+    color: #ccc;
+  }
+  .dropdown-trigger:hover {
+    .dropdown-icon {
+      color: $link-active-border;
+    }
+  }
+
+  &.is-active {
+    .dropdown-icon {
+      color: $link-active-border;
+    }
+  }
+}
+
+// .dropdown {
+//   &.is-active {
+//     .dropdown-overlay {
+// //      background-color: rgba(0,0,0,0.1);
+//       position: fixed;
+//       top: 0;
+//       bottom: 0;
+//       left: 0;
+//       right: 0;
+//     }
+//   }
+// }
+
+
+// .dropdown-content {
+//   &.is-hovered {
+//     .dropdown-item:hover {
+//       background-color: rgba(0,0,0, 0.06)
+//     }
+//   }
+// }

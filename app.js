@@ -1,12 +1,14 @@
 import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './src'
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
 
-import {ElementsPage, ComponentsPage, AnimationsPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/all'
+//import '@fortawesome/fontawesome-free/js/all'
 import './app.scss'
+
+//fontawesome.config = { autoReplaceSvg: false }
 
 
 let perfCounter = 0
@@ -116,7 +118,7 @@ const Actions = {
 //    console.log('selectMenu', menuKey)
     app.sources.block.set('current', menuKey)
 
-    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage']
+    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage', 'formsPage']
 
 
     const pageData = {
@@ -126,7 +128,8 @@ const Actions = {
       elements: menuKey == 'elements',
       componentsPage: menuKey == 'components',
       layoutsPage: menuKey == 'layouts',
-      animationsPage: menuKey == 'animations'
+      animationsPage: menuKey == 'animations',
+      formsPage: menuKey == 'forms'
     }
 
 //    setTimeout(() => {
@@ -184,6 +187,14 @@ const Mutate = {
 
 
 
+Events.on('click', function () {
+  app.sources.dropdown.set(false)
+  projector.scheduleRender()
+})
+
+
+
+
 
 const app = new Html({
   as: 'app',
@@ -198,7 +209,8 @@ const app = new Html({
       countries: false,
       elements: false,
       componentsPage: false,
-      animationsPage: false
+      animationsPage: false,
+      formsPage: false
     },
     state: {
       mainMenu: [{
@@ -227,13 +239,17 @@ const app = new Html({
         }, {
           id: 'animations',
           name: 'Animations'
+        }, {
+          id: 'forms',
+          name: 'Forms'
         }]
       }],
       user: {},
       posts: [],
       books: []
     },
-    users: {}
+    users: {},
+    dropdown: true
   },
 //  dynamic: true,
   $navbar: {
@@ -245,7 +261,7 @@ const app = new Html({
       $logo: {
         type: Navbar.Item,
         $content: {
-          text: 'Books',
+          text: 'Ergo JS',
           as: 'has-text-weight-semibold is-uppercase'
         }
       }
@@ -803,7 +819,8 @@ const app = new Html({
       },
       $elements: ElementsPage(),
       $componentsPage: ComponentsPage(),
-      $animationsPage: AnimationsPage(projector)
+      $animationsPage: AnimationsPage(projector),
+      $formsPage: FormsPage(projector)
     }
   }
 })

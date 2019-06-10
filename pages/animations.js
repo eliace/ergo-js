@@ -5,6 +5,32 @@ import 'animate.css'
 const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.'
 
 
+
+class MyPromise extends Promise {
+
+//   constructor(resRejCallback, animCallback) {
+//     super(resRejCallback)
+//     debugger
+//     console.log(arguments)
+// //    animCallback(this.animate.bind(this))
+//   }
+
+  activate () {
+    console.log('emit animation')
+    if (this._active) {
+      this._active.forEach(callback => callback())
+    }
+  }
+
+  active (callback) {
+    if (!this._active) {
+      this._active = []
+    }
+    this._active.push(callback)
+  }
+}
+
+
 let browserSpecificTransitionEndEventName = 'webkitTransitionEnd' | 'transitionend';
 let browserSpecificAnimationEndEventName = 'webkitAnimationEnd' | 'animationend';
 
@@ -78,6 +104,7 @@ const doGlobalAnimation = function (target, projector) {
 const doGlobalTransition = function (target, projector) {
 //  debugger
   return new Promise(function (resolve, reject) {
+    console.log('listen transitionend')
 
     const callback = function (e) {
 //      if (e.target == target.vnode.domNode) {
@@ -96,18 +123,31 @@ const doGlobalTransition = function (target, projector) {
 
 
 function renderAfter(promise, projector) {
-  return new Promise(function (resolve, reject) {
+  let myPromise = new MyPromise(function (resolve, reject) {
     promise
       .then(v => {
+//        console.log('render')
         resolve(v)
         projector.scheduleRender()
       })
       .catch(err => {
         reject(err)
-        console.error(err)
+//        console.error(err)
         projector.scheduleRender()
       })
   })
+
+  requestAnimationFrame(() => {
+    myPromise.activate()
+    projector.scheduleRender()
+  })
+
+  return myPromise
+}
+
+function renderBefore(result, projector) {
+  projector.scheduleRender()
+  return result
 }
 
 
@@ -116,6 +156,9 @@ function timer(t) {
     setTimeout(() => resolve(), t)
   })
 }
+
+const animation = doGlobalAnimation;
+const transition = doGlobalTransition
 
 
 
@@ -133,49 +176,72 @@ const Mixins = {
         event.domNode = this.vnode.domNode
         event.attached = true
       }
+      else {
+        console.log('vnode', this.vnode)
+        this.props.afterCreate = (el) => {
+          console.log('enter animation')
+          if (this._domEvents) {
+            this._domEvents.forEach(event => {
+              if (!event.attached) {
+                el.addEventListener(event.name, event.callback)
+                event.domNode = el
+                event.attached = true
+              }
+              if (event.domNode != el) {
+                console.warn('Missing dom event', event)
+              }
+            })
+          }
+          delete this.props.afterCreate
+        }
+      }
 
       this._domEvents.push(event)
     }
     this.off = function (name, callback) {
       if (this._domEvents) {
         for (let i = this._domEvents.length-1; i >= 0; i--) {
-          let event = this._domEvents
+          let event = this._domEvents[i]
           if (event.name == name && (event.callback == callback || !callback)) {
             this._domEvents.splice(i, 1)
-            event.domNode.removeEventListener(ecent.name, event.callback)
+            event.domNode.removeEventListener(event.name, event.callback)
           }
         }
       }
     }
     return {
-      onAfterCreate: function (el) {
-        console.log('after create')
-        if (this._domEvents) {
-          this._domEvents.forEach(event => {
-            if (!event.attached) {
-              el.addEventListener(event.name, event.callback)
-              event.domNode = el
-              event.attached = true
-            }
-            if (event.domNode != el) {
-              console.warn('Missing dom event', event)
-            }
-          })
-        }
-      },
-      onAfterUpdate: function (el) {
-        console.log('after update')
-        if (this._domEvents) {
-          this._domEvents.forEach(event => {
-            if (!event.attached) {
-              el.addEventListener(event.name, event.callback)
-              event.domNode = el
-              event.attached = true
-              console.warn('Missing dom event', event)
-            }
-          })
-        }
-      }
+      // onAfterCreate: function (el) {
+      //   console.log('after create')
+      //   if (this._domEvents) {
+      //     this._domEvents.forEach(event => {
+      //       if (!event.attached) {
+      //         el.addEventListener(event.name, event.callback)
+      //         event.domNode = el
+      //         event.attached = true
+      //       }
+      //       if (event.domNode != el) {
+      //         console.warn('Missing dom event', event)
+      //       }
+      //     })
+      //   }
+      // },
+      // onAfterUpdate: function (el) {
+      //   console.log('after update')
+      //   if (this._domEvents) {
+      //     this._domEvents.forEach(event => {
+      //       if (!event.attached) {
+      //         console.log('attach dom event on update')
+      //         el.addEventListener(event.name, event.callback)
+      //         event.domNode = el
+      //         event.attached = true
+      //         console.warn('Missing dom event', event)
+      //       }
+      //     })
+      //   }
+      // },
+      // onEnterAnimation: function () {
+      //   console.log('enter animation')
+      // }
     }
   }
 }
@@ -251,7 +317,6 @@ export default (projector) => {
         mixins: [Mixins.LiveEvents],
         modalEffectors: {
           showContent: function () {
-            this.on()
             return renderAfter(doGlobalAnimation(this), projector)
           },
           hideContent: function (v) {
@@ -259,7 +324,7 @@ export default (projector) => {
           }
         },
         modalEffects: function (event) {
-//          console.log('content event', event)
+          console.log('content event', event)
           if (event.name == 'showContent') {
             this.opt('classes', {'animated': true, 'slideInDown': true, 'is-hidden': false})
 //            projector.scheduleRender()
@@ -273,8 +338,6 @@ export default (projector) => {
           else if (event.name == 'hideContent:done') {
             this.opt('classes', {'animated': false, 'slideOutUp': false, 'is-hidden': true})
 //            projector.scheduleRender()
-          }
-          else if (event.name == 'mergeWith') {
           }
         }
         // onUpdateAnimation: function (el) {
@@ -293,7 +356,7 @@ export default (projector) => {
 //            waitFor: ['hideContent:done']
           }]
 //          this.sources.modal.set('modal', false)
-          this.sources.modal.wait(effects).emit('mergeWith', {data: {modal: false}})
+          this.sources.modal.wait(effects).set('modal', false)//.emit('mergeWith', {data: {modal: false}})
         }
       },
 //       modalChanged: function (v, key) {
@@ -397,63 +460,189 @@ export default (projector) => {
         }
       }
     },
-    $buttons: {
-      type: Buttons,
-      $openModalBtn: {
-        type: Button,
-        text: 'Open Modal',
-        onClick: function () {
-          const effects = [{
-            effector: 'showOverlay'
-          }, {
-            effector: 'showContent',
-  //          watch: function (event) {return event.name == 'showOverlay:done'}
-  //          waitFor: ['showOverlay:done']
-          }, {
-            name: 'focusInput',
-            watch: function (event) {return event.name == 'showContent:done'}
-  //          waitFor: ['showContent:done']
-          }]
+    $test: {
+      $buttons: {
+        type: Buttons,
+        $openModalBtn: {
+          type: Button,
+          text: 'Open Modal',
+          onClick: function () {
+            const effects = [{
+              effector: 'showOverlay',
+            }, {
+              effector: 'showContent',
+    //          watch: function (event) {return event.name == 'showOverlay:done'}
+    //          waitFor: ['showOverlay:done']
+            }, {
+              name: 'focusInput',
+              watch: function (event) {return event.name == 'showContent:done'},
+    //          waitFor: ['showContent:done']
+            }]
 
-          this.sources.modal.wait(effects).emit('mergeWith', {data: {modal: true}})
+            console.log('openModal')
+            this.sources.modal.wait(effects).set('modal', true)//.emit('mergeWith', {data: {modal: true}})
 
-  //        this.sources.modal.set('modal', true)
+    //        this.sources.modal.set('modal', true)
+          }
+        },
+        $openNotifyBtn: {
+          type: Button,
+          text: 'Show notification',
+          onClick: function () {
+
+            const openNotif = [{
+              effector: 'show'
+            }]
+
+            const waitAndCloseNotif = [{
+              name: 'timer',
+              effector: () => renderAfter(timer(5000), projector),
+              mode: 'pre'
+            }, {
+              effector: 'hide',
+              mode: 'pre',
+              watch: function (event) { return event.name == 'timer:done' }
+            }, {
+              effector: 'collapse',
+              mode: 'pre',
+              watch: function (event) { return event.name == 'hide:done' }
+            }]
+
+
+            this.sources.modal.entry('notifications')
+              .add({text: LOREM_IPSUM + new Date().getTime()})
+              .then(openNotif)
+              .and()
+              .when(waitAndCloseNotif)
+              .emit('remove')
+//              .remove()
+              // .with(openNotif),
+              // .and()
+              // .when(waitAndCloseNotif)
+              // .emit('remove')
+              // .wait(openNotif)
+              // .emit('_')
+              // .wait(waitAndCloseNotif)
+              // .emit('remove')
+          }
         }
+      }
+    },
+    $cssTransitions: {
+      sources: {
+        data: {p: false}
       },
-      $openNotifyBtn: {
-        type: Button,
-        text: 'Show notification',
-        onClick: function () {
-
-          const openNotif = [{
-            effector: 'show'
-          }]
-
-          const waitAndCloseNotif = [{
-            name: 'timer',
-            effector: () => renderAfter(timer(5000), projector),
-            mode: 'pre'
-          }, {
-            effector: 'hide',
-            mode: 'pre',
-            watch: function (event) { return event.name == 'timer:done' }
-          }, {
-            effector: 'collapse',
-            mode: 'pre',
-            watch: function (event) { return event.name == 'hide:done' }
-          }]
-
-
-          this.sources.modal.entry('notifications')
-            .add({text: LOREM_IPSUM + new Date().getTime()})
-            // .with(openNotif),
-            // .and()
-            // .when(waitAndCloseNotif)
-            // .emit('remove')
-            .wait(openNotif)
-            .emit('_')
-            .wait(waitAndCloseNotif)
-            .emit('remove')
+      layout: Layouts.Content,
+      $title: {
+        html: 'h4',
+        text: 'CSS transitions'
+      },
+      $content: {
+        dynamic: true,
+        dataChanged: function (v, key) { this.opt('$components', key) },
+        $button: {
+          type: Button,
+          text: 'Press me',
+          onClick: function () {
+//            this.sources.data.toggle('p')
+            const showEff = [{
+              effector: 'show',
+//              watch: event => event.name == 'afterRender'
+            }]
+            const hideEff = [{
+              effector: 'hide',
+              mode: 'pre'
+            }]
+            const p = this.sources.data.get('p')
+            if (p) {
+              this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
+            }
+            else {
+              this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
+            }
+          }
+        },
+        $p: {
+          html: 'p',
+          text: 'Hello!',
+//          as: 'fade-enter-active',
+//          classes: {'fade-enter': true},
+          weight: 10,
+          // onAfterCreate: function() {
+          //   console.log('enter', this)
+          //   // this.opt('classes', {'fade-enter': false})
+          //   // projector.scheduleRender()
+          // },
+          mixins: [Mixins.LiveEvents],
+          dataEffectors: {
+            hide: function () {
+              return {
+                resolver: () => renderAfter(transition(this), projector),
+                ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+              }
+//              return
+            },
+            // myEffect: function () {
+            //   return {
+            //     use: () => {
+            //       // промис или функция с колбэком
+            //       return (callback) => {
+            //
+            //       }
+            //     }
+            //   }
+            // },
+            show: function () {
+              return {
+                // animation: () => {
+                //   projector.scheduleRender()
+                // },
+                resolver: () => {
+//                   requestAnimationFrame(() => {
+// //                    this.source.emit(this.name+':active', {effectId: this.id, effectStage: 'active'})
+//                     projector.scheduleRender()
+//                   })
+                  return renderAfter(transition(this), projector)
+                },
+                active: () => {
+                  this.opt('classes', {'fade-enter': false})
+                },
+                ready: () => {
+                  this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+                  // requestAnimationFrame(() => {
+                  //   this.opt('classes', {'fade-enter': false})
+                  //   projector.scheduleRender()
+                  // })
+                },
+                done: () => this.opt('classes', {'fade-enter-active': false})
+              }
+            }
+          },
+          // dataEffects: function (event) {
+          //   console.log('p', event.name)
+          //   if (event.name == 'init') {
+          //     // this.opt('classes', {'fade-enter': true})
+          //     // requestAnimationFrame(() => {
+          //     //   this.sources.data.emit('afterRender')
+          //     // })
+          //   }
+          //   // else if (event.name == 'show') {
+          //   //   this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+          //   //   requestAnimationFrame(() => {
+          //   //     this.opt('classes', {'fade-enter': false})
+          //   //     projector.scheduleRender()
+          //   //   })
+          //   // }
+          //   // else if (event.name == 'show:done') {
+          //   //   this.opt('classes', {'fade-enter-active': false})
+          //   // }
+          //   // else if (event.name == 'hide') {
+          //   //   this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+          //   // }
+          // },
+//           dataChanged: function (v) {
+// //            this.opt('classes', {'fade-enter': v.p})
+//           }
         }
       }
     }

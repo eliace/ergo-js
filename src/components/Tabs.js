@@ -33,7 +33,7 @@ class Tabs extends Html {
   }
   static OPTIONS = {
     tabs: {
-      set: function (v) {
+      initOrSet: function (v) {
         if (this.$list) {
           this.$list.opt('items', v)
         }

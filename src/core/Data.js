@@ -7,12 +7,17 @@ class Source {
   // - удаление свободных наблюдаемых объектов
   // - модель данных
 
-  constructor(v, k) {
+  constructor(v, k, o) {
     this.id = k
     this.src = v
     this.entries = {}// Array.isArray(v) ? [] : {}
     this.observers = []
     this.isNested = v instanceof Source
+    this.options = o
+
+    if (this.options && this.options.computed) {
+      this.compute(this.get())
+    }
 //    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
   }
@@ -47,7 +52,12 @@ class Source {
 
       this.cache = v
 
-      v = v[k]
+      // if (this.options && this.options.model && this.options.model[k] && this.options.model[k].get) {
+      //   v = this.options.model[k].get.call(this, v)
+      // }
+      // else {
+        v = v[k]
+      // }
     }
 
 //     if (this.cache != null && this.cache != v) {
@@ -122,7 +132,7 @@ class Source {
       }
     }
 
-    return v
+    return this
   }
 
   toggle(k) {
@@ -195,23 +205,15 @@ class Source {
       if (this.isNested && direction != 'desc' && direction != 'none') {
         this.src.update('asc', event)
       }
-      this.observers.forEach(t => {
-        t.dataChanged.call(t.target, this.get(), t.key)
-        // let v = this.get()
-        // if (typeof t.dataChanged == 'function') {
-        //   t.dataChanged.call(t.target, v, t.key)
-        // }
-        // else {
-          // for (let i = 0; i < t.dataChanged.length; i++) {
-          //   v = t.dataChanged[i].call(t.target, v, t.key)
-          //   if (v === undefined) break // обеспечивает безусловное исполнение первого элемента цепочки
-          // }
-//        }
-//        t.dataChanged.call(t.target, this.get()/*, this*/, t.key)
-        // if (t.dataEffects) {
-        //   t.dataEffects.call(t.target, 'done', this.get(), {event})
-        // }
-      })
+
+      if (this.options && this.options.computed) {
+        this.compute(this.get())
+      }
+
+      this.emit('changed', {data: this.get()})
+      // this.observers.forEach(t => {
+      //   t.dataChanged.call(t.target, this.get(), t.key)
+      // })
 
       if (direction != 'asc' && direction != 'none') {
         for (let i in this.entries) {
@@ -372,16 +374,16 @@ class Source {
     return this.entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
   }
 
-
-  notify2 (event, data, target) {
-    this.observers.forEach(t => {
-      if (target == null || target == t.target) {
-        if (t.dataEffects) {
-          t.dataEffects.call(t.target, event, data, t.key)
-        }
+  compute (v) {
+    if (this.options && this.options.computed) {
+      for (let i in this.options.computed) {
+        const computor = this.options.computed[i]
+        v[i] = computor.call(this, v)
       }
-    })
+    }
   }
+
+
 
 
   use (name, ctor, context) {
@@ -395,14 +397,18 @@ class Source {
     delete this.effectors[name]
   }
 
-  init (target) {
-//    console.log('init', target)
-    this.observers.forEach(t => {
-      if (target == null || target == t.target) {
-        t.dataChanged.call(t.target, this.get(), t.key)
-      }
-    })
-  }
+//   init (target) {
+// //    console.log('init', target)
+//     this.observers.forEach(t => {
+//       if (target == null || target == t.target) {
+//         t.dataChanged.call(t.target, this.get(), t.key)
+//       }
+//     })
+//   }
+
+_init (target) {
+  this.emit('init', {target, data: this.get()})
+}
 
 
   get snapshot() {
@@ -484,19 +490,30 @@ class Source {
       this.prepare(pre[i], event)
     }
 
-    if (this[event.name]) {
+    if (this._acting && Object.keys(this._acting).length) {//this[event.name]) {
+
       this.tryResolve(event)
+
+      if (this._acting[event.effectId]) {
+        const baseEffect = this._acting[event.effectId]
+        if (baseEffect[event.effectStage]) {
+          baseEffect[event.effectStage].call(baseEffect.target, event.data)
+        }
+      }
+
     }
     else {
+      event.resolved = true
 //      console.log ('[do]-'+event.name, this.snapshot)
       this.observers.forEach(t => {
         if (event.target == null || event.target == t.target) {
-          if (t.dataEffects) {
-            t.dataEffects.call(t.target, event, t.key)
+          if (t.dataChanged) {
+            t.dataChanged.call(t.target, event, t.key)
           }
         }
       })
-      event.resolved = true
+
+//      event.resolved = true
     }
 
     // Пре-эффекты
@@ -547,27 +564,40 @@ class Source {
     effect.eventKey = event.originalKey || event.key
     effect.originalEvent = event.originalEvent || event
 
-    let result = null
+    let result = effect.params || event.params || [event.data]
 
     if (effect.effector) {
       if (typeof effect.effector === 'function') {
-        effect.resolver = effect.resolver || effect.effector        
+        effect.resolver = effect.resolver || effect.effector
       }
       else {
         const effector = this.effectors[effect.effector]
-        effect.resolver = effect.resolver || effector.ctor
         effect.target = effect.target || effector.context
         effect.name = effect.name || effect.effector
+        effect.source = this
+        const defaultEffect = effector.ctor.apply(effect.target, result)
+        if (defaultEffect.constructor == Object) {
+          effect = {...defaultEffect, ...effect}
+        }
+        else {
+          result = defaultEffect
+//          effect.resolver = effect.resolver || defaultEffect
+        }
+//        effect.resolver = effect.resolver || effector.ctor
       }
     }
 
     //  время решать эффект
     if (typeof effect.resolver == 'function') {
-      result = effect.resolver.apply(effect.target, effect.params || event.params || [event.data])
+      result = effect.resolver.apply(effect.target, result)//effect.params || event.params || [event.data])
     }
-    else {
-      result = effect.params || event.params || [event.data]
-    }
+
+    // else {
+    //   result = effect.resolver
+    // }
+    // else {
+    //   result = effect.params || event.params || [event.data]
+    // }
 
     if (result instanceof Promise) {
       result
@@ -575,41 +605,81 @@ class Source {
           // убираем эффект из списка активных
           delete this._acting[effect.id]
           this.emit(effect.name+':done', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+
+          if (effect.done) {
+            effect.done.call(effect.target, v)
+          }
+
           if (v !== undefined) {
             effect.originalEvent.params = [v]
             effect.originalEvent.data = v
           }
+
           this.tryResolve(effect.originalEvent)
+
         })
+        .catch(err => {
+          console.error(err);
+        })
+
+        if (result.active) {
+          result.active(v => {
+            this.emit(effect.name+':active', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+
+            if (effect.active) {
+              effect.active.call(effect.target, v)
+            }
+
+          })
+        }
     }
     else {
       delete this._acting[effect.id]
     }
 
     this.emit(effect.name, {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+
+    if (effect.ready) {
+      effect.ready.call(effect.target, result)
+    }
+
+
+    // if (typeof effect.animation == 'function') {
+    //   requestAnimationFrame(() => {
+    //     effect.animation.call(effect.target)
+    //     this.emit(effect.name+':active', {data: result})
+    //     if (effect.active) {
+    //       effect.active.call(effect.target, result)
+    //     }
+    //   })
+    // }
+
+
   }
 
   tryResolve (event) {
 
 //    console.log('[try]-'+event.name, this.snapshot)
 
-    if (this[event.name]) {
-      let readyToResolve = true
-      if (this._acting) {
+//    if (this[event.name]) {
+    let readyToResolve = true
+    if (this._acting) {
 //        console.log('tryResolve', this._acting, event)
-        for (let i in this._acting) {
-          if (this._acting[i].eventKey == event.key) {
-            readyToResolve = false
-            break
-          }
+      for (let i in this._acting) {
+        if (this._acting[i].eventKey == event.key) {
+          readyToResolve = false
+          break
         }
       }
-      if (readyToResolve) {
-        if (event.resolved) {
-          console.warn('Event already resolved', event)
-        }
-        else {
-          event.resolved = true
+    }
+    if (readyToResolve) {
+      if (event.resolved) {
+        console.warn('Event already resolved', event)
+      }
+      else {
+        event.resolved = true
+
+        if (this[event.name]) {
 
           let result = null
           // if (event.name != 'init') {
@@ -628,24 +698,26 @@ class Source {
             result = this[event.name]()
           }
 
-          this.observers.forEach(t => {
-            if (event.target == null || event.target == t.target) {
-              if (t.dataEffects) {
-                t.dataEffects.call(t.target, event, t.key)
-              }
-            }
-          })
-
-          if (this._unresolved && this._unresolved[event.key]) {
-            delete this._unresolved[event.key]
-          }
-
 //          console.log('[try]-'+event.name, 'OK')
 
-          return result
+//          return result
         }
+
+        this.observers.forEach(t => {
+          if (event.target == null || event.target == t.target) {
+            if (t.dataChanged) {
+              t.dataChanged.call(t.target, event, t.key)
+            }
+          }
+        })
+
+        if (this._unresolved && this._unresolved[event.key]) {
+          delete this._unresolved[event.key]
+        }
+
       }
     }
+
 //    console.log('[try]-'+event.name, 'BAD')
   }
 
@@ -660,6 +732,18 @@ class Source {
       this._waiting.push(effects[i])
     }
 
+    return this
+  }
+
+  when(effects) {
+    return this.wait(effects)
+  }
+
+  then (effects) {
+    return this.wait(effects).emit('_')
+  }
+
+  and() {
     return this
   }
 

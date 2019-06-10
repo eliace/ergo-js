@@ -8,8 +8,9 @@ class Icon extends Html {
   static OPTIONS = {
     text: {
       initOrSet: function (v) {
-//        debugger
-        this.opt('classes', {[v]: true})
+        const classes = {}
+        v.split(' ').forEach(c => classes[c] = true)
+        this.opt('classes', classes)
       }
     }
   }

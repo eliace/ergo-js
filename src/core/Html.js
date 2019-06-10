@@ -27,7 +27,11 @@ const DEFAULT_EVENTS = {
   onUpdateAnimation: 'updateAnimation',
   onAfterCreate: 'afterCreate',
   onUpdateAnimation: 'updateAnimation',
-  onAfterUpdate: 'afterUpdate'
+  onAfterUpdate: 'afterUpdate',
+  onInput: 'oninput',
+  onChange: 'onchange',
+  onKeyDown: 'onkeydown',
+  onKeyUp: 'onkeyup',
 }
 
 const HTML_OPTIONS = {
@@ -49,6 +53,7 @@ const HTML_OPTIONS = {
   placeholder: true,
   readOnly: true,
   rel: true,
+  rows: true,
   spellcheck: true,
   src: true,
   srcset: true,
@@ -125,9 +130,25 @@ const Html = class {
         var compKey = i.substr(1)
         extOpts['components'][compKey] = o
       }
+
     }
 
     const preparedOpts = new Options(opts, extOpts)
+
+    // sugar opts
+    for (var i in opts) {
+      if (this.constructor.OPTIONS[i]) {
+        const desc = this.constructor.OPTIONS[i]
+        if (desc.sugar) {
+          desc.sugar.call(this, opts[i], preparedOpts)
+        }
+      }
+    }
+
+
+    // if (this.prepareOptions) {
+    //   this.prepareOptions(opts, preparedOpts)
+    // }
 
 //    let incOpts = null
     if (opts.mixins) {
@@ -374,9 +395,11 @@ const Html = class {
     }
     while (this._binding_chain.length) {
       const i = this._binding_chain.shift()
+      this.sources[i]._init(this)
 //      this.sources[i].update('none', 'init')
       // заменить на прямой вызов update
-      this.sources[i].emit('init', {data: this})//this.sources[i].get(), this)
+//      this.sources[i].emit('get', {target: this})
+//      this.sources[i].emit('init', {target: this})//this.sources[i].get(), this)
       // const o = opts[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
       // for (let j in o) {
       //   this.opt(j, o[j])
@@ -442,14 +465,24 @@ const Html = class {
 
   render() {
 //    console.log('render', !!this.vnode, this.children.length, this)
+    if (this.options.render === false) {
+      return null
+      // if (!this.options.rendering.call(this, h)) {
+      //   return null
+      // }
+    }
+
     if (this.children.length) {
       if (this.layout == null) {
         this.layout = defaultFactory(this.options.layout, Layout)
       }
       this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children])
     }
-    else {
+    else if(this.text || this.props.value) {
       this.vnode = this.vnode || h(this.html, deepClone(this.props), [this.text])
+    }
+    else if (this.options.renderIfEmpty !== false) {
+      this.vnode = this.vnode || h(this.html, deepClone(this.props))
     }
     return this.vnode
   }
@@ -488,7 +521,8 @@ const Html = class {
       if (this._binding_chain) {
         while (this._binding_chain.length) {
           const i = this._binding_chain.shift()
-          this.sources[i].emit('init', {data: this})//, null, this)
+          this.sources[i]._init(this)
+//          this.sources[i].emit('init', {target: this})//, null, this)
           // const o = this.options[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
           // for (let j in o) {
           //   this.opt(j, o[j])
@@ -596,7 +630,8 @@ const Html = class {
         }
       }
       for (let i in value) {
-        this.sources[i].emit('init', {data: this})//, null, this)
+        this.sources[i]._init(this)
+//        this.sources[i].emit('init', {target: this})//, null, this)
 //        this.rebind(this.sources[i].get(), i, this.sources[i])
       }
     }
@@ -618,7 +653,7 @@ const Html = class {
           let add = {}
           let update = []
 
-          console.log('items', value.get())
+//          console.log('items', value.get())
 
           value.stream((entry, i) => {
       //      console.log(entry.get())
@@ -675,28 +710,42 @@ const Html = class {
           key = value
           value = this.sources[key]
         }
+        else if (typeof value == 'function') {
+          value = value()
+        }
 
         if (value instanceof Source) {
           let o = this.options
           let def = {...o.components}
-          value = value.get()
-          for (let i in value) {
-            if (o.components && o.components[i]) {
-              const s = value[i]
-              if (s !== false && !this['$'+i]) {
-  //              debugger
-                this.addComponent(i, o.components[i])
+          const data = value.get()
+          if (o.components) {
+            for (let i in o.components) {
+//          for (let i in data) {
+              if (o.components && o.components[i]) {
+                const s = data[i]
+                if (s !== false && !this['$'+i]) {
+    //              debugger
+                  this.addComponent(i, o.components[i])
+                }
+                else if (s === false && this['$'+i]) {
+    //              debugger
+                  this.removeComponent(i)
+                }
+                delete def[i]
               }
-              else if (s === false && this['$'+i]) {
-  //              debugger
-                this.removeComponent(i)
-              }
-              delete def[i]
             }
           }
           for (let i in def) {
-            this.addComponent(i, o.components[i])
+            if (this['$'+i]) {
+              // пропускаем
+            }
+            else {
+              this.addComponent(i, o.components[i])
+            }
           }
+        }
+        else if (typeof value === 'function') {
+
         }
         else {
           for (let i in value) {
@@ -849,6 +898,13 @@ const Html = class {
     if (this['$'+i]) {
       this.removeComponent(i)
     }
+
+    // TODO сделать корректную обработку строковых опций
+
+    // if ((this.options.defaultComponent || this.options.components[i]) && typeof o === 'string') {
+    //   o = {text: o}
+    // }
+
 
 //     let dataOpts = this.data == null ? null : {data: this.data}
 //     if (this.state) {
@@ -1023,7 +1079,7 @@ const Html = class {
 
     if (o.binding || o[i+'Effects'] || o.effects || o[i+'Changed']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
-      source.join(this, this.rebind, this.unbind, i, o[i+'Effects'])
+      source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
       }
@@ -1175,6 +1231,41 @@ const Html = class {
   rebind (v, key) {
 
     const o = this.options
+
+//    console.log (v, key)
+
+    if (v.name == 'changed' || v.name == 'init') {
+      if (o[key+'Changed']) {
+        const dynOpts = o[key+'Changed'].call(this, v.data, key)
+        if (dynOpts) {
+          this.opt(dynOpts, key)
+          // for (let j in dynOpts) {
+          //   this.opt(j, dynOpts[j], key)
+          // }
+        }
+      }
+
+      if (o.binding) {
+        v = {}
+        for (let i in this.sources) {
+          v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
+        }
+        const bindOpts = o.binding.call(this, v, key)
+        if (bindOpts) {
+          this.opt(bindOpts, key)
+          // for (let j in bindOpts) {
+          //   this.opt(j, bindOpts[j], key)
+          // }
+        }
+      }
+
+    }
+
+    if (o[key+'Effects']) {
+      o[key+'Effects'].call(this, v, key)
+    }
+
+    return
 
     if (o[key+'Changed']) {
       const dynOpts = o[key+'Changed'].call(this, v, key)
