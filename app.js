@@ -187,9 +187,11 @@ const Mutate = {
 
 
 
-Events.on('click', function () {
-  app.sources.dropdown.set(false)
-  projector.scheduleRender()
+Events.on('mousedown', function () {
+  if (app.sources.dropdown.get()) {
+    app.sources.dropdown.set(false)
+    projector.scheduleRender()
+  }
 })
 
 

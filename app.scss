@@ -101,6 +101,16 @@ body {
   }
 }
 
+.dropdown-input {
+
+  .dropdown-trigger:hover {
+    .dropdown-icon {
+      color: $link-active-border;
+    }
+  }
+
+}
+
 // .dropdown {
 //   &.is-active {
 //     .dropdown-overlay {

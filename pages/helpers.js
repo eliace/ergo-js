@@ -44,5 +44,8 @@ export const Mutate = {
   },
   DynamicComponents: function (v, key) {
     return {$components: key}
+  },
+  Value: function (v) {
+    return {value: v}
   }
 }

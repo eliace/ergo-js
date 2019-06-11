@@ -32,9 +32,19 @@ const DEFAULT_EVENTS = {
   onChange: 'onchange',
   onKeyDown: 'onkeydown',
   onKeyUp: 'onkeyup',
+  onFocus: 'onfocus',
+  onBlur: 'onblur'
 }
 
+
+const SVG_OPTIONS = {
+  d: true,
+  fill: true
+}
+
+
 const HTML_OPTIONS = {
+  ...SVG_OPTIONS,
   accessKey: true,
   action: true,
   alt: true,
@@ -1033,6 +1043,16 @@ const Html = class {
     this.children.forEach(c => c.walk && c.walk(callback))
   }
 
+  climb (callback) {
+    let c = this
+    while (c) {
+      if (callback(c) === false) {
+        break
+      }
+      c = c.parent
+    }
+  }
+
 
 
   bind(v, i) {
@@ -1265,32 +1285,47 @@ const Html = class {
       o[key+'Effects'].call(this, v, key)
     }
 
-    return
+    // return
+    //
+    // if (o[key+'Changed']) {
+    //   const dynOpts = o[key+'Changed'].call(this, v, key)
+    //   if (dynOpts) {
+    //     this.opt(dynOpts, key)
+    //     // for (let j in dynOpts) {
+    //     //   this.opt(j, dynOpts[j], key)
+    //     // }
+    //   }
+    // }
+    //
+    // if (o.binding) {
+    //   v = {}
+    //   for (let i in this.sources) {
+    //     v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
+    //   }
+    //   const bindOpts = o.binding.call(this, v, key)
+    //   if (bindOpts) {
+    //     this.opt(bindOpts, key)
+    //     // for (let j in bindOpts) {
+    //     //   this.opt(j, bindOpts[j], key)
+    //     // }
+    //   }
+    // }
 
-    if (o[key+'Changed']) {
-      const dynOpts = o[key+'Changed'].call(this, v, key)
-      if (dynOpts) {
-        this.opt(dynOpts, key)
-        // for (let j in dynOpts) {
-        //   this.opt(j, dynOpts[j], key)
-        // }
-      }
-    }
+  }
 
-    if (o.binding) {
-      v = {}
-      for (let i in this.sources) {
-        v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
-      }
-      const bindOpts = o.binding.call(this, v, key)
-      if (bindOpts) {
-        this.opt(bindOpts, key)
-        // for (let j in bindOpts) {
-        //   this.opt(j, bindOpts[j], key)
-        // }
-      }
-    }
 
+
+  emit (name, event) {
+
+  }
+
+
+  rise (name, event) {
+    this.climb(c => {
+      if (c.options[name]) {
+        return c.options[name].call(c, event)
+      }
+    })
   }
 
   // rebindOpts(o, key) {

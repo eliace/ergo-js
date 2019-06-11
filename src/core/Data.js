@@ -1,5 +1,44 @@
 import {deepClone} from './Utils'
 
+
+
+class Stream {
+
+  constructor (src, data) {
+    this.src = src
+    this.data = data
+  }
+
+  filter (f) {
+    return new Stream()
+  }
+
+  map (f) {
+    return new Stream()
+  }
+
+  forEach (f) {
+    return this
+  }
+
+  sort (f) {
+    return new Stream()    
+  }
+
+  first () {
+    return new Source()
+  }
+
+  last () {
+    return new Source()
+  }
+}
+
+
+
+
+
+
 class Source {
 
   // возможные опции:
