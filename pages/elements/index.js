@@ -11,6 +11,8 @@ import ImageExample from './image'
 import NotificationExample from './notification'
 import TagExample from './tag'
 import TitleExample from './title'
+import ProgressExample from './progress'
+import TableExample from './table'
 
 export default (projector) => {
 
@@ -25,6 +27,8 @@ export default (projector) => {
       icon: (v) => v.selected == 'Icon',
       image: (v) => v.selected == 'Image',
       notification: (v) => v.selected == 'Notification',
+      progress: (v) => v.selected == 'Progress',
+      table: (v) => v.selected == 'Table',
       tag: (v) => v.selected == 'Tag',
       title: (v) => v.selected == 'Title',
     }
@@ -64,6 +68,8 @@ export default (projector) => {
           {text: 'Icon'},
           {text: 'Image'},
           {text: 'Notification'},
+          {text: 'Progress'},
+          {text: 'Table'},
           {text: 'Tag'},
           {text: 'Title'},
         ]
@@ -79,6 +85,8 @@ export default (projector) => {
       $icon: IconExample(projector),
       $image: ImageExample(projector),
       $notification: NotificationExample(projector),
+      $progress: ProgressExample(projector),
+      $table: TableExample(projector),
       $tag: TagExample(projector),
       $title: TitleExample(projector),
     }

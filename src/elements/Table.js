@@ -1,12 +1,50 @@
 import {Html} from '../core'
 
-export default class Table extends Html {
+
+class Row extends Html {
+
+  static defaultOpts = {
+    html: 'tr'
+  }
+}
+
+
+
+class Table extends Html {
 
   static defaultOpts = {
     html: 'table',
-    props: {
-      class: 'table'
+    as: 'table',
+    components: {
+      colgroup: {
+        html: 'colgroup',
+        defaultItem: {
+          html: 'col'
+        }
+      },
+      head: {
+        html: 'thead',
+        defaultItem: {
+          type: Row,
+          defaultItem: {
+            html: 'th'
+          }
+        }
+      },
+      body: {
+        html: 'tbody',
+        defaultItem: {
+          type: Row,
+          defaultItem: {
+            html: 'td'
+          }
+        }
+      }
     }
   }
 
+  static Row = Row
 }
+
+
+export default Table

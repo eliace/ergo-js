@@ -21,7 +21,7 @@ const Layout = class {
   // }
 
   combine(children) {
-    return children.map(child => child.render())
+    return children.map(child => child.render ? child.render() : child)
   }
 
   compare(a, b) {

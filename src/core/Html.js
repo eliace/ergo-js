@@ -73,7 +73,7 @@ const HTML_OPTIONS = {
   title: true,
   value: true,
   _type: 'type',
-  key: true
+  key: true,
 }
 
 
@@ -290,6 +290,7 @@ const Html = class {
           this.$content.opt('text', o)
         }
         else {
+//          this.addComponent('content', {text: o})
           this.text = o
         }
       }
@@ -486,7 +487,12 @@ const Html = class {
       if (this.layout == null) {
         this.layout = defaultFactory(this.options.layout, Layout)
       }
-      this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children])
+      if (this.text) {
+        this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+      }
+      else {
+        this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children])
+      }
     }
     else if(this.text || this.props.value) {
       this.vnode = this.vnode || h(this.html, deepClone(this.props), [this.text])
@@ -656,6 +662,11 @@ const Html = class {
           value = this.sources[key]
         }
         if (value instanceof Source) {
+          value = value.asStream()
+        }
+        if (value instanceof Source.Stream) {
+
+          key = value.key || key
 
           const o = this.options
           let items = this.children.filter(child => child.index != null)
@@ -664,8 +675,8 @@ const Html = class {
           let update = []
 
 //          console.log('items', value.get())
-
-          value.stream((entry, i) => {
+          value.entries((entry, i) => {
+//          value.stream((entry, i) => {
       //      console.log(entry.get())
             let found = null
             for (let j = 0; j < items.length; j++) {

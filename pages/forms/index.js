@@ -3,6 +3,7 @@ import {Html, Layouts, Tabs, Source} from '../../src'
 import InputExample from './input'
 import TextareaExample from './textarea'
 import SelectExample from './select'
+import FieldExample from './field'
 
 export default (projector) => {
 
@@ -13,6 +14,7 @@ export default (projector) => {
       input: (v) => v.selected == 'Input',
       textarea: (v) => v.selected == 'Textarea',
       select: (v) => v.selected == 'Select',
+      field: (v) => v.selected == 'Field',
     }
   })
 
@@ -46,6 +48,7 @@ export default (projector) => {
           {text: 'Input'},
           {text: 'Textarea'},
           {text: 'Select'},
+          {text: 'Field'},
         ]
       }
     },
@@ -57,6 +60,7 @@ export default (projector) => {
       $input: InputExample(projector),
       $textarea: TextareaExample(projector),
       $select: SelectExample(projector),
+      $field: FieldExample(projector),
     }
   }
 }

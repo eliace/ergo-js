@@ -4,33 +4,66 @@ import {deepClone} from './Utils'
 
 class Stream {
 
-  constructor (src, data) {
+  constructor (src, data, key) {
     this.src = src
     this.data = data
+    this.key = key
   }
 
   filter (f) {
-    return new Stream()
+    let d = this.data || this.src.get().map((v, i) => [v, i])
+    return new Stream(this.src, d.filter((itm) => f(itm[0])), this.key)
   }
 
   map (f) {
-    return new Stream()
+    let d = this.data || this.src.get().map((v, i) => [v, i])
+    return new Stream(this.src, d.map(itm => [f(itm[0]), itm[1]]), this.key)
   }
 
   forEach (f) {
+    if (this.data) {
+      this.data.forEach(itm => f(itm[0]))
+    }
+    else {
+      this.src.get().forEach(f)
+    }
     return this
   }
 
   sort (f) {
-    return new Stream()    
+    let d = this.data || this.src.get().map((v, i) => [v, i])
+    return new Stream(this.src, [...d].sort((a, b) => f(a[0], b[0])), this.key)
   }
 
   first () {
-    return new Source()
+    let i = this.data ? this.data[0][1] : 0
+    return this.src.entry(i)
   }
 
   last () {
-    return new Source()
+    let i = this.data ? this.data[this.data.length-1][1] : this.src.size()-1
+    return this.src.entry(i)
+  }
+
+  range (offset, limit) {
+    let d = this.data || this.src.get().map((v, i) => [v, i])
+    return new Stream(this.src, d.slice(offset, offset+limit), this.key)
+  }
+
+  entries (f) {
+    if (this.data) {
+      this.data.forEach(itm => f(this.src.entry(itm[1]), itm[1]))
+    }
+    else {
+      const v = this.src.get()
+      for (let i in v) {
+        f(this.src.entry(i), i)
+      }
+    }
+  }
+
+  name (k) {
+    return new Stream(this.src, this.data, k)
   }
 }
 
@@ -788,8 +821,20 @@ _init (target) {
 
 
 
+  asStream() {
+    return new Stream(this)
+  }
 
 
+  size () {
+    const v = this.get()
+    if (Array.isArray(v)) {
+      return v.length
+    }
+    else {
+      return Object.keys(v).length
+    }
+  }
 
 
   // ns () {
@@ -804,6 +849,7 @@ _init (target) {
   //   return keys.join(':')
   // }
 
+  static Stream = Stream
 }
 
 

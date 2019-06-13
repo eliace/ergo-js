@@ -358,7 +358,15 @@ export default (projector) => {
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
           dynamic: true,
-          dataChanged: Mutate.DynamicItems,
+          // dataChanged: function (v, k) {
+          //   const sel = this.sources.selection.get()
+          //   console.log(sel)
+          //   this.opt('$items', this.sources[k].asStream().filter(itm => itm.name.indexOf(sel)))
+          // }, //Mutate.DynamicItems,
+          binding: function (values) {
+            console.log(values.selection)
+            this.opt('$items', this.sources.data.asStream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))
+          },
           defaultItem: {
             onClick: function (e) {
               this.rise('_itemClicked', this)
