@@ -1,3 +1,5 @@
+import {IconBox} from '../src'
+
 
 export const Mixins = {
 
@@ -28,6 +30,50 @@ export const Mixins = {
       // selectionEffects: {
       //   'changed'
       // }
+    }
+  },
+
+  Button: {
+    Icon: function () {
+      return {
+        components: {
+          icon: {
+            type: IconBox,
+            as: 'is-small',
+          },
+          content: {
+
+          }
+        },
+        dynamicOptions: {
+          icon: {
+            initOrSet: function (v) {
+              this.$icon.opt('icon', v)
+            }
+          }
+        }
+      }
+    }
+  },
+
+  Input: {
+    LeftIcon: function () {
+      return {
+        classes: {'has-icons-left': true},
+        components: {
+          leftIcon: {
+            type: IconBox,
+            as: 'is-small is-left',
+          }
+        },
+        dynamicOptions: {
+          leftIcon: {
+            initOrSet: function (v) {
+              this.$leftIcon.opt('icon', v)
+            }
+          }
+        }
+      }
     }
   }
 }

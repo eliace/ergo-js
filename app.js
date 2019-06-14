@@ -279,11 +279,15 @@ const app = new Html({
       },
       $end: {
         type: Navbar.End,
-        defaultComponent: {
+        defaultItem: {
           type: Navbar.Item,
         },
-        $avatar: {
-          weight: 10,
+        items: [{
+          stateId: 'user',
+          stateChanged: function (v) {
+            return {text: v.first_name + ' ' + v.last_name}
+          }
+        }, {
           $content: {
             html: 'img',
             styles: {
@@ -295,13 +299,7 @@ const app = new Html({
               return {src: v.avatar}
             }
           }
-        },
-        $name: {
-          stateId: 'user',
-          stateChanged: function (v) {
-            return {text: v.first_name + ' ' + v.last_name}
-          }
-        }
+        }]
       }
     }
   },

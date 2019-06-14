@@ -4,6 +4,7 @@ export default class Button extends Html {
 
   static defaultOpts = {
     html: 'button',
+    tabIndex: 0,
     props: {
       class: 'button'
     }

@@ -3,7 +3,7 @@ import {Html} from '../core'
 
 class InputBox extends Html {
   static defaultOpts = {
-    as: 'control',
+    as: 'input-box',
     components: {
       input: {
         html: 'input',
@@ -11,4 +11,14 @@ class InputBox extends Html {
       }
     }
   }
+  static OPTIONS = {
+    placeholder: {
+      initOrSet: function (v) {
+        this.$input.opt('placeholder', v)
+      }
+    }
+  }
 }
+
+
+export default InputBox

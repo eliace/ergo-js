@@ -12,6 +12,7 @@ import State from './State'
 const DEFAULT_RULES = {
   defaultItem: rules.Option,
   defaultComponent: rules.Option,
+  defaultComponents: rules.OptionCollection,
   // items: rules.OptionArray,
   components: rules.OptionCollection,
   as: rules.StringArray,
@@ -271,7 +272,16 @@ const Html = class {
     for (var i in opts) {
       var o = opts[i]
 
-      if (this.constructor.OPTIONS[i]) {
+      if (opts.dynamicOptions && opts.dynamicOptions[i]) {
+        const desc = opts.dynamicOptions[i]
+        if (desc.init) {
+          desc.init.call(this, opts[i])
+        }
+        else if (desc.initOrSet) {
+          desc.initOrSet.call(this, opts[i])
+        }
+      }
+      else if (this.constructor.OPTIONS[i]) {
         const desc = this.constructor.OPTIONS[i]
         if (desc.init) {
           desc.init.call(this, opts[i])
@@ -610,7 +620,16 @@ const Html = class {
       name = name.substr(1)
     }
 
-    if (this.constructor.OPTIONS[name]) {
+    if (this.options.dynamicOptions && this.options.dynamicOptions[name]) {
+      const desc = this.options.dynamicOptions[name]
+      if (desc.set) {
+        desc.set.call(this, value)
+      }
+      else if (desc.initOrSet) {
+        desc.initOrSet.call(this, value)
+      }
+    }
+    else if (this.constructor.OPTIONS[name]) {
       const desc = this.constructor.OPTIONS[name]
       if (desc.set) {
         desc.set.call(this, value, key)
@@ -764,6 +783,22 @@ const Html = class {
               this.addComponent(i, o.components[i])
             }
           }
+
+//           if (o.defaultComponents) {
+// //            def = {...o.defaultComponents}
+//             for (let i in o.defaultComponents) {
+//               if (o.defaultComponents[i]) {
+//                 const s = data[i]
+//                 if (s !== false && !this['$'+i]) {
+//                   this.addComponent(i, o.defaultComponents[i])
+//                 }
+//                 else if (s == false && this['$'+i]) {
+//                   this.removeComponent(i)
+//                 }
+//               }
+//             }
+//           }
+
         }
         else if (typeof value === 'function') {
 
@@ -875,6 +910,7 @@ const Html = class {
   }
 
   addItem(o, i) {
+
     if (this.options.defaultItem && typeof o === 'string') {
       o = {text: o}
     }
@@ -920,6 +956,10 @@ const Html = class {
       this.removeComponent(i)
     }
 
+    if (((this.options.dynamicComponents && this.options.dynamicComponents[i]) || this.options.defaultComponent) && typeof o === 'string') {
+      o = {text: o}
+    }
+
     // TODO сделать корректную обработку строковых опций
 
     // if ((this.options.defaultComponent || this.options.components[i]) && typeof o === 'string') {
@@ -932,8 +972,9 @@ const Html = class {
 //       dataOpts = {...dataOpts, state: this.state}
 // //      console.log(i, dataOpts)
 //     }
+    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
     const dataOpts = {sources: this.sources}
-    var compOpts = new Options(this.options.defaultComponent, dataOpts, o).build(DEFAULT_RULES)
+    var compOpts = new Options(this.options.defaultComponent, dynamicComponent, dataOpts, o).build(DEFAULT_RULES)
 //    console.log('addComponent', o, compOpts)
     const comp = defaultFactory(compOpts, (typeof o === 'string') ? Text : Html)
     this.children.push(comp)

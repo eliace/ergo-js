@@ -111,6 +111,28 @@ body {
 
 }
 
+
+.input-box {
+  &.has-icons-left {
+    input {
+      padding-left: 2.25rem;
+    }
+    .icon {
+      color: #dbdbdb;
+      height: 2.25em;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      width: 2.25em;
+      z-index: 4;
+
+      &.is-left {
+        left: 0;
+      }
+    }
+  }
+}
+
 // .dropdown {
 //   &.is-active {
 //     .dropdown-overlay {
