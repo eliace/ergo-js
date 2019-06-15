@@ -58,6 +58,44 @@ class Field extends Html {
 }
 
 
+class Fields extends Html {
+  static defaultOpts = {
+    as: 'field is-horizontal',
+    dynamicComponents: {
+      label: {
+        as: 'field-label is-normal',
+        weight: -100,
+        components: {
+          content: {
+            html: 'label',
+            as: 'label'
+          }
+        }
+      }
+    },
+    components: {
+      body: {
+        as: 'field-body',
+        defaultItem: {
+          type: Field
+        }
+      }
+    }
+  }
+  static OPTIONS = {
+    fields: {
+      initOrSet: function (v) {
+        this.$body.opt('$items', v)
+      }
+    },
+    label: {
+      initOrSet: function (v) {
+        this.addComponent('label', v)
+      }
+    }
+  }
+}
+
 
 
 export default (projector) => {
@@ -106,83 +144,54 @@ export default (projector) => {
         }
       }]
     }, {
-      type: Field,
-      as: 'is-horizontal',
-      $label: {
-        html: 'div',
-        as: 'field-label is-normal',
-        $content: {
-          html: 'label',
-          as: 'label',
-          text: 'Full Name'
+      type: Fields,
+      label: 'Full Name',
+      fields: [{
+        control: {
+          type: InputBox,
+          placeholder: 'First Name'
         }
-      },
-      $body: {
-        items: [{
-          type: Field,
-          control: {
-            type: InputBox,
-            placeholder: 'First Name'
-          }
-        }, {
-          type: Field,
-          control: {
-            type: InputBox,
-            placeholder: 'Middle Name'
-          }
-        }, {
-          type: Field,
-          control: {
-            type: InputBox,
-            placeholder: 'Last Name'
-          }
-        }]
-      }
+      }, {
+        control: {
+          type: InputBox,
+          placeholder: 'Middle Name'
+        }
+      }, {
+        control: {
+          type: InputBox,
+          placeholder: 'Last Name'
+        }
+      }]
     }, {
-      type: Field,
-      as: 'is-horizontal',
-      $label: {
-        html: 'div',
-        as: 'field-label is-normal',
-        $content: {
-          html: 'label',
-          as: 'label',
-          text: 'Actions'
-        }
-      },
-      $body: {
-        items: [{
-          type: Field,
-          as: 'has-addons',
-          controls: [{
-            type: Button,
-            text: 'Alice'
-          }, {
-            type: Button,
-            text: 'Bob'
-          }, {
-            type: Button,
-            text: 'Charlie'
-          }]
+      type: Fields,
+      label: 'Actions',
+      fields: [{
+        as: 'has-addons',
+        controls: [{
+          type: Button,
+          text: 'Alice'
         }, {
-          type: Field,
-//          as: 'has-addons has-addons-right',
-          as: 'is-grouped is-grouped-right',
-          controls: [{
-            type: Button,
-            text: 'Alice'
-          }, {
-            type: IconBox,
-            as: 'is-normal',
-            icon: 'fas fa-minus'
-          }, {
-            type: Button,
-            text: 'Bob'
-          }]
+          type: Button,
+          text: 'Bob'
         }, {
-          type: Field,
+          type: Button,
+          text: 'Charlie'
         }]
-      }
+      }, {
+//          as: 'has-addons has-addons-right',
+        as: 'is-grouped is-grouped-right',
+        controls: [{
+          type: Button,
+          text: 'Alice'
+        }, {
+          type: IconBox,
+          as: 'is-normal',
+          icon: 'fas fa-minus'
+        }, {
+          type: Button,
+          text: 'Bob'
+        }]
+      }]
     }, {
       type: Field,
       as: 'is-horizontal',

@@ -79,7 +79,7 @@ class Source {
   // - удаление свободных наблюдаемых объектов
   // - модель данных
 
-  constructor(v, k, o) {
+  constructor(v, o, k) {
     this.id = k
     this.src = v
     this.entries = {}// Array.isArray(v) ? [] : {}
@@ -89,6 +89,10 @@ class Source {
 
     if (this.options && this.options.computed) {
       this.compute(this.get())
+    }
+
+    if (this.options && this.options.methods) {
+      Object.assign(this, this.options.methods) // FIXME это неправильно
     }
 //    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
@@ -299,7 +303,7 @@ class Source {
   entry(k) {
     let e = this.entries[k]
     if (e == null) {
-      e = new Source(this, k)
+      e = new Source(this, null, k) // в качестве опций должны передаваться параметры модели
       this.entries[k] = e
     }
     return e

@@ -2,7 +2,7 @@ import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
 
-import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
@@ -118,7 +118,7 @@ const Actions = {
 //    console.log('selectMenu', menuKey)
     app.sources.block.set('current', menuKey)
 
-    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage', 'formsPage']
+//    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage', 'formsPage', 'examplesPage']
 
 
     const pageData = {
@@ -129,7 +129,8 @@ const Actions = {
       componentsPage: menuKey == 'components',
       layoutsPage: menuKey == 'layouts',
       animationsPage: menuKey == 'animations',
-      formsPage: menuKey == 'forms'
+      formsPage: menuKey == 'forms',
+      examplesPage: menuKey == 'examples'
     }
 
 //    setTimeout(() => {
@@ -212,7 +213,8 @@ const app = new Html({
       elements: false,
       componentsPage: false,
       animationsPage: false,
-      formsPage: false
+      formsPage: false,
+      examplesPage: false
     },
     state: {
       mainMenu: [{
@@ -244,6 +246,9 @@ const app = new Html({
         }, {
           id: 'forms',
           name: 'Forms'
+        }, {
+          id: 'examples',
+          name: 'Examples'
         }]
       }],
       user: {},
@@ -820,7 +825,8 @@ const app = new Html({
       $elements: ElementsPage(),
       $componentsPage: ComponentsPage(),
       $animationsPage: AnimationsPage(projector),
-      $formsPage: FormsPage(projector)
+      $formsPage: FormsPage(projector),
+      $examplesPage: ExamplesPage(projector)
     }
   }
 })

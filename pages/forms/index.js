@@ -4,6 +4,7 @@ import InputExample from './input'
 import TextareaExample from './textarea'
 import SelectExample from './select'
 import FieldExample from './field'
+import CheckboxExample from './checkbox'
 
 export default (projector) => {
 
@@ -15,6 +16,7 @@ export default (projector) => {
       textarea: (v) => v.selected == 'Textarea',
       select: (v) => v.selected == 'Select',
       field: (v) => v.selected == 'Field',
+      checkbox: (v) => v.selected == 'Checkbox',
     }
   })
 
@@ -49,6 +51,7 @@ export default (projector) => {
           {text: 'Textarea'},
           {text: 'Select'},
           {text: 'Field'},
+          {text: 'Checkbox'},
         ]
       }
     },
@@ -61,6 +64,7 @@ export default (projector) => {
       $textarea: TextareaExample(projector),
       $select: SelectExample(projector),
       $field: FieldExample(projector),
+      $checkbox: CheckboxExample(projector),
     }
   }
 }

@@ -6,11 +6,20 @@
   "dependencies": {
     "animate.css": "^3.7.1",
     "animations.css": "^1.0.1",
+    "axios": "^0.19.0",
     "bulma": "^0.7.4",
+    "bulma-badge": "^3.0.1",
+    "bulma-checkradio": "^1.1.0",
+    "bulma-divider": "^0.2.0",
+    "bulma-extensions": "^6.2.7",
+    "bulma-slider": "^2.0.0",
+    "bulma-switch": "^2.0.0",
+    "bulma-tooltip": "^2.0.2",
     "classnames": "^2.2.6",
     "director": "^1.2.8",
     "font-awesome": "^4.7.0",
     "fontawesome": "^5.6.3",
+    "lodash": "^4.17.11",
     "maquette": "^3.3.3"
   },
   "devDependencies": {

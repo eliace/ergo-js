@@ -139,7 +139,12 @@ const Html = class {
         extOpts['components'] = extOpts['components'] || {}
 
         var compKey = i.substr(1)
-        extOpts['components'][compKey] = o
+        if (extOpts['components'][compKey]) {
+          extOpts['components'][compKey].merge(o)
+        }
+        else {
+          extOpts['components'][compKey] = o
+        }
       }
 
     }
@@ -1125,7 +1130,7 @@ const Html = class {
     // }
 
     if (key != null) {
-      source = (v instanceof Source) ? v.entry(key) : new Source(v, key)
+      source = (v instanceof Source) ? v.entry(key) : new Source(v, null, key)
     }
     else {
       source = (v instanceof Source) ? v : new Source(v)
