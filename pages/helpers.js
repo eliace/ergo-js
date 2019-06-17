@@ -91,7 +91,13 @@ export const Mutate = {
   DynamicItems: function (v, key) {
     return {$items: key}
   },
+  Items: function (v, key) {
+    return {$items: key}
+  },
   DynamicComponents: function (v, key) {
+    return {$components: key}
+  },
+  Components: function (v, key) {
     return {$components: key}
   },
   Value: function (v) {

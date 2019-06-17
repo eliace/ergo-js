@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Buttons, Events, Notification} from '../src'
+import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Buttons, Events, Notification} from '../../src'
 
 import 'animate.css'
 

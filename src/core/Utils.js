@@ -71,7 +71,7 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
 }
 
 
-export const defaultFactory = (item, defaultType) => {
+export const defaultFactory = (item, defaultType, context) => {
 
   var ItemClass = null
 
@@ -90,7 +90,7 @@ export const defaultFactory = (item, defaultType) => {
     ItemClass = alias(ItemClass)
   }
 
-  return new ItemClass(item)
+  return new ItemClass(item, context)
 }
 
 

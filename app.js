@@ -197,7 +197,9 @@ Events.on('mousedown', function () {
 
 
 
-
+const context = {
+  projector
+}
 
 const app = new Html({
   as: 'app',
@@ -316,12 +318,13 @@ const app = new Html({
     },
     $content: {
       layout: Layouts.Columns,
-      dynamic: true,
+//      dynamic: true,
       blockChanged: function (v, key) {
         return {$components: key}
       },
+      dynamic: {
 //      blockComponents: Custom.All,
-      $mainMenu: {
+      mainMenu: {
         type: Menu,
         column: 'is-one-fifth',
         blockId: 'current',
@@ -396,7 +399,7 @@ const app = new Html({
           }
         }
       },
-      $mainContent: {
+      mainContent: {
         type: Content,
         defaultItem: {
           html: 'pre',
@@ -419,7 +422,7 @@ const app = new Html({
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
       },
-      $posts: {
+      posts: {
         $list: {
           dynamic: true,
           stateId: 'posts',
@@ -686,7 +689,7 @@ const app = new Html({
           }
         }
       },
-      $countries: {
+      countries: {
         layout: Layouts.Container,
         stateId: 'countries',
         // binding: function (v, sources) {
@@ -822,14 +825,15 @@ const app = new Html({
           }
         }
       },
-      $elements: ElementsPage(),
-      $componentsPage: ComponentsPage(),
-      $animationsPage: AnimationsPage(projector),
-      $formsPage: FormsPage(projector),
-      $examplesPage: ExamplesPage(projector)
+      elements: ElementsPage(),
+      componentsPage: ComponentsPage(),
+      animationsPage: AnimationsPage(projector),
+      formsPage: FormsPage(projector),
+      examplesPage: ExamplesPage(projector)
+    }
     }
   }
-})
+}, context)
 
 //console.log(app)
 

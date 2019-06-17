@@ -10,7 +10,7 @@ export default (projector) => {
 
   const Data = new Source({
     selected: 'Input'
-  }, null, {
+  }, {
     computed: {
       input: (v) => v.selected == 'Input',
       textarea: (v) => v.selected == 'Textarea',

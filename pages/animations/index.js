@@ -1,23 +1,25 @@
 import {Html, Layouts, Tabs, Source} from '../../src'
 
-import DomainExample from './domain'
-import MultidomainExample from './multidomain'
+import ModalExample from './modal'
+import ToastExample from './toast'
+import TransitionsExample from './transitions'
 
 export default (projector) => {
 
   const Data = new Source({
-    selected: 'Domain',
+    selected: 'Modal',
   }, {
     computed: {
-      domain: (v) => v.selected == 'Domain',
-      multidomain: (v) => v.selected == 'Multidomain',
+      modal: (v) => v.selected == 'Modal',
+      toast: (v) => v.selected == 'Toast',
+      transitions: (v) => v.selected == 'Transitions',
     }
   })
 
   return {
     sources: {
       data: Data,
-      tabs: ['Domain', 'Multidomain']
+      tabs: ['Modal', 'Toast', 'Transitions']
     },
     layout: Layouts.Rows,
     $header: {
@@ -26,7 +28,7 @@ export default (projector) => {
         $content: {
           html: 'h3'
         },
-        text: 'Examples'
+        text: 'Animations'
       },
       $tabs: {
         type: Tabs,
@@ -47,12 +49,15 @@ export default (projector) => {
       }
     },
     $content: {
-      dynamic: true,
+//      dynamic: true,
       dataChanged: function (v, k) {
         this.opt('$components', k)
       },
-      $domain: DomainExample(projector),
-      $multidomain: MultidomainExample(projector),
+      dynamic: {
+        modal: ModalExample(projector),
+        toast: ToastExample(projector),
+        transitions: TransitionsExample(projector),
+      }
     }
   }
 }

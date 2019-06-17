@@ -18,7 +18,7 @@ export default (projector) => {
 
   const Data = new Source({
     selected: 'Box'
-  }, null, {
+  }, {
     computed: {
       box: (v) => v.selected == 'Box',
       button: (v) => v.selected == 'Button',

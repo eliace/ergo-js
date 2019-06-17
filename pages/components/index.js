@@ -7,7 +7,7 @@ export default (projector) => {
 
   const Data = new Source({
     selected: 'Tabs'
-  }, null, {
+  }, {
     computed: {
       tabs: (v) => v.selected == 'Tabs',
       dropdown: (v) => v.selected == 'Dropdown',

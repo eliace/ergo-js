@@ -37,6 +37,11 @@ const DEFAULT_EVENTS = {
   onBlur: 'onblur'
 }
 
+// const DOM_EVENTS = {
+//   transitionend: true,
+//   animationend: true
+// }
+
 
 const SVG_OPTIONS = {
   d: true,
@@ -111,6 +116,29 @@ const Html = class {
       }
 
       proto.classOpts = classOpts.build(DEFAULT_RULES)
+
+
+      const DEFAULT_OPTS = ['text', 'width', 'height', 'as', 'items', 'components', '$items', '$components']
+
+      let proxy = {}
+      // const gs = function (...args) {
+      //   console.log('proxy', args, this)
+      // }
+      for (let i in DEFAULT_OPTS) {
+        const setter = function (v) {
+//          console.log(v)
+          return this.__target.opt(DEFAULT_OPTS[i], v)// gs.call(this, DEFAULT_OPTS[i], v)
+        } //gs.bind(null, DEFAULT_OPTS[i])
+        const getter = function () {
+          return this.__target.opt(DEFAULT_OPTS[i])
+        }
+        Object.defineProperty(proxy, DEFAULT_OPTS[i], {
+          set: setter,
+          get: getter
+        })
+      }
+
+      proto.classOptsProxy = proxy
     }
 
     let opts = new Options(this.classOpts, options).build(DEFAULT_RULES)
@@ -122,6 +150,8 @@ const Html = class {
     this.props = opts.props || {classes: {}}
 
     this.layout = opts.layout ? defaultFactory(opts.layout, Layout) : null
+
+    this.context = context
 
 //    this.state = {}
 
@@ -260,6 +290,46 @@ const Html = class {
         this.addItem(opts.items[i], i)
       }
     }
+
+
+    // const setter = function (target, prop, value) {
+    //   target.opt()
+    // }
+
+//    debugger
+
+    this.opts = {__target: this}
+
+//    const proxy = this.classOptsProxy
+
+//    debugger
+
+//     if (Object.setPrototypeOf) {
+//       Object.setPrototypeOf(proxy, Object.getPrototypeOf(this.opts))
+//     } else if (proxy.__proto__) {
+//       proxy.__proto__ = this.opts.__proto__
+//     } else {
+//       console.log('err')
+// //      prototypeOk = false;
+//     }
+//Object.setPrototypeOf(proxy, Objecy.getPrototypeOf(this.opts))
+    Object.setPrototypeOf(this.opts, this.classOptsProxy)
+
+      // this.opts.aaa = 5
+      // console.log(this.opts, this.classOptsProxy)
+
+//    this.opts.as = ['hello']
+
+//    console.log(this.opts.prototype)
+
+    // this.opts = new Proxy(this, {
+    //   set (target, prop, value) {
+    //     return target.opt(prop, value)
+    //   },
+    //   get (target, prop) {
+    //     return target.opt(prop)
+    //   }
+    // })
 
     // привязка данных
 
@@ -415,7 +485,7 @@ const Html = class {
 
     this._binding_chain = []
     for (let i in this.sources) {
-      if (opts[i+'Changed']) {
+      if (opts[i+'Changed'] || opts[i+'Events']) {
         this._binding_chain.push(i)
       }
     }
@@ -500,7 +570,7 @@ const Html = class {
 
     if (this.children.length) {
       if (this.layout == null) {
-        this.layout = defaultFactory(this.options.layout, Layout)
+        this.layout = defaultFactory(this.options.layout, Layout, this.context)
       }
       if (this.text) {
         this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
@@ -761,16 +831,17 @@ const Html = class {
 
         if (value instanceof Source) {
           let o = this.options
-          let def = {...o.components}
+          let dynamicComponents = o.dynamic === true ? o.components : o.dynamic
+          let def = {...dynamicComponents}
           const data = value.get()
-          if (o.components) {
-            for (let i in o.components) {
+          if (dynamicComponents) {
+            for (let i in dynamicComponents) {
 //          for (let i in data) {
-              if (o.components && o.components[i]) {
+              if (dynamicComponents && dynamicComponents[i]) {
                 const s = data[i]
                 if (s !== false && !this['$'+i]) {
     //              debugger
-                  this.addComponent(i, o.components[i])
+                  this.addComponent(i, dynamicComponents[i])
                 }
                 else if (s === false && this['$'+i]) {
     //              debugger
@@ -785,7 +856,7 @@ const Html = class {
               // пропускаем
             }
             else {
-              this.addComponent(i, o.components[i])
+              this.addComponent(i, dynamicComponents[i])
             }
           }
 
@@ -927,7 +998,7 @@ const Html = class {
     const dataOpts = {sources: this.sources}
     let itemOpts = new Options(dataOpts, this.options.defaultItem, o).build(DEFAULT_RULES)
 //    console.log('addItem', o, itemOpts)
-    const item = defaultFactory(itemOpts, (typeof itemOpts === 'string') ? Text : Html)
+    const item = defaultFactory(itemOpts, (typeof itemOpts === 'string') ? Text : Html, this.context)
     this.children.push(item)
     if (i == null) {
       i = 0
@@ -981,7 +1052,7 @@ const Html = class {
     const dataOpts = {sources: this.sources}
     var compOpts = new Options(this.options.defaultComponent, dynamicComponent, dataOpts, o).build(DEFAULT_RULES)
 //    console.log('addComponent', o, compOpts)
-    const comp = defaultFactory(compOpts, (typeof o === 'string') ? Text : Html)
+    const comp = defaultFactory(compOpts, (typeof o === 'string') ? Text : Html, this.context)
     this.children.push(comp)
     comp.props.key = i
 //        comp.index = 0
@@ -1101,7 +1172,7 @@ const Html = class {
   }
 
   climb (callback) {
-    let c = this
+    let c = this.parent
     while (c) {
       if (callback(c) === false) {
         break
@@ -1120,11 +1191,23 @@ const Html = class {
       return
     }
 
+    if (this.sources[i]) {
+      return // TODO есть ли ситуация, когда нужно переписать домен?
+    }
+
     let source = null
 
     const o = this.options
 
     let key = (o.dynamic && o.dynamic[i]) ? o.dynamic[i]['id'] : o[i+'Id']
+
+    if (o[i+'Ref']) {
+      const ref = o[i+'Ref']
+      if (!this.sources[ref]) {
+        this.bind(this.options.sources[ref], ref)
+      }
+      v = this.sources[ref]
+    }
     // if (o.dynamic) {
     //   key = o.dynamic[i+'Id'] || (o.dynamic[i] && o.dynamic[i]['id'])
     // }
@@ -1154,7 +1237,7 @@ const Html = class {
     //   }
     // }
 
-    if (o.binding || o[i+'Effects'] || o.effects || o[i+'Changed']) {
+    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o[i+'Changed']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
       if (this.sources[i]) {
@@ -1342,6 +1425,10 @@ const Html = class {
       o[key+'Effects'].call(this, v, key)
     }
 
+    if (o[key+'Events']) {
+      o[key+'Events'].call(this, v, key)
+    }
+
     // return
     //
     // if (o[key+'Changed']) {
@@ -1379,10 +1466,71 @@ const Html = class {
 
   rise (name, event) {
     this.climb(c => {
+      if (c[name]) {
+        return c[name].call(c, event)
+      }
       if (c.options[name]) {
         return c.options[name].call(c, event)
       }
     })
+  }
+
+
+
+  on (name, callback, scope) {
+    if (scope == 'dom') {
+      if (!this._domListeners) {
+        this._domListeners = []
+      }
+
+      const event = {name, callback, attached: false}
+
+      if (this.vnode && this.vnode.domNode) {
+        this.vnode.domNode.addEventListener(name, callback)
+        event.domNode = this.vnode.domNode
+        event.attached = true
+      }
+      else {
+//        console.log('vnode', this.vnode)
+        this.props.afterCreate = (el) => {
+//          console.log('enter animation')
+          if (this._domListeners) {
+            this._domListeners.forEach(event => {
+              if (!event.attached) {
+                el.addEventListener(event.name, event.callback)
+                event.domNode = el
+                event.attached = true
+              }
+              if (event.domNode != el) {
+                console.warn('Missing dom event', event)
+              }
+            })
+          }
+          delete this.props.afterCreate
+        }
+      }
+
+      this._domListeners.push(event)
+
+    }
+    else {
+      // TODO
+    }
+  }
+
+
+  off (name, callback, scope) {
+    if (scope == 'dom') {
+      if (this._domListeners) {
+        for (let i = this._domListeners.length-1; i >= 0; i--) {
+          let listener = this._domListeners[i]
+          if (listener.name == name && (listener.callback == callback || !callback)) {
+            this._domListeners.splice(i, 1)
+            listener.domNode.removeEventListener(listener.name, listener.callback)
+          }
+        }
+      }
+    }
   }
 
   // rebindOpts(o, key) {
