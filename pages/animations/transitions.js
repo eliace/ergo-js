@@ -2,6 +2,8 @@ import {Html, Layouts, Tabs, IconBox, Text, Button, Source, Buttons} from '../..
 
 import {Mutate, Mixins} from '../helpers'
 
+import _ from 'lodash'
+
 const Animation = {
   Mixins: {
     Transitions: function () {
@@ -70,6 +72,31 @@ const Animation = {
       }
       eff.watch = filter
       eff.mode = 'pre'
+      return eff
+    },
+    FLIP: function (name, watch) {
+      const eff = function () {
+        return {
+          resolver: () => {
+          },
+          activator: () => {
+            console.log(this)
+            //  фиксируем начальное положение элементов списка
+            const bcr0 = {}
+            this.items.forEach(itm => bcr0[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+            // немедленная перерисовка и компоновка
+            this.context.projector.renderNow()
+            // фиксируем конечное положение элементов
+            const bcr1 = {}
+            this.items.forEach(itm => bcr1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+
+            console.log(bcr0, bcr1)
+
+//            console.log('flip this', this)
+          }
+        }
+      }
+      eff.watch = watch
       return eff
     }
   }
@@ -199,12 +226,12 @@ export default (projector) => {
             randomIndex: function () {
               return Math.floor(Math.random() * this.entry('items').size())
             },
-            add: function () {
+            addItem: function () {
               const v = this.get()
               this.entry('items').insert(this.randomIndex(), v.nextNum++)
             },
-            remove: function () {
-              this.entry('items').entry(this.randomIndex()).emit('remove')
+            removeItem: function () {
+              this.entry('items').remove(this.randomIndex())
             }
           }
         })
@@ -214,12 +241,12 @@ export default (projector) => {
         items: [{
           text: 'Добавить',
           onClick: function () {
-            this.sources.data.add()
+            this.sources.data.addItem()
           }
         }, {
           text: 'Удалить',
           onClick: function () {
-            this.sources.data.remove()
+            this.sources.data.removeItem()
           }
         }]
       },
@@ -229,8 +256,119 @@ export default (projector) => {
           dataChanged: Mutate.Text,
           mixins: [Animation.Mixins.Transitions],
           dataEffectors: {
-            hide: Animation.Effectors.Hide('list', evt => evt.name == 'remove'),
+            hide: Animation.Effectors.Hide('list', evt => evt.name == 'destroy'),
             show: Animation.Effectors.Show('list', evt => evt.name == 'init')
+          }
+        },
+        dataId: 'items',
+        dataChanged: Mutate.Items
+      }
+    }, {
+      sources: {
+        data: new Source({
+          items: [1,2,3,4,5,6,7,8,9]
+        }, {
+          methods: {
+            $shuffle: function () {
+              return this.set('items', _.shuffle(this.get('items')))
+            }
+          }
+        })
+      },
+      clickButton: function () {
+        const top0 = {}
+        this.$list.items.forEach(itm => top0[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+
+        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => itm.index))
+        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
+        this.sources.data.$shuffle()
+
+        this.context.projector.renderNow()
+
+        const top1 = {}
+        this.$list.items.forEach(itm => top1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+
+        this.$list.items.forEach(itm => {
+          const d = top0[itm.options.key] - top1[itm.options.key]
+          itm.opt('styles', {'transform': 'translateY('+d+'px)'})
+        })
+
+        this.context.projector.renderNow()
+
+//        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
+
+          requestAnimationFrame(() => {
+            this.$list.items.forEach(itm => {
+              itm.opt('styles', {'transform': ''})
+              itm.opt('classes', {'flip-list-move': true})
+            })
+
+            this.context.projector.scheduleRender()
+          })
+
+
+//         requestAnimationFrame(() => {
+//           const top1 = {}
+//           this.$list.items.forEach(itm => top1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+//
+// //          console.log(this.$list.items.map(itm => top1[itm.options.key] - top0[itm.options.key]))
+//
+//           this.$list.items.forEach(itm => {
+//             const d = top0[itm.options.key] - top1[itm.options.key]
+//             itm.opt('styles', {'transform': 'translateY('+d+'px)'})
+//           })
+//
+//           this.context.projector.scheduleRender()
+//
+//           requestAnimationFrame(() => {
+//             this.$list.items.forEach(itm => {
+//               itm.opt('styles', {'transform': ''})
+//               itm.opt('classes', {'flip-list-move': true})
+//             })
+//
+//             this.context.projector.scheduleRender()
+//           })
+// //          console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
+//         })
+        return false
+      },
+      assignIds: function () {
+        this.$list.items.forEach(itm => {
+          itm.opt('classes', {'flip-list-move': false})
+        })
+        //this.$list.children.forEach((c, i) => c.opt('id', i))
+      },
+      $buttons: {
+        type: Buttons,
+        items: [{
+          text: 'Перемешать',
+          onClick: function () {
+            this.rise('clickButton')
+//            this.sources.data.$shuffle()
+          }
+        }, {
+          text: 'ids',
+          onClick: function () {
+            this.rise('assignIds')
+//            this.sources.data.$shuffle()
+          }
+        }]
+      },
+      $list: {
+        dataEffectors: {
+          flip: Animation.Effectors.FLIP('flip-list-move', evt => evt.name == 'changed')
+        },
+        defaultItem: {
+          styles: {},
+//          as: 'flip-list-move',
+          dataChanged: function (v) {
+            this.opt('key', v)
+            this.opt('text', v)
+          },
+          mixins: [Animation.Mixins.Transitions],
+          dataEffectors: {
+            // hide: Animation.Effectors.Hide('list', evt => evt.name == 'destroy'),
+            // show: Animation.Effectors.Show('list', evt => evt.name == 'init')
           }
         },
         dataId: 'items',

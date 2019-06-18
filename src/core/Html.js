@@ -1,5 +1,5 @@
 import Options from './Options'
-import {defaultFactory, deepClone, buildProp} from './Utils'
+import {defaultFactory, deepClone, buildProp, hashCode} from './Utils'
 import Layout from './Layout'
 import Text from './Text'
 import rules from './Rules'
@@ -791,13 +791,29 @@ const Html = class {
           })
 
       //    console.log('reconcile', Object.keys(add).length, update.length, items.length)
+//          console.log('remove items', items)
 
           items.forEach(item => this.removeItem(item))
 
+//          console.log('add items', add)
+
           Object.keys(add).forEach(i => {
             let entry = add[i]
-            this.addItem({sources: {[key]: entry}}, Number(i)/*, {...this.sources, ...{[key]: entry}}*/)
+            this.addItem({sources: {[key]: entry}}, Number(i), entry.hashCode())
           })
+
+//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
+
+//          value.entries(e => e.update('desc'))
+
+//          cnsole.log(value.src.get().map(v => ))
+
+//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.index))
+//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
+//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.options.key))
+//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.sources[key].hashCode()))
+          // console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
+          // console.log(this.children.filter(itm => itm.index != null).map(itm => itm.sources[key].id))
 
           // update.forEach(item => {
           //   let src = item.sources[key]
@@ -985,7 +1001,7 @@ const Html = class {
     }
   }
 
-  addItem(o, i) {
+  addItem(o, i, key) {
 
     if (this.options.defaultItem && typeof o === 'string') {
       o = {text: o}
@@ -1011,7 +1027,16 @@ const Html = class {
         }
       }
     }
-    item.props.key = item.options.key || 'item-'+i
+    else {
+      // если позиция указана явно, обновляем индексы
+      for (let j = 0; j < this.children.length; j++) {
+        let child = this.children[j]
+        if (child.index >= i) {
+          child.index++
+        }
+      }
+    }
+    item.props.key = item.options.key || key// 'item-'+i+'-'+Math.random().toString(16).slice(2)
     item.index = i
     item.parent = this
 
@@ -1120,12 +1145,18 @@ const Html = class {
     }
     if (child != null) {
       this.children.splice(childIndex, 1)
-      for (let j = childIndex; j < this.children.length; j++) {
+      for (let j = 0; j < this.children.length; j++) {
         let c = this.children[j]
-        if (c.index != null) {
+        if (c.index > i) {
           c.index--
         }
       }
+      // for (let j = childIndex; j < this.children.length; j++) {
+      //   let c = this.children[j]
+      //   if (c.index != null) {
+      //     c.index--
+      //   }
+      // }
       delete child.parent
       child.destroy()
 
@@ -1531,6 +1562,11 @@ const Html = class {
         }
       }
     }
+  }
+
+
+  get items () {
+    return this.children.filter(itm => itm.index != null)
   }
 
   // rebindOpts(o, key) {

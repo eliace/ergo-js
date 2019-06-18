@@ -1,4 +1,4 @@
-import {deepClone} from './Utils'
+import {deepClone, hashCode} from './Utils'
 
 
 
@@ -58,6 +58,12 @@ class Stream {
       const v = this.src.get()
       for (let i in v) {
         f(this.src.entry(i), i)
+      }
+      if (this.src._removed) {
+        for (let i = 0; i < this.src._removed.length; i++) {
+          const entry = this.src._removed[i]
+          f(entry, entry.id)
+        }
       }
     }
   }
@@ -374,12 +380,20 @@ class Source {
 //             delete this.entries[k].cache
 //           }
         }
+
+        if (!this._removed) {
+          this._removed = []
+        }
+        this._removed.push(entry)
         // else {
         //   delete this.entries[k]
         // }
-//        entry.emit('removed', {ids: {[entry.id]: true}})
+        entry.emit('destroy', {})//{ids: {[entry.id]: true}})
 
-        this.update(null, 'remove')
+//        this.update(null, 'remove')
+      }
+      else {
+        this.update('asc')
       }
 
 //      this.targets.forEach(t => t.dataChanged.call(t.target, v))
@@ -387,6 +401,20 @@ class Source {
     // this.targets.forEach(t => t.dataRemoved(v))
     // if (this.isNested)
   }
+
+
+  destroy () {
+
+    if (this.isNested) {
+      const i = this.src._removed.indexOf(this)
+      this.src._removed.splice(i, 1)
+    }
+
+    this.update('asc')
+  }
+
+
+
 
   stream(callback, filter, sorter, pager) {
 
@@ -665,15 +693,16 @@ _init (target) {
 
     }
     else {
-      event.resolved = true
-//      console.log ('[do]-'+event.name, this.snapshot)
-      this.observers.forEach(t => {
-        if (event.target == null || event.target == t.target) {
-          if (t.dataChanged) {
-            t.dataChanged.call(t.target, event, t.key)
-          }
-        }
-      })
+      this.tryResolve(event)
+//       event.resolved = true
+// //      console.log ('[do]-'+event.name, this.snapshot)
+//       this.observers.forEach(t => {
+//         if (event.target == null || event.target == t.target) {
+//           if (t.dataChanged) {
+//             t.dataChanged.call(t.target, event, t.key)
+//           }
+//         }
+//       })
 
 //      event.resolved = true
     }
@@ -1002,6 +1031,10 @@ _init (target) {
     else {
       return Object.keys(v).length
     }
+  }
+
+  hashCode () {
+    return hashCode(this.get())
   }
 
 

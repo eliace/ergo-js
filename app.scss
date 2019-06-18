@@ -83,6 +83,10 @@ body {
 }
 
 
+.flip-list-move {
+  transition: transform 1s;
+}
+
 
 .input-box {
   position: relative;
