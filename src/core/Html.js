@@ -147,7 +147,7 @@ const Html = class {
 
     this.children = []
 
-    this.props = opts.props || {classes: {}}
+    this.props = opts.props || {classes: {}, styles: {}}
 
     this.layout = opts.layout ? defaultFactory(opts.layout, Layout) : null
 
@@ -392,6 +392,10 @@ const Html = class {
       // else if (i == 'styles') {
       //   this.props['styles'] = Object.assign(this.props['styles'] || {}, o)
       // }
+      // else if (i == 'styles') {
+      //   // фикс для оптимизации maquette
+      //   this.props.styles = Object.assign(this.props.styles || {}, o)
+      // }
       else if (i == 'height') {
         this.props.styles = this.props.styles || {}
         this.props.styles.height = (typeof o === 'string') ? o : o+'px'
@@ -573,18 +577,29 @@ const Html = class {
         this.layout = defaultFactory(this.options.layout, Layout, this.context)
       }
       if (this.text) {
-        this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+        if (this._dirty || !this.vnode) {
+          this.vnode = this.layout.render(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+        }
       }
       else {
-        this.vnode = this.vnode || this.layout.render(this.html, deepClone(this.props), [...this.children])
+        if (this._dirty || !this.vnode) {
+          this.vnode = this.layout.render(this.html, deepClone(this.props), [...this.children])
+        }
       }
     }
     else if(this.text || this.props.value) {
-      this.vnode = this.vnode || h(this.html, deepClone(this.props), [this.text])
+      if (this._dirty || !this.vnode) {
+        this.vnode = h(this.html, deepClone(this.props), [this.text])
+      }
     }
     else if (this.options.renderIfEmpty !== false) {
-      this.vnode = this.vnode || h(this.html, deepClone(this.props))
+      if (this._dirty || !this.vnode) {
+        this.vnode = h(this.html, deepClone(this.props))
+      }
     }
+
+    delete this._dirty
+
     return this.vnode
   }
 
@@ -730,6 +745,10 @@ const Html = class {
         this.props['class'] = classNames(this.props['class'], value.join(' '))
       }
     }
+    // else if (name == 'styles') {
+    //   // фикс для оптимизации maquette
+    //   this.props.styles = Object.assign(this.props.styles || {}, value)
+    // }
     else if (name == 'sources') {
       for (let i in value) {
         if (this.sources[i]) {
@@ -909,78 +928,6 @@ const Html = class {
         delete this._modify_components
       }
     }
-/*
-    else if (name == '$components') {
-      // if (typeof value === 'function') {
-      //   value = value.call(this)
-      // }
-      let o = this.options
-      let def = {...o.components}
-      for (let i in value) {
-        if (o.components && o.components[i]) {
-          const s = value[i]
-          if (s !== false && !this['$'+i]) {
-            this.addComponent(i, o.components[i])
-          }
-          else if (s === false && this['$'+i]) {
-            this.removeComponent(i)
-          }
-          delete def[i]
-        }
-      }
-      for (let i in def) {
-        this.addComponent(i, o.components[i])
-      }
-    }
-    else if (name == '$items') {
-      // if (typeof value === 'function') {
-      //   value = value.call(this)
-      // }
-      const o = this.options
-      let items = this.children.filter(child => child.index != null)
-  //    console.log(items.length, this.children.length)
-      let add = {}
-      let update = []
-
-      this.sources[key].stream((entry, i) => {
-  //      console.log(entry.get())
-        let found = null
-        for (let j = 0; j < items.length; j++) {
-          const item = items[j]
-          if (item.options.sources[key] == entry) {
-            update.push(item)
-            found = item
-            break
-          }
-        }
-        if (!found) {
-          add[i] = entry
-  //        console.log('to add', entry, update.length, this)
-        }
-        else {
-          items.splice(items.indexOf(found), 1)
-        }
-      })
-
-  //    console.log('reconcile', Object.keys(add).length, update.length, items.length)
-
-      items.forEach(item => this.removeItem(item))
-
-      Object.keys(add).forEach(i => {
-        let entry = add[i]
-        this.addItem(new Options({sources: {[key]: entry}}, o.items ? o.items[i] : null), Number(i))
-      })
-
-      // update.forEach(item => {
-      //   let src = item.sources[key]
-      //   item.rebind(src.get(), key, src)
-      // })
-
-    }
-*/
-    // else if (name == 'key') {
-    //   this.props.key = v
-    // }
     else if (HTML_OPTIONS[name] === true) {
       this.props[name] = value
     }
@@ -995,8 +942,9 @@ const Html = class {
 
   rerender() {
     let c = this
-    while (c && c.vnode) {
-      delete c.vnode
+    while (c && c.vnode && !c._dirty) {
+      c._dirty = true
+//      delete c.vnode
       c = c.parent
     }
   }
@@ -1045,7 +993,7 @@ const Html = class {
     //   item.bind(ctx[i], i)
     // }
 
-    if (this.vnode) {
+    if (this.vnode && !this._dirty) {
       this.rerender()
     }
 
@@ -1095,7 +1043,7 @@ const Html = class {
     //   comp.bindState(this.state)
     // }
 
-    if (this.vnode) {
+    if (this.vnode && !this._dirty) {
       this.rerender()
     }
 
@@ -1115,7 +1063,7 @@ const Html = class {
       delete child.parent
       child.destroy()
 
-      if (this.vnode) {
+      if (this.vnode && !this._dirty) {
         this.rerender()
       }
     }
@@ -1160,7 +1108,7 @@ const Html = class {
       delete child.parent
       child.destroy()
 
-      if (this.vnode) {
+      if (this.vnode && !this._dirty) {
         this.rerender()
       }
     }

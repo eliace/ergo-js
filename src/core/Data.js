@@ -311,6 +311,7 @@ class Source {
     if (!this._updating) {
       this._updating = true
   //    delete this.cache
+      this.emit('beforeChanged')
       if (this.isNested && direction != 'desc' && direction != 'none') {
         this.src.update('asc', event, {[this.id]: true})
       }
@@ -329,6 +330,7 @@ class Source {
           this.entries[i].update('desc', event);
         }
       }
+      this.emit('afterChanged')
       this._updating = false
     }
   }
@@ -743,8 +745,13 @@ _init (target) {
     }
 
     for (let i in this._acting) {
-      if (!this._acting[i].canceled && (this._acting[i].name == activated.name || this._acting[i].effector == activated.effector)) {
-        this._acting[i].canceled = true
+      const acting = this._acting[i]
+      if (!acting.canceled && (acting.name == activated.name || acting.effector == activated.effector)) {
+        console.log('cancel', acting)
+        if (acting.cancel /*|| acting.done*/) {
+          (acting.cancel /*|| acting.done*/).call(acting.target)
+        }
+        acting.canceled = true
 //        console.log('match', activated.name)
       }
     }
@@ -792,7 +799,7 @@ _init (target) {
           effect.source = this
           const defaultEffect = effector.ctor.apply(effect.target, result)
           if (defaultEffect.constructor == Object) {
-            effect = {...defaultEffect, ...effect}
+            effect = Object.assign(effect, {...defaultEffect, ...effect})
           }
           else {
             result = defaultEffect
@@ -808,7 +815,7 @@ _init (target) {
         })
         effect.activated = true
         if (effect.init) {
-          effect.init.call(effect.target)
+          effect.init.apply(effect.target, event.params)
         }
         return
       }
@@ -893,7 +900,7 @@ _init (target) {
     this.emit(effect.name, {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
 
     if (effect.ready) {
-      effect.ready.call(effect.target, result)
+      effect.ready.apply(effect.target, event.params)
     }
 
     // if (effect.init) {

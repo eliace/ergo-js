@@ -78,22 +78,62 @@ const Animation = {
       const eff = function () {
         return {
           resolver: () => {
+            const target = this
+            return new Promise(function (resolve, reject) {
+    //          console.log('listen transitionend', target.vnode.domNode)
+
+              const callbacks = {}
+
+              const callback = function (k) {
+                target.off('transitionend', callbacks[k], 'dom')
+                delete callbacks[k]
+                if (Object.keys(callbacks).length == 0) {
+                  resolve()
+//                  console.log('resolved')
+                }
+              }
+
+              target.items.forEach(itm => {
+                const f = callback.bind(this, itm.options.key)
+                callbacks[itm.options.key] = f
+                target.on('transitionend', f, 'dom')
+              })
+
+//               const callback = function (e) {
+// //                  console.log ('transitionend', target)
+//                   target.off('transitionend', callback, 'dom')
+//                   resolve()
+//               }
+//
+//               target.on('transitionend', callback, 'dom')
+            })
           },
-          activator: () => {
-            console.log(this)
-            //  фиксируем начальное положение элементов списка
-            const bcr0 = {}
-            this.items.forEach(itm => bcr0[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
-            // немедленная перерисовка и компоновка
+          activator: activate => requestAnimationFrame(activate),
+          init: (d) => {
+            console.log('init', this)
+
+            this.items.forEach(itm => {
+              itm.opt('styles', {'transform': 'translateY('+d[itm.options.key]+'px)'})
+              itm.opt('classes', {[name]: false})
+            })
+
             this.context.projector.renderNow()
-            // фиксируем конечное положение элементов
-            const bcr1 = {}
-            this.items.forEach(itm => bcr1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
-
-            console.log(bcr0, bcr1)
-
-//            console.log('flip this', this)
-          }
+          },
+          ready: () => {
+            console.log('ready')
+            this.items.forEach(itm => {
+              itm.opt('styles', {'transform': ''})
+              itm.opt('classes', {[name]: true})
+            })
+            this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
+          },
+          done: () => {
+            console.log('done')
+            this.items.forEach(itm => {
+              itm.opt('classes', {[name]: false})
+            })
+            this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
+          },
         }
       }
       eff.watch = watch
@@ -223,15 +263,15 @@ export default (projector) => {
           nextNum: 10
         }, {
           methods: {
-            randomIndex: function () {
+            $randomIndex: function () {
               return Math.floor(Math.random() * this.entry('items').size())
             },
-            addItem: function () {
+            $add: function () {
               const v = this.get()
-              this.entry('items').insert(this.randomIndex(), v.nextNum++)
+              this.entry('items').insert(this.$randomIndex(), v.nextNum++)
             },
-            removeItem: function () {
-              this.entry('items').remove(this.randomIndex())
+            $remove: function () {
+              this.entry('items').remove(this.$randomIndex())
             }
           }
         })
@@ -241,12 +281,12 @@ export default (projector) => {
         items: [{
           text: 'Добавить',
           onClick: function () {
-            this.sources.data.addItem()
+            this.sources.data.$add()
           }
         }, {
           text: 'Удалить',
           onClick: function () {
-            this.sources.data.removeItem()
+            this.sources.data.$remove()
           }
         }]
       },
@@ -276,35 +316,38 @@ export default (projector) => {
         })
       },
       clickButton: function () {
-        const top0 = {}
-        this.$list.items.forEach(itm => top0[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
 
-        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => itm.index))
-        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
         this.sources.data.$shuffle()
 
-        this.context.projector.renderNow()
-
-        const top1 = {}
-        this.$list.items.forEach(itm => top1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
-
-        this.$list.items.forEach(itm => {
-          const d = top0[itm.options.key] - top1[itm.options.key]
-          itm.opt('styles', {'transform': 'translateY('+d+'px)'})
-        })
-
-        this.context.projector.renderNow()
-
-//        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
-
-          requestAnimationFrame(() => {
-            this.$list.items.forEach(itm => {
-              itm.opt('styles', {'transform': ''})
-              itm.opt('classes', {'flip-list-move': true})
-            })
-
-            this.context.projector.scheduleRender()
-          })
+//         const top0 = {}
+//         this.$list.items.forEach(itm => top0[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+//
+//         console.log(this.$list.children.filter(itm => itm.index != null).map(itm => itm.index))
+//         console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
+//         this.sources.data.$shuffle()
+//
+//         this.context.projector.renderNow()
+//
+//         const top1 = {}
+//         this.$list.items.forEach(itm => top1[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+//
+//         this.$list.items.forEach(itm => {
+//           const d = top0[itm.options.key] - top1[itm.options.key]
+//           itm.opt('styles', {'transform': 'translateY('+d+'px)'})
+//         })
+//
+//         this.context.projector.renderNow()
+//
+// //        console.log(this.$list.children.filter(itm => itm.index != null).map(itm => {return{k: itm.props.key, top: itm.vnode.domNode.getBoundingClientRect().top}}))
+//
+//           requestAnimationFrame(() => {
+//             this.$list.items.forEach(itm => {
+//               itm.opt('styles', {'transform': ''})
+//               itm.opt('classes', {'flip-list-move': true})
+//             })
+//
+//             this.context.projector.scheduleRender()
+//           })
 
 
 //         requestAnimationFrame(() => {
@@ -332,12 +375,12 @@ export default (projector) => {
 //         })
         return false
       },
-      assignIds: function () {
-        this.$list.items.forEach(itm => {
-          itm.opt('classes', {'flip-list-move': false})
-        })
-        //this.$list.children.forEach((c, i) => c.opt('id', i))
-      },
+      // assignIds: function () {
+      //   this.$list.items.forEach(itm => {
+      //     itm.opt('classes', {'flip-list-move': false})
+      //   })
+      //   //this.$list.children.forEach((c, i) => c.opt('id', i))
+      // },
       $buttons: {
         type: Buttons,
         items: [{
@@ -346,29 +389,43 @@ export default (projector) => {
             this.rise('clickButton')
 //            this.sources.data.$shuffle()
           }
-        }, {
-          text: 'ids',
-          onClick: function () {
-            this.rise('assignIds')
-//            this.sources.data.$shuffle()
-          }
         }]
       },
       $list: {
+        dataEvents: function (evt, key) {
+          if (evt.name == 'beforeChanged') {
+            const bcr = {}
+            this.items.forEach(itm => bcr[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+//            console.log(bcr)
+            this.bcr = bcr
+          }
+          else if (evt.name == 'afterChanged') {
+//            this.context.projector.renderNow()
+            requestAnimationFrame(() => {
+              const bcr = {}
+              this.items.forEach(itm => bcr[itm.options.key] = itm.vnode.domNode.getBoundingClientRect().top)
+  //            console.log(bcr)
+              if (this.bcr) {
+                const d = {}
+                for (let i in bcr) {
+                  d[i] = this.bcr[i] - bcr[i]
+                }
+                delete this.bcr
+  //              console.log(d)
+                this.sources[key].emit('listChanged', {params: [d]})
+              }
+
+            })
+          }
+//          console.log('event', evt)
+        },
         dataEffectors: {
-          flip: Animation.Effectors.FLIP('flip-list-move', evt => evt.name == 'changed')
+          flip: Animation.Effectors.FLIP('flip-list-move', evt => evt.name == 'listChanged')
         },
         defaultItem: {
-          styles: {},
-//          as: 'flip-list-move',
           dataChanged: function (v) {
             this.opt('key', v)
             this.opt('text', v)
-          },
-          mixins: [Animation.Mixins.Transitions],
-          dataEffectors: {
-            // hide: Animation.Effectors.Hide('list', evt => evt.name == 'destroy'),
-            // show: Animation.Effectors.Show('list', evt => evt.name == 'init')
           }
         },
         dataId: 'items',
