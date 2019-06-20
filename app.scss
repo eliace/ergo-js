@@ -88,6 +88,34 @@ body {
 }
 
 
+.list-complete-item {
+  transition: all 5s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active, .list-complete-enter-active {
+//  position: absolute;
+//  transition: transform 1s;
+}
+
+.list-complete-enter-to {
+  position: absolute;
+}
+
+.list-complete-leave-active {
+//  position: absolute;
+}
+
+.list-complete-move {
+//  transition: transform 1s;
+}
+
+
 .input-box {
   position: relative;
   .placeholder {

@@ -810,13 +810,13 @@ _init (target) {
       }
 
       if (effect.activator) {
+        if (effect.init) {
+          effect.init.apply(effect.target, event.params)
+        }
         effect.activator.call(effect.target, () => {
           this.prepare(effect, event)
         })
         effect.activated = true
-        if (effect.init) {
-          effect.init.apply(effect.target, event.params)
-        }
         return
       }
 
