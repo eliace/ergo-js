@@ -89,7 +89,7 @@ body {
 
 
 .list-complete-item {
-  transition: all 5s;
+  transition: all 1s;
   display: inline-block;
   margin-right: 10px;
 }
@@ -98,13 +98,13 @@ body {
   opacity: 0;
   transform: translateY(30px);
 }
-.list-complete-leave-active, .list-complete-enter-active {
-//  position: absolute;
+.list-complete-leave-active/*, .list-complete-enter-active*/ {
+  position: absolute;
 //  transition: transform 1s;
 }
 
 .list-complete-enter-to {
-  position: absolute;
+//  position: absolute;
 }
 
 .list-complete-leave-active {

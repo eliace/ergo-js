@@ -392,10 +392,10 @@ class Source {
         // }
         entry.emit('destroy', {})//{ids: {[entry.id]: true}})
 
-//        this.update(null, 'remove')
+        this.update(null, 'remove')
       }
       else {
-        this.update('asc')
+        this.update('asc', 'remove')
       }
 
 //      this.targets.forEach(t => t.dataChanged.call(t.target, v))
@@ -899,6 +899,7 @@ _init (target) {
 
     this.emit(effect.name, {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
 
+    // TODO есть кейс, когда вызов ready должен быть до emit
     if (effect.ready) {
       effect.ready.apply(effect.target, event.params)
     }

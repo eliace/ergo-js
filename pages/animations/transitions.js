@@ -42,11 +42,11 @@ const Animation = {
           resolver: () => {
             return this.renderAfter(this.transition())
           },
-          ready: () => {
-            this.opt('classes', {[name+'-enter']: false, [name+'-enter-to']: true})
-          },
           init: () => {
             this.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
+          },
+          ready: () => {
+            this.opt('classes', {[name+'-enter']: false, [name+'-enter-to']: true})
           },
           done: () => {
             this.opt('classes', {[name+'-enter-active']: false, [name+'-enter-to']: false})
@@ -67,7 +67,15 @@ const Animation = {
       const eff = function () {
         return {
           resolver: () => this.renderAfter(this.transition()),
-          ready: () => this.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true}),
+          init: () => this.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true}),
+          ready: () => this.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false}),
+          done: () => this.opt('classes', {[name+'-leave-active']: false, [name+'-leave-to']: false}),
+          activator: (activate) => {
+            requestAnimationFrame(() => {
+              activate()
+//              this.context.projector.scheduleRender()
+            })
+          }
         }
       }
       eff.watch = filter
@@ -119,12 +127,13 @@ const Animation = {
 
             this.items.forEach(itm => {
               itm.opt('classes', {[name]: false})
-              if (itm.vnode) {
-                itm.vnode.domNode.style.transition = 'none'
-              }
+              itm.opt('styles', {'transition': 'none'})
+              // if (itm.vnode) {
+              //   itm.vnode.domNode.style.transition = 'none'
+              // }
             })
 
-//            this.context.projector.renderNow()
+            this.context.projector.renderNow()
 
 
           },
@@ -155,7 +164,7 @@ const Animation = {
                 this.items.forEach(itm => {
                   const offset = d[itm.options.key]
                   if (offset.dx != 0 || offset.dy != 0) {
-                    itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
+                    itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)', 'transition': ''})
 //                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
                   }
 //                  if (offset.dx != 0 && offset.dy != 0) {
@@ -182,9 +191,9 @@ const Animation = {
                     itm.opt('classes', {[name]: true})
                   }
                 })
-                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
+//                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
 
-//              this.context.projector.renderNow()
+              this.context.projector.renderNow()
 
             })
 
@@ -201,6 +210,126 @@ const Animation = {
         }
       }
       eff.watch = watch
+      return eff
+    },
+    'FLIP:First': function () {
+      const eff = function () {
+        return {
+          ready: () => {
+            console.log('FLIP First')
+            const bcr = {}
+            this.items.forEach(itm => !itm.vnode ? null : bcr[itm.options.key] = itm.vnode.domNode.getBoundingClientRect())
+            this.bcr = bcr
+          }
+        }
+      }
+      eff.watch = evt => evt.name == 'beforeChanged'
+      return eff
+    },
+    'FLIP:Last+Invert': function () {
+      const eff = function () {
+        return {
+          ready: () => {
+
+            console.log('FLIP Last')
+
+            this.items.forEach(itm => {
+              itm.opt('classes', {'item-complete-move': false})
+              itm.opt('styles', {'transition': 'none'})
+              // if (itm.vnode) {
+              //   itm.vnode.domNode.style.transition = 'none'
+              // }
+            })
+
+            this.context.projector.renderNow()
+
+            const bcr = {}
+            this.items.forEach(itm => bcr[itm.options.key] = itm.vnode.domNode.getBoundingClientRect())
+//            console.log(bcr)
+            if (this.bcr) {
+              const d = {}
+              for (let i in bcr) {
+                if (this.bcr[i] && bcr[i]) {
+                  const dy = this.bcr[i].top - bcr[i].top
+                  let dx = this.bcr[i].left - bcr[i].left
+                  d[i] = {dx, dy}
+                }
+                else {
+                  d[i] = {dx: 0, dy: 0}
+                }
+              }
+              delete this.bcr
+              console.log(d)
+
+              console.log('FLIP Invert')
+
+              this.items.forEach(itm => {
+                const offset = d[itm.options.key]
+                if (offset.dx != 0 || offset.dy != 0) {
+                  itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
+//                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
+                }
+              })
+
+              this.context.projector.renderNow()
+            }
+          }
+        }
+      }
+      eff.watch = evt => evt.name == 'afterChanged'
+      return eff
+    },
+    'FLIP:Play': function () {
+      const eff = function () {
+        return {
+          activator: (activate) => requestAnimationFrame(activate),
+          ready: () => {
+            console.log('FLIP Play')
+
+            this.items.forEach(itm => {
+//                if (itm.options.styles && itm.options.styles.transform) {
+                itm.opt('styles', {'transform': '', 'transition': ''})
+                itm.opt('classes', {'item-complete-move': true})
+//                }
+            })
+//                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
+
+            this.context.projector.renderNow()
+          },
+          resolver: () => {
+            const target = this
+            return new Promise(function (resolve, reject) {
+    //          console.log('listen transitionend', target.vnode.domNode)
+
+              const callbacks = {}
+
+              const callback = function (k) {
+                target.off('transitionend', callbacks[k], 'dom')
+                delete callbacks[k]
+                if (Object.keys(callbacks).length == 0) {
+                  resolve()
+//                  console.log('resolved')
+                }
+              }
+
+              target.items.forEach(itm => {
+                const f = callback.bind(this, itm.options.key)
+                callbacks[itm.options.key] = f
+                target.on('transitionend', f, 'dom')
+              })
+
+//               const callback = function (e) {
+// //                  console.log ('transitionend', target)
+//                   target.off('transitionend', callback, 'dom')
+//                   resolve()
+//               }
+//
+//               target.on('transitionend', callback, 'dom')
+            })
+          }
+        }
+      }
+      eff.watch = evt => evt.name == 'FLIP:Last+Invert'
       return eff
     }
   }
@@ -447,7 +576,10 @@ export default (projector) => {
           'position': 'relative'
         },
         dataEffectors: {
-          flip: Animation.Effectors.FLIP('list-complete-move', evt => evt.name == 'changed')
+          'FLIP:First': Animation.Effectors['FLIP:First'](),
+          'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert'](),
+          'FLIP:Play': Animation.Effectors['FLIP:Play'](),
+//          flip: Animation.Effectors.FLIP('list-complete-move', evt => evt.name == 'changed')
         },
         defaultItem: {
           as: 'list-complete-item',
