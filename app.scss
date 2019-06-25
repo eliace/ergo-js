@@ -193,6 +193,23 @@ body {
   }
 }
 
+
+.svg-polygon-example {
+  svg { display: block; }
+  polygon { fill: #41B883; }
+  circle {
+    fill: transparent;
+    stroke: #35495E;
+  }
+  input[type="range"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+}
+
+
 // .dropdown {
 //   &.is-active {
 //     .dropdown-overlay {

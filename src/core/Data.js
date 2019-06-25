@@ -2,6 +2,23 @@ import {deepClone, hashCode} from './Utils'
 
 
 
+const Keys = {
+  m: new WeakMap(),
+  c: 1,
+  get: function (v) {
+    if (typeof v === 'string' || typeof v === 'number') {
+      return v
+    }
+    if (this.m.has(v)) {
+      return this.m.get(v)
+    }
+    this.m.set(v, this.c++)
+    return this.c - 1
+  }
+}
+
+
+
 class Stream {
 
   constructor (src, data, key) {
@@ -57,14 +74,14 @@ class Stream {
     else {
       const v = this.src.get()
       for (let i in v) {
-        f(this.src.entry(i), i)
+        f(this.src.entry(i), i, Keys.get(v[i]))
       }
-      if (this.src._removed) {
-        for (let i = 0; i < this.src._removed.length; i++) {
-          const entry = this.src._removed[i]
-          f(entry, entry.id)
-        }
-      }
+      // if (this.src._removed) {
+      //   for (let i = 0; i < this.src._removed.length; i++) {
+      //     const entry = this.src._removed[i]
+      //     f(entry, entry.id)
+      //   }
+      // }
     }
   }
 
@@ -98,13 +115,14 @@ class Source {
     }
 
     if (this.options && this.options.methods) {
-      // for (let i in this.options.methods) {
-      //   this[i] = (...params) => {
-      //     this.emit(i, {params})
-      //     return this.options.methods[i].apply(this, params)
-      //   }
-      // }
-      Object.assign(this, this.options.methods) // FIXME это неправильно
+      for (let i in this.options.methods) {
+        this['$'+i] = this.options.methods[i]
+        // this[i] = (...params) => {
+        //   this.emit(i, {params})
+        //   return this.options.methods[i].apply(this, params)
+        // }
+      }
+//      Object.assign(this, this.options.methods) // FIXME это неправильно
     }
 
     if (this.options && this.options.changed) {
@@ -129,6 +147,11 @@ class Source {
 
     let v = null
     if (arguments.length == 0) {
+
+      if (this.removed) {
+        return this.cache
+      }
+
       if (this.id == null) {
         v = this.src
       }
@@ -185,7 +208,10 @@ class Source {
       else {
         this.src[this.id] = v
       }
-      delete this.cache
+
+      const cache = this.cache
+
+//      delete this.cache
 
       if (Array.isArray(this.entries)) {
         if (this.entries.length) {
@@ -197,8 +223,14 @@ class Source {
           console.log('need reconcile entries')
         }
       }
+
+      //TODO возможно, сброс всех кэшей должен быть не здесь
+      // for (let i in this.entries) {
+      //
+      // }
+
       //TODO удалить все entries
-      this.update(null, 'set') // ?
+      this.update(null, 'set', {[this.id]: true}, cache) // ?
     }
     else {
 
@@ -216,6 +248,8 @@ class Source {
           this.entries[k].set(v)
         }
         else {
+          const cache = this.cache != null ? this.cache[k] : null
+
           if (this.id == null) {
             this.src[k] = v
           }
@@ -226,7 +260,7 @@ class Source {
             this.src[this.id][k] = v
           }
           // если дочерних элементов для ключа нет, то остальные обновлять не нужно
-          this.update('asc', 'set', {[k]: true})
+          this.update('asc', 'set', {[k]: true}, {[k]: cache})
         }
 
         // if (this.entries[k]) {
@@ -307,20 +341,23 @@ class Source {
     // }
   }
 
-  update(direction, event, ids) {
+  update(direction, event, ids, cache) {
     if (!this._updating) {
       this._updating = true
   //    delete this.cache
       this.emit('beforeChanged')
       if (this.isNested && direction != 'desc' && direction != 'none') {
-        this.src.update('asc', event, {[this.id]: true})
+        this.src.update('asc', event, {[this.id]: true}, {[this.id]: cache})
       }
+
+      delete this.cache
 
       if (this.options && this.options.computed) {
         this.compute(this.get())
       }
 
-      this.emit('changed', {data: this.get(), ids})
+      this.emit('changed', {data: this.get(), ids, cache})
+
       // this.observers.forEach(t => {
       //   t.dataChanged.call(t.target, this.get(), t.key)
       // })
@@ -363,6 +400,7 @@ class Source {
       if (this.entries[k]) {
         let entry = this.entries[k]
 
+
         delete this.entries[k]
 
         if (Array.isArray(v)) {
@@ -382,7 +420,7 @@ class Source {
 //             delete this.entries[k].cache
 //           }
         }
-
+/*
         if (!this._removed) {
           this._removed = []
         }
@@ -391,8 +429,8 @@ class Source {
         //   delete this.entries[k]
         // }
         entry.emit('destroy', {})//{ids: {[entry.id]: true}})
-
-        this.update(null, 'remove')
+*/
+        this.update('desc', 'remove')
       }
       else {
         this.update('asc', 'remove')
@@ -547,8 +585,39 @@ class Source {
         const computor = this.options.computed[i]
         v[i] = computor.call(this, v)
       }
+      for (let i in this.options.computed) {
+        if (this.entries[i]) {
+//          this.entries[i].sync(v[i])
+          this.entries[i].update('none', 'compute')
+        }
+      }
     }
   }
+
+
+//   sync (v) {
+// //    console.log('sync', this.entries)
+//     if (Object.keys(this.entries).length) {
+//       const value =  v || this.get()
+//       const cleanEntries = {}
+//       for (let i in this.entries) {
+//         const entry = this.entries[i]
+//         if (i in v) {
+//           cleanEntries[i] = entry
+//         }
+//         else {
+//           console.log('remove', entry)
+//           if (!this._removed) {
+//             this._removed = []
+//           }
+//           this._removed.push(entry)
+//           entry.removed = true
+//           entry.emit('destroy', {})
+//         }
+//       }
+//       this.entries = cleanEntries
+//     }
+//   }
 
 
 
@@ -573,9 +642,9 @@ class Source {
 //     })
 //   }
 
-_init (target) {
-  this.emit('init', {target, data: this.get()})
-}
+  _init (target) {
+    this.emit('init', {target, data: this.get()})
+  }
 
 
   get snapshot() {
@@ -811,16 +880,29 @@ _init (target) {
 
       if (effect.activator) {
         if (effect.init) {
-          effect.init.apply(effect.target, event.params)
+          effect.data = effect.init.apply(effect.target, event.params)
         }
-        effect.activator.call(effect.target, () => {
+        effect.activator.call(effect.target, (next) => {
+          effect.data = next
           this.prepare(effect, event)
-        })
+        }, effect.data)
         effect.activated = true
         return
       }
 
     }
+
+
+    if (!effect.activator) {
+      this.emit(effect.name+':init', {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+
+      // TODO есть кейс, когда вызов ready должен быть до emit
+      if (effect.init) {
+        result = [effect.init.apply(effect.target, [...result, event])]
+      }
+
+    }
+
 
     //  время решать эффект
     if (typeof effect.resolver == 'function') {
@@ -837,6 +919,7 @@ _init (target) {
     // else {
     //   result = effect.params || event.params || [event.data]
     // }
+
 
     if (result instanceof Promise) {
       result
@@ -860,7 +943,7 @@ _init (target) {
           this.emit(effect.name+':done', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
 
           if (effect.done) {
-            effect.done.call(effect.target, v)
+            effect.done.call(effect.target, v, effect)
           }
 
           if (v !== undefined) {
@@ -882,16 +965,16 @@ _init (target) {
           }
         })
 
-        if (result.active) {
-          result.active(v => {
-            this.emit(effect.name+':active', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-            if (effect.active) {
-              effect.active.call(effect.target, v)
-            }
-
-          })
-        }
+        // if (result.active) {
+        //   result.active(v => {
+        //     this.emit(effect.name+':active', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
+        //
+        //     if (effect.active) {
+        //       effect.active.call(effect.target, v)
+        //     }
+        //
+        //   })
+        // }
     }
     else {
       delete this._acting[effect.id]
@@ -943,7 +1026,13 @@ _init (target) {
       else {
         event.resolved = true
 
-        if (this[event.name]) {
+        if (event.target && event.target != this && event.name != 'init') {
+          console.log('target', event.name, event.target)
+        }
+
+        const target = event.target || this
+
+        if (target[event.name]) {
 
           let result = null
           // if (event.name != 'init') {
@@ -953,13 +1042,13 @@ _init (target) {
 //          console.log('result', event, result)
 
           if ('params' in event) {
-            result = this[event.name].apply(this, [...event.params, event.data])
+            result = target[event.name].apply(target, [...event.params, event.data])
           }
           else if ('data' in event) {
-            result = this[event.name](event.data)
+            result = target[event.name](event.data)
           }
           else {
-            result = this[event.name]()
+            result = target[event.name]()
           }
 
 //          console.log('[try]-'+event.name, 'OK')
@@ -1045,6 +1134,16 @@ _init (target) {
     return hashCode(this.get())
   }
 
+  proxy () {
+    return new Proxy(this, {
+      set: function (target, property, value) {
+        target.set(property, value)
+      },
+      get: function (target, property) {
+        return target.get(property)
+      }
+    })
+  }
 
   // ns () {
   //   const keys = []

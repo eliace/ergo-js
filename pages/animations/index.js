@@ -3,6 +3,7 @@ import {Html, Layouts, Tabs, Source} from '../../src'
 import ModalExample from './modal'
 import ToastExample from './toast'
 import TransitionsExample from './transitions'
+import StatesExample from './states'
 
 export default (projector) => {
 
@@ -13,13 +14,14 @@ export default (projector) => {
       modal: (v) => v.selected == 'Modal',
       toast: (v) => v.selected == 'Toast',
       transitions: (v) => v.selected == 'Transitions',
+      states: (v) => v.selected == 'States',
     }
   })
 
   return {
     sources: {
       data: Data,
-      tabs: ['Modal', 'Toast', 'Transitions']
+      tabs: ['Modal', 'Toast', 'Transitions', 'States']
     },
     layout: Layouts.Rows,
     $header: {
@@ -57,6 +59,7 @@ export default (projector) => {
         modal: ModalExample(projector),
         toast: ToastExample(projector),
         transitions: TransitionsExample(projector),
+        states: StatesExample(),
       }
     }
   }

@@ -100,7 +100,11 @@ export const ensure = (obj, path, value) => {
 
 
 export const hashCode = (v) => {
-  
+
+  if (v == null) {
+    return 0
+  }
+
   const s = (typeof v == 'string') ? v : JSON.stringify(v)
 
   var hash = 0;

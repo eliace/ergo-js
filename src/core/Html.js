@@ -45,7 +45,11 @@ const DEFAULT_EVENTS = {
 
 const SVG_OPTIONS = {
   d: true,
-  fill: true
+  fill: true,
+  cx: true,
+  cy: true,
+  r: true,
+  points: true
 }
 
 
@@ -74,12 +78,15 @@ const HTML_OPTIONS = {
   src: true,
   srcset: true,
   styles: true,
+  step: true,
   tabIndex: true,
   target: true,
   title: true,
   value: true,
   _type: 'type',
   key: true,
+  min: true,
+  max: true
 }
 
 
@@ -289,6 +296,18 @@ const Html = class {
       for (var i = 0; i < opts.items.length; i++) {
         this.addItem(opts.items[i], i)
       }
+    }
+
+
+    if (this.options.methods) {
+      for (let i in this.options.methods) {
+        this[i] = this.options.methods[i]
+        // this[i] = (...params) => {
+        //   this.emit(i, {params})
+        //   return this.options.methods[i].apply(this, params)
+        // }
+      }
+//      Object.assign(this, this.options.methods) // FIXME это неправильно
     }
 
 
@@ -565,12 +584,21 @@ const Html = class {
 
   render() {
 //    console.log('render', !!this.vnode, this.children.length, this)
-    if (this.options.render === false) {
-      return null
-      // if (!this.options.rendering.call(this, h)) {
-      //   return null
-      // }
+    if ('render' in this.options) {
+      let render = this.options.render
+      if (typeof render === 'function') {
+        render = render.call(this, this.options)
+      }
+      if (!render) {
+        return null
+      }
     }
+    // if (this.options.render === false) {
+    //   return null
+    //   // if (!this.options.rendering.call(this, h)) {
+    //   //   return null
+    //   // }
+    // }
 
     if (this.children.length) {
       if (this.layout == null) {
@@ -782,24 +810,110 @@ const Html = class {
           key = value.key || key
 
           const o = this.options
-          let items = this.children.filter(child => child.index != null)
+          let items = this.items
       //    console.log(items.length, this.children.length)
           let add = {}
           let update = []
+          const entriesByKeys = {}
 
-//          console.log('items', value.get())
-          value.entries((entry, i) => {
-//          value.stream((entry, i) => {
-      //      console.log(entry.get())
+          value.entries((entry, idx, k) => {
             let found = null
             for (let j = 0; j < items.length; j++) {
               const item = items[j]
-              if (item.options.sources[key] == entry) {
-                update.push(item)
+              if (item.props.key == k) {
+                if (item.sources[key] != entry) {
+                  update.push(item)
+                }
                 found = item
                 break
               }
             }
+
+            if (!found) {
+              add[k] = entry
+      //        console.log('to add', entry, update.length, this)
+            }
+            else {
+              entriesByKeys[k] = entry
+              items.splice(items.indexOf(found), 1)
+            }
+          })
+
+//          console.log('update items', update)
+
+          update.forEach(itm => {
+            for (let k in entriesByKeys) {
+              if (entriesByKeys[k] == itm.sources[key]) {
+                itm.props.key = itm.options.key || k
+                break
+              }
+            }
+          })
+
+//          console.log('remove items', items)
+
+//          items.forEach(item => this.removeItem(item))
+          items.forEach(item => {
+            item.removed = true
+            item.sources[key].emit('removeItem', {params: [item], target: this})
+//            this.removeItem(item)
+          })
+
+//          console.log('add items', add)
+
+          Object.keys(add).forEach(k => {
+            let entry = add[k]
+            this.addItem({sources: {[key]: entry}}, entry.id, k)
+          })
+
+
+
+/*
+          const keyFn = o[key+'Key']
+
+          // if (keyFn) {
+          //   value.src.get().forEach(v => {
+          //     // это ключ остается
+          //     const uid = uidFn(v)
+          //
+          //   })
+          // }
+          // value.entries((entry, i) => {
+          //   if (keyFn) {
+          //     const k = keyFn(entry.get())
+          //
+          //   }
+          // })
+
+//          console.log('items', value.get())
+//          value.src.get().forEach((v, i) => {
+          value.entries((entry) => {
+//          value.stream((entry, i) => {
+      //      console.log(entry.get())
+            let found = null
+            if (keyFn) {
+              const k = entry.get() ? keyFn(entry.get()) : null
+//              console.log('key', k, item.props.key)
+              for (let j = 0; j < items.length; j++) {
+                const item = items[j]
+                if (item.props.key == k) {
+                  update.push(item)
+                  found = item
+                  break
+                }
+              }
+            }
+            else {
+              for (let j = 0; j < items.length; j++) {
+                const item = items[j]
+                if (item.options.sources[key] == entry) {
+                  update.push(item)
+                  found = item
+                  break
+                }
+              }
+            }
+
             if (!found) {
               add[i] = entry
       //        console.log('to add', entry, update.length, this)
@@ -810,17 +924,26 @@ const Html = class {
           })
 
       //    console.log('reconcile', Object.keys(add).length, update.length, items.length)
-//          console.log('remove items', items)
+          console.log('remove items', items)
 
-          items.forEach(item => this.removeItem(item))
+//          items.forEach(item => this.removeItem(item))
+          items.forEach(item => {
+            item.removed = true
+            item.sources[key].emit('removeItem', {params: [item], target: this})
+//            this.removeItem(item)
+          })
 
-//          console.log('add items', add)
+
+          console.log('add items', add)
 
           Object.keys(add).forEach(i => {
             let entry = add[i]
-            this.addItem({sources: {[key]: entry}}, Number(i), entry.hashCode())
+            if (keyFn) {
+              console.log('key add', keyFn(entry.get()))
+            }
+            this.addItem({sources: {[key]: entry}}, Number(i), keyFn ? keyFn(entry.get()) : entry.hashCode())
           })
-
+*/
 //          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
 
 //          value.entries(e => e.update('desc'))
@@ -936,11 +1059,16 @@ const Html = class {
     }
   }
 
-    this.rerender()
+    if (this.vnode && !this._dirty) {
+      this.rerender()
+    }
     return this
   }
 
   rerender() {
+    if (!this._dirty) {
+      this.context.projector.scheduleRender()
+    }
     let c = this
     while (c && c.vnode && !c._dirty) {
       c._dirty = true
@@ -1025,7 +1153,7 @@ const Html = class {
     const dataOpts = {sources: this.sources}
     var compOpts = new Options(this.options.defaultComponent, dynamicComponent, dataOpts, o).build(DEFAULT_RULES)
 //    console.log('addComponent', o, compOpts)
-    const comp = defaultFactory(compOpts, (typeof o === 'string') ? Text : Html, this.context)
+    const comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.context)
     this.children.push(comp)
     comp.props.key = i
 //        comp.index = 0
@@ -1091,6 +1219,7 @@ const Html = class {
         }
       }
     }
+
     if (child != null) {
       this.children.splice(childIndex, 1)
       for (let j = 0; j < this.children.length; j++) {
@@ -1105,6 +1234,7 @@ const Html = class {
       //     c.index--
       //   }
       // }
+
       delete child.parent
       child.destroy()
 
@@ -1187,6 +1317,11 @@ const Html = class {
       }
       v = this.sources[ref]
     }
+
+    if (typeof v === 'function') {
+      v = v(o)
+    }
+
     // if (o.dynamic) {
     //   key = o.dynamic[i+'Id'] || (o.dynamic[i] && o.dynamic[i]['id'])
     // }
@@ -1515,6 +1650,10 @@ const Html = class {
 
   get items () {
     return this.children.filter(itm => itm.index != null)
+  }
+
+  get domain () {
+    return this.sources
   }
 
   // rebindOpts(o, key) {

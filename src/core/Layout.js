@@ -35,6 +35,11 @@ const Layout = class {
     return w1 - w2
   }
 
+  // h (selector, props, children) {
+  //   return h(selector, props, children)
+  // }
+
+  static h = h
 }
 
 export default Layout
