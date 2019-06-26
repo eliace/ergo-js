@@ -508,7 +508,7 @@ const Html = class {
 
     this._binding_chain = []
     for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Events']) {
+      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors']) {
         this._binding_chain.push(i)
       }
     }
@@ -989,13 +989,14 @@ const Html = class {
 
         if (value instanceof Source) {
           let o = this.options
-          let dynamicComponents = o.dynamic === true ? o.components : o.dynamic
+          let dynamicComponents = o.dynamic || o.components
           let def = {...dynamicComponents}
           const data = value.get()
+//          debugger
           if (dynamicComponents) {
             for (let i in dynamicComponents) {
 //          for (let i in data) {
-              if (dynamicComponents && dynamicComponents[i]) {
+              if (dynamicComponents[i]) {
                 const s = data[i]
                 if (s !== false && !this['$'+i]) {
     //              debugger

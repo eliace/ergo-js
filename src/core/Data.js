@@ -733,7 +733,7 @@ class Source {
 //        console.log(i, effector)
         if (effector.ctor.watch && effector.ctor.watch.call(this, event)) {
           console.log(i, effector)
-          let eff = {effector: i, mode: effector.ctor.mode}
+          let eff = {effector: i, mode: effector.ctor.mode, name: i}
           const activated = this.activate(eff)
           if (activated.mode == 'pre') {
             pre.push(activated)
@@ -1115,8 +1115,8 @@ class Source {
 
 
 
-  asStream() {
-    return new Stream(this)
+  asStream(name) {
+    return new Stream(this, null, name)
   }
 
 
