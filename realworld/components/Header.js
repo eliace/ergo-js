@@ -41,19 +41,28 @@ export default () => {
               init: function (v) {
                 this.$content.$icon.opt('classes', {['ion-'+v]: true})
               }
+            },
+            linkTo: {
+              initOrSet: function (v) {
+                this.$content.opt('href', v)
+              }
             }
           }
         },
         items: [{
-          text: 'Home'
+          text: 'Home',
+          linkTo: '/#/'
         }, {
           text: ' New Post',
-          icon: 'compose'
+          icon: 'compose',
+          linkTo: '/#/editor'
         }, {
           text: ' Settings',
-          icon: 'gear-a'
+          icon: 'gear-a',
+          linkTo: '/#/settings'
         }, {
-          text: 'Sign up'
+          text: 'Sign up',
+          linkTo: '/#/login'
         }]
       }
     }

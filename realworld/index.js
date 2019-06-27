@@ -23,7 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const routes = {
-  '/': function () {page.set('current', 'home')}
+  '/': function () {page.set('current', 'home')},
+  '/login': function () {page.set('current', 'signUp')},
+  '/register': function () {page.set('current', 'signUp')},
+  '/settings': function () {page.set('current', 'settings')},
+  '/editor': function () {page.set('current', 'edit')},
+  '/editor/article-slug-here': function () {page.set('current', 'edit')},
+  '/article/article-slug-here': function () {page.set('current', 'article')},
+  '/profile/:username': function () {page.set('current', 'profile')},
+  '/profile/:username/favorites': function () {page.set('current', 'profile')},
 }
 
 const router = new Router(routes)
@@ -33,7 +41,12 @@ const page = new Domain({
   current: 'home'
 }, {
   computed: {
-    home: v => v.current == 'home'
+    home: v => v.current == 'home',
+    signUp: v => v.current == 'signUp',
+    settings: v => v.current == 'settings',
+    edit: v => v.current == 'edit',
+    article: v => v.current == 'article',
+    profile: v => v.current == 'profile',
   }
 })
 
@@ -43,12 +56,12 @@ const app = new Html({
   },
   dynamic: {
     header: Header(),
-  //  $article: Article(),
-  //  $edit: Edit(),
-  //  $settings: Settings(),
-  //  $profile: Profile(),
+    article: Article(),
+    edit: Edit(),
+    settings: Settings(),
+    profile: Profile(),
     home: Home(),
-  //  $auth: Auth(),
+    signUp: SignUp(),
     footer: Footer()
   },
   pageChanged: function (v, k) {

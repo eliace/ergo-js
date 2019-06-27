@@ -578,6 +578,11 @@ class Source {
   }
 
 
+  firstOf (...args) {
+    return this.get.apply(this, args)[0]
+  }
+
+
 
   compute (v) {
     if (this.options && this.options.computed) {
@@ -1143,6 +1148,31 @@ class Source {
         return target.get(property)
       }
     })
+  }
+
+  on (methods={}, target, key) {
+    if (!this._methods) {
+      this._methods = new Map()
+    }
+    let tm = this._methods.get(target)
+    if (!tm) {
+      tm = {}
+      this._methods.set(target, tm)
+    }
+    for (let i in methods) {
+      if (!this['$'+i]) {
+        this['$'+i] = (...args) => {
+          this.emit('@'+i, {params: [...args, target]})
+        }
+        this['@'+i] = methods[i]
+      }
+    }
+  }
+
+  off (target) {
+    if (thi._methods) {
+      this._methods.delete(target)
+    }
   }
 
   // ns () {

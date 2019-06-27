@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-function effector (name='') {
+function _effector (name='') {
   const f = function () {
     return {...f.eff, name}
   }
@@ -19,6 +19,53 @@ function effector (name='') {
   f.eff = {}
   return f
 }
+
+
+
+
+class EffectorFunc extends Function {
+  constructor (name='', eff={}) {
+    const f = function (...params) {
+      return f._effData.use.apply(this, params)
+//      console.log('f', f._effData, params)
+    }
+    Object.setPrototypeOf(f, new.target.prototype)
+    f._effName = name
+    f._effData = eff
+    return f
+  }
+
+  use (fn) {
+    return new EffectorFunc(this._effName, {...this._effData, use: fn})
+  }
+
+  get ready () {
+    return '@'+this._effName
+  }
+
+  get done () {
+    return '@'+this._effName+':done'
+  }
+
+  get finals () {
+    return {['@'+this._effName+':done']: true}
+  }
+
+}
+
+
+function effector (name) {
+  return new EffectorFunc(name)
+}
+
+
+
+const load = effector('load').use(() => {
+  return axios.get('https://conduit.productionready.io/api/articles')
+    .then(response => response.data)
+})
+
+console.log(load('x'))
 
 // export function getArticles (watch) {
 //   const eff = function () {
@@ -52,13 +99,33 @@ function effector (name='') {
 //   return eff
 // }
 
-export const getTags = effector()
+export const getArticles = effector('fetch articles')
+
+export const getArticlesByTag = getArticles
+  .use((tag) => {
+    return axios.get('https://conduit.productionready.io/api/articles?tag='+tag)
+      .then(response => response.data)
+  })
+
+export const getAllArticles = getArticles
+  .use((tag) => {
+    return axios.get('https://conduit.productionready.io/api/articles')
+      .then(response => response.data)
+  })
+
+export const getTags = effector('fetch tags')
   .use(() => {
     return axios.get('https://conduit.productionready.io/api/tags')
       .then(response => response.data)
   })
 
-export const getArticles = effector()
+export const _getTags = _effector()
+  .use(() => {
+    return axios.get('https://conduit.productionready.io/api/tags')
+      .then(response => response.data)
+  })
+
+export const _getArticles = _effector()
   .use(() => {
     return axios.get('https://conduit.productionready.io/api/articles')
       .then(response => response.data)

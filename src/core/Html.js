@@ -1352,9 +1352,12 @@ const Html = class {
     //   }
     // }
 
-    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o[i+'Changed']) {
+    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o[i+'Changed'] || o[i+'Methods']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
+      if (o[i+'Methods']) {
+        source.on(o[i+'Methods'], this)        
+      }
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
       }
