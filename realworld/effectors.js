@@ -39,12 +39,22 @@ class EffectorFunc extends Function {
     return new EffectorFunc(this._effName, {...this._effData, use: fn})
   }
 
+  watch (event, callback) {
+    const watchers = (this._effData.watchers || []).splice(0)
+    watchers.push({event, callback})
+    return new EffectorFunc(this._effName, {...this._effData, watchers})
+  }
+
   get ready () {
     return '@'+this._effName
   }
 
   get done () {
     return '@'+this._effName+':done'
+  }
+
+  get fail () {
+    return '@'+this._effName+':fail'
   }
 
   get finals () {
@@ -99,21 +109,23 @@ console.log(load('x'))
 //   return eff
 // }
 
-export const getArticles = effector('fetch articles')
+const getArticles = effector('fetch_articles')
 
-export const getArticlesByTag = getArticles
+getArticles.ByTag = getArticles
   .use((tag) => {
     return axios.get('https://conduit.productionready.io/api/articles?tag='+tag)
       .then(response => response.data)
   })
 
-export const getAllArticles = getArticles
+getArticles.All = getArticles
   .use((tag) => {
     return axios.get('https://conduit.productionready.io/api/articles')
       .then(response => response.data)
   })
 
-export const getTags = effector('fetch tags')
+export {getArticles}
+
+export const getTags = effector('fetch_tags')
   .use(() => {
     return axios.get('https://conduit.productionready.io/api/tags')
       .then(response => response.data)

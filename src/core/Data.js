@@ -1047,19 +1047,62 @@ class Source {
 //          console.log('result', event, result)
 
           if ('params' in event) {
-            result = target[event.name].apply(target, [...event.params, event.data])
+            result = target[event.name].apply(target, [...event.params, target])
           }
           else if ('data' in event) {
-            result = target[event.name](event.data)
+            result = target[event.name](event.data, target)
           }
           else {
-            result = target[event.name]()
+            result = target[event.name](target)
+          }
+
+          // if (this._watchers && this._watchers[event.name]) {
+          //   const eventWatchers = this._watchers[event.name]
+          //   for (let i = 0; i < eventWatchers.length; i++) {
+          //     const watcher = eventWatchers[i]
+          //
+          //   }
+          // }
+
+          if (result instanceof Promise) {
+            const f = target[event.name]
+            if (!this._deferredEffects) {
+              this._deferredEffects = {}
+            }
+            this._deferredEffects[event.key] = f
+            this.emit(f.ready, {data: event.data, target})
+            result
+              .then(data => {
+                delete this._deferredEffects[event.key]
+                this.emit(f.done, {data, target})
+              })
+              .catch(data => {
+                delete this._deferredEffects[event.key]
+                this.emit(f.fail, {data, target})
+              })
+              .finally(() => {
+              })
           }
 
 //          console.log('[try]-'+event.name, 'OK')
 
 //          return result
         }
+
+        // FIXME замена once для дозорных эффектора
+        if (this._deferredEffects) {
+          for (let i in this._deferredEffects) {
+            const eff = this._deferredEffects[i]
+            if (eff._effData.watchers) {
+              eff._effData.watchers.forEach(watcher => {
+                if (watcher.event == event.name) {
+                  watcher.callback.call(target, event.data, target)
+                }
+              })
+            }
+          }
+        }
+
 
         this.observers.forEach(t => {
           if (event.target == null || event.target == t.target) {
@@ -1160,11 +1203,11 @@ class Source {
       this._methods.set(target, tm)
     }
     for (let i in methods) {
-      if (!this['$'+i]) {
-        this['$'+i] = (...args) => {
-          this.emit('@'+i, {params: [...args, target]})
+      if (!this[i]) {
+        this[i] = (...args) => {
+          this.emit('@'+i, {params: [...args], target})
         }
-        this['@'+i] = methods[i]
+        target['@'+i] = methods[i]
       }
     }
   }

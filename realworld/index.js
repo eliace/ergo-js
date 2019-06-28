@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
+import SignIn from './pages/SignIn'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import Edit from './pages/Edit'
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const routes = {
   '/': function () {page.set('current', 'home')},
-  '/login': function () {page.set('current', 'signUp')},
+  '/login': function () {page.set('current', 'signIn')},
   '/register': function () {page.set('current', 'signUp')},
   '/settings': function () {page.set('current', 'settings')},
   '/editor': function () {page.set('current', 'edit')},
@@ -42,6 +43,7 @@ const page = new Domain({
 }, {
   computed: {
     home: v => v.current == 'home',
+    signIn: v => v.current == 'signIn',
     signUp: v => v.current == 'signUp',
     settings: v => v.current == 'settings',
     edit: v => v.current == 'edit',
@@ -54,7 +56,7 @@ const app = new Html({
   sources: {
     page
   },
-  dynamic: {
+  components: {
     header: Header(),
     article: Article(),
     edit: Edit(),
@@ -62,8 +64,10 @@ const app = new Html({
     profile: Profile(),
     home: Home(),
     signUp: SignUp(),
+    signIn: SignIn(),
     footer: Footer()
   },
+  dynamic: true,
   pageChanged: function (v, k) {
     this.opt('$components', this.sources[k])
   }

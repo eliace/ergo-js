@@ -1,7 +1,7 @@
 import {Html, Layout, Source} from '../../src'
 import dayjs from 'dayjs'
 
-import {getArticles, getTags, getArticlesByTag, getAllArticles, _getArticles} from '../effectors'
+import {getArticles, getTags, _getArticles} from '../effectors'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
 import ArticleView from '../elements/ArticleView'
@@ -33,34 +33,37 @@ export default () => {
         articles: []
       }
     },
+    dataMethods: {
+      loadAllArticles: getArticles.All,
+      loadArticesByTag: getArticles.ByTag,
+      loadTags: getTags
+    },
     pageMethods: {
       selectTag: function (tag, target) {
         const {page, data} = target.domain
         page.set('feed', tag)
         data.set('feedTabs', [data.firstOf('feedTabs'), {name: '#'+tag, id: tag}])
 
-        this.emit(getArticlesByTag.ready)
-        getArticlesByTag(tag)
-          .then(json => {
-            this.emit(getArticlesByTag.done, {data: json.articles})
-          })
+        data.loadArticesByTag(tag)
+        // this.emit(getArticles.ByTag.ready)
+        // getArticles.ByTag(tag)
+        //   .then(json => {
+        //     this.emit(getArticles.ByTag.done, {data: json.articles})
+        //   })
       },
       selectTab: function (id, target) {
         const {page, data} = target.domain
         page.set('feed', id)
         data.set('feedTabs', [data.firstOf('feedTabs')])
 
-        page.emit(getAllArticles.ready)
-        getAllArticles()
-          .then(json => {
-            page.emit(getAllArticles.done, {data: json.articles})
-          })
+        data.loadAllArticles()
       }
     },
-    pageEvents: function (evt) {
+    dataEvents: function (evt) {
+      console.log(evt)
       const {page, data} = this.domain
       if (evt.name in getArticles.finals) {
-        data.set('articles', evt.data)
+        data.set('articles', evt.data.articles)
         page.set('loadingArticles', false)
       }
       else if (evt.name == getArticles.ready) {
@@ -68,7 +71,7 @@ export default () => {
         page.set('loadingArticles', true)
       }
       else if (evt.name in getTags.finals) {
-        data.set('tags', evt.data)
+        data.set('tags', evt.data.tags)
         page.set('loadingTags', false)
       }
       else if (evt.name == getTags.ready) {
@@ -76,16 +79,18 @@ export default () => {
         page.set('loadingTags', true)
       }
       else if (evt.name == 'init') {
-        page.emit(getAllArticles.ready)
-        getAllArticles()
-          .then(json => {
-            page.emit(getAllArticles.done, {data: json.articles})
-          })
-        page.emit(getTags.ready)
-        getTags()
-          .then(json => {
-            page.emit(getTags.done, {data: json.tags})
-          })
+        data.loadAllArticles()
+        data.loadTags()
+        // page.emit(getArticles.All.ready)
+        // getArticles.All()
+        //   .then(json => {
+        //     page.emit(getArticles.All.done, {data: json.articles})
+        //   })
+        // data.emit(getTags.ready)
+        // getTags()
+        //   .then(json => {
+        //     data.emit(getTags.done, {data: json.tags})
+        //   })
       }
     },
     as: 'home-page',
@@ -130,7 +135,7 @@ export default () => {
               },
               onClick: function (e) {
                 e.preventDefault()
-                this.domain.page.$selectTab(this.opt('key'))
+                this.domain.page.selectTab(this.opt('key'))
               }
             }
           }
@@ -145,12 +150,13 @@ export default () => {
           pageChanged: function (v, k) {
             this.opt('$components', this.sources[k])
           },
+          $loadingArticles: {
+            as: 'article-preview',
+            html: 'div',
+            text: 'Loading...'
+          },
           dynamic: {
-            loadingArticles: {
-              as: 'article-preview',
-              html: 'div',
-              text: 'Loading...'
-            }
+            loadingArticles: true
           }
         },
       },
@@ -174,18 +180,19 @@ export default () => {
             dataChanged: Mutate.Text,
             onClick: function (e) {
               e.preventDefault()
-              this.domain.page.$selectTag(this.opt('text'))
+              this.domain.page.selectTag(this.opt('text'))
             }
           }
+        },
+        $loadingTags: {
+          html: 'span',
+          text: 'Loading...'
         },
         pageChanged: function (v, k) {
           this.opt('$components', this.sources[k])
         },
         dynamic: {
-          loadingTags: {
-            html: 'span',
-            text: 'Loading...'
-          }
+          loadingTags: true
         }
       }
     }

@@ -62,6 +62,9 @@ export default () => {
           linkTo: '/#/settings'
         }, {
           text: 'Sign up',
+          linkTo: '/#/register'
+        }, {
+          text: 'Sign in',
           linkTo: '/#/login'
         }]
       }

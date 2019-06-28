@@ -286,9 +286,11 @@ const Html = class {
 
     // создание компонентов и элементов
 
-    if (opts.components && !this.dynamicComponents) {
+    if (opts.components && opts.dynamic !== true) {
       for (var i in opts.components) {
-        this.addComponent(i, opts.components[i])
+        if (!opts.dynamic || !opts.dynamic[i]) {
+          this.addComponent(i, opts.components[i])
+        }
       }
     }
 
@@ -989,7 +991,7 @@ const Html = class {
 
         if (value instanceof Source) {
           let o = this.options
-          let dynamicComponents = o.dynamic || o.components
+          let dynamicComponents = o.components
           let def = {...dynamicComponents}
           const data = value.get()
 //          debugger
@@ -1356,7 +1358,7 @@ const Html = class {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
       if (o[i+'Methods']) {
-        source.on(o[i+'Methods'], this)        
+        source.on(o[i+'Methods'], this)
       }
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
