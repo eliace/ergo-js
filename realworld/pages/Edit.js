@@ -7,6 +7,9 @@ import Field from '../elements/Field'
 
 export default () => {
   return {
+    sources: {
+      data: {}
+    },
     as: 'editor-page',
     $content: {
       as: 'container page',
@@ -20,18 +23,22 @@ export default () => {
             type: Field.Input
           },
           items: [{
-            placeholder: 'Article Title'
+            placeholder: 'Article Title',
+            dataId: 'title'
           }, {
-            placeholder: 'What\'s this article about?'
+            placeholder: 'What\'s this article about?',
+            dataId: 'description'
           }, {
             type: Field.TextArea,
             placeholder: 'Write your article (in markdown)',
-            rows: 8
+            rows: 8,
+            dataId: 'body'
           }, {
             placeholder: 'Enter tags',
             $tags: {
               as: 'tag-list'
-            }
+            },
+            dataId: 'tags'
           }],
           $publishBtn: {
             html: 'button',

@@ -12,6 +12,7 @@ import Settings from './pages/Settings'
 import Edit from './pages/Edit'
 import Article from './pages/Article'
 
+import {getArticle, getProfile, getUser} from './effectors'
 
 const projector = createProjector()
 
@@ -24,22 +25,42 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const routes = {
-  '/': function () {page.set('current', 'home')},
+  '/': function () {page.setCurrent('home')}, //{page.set('current', 'home')},
   '/login': function () {page.set('current', 'signIn')},
   '/register': function () {page.set('current', 'signUp')},
-  '/settings': function () {page.set('current', 'settings')},
-  '/editor': function () {page.set('current', 'edit')},
-  '/editor/article-slug-here': function () {page.set('current', 'edit')},
-  '/article/article-slug-here': function () {page.set('current', 'article')},
-  '/profile/:username': function () {page.set('current', 'profile')},
-  '/profile/:username/favorites': function () {page.set('current', 'profile')},
+  '/settings': function () {page.setCurrent('settings')},
+  '/editor': function () {page.setCurrent('edit')},
+  '/editor/:slug': function () {page.set('current', 'edit')},
+  '/article/:slug': function (slug) {
+    data.loadArticle(slug)
+//    page.mergeWith({current: ''})
+  },
+  '/@:username': function (username) {
+    page.setCurrent('profile')
+    data.loadProfile(username)
+    page.mergeWith({current: '', username})
+  },
+//  '/profile/:username/favorites': function () {page.set('current', 'profile')},
 }
 
-const router = new Router(routes)
+const routerConfig = {
+  // before: function () {
+  //   const t = token.get()
+  //   const user = page.get('user')
+  //   if (!user) {
+  //     // TODO здесь нужно разделение страниц на те, к которым нужна авторизация
+  //     if (t) {
+  //       page.loadUser(t)
+  //     }
+  //   }
+  // }
+}
+
+const _router = new Router(routes). configure(routerConfig)
 
 
 const page = new Domain({
-  current: 'home'
+  current: null
 }, {
   computed: {
     home: v => v.current == 'home',
@@ -49,12 +70,35 @@ const page = new Domain({
     edit: v => v.current == 'edit',
     article: v => v.current == 'article',
     profile: v => v.current == 'profile',
+    header: v => !!v.current,
+    footer: v => !!v.current
   }
 })
 
+const data = new Domain({
+
+}, {
+
+})
+
+const token = new Domain(localStorage.getItem('token'), {
+  changed: function (evt) {
+    if (evt.name == 'changed') {
+//      console.log('change token', evt.data)
+      localStorage.setItem('token', evt.data)
+    }
+  }
+})
+
+
 const app = new Html({
   sources: {
-    page
+    page,
+    data,
+    router: {
+
+    },
+    token
   },
   components: {
     header: Header(),
@@ -70,9 +114,66 @@ const app = new Html({
   dynamic: true,
   pageChanged: function (v, k) {
     this.opt('$components', this.sources[k])
+  },
+  pageMethods: {
+    loadUser: getUser,
+    setCurrent: function (v) {
+      const {page, token} = this.domain
+      if (!page.get('user') && token.get()) {
+//        console.log(token.get())
+        return page.loadUser(token.get())
+      }
+    },
+    logout: function () {
+      const {token, page, router} = this.domain
+      token.set('')
+      page.set('user', null)
+      router.toHome()
+    },
+    login: function (user) {
+      const {token, page, router} = this.domain
+      token.set(user.token)
+      page.set('user', user)
+      router.toHome()
+    }
+  },
+  pageEvents: function (e) {
+    const {page} = this.domain
+    if (e.name == getUser.done) {
+      page.set('user', e.data.user)
+    }
+    else if (e.name == '@setCurrent:done') {
+      page.set('current', e.params[0])
+    }
+  },
+  pageEffects: function (e) {
+
+  },
+  dataMethods: {
+    loadArticle: getArticle,
+    loadProfile: getProfile
+  },
+  dataEvents: function (evt) {
+    const {data, page} = this.domain
+    if (evt.name == getArticle.done) {
+      data.set(evt.data.article)
+      page.set('current', 'article')
+    }
+    else if (evt.name == getProfile.done) {
+      data.set(evt.data.profile)
+      page.set('current', 'profile')
+    }
+  },
+  routerMethods: {
+    toProfile: function () {
+      page.set('current', 'profile')
+    },
+    toHome: function () {
+      window.location.assign('/#/')
+    }
   }
 }, {
   projector
 })
 
-router.init()
+_router.init()

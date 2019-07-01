@@ -1,8 +1,10 @@
 import {Html, Layout, Source} from '../../src'
 import dayjs from 'dayjs'
 import {Mutate} from '../utils'
+import Tags from './Tags'
 
-export default class ArticleView extends Html {
+
+export default class ArticleItem extends Html {
   static defaultOpts = {
     sources: {
       data: function () {
@@ -11,7 +13,8 @@ export default class ArticleView extends Html {
           createdAt: '',
           favoritesCount: 0,
           title: '',
-          description: ''
+          description: '',
+          tagList: null
         }
       }
     },
@@ -33,9 +36,9 @@ export default class ArticleView extends Html {
         $author: {
           html: 'a',
           as: 'author',
-          href: '',
           dataChanged: function (v) {
             this.opt('text', v.author.username)
+            this.opt('href', '/#/@'+v.author.username)
           }
         },
         $date: {
@@ -73,8 +76,24 @@ export default class ArticleView extends Html {
         dataChanged: Mutate.Text
       },
       $cut :{
-        as: 'span',
+        html: 'span',
         text: 'Read more...'
+      },
+      $tagList: {
+        type: Tags,
+        dataId: 'tagList',
+        dataChanged: Mutate.Items,
+        defaultItem: {
+          as: 'tag-outline',
+          dataChanged: Mutate.Text
+        }
+      },
+      dynamic: {
+        tagList: true
+      },
+      dataChanged: function (v, k) {
+        this.opt('href', '/#/article/'+v.slug)
+        this.opt('$components', k)
       }
     }
   }

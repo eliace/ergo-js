@@ -12,7 +12,8 @@ export default class Auth extends Page {
         title: {
           html: 'h1',
           as: 'text-xs-center',
-          text: 'Sign up'
+          text: 'Sign up',
+          weight: 10
         },
         subtitle: {
           html: 'p',
@@ -23,7 +24,8 @@ export default class Auth extends Page {
               href: ''
             }
           },
-          text: 'Have an account?'
+          text: 'Have an account?',
+          weight: 20
         },
         errorMessages: {
           html: 'ul',
@@ -31,10 +33,11 @@ export default class Auth extends Page {
           defaultItem: {
             html: 'li'
           },
-          items: ['That email is already taken']
+          weight: 30
         },
         form: {
           html: 'form',
+          weight: 40,
           defaultItem: {
             type: Field.Input,
             size: 'lg'

@@ -1,67 +1,63 @@
-import {Html, Layout, Source} from '../../src'
+import {Html, Layout, Source as Domain} from '../../src'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
 import PassThroughLayout from '../layouts/PassThrough'
+import ArticleMeta from '../components/ArticleMeta'
+import Tags from '../elements/Tags'
+import dayjs from 'dayjs'
+import {getComments} from '../effectors'
 
 
-class ArticleMeta extends Html {
+
+
+
+class Comment extends Html {
   static defaultOpts = {
-    as: 'article-meta',
-    $avatar: {
-      html: 'a',
-      href: '',
+    as: 'card',
+    $block: {
+      as: 'card-block',
       $content: {
-        html: 'img',
-        src: 'http://i.imgur.com/Qr71crq.jpg'
-      },
-      $info: {
-        as: 'info',
-        $author: {
-          html: 'a',
-          href: '',
-          as: 'author',
-          text: 'Eric Simons'
-        },
-        $date: {
-          html: 'span',
-          as: 'date',
-          text: 'January 20th'
+        as: 'card-text',
+        dataChanged: function (v) {
+          this.opt('text', v.body)
         }
-      },
-      $followBtn: {
-        html: 'button',
-        as: 'btn btn-sm btn-outline-secondary',
-        $icon: {
-          html: 'i',
-          as: 'ion-plus-round',
-          weight: -10
-        },
-        text: ' Follow Eric Simons ',
-        $counter: {
-          html: 'span',
-          as: 'counter',
-          text: '(10)',
-          weight: 10
+//        text: 'With supporting text below as a natural lead-in to additional content.'
+      }
+    },
+    $footer: {
+      as: 'card-footer',
+      $avatar: {
+        html: 'a',
+        href: '',
+        as: 'comment-author',
+        $img: {
+          html: 'img',
+          as: 'comment-author-img',
+          dataChanged: function (v) {
+            this.opt('src', v.author.image)
+          }
+//          src: 'http://i.imgur.com/Qr71crq.jpg'
         }
       },
       $div: {
         html: 'span',
-        innerHTML: '&nbsp;&nbsp;'
+        innerHTML: '&nbsp;'
       },
-      $favoriteBtn: {
-        html: 'button',
-        as: 'btn btn-sm btn-outline-primary',
-        $icon: {
-          html: 'i',
-          as: 'ion-heart',
-          weight: -10
-        },
-        text: ' Favorite Post ',
-        $counter: {
-          html: 'span',
-          as: 'counter',
-          text: '(29)',
-          weight: 10
+      $author: {
+        html: 'a',
+        as: 'comment-author',
+        dataChanged: function (v) {
+          this.opt('text', v.author.username)
+          this.opt('href', '/#/@'+v.author.username)
+        }
+//        text: 'Jacob Schmidt'
+      },
+      $date: {
+        html: 'span',
+        as: 'date-posted',
+//        text: 'Dec 29th'
+        dataChanged: function (v) {
+          this.opt('text', dayjs(v.createdAt).format('MMMM D, YYYY'))
         }
       }
     }
@@ -69,8 +65,70 @@ class ArticleMeta extends Html {
 }
 
 
+
+class EditComment extends Html {
+  static defaultOpts = {
+    html: 'form',
+    as: 'card comment-form',
+    $block: {
+      as: 'card-block',
+      $control: {
+        html: 'textarea',
+        as: 'form-control',
+        placeholder: 'Write a comment...',
+        rows: 3
+      }
+    },
+    $footer: {
+      as: 'card-footer',
+      $avatar: {
+        html: 'img',
+        as: 'comment-author-img',
+        src: 'http://i.imgur.com/Qr71crq.jpg'
+      },
+      $postBtn: {
+        html: 'button',
+        as: 'btn btn-sm btn-primary',
+        text: 'Post Comment'
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
 export default () => {
   return {
+    sources: {
+      // data: {
+      //
+      // },
+      page: new Domain({}, {
+        computed: {
+          newComment: function (v) {
+            return !!v.auth
+          }
+        }
+      })
+    },
+    dataMethods: {
+      loadComments: getComments
+    },
+    pageChanged: function (v) {
+    },
+    dataEvents: function (evt) {
+      const {data, page} = this.domain
+      if (evt.name == 'init') {
+        data.loadComments(data.get('slug'))
+      }
+      else if (evt.name == getComments.done) {
+        data.set('comments', evt.data.comments)
+      }
+    },
     as: 'article-page',
     $banner: {
       as: 'banner',
@@ -78,10 +136,8 @@ export default () => {
         as: 'container',
         $title: {
           html: 'h1',
-          text: 'How to build webapps that scale'
-        },
-        $div: {
-          html: 'br'
+          dataId: 'title',
+          dataChanged: Mutate.Text
         },
         $meta: {
           type: ArticleMeta
@@ -96,16 +152,28 @@ export default () => {
           as: 'col-md-12',
           $content: {
             html: 'p',
-            text: 'Web development technologies have evolved at an incredible clip over the past few years.'
+            dataId: 'body',
+            dataChanged: Mutate.Text
+//            text: 'Web development technologies have evolved at an incredible clip over the past few years.'
           },
           $intro: {
             html: 'h2',
             id: 'introducing-ionic',
-            text: 'Introducing RealWorld.'
+//            text: 'Introducing RealWorld.'
           },
           $desc: {
             html: 'p',
-            text: 'It\'s a great solution for learning how other frameworks work.'
+            dataId: 'description',
+            dataChanged: Mutate.Text
+          },
+          $tags: {
+            type: Tags,
+            dataId: 'tagList',
+            dataChanged: Mutate.Items,
+            defaultItem: {
+              dataChanged: Mutate.Text,
+              as: 'tag-outline',
+            }
           }
         }
       },
@@ -122,87 +190,33 @@ export default () => {
         as: 'row',
         $content: {
           as: 'col-xs-12 col-md-8 offset-md-2',
-          $form: {
-            html: 'form',
-            as: 'card comment-form',
-            $block: {
-              as: 'card-block',
-              $control: {
-                html: 'textarea',
-                as: 'form-control',
-                placeholder: 'Write a comment...',
-                rows: 3
-              }
-            },
+          dynamic: true,
+          pageChanged: Mutate.Components,
+          dataId: 'comments',
+          dataChanged: Mutate.Items,
+          $newComment: {
+            type: EditComment
+          },
+          defaultItem: {
+            type: Comment
+          },
+          items: [{}, {
             $footer: {
-              as: 'card-footer',
-              $avatar: {
-                html: 'img',
-                as: 'comment-author-img',
-                src: 'http://i.imgur.com/Qr71crq.jpg'
-              },
-              $postBtn: {
-                html: 'button',
-                as: 'btn btn-sm btn-primary',
-                text: 'Post Comment'
+              $modOptions: {
+                html: 'span',
+                as: 'mod-options',
+                defaultItem: {
+                  html: 'i'
+                },
+                items: [
+                  {as: 'ion-edit'},
+                  {as: 'ion-trash-a'}
+                ]
               }
             }
-          }
+          }]
         }
-      },
-      defaultItem: {
-        as: 'card',
-        $block: {
-          as: 'card-block',
-          $content: {
-            as: 'card-text',
-            text: 'With supporting text below as a natural lead-in to additional content.'
-          }
-        },
-        $footer: {
-          as: 'card-footer',
-          $avatar: {
-            html: 'a',
-            href: '',
-            as: 'comment-author',
-            $img: {
-              html: 'img',
-              as: 'comment-author-img',
-              src: 'http://i.imgur.com/Qr71crq.jpg'
-            }
-          },
-          $div: {
-            html: 'span',
-            innerHTML: '&nbsp;'
-          },
-          $author: {
-            html: 'a',
-            href: '',
-            as: 'comment-author',
-            text: 'Jacob Schmidt'
-          },
-          $date: {
-            html: 'span',
-            as: 'date-posted',
-            text: 'Dec 29th'
-          }
-        }
-      },
-      items: [{}, {
-        $footer: {
-          $modOptions: {
-            html: 'span',
-            as: 'mod-options',
-            defaultItem: {
-              html: 'i'
-            },
-            items: [
-              {as: 'ion-edit'},
-              {as: 'ion-trash-a'}
-            ]
-          }
-        }
-      }]
+      }
     }
   }
 }

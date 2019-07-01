@@ -991,7 +991,15 @@ const Html = class {
 
         if (value instanceof Source) {
           let o = this.options
-          let dynamicComponents = o.components
+          let dynamicComponents = {}// o.components
+          if (o.dynamic === true) {
+            dynamicComponents = o.components
+          }
+          else if (o.dynamic && o.dynamic.constructor == Object) {
+            for (let i in o.dynamic) {
+              dynamicComponents[i] = o.components[i]
+            }
+          }
           let def = {...dynamicComponents}
           const data = value.get()
 //          debugger
@@ -1000,11 +1008,11 @@ const Html = class {
 //          for (let i in data) {
               if (dynamicComponents[i]) {
                 const s = data[i]
-                if (s !== false && !this['$'+i]) {
+                if (s && !this['$'+i]) {
     //              debugger
                   this.addComponent(i, dynamicComponents[i])
                 }
-                else if (s === false && this['$'+i]) {
+                else if (!s && this['$'+i]) {
     //              debugger
                   this.removeComponent(i)
                 }
@@ -1260,6 +1268,7 @@ const Html = class {
   destroy() {
     for (let i in this.sources) {
       this.sources[i].unjoin(this)
+      this.sources[i].off(this)
     }
     for (let i = 0; i < this.children.length; i++) {
       this.children[i].destroy();
@@ -1268,6 +1277,9 @@ const Html = class {
     delete this.sources
     delete this.children
     delete this.layout
+
+    this._destroyed = true
+
 
 //    delete this.parent
     // if (this.data) {
@@ -1354,14 +1366,19 @@ const Html = class {
     //   }
     // }
 
-    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o[i+'Changed'] || o[i+'Methods']) {
+    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o[i+'Changed'] || o[i+'Methods'] || o[i+'Computed']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
       if (o[i+'Methods']) {
         source.on(o[i+'Methods'], this)
       }
+      if (o[i+'Computed']) {
+        source.comp(o[i+'Computed'], this)
+      }
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
+        this.sources[i].off(this)
+        this.sources[i].uncomp(this)
       }
     }
 

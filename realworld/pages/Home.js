@@ -1,10 +1,10 @@
 import {Html, Layout, Source} from '../../src'
 import dayjs from 'dayjs'
 
-import {getArticles, getTags, _getArticles} from '../effectors'
+import {getArticles, getTags} from '../effectors'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
-import ArticleView from '../elements/ArticleView'
+import ArticleItem from '../elements/ArticleItem'
 import Nav from '../elements/Nav'
 
 
@@ -41,22 +41,21 @@ export default () => {
     pageMethods: {
       selectTag: function (tag, target) {
         const {page, data} = target.domain
-        page.set('feed', tag)
-        data.set('feedTabs', [data.firstOf('feedTabs'), {name: '#'+tag, id: tag}])
+        if (tag != page.get('feed')) {
+          page.set('feed', tag)
+          data.set('feedTabs', [data.firstOf('feedTabs'), {name: '#'+tag, id: tag}])
 
-        data.loadArticesByTag(tag)
-        // this.emit(getArticles.ByTag.ready)
-        // getArticles.ByTag(tag)
-        //   .then(json => {
-        //     this.emit(getArticles.ByTag.done, {data: json.articles})
-        //   })
+          data.loadArticesByTag(tag)
+        }
       },
       selectTab: function (id, target) {
         const {page, data} = target.domain
-        page.set('feed', id)
-        data.set('feedTabs', [data.firstOf('feedTabs')])
+        if (id != page.get('feed')) {
+          page.set('feed', id)
+          data.set('feedTabs', [data.firstOf('feedTabs')])
 
-        data.loadAllArticles()
+          data.loadAllArticles()
+        }
       }
     },
     dataEvents: function (evt) {
@@ -81,16 +80,6 @@ export default () => {
       else if (evt.name == 'init') {
         data.loadAllArticles()
         data.loadTags()
-        // page.emit(getArticles.All.ready)
-        // getArticles.All()
-        //   .then(json => {
-        //     page.emit(getArticles.All.done, {data: json.articles})
-        //   })
-        // data.emit(getTags.ready)
-        // getTags()
-        //   .then(json => {
-        //     data.emit(getTags.done, {data: json.tags})
-        //   })
       }
     },
     as: 'home-page',
@@ -145,11 +134,9 @@ export default () => {
           dataId: 'articles',
           dataChanged: Mutate.Items,
           defaultItem: {
-            type: ArticleView
+            type: ArticleItem
           },
-          pageChanged: function (v, k) {
-            this.opt('$components', this.sources[k])
-          },
+          pageChanged: Mutate.Components,
           $loadingArticles: {
             as: 'article-preview',
             html: 'div',

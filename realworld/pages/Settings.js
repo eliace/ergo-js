@@ -8,6 +8,9 @@ import Field from '../elements/Field'
 
 export default () => {
   return {
+    sources: {
+      data: {}
+    },
     as: 'settings-page',
     $content: {
       as: 'container page',
@@ -30,22 +33,27 @@ export default () => {
               type: Field.Input
             },
             items: [{
-              placeholder: 'URL of profile picture'
+              placeholder: 'URL of profile picture',
+              dataId: 'imageUrl'
             }, {
               size: 'lg',
-              placeholder: 'Your Name'
+              placeholder: 'Your Name',
+              dataId: 'username'
             }, {
               type: Field.TextArea,
               rows: 8,
               size: 'lg',
-              placeholder: 'Short bio about you'
+              placeholder: 'Short bio about you',
+              dataId: 'bio'
             }, {
               size: 'lg',
-              placeholder: 'Email'
+              placeholder: 'Email',
+              dataId: 'email'
             }, {
               _type: 'password',
               size: 'lg',
-              placeholder: 'Password'
+              placeholder: 'Password',
+              dataId: 'password'
             }],
             $submit: {
               html: 'button',
@@ -53,6 +61,18 @@ export default () => {
               as: 'btn btn-lg btn-primary pull-xs-right',
               text: 'Update Settings'
             }
+          }
+        },
+        $div: {
+          html: 'hr'
+        },
+        $logoutBtn: {
+          html: 'button',
+          as: 'btn btn-outline-danger',
+          text: 'Or click here to logout',
+          onClick: function (e) {
+            e.preventDefault()
+            this.domain.page.logout()
           }
         }
       }

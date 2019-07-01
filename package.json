@@ -42,7 +42,8 @@
     "test": "mocha",
     "test-watch": "parcel ./test/test.html",
     "start": "parcel index.html",
-    "start-realworld": "parcel realworld.html"
+    "start-realworld": "parcel realworld.html",
+    "build-realworld": "parcel build realworld.html"
   },
   "author": "",
   "license": "ISC"

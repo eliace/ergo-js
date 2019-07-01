@@ -51,7 +51,13 @@ class InputField extends Field {
     components: {
       control: {
         html: 'input',
-        _type: 'text'
+        _type: 'text',
+        onInput: function (e) {
+          this.sources.data.set(e.target.value)
+        },
+        dataChanged: function (v) {
+          this.opt('value', v)
+        }
       }
     }
   }

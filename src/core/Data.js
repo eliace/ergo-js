@@ -799,7 +799,7 @@ class Source {
       }
     }
 
-    return this
+    return event
   }
 
   activate (effect) {
@@ -1075,6 +1075,11 @@ class Source {
               .then(data => {
                 delete this._deferredEffects[event.key]
                 this.emit(f.done, {data, target})
+                if (event.done) {
+                  event.done.forEach(eff => {
+                    eff(data)
+                  })
+                }
               })
               .catch(data => {
                 delete this._deferredEffects[event.key]
@@ -1083,26 +1088,39 @@ class Source {
               .finally(() => {
               })
           }
+          else if (result && result.key) {
+            // FIXME костыль для определения события или эффекта
+            console.log('effect', result)
+            if (!result.done) {
+              result.done = []
+            }
+            result.done.push((data) => {
+              this.emit(event.name+':done', {data, params: event.params, target: event.target})
+            })
+          }
+          else {
+            console.log(event, result)
+            this.emit(event.name+':done', {data: result, params: event.params, target: event.target})
+          }
 
 //          console.log('[try]-'+event.name, 'OK')
 
 //          return result
         }
 
-        // FIXME замена once для дозорных эффектора
-        if (this._deferredEffects) {
-          for (let i in this._deferredEffects) {
-            const eff = this._deferredEffects[i]
-            if (eff._effData.watchers) {
-              eff._effData.watchers.forEach(watcher => {
-                if (watcher.event == event.name) {
-                  watcher.callback.call(target, event.data, target)
-                }
-              })
-            }
-          }
-        }
-
+        // // FIXME замена once для дозорных эффектора
+        // if (this._deferredEffects) {
+        //   for (let i in this._deferredEffects) {
+        //     const eff = this._deferredEffects[i]
+        //     if (eff._effData.watchers) {
+        //       eff._effData.watchers.forEach(watcher => {
+        //         if (watcher.event == event.name) {
+        //           watcher.callback.call(target, event.data, target)
+        //         }
+        //       })
+        //     }
+        //   }
+        // }
 
         this.observers.forEach(t => {
           if (event.target == null || event.target == t.target) {
@@ -1110,6 +1128,9 @@ class Source {
               t.dataChanged.call(t.target, event, t.key)
             }
           }
+          // else {
+          //   console.log('target no match', t.target, event.target)
+          // }
         })
 
         if (this._unresolved && this._unresolved[event.key]) {
@@ -1193,6 +1214,35 @@ class Source {
     })
   }
 
+
+
+
+
+
+  comp (computors, target) {
+    if (!this._computors) {
+      this._computors = new Map()
+    }
+    this._computors[target] = computors
+    if (!this.options.computed) {
+      this.options.computed = {}
+    }
+    Object.assign(this.options.computed, computors)
+    for (let i in computors) {
+      this.options.computed[i] = computors[i].bind(target)
+      this.compute(this.get())
+    }
+  }
+
+  uncomp (target) {
+    if (this._computors) {
+      const computors = this._computors.get(target)
+      for (let i in computors) {
+        delete this.options.computed[i]
+      }
+    }
+  }
+
   on (methods={}, target, key) {
     if (!this._methods) {
       this._methods = new Map()
@@ -1200,21 +1250,46 @@ class Source {
     let tm = this._methods.get(target)
     if (!tm) {
       tm = {}
-      this._methods.set(target, tm)
+//      this._methods.set(target, tm)
     }
     for (let i in methods) {
       if (!this[i]) {
         this[i] = (...args) => {
-          this.emit('@'+i, {params: [...args], target})
+          return this.emit('@'+i, {params: [...args], target})
         }
         target['@'+i] = methods[i]
+        tm[i] = methods[i]
+      }
+      else {
+        console.warn('method ['+i+'] already exists')
+      }
+    }
+    this._methods.set(target, tm)
+  }
+
+  off (target) {
+    if (this._methods) {
+      if (this._methods.has(target)) {
+        const tm = this._methods.get(target)
+        for (let i in tm) {
+          delete this[i]
+          delete target['@'+i]
+        }
+        this._methods.delete(target)
       }
     }
   }
 
-  off (target) {
-    if (thi._methods) {
-      this._methods.delete(target)
+  listen (effects, target) {
+    if (!this._effects) {
+      this._effects = new Map()
+    }
+    this._effects[target] = effects
+  }
+
+  unlisten (target) {
+    if (this._effects) {
+      this._effects.delete(target)
     }
   }
 
