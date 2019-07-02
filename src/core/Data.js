@@ -92,6 +92,38 @@ class Stream {
 
 
 
+class Event {
+}
+
+
+class Effect {
+  constructor (name) {
+    this.name = name
+  }
+
+  get done () {
+    return this.name+':done'
+  }
+
+  get fail () {
+    return this.name+':fail'
+  }
+
+  get init () {
+    return this.name
+  }
+
+  get cancel () {
+    return this.name+':cancel'
+  }
+
+  get reject () {
+    return this.name+':reject'
+  }
+
+}
+
+
 
 
 
@@ -345,7 +377,7 @@ class Source {
     if (!this._updating) {
       this._updating = true
   //    delete this.cache
-      this.emit('beforeChanged')
+//      this.emit('beforeChanged')
       if (this.isNested && direction != 'desc' && direction != 'none') {
         this.src.update('asc', event, {[this.id]: true}, {[this.id]: cache})
       }
@@ -367,7 +399,7 @@ class Source {
           this.entries[i].update('desc', event);
         }
       }
-      this.emit('afterChanged')
+//      this.emit('afterChanged')
       this._updating = false
     }
   }
@@ -652,34 +684,190 @@ class Source {
   }
 
 
-  get snapshot() {
-    let watching = []
-    if (this._waiting) {
-      watching = this._waiting.map(v => v.name || 'effector:'+v.effector)
-    }
-    let acting = []
-    if (this._acting) {
-      for (let i in this._acting) {
-        const v = this._acting[i]
-        acting.push(v.name || 'effector:'+v.effector)
+  // get snapshot() {
+  //   let watching = []
+  //   if (this._waiting) {
+  //     watching = this._waiting.map(v => v.name || 'effector:'+v.effector)
+  //   }
+  //   let acting = []
+  //   if (this._acting) {
+  //     for (let i in this._acting) {
+  //       const v = this._acting[i]
+  //       acting.push(v.name || 'effector:'+v.effector)
+  //     }
+  //   }
+  //   let events = []
+  //   if (this._unresolved) {
+  //     for (let i in this._unresolved) {
+  //       const v = this._unresolved[i]
+  //       events.push('@'+v.name)
+  //     }
+  //   }
+  //   return deepClone({
+  //     watching,
+  //     acting,
+  //     events
+  //   })
+  // }
+
+
+  emit (eventName, eventData) {
+
+    const event = (eventName.constructor == Object) ? eventName : {name: eventName, ...eventData}
+
+    if (this._watchers && event.state != 'resumed') {
+      const eventWatchers = this._watchers[event.name]
+      if (eventWatchers) {
+        const promises = []
+        const effects = []
+        eventWatchers.forEach(watcher => {
+          const result = watcher.callback.call(watcher.target || this, event)
+          if (result instanceof Promise) {
+            promises.push(result)
+          }
+          else if (result instanceof Effect) {
+            if (result.source != this) {
+              console.warn('effect from other domain', result)
+            }
+            effects.push(result)
+          }
+        })
+        if (promises.length > 0) {
+          const effect = new Effect(event.name+'-suspend')
+          effect.source = this
+          Promise.all(promises)
+            .then(data => {
+              this.emit(effect.done)
+              // event.state = 'resumed'
+              // this.emit(event)
+            })
+            .catch(data => {
+              this.emit(effect.fail)
+              // event.state = 'resumed'
+              // this.emit(event)
+            })
+          effects.push(effect)
+          this._deferred.push(effect)
+        }
+        if (effects.length > 0) {
+          event.state = 'suspended'
+          event.all = effects
+        }
       }
     }
-    let events = []
-    if (this._unresolved) {
-      for (let i in this._unresolved) {
-        const v = this._unresolved[i]
-        events.push('@'+v.name)
+
+    if (event.state == 'suspended') {
+      if (!this._suspended) {
+        this._suspended = []
       }
+      this._suspended.push(event)
+      return // ?
     }
-    return deepClone({
-      watching,
-      acting,
-      events
+
+    let result = this.resolve(event)
+
+
+    if (this._deferred && this._deferred.length) {
+      this._deferred.forEach(eff => {
+        if (eff.done == event.name || eff.fail == event.name || eff.cancel == event.name) {
+          eff.isFinal = true
+        }
+      })
+      this._deferred = this._deferred.filter(eff => !eff.isFinal)
+//      debugger
+    }
+
+    if (this._suspended && this._suspended.length) {
+      console.log('susp', event.name)
+      this._suspended.forEach(evt => {
+//        console.log(evt.name, evt.all, event)
+        if (evt.state != 'suspended') {
+          return // FIXME emit нужно вызывать только после удаления события из списка
+        }
+        for (let i = evt.all.length-1; i >= 0; i--) {
+          if (evt.all[i].isFinal) {
+            evt.all.splice(i, 1)
+          }
+        }
+        if (evt.all.length == 0) {
+          evt.state = 'resumed'
+          this.emit(evt)
+        }
+        this._suspended = this._suspended.filter(evt => evt.state == 'suspended')
+      })
+    }
+
+    return result
+  }
+
+  resolve (event) {
+
+    this.observers.forEach(t => {
+      if (event.target == null || event.target == t.target) {
+        if (t.dataChanged) {
+          t.dataChanged.call(t.target, event, t.key)
+        }
+      }
     })
+
+    const target = event.target || this
+
+    let result = undefined
+
+    if (target[event.name]) {
+
+      result = target[event.name].apply(target, event.params)
+
+      if (result instanceof Promise) {
+        // событие имеет отложенное исполнение
+        const effect = new Effect(event.name)
+        effect.source = this
+
+        if (this._deferred) {
+          this._deferred.forEach(eff => {
+            if (eff.name == effect.name) {
+              // по умолчанию отменяем эффект
+              effect.isFinal = true
+              this.emit(eff.reject)
+            }
+          })
+        }
+
+        if (!effect.isFinal) {
+
+          result
+            .then(data => {
+              if (!effect.isFinal) {
+                this.emit(effect.done, {data, target})
+              }
+            })
+            .catch(data => {
+              if (!effect.isFinal) {
+                this.emit(effect.fail, {data, target})
+              }
+            })
+
+          if (!this._deferred) {
+            this._deferred = []
+          }
+          this._deferred.push(effect)
+        }
+
+        result = effect
+      }
+      else if (result instanceof Effect) {
+        console.log('parent effect', result, event)
+        // TODO здесь нужно связать эффекты, в т.ч. отмену
+      }
+
+    }
+
+    return result
   }
 
 
-  emit (eventName, eventData, eventTarget) {
+/*
+  emit2 (eventName, eventData, eventTarget) {
 
     const pre = []
     const post = []
@@ -822,8 +1010,8 @@ class Source {
       const acting = this._acting[i]
       if (!acting.canceled && (acting.name == activated.name || acting.effector == activated.effector)) {
         console.log('cancel', acting)
-        if (acting.cancel /*|| acting.done*/) {
-          (acting.cancel /*|| acting.done*/).call(acting.target)
+        if (acting.cancel ) {
+          (acting.cancel).call(acting.target)
         }
         acting.canceled = true
 //        console.log('match', activated.name)
@@ -1181,7 +1369,7 @@ class Source {
   and() {
     return this
   }
-
+*/
 
 
   asStream(name) {
@@ -1257,6 +1445,9 @@ class Source {
         this[i] = (...args) => {
           return this.emit('@'+i, {params: [...args], target})
         }
+        this[i].done = '@'+i+':done'
+        this[i].fail = '@'+i+':fail'
+        this[i].init = '@'+i
         target['@'+i] = methods[i]
         tm[i] = methods[i]
       }
@@ -1290,6 +1481,29 @@ class Source {
   unlisten (target) {
     if (this._effects) {
       this._effects.delete(target)
+    }
+  }
+
+  effect (name, target, func) {
+    this.on({[name]: func}, target)
+    return this[name]
+  }
+
+  watch (name, target, callback) {
+    if (!this._watchers) {
+      this._watchers = {}
+    }
+    if (!this._watchers[name]) {
+      this._watchers[name] = []
+    }
+    this._watchers[name].push({callback, target})
+  }
+
+  unwatch (target) {
+    if (this._watchers) {
+      for (let i in this._watchers) {
+        this._watchers[i] = this._watchers[i].filter(watcher => watcher.target != target)
+      }
     }
   }
 

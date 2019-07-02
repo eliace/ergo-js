@@ -8,16 +8,6 @@ import ArticleItem from '../elements/ArticleItem'
 import Nav from '../elements/Nav'
 
 
-// const f = getTags
-//   .wait(evt => evt.name == 'init')
-//   // .done(v => {
-//   //   this.sources.data.set('tags', v.tags)
-//   // })
-//
-// console.log(f)
-
-
-
 export default () => {
   return {
     sources: {
@@ -33,54 +23,114 @@ export default () => {
         articles: []
       }
     },
-    dataMethods: {
-      loadAllArticles: getArticles.All,
-      loadArticesByTag: getArticles.ByTag,
-      loadTags: getTags
-    },
-    pageMethods: {
-      selectTag: function (tag, target) {
-        const {page, data} = target.domain
+    sourcesBound: function ({page, data}) {
+
+      const selectTag = page.effect('selectTag', this, tag => {
         if (tag != page.get('feed')) {
           page.set('feed', tag)
           data.set('feedTabs', [data.firstOf('feedTabs'), {name: '#'+tag, id: tag}])
 
-          data.loadArticesByTag(tag)
+          data.loadArticles.ByTag(tag)
         }
-      },
-      selectTab: function (id, target) {
-        const {page, data} = target.domain
+      })
+
+      const selectTab = page.effect('selectTab', this, id => {
         if (id != page.get('feed')) {
           page.set('feed', id)
           data.set('feedTabs', [data.firstOf('feedTabs')])
 
-          data.loadAllArticles()
+          data.loadArticles.All()
         }
-      }
+      })
+
+      // методы
+      const loadArticles = data.effect('loadArticles', this, async (type, p) => {
+        data.set('articles', [])
+        const v = await getArticles[type](p)
+        data.set('articles', v.articles)
+      })
+      const loadTags = data.effect('loadTags', this, async () =>{
+        data.set('tags', [])
+        const v = await getTags()
+        data.set('tags', v.tags)
+      })
+
+      loadArticles.All = data.effect('loadArticles.All', this, () => loadArticles('All'))
+      loadArticles.ByTag = data.effect('loadArticles.ByTag', this, (tag) => loadArticles('ByTag', tag))
+
+      // эффекты
+      data.watch(loadArticles.init, this, v => {
+        page.set('loadingArticles', true)
+      })
+      data.watch(loadArticles.done, this, v => {
+        page.set('loadingArticles', false)
+      })
+      data.watch(loadTags.init, this, v => {
+        page.set('loadingTags', true)
+      })
+      data.watch(loadTags.done, this, v => {
+        page.set('loadingTags', false)
+      })
+      data.watch('init', this, () => {
+        data.loadArticles.All()
+        data.loadTags()
+      })
+
+      // data.watch(loadAllArticles.done, this, v => {
+      //   data.set('articles', v.articles)
+      // })
+    },
+//     dataMethods: {
+// //      loadAllArticles: getArticles.All,
+// //      loadArticesByTag: getArticles.ByTag,
+// //      loadTags: getTags
+//     },
+    // pageMethods: {
+    //   selectTag: function (tag) {
+    //     const {page, data} = this.domain
+    //     if (tag != page.get('feed')) {
+    //       page.set('feed', tag)
+    //       data.set('feedTabs', [data.firstOf('feedTabs'), {name: '#'+tag, id: tag}])
+    //
+    //       data.loadArticles.ByTag(tag)
+    //     }
+    //   },
+    //   selectTab: function (id) {
+    //     const {page, data} = this.domain
+    //     if (id != page.get('feed')) {
+    //       page.set('feed', id)
+    //       data.set('feedTabs', [data.firstOf('feedTabs')])
+    //
+    //       data.loadArticles.All()
+    //     }
+    //   }
+    // },
+    pageEvents: function (e) {
+      console.log('page', e)
     },
     dataEvents: function (evt) {
-      console.log(evt)
-      const {page, data} = this.domain
-      if (evt.name in getArticles.finals) {
-        data.set('articles', evt.data.articles)
-        page.set('loadingArticles', false)
-      }
-      else if (evt.name == getArticles.ready) {
-        data.set('articles', [])
-        page.set('loadingArticles', true)
-      }
-      else if (evt.name in getTags.finals) {
-        data.set('tags', evt.data.tags)
-        page.set('loadingTags', false)
-      }
-      else if (evt.name == getTags.ready) {
-        data.set('tags', [])
-        page.set('loadingTags', true)
-      }
-      else if (evt.name == 'init') {
-        data.loadAllArticles()
-        data.loadTags()
-      }
+      console.log('data', evt)
+      // const {page, data} = this.domain
+      // if (evt.name in getArticles.finals) {
+      //   data.set('articles', evt.data.articles)
+      //   page.set('loadingArticles', false)
+      // }
+      // else if (evt.name == getArticles.ready) {
+      //   data.set('articles', [])
+      //   page.set('loadingArticles', true)
+      // }
+      // else if (evt.name in getTags.finals) {
+      //   data.set('tags', evt.data.tags)
+      //   page.set('loadingTags', false)
+      // }
+      // else if (evt.name == getTags.ready) {
+      //   data.set('tags', [])
+      //   page.set('loadingTags', true)
+      // }
+      // else if (evt.name == 'init') {
+      //   data.loadAllArticles()
+      //   data.loadTags()
+      // }
     },
     as: 'home-page',
     $banner: {

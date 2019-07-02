@@ -220,7 +220,11 @@ const Html = class {
     //        console.log('local', i)
         this.bind(opts.sources[i], i)
       }
+      if (opts.sourcesBound) {
+        opts.sourcesBound.call(this, this.sources)
+      }
     }
+
 
     this.dynamicItems = false
     this.dynamicComponents = false
@@ -1379,13 +1383,13 @@ const Html = class {
         this.sources[i].unjoin(this)
         this.sources[i].off(this)
         this.sources[i].uncomp(this)
+        this.sources[i].unwatch(this)
       }
     }
 
     // else {
     //   console.log('ignore join')
     // }
-
 
     this.sources[i] = source
 

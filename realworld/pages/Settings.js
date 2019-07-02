@@ -11,6 +11,11 @@ export default () => {
     sources: {
       data: {}
     },
+    sourcesBound: function ({data, page}) {
+      data.set(page.get('user'))
+    },
+    // dataRef: 'page',
+    // dataId: 'user',
     as: 'settings-page',
     $content: {
       as: 'container page',
