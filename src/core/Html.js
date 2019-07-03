@@ -16,8 +16,10 @@ const DEFAULT_RULES = {
   // items: rules.OptionArray,
   components: rules.OptionCollection,
   as: rules.StringArray,
-  data: rules.Overlap
+  data: rules.Overlap,
+  '$': rules.Option
 }
+
 
 const DEFAULT_EVENTS = {
   onClick: 'onclick',
@@ -168,23 +170,23 @@ const Html = class {
 
     let extOpts = {}
 
-    for (var i in opts) {
-      var o = opts[i]
-
-      if (i[0] == '$') {
-        // ленивая инициализация расширенных опций компонентов
-        extOpts['components'] = extOpts['components'] || {}
-
-        var compKey = i.substr(1)
-        if (extOpts['components'][compKey]) {
-          extOpts['components'][compKey].merge(o)
-        }
-        else {
-          extOpts['components'][compKey] = o
-        }
-      }
-
-    }
+    // for (var i in opts) {
+    //   var o = opts[i]
+    //
+    //   if (i[0] == '$') {
+    //     // ленивая инициализация расширенных опций компонентов
+    //     extOpts['components'] = extOpts['components'] || {}
+    //
+    //     var compKey = i.substr(1)
+    //     if (extOpts['components'][compKey]) {
+    //       extOpts['components'][compKey].merge(o)
+    //     }
+    //     else {
+    //       extOpts['components'][compKey] = o
+    //     }
+    //   }
+    //
+    // }
 
     const preparedOpts = new Options(opts, extOpts)
 
@@ -290,13 +292,27 @@ const Html = class {
 
     // создание компонентов и элементов
 
-    if (opts.components && opts.dynamic !== true) {
-      for (var i in opts.components) {
-        if (!opts.dynamic || !opts.dynamic[i]) {
-          this.addComponent(i, opts.components[i])
+    if (opts.components == null) {
+      opts.components = {}
+      for (let i in opts) {
+        if (i[0] == '$') {
+          opts.components[i.substr(1)] = true
         }
       }
     }
+
+    if (opts.components) {
+      for (let i in opts.components) {
+        this.addComponent(i, opts.components[i])
+      }
+    }
+    // if (opts.components && opts.dynamic !== true) {
+    //   for (var i in opts.components) {
+    //     if (!opts.dynamic || !opts.dynamic[i]) {
+    //       this.addComponent(i, opts.components[i])
+    //     }
+    //   }
+    // }
 
     if (opts.items && !this.dynamicItems) {
       for (var i = 0; i < opts.items.length; i++) {
@@ -995,15 +1011,15 @@ const Html = class {
 
         if (value instanceof Source) {
           let o = this.options
-          let dynamicComponents = {}// o.components
-          if (o.dynamic === true) {
-            dynamicComponents = o.components
-          }
-          else if (o.dynamic && o.dynamic.constructor == Object) {
-            for (let i in o.dynamic) {
-              dynamicComponents[i] = o.components[i]
-            }
-          }
+          let dynamicComponents = o.components
+          // if (o.dynamic === true) {
+          //   dynamicComponents = o.components
+          // }
+          // else if (o.dynamic && o.dynamic.constructor == Object) {
+          //   for (let i in o.dynamic) {
+          //     dynamicComponents[i] = o.components[i]
+          //   }
+          // }
           let def = {...dynamicComponents}
           const data = value.get()
 //          debugger
@@ -1148,7 +1164,14 @@ const Html = class {
       this.removeComponent(i)
     }
 
-    if (((this.options.dynamicComponents && this.options.dynamicComponents[i]) || this.options.defaultComponent) && typeof o === 'string') {
+    if (o === false) {
+      return
+    }
+    else if (o === true) {
+      o = {}
+    }
+
+    if ((this.options['$'+i] || this.options.defaultComponent) && typeof o === 'string') {
       o = {text: o}
     }
 
@@ -1164,9 +1187,9 @@ const Html = class {
 //       dataOpts = {...dataOpts, state: this.state}
 // //      console.log(i, dataOpts)
 //     }
-    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
+//    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
     const dataOpts = {sources: this.sources}
-    var compOpts = new Options(this.options.defaultComponent, dynamicComponent, dataOpts, o).build(DEFAULT_RULES)
+    var compOpts = new Options(this.options.defaultComponent, this.options['$'+i], dataOpts, o).build(DEFAULT_RULES)
 //    console.log('addComponent', o, compOpts)
     const comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.context)
     this.children.push(comp)

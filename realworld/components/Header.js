@@ -122,10 +122,10 @@ export default () => {
           key: 'profile',
 //          linkTo: '/#/profile'
           pageChanged: function (v) {
-            console.log('data', this.domain.data.get())
-            this.opt('text', v.user.username)
-            this.opt('linkTo', '/#/@'+v.user.username)
-            this.opt('active', v.current == this.options.key && v.username == v.user.username)
+            // console.log('data', this.domain.data.get())
+            // this.opt('text', v.user.username)
+            // this.opt('linkTo', '/#/@'+v.user.username)
+            // this.opt('active', v.current == this.options.key && v.username == v.user.username)
           }
         },
         dynamic: true,

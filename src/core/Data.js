@@ -121,6 +121,26 @@ class Effect {
     return this.name+':reject'
   }
 
+  get final () {
+    return this.name+':final'
+  }
+
+  shareWith (source) {
+    if (!this._shares) {
+      this._shares = []
+    }
+    this._shares.push(source)
+  }
+
+  finalize () {
+    this.isFinal = true
+    if (this._shares) {
+      this._shares.forEach(source => {
+        source.emit(this.final)
+      })
+    }
+  }
+
 }
 
 
@@ -716,43 +736,44 @@ class Source {
     const event = (eventName.constructor == Object) ? eventName : {name: eventName, ...eventData}
 
     if (this._watchers && event.state != 'resumed') {
-      const eventWatchers = this._watchers[event.name]
-      if (eventWatchers) {
-        const promises = []
-        const effects = []
-        eventWatchers.forEach(watcher => {
-          const result = watcher.callback.call(watcher.target || this, event)
-          if (result instanceof Promise) {
-            promises.push(result)
-          }
-          else if (result instanceof Effect) {
-            if (result.source != this) {
-              console.warn('effect from other domain', result)
+      const promises = []
+      const effects = []
+      this._watchers.forEach((watchers, target) => {
+        if (!event.target || event.target == target) {
+          watchers.forEach(watcher => {
+            if (watcher.when(event)) {
+              const result = watcher.callback.call(target, event)
+              if (result instanceof Promise) {
+                promises.push(result)
+              }
+              else if (result instanceof Effect) {
+                if (result.source != this) {
+                  console.warn('Shared effect', result)
+                  result.shareWith(this)
+                }
+                effects.push(result)
+              }
             }
-            effects.push(result)
-          }
-        })
-        if (promises.length > 0) {
-          const effect = new Effect(event.name+'-suspend')
-          effect.source = this
-          Promise.all(promises)
-            .then(data => {
-              this.emit(effect.done)
-              // event.state = 'resumed'
-              // this.emit(event)
-            })
-            .catch(data => {
-              this.emit(effect.fail)
-              // event.state = 'resumed'
-              // this.emit(event)
-            })
+          })
+        }
+      })
+      // если есть промисы, то создаем эффект, который ждет их окончания
+      if (promises.length > 0) {
+        const effect = new Effect(event.name+'-suspend')
+        effect.source = this
+        Promise.all(promises)
+          .then(data => {
+            this.emit(effect.done)
+          })
+          .catch(data => {
+            this.emit(effect.fail)
+          })
           effects.push(effect)
           this._deferred.push(effect)
-        }
-        if (effects.length > 0) {
-          event.state = 'suspended'
-          event.all = effects
-        }
+      }
+      if (effects.length > 0) {
+        event.state = 'suspended'
+        event.all = effects
       }
     }
 
@@ -769,8 +790,14 @@ class Source {
 
     if (this._deferred && this._deferred.length) {
       this._deferred.forEach(eff => {
-        if (eff.done == event.name || eff.fail == event.name || eff.cancel == event.name) {
-          eff.isFinal = true
+        if (!eff.isFinal) {
+          if (eff.parent && eff.parent.isFinal) {
+            eff.finalize()
+            this.emit(eff.final, {target: eff.target}) // здесь было бы правильно анализировать статус родительского эффекта
+          }
+          else if (eff.done == event.name || eff.fail == event.name || eff.cancel == event.name) {
+            eff.finalize()
+          }
         }
       })
       this._deferred = this._deferred.filter(eff => !eff.isFinal)
@@ -778,7 +805,7 @@ class Source {
     }
 
     if (this._suspended && this._suspended.length) {
-      console.log('susp', event.name)
+//      console.log('susp', event.name)
       this._suspended.forEach(evt => {
 //        console.log(evt.name, evt.all, event)
         if (evt.state != 'suspended') {
@@ -822,13 +849,14 @@ class Source {
         // событие имеет отложенное исполнение
         const effect = new Effect(event.name)
         effect.source = this
+        effect.target = event.target
 
         if (this._deferred) {
           this._deferred.forEach(eff => {
             if (eff.name == effect.name) {
               // по умолчанию отменяем эффект
-              effect.isFinal = true
-              this.emit(eff.reject)
+              this.emit(effect.reject)
+              effect.finalize()
             }
           })
         }
@@ -856,8 +884,20 @@ class Source {
         result = effect
       }
       else if (result instanceof Effect) {
-        console.log('parent effect', result, event)
+        const effect = new Effect(event.name)
+        effect.parent = result
+        effect.target = event.target
+        if (result.source != this) {
+          console.warn('Shared effect', result)
+          result.shareWith(this)
+        }
+//        console.log('parent effect', result, event)
         // TODO здесь нужно связать эффекты, в т.ч. отмену
+        this._deferred.push(effect)
+      }
+      else {
+        const effect = new Effect(event.name)
+        this.emit(effect.done, {data: result, target: event.target})
       }
 
     }
@@ -1387,6 +1427,22 @@ class Source {
     }
   }
 
+  isEmpty(...args) {
+    const v = this.get.apply(this, args)
+    if (v) {
+      if (Array.isArray(v)) {
+        return v.length == 0
+      }
+      else if (v.constructor == Object) {
+        return Object.keys(v).length == 0
+      }
+      else {
+        return false
+      }
+    }
+    return true
+  }
+
   hashCode () {
     return hashCode(this.get())
   }
@@ -1403,7 +1459,9 @@ class Source {
   }
 
 
-
+  computed (name, target, computor) {
+    this.comp({[name]: computor}, target)
+  }
 
 
 
@@ -1489,21 +1547,28 @@ class Source {
     return this[name]
   }
 
-  watch (name, target, callback) {
+  watch (when, target, callback) {
     if (!this._watchers) {
-      this._watchers = {}
+      this._watchers = new Map()
     }
-    if (!this._watchers[name]) {
-      this._watchers[name] = []
+    let watchers = this._watchers.get(target)
+    if (!watchers) {
+      watchers = []
+      this._watchers.set(target, watchers)
     }
-    this._watchers[name].push({callback, target})
+
+    const watcher = {when, callback}
+
+    if (typeof when == 'string') {
+      watcher.when = (e) => e.name == when
+    }
+
+    watchers.push(watcher)
   }
 
   unwatch (target) {
     if (this._watchers) {
-      for (let i in this._watchers) {
-        this._watchers[i] = this._watchers[i].filter(watcher => watcher.target != target)
-      }
+      this._watchers.delete(target)
     }
   }
 

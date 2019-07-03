@@ -181,7 +181,7 @@ const app = new Html({
     }
   },
   pageEvents: function (e) {
-    console.log('page', e)
+    console.log('[index] page', e)
     // const {page} = this.domain
     // if (e.name == getUser.done) {
     //   page.set('user', e.data.user)
@@ -195,7 +195,7 @@ const app = new Html({
   //   loadProfile: getProfile
   // },
   dataEvents: function (e) {
-    console.log('data', e)
+    console.log('[index] data', e)
 //    const {data, page} = this.domain
     // if (evt.name == getArticle.done) {
     //   data.set(evt.data.article)
@@ -219,3 +219,5 @@ const app = new Html({
 })
 
 _router.init()
+
+window._app = app

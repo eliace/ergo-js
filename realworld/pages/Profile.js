@@ -8,49 +8,137 @@ import {getArticles} from '../effectors'
 
 
 export default () => {
+
+  const _data = {
+    effectors: {
+      loadArticles: {
+        My: function () {
+          return this.loadArticles('ByAuthor', this.get('username'))
+        },
+        Favorited: () => {
+
+        },
+        Any: async function (type, p) {
+          this.set('articles', [])
+          const v = await getArticles[type](p)
+          this.set('articles', v.articles)
+        }
+      }
+    },
+    computors: {
+      followBtn: v => !v.user
+    },
+    watchers: {
+      beforeLoading: {
+        when: e => e.name = e.domain.loadArticles.init,
+        call: e => {
+          return this.resolve('beforeLoading')
+          // const {page} = e.target.domains
+          // page.set('loadingArticles', true)
+          // page.set('noArticles', false)
+        }
+      },
+      afterLoading: {
+        when: e => e.name = e.domain.loadArticles.done,
+        call: e => {
+          // const {page} = e.target.domains
+          // page.set('loadingArticles', true)
+          // page.set('noArticles', false)
+        }
+      }
+    }
+  }
+
   return {
     sources: {
       selection: {
         currentTab: 'my'
       }
     },
-    dataMethods: {
-      loadMyArticles: getArticles.ByAuthor,
-      loadFavoritedArticles: getArticles.Favorited
-    },
-    dataEvents: function (evt) {
-      const {page, data} = this.domain
-      if (evt.name == 'init') {
-        data.loadMyArticles(data.get('username'))
-      }
-      else if (evt.name == getArticles.ready) {
-        data.set('articles', null)
-        page.set('loadingArticles', true)
-      }
-      else if (evt.name == getArticles.done) {
-        data.set('articles', evt.data.articles)
-        page.set('loadingArticles', false)
-      }
-    },
-    dataChanged: function (v) {
-      this.domain.page.set('noArticles', v.articles && v.articles.length == 0)
-    },
-    selectionMethods: {
-      selectTab: function (key) {
-        const {data, selection} = this.domain
+    sourcesBound: function ({data, page, selection}) {
+
+      const loadArticles = data.effect('loadArticles', this, async (type, p) => {
+        data.set('articles', [])
+        const v = await getArticles[type](p)
+        data.set('articles', v.articles)
+      })
+      loadArticles.My = data.effect('loadMyArticles', this, () => {
+        return loadArticles('ByAuthor', data.get('username'))
+      })
+      loadArticles.Favorited = data.effect('loadFavoritedArticles', this, () => {
+        return loadArticles('Favorited', data.get('username'))
+      })
+      const selectTab = selection.effect('selectTab', this, (key) => {
         selection.set('currentTab', key)
+      })
+
+      const reloadArticles = () => {
+//        selectTab(selection.get('currentTab'))
+        const key = selection.get('currentTab')
         if (key == 'my') {
-          data.loadMyArticles(data.get('username'))
+          loadArticles.My()
         }
         else if (key == 'favorited') {
-          data.loadFavoritedArticles(data.get('username'))
+          loadArticles.Favorited()
         }
       }
+
+      page.computed('followBtn', this, v => !(v.user && v.username == v.user.username))
+      page.computed('settingsBtn', this, v => v.user && v.username == v.user.username)
+
+      data.watch(loadArticles.init, this, () => {
+        page.set('loadingArticles', true)
+        page.set('noArticles', false)
+      })
+      data.watch(loadArticles.done, this, () => {
+        page.set('loadingArticles', false)
+        page.set('noArticles', data.entry('articles').isEmpty())
+      })
+      data.watch('init', this, reloadArticles)
+      selection.watch(selectTab.done, this, reloadArticles)
+
     },
-    pageComputed: {
-      followBtn: v => !(v.user && v.username == v.user.username),
-      settingsBtn: v => v.user && v.username == v.user.username
+    // dataMethods: {
+    //   loadMyArticles: getArticles.ByAuthor,
+    //   loadFavoritedArticles: getArticles.Favorited
+    // },
+    selectionEvents: function (e) {
+      console.log('[profile] selection', e)
     },
+    dataEvents: function (e) {
+      console.log('[profile] data', e)
+      // const {page, data} = this.domain
+      // if (evt.name == 'init') {
+      //   data.loadMyArticles(data.get('username'))
+      // }
+      // else if (evt.name == getArticles.ready) {
+      //   data.set('articles', null)
+      //   page.set('loadingArticles', true)
+      // }
+      // else if (evt.name == getArticles.done) {
+      //   data.set('articles', evt.data.articles)
+      //   page.set('loadingArticles', false)
+      // }
+    },
+    // dataChanged: function (v) {
+    //   this.domain.page.set('noArticles', v.articles && v.articles.length == 0)
+    // },
+    // selectionMethods: {
+    //   selectTab: function (key) {
+    //     const {data, selection} = this.domain
+    //     selection.set('currentTab', key)
+    //     if (key == 'my') {
+    //       data.loadMyArticles(data.get('username'))
+    //     }
+    //     else if (key == 'favorited') {
+    //       data.loadFavoritedArticles(data.get('username'))
+    //     }
+    //   }
+    // },
+    // pageComputed: {
+    //   followBtn: v => !(v.user && v.username == v.user.username),
+    //   settingsBtn: v => v.user && v.username == v.user.username
+    // },
     as: 'profile-page',
     $userInfo: {
       as: 'user-info',

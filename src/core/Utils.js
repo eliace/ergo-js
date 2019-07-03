@@ -54,13 +54,13 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
   // если nextOpts является объектом
   if (nextOpts.constructor === Object) {
     for (let i in nextOpts) {
-      opts[i] = buildProp(opts[i], nextOpts[i], rules && rules[i])
+      opts[i] = buildProp(opts[i], nextOpts[i], rules && (rules[i] || rules[i[0]]))
     }
   }
   // если nextOpts является массивом
   else if (nextOpts.constructor === Array) {
     for (let i = 0; i < nextOpts.length; i++) {
-      opts[i] = buildProp(opts[i], nextOpts[i], rules && rules[i])
+      opts[i] = buildProp(opts[i], nextOpts[i], rules && (rules[i] || rules[i[0]]))
     }
   }
   else if (nextOpts !== undefined) {
