@@ -45,6 +45,7 @@ export default () => {
       }
     },
     html: 'nav',
+    weight: -10,
     as: 'navbar navbar-light',
     $container: {
       as: 'container',
@@ -128,7 +129,6 @@ export default () => {
             // this.opt('active', v.current == this.options.key && v.username == v.user.username)
           }
         },
-        dynamic: true,
         dataId: 'menu',
         dataChanged: Mutate.Components
       }

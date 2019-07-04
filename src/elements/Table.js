@@ -15,29 +15,27 @@ class Table extends Html {
   static defaultOpts = {
     html: 'table',
     as: 'table',
-    components: {
-      colgroup: {
-        html: 'colgroup',
+    $colgroup: {
+      html: 'colgroup',
+      defaultItem: {
+        html: 'col'
+      }
+    },
+    $head: {
+      html: 'thead',
+      defaultItem: {
+        type: Row,
         defaultItem: {
-          html: 'col'
+          html: 'th'
         }
-      },
-      head: {
-        html: 'thead',
+      }
+    },
+    $body: {
+      html: 'tbody',
+      defaultItem: {
+        type: Row,
         defaultItem: {
-          type: Row,
-          defaultItem: {
-            html: 'th'
-          }
-        }
-      },
-      body: {
-        html: 'tbody',
-        defaultItem: {
-          type: Row,
-          defaultItem: {
-            html: 'td'
-          }
+          html: 'td'
         }
       }
     }

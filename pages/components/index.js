@@ -45,7 +45,6 @@ export default (projector) => {
       }
     },
     $content: {
-      dynamic: true,
       dataChanged: function (v, key) {
         this.opt('$components', key)
       },

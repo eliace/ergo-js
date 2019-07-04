@@ -31,50 +31,46 @@ class DropdownBox extends Html {
       dropdown: false
     },
     as: 'dropdown',
-    components: {
-      content: {
-        tabIndex: -1,
-        as: 'dropdown-trigger',
-        styles: {
-          'width': '100%'
+    $content: {
+      tabIndex: -1,
+      as: 'dropdown-trigger',
+      styles: {
+        'width': '100%'
+      },
+      $content: {
+        type: ButtonWithIcon,
+        as: 'is-fullwidth',
+        $icon: {
+          weight: 10,
+          as: 'is-small dropdown-icon',
+          icon: 'fas fa-angle-down'
         },
         $content: {
-          type: ButtonWithIcon,
-          as: 'is-fullwidth',
-          $icon: {
-            weight: 10,
-            as: 'is-small dropdown-icon',
-            icon: 'fas fa-angle-down'
-          },
-          $content: {
-            styles: {
-              'display': 'flex',
-              'flex': '1'
-            }
-          },
-          $placeholder: {
-            html: 'span',
-            as: 'dropdown-placeholder',
-            styles: {
-              'display': 'flex',
-              'flex': '1'
-            },
-            text: 'Select me...'
+          styles: {
+            'display': 'flex',
+            'flex': '1'
           }
         },
-        // onClick: function () {
-        //   this.parent.opt('active', !this.parent.options.active)
-        // }
-      },
-      dropdown: {
-        as: 'dropdown-menu',
-        width: '100%',
-        components: {
-          content: {
-            type: Dropdown
-          }
+        $placeholder: {
+          html: 'span',
+          as: 'dropdown-placeholder',
+          styles: {
+            'display': 'flex',
+            'flex': '1'
+          },
+          text: 'Select me...'
         }
       },
+      // onClick: function () {
+      //   this.parent.opt('active', !this.parent.options.active)
+      // }
+    },
+    $dropdown: {
+      as: 'dropdown-menu',
+      width: '100%',
+      $content: {
+        type: Dropdown
+      }
       // overlay: {
       //   as: 'dropdown-overlay',
       //   onMouseDown: function () {
@@ -109,7 +105,7 @@ export default (projector) => {
 //      text: 'Select me',
 //      active: true,
       width: 400,
-      dynamic: true,
+//      dynamic: true,
       selectionChanged: function (v) {
         this.$content.opt('text', v)
         this.$content.$content.$placeholder.opt('render', !v)
@@ -142,7 +138,7 @@ export default (projector) => {
         $content: {
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
-          dynamic: true,
+//          dynamic: true,
           dataChanged: Mutate.DynamicItems,
           defaultItem: {
             onClick: function (e) {

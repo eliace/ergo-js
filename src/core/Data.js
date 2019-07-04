@@ -160,7 +160,7 @@ class Source {
     this.entries = {}// Array.isArray(v) ? [] : {}
     this.observers = []
     this.isNested = v instanceof Source
-    this.options = o
+    this.options = o || {}
 
     if (this.options && this.options.computed) {
       this.compute(this.get())
@@ -395,32 +395,37 @@ class Source {
 
   update(direction, event, ids, cache) {
     if (!this._updating) {
-      this._updating = true
+      this._updating = this
+      try {
   //    delete this.cache
 //      this.emit('beforeChanged')
-      if (this.isNested && direction != 'desc' && direction != 'none') {
-        this.src.update('asc', event, {[this.id]: true}, {[this.id]: cache})
-      }
+        if (this.isNested && direction != 'desc' && direction != 'none') {
+          this.src.update('asc', event, {[this.id]: true}, {[this.id]: cache})
+        }
 
-      delete this.cache
+        delete this.cache
 
-      if (this.options && this.options.computed) {
-        this.compute(this.get())
-      }
+        if (this.options && this.options.computed) {
+          this.compute(this.get())
+        }
 
-      this.emit('changed', {data: this.get(), ids, cache})
+        this.emit('changed', {data: this.get(), ids, cache})
 
-      // this.observers.forEach(t => {
-      //   t.dataChanged.call(t.target, this.get(), t.key)
-      // })
+        // this.observers.forEach(t => {
+        //   t.dataChanged.call(t.target, this.get(), t.key)
+        // })
 
-      if (direction != 'asc' && direction != 'none') {
-        for (let i in this.entries) {
-          this.entries[i].update('desc', event);
+        if (direction != 'asc' && direction != 'none') {
+          for (let i in this.entries) {
+            this.entries[i].update('desc', event);
+          }
         }
       }
+      catch (err) {
+        console.error(err)
+      }
 //      this.emit('afterChanged')
-      this._updating = false
+      delete this._updating
     }
   }
 
@@ -739,7 +744,7 @@ class Source {
       const promises = []
       const effects = []
       this._watchers.forEach((watchers, target) => {
-        if (!event.target || event.target == target) {
+        if (true/*!event.target || event.target == target*/) {
           watchers.forEach(watcher => {
             if (watcher.when(event)) {
               const result = watcher.callback.call(target, event)

@@ -66,7 +66,7 @@ class Comment extends Html {
 
 
 
-class EditComment extends Html {
+class EditableComment extends Html {
   static defaultOpts = {
     html: 'form',
     as: 'card comment-form',
@@ -84,7 +84,9 @@ class EditComment extends Html {
       $avatar: {
         html: 'img',
         as: 'comment-author-img',
-        src: 'http://i.imgur.com/Qr71crq.jpg'
+        pageChanged: function (v) {
+          this.opt('src', v.user.image)
+        }
       },
       $postBtn: {
         html: 'button',
@@ -103,32 +105,27 @@ class EditComment extends Html {
 
 export default () => {
   return {
-    sources: {
-      // data: {
-      //
-      // },
-      page: new Domain({}, {
-        computed: {
-          newComment: function (v) {
-            return !!v.auth
-          }
-        }
+    dataId: 'article',
+    sourcesBound: function ({page, data}) {
+
+      const loadComments = data.effect('loadComments', this, async () => {
+        const v = await getComments(page.get('slug'))
+        data.set('comments', v.comments)
+      })
+
+      page.computed('newComment', this, v => !!v.user)
+
+      data.watch(e => e.name == 'init' && e.target == this, this, (e) => {
+        loadComments()
       })
     },
-    dataMethods: {
-      loadComments: getComments
+    dataEvents: function (e) {
+      console.log('[article] data', e)
     },
-    pageChanged: function (v) {
+    pageEvents: function (e) {
+      console.log('[article] page', e)
     },
-    dataEvents: function (evt) {
-      const {data, page} = this.domain
-      if (evt.name == 'init') {
-        data.loadComments(data.get('slug'))
-      }
-      else if (evt.name == getComments.done) {
-        data.set('comments', evt.data.comments)
-      }
-    },
+
     as: 'article-page',
     $banner: {
       as: 'banner',
@@ -190,31 +187,35 @@ export default () => {
         as: 'row',
         $content: {
           as: 'col-xs-12 col-md-8 offset-md-2',
-          dynamic: true,
-          pageChanged: Mutate.Components,
+          components: {
+            newComment: false
+          },
+          pageChanged: function (v, k) {
+            this.opt('$components', this.sources[k])
+          }, //Mutate.Components,
           dataId: 'comments',
           dataChanged: Mutate.Items,
           $newComment: {
-            type: EditComment
+            type: EditableComment
           },
           defaultItem: {
             type: Comment
           },
-          items: [{}, {
-            $footer: {
-              $modOptions: {
-                html: 'span',
-                as: 'mod-options',
-                defaultItem: {
-                  html: 'i'
-                },
-                items: [
-                  {as: 'ion-edit'},
-                  {as: 'ion-trash-a'}
-                ]
-              }
-            }
-          }]
+          // items: [{}, {
+          //   $footer: {
+          //     $modOptions: {
+          //       html: 'span',
+          //       as: 'mod-options',
+          //       defaultItem: {
+          //         html: 'i'
+          //       },
+          //       items: [
+          //         {as: 'ion-edit'},
+          //         {as: 'ion-trash-a'}
+          //       ]
+          //     }
+          //   }
+          // }]
         }
       }
     }

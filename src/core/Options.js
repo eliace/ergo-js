@@ -38,10 +38,23 @@ const Options = class {
 
   build(rules) {
 
+    // немножко эвристики для кейсов, когда опции отключаются последним сегментом
+    if (this._raw[this._raw.length-1] === false) {
+      return false
+    }
+
     let o = {}
 
     for (let i = 0; i < this._raw.length; i++) {
-      o = buildOpts(o, this._raw[i], rules || this._rules)
+      if (this._raw[i] === true) {
+        continue
+      }
+      else if (this._raw[i] === false) {
+        o = {}
+      }
+      else {
+        o = buildOpts(o, this._raw[i], rules || this._rules)
+      }
     }
 
     return o

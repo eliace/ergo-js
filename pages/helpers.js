@@ -3,6 +3,26 @@ import {IconBox} from '../src'
 
 export const Mixins = {
 
+  Selectable2: function () {
+    return {
+      // для примеси этот способ не подходит
+      sourcesBound: function ({selection}) {
+        selection.effect('select', this, (v) => {
+          selection.set(v)
+        })
+      },
+      onMouseDown: function (e) {
+        this.sources.selection.select(this.options.key || this.options.text)
+      },
+      selectionEvents: function (e) {
+        const {selection} = this.sources
+        if (e.name == selection.select.done || e.name == 'init') {
+          this.options.onSelected && this.options.onSelected.call(this, selection.get() == (this.opt('key') || this.opt('text')))
+        }
+      }
+    }
+  },
+
   Selectable: function () {
     return {
       selectionChanged: function (v) {

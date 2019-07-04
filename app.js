@@ -41,14 +41,14 @@ function doAnalysis() {
     subscriptions: 0,
     hangingNodes: 0
   }
-  app.walk(() => stats.components++)
+  root.walk(() => stats.components++)
 
-  for (let i in app.sources) {
-    app.sources[i].walk(e => {
+  for (let i in root.sources) {
+    root.sources[i].walk(e => {
       stats.entries++
       stats.subscriptions += e.observers.length
       e.observers.forEach(obs => {
-        if (!hasRoot(obs.target, app)) stats.hangingNodes++
+        if (!hasRoot(obs.target, root)) stats.hangingNodes++
       })
     })
   }
@@ -75,16 +75,16 @@ function hasRoot(c, root) {
 fetch('https://reqres.in/api/users/2')
   .then(response => response.json())
   .then(json => {
-    app.sources.state.set('user', json.data)
-    projector.scheduleRender()
+    root.sources.data.set('user', json.data)
+//    projector.scheduleRender()
   })
 
 fetch('https://jsonplaceholder.typicode.com/posts')
   .then(response => response.json())
   .then(json => {
 //    console.log(json)
-    app.sources.state.set('posts', json)
-    projector.scheduleRender()
+    root.sources.data.set('posts', json)
+//    projector.scheduleRender()
   })
 
 // fetch('https://jsonplaceholder.typicode.com/comments?postId=1')
@@ -189,9 +189,9 @@ const Mutate = {
 
 
 Events.on('mousedown', function () {
-  if (app.sources.dropdown.get()) {
-    app.sources.dropdown.set(false)
-    projector.scheduleRender()
+  if (root.sources.dropdown.get()) {
+    root.sources.dropdown.set(false)
+//    projector.scheduleRender()
   }
 })
 
@@ -201,12 +201,12 @@ const context = {
   projector
 }
 
-const app = new Html({
+const root = new Html({
   as: 'app',
 //  state: rootState,
 //  data: rootData,
   sources: {
-    block: {
+    app: {
       mainMenu: true,
       mainContent: false,
       posts: true,
@@ -218,7 +218,9 @@ const app = new Html({
       formsPage: false,
       examplesPage: false
     },
-    state: {
+    page: {
+    },
+    data: {
       mainMenu: [{
         name: 'Demo',
         items: [{
@@ -259,6 +261,21 @@ const app = new Html({
     },
     users: {},
     dropdown: true
+  },
+  sourcesBound: function ({page, data, app}) {
+
+    app.effect('setCurrent', this, (v) => {
+      app.set('current', v)
+    })
+
+    app.computed('posts', this, v => v.current == 'posts')
+    app.computed('elements', this, v => v.current == 'elements')
+    app.computed('componentsPage', this, v => v.current == 'components')
+    app.computed('layouts', this, v => v.current == 'layouts')
+    app.computed('animationsPage', this, v => v.current == 'animations')
+    app.computed('formsPage', this, v => v.current == 'forms')
+    app.computed('examplesPage', this, v => v.current == 'examples')
+
   },
 //  dynamic: true,
   $navbar: {
@@ -319,55 +336,54 @@ const app = new Html({
     $content: {
       layout: Layouts.Columns,
 //      dynamic: true,
-      blockChanged: function (v, key) {
+      appChanged: function (v, key) {
         return {$components: key}
       },
-      dynamic: {
+      components: {
+        mainMenu: true
+      },
+//      dynamic: {
 //      blockComponents: Custom.All,
-      mainMenu: {
+      $mainMenu: {
         type: Menu,
         column: 'is-one-fifth',
-        blockId: 'current',
-        stateId: 'mainMenu',
-        dynamic: true,
-        stateChanged: function (v, key) {
+        dataId: 'mainMenu',
+        dataChanged: function (v, key) {
           return {$items: key}
         },
-        // dynamic: {
-        //   block: {id: 'current'},
-        //   state: {id: 'mainMenu', items: Custom.All}
-        // },
         defaultItem: {
           layout: Layouts.PassThrough,
           $label: {
             type: Menu.Label,
-            stateId: 'name',
-            stateChanged: function (v) {
+            dataId: 'name',
+            dataChanged: function (v) {
               return {text: v}
             }
-            // dynamic: {
-            //   state: {id: 'name', options: Bindings.Text}// function(v)Binding: Bindings.Text
-            // }
           },
           $list: {
             type: Menu.List,
-            dynamic: true,
-            stateId: 'items',
-            stateChanged: function (v, key) {
+            dataId: 'items',
+            dataChanged: function (v, key) {
               return {$items: key}
             },
-            binding: function (v, sources, key) {
-//              if (!key || key == 'state') {
-//                this.opt('$items', 'state')
-//              }
-//              if (!key || key == 'block') {
-                this.children.forEach(child => {
-                  if (child.index != null) {
-                    child.opt('selected', v.block == child.options.key)
-                  }
-                })
-//              }
+            appChanged: function (v) {
+              this.opt('key') // FIXME этот геттер используется для синхронизации с dataChanged
+              this.items.forEach(itm => {
+                itm.opt('selected', v.current == itm.options.key)
+              })
             },
+//             binding: function (v, sources, key) {
+// //              if (!key || key == 'state') {
+// //                this.opt('$items', 'state')
+// //              }
+// //              if (!key || key == 'block') {
+//                 this.children.forEach(child => {
+//                   if (child.index != null) {
+//                     child.opt('selected', v.block == child.options.key)
+//                   }
+//                 })
+// //              }
+//             },
   //           dynamic: {
   //             state: {id: 'items', items: Custom.All},
   //             block: {
@@ -383,15 +399,16 @@ const app = new Html({
   //             }
   //           },
             defaultItem: {
-              stateChanged: function (v) {
+              dataChanged: function (v) {
                 return {key: v.id, text: v.name}
               },
               // stateOptions: function(v) {
               //   return {text: v.name, key: v.id}
               // },
               onClick: function(e) {
+                this.sources.app.setCurrent(this.options.key)
 //                console.log('click target', this)
-                Actions.selectMainMenu(this.options.key)
+                //Actions.selectMainMenu(this.options.key)
 //                console.log(this.sources.selection, app.sources.selection.entry('current'))
 //                this.sources.selection.set(this.props.key)
               }
@@ -399,7 +416,7 @@ const app = new Html({
           }
         }
       },
-      mainContent: {
+      $mainContent: {
         type: Content,
         defaultItem: {
           html: 'pre',
@@ -422,7 +439,7 @@ const app = new Html({
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
       },
-      posts: {
+      $posts: {
         $list: {
           dynamic: true,
           stateId: 'posts',
@@ -689,7 +706,7 @@ const app = new Html({
           }
         }
       },
-      countries: {
+      $countries: {
         layout: Layouts.Container,
         stateId: 'countries',
         // binding: function (v, sources) {
@@ -825,13 +842,13 @@ const app = new Html({
           }
         }
       },
-      elements: ElementsPage(),
-      componentsPage: ComponentsPage(),
-      animationsPage: AnimationsPage(projector),
-      formsPage: FormsPage(projector),
-      examplesPage: ExamplesPage(projector)
+      $elements: ElementsPage(),
+      $componentsPage: ComponentsPage(),
+      $animationsPage: AnimationsPage(projector),
+      $formsPage: FormsPage(projector),
+      $examplesPage: ExamplesPage(projector)
     }
-    }
+//    }
   }
 }, context)
 
@@ -911,7 +928,7 @@ setTimeout(() => {
 
 
 const render = () => {
-  return app.render()
+  return root.render()
 }
 
 document.addEventListener('DOMContentLoaded', function () {

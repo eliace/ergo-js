@@ -34,7 +34,7 @@ export default (projector) => {
       type: Buttons,
       as: 'has-addons',
       defaultItem: {
-        mixins: [Mixins.Selectable],
+        mixins: [Mixins.Selectable2],
         onSelected: function (v) {
           // в качестве стороннего эффекта устанавливаем класс is-info
           this.opt('classes', {'is-info': v})

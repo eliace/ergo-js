@@ -63,7 +63,8 @@ const _router = new Router(routes). configure(routerConfig)
 
 
 const page = new Domain({
-  current: null
+  current: null,
+
 }, {
   computed: {
     home: v => v.current == 'home',
@@ -103,18 +104,16 @@ const app = new Html({
     },
     token
   },
-  components: {
-    header: Header(),
-    article: Article(),
-    edit: Edit(),
-    settings: Settings(),
-    profile: Profile(),
-    home: Home(),
-    signUp: SignUp(),
-    signIn: SignIn(),
-    footer: Footer()
-  },
-  dynamic: true,
+  $header: Header(),
+  $article: Article(),
+  $edit: Edit(),
+  $settings: Settings(),
+  $profile: Profile(),
+  $home: Home(),
+  $signUp: SignUp(),
+  $signIn: SignIn(),
+  $footer: Footer(),
+  components: false,
   pageChanged: function (v, k) {
     this.opt('$components', this.sources[k])
   },
@@ -123,11 +122,11 @@ const app = new Html({
     // методы
     data.effect('loadArticle', this, async slug => {
       const v = await getArticle(slug)
-      data.set(v.article)
+      data.set('article', v.article)
     })
     data.effect('loadProfile', this, async username => {
       const v = await getProfile(username)
-      data.set(v.profile)
+      data.set('profile', v.profile)
     })
 
     page.effect('setCurrent', this, k => {
@@ -182,29 +181,9 @@ const app = new Html({
   },
   pageEvents: function (e) {
     console.log('[index] page', e)
-    // const {page} = this.domain
-    // if (e.name == getUser.done) {
-    //   page.set('user', e.data.user)
-    // }
-    // else if (e.name == '@setCurrent:done') {
-    //   page.set('current', e.params[0])
-    // }
   },
-  // dataMethods: {
-  //   loadArticle: getArticle,
-  //   loadProfile: getProfile
-  // },
   dataEvents: function (e) {
     console.log('[index] data', e)
-//    const {data, page} = this.domain
-    // if (evt.name == getArticle.done) {
-    //   data.set(evt.data.article)
-    //   page.set('current', 'article')
-    // }
-    // else if (evt.name == getProfile.done) {
-    //   data.set(evt.data.profile)
-    //   page.set('current', 'profile')
-    // }
   },
   routerMethods: {
     toProfile: function () {
