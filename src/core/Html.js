@@ -223,7 +223,13 @@ const Html = class {
         this.bind(opts.sources[i], i)
       }
       if (opts.sourcesBound) {
+        for (let i in this.sources) {
+          this.sources[i]._key = i
+        }
         opts.sourcesBound.call(this, this.sources)
+        for (let i in this.sources) {
+          delete this.sources[i]._key
+        }
       }
     }
 
@@ -299,17 +305,17 @@ const Html = class {
         }
       }
     }
-    else {
+    else if (opts.components) {
       for (let i in opts) {
         if (i[0] == '$') {
           const k = i.substr(1)
-          if (opts.components[k] !== false) {
+//          if (opts.components[k] !== false) {
             this.addComponent(k, opts.components[k])
-          }
+//          }
         }
       }
       for (let i in opts.components) {
-        if (!opts['$'+i] && opts.components[i] !== false) {
+        if (!opts['$'+i]/* && opts.components[i] !== false*/) {
           this.addComponent(i, opts.components[i])
         }
       }
@@ -333,23 +339,23 @@ const Html = class {
     //   }
     // }
 
-    if (opts.items && !this.dynamicItems) {
+    if (opts.items) {
       for (var i = 0; i < opts.items.length; i++) {
         this.addItem(opts.items[i], i)
       }
     }
 
 
-    if (this.options.methods) {
-      for (let i in this.options.methods) {
-        this[i] = this.options.methods[i]
-        // this[i] = (...params) => {
-        //   this.emit(i, {params})
-        //   return this.options.methods[i].apply(this, params)
-        // }
-      }
-//      Object.assign(this, this.options.methods) // FIXME это неправильно
-    }
+//     if (this.options.methods) {
+//       for (let i in this.options.methods) {
+//         this[i] = this.options.methods[i]
+//         // this[i] = (...params) => {
+//         //   this.emit(i, {params})
+//         //   return this.options.methods[i].apply(this, params)
+//         // }
+//       }
+// //      Object.assign(this, this.options.methods) // FIXME это неправильно
+//     }
 
 
     // const setter = function (target, prop, value) {
@@ -502,24 +508,24 @@ const Html = class {
     //   this.opt('$components', opts['$components'])
     // }
 
-    // применяем биндинг элементов и компонентов
-    for (let i in this.sources) {
-      if (opts[i+'Items']) {
-        this.opt('$$items', opts[i+'Items'].call(this, this.sources[i].get(), this.sources[i]), i)
-      }
-      else if (opts[i+'Components']) {
-        this.opt('$$components', opts[i+'Components'].call(this, this.sources[i].get(), this.sources[i]), i)
-      }
-    }
-    // применяем биндинг опций
-    for (let i in this.sources) {
-      if (opts[i+'Options']) {
-        const o = opts[i+'Options'].call(this, this.sources[i].get(), this.sources[i], i)
-        for (let j in o) {
-          this.opt(j, o[j])
-        }
-      }
-    }
+    // // применяем биндинг элементов и компонентов
+    // for (let i in this.sources) {
+    //   if (opts[i+'Items']) {
+    //     this.opt('$$items', opts[i+'Items'].call(this, this.sources[i].get(), this.sources[i]), i)
+    //   }
+    //   else if (opts[i+'Components']) {
+    //     this.opt('$$components', opts[i+'Components'].call(this, this.sources[i].get(), this.sources[i]), i)
+    //   }
+    // }
+    // // применяем биндинг опций
+    // for (let i in this.sources) {
+    //   if (opts[i+'Options']) {
+    //     const o = opts[i+'Options'].call(this, this.sources[i].get(), this.sources[i], i)
+    //     for (let j in o) {
+    //       this.opt(j, o[j])
+    //     }
+    //   }
+    // }
 
     // // динамические опции
     // if (opts.subscription) {
@@ -537,14 +543,14 @@ const Html = class {
     //     }
     //   }
     // }
-    for (let i in this.sources) {
-      if (opts[i+'Effectors']) {
-        const effectors = opts[i+'Effectors']
-        for (let j in effectors) {
-          this.sources[i].use(j, effectors[j], this)
-        }
-      }
-    }
+    // for (let i in this.sources) {
+    //   if (opts[i+'Effectors']) {
+    //     const effectors = opts[i+'Effectors']
+    //     for (let j in effectors) {
+    //       this.sources[i].use(j, effectors[j], this)
+    //     }
+    //   }
+    // }
 
 
     this._binding_chain = []
@@ -1169,7 +1175,7 @@ const Html = class {
       // ищем максимальный индекс
       for (let j = this.children.length-1; j >= 0; j--) {
         let child = this.children[j]
-        if (child.index > 0) {
+        if (child.index != null) {
           i = child.index+1
           break
         }

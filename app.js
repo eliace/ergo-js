@@ -2,7 +2,7 @@ import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
 
-import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, CountriesPage, PostsPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
@@ -112,7 +112,7 @@ fetch('https://jsonplaceholder.typicode.com/posts')
 //   })
 
 
-
+/*
 const Actions = {
   selectMainMenu: (menuKey) => {
 //    console.log('selectMenu', menuKey)
@@ -158,7 +158,7 @@ const Actions = {
 //    app.sources.selection.entry('current').set(menuKey)
   }
 }
-
+*/
 const Custom = {
   ...Bindings,
 
@@ -259,7 +259,7 @@ const root = new Html({
       posts: [],
       books: []
     },
-    users: {},
+//    users: {},
     dropdown: true
   },
   sourcesBound: function ({page, data, app}) {
@@ -275,6 +275,8 @@ const root = new Html({
     app.computed('animationsPage', this, v => v.current == 'animations')
     app.computed('formsPage', this, v => v.current == 'forms')
     app.computed('examplesPage', this, v => v.current == 'examples')
+    app.computed('countriesPage', this, v => v.current == 'countries')
+    app.computed('postsPage', this, v => v.current == 'posts')
 
   },
 //  dynamic: true,
@@ -339,9 +341,7 @@ const root = new Html({
       appChanged: function (v, key) {
         return {$components: key}
       },
-      components: {
-        mainMenu: true
-      },
+      components: false,
 //      dynamic: {
 //      blockComponents: Custom.All,
       $mainMenu: {
@@ -439,409 +439,8 @@ const root = new Html({
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
       },
-      $posts: {
-        $list: {
-          dynamic: true,
-          stateId: 'posts',
-          stateChanged: function (v, key) {
-            return {$items: key}
-          },
-//           binding: function (v, sources, key) {
-//             console.log('binding posts', key)
-// //            if (!key || key == 'state') {
-// //              return {$items: 'state'}
-// //              debugger
-//               this.opt('$items', 'state')
-// //            }
-//           },
-          // defaultItem: {
-          //   layout: Layouts.Media,
-          //   $content: {
-          //     type: Content,
-          //     $content: {
-          //       html: 'p',
-          //       $title: {
-          //         html: 'strong',
-          //       }
-          //     }
-          //   }
-          // },
-          // dynamic: {
-          //   state: {id: 'posts', items: Custom.All}
-          // },
-          defaultItem: {
-            layout: Layouts.Media,
-            // styles: {
-            //   marginBottom: '2rem'
-            // },
-            $content: {
-              type: Content,
-              dynamic: true,
-              stateChanged: function (v, key) {
-//                if (!key || key == 'state') {
-//                  console.log('bind single post', v.showComments)
-                  this.opt('$components', new Source({comments: v.showComments === true}))
-
-                  if (v.comments == null && !v.loadingComments) {
-                    v.loadingComments = true // это значение не связывается с компонентами
-                    const loadComments = (id) => {
-                      return fetch('https://jsonplaceholder.typicode.com/comments?postId='+id)
-                        .then(response => response.json())
-                        .then(json => {return {comments: json}})
-                    }
-                    const effects = [{
-                      name: 'fetch',
-                      resolver: loadComments,
-                      mode: 'pre'
-                    }]
-                    this.sources[key].wait(effects).emit('mergeWith', {data: v.id})
-                      // .then(json => {
-                      //   this.sources[key].mergeWith({comments: json, loadingComments: false})
-                      //   projector.scheduleRender()
-                      // })
-                  }
-//                }
-              },
-              stateEffects: function (event) {
-//                console.log(event)
-                if (event.name == 'fetch:done') {
-                  projector.scheduleRender()
-                }
-              },
-              // stateEffects: function (effect) {
-              //   if (effect.context) {
-              //     let baseName = 'on'+effect.context.substr(0, 1).toUpperCase()+effect.context.substr(1)
-              //     if (this.options[baseName] && effect.status == 'wait') {
-              //       this.options[baseName].call(this)
-              //     }
-              //     if (this.options[baseName+'Done'] && effect.status == 'done') {
-              //       this.options[baseName+'Done'].call(this)
-              //     }
-              //   }
-//                 if (effect.context == 'fetch_comments') {
-//                   if (effect.status == 'wait') {
-//                     console.log('start loading', effect.context)
-//                   }
-//                   else if (effect.status == 'done') {
-//                     console.log('end loading', effect.context)
-//                     projector.scheduleRender()
-//                   }
-//                   else {
-//                     console.log('effect', effect)
-//                   }
-// //                  console.log('effect', effect)
-//                 }
-//              },
-              onFetch: function () {
-                console.log('fetch begin')
-              },
-              onFetchDone: function () {
-                console.log('fetch end')
-              },
-              $content: {
-                html: 'p',
-                $title: {
-                  html: 'strong',
-                  stateId: 'title',
-                  stateChanged: function (v) {
-                    return {text: v}
-                  }
-                  // dynamic: {
-                  //   state: {id: 'title', options: Bindings.Text}
-                  // }
-                },
-                $content: {
-                  stateId: 'body',
-                  stateChanged: function (v) {
-                    return {text: v}
-                  }
-                  // dynamic: {
-                  //   state: {id: 'body', options: Bindings.Text}
-                  // }
-                },
-                $actions: {
-                  html: 'small',
-//                  layout: Layouts.Level,
-                  items: [{
-                    html: 'a',
-                    stateChanged: function (v, key) {
-//                      console.log('bind actions', v.showComments)
-//                      const post = v.state
-                      if (v.comments) {
-                        return {text: v.showComments ? 'Hide comments' : ('Show '+v.comments.length+' comments')}
-//                        console.log('post', v)
-                        // if (v.showComments) {
-                        //   this.opt('text', 'Hide comments')
-                        // }
-                        // else {
-                        //   this.opt('text', 'Show '+post.comments.length+' comments')
-                        // }
-                      }
-                    },
-//                     stateOptions: function(v) {
-//                       if (v.comments) {
-// //                        console.log('post', v)
-//                         if (v.showComments) {
-//                           this.opt('text', 'Hide comments')
-//                         }
-//                         else {
-//                           this.opt('text', 'Show '+v.comments.length+' comments')
-//                         }
-//                       }
-//                     },
-                    onClick: function(e) {
-                      this.sources.state.toggle('showComments')
-//                      this.sources.state.set('showComments', !this.sources.state.get('showComments'))
-                    }
-//                    text: 'Show comments',
-//                    levelLeft: true
-                  }]
-                }
-              },
-              $comments: {
-                weight: 10,
-                layout: Layouts.PassThrough,
-                stateId: 'comments',
-                stateChanged: Mutate.DynamicItems,
-                // dynamic: {
-                //   state: {id: 'comments', items: Custom.All}
-                // },
-                defaultItem: {
-                  layout: Layouts.Media,
-                  $content: {
-                    type: Content,
-                    $content: {
-                      html: 'p',
-                      $title: {
-                        html: 'strong',
-                        stateId: 'name',
-                        stateChanged: Mutate.Text
-                        // dynamic: {
-                        //   state: {id: 'name', options: Bindings.Text}
-                        // }
-                      },
-                      $email: {
-                        html: 'small',
-                        styles: {marginLeft: '0.5rem'},
-                        stateId: 'email',
-                        stateChanged: Mutate.Text
-                      },
-                      $content: {
-                        stateId: 'body',
-                        stateChanged: Mutate.Text
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            $avatar: {
-              type: Image,
-              as: 'is-64x64',
-              mediaLeft: true,
-              userChanged: function (v) {
-                return {src: v.avatar}
-              },
-              // user: {
-              //   key: 'avatar',
-              //   bindTo: 'src'
-              // },
-//              dynamic: {
-              stateChanged: function (post, key) {
-                let user = this.sources.users.get(post.userId)
-
-//                console.log('user', user)
-                if (user == null) {
-                  console.log('start loading user...')
-                  this.sources.users.set(post.userId, {loading: true})
-                  fetch('https://reqres.in/api/users/'+post.userId)
-                    .then(response => response.json())
-                    .then(json => {
-                      console.log('end loading user.')
-                      this.sources.users.set(json.data.id, json.data)
-                      projector.scheduleRender()
-                    })
-                }
-                if (this.sources.user == null) {
-                  this.opt('$sources', {user: this.sources.users.entry(post.userId)})
-                  // FIXME здесь должен вызываться метод this.opt({sources: {user: ?}})
-                  // this.options.sources.user = this.sources.users.entry(post.userId)
-                  // this.bind(this.options.sources.user, 'user')
-                  // if (user) {
-                  //   this.rebind(this.sources.user.get(), 'user', this.sources.user)
-                  // }
-                }
-
-              },
-    //             user: {
-    //               id: 'avatar',
-    //               options: Custom.Src
-    //             },
-    //             state: {
-    //               options: function (v) {
-    //                 let user = this.sources.users.get(v.userId)
-    // //                console.log('user', user)
-    //                 if (user == null/* || !user.id*/) {
-    //                   console.log('start loading user...')
-    //                   this.sources.users.set(v.userId, {loading: true})
-    //                   fetch('https://reqres.in/api/users/'+v.userId)
-    //                     .then(response => response.json())
-    //                     .then(json => {
-    //                       console.log('end loading user.')
-    //                       this.sources.users.set(json.data.id, json.data)
-    //                       projector.scheduleRender()
-    //                     })
-    //                 }
-    //                 if (this.sources.user == null) {
-    //                   this.options.sources.user = this.sources.users.entry(v.userId)
-    //                   this.bind(this.options.sources.user, 'user')
-    //                   if (user) {
-    //                     this.rebind(this.sources.user.get(), 'user', this.sources.user)
-    //                   }
-    //                 }
-    //               }
-    //             }
-              // }
-            }
-          }
-        }
-      },
-      $countries: {
-        layout: Layouts.Container,
-        stateId: 'countries',
-        // binding: function (v, sources) {
-        //   if (v.state == null) {
-        //     console.log('start loading countries.')
-        //     sources.state.set({loading: true})
-        //     fetch('https://restcountries.eu/rest/v2/all')
-        //       .then(response => response.json())
-        //       .then(json => {
-        //         debugger
-        //         console.log('end loading countries.', json)
-        //         sources.state.set(json)
-        //         projector.scheduleRender()
-        //       })
-        //   }
-        //
-        // },
-        stateChanged: function(v, key) {
-          if (v == null) {
-            const loadAllCountries = function () {
-              return fetch('https://restcountries.eu/rest/v2/all')
-                .then(response => response.json())
-            }
-            const effects = [{
-              name: 'fetch',
-              resolver: loadAllCountries,
-              mode: 'pre'
-            }]
-            this.sources[key].wait(effects).emit('set', null)
-
-            // const FetchAllCountries = {
-            //   name: 'fetch',
-            //   use: () => {
-            //     return fetch('https://restcountries.eu/rest/v2/all')
-            //     .then(response => response.json())
-            //   }
-            // }
-            //
-            // this.domains[dn].when(FetchAllCountries).emit('set').then()
-
-            // console.log('start loading countries.')
-            // source.set({loading: true})
-            // fetch('https://restcountries.eu/rest/v2/all')
-            //   .then(response => response.json())
-            //   .then(json => {
-            //     console.log('end loading countries.', json)
-            //     source.set(json)
-            //     projector.scheduleRender()
-            //   })
-          }
-        },
-        stateEffects: function (event) {
-          console.log(event)
-          if (event.name == 'fetch:done') {
-            projector.scheduleRender()
-          }
-        },
-        // stateEffects: function (effect) {
-        //   if (effect.status == 'wait') {
-        //     console.log('begin effect', effect.event, effect.context)
-        //   }
-        //   else if (effect.status == 'error') {
-        //     console.log('failed effect', effect.event, effect.context)
-        //   }
-        //   else if (effect.status == 'done') {
-        //     console.log('end effect', effect.context, 'of', effect.event)
-        //     projector.scheduleRender()
-        //   }
-        //   else {
-        //     console.log ('effect', effect)
-        //   }
-        // },
-        $table: {
-          html: 'table',
-          class: 'table',
-          $header: {
-            html: 'thead',
-            defaultItem: {
-              html: 'tr',
-              defaultItem: {
-                html: 'th'
-              }
-            },
-            items: [{
-              items: ['Name', 'Capital', 'Region', 'Area', 'Population', 'Flag']
-            }]
-          },
-          $body: {
-            html: 'tbody',
-            dynamic: true,
-            stateChanged: Mutate.DynamicItems,
-//            stateItems: Custom.All,
-            defaultItem: {
-              html: 'tr',
-              // stateBinding: function(v) {
-              //   for (let i in this) {
-              //     if (i[0] == '$') {
-              //       this[i].opt('text', v[i.substr(1)])
-              //     }
-              //   }
-              // },
-              // defaultComponent: {
-              //   html: 'td'
-              // },
-              // $name: {},
-              // $capital: {},
-              // $region: {},
-              // $area: {},
-              // $population: {}
-              defaultItem: {
-                html: 'td',
-                stateChanged: Mutate.Text
-              },
-              items: [{
-                stateId: 'name'
-              }, {
-                stateId: 'capital'
-              }, {
-                stateId: 'region'
-              }, {
-                stateId: 'area'
-              }, {
-                stateId: 'population'
-              }, {
-                $content: {
-                  html: 'img',
-                  height: '1rem',
-                  stateId: 'flag',
-                  stateChanged: Mutate.Src
-                }
-              }]
-            }
-          }
-        }
-      },
+      $posts: PostsPage(),
+      $countriesPage: CountriesPage(),
       $elements: ElementsPage(),
       $componentsPage: ComponentsPage(),
       $animationsPage: AnimationsPage(projector),

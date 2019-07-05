@@ -6,6 +6,11 @@ const Option = (x, y) => {return new Options(x, y)}
 //const State = (x, y) => {return new State(x, y)}
 
 const OptionCollection = (x, y) => {
+
+  if (y === false) {
+    return false
+  }
+
   let kv = {}
   if (x != null) {
     for (let i in x) {

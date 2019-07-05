@@ -842,6 +842,81 @@ class Source {
       }
     })
 
+    const results = []
+
+    if (this._listeners) {
+      this._listeners.forEach((listeners, target) => {
+        if (event.target == null || event.target == target) {
+          const listener = listeners[event.name]
+          const key = listeners['key']
+          if (listener) {
+
+            let result = listener.call(target, event.params, key)
+
+            if (result instanceof Promise) {
+              // событие имеет отложенное исполнение
+              const effect = new Effect(event.name)
+              effect.source = this
+              effect.target = event.target
+
+              if (this._deferred) {
+                this._deferred.forEach(eff => {
+                  if (eff.name == effect.name) {
+                    // по умолчанию отменяем эффект
+                    this.emit(effect.reject)
+                    effect.finalize()
+                  }
+                })
+              }
+
+              if (!effect.isFinal) {
+
+                result
+                  .then(data => {
+                    if (!effect.isFinal) {
+                      this.emit(effect.done, {data, target})
+                    }
+                  })
+                  .catch(data => {
+                    if (!effect.isFinal) {
+                      this.emit(effect.fail, {data, target})
+                    }
+                  })
+
+                if (!this._deferred) {
+                  this._deferred = []
+                }
+                this._deferred.push(effect)
+              }
+
+              result = effect
+            }
+            else if (result instanceof Effect) {
+              const effect = new Effect(event.name)
+              effect.parent = result
+              effect.target = event.target
+              if (result.source != this) {
+                console.warn('Shared effect', result)
+                result.shareWith(this)
+              }
+      //        console.log('parent effect', result, event)
+              // TODO здесь нужно связать эффекты, в т.ч. отмену
+              this._deferred.push(effect)
+            }
+            else {
+              const effect = new Effect(event.name)
+              this.emit(effect.done, {data: result, target: event.target})
+            }
+
+            results.push(result)
+          }
+        }
+      })
+    }
+
+    return event.target ? results[0] : results
+
+/*
     const target = event.target || this
 
     let result = undefined
@@ -906,8 +981,9 @@ class Source {
       }
 
     }
+*/
 
-    return result
+//    return result
   }
 
 
@@ -1503,6 +1579,13 @@ class Source {
       tm = {}
 //      this._methods.set(target, tm)
     }
+    if (!this._listeners) {
+      this._listeners = new Map()
+    }
+    let listeners = this._listeners.get(target)
+    if (!listeners) {
+      listeners = {key: key || this._key} // FIXME эта инициализация должна происходить при join-е
+    }
     for (let i in methods) {
       if (!this[i]) {
         this[i] = (...args) => {
@@ -1511,14 +1594,17 @@ class Source {
         this[i].done = '@'+i+':done'
         this[i].fail = '@'+i+':fail'
         this[i].init = '@'+i
-        target['@'+i] = methods[i]
+//        target['@'+i] = methods[i]
         tm[i] = methods[i]
+
+        listeners['@'+i] = methods[i]
       }
       else {
         console.warn('method ['+i+'] already exists')
       }
     }
     this._methods.set(target, tm)
+    this._listeners.set(target, listeners)
   }
 
   off (target) {

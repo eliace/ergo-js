@@ -42,6 +42,9 @@ const Options = class {
     if (this._raw[this._raw.length-1] === false) {
       return false
     }
+    if (this._raw[0] === true && this._raw.length == 1) {
+      return true
+    }
 
     let o = {}
 
