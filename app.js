@@ -2,7 +2,7 @@ import {createProjector} from 'maquette'
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
 
-import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, CountriesPage, PostsPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
@@ -79,13 +79,13 @@ fetch('https://reqres.in/api/users/2')
 //    projector.scheduleRender()
   })
 
-fetch('https://jsonplaceholder.typicode.com/posts')
-  .then(response => response.json())
-  .then(json => {
-//    console.log(json)
-    root.sources.data.set('posts', json)
-//    projector.scheduleRender()
-  })
+// fetch('https://jsonplaceholder.typicode.com/posts')
+//   .then(response => response.json())
+//   .then(json => {
+// //    console.log(json)
+//     root.sources.data.set('posts', json)
+// //    projector.scheduleRender()
+//   })
 
 // fetch('https://jsonplaceholder.typicode.com/comments?postId=1')
 //   .then(response => response.json())
@@ -208,15 +208,7 @@ const root = new Html({
   sources: {
     app: {
       mainMenu: true,
-      mainContent: false,
-      posts: true,
-      current: 'posts',
-      countries: false,
-      elements: false,
-      componentsPage: false,
-      animationsPage: false,
-      formsPage: false,
-      examplesPage: false
+      current: 'elements',
     },
     page: {
     },
@@ -224,14 +216,8 @@ const root = new Html({
       mainMenu: [{
         name: 'Demo',
         items: [{
-          id: 'posts',
-          name: 'Posts'
-        }, {
           id: 'sources',
           name: 'Sources'
-        }, {
-          id: 'countries',
-          name: 'Countries'
         }]
       }, {
         name: 'Lib',
@@ -439,8 +425,6 @@ const root = new Html({
 //        state: rootState,
 //        selectionBinding: Custom.JsonText
       },
-      $posts: PostsPage(),
-      $countriesPage: CountriesPage(),
       $elements: ElementsPage(),
       $componentsPage: ComponentsPage(),
       $animationsPage: AnimationsPage(projector),
@@ -451,79 +435,7 @@ const root = new Html({
   }
 }, context)
 
-//console.log(app)
-
-//console.log(app.$media.$content.state.get())
-
-// setTimeout(() => {
-//   const c = app.child('header.content.item-1')
-//   c.opt('html', 'i')
-//   c.state.set('test', true)
-//   c.data.set('some text')
-//   app.$header.state.set('active', false)
-// //   let props = JSON.parse(JSON.stringify(app.$header.props))
-// //   props.title = 'goodbye'// = {title: 'goodbye'}//.title = 'goodbye'//.opt('title', 'goodbye')
-// // //  app.$header.props.classes//'aaa'
-// //   app.$header.props = props//JSON.parse(JSON.stringify(app.$header.props))
-// //  app.$header.rerender()
-//   app.$header.opt('title', 'goodbye')
-//   projector.scheduleRender()
-// }, 3000)
-
-/*
-const c = new Html({
-  components: {
-    before: {
-      text: '[',
-      weight: -10
-    },
-    after: {
-      text: ']',
-      weight: 10
-    },
-    content: {
-      defaultItem: {
-        styles: {
-          color: '#ff0000'
-        }
-      },
-      items: [{
-        text: 'Alice'
-      }, {
-        text: 'Bob'
-      }, {
-        text: 'Charlie',
-        styles: {
-          color: '#0000ff'
-        }
-      }]
-    },
-    button: {
-      html: 'button',
-      as: 'button is-primary',
-      text: 'Press me',
-      weight: 11,
-      onClick: (e, comp) => {
-        c.get('before').opt('text', '(')
-        c.$after.opt('text', ')')
-      }
-    }
-  }
-})
-
-
-setTimeout(() => {
-  c.$content.add({
-    text: 'Dave',
-    styles: {
-      fontSize: '2rem'
-    }
-  })
-  projector.scheduleRender()
-}, 3000)
-*/
-
-
+window._app = root
 
 
 const render = () => {

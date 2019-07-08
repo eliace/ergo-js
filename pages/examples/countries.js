@@ -1,5 +1,5 @@
-import {Html, Layouts} from '../src'
-import {Mutate} from './helpers'
+import {Html, Layouts} from '../../src'
+import {Mutate} from '../helpers'
 
 const api = {
   getCountries: function () {
@@ -14,11 +14,11 @@ export default () => {
     layout: Layouts.Container,
     dataId: 'countries',
     sourcesBound: function ({data}) {
-      debugger
       const loadCountries = data.effect('loadCountries', this, async () => {
-        data.set([])
+//        data.set([])
         const v = await api.getCountries()
         const t0 = new Date().getTime()
+        console.log('result', v)
         data.set(v)
         const t1 = new Date().getTime()
         console.log('t', t1 - t0)
@@ -101,6 +101,7 @@ export default () => {
       $body: {
         html: 'tbody',
         dataChanged: Mutate.DynamicItems,
+        dataEntryId: (v) => v.alpha3Code,
 //            stateItems: Custom.All,
         defaultItem: {
           html: 'tr',

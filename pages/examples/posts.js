@@ -1,10 +1,14 @@
-import {Html, Layouts, Content, Source, Image} from '../src'
-import {Mutate} from './helpers'
+import {Html, Layouts, Content, Source, Image} from '../../src'
+import {Mutate} from '../helpers'
 
 const api = {
   getComments: function (postId) {
     return fetch('https://jsonplaceholder.typicode.com/comments?postId='+postId)
        .then(response => response.json())
+  },
+  getPosts: function () {
+    return fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
   }
 }
 
@@ -13,11 +17,25 @@ export default () => {
     sources: {
       users: {}
     },
+    sourcesBound: function ({data}) {
+
+      const loadPosts = data.effect('loadPosts', this, async () => {
+//        data.set('posts', [])
+        const posts = await api.getPosts()
+        const t0 = new Date().getTime()
+        data.set('posts', posts)
+        const t1 = new Date().getTime()
+        console.log('T[posts]', t1 - t0)
+      })
+
+      loadPosts()
+    },
     $list: {
       dataId: 'posts',
       dataChanged: function (v, key) {
         return {$items: key}
       },
+      dataEntryId: (v) => v.id,
 //           binding: function (v, sources, key) {
 //             console.log('binding posts', key)
 // //            if (!key || key == 'state') {
@@ -55,7 +73,7 @@ export default () => {
 
           page.computed('comments', this, v => v.showComments)
 
-          loadComments()
+//          loadComments()
         },
         // styles: {
         //   marginBottom: '2rem'
@@ -221,6 +239,9 @@ export default () => {
           }
         },
         $avatar: {
+          sourcesBound: function ({users, user}) {
+
+          },
           type: Image,
           as: 'is-64x64',
           mediaLeft: true,
@@ -233,22 +254,23 @@ export default () => {
           // },
 //              dynamic: {
           dataChanged: function (post, key) {
+            const {users} = this.sources
             let user = this.sources.users.get(post.userId)
 
 //                console.log('user', user)
             if (user == null) {
               console.log('start loading user...')
-              this.sources.users.set(post.userId, {loading: true})
+              users.set(post.userId, {loading: true})
               fetch('https://reqres.in/api/users/'+post.userId)
                 .then(response => response.json())
                 .then(json => {
                   console.log('end loading user.')
-                  this.sources.users.set(json.data.id, json.data)
+                  users.set(json.data.id, json.data)
 //                  projector.scheduleRender()
                 })
             }
             if (this.sources.user == null) {
-              this.opt('$sources', {user: this.sources.users.entry(post.userId)})
+              this.opt('$sources', {user: users.entry(post.userId)})
               // FIXME здесь должен вызываться метод this.opt({sources: {user: ?}})
               // this.options.sources.user = this.sources.users.entry(post.userId)
               // this.bind(this.options.sources.user, 'user')

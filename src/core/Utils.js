@@ -118,3 +118,32 @@ export const hashCode = (v) => {
   }
   return hash;
 }
+
+
+export class Binder {//extends Function {
+  constructor (domain, prop, format) {
+    this.domain = domain
+    this.prop = prop
+    this.format = format
+    // const f = function () {
+    //   return {domain: f._domain, prop: f._prop}
+    // }
+    // Object.setPrototypeOf(f, new.target.prototype)
+    // f._domain = domain
+    // f._prop = prop
+    // return f
+  }
+}
+
+
+export const bindDomain = new Proxy({}, {
+  get: function (target, domain) {
+    return (prop, format) => {
+//      console.log('new binder', domain, prop)
+      return new Binder(domain, prop, format)
+    }
+  }
+})
+
+
+//export Binder

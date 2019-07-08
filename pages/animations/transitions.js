@@ -5,6 +5,10 @@ import {Mutate, Mixins} from '../helpers'
 import _ from 'lodash'
 import Velocity from 'velocity-animate/velocity'
 
+function isCanceled (v) {
+  return v == '#canceled'
+}
+
 // const wm = new WeakMap()
 //
 // const arr = [
@@ -372,61 +376,129 @@ export default (projector) => {
       sources: {
         data: {p: false}
       },
+//       sourcesBound: function ({data}) {
+//
+//         // data.watch((e) => (e.name == 'changed'/* || e.name == 'init'*/), this, (e, domain) => {
+//         //   if (e.data.p) {
+//         //     console.log('show')
+//         //     data.emit('show')
+//         //   }
+//         //   else {
+//         //     console.log('hide')
+//         //   }
+//         // })
+//
+// //         const show = data.effect('show', this, () => {
+// // //          return this.transition()
+// //         })
+//
+//       },
       layout: Layouts.Content,
       $content: {
-//        dynamic: true,
+        components: {
+          p: false
+        },
         dataChanged: Mutate.Components,
         $button: {
           type: Button,
           text: 'Press me',
-          onClick: function () {
-            // this.sources.data.toggle('p')
-            // return
-            const showEff = [{effector: 'show'}]
-            const hideEff = [{effector: 'hide'}]
-
-            const p = this.sources.data.get('p')
-            if (p) {
-              this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
-            }
-            else {
-              this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
-            }
+          onClick: function (e, {data}) {
+            data.toggle('p')
+            // // return
+            // const showEff = [{effector: 'show'}]
+            // const hideEff = [{effector: 'hide'}]
+            //
+            // const p = this.sources.data.get('p')
+            // if (p) {
+            //   this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
+            // }
+            // else {
+            //   this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
+            // }
           }
         },
-        dynamic: {
-          p: {
-            html: 'p',
-            text: 'Hello!',
-            weight: 10,
-            mixins: [Animation.Mixins.Transitions],
-            dataEffectors: {
-              hide: function () {
-                return {
-                  resolver: () => this.renderAfter(this.transition()),
-                  ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true}),
-                }
-              },
-              show: function () {
-                return {
-                  resolver: () => {
-                    return this.renderAfter(this.transition())
-                  },
-                  ready: () => {
-                    this.opt('classes', {'fade-enter': false})
-                  },
-                  init: () => {
-                    this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
-                  },
-                  done: () => {
-                    this.opt('classes', {'fade-enter-active': false})
-                  },
-                  activator: (activate) => {
-                    requestAnimationFrame(() => {
-                      activate()
-                      this.context.projector.scheduleRender()
-                    })
-                  }
+        $p: {
+          html: 'p',
+          text: 'Hello!',
+          weight: 10,
+          mixins: [Animation.Mixins.Transitions],
+          sourcesBound: function ({data}) {
+
+            data.watch((e) => (e.name == 'init' || e.name == 'changed'), this, (e, domain) => {
+              if (e.data.p == true) {
+                show()
+              }
+            })
+
+            data.watch((e) => (e.name == 'destroy'), this, (e, domain) => {
+              return hide()
+            })
+
+            data.watch(e => e.name == hide.cancel, this, () => {
+              console.log('---------------')
+              this.opt('classes', {'fade-leave-to': false, 'fade-leave-active': false})
+            })
+
+            data.watch(e => {
+//              console.log(e.name, e)
+            }, this)
+
+            // data.watch((e) => (e.name == raf.done), this, (e, domain) => {
+            //   return transition()
+            // })
+            const hide = data.effect('g.hide', this, async () => {
+              this.opt('classes', {'fade-leave-active': true, 'fade-leave': true})
+              await raf()
+              this.opt('classes', {'fade-leave-to': true, 'fade-leave': false})
+              await transition().asPromise()
+              this.opt('classes', {'fade-leave-to': false, 'fade-leave-active': false})
+            })
+
+            const show = data.effect('g.show', this, async () => {
+              this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+              await raf()
+              this.opt('classes', {'fade-enter': false})
+              const v = await transition().asPromise()
+              this.opt('classes', {'fade-enter-active': false})
+            })
+
+            const raf = data.effect('raf', this, () => {
+              return new Promise(function (resolve) {
+                requestAnimationFrame(() => resolve())
+              })
+            })
+
+            const transition = data.effect('transition', this, async () => {
+              return this.transition()
+            })
+
+          },
+          dataEffectors: {
+            hide: function () {
+              return {
+                resolver: () => this.renderAfter(this.transition()),
+                ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true}),
+              }
+            },
+            show: function () {
+              return {
+                resolver: () => {
+                  return this.renderAfter(this.transition())
+                },
+                ready: () => {
+                  this.opt('classes', {'fade-enter': false})
+                },
+                init: () => {
+                  this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+                },
+                done: () => {
+                  this.opt('classes', {'fade-enter-active': false})
+                },
+                activator: (activate) => {
+                  requestAnimationFrame(() => {
+                    activate()
+                    this.context.projector.scheduleRender()
+                  })
                 }
               }
             }

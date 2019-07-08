@@ -2,6 +2,8 @@ import {Html, Layouts, Tabs, Source} from '../../src'
 
 import DomainExample from './domain'
 import MultidomainExample from './multidomain'
+import PostsExample from './posts'
+import CountriesExample from './countries'
 
 export default (projector) => {
 
@@ -11,13 +13,15 @@ export default (projector) => {
     computed: {
       domain: (v) => v.selected == 'Domain',
       multidomain: (v) => v.selected == 'Multidomain',
+      posts: (v) => v.selected == 'Posts',
+      countries: (v) => v.selected == 'Countries',
     }
   })
 
   return {
     sources: {
-      data: Data,
-      tabs: ['Domain', 'Multidomain']
+      page: Data,
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries']
     },
     layout: Layouts.Rows,
     $header: {
@@ -31,11 +35,11 @@ export default (projector) => {
       $tabs: {
         type: Tabs,
         defaultTab: {
-          dataChanged: function (v) {
+          pageChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
           },
           onClick: function () {
-            this.sources.data.set('selected', this.opt('text'))
+            this.sources.page.set('selected', this.opt('text'))
           },
           tabsChanged: function (v) {
             this.opt('text', v)
@@ -47,12 +51,14 @@ export default (projector) => {
       }
     },
     $content: {
-      dynamic: true,
-      dataChanged: function (v, k) {
+      components: false,
+      pageChanged: function (v, k) {
         this.opt('$components', k)
       },
-      $domain: DomainExample(projector),
-      $multidomain: MultidomainExample(projector),
+      $domain: DomainExample(),
+      $multidomain: MultidomainExample(),
+      $posts: PostsExample(),
+      $countries: CountriesExample(),
     }
   }
 }

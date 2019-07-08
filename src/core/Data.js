@@ -1,148 +1,6 @@
 import {deepClone, hashCode} from './Utils'
-
-
-
-const Keys = {
-  m: new WeakMap(),
-  c: 1,
-  get: function (v) {
-    if (typeof v === 'string' || typeof v === 'number') {
-      return v
-    }
-    if (this.m.has(v)) {
-      return this.m.get(v)
-    }
-    this.m.set(v, this.c++)
-    return this.c - 1
-  }
-}
-
-
-
-class Stream {
-
-  constructor (src, data, key) {
-    this.src = src
-    this.data = data
-    this.key = key
-  }
-
-  filter (f) {
-    let d = this.data || this.src.get().map((v, i) => [v, i])
-    return new Stream(this.src, d.filter((itm) => f(itm[0])), this.key)
-  }
-
-  map (f) {
-    let d = this.data || this.src.get().map((v, i) => [v, i])
-    return new Stream(this.src, d.map(itm => [f(itm[0]), itm[1]]), this.key)
-  }
-
-  forEach (f) {
-    if (this.data) {
-      this.data.forEach(itm => f(itm[0]))
-    }
-    else {
-      this.src.get().forEach(f)
-    }
-    return this
-  }
-
-  sort (f) {
-    let d = this.data || this.src.get().map((v, i) => [v, i])
-    return new Stream(this.src, [...d].sort((a, b) => f(a[0], b[0])), this.key)
-  }
-
-  first () {
-    let i = this.data ? this.data[0][1] : 0
-    return this.src.entry(i)
-  }
-
-  last () {
-    let i = this.data ? this.data[this.data.length-1][1] : this.src.size()-1
-    return this.src.entry(i)
-  }
-
-  range (offset, limit) {
-    let d = this.data || this.src.get().map((v, i) => [v, i])
-    return new Stream(this.src, d.slice(offset, offset+limit), this.key)
-  }
-
-  entries (f) {
-    if (this.data) {
-      this.data.forEach(itm => f(this.src.entry(itm[1]), itm[1]))
-    }
-    else {
-      const v = this.src.get()
-      for (let i in v) {
-        f(this.src.entry(i), i, Keys.get(v[i]))
-      }
-      // if (this.src._removed) {
-      //   for (let i = 0; i < this.src._removed.length; i++) {
-      //     const entry = this.src._removed[i]
-      //     f(entry, entry.id)
-      //   }
-      // }
-    }
-  }
-
-  name (k) {
-    return new Stream(this.src, this.data, k)
-  }
-}
-
-
-
-class Event {
-}
-
-
-class Effect {
-  constructor (name) {
-    this.name = name
-  }
-
-  get done () {
-    return this.name+':done'
-  }
-
-  get fail () {
-    return this.name+':fail'
-  }
-
-  get init () {
-    return this.name
-  }
-
-  get cancel () {
-    return this.name+':cancel'
-  }
-
-  get reject () {
-    return this.name+':reject'
-  }
-
-  get final () {
-    return this.name+':final'
-  }
-
-  shareWith (source) {
-    if (!this._shares) {
-      this._shares = []
-    }
-    this._shares.push(source)
-  }
-
-  finalize () {
-    this.isFinal = true
-    if (this._shares) {
-      this._shares.forEach(source => {
-        source.emit(this.final)
-      })
-    }
-  }
-
-}
-
+import Stream from './Stream'
+import Effect from './Effect'
 
 
 
@@ -166,17 +24,6 @@ class Source {
       this.compute(this.get())
     }
 
-    if (this.options && this.options.methods) {
-      for (let i in this.options.methods) {
-        this['$'+i] = this.options.methods[i]
-        // this[i] = (...params) => {
-        //   this.emit(i, {params})
-        //   return this.options.methods[i].apply(this, params)
-        // }
-      }
-//      Object.assign(this, this.options.methods) // FIXME это неправильно
-    }
-
     if (this.options && this.options.changed) {
       // FIXME костыль
       this.join(this, (evt) => {
@@ -186,11 +33,44 @@ class Source {
       })
     }
 
-    if (this.options && this.options.effectors) {
-      for (let i in this.options.effectors) {
-        this.use(i, this.options.effectors[i], this)
+    if (this.options && this.options.project) {
+      this.isProj = true
+    }
+
+    if (this.options.properties) {
+      for (let i in this.options.properties) {
+        const p = this.options.properties[i]
+        this.prop(i, p.type, p.project)
       }
     }
+
+    if (this.options.methods) {
+      for (let i in this.options.methods) {
+        this.effect(i, this, this.options.methods[i])
+      }
+    }
+
+    if (this.options.watchers) {
+      for (let i in this.options.watchers) {
+        this.watch(this.options.watchers[i], this, i)
+      }
+    }
+
+    if (this.options.effects) {
+      for (let i in this.options.effects) {
+        this.listen(i, this, this.options.effects[i])
+      }
+    }
+
+    if (this.options.init) {
+      this.options.init.call(this)
+    }
+
+    // if (this.options && this.options.effectors) {
+    //   for (let i in this.options.effectors) {
+    //     this.use(i, this.options.effectors[i], this)
+    //   }
+    // }
 //    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
   }
@@ -204,7 +84,11 @@ class Source {
         return this.cache
       }
 
-      if (this.id == null) {
+      if (this.isProj) {
+        v = this.isNested ? this.src.get() : this.src
+        v = this.options.project(v)
+      }
+      else if (this.id == null) {
         v = this.src
       }
       else if (this.isNested) {
@@ -230,11 +114,12 @@ class Source {
 
       this.cache = v
 
+      v = v[k]
+
       // if (this.options && this.options.model && this.options.model[k] && this.options.model[k].get) {
       //   v = this.options.model[k].get.call(this, v)
       // }
       // else {
-        v = v[k]
       // }
     }
 
@@ -282,7 +167,7 @@ class Source {
       // }
 
       //TODO удалить все entries
-      this.update(null, 'set', {[this.id]: true}, cache) // ?
+      this.$update(null, 'set', {[this.id]: true}, cache) // ?
     }
     else {
 
@@ -312,7 +197,7 @@ class Source {
             this.src[this.id][k] = v
           }
           // если дочерних элементов для ключа нет, то остальные обновлять не нужно
-          this.update('asc', 'set', {[k]: true}, {[k]: cache})
+          this.$update('asc', 'set', {[k]: true}, {[k]: cache})
         }
 
         // if (this.entries[k]) {
@@ -354,7 +239,7 @@ class Source {
         }
       }
 
-      this.update() // ?
+      this.$update() // ?
     }
     else {
       if (this.entries[k]) {
@@ -368,13 +253,17 @@ class Source {
           let v = this.isNested ? this.src.get()[this.id] : this.src[this.id]
           v[k] = !v[k]
         }
-        this.update('asc')
+        this.$update('asc')
       }
     }
   }
 
   join(target, dataChanged, dataRemoved, key, dataEffects) {
     this.observers.push({target, dataChanged, dataRemoved, key, dataEffects})
+    if (!this._listeners) {
+      this._listeners = new Map()
+    }
+    this._listeners.set(target, {key})
   }
 
   unjoin(target) {
@@ -393,14 +282,14 @@ class Source {
     // }
   }
 
-  update(direction, event, ids, cache) {
+  $update(direction, event, ids, cache) {
     if (!this._updating) {
       this._updating = this
       try {
   //    delete this.cache
 //      this.emit('beforeChanged')
         if (this.isNested && direction != 'desc' && direction != 'none') {
-          this.src.update('asc', event, {[this.id]: true}, {[this.id]: cache})
+          this.src.$update('asc', event, {[this.id]: true}, {[this.id]: cache})
         }
 
         delete this.cache
@@ -417,7 +306,7 @@ class Source {
 
         if (direction != 'asc' && direction != 'none') {
           for (let i in this.entries) {
-            this.entries[i].update('desc', event);
+            this.entries[i].$update('desc', event);
           }
         }
       }
@@ -432,7 +321,19 @@ class Source {
   entry(k) {
     let e = this.entries[k]
     if (e == null) {
-      e = new Source(this, null, k) // в качестве опций должны передаваться параметры модели
+      if (this._properties && this._properties[k]) {
+        // здесь можно вызывать фабрику
+        const prop = this._properties[k]
+        if (typeof prop === 'object') {
+          e = new Source(this, {...prop}, k)
+        }
+        else {
+          e = new prop(this, null, k)
+        }
+      }
+      else {
+        e = new Source(this, null, k) // в качестве опций должны передаваться параметры модели
+      }
       this.entries[k] = e
     }
     return e
@@ -487,10 +388,10 @@ class Source {
         // }
         entry.emit('destroy', {})//{ids: {[entry.id]: true}})
 */
-        this.update('desc', 'remove')
+        this.$update('desc', 'remove')
       }
       else {
-        this.update('asc', 'remove')
+        this.$update('asc', 'remove')
       }
 
 //      this.targets.forEach(t => t.dataChanged.call(t.target, v))
@@ -507,7 +408,7 @@ class Source {
       this.src._removed.splice(i, 1)
     }
 
-    this.update('asc')
+    this.$update('asc')
   }
 
 
@@ -565,7 +466,7 @@ class Source {
         oldVal[i] = v[i]
         if (this.entries[i]) {
           delete this.entries[i].cache
-          this.entries[i].update('desc')
+          this.entries[i].$update('desc')
         }
       }
     }
@@ -574,12 +475,12 @@ class Source {
         oldVal[i] = v[i]
         if (this.entries[i]) {
           delete this.entries[i].cache
-          this.entries[i].update('desc')
+          this.entries[i].$update('desc')
         }
       }
     }
 
-    this.update('asc')
+    this.$update('asc')
   }
 
 
@@ -600,7 +501,7 @@ class Source {
     arr.push(v)
 
     //TODO удалить все entries
-    this.update(null, 'add') // ?
+    this.$update(null, 'add') // ?
 
     return this.entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
   }
@@ -629,7 +530,7 @@ class Source {
       }
     }
 
-    this.update(null, 'insert') // ?
+    this.$update(null, 'insert') // ?
 
     return this.entry(i)
   }
@@ -650,36 +551,11 @@ class Source {
       for (let i in this.options.computed) {
         if (this.entries[i]) {
 //          this.entries[i].sync(v[i])
-          this.entries[i].update('none', 'compute')
+          this.entries[i].$update('none', 'compute')
         }
       }
     }
   }
-
-
-//   sync (v) {
-// //    console.log('sync', this.entries)
-//     if (Object.keys(this.entries).length) {
-//       const value =  v || this.get()
-//       const cleanEntries = {}
-//       for (let i in this.entries) {
-//         const entry = this.entries[i]
-//         if (i in v) {
-//           cleanEntries[i] = entry
-//         }
-//         else {
-//           console.log('remove', entry)
-//           if (!this._removed) {
-//             this._removed = []
-//           }
-//           this._removed.push(entry)
-//           entry.removed = true
-//           entry.emit('destroy', {})
-//         }
-//       }
-//       this.entries = cleanEntries
-//     }
-//   }
 
 
 
@@ -706,6 +582,10 @@ class Source {
 
   _init (target) {
     this.emit('init', {target, data: this.get()})
+  }
+
+  _destroy (target) {
+    this.emit('destroy', {target})
   }
 
 
@@ -738,7 +618,16 @@ class Source {
 
   emit (eventName, eventData) {
 
-    const event = (eventName.constructor == Object) ? eventName : {name: eventName, ...eventData}
+    const event = (eventName.constructor == Object) ? eventName : {name: eventName, source: this, ...eventData}
+
+    const groups = event.name.split('.')
+    groups.pop()
+    event.ns = groups.join('.')
+
+
+    if (this.options.logEvents) {
+      console.log(eventName, event)
+    }
 
     if (this._watchers && event.state != 'resumed') {
       const promises = []
@@ -746,7 +635,7 @@ class Source {
       this._watchers.forEach((watchers, target) => {
         if (true/*!event.target || event.target == target*/) {
           watchers.forEach(watcher => {
-            if (watcher.when(event)) {
+            if (watcher.when(event, target)) {
               const result = watcher.callback.call(target, event)
               if (result instanceof Promise) {
                 promises.push(result)
@@ -790,6 +679,7 @@ class Source {
       return // ?
     }
 
+    console.log(event.name, event)
     let result = this.resolve(event)
 
 
@@ -797,11 +687,13 @@ class Source {
       this._deferred.forEach(eff => {
         if (!eff.isFinal) {
           if (eff.parent && eff.parent.isFinal) {
+//            console.log('finalize parent', eff)
             eff.finalize()
             this.emit(eff.final, {target: eff.target}) // здесь было бы правильно анализировать статус родительского эффекта
           }
           else if (eff.done == event.name || eff.fail == event.name || eff.cancel == event.name) {
-            eff.finalize()
+//            console.log('finalize self', eff)
+            eff.finalize(event.name, event.data)
           }
         }
       })
@@ -817,22 +709,35 @@ class Source {
           return // FIXME emit нужно вызывать только после удаления события из списка
         }
         for (let i = evt.all.length-1; i >= 0; i--) {
+          if (evt.all[i].isCanceled) {
+//            debugger
+            evt.state = 'canceled'
+            break
+          }
           if (evt.all[i].isFinal) {
             evt.all.splice(i, 1)
           }
         }
-        if (evt.all.length == 0) {
+        if (evt.state == 'canceled') {
+          this.emit(new Effect(evt.name).cancel, {target: evt.target})
+        }
+        else if (evt.all.length == 0) {
+          console.log('resume', evt)
           evt.state = 'resumed'
           this.emit(evt)
         }
-        this._suspended = this._suspended.filter(evt => evt.state == 'suspended')
       })
+      this._suspended = this._suspended.filter(evt => evt.state == 'suspended')
     }
 
     return result
   }
 
   resolve (event) {
+
+    if (event.state == 'resumed') {
+      console.log('resolve resumed', event)
+    }
 
     this.observers.forEach(t => {
       if (event.target == null || event.target == t.target) {
@@ -848,23 +753,46 @@ class Source {
       this._listeners.forEach((listeners, target) => {
         if (event.target == null || event.target == target) {
           const listener = listeners[event.name]
+//          const policy = this._policices && this._policies[event.name]
           const key = listeners['key']
           if (listener) {
 
-            let result = listener.call(target, event.params, key)
+//            console.log('listener', listener.type)
+
+            let result = null
+            if (listener.type == 'method') {
+              result = event.params
+                ? listener.callback.apply(target, [...event.params, key])
+                : listener.callback.call(target, event.data, key)
+            }
+            else {
+              result = listener.callback.call(target, event, target)
+            }
+
 
             if (result instanceof Promise) {
               // событие имеет отложенное исполнение
               const effect = new Effect(event.name)
               effect.source = this
               effect.target = event.target
+              effect.policy = event.policy || listener.policy
+//              effect.promise = result
+              effect.ns = event.ns
+
+              console.log('ns', event.ns)
 
               if (this._deferred) {
                 this._deferred.forEach(eff => {
-                  if (eff.name == effect.name) {
-                    // по умолчанию отменяем эффект
-                    this.emit(effect.reject)
-                    effect.finalize()
+                  if (eff.name == effect.name || (effect.ns && eff.ns == effect.ns)) {
+                    if (effect.policy == 'abandon') {
+                      this.emit(effect.reject)
+                      effect.finalize(effect.reject)
+                    }
+                    else {
+                      // по умолчанию отменяем эффект
+                      this.emit(eff.cancel, {data: '#canceled'})
+//                      eff.finalize(eff.cancel)
+                    }
                   }
                 })
               }
@@ -874,12 +802,23 @@ class Source {
                 result
                   .then(data => {
                     if (!effect.isFinal) {
+//                      console.log('done', effect)
                       this.emit(effect.done, {data, target})
                     }
                   })
                   .catch(data => {
                     if (!effect.isFinal) {
-                      this.emit(effect.fail, {data, target})
+                      if (data instanceof Effect) {
+                        if (data.isCanceled) {
+                          this.emit(effect.cancel, {data, target})
+                        }
+                        else {
+                          debugger
+                        }
+                      }
+                      else {
+                        this.emit(effect.fail, {data, target})
+                      }
                     }
                   })
 
@@ -895,6 +834,7 @@ class Source {
               const effect = new Effect(event.name)
               effect.parent = result
               effect.target = event.target
+              effect.ns = event.ns
               if (result.source != this) {
                 console.warn('Shared effect', result)
                 result.shareWith(this)
@@ -903,7 +843,7 @@ class Source {
               // TODO здесь нужно связать эффекты, в т.ч. отмену
               this._deferred.push(effect)
             }
-            else {
+            else if (result != undefined) {
               const effect = new Effect(event.name)
               this.emit(effect.done, {data: result, target: event.target})
             }
@@ -914,583 +854,14 @@ class Source {
       })
     }
 
-    return event.target ? results[0] : results
-
-/*
-    const target = event.target || this
-
-    let result = undefined
-
-    if (target[event.name]) {
-
-      result = target[event.name].apply(target, event.params)
-
-      if (result instanceof Promise) {
-        // событие имеет отложенное исполнение
-        const effect = new Effect(event.name)
-        effect.source = this
-        effect.target = event.target
-
-        if (this._deferred) {
-          this._deferred.forEach(eff => {
-            if (eff.name == effect.name) {
-              // по умолчанию отменяем эффект
-              this.emit(effect.reject)
-              effect.finalize()
-            }
-          })
-        }
-
-        if (!effect.isFinal) {
-
-          result
-            .then(data => {
-              if (!effect.isFinal) {
-                this.emit(effect.done, {data, target})
-              }
-            })
-            .catch(data => {
-              if (!effect.isFinal) {
-                this.emit(effect.fail, {data, target})
-              }
-            })
-
-          if (!this._deferred) {
-            this._deferred = []
-          }
-          this._deferred.push(effect)
-        }
-
-        result = effect
-      }
-      else if (result instanceof Effect) {
-        const effect = new Effect(event.name)
-        effect.parent = result
-        effect.target = event.target
-        if (result.source != this) {
-          console.warn('Shared effect', result)
-          result.shareWith(this)
-        }
-//        console.log('parent effect', result, event)
-        // TODO здесь нужно связать эффекты, в т.ч. отмену
-        this._deferred.push(effect)
-      }
-      else {
-        const effect = new Effect(event.name)
-        this.emit(effect.done, {data: result, target: event.target})
-      }
-
+    if (results.length > 1) {
+      console.warn('multiple results', results)
     }
-*/
 
-//    return result
+    return results[0]
   }
 
 
-/*
-  emit2 (eventName, eventData, eventTarget) {
-
-    const pre = []
-    const post = []
-
-
-    // генерирем ключ события
-    let eventKey = '_' + Math.random().toString(16).slice(2)
-
-    // обрабатываемое событие
-    let event = {name: eventName, key: eventKey, target: eventTarget, ...eventData}
-
-    if (this.options && this.options.logEvents) {
-      console.log ('event', event)//.name, this.snapshot)
-    }
-
-    // после появления события, необходимо проверить, есть ли готовые к активации эффекты
-    if (this._waiting) {
-      for (let i = this._waiting.length-1; i >= 0; i--) {
-        let eff = this._waiting[i]
-        if (eff.watch) {
-          if (eff.watch.call(this, event, this)) {
-            // если эффект начал работу, убираем его из списка на ожидании
-            this._waiting.splice(i, 1)
-            // активируем эффект
-            const activated = this.activate(eff)
-            if (activated.mode == 'pre') {
-              pre.push(activated)
-            }
-            else {
-              post.push(activated)
-            }
-          }
-        }
-        else {
-          // если эффект начал работу, убираем его из списка на ожидании
-          this._waiting.splice(i, 1)
-          // эффекты, у которых нет наблюдения, активируются после первого события
-          const activated = this.activate(eff)
-          if (activated.mode == 'pre') {
-            pre.push(activated)
-          }
-          else {
-            post.push(activated)
-          }
-        }
-      }
-
-      if (this._waiting.length && !pre.length && !post.length) {
-        console.warn('Domain has waiting effects, but no active effects')
-      }
-    }
-
-    if (this.effectors) {
-      for (let i in this.effectors) {
-        let effector = this.effectors[i]
-//        console.log(i, effector)
-        if (effector.ctor.watch && effector.ctor.watch.call(this, event)) {
-          console.log(i, effector)
-          let eff = {effector: i, mode: effector.ctor.mode, name: i}
-          const activated = this.activate(eff)
-          if (activated.mode == 'pre') {
-            pre.push(activated)
-          }
-          else {
-            post.push(activated)
-          }
-        }
-      }
-    }
-
-
-    // Пре-эффекты
-    for (let i = 0; i < pre.length; i++) {
-      this.prepare(pre[i], event)
-    }
-
-    if (this._acting && Object.keys(this._acting).length) {//this[event.name]) {
-
-      this.tryResolve(event)
-
-      if (this._acting[event.effectId]) {
-        const baseEffect = this._acting[event.effectId]
-        if (baseEffect[event.effectStage]) {
-          baseEffect[event.effectStage].call(baseEffect.target, event.data)
-        }
-      }
-
-    }
-    else {
-      this.tryResolve(event)
-//       event.resolved = true
-// //      console.log ('[do]-'+event.name, this.snapshot)
-//       this.observers.forEach(t => {
-//         if (event.target == null || event.target == t.target) {
-//           if (t.dataChanged) {
-//             t.dataChanged.call(t.target, event, t.key)
-//           }
-//         }
-//       })
-
-//      event.resolved = true
-    }
-
-    // Пре-эффекты
-    for (let i = 0; i < post.length; i++) {
-      this.prepare(post[i], event)
-    }
-
-
-    // пробуем сохранить оригинальное сообщение
-    if (!event.resolved) {
-      if (!this._unresolved) {
-        this._unresolved = {}
-      }
-      if (!this._unresolved[event.key]) {
-        this._unresolved[event.key] = event
-      }
-    }
-
-    return event
-  }
-
-  activate (effect) {
-
-    if (!this._acting) {
-      this._acting = {}
-    }
-
-    let activated = null
-
-    if (typeof effect == 'string') {
-      // ищем эффектор
-      activated = {name: effect}
-    }
-    else {
-      activated = effect
-    }
-
-    for (let i in this._acting) {
-      const acting = this._acting[i]
-      if (!acting.canceled && (acting.name == activated.name || acting.effector == activated.effector)) {
-        console.log('cancel', acting)
-        if (acting.cancel ) {
-          (acting.cancel).call(acting.target)
-        }
-        acting.canceled = true
-//        console.log('match', activated.name)
-      }
-    }
-
-    activated.id = '_' + Math.random().toString(16).slice(2)
-
-    this._acting[activated.id] = activated
-
-    return activated
-  }
-
-  prepare (effect, event) {
-
-    if (effect.canceled) {
-      return
-    }
-
-    if (effect.delay && !effect.timeout) {
-      effect.timeout = setTimeout(() => {
-        // effect.delayed = false
-        this.prepare(effect, event)
-      }, effect.delay)
-//      effect.delayed = true
-      return
-    }
-
-    let result = null
-
-    if (!effect.activated) {
-
-      // помечаем эффект ключем вызвавшего его события
-      effect.eventKey = event.originalKey || event.key
-      effect.originalEvent = event.originalEvent || event
-
-      result = effect.params || event.params || [event.data]
-
-      if (effect.effector) {
-        if (typeof effect.effector === 'function') {
-          effect.resolver = effect.resolver || effect.effector
-        }
-        else {
-          const effector = this.effectors[effect.effector]
-          effect.target = effect.target || effector.context
-          effect.name = effect.name || effect.effector
-          effect.source = this
-          const defaultEffect = effector.ctor.apply(effect.target, result)
-          if (defaultEffect.constructor == Object) {
-            effect = Object.assign(effect, {...defaultEffect, ...effect})
-          }
-          else {
-            result = defaultEffect
-  //          effect.resolver = effect.resolver || defaultEffect
-          }
-  //        effect.resolver = effect.resolver || effector.ctor
-        }
-      }
-
-      if (effect.activator) {
-        if (effect.init) {
-          effect.data = effect.init.apply(effect.target, event.params)
-        }
-        effect.activator.call(effect.target, (next) => {
-          effect.data = next
-          this.prepare(effect, event)
-        }, effect.data)
-        effect.activated = true
-        return
-      }
-
-    }
-
-
-    if (!effect.activator) {
-      this.emit(effect.name+':init', {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-      // TODO есть кейс, когда вызов ready должен быть до emit
-      if (effect.init) {
-        result = [effect.init.apply(effect.target, [...result, event])]
-      }
-
-    }
-
-
-    //  время решать эффект
-    if (typeof effect.resolver == 'function') {
-      result = effect.resolver.apply(effect.target, result)//effect.params || event.params || [event.data])
-    }
-
-
-//    console.log(effect, result)
-
-
-    // else {
-    //   result = effect.resolver
-    // }
-    // else {
-    //   result = effect.params || event.params || [event.data]
-    // }
-
-
-    if (result instanceof Promise) {
-      result
-        .then(v => {
-
-          if (this._acting[effect.id].canceled) {
-
-            // убираем эффект из списка активных
-            delete this._acting[effect.id]
-            this.emit(effect.name+':cancel', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-            if (effect.cancel) {
-              effect.cancel.call(effect.target, v)
-            }
-
-            return
-          }
-
-          // убираем эффект из списка активных
-          delete this._acting[effect.id]
-          this.emit(effect.name+':done', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-          if (effect.done) {
-            effect.done.call(effect.target, v, effect)
-          }
-
-          if (v !== undefined) {
-//            effect.originalEvent.params = [v]
-            effect.originalEvent.data = v
-          }
-
-          this.tryResolve(effect.originalEvent)
-
-        })
-        .catch(err => {
-          console.error(err);
-          // убираем эффект из списка активных
-          delete this._acting[effect.id]
-          this.emit(effect.name+':fail', {data: err, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-          if (effect.fail) {
-            effect.fail.call(effect.target, err)
-          }
-        })
-
-        // if (result.active) {
-        //   result.active(v => {
-        //     this.emit(effect.name+':active', {data: v, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-        //
-        //     if (effect.active) {
-        //       effect.active.call(effect.target, v)
-        //     }
-        //
-        //   })
-        // }
-    }
-    else {
-      delete this._acting[effect.id]
-    }
-
-    this.emit(effect.name, {data: result, originalKey: effect.eventKey, originalEvent: effect.originalEvent})
-
-    // TODO есть кейс, когда вызов ready должен быть до emit
-    if (effect.ready) {
-      effect.ready.apply(effect.target, event.params)
-    }
-
-    // if (effect.init) {
-    //   effect.init.call(effect.target, result)
-    // }
-
-    // if (typeof effect.animation == 'function') {
-    //   requestAnimationFrame(() => {
-    //     effect.animation.call(effect.target)
-    //     this.emit(effect.name+':active', {data: result})
-    //     if (effect.active) {
-    //       effect.active.call(effect.target, result)
-    //     }
-    //   })
-    // }
-
-
-  }
-
-  tryResolve (event) {
-
-//    console.log('[try]-'+event.name, this.snapshot)
-
-//    if (this[event.name]) {
-    let readyToResolve = true
-    if (this._acting) {
-//        console.log('tryResolve', this._acting, event)
-      for (let i in this._acting) {
-        if (this._acting[i].eventKey == event.key) {
-          readyToResolve = false
-          break
-        }
-      }
-    }
-    if (readyToResolve) {
-      if (event.resolved) {
-        console.warn('Event already resolved', event)
-      }
-      else {
-        event.resolved = true
-
-        if (event.target && event.target != this && event.name != 'init') {
-          console.log('target', event.name, event.target)
-        }
-
-        const target = event.target || this
-
-        if (target[event.name]) {
-
-          let result = null
-          // if (event.name != 'init') {
-          //   debugger
-          // }
-
-//          console.log('result', event, result)
-
-          if ('params' in event) {
-            result = target[event.name].apply(target, [...event.params, target])
-          }
-          else if ('data' in event) {
-            result = target[event.name](event.data, target)
-          }
-          else {
-            result = target[event.name](target)
-          }
-
-          // if (this._watchers && this._watchers[event.name]) {
-          //   const eventWatchers = this._watchers[event.name]
-          //   for (let i = 0; i < eventWatchers.length; i++) {
-          //     const watcher = eventWatchers[i]
-          //
-          //   }
-          // }
-
-          if (result instanceof Promise) {
-            const f = target[event.name]
-            if (!this._deferredEffects) {
-              this._deferredEffects = {}
-            }
-            this._deferredEffects[event.key] = f
-            this.emit(f.ready, {data: event.data, target})
-            result
-              .then(data => {
-                delete this._deferredEffects[event.key]
-                this.emit(f.done, {data, target})
-                if (event.done) {
-                  event.done.forEach(eff => {
-                    eff(data)
-                  })
-                }
-              })
-              .catch(data => {
-                delete this._deferredEffects[event.key]
-                this.emit(f.fail, {data, target})
-              })
-              .finally(() => {
-              })
-          }
-          else if (result && result.key) {
-            // FIXME костыль для определения события или эффекта
-            console.log('effect', result)
-            if (!result.done) {
-              result.done = []
-            }
-            result.done.push((data) => {
-              this.emit(event.name+':done', {data, params: event.params, target: event.target})
-            })
-          }
-          else {
-            console.log(event, result)
-            this.emit(event.name+':done', {data: result, params: event.params, target: event.target})
-          }
-
-//          console.log('[try]-'+event.name, 'OK')
-
-//          return result
-        }
-
-        // // FIXME замена once для дозорных эффектора
-        // if (this._deferredEffects) {
-        //   for (let i in this._deferredEffects) {
-        //     const eff = this._deferredEffects[i]
-        //     if (eff._effData.watchers) {
-        //       eff._effData.watchers.forEach(watcher => {
-        //         if (watcher.event == event.name) {
-        //           watcher.callback.call(target, event.data, target)
-        //         }
-        //       })
-        //     }
-        //   }
-        // }
-
-        this.observers.forEach(t => {
-          if (event.target == null || event.target == t.target) {
-            if (t.dataChanged) {
-              t.dataChanged.call(t.target, event, t.key)
-            }
-          }
-          // else {
-          //   console.log('target no match', t.target, event.target)
-          // }
-        })
-
-        if (this._unresolved && this._unresolved[event.key]) {
-          delete this._unresolved[event.key]
-        }
-
-      }
-    }
-
-//    console.log('[try]-'+event.name, 'BAD')
-  }
-
-
-  wait (effects) {
-
-    if (!this._waiting) {
-      this._waiting = []
-    }
-
-    for (let i = 0; i < effects.length; i++) {
-      const effector = effects[i].effector
-      let eff = effects[i]
-      if (effector) {
-        if (typeof effector == 'string') {
-          eff.name = effector
-          effector = this.effectors[effector]
-          eff = {...effector.ctor.call(effector.context), ...eff}
-        }
-        else {
-          eff = {...effector.call(this), ...eff}
-        }
-        delete eff.effector
-      }
-      this._waiting.push(eff)
-    }
-
-    return this
-  }
-
-  when(effects) {
-    return this.wait(effects.map(eff => {return {mode: 'pre', ...eff}}))
-  }
-
-  then (effects) {
-    return this.wait(effects).emit('_')
-  }
-
-  and() {
-    return this
-  }
-*/
 
 
   asStream(name) {
@@ -1528,15 +899,22 @@ class Source {
     return hashCode(this.get())
   }
 
-  proxy () {
-    return new Proxy(this, {
-      set: function (target, property, value) {
-        target.set(property, value)
-      },
-      get: function (target, property) {
-        return target.get(property)
-      }
-    })
+  get $ () {
+    if (!this._proxy) {
+      this._proxy = new Proxy(this, {
+        set: function (target, property, value) {
+          target.set(property, value)
+        },
+        get: function (target, property) {
+          // if (this._properties && this._properties[property]) {
+          //   return this.entry(property).get()
+          // }
+          // return target.get(property)
+          return target.entry(property).get()
+        }
+      })
+    }
+    return this._proxy
   }
 
 
@@ -1570,66 +948,106 @@ class Source {
     }
   }
 
-  on (methods={}, target, key) {
-    if (!this._methods) {
-      this._methods = new Map()
-    }
-    let tm = this._methods.get(target)
-    if (!tm) {
-      tm = {}
-//      this._methods.set(target, tm)
-    }
+  on (listeners={}, target) {
     if (!this._listeners) {
       this._listeners = new Map()
     }
-    let listeners = this._listeners.get(target)
-    if (!listeners) {
-      listeners = {key: key || this._key} // FIXME эта инициализация должна происходить при join-е
+    let l = this._listeners.get(target)
+    if (!l) {
+      if (!this._key) {
+        console.warn('key not defined!')
+      }
+      l = {key: this._key}
     }
-    for (let i in methods) {
+    for (let i in listeners) {
+      const groups = i.split('.')
+      const k = groups.pop()
+      const ns = groups.join('.')
+
+      // let effector = null
+      // let g = this
+      // for (let j in groups) {
+      //   if (!g[j]) {
+      //
+      //   }
+      // }
       if (!this[i]) {
         this[i] = (...args) => {
-          return this.emit('@'+i, {params: [...args], target})
+//          try {
+            return this.emit('@'+i, {params: [...args], type: 'resolve'/*, target*/})
+          // }
+          // catch (err) {
+          //   console.error(err)
+          // }
         }
         this[i].done = '@'+i+':done'
         this[i].fail = '@'+i+':fail'
         this[i].init = '@'+i
-//        target['@'+i] = methods[i]
-        tm[i] = methods[i]
+        this[i].cancel = '@'+i+':cancel'
+        this[i].n = 1
+        this[i].ns = ns
 
-        listeners['@'+i] = methods[i]
+        if (typeof listeners[i] == 'function') {
+          l['@'+i] = {callback: listeners[i], type: 'method'}
+        }
+        else {
+          if (listeners[i].init) {
+            l['@'+i] = {callback: listeners[i].init, type: 'method', policy: listeners[i].policy}
+          }
+          if (listeners[i].done) {
+            l['@'+i+':done'] = {callback: listeners[i].done, type: 'method'}
+          }
+          if (listeners[i].fail) {
+            l['@'+i+':fail'] = {callback: listeners[i].fail, type: 'method'}
+          }
+        }
+
       }
       else {
         console.warn('method ['+i+'] already exists')
+        this[i].n++
       }
     }
-    this._methods.set(target, tm)
-    this._listeners.set(target, listeners)
+    this._listeners.set(target, l)
   }
 
   off (target) {
-    if (this._methods) {
-      if (this._methods.has(target)) {
-        const tm = this._methods.get(target)
-        for (let i in tm) {
-          delete this[i]
-          delete target['@'+i]
+    if (this._listeners) {
+      if (this._listeners.has(target)) {
+        // поверяем, нужно ли удалить метод
+        const l = this._listeners.get(target)
+        for (let i in l) {
+          const method = this[i.substr(1)]
+          if (i != 'key' && method) {
+            if (--method.n == 0) {
+              console.log('delete method', i)
+              delete this[i.substr(1)]
+            }
+          }
         }
-        this._methods.delete(target)
+        this._listeners.delete(target)
       }
     }
   }
 
-  listen (effects, target) {
-    if (!this._effects) {
-      this._effects = new Map()
+  listen (name, target, callback, policy) {
+    if (!this._listeners) {
+      this._listeners = new Map()
     }
-    this._effects[target] = effects
+    let tl = this._listeners.get(target)
+    if (!tl) {
+      if (!this._key) {
+        console.warn('key not defined!')
+      }
+      tl = {key: this._key}
+      this._listeners.set(target, tl)
+    }
+    tl['@'+name] = {callback, policy}
   }
 
   unlisten (target) {
-    if (this._effects) {
-      this._effects.delete(target)
+    if (this._listeners) {
+      this._listeners.delete(target)
     }
   }
 
@@ -1650,8 +1068,32 @@ class Source {
 
     const watcher = {when, callback}
 
+    const i = callback
+
+    if (typeof callback == 'string') {
+      watcher.callback = (e) => {
+        return this.emit('@'+i, {params: e.params, target: e.target, data: e.data})
+      }
+    }
+
     if (typeof when == 'string') {
       watcher.when = (e) => e.name == when
+    }
+    else if (when.constructor == Object) {
+      const w = when
+      if (w.init) {
+        this.listen(i, target, w.init, w.policy)
+      }
+      if (w.done) {
+        this.listen(i+':done', target, w.done)
+      }
+      if (w.fail) {
+        this.listen(i+':fail', target, w.fail)
+      }
+      if (w.cancel) {
+        this.listen(i+':cancel', target, w.cancel)
+      }
+      watcher.when = w.when
     }
 
     watchers.push(watcher)
@@ -1661,6 +1103,14 @@ class Source {
     if (this._watchers) {
       this._watchers.delete(target)
     }
+  }
+
+
+  prop (key, type, project) {
+    if (!this._properties) {
+      this._properties = {}
+    }
+    this._properties[key] = {type, project}
   }
 
   // ns () {

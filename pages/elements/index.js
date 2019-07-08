@@ -76,7 +76,7 @@ export default (projector) => {
       }
     },
     $content: {
-      dynamic: true,
+      components: false,
       dataChanged: Mutate.DynamicComponents,
       $box: BoxExample(projector),
       $button: ButtonExample(projector),

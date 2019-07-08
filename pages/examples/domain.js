@@ -1,11 +1,29 @@
-import {Html, Layouts, Tabs, Source, Button} from '../../src'
+import {Html, Layouts, Tabs, Source, Button, Binder, bindDomain as $} from '../../src'
 
 import {Mutate} from '../helpers'
 import _ from 'lodash'
 import axios from 'axios'
 
+// const $data = function (p) {
+//   return new Binder('data', p)
+// }
 
-export default (projector) => {
+const api = {
+  getYesNo: function (question) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(() => {resolve({answer: question + '!!!'})}, 1500)
+//      setTimeout(() => {reject('No luck')}, 1500)
+    })
+    .then(x => {
+      console.log('actual result', x)
+      return x
+    })
+//    return axios.get('https://yesno.wtf/api')
+  }
+}
+
+
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
@@ -18,7 +36,9 @@ export default (projector) => {
         id: 'example',
         $message: {
           html: 'p',
-          dataChanged: Mutate.Text,
+          dataChanged: function (v) {
+            this.opt('text', v)
+          },
           dataId: 'message'
         }
       }
@@ -27,20 +47,28 @@ export default (projector) => {
         data: new Source({
           message: 'Привет'
         }, {
-          computed: {
-            reversedMessage: function (v) {
-              return v.message.split('').reverse().join('')
+          properties: {
+            reversedMessage: {
+              project: function (v) {
+                return v.message.split('').reverse().join('')
+              }
             }
           }
+          // computed: {
+          //   reversedMessage: function (v) {
+          //     return v.message.split('').reverse().join('')
+          //   }
+          // }
         })
       },
       $example: {
         id: 'example',
         $message: {
           html: 'p',
-          dataChanged: Mutate.Text,
-          dataId: 'message',
-          format: v => 'Изначальное сообщение: «'+v+'»'
+          text: $.data('message', v => 'Изначальное сообщение: «'+v+'»')
+          // dataChanged: Mutate.Text,
+          // dataId: 'message',
+          // format: v => 'Изначальное сообщение: «'+v+'»'
         },
         $reversedMessage: {
           html: 'p',
@@ -51,11 +79,12 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({
-        }, {
-          computed: {
-            now: function (v) {
-              return Date.now()
+        data: new Source({}, {
+          properties: {
+            now: {
+              project: function (v) {
+                return Date.now()
+              }
             }
           }
         })
@@ -64,14 +93,13 @@ export default (projector) => {
         $button: {
           type: Button,
           text: 'Click me',
-          onClick: function () {
-            this.sources.data.update()
+          onClick: function (e, {data}) {
+            data.$update()
           }
         },
         $info: {
           html: 'p',
-          dataChanged: Mutate.Text,
-          dataId: 'now'
+          text: $.data('now')
         }
       }
     }, {
@@ -80,42 +108,79 @@ export default (projector) => {
           question: '',
           answer: 'Пока вы не зададите вопрос, я не могу ответить!'
         }, {
+          watchers: {
+            questionChanged: e => (e.name == 'changed' || e.name == 'init') && e.ids && ('question' in e.ids),
+            answerFailed: (e, {getAnswer}) => e.name == getAnswer.fail,
+//            debouncedGetAnswer: (e, {getAnswer}) => e.name == getAnswer.init
+          },
+          effects: {
+            answerFailed: function (e) {
+              this.set('answer', 'Ошибка! Не могу связаться с API. ' + e.data)
+            },
+            questionChanged: function () {
+              this.set('answer', 'Ожидаю, когда вы закончите печатать...')
+              this.debouncedGetAnswer()
+            },
+            // debounce: (e) => {
+            //   e.conflict = 'cancel'
+            //   return new Promise(function (resolve) {
+            //     setTimeout(() => resolve(), 500)
+            //   })
+            // }
+          },
           methods: {
-            getAnswer: function () {
+            getAnswer: async function () {
               const v = this.get()
               if (v.question.indexOf('?') === -1) {
                 this.set('answer', 'Вопросы обычно заканчиваются вопросительным знаком. ;-)')
                 return
               }
+
               this.set('answer', 'Думаю...')
-              var src = this
-              axios.get('https://yesno.wtf/api')
-                .then(function (response) {
-                  src.set('answer', _.capitalize(response.data.answer))
-                })
-                .catch(function (error) {
-                  src.set('answer', 'Ошибка! Не могу связаться с API. ' + error)
-                })
+              const response = await api.getYesNo(v.question)
+              this.set('answer', _.capitalize(response.answer))
             },
-            updateQuestion (v) {
-              if (!this.debouncedGetAnswer) {
-                this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
-              }
-              this.set('question', v)
-              this.set('answer', 'Ожидаю, когда вы закончите печатать...')
-              this.debouncedGetAnswer()
-            }
+            debouncedGetAnswer: _.debounce(function () {
+              this.getAnswer()
+            }, 500),
+            // answerFailed: function (error) {
+            //   this.set('answer', 'Ошибка! Не могу связаться с API. ' + error)
+            // },
+            // debouncedLoadAnswer: _.debounce(function () {
+            //   this.loadAnswer()
+            // }, 500),
+            // _getAnswer: function () {
+            //   const v = this.get()
+            //   if (v.question.indexOf('?') === -1) {
+            //     this.set('answer', 'Вопросы обычно заканчиваются вопросительным знаком. ;-)')
+            //     return
+            //   }
+            //   this.set('answer', 'Думаю...')
+            //   var src = this
+            //   axios.get('https://yesno.wtf/api')
+            //     .then(function (response) {
+            //       src.set('answer', _.capitalize(response.data.answer))
+            //     })
+            //     .catch(function (error) {
+            //       src.set('answer', 'Ошибка! Не могу связаться с API. ' + error)
+            //     })
+            // },
+            // _updateQuestion (v) {
+            //   if (!this.debouncedGetAnswer) {
+            //     this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+            //   }
+            //   this.set('question', v)
+            //   this.set('answer', 'Ожидаю, когда вы закончите печатать...')
+            //   this.debouncedGetAnswer()
+            // }
           }
         })
-      },
-      binding: function () {
-        projector.scheduleRender()
       },
       $example: {
         $input: {
           html: 'input',
-          onInput: function (e) {
-            this.sources.data.updateQuestion(e.target.value)//.getAnswer()//.entry('question').set(e.target.value)
+          onInput: function (e, {data}) {
+            data.set('question', e.target.value)//.updateQuestion(e.target.value)//.getAnswer()//.entry('question').set(e.target.value)
           }
         },
         $info: {
@@ -131,66 +196,94 @@ export default (projector) => {
           answer: 'Пока вы не зададите вопрос, я не могу ответить!'
         }, {
           logEvents: true,
-          changed: function (evt) {
-            if (evt.ids && evt.ids['question']) {
-              const v = this.get()
-              if (v.question.indexOf('?') === -1) {
-                this.set('answer', 'Вопросы обычно заканчиваются вопросительным знаком. ;-)')
-              }
-              else {
-                this.set('answer', this.ask(v.question))
+          watchers: {
+            questionChanged: e => (e.name == 'changed' || e.name == 'init') && e.ids && ('question' in e.ids),
+//            waitAsk: (e, {ask}) => e.name == ask.init,
+            debounceAsk: {
+              policy: 'exclusive',
+              when: (e, {ask}) => e.name == ask.init,
+              init: function () {
+                this.set('answer', 'Ожидаю, когда вы закончите печатать...')
+                return new Promise(function (resolve) {
+                  setTimeout(() => resolve(), 500)
+                })
               }
             }
           },
-          effectors: {
-            fetchYesNo: function () {
-              return {
-                init: () => this.set('answer', 'Думаю...'),
-                fail: (err) => this.set('answer', 'Ошибка! Не могу связаться с API. ' + err),
-                resolver: () => axios.get('https://_yesno.wtf/api')
-                  .then(function (response) {
-                    return _.capitalize(response.data.answer)
-                  }),
-                delay: 1000
-//                watch: (evt) => evt.name == 'debounce:done' // можно еще проверить, есть ли debounce в очереди ожидания
-              }
+          effects: {
+            questionChanged: function (e) {
+              this.ask(e.data.question)
             },
-            // debounce: function (t) {
-            //   return {
-            //     resolver: () => new Promise(function(resolve) {
-            //       setTimeout(() => resolve(), t || 500)
-            //     })
-            //   }
+            // waitAsk: function (e) {
+            //   e.policy = 'exclusive'
+            //   this.set('answer', 'Ожидаю, когда вы закончите печатать...')
+            //   return new Promise(function (resolve) {
+            //     setTimeout(() => resolve(), 500)
+            //   })
             // }
           },
           methods: {
-            ask: function (q) {
-              return () => [
-                {effector: 'fetchYesNo'},
-//                {effector: 'debounce', params: [500]}
-              ]
+            ask: function (question) {
+              this.set('answer', 'Думаю...')
+              return api.getYesNo(question)
+                .then(response => {
+                  this.set('answer', _.capitalize(response.answer))
+                })
+                .catch(err => {
+                  this.set('answer', 'Ошибка! Не могу связаться с API. ' + err)
+                })
             }
           }
         })
       },
-      binding: function () {
-        projector.scheduleRender()
-      },
       $example: {
         $input: {
           html: 'input',
-          onInput: function (e) {
-//            this.sources.data.set('question', e.target.value)
-            this.sources.data.set(e.target.value)
+          onInput: function (e, {data}) {
+            data.set('question', e.target.value)
           },
-          dataChanged: Mutate.Value,
-          dataId: 'question'
+          value: $.data('question')
         },
         $info: {
           html: 'p',
-          dataChanged: Mutate.Text,
-          dataId: 'answer'
+          text: $.data('answer')
         }
+      }
+    }, {
+      sources: {
+        data: new Source(1, {
+          properties: {
+            x10: {
+              project: v => v * 10
+            }
+          },
+          methods: {
+            increment: function () {
+              this.set(this.get()+1)
+            }
+          }
+        })
+      },
+      $button: {
+        type: Button,
+        text: 'Increment',
+        onClick: function (e, {data}) {
+          data.increment()
+        }
+      },
+      $text: {
+        text: $.data('x10')
+      }
+    }, {
+      sources: {
+        data: {
+          name: 'Alice'
+        }
+      },
+      $content: {
+        text: $.data('name'),
+        // aaa: $.any([$.data('name'), $.page('user')], (name, user) => 'Name' + name + ', User: ' + user.username),
+        // bbb: $.any(({data, page}) => 'Name' + data.name + ', User: ' + page.user.username)
       }
     }]
   }

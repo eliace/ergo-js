@@ -103,7 +103,7 @@ export const Mutate = {
     if (this.options.format) {
       v = this.options.format.call(this, v)
     }
-    return {text: v}
+    return {$text: v}
   },
   Src: function (v) {
     return {src: v}

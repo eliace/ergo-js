@@ -55,12 +55,11 @@ export default (projector) => {
       dataChanged: function (v, k) {
         this.opt('$components', k)
       },
-      dynamic: {
-        modal: ModalExample(projector),
-        toast: ToastExample(projector),
-        transitions: TransitionsExample(projector),
-        states: StatesExample(),
-      }
+      components: false,
+      $modal: ModalExample(projector),
+      $toast: ToastExample(projector),
+      $transitions: TransitionsExample(projector),
+      $states: StatesExample(),
     }
   }
 }

@@ -6,6 +6,7 @@ import Source from './Data'
 import Bindings from './Bindings'
 import Text from './Text'
 import Events from './Events'
+import {Binder, bindDomain} from './Utils'
 
 export {
   Html,
@@ -15,5 +16,7 @@ export {
   Source,
   Bindings,
   Text,
-  Events
+  Events,
+  Binder,
+  bindDomain
 }
