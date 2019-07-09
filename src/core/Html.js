@@ -568,7 +568,7 @@ const Html = class {
 
     this._binding_chain = []
     for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders /*|| opts.sourcesBound*/) {
+      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
         this._binding_chain.push(i)
       }
     }
@@ -919,7 +919,7 @@ const Html = class {
             item.removed = true
 //            item.sources[key].emit('removeItem', {params: [item], target: this})
 //            this.removeItem(item)
-            item.destroy()
+            item.tryDestroy()
           })
 
 //          console.log('add items', add)
@@ -1061,8 +1061,13 @@ const Html = class {
                   this.addComponent(i, s)
                   console.log('add', i, s)
                 }
+                else if (s && this['$'+i]._destroying) {
+                  this['$'+i].init()
+//                  this.addComponent(i, s)
+                  console.log('restore', i, s)
+                }
                 else if (!s && this['$'+i]) {
-                  this['$'+i].destroy()
+                  this['$'+i].tryDestroy()
 //                  this.removeComponent(i)
                   console.log('remove', i)
                 }
@@ -1226,6 +1231,7 @@ const Html = class {
   addComponent(i, o) {
     if (this['$'+i]) {
       console.log('removing')
+//      this['$'+i].destroy()
       this.removeComponent(i)
     }
 
@@ -1361,56 +1367,100 @@ const Html = class {
     }
   }
 
+  destroy () {
 
-  destroy(unjoinedSource) {
-
-    console.log('destroy')
-
-    Object.keys(this.sources).forEach((i) => {
+    for (let i in this.sources) {
       const src = this.sources[i]
-      // FIXME определять наличие биндинга нужно другим способом
-      if ((this.options[i+'Changed'] || this.options.sourcesBound) && !unjoinedSource) {
-        console.log('destroing...', i)
-        src._destroy(this)
-      }
-      else if (!unjoinedSource || unjoinedSource == src) {
-        src.unjoin(this)
-        src.off(this)
-        src.uncomp(this)
-        src.unwatch(this)
-        delete this.sources[i]
-      }
-      // else {
-      //   debugger
-      // }
-    })
+      src.unjoin(this)
+      src.off(this)
+      src.uncomp(this)
+      src.unwatch(this)
+      src.purge(this)
+      delete this.sources[i]
+    }
 
-    if (!this._destroyed && Object.keys(this.sources).length == 0) {
-
-      if (this.parent) {
-        if (this.index != null) {
-          this.parent.removeItem(this)
-        }
-        else {
-          this.parent.removeComponent(this)
-        }
+    if (this.parent) {
+      if (this.index != null) {
+        this.parent.removeItem(this)
       }
       else {
-        console.warn('destroying detached child', this)
+        this.parent.removeComponent(this)
       }
-
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].destroy();
-      }
-
-      delete this.sources
-      delete this.children
-      delete this.layout
-
-      this._destroyed = true
-
-      console.log('destroyed')
     }
+    else {
+      console.warn('destroying detached child', this)
+    }
+
+    for (let i = 0; i < this.children.length; i++) {
+      this.children[i].destroy();
+    }
+
+    delete this.sources
+    delete this.children
+    delete this.layout
+
+    this._destroyed = true
+    delete this._destroying
+
+    console.log('destroyed')
+  }
+
+  tryDestroy(unjoinedSource) {
+
+    console.log('try destroy', unjoinedSource)
+
+    this._destroying = true
+
+    if (!unjoinedSource) {
+      this._sourcesToUnjoin = {...this.sources}
+      for (let i in this.sources) {
+        const src = this.sources[i]
+        // FIXME определять наличие биндинга нужно другим способом
+        if ((this.options[i+'Changed'] || this.options.sourcesBound)) {
+          console.log('destroing...', i)
+          src._destroy(this)
+        }
+        else {
+          delete this._sourcesToUnjoin[i]
+        }
+      }
+    }
+    else {
+      for (let i in this.sources) {
+        if (this.sources[i] == unjoinedSource) {
+          delete this._sourcesToUnjoin[i]
+          break
+        }
+      }
+    }
+
+    if (Object.keys(this._sourcesToUnjoin).length == 0 && !this._destroyed) {
+      this.destroy()
+    }
+
+    // Object.keys(this.sources).forEach((i) => {
+    //   const src = this.sources[i]
+    //   // FIXME определять наличие биндинга нужно другим способом
+    //   if ((this.options[i+'Changed'] || this.options.sourcesBound) && !unjoinedSource) {
+    //     console.log('destroing...', i)
+    //     src._destroy(this)
+    //   }
+    //   else if (!unjoinedSource || unjoinedSource == src) {
+    //     src.unjoin(this)
+    //     src.off(this)
+    //     src.uncomp(this)
+    //     src.unwatch(this)
+    //     src.purge(this)
+    //     delete this.sources[i]
+    //   }
+    //   // else {
+    //   //   debugger
+    //   // }
+    // })
+    //
+    // if (!this._destroyed && Object.keys(this.sources).length == 0) {
+    //   this.destroy()
+    // }
 
   }
 
@@ -1504,6 +1554,7 @@ const Html = class {
         this.sources[i].off(this)
         this.sources[i].uncomp(this)
         this.sources[i].unwatch(this)
+        this.sources[i].purge(this)
       }
     }
 
@@ -1577,7 +1628,7 @@ const Html = class {
 
     }
     else if (v.name == 'destroy') {
-      this.destroy(this.sources[key])
+      this.tryDestroy(this.sources[key])
     }
 
     if (o[key+'Effects']) {
@@ -1706,6 +1757,22 @@ const Html = class {
   //     this.opt(i, o[i], key)
   //   }
   // }
+
+  init () {
+    const opts = this.options
+
+    this._binding_chain = []
+    for (let i in this.sources) {
+      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        this._binding_chain.push(i)
+      }
+    }
+    while (this._binding_chain.length) {
+      const i = this._binding_chain.shift()
+      this.sources[i]._init(this)
+    }
+    delete this._binding_chain
+  }
 
 }
 

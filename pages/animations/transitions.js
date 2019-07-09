@@ -367,6 +367,61 @@ const Animation = {
   }
 }
 
+const Effects = {
+  Show: function (data, name='fade') {
+
+    data.watch(e => e.name == show.cancel, this, () => {
+      console.log('cancel show', this)
+      this.opt('classes', {[name+'-enter-active']: false})
+    })
+
+    const show = data.effect('show', this, async () => {
+      console.log('show', this)
+      this.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
+      await raf()
+      this.opt('classes', {[name+'-enter']: false})
+      const v = await transition()
+      this.opt('classes', {[name+'-enter-active']: false})
+    })
+
+    const raf = function () {
+      return new Promise(function (resolve) {
+        requestAnimationFrame(() => resolve())
+      })
+    }
+
+    const transition = () => {
+      return this.transition()
+    }
+
+  },
+  Hide: function (data, name='fade') {
+
+    data.watch(e => e.name == hide.cancel, this, () => {
+      console.log('---------------')
+      this.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+    })
+
+    const hide = data.effect('hide', this, async () => {
+      this.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
+      await raf()
+      this.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
+      await transition()
+      this.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+    })
+
+    const raf = function () {
+      return new Promise(function (resolve) {
+        requestAnimationFrame(() => resolve())
+      })
+    }
+
+    const transition = () => {
+      return this.transition()
+    }
+
+  }
+}
 
 
 export default (projector) => {
@@ -423,85 +478,35 @@ export default (projector) => {
           weight: 10,
           mixins: [Animation.Mixins.Transitions],
           sourcesBound: function ({data}) {
-
-            data.watch((e) => (e.name == 'init' || e.name == 'changed'), this, (e, domain) => {
-              if (e.data.p == true) {
-                show()
-              }
-            })
-
-            data.watch((e) => (e.name == 'destroy'), this, (e, domain) => {
-              return hide()
-            })
-
-            data.watch(e => e.name == hide.cancel, this, () => {
-              console.log('---------------')
-              this.opt('classes', {'fade-leave-to': false, 'fade-leave-active': false})
-            })
-
-            data.watch(e => {
-//              console.log(e.name, e)
-            }, this)
-
-            // data.watch((e) => (e.name == raf.done), this, (e, domain) => {
-            //   return transition()
+//            console.log('bound')
+            // data.watch((e) => (e.name == 'init' || e.name == 'changed'), this, (e, domain) => {
+            //   debugger
+            //   if (e.data.p == true) {
+            //     data['g.show']()
+            //   }
+            //   else if (e.data.p == false) {
+            //     return data['g.hide']()
+            //   }
             // })
-            const hide = data.effect('g.hide', this, async () => {
-              this.opt('classes', {'fade-leave-active': true, 'fade-leave': true})
-              await raf()
-              this.opt('classes', {'fade-leave-to': true, 'fade-leave': false})
-              await transition().asPromise()
-              this.opt('classes', {'fade-leave-to': false, 'fade-leave-active': false})
+
+            data.watch((e) => e.name == 'init', this, (e, domain) => {
+              data['show']()
             })
 
-            const show = data.effect('g.show', this, async () => {
-              this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
-              await raf()
-              this.opt('classes', {'fade-enter': false})
-              const v = await transition().asPromise()
-              this.opt('classes', {'fade-enter-active': false})
+            data.watch((e) => e.name == 'destroy', this, (e, domain) => {
+              return data['hide']()
             })
 
-            const raf = data.effect('raf', this, () => {
-              return new Promise(function (resolve) {
-                requestAnimationFrame(() => resolve())
-              })
-            })
+            // data.watch((e) => {
+            //   console.log(e.name, e)
+            // }, this)
 
-            const transition = data.effect('transition', this, async () => {
-              return this.transition()
-            })
+            // data.watch((e) => (e.name == 'destroy'), this, (e, domain) => {
+            //   return hide()
+            // })
 
-          },
-          dataEffectors: {
-            hide: function () {
-              return {
-                resolver: () => this.renderAfter(this.transition()),
-                ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true}),
-              }
-            },
-            show: function () {
-              return {
-                resolver: () => {
-                  return this.renderAfter(this.transition())
-                },
-                ready: () => {
-                  this.opt('classes', {'fade-enter': false})
-                },
-                init: () => {
-                  this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
-                },
-                done: () => {
-                  this.opt('classes', {'fade-enter-active': false})
-                },
-                activator: (activate) => {
-                  requestAnimationFrame(() => {
-                    activate()
-                    this.context.projector.scheduleRender()
-                  })
-                }
-              }
-            }
+            Effects.Show.call(this, data)
+            Effects.Hide.call(this, data)
           }
         }
       }

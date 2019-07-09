@@ -581,11 +581,11 @@ class Source {
 //   }
 
   _init (target) {
-    this.emit('init', {target, data: this.get()})
+    this.emit('init', {target, data: this.get(), ns: 'lc'})
   }
 
   _destroy (target) {
-    this.emit('destroy', {target})
+    this.emit('destroy', {target, ns: 'lc'})
   }
 
 
@@ -617,12 +617,13 @@ class Source {
 
 
   emit (eventName, eventData) {
+    try {
 
     const event = (eventName.constructor == Object) ? eventName : {name: eventName, source: this, ...eventData}
 
     const groups = event.name.split('.')
     groups.pop()
-    event.ns = groups.join('.')
+    event.ns = event.ns || groups.join('.')
 
 
     if (this.options.logEvents) {
@@ -708,6 +709,14 @@ class Source {
         if (evt.state != 'suspended') {
           return // FIXME emit нужно вызывать только после удаления события из списка
         }
+        if (evt.ns == event.ns && event.ns) {
+//          evt.state = 'canceled'
+          for (let i = evt.all.length-1; i >= 0; i--) {
+//            evt.all[i].finalize(evt.all[i].cancel)
+            this.emit(evt.all[i].cancel, {data: '#canceled'})
+          }
+          console.log('event conflict', evt, event)
+        }
         for (let i = evt.all.length-1; i >= 0; i--) {
           if (evt.all[i].isCanceled) {
 //            debugger
@@ -731,6 +740,10 @@ class Source {
     }
 
     return result
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
 
   resolve (event) {
@@ -774,7 +787,7 @@ class Source {
               // событие имеет отложенное исполнение
               const effect = new Effect(event.name)
               effect.source = this
-              effect.target = event.target
+              effect.target = target
               effect.policy = event.policy || listener.policy
 //              effect.promise = result
               effect.ns = event.ns
@@ -1111,6 +1124,15 @@ class Source {
       this._properties = {}
     }
     this._properties[key] = {type, project}
+  }
+
+  purge (target) {
+    if (this._deferred) {
+      this._deferred = this._deferred.filter(eff => eff.target != target)
+    }
+    if (this._suspended) {
+      this._suspended = this._suspended.filter(evt => evt.target != target)
+    }
   }
 
   // ns () {
