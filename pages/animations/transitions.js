@@ -368,21 +368,25 @@ const Animation = {
 }
 
 const Effects = {
-  Show: function (data, name='fade') {
+  Show: function (target, data, key, name='fade') {
 
-    data.watch(e => e.name == show.cancel, this, () => {
-      console.log('cancel show', this)
-      this.opt('classes', {[name+'-enter-active']: false})
+    data.watch((e) => e.name == 'init', target, (e) => {
+      show()
     })
 
-    const show = data.effect('show', this, async () => {
-      console.log('show', this)
-      this.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
+    data.watch(e => e.name == show.cancel, target, () => {
+//      console.log('cancel show', target)
+      target.opt('classes', {[name+'-enter-active']: false})
+    })
+
+    const show = data.effect('show', target, async () => {
+//      console.log('show', this)
+      target.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
       await raf()
-      this.opt('classes', {[name+'-enter']: false})
+      target.opt('classes', {[name+'-enter']: false})
       const v = await transition()
-      this.opt('classes', {[name+'-enter-active']: false})
-    })
+      target.opt('classes', {[name+'-enter-active']: false})
+    }, 'g')
 
     const raf = function () {
       return new Promise(function (resolve) {
@@ -391,23 +395,136 @@ const Effects = {
     }
 
     const transition = () => {
-      return this.transition()
+      return target.transition()
     }
 
   },
-  Hide: function (data, name='fade') {
+  Hide: function (target, data, key, name='fade') {
 
-    data.watch(e => e.name == hide.cancel, this, () => {
-      console.log('---------------')
-      this.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+    data.watch((e) => e.name == 'destroy', target, (e) => {
+      return hide()
     })
 
-    const hide = data.effect('hide', this, async () => {
-      this.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
+    data.watch(e => e.name == hide.cancel, target, () => {
+      target.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+    })
+
+    const hide = data.effect('hide', target, async () => {
+      target.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
       await raf()
-      this.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
+      target.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
       await transition()
-      this.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+      target.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+    }, 'g')
+
+    const raf = function () {
+      return new Promise(function (resolve) {
+        requestAnimationFrame(() => resolve())
+      })
+    }
+
+    const transition = () => {
+      return target.transition()
+    }
+
+  },
+  FLIP: function (target, data, key) {
+
+    data.watch(e => e.name == 'changed', target, (e) => {
+      flip()
+    })
+
+
+    const flip = data.effect('flip', target, async () => {
+      first()
+      await raf() //?
+      invert(last())
+      await raf()
+      play()
+      await transition()
+    })
+
+
+    const name = 'flip-list'
+
+    const first = data.effect('first', target, () => {
+      console.log('FLIP First')
+      const bcr = {}
+      target.items.forEach(itm => !itm.vnode ? null : bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
+      target.bcr = bcr
+    })
+
+    const last = data.effect('last', target, () => {
+      console.log('FLIP Last')
+
+      target.items.forEach(itm => {
+        itm.opt('classes', {[name+'-move']: false})
+        itm.opt('styles', {'transition': 'none'})
+        // if (itm.vnode) {
+        //   itm.vnode.domNode.classList.remove(name+'-move')
+        //   itm.vnode.domNode.style.transition = 'none'
+        // }
+      })
+
+      target.context.projector.renderNow()
+
+      const bcr = {}
+      target.items.forEach(itm => bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
+//            console.log(bcr)
+      if (target.bcr) {
+        const d = {}
+        for (let i in bcr) {
+          if (target.bcr[i] && bcr[i]) {
+            const dy = target.bcr[i].top - bcr[i].top
+            let dx = target.bcr[i].left - bcr[i].left
+            d[i] = {dx, dy}
+          }
+          else {
+            d[i] = {dx: 0, dy: 0}
+          }
+        }
+        delete target.bcr
+        console.log(d)
+
+        return d
+      }
+
+    })
+
+    const invert = data.effect('invert', target, (d) => {
+      console.log('FLIP Invert')
+
+      target.items.forEach(itm => {
+        const offset = d[itm.props.key]
+        if (offset.dx != 0 || offset.dy != 0) {
+          itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
+//                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
+        }
+      })
+
+      target.context.projector.renderNow()
+
+    })
+
+    const play = data.effect('play', target, () => {
+      console.log('FLIP Play')
+
+      const toPlay = []
+
+      target.items.forEach(itm => {
+//                if (itm.options.styles && itm.options.styles.transform) {
+          itm.opt('styles', {'transform': '', 'transition': ''})
+          itm.opt('classes', {[name+'-move']: true})
+//                }
+          if (itm.options.styles && itm.options.styles.transform) {
+            toPlay.push(itm)
+          }
+      })
+
+      console.log('to play', toPlay)
+//                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
+
+      target.context.projector.renderNow()
     })
 
     const raf = function () {
@@ -417,11 +534,38 @@ const Effects = {
     }
 
     const transition = () => {
-      return this.transition()
+//      return target.transition()
+      return new Promise(function (resolve, reject) {
+      //          console.log('listen transitionend', target.vnode.domNode)
+
+        const callbacks = {}
+
+        const callback = function (k) {
+          target.off('transitionend', callbacks[k], 'dom')
+          delete callbacks[k]
+          if (Object.keys(callbacks).length == 0) {
+            resolve()
+      //                  console.log('resolved')
+          }
+        }
+
+        target.items.forEach(itm => {
+          const f = callback.bind(this, itm.props.key)
+          callbacks[itm.props.key] = f
+          target.on('transitionend', f, 'dom')
+        })
+
+      })
+
     }
 
   }
 }
+
+Effects.Show.Slide = (target, data, key) => Effects.Show(target, data, key, 'slide-fade')
+Effects.Hide.Slide = (target, data, key) => Effects.Hide(target, data, key, 'slide-fade')
+Effects.Show.Named = (name) => (target, data, key) => Effects.Show(target, data, key, name)
+Effects.Hide.Named = (name) => (target, data, key) => Effects.Hide(target, data, key, name)
 
 
 export default (projector) => {
@@ -477,54 +621,40 @@ export default (projector) => {
           text: 'Hello!',
           weight: 10,
           mixins: [Animation.Mixins.Transitions],
-          sourcesBound: function ({data}) {
-//            console.log('bound')
-            // data.watch((e) => (e.name == 'init' || e.name == 'changed'), this, (e, domain) => {
-            //   debugger
-            //   if (e.data.p == true) {
-            //     data['g.show']()
-            //   }
-            //   else if (e.data.p == false) {
-            //     return data['g.hide']()
-            //   }
-            // })
-
-            data.watch((e) => e.name == 'init', this, (e, domain) => {
-              data['show']()
-            })
-
-            data.watch((e) => e.name == 'destroy', this, (e, domain) => {
-              return data['hide']()
-            })
-
-            // data.watch((e) => {
-            //   console.log(e.name, e)
-            // }, this)
-
-            // data.watch((e) => (e.name == 'destroy'), this, (e, domain) => {
-            //   return hide()
-            // })
-
-            Effects.Show.call(this, data)
-            Effects.Hide.call(this, data)
-          }
+          dataEffects: [Effects.Show, Effects.Hide]
         }
       }
     }, {
       sources: {
         data: new Source({show: true}, {
-//          logEvents: true,
-          computed: {
-            p: (v) => v.show
+          properties: {
+            p: {
+              project: (v) => v.show
+            }
           }
+//          logEvents: true,
+          // computed: {
+          //   p: (v) => v.show
+          // }
         })
       },
-      dataChanged: Mutate.Components,
+      dataChanged: function (v, k) {
+        const x = {}
+        const props = this.sources[k]._properties
+        for (let i in props) {
+          x[i] = this.sources[k].entry(i).get()
+        }
+        console.log(x)
+        this.opt('$components', new Source(x))
+      },//Mutate.Components,
+      components: {
+        p: false
+      },
       $button: {
         type: Button,
         text: 'Переключить отрисовку',
-        onClick: function () {
-          this.sources.data.toggle('show')
+        onClick: function (e, {data}) {
+          data.toggle('show')
           // const showEff = [{effector: 'show'}]
           // const hideEff = [{effector: 'hide'}]
           //
@@ -537,22 +667,12 @@ export default (projector) => {
           // }
         }
       },
-      dynamic: {
-        p: {
-          html: 'p',
-          text: 'Hello!',
-          weight: 10,
-          mixins: [Animation.Mixins.Transitions],
-          dataEvents: function (evt) {
-          //   if (evt.name == 'init' && evt.data.show) {
-          //     this.sources.data.then([{effector: 'show'}])
-          //   }
-          },
-          dataEffectors: {
-            hide: Animation.Effectors.Hide('slide-fade', evt => evt.name == 'changed' && !evt.data.show),
-            show: Animation.Effectors.Show('slide-fade', evt => (evt.name == 'init' || evt.name == 'changed') && evt.data.show)
-          }
-        }
+      $p: {
+        html: 'p',
+        text: 'Hello!',
+        weight: 10,
+        mixins: [Animation.Mixins.Transitions],
+        dataEffects: [Effects.Show.Slide, Effects.Hide.Slide],
       }
     }, {
       sources: {
@@ -561,15 +681,15 @@ export default (projector) => {
           nextNum: 10
         }, {
           methods: {
-            randomIndex: function () {
+            _randomIndex: function () {
               return Math.floor(Math.random() * this.entry('items').size())
             },
-            add: function () {
+            _add: function () {
               const v = this.get()
-              this.entry('items').insert(this.$randomIndex(), v.nextNum++)
+              this.entry('items').insert(this._randomIndex(), v.nextNum++)
             },
-            remove: function () {
-              this.entry('items').remove(this.$randomIndex())
+            _remove: function () {
+              this.entry('items').remove(this._randomIndex())
             }
           }
         })
@@ -578,13 +698,13 @@ export default (projector) => {
         type: Buttons,
         items: [{
           text: 'Добавить',
-          onClick: function () {
-            this.sources.data.$add()
+          onClick: function (e, {data}) {
+            data._add()
           }
         }, {
           text: 'Удалить',
-          onClick: function () {
-            this.sources.data.$remove()
+          onClick: function (e, {data}) {
+            data._remove()
           }
         }]
       },
@@ -596,10 +716,11 @@ export default (projector) => {
           as: 'list-item',
           dataChanged: Mutate.Text,
           mixins: [Animation.Mixins.Transitions],
-          dataEffectors: {
-            hide: Animation.Effectors.Hide('list', evt => evt.name == 'removeItem'),
-            show: Animation.Effectors.Show('list', evt => evt.name == 'changed')
-          }
+          dataEffects: [Effects.Show, Effects.Hide]
+          // dataEffectors: {
+          //   hide: Animation.Effectors.Hide('list', evt => evt.name == 'removeItem'),
+          //   show: Animation.Effectors.Show('list', evt => evt.name == 'changed')
+          // }
         },
         dataId: 'items',
         dataChanged: Mutate.Items
@@ -618,7 +739,7 @@ export default (projector) => {
       },
       clickButton: function () {
 
-        this.sources.data.$shuffle()
+        this.sources.data.shuffle()
 
         return false
       },
@@ -633,12 +754,12 @@ export default (projector) => {
         }]
       },
       $list: {
-        dataEffectors: {
-//          flip: Animation.Effectors.FLIP('flip-list-move', evt => evt.name == 'changed')
-          'FLIP:First': Animation.Effectors['FLIP:First'](),
-          'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert']('flip-list'),
-          'FLIP:Play': Animation.Effectors['FLIP:Play']('flip-list'),
-        },
+//         dataEffectors: {
+// //          flip: Animation.Effectors.FLIP('flip-list-move', evt => evt.name == 'changed')
+//           'FLIP:First': Animation.Effectors['FLIP:First'](),
+//           'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert']('flip-list'),
+//           'FLIP:Play': Animation.Effectors['FLIP:Play']('flip-list'),
+//         },
         defaultItem: {
           dataChanged: function (v) {
 //            this.opt('key', v)
@@ -646,7 +767,8 @@ export default (projector) => {
           },
         },
         dataId: 'items',
-        dataChanged: Mutate.Items
+        dataChanged: Mutate.Items,
+        dataEffects: [Effects.FLIP]
       }
     }, {
       sources: {
@@ -655,15 +777,15 @@ export default (projector) => {
           nextNum: 10
         }, {
           methods: {
-            randomIndex: function () {
+            _randomIndex: function () {
               return Math.floor(Math.random() * this.entry('items').size())
             },
-            add: function () {
+            _add: function () {
               const v = this.get()
-              this.entry('items').insert(this.$randomIndex(), v.nextNum++)
+              this.entry('items').insert(this._randomIndex(), v.nextNum++)
             },
-            remove: function () {
-              this.entry('items').remove(this.$randomIndex())
+            _remove: function () {
+              this.entry('items').remove(this._randomIndex())
             }
           }
         })
@@ -673,12 +795,12 @@ export default (projector) => {
         items: [{
           text: 'Добавить',
           onClick: function () {
-            this.sources.data.$add()
+            this.sources.data._add()
           }
         }, {
           text: 'Удалить',
           onClick: function () {
-            this.sources.data.$remove()
+            this.sources.data._remove()
           }
         }]
       },
@@ -686,12 +808,13 @@ export default (projector) => {
         styles: {
           'position': 'relative'
         },
-        dataEffectors: {
-          'FLIP:First': Animation.Effectors['FLIP:First'](),
-          'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert'](),
-          'FLIP:Play': Animation.Effectors['FLIP:Play'](),
-//          flip: Animation.Effectors.FLIP('list-complete-move', evt => evt.name == 'changed')
-        },
+        dataEffects: [Effects.FLIP],
+//         dataEffectors: {
+//           'FLIP:First': Animation.Effectors['FLIP:First'](),
+//           'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert'](),
+//           'FLIP:Play': Animation.Effectors['FLIP:Play'](),
+// //          flip: Animation.Effectors.FLIP('list-complete-move', evt => evt.name == 'changed')
+//         },
         defaultItem: {
           as: 'list-complete-item',
           dataChanged: function (v) {
@@ -699,10 +822,11 @@ export default (projector) => {
             this.opt('text', v)
           },
           mixins: [Animation.Mixins.Transitions],
-          dataEffectors: {
-            hide: Animation.Effectors.Hide('list-complete', evt => evt.name == 'removeItem'),
-            show: Animation.Effectors.Show('list-complete', evt => evt.name == 'init')
-          }
+          dataEffects: [Effects.Show.Named('list-complete'), Effects.Hide.Named('list-complete')]
+          // dataEffectors: {
+          //   hide: Animation.Effectors.Hide('list-complete', evt => evt.name == 'removeItem'),
+          //   show: Animation.Effectors.Show('list-complete', evt => evt.name == 'init')
+          // }
         },
         dataId: 'items',
         dataChanged: Mutate.Items

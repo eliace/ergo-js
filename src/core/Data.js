@@ -581,11 +581,11 @@ class Source {
 //   }
 
   _init (target) {
-    this.emit('init', {target, data: this.get(), ns: 'lc'})
+    this.emit('init', {target, data: this.get()/*, ns: 'lc'*/})
   }
 
   _destroy (target) {
-    this.emit('destroy', {target, ns: 'lc'})
+    this.emit('destroy', {target/*, ns: 'lc'*/})
   }
 
 
@@ -680,7 +680,7 @@ class Source {
       return // ?
     }
 
-    console.log(event.name, event)
+//    console.log(event.name, event)
     let result = this.resolve(event)
 
 
@@ -961,7 +961,7 @@ class Source {
     }
   }
 
-  on (listeners={}, target) {
+  on (listeners={}, target, ns) {
     if (!this._listeners) {
       this._listeners = new Map()
     }
@@ -975,7 +975,7 @@ class Source {
     for (let i in listeners) {
       const groups = i.split('.')
       const k = groups.pop()
-      const ns = groups.join('.')
+      ns = ns || groups.join('.')
 
       // let effector = null
       // let g = this
@@ -987,7 +987,7 @@ class Source {
       if (!this[i]) {
         this[i] = (...args) => {
 //          try {
-            return this.emit('@'+i, {params: [...args], type: 'resolve'/*, target*/})
+            return this.emit('@'+i, {params: [...args], type: 'resolve', ns/*, target*/})
           // }
           // catch (err) {
           //   console.error(err)
@@ -1064,8 +1064,8 @@ class Source {
     }
   }
 
-  effect (name, target, func) {
-    this.on({[name]: func}, target)
+  effect (name, target, func, ns) {
+    this.on({[name]: func}, target, ns)
     return this[name]
   }
 

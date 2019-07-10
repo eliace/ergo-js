@@ -568,7 +568,7 @@ const Html = class {
 
     this._binding_chain = []
     for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+      if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
         this._binding_chain.push(i)
       }
     }
@@ -872,7 +872,7 @@ const Html = class {
 
           const idResolver = o[key+'EntryId']
 
-          let items = this.items
+          let items = this.items.filter(itm => !itm._destroying)
       //    console.log(items.length, this.children.length)
           let add = {}
           let update = []
@@ -912,11 +912,11 @@ const Html = class {
             }
           })
 
-//          console.log('remove items', items)
+          console.log('remove items', items)
 
 //          items.forEach(item => this.removeItem(item))
           items.forEach(item => {
-            item.removed = true
+//            item.removed = true
 //            item.sources[key].emit('removeItem', {params: [item], target: this})
 //            this.removeItem(item)
             item.tryDestroy()
@@ -1062,6 +1062,9 @@ const Html = class {
                   console.log('add', i, s)
                 }
                 else if (s && this['$'+i]._destroying) {
+                  // this['$'+i].destroy()
+                  // this.addComponent(i, s)
+                  delete this['$'+i]._destroying
                   this['$'+i].init()
 //                  this.addComponent(i, s)
                   console.log('restore', i, s)
@@ -1376,7 +1379,7 @@ const Html = class {
       src.uncomp(this)
       src.unwatch(this)
       src.purge(this)
-      delete this.sources[i]
+//      delete this.sources[i]
     }
 
     if (this.parent) {
@@ -1400,23 +1403,23 @@ const Html = class {
     delete this.layout
 
     this._destroyed = true
-    delete this._destroying
 
     console.log('destroyed')
+
   }
 
   tryDestroy(unjoinedSource) {
 
     console.log('try destroy', unjoinedSource)
 
-    this._destroying = true
-
     if (!unjoinedSource) {
+      this._destroying = true
+
       this._sourcesToUnjoin = {...this.sources}
       for (let i in this.sources) {
         const src = this.sources[i]
         // FIXME определять наличие биндинга нужно другим способом
-        if ((this.options[i+'Changed'] || this.options.sourcesBound)) {
+        if ((this.options[i+'Changed'] || this.options.sourcesBound || this.options[i+'Effects'])) {
           console.log('destroing...', i)
           src._destroy(this)
         }
@@ -1425,7 +1428,7 @@ const Html = class {
         }
       }
     }
-    else {
+    else if (this._destroying) {
       for (let i in this.sources) {
         if (this.sources[i] == unjoinedSource) {
           delete this._sourcesToUnjoin[i]
@@ -1434,7 +1437,8 @@ const Html = class {
       }
     }
 
-    if (Object.keys(this._sourcesToUnjoin).length == 0 && !this._destroyed) {
+    if (Object.keys(this._sourcesToUnjoin).length == 0 && this._destroying && !this._destroyed) {
+      delete this._destroying
       this.destroy()
     }
 
@@ -1549,6 +1553,11 @@ const Html = class {
       if (o[i+'Computed']) {
         source.comp(o[i+'Computed'], this)
       }
+      if (o[i+'Effects']) {
+        for (let j in o[i+'Effects']) {
+          o[i+'Effects'][j](this, source, i)
+        }
+      }
       if (this.sources[i]) {
         this.sources[i].unjoin(this)
         this.sources[i].off(this)
@@ -1619,7 +1628,7 @@ const Html = class {
               propVal = prop.project ? src.entry(binder.prop).get() : v.data[binder.prop]
             }
             else {
-              propVal = v.data[binder.prop]
+              propVal = binder.prop ? v.data[binder.prop] : v.data
             }
             this.opt('$'+i, binder.format ? binder.format(propVal) : propVal)
           }
@@ -1631,9 +1640,9 @@ const Html = class {
       this.tryDestroy(this.sources[key])
     }
 
-    if (o[key+'Effects']) {
-      o[key+'Effects'].call(this, v, key)
-    }
+    // if (o[key+'Effects']) {
+    //   o[key+'Effects'].call(this, v, key)
+    // }
 
     if (o[key+'Events']) {
       o[key+'Events'].call(this, v, key)
@@ -1763,7 +1772,7 @@ const Html = class {
 
     this._binding_chain = []
     for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+      if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
         this._binding_chain.push(i)
       }
     }
