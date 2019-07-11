@@ -581,7 +581,9 @@ class Source {
 //   }
 
   _init (target) {
-    this.emit('init', {target, data: this.get()/*, ns: 'lc'*/})
+    const data = this.get()
+    this.emit('preinit', {target, data} /*, ns: 'lc'*/)
+    this.emit('init', {target, data}/*, ns: 'lc'*/)
   }
 
   _destroy (target) {
@@ -752,6 +754,21 @@ class Source {
       console.log('resolve resumed', event)
     }
 
+    if (this._deferred) {
+      this._deferred.forEach(eff => {
+        if (eff.name == event.name || (event.ns && eff.ns == event.ns)) {
+          if (event.policy == 'abandon') {
+            return this.emit(new Effect(event.reject), {target: event.target})
+          }
+          else {
+            // по умолчанию отменяем эффект
+            this.emit(eff.cancel, {data: '#canceled'})
+//                      eff.finalize(eff.cancel)
+          }
+        }
+      })
+    }
+
     this.observers.forEach(t => {
       if (event.target == null || event.target == t.target) {
         if (t.dataChanged) {
@@ -794,21 +811,21 @@ class Source {
 
               console.log('ns', event.ns)
 
-              if (this._deferred) {
-                this._deferred.forEach(eff => {
-                  if (eff.name == effect.name || (effect.ns && eff.ns == effect.ns)) {
-                    if (effect.policy == 'abandon') {
-                      this.emit(effect.reject)
-                      effect.finalize(effect.reject)
-                    }
-                    else {
-                      // по умолчанию отменяем эффект
-                      this.emit(eff.cancel, {data: '#canceled'})
-//                      eff.finalize(eff.cancel)
-                    }
-                  }
-                })
-              }
+//               if (this._deferred) {
+//                 this._deferred.forEach(eff => {
+//                   if (eff.name == effect.name || (effect.ns && eff.ns == effect.ns)) {
+//                     if (effect.policy == 'abandon') {
+//                       this.emit(effect.reject)
+//                       effect.finalize(effect.reject)
+//                     }
+//                     else {
+//                       // по умолчанию отменяем эффект
+//                       this.emit(eff.cancel, {data: '#canceled'})
+// //                      eff.finalize(eff.cancel)
+//                     }
+//                   }
+//                 })
+//               }
 
               if (!effect.isFinal) {
 

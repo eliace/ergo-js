@@ -371,7 +371,7 @@ const Effects = {
   Show: function (target, data, key, name='fade') {
 
     data.watch((e) => e.name == 'init', target, (e) => {
-      show()
+      return show()
     })
 
     data.watch(e => e.name == show.cancel, target, () => {
@@ -434,6 +434,9 @@ const Effects = {
       flip()
     })
 
+    data.watch(e => e.name == flip.cancel, target, (e) => {
+      clear()
+    })
 
     const flip = data.effect('flip', target, async () => {
       first()
@@ -442,24 +445,39 @@ const Effects = {
       await raf()
       play()
       await transition()
+      clear()
     })
 
 
     const name = 'flip-list'
 
-    const first = data.effect('first', target, () => {
+    const clear = () => {
+      target.items.forEach(itm => {
+//        if (!itm._destroying && !itm._initializing) {
+          itm.opt('classes', {[name+'-move']: false})
+//          itm.opt('styles', {'transition': '', 'transform': ''})
+//          itm.vnode.domNode.style.transition = null
+//          itm.vnode.domNode.style.transform = null
+//        }
+      })
+      target.context.projector.renderNow()
+    }
+
+    const first = () => {
       console.log('FLIP First')
       const bcr = {}
       target.items.forEach(itm => !itm.vnode ? null : bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
       target.bcr = bcr
-    })
+    }
 
-    const last = data.effect('last', target, () => {
+    const last = () => {
       console.log('FLIP Last')
 
       target.items.forEach(itm => {
-        itm.opt('classes', {[name+'-move']: false})
-        itm.opt('styles', {'transition': 'none'})
+        if (!itm._destroying && !itm._initializing) {
+          itm.opt('classes', {[name+'-move']: false})
+          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
+        }
         // if (itm.vnode) {
         //   itm.vnode.domNode.classList.remove(name+'-move')
         //   itm.vnode.domNode.style.transition = 'none'
@@ -475,8 +493,8 @@ const Effects = {
         const d = {}
         for (let i in bcr) {
           if (target.bcr[i] && bcr[i]) {
-            const dy = target.bcr[i].top - bcr[i].top
-            let dx = target.bcr[i].left - bcr[i].left
+            const dy = Math.round(target.bcr[i].top - bcr[i].top)
+            let dx = Math.round(target.bcr[i].left - bcr[i].left)
             d[i] = {dx, dy}
           }
           else {
@@ -489,43 +507,51 @@ const Effects = {
         return d
       }
 
-    })
+    }
 
-    const invert = data.effect('invert', target, (d) => {
+    const invert = (d) => {
       console.log('FLIP Invert')
 
       target.items.forEach(itm => {
-        const offset = d[itm.props.key]
-        if (offset.dx != 0 || offset.dy != 0) {
-          itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
-//                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
+//        console.log(itm._destroying, itm._initializing)
+        if (!itm._destroying && !itm._initializing) {
+          const offset = d[itm.props.key]
+          if (offset.dx != 0 || offset.dy != 0) {
+            itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
+  //                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
+          }
+          else {
+//            itm.opt('styles', {'transform': ''})
+          }
         }
       })
 
       target.context.projector.renderNow()
 
-    })
+    }
 
-    const play = data.effect('play', target, () => {
+    const play = () => {
       console.log('FLIP Play')
 
       const toPlay = []
 
       target.items.forEach(itm => {
-//                if (itm.options.styles && itm.options.styles.transform) {
+        if (itm.options.styles && itm.options.styles.transform) {
+          toPlay.push(itm)
+        }
+        if (!itm._destroying && !itm._initializing) {
           itm.opt('styles', {'transform': '', 'transition': ''})
           itm.opt('classes', {[name+'-move']: true})
+        }
+//                if (itm.options.styles && itm.options.styles.transform) {
 //                }
-          if (itm.options.styles && itm.options.styles.transform) {
-            toPlay.push(itm)
-          }
       })
 
       console.log('to play', toPlay)
 //                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
 
       target.context.projector.renderNow()
-    })
+    }
 
     const raf = function () {
       return new Promise(function (resolve) {
@@ -533,31 +559,45 @@ const Effects = {
       })
     }
 
-    const transition = () => {
-//      return target.transition()
-      return new Promise(function (resolve, reject) {
-      //          console.log('listen transitionend', target.vnode.domNode)
 
-        const callbacks = {}
+    const transition = function () {
+      return new Promise(function(resolve) {
 
-        const callback = function (k) {
-          target.off('transitionend', callbacks[k], 'dom')
-          delete callbacks[k]
-          if (Object.keys(callbacks).length == 0) {
-            resolve()
-      //                  console.log('resolved')
-          }
+        const callback = function () {
+          target.off('transitionend', callback, 'dom')
+          resolve()
         }
 
-        target.items.forEach(itm => {
-          const f = callback.bind(this, itm.props.key)
-          callbacks[itm.props.key] = f
-          target.on('transitionend', f, 'dom')
-        })
-
+        target.on('transitionend', callback, 'dom')
       })
-
     }
+
+
+//     const transition = () => {
+// //      return target.transition()
+//       return new Promise(function (resolve, reject) {
+//       //          console.log('listen transitionend', target.vnode.domNode)
+//
+//         const callbacks = {}
+//
+//         const callback = function (k) {
+//           target.off('transitionend', callbacks[k], 'dom')
+//           delete callbacks[k]
+//           if (Object.keys(callbacks).length == 0) {
+//             resolve()
+//       //                  console.log('resolved')
+//           }
+//         }
+//
+//         target.items.forEach(itm => {
+//           const f = callback.bind(this, itm.props.key)
+//           callbacks[itm.props.key] = f
+//           target.on('transitionend', f, 'dom')
+//         })
+//
+//       })
+//
+//     }
 
   }
 }
@@ -809,6 +849,8 @@ export default (projector) => {
           'position': 'relative'
         },
         dataEffects: [Effects.FLIP],
+        // sourcesBound: function ({data}) {
+        // },
 //         dataEffectors: {
 //           'FLIP:First': Animation.Effectors['FLIP:First'](),
 //           'FLIP:Last+Invert': Animation.Effectors['FLIP:Last+Invert'](),

@@ -564,7 +564,8 @@ const Html = class {
     //     }
     //   }
     // }
-
+/*
+    this._initializing = true
 
     this._binding_chain = []
     for (let i in this.sources) {
@@ -593,6 +594,10 @@ const Html = class {
     //   }
     // }
     delete this._binding_chain
+*/
+
+    this.init()
+
 
     if (opts.binding) {
       const v = {}
@@ -926,7 +931,7 @@ const Html = class {
 
           Object.keys(add).forEach(k => {
             let entry = add[k]
-            this.addItem({sources: {[key]: entry}}, entry.id, k)
+            this.addItem({sources: {[key]: entry}}, Number(entry.id), k)
           })
 
 
@@ -1590,7 +1595,7 @@ const Html = class {
 
 //    console.log (v, key)
 
-    if (v.name == 'changed' || v.name == 'init') {
+    if (v.name == 'changed' || v.name == 'preinit') {
       if (o[key+'Changed']) {
         const dynOpts = o[key+'Changed'].call(this, v.data, key)
         if (dynOpts) {
@@ -1638,6 +1643,9 @@ const Html = class {
     }
     else if (v.name == 'destroy') {
       this.tryDestroy(this.sources[key])
+    }
+    else if (v.name == 'init') {
+      this.init(this.sources[key])
     }
 
     // if (o[key+'Effects']) {
@@ -1767,20 +1775,58 @@ const Html = class {
   //   }
   // }
 
-  init () {
-    const opts = this.options
+  // tryInit (joiningSource) {
+  //
+  //   if (!joiningSource) {
+  //     this._initializing = true
+  //
+  //     this._sourcesToJoin = {...this.sources}
+  //     for (let i in this.sources) {
+  //
+  //     }
+  //   }
+  //   else {
+  //
+  //   }
+  //
+  // }
 
-    this._binding_chain = []
-    for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
-        this._binding_chain.push(i)
+  init (joinedSource) {
+
+    if (joinedSource) {
+      for (let i in this.sources) {
+        if (this.sources[i] == joinedSource) {
+          delete this._sourcesToJoin[i]
+          break
+        }
       }
     }
-    while (this._binding_chain.length) {
-      const i = this._binding_chain.shift()
-      this.sources[i]._init(this)
+    else {
+      this._sourcesToJoin = {}
+
+      const opts = this.options
+
+      this._binding_chain = []
+      for (let i in this.sources) {
+        if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+          this._binding_chain.push(i)
+          this._sourcesToJoin[i] = this.sources[i]
+          this._initializing = true
+        }
+      }
+      while (this._binding_chain.length) {
+        const i = this._binding_chain.shift()
+        this.sources[i]._init(this)
+      }
+      delete this._binding_chain
+
     }
-    delete this._binding_chain
+
+    if (this._sourcesToJoin && Object.keys(this._sourcesToJoin).length == 0 && this._initializing) {
+      delete this._initializing
+      delete this._sourcesToJoin
+    }
+
   }
 
 }
