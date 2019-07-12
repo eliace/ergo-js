@@ -435,7 +435,7 @@ const Effects = {
     })
 
     data.watch(e => e.name == flip.cancel, target, (e) => {
-      clear()
+//      clear()
     })
 
     const flip = data.effect('flip', target, async () => {
@@ -449,22 +449,35 @@ const Effects = {
     })
 
 
-    const name = 'flip-list'
+    const name = 'list-complete'
 
     const clear = () => {
-      target.items.forEach(itm => {
-//        if (!itm._destroying && !itm._initializing) {
-          itm.opt('classes', {[name+'-move']: false})
-//          itm.opt('styles', {'transition': '', 'transform': ''})
-//          itm.vnode.domNode.style.transition = null
-//          itm.vnode.domNode.style.transform = null
-//        }
-      })
-      target.context.projector.renderNow()
+//      console.log(target.items.map(itm => itm._initialized))
+//       target.items.forEach(itm => {
+// //        if (!itm._destroying && !itm._initializing) {
+//           itm.opt('classes', {[name+'-move']: false})
+// //          itm.opt('styles', {'transition': '', 'transform': ''})
+// //          itm.vnode.domNode.style.transition = null
+// //          itm.vnode.domNode.style.transform = null
+// //        }
+//       })
+//       target.context.projector.renderNow()
     }
 
     const first = () => {
       console.log('FLIP First')
+
+      target.items.forEach(itm => {
+        if (/*!itm._destroying && !*/itm._initializing) {
+          itm.vnode.domNode.style.transition = 'none'
+          itm.vnode.domNode.style.transform = 'none'
+//          itm.vnode.domNode.classList.remove(name+'-move')
+//          itm.vnode.domNode.style.transform = 'none'
+//          itm.opt('classes', {[name+'-move']: false})
+//          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
+        }
+      })
+
       const bcr = {}
       target.items.forEach(itm => !itm.vnode ? null : bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
       target.bcr = bcr
@@ -474,17 +487,26 @@ const Effects = {
       console.log('FLIP Last')
 
       target.items.forEach(itm => {
-        if (!itm._destroying && !itm._initializing) {
-          itm.opt('classes', {[name+'-move']: false})
-          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
+        if (/*!itm._destroying &&*/ !itm._initializing) {
+          itm.vnode.domNode.classList.remove(name+'-move')
+          itm.vnode.domNode.style.transform = 'none'
+          itm.vnode.domNode.style.transition = 'none'
+//          itm.opt('classes', {[name+'-move']: false})
+//          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
         }
+//         else if (itm._destroying) {
+//           itm.vnode.domNode.style.transform = 'none'
+// //          console.log('DESTR', itm.vnode.domNode.style.transform, itm.vnode.domNode.style.transition)
+//           // itm.vnode.domNode.style.transform = null
+//           // itm.vnode.domNode.style.transition = null
+//         }
         // if (itm.vnode) {
         //   itm.vnode.domNode.classList.remove(name+'-move')
         //   itm.vnode.domNode.style.transition = 'none'
         // }
       })
 
-      target.context.projector.renderNow()
+//      target.context.projector.renderNow()
 
       const bcr = {}
       target.items.forEach(itm => bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
@@ -514,19 +536,21 @@ const Effects = {
 
       target.items.forEach(itm => {
 //        console.log(itm._destroying, itm._initializing)
-        if (!itm._destroying && !itm._initializing) {
+        if (!itm._destroying /*&& !itm._initializing*/) {
           const offset = d[itm.props.key]
-          if (offset.dx != 0 || offset.dy != 0) {
-            itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
-  //                    itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
-          }
-          else {
-//            itm.opt('styles', {'transform': ''})
-          }
+//          if (offset.dx != 0 || offset.dy != 0) {
+//            itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
+          itm.vnode.domNode.style.transform = 'translate('+offset.dx+'px, '+offset.dy+'px)'
+//          itm.vnode.domNode.style.transform = 'translateX('+offset.dx+'px)'
+//          itm.vnode.domNode.style.transformOrigin = '0 0'
+//          }
+        }
+        else /*if (itm._destroying)*/ {
+          itm.vnode.domNode.style.transform = null
         }
       })
 
-      target.context.projector.renderNow()
+//      target.context.projector.renderNow()
 
     }
 
@@ -536,21 +560,24 @@ const Effects = {
       const toPlay = []
 
       target.items.forEach(itm => {
-        if (itm.options.styles && itm.options.styles.transform) {
-          toPlay.push(itm)
-        }
-        if (!itm._destroying && !itm._initializing) {
-          itm.opt('styles', {'transform': '', 'transition': ''})
-          itm.opt('classes', {[name+'-move']: true})
-        }
+        // if (itm.options.styles && itm.options.styles.transform) {
+        //   toPlay.push(itm)
+        // }
+//        if (!itm._destroying && !itm._initializing) {
+          itm.vnode.domNode.classList.add(name+'-move')
+          itm.vnode.domNode.style.transform = null
+          itm.vnode.domNode.style.transition = null
+          // itm.opt('styles', {'transform': '', 'transition': ''})
+          // itm.opt('classes', {[name+'-move']: true})
+//        }
 //                if (itm.options.styles && itm.options.styles.transform) {
 //                }
       })
 
-      console.log('to play', toPlay)
+//      console.log('to play', toPlay)
 //                this.context.projector.scheduleRender() // TODO по умолчанию для компонентных эффекторов
 
-      target.context.projector.renderNow()
+//      target.context.projector.renderNow()
     }
 
     const raf = function () {
