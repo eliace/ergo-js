@@ -146,4 +146,147 @@ export const bindDomain = new Proxy({}, {
 })
 
 
+
+export const reconcile = function (list_a, list_b) {
+  const hash_a = {}
+  const hash_b = {}
+  list_a.forEach(itm => hash_a[itm.k] = itm)
+  list_b.forEach(itm => hash_b[itm.k] = itm)
+
+  const deleted = {}
+  const added = {...hash_b}
+  const updated = []
+  const moves = []
+
+  for (let i in hash_a) {
+    if (i in hash_b) {
+      updated.push(hash_a[i])
+//      updated[i] = hash_a[i]
+      delete added[i]
+    }
+    else {
+      deleted[i] = hash_a[i]
+    }
+  }
+
+  let list_c = []
+  for (let i = 0; i < list_b.length; i++) {
+    const a = hash_a[list_b[i].k]
+    if (a) {
+      list_c.push(a)// || {i, k: list_b[i].k})
+    }
+    // if (!(list_a[i].k in deleted)) {
+    //   list_c.push(list_a[i])
+    // }
+  }
+
+  for (let i = 0; i < list_c.length; i++) {
+    const c = list_c[i]
+    let n = 0
+    for (let j in deleted) {
+      if (c.i > deleted[j].i) {
+        n--
+      }
+    }
+    c.i += n
+  }
+
+  // for (let j in added) {
+  //   for (let i = 0; i < list_c.length; i++) {
+  //     const c = list_c[i]
+  //     if (added[j].i != i && c.i > added[j].i) {
+  //       c.i--
+  //     }
+  //   }
+  // }
+
+  // for (let i = 0; i < list_c.length; i++) {
+  //   const c = list_c[i]
+  //   let n = 0
+  //   for (let j in added) {
+  //     if (c.i > added[j].i) {
+  //       n++
+  //     }
+  //   }
+  //   c.i += n
+  // }
+
+  // for (let i in added) {
+  //   list_c.push(added[i])
+  // }
+
+  console.log(list_c, list_b)
+
+  for (let x = 0; x < list_c.length*2; x++) {
+
+  const diffs = []
+  for (let i = 0; i < list_c.length; i++) {
+    diffs[i] = i - list_c[i].i
+  }
+
+  console.log(diffs)
+
+//  debugger
+
+  // // считаем смещения
+  // const diffs = []
+  // const list_c = {...updated}
+  // for (let i in updated) {
+  //   const d = hash_b[i] - hash_a[i]
+  //   if (d != 0) {
+  //     diffs.push({i, d})
+  //   }
+  // }
+  // ищем максимальное смещение
+  let maxIdx = -1
+  let maxd = 0
+  for (let i = 0; i < diffs.length; i++) {
+    if (Math.abs(diffs[i]) > maxd) {
+      maxd = Math.abs(diffs[i])
+      maxIdx = i
+    }
+  }
+
+  console.log('max', maxd, maxIdx)
+
+  if (maxIdx > -1) {
+    const c = list_c[maxIdx]
+    moves.push({...c, to: maxIdx})
+    if (diffs[maxIdx] > 0) {
+      // смещаем вправо
+      for (let i = 0; i < list_c.length; i++) {
+        if (list_c[i].i > c.i && list_c[i].i <= maxIdx) {
+          list_c[i].i--
+        }
+      }
+    }
+    else {
+      // смещаем влево
+      for (let i = 0; i < list_c.length; i++) {
+        if (list_c[i].i >= maxIdx && list_c[i].i < c.i) {
+          list_c[i].i++
+        }
+      }
+    }
+    c.i = maxIdx
+  }
+  else {
+    break
+  }
+
+  console.log(list_c)
+}
+
+
+  return {
+    added,
+    deleted,
+    updated,
+    moves
+  }
+}
+
+
+
+
 //export Binder

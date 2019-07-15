@@ -29,6 +29,19 @@ function isCanceled (v) {
 // console.log(filteredArr.map(v => wm.get(v)))
 
 
+const timeout = function (delay) {
+  return new Promise(function (resolve) {
+    setTimeout(() => resolve(), delay)
+  })
+}
+
+const raf = function () {
+  return new Promise(function (resolve) {
+    requestAnimationFrame(() => resolve())
+  })
+}
+
+
 const Animation = {
   Mixins: {
     Transitions: function () {
@@ -368,6 +381,11 @@ const Animation = {
 }
 
 const Effects = {
+  Log: function (target, domain, key) {
+    domain.watch(e => {
+      console.log(key, e)
+    }, target)
+  },
   Show: function (target, data, key, name='fade') {
 
     data.watch((e) => e.name == 'init', target, (e) => {
@@ -375,7 +393,7 @@ const Effects = {
     })
 
     data.watch(e => e.name == show.cancel, target, () => {
-//      console.log('cancel show', target)
+      console.log('cancel show', target)
       target.opt('classes', {[name+'-enter-active']: false})
     })
 
@@ -387,12 +405,6 @@ const Effects = {
       const v = await transition()
       target.opt('classes', {[name+'-enter-active']: false})
     }, 'g')
-
-    const raf = function () {
-      return new Promise(function (resolve) {
-        requestAnimationFrame(() => resolve())
-      })
-    }
 
     const transition = () => {
       return target.transition()
@@ -428,7 +440,7 @@ const Effects = {
     }
 
   },
-  FLIP: function (target, data, key) {
+  FLIP: function (target, data, key, name='list') {
 
     data.watch(e => e.name == 'changed', target, (e) => {
       flip()
@@ -449,51 +461,63 @@ const Effects = {
     })
 
 
-    const name = 'list-complete'
+//    const name = 'list-complete'
 
     const clear = () => {
-//      console.log(target.items.map(itm => itm._initialized))
-//       target.items.forEach(itm => {
+       target.items.forEach(itm => {
+         itm.vnode.domNode.classList.remove(name+'-move')
 // //        if (!itm._destroying && !itm._initializing) {
 //           itm.opt('classes', {[name+'-move']: false})
 // //          itm.opt('styles', {'transition': '', 'transform': ''})
 // //          itm.vnode.domNode.style.transition = null
 // //          itm.vnode.domNode.style.transform = null
 // //        }
-//       })
-//       target.context.projector.renderNow()
+       })
+//      target.context.projector.renderNow()
     }
 
     const first = () => {
       console.log('FLIP First')
 
+      console.log(target.items.map(itm => itm._initializing))
+
       target.items.forEach(itm => {
-        if (/*!itm._destroying && !*/itm._initializing) {
+        if (!itm._destroying /*&& !itm._initializing*/) {
           itm.vnode.domNode.style.transition = 'none'
-          itm.vnode.domNode.style.transform = 'none'
+          itm.vnode.domNode.classList.remove(name+'-move')
+//          itm.vnode.domNode.style.transform = 'none'
 //          itm.vnode.domNode.classList.remove(name+'-move')
 //          itm.vnode.domNode.style.transform = 'none'
 //          itm.opt('classes', {[name+'-move']: false})
 //          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
+        }
+        if (itm._initializing) {
+          itm.sources['data'].emit('item-flip', {target: itm, ns: 'g'})
+          // console.log('INIT')
+          // itm.vnode.domNode.style.transform = 'none'
         }
       })
 
       const bcr = {}
       target.items.forEach(itm => !itm.vnode ? null : bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
       target.bcr = bcr
+      console.log('BCR', bcr)
     }
 
     const last = () => {
       console.log('FLIP Last')
 
       target.items.forEach(itm => {
-        if (/*!itm._destroying &&*/ !itm._initializing) {
-          itm.vnode.domNode.classList.remove(name+'-move')
-          itm.vnode.domNode.style.transform = 'none'
-          itm.vnode.domNode.style.transition = 'none'
-//          itm.opt('classes', {[name+'-move']: false})
-//          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
-        }
+//         if (itm._initializing) {
+// //          itm.vnode.domNode.style.transition = null
+//         }
+//         if (!itm._destroying && !itm._initializing) {
+// //          itm.vnode.domNode.classList.remove(name+'-move')
+// //          itm.vnode.domNode.style.transform = 'none'
+// //          itm.vnode.domNode.style.transition = 'none'
+// //          itm.opt('classes', {[name+'-move']: false})
+// //          itm.opt('styles', {'transform': 'none', 'transition': 'none'})
+//         }
 //         else if (itm._destroying) {
 //           itm.vnode.domNode.style.transform = 'none'
 // //          console.log('DESTR', itm.vnode.domNode.style.transform, itm.vnode.domNode.style.transition)
@@ -510,7 +534,7 @@ const Effects = {
 
       const bcr = {}
       target.items.forEach(itm => bcr[itm.props.key] = itm.vnode.domNode.getBoundingClientRect())
-//            console.log(bcr)
+      console.log('BCR2', bcr)
       if (target.bcr) {
         const d = {}
         for (let i in bcr) {
@@ -536,7 +560,7 @@ const Effects = {
 
       target.items.forEach(itm => {
 //        console.log(itm._destroying, itm._initializing)
-        if (!itm._destroying /*&& !itm._initializing*/) {
+        if (!itm._destroying && !itm._initializing) {
           const offset = d[itm.props.key]
 //          if (offset.dx != 0 || offset.dy != 0) {
 //            itm.opt('styles', {'transform': 'translate('+offset.dx+'px, '+offset.dy+'px)'})
@@ -545,9 +569,9 @@ const Effects = {
 //          itm.vnode.domNode.style.transformOrigin = '0 0'
 //          }
         }
-        else /*if (itm._destroying)*/ {
-          itm.vnode.domNode.style.transform = null
-        }
+        // else /*if (itm._destroying)*/ {
+        //   itm.vnode.domNode.style.transform = null
+        // }
       })
 
 //      target.context.projector.renderNow()
@@ -564,9 +588,11 @@ const Effects = {
         //   toPlay.push(itm)
         // }
 //        if (!itm._destroying && !itm._initializing) {
+        if (!itm._initializing) {
           itm.vnode.domNode.classList.add(name+'-move')
           itm.vnode.domNode.style.transform = null
           itm.vnode.domNode.style.transition = null
+        }
           // itm.opt('styles', {'transform': '', 'transition': ''})
           // itm.opt('classes', {[name+'-move']: true})
 //        }
@@ -633,6 +659,7 @@ Effects.Show.Slide = (target, data, key) => Effects.Show(target, data, key, 'sli
 Effects.Hide.Slide = (target, data, key) => Effects.Hide(target, data, key, 'slide-fade')
 Effects.Show.Named = (name) => (target, data, key) => Effects.Show(target, data, key, name)
 Effects.Hide.Named = (name) => (target, data, key) => Effects.Hide(target, data, key, name)
+Effects.FLIP.Named = (name) => (target, data, key) => Effects.FLIP(target, data, key, name)
 
 
 export default (projector) => {
@@ -802,20 +829,30 @@ export default (projector) => {
               return this.set('items', _.shuffle(this.get('items')))
             }
           }
-        })
+        }),
+        view: {}
       },
-      clickButton: function () {
-
-        this.sources.data.shuffle()
-
-        return false
+      viewEvents: {
+        shuffleBtn: {type: 'event'}
       },
+
+      onShuffleBtn: function (e, {data}) {
+        data.shuffle()
+//        console.log('on shuffle')
+      },
+      // clickButton: function () {
+      //
+      //   this.sources.data.shuffle()
+      //
+      //   return false
+      // },
       $buttons: {
         type: Buttons,
         items: [{
           text: 'Перемешать',
-          onClick: function () {
-            this.rise('clickButton')
+          onClick: function (e, {view}) {
+            view.shuffleBtn()
+//            this.rise('clickButton')
 //            this.sources.data.$shuffle()
           }
         }]
@@ -835,7 +872,7 @@ export default (projector) => {
         },
         dataId: 'items',
         dataChanged: Mutate.Items,
-        dataEffects: [Effects.FLIP]
+        dataEffects: [Effects.FLIP.Named('flip-list')]
       }
     }, {
       sources: {
@@ -875,7 +912,7 @@ export default (projector) => {
         styles: {
           'position': 'relative'
         },
-        dataEffects: [Effects.FLIP],
+        dataEffects: [Effects.FLIP.Named('flip-list')],
         // sourcesBound: function ({data}) {
         // },
 //         dataEffectors: {
@@ -886,6 +923,9 @@ export default (projector) => {
 //         },
         defaultItem: {
           as: 'list-complete-item',
+          // dataItemKey: function (v) {
+          //   return v.msg
+          // },
           dataChanged: function (v) {
 //            this.opt('key', v)
             this.opt('text', v)
@@ -912,21 +952,30 @@ export default (projector) => {
             { msg: 'Кунг Фьюри' }
           ]
         }, {
-          computed: {
-            filteredList: function (v) {
-              return v.list.filter((item) => {
-                return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
-              })
+          properties: {
+            filteredList: {
+              project: function (v) {
+                return v.list.filter((item) => {
+                  return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
+                })
+              }
             }
           }
+          // computed: {
+          //   filteredList: function (v) {
+          //     return v.list.filter((item) => {
+          //       return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
+          //     })
+          //   }
+          // }
         })
       },
       $input: {
         html: 'input',
         dataId: 'query',
         dataChanged: Mutate.Value,
-        onInput: function (e) {
-          this.domain.data.set(e.target.value)
+        onInput: function (e, {data}) {
+          data.set(e.target.value)
         }
       },
       $list: {
@@ -934,18 +983,70 @@ export default (projector) => {
         dataId: 'filteredList',
         dataChanged: Mutate.Items,
         height: 150,
-        // dataKey: function (v) {
-        //   return v && v.msg
-        // },
+        dataEntryId: function (v) {
+          return v && v.msg
+        },
         defaultItem: {
+          sources: {
+            view: {}
+          },
           html: 'li',
-          onEnterAnimation: function () {
-            console.log('enter')
-            this.sources.data.emit('enter')
-          },
+          // onEnterAnimation: function () {
+          //   console.log('enter')
+          //   this.sources.data.emit('enter')
+          // },
           dataChanged: function (v) {
-            this.opts.text = v.msg
+            this.opts.text = v && v.msg
           },
+          viewEffects: [Effects.Log, function (target, domain, key) {
+
+            domain.watch(e => e.name == 'destroy', target, () => {
+              return hide()
+            })
+
+            domain.watch(e => e.name == 'init', target, () => {
+              console.log('init', target)
+              return show()
+            })
+
+            const hide = domain.effect('hide', target, async () => {
+              const delay = target.index * 150
+              await timeout(delay)
+              await velocityHide()
+            })
+
+            const show = domain.effect('show', target, async () => {
+              target.opt('styles', {'opacity': '0', 'height': '0'})
+              await timeout(target.index * 150)
+              await raf()
+              await velocityShow()
+              // console.log('------------------------------------------')
+              // target.rerender()
+              target.context.projector.scheduleRender()
+            })
+
+            const velocityHide = function () {
+              return new Promise((resolve) => {
+                Velocity(
+                  target.vnode.domNode,
+                  { opacity: 0, height: 0 },
+                  { complete: () => resolve(), duration: 1000 }
+                )
+              })
+            }
+
+            const velocityShow = function () {
+              console.log(target.vnode)
+              return new Promise((resolve) => {
+                Velocity(
+                  target.vnode.domNode,
+                  { opacity: 1, height: '1.6em' },
+                  { complete: () => resolve(), duration: 1000 }
+                )
+              })
+            }
+
+          }],
           dataEffectors: {
             hide: (function () {
               const eff = function () {
@@ -964,7 +1065,7 @@ export default (projector) => {
                       Velocity(
                         this.vnode.domNode,
                         { opacity: 0, height: 0 },
-                        { complete: () => resolve() }
+                        { duration: 3000, complete: () => resolve() }
                       )
 //                      console.log(v)
                     })

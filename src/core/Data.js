@@ -85,8 +85,19 @@ class Source {
       }
 
       if (this.isProj) {
-        v = this.isNested ? this.src.get() : this.src
-        v = this.options.project(v)
+        if (this.cache == null) {
+          v = this.isNested ? this.src.get() : this.src
+          v = this.options.project(v)
+        }
+        else {
+          v = this.cache
+        }
+//        console.log('projected', v, this.cache)
+        // if (Object.keys(this.entries).length) {
+        //   console.log('need reconcile projected entries')
+        // }
+        // v = this.isNested ? this.src.get() : this.src
+        // v = this.options.project(v)
       }
       else if (this.id == null) {
         v = this.src
@@ -150,14 +161,26 @@ class Source {
 
 //      delete this.cache
 
-      if (Array.isArray(this.entries)) {
-        if (this.entries.length) {
-          console.log('need reconcile entries')
+      if (Array.isArray(v)) {
+        if (Object.keys(this.entries).length) {
+          console.log('need to shake entries')
+          for (let i in this.entries) {
+            const entry = this.entries[i]
+            if (entry.isProj) {
+              continue
+            }
+            else if (entry.removed && Number(i) < v.length) {
+              delete entry.removed
+            }
+            else if (!entry.removed && Number(i) >= v.length) {
+              entry.removed = true
+            }
+          }
         }
       }
       else {
-        if (Object.keys(this.entries).length) {
-          console.log('need reconcile entries')
+        if (Object.keys(v).length) {
+          console.log('need to shake entries')
         }
       }
 
@@ -171,10 +194,10 @@ class Source {
     }
     else {
 
-      if (typeof v == 'function') {
-        this.when(v()).emit('set', {params: [k]})
-        return this
-      }
+      // if (typeof v == 'function') {
+      //   this.when(v()).emit('set', {params: [k]})
+      //   return this
+      // }
 
 //      console.log('set', k, v)
       if (Array.isArray(k)) {
@@ -283,7 +306,7 @@ class Source {
   }
 
   $update(direction, event, ids, cache) {
-    if (!this._updating) {
+    if (!this._updating && !this.removed) {
       this._updating = this
       try {
   //    delete this.cache
@@ -298,6 +321,19 @@ class Source {
           this.compute(this.get())
         }
 
+        // for (let i in this.entries) {
+        //   const entry = this.entries[i]
+        //   if (entry.isProj) {
+        //     continue
+        //   }
+        //   else if (entry.removed && Number(i) < v.length) {
+        //     delete entry.removed
+        //   }
+        //   else if (!entry.removed && Number(i) >= v.length) {
+        //     entry.removed = true
+        //   }
+        // }
+
         this.emit('changed', {data: this.get(), ids, cache})
 
         // this.observers.forEach(t => {
@@ -308,6 +344,15 @@ class Source {
           for (let i in this.entries) {
             this.entries[i].$update('desc', event);
           }
+        }
+        // ?
+        else if (this._properties) {
+          for (let i in this._properties) {
+            if (this._properties[i].project && this.entries[i]) {
+              this.entries[i].$calc(this.get())
+            }
+          }
+
         }
       }
       catch (err) {
@@ -558,6 +603,33 @@ class Source {
   }
 
 
+  $calc (v) {
+    v = this.cache = this.options.project(v)
+
+    if (Array.isArray(v)) {
+      if (Object.keys(this.entries).length) {
+        console.log('need to shake entries')
+        for (let i in this.entries) {
+          const entry = this.entries[i]
+          if (entry.isProj) {
+            continue
+          }
+          else if (entry.removed && Number(i) < v.length) {
+            delete entry.removed
+          }
+          else if (!entry.removed && Number(i) >= v.length) {
+            entry.removed = true
+          }
+        }
+      }
+    }
+
+    console.log('recalc', this.entries)
+
+    this.$update('desc')
+  }
+
+
 
 
   use (name, ctor, context) {
@@ -582,12 +654,12 @@ class Source {
 
   _init (target) {
     const data = this.get()
-    this.emit('preinit', {target, data} /*, ns: 'lc'*/)
-    this.emit('init', {target, data}/*, ns: 'lc'*/)
+    this.emit('preinit', {target, data/*, ns: 'lc'*/})
+    this.emit('init', {target, data, ns: 'lc'})
   }
 
   _destroy (target) {
-    this.emit('destroy', {target/*, ns: 'lc'*/})
+    this.emit('destroy', {target, ns: 'lc'})
   }
 
 
@@ -636,7 +708,7 @@ class Source {
       const promises = []
       const effects = []
       this._watchers.forEach((watchers, target) => {
-        if (true/*!event.target || event.target == target*/) {
+        if (!event.target || event.target == target) {  // важно для локальных событий типа init/destroy
           watchers.forEach(watcher => {
             if (watcher.when(event, target)) {
               const result = watcher.callback.call(target, event)
@@ -1017,26 +1089,27 @@ class Source {
         this[i].n = 1
         this[i].ns = ns
 
-        if (typeof listeners[i] == 'function') {
-          l['@'+i] = {callback: listeners[i], type: 'method'}
-        }
-        else {
-          if (listeners[i].init) {
-            l['@'+i] = {callback: listeners[i].init, type: 'method', policy: listeners[i].policy}
-          }
-          if (listeners[i].done) {
-            l['@'+i+':done'] = {callback: listeners[i].done, type: 'method'}
-          }
-          if (listeners[i].fail) {
-            l['@'+i+':fail'] = {callback: listeners[i].fail, type: 'method'}
-          }
-        }
-
       }
       else {
         console.warn('method ['+i+'] already exists')
         this[i].n++
       }
+
+      if (typeof listeners[i] == 'function') {
+        l['@'+i] = {callback: listeners[i], type: 'method'}
+      }
+      else {
+        if (listeners[i].init) {
+          l['@'+i] = {callback: listeners[i].init, type: 'method', policy: listeners[i].policy}
+        }
+        if (listeners[i].done) {
+          l['@'+i+':done'] = {callback: listeners[i].done, type: 'method'}
+        }
+        if (listeners[i].fail) {
+          l['@'+i+':fail'] = {callback: listeners[i].fail, type: 'method'}
+        }
+      }
+
     }
     this._listeners.set(target, l)
   }
@@ -1135,6 +1208,28 @@ class Source {
     }
   }
 
+
+  // reg (i, target, event) {
+  //   if (!this[i]) {
+  //     this[i] = {target}
+  //     this[i].done = '@'+i+':done'
+  //     this[i].fail = '@'+i+':fail'
+  //     this[i].init = '@'+i
+  //     this[i].cancel = '@'+i+':cancel'
+  //     this[i].n = 1
+  //     this[i].ns = ns
+  //   }
+  //   else {
+  //     console.warn('event ['+i+'] already exists')
+  //     this[i].n++
+  //   }
+  // }
+  //
+  // unreg (i) {
+  //   if (--this[i].n == 0) {
+  //     delete this[i]
+  //   }
+  // }
 
   prop (key, type, project) {
     if (!this._properties) {
