@@ -1,5 +1,5 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
+import {Html, State, Source, Domain, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
 
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
@@ -9,7 +9,6 @@ import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} f
 import './app.scss'
 
 //fontawesome.config = { autoReplaceSvg: false }
-
 
 let perfCounter = 0
 let perfAnalysis = null
@@ -198,7 +197,8 @@ Events.on('mousedown', function () {
 
 
 const context = {
-  projector
+  projector,
+  sourceType: Domain
 }
 
 const root = new Html({
@@ -206,10 +206,10 @@ const root = new Html({
 //  state: rootState,
 //  data: rootData,
   sources: {
-    app: {
+    app: new Domain({
       mainMenu: true,
       current: 'elements',
-    },
+    }),
     page: {
     },
     data: {

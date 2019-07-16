@@ -5,8 +5,9 @@ import Text from './Text'
 import rules from './Rules'
 import classNames from 'classnames'
 import {h} from 'maquette'
-import Source from './Data'
-import State from './State'
+//import Domain from './Domain'
+import Source from './Source'
+//import State from './State'
 
 
 const DEFAULT_RULES = {
@@ -421,7 +422,7 @@ const Html = class {
 
         const source = this.sources[o.domain]
         if (!source._listeners || !source._listeners.has(this)) {
-          source.join(this, this.rebind, this.unbind, o.domain)
+          source.join(this, this.changed, null, o.domain)
         }
         continue
       }
@@ -495,108 +496,8 @@ const Html = class {
       }
     }
 
-    // // динамические компоненты и элементы
-    // if (opts.subscribes) {
-    //   for (let i in this.sources) {
-    //     const o = opts.subscribes[i]
-    //     const s = this.sources[i]
-    //     if (o && o['components']) {
-    //       this.opt('$$components', o['components'].call(this, s.get(), s), i)
-    //     }
-    //     if (o && o['items']) {
-    //       this.opt('$$items', o['items'].call(this, s.get(), s), i)
-    //     }
-    //     // if (opts.dynamic[i+'Components']) {
-    //     //   this.opt('$components', opts.dynamic[i+'Components'].call(this, s.get(), s), i)
-    //     // }
-    //     // if (opts.dynamic[i+'Items']) {
-    //     //   this.opt('$items', opts.dynamic[i+'Items'].call(this, s.get(), s), i)
-    //     // }
-    //   }
-    // }
-    // if (opts['$items']) {
-    //   this.opt('$items', opts['$items'])
-    // }
-    // if (opts['$components']) {
-    //   this.opt('$components', opts['$components'])
-    // }
 
-    // // применяем биндинг элементов и компонентов
-    // for (let i in this.sources) {
-    //   if (opts[i+'Items']) {
-    //     this.opt('$$items', opts[i+'Items'].call(this, this.sources[i].get(), this.sources[i]), i)
-    //   }
-    //   else if (opts[i+'Components']) {
-    //     this.opt('$$components', opts[i+'Components'].call(this, this.sources[i].get(), this.sources[i]), i)
-    //   }
-    // }
-    // // применяем биндинг опций
-    // for (let i in this.sources) {
-    //   if (opts[i+'Options']) {
-    //     const o = opts[i+'Options'].call(this, this.sources[i].get(), this.sources[i], i)
-    //     for (let j in o) {
-    //       this.opt(j, o[j])
-    //     }
-    //   }
-    // }
-
-    // // динамические опции
-    // if (opts.subscription) {
-    //   let dynOpts = {}
-    //   for (let i in opts.subscription) {
-    //     if (i == 'all') {
-    //       const v = {}
-    //       for (let j in this.sources) {
-    //         v[j] = this.sources[j].get()
-    //       }
-    //       Object.assign(dynOpts, opts.subscription[i].call(this, v, this.sources))
-    //     }
-    //     else if (this.sources[i]) {
-    //       Object.assign(dynOpts, opts.subscription[i].call(this, this.sources[i].get(), this.sources[i], i))
-    //     }
-    //   }
-    // }
-    // for (let i in this.sources) {
-    //   if (opts[i+'Effectors']) {
-    //     const effectors = opts[i+'Effectors']
-    //     for (let j in effectors) {
-    //       this.sources[i].use(j, effectors[j], this)
-    //     }
-    //   }
-    // }
-/*
-    this._initializing = true
-
-    this._binding_chain = []
-    for (let i in this.sources) {
-      if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
-        this._binding_chain.push(i)
-      }
-    }
-    while (this._binding_chain.length) {
-      const i = this._binding_chain.shift()
-      this.sources[i]._init(this)
-//      this.sources[i].update('none', 'init')
-      // заменить на прямой вызов update
-//      this.sources[i].emit('get', {target: this})
-//      this.sources[i].emit('init', {target: this})//this.sources[i].get(), this)
-      // const o = opts[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
-      // for (let j in o) {
-      //   this.opt(j, o[j])
-      // }
-    }
-    // for (let i in this.sources) {
-    //   if (opts[i+'Changed']) {
-    //     const o = opts[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
-    //     for (let j in o) {
-    //       this.opt(j, o[j])
-    //     }
-    //   }
-    // }
-    delete this._binding_chain
-*/
-
-    this.init()
+    this.tryInit()
 
 
     if (opts.binding) {
@@ -616,33 +517,10 @@ const Html = class {
       }
     }
 
-//     for (let i in srcOpts) {
-//       let o = srcOpts[i]
-//       for (let j in o) {
-//         if (j == 'components' || j == '$components' || j == 'items' || j == '$items') {
-//           this.opt(j, o[j], i)
-//         }
-//       }
-// //      this.rebindOpts(srcOpts[i], i)
-//     }
-//
-//     for (let i in srcOpts) {
-//       let o = srcOpts[i]
-//       for (let j in o) {
-//         if (!(j == 'components' || j == '$components' || j == 'items' || j == '$items')) {
-//           this.opt(j, o[j], i)
-//         }
-//       }
-// //      this.rebindOpts(srcOpts[i], i)
-//     }
-
-//    console.log('desc', this.constructor.optDesc)
-//    console.log(opts)
-
     }
-    catch (e) {
-      console.error(e)
-      throw e
+    catch (err) {
+      console.error(err)
+      throw err
     }
   }
 
@@ -936,10 +814,10 @@ const Html = class {
             if (upd.itm.isDestroying) {
               delete upd.itm._destroying
               delete upd.itm._sourcesToUnjoin
-              upd.itm.init()
+              upd.itm.tryInit()
             }
             else {
-              console.log(entriesByKeys[upd.k] == upd.itm.sources[key], upd.k)
+//              console.log(entriesByKeys[upd.k] == upd.itm.sources[key], upd.k)
               if (entriesByKeys[upd.k] != upd.itm.sources[key]) {
                 upd.itm.bind(entriesByKeys[upd.k], key)
               }
@@ -953,39 +831,41 @@ const Html = class {
 
 
           console.log('update items', update)
+          console.log('[reconcile] update items', reconcileResult.updated)
 
-          update.forEach(itm => {
-//             if (!itm._destroying) {
-//               for (let k in entriesByKeys) {
-//                 if (entriesByKeys[k] == itm.sources[key]) {
-//                   itm.props.key = k
-//                   break
-//                 }
-//               }
-//             }
-//             else {
-// //              itm.bind(itm.sources[key], key)
-//                           // if (itm._destroying) {
-//               delete itm._destroying
-//               delete itm._sourcesToUnjoin
-//               itm.init()
-//             }
-
-
-
-//            console.log('update item', itm.props.key, entriesByKeys[itm.props.key])
-//             itm.bind(entriesByKeys[itm.props.key], key)
-            // if (itm._destroying) {
-            //   delete itm._destroying
-            //   delete itm._sourcesToUnjoin
-            //   itm.init()
-            // }
-//             else {
-// //              itm.init()
-//             }
-          })
+//           update.forEach(itm => {
+// //             if (!itm._destroying) {
+// //               for (let k in entriesByKeys) {
+// //                 if (entriesByKeys[k] == itm.sources[key]) {
+// //                   itm.props.key = k
+// //                   break
+// //                 }
+// //               }
+// //             }
+// //             else {
+// // //              itm.bind(itm.sources[key], key)
+// //                           // if (itm._destroying) {
+// //               delete itm._destroying
+// //               delete itm._sourcesToUnjoin
+// //               itm.init()
+// //             }
+//
+//
+//
+// //            console.log('update item', itm.props.key, entriesByKeys[itm.props.key])
+// //             itm.bind(entriesByKeys[itm.props.key], key)
+//             // if (itm._destroying) {
+//             //   delete itm._destroying
+//             //   delete itm._sourcesToUnjoin
+//             //   itm.init()
+//             // }
+// //             else {
+// // //              itm.init()
+// //             }
+//           })
 
           console.log('remove items', items)
+          console.log('[reconcile] remove items', reconcileResult.deleted)
 
 //          items.forEach(item => this.removeItem(item))
           items.forEach(itm => {
@@ -1001,6 +881,7 @@ const Html = class {
           })
 
           console.log('add items', add)
+          console.log('[reconcile] add items', reconcileResult.added)
 
           Object.keys(add).forEach(k => {
             let entry = add[k]
@@ -1137,16 +1018,16 @@ const Html = class {
                 const s = data[i]
                 if (s && !this['$'+i]) {
                   this.addComponent(i, s)
-                  console.log('add', i, s)
+                  console.log('add component', i, s)
                 }
                 else if (s && this['$'+i]._destroying) {
                   // this['$'+i].destroy()
                   // this.addComponent(i, s)
                   delete this['$'+i]._destroying
                   delete this['$'+i]._sourcesToUnjoin
-                  this['$'+i].init()
+                  this['$'+i].tryInit()
 //                  this.addComponent(i, s)
-                  console.log('restore', i, s)
+                  console.log('restore component', i, s)
                 }
                 else if (!s && this['$'+i]) {
                   if (this['$'+i].isInitializing) {
@@ -1154,7 +1035,7 @@ const Html = class {
                   }
                   this['$'+i].tryDestroy()
 //                  this.removeComponent(i)
-                  console.log('remove', i)
+                  console.log('remove component', i)
                 }
               }
             }
@@ -1212,9 +1093,6 @@ const Html = class {
 //               }
 //             }
 //           }
-
-        }
-        else if (typeof value === 'function') {
 
         }
         else {
@@ -1550,10 +1428,10 @@ const Html = class {
     // }
 
     if (key != null) {
-      source = (v instanceof Source) ? v.entry(key) : new Source(v, null, key)
+      source = (v instanceof Source) ? v.entry(key) : new (this.context.sourceType || Source)(v, null, key)
     }
     else {
-      source = (v instanceof Source) ? v : new Source(v)
+      source = (v instanceof Source) ? v : new (this.context.sourceType || Source)(v)
     }
 
 //    const effects = o[i+'Effects']
@@ -1576,7 +1454,7 @@ const Html = class {
 
     if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o.sourcesBound || o[i+'Changed'] || o[i+'Methods'] || o[i+'Computed']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
-      source.join(this, this.rebind, this.unbind, i/*, o[i+'Effects']*/)
+      source.join(this, this.changed, null, i/*, o[i+'Effects']*/)
       if (o[i+'Methods']) {
         source.on(o[i+'Methods'], this)
       }
@@ -1591,13 +1469,10 @@ const Html = class {
       if (o[i+'Events']) {
         source.on(o[i+'Events'], this)
       }
-      if (this.sources[i]) {
-        this.sources[i].unjoin(this)
-        this.sources[i].off(this)
-        this.sources[i].uncomp(this)
-        this.sources[i].unwatch(this)
-        this.sources[i].purge(this)
-      }
+    }
+
+    if (this.sources[i] && this.sources[i] != source) {
+      this.sources[i].unjoin(this)
     }
 
     // else {
@@ -1612,12 +1487,12 @@ const Html = class {
   }
 
 
-  unbind() {
+  // unbind(key) {
+  //   this.sources[key].unjoin(this)
+  // }
 
-  }
 
-
-  rebind (v, key) {
+  changed (v, key) {
 
     const o = this.options
 
@@ -1676,7 +1551,7 @@ const Html = class {
       this.tryDestroy(this.sources[key])
     }
     else if (v.name == 'init' || v.name == 'init:cancel') {
-      this.init(this.sources[key])
+      this.tryInit(this.sources[key])
     }
     else {
 //      console.log('onChange', v)
@@ -1724,21 +1599,21 @@ const Html = class {
 
 
 
-  emit (name, event) {
-
-  }
-
-
-  rise (name, event) {
-    this.climb(c => {
-      if (c[name]) {
-        return c[name].call(c, event)
-      }
-      if (c.options[name]) {
-        return c.options[name].call(c, event)
-      }
-    })
-  }
+  // emit (name, event) {
+  //
+  // }
+  //
+  //
+  // rise (name, event) {
+  //   this.climb(c => {
+  //     if (c[name]) {
+  //       return c[name].call(c, event)
+  //     }
+  //     if (c.options[name]) {
+  //       return c.options[name].call(c, event)
+  //     }
+  //   })
+  // }
 
 
 
@@ -1832,13 +1707,8 @@ const Html = class {
   destroy () {
 
     for (let i in this.sources) {
-      const src = this.sources[i]
-      src.unjoin(this)
-      src.off(this)
-      src.uncomp(this)
-      src.unwatch(this)
-      src.purge(this)
-//      delete this.sources[i]
+      this.sources[i].unjoin(this)
+//      this.unbind(i)
     }
 
     delete this.sources
@@ -1916,7 +1786,7 @@ const Html = class {
 
   }
 
-  init (joinedSource) {
+  tryInit (joinedSource) {
 
     if (joinedSource) {
       if (this.isInitializing) {

@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, IconBox, Text, Button, Source, Buttons} from '../../src'
+import {Html, Layouts, Tabs, IconBox, Text, Button, Source, Domain, Buttons} from '../../src'
 
 import {Mutate, Mixins} from '../helpers'
 
@@ -720,7 +720,7 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({show: true}, {
+        data: new Domain({show: true}, {
           properties: {
             p: {
               project: (v) => v.show
@@ -739,7 +739,7 @@ export default (projector) => {
           x[i] = this.sources[k].entry(i).get()
         }
         console.log(x)
-        this.opt('$components', new Source(x))
+        this.opt('$components', new Domain(x))
       },//Mutate.Components,
       components: {
         p: false
@@ -770,7 +770,7 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           items: [1,2,3,4,5,6,7,8,9],
           nextNum: 10
         }, {
@@ -821,7 +821,7 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           items: [1,2,3,4,5,6,7,8,9]
         }, {
           methods: {
@@ -876,7 +876,7 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           items: [1,2,3,4,5,6,7,8,9],
           nextNum: 10
         }, {
@@ -942,7 +942,7 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           query: '',
           list: [
             { msg: 'Брюс Ли' },

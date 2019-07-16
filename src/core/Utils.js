@@ -215,7 +215,9 @@ export const reconcile = function (list_a, list_b) {
   //   list_c.push(added[i])
   // }
 
-  console.log(list_c, list_b)
+//  console.log(list_c, list_b)
+
+let maxIdx = -1
 
   for (let x = 0; x < list_c.length*2; x++) {
 
@@ -224,7 +226,7 @@ export const reconcile = function (list_a, list_b) {
     diffs[i] = i - list_c[i].i
   }
 
-  console.log(diffs)
+//  console.log(diffs)
 
 //  debugger
 
@@ -238,7 +240,7 @@ export const reconcile = function (list_a, list_b) {
   //   }
   // }
   // ищем максимальное смещение
-  let maxIdx = -1
+  maxIdx = -1
   let maxd = 0
   for (let i = 0; i < diffs.length; i++) {
     if (Math.abs(diffs[i]) > maxd) {
@@ -247,7 +249,7 @@ export const reconcile = function (list_a, list_b) {
     }
   }
 
-  console.log('max', maxd, maxIdx)
+//  console.log('max', maxd, maxIdx)
 
   if (maxIdx > -1) {
     const c = list_c[maxIdx]
@@ -274,7 +276,11 @@ export const reconcile = function (list_a, list_b) {
     break
   }
 
-  console.log(list_c)
+//  console.log(list_c)
+}
+
+if (maxIdx > -1) {
+  console.error('Reconcile error', list_a, list_b);
 }
 
 
