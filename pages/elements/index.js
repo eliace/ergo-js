@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, Source} from '../../src'
+import {Html, Layouts, Tabs, Domain} from '../../src'
 
 import {Mutate} from '../helpers'
 
@@ -16,7 +16,7 @@ import TableExample from './table'
 
 export default (projector) => {
 
-  const Data = new Source({
+  const Data = new Domain({
     selected: 'Box'
   }, {
     computed: {

@@ -10,6 +10,26 @@ import './app.scss'
 
 //fontawesome.config = { autoReplaceSvg: false }
 
+const d = new Domain({
+  a: 5,
+  b: {
+    text: 'hello'
+  }
+}, {
+  properties: {
+    c: {
+      calc: v => v.a *10
+    }
+  }
+})
+
+d.entry('c')
+
+console.log(d.$.a)
+console.log(d.$.b.text)
+console.log(d.$.c)
+
+
 let perfCounter = 0
 let perfAnalysis = null
 
@@ -248,7 +268,7 @@ const root = new Html({
 //    users: {},
     dropdown: true
   },
-  sourcesBound: function ({page, data, app}) {
+  allBound: function ({page, data, app}) {
 
     app.effect('setCurrent', this, (v) => {
       app.set('current', v)

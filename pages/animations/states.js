@@ -1,4 +1,4 @@
-import {Html, Layouts, Source, Text} from '../../src'
+import {Html, Layouts, Domain, Text} from '../../src'
 
 import {Mutate, Mixins} from '../helpers'
 
@@ -92,7 +92,7 @@ export default (projector) => {
     layout: Layouts.Rows,
     items: [{
       sources: {
-        data: new Source({
+        data: new Domain({
           number: 0,
           tweenedNumber: 0
         }, {
@@ -125,8 +125,8 @@ export default (projector) => {
         step: 20,
         dataId: 'number',
         dataChanged: Mutate.Value,
-        onInput: function (e) {
-          this.sources.data.set(e.target.value)
+        onInput: function (e, {data}) {
+          data.set(e.target.value)
         }
       },
       $p: {
@@ -140,7 +140,7 @@ export default (projector) => {
           var defaultSides = 10
         	var stats = Array.apply(null, { length: defaultSides })
           	.map(function () { return 100 })
-          return new Source({
+          return new Domain({
             stats: stats,
           	points: generatePoints(stats),
             sides: defaultSides,
@@ -153,7 +153,7 @@ export default (projector) => {
                 var sidesDifference = newSides - oldSides
                 if (sidesDifference > 0) {
                 	for (var i = 1; i <= sidesDifference; i++) {
-                  	this.entry('stats').add(this.$newRandomValue())
+                  	this.entry('stats').add(this.newRandomValue())
                   }
                 } else {
                   var absoluteSidesDifference = Math.abs(sidesDifference)
@@ -164,7 +164,7 @@ export default (projector) => {
               },
               updateStats: function (newStats) {
           			TweenLite.to(
-                	this.proxy(),
+                	this.$,
                   this.get('updateInterval') / 1000,
                   { points: generatePoints(newStats) }
               	)
@@ -175,36 +175,61 @@ export default (projector) => {
               randomizeStats: function () {
               	var vm = this
                 this.set('stats', this.get('stats').map(function () {
-                	return vm.$newRandomValue()
+                	return vm.newRandomValue()
                 }))
               },
               resetInterval: function () {
               	var vm = this
               	clearInterval(this.interval)
-                this.$randomizeStats()
+                this.randomizeStats()
               	this.interval = setInterval(function () {
-                	vm.$randomizeStats()
+                	vm.randomizeStats()
                 }, this.get('updateInterval'))
               }
             },
             changed: function (evt) {
               if (evt.ids) {
                 if ('sides' in evt.ids) {
-                  this.$updateSides(evt.data['sides'], evt.cache['sides'])
+                  this.updateSides(evt.data['sides'], evt.cache['sides'])
                 }
                 if ('stats' in evt.ids) {
-                  this.$updateStats(evt.data['stats'], evt.cache['stats'])
+                  this.updateStats(evt.data['stats'], evt.cache['stats'])
                 }
               }
-            }
+            },
+            // watchers: {
+            //   reset: {
+            //     when: (e) => {console.log('when', e); return e.name == 'init'},
+            //     init: function () {
+            //       debugger
+            //       this.resetInterval()
+            //     }
+            //   }
+            //   // init: function (evt) {
+            //   //   debugger
+            //   //   this.resetInterval()
+            //   // }
+            // }
           })
         }
       },
-      dataEvents: function (evt) {
-        if (evt.name == 'init') {
-          this.sources.data.$resetInterval()
-        }
+      effects: {
+        data: [(data, target) => {
+          data.watch(e => e.name == 'init', target, () => {
+            data.resetInterval()
+          })
+          data.watch(e => e.name == 'destroy', target, () => {
+            debugger
+            clearInterval(data.interval)
+          })
+        }]
       },
+//      dataChanged: () => {},
+      // dataEvents: function (evt) {
+      //   if (evt.name == 'init') {
+      //     this.sources.data.resetInterval()
+      //   }
+      // },
       as: 'svg-polygon-example',
       width: 400,
       $svg: {
@@ -236,8 +261,8 @@ export default (projector) => {
             html: 'input',
             _type: 'range',
             dataChanged: Mutate.Value,
-            onInput: function (e) {
-              this.sources.data.set(Number(e.target.value))
+            onInput: function (e, {data}) {
+              data.set(Number(e.target.value))
             }
           }
         }
@@ -275,13 +300,18 @@ export default (projector) => {
       }]
     }, {
       sources: {
-        data: new Source({
-          firstNumber: 20,
-          secondNumber: 40
-        }, {
-          computed: {
-            result: function (v) {
-              return v.firstNumber + v.secondNumber
+        data: new Domain(null, {
+          initial: function () {
+            return {
+              firstNumber: 20,
+              secondNumber: 40
+            }
+          },
+          properties: {
+            result: {
+              calc: function (v) {
+                return v.firstNumber + v.secondNumber
+              }
             }
           }
         })
@@ -292,8 +322,8 @@ export default (projector) => {
         step: 20,
         dataId: 'firstNumber',
         dataChanged: Mutate.Value,
-        onInput: function (e) {
-          this.sources.data.set(Number(e.target.value))
+        onInput: function (e, {data}) {
+          data.set(Number(e.target.value))
         }
       }, {
         html: 'span',
@@ -304,8 +334,8 @@ export default (projector) => {
         step: 20,
         dataId: 'secondNumber',
         dataChanged: Mutate.Value,
-        onInput: function (e) {
-          this.sources.data.set(Number(e.target.value))
+        onInput: function (e, {data}) {
+          data.set(Number(e.target.value))
         }
       }, {
         html: 'span',

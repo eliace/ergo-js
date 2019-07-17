@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, Source, Button, Binder, bindDomain as $} from '../../src'
+import {Html, Layouts, Tabs, Domain, Button, Binder, bindDomain as Bind} from '../../src'
 
 import {Mutate} from '../helpers'
 import _ from 'lodash'
@@ -44,28 +44,23 @@ export default () => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           message: 'Привет'
         }, {
           properties: {
             reversedMessage: {
-              project: function (v) {
+              calc: function (v) {
                 return v.message.split('').reverse().join('')
               }
             }
           }
-          // computed: {
-          //   reversedMessage: function (v) {
-          //     return v.message.split('').reverse().join('')
-          //   }
-          // }
         })
       },
       $example: {
         id: 'example',
         $message: {
           html: 'p',
-          text: $.data('message', v => 'Изначальное сообщение: «'+v+'»')
+          text: Bind.data('message', v => 'Изначальное сообщение: «'+v+'»')
           // dataChanged: Mutate.Text,
           // dataId: 'message',
           // format: v => 'Изначальное сообщение: «'+v+'»'
@@ -79,10 +74,10 @@ export default () => {
       }
     }, {
       sources: {
-        data: new Source({}, {
+        data: new Domain({}, {
           properties: {
             now: {
-              project: function (v) {
+              calc: function (v) {
                 return Date.now()
               }
             }
@@ -99,12 +94,12 @@ export default () => {
         },
         $info: {
           html: 'p',
-          text: $.data('now')
+          text: Bind.data('now')
         }
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           question: '',
           answer: 'Пока вы не зададите вопрос, я не могу ответить!'
         }, {
@@ -113,7 +108,7 @@ export default () => {
             answerFailed: (e, {getAnswer}) => e.name == getAnswer.fail,
 //            debouncedGetAnswer: (e, {getAnswer}) => e.name == getAnswer.init
           },
-          effects: {
+          listeners: {
             answerFailed: function (e) {
               this.set('answer', 'Ошибка! Не могу связаться с API. ' + e.data)
             },
@@ -191,7 +186,7 @@ export default () => {
       }
     }, {
       sources: {
-        data: new Source({
+        data: new Domain({
           question: '',
           answer: 'Пока вы не зададите вопрос, я не могу ответить!'
         }, {
@@ -200,7 +195,7 @@ export default () => {
             questionChanged: e => (e.name == 'changed' || e.name == 'init') && e.ids && ('question' in e.ids),
 //            waitAsk: (e, {ask}) => e.name == ask.init,
             debounceAsk: {
-              policy: 'exclusive',
+//              policy: 'exclusive',
               when: (e, {ask}) => e.name == ask.init,
               init: function () {
                 this.set('answer', 'Ожидаю, когда вы закончите печатать...')
@@ -210,7 +205,7 @@ export default () => {
               }
             }
           },
-          effects: {
+          listeners: {
             questionChanged: function (e) {
               this.ask(e.data.question)
             },
@@ -242,19 +237,19 @@ export default () => {
           onInput: function (e, {data}) {
             data.set('question', e.target.value)
           },
-          value: $.data('question')
+          value: Bind.data('question')
         },
         $info: {
           html: 'p',
-          text: $.data('answer')
+          text: Bind.data('answer')
         }
       }
     }, {
       sources: {
-        data: new Source(1, {
+        data: new Domain(1, {
           properties: {
             x10: {
-              project: v => v * 10
+              calc: v => v * 10
             }
           },
           methods: {
@@ -272,7 +267,7 @@ export default () => {
         }
       },
       $text: {
-        text: $.data('x10')
+        text: Bind.data('x10')
       }
     }, {
       sources: {
@@ -281,7 +276,7 @@ export default () => {
         }
       },
       $content: {
-        text: $.data('name'),
+        text: Bind.data('name'),
         // aaa: $.any([$.data('name'), $.page('user')], (name, user) => 'Name' + name + ', User: ' + user.username),
         // bbb: $.any(({data, page}) => 'Name' + data.name + ', User: ' + page.user.username)
       }

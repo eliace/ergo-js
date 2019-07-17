@@ -1,11 +1,11 @@
-import {Html, Layouts, Tabs, Source} from '../../src'
+import {Html, Layouts, Tabs, Domain} from '../../src'
 
 import TabsExample from './tabs'
 import DropdownExample from './dropdown'
 
 export default (projector) => {
 
-  const Data = new Source({
+  const data = new Domain({
     selected: 'Tabs'
   }, {
     computed: {
@@ -17,7 +17,7 @@ export default (projector) => {
 
   return {
     sources: {
-      data: Data
+      data
     },
     layout: Layouts.Rows,
     $header: {
@@ -45,6 +45,7 @@ export default (projector) => {
       }
     },
     $content: {
+      components: false,
       dataChanged: function (v, key) {
         this.opt('$components', key)
       },

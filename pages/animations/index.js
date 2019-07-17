@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, Source} from '../../src'
+import {Html, Layouts, Tabs, Domain} from '../../src'
 
 import ModalExample from './modal'
 import ToastExample from './toast'
@@ -7,7 +7,7 @@ import StatesExample from './states'
 
 export default (projector) => {
 
-  const Data = new Source({
+  const data = new Domain({
     selected: 'Modal',
   }, {
     computed: {
@@ -20,7 +20,7 @@ export default (projector) => {
 
   return {
     sources: {
-      data: Data,
+      data,
       tabs: ['Modal', 'Toast', 'Transitions', 'States']
     },
     layout: Layouts.Rows,
@@ -38,8 +38,8 @@ export default (projector) => {
           dataChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
           },
-          onClick: function () {
-            this.sources.data.set('selected', this.opt('text'))
+          onClick: function (e, {data}) {
+            data.set('selected', this.opt('text'))
           },
           tabsChanged: function (v) {
             this.opt('text', v)
@@ -56,9 +56,9 @@ export default (projector) => {
         this.opt('$components', k)
       },
       components: false,
-      $modal: ModalExample(projector),
-      $toast: ToastExample(projector),
-      $transitions: TransitionsExample(projector),
+      $modal: ModalExample(),
+      $toast: ToastExample(),
+      $transitions: TransitionsExample(),
       $states: StatesExample(),
     }
   }

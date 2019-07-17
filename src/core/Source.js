@@ -19,6 +19,18 @@ class Source {
     this.isNested = v instanceof Source
     this.options = o || {}
 
+    const opts = this.options
+
+    if (opts.initial) {
+      if (typeof opts.initial == 'function') {
+        this.src = opts.initial.call(this, o)
+      }
+      else {
+        this.src = opts.initial
+      }
+    }
+
+
     if (this.options && this.options.computed) {
       this.compute(this.get())
     }
@@ -32,14 +44,14 @@ class Source {
       })
     }
 
-    if (this.options && this.options.project) {
-      this.isProj = true
+    if (this.options && this.options.calc) {
+      this.isCalc = true
     }
 
     if (this.options.properties) {
       for (let i in this.options.properties) {
         const p = this.options.properties[i]
-        this.prop(i, p.type, p.project)
+        this.prop(i, p.type, p.calc)
       }
     }
 
@@ -66,10 +78,11 @@ class Source {
         return this.cache
       }
 
-      if (this.isProj) {
+      if (this.isCalc) {
+        console.log('calc', this.cache, this.id)
         if (this.cache == null) {
           v = this.isNested ? this.src.get() : this.src
-          v = this.options.project(v)
+          v = this.options.calc(v)
         }
         else {
           v = this.cache
@@ -148,7 +161,7 @@ class Source {
           console.log('need to shake entries')
           for (let i in this.entries) {
             const entry = this.entries[i]
-            if (entry.isProj) {
+            if (entry.isCalc) {
               continue
             }
             else if (entry.removed && Number(i) < v.length) {
@@ -287,6 +300,17 @@ class Source {
     // }
   }
 
+
+  $invalidate () {
+    delete this.cache
+    for (let i in this.entries) {
+      if (this.entries[i].cache != null) {
+        this.entries[i].$invalidate()
+      }
+    }
+  }
+
+
   $update(direction, event, ids, cache) {
     if (!this._updating && !this.removed) {
       this._updating = this
@@ -297,7 +321,9 @@ class Source {
           this.src.$update('asc', event, {[this.id]: true}, {[this.id]: cache})
         }
 
-        delete this.cache
+        if (this.cache != null) {
+          this.$invalidate()
+        }
 
         if (this.options && this.options.computed) {
           this.compute(this.get())
@@ -330,7 +356,7 @@ class Source {
         // ?
         else if (this._properties) {
           for (let i in this._properties) {
-            if (this._properties[i].project && this.entries[i]) {
+            if (this._properties[i].calc && this.entries[i]) {
               this.entries[i].$calc(this.get())
             }
           }
@@ -586,27 +612,27 @@ class Source {
 
 
   $calc (v) {
-    v = this.cache = this.options.project(v)
+    v = this.cache = this.options.calc(v)
 
     if (Array.isArray(v)) {
       if (Object.keys(this.entries).length) {
-        console.log('need to shake entries')
-        for (let i in this.entries) {
-          const entry = this.entries[i]
-          if (entry.isProj) {
-            continue
-          }
-          else if (entry.removed && Number(i) < v.length) {
-            delete entry.removed
-          }
-          else if (!entry.removed && Number(i) >= v.length) {
-            entry.removed = true
-          }
-        }
+        console.log('need to reshake entries')
+        // for (let i in this.entries) {
+        //   const entry = this.entries[i]
+        //   if (entry.isCalc) {
+        //     continue
+        //   }
+        //   else if (entry.removed && Number(i) < v.length) {
+        //     delete entry.removed
+        //   }
+        //   else if (!entry.removed && Number(i) >= v.length) {
+        //     entry.removed = true
+        //   }
+        // }
       }
     }
 
-    console.log('recalc', this.entries)
+//    console.log('recalc', this.entries)
 
     this.$update('desc')
   }
@@ -660,11 +686,14 @@ class Source {
           target.set(property, value)
         },
         get: function (target, property) {
+          if (target.entries[property]) {
+            return target.entry(property).$
+          }
           // if (this._properties && this._properties[property]) {
           //   return this.entry(property).get()
           // }
           // return target.get(property)
-          return target.entry(property).get()
+          return target.get(property) //target.entry(property).$
         }
       })
     }
@@ -696,11 +725,11 @@ class Source {
   //   }
   // }
 
-  prop (key, type, project) {
+  prop (key, type, calc) {
     if (!this._properties) {
       this._properties = {}
     }
-    this._properties[key] = {type, project}
+    this._properties[key] = {type, calc}
   }
 
 
@@ -728,6 +757,16 @@ class Source {
     this.emit('destroy', {target, ns: 'lc'})
   }
 
+
+
+  hasListener (target) {
+    for (let i = 0; i < this.observers.length; i++) {
+      if (this.observers[i].target == target) {
+        return true
+      }
+    }
+    return false
+  }
 
 
   // ns () {

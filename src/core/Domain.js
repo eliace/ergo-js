@@ -19,9 +19,9 @@ class Domain extends Source {
       }
     }
 
-    if (this.options.effects) {
-      for (let i in this.options.effects) {
-        this.listen(i, this, this.options.effects[i])
+    if (this.options.listeners) {
+      for (let i in this.options.listeners) {
+        this.listen(i, this, this.options.listeners[i])
       }
     }
 
@@ -29,16 +29,16 @@ class Domain extends Source {
 
 
 
-  use (name, ctor, context) {
-    if (!this.effectors) {
-      this.effectors = {}
-    }
-    this.effectors[name] = {ctor, context}
-  }
-
-  unuse (name) {
-    delete this.effectors[name]
-  }
+  // use (name, ctor, context) {
+  //   if (!this.effectors) {
+  //     this.effectors = {}
+  //   }
+  //   this.effectors[name] = {ctor, context}
+  // }
+  //
+  // unuse (name) {
+  //   delete this.effectors[name]
+  // }
 
 //   init (target) {
 // //    console.log('init', target)
@@ -574,6 +574,12 @@ class Domain extends Source {
       this.entries[k] = e
     }
     return e
+  }
+
+
+  $event (name, target) {
+    this.on({[name]: {type: 'event'}})
+    return this[name]
   }
 
 }

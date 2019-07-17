@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, Source} from '../../src'
+import {Html, Layouts, Tabs, Domain} from '../../src'
 
 import DomainExample from './domain'
 import MultidomainExample from './multidomain'
@@ -7,7 +7,7 @@ import CountriesExample from './countries'
 
 export default (projector) => {
 
-  const Data = new Source({
+  const page = new Domain({
     selected: 'Domain',
   }, {
     computed: {
@@ -20,7 +20,7 @@ export default (projector) => {
 
   return {
     sources: {
-      page: Data,
+      page,
       tabs: ['Domain', 'Multidomain', 'Posts', 'Countries']
     },
     layout: Layouts.Rows,
@@ -38,8 +38,8 @@ export default (projector) => {
           pageChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
           },
-          onClick: function () {
-            this.sources.page.set('selected', this.opt('text'))
+          onClick: function (e, {page}) {
+            page.set('selected', this.opt('text'))
           },
           tabsChanged: function (v) {
             this.opt('text', v)

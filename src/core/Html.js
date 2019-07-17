@@ -5,8 +5,8 @@ import Text from './Text'
 import rules from './Rules'
 import classNames from 'classnames'
 import {h} from 'maquette'
-//import Domain from './Domain'
-import Source from './Source'
+import Domain from './Domain'
+//import Source from './Source'
 //import State from './State'
 
 
@@ -28,7 +28,6 @@ const DEFAULT_EVENTS = {
   onMouseUp: 'onmouseup',
   onEnterAnimation: 'enterAnimation',
   onExitAnimation: 'exitAnimation',
-  onUpdateAnimation: 'updateAnimation',
   onAfterCreate: 'afterCreate',
   onUpdateAnimation: 'updateAnimation',
   onAfterUpdate: 'afterUpdate',
@@ -223,11 +222,11 @@ const Html = class {
     //        console.log('local', i)
         this.bind(opts.sources[i], i)
       }
-      if (opts.sourcesBound) {
+      if (opts.allBound) {
         for (let i in this.sources) {
           this.sources[i]._key = i
         }
-        opts.sourcesBound.call(this, this.sources)
+        opts.allBound.call(this, this.sources)
         for (let i in this.sources) {
           delete this.sources[i]._key
         }
@@ -235,67 +234,6 @@ const Html = class {
     }
 
 
-    // this.dynamicItems = false
-    // this.dynamicComponents = false
-    // for (let i in this.sources) {
-    //   if (opts[i+'Items']) {
-    //     this.dynamicItems = true
-    //   }
-    //   if (opts[i+'Components']) {
-    //     this.dynamicComponents = true
-    //   }
-    // }
-
-    // if (opts.subscribes) {
-    //   for (let i in opts.subscribes) {
-    //     if (this.sources[i]) {
-    //       if (opts.dynamic[i]['items']) {
-    //         this.dynamicItems = true
-    //       }
-    //       if (opts.dynamic[i]['components']) {
-    //         this.dynamicComponents = true
-    //       }
-    //     }
-    //   }
-    //   // for (let i in this.sources) {
-    //   //   if (opts.dynamic[i+'Items']) {
-    //   //     this.dynamicItems = true
-    //   //   }
-    //   //   if (opts.dynamic[i+'Components']) {
-    //   //     this.dynamicComponents = true
-    //   //   }
-    //   // }
-    // }
-    // if (opts.dynamic === true) {
-    //   this.dynamicItems = true
-    //   this.dynamicComponents = true
-    // }
-    // if (opts['$items']) {
-    //   this.dynamicItems = true
-    // }
-    // if (opts['$components']) {
-    //   this.dynamicComponents = true
-    // }
-
-    // // выполняем первичный маппинг? чтобы понять, необходимо ли создавать дочерние элементы
-    // const srcOpts = {}
-    // for (let i in this.sources) {
-    //   if (opts[i]) {
-    //     let o = opts[i].call(this, this.sources[i].get(), this.sources[i])
-    //     if (o) {
-    //       if (o['components'] || o['$components']) {
-    //         this.dynamicComponents = true
-    //       }
-    //       if (o['items'] || o['$items']) {
-    //         this.dynamicItems = true
-    //       }
-    //       srcOpts[i] = o
-    //     }
-    //   }
-    // }
-
-    // проверяем первичный биндинг на наличие компонентов или элементов
-//    console.log(this.sources)
 
     // создание компонентов и элементов
 
@@ -421,7 +359,7 @@ const Html = class {
         this._binders[i] = o
 
         const source = this.sources[o.domain]
-        if (!source._listeners || !source._listeners.has(this)) {
+        if (!source.hasListener(this)) {//}._listeners || !source._listeners.has(this)) {
           source.join(this, this.changed, null, o.domain)
         }
         continue
@@ -500,7 +438,7 @@ const Html = class {
     this.tryInit()
 
 
-    if (opts.binding) {
+    if (opts.changed) {
       const v = {}
       // while (this._binding_chain.length) {
       //   const src = this.sources[this._binding_chain.shift()]
@@ -509,7 +447,7 @@ const Html = class {
       for (let i in this.sources) {
         v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
       }
-      const bindOpts = opts.binding.call(this, v, this.sources)
+      const bindOpts = opts.changed.call(this, v, this.sources)
       if (bindOpts) {
         for (let j in bindOpts) {
           this.opt(j, bindOpts[j])
@@ -745,10 +683,10 @@ const Html = class {
           key = value
           value = this.sources[key]
         }
-        if (value instanceof Source) {
+        if (value instanceof Domain) {
           value = value.asStream()
         }
-        if (value instanceof Source.Stream) {
+        if (value instanceof Domain.Stream) {
           const o = this.options
 
           key = value.key || key
@@ -1009,7 +947,7 @@ const Html = class {
           value = value()
         }
 
-        if (value instanceof Source) {
+        if (value instanceof Domain) {
           let o = this.options
           const data = value.get()
           if (data) {
@@ -1428,10 +1366,10 @@ const Html = class {
     // }
 
     if (key != null) {
-      source = (v instanceof Source) ? v.entry(key) : new (this.context.sourceType || Source)(v, null, key)
+      source = (v instanceof Domain) ? v.entry(key) : new Domain(v, null, key)
     }
     else {
-      source = (v instanceof Source) ? v : new (this.context.sourceType || Source)(v)
+      source = (v instanceof Domain) ? v : new Domain(v)
     }
 
 //    const effects = o[i+'Effects']
@@ -1452,23 +1390,30 @@ const Html = class {
     //   }
     // }
 
-    if (o.binding || o[i+'Effects'] || o[i+'Events'] || o.effects || o.sourcesBound || o[i+'Changed'] || o[i+'Methods'] || o[i+'Computed']) {
+    if (o.anyChanged || (o.effects && o.effects[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.changed, null, i/*, o[i+'Effects']*/)
-      if (o[i+'Methods']) {
-        source.on(o[i+'Methods'], this)
-      }
-      if (o[i+'Computed']) {
-        source.comp(o[i+'Computed'], this)
-      }
-      if (o[i+'Effects']) {
-        for (let j in o[i+'Effects']) {
-          o[i+'Effects'][j](this, source, i)
+
+      if (o.effects && o.effects[i]) {
+        for (let j in o.effects[i]) {
+          o.effects[i][j](source, this, i)
         }
       }
-      if (o[i+'Events']) {
-        source.on(o[i+'Events'], this)
-      }
+
+      // if (o[i+'Methods']) {
+      //   source.on(o[i+'Methods'], this)
+      // }
+      // if (o[i+'Computed']) {
+      //   source.comp(o[i+'Computed'], this)
+      // }
+      // if (o[i+'Effects']) {
+      //   for (let j in o[i+'Effects']) {
+      //     o[i+'Effects'][j](this, source, i)
+      //   }
+      // }
+      // if (o[i+'Events']) {
+      //   source.on(o[i+'Events'], this)
+      // }
     }
 
     if (this.sources[i] && this.sources[i] != source) {
@@ -1512,12 +1457,12 @@ const Html = class {
         }
       }
 
-      if (o.binding) {
+      if (o.anyChanged) {
         v = {}
         for (let i in this.sources) {
           v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
         }
-        const bindOpts = o.binding.call(this, v, key)
+        const bindOpts = o.anyChanged.call(this, v, key)
         if (bindOpts) {
           this.opt(bindOpts, key)
           // for (let j in bindOpts) {
@@ -1536,7 +1481,7 @@ const Html = class {
             if (src._properties && src._properties[binder.prop]) {
               // есть свойство в модели
               const prop = src._properties[binder.prop]
-              propVal = prop.project ? src.entry(binder.prop).get() : v.data[binder.prop]
+              propVal = prop.calc ? src.entry(binder.prop).get() : v.data[binder.prop]
             }
             else {
               propVal = binder.prop ? v.data[binder.prop] : v.data
@@ -1767,7 +1712,7 @@ const Html = class {
       for (let i in this.sources) {
         const src = this.sources[i]
         // FIXME определять наличие биндинга нужно другим способом
-        if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (src.hasListener(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
 //          this._sourcesToUnjoin[i] = src
 //          console.log('destroing...', i)
           src._destroy(this)
@@ -1812,7 +1757,7 @@ const Html = class {
 
       this._binding_chain = []
       for (let i in this.sources) {
-        if (opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (this.sources[i].hasListener(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
           this._binding_chain.push(i)
           this._sourcesToJoin[i] = this.sources[i]
         }

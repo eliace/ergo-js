@@ -381,12 +381,12 @@ const Animation = {
 }
 
 const Effects = {
-  Log: function (target, domain, key) {
+  Log: function (domain, target, key) {
     domain.watch(e => {
       console.log(key, e)
     }, target)
   },
-  Show: function (target, data, key, name='fade') {
+  Show: function (data, target, key, name='fade') {
 
     data.watch((e) => e.name == 'init', target, (e) => {
       return show()
@@ -411,7 +411,7 @@ const Effects = {
     }
 
   },
-  Hide: function (target, data, key, name='fade') {
+  Hide: function (data, target, key, name='fade') {
 
     data.watch((e) => e.name == 'destroy', target, (e) => {
       return hide()
@@ -440,7 +440,7 @@ const Effects = {
     }
 
   },
-  FLIP: function (target, data, key, name='list') {
+  FLIP: function (data, target, key, name='list') {
 
     data.watch(e => e.name == 'changed', target, (e) => {
       flip()
@@ -655,14 +655,14 @@ const Effects = {
   }
 }
 
-Effects.Show.Slide = (target, data, key) => Effects.Show(target, data, key, 'slide-fade')
-Effects.Hide.Slide = (target, data, key) => Effects.Hide(target, data, key, 'slide-fade')
-Effects.Show.Named = (name) => (target, data, key) => Effects.Show(target, data, key, name)
-Effects.Hide.Named = (name) => (target, data, key) => Effects.Hide(target, data, key, name)
-Effects.FLIP.Named = (name) => (target, data, key) => Effects.FLIP(target, data, key, name)
+Effects.Show.Slide = (data, target, key) => Effects.Show(data, target, key, 'slide-fade')
+Effects.Hide.Slide = (data, target, key) => Effects.Hide(data, target, key, 'slide-fade')
+Effects.Show.Named = (name) => (data, target, key) => Effects.Show(data, target, key, name)
+Effects.Hide.Named = (name) => (data, target, key) => Effects.Hide(data, target, key, name)
+Effects.FLIP.Named = (name) => (data, target, key) => Effects.FLIP(data, target, key, name)
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
@@ -697,17 +697,6 @@ export default (projector) => {
           text: 'Press me',
           onClick: function (e, {data}) {
             data.toggle('p')
-            // // return
-            // const showEff = [{effector: 'show'}]
-            // const hideEff = [{effector: 'hide'}]
-            //
-            // const p = this.sources.data.get('p')
-            // if (p) {
-            //   this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
-            // }
-            // else {
-            //   this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
-            // }
           }
         },
         $p: {
@@ -715,7 +704,9 @@ export default (projector) => {
           text: 'Hello!',
           weight: 10,
           mixins: [Animation.Mixins.Transitions],
-          dataEffects: [Effects.Show, Effects.Hide]
+          effects: {
+            data: [Effects.Show, Effects.Hide]
+          }
         }
       }
     }, {
@@ -723,7 +714,7 @@ export default (projector) => {
         data: new Domain({show: true}, {
           properties: {
             p: {
-              project: (v) => v.show
+              calc: (v) => v.show
             }
           }
 //          logEvents: true,
@@ -766,7 +757,9 @@ export default (projector) => {
         text: 'Hello!',
         weight: 10,
         mixins: [Animation.Mixins.Transitions],
-        dataEffects: [Effects.Show.Slide, Effects.Hide.Slide],
+        effects: {
+          data: [Effects.Show.Slide, Effects.Hide.Slide]
+        }
       }
     }, {
       sources: {
@@ -810,7 +803,9 @@ export default (projector) => {
           as: 'list-item',
           dataChanged: Mutate.Text,
           mixins: [Animation.Mixins.Transitions],
-          dataEffects: [Effects.Show, Effects.Hide]
+          effects: {
+            data: [Effects.Show, Effects.Hide]
+          }
           // dataEffectors: {
           //   hide: Animation.Effectors.Hide('list', evt => evt.name == 'removeItem'),
           //   show: Animation.Effectors.Show('list', evt => evt.name == 'changed')
@@ -821,9 +816,10 @@ export default (projector) => {
       }
     }, {
       sources: {
-        data: new Domain({
-          items: [1,2,3,4,5,6,7,8,9]
-        }, {
+        data: new Domain(null, {
+          initial: {
+            items: [1,2,3,4,5,6,7,8,9]
+          },
           methods: {
             shuffle: function () {
               return this.set('items', _.shuffle(this.get('items')))
@@ -832,9 +828,18 @@ export default (projector) => {
         }),
         view: {}
       },
-      viewEvents: {
-        shuffleBtn: {type: 'event'}
+      // effects: {
+      //   view: [function (view) {
+      //     view.on({shuffleBtn: {type: 'event'}}, this)
+      //   }]
+      // },
+      allBound: function ({view}) {
+        view.$event('shuffleBtn', this)
+//        view.on({shuffleBtn: {type: 'event'}}, this)
       },
+      // viewEvents: {
+      //   shuffleBtn: {type: 'event'}
+      // },
 
       onShuffleBtn: function (e, {data}) {
         data.shuffle()
@@ -872,7 +877,9 @@ export default (projector) => {
         },
         dataId: 'items',
         dataChanged: Mutate.Items,
-        dataEffects: [Effects.FLIP.Named('flip-list')]
+        effects: {
+          data: [Effects.FLIP.Named('flip-list')]
+        }
       }
     }, {
       sources: {
@@ -912,7 +919,9 @@ export default (projector) => {
         styles: {
           'position': 'relative'
         },
-        dataEffects: [Effects.FLIP.Named('flip-list')],
+        effects: {
+          data: [Effects.FLIP.Named('flip-list')]
+        },
         // sourcesBound: function ({data}) {
         // },
 //         dataEffectors: {
@@ -931,7 +940,9 @@ export default (projector) => {
             this.opt('text', v)
           },
           mixins: [Animation.Mixins.Transitions],
-          dataEffects: [Effects.Show.Named('list-complete'), Effects.Hide.Named('list-complete')]
+          effects: {
+            data: [Effects.Show.Named('list-complete'), Effects.Hide.Named('list-complete')]
+          }
           // dataEffectors: {
           //   hide: Animation.Effectors.Hide('list-complete', evt => evt.name == 'removeItem'),
           //   show: Animation.Effectors.Show('list-complete', evt => evt.name == 'init')
@@ -954,7 +965,7 @@ export default (projector) => {
         }, {
           properties: {
             filteredList: {
-              project: function (v) {
+              calc: function (v) {
                 return v.list.filter((item) => {
                   return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
                 })
@@ -998,125 +1009,125 @@ export default (projector) => {
           dataChanged: function (v) {
             this.opts.text = v && v.msg
           },
-          viewEffects: [Effects.Log, function (target, domain, key) {
+          effects: {
+            data: [Effects.Log, function (domain, target, key) {
 
-            domain.watch(e => e.name == 'destroy', target, () => {
-              return hide()
-            })
-
-            domain.watch(e => e.name == 'init', target, () => {
-              console.log('init', target)
-              return show()
-            })
-
-            const hide = domain.effect('hide', target, async () => {
-              const delay = target.index * 150
-              await timeout(delay)
-              await velocityHide()
-            })
-
-            const show = domain.effect('show', target, async () => {
-              target.opt('styles', {'opacity': '0', 'height': '0'})
-              await timeout(target.index * 150)
-              await raf()
-              await velocityShow()
-              // console.log('------------------------------------------')
-              // target.rerender()
-              target.context.projector.scheduleRender()
-            })
-
-            const velocityHide = function () {
-              return new Promise((resolve) => {
-                Velocity(
-                  target.vnode.domNode,
-                  { opacity: 0, height: 0 },
-                  { complete: () => resolve(), duration: 1000 }
-                )
+              domain.watch(e => e.name == 'destroy', target, () => {
+                return hide()
               })
-            }
 
-            const velocityShow = function () {
-              console.log(target.vnode)
-              return new Promise((resolve) => {
-                Velocity(
-                  target.vnode.domNode,
-                  { opacity: 1, height: '1.6em' },
-                  { complete: () => resolve(), duration: 1000 }
-                )
+              domain.watch(e => e.name == 'init', target, () => {
+                console.log('init', target)
+                return show()
               })
-            }
 
-          }],
-          dataEffectors: {
-            hide: (function () {
-              const eff = function () {
-                return {
-                  activator: (activate, delay) => setTimeout(activate, delay),
-                  init: () => {
-                    const delay = this.index * 150 //this.vnode.domNode.dataset.index * 150
-                    console.log('init', delay)
-                    return delay
-                  },
-                  ready: () => {
-                      console.log('ready')
-                  },
-                  resolver: () => {
-                    return new Promise((resolve) => {
-                      Velocity(
-                        this.vnode.domNode,
-                        { opacity: 0, height: 0 },
-                        { duration: 3000, complete: () => resolve() }
-                      )
-//                      console.log(v)
-                    })
-                  },
-                  done: () => {
-                    console.log('done')
-                    this.context.projector.scheduleRender()
-                  }
-                }
+              const hide = domain.effect('hide', target, async () => {
+                const delay = target.index * 150
+                await timeout(delay)
+                await velocityHide()
+              })
+
+              const show = domain.effect('show', target, async () => {
+                target.opt('styles', {'opacity': '0', 'height': '0'})
+                await timeout(target.index * 150)
+                await raf()
+                await velocityShow()
+//                target.context.projector.scheduleRender()
+              })
+
+              const velocityHide = function () {
+                return new Promise((resolve) => {
+                  Velocity(
+                    target.vnode.domNode,
+                    { opacity: 0, height: 0 },
+                    { complete: () => resolve(), duration: 1000 }
+                  )
+                })
               }
-              eff.watch = (evt) => evt.name == 'removeItem'
-              eff.mode = 'pre'
-              return eff
-            })(),
-            show: (function () {
-              const eff = function () {
-                return {
-                  activator: (activate, delay) => {
-                    requestAnimationFrame(() => {
-                      setTimeout(activate, delay)
-                    })
-                  },
-                  init: () => {
-                    const delay = this.index * 150 //this.vnode.domNode.dataset.index * 150
-                    this.opt('styles', {'opacity': '0', 'height': '0'})
-//                    this.context.projector.renderNow()
-                    console.log('init', delay)
-                    return delay
-                  },
-                  ready: () => {
-                      console.log('ready')
-                  },
-                  resolver: () => {
-                    return new Promise((resolve) => {
-                      Velocity(
-                        this.vnode.domNode,
-                        { opacity: 1, height: '1.6em' },
-                        { complete: () => resolve() }
-                      )
-                    })
-                  },
-                  done: () => {
-                    console.log('done')
-                    this.context.projector.scheduleRender()
-                  }
-                }
+
+              const velocityShow = function () {
+                console.log(target.vnode)
+                return new Promise((resolve) => {
+                  Velocity(
+                    target.vnode.domNode,
+                    { opacity: 1, height: '1.6em' },
+                    { complete: () => resolve(), duration: 1000 }
+                  )
+                })
               }
-              eff.watch = (evt) => evt.name == 'init'
-              return eff
-            })()
-          }
+
+            }]
+          },
+//           dataEffectors: {
+//             hide: (function () {
+//               const eff = function () {
+//                 return {
+//                   activator: (activate, delay) => setTimeout(activate, delay),
+//                   init: () => {
+//                     const delay = this.index * 150 //this.vnode.domNode.dataset.index * 150
+//                     console.log('init', delay)
+//                     return delay
+//                   },
+//                   ready: () => {
+//                       console.log('ready')
+//                   },
+//                   resolver: () => {
+//                     return new Promise((resolve) => {
+//                       Velocity(
+//                         this.vnode.domNode,
+//                         { opacity: 0, height: 0 },
+//                         { duration: 3000, complete: () => resolve() }
+//                       )
+// //                      console.log(v)
+//                     })
+//                   },
+//                   done: () => {
+//                     console.log('done')
+//                     this.context.projector.scheduleRender()
+//                   }
+//                 }
+//               }
+//               eff.watch = (evt) => evt.name == 'removeItem'
+//               eff.mode = 'pre'
+//               return eff
+//             })(),
+//             show: (function () {
+//               const eff = function () {
+//                 return {
+//                   activator: (activate, delay) => {
+//                     requestAnimationFrame(() => {
+//                       setTimeout(activate, delay)
+//                     })
+//                   },
+//                   init: () => {
+//                     const delay = this.index * 150 //this.vnode.domNode.dataset.index * 150
+//                     this.opt('styles', {'opacity': '0', 'height': '0'})
+// //                    this.context.projector.renderNow()
+//                     console.log('init', delay)
+//                     return delay
+//                   },
+//                   ready: () => {
+//                       console.log('ready')
+//                   },
+//                   resolver: () => {
+//                     return new Promise((resolve) => {
+//                       Velocity(
+//                         this.vnode.domNode,
+//                         { opacity: 1, height: '1.6em' },
+//                         { complete: () => resolve() }
+//                       )
+//                     })
+//                   },
+//                   done: () => {
+//                     console.log('done')
+//                     this.context.projector.scheduleRender()
+//                   }
+//                 }
+//               }
+//               eff.watch = (evt) => evt.name == 'init'
+//               return eff
+//             })()
+//           }
         }
       }
     }]
