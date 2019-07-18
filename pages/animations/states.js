@@ -27,55 +27,62 @@ function generatePoints (stats) {
 
 
 class AnimatedNumber extends Html {
-  static defaultOpts = {
-    html: 'span',
-    sources: {
-      vm: function () {
-        return {
-          tweeningValue: 0
-        }
-      }
-    },
-    vmChanged: function (v) {
-      this.opt('text', v.tweeningValue)
-    },
-    vmEffectors: {
-      tween: (function () {
-        const eff = function () {
+
+  config () {
+    return {
+      sources: {
+        view: function () {
           return {
-            init: (value, event) => {
-              return {start: event.cache['value'] || 0, end: value['value']}
-            },
-            resolver: (values) => {
-              const vm = this.sources.vm
-
-              function animate () {
-                if (TWEEN.update()) {
-                  requestAnimationFrame(animate)
-                }
-                else {
-                  console.log('stop')
-                }
-              }
-
-              console.log('tween', values.start, values.end)
-
-              new TWEEN.Tween({ tweeningValue: values.start })
-                .to({ tweeningValue: values.end }, 500)
-                .onUpdate(function (obj) {
-                  vm.set('tweeningValue', obj.tweeningValue.toFixed(0))
-                })
-                .start()
-
-                animate()
-            }
+            tweeningValue: 0
           }
         }
-        eff.watch = (evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids)
-        return eff
-      })()
+      },
+      html: 'span',
+      viewChanged: function (v) {
+        this.opt('text', v.tweeningValue)
+      },
+      allBound: function ({view}) {
+        view.watch((evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids), this, (evt) => {
+          tween(evt.cache['value'] || 0, evt.data['value'])
+        })
+
+        function animate () {
+          if (TWEEN.update()) {
+            requestAnimationFrame(animate)
+          }
+          else {
+            console.log('stop')
+          }
+        }
+
+        function tween (start, end) {
+
+          console.log('tween', start, end)
+
+          new TWEEN.Tween({ tweeningValue: start })
+            .to({ tweeningValue: end }, 500)
+            .onUpdate(function (obj) {
+              view.set('tweeningValue', obj.tweeningValue.toFixed(0))
+            })
+            .start()
+
+          animate()
+        }
+      }
     }
   }
+
+  configOptions () {
+    return {
+      value: {
+        initOrSet: function (v) {
+          this.sources.view.set('value', v)
+        }
+      }
+    }
+  }
+
+
   static OPTIONS = {
     value: {
       initOrSet: function (v) {
@@ -96,26 +103,18 @@ export default (projector) => {
           number: 0,
           tweenedNumber: 0
         }, {
-          computed: {
-            animatedNumber: function (v) {
-              return v.tweenedNumber.toFixed(0)
+          properties: {
+            animatedNumber: {
+              calc: v => v.tweenedNumber.toFixed(0)
             }
           },
-          effectors: {
-            tween: (function () {
-              const eff = function () {
-                return {
-                  resolver: (val) => {
-                    // TweenLite.to(val, 0.5, {
-                    //   tweenedNumber: val.number,
-                    //   onUpdate: () => this.update('none')})
-                      TweenLite.to(this.proxy(), 0.5, {tweenedNumber: val.number})
-                  }
-                }
+          watchers: {
+            tween: {
+              when: e => e.name == 'changed' && e.ids && ('number' in e.ids),
+              init: (e, data) => {
+                TweenLite.to(data.$, 0.5, {tweenedNumber: data.$.number})
               }
-              eff.watch = (evt) => evt.name == 'changed' && evt.ids && evt.ids['number']
-              return eff
-            })()
+            }
           }
         })
       },
@@ -219,7 +218,6 @@ export default (projector) => {
             data.resetInterval()
           })
           data.watch(e => e.name == 'destroy', target, () => {
-            debugger
             clearInterval(data.interval)
           })
         }]

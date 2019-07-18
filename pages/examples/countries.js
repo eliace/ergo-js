@@ -13,7 +13,7 @@ export default () => {
   return {
     layout: Layouts.Container,
     dataId: 'countries',
-    sourcesBound: function ({data}) {
+    allBound: function ({data}) {
       const loadCountries = data.effect('loadCountries', this, async () => {
 //        data.set([])
         const v = await api.getCountries()

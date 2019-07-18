@@ -158,7 +158,7 @@ class Source {
 
       if (Array.isArray(v)) {
         if (Object.keys(this.entries).length) {
-          console.log('need to shake entries')
+          console.log('need to reshake entries')
           for (let i in this.entries) {
             const entry = this.entries[i]
             if (entry.isCalc) {
@@ -175,7 +175,7 @@ class Source {
       }
       else {
         if (Object.keys(v).length) {
-          console.log('need to shake entries')
+          console.log('need to reshake entries')
         }
       }
 
@@ -467,22 +467,28 @@ class Source {
 
 
 
-  stream(callback, filter, sorter, pager) {
+  stream(callback) {
 
-    // TODO filter + sorter + pager
+    const value = this.get()
+    const props = this._properties
 
-    // TODO потоку не обязательно сразу же создавать вложенный observable
-
-    let v = this.get()
-
-    if (Array.isArray(v)) {
+    if (Array.isArray(value)) {
+      // обходим элементы массива в порядке индексов
       for (let i = 0; i < v.length; i++) {
-        callback.call(this, this.entry(i), i, v)
+        callback.call(this, this.entry(i), i, value[i])
       }
     }
     else {
-      for (let k in v) {
-        callback.call(this, this.entry(k), k, v)
+      const allProps = {...value, ...this._properties}
+      for (let k in value) {
+        callback.call(this, this.entry(k), k, value[k])
+      }
+      for (let k in this._properties) {
+        // TODO возможно, правильнее при коллизии использовать property
+        if (!(k in value)) {
+          const entry = this.entry(k)
+          callback.call(this, entry, k, entry.get())
+        }
       }
     }
   }
@@ -683,11 +689,11 @@ class Source {
     if (!this._proxy) {
       this._proxy = new Proxy(this, {
         set: function (target, property, value) {
-          target.set(property, value)
+          target.entry(property).set(value)
         },
         get: function (target, property) {
           if (target.entries[property]) {
-            return target.entry(property).$
+            return target.entry(property).get()
           }
           // if (this._properties && this._properties[property]) {
           //   return this.entry(property).get()

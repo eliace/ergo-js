@@ -3,64 +3,104 @@ import {Html, Layouts, Tabs, Source, Button} from '../../src'
 import {Mutate} from '../helpers'
 
 
-class VmInput extends Html {
+class ValueInput extends Html {
   static defaultOpts = {
     sources: {
-      vm: ''
+      value: ''
     },
     html: 'input',
-    onInput: function (e) {
-      this.sources.vm.set(e.target.value)
+    onInput: function (e, {value}) {
+      value.set(e.target.value)
     },
-    vmChanged: Mutate.Value
+    valueChanged: Mutate.Value
   }
 }
 
-class VmText extends Html {
+class ValueText extends Html {
   static defaultOpts = {
     sources: {
-      vm: ''
+      value: ''
     },
     html: 'p',
-    vmChanged: Mutate.Text
+    valueChanged: Mutate.Text
   }
 }
 
 class Switch extends Html {
-  static defaultOpts = {
-    layout: Layouts.PassThrough,
-    components: {
-      input: {
-        html: 'input',
-        as: 'switch',
-        _type: 'checkbox'
+
+  config () {
+    return {
+      sources: {
+        view: {}
       },
-      content: {
-        html: 'label',
-        onClick: function (e) {
-          this.rise('handleClick', e)
+      allBound: function ({view}) {
+        view.$event('click', this)
+      },
+      layout: Layouts.PassThrough,
+        $input: {
+          html: 'input',
+          as: 'switch',
+          _type: 'checkbox'
+        },
+        $content: {
+          html: 'label',
+          onClick: function (e, {view}) {
+            view.click(e)
+//            this.rise('handleClick', e)
+          }
+        }
+    }
+  }
+
+  configOptions () {
+    return {
+      selected: {
+        initOrSet: function (v) {
+          this.$input.opt('checked', v)
+        }
+      },
+      value: {
+        initOrSet: function (v) {
+          this.domains.view.set(v) // перекладка
         }
       }
     }
   }
-  static OPTIONS = {
-    selected: {
-      initOrSet: function (v) {
-        this.$input.opt('checked', v)
-      }
-    }
-  }
 
-  handleClick (e) {
-    if (this.options.onClick) {
-      this.options.onClick.call(this, e)
-    }
-    return false
-  }
+  // static defaultOpts = {
+  //   layout: Layouts.PassThrough,
+  //   components: {
+  //     input: {
+  //       html: 'input',
+  //       as: 'switch',
+  //       _type: 'checkbox'
+  //     },
+  //     content: {
+  //       html: 'label',
+  //       onClick: function (e) {
+  //         this.rise('handleClick', e)
+  //       }
+  //     }
+  //   }
+  // }
+  // static OPTIONS = {
+  //   selected: {
+  //     initOrSet: function (v) {
+  //       this.$input.opt('checked', v)
+  //     }
+  //   }
+  // }
+  //
+  // handleClick (e) {
+  //   if (this.options.onClick) {
+  //     this.options.onClick.call(this, e)
+  //   }
+  //   return false
+  // }
 }
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
@@ -70,23 +110,26 @@ export default (projector) => {
           middleName: '',
           lastName: '',
         },
-        vm: true
+        value: true
       },
-      vmRef: 'data',
       items: [{
-        type: VmInput,
-        vmId: 'firstName',
+        type: ValueInput,
+        dataId: 'firstName',
+        valueRef: 'data',
         placeholder: 'First Name'
       }, {
-        type: VmInput,
-        vmId: 'middleName',
+        type: ValueInput,
+        dataId: 'middleName',
+        valueRef: 'data',
         placeholder: 'Middle Name'
       }, {
-        type: VmInput,
-        vmId: 'lastName',
+        type: ValueInput,
+        dataId: 'lastName',
+        valueRef: 'data',
         placeholder: 'Last Name'
       }, {
-        type: VmText,
+        type: ValueText,
+        valueRef: 'data',
         format: JSON.stringify
       }]
     }, {
@@ -98,21 +141,21 @@ export default (projector) => {
       defaultItem: {
         type: Switch,
         dataChanged: function (v) {
-          this.opts.text = v
-          this.opts.key = v
-          // this.opt('text', v)
-          // this.opt('key', v)
+          // this.opts.text = v
+          // this.opts.key = v
+          this.opt('text', v)
+          this.opt('key', v)
         },
-        onClick: function () {
-          this.sources.selection.toggle(this.opts.key)//this.opt('key'))
+        onClick: function (e, {selection}) {
+          selection.toggle(this.opt('key'))
         },
         selectionChanged: function (v) {
-          this.opt('selected', v[this.opts.key])//v[this.opt('key')])
+          this.opt('selected', v[this.opt('key')])
         }
       },
       $info: {
-        type: VmText,
-        vmRef: 'selection',
+        type: ValueText,
+        valueRef: 'selection',
         format: JSON.stringify,
         weight: 10
       }

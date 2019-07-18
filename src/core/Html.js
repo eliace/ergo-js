@@ -104,18 +104,20 @@ const Html = class {
     var proto = Object.getPrototypeOf(this)
 
     //  собираем опции класса, если они еще не собраны
-    if (!proto.hasOwnProperty('classOpts')) {
+    if (!proto.hasOwnProperty('classDefaults')) {
 
-      var chain = []
+      const chain = []
+      const opts = []
 
-      var cls = proto
+      let cls = proto
 
       while (cls && cls.constructor !== Object) {
-        chain.push(cls.defaultOpts || cls.constructor.defaultOpts)
+        chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.config && cls.config()))
+        opts.push(cls.configOptions && cls.configOptions())
         cls = Object.getPrototypeOf(cls)
       }
 
-      var classOpts = new Options()
+      let classOpts = new Options()
 
       for (let i = chain.length-1; i >= 0; i--) {
         // добавляем только в том случае, когда опции не наследуются
@@ -124,7 +126,20 @@ const Html = class {
         }
       }
 
-      proto.classOpts = classOpts.build(DEFAULT_RULES)
+      proto.classDefaults = classOpts.build(DEFAULT_RULES)
+
+      classOpts = {}
+
+      for (let i = opts.length-1; i >= 0; i--) {
+        // добавляем только в том случае, когда опции не наследуются
+        if (opts[i] && opts[i] != opts[i+1]) {
+          Object.assign(classOpts, opts[i])
+        }
+      }
+
+      proto.classOptions = classOpts
+
+      console.log('classOptions', classOpts)
 
 
       const DEFAULT_OPTS = ['text', 'width', 'height', 'as', 'items', 'components', '$items', '$components']
@@ -150,7 +165,7 @@ const Html = class {
       proto.classOptsProxy = proxy
     }
 
-    let opts = new Options(this.classOpts, options).build(DEFAULT_RULES)
+    let opts = new Options(this.classDefaults, options).build(DEFAULT_RULES)
 
     this.html = opts.html || 'div'
 
@@ -192,8 +207,8 @@ const Html = class {
 
     // sugar opts
     for (var i in opts) {
-      if (this.constructor.OPTIONS[i]) {
-        const desc = this.constructor.OPTIONS[i]
+      if (this.classOptions[i] || this.constructor.OPTIONS[i]) {
+        const desc = this.classOptions[i] || this.constructor.OPTIONS[i]
         if (desc.sugar) {
           desc.sugar.call(this, opts[i], preparedOpts)
         }
@@ -374,8 +389,8 @@ const Html = class {
           desc.initOrSet.call(this, opts[i])
         }
       }
-      else if (this.constructor.OPTIONS[i]) {
-        const desc = this.constructor.OPTIONS[i]
+      else if (this.classOptions[i] || this.constructor.OPTIONS[i]) {
+        const desc = this.classOptions[i] || this.constructor.OPTIONS[i]
         if (desc.init) {
           desc.init.call(this, opts[i])
         }
@@ -628,8 +643,8 @@ const Html = class {
         desc.initOrSet.call(this, value)
       }
     }
-    else if (this.constructor.OPTIONS[name]) {
-      const desc = this.constructor.OPTIONS[name]
+    else if (this.classOptions[name] || this.constructor.OPTIONS[name]) {
+      const desc = this.classOptions[name] || this.constructor.OPTIONS[name]
       if (desc.set) {
         desc.set.call(this, value, key)
       }
@@ -949,35 +964,38 @@ const Html = class {
 
         if (value instanceof Domain) {
           let o = this.options
-          const data = value.get()
-          if (data) {
-            for (let i in data) {
-              if (o['$'+i]) {
-                const s = data[i]
-                if (s && !this['$'+i]) {
-                  this.addComponent(i, s)
-                  console.log('add component', i, s)
-                }
-                else if (s && this['$'+i]._destroying) {
-                  // this['$'+i].destroy()
-                  // this.addComponent(i, s)
-                  delete this['$'+i]._destroying
-                  delete this['$'+i]._sourcesToUnjoin
-                  this['$'+i].tryInit()
-//                  this.addComponent(i, s)
-                  console.log('restore component', i, s)
-                }
-                else if (!s && this['$'+i]) {
-                  if (this['$'+i].isInitializing) {
-                    console.warn('try to destroy initializing component', this['$'+i])
+          // const data = value.get()
+          // if (data) {
+          //   for (let i in data) {
+              value.stream((entry, i, s) => {
+                console.log(i, s)
+                if (o['$'+i]) {
+//                  const s = data[i]
+                  if (s && !this['$'+i]) {
+                    this.addComponent(i, s)
+                    console.log('add component', i, s)
                   }
-                  this['$'+i].tryDestroy()
-//                  this.removeComponent(i)
-                  console.log('remove component', i)
+                  else if (s && this['$'+i]._destroying) {
+                    // this['$'+i].destroy()
+                    // this.addComponent(i, s)
+                    delete this['$'+i]._destroying
+                    delete this['$'+i]._sourcesToUnjoin
+                    this['$'+i].tryInit()
+  //                  this.addComponent(i, s)
+                    console.log('restore component', i, s)
+                  }
+                  else if (!s && this['$'+i]) {
+                    if (this['$'+i].isInitializing) {
+                      console.warn('try to destroy initializing component', this['$'+i])
+                    }
+                    this['$'+i].tryDestroy()
+  //                  this.removeComponent(i)
+                    console.log('remove component', i)
+                  }
                 }
-              }
-            }
-          }
+              })
+//            }
+//          }
 
 //          let dynamicComponents = o.components
           // if (o.dynamic === true) {
@@ -1372,6 +1390,11 @@ const Html = class {
       source = (v instanceof Domain) ? v : new Domain(v)
     }
 
+    // если домен уже подключен, повторно не подключаем
+    if (source == this.sources[i]) {
+      return
+    }
+
 //    const effects = o[i+'Effects']
 
     // if (o[i+'Id'] || o[i+'Options'] || o[i+'Items'] || o[i+'Components']/* || o.binding || o[i+'Changed']*/
@@ -1390,14 +1413,19 @@ const Html = class {
     //   }
     // }
 
-    if (o.anyChanged || (o.effects && o.effects[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
+    // решаем, подключаться ли к домену
+    if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.join(this, this.changed, null, i/*, o[i+'Effects']*/)
 
-      if (o.effects && o.effects[i]) {
-        for (let j in o.effects[i]) {
-          o.effects[i][j](source, this, i)
+      if (o.use && o.use[i]) {
+        for (let j in o.use[i]) {
+          o.use[i][j](source, this, i)
         }
+      }
+
+      if (o[i+'Bound']) {
+        o[i+'Bound'].call(this, source)
       }
 
       // if (o[i+'Methods']) {
@@ -1416,9 +1444,9 @@ const Html = class {
       // }
     }
 
-    if (this.sources[i] && this.sources[i] != source) {
-      this.sources[i].unjoin(this)
-    }
+    // if (this.sources[i] && this.sources[i] != source) {
+    //   this.sources[i].unjoin(this)
+    // }
 
     // else {
     //   console.log('ignore join')
@@ -1623,7 +1651,7 @@ const Html = class {
     return this.children.filter(itm => itm.index != null)
   }
 
-  get domain () {
+  get domains () {
     return this.sources
   }
 
@@ -1666,12 +1694,14 @@ const Html = class {
         this.parent.removeComponent(this)
       }
     }
-    else {
+    else if (this.parent !== false) {
       console.error('try to destroy detached child', this)
     }
 
+//    const children = [...this.children]
     for (let i = 0; i < this.children.length; i++) {
-      this.children[i].destroy();
+      this.children[i].parent = false // мухлюем, т.к. нам не нужно удаление здорового компонента
+      this.children[i].tryDestroy();
     }
 
     delete this.children
@@ -1685,7 +1715,7 @@ const Html = class {
 
   tryDestroy(unjoinedSource) {
 
-//    console.log('try destroy', unjoinedSource)
+//    console.log('try destroy', this)
 
     if (unjoinedSource) {
       if (this.isDestroying) {
