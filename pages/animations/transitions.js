@@ -704,7 +704,7 @@ export default () => {
           text: 'Hello!',
           weight: 10,
           mixins: [Animation.Mixins.Transitions],
-          effects: {
+          use: {
             data: [Effects.Show, Effects.Hide]
           }
         }
@@ -757,7 +757,7 @@ export default () => {
         text: 'Hello!',
         weight: 10,
         mixins: [Animation.Mixins.Transitions],
-        effects: {
+        use: {
           data: [Effects.Show.Slide, Effects.Hide.Slide]
         }
       }
@@ -803,7 +803,7 @@ export default () => {
           as: 'list-item',
           dataChanged: Mutate.Text,
           mixins: [Animation.Mixins.Transitions],
-          effects: {
+          use: {
             data: [Effects.Show, Effects.Hide]
           }
           // dataEffectors: {
@@ -843,6 +843,7 @@ export default () => {
 
       onShuffleBtn: function (e, {data}) {
         data.shuffle()
+        console.log('shuffle', data.$.items)
 //        console.log('on shuffle')
       },
       // clickButton: function () {
@@ -877,7 +878,7 @@ export default () => {
         },
         dataId: 'items',
         dataChanged: Mutate.Items,
-        effects: {
+        use: {
           data: [Effects.FLIP.Named('flip-list')]
         }
       }
@@ -919,7 +920,7 @@ export default () => {
         styles: {
           'position': 'relative'
         },
-        effects: {
+        use: {
           data: [Effects.FLIP.Named('flip-list')]
         },
         // sourcesBound: function ({data}) {
@@ -940,7 +941,7 @@ export default () => {
             this.opt('text', v)
           },
           mixins: [Animation.Mixins.Transitions],
-          effects: {
+          use: {
             data: [Effects.Show.Named('list-complete'), Effects.Hide.Named('list-complete')]
           }
           // dataEffectors: {
@@ -1009,7 +1010,7 @@ export default () => {
           dataChanged: function (v) {
             this.opts.text = v && v.msg
           },
-          effects: {
+          use: {
             data: [Effects.Log, function (domain, target, key) {
 
               domain.watch(e => e.name == 'destroy', target, () => {

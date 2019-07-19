@@ -95,7 +95,7 @@ const HTML_OPTIONS = {
 
 const Html = class {
 
-  static OPTIONS = {}
+//  static OPTIONS = {}
 
   constructor(options={}, context) {
 
@@ -112,7 +112,7 @@ const Html = class {
       let cls = proto
 
       while (cls && cls.constructor !== Object) {
-        chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.config && cls.config()))
+        chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.configDefaults && cls.configDefaults()))
         opts.push(cls.configOptions && cls.configOptions())
         cls = Object.getPrototypeOf(cls)
       }
@@ -207,8 +207,8 @@ const Html = class {
 
     // sugar opts
     for (var i in opts) {
-      if (this.classOptions[i] || this.constructor.OPTIONS[i]) {
-        const desc = this.classOptions[i] || this.constructor.OPTIONS[i]
+      if (this.classOptions[i]/* || this.constructor.OPTIONS[i]*/) {
+        const desc = this.classOptions[i]/* || this.constructor.OPTIONS[i]*/
         if (desc.sugar) {
           desc.sugar.call(this, opts[i], preparedOpts)
         }
@@ -389,8 +389,8 @@ const Html = class {
           desc.initOrSet.call(this, opts[i])
         }
       }
-      else if (this.classOptions[i] || this.constructor.OPTIONS[i]) {
-        const desc = this.classOptions[i] || this.constructor.OPTIONS[i]
+      else if (this.classOptions[i]/* || this.constructor.OPTIONS[i]*/) {
+        const desc = this.classOptions[i]/* || this.constructor.OPTIONS[i]*/
         if (desc.init) {
           desc.init.call(this, opts[i])
         }
@@ -643,8 +643,8 @@ const Html = class {
         desc.initOrSet.call(this, value)
       }
     }
-    else if (this.classOptions[name] || this.constructor.OPTIONS[name]) {
-      const desc = this.classOptions[name] || this.constructor.OPTIONS[name]
+    else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
+      const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
       if (desc.set) {
         desc.set.call(this, value, key)
       }
@@ -1444,9 +1444,9 @@ const Html = class {
       // }
     }
 
-    // if (this.sources[i] && this.sources[i] != source) {
-    //   this.sources[i].unjoin(this)
-    // }
+    if (this.sources[i]) {
+      this.sources[i].unjoin(this)
+    }
 
     // else {
     //   console.log('ignore join')

@@ -39,7 +39,9 @@ const Layout = class {
   //   return h(selector, props, children)
   // }
 
-  static h = h
+//  static h = h
 }
+
+Layout.h = h
 
 export default Layout

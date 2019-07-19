@@ -787,8 +787,9 @@ class Source {
   //   return keys.join(':')
   // }
 
-  static Stream = Stream
+//  static Stream = Stream
 }
 
+Source.Stream = Stream
 
 export default Source

@@ -2,17 +2,21 @@ import {Html} from '../core'
 import {List} from '../elements'
 
 class Tab extends Html {
-  static defaultOpts = {
-    components: {
-      content: {
+
+  configDefaults () {
+    return {
+      $content: {
         html: 'a'
       }
     }
   }
-  static OPTIONS = {
-    selected: {
-      set: function (v) {
-        this.opt('classes', {'is-active': v})
+
+  configOptions () {
+    return {
+      selected: {
+        set: function (v) {
+          this.opt('classes', {'is-active': v})
+        }
       }
     }
   }
@@ -20,10 +24,11 @@ class Tab extends Html {
 
 
 class Tabs extends Html {
-  static defaultOpts = {
-    class: 'tabs',
-    components: {
-      list: {
+
+  configDefaults (options) {
+    return {
+      as: 'tabs',
+      $list: {
         type: List,
         defaultItem: {
           type: Tab
@@ -31,18 +36,21 @@ class Tabs extends Html {
       }
     }
   }
-  static OPTIONS = {
-    tabs: {
-      initOrSet: function (v) {
-        if (this.$list) {
-          this.$list.opt('items', v)
+
+  configOptions () {
+    return {
+      tabs: {
+        initOrSet: function (v) {
+          if (this.$list) {
+            this.$list.opt('items', v)
+          }
         }
-      }
-    },
-    defaultTab: {
-      init: function (v) {
-//        this.options.components.list.merge({defaultItem: v})
-        this.$list.options.defaultItem.merge(v)
+      },
+      defaultTab: {
+        init: function (v) {
+  //        this.options.components.list.merge({defaultItem: v})
+          this.$list.options.defaultItem.merge(v)
+        }
       }
     }
   }
