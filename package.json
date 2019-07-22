@@ -25,6 +25,8 @@
     "html-parse-stringify": "^1.0.3",
     "lodash": "^4.17.11",
     "maquette": "^3.3.3",
+    "todomvc-app-css": "^2.2.0",
+    "todomvc-common": "^1.0.5",
     "velocity-animate": "^2.0.5"
   },
   "devDependencies": {
@@ -43,9 +45,12 @@
     "test-watch": "parcel ./test/test.html",
     "start": "parcel index.html",
     "start-realworld": "parcel realworld.html",
+    "start-todomvc": "parcel todomvc.html",
     "build-realworld": "parcel build realworld.html"
   },
   "author": "",
   "license": "ISC",
-   "browserslist": ["last 1 Chrome versions"]
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
 }

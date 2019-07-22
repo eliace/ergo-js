@@ -44,4 +44,14 @@ const Layout = class {
 
 Layout.h = h
 
+class Passthrough extends Layout {
+
+  render(html, props, children) {
+    return this.combine(children)
+  }
+
+}
+
+Layout.Passthru = Passthrough
+
 export default Layout

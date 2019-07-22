@@ -3,10 +3,10 @@ import {Html} from '../core'
 
 class Icon extends Html {
 
-  static defaultOpts = {
-    html: 'span',
-    props: {
-      class: 'icon'
+  config () {
+    return {
+      html: 'span',
+      as: 'icon'
     }
   }
 
@@ -14,23 +14,27 @@ class Icon extends Html {
 
 
 class FaIcon extends Icon {
-  static defaultOpts = {
-    components: {
-      content: {
+
+  config () {
+    return {
+      $content: {
         html: 'i.fa'
       }
     }
   }
-  static OPTIONS = {
-    text: {
-      set: function(v) {
-        this.$content.opt('as', ['fa-'+v])
-//        o.components.content.merge({as: 'fa-'+v})
-      }
-    },
-    icon: {
-      initOrSet: function (v) {
-        this.$content.opt('classes', {['fa-'+v]: true})
+
+  configOptions () {
+    return {
+      text: {
+        set: function(v) {
+          this.$content.opt('as', ['fa-'+v])
+  //        o.components.content.merge({as: 'fa-'+v})
+        }
+      },
+      icon: {
+        initOrSet: function (v) {
+          this.$content.opt('classes', {['fa-'+v]: true})
+        }
       }
     }
   }

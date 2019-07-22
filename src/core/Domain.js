@@ -582,6 +582,11 @@ class Domain extends Source {
     return this[name]
   }
 
+  $method (name, target, listener, ns) {
+    this.on({[name]: listener}, target, ns)
+    return this[name]
+  }
+
 }
 
 export default Domain

@@ -24,6 +24,7 @@ const DEFAULT_RULES = {
 
 const DEFAULT_EVENTS = {
   onClick: 'onclick',
+  onDoubleClick: 'ondblclick',
   onMouseDown: 'onmousedown',
   onMouseUp: 'onmouseup',
   onEnterAnimation: 'enterAnimation',
@@ -112,7 +113,10 @@ const Html = class {
       let cls = proto
 
       while (cls && cls.constructor !== Object) {
-        chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.configDefaults && cls.configDefaults()))
+        // if (cls.config) {
+        //   console.log('defaults', cls, cls.config())
+        // }
+        chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.config && cls.config()))
         opts.push(cls.configOptions && cls.configOptions())
         cls = Object.getPrototypeOf(cls)
       }
@@ -139,7 +143,7 @@ const Html = class {
 
       proto.classOptions = classOpts
 
-      console.log('classOptions', classOpts)
+//      console.log('classOptions', classOpts)
 
 
       const DEFAULT_OPTS = ['text', 'width', 'height', 'as', 'items', 'components', '$items', '$components']
@@ -380,8 +384,8 @@ const Html = class {
         continue
       }
 
-      if (opts.dynamicOptions && opts.dynamicOptions[i]) {
-        const desc = opts.dynamicOptions[i]
+      if (opts.options && opts.options[i]) {
+        const desc = opts.options[i]
         if (desc.init) {
           desc.init.call(this, opts[i])
         }
@@ -496,8 +500,8 @@ const Html = class {
     //   // }
     // }
 
-    if (this.children.length) {
-      if (this.layout == null) {
+    if (this.children.length || this.layout) {
+      if (this.layout == null || this.layout === true) {
         this.layout = defaultFactory(this.options.layout, Layout, this.context)
       }
       if (this.text) {
@@ -634,8 +638,8 @@ const Html = class {
       name = name.substr(1)
     }
 
-    if (this.options.dynamicOptions && this.options.dynamicOptions[name]) {
-      const desc = this.options.dynamicOptions[name]
+    if (this.options.options && this.options.options[name]) {
+      const desc = this.options.options[name]
       if (desc.set) {
         desc.set.call(this, value)
       }
@@ -968,7 +972,7 @@ const Html = class {
           // if (data) {
           //   for (let i in data) {
               value.stream((entry, i, s) => {
-                console.log(i, s)
+//                console.log(i, s)
                 if (o['$'+i]) {
 //                  const s = data[i]
                   if (s && !this['$'+i]) {
@@ -1454,7 +1458,7 @@ const Html = class {
 
     this.sources[i] = source
 
-    this.children.forEach(child => {if (child.sources[i] == null) child.bind(source, i)})
+    this.children.forEach(child => {if (child.sources[i] != source) child.bind(source, i)})
 
 //    this.rebind(source.get(), i, source)
   }
@@ -1476,7 +1480,7 @@ const Html = class {
 
 
       if (o[key+'Changed']) {
-        const dynOpts = o[key+'Changed'].call(this, v.data, key)
+        const dynOpts = o[key+'Changed'].call(this, v.data, key, this.sources[key])
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {

@@ -3,7 +3,7 @@ import {List} from '../elements'
 
 class Tab extends Html {
 
-  configDefaults () {
+  config () {
     return {
       $content: {
         html: 'a'
@@ -25,7 +25,7 @@ class Tab extends Html {
 
 class Tabs extends Html {
 
-  configDefaults (options) {
+  config (options) {
     return {
       as: 'tabs',
       $list: {

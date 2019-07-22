@@ -1,7 +1,7 @@
 import {Html} from '../core'
 
 class Label extends Html {
-  configDefaults () {
+  config () {
     return {
       html: 'p',
       as: 'menu-label'
@@ -10,7 +10,7 @@ class Label extends Html {
 }
 
 class Item extends Html {
-  configDefaults () {
+  config () {
     return {
       $content: {
         html: 'a'
@@ -30,7 +30,7 @@ class Item extends Html {
 }
 
 class List extends Html {
-  configDefaults () {
+  config () {
     return {
       as: 'menu-list',
       defaultItem: {
@@ -44,7 +44,7 @@ class List extends Html {
 }
 
 class Menu extends Html {
-  configDefaults () {
+  config () {
     return {
       html: 'aside',
       as: 'menu'

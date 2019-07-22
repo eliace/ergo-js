@@ -18,7 +18,11 @@ const Text = class {
     }
   }
 
-  destroy() {
+  destroy () {
+
+  }
+
+  tryDestroy () {
 
   }
 

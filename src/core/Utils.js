@@ -79,7 +79,7 @@ export const defaultFactory = (item, defaultType, context) => {
     ItemClass = item
   }
   else if (item) {
-    ItemClass = item.type || item.alias || item.etype  || defaultType
+    ItemClass = item.type || item.alias || item.base || defaultType
   }
   else {
     item = {}

@@ -29,51 +29,57 @@ const Mixins = {
 
 
 class Input extends Html {
-  static defaultOpts = {
-    html: 'input',
-    as: 'input'
+  config () {
+    return {
+      html: 'input',
+      as: 'input'
+    }
   }
 }
 
 class Field extends Html {
-  static defaultOpts = {
-    as: 'field',
-    components: {
-      control: {
+  config () {
+    return {
+      as: 'field',
+      $control: {
         as: 'control'
       }
     }
   }
-  static OPTIONS = {
-    control: {
-      sugar: function (o, preparedOpts) {
-        preparedOpts.merge({
-          components: {
-            control: {
-              components: {
-                content: o
+
+  configOptions () {
+    return {
+      control: {
+        sugar: function (o, preparedOpts) {
+          preparedOpts.merge({
+            components: {
+              control: {
+                components: {
+                  content: o
+                }
               }
             }
-          }
-        })
-      }
-    },
-    loading: {
-      initOrSet: function (v) {
-        this.$control.opt('classes', {'is-loading': v})
+          })
+        }
+      },
+      loading: {
+        initOrSet: function (v) {
+          this.$control.opt('classes', {'is-loading': v})
+        }
       }
     }
   }
+
   static Mixins = Mixins
 }
 
 
 
 class Header extends Html {
-  static defaultOpts = {
-    layout: Layouts.Content,
-    components: {
-      content: {
+  config () {
+    return {
+      layout: Layouts.Content,
+      $content: {
         html: 'h4'
       }
     }
@@ -81,7 +87,7 @@ class Header extends Html {
 }
 
 
-export default (projector) => {
+export default () => {
   return {
     items: [{
       html: 'input',
@@ -98,11 +104,11 @@ export default (projector) => {
         onKeyDown: function () {
 //          return false
         },
-        onInput: function (e) {
+        onInput: function (e, {data}) {
           console.log(e)
 //          console.log(e.target.value)
 //          this.sources.data.set(this.sources.data.get()+e.key)
-          this.sources.data.set(e.target.value)
+          data.set(e.target.value)
 //          this.sources.data.set(this.sources.data.get())
          //  e.stopImmediatePropagation()
          //  e.preventDefault()

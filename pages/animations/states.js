@@ -212,7 +212,7 @@ export default (projector) => {
           })
         }
       },
-      effects: {
+      use: {
         data: [(data, target) => {
           data.watch(e => e.name == 'init', target, () => {
             data.resetInterval()

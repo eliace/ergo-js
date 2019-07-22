@@ -79,8 +79,8 @@ class Source {
       }
 
       if (this.isCalc) {
-        console.log('calc', this.cache, this.id)
         if (this.cache == null) {
+          console.log('calc', this.cache, this.id)
           v = this.isNested ? this.src.get() : this.src
           v = this.options.calc(v)
         }
@@ -112,6 +112,10 @@ class Source {
       this.cache = v
     }
     else {
+      if (this._properties && this._properties[k]) {
+        return this.entry(k).get()
+      }
+
       v = this.get()
 
       if (this.cache != null && this.cache != v) {
@@ -392,10 +396,10 @@ class Source {
     return e
   }
 
-  remove(k) {
+  $remove(k) {
     if (arguments.length == 0) {
       if (this.isNested) {
-        this.src.remove(this.id)
+        this.src.$remove(this.id)
       }
     }
     else {
@@ -418,9 +422,10 @@ class Source {
           Object.keys(this.entries).forEach(i => {
             if (i > k) {
               this.entries[i-1] = this.entries[i]
-              this.entries[i].id = i-1
-              delete this.entries[i].cache // кэш надо глубже почистить
+              this.entries[i-1].id = i-1
               delete this.entries[i]
+//              delete this.entries[i].cache // кэш надо глубже почистить
+//              delete this.entries[i]
             }
           })
 //           this.entries.splice(k, 1)
@@ -441,7 +446,7 @@ class Source {
         // }
         entry.emit('destroy', {})//{ids: {[entry.id]: true}})
 */
-        this.$update('desc', 'remove')
+        this.$update(null, 'remove')
       }
       else {
         this.$update('asc', 'remove')
@@ -454,15 +459,15 @@ class Source {
   }
 
 
-  destroy () {
-
-    if (this.isNested) {
-      const i = this.src._removed.indexOf(this)
-      this.src._removed.splice(i, 1)
-    }
-
-    this.$update('asc')
-  }
+  // destroy () {
+  //
+  //   if (this.isNested) {
+  //     const i = this.src._removed.indexOf(this)
+  //     this.src._removed.splice(i, 1)
+  //   }
+  //
+  //   this.$update('asc')
+  // }
 
 
 
@@ -494,7 +499,7 @@ class Source {
   }
 
   // ?
-  each(callback) {
+  $each(callback) {
 
     let v = this.get()
 
@@ -595,8 +600,13 @@ class Source {
   }
 
 
-  firstOf (...args) {
+  $firstOf (...args) {
     return this.get.apply(this, args)[0]
+  }
+
+  $lastOf (...args) {
+    const v = this.get.apply(this, args)
+    return v[v.length-1]
   }
 
 
@@ -706,7 +716,9 @@ class Source {
     return this._proxy
   }
 
-
+  get $source () {
+    return this.src
+  }
 
 
   // reg (i, target, event) {
@@ -773,6 +785,8 @@ class Source {
     }
     return false
   }
+
+
 
 
   // ns () {

@@ -2,6 +2,9 @@ import {Html, Layouts, Tabs, Domain} from '../../src'
 
 import TabsExample from './tabs'
 import DropdownExample from './dropdown'
+import BreadcrumbExample from './breadcrumb'
+import CardExample from './card'
+import MenuExample from './menu'
 
 export default (projector) => {
 
@@ -11,6 +14,9 @@ export default (projector) => {
     computed: {
       tabs: (v) => v.selected == 'Tabs',
       dropdown: (v) => v.selected == 'Dropdown',
+      breadcrumb: v => v.selected == 'Breadcrumb',
+      card: v => v.selected == 'Card',
+      menu: v => v.selected == 'Menu'
     }
   })
 
@@ -41,6 +47,9 @@ export default (projector) => {
         tabs: [
           {text: 'Tabs'},
           {text: 'Dropdown'},
+          {text: 'Breadcrumb'},
+          {text: 'Card'},
+          {text: 'Menu'}
         ]
       }
     },
@@ -49,8 +58,11 @@ export default (projector) => {
       dataChanged: function (v, key) {
         this.opt('$components', key)
       },
-      $tabs: TabsExample(projector),
-      $dropdown: DropdownExample(projector),
+      $tabs: TabsExample(),
+      $dropdown: DropdownExample(),
+      $breadcrumb: BreadcrumbExample(),
+      $card: CardExample(),
+      $menu: MenuExample()
     }
   }
 }

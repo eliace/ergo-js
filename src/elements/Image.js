@@ -2,24 +2,23 @@ import {Html} from '../core'
 
 class Image extends Html {
 
-  static defaultOpts = {
-    html: 'figure',
-    props: {
-      class: 'image'
-    },
-    components: {
-      content: {
+  config () {
+    return {
+      html: 'figure',
+      as: 'image',
+      $content: {
         html: 'img'
       }
     }
   }
 
-  static OPTIONS = {
-    ...Html.OPTIONS,
-    src: {
-      initOrSet: function(v) {
-//        console.log('src', v)
-        this.$content.opt('src', v)//.components.content.merge({props: {src: v}})
+  configOptions () {
+    return {
+      src: {
+        initOrSet: function(v) {
+  //        console.log('src', v)
+          this.$content.opt('src', v)//.components.content.merge({props: {src: v}})
+        }
       }
     }
   }
