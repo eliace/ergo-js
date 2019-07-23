@@ -1475,7 +1475,7 @@ const Html = class {
 
 //    console.log (v, key)
 
-    if ((v.name == 'changed' || v.name == 'preinit') && !this._destroying) {
+    if ((v.name == 'changed'/* || v.name == 'preinit'*/) && !this._destroying) {
 
 
 

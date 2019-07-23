@@ -157,7 +157,7 @@ export default (projector) => {
                 } else {
                   var absoluteSidesDifference = Math.abs(sidesDifference)
                 	for (var i = 1; i <= absoluteSidesDifference; i++) {
-                    this.entry('stats').remove(0)
+                    this.entry('stats').$remove(0)
                   }
                 }
               },

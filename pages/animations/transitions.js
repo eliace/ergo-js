@@ -773,10 +773,10 @@ export default () => {
             },
             _add: function () {
               const v = this.get()
-              this.entry('items').insert(this._randomIndex(), v.nextNum++)
+              this.entry('items').$insert(this._randomIndex(), v.nextNum++)
             },
             _remove: function () {
-              this.entry('items').remove(this._randomIndex())
+              this.entry('items').$remove(this._randomIndex())
             }
           }
         })
@@ -894,10 +894,10 @@ export default () => {
             },
             _add: function () {
               const v = this.get()
-              this.entry('items').insert(this._randomIndex(), v.nextNum++)
+              this.entry('items').$insert(this._randomIndex(), v.nextNum++)
             },
             _remove: function () {
-              this.entry('items').remove(this._randomIndex())
+              this.entry('items').$remove(this._randomIndex())
             }
           }
         })

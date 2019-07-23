@@ -2,6 +2,7 @@ import {deepClone, hashCode} from './Utils'
 import Stream from './Stream'
 
 
+let updateSet = null
 
 
 class Source {
@@ -18,6 +19,11 @@ class Source {
     this.observers = []
     this.isNested = v instanceof Source
     this.options = o || {}
+
+    // FIXME поменять на конфигурацию класса
+    if (this.config) {
+      this.options = {...this.config(), ...this.options}
+    }
 
     const opts = this.options
 
@@ -348,6 +354,8 @@ class Source {
 
         this.emit('changed', {data: this.get(), ids, cache})
 
+//        updateQueue.push({source: this, ids, cache})
+
         // this.observers.forEach(t => {
         //   t.dataChanged.call(t.target, this.get(), t.key)
         // })
@@ -570,7 +578,7 @@ class Source {
     return this.entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
   }
 
-  insert (i, v) {
+  $insert (i, v) {
 
     let arr = null
 
@@ -766,8 +774,16 @@ class Source {
   }
 
   _init (target) {
+
     const data = this.get()
-    this.emit('preinit', {target, data/*, ns: 'lc'*/})
+
+    if (this.isNested && this.src._updating) {
+      // пропускаем обновление
+    }
+    else {
+      this.emit('changed', {target, data/*, ns: 'lc'*/})  // change?
+    }
+
     this.emit('init', {target, data, ns: 'lc'})
   }
 
