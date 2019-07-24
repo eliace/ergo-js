@@ -616,6 +616,8 @@ const Html = class {
 //      return this
     }
 
+    const oldValue = this.options[name]
+
 //    console.log('opt', name, v)
 
     if (name[0] != '$') {
@@ -641,19 +643,19 @@ const Html = class {
     if (this.options.options && this.options.options[name]) {
       const desc = this.options.options[name]
       if (desc.set) {
-        desc.set.call(this, value)
+        desc.set.call(this, value, oldValue)
       }
       else if (desc.initOrSet) {
-        desc.initOrSet.call(this, value)
+        desc.initOrSet.call(this, value, oldValue)
       }
     }
     else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
       const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
       if (desc.set) {
-        desc.set.call(this, value, key)
+        desc.set.call(this, value, oldValue)
       }
       else if (desc.initOrSet) {
-        desc.initOrSet.call(this, value, key)
+        desc.initOrSet.call(this, value, oldValue)
       }
     }
     else if (name == 'text') {
@@ -1456,9 +1458,11 @@ const Html = class {
     //   console.log('ignore join')
     // }
 
+    const oldSource = this.sources[i]
+
     this.sources[i] = source
 
-    this.children.forEach(child => {if (child.sources[i] != source) child.bind(source, i)})
+    this.children.forEach(child => {if (child.sources[i] == oldSource) child.bind(source, i)})
 
 //    this.rebind(source.get(), i, source)
   }

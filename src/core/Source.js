@@ -2,9 +2,6 @@ import {deepClone, hashCode} from './Utils'
 import Stream from './Stream'
 
 
-let updateSet = null
-
-
 class Source {
 
   // возможные опции:
@@ -195,7 +192,7 @@ class Source {
       // }
 
       //TODO удалить все entries
-      this.$update(null, 'set', {[this.id]: true}, cache) // ?
+      this._update(null, 'set', {[this.id]: true}, cache) // ?
     }
     else {
 
@@ -225,7 +222,7 @@ class Source {
             this.src[this.id][k] = v
           }
           // если дочерних элементов для ключа нет, то остальные обновлять не нужно
-          this.$update('asc', 'set', {[k]: true}, {[k]: cache})
+          this._update('asc', 'set', {[k]: true}, {[k]: cache})
         }
 
         // if (this.entries[k]) {
@@ -267,7 +264,7 @@ class Source {
         }
       }
 
-      this.$update() // ?
+      this._update() // ?
     }
     else {
       if (this.entries[k]) {
@@ -281,7 +278,7 @@ class Source {
           let v = this.isNested ? this.src.get()[this.id] : this.src[this.id]
           v[k] = !v[k]
         }
-        this.$update('asc')
+        this._update('asc')
       }
     }
   }
@@ -311,28 +308,28 @@ class Source {
   }
 
 
-  $invalidate () {
+  _invalidate () {
     delete this.cache
     for (let i in this.entries) {
       if (this.entries[i].cache != null) {
-        this.entries[i].$invalidate()
+        this.entries[i]._invalidate()
       }
     }
   }
 
 
-  $update(direction, event, ids, cache) {
+  _update(direction, event, ids, cache) {
     if (!this._updating && !this.removed) {
       this._updating = this
       try {
   //    delete this.cache
 //      this.emit('beforeChanged')
         if (this.isNested && direction != 'desc' && direction != 'none') {
-          this.src.$update('asc', event, {[this.id]: true}, {[this.id]: cache})
+          this.src._update('asc', event, {[this.id]: true}, {[this.id]: cache})
         }
 
         if (this.cache != null) {
-          this.$invalidate()
+          this._invalidate()
         }
 
         if (this.options && this.options.computed) {
@@ -352,8 +349,6 @@ class Source {
         //   }
         // }
 
-        this.emit('changed', {data: this.get(), ids, cache})
-
 //        updateQueue.push({source: this, ids, cache})
 
         // this.observers.forEach(t => {
@@ -362,7 +357,7 @@ class Source {
 
         if (direction != 'asc' && direction != 'none') {
           for (let i in this.entries) {
-            this.entries[i].$update('desc', event);
+            this.entries[i]._update('desc', event);
           }
         }
         // ?
@@ -372,8 +367,10 @@ class Source {
               this.entries[i].$calc(this.get())
             }
           }
-
         }
+
+        this.emit('changed', {data: this.get(), ids, cache})
+
       }
       catch (err) {
         console.error(err)
@@ -454,10 +451,10 @@ class Source {
         // }
         entry.emit('destroy', {})//{ids: {[entry.id]: true}})
 */
-        this.$update(null, 'remove')
+        this._update(null, 'remove')
       }
       else {
-        this.$update('asc', 'remove')
+        this._update('asc', 'remove')
       }
 
 //      this.targets.forEach(t => t.dataChanged.call(t.target, v))
@@ -530,7 +527,7 @@ class Source {
     }
   }
 
-  mergeWith(v) {
+  $merge(v) {
     let oldVal = this.get()
 
     if (Array.isArray(v)) {
@@ -538,7 +535,7 @@ class Source {
         oldVal[i] = v[i]
         if (this.entries[i]) {
           delete this.entries[i].cache
-          this.entries[i].$update('desc')
+          this.entries[i]._update('desc')
         }
       }
     }
@@ -547,12 +544,12 @@ class Source {
         oldVal[i] = v[i]
         if (this.entries[i]) {
           delete this.entries[i].cache
-          this.entries[i].$update('desc')
+          this.entries[i]._update('desc')
         }
       }
     }
 
-    this.$update('asc')
+    this._update('asc')
   }
 
 
@@ -573,7 +570,7 @@ class Source {
     arr.push(v)
 
     //TODO удалить все entries
-    this.$update(null, 'add') // ?
+    this._update(null, 'add') // ?
 
     return this.entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
   }
@@ -602,7 +599,7 @@ class Source {
       }
     }
 
-    this.$update(null, 'insert') // ?
+    this._update(null, 'insert') // ?
 
     return this.entry(i)
   }
@@ -628,7 +625,7 @@ class Source {
       for (let i in this.options.computed) {
         if (this.entries[i]) {
 //          this.entries[i].sync(v[i])
-          this.entries[i].$update('none', 'compute')
+          this.entries[i]._update('none', 'compute')
         }
       }
     }
@@ -658,7 +655,7 @@ class Source {
 
 //    console.log('recalc', this.entries)
 
-    this.$update('desc')
+    this._update('desc')
   }
 
 
@@ -775,16 +772,17 @@ class Source {
 
   _init (target) {
 
+
+    // if (this.isNested && this.src._updating) {
+    //   // пропускаем обновление
+    // }
+    // else {
+//    }
+
+    this.emit('init', {target, ns: 'lc'})
+
     const data = this.get()
-
-    if (this.isNested && this.src._updating) {
-      // пропускаем обновление
-    }
-    else {
-      this.emit('changed', {target, data/*, ns: 'lc'*/})  // change?
-    }
-
-    this.emit('init', {target, data, ns: 'lc'})
+    this.emit('changed', {target, data/*, ns: 'lc'*/})  //TODO нужно только в том случае, если в init не было изменений
   }
 
   _destroy (target) {

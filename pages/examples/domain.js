@@ -115,7 +115,7 @@ export default () => {
           type: Button,
           text: 'Click me',
           onClick: function (e, {data}) {
-            data.$update()
+            data._update()
           }
         },
         $info: {

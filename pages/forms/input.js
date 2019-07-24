@@ -26,6 +26,13 @@ const Mixins = {
 }
 
 
+function toggleClass(c, nextValue, prevValue) {
+  if (prevValue) {
+    c.opt('classes', {[prevValue]: false})
+  }
+  c.opt('classes', {[nextValue]: true})
+}
+
 
 
 class Input extends Html {
@@ -49,19 +56,15 @@ class Field extends Html {
 
   configOptions () {
     return {
-      control: {
-        sugar: function (o, preparedOpts) {
-          preparedOpts.merge({
-            components: {
-              control: {
-                components: {
-                  content: o
-                }
-              }
-            }
-          })
-        }
-      },
+      // control: {
+      //   sugar: function (o, preparedOpts) {
+      //     preparedOpts.merge({
+      //       $control: {
+      //         content: o
+      //       }
+      //     })
+      //   }
+      // },
       loading: {
         initOrSet: function (v) {
           this.$control.opt('classes', {'is-loading': v})
@@ -72,6 +75,46 @@ class Field extends Html {
 
   static Mixins = Mixins
 }
+
+
+class InputField extends Field {
+  config () {
+    return {
+      $control: {
+        $content: {
+          base: Input
+        }
+      }
+    }
+  }
+
+  configOptions () {
+    return {
+      placeholder: {
+        initOrSet: function (v) {
+          this.$control.$content.opt('placeholder', v)
+        }
+      },
+      color: {
+        initOrSet: function (nextVal, oldVal) {
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+        }
+      },
+      size: {
+        initOrSet: function (nextVal, prevVal) {
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+        }
+      },
+      style: {
+        initOrSet: function (nextVal, prevVal) {
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+        }
+      }
+    }
+  }
+}
+
+Field.Input = InputField
 
 
 
@@ -105,14 +148,7 @@ export default () => {
 //          return false
         },
         onInput: function (e, {data}) {
-          console.log(e)
-//          console.log(e.target.value)
-//          this.sources.data.set(this.sources.data.get()+e.key)
           data.set(e.target.value)
-//          this.sources.data.set(this.sources.data.get())
-         //  e.stopImmediatePropagation()
-         //  e.preventDefault()
-         // return false
         },
         dataChanged: function (v) {
           this.opt('value', v)
@@ -132,67 +168,58 @@ export default () => {
       }
     }, {
       $title: {
-        type: Header,
+        base: Header,
         text: 'Colors'
       },
       defaultItem: {
-        type: Field,
+        base: Field.Input,
         width: 400,
-        control: {
-          type: Input,
-          placeholder: 'Input text here...'
-        }
+        placeholder: 'Input text here...'
       },
       items: [
-        {control: {as: 'is-primary'}},
-        {control: {as: 'is-info'}},
-        {control: {as: 'is-success'}},
-        {control: {as: 'is-warning'}},
-        {control: {as: 'is-danger'}}
+        {color: 'primary'},
+        {color: 'info'},
+        {color: 'success'},
+        {color: 'warning'},
+        {color: 'danger'}
       ]
     }, {
       $title: {
-        type: Header,
+        base: Header,
         text: 'Sizes'
       },
       defaultItem: {
-        type: Field,
+        base: Field.Input,
         width: 400,
-        control: {
-          type: Input,
-          placeholder: 'Input text here...'
-        }
+        placeholder: 'Input text here...'
       },
       items: [
-        {control: {as: 'is-small'}},
+        {size: 'small'},
         {},
-        {control: {as: 'is-medium'}},
-        {control: {as: 'is-large'}}
+        {size: 'medium'},
+        {size: 'large'}
       ]
     }, {
       $title: {
-        type: Header,
+        base: Header,
         text: 'Styles'
       },
       items: [{
-        type: Field,
+        base: Field.Input,
         width: 400,
-        control: {
-          type: Input,
-          placeholder: 'Input text here...',
-          as: 'is-rounded'
-        }
+        placeholder: 'Input text here...',
+        style: 'rounded'
       }]
     }, {
       $title: {
-        type: Header,
+        base: Header,
         text: 'States'
       },
       defaultItem: {
-        type: Field,
+        base: Field,
         width: 400,
         control: {
-          type: Input
+          base: Input
         }
       },
       items: [
@@ -206,19 +233,19 @@ export default () => {
       ]
     }, {
       $title: {
-        type: Header,
+        base: Header,
         text: 'Icons'
       },
       defaultItem: {
-        type: Field,
+        base: Field,
         width: 400,
         control: {
-          type: Input,
+          base: Input,
           placeholder: 'Input text here...'
         }
       },
       items: [{
-        $control: {
+        control: {
           mixins: [Mixins.LeftIcon, Mixins.RightIcon],
           $leftIcon: {
 //            mixins: [Mixins.Fas],

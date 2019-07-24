@@ -1,53 +1,59 @@
-import {Html, Layouts} from '../../src'
+import {Html, Layout, Layouts} from '../../src'
 
 
 
 class Check extends Html {
-  static defaultOpts = {
-    layout: Layouts.PassThrough,
-    components: {
-      input: {
+  config () {
+    return {
+      layout: Layout.Passthru,
+      $input: {
         html: 'input',
         as: 'is-checkradio',
         _type: 'checkbox'
       },
-      content: {
+      $content: {
         html: 'label'
       }
     }
   }
-  static OPTIONS = {
-    checked: {
-      initOrSet: function (v) {
-        this.$input.opt('checked', v)
-      }
-    },
-    block: {
-      initOrSet: function (v) {
-        this.$input.opt('classes', {'is-block': v})
+
+  configOptions () {
+    return {
+      checked: {
+        initOrSet: function (v) {
+          this.$input.opt('checked', v)
+        }
+      },
+      block: {
+        initOrSet: function (v) {
+          this.$input.opt('classes', {'is-block': v})
+        }
       }
     }
   }
 }
 
 class Radio extends Html {
-  static defaultOpts = {
-    layout: Layouts.PassThrough,
-    components: {
-      input: {
+  config () {
+    return {
+      layout: Layout.Passthru,
+      $input: {
         html: 'input',
         as: 'is-checkradio',
         _type: 'radio'
       },
-      content: {
+      $content: {
         html: 'label'
       }
     }
   }
-  static OPTIONS = {
-    checked: {
-      initOrSet: function (v) {
-        this.$input.opt('checked', v)
+
+  configOptions () {
+    return {
+      checked: {
+        initOrSet: function (v) {
+          this.$input.opt('checked', v)
+        }
       }
     }
   }
@@ -55,36 +61,34 @@ class Radio extends Html {
 
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     width: 500,
     items: [{
       items: [{
-        type: Check,
+        base: Check,
         checked: true,
         text: 'Check'
       }, {
-        type: Check,
-        text: 'Check'        
+        base: Check,
+        text: 'Check'
       }]
     }, {
       items: [{
-        type: Radio,
+        base: Radio,
         text: 'Radio 1',
         checked: true
       }, {
-        type: Radio,
+        base: Radio,
         text: 'Radio 2'
       }]
     }, {
       defaultItem: {
-        type: Check,
+        base: Check,
         checked: true,
-        components: {
-          input: {
-            as: 'is-block has-no-border'
-          },
+        $input: {
+          as: 'is-block has-no-border'
         },
         text: 'Check'
       },
