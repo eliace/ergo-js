@@ -1,4 +1,5 @@
-import {Html, Layouts, Box, IconBox, Button, Source} from '../../src'
+import {Html, Source} from '../../src'
+import {Layouts, Box, IconBox, Button} from '../../bulma'
 
 import {ButtonWithIcon} from '../extensions'
 import {Mutate} from '../helpers'

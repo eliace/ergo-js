@@ -1,4 +1,4 @@
-import {IconBox} from '../src'
+import {IconBox} from '../bulma'
 
 
 export const Mixins = {

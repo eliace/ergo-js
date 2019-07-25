@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, IconBox, Text, Box, Button, Buttons, Events, Notification} from '../../src'
+import {Html, Text, Events} from '../../src'
+import {Layouts, Tabs, IconBox, Box, Button, Buttons, Notification} from '../../bulma'
 
 import 'animate.css'
 

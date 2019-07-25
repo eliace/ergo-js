@@ -1,11 +1,12 @@
-import {Html, Layouts, Tabs, Domain} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Tabs} from '../../bulma'
 
 import DomainExample from './domain'
 import MultidomainExample from './multidomain'
 import PostsExample from './posts'
 import CountriesExample from './countries'
 
-export default (projector) => {
+export default () => {
 
   const page = new Domain({
     selected: 'Domain',

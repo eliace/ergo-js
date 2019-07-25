@@ -1,4 +1,5 @@
-import {Html, Layouts, Domain, Breadcrumb} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Breadcrumb} from '../../bulma'
 
 export default () => {
   return {

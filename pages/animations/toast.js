@@ -1,4 +1,4 @@
-import {Html, Layouts, Tabs, IconBox, Text} from '../../src'
+import {Html, Text} from '../../src'
 
 
 export default (projector) => {

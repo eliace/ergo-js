@@ -1,4 +1,5 @@
-import {Html, Layouts, Box} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Box} from '../../bulma'
 
 
 
@@ -14,7 +15,7 @@ class Select extends Html {
 
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     width: 500,

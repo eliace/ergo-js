@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, Domain, Button, Binder, bindDomain as Bind} from '../../src'
+import {Html, Domain, Binder, bindDomain as Bind} from '../../src'
+import {Layouts, Tabs, Button} from '../../bulma'
 
 import {Mutate} from '../helpers'
 import _ from 'lodash'

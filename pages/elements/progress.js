@@ -1,7 +1,8 @@
-import {Html, Layouts, Progress} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Progress} from '../../bulma'
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     width: 400,

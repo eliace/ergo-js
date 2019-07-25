@@ -1,4 +1,5 @@
-import {Html, Layouts, Button, Buttons, IconBox} from '../src'
+import {Html} from '../src'
+import {Layouts, Button, Buttons, IconBox} from '../bulma'
 
 
 export class ButtonWithIcon extends Button {

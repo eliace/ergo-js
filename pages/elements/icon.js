@@ -1,6 +1,7 @@
-import {Html, Layouts, IconBox} from '../../src'
+import {Html} from '../../src'
+import {Layouts, IconBox} from '../../bulma'
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

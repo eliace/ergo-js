@@ -1,4 +1,5 @@
-import {Html, Layout, Layouts} from '../../src'
+import {Html, Layout} from '../../src'
+import {Layouts} from '../../bulma'
 
 
 

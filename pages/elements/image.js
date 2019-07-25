@@ -1,10 +1,11 @@
-import {Html, Layouts, Image} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Image} from '../../bulma'
 
 import imgUrl_1 from '../img/Yosemite.jpg'
 import imgUrl_2 from '../img/Yosemite 3.jpg'
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

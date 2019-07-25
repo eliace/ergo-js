@@ -1,4 +1,5 @@
-import {Html, Layouts, Button, IconBox, InputBox} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Button, IconBox, InputBox} from '../../bulma'
 
 //import {ButtonWithIcon} from '../extensions'
 import {Mixins} from '../helpers'
@@ -98,7 +99,7 @@ class Fields extends Html {
 
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
 //    width: 500,

@@ -1,4 +1,5 @@
-import {Html, Layouts, Domain, Card, Image} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Card, Image} from '../../bulma'
 
 import imgUrl from '../img/Yosemite 3.jpg'
 

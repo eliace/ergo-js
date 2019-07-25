@@ -1,4 +1,5 @@
-import {Html, Layouts, List, Delete} from '../../src'
+import {Html} from '../../src'
+import {Layouts, List, Delete} from '../../bulma'
 
 import {LOREM_IPSUM} from '../constants'
 

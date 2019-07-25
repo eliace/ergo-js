@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, IconBox, Text} from '../../src'
+import {Html, Text} from '../../src'
+import {Layouts, Tabs, IconBox} from '../../bulma'
 
 function Selectable (opts) {
   return {

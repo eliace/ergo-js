@@ -1,4 +1,5 @@
-import {Tag, Html, Layouts, IconBox} from '../../src'
+import {Html} from '../../src'
+import {Tag, Layouts, IconBox} from '../../bulma'
 
 const Mixins = {
   LeftIcon: function () {
@@ -96,18 +97,18 @@ class InputField extends Field {
         }
       },
       color: {
-        initOrSet: function (nextVal, oldVal) {
-          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+        initOrSet: function (nextVal, prevVal) {
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       },
       size: {
         initOrSet: function (nextVal, prevVal) {
-          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       },
       style: {
         initOrSet: function (nextVal, prevVal) {
-          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+oldVal)
+          toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       }
     }

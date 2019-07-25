@@ -1,7 +1,7 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Domain, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Events} from './src'
-
+import {Html, State, Source, Domain, Bindings, Events} from './src'
+import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -217,8 +217,7 @@ Events.on('mousedown', function () {
 
 
 const context = {
-  projector,
-  sourceType: Domain
+  projector
 }
 
 const root = new Html({
@@ -447,9 +446,9 @@ const root = new Html({
       },
       $elements: ElementsPage(),
       $componentsPage: ComponentsPage(),
-      $animationsPage: AnimationsPage(projector),
-      $formsPage: FormsPage(projector),
-      $examplesPage: ExamplesPage(projector)
+      $animationsPage: AnimationsPage(),
+      $formsPage: FormsPage(),
+      $examplesPage: ExamplesPage()
     }
 //    }
   }

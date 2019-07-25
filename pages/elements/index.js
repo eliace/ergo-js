@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, Domain} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Tabs} from '../../bulma'
 
 import {Mutate} from '../helpers'
 
@@ -14,7 +15,7 @@ import TitleExample from './title'
 import ProgressExample from './progress'
 import TableExample from './table'
 
-export default (projector) => {
+export default () => {
 
   const Data = new Domain({
     selected: 'Box'
@@ -78,17 +79,17 @@ export default (projector) => {
     $content: {
       components: false,
       dataChanged: Mutate.DynamicComponents,
-      $box: BoxExample(projector),
-      $button: ButtonExample(projector),
-      $content: ContentExample(projector),
-      $delete: DeleteExample(projector),
-      $icon: IconExample(projector),
-      $image: ImageExample(projector),
-      $notification: NotificationExample(projector),
-      $progress: ProgressExample(projector),
-      $table: TableExample(projector),
-      $tag: TagExample(projector),
-      $title: TitleExample(projector),
+      $box: BoxExample(),
+      $button: ButtonExample(),
+      $content: ContentExample(),
+      $delete: DeleteExample(),
+      $icon: IconExample(),
+      $image: ImageExample(),
+      $notification: NotificationExample(),
+      $progress: ProgressExample(),
+      $table: TableExample(),
+      $tag: TagExample(),
+      $title: TitleExample(),
     }
   }
 }

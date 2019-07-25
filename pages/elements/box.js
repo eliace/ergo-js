@@ -1,7 +1,8 @@
-import {Html, Layouts, Box} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Box} from '../../bulma'
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Columns,
     defaultItem: {

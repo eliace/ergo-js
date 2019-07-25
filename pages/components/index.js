@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, Domain} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Tabs} from '../../bulma'
 
 import TabsExample from './tabs'
 import DropdownExample from './dropdown'

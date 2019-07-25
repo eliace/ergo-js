@@ -1,6 +1,7 @@
-import {Html, Layouts, Delete} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Delete} from '../../bulma'
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

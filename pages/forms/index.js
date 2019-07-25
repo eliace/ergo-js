@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, Domain} from '../../src'
+import {Html, Domain} from '../../src'
+import {Layouts, Tabs} from '../../bulma'
 
 import InputExample from './input'
 import TextareaExample from './textarea'
@@ -6,7 +7,7 @@ import SelectExample from './select'
 import FieldExample from './field'
 import CheckboxExample from './checkbox'
 
-export default (projector) => {
+export default () => {
 
   const data = new Domain({
     selected: 'Input'
@@ -60,11 +61,11 @@ export default (projector) => {
       dataChanged: function (v, key) {
         this.opt('$components', key)
       },
-      $input: InputExample(projector),
-      $textarea: TextareaExample(projector),
-      $select: SelectExample(projector),
-      $field: FieldExample(projector),
-      $checkbox: CheckboxExample(projector),
+      $input: InputExample(),
+      $textarea: TextareaExample(),
+      $select: SelectExample(),
+      $field: FieldExample(),
+      $checkbox: CheckboxExample(),
     }
   }
 }

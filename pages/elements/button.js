@@ -1,10 +1,11 @@
-import {Html, Layouts, Button, Buttons, IconBox} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Button, Buttons, IconBox} from '../../bulma'
 
 import {Mixins} from '../helpers'
 import {ButtonWithIcon} from '../extensions'
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

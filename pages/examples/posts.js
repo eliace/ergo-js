@@ -1,4 +1,5 @@
-import {Html, Layouts, Content, Source, Image} from '../../src'
+import {Html, Source} from '../../src'
+import {Layouts, Content, Image} from '../../bulma'
 import {Mutate} from '../helpers'
 
 const api = {

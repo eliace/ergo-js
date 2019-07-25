@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, Source, Button} from '../../src'
+import {Html, Source} from '../../src'
+import {Layouts, Tabs, Button} from '../../bulma'
 
 import {Mutate} from '../helpers'
 

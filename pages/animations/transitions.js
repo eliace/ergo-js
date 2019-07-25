@@ -1,4 +1,5 @@
-import {Html, Layouts, Tabs, IconBox, Text, Button, Source, Domain, Buttons} from '../../src'
+import {Html, Text, Source, Domain} from '../../src'
+import {Layouts, Tabs, IconBox, Button, Buttons} from '../../bulma'
 
 import {Mutate, Mixins} from '../helpers'
 

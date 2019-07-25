@@ -1,4 +1,5 @@
-import {Html, Layouts, Domain, Text} from '../../src'
+import {Html, Domain, Text} from '../../src'
+import {Layouts} from '../../bulma'
 
 import {Mutate, Mixins} from '../helpers'
 

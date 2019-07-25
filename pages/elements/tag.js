@@ -1,4 +1,5 @@
-import {Html, Layouts, Box, Tag, Delete} from '../../src'
+import {Html} from '../../src'
+import {Layouts, Box, Tag, Delete} from '../../bulma'
 
 class Tags extends Html {
   static defaultOpts = {
@@ -10,7 +11,7 @@ class Tags extends Html {
 }
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

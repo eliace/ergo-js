@@ -1,4 +1,5 @@
-import {Html, Layouts, Table, Source} from '../../src'
+import {Html, Source} from '../../src'
+import {Layouts, Table} from '../../bulma'
 
 import {COUNTRIES} from '../constants'
 

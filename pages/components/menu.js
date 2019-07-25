@@ -1,4 +1,4 @@
-import {Html, Layouts, Domain, Menu} from '../../src'
+import {Html, Domain} from '../../src'
 
 
 export default () => {

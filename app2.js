@@ -1,6 +1,7 @@
 import {createProjector} from 'maquette'
+import {}
 import {Html, State, Source, Bindings, Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Tabs, IconBox} from './src'
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, Tabs, IconBox} from './bulma'
 
 
 const projector = createProjector()
