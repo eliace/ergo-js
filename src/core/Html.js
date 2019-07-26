@@ -177,7 +177,7 @@ const Html = class {
 
     this.props = opts.props || {classes: {}, styles: {}}
 
-    this.layout = opts.layout ? defaultFactory(opts.layout, Layout) : null
+    this.layout = opts.layout //? defaultFactory(opts.layout, Layout) : null
 
     this.context = context
 
@@ -502,27 +502,27 @@ const Html = class {
 
     if (this.children.length || this.layout) {
       if (this.layout == null || this.layout === true) {
-        this.layout = defaultFactory(this.options.layout, Layout, this.context)
+        this.layout = Layout.sorted//defaultFactory(this.options.layout, Layout, this.context)
       }
       if (this.text) {
         if (this._dirty || !this.vnode) {
-          this.vnode = this.layout.render(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+          this.vnode = this.layout(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
         }
       }
       else {
         if (this._dirty || !this.vnode) {
-          this.vnode = this.layout.render(this.html, deepClone(this.props), [...this.children])
+          this.vnode = this.layout(this.html, deepClone(this.props), [...this.children])
         }
       }
     }
     else if(this.text || this.props.value) {
       if (this._dirty || !this.vnode) {
-        this.vnode = h(this.html, deepClone(this.props), [this.text])
+        this.vnode = Layout.h(this.html, deepClone(this.props), [this.text])
       }
     }
     else if (this.options.renderIfEmpty !== false) {
       if (this._dirty || !this.vnode) {
-        this.vnode = h(this.html, deepClone(this.props))
+        this.vnode = Layout.h(this.html, deepClone(this.props))
       }
     }
 
@@ -1155,7 +1155,7 @@ const Html = class {
 
   addComponent(i, o) {
     if (this['$'+i]) {
-      console.log('removing')
+      console.log('removing', i)
 //      this['$'+i].destroy()
       this.removeComponent(i)
     }
@@ -1371,23 +1371,24 @@ const Html = class {
 
     const o = this.options
 
-    let key = /*(o.dynamic && o.dynamic[i]) ? o.dynamic[i]['id'] :*/ o[i+'Id']
+    let key = o[i+'Id']
+    let ref = o[i+'Ref']
 
-    if (o[i+'Ref']) {
-      const ref = o[i+'Ref']
+    if (typeof v === 'function') {
+      v = v(o, i)
+    }
+    else if (ref) {
       if (!this.sources[ref]) {
         this.bind(this.options.sources[ref], ref)
       }
       v = this.sources[ref]
     }
 
-    if (typeof v === 'function') {
-      v = v(o)
+    if (v == null) {
+      console.warn('Domain '+i+' ignored')
+      return
     }
 
-    // if (o.dynamic) {
-    //   key = o.dynamic[i+'Id'] || (o.dynamic[i] && o.dynamic[i]['id'])
-    // }
 
     if (key != null) {
       source = (v instanceof Domain) ? v.entry(key) : new Domain(v, null, key)
@@ -1396,8 +1397,10 @@ const Html = class {
       source = (v instanceof Domain) ? v : new Domain(v)
     }
 
+
     // если домен уже подключен, повторно не подключаем
     if (source == this.sources[i]) {
+      console.warn('Try to bin same domain '+i)
       return
     }
 

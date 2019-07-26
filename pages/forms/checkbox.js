@@ -6,7 +6,7 @@ import {Layouts} from '../../bulma'
 class Check extends Html {
   config () {
     return {
-      layout: Layout.Passthru,
+      layout: Layout.passthru,
       $input: {
         html: 'input',
         as: 'is-checkradio',
@@ -37,7 +37,7 @@ class Check extends Html {
 class Radio extends Html {
   config () {
     return {
-      layout: Layout.Passthru,
+      layout: Layout.passthru,
       $input: {
         html: 'input',
         as: 'is-checkradio',

@@ -83,19 +83,11 @@ class AnimatedNumber extends Html {
     }
   }
 
-
-  static OPTIONS = {
-    value: {
-      initOrSet: function (v) {
-        this.sources.vm.set('value', v)
-      }
-    }
-  }
 }
 
 
 
-export default (projector) => {
+export default () => {
   return {
     layout: Layouts.Rows,
     items: [{

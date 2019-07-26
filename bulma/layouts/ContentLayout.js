@@ -1,11 +1,16 @@
-import {Layout} from '../../src'
+import {Layout, defaultCompare, defaultRender} from '../../src'
 //import {h} from 'maquette'
 
-class ContentLayout extends Layout {
-
-  render(html, props, children) {
-    return Layout.h(html+'.content', props, this.combine(children.sort(this.compare)))
-  }
+export default function (html, props, components) {
+  return Layout.h(html+'.content', props, components.sort(defaultCompare).map(defaultRender))
 }
 
-export default ContentLayout
+
+// class ContentLayout extends Layout {
+//
+//   render(html, props, children) {
+//     return Layout.h(html+'.content', props, this.combine(children.sort(this.compare)))
+//   }
+// }
+//
+// export default ContentLayout

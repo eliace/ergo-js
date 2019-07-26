@@ -7,19 +7,23 @@ import {COUNTRIES} from '../constants'
 
 
 class Input extends Html {
-  static defaultOpts = {
-    html: 'input',
-    as: 'input'
+  config () {
+    return {
+      html: 'input',
+      as: 'input'
+    }
   }
 }
 
 
 class Dropdown extends Html {
-  static defaultOpts = {
-    as: 'dropdown-content',
-    defaultItem: {
-      html: 'a',
-      as: 'dropdown-item'
+  config () {
+    return {
+      as: 'dropdown-content',
+      defaultItem: {
+        html: 'a',
+        as: 'dropdown-item'
+      }
     }
   }
 }
@@ -27,72 +31,71 @@ class Dropdown extends Html {
 
 
 class DropdownBox extends Html {
-  static defaultOpts = {
-    sources: {
-      dropdown: false
-    },
-    as: 'dropdown',
-    $content: {
-      tabIndex: -1,
-      as: 'dropdown-trigger',
-      styles: {
-        'width': '100%'
+  config () {
+    return {
+      sources: {
+        dropdown: false
+      },
+      as: 'dropdown',
+      components: {
+        dropdown: false
       },
       $content: {
-        type: ButtonWithIcon,
-        as: 'is-fullwidth',
-        $icon: {
-          weight: 10,
-          as: 'is-small dropdown-icon',
-          icon: 'fas fa-angle-down'
+        tabIndex: -1,
+        as: 'dropdown-trigger',
+        styles: {
+          'width': '100%'
         },
         $content: {
-          styles: {
-            'display': 'flex',
-            'flex': '1'
+          base: ButtonWithIcon,
+          as: 'is-fullwidth',
+          $icon: {
+            weight: 10,
+            as: 'is-small dropdown-icon',
+            icon: 'fas fa-angle-down'
+          },
+          $content: {
+            styles: {
+              'display': 'flex',
+              'flex': '1'
+            }
+          },
+          $placeholder: {
+            html: 'span',
+            as: 'dropdown-placeholder',
+            styles: {
+              'display': 'flex',
+              'flex': '1'
+            },
+            text: 'Select me...'
           }
         },
-        $placeholder: {
-          html: 'span',
-          as: 'dropdown-placeholder',
-          styles: {
-            'display': 'flex',
-            'flex': '1'
-          },
-          text: 'Select me...'
-        }
       },
-      // onClick: function () {
-      //   this.parent.opt('active', !this.parent.options.active)
-      // }
-    },
-    $dropdown: {
-      as: 'dropdown-menu',
-      width: '100%',
-      $content: {
-        type: Dropdown
+      $dropdown: {
+        as: 'dropdown-menu',
+        width: '100%',
+        $content: {
+          type: Dropdown
+        }
       }
-      // overlay: {
-      //   as: 'dropdown-overlay',
-      //   onMouseDown: function () {
-      //     this.parent.opt('active', false)
-      //   }
-      // }
     }
   }
 
-  static OPTIONS = {
-    active: {
-      initOrSet: function (v) {
-        this.opt('classes', {'is-active': v})
+  configOptions () {
+    return {
+      active: {
+        initOrSet: function (v) {
+          this.opt('classes', {'is-active': v})
+        }
       }
     }
   }
+
 }
 
 
 
-export default (projector) => {
+export default () => {
   return {
     sources: {
       selection: '',
@@ -101,7 +104,7 @@ export default (projector) => {
     },
     layout: Layouts.Rows,
     items: [{
-      type: DropdownBox,
+      base: DropdownBox,
       as: 'dropdown-select',
 //      text: 'Select me',
 //      active: true,
@@ -109,24 +112,23 @@ export default (projector) => {
 //      dynamic: true,
       selectionChanged: function (v) {
         this.$content.opt('text', v)
-        this.$content.$content.$placeholder.opt('render', !v)
+        this.$content.$content.opt('$components', {placeholder: !v})
+//        this.$content.$content.$placeholder.opt('render', !v)
       },
       dropdownChanged: function (v, k) {
         const _key = 'select1'
-        this.opt('$components', () => {
-          return new Source({dropdown: v == _key})
-        })
+        this.opt('$components', {dropdown: v == _key})
         this.opt('active', v == _key)
       },
       $content: {
-        onClick: function (e) {
+        onClick: function (e, {dropdown}) {
           const _key = 'select1'
-          const v = this.sources.dropdown.get()
+          const v = dropdown.get()
           if (v != _key) {
-            this.sources.dropdown.set(_key)
+            dropdown.set(_key)
           }
           else {
-            this.sources.dropdown.set(false)
+            dropdown.set(false)
           }
 //          this.sources.dropdown.toggle()
           e.stopImmediatePropagation()
@@ -140,11 +142,13 @@ export default (projector) => {
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
 //          dynamic: true,
-          dataChanged: Mutate.DynamicItems,
+          dataChanged: function (v, k) {
+            this.opt('$items', k)
+          },
           defaultItem: {
-            onClick: function (e) {
-              this.sources.selection.set(this.options.key)
-              this.sources.dropdown.set(false)
+            onClick: function (e, {selection, dropdown}) {
+              selection.set(this.options.key)
+              dropdown.set(false)
 //              e.stopImmediatePropagation()
             },
             selectionChanged: function (v) {
@@ -168,10 +172,7 @@ export default (projector) => {
       },
       dropdownChanged: function (v, k) {
 //        const _key = 'select2'
-        this.opt('$components', () => {
-//          return this.sources[key].filter()
-          return new Source({dropdown: v == this._key})
-        })
+        this.opt('$components', {dropdown: v == this._key})
         this.opt('classes', {'is-active': v == this._key})
       },
       _inputFocus: function () {

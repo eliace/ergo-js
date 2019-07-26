@@ -1,14 +1,22 @@
-import {Layout} from '../../src'
-import {h} from 'maquette'
+import {Layout, defaultCompare} from '../../src'
+//import {h} from 'maquette'
 
-export default class RowsLayout extends Layout {
-
-  render(html, props, children) {
-    return h(html+'.rows', props, this.combine(children))
-  }
-
-  combine(children) {
-    return children.sort(this.compare).map((child, i) => h('div.row', {class: child.options.row, key: i}, [child.render()]))
-  }
-
+function rowRender (comp, i) {
+  return Layout.h('div.row', {class: comp.options.row, key: i}, [comp.render()])
 }
+
+export default function (html, props, components) {
+  return Layout.h(html+'.rows', props, components.sort(defaultCompare).map(rowRender))
+}
+
+// export default class RowsLayout extends Layout {
+//
+//   render(html, props, children) {
+//     return h(html+'.rows', props, this.combine(children))
+//   }
+//
+//   combine(children) {
+//     return children.sort(this.compare).map((child, i) => h('div.row', {class: child.options.row, key: i}, [child.render()]))
+//   }
+//
+// }

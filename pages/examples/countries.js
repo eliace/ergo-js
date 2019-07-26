@@ -16,7 +16,7 @@ export default () => {
     dataId: 'countries',
     allBound: function ({data}) {
       const loadCountries = data.effect('loadCountries', this, async () => {
-//        data.set([])
+        data.set([])
         const v = await api.getCountries()
         const t0 = new Date().getTime()
         console.log('result', v)
@@ -25,8 +25,11 @@ export default () => {
         console.log('t', t1 - t0)
       })
 
+      data.watch(e => e.name == 'init', this, () => {
+        data.loadCountries()        
+      })
+
 //      if (data.isEmpty()) {
-        loadCountries()
 //      }
     },
     // dataChanged: function(v, key) {

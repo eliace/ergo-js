@@ -1,4 +1,4 @@
-import {Html, Source} from '../../src'
+import {Html, Source, Layout} from '../../src'
 import {Layouts, Tabs, Button} from '../../bulma'
 
 import {Mutate} from '../helpers'
@@ -37,19 +37,19 @@ class Switch extends Html {
       allBound: function ({view}) {
         view.$event('click', this)
       },
-      layout: Layouts.PassThrough,
-        $input: {
-          html: 'input',
-          as: 'switch',
-          _type: 'checkbox'
-        },
-        $content: {
-          html: 'label',
-          onClick: function (e, {view}) {
-            view.click(e)
+      layout: Layout.passthru,
+      $input: {
+        html: 'input',
+        as: 'switch',
+        _type: 'checkbox'
+      },
+      $content: {
+        html: 'label',
+        onClick: function (e, {view}) {
+          view.click(e)
 //            this.rise('handleClick', e)
-          }
         }
+      }
     }
   }
 

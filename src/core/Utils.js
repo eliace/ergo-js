@@ -294,5 +294,21 @@ if (maxIdx > -1) {
 
 
 
+export function defaultCompare (a, b) {
+  const w1 = a.options.weight || 0
+  const w2 = b.options.weight || 0
+  if (w1 == w2) {
+    const i1 = a.index || 0
+    const i2 = b.index || 0
+    return i1 - i2
+  }
+  return w1 - w2
+}
+
+export function defaultRender (child) {
+  return child.render ? child.render() : child
+}
+
+
 
 //export Binder
