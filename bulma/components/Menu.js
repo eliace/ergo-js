@@ -1,6 +1,7 @@
 import {Html} from '../../src'
+import {List} from '../elements'
 
-class Label extends Html {
+class MenuLabel extends Html {
   config () {
     return {
       html: 'p',
@@ -9,7 +10,7 @@ class Label extends Html {
   }
 }
 
-class Item extends Html {
+class MenuItem extends Html {
   config () {
     return {
       $content: {
@@ -20,7 +21,7 @@ class Item extends Html {
   configOptions () {
     return {
       selected: {
-        set: function(v) {
+        initOrSet: function(v) {
   //        console.log('set selected', this, v)
           this.$content.opt('classes', {'is-active': !!v})//opt('classes', {'is-active': v})
         }
@@ -29,19 +30,30 @@ class Item extends Html {
   }
 }
 
-class List extends Html {
+class MenuList extends List {
   config () {
     return {
       as: 'menu-list',
       defaultItem: {
-        type: Item
+        base: MenuItem
       },
       defaultComponent: {
-        type: Item
+        base: MenuItem
       }
     }
   }
 }
+
+class MenuSubList extends List {
+  config () {
+    return {
+      defaultItem: {
+        base: MenuItem
+      }
+    }
+  }
+}
+
 
 class Menu extends Html {
   config () {
@@ -50,9 +62,10 @@ class Menu extends Html {
       as: 'menu'
     }
   }
-
-  static Label = Label
-  static List = List
 }
+
+Menu.Label = MenuLabel
+Menu.List = MenuList
+Menu.SubList = MenuSubList
 
 export default Menu

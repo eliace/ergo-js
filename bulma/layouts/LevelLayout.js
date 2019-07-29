@@ -1,8 +1,8 @@
 import {Layout, defaultCompare} from '../../src'
 //import {h} from 'maquette'
 
-function itemRender (comp) {
-  return Layout.h('div.level-item', [child.render()])
+function itemRender (c) {
+  return Layout.h('div.level-item', [c.render()])
 }
 
 export default function (html, props, components) {

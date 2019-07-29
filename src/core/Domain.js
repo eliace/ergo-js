@@ -227,13 +227,15 @@ class Domain extends Source {
       })
     }
 
-    this.observers.forEach(t => {
-      if (event.target == null || event.target == t.target) {
-        if (t.dataChanged) {
-          t.dataChanged.call(t.target, event, t.key)
+    if (event.type != 'resolve') {
+      this.observers.forEach(t => {
+        if (event.target == null || event.target == t.target) {
+          if (t.dataChanged) {
+            t.dataChanged.call(t.target, event, t.key)
+          }
         }
-      }
-    })
+      })
+    }
 
     const results = []
 
@@ -505,7 +507,7 @@ class Domain extends Source {
 
     if (typeof callback == 'string') {
       watcher.callback = (e) => {
-        return this.emit('@'+i, {params: e.params, target: e.target, data: e.data})
+        return this.emit('@'+i, {params: e.params, target: e.target, data: e.data, cache: e.cache})
       }
     }
 

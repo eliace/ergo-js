@@ -14,7 +14,7 @@ function Selectable (opts) {
 }
 
 const Mutate = {
-  DynamicTabs: function (v, key) {return {$tabs: key}},
+  Tabs: function (v, key) {return {$tabs: key}},
   TextAndKey: function (v) {return {key: v, text: v}},
   Text: function (v) {return {text: v}},
   Icon: function (v) {return {icon: v}}
@@ -23,25 +23,26 @@ const Mutate = {
 const Mixins = {
   Fas: function () {
     return  {
-      components: {
-        content: {
-          classes: {'fas': true}
-        }
+      $content: {
+        classes: {'fas': true}
       }
     }
   },
   WithIcon: function () {
     return {
-      components: {
-        content: {
-          components: {
-            icon: {
-              type: IconBox,
-              mixins: [Mixins.Fas],
-            },
-            content: {
-              html: 'span'
-            }
+      $content: {
+        $icon: {
+          base: IconBox,
+          mixins: [Mixins.Fas],
+        },
+        $content: {
+          html: 'span'
+        }
+      },
+      options: {
+        icon: {
+          initOrSet: function (v) {
+            this.$content.$icon.opt('icon', v)
           }
         }
       }
@@ -78,87 +79,82 @@ export default () => {
     },
 //    layout: Layouts.Container,
     items: [{
-      tabsChanged: Mutate.DynamicTabs,
+      tabsChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable],
         tabsChanged: Mutate.TextAndKey
       }
     }, {
       as: 'is-centered',
-      tabsChanged: Mutate.DynamicTabs,
+      tabsChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable],
         tabsChanged: Mutate.TextAndKey
       }
     }, {
       as: 'is-centered',
-      dataChanged: Mutate.DynamicTabs,
+      dataChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable, Mixins.WithIcon],
         dataChanged: function (v) {
-          this.$content.$icon.opt('icon', v.icon)
-          return {key: v.text, text: v.text}
+          return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
       as: 'is-small',
-      tabsChanged: Mutate.DynamicTabs,
+      tabsChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable],
         tabsChanged: Mutate.TextAndKey
       }
     }, {
       as: 'is-medium',
-      tabsChanged: Mutate.DynamicTabs,
+      tabsChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable],
         tabsChanged: Mutate.TextAndKey
       }
     }, {
       as: 'is-large',
-      tabsChanged: Mutate.DynamicTabs,
+      tabsChanged: Mutate.Tabs,
       defaultTab: {
         mixins: [Selectable],
         tabsChanged: Mutate.TextAndKey
       }
     }, {
-      dataChanged: Mutate.DynamicTabs,
+      dataChanged: Mutate.Tabs,
       as: 'is-boxed',
       defaultTab: {
         mixins: [Selectable, Mixins.WithIcon],
         dataChanged: function (v) {
-          this.$content.$icon.opt('icon', v.icon)
-          return {key: v.text, text: v.text}
+          return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
-      dataChanged: Mutate.DynamicTabs,
+      dataChanged: Mutate.Tabs,
       as: 'is-toggle',
       defaultTab: {
         mixins: [Selectable, Mixins.WithIcon],
         dataChanged: function (v) {
-          this.$content.$icon.opt('icon', v.icon)
-          return {key: v.text, text: v.text}
+          return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
-      dataChanged: Mutate.DynamicTabs,
+      dataChanged: Mutate.Tabs,
       as: 'is-toggle is-toggle-rounded',
       defaultTab: {
         mixins: [Selectable, Mixins.WithIcon],
         dataChanged: function (v) {
-          this.$content.$icon.opt('icon', v.icon)
-          return {key: v.text, text: v.text}
+          return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
-      dataChanged: Mutate.DynamicTabs,
+      dataChanged: Mutate.Tabs,
       as: 'is-toggle is-fullwidth',
       defaultTab: {
         mixins: [Selectable, Mixins.WithIcon],
         dataChanged: function (v) {
-          this.$content.$icon.opt('icon', v.icon)
-          return {key: v.text, text: v.text}
+          return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }]

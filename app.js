@@ -1,8 +1,8 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Domain, Bindings, Events} from './src'
+import {Html, State, Source, Domain, Bindings, Events, Layout} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
-import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage} from './pages'
+import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
@@ -343,10 +343,6 @@ const root = new Html({
     $content: {
       layout: Layouts.Columns,
 //      dynamic: true,
-      appChanged: function (v, key) {
-        return {$components: key}
-      },
-      components: false,
 //      dynamic: {
 //      blockComponents: Custom.All,
       $mainMenu: {
@@ -357,7 +353,7 @@ const root = new Html({
           return {$items: key}
         },
         defaultItem: {
-          layout: Layouts.PassThrough,
+          layout: Layout.passthru,
           $label: {
             type: Menu.Label,
             dataId: 'name',
@@ -421,34 +417,42 @@ const root = new Html({
           }
         }
       },
-      $mainContent: {
-        type: Content,
-        defaultItem: {
-          html: 'pre',
-          $content: {
-            html: 'code',
-          }
-        },
-        items: [{
-//          state: function(v) {return {text: JSON.stringify(v)}}
-//          stateBinding: Custom.JsonText
-        }, {
-//           binding: function (v, sources, key) {
-//             if(key && key != 'block') return
-// //            debugger
-//             console.log('binding main')
-//             return {text: Custom.JsonText(v.block)}
+//       $mainContent: {
+//         type: Content,
+//         defaultItem: {
+//           html: 'pre',
+//           $content: {
+//             html: 'code',
 //           }
-          blockOptions: Custom.JsonText
-        }]
-//        state: rootState,
-//        selectionBinding: Custom.JsonText
-      },
-      $elements: ElementsPage(),
-      $componentsPage: ComponentsPage(),
-      $animationsPage: AnimationsPage(),
-      $formsPage: FormsPage(),
-      $examplesPage: ExamplesPage()
+//         },
+//         items: [{
+// //          state: function(v) {return {text: JSON.stringify(v)}}
+// //          stateBinding: Custom.JsonText
+//         }, {
+// //           binding: function (v, sources, key) {
+// //             if(key && key != 'block') return
+// // //            debugger
+// //             console.log('binding main')
+// //             return {text: Custom.JsonText(v.block)}
+// //           }
+//           blockOptions: Custom.JsonText
+//         }]
+// //        state: rootState,
+// //        selectionBinding: Custom.JsonText
+//       },
+      $content: {
+        column: 'is-four-fifths',
+        components: false,
+        appChanged: function (v, key) {
+          return {$components: key}
+        },
+        $elements: ElementsPage(),
+        $componentsPage: ComponentsPage(),
+        $animationsPage: AnimationsPage(),
+        $formsPage: FormsPage(),
+        $examplesPage: ExamplesPage(),
+        $layouts: LayoutsPage()
+      }
     }
 //    }
   }

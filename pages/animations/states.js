@@ -179,16 +179,30 @@ export default () => {
                 }, this.get('updateInterval'))
               }
             },
-            changed: function (evt) {
-              if (evt.ids) {
-                if ('sides' in evt.ids) {
-                  this.updateSides(evt.data['sides'], evt.cache['sides'])
+            watchers: {
+              sides: {
+                when: evt => evt.name == 'changed' && evt.ids && evt.ids['sides'],
+                init: (evt, d) => {
+                  d.updateSides(evt.data['sides'], evt.cache['sides'])
                 }
-                if ('stats' in evt.ids) {
-                  this.updateStats(evt.data['stats'], evt.cache['stats'])
+              },
+              stats: {
+                when: evt => evt.name == 'changed' && evt.ids && evt.ids['stats'],
+                init: (evt, d) => {
+                  d.updateStats(evt.data['stats'])
                 }
               }
             },
+            // changed: function (evt) {
+            //   if (evt.ids) {
+            //     if ('sides' in evt.ids) {
+            //       this.updateSides(evt.data['sides'], evt.cache['sides'])
+            //     }
+            //     if ('stats' in evt.ids) {
+            //       this.updateStats(evt.data['stats'], evt.cache['stats'])
+            //     }
+            //   }
+            // },
             // watchers: {
             //   reset: {
             //     when: (e) => {console.log('when', e); return e.name == 'init'},

@@ -5,9 +5,10 @@ export default class Card extends Html {
   config () {
     return {
       as: 'card',
-      // components: {
-      //   image: false
-      // },
+      components: {
+        image: false,
+        footer: false
+      },
       $header: {
         as: 'card-header'
       },

@@ -1,10 +1,12 @@
 import {Html} from '../../src'
 
 class List extends Html {
-  static defaultOpts = {
-    html: 'ul',
-    defaultItem: {
-      html: 'li'
+  config () {
+    return {
+      html: 'ul',
+      defaultItem: {
+        html: 'li'
+      }
     }
   }
 }

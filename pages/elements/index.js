@@ -15,6 +15,24 @@ import TitleExample from './title'
 import ProgressExample from './progress'
 import TableExample from './table'
 
+import {PreviewAndCode} from '../extensions'
+
+import fs from 'fs'
+
+function previewOf (exampleCreator, code) {
+  return {
+    base: PreviewAndCode,
+    $preview: exampleCreator(),
+    $code: {
+      text: code
+    }
+  }
+}
+
+const BoxCode = fs.readFileSync(__dirname+'/box.js', 'utf-8')
+const ButtonCode = fs.readFileSync(__dirname+'/button.js', 'utf-8')
+
+
 export default () => {
 
   const Data = new Domain({
@@ -44,15 +62,19 @@ export default () => {
     },
     layout: Layouts.Rows,
     $header: {
+      as: 'example-header',
+      layout: Layouts.Level,
       $title: {
+        as: 'example-title',
         layout: Layouts.Content,
         $content: {
-          html: 'h3'
+          html: 'h4'
         },
         text: 'Elements'
       },
       $tabs: {
         type: Tabs,
+        levelRight: true,
         defaultTab: {
           dataChanged: function (v) {
             this.opt('selected', this.options.text == v.selected)
@@ -79,8 +101,8 @@ export default () => {
     $content: {
       components: false,
       dataChanged: Mutate.DynamicComponents,
-      $box: BoxExample(),
-      $button: ButtonExample(),
+      $box: previewOf(BoxExample, BoxCode),
+      $button: previewOf(ButtonExample, ButtonCode),
       $content: ContentExample(),
       $delete: DeleteExample(),
       $icon: IconExample(),

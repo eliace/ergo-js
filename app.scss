@@ -210,6 +210,39 @@ body {
 }
 
 
+.code-panel {
+  pre {
+    font-size: 0.8em;
+    margin: 0;
+
+    .number {
+      font-size: inherit;
+      margin-right: 0;
+      padding: 0;
+      height: inherit;
+      min-width: inherit;
+    }
+  }
+  // position: fixed;
+  // right: 0;
+  // min-width: 400px;
+}
+
+
+.example-header {
+  > .level-item {
+    justify-content: flex-start;
+  }
+}
+
+.example-title {
+  border-bottom: 1px solid #dbdbdb;
+  width: 100%;
+  h4 {
+    font-size: 1.33em
+  }
+}
+
 // .dropdown {
 //   &.is-active {
 //     .dropdown-overlay {

@@ -22,7 +22,7 @@ const DEFAULT_RULES = {
 }
 
 
-const DEFAULT_EVENTS = {
+const HTML_EVENTS = {
   onClick: 'onclick',
   onDoubleClick: 'ondblclick',
   onMouseDown: 'onmousedown',
@@ -187,7 +187,7 @@ const Html = class {
 
     // постобработка "сахарных" опций
 
-    let extOpts = {}
+//    let extOpts = {}
 
     // for (var i in opts) {
     //   var o = opts[i]
@@ -207,24 +207,21 @@ const Html = class {
     //
     // }
 
-    const preparedOpts = new Options(opts, extOpts)
+    // 1. Примешиваем опции
 
-    // sugar opts
+    const preparedOpts = new Options(opts)//, extOpts)
+
+    // применяем опции этапа mix
     for (var i in opts) {
       if (this.classOptions[i]/* || this.constructor.OPTIONS[i]*/) {
         const desc = this.classOptions[i]/* || this.constructor.OPTIONS[i]*/
-        if (desc.sugar) {
-          desc.sugar.call(this, opts[i], preparedOpts)
+        if (desc.mix) {
+          desc.mix.call(this, opts[i], preparedOpts)
         }
       }
     }
 
-
-    // if (this.prepareOptions) {
-    //   this.prepareOptions(opts, preparedOpts)
-    // }
-
-//    let incOpts = null
+    // применяем примеси
     if (opts.mixins) {
       for (let i = 0; i < opts.mixins.length; i++) {
         let mixinOpts = opts.mixins[i].call(this, preparedOpts)
@@ -232,7 +229,14 @@ const Html = class {
       }
     }
 
+    // завершаем конструирование опций
     this.options = opts = preparedOpts.build(DEFAULT_RULES)
+
+    // if (('base' in this.options) && this.options.base == null) {
+    //   console.error('Missing base in', this.options)
+    // }
+
+    // 2. Подключаем домены
 
     this.sources = {}
 
@@ -254,7 +258,7 @@ const Html = class {
 
 
 
-    // создание компонентов и элементов
+    // 3. Создаем статические компоненты и элементы
 
     if (opts.components == null) {
       for (let i in opts) {
@@ -277,25 +281,7 @@ const Html = class {
           this.addComponent(i, opts.components[i])
         }
       }
-      //   if (i[0] == '$') {
-      //     const k = i.substr(1)
-      //     if (!opts.components || opts.components[k] !== false) {
-      //       this.addComponent(k, opts.components ? opts.components[k] : true)
-      //     }
-      //   }
     }
-    // else {
-    //   for (let i in opts.components) {
-    //     this.addComponent(i, opts.components[i])
-    //   }
-    // }
-    // if (opts.components && opts.dynamic !== true) {
-    //   for (var i in opts.components) {
-    //     if (!opts.dynamic || !opts.dynamic[i]) {
-    //       this.addComponent(i, opts.components[i])
-    //     }
-    //   }
-    // }
 
     if (opts.items) {
       for (var i = 0; i < opts.items.length; i++) {
@@ -303,70 +289,15 @@ const Html = class {
       }
     }
 
-
-//     if (this.options.methods) {
-//       for (let i in this.options.methods) {
-//         this[i] = this.options.methods[i]
-//         // this[i] = (...params) => {
-//         //   this.emit(i, {params})
-//         //   return this.options.methods[i].apply(this, params)
-//         // }
-//       }
-// //      Object.assign(this, this.options.methods) // FIXME это неправильно
-//     }
-
-
-    // const setter = function (target, prop, value) {
-    //   target.opt()
-    // }
-
-//    debugger
+    // прокси-хелпер для опций
 
     this.opts = {__target: this}
 
-//    const proxy = this.classOptsProxy
-
-//    debugger
-
-//     if (Object.setPrototypeOf) {
-//       Object.setPrototypeOf(proxy, Object.getPrototypeOf(this.opts))
-//     } else if (proxy.__proto__) {
-//       proxy.__proto__ = this.opts.__proto__
-//     } else {
-//       console.log('err')
-// //      prototypeOk = false;
-//     }
-//Object.setPrototypeOf(proxy, Objecy.getPrototypeOf(this.opts))
     Object.setPrototypeOf(this.opts, this.classOptsProxy)
 
-      // this.opts.aaa = 5
-      // console.log(this.opts, this.classOptsProxy)
-
-//    this.opts.as = ['hello']
-
-//    console.log(this.opts.prototype)
-
-    // this.opts = new Proxy(this, {
-    //   set (target, prop, value) {
-    //     return target.opt(prop, value)
-    //   },
-    //   get (target, prop) {
-    //     return target.opt(prop)
-    //   }
-    // })
-
-    // привязка данных
-
-    // if (opts.data) {
-    //   this.bind(opts.data)
-    // }
-    //
-    // if (opts.state) {
-    //   this.bindState(opts.state)
-    // }
 
 
-    // инициализация свойств
+    // 4. Применяем свойства этапа init
 
     for (var i in opts) {
       const o = opts[i]
@@ -416,23 +347,6 @@ const Html = class {
           this.text = o
         }
       }
-    //   else if (i == 'text') {
-    //     if (opts.components && opts.components.content) {
-    //       console.log(opts)
-    //       opts.components.content.merge({text: o})  //FIXME
-    //     }
-    //     else {
-    //       this.text = o
-    // //      this.$content = new Text(o)
-    // //      this.children.push(this.$content)
-    //     }
-      // else if (i == 'styles') {
-      //   this.props['styles'] = Object.assign(this.props['styles'] || {}, o)
-      // }
-      // else if (i == 'styles') {
-      //   // фикс для оптимизации maquette
-      //   this.props.styles = Object.assign(this.props.styles || {}, o)
-      // }
       else if (i == 'height') {
         this.props.styles = this.props.styles || {}
         this.props.styles.height = (typeof o === 'string') ? o : o+'px'
@@ -447,32 +361,58 @@ const Html = class {
       else if (HTML_OPTIONS[i]) {
         this.props[HTML_OPTIONS[i]] = o
       }
-      else if (DEFAULT_EVENTS[i]) {
-        this.props[DEFAULT_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
+      else if (HTML_EVENTS[i]) {
+        this.props[HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
     //        Events.on(this, DEFAULT_EVENTS[i], o)
       }
     }
 
+    // 5. Синхронизируем компонент с доменами
 
     this.tryInit()
 
+    // - sources [i]
+    // - allBound [i]
+    // - anyChanged [i]
+    // - use [i]
 
-    if (opts.changed) {
-      const v = {}
-      // while (this._binding_chain.length) {
-      //   const src = this.sources[this._binding_chain.shift()]
-      //   v[i] = this.sources[i].cache != null ? this.sources[i].cache : this.sources[i].get()
-      // }
-      for (let i in this.sources) {
-        v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
-      }
-      const bindOpts = opts.changed.call(this, v, this.sources)
-      if (bindOpts) {
-        for (let j in bindOpts) {
-          this.opt(j, bindOpts[j])
-        }
-      }
-    }
+    // - base [i]
+    // - options [i]
+    // - mixins [i]
+
+    // - components [i, s]
+    // - items [i, s]
+    // - layout [i, s]
+    // - itemFactory [i, s]
+    // - componentFactory [i, s]
+
+    // - text [i, s]
+    // - as [i, s]
+    // - props [i, s]
+    // - html [i, s]
+
+    // defaultItem
+    // defaultComponent
+    // реакции вида *Changed
+    // события on*
+    // параметры *Id, *Ref
+
+    // if (opts.changed) {
+    //   const v = {}
+    //   // while (this._binding_chain.length) {
+    //   //   const src = this.sources[this._binding_chain.shift()]
+    //   //   v[i] = this.sources[i].cache != null ? this.sources[i].cache : this.sources[i].get()
+    //   // }
+    //   for (let i in this.sources) {
+    //     v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
+    //   }
+    //   const bindOpts = opts.changed.call(this, v, this.sources)
+    //   if (bindOpts) {
+    //     for (let j in bindOpts) {
+    //       this.opt(j, bindOpts[j])
+    //     }
+    //   }
+    // }
 
     }
     catch (err) {
@@ -1391,7 +1331,20 @@ const Html = class {
 
 
     if (key != null) {
-      source = (v instanceof Domain) ? v.entry(key) : new Domain(v, null, key)
+      if (Array.isArray(key)) {
+        if (v instanceof Domain) {
+          source = v
+          for (let j = 0; j < key.length; j++) {
+            source = source.entry(key[j])
+          }
+        }
+        else {
+          console.log('Composite id not supported for nondomain value', key, v)
+        }
+      }
+      else {
+        source = (v instanceof Domain) ? v.entry(key) : new Domain(v, null, key)
+      }
     }
     else {
       source = (v instanceof Domain) ? v : new Domain(v)
@@ -1400,7 +1353,7 @@ const Html = class {
 
     // если домен уже подключен, повторно не подключаем
     if (source == this.sources[i]) {
-      console.warn('Try to bin same domain '+i)
+      console.warn('Try to bind same domain '+i)
       return
     }
 

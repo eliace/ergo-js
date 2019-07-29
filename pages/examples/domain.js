@@ -24,36 +24,10 @@ const api = {
 }
 
 
-const list = new Domain(null, {
-  initial: function () {
-    setTimeout(() => {
-      list.set(['Alice', 'Bob', 'Charlie'])
-    }, 10000)
-    return ['Alice']
-  }
-})
-
 export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      sources: {
-        data: list
-      },
-      $list: {
-        html: 'ul',
-//        dataEntryId: v => v,
-        dataChanged: function (v, k) {
-          this.opt('$items', k)
-        },
-        defaultItem: {
-          html: 'li',
-          dataChanged: function (v) {
-            console.log('item', v)
-          }
-        }
-      }
-    }, {
       sources: {
         data: {
           message: 'Привет'

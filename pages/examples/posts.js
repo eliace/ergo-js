@@ -18,7 +18,7 @@ export default () => {
     sources: {
       users: {}
     },
-    sourcesBound: function ({data}) {
+    allBound: function ({data}) {
 
       const loadPosts = data.effect('loadPosts', this, async () => {
 //        data.set('posts', [])
@@ -66,7 +66,7 @@ export default () => {
             showComments: false
           }
         },
-        sourcesBound: function ({data, page}) {
+        allBound: function ({data, page}) {
 
           const loadComments = data.effect('loadComments', this, async () => {
             data.set('comments', await api.getComments(data.get('id')))
@@ -240,7 +240,7 @@ export default () => {
           }
         },
         $avatar: {
-          sourcesBound: function ({users, user}) {
+          allBound: function ({users, user}) {
 
           },
           type: Image,

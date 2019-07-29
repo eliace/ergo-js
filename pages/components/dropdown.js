@@ -75,7 +75,7 @@ class DropdownBox extends Html {
         as: 'dropdown-menu',
         width: '100%',
         $content: {
-          type: Dropdown
+          base: Dropdown
         }
       }
     }
@@ -165,7 +165,7 @@ export default () => {
 //      type: DropdownBox,
       as: 'dropdown dropdown-input',
       width: 400,
-      dynamic: true,
+//      components: true,
 //      active: true,
       onMouseDown: function (e) {
         e.stopImmediatePropagation()

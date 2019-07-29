@@ -7,12 +7,11 @@ export default function (html, props, components) {
   let center = components.filter(c => !c.options.mediaRight && !c.options.mediaLeft).sort(defaultCompare)
 
   return Layout.h(html+'.media', props, [
-    left && Layout.sorted('div.media-left', null, left),
+    left.length > 0 && Layout.sorted('div.media-left', null, left),
     Layout.sorted('div.media-content', null, center),
-    right && Layout.sorted('div.media-right', null, right)
+    right.length > 0 && Layout.sorted('div.media-right', null, right)
   ])
 }
-
 
 // class MediaLayout extends Layout {
 //

@@ -18,7 +18,7 @@ export default class Page extends Html {
   }
   static OPTIONS = {
     body: {
-      sugar: function (o, builder) {
+      mix: function (o, builder) {
         builder.merge({
           components: {
             content: {

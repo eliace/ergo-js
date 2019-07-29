@@ -1,6 +1,10 @@
 import {Html} from '../src'
 import {Layouts, Button, Buttons, IconBox} from '../bulma'
 
+import Prism from 'prismjs'
+import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-javascript'
+
 
 export class ButtonWithIcon extends Button {
 
@@ -27,4 +31,41 @@ export class ButtonWithIcon extends Button {
     }
   }
 
+}
+
+
+export class PreviewAndCode extends Html {
+  config () {
+    return {
+      layout: Layouts.Columns,
+      $preview: {
+        column: 'is-half'
+      },
+      $code: {
+        as: 'code-panel',
+        column: 'is-half',
+        $content: {
+          html: 'pre',
+          $content: {
+            html: 'code',
+            as: 'language-javascript',
+          },
+          onAfterCreate: function (el) {
+            Prism.highlightAllUnder(el)
+          }
+        }
+      }
+    }
+  }
+
+  // configOptions () {
+  //   return {
+  //     src: {
+  //       initOrSet: function (file) {
+  //         debugger
+  //         this.$code.opt('text', fs.readFileSync(__dirname+file, 'utf-8'))
+  //       }
+  //     }
+  //   }
+  // }
 }

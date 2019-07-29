@@ -50,10 +50,12 @@ const Options = class {
 
     for (let i = 0; i < this._raw.length; i++) {
       if (this._raw[i] === true) {
+//        o = o || {}
         continue
       }
       else if (this._raw[i] === false) {
-        o = {}
+        continue
+//        o = false
       }
       else {
         o = buildOpts(o, this._raw[i], rules || this._rules)

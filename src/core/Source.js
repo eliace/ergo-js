@@ -309,9 +309,10 @@ class Source {
 
 
   _invalidate () {
-    delete this.cache
+    this._cacheInvalid = true
+//    delete this.cache
     for (let i in this.entries) {
-      if (this.entries[i].cache != null) {
+      if (!this.entries[i]._cacheInvalid) {
         this.entries[i]._invalidate()
       }
     }
@@ -322,14 +323,20 @@ class Source {
     if (!this._updating && !this.removed) {
       this._updating = this
       try {
+
+        const prevValue = cache || this.cache
+
+        // if (!this._cacheInvalid) {
+        //   this._invalidate()
+        // }
+        //
+        // delete this._cacheInvalid
+        delete this.cache
+
   //    delete this.cache
 //      this.emit('beforeChanged')
         if (this.isNested && direction != 'desc' && direction != 'none') {
-          this.src._update('asc', event, {[this.id]: true}, {[this.id]: cache})
-        }
-
-        if (this.cache != null) {
-          this._invalidate()
+          this.src._update('asc', event, {[this.id]: true}, {[this.id]: prevValue})
         }
 
         if (this.options && this.options.computed) {
@@ -369,7 +376,7 @@ class Source {
           }
         }
 
-        this.emit('changed', {data: this.get(), ids, cache})
+        this.emit('changed', {data: this.get(), ids, cache: prevValue})
 
       }
       catch (err) {
