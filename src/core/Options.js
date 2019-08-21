@@ -65,10 +65,9 @@ const Options = class {
     return o
   }
 
-  with(rules) {
+  with (rules) {
     this._rules = rules
   }
-
 
 }
 

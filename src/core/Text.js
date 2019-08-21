@@ -3,7 +3,7 @@ import Layout from './Layout'
 const Text = class {
 
   constructor(text) {
-    this.options = {}
+    this.options = {__raw: {}}
     this.props = {}
     this.value = text
   }

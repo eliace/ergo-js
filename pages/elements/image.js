@@ -10,7 +10,7 @@ export default () => {
     layout: Layouts.Rows,
     items: [{
       // layout: Layouts.Columns,
-      styles: {
+      style: {
         'display': 'flex',
         'justify-content': 'space-around'
       },
@@ -36,7 +36,9 @@ export default () => {
         $image: {
           type: Image,
           src: imgUrl_2,
-          width: 512,
+          style: {
+            width: '512px'            
+          }
 //          height: 512
         }
       }

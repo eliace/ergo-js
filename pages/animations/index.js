@@ -11,7 +11,7 @@ export default (projector) => {
   const data = new Domain({
     selected: 'Modal',
   }, {
-    computed: {
+    properties: {
       modal: (v) => v.selected == 'Modal',
       toast: (v) => v.selected == 'Toast',
       transitions: (v) => v.selected == 'Transitions',

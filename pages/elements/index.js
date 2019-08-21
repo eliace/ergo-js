@@ -38,7 +38,7 @@ export default () => {
   const Data = new Domain({
     selected: 'Box'
   }, {
-    computed: {
+    properties: {
       box: (v) => v.selected == 'Box',
       button: (v) => v.selected == 'Button',
       content: (v) => v.selected == 'Content',

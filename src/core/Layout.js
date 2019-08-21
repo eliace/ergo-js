@@ -1,4 +1,4 @@
-import {h} from 'maquette'
+import {h} from 'inferno-hyperscript'
 import {defaultRender, defaultCompare, deepClone} from './Utils'
 
 function simple (html, props, components) {

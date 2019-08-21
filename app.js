@@ -1,34 +1,16 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Domain, Bindings, Events, Layout} from './src'
+import {Html, State, Source, Domain, Bindings, Events, Layout, Context} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
+import {render, createRenderer} from 'inferno'
+
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
 import './app.scss'
 
 //fontawesome.config = { autoReplaceSvg: false }
-
-const d = new Domain({
-  a: 5,
-  b: {
-    text: 'hello'
-  }
-}, {
-  properties: {
-    c: {
-      calc: v => v.a *10
-    }
-  }
-})
-
-d.entry('c')
-
-console.log(d.$.a)
-console.log(d.$.b.text)
-console.log(d.$.c)
-
 
 let perfCounter = 0
 let perfAnalysis = null
@@ -215,10 +197,24 @@ Events.on('mousedown', function () {
 })
 
 
-
-const context = {
-  projector
+const renderer = {
+  scheduled: false,
+  scheduleRender: function () {
+    console.log('scheduleRender')
+    if (!this.scheduled) {
+      requestAnimationFrame(() => {
+        render(root.render(), document.body)
+        this.scheduled = false
+      })
+    }
+    this.scheduled = true
+  }
 }
+
+
+const context = new Context({
+  projector: renderer
+})
 
 const root = new Html({
   as: 'app',
@@ -273,15 +269,25 @@ const root = new Html({
       app.set('current', v)
     })
 
-    app.computed('posts', this, v => v.current == 'posts')
-    app.computed('elements', this, v => v.current == 'elements')
-    app.computed('componentsPage', this, v => v.current == 'components')
-    app.computed('layouts', this, v => v.current == 'layouts')
-    app.computed('animationsPage', this, v => v.current == 'animations')
-    app.computed('formsPage', this, v => v.current == 'forms')
-    app.computed('examplesPage', this, v => v.current == 'examples')
-    app.computed('countriesPage', this, v => v.current == 'countries')
-    app.computed('postsPage', this, v => v.current == 'posts')
+    app.prop('posts', null, v => v.current == 'posts')
+    app.prop('elements', null, v => v.current == 'elements')
+    app.prop('componentsPage', null, v => v.current == 'components')
+    app.prop('layouts', null, v => v.current == 'layouts')
+    app.prop('animationsPage', null, v => v.current == 'animations')
+    app.prop('formsPage', null, v => v.current == 'forms')
+    app.prop('examplesPage', null, v => v.current == 'examples')
+    app.prop('countriesPage', null, v => v.current == 'countries')
+    app.prop('postsPage', null, v => v.current == 'posts')
+
+    // app.computed('posts', this, v => v.current == 'posts')
+    // app.computed('elements', this, v => v.current == 'elements')
+    // app.computed('componentsPage', this, v => v.current == 'components')
+    // app.computed('layouts', this, v => v.current == 'layouts')
+    // app.computed('animationsPage', this, v => v.current == 'animations')
+    // app.computed('formsPage', this, v => v.current == 'forms')
+    // app.computed('examplesPage', this, v => v.current == 'examples')
+    // app.computed('countriesPage', this, v => v.current == 'countries')
+    // app.computed('postsPage', this, v => v.current == 'posts')
 
   },
 //  dynamic: true,
@@ -408,10 +414,6 @@ const root = new Html({
               // },
               onClick: function(e) {
                 this.sources.app.setCurrent(this.options.key)
-//                console.log('click target', this)
-                //Actions.selectMainMenu(this.options.key)
-//                console.log(this.sources.selection, app.sources.selection.entry('current'))
-//                this.sources.selection.set(this.props.key)
               }
             }
           }
@@ -446,12 +448,12 @@ const root = new Html({
         appChanged: function (v, key) {
           return {$components: key}
         },
-        $elements: ElementsPage(),
-        $componentsPage: ComponentsPage(),
-        $animationsPage: AnimationsPage(),
-        $formsPage: FormsPage(),
-        $examplesPage: ExamplesPage(),
-        $layouts: LayoutsPage()
+        $elements: ElementsPage,
+        $componentsPage: ComponentsPage,
+        $animationsPage: AnimationsPage,
+        $formsPage: FormsPage,
+        $examplesPage: ExamplesPage,
+        $layouts: LayoutsPage
       }
     }
 //    }
@@ -461,10 +463,14 @@ const root = new Html({
 window._app = root
 
 
-const render = () => {
-  return root.render()
-}
+// const render = () => {
+//   return root.render()
+// }
+//
+// document.addEventListener('DOMContentLoaded', function () {
+//   projector.append(document.body, render);
+// });
 
 document.addEventListener('DOMContentLoaded', function () {
-  projector.append(document.body, render);
+  render(root.render(), document.body)
 });

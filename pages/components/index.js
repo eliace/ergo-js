@@ -35,7 +35,7 @@ export default (projector) => {
   const data = new Domain({
     selected: 'Tabs'
   }, {
-    computed: {
+    properties: {
       tabs: (v) => v.selected == 'Tabs',
       dropdown: (v) => v.selected == 'Dropdown',
       breadcrumb: v => v.selected == 'Breadcrumb',

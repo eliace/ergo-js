@@ -6,9 +6,9 @@ function itemRender (c) {
 }
 
 export default function (html, props, components) {
-  let left = components.filter(c => c.options.levelLeft)
-  let right = components.filter(c => c.options.levelRight)
-  let center = components.filter(c => !c.options.levelRight && !c.options.levelLeft)
+  let left = components.filter(c => c.options.__raw.levelLeft)
+  let right = components.filter(c => c.options.__raw.levelRight)
+  let center = components.filter(c => !c.options.__raw.levelRight && !c.options.__raw.levelLeft)
 
   if (left.length > 0) {
     left = Layout.h('div.level-left', left.sort(defaultCompare).map(itemRender))

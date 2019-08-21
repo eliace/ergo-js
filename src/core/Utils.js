@@ -51,6 +51,10 @@ export const buildProp = (prop, nextProp, rule) => {
 
 export const buildOpts = (opts, nextOpts, rules, path) => {
 
+  if (typeof nextOpts == 'function') {
+    nextOpts = nextOpts()
+  }
+
   // если nextOpts является объектом
   if (nextOpts.constructor === Object) {
     for (let i in nextOpts) {
@@ -62,6 +66,11 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
     for (let i = 0; i < nextOpts.length; i++) {
       opts[i] = buildProp(opts[i], nextOpts[i], rules && (rules[i] || rules[i[0]]))
     }
+  }
+  else if (nextOpts instanceof Promise) {
+    return Promise.all([opts, nextOpts]).then(o => {
+      return buildOpts(o[0], o[1], rules, path)
+    })
   }
   else if (nextOpts !== undefined) {
     opts = nextOpts
@@ -75,10 +84,18 @@ export const defaultFactory = (item, defaultType, context) => {
 
   var ItemClass = null
 
-  if (typeof item === 'function') {
-    ItemClass = item
-  }
-  else if (item) {
+//   if (typeof item === 'function') {
+//     item = item()
+// //    ItemClass = item
+//   }
+//
+//   if (item instanceof Promise) {
+//     return item.then((itm) => {
+//       return defaultFactory(itm, defaultType, context)
+//     })
+//   }
+
+  if (item) {
     ItemClass = item.type || item.alias || item.base || defaultType
   }
   else {
@@ -94,9 +111,9 @@ export const defaultFactory = (item, defaultType, context) => {
 }
 
 
-export const ensure = (obj, path, value) => {
-
-}
+// export const ensure = (obj, path, value) => {
+//
+// }
 
 
 export const hashCode = (v) => {
@@ -122,7 +139,7 @@ export const hashCode = (v) => {
 
 export class Binder {//extends Function {
   constructor (domain, prop, format) {
-    this.domain = domain
+    this.key = domain
     this.prop = prop
     this.format = format
     // const f = function () {
@@ -295,8 +312,8 @@ if (maxIdx > -1) {
 
 
 export function defaultCompare (a, b) {
-  const w1 = a.options.weight || 0
-  const w2 = b.options.weight || 0
+  const w1 = a.options.__raw.weight || 0
+  const w2 = b.options.__raw.weight || 0
   if (w1 == w2) {
     const i1 = a.index || 0
     const i2 = b.index || 0
@@ -310,5 +327,43 @@ export function defaultRender (child) {
 }
 
 
+
+export function createOptionsProto (descriptors) {
+  const proxy = {}
+  const names = Object.keys(descriptors)
+  for (let i in names) {
+    const setter = function (v) {
+      return this.__target.opt(names[i], v)
+    }
+    const getter = function () {
+      return this.__target.opt(names[i])
+    }
+    Object.defineProperty(proxy, names[i], {
+      set: setter,
+      get: getter
+    })
+  }
+  return proxy
+}
+
+
+const Keys = {
+  m: new WeakMap(),
+  c: 1,
+  get: function (v) {
+    if (typeof v === 'string' || typeof v === 'number') {
+      return v
+    }
+    if (this.m.has(v)) {
+      return this.m.get(v)
+    }
+    this.m.set(v, this.c++)
+    return this.c - 1
+  }
+}
+
+export function defaultIdResolver (v) {
+  return Keys.get(v)
+}
 
 //export Binder

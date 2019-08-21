@@ -971,7 +971,8 @@ export default () => {
                 return v.list.filter((item) => {
                   return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
                 })
-              }
+              },
+              idResolver: v => v && v.msg
             }
           }
           // computed: {
@@ -995,10 +996,14 @@ export default () => {
         html: 'ul',
         dataId: 'filteredList',
         dataChanged: Mutate.Items,
+        // dataChanged: function (v, k) {
+        //   debugger
+        //   this.opt('$items', k)
+        // },
         height: 150,
-        dataEntryId: function (v) {
-          return v && v.msg
-        },
+        // dataEntryId: function (v) {
+        //   return v && v.msg
+        // },
         defaultItem: {
           sources: {
             view: {}
@@ -1009,7 +1014,7 @@ export default () => {
           //   this.sources.data.emit('enter')
           // },
           dataChanged: function (v) {
-            this.opts.text = v && v.msg
+            this.options.text = v && v.msg
           },
           use: {
             data: [Effects.Log, function (domain, target, key) {

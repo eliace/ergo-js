@@ -1,4 +1,4 @@
-import {deepClone, hashCode} from './Utils'
+import {deepClone, hashCode, defaultIdResolver} from './Utils'
 import Stream from './Stream'
 
 
@@ -54,7 +54,12 @@ class Source {
     if (this.options.properties) {
       for (let i in this.options.properties) {
         const p = this.options.properties[i]
-        this.prop(i, p.type, p.calc)
+        if (typeof p === 'function') {
+          this.prop(i, null, p)
+        }
+        else {
+          this.prop(i, p.type, p.calc, p.idResolver)
+        }
       }
     }
 
@@ -163,28 +168,30 @@ class Source {
 
 //      delete this.cache
 
-      if (Array.isArray(v)) {
-        if (Object.keys(this.entries).length) {
-          console.log('need to reshake entries')
-          for (let i in this.entries) {
-            const entry = this.entries[i]
-            if (entry.isCalc) {
-              continue
-            }
-            else if (entry.removed && Number(i) < v.length) {
-              delete entry.removed
-            }
-            else if (!entry.removed && Number(i) >= v.length) {
-              entry.removed = true
-            }
-          }
-        }
-      }
-      else {
-        if (Object.keys(v).length) {
-          console.log('need to reshake entries')
-        }
-      }
+      this._updateEntries(v, cache)
+
+      // if (Array.isArray(v)) {
+      //   if (Object.keys(this.entries).length) {
+      //     console.log('need to reshake entries')
+      //     for (let i in this.entries) {
+      //       const entry = this.entries[i]
+      //       if (entry.isCalc) {
+      //         continue
+      //       }
+      //       else if (entry.removed && Number(i) < v.length) {
+      //         delete entry.removed
+      //       }
+      //       else if (!entry.removed && Number(i) >= v.length) {
+      //         entry.removed = true
+      //       }
+      //     }
+      //   }
+      // }
+      // else {
+      //   if (Object.keys(v).length) {
+      //     console.log('need to reshake entries')
+      //   }
+      // }
 
       //TODO возможно, сброс всех кэшей должен быть не здесь
       // for (let i in this.entries) {
@@ -281,6 +288,15 @@ class Source {
         this._update('asc')
       }
     }
+  }
+
+
+  _observe (target, dataChanged, key) {
+    this.join(target, dataChanged, null, key)
+  }
+
+  _unobserve (target) {
+    this.unjoin(target)
   }
 
   join(target, dataChanged, dataRemoved, key, dataEffects) {
@@ -484,31 +500,31 @@ class Source {
 
 
 
-  stream(callback) {
-
-    const value = this.get()
-    const props = this._properties
-
-    if (Array.isArray(value)) {
-      // обходим элементы массива в порядке индексов
-      for (let i = 0; i < v.length; i++) {
-        callback.call(this, this.entry(i), i, value[i])
-      }
-    }
-    else {
-      const allProps = {...value, ...this._properties}
-      for (let k in value) {
-        callback.call(this, this.entry(k), k, value[k])
-      }
-      for (let k in this._properties) {
-        // TODO возможно, правильнее при коллизии использовать property
-        if (!(k in value)) {
-          const entry = this.entry(k)
-          callback.call(this, entry, k, entry.get())
-        }
-      }
-    }
-  }
+  // stream(callback) {
+  //
+  //   const value = this.get()
+  //   const props = this._properties
+  //
+  //   if (Array.isArray(value)) {
+  //     // обходим элементы массива в порядке индексов
+  //     for (let i = 0; i < v.length; i++) {
+  //       callback.call(this, this.entry(i), i, value[i])
+  //     }
+  //   }
+  //   else {
+  //     const allProps = {...value, ...this._properties}
+  //     for (let k in value) {
+  //       callback.call(this, this.entry(k), k, value[k])
+  //     }
+  //     for (let k in this._properties) {
+  //       // TODO возможно, правильнее при коллизии использовать property
+  //       if (!(k in value)) {
+  //         const entry = this.entry(k)
+  //         callback.call(this, entry, k, entry.get())
+  //       }
+  //     }
+  //   }
+  // }
 
   // ?
   $each(callback) {
@@ -638,28 +654,41 @@ class Source {
     }
   }
 
+  _updateEntries (nextValue, prevValue) {
+
+    if (Array.isArray(prevValue)) {
+
+      const entriesByKey = {}
+      for (let i = 0; i < prevValue.length; i++) {
+        const id = (this.options.idResolver || defaultIdResolver)(prevValue[i])
+        entriesByKey[id] = this.entries[i]
+      }
+
+      const nextEntries = []
+
+      for (let i = 0; i < nextValue.length; i++) {
+        if (this.entries[i]) {
+          const id = (this.options.idResolver || defaultIdResolver)(nextValue[i])
+          if (entriesByKey[id]) {
+            nextEntries[i] = entriesByKey[id]
+            nextEntries[i].id = i
+          }
+        }
+      }
+
+      this.entries = nextEntries
+    }
+  }
+
 
   $calc (v) {
-    v = this.cache = this.options.calc(v)
 
-    if (Array.isArray(v)) {
-      if (Object.keys(this.entries).length) {
-        console.log('need to reshake entries')
-        // for (let i in this.entries) {
-        //   const entry = this.entries[i]
-        //   if (entry.isCalc) {
-        //     continue
-        //   }
-        //   else if (entry.removed && Number(i) < v.length) {
-        //     delete entry.removed
-        //   }
-        //   else if (!entry.removed && Number(i) >= v.length) {
-        //     entry.removed = true
-        //   }
-        // }
-      }
-    }
+    const prevValue = this.cache
+    const nextValue = this.options.calc(v)
 
+    this._updateEntries(nextValue, prevValue)
+
+    this.cache = nextValue
 //    console.log('recalc', this.entries)
 
     this._update('desc')
@@ -667,13 +696,8 @@ class Source {
 
 
 
-
-
-
-
-
-  asStream(name) {
-    return new Stream(this, null, name)
+  $stream(name) {
+    return new Stream(this, null, name, this.options.idResolver)
   }
 
 
@@ -701,10 +725,6 @@ class Source {
       }
     }
     return true
-  }
-
-  hashCode () {
-    return hashCode(this.get())
   }
 
   get $ () {
@@ -755,11 +775,11 @@ class Source {
   //   }
   // }
 
-  prop (key, type, calc) {
+  prop (key, type, calc, idResolver) {
     if (!this._properties) {
       this._properties = {}
     }
-    this._properties[key] = {type, calc}
+    this._properties[key] = {type, calc, idResolver}
   }
 
 
@@ -798,7 +818,7 @@ class Source {
 
 
 
-  hasListener (target) {
+  _observedBy (target) {
     for (let i = 0; i < this.observers.length; i++) {
       if (this.observers[i].target == target) {
         return true

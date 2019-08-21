@@ -47,7 +47,6 @@ class Switch extends Html {
         html: 'label',
         onClick: function (e, {view}) {
           view.click(e)
-//            this.rise('handleClick', e)
         }
       }
     }

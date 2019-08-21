@@ -11,7 +11,7 @@ export default () => {
   const page = new Domain({
     selected: 'Domain',
   }, {
-    computed: {
+    properties: {
       domain: (v) => v.selected == 'Domain',
       multidomain: (v) => v.selected == 'Multidomain',
       posts: (v) => v.selected == 'Posts',

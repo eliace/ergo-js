@@ -12,7 +12,7 @@ export default () => {
   const data = new Domain({
     selected: 'Input'
   }, {
-    computed: {
+    properties: {
       input: (v) => v.selected == 'Input',
       textarea: (v) => v.selected == 'Textarea',
       select: (v) => v.selected == 'Select',

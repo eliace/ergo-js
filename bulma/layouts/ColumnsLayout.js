@@ -2,7 +2,7 @@ import {Layout, defaultCompare} from '../../src'
 //import {h} from 'maquette'
 
 function columnRender (comp, i) {
-  return Layout.h('div.column', {class: comp.options.column, key: i}, [comp.render()])
+  return Layout.h('div.column', {className: comp.options.__raw.column, key: i}, [comp.render()])
 }
 
 export default function (html, props, components) {

@@ -227,7 +227,7 @@ class Domain extends Source {
       })
     }
 
-    if (event.type != 'resolve') {
+    if (event.type != 'method') {
       this.observers.forEach(t => {
         if (event.target == null || event.target == t.target) {
           if (t.dataChanged) {
@@ -352,37 +352,37 @@ class Domain extends Source {
   }
 
 
-  computed (name, target, computor) {
-    this.comp({[name]: computor}, target)
-  }
+  // computed (name, target, computor) {
+  //   this.comp({[name]: computor}, target)
+  // }
+  //
+  //
+  //
+  // comp (computors, target) {
+  //   if (!this._computors) {
+  //     this._computors = new Map()
+  //   }
+  //   this._computors[target] = computors
+  //   if (!this.options.computed) {
+  //     this.options.computed = {}
+  //   }
+  //   Object.assign(this.options.computed, computors)
+  //   for (let i in computors) {
+  //     this.options.computed[i] = computors[i].bind(target)
+  //     this.compute(this.get())
+  //   }
+  // }
+  //
+  // uncomp (target) {
+  //   if (this._computors) {
+  //     const computors = this._computors.get(target)
+  //     for (let i in computors) {
+  //       delete this.options.computed[i]
+  //     }
+  //   }
+  // }
 
-
-
-  comp (computors, target) {
-    if (!this._computors) {
-      this._computors = new Map()
-    }
-    this._computors[target] = computors
-    if (!this.options.computed) {
-      this.options.computed = {}
-    }
-    Object.assign(this.options.computed, computors)
-    for (let i in computors) {
-      this.options.computed[i] = computors[i].bind(target)
-      this.compute(this.get())
-    }
-  }
-
-  uncomp (target) {
-    if (this._computors) {
-      const computors = this._computors.get(target)
-      for (let i in computors) {
-        delete this.options.computed[i]
-      }
-    }
-  }
-
-  on (listeners={}, target, ns) {
+  on (listeners={}, target, ns, type='method') {
     if (!this._listeners) {
       this._listeners = new Map()
     }
@@ -408,7 +408,7 @@ class Domain extends Source {
       if (!this[i]) {
         this[i] = (...args) => {
 //          try {
-            return this.emit('@'+i, {params: [...args], type: 'resolve', ns/*, target*/})
+            return this.emit('@'+i, {params: [...args], type, ns/*, target*/})
           // }
           // catch (err) {
           //   console.error(err)
@@ -552,7 +552,7 @@ class Domain extends Source {
   unjoin(target) {
     super.unjoin(target)
     this.off(target)
-    this.uncomp(target)
+//    this.uncomp(target)
     this.unwatch(target)
     this.purge(target)
   }
@@ -580,7 +580,7 @@ class Domain extends Source {
 
 
   $event (name, target) {
-    this.on({[name]: {type: 'event'}})
+    this.on({[name]: {}}, target, null, 'event')
     return this[name]
   }
 

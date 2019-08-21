@@ -2,10 +2,12 @@ import {Html} from '../../src'
 import {Layouts, Box, Tag, Delete} from '../../bulma'
 
 class Tags extends Html {
-  static defaultOpts = {
-    as: 'tags',
-    defaultItem: {
-      type: Tag
+  config () {
+    return {
+      as: 'tags',
+      defaultItem: {
+        base: Tag
+      }
     }
   }
 }
@@ -43,7 +45,7 @@ export default () => {
       type: Tags,
       defaultItem: {
         $deleteBtn: {
-          type: Delete,
+          base: Delete,
           weight: 10
         }
       },

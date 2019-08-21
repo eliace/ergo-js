@@ -363,7 +363,7 @@ export default () => {
           // }, //Mutate.DynamicItems,
           binding: function (values) {
             console.log(values.selection)
-            this.opt('$items', this.sources.data.asStream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))
+            this.opt('$items', this.sources.data.$stream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))
           },
           defaultItem: {
             onClick: function (e) {

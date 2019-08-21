@@ -23,6 +23,7 @@
     "fontawesome": "^5.6.3",
     "gsap": "^2.1.3",
     "html-parse-stringify": "^1.0.3",
+    "inferno-hyperscript": "^7.2.1",
     "lodash": "^4.17.15",
     "maquette": "^3.3.3",
     "prismjs": "^1.17.1",

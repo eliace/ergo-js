@@ -1,13 +1,14 @@
 import Options from './Options'
-import {defaultFactory, deepClone, buildProp, hashCode, Binder, reconcile} from './Utils'
+import {defaultFactory, deepClone, buildProp, hashCode, Binder, reconcile, createOptionsProto} from './Utils'
 import Layout from './Layout'
 import Text from './Text'
 import rules from './Rules'
-import classNames from 'classnames'
+import classNames from 'classnames/dedupe'
 import {h} from 'maquette'
-import Domain from './Domain'
-//import Source from './Source'
+//import Domain from './Domain'
+import Source from './Source'
 //import State from './State'
+import Context from './Context'
 
 
 const DEFAULT_RULES = {
@@ -81,6 +82,7 @@ const HTML_OPTIONS = {
   src: true,
   srcset: true,
   styles: true,
+  style: true,
   step: true,
   tabIndex: true,
   target: true,
@@ -93,8 +95,47 @@ const HTML_OPTIONS = {
 }
 
 
+const ComponentOptions = {
 
-const Html = class {
+  // настройка компонента
+  base: true,
+  options: true,
+  mixins: true,
+
+  // управление отрисовкой
+  text: true,
+  as: true,
+  props: true,
+  html: true,
+  layout: true,
+  render: true,
+
+  // управление деревом компонентов
+  components: true,
+  items: true,
+
+  // настройка подключения к данным
+  sources: true,
+
+  // производные опции
+  itemFactory: true,
+  componentFactory: true,
+  defaultItem: true,
+  defaultComponent: true,
+  allBound: true,
+  anyChanged: true,
+  use: true
+
+}
+
+// реакции вида *Changed
+// события on*
+// параметры *Id, *Ref
+
+
+
+
+class Html{
 
 //  static OPTIONS = {}
 
@@ -146,27 +187,28 @@ const Html = class {
 //      console.log('classOptions', classOpts)
 
 
-      const DEFAULT_OPTS = ['text', 'width', 'height', 'as', 'items', 'components', '$items', '$components']
+      // const DEFAULT_OPTS = ['text', 'width', 'height', 'as', 'items', 'components', '$items', '$components']
+      //
+//       let proxy = {}
+//       // const gs = function (...args) {
+//       //   console.log('proxy', args, this)
+//       // }
+//       for (let i in DEFAULT_OPTS) {
+//         const setter = function (v) {
+// //          console.log(v)
+//           return this.__target.opt(DEFAULT_OPTS[i], v)// gs.call(this, DEFAULT_OPTS[i], v)
+//         } //gs.bind(null, DEFAULT_OPTS[i])
+//         const getter = function () {
+//           return this.__target.opt(DEFAULT_OPTS[i])
+//         }
+//         Object.defineProperty(proxy, DEFAULT_OPTS[i], {
+//           set: setter,
+//           get: getter
+//         })
+//       }
 
-      let proxy = {}
-      // const gs = function (...args) {
-      //   console.log('proxy', args, this)
-      // }
-      for (let i in DEFAULT_OPTS) {
-        const setter = function (v) {
-//          console.log(v)
-          return this.__target.opt(DEFAULT_OPTS[i], v)// gs.call(this, DEFAULT_OPTS[i], v)
-        } //gs.bind(null, DEFAULT_OPTS[i])
-        const getter = function () {
-          return this.__target.opt(DEFAULT_OPTS[i])
-        }
-        Object.defineProperty(proxy, DEFAULT_OPTS[i], {
-          set: setter,
-          get: getter
-        })
-      }
-
-      proto.classOptsProxy = proxy
+      // создаем прототип для опций класса
+      proto.classOptsProxy = createOptionsProto({...HTML_OPTIONS, ...ComponentOptions, ...classOpts})
     }
 
     let opts = new Options(this.classDefaults, options).build(DEFAULT_RULES)
@@ -175,11 +217,11 @@ const Html = class {
 
     this.children = []
 
-    this.props = opts.props || {classes: {}, styles: {}}
+    this.props = opts.props || {}// {classes: {}, styles: {}}
 
-    this.layout = opts.layout //? defaultFactory(opts.layout, Layout) : null
+    this.layout = opts.layout
 
-    this.context = context
+    this.context = context || new Context()
 
 //    this.state = {}
 
@@ -230,7 +272,18 @@ const Html = class {
     }
 
     // завершаем конструирование опций
-    this.options = opts = preparedOpts.build(DEFAULT_RULES)
+    opts = preparedOpts.build(DEFAULT_RULES)
+
+    // прокси-хелпер для опций
+    this.options = {__target: this, __raw: opts}
+
+    Object.setPrototypeOf(this.options, this.classOptsProxy)
+
+    if (opts.options) {
+      const instOptProto = createOptionsProto(opts.options)
+      Object.setPrototypeOf(instOptProto, this.classOptsProxy)
+      Object.setPrototypeOf(this.options, instOptProto)
+    }
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
@@ -247,6 +300,9 @@ const Html = class {
       }
       if (opts.allBound) {
         for (let i in this.sources) {
+          if (this.sources[i]._key) {
+            console.error('Simultaneous source joints', i, this.sources[i])
+          }
           this.sources[i]._key = i
         }
         opts.allBound.call(this, this.sources)
@@ -289,12 +345,6 @@ const Html = class {
       }
     }
 
-    // прокси-хелпер для опций
-
-    this.opts = {__target: this}
-
-    Object.setPrototypeOf(this.opts, this.classOptsProxy)
-
 
 
     // 4. Применяем свойства этапа init
@@ -308,9 +358,9 @@ const Html = class {
         }
         this._binders[i] = o
 
-        const source = this.sources[o.domain]
-        if (!source.hasListener(this)) {//}._listeners || !source._listeners.has(this)) {
-          source.join(this, this.changed, null, o.domain)
+        const source = this.sources[o.key]
+        if (!source._observedBy(this)) {
+          source._observe(this, this.changed, o.key)
         }
         continue
       }
@@ -363,7 +413,6 @@ const Html = class {
       }
       else if (HTML_EVENTS[i]) {
         this.props[HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
-    //        Events.on(this, DEFAULT_EVENTS[i], o)
       }
     }
 
@@ -397,23 +446,6 @@ const Html = class {
     // события on*
     // параметры *Id, *Ref
 
-    // if (opts.changed) {
-    //   const v = {}
-    //   // while (this._binding_chain.length) {
-    //   //   const src = this.sources[this._binding_chain.shift()]
-    //   //   v[i] = this.sources[i].cache != null ? this.sources[i].cache : this.sources[i].get()
-    //   // }
-    //   for (let i in this.sources) {
-    //     v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
-    //   }
-    //   const bindOpts = opts.changed.call(this, v, this.sources)
-    //   if (bindOpts) {
-    //     for (let j in bindOpts) {
-    //       this.opt(j, bindOpts[j])
-    //     }
-    //   }
-    // }
-
     }
     catch (err) {
       console.error(err)
@@ -423,9 +455,12 @@ const Html = class {
 
 
   render() {
+
+    const o = this.options.__raw
+
 //    console.log('render', !!this.vnode, this.children.length, this)
-    if ('render' in this.options) {
-      let render = this.options.render
+    if ('render' in o) {
+      let render = o.render
       if (typeof render === 'function') {
         render = render.call(this, this.options)
       }
@@ -433,6 +468,7 @@ const Html = class {
         return null
       }
     }
+
     // if (this.options.render === false) {
     //   return null
     //   // if (!this.options.rendering.call(this, h)) {
@@ -460,7 +496,7 @@ const Html = class {
         this.vnode = Layout.h(this.html, deepClone(this.props), [this.text])
       }
     }
-    else if (this.options.renderIfEmpty !== false) {
+    else if (o.renderIfEmpty !== false) {
       if (this._dirty || !this.vnode) {
         this.vnode = Layout.h(this.html, deepClone(this.props))
       }
@@ -471,35 +507,48 @@ const Html = class {
     return this.vnode
   }
 
-  child(path) {
+  // child(path) {
+  //
+  //   if (typeof path === 'string') {
+  //     path = path.split('.')
+  //   }
+  //
+  //   let key = path.shift()
+  //   for (let i = 0; i < this.children.length; i++) {
+  //     let c = this.children[i]
+  //     if (c.props.key == key) {
+  //       return path.length ? c.child(path) : c
+  //     }
+  //   }
+  //
+  //   return null
+  // }
+  //
+  // item(index) {
+  //   for (let i = 0; i < this.children.length; i++) {
+  //     let c = this.children[i]
+  //     if (c.index == index) {
+  //       return c
+  //     }
+  //   }
+  //   return null
+  // }
 
-    if (typeof path === 'string') {
-      path = path.split('.')
+  rerender() {
+    if (!this._dirty) {
+      this.context.projector.scheduleRender()
     }
-
-    let key = path.shift()
-    for (let i = 0; i < this.children.length; i++) {
-      let c = this.children[i]
-      if (c.props.key == key) {
-        return path.length ? c.child(path) : c
-      }
+    let c = this
+    while (c && c.vnode && !c._dirty) {
+      c._dirty = true
+//      delete c.vnode
+      c = c.parent
     }
-
-    return null
-  }
-
-  item(index) {
-    for (let i = 0; i < this.children.length; i++) {
-      let c = this.children[i]
-      if (c.index == index) {
-        return c
-      }
-    }
-    return null
   }
 
   opt(name, value, key) {
 
+    // GETTER
     if (arguments.length == 1) {
       // get
       if (this._binding_chain) {
@@ -513,8 +562,10 @@ const Html = class {
           // }
         }
       }
-      return this.options[name]
+      return this.options.__raw[name]
     }
+
+    // SETTER
 
     let keys = [name]
     let values = value
@@ -530,6 +581,10 @@ const Html = class {
     for (let i = 0; i < keys.length; i++) {
       name = keys[i]
       value = isObject ? values[name] : values
+
+      const oldValue = this.options.__raw[name]
+      const o = this.options.__raw
+
 //     }
 //
 //     if (name && name.constructor === Object) {
@@ -551,37 +606,36 @@ const Html = class {
 //       //TODO сливаем опции
 //     }
 
-    if (this.options[name] == value) {
+    if (oldValue == value) {
       continue
 //      return this
     }
 
-    const oldValue = this.options[name]
 
 //    console.log('opt', name, v)
 
     if (name[0] != '$') {
       // FIXME заменить нормальным слиянием
       if (value && value.constructor === Object) {
-        if (this.options[name] != null) {
-          this.options[name] = buildProp(this.options[name], value)
-          value = this.options[name]
+        if (o[name] != null) {
+          o[name] = buildProp(o[name], value)
+          value = o[name]
 //          Object.assign(this.options[name], value)
         }
         else {
-          this.options[name] = value
+          o[name] = value
         }
       }
       else {
-        this.options[name] = value
+        o[name] = value
       }
     }
     else {
       name = name.substr(1)
     }
 
-    if (this.options.options && this.options.options[name]) {
-      const desc = this.options.options[name]
+    if (o.options && o.options[name]) {
+      const desc = o.options[name]
       if (desc.set) {
         desc.set.call(this, value, oldValue)
       }
@@ -612,28 +666,25 @@ const Html = class {
     }
     else if (name == 'as') {
       if (value.length) {
-        this.props['class'] = classNames(this.props['class'], value.join(' '))
+        this.props['className'] = classNames(this.props['className'], value.join(' '))
       }
     }
-    // else if (name == 'styles') {
-    //   // фикс для оптимизации maquette
-    //   this.props.styles = Object.assign(this.props.styles || {}, value)
+    else if (name == 'classes') {
+      this.props['className'] = classNames(this.props['className'], value)
+    }
+    // else if (name == 'sources') {
+    //   for (let i in value) {
+    //     if (this.sources[i]) {
+    //       // TODO надо сделать rebind
+    //     }
+    //     else {
+    //       this.bind(value[i], i)
+    //     }
+    //   }
+    //   for (let i in value) {
+    //     this.sources[i]._init(this)
+    //   }
     // }
-    else if (name == 'sources') {
-      for (let i in value) {
-        if (this.sources[i]) {
-          // TODO надо сделать rebind
-        }
-        else {
-          this.bind(value[i], i)
-        }
-      }
-      for (let i in value) {
-        this.sources[i]._init(this)
-//        this.sources[i].emit('init', {target: this})//, null, this)
-//        this.rebind(this.sources[i].get(), i, this.sources[i])
-      }
-    }
     else if (name == 'items') {
       if (this._modify_items) {
         console.warn('items overchange', value)
@@ -644,15 +695,14 @@ const Html = class {
           key = value
           value = this.sources[key]
         }
-        if (value instanceof Domain) {
-          value = value.asStream()
+        if (value instanceof Source) {
+          value = value.$stream()
         }
-        if (value instanceof Domain.Stream) {
-          const o = this.options
+        if (value instanceof Source.Stream) {
 
           key = value.key || key
 
-          const idResolver = o[key+'EntryId']
+//          const idResolver = o[key+'EntryId']
 
           let items = this.items//.filter(itm => !itm._destroying) //?
       //    console.log(items.length, this.children.length)
@@ -663,7 +713,7 @@ const Html = class {
           const prevIds = this.items.map(itm => {return {i: itm.index, k: itm.props.key, itm}})
           const nextIds = []
 
-          value.entries((entry, idx, k) => {
+          value.entries((entry, idx, v, k) => {
             nextIds.push({i: Number(idx), k})
             let found = null
             for (let j = 0; j < items.length; j++) {
@@ -688,7 +738,7 @@ const Html = class {
               entriesByKeys[k] = entry
               items.splice(items.indexOf(found), 1)
             }
-          }, idResolver)
+          })
 
           console.log(prevIds, nextIds)
 
@@ -715,12 +765,11 @@ const Html = class {
               delete upd.itm._sourcesToUnjoin
               upd.itm.tryInit()
             }
-            else {
-//              console.log(entriesByKeys[upd.k] == upd.itm.sources[key], upd.k)
-              if (entriesByKeys[upd.k] != upd.itm.sources[key]) {
-                upd.itm.bind(entriesByKeys[upd.k], key)
-              }
-            }
+            // else {
+            //   if (entriesByKeys[upd.k] != upd.itm.sources[key]) {
+            //     upd.itm.bind(entriesByKeys[upd.k], key)
+            //   }
+            // }
           })
 
           // this.items.forEach(itm => {
@@ -789,99 +838,6 @@ const Html = class {
 
           console.log('result items', this.items)
 
-/*
-          const keyFn = o[key+'Key']
-
-          // if (keyFn) {
-          //   value.src.get().forEach(v => {
-          //     // это ключ остается
-          //     const uid = uidFn(v)
-          //
-          //   })
-          // }
-          // value.entries((entry, i) => {
-          //   if (keyFn) {
-          //     const k = keyFn(entry.get())
-          //
-          //   }
-          // })
-
-//          console.log('items', value.get())
-//          value.src.get().forEach((v, i) => {
-          value.entries((entry) => {
-//          value.stream((entry, i) => {
-      //      console.log(entry.get())
-            let found = null
-            if (keyFn) {
-              const k = entry.get() ? keyFn(entry.get()) : null
-//              console.log('key', k, item.props.key)
-              for (let j = 0; j < items.length; j++) {
-                const item = items[j]
-                if (item.props.key == k) {
-                  update.push(item)
-                  found = item
-                  break
-                }
-              }
-            }
-            else {
-              for (let j = 0; j < items.length; j++) {
-                const item = items[j]
-                if (item.options.sources[key] == entry) {
-                  update.push(item)
-                  found = item
-                  break
-                }
-              }
-            }
-
-            if (!found) {
-              add[i] = entry
-      //        console.log('to add', entry, update.length, this)
-            }
-            else {
-              items.splice(items.indexOf(found), 1)
-            }
-          })
-
-      //    console.log('reconcile', Object.keys(add).length, update.length, items.length)
-          console.log('remove items', items)
-
-//          items.forEach(item => this.removeItem(item))
-          items.forEach(item => {
-            item.removed = true
-            item.sources[key].emit('removeItem', {params: [item], target: this})
-//            this.removeItem(item)
-          })
-
-
-          console.log('add items', add)
-
-          Object.keys(add).forEach(i => {
-            let entry = add[i]
-            if (keyFn) {
-              console.log('key add', keyFn(entry.get()))
-            }
-            this.addItem({sources: {[key]: entry}}, Number(i), keyFn ? keyFn(entry.get()) : entry.hashCode())
-          })
-*/
-//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
-
-//          value.entries(e => e.update('desc'))
-
-//          cnsole.log(value.src.get().map(v => ))
-
-//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.index))
-//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
-//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.options.key))
-//          console.log(this.children.filter(itm => itm.index != null).map(itm => itm.sources[key].hashCode()))
-          // console.log(this.children.filter(itm => itm.index != null).map(itm => itm.props.key))
-          // console.log(this.children.filter(itm => itm.index != null).map(itm => itm.sources[key].id))
-
-          // update.forEach(item => {
-          //   let src = item.sources[key]
-          //   item.rebind(src.get(), key, src)
-          // })
 
         }
         else {
@@ -908,12 +864,11 @@ const Html = class {
           value = value()
         }
 
-        if (value instanceof Domain) {
-          let o = this.options
+        if (value instanceof Source) {
           // const data = value.get()
           // if (data) {
           //   for (let i in data) {
-              value.stream((entry, i, s) => {
+              value.$stream().entries((entry, i, s) => {
 //                console.log(i, s)
                 if (o['$'+i]) {
 //                  const s = data[i]
@@ -1025,22 +980,12 @@ const Html = class {
     return this
   }
 
-  rerender() {
-    if (!this._dirty) {
-      this.context.projector.scheduleRender()
-    }
-    let c = this
-    while (c && c.vnode && !c._dirty) {
-      c._dirty = true
-//      delete c.vnode
-      c = c.parent
-    }
-  }
+  addItem(value, i, key) {
 
-  addItem(o, i, key) {
+    const o = this.options.__raw
 
-    if (this.options.defaultItem && typeof o === 'string') {
-      o = {text: o}
+    if (o.defaultItem && typeof value === 'string') {
+      value = {text: value}
     }
 //     let dataOpts = this.data == null ? null : {data: this.data}
 //     if (this.state) {
@@ -1048,7 +993,7 @@ const Html = class {
 // //      console.log(i, dataOpts)
 //     }
     const dataOpts = {sources: this.sources}
-    let itemOpts = new Options(dataOpts, this.options.defaultItem, o).build(DEFAULT_RULES)
+    let itemOpts = new Options(dataOpts, o.defaultItem, value).build(DEFAULT_RULES)
 //    console.log('addItem', o, itemOpts)
 
     if (!itemOpts) {
@@ -1093,54 +1038,59 @@ const Html = class {
     return item
   }
 
-  addComponent(i, o) {
+  addComponent(i, value) {
+
+    const o = this.options.__raw
+
     if (this['$'+i]) {
       console.log('removing', i)
 //      this['$'+i].destroy()
       this.removeComponent(i)
     }
 
-    if ((this.options['$'+i] || this.options.defaultComponent) && typeof o === 'string') {
-      o = {text: o}
+    let comp = value
+
+    if (!(value instanceof Html)) {
+
+      if ((o['$'+i] || o.defaultComponent) && typeof value === 'string') {
+        value = {text: value}
+      }
+
+      // TODO сделать корректную обработку строковых опций
+
+      // if ((this.options.defaultComponent || this.options.components[i]) && typeof o === 'string') {
+      //   o = {text: o}
+      // }
+
+
+  //     let dataOpts = this.data == null ? null : {data: this.data}
+  //     if (this.state) {
+  //       dataOpts = {...dataOpts, state: this.state}
+  // //      console.log(i, dataOpts)
+  //     }
+  //    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
+      let compOpts = new Options({sources: this.sources}, o.defaultComponent, o['$'+i], value).build(DEFAULT_RULES)
+
+      if (!compOpts) {
+        return
+      }
+
+      if (compOpts instanceof Promise) {
+        compOpts.then(c => {
+          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, this.context))
+        })
+        return
+      }
+
+  //    console.log('addComponent', o, compOpts)
+      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.context)
     }
 
-    // TODO сделать корректную обработку строковых опций
-
-    // if ((this.options.defaultComponent || this.options.components[i]) && typeof o === 'string') {
-    //   o = {text: o}
-    // }
-
-
-//     let dataOpts = this.data == null ? null : {data: this.data}
-//     if (this.state) {
-//       dataOpts = {...dataOpts, state: this.state}
-// //      console.log(i, dataOpts)
-//     }
-//    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
-    const dataOpts = {sources: this.sources}
-    var compOpts = new Options(dataOpts, this.options.defaultComponent, this.options['$'+i], o).build(DEFAULT_RULES)
-
-    if (!compOpts) {
-      return
-    }
-//    console.log('addComponent', o, compOpts)
-    const comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.context)
     this.children.push(comp)
     comp.props.key = i
 //        comp.index = 0
     comp.parent = this
     this['$'+i] = comp
-
-
-//    if (i == 'mainMenu') debugger
-
-    // const ctx = this.sources
-    // for (let i in ctx) {
-    //   comp.bind(ctx[i], i)
-    // }
-    // if (this.state) {
-    //   comp.bindState(this.state)
-    // }
 
     if (this.vnode && !this._dirty) {
       this.rerender()
@@ -1282,15 +1232,15 @@ const Html = class {
     this.children.forEach(c => c.walk && c.walk(callback))
   }
 
-  climb (callback) {
-    let c = this.parent
-    while (c) {
-      if (callback(c) === false) {
-        break
-      }
-      c = c.parent
-    }
-  }
+  // climb (callback) {
+  //   let c = this.parent
+  //   while (c) {
+  //     if (callback(c) === false) {
+  //       break
+  //     }
+  //     c = c.parent
+  //   }
+  // }
 
 
 
@@ -1303,13 +1253,13 @@ const Html = class {
     }
 
     if (this.sources[i]) {
-      console.warn('rebinding domain', i)
+      console.warn('rebinding source', i)
 //      return // TODO есть ли ситуация, когда нужно переписать домен?
     }
 
     let source = null
 
-    const o = this.options
+    const o = this.options.__raw
 
     let key = o[i+'Id']
     let ref = o[i+'Ref']
@@ -1319,61 +1269,44 @@ const Html = class {
     }
     else if (ref) {
       if (!this.sources[ref]) {
-        this.bind(this.options.sources[ref], ref)
+        this.bind(o.sources[ref], ref)
       }
       v = this.sources[ref]
     }
 
     if (v == null) {
-      console.warn('Domain '+i+' ignored')
+      console.warn('Source '+i+' ignored')
       return
     }
 
 
     if (key != null) {
       if (Array.isArray(key)) {
-        if (v instanceof Domain) {
+        if (v instanceof Source) {
           source = v
           for (let j = 0; j < key.length; j++) {
             source = source.entry(key[j])
           }
         }
         else {
-          console.log('Composite id not supported for nondomain value', key, v)
+          console.log('Composite id not supported for non source value', key, v)
         }
       }
       else {
-        source = (v instanceof Domain) ? v.entry(key) : new Domain(v, null, key)
+        source = (v instanceof Source) ? v.entry(key) : new (this.context.defaultSource)(v, null, key)
       }
     }
     else {
-      source = (v instanceof Domain) ? v : new Domain(v)
+      source = (v instanceof Source) ? v : new (this.context.defaultSource)(v)
     }
 
 
     // если домен уже подключен, повторно не подключаем
     if (source == this.sources[i]) {
-      console.warn('Try to bind same domain '+i)
+      console.warn('Try to bind same source '+i)
       return
     }
 
-//    const effects = o[i+'Effects']
-
-    // if (o[i+'Id'] || o[i+'Options'] || o[i+'Items'] || o[i+'Components']/* || o.binding || o[i+'Changed']*/
-    //     || (o.dynamic && (o.dynamic[i]/* || o.dynamic[i+'Id'] || o.dynamic[i+'Items'] || o.dynamic[i+'Components'] || o.dynamic[i+'Options']*/))) {
-    //   source.join(this, this.rebind, this.unbind, i, effects)
-    //   if (this.sources[i]) {
-    //     this.sources[i].unjoin(this)
-    //   }
-    // }
-
-    // if (o[i+'Changed']/* || o[i+'Effects'] || o.effects*/) {
-    //   // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
-    //   source.join(this, [o[i+'Changed'], this.opt], this.unbind, i, o[i+'Effects'])
-    //   if (this.sources[i]) {
-    //     this.sources[i].unjoin(this)
-    //   }
-    // }
 
     // решаем, подключаться ли к домену
     if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
@@ -1390,20 +1323,6 @@ const Html = class {
         o[i+'Bound'].call(this, source)
       }
 
-      // if (o[i+'Methods']) {
-      //   source.on(o[i+'Methods'], this)
-      // }
-      // if (o[i+'Computed']) {
-      //   source.comp(o[i+'Computed'], this)
-      // }
-      // if (o[i+'Effects']) {
-      //   for (let j in o[i+'Effects']) {
-      //     o[i+'Effects'][j](this, source, i)
-      //   }
-      // }
-      // if (o[i+'Events']) {
-      //   source.on(o[i+'Events'], this)
-      // }
     }
 
     if (this.sources[i]) {
@@ -1431,7 +1350,7 @@ const Html = class {
 
   changed (v, key) {
 
-    const o = this.options
+    const o = this.options.__raw
 
 //    console.log (v, key)
 
@@ -1466,7 +1385,7 @@ const Html = class {
       if (this._binders) {
         for (let i in this._binders) {
           const binder = this._binders[i]
-          if (binder.domain == key) {
+          if (binder.key == key) {
             // FIXME получение проектированных значений должно быть проще
             const src = this.sources[key]
             let propVal = null
@@ -1498,59 +1417,7 @@ const Html = class {
       }
     }
 
-    // if (o[key+'Effects']) {
-    //   o[key+'Effects'].call(this, v, key)
-    // }
-
-    // if (o[key+'Events']) {
-    //   o[key+'Events'].call(this, v, key)
-    // }
-
-    // return
-    //
-    // if (o[key+'Changed']) {
-    //   const dynOpts = o[key+'Changed'].call(this, v, key)
-    //   if (dynOpts) {
-    //     this.opt(dynOpts, key)
-    //     // for (let j in dynOpts) {
-    //     //   this.opt(j, dynOpts[j], key)
-    //     // }
-    //   }
-    // }
-    //
-    // if (o.binding) {
-    //   v = {}
-    //   for (let i in this.sources) {
-    //     v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
-    //   }
-    //   const bindOpts = o.binding.call(this, v, key)
-    //   if (bindOpts) {
-    //     this.opt(bindOpts, key)
-    //     // for (let j in bindOpts) {
-    //     //   this.opt(j, bindOpts[j], key)
-    //     // }
-    //   }
-    // }
-
   }
-
-
-
-  // emit (name, event) {
-  //
-  // }
-  //
-  //
-  // rise (name, event) {
-  //   this.climb(c => {
-  //     if (c[name]) {
-  //       return c[name].call(c, event)
-  //     }
-  //     if (c.options[name]) {
-  //       return c.options[name].call(c, event)
-  //     }
-  //   })
-  // }
 
 
 
@@ -1610,6 +1477,9 @@ const Html = class {
     }
   }
 
+  get components () {
+    return this.children.filter(itm => itm.index == null)
+  }
 
   get items () {
     return this.children.filter(itm => itm.index != null)
@@ -1701,12 +1571,12 @@ const Html = class {
 
       this._destroying = true
 
-      const opts = this.options
+//      const opts = this.options.__raw
 
       for (let i in this.sources) {
         const src = this.sources[i]
         // FIXME определять наличие биндинга нужно другим способом
-        if (src.hasListener(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (src._observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
 //          this._sourcesToUnjoin[i] = src
 //          console.log('destroing...', i)
           src._destroy(this)
@@ -1747,11 +1617,11 @@ const Html = class {
 
       this._initializing = true
 
-      const opts = this.options
+//      const opts = this.options
 
       this._binding_chain = []
       for (let i in this.sources) {
-        if (this.sources[i].hasListener(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (this.sources[i]._observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
           this._binding_chain.push(i)
           this._sourcesToJoin[i] = this.sources[i]
         }

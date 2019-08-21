@@ -1,7 +1,9 @@
 import Options from './Options'
 //import State from './State'
 
-const Option = (x, y) => {return new Options(x, y)}
+const Option = (x, y) => {
+  return new Options(x, y)
+}
 
 //const State = (x, y) => {return new State(x, y)}
 

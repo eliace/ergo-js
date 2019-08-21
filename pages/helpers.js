@@ -100,8 +100,8 @@ export const Mixins = {
 
 export const Mutate = {
   Text: function (v) {
-    if (this.options.format) {
-      v = this.options.format.call(this, v)
+    if (this.options.__raw.format) {
+      v = this.options.__raw.format.call(this, v)
     }
     return {$text: v}
   },

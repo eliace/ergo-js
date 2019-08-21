@@ -72,7 +72,7 @@ export default () => {
             data.set('comments', await api.getComments(data.get('id')))
           })
 
-          page.computed('comments', this, v => v.showComments)
+          page.prop('comments', null, v => v.showComments)
 
 //          loadComments()
         },
