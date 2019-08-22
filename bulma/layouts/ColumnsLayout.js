@@ -1,12 +1,12 @@
-import {Layout, defaultCompare} from '../../src'
+import {Layout, defaultCompare, Config} from '../../src'
 //import {h} from 'maquette'
 
 function columnRender (comp, i) {
-  return Layout.h('div.column', {className: comp.options.__raw.column, key: i}, [comp.render()])
+  return Config.h('div.column', {className: comp.options.__raw.column, key: i}, [comp.render()])
 }
 
 export default function (html, props, components) {
-  return Layout.h(html+'.columns', props, components.sort(defaultCompare).map(columnRender))
+  return Config.h(html+'.columns', props, components.sort(defaultCompare).map(columnRender))
 }
 
 

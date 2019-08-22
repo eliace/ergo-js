@@ -1,9 +1,9 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Domain, Bindings, Events, Layout, Context} from './src'
+import {Html, State, Source, Domain, Bindings, Events, Layout} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
-import {render, createRenderer} from 'inferno'
+import Context from './src/react/Context'
 
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -197,23 +197,23 @@ Events.on('mousedown', function () {
 })
 
 
-const renderer = {
-  scheduled: false,
-  scheduleRender: function () {
-    console.log('scheduleRender')
-    if (!this.scheduled) {
-      requestAnimationFrame(() => {
-        render(root.render(), document.body)
-        this.scheduled = false
-      })
-    }
-    this.scheduled = true
-  }
-}
+// const renderer = {
+//   scheduled: false,
+//   scheduleRender: function () {
+//     console.log('scheduleRender')
+//     if (!this.scheduled) {
+//       requestAnimationFrame(() => {
+//         render(root.render(), document.body)
+//         this.scheduled = false
+//       })
+//     }
+//     this.scheduled = true
+//   }
+// }
 
 
 const context = new Context({
-  projector: renderer
+//  projector: renderer
 })
 
 const root = new Html({
@@ -472,5 +472,6 @@ window._app = root
 // });
 
 document.addEventListener('DOMContentLoaded', function () {
-  render(root.render(), document.body)
+  context.projector.append(root, document.getElementById('root'))
+//  render(root.render(), document.body)
 });

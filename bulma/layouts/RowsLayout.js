@@ -1,12 +1,12 @@
-import {Layout, defaultCompare} from '../../src'
+import {Config, defaultCompare} from '../../src'
 //import {h} from 'maquette'
 
 function rowRender (comp, i) {
-  return Layout.h('div.row', {className: comp.options.__raw.row, key: i}, [comp.render()])
+  return Config.h('div.row', {className: comp.options.__raw.row, key: i}, [comp.render()])
 }
 
 export default function (html, props, components) {
-  return Layout.h(html+'.rows', props, components.sort(defaultCompare).map(rowRender))
+  return Config.h(html+'.rows', props, components.sort(defaultCompare).map(rowRender))
 }
 
 // export default class RowsLayout extends Layout {

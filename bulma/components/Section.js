@@ -7,7 +7,7 @@ class Section extends Html {
 
 Section.prototype.defaultOpts = {
   html: 'section',
-  class: 'section'
+  className: 'section'
 }
 
 export default Section

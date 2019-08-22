@@ -50,8 +50,10 @@ export class PreviewAndCode extends Html {
             html: 'code',
             as: 'language-javascript',
           },
-          onAfterCreate: function (el) {
-            Prism.highlightAllUnder(el)
+          ref: function (el) {
+            if (el) {
+              Prism.highlightAllUnder(el)              
+            }
           }
         }
       }

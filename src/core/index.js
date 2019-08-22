@@ -7,6 +7,7 @@ import Bindings from './Bindings'
 import Text from './Text'
 import Events from './Events'
 import Context from './Context'
+import Config from './Config'
 export * from './Utils'
 
 export {
@@ -18,5 +19,6 @@ export {
   Text,
   Events,
   Domain,
-  Context
+  Context,
+  Config
 }

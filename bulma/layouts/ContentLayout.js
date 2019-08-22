@@ -1,8 +1,8 @@
-import {Layout, defaultCompare, defaultRender} from '../../src'
+import {Config, defaultCompare, defaultRender} from '../../src'
 //import {h} from 'maquette'
 
 export default function (html, props, components) {
-  return Layout.h(html+'.content', props, components.sort(defaultCompare).map(defaultRender))
+  return Config.h(html+'.content', props, components.sort(defaultCompare).map(defaultRender))
 }
 
 

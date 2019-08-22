@@ -26,7 +26,7 @@ export default () => {
       })
 
       data.watch(e => e.name == 'init', this, () => {
-        data.loadCountries()        
+        data.loadCountries()
       })
 
 //      if (data.isEmpty()) {
@@ -89,7 +89,7 @@ export default () => {
     // },
     $table: {
       html: 'table',
-      class: 'table',
+      as: 'table',
       $header: {
         html: 'thead',
         defaultItem: {
@@ -129,7 +129,7 @@ export default () => {
             dataId: 'population'
 //            format: (v) => v.population
           }, {
-            $content: {
+            $img: {
               html: 'img',
               height: '1rem',
               dataId: 'flag',

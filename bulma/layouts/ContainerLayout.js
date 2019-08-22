@@ -1,8 +1,8 @@
-import {Layout} from '../../src'
+import {Layout, Config} from '../../src'
 //import {h} from 'maquette'
 
 export default function (html, props, components) {
-  return Layout.h(html, props, [Layout.sorted('div.container', null, components)])
+  return Config.h(html, props, [Layout.sorted('div.container', null, components)])
 }
 
 

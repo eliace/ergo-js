@@ -27,6 +27,8 @@
     "lodash": "^4.17.15",
     "maquette": "^3.3.3",
     "prismjs": "^1.17.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "todomvc-app-css": "^2.2.0",
     "todomvc-common": "^1.0.5",
     "velocity-animate": "^2.0.5"

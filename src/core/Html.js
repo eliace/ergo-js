@@ -4,11 +4,12 @@ import Layout from './Layout'
 import Text from './Text'
 import rules from './Rules'
 import classNames from 'classnames/dedupe'
-import {h} from 'maquette'
+//import {h} from 'maquette'
 //import Domain from './Domain'
 import Source from './Source'
 //import State from './State'
 import Context from './Context'
+import Config from './Config'
 
 
 const DEFAULT_RULES = {
@@ -23,23 +24,23 @@ const DEFAULT_RULES = {
 }
 
 
-const HTML_EVENTS = {
-  onClick: 'onclick',
-  onDoubleClick: 'ondblclick',
-  onMouseDown: 'onmousedown',
-  onMouseUp: 'onmouseup',
-  onEnterAnimation: 'enterAnimation',
-  onExitAnimation: 'exitAnimation',
-  onAfterCreate: 'afterCreate',
-  onUpdateAnimation: 'updateAnimation',
-  onAfterUpdate: 'afterUpdate',
-  onInput: 'oninput',
-  onChange: 'onchange',
-  onKeyDown: 'onkeydown',
-  onKeyUp: 'onkeyup',
-  onFocus: 'onfocus',
-  onBlur: 'onblur'
-}
+// const HTML_EVENTS = {
+//   onClick: 'onclick',
+//   onDoubleClick: 'ondblclick',
+//   onMouseDown: 'onmousedown',
+//   onMouseUp: 'onmouseup',
+//   onEnterAnimation: 'enterAnimation',
+//   onExitAnimation: 'exitAnimation',
+//   onAfterCreate: 'afterCreate',
+//   onUpdateAnimation: 'updateAnimation',
+//   onAfterUpdate: 'afterUpdate',
+//   onInput: 'oninput',
+//   onChange: 'onchange',
+//   onKeyDown: 'onkeydown',
+//   onKeyUp: 'onkeyup',
+//   onFocus: 'onfocus',
+//   onBlur: 'onblur'
+// }
 
 // const DOM_EVENTS = {
 //   transitionend: true,
@@ -47,52 +48,53 @@ const HTML_EVENTS = {
 // }
 
 
-const SVG_OPTIONS = {
-  d: true,
-  fill: true,
-  cx: true,
-  cy: true,
-  r: true,
-  points: true
-}
-
-
-const HTML_OPTIONS = {
-  ...SVG_OPTIONS,
-  accessKey: true,
-  action: true,
-  alt: true,
-  autocomplete: true,
-  checked: true,
-  class: true,
-  classes: true,
-  disabled: true,
-  encoding: true,
-  enctype: true,
-  href: true,
-  id: true,
-  innerHTML: true,
-  method: true,
-  name: true,
-  placeholder: true,
-  readOnly: true,
-  rel: true,
-  rows: true,
-  spellcheck: true,
-  src: true,
-  srcset: true,
-  styles: true,
-  style: true,
-  step: true,
-  tabIndex: true,
-  target: true,
-  title: true,
-  value: true,
-  _type: 'type',
-  key: true,
-  min: true,
-  max: true
-}
+// const SVG_OPTIONS = {
+//   d: true,
+//   fill: true,
+//   cx: true,
+//   cy: true,
+//   r: true,
+//   points: true
+// }
+//
+//
+// const HTML_OPTIONS = {
+//   ...SVG_OPTIONS,
+//   accessKey: true,
+//   action: true,
+//   alt: true,
+//   autocomplete: true,
+//   checked: true,
+//   class: true,
+//   classes: true,
+//   disabled: true,
+//   encoding: true,
+//   enctype: true,
+//   href: true,
+//   id: true,
+//   innerHTML: true,
+//   method: true,
+//   name: true,
+//   placeholder: true,
+//   readOnly: true,
+//   rel: true,
+//   rows: true,
+//   spellcheck: true,
+//   src: true,
+//   srcset: true,
+//   styles: true,
+//   style: true,
+//   step: true,
+//   tabIndex: true,
+//   target: true,
+//   title: true,
+//   value: true,
+//   _type: 'type',
+//   key: true,
+//   min: true,
+//   max: true,
+//   ref: true
+// }
 
 
 const ComponentOptions = {
@@ -208,7 +210,7 @@ class Html{
 //       }
 
       // создаем прототип для опций класса
-      proto.classOptsProxy = createOptionsProto({...HTML_OPTIONS, ...ComponentOptions, ...classOpts})
+      proto.classOptsProxy = createOptionsProto({...Config.HTML_OPTIONS, ...ComponentOptions, ...classOpts})
     }
 
     let opts = new Options(this.classDefaults, options).build(DEFAULT_RULES)
@@ -385,7 +387,7 @@ class Html{
       }
       else if (i == 'as') {
         if (o.length) {
-          this.props['class'] = classNames(this.props['class'], o.join(' '))
+          this.props.className = classNames(this.props.className, o.join(' '))
         }
       }
       else if (i == 'text') {
@@ -405,14 +407,14 @@ class Html{
         this.props.styles = this.props.styles || {}
         this.props.styles.width = (typeof o === 'string') ? o : o+'px'
       }
-      else if (HTML_OPTIONS[i] === true) {
+      else if (Config.HTML_OPTIONS[i] === true) {
         this.props[i] = o
       }
-      else if (HTML_OPTIONS[i]) {
-        this.props[HTML_OPTIONS[i]] = o
+      else if (Config.HTML_OPTIONS[i]) {
+        this.props[Config.HTML_OPTIONS[i]] = o
       }
-      else if (HTML_EVENTS[i]) {
-        this.props[HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
+      else if (Config.HTML_EVENTS[i]) {
+        this.props[Config.HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
       }
     }
 
@@ -493,12 +495,12 @@ class Html{
     }
     else if(this.text || this.props.value) {
       if (this._dirty || !this.vnode) {
-        this.vnode = Layout.h(this.html, deepClone(this.props), [this.text])
+        this.vnode = Config.h(this.html, deepClone(this.props), this.text ? [this.text] : null)
       }
     }
     else if (o.renderIfEmpty !== false) {
       if (this._dirty || !this.vnode) {
-        this.vnode = Layout.h(this.html, deepClone(this.props))
+        this.vnode = Config.h(this.html, deepClone(this.props))
       }
     }
 
@@ -966,11 +968,11 @@ class Html{
         delete this._modify_components
       }
     }
-    else if (HTML_OPTIONS[name] === true) {
+    else if (Config.HTML_OPTIONS[name] === true) {
       this.props[name] = value
     }
-    else if (HTML_OPTIONS[name]) {
-      this.props[HTML_OPTIONS[name]] = value
+    else if (Config.HTML_OPTIONS[name]) {
+      this.props[Config.HTML_OPTIONS[name]] = value
     }
   }
 
