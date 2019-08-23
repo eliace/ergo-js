@@ -107,6 +107,8 @@ const ComponentOptions = {
   // управление отрисовкой
   text: true,
   as: true,
+  styles: true,
+  classes: true,
   props: true,
   html: true,
   layout: true,
@@ -400,12 +402,19 @@ class Html{
         }
       }
       else if (i == 'height') {
-        this.props.styles = this.props.styles || {}
-        this.props.styles.height = (typeof o === 'string') ? o : o+'px'
+        this.props.style = this.props.style || {}
+        this.props.style.height = (typeof o === 'string') ? o : o+'px'
       }
       else if (i == 'width') {
-        this.props.styles = this.props.styles || {}
-        this.props.styles.width = (typeof o === 'string') ? o : o+'px'
+        this.props.style = this.props.style || {}
+        this.props.style.width = (typeof o === 'string') ? o : o+'px'
+      }
+      else if (i == 'styles') {
+        this.props.style = this.props.style || {}
+        Object.assign(this.props.style, o)
+      }
+      else if (i == 'classes') {
+        this.props.className = classNames(this.props.className, o)
       }
       else if (Config.HTML_OPTIONS[i] === true) {
         this.props[i] = o
@@ -673,6 +682,10 @@ class Html{
     }
     else if (name == 'classes') {
       this.props['className'] = classNames(this.props['className'], value)
+    }
+    else if (i == 'styles') {
+      this.props.style = this.props.style || {}
+      Object.assign(this.props.style, value)
     }
     // else if (name == 'sources') {
     //   for (let i in value) {

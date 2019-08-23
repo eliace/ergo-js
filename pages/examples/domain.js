@@ -175,7 +175,7 @@ export default () => {
       $example: {
         $input: {
           html: 'input',
-          onInput: function (e, {data}) {
+          onChange: function (e, {data}) {
             data.set('question', e.target.value)//.updateQuestion(e.target.value)//.getAnswer()//.entry('question').set(e.target.value)
           }
         },
@@ -235,7 +235,7 @@ export default () => {
       $example: {
         $input: {
           html: 'input',
-          onInput: function (e, {data}) {
+          onChange: function (e, {data}) {
             data.set('question', e.target.value)
           },
           value: Bind.data('question')

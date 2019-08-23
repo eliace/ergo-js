@@ -10,7 +10,7 @@ class ValueInput extends Html {
       value: ''
     },
     html: 'input',
-    onInput: function (e, {value}) {
+    onChange: function (e, {value}) {
       value.set(e.target.value)
     },
     valueChanged: Mutate.Value
@@ -41,7 +41,11 @@ class Switch extends Html {
       $input: {
         html: 'input',
         as: 'switch',
-        _type: 'checkbox'
+        _type: 'checkbox',
+        // onChange: function (e) {
+        //   console.log(e)
+        // },
+        // value: ''
       },
       $content: {
         html: 'label',

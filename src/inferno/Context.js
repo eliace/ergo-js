@@ -1,5 +1,4 @@
-import Layout from './Layout'
-import {Domain, Context} from './Domain'
+import {Domain, Layout, Context} from '../src'
 
 export default class InfernoContext extends Context {
 
