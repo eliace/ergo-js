@@ -1,5 +1,5 @@
 import {createProjector} from 'maquette'
-import {Html, State, Source, Domain, Bindings, Events, Layout} from './src'
+import {Html, State, Source, Domain, Bindings, Events, Layout, Config} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
@@ -472,6 +472,6 @@ window._app = root
 // });
 
 document.addEventListener('DOMContentLoaded', function () {
-  context.projector.append(root, document.getElementById('root'))
+  Config.Renderer.append(root, document.getElementById('root'))
 //  render(root.render(), document.body)
 });

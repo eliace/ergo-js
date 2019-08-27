@@ -589,6 +589,10 @@ class Domain extends Source {
     return this[name]
   }
 
+  $prop (name, target, config) {
+
+  }
+
 }
 
 export default Domain

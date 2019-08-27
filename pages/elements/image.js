@@ -11,8 +11,8 @@ export default () => {
     items: [{
       // layout: Layouts.Columns,
       style: {
-        'display': 'flex',
-        'justify-content': 'space-around'
+        display: 'flex',
+        justifyContent: 'space-around'
       },
       defaultItem: {
         type: Image,
@@ -37,7 +37,7 @@ export default () => {
           type: Image,
           src: imgUrl_2,
           style: {
-            width: '512px'            
+            width: '512px'
           }
 //          height: 512
         }

@@ -2,7 +2,7 @@ import {Layout, defaultCompare, Config} from '../../src'
 //import {h} from 'maquette'
 
 function itemRender (c) {
-  return Config.h('div.level-item', [c.render()])
+  return Config.Renderer.h('div.level-item', [c.render()])
 }
 
 export default function (html, props, components) {
@@ -11,15 +11,15 @@ export default function (html, props, components) {
   let center = components.filter(c => !c.options.__raw.levelRight && !c.options.__raw.levelLeft)
 
   if (left.length > 0) {
-    left = Config.h('div.level-left', left.sort(defaultCompare).map(itemRender))
+    left = Config.Renderer.h('div.level-left', left.sort(defaultCompare).map(itemRender))
   }
   if (right.length > 0) {
-    right = Config.h('div.level-right', right.sort(defaultCompare).map(itemRender))
+    right = Config.Renderer.h('div.level-right', right.sort(defaultCompare).map(itemRender))
   }
 
   center = center.sort(defaultCompare).map(itemRender)
 
-  return Config.h(html+'.level', props, [left, ...center, right])
+  return Config.Renderer.h(html+'.level', props, [left, ...center, right])
 }
 
 

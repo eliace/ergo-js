@@ -3,11 +3,11 @@ import {defaultRender, defaultCompare, deepClone} from './Utils'
 import Config from './Config'
 
 function simple (html, props, components) {
-  return Config.h(html, props, components.map(defaultRender))
+  return Config.Renderer.h(html, props, components.map(defaultRender))
 }
 
 function sorted (html, props, components) {
-  return Config.h(html, props, components.sort(defaultCompare).map(defaultRender))
+  return Config.Renderer.h(html, props, components.sort(defaultCompare).map(defaultRender))
 }
 
 function passthru (html, props, components) {

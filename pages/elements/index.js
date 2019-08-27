@@ -31,6 +31,15 @@ function previewOf (exampleCreator, code) {
 
 const BoxCode = fs.readFileSync(__dirname+'/box.js', 'utf-8')
 const ButtonCode = fs.readFileSync(__dirname+'/button.js', 'utf-8')
+const ContentCode = fs.readFileSync(__dirname+'/content.js', 'utf-8')
+const DeleteCode = fs.readFileSync(__dirname+'/delete.js', 'utf-8')
+const IconCode = fs.readFileSync(__dirname+'/icon.js', 'utf-8')
+const ImageCode = fs.readFileSync(__dirname+'/image.js', 'utf-8')
+const NotificationCode = fs.readFileSync(__dirname+'/notification.js', 'utf-8')
+const ProgressCode = fs.readFileSync(__dirname+'/progress.js', 'utf-8')
+const TableCode = fs.readFileSync(__dirname+'/table.js', 'utf-8')
+const TagCode = fs.readFileSync(__dirname+'/tag.js', 'utf-8')
+const TitleCode = fs.readFileSync(__dirname+'/title.js', 'utf-8')
 
 
 export default () => {
@@ -103,15 +112,15 @@ export default () => {
       dataChanged: Mutate.DynamicComponents,
       $box: previewOf(BoxExample, BoxCode),
       $button: previewOf(ButtonExample, ButtonCode),
-      $content: ContentExample(),
-      $delete: DeleteExample(),
-      $icon: IconExample(),
-      $image: ImageExample(),
-      $notification: NotificationExample(),
-      $progress: ProgressExample(),
-      $table: TableExample(),
-      $tag: TagExample(),
-      $title: TitleExample(),
+      $content: previewOf(ContentExample, ContentCode),
+      $delete: previewOf(DeleteExample, DeleteCode),
+      $icon: previewOf(IconExample, IconCode),
+      $image: previewOf(ImageExample, ImageCode),
+      $notification: previewOf(NotificationExample, NotificationCode),
+      $progress: previewOf(ProgressExample, ProgressCode),
+      $table: previewOf(TableExample, TableCode),
+      $tag: previewOf(TagExample, TagCode),
+      $title: previewOf(TitleExample, TitleCode),
     }
   }
 }

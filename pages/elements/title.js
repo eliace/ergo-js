@@ -36,7 +36,7 @@ export default () => {
           html: 'p'
         },
         styles: {
-          'margin-bottom': '1rem'
+          marginBottom: '1rem'
         }
       },
       items: [

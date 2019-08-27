@@ -9,8 +9,7 @@ export default () => {
     items: [{
       defaultItem: {
         type: Notification,
-        text: LOREM_IPSUM.slice(0, 140),
-        width: 600
+        text: LOREM_IPSUM.slice(0, 140)
       },
       items: [
         {as: 'is-primary'},

@@ -40,7 +40,7 @@ class Source {
 
     if (this.options && this.options.changed) {
       // FIXME костыль
-      this.join(this, (evt) => {
+      this._observe(this, (evt) => {
         if (evt.name == 'changed' || evt.name == 'init') {
           this.options.changed.call(this, evt)
         }

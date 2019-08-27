@@ -1,8 +1,6 @@
 import {Domain, Layout, Context, Config} from '../core'
 import {createVNode, renderVNode} from './Renderer'
 
-Config.h = createVNode
-
 const SVG_OPTIONS = {
   d: true,
   fill: true,
@@ -64,6 +62,28 @@ Config.HTML_EVENTS = {
   onBlur: 'onBlur'
 }
 
+Config.Renderer.h = createVNode
+
+Config.Renderer.append = function (root, dom) {
+  this.root = root
+  this.dom = dom
+  this.schedule()
+}
+
+Config.Renderer.schedule = function () {
+  console.count('schedule_render')
+  if (!this.scheduled) {
+    requestAnimationFrame(() => {
+      console.count('actual_render')
+      renderVNode(this.root.render(), this.dom)
+      this.scheduled = false
+    })
+  }
+  this.scheduled = true
+}
+
+Config.defaultLayout = Layout
+Config.defaultSource = Domain
 
 
 export default class ReactContext extends Context {
@@ -76,11 +96,13 @@ export default class ReactContext extends Context {
     this.projector = {
       scheduled: false,
       append: function (root, dom) {
+        throw new Error('projector not supported')
         this.root = root
         this.dom = dom
         this.scheduleRender()
       },
       scheduleRender: function () {
+        throw new Error('projector not supported')
         console.log('scheduleRender')
         if (!this.scheduled) {
           requestAnimationFrame(() => {

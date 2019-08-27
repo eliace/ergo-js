@@ -6,7 +6,7 @@ export default function (html, props, components) {
   let right = components.filter(c => c.options.__raw.mediaRight)
   let center = components.filter(c => !c.options.__raw.mediaRight && !c.options.__raw.mediaLeft).sort(defaultCompare)
 
-  return Config.h(html+'.media', props, [
+  return Config.Renderer.h(html+'.media', props, [
     left.length > 0 && Layout.sorted('div.media-left', null, left),
     Layout.sorted('div.media-content', null, center),
     right.length > 0 && Layout.sorted('div.media-right', null, right)
