@@ -9,10 +9,10 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      type: Button,
+      base: Button,
       text: 'Button'
     }, {
-      type: Buttons,
+      base: Buttons,
       items: [{
         html: 'a',
         text: 'Link'
@@ -32,7 +32,7 @@ export default () => {
       sources: {
         selection: 'Bob'
       },
-      type: Buttons,
+      base: Buttons,
       as: 'has-addons',
       defaultItem: {
         mixins: [Mixins.Selectable2],
@@ -43,9 +43,9 @@ export default () => {
       },
       items: ['Alice', 'Bob', 'Charlie']
     }, {
-      type: Buttons,
+      base: Buttons,
       defaultItem: {
-        type: ButtonWithIcon,
+        base: ButtonWithIcon,
       },
       items: [
         {icon: 'fas fa-bold'},
@@ -53,9 +53,9 @@ export default () => {
         {icon: 'fas fa-underline'},
       ]
     }, {
-      type: Buttons,
+      base: Buttons,
       defaultItem: {
-        type: ButtonWithIcon,
+        base: ButtonWithIcon,
       },
       items: [
         {icon: 'fab fa-github', text: 'GitHub'},

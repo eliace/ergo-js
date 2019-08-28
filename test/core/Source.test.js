@@ -36,4 +36,31 @@ describe ('Source', () => {
     expect(entriesAfter[1]).to.equal(entriesBefore[2])
 
   })
+
+  it('Should get and set props', () => {
+
+    const data = new Source({
+      a: 'Alice',
+      b: 5
+    }, {
+      properties: {
+        a: {},
+        b: {}
+      }
+    })
+
+    expect(data.props.a).to.equal('Alice')
+    expect(data.props.b).to.equal(5)
+
+    data.props.a = 'Bob'
+    data.props.b++
+
+    expect(data.props.a).to.equal('Bob')
+    expect(data.props.b).to.equal(6)
+    expect(data.get('a')).to.equal('Bob')
+    expect(data.get('b')).to.equal(6)
+
+  })
+
+
 })

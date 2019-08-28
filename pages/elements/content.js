@@ -9,16 +9,16 @@ export default () => {
     $list: {
       layout: Layouts.Content,
       defaultItem: {
-        type: List,
+        base: List,
       },
       items: [{
-        type: List,
+        base: List,
         html: 'ul',
         items: ['Alice', 'Bob', 'Charlie']
       }, {
         layout: Layouts.Columns,
         defaultItem: {
-          type: List,
+          base: List,
           html: 'ol'
         },
         items: [{

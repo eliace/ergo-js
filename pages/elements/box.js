@@ -6,7 +6,7 @@ export default () => {
   return {
     layout: Layouts.Columns,
     defaultItem: {
-      type: Box,
+      base: Box,
       text: "I'm the Box"
     },
     items: [{

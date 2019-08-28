@@ -24,7 +24,7 @@ class Table extends Html {
     $head: {
       html: 'thead',
       defaultItem: {
-        type: Row,
+        base: Row,
         defaultItem: {
           html: 'th'
         }
@@ -33,7 +33,7 @@ class Table extends Html {
     $body: {
       html: 'tbody',
       defaultItem: {
-        type: Row,
+        base: Row,
         defaultItem: {
           html: 'td'
         }

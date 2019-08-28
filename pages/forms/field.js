@@ -78,7 +78,7 @@ class Fields extends Html {
       body: {
         as: 'field-body',
         defaultItem: {
-          type: Field
+          base: Field
         }
       }
     }
@@ -104,10 +104,10 @@ export default () => {
     layout: Layouts.Rows,
 //    width: 500,
     items: [{
-      type: Field,
+      base: Field,
       label: 'Button',
       control: {
-        type: Button,
+        base: Button,
         mixins: [Mixins.Button.Icon],
         text: 'Press me',
         as: 'is-danger is-outlined',
@@ -121,84 +121,84 @@ export default () => {
       layout: Layouts.Columns,
       defaultItem: {
         control: {
-          type: InputBox,
+          base: InputBox,
           mixins: [Mixins.Input.LeftIcon]
         }
       },
       items: [{
-        type: Field,
+        base: Field,
         label: 'First Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        type: Field,
+        base: Field,
         label: 'Last Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        type: Field,
+        base: Field,
         label: 'Middle Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }]
     }, {
-      type: Fields,
+      base: Fields,
       label: 'Full Name',
       fields: [{
         control: {
-          type: InputBox,
+          base: InputBox,
           placeholder: 'First Name'
         }
       }, {
         control: {
-          type: InputBox,
+          base: InputBox,
           placeholder: 'Middle Name'
         }
       }, {
         control: {
-          type: InputBox,
+          base: InputBox,
           placeholder: 'Last Name'
         }
       }]
     }, {
-      type: Fields,
+      base: Fields,
       label: 'Actions',
       fields: [{
         as: 'has-addons',
         controls: [{
-          type: Button,
+          base: Button,
           text: 'Alice'
         }, {
-          type: Button,
+          base: Button,
           text: 'Bob'
         }, {
-          type: Button,
+          base: Button,
           text: 'Charlie'
         }]
       }, {
 //          as: 'has-addons has-addons-right',
         as: 'is-grouped is-grouped-right',
         controls: [{
-          type: Button,
+          base: Button,
           text: 'Alice'
         }, {
-          type: IconBox,
+          base: IconBox,
           as: 'is-normal',
           icon: 'fas fa-minus'
         }, {
-          type: Button,
+          base: Button,
           text: 'Bob'
         }]
       }]
     }, {
-      type: Field,
+      base: Field,
       as: 'is-horizontal',
       $body: {
         items: [{
-          type: Field,
+          base: Field,
           as: 'is-horizontal',
           $label: {
             html: 'div',
@@ -210,10 +210,10 @@ export default () => {
             }
           },
           control: {
-            type: InputBox
+            base: InputBox
           }
         }, {
-          type: Field,
+          base: Field,
           as: 'is-horizontal',
           $label: {
             html: 'div',
@@ -225,10 +225,10 @@ export default () => {
             }
           },
           control: {
-            type: InputBox
+            base: InputBox
           }
         }, {
-          type: Field,
+          base: Field,
           as: 'is-horizontal',
           $label: {
             html: 'div',
@@ -240,7 +240,7 @@ export default () => {
             }
           },
           control: {
-            type: InputBox
+            base: InputBox
           }
         }]
       }

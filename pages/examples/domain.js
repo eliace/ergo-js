@@ -87,7 +87,7 @@ export default () => {
       },
       $example: {
         $button: {
-          type: Button,
+          base: Button,
           text: 'Click me',
           onClick: function (e, {data}) {
             data._update()
@@ -261,7 +261,7 @@ export default () => {
         })
       },
       $button: {
-        type: Button,
+        base: Button,
         text: 'Increment',
         onClick: function (e, {data}) {
           data.increment()

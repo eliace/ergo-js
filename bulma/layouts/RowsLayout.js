@@ -2,7 +2,7 @@ import {Config, defaultCompare} from '../../src'
 //import {h} from 'maquette'
 
 function rowRender (comp, i) {
-  return Config.Renderer.h('div.row', {className: comp.options.__raw.row, key: i}, [comp.render()])
+  return Config.Renderer.h('div.row', {className: comp.options.row, key: i}, [comp.render()])
 }
 
 export default function (html, props, components) {

@@ -15,7 +15,7 @@ export default () => {
     layout: Layouts.Container,
     dataId: 'countries',
     allBound: function ({data}) {
-      const loadCountries = data.effect('loadCountries', this, async () => {
+      const loadCountries = data.$method('loadCountries', this, async () => {
         data.set([])
         const v = await api.getCountries()
         const t0 = new Date().getTime()

@@ -351,21 +351,21 @@ export default () => {
         html: 'p',
         weight: 10,
         items: [{
-          type: AnimatedNumber,
+          base: AnimatedNumber,
           dataId: 'firstNumber',
           dataChanged: Mutate.Value
         }, {
           html: 'span',
           text: '+'
         }, {
-          type: AnimatedNumber,
+          base: AnimatedNumber,
           dataId: 'secondNumber',
           dataChanged: Mutate.Value
         }, {
           html: 'span',
           text: '='
         }, {
-          type: AnimatedNumber,
+          base: AnimatedNumber,
           dataId: 'result',
           dataChanged: Mutate.Value
         }]

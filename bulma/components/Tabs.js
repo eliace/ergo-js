@@ -29,9 +29,9 @@ class Tabs extends Html {
     return {
       as: 'tabs',
       $list: {
-        type: List,
+        base: List,
         defaultItem: {
-          type: Tab
+          base: Tab
         }
       }
     }

@@ -302,7 +302,7 @@ export default (projector) => {
           'is-hidden': true
         },
         $content: {
-          type: Box,
+          base: Box,
           styles: {
             height: '60vh'
           },
@@ -405,7 +405,7 @@ export default (projector) => {
       defaultItem: {
         as: 'collapse-item',
         $content: {
-          type: Notification,
+          base: Notification,
           modalChanged: function (v, key) {
             this.opt('text', v.text)
           },
@@ -463,9 +463,9 @@ export default (projector) => {
     },
     $test: {
       $buttons: {
-        type: Buttons,
+        base: Buttons,
         $openModalBtn: {
-          type: Button,
+          base: Button,
           text: 'Open Modal',
           onClick: function () {
             const effects = [{
@@ -487,7 +487,7 @@ export default (projector) => {
           }
         },
         $openNotifyBtn: {
-          type: Button,
+          base: Button,
           text: 'Show notification',
           onClick: function () {
 
@@ -542,7 +542,7 @@ export default (projector) => {
         dynamic: true,
         dataChanged: function (v, key) { this.opt('$components', key) },
         $button: {
-          type: Button,
+          base: Button,
           text: 'Press me',
           onClick: function () {
 //            this.sources.data.toggle('p')

@@ -20,7 +20,7 @@ export default () => {
     },
     allBound: function ({data}) {
 
-      const loadPosts = data.effect('loadPosts', this, async () => {
+      const loadPosts = data.$method('loadPosts', this, async () => {
 //        data.set('posts', [])
         const posts = await api.getPosts()
         const t0 = new Date().getTime()
@@ -48,7 +48,7 @@ export default () => {
       // defaultItem: {
       //   layout: Layouts.Media,
       //   $content: {
-      //     type: Content,
+      //     base: Content,
       //     $content: {
       //       html: 'p',
       //       $title: {
@@ -68,11 +68,11 @@ export default () => {
         },
         allBound: function ({data, page}) {
 
-          const loadComments = data.effect('loadComments', this, async () => {
+          const loadComments = data.$method('loadComments', this, async () => {
             data.set('comments', await api.getComments(data.get('id')))
           })
 
-          page.prop('comments', null, v => v.showComments)
+          page.$prop('comments', null, v => v.showComments)
 
 //          loadComments()
         },
@@ -81,7 +81,7 @@ export default () => {
         // },
         layout: Layouts.Media,
         $content: {
-          type: Content,
+          base: Content,
           pageChanged: function (v, key) {
             this.opt('$components', key)
               // this.opt('$components', new Source({comments: v.showComments === true}))
@@ -213,7 +213,7 @@ export default () => {
             defaultItem: {
               layout: Layouts.Media,
               $content: {
-                type: Content,
+                base: Content,
                 $content: {
                   html: 'p',
                   $title: {
@@ -243,7 +243,7 @@ export default () => {
           allBound: function ({users, user}) {
 
           },
-          type: Image,
+          base: Image,
           as: 'is-64x64',
           mediaLeft: true,
           userChanged: function (v) {

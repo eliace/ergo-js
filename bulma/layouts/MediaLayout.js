@@ -2,9 +2,9 @@ import {Layout, defaultCompare, defaultRender, Config} from '../../src'
 //import {h} from 'maquette'
 
 export default function (html, props, components) {
-  let left = components.filter(c => c.options.__raw.mediaLeft)
-  let right = components.filter(c => c.options.__raw.mediaRight)
-  let center = components.filter(c => !c.options.__raw.mediaRight && !c.options.__raw.mediaLeft).sort(defaultCompare)
+  let left = components.filter(c => c.options.mediaLeft)
+  let right = components.filter(c => c.options.mediaRight)
+  let center = components.filter(c => !c.options.mediaRight && !c.options.mediaLeft).sort(defaultCompare)
 
   return Config.Renderer.h(html+'.media', props, [
     left.length > 0 && Layout.sorted('div.media-left', null, left),

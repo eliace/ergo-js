@@ -96,7 +96,7 @@ export const defaultFactory = (item, defaultType, context) => {
 //   }
 
   if (item) {
-    ItemClass = item.type || item.alias || item.base || defaultType
+    ItemClass = item.base || defaultType
   }
   else {
     item = {}
@@ -312,8 +312,8 @@ if (maxIdx > -1) {
 
 
 export function defaultCompare (a, b) {
-  const w1 = a.options.__raw.weight || 0
-  const w2 = b.options.__raw.weight || 0
+  const w1 = a.options.weight || 0
+  const w2 = b.options.weight || 0
   if (w1 == w2) {
     const i1 = a.index || 0
     const i2 = b.index || 0
@@ -345,6 +345,26 @@ export function createOptionsProto (descriptors) {
   }
   return proxy
 }
+
+
+export function createPropsProto (descriptors) {
+  const proxy = {}
+  const names = Object.keys(descriptors)
+  for (let i in names) {
+    const setter = function (v) {
+      return this.__target.set(names[i], v)
+    }
+    const getter = function () {
+      return this.__target.get(names[i])
+    }
+    Object.defineProperty(proxy, names[i], {
+      set: setter,
+      get: getter
+    })
+  }
+  return proxy
+}
+
 
 
 const Keys = {

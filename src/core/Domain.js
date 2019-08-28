@@ -9,7 +9,7 @@ class Domain extends Source {
 
     if (this.options.methods) {
       for (let i in this.options.methods) {
-        this.effect(i, this, this.options.methods[i])
+        this.$method(i, this, this.options.methods[i])
       }
     }
 
@@ -21,7 +21,7 @@ class Domain extends Source {
 
     if (this.options.listeners) {
       for (let i in this.options.listeners) {
-        this.listen(i, this, this.options.listeners[i])
+        this.$listen(i, this, this.options.listeners[i])
       }
     }
 
@@ -76,7 +76,7 @@ class Domain extends Source {
   // }
 
 
-  emit (eventName, eventData) {
+  $emit (eventName, eventData) {
     try {
 
     const event = (eventName.constructor == Object) ? eventName : {name: eventName, source: this, ...eventData}
@@ -118,10 +118,10 @@ class Domain extends Source {
         effect.source = this
         Promise.all(promises)
           .then(data => {
-            this.emit(effect.done)
+            this.$emit(effect.done)
           })
           .catch(data => {
-            this.emit(effect.fail)
+            this.$emit(effect.fail)
           })
           effects.push(effect)
           this._deferred.push(effect)
@@ -150,7 +150,7 @@ class Domain extends Source {
           if (eff.parent && eff.parent.isFinal) {
 //            console.log('finalize parent', eff)
             eff.finalize()
-            this.emit(eff.final, {target: eff.target}) // здесь было бы правильно анализировать статус родительского эффекта
+            this.$emit(eff.final, {target: eff.target}) // здесь было бы правильно анализировать статус родительского эффекта
           }
           else if (eff.done == event.name || eff.fail == event.name || eff.cancel == event.name) {
 //            console.log('finalize self', eff)
@@ -173,7 +173,7 @@ class Domain extends Source {
 //          evt.state = 'canceled'
           for (let i = evt.all.length-1; i >= 0; i--) {
 //            evt.all[i].finalize(evt.all[i].cancel)
-            this.emit(evt.all[i].cancel, {data: '#canceled'})
+            this.$emit(evt.all[i].cancel, {data: '#canceled'})
           }
           console.log('event conflict', evt, event)
         }
@@ -188,12 +188,12 @@ class Domain extends Source {
           }
         }
         if (evt.state == 'canceled') {
-          this.emit(new Effect(evt.name).cancel, {target: evt.target})
+          this.$emit(new Effect(evt.name).cancel, {target: evt.target})
         }
         else if (evt.all.length == 0) {
           console.log('resume', evt)
           evt.state = 'resumed'
-          this.emit(evt)
+          this.$emit(evt)
         }
       })
       this._suspended = this._suspended.filter(evt => evt.state == 'suspended')
@@ -216,11 +216,11 @@ class Domain extends Source {
       this._deferred.forEach(eff => {
         if (eff.name == event.name || (event.ns && eff.ns == event.ns)) {
           if (event.policy == 'abandon') {
-            return this.emit(new Effect(event.reject), {target: event.target})
+            return this.$emit(new Effect(event.reject), {target: event.target})
           }
           else {
             // по умолчанию отменяем эффект
-            this.emit(eff.cancel, {data: '#canceled'})
+            this.$emit(eff.cancel, {data: '#canceled'})
 //                      eff.finalize(eff.cancel)
           }
         }
@@ -293,21 +293,21 @@ class Domain extends Source {
                   .then(data => {
                     if (!effect.isFinal) {
 //                      console.log('done', effect)
-                      this.emit(effect.done, {data, target})
+                      this.$emit(effect.done, {data, target})
                     }
                   })
                   .catch(data => {
                     if (!effect.isFinal) {
                       if (data instanceof Effect) {
                         if (data.isCanceled) {
-                          this.emit(effect.cancel, {data, target})
+                          this.$emit(effect.cancel, {data, target})
                         }
                         else {
                           debugger
                         }
                       }
                       else {
-                        this.emit(effect.fail, {data, target})
+                        this.$emit(effect.fail, {data, target})
                       }
                     }
                   })
@@ -335,7 +335,7 @@ class Domain extends Source {
             }
             else if (result != undefined) {
               const effect = new Effect(event.name)
-              this.emit(effect.done, {data: result, target: event.target})
+              this.$emit(effect.done, {data: result, target: event.target})
             }
 
             results.push(result)
@@ -408,7 +408,7 @@ class Domain extends Source {
       if (!this[i]) {
         this[i] = (...args) => {
 //          try {
-            return this.emit('@'+i, {params: [...args], type, ns/*, target*/})
+            return this.$emit('@'+i, {params: [...args], type, ns/*, target*/})
           // }
           // catch (err) {
           //   console.error(err)
@@ -416,7 +416,7 @@ class Domain extends Source {
         }
         this[i].done = '@'+i+':done'
         this[i].fail = '@'+i+':fail'
-        this[i].init = '@'+i
+        this[i].on = '@'+i
         this[i].cancel = '@'+i+':cancel'
         this[i].n = 1
         this[i].ns = ns
@@ -431,8 +431,8 @@ class Domain extends Source {
         l['@'+i] = {callback: listeners[i], type: 'method'}
       }
       else {
-        if (listeners[i].init) {
-          l['@'+i] = {callback: listeners[i].init, type: 'method', policy: listeners[i].policy}
+        if (listeners[i].on) {
+          l['@'+i] = {callback: listeners[i].on, type: 'method', policy: listeners[i].policy}
         }
         if (listeners[i].done) {
           l['@'+i+':done'] = {callback: listeners[i].done, type: 'method'}
@@ -465,7 +465,7 @@ class Domain extends Source {
     }
   }
 
-  listen (name, target, callback, policy) {
+  $listen (name, target, callback, policy) {
     if (!this._listeners) {
       this._listeners = new Map()
     }
@@ -480,13 +480,14 @@ class Domain extends Source {
     tl['@'+name] = {callback, policy}
   }
 
-  unlisten (target) {
+  $unlisten (target) {
     if (this._listeners) {
       this._listeners.delete(target)
     }
   }
 
   effect (name, target, func, ns) {
+    throw new Error('Unsupported method effect')
     this.on({[name]: func}, target, ns)
     return this[name]
   }
@@ -507,7 +508,7 @@ class Domain extends Source {
 
     if (typeof callback == 'string') {
       watcher.callback = (e) => {
-        return this.emit('@'+i, {params: e.params, target: e.target, data: e.data, cache: e.cache})
+        return this.$emit('@'+i, {params: e.params, target: e.target, data: e.data, cache: e.cache})
       }
     }
 
@@ -516,8 +517,8 @@ class Domain extends Source {
     }
     else if (when.constructor == Object) {
       const w = when
-      if (w.init) {
-        this.listen(i, target, w.init, w.policy)
+      if (w.on) {
+        this.listen(i, target, w.on, w.policy)
       }
       if (w.done) {
         this.listen(i+':done', target, w.done)
@@ -587,10 +588,6 @@ class Domain extends Source {
   $method (name, target, listener, ns) {
     this.on({[name]: listener}, target, ns)
     return this[name]
-  }
-
-  $prop (name, target, config) {
-
   }
 
 }

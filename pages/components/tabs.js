@@ -72,7 +72,7 @@ export default () => {
       ]
     },
     defaultItem: {
-      type: Tabs,
+      base: Tabs,
       sources: {
         selection: 'Pictures'
       }

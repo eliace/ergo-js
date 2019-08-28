@@ -31,7 +31,7 @@ class IconBox extends Html {
       html: 'span',
       as: 'icon',
       $content: {
-        type: Icon
+        base: Icon
       }
     }
   }

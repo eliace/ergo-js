@@ -11,7 +11,7 @@ export class ButtonWithIcon extends Button {
   config () {
     return {
       $icon: {
-        type: IconBox,
+        base: IconBox,
         as: 'is-small',
       },
       $content: {
@@ -52,7 +52,7 @@ export class PreviewAndCode extends Html {
           },
           ref: function (el) {
             if (el) {
-              Prism.highlightAllUnder(el)              
+              Prism.highlightAllUnder(el)
             }
           }
         }

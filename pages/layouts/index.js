@@ -32,7 +32,7 @@ export default () => {
         text: 'Layouts'
       },
       $tabs: {
-        type: Tabs,
+        base: Tabs,
         defaultTab: {
           pageChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)

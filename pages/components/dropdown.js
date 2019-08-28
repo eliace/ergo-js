@@ -162,7 +162,7 @@ export default () => {
         }
       }
     }, {
-//      type: DropdownBox,
+//      base: DropdownBox,
       as: 'dropdown dropdown-input',
       width: 400,
 //      components: true,
@@ -209,7 +209,7 @@ export default () => {
 
           },
           $input: {
-            type: Input,
+            base: Input,
             onFocus: function () {
               this.rise('_inputFocus')
             },
@@ -218,7 +218,7 @@ export default () => {
             }
           },
           $icon: {
-            type: IconBox,
+            base: IconBox,
             as: 'is-small dropdown-icon is-right',
             icon: 'fas fa-angle-down'
           },
@@ -234,7 +234,7 @@ export default () => {
         as: 'dropdown-menu',
         width: '100%',
         $content: {
-          type: Dropdown,
+          base: Dropdown,
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
           dynamic: true,
@@ -323,7 +323,7 @@ export default () => {
         $content: {
           as: 'control has-icons-right input-box',
           $input: {
-            type: Input,
+            base: Input,
             vmId: 'input',
             vmChanged: Mutate.Value,
             onFocus: function () {
@@ -335,7 +335,7 @@ export default () => {
             }
           },
           $icon: {
-            type: IconBox,
+            base: IconBox,
             as: 'is-small dropdown-icon is-right',
             icon: 'fas fa-angle-down'
           },
@@ -352,7 +352,7 @@ export default () => {
         as: 'dropdown-menu',
         width: '100%',
         $content: {
-          type: Dropdown,
+          base: Dropdown,
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
           dynamic: true,

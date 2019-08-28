@@ -7,7 +7,7 @@ const Mixins = {
       classes: {'has-icons-left': true},
       components: {
         leftIcon: {
-          type: IconBox,
+          base: IconBox,
           as: 'is-small is-left',
         }
       }
@@ -18,7 +18,7 @@ const Mixins = {
       classes: {'has-icons-right': true},
       components: {
         rightIcon: {
-          type: IconBox,
+          base: IconBox,
           as: 'is-small is-right',
         }
       }
@@ -133,6 +133,8 @@ class Header extends Html {
 
 export default () => {
   return {
+    layout: Layouts.Rows,
+    width: 400,
     items: [{
       html: 'input',
       as: 'input'
@@ -160,7 +162,7 @@ export default () => {
         weight: 10
       },
       defaultItem: {
-        type: Tag
+        base: Tag
       },
 //      items: [1,2,3,4,5,6,7,8,9,0].map(itm => 'Helloodffdfgfsdgf'),
       pattern: '+7 (000) 000 00 00',
@@ -219,18 +221,18 @@ export default () => {
       defaultItem: {
         base: Field,
         width: 400,
-        control: {
+        $control: {
           base: Input
         }
       },
       items: [
-        {control: {placeholder: 'Normal input'}},
-        {control: {placeholder: 'Hover input', as: 'is-hovered'}},
-        {control: {placeholder: 'Focus input', as: 'is-focused'}},
-        {control: {placeholder: 'Loading input'}, loading: true},
-        {control: {placeholder: 'Disabled input', disabled: true}},
-        {control: {value: 'Read only', readOnly: true}},
-        {control: {value: 'Static text', as: 'is-static'}},
+        {$control: {placeholder: 'Normal input'}},
+        {$control: {placeholder: 'Hover input', as: 'is-hovered'}},
+        {$control: {placeholder: 'Focus input', as: 'is-focused'}},
+        {$control: {placeholder: 'Loading input'}, loading: true},
+        {$control: {placeholder: 'Disabled input', disabled: true}},
+        {$control: {value: 'Read only', readOnly: true}},
+        {$control: {value: 'Static text', as: 'is-static'}},
       ]
     }, {
       $title: {
@@ -240,7 +242,7 @@ export default () => {
       defaultItem: {
         base: Field,
         width: 400,
-        control: {
+        $control: {
           base: Input,
           placeholder: 'Input text here...'
         }

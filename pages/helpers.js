@@ -7,7 +7,7 @@ export const Mixins = {
     return {
       // для примеси этот способ не подходит
       sourcesBound: function ({selection}) {
-        selection.effect('select', this, (v) => {
+        selection.$method('select', this, (v) => {
           selection.set(v)
         })
       },
@@ -58,7 +58,7 @@ export const Mixins = {
       return {
         components: {
           icon: {
-            type: IconBox,
+            base: IconBox,
             as: 'is-small',
           },
           content: {
@@ -82,7 +82,7 @@ export const Mixins = {
         classes: {'has-icons-left': true},
         components: {
           leftIcon: {
-            type: IconBox,
+            base: IconBox,
             as: 'is-small is-left',
           }
         },
@@ -100,8 +100,8 @@ export const Mixins = {
 
 export const Mutate = {
   Text: function (v) {
-    if (this.options.__raw.format) {
-      v = this.options.__raw.format.call(this, v)
+    if (this.options.format) {
+      v = this.options.format.call(this, v)
     }
     return {$text: v}
   },

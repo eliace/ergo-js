@@ -1,4 +1,4 @@
-import {deepClone, hashCode, defaultIdResolver} from './Utils'
+import {deepClone, hashCode, defaultIdResolver, createPropsProto} from './Utils'
 import Stream from './Stream'
 
 
@@ -55,12 +55,19 @@ class Source {
       for (let i in this.options.properties) {
         const p = this.options.properties[i]
         if (typeof p === 'function') {
-          this.prop(i, null, p)
+          this.$prop(i, null, p)
         }
         else {
-          this.prop(i, p.type, p.calc, p.idResolver)
+          this.$prop(i, p.type, p.calc, p.idResolver)
         }
       }
+
+      // ?
+      // прокси-хелпер для опций
+      this.props = {__target: this}
+
+      const instOptProto = createPropsProto(this.options.properties)
+      Object.setPrototypeOf(this.props, instOptProto)
     }
 
 
@@ -392,7 +399,7 @@ class Source {
           }
         }
 
-        this.emit('changed', {data: this.get(), ids, cache: prevValue})
+        this.$emit('changed', {data: this.get(), ids, cache: prevValue})
 
       }
       catch (err) {
@@ -576,7 +583,7 @@ class Source {
   }
 
 
-  add (v) {
+  $add (v) {
 
     let arr = null
 
@@ -727,26 +734,26 @@ class Source {
     return true
   }
 
-  get $ () {
-    if (!this._proxy) {
-      this._proxy = new Proxy(this, {
-        set: function (target, property, value) {
-          target.entry(property).set(value)
-        },
-        get: function (target, property) {
-          if (target.entries[property]) {
-            return target.entry(property).get()
-          }
-          // if (this._properties && this._properties[property]) {
-          //   return this.entry(property).get()
-          // }
-          // return target.get(property)
-          return target.get(property) //target.entry(property).$
-        }
-      })
-    }
-    return this._proxy
-  }
+  // get $ () {
+  //   if (!this._proxy) {
+  //     this._proxy = new Proxy(this, {
+  //       set: function (target, property, value) {
+  //         target.entry(property).set(value)
+  //       },
+  //       get: function (target, property) {
+  //         if (target.entries[property]) {
+  //           return target.entry(property).get()
+  //         }
+  //         // if (this._properties && this._properties[property]) {
+  //         //   return this.entry(property).get()
+  //         // }
+  //         // return target.get(property)
+  //         return target.get(property) //target.entry(property).$
+  //       }
+  //     })
+  //   }
+  //   return this._proxy
+  // }
 
   get $source () {
     return this.src
@@ -775,7 +782,11 @@ class Source {
   //   }
   // }
 
-  prop (key, type, calc, idResolver) {
+  prop () {
+    throw new Error('Unsupported method prop')
+  }
+
+  $prop (key, type, calc, idResolver) {
     if (!this._properties) {
       this._properties = {}
     }
@@ -783,8 +794,12 @@ class Source {
   }
 
 
+  emit () {
+    throw new Error('Unsupported method emit')
+  }
 
-  emit (eventName, eventData) {
+
+  $emit (eventName, eventData) {
 
     const event = (eventName.constructor == Object) ? eventName : {name: eventName, source: this, ...eventData}
 
@@ -806,14 +821,14 @@ class Source {
     // else {
 //    }
 
-    this.emit('init', {target, ns: 'lc'})
+    this.$emit('init', {target, ns: 'lc'})
 
     const data = this.get()
-    this.emit('changed', {target, data/*, ns: 'lc'*/})  //TODO нужно только в том случае, если в init не было изменений
+    this.$emit('changed', {target, data/*, ns: 'lc'*/})  //TODO нужно только в том случае, если в init не было изменений
   }
 
   _destroy (target) {
-    this.emit('destroy', {target, ns: 'lc'})
+    this.$emit('destroy', {target, ns: 'lc'})
   }
 
 
@@ -828,21 +843,6 @@ class Source {
   }
 
 
-
-
-  // ns () {
-  //   const keys = []
-  //   let s = this
-  //   while (s) {
-  //     if (s.id) {
-  //       keys.push(s.id)
-  //     }
-  //     s = s.src
-  //   }
-  //   return keys.join(':')
-  // }
-
-//  static Stream = Stream
 }
 
 Source.Stream = Stream

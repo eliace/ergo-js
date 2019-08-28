@@ -38,7 +38,7 @@ export default () => {
         text: 'Forms'
       },
       $tabs: {
-        type: Tabs,
+        base: Tabs,
         defaultTab: {
           dataChanged: function (v) {
             this.opt('selected', this.options.text == v.selected)

@@ -82,7 +82,7 @@ export default () => {
         text: 'Elements'
       },
       $tabs: {
-        type: Tabs,
+        base: Tabs,
         levelRight: true,
         defaultTab: {
           dataChanged: function (v) {

@@ -34,7 +34,7 @@ export default (projector) => {
         text: 'Animations'
       },
       $tabs: {
-        type: Tabs,
+        base: Tabs,
         defaultTab: {
           dataChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)

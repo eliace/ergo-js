@@ -19,18 +19,18 @@ export default () => {
     width: 500,
     items: [{
       $content: {
-        type: Textarea,
+        base: Textarea,
         placeholder: 'Enter text...'
       }
     }, {
       $content: {
-        type: Textarea,
+        base: Textarea,
         placeholder: 'Enter text...',
         rows: 10
       }
     }, {
       $content: {
-        type: Textarea,
+        base: Textarea,
         placeholder: 'Enter text...',
         as: 'has-fixed-size'
       }

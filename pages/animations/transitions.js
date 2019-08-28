@@ -398,7 +398,7 @@ const Effects = {
       target.opt('classes', {[name+'-enter-active']: false})
     })
 
-    const show = data.effect('show', target, async () => {
+    const show = data.$method('show', target, async () => {
 //      console.log('show', this)
       target.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
       await raf()
@@ -422,7 +422,7 @@ const Effects = {
       target.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
     })
 
-    const hide = data.effect('hide', target, async () => {
+    const hide = data.$method('hide', target, async () => {
       target.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
       await raf()
       target.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
@@ -451,7 +451,7 @@ const Effects = {
 //      clear()
     })
 
-    const flip = data.effect('flip', target, async () => {
+    const flip = data.$method('flip', target, async () => {
       first()
       await raf() //?
       invert(last())
@@ -682,7 +682,7 @@ export default () => {
 //         //   }
 //         // })
 //
-// //         const show = data.effect('show', this, () => {
+// //         const show = data.$method('show', this, () => {
 // // //          return this.transition()
 // //         })
 //
@@ -694,7 +694,7 @@ export default () => {
         },
         dataChanged: Mutate.Components,
         $button: {
-          type: Button,
+          base: Button,
           text: 'Press me',
           onClick: function (e, {data}) {
             data.toggle('p')
@@ -737,7 +737,7 @@ export default () => {
         p: false
       },
       $button: {
-        type: Button,
+        base: Button,
         text: 'Переключить отрисовку',
         onClick: function (e, {data}) {
           data.toggle('show')
@@ -783,7 +783,7 @@ export default () => {
         })
       },
       $buttons: {
-        type: Buttons,
+        base: Buttons,
         items: [{
           text: 'Добавить',
           onClick: function (e, {data}) {
@@ -854,7 +854,7 @@ export default () => {
       //   return false
       // },
       $buttons: {
-        type: Buttons,
+        base: Buttons,
         items: [{
           text: 'Перемешать',
           onClick: function (e, {view}) {
@@ -904,7 +904,7 @@ export default () => {
         })
       },
       $buttons: {
-        type: Buttons,
+        base: Buttons,
         items: [{
           text: 'Добавить',
           onClick: function () {
@@ -1028,13 +1028,13 @@ export default () => {
                 return show()
               })
 
-              const hide = domain.effect('hide', target, async () => {
+              const hide = domain.$method('hide', target, async () => {
                 const delay = target.index * 150
                 await timeout(delay)
                 await velocityHide()
               })
 
-              const show = domain.effect('show', target, async () => {
+              const show = domain.$method('show', target, async () => {
                 target.opt('styles', {'opacity': '0', 'height': '0'})
                 await timeout(target.index * 150)
                 await raf()

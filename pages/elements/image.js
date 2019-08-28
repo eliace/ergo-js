@@ -15,7 +15,7 @@ export default () => {
         justifyContent: 'space-around'
       },
       defaultItem: {
-        type: Image,
+        base: Image,
         src: imgUrl_1,
       },
       items: [
@@ -34,11 +34,9 @@ export default () => {
     }, {
       $content: {
         $image: {
-          type: Image,
+          base: Image,
           src: imgUrl_2,
-          style: {
-            width: '512px'
-          }
+          width: 512
 //          height: 512
         }
       }

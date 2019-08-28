@@ -161,15 +161,17 @@ class Html{
     opts = preparedOpts.build(ComponentRules)
 
     // прокси-хелпер для опций
-    this.options = {__target: this, __raw: opts}
+    this.opts = {__target: this, __raw: opts}
 
-    Object.setPrototypeOf(this.options, this.classOptsProxy)
+    Object.setPrototypeOf(this.opts, this.classOptsProxy)
 
     if (opts.options) {
       const instOptProto = createOptionsProto(opts.options)
       Object.setPrototypeOf(instOptProto, this.classOptsProxy)
-      Object.setPrototypeOf(this.options, instOptProto)
+      Object.setPrototypeOf(this.opts, instOptProto)
     }
+
+    this.options = opts
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
@@ -349,7 +351,7 @@ class Html{
 
   render() {
 
-    const o = this.options.__raw
+    const o = this.options
 
 //    console.log('render', !!this.vnode, this.children.length, this)
     if ('render' in o) {
@@ -456,7 +458,7 @@ class Html{
           // }
         }
       }
-      return this.options.__raw[name]
+      return this.options[name]
     }
 
     // SETTER
@@ -476,8 +478,8 @@ class Html{
       name = keys[i]
       value = isObject ? values[name] : values
 
-      const oldValue = this.options.__raw[name]
-      const o = this.options.__raw
+      const oldValue = this.options[name]
+      const o = this.options
 
 //     }
 //
@@ -606,7 +608,7 @@ class Html{
 
   addItem(value, i, key) {
 
-    const o = this.options.__raw
+    const o = this.options
 
     if (o.defaultItem && typeof value === 'string') {
       value = {text: value}
@@ -664,7 +666,7 @@ class Html{
 
   addComponent(i, value) {
 
-    const o = this.options.__raw
+    const o = this.options
 
     if (this['$'+i]) {
       console.log('removing', i)
@@ -965,7 +967,7 @@ class Html{
 
 
   syncComponents (value, key) {
-    const o = this.options.__raw
+    const o = this.options
 
     if (typeof value == 'string') {
       key = value
@@ -1040,7 +1042,7 @@ class Html{
 
     let source = null
 
-    const o = this.options.__raw
+    const o = this.options
 
     let key = o[i+'Id']
     let ref = o[i+'Ref']
@@ -1131,7 +1133,7 @@ class Html{
 
   changed (v, key) {
 
-    const o = this.options.__raw
+    const o = this.options
 
 //    console.log (v, key)
 

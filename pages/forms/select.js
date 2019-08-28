@@ -21,7 +21,7 @@ export default () => {
     width: 500,
     items: [{
       $content: {
-        type: Select,
+        base: Select,
         text: 'Select option...'
       }
     }]

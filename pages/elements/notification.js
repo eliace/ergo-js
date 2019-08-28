@@ -8,7 +8,7 @@ export default () => {
     layout: Layouts.Rows,
     items: [{
       defaultItem: {
-        type: Notification,
+        base: Notification,
         text: LOREM_IPSUM.slice(0, 140)
       },
       items: [

@@ -7,11 +7,11 @@ export default () => {
     layout: Layouts.Rows,
     width: 400,
     items: [{
-      type: Progress,
+      base: Progress,
       value: 40
     }, {
       defaultItem: {
-        type: Progress
+        base: Progress
       },
       items: [
         {value: 30, as: 'is-primary'},
@@ -23,7 +23,7 @@ export default () => {
       ]
     }, {
       defaultItem: {
-        type: Progress,
+        base: Progress,
         height: 3
       },
       items: [

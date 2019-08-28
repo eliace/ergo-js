@@ -12,13 +12,13 @@ describe ('Html', () => {
       $content: {}
     })
 
-    expect(html.options.text).to.equal('Hello')
-    expect(html.options.foo).to.be.undefined
-    expect(html.options.items).to.deep.equal(['Alice', 'Bob'])
+    expect(html.opts.text).to.equal('Hello')
+    expect(html.opts.foo).to.be.undefined
+    expect(html.opts.items).to.deep.equal(['Alice', 'Bob'])
 
-    html.options.text = 'Label'
+    html.opts.text = 'Label'
 
-    expect(html.$content.options.text).to.equal('Label')
+    expect(html.$content.opts.text).to.equal('Label')
 
   })
 
@@ -31,11 +31,11 @@ describe ('Html', () => {
       foo: 'Foo'
     })
 
-    expect(html.options.foo).to.equal('Foo')
+    expect(html.opts.foo).to.equal('Foo')
 
-    html.options.foo = 'Hello'
+    html.opts.foo = 'Hello'
 
-    expect(html.options.foo).to.equal('Hello')
+    expect(html.opts.foo).to.equal('Hello')
 
   })
 
@@ -52,7 +52,7 @@ describe ('Html', () => {
       }
     })
 
-    expect(html.$foo.options.text).to.equal('Foo')
+    expect(html.$foo.opts.text).to.equal('Foo')
     expect(html.$foo.sources.data.get('x')).to.equal(10)
 
   })
@@ -70,7 +70,7 @@ describe ('Html', () => {
     })
 
     setTimeout(() => {
-      expect(html.$foo.options.text).to.equal('Foo')
+      expect(html.$foo.opts.text).to.equal('Foo')
       done()
     }, 1)
 

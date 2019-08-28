@@ -265,19 +265,19 @@ const root = new Html({
   },
   allBound: function ({page, data, app}) {
 
-    app.effect('setCurrent', this, (v) => {
+    app.$method('setCurrent', this, (v) => {
       app.set('current', v)
     })
 
-    app.prop('posts', null, v => v.current == 'posts')
-    app.prop('elements', null, v => v.current == 'elements')
-    app.prop('componentsPage', null, v => v.current == 'components')
-    app.prop('layouts', null, v => v.current == 'layouts')
-    app.prop('animationsPage', null, v => v.current == 'animations')
-    app.prop('formsPage', null, v => v.current == 'forms')
-    app.prop('examplesPage', null, v => v.current == 'examples')
-    app.prop('countriesPage', null, v => v.current == 'countries')
-    app.prop('postsPage', null, v => v.current == 'posts')
+    app.$prop('posts', null, v => v.current == 'posts')
+    app.$prop('elements', null, v => v.current == 'elements')
+    app.$prop('componentsPage', null, v => v.current == 'components')
+    app.$prop('layouts', null, v => v.current == 'layouts')
+    app.$prop('animationsPage', null, v => v.current == 'animations')
+    app.$prop('formsPage', null, v => v.current == 'forms')
+    app.$prop('examplesPage', null, v => v.current == 'examples')
+    app.$prop('countriesPage', null, v => v.current == 'countries')
+    app.$prop('postsPage', null, v => v.current == 'posts')
 
     // app.computed('posts', this, v => v.current == 'posts')
     // app.computed('elements', this, v => v.current == 'elements')
@@ -292,13 +292,13 @@ const root = new Html({
   },
 //  dynamic: true,
   $navbar: {
-    type: Navbar,
+    base: Navbar,
     as: 'is-dark is-fixed-top',
 //    dynamic: true,
     $brand: {
-      type: Navbar.Brand,
+      base: Navbar.Brand,
       $logo: {
-        type: Navbar.Item,
+        base: Navbar.Item,
         $content: {
           text: 'Ergo JS',
           as: 'has-text-weight-semibold is-uppercase'
@@ -306,18 +306,18 @@ const root = new Html({
       }
     },
     $menu: {
-      type: Navbar.Menu,
+      base: Navbar.Menu,
       $start: {
-        type: Navbar.Start,
+        base: Navbar.Start,
         defaultItem: {
-          type: Navbar.Item,
+          base: Navbar.Item,
         },
         items: [{text: 'Home'}, {text: 'Documentation'}]
       },
       $end: {
-        type: Navbar.End,
+        base: Navbar.End,
         defaultItem: {
-          type: Navbar.Item,
+          base: Navbar.Item,
         },
         items: [{
           stateId: 'user',
@@ -352,7 +352,7 @@ const root = new Html({
 //      dynamic: {
 //      blockComponents: Custom.All,
       $mainMenu: {
-        type: Menu,
+        base: Menu,
         column: 'is-one-fifth',
         dataId: 'mainMenu',
         dataChanged: function (v, key) {
@@ -361,14 +361,14 @@ const root = new Html({
         defaultItem: {
           layout: Layout.passthru,
           $label: {
-            type: Menu.Label,
+            base: Menu.Label,
             dataId: 'name',
             dataChanged: function (v) {
               return {text: v}
             }
           },
           $list: {
-            type: Menu.List,
+            base: Menu.List,
             dataId: 'items',
             dataChanged: function (v, key) {
               return {$items: key}
@@ -458,7 +458,7 @@ const root = new Html({
     }
 //    }
   }
-}, context)
+})
 
 window._app = root
 

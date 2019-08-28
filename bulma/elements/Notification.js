@@ -7,11 +7,11 @@ class Notification extends Html {
     as: 'notification',
     components: {
       closeBtn: {
-        type: Delete
+        base: Delete
       },
       content: {
 //        html: 'div'
-        type: Text
+        base: Text
       }
     }
   }

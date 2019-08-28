@@ -6,33 +6,33 @@ export default () => {
     layout: Layouts.Rows,
     items: [{
       $title: {
-        type: Title,
+        base: Title,
         text: 'Title',
         html: 'h1'
       },
       $subtitle: {
-        type: Title.Subtitle,
+        base: Title.Subtitle,
         text: 'Subtitle',
         html: 'h2'
       }
     }, {
       defaultItem: {
-        type: Title
+        base: Title
       },
       items: [1,2,3,4,5,6].map(i => {return {text: 'Title '+i, html: 'h'+i, as: 'is-'+i}})
     }, {
       defaultItem: {
-        type: Title.Subtitle
+        base: Title.Subtitle
       },
       items: [1,2,3,4,5,6].map(i => {return {text: 'Subtitle '+i, html: 'h'+i, as: 'is-'+i}})
     }, {
       defaultItem: {
         $title: {
-          type: Title,
+          base: Title,
           html: 'p'
         },
         $subtitle: {
-          type: Title.Subtitle,
+          base: Title.Subtitle,
           html: 'p'
         },
         styles: {

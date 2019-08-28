@@ -117,22 +117,22 @@ export default () => {
         value: true
       },
       items: [{
-        type: ValueInput,
+        base: ValueInput,
         dataId: 'firstName',
         valueRef: 'data',
         placeholder: 'First Name'
       }, {
-        type: ValueInput,
+        base: ValueInput,
         dataId: 'middleName',
         valueRef: 'data',
         placeholder: 'Middle Name'
       }, {
-        type: ValueInput,
+        base: ValueInput,
         dataId: 'lastName',
         valueRef: 'data',
         placeholder: 'Last Name'
       }, {
-        type: ValueText,
+        base: ValueText,
         valueRef: 'data',
         format: JSON.stringify
       }]
@@ -143,7 +143,7 @@ export default () => {
       },
       dataChanged: Mutate.Items,
       defaultItem: {
-        type: Switch,
+        base: Switch,
         dataChanged: function (v) {
           // this.opts.text = v
           // this.opts.key = v
@@ -158,7 +158,7 @@ export default () => {
         }
       },
       $info: {
-        type: ValueText,
+        base: ValueText,
         valueRef: 'selection',
         format: JSON.stringify,
         weight: 10

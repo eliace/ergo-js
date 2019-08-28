@@ -63,7 +63,7 @@ export default (projector) => {
         text: 'Components'
       },
       $tabs: {
-        type: Tabs,
+        base: Tabs,
         levelRight: true,
         defaultTab: {
           dataChanged: function (v) {

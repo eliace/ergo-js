@@ -5,7 +5,7 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      type: IconBox,
+      base: IconBox,
       icon: 'fas fa-envelope'
     }]
   }

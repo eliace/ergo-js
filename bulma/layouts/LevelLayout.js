@@ -1,14 +1,13 @@
 import {Layout, defaultCompare, Config} from '../../src'
-//import {h} from 'maquette'
 
 function itemRender (c) {
   return Config.Renderer.h('div.level-item', [c.render()])
 }
 
 export default function (html, props, components) {
-  let left = components.filter(c => c.options.__raw.levelLeft)
-  let right = components.filter(c => c.options.__raw.levelRight)
-  let center = components.filter(c => !c.options.__raw.levelRight && !c.options.__raw.levelLeft)
+  let left = components.filter(c => c.options.levelLeft)
+  let right = components.filter(c => c.options.levelRight)
+  let center = components.filter(c => !c.options.levelRight && !c.options.levelLeft)
 
   if (left.length > 0) {
     left = Config.Renderer.h('div.level-left', left.sort(defaultCompare).map(itemRender))
@@ -21,39 +20,3 @@ export default function (html, props, components) {
 
   return Config.Renderer.h(html+'.level', props, [left, ...center, right])
 }
-
-
-// class LevelLayout extends Layout {
-//
-//   render(html, props, children) {
-//     let centerItems = []
-//     let leftItems = []
-//     let rightItems = []
-//     children.forEach(child => {
-//       if (child.options.levelLeft) {
-//         leftItems.push(child)
-//       }
-//       else if (child.options.levelRight) {
-//         rightItems.push(child)
-//       }
-//       else {
-//         centerItems.push(child)
-//       }
-//     })
-//     if (leftItems.length) {
-//       leftItems = [h('div.level-left', this.combine(leftItems))]
-//     }
-//     if (rightItems.length) {
-//       rightItems = [h('div.level-right', this.combine(rightItems))]
-//     }
-//     centerItems = this.combine(centerItems)
-// //    console.log(centerItems.length)
-//     return h(html+'.level', props, leftItems.concat(centerItems).concat(rightItems))
-//   }
-//
-//   combine(children, level) {
-//     return children.sort(this.compare).map(child => h('div.level-item', [child.render()]))
-//   }
-// }
-//
-// export default LevelLayout

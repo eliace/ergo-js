@@ -19,30 +19,30 @@ export default () => {
     items: [{
       as: 'tags',
       defaultItem: {
-        type: Tag
+        base: Tag
       },
       items: ['Black', 'Dark', 'Light', 'White', 'Primary', 'Link', 'Info', 'Success', 'Warning', 'Danger'].map(k => {
         return {as: 'is-'+k.toLowerCase(), text: k}
       })
     }, {
-      type: Tags,
+      base: Tags,
       items: [
         {text: 'Normal', as: 'is-normal'},
         {text: 'Medium', as: 'is-medium'},
         {text: 'Large', as: 'is-large'},
       ]
     }, {
-      type: Tags,
+      base: Tags,
       as: 'are-medium',
       items: ['Alice', 'Bob', 'Charlie']
     }, {
-      type: Tags,
+      base: Tags,
       items: [
         {as: 'is-rounded', text: 'Rounded'},
         {as: 'is-delete'}
       ]
     }, {
-      type: Tags,
+      base: Tags,
       defaultItem: {
         $deleteBtn: {
           base: Delete,
@@ -62,11 +62,11 @@ export default () => {
         text: 'Danger'
       }]
     }, {
-      type: Tags,
+      base: Tags,
       as: 'has-addons',
       items: [{text: 'Ergo', as: 'is-primary'}, {text: 'JS', as: 'is-dark'}]
     }, {
-      type: Tags,
+      base: Tags,
       as: 'has-addons',
       items: [{text: 'JavaScript', as: 'is-link'}, {as: 'is-delete'}]
     }]
