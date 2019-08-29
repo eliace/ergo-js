@@ -238,7 +238,7 @@ export default () => {
           as: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
           dynamic: true,
-          dataChanged: Mutate.DynamicItems,
+          dataChanged: Mutate.Items,
           defaultItem: {
             onClick: function (e) {
               this.sources.selection.set(this.options.key)
@@ -360,7 +360,7 @@ export default () => {
           //   const sel = this.sources.selection.get()
           //   console.log(sel)
           //   this.opt('$items', this.sources[k].asStream().filter(itm => itm.name.indexOf(sel)))
-          // }, //Mutate.DynamicItems,
+          // }, //Mutate.Items,
           binding: function (values) {
             console.log(values.selection)
             this.opt('$items', this.sources.data.$stream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))

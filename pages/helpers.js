@@ -108,14 +108,8 @@ export const Mutate = {
   Src: function (v) {
     return {src: v}
   },
-  DynamicItems: function (v, key) {
-    return {$items: key}
-  },
   Items: function (v, key) {
     return {$items: key}
-  },
-  DynamicComponents: function (v, key) {
-    return {$components: key}
   },
   Components: function (v, key) {
     return {$components: key}

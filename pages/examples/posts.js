@@ -206,7 +206,7 @@ export default () => {
             weight: 10,
             layout: Layouts.PassThrough,
             dataId: 'comments',
-            dataChanged: Mutate.DynamicItems,
+            dataChanged: Mutate.Items,
             // dynamic: {
             //   state: {id: 'comments', items: Custom.All}
             // },

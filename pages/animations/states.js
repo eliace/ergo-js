@@ -1,4 +1,4 @@
-import {Html, Domain, Text} from '../../src'
+import {Html, Domain, Text, Layout} from '../../src'
 import {Layouts} from '../../bulma'
 
 import {Mutate, Mixins} from '../helpers'
@@ -43,7 +43,7 @@ class AnimatedNumber extends Html {
         this.opt('text', v.tweeningValue)
       },
       allBound: function ({view}) {
-        view.watch((evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids), this, (evt) => {
+        view.$watch((evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids), this, (evt) => {
           tween(evt.cache['value'] || 0, evt.data['value'])
         })
 
@@ -99,13 +99,15 @@ export default () => {
           properties: {
             animatedNumber: {
               calc: v => v.tweenedNumber.toFixed(0)
-            }
+            },
+            number: {},
+            tweenedNumber: {}
           },
           watchers: {
             tween: {
               when: e => e.name == 'changed' && e.ids && ('number' in e.ids),
-              init: (e, data) => {
-                TweenLite.to(data.$, 0.5, {tweenedNumber: data.$.number})
+              on: (e, data) => {
+                TweenLite.to(data.props, 0.5, {tweenedNumber: data.props.number})
               }
             }
           }
@@ -117,7 +119,7 @@ export default () => {
         step: 20,
         dataId: 'number',
         dataChanged: Mutate.Value,
-        onInput: function (e, {data}) {
+        onChange: function (e, {data}) {
           data.set(e.target.value)
         }
       },
@@ -140,12 +142,18 @@ export default () => {
             interval: null,
             updateInterval: 1000
           }, {
+            properties: {
+              updateInterval: {},
+              points: {},
+              minRadius: {},
+              stats: {}
+            },
             methods: {
               updateSides: function (newSides, oldSides) {
                 var sidesDifference = newSides - oldSides
                 if (sidesDifference > 0) {
                 	for (var i = 1; i <= sidesDifference; i++) {
-                  	this.entry('stats').add(this.newRandomValue())
+                  	this.entry('stats').$add(this.newRandomValue())
                   }
                 } else {
                   var absoluteSidesDifference = Math.abs(sidesDifference)
@@ -156,8 +164,8 @@ export default () => {
               },
               updateStats: function (newStats) {
           			TweenLite.to(
-                	this.$,
-                  this.get('updateInterval') / 1000,
+                	this.props,
+                  this.props.updateInterval / 1000,
                   { points: generatePoints(newStats) }
               	)
               },
@@ -182,13 +190,13 @@ export default () => {
             watchers: {
               sides: {
                 when: evt => evt.name == 'changed' && evt.ids && evt.ids['sides'],
-                init: (evt, d) => {
+                on: (evt, d) => {
                   d.updateSides(evt.data['sides'], evt.cache['sides'])
                 }
               },
               stats: {
                 when: evt => evt.name == 'changed' && evt.ids && evt.ids['stats'],
-                init: (evt, d) => {
+                on: (evt, d) => {
                   d.updateStats(evt.data['stats'])
                 }
               }
@@ -221,10 +229,10 @@ export default () => {
       },
       use: {
         data: [(data, target) => {
-          data.watch(e => e.name == 'init', target, () => {
+          data.$watch(e => e.name == 'init', target, () => {
             data.resetInterval()
           })
-          data.watch(e => e.name == 'destroy', target, () => {
+          data.$watch(e => e.name == 'destroy', target, () => {
             clearInterval(data.interval)
           })
         }]
@@ -256,7 +264,7 @@ export default () => {
         }
       },
       defaultItem: {
-        layout: Layouts.PassThrough,
+        layout: Layout.passthru,
         components: {
           label: {
             html: 'label',
@@ -327,7 +335,7 @@ export default () => {
         step: 20,
         dataId: 'firstNumber',
         dataChanged: Mutate.Value,
-        onInput: function (e, {data}) {
+        onChange: function (e, {data}) {
           data.set(Number(e.target.value))
         }
       }, {
@@ -339,7 +347,7 @@ export default () => {
         step: 20,
         dataId: 'secondNumber',
         dataChanged: Mutate.Value,
-        onInput: function (e, {data}) {
+        onChange: function (e, {data}) {
           data.set(Number(e.target.value))
         }
       }, {

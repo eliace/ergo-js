@@ -25,7 +25,7 @@ export default () => {
         console.log('t', t1 - t0)
       })
 
-      data.watch(e => e.name == 'init', this, () => {
+      data.$watch(e => e.name == 'init', this, () => {
         data.loadCountries()
       })
 
@@ -104,7 +104,7 @@ export default () => {
       },
       $body: {
         html: 'tbody',
-        dataChanged: Mutate.DynamicItems,
+        dataChanged: Mutate.Items,
         dataEntryId: (v) => v.alpha3Code,
 //            stateItems: Custom.All,
         defaultItem: {
@@ -129,12 +129,13 @@ export default () => {
             dataId: 'population'
 //            format: (v) => v.population
           }, {
-            $img: {
+            $content: {
               html: 'img',
               height: '1rem',
               dataId: 'flag',
               dataChanged: Mutate.Src
-            }
+            },
+            dataChanged: false
           }]
         }
       }

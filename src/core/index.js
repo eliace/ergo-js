@@ -3,7 +3,7 @@ import Layout from './Layout'
 import Options from './Options'
 import Source from './Source'
 import Domain from './Domain'
-import Bindings from './Bindings'
+//import Bindings from './Bindings'
 import Text from './Text'
 import Events from './Events'
 import Context from './Context'
@@ -15,7 +15,7 @@ export {
   Layout,
   Options,
   Source,
-  Bindings,
+//  Bindings,
   Text,
   Events,
   Domain,

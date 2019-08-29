@@ -109,7 +109,7 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: Mutate.DynamicComponents,
+      dataChanged: Mutate.Components,
       $box: previewOf(BoxExample, BoxCode),
       $button: previewOf(ButtonExample, ButtonCode),
       $content: previewOf(ContentExample, ContentCode),

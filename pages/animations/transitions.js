@@ -383,17 +383,17 @@ const Animation = {
 
 const Effects = {
   Log: function (domain, target, key) {
-    domain.watch(e => {
+    domain.$watch(e => {
       console.log(key, e)
     }, target)
   },
   Show: function (data, target, key, name='fade') {
 
-    data.watch((e) => e.name == 'init', target, (e) => {
+    data.$watch((e) => e.name == 'init', target, (e) => {
       return show()
     })
 
-    data.watch(e => e.name == show.cancel, target, () => {
+    data.$watch(e => e.name == show.cancel, target, () => {
       console.log('cancel show', target)
       target.opt('classes', {[name+'-enter-active']: false})
     })
@@ -414,11 +414,11 @@ const Effects = {
   },
   Hide: function (data, target, key, name='fade') {
 
-    data.watch((e) => e.name == 'destroy', target, (e) => {
+    data.$watch((e) => e.name == 'destroy', target, (e) => {
       return hide()
     })
 
-    data.watch(e => e.name == hide.cancel, target, () => {
+    data.$watch(e => e.name == hide.cancel, target, () => {
       target.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
     })
 
@@ -443,11 +443,11 @@ const Effects = {
   },
   FLIP: function (data, target, key, name='list') {
 
-    data.watch(e => e.name == 'changed', target, (e) => {
+    data.$watch(e => e.name == 'changed', target, (e) => {
       flip()
     })
 
-    data.watch(e => e.name == flip.cancel, target, (e) => {
+    data.$watch(e => e.name == flip.cancel, target, (e) => {
 //      clear()
     })
 
@@ -1019,11 +1019,11 @@ export default () => {
           use: {
             data: [Effects.Log, function (domain, target, key) {
 
-              domain.watch(e => e.name == 'destroy', target, () => {
+              domain.$watch(e => e.name == 'destroy', target, () => {
                 return hide()
               })
 
-              domain.watch(e => e.name == 'init', target, () => {
+              domain.$watch(e => e.name == 'init', target, () => {
                 console.log('init', target)
                 return show()
               })

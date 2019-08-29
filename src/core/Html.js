@@ -134,6 +134,7 @@ class Html{
 
     this.context = context || new Context()
 
+//    this._inner = {}
 
     // 1. Примешиваем опции
 
@@ -248,7 +249,7 @@ class Html{
 
         const source = this.sources[o.key]
         if (!source._observedBy(this)) {
-          source._observe(this, this.changed, o.key)
+          source.$observe(this, this.changed, o.key)
         }
         continue
       }
@@ -357,7 +358,7 @@ class Html{
     if ('render' in o) {
       let render = o.render
       if (typeof render === 'function') {
-        render = render.call(this, this.options)
+        render = render.call(this, o)
       }
       if (!render) {
         return null
@@ -648,7 +649,7 @@ class Html{
         }
       }
     }
-    item.props.key = item.options.key || key// 'item-'+i+'-'+Math.random().toString(16).slice(2)
+    item.props.key = o.key || key// 'item-'+i+'-'+Math.random().toString(16).slice(2)
     item.index = i
     item.parent = this
 
@@ -909,11 +910,11 @@ class Html{
         }
       })
 
-      console.log(prevIds, nextIds)
+//      console.log(prevIds, nextIds)
 
       const reconcileResult = reconcile(prevIds, nextIds)
 
-      console.log('reconcile', reconcileResult)
+//      console.log('reconcile', reconcileResult)
 
       reconcileResult.moves.forEach(move => {
         this.moveItem(move.i, move.to)
@@ -927,11 +928,11 @@ class Html{
         }
       })
 
-      console.log('update items', update)
-      console.log('[reconcile] update items', reconcileResult.updated)
+//      console.log('update items', update)
+//      console.log('[reconcile] update items', reconcileResult.updated)
 
-      console.log('remove items', items)
-      console.log('[reconcile] remove items', reconcileResult.deleted)
+//      console.log('remove items', items)
+//      console.log('[reconcile] remove items', reconcileResult.deleted)
 
 //          items.forEach(item => this.removeItem(item))
       items.forEach(itm => {
@@ -943,15 +944,15 @@ class Html{
         }
       })
 
-      console.log('add items', add)
-      console.log('[reconcile] add items', reconcileResult.added)
+//      console.log('add items', add)
+//      console.log('[reconcile] add items', reconcileResult.added)
 
       Object.keys(add).forEach(k => {
         let entry = add[k]
         this.addItem({sources: {[key]: entry}}, Number(entry.id), k)
       })
 
-      console.log('result items', this.items)
+//      console.log('result items', this.items)
 
 
     }
@@ -1094,7 +1095,7 @@ class Html{
     // решаем, подключаться ли к домену
     if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
-      source._observe(this, this.changed, i/*, o[i+'Effects']*/)
+      source.$observe(this, this.changed, i/*, o[i+'Effects']*/)
 
       if (o.use && o.use[i]) {
         for (let j in o.use[i]) {
@@ -1109,7 +1110,7 @@ class Html{
     }
 
     if (this.sources[i]) {
-      this.sources[i]._unobserve(this)
+      this.sources[i].$unobserve(this)
     }
 
     // else {
@@ -1283,7 +1284,7 @@ class Html{
   destroy () {
 
     for (let i in this.sources) {
-      this.sources[i]._unobserve(this)
+      this.sources[i].$unobserve(this)
 //      this.unbind(i)
     }
 

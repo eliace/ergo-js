@@ -16,7 +16,7 @@ const Bindings = {
 
 
   Items: function(v, key, source) {
-    const o = this.options
+    const o = this._inner.options
     let items = this.children.filter(child => child.index != null)
 //    console.log(items.length, this.children.length)
     let add = {}

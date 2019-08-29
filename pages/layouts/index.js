@@ -3,6 +3,22 @@ import {Layouts, Tabs} from '../../bulma'
 
 import BasicExample from './basic'
 
+import {PreviewAndCode} from '../extensions'
+
+import fs from 'fs'
+
+function previewOf (exampleCreator, code) {
+  return {
+    base: PreviewAndCode,
+    $preview: exampleCreator(),
+    $code: {
+      text: code
+    }
+  }
+}
+
+const BasicCode = fs.readFileSync(__dirname+'/basic.js', 'utf-8')
+
 
 export default () => {
 
@@ -12,7 +28,8 @@ export default () => {
     properties: {
       basic: {
         calc: v => v.selected == 'Basic'
-      }
+      },
+      selected: {}
     }
   })
 
@@ -45,7 +62,7 @@ export default () => {
           }
         },
         dataChanged: function (v, k, d) {
-          this.opt('$tabs', d.entry('tabs').$stream(k))
+          this.opt('tabs', d.entry('tabs').$stream(k))
         }
 //        tabs: ['Basic']
       }
@@ -53,13 +70,9 @@ export default () => {
     $content: {
       components: false,
       pageChanged: function (v, key) {
-        this.opt('$components', key)
+        this.opt('components', key)
       },
-      $basic: BasicExample(),
-      // $textarea: TextareaExample(),
-      // $select: SelectExample(),
-      // $field: FieldExample(),
-      // $checkbox: CheckboxExample(),
+      $basic: previewOf(BasicExample, BasicCode),
     }
   }
 }

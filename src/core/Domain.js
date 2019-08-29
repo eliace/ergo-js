@@ -15,7 +15,7 @@ class Domain extends Source {
 
     if (this.options.watchers) {
       for (let i in this.options.watchers) {
-        this.watch(this.options.watchers[i], this, i)
+        this.$watch(this.options.watchers[i], this, i)
       }
     }
 
@@ -492,7 +492,15 @@ class Domain extends Source {
     return this[name]
   }
 
-  watch (when, target, callback) {
+  watch () {
+    throw new Error('Unsupported method watch')
+  }
+
+  unwatch () {
+    throw new Error('Unsupported method unwatch')
+  }
+
+  $watch (when, target, callback) {
     if (!this._watchers) {
       this._watchers = new Map()
     }
@@ -518,16 +526,16 @@ class Domain extends Source {
     else if (when.constructor == Object) {
       const w = when
       if (w.on) {
-        this.listen(i, target, w.on, w.policy)
+        this.$listen(i, target, w.on, w.policy)
       }
       if (w.done) {
-        this.listen(i+':done', target, w.done)
+        this.$listen(i+':done', target, w.done)
       }
       if (w.fail) {
-        this.listen(i+':fail', target, w.fail)
+        this.$listen(i+':fail', target, w.fail)
       }
       if (w.cancel) {
-        this.listen(i+':cancel', target, w.cancel)
+        this.$listen(i+':cancel', target, w.cancel)
       }
       watcher.when = w.when
     }
@@ -535,13 +543,13 @@ class Domain extends Source {
     watchers.push(watcher)
   }
 
-  unwatch (target) {
+  $unwatch (target) {
     if (this._watchers) {
       this._watchers.delete(target)
     }
   }
 
-  purge (target) {
+  $purge (target) {
     if (this._deferred) {
       this._deferred = this._deferred.filter(eff => eff.target != target)
     }
@@ -554,8 +562,8 @@ class Domain extends Source {
     super.unjoin(target)
     this.off(target)
 //    this.uncomp(target)
-    this.unwatch(target)
-    this.purge(target)
+    this.$unwatch(target)
+    this.$purge(target)
   }
 
   entry(k) {
