@@ -1,8 +1,49 @@
-import {Html, Domain, Layout} from '../../src'
+import {Html, Domain, Layout, Events} from '../../src'
 import {Layouts, Button, Box, Image} from '../../bulma'
 
 
 import imgUrl from '../img/Yosemite 3.jpg'
+
+
+class GModal extends Domain {
+  config () {
+    return {
+      initial: function () {
+        return {
+          modals: []
+        }
+      },
+      properties: {
+        modals: {}
+      },
+      methods: {
+        esc: function () {
+          this.close(this.props.modals.length)
+        },
+        close: function (i) {
+          this.props.modals.splice(i-1, 1)
+        },
+        open: function () {
+          this.props.modals.push({})
+          return this.props.modals.length
+        }
+      }
+    }
+  }
+
+
+  _close (i) {
+    this.get('modals').splice(i-1, 1)
+  }
+}
+
+const modal = new GModal()
+
+Events.on('keyup', (e) => {
+  if (e.key == 'Escape') {
+    modal.esc()
+  }
+})
 
 
 class ModalDomain extends Domain {
@@ -20,6 +61,10 @@ class ModalDomain extends Domain {
         }
       }
     }
+  }
+
+  _close () {
+    this.set('opened', false)
   }
 }
 
@@ -123,6 +168,47 @@ export default () => {
         text: 'Open Modal',
         onClick: function (e, {view}) {
           view.open()
+        }
+      },
+      $modal: {
+        base: Modal,
+        $content: {
+          $image: {
+            base: Image,
+            src: imgUrl
+          }
+        }
+      }
+    }, {
+      //
+      sources: {
+        modal,
+        view: new ModalDomain({}, {
+          properties: {
+            modal: (v) => !!v.opened,
+            opened: {}
+          }
+        })
+      },
+      allBound: function ({modal, view}) {
+        modal.$watch(modal.close.on, this, () => {
+          view._close()
+        })
+        view.$watch(view.close.on, this, () => {
+          modal._close(view.get('opened'))
+        })
+      },
+      components: {
+        modal: false
+      },
+      viewChanged: function (v, k, d) {
+        this.opt('components', d.$stream())
+      },
+      $button: {
+        base: Button,
+        text: 'Open Modal',
+        onClick: function (e, {view, modal}) {
+          view.set('opened', modal.open())
         }
       },
       $modal: {

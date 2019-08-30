@@ -25,6 +25,12 @@ class Domain extends Source {
       }
     }
 
+    if (this.options.events) {
+      for (let i in this.options.events) {
+        this.$event(i, this)
+      }
+    }
+
   }
 
 

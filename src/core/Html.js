@@ -504,6 +504,7 @@ class Html{
 //     }
 
     if (oldValue == value) {
+      console.warn('Ignore option ['+name+']', value)
       continue
 //      return this
     }
@@ -979,10 +980,14 @@ class Html{
     }
 
     if (value instanceof Source) {
+      value = value.$stream()
+    }
+
+    if (value instanceof Source.Stream) {
       // const data = value.get()
       // if (data) {
       //   for (let i in data) {
-      value.$stream().entries((entry, i, s) => {
+      value.entries((entry, i, s) => {
 //                console.log(i, s)
         if (o['$'+i]) {
 //                  const s = data[i]
