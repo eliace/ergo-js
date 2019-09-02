@@ -82,6 +82,10 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
 
 export const defaultFactory = (item, defaultType, context) => {
 
+  // if (item.as && item.base) {
+  //   console.log(item)
+  // }
+
   var ItemClass = null
 
 //   if (typeof item === 'function') {

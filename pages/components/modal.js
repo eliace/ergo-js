@@ -9,6 +9,11 @@ class GModal extends Domain {
   config () {
     return {
       initial: function () {
+        Events.on('keyup', (e) => {
+          if (e.key == 'Escape') {
+            this.esc()
+          }
+        })
         return {
           modals: []
         }
@@ -18,14 +23,35 @@ class GModal extends Domain {
       },
       methods: {
         esc: function () {
-          this.close(this.props.modals.length)
+          const modals = this.entry('modals')
+          if (!modals.$isEmpty()) {
+            modals.entry(modals.$size()-1).close()
+          }
+        },
+        open: function (o) {
+          debugger
+          this.entry('modals').$add(o)
         },
         close: function (i) {
-          this.props.modals.splice(i-1, 1)
-        },
-        open: function () {
-          this.props.modals.push({})
-          return this.props.modals.length
+          debugger
+          this.entry('modals').$remove(i)
+        }
+        // close: function (i) {
+        //   this.props.modals.splice(i-1, 1)
+        // },
+        // open: function (o) {
+        //   const modals = this.entry('modals')
+        //   modals.$add(o)
+        //   // this.props.modals.push({})
+        //   // return this.props.modals.length
+        // }
+      },
+      watchers: {
+        visibility: {
+          when: (e) => e.name == 'changed',// && e.ids && e.ids['modals'],
+          on: function () {
+            console.log('modal visibility changed')
+          }
         }
       }
     }
@@ -39,11 +65,11 @@ class GModal extends Domain {
 
 const modal = new GModal()
 
-Events.on('keyup', (e) => {
-  if (e.key == 'Escape') {
-    modal.esc()
-  }
-})
+// Events.on('keyup', (e) => {
+//   if (e.key == 'Escape') {
+//     modal.esc()
+//   }
+// })
 
 
 class ModalDomain extends Domain {
@@ -74,7 +100,7 @@ class Modal extends Html {
     return {
       sources: {
         view: function (o, k) {
-          return o.sources[k] || new ModalDomain()
+          return (o.sources[k] && o.sources[k] instanceof Domain) || new ModalDomain()
         }
       },
       viewChanged: function (v) {
@@ -121,6 +147,31 @@ class Article extends Html {
 }
 
 
+class ImageModal extends Modal {
+  config () {
+    return {
+      $content: {
+        $image: {
+          base: Image,
+          src: imgUrl
+        }
+      }
+    }
+  }
+}
+
+class BoxModal extends Modal {
+  config () {
+    return {
+      $content: {
+        base: Box,
+        text: 'Hello'
+      }
+    }
+  }
+}
+
+
 
 export default () => {
   return {
@@ -129,9 +180,7 @@ export default () => {
       sources: {
         view: new ModalDomain({}, {
           properties: {
-            modal: {
-              calc: (v) => v.opened
-            }
+            modal: (v) => v.opened
           }
         })
       },
@@ -139,7 +188,7 @@ export default () => {
         modal: false
       },
       viewChanged: function (v, k) {
-        this.opt('$components', k)
+        this.opt('components!', k)
       },
       $button: {
         base: Button,
@@ -149,15 +198,7 @@ export default () => {
         }
       },
       $modal: {
-        base: Modal,
-        $content: {
-          $box: {
-            base: Box,
-            $article: {
-              base: Article
-            }
-          }
-        }
+        base: BoxModal
       }
     }, {
       sources: {
@@ -171,54 +212,74 @@ export default () => {
         }
       },
       $modal: {
-        base: Modal,
-        $content: {
-          $image: {
-            base: Image,
-            src: imgUrl
-          }
+        base: ImageModal
+      }
+    }, {
+      // встраивание в сторонний контейнер
+      sources: {
+        modal: new GModal()
+      },
+      $button: {
+        base: Button,
+        text: 'Open Modal',
+        onClick: function (e, {modal}) {
+          modal.open({
+            base: ImageModal,
+            $content: {
+              $button: {
+                base: Button,
+                text: 'Open next',
+                onClick: function (e, {modal}) {
+                  modal.open({
+                    base: BoxModal
+                  })
+                }
+              }
+            }
+          })
+        }
+      },
+      $standaloneModalContainer: {
+        modalChanged: function (v, k, d) {
+          this.opt('$items', d.entry('modals').get())
+        },
+        defaultItem: {
+          allJoined: function ({view, modal}) {
+            view.$on(view.close, () => {
+              modal.close(this.index)
+            }, this)
+            view.open()
+          },
+          base: Modal
         }
       }
     }, {
-      //
+      // подключение локального модала к общему домену
       sources: {
-        modal,
+        modal: new GModal(),
         view: new ModalDomain({}, {
           properties: {
-            modal: (v) => !!v.opened,
-            opened: {}
+            modal: (v) => !!v.opened
           }
         })
       },
-      allBound: function ({modal, view}) {
-        modal.$watch(modal.close.on, this, () => {
-          view._close()
+      allJoined: function ({modal, view}) {
+        modal.$watch('init', this, () => {
+          modal.open(view)
         })
-        view.$watch(view.close.on, this, () => {
-          modal._close(view.get('opened'))
+        modal.$watch('destroy', this, () => {
+          modal.close(view)
         })
-      },
-      components: {
-        modal: false
-      },
-      viewChanged: function (v, k, d) {
-        this.opt('components', d.$stream())
       },
       $button: {
         base: Button,
         text: 'Open Modal',
         onClick: function (e, {view, modal}) {
-          view.set('opened', modal.open())
+          view.open()
         }
       },
       $modal: {
-        base: Modal,
-        $content: {
-          $image: {
-            base: Image,
-            src: imgUrl
-          }
-        }
+        base: ImageModal
       }
     }]
   }

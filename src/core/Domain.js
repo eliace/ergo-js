@@ -471,6 +471,14 @@ class Domain extends Source {
     }
   }
 
+
+  $on (name, callback, target) {
+    if (typeof name === 'function') {
+      name = name.on.substr(1) // FIXME
+    }
+    this.$listen(name, target, callback)
+  }
+
   $listen (name, target, callback, policy) {
     if (!this._listeners) {
       this._listeners = new Map()

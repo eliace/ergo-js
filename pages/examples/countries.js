@@ -29,7 +29,7 @@ export default () => {
         data.loadCountries()
       })
 
-//      if (data.isEmpty()) {
+//      if (data.$isEmpty()) {
 //      }
     },
     // dataChanged: function(v, key) {

@@ -770,7 +770,7 @@ export default () => {
         }, {
           methods: {
             _randomIndex: function () {
-              return Math.floor(Math.random() * this.entry('items').size())
+              return Math.floor(Math.random() * this.entry('items').$size())
             },
             _add: function () {
               const v = this.get()
@@ -891,7 +891,7 @@ export default () => {
         }, {
           methods: {
             _randomIndex: function () {
-              return Math.floor(Math.random() * this.entry('items').size())
+              return Math.floor(Math.random() * this.entry('items').$size())
             },
             _add: function () {
               const v = this.get()

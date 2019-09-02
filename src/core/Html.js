@@ -55,6 +55,7 @@ const ComponentOptions = {
   defaultComponent: true,
   allBound: true,
   anyChanged: true,
+  allJoined: true,
   use: true
 
 }
@@ -187,14 +188,14 @@ class Html{
     //        console.log('local', i)
         this.bind(opts.sources[i], i)
       }
-      if (opts.allBound) {
+      if (opts.allBound || opts.allJoined) {
         for (let i in this.sources) {
           if (this.sources[i]._key) {
             console.error('Simultaneous source joints', i, this.sources[i])
           }
           this.sources[i]._key = i
         }
-        opts.allBound.call(this, this.sources)
+        (opts.allBound || opts.allJoined).call(this, this.sources)
         for (let i in this.sources) {
           delete this.sources[i]._key
         }
@@ -512,7 +513,7 @@ class Html{
 
 //    console.log('opt', name, v)
 
-    if (name[0] != '$') {
+    if (name[0] != '$' && name[name.length-1] != '!') {
       // FIXME заменить нормальным слиянием
       if (value && value.constructor === Object) {
         if (o[name] != null) {
@@ -528,8 +529,11 @@ class Html{
         o[name] = value
       }
     }
-    else {
+    else if (name[0] == '$') {
       name = name.substr(1)
+    }
+    else {
+      name = name.substr(0, name.length-1)
     }
 
     if (o.options && o.options[name]) {
@@ -1028,6 +1032,11 @@ class Html{
           this.addComponent(i, component)
         }
       }
+      this.components.forEach(c => {
+        if (!(c.props.key in value)) {
+          this.removeComponent(c)
+        }
+      })
     }
   }
 
@@ -1098,7 +1107,7 @@ class Html{
 
 
     // решаем, подключаться ли к домену
-    if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o[i+'Changed'] || o[i+'Bound']) {
+    if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.$observe(this, this.changed, i/*, o[i+'Effects']*/)
 

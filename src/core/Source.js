@@ -597,6 +597,18 @@ class Source {
       arr = this.src[this.id]
     }
 
+    if (v instanceof Source) {
+      if (v.src instanceof Source) {
+        console.warn('Changing parent of source', v)
+      }
+      const _v = v.get()
+      this.entries[arr.length] = v
+      v.src = this
+      v.id = arr.length
+      v.isNested = true
+      v = _v
+    }
+
     arr.push(v)
 
     //TODO удалить все entries
@@ -708,7 +720,7 @@ class Source {
   }
 
 
-  size () {
+  $size () {
     const v = this.get()
     if (Array.isArray(v)) {
       return v.length
@@ -718,7 +730,7 @@ class Source {
     }
   }
 
-  isEmpty(...args) {
+  $isEmpty(...args) {
     const v = this.get.apply(this, args)
     if (v) {
       if (Array.isArray(v)) {
