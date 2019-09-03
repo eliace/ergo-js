@@ -128,7 +128,7 @@ class Source {
     }
     else {
       if (this._properties && this._properties[k]) {
-        return this.entry(k).get()
+        return this.$entry(k).get()
       }
 
       v = this.get()
@@ -247,14 +247,19 @@ class Source {
 //          this.update()
 //        }
         // delete this.cache
-        // this.entry(k).update()
+        // this.$entry(k).update()
       }
     }
 
     return this
   }
 
-  toggle(k) {
+
+  // toggle () {
+  //   throw new Error('Method toggle not supported')
+  // }
+
+  $toggle(k) {
     if (arguments.length == 0) {
       if (this.id == null) {
         this.src = !this.src
@@ -282,7 +287,7 @@ class Source {
     }
     else {
       if (this.entries[k]) {
-        this.entries[k].toggle()
+        this.entries[k].$toggle()
       }
       else {
         if (this.id == null) {
@@ -410,7 +415,12 @@ class Source {
     }
   }
 
-  entry(k) {
+
+  entry () {
+    throw new Error('Method entry not supported')
+  }
+
+  $entry(k) {
     let e = this.entries[k]
     if (e == null) {
       if (this._properties && this._properties[k]) {
@@ -540,12 +550,12 @@ class Source {
 
     if (Array.isArray(v)) {
       for (let i = 0; i < v.length; i++) {
-        callback.call(this, this.entry(i), i, v)
+        callback.call(this, this.$entry(i), i, v)
       }
     }
     else {
       for (let k in v) {
-        callback.call(this, this.entry(k), k, v)
+        callback.call(this, this.$entry(k), k, v)
       }
     }
   }
@@ -614,7 +624,7 @@ class Source {
     //TODO удалить все entries
     this._update(null, 'add') // ?
 
-    return this.entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
+    return this.$entry(arr.length-1) // недеемся, что при апдейте ничего добавилось :)
   }
 
   $insert (i, v) {
@@ -643,7 +653,7 @@ class Source {
 
     this._update(null, 'insert') // ?
 
-    return this.entry(i)
+    return this.$entry(i)
   }
 
 

@@ -510,7 +510,7 @@ export default (projector) => {
             }]
 
 
-            this.sources.modal.entry('notifications')
+            this.sources.modal.$entry('notifications')
               .add({text: LOREM_IPSUM + new Date().getTime()})
               .then(openNotif)
               .and()

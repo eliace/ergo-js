@@ -23,18 +23,16 @@ class GModal extends Domain {
       },
       methods: {
         esc: function () {
-          const modals = this.entry('modals')
+          const modals = this.$entry('modals')
           if (!modals.$isEmpty()) {
-            modals.entry(modals.$size()-1).close()
+            modals.$entry(modals.$size()-1).close()
           }
         },
         open: function (o) {
-          debugger
-          this.entry('modals').$add(o)
+          this.$entry('modals').$add(o)
         },
         close: function (i) {
-          debugger
-          this.entry('modals').$remove(i)
+          this.$entry('modals').$remove(i)
         }
         // close: function (i) {
         //   this.props.modals.splice(i-1, 1)
@@ -241,7 +239,7 @@ export default () => {
       },
       $standaloneModalContainer: {
         modalChanged: function (v, k, d) {
-          this.opt('$items', d.entry('modals').get())
+          this.opt('$items', d.$entry('modals').get())
         },
         defaultItem: {
           allJoined: function ({view, modal}) {

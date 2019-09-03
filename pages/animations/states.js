@@ -153,12 +153,12 @@ export default () => {
                 var sidesDifference = newSides - oldSides
                 if (sidesDifference > 0) {
                 	for (var i = 1; i <= sidesDifference; i++) {
-                  	this.entry('stats').$add(this.newRandomValue())
+                  	this.$entry('stats').$add(this.newRandomValue())
                   }
                 } else {
                   var absoluteSidesDifference = Math.abs(sidesDifference)
                 	for (var i = 1; i <= absoluteSidesDifference; i++) {
-                    this.entry('stats').$remove(0)
+                    this.$entry('stats').$remove(0)
                   }
                 }
               },

@@ -1,4 +1,4 @@
-import {Html, Source} from '../../src'
+import {Html, Source, Domain} from '../../src'
 import {Layouts, Box, IconBox, Button} from '../../bulma'
 
 import {ButtonWithIcon} from '../extensions'
@@ -33,13 +33,10 @@ class Dropdown extends Html {
 class DropdownBox extends Html {
   config () {
     return {
-      sources: {
-        dropdown: false
-      },
       as: 'dropdown',
-      components: {
-        dropdown: false
-      },
+//       components: {
+// //        dropdown: false
+//       },
       $content: {
         tabIndex: -1,
         as: 'dropdown-trigger',
@@ -76,7 +73,10 @@ class DropdownBox extends Html {
         width: '100%',
         $content: {
           base: Dropdown
-        }
+        },
+        onMouseDown: function (e) {
+          e.nativeEvent.stopImmediatePropagation()
+        },
       }
     }
   }
@@ -104,54 +104,102 @@ export default () => {
     },
     layout: Layouts.Rows,
     items: [{
+      sources: {
+        view: function () {
+          return new Domain({
+            dropdown: false
+          })
+        }
+      },
       base: DropdownBox,
       as: 'dropdown-select',
-//      text: 'Select me',
-//      active: true,
       width: 400,
-//      dynamic: true,
-      selectionChanged: function (v) {
-        this.$content.opt('text', v)
-        this.$content.$content.opt('$components', {placeholder: !v})
-//        this.$content.$content.$placeholder.opt('render', !v)
-      },
-      dropdownChanged: function (v, k) {
-        const _key = 'select1'
-        this.opt('$components', {dropdown: v == _key})
-        this.opt('active', v == _key)
+      viewChanged: function (v, k, view) {
+        // зависит только от props.dropdown
+        this.opt('active', !!v.dropdown)
+        this.opt('components', {dropdown: v.dropdown})
+        // зависит только от props.value
+        this.$content.$content.opt('text', v.value)
+        this.$content.$content.opt('components', {placeholder: !v.value})
       },
       $content: {
-        onClick: function (e, {dropdown}) {
-          const _key = 'select1'
-          const v = dropdown.get()
-          if (v != _key) {
-            dropdown.set(_key)
-          }
-          else {
-            dropdown.set(false)
-          }
-//          this.sources.dropdown.toggle()
-          e.stopImmediatePropagation()
+        onClick: function (e, {dropdown, view}) {
+          view.$toggle('dropdown')
+          e.nativeEvent.stopImmediatePropagation()
         }
       },
       $dropdown: {
-        onMouseDown: function (e) {
-          e.stopImmediatePropagation()
-        },
         $content: {
           as: 'is-hovered',
-//          items: ['Alice', 'Bob', 'Charlie'],
-//          dynamic: true,
           dataChanged: function (v, k) {
             this.opt('$items', k)
           },
           defaultItem: {
-            onClick: function (e, {selection, dropdown}) {
-              selection.set(this.options.key)
-              dropdown.set(false)
-//              e.stopImmediatePropagation()
+            onClick: function (e, {view}) {
+              view.set('value', this.options.key)
+              view.set('dropdown', false)
             },
-            selectionChanged: function (v) {
+            viewChanged: function (v) {
+              this.opt('classes', {'is-active': v.value == this.options.key})
+            },
+            dataChanged: function (v) {
+              this.opt('text', v.name)
+              this.opt('key', v.name)
+            }
+          }
+        }
+      }
+    }, {
+      sources: {
+        value: function () {
+          return new Domain(null)
+        },
+        view: function () {
+          return new Domain({})
+        },
+        dropdown: function () {
+          return new Domain(false)
+        }
+      },
+      base: DropdownBox,
+      as: 'dropdown-select',
+      width: 400,
+      allJoined: function ({view, dropdown, value}) {
+        view.$method('toggle', this, () => {
+          dropdown.$toggle()
+        })
+        view.$method('select', this, (k) => {
+          value.set(k)
+          dropdown.set(false)
+        })
+      },
+      valueChanged: function (v) {
+        this.$content.$content.opt('text', v)
+        this.$content.$content.opt('components', {placeholder: !v})
+      },
+      dropdownChanged: function (v) {
+        this.opt('active', !!v)
+        this.opt('components', {dropdown: !!v})
+      },
+      $content: {
+        onClick: function (e, {view}) {
+          view.toggle()
+          e.nativeEvent.stopImmediatePropagation()
+        }
+      },
+      $dropdown: {
+        $content: {
+          as: 'is-hovered',
+          dataChanged: function (v, k) {
+            this.opt('$items', k)
+          },
+          defaultItem: {
+            onClick: function (e, {view}) {
+              view.select(this.options.key)
+              // value.set(this.options.key)
+              // dropdown.set(false)
+            },
+            valueChanged: function (v) {
               this.opt('classes', {'is-active': v == this.options.key})
             },
             dataChanged: function (v) {

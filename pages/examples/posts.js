@@ -194,7 +194,7 @@ export default () => {
 //                       }
 //                     },
                 onClick: function(e) {
-                  this.sources.page.toggle('showComments')
+                  this.sources.page.$toggle('showComments')
 //                      this.sources.state.set('showComments', !this.sources.state.get('showComments'))
                 }
 //                    text: 'Show comments',
@@ -271,7 +271,7 @@ export default () => {
                 })
             }
             if (this.sources.user == null) {
-              this.opt('$sources', {user: users.entry(post.userId)})
+              this.opt('$sources', {user: users.$entry(post.userId)})
               // FIXME здесь должен вызываться метод this.opt({sources: {user: ?}})
               // this.options.sources.user = this.sources.users.entry(post.userId)
               // this.bind(this.options.sources.user, 'user')

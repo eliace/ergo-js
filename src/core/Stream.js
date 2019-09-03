@@ -58,18 +58,18 @@ class Stream {
     if (Array.isArray(value)) {
       // обходим элементы массива в порядке индексов
       for (let i = 0; i < value.length; i++) {
-        callback(this.src.entry(i), i, value[i], (this.idResolver || defaultIdResolver)(value[i]))
+        callback(this.src.$entry(i), i, value[i], (this.idResolver || defaultIdResolver)(value[i]))
       }
     }
     else {
       const allProps = {...value, ...props}
       for (let k in value) {
-        callback(this.src.entry(k), k, value[k])
+        callback(this.src.$entry(k), k, value[k])
       }
       for (let k in props) {
         // TODO возможно, правильнее при коллизии использовать property
         if (!(k in value)) {
-          const entry = this.src.entry(k)
+          const entry = this.src.$entry(k)
           callback(entry, k, entry.get())
         }
       }

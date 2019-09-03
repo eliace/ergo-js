@@ -31,6 +31,12 @@ class Domain extends Source {
       }
     }
 
+    if (this.options.effects) {
+      for (let i in this.options.effects) {
+        this.$effect(this.options.effects[i], i, this)
+      }
+    }
+
   }
 
 
@@ -500,6 +506,10 @@ class Domain extends Source {
     }
   }
 
+  $effect (eff, name, target) {
+    this.$watch(eff, target, name)
+  }
+
   effect (name, target, func, ns) {
     throw new Error('Unsupported method effect')
     this.on({[name]: func}, target, ns)
@@ -580,7 +590,7 @@ class Domain extends Source {
     this.$purge(target)
   }
 
-  entry(k) {
+  $entry(k) {
     let e = this.entries[k]
     if (e == null) {
       if (this._properties && this._properties[k]) {

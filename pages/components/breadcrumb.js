@@ -57,7 +57,7 @@ export default () => {
       base: Breadcrumb,
       $content: {
         dataChanged: function (v, k) {
-          this.opt('$items', this.sources[k].entry('list').$stream(k))
+          this.opt('$items', this.sources[k].$entry('list').$stream(k))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -66,7 +66,7 @@ export default () => {
         },
         $last: {
           dataChanged: function (v, k) {
-            this.opt('text', this.sources[k].entry('current').get())
+            this.opt('text', this.sources[k].$entry('current').get())
           }
         }
       }

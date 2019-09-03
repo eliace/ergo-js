@@ -1024,19 +1024,21 @@ class Html{
     }
     else {
       for (let i in value) {
-        const component = value[i]
-        if (component == this['$'+i]) {
-          // пропускаем
-        }
-        else {
-          this.addComponent(i, component)
+        if (o['$'+i]) {
+          const s = value[i]
+          if (s && !this['$'+i]) {
+            this.addComponent(i, s)
+          }
+          else if (!s && this['$'+i]) {
+            this['$'+i].tryDestroy()
+          }          
         }
       }
-      this.components.forEach(c => {
-        if (!(c.props.key in value)) {
-          this.removeComponent(c)
-        }
-      })
+      // this.components.forEach(c => {
+      //   if () {//}!(c.props.key in value)) {
+      //     this.removeComponent(c)
+      //   }
+      // })
     }
   }
 
@@ -1083,7 +1085,7 @@ class Html{
         if (v instanceof Source) {
           source = v
           for (let j = 0; j < key.length; j++) {
-            source = source.entry(key[j])
+            source = source.$entry(key[j])
           }
         }
         else {
@@ -1091,7 +1093,7 @@ class Html{
         }
       }
       else {
-        source = (v instanceof Source) ? v.entry(key) : new (Config.defaultSource)(v, null, key)
+        source = (v instanceof Source) ? v.$entry(key) : new (Config.defaultSource)(v, null, key)
       }
     }
     else {
@@ -1188,7 +1190,7 @@ class Html{
             if (src._properties && src._properties[binder.prop]) {
               // есть свойство в модели
               const prop = src._properties[binder.prop]
-              propVal = prop.calc ? src.entry(binder.prop).get() : v.data[binder.prop]
+              propVal = prop.calc ? src.$entry(binder.prop).get() : v.data[binder.prop]
             }
             else {
               propVal = binder.prop ? v.data[binder.prop] : v.data

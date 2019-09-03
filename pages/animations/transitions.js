@@ -697,7 +697,7 @@ export default () => {
           base: Button,
           text: 'Press me',
           onClick: function (e, {data}) {
-            data.toggle('p')
+            data.$toggle('p')
           }
         },
         $p: {
@@ -728,7 +728,7 @@ export default () => {
         const x = {}
         const props = this.sources[k]._properties
         for (let i in props) {
-          x[i] = this.sources[k].entry(i).get()
+          x[i] = this.sources[k].$entry(i).get()
         }
         console.log(x)
         this.opt('$components', new Domain(x))
@@ -740,7 +740,7 @@ export default () => {
         base: Button,
         text: 'Переключить отрисовку',
         onClick: function (e, {data}) {
-          data.toggle('show')
+          data.$toggle('show')
           // const showEff = [{effector: 'show'}]
           // const hideEff = [{effector: 'hide'}]
           //
@@ -770,14 +770,14 @@ export default () => {
         }, {
           methods: {
             _randomIndex: function () {
-              return Math.floor(Math.random() * this.entry('items').$size())
+              return Math.floor(Math.random() * this.$entry('items').$size())
             },
             _add: function () {
               const v = this.get()
-              this.entry('items').$insert(this._randomIndex(), v.nextNum++)
+              this.$entry('items').$insert(this._randomIndex(), v.nextNum++)
             },
             _remove: function () {
-              this.entry('items').$remove(this._randomIndex())
+              this.$entry('items').$remove(this._randomIndex())
             }
           }
         })
@@ -891,14 +891,14 @@ export default () => {
         }, {
           methods: {
             _randomIndex: function () {
-              return Math.floor(Math.random() * this.entry('items').$size())
+              return Math.floor(Math.random() * this.$entry('items').$size())
             },
             _add: function () {
               const v = this.get()
-              this.entry('items').$insert(this._randomIndex(), v.nextNum++)
+              this.$entry('items').$insert(this._randomIndex(), v.nextNum++)
             },
             _remove: function () {
-              this.entry('items').$remove(this._randomIndex())
+              this.$entry('items').$remove(this._randomIndex())
             }
           }
         })

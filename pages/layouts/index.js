@@ -62,7 +62,7 @@ export default () => {
           }
         },
         dataChanged: function (v, k, d) {
-          this.opt('tabs', d.entry('tabs').$stream(k))
+          this.opt('tabs', d.$entry('tabs').$stream(k))
         }
 //        tabs: ['Basic']
       }

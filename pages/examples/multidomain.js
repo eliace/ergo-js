@@ -151,7 +151,7 @@ export default () => {
           this.opt('key', v)
         },
         onClick: function (e, {selection}) {
-          selection.toggle(this.opt('key'))
+          selection.$toggle(this.opt('key'))
         },
         selectionChanged: function (v) {
           this.opt('selected', v[this.opt('key')])
