@@ -12,6 +12,8 @@ import Title from './Title'
 import List from './List'
 import IconBox from './IconBox'
 
+export * from './Input'
+
 export {
   Box,
   Button,

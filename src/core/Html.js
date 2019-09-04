@@ -133,9 +133,7 @@ class Html{
 
     this.layout = opts.layout
 
-    this.context = context || new Context()
-
-//    this._inner = {}
+//    this.context = context || new Context()
 
     // 1. Примешиваем опции
 
@@ -163,7 +161,7 @@ class Html{
     opts = preparedOpts.build(ComponentRules)
 
     // прокси-хелпер для опций
-    this.opts = {__target: this, __raw: opts}
+    this.opts = {__target: this}
 
     Object.setPrototypeOf(this.opts, this.classOptsProxy)
 
@@ -174,6 +172,13 @@ class Html{
     }
 
     this.options = opts
+
+    this._internal = {
+      html: this.html,
+      props: this.props,
+      children: this.children,
+      options: this.options
+    }
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
@@ -249,7 +254,7 @@ class Html{
         this._binders[i] = o
 
         const source = this.sources[o.key]
-        if (!source._observedBy(this)) {
+        if (!source.$observedBy(this)) {
           source.$observe(this, this.changed, o.key)
         }
         continue
@@ -1031,7 +1036,7 @@ class Html{
           }
           else if (!s && this['$'+i]) {
             this['$'+i].tryDestroy()
-          }          
+          }
         }
       }
       // this.components.forEach(c => {
@@ -1362,7 +1367,7 @@ class Html{
       for (let i in this.sources) {
         const src = this.sources[i]
         // FIXME определять наличие биндинга нужно другим способом
-        if (src._observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (src.$observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
 //          this._sourcesToUnjoin[i] = src
 //          console.log('destroing...', i)
           src._destroy(this)
@@ -1407,7 +1412,7 @@ class Html{
 
       this._binding_chain = []
       for (let i in this.sources) {
-        if (this.sources[i]._observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (this.sources[i].$observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
           this._binding_chain.push(i)
           this._sourcesToJoin[i] = this.sources[i]
         }

@@ -67,10 +67,10 @@ export default (projector) => {
         levelRight: true,
         defaultTab: {
           dataChanged: function (v) {
-            this.opt('selected', this.options.text == v.selected)
+            this.opt('selected', this.opts.text == v.selected)
           },
           onClick: function () {
-            this.sources.data.set('selected', this.options.text)
+            this.sources.data.set('selected', this.opts.text)
           }
         },
         tabs: [

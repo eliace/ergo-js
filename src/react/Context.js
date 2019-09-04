@@ -46,7 +46,8 @@ Config.HTML_OPTIONS = {
   key: true,
   min: true,
   max: true,
-  ref: true
+  ref: true,
+  defaultValue: true
 }
 
 Config.HTML_EVENTS = {

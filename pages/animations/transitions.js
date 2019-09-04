@@ -1014,7 +1014,7 @@ export default () => {
           //   this.sources.data.emit('enter')
           // },
           dataChanged: function (v) {
-            this.options.text = v && v.msg
+            this.opts.text = v && v.msg
           },
           use: {
             data: [Effects.Log, function (domain, target, key) {

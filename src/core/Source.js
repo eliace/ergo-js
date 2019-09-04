@@ -399,7 +399,7 @@ class Source {
         else if (this._properties) {
           for (let i in this._properties) {
             if (this._properties[i].calc && this.entries[i]) {
-              this.entries[i].$calc(this.get())
+              this.entries[i]._calc(this.get())
             }
           }
         }
@@ -669,6 +669,7 @@ class Source {
 
 
   compute (v) {
+    console.warn('Compute method is deprecated')
     if (this.options && this.options.computed) {
       for (let i in this.options.computed) {
         const computor = this.options.computed[i]
@@ -710,7 +711,7 @@ class Source {
   }
 
 
-  $calc (v) {
+  _calc (v) {
 
     const prevValue = this.cache
     const nextValue = this.options.calc(v)
@@ -855,7 +856,7 @@ class Source {
 
 
 
-  _observedBy (target) {
+  $observedBy (target) {
     for (let i = 0; i < this.observers.length; i++) {
       if (this.observers[i].target == target) {
         return true
