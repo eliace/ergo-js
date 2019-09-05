@@ -5,13 +5,34 @@ import {ButtonWithIcon} from '../extensions'
 import {Mutate} from '../helpers'
 import {COUNTRIES} from '../constants'
 
+
+
+
+class DropdownItem extends Html {
+  config () {
+    return {
+      html: 'a',
+      as: 'dropdown-item'
+    }
+  }
+
+  options () {
+    return {
+      active: {
+        initOrSet: function (v) {
+          this.opt('classes', {'is-active': v})
+        }
+      }
+    }
+  }
+}
+
 class Dropdown extends Html {
   config () {
     return {
       as: 'dropdown-content',
       defaultItem: {
-        html: 'a',
-        as: 'dropdown-item'
+        base: DropdownItem
       }
     }
   }
@@ -70,7 +91,7 @@ class DropdownBox extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       active: {
         initOrSet: function (v) {
@@ -81,6 +102,72 @@ class DropdownBox extends Html {
   }
 
 }
+
+
+class DropdownInput extends Html {
+  config () {
+    return {
+      as: 'dropdown dropdown-input',
+      onMouseDown: function (e) {
+        e.nativeEvent.stopImmediatePropagation()
+      },
+      $content: {
+        as: 'dropdown-trigger',
+        width: '100%',
+        $content: {
+          as: 'control has-icons-right input-box',
+          $input: {
+            base: Input,
+          },
+          $icon: {
+            base: IconBox,
+            as: 'is-small dropdown-icon is-right',
+            icon: 'fas fa-angle-down'
+          },
+          $placeholder: {
+            html: 'span',
+            as: 'placeholder',
+            weight: -10
+          }
+        }
+      },
+      $dropdown: {
+        as: 'dropdown-menu',
+        width: '100%',
+        $content: {
+          base: Dropdown
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+class CountryListDropdown extends Dropdown {
+  config () {
+    return {
+      as: 'is-hovered',
+      dataChanged: Mutate.Items,
+      defaultItem: {
+        onClick: function (e, {view}) {
+          view.select(this.options.key)
+        },
+        valueChanged: function (v) {
+          this.opt('active', v == this.options.key)
+        },
+        dataChanged: function (v) {
+          this.opt('text', v.name)
+          this.opt('key', v.name)
+        }
+      }
+    }
+  }
+}
+
+
 
 
 
@@ -125,11 +212,11 @@ export default () => {
           },
           defaultItem: {
             onClick: function (e, {view}) {
-              view.set('value', this.options.key)
               view.set('dropdown', false)
+              view.set('value', this.options.key)
             },
             viewChanged: function (v) {
-              this.opt('classes', {'is-active': v.value == this.options.key})
+              this.opt('active', v.value == this.options.key)
             },
             dataChanged: function (v) {
               this.opt('text', v.name)
@@ -158,8 +245,8 @@ export default () => {
           dropdown.$toggle()
         })
         view.$method('select', this, (k) => {
-          value.set(k)
           dropdown.set(false)
+          value.set(k)
         })
       },
       valueChanged: function (v) {
@@ -178,188 +265,86 @@ export default () => {
       },
       $dropdown: {
         $content: {
-          as: 'is-hovered',
-          dataChanged: function (v, k) {
-            this.opt('$items', k)
-          },
-          defaultItem: {
-            onClick: function (e, {view}) {
-              view.select(this.options.key)
-              // value.set(this.options.key)
-              // dropdown.set(false)
-            },
-            valueChanged: function (v) {
-              this.opt('classes', {'is-active': v == this.options.key})
-            },
-            dataChanged: function (v) {
-              this.opt('text', v.name)
-              this.opt('key', v.name)
-            }
-          }
+          base: CountryListDropdown
         }
       }
     }, {
       sources: {
         value: () => new Domain('Algeria'),
-        view: () => new Domain({}),
-        dropdown: () => new Domain(false)
+        view: (o, ctx) => new Domain({list: [], filter: ''}, {
+          properties: {
+            filter: {},
+            list: {},
+            filteredList: (v) => {
+              return v.list.filter(country => country.name.toLowerCase().startsWith(v.filter.toLowerCase()))
+            },
+            placeholder: ({filter}, props) => {
+              const filteredList = props.filteredList
+              if (filter) {
+                return filteredList.length > 0 ? filter+filteredList[0].name.substr(filter.length) : filter
+              }
+              else {
+                return 'Search...'
+              }
+            }
+          }
+        }),
+//        dropdown: () => new Domain(false)
       },
       allJoined: function ({view, dropdown, value, data}) {
-        view.$method('focus', this, () => {
-          dropdown.set(true)
-        })
+        // view.$method('focus', this, () => {
+        //   dropdown.set(true)
+        // })
         view.$method('select', this, (k) => {
           dropdown.set(false)
           value.set(k)
         })
-        view.$prop('placeholder', null, (v) => {
-          let placeholder = 'Search...'
-          if (v.value) {
-//            const list = view.get('list')
-            const list = v.data
-              .filter(country => country.name.toLowerCase().startsWith(v.value.toLowerCase()))
-              .sort()
-            return list.length > 0 ? v.value+list[0].name.substr(v.value.length) : v.value
-          }
-          else {
-            return 'Search...'
-          }
-        })
-        view.$prop('list', null, (v) => {
-          let list = v.data
-          if (v.value) {
-            list = list
-              .filter(country => country.name.toLowerCase().startsWith(v.value.toLowerCase()))
-              .sort()
-          }
-          return list
+        view.$method('filter', this, (v) => {
+          dropdown.set(true)
+          view.set('filter', v)
         })
         value.$watch(e => e.name == 'changed', this, (e) => {
-//           const v = e.data
-//           let list = data.get()
-// //          let placeholder = 'Search...'
-//           if (v) {
-//             list = list
-//               .filter(country => country.name.toLowerCase().startsWith(v.toLowerCase()))
-//               .sort()
-//
-// //            placeholder = list.length > 0 ? v+list[0].name.substr(v.length) : v
-//           }
-//           view.set('list', list)
-          view.set('value', e.data)
-//          view.set('placeholder', placeholder)
+          view.set('filter', e.data)
         })
         data.$watch(e => e.name == 'changed', this, (e) => {
-          view.set('data', e.data)
+          view.set('list', e.data)
         })
-        // view.set('data', data.get())
-        // view.set('value', value.get())
+        dropdown.$watch(e => e.name == 'changed', this, (e) => {
+          if (!e.data) {
+            view.set('filter', value.get())
+          }
+        })
       },
-//      base: DropdownBox,
-      as: 'dropdown dropdown-input',
+      base: DropdownInput,
       width: 400,
-//      components: true,
-//      active: true,
-      onMouseDown: function (e) {
-        e.nativeEvent.stopImmediatePropagation()
-      },
       dropdownChanged: function (v, k) {
-//        const _key = 'select2'
-        // this.opt('$components', {dropdown: v == this._key})
-        // this.opt('classes', {'is-active': v == this._key})
-//        this.opt('active', !!v)
         this.opt('components', {dropdown: !!v})
         this.opt('classes', {'is-active': !!v})
       },
-      // _inputFocus: function () {
-      //   if (!this._key) {
-      //     this._key = 'select2'
-      //   }
-      //   this.sources.dropdown.set(this._key)
-      //   return false
-      // },
       $content: {
-        as: 'dropdown-trigger',
-        width: '100%',
         $content: {
-          as: 'control has-icons-right input-box',
           viewChanged: function (v, k, d) {
+            // this.$placeholder.opts.text = vm.props.placeholder
+            // this.$input.opts.value = vm.props.filter
             this.$placeholder.opt('text', d.get('placeholder'))
-          },
-          valueChanged: function (v) {
-            this.$input.opt('value', v)
-
-//             if (v) {
-//               const names = this.sources.data.get()
-//                 .map(country => country.name)
-//                 .filter(name => name.toLowerCase().startsWith(v.toLowerCase()))
-// //                .sort()
-//
-//               if (names.length > 0) {
-//                 this.$placeholder.opt('text', v+names[0].substr(v.length))
-//               }
-//               else {
-//                 this.$placeholder.opt('text', v)
-//               }
-//             }
-//             else {
-//               this.$placeholder.opt('text', 'Search...')
-//             }
-
+            this.$input.opt('value', d.get('filter'))
           },
           $input: {
-            base: Input,
-            onFocus: function (e, {view}) {
-              view.focus()
-//              this.rise('_inputFocus')
-            },
-            onChange: function (e, {value}) {
-              value.set(e.target.value)
-//              this.sources.selection.set(e.target.value)
+            // onFocus: function (e, {view}) {
+            //   view.focus()
+            // },
+            onChange: function (e, {view}) {
+              view.filter(e.target.value)
             }
-          },
-          $icon: {
-            base: IconBox,
-            as: 'is-small dropdown-icon is-right',
-            icon: 'fas fa-angle-down'
-          },
-          $placeholder: {
-            html: 'span',
-            as: 'placeholder',
-//            text: 'Filter me...',
-            weight: -10
           }
         }
       },
       $dropdown: {
-        as: 'dropdown-menu',
-        width: '100%',
         $content: {
           sources: {
-            data: function (o) {
-              return o.sources.view.$entry('list')
-            }
+            data: (o, ctx) => ctx.view.$entry('filteredList')
           },
-          base: Dropdown,
-          as: 'is-hovered',
-//          items: ['Alice', 'Bob', 'Charlie'],
-//          dynamic: true,
-          dataChanged: Mutate.Items,
-          defaultItem: {
-            onClick: function (e, {view}) {
-              view.select(this.options.key)
-//              this.sources.selection.set(this.options.key)
-//              this.sources.dropdown.set(false)
-//              e.stopImmediatePropagation()
-            },
-            _valueChanged: function (v) {
-              this.opt('classes', {'is-active': v == this.options.key})
-            },
-            dataChanged: function (v) {
-              this.opt('text', v.name)
-              this.opt('key', v.name)
-            }
-          }
+          base: CountryListDropdown
         }
       }
     }/*, {

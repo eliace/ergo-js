@@ -20,7 +20,7 @@ describe ('Source', () => {
 
     const entriesBefore = []
 
-    data.entry('filteredList').$stream().entries((entry) => {
+    data.$entry('filteredList').$stream().entries((entry) => {
       entriesBefore.push(entry)
     })
 
@@ -28,7 +28,7 @@ describe ('Source', () => {
 
     const entriesAfter = []
 
-    data.entry('filteredList').$stream().entries((entry) => {
+    data.$entry('filteredList').$stream().entries((entry) => {
       entriesAfter.push(entry)
     })
 

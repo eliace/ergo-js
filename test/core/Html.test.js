@@ -76,4 +76,63 @@ describe ('Html', () => {
 
   })
 
+  it ('Should join sources from context', () => {
+
+    const html = new Html({
+      sources: {
+        alice: 'Alice',
+        bob: 'Bob'
+      },
+      $comp1: {
+        allJoined: () => {} // указываем неявно необходимость связывания
+      },
+      items: [{
+        allJoined: () => {}
+      }]
+    })
+
+    expect(html.$comp1.sources.alice.get()).to.equal('Alice')
+    expect(html.$comp1.sources.bob.get()).to.equal('Bob')
+    expect(html.items[0].sources.alice.get()).to.equal('Alice')
+    expect(html.items[0].sources.bob.get()).to.equal('Bob')
+
+  })
+
+  it ('Should use options() config method', () => {
+
+    class ClassA extends Html {
+      options () {
+        return {
+          a: {
+            init: function (v) {
+              this._a = v+1
+            }
+          }
+        }
+      }
+    }
+
+    class ClassB extends ClassA {
+      options () {
+        return {
+          b: {
+            init: function (v) {
+              this._b = v-1
+            }
+          }
+        }
+      }
+    }
+
+    const html = new ClassB({
+      a: 10,
+      b: 10
+    })
+
+    expect(html.options.a).to.be.equal(10)
+    expect(html.options.b).to.be.equal(10)
+    expect(html._a).to.be.equal(11)
+    expect(html._b).to.be.equal(9)
+  })
+
 })

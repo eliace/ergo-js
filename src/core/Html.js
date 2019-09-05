@@ -76,7 +76,7 @@ function initClassOpts (proto) {
     //   console.log('defaults', cls, cls.config())
     // }
     chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.config && cls.config()))
-    opts.push(cls.configOptions && cls.configOptions())
+    opts.push((cls.options && cls.options()) || (cls.configOptions && cls.configOptions()))
     cls = Object.getPrototypeOf(cls)
   }
 
@@ -133,6 +133,7 @@ class Html{
 
     this.layout = opts.layout
 
+    this.context = context || {}
 //    this.context = context || new Context()
 
     // 1. Примешиваем опции
@@ -188,10 +189,12 @@ class Html{
 
     this.sources = {}
 
-    if (opts.sources) {
-      for (let i in opts.sources) {
+    const sources = {...this.context, ...opts.sources}
+
+    if (sources) {
+      for (let i in sources) {
     //        console.log('local', i)
-        this.bind(opts.sources[i], i)
+        this.bind(sources[i], i)
       }
       if (opts.allBound || opts.allJoined) {
         for (let i in this.sources) {
@@ -379,17 +382,18 @@ class Html{
     // }
 
     if (this.children.length || this.layout) {
+      let layout = this.layout
       if (this.layout == null || this.layout === true) {
-        this.layout = Layout.sorted // TODO ?
+        layout = Layout.sorted // или брать из Config?
       }
       if (this.text) {
         if (this._dirty || !this.vnode) {
-          this.vnode = this.layout(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+          this.vnode = layout(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
         }
       }
       else {
         if (this._dirty || !this.vnode) {
-          this.vnode = this.layout(this.html, deepClone(this.props), [...this.children])
+          this.vnode = layout(this.html, deepClone(this.props), [...this.children])
         }
       }
     }
@@ -629,15 +633,15 @@ class Html{
 //       dataOpts = {...dataOpts, state: this.state}
 // //      console.log(i, dataOpts)
 //     }
-    const dataOpts = {sources: this.sources}
-    let itemOpts = new Options(dataOpts, o.defaultItem, value).build(ComponentRules)
+//    const dataOpts = {sources: this.sources}
+    let itemOpts = new Options(/*dataOpts,*/ o.defaultItem, value).build(ComponentRules)
 //    console.log('addItem', o, itemOpts)
 
     if (!itemOpts) {
       return
     }
 
-    const item = defaultFactory(itemOpts, (typeof itemOpts === 'string') ? Text : Html, this.context)
+    const item = defaultFactory(itemOpts, (typeof itemOpts === 'string') ? Text : Html, this.sources)
     this.children.push(item)
     if (i == null) {
       i = 0
@@ -706,7 +710,7 @@ class Html{
   // //      console.log(i, dataOpts)
   //     }
   //    const dynamicComponent = this.options.dynamicComponents && this.options.dynamicComponents[i]
-      let compOpts = new Options({sources: this.sources}, o.defaultComponent, o['$'+i], value).build(ComponentRules)
+      let compOpts = new Options(/*{sources: this.sources},*/ o.defaultComponent, o['$'+i], value).build(ComponentRules)
 
       if (!compOpts) {
         return
@@ -714,13 +718,13 @@ class Html{
 
       if (compOpts instanceof Promise) {
         compOpts.then(c => {
-          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, this.context))
+          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, this.sources))
         })
         return
       }
 
   //    console.log('addComponent', o, compOpts)
-      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.context)
+      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.sources)
     }
 
     this.children.push(comp)
@@ -1049,7 +1053,7 @@ class Html{
 
 
 
-  bind(v, i) {
+  bind (v, i) {
 
 //    console.log('bind', i, v)
 
@@ -1064,13 +1068,13 @@ class Html{
 
     let source = null
 
-    const o = this.options
+    const o = this._internal.options
 
     let key = o[i+'Id']
     let ref = o[i+'Ref']
 
     if (typeof v === 'function') {
-      v = v(o, i)
+      v = v(o, this.context, i)
     }
     else if (ref) {
       if (!this.sources[ref]) {

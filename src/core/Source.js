@@ -97,7 +97,7 @@ class Source {
         if (this.cache == null) {
           console.log('calc', this.cache, this.id)
           v = this.isNested ? this.src.get() : this.src
-          v = this.options.calc(v)
+          v = this.options.calc.call(this, v, this.src.props)
         }
         else {
           v = this.cache
@@ -714,7 +714,7 @@ class Source {
   _calc (v) {
 
     const prevValue = this.cache
-    const nextValue = this.options.calc(v)
+    const nextValue = this.options.calc.call(this, v, this.src.props)
 
     this._updateEntries(nextValue, prevValue)
 
