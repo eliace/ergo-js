@@ -56,8 +56,8 @@ const ComponentOptions = {
   allBound: true,
   anyChanged: true,
   allJoined: true,
-  use: true
-
+  use: true,
+  join: true
 }
 
 // реакции вида *Changed
@@ -184,6 +184,12 @@ class Html{
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
     // }
+
+    if (opts.use) {
+      for (let i in opts.use) {
+        this.use(opts.use[i])
+      }
+    }
 
     // 2. Подключаем домены
 
@@ -1118,13 +1124,13 @@ class Html{
 
 
     // решаем, подключаться ли к домену
-    if (o.anyChanged || (o.use && o.use[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound']) {
+    if (o.anyChanged || (o.join && o.join[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.$observe(this, this.changed, i/*, o[i+'Effects']*/)
 
-      if (o.use && o.use[i]) {
-        for (let j in o.use[i]) {
-          o.use[i][j](source, this, i)
+      if (o.join && o.join[i]) {
+        for (let j in o.join[i]) {
+          o.join[i][j](source, this, i)
         }
       }
 
@@ -1283,6 +1289,37 @@ class Html{
       }
     }
   }
+
+
+  use (callback) {
+    const _in = this._internal
+    if (!_in.uses) {
+      _in.uses = []
+    }
+    if (!_in.props.ref) {
+      _in.props.ref = (el) => {
+        if (el) {
+          for (let i in _in.uses) {
+            const u = _in.uses[i]
+            if (!u.used) {
+              u.off = u.on.call(this, el)
+            }
+          }
+        }
+        else {
+          for (let i in _in.uses) {
+            const u = _in.uses[i]
+            if (u.off) {
+              u.off.call(this)
+            }
+            delete u.used
+          }
+        }
+      }
+    }
+    _in.uses.push({on: callback})
+  }
+
 
   // rebindOpts(o, key) {
   //   for (let i in o) {

@@ -6,6 +6,17 @@ import {Mutate} from '../helpers'
 import {COUNTRIES} from '../constants'
 
 
+const StopMouseDown = function (el) {
+  const f = (evt) => evt.stopPropagation()
+  el.addEventListener('mousedown', f)
+  return () => {
+    el.removeEventListener('mousedown', f)
+  }
+}
+
+const El = function (el) {
+  this.el = el
+}
 
 
 class DropdownItem extends Html {
@@ -108,9 +119,10 @@ class DropdownInput extends Html {
   config () {
     return {
       as: 'dropdown dropdown-input',
-      onMouseDown: function (e) {
-        e.nativeEvent.stopImmediatePropagation()
-      },
+      use: { StopMouseDown },
+      // onMouseDown: function (e) {
+      //   e.nativeEvent.stopImmediatePropagation()
+      // },
       $content: {
         as: 'dropdown-trigger',
         width: '100%',
@@ -161,6 +173,12 @@ class CountryListDropdown extends Dropdown {
         dataChanged: function (v) {
           this.opt('text', v.name)
           this.opt('key', v.name)
+        },
+        use: { El }
+      },
+      use: {
+        ScrollToSelected: function (el) {
+          this.items.filter(itm => itm.opts.active).forEach(itm => el.scrollTop = itm.el.offsetTop - 20)
         }
       }
     }
