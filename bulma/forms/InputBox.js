@@ -3,11 +3,11 @@ import {Html} from '../../src'
 
 class InputBox extends Html {
   static defaultOpts = {
-    as: 'input-box',
+    css: 'input-box',
     components: {
       input: {
         html: 'input',
-        as: 'input'
+        css: 'input'
       }
     }
   }

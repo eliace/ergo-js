@@ -4,24 +4,24 @@ import {Html} from '../../src'
 export default class Card extends Html {
   config () {
     return {
-      as: 'card',
+      css: 'card',
       components: {
         image: false,
         footer: false
       },
       $header: {
-        as: 'card-header'
+        css: 'card-header'
       },
       $image: {
-        as: 'card-image'
+        css: 'card-image'
       },
       $content: {
-        as: 'card-content'
+        css: 'card-content'
       },
       $footer: {
-        as: 'card-footer',
+        css: 'card-footer',
         defaultItem: {
-          as: 'card-footer-item'
+          css: 'card-footer-item'
         }
       }
     }

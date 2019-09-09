@@ -4,7 +4,7 @@ export default class Box extends Html {
 
   config () {
     return {
-      as: 'box'
+      css: 'box'
     }
   }
 

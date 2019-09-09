@@ -6,7 +6,7 @@ import {Layouts, Box} from '../../bulma'
 class Textarea extends Html {
   static defaultOpts = {
     html: 'textarea',
-    as: 'textarea'
+    css: 'textarea'
   }
 }
 
@@ -19,20 +19,20 @@ export default () => {
     width: 500,
     items: [{
       $content: {
-        base: Textarea,
+        as: Textarea,
         placeholder: 'Enter text...'
       }
     }, {
       $content: {
-        base: Textarea,
+        as: Textarea,
         placeholder: 'Enter text...',
         rows: 10
       }
     }, {
       $content: {
-        base: Textarea,
+        as: Textarea,
         placeholder: 'Enter text...',
-        as: 'has-fixed-size'
+        css: 'has-fixed-size'
       }
     }]
   }

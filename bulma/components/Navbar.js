@@ -3,13 +3,13 @@ import {Html} from '../../src'
 
 class Brand extends Html {
   static defaultOpts = {
-    as: 'navbar-brand'
+    css: 'navbar-brand'
   }
 }
 
 class Menu extends Html {
   static defaultOpts = {
-    as: 'navbar-menu'
+    css: 'navbar-menu'
   }
 }
 
@@ -17,19 +17,19 @@ class Menu extends Html {
 class Item extends Html {
   static defaultOpts = {
     html: 'a',
-    as: 'navbar-item'
+    css: 'navbar-item'
   }
 }
 
 class Start extends Html {
   static defaultOpts = {
-    as: 'navbar-start'
+    css: 'navbar-start'
   }
 }
 
 class End extends Html {
   static defaultOpts = {
-    as: 'navbar-end'
+    css: 'navbar-end'
   }
 }
 
@@ -37,7 +37,7 @@ class End extends Html {
 class Navbar extends Html {
   static defaultOpts = {
     html: 'nav',
-    as: 'navbar'
+    css: 'navbar'
   }
 
   static Brand = Brand

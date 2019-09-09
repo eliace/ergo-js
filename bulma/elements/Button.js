@@ -6,7 +6,7 @@ export default class Button extends Html {
     return {
       html: 'button',
       tabIndex: 0,
-      as: 'button'
+      css: 'button'
     }
   }
 

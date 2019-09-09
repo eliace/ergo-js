@@ -9,7 +9,7 @@ import fs from 'fs'
 
 function previewOf (exampleCreator, code) {
   return {
-    base: PreviewAndCode,
+    as: PreviewAndCode,
     $preview: exampleCreator(),
     $code: {
       text: code
@@ -49,7 +49,7 @@ export default () => {
         text: 'Layouts'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         defaultTab: {
           pageChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
@@ -69,8 +69,8 @@ export default () => {
     },
     $content: {
       components: false,
-      pageChanged: function (v, key) {
-        this.opt('components', key)
+      pageChanged: function (v, key, src) {
+        this.opt('components', src.$stream(key))
       },
       $basic: previewOf(BasicExample, BasicCode),
     }

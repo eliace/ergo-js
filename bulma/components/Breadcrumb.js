@@ -6,7 +6,7 @@ export default class Breadcrumb extends Html {
   config () {
     return {
       html: 'nav',
-      as: 'breadcrumb',
+      css: 'breadcrumb',
       $content: {
         html: 'ul',
         defaultItem: {
@@ -18,7 +18,7 @@ export default class Breadcrumb extends Html {
         },
         $last: {
           html: 'li',
-          as: 'is-active',
+          css: 'is-active',
           weight: 10,
           $content: {
             html: 'a',

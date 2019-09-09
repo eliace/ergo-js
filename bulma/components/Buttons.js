@@ -3,9 +3,9 @@ import {Button} from '../elements'
 
 class Buttons extends Html {
   static defaultOpts = {
-    as: 'buttons',
+    css: 'buttons',
     defaultItem: {
-      base: Button
+      as: Button
     }
   }
 }

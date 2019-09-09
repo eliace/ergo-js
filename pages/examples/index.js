@@ -34,7 +34,7 @@ export default () => {
         text: 'Examples'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         defaultTab: {
           pageChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
@@ -47,14 +47,14 @@ export default () => {
           }
         },
         tabsChanged: function (v, k) {
-          this.opt('$tabs', k)
+          this.opt('tabs', k)
         }
       }
     },
     $content: {
       components: false,
-      pageChanged: function (v, k) {
-        this.opt('$components', k)
+      pageChanged: function (v, k, src) {
+        this.opt('components', src.$stream(k))
       },
       $domain: DomainExample(),
       $multidomain: MultidomainExample(),

@@ -1,7 +1,7 @@
 import {Html, Layout, Source, Text} from '../../src'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
-import PassThroughLayout from '../layouts/PassThrough'
+//import PassThroughLayout from '../layouts/PassThrough'
 import Field from '../elements/Field'
 
 
@@ -16,15 +16,15 @@ export default () => {
     },
     // dataRef: 'page',
     // dataId: 'user',
-    as: 'settings-page',
+    css: 'settings-page',
     $content: {
-      as: 'container page',
+      css: 'container page',
       layout: ColumnsLayout,
       $content: {
         col: 'col-md-6 offset-md-3 col-xs-12',
         $title: {
           html: 'h1',
-          as: 'text-xs-center',
+          css: 'text-xs-center',
           text: 'Your Settings'
         },
         $div: {
@@ -35,7 +35,7 @@ export default () => {
           $content: {
             html: 'fieldset',
             defaultItem: {
-              type: Field.Input
+              as: Field.Input
             },
             items: [{
               placeholder: 'URL of profile picture',
@@ -45,7 +45,7 @@ export default () => {
               placeholder: 'Your Name',
               dataId: 'username'
             }, {
-              type: Field.TextArea,
+              as: Field.TextArea,
               rows: 8,
               size: 'lg',
               placeholder: 'Short bio about you',
@@ -55,7 +55,7 @@ export default () => {
               placeholder: 'Email',
               dataId: 'email'
             }, {
-              _type: 'password',
+              type: 'password',
               size: 'lg',
               placeholder: 'Password',
               dataId: 'password'
@@ -63,7 +63,7 @@ export default () => {
             $submit: {
               html: 'button',
               weight: 10,
-              as: 'btn btn-lg btn-primary pull-xs-right',
+              css: 'btn btn-lg btn-primary pull-xs-right',
               text: 'Update Settings'
             }
           }
@@ -73,7 +73,7 @@ export default () => {
         },
         $logoutBtn: {
           html: 'button',
-          as: 'btn btn-outline-danger',
+          css: 'btn btn-outline-danger',
           text: 'Or click here to logout',
           onClick: function (e) {
             e.preventDefault()

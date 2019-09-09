@@ -4,9 +4,9 @@ import {Layouts, Box, Tag, Delete} from '../../bulma'
 class Tags extends Html {
   config () {
     return {
-      as: 'tags',
+      css: 'tags',
       defaultItem: {
-        base: Tag
+        as: Tag
       }
     }
   }
@@ -17,58 +17,58 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      as: 'tags',
+      css: 'tags',
       defaultItem: {
-        base: Tag
+        as: Tag
       },
       items: ['Black', 'Dark', 'Light', 'White', 'Primary', 'Link', 'Info', 'Success', 'Warning', 'Danger'].map(k => {
-        return {as: 'is-'+k.toLowerCase(), text: k}
+        return {css: 'is-'+k.toLowerCase(), text: k}
       })
     }, {
-      base: Tags,
+      as: Tags,
       items: [
-        {text: 'Normal', as: 'is-normal'},
-        {text: 'Medium', as: 'is-medium'},
-        {text: 'Large', as: 'is-large'},
+        {text: 'Normal', css: 'is-normal'},
+        {text: 'Medium', css: 'is-medium'},
+        {text: 'Large', css: 'is-large'},
       ]
     }, {
-      base: Tags,
-      as: 'are-medium',
+      as: Tags,
+      css: 'are-medium',
       items: ['Alice', 'Bob', 'Charlie']
     }, {
-      base: Tags,
+      as: Tags,
       items: [
-        {as: 'is-rounded', text: 'Rounded'},
-        {as: 'is-delete'}
+        {css: 'is-rounded', text: 'Rounded'},
+        {css: 'is-delete'}
       ]
     }, {
-      base: Tags,
+      as: Tags,
       defaultItem: {
         $deleteBtn: {
-          base: Delete,
+          as: Delete,
           weight: 10
         }
       },
       items: [{
-        as: 'is-success',
-        $deleteBtn: {as: 'is-small'},
+        css: 'is-success',
+        $deleteBtn: {css: 'is-small'},
         text: 'Success'
       }, {
-        as: 'is-warning is-medium',
-        $deleteBtn: {as: 'is-small'},
+        css: 'is-warning is-medium',
+        $deleteBtn: {css: 'is-small'},
         text: 'Warning'
       }, {
-        as: 'is-danger is-large',
+        css: 'is-danger is-large',
         text: 'Danger'
       }]
     }, {
-      base: Tags,
-      as: 'has-addons',
-      items: [{text: 'Ergo', as: 'is-primary'}, {text: 'JS', as: 'is-dark'}]
+      as: Tags,
+      css: 'has-addons',
+      items: [{text: 'Ergo', css: 'is-primary'}, {text: 'JS', css: 'is-dark'}]
     }, {
-      base: Tags,
-      as: 'has-addons',
-      items: [{text: 'JavaScript', as: 'is-link'}, {as: 'is-delete'}]
+      as: Tags,
+      css: 'has-addons',
+      items: [{text: 'JavaScript', css: 'is-link'}, {css: 'is-delete'}]
     }]
   }
 }

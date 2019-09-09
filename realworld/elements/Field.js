@@ -4,10 +4,10 @@ import {Html, Layout, Source} from '../../src'
 class Field extends Html {
   static defaultOpts = {
     html: 'fieldset',
-    as: 'form-group',
+    css: 'form-group',
     components: {
       control: {
-        as: 'form-control'
+        css: 'form-control'
       }
     }
   }
@@ -17,9 +17,9 @@ class Field extends Html {
         this.$control.opt('placeholder', v)
       }
     },
-    _type: {
+    type: {
       initOrSet: function (v) {
-        this.$control.opt('_type', v)
+        this.$control.opt('type', v)
       }
     },
     size: {
@@ -51,7 +51,7 @@ class InputField extends Field {
     components: {
       control: {
         html: 'input',
-        _type: 'text',
+        type: 'text',
         onInput: function (e) {
           this.sources.data.set(e.target.value)
         },

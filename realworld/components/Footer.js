@@ -5,16 +5,16 @@ export default () => {
   return {
     html: 'footer',
     $container: {
-      as: 'container',
+      css: 'container',
       $logo: {
         html: 'a',
-        as: 'logo-font',
+        css: 'logo-font',
         href: '/',
         text: 'conduit'
       },
       $attr: {
         html: 'span',
-        as: 'attribution',
+        css: 'attribution',
         items: [
           'An interactive learning project from ',
           {

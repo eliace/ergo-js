@@ -29,9 +29,9 @@ class IconBox extends Html {
   config () {
     return {
       html: 'span',
-      as: 'icon',
+      css: 'icon',
       $content: {
-        base: Icon
+        as: Icon
       }
     }
   }

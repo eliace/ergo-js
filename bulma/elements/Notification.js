@@ -4,14 +4,14 @@ import Delete from './Delete'
 class Notification extends Html {
 
   static defaultOpts = {
-    as: 'notification',
+    css: 'notification',
     components: {
       closeBtn: {
-        base: Delete
+        as: Delete
       },
       content: {
 //        html: 'div'
-        base: Text
+        as: Text
       }
     }
   }

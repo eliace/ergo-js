@@ -38,7 +38,7 @@ export default () => {
         text: 'Forms'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         defaultTab: {
           dataChanged: function (v) {
             this.opt('selected', this.options.text == v.selected)
@@ -58,8 +58,8 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, key) {
-        this.opt('$components', key)
+      dataChanged: function (v, key, src) {
+        this.opt('components', src.$stream(key))
       },
       $input: InputExample(),
       $textarea: TextareaExample(),

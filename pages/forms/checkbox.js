@@ -9,8 +9,8 @@ class Check extends Html {
       layout: Layout.passthru,
       $input: {
         html: 'input',
-        as: 'is-checkradio',
-        _type: 'checkbox'
+        css: 'is-checkradio',
+        type: 'checkbox'
       },
       $content: {
         html: 'label'
@@ -40,8 +40,8 @@ class Radio extends Html {
       layout: Layout.passthru,
       $input: {
         html: 'input',
-        as: 'is-checkradio',
-        _type: 'radio'
+        css: 'is-checkradio',
+        type: 'radio'
       },
       $content: {
         html: 'label'
@@ -68,39 +68,39 @@ export default () => {
     width: 500,
     items: [{
       items: [{
-        base: Check,
+        as: Check,
         checked: true,
         text: 'Check'
       }, {
-        base: Check,
+        as: Check,
         text: 'Check'
       }]
     }, {
       items: [{
-        base: Radio,
+        as: Radio,
         text: 'Radio 1',
         checked: true
       }, {
-        base: Radio,
+        as: Radio,
         text: 'Radio 2'
       }]
     }, {
       defaultItem: {
-        base: Check,
+        as: Check,
         checked: true,
         $input: {
-          as: 'is-block has-no-border'
+          css: 'is-block has-no-border'
         },
         text: 'Check'
       },
       items: [{
       }, {
         $input: {
-          as: 'is-primary'
+          css: 'is-primary'
         }
       }, {
         $input: {
-          as: 'is-info'
+          css: 'is-info'
         }
       }]
     }]

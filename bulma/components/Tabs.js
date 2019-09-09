@@ -27,24 +27,25 @@ class Tabs extends Html {
 
   config (options) {
     return {
-      as: 'tabs',
+      css: 'tabs',
       $list: {
-        base: List,
+        as: List,
         defaultItem: {
-          base: Tab
+          as: Tab
         }
       }
     }
   }
 
-  configOptions () {
+  options () {
     return {
       tabs: {
         initOrSet: function (v) {
           if (this.$list) {
             this.$list.opt('items', v)
           }
-        }
+        },
+        mutable: true
       },
       defaultTab: {
         init: function (v) {

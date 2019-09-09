@@ -19,11 +19,12 @@ const El = function (el) {
 }
 
 
+
 class DropdownItem extends Html {
   config () {
     return {
       html: 'a',
-      as: 'dropdown-item'
+      css: 'dropdown-item'
     }
   }
 
@@ -41,9 +42,9 @@ class DropdownItem extends Html {
 class Dropdown extends Html {
   config () {
     return {
-      as: 'dropdown-content',
+      css: 'dropdown-content',
       defaultItem: {
-        base: DropdownItem
+        as: DropdownItem
       }
     }
   }
@@ -54,22 +55,22 @@ class Dropdown extends Html {
 class DropdownBox extends Html {
   config () {
     return {
-      as: 'dropdown',
-//       components: {
-// //        dropdown: false
-//       },
+      css: 'dropdown',
+      // components: {
+      //   dropdown: false
+      // },
       $content: {
         tabIndex: -1,
-        as: 'dropdown-trigger',
+        css: 'dropdown-trigger',
         styles: {
           'width': '100%'
         },
         $content: {
-          base: ButtonWithIcon,
-          as: 'is-fullwidth',
+          as: ButtonWithIcon,
+          css: 'is-fullwidth',
           $icon: {
             weight: 10,
-            as: 'is-small dropdown-icon',
+            css: 'is-small dropdown-icon',
             icon: 'fas fa-angle-down'
           },
           $content: {
@@ -80,7 +81,7 @@ class DropdownBox extends Html {
           },
           $placeholder: {
             html: 'span',
-            as: 'dropdown-placeholder',
+            css: 'dropdown-placeholder',
             styles: {
               'display': 'flex',
               'flex': '1'
@@ -90,14 +91,11 @@ class DropdownBox extends Html {
         },
       },
       $dropdown: {
-        as: 'dropdown-menu',
+        css: 'dropdown-menu',
         width: '100%',
         $content: {
-          base: Dropdown
-        },
-        onMouseDown: function (e) {
-          e.nativeEvent.stopImmediatePropagation()
-        },
+          as: Dropdown
+        }
       }
     }
   }
@@ -118,36 +116,33 @@ class DropdownBox extends Html {
 class DropdownInput extends Html {
   config () {
     return {
-      as: 'dropdown dropdown-input',
-      use: { StopMouseDown },
-      // onMouseDown: function (e) {
-      //   e.nativeEvent.stopImmediatePropagation()
-      // },
+      css: 'dropdown dropdown-input',
+      dom: { StopMouseDown },
       $content: {
-        as: 'dropdown-trigger',
+        css: 'dropdown-trigger',
         width: '100%',
         $content: {
-          as: 'control has-icons-right input-box',
+          css: 'control has-icons-right input-box',
           $input: {
-            base: Input,
+            as: Input,
           },
           $icon: {
-            base: IconBox,
-            as: 'is-small dropdown-icon is-right',
+            as: IconBox,
+            css: 'is-small dropdown-icon is-right',
             icon: 'fas fa-angle-down'
           },
           $placeholder: {
             html: 'span',
-            as: 'placeholder',
+            css: 'placeholder',
             weight: -10
           }
         }
       },
       $dropdown: {
-        as: 'dropdown-menu',
+        css: 'dropdown-menu',
         width: '100%',
         $content: {
-          base: Dropdown
+          as: Dropdown
         }
       }
     }
@@ -161,8 +156,15 @@ class DropdownInput extends Html {
 class CountryListDropdown extends Dropdown {
   config () {
     return {
-      as: 'is-hovered',
-      dataChanged: Mutate.Items,
+      css: 'is-hovered',
+      dataChanged: function (v, k) {
+        this.opt('items', k)
+//        this.items.filter(itm => itm.opts.active).forEach(itm => this.opts.scrollTop = itm.el.offsetTop - 20)
+        this.eff(() => {
+          console.log('scroll')
+          this.items.filter(itm => itm.opts.active).forEach(itm => this.el.scrollTop = itm.el.offsetTop - 20)
+        })
+      }, //Mutate.Items,
       defaultItem: {
         onClick: function (e, {view}) {
           view.select(this.options.key)
@@ -174,15 +176,16 @@ class CountryListDropdown extends Dropdown {
           this.opt('text', v.name)
           this.opt('key', v.name)
         },
-        use: { El }
+        dom: { El }
       },
-      use: {
-        ScrollToSelected: function (el) {
-          this.items.filter(itm => itm.opts.active).forEach(itm => el.scrollTop = itm.el.offsetTop - 20)
-        }
-      }
+      dom: { El }
     }
   }
+
+  // scrollToActiveItem () {
+  //   console.log('scroll')
+  //   this.items.filter(itm => itm.opts.active).forEach(itm => this.el.scrollTop = itm.el.offsetTop - 20)
+  // }
 }
 
 
@@ -205,8 +208,8 @@ export default () => {
           })
         }
       },
-      base: DropdownBox,
-      as: 'dropdown-select',
+      as: DropdownBox,
+      css: 'dropdown-select',
       width: 400,
       viewChanged: function (v, k, view) {
         // зависит только от props.dropdown
@@ -224,9 +227,9 @@ export default () => {
       },
       $dropdown: {
         $content: {
-          as: 'is-hovered',
+          css: 'is-hovered',
           dataChanged: function (v, k) {
-            this.opt('$items', k)
+            this.opt('items', k)
           },
           defaultItem: {
             onClick: function (e, {view}) {
@@ -255,8 +258,8 @@ export default () => {
           return new Domain(false)
         }
       },
-      base: DropdownBox,
-      as: 'dropdown-select',
+      as: DropdownBox,
+      css: 'dropdown-select',
       width: 400,
       allJoined: function ({view, dropdown, value}) {
         view.$method('toggle', this, () => {
@@ -283,7 +286,7 @@ export default () => {
       },
       $dropdown: {
         $content: {
-          base: CountryListDropdown
+          as: CountryListDropdown
         }
       }
     }, {
@@ -333,7 +336,7 @@ export default () => {
           }
         })
       },
-      base: DropdownInput,
+      as: DropdownInput,
       width: 400,
       dropdownChanged: function (v, k) {
         this.opt('components', {dropdown: !!v})
@@ -362,7 +365,7 @@ export default () => {
           sources: {
             data: (o, ctx) => ctx.view.$entry('filteredList')
           },
-          base: CountryListDropdown
+          as: CountryListDropdown
         }
       }
     }/*, {
@@ -374,7 +377,7 @@ export default () => {
         },
         selection: ''
       },
-      as: 'dropdown dropdown-input',
+      css: 'dropdown dropdown-input',
       width: 400,
       dynamic: true,
       onMouseDown: function (e) {
@@ -423,17 +426,17 @@ export default () => {
         this.sources.vm.set('placeholder', ph)
       },
       vmChanged: function (v, k) {
-        this.opt('$components', k)
+        this.opt('components', k)
         this.opt('classes', {'is-active': v.dropdown})
 //        console.log('vm changed')
       },
       $content: {
-        as: 'dropdown-trigger',
+        css: 'dropdown-trigger',
         width: '100%',
         $content: {
-          as: 'control has-icons-right input-box',
+          css: 'control has-icons-right input-box',
           $input: {
-            base: Input,
+            as: Input,
             vmId: 'input',
             vmChanged: Mutate.Value,
             onFocus: function () {
@@ -445,13 +448,13 @@ export default () => {
             }
           },
           $icon: {
-            base: IconBox,
-            as: 'is-small dropdown-icon is-right',
+            as: IconBox,
+            css: 'is-small dropdown-icon is-right',
             icon: 'fas fa-angle-down'
           },
           $placeholder: {
             html: 'span',
-            as: 'placeholder',
+            css: 'placeholder',
             weight: -10,
             vmId: 'placeholder',
             vmChanged: Mutate.Text
@@ -459,21 +462,21 @@ export default () => {
         }
       },
       $dropdown: {
-        as: 'dropdown-menu',
+        css: 'dropdown-menu',
         width: '100%',
         $content: {
-          base: Dropdown,
-          as: 'is-hovered',
+          as: Dropdown,
+          css: 'is-hovered',
 //          items: ['Alice', 'Bob', 'Charlie'],
           dynamic: true,
           // dataChanged: function (v, k) {
           //   const sel = this.sources.selection.get()
           //   console.log(sel)
-          //   this.opt('$items', this.sources[k].asStream().filter(itm => itm.name.indexOf(sel)))
+          //   this.opt('items', this.sources[k].asStream().filter(itm => itm.name.indexOf(sel)))
           // }, //Mutate.Items,
           binding: function (values) {
             console.log(values.selection)
-            this.opt('$items', this.sources.data.$stream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))
+            this.opt('items', this.sources.data.$stream().name('data').filter(itm => itm.name.toLowerCase().indexOf(values.selection.toLowerCase()) != -1))
           },
           defaultItem: {
             onClick: function (e) {

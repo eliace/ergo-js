@@ -5,7 +5,7 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      base: Breadcrumb,
+      as: Breadcrumb,
       $content: {
         items: ['Alice', 'Bob', 'Charlie'],
         $last: {
@@ -24,14 +24,14 @@ export default () => {
           }
         })
       },
-      base: Breadcrumb,
+      as: Breadcrumb,
       $content: {
         components: {
           last: false
         },
         dataId: 'list',
         dataChanged: function (v, k) {
-          this.opt('$items', k)
+          this.opt('items', k)
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -54,10 +54,10 @@ export default () => {
           }
         })
       },
-      base: Breadcrumb,
+      as: Breadcrumb,
       $content: {
         dataChanged: function (v, k) {
-          this.opt('$items', this.sources[k].$entry('list').$stream(k))
+          this.opt('items', this.sources[k].$entry('list').$stream(k))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -74,10 +74,10 @@ export default () => {
       sources: {
         data: ['Alice', 'Bob', 'Charlie', 'Dave']
       },
-      base: Breadcrumb,
+      as: Breadcrumb,
       $content: {
         dataChanged: function (v, k) {
-          this.opt('$items', k)
+          this.opt('items', k)
         },
         defaultItem: {
           dataChanged: function (v, k) {

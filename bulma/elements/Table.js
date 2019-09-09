@@ -14,7 +14,7 @@ class Table extends Html {
 
   static defaultOpts = {
     html: 'table',
-    as: 'table',
+    css: 'table',
     $colgroup: {
       html: 'colgroup',
       defaultItem: {
@@ -24,7 +24,7 @@ class Table extends Html {
     $head: {
       html: 'thead',
       defaultItem: {
-        base: Row,
+        as: Row,
         defaultItem: {
           html: 'th'
         }
@@ -33,7 +33,7 @@ class Table extends Html {
     $body: {
       html: 'tbody',
       defaultItem: {
-        base: Row,
+        as: Row,
         defaultItem: {
           html: 'td'
         }

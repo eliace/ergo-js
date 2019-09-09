@@ -58,8 +58,8 @@ export const Mixins = {
       return {
         components: {
           icon: {
-            base: IconBox,
-            as: 'is-small',
+            as: IconBox,
+            css: 'is-small',
           },
           content: {
 
@@ -82,8 +82,8 @@ export const Mixins = {
         classes: {'has-icons-left': true},
         components: {
           leftIcon: {
-            base: IconBox,
-            as: 'is-small is-left',
+            as: IconBox,
+            css: 'is-small is-left',
           }
         },
         dynamicOptions: {
@@ -103,18 +103,30 @@ export const Mutate = {
     if (this.options.format) {
       v = this.options.format.call(this, v)
     }
-    return {$text: v}
+    return {text: v}
   },
   Src: function (v) {
     return {src: v}
   },
-  Items: function (v, key) {
-    return {$items: key}
+  Items: function (v, key, src) {
+    return {items: src.$stream(key)}
   },
-  Components: function (v, key) {
-    return {$components: key}
+  Components: function (v, key, src) {
+    return {components: src.$stream(key)}
   },
   Value: function (v) {
     return {value: v}
+  },
+  Key: function (v) {
+    return {key: v}
+  },
+  Tabs: function (v, key, src) {
+    return {tabs: src.$stream(key)}
+  }
+}
+
+export function compose (a, b) {
+  return function (v) {
+    return {...a.call(this, v), ...b.call(this, v)}
   }
 }

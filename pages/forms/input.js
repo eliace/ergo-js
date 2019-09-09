@@ -7,8 +7,8 @@ const Mixins = {
       classes: {'has-icons-left': true},
       components: {
         leftIcon: {
-          base: IconBox,
-          as: 'is-small is-left',
+          as: IconBox,
+          css: 'is-small is-left',
         }
       }
     }
@@ -18,8 +18,8 @@ const Mixins = {
       classes: {'has-icons-right': true},
       components: {
         rightIcon: {
-          base: IconBox,
-          as: 'is-small is-right',
+          as: IconBox,
+          css: 'is-small is-right',
         }
       }
     }
@@ -40,7 +40,7 @@ class Input extends Html {
   config () {
     return {
       html: 'input',
-      as: 'input'
+      css: 'input'
     }
   }
 }
@@ -48,9 +48,9 @@ class Input extends Html {
 class Field extends Html {
   config () {
     return {
-      as: 'field',
+      css: 'field',
       $control: {
-        as: 'control'
+        css: 'control'
       }
     }
   }
@@ -83,7 +83,7 @@ class InputField extends Field {
     return {
       $control: {
         $content: {
-          base: Input
+          as: Input
         }
       }
     }
@@ -137,15 +137,15 @@ export default () => {
     width: 400,
     items: [{
       html: 'input',
-      as: 'input'
+      css: 'input'
     }, {
       sources: {
         data: 'aaa'
       },
-      as: 'input-box',
+      css: 'input-box',
       $content: {
         html: 'input',
-        as: 'input',
+        css: 'input',
         weight: 20,
         onKeyDown: function () {
 //          return false
@@ -158,11 +158,11 @@ export default () => {
         }
       },
       $placeholder: {
-        as: 'placeholder',
+        css: 'placeholder',
         weight: 10
       },
       defaultItem: {
-        base: Tag
+        as: Tag
       },
 //      items: [1,2,3,4,5,6,7,8,9,0].map(itm => 'Helloodffdfgfsdgf'),
       pattern: '+7 (000) 000 00 00',
@@ -171,11 +171,11 @@ export default () => {
       }
     }, {
       $title: {
-        base: Header,
+        as: Header,
         text: 'Colors'
       },
       defaultItem: {
-        base: Field.Input,
+        as: Field.Input,
         width: 400,
         placeholder: 'Input text here...'
       },
@@ -188,11 +188,11 @@ export default () => {
       ]
     }, {
       $title: {
-        base: Header,
+        as: Header,
         text: 'Sizes'
       },
       defaultItem: {
-        base: Field.Input,
+        as: Field.Input,
         width: 400,
         placeholder: 'Input text here...'
       },
@@ -204,46 +204,46 @@ export default () => {
       ]
     }, {
       $title: {
-        base: Header,
+        as: Header,
         text: 'Styles'
       },
       items: [{
-        base: Field.Input,
+        as: Field.Input,
         width: 400,
         placeholder: 'Input text here...',
         style: 'rounded'
       }]
     }, {
       $title: {
-        base: Header,
+        as: Header,
         text: 'States'
       },
       defaultItem: {
-        base: Field,
+        as: Field,
         width: 400,
         $control: {
-          base: Input
+          as: Input
         }
       },
       items: [
         {$control: {placeholder: 'Normal input'}},
-        {$control: {placeholder: 'Hover input', as: 'is-hovered'}},
-        {$control: {placeholder: 'Focus input', as: 'is-focused'}},
+        {$control: {placeholder: 'Hover input', css: 'is-hovered'}},
+        {$control: {placeholder: 'Focus input', css: 'is-focused'}},
         {$control: {placeholder: 'Loading input'}, loading: true},
         {$control: {placeholder: 'Disabled input', disabled: true}},
         {$control: {value: 'Read only', readOnly: true}},
-        {$control: {value: 'Static text', as: 'is-static'}},
+        {$control: {value: 'Static text', css: 'is-static'}},
       ]
     }, {
       $title: {
-        base: Header,
+        as: Header,
         text: 'Icons'
       },
       defaultItem: {
-        base: Field,
+        as: Field,
         width: 400,
         $control: {
-          base: Input,
+          as: Input,
           placeholder: 'Input text here...'
         }
       },

@@ -6,15 +6,15 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      base: Menu,
+      as: Menu,
       $general: {
         layout: Layout.passthru,
         $label: {
-          base: Menu.Label,
+          as: Menu.Label,
           text: 'General'
         },
         $list: {
-          base: Menu.List,
+          as: Menu.List,
           items: [
             { text: 'Dashboard' },
             { text: 'Customers' }
@@ -24,18 +24,18 @@ export default () => {
       $administration: {
         layout: Layout.passthru,
         $label: {
-          base: Menu.Label,
+          as: Menu.Label,
           text: 'Administration'
         },
         $list: {
-          base: Menu.List,
+          as: Menu.List,
           items: [
             { text: 'Team Settings' },
             {
               text: 'Manage Your Team',
               selected: true,
               $list: {
-                base: Menu.SubList,
+                as: Menu.SubList,
                 items: [
                   { text: 'Members' },
                   { text: 'Plugins' },
@@ -52,11 +52,11 @@ export default () => {
       $transactions: {
         layout: Layout.passthru,
         $label: {
-          base: Menu.Label,
+          as: Menu.Label,
           text: 'Transactions'
         },
         $list: {
-          base: Menu.List,
+          as: Menu.List,
           items: [
             { text: 'Payments' },
             { text: 'Transfers' },

@@ -6,7 +6,7 @@ class Icon extends Html {
   config () {
     return {
       html: 'span',
-      as: 'icon'
+      css: 'icon'
     }
   }
 
@@ -28,7 +28,7 @@ class FaIcon extends Icon {
       text: {
         set: function(v) {
           this.$content.opt('as', ['fa-'+v])
-  //        o.components.content.merge({as: 'fa-'+v})
+  //        o.components.content.merge({css: 'fa-'+v})
         }
       },
       icon: {

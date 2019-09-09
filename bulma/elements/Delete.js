@@ -4,7 +4,7 @@ class Delete extends Html {
 
   static defaultOpts = {
     html: 'a',
-    as: 'delete'
+    css: 'delete'
   }
 
 }

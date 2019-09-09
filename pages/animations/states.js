@@ -42,7 +42,7 @@ class AnimatedNumber extends Html {
       viewChanged: function (v) {
         this.opt('text', v.tweeningValue)
       },
-      allBound: function ({view}) {
+      allJoined: function ({view}) {
         view.$watch((evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids), this, (evt) => {
           tween(evt.cache['value'] || 0, evt.data['value'])
         })
@@ -97,17 +97,15 @@ export default () => {
           tweenedNumber: 0
         }, {
           properties: {
-            animatedNumber: {
-              calc: v => v.tweenedNumber.toFixed(0)
-            },
+            animatedNumber: (v) => v.tweenedNumber.toFixed(0),
             number: {},
             tweenedNumber: {}
           },
           watchers: {
             tween: {
               when: e => e.name == 'changed' && e.ids && ('number' in e.ids),
-              on: (e, data) => {
-                TweenLite.to(data.props, 0.5, {tweenedNumber: data.props.number})
+              callback: function (e) {
+                TweenLite.to(this.props, 0.5, {tweenedNumber: this.props.number})
               }
             }
           }
@@ -115,7 +113,7 @@ export default () => {
       },
       $input: {
         html: 'input',
-        _type: 'number',
+        type: 'number',
         step: 20,
         dataId: 'number',
         dataChanged: Mutate.Value,
@@ -190,14 +188,14 @@ export default () => {
             watchers: {
               sides: {
                 when: evt => evt.name == 'changed' && evt.ids && evt.ids['sides'],
-                on: (evt, d) => {
-                  d.updateSides(evt.data['sides'], evt.cache['sides'])
+                callback: function (evt, d) {
+                  this.updateSides(evt.data['sides'], evt.cache['sides'])
                 }
               },
               stats: {
                 when: evt => evt.name == 'changed' && evt.ids && evt.ids['stats'],
-                on: (evt, d) => {
-                  d.updateStats(evt.data['stats'])
+                callback: function (evt, d) {
+                  this.updateStats(evt.data['stats'])
                 }
               }
             },
@@ -227,7 +225,7 @@ export default () => {
           })
         }
       },
-      use: {
+      join: {
         data: [(data, target) => {
           data.$watch(e => e.name == 'init', target, () => {
             data.resetInterval()
@@ -243,7 +241,7 @@ export default () => {
       //     this.sources.data.resetInterval()
       //   }
       // },
-      as: 'svg-polygon-example',
+      css: 'svg-polygon-example',
       width: 400,
       $svg: {
         html: 'svg',
@@ -272,9 +270,9 @@ export default () => {
           },
           input: {
             html: 'input',
-            _type: 'range',
+            type: 'range',
             dataChanged: Mutate.Value,
-            onInput: function (e, {data}) {
+            onChange: function (e, {data}) {
               data.set(Number(e.target.value))
             }
           }
@@ -331,7 +329,7 @@ export default () => {
       },
       items: [{
         html: 'input',
-        _type: 'number',
+        type: 'number',
         step: 20,
         dataId: 'firstNumber',
         dataChanged: Mutate.Value,
@@ -343,7 +341,7 @@ export default () => {
         text: '+'
       }, {
         html: 'input',
-        _type: 'number',
+        type: 'number',
         step: 20,
         dataId: 'secondNumber',
         dataChanged: Mutate.Value,
@@ -359,21 +357,21 @@ export default () => {
         html: 'p',
         weight: 10,
         items: [{
-          base: AnimatedNumber,
+          as: AnimatedNumber,
           dataId: 'firstNumber',
           dataChanged: Mutate.Value
         }, {
           html: 'span',
           text: '+'
         }, {
-          base: AnimatedNumber,
+          as: AnimatedNumber,
           dataId: 'secondNumber',
           dataChanged: Mutate.Value
         }, {
           html: 'span',
           text: '='
         }, {
-          base: AnimatedNumber,
+          as: AnimatedNumber,
           dataId: 'result',
           dataChanged: Mutate.Value
         }]

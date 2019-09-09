@@ -87,7 +87,7 @@ export default () => {
       },
       $example: {
         $button: {
-          base: Button,
+          as: Button,
           text: 'Click me',
           onClick: function (e, {data}) {
             data._update()
@@ -95,7 +95,8 @@ export default () => {
         },
         $info: {
           html: 'p',
-          text: Bind.data('now')
+          dataId: 'now',
+          dataChanged: Mutate.Text //Bind.data('now')
         }
       }
     }, {
@@ -198,7 +199,7 @@ export default () => {
             debounceAsk: {
 //              policy: 'exclusive',
               when: (e, {ask}) => e.name == ask.init,
-              init: function () {
+              callback: function () {
                 this.set('answer', 'Ожидаю, когда вы закончите печатать...')
                 return new Promise(function (resolve) {
                   setTimeout(() => resolve(), 500)
@@ -238,11 +239,15 @@ export default () => {
           onChange: function (e, {data}) {
             data.set('question', e.target.value)
           },
-          value: Bind.data('question')
+          dataId: 'question',
+          dataChanged: Mutate.Value
+//          value: Bind.data('question')
         },
         $info: {
           html: 'p',
-          text: Bind.data('answer')
+          dataId: 'answer',
+          dataChanged: Mutate.Text
+//          text: Bind.data('answer')
         }
       }
     }, {
@@ -261,14 +266,16 @@ export default () => {
         })
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Increment',
         onClick: function (e, {data}) {
           data.increment()
         }
       },
       $text: {
-        text: Bind.data('x10')
+        dataId: 'x10',
+        dataChanged: Mutate.Text
+//        text: Bind.data('x10')
       }
     }, {
       sources: {
@@ -277,7 +284,9 @@ export default () => {
         }
       },
       $content: {
-        text: Bind.data('name'),
+        dataId: 'name',
+        dataChanged: Mutate.Text
+        //text: Bind.data('name'),
         // aaa: $.any([$.data('name'), $.page('user')], (name, user) => 'Name' + name + ', User: ' + user.username),
         // bbb: $.any(({data, page}) => 'Name' + data.name + ', User: ' + page.user.username)
       }

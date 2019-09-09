@@ -95,7 +95,7 @@ class Source {
 
       if (this.isCalc) {
         if (this.cache == null) {
-          console.log('calc', this.cache, this.id)
+//          console.log('calc', this.cache, this.id)
           v = this.isNested ? this.src.get() : this.src
           v = this.options.calc.call(this, v, this.src.props)
         }

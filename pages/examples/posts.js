@@ -34,21 +34,21 @@ export default () => {
     $list: {
       dataId: 'posts',
       dataChanged: function (v, key) {
-        return {$items: key}
+        return {items: key}
       },
       dataEntryId: (v) => v.id,
 //           binding: function (v, sources, key) {
 //             console.log('binding posts', key)
 // //            if (!key || key == 'state') {
-// //              return {$items: 'state'}
+// //              return {items: 'state'}
 // //              debugger
-//               this.opt('$items', 'state')
+//               this.opt('items', 'state')
 // //            }
 //           },
       // defaultItem: {
       //   layout: Layouts.Media,
       //   $content: {
-      //     base: Content,
+      //     as: Content,
       //     $content: {
       //       html: 'p',
       //       $title: {
@@ -81,10 +81,10 @@ export default () => {
         // },
         layout: Layouts.Media,
         $content: {
-          base: Content,
-          pageChanged: function (v, key) {
-            this.opt('$components', key)
-              // this.opt('$components', new Source({comments: v.showComments === true}))
+          as: Content,
+          pageChanged: function (v, key, src) {
+            this.opt('components', src.$stream(key))
+              // this.opt('components', new Source({comments: v.showComments === true}))
               //
               // if (v.comments == null && !v.loadingComments) {
               //   v.loadingComments = true // это значение не связывается с компонентами
@@ -213,7 +213,7 @@ export default () => {
             defaultItem: {
               layout: Layouts.Media,
               $content: {
-                base: Content,
+                as: Content,
                 $content: {
                   html: 'p',
                   $title: {
@@ -243,8 +243,8 @@ export default () => {
           allBound: function ({users, user}) {
 
           },
-          base: Image,
-          as: 'is-64x64',
+          as: Image,
+          css: 'is-64x64',
           mediaLeft: true,
           userChanged: function (v) {
             return {src: v.avatar}
@@ -271,7 +271,7 @@ export default () => {
                 })
             }
             if (this.sources.user == null) {
-              this.opt('$sources', {user: users.$entry(post.userId)})
+              this.opt('sources', {user: users.$entry(post.userId)})
               // FIXME здесь должен вызываться метод this.opt({sources: {user: ?}})
               // this.options.sources.user = this.sources.users.entry(post.userId)
               // this.bind(this.options.sources.user, 'user')

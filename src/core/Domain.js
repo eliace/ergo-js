@@ -15,7 +15,7 @@ class Domain extends Source {
 
     if (this.options.watchers) {
       for (let i in this.options.watchers) {
-        this.$watch(this.options.watchers[i], this, i)
+        this.$watch(this.options.watchers[i], this)//, i)
       }
     }
 
@@ -34,6 +34,12 @@ class Domain extends Source {
     if (this.options.effects) {
       for (let i in this.options.effects) {
         this.$effect(this.options.effects[i], i, this)
+      }
+    }
+
+    if (this.options.actions) {
+      for (let i in this.options.actions) {
+        this.$action(i, this, this.options.actions[i])
       }
     }
 
@@ -106,7 +112,7 @@ class Domain extends Source {
       const promises = []
       const effects = []
       this._watchers.forEach((watchers, target) => {
-        if (!event.target || event.target == target) {  // важно для локальных событий типа init/destroy
+        if (!event.target || target == this || event.target == this || event.target == target) {  // важно для локальных событий типа init/destroy
           watchers.forEach(watcher => {
             if (watcher.when(event, target)) {
               const result = watcher.callback.call(target, event)
@@ -401,7 +407,7 @@ class Domain extends Source {
     let l = this._listeners.get(target)
     if (!l) {
       if (!this._key) {
-        console.warn('key not defined!')
+        console.warn('Stream key not defined!', this)
       }
       l = {key: this._key}
     }
@@ -544,10 +550,7 @@ class Domain extends Source {
       }
     }
 
-    if (typeof when == 'string') {
-      watcher.when = (e) => e.name == when
-    }
-    else if (when.constructor == Object) {
+    if (when.constructor == Object) {
       const w = when
       if (w.on) {
         this.$listen(i, target, w.on, w.policy)
@@ -561,7 +564,15 @@ class Domain extends Source {
       if (w.cancel) {
         this.$listen(i+':cancel', target, w.cancel)
       }
+      if (w.callback) {
+        watcher.callback = w.callback
+      }
       watcher.when = w.when
+    }
+
+    if (typeof watcher.when == 'string') {
+      const name = watcher.when
+      watcher.when = (e) => e.name == name
     }
 
     watchers.push(watcher)
@@ -620,6 +631,15 @@ class Domain extends Source {
   $method (name, target, listener, ns) {
     this.on({[name]: listener}, target, ns)
     return this[name]
+  }
+
+  $action (name, target, listener, ns) {
+    this.on({[name]: listener}, target, ns)
+    return this[name]
+  }
+
+  get actions () {
+    return this
   }
 
 }

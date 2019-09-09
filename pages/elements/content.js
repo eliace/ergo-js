@@ -9,32 +9,32 @@ export default () => {
     $list: {
       layout: Layouts.Content,
       defaultItem: {
-        base: List,
+        as: List,
       },
       items: [{
-        base: List,
+        as: List,
         html: 'ul',
         items: ['Alice', 'Bob', 'Charlie']
       }, {
         layout: Layouts.Columns,
         defaultItem: {
-          base: List,
+          as: List,
           html: 'ol'
         },
         items: [{
-          _type: '1',
+          type: '1',
           items: ['Alice', 'Bob', 'Charlie']
         }, {
-          _type: 'A',
+          type: 'A',
           items: ['Alice', 'Bob', 'Charlie']
         }, {
-          _type: 'a',
+          type: 'a',
           items: ['Alice', 'Bob', 'Charlie']
         }, {
-          _type: 'I',
+          type: 'I',
           items: ['Alice', 'Bob', 'Charlie']
         }, {
-          _type: 'i',
+          type: 'i',
           items: ['Alice', 'Bob', 'Charlie']
         }]
       }, {

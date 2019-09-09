@@ -33,7 +33,7 @@ export const buildProp = (prop, nextProp, rule) => {
       prop = buildOpts(prop, nextProp)
     }
     else if (nextProp !== undefined) {
-      if (nextProp.constructor === Object || nextProp.constructor === Array) {
+      if (nextProp != null && (nextProp.constructor === Object || nextProp.constructor === Array)) {
         prop = deepClone(nextProp)
 //        console.log('deep', nextProp, prop)
       }
@@ -101,6 +101,9 @@ export const defaultFactory = (item, defaultType, context) => {
 
   if (item) {
     ItemClass = item.base || defaultType
+    if (typeof item.as === 'function') {
+      ItemClass = item.as
+    }
   }
   else {
     item = {}

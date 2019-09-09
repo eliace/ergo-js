@@ -1,28 +1,38 @@
-import {createProjector} from 'maquette'
-import {Html, Source as Domain} from '../src'
+//import {createProjector} from 'maquette'
+import {Html, Domain, Config} from '../src'
 import {Router} from 'director/build/director'
+import Context from '../src/react/Context'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import SignUp from './pages/SignUp'
-import SignIn from './pages/SignIn'
-import Profile from './pages/Profile'
+// import SignUp from './pages/SignUp'
+// import SignIn from './pages/SignIn'
+// import Profile from './pages/Profile'
 import Settings from './pages/Settings'
-import Edit from './pages/Edit'
-import Article from './pages/Article'
+// import Edit from './pages/Edit'
+// import Article from './pages/Article'
 
-import {getArticle, getProfile, getUser} from './effectors'
+import {getUser} from './api'
 
-const projector = createProjector()
+const LOG = (e) => {console.log(e)}
 
-const render = () => {
-  return app.render()
-}
+//import {getArticle, getProfile, getUser} from './effectors'
+
+// const projector = createProjector()
+//
+// const render = () => {
+//   return app.render()
+// }
+//
+// document.addEventListener('DOMContentLoaded', function () {
+//   projector.append(document.body, render);
+// });
 
 document.addEventListener('DOMContentLoaded', function () {
-  projector.append(document.body, render);
-});
+  Config.Renderer.append(app, document.getElementById('app'))
+})
+
 
 const routes = {
   '/': function () {page.setCurrent('home')}, //{page.set('current', 'home')},
@@ -64,9 +74,8 @@ const _router = new Router(routes). configure(routerConfig)
 
 const page = new Domain({
   current: null,
-
 }, {
-  computed: {
+  properties: {
     home: v => v.current == 'home',
     signIn: v => v.current == 'signIn',
     signUp: v => v.current == 'signUp',
@@ -76,7 +85,17 @@ const page = new Domain({
     profile: v => v.current == 'profile',
     header: v => !!v.current,
     footer: v => !!v.current
-  }
+  },
+  actions: {
+    setCurrent: function (v) {
+      this.set('current', v)
+    },
+    loadUser: async function (token) {
+      const v = await getUser(token)
+      this.set('user', v.user)
+    }
+  },
+  watchers: { LOG }
 })
 
 const data = new Domain({
@@ -104,18 +123,37 @@ const app = new Html({
     },
     token
   },
-  $header: Header(),
-  $article: Article(),
-  $edit: Edit(),
-  $settings: Settings(),
-  $profile: Profile(),
-  $home: Home(),
-  $signUp: SignUp(),
-  $signIn: SignIn(),
-  $footer: Footer(),
+  $header: Header,
+  // $article: Article,
+  // $edit: Edit,
+  $settings: Settings,
+  // $profile: Profile,
+  $home: Home,
+  // $signUp: SignUp,
+  // $signIn: SignIn,
+  $footer: Footer,
   components: false,
-  pageChanged: function (v, k) {
-    this.opt('$components', this.sources[k])
+  pageChanged: function (v, k, page) {
+    this.opt('components', page.$stream(k))
+  },
+  allJoined: function ({page, token}) {
+    const { setCurrent } = page.actions
+    // page.$watch('init', this, () => {
+    //   if (!page.get('user') && token.get()) {
+    //     return page.loadUser(token.get())
+    //   }
+    // })
+    page.$effect({
+      when: e => e.name == setCurrent.on,
+      on: (e) => {
+        if (!page.get('user') && token.get()) {
+          return page.loadUser(token.get())
+        }
+      },
+      fail: () => {
+        console.log('error auth')
+      }
+    }, 'auth', this)
   },
   sourcesBound: function ({data, page, router, token}) {
 
@@ -193,8 +231,6 @@ const app = new Html({
       window.location.assign('/#/')
     }
   }
-}, {
-  projector
 })
 
 _router.init()

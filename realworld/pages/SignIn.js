@@ -20,7 +20,7 @@ export default () => {
         this.domain.page.login(user)
       }
     },
-    type: Auth,
+    as: Auth,
     body: {
       $title: {
         text: 'Sign in'
@@ -39,7 +39,7 @@ export default () => {
           dataId: 'email'
         }, {
           placeholder: 'Password',
-          _type: 'password',
+          type: 'password',
           dataId: 'password'
         }],
         $submit: {

@@ -5,7 +5,7 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      base: Delete
+      as: Delete
     }]
   }
 }

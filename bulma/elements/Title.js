@@ -3,14 +3,14 @@ import {Html} from '../../src'
 
 class Subtitle extends Html {
   static defaultOpts = {
-    as: 'subtitle'
+    css: 'subtitle'
   }
 }
 
 class Title extends Html {
 
   static defaultOpts = {
-    as: 'title'
+    css: 'title'
   }
 
   static Subtitle = Subtitle

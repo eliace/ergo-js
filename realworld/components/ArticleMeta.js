@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 
 export default class ArticleMeta extends Html {
   static defaultOpts = {
-    as: 'article-meta',
+    css: 'article-meta',
     $avatar: {
       html: 'a',
       href: '',
@@ -19,11 +19,11 @@ export default class ArticleMeta extends Html {
       }
     },
     $info: {
-      as: 'info',
+      css: 'info',
       $author: {
         html: 'a',
         href: '',
-        as: 'author',
+        css: 'author',
         dataChanged: function (v) {
           this.opt('text', v.author.username)
           this.opt('href', '/#/@'+v.author.username)
@@ -31,7 +31,7 @@ export default class ArticleMeta extends Html {
       },
       $date: {
         html: 'span',
-        as: 'date',
+        css: 'date',
         dataChanged: function (v) {
           this.opt('text', dayjs(v.createdAt).format('MMMM D, YYYY'))
         }
@@ -39,16 +39,16 @@ export default class ArticleMeta extends Html {
     },
     $followBtn: {
       html: 'button',
-      as: 'btn btn-sm',
+      css: 'btn btn-sm',
       $icon: {
         html: 'i',
-        as: 'ion-plus-round',
+        css: 'ion-plus-round',
         weight: -10
       },
 //        text: ' Follow Eric Simons ',
       $counter: {
         html: 'span',
-        as: 'counter',
+        css: 'counter',
 //          text: '(10)',
 //           dataChanged: function (v) {
 // //            this.opt('text', '('+v.favoritesCount+')')
@@ -67,16 +67,16 @@ export default class ArticleMeta extends Html {
     },
     $favoriteBtn: {
       html: 'button',
-      as: 'btn btn-sm btn-outline-primary',
+      css: 'btn btn-sm btn-outline-primary',
       $icon: {
         html: 'i',
-        as: 'ion-heart',
+        css: 'ion-heart',
         weight: -10
       },
       text: ' Favorite Article ',
       $counter: {
         html: 'span',
-        as: 'counter',
+        css: 'counter',
         dataChanged: function (v) {
           this.opt('text', '('+v.favoritesCount+')')
         },

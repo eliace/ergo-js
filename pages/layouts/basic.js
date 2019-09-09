@@ -11,7 +11,7 @@ export default () => {
         text: 'Hello'
       },
       $box: {
-        base: Box
+        as: Box
       }
     }, {
       layout: Layout.wrapped,
@@ -19,8 +19,8 @@ export default () => {
         text: 'Hello'
       },
       $wrapper: {
-        base: Box,
-        as: 'has-text-link'
+        as: Box,
+        css: 'has-text-link'
       }
     }, {
 

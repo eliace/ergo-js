@@ -89,7 +89,7 @@ export default () => {
     // },
     $table: {
       html: 'table',
-      as: 'table',
+      css: 'table',
       $header: {
         html: 'thead',
         defaultItem: {

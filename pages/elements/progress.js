@@ -7,29 +7,29 @@ export default () => {
     layout: Layouts.Rows,
     width: 400,
     items: [{
-      base: Progress,
+      as: Progress,
       value: 40
     }, {
       defaultItem: {
-        base: Progress
+        as: Progress
       },
       items: [
-        {value: 30, as: 'is-primary'},
-        {value: 35, as: 'is-link'},
-        {value: 40, as: 'is-info'},
-        {value: 45, as: 'is-success'},
-        {value: 50, as: 'is-warning'},
-        {value: 55, as: 'is-danger'},
+        {value: 30, css: 'is-primary'},
+        {value: 35, css: 'is-link'},
+        {value: 40, css: 'is-info'},
+        {value: 45, css: 'is-success'},
+        {value: 50, css: 'is-warning'},
+        {value: 55, css: 'is-danger'},
       ]
     }, {
       defaultItem: {
-        base: Progress,
+        as: Progress,
         height: 3
       },
       items: [
-        {value: 30, as: 'is-primary'},
-        {value: 40, as: 'is-link'},
-        {value: 50, as: 'is-info'},
+        {value: 30, css: 'is-primary'},
+        {value: 40, css: 'is-link'},
+        {value: 50, css: 'is-info'},
       ]
     }]
   }

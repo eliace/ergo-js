@@ -6,16 +6,16 @@ export default () => {
   return {
     layout: Layouts.Columns,
     defaultItem: {
-      base: Box,
-      text: "I'm the Box"
+      as: Box,
+      text: "I'm a Box"
     },
     items: [{
     }, {
-      as: 'has-text-primary',
+      css: 'has-text-primary',
     }, {
-      as: 'has-background-info has-text-light',
+      css: 'has-background-info has-text-light',
     }, {
-      as: 'is-warning'
+      css: 'is-warning'
     }]
 
   }

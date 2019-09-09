@@ -11,8 +11,8 @@ export class ButtonWithIcon extends Button {
   config () {
     return {
       $icon: {
-        base: IconBox,
-        as: 'is-small',
+        as: IconBox,
+        css: 'is-small',
       },
       $content: {
         html: 'span',
@@ -42,13 +42,13 @@ export class PreviewAndCode extends Html {
         column: 'is-half'
       },
       $code: {
-        as: 'code-panel',
+        css: 'code-panel',
         column: 'is-half',
         $content: {
           html: 'pre',
           $content: {
             html: 'code',
-            as: 'language-javascript',
+            css: 'language-javascript',
           },
           ref: function (el) {
             if (el) {

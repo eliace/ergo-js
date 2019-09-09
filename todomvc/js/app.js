@@ -1,7 +1,13 @@
 import {Html, Layout, Domain} from '../../src'
 import {uuid, pluralize} from './utils'
 
-export default (projector) => {
+export default () => {
+
+  const AutoFocus = (el) => {
+    requestAnimationFrame(() => {
+      el.focus()
+    })
+  }
 
   // router.on('/', () => {
   //   dataDomain.set('filter', 'all')
@@ -55,52 +61,48 @@ export default (projector) => {
             }
           }
         }),
-        app: {
-
-        }
+        app: {}
       },
-      allBound: function ({app, data}) {
+      allJoined: function ({app, data}) {
         app.$method('addTodo', this, (todo) => {
-          data.entry('todos').add({
+          data.$entry('todos').$add({
             id: uuid(),
             text: todo
           })
         })
         app.$method('deleteTodo', this, (id) => {
-          const todos = data.entry('todos').get()
+          const todos = data.$entry('todos').get()
           const idx = todos.findIndex(v => v.id == id)
-          data.entry('todos').$remove(idx)
+          data.$entry('todos').$remove(idx)
         })
         app.$method('completeAll', this, (complete) => {
-          data.entry('todos').$each(todo => {
+          data.$entry('todos').$each(todo => {
             todo.set('completed', complete)
           })
         })
         app.$method('deleteCompleted', this, () => {
-          const todos = data.entry('todos').get()
+          const todos = data.$entry('todos').get()
           const onlyActiveTodos = todos.filter(todo => !todo.completed)
-          data.entry('todos').set(onlyActiveTodos)
+          data.$entry('todos').set(onlyActiveTodos)
         })
       },
       html: 'section',
-      as: 'todoapp',
+      css: 'todoapp',
       dataChanged: function (v, k) {
-        this.opt('$components', k)
+        this.opt('components', v)
       },
       $header: {
         html: 'header',
-        as: 'header',
+        css: 'header',
         $title: {
           html: 'h1',
           text: 'todos'
         },
         $newTodo: {
           html: 'input',
-          as: 'new-todo',
+          css: 'new-todo',
           placeholder: 'What needs to be done?',
-          onAfterCreate: function (el) {
-            el.focus()
-          },
+          dom: { AutoFocus },
           onKeyUp: function (e, {app}) {
             if (e.key == 'Enter') {
               if (e.target.value.trim().length > 0) {
@@ -116,16 +118,16 @@ export default (projector) => {
       },
       $main: {
         html: 'section',
-        as: 'main',
+        css: 'main',
         $toggleAll: {
           layout: Layout.Passthru,
           $input: {
             html: 'input',
-            _type: 'checkbox',
+            type: 'checkbox',
             id: 'toggle-all',
-            as: 'toggle-all',
-            dataChanged: function (v, k) {
-              this.opt('checked', this.domains[k].get('allCompleted'))
+            css: 'toggle-all',
+            dataChanged: function (v, k, data) {
+              this.opt('checked', data.get('allCompleted'))
             },
             onChange: function (e, {app}) {
               app.completeAll(e.target.checked)
@@ -134,19 +136,18 @@ export default (projector) => {
           $label: {
             html: 'label',
             text: 'Mark all as complete',
-            onAfterCreate: function (el) {
-              el.setAttribute('for', 'toggle-all')
-            }
+            htmlFor: 'toggle-all'
           }
         },
         $todoList: {
           html: 'ul',
-          as: 'todo-list',
+          css: 'todo-list',
           filter: 'all',
           dataId: 'filteredTodos',
           dataEntryId: v => v.id,
-          dataChanged: function (v, k) {
-            this.opt('$items', k)//data.entry(this.opt('filter')).asStream(k))
+          dataChanged: function (v, k, s) {
+            console.count('sync todos')
+            this.opt('items', s.$stream(k))//data.entry(this.opt('filter')).asStream(k))
           },
           defaultItem: {
             html: 'li',
@@ -157,11 +158,11 @@ export default (projector) => {
               })
             },
             $view: {
-              as: 'view',
+              css: 'view',
               $check: {
                 html: 'input',
-                _type: 'checkbox',
-                as: 'toggle',
+                type: 'checkbox',
+                css: 'toggle',
                 dataChanged: function (v) {
                   this.opt('checked', v.completed)
                 },
@@ -180,7 +181,7 @@ export default (projector) => {
               },
               $destroy: {
                 html: 'button',
-                as: 'destroy',
+                css: 'destroy',
                 onClick: function (e, {data, app}) {
                   app.deleteTodo(data.get('id'))
                 }
@@ -188,17 +189,14 @@ export default (projector) => {
             },
             $edit: {
               html: 'input',
-              as: 'edit',
-              dataChanged: function (v) {
-                if (this.vnode) {
-                  this.vnode.domNode.value = v.text
-                }
-                else {
-                  this.opt('value', v.text)
-                }
-                requestAnimationFrame(() => {
-                  this.vnode.domNode.focus()
+              css: 'edit',
+              dataJoined: function (data) {
+                data.$watch(e => e.name == 'changed' && e.ids && 'editing' in e.ids, this, () => {
+                  this.eff(AutoFocus)
                 })
+              },
+              dataChanged: function (v) {
+                this.opt('defaultValue', v.text)
               },
               onBlur: function (e, {data}) {
                 data.set('editing', false)
@@ -218,13 +216,13 @@ export default (projector) => {
       },
       $footer: {
         html: 'footer',
-        as: 'footer',
-        dataChanged: function (v, k) {
-          this.opt('$components', k)
+        css: 'footer',
+        dataChanged: function (v) {
+          this.opt('components', v)
         },
         $todoCount: {
           html: 'span',
-          as: 'todo-count',
+          css: 'todo-count',
           dataId: 'leftCount',
           $count: {
             html: 'strong',
@@ -240,7 +238,7 @@ export default (projector) => {
         },
         $filters: {
           html: 'ul',
-          as: 'filters',
+          css: 'filters',
           defaultItem: {
             html: 'li',
             $content: {
@@ -279,7 +277,7 @@ export default (projector) => {
         },
         $clearCompleted: {
           html: 'button',
-          as: 'clear-completed',
+          css: 'clear-completed',
           text: 'Clear completed',
           onClick: function (e, {app}) {
             app.deleteCompleted()
@@ -288,7 +286,7 @@ export default (projector) => {
       }
     },
     $footer: {
-      as: 'info',
+      css: 'info',
       items: [{
         html: 'p',
         text: 'Double-click to edit a todo'
@@ -312,5 +310,5 @@ export default (projector) => {
         }
       }]
     }
-  }, {projector})
+  })
 }

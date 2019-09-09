@@ -5,7 +5,7 @@ class MenuLabel extends Html {
   config () {
     return {
       html: 'p',
-      as: 'menu-label'
+      css: 'menu-label'
     }
   }
 }
@@ -33,12 +33,12 @@ class MenuItem extends Html {
 class MenuList extends List {
   config () {
     return {
-      as: 'menu-list',
+      css: 'menu-list',
       defaultItem: {
-        base: MenuItem
+        as: MenuItem
       },
       defaultComponent: {
-        base: MenuItem
+        as: MenuItem
       }
     }
   }
@@ -48,7 +48,7 @@ class MenuSubList extends List {
   config () {
     return {
       defaultItem: {
-        base: MenuItem
+        as: MenuItem
       }
     }
   }
@@ -59,7 +59,7 @@ class Menu extends Html {
   config () {
     return {
       html: 'aside',
-      as: 'menu'
+      css: 'menu'
     }
   }
 }

@@ -40,8 +40,8 @@ class Switch extends Html {
       layout: Layout.passthru,
       $input: {
         html: 'input',
-        as: 'switch',
-        _type: 'checkbox',
+        css: 'switch',
+        type: 'checkbox',
         // onChange: function (e) {
         //   console.log(e)
         // },
@@ -56,7 +56,7 @@ class Switch extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       selected: {
         initOrSet: function (v) {
@@ -76,8 +76,8 @@ class Switch extends Html {
   //   components: {
   //     input: {
   //       html: 'input',
-  //       as: 'switch',
-  //       _type: 'checkbox'
+  //       css: 'switch',
+  //       type: 'checkbox'
   //     },
   //     content: {
   //       html: 'label',
@@ -117,22 +117,22 @@ export default () => {
         value: true
       },
       items: [{
-        base: ValueInput,
+        as: ValueInput,
         dataId: 'firstName',
         valueRef: 'data',
         placeholder: 'First Name'
       }, {
-        base: ValueInput,
+        as: ValueInput,
         dataId: 'middleName',
         valueRef: 'data',
         placeholder: 'Middle Name'
       }, {
-        base: ValueInput,
+        as: ValueInput,
         dataId: 'lastName',
         valueRef: 'data',
         placeholder: 'Last Name'
       }, {
-        base: ValueText,
+        as: ValueText,
         valueRef: 'data',
         format: JSON.stringify
       }]
@@ -143,7 +143,7 @@ export default () => {
       },
       dataChanged: Mutate.Items,
       defaultItem: {
-        base: Switch,
+        as: Switch,
         dataChanged: function (v) {
           // this.opts.text = v
           // this.opts.key = v
@@ -158,7 +158,7 @@ export default () => {
         }
       },
       $info: {
-        base: ValueText,
+        as: ValueText,
         valueRef: 'selection',
         format: JSON.stringify,
         weight: 10

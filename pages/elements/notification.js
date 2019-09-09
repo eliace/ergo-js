@@ -8,16 +8,16 @@ export default () => {
     layout: Layouts.Rows,
     items: [{
       defaultItem: {
-        base: Notification,
+        as: Notification,
         text: LOREM_IPSUM.slice(0, 140)
       },
       items: [
-        {as: 'is-primary'},
-        {as: 'is-link'},
-        {as: 'is-info'},
-        {as: 'is-success'},
-        {as: 'is-warning'},
-        {as: 'is-danger'},
+        {css: 'is-primary'},
+        {css: 'is-link'},
+        {css: 'is-info'},
+        {css: 'is-success'},
+        {css: 'is-warning'},
+        {css: 'is-danger'},
       ]
     }]
   }

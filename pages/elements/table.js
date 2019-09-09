@@ -20,7 +20,7 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      base: Table,
+      as: Table,
       $colgroup: {
         items: [{},{},{},{}]
       },
@@ -33,7 +33,7 @@ export default () => {
       $foot: {
         html: 'tfoot',
         defaultItem: {
-          base: Table.Row,
+          as: Table.Row,
           defaultItem: {
             html: 'th'
           }

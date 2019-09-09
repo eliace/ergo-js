@@ -21,7 +21,7 @@ import fs from 'fs'
 
 function previewOf (exampleCreator, code) {
   return {
-    base: PreviewAndCode,
+    as: PreviewAndCode,
     $preview: exampleCreator(),
     $code: {
       text: code
@@ -71,10 +71,10 @@ export default () => {
     },
     layout: Layouts.Rows,
     $header: {
-      as: 'example-header',
+      css: 'example-header',
       layout: Layouts.Level,
       $title: {
-        as: 'example-title',
+        css: 'example-title',
         layout: Layouts.Content,
         $content: {
           html: 'h4'
@@ -82,7 +82,7 @@ export default () => {
         text: 'Elements'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         levelRight: true,
         defaultTab: {
           dataChanged: function (v) {

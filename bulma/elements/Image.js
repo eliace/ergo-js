@@ -5,7 +5,7 @@ class Image extends Html {
   config () {
     return {
       html: 'figure',
-      as: 'image',
+      css: 'image',
       $content: {
         html: 'img'
       }

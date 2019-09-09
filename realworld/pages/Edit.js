@@ -10,9 +10,9 @@ export default () => {
     sources: {
       data: {}
     },
-    as: 'editor-page',
+    css: 'editor-page',
     $content: {
-      as: 'container page',
+      css: 'container page',
       layout: ColumnsLayout,
       $form: {
         col: 'col-md-10 offset-md-1 col-xs-12',
@@ -20,7 +20,7 @@ export default () => {
         $fieldset: {
           html: 'fieldset',
           defaultItem: {
-            type: Field.Input
+            as: Field.Input
           },
           items: [{
             placeholder: 'Article Title',
@@ -29,20 +29,20 @@ export default () => {
             placeholder: 'What\'s this article about?',
             dataId: 'description'
           }, {
-            type: Field.TextArea,
+            as: Field.TextArea,
             placeholder: 'Write your article (in markdown)',
             rows: 8,
             dataId: 'body'
           }, {
             placeholder: 'Enter tags',
             $tags: {
-              as: 'tag-list'
+              css: 'tag-list'
             },
             dataId: 'tags'
           }],
           $publishBtn: {
             html: 'button',
-            as: 'btn btn-lg pull-xs-right btn-primary',
+            css: 'btn btn-lg pull-xs-right btn-primary',
             text: 'Publish Article',
             weight: 10
           }

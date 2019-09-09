@@ -5,7 +5,7 @@ export default class Progress extends Html {
   config () {
     return {
       html: 'progress',
-      as: 'progress',
+      css: 'progress',
       max: 100
     }
   }

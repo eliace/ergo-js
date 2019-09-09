@@ -1,54 +1,47 @@
 import {Html, Text} from '../../src'
 import {Layouts, Tabs, IconBox} from '../../bulma'
+import {Mutate, compose} from '../helpers'
 
-function Selectable (opts) {
+function Selectable () {
   return {
     selectionChanged: function (v) {
-//      debugger
       return {selected: v == this.opt('key')}
     },
-    onClick: function() {
-      this.sources.selection.set(this.options.key)
+    onClick: function(e, {selection}) {
+      selection.set(this.opt('key'))
     }
   }
 }
 
-const Mutate = {
-  Tabs: function (v, key) {return {$tabs: key}},
-  TextAndKey: function (v) {return {key: v, text: v}},
-  Text: function (v) {return {text: v}},
-  Icon: function (v) {return {icon: v}}
-}
 
-const Mixins = {
-  Fas: function () {
-    return  {
-      $content: {
-        classes: {'fas': true}
-      }
+const Fas = function () {
+  return  {
+    $content: {
+      classes: {'fas': true}
     }
-  },
-  WithIcon: function () {
-    return {
-      $content: {
-        $icon: {
-          base: IconBox,
-          mixins: [Mixins.Fas],
-        },
-        $content: {
-          html: 'span'
-        }
+  }
+}
+const WithIcon = function () {
+  return {
+    $content: {
+      $icon: {
+        as: IconBox,
+        mixins: { Fas },
       },
-      options: {
-        icon: {
-          initOrSet: function (v) {
-            this.$content.$icon.opt('icon', v)
-          }
+      $content: {
+        html: 'span'
+      }
+    },
+    options: {
+      icon: {
+        initOrSet: function (v) {
+          this.$content.$icon.opt('icon', v)
         }
       }
     }
   }
 }
+
 
 const TABS = [
   {icon: 'fa-image', text: 'Pictures'},
@@ -58,12 +51,10 @@ const TABS = [
 ]
 
 
-
 export default () => {
   return {
     sources: {
       tabs: ['Pictures', 'Music', 'Videos', 'Documents'],
-      selection: 'Pictures',
       data: [
         {icon: 'fa-image', text: 'Pictures'},
         {icon: 'fa-music', text: 'Music'},
@@ -72,7 +63,7 @@ export default () => {
       ]
     },
     defaultItem: {
-      base: Tabs,
+      as: Tabs,
       sources: {
         selection: 'Pictures'
       }
@@ -81,78 +72,78 @@ export default () => {
     items: [{
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable],
-        tabsChanged: Mutate.TextAndKey
+        mixins: { Selectable },
+        tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
-      as: 'is-centered',
+      css: 'is-centered',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable],
-        tabsChanged: Mutate.TextAndKey
+        mixins: { Selectable },
+        tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
-      as: 'is-centered',
+      css: 'is-centered',
       dataChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable, Mixins.WithIcon],
+        mixins: [Selectable, WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
-      as: 'is-small',
+      css: 'is-small',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable],
-        tabsChanged: Mutate.TextAndKey
+        mixins: { Selectable },
+        tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
-      as: 'is-medium',
+      css: 'is-medium',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable],
-        tabsChanged: Mutate.TextAndKey
+        mixins: { Selectable },
+        tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
-      as: 'is-large',
+      css: 'is-large',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable],
-        tabsChanged: Mutate.TextAndKey
+        mixins: { Selectable },
+        tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       dataChanged: Mutate.Tabs,
-      as: 'is-boxed',
+      css: 'is-boxed',
       defaultTab: {
-        mixins: [Selectable, Mixins.WithIcon],
-        dataChanged: function (v) {
-          return {key: v.text, text: v.text, icon: v.icon}
-        }
-      }
-    }, {
-      dataChanged: Mutate.Tabs,
-      as: 'is-toggle',
-      defaultTab: {
-        mixins: [Selectable, Mixins.WithIcon],
+        mixins: [Selectable, WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
       dataChanged: Mutate.Tabs,
-      as: 'is-toggle is-toggle-rounded',
+      css: 'is-toggle',
       defaultTab: {
-        mixins: [Selectable, Mixins.WithIcon],
+        mixins: [Selectable, WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
       }
     }, {
       dataChanged: Mutate.Tabs,
-      as: 'is-toggle is-fullwidth',
+      css: 'is-toggle is-toggle-rounded',
       defaultTab: {
-        mixins: [Selectable, Mixins.WithIcon],
+        mixins: [Selectable, WithIcon],
+        dataChanged: function (v) {
+          return {key: v.text, text: v.text, icon: v.icon}
+        }
+      }
+    }, {
+      dataChanged: Mutate.Tabs,
+      css: 'is-toggle is-fullwidth',
+      defaultTab: {
+        mixins: [Selectable, WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }

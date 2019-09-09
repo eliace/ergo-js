@@ -47,7 +47,7 @@ class GModal extends Domain {
       watchers: {
         visibility: {
           when: (e) => e.name == 'changed',// && e.ids && e.ids['modals'],
-          on: function () {
+          callback: function () {
             console.log('modal visibility changed')
           }
         }
@@ -104,22 +104,22 @@ class Modal extends Html {
       viewChanged: function (v) {
         this.opt('classes', {'is-active': !!v.opened})
       },
-      as: 'modal',
+      css: 'modal',
       $background: {
-        as: 'modal-background',
+        css: 'modal-background',
         onMouseUp: function (e, {view}) {
           view.close()
         }
       },
       $content: {
-        as: 'modal-content',
+        css: 'modal-content',
         onMouseDown: function (e) {
           e.stopPropagation()
         }
       },
       $close: {
         html: 'button',
-        as: 'modal-close is-large',
+        css: 'modal-close is-large',
         onClick: function (e, {view}) {
           view.close()
         }
@@ -150,7 +150,7 @@ class ImageModal extends Modal {
     return {
       $content: {
         $image: {
-          base: Image,
+          as: Image,
           src: imgUrl
         }
       }
@@ -162,7 +162,7 @@ class BoxModal extends Modal {
   config () {
     return {
       $content: {
-        base: Box,
+        as: Box,
         text: 'Hello'
       }
     }
@@ -185,32 +185,32 @@ export default () => {
       components: {
         modal: false
       },
-      viewChanged: function (v, k) {
-        this.opt('components!', k)
+      viewChanged: function (v, k, src) {
+        this.opt('components', src.$stream(k))
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Open Modal',
         onClick: function (e, {view}) {
           view.open()
         }
       },
       $modal: {
-        base: BoxModal
+        as: BoxModal
       }
     }, {
       sources: {
         view: new ModalDomain()
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Open Modal',
         onClick: function (e, {view}) {
           view.open()
         }
       },
       $modal: {
-        base: ImageModal
+        as: ImageModal
       }
     }, {
       // встраивание в сторонний контейнер
@@ -218,18 +218,18 @@ export default () => {
         modal: new GModal()
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Open Modal',
         onClick: function (e, {modal}) {
           modal.open({
-            base: ImageModal,
+            as: ImageModal,
             $content: {
               $button: {
-                base: Button,
+                as: Button,
                 text: 'Open next',
                 onClick: function (e, {modal}) {
                   modal.open({
-                    base: BoxModal
+                    as: BoxModal
                   })
                 }
               }
@@ -239,7 +239,7 @@ export default () => {
       },
       $standaloneModalContainer: {
         modalChanged: function (v, k, d) {
-          this.opt('$items', d.$entry('modals').get())
+          this.opt('items', d.$entry('modals').get())
         },
         defaultItem: {
           allJoined: function ({view, modal}) {
@@ -248,7 +248,7 @@ export default () => {
             }, this)
             view.open()
           },
-          base: Modal
+          as: Modal
         }
       }
     }, {
@@ -270,14 +270,14 @@ export default () => {
         })
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Open Modal',
         onClick: function (e, {view, modal}) {
           view.open()
         }
       },
       $modal: {
-        base: ImageModal
+        as: ImageModal
       }
     }]
   }

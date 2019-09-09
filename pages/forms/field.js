@@ -7,28 +7,28 @@ import {Mixins} from '../helpers'
 
 class Field extends Html {
   static defaultOpts = {
-    as: 'field',
+    css: 'field',
     dynamicComponents: {
       label: {
         html: 'label',
-        as: 'label',
+        css: 'label',
         weight: -100
       },
       body: {
-        as: 'field-body'
+        css: 'field-body'
       },
       help: {
         html: 'p',
-        as: 'help',
+        css: 'help',
         weight: 100
       }
     },
     defaultItem: {
-      as: 'control'
+      css: 'control'
     },
     components: {
       control: {
-        as: 'control',
+        css: 'control',
         renderIfEmpty: false
       }
     }
@@ -52,7 +52,7 @@ class Field extends Html {
     },
     controls: {
       initOrSet: function (v) {
-        this.opt('$items', v.map(v => {return {$content: v}}))
+        this.opt('items', v.map(v => {return {$content: v}}))
       }
     }
   }
@@ -61,24 +61,24 @@ class Field extends Html {
 
 class Fields extends Html {
   static defaultOpts = {
-    as: 'field is-horizontal',
+    css: 'field is-horizontal',
     dynamicComponents: {
       label: {
-        as: 'field-label is-normal',
+        css: 'field-label is-normal',
         weight: -100,
         components: {
           content: {
             html: 'label',
-            as: 'label'
+            css: 'label'
           }
         }
       }
     },
     components: {
       body: {
-        as: 'field-body',
+        css: 'field-body',
         defaultItem: {
-          base: Field
+          as: Field
         }
       }
     }
@@ -86,7 +86,7 @@ class Fields extends Html {
   static OPTIONS = {
     fields: {
       initOrSet: function (v) {
-        this.$body.opt('$items', v)
+        this.$body.opt('items', v)
       }
     },
     label: {
@@ -104,143 +104,143 @@ export default () => {
     layout: Layouts.Rows,
 //    width: 500,
     items: [{
-      base: Field,
+      as: Field,
       label: 'Button',
       control: {
-        base: Button,
+        as: Button,
         mixins: [Mixins.Button.Icon],
         text: 'Press me',
-        as: 'is-danger is-outlined',
+        css: 'is-danger is-outlined',
         icon: 'fas fa-envelope'
       },
       help: {
         text: 'Some action',
-        as: 'is-danger'
+        css: 'is-danger'
       }
     }, {
       layout: Layouts.Columns,
       defaultItem: {
         control: {
-          base: InputBox,
+          as: InputBox,
           mixins: [Mixins.Input.LeftIcon]
         }
       },
       items: [{
-        base: Field,
+        as: Field,
         label: 'First Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        base: Field,
+        as: Field,
         label: 'Last Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        base: Field,
+        as: Field,
         label: 'Middle Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }]
     }, {
-      base: Fields,
+      as: Fields,
       label: 'Full Name',
       fields: [{
         control: {
-          base: InputBox,
+          as: InputBox,
           placeholder: 'First Name'
         }
       }, {
         control: {
-          base: InputBox,
+          as: InputBox,
           placeholder: 'Middle Name'
         }
       }, {
         control: {
-          base: InputBox,
+          as: InputBox,
           placeholder: 'Last Name'
         }
       }]
     }, {
-      base: Fields,
+      as: Fields,
       label: 'Actions',
       fields: [{
-        as: 'has-addons',
+        css: 'has-addons',
         controls: [{
-          base: Button,
+          as: Button,
           text: 'Alice'
         }, {
-          base: Button,
+          as: Button,
           text: 'Bob'
         }, {
-          base: Button,
+          as: Button,
           text: 'Charlie'
         }]
       }, {
-//          as: 'has-addons has-addons-right',
-        as: 'is-grouped is-grouped-right',
+//          css: 'has-addons has-addons-right',
+        css: 'is-grouped is-grouped-right',
         controls: [{
-          base: Button,
+          as: Button,
           text: 'Alice'
         }, {
-          base: IconBox,
-          as: 'is-normal',
+          as: IconBox,
+          css: 'is-normal',
           icon: 'fas fa-minus'
         }, {
-          base: Button,
+          as: Button,
           text: 'Bob'
         }]
       }]
     }, {
-      base: Field,
-      as: 'is-horizontal',
+      as: Field,
+      css: 'is-horizontal',
       $body: {
         items: [{
-          base: Field,
-          as: 'is-horizontal',
+          as: Field,
+          css: 'is-horizontal',
           $label: {
             html: 'div',
-            as: 'field-label is-normal',
+            css: 'field-label is-normal',
             $content: {
               html: 'label',
-              as: 'label',
+              css: 'label',
               text: 'First Name'
             }
           },
           control: {
-            base: InputBox
+            as: InputBox
           }
         }, {
-          base: Field,
-          as: 'is-horizontal',
+          as: Field,
+          css: 'is-horizontal',
           $label: {
             html: 'div',
-            as: 'field-label is-normal',
+            css: 'field-label is-normal',
             $content: {
               html: 'label',
-              as: 'label',
+              css: 'label',
               text: 'Middle Name'
             }
           },
           control: {
-            base: InputBox
+            as: InputBox
           }
         }, {
-          base: Field,
-          as: 'is-horizontal',
+          as: Field,
+          css: 'is-horizontal',
           $label: {
             html: 'div',
-            as: 'field-label is-normal',
+            css: 'field-label is-normal',
             $content: {
               html: 'label',
-              as: 'label',
+              css: 'label',
               text: 'Last Name'
             }
           },
           control: {
-            base: InputBox
+            as: InputBox
           }
         }]
       }

@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-import {Domain} from '../../src'
+import {Domain, Html} from '../../src'
 
 describe ('Domain', () => {
 

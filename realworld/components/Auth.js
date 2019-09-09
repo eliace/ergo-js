@@ -6,18 +6,18 @@ import Page from '../components/Page'
 
 export default class Auth extends Page {
   static defaultOpts = {
-    as: 'auth-page',
+    css: 'auth-page',
     body: {
       components: {
         title: {
           html: 'h1',
-          as: 'text-xs-center',
+          css: 'text-xs-center',
           text: 'Sign up',
           weight: 10
         },
         subtitle: {
           html: 'p',
-          as: 'text-xs-center',
+          css: 'text-xs-center',
           components: {
             content: {
               html: 'a',
@@ -29,7 +29,7 @@ export default class Auth extends Page {
         },
         errorMessages: {
           html: 'ul',
-          as: 'error-messages',
+          css: 'error-messages',
           defaultItem: {
             html: 'li'
           },
@@ -39,13 +39,13 @@ export default class Auth extends Page {
           html: 'form',
           weight: 40,
           defaultItem: {
-            type: Field.Input,
+            as: Field.Input,
             size: 'lg'
           },
           components: {
             submit: {
               html: 'button',
-              as: 'btn btn-lg btn-primary pull-xs-right',
+              css: 'btn btn-lg btn-primary pull-xs-right',
               text: 'Sign up',
               weight: 10
             }

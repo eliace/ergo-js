@@ -694,7 +694,7 @@ export default () => {
         },
         dataChanged: Mutate.Components,
         $button: {
-          base: Button,
+          as: Button,
           text: 'Press me',
           onClick: function (e, {data}) {
             data.$toggle('p')
@@ -705,7 +705,7 @@ export default () => {
           text: 'Hello!',
           weight: 10,
           mixins: [Animation.Mixins.Transitions],
-          use: {
+          join: {
             data: [Effects.Show, Effects.Hide]
           }
         }
@@ -731,13 +731,13 @@ export default () => {
           x[i] = this.sources[k].$entry(i).get()
         }
         console.log(x)
-        this.opt('$components', new Domain(x))
+        this.opt('components', new Domain(x))
       },//Mutate.Components,
       components: {
         p: false
       },
       $button: {
-        base: Button,
+        as: Button,
         text: 'Переключить отрисовку',
         onClick: function (e, {data}) {
           data.$toggle('show')
@@ -758,7 +758,7 @@ export default () => {
         text: 'Hello!',
         weight: 10,
         mixins: [Animation.Mixins.Transitions],
-        use: {
+        join: {
           data: [Effects.Show.Slide, Effects.Hide.Slide]
         }
       }
@@ -783,7 +783,7 @@ export default () => {
         })
       },
       $buttons: {
-        base: Buttons,
+        as: Buttons,
         items: [{
           text: 'Добавить',
           onClick: function (e, {data}) {
@@ -801,10 +801,10 @@ export default () => {
         //   return v
         // },
         defaultItem: {
-          as: 'list-item',
+          css: 'list-item',
           dataChanged: Mutate.Text,
           mixins: [Animation.Mixins.Transitions],
-          use: {
+          join: {
             data: [Effects.Show, Effects.Hide]
           }
           // dataEffectors: {
@@ -854,7 +854,7 @@ export default () => {
       //   return false
       // },
       $buttons: {
-        base: Buttons,
+        as: Buttons,
         items: [{
           text: 'Перемешать',
           onClick: function (e, {view}) {
@@ -879,7 +879,7 @@ export default () => {
         },
         dataId: 'items',
         dataChanged: Mutate.Items,
-        use: {
+        join: {
           data: [Effects.FLIP.Named('flip-list')]
         }
       }
@@ -904,7 +904,7 @@ export default () => {
         })
       },
       $buttons: {
-        base: Buttons,
+        as: Buttons,
         items: [{
           text: 'Добавить',
           onClick: function () {
@@ -921,7 +921,7 @@ export default () => {
         styles: {
           'position': 'relative'
         },
-        use: {
+        join: {
           data: [Effects.FLIP.Named('flip-list')]
         },
         // sourcesBound: function ({data}) {
@@ -933,7 +933,7 @@ export default () => {
 // //          flip: Animation.Effectors.FLIP('list-complete-move', evt => evt.name == 'changed')
 //         },
         defaultItem: {
-          as: 'list-complete-item',
+          css: 'list-complete-item',
           // dataItemKey: function (v) {
           //   return v.msg
           // },
@@ -942,7 +942,7 @@ export default () => {
             this.opt('text', v)
           },
           mixins: [Animation.Mixins.Transitions],
-          use: {
+          join: {
             data: [Effects.Show.Named('list-complete'), Effects.Hide.Named('list-complete')]
           }
           // dataEffectors: {
@@ -998,7 +998,7 @@ export default () => {
         dataChanged: Mutate.Items,
         // dataChanged: function (v, k) {
         //   debugger
-        //   this.opt('$items', k)
+        //   this.opt('items', k)
         // },
         height: 150,
         // dataEntryId: function (v) {
@@ -1016,7 +1016,7 @@ export default () => {
           dataChanged: function (v) {
             this.opts.text = v && v.msg
           },
-          use: {
+          join: {
             data: [Effects.Log, function (domain, target, key) {
 
               domain.$watch(e => e.name == 'destroy', target, () => {

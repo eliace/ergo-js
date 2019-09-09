@@ -7,7 +7,7 @@ export default () => {
   return {
     layout: Layouts.Row,
     items: [{
-      base: Card,
+      as: Card,
       width: 512,
       components: {
         image: true,
@@ -15,7 +15,7 @@ export default () => {
       },
       $image: {
         $content: {
-          base: Image,
+          as: Image,
           src: imgUrl
         }
       },
@@ -28,7 +28,7 @@ export default () => {
           },
           $wiki: {
             html: 'p',
-            as: 'has-text-right',
+            css: 'has-text-right',
             $link: {
               html: 'a',
               text: 'Wikipedia',

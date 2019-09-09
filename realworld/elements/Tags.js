@@ -3,10 +3,10 @@ import {Html, Layout, Source} from '../../src'
 export default class Tags extends Html {
   static defaultOpts = {
     html: 'ul',
-    as: 'tag-list',
+    css: 'tag-list',
     defaultItem: {
       html: 'li',
-      as: 'tag-pill tag-default'
+      css: 'tag-pill tag-default'
     }
   }
 }

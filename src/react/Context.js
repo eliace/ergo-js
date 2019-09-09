@@ -42,17 +42,18 @@ Config.HTML_OPTIONS = {
   target: true,
   title: true,
   value: true,
-  _type: 'type',
+  type: 'type',
   key: true,
   min: true,
   max: true,
   ref: true,
-  defaultValue: true
+  defaultValue: true,
+  htmlFor: true
 }
 
 Config.HTML_EVENTS = {
   onClick: 'onClick',
-  onDoubleClick: 'ondblclick',
+  onDoubleClick: 'onDoubleClick',
   onMouseDown: 'onMouseDown',
   onMouseUp: 'onMouseUp',
   onInput: 'onInput',
@@ -72,15 +73,34 @@ Config.Renderer.append = function (root, dom) {
 }
 
 Config.Renderer.schedule = function () {
-  console.count('schedule_render')
+//  console.count('schedule_render')
   if (!this.scheduled) {
     requestAnimationFrame(() => {
-      console.count('actual_render')
+//      console.count('actual_render')
       renderVNode(this.root.render(), this.dom)
       this.scheduled = false
+      console.count('RENDER')
+      if (this.effects) {
+        const effects = this.effects
+        this.effects = []
+//        requestAnimationFrame(() => {
+          while (effects.length) {
+            const eff = effects.pop()
+            eff()
+          }
+//        })
+      }
     })
   }
   this.scheduled = true
+}
+
+Config.Renderer.effect = function (callback) {
+  console.count('schedule_effect')
+  if (!this.effects) {
+    this.effects = []
+  }
+  this.effects.push(callback)
 }
 
 Config.defaultLayout = Layout

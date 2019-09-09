@@ -1,13 +1,13 @@
-import {Html, Text, Events} from '../../src'
+import {Html, Text, Events, Domain} from '../../src'
 import {Layouts, Tabs, IconBox, Box, Button, Buttons, Notification} from '../../bulma'
+import { ShowAndHide } from '../effects'
 
 import 'animate.css'
 
 const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.'
 
-
-
 class MyPromise extends Promise {
+
 
 //   constructor(resRejCallback, animCallback) {
 //     super(resRejCallback)
@@ -257,13 +257,13 @@ export default (projector) => {
       modal: {modal: false, notifications: []}
     },
     dynamic: true,
-    modalChanged: function (v, key) {
-      this.opt('$components', key)
+    modalChanged: function (v, key, src) {
+      this.opt('components', src.$stream(key))
     },
     $modal: {
-      as: 'modal is-active',
+      css: 'modal is-active',
       $overlay: {
-        as: 'modal-background',
+        css: 'modal-background',
         mixins: [Mixins.LiveEvents],
         modalEffectors: {
           // custom: {
@@ -297,12 +297,12 @@ export default (projector) => {
         }
       },
       $content: {
-        as: 'modal-content',
+        css: 'modal-content',
         classes: {
           'is-hidden': true
         },
         $content: {
-          base: Box,
+          as: Box,
           styles: {
             height: '60vh'
           },
@@ -346,7 +346,7 @@ export default (projector) => {
         // },
       },
       $closeBtn: {
-        as: 'modal-close is-large',
+        css: 'modal-close is-large',
         onClick: function () {
           const effects = [{
             effector: 'hideContent',
@@ -390,22 +390,22 @@ export default (projector) => {
 //       }
     },
     $notifications: {
-      as: 'collapse-box',
+      css: 'collapse-box',
       styles: {
         'position': 'fixed',
         'top': '1rem',
         'right': '1rem',
-        'z-index': '40'
+        'zIndex': '40'
       },
       dynamic: true,
       modalId: 'notifications',
       modalChanged: function (v, key) {
-        this.opt('$items', key)
+        this.opt('items', key)
       },
       defaultItem: {
-        as: 'collapse-item',
+        css: 'collapse-item',
         $content: {
-          base: Notification,
+          as: Notification,
           modalChanged: function (v, key) {
             this.opt('text', v.text)
           },
@@ -463,9 +463,9 @@ export default (projector) => {
     },
     $test: {
       $buttons: {
-        base: Buttons,
+        as: Buttons,
         $openModalBtn: {
-          base: Button,
+          as: Button,
           text: 'Open Modal',
           onClick: function () {
             const effects = [{
@@ -487,7 +487,7 @@ export default (projector) => {
           }
         },
         $openNotifyBtn: {
-          base: Button,
+          as: Button,
           text: 'Show notification',
           onClick: function () {
 
@@ -531,7 +531,7 @@ export default (projector) => {
     },
     $cssTransitions: {
       sources: {
-        data: {p: false}
+        data: {}
       },
       layout: Layouts.Content,
       $title: {
@@ -539,86 +539,139 @@ export default (projector) => {
         text: 'CSS transitions'
       },
       $content: {
-        dynamic: true,
-        dataChanged: function (v, key) { this.opt('$components', key) },
+        components: {
+          p: false
+        },
+        dataChanged: function (v, key, src) {
+          this.opt('components', src.$stream(key))
+        },
         $button: {
-          base: Button,
+          as: Button,
           text: 'Press me',
-          onClick: function () {
+          onClick: function (e, {data}) {
+            data.$toggle('p')
 //            this.sources.data.toggle('p')
-            const showEff = [{
-              effector: 'show',
-//              watch: event => event.name == 'afterRender'
-            }]
-            const hideEff = [{
-              effector: 'hide',
-              mode: 'pre'
-            }]
-            const p = this.sources.data.get('p')
-            if (p) {
-              this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
-            }
-            else {
-              this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
-            }
+//             const showEff = [{
+//               effector: 'show',
+// //              watch: event => event.name == 'afterRender'
+//             }]
+//             const hideEff = [{
+//               effector: 'hide',
+//               mode: 'pre'
+//             }]
+//             const p = this.sources.data.get('p')
+//             if (p) {
+//               this.sources.data.when(hideEff).set('p', false)//.emit('set', {params: ['p', false]})
+//             }
+//             else {
+//               this.sources.data.set('p', true).then(showEff)//emit('set', {params: ['p', true]})
+//             }
           }
         },
         $p: {
           html: 'p',
           text: 'Hello!',
-//          as: 'fade-enter-active',
+//          css: 'fade-enter-active',
 //          classes: {'fade-enter': true},
           weight: 10,
+          join: {
+            data: { ShowAndHide }
+          },
+          allJoined: function ({data}) {
+
+            // const effects = () => {
+            //   return new Promise((resolve) => {
+            //     this.eff(() => {resolve()})
+            //   })
+            // }
+            //
+            // const transition = () => {
+            //   return new Promise(resolve => {
+            //     this.use((el) => {
+            //       const f = () => {
+            //         el.removeEventListener('transitionend', f)
+            //         resolve()
+            //       }
+            //       el.addEventListener('transitionend', f)
+            //     })
+            //   })
+            // }
+            //
+            // const name = 'fade'
+            //
+            // const show = data.$method('show', this, async () => {
+            //   this.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
+            //   await effects()
+            //   this.opt('classes', {[name+'-enter']: false})
+            //   await transition()
+            //   this.opt('classes', {[name+'-enter-active']: false})
+            // }, 'g')
+            //
+            // const hide = data.$method('hide', this, async () => {
+            //   this.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
+            //   await effects()
+            //   this.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
+            //   await transition()
+            //   this.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
+            // }, 'g')
+
+            data.$watch(e => e.name == 'init', this, () => {
+              return data.show()
+            })
+            data.$watch(e => e.name == 'destroy', this, () => {
+              return data.hide()
+            })
+          }
           // onAfterCreate: function() {
           //   console.log('enter', this)
           //   // this.opt('classes', {'fade-enter': false})
           //   // projector.scheduleRender()
           // },
-          mixins: [Mixins.LiveEvents],
-          dataEffectors: {
-            hide: function () {
-              return {
-                resolver: () => renderAfter(transition(this), projector),
-                ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
-              }
-//              return
-            },
-            // myEffect: function () {
-            //   return {
-            //     use: () => {
-            //       // промис или функция с колбэком
-            //       return (callback) => {
-            //
-            //       }
-            //     }
-            //   }
-            // },
-            show: function () {
-              return {
-                // animation: () => {
-                //   projector.scheduleRender()
-                // },
-                resolver: () => {
-//                   requestAnimationFrame(() => {
-// //                    this.source.emit(this.name+':active', {effectId: this.id, effectStage: 'active'})
-//                     projector.scheduleRender()
-//                   })
-                  return renderAfter(transition(this), projector)
-                },
-                active: () => {
-                  this.opt('classes', {'fade-enter': false})
-                },
-                ready: () => {
-                  this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
-                  // requestAnimationFrame(() => {
-                  //   this.opt('classes', {'fade-enter': false})
-                  //   projector.scheduleRender()
-                  // })
-                },
-                done: () => this.opt('classes', {'fade-enter-active': false})
-              }
-            }
-          },
+//           mixins: [Mixins.LiveEvents],
+//           dataEffectors: {
+//             hide: function () {
+//               return {
+//                 resolver: () => renderAfter(transition(this), projector),
+//                 ready: () => this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+//               }
+// //              return
+//             },
+//             // myEffect: function () {
+//             //   return {
+//             //     use: () => {
+//             //       // промис или функция с колбэком
+//             //       return (callback) => {
+//             //
+//             //       }
+//             //     }
+//             //   }
+//             // },
+//             show: function () {
+//               return {
+//                 // animation: () => {
+//                 //   projector.scheduleRender()
+//                 // },
+//                 resolver: () => {
+// //                   requestAnimationFrame(() => {
+// // //                    this.source.emit(this.name+':active', {effectId: this.id, effectStage: 'active'})
+// //                     projector.scheduleRender()
+// //                   })
+//                   return renderAfter(transition(this), projector)
+//                 },
+//                 active: () => {
+//                   this.opt('classes', {'fade-enter': false})
+//                 },
+//                 ready: () => {
+//                   this.opt('classes', {'fade-enter-active': true, 'fade-enter': true})
+//                   // requestAnimationFrame(() => {
+//                   //   this.opt('classes', {'fade-enter': false})
+//                   //   projector.scheduleRender()
+//                   // })
+//                 },
+//                 done: () => this.opt('classes', {'fade-enter-active': false})
+//               }
+//             }
+//           },
           // dataEffects: function (event) {
           //   console.log('p', event.name)
           //   if (event.name == 'init') {

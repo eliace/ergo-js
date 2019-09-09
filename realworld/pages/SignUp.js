@@ -31,7 +31,7 @@ export default () => {
         this.domain.router.toProfile()
       }
     },
-    type: Auth,
+    as: Auth,
     body: {
       $title: {
         text: 'Sign up'
@@ -60,7 +60,7 @@ export default () => {
           dataId: 'email'
         }, {
           placeholder: 'Password',
-          _type: 'password',
+          type: 'password',
           dataId: 'password'
         }],
         $submit: {

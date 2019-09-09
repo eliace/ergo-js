@@ -12,61 +12,61 @@ import './app.scss'
 
 //fontawesome.config = { autoReplaceSvg: false }
 
-let perfCounter = 0
-let perfAnalysis = null
+// let perfCounter = 0
+// let perfAnalysis = null
+//
+// const projector = createProjector({
+//   performanceLogger(stage, event) {
+//     if (stage == 'renderStart') {
+//       perfCounter = new Date().getTime()
+//     }
+//     else if (stage == 'renderDone') {
+//       console.log('perf [render]', new Date().getTime() - perfCounter, event)
+//       if (perfAnalysis) {
+//         clearTimeout(perfAnalysis)
+//         perfAnalysis = 0
+//       }
+//       perfAnalysis = setTimeout(doAnalysis, 100)
+//     }
+//     else {
+// //      console.log(stage, event)
+//     }
+//
+//   }
+// })
 
-const projector = createProjector({
-  performanceLogger(stage, event) {
-    if (stage == 'renderStart') {
-      perfCounter = new Date().getTime()
-    }
-    else if (stage == 'renderDone') {
-      console.log('perf [render]', new Date().getTime() - perfCounter, event)
-      if (perfAnalysis) {
-        clearTimeout(perfAnalysis)
-        perfAnalysis = 0
-      }
-      perfAnalysis = setTimeout(doAnalysis, 100)
-    }
-    else {
-//      console.log(stage, event)
-    }
-
-  }
-})
-
-function doAnalysis() {
-  const stats = {
-    components: 0,
-    entries: 0,
-    subscriptions: 0,
-    hangingNodes: 0
-  }
-  root.walk(() => stats.components++)
-
-  for (let i in root.sources) {
-    root.sources[i].walk(e => {
-      stats.entries++
-      stats.subscriptions += e.observers.length
-      e.observers.forEach(obs => {
-        if (!hasRoot(obs.target, root)) stats.hangingNodes++
-      })
-    })
-  }
-
-  console.log(stats)
-}
+// function doAnalysis() {
+//   const stats = {
+//     components: 0,
+//     entries: 0,
+//     subscriptions: 0,
+//     hangingNodes: 0
+//   }
+//   root.walk(() => stats.components++)
+//
+//   for (let i in root.sources) {
+//     root.sources[i].walk(e => {
+//       stats.entries++
+//       stats.subscriptions += e.observers.length
+//       e.observers.forEach(obs => {
+//         if (!hasRoot(obs.target, root)) stats.hangingNodes++
+//       })
+//     })
+//   }
+//
+//   console.log(stats)
+// }
 
 
-function hasRoot(c, root) {
-  while (c != null) {
-    if (c == root) {
-      return true
-    }
-    c = c.parent
-  }
-  return false
-}
+// function hasRoot(c, root) {
+//   while (c != null) {
+//     if (c == root) {
+//       return true
+//     }
+//     c = c.parent
+//   }
+//   return false
+// }
 
 // const Bindings = {
 //   Text: function(v) {this.opt('text', v)},
@@ -182,8 +182,8 @@ const Mutate = {
   Src: function (v) {
     return {src: v}
   },
-  DynamicItems: function (v, key) {
-    return {$items: key}
+  DynamicItems: function (v, key, src) {
+    return {items: src.$stream(key)}
   }
 }
 
@@ -216,7 +216,7 @@ const context = new Context({
 })
 
 const root = new Html({
-  as: 'app',
+  css: 'app',
 //  state: rootState,
 //  data: rootData,
   sources: {
@@ -262,7 +262,7 @@ const root = new Html({
 //    users: {},
     dropdown: true
   },
-  allBound: function ({page, data, app}) {
+  allJoined: function ({page, data, app}) {
 
     app.$method('setCurrent', this, (v) => {
       app.set('current', v)
@@ -291,32 +291,32 @@ const root = new Html({
   },
 //  dynamic: true,
   $navbar: {
-    base: Navbar,
-    as: 'is-dark is-fixed-top',
+    as: Navbar,
+    css: 'is-dark is-fixed-top',
 //    dynamic: true,
     $brand: {
-      base: Navbar.Brand,
+      as: Navbar.Brand,
       $logo: {
-        base: Navbar.Item,
+        as: Navbar.Item,
         $content: {
           text: 'Ergo JS',
-          as: 'has-text-weight-semibold is-uppercase'
+          css: 'has-text-weight-semibold is-uppercase'
         }
       }
     },
     $menu: {
-      base: Navbar.Menu,
+      as: Navbar.Menu,
       $start: {
-        base: Navbar.Start,
+        as: Navbar.Start,
         defaultItem: {
-          base: Navbar.Item,
+          as: Navbar.Item,
         },
         items: [{text: 'Home'}, {text: 'Documentation'}]
       },
       $end: {
-        base: Navbar.End,
+        as: Navbar.End,
         defaultItem: {
-          base: Navbar.Item,
+          as: Navbar.Item,
         },
         items: [{
           stateId: 'user',
@@ -351,26 +351,26 @@ const root = new Html({
 //      dynamic: {
 //      blockComponents: Custom.All,
       $mainMenu: {
-        base: Menu,
+        as: Menu,
         column: 'is-one-fifth',
         dataId: 'mainMenu',
-        dataChanged: function (v, key) {
-          return {$items: key}
+        dataChanged: function (v, key, src) {
+          return {items: src.$stream(key)}
         },
         defaultItem: {
           layout: Layout.passthru,
           $label: {
-            base: Menu.Label,
+            as: Menu.Label,
             dataId: 'name',
             dataChanged: function (v) {
               return {text: v}
             }
           },
           $list: {
-            base: Menu.List,
+            as: Menu.List,
             dataId: 'items',
-            dataChanged: function (v, key) {
-              return {$items: key}
+            dataChanged: function (v, key, src) {
+              return {items: src.$stream(key)}
             },
             appChanged: function (v) {
               this.opt('key') // FIXME этот геттер используется для синхронизации с dataChanged
@@ -380,7 +380,7 @@ const root = new Html({
             },
 //             binding: function (v, sources, key) {
 // //              if (!key || key == 'state') {
-// //                this.opt('$items', 'state')
+// //                this.opt('items', 'state')
 // //              }
 // //              if (!key || key == 'block') {
 //                 this.children.forEach(child => {
@@ -444,8 +444,8 @@ const root = new Html({
       $content: {
         column: 'is-four-fifths',
         components: false,
-        appChanged: function (v, key) {
-          return {$components: key}
+        appChanged: function (v, key, app) {
+          return {components: app.$stream(key)}
         },
         $elements: ElementsPage,
         $componentsPage: ComponentsPage,

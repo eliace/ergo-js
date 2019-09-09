@@ -13,11 +13,11 @@ import {getComments} from '../effectors'
 
 class Comment extends Html {
   static defaultOpts = {
-    as: 'card',
+    css: 'card',
     $block: {
-      as: 'card-block',
+      css: 'card-block',
       $content: {
-        as: 'card-text',
+        css: 'card-text',
         dataChanged: function (v) {
           this.opt('text', v.body)
         }
@@ -25,14 +25,14 @@ class Comment extends Html {
       }
     },
     $footer: {
-      as: 'card-footer',
+      css: 'card-footer',
       $avatar: {
         html: 'a',
         href: '',
-        as: 'comment-author',
+        css: 'comment-author',
         $img: {
           html: 'img',
-          as: 'comment-author-img',
+          css: 'comment-author-img',
           dataChanged: function (v) {
             this.opt('src', v.author.image)
           }
@@ -45,7 +45,7 @@ class Comment extends Html {
       },
       $author: {
         html: 'a',
-        as: 'comment-author',
+        css: 'comment-author',
         dataChanged: function (v) {
           this.opt('text', v.author.username)
           this.opt('href', '/#/@'+v.author.username)
@@ -54,7 +54,7 @@ class Comment extends Html {
       },
       $date: {
         html: 'span',
-        as: 'date-posted',
+        css: 'date-posted',
 //        text: 'Dec 29th'
         dataChanged: function (v) {
           this.opt('text', dayjs(v.createdAt).format('MMMM D, YYYY'))
@@ -69,28 +69,28 @@ class Comment extends Html {
 class EditableComment extends Html {
   static defaultOpts = {
     html: 'form',
-    as: 'card comment-form',
+    css: 'card comment-form',
     $block: {
-      as: 'card-block',
+      css: 'card-block',
       $control: {
         html: 'textarea',
-        as: 'form-control',
+        css: 'form-control',
         placeholder: 'Write a comment...',
         rows: 3
       }
     },
     $footer: {
-      as: 'card-footer',
+      css: 'card-footer',
       $avatar: {
         html: 'img',
-        as: 'comment-author-img',
+        css: 'comment-author-img',
         pageChanged: function (v) {
           this.opt('src', v.user.image)
         }
       },
       $postBtn: {
         html: 'button',
-        as: 'btn btn-sm btn-primary',
+        css: 'btn btn-sm btn-primary',
         text: 'Post Comment'
       }
     }
@@ -126,27 +126,27 @@ export default () => {
       console.log('[article] page', e)
     },
 
-    as: 'article-page',
+    css: 'article-page',
     $banner: {
-      as: 'banner',
+      css: 'banner',
       $content: {
-        as: 'container',
+        css: 'container',
         $title: {
           html: 'h1',
           dataId: 'title',
           dataChanged: Mutate.Text
         },
         $meta: {
-          type: ArticleMeta
+          as: ArticleMeta
         }
       }
     },
     $content: {
-      as: 'container page',
+      css: 'container page',
       $content: {
-        as: 'row article-content',
+        css: 'row article-content',
         $content: {
-          as: 'col-md-12',
+          css: 'col-md-12',
           $content: {
             html: 'p',
             dataId: 'body',
@@ -164,12 +164,12 @@ export default () => {
             dataChanged: Mutate.Text
           },
           $tags: {
-            type: Tags,
+            as: Tags,
             dataId: 'tagList',
             dataChanged: Mutate.Items,
             defaultItem: {
               dataChanged: Mutate.Text,
-              as: 'tag-outline',
+              css: 'tag-outline',
             }
           }
         }
@@ -178,15 +178,15 @@ export default () => {
         html: 'hr'
       },
       $actions: {
-        as: 'article-actions',
+        css: 'article-actions',
         $meta: {
-          type: ArticleMeta
+          as: ArticleMeta
         }
       },
       $comments: {
-        as: 'row',
+        css: 'row',
         $content: {
-          as: 'col-xs-12 col-md-8 offset-md-2',
+          css: 'col-xs-12 col-md-8 offset-md-2',
           components: {
             newComment: false
           },
@@ -196,22 +196,22 @@ export default () => {
           dataId: 'comments',
           dataChanged: Mutate.Items,
           $newComment: {
-            type: EditableComment
+            as: EditableComment
           },
           defaultItem: {
-            type: Comment
+            as: Comment
           },
           // items: [{}, {
           //   $footer: {
           //     $modOptions: {
           //       html: 'span',
-          //       as: 'mod-options',
+          //       css: 'mod-options',
           //       defaultItem: {
           //         html: 'i'
           //       },
           //       items: [
-          //         {as: 'ion-edit'},
-          //         {as: 'ion-trash-a'}
+          //         {css: 'ion-edit'},
+          //         {css: 'ion-trash-a'}
           //       ]
           //     }
           //   }

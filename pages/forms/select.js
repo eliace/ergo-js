@@ -5,7 +5,7 @@ import {Layouts, Box} from '../../bulma'
 
 class Select extends Html {
   static defaultOpts = {
-    as: 'select',
+    css: 'select',
     $content: {
 
     }
@@ -21,7 +21,7 @@ export default () => {
     width: 500,
     items: [{
       $content: {
-        base: Select,
+        as: Select,
         text: 'Select option...'
       }
     }]

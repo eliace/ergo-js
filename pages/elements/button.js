@@ -9,10 +9,10 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
-      base: Button,
+      as: Button,
       text: 'Button'
     }, {
-      base: Buttons,
+      as: Buttons,
       items: [{
         html: 'a',
         text: 'Link'
@@ -21,19 +21,19 @@ export default () => {
         text: 'Button'
       }, {
         html: 'input',
-        _type: 'submit',
+        type: 'submit',
         value: 'Submit'
       }, {
         html: 'input',
-        _type: 'reset',
+        type: 'reset',
         value: 'Reset'
       }]
     }, {
       sources: {
         selection: 'Bob'
       },
-      base: Buttons,
-      as: 'has-addons',
+      as: Buttons,
+      css: 'has-addons',
       defaultItem: {
         mixins: [Mixins.Selectable2],
         onSelected: function (v) {
@@ -43,9 +43,9 @@ export default () => {
       },
       items: ['Alice', 'Bob', 'Charlie']
     }, {
-      base: Buttons,
+      as: Buttons,
       defaultItem: {
-        base: ButtonWithIcon,
+        as: ButtonWithIcon,
       },
       items: [
         {icon: 'fas fa-bold'},
@@ -53,15 +53,15 @@ export default () => {
         {icon: 'fas fa-underline'},
       ]
     }, {
-      base: Buttons,
+      as: Buttons,
       defaultItem: {
-        base: ButtonWithIcon,
+        as: ButtonWithIcon,
       },
       items: [
         {icon: 'fab fa-github', text: 'GitHub'},
-        {icon: 'fab fa-twitter', text: 'Twitter', as: 'is-primary'},
-        {icon: 'fas fa-check', text: 'Save', as: 'is-success'},
-        {icon: 'fas fa-times', text: 'Delete', as: 'is-danger is-outlined'},
+        {icon: 'fab fa-twitter', text: 'Twitter', css: 'is-primary'},
+        {icon: 'fas fa-check', text: 'Save', css: 'is-success'},
+        {icon: 'fas fa-times', text: 'Delete', css: 'is-danger is-outlined'},
       ]
     }]
   }

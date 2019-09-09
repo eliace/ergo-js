@@ -110,18 +110,18 @@ export default () => {
       console.log('[profile] data', e)
     },
 
-    as: 'profile-page',
+    css: 'profile-page',
     $userInfo: {
-      as: 'user-info',
+      css: 'user-info',
       $content: {
-        as: 'container',
+        css: 'container',
         layout: ColumnsLayout,
         $content: {
           layout: PassThroughLayout,
           col: 'col-xs-12 col-md-10 offset-md-1',
           $avatar: {
             html: 'img',
-            as: 'user-img',
+            css: 'user-img',
             dataChanged: function (v) {
               this.opt('src', v.image)
             }
@@ -140,10 +140,10 @@ export default () => {
           },
           $followBtn: {
             html: 'button',
-            as: 'btn btn-sm btn-outline-secondary action-btn',
+            css: 'btn btn-sm btn-outline-secondary action-btn',
             $icon: {
               html: 'i',
-              as: 'ion-plus-round'
+              css: 'ion-plus-round'
             },
             dataChanged: function (v) {
               this.opt('text', ' Follow ' + v.username)
@@ -151,10 +151,10 @@ export default () => {
           },
           $settingsBtn: {
             html: 'a',
-            as: 'btn btn-sm btn-outline-secondary action-btn',
+            css: 'btn btn-sm btn-outline-secondary action-btn',
             $icon: {
               html: 'i',
-              as: 'ion-gear-a'
+              css: 'ion-gear-a'
             },
             text: ' Edit profile settings',
             href: '/#/settings'
@@ -168,15 +168,15 @@ export default () => {
       }
     },
     $content: {
-      as: 'container',
+      css: 'container',
       layout: ColumnsLayout,
       $content: {
         col: 'col-xs-12 col-md-10 offset-md-1',
         $articlesToggle: {
-          as: 'articles-toggle',
+          css: 'articles-toggle',
           $nav: {
-            type: Nav,
-            as: 'nav-pills outline-active',
+            as: Nav,
+            css: 'nav-pills outline-active',
             defaultItem: {
               selectionChanged: function (v) {
                 this.opt('active', v.currentTab == this.opt('key'))
@@ -196,18 +196,18 @@ export default () => {
           }
         },
         defaultItem: {
-          type: ArticleItem
+          as: ArticleItem
         },
         dataId: 'articles',
         dataChanged: Mutate.Items,
         pageChanged: Mutate.Components,
         $loadingArticles: {
-          as: 'article-preview',
+          css: 'article-preview',
           html: 'div',
           text: 'Loading...'
         },
         $noArticles: {
-          as: 'article-preview',
+          css: 'article-preview',
           html: 'div',
           text: 'No articles are here... yet.'
         },

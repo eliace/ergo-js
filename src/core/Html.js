@@ -17,8 +17,9 @@ const ComponentRules = {
   defaultComponents: rules.OptionCollection,
   // items: rules.OptionArray,
   components: rules.OptionCollection,
-  as: rules.StringArray,
-  data: rules.Overlap,
+//  as: rules.StringArray,
+  css: rules.StringArray,
+//  data: rules.Overlap,
   '$': rules.Option
 }
 
@@ -34,6 +35,7 @@ const ComponentOptions = {
   // управление отрисовкой
   text: true,
   as: true,
+  css: true,
   styles: true,
   classes: true,
   props: true,
@@ -42,8 +44,8 @@ const ComponentOptions = {
   render: true,
 
   // управление деревом компонентов
-  components: true,
-  items: true,
+  components: {mutable: true},
+  items: {mutable: true},
 
   // настройка подключения к данным
   sources: true,
@@ -108,6 +110,7 @@ function initClassOpts (proto) {
 
 
 
+
 class Html{
 
 //  static OPTIONS = {}
@@ -152,9 +155,12 @@ class Html{
 
     // применяем примеси
     if (opts.mixins) {
-      for (let i = 0; i < opts.mixins.length; i++) {
+//      for (let i = 0; i < opts.mixins.length; i++) {
+      for (let i in opts.mixins) {
         let mixinOpts = opts.mixins[i].call(this, preparedOpts)
-        preparedOpts.merge(mixinOpts)
+        if (mixinOpts) {
+          preparedOpts.merge(mixinOpts)
+        }
       }
     }
 
@@ -178,16 +184,17 @@ class Html{
       html: this.html,
       props: this.props,
       children: this.children,
-      options: this.options
+      options: this.options,
+      context: this.context
     }
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
     // }
 
-    if (opts.use) {
-      for (let i in opts.use) {
-        this.use(opts.use[i])
+    if (opts.dom) {
+      for (let i in opts.dom) {
+        this.use(opts.dom[i])
       }
     }
 
@@ -205,9 +212,13 @@ class Html{
       if (opts.allBound || opts.allJoined) {
         for (let i in this.sources) {
           if (this.sources[i]._key) {
-            console.error('Simultaneous source joints', i, this.sources[i])
+//            this.sources[i]._key.push(i)
+            log.error('Simultaneous source joints', i, this.sources[i])
+            throw new Error('Simultaneous source joints')
           }
+//          else {
           this.sources[i]._key = i
+//          }
         }
         (opts.allBound || opts.allJoined).call(this, this.sources)
         for (let i in this.sources) {
@@ -287,7 +298,7 @@ class Html{
           desc.initOrSet.call(this, opts[i])
         }
       }
-      else if (i == 'as') {
+      else if (i == 'css') {
         if (o.length) {
           this.props.className = classNames(this.props.className, o.join(' '))
         }
@@ -447,7 +458,7 @@ class Html{
   // }
 
   rerender() {
-    if (!this._dirty) {
+    if (!this._dirty && !Config.Renderer.scheduled) {
       Config.Renderer.schedule()
 //      this.context.projector.scheduleRender()
     }
@@ -483,6 +494,10 @@ class Html{
     let keys = [name]
     let values = value
     let isObject = false
+
+    if (name instanceof Options) {
+      name = name.build(ComponentRules)
+    }
 
     if (name && typeof name === 'object'/*name.constructor === Object*/) {
       keys = Object.keys(name)
@@ -520,36 +535,42 @@ class Html{
 //     }
 
     if (oldValue == value) {
-      console.warn('Ignore option ['+name+']', value)
-      continue
-//      return this
+      if (this.classOptions[name] && this.classOptions[name].mutable !== true) {
+        console.warn('Ignore option ['+name+']', value)
+        continue
+      }
     }
 
 
 //    console.log('opt', name, v)
 
-    if (name[0] != '$' && name[name.length-1] != '!') {
+//    if (name[0] != '$' && name[name.length-1] != '!') {
       // FIXME заменить нормальным слиянием
-      if (value && value.constructor === Object) {
-        if (o[name] != null) {
-          o[name] = buildProp(o[name], value)
-          value = o[name]
+      if (value instanceof Source || value instanceof Source.Stream) {
+        o[name] = value
+      }
+      else if (value && (value.constructor === Object || ComponentRules[name])) {
+//        if (o[name] != null) {
+//          o[name] = buildProp(o[name], value, ComponentRules[name]) //TODO ?
+          const p = buildProp(null, value, ComponentRules[name]) // TODO
+          o[name] = o[name] ? Object.assign(o[name], p) : p
+//          value = o[name]
 //          Object.assign(this.options[name], value)
-        }
-        else {
-          o[name] = value
-        }
+//        }
+//        else {
+//          o[name] = value
+//        }
       }
       else {
         o[name] = value
       }
-    }
-    else if (name[0] == '$') {
-      name = name.substr(1)
-    }
-    else {
-      name = name.substr(0, name.length-1)
-    }
+    // }
+    // else if (name[0] == '$') {
+    //   name = name.substr(1)
+    // }
+    // else {
+    //   name = name.substr(0, name.length-1)
+    // }
 
     if (o.options && o.options[name]) {
       const desc = o.options[name]
@@ -571,17 +592,17 @@ class Html{
     }
     else if (name == 'text') {
       if (this.$content) {
-        this.$content.opt('text', String(value))
+        this.$content.opt('text', value)
       }
       else {
-        this.text = String(value)
+        this.text = value != null ? String(value) : value
       }
 //      this.options[name] = String(v)
     }
     else if (name == 'html') {
       this.html = value
     }
-    else if (name == 'as') {
+    else if (name == 'css') {
       if (value.length) {
         this.props['className'] = classNames(this.props['className'], value.join(' '))
       }
@@ -685,7 +706,7 @@ class Html{
     return item
   }
 
-  addComponent(i, value) {
+  addComponent(i, value, stream) {
 
     const o = this.options
 
@@ -709,6 +730,7 @@ class Html{
       //   o = {text: o}
       // }
 
+      const context = stream ? {...this.sources, ...stream} : this.sources
 
   //     let dataOpts = this.data == null ? null : {data: this.data}
   //     if (this.state) {
@@ -724,13 +746,13 @@ class Html{
 
       if (compOpts instanceof Promise) {
         compOpts.then(c => {
-          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, this.sources))
+          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, context))
         })
         return
       }
 
   //    console.log('addComponent', o, compOpts)
-      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, this.sources)
+      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, context)
     }
 
     this.children.push(comp)
@@ -991,27 +1013,31 @@ class Html{
     const o = this.options
 
     if (typeof value == 'string') {
+      console.error('Invalid components value', value)
       key = value
       value = this.sources[key]
     }
     else if (typeof value == 'function') {
+      console.error('Invalid components value', value)
       value = value()
     }
 
     if (value instanceof Source) {
-      value = value.$stream()
+      value = value.get()
     }
 
     if (value instanceof Source.Stream) {
       // const data = value.get()
       // if (data) {
       //   for (let i in data) {
+      const k = value.key
+
       value.entries((entry, i, s) => {
 //                console.log(i, s)
-        if (o['$'+i]) {
+//        if (o['$'+i]) {
 //                  const s = data[i]
           if (s && !this['$'+i]) {
-            this.addComponent(i, s)
+            this.addComponent(i, {}, {[k]: entry})
             console.log('add component', i, s)
           }
           else if (s && this['$'+i]._destroying) {
@@ -1023,6 +1049,13 @@ class Html{
 //                  this.addComponent(i, s)
             console.log('restore component', i, s)
           }
+          else if (s && this['$'+i]._internal.context[k] != entry) {
+            console.warn('Child context overriding', this['$'+i]._internal.context[k], entry) // TODO может иммет смысл контекс копировать при создании компонента
+            this['$'+i]._internal.context = {...this['$'+i]._internal.context, [k]: entry}
+            this['$'+i].context = this['$'+i]._internal.context
+            this['$'+i].bind(entry, k)
+            this['$'+i].tryInit()
+          }
           else if (!s && this['$'+i]) {
             if (this['$'+i].isInitializing) {
               console.warn('try to destroy initializing component', this['$'+i])
@@ -1031,7 +1064,7 @@ class Html{
 //                  this.removeComponent(i)
             console.log('remove component', i)
           }
-        }
+//        }
       })
 //            }
 //          }
@@ -1044,7 +1077,11 @@ class Html{
           if (s && !this['$'+i]) {
             this.addComponent(i, s)
           }
+          else if (s && this['$'+i]) {
+            this['$'+i].opt(s, null) // !!!
+          }
           else if (!s && this['$'+i]) {
+//            debugger
             this['$'+i].tryDestroy()
           }
         }
@@ -1124,7 +1161,7 @@ class Html{
 
 
     // решаем, подключаться ли к домену
-    if (o.anyChanged || (o.join && o.join[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound']) {
+    if (o.anyChanged || (o.join && o.join[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound'] || o[i+'Joined']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.$observe(this, this.changed, i/*, o[i+'Effects']*/)
 
@@ -1134,8 +1171,8 @@ class Html{
         }
       }
 
-      if (o[i+'Bound']) {
-        o[i+'Bound'].call(this, source)
+      if (o[i+'Bound'] || o[i+'Joined']) {
+        (o[i+'Bound'] || o[i+'Joined']).call(this, source)
       }
 
     }
@@ -1291,14 +1328,16 @@ class Html{
   }
 
 
-  use (callback) {
+  use (on) {
     const _in = this._internal
     if (!_in.uses) {
       _in.uses = []
     }
+    //FIXME подключение к жц через ref специфично
     if (!_in.props.ref) {
       _in.props.ref = (el) => {
         if (el) {
+          console.log('MOUNT')
           for (let i in _in.uses) {
             const u = _in.uses[i]
             if (!u.used) {
@@ -1315,11 +1354,32 @@ class Html{
             delete u.used
           }
         }
+        _in.el = el
       }
     }
-    _in.uses.push({on: callback})
+    if (_in.el) {
+      const off = on.call(this, _in.el)
+      if (off) {
+        _in.uses.push({off})
+      }
+    }
+    else {
+      _in.uses.push({on})
+    }
   }
 
+
+  eff (callback) {
+    const _in = this._internal
+    if (!this.uses) {
+      this.use(callback)
+    }
+    else {
+      Config.Renderer.effect(() => {
+        callback(_in.el)
+      })
+    }
+  }
 
   // rebindOpts(o, key) {
   //   for (let i in o) {
@@ -1484,11 +1544,11 @@ class Html{
 
 
   get components () {
-    return this.children.filter(itm => itm.index == null)
+    return this.children ? this.children.filter(itm => itm.index == null) : []
   }
 
   get items () {
-    return this.children.filter(itm => itm.index != null)
+    return this.children ? this.children.filter(itm => itm.index != null) : []
   }
 
   get domains () {

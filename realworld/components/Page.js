@@ -6,7 +6,7 @@ export default class Page extends Html {
   static defaultOpts = {
     components: {
       content: {
-        as: 'container page',
+        css: 'container page',
         layout: ColumnsLayout,
         components: {
           content: {

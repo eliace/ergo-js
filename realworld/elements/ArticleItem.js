@@ -18,9 +18,9 @@ export default class ArticleItem extends Html {
         }
       }
     },
-    as: 'article-preview',
+    css: 'article-preview',
     $meta: {
-      as: 'article-meta',
+      css: 'article-meta',
       $profile: {
         html: 'a',
         href: 'profile.html',
@@ -32,10 +32,10 @@ export default class ArticleItem extends Html {
         }
       },
       $info: {
-        as: 'info',
+        css: 'info',
         $author: {
           html: 'a',
-          as: 'author',
+          css: 'author',
           dataChanged: function (v) {
             this.opt('text', v.author.username)
             this.opt('href', '/#/@'+v.author.username)
@@ -43,7 +43,7 @@ export default class ArticleItem extends Html {
         },
         $date: {
           html: 'span',
-          as: 'date',
+          css: 'date',
           dataChanged: function (v) {
             this.opt('text', dayjs(v.createdAt).format('MMMM D'))
           }
@@ -51,10 +51,10 @@ export default class ArticleItem extends Html {
       },
       $btn: {
         html: 'button',
-        as: 'btn btn-outline-primary btn-sm pull-xs-right',
+        css: 'btn btn-outline-primary btn-sm pull-xs-right',
         $icon: {
           html: 'i',
-          as: 'ion-heart'
+          css: 'ion-heart'
         },
         dataChanged: function (v) {
           this.opt('text', ' ' + v.favoritesCount)
@@ -63,7 +63,7 @@ export default class ArticleItem extends Html {
     },
     $link: {
       html: 'a',
-      as: 'preview-link',
+      css: 'preview-link',
       href: '',
       $title: {
         html: 'h1',
@@ -80,11 +80,11 @@ export default class ArticleItem extends Html {
         text: 'Read more...'
       },
       $tagList: {
-        type: Tags,
+        as: Tags,
         dataId: 'tagList',
         dataChanged: Mutate.Items,
         defaultItem: {
-          as: 'tag-outline',
+          css: 'tag-outline',
           dataChanged: Mutate.Text
         }
       },

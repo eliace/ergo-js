@@ -14,8 +14,8 @@ import fs from 'fs'
 
 function previewOf (exampleCreator, code) {
   return {
-    base: PreviewAndCode,
-    $preview: exampleCreator(),
+    as: PreviewAndCode,
+    $preview: exampleCreator,
     $code: {
       text: code
     }
@@ -52,10 +52,10 @@ export default (projector) => {
     },
     layout: Layouts.Rows,
     $header: {
-      as: 'example-header',
+      css: 'example-header',
       layout: Layouts.Level,
       $title: {
-        as: 'example-title',
+        css: 'example-title',
         layout: Layouts.Content,
         $content: {
           html: 'h4'
@@ -63,7 +63,7 @@ export default (projector) => {
         text: 'Components'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         levelRight: true,
         defaultTab: {
           dataChanged: function (v) {
@@ -85,8 +85,8 @@ export default (projector) => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, key) {
-        this.opt('$components', key)
+      dataChanged: function (v, key, src) {
+        this.opt('components', src.$stream(key))
       },
       $tabs: previewOf(TabsExample, TabsCode),
       $dropdown: previewOf(DropdownExample, DropdownCode),

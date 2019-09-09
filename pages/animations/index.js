@@ -34,7 +34,7 @@ export default (projector) => {
         text: 'Animations'
       },
       $tabs: {
-        base: Tabs,
+        as: Tabs,
         defaultTab: {
           dataChanged: function (v) {
             this.opt('selected', this.opt('text') == v.selected)
@@ -47,14 +47,14 @@ export default (projector) => {
           }
         },
         tabsChanged: function (v, k) {
-          this.opt('$tabs', k)
+          this.opt('tabs', k)
         }
       }
     },
     $content: {
 //      dynamic: true,
-      dataChanged: function (v, k) {
-        this.opt('$components', k)
+      dataChanged: function (v, k, src) {
+        this.opt('components', src.$stream(k))
       },
       components: false,
       $modal: ModalExample(),

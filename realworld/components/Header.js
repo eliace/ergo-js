@@ -1,4 +1,4 @@
-import {Html, Source as Domain} from '../../src'
+import {Html, Domain} from '../../src'
 import {Mutate} from '../utils'
 
 const IF = {
@@ -46,32 +46,32 @@ export default () => {
     },
     html: 'nav',
     weight: -10,
-    as: 'navbar navbar-light',
+    css: 'navbar navbar-light',
     $container: {
-      as: 'container',
+      css: 'container',
       $brand: {
         html: 'a',
-        as: 'navbar-brand',
+        css: 'navbar-brand',
         href: '/#/',
         text: 'conduit'
       },
       $nav: {
         html: 'ul',
-        as: 'nav navbar-nav pull-xs-right',
+        css: 'nav navbar-nav pull-xs-right',
 //        pageId: 'menu',
         defaultComponent: {
           html: 'li',
-          as: 'nav-item',
+          css: 'nav-item',
           $content: {
             html: 'a',
-            as: 'nav-link',
+            css: 'nav-link',
             href: '',
             $icon: {
               html: 'i',
               render: IF.HasIonClass
             }
           },
-          dynamicOptions: {
+          options: {
             icon: {
               init: function (v) {
                 this.$content.$icon.opt('classes', {['ion-'+v]: true})
