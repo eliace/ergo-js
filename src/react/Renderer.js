@@ -2,6 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 
+const _TYPES = {}
+
+window.Ergo = function (props) {
+  const {_type, children, _props} = props
+  return React.createElement(_type, _props, children)
+}
+
 export function createVNode (type, props, children) {
   if (Array.isArray(props)) {
     children = props
@@ -15,6 +22,17 @@ export function createVNode (type, props, children) {
     }
     props.className = classnames(props.className, type_a.slice(1))
   }
+
+  if (props._owner) {
+    const name = props._owner.constructor.name == 'Html' ? type : props._owner.constructor.name
+    if (!_TYPES[name]) {
+      _TYPES[name] = new Function('return function '+name+' (props) {return Ergo(props)}')()
+    }
+    const {_owner, key, ...newProps} = props//_type: type, _props: props, key: props.key}
+    props = {_type: type, _props: newProps, key}
+    type = _TYPES[name]
+  }
+
   return React.createElement(
     type,
     props,

@@ -213,7 +213,7 @@ class Html{
         for (let i in this.sources) {
           if (this.sources[i]._key) {
 //            this.sources[i]._key.push(i)
-            log.error('Simultaneous source joints', i, this.sources[i])
+            console.error('Simultaneous source joints', i, this.sources[i])
             throw new Error('Simultaneous source joints')
           }
 //          else {
@@ -367,6 +367,12 @@ class Html{
     // реакции вида *Changed
     // события on*
     // параметры *Id, *Ref
+
+      if (Config.DEV) {
+        this._internal.props._owner = this /*{
+          type: this.constructor.name
+        }*/
+      }
 
     }
     catch (err) {
@@ -1272,6 +1278,7 @@ class Html{
 
 
   on (name, callback, scope) {
+    throw new Error('Deprecated method on')
     if (scope == 'dom') {
       if (!this._domListeners) {
         this._domListeners = []
@@ -1314,6 +1321,7 @@ class Html{
 
 
   off (name, callback, scope) {
+    throw new Error('Deprecated method off')
     if (scope == 'dom') {
       if (this._domListeners) {
         for (let i = this._domListeners.length-1; i >= 0; i--) {
@@ -1371,7 +1379,7 @@ class Html{
 
   eff (callback) {
     const _in = this._internal
-    if (!this.uses) {
+    if (!_in.uses) {
       this.use(callback)
     }
     else {

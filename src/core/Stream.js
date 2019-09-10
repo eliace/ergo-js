@@ -1,5 +1,86 @@
 import {defaultIdResolver} from './Utils'
 
+// target
+// reducer
+class Event {
+  constructor (name, data, target, owner) {
+    this.name = name
+    this.target = target
+    this.data = data
+    this.owner = owner
+  }
+}
+
+class Effect {
+  constructor (name, promise, owner) {
+    this.owner = owner
+    this.name = name
+    this.promise = promise
+      .then(v => {
+        if (!this.isFinal) {
+          this.finalize(this.done, v)
+        }
+      })
+      .catch(v => {
+        if (!this.isFinal) {
+          this.finalize(this.fail, v)
+        }
+      })
+
+    this.resolvers = []
+    this.rejectors = []
+  }
+
+  // asPromise() {
+  //   return this.promise
+  // }
+
+  then (resolve, reject) {
+    this.resolvers.push(resolve)
+    this.rejectors.push(reject)
+  }
+
+  catch (reject) {
+    this.rejectors.push(reject)
+  }
+
+  get pending () {
+    return this.name+':pending'
+  }
+
+  get done () {
+    return this.name+':done'
+  }
+
+  get fail () {
+    return this.name+':fail'
+  }
+
+  get cancel () {
+    return this.name+':cancel'
+  }
+
+  get finals () {
+    return {[this.done]: true, [this.fail]: true, [this.cancel]: true}
+  }
+
+  get isFinal () {
+    return this.state in this.finals
+  }
+
+  finalize (name, data) {
+    this.state = name
+    this.owner.$emit(name, data)
+    if (name == this.done) {
+      this.resolvers.forEach(resolve => resolve(data))
+    }
+    else if (name == this.fail || name == this.cancel) {
+      this.rejectors.forEach(reject => reject(data))
+    }
+  }
+}
+
+
 
 class Stream {
 
@@ -8,6 +89,9 @@ class Stream {
     this.data = data
     this.key = key
     this.idResolver = idResolver
+
+    this._origin = []
+    this._watchers = new Map()
   }
 
   // filter (f) {
@@ -96,7 +180,129 @@ class Stream {
     return new Stream(this.src, this.data, k, this.idResolver)
   }
 
+
+
+
+  $emit (name, data, target) {
+
+    const event = (name instanceof Event) ? name : new Event(name, data, target, this)
+
+    event.origin = this._origin[0]
+
+    this._origin.push(event)
+
+    // уведомляем наблюдателей
+    if (this._watchers) {
+      let watchResults = []
+      this._watchers.forEach((watchers, owner) => {
+        watchers.forEach(watcher => {
+          if (watcher.when(event)) {
+            const result = watcher.action.call(this, event)
+            if (result != null) {
+              watchResults.push(result)
+            }
+          }
+        })
+      })
+      // если есть требования ожидания
+      if (watchResults.length > 0) {
+        return Promise.all(watchResults)
+          .then((v) => {
+            console.log('resume event', v)
+            return this.$handle(event)
+          })
+          .catch((v) => {
+            watchResults.forEach(result => {
+              if (result instanceof Effect && !result.isFinal) {
+                result.finalize(result.cancel, v)
+              }
+            })
+            console.log('fail event', event, v)
+          })
+      }
+    }
+
+    const result = this.$handle(event)
+
+    this._origin.pop()
+
+    return result
+  }
+
+
+  $handle (event) {
+
+    const handleResult = []
+
+    if (this._handlers) {
+      this._handlers.forEach((handlers, target) => {
+        if (!event.target || target == this || event.target == target) {
+          const handler = handlers[event.name]
+          if (handler) {
+            handler.forEach(h => {
+              const result = h.callback.call(target, event.data)
+              if (result != null) {
+                handleResult.push(result)
+              }
+            })
+          }
+        }
+      })
+    }
+
+    if (handleResult.length > 0) {
+      debugger
+      const reduce = event.reduce || ((a) => Promise.race(a))
+      const promise = reduce(handleResult)
+      // TODO then + catch
+      return new Effect(event.name, promise, this)
+    }
+    // if (handleResult.length == 1) {
+    //   return handleResult [0]
+    // }
+    // else if (handleResult.length > 1) {
+    //   return handleResult
+    // }
+  }
+
+
+
+  $on (name, callback, owner) {
+    if (!this._handlers) {
+      this._handlers = new Map()
+    }
+    const target = owner || this
+    let h = this._handlers.get(target)
+    if (!h) {
+      h = {target}
+      this._handlers.set(target, h)
+    }
+    if (!h[name]) {
+      h[name] = []
+    }
+    h[name].push({callback})
+  }
+
+  $watch (when, action, owner) {
+    const target = owner || this
+    let w = this._watchers.get(target)
+    if (!w) {
+      w = []
+      this._watchers.set(target, w)
+    }
+    w.push({when, action})
+  }
+
+  $effect (name, effect, owner) {
+
+  }
+
+
+
 }
+
+Stream.Event = Event
+Stream.Effect = Effect
 
 
 export default Stream

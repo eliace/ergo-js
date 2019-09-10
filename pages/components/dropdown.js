@@ -160,9 +160,9 @@ class CountryListDropdown extends Dropdown {
       dataChanged: function (v, k) {
         this.opt('items', k)
 //        this.items.filter(itm => itm.opts.active).forEach(itm => this.opts.scrollTop = itm.el.offsetTop - 20)
-        this.eff(() => {
-          console.log('scroll')
-          this.items.filter(itm => itm.opts.active).forEach(itm => this.el.scrollTop = itm.el.offsetTop - 20)
+        this.eff((el) => {
+//          console.log('scroll')
+          this.items.filter(itm => itm.opts.active).forEach(itm => el.scrollTop = itm.el.offsetTop - 20)
         })
       }, //Mutate.Items,
       defaultItem: {

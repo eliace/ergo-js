@@ -106,6 +106,8 @@ Config.Renderer.effect = function (callback) {
 Config.defaultLayout = Layout
 Config.defaultSource = Domain
 
+Config.DEV = true
+
 
 export default class ReactContext extends Context {
 

@@ -6,6 +6,10 @@ import 'prismjs/themes/prism.css'
 import 'prismjs/components/prism-javascript'
 
 
+function Highlight (el) {
+  Prism.highlightAllUnder(el)
+}
+
 export class ButtonWithIcon extends Button {
 
   config () {
@@ -50,11 +54,12 @@ export class PreviewAndCode extends Html {
             html: 'code',
             css: 'language-javascript',
           },
-          ref: function (el) {
-            if (el) {
-              Prism.highlightAllUnder(el)
-            }
-          }
+          dom: { Highlight }
+          // ref: function (el) {
+          //   if (el) {
+          //     Prism.highlightAllUnder(el)
+          //   }
+          // }
         }
       }
     }
