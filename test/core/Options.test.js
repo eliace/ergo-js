@@ -6,6 +6,6 @@ describe ('Options', () => {
 //  jsdom()
 
   it ('Should log to console', () => {
-    console.log('hello')
+//    console.log('hello')
   })
 })

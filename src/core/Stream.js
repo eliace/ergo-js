@@ -3,9 +3,9 @@ import {defaultIdResolver} from './Utils'
 // target
 // reducer
 class Event {
-  constructor (name, data, target, owner) {
+  constructor (name, data, options, owner) {
     this.name = name
-    this.target = target
+    this.options = options || {}
     this.data = data
     this.owner = owner
   }
@@ -46,6 +46,10 @@ class Effect {
 
   get pending () {
     return this.name+':pending'
+  }
+
+  get init () {
+    return this.name+':init'
   }
 
   get done () {
@@ -183,9 +187,9 @@ class Stream {
 
 
 
-  $emit (name, data, target) {
+  $emit (name, data, props) {
 
-    const event = (name instanceof Event) ? name : new Event(name, data, target, this)
+    const event = (name instanceof Event) ? name : new Event(name, data, props, this)
 
     event.origin = this._origin[0]
 
@@ -240,7 +244,7 @@ class Stream {
           const handler = handlers[event.name]
           if (handler) {
             handler.forEach(h => {
-              const result = h.callback.call(target, event.data)
+              const result = event.options.method ? h.callback.apply(target, event.data) : h.callback.call(target, event.data)
               if (result != null) {
                 handleResult.push(result)
               }
@@ -251,12 +255,19 @@ class Stream {
     }
 
     if (handleResult.length > 0) {
-      debugger
-      const reduce = event.reduce || ((a) => Promise.race(a))
-      const promise = reduce(handleResult)
+      const promise = Promise.all(handleResult)
+        .then(a => {
+//          console.log('reduce', a, a.reduce((acc, v) => v))
+          return a.reduce((acc, v) => v)
+        })
+      // const reduce = event.reduce || ((a) => Promise.race(a))
+      // const promise = reduce(handleResult)
       // TODO then + catch
       return new Effect(event.name, promise, this)
     }
+    // else if (handleResult.length == 1) {
+    //   return new Effect(event.name, Promise.resolve(handleResult[0]), this)
+    // }
     // if (handleResult.length == 1) {
     //   return handleResult [0]
     // }
@@ -295,6 +306,13 @@ class Stream {
 
   $effect (name, effect, owner) {
 
+  }
+
+  $event (name, options) {
+    this[name] = (...args) => {
+      return this.$emit(name, args, options)
+    }
+    return this[name]
   }
 
 

@@ -197,17 +197,17 @@ describe ('Html', () => {
     expect(html.$comp3.text).to.be.equal('Charlie')
   })
 
-  it ('Should allow simultaneous streams', () => {
-    const data = new Source()
-    const html = new Html({
-      sources: {
-        streamA: data,
-        streamB: data
-      },
-      allJoined: function ({streamA, streamB}) {
-        
-      }
-    })
-  })
+  // it ('Should allow simultaneous streams', () => {
+  //   const data = new Source()
+  //   const html = new Html({
+  //     sources: {
+  //       streamA: data,
+  //       streamB: data
+  //     },
+  //     allJoined: function ({streamA, streamB}) {
+  //
+  //     }
+  //   })
+  // })
 
 })
