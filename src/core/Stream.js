@@ -20,11 +20,14 @@ class Effect {
         if (!this.isFinal) {
           this.finalize(this.done, v)
         }
+//        console.log('final', v)
+        return v
       })
       .catch(v => {
         if (!this.isFinal) {
           this.finalize(this.fail, v)
         }
+        return v
       })
 
     this.resolvers = []
@@ -36,12 +39,14 @@ class Effect {
   // }
 
   then (resolve, reject) {
-    this.resolvers.push(resolve)
-    this.rejectors.push(reject)
+    resolve && this.resolvers.push(resolve)
+    reject && this.rejectors.push(reject)
+    return this
   }
 
   catch (reject) {
-    this.rejectors.push(reject)
+    reject && this.rejectors.push(reject)
+    return this
   }
 
   get pending () {
@@ -210,9 +215,9 @@ class Stream {
       })
       // если есть требования ожидания
       if (watchResults.length > 0) {
-        return Promise.all(watchResults)
+        const promise = Promise.all(watchResults)
           .then((v) => {
-            console.log('resume event', v)
+            console.log('resume event', event, v)
             return this.$handle(event)
           })
           .catch((v) => {
@@ -220,9 +225,15 @@ class Stream {
               if (result instanceof Effect && !result.isFinal) {
                 result.finalize(result.cancel, v)
               }
+              else if (result instanceof Promise) {
+                console.warn('Can\'t check if native promise is canceled', result)
+              }
             })
-            console.log('fail event', event, v)
+            console.log('cancel event', event, v)
+            effect.finalize(effect.cancel, v)
           })
+        const effect = new Effect(event.name, promise, this)
+        return effect
       }
     }
 
@@ -304,8 +315,18 @@ class Stream {
     w.push({when, action})
   }
 
-  $effect (name, effect, owner) {
+  $effect (name, when, actions) {
+    this.$watch(when, (e) => {
+      return this.$emit(name, e.data)
+    })
+    for (let i in actions) {
+      this.$on(name+':'+i, actions[i])
+    }
+  }
 
+  $action (name, fn) {
+    this.$on(name, fn)
+    return this.$event(name, {method: true})
   }
 
   $event (name, options) {
@@ -315,6 +336,17 @@ class Stream {
     return this[name]
   }
 
+  $off (name, callback, owner) {
+    // TODO
+  }
+
+  $once (name, callback, owner) {
+    const f = function (...args) {
+      this.$off(name, f, owner)
+      return callback.apply(this, args)
+    }
+    this.$on(name, f, owner)
+  }
 
 
 }

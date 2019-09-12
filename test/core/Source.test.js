@@ -4,7 +4,7 @@ import {Source} from '../../src'
 
 const Stream = Source.Stream
 
-const delay = function (t, result, msg) {
+const delay = function (t, result=true, msg) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       result ? resolve(msg) : reject(msg)
@@ -12,13 +12,20 @@ const delay = function (t, result, msg) {
   })
 }
 
-const asyncAction = function (callback) {
+const doAsyncAction = function (callback, timeout) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(callback())
-    }, 1)
+      try {
+        resolve(callback())
+      }
+      catch (err) {
+        reject(err)
+      }
+    }, timeout || 1)
   })
 }
+
+const createWork = (callback) => (...args) => doAsyncAction(() => callback.apply(null, args))
 
 
 
@@ -224,7 +231,7 @@ describe ('Source', () => {
 
     })
 
-    it ('Should error during watch', (done) => {
+    it ('Should error during watch', () => {
 
       const out = []
 
@@ -238,26 +245,26 @@ describe ('Source', () => {
       })
 
       s.$on('test2', () => {
-        out.push('ok')
+        out.push('ok2')
       })
       s.$watch(e => e.name == 'test2', () => {
-        asyncAction(() => {
+        doAsyncAction(() => {
           throw new Error('Watch error (async)')
         })
       })
 
       s.$on('test3', () => {
-        out.push('ok')
+        out.push('ok3')
       })
       s.$watch(e => e.name == 'test3', () => {
-        return asyncAction(() => {
+        return doAsyncAction(() => {
           throw new Error('Watch error (async) 2')
         })
       })
+      s.$on('test3:cancel', () => {
+        out.push('cancel3')
+      })
 
-      // s.$on('error', () => {
-      //   throw new Error('Handle error')
-      // })
 
       try {
         s.$emit('test')
@@ -266,97 +273,183 @@ describe ('Source', () => {
         out.push(err.message)
       }
 
-//      try {
-      Promise.all(s.$emit('test2'), s.$emit('test3'))
-        .then(done)
-        .catch(err => {
-          out.push(err.message)
-        })
-        .then(() => {
-          expect(out).to.be.deep.equal(['Watch error', 'ok'])          
-        })
+      s.$emit('test2')
+      s.$emit('test3')
 
 
-
-      // }
-      // catch (e) {
-      //   out.push(e.message)
-      // }
+      return doAsyncAction(() => {
+        expect(out).to.be.deep.equal(['Watch error', 'ok2', 'cancel3'])
+      })
 
     })
 
-//    it ('Should error during watch ')
+    it ('Should process complex action', () => {
+
+      const s = new Stream()
+
+//      s.$watch(() => true, (e) => console.log(e))
+
+      const out = []
+
+      const log = s.$action('log', (msg) => {
+        doAsyncAction(() => out.push(msg))
+      })
+
+      const notify = s.$action('notify', (msg) => {
+        doAsyncAction(() => out.push(msg))
+      })
+
+      const op = s.$action('op', (n) => {
+        return doAsyncAction(() => n.length)
+      })
+
+      const getUser = s.$action('getUser', (id) => {
+        return doAsyncAction(() => {
+          const users = {
+            '7': {username: 'luke', name: 'Luke Skywalker'}
+          }
+          return users[id]
+        })
+      })
+
+      const getArticles = s.$action('getArticles', () => {
+        return doAsyncAction(() => {
+          return 'Lorem ipsum'
+        })
+      })
+
+      s.$get = () => {}
+
+      // s.$watch('getUser', (e) => {
+      //   e.data = [...e.data, token: s.$get('token')]
+      // })
+
+      const foo = s.$action('foo', async (id) => {
+        try {
+
+          let user = s.$get('user', id) // inner getter (sync)
+
+          if (user == null) {
+            user = await getUser(id) // outer getter (async)
+          }
+
+          const articles = await getArticles()
+
+          // get (inner + outer)
+          // map
+          // set (inner + outer)
+
+          // for (let i in args) {
+          //   const  await op(args[i])
+          // }
+          // const sum = (acc, v) => acc + v
+          // const total = (await Promise.all(args.map(op))).reduce(sum, 0)
+
+//          stream(args).map(op).reduce(sum, 0)
+
+          log(articles)
+
+        }
+        catch (err) {
+          log(err.message)
+          throw err
+        }
+      })
+
+
+      foo(7)
+
+
+
+      return doAsyncAction(() => {
+        expect(out).to.be.deep.equal(['Lorem ipsum'])
+      }, 100)
+    })
+
+
+    it ('Should game', () => {
+
+      const s = new Stream()
+
+      // const o = {
+      //   actions: {
+      //     timeout: () => 'timeout',
+      //     checkWin: () => 'checkWin'
+      //   },
+      //   watchers: {
+      //     waitTimeout: {
+      //       when: e => e.name == 'timeout',
+      //       check: e => delay(3000)
+      //     },
+      //     waitWin: {
+      //       when: e => e.name == 'checkWin',
+      //       check: (e, st) => st.$once('WIN', () => {})
+      //     }
+      //   }
+      // }
+
+      function race (...effects) {
+        return Promise.race(effects)
+          .then((v) => {
+            return effects.map(eff => eff.isFinal)
+          })
+      }
+
+
+
+      const waitTimeout = s.$action('timeout', () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000)
+        })
+      })
+      const checkWin = s.$action('checkWin', () => {
+        return new Promise((resolve, reject) => {
+          s.$once('WIN', resolve)
+        })
+      })
+
+
+//       const waitTimeout = s.$action('timeout', () => 'timeout')
+//       const checkWin = s.$action('checkWin', () => 'checkWin')
+//
+//       s.$watch(e => e.name == 'timeout', () => {
+//         return new Promise((resolve, reject) => {
+//           setTimeout(resolve, 3000)
+//         })
+// //        return delay(3000)
+//       })
+//       s.$watch(e => e.name == 'checkWin', () => {
+//         return new Promise((resolve, reject) => {
+//           s.$once('WIN', resolve)
+//         })
+//       })
+
+      s.$action('startGame', async () => {
+          const [timeout, winCondition] = await race(waitTimeout(), checkWin())
+
+        if (winCondition) {
+          console.log("Yeee, you've just won!")
+        } else {
+          console.log("Oh, nooo! Time out")
+        }
+      })
+
+      s.startGame()
+
+      setTimeout(() => {
+        s.$emit('WIN')
+      }, 1000)
+
+
+      return doAsyncAction(() => {
+
+      })
+    })
 
 
 
     it ('Should reduce multiple results', () => {
 
-      // const watchers = []
-      // const handlers = []
-      // const errors = []
-      // const cancels = []
-      // const events = []
-      // const inReducers = []
-      // const outReducers = []
-
-      // watchers.push({
-      //   when: (e) => e.name == 'init',
-      //   map: (e) => e.data
-      // })
-      // watchers.push({
-      //   when: (e) => e.name == 'init',
-      //   map: (e) => e.data + 2
-      // })
-      // handlers.push({
-      //   when: (e) => e.name == 'init',
-      //   map: (e) => e.data * 2
-      // })
-      // handlers.push({
-      //   when: (e) => e.name == 'init',
-      //   map: (e) => e.data + 1
-      // })
-      // outReducers.push({
-      //   when: e => e.name == 'init',
-      //   reduce: (a) => a.join('+')
-      // })
-
-//       function emit (event) {
-//         let input = watchers.filter(x => x.when(event)).map(x => x.map(event)).filter(x => x !== undefined)
-//         if (input.length > 0) {
-// //          input = inReducers.filter(x => x.when(event)).reduce((acc, x) => x.reduce(acc), input)
-//           input = input.reduce((acc, v) => v)
-//           event = {...event, data: input, origin: event}
-//         }
-//         let output = handlers.filter(x => x.when(event)).map(x => x.map(event)).filter(x => x !== undefined)
-//         if (output.length > 1) {
-// //          output = outReducers.filter(x => x.when(event)).reduce((acc, x) => x.reduce(acc), output)
-//           output = output.slice(1).reduce(event.out, output[0])
-//         }
-//         else {
-//           output = output[0]
-//         }
-//         return output
-//       }
-//
-//       const out = emit({name: 'init', data: 7, out: (x, y) => x})
-//
-//       console.log('out', out)
-
-/*
-      const sum = (a) => {
-        a.reduce((acc, v) => {acc += v}, 0)
-      }
-
-      const s = new Stream()
-
-      s.$on('arg', (x) => x) // map
-      s.$on('arg', (y) => y) // map
-
-
-      s.$emit(new Stream.Event('arg', {data: 5, reduce: sum})).then(v => {
-        console.log(v)
-      })
-*/
     })
 
 
