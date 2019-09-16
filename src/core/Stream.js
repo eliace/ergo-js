@@ -3,91 +3,137 @@ import {defaultIdResolver} from './Utils'
 // target
 // reducer
 class Event {
-  constructor (name, data, options, owner) {
+  constructor (name, data, options, owner, channel) {
     this.name = name
     this.options = options || {}
     this.data = data
     this.owner = owner
+    this.channel = channel
+
+    Object.freeze(this)
+  }
+
+  get key () {
+    return this.channel == CH_DEFAULT ? this.name : this.name+':'+this.channel
   }
 }
 
 class Effect {
-  constructor (name, promise, owner) {
+  constructor (name, promise, options, owner) {
     this.owner = owner
-    this.name = name
     this.promise = promise
-      .then(v => {
-        if (!this.isFinal) {
-          this.finalize(this.done, v)
-        }
-//        console.log('final', v)
-        return v
-      })
-      .catch(v => {
-        if (!this.isFinal) {
-          this.finalize(this.fail, v)
-        }
-        return v
-      })
+    this.name = name
+    this.channels = ['done', 'cancel', 'fail']
+    this.options = options
 
     this.resolvers = []
     this.rejectors = []
+
+    if (!this.promise) {
+      this.promise = new Promise(resolver => {
+        this.resolver = resolver
+      })
+    }
+
+//    this.owner.emit(this.name, null, null, 'wait')
+
+    if (this.promise) {
+      this.promise.then(
+        (v) => {
+          return this.finalize('done', event.data)// channel == 'done' ? event.data : this.emit(event.name, event.data, event.options, 'done')
+        },
+        (err) => {
+          return this.finalize('fail', err)
+        })
+    }
+
+    if (!this.isFinal) {
+      if (this.owner.subscribers.filter(s => (s instanceof Effect) && s.name == this.name).length > 0) {
+        console.error('Effect already running', this.name)
+//        debugger
+        return
+      }
+
+      this.subscriber = this.owner.subscribe(this)
+    }
+    else {
+      debugger
+    }
   }
 
-  // asPromise() {
-  //   return this.promise
-  // }
+  callback (e) {
+//    console.log('!', e)
+    this.owner.unsubscribe(this.subscriber)
+    this.subscriber = null
+    if (!this.isFinal) {
+//      debugger
+
+      if (this.resolver) {
+        this.resolver(e.data)
+        return this.promise
+      }
+//      const r = this.resolver(e.data)
+//      return this.finalize(e.channel, e.data)
+      // this.isFinal = true
+//      return this.finalize(null, e.data)
+    }
+  }
+
 
   then (resolve, reject) {
-    resolve && this.resolvers.push(resolve)
-    reject && this.rejectors.push(reject)
+    // if (this.promise) {
+   this.promise = this.promise.then(resolve, reject)
+    // }
+    // else {
+      // resolve && this.resolvers.push(resolve)
+      // reject && this.rejectors.push(reject)
+    // }
     return this
   }
 
   catch (reject) {
-    reject && this.rejectors.push(reject)
+    // if (this.promise) {
+    this.promise = this.promise.catch(reject)
+    // }
+//    reject && this.rejectors.push(reject)
     return this
   }
 
-  get pending () {
-    return this.name+':pending'
+  finally (final) {
+//    if (this.promise) {
+      this.promise = this.promise.finally(final)
+//    }
   }
 
-  get init () {
-    return this.name+':init'
-  }
-
-  get done () {
-    return this.name+':done'
-  }
-
-  get fail () {
-    return this.name+':fail'
-  }
-
-  get cancel () {
-    return this.name+':cancel'
-  }
-
-  get finals () {
-    return {[this.done]: true, [this.fail]: true, [this.cancel]: true}
-  }
-
-  get isFinal () {
-    return this.state in this.finals
-  }
-
-  finalize (name, data) {
-    this.state = name
-    this.owner.$emit(name, data)
-    if (name == this.done) {
-      this.resolvers.forEach(resolve => resolve(data))
+  finalize (state, value) {
+    if (!this.isFinal) {
+      this.isFinal = true
+      value = this.subscriber ? this.owner.emit(this.name, value, {}, state) : value
     }
-    else if (name == this.fail || name == this.cancel) {
-      this.rejectors.forEach(reject => reject(data))
-    }
+    return value
   }
+
 }
+
+
+
+// function race (promisesAndEffects) {
+//   return Promise.race(promisesAndEffects)
+//     // .finally(() => {
+//     //   promisesAndEffects.forEach(r => {
+//     //     if (r instanceof Effect) {
+//     //       r.finalize('cancel')
+//     //     }
+//     //   })
+//     // })
+// }
+//
+// function all (promisesAndEffects) {
+//   return Promise.all(promisesAndEffects)
+// }
+
+
+const CH_DEFAULT = 'default'
 
 
 
@@ -99,8 +145,13 @@ class Stream {
     this.key = key
     this.idResolver = idResolver
 
-    this._origin = []
-    this._watchers = new Map()
+    // this._origin = []
+    // this._watchers = new Map()
+    this.watchers = []
+    this.subscribers = []
+    this.effects = {}
+    this.events = {}
+
   }
 
   // filter (f) {
@@ -192,167 +243,153 @@ class Stream {
 
 
 
-  $emit (name, data, props) {
 
-    const event = (name instanceof Event) ? name : new Event(name, data, props, this)
+  reduce (v, event) {
+    if (Array.isArray(v) && v.length > 0) {
+      const first = v[0]
+      const reducer = event.options.reducer || ((acc, v) => v)
+      return v.slice(1).reduce(reducer, first)
+    }
+    return v
+  }
 
-    event.origin = this._origin[0]
 
-    this._origin.push(event)
+  put (event) {
 
-    // уведомляем наблюдателей
-    if (this._watchers) {
-      let watchResults = []
-      this._watchers.forEach((watchers, owner) => {
-        watchers.forEach(watcher => {
-          if (watcher.when(event)) {
-            const result = watcher.action.call(this, event)
-            if (result != null) {
-              watchResults.push(result)
-            }
-          }
+    const result = this.channel(event.channel)
+      .filter(s => s.name == event.name)
+      .map(s => event.options.method ? s.callback.apply(event.owner, event.data) : s.callback(event))
+      .filter(v => v !== undefined)
+
+    const promises = result.filter(v => v.then && typeof v.then == 'function')
+
+    let promise = null
+
+    if (promises.length > 0) {
+
+      const promise = Promise.all( result )
+        .then((v) => {
+          return this.reduce(v, event)
         })
-      })
-      // если есть требования ожидания
-      if (watchResults.length > 0) {
-        const promise = Promise.all(watchResults)
-          .then((v) => {
-            console.log('resume event', event, v)
-            return this.$handle(event)
-          })
-          .catch((v) => {
-            watchResults.forEach(result => {
-              if (result instanceof Effect && !result.isFinal) {
-                result.finalize(result.cancel, v)
-              }
-              else if (result instanceof Promise) {
-                console.warn('Can\'t check if native promise is canceled', result)
-              }
-            })
-            console.log('cancel event', event, v)
-            effect.finalize(effect.cancel, v)
-          })
-        const effect = new Effect(event.name, promise, this)
-        return effect
-      }
+
+      const effect = new Effect(event.name, promise, {}, this)
+
+      return effect
     }
-
-    const result = this.$handle(event)
-
-    this._origin.pop()
-
-    return result
+    else if (result.length > 0) {
+      return Promise.resolve(this.reduce(result, event))
+    }
+    else {
+      return Promise.resolve()
+    }
   }
 
 
-  $handle (event) {
+  emit (name, data, options, channel=CH_DEFAULT) {
+    const event = (name instanceof Event) ? name : new Event(name, data, options, this, channel)
 
-    const handleResult = []
+    const watchResult = this.watchers//.watcher(channel)
+      .filter(w => w.when(event))
+      .map(w => w.callback(event))
+      .filter(v => v !== undefined)
 
-    if (this._handlers) {
-      this._handlers.forEach((handlers, target) => {
-        if (!event.target || target == this || event.target == target) {
-          const handler = handlers[event.name]
-          if (handler) {
-            handler.forEach(h => {
-              const result = event.options.method ? h.callback.apply(target, event.data) : h.callback.call(target, event.data)
-              if (result != null) {
-                handleResult.push(result)
-              }
-            })
-          }
-        }
-      })
-    }
+    const watchEffects = watchResult.filter(v => v.then && typeof v.then == 'function')
 
-    if (handleResult.length > 0) {
-      const promise = Promise.all(handleResult)
-        .then(a => {
-//          console.log('reduce', a, a.reduce((acc, v) => v))
-          return a.reduce((acc, v) => v)
+    if (watchEffects.length > 0) {
+
+      // обработка then добавлена здесь, чтобы отрабатывали в нужном порядке финализаторы эффекта
+      const promise = Promise.all( watchResult )
+        .then((v) => {
+          const nextEvent = v.filter(r => r instanceof Event).reduce((acc, v) => v, event)
+          return nextEvent == event ? this.put(event) : this.emit(nextEvent)
         })
-      // const reduce = event.reduce || ((a) => Promise.race(a))
-      // const promise = reduce(handleResult)
-      // TODO then + catch
-      return new Effect(event.name, promise, this)
+
+      const effect = new Effect(event.name, promise, {}, this)
+
+      return effect
     }
-    // else if (handleResult.length == 1) {
-    //   return new Effect(event.name, Promise.resolve(handleResult[0]), this)
-    // }
-    // if (handleResult.length == 1) {
-    //   return handleResult [0]
-    // }
-    // else if (handleResult.length > 1) {
-    //   return handleResult
-    // }
+    else if (watchResult.length > 0) {
+      const nextEvent = watchResult.filter(r => r instanceof Event).reduce((acc, v) => v, event)
+      return nextEvent == event ? this.put(event) : this.emit(nextEvent)
+    }
+    else {
+      return this.put(event)
+    }
+
   }
 
-
-
-  $on (name, callback, owner) {
-    if (!this._handlers) {
-      this._handlers = new Map()
-    }
-    const target = owner || this
-    let h = this._handlers.get(target)
-    if (!h) {
-      h = {target}
-      this._handlers.set(target, h)
-    }
-    if (!h[name]) {
-      h[name] = []
-    }
-    h[name].push({callback})
+  watch (when, callback, channel=CH_DEFAULT) {
+    this.watchers.push({when, callback, channels: [].concat(channel)})
   }
 
-  $watch (when, action, owner) {
-    const target = owner || this
-    let w = this._watchers.get(target)
-    if (!w) {
-      w = []
-      this._watchers.set(target, w)
+  subscribe (name, callback, channel=CH_DEFAULT) {
+    let subscriber = null
+    if (arguments.length == 1) {
+      subscriber = arguments[0]
     }
-    w.push({when, action})
+    else {
+      subscriber = {name, callback, channels: [].concat(channel)}
+    }
+    this.subscribers.push(subscriber)
+    return subscriber
   }
 
-  $effect (name, when, actions) {
-    this.$watch(when, (e) => {
-      return this.$emit(name, e.data)
+  unsubscribe (subscriber) {
+    const i = this.subscribers.indexOf(subscriber)
+    this.subscribers.splice(i, 1)
+  }
+
+  effect (name) {
+
+  }
+
+  channel (ch) {
+    return this.subscribers.filter(s => s.channels.indexOf(ch) != -1)
+  }
+
+  watcher (ch) {
+    return this.watchers.filter(s => s.channels.indexOf(ch) != -1)
+  }
+
+  action (name, callback) {
+    this.event(name, {method: true})
+    this.subscribe(name, callback)
+    return this.events[name]
+  }
+
+  event (name, options) {
+    this.events[name] = (...args) => {
+      return this.emit(name, args, options)
+    }
+    return this.events[name]
+  }
+
+  on (name, callback) {
+    return this.subscribe(name, callback)
+  }
+
+  off () {
+
+  }
+
+  once (name, callback) {
+    const subscriber = this.subscribe(name, (e) => {
+      this.unsubscribe(subscriber)
+      return callback(e)
     })
-    for (let i in actions) {
-      this.$on(name+':'+i, actions[i])
-    }
   }
 
-  $action (name, fn) {
-    this.$on(name, fn)
-    return this.$event(name, {method: true})
-  }
-
-  $event (name, options) {
-    this[name] = (...args) => {
-      return this.$emit(name, args, options)
-    }
-    return this[name]
-  }
-
-  $off (name, callback, owner) {
-    // TODO
-  }
-
-  $once (name, callback, owner) {
-    const f = function (...args) {
-      this.$off(name, f, owner)
-      return callback.apply(this, args)
-    }
-    this.$on(name, f, owner)
-  }
-
+  // get channels () {
+  //   return {[CH_DEFAULT]: true, 'done': true, 'cancel': true, 'fail': true}
+  // }
 
 }
 
 Stream.Event = Event
 Stream.Effect = Effect
+
+Stream.CH_DEFAULT = CH_DEFAULT
+Stream.ALL_CHANNELS = [CH_DEFAULT, 'done', 'fail', 'cancel', 'wait']
 
 
 export default Stream

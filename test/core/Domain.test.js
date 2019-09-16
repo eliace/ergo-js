@@ -7,12 +7,12 @@ describe ('Domain', () => {
 
     const d = new Domain()
 
-    d.$event('click')
+    d.createEvent('click')
 
-    const out = d.$emit(d.click.on)
+    const out = d.emit(d.events.click.on)
 
-    expect(d.click).not.undefined
-    expect(out).to.be.undefined
+    expect(d.events.click).not.undefined
+    expect(out).not.undefined
 
   })
 
@@ -21,13 +21,13 @@ describe ('Domain', () => {
     const d = new Domain()
     let out = ''
 
-    d.$listen('click', null, (e) => {
+    d.on('click', (e) => {
       out = e.data
     })
 
-    d.$emit('@click', {data: 'Hello'})
+    d.emit('click', 'Hello')
 
-    expect(d.click).to.be.undefined
+    expect(d.events.click).to.be.undefined
     expect(out).to.equal('Hello')
   })
 
@@ -35,12 +35,15 @@ describe ('Domain', () => {
 
     const d = new Domain()
 
-    d.$method('plusFive', null, (x) => {
+    d.createAction('plusFive', (x) => {
       return x + 5
     })
 
-    expect(d.plusFive).not.undefined
-    expect(d.plusFive(9)).to.equal(14)
+    return d.events.plusFive(9)
+      .then(v => {
+        expect(d.events.plusFive).not.undefined
+        expect(v).to.equal(14)
+      })
   })
 
   describe('Watchers', () => {
@@ -48,39 +51,44 @@ describe ('Domain', () => {
       const d = new Domain()
       const out = []
 
-      d.$watch('@click', null, (e) => {
+      d.watch(e => e.name == 'click', (e) => {
         out.push(e.data)
       })
 
-      d.$emit('@click', {data: 'Test'})
-
-      expect(out).to.deep.eq(['Test'])
+      return d.emit('click', 'Test')
+        .then(() => {
+          expect(out).to.deep.eq(['Test'])
+        })
     })
     it('Should watch event by filter', () => {
       const d = new Domain()
       const out = []
 
-      d.$watch(e => e.x > 0, null, e => {
-        out.push(e.x)
+      d.watch(e => e.data.x > 0, e => {
+        out.push(e.data.x)
       })
 
-      d.$emit('@click', {x: 5})
-
-      expect(out).to.deep.eq([5])
+      return d.emit('click', {x: 5})
+        .then(() => {
+          expect(out).to.deep.eq([5])
+        })
     })
     it('Should watch event and emit effect event', () => {
       const d = new Domain()
       const out = []
 
-      d.$watch('@click', null, 'effect')
+      d.watch(e => e.name == 'click', (e) => d.emit('effect', e.data))
 
-      d.$observe(null, (e) => {
+      d.watch(() => true, (e) => {
         out.push(e.name)
         out.push(e.data)
       })
-      d.$emit('@click', {data: 'Hello'})
 
-      expect(out).to.deep.eq(['@effect', 'Hello', '@click', 'Hello'])
+      return d.emit('click', 'Hello')
+        .then(() => {
+          console.log(out)
+          expect(out).to.deep.eq(['effect', 'Hello', '@click', 'Hello'])
+        })
     })
     it('Should watch event then emit and listen effect event', () => {
       const d = new Domain()

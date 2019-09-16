@@ -1,8 +1,10 @@
 const expect = require('chai').expect
 import {Source} from '../../src'
+import Stream from '../../src/core/Domain2'
 //const jsdom = require('mocha-jsdom')
 
-const Stream = Source.Stream
+//const Stream = Source.Stream
+const {Effect, Event} = Stream
 
 const delay = function (t, result=true, msg) {
   return new Promise((resolve, reject) => {
@@ -12,7 +14,7 @@ const delay = function (t, result=true, msg) {
   })
 }
 
-const doAsyncAction = function (callback, timeout) {
+const doAsync = function (callback, timeout) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
@@ -27,7 +29,9 @@ const doAsyncAction = function (callback, timeout) {
 
 const createWork = (callback) => (...args) => doAsyncAction(() => callback.apply(null, args))
 
-
+function eventKey (e) {
+  return e.channel == Stream.CH_DEFAULT ? e.name : e.name+':'+e.channel
+}
 
 describe ('Source', () => {
   it ('Should reconcile entries on calc', () => {
@@ -92,118 +96,201 @@ describe ('Source', () => {
 
   describe ('Stream', () => {
 
-    it ('Should watch', () => {
+    it ('Should handle same eveny in different channels', () => {
 
       const s = new Stream()
 
-      // const asyncMethod = (name) => {
-      //   return delay(500, true, name)
-      // }
+      const out = []
 
-//      s.$watch(e => true, (e) => {console.log(e)})
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
 
-      s.$watch(e => e.name == 'test', (e) => {
-        return 5
+      s.on('test', (e) => {
+        return doAsync(() => {
+          return 5
+        })
+      }, 'default')
+
+      s.on('test', (e) => {
+        return doAsync(() => {
+          return 6
+        })
+      }, 'done')
+
+      return s.emit('test').then(() => {
+        console.log(out)
       })
-      s.$watch(e => e.name == 'test', (e) => {
-        return delay(200, true, 'promise')
-      })
-      s.$watch(e => e.name == 'test', (e) => {
-        const effect = new Stream.Effect('DELAY', delay(500, true, 'effect'), s)
-        s.$emit(effect.init, {})
-        return effect
-      })
-
-      s.$emit('test', {data: 10})
-
-/*
-      const changeEvent = (id) => {
-        return s.$emit('init', id)
-      }
-      const changeHandler = (e) => {
-        console.log('init ok', e.data)
-      }
-      const getUser = (name) => {
-        if (!name) {
-          return delay(500, false, 'Unauthorized')
-        }
-        else {
-          return delay(500, true, {uid: 101, name: 'Alice'})
-        }
-      }
-      const authEvent = () => {
-        return s.$emit('auth', {})
-      }
-      const authHandler = () => {
-        return getUser()
-      }
-      const authHandlerFail = (e) => {
-        if (e.data == 'Unauthorized') {
-          changeEvent(15)
-        }
-      }
-
-      s.$on('init', changeHandler)
-      s.$on('auth', authHandler)
-      s.$on('auth:fail', authHandlerFail)
-      s.$watch(e => e.name == 'init', (e) => {
-        if (e.data < 10) {
-          return authEvent()
-        }
-      })
-
-      changeEvent(5)
-*/
     })
 
-    it ('Should handle', () => {
+    it ('Should watch non default channel', () => {
 
       const s = new Stream()
 
-//      s.$watch(e => true, (e) => {console.log(e)})
+      const out = []
 
-      s.$on('test', (e) => {
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.on('test', (e) => {
+        return doAsync(() => {
+          return 5
+        })
+      }, 'default')
+
+      s.watch(e => e.name == 'test' && e.channel == 'done', (e) => {
+        return doAsync(() => {
+          return 6
+        })
+      })
+
+      return s.emit('test').then(() => {
+        console.log(out)
+      })
+    })
+
+    it ('Should watch event', () => {
+
+      const s = new Stream()
+
+      const out = []
+
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
+        return 5
+      })
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
+        return delay(10)
+      })
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
+        return s.createEffect('delay', () => delay(20))()// new Effect('delay', delay(20), null, s)
+      })
+
+      s.emit('test')
+
+      return doAsync(() => {
+        expect(out).to.be.deep.equal(['test', 'delay:done', 'test:done'])
+      }, 30)
+    })
+
+    it ('Should handle event', () => {
+
+      const s = new Stream()
+
+      const out = []
+
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.on('test', (e) => {
         return 1
       })
-      s.$on('test', (e) => {
-        return delay(100, true, 'promise')
+      s.on('test', (e) => {
+        return delay(10)
       })
-      s.$on('test', (e) => {
-        return s.$emit('DELAY', {})
-      })
-      s.$on('DELAY', () => {
-        return delay(200, true, 'effect')
+      s.on('test', (e) => {
+        return s.createEffect('delay', () => delay(20))()// new Effect('delay', delay(20), null, s)
       })
 
-      s.$emit('test').then(out => {
-        console.log(out)
-      })
+      s.emit('test')
 
+      return doAsync(() => {
+        expect(out).to.be.deep.equal(['test', 'delay:done', 'test:done'])
+      }, 30)
     })
 
-    it ('Should handle nested', () => {
+    it ('Should handle nested event', () => {
 
       const s = new Stream()
 
-//      s.$watch(e => true, (e) => {console.log(e)})
+      const out = []
 
-      s.$on('test', (e) => {
-        return s.$emit('test2', {})
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.on('test', (e) => {
+        return s.emit('test2', {})
       })
-      s.$on('test2', (e) => {
-        return s.$emit('test3', {})
+      s.on('test2', (e) => {
+        return s.emit('test3', {})
       })
-      s.$on('test3', (e) => {
-        return s.$emit('test4', {})
+      s.on('test3', (e) => {
+        return s.emit('test4', {})
       })
-      s.$on('test4', (e) => {
+      s.on('test4', (e) => {
         return 5
       })
 
-      s.$emit('test').then(out => {
-        console.log(out)
+      return s.emit('test').then(v => {
+        expect(v).to.be.equal(5)
+        expect(out).to.be.deep.equal(["test", "test2", "test3", "test4", "test3:done", "test2:done", "test:done"])
+      })
+    })
+
+    it ('Should watch and handle event', () => {
+
+      const s = new Stream()
+
+      const out = []
+
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
+        out.push('watch test')
+      })
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
+        out.push('watch test 2')
+        return delay(10)
+      })
+      s.on('test', (e) => {
+        return 10
       })
 
+      return s.emit('test').then((v) => {
+        expect(v).to.be.equal(10)
+        expect(out).to.be.deep.equal(['test', 'watch test', 'watch test 2', 'test:done'])
+      })
+    })
+
+    it ('Should watch and stop event', () => {
+
+      const s = new Stream()
+
+      const out = []
+
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.watch(e => e.name == 'test', (e) => {
+        return new Event(null, null, null, null, Stream.CH_DEFAULT) // блокируем обработку события
+      })
+      s.on('test', () => {
+        return 1
+      })
+
+      s.emit('test').then((v) => {
+        expect(out).to.be.deep.equal(['test', null])
+        expect(v).to.be.undefined
+      })
+    })
+
+    it ('Should watch and replace event', () => {
+
+      const s = new Stream()
+
+      const out = []
+
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.watch(e => e.name == 'test', (e) => {
+        return new Event('test2', null, null, null, Stream.CH_DEFAULT) // подменяем событие
+      })
+      s.on('test', () => {
+        return 1
+      })
+      s.on('test2', () => {
+        return 2
+      })
+
+      s.emit('test').then((v) => {
+        expect(out).to.be.deep.equal(['test', 'test2'])
+        expect(v).to.be.equal(2)
+      })
     })
 
 
@@ -211,159 +298,98 @@ describe ('Source', () => {
 
       const s = new Stream()
 
-//      s.$watch(e => true, (e) => {console.log(e)})
+      const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
 
-      const sum = s.$event('sum', {method: true})
-      s.$on('sum', async () => {
-        const x = await s.op(1)
-        const y = await s.op(2)
-        const z = await s.op(3)
+      const sum = s.createEvent('sum', {method: true})
+      s.on('sum', async () => {
+        const x = await op(1)
+        const y = await op(2)
+        const z = await op(3)
         return x + y + z
       })
 
-      const op = s.$event('op', {method: true})
-      s.$on('op', (v) => {
-        return delay(100, true, v * 10)
+      const op = s.createEvent('op', {method: true})
+      s.on('op', (v) => {
+        return doAsync(() => v * 10)
       })
 
-      sum().then((v) => console.log('sum', v))
-
-
+      return sum().then((v) => {
+        expect(v).to.be.equal(60)
+        expect(out).to.be.deep.equal(['sum', 'op', 'op:done', 'op', 'op:done', 'op', 'op:done', 'sum:done'])
+      })
     })
 
     it ('Should error during watch', () => {
 
-      const out = []
-
       const s = new Stream()
 
-      s.$on('test', () => {
+      const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      s.on('test', () => {
         out.push('ok')
       })
-      s.$watch(e => e.name == 'test', () => {
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, () => {
         throw new Error('Watch error')
       })
 
-      s.$on('test2', () => {
+      s.on('test2', () => {
         out.push('ok2')
       })
-      s.$watch(e => e.name == 'test2', () => {
-        doAsyncAction(() => {
-          throw new Error('Watch error (async)')
-        })
-      })
-
-      s.$on('test3', () => {
-        out.push('ok3')
-      })
-      s.$watch(e => e.name == 'test3', () => {
-        return doAsyncAction(() => {
+      s.watch(e => e.name == 'test2' && e.channel == Stream.CH_DEFAULT, () => {
+        doAsync(() => {
           throw new Error('Watch error (async) 2')
         })
       })
-      s.$on('test3:cancel', () => {
-        out.push('cancel3')
-      })
 
+      s.on('test3', () => {
+        out.push('ok3')
+      })
+      s.watch(e => e.name == 'test3' && e.channel == Stream.CH_DEFAULT, () => {
+        return doAsync(() => {
+          throw new Error('Watch error (async) 3')
+        })
+      })
+      s.on('test3', () => {
+        out.push('fail3')
+      }, 'fail')
 
       try {
-        s.$emit('test')
+        s.emit('test')
       }
       catch (err) {
         out.push(err.message)
       }
 
-      s.$emit('test2')
-      s.$emit('test3')
+      s.emit('test2')
+      s.emit('test3')
 
 
-      return doAsyncAction(() => {
-        expect(out).to.be.deep.equal(['Watch error', 'ok2', 'cancel3'])
-      })
+      return doAsync(() => {
+        expect(out).to.be.deep.equal(['test', 'Watch error', 'test2', 'ok2', 'test3', 'test3:fail', 'fail3'])
+      }, 10)
 
     })
 
-    it ('Should process complex action', () => {
+    it ('Should watch and handle async event', () => {
 
       const s = new Stream()
 
-//      s.$watch(() => true, (e) => console.log(e))
-
       const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
 
-      const log = s.$action('log', (msg) => {
-        doAsyncAction(() => out.push(msg))
+      const test = s.createAction('test', () => {
+        return delay(10)
       })
 
-      const notify = s.$action('notify', (msg) => {
-        doAsyncAction(() => out.push(msg))
+      s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, () => {
+        return delay(10)
       })
 
-      const op = s.$action('op', (n) => {
-        return doAsyncAction(() => n.length)
+      return test().then(() => {
+
       })
-
-      const getUser = s.$action('getUser', (id) => {
-        return doAsyncAction(() => {
-          const users = {
-            '7': {username: 'luke', name: 'Luke Skywalker'}
-          }
-          return users[id]
-        })
-      })
-
-      const getArticles = s.$action('getArticles', () => {
-        return doAsyncAction(() => {
-          return 'Lorem ipsum'
-        })
-      })
-
-      s.$get = () => {}
-
-      // s.$watch('getUser', (e) => {
-      //   e.data = [...e.data, token: s.$get('token')]
-      // })
-
-      const foo = s.$action('foo', async (id) => {
-        try {
-
-          let user = s.$get('user', id) // inner getter (sync)
-
-          if (user == null) {
-            user = await getUser(id) // outer getter (async)
-          }
-
-          const articles = await getArticles()
-
-          // get (inner + outer)
-          // map
-          // set (inner + outer)
-
-          // for (let i in args) {
-          //   const  await op(args[i])
-          // }
-          // const sum = (acc, v) => acc + v
-          // const total = (await Promise.all(args.map(op))).reduce(sum, 0)
-
-//          stream(args).map(op).reduce(sum, 0)
-
-          log(articles)
-
-        }
-        catch (err) {
-          log(err.message)
-          throw err
-        }
-      })
-
-
-      foo(7)
-
-
-
-      return doAsyncAction(() => {
-        expect(out).to.be.deep.equal(['Lorem ipsum'])
-      }, 100)
     })
 
 
@@ -371,42 +397,26 @@ describe ('Source', () => {
 
       const s = new Stream()
 
-      // const o = {
-      //   actions: {
-      //     timeout: () => 'timeout',
-      //     checkWin: () => 'checkWin'
-      //   },
-      //   watchers: {
-      //     waitTimeout: {
-      //       when: e => e.name == 'timeout',
-      //       check: e => delay(3000)
-      //     },
-      //     waitWin: {
-      //       when: e => e.name == 'checkWin',
-      //       check: (e, st) => st.$once('WIN', () => {})
-      //     }
-      //   }
-      // }
+      const waitTimeout = s.createEffect('timeout', () => delay(1000))
+      const checkWin = s.createEffect('WIN', () => {}) // бесконечное ожидание
 
-      function race (...effects) {
-        return Promise.race(effects)
-          .then((v) => {
-            return effects.map(eff => eff.isFinal)
-          })
+      // const waitTimeout = s.createAction('timeout', () => {
+      //   return s.createEffect('TO', delay(1000))
+      // })
+      // const checkWin = s.createAction('checkWin', () => {
+      //   return s.createEffect('WIN')
+      // })
+
+      function race (effects) {
+        if (Array.isArray(effects)) {
+          return Promise.race(effects)
+            .then((v) => {
+              return effects.map(eff => eff.isFinal ? v : undefined)
+            })
+        }
       }
 
-
-
-      const waitTimeout = s.$action('timeout', () => {
-        return new Promise((resolve, reject) => {
-          setTimeout(resolve, 3000)
-        })
-      })
-      const checkWin = s.$action('checkWin', () => {
-        return new Promise((resolve, reject) => {
-          s.$once('WIN', resolve)
-        })
-      })
+//      const waitEvent = s.$
 
 
 //       const waitTimeout = s.$action('timeout', () => 'timeout')
@@ -424,8 +434,12 @@ describe ('Source', () => {
 //         })
 //       })
 
-      s.$action('startGame', async () => {
-          const [timeout, winCondition] = await race(waitTimeout(), checkWin())
+      setTimeout(() => {
+        s.emit('WIN', true, null, 'done')
+      }, 500)
+
+      const startGame = s.createAction('startGame', async () => {
+          const [timeout, winCondition] = await race([waitTimeout(), checkWin()])
 
         if (winCondition) {
           console.log("Yeee, you've just won!")
@@ -434,22 +448,115 @@ describe ('Source', () => {
         }
       })
 
-      s.startGame()
-
-      setTimeout(() => {
-        s.$emit('WIN')
-      }, 1000)
-
-
-      return doAsyncAction(() => {
-
-      })
+      return startGame()
     })
 
 
 
     it ('Should reduce multiple results', () => {
 
+      function race (...args) {
+        return Promise.race(args)
+      }
+
+      function all () {
+
+      }
+
+      function isCancelable (obj) {
+        return obj && typeof obj.cancel === 'function'
+      }
+
+
+      const s = new Stream()
+
+      // s.on('test', (e) => 5 + e.data)
+      // s.on('test2', (e) => {
+      //   return doAsync(() => 10)
+      // })
+      //
+      // s.emit('test', 2)
+      //   .then((v) => {
+      //       console.log('OUT', v)
+      //   })
+      // s.emit('test2')
+      //   .then((v) => {
+      //       console.log('OUT', v)
+      //   })
+
+      const getUser = s.createAction('getUser', (id) => {
+        return doAsync(() => {
+          return {username: 'luke', name: 'Luke Skywalker'}
+        })
+      })
+
+      const getArticle = s.createAction('getArticle', (username) => {
+        const articles = {
+          'luke': 'Lorem ipsum'
+        }
+        return doAsync(() => {
+          return articles[username]
+        })
+      })
+
+      const getMessage = s.createAction('getMessage', (id) => {
+        const messages = {
+          'a': {text: 'A', delay: 100},
+          'b': {text: 'B', delay: 200}
+        }
+        return doAsync(() => messages[id].text, messages[id].delay)
+      })
+
+      const foo = s.createAction('foo', async (id) => {
+        const user = await getUser(id)
+
+        console.log('USER', user)
+
+        const article = await getArticle(user.username)
+
+        console.log('ARTICLE', article)
+
+        const msg = await race(getMessage('a'), getMessage('b'))
+
+        console.log('MESSAGE', msg)
+      })
+
+      s.watch(e => e.name == 'getUser' && e.channel == 'done', (e) => {
+        return delay(1500)
+      })
+
+      // s.watch(() => true, (e) => {
+      //   console.log(e)
+      // })
+
+
+      return foo().then(v => {
+
+      })
+    })
+
+    it ('Should handle targeted event', () => {
+
+      const s = new Stream()
+
+      const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+      const obj1 = {}
+      const obj2 = {}
+
+      s.subscribe('test', () => {
+        out.push('obj1')
+      }, Stream.CH_DEFAULT, obj1)
+      s.subscribe('test', () => {
+        out.push('obj2')
+      }, Stream.CH_DEFAULT, obj2)
+
+      s.emit('test', null, {target: obj1})
+
+      return doAsync(() => {
+        expect(out).to.be.deep.equal(['obj1'])
+      }, 10)
     })
 
 

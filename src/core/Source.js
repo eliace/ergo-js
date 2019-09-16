@@ -17,6 +17,10 @@ class Source {
     this.isNested = v instanceof Source
     this.options = o || {}
 
+    this.subscribers = []
+    this.effects = {}
+    this.events = {}
+
     // FIXME поменять на конфигурацию класса
     if (this.config) {
       this.options = {...this.config(), ...this.options}
@@ -817,9 +821,9 @@ class Source {
   }
 
 
-  emit () {
-    throw new Error('Unsupported method emit')
-  }
+  // emit () {
+  //   throw new Error('Unsupported method emit')
+  // }
 
 
   $emit (eventName, eventData) {
@@ -864,6 +868,9 @@ class Source {
     }
     return false
   }
+
+
+
 
 
 }
