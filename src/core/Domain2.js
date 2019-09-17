@@ -58,27 +58,35 @@ class Domain extends Source {
 
     if (promises.length > 0) {
 
-      let effectName = event.name
+//      let effectName = event.name
 
       // if (event.channel != CH_DEFAULT) {
       //   effectName = event.name + '#' + uuid()
       // }
 
-      const promise = Promise.all( result )
+      promise = Promise.all( result )
 
-      const effect = (event.channel == CH_DEFAULT ? new Effect(effectName, promise, {event}, this) : promise)
+
+//      promise = (event.channel == CH_DEFAULT ? new Effect(event.name, promise, {event}, this) : promise)
+      promise
         .then((v) => {
           return this._reduce(v, event)
         })
 
-      return effect
+//      return effect
     }
     else if (result.length > 0) {
-      return Promise.resolve(this._reduce(result, event))
+      promise = Promise.resolve(this._reduce(result, event))
     }
     else {
-      return Promise.resolve()
+      promise = Promise.resolve()
     }
+
+    // if (event.channel == CH_DEFAULT && this.effects[event.name]) {
+    //   promise = this.effects[event.name](promise, {event})
+    // }
+
+    return promise
   }
 
 
@@ -102,17 +110,21 @@ class Domain extends Source {
       // }
 
       // обработка then добавлена здесь, чтобы отрабатывали в нужном порядке финализаторы эффекта
-      const promise = Promise.all( result )
+      let promise = Promise.all( result )
 
-      const effect = (event.channel == CH_DEFAULT ? new Effect(effectName, promise, {event}, this) : promise)
+      // if (event.channel == CH_DEFAULT && this.effects[event.name]) {
+      //   promise = this.effects[event.name](promise, {event})
+      // }
+
+      return promise
         .then((v) => {
           const nextEvent = v.filter(r => r instanceof Event).reduce((acc, v) => v, event)
           return nextEvent == event ? this._put(event) : this.emit(nextEvent)
         }, (err) => {
-          return err
+          return this.emit(event.name, err, {}, 'fail')
         })
 
-      return effect
+//      return effect
     }
     else if (result.length > 0) {
       const nextEvent = result.filter(r => r instanceof Event).reduce((acc, v) => v, event)
@@ -168,8 +180,8 @@ class Domain extends Source {
   }
 
   createEffect (name, promiseCreator, options) {
-    this.effects[name] = () => {
-      return new Effect(name, promiseCreator(), options, this)
+    this.effects[name] = (promise) => {
+      return new Effect(name, promise || promiseCreator(), options, this)
     }
     return this.effects[name]
   }

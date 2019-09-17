@@ -41,7 +41,8 @@ class Effect {
 //      return
     }
 
-    this.subscriber = this.owner.subscribe(this)
+//    this.owner.emit(this.name, null, {}, 'wait')
+//    this.subscriber = this.owner.subscribe(this)
     // }
     // else {
     //   debugger
@@ -86,17 +87,18 @@ class Effect {
 //    if (this.promise) {
       this.promise = this.promise.finally(final)
 //    }
+    return this
   }
 
   finalize (state, value) {
     if (!this.isFinal) {
       this.isFinal = true
       if (!this.subscriber) {
-        debugger
+//        debugger
       }
       else {
-        this.owner.unsubscribe(this.subscriber)
-        this.subscriber = null
+//        this.owner.unsubscribe(this.subscriber)
+//        this.subscriber = null
       }
       // else {
       //   this.owner.unsubscribe(this)

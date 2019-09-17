@@ -96,7 +96,136 @@ describe ('Source', () => {
 
   describe ('Stream', () => {
 
-    it ('Should handle same eveny in different channels', () => {
+    it ('Should create effect', () => {
+
+      const s = new Stream()
+
+      const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
+
+      function startOnEvent (name, use, options={}) {
+        const subscriber = s.subscribe({
+          name,
+          callback: function (e) {
+            s.unsubscribe(subscriber)
+            out.push('start')
+            return startOnExec(name, use, options)
+            // return use(e)
+            //   .then(v => {
+            //     return v
+            //   })
+            //   .then((v) => {
+            //     s.emit(name, v, null, 'done')
+            //   }, (err) => {
+            //     s.emit(name, err, null, 'fail')
+            //   })
+              .then(this.resolver, this.rejector)
+          },
+          channels: ['default'],
+//          ...options,
+        })
+        return new Promise((resolve, reject) => {
+          subscriber.resolver = resolve
+          subscriber.rejector = reject
+        })
+      }
+
+      function startOnExec (name, use, options={}) {
+        const subscriber = s.subscribe({
+          name,
+          channels: ['done', 'cancel', 'fail'],
+          callback: function (e) {
+            s.unsubscribe(subscriber)
+            return options[e.channel] && options[e.channel](e)
+          }
+        })
+        out.push('start2')
+        return use()
+          .then((v) => {
+            s.emit(name, v, null, 'done')
+          }, (err) => {
+            s.emit(name, err, null, 'fail')
+          })
+      }
+
+      // function publishEffect (name, use, options={}) {
+      //   const subscriber = s.subscribe({
+      //     name,
+      //     callback: function (e) {
+      //       if (e.channel == 'default') {
+      //       //   return use(options.method ? e.data : e)
+      //       //     .then((v) => {
+      //       //       s.emit(name, v, null, 'done')
+      //       //       subscriber.resolvers.forEach(r => r(v))
+      //       //       return v
+      //       //     }, (err) => {
+      //       //       s.emit(name, err, null, 'fail')
+      //       //       return err
+      //       //     })
+      //       // }
+      //       // else {
+      //       //   s.unsubscribe(subscriber)
+      //       //   if (options[e.channel]) {
+      //       //     return options[e.channel](e)
+      //       //   }
+      //       //   return e.data
+      //       }
+      //     },
+      //     channels: ['default', 'done', 'fail', 'cancel'],
+      //     ...options,
+      //     resolvers: [],
+      //     rejectors: []
+      //   })
+      //   return {
+      //     then: function (resolve, reject) {
+      //       subscriber.resolvers.push(resolve)
+      //       subscriber.rejectors.push(reject)
+      //       return this
+      //     }
+      //   }
+      // }
+
+
+      startOnEvent('test', () => delay(10))
+
+      // startOnExec('test2', () => delay(5), {
+      //   done: (e) => {
+      //     out.push('x')
+      //   }
+      // })
+
+      // s.on('test', () => {
+      //   return
+      // })
+
+      // publishEffect('eff', (v) =>  delay(v), {
+      //   done: (e) => { out.push('done') },
+      //   method: true
+      // })
+
+      // s.on('test2', () => {
+      //   return delay(10)
+      // })
+      //
+      // s.on('test', async () => {
+      //   await publishEffect('x', () =>  delay(10))
+      //   await s.emit('test2')
+      // })
+
+
+      // function createEffect (name, use, options) {
+      //   return () => publishEffect(name, use, options)
+      // }
+      //
+      // createEffect('eff', () => delay(10))
+
+      return Promise.all([s.emit('test')]).then(() => {
+        console.log(out)
+      })
+    })
+
+    it ('Should handle same event in different channels', () => {
 
       const s = new Stream()
 
@@ -154,6 +283,8 @@ describe ('Source', () => {
 
       s.watch(e => true, (e) => {out.push(eventKey(e))})
 
+      const delayEff = s.createEffect('delay', () => delay(20))
+
       s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
         return 5
       })
@@ -161,13 +292,13 @@ describe ('Source', () => {
         return delay(10)
       })
       s.watch(e => e.name == 'test' && e.channel == Stream.CH_DEFAULT, (e) => {
-        return s.createEffect('delay', () => delay(20))()// new Effect('delay', delay(20), null, s)
+        return delayEff()// new Effect('delay', delay(20), null, s)
       })
 
       s.emit('test')
 
       return doAsync(() => {
-        expect(out).to.be.deep.equal(['test', 'delay:done', 'test:done'])
+        expect(out).to.be.deep.equal(['test', 'delay:wait', 'delay:done'])
       }, 30)
     })
 
@@ -179,6 +310,8 @@ describe ('Source', () => {
 
       s.watch(e => true, (e) => {out.push(eventKey(e))})
 
+      const delayEff = s.createEffect('delay', () => delay(20))
+
       s.on('test', (e) => {
         return 1
       })
@@ -186,13 +319,13 @@ describe ('Source', () => {
         return delay(10)
       })
       s.on('test', (e) => {
-        return s.createEffect('delay', () => delay(20))()// new Effect('delay', delay(20), null, s)
+        return delayEff()// new Effect('delay', delay(20), null, s)
       })
 
       s.emit('test')
 
       return doAsync(() => {
-        expect(out).to.be.deep.equal(['test', 'delay:done', 'test:done'])
+        expect(out).to.be.deep.equal(['test', 'delay:wait', 'test:wait', 'delay:done', 'test:done'])
       }, 30)
     })
 
@@ -219,7 +352,7 @@ describe ('Source', () => {
 
       return s.emit('test').then(v => {
         expect(v).to.be.equal(5)
-        expect(out).to.be.deep.equal(["test", "test2", "test3", "test4", "test3:done", "test2:done", "test:done"])
+        expect(out).to.be.deep.equal(["test", "test2", "test3", "test4", 'test3:wait', 'test2:wait', 'test:wait', "test3:done", "test2:done", "test:done"])
       })
     })
 
@@ -244,7 +377,7 @@ describe ('Source', () => {
 
       return s.emit('test').then((v) => {
         expect(v).to.be.equal(10)
-        expect(out).to.be.deep.equal(['test', 'watch test', 'watch test 2', 'test:done'])
+        expect(out).to.be.deep.equal(['test', 'watch test', 'watch test 2'])
       })
     })
 
@@ -316,7 +449,7 @@ describe ('Source', () => {
 
       return sum().then((v) => {
         expect(v).to.be.equal(60)
-        expect(out).to.be.deep.equal(['sum', 'op', 'op:done', 'op', 'op:done', 'op', 'op:done', 'sum:done'])
+        expect(out).to.be.deep.equal(['sum', 'op', 'op:wait', 'sum:wait', 'op:done', 'op', 'op:wait', 'op:done', 'op', 'op:wait', 'op:done', 'sum:done'])
       })
     })
 
@@ -365,11 +498,9 @@ describe ('Source', () => {
       s.emit('test2')
       s.emit('test3')
 
-
       return doAsync(() => {
         expect(out).to.be.deep.equal(['test', 'Watch error', 'test2', 'ok2', 'test3', 'test3:fail', 'fail3'])
       }, 10)
-
     })
 
     it ('Should watch and handle async event', () => {
