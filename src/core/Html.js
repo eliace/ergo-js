@@ -274,8 +274,8 @@ class Html{
         this._binders[i] = o
 
         const source = this.sources[o.key]
-        if (!source.$observedBy(this)) {
-          source.$observe(this, this.changed, o.key)
+        if (!source.observedBy(this)) {
+          source.observe(this, this.changed, o.key)
         }
         continue
       }
@@ -484,7 +484,7 @@ class Html{
       if (this._binding_chain) {
         while (this._binding_chain.length) {
           const i = this._binding_chain.shift()
-          this.sources[i]._init(this)
+          this.sources[i]._init(this, i)
 //          this.sources[i].emit('init', {target: this})//, null, this)
           // const o = this.options[i+'Changed'].call(this, this.sources[i].get(), this.sources[i], i)
           // for (let j in o) {
@@ -1036,6 +1036,7 @@ class Html{
       // const data = value.get()
       // if (data) {
       //   for (let i in data) {
+
       const k = value.key
 
       value.entries((entry, i, s) => {
@@ -1169,7 +1170,7 @@ class Html{
     // решаем, подключаться ли к домену
     if (o.anyChanged || (o.join && o.join[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound'] || o[i+'Joined']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
-      source.$observe(this, this.changed, i/*, o[i+'Effects']*/)
+      source.observe(this, this.changed, i/*, o[i+'Effects']*/)
 
       if (o.join && o.join[i]) {
         for (let j in o.join[i]) {
@@ -1184,7 +1185,7 @@ class Html{
     }
 
     if (this.sources[i]) {
-      this.sources[i].$unobserve(this)
+      this.sources[i].unobserve(this)
     }
 
     // else {
@@ -1206,7 +1207,13 @@ class Html{
   // }
 
 
-  changed (v, key) {
+  changed (v, subscription) {
+
+    if (subscription.channels.length > 1) {
+      console.warn('Multisubscription found', subscription)
+    }
+
+    const key = subscription.channels[0]
 
     const o = this.options
 
@@ -1414,7 +1421,7 @@ class Html{
   destroy () {
 
     for (let i in this.sources) {
-      this.sources[i].$unobserve(this)
+      this.sources[i].unobserve(this)
 //      this.unbind(i)
     }
 
@@ -1476,10 +1483,10 @@ class Html{
       for (let i in this.sources) {
         const src = this.sources[i]
         // FIXME определять наличие биндинга нужно другим способом
-        if (src.$observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (src.observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
 //          this._sourcesToUnjoin[i] = src
 //          console.log('destroing...', i)
-          src._destroy(this)
+          src._destroy(this, i)
         }
         else {
           delete this._sourcesToUnjoin[i]
@@ -1521,14 +1528,14 @@ class Html{
 
       this._binding_chain = []
       for (let i in this.sources) {
-        if (this.sources[i].$observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
+        if (this.sources[i].observedBy(this)) {//opts[i+'Changed'] || opts[i+'Effects'] || opts[i+'Events'] || opts[i+'Effectors'] || this._binders || opts.sourcesBound) {
           this._binding_chain.push(i)
           this._sourcesToJoin[i] = this.sources[i]
         }
       }
       while (this._binding_chain.length) {
         const i = this._binding_chain.shift()
-        this.sources[i]._init(this)
+        this.sources[i]._init(this, i)
       }
       delete this._binding_chain
 

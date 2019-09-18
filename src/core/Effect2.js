@@ -1,11 +1,11 @@
 
 
 class Effect {
-  constructor (name, promise, options, owner) {
+  constructor (name, promise, options={}, owner) {
     this.owner = owner
     this.promise = promise
     this.name = name
-    this.channels = ['done', 'cancel', 'fail']
+    this.channels = options.channels || ['done', 'cancel', 'fail']
     this.options = options
 
     this.resolvers = []
@@ -18,7 +18,7 @@ class Effect {
       })
     }
 
-//    this.owner.emit(this.name, null, null, 'wait')
+    this.owner.emit(this.name, null, null, 'start')
 
 //    if (this.promise) {
       this.promise = this.promise.then(

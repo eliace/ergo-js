@@ -1,5 +1,6 @@
 import {defaultIdResolver} from './Utils'
 
+/*
 // target
 // reducer
 class Event {
@@ -135,7 +136,7 @@ class Effect {
 
 const CH_DEFAULT = 'default'
 
-
+*/
 
 class Stream {
 
@@ -147,10 +148,10 @@ class Stream {
 
     // this._origin = []
     // this._watchers = new Map()
-    this.watchers = []
-    this.subscribers = []
-    this.effects = {}
-    this.events = {}
+    // this.watchers = []
+    // this.subscribers = []
+    // this.effects = {}
+    // this.events = {}
 
   }
 
@@ -243,7 +244,7 @@ class Stream {
 
 
 
-
+/*
   reduce (v, event) {
     if (Array.isArray(v) && v.length > 0) {
       const first = v[0]
@@ -378,18 +379,18 @@ class Stream {
       return callback(e)
     })
   }
-
+*/
   // get channels () {
   //   return {[CH_DEFAULT]: true, 'done': true, 'cancel': true, 'fail': true}
   // }
 
 }
 
-Stream.Event = Event
-Stream.Effect = Effect
-
-Stream.CH_DEFAULT = CH_DEFAULT
-Stream.ALL_CHANNELS = [CH_DEFAULT, 'done', 'fail', 'cancel', 'wait']
+// Stream.Event = Event
+// Stream.Effect = Effect
+//
+// Stream.CH_DEFAULT = CH_DEFAULT
+// Stream.ALL_CHANNELS = [CH_DEFAULT, 'done', 'fail', 'cancel', 'wait']
 
 
 export default Stream

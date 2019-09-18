@@ -88,8 +88,8 @@ export default () => {
           dataChanged: function (v) {
             this.opt('selected', this.options.text == v.selected)
           },
-          onClick: function () {
-            this.sources.data.set('selected', this.options.text)
+          onClick: function (e, {data}) {
+            data.set('selected', this.options.text)
           }
         },
         tabs: [
@@ -109,6 +109,10 @@ export default () => {
     },
     $content: {
       components: false,
+      // dataChanged: function (v, k, s) {
+      //   debugger
+      //   this.opt('components', s.$stream(k))
+      // },
       dataChanged: Mutate.Components,
       $box: previewOf(BoxExample, BoxCode),
       $button: previewOf(ButtonExample, ButtonCode),

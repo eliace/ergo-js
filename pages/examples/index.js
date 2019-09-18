@@ -5,6 +5,7 @@ import DomainExample from './domain'
 import MultidomainExample from './multidomain'
 import PostsExample from './posts'
 import CountriesExample from './countries'
+import CatsExample from './cats'
 
 export default () => {
 
@@ -16,13 +17,14 @@ export default () => {
       multidomain: (v) => v.selected == 'Multidomain',
       posts: (v) => v.selected == 'Posts',
       countries: (v) => v.selected == 'Countries',
+      cats: (v) => v.selected == 'Cats',
     }
   })
 
   return {
     sources: {
       page,
-      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries']
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats']
     },
     layout: Layouts.Rows,
     $header: {
@@ -60,6 +62,7 @@ export default () => {
       $multidomain: MultidomainExample(),
       $posts: PostsExample(),
       $countries: CountriesExample(),
+      $cats: CatsExample(),
     }
   }
 }

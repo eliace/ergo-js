@@ -7,6 +7,7 @@ class Event {
     this.owner = owner
     this.channel = channel
 
+    Object.assign(this, options)
     Object.freeze(this)
   }
 

@@ -258,7 +258,7 @@ export default () => {
               calc: v => v * 10
             }
           },
-          methods: {
+          actions: {
             increment: function () {
               this.set(this.get()+1)
             }
@@ -269,7 +269,7 @@ export default () => {
         as: Button,
         text: 'Increment',
         onClick: function (e, {data}) {
-          data.increment()
+          data.actions.increment()
         }
       },
       $text: {

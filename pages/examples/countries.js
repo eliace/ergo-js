@@ -14,8 +14,8 @@ export default () => {
   return {
     layout: Layouts.Container,
     dataId: 'countries',
-    allBound: function ({data}) {
-      const loadCountries = data.$method('loadCountries', this, async () => {
+    allJoined: function ({data}) {
+      const loadCountries = data.createEffect('loadCountries', async () => {
         data.set([])
         const v = await api.getCountries()
         const t0 = new Date().getTime()
@@ -23,11 +23,11 @@ export default () => {
         data.set(v)
         const t1 = new Date().getTime()
         console.log('t', t1 - t0)
-      })
+      }, this)
 
-      data.$watch(e => e.name == 'init', this, () => {
-        data.loadCountries()
-      })
+      data.watch(e => e.name == 'init', () => {
+        loadCountries()
+      }, this)
 
 //      if (data.$isEmpty()) {
 //      }

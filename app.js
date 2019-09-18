@@ -1,4 +1,4 @@
-import {createProjector} from 'maquette'
+//import {createProjector} from 'maquette'
 import {Html, State, Source, Domain, Bindings, Events, Layout, Config} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
@@ -264,9 +264,9 @@ const root = new Html({
   },
   allJoined: function ({page, data, app}) {
 
-    app.$method('setCurrent', this, (v) => {
+    app.createAction('setCurrent', (v) => {
       app.set('current', v)
-    })
+    }, this)
 
     app.$prop('posts', null, v => v.current == 'posts')
     app.$prop('elements', null, v => v.current == 'elements')
@@ -411,8 +411,8 @@ const root = new Html({
               // stateOptions: function(v) {
               //   return {text: v.name, key: v.id}
               // },
-              onClick: function(e) {
-                this.sources.app.setCurrent(this.options.key)
+              onClick: function(e, {app}) {
+                app.actions.setCurrent(this.options.key)
               }
             }
           }

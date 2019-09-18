@@ -13,13 +13,13 @@ class Source {
     this.id = k
     this.src = v
     this.entries = {}// Array.isArray(v) ? [] : {}
-    this.observers = []
+    this.subscribers = []
     this.isNested = v instanceof Source
     this.options = o || {}
 
-    this.subscribers = []
-    this.effects = {}
-    this.events = {}
+    // this.subscribers = []
+    // this.effects = {}
+    // this.events = {}
 
     // FIXME поменять на конфигурацию класса
     if (this.config) {
@@ -307,37 +307,39 @@ class Source {
   }
 
 
-  $observe (target, dataChanged, key) {
-    this.join(target, dataChanged, null, key)
-  }
 
-  $unobserve (target) {
-    this.unjoin(target)
-  }
 
-  join(target, dataChanged, dataRemoved, key, dataEffects) {
-    this.observers.push({target, dataChanged, dataRemoved, key, dataEffects})
-    if (!this._listeners) {
-      this._listeners = new Map()
-    }
-    this._listeners.set(target, {key})
-  }
-
-  unjoin(target) {
-    for (let i = 0; i < this.observers.length; i++) {
-      if (this.observers[i].target == target) {
-        this.observers.splice(i, 1)
-        break
-      }
-    }
-
-    // if (this.observers.length == 0 && this.isNested) {
-    //   let n = Array.isArray(this.entries) ? this.entities.length : Object.keys(this.entries).length
-    //   if (!n) {
-    //     delete this.src.entries[this.id]
-    //   }
-    // }
-  }
+  // $observe (target, dataChanged, key) {
+  //   this.join(target, dataChanged, null, key)
+  // }
+  //
+  // $unobserve (target) {
+  //   this.unjoin(target)
+  // }
+  //
+  // join(target, dataChanged, dataRemoved, key, dataEffects) {
+  //   this.observers.push({target, dataChanged, dataRemoved, key, dataEffects})
+  //   if (!this._listeners) {
+  //     this._listeners = new Map()
+  //   }
+  //   this._listeners.set(target, {key})
+  // }
+  //
+  // unjoin(target) {
+  //   for (let i = 0; i < this.observers.length; i++) {
+  //     if (this.observers[i].target == target) {
+  //       this.observers.splice(i, 1)
+  //       break
+  //     }
+  //   }
+  //
+  //   // if (this.observers.length == 0 && this.isNested) {
+  //   //   let n = Array.isArray(this.entries) ? this.entities.length : Object.keys(this.entries).length
+  //   //   if (!n) {
+  //   //     delete this.src.entries[this.id]
+  //   //   }
+  //   // }
+  // }
 
 
   _invalidate () {
@@ -408,7 +410,7 @@ class Source {
           }
         }
 
-        this.$emit('changed', {data: this.get(), ids, cache: prevValue})
+        this.emit('changed', this.get(), {ids, cache: prevValue}, '*')
 
       }
       catch (err) {
@@ -826,20 +828,34 @@ class Source {
   // }
 
 
-  $emit (eventName, eventData) {
-
-    const event = (eventName.constructor == Object) ? eventName : {name: eventName, source: this, ...eventData}
-
-    this.observers.forEach(t => {
-      if (event.target == null || event.target == t.target) {
-        if (t.dataChanged) {
-          t.dataChanged.call(t.target, event, t.key)
-        }
-      }
-    })
+  observe (target, callback, channel='') {
+    const subscription = {name: '*', target, callback, channels: [channel]}
+    this.subscribers.push(subscription)
   }
 
-  _init (target) {
+  unobserve (target) {
+    this.subscribers = this.subscribers.filter(s => s.target != target)
+  }
+
+  emit (name, data, options, channel) {
+
+    const event = (name.constructor == Object) ? name : {name, source: this, data, ...options, channel}
+
+    return this.subscribers
+      .filter(t => event.target == null || event.target == t.target)
+      .filter(t => event.channel == '*' || t.channels.indexOf(channel) != -1)
+      .map(t => t.callback.call(t.target, event, t))
+
+    // this.subscribers.forEach(t => {
+    //   if (event.target == null || event.target == t.target) {
+    //     if (t.callback) {
+    //       t.callback.call(t.target, event, t.key)
+    //     }
+    //   }
+    // })
+  }
+
+  _init (target, ch) {
 
 
     // if (this.isNested && this.src._updating) {
@@ -848,21 +864,21 @@ class Source {
     // else {
 //    }
 
-    this.$emit('init', {target, ns: 'lc'})
+    this.emit('init', null, {target, ns: 'lc'}, ch)
 
     const data = this.get()
-    this.$emit('changed', {target, data/*, ns: 'lc'*/})  //TODO нужно только в том случае, если в init не было изменений
+    this.emit('changed', data, {target/*, ns: 'lc'*/}, ch)  //TODO нужно только в том случае, если в init не было изменений
   }
 
-  _destroy (target) {
-    this.$emit('destroy', {target, ns: 'lc'})
+  _destroy (target, ch) {
+    this.emit('destroy', null, {target, ns: 'lc'}, ch)
   }
 
 
 
-  $observedBy (target) {
-    for (let i = 0; i < this.observers.length; i++) {
-      if (this.observers[i].target == target) {
+  observedBy (target) {
+    for (let i = 0; i < this.subscribers.length; i++) {
+      if (this.subscribers[i].target == target) {
         return true
       }
     }

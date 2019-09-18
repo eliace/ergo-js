@@ -16,18 +16,33 @@ class Domain extends Source {
   //   this.src = src || new Source()
   //   this.name = name
   // }
-  constructor (v, o, k) {
-    super(v, o, k)
+  constructor (v, options, k) {
+    super(v, options, k)
 
 //    this.watchers = []
-    this.subscribers = []
+//    this.subscribers = []
     this.effects = {}
-    this.events = {}
+    this.actions = {}
+
+    const o = this.options
+
+    if (o.actions) {
+      for (let i in o.actions) {
+        this.createAction(i, o.actions[i])
+      }
+    }
+
+    if (o.effects) {
+      for (let i in o.effects) {
+        this.createEffect(i, o.effects[i])
+      }
+    }
+
   }
 
 
   _channel (ch) {
-    return this.subscribers.filter(s => s.channels.indexOf(ch) != -1)
+    return this.subscribers.filter(s => /*!s.channels ||*/ ch == '*' || s.channels.indexOf(ch) != -1)
   }
 
   // _watcher (ch) {
@@ -48,8 +63,8 @@ class Domain extends Source {
 
     const result = this._channel(event.channel)
       .filter(s => !event.options.target || event.options.target == s.target)
-      .filter(s => s.name == event.name)
-      .map(s => event.options.method ? s.callback.apply(event.owner, event.data) : s.callback(event))
+      .filter(s => s.name == '*' || s.name == event.name)
+      .map(s => event.options.method ? s.callback.apply(s.target, event.data) : s.callback.call(s.target, event, s))
       .filter(v => v !== undefined)
 
     const promises = result.filter(v => v.then && typeof v.then == 'function')
@@ -66,9 +81,12 @@ class Domain extends Source {
 
       promise = Promise.all( result )
 
+      if (event.effect) {
+        promise = new (event.effect)(event.name, promise, {event}, this)
+      }
 
 //      promise = (event.channel == CH_DEFAULT ? new Effect(event.name, promise, {event}, this) : promise)
-      promise
+      return promise
         .then((v) => {
           return this._reduce(v, event)
         })
@@ -76,21 +94,17 @@ class Domain extends Source {
 //      return effect
     }
     else if (result.length > 0) {
-      promise = Promise.resolve(this._reduce(result, event))
+      return this._reduce(result, event)
+      // return Promise.resolve(this._reduce(result, event))
     }
-    else {
-      promise = Promise.resolve()
-    }
-
-    // if (event.channel == CH_DEFAULT && this.effects[event.name]) {
-    //   promise = this.effects[event.name](promise, {event})
+    // else {
+    //   return Promise.resolve()
     // }
 
-    return promise
   }
 
 
-  emit (name, data, options, channel=CH_DEFAULT) {
+  emit (name, data, options, channel='') {
     const event = (name instanceof Event) ? name : new Event(name, data, options, this, channel)
 
     const result = this.subscribers.filter(s => !!s.when)
@@ -136,13 +150,13 @@ class Domain extends Source {
 
   }
 
-  subscribe (name, callback, channel=CH_DEFAULT, target) {
+  subscribe (name, callback, channels='', target=this) {
     let subscriber = null
     if (arguments.length == 1) {
       subscriber = arguments[0]
     }
     else {
-      subscriber = {name, callback, channels: [].concat(channel), target}
+      subscriber = {name, callback, channels: [].concat(channels), target}
     }
     this.subscribers.push(subscriber)
     return subscriber
@@ -163,7 +177,7 @@ class Domain extends Source {
 
   createAction (name, callback) {
     this.subscribe(name, callback)
-    return this.createEvent(name, {method: true})
+    return this.createEvent(name, {method: true, effect: Effect})
   }
 
   createEvent (name, options) {
@@ -175,7 +189,7 @@ class Domain extends Source {
     e.fail = name+':fail'//(evt) => evt.name == name && evt.channel == 'fail'
     e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
 
-    this.events[name] = e
+    this.actions[name] = e
     return e
   }
 
@@ -186,17 +200,17 @@ class Domain extends Source {
     return this.effects[name]
   }
 
-  on (name, callback, channel) {
+  on (name, callback, target, channel) {
     const [n, c] = name.split(':')
-    return this.subscribe(n, callback, c || channel)
+    return this.subscribe(n, callback, c || channel, target)
   }
 
   off (listener) {
     this.unsubscribe(listener)
   }
 
-  watch (when, callback) {
-    this.subscribe({when, callback, channels: []})
+  watch (when, callback, target) {
+    this.subscribe({when, callback, target, channels: []})
     //    this.watchers.push({when, callback, channels: [].concat(channel)})
   }
 
@@ -207,13 +221,38 @@ class Domain extends Source {
     })
   }
 
-  unjoin(target) {
-    super.unjoin(target)
 
-    this.subscribers = this.subscribers.filter(s => s.target != target)
-//    this.watchers = this.watchers.filter(s => s.target != target)
-//    this.effects = this.effects.filter(s => s.target != target)
 
+
+
+//   unjoin(target) {
+//     super.unjoin(target)
+//
+//     this.subscribers = this.subscribers.filter(s => s.target != target)
+// //    this.watchers = this.watchers.filter(s => s.target != target)
+// //    this.effects = this.effects.filter(s => s.target != target)
+//
+//   }
+
+  $entry(k) {
+    let e = this.entries[k]
+    if (e == null) {
+      if (this._properties && this._properties[k]) {
+        // здесь можно вызывать фабрику
+        const prop = this._properties[k]
+        if (typeof prop === 'object') {
+          e = new Domain(this, {...prop}, k)
+        }
+        else {
+          e = new prop(this, null, k)
+        }
+      }
+      else {
+        e = new Domain(this, null, k) // в качестве опций должны передаваться параметры модели
+      }
+      this.entries[k] = e
+    }
+    return e
   }
 
   // get events () {
