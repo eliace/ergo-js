@@ -180,9 +180,9 @@ class Domain extends Source {
     return this.createEvent(name, {method: true, effect: Effect})
   }
 
-  createEvent (name, options) {
+  createEvent (name, options, channel) {
     const e = (...args) => {
-      return this.emit(name, args, options)
+      return this.emit(name, args, options, channel)
     }
     e.on = name//(evt) => evt.name == name && evt.channel == CH_DEFAULT
     e.done = name+':done'//(evt) => evt.name == name && evt.channel == 'done'

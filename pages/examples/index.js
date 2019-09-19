@@ -6,6 +6,7 @@ import MultidomainExample from './multidomain'
 import PostsExample from './posts'
 import CountriesExample from './countries'
 import CatsExample from './cats'
+import Cats2Example from './cats2'
 
 export default () => {
 
@@ -18,13 +19,14 @@ export default () => {
       posts: (v) => v.selected == 'Posts',
       countries: (v) => v.selected == 'Countries',
       cats: (v) => v.selected == 'Cats',
+      cats2: (v) => v.selected == 'Cats2',
     }
   })
 
   return {
     sources: {
       page,
-      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats']
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2']
     },
     layout: Layouts.Rows,
     $header: {
@@ -58,11 +60,12 @@ export default () => {
       pageChanged: function (v, k, src) {
         this.opt('components', src.$stream(k))
       },
-      $domain: DomainExample(),
-      $multidomain: MultidomainExample(),
-      $posts: PostsExample(),
-      $countries: CountriesExample(),
-      $cats: CatsExample(),
+      $domain: DomainExample,
+      $multidomain: MultidomainExample,
+      $posts: PostsExample,
+      $countries: CountriesExample,
+      $cats: CatsExample,
+      $cats2: Cats2Example,
     }
   }
 }

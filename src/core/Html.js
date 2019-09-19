@@ -1274,7 +1274,7 @@ class Html{
     }
     else {
 //      console.log('onChange', v)
-      const handlerName = 'on'+v.name[1].toUpperCase()+v.name.substr(2)
+      const handlerName = 'on'+v.name[0].toUpperCase()+v.name.substr(1)
       if (o[handlerName]) {
         o[handlerName].call(this, v, this.sources)
       }

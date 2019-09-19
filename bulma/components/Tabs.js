@@ -11,10 +11,10 @@ class Tab extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       selected: {
-        set: function (v) {
+        initOrSet: function (v) {
           this.opt('classes', {'is-active': v})
         }
       }

@@ -34,8 +34,8 @@ class Switch extends Html {
       sources: {
         view: {}
       },
-      allBound: function ({view}) {
-        view.$event('click', this)
+      allJoined: function ({view}) {
+        view.createEvent('click', {}, 'view')
       },
       layout: Layout.passthru,
       $input: {
@@ -50,7 +50,7 @@ class Switch extends Html {
       $content: {
         html: 'label',
         onClick: function (e, {view}) {
-          view.click(e)
+          view.actions.click(e)
         }
       }
     }
@@ -65,7 +65,7 @@ class Switch extends Html {
       },
       value: {
         initOrSet: function (v) {
-          this.domains.view.set(v) // перекладка
+          this.sources.view.set(v) // перекладка
         }
       }
     }
