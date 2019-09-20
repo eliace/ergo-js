@@ -7,6 +7,8 @@ import BreadcrumbExample from './breadcrumb'
 import CardExample from './card'
 import MenuExample from './menu'
 import ModalExample from './modal'
+import NavbarExample from './navbar'
+import PaginationExample from './pagination'
 
 import {PreviewAndCode} from '../extensions'
 
@@ -28,9 +30,11 @@ const CardCode = fs.readFileSync(__dirname+'/card.js', 'utf-8')
 const BreadcrumbCode = fs.readFileSync(__dirname+'/breadcrumb.js', 'utf-8')
 const DropdownCode = fs.readFileSync(__dirname+'/dropdown.js', 'utf-8')
 const TabsCode = fs.readFileSync(__dirname+'/tabs.js', 'utf-8')
+const NavbarCode = fs.readFileSync(__dirname+'/navbar.js', 'utf-8')
+const PaginationCode = fs.readFileSync(__dirname+'/pagination.js', 'utf-8')
 
 
-export default (projector) => {
+export default () => {
 
   const data = new Domain({
     selected: 'Tabs'
@@ -41,7 +45,9 @@ export default (projector) => {
       breadcrumb: v => v.selected == 'Breadcrumb',
       card: v => v.selected == 'Card',
       menu: v => v.selected == 'Menu',
-      modal: v => v.selected == 'Modal'
+      modal: v => v.selected == 'Modal',
+      navbar: v => v.selected == 'Navbar',
+      pagination: v => v.selected == 'Pagination',
     }
   })
 
@@ -79,7 +85,9 @@ export default (projector) => {
           {text: 'Breadcrumb'},
           {text: 'Card'},
           {text: 'Menu'},
-          {text: 'Modal'}
+          {text: 'Modal'},
+          {text: 'Navbar'},
+          {text: 'Pagination'},
         ]
       }
     },
@@ -93,7 +101,9 @@ export default (projector) => {
       $breadcrumb: previewOf(BreadcrumbExample, BreadcrumbCode),
       $card: previewOf(CardExample, CardCode),
       $menu: previewOf(MenuExample, MenuCode),
-      $modal: previewOf(ModalExample, ModalCode)
+      $modal: previewOf(ModalExample, ModalCode),
+      $navbar: previewOf(NavbarExample, NavbarCode),
+      $pagination: previewOf(PaginationExample, PaginationCode),
     }
   }
 }

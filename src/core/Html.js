@@ -512,12 +512,19 @@ class Html{
       values = name
     }
 
+    let markDirty = false
+
     for (let i = 0; i < keys.length; i++) {
       name = keys[i]
       value = isObject ? values[name] : values
 
       const oldValue = this.options[name]
       const o = this.options
+
+      const desc = (o.options && o.options[name]) || (this.classOptions[name])
+
+      const isMutable = desc && desc.mutable === true // ignore value equal check
+      const isClean = desc && desc.clean === true     // no dirty mark
 
 //     }
 //
@@ -540,13 +547,16 @@ class Html{
 //       //TODO сливаем опции
 //     }
 
-    if (oldValue == value) {
-      if (this.classOptions[name] && this.classOptions[name].mutable !== true) {
-        console.warn('Ignore option ['+name+']', value)
-        continue
+      if (oldValue == value) {
+        if (!isMutable) {
+          console.warn('Ignore option ['+name+']', value)
+          continue
+        }
       }
-    }
 
+      if (!isClean) {
+        markDirty = true
+      }
 
 //    console.log('opt', name, v)
 
@@ -578,77 +588,77 @@ class Html{
     //   name = name.substr(0, name.length-1)
     // }
 
-    if (o.options && o.options[name]) {
-      const desc = o.options[name]
-      if (desc.set) {
-        desc.set.call(this, value, oldValue)
+      if (o.options && o.options[name]) {
+        const desc = o.options[name]
+        if (desc.set) {
+          desc.set.call(this, value, oldValue)
+        }
+        else if (desc.initOrSet) {
+          desc.initOrSet.call(this, value, oldValue)
+        }
       }
-      else if (desc.initOrSet) {
-        desc.initOrSet.call(this, value, oldValue)
+      else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
+        const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
+        if (desc.set) {
+          desc.set.call(this, value, oldValue)
+        }
+        else if (desc.initOrSet) {
+          desc.initOrSet.call(this, value, oldValue)
+        }
+      }
+      else if (name == 'text') {
+        if (this.$content) {
+          this.$content.opt('text', value)
+        }
+        else {
+          this.text = value != null ? String(value) : value
+        }
+  //      this.options[name] = String(v)
+      }
+      else if (name == 'html') {
+        this.html = value
+      }
+      else if (name == 'css') {
+        if (value.length) {
+          this.props['className'] = classNames(this.props['className'], value.join(' '))
+        }
+      }
+      else if (name == 'classes') {
+        this.props['className'] = classNames(this.props['className'], value)
+      }
+      else if (i == 'styles') {
+        this.props.style = this.props.style || {}
+        Object.assign(this.props.style, value)
+      }
+      else if (name == 'items') {
+        if (this._modify_items) {
+          console.warn('items overchange', value)
+        }
+        else {
+          this._modify_items = true
+          this.syncItems(value, key)
+          delete this._modify_items
+        }
+      }
+      else if (name == 'components') {
+        if (this._modify_components) {
+          console.warn('components overchange', value)
+        }
+        else {
+          this._modify_components = true
+          this.syncComponents(value, key)
+          delete this._modify_components
+        }
+      }
+      else if (Config.HTML_OPTIONS[name] === true) {
+        this.props[name] = value
+      }
+      else if (Config.HTML_OPTIONS[name]) {
+        this.props[Config.HTML_OPTIONS[name]] = value
       }
     }
-    else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
-      const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
-      if (desc.set) {
-        desc.set.call(this, value, oldValue)
-      }
-      else if (desc.initOrSet) {
-        desc.initOrSet.call(this, value, oldValue)
-      }
-    }
-    else if (name == 'text') {
-      if (this.$content) {
-        this.$content.opt('text', value)
-      }
-      else {
-        this.text = value != null ? String(value) : value
-      }
-//      this.options[name] = String(v)
-    }
-    else if (name == 'html') {
-      this.html = value
-    }
-    else if (name == 'css') {
-      if (value.length) {
-        this.props['className'] = classNames(this.props['className'], value.join(' '))
-      }
-    }
-    else if (name == 'classes') {
-      this.props['className'] = classNames(this.props['className'], value)
-    }
-    else if (i == 'styles') {
-      this.props.style = this.props.style || {}
-      Object.assign(this.props.style, value)
-    }
-    else if (name == 'items') {
-      if (this._modify_items) {
-        console.warn('items overchange', value)
-      }
-      else {
-        this._modify_items = true
-        this.syncItems(value, key)
-        delete this._modify_items
-      }
-    }
-    else if (name == 'components') {
-      if (this._modify_components) {
-        console.warn('components overchange', value)
-      }
-      else {
-        this._modify_components = true
-        this.syncComponents(value, key)
-        delete this._modify_components
-      }
-    }
-    else if (Config.HTML_OPTIONS[name] === true) {
-      this.props[name] = value
-    }
-    else if (Config.HTML_OPTIONS[name]) {
-      this.props[Config.HTML_OPTIONS[name]] = value
-    }
-  }
 
-    if (this.vnode && !this._dirty) {
+    if (this.vnode && !this._dirty && markDirty) {
       this.rerender()
     }
     return this
@@ -658,7 +668,7 @@ class Html{
 
     const o = this.options
 
-    if (o.defaultItem && typeof value === 'string') {
+    if (o.defaultItem && (typeof value === 'string' || typeof value == 'number')) {
       value = {text: value}
     }
 //     let dataOpts = this.data == null ? null : {data: this.data}
@@ -726,7 +736,7 @@ class Html{
 
     if (!(value instanceof Html)) {
 
-      if ((o['$'+i] || o.defaultComponent) && typeof value === 'string') {
+      if ((o['$'+i] || o.defaultComponent) && (typeof value === 'string' || typeof value == 'number')) {
         value = {text: value}
       }
 
