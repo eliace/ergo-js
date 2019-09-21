@@ -1,8 +1,7 @@
-import {Html} from '../../src'
-import {List} from '../elements'
+import { Html, Domain } from '../../src'
+import { List } from '../elements'
 
 class Tab extends Html {
-
   config () {
     return {
       $content: {
@@ -10,10 +9,9 @@ class Tab extends Html {
       }
     }
   }
-
   options () {
     return {
-      selected: {
+      active: {
         initOrSet: function (v) {
           this.opt('classes', {'is-active': v})
         }
@@ -25,13 +23,32 @@ class Tab extends Html {
 
 class Tabs extends Html {
 
-  config (options) {
+  config () {
     return {
+      sources: {
+        __state: function () {
+          return new Domain({
+            current: null
+          }, {
+            actions: {
+              select: function (v) {
+                this.set('current', v)
+              }
+            }
+          })
+        }
+      },
       css: 'tabs',
       $list: {
         as: List,
         defaultItem: {
-          as: Tab
+          as: Tab,
+          __stateChanged: function (v) {
+            this.opt('active', v.current != null && v.current == this.opt('key'))
+          },
+          onClick: function (e, {__state}) {
+            __state.actions.select(this.options.key)
+          }
         }
       }
     }
@@ -49,15 +66,21 @@ class Tabs extends Html {
       },
       defaultTab: {
         init: function (v) {
-  //        this.options.components.list.merge({defaultItem: v})
           this.$list.options.defaultItem.merge(v)
         }
+      },
+      selected: {
+        initOrSet: function (v) {
+          this.sources.__state.actions.select(v)
+        },
+        clean: true
       }
     }
   }
 
-  static Tab = Tab
 }
+
+Tabs.Tab = Tab
 
 
 export default Tabs

@@ -1,5 +1,5 @@
 import Layout from './Layout'
-import Domain from './Domain2'
+import Domain from './Domain'
 
 export default class Context {
 

@@ -8,7 +8,7 @@ import classNames from 'classnames/dedupe'
 //import Domain from './Domain'
 import Source from './Source'
 //import State from './State'
-import Context from './Context'
+//import Context from './Context'
 import Config from './Config'
 
 const ComponentRules = {
@@ -684,7 +684,7 @@ class Html{
       return
     }
 
-    const item = defaultFactory(itemOpts, (typeof itemOpts === 'string') ? Text : Html, this.sources)
+    const item = (o.itemFactory || defaultFactory)(itemOpts, this.sources, (typeof itemOpts === 'string') ? Text : Html)
     this.children.push(item)
     if (i == null) {
       i = 0
@@ -762,13 +762,13 @@ class Html{
 
       if (compOpts instanceof Promise) {
         compOpts.then(c => {
-          this.addComponent(i, defaultFactory(c, (typeof c === 'string') ? Text : Html, context))
+          this.addComponent(i, (o.componentFactory || defaultFactory)(c, context, (typeof c === 'string') ? Text : Html))
         })
         return
       }
 
   //    console.log('addComponent', o, compOpts)
-      comp = defaultFactory(compOpts, (typeof compOpts === 'string') ? Text : Html, context)
+      comp = (o.componentFactory || defaultFactory)(compOpts, context, (typeof compOpts === 'string') ? Text : Html)
     }
 
     this.children.push(comp)
@@ -924,7 +924,7 @@ class Html{
       value = this.sources[key]
     }
     if (value instanceof Source) {
-      value = value.$stream()
+      value = value.get()
     }
     if (value instanceof Source.Stream) {
 
@@ -1015,7 +1015,7 @@ class Html{
 
     }
     else {
-      this.removeAllItems()
+      this.destroyAllItems()
       for (let i = 0; i < value.length; i++) {
         this.addItem(value[i])
       }
@@ -1108,6 +1108,15 @@ class Html{
       //     this.removeComponent(c)
       //   }
       // })
+    }
+  }
+
+  destroyAllItems () {
+    for (let i = this.children.length-1; i >= 0; i--) {
+      let child = this.children[i]
+      if (child.index != null) {
+        child.tryDestroy()
+      }
     }
   }
 
@@ -1221,6 +1230,11 @@ class Html{
 
     if (subscription.channels.length > 1) {
       console.warn('Multisubscription found', subscription)
+    }
+
+    if (this._destroyed) {
+      console.warn('Try to change destroyed component', this)
+      return
     }
 
     const key = subscription.channels[0]

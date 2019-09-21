@@ -11,13 +11,25 @@ class Item extends Html {
       }
     }
   }
-
   options () {
     return {
       active: {
         initOrSet: function (v) {
           this.$content.opt('classes', {'is-current': !!v})
         }
+      }
+    }
+  }
+}
+
+class Ellipsis extends Html {
+  config () {
+    return {
+      html: 'li',
+      $content: {
+        html: 'span',
+        css: 'pagination-ellipsis',
+        text: '...'
       }
     }
   }
@@ -97,6 +109,9 @@ class Pagination extends Html {
           onClick: function (e, {__view}) {
             __view.actions.select(this.options.key)
           }
+        },
+        itemFactory: function (opts, context) {
+          return opts.text == '.' ? new Ellipsis() : new Item(opts, context)
         },
         __viewChanged: function (v, k, s) {
           this.opt('items', s.get('pages'))

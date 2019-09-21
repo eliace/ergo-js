@@ -2,11 +2,11 @@ import Html from './Html'
 import Layout from './Layout'
 import Options from './Options'
 import Source from './Source'
-import Domain from './Domain2'
+import Domain from './Domain'
 //import Bindings from './Bindings'
 import Text from './Text'
 import Events from './Events'
-import Context from './Context'
+//import Context from './Context'
 import Config from './Config'
 export * from './Utils'
 
@@ -19,6 +19,6 @@ export {
   Text,
   Events,
   Domain,
-  Context,
+//  Context,
   Config
 }

@@ -64,29 +64,25 @@ export default () => {
     },
     defaultItem: {
       as: Tabs,
-      sources: {
-        selection: 'Pictures'
-      }
+      selected: 'Pictures'
     },
 //    layout: Layouts.Container,
     items: [{
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: { Selectable },
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       css: 'is-centered',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: { Selectable },
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       css: 'is-centered',
       dataChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [Selectable, WithIcon],
+        mixins: [WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -95,28 +91,25 @@ export default () => {
       css: 'is-small',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: { Selectable },
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       css: 'is-medium',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: { Selectable },
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       css: 'is-large',
       tabsChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: { Selectable },
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
     }, {
       dataChanged: Mutate.Tabs,
       css: 'is-boxed',
       defaultTab: {
-        mixins: [Selectable, WithIcon],
+        mixins: [WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -125,7 +118,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle',
       defaultTab: {
-        mixins: [Selectable, WithIcon],
+        mixins: [WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -134,7 +127,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle is-toggle-rounded',
       defaultTab: {
-        mixins: [Selectable, WithIcon],
+        mixins: [WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -143,7 +136,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle is-fullwidth',
       defaultTab: {
-        mixins: [Selectable, WithIcon],
+        mixins: [WithIcon],
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }

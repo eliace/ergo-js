@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-import {Html, Source} from '../../src'
+import {Html, Source, Text} from '../../src'
 //const jsdom = require('mocha-jsdom')
 
 describe ('Html', () => {
@@ -154,47 +154,294 @@ describe ('Html', () => {
     expect(html3.$content.text).to.be.undefined
   })
 
-  it ('Should update components by object value', () => {
-    const html = new Html({
-      $comp1: {},
-      $comp2: {}
+
+
+  describe ('Items', () => {
+
+    it ('Should add items from constructor options', () => {
+
+      const html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+
+      expect(html.items.length).to.be.eq(3)
+      expect(html.items[0].text).to.be.eq('Alice')
+
     })
-    html.opt('components', {
-      comp1: {text: '1'},
-      comp2: {text: '2'},
-      comp3: {text: '3'}
+
+    it ('Should add items from array value', () => {
+
+      const html = new Html()
+      html.opt('items', [{text: 'item1'}, {text: 'item2'}])
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[1].text).to.be.eq('item2')
     })
-    expect(html.$comp1.text).to.be.equal('1')
-    expect(html.$comp2.text).to.be.equal('2')
-    expect(html.$comp3).to.be.undefined
 
-    html.opt('components', {comp1: false})
-    expect(html.$comp1).to.be.undefined
-  })
+    it ('Should add items from source', () => {
 
-  it ('Should update components by source', () => {
-
-  })
-
-  it ('Should update components by stream', () => {
-    const html = new Html({
-      $comp1: {},
-      $comp2: {},
-      defaultComponent: {
-        dataChanged: function (v) {
-          this.opt('text', v)
+      const html = new Html({
+        sources: {
+          data: {}
         }
-      },
+      })
+      const src = new Source(['Alice', 'Bob', 'Charlie'])
+      html.opt('items', src)
+
+      expect(html.items.length).to.be.eq(3)
+      expect(html.items[0]).to.be.an.instanceof(Text)
+      expect(html.items[0].context.data).to.be.eq(html.sources.data)
+      expect(html.items[1].text).to.be.eq('Bob')
     })
-    const s = new Source({
-      comp1: 'Alice',
-      comp2: 'Bob',
-      comp3: 'Charlie'
+
+    it ('Should add items from stream', () => {
+
+      const html = new Html()
+      const src = new Source(['Alice', 'Bob', 'Charlie'])
+      html.opt('items', src.$stream('data'))
+
+      expect(html.items.length).to.be.eq(3)
+      // FIXME в случае потока не срабатывает условие для создания Text вместо Html
+//      expect(html.items[0]).to.be.an.instanceof(Text)
+      expect(html.items[0].sources.data).to.be.eq(src.$entry(0))
     })
-    html.opt('components', s.$stream('data'))
-    expect(html.$comp1.text).to.be.equal('Alice')
-    expect(html.$comp2.text).to.be.equal('Bob')
-    expect(html.$comp3.text).to.be.equal('Charlie')
+
+    it ('Should remove item', () => {
+      const html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.removeItem(1)
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0].text).to.be.eq('Alice')
+      expect(html.items[1].text).to.be.eq('Charlie')
+      expect(html.items[0].index).to.be.eq(0)
+      expect(html.items[1].index).to.be.eq(1)
+
+    })
+
+    it ('Should remove all items', () => {
+      const html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.removeAllItems()
+
+      expect(html.items.length).to.be.eq(0)
+    })
+
+    it ('Should destroy item', () => {
+      const data = new Source()
+      const html = new Html({
+        sources: { data },
+        defaultItem: {
+          dataChanged: (v) => {return {text: v}}
+        },
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+
+      expect(data.subscribers.length).to.be.eq(3)
+
+      html.items[1].tryDestroy()
+
+      expect(data.subscribers.length).to.be.eq(2)
+      expect(html.items.length).to.be.eq(2)
+    })
+
+    it ('Should destroy all items', () => {
+      const html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+
+      html.destroyAllItems()
+
+      expect(html.items.length).to.be.eq(0)
+    })
+
+    it ('Should destroy all items with joins', () => {
+      const data = new Source()
+      const html = new Html({
+        sources: { data },
+        defaultItem: {
+          dataChanged: (v) => {return {text: v}}
+        },
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+
+      expect(data.subscribers.length).to.be.eq(3)
+
+      html.destroyAllItems()
+
+      expect(data.subscribers.length).to.be.eq(0)
+      expect(html.items.length).to.be.eq(0)
+    })
+
+    it ('Should update items from array value', () => {
+
+      // Text
+      let html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.opt('items', ['Item1', 'Item2'])
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Text)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+
+      // Html
+      html = new Html({
+        defaultItem: {},
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.opt('items', ['Item1', 'Item2'])
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Html)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+
+    })
+
+    it ('Should update items from source', () => {
+
+      // Text
+      let html = new Html({
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.opt('items', new Source(['Item1', 'Item2']))
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Text)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+
+      // Html
+      html = new Html({
+        defaultItem: {},
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+      html.opt('items', new Source(['Item1', 'Item2']))
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Html)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+
+    })
+
+    it ('Should update items from stream', () => {
+
+      // Html
+      const html = new Html({
+        defaultItem: {
+          dataChanged: function (v) {
+            return {text: v}
+          }
+        }
+      })
+      html.opt('items', new Source(['Alice', 'Bob', 'Charlie']).$stream('data'))
+      html.opt('items', new Source(['Item1', 'Item2']).$stream('data'))
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Html)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+
+    })
+
+    it ('Should update items from single source stream', () => {
+
+      const v = ['Alice', 'Bob', 'Charlie']
+      const data = new Source(v)
+
+      // Html
+      const html = new Html({
+        sources: { data },
+        defaultItem: {
+          dataChanged: function (v) {
+            return {text: v}
+          }
+        }
+      })
+
+      html.opt('items', data.$stream('data'))
+
+      data.src = ['Item1', 'Item2']
+
+      html.opt('items', data.$stream('data'))
+
+      expect(html.items.length).to.be.eq(2)
+      expect(html.items[0]).to.be.an.instanceof(Html)
+      expect(html.items[0].text).to.be.eq('Item1')
+      expect(html.items[1].text).to.be.eq('Item2')
+      expect(data.subscribers.length).to.be.eq(0)
+      expect(html.items[1].sources.data.subscribers.length).to.be.eq(1)
+
+    })
+
+    it ('Should use custom item factory', () => {
+
+      const html = new Html({
+        itemFactory: function (opts, context) {
+          return new Text(opts+'Ex', context)
+        },
+        items: ['Alice', 'Bob', 'Charlie']
+      })
+
+      expect(html.items[0].text).to.be.eq('AliceEx')
+
+    })
+
+  })
+
+
+
+  describe ('Components', () => {
+
+    it ('Should update components by object value', () => {
+      const html = new Html({
+        $comp1: {},
+        $comp2: {}
+      })
+      html.opt('components', {
+        comp1: {text: '1'},
+        comp2: {text: '2'},
+        comp3: {text: '3'}
+      })
+      expect(html.$comp1.text).to.be.equal('1')
+      expect(html.$comp2.text).to.be.equal('2')
+      expect(html.$comp3).to.be.undefined
+  
+      html.opt('components', {comp1: false})
+      expect(html.$comp1).to.be.undefined
+    })
+  
+    it ('Should update components by source', () => {
+  
+    })
+  
+    it ('Should update components by stream', () => {
+      const html = new Html({
+        $comp1: {},
+        $comp2: {},
+        defaultComponent: {
+          dataChanged: function (v) {
+            this.opt('text', v)
+          }
+        },
+      })
+      const s = new Source({
+        comp1: 'Alice',
+        comp2: 'Bob',
+        comp3: 'Charlie'
+      })
+      html.opt('components', s.$stream('data'))
+      expect(html.$comp1.text).to.be.equal('Alice')
+      expect(html.$comp2.text).to.be.equal('Bob')
+      expect(html.$comp3.text).to.be.equal('Charlie')
+    })
+  
+
   })
 
   // it ('Should allow simultaneous streams', () => {

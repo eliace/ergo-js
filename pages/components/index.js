@@ -75,8 +75,8 @@ export default () => {
           dataChanged: function (v) {
             this.opt('selected', this.opts.text == v.selected)
           },
-          onClick: function () {
-            this.sources.data.set('selected', this.opts.text)
+          onClick: function (e, {data}) {
+            data.set('selected', this.opts.text)
           }
         },
         tabs: [

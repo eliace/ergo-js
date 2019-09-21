@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 import {Source} from '../../src'
-import Stream from '../../src/core/Domain2'
+import Stream from '../../src/core/Domain'
 //const jsdom = require('mocha-jsdom')
 
 //const Stream = Source.Stream
@@ -250,7 +250,7 @@ describe ('Source', () => {
       s.emit('test')
 
       return doAsync(() => {
-        expect(out).to.be.deep.equal(['test', 'timeout:done'])
+        expect(out).to.be.deep.equal(['test', 'timeout:start', 'timeout:done'])
       }, 30)
     })
 
@@ -304,7 +304,7 @@ describe ('Source', () => {
       s.emit('test')
 
       return doAsync(() => {
-        expect(out).to.be.deep.equal(['test', 'timeout:done'])
+        expect(out).to.be.deep.equal(['test', 'timeout:start', 'timeout:done'])
       }, 30)
     })
 
@@ -437,7 +437,7 @@ describe ('Source', () => {
       })
       s.on('test3', () => {
         out.push('fail3')
-      }, ['fail'])
+      }, null, ['fail'])
 
       try {
         s.emit('test')
@@ -479,6 +479,9 @@ describe ('Source', () => {
 
       const s = new Stream()
 
+      const out = []
+      s.watch(e => true, (e) => {out.push(eventKey(e))})
+
       const waitTimeout = s.createEffect('timeout', () => delay(1000))
       const checkWin = s.createEffect('WIN', () => {}) // бесконечное ожидание
 
@@ -498,39 +501,24 @@ describe ('Source', () => {
         }
       }
 
-//      const waitEvent = s.$
-
-
-//       const waitTimeout = s.$action('timeout', () => 'timeout')
-//       const checkWin = s.$action('checkWin', () => 'checkWin')
-//
-//       s.$watch(e => e.name == 'timeout', () => {
-//         return new Promise((resolve, reject) => {
-//           setTimeout(resolve, 3000)
-//         })
-// //        return delay(3000)
-//       })
-//       s.$watch(e => e.name == 'checkWin', () => {
-//         return new Promise((resolve, reject) => {
-//           s.$once('WIN', resolve)
-//         })
-//       })
-
       setTimeout(() => {
-        s.emit('WIN', true, null, 'done')
-      }, 500)
+//        debugger
+        s.emit('WIN', true)
+      }, 200)
 
       const startGame = s.createAction('startGame', async () => {
           const [timeout, winCondition] = await race([waitTimeout(), checkWin()])
 
         if (winCondition) {
-          console.log("Yeee, you've just won!")
+          out.push("Win")
         } else {
-          console.log("Oh, nooo! Time out")
+          out.push("Loose")
         }
       })
 
-      return startGame()
+      return startGame().then(() => {
+        expect(out).to.be.deep.eq(["startGame", "timeout:start", "WIN:start", "startGame:start", "WIN", "WIN:done", "Win", "startGame:done"])
+      })
     })
 
 

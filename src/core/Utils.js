@@ -80,7 +80,7 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
 }
 
 
-export const defaultFactory = (item, defaultType, context) => {
+export const defaultFactory = (item, context, defaultType) => {
 
   // if (item.as && item.base) {
   //   console.log(item)

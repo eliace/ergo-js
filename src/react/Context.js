@@ -109,10 +109,10 @@ Config.defaultSource = Domain
 Config.DEV = true
 
 
-export default class ReactContext extends Context {
+export default class ReactContext {
 
   constructor (o) {
-    super(o)
+//    super(o)
     this.defaultLayout = o.defaultLayout || Layout
 //    this.projector = o.projector
     this.defaultSource = o.defaultSource || Domain

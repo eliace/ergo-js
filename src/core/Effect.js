@@ -1,96 +1,120 @@
 
+
 class Effect {
-  constructor (name) {
+  constructor (name, promise, options={}, owner) {
+    this.owner = owner
+    this.promise = promise
     this.name = name
-  }
+    this.channels = options.channels || ['']//['done', 'cancel', 'fail']
+    this.options = options
+    this.target = this
 
-  get done () {
-    return this.name+':done'
-  }
+    this.resolvers = []
+    this.rejectors = []
 
-  get fail () {
-    return this.name+':fail'
-  }
-
-  get init () {
-    return this.name
-  }
-
-  get cancel () {
-    return this.name+':cancel'
-  }
-
-  get reject () {
-    return this.name+':reject'
-  }
-
-  get final () {
-    return this.name+':final'
-  }
-
-  get isCanceled () {
-    return this.finalEvent == this.cancel
-  }
-
-  get isFailed () {
-    return this.finalEvent == this.fail
-  }
-
-  shareWith (source) {
-    if (!this._shares) {
-      this._shares = []
+    if (this.owner.subscribers.filter(s => (s instanceof Effect) && s.name == this.name/* && !s.isFinal*/).length > 0) {
+//      debugger
+      console.error('Effect already running', this.name)
     }
-    this._shares.push(source)
-  }
 
-  finalize (finalEvent, finalData) {
-    this.finalEvent = finalEvent
-    this.isFinal = true
-    if (this._shares) {
-      this._shares.forEach(source => {
-        source.emit(this.final, {data: finalData})
+    if (!this.promise) {
+      this.promise = new Promise((resolver, rejector) => {
+        this.resolver = resolver
+        this.rejector = rejector
       })
+//      debugger
+      this.subscriber = this.owner.subscribe(this)
     }
-    if (this._callbacks) {
-//      console.log('final data', finalData)
-      this._callbacks.forEach(resolve => resolve(finalData))
+
+
+//    if (this.promise) {
+    this.promise = this.promise.then(
+      (v) => {
+        this.finalize('done', v)
+        return v
+      },
+      (err) => {
+        this.finalize('fail', err)
+        throw err
+      })
+
+    this.owner.emit(this.name, null, null, 'start')
+
+//    }
+
+//    if (!this.isFinal) {
+//    debugger
+
+//    this.owner.emit(this.name, null, {}, 'wait')
+//    this.subscriber = this.owner.subscribe(this)
+    // }
+    // else {
+    //   debugger
+    // }
+  }
+
+  callback (e) {
+//    this.finalize(e.channel, e.data)
+    if (!this.isFinal) {
+//      this.finalize(e.channel, e.data)
+      if (this.resolver) {
+        this.resolver(e.data)
+      }
+      // if (this.resolver) {
+      //   this.resolver(e.data)
+      //   return this.promise
+      // }
     }
-    if (this._callback) {
-      if (this.isCanceled) {
-        this._callback.reject(this)
+  }
+
+
+  then (resolve, reject) {
+    // if (this.promise) {
+   this.promise = this.promise.then(resolve, reject)
+    // }
+    // else {
+      // resolve && this.resolvers.push(resolve)
+      // reject && this.rejectors.push(reject)
+    // }
+    return this
+  }
+
+  catch (reject) {
+    // if (this.promise) {
+    this.promise = this.promise.catch(reject)
+    // }
+//    reject && this.rejectors.push(reject)
+    return this
+  }
+
+  finally (final) {
+//    if (this.promise) {
+      this.promise = this.promise.finally(final)
+//    }
+    return this
+  }
+
+  finalize (state, value) {
+    if (!this.isFinal) {
+      this.isFinal = true
+      if (!this.subscriber) {
+//        debugger
       }
       else {
-        this._callback.resolve()
+        this.owner.unsubscribe(this.subscriber)
+//        this.subscriber = null
       }
-//      console.log(this._callback)
+      // else {
+      //   this.owner.unsubscribe(this)
+      //   this.subscriber = false
+      // }
+      this.owner.emit(this.name, value, {}, state)
+//      value = this.subscriber ? this.owner.emit(this.name, value, {}, state) : value
     }
-  }
-
-  // asPromise () {
-  //   if (this.promise) {
-  //     return
-  //   }
-  //   return this.promise
-  // }
-
-  then (callback) {
-    if (!this._callbacks) {
-      this._callbacks = []
-    }
-    this._callbacks.push(callback)
-//    console.log('thenable', callback)
-  }
-
-  asPromise () {
-    const callback = {}
-    callback.promise = new Promise(function (resolve, reject) {
-      callback.resolve = resolve
-      callback.reject = reject
-    })
-    this._callback = callback
-    return callback.promise
+//    return value
   }
 
 }
+
 
 export default Effect
