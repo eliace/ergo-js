@@ -71,14 +71,17 @@ export default () => {
       $tabs: {
         as: Tabs,
         levelRight: true,
-        defaultTab: {
-          dataChanged: function (v) {
-            this.opt('selected', this.opts.text == v.selected)
-          },
-          onClick: function (e, {data}) {
-            data.set('selected', this.opts.text)
-          }
+        sources: {
+          __state: (o, ctx) => ctx.data
         },
+        // defaultTab: {
+        //   dataChanged: function (v) {
+        //     this.opt('selected', this.opts.text == v.selected)
+        //   },
+        //   onClick: function (e, {data}) {
+        //     data.set('selected', this.opts.text)
+        //   }
+        // },
         tabs: [
           {text: 'Tabs'},
           {text: 'Dropdown'},
@@ -93,8 +96,8 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, key, src) {
-        this.opt('components', src.$stream(key))
+      dataChanged: function (v, stream) {
+        this.opt('components', stream)
       },
       $tabs: previewOf(TabsExample, TabsCode),
       $dropdown: previewOf(DropdownExample, DropdownCode),

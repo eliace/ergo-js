@@ -40,12 +40,15 @@ export default () => {
       $tabs: {
         as: Tabs,
         defaultTab: {
-          pageChanged: function (v) {
-            this.opt('selected', this.opt('text') == v.selected)
+          sources: {
+            __state: (o, ctx) => ctx.page
           },
-          onClick: function (e, {page}) {
-            page.set('selected', this.opt('text'))
-          },
+          // pageChanged: function (v) {
+          //   this.opt('selected', this.opt('text') == v.selected)
+          // },
+          // onClick: function (e, {page}) {
+          //   page.set('selected', this.opt('text'))
+          // },
           tabsChanged: function (v) {
             this.opt('text', v)
           }

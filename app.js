@@ -175,19 +175,6 @@ const Custom = {
   }
 }
 
-const Mutate = {
-  Text: function (v) {
-    return {text: v}
-  },
-  Src: function (v) {
-    return {src: v}
-  },
-  DynamicItems: function (v, key, src) {
-    return {items: src.$stream(key)}
-  }
-}
-
-
 Events.on('mousedown', function () {
   if (root.sources.dropdown.get()) {
     root.sources.dropdown.set(false)
@@ -211,10 +198,6 @@ Events.on('mousedown', function () {
 // }
 
 
-const context = new Context({
-//  projector: renderer
-})
-
 const root = new Html({
   css: 'app',
 //  state: rootState,
@@ -228,13 +211,25 @@ const root = new Html({
     },
     data: {
       mainMenu: [{
-        name: 'Demo',
+        name: 'Learn',
         items: [{
-          id: 'sources',
-          name: 'Sources'
+          id: 'start',
+          name: 'Getting started'
+        }, {
+          id: 'options',
+          name: 'Options'
+        }, {
+          id: 'componentsAndItems',
+          name: 'Components and Items'
+        }, {
+          id: 'layout',
+          name: 'Layout'
+        }, {
+          id: 'dataFlow',
+          name: 'Data cascading'
         }]
       }, {
-        name: 'Lib',
+        name: 'Demo',
         items: [{
           id: 'elements',
           name: 'Elements'
@@ -354,8 +349,8 @@ const root = new Html({
         as: Menu,
         column: 'is-one-fifth',
         dataId: 'mainMenu',
-        dataChanged: function (v, key, src) {
-          return {items: src.$stream(key)}
+        dataChanged: function (v, stream, src) {
+          return {items: stream}
         },
         defaultItem: {
           layout: Layout.passthru,
@@ -369,8 +364,8 @@ const root = new Html({
           $list: {
             as: Menu.List,
             dataId: 'items',
-            dataChanged: function (v, key, src) {
-              return {items: src.$stream(key)}
+            dataChanged: function (v, stream) {
+              return {items: stream}
             },
             appChanged: function (v) {
               this.opt('key') // FIXME этот геттер используется для синхронизации с dataChanged
@@ -444,8 +439,8 @@ const root = new Html({
       $content: {
         column: 'is-four-fifths',
         components: false,
-        appChanged: function (v, key, app) {
-          return {components: app.$stream(key)}
+        appChanged: function (v, stream) {
+          return {components: stream}
         },
         $elements: ElementsPage,
         $componentsPage: ComponentsPage,

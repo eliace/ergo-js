@@ -38,6 +38,11 @@ class Domain extends Source {
       }
     }
 
+    if (o.events) {
+      for (let i in o.events) {
+        this.createEvent(i, o.events[i])
+      }
+    }
   }
 
 
@@ -50,7 +55,7 @@ class Domain extends Source {
   // }
 
   _reduce (v, event) {
-    if (Array.isArray(v) && v.length > 0) {
+    if (Array.isArray(v) && v.length > 0 && event.options.reducer !== false) {
       const first = v[0]
       const reducer = event.options.reducer || ((acc, v) => v)
       return v.slice(1).reduce(reducer, first)

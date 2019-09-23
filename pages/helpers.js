@@ -108,11 +108,11 @@ export const Mutate = {
   Src: function (v) {
     return {src: v}
   },
-  Items: function (v, key, src) {
-    return {items: src.$stream(key)}
+  Items: function (v, stream) {
+    return {items: stream}
   },
-  Components: function (v, key, src) {
-    return {components: src.$stream(key)}
+  Components: function (v, stream) {
+    return {components: stream}
   },
   Value: function (v) {
     return {value: v}
@@ -120,8 +120,8 @@ export const Mutate = {
   Key: function (v) {
     return {key: v}
   },
-  Tabs: function (v, key, src) {
-    return {tabs: src.$stream(key)}
+  Tabs: function (v, stream) {
+    return {tabs: stream}
   }
 }
 

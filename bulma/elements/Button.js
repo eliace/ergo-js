@@ -10,11 +10,16 @@ export default class Button extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       selected: {
         set: function (v) {
           this.opt('classes', {'is-selected': v})
+        }
+      },
+      color: {
+        initOrSet: function (v) {
+          this.opt('classes', {['is-'+v]: true})
         }
       }
     }

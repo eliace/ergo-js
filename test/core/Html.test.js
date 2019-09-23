@@ -1,5 +1,6 @@
 const expect = require('chai').expect
-import {Html, Source, Text} from '../../src'
+import {Html, Source, Text, Domain} from '../../src'
+//import Domain from '../../src/old/Domain'
 //const jsdom = require('mocha-jsdom')
 
 describe ('Html', () => {
@@ -441,6 +442,44 @@ describe ('Html', () => {
       expect(html.$comp3.text).to.be.equal('Charlie')
     })
   
+
+    it ('Should rejoin sources', () => {
+
+      const out = []
+
+      const data = new Domain({value: false})
+      const view = new Domain({})
+
+      const html = new Html({
+        sources: {
+          data, view
+        },
+        components: {
+          comp1: false
+        },
+        dataChanged: function (v) {
+          this.opt('components', {comp1: v.value})
+        },
+        $comp1: {
+          viewJoined: function (data) {
+            out.push('joined')
+          }
+        },
+        $comp2: {}
+      })
+
+      data.set('value', true)
+      data.set('value', false)
+      data.set('value', true)
+
+      // html.opt('components', {comp1: true})
+      // html.opt('components', {comp1: false})
+      // html.opt('components', {comp1: true})
+
+//      console.log('comps', html.$comp1, html.$comp2)
+
+      expect(out).to.be.deep.eq(['joined', 'joined'])
+    })
 
   })
 

@@ -47,7 +47,7 @@ export default () => {
         },
         dataId: 'breeds',
         dataChanged: function (v, k, s) {
-          this.opt('items', s.$stream(k))
+          this.opt('items', k)
         },
         viewChanged: function (v) {
           this.opt('value', v.breedId)
@@ -73,11 +73,11 @@ export default () => {
     },
     allJoined: function ({view, data}) {
       view.watch(e => e.name == 'init', async () => {
-        data.set('breeds',  await api[view.get('pet')].getBreeds())
+        data.set('breeds',  await api.cats.getBreeds())
       }, this)
       view.createAction('selectBreed', async (id) => {
         view.set('breedId', id)
-        data.set('image', await api[view.get('pet')].getImage(id))
+        data.set('image', await api.cats.getImage(id))
       })
     }
   }

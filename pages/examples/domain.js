@@ -1,4 +1,4 @@
-import {Html, Domain, Binder, bindDomain as Bind} from '../../src'
+import {Html, Domain, Binder, bindDomain as Bind, Layout} from '../../src'
 import {Layouts, Tabs, Button} from '../../bulma'
 
 import {Mutate} from '../helpers'
@@ -289,6 +289,95 @@ export default () => {
         //text: Bind.data('name'),
         // aaa: $.any([$.data('name'), $.page('user')], (name, user) => 'Name' + name + ', User: ' + user.username),
         // bbb: $.any(({data, page}) => 'Name' + data.name + ', User: ' + page.user.username)
+      }
+    }, {
+      sources: {
+        delegate: new Domain({
+          components: []
+        }, {
+          events: {
+            dirty: {}
+          },
+          actions: {
+            addComponent: function (c) {
+              this.$entry('components').$add(c)
+            },
+            removeComponent: function (c) {
+              this.$entry('components').$remove(c)
+            }
+          }
+        })
+      },
+      $comp1: {
+        styles: {backgroundColor: 'red', padding: '1rem'},
+        onDirty: function () {
+          debugger
+        },
+        delegateJoined: function (delegate) {
+          delegate.on('dirty', () => {
+            this.rerender()
+          })
+        },
+        renderers: {
+          '*': {
+            render: function () {
+              const {delegate} = this.sources
+              const {html, props} = this._internal
+              const components = delegate.get('components').map(c => {
+                // Renderable
+                return {
+                  render: function () {
+                    return c.render('portal')
+                  } 
+                }
+              })
+              return Layout.simple(html, props, components)
+            }
+          }
+        },
+      },
+      $comp2: {
+        sources: {
+          data: () => 'Hello'
+        },
+        $outer: {
+          styles: {backgroundColor: 'blue', padding: '1rem'},
+          delegateJoined: function (delegate) {
+            delegate.watch(e => e.name == 'init', () => {
+              // отключаем рендерер по умолчанию и перенаправляем обновления
+              this.renderers = {
+                '*': {
+                  update: () => {
+                    this._dirty = true
+                    delegate.emit('dirty')
+                  },
+                  render: () => {} // noop
+                }              
+              }
+              delegate.actions.addComponent(this)
+            }, this)
+            delegate.watch(e => e.name == 'destroy', () => {
+              delegate.actions.removeComponent(this)
+              // включаем рендеринг по умолчанию
+              this.renderers = null
+            })
+          },
+          $content: {
+            html: 'input',
+            dataChanged: function (v) {
+              return {value: v}
+            },
+            onChange: function (e, {data}) {
+              data.set(e.target.value)
+            }
+          }  
+        },
+        $inner: {
+          styles: {backgroundColor: 'yellow', padding: '1rem'},
+          dataChanged: function (v) {
+            return {text: v}
+          }
+        }
       }
     }]
   }

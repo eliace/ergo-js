@@ -28,14 +28,14 @@ class Tabs extends Html {
       sources: {
         __state: function () {
           return new Domain({
-            current: null
-          }, {
+            selected: null
+          }/*, {
             actions: {
               select: function (v) {
-                this.set('current', v)
+                this.set('selected', v)
               }
             }
-          })
+          }*/)
         }
       },
       css: 'tabs',
@@ -44,10 +44,10 @@ class Tabs extends Html {
         defaultItem: {
           as: Tab,
           __stateChanged: function (v) {
-            this.opt('active', v.current != null && v.current == this.opt('key'))
+            this.opt('active', v.selected != null && v.selected == (this.opt('key') || this.opt('text')))
           },
           onClick: function (e, {__state}) {
-            __state.actions.select(this.options.key)
+            __state.set('selected', (this.options.key || this.options.text))
           }
         }
       }
@@ -71,7 +71,7 @@ class Tabs extends Html {
       },
       selected: {
         initOrSet: function (v) {
-          this.sources.__state.actions.select(v)
+          this.sources.__state.set('selected', v)
         },
         clean: true
       }

@@ -1,6 +1,6 @@
 const expect = require('chai').expect
-import {Source} from '../../src'
-import Stream from '../../src/core/Domain'
+import {Source, Domain as Stream} from '../../src'
+//import Stream from '../../src/core/Domain'
 //const jsdom = require('mocha-jsdom')
 
 //const Stream = Source.Stream

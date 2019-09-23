@@ -241,7 +241,14 @@ class Stream {
     return new Stream(this.src, this.data, k, this.idResolver)
   }
 
-
+  snapshot () {
+    const v = this.src.get();
+    const p = {}
+    for (let i in this.src._properties) {
+      p[i] = this.src.$entry(i).get()
+    }
+    return Object.assign(p, v)
+  }
 
 
 /*

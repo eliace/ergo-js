@@ -42,6 +42,7 @@ const ComponentOptions = {
   html: true,
   layout: true,
   render: true,
+  renderers: true,
 
   // управление деревом компонентов
   components: {mutable: true},
@@ -137,6 +138,8 @@ class Html{
     this.layout = opts.layout
 
     this.context = context || {}
+
+    this.renderers = opts.renderers
 //    this.context = context || new Context()
 
     // 1. Примешиваем опции
@@ -382,7 +385,11 @@ class Html{
   }
 
 
-  render() {
+  render (channel='*') {
+
+    if (this.renderers && this.renderers[channel] && this.renderers[channel].render) {
+      return this.renderers[channel].render.call(this)
+    }
 
     const o = this.options
 
@@ -392,9 +399,10 @@ class Html{
       if (typeof render === 'function') {
         render = render.call(this, o)
       }
-      if (!render) {
-        return null
-      }
+      // if (!render) {
+      //   return null
+      // }
+      return render
     }
 
     // if (this.options.render === false) {
@@ -403,6 +411,8 @@ class Html{
     //   //   return null
     //   // }
     // }
+
+    const h = Config.Renderer.h
 
     if (this.children.length || this.layout) {
       let layout = this.layout
@@ -422,12 +432,12 @@ class Html{
     }
     else if(this.text || this.props.value) {
       if (this._dirty || !this.vnode) {
-        this.vnode = Config.Renderer.h(this.html, deepClone(this.props), this.text ? [this.text] : null)
+        this.vnode = h(this.html, deepClone(this.props), this.text ? [this.text] : null)
       }
     }
     else if (o.renderIfEmpty !== false) {
       if (this._dirty || !this.vnode) {
-        this.vnode = Config.Renderer.h(this.html, deepClone(this.props))
+        this.vnode = h(this.html, deepClone(this.props))
       }
     }
 
@@ -464,16 +474,28 @@ class Html{
   // }
 
   rerender() {
+    if (this._dirty || !this.vnode) {
+      return
+    }
+    if (this.renderers) {
+      for (let i in this.renderers) {
+        this.renderers[i].update.call(this)
+      }
+      return
+    }
     if (!this._dirty && !Config.Renderer.scheduled) {
       Config.Renderer.schedule()
 //      this.context.projector.scheduleRender()
     }
-    let c = this
-    while (c && c.vnode && !c._dirty) {
-      c._dirty = true
-//      delete c.vnode
-      c = c.parent
+    this._dirty = true
+    if (this.parent) {
+      this.parent.rerender()
     }
+    // let c = this
+    // while (c && c.vnode && !c._dirty) {
+    //   c._dirty = true
+    //   c = c.parent
+    // }
   }
 
   opt(name, value, key) {
@@ -521,7 +543,7 @@ class Html{
       const oldValue = this.options[name]
       const o = this.options
 
-      const desc = (o.options && o.options[name]) || (this.classOptions[name])
+      const desc = (o.options && o.options[name]) || (this.classOptions[name] || ComponentOptions[name])
 
       const isMutable = desc && desc.mutable === true // ignore value equal check
       const isClean = desc && desc.clean === true     // no dirty mark
@@ -1245,8 +1267,13 @@ class Html{
 
     if ((v.name == 'changed'/* || v.name == 'preinit'*/) && !this._destroying) {
 
+      if (!this.streams) {
+        this.streams = {}
+      }
+
       if (o[key+'Changed']) {
-        const dynOpts = o[key+'Changed'].call(this, v.data, key, this.sources[key])
+        this.streams[key] = this.streams[key] || this.sources[key].$stream(key)
+        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], this.sources[key])
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {
@@ -1260,7 +1287,8 @@ class Html{
         for (let i in this.sources) {
           v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
         }
-        const bindOpts = o.anyChanged.call(this, v, key)
+        // TODO здесь нужно проинициализировать потоки
+        const bindOpts = o.anyChanged.call(this, v, this.streams, this.sources)
         if (bindOpts) {
           this.opt(bindOpts, key)
           // for (let j in bindOpts) {

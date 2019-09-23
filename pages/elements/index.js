@@ -82,16 +82,20 @@ export default () => {
         text: 'Elements'
       },
       $tabs: {
+        sources: {
+          __state: (o, ctx) => ctx.data
+        },
         as: Tabs,
         levelRight: true,
-        defaultTab: {
-          dataChanged: function (v) {
-            this.opt('selected', this.options.text == v.selected)
-          },
-          onClick: function (e, {data}) {
-            data.set('selected', this.options.text)
-          }
-        },
+//         defaultTab: {
+// //           dataChanged: function (v) {
+// //             this.opt('key', v)
+// // //            this.opt('active', this.options.text == v.selected)
+// //           },
+//           // onClick: function (e, {data}) {
+//           //   data.set('selected', this.options.text)
+//           // }
+//         },
         tabs: [
           {text: 'Box'},
           {text: 'Button'},
