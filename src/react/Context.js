@@ -77,7 +77,9 @@ Config.Renderer.schedule = function () {
   if (!this.scheduled) {
     requestAnimationFrame(() => {
 //      console.count('actual_render')
-      renderVNode(this.root.render(), this.dom)
+      if (!this.root.vnode || this.root._dirty) {
+        renderVNode(this.root.render(), this.dom)
+      }
       this.scheduled = false
       console.count('RENDER')
       if (this.effects) {
@@ -101,6 +103,9 @@ Config.Renderer.effect = function (callback) {
     this.effects = []
   }
   this.effects.push(callback)
+  if (!this.scheduled) {
+    this.schedule()
+  }
 }
 
 Config.defaultLayout = Layout

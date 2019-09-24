@@ -3,6 +3,11 @@ import {Html, Source, Text, Domain} from '../../src'
 //import Domain from '../../src/old/Domain'
 //const jsdom = require('mocha-jsdom')
 
+function logger () {
+  const out = []
+  return [out, (v) => out.push(v)]
+}
+
 describe ('Html', () => {
   it ('Should read/write class opt', () => {
 
@@ -442,43 +447,28 @@ describe ('Html', () => {
       expect(html.$comp3.text).to.be.equal('Charlie')
     })
   
-
-    it ('Should rejoin sources', () => {
-
-      const out = []
-
-      const data = new Domain({value: false})
-      const view = new Domain({})
+    it ('Should initialize/destroy multisource', () => {
+      const [out, log] = logger()
 
       const html = new Html({
         sources: {
-          data, view
-        },
-        components: {
-          comp1: false
-        },
-        dataChanged: function (v) {
-          this.opt('components', {comp1: v.value})
+          data: new Domain()
         },
         $comp1: {
-          viewJoined: function (data) {
-            out.push('joined')
-          }
-        },
-        $comp2: {}
+          sources: {
+            __data: (o, ctx) => ctx.data
+          },
+          __dataJoined: () => {}
+        }
       })
 
-      data.set('value', true)
-      data.set('value', false)
-      data.set('value', true)
+      const comp1 = html.$comp1
 
-      // html.opt('components', {comp1: true})
-      // html.opt('components', {comp1: false})
-      // html.opt('components', {comp1: true})
+      expect(comp1._initializing).to.be.undefined
 
-//      console.log('comps', html.$comp1, html.$comp2)
+      html.opt('components', {comp1: false})
 
-      expect(out).to.be.deep.eq(['joined', 'joined'])
+      expect(comp1._destroying).to.be.undefined
     })
 
   })

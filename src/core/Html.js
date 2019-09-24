@@ -1273,7 +1273,7 @@ class Html{
 
       if (o[key+'Changed']) {
         this.streams[key] = this.streams[key] || this.sources[key].$stream(key)
-        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], this.sources[key])
+        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], v.ids/*this.sources[key]*/)
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {
@@ -1319,10 +1319,10 @@ class Html{
 
     }
     else if (v.name == 'destroy') {
-      this.tryDestroy(this.sources[key])
+      this.tryDestroy(key)//this.sources[key])
     }
     else if (v.name == 'init' || v.name == 'init:cancel') {
-      this.tryInit(this.sources[key])
+      this.tryInit(key)//this.sources[key])
     }
     else {
 //      console.log('onChange', v)
@@ -1335,7 +1335,7 @@ class Html{
   }
 
 
-
+/*
   on (name, callback, scope) {
     throw new Error('Deprecated method on')
     if (scope == 'dom') {
@@ -1393,7 +1393,7 @@ class Html{
       }
     }
   }
-
+*/
 
   use (on) {
     const _in = this._internal
@@ -1512,10 +1512,10 @@ class Html{
 
     if (unjoinedSource) {
       if (this.isDestroying) {
+        unjoinedSource = this.sources[unjoinedSource]
         for (let i in this.sources) {
           if (this.sources[i] == unjoinedSource) {
             delete this._sourcesToUnjoin[i]
-            break
           }
         }
       }
@@ -1558,10 +1558,10 @@ class Html{
 
     if (joinedSource) {
       if (this.isInitializing) {
+        joinedSource = this.sources[joinedSource]
         for (let i in this.sources) {
           if (this.sources[i] == joinedSource) {
             delete this._sourcesToJoin[i]
-            break
           }
         }
       }

@@ -4,11 +4,55 @@ import {ButtonWithIcon} from '../extensions'
 import ListDropdown from './ListDropdown'
 import { El as withEl } from '../utils'
 
+const calcScroll = function (el) {
+    let parent = el.parent
+    let scrollY = window.scrollY
+    while (parent) {
+        scrollY += parent.scrollTop
+        parent = parent.parentElement
+    }
+    return {y: scrollY}
+}
+
 const withUpdatePosition = function (el) {
     if (el) {
-        const bcr = this.parent.el.getBoundingClientRect()
-        el.style.top = bcr.bottom + 'px'
-        el.style.left = bcr.left + 'px'    
+        const parentBcr = this.parent.el.getBoundingClientRect()
+        this.sources.state.set('top', parentBcr.bottom)
+        this.sources.state.set('left', parentBcr.left)
+        this.sources.state.set('scroll', calcScroll(el).y)
+
+        // el.style.top = parentBcr.bottom + 'px'
+        // el.style.left = parentBcr.left + 'px'
+
+        const bcr = this.$content.el.getBoundingClientRect()
+
+        const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+        const height = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight
+
+//        console.log(height, bcr, parentBcr)
+
+        if (parentBcr.bottom + bcr.height + 10 > height) {
+            this.$content.el.style.height = (height - parentBcr.bottom - 10) + 'px'
+        }
+    }
+}
+
+const withScroll = function (el) {
+    const f = () => {
+        let scrollTotal = 0
+        path.forEach(element => scrollTotal += element.scrollTop)
+        this.sources.state.set('scroll', scrollTotal)
+    }
+    const path = []
+    let element = this.parent.el
+    while (element) {
+        path.push(element)
+        element = element.parentElement
+    }
+    path.forEach(element => element.addEventListener('scroll', f))
+    f()
+    return () => {
+        path.forEach(element => element.removeEventListener('scroll', f))
     }
 }
 
@@ -20,7 +64,11 @@ export default class SplitButton extends Html {
                     return new Domain()
                 },
                 state: function () {
-                    return new Domain({})
+                    return new Domain({
+                        scroll: 0,
+                        top: 0,
+                        left: 0
+                    })
                 }
             },
             dom: { withEl },
@@ -29,6 +77,9 @@ export default class SplitButton extends Html {
             },
             dropdownChanged: function (v) {
                 this.opt('components', {dropdown: !!v})
+            },
+            stateChanged: function (v) {
+                this.opt('text', v.value)
             },
             css: 'buttons has-addons',
             $content: {
@@ -46,7 +97,7 @@ export default class SplitButton extends Html {
                 sources: {
                     __portal: (o, ctx) => ctx.portal
                 },
-                dom: { withUpdatePosition },
+                dom: { withUpdatePosition, withScroll },
                 renderers: {
                     '*': {
                         update: function () {
@@ -57,7 +108,6 @@ export default class SplitButton extends Html {
                     }
                 },
                 __portalJoined: function (s) {
-                    debugger
                     s.watch(e => e.name == 'init' && e.channel == '__portal', (e) => {
                         s.$entry('components').$add(this)
                     }, this)
@@ -65,22 +115,23 @@ export default class SplitButton extends Html {
                         s.$entry('components').$remove(this)
                     }, this)
                 },
-                // dropdownChanged: function (v) {
-                //     if (v) {
-                //         this.eff((el) => {
-                //             const bcr = this.parent.el.getBoundingClientRect()
-                //             el.style.top = bcr.bottom + 'px'
-                //             el.style.left = bcr.left + 'px'
-                //         })
-                //     }
-                // },
+                stateChanged: function (v, s, ids) {
+                    console.log('state', v.scroll, v.top)
+                    this.eff((el) => {
+                        if (el) {
+                            el.style.top = (v.top - v.scroll) + 'px'
+                            el.style.left = v.left + 'px'    
+                        }
+                    })
+                },
                 css: 'dropdown-menu',
                 styles: {
                     display: 'block'
                 },
                 $content: {
                   as: ListDropdown,
-                  css: 'dropdown-content'
+                  css: 'dropdown-content',
+                  dom: { withEl }
                 }
             }
         }

@@ -137,7 +137,6 @@ export default () => {
                 render: () => c.render('any')
               }
             })
-            debugger
             return Layout.simple(html, props, components)
           }
         }

@@ -7,7 +7,7 @@ export default class ListDropdown extends Html {
     config () {
       return {
         sources: {
-          state: (o, ctx) => ctx.state,
+          state: (o, ctx) => ctx.state.$entry('value'),
           dropdown: (o, ctx) => ctx.dropdown
         },
         css: 'is-hovered',
@@ -21,11 +21,11 @@ export default class ListDropdown extends Html {
         defaultItem: {
             as: DropdownItem,
             onClick: function (e, {state, dropdown}) {
-                state.set('value', this.options.value)
+                state.set(this.options.value)
                 dropdown.set(false)
             },
             stateChanged: function (v) {
-                this.opt('active', v.value == this.options.value)
+                this.opt('active', v == this.options.value)
             },
             dom: { El }
         },
