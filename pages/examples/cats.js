@@ -54,8 +54,8 @@ export default () => {
       error: false,
       loading: false
     },
-    viewChanged: function (v, k, s) {
-      this.opt('components', s.$stream(k))
+    viewChanged: function (v, s) {
+      this.opt('components', s)
     },
     $button: {
       html: 'button',

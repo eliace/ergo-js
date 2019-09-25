@@ -4,32 +4,36 @@ import {ButtonWithIcon} from '../extensions'
 import ListDropdown from './ListDropdown'
 import { El as withEl } from '../utils'
 
-const calcScroll = function (el) {
-    let parent = el.parent
+const calcScrollY = function (el) {
+    let parent = el.parentElement
     let scrollY = window.scrollY
     while (parent) {
         scrollY += parent.scrollTop
         parent = parent.parentElement
     }
-    return {y: scrollY}
+    return scrollY
+}
+
+const windowDimensions = function () {
+    return {
+        width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        height: window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight
+    }
 }
 
 const withUpdatePosition = function (el) {
     if (el) {
         const parentBcr = this.parent.el.getBoundingClientRect()
-        this.sources.state.set('top', parentBcr.bottom)
+        this.sources.state.set('top', parentBcr.bottom + calcScrollY(el))
         this.sources.state.set('left', parentBcr.left)
-        this.sources.state.set('scroll', calcScroll(el).y)
+//        this.sources.state.set('scroll', calcScroll(el).y)
 
         // el.style.top = parentBcr.bottom + 'px'
         // el.style.left = parentBcr.left + 'px'
 
         const bcr = this.$content.el.getBoundingClientRect()
 
-        const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-        const height = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight
-
-//        console.log(height, bcr, parentBcr)
+        const {width, height} = windowDimensions()
 
         if (parentBcr.bottom + bcr.height + 10 > height) {
             this.$content.el.style.height = (height - parentBcr.bottom - 10) + 'px'
@@ -39,9 +43,10 @@ const withUpdatePosition = function (el) {
 
 const withScroll = function (el) {
     const f = () => {
-        let scrollTotal = 0
-        path.forEach(element => scrollTotal += element.scrollTop)
-        this.sources.state.set('scroll', scrollTotal)
+        // let scrollTotal = 0
+        // path.forEach(element => scrollTotal += element.scrollTop)
+        // this.sources.state.set('scroll', scrollTotal)
+        this.sources.state.set('scroll', calcScrollY(el))
     }
     const path = []
     let element = this.parent.el
@@ -116,7 +121,6 @@ export default class SplitButton extends Html {
                     }, this)
                 },
                 stateChanged: function (v, s, ids) {
-                    console.log('state', v.scroll, v.top)
                     this.eff((el) => {
                         if (el) {
                             el.style.top = (v.top - v.scroll) + 'px'

@@ -9,7 +9,7 @@ class Icon extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       text: {
         initOrSet: function (v) {
@@ -36,7 +36,7 @@ class IconBox extends Html {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       icon: {
         initOrSet: function (v) {

@@ -38,15 +38,18 @@ export default () => {
         text: 'Forms'
       },
       $tabs: {
-        as: Tabs,
-        defaultTab: {
-          dataChanged: function (v) {
-            this.opt('selected', this.options.text == v.selected)
-          },
-          onClick: function (e, {data}) {
-            data.set('selected', this.options.text)
-          }
+        sources: {
+          __state: (o, ctx) => ctx.data
         },
+        as: Tabs,
+        // defaultTab: {
+        //   dataChanged: function (v) {
+        //     this.opt('selected', this.options.text == v.selected)
+        //   },
+        //   onClick: function (e, {data}) {
+        //     data.set('selected', this.options.text)
+        //   }
+        // },
         tabs: [
           {text: 'Input'},
           {text: 'Textarea'},
@@ -58,8 +61,8 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, key, src) {
-        this.opt('components', src.$stream(key))
+      dataChanged: function (v, src) {
+        this.opt('components', src)
       },
       $input: InputExample(),
       $textarea: TextareaExample(),

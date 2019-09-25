@@ -25,7 +25,7 @@ export class ButtonWithIcon extends Button {
     }
   }
 
-  configOptions () {
+  options () {
     return {
       icon: {
         initOrSet: function (v) {

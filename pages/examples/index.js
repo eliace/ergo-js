@@ -60,8 +60,8 @@ export default () => {
     },
     $content: {
       components: false,
-      pageChanged: function (v, k, src) {
-        this.opt('components', src.$stream(k))
+      pageChanged: function (v, s) {
+        this.opt('components', s)
       },
       $domain: DomainExample,
       $multidomain: MultidomainExample,

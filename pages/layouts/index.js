@@ -49,28 +49,32 @@ export default () => {
         text: 'Layouts'
       },
       $tabs: {
+        sources: {
+          __state: (o, ctx) => ctx.page,
+          data: (o, ctx) => ctx.data.$entry('tabs')
+        },
         as: Tabs,
         defaultTab: {
-          pageChanged: function (v) {
-            this.opt('selected', this.opt('text') == v.selected)
-          },
+          // pageChanged: function (v) {
+          //   this.opt('selected', this.opt('text') == v.selected)
+          // },
           dataChanged: function (v) {
             this.opt('text', v)
           },
-          onClick: function (e, {data}) {
-            page.set('selected', this.options.text)
-          }
+          // onClick: function (e, {data}) {
+          //   page.set('selected', this.options.text)
+          // }
         },
-        dataChanged: function (v, k, d) {
-          this.opt('tabs', d.$entry('tabs').$stream(k))
+        dataChanged: function (v, s) {
+          this.opt('tabs', s)//d.$entry('tabs').$stream(k))
         }
 //        tabs: ['Basic']
       }
     },
     $content: {
       components: false,
-      pageChanged: function (v, key, src) {
-        this.opt('components', src.$stream(key))
+      pageChanged: function (v, src) {
+        this.opt('components', src)
       },
       $basic: previewOf(BasicExample, BasicCode),
     }
