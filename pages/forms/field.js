@@ -1,7 +1,7 @@
 import {Html} from '../../src'
-import {Layouts, Button, IconBox, InputBox} from '../../bulma'
+import {Layouts, Button, IconBox, Input as InputBox, Field as Field2} from '../../bulma'
 
-//import {ButtonWithIcon} from '../extensions'
+import {ButtonWithIcon} from '../extensions'
 import {Mixins} from '../helpers'
 
 
@@ -60,10 +60,10 @@ class Field extends Html {
 
 
 class Fields extends Html {
-  static defaultOpts = {
-    css: 'field is-horizontal',
-    dynamicComponents: {
-      label: {
+  config () {
+    return {
+      css: 'field is-horizontal',
+      $label: {
         css: 'field-label is-normal',
         weight: -100,
         components: {
@@ -72,27 +72,27 @@ class Fields extends Html {
             css: 'label'
           }
         }
-      }
-    },
-    components: {
-      body: {
+      },
+      $body: {
         css: 'field-body',
         defaultItem: {
-          as: Field
+          as: Field2
         }
       }
     }
   }
-  static OPTIONS = {
-    fields: {
-      initOrSet: function (v) {
-        this.$body.opt('items', v)
-      }
-    },
-    label: {
-      initOrSet: function (v) {
-        this.addComponent('label', v)
-      }
+  options () {
+    return {
+      fields: {
+        initOrSet: function (v) {
+          this.$body.opt('items', v)
+        }
+      },
+      label: {
+        initOrSet: function (v) {
+          this.addComponent('label', v)
+        }
+      }  
     }
   }
 }
@@ -104,11 +104,10 @@ export default () => {
     layout: Layouts.Rows,
 //    width: 500,
     items: [{
-      as: Field,
+      as: Field2,
       label: 'Button',
       control: {
-        as: Button,
-        mixins: [Mixins.Button.Icon],
+        as: ButtonWithIcon,
         text: 'Press me',
         css: 'is-danger is-outlined',
         icon: 'fas fa-envelope'
@@ -120,25 +119,23 @@ export default () => {
     }, {
       layout: Layouts.Columns,
       defaultItem: {
+        as: Field2,
         control: {
           as: InputBox,
-          mixins: [Mixins.Input.LeftIcon]
+//          mixins: [Mixins.Input.LeftIcon]
         }
       },
       items: [{
-        as: Field,
         label: 'First Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        as: Field,
         label: 'Last Name',
         control: {
           leftIcon: 'fas fa-user'
         }
       }, {
-        as: Field,
         label: 'Middle Name',
         control: {
           leftIcon: 'fas fa-user'
@@ -168,7 +165,7 @@ export default () => {
       label: 'Actions',
       fields: [{
         css: 'has-addons',
-        controls: [{
+        addons: [{
           as: Button,
           text: 'Alice'
         }, {
@@ -181,7 +178,7 @@ export default () => {
       }, {
 //          css: 'has-addons has-addons-right',
         css: 'is-grouped is-grouped-right',
-        controls: [{
+        grouped: [{
           as: Button,
           text: 'Alice'
         }, {

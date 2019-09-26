@@ -36,7 +36,7 @@ const OptionArray = (x, y) => {
 const StringArray = (x, y) => {
   let arr = []
   if (x != null) {
-    arr = x
+    arr = [].concat(x)
   }
   if (y != null) {
     arr = arr.concat(y)
