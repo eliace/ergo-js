@@ -57,7 +57,7 @@ export default () => {
       as: Breadcrumb,
       $content: {
         dataChanged: function (v, k) {
-          this.opt('items', this.sources[k].$entry('list').$stream(k))
+          this.opt('items', k.nested('list'))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -66,7 +66,7 @@ export default () => {
         },
         $last: {
           dataChanged: function (v, k) {
-            this.opt('text', this.sources[k].$entry('current').get())
+            this.opt('text', k.get('current'))
           }
         }
       }
@@ -82,7 +82,7 @@ export default () => {
         defaultItem: {
           dataChanged: function (v, k) {
             this.opt('text', v)
-            const isActive = this.domains[k].$source.$lastOf() == v
+            const isActive = k.source.$source.$lastOf() == v
             this.opt('classes', {'is-active': isActive})
           }
         },

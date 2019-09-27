@@ -1,8 +1,8 @@
 import {Html, Source, Domain, Layout} from '../../src'
-import {Layouts, Box, IconBox, Button, Input, DropdownSelect, SplitButton} from '../../bulma'
+import {Layouts, Box, IconBox, Button, Input, DropdownSelect, SplitButton, List, withDropdown} from '../../bulma'
 
 import {ButtonWithIcon} from '../extensions'
-import {Mutate} from '../helpers'
+//import {Mutate, Dropdownable as withDropdown} from '../helpers'
 import {COUNTRIES} from '../constants'
 
 
@@ -97,17 +97,6 @@ class CountryListDropdown extends Dropdown {
 }
 
 
-class RenderDelegate extends Domain {
-  config () {
-    return {
-      initial: function () {
-        return {components: []}
-      }
-    }
-  }
-}
-
-
 
 
 export default () => {
@@ -116,32 +105,8 @@ export default () => {
       selection: '',
 //      dropdown: true,
       data: COUNTRIES,
-      portal: () => new RenderDelegate()
     },
     layout: Layouts.Rows,
-    $portal: {
-      sources: {
-        __portal: (o, ctx) => ctx.portal
-      },
-      __portalJoined: function (s) {
-        s.on('dirty', () => {
-          this.rerender()
-        }, this)
-      },
-      renderers: {
-        '*': {
-          render: function () {
-            const {html, props} = this._internal
-            const components = this.sources.__portal.get('components').map(c => {
-              return {
-                render: () => c.render('any')
-              }
-            })
-            return Layout.simple(html, props, components)
-          }
-        }
-      }
-    },
     items: [{
       sources: {
         state: () => {
@@ -180,6 +145,31 @@ export default () => {
             }
           }
         }
+      }
+    }, {
+      sources: {
+        data: false
+      },
+      mixins: { withDropdown },
+      dataChanged: function (v) {
+        this.$dropdown.opt('styles', {display: (v ? 'block': 'none')})
+//        this.opt('components', {dropdown: v})
+      },
+      $content: {
+        as: ButtonWithIcon,
+        icon: 'fas fa-caret-down',
+        text: 'Button',
+        onClick: function (e, {data}) {
+          data.$toggle()
+        },
+        $icon: {
+          weight: 10
+        }
+      },
+      $dropdown: {
+        as: List,
+        items: COUNTRIES.map(c => {return {text: c.name}})
+//        text: 'Dropdown text'
       }
     }/*, {
       sources: {

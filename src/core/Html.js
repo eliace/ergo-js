@@ -157,10 +157,10 @@ class Html{
     }
 
     // применяем примеси
-    if (opts.mixins) {
-//      for (let i = 0; i < opts.mixins.length; i++) {
-      for (let i in opts.mixins) {
-        let mixinOpts = opts.mixins[i].call(this, preparedOpts)
+    if (opts.mixins || opts.mix) {
+      const mixins = opts.mixins || opts.mix
+      for (let i in mixins) {
+        let mixinOpts = mixins[i].call(this, preparedOpts)
         if (mixinOpts) {
           preparedOpts.merge(mixinOpts)
         }
@@ -387,8 +387,12 @@ class Html{
 
   render (channel='*') {
 
-    if (this.renderers && this.renderers[channel] && this.renderers[channel].render) {
-      return this.renderers[channel].render.call(this)
+    const renderers = this._internal.options.renderers
+
+    if (renderers && renderers[channel] && renderers[channel].render) {
+      this.vnode = renderers[channel].render.call(this)
+      delete this._dirty
+      return this.vnode  
     }
 
     const o = this.options
@@ -473,11 +477,11 @@ class Html{
   //   return null
   // }
 
-  rerender() {
+  rerender(isDefault) {
     if (this._dirty || !this.vnode) {
       return
     }
-    if (this.renderers) {
+    if (this.renderers /*&& isDefault !== false*/) {
       for (let i in this.renderers) {
         this.renderers[i].update.call(this)
       }
@@ -648,7 +652,7 @@ class Html{
       else if (name == 'classes') {
         this.props['className'] = classNames(this.props['className'], value)
       }
-      else if (i == 'styles') {
+      else if (name == 'styles') {
         this.props.style = this.props.style || {}
         Object.assign(this.props.style, value)
       }
@@ -1623,9 +1627,16 @@ class Html{
     return this.sources
   }
 
-  walk(callback) {
+  walk (callback) {
     callback(this)
     this.children.forEach(c => c.walk && c.walk(callback))
+  }
+
+  notify (name, event) {
+//    const handlerName = 'on'+name[0].toUpperCase() + name.substr(1)
+    if (this._internal.options[name]) {
+      this._internal.options[name].call(this, event, this.sources)
+    }
   }
 
   // climb (callback) {

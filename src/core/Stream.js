@@ -237,9 +237,9 @@ class Stream {
     // }
   }
 
-  name (k) {
-    return new Stream(this.src, this.data, k, this.idResolver)
-  }
+  // name (k) {
+  //   return new Stream(this.src, this.data, k, this.idResolver)
+  // }
 
   snapshot () {
     const v = this.src.get();
@@ -249,6 +249,26 @@ class Stream {
     }
     return Object.assign(p, v)
   }
+
+  get source () {
+    return this.src
+  }
+
+  entry (key) {
+    return this.src.$entry(key)
+  }
+
+  nested (key) {
+    return this.src.$entry(key).$stream(this.key)
+  }
+
+  get (key) {
+    return this.src.get(key)
+  }
+
+  // get channel () {
+  //   return key
+  // }
 
 
 /*

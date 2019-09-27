@@ -1,4 +1,5 @@
 import {IconBox} from '../bulma'
+import { Domain, Layout } from '../src'
 
 
 export const Mixins = {
@@ -130,3 +131,7 @@ export function compose (a, b) {
     return {...a.call(this, v), ...b.call(this, v)}
   }
 }
+
+
+
+

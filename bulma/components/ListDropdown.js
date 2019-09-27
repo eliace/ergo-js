@@ -29,7 +29,7 @@ export default class ListDropdown extends Html {
             },
             dom: { El }
         },
-        dom: { El }
+//        dom: { El }
       }
     }
   }

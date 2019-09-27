@@ -1,9 +1,10 @@
 import {Html, Domain} from '../../src'
 import {Button} from '../elements'
 import {ButtonWithIcon} from '../extensions'
+import {withDropdown} from '../mixins'
 import ListDropdown from './ListDropdown'
-import { El as withEl } from '../utils'
-
+//import { El as withEl } from '../utils'
+/*
 const calcScrollY = function (el) {
     let parent = el.parentElement
     let scrollY = window.scrollY
@@ -60,7 +61,7 @@ const withScroll = function (el) {
         path.forEach(element => element.removeEventListener('scroll', f))
     }
 }
-
+*/
 export default class SplitButton extends Html {
     config () {
         return {
@@ -70,13 +71,14 @@ export default class SplitButton extends Html {
                 },
                 state: function () {
                     return new Domain({
-                        scroll: 0,
-                        top: 0,
-                        left: 0
+                        // scroll: 0,
+                        // top: 0,
+                        // left: 0
                     })
                 }
             },
-            dom: { withEl },
+            mix: { withDropdown },
+//            dom: { withEl },
             components: {
                 dropdown: false
             },
@@ -99,35 +101,35 @@ export default class SplitButton extends Html {
                 }
             },
             $dropdown: {
-                sources: {
-                    __portal: (o, ctx) => ctx.portal
-                },
-                dom: { withUpdatePosition, withScroll },
-                renderers: {
-                    '*': {
-                        update: function () {
-                            this._dirty = true
-                            this.sources.__portal.emit('dirty')
-                        },
-                        render: () => {}
-                    }
-                },
-                __portalJoined: function (s) {
-                    s.watch(e => e.name == 'init' && e.channel == '__portal', (e) => {
-                        s.$entry('components').$add(this)
-                    }, this)
-                    s.watch(e => e.name == 'destroy' && e.channel == '__portal', () => {
-                        s.$entry('components').$remove(this)
-                    }, this)
-                },
-                stateChanged: function (v, s, ids) {
-                    this.eff((el) => {
-                        if (el) {
-                            el.style.top = (v.top - v.scroll) + 'px'
-                            el.style.left = v.left + 'px'    
-                        }
-                    })
-                },
+                // sources: {
+                //     __portal: (o, ctx) => ctx.portal
+                // },
+                // dom: { withUpdatePosition, withScroll },
+                // renderers: {
+                //     '*': {
+                //         update: function () {
+                //             this._dirty = true
+                //             this.sources.__portal.emit('dirty')
+                //         },
+                //         render: () => {}
+                //     }
+                // },
+                // __portalJoined: function (s) {
+                //     s.watch(e => e.name == 'init' && e.channel == '__portal', (e) => {
+                //         s.$entry('components').$add(this)
+                //     }, this)
+                //     s.watch(e => e.name == 'destroy' && e.channel == '__portal', () => {
+                //         s.$entry('components').$remove(this)
+                //     }, this)
+                // },
+                // stateChanged: function (v, s, ids) {
+                //     this.eff((el) => {
+                //         if (el) {
+                //             el.style.top = (v.top - v.scroll) + 'px'
+                //             el.style.left = v.left + 'px'    
+                //         }
+                //     })
+                // },
                 css: 'dropdown-menu',
                 styles: {
                     display: 'block'
@@ -135,7 +137,7 @@ export default class SplitButton extends Html {
                 $content: {
                   as: ListDropdown,
                   css: 'dropdown-content',
-                  dom: { withEl }
+//                  dom: { withEl }
                 }
             }
         }

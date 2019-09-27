@@ -1,9 +1,10 @@
 //import {createProjector} from 'maquette'
 import {Html, State, Source, Domain, Bindings, Events, Layout, Config} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
-  Image, Button, Delete, LevelLayout, Icon, Navbar, Content} from './bulma'
+  Image, Button, Delete, LevelLayout, Icon, Navbar, Content, withPortalTarget} from './bulma'
 import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
 import Context from './src/react/Context'
+import {DropdownDelegate} from './pages/helpers'
 
 
 //import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -255,7 +256,10 @@ const root = new Html({
       books: []
     },
 //    users: {},
-    dropdown: true
+    dropdown: true,
+    portal: {
+      components: []
+    }
   },
   allJoined: function ({page, data, app}) {
 
@@ -451,6 +455,9 @@ const root = new Html({
       }
     }
 //    }
+  },
+  $portal: {
+    mixins: { withPortalTarget }
   }
 })
 

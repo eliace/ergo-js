@@ -509,6 +509,17 @@ class Source {
     // if (this.isNested)
   }
 
+  find (itemOrFilter) {
+    const filter = (typeof itemOrFilter == 'function') ? itemOrFilter : (v) => v == itemOrFilter
+    const v = this.get()
+    for (let i in v) {
+      if (filter(v[i])) {
+        return this.$entry(i)
+      }
+    }
+    return null
+  }
+
 
   // destroy () {
   //
