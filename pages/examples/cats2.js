@@ -1,5 +1,5 @@
 import {Html, Domain} from '../../src'
-import {Layouts, Tabs, Image} from '../../bulma'
+import {Layouts, Tabs, Image, Carousel} from '../../bulma'
 
 import axios from 'axios'
 
@@ -8,8 +8,8 @@ const api = {
     getBreeds: function () {
       return axios.get('https://api.thecatapi.com/v1/breeds').then(response => response.data)
     },
-    getImage: function (breedId) {
-      return axios.get('https://api.thecatapi.com/v1/images/search?breed_id='+breedId).then(response => response.data[0])
+    getImages: function (breedId) {
+      return axios.get('https://api.thecatapi.com/v1/images/search?limit=5&breed_id='+breedId).then(response => response.data)
     }
   },
   dogs: {
@@ -18,9 +18,9 @@ const api = {
         return Object.keys(response.data.message).sort().map(v => {return {id: v, name: v}})
       })
     },
-    getImage: function (breedId) {
+    getImages: function (breedId) {
       return axios.get(`https://dog.ceo/api/breed/${breedId}/images`).then(response => {
-        return response.data.message.map(v => {return {url: v}})[0]
+        return response.data.message.map(v => {return {url: v}})
       })
     }
   }
@@ -53,23 +53,52 @@ export default () => {
           this.opt('value', v.breedId)
         },
         onChange: function (e, {view}) {
-          view.actions.selectBreed(e.target.value)
+          view.selectBreed(e.target.value)
         }
       },
       $breedGallery: {
-        $image: {
-          as: Image,
-          width: 512,
-          dataId: 'image',
-          dataChanged: function (v) {
-            this.opt('src', v && v.url)
+        as: Carousel,
+        width: 512,
+//        height: 256,
+        dataChanged: function (v, s) {
+          this.opt('images', s.source.get('imageUrls'))
+        },
+        $content: {
+          styles: {
+            // width: '512px',
+            // height: '256px',
+            display: 'inline-flex',
+            alignItems: 'center'
           }
+//          defaultItem: 
         }
+        // sources: {
+        //   data: (o, ctx) => ctx.data.$entry('imageUrls')
+        // }
+
+        // $image: {
+        //   as: Image,
+        //   dataId: 'image',
+        //   dataChanged: function (v) {
+        //     this.opt('src', v && v.url)
+        //   },
+        //   $content: {
+        //     height: 256,
+        //     width: 'auto'
+        //   }
+        // }
       }
     },
     sources: {
       view: new Domain({pet: 'cats'}),
-      data: new Domain({})
+      data: new Domain({}, {
+        properties: {
+          imageUrls: (v) => {
+            console.log(v.images)
+            return v.images ? v.images.map(img => img.url) : []
+          }
+        }
+      })
     },
     allJoined: function ({view, data}) {
       view.watch(e => e.name == 'init', async () => {
@@ -77,7 +106,7 @@ export default () => {
       }, this)
       view.createAction('selectBreed', async (id) => {
         view.set('breedId', id)
-        data.set('image', await api.cats.getImage(id))
+        data.set('images', await api.cats.getImages(id))
       })
     }
   }

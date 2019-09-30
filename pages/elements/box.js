@@ -11,11 +11,11 @@ export default () => {
     },
     items: [{
     }, {
-      css: 'has-text-primary',
+      css: 'has-text-info',
     }, {
-      css: 'has-background-info has-text-light',
+      css: 'has-background-primary has-text-light',
     }, {
-      css: 'is-warning'
+      css: 'has-background-warning'
     }]
 
   }

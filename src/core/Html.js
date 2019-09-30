@@ -14,7 +14,7 @@ import Config from './Config'
 const ComponentRules = {
   defaultItem: rules.Option,
   defaultComponent: rules.Option,
-  defaultComponents: rules.OptionCollection,
+//  defaultComponents: rules.OptionCollection,
   // items: rules.OptionArray,
   components: rules.OptionCollection,
 //  as: rules.StringArray,
@@ -112,7 +112,7 @@ function initClassOpts (proto) {
 
 
 
-class Html{
+class Html {
 
 //  static OPTIONS = {}
 
@@ -129,17 +129,6 @@ class Html{
 
     let opts = new Options(this.classDefaults, options).build(ComponentRules)
 
-    this.html = opts.html || 'div'
-
-    this.children = []
-
-    this.props = opts.props || {}// {classes: {}, styles: {}}
-
-    this.layout = opts.layout
-
-    this.context = context || {}
-
-    this.renderers = opts.renderers
 //    this.context = context || new Context()
 
     // 1. Примешиваем опции
@@ -170,6 +159,22 @@ class Html{
     // завершаем конструирование опций
     opts = preparedOpts.build(ComponentRules)
 
+    this.html = opts.html || 'div'
+    this.children = []
+    this.props = opts.props || {}// {classes: {}, styles: {}}
+    this.layout = opts.layout
+    this.context = context || {}
+    this.renderers = opts.renderers
+
+
+    this._internal = {
+      html: this.html,
+      props: this.props,
+      children: this.children,
+      options: opts,
+      context: this.context
+    }
+
     // прокси-хелпер для опций
     this.opts = {__target: this}
 
@@ -183,13 +188,6 @@ class Html{
 
     this.options = opts
 
-    this._internal = {
-      html: this.html,
-      props: this.props,
-      children: this.children,
-      options: this.options,
-      context: this.context
-    }
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
@@ -1055,9 +1053,10 @@ class Html{
     const o = this.options
 
     if (typeof value == 'string') {
-      console.error('Invalid components value', value)
-      key = value
-      value = this.sources[key]
+      console.warn('String components value. Converting to {text: value}', value)
+      value = {text: value}
+//      key = value
+//      value = this.sources[key]
     }
     else if (typeof value == 'function') {
       console.error('Invalid components value', value)
@@ -1650,6 +1649,8 @@ class Html{
   // }
 
 }
+
+Html.Text = Text
 
 
 export default Html

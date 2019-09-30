@@ -7,11 +7,13 @@ class Select extends Html {
   static defaultOpts = {
     css: 'select',
     $content: {
-
+      html: 'select',
+      defaultItem: {
+        html: 'option'
+      }  
     }
   }
 }
-
 
 
 
@@ -20,9 +22,10 @@ export default () => {
     layout: Layouts.Rows,
     width: 500,
     items: [{
+      as: Select,
       $content: {
-        as: Select,
-        text: 'Select option...'
+        //      text: 'Select option...',
+        items: ['Alice', 'Bob', 'Charlie']        
       }
     }]
   }

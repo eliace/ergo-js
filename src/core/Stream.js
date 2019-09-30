@@ -1,4 +1,21 @@
-import {defaultIdResolver} from './Utils'
+import {weakKey} from './Utils'
+
+
+function defaultKeyResolver (v) {
+  if (v === null || v === undefined || typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+    return v
+  }
+  else if ('id' in v) {
+    return v.id
+  }
+  else if ('name' in v) {
+    return v.name
+  }
+  else {
+    return weakKey(v)
+  }
+}
+
 
 /*
 // target
@@ -199,11 +216,13 @@ class Stream {
 
     const value = this.src.get()
     const props = this.src._properties
+    const opts = this.src.options
 
     if (Array.isArray(value)) {
+      const keyOf = opts.key || this.idResolver || defaultKeyResolver
       // обходим элементы массива в порядке индексов
       for (let i = 0; i < value.length; i++) {
-        callback(this.src.$entry(i), i, value[i], (this.idResolver || defaultIdResolver)(value[i]))
+        callback(this.src.$entry(i), i, value[i], keyOf(value[i]))
       }
     }
     else {
@@ -258,7 +277,7 @@ class Stream {
     return this.src.$entry(key)
   }
 
-  nested (key) {
+  substream (key) {
     return this.src.$entry(key).$stream(this.key)
   }
 

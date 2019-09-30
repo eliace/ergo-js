@@ -57,7 +57,7 @@ export default () => {
       as: Breadcrumb,
       $content: {
         dataChanged: function (v, k) {
-          this.opt('items', k.nested('list'))
+          this.opt('items', k.substream('list'))
         },
         defaultItem: {
           dataChanged: function (v) {

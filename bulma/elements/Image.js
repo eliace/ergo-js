@@ -16,8 +16,17 @@ class Image extends Html {
     return {
       src: {
         initOrSet: function(v) {
-  //        console.log('src', v)
-          this.$content.opt('src', v)//.components.content.merge({props: {src: v}})
+          this.$content.opt('src', v)
+        }
+      },
+      text: {
+        initOrSet: function(v) {
+          this.$content.opt('src', v)
+        }
+      },
+      rounded: {
+        initOrSet: function (v) {
+          this.$content.opt('classes', {'is-rounded': v})
         }
       }
     }

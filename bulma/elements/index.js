@@ -11,6 +11,9 @@ import Tag from './Tag'
 import Title from './Title'
 import List from './List'
 import IconBox from './IconBox'
+import Check from './Check'
+import Switch from './Switch'
+import Slider from './Slider'
 
 export * from './Input'
 
@@ -27,5 +30,8 @@ export {
   Tag,
   Title,
   List,
-  IconBox
+  IconBox,
+  Check,
+  Switch,
+  Slider
 }

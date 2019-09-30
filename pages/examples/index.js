@@ -7,6 +7,7 @@ import PostsExample from './posts'
 import CountriesExample from './countries'
 import CatsExample from './cats'
 import Cats2Example from './cats2'
+import CarouselExample from './carousel'
 
 export default () => {
 
@@ -20,13 +21,14 @@ export default () => {
       countries: (v) => v.selected == 'Countries',
       cats: (v) => v.selected == 'Cats',
       cats2: (v) => v.selected == 'Cats2',
+      carousel: (v) => v.selected == 'Carousel',
     }
   })
 
   return {
     sources: {
       page,
-      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2']
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2', 'Carousel']
     },
     layout: Layouts.Rows,
     $header: {
@@ -69,6 +71,7 @@ export default () => {
       $countries: CountriesExample,
       $cats: CatsExample,
       $cats2: Cats2Example,
+      $carousel: CarouselExample,
     }
   }
 }

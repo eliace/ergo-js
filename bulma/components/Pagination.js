@@ -113,8 +113,8 @@ class Pagination extends Html {
         itemFactory: function (opts, context) {
           return opts.text == '.' ? new Ellipsis() : new Item(opts, context)
         },
-        __viewChanged: function (v, k, s) {
-          this.opt('items', s.get('pages'))
+        __viewChanged: function (v, s) {
+          this.opt('items', s.source.get('pages'))
         }
       }
     }

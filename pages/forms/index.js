@@ -6,6 +6,7 @@ import TextareaExample from './textarea'
 import SelectExample from './select'
 import FieldExample from './field'
 import CheckboxExample from './checkbox'
+import SliderExample from './slider'
 
 export default () => {
 
@@ -18,6 +19,7 @@ export default () => {
       select: (v) => v.selected == 'Select',
       field: (v) => v.selected == 'Field',
       checkbox: (v) => v.selected == 'Checkbox',
+      slider: (v) => v.selected == 'Slider',
     }
   })
 
@@ -56,6 +58,7 @@ export default () => {
           {text: 'Select'},
           {text: 'Field'},
           {text: 'Checkbox'},
+          {text: 'Slider'},
         ]
       }
     },
@@ -69,6 +72,7 @@ export default () => {
       $select: SelectExample(),
       $field: FieldExample(),
       $checkbox: CheckboxExample(),
+      $slider: SliderExample(),
     }
   }
 }

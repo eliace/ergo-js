@@ -467,6 +467,9 @@ class Source {
         let entry = this.entries[k]
 
 
+        delete this.entries[k].src
+        delete this.entries[k].isNested
+        delete this.entries[k].id
         delete this.entries[k]
 
         if (Array.isArray(v)) {

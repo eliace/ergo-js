@@ -195,6 +195,10 @@ class Domain extends Source {
     e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
 
     this.actions[name] = e
+    if (this[name]) {
+      console.error('Overriding domain method', name, this)
+    }
+    this[name] = e
     return e
   }
 

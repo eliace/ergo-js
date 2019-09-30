@@ -1,6 +1,5 @@
-import Layout from './Layout'
 
-const Text = class {
+export default class Text {
 
   constructor(text, context) {
     this.options = {}
@@ -39,4 +38,4 @@ const Text = class {
 
 }
 
-export default Text
+//export default Text

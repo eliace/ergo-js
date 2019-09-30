@@ -9,6 +9,8 @@ import MenuExample from './menu'
 import ModalExample from './modal'
 import NavbarExample from './navbar'
 import PaginationExample from './pagination'
+import ToastExample from './toast'
+import ListExample from './list'
 
 import {PreviewAndCode} from '../extensions'
 
@@ -32,6 +34,8 @@ const DropdownCode = fs.readFileSync(__dirname+'/dropdown.js', 'utf-8')
 const TabsCode = fs.readFileSync(__dirname+'/tabs.js', 'utf-8')
 const NavbarCode = fs.readFileSync(__dirname+'/navbar.js', 'utf-8')
 const PaginationCode = fs.readFileSync(__dirname+'/pagination.js', 'utf-8')
+const ToastCode = fs.readFileSync(__dirname+'/toast.js', 'utf-8')
+const ListCode = fs.readFileSync(__dirname+'/list.js', 'utf-8')
 
 
 export default () => {
@@ -48,6 +52,8 @@ export default () => {
       modal: v => v.selected == 'Modal',
       navbar: v => v.selected == 'Navbar',
       pagination: v => v.selected == 'Pagination',
+      toast: v => v.selected == 'Toast',
+      list: v => v.selected == 'List',
     }
   })
 
@@ -91,6 +97,8 @@ export default () => {
           {text: 'Modal'},
           {text: 'Navbar'},
           {text: 'Pagination'},
+          {text: 'Toast'},
+          {text: 'List'},
         ]
       }
     },
@@ -107,6 +115,8 @@ export default () => {
       $modal: previewOf(ModalExample, ModalCode),
       $navbar: previewOf(NavbarExample, NavbarCode),
       $pagination: previewOf(PaginationExample, PaginationCode),
+      $toast: previewOf(ToastExample, ToastCode),
+      $list: previewOf(ListExample, ListCode),
     }
   }
 }

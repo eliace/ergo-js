@@ -398,6 +398,24 @@ describe ('Html', () => {
 
     })
 
+    it ('Should filter items from stream', () => {
+
+      // Html
+      const html = new Html({
+        sources: {
+          data: () => []
+        },
+        defaultItem: {
+          dataChanged: function (v) {
+            return {text: v}
+          }
+        }
+      })
+
+      
+
+    })
+
   })
 
 

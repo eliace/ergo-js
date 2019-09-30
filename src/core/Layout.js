@@ -3,11 +3,11 @@ import {defaultRender, defaultCompare, deepClone} from './Utils'
 import Config from './Config'
 
 function simple (html, props, components) {
-  return Config.Renderer.h(html, props, components.map(defaultRender))
+  return Config.Renderer.h(html, props, components && components.map(defaultRender))
 }
 
 function sorted (html, props, components) {
-  return Config.Renderer.h(html, props, components.sort(defaultCompare).map(defaultRender))
+  return Config.Renderer.h(html, props, components && components.sort(defaultCompare).map(defaultRender))
 }
 
 function passthru (html, props, components) {
@@ -24,10 +24,19 @@ function wrapped (html, props, components, layout) {
     return true
   })
 
-  const vnode = (layout || sorted)(html, props, wrapped)
+  // react is sicking if void components contain empty children
+  const vnode = (layout || sorted)(html, props, wrapped.length ? wrapped : null)
 
   if (wrapper) {
-    return (wrapper.layout || simple)(wrapper.html, deepClone(wrapper.props), [vnode]) // FIXME альтернатива wrapper.render(wrapped)
+    const fakeContent = {
+      options: {},
+      render: () => vnode
+    }
+    return (wrapper.layout || sorted)(
+      wrapper.html, 
+      deepClone({...wrapper.props, key: props.key}), 
+      [fakeContent].concat(wrapper.children)
+      ) // FIXME альтернатива wrapper.render(wrapped)
   }
   return vnode
 }

@@ -1,38 +1,6 @@
 import {Html, Layout} from '../../src'
-import {Layouts} from '../../bulma'
+import {Layouts, Check} from '../../bulma'
 
-
-
-class Check extends Html {
-  config () {
-    return {
-      layout: Layout.passthru,
-      $input: {
-        html: 'input',
-        css: 'is-checkradio',
-        type: 'checkbox'
-      },
-      $content: {
-        html: 'label'
-      }
-    }
-  }
-
-  configOptions () {
-    return {
-      checked: {
-        initOrSet: function (v) {
-          this.$input.opt('checked', v)
-        }
-      },
-      block: {
-        initOrSet: function (v) {
-          this.$input.opt('classes', {'is-block': v})
-        }
-      }
-    }
-  }
-}
 
 class Radio extends Html {
   config () {
@@ -73,7 +41,8 @@ export default () => {
         text: 'Check'
       }, {
         as: Check,
-        text: 'Check'
+        text: 'Check',
+        indeterminate: true
       }]
     }, {
       items: [{

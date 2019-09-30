@@ -1,3 +1,4 @@
 import ButtonWithIcon from './ButtonWithIcon'
+import Carousel from './Carousel'
 
-export { ButtonWithIcon }
+export { ButtonWithIcon, Carousel }

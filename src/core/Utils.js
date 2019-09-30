@@ -58,7 +58,18 @@ export const buildOpts = (opts, nextOpts, rules, path) => {
   // если nextOpts является объектом
   if (nextOpts.constructor === Object) {
     for (let i in nextOpts) {
-      opts[i] = buildProp(opts[i], nextOpts[i], rules && (rules[i] || rules[i[0]]))
+      // if (i[0] == '!') {
+      //   opts[i.substr(1)] = nextOpts[i]
+      // }
+      // else if (i[0] == '+') {
+      //   // TODO
+      // }
+      // else if (i[0] == '-') {
+      //   // TODO
+      // }
+      // else {
+        opts[i] = buildProp(opts[i], nextOpts[i], rules && (rules[i] || rules[i[0]]))
+      // }
     }
   }
   // если nextOpts является массивом
@@ -390,6 +401,10 @@ const Keys = {
 }
 
 export function defaultIdResolver (v) {
+  return Keys.get(v)
+}
+
+export function weakKey (v) {
   return Keys.get(v)
 }
 

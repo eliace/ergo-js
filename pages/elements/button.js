@@ -1,8 +1,9 @@
-import {Html} from '../../src'
-import {Layouts, Button, Buttons, IconBox} from '../../bulma'
+import {Html, Text} from '../../src'
+import {Layouts, Button, Buttons, IconBox, Action} from '../../bulma'
 
 import {Mixins} from '../helpers'
 import {ButtonWithIcon} from '../extensions'
+
 
 
 export default () => {
@@ -63,6 +64,11 @@ export default () => {
         {icon: 'fas fa-check', text: 'Save', css: 'is-success'},
         {icon: 'fas fa-times', text: 'Delete', css: 'is-danger is-outlined'},
       ]
+    }, {
+      as: Action,
+      text: 'Click to action',
+      css: 'is-link is-muted',
+      icon: 'fas fa-star'
     }]
   }
 }

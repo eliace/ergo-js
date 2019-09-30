@@ -1,5 +1,5 @@
 import {Html} from '../../src'
-import {Layouts, Box, Tag, Delete} from '../../bulma'
+import {Layouts, Box, Tag, Delete, IconBox, Image as ImageBox} from '../../bulma'
 
 class Tags extends Html {
   config () {
@@ -69,6 +69,35 @@ export default () => {
       as: Tags,
       css: 'has-addons',
       items: [{text: 'JavaScript', css: 'is-link'}, {css: 'is-delete'}]
+    }, {
+      as: Tag,
+      css: 'is-rounded is-medium',
+      $image: {
+        as: ImageBox,
+        src: 'https://randomuser.me/api/portraits/thumb/men/28.jpg',
+        styles: {
+          margin: '0 0.325rem 0 -0.325rem',
+          display: 'inline-flex',
+          width: '1.5rem',
+          height: '1.5rem'
+        },
+        $content: {
+          css: 'is-rounded'
+        }
+      },
+      $icon: {
+        as: IconBox,
+        icon: 'fas fa-user',
+        css: 'is-rounded',
+        styles: {
+          backgroundColor: '#ddd',
+          borderRadius: '50%',
+          marginRight: '0.325rem'
+        }
+      },
+      $content: {
+        text: 'Alice'
+      }
     }]
   }
 }

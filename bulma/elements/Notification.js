@@ -10,8 +10,17 @@ class Notification extends Html {
         as: Delete
       },
       content: {
-//        html: 'div'
         as: Text
+      }
+    }
+  }
+
+  options () {
+    return {
+      color: {
+        initOrSet: function (v) {
+          this.opt('classes', {['is-'+v]: true})
+        }
       }
     }
   }
