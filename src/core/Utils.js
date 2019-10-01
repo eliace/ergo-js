@@ -182,6 +182,34 @@ export const bindDomain = new Proxy({}, {
 
 
 
+export function reconcile2 (prev, next) {
+  const prevKeys = {}
+  const nextKeys = {}
+  prev.forEach(itm => prevKeys[itm.k] = itm)
+  next.forEach(itm => nextKeys[itm.k] = itm)
+
+  const deleted = {}
+  const added = {...nextKeys}
+  const updated = {}
+
+  for (let i in prevKeys) {
+    if (i in nextKeys) {
+      updated[i] = {...prevKeys[i], next: nextKeys[i]}
+      delete added[i]
+    }
+    else {
+      deleted[i] = prevKeys[i]
+    }
+  }  
+
+  return {
+    added: Object.values(added),
+    deleted: Object.values(deleted),
+    updated: Object.values(updated)
+  }
+}
+
+
 export const reconcile = function (list_a, list_b) {
   const hash_a = {}
   const hash_b = {}
@@ -407,5 +435,21 @@ export function defaultIdResolver (v) {
 export function weakKey (v) {
   return Keys.get(v)
 }
+
+export function defaultKeyResolver (v) {
+  if (v === null || v === undefined || typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+    return v
+  }
+  else if ('id' in v) {
+    return v.id
+  }
+  else if ('name' in v) {
+    return v.name
+  }
+  else {
+    return weakKey(v)
+  }
+}
+
 
 //export Binder

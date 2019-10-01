@@ -109,6 +109,11 @@ class Domain extends Source {
   }
 
 
+  publish (...args) {
+    return this.emit.apply(this, args)
+  }
+
+
   emit (name, data, options, channel='') {
     const event = (name instanceof Event) ? name : new Event(name, data, options, this, channel)
 

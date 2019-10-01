@@ -1,5 +1,5 @@
 import Options from './Options'
-import {defaultFactory, deepClone, buildProp, hashCode, Binder, reconcile, createOptionsProto} from './Utils'
+import {defaultFactory, deepClone, buildProp, hashCode, Binder, reconcile2, createOptionsProto} from './Utils'
 import Layout from './Layout'
 import Text from './Text'
 import rules from './Rules'
@@ -475,16 +475,21 @@ class Html {
   //   return null
   // }
 
-  rerender(isDefault) {
+  rerender() {
     if (this._dirty || !this.vnode) {
       return
     }
-    if (this.renderers /*&& isDefault !== false*/) {
-      for (let i in this.renderers) {
-        this.renderers[i].update.call(this)
+    if (this.options.onDirty) {
+      if (this.notify('onDirty') === false) {
+        return
       }
-      return
     }
+    // if (this.renderers /*&& isDefault !== false*/) {      
+    //   for (let i in this.renderers) {
+    //     this.renderers[i].update.call(this)
+    //   }
+    //   return
+    // }
     if (!this._dirty && !Config.Renderer.scheduled) {
       Config.Renderer.schedule()
 //      this.context.projector.scheduleRender()
@@ -897,6 +902,7 @@ class Html {
     // TODO
   }
 
+/*  
   moveItem(fromIdx, toIdx) {
 
     // let child = null
@@ -938,7 +944,7 @@ class Html {
 
     movedItem.index = toIdx
   }
-
+*/
 
   syncItems (value, key) {
 //    const o = this.options.__raw
@@ -962,11 +968,11 @@ class Html {
       let update = []
       const entriesByKeys = {}
 
-      const prevIds = this.items.map(itm => {return {i: itm.index, k: itm.props.key, itm}})
+      const prevIds = this.items.map(itm => {return {i: itm.index, k: itm.props.key, itm, entry: itm.sources[key]}})
       const nextIds = []
 
       value.entries((entry, idx, v, k) => {
-        nextIds.push({i: Number(idx), k})
+        nextIds.push({i: Number(idx), k, entry})
         let found = null
         for (let j = 0; j < items.length; j++) {
           const item = items[j]
@@ -992,32 +998,14 @@ class Html {
         }
       })
 
-//      console.log(prevIds, nextIds)
+      const {added, deleted, updated} = reconcile2(prevIds, nextIds)
 
-      const reconcileResult = reconcile(prevIds, nextIds)
+      // reconcileResult.moves.forEach(move => {
+      //   this.moveItem(move.i, move.to)
+      // })
 
-//      console.log('reconcile', reconcileResult)
-
-      reconcileResult.moves.forEach(move => {
-        this.moveItem(move.i, move.to)
-      })
-
-      reconcileResult.updated.forEach(upd => {
-        if (upd.itm.isDestroying) {
-          delete upd.itm._destroying
-          delete upd.itm._sourcesToUnjoin
-          upd.itm.tryInit()
-        }
-      })
-
-//      console.log('update items', update)
-//      console.log('[reconcile] update items', reconcileResult.updated)
-
-//      console.log('remove items', items)
-//      console.log('[reconcile] remove items', reconcileResult.deleted)
-
-//          items.forEach(item => this.removeItem(item))
-      items.forEach(itm => {
+      deleted.forEach(del => {
+        const itm = del.itm
         if (itm.isInitializing) {
           console.warn('try to destroy initializing item', itm)
         }
@@ -1026,16 +1014,31 @@ class Html {
         }
       })
 
-//      console.log('add items', add)
-//      console.log('[reconcile] add items', reconcileResult.added)
-
-      Object.keys(add).forEach(k => {
-        let entry = add[k]
-        this.addItem({sources: {[key]: entry}}, Number(entry.id), k)
+      updated.forEach(upd => {
+//        console.log('----', upd.itm.index, upd.i, upd.entry.id, upd.next)
+        upd.itm.index = upd.next.entry.id
+        if (upd.itm.isDestroying) {
+          delete upd.itm._destroying
+          delete upd.itm._sourcesToUnjoin
+          upd.itm.tryInit()
+        }
       })
 
-//      console.log('result items', this.items)
+      added.forEach(add => {
+        const entry = add.entry
+        const k = add.k
+//        console.log('add', k, entry)
+        // имитируем setItem
+        const itm = this.addItem({sources: {[key]: entry}}, null, k)
+        itm.index = Number(entry.id)
+      })
+      // добавляем новые элементы
+      // Object.keys(add).forEach(k => {
+      //   let entry = add[k]
+      //   this.addItem({sources: {[key]: entry}}, Number(entry.id), k)
+      // })
 
+//      console.log('items', this.items)
 
     }
     else {
@@ -1634,8 +1637,12 @@ class Html {
   notify (name, event) {
 //    const handlerName = 'on'+name[0].toUpperCase() + name.substr(1)
     if (this._internal.options[name]) {
-      this._internal.options[name].call(this, event, this.sources)
+      return this._internal.options[name].call(this, event, this.sources)
     }
+  }
+
+  fire (name, event) {
+    return this.notify(name, event)
   }
 
   // climb (callback) {

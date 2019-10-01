@@ -1,4 +1,4 @@
-import {deepClone, hashCode, defaultIdResolver, createPropsProto} from './Utils'
+import {deepClone, hashCode, defaultKeyResolver, createPropsProto} from './Utils'
 import Stream from './Stream'
 
 
@@ -710,7 +710,7 @@ class Source {
 
       const entriesByKey = {}
       for (let i = 0; i < prevValue.length; i++) {
-        const id = (this.options.idResolver || defaultIdResolver)(prevValue[i])
+        const id = (this.options.key || defaultKeyResolver)(prevValue[i])
         entriesByKey[id] = this.entries[i]
       }
 
@@ -718,7 +718,7 @@ class Source {
 
       for (let i = 0; i < nextValue.length; i++) {
         if (this.entries[i]) {
-          const id = (this.options.idResolver || defaultIdResolver)(nextValue[i])
+          const id = (this.options.key || defaultKeyResolver)(nextValue[i])
           if (entriesByKey[id]) {
             nextEntries[i] = entriesByKey[id]
             nextEntries[i].id = i

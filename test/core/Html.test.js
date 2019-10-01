@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-import {Html, Source, Text, Domain} from '../../src'
+import {Html, Source, Text, Domain, defaultCompare} from '../../src'
 //import Domain from '../../src/old/Domain'
 //const jsdom = require('mocha-jsdom')
 
@@ -464,7 +464,7 @@ describe ('Html', () => {
       expect(html.$comp2.text).to.be.equal('Bob')
       expect(html.$comp3.text).to.be.equal('Charlie')
     })
-  
+
     it ('Should initialize/destroy multisource', () => {
       const [out, log] = logger()
 
@@ -488,6 +488,127 @@ describe ('Html', () => {
 
       expect(comp1._destroying).to.be.undefined
     })
+
+  })
+
+  describe ('Items', () => {
+
+    it ('Should add items by stream', () => {
+      const data = new Source([1,2])
+      const html = new Html({
+        sources: { data },
+        dataChanged: function (v, s) {
+          this.opt('items', s)
+        }
+      })
+
+      expect(html.items.length).to.be.eq(2)
+
+      data.set([1,2,3,4,5])
+
+      expect(html.items.length).to.be.eq(5)
+      expect(html.items[0].index).to.be.eq(0)
+      expect(html.items[1].index).to.be.eq(1)
+      expect(html.items[2].index).to.be.eq(2)
+      expect(html.items[3].index).to.be.eq(3)
+      expect(html.items[4].index).to.be.eq(4)
+    })
+
+    it ('Should delete items by stream', () => {
+      console.log('del')
+      const data = new Source([1,2,3,4,5])
+      const html = new Html({
+        sources: { data },
+        dataChanged: function (v, s) {
+          this.opt('items', s)
+        },
+        defaultItem: {
+          dataChanged: function (v) {
+            this.opt('text', v)
+          }
+        }
+      })
+  
+      expect(html.items.length).to.be.eq(5)
+  
+      data.set([1,4,5])
+  
+      expect(html.items.length).to.be.eq(3)
+      expect(html.items[0].index).to.be.eq(0)
+      expect(html.items[1].index).to.be.eq(1)
+      expect(html.items[2].index).to.be.eq(2)
+      expect(html.items[0].text).to.be.eq('1')
+      expect(html.items[1].text).to.be.eq('4')
+      expect(html.items[2].text).to.be.eq('5')
+    })  
+
+    it ('Should update items by stream', () => {
+      console.log('upd')
+      const data = new Source([1,2,3,4,5])
+      const html = new Html({
+        sources: { data },
+        dataChanged: function (v, s) {
+          this.opt('items', s)
+        },
+        defaultItem: {
+          dataChanged: function (v) {
+            this.opt('text', v)
+          }
+        }
+      })
+  
+      expect(html.items.length).to.be.eq(5)
+  
+      data.set([1,4,5,3,2])
+  
+      expect(html.items.length).to.be.eq(5)
+      expect(html.items[0].index).to.be.eq(0)
+      expect(html.items[1].index).to.be.eq(4)
+      expect(html.items[2].index).to.be.eq(3)
+      expect(html.items[3].index).to.be.eq(1)
+      expect(html.items[4].index).to.be.eq(2)
+
+      const sorted = html.items.sort(defaultCompare)
+      expect(sorted[0].text).to.be.eq('1')
+      expect(sorted[1].text).to.be.eq('4')
+      expect(sorted[2].text).to.be.eq('5')
+      expect(sorted[3].text).to.be.eq('3')
+      expect(sorted[4].text).to.be.eq('2')
+    })  
+
+    it ('Should restore items by stream', () => {
+      console.log('upd')
+      const data = new Source([4,5])
+      const html = new Html({
+        sources: { data },
+        dataChanged: function (v, s) {
+          this.opt('items', s)
+        },
+        defaultItem: {
+          dataChanged: function (v) {
+            this.opt('text', v)
+          }
+        }
+      })
+  
+      expect(html.items.length).to.be.eq(2)
+  
+      data.set([1,2,3,4,5])
+  
+      expect(html.items.length).to.be.eq(5)
+      expect(html.items[0].index).to.be.eq(3)
+      expect(html.items[1].index).to.be.eq(4)
+      expect(html.items[2].index).to.be.eq(0)
+      expect(html.items[3].index).to.be.eq(1)
+      expect(html.items[4].index).to.be.eq(2)
+
+      const sorted = html.items.sort(defaultCompare)
+      expect(sorted[0].text).to.be.eq('1')
+      expect(sorted[1].text).to.be.eq('2')
+      expect(sorted[2].text).to.be.eq('3')
+      expect(sorted[3].text).to.be.eq('4')
+      expect(sorted[4].text).to.be.eq('5')
+    })  
 
   })
 

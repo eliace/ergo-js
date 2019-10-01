@@ -5,20 +5,26 @@ export default function withPortalSource (mixer) {
         sources: {
             portal: (o, ctx) => ctx.portal
         },
+        onDirty: function (e, {portal}) {
+            this._dirty = true
+            portal.emit('dirty')
+            return false // останавливаем дальнейшую обработку
+        },
         renderers: {
             '*': {
-                update: function () {
-                    this._dirty = true
-                    this.sources.portal.emit('dirty')
-                },
+                // update: function () {
+                //     // this._dirty = true
+                //     // this.sources.portal.emit('dirty')
+                //     this.notify('onDirty')
+                // },
                 render: () => {}
             },
             'portal': {
                 render: function () {
                     const {html, props} = this._internal
                     const p = deepClone(props)
-                    delete p.key
-                    return Layout.simple(html, p, this.children || [])
+                    delete p.key // ключ не пригодится
+                    return Layout.sorted(html, p, this.children || [])
                 }
             }
         },

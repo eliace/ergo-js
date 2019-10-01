@@ -1,5 +1,5 @@
 import {Html, Source, Layout} from '../../src'
-import {Layouts, Tabs, Button} from '../../bulma'
+import {Layouts, Tabs, Button, Switch} from '../../bulma'
 
 import {Mutate} from '../helpers'
 
@@ -26,7 +26,7 @@ class ValueText extends Html {
     valueChanged: Mutate.Text
   }
 }
-
+/*
 class Switch extends Html {
 
   config () {
@@ -102,7 +102,7 @@ class Switch extends Html {
   //   return false
   // }
 }
-
+*/
 
 export default () => {
   return {
@@ -150,16 +150,38 @@ export default () => {
           this.opt('text', v)
           this.opt('key', v)
         },
-        onClick: function (e, {selection}) {
-          selection.$toggle(this.opt('key'))
-        },
         selectionChanged: function (v) {
-          this.opt('selected', v[this.opt('key')])
+          this.opt('value', v[this.opt('key')])
+        },
+        valueChanged: function (v) {
+          // эмулируем onChange
+          this.fire('onChange', {value: v})
+        },
+        onChange: function (e, {selection}) {
+          selection.set(this.opt('key'), e.value)
         }
+        // allJoined: function ({selection, value}) {
+        //   value.on('changed', (e) => {
+        //     selection.$toggle(this.opt('key'))
+        //   })
+        //   selection.on('changed', (e) => {
+
+        //   })
+        // }
+        // onChange: function (e, {selection}) {
+        //   debugger
+        //   selection.$toggle(this.opt('key'))
+        // },
+        // selectionChanged: function (v) {
+        //   this.opt('value', v[this.opt('key')])
+        // }
       },
       $info: {
+        sources: {
+          value: (o, ctx) => ctx.selection
+        },
         as: ValueText,
-        valueRef: 'selection',
+//        valueRef: 'selection',
         format: JSON.stringify,
         weight: 10
       }

@@ -61,7 +61,8 @@ Config.HTML_EVENTS = {
   onKeyDown: 'onKeyDown',
   onKeyUp: 'onKeyUp',
   onFocus: 'onFocus',
-  onBlur: 'onBlur'
+  onBlur: 'onBlur',
+  onLoad: 'onLoad'
 }
 
 Config.Renderer.h = createVNode

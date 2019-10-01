@@ -1,18 +1,41 @@
 import { Html, Layout } from '../../src'
+import {uuid} from '../utils'
+
+function generateIdFor (mixer) {
+  const uid = 'check_' + uuid()
+  mixer.merge({
+    $input: {
+      id: uid
+    },
+    $content: {
+      htmlFor: uid
+    }
+  })
+}
 
 
 export default class Switch extends Html {
     config () {
       return {
+        sources: {
+          value: () => false
+        },
         layout: Layout.passthru,
         $input: {
           html: 'input',
           css: 'switch',
-          type: 'checkbox'
+          type: 'checkbox',
+          onChange: function (e, {value}) {
+            value.$toggle()
+          },
+          valueChanged: function (v) {
+            this.opt('checked', !!v)
+          }
         },
         $content: {
           html: 'label'
-        }
+        },
+        mix: { generateIdFor }
       }
     }
   
@@ -20,7 +43,8 @@ export default class Switch extends Html {
       return {
         checked: {
           initOrSet: function (v) {
-            this.$input.opt('checked', v)
+            this.sources.value.set(v)
+//            this.$input.opt('checked', v)
           }
         },
         block: {
@@ -30,7 +54,8 @@ export default class Switch extends Html {
         },
         value: {
             initOrSet: function (v) {
-                this.$input.opt('checked', !!v)
+              this.sources.value.set(v)
+              //                this.$input.opt('checked', !!v)
             }
         }
       }

@@ -1,5 +1,5 @@
 import {Html, Domain} from '../../src'
-import {Layouts, Tabs, Image, Carousel} from '../../bulma'
+import {Layouts, Tabs, Image, Carousel, Box} from '../../bulma'
 
 import axios from 'axios'
 
@@ -57,20 +57,65 @@ export default () => {
         }
       },
       $breedGallery: {
-        as: Carousel,
-        width: 512,
-//        height: 256,
-        dataChanged: function (v, s) {
-          this.opt('images', s.source.get('imageUrls'))
-        },
         $content: {
-          styles: {
-            // width: '512px',
-            // height: '256px',
-            display: 'inline-flex',
-            alignItems: 'center'
+//          as: Box,
+          width: 600,
+          height: 400,
+          css: 'has-background-grey-dark',
+          $content: {
+            as: Carousel,
+            height: '100%',
+    //        height: 256,
+            dataChanged: function (v, s) {
+              this.opt('images', s.source.get('imageUrls'))
+            },
+            $content: {
+              styles: {
+                // width: '512px',
+                // height: '256px',
+                // display: 'inline-flex',
+                // alignItems: 'center',
+                // height: '100%'
+              },
+              defaultItem: {
+                // styles: {
+                //   display: 'flex',
+                //   justifyContent: 'center'
+                // },
+                 $image: {
+                   onLoad: function (e) {
+                     console.log('loaded', e.target.height, e.target.width)
+                     const origWidth = e.target.width
+                     const origHeight = e.target.height
+                     const k = origWidth / origHeight
+                     let width = origWidth
+                     let height = origHeight
+                     if (k < 1) {
+                        height = 400
+                        width = 400 * k
+                     }
+                     else {
+                       width = 600
+                       height = 600 / k
+                     }
+                     this.opt('styles', {
+                       width: width+'px',
+                       height: height+'px'
+                     })
+                   }
+                 }
+              }
+    //               styles: {
+    //                 height: '400px',
+    //                 display: 'block',
+    //                 margin: '0 auto'
+    //               }
+    //             }
+    // //            width: 512,
+    // //            styles
+    //           }
+            }    
           }
-//          defaultItem: 
         }
         // sources: {
         //   data: (o, ctx) => ctx.data.$entry('imageUrls')
