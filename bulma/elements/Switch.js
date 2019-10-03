@@ -17,20 +17,20 @@ function generateIdFor (mixer) {
 export default class Switch extends Html {
     config () {
       return {
-        sources: {
-          value: () => false
-        },
+        // sources: {
+        //   value: () => false
+        // },
         layout: Layout.passthru,
         $input: {
           html: 'input',
           css: 'switch',
           type: 'checkbox',
-          onChange: function (e, {value}) {
-            value.$toggle()
-          },
-          valueChanged: function (v) {
-            this.opt('checked', !!v)
-          }
+          // onChange: function (e, {value}) {
+          //   value.$toggle()
+          // },
+          // valueChanged: function (v) {
+          //   this.opt('checked', !!v)
+          // }
         },
         $content: {
           html: 'label'
@@ -43,8 +43,8 @@ export default class Switch extends Html {
       return {
         checked: {
           initOrSet: function (v) {
-            this.sources.value.set(v)
-//            this.$input.opt('checked', v)
+//            this.sources.value.set(v)
+            this.$input.opt('checked', v)
           }
         },
         block: {
@@ -54,8 +54,8 @@ export default class Switch extends Html {
         },
         value: {
             initOrSet: function (v) {
-              this.sources.value.set(v)
-              //                this.$input.opt('checked', !!v)
+//              this.sources.value.set(v)
+              this.$input.opt('checked', !!v)
             }
         }
       }

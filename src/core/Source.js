@@ -59,10 +59,12 @@ class Source {
       for (let i in this.options.properties) {
         const p = this.options.properties[i]
         if (typeof p === 'function') {
-          this.$prop(i, null, p)
+          this.$prop(i, null, p) // TODO это нужно убрать
+          this._properties[i] = {calc: p}
         }
         else {
-          this.$prop(i, p.type, p.calc, p.idResolver)
+          this.$prop(i, p.type, p.calc, p.idResolver)  // TODO это нужно убрать
+          this._properties[i] = {...p}
         }
       }
 
@@ -71,7 +73,9 @@ class Source {
       this.props = {__target: this}
 
       const instOptProto = createPropsProto(this.options.properties)
+      Object.setPrototypeOf(instOptProto, Stream.prototype)
       Object.setPrototypeOf(this.props, instOptProto)
+      this._propsProto = instOptProto
     }
 
 
@@ -747,7 +751,17 @@ class Source {
 
 
   $stream(name) {
-    return new Stream(this, null, name, this.options.idResolver)
+    if (this._propsProto) {
+      const obj = Object.create(this._propsProto)
+      obj.key = name
+      obj.__target = this
+      // const obj = {key: name, __target: this}
+      // Object.setPrototypeOf(obj, this._propsProto)
+      return obj  
+    }
+    else {
+      return new Stream(this, null, name)
+    }
   }
 
 

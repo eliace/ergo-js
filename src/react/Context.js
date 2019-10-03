@@ -78,14 +78,16 @@ Config.Renderer.schedule = function () {
   if (!this.scheduled) {
     requestAnimationFrame(() => {
 //      console.count('actual_render')
+      this.scheduled = false
+      const effects = this.effects
+      this.effects = []
       if (!this.root.vnode || this.root._dirty) {
         renderVNode(this.root.render(), this.dom)
       }
-      this.scheduled = false
       console.count('RENDER')
-      if (this.effects) {
-        const effects = this.effects
-        this.effects = []
+      if (effects) {
+//        const effects = this.effects
+//        this.effects = []
 //        requestAnimationFrame(() => {
           while (effects.length) {
             const eff = effects.pop()

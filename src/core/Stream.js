@@ -158,7 +158,7 @@ const CH_DEFAULT = 'default'
 class Stream {
 
   constructor (src, data, key, idResolver) {
-    this.src = src
+    this.__target = src
     this.data = data
     this.key = key
     this.idResolver = idResolver
@@ -170,6 +170,10 @@ class Stream {
     // this.effects = {}
     // this.events = {}
 
+  }
+
+  get src () {
+    return this.__target
   }
 
   // filter (f) {

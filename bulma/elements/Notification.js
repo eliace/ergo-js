@@ -2,19 +2,17 @@ import {Html, Text} from '../../src'
 import Delete from './Delete'
 
 class Notification extends Html {
-
-  static defaultOpts = {
-    css: 'notification',
-    components: {
-      closeBtn: {
+  config () {
+    return {
+      css: 'notification',
+      $closeBtn: {
         as: Delete
       },
-      content: {
-        as: Text
+      $content: {
+        as: Html.Text
       }
     }
   }
-
   options () {
     return {
       color: {
@@ -24,7 +22,6 @@ class Notification extends Html {
       }
     }
   }
-
 }
 
 export default Notification

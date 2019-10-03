@@ -255,7 +255,7 @@ class Domain extends Source {
         // здесь можно вызывать фабрику
         const prop = this._properties[k]
         if (typeof prop === 'object') {
-          e = new Domain(this, {...prop}, k)
+          e = new (prop.type || Domain)(this, {...prop}, k)
         }
         else {
           e = new prop(this, null, k)

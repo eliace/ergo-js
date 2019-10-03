@@ -38,10 +38,9 @@ class Item extends Html {
                 css: 'is-before'
             },
             $check: {
+                as: Check,
+                layout: null,
                 css: 'check-box is-before',
-                $content: {
-                    as: Check
-                },
                 weight: -10
             },
             $switch: {

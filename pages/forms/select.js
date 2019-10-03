@@ -4,12 +4,14 @@ import {Layouts, Box} from '../../bulma'
 
 
 class Select extends Html {
-  static defaultOpts = {
-    css: 'select',
-    $content: {
-      html: 'select',
-      defaultItem: {
-        html: 'option'
+  config () {
+    return {
+      css: 'select',
+      $content: {
+        html: 'select',
+        defaultItem: {
+          html: 'option'
+        }  
       }  
     }
   }

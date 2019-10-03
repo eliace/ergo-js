@@ -21,20 +21,20 @@ export default class Check extends Html {
           html: 'input',
           css: 'is-checkradio',
           type: 'checkbox',
-          onChange: function (v, {value}) {
-            value.$toggle()
-          },
-          valueChanged: function (v) {
-            this.opt('checked', v)
-          }
+          // onChange: function (v, {value}) {
+          //   value.$toggle()
+          // },
+          // valueChanged: function (v) {
+          //   this.opt('checked', v)
+          // }
         },
         $content: {
           html: 'label'
         },
         mix: { generateIdFor },
-        sources: {
-          value: false
-        }
+        // sources: {
+        //   value: false
+        // }
       }
     }
   
@@ -42,14 +42,14 @@ export default class Check extends Html {
       return {
         checked: {
           initOrSet: function (v) {
-            this.sources.value.set(v)
-//            this.$input.opt('checked', v)
+//            this.sources.value.set(v)
+            this.$input.opt('checked', v)
           }
         },
         value: {
           initOrSet: function (v) {
-            this.sources.value.set(v)
-//            this.$input.opt('checked', v)
+//            this.sources.value.set(v)
+            this.$input.opt('checked', v)
           }
         },
         block: {

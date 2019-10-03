@@ -2,20 +2,22 @@ import {Html} from '../../src'
 
 
 class InputBox extends Html {
-  static defaultOpts = {
-    css: 'input-box',
-    components: {
-      input: {
+  config () {
+    return {
+      css: 'input-box',
+      $input: {
         html: 'input',
         css: 'input'
       }
     }
   }
-  static OPTIONS = {
-    placeholder: {
-      initOrSet: function (v) {
-        this.$input.opt('placeholder', v)
-      }
+  options () {
+    return {
+      placeholder: {
+        initOrSet: function (v) {
+          this.$input.opt('placeholder', v)
+        }
+      }  
     }
   }
 }

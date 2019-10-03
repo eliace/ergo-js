@@ -225,6 +225,25 @@ describe ('Source', () => {
       })
     })
 */
+    it ('Shoud read source property from getter', () => {
+
+      const src = new Source({
+        a: 'Alice',
+        b: 'Bob'
+      }, {
+        properties: {
+          a: {},
+          b: {}
+        }
+      })
+
+      const stream = src.$stream('data')
+
+      console.log(stream)
+
+      expect(stream.a).to.be.eq('Alice')
+
+    })
 
 
     it ('Should handle event', () => {

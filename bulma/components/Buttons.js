@@ -2,10 +2,12 @@ import {Html} from '../../src'
 import {Button} from '../elements'
 
 class Buttons extends Html {
-  static defaultOpts = {
-    css: 'buttons',
-    defaultItem: {
-      as: Button
+  config () {
+    return {
+      css: 'buttons',
+      defaultItem: {
+        as: Button
+      }  
     }
   }
 }

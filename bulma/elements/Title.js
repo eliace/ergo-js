@@ -2,19 +2,21 @@ import {Html} from '../../src'
 
 
 class Subtitle extends Html {
-  static defaultOpts = {
-    css: 'subtitle'
+  config () {
+    return {
+      css: 'subtitle'
+    }
   }
 }
 
 class Title extends Html {
-
-  static defaultOpts = {
-    css: 'title'
+  config () {
+    return {
+      css: 'title'
+    }
   }
-
-  static Subtitle = Subtitle
 }
 
+Title.Sub = Subtitle
 
 export default Title

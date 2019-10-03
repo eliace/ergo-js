@@ -5,24 +5,26 @@ import ModalExample from './modal'
 import ToastExample from './toast'
 import TransitionsExample from './transitions'
 import StatesExample from './states'
+import BasicExample from './basic'
 
 export default (projector) => {
 
   const data = new Domain({
-    selected: 'Modal',
+    selected: 'Basic',
   }, {
     properties: {
       modal: (v) => v.selected == 'Modal',
       toast: (v) => v.selected == 'Toast',
       transitions: (v) => v.selected == 'Transitions',
       states: (v) => v.selected == 'States',
+      basic: (v) => v.selected == 'Basic',
     }
   })
 
   return {
     sources: {
       data,
-      tabs: ['Modal', 'Toast', 'Transitions', 'States']
+      tabs: ['Basic', 'Modal', 'Toast', 'Transitions', 'States']
     },
     layout: Layouts.Rows,
     $header: {
@@ -36,16 +38,24 @@ export default (projector) => {
       $tabs: {
         as: Tabs,
         defaultTab: {
-          dataChanged: function (v) {
-            this.opt('selected', this.opt('text') == v.selected)
-          },
-          onClick: function (e, {data}) {
-            data.set('selected', this.opt('text'))
-          },
-          tabsChanged: function (v) {
-            this.opt('text', v)
-          }
+            sources: {
+              __state: (o, ctx) => ctx.data
+            },
+            tabsChanged: function (v) {
+              this.opt('text', v)
+            }
         },
+        // defaultTab: {
+        //   dataChanged: function (v) {
+        //     this.opt('selected', this.opt('text') == v.selected)
+        //   },
+        //   onClick: function (e, {data}) {
+        //     data.set('selected', this.opt('text'))
+        //   },
+        //   tabsChanged: function (v) {
+        //     this.opt('text', v)
+        //   }
+        // },
         tabsChanged: function (v, k) {
           this.opt('tabs', k)
         }
@@ -53,14 +63,15 @@ export default (projector) => {
     },
     $content: {
 //      dynamic: true,
-      dataChanged: function (v, k, src) {
-        this.opt('components', src.$stream(k))
+      dataChanged: function (v, s) {
+        this.opt('components', s)
       },
       components: false,
-      $modal: ModalExample(),
-      $toast: ToastExample(),
-      $transitions: TransitionsExample(),
-      $states: StatesExample(),
+      $basic: BasicExample,
+      $modal: ModalExample,
+      $toast: ToastExample,
+      $transitions: TransitionsExample,
+      $states: StatesExample,
     }
   }
 }
