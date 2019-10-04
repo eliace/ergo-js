@@ -185,8 +185,8 @@ export default () => {
       components: {
         modal: false
       },
-      viewChanged: function (v, k, src) {
-        this.opt('components', src.$stream(k))
+      viewChanged: function (v, s) {
+        this.opt('components', s)
       },
       $button: {
         as: Button,
@@ -238,12 +238,12 @@ export default () => {
         }
       },
       $standaloneModalContainer: {
-        modalChanged: function (v, k, d) {
-          this.opt('items', d.$entry('modals').get())
+        modalChanged: function (v, s) {
+          this.opt('items', s.source.get('modals'))
         },
         defaultItem: {
           allJoined: function ({view, modal}) {
-            view.$on(view.close, () => {
+            view.on(view.close, () => {
               modal.close(this.index)
             }, this)
             view.open()
@@ -262,10 +262,10 @@ export default () => {
         })
       },
       allJoined: function ({modal, view}) {
-        modal.$watch('init', this, () => {
+        modal.watch('init', this, () => {
           modal.open(view)
         })
-        modal.$watch('destroy', this, () => {
+        modal.watch('destroy', this, () => {
           modal.close(view)
         })
       },

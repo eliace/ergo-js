@@ -74,7 +74,7 @@ class Source {
 
       const instOptProto = createPropsProto(this.options.properties)
       Object.setPrototypeOf(instOptProto, Stream.prototype)
-      Object.setPrototypeOf(this.props, instOptProto)
+//      Object.setPrototypeOf(this.props, instOptProto)
       this._propsProto = instOptProto
     }
 

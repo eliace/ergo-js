@@ -17,6 +17,6 @@ class Title extends Html {
   }
 }
 
-Title.Sub = Subtitle
+Title.Subtitle = Subtitle
 
 export default Title

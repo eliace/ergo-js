@@ -86,7 +86,7 @@ export default () => {
           __state: (o, ctx) => ctx.data
         },
         as: Tabs,
-        levelRight: true,
+        level: Layouts.Level.RIGHT,
 //         defaultTab: {
 // //           dataChanged: function (v) {
 // //             this.opt('key', v)

@@ -2,7 +2,7 @@
 import {Html, State, Source, Domain, Bindings, Events, Layout, Config} from './src'
 import {Layouts, Section, ContainerLayout, Notification, Menu, MediaLayout,
   Image, Button, Delete, LevelLayout, Icon, Navbar, Content, withPortalTarget, withModals, withToasts} from './bulma'
-import {ElementsPage, ComponentsPage, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
+import {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './pages'
 import Context from './src/react/Context'
 import {DropdownDelegate} from './pages/helpers'
 
@@ -238,6 +238,9 @@ const root = new Html({
           id: 'components',
           name: 'Components'
         }, {
+          id: 'components2',
+          name: 'Components+'
+        }, {
           id: 'layouts',
           name: 'Layouts'
         }, {
@@ -276,6 +279,7 @@ const root = new Html({
     app.$prop('examplesPage', null, v => v.current == 'examples')
     app.$prop('countriesPage', null, v => v.current == 'countries')
     app.$prop('postsPage', null, v => v.current == 'posts')
+    app.$prop('components2Page', null, v => v.current == 'components2')
 
     // app.computed('posts', this, v => v.current == 'posts')
     // app.computed('elements', this, v => v.current == 'elements')
@@ -451,7 +455,8 @@ const root = new Html({
         $animationsPage: AnimationsPage,
         $formsPage: FormsPage,
         $examplesPage: ExamplesPage,
-        $layouts: LayoutsPage
+        $layouts: LayoutsPage,
+        $components2Page: Components2Page,
       }
     }
 //    }

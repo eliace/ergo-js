@@ -96,3 +96,12 @@ a {
     // &.is-primary {color: $primary;}
     // &.is-link {color: $link;}
 }
+
+.control {
+  > .is-action {
+    height: 2.25em;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;    
+  }
+}

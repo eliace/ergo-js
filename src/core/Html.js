@@ -578,7 +578,7 @@ class Html {
 
       if (oldValue == value) {
         if (!isMutable) {
-          console.warn('Ignore option ['+name+']', value)
+//          console.warn('Ignore option ['+name+']', value)
           continue
         }
       }
@@ -1220,8 +1220,9 @@ class Html {
       source.observe(this, this.changed, i/*, o[i+'Effects']*/)
 
       if (o.join && o.join[i]) {
-        for (let j in o.join[i]) {
-          o.join[i][j](source, this, i)
+        const srcJoin = o.join[i]
+        for (let j in srcJoin) {
+          srcJoin[j](source, i) // TODO результатом является функция для unjoin
         }
       }
 
