@@ -402,6 +402,7 @@ class Source {
 
         if (direction != 'asc' && direction != 'none') {
           for (let i in this.entries) {
+//            console.log('entries', Object.keys(this.entries).length)
             this.entries[i]._update('desc', event);
           }
         }
@@ -712,22 +713,23 @@ class Source {
 
     if (Array.isArray(prevValue)) {
 
-      const entriesByKey = {}
+      const prevByKey = {}
       for (let i = 0; i < prevValue.length; i++) {
-        const id = (this.options.key || defaultKeyResolver)(prevValue[i])
-        entriesByKey[id] = this.entries[i]
+        const key = (this.options.key || defaultKeyResolver)(prevValue[i])
+        prevByKey[key] = this.entries[i]
       }
 
       const nextEntries = []
 
       for (let i = 0; i < nextValue.length; i++) {
-        if (this.entries[i]) {
-          const id = (this.options.key || defaultKeyResolver)(nextValue[i])
-          if (entriesByKey[id]) {
-            nextEntries[i] = entriesByKey[id]
+        const key = (this.options.key || defaultKeyResolver)(nextValue[i])
+//        if (this.entries[i]) {
+//          const id = (this.options.key || defaultKeyResolver)(nextValue[i])
+          if (prevByKey[key]) {
+            nextEntries[i] = prevByKey[key]
             nextEntries[i].id = i
           }
-        }
+//        }
       }
 
       this.entries = nextEntries

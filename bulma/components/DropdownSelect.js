@@ -7,7 +7,11 @@ export default class DropdownSelect extends Html {
       return {
         sources: {
           state: function () {
-            return new Domain({})
+            return new Domain('', {
+              properties: {
+                placeholder: v => !v
+              }
+            })
           },
           dropdown: function () {
             return new Domain()
@@ -18,8 +22,8 @@ export default class DropdownSelect extends Html {
           this.opt('components', {dropdown: v})
         },
         stateChanged: function (v) {
-          this.$content.$content.opt('text', v.value)
-          this.$content.$content.opt('components', {placeholder: !v.value})
+          this.$content.$content.opt('text', v)
+//          this.$content.$content.opt('components', {placeholder: !v.value})
         },
         css: 'dropdown dropdown-select',
         $content: {
@@ -48,12 +52,18 @@ export default class DropdownSelect extends Html {
             },
             $placeholder: {
               html: 'span',
-              css: 'dropdown-placeholder',
-              styles: {
-                'display': 'flex',
-                'flex': '1'
-              },
+              css: 'button-placeholder',
+              // styles: {
+              //   'display': 'flex',
+              //   'flex': '1'
+              // },
               text: 'Select me...'
+            },
+            components: {
+              placeholder: false
+            },
+            stateChanged: function (v, s) {
+              this.opt('components', s.snapshot())
             }
           },
         },

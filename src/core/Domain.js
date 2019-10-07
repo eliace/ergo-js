@@ -94,6 +94,10 @@ class Domain extends Source {
       return promise
         .then((v) => {
           return this._reduce(v, event)
+        },
+        (err) => {
+          console.error(err)
+//          throw err
         })
 
 //      return effect
@@ -185,9 +189,9 @@ class Domain extends Source {
 
   // хелперы
 
-  createAction (name, callback) {
-    this.subscribe(name, callback)
-    return this.createEvent(name, {method: true, effect: Effect})
+  createAction (name, callback, target, options) {
+    this.subscribe(name, callback, undefined, target)
+    return this.createEvent(name, {method: true, effect: Effect, ...options})
   }
 
   createEvent (name, options, channel) {

@@ -8,13 +8,16 @@ class Effect {
     this.channels = options.channels || ['']//['done', 'cancel', 'fail']
     this.options = options
     this.target = this
+    this.group = options.group
 
     this.resolvers = []
     this.rejectors = []
 
-    if (this.owner.subscribers.filter(s => (s instanceof Effect) && s.name == this.name/* && !s.isFinal*/).length > 0) {
+    const collisions = this.owner.subscribers.filter(s => (s instanceof Effect) && s.group && s.group == this.group /*s.name == name/* && !s.isFinal*/)
+    if (collisions.length > 0) {
 //      debugger
-      console.error('Effect already running', this.name)
+      console.warn('Effect already running', this.group)
+      this.resolveCollisions(collisions)
     }
 
     if (!this.promise) {
@@ -23,8 +26,9 @@ class Effect {
         this.rejector = rejector
       })
 //      debugger
-      this.subscriber = this.owner.subscribe(this)
     }
+
+    this.subscriber = this.owner.subscribe(this)
 
 
 //    if (this.promise) {
@@ -101,8 +105,8 @@ class Effect {
 //        debugger
       }
       else {
-        this.owner.unsubscribe(this.subscriber)
 //        this.subscriber = null
+        this.owner.unsubscribe(this.subscriber)
       }
       // else {
       //   this.owner.unsubscribe(this)
@@ -112,6 +116,10 @@ class Effect {
 //      value = this.subscriber ? this.owner.emit(this.name, value, {}, state) : value
     }
 //    return value
+  }
+
+  resolveCollisions (collisisons) {
+    // по умолчанию коллизия игнорируется
   }
 
 }

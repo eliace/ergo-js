@@ -30,7 +30,7 @@ export default () => {
     items: [{
       sources: {
         state: () => {
-          return {value: 'Guatemala'}
+          return 'Guatemala'
         },
         data: (o, ctx) => ctx.data
       },
@@ -53,6 +53,7 @@ export default () => {
       as: SplitButton,
       text: 'Button',
       color: 'info',
+      placeholder: 'Country',
       $dropdown: {
         $content: {
           dataChanged: function (v, stream) {

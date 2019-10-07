@@ -70,10 +70,10 @@ export default class SplitButton extends Html {
                     return new Domain()
                 },
                 state: function () {
-                    return new Domain({
-                        // scroll: 0,
-                        // top: 0,
-                        // left: 0
+                    return new Domain('', {
+                        properties: {
+                            placeholder: (v) => !v
+                        }
                     })
                 }
             },
@@ -86,11 +86,20 @@ export default class SplitButton extends Html {
                 this.opt('components', {dropdown: !!v})
             },
             stateChanged: function (v) {
-                this.opt('text', v.value)
+                this.opt('text', v)
             },
             css: 'buttons has-addons',
             $content: {
-                as: Button
+                as: Button,
+                $placeholder: {
+                    css: 'button-placeholder'
+                },
+                components: {
+                    placeholder: false
+                },
+                stateChanged: function (v, s) {
+                    this.opt('components', s.snapshot())
+                }
             },
             $toggler: {
                 as: ButtonWithIcon,
@@ -144,11 +153,31 @@ export default class SplitButton extends Html {
     }
     options () {
         return {
+            // text: {
+            //     initOrSet: function (v) {
+            //         this.$content.opt('text', v)
+            //         this.$content.opt('components', {placeholder: !v})
+            //     }
+            // },
             color: {
                 initOrSet: function (v) {
                     this.$content.opt('color', v)
                     this.$toggler.opt('color', v)
                 }    
+            },
+            placeholder: {
+                mix: function (v, mixer) {
+                    mixer.merge({
+                        $content: {
+                            $placeholder: {
+                                text: v
+                            }
+                        }
+                    })
+                }
+                // initOrSet: function (v) {
+                //     this.$content.opt('components', {placeholder: v})
+                // }
             }
         }
     }

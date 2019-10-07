@@ -68,30 +68,30 @@ describe ('Source', () => {
 
   })
 
-  it('Should get and set props', () => {
+  // it('Should get and set props', () => {
 
-    const data = new Source({
-      a: 'Alice',
-      b: 5
-    }, {
-      properties: {
-        a: {},
-        b: {}
-      }
-    })
+  //   const data = new Source({
+  //     a: 'Alice',
+  //     b: 5
+  //   }, {
+  //     properties: {
+  //       a: {},
+  //       b: {}
+  //     }
+  //   })
 
-    expect(data.props.a).to.equal('Alice')
-    expect(data.props.b).to.equal(5)
+  //   expect(data.props.a).to.equal('Alice')
+  //   expect(data.props.b).to.equal(5)
 
-    data.props.a = 'Bob'
-    data.props.b++
+  //   data.props.a = 'Bob'
+  //   data.props.b++
 
-    expect(data.props.a).to.equal('Bob')
-    expect(data.props.b).to.equal(6)
-    expect(data.get('a')).to.equal('Bob')
-    expect(data.get('b')).to.equal(6)
+  //   expect(data.props.a).to.equal('Bob')
+  //   expect(data.props.b).to.equal(6)
+  //   expect(data.get('a')).to.equal('Bob')
+  //   expect(data.get('b')).to.equal(6)
 
-  })
+  // })
 
 
   describe ('Stream', () => {
@@ -225,7 +225,7 @@ describe ('Source', () => {
       })
     })
 */
-    it ('Shoud read source property from getter', () => {
+    it ('Should read source property from getter', () => {
 
       const src = new Source({
         a: 'Alice',

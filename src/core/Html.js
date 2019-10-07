@@ -165,6 +165,7 @@ class Html {
     this.layout = opts.layout
     this.context = context || {}
     this.renderers = opts.renderers
+    this.dom = {}
 
 
     this._internal = {
@@ -973,32 +974,194 @@ class Html {
 
       value.entries((entry, idx, v, k) => {
         nextIds.push({i: Number(idx), k, entry})
-        let found = null
-        for (let j = 0; j < items.length; j++) {
-          const item = items[j]
-          if (item.props.key == k) {
-            if (item.sources[key] != entry) {
-              update.push(item)
-            }
-            else if (item._destroying) {
-              update.push(item)
-            }
-            found = item
-            break
+  //       let found = null
+  //       for (let j = 0; j < items.length; j++) {
+  //         const item = items[j]
+  //         if (item.props.key == k) {
+  //           if (item.sources[key] != entry) {
+  //             update.push(item)
+  //           }
+  //           else if (item._destroying) {
+  //             update.push(item)
+  //           }
+  //           found = item
+  //           break
+  //         }
+  //       }
+
+  //       if (!found) {
+  //         add[k] = entry
+  // //        console.log('to add', entry, update.length, this)
+  //       }
+  //       else {
+  //         entriesByKeys[k] = entry
+  //         items.splice(items.indexOf(found), 1)
+  //       }
+      })
+
+      if (nextIds.length == 0 && prevIds.length == 0) {
+        return
+      }
+
+
+
+      const prevByKeys = {}
+      const nextByKeys = {}
+      const prevByIds = []
+      const nextByIds = []
+      prevIds.forEach(prev => {prevByKeys[prev.k] = prev; prevByIds[prev.i] = prev})
+      nextIds.forEach(next => {nextByKeys[next.k] = next; nextByIds[next.i] = next})
+      prevByIds.forEach((prev, i) => {
+        prev.after = prevByIds[i+1]; 
+        prev.before = prevByIds[i-1]
+      })
+      nextByIds.forEach((next, i) => {
+        next.after2 = nextByIds[i+1]; 
+        next.before2 = nextByIds[i-1]; 
+      })
+
+//      let tail = prevByIds[prevByIds.length-1]
+      let merges = 0
+
+      nextByIds.forEach(next => {
+        let prev = prevByKeys[next.k]
+        let prev2 = next.after2 && prevByKeys[next.after2.k]
+        if (prev) {
+          if (next.before2) {
+            next.before2.after2 = prev
+//            prev.before2 = next.before2
+          }
+          else {
+            // голова
+            //next.before2 = prev.before2
+
+            // if (!prev.before2) {
+            //   prev.before2 = prev.before
+            // }
+            // else {
+            //   debugger
+            // }
+          }
+          prev.after2 = prev2 || next.after2
+          if (prev.after2) {
+            prev.after2.before2 = prev
+          }
+          prev.merged = true
+          next.prev = prev
+          merges++
+        }
+        // else if (!next.before2) {
+        //   if (tail) {
+        //     tail.after2 = next
+        //     next.before2 = tail
+        //   }
+        //   tail = next
+        // }
+
+      })
+
+      if (merges == 0) {
+        if (nextByIds.length && prevByIds.length) {
+          prevByIds[prevByIds.length-1].after2 = nextByIds[0]
+          nextByIds[0].before2 = prevByIds[prevByIds.length-1]
+        }
+      }
+
+//      if (prevIds.length > 0 && !prevIds[0].before2)
+      let head = nextByIds.length == 0 ? prevByIds[0] : (nextByIds[0].prev || nextByIds[0])//||  prevByIds.length > 0 ? prevByIds[0] : nextByIds[0]
+      let current = head.before2 || head.before
+      while (current) {
+        head = current
+        current = current.before2 || (!current.merged && current.before)
+        // if (!current && !head.merged) {
+        //   current = head.before
+        // }
+      }
+
+      // const head = (prevByIds.length > 0 && !prevByIds[0].before2) ? prevByIds[0] : nextByIds[0]
+      // let current = head
+
+      console.log('head' ,head)
+
+      current = head
+
+//      let i = 0
+      const result = []
+      while(current) {
+        result.push(current)
+        if (!current.itm) {
+          current.state = '+'
+        }
+        else if (!current.merged) {
+          current.state = '-'
+        }
+        else if (current.after != current.after2) {
+          let deleted = current.after
+          while (deleted && !deleted.after2 && !deleted.before2) {
+            deleted.state = '-'
+            result.push(deleted)
+            deleted = deleted.after
           }
         }
+        current = current.after2 || (!current.merged && current.after)
 
-        if (!found) {
-          add[k] = entry
-  //        console.log('to add', entry, update.length, this)
+      }
+
+      console.log(result)
+      console.log(prevByIds)
+      console.log(nextByIds)
+
+//      return
+
+      result.forEach(r => {
+        if (r.state == '-') {
+          const del = r
+          const itm = del.itm
+          if (itm.isInitializing) {
+            console.warn('try to destroy initializing item', itm)
+          }
+          if (!itm.isDestroying) {
+            itm.tryDestroy()
+          }  
+        }
+        else if (r.state == '+') {
+          const add = r
+          const entry = add.entry
+          const k = add.k
+  //        console.log('add', k, entry)
+          // имитируем setItem
+          const itm = this.addItem({sources: {[key]: entry}}, null, k)
+          add._itm = add.itm
+          add.itm = itm
         }
         else {
-          entriesByKeys[k] = entry
-          items.splice(items.indexOf(found), 1)
+//          debugger
+          const upd = r
+          if (upd.itm.isDestroying) {
+            delete upd.itm._destroying
+            delete upd.itm._sourcesToUnjoin
+            upd.itm.tryInit()
+          }  
         }
       })
 
-      const {added, deleted, updated} = reconcile2(prevIds, nextIds)
+
+      let i = 0
+      result.forEach(r => {
+        if (!r.itm._destroyed) {
+          r.itm.index = i
+//          r.itm.props.key = i
+          i++
+        }
+        else {
+          console.log('destroyed')
+        }
+      })
+
+
+
+/*
+      const {added, deleted, updated} = reconcile2(prevIds, nextIds, destroyingIds)
 
       // reconcileResult.moves.forEach(move => {
       //   this.moveItem(move.i, move.to)
@@ -1037,7 +1200,7 @@ class Html {
       //   let entry = add[k]
       //   this.addItem({sources: {[key]: entry}}, Number(entry.id), k)
       // })
-
+*/
 //      console.log('items', this.items)
 
     }
@@ -1222,7 +1385,7 @@ class Html {
       if (o.join && o.join[i]) {
         const srcJoin = o.join[i]
         for (let j in srcJoin) {
-          srcJoin[j](source, i) // TODO результатом является функция для unjoin
+          srcJoin[j].call(this, source, i) // TODO результатом является функция для unjoin
         }
       }
 
@@ -1430,6 +1593,11 @@ class Html {
         }
         _in.el = el
       }
+
+      // если элемент уже отрисован, то надо обновить компоновку
+      if (this.vnode && !this._dirty) {
+        this.rerender()
+      }
     }
     if (_in.el) {
       const off = on.call(this, _in.el)
@@ -1453,6 +1621,10 @@ class Html {
         callback(_in.el)
       })
     }
+  }
+
+  syncDom (callback) {
+    return this.eff(callback)
   }
 
   // rebindOpts(o, key) {

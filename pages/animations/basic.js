@@ -1,121 +1,70 @@
-import {Html, Text, Events, Domain, Config} from '../../src'
+import {Html, Text, Events, Domain, Config, Effect} from '../../src'
 import {Layouts, Tabs, IconBox, Box, Button, Buttons, Notification} from '../../bulma'
 
+import _ from 'lodash'
+import Velocity from 'velocity-animate/velocity'
 
-function withEffect () {
-    this.effect = () => {
-        return new Promise((resolve) => {
-            this.eff((el) => {resolve(el)})
-          })
-    }
-    // return () => {
-    //     delete this.effect
-    // }
-}
-
-function withTransition () {
-    this.transition = () => {
-        return new Promise(resolve => {
-            this.eff((el) => {
-                const f = () => {
-                    el.removeEventListener('transitionend', f)
-                    resolve(el)
-                }
-                el.addEventListener('transitionend', f)
-            })
-        })
-    }
-    // return () => {
-    //     delete this.transition
-    // }
-}
-
-
-function ShowAndHide (source) {
-
-    withEffect.call(this)
-    withTransition.call(this)
-
-    const component = this
-
-    const name = 'fade'            
-
-    const { effect, transition } = this
+import {withShowHide, withFLIP, delay, domEffect, ShowHideEffect} from './effects'
 
 
 
-    // const effects = () => {
-    //     return new Promise((resolve) => {
-    //       component.eff((el) => {resolve(el)})
-    //     })
-    //   }
-  
-    // const transition = () => {
-    //     return new Promise(resolve => {
-    //         component.eff((el) => {
-    //             const f = () => {
-    //                 el.removeEventListener('transitionend', f)
-    //                 resolve()
-    //             }
-    //             el.addEventListener('transitionend', f)
-    //         })
-    //     })
-    // }
-
-    const show = source.createAction('show', async () => {
-        const el = await effect()
-        el.classList.add(name+'-enter-active', name+'-enter')
-//                component.opt('classes', {[name+'-enter-active']: true, [name+'-enter']: true})
-        await effect()
-        el.classList.remove(name+'-enter')
-//                component.opt('classes', {[name+'-enter']: false})
-        await transition()
-        el.classList.remove(name+'-enter-active')
-//                component.opt('classes', {[name+'-enter-active']: false})
-    }, this)
-
-    const hide = source.createAction('hide', async () => {
-        component.opt('classes', {[name+'-leave-active']: true, [name+'-leave']: true})
-        await effect()
-        component.opt('classes', {[name+'-leave-to']: true, [name+'-leave']: false})
-        await transition()
-        component.opt('classes', {[name+'-leave-to']: false, [name+'-leave-active']: false})
-    }, this)
-  
-    source.watch(e => e.name == 'init', () => {
-        return show()
-      }, this)
-    source.watch(e => e.name == 'destroy', () => {
-        return hide()
-      }, this)
-
-}
-
-
-
-
-
-function withShowHide (mixer) {
+function withVelocity (mixer) {
     mixer.merge({
         sources: {
             animation: {}
         },
         join: {
-            animation: { ShowAndHide }
+            animation: { 
+                domEffect, 
+                custom: function (dom) {
+
+                    const velocityHide = function (el) {
+                        return new Promise((resolve) => {
+                          Velocity(
+                            el,
+                            { opacity: 0, height: 0 },
+                            { complete: () => resolve(), duration: 1000 }
+                          )
+                        })
+                      }
+        
+                    const velocityShow = function (el) {
+                        return new Promise((resolve) => {
+                          Velocity(
+                            el,
+                            { opacity: 1, height: '1.6em' },
+                            { complete: () => resolve(), duration: 1000 }
+                          )
+                        })
+                    }
+        
+                    const show = dom.createAction('show', async () => {
+                        const el = await dom.effect()
+                        if (dom.subscribers.filter(s => s instanceof Effect && s.name == 'hide').length == 0) {
+                            el.style.opacity = 0
+                            el.style.height = 0
+                        }
+                        const t = this.index * 150
+                        await delay(t)
+//                        console.log(this.index * 150)
+//                        const el = await dom.effect()
+                        await velocityShow(el)
+                    }, this)
+
+                    const hide = dom.createAction('hide', async () => {
+                        const t = this.index * 150
+                        await delay(t)
+                        const el = await dom.effect()
+                        await velocityHide(el)
+                        console.log('hidden')
+                    }, this)
+
+
+                }
+            }
         }
-//        dom: { withEffect, withTransition },
-//        mix: { withEffect, withTransition },
-//         animationJoined: function (source) {
-
-// //            debugger
-
-//         }
     })
-} 
-
-
-
-
+}
 
 
 export default () => {
@@ -123,45 +72,277 @@ export default () => {
         layout: Layouts.Rows,
         items: [{
             sources: {
-                data: {}
-              },
-              layout: Layouts.Content,
-              $title: {
-                html: 'h4',
-                text: 'CSS transitions'
-              },
-              $content: {
-                components: {
-                  p: false
-                },
-                dataChanged: function (v, src) {
-                  this.opt('components', src)
-                },
-                $button: {
-                  as: Button,
-                  text: 'Press me',
-                  onClick: function (e, {data}) {
-                    data.$toggle('p')
+                view: {}
+            },
+            components: {
+                p: false
+            },
+            viewChanged: function (v, src) {
+                this.opt('components', src)
+            },
+            $button: {
+                as: Button,
+                text: 'Press me',
+                onClick: function (e, {view}) {
+                    view.$toggle('p')
+                }
+            },
+            $p: {
+                html: 'p',
+                text: 'Hello!',
+                weight: 10,
+                mix: { withShowHide }
+            }
+        }, {
+            sources: {
+                view: {}
+            },
+            components: {
+                p: false
+            },
+            viewChanged: function (v, src) {
+                this.opt('components', src)
+            },
+            $button: {
+                as: Button,
+                text: 'Переключить отрисовку',
+                onClick: function (e, {view}) {
+                    view.$toggle('p')
+                }
+            },
+            $p: {
+                html: 'p',
+                text: 'Hello!',
+                weight: 10,
+                show: 'slide-fade',
+                hide: 'slide-fade',
+                mix: { withShowHide }
+            }
+        }, {
+            sources: {
+                data: new Domain({
+                    items: [1,2,3,4,5,6,7,8,9],
+                    nextNum: 10
+                }, {
+                  actions: {
+                    randomIndex: function () {
+                      return Math.floor(Math.random() * this.$entry('items').$size())
+                    },
+                    add: function () {
+                      const v = this.get()
+                      const items = [...v.items]
+                      items.splice(this.randomIndex(), 0, v.nextNum++)
+                      this.set('items', items)//this.get('items').splice(this.randomIndex(), 0, v.nextNum++))
+//                      this.$entry('items').$insert(this.randomIndex(), v.nextNum++)
+                    },
+                    remove: function () {
+//                      this.$entry('items').$remove(this.randomIndex())
+                        const v = this.get()
+                        const items = [...v.items]
+                        items.splice(this.randomIndex(), 1)
+                        this.set('items', items)//this.get('items').splice(this.randomIndex(), 0, v.nextNum++))
+                    }
                   }
+                })
+              },
+              $buttons: {
+                as: Buttons,
+                items: [{
+                  text: 'Добавить',
+                  onClick: function (e, {data}) {
+                    data.add()
+                  }
+                }, {
+                  text: 'Удалить',
+                  onClick: function (e, {data}) {
+                    data.remove()
+                  }
+                }]
+              },
+              $list: {
+                defaultItem: {
+                  css: 'list-item',
+                  dataChanged: function (v) {
+                      this.opt('text', v)
+                  },
+                  mix: { withShowHide }
                 },
-                $p: {
-                  html: 'p',
-                  text: 'Hello!',
-                  weight: 10,
-                  mix: { withShowHide },
-                //   join: {
-                //     data: { ShowAndHide }
-                //   },
-                //   allJoined: function ({animation}) {
-                //     animation.watch(e => e.name == 'init', () => {
-                //       return animation.show()
-                //     }, this)
-                //     animation.watch(e => e.name == 'destroy', () => {
-                //       return animation.hide()
-                //     }, this)
-                //   }
+                dataId: 'items',
+                dataChanged: function (v, s) {
+                    this.opt('items', s)
                 }
             }
+        
+        }, {
+            sources: {
+                data: new Domain(null, {
+                  initial: {
+                    items: [1,2,3,4,5,6,7,8,9]
+                  },
+                  actions: {
+                    shuffle: function () {
+                      return this.set('items', _.shuffle(this.get('items')))
+                    }
+                  }
+                }),
+                view: {}
+            },
+            // allBound: function ({view}) {
+            //     view.createEvent('shuffleBtn', this)
+            // },
+            onShuffleBtn: function (e, {data}) {
+                data.shuffle()
+            },
+            $buttons: {
+                as: Buttons,
+                items: [{
+                  text: 'Перемешать',
+                  onClick: function (e, {data}) {
+                    data.shuffle()
+                  }
+                }]
+            },
+            $list: {
+                defaultItem: {
+                    dataChanged: function (v) {
+                        this.opt('text', v)
+                    },
+                    allJoined: function ({data, animation}) {
+                        data.watch(e => e.name == 'changed', () => {
+                            animation.flip()
+                        }, this)
+                    },
+                    mix: { withFLIP }
+                },
+                dataId: 'items',
+                dataChanged: function (v, s) {
+                    this.opt('items', s)
+                }
+            }
+        }, {
+            sources: {
+                data: new Domain({
+                  items: [1,2,3,4,5,6,7,8,9],
+                  nextNum: 10
+                }, {
+                    actions: {
+                        randomIndex: function () {
+                          return Math.floor(Math.random() * this.$entry('items').$size())
+                        },
+                        add: function () {
+                          const v = this.get()
+                          const items = [...v.items]
+                          items.splice(this.randomIndex(), 0, v.nextNum++)
+                          this.set('items', items)//this.get('items').splice(this.randomIndex(), 0, v.nextNum++))
+    //                      this.$entry('items').$insert(this.randomIndex(), v.nextNum++)
+                        },
+                        remove: function () {
+    //                      this.$entry('items').$remove(this.randomIndex())
+                            const v = this.get()
+                            const items = [...v.items]
+                            items.splice(this.randomIndex(), 1)
+                            this.set('items', items)//this.get('items').splice(this.randomIndex(), 0, v.nextNum++))
+                        }
+                      }
+                    })
+              },
+              $buttons: {
+                as: Buttons,
+                items: [{
+                  text: 'Добавить',
+                  onClick: function (e, {data}) {
+                    data.add()
+                  }
+                }, {
+                  text: 'Удалить',
+                  onClick: function (e, {data}) {
+                    data.remove()
+                  }
+                }]
+              },
+              $list: {
+                styles: {
+                  'position': 'relative'
+                },
+                defaultItem: {
+                  css: 'list-complete-item',
+                  dataChanged: function (v) {
+                    this.opt('text', v)
+                  },
+                  show: 'list-complete',
+                  hide: 'list-complete',
+                  mix: { withShowHide, withFLIP },
+                  allJoined: function ({data, animation}) {
+                    data.watch(e => e.name == 'changed', () => {
+                        animation.flip()
+                    }, this)
+                  }
+                },
+                dataId: 'items',
+                dataChanged: function (v, s) {
+                    this.opt('items', s)
+                }
+            }
+        }, {
+            sources: {
+                data: new Domain({
+                  query: '',
+                  list: [
+                    { msg: 'Брюс Ли' },
+                    { msg: 'Джеки Чан' },
+                    { msg: 'Чак Норрис' },
+                    { msg: 'Джет Ли' },
+                    { msg: 'Кунг Фьюри' }
+                  ]
+                }, {
+                  properties: {
+                    filteredList: {
+                      calc: function (v) {
+                        return v.list.filter((item) => {
+                          return item.msg.toLowerCase().indexOf(v.query.toLowerCase()) !== -1
+                        })
+                      },
+                      key: v => v && v.msg
+                    }
+                  }
+                })
+            },
+            $input: {
+                html: 'input',
+                dataId: 'query',
+                dataChanged: function (v) {
+                    this.opt('value', v)
+                },
+                onChange: function (e, {data}) {
+                  data.set(e.target.value)
+                }
+            },
+            $list: {
+                html: 'ul',
+                dataId: 'filteredList',
+                dataChanged: function (v, s) {
+                    this.opt('items', s)
+                },
+                height: 150,
+                defaultItem: {
+                  sources: {
+                    view: {}
+                  },
+                  html: 'li',
+                  dataChanged: function (v) {
+                    this.opt('text', v && v.msg)
+                  },
+                  mix: { withVelocity },
+                  allJoined: function ({data, animation}) {
+                    data.watch(e => e.name == 'init', () => {
+                        return animation.show()
+                    }, this)
+                    data.watch(e => e.name == 'destroy', () => {
+                        return animation.hide()
+                    }, this)
+                  }
+                }
+            }                
         }]
     }
 }

@@ -105,3 +105,17 @@ a {
     align-items: center;    
   }
 }
+
+.button {
+  .button-placeholder {
+    color: #ccc;
+  }
+}
+
+@each $status, $col in $colors {
+  .button.is-#{$status} {
+    .button-placeholder {
+      color: scale-color(nth($col, 2), $alpha: -50%);
+    }
+  }
+}

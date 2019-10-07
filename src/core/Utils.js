@@ -182,7 +182,7 @@ export const bindDomain = new Proxy({}, {
 
 
 
-export function reconcile2 (prev, next) {
+export function reconcile2 (prev, next, temp) {
   const prevKeys = {}
   const nextKeys = {}
   prev.forEach(itm => prevKeys[itm.k] = itm)
@@ -203,9 +203,9 @@ export function reconcile2 (prev, next) {
   }  
 
   return {
-    added: Object.values(added),
-    deleted: Object.values(deleted),
-    updated: Object.values(updated)
+    added: Object.values(added), // next
+    deleted: Object.values(deleted), // prev
+    updated: Object.values(updated) // prev + next
   }
 }
 

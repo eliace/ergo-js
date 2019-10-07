@@ -8,6 +8,7 @@ import Text from './Text'
 import Events from './Events'
 //import Context from './Context'
 import Config from './Config'
+import Effect from './Effect'
 export * from './Utils'
 
 export {
@@ -20,5 +21,6 @@ export {
   Events,
   Domain,
 //  Context,
-  Config
+  Config,
+  Effect
 }

@@ -7,7 +7,7 @@ export default class ListDropdown extends Html {
     config () {
       return {
         sources: {
-          state: (o, ctx) => ctx.state.$entry('value'),
+          state: (o, ctx) => ctx.state,//.$entry('value'),
           dropdown: (o, ctx) => ctx.dropdown
         },
         css: 'is-hovered',
