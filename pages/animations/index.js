@@ -3,11 +3,10 @@ import {Layouts, Tabs} from '../../bulma'
 
 import ModalExample from './modal'
 import ToastExample from './toast'
-import TransitionsExample from './transitions'
 import StatesExample from './states'
 import BasicExample from './basic'
 
-export default (projector) => {
+export default () => {
 
   const data = new Domain({
     selected: 'Basic',
@@ -15,7 +14,6 @@ export default (projector) => {
     properties: {
       modal: (v) => v.selected == 'Modal',
       toast: (v) => v.selected == 'Toast',
-      transitions: (v) => v.selected == 'Transitions',
       states: (v) => v.selected == 'States',
       basic: (v) => v.selected == 'Basic',
     }
@@ -24,7 +22,7 @@ export default (projector) => {
   return {
     sources: {
       data,
-      tabs: ['Basic', 'Modal', 'Toast', 'Transitions', 'States']
+      tabs: ['Basic', 'Modal', 'Toast', 'States']
     },
     layout: Layouts.Rows,
     $header: {
@@ -70,7 +68,6 @@ export default (projector) => {
       $basic: BasicExample,
       $modal: ModalExample,
       $toast: ToastExample,
-      $transitions: TransitionsExample,
       $states: StatesExample,
     }
   }

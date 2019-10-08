@@ -43,6 +43,17 @@ class Domain extends Source {
         this.createEvent(i, o.events[i])
       }
     }
+
+    // if (o.watchers) {
+    //   for (let i in o.watchers) {
+    //     const watcher = o.watchers[i]
+    //     if (typeof watcher === 'function') {
+    //       // слушатель изменения свойств
+    //       this.createWatcher(i, watcher)
+    //     }
+    //   }
+    // }
+
   }
 
 
@@ -164,22 +175,6 @@ class Domain extends Source {
 
   }
 
-  subscribe (name, callback, channels='', target=this) {
-    let subscriber = null
-    if (arguments.length == 1) {
-      subscriber = arguments[0]
-    }
-    else {
-      subscriber = {name, callback, channels: [].concat(channels), target}
-    }
-    this.subscribers.push(subscriber)
-    return subscriber
-  }
-
-  unsubscribe (subscriber) {
-    const i = this.subscribers.indexOf(subscriber)
-    this.subscribers.splice(i, 1)
-  }
 
   // emit (name, data, options, channel) {
   //   return this.src.emit(name, data, options, channel)
@@ -216,6 +211,13 @@ class Domain extends Source {
       return new Effect(name, promise || promiseCreator(), options, this)
     }
     return this.effects[name]
+  }
+
+  createWatcher (name, callback, target) {
+    this.subscribe({
+      when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
+      callback: (e) => callback.call(this, e.cache[name], e.data[name]), 
+      target, channels: []})
   }
 
   on (name, callback, target, channel) {

@@ -27,6 +27,7 @@ function generatePoints (stats) {
 }
 
 
+
 class AnimatedNumber extends Html {
 
   config () {
@@ -36,16 +37,19 @@ class AnimatedNumber extends Html {
           return {
             tweeningValue: 0
           }
-        }
+        },
+        data: (o, ctx) => ctx.data || ''
       },
       html: 'span',
       viewChanged: function (v) {
         this.opt('text', v.tweeningValue)
       },
-      allJoined: function ({view}) {
-        view.$watch((evt) => evt.name == 'changed' && evt.ids && ('value' in evt.ids), this, (evt) => {
-          tween(evt.cache['value'] || 0, evt.data['value'])
-        })
+      allJoined: function ({view, data}) {
+
+        data.watch((evt) => evt.name == 'changed'/* && evt.ids && ('value' in evt.ids)*/, (evt) => {
+//          view.tween(evt.cache['value'] || 0, evt.data['value'])
+          view.tween(evt.cache || 0, evt.data)
+        }, this)
 
         function animate () {
           if (TWEEN.update()) {
@@ -69,11 +73,13 @@ class AnimatedNumber extends Html {
 
           animate()
         }
+
+        view.tween = tween
       }
     }
   }
 
-  configOptions () {
+  options () {
     return {
       value: {
         initOrSet: function (v) {
@@ -98,16 +104,12 @@ export default () => {
         }, {
           properties: {
             animatedNumber: (v) => v.tweenedNumber.toFixed(0),
-            number: {},
-            tweenedNumber: {}
-          },
-          watchers: {
-            tween: {
-              when: e => e.name == 'changed' && e.ids && ('number' in e.ids),
-              callback: function (e) {
-                TweenLite.to(this.props, 0.5, {tweenedNumber: this.props.number})
+            number: {
+              watch: function (v) {
+                TweenLite.to(this.$props, 0.5, {tweenedNumber: v})
               }
-            }
+            },
+            tweenedNumber: {}
           }
         })
       },
@@ -116,7 +118,9 @@ export default () => {
         type: 'number',
         step: 20,
         dataId: 'number',
-        dataChanged: Mutate.Value,
+        dataChanged: function (v) {
+          this.opt('value', v)
+        },
         onChange: function (e, {data}) {
           data.set(e.target.value)
         }
@@ -124,7 +128,9 @@ export default () => {
       $p: {
         html: 'p',
         dataId: 'animatedNumber',
-        dataChanged: Mutate.Text
+        dataChanged: function (v) {
+          this.opt('text', v)
+        }
       }
     }, {
       sources: {
@@ -144,9 +150,18 @@ export default () => {
               updateInterval: {},
               points: {},
               minRadius: {},
-              stats: {}
+              sides: {
+                watch: function (next, prev) {
+                  this.updateSides(next, prev)
+                }
+              },
+              stats: {
+                watch: function (next) {
+                  this.updateStats(next)
+                }
+              }
             },
-            methods: {
+            actions: {
               updateSides: function (newSides, oldSides) {
                 var sidesDifference = newSides - oldSides
                 if (sidesDifference > 0) {
@@ -161,86 +176,41 @@ export default () => {
                 }
               },
               updateStats: function (newStats) {
+                const {$props} = this
           			TweenLite.to(
-                	this.props,
-                  this.props.updateInterval / 1000,
+                	$props,
+                  $props.updateInterval / 1000,
                   { points: generatePoints(newStats) }
               	)
               },
               newRandomValue: function () {
-               	return Math.ceil(this.get('minRadius') + Math.random() * (100 - this.get('minRadius')))
+                const {$props} = this
+               	return Math.ceil($props.minRadius + Math.random() * (100 - $props.minRadius))
               },
               randomizeStats: function () {
-              	var vm = this
-                this.set('stats', this.get('stats').map(function () {
-                	return vm.newRandomValue()
-                }))
+              	const {$props, newRandomValue} = this
+                $props.stats = $props.stats.map(() => newRandomValue())
               },
               resetInterval: function () {
-              	var vm = this
+                const {$props, randomizeStats} = this
               	clearInterval(this.interval)
-                this.randomizeStats()
+                randomizeStats()
               	this.interval = setInterval(function () {
-                	vm.randomizeStats()
-                }, this.get('updateInterval'))
+                	randomizeStats()
+                }, $props.updateInterval)
               }
             },
-            watchers: {
-              sides: {
-                when: evt => evt.name == 'changed' && evt.ids && evt.ids['sides'],
-                callback: function (evt, d) {
-                  this.updateSides(evt.data['sides'], evt.cache['sides'])
-                }
-              },
-              stats: {
-                when: evt => evt.name == 'changed' && evt.ids && evt.ids['stats'],
-                callback: function (evt, d) {
-                  this.updateStats(evt.data['stats'])
-                }
-              }
-            },
-            // changed: function (evt) {
-            //   if (evt.ids) {
-            //     if ('sides' in evt.ids) {
-            //       this.updateSides(evt.data['sides'], evt.cache['sides'])
-            //     }
-            //     if ('stats' in evt.ids) {
-            //       this.updateStats(evt.data['stats'], evt.cache['stats'])
-            //     }
-            //   }
-            // },
-            // watchers: {
-            //   reset: {
-            //     when: (e) => {console.log('when', e); return e.name == 'init'},
-            //     init: function () {
-            //       debugger
-            //       this.resetInterval()
-            //     }
-            //   }
-            //   // init: function (evt) {
-            //   //   debugger
-            //   //   this.resetInterval()
-            //   // }
-            // }
           })
         }
+      },      
+      dataJoined: function (data) {
+        data.watch(e => e.name == 'init', () => {
+          data.resetInterval()
+        }, this)
+        data.watch(e => e.name == 'destroy', () => {
+          clearInterval(data.interval)
+        }, this)
       },
-      join: {
-        data: [(data, target) => {
-          data.$watch(e => e.name == 'init', target, () => {
-            data.resetInterval()
-          })
-          data.$watch(e => e.name == 'destroy', target, () => {
-            clearInterval(data.interval)
-          })
-        }]
-      },
-//      dataChanged: () => {},
-      // dataEvents: function (evt) {
-      //   if (evt.name == 'init') {
-      //     this.sources.data.resetInterval()
-      //   }
-      // },
       css: 'svg-polygon-example',
       width: 400,
       $svg: {
@@ -262,13 +232,12 @@ export default () => {
         }
       },
       defaultItem: {
-        layout: Layout.passthru,
-        components: {
-          label: {
+          layout: Layout.passthru,
+          $label: {
             html: 'label',
             dataChanged: Mutate.Text
           },
-          input: {
+          $input: {
             html: 'input',
             type: 'range',
             dataChanged: Mutate.Value,
@@ -276,7 +245,6 @@ export default () => {
               data.set(Number(e.target.value))
             }
           }
-        }
       },
       items: [{
         $label: {
@@ -319,11 +287,7 @@ export default () => {
             }
           },
           properties: {
-            result: {
-              calc: function (v) {
-                return v.firstNumber + v.secondNumber
-              }
-            }
+            result: (v) => v.firstNumber + v.secondNumber
           }
         })
       },
@@ -332,7 +296,9 @@ export default () => {
         type: 'number',
         step: 20,
         dataId: 'firstNumber',
-        dataChanged: Mutate.Value,
+        dataChanged:function (v) {
+          this.opt('value', v)
+        },
         onChange: function (e, {data}) {
           data.set(Number(e.target.value))
         }
@@ -344,14 +310,18 @@ export default () => {
         type: 'number',
         step: 20,
         dataId: 'secondNumber',
-        dataChanged: Mutate.Value,
+        dataChanged:function (v) {
+          this.opt('value', v)
+        },
         onChange: function (e, {data}) {
           data.set(Number(e.target.value))
         }
       }, {
         html: 'span',
         dataId: 'result',
-        dataChanged: Mutate.Text
+        dataChanged:function (v) {
+          this.opt('text', v)
+        },
       }],
       $info: {
         html: 'p',

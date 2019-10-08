@@ -40,22 +40,26 @@ function withVelocity (mixer) {
         
                     const show = dom.createAction('show', async () => {
                         const el = await dom.effect()
-                        if (dom.subscribers.filter(s => s instanceof Effect && s.name == 'hide').length == 0) {
-                            el.style.opacity = 0
-                            el.style.height = 0
+                        if (el) {
+                            if (dom.subscribers.filter(s => s instanceof Effect && s.name == 'hide').length == 0) {
+                                el.style.opacity = 0
+                                el.style.height = 0
+                            }
+                            const t = this.index * 150
+                            await delay(t)
+    //                        console.log(this.index * 150)
+    //                        const el = await dom.effect()
+                            await velocityShow(el)                                
                         }
-                        const t = this.index * 150
-                        await delay(t)
-//                        console.log(this.index * 150)
-//                        const el = await dom.effect()
-                        await velocityShow(el)
                     }, this)
 
                     const hide = dom.createAction('hide', async () => {
                         const t = this.index * 150
                         await delay(t)
                         const el = await dom.effect()
-                        await velocityHide(el)
+                        if (el) {
+                            await velocityHide(el)
+                        }
                         console.log('hidden')
                     }, this)
 

@@ -75,22 +75,26 @@ function domShowAndHide (dom) {
     const show = dom.createAction('show', async () => {
         const name = options.show || 'fade'
         const el = await dom.effect()
-        el.classList.add(name+'-enter-active', name+'-enter')
-        await dom.effect()
-        el.classList.remove(name+'-enter')
-        await dom.transition()
-        el.classList.remove(name+'-enter-active')
+        if (el) {
+            el.classList.add(name+'-enter-active', name+'-enter')
+            await dom.effect()
+            el.classList.remove(name+'-enter')
+            await dom.transition()
+            el.classList.remove(name+'-enter-active')    
+        }
     }, this, {effect: ShowHideEffect})
 
     const hide = dom.createAction('hide', async () => {
         const name = options.hide || 'fade'
         const el = await dom.effect()
-        el.classList.add(name+'-leave-active', name+'-leave')
-        await dom.effect()
-        el.classList.add(name+'-leave-to')
-        el.classList.remove(name+'-leave')
-        await dom.transition()
-        el.classList.remove(name+'-leave-to', name+'-leave-active')
+        if (el) {
+            el.classList.add(name+'-leave-active', name+'-leave')
+            await dom.effect()
+            el.classList.add(name+'-leave-to')
+            el.classList.remove(name+'-leave')
+            await dom.transition()
+            el.classList.remove(name+'-leave-to', name+'-leave-active')    
+        }
     }, this, {effect: ShowHideEffect})
 
     dom.watch(e => e.name == 'show' && e.channel == 'cancel', () => {

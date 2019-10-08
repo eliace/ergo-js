@@ -1,7 +1,7 @@
 import {Html, Text} from '../../src'
 
 
-export default (projector) => {
+export default () => {
   return {
 
   }

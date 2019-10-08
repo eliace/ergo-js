@@ -66,15 +66,27 @@ class Source {
           this.$prop(i, p.type, p.calc, p.idResolver)  // TODO это нужно убрать
           this._properties[i] = {...p}
         }
+
+        if (this._properties[i].watch) {
+          const name = i
+          const callback = this._properties[i].watch
+          this.subscribe({
+            when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
+            callback: (e) => callback.call(this, e.data[name], e.cache[name]), 
+            target: this, 
+            channels: []
+          })
+        }
+          
       }
 
       // ?
       // прокси-хелпер для опций
-      this.props = {__target: this}
+      this.$props = {__target: this}
 
       const instOptProto = createPropsProto(this.options.properties)
       Object.setPrototypeOf(instOptProto, Stream.prototype)
-//      Object.setPrototypeOf(this.props, instOptProto)
+      Object.setPrototypeOf(this.$props, instOptProto)
       this._propsProto = instOptProto
     }
 
@@ -740,14 +752,15 @@ class Source {
   _calc (v) {
 
     const prevValue = this.cache
-    const nextValue = this.options.calc.call(this, v, this.src.props)
+    const nextValue = this.options.calc.call(this, v, this.src.$props)
 
     this._updateEntries(nextValue, prevValue)
 
-    this.cache = nextValue
 //    console.log('recalc', this.entries)
 
     this._update('desc')
+
+    this.cache = nextValue
   }
 
 
@@ -866,6 +879,24 @@ class Source {
   unobserve (target) {
     this.subscribers = this.subscribers.filter(s => s.target != target)
   }
+
+  subscribe (name, callback, channels='', target=this) {
+    let subscriber = null
+    if (arguments.length == 1) {
+      subscriber = arguments[0]
+    }
+    else {
+      subscriber = {name, callback, channels: [].concat(channels), target}
+    }
+    this.subscribers.push(subscriber)
+    return subscriber
+  }
+
+  unsubscribe (subscriber) {
+    const i = this.subscribers.indexOf(subscriber)
+    this.subscribers.splice(i, 1)
+  }
+
 
   emit (name, data, options, channel) {
 
