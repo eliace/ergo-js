@@ -11,15 +11,14 @@ import DropdownInput from './DropdownInput'
 import DropdownButton from './DropdownButton'
 import SplitButton from './SplitButton'
 import Field from './Field'
-import ListBox from './ListBox'
-import Action from './Action'
+import Modal from './Modal'
 
 export {
     Navbar, 
     Section, 
     Menu, 
     Tabs, 
-    Buttons, 
+    Buttons,
     Breadcrumb, 
     Card, 
     Pagination, 
@@ -28,6 +27,5 @@ export {
     DropdownButton,
     SplitButton, 
     Field,
-    ListBox,
-    Action
+    Modal
 }

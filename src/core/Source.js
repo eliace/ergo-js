@@ -765,17 +765,18 @@ class Source {
 
 
 
-  $stream(name) {
+  $stream(name, target) {
     if (this._propsProto) {
       const obj = Object.create(this._propsProto)
       obj.key = name
       obj.__target = this
+      obj.target = this
       // const obj = {key: name, __target: this}
       // Object.setPrototypeOf(obj, this._propsProto)
       return obj  
     }
     else {
-      return new Stream(this, null, name)
+      return new Stream(this, null, name, target)
     }
   }
 
@@ -925,14 +926,14 @@ class Source {
     // else {
 //    }
 
-    this.emit('init', null, {target, ns: 'lc'}, ch)
+    this.emit('init', null, {target}, ch)
 
     const data = this.get()
-    this.emit('changed', data, {target/*, ns: 'lc'*/}, ch)  //TODO нужно только в том случае, если в init не было изменений
+    this.emit('changed', data, {target}, ch)  //TODO нужно только в том случае, если в init не было изменений
   }
 
   _destroy (target, ch) {
-    this.emit('destroy', null, {target, ns: 'lc'}, ch)
+    this.emit('destroy', null, {target}, ch)
   }
 
 
@@ -947,7 +948,15 @@ class Source {
   }
 
 
-
+  get $entries () {
+    const e = {}
+    if (this._properties) {
+      for (let i in this._properties) {
+        e[i] = this.$entry(i)
+      }
+    }
+    return e
+  }
 
 
 }

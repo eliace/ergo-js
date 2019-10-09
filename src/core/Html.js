@@ -1081,7 +1081,7 @@ class Html {
       // const head = (prevByIds.length > 0 && !prevByIds[0].before2) ? prevByIds[0] : nextByIds[0]
       // let current = head
 
-      console.log('head' ,head)
+//      console.log('head' ,head)
 
       current = head
 
@@ -1107,9 +1107,9 @@ class Html {
 
       }
 
-      console.log(result)
-      console.log(prevByIds)
-      console.log(nextByIds)
+      // console.log(result)
+      // console.log(prevByIds)
+      // console.log(nextByIds)
 
 //      return
 
@@ -1382,15 +1382,21 @@ class Html {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.observe(this, this.changed, i/*, o[i+'Effects']*/)
 
+      if (!this.joints) {
+        this.joints = {}
+      }
+
+      this.joints[i] = source.$stream(i, this)
+
       if (o.join && o.join[i]) {
         const srcJoin = o.join[i]
         for (let j in srcJoin) {
-          srcJoin[j].call(this, source, i) // TODO результатом является функция для unjoin
+          srcJoin[j].call(this, this.joints[i]/*source, i*/) // TODO результатом является функция для unjoin
         }
       }
 
       if (o[i+'Bound'] || o[i+'Joined']) {
-        (o[i+'Bound'] || o[i+'Joined']).call(this, source)
+        (o[i+'Bound'] || o[i+'Joined']).call(this, this.joints[i] /*source*/)
       }
 
     }
@@ -1443,7 +1449,7 @@ class Html {
 
       if (o[key+'Changed']) {
         this.streams[key] = this.streams[key] || this.sources[key].$stream(key)
-        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], v.ids/*this.sources[key]*/)
+        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], v.ids)
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {
@@ -1495,7 +1501,7 @@ class Html {
       this.tryInit(key)//this.sources[key])
     }
     else {
-//      console.log('onChange', v)
+      console.log('on', v)
       const handlerName = 'on'+v.name[0].toUpperCase()+v.name.substr(1)
       if (o[handlerName]) {
         o[handlerName].call(this, v, this.sources)

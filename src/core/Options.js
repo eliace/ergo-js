@@ -24,6 +24,10 @@ const Options = class {
     return this
   }
 
+  mix (nextOpts) {
+    return this.merge(nextOpts)
+  }
+
   mergeBefore(prevOpts) {
     if (prevOpts != null) {
       if (prevOpts instanceof Options) {

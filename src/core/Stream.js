@@ -1,4 +1,5 @@
 import {weakKey} from './Utils'
+import Effect from './Effect'
 
 
 function defaultKeyResolver (v) {
@@ -157,11 +158,13 @@ const CH_DEFAULT = 'default'
 
 class Stream {
 
-  constructor (src, data, key, idResolver) {
+  constructor (src, data, key, target) {
     this.__target = src
     this.data = data
     this.key = key
-    this.idResolver = idResolver
+    this.target = target
+//    this.$props = src.$props
+//    this.idResolver = idResolver
 
     // this._origin = []
     // this._watchers = new Map()
@@ -175,6 +178,16 @@ class Stream {
   get src () {
     return this.__target
   }
+
+  // get $entries () {
+  //   const e = {}
+  //   if (this.__target._properties) {
+  //     for (let i in this.__target._properties) {
+  //       e[i] = this.__target.$entry(i)
+  //     }
+  //   }
+  //   return e
+  // }
 
   // filter (f) {
   //   let d = this.data || this.src.get().map((v, i) => [v, i])
@@ -289,150 +302,73 @@ class Stream {
     return this.src.get(key)
   }
 
-  // get channel () {
-  //   return key
+
+
+  // хелперы
+
+  createAction (name, callback, options) {
+    this.__target.subscribe(name, callback, undefined, this.target)
+    return this.createEvent(name, {method: true, effect: Effect, ...options})
+  }
+
+  createEvent (name, options, channel) {
+    const e = (...args) => {
+      return this.__target.emit(name, args, options, channel)
+    }
+    e.on = name//(evt) => evt.name == name && evt.channel == CH_DEFAULT
+    e.done = name+':done'//(evt) => evt.name == name && evt.channel == 'done'
+    e.fail = name+':fail'//(evt) => evt.name == name && evt.channel == 'fail'
+    e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
+
+    if (this[name]) {
+      console.error('Overriding domain method', name, this)
+    }
+    this[name] = e
+    this.__target[name] = e
+    return e
+  }
+
+  // createEffect (name, promiseCreator, options) {
+  //   this.effects[name] = (promise) => {
+  //     return new Effect(name, promise || promiseCreator(), options, this)
+  //   }
+  //   return this.effects[name]
   // }
 
-
-/*
-  reduce (v, event) {
-    if (Array.isArray(v) && v.length > 0) {
-      const first = v[0]
-      const reducer = event.options.reducer || ((acc, v) => v)
-      return v.slice(1).reduce(reducer, first)
-    }
-    return v
-  }
-
-
-  put (event) {
-
-    const result = this.channel(event.channel)
-      .filter(s => s.name == event.name)
-      .map(s => event.options.method ? s.callback.apply(event.owner, event.data) : s.callback(event))
-      .filter(v => v !== undefined)
-
-    const promises = result.filter(v => v.then && typeof v.then == 'function')
-
-    let promise = null
-
-    if (promises.length > 0) {
-
-      const promise = Promise.all( result )
-        .then((v) => {
-          return this.reduce(v, event)
-        })
-
-      const effect = new Effect(event.name, promise, {}, this)
-
-      return effect
-    }
-    else if (result.length > 0) {
-      return Promise.resolve(this.reduce(result, event))
-    }
-    else {
-      return Promise.resolve()
-    }
-  }
-
-
-  emit (name, data, options, channel=CH_DEFAULT) {
-    const event = (name instanceof Event) ? name : new Event(name, data, options, this, channel)
-
-    const watchResult = this.watchers//.watcher(channel)
-      .filter(w => w.when(event))
-      .map(w => w.callback(event))
-      .filter(v => v !== undefined)
-
-    const watchEffects = watchResult.filter(v => v.then && typeof v.then == 'function')
-
-    if (watchEffects.length > 0) {
-
-      // обработка then добавлена здесь, чтобы отрабатывали в нужном порядке финализаторы эффекта
-      const promise = Promise.all( watchResult )
-        .then((v) => {
-          const nextEvent = v.filter(r => r instanceof Event).reduce((acc, v) => v, event)
-          return nextEvent == event ? this.put(event) : this.emit(nextEvent)
-        })
-
-      const effect = new Effect(event.name, promise, {}, this)
-
-      return effect
-    }
-    else if (watchResult.length > 0) {
-      const nextEvent = watchResult.filter(r => r instanceof Event).reduce((acc, v) => v, event)
-      return nextEvent == event ? this.put(event) : this.emit(nextEvent)
-    }
-    else {
-      return this.put(event)
-    }
-
-  }
-
-  watch (when, callback, channel=CH_DEFAULT) {
-    this.watchers.push({when, callback, channels: [].concat(channel)})
-  }
-
-  subscribe (name, callback, channel=CH_DEFAULT) {
-    let subscriber = null
-    if (arguments.length == 1) {
-      subscriber = arguments[0]
-    }
-    else {
-      subscriber = {name, callback, channels: [].concat(channel)}
-    }
-    this.subscribers.push(subscriber)
-    return subscriber
-  }
-
-  unsubscribe (subscriber) {
-    const i = this.subscribers.indexOf(subscriber)
-    this.subscribers.splice(i, 1)
-  }
-
-  effect (name) {
-
-  }
-
-  channel (ch) {
-    return this.subscribers.filter(s => s.channels.indexOf(ch) != -1)
-  }
-
-  watcher (ch) {
-    return this.watchers.filter(s => s.channels.indexOf(ch) != -1)
-  }
-
-  action (name, callback) {
-    this.event(name, {method: true})
-    this.subscribe(name, callback)
-    return this.events[name]
-  }
-
-  event (name, options) {
-    this.events[name] = (...args) => {
-      return this.emit(name, args, options)
-    }
-    return this.events[name]
-  }
-
-  on (name, callback) {
-    return this.subscribe(name, callback)
-  }
-
-  off () {
-
-  }
-
-  once (name, callback) {
-    const subscriber = this.subscribe(name, (e) => {
-      this.unsubscribe(subscriber)
-      return callback(e)
+  createWatcher (name, callback) {
+    const {target, key} = this
+    this.__target.subscribe({
+      when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
+      callback: (e) => callback.call(this, e.cache[name], e.data[name]), 
+      target, 
+      channels: [key]
     })
   }
-*/
-  // get channels () {
-  //   return {[CH_DEFAULT]: true, 'done': true, 'cancel': true, 'fail': true}
-  // }
+
+  watch (when, callback) {
+    const {target} = this
+    this.__target.subscribe({when, callback, target, channels: []})
+    //    this.watchers.push({when, callback, channels: [].concat(channel)})
+  }
+
+  on (name, callback, channel) {
+    const [n, c] = name.split(':')
+    return this.__target.subscribe(n, callback, c || channel, this.target)
+  }
+
+  get $entries () {
+    const e = {}
+    if (this.__target._properties) {
+      for (let i in this.__target._properties) {
+        e[i] = this.__target.$entry(i)
+      }
+    }
+    return e
+  }
+
+  get $value () {
+    return this.__target.get()
+  }
 
 }
 

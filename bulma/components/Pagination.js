@@ -87,7 +87,10 @@ class Pagination extends Html {
         css: 'pagination-previous',
         text: 'Previous',
         onClick: function (e, {__view}) {
-          __view.actions.prev()
+          __view.prev()
+        },
+        __viewChanged: function (v) {
+          this.opt('disabled', v.current == 0)
         }
       },
       $next: {
@@ -95,7 +98,7 @@ class Pagination extends Html {
         css: 'pagination-next',
         text: 'Next',
         onClick: function (e, {__view}) {
-          __view.actions.next()
+          __view.next()
         }
       },
       $list: {
@@ -107,7 +110,7 @@ class Pagination extends Html {
             this.opt('active', this.options.key == v.current)
           },
           onClick: function (e, {__view}) {
-            __view.actions.select(this.options.key)
+            __view.select(this.options.key)
           }
         },
         itemFactory: function (opts, context) {

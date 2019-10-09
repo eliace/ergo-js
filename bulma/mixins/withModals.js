@@ -12,29 +12,32 @@ export default function withModals (mixer) {
                 }, {
                     actions: {
                         open: function (v) {
-                            this.actions.closeLast() // для эксклюзивного открытия                            
+                            this.closeLast() // для эксклюзивного открытия                            
                             this.$entry('opened').$add(v)
-                            v.actions.open()
+                            v.open()
                         },
                         closeLast: function () {
                             const opened = this.$entry('opened')
                             if (!opened.$isEmpty()) {
                                 const last = opened.$entry(opened.$size()-1)
                                 opened.$remove(opened.$size()-1)
-                                last.actions.close()
+                                last.close()
                             }
                         },
                         close: function (v) {
                             this.$entry('opened').$remove(v.id)
-                            v.actions.close()
+                            v.close()
                         }
                     }
                 })
             }
         },
-        dom: { onGlobalMouseDown },
+        dom: { onGlobalMouseDown, onGlobalEsc },
         onGlobalMouseDown: function (e, {modals}) {
-            modals.actions.closeLast()
+            modals.closeLast()
+        },
+        onGlobalEsc: function (e, {modals}) {
+            modals.closeLast()
         }
     })
 }
@@ -48,3 +51,14 @@ function onGlobalMouseDown (el) {
     }
 }
 
+function onGlobalEsc (el) {
+    const f = (evt) => {
+        if (evt.code == 'Escape') {
+            this.notify('onGlobalEsc')
+        }
+    }
+    document.addEventListener('keydown', f)
+    return () => {
+        document.removeEventListener('keydown', f)
+    }
+}

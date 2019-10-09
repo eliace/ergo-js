@@ -66,8 +66,8 @@ export default () => {
             as: Carousel,
             height: '100%',
     //        height: 256,
-            dataChanged: function (v, s) {
-              this.opt('images', s.source.get('imageUrls'))
+            dataChanged: function (v, $props) {
+              this.opt('images', $props.imageUrls)// s.source.get('imageUrls'))
             },
             $content: {
               styles: {
@@ -139,7 +139,6 @@ export default () => {
       data: new Domain({}, {
         properties: {
           imageUrls: (v) => {
-            console.log(v.images)
             return v.images ? v.images.map(img => img.url) : []
           }
         }

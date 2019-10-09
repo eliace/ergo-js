@@ -260,9 +260,6 @@ const root = new Html({
     },
 //    users: {},
     dropdown: true,
-    portal: {
-      components: []
-    }
   },
   allJoined: function ({page, data, app}) {
 
@@ -461,10 +458,7 @@ const root = new Html({
     }
 //    }
   },
-  mix: { withModals, withToasts },
-  $portal: {
-    mixins: { withPortalTarget }
-  }
+  mix: { withModals, withToasts, withPortalTarget }
 })
 
 window._app = root

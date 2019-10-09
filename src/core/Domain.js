@@ -40,7 +40,7 @@ class Domain extends Source {
 
     if (o.events) {
       for (let i in o.events) {
-        this.createEvent(i, o.events[i])
+        this.createEvent(i, o.events[i], o.events[i].channel)
       }
     }
 

@@ -1,132 +1,9 @@
 import {Html, Domain, Layout, Events} from '../../src'
-import {Layouts, Button, Box, Image} from '../../bulma'
+import {Layouts, Button, Box, Image, Modal} from '../../bulma'
 
 
 import imgUrl from '../img/Yosemite 3.jpg'
 
-
-class GModal extends Domain {
-  config () {
-    return {
-      initial: function () {
-        Events.on('keyup', (e) => {
-          if (e.key == 'Escape') {
-            this.esc()
-          }
-        })
-        return {
-          modals: []
-        }
-      },
-      properties: {
-        modals: {}
-      },
-      methods: {
-        esc: function () {
-          const modals = this.$entry('modals')
-          if (!modals.$isEmpty()) {
-            modals.$entry(modals.$size()-1).close()
-          }
-        },
-        open: function (o) {
-          this.$entry('modals').$add(o)
-        },
-        close: function (i) {
-          this.$entry('modals').$remove(i)
-        }
-        // close: function (i) {
-        //   this.props.modals.splice(i-1, 1)
-        // },
-        // open: function (o) {
-        //   const modals = this.entry('modals')
-        //   modals.$add(o)
-        //   // this.props.modals.push({})
-        //   // return this.props.modals.length
-        // }
-      },
-      watchers: {
-        visibility: {
-          when: (e) => e.name == 'changed',// && e.ids && e.ids['modals'],
-          callback: function () {
-            console.log('modal visibility changed')
-          }
-        }
-      }
-    }
-  }
-
-
-  _close (i) {
-    this.get('modals').splice(i-1, 1)
-  }
-}
-
-const modal = new GModal()
-
-// Events.on('keyup', (e) => {
-//   if (e.key == 'Escape') {
-//     modal.esc()
-//   }
-// })
-
-
-class ModalDomain extends Domain {
-  config () {
-    return {
-      initial: function () {
-        return {}
-      },
-      methods: {
-        open: function () {
-          this.set('opened', true)
-        },
-        close: function () {
-          this.set('opened', false)
-        }
-      }
-    }
-  }
-
-  _close () {
-    this.set('opened', false)
-  }
-}
-
-
-class Modal extends Html {
-  config () {
-    return {
-      sources: {
-        view: function (o, k) {
-          return (o.sources[k] && o.sources[k] instanceof Domain) || new ModalDomain()
-        }
-      },
-      viewChanged: function (v) {
-        this.opt('classes', {'is-active': !!v.opened})
-      },
-      css: 'modal',
-      $background: {
-        css: 'modal-background',
-        onMouseUp: function (e, {view}) {
-          view.close()
-        }
-      },
-      $content: {
-        css: 'modal-content',
-        onMouseDown: function (e) {
-          e.stopPropagation()
-        }
-      },
-      $close: {
-        html: 'button',
-        css: 'modal-close is-large',
-        onClick: function (e, {view}) {
-          view.close()
-        }
-      }
-    }
-  }
-}
 
 
 class Article extends Html {
@@ -148,6 +25,7 @@ class Article extends Html {
 class ImageModal extends Modal {
   config () {
     return {
+      active: true,
       $content: {
         $image: {
           as: Image,
@@ -161,6 +39,7 @@ class ImageModal extends Modal {
 class BoxModal extends Modal {
   config () {
     return {
+      active: true,
       $content: {
         as: Box,
         text: 'Hello'
@@ -175,30 +54,119 @@ export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
+      // управление через опцию active
       sources: {
-        view: new ModalDomain({}, {
-          properties: {
-            modal: (v) => v.opened
-          }
-        })
-      },
-      components: {
-        modal: false
-      },
-      viewChanged: function (v, s) {
-        this.opt('components', s)
+        view: () => false
       },
       $button: {
         as: Button,
         text: 'Open Modal',
         onClick: function (e, {view}) {
-          view.open()
+          view.set(true)
         }
       },
       $modal: {
-        as: BoxModal
+        as: BoxModal,
+        active: false,
+        viewChanged: function (v) {
+          this.opt('active', v)
+        },
+        onClose: function (e, {view}) {
+          view.set(false)
+        }
       }
     }, {
+      // управление через отключение/подключение компонента и событие onClose
+      sources: {
+        view: () => false
+      },
+      components: {
+        modal: false
+      },
+      viewChanged: function (v, s) {
+        this.opt('components', {modal: v})
+      },
+      $button: {
+        as: Button,
+        text: 'Open Modal',
+        onClick: function (e, {view}) {
+          view.set(true)
+        }
+      },
+      $modal: {
+        as: BoxModal,
+        onClose: function (e, {view}) {
+          view.set(false)
+        }
+      }
+    }, {
+      // управление через предоставление источника (view => __view)
+      sources: {
+        view: () => new Domain({}, {
+          properties: {
+            opened: {}
+          },
+          actions: {
+            open: function () {
+              this.set('opened', true)
+            },
+            close: function () {
+              this.set('opened', false)
+            }
+          }
+        })
+      },
+      viewChanged: function (v) {
+          this.opt('components', {modal: v.opened})
+      },
+      $button: {
+          as: Button,
+          text: 'Open Modal',
+          onClick: function (e, {view}) {
+            view.open()
+          }
+      },
+      $modal: {
+          sources: {
+            __view: (o, ctx) => ctx.view
+          },
+          as: ImageModal
+      }
+    }, {
+      // подключение к глобальному координатору модалов
+      sources: {
+        view: () => new Domain({}, {
+          properties: {
+            opened: {}
+          }
+        }),
+        modals: (o, ctx) => ctx.modals
+      },
+      components: {
+        modal: false
+      },
+      viewChanged: function (v) {
+        this.opt('components', {modal: v.opened})
+      },
+      $button: {
+        as: Button,
+        text: 'Open Modal',
+        onClick: function (e, {view}) {
+          view.set('opened', true)
+        }
+      },
+      $modal: {
+        as: ImageModal,
+        allJoined: function ({__view, modals}) {
+          __view.watch(e => e.name == 'init', () => {
+            modals.open(__view)
+          }, this)
+        },
+        onClose: function (e, {view}) {
+          view.set('opened', false)
+        }
+      }
+    }/*, {
       sources: {
         view: new ModalDomain()
       },
@@ -279,6 +247,6 @@ export default () => {
       $modal: {
         as: ImageModal
       }
-    }]
+    }*/]
   }
 }
