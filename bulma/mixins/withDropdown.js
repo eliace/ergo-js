@@ -3,7 +3,7 @@ import { stopMouseDown, isVisible } from '../dom'
 import withPortalSource from './withPortalSource'
 
 export default function withDropdown (mixer) {
-    mixer.merge({
+    mixer.mix({
         sources: {
             dimensions: function () {
                 return {
@@ -30,7 +30,7 @@ export default function withDropdown (mixer) {
             },
             mix: { withPortalSource },
             dom: { stopMouseDown },
-            dimensionsChanged: function (v, s, ids) {
+            dimensionsChanged: function (v) {
 //                if (!this._internal.el || this._internal.el.offsetParent != null) {
                     this.eff((el) => {
                         if (el) {

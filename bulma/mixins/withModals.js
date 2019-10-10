@@ -1,4 +1,5 @@
 import {Domain} from "../../src"
+import { Collection } from "../utils"
 
 
 
@@ -10,22 +11,27 @@ export default function withModals (mixer) {
                     opened: [],
                     all: []
                 }, {
+                    properties: {
+                        opened: {
+                            type: Collection
+                        }
+                    },
                     actions: {
                         open: function (v) {
                             this.closeLast() // для эксклюзивного открытия                            
-                            this.$entry('opened').$add(v)
+                            this.opened.$add(v)
                             v.open()
                         },
                         closeLast: function () {
-                            const opened = this.$entry('opened')
+                            const opened = this.opened// this.$entry('opened')
                             if (!opened.$isEmpty()) {
-                                const last = opened.$entry(opened.$size()-1)
-                                opened.$remove(opened.$size()-1)
+                                const last = opened.$entry(opened.$size-1)
+                                opened.$remove(opened.$size-1)
                                 last.close()
                             }
                         },
                         close: function (v) {
-                            this.$entry('opened').$remove(v.id)
+                            this.opened.$remove(v.id)
                             v.close()
                         }
                     }
@@ -34,7 +40,9 @@ export default function withModals (mixer) {
         },
         dom: { onGlobalMouseDown, onGlobalEsc },
         onGlobalMouseDown: function (e, {modals}) {
-            modals.closeLast()
+            if (modals.opened.$size > 0) {
+                modals.closeLast()
+            }
         },
         onGlobalEsc: function (e, {modals}) {
             modals.closeLast()

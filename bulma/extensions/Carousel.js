@@ -16,8 +16,7 @@ export default class Carousel extends Html {
                         },
                         actions: {
                             next: function () {
-                                const {$props} = this
-                                $props.index = $props.index < $props.images.length-1 ? $props.index + 1 : 0
+                                this.index = this.index < this.images.length-1 ? this.index + 1 : 0
                             },
                             prev: function () {
 
@@ -42,8 +41,8 @@ export default class Carousel extends Html {
                     modelChanged: function (v) {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
-                    dataChanged: function (v, $props) {
-                        this.opt('key', $props.source.id)
+                    dataChanged: function (v, ind) {
+                        this.opt('key', ind.__source.id)
                     }
                 },
                 dataChanged: function (v, s) {
@@ -68,7 +67,7 @@ export default class Carousel extends Html {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
                     dataChanged: function (v, img) {
-                        this.opt('key', img.source.id)
+                        this.opt('key', img.__source.id)
                         this.$image.opt('src', v)
                     }
                 },
@@ -83,9 +82,9 @@ export default class Carousel extends Html {
         return {
             images: {
                 initOrSet: function (v) {
-                    const {$props} = this.sources.model
-                    $props.images = v
-                    $props.index = v.length ? Math.min($props.index, v.length-1) : 0
+                    const {model} = this.sources
+                    model.images = v
+                    model.index = v.length ? Math.min(model.index, v.length-1) : 0
                 }
             }
         }

@@ -1,6 +1,7 @@
 import { Domain } from "../../src"
 import { Notification } from '../elements'
-import { delay } from '../utils'
+import { delay, Collection } from '../utils'
+
 
 export default function withToasts (mixer) {
     mixer.merge({
@@ -12,11 +13,32 @@ export default function withToasts (mixer) {
                     actions: {
                         show: function (v) {
                             const toast = {delay: 5000, ...v}
-                            this.$entry('opened').$add(toast)
+                            this.opened.add(toast)
                         },
+                        // ?
                         hide: function (toast) {
-                            const opened = this.$entry('opened')
-                            opened.$remove(toast.id)
+                            this.opened.remove(toast.id)
+                            // const opened = this.$entry('opened')
+                            // opened.$remove(toast.id)
+                        }
+                    },
+                    properties: {
+                        opened: {
+                            type: Collection,
+                            entryOfType: {
+                                properties: {
+                                    delay: {}
+                                },
+                                actions: {
+                                    close: function () {
+                                        this.$remove()
+                                    },
+                                    waitAndClose: async function () {
+                                        await delay(this.delay)
+                                        this.close()                
+                                    }
+                                }
+                            }        
                         }
                     }
                 })
@@ -42,16 +64,16 @@ export default function withToasts (mixer) {
                     this.opt('color', v.color)
                 },
                 dataJoined: function (data) {
-                    const toast = data.get()
-                    const close = data.createAction('close', async () => {
-                        data.$remove()
-                    })
-                    const waitAndClose = data.createAction('waitAndClose', async () => {
-                        await delay(toast.delay)
-                        data.close()
-                    })
-                    if (toast.delay) {
-                        waitAndClose()
+//                    const toast = data.$value
+                    // const close = data.createAction('close', async () => {
+                    //     data.remove()
+                    // })
+                    // const waitAndClose = data.createAction('waitAndClose', async () => {
+                    //     await delay(data.delay)
+                    //     close()
+                    // })
+                    if (data.delay) {
+                        data.waitAndClose()
                     }
                 }
             }

@@ -267,6 +267,15 @@ class Domain extends Source {
           e = new prop(this, null, k)
         }
       }
+      else if (this.options.entryOfType) {
+        const prop = this.options.entryOfType
+        if (typeof prop === 'object') {
+          e = new (prop.type || Domain)(this, {...prop}, k)
+        }
+        else {
+          e = new prop(this, null, k)
+        }
+      }
       else {
         e = new Domain(this, null, k) // в качестве опций должны передаваться параметры модели
       }

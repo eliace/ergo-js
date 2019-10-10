@@ -30,10 +30,11 @@ export default function withPortalSource (mixer) {
         },
         portalJoined: function (s) {
             s.watch(e => e.name == 'init' && e.channel == 'portal', () => {
-                s.$entry('components').$add(this)
+                s.components.$add(this)//.$entry('components').$add(this)
             }, this)
             s.watch(e => e.name == 'destroy' && e.channel == 'portal', () => {
-                s.$entry('components').find(this).$remove()//this)
+                s.components.$find(this).$remove()
+//                s.$entry('components').find(this).$remove()//this)
             }, this)
         }
     })

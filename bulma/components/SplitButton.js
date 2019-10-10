@@ -79,9 +79,9 @@ export default class SplitButton extends Html {
             },
             mix: { withDropdown },
 //            dom: { withEl },
-            components: {
-                dropdown: false
-            },
+            // components: {
+            //     dropdown: false
+            // },
             dropdownChanged: function (v) {
                 this.opt('components', {dropdown: !!v})
             },
@@ -167,7 +167,7 @@ export default class SplitButton extends Html {
             },
             placeholder: {
                 mix: function (v, mixer) {
-                    mixer.merge({
+                    mixer.mix({
                         $content: {
                             $placeholder: {
                                 text: v

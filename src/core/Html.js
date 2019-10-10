@@ -1391,12 +1391,12 @@ class Html {
       if (o.join && o.join[i]) {
         const srcJoin = o.join[i]
         for (let j in srcJoin) {
-          srcJoin[j].call(this, this.joints[i]/*source, i*/) // TODO результатом является функция для unjoin
+          srcJoin[j].call(this, source, i) // TODO результатом является функция для unjoin
         }
       }
 
       if (o[i+'Bound'] || o[i+'Joined']) {
-        (o[i+'Bound'] || o[i+'Joined']).call(this, this.joints[i] /*source*/)
+        (o[i+'Bound'] || o[i+'Joined']).call(this, source)
       }
 
     }
@@ -1448,7 +1448,7 @@ class Html {
       }
 
       if (o[key+'Changed']) {
-        this.streams[key] = this.streams[key] || this.sources[key].$stream(key)
+        this.streams[key] = this.streams[key] || this.sources[key].$stream(key, this)
         const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], v.ids)
         if (dynOpts) {
           this.opt(dynOpts, key)
@@ -1511,65 +1511,6 @@ class Html {
   }
 
 
-/*
-  on (name, callback, scope) {
-    throw new Error('Deprecated method on')
-    if (scope == 'dom') {
-      if (!this._domListeners) {
-        this._domListeners = []
-      }
-
-      const event = {name, callback, attached: false}
-
-      if (this.vnode && this.vnode.domNode) {
-        this.vnode.domNode.addEventListener(name, callback)
-        event.domNode = this.vnode.domNode
-        event.attached = true
-      }
-      else {
-//        console.log('vnode', this.vnode)
-        this.props.afterCreate = (el) => {
-//          console.log('enter animation')
-          if (this._domListeners) {
-            this._domListeners.forEach(event => {
-              if (!event.attached) {
-                el.addEventListener(event.name, event.callback)
-                event.domNode = el
-                event.attached = true
-              }
-              if (event.domNode != el) {
-                console.warn('Missing dom event', event)
-              }
-            })
-          }
-          delete this.props.afterCreate
-        }
-      }
-
-      this._domListeners.push(event)
-
-    }
-    else {
-      // TODO
-    }
-  }
-
-
-  off (name, callback, scope) {
-    throw new Error('Deprecated method off')
-    if (scope == 'dom') {
-      if (this._domListeners) {
-        for (let i = this._domListeners.length-1; i >= 0; i--) {
-          let listener = this._domListeners[i]
-          if (listener.name == name && (listener.callback == callback || !callback)) {
-            this._domListeners.splice(i, 1)
-            listener.domNode.removeEventListener(listener.name, listener.callback)
-          }
-        }
-      }
-    }
-  }
-*/
 
   use (on) {
     const _in = this._internal

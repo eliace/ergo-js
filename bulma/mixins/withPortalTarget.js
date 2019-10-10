@@ -1,13 +1,18 @@
-import { Layout } from '../../src'
+import { Layout, Domain } from '../../src'
+import { Collection } from '../utils'
 
 export default function withPortalTarget (mixer) {
     mixer.merge({
       sources: {
-        portal: () => {
-          return {
-            components: []
+        portal: () => new Domain({
+          components: []
+        }, {
+          properties: {
+            components: {
+              type: Collection
+            }
           }
-        }
+        })
       },
       $portal: {
         styles: {
@@ -25,7 +30,7 @@ export default function withPortalTarget (mixer) {
           '*': {
             render: function () {
               const {html, props} = this._internal
-              const components = this.sources.portal.get('components').map(c => {
+              const components = this.sources.portal.components.get().map(c => {
                 return {
                   render: () => c.render('portal')
                 }

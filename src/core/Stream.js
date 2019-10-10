@@ -163,6 +163,7 @@ class Stream {
     this.data = data
     this.key = key
     this.target = target
+    this.__source = src
 //    this.$props = src.$props
 //    this.idResolver = idResolver
 
@@ -177,6 +178,10 @@ class Stream {
 
   get src () {
     return this.__target
+  }
+
+  get $props () {
+    return this.__source
   }
 
   // get $entries () {
@@ -286,21 +291,29 @@ class Stream {
     return Object.assign(p, v)
   }
 
-  get source () {
-    return this.src
+  // $streams () {
+  //   const e = {}
+  //   for (let i in this.__source._properties) {
+  //     e[i] = this.__source.$entry(i).$stream(this.key)
+  //   }
+  //   return e
+  // }
+
+  // get $source () {
+  //   return this.src
+  // }
+
+  // entry (key) {
+  //   return this.src.$entry(key)
+  // }
+
+  $substream (key) {
+    return this.__source.$entry(key).$stream(this.key)
   }
 
-  entry (key) {
-    return this.src.$entry(key)
-  }
-
-  substream (key) {
-    return this.src.$entry(key).$stream(this.key)
-  }
-
-  get (key) {
-    return this.src.get(key)
-  }
+  // get (key) {
+  //   return this.src.get(key)
+  // }
 
 
 
@@ -345,6 +358,17 @@ class Stream {
     })
   }
 
+  createProperty (name, options) {
+    const src = this.__target
+    if (!src._properties[name]) {
+      src._properties[name] = options
+      Object.defineProperty(src._propsProto, name, {
+        get: () => src.get(name),
+        set: (v) => src.set(name, v)
+      })
+    }
+  }
+
   watch (when, callback) {
     const {target} = this
     this.__target.subscribe({when, callback, target, channels: []})
@@ -357,17 +381,26 @@ class Stream {
   }
 
   get $entries () {
-    const e = {}
-    if (this.__target._properties) {
-      for (let i in this.__target._properties) {
-        e[i] = this.__target.$entry(i)
-      }
-    }
-    return e
+    return this.__target.$entries
   }
+
+  // get $entries () {
+  //   const e = {}
+  //   if (this.__target._properties) {
+  //     for (let i in this.__target._properties) {
+  //       e[i] = this.__target.$entry(i)
+  //     }
+  //   }
+  //   return e
+  // }
 
   get $value () {
     return this.__target.get()
+  }
+
+
+  $remove () {
+    this.__source.$remove()
   }
 
 }

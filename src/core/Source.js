@@ -73,22 +73,27 @@ class Source {
           this.subscribe({
             when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
             callback: (e) => callback.call(this, e.data[name], e.cache[name]), 
-            target: this, 
+            target: this,
             channels: []
           })
+        }
+
+        if (this._properties[i].type) {
+          Object.defineProperty(this, i, {
+            get: () => this.$entry(i),
+          })  
+        }
+        else {
+          Object.defineProperty(this, i, {
+            get: () => this.get(i),
+            set: (v) => this.set(i, v)
+          })  
         }
           
       }
 
-      // ?
-      // прокси-хелпер для опций
-      this.$props = {__target: this}
-
-      const instOptProto = createPropsProto(this.options.properties)
-      Object.setPrototypeOf(instOptProto, Stream.prototype)
-      Object.setPrototypeOf(this.$props, instOptProto)
-      this._propsProto = instOptProto
     }
+
 
 
     if (this.options.init) {
@@ -103,6 +108,32 @@ class Source {
 //    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
   }
+
+
+  // get $props () {
+  //   if (!this._props) {
+  //     // ?
+  //     // прокси-хелпер для опций
+  //     this._props = {__target: this}
+
+  //     const instOptProto = createPropsProto(this._properties || {})
+  //     Object.setPrototypeOf(instOptProto, Stream.prototype)
+  //     Object.setPrototypeOf(this._props, instOptProto)
+  //     this._propsProto = instOptProto
+  //   }
+  //   return this._props
+  // }
+
+  // get $entries () {
+  //   const e = {}
+  //   if (this._properties) {
+  //     for (let i in this._properties) {
+  //       e[i] = this.$entry(i)
+  //     }
+  //   }
+  //   return e
+  // }
+
 
   get(k) {
 
@@ -464,10 +495,14 @@ class Source {
     return e
   }
 
+  remove () {
+    throw 'method remove not supported'
+  }
+ 
   $remove(k) {
     if (arguments.length == 0) {
       if (this.isNested) {
-        this.src.$remove(this.id)
+        this.src.remove(this.id)
       }
     }
     else {
@@ -529,7 +564,7 @@ class Source {
     // if (this.isNested)
   }
 
-  find (itemOrFilter) {
+  $find (itemOrFilter) {
     const filter = (typeof itemOrFilter == 'function') ? itemOrFilter : (v) => v == itemOrFilter
     const v = this.get()
     for (let i in v) {
@@ -629,6 +664,9 @@ class Source {
     this._update('asc')
   }
 
+  add () {
+    throw new 'method add not supported'
+  }
 
   $add (v) {
 
@@ -766,13 +804,13 @@ class Source {
 
 
   $stream(name, target) {
+    const p = this.$props
     if (this._propsProto) {
       const obj = Object.create(this._propsProto)
       obj.key = name
       obj.__target = this
-      obj.target = this
-      // const obj = {key: name, __target: this}
-      // Object.setPrototypeOf(obj, this._propsProto)
+      obj.__source = this
+      obj.target = target
       return obj  
     }
     else {
@@ -781,7 +819,7 @@ class Source {
   }
 
 
-  $size () {
+  get $size () {
     const v = this.get()
     if (Array.isArray(v)) {
       return v.length
@@ -828,7 +866,7 @@ class Source {
   //   return this._proxy
   // }
 
-  get $source () {
+  get source () {
     return this.src
   }
 
@@ -948,15 +986,6 @@ class Source {
   }
 
 
-  get $entries () {
-    const e = {}
-    if (this._properties) {
-      for (let i in this._properties) {
-        e[i] = this.$entry(i)
-      }
-    }
-    return e
-  }
 
 
 }

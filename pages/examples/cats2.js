@@ -66,8 +66,8 @@ export default () => {
             as: Carousel,
             height: '100%',
     //        height: 256,
-            dataChanged: function (v, $props) {
-              this.opt('images', $props.imageUrls)// s.source.get('imageUrls'))
+            dataChanged: function (v, s) {
+              this.opt('images', s.__source.imageUrls)// s.source.get('imageUrls'))
             },
             $content: {
               styles: {
