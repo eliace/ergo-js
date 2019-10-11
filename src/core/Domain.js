@@ -220,6 +220,26 @@ class Domain extends Source {
       target, channels: []})
   }
 
+  createProperty (name, options={}) {
+    if (!this._properties) {
+      this._properties = {}
+    }
+    if (!this._properties[name]) {
+      this._properties[name] = options
+      if (options.type) {
+        Object.defineProperty(this, name, {
+          get: () => this.$entry(name),
+        })  
+      }
+      else {
+        Object.defineProperty(this, name, {
+          get: () => this.get(name),
+          set: (v) => this.set(name, v)
+        })
+      }  
+    }
+  }
+
   on (name, callback, target, channel) {
     const [n, c] = name.split(':')
     return this.subscribe(n, callback, c || channel, target)

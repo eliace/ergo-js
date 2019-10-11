@@ -362,10 +362,17 @@ class Stream {
     const src = this.__target
     if (!src._properties[name]) {
       src._properties[name] = options
-      Object.defineProperty(src._propsProto, name, {
-        get: () => src.get(name),
-        set: (v) => src.set(name, v)
-      })
+      if (options.type) {
+        Object.defineProperty(src, name, {
+          get: () => src.$entry(name),
+        })  
+      }
+      else {
+        Object.defineProperty(src, name, {
+          get: () => src.get(name),
+          set: (v) => src.set(name, v)
+        })
+      }  
     }
   }
 

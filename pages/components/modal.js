@@ -1,25 +1,165 @@
-import {Html, Domain, Layout, Events} from '../../src'
-import {Layouts, Button, Box, Image, Modal} from '../../bulma'
+import {Html, Domain, Layout, Events, Source} from '../../src'
+import {Layouts, Button, Box, Image, Modal, stopMouseDown, Input, Buttons} from '../../bulma'
 
 
 import imgUrl from '../img/Yosemite 3.jpg'
 
 
 
-class Article extends Html {
+class ModalModel extends Domain {
   config () {
     return {
-      html: 'article',
-      layout: Layouts.Media,
-      $image: {
-
+      properties: {
+        opened: {}
       },
-      $content: {
-
+      actions: {
+        open: function () {
+          this.opened = true
+        },
+        close: function () {
+          this.opened = false
+        }
       }
     }
   }
 }
+
+
+class BaseModal extends Html {
+  config () {
+    return {
+      sources: {
+        //собственная модель
+        // view: () => new Domain({}, {
+        //   events: {
+        //     close: {channel: '*'},
+        //     open: {channel: '*'}
+        //   }
+        // }),
+
+        // внешняя модель
+        view: (o, ctx) => ctx.view || new ModalModel({})
+      },
+      join: {
+        view: {
+          BaseModal: function (joint) {
+            joint.createProperty('opened')
+            joint.createAction('open', () => {
+              joint.opened = true
+            })
+            joint.createAction('close', () => {
+              joint.opened = false
+            })
+          }
+        }
+      },
+      dom: { stopMouseDown },
+      // viewChanged: function (v) {
+      // },
+      css: 'modal',
+      $background: {
+        css: 'modal-background',
+        onMouseUp: function (e, {view}) {
+          view.close()
+        }
+      },
+      $content: {
+        css: 'modal-content',
+        onMouseDown: function (e) {
+          e.stopPropagation()
+        }
+      },
+      $close: {
+        html: 'button',
+        css: 'modal-close is-large',
+        onClick: function (e, {view}) {
+          view.close()
+        }
+      }
+    }
+  }
+  options () {
+    return {
+      active: {
+        initOrSet: function (v) {
+          this.opt('classes', {'is-active': !!v})
+        }
+      }
+    }
+  }
+}
+
+
+
+class ImageDialog extends BaseModal {
+  config () {
+    return {
+      sources: {
+        data: (o, ctx) => ctx.data
+      },
+      active: true,
+      $content: {
+        $image: {
+          as: Image,
+          dataChanged: function (v) {
+            this.opt('src', v.url)
+          }
+        }
+      }  
+    }
+  }
+}
+
+
+
+class InputDialog extends BaseModal {
+  config () {
+    return {
+      active: true,
+      sources: {
+        data: () => ''
+      },
+      join: {
+        view: {
+          InputDialog: function (j) {
+            j.createEvent('ok', {channel: '*'})
+            j.createEvent('cancel', {channel: '*'})
+          }
+        }
+      },
+      $content: {
+        as: Box,
+        $input: {
+          as: Input,
+          dataChanged: function (v) {
+            this.opt('value', v)
+          },
+          onChange: function (e, {data}) {
+            data.$set(e.target.value)
+          }   
+        },
+        $buttons: {
+          as: Buttons,
+          $ok: {
+            text: 'OK',
+            onClick: function (e, {view}) {
+              view.ok()
+              view.close()
+            }
+          },
+          $cancel: {
+            text: 'Cancel',
+            onClick: function (e, {view}) {
+              view.cancel()
+              view.close()
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 
 
 class ImageModal extends Modal {
@@ -52,30 +192,185 @@ class BoxModal extends Modal {
 
 export default () => {
   return {
+    sources: {
+      data: {
+//        image: imgUrl
+      },
+      view: {},
+      delegate: () => new Domain({components: []}, {
+        properties: {
+          components: {type: Domain}
+        },
+        actions: {
+          open: function (c) {
+            this.components.$add(c)
+          }
+        }
+      })
+    },
     layout: Layouts.Rows,
+    $modalDelegate: {
+      defaultItem: {
+        join: {
+          view: {
+            Delegate: function (j) {
+              j.on('close', () => {
+                const c = this.sources.delegate.components
+                const v = c.$get()
+                v.splice(this.index, 1)
+                c.$set(v)
+              })
+            }
+          }
+        }
+        // delegateJoined: function (j) {
+        //   j.on('close', () => {
+        //     debugger
+        //   })
+        // }  
+      },
+      delegateChanged: function (v, s) {
+        this.opt('items', v.components)
+      }
+    },
     items: [{
-      // управление через опцию active
+      // внешнее управление, внутренний контекст
       sources: {
-        view: () => false
+        view: () => {
+          return {}
+        },
+        data: () => {
+          return {url: imgUrl}
+        }
       },
       $button: {
         as: Button,
         text: 'Open Modal',
         onClick: function (e, {view}) {
-          view.set(true)
+          view.open()
         }
       },
       $modal: {
-        as: BoxModal,
+        sources: {
+          view: (o, ctx) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
+        },
+        as: ImageDialog,
         active: false,
         viewChanged: function (v) {
-          this.opt('active', v)
-        },
-        onClose: function (e, {view}) {
-          view.set(false)
+          this.opt('active', v.opened)
         }
       }
     }, {
+      // внешнее управление, внутренний контекст
+      sources: {
+        view: () => {
+          return new ModalModel({}) // взаимодействовать с компонентом, которого еще нет мы можем только через канал
+        },
+        data: () => {
+          return {url: imgUrl}
+        }
+      },
+      $button: {
+        as: Button,
+        text: 'Open Modal',
+        onClick: function (e, {view}) {
+          view.open()
+        }
+      },
+      $modal: {
+        sources: {
+          view: (o, ctx) => ctx.view // указываем, что используется внешняя модель
+        },
+        as: ImageDialog
+      },
+      viewChanged: function (v) {
+        this.opt('components', {modal: v.opened})
+      },
+      components: {
+        modal: false // блокируем инициализацию
+      }
+    }, {
+      sources: {
+        data: ['Alice', 'Bob', 'Charlie'],
+        view: () => {
+          return new Domain({}, {
+            properties: {
+              value: {}
+              // addDialog: {
+              //   type: ModalModel,
+              //   initial: () => {return {}}
+              // }
+            }
+          })
+        },
+        addDialog: () => new ModalModel({}),
+        editDialog: () => new ModalModel({}),
+      },
+      $add: {
+        as: Button,
+        text: 'Add',
+        css: 'is-primary',
+        onClick: function (e, {view, addDialog, delegate}) {
+          delegate.open({
+            as: InputDialog,
+            onOk: function () {
+              debugger
+            }
+          })
+//          addDialog.open()
+        }
+      },
+      $content: {
+        as: Box,
+        defaultItem: {
+          $content: {
+            as: Button,
+            width: '100%',
+            dataChanged: function (v) {
+              this.opt('text', v)
+            },
+            onClick: function (e, {view, data, editDialog}) {
+              view.value = data.$get()
+              editDialog.open()
+            }
+          }
+        },
+        dataChanged: function (v, s) {
+          this.opt('items', s)
+        }  
+      },
+      $dialog: {
+        sources: {
+          view: (o, ctx) => ctx.addDialog,
+          list: (o, ctx) => ctx.data
+        },
+        as: InputDialog,
+        onOk: function (e, {list, data}) {
+          // здесь не доступен контекст, куда надо записать результат
+//          list.$add(data.$get())
+        }
+      },
+      $dialog2: {
+        sources: {
+          view: (o, ctx) => ctx.editDialog,
+          data: (o, ctx) => ctx.view.$entry('value')
+        },
+        as: InputDialog,
+        onOk: function (e, {data}) {
+          // здесь не доступен контекст, куда надо записать результат
+        }
+      },
+      components: {
+        dialog: false,
+        dialog2: false
+      },
+      addDialogChanged: function (v) {
+        this.opt('components', {dialog: v.opened})
+      },
+      editDialogChanged: function (v) {
+        this.opt('components', {dialog2: v.opened})
+      }
+    }/*, {
       // управление через отключение/подключение компонента и событие onClose
       sources: {
         view: () => false
@@ -165,87 +460,6 @@ export default () => {
         onClose: function (e, {view}) {
           view.set('opened', false)
         }
-      }
-    }/*, {
-      sources: {
-        view: new ModalDomain()
-      },
-      $button: {
-        as: Button,
-        text: 'Open Modal',
-        onClick: function (e, {view}) {
-          view.open()
-        }
-      },
-      $modal: {
-        as: ImageModal
-      }
-    }, {
-      // встраивание в сторонний контейнер
-      sources: {
-        modal: new GModal()
-      },
-      $button: {
-        as: Button,
-        text: 'Open Modal',
-        onClick: function (e, {modal}) {
-          modal.open({
-            as: ImageModal,
-            $content: {
-              $button: {
-                as: Button,
-                text: 'Open next',
-                onClick: function (e, {modal}) {
-                  modal.open({
-                    as: BoxModal
-                  })
-                }
-              }
-            }
-          })
-        }
-      },
-      $standaloneModalContainer: {
-        modalChanged: function (v, s) {
-          this.opt('items', s.source.get('modals'))
-        },
-        defaultItem: {
-          allJoined: function ({view, modal}) {
-            view.on(view.close, () => {
-              modal.close(this.index)
-            }, this)
-            view.open()
-          },
-          as: Modal
-        }
-      }
-    }, {
-      // подключение локального модала к общему домену
-      sources: {
-        modal: new GModal(),
-        view: new ModalDomain({}, {
-          properties: {
-            modal: (v) => !!v.opened
-          }
-        })
-      },
-      allJoined: function ({modal, view}) {
-        modal.watch('init', this, () => {
-          modal.open(view)
-        })
-        modal.watch('destroy', this, () => {
-          modal.close(view)
-        })
-      },
-      $button: {
-        as: Button,
-        text: 'Open Modal',
-        onClick: function (e, {view, modal}) {
-          view.open()
-        }
-      },
-      $modal: {
-        as: ImageModal
       }
     }*/]
   }

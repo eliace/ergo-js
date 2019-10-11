@@ -10,7 +10,7 @@ class Source {
   // - модель данных
 
   constructor(v, o, k) {
-    this.id = k
+    this.$id = k
     this.src = v
     this.entries = {}// Array.isArray(v) ? [] : {}
     this.subscribers = []
@@ -28,7 +28,7 @@ class Source {
 
     const opts = this.options
 
-    if (opts.initial) {
+    if (opts.initial && !this.isNested) {
       if (typeof opts.initial == 'function') {
         this.src = opts.initial.call(this, o)
       }
@@ -134,7 +134,14 @@ class Source {
   //   return e
   // }
 
+  $get (...args) {
+    return this.get.apply(this, args)
+  }
 
+  $set (...args) {
+    return this.set.apply(this, args)
+  }
+ 
   get(k) {
 
     let v = null
@@ -146,7 +153,7 @@ class Source {
 
       if (this.isCalc) {
         if (this.cache == null) {
-//          console.log('calc', this.cache, this.id)
+//          console.log('calc', this.cache, this.$id)
           v = this.isNested ? this.src.get() : this.src
           v = this.options.calc.call(this, v, this.src.props)
         }
@@ -160,15 +167,15 @@ class Source {
         // v = this.isNested ? this.src.get() : this.src
         // v = this.options.project(v)
       }
-      else if (this.id == null) {
+      else if (this.$id == null) {
         v = this.src
       }
-      else if (this.isNested) {
-        v = this.src.get()
-        v = v && v[this.id]
-      }
       else {
-        v = this.src[this.id]
+        v = this.isNested ? this.src.get() : this.src
+        if (v && v[this.$id] === undefined && this.options.initial) {
+          v[this.$id] = this.options.initial()
+        }
+        v = v && v[this.$id]
       }
 
       if (this.cache != null && this.cache != v) {
@@ -212,14 +219,14 @@ class Source {
   set(k, v) {
     if (arguments.length == 1) {
       v = k
-      if (this.id == null) {
+      if (this.$id == null) {
         this.src = v
       }
       else if (this.isNested) {
-        this.src.get()[this.id] = v
+        this.src.get()[this.$id] = v
       }
       else {
-        this.src[this.id] = v
+        this.src[this.$id] = v
       }
 
       const cache = this.cache
@@ -257,7 +264,7 @@ class Source {
       // }
 
       //TODO удалить все entries
-      this._update(null, 'set', {[this.id]: true}, cache) // ?
+      this._update(null, 'set', {[this.$id]: true}, cache) // ?
     }
     else {
 
@@ -277,14 +284,14 @@ class Source {
         else {
           const cache = this.cache != null ? this.cache[k] : null
 
-          if (this.id == null) {
+          if (this.$id == null) {
             this.src[k] = v
           }
           else if (this.isNested) {
-            this.src.get()[this.id][k] = v
+            this.src.get()[this.$id][k] = v
           }
           else {
-            this.src[this.id][k] = v
+            this.src[this.$id][k] = v
           }
           // если дочерних элементов для ключа нет, то остальные обновлять не нужно
           this._update('asc', 'set', {[k]: true}, {[k]: cache})
@@ -312,12 +319,12 @@ class Source {
 
   $toggle(k) {
     if (arguments.length == 0) {
-      if (this.id == null) {
+      if (this.$id == null) {
         this.src = !this.src
       }
       else {
         let v = this.isNested ? this.src.get() : this.src
-        v[this.id] = !v[this.id]
+        v[this.$id] = !v[this.$id]
       }
       delete this.cache
 
@@ -341,11 +348,11 @@ class Source {
         this.entries[k].$toggle()
       }
       else {
-        if (this.id == null) {
+        if (this.$id == null) {
           this.src[k] = !this.src[k]
         }
         else {
-          let v = this.isNested ? this.src.get()[this.id] : this.src[this.id]
+          let v = this.isNested ? this.src.get()[this.$id] : this.src[this.$id]
           v[k] = !v[k]
         }
         this._update('asc')
@@ -383,7 +390,7 @@ class Source {
   //   // if (this.observers.length == 0 && this.isNested) {
   //   //   let n = Array.isArray(this.entries) ? this.entities.length : Object.keys(this.entries).length
   //   //   if (!n) {
-  //   //     delete this.src.entries[this.id]
+  //   //     delete this.src.entries[this.$id]
   //   //   }
   //   // }
   // }
@@ -417,7 +424,7 @@ class Source {
   //    delete this.cache
 //      this.emit('beforeChanged')
         if (this.isNested && direction != 'desc' && direction != 'none') {
-          this.src._update('asc', event, {[this.id]: true}, {[this.id]: prevValue})
+          this.src._update('asc', event, {[this.$id]: true}, {[this.$id]: prevValue})
         }
 
         if (this.options && this.options.computed) {
@@ -502,7 +509,7 @@ class Source {
   $remove(k) {
     if (arguments.length == 0) {
       if (this.isNested) {
-        this.src.remove(this.id)
+        this.src.remove(this.$id)
       }
     }
     else {
@@ -672,14 +679,14 @@ class Source {
 
     let arr = null
 
-    if (this.id == null) {
+    if (this.$id == null) {
       arr = this.src
     }
     else if (this.isNested) {
-      arr = this.src.get()[this.id]
+      arr = this.src.get()[this.$id]
     }
     else {
-      arr = this.src[this.id]
+      arr = this.src[this.$id]
     }
 
     if (v instanceof Source) {
@@ -706,14 +713,14 @@ class Source {
 
     let arr = null
 
-    if (this.id == null) {
+    if (this.$id == null) {
       arr = this.src
     }
     else if (this.isNested) {
-      arr = this.src.get()[this.id]
+      arr = this.src.get()[this.$id]
     }
     else {
-      arr = this.src[this.id]
+      arr = this.src[this.$id]
     }
 
     arr.splice(i, 0, v)

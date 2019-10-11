@@ -258,7 +258,7 @@ class Html {
 
     if (opts.items) {
       for (var i = 0; i < opts.items.length; i++) {
-        this.addItem(opts.items[i], i)
+        this.addItem(opts.items[i], null, i)
       }
     }
 
@@ -1207,7 +1207,7 @@ class Html {
     else {
       this.destroyAllItems()
       for (let i = 0; i < value.length; i++) {
-        this.addItem(value[i])
+        this.addItem(value[i], null, i)
       }
     }
 

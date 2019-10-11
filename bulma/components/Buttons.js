@@ -7,7 +7,10 @@ class Buttons extends Html {
       css: 'buttons',
       defaultItem: {
         as: Button
-      }  
+      },
+      defaultComponent: {
+        as: Button
+      }
     }
   }
 }

@@ -110,35 +110,6 @@ export default class SplitButton extends Html {
                 }
             },
             $dropdown: {
-                // sources: {
-                //     __portal: (o, ctx) => ctx.portal
-                // },
-                // dom: { withUpdatePosition, withScroll },
-                // renderers: {
-                //     '*': {
-                //         update: function () {
-                //             this._dirty = true
-                //             this.sources.__portal.emit('dirty')
-                //         },
-                //         render: () => {}
-                //     }
-                // },
-                // __portalJoined: function (s) {
-                //     s.watch(e => e.name == 'init' && e.channel == '__portal', (e) => {
-                //         s.$entry('components').$add(this)
-                //     }, this)
-                //     s.watch(e => e.name == 'destroy' && e.channel == '__portal', () => {
-                //         s.$entry('components').$remove(this)
-                //     }, this)
-                // },
-                // stateChanged: function (v, s, ids) {
-                //     this.eff((el) => {
-                //         if (el) {
-                //             el.style.top = (v.top - v.scroll) + 'px'
-                //             el.style.left = v.left + 'px'    
-                //         }
-                //     })
-                // },
                 css: 'dropdown-menu',
                 styles: {
                     display: 'block'
