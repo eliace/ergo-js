@@ -1,60 +1,7 @@
 {
-  "name": "ergo-js",
-  "version": "3.0.0",
-  "description": "",
-  "main": "app.js",
-  "dependencies": {
-    "@tweenjs/tween.js": "^17.4.0",
-    "animate.css": "^3.7.2",
-    "animations.css": "^1.0.1",
-    "axios": "^0.19.0",
-    "bulma": "^0.7.5",
-    "bulma-badge": "^3.0.1",
-    "bulma-checkradio": "^1.1.1",
-    "bulma-divider": "^0.2.0",
-    "bulma-extensions": "^6.2.7",
-    "bulma-slider": "^2.0.0",
-    "bulma-switch": "^2.0.0",
-    "bulma-tooltip": "^2.0.2",
-    "classnames": "^2.2.6",
-    "dayjs": "^1.8.16",
-    "director": "^1.2.8",
-    "font-awesome": "^4.7.0",
-    "fontawesome": "^5.6.3",
-    "gsap": "^2.1.3",
-    "html-parse-stringify": "^1.0.3",
-    "inferno-hyperscript": "^7.3.1",
-    "lodash": "^4.17.15",
-    "maquette": "^3.3.4",
-    "prismjs": "^1.17.1",
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1",
-    "todomvc-app-css": "^2.2.0",
-    "todomvc-common": "^1.0.5",
-    "velocity-animate": "^2.0.5"
-  },
+  "name": "root",
+  "private": true,
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "chai": "^4.2.0",
-    "mocha": "^6.2.1",
-    "mocha-jsdom": "^2.0.0",
-    "parcel": "^1.12.3",
-    "sass": "^1.22.12"
-  },
-  "scripts": {
-    "test": "mocha",
-    "test-watch": "parcel ./test/test.html",
-    "start": "parcel index.html",
-    "start-realworld": "parcel realworld.html",
-    "start-todomvc": "parcel todomvc.html",
-    "build-realworld": "parcel build realworld.html"
-  },
-  "author": "",
-  "license": "ISC",
-  "browserslist": [
-    "last 1 Chrome versions"
-  ]
+    "lerna": "^3.17.0"
+  }
 }
