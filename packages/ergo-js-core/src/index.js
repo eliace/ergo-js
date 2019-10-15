@@ -10,6 +10,7 @@ import Events from './Events'
 import Config from './Config'
 import Effect from './Effect'
 export * from './Utils'
+export * from './Joint'
 
 export {
   Html,

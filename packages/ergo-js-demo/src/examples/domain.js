@@ -1,13 +1,10 @@
-import {Html, Domain, Binder, bindDomain as Bind, Layout} from 'ergo-js-core'
+import {Html, Domain, Binder, bindDomain as Bind, Layout, joint as bind} from 'ergo-js-core'
 import {Layouts, Tabs, Button} from 'ergo-js-bulma'
 
 import {Mutate} from '../helpers'
 import _ from 'lodash'
 import axios from 'axios'
 
-// const $data = function (p) {
-//   return new Binder('data', p)
-// }
 
 const api = {
   getYesNo: function (question) {
@@ -42,6 +39,12 @@ export default () => {
           },
           dataId: 'message'
         }
+      },
+      $bindExample: {
+        $message: {
+          html: 'p',
+          text: bind('data', 'message')
+        }
       }
     }, {
       sources: {
@@ -61,10 +64,7 @@ export default () => {
         id: 'example',
         $message: {
           html: 'p',
-          text: Bind.data('message', v => 'Изначальное сообщение: «'+v+'»')
-          // dataChanged: Mutate.Text,
-          // dataId: 'message',
-          // format: v => 'Изначальное сообщение: «'+v+'»'
+          text: bind('data', v => 'Изначальное сообщение: «'+v.message+'»')
         },
         $reversedMessage: {
           html: 'p',

@@ -5,6 +5,7 @@ import DropdownExample from './dropdown'
 import ToastExample from './toast'
 import ListExample from './list'
 import CarouselExample from './carousel'
+import LoaderExample from './loader'
 
 import {PreviewAndCode} from '../extensions'
 
@@ -23,7 +24,8 @@ function previewOf (exampleCreator, code) {
 const DropdownCode = ''//fs.readFileSync(__dirname+'/dropdown.js', 'utf-8')
 const ToastCode = ''//fs.readFileSync(__dirname+'/toast.js', 'utf-8')
 const ListCode = ''//fs.readFileSync(__dirname+'/list.js', 'utf-8')
-const CarouselCode = ''//fs.readFileSync(__dirname+'/carousel.js', 'utf-8')
+import CarouselCode from 'raw-loader!./carousel'//fs.readFileSync(__dirname+'/carousel.js', 'utf-8')
+import LoaderCode from 'raw-loader!./loader'
 
 
 export default () => {
@@ -36,6 +38,7 @@ export default () => {
       toast: v => v.selected == 'Toast',
       list: v => v.selected == 'List',
       carousel: v => v.selected == 'Carousel',
+      loader: v => v.selected == 'Loader'
     }
   })
 
@@ -67,6 +70,7 @@ export default () => {
           {text: 'Toast'},
           {text: 'List'},
           {text: 'Carousel'},
+          {text: 'Loader'},
         ]
       }
     },
@@ -79,6 +83,7 @@ export default () => {
       $toast: previewOf(ToastExample, ToastCode),
       $list: previewOf(ListExample, ListCode),
       $carousel: previewOf(CarouselExample, CarouselCode),
+      $loader: previewOf(LoaderExample, LoaderCode),
     }
   }
 }

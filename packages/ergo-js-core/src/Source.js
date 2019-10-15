@@ -1,5 +1,33 @@
 import {deepClone, hashCode, defaultKeyResolver, createPropsProto} from './Utils'
 import Stream from './Stream'
+import Options from './Options'
+
+function initClassOpts (proto) {
+  const chain = []
+  const opts = []
+
+  let cls = proto
+
+  while (cls && cls.constructor !== Object) {
+    // if (cls.config) {
+    //   console.log('defaults', cls, cls.config())
+    // }
+    chain.push(cls.config && cls.config())
+    cls = Object.getPrototypeOf(cls)
+  }
+
+  let classOpts = new Options()
+
+  for (let i = chain.length-1; i >= 0; i--) {
+    // добавляем только в том случае, когда опции не наследуются
+    if (chain[i] != chain[i+1]) {
+      classOpts.merge(chain[i])
+    }
+  }
+
+  proto.classDefaults = classOpts.build(/* TODO здесь должны быть правила слияния */)
+
+}
 
 
 class Source {
@@ -15,18 +43,46 @@ class Source {
     this.entries = {}// Array.isArray(v) ? [] : {}
     this.subscribers = []
     this.isNested = v instanceof Source
-    this.options = o || {}
+//    this.options = o || {}
 
     // this.subscribers = []
     // this.effects = {}
     // this.events = {}
 
-    // FIXME поменять на конфигурацию класса
-    if (this.config) {
-      this.options = {...this.config(), ...this.options}
+    const proto = Object.getPrototypeOf(this)
+
+    //  собираем опции класса, если они еще не собраны
+    if (!proto.hasOwnProperty('classDefaults')) {
+      initClassOpts(proto)
     }
 
-    const opts = this.options
+    let opts = new Options(this.classDefaults, o).build(/* */)
+
+    // 1. Примешиваем опции
+
+    const preparedOpts = new Options(opts)//, extOpts)
+
+    // применяем примеси
+    if (opts.mixins || opts.mix) {
+      const mixins = opts.mixins || opts.mix
+      for (let i in mixins) {
+        let mixinOpts = mixins[i].call(this, preparedOpts)
+        if (mixinOpts) {
+          preparedOpts.mix(mixinOpts)
+        }
+      }
+    }
+
+    // завершаем конструирование опций
+    opts = preparedOpts.build(/* */)
+
+    this.options = opts
+    // // FIXME поменять на конфигурацию класса
+    // if (this.config) {
+    //   this.options = {...this.config(), ...this.options}
+    // }
+
+    // const opts = this.options
 
     if (opts.initial && !this.isNested) {
       if (typeof opts.initial == 'function') {
@@ -134,15 +190,15 @@ class Source {
   //   return e
   // }
 
-  $get (...args) {
-    return this.get.apply(this, args)
+  get (...args) {
+    return this.$get.apply(this, args)
   }
 
-  $set (...args) {
-    return this.set.apply(this, args)
+  set (...args) {
+    return this.$set.apply(this, args)
   }
  
-  get(k) {
+  $get(k) {
 
     let v = null
     if (arguments.length == 0) {
@@ -223,7 +279,7 @@ class Source {
     return v
   }
 
-  set(k, v) {
+  $set(k, v) {
     if (arguments.length == 1) {
       v = k
       if (this.$id == null) {
@@ -414,7 +470,7 @@ class Source {
   }
 
 
-  _update(direction, event, ids, cache) {
+  _update (direction, event, ids, cache) {
     if (!this._updating && !this.removed) {
       this._updating = this
       try {
@@ -430,9 +486,6 @@ class Source {
 
   //    delete this.cache
 //      this.emit('beforeChanged')
-        if (this.isNested && direction != 'desc' && direction != 'none') {
-          this.src._update('asc', 'update'/*event*/, {[this.$id]: true}, {[this.$id]: prevValue})
-        }
 
         if (this.options && this.options.computed) {
           this.compute(this.get())
@@ -470,6 +523,10 @@ class Source {
               this.entries[i]._calc(this.get())
             }
           }
+        }
+
+        if (this.isNested && direction != 'desc' && direction != 'none') {
+          this.src._update('asc', 'update'/*event*/, {[this.$id]: true}, {[this.$id]: prevValue})
         }
 
         this.emit('changed', this.get(), {ids, cache: prevValue, cause: event}, '*')
@@ -932,6 +989,7 @@ class Source {
   observe (target, callback, channel='') {
     const subscription = {name: '*', target, callback, channels: [channel]}
     this.subscribers.push(subscription)
+    return subscription
   }
 
   unobserve (target) {
@@ -1010,6 +1068,10 @@ class Source {
 
   set $value (v) {
     this.$set(v)
+  }
+
+  $clone () {
+    return JSON.parse(JSON.stringify(this.$get()))
   }
 
 

@@ -16,6 +16,7 @@ export default class Carousel extends Html {
                         },
                         actions: {
                             next: function () {
+                                debugger
                                 this.index = this.index < this.images.length-1 ? this.index + 1 : 0
                             },
                             prev: function () {
@@ -42,7 +43,7 @@ export default class Carousel extends Html {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
                     dataChanged: function (v, ind) {
-                        this.opt('key', ind.__source.id)
+                        this.opt('key', ind.$props.id)
                     }
                 },
                 dataChanged: function (v, s) {
@@ -67,7 +68,7 @@ export default class Carousel extends Html {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
                     dataChanged: function (v, img) {
-                        this.opt('key', img.__source.id)
+                        this.opt('key', img.$props.id)
                         this.$image.opt('src', v)
                     }
                 },

@@ -7,6 +7,7 @@ import classNames from 'classnames/dedupe'
 //import {h} from 'maquette'
 //import Domain from './Domain'
 import Source from './Source'
+import {Joint} from './Joint'
 //import State from './State'
 //import Context from './Context'
 import Config from './Config'
@@ -273,18 +274,33 @@ class Html {
     for (let i in opts) {
       const o = opts[i]
 
-      if (o instanceof Binder) {
-        if (!this._binders) {
-          this._binders = {}
-        }
-        this._binders[i] = o
+      if (o instanceof Joint) {
+        // if (!this._optJoints) {
+        //   this._optJoints = {}
+        // }
+        // this._optJoints[i] = o
+        o.join(this, i) // добавялем joint в подписчики source
+        opts[i] = null
+        // this._optJoints[i] = o
+        // o.target = this
 
-        const source = this.sources[o.key]
-        if (!source.observedBy(this)) {
-          source.observe(this, this.changed, o.key)
-        }
-        continue
+//        const source = this.
+
+        continue // связанные опции будут обновлены при init
       }
+
+      // if (o instanceof Binder) {
+      //   if (!this._binders) {
+      //     this._binders = {}
+      //   }
+      //   this._binders[i] = o
+
+      //   const source = this.sources[o.key]
+      //   if (!source.observedBy(this)) {
+      //     source.observe(this, this.changed, o.key)
+      //   }
+      //   continue
+      // }
 
       if (opts.options && opts.options[i]) {
         const desc = opts.options[i]
@@ -1472,25 +1488,41 @@ class Html {
         }
       }
 
-      if (this._binders) {
-        for (let i in this._binders) {
-          const binder = this._binders[i]
-          if (binder.key == key) {
-            // FIXME получение проектированных значений должно быть проще
-            const src = this.sources[key]
-            let propVal = null
-            if (src._properties && src._properties[binder.prop]) {
-              // есть свойство в модели
-              const prop = src._properties[binder.prop]
-              propVal = prop.calc ? src.$entry(binder.prop).get() : v.data[binder.prop]
-            }
-            else {
-              propVal = binder.prop ? v.data[binder.prop] : v.data
-            }
-            this.opt('$'+i, binder.format ? binder.format(propVal) : propVal)
-          }
-        }
-      }
+      // if (!this._optJoints) {
+      //   this._optJoints = {}
+      //   for (let i in o) {
+      //     if (o[i] instanceof Source.Joint) {
+      //       this._optJoints[i] = o[i]
+      //     }
+      //   }
+      // }
+
+      // for (let i in this._optJoints) {
+      //   const joint = this._optJoints[i]
+      //   if (joint.key == key) {
+      //     this.opt(i, joint.source.$get())
+      //   }
+      // }
+
+      // if (this._binders) {
+      //   for (let i in this._binders) {
+      //     const binder = this._binders[i]
+      //     if (binder.key == key) {
+      //       // FIXME получение проектированных значений должно быть проще
+      //       const src = this.sources[key]
+      //       let propVal = null
+      //       if (src._properties && src._properties[binder.prop]) {
+      //         // есть свойство в модели
+      //         const prop = src._properties[binder.prop]
+      //         propVal = prop.calc ? src.$entry(binder.prop).get() : v.data[binder.prop]
+      //       }
+      //       else {
+      //         propVal = binder.prop ? v.data[binder.prop] : v.data
+      //       }
+      //       this.opt('$'+i, binder.format ? binder.format(propVal) : propVal)
+      //     }
+      //   }
+      // }
 
     }
     else if (v.name == 'destroy') {
