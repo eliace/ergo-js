@@ -30,7 +30,7 @@ export default function withPortalTarget (mixer) {
           '*': {
             render: function () {
               const {html, props} = this._internal
-              const components = this.sources.portal.components.get().map(c => {
+              const components = this.sources.portal.components.$get().map(c => {
                 return {
                   render: () => c.render('portal')
                 }

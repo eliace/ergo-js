@@ -76,7 +76,7 @@ import './app.scss'
 fetch('https://reqres.in/api/users/2')
   .then(response => response.json())
   .then(json => {
-    root.sources.data.set('user', json.data)
+    root.sources.data.$set('user', json.data)
 //    projector.scheduleRender()
   })
 

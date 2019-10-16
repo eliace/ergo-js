@@ -236,7 +236,7 @@ class Stream {
 
   entries (callback) {
 
-    const value = this.src.get()
+    const value = this.src.$get()
     const props = this.src._properties
     const opts = this.src.options
 
@@ -256,7 +256,7 @@ class Stream {
         // TODO возможно, правильнее при коллизии использовать property
         if (!(k in value)) {
           const entry = this.src.$entry(k)
-          callback(entry, k, entry.get())
+          callback(entry, k, entry.$get())
         }
       }
     }
@@ -283,10 +283,10 @@ class Stream {
   // }
 
   snapshot () {
-    const v = this.src.get();
+    const v = this.src.$get();
     const p = {}
     for (let i in this.src._properties) {
-      p[i] = this.src.$entry(i).get()
+      p[i] = this.src.$entry(i).$get()
     }
     return Object.assign(p, v)
   }
@@ -369,8 +369,8 @@ class Stream {
       }
       else {
         Object.defineProperty(src, name, {
-          get: () => src.get(name),
-          set: (v) => src.set(name, v)
+          get: () => src.$get(name),
+          set: (v) => src.$set(name, v)
         })
       }  
     }
@@ -402,7 +402,7 @@ class Stream {
   // }
 
   get $value () {
-    return this.__target.get()
+    return this.__target.$get()
   }
 
 

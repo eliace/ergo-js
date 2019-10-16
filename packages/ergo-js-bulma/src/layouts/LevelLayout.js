@@ -1,7 +1,7 @@
 import {Layout, defaultCompare, Config} from 'ergo-js-core'
 
 function itemRender (c) {
-  return Config.Renderer.h('div.level-item'/*, {key: c.index || c.key}*/, [c.render()])
+  return Config.Renderer.h('div.level-item', {key: c.props.key}, [c.render()])
 }
 
 function LevelLayout (html, props, components) {

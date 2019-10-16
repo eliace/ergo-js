@@ -233,8 +233,8 @@ class Domain extends Source {
       }
       else {
         Object.defineProperty(this, name, {
-          get: () => this.get(name),
-          set: (v) => this.set(name, v)
+          get: () => this.$get(name),
+          set: (v) => this.$set(name, v)
         })
       }  
     }

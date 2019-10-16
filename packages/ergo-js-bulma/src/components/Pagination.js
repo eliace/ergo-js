@@ -46,6 +46,9 @@ class Pagination extends Html {
             current: 0
           }, {
             properties: {
+              min: {},
+              max: {},
+              current: {},
               pages: (v) => {
                 let list = []
                 if (v.max - v.min) {
@@ -63,12 +66,13 @@ class Pagination extends Html {
                   }
                   list.push(v.max)
                 }
-                return list.map(v => {return {key: v, text: v}})
+                return list.map((v, i) => {return {key: i, text: v}})
               }
             },
             actions: {
               select: function (v) {
-                this.set('current', v)
+                this.current = v
+//                this.set('current', v)
               },
               next: function () {
                 this.set('current', Math.min(this.get('current')+1, this.get('max')))

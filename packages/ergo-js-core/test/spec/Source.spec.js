@@ -33,38 +33,122 @@ function eventKey (e) {
   return !e.channel? e.name : e.name+':'+e.channel
 }
 
+
+function stream (src, channel) {
+  return src.$stream(channel)
+}
+
+
+
 describe ('Source', () => {
-  it ('Should reconcile entries on calc', () => {
 
-    const data = new Source({
-      list: ['Alice', 'Bob', 'Charlie', 'Dave'],
-      query: ''
+  describe ('Basic operations', () => {
+
+    it ('Should self $remove (array)', () => {
+      const s = new Source([1,2,3])
+      s.$entry(0)
+
+      expect(s.$size).to.be.eq(3)
+      expect(Object.values(s.entries).length).to.be.eq(1)
+
+      s.$entry(0).$remove()
+
+      expect(s.$size).to.be.eq(2)
+      expect(Object.values(s.entries).length).to.be.eq(0)
+    })
+
+    it ('Should self $remove by id (array)', () => {
+      const s = new Source([1,2,3])
+      s.$entry(1)
+
+      expect(s.$size).to.be.eq(3)
+      expect(Object.values(s.entries).length).to.be.eq(1)
+
+      s.$remove(1)
+
+      expect(s.$size).to.be.eq(2)
+      expect(Object.values(s.entries).length).to.be.eq(0)
+    })
+
+  })
+
+
+  // describe ('Calculated properties', () => {
+
+  //   it 
+
+  // })
+
+
+
+  it ('Should update entries on change', () => {
+
+    const data = new Source([{
+      name: 'Alice'
     }, {
-      properties: {
-        filteredList: {
-          calc: function (v) {
-            return v.list.filter(s => s.toLowerCase().indexOf(v.query) != -1)
-          }
-        }
-      }
+      name: 'Bob'
+    }, {
+      name: 'Charlie'
+    }], {
+      key: v => v.name
     })
 
-    const entriesBefore = []
-
-    data.$entry('filteredList').$stream().entries((entry) => {
-      entriesBefore.push(entry)
+    const before = []
+    stream(data).entries(entry => {
+      before.push(entry)
     })
 
-    data.set('query', 'c')
+    data.$set([{
+      name: 'Bob'
+    }])
 
-    const entriesAfter = []
-
-    data.$entry('filteredList').$stream().entries((entry) => {
-      entriesAfter.push(entry)
+    const after = []
+    stream(data).entries(entry => {
+      after.push(entry)
     })
 
-    expect(entriesAfter[0]).to.equal(entriesBefore[0])
-    expect(entriesAfter[1]).to.equal(entriesBefore[2])
+    expect(before.length).to.be.eq(3)
+    expect(after.length).to.be.eq(1)
+    expect(before[1]).to.be.eq(after[0])
+    // expect(before[1]).to.be.eq(after[0])
+  })
+
+
+
+  it ('Should update nested entries on change', () => {
+
+    const data = new Source([{
+      name: 'Alice',
+      rates: [1,2,3]
+    }, {
+      name: 'Bob',
+      rates: [4,5]
+    }], {
+      key: v => v.name
+    })
+
+    const before = []
+    stream(data.$entry(0).$entry('rates'), 'data').entries(entry => {
+      before.push(entry)
+    })
+
+    data.$set([{
+      name: 'Alice',
+      rates: [2]
+    }])
+
+    const after = []
+    stream(data.$entry(0).$entry('rates'), 'data').entries(entry => {
+      after.push(entry)
+    })
+
+//    debugger
+
+    expect(before.length).to.be.eq(3)
+    expect(after.length).to.be.eq(1)
+    expect(before[1].$value).to.be.eq(after[0].$value)
+    expect(before[1]).to.be.eq(after[0])
+
 
   })
 

@@ -1,4 +1,4 @@
-import { Action } from "../components"
+import Action from "./Action"
 import ButtonWithIcon from './ButtonWithIcon'
 import Tool from './Tool'
 import Fields from './Fields'

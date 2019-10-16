@@ -16,7 +16,6 @@ export default class Carousel extends Html {
                         },
                         actions: {
                             next: function () {
-                                debugger
                                 this.index = this.index < this.images.length-1 ? this.index + 1 : 0
                             },
                             prev: function () {
