@@ -1,4 +1,5 @@
 import {Html} from 'ergo-js-core'
+import IconBox from './IconBox'
 
 export default class Button extends Html {
 
@@ -6,7 +7,18 @@ export default class Button extends Html {
     return {
       html: 'button',
       tabIndex: 0,
-      css: 'button'
+      css: 'button',
+      $icon: {
+        as: IconBox
+      },
+      $content: {
+        html: 'span',
+        renderIfEmpty: false
+      },
+      components: {
+        icon: false,
+        content: false
+      }
     }
   }
 
@@ -20,6 +32,11 @@ export default class Button extends Html {
       color: {
         initOrSet: function (v) {
           this.opt('classes', {['is-'+v]: true})
+        }
+      },
+      icon: {
+        initOrSet: function (v) {
+          this.opt('components', {icon: v, content: !!v})
         }
       }
     }

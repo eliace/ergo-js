@@ -325,15 +325,15 @@ class Html {
           this.props.className = classNames(this.props.className, o.join(' '))
         }
       }
-      else if (i == 'text') {
-        if (this.$content) {
-          this.$content.opt('text', o)
-        }
-        else {
-//          this.addComponent('content', {text: o})
-          this.text = o
-        }
-      }
+//       else if (i == 'text') {
+//         if (this.$content) {
+//           this.$content.opt('text', o)
+//         }
+//         else {
+// //          this.addComponent('content', {text: o})
+//           this.text = o
+//         }
+//       }
       else if (i == 'height') {
         this.props.style = this.props.style || {}
         this.props.style.height = (typeof o === 'string') ? o : o+'px'
@@ -358,6 +358,18 @@ class Html {
       else if (Config.HTML_EVENTS[i]) {
         this.props[Config.HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
       }
+    }
+
+    // временный костыль для компонентно-зависимой опции text
+    if (opts['text'] != null) {
+      const o = opts.text
+        if (this.$content) {
+          this.$content.opt('text', o)
+        }
+        else {
+//          this.addComponent('content', {text: o})
+          this.text = o
+        }
     }
 
     // 5. Синхронизируем компонент с доменами

@@ -5,6 +5,7 @@
 
 @import './bootstrap-carousel.scss';
 @import './spinner.scss';
+@import './overlay.scss';
 
 .rows {
   > .row {
@@ -120,4 +121,19 @@ a {
       color: scale-color(nth($col, 2), $alpha: -50%);
     }
   }
+}
+
+
+.is-inverted {
+  .loader {
+    border-bottom-color: $grey;
+    border-left-color: $grey;
+  }
+  .loader-label {
+    color: $grey;
+  }  
+}
+
+.loader-label {
+  color: $light;
 }

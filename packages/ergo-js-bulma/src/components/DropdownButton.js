@@ -3,6 +3,7 @@ import { withDropdown } from '../mixins'
 import { ButtonWithIcon } from '../extensions'
 
 import DropdownItem from './DropdownItem'
+import { Button } from '../elements'
 
 
 class DropdownModel extends Domain {
@@ -38,10 +39,14 @@ export default class DropdownButton extends Html {
                 this.opt('components', {dropdown: v})
             },
             $content: {
-                as: ButtonWithIcon,
-                icon: 'fas fa-caret-down',
+                as: Button,//WithIcon,
                 $icon: {
-                    weight: 10
+                    weight: 10,
+                    icon: 'fas fa-caret-down', // переставлено сюда с уровня Button, т.к. addComponent игнорирует повторное добавление
+                },
+                components: {
+                    icon: true,
+                    content: true
                 },
                 onClick: function (e, {modals, dropdown}) {
                     dropdown.$toggle()

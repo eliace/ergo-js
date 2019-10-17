@@ -1,4 +1,5 @@
 import {Html} from 'ergo-js-core'
+import { Image } from '../elements'
 
 
 export default class Card extends Html {
@@ -10,10 +11,15 @@ export default class Card extends Html {
         footer: false
       },
       $header: {
-        css: 'card-header'
+        css: 'card-header',
+        weight: -20
       },
       $image: {
-        css: 'card-image'
+        css: 'card-image',
+        $content: {
+          as: Image
+        },
+        weight: -10
       },
       $content: {
         css: 'card-content'
@@ -22,6 +28,20 @@ export default class Card extends Html {
         css: 'card-footer',
         defaultItem: {
           css: 'card-footer-item'
+        }
+      }
+    }
+  }
+  options () {
+    return {
+      image: {
+        initOrSet: function (v) {
+          this.opt('components', {image: v})
+        }
+      },
+      title: {
+        initOrSet: function (v) {
+          this.$header.opt('text', v)
         }
       }
     }

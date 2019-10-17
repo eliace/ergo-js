@@ -6,6 +6,7 @@ $fa-font-path : "~@fortawesome/fontawesome-free/webfonts";
 @import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
 @import './src/examples//performance-calendar.scss';
+@import './src/examples/feed.scss';
 
 html {
   height: 100%;

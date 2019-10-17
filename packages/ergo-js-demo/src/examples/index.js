@@ -8,6 +8,7 @@ import CountriesExample from './countries'
 import CatsExample from './cats'
 import Cats2Example from './cats2'
 import PerformanceExample from './performance-calendar'
+import FeedExample from './feed'
 
 export default () => {
 
@@ -22,13 +23,14 @@ export default () => {
       cats: (v) => v.selected == 'Cats',
       cats2: (v) => v.selected == 'Cats2',
       performance: (v) => v.selected == 'Performance',
+      feed: (v) => v.selected == 'Feed',
     }
   })
 
   return {
     sources: {
       page,
-      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2', 'Performance']
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2', 'Performance', 'Feed']
     },
     layout: Layouts.Rows,
     $header: {
@@ -71,7 +73,8 @@ export default () => {
       $countries: CountriesExample,
       $cats: CatsExample,
       $cats2: Cats2Example,
-      $performance: PerformanceExample
+      $performance: PerformanceExample,
+      $feed: FeedExample,
     }
   }
 }

@@ -46,7 +46,7 @@ export default () => {
     }, {
       as: Buttons,
       defaultItem: {
-        as: ButtonWithIcon,
+        as: Button,//WithIcon,
       },
       items: [
         {icon: 'fas fa-bold'},
@@ -56,7 +56,7 @@ export default () => {
     }, {
       as: Buttons,
       defaultItem: {
-        as: ButtonWithIcon,
+        as: Button,//WithIcon,
       },
       items: [
         {icon: 'fab fa-github', text: 'GitHub'},

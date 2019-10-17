@@ -1,0 +1,63 @@
+
+
+.feed-example {
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h3 {
+        font-size: 1.17em;
+        margin: 1em 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+        color: #333;
+    }
+    .container {
+        max-width: 40em;
+        padding: 0 1.5rem;
+        margin: 0 auto;
+    }    
+
+    .box {
+        padding: 0.5em 1.5em;
+        margin: 1em 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        background: #fff;
+    }
+    .count {
+        background: #48d8bb;
+        padding: 4px 10px;
+        font-size: 14px;
+        border-radius: 100px;
+        color: #fff;
+    }
+    .loading {
+        text-align: center;
+    }
+    .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow-y: hidden;
+        background: #fff;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        max-height: 0;
+        transition: all 0.5s ease-out;
+        &.open {
+            max-height: 100px;
+        }
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+
+}

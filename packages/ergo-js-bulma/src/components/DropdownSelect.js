@@ -3,6 +3,7 @@ import { ButtonWithIcon } from '../extensions'
 import ListDropdown from './ListDropdown'
 import { withDropdown } from '../mixins'
 import DropdownItem from './DropdownItem'
+import { Button } from '../elements'
 
 export default class DropdownSelect extends Html {
     config () {
@@ -44,7 +45,7 @@ export default class DropdownSelect extends Html {
             'width': '100%'
           },
           $content: {
-            as: ButtonWithIcon,
+            as: Button,//WithIcon,
             css: 'is-fullwidth',
             $icon: {
               weight: 10,
@@ -67,7 +68,9 @@ export default class DropdownSelect extends Html {
               text: 'Select me...'
             },
             components: {
-              placeholder: false
+              placeholder: false,
+              icon: true,
+              content: true
             },
             viewChanged: function (v, s) {
               this.opt('components', {placeholder: s.$props.placeholder})

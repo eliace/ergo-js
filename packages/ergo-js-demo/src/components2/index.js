@@ -6,6 +6,8 @@ import ToastExample from './toast'
 import ListExample from './list'
 import CarouselExample from './carousel'
 import LoaderExample from './loader'
+import OverlayExample from './overlay'
+
 
 import {PreviewAndCode} from '../extensions'
 
@@ -26,6 +28,7 @@ const ToastCode = ''//fs.readFileSync(__dirname+'/toast.js', 'utf-8')
 const ListCode = ''//fs.readFileSync(__dirname+'/list.js', 'utf-8')
 import CarouselCode from 'raw-loader!./carousel'//fs.readFileSync(__dirname+'/carousel.js', 'utf-8')
 import LoaderCode from 'raw-loader!./loader'
+import OverlayCode from 'raw-loader!./overlay'
 
 
 export default () => {
@@ -38,7 +41,8 @@ export default () => {
       toast: v => v.selected == 'Toast',
       list: v => v.selected == 'List',
       carousel: v => v.selected == 'Carousel',
-      loader: v => v.selected == 'Loader'
+      loader: v => v.selected == 'Loader',
+      overlay: v => v.selected == 'Overlay',
     }
   })
 
@@ -71,6 +75,7 @@ export default () => {
           {text: 'List'},
           {text: 'Carousel'},
           {text: 'Loader'},
+          {text: 'Overlay'},
         ]
       }
     },
@@ -84,6 +89,7 @@ export default () => {
       $list: previewOf(ListExample, ListCode),
       $carousel: previewOf(CarouselExample, CarouselCode),
       $loader: previewOf(LoaderExample, LoaderCode),
+      $overlay: previewOf(OverlayExample, OverlayCode),
     }
   }
 }

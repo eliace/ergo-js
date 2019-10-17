@@ -10,6 +10,16 @@ class Icon extends Html {
     }
   }
 
+  options () {
+    return {
+      text: {
+        initOrSet: function(v) {
+          this.opt('css', [v])
+        }
+      }
+    }
+  }
+
 }
 
 
