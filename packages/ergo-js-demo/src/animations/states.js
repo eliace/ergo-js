@@ -38,7 +38,7 @@ class AnimatedNumber extends Html {
             tweeningValue: 0
           }
         },
-        data: (o, ctx) => ctx.data || ''
+        data: (ctx, o) => ctx.data || ''
       },
       html: 'span',
       viewChanged: function (v) {

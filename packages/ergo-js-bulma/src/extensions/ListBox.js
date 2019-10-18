@@ -25,9 +25,8 @@ class Item extends Html {
             $image: {
                 as: ImageBox,
                 weight: 10,
-                css: 'list-box-item__image',
+                css: 'list-box-item__image is-after',
                 rounded: true,
-                css: 'is-after'
             },
             $icon: {
                 as: IconBox,

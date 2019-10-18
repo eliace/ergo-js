@@ -18,7 +18,7 @@ export class Joint {
 
     callback (e, s) {
         const v = e.data
-        this.opt(s.key, s.property ? v[s.property] : s.format(v))
+        this.opt(s.key, s.property ? v[s.property] : s.format(v, s.source))
     }
 
     join (target, key) {

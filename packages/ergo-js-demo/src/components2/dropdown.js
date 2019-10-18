@@ -30,7 +30,7 @@ export default () => {
     items: [{
       sources: {
         view: () => 'Guatemala',
-        data: (o, ctx) => ctx.data
+        data: (ctx, o) => ctx.data
       },
       as: DropdownSelect,
       width: 400,

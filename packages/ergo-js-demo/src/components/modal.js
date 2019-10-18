@@ -38,7 +38,7 @@ class BaseModal extends Html {
         // }),
 
         // внешняя модель
-        view: (o, ctx) => ctx.view || new ModalModel({})
+        view: (ctx, o) => ctx.view || new ModalModel({})
       },
       join: {
         view: {
@@ -95,7 +95,7 @@ class ImageModal extends BaseModal {
   config () {
     return {
       sources: {
-        data: (o, ctx) => ctx.data
+        data: (ctx, o) => ctx.data
       },
       active: true,
       $content: {
@@ -198,7 +198,7 @@ export default () => {
       },
       $modal: {
         sources: {
-          view: (o, ctx) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
+          view: (ctx, o) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
         },
         as: ImageModal,
         active: false,
@@ -227,7 +227,7 @@ export default () => {
       },
       $modal: {
         sources: {
-          view: (o, ctx) => ctx.view // указываем, что используется внешняя модель
+          view: (ctx, o) => ctx.view // указываем, что используется внешняя модель
         },
         as: ImageModal
       },
@@ -368,8 +368,8 @@ export default () => {
       },
       $dialog: {
         sources: {
-          view: (o, ctx) => ctx.addDialog,
-          list: (o, ctx) => ctx.data
+          view: (ctx, o) => ctx.addDialog,
+          list: (ctx, o) => ctx.data
         },
         as: InputDialog,
         onOk: function (e, {list, data}) {
@@ -379,8 +379,8 @@ export default () => {
       },
       $dialog2: {
         sources: {
-          view: (o, ctx) => ctx.editDialog,
-          data: (o, ctx) => ctx.view.$entry('value')
+          view: (ctx, o) => ctx.editDialog,
+          data: (ctx, o) => ctx.view.$entry('value')
         },
         as: InputDialog,
         onOk: function (e, {data}) {
@@ -450,7 +450,7 @@ export default () => {
       },
       $modal: {
           sources: {
-            __view: (o, ctx) => ctx.view
+            __view: (ctx, o) => ctx.view
           },
           as: ImageModal
       }
@@ -462,7 +462,7 @@ export default () => {
             opened: {}
           }
         }),
-        modals: (o, ctx) => ctx.modals
+        modals: (ctx, o) => ctx.modals
       },
       components: {
         modal: false

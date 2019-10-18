@@ -29,7 +29,7 @@ export default class Carousel extends Html {
 //            width: 512,
             $indicators: {
                 sources: {
-                    data: (o, ctx) => ctx.model.$entry('images')
+                    data: (ctx, o) => ctx.model.$entry('images')
                 },
                 html: 'ol',
                 css: 'carousel-indicators',
@@ -51,7 +51,7 @@ export default class Carousel extends Html {
             },
             $content: {
                 sources: {
-                    data: (o, ctx) => ctx.model.$entry('images')
+                    data: (ctx, o) => ctx.model.$entry('images')
                 },
                 css: 'carousel-inner',
                 onClick: function (e, {model}) {

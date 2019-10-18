@@ -9,6 +9,7 @@ import CatsExample from './cats'
 import Cats2Example from './cats2'
 import PerformanceExample from './performance-calendar'
 import FeedExample from './feed'
+import ValidationExample from './validation'
 
 export default () => {
 
@@ -24,13 +25,14 @@ export default () => {
       cats2: (v) => v.selected == 'Cats2',
       performance: (v) => v.selected == 'Performance',
       feed: (v) => v.selected == 'Feed',
+      validation: (v) => v.selected == 'Validation',
     }
   })
 
   return {
     sources: {
       page,
-      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2', 'Performance', 'Feed']
+      tabs: ['Domain', 'Multidomain', 'Posts', 'Countries', 'Cats', 'Cats2', 'Performance', 'Feed', 'Validation']
     },
     layout: Layouts.Rows,
     $header: {
@@ -45,7 +47,7 @@ export default () => {
         as: Tabs,
         defaultTab: {
           sources: {
-            __state: (o, ctx) => ctx.page
+            __state: (ctx, o) => ctx.page
           },
           // pageChanged: function (v) {
           //   this.opt('selected', this.opt('text') == v.selected)
@@ -75,6 +77,7 @@ export default () => {
       $cats2: Cats2Example,
       $performance: PerformanceExample,
       $feed: FeedExample,
+      $validation: ValidationExample,
     }
   }
 }

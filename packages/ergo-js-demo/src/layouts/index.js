@@ -50,8 +50,8 @@ export default () => {
       },
       $tabs: {
         sources: {
-          __state: (o, ctx) => ctx.page,
-          data: (o, ctx) => ctx.data.$entry('tabs')
+          __state: (ctx, o) => ctx.page,
+          data: (ctx, o) => ctx.data.$entry('tabs')
         },
         as: Tabs,
         defaultTab: {

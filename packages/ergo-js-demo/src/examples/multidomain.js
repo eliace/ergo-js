@@ -182,7 +182,7 @@ export default () => {
       },
       $info: {
         sources: {
-          value: (o, ctx) => ctx.selection
+          value: (ctx, o) => ctx.selection
         },
         as: ValueText,
 //        valueRef: 'selection',

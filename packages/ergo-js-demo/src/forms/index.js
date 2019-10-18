@@ -41,7 +41,7 @@ export default () => {
       },
       $tabs: {
         sources: {
-          __state: (o, ctx) => ctx.data
+          __state: (ctx, o) => ctx.data
         },
         as: Tabs,
         // defaultTab: {

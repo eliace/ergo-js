@@ -69,7 +69,7 @@ export default () => {
       as: Field,
       label: 'Button',
       control: {
-        as: ButtonWithIcon,
+        as: Button,
         text: 'Press me',
         css: 'is-danger is-outlined',
         icon: 'fas fa-envelope'

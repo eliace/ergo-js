@@ -28,7 +28,7 @@ export default class DropdownButton extends Html {
             sources: {
                 view: () => '',
                 dropdown: () => new DropdownModel(),
-                modals: (o, ctx) => ctx.modals
+                modals: (ctx, o) => ctx.modals
             },
             mix: { withDropdown },
             styles: {
@@ -66,7 +66,7 @@ export default class DropdownButton extends Html {
             },
             $dropdown: {
                 // sources: {
-                //     list: (o, ctx) => ctx.list,
+                //     list: (ctx, o) => ctx.list,
                 // },
                 css: 'dropdown-content is-hovered',
                 styles: {

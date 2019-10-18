@@ -118,7 +118,7 @@ export default () => {
           }
         }
         // sources: {
-        //   data: (o, ctx) => ctx.data.$entry('imageUrls')
+        //   data: (ctx, o) => ctx.data.$entry('imageUrls')
         // }
 
         // $image: {

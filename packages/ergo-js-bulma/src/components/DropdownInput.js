@@ -23,7 +23,7 @@ export default class DropdownInput extends Html {
                 },
                 value: () => '',
                 list: () => [],
-                modals: (o, ctx) => ctx.modals
+                modals: (ctx, o) => ctx.modals
             },
             mix: { withDropdown },
             dropdownChanged: function (v) {
@@ -43,10 +43,10 @@ export default class DropdownInput extends Html {
             },
             $dropdown: {
                 // sources: {
-                //     list: (o, ctx) => ctx.list,
-                //     value: (o, ctx) => ctx.value,
-                //     dropdown: (o, ctx) => ctx.dropdown,
-                //     modals: (o, ctx) => ctx.modals
+                //     list: (ctx, o) => ctx.list,
+                //     value: (ctx, o) => ctx.value,
+                //     dropdown: (ctx, o) => ctx.dropdown,
+                //     modals: (ctx, o) => ctx.modals
                 // },
                 css: 'dropdown-content is-hovered',
                 styles: {

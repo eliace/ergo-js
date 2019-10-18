@@ -46,7 +46,7 @@ export default function withToasts (mixer) {
         },
         $toasts: {
             sources: {
-                data: (o, ctx) => ctx.toasts.$entry('opened')
+                data: (ctx, o) => ctx.toasts.$entry('opened')
             },
             dataChanged: function (v, s) {
                 this.opt('items', s)

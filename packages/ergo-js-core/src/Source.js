@@ -475,7 +475,7 @@ class Source {
   _update (direction, event, ids, cache) {
     if (!this._updating && !this.removed) {
       this._updating = this
-      try {
+      // try {
 
         const prevValue = cache || this.cache
 
@@ -562,11 +562,11 @@ class Source {
 
         this.emit('changed', nextValue, {ids, cache: prevValue, cause: event}, '*')
 
-      }
-      catch (err) {
-        console.error(err)
-        throw err
-      }
+      // }
+      // catch (err) {
+      //   console.error(err)
+      //   throw err
+      // }
 //      this.emit('afterChanged')
       delete this._updating
     }

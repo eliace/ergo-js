@@ -119,7 +119,7 @@ class Html {
 
   constructor(options={}, context) {
 
-    try {
+//    try {
 
     var proto = Object.getPrototypeOf(this)
 
@@ -274,20 +274,16 @@ class Html {
     for (let i in opts) {
       const o = opts[i]
 
+      if (i == 'text') {
+        continue
+      }
+
       if (o instanceof Joint) {
-        // if (!this._optJoints) {
-        //   this._optJoints = {}
-        // }
-        // this._optJoints[i] = o
         o.join(this, i) // добавялем joint в подписчики source
         opts[i] = null
-        // this._optJoints[i] = o
-        // o.target = this
-
-//        const source = this.
-
         continue // связанные опции будут обновлены при init
       }
+
 
       // if (o instanceof Binder) {
       //   if (!this._binders) {
@@ -361,16 +357,45 @@ class Html {
     }
 
     // временный костыль для компонентно-зависимой опции text
-    if (opts['text'] != null) {
-      const o = opts.text
-        if (this.$content) {
-          this.$content.opt('text', o)
+    ['text'].forEach(i => {
+      if (i in opts) {
+      const o = opts[i]
+
+      if (o instanceof Joint) {
+        o.join(this, i) // добавялем joint в подписчики source
+        opts[i] = null
+        return // связанные опции будут обновлены при init
+      }
+
+      if (opts.options && opts.options[i]) {
+        const desc = opts.options[i]
+        if (desc.init) {
+          desc.init.call(this, opts[i])
         }
-        else {
-//          this.addComponent('content', {text: o})
-          this.text = o
+        else if (desc.initOrSet) {
+          desc.initOrSet.call(this, opts[i])
         }
-    }
+      }
+      else if (this.classOptions[i]) {
+        const desc = this.classOptions[i]
+        if (desc.init) {
+          desc.init.call(this, opts[i])
+        }
+        else if (desc.initOrSet) {
+          desc.initOrSet.call(this, opts[i])
+        }
+      }
+      else if (i == 'text') {
+          if (this.$content) {
+            this.$content.opt('text', o)
+          }
+          else {
+  //          this.addComponent('content', {text: o})
+            this.text = o
+          }
+      }
+      }
+    })
 
     // 5. Синхронизируем компонент с доменами
 
@@ -408,11 +433,11 @@ class Html {
         }*/
       }
 
-    }
-    catch (err) {
-      console.error(err)
-      throw err
-    }
+    // }
+    // catch (err) {
+    //   console.error(err)
+    //   throw err
+    // }
   }
 
 
@@ -1360,7 +1385,7 @@ class Html {
     let ref = o[i+'Ref']
 
     if (typeof v === 'function') {
-      v = v(this.context, this.context, i) // FIXME второй параметр должен быть o
+      v = v(this.context, o, i)
     }
     else if (ref) {
       if (!this.sources[ref]) {

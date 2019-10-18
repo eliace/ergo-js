@@ -3,7 +3,7 @@ import { Layout, deepClone } from 'ergo-js-core'
 export default function withPortalSource (mixer) {
     mixer.merge({
         sources: {
-            portal: (o, ctx) => ctx.portal
+            portal: (ctx, o) => ctx.portal
         },
         onDirty: function (e, {portal}) {
             this._dirty = true

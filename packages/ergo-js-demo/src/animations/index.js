@@ -37,7 +37,7 @@ export default () => {
         as: Tabs,
         defaultTab: {
             sources: {
-              __state: (o, ctx) => ctx.data
+              __state: (ctx, o) => ctx.data
             },
             tabsChanged: function (v) {
               this.opt('text', v)

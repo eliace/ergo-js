@@ -69,7 +69,7 @@ export default () => {
         as: Tabs,
         level: Layouts.Level.RIGHT,
         sources: {
-          __state: (o, ctx) => ctx.data
+          __state: (ctx, o) => ctx.data
         },
         // defaultTab: {
         //   dataChanged: function (v) {
