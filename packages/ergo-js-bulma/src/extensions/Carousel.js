@@ -4,8 +4,8 @@ import { Html, Domain } from 'ergo-js-core'
 export default class Carousel extends Html {
     config () {
         return {
-            sources: {
-                model: () => {
+            scope: {
+                view: () => {
                     return new Domain({
                         index: 0,
                         images: []
@@ -21,6 +21,11 @@ export default class Carousel extends Html {
                             prev: function () {
 
                             }
+                        },
+                        watch: {
+                            images: function (v) {
+                                this.index = v.length ? Math.min(this.index, v.length-1) : 0
+                            }
                         }
                     })
                 }
@@ -28,8 +33,8 @@ export default class Carousel extends Html {
             css: 'carousel fade',
 //            width: 512,
             $indicators: {
-                sources: {
-                    data: (ctx, o) => ctx.model.$entry('images')
+                scope: {
+                    data: (ctx) => ctx.view.$entry('images')
                 },
                 html: 'ol',
                 css: 'carousel-indicators',
@@ -38,24 +43,24 @@ export default class Carousel extends Html {
                 },
                 defaultItem: {
                     html: 'li',
-                    modelChanged: function (v) {
+                    viewChanged: function (v) {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
-                    dataChanged: function (v, ind) {
-                        this.opt('key', ind.$props.id)
+                    dataChanged: function (v, img) {
+                        this.opt('key', img.$id)
                     }
                 },
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             },
             $content: {
-                sources: {
-                    data: (ctx, o) => ctx.model.$entry('images')
+                scope: {
+                    data: (ctx) => ctx.view.$entry('images')
                 },
                 css: 'carousel-inner',
-                onClick: function (e, {model}) {
-                    model.next()
+                onClick: function (e, {view}) {
+                    view.next()
                 },
                 defaultItem: {
                     css: 'carousel-item',
@@ -63,28 +68,29 @@ export default class Carousel extends Html {
                         html: 'img',
                         css: 'd-block w-100',
                     },
-                    modelChanged: function (v) {
+                    viewChanged: function (v) {
                         this.opt('classes', {'active': v.index == this.opt('key')})
                     },
                     dataChanged: function (v, img) {
-                        this.opt('key', img.$props.id)
+                        this.opt('key', img.$id)
                         this.$image.opt('src', v)
                     }
                 },
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             }
         }
     }
 
-    options () {
+    properties () {
         return {
             images: {
-                initOrSet: function (v) {
-                    const {model} = this.sources
-                    model.images = v
-                    model.index = v.length ? Math.min(model.index, v.length-1) : 0
+                set: function (v) {
+                    this.scope.view.images = v
+                    // const {view} = this.sources
+                    // view.images = v
+                    // view.index = v.length ? Math.min(view.index, v.length-1) : 0
                 }
             }
         }

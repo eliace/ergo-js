@@ -39,21 +39,21 @@ export default class Switch extends Html {
       }
     }
   
-    options () {
+    properties () {
       return {
         checked: {
-          initOrSet: function (v) {
+          set: function (v) {
 //            this.sources.value.set(v)
             this.$input.opt('checked', v)
           }
         },
         block: {
-          initOrSet: function (v) {
+          set: function (v) {
             this.$input.opt('classes', {'is-block': v})
           }
         },
         value: {
-            initOrSet: function (v) {
+            set: function (v) {
 //              this.sources.value.set(v)
               this.$input.opt('checked', !!v)
             }

@@ -12,10 +12,10 @@ class ActionTool extends Tool {
             }
         }
     }
-    options () {
+    properties () {
         return {
             icon: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$control.opt('icon', v)
                 }
             }
@@ -31,15 +31,15 @@ class ButtonTool extends Tool {
             }
         }
     }
-    options () {
+    properties () {
         return {
             icon: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$control.opt('icon', v)
                 }
             },
             color: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$control.opt('color', v)
                 }
             }

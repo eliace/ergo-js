@@ -55,7 +55,7 @@ export default class SplitButton extends Html {
                     placeholder: false
                 },
                 viewChanged: function (v, s) {
-                    this.opt('components', {placeholder: s.$props.placeholder})
+                    this.opt('components', {placeholder: s.placeholder})
                 }
             },
             $toggler: {
@@ -94,7 +94,7 @@ export default class SplitButton extends Html {
             }
         }
     }
-    options () {
+    properties () {
         return {
             // text: {
             //     initOrSet: function (v) {
@@ -103,21 +103,24 @@ export default class SplitButton extends Html {
             //     }
             // },
             color: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$content.opt('color', v)
                     this.$toggler.opt('color', v)
                 }    
             },
             placeholder: {
-                mix: function (v, mixer) {
-                    mixer.mix({
-                        $content: {
-                            $placeholder: {
-                                text: v
-                            }
-                        }
-                    })
+                set: function (v) {
+                    this.$content.$placeholder.opt('text', v)
                 }
+                // mix: function (v, mixer) {
+                //     mixer.mix({
+                //         $content: {
+                //             $placeholder: {
+                //                 text: v
+                //             }
+                //         }
+                //     })
+                // }
                 // initOrSet: function (v) {
                 //     this.$content.opt('components', {placeholder: v})
                 // }

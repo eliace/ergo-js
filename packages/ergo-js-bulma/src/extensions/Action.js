@@ -20,10 +20,10 @@ class Action extends Html {
         }
       }
     }
-    options () {
+    properties () {
       return {
         icon: {
-          initOrSet: function (v) {
+          set: function (v) {
             this.opt('components', {icon: v})
           }
         }

@@ -273,3 +273,29 @@ body {
 //     }
 //   }
 // }
+
+.code-panel {
+  margin-top: 1.5rem;
+}
+
+
+.app-layout {
+  > .app-menu {
+    position: fixed;
+    height: 100%;
+    width: 20%;
+    overflow: auto;
+    padding: 0.75rem;
+    margin-top: -3.25rem;
+    padding-top: 4rem;
+    border-right: 1px solid #eee;
+  }
+  > .app-content {
+    width: 80%;
+    overflow: auto;
+    margin-left: 20%;
+//    padding: 0.75rem;
+    padding: 0.5rem 1.25rem;
+    background-color: #f8f8f8;
+  }
+}

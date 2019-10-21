@@ -8,10 +8,10 @@ export default class DropdownItem extends Html {
       }
     }
   
-    options () {
+    properties () {
       return {
         active: {
-          initOrSet: function (v) {
+          set: function (v) {
             this.opt('classes', {'is-active': v})
           }
         }

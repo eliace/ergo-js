@@ -29,17 +29,17 @@ const ComponentRules = {
 const ComponentOptions = {
 
   // настройка компонента
-  base: true,
+//  base: true,
   options: true,
+  properties: true,
   mixins: true,
 
   // управление отрисовкой
-  text: true,
+//  text: true,
   as: true,
-  css: true,
-  styles: true,
-  classes: true,
-  props: true,
+//  styles: true,
+//  classes: true,
+//  props: true,
   html: true,
   layout: true,
   render: true,
@@ -51,36 +51,93 @@ const ComponentOptions = {
 
   // настройка подключения к данным
   sources: true,
+  scope: true,
 
   // производные опции
   itemFactory: true,
   componentFactory: true,
   defaultItem: true,
   defaultComponent: true,
-  allBound: true,
   anyChanged: true,
   allJoined: true,
   use: true,
   join: true
 }
 
+
+const ComponentProperties = {
+
+//  key: true,
+
+  // управление отрисовкой
+  text: true,
+  css: true,
+  styles: true,
+  classes: true,
+//  props: true,
+  html: true,
+  layout: true,
+  render: true,
+  height: true,
+  width: true,
+
+  // управление деревом компонентов
+  components: {mutable: true},
+  items: {mutable: true}
+}
+
+
 // реакции вида *Changed
 // события on*
 // параметры *Id, *Ref
 
-
+/*
 function initClassOpts (proto) {
   const chain = []
   const opts = []
+  const props = []
 
   let cls = proto
+
+  while (cls && cls.constructor !== Object) {
+//    console.log('cls', cls)
+    if (cls.hasOwnProperty('classProps')) {
+      break
+    }
+    if (cls.hasOwnProperty('properties')) {
+      props.push(cls)//[cls, cls.properties()])
+    }
+    cls = Object.getPrototypeOf(cls)
+  }
+
+  let classProps = {}
+  props.reverse().forEach(p => {
+    p.classProps = {...classProps, ...p.properties()}
+    classProps = p.classProps
+//    console.log(p, p.classProps)
+  })
+
+  cls = proto
+
 
   while (cls && cls.constructor !== Object) {
     // if (cls.config) {
     //   console.log('defaults', cls, cls.config())
     // }
-    chain.push(cls.defaultOpts || cls.constructor.defaultOpts || (cls.config && cls.config()))
-    opts.push((cls.options && cls.options()) || (cls.configOptions && cls.configOptions()))
+    // const p = cls.properties && cls.properties()
+
+    // if (p) {
+    //   for (let i in p) {
+    //     Object.defineProperty(cls, )
+    //   }
+    // }
+
+
+//    console.log(cls.hasOwnProperty('properties'), cls)
+
+    chain.push(cls.config && cls.config())
+    opts.push((cls.options && cls.options()))
+//    props.push(cls.properties && cls.properties())
     cls = Object.getPrototypeOf(cls)
   }
 
@@ -106,10 +163,23 @@ function initClassOpts (proto) {
 
   proto.classOptions = classOpts
 
+//  prop
+
+  // const classProps = {}
+
+  // for (let i = props.length-1; i >= 0; i--) {
+  //   // добавляем только в том случае, когда опции не наследуются
+  //   if (props[i] && props[i] != props[i+1]) {
+  //     Object.assign(classProps, props[i])
+  //   }
+  // }
+
+  // proto.classProps = classProps
+
   // создаем прототип для опций класса
   proto.classOptsProxy = createOptionsProto({...Config.HTML_OPTIONS, ...ComponentOptions, ...classOpts})
 }
-
+*/
 
 
 
@@ -121,75 +191,118 @@ class Html {
 
 //    try {
 
-    var proto = Object.getPrototypeOf(this)
+//    console.log(this.constructor)
+    const classDesc = Config.getClassDescriptor(this.constructor)//classes.get(this.constructor)
+//    console.log(classDesc)
 
-    //  собираем опции класса, если они еще не собраны
-    if (!proto.hasOwnProperty('classDefaults')) {
-      initClassOpts(proto)
+    // var proto = Object.getPrototypeOf(this)
+
+    // //  собираем опции класса, если они еще не собраны
+    // if (!proto.hasOwnProperty('classDefaults')) {
+    //   initClassOpts(proto)
+    // }
+
+    let opts = classDesc.config
+
+    let preparedOpts = new Options(classDesc.config)//, options).build(classDesc.rules)//ComponentRules)
+
+    // применям примеси класса (FIXME надо отсюда убрать)
+    let mixins = {}
+    if (opts) {
+      Object.assign(mixins, opts.mixins || opts.mix)
+    }
+    Object.assign(mixins, options.mixins || options.mix)
+
+    for (let i in mixins) {
+      let mixinOpts = mixins[i].call(this, preparedOpts)
+      if (mixinOpts) {
+        preparedOpts.merge(mixinOpts)
+      }
     }
 
-    let opts = new Options(this.classDefaults, options).build(ComponentRules)
+    // применяем примеси конфигурации
+
+//    preparedOpts.mix(options)
+
+    opts = preparedOpts.mix(options).build(classDesc.rules)
+//    let opts = new Options(/*this.classDefaults*/classDesc.config, options).build(classDesc.rules)//ComponentRules)
 
 //    this.context = context || new Context()
 
     // 1. Примешиваем опции
 
-    const preparedOpts = new Options(opts)//, extOpts)
+//    preparedOpts = new Options(opts, options)//, extOpts)
+
+    // // применяем опции этапа mix
+    // for (let i in opts) {
+    //   if (classDesc.options[i]/*this.classOptions[i] || this.constructor.OPTIONS[i]*/) {
+    //     const desc = classDesc.options[i]/*this.classOptions[i] || this.constructor.OPTIONS[i]*/
+    //     if (desc.mix) {
+    //       desc.mix.call(this, opts[i], preparedOpts)
+    //     }
+    //   }
+    // }
+
+    // // применяем примеси
+    // if (opts.mixins || opts.mix) {
+    //   const mixins = opts.mixins || opts.mix
+    //   for (let i in mixins) {
+    //     let mixinOpts = mixins[i].call(this, preparedOpts)
+    //     if (mixinOpts) {
+    //       preparedOpts.merge(mixinOpts)
+    //     }
+    //   }
+    // }
+
+    // завершаем конструирование опций
+//    opts = preparedOpts.build(classDesc.rules)//ComponentRules)
+
+    preparedOpts = new Options(opts)//, extOpts)
 
     // применяем опции этапа mix
-    for (var i in opts) {
-      if (this.classOptions[i]/* || this.constructor.OPTIONS[i]*/) {
-        const desc = this.classOptions[i]/* || this.constructor.OPTIONS[i]*/
+    for (let i in opts) {
+      if (classDesc.options[i]/*this.classOptions[i] || this.constructor.OPTIONS[i]*/) {
+        const desc = classDesc.options[i]/*this.classOptions[i] || this.constructor.OPTIONS[i]*/
         if (desc.mix) {
           desc.mix.call(this, opts[i], preparedOpts)
         }
       }
     }
 
-    // применяем примеси
-    if (opts.mixins || opts.mix) {
-      const mixins = opts.mixins || opts.mix
-      for (let i in mixins) {
-        let mixinOpts = mixins[i].call(this, preparedOpts)
-        if (mixinOpts) {
-          preparedOpts.merge(mixinOpts)
-        }
-      }
-    }
+    opts = preparedOpts.build(classDesc.rules)
 
-    // завершаем конструирование опций
-    opts = preparedOpts.build(ComponentRules)
 
-    this.html = opts.html || 'div'
+    this._html = opts.html || 'div'
     this.children = []
     this.props = opts.props || {}// {classes: {}, styles: {}}
-    this.layout = opts.layout
+    this._layout = opts.layout
     this.context = context || {}
     this.renderers = opts.renderers
     this.dom = {}
 
 
     this._internal = {
-      html: this.html,
+      html: this._html,
       props: this.props,
       children: this.children,
       options: opts,
       context: this.context
     }
 
-    // прокси-хелпер для опций
-    this.opts = {__target: this}
+    // // прокси-хелпер для опций
+    // this.opts = {__target: this}
 
-    Object.setPrototypeOf(this.opts, this.classOptsProxy)
+    // Object.setPrototypeOf(this.opts, this.classOptsProxy)
 
-    if (opts.options) {
-      const instOptProto = createOptionsProto(opts.options)
-      Object.setPrototypeOf(instOptProto, this.classOptsProxy)
-      Object.setPrototypeOf(this.opts, instOptProto)
-    }
+    // if (opts.options) {
+    //   const instOptProto = createOptionsProto(opts.options)
+    //   Object.setPrototypeOf(instOptProto, this.classOptsProxy)
+    //   Object.setPrototypeOf(this.opts, instOptProto)
+    // }
 
     this.options = opts
 
+//    this.properties = opts.properties || {}
 
     // if (('base' in this.options) && this.options.base == null) {
     //   console.error('Missing base in', this.options)
@@ -205,14 +318,16 @@ class Html {
 
     this.sources = {}
 
-    const sources = {...this.context, ...opts.sources}
+    const sources = {...this.context, ...opts.sources, ...opts.scope}
+
+    let isJoined = false
 
     if (sources) {
-      for (let i in sources) {
+//      for (let i in sources) {
     //        console.log('local', i)
-        this.bind(sources[i], i)
-      }
-      if (opts.allBound || opts.allJoined) {
+        isJoined |= !!this.bind(sources)//[i], i)
+//      }
+      if (opts.allJoined) {
         for (let i in this.sources) {
           if (this.sources[i]._key) {
 //            this.sources[i]._key.push(i)
@@ -223,7 +338,7 @@ class Html {
           this.sources[i]._key = i
 //          }
         }
-        const unjoin = (opts.allBound || opts.allJoined).call(this, this.sources)
+        const unjoin = opts.allJoined.call(this, this.sources)
         if (!this.joints) {
           this.joint = {}
         }
@@ -231,12 +346,40 @@ class Html {
         for (let i in this.sources) {
           delete this.sources[i]._key
         }
+
+        isJoined = true
       }
     }
 
 
+    // const defineComponent = (name) => {
+    //   Object.defineProperty(this, '$$'+name, {
+    //     get: () => {
+    //       return this['$'+name] || {
+    //         prop: (k, v) => {
+    //           if (!this._propsCache) {
+    //             this._propsCache = {}
+    //           }
+    //           if (!this._propsCache['$'+name]) {
+    //             this._propsCache['$'+name] = []
+    //           }
+    //           this._propsCache['$'+name].push([k, v])
+    //         }
+    //       }
+    //     },
+    //     set: (c) => {
+    //       this['$'+name] = c
+    //     }
+    //   })
+    // }
 
     // 3. Создаем статические компоненты и элементы
+
+    // for (let i in opts) {
+    //   if (i[0] == '$') {
+    //     defineComponent(i.substr(1))
+    //   }
+    // }
 
     if (opts.components == null) {
       for (let i in opts) {
@@ -267,22 +410,26 @@ class Html {
       }
     }
 
-
-
     // 4. Применяем свойства этапа init
 
     for (let i in opts) {
       const o = opts[i]
 
-      if (i == 'text') {
+      const desc = (opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]// this.classOptions[i] 
+
+      if (!desc) {
         continue
       }
 
-      if (o instanceof Joint) {
-        o.join(this, i) // добавялем joint в подписчики source
-        opts[i] = null
-        continue // связанные опции будут обновлены при init
-      }
+      // if (i == 'text') {
+      //   continue
+      // }
+
+      // if (o instanceof Joint) {
+      //   o.join(this, i) // добавялем joint в подписчики source
+      //   opts[i] = null
+      //   continue // связанные опции будут обновлены при init
+      // }
 
 
       // if (o instanceof Binder) {
@@ -298,22 +445,180 @@ class Html {
       //   continue
       // }
 
-      if (opts.options && opts.options[i]) {
-        const desc = opts.options[i]
-        if (desc.init) {
-          desc.init.call(this, opts[i])
-        }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, opts[i])
-        }
+      if (desc.init) {
+        desc.init.call(this, opts[i])
       }
-      else if (this.classOptions[i]/* || this.constructor.OPTIONS[i]*/) {
-        const desc = this.classOptions[i]/* || this.constructor.OPTIONS[i]*/
-        if (desc.init) {
-          desc.init.call(this, opts[i])
+      // else if (Config.HTML_OPTIONS[i] === true) {
+      //   this.props[i] = o
+      // }
+      // else if (Config.HTML_OPTIONS[i]) {
+      //   this.props[Config.HTML_OPTIONS[i]] = o
+      // }
+      else if (Config.HTML_EVENTS[i]) {
+        this.props[Config.HTML_EVENTS[i]] =  (e) => o.call(this, e, this.sources)
+      }
+
+      
+//       if (opts.properties && opts.properties[i] && opts.properties[i].set) {
+//         const desc = opts.properties[i]
+//         if (desc.set) {
+//           desc.set.call(this, opts[i])
+//         }
+//       }
+//       else if (this.classProps[i] && this.classProps[i].set) {
+//         const desc = this.classProps[i]
+//         if (desc.set) {
+//           desc.set.call(this, opts[i])
+//         }
+//       }
+//       else if (opts.options && opts.options[i]) {
+//         const desc = opts.options[i]
+//         if (desc.init) {
+//           desc.init.call(this, opts[i])
+//         }
+//         else if (desc.initOrSet) {
+//           desc.initOrSet.call(this, opts[i])
+//         }
+//       }
+//       else if (this.classOptions[i]) {
+//         const desc = this.classOptions[i]
+//         if (desc.init) {
+//           desc.init.call(this, opts[i])
+//         }
+//         else if (desc.initOrSet) {
+//           desc.initOrSet.call(this, opts[i])
+//         }
+//       }
+//       else if (i == 'css') {
+//         if (o.length) {
+//           this.props.className = classNames(this.props.className, o.join(' '))
+//         }
+//       }
+// //       else if (i == 'text') {
+// //         if (this.$content) {
+// //           this.$content.opt('text', o)
+// //         }
+// //         else {
+// // //          this.addComponent('content', {text: o})
+// //           this.text = o
+// //         }
+// //       }
+//       // else if (i == 'height') {
+//       //   this.props.style = this.props.style || {}
+//       //   this.props.style.height = (typeof o === 'string') ? o : o+'px'
+//       // }
+//       // else if (i == 'width') {
+//       //   this.props.style = this.props.style || {}
+//       //   this.props.style.width = (typeof o === 'string') ? o : o+'px'
+//       // }
+//       // else if (i == 'styles') {
+//       //   this.props.style = this.props.style || {}
+//       //   Object.assign(this.props.style, o)
+//       // }
+//       // else if (i == 'classes') {
+//       //   this.props.className = classNames(this.props.className, o)
+//       // }
+//       else if (Config.HTML_OPTIONS[i] === true) {
+//         this.props[i] = o
+//       }
+//       else if (Config.HTML_OPTIONS[i]) {
+//         this.props[Config.HTML_OPTIONS[i]] = o
+//       }
+//       else if (Config.HTML_EVENTS[i]) {
+//         this.props[Config.HTML_EVENTS[i]] =  (e) => o.call(this, e, this.sources)
+//       }
+    }
+
+//     this._batchQueue = []
+
+//     for (let i in opts) {
+//       const o = opts[i]
+
+//       if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+//         continue
+//       }
+
+//       const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
+
+//       if (!desc) {
+//         continue
+//       }
+
+//       this._batchQueue.push({
+//         key: i,
+//         value: o,
+//         next: () => {
+// //          if (this._batchQueue.length > 0) {
+//             this.opt(i, o) // обновляем следующий элемент
+// //          }
+//         }
+//       })
+//     }
+
+
+    const batch = []
+
+    for (let i in opts) {
+      const o = opts[i]
+
+      if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+        continue
+      }
+
+      if (!this._propsCache) {
+        this._propsCache = {}
+      }
+
+      this._propsCache[i] = o
+
+      const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
+
+      if (!desc) {
+        continue
+      }
+
+      if (o instanceof Joint) {
+        o.join(this, i) // добавялем joint в подписчики source
+        opts[i] = null
+        continue // связанные опции будут обновлены при init
+      }
+
+
+      // if (opts.properties && opts.properties[i] && opts.properties[i].set) {
+      //   const desc = opts.properties[i]
+      //   if (desc.set) {
+      //     desc.set.call(this, opts[i])
+      //   }
+      // }
+      // else if (this.classProps[i] && this.classProps[i].set) {
+      //   const desc = this.classProps[i]
+      //   if (desc.set) {
+      //     desc.set.call(this, opts[i])
+      //   }
+      // }
+      if (desc.set) {
+//        desc.set.call(this, o)
+        batch.push([desc.set, o])
+      }
+      // else if (i == 'key') {
+      //   this._internal.key = o
+      //   this._internal.props.key = o
+      // }
+      else if (i == 'text') {
+        if (opts.$content) {
+          batch.push([(v) => {
+            const content = this.opt('components').content
+//            console.log('content', content, v)
+            if (content) {
+              content.opt('text', v)
+            }
+            else {
+              this._internal.text = v
+            }
+          }, o])
         }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, opts[i])
+        else {
+          this._internal.text = o
         }
       }
       else if (i == 'css') {
@@ -321,15 +626,6 @@ class Html {
           this.props.className = classNames(this.props.className, o.join(' '))
         }
       }
-//       else if (i == 'text') {
-//         if (this.$content) {
-//           this.$content.opt('text', o)
-//         }
-//         else {
-// //          this.addComponent('content', {text: o})
-//           this.text = o
-//         }
-//       }
       else if (i == 'height') {
         this.props.style = this.props.style || {}
         this.props.style.height = (typeof o === 'string') ? o : o+'px'
@@ -351,55 +647,23 @@ class Html {
       else if (Config.HTML_OPTIONS[i]) {
         this.props[Config.HTML_OPTIONS[i]] = o
       }
-      else if (Config.HTML_EVENTS[i]) {
-        this.props[Config.HTML_EVENTS[i]] = /*o.bind(this)*/ (e) => o.call(this, e, this.sources)
+      else {
+//        console.log('unused property', i)
       }
     }
 
-    // временный костыль для компонентно-зависимой опции text
-    ['text'].forEach(i => {
-      if (i in opts) {
-      const o = opts[i]
-
-      if (o instanceof Joint) {
-        o.join(this, i) // добавялем joint в подписчики source
-        opts[i] = null
-        return // связанные опции будут обновлены при init
+    if (batch.length > 0) {
+      this._batchQueue = batch
+      while (this._batchQueue.length > 0) {
+        const p = this._batchQueue.shift()
+        p[0].call(this, p[1])
       }
-
-      if (opts.options && opts.options[i]) {
-        const desc = opts.options[i]
-        if (desc.init) {
-          desc.init.call(this, opts[i])
-        }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, opts[i])
-        }
-      }
-      else if (this.classOptions[i]) {
-        const desc = this.classOptions[i]
-        if (desc.init) {
-          desc.init.call(this, opts[i])
-        }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, opts[i])
-        }
-      }
-      else if (i == 'text') {
-          if (this.$content) {
-            this.$content.opt('text', o)
-          }
-          else {
-  //          this.addComponent('content', {text: o})
-            this.text = o
-          }
-      }
-      }
-    })
+      delete this._batchQueue
+    }
 
     // 5. Синхронизируем компонент с доменами
 
-    this.tryInit()
+    isJoined && this.tryInit()
 
     // - sources [i]
     // - allBound [i]
@@ -441,6 +705,88 @@ class Html {
   }
 
 
+
+  options () {
+    return ComponentOptions
+  }
+
+  properties () {
+    return ComponentProperties
+  }
+
+  rules () {
+    return ComponentRules
+  }
+
+
+  // Собственные свойства компонента
+
+  get text () {
+    return this._propsCache.text
+  }
+
+  get key () {
+    return this._propsCache.key//._internal.props.key
+  }
+
+  get classes () {
+    console.error('getter not supported yet', 'classes')
+  }
+
+  get styles () {
+    console.error('getter not supported yet', 'styles')
+  }
+
+  get css () {
+    console.error('getter not supported yet', 'css')
+  }
+
+  get height () {
+    console.error('getter not supported yet', 'height')
+  }
+
+  get width () {
+    console.error('getter not supported yet', 'width')
+  }
+
+  get components () {
+    const c = {}
+    if (this.children) {
+      this.children.forEach(child => {
+        if (child.index == null) {
+          c[child.props.key] = child
+        }
+      })
+    }
+    return c
+//    this.children ? this.children.filter(itm => itm.index == null) : []
+  }
+
+  get items () {
+    return this.children ? this.children.filter(itm => itm.index != null) : []
+  }
+
+
+  // get text () {
+  //   return this.opt('text')
+  // }
+
+  // set text (v) {
+  //   this.opt('text', v)
+  // } 
+
+
+  // setClasses (value) {
+  //   this._internal.props['className'] = classNames(this._internal.props['className'], value)
+  // }
+
+  // setStyles (value) {
+  //   Object.assign(this._internal.props['styles'], value)
+  // }
+
+
+
+
   render (channel='*') {
 
     const renderers = this._internal.options.renderers
@@ -464,6 +810,7 @@ class Html {
       // }
       return render
     }
+    const _in = this._internal
 
     // if (this.options.render === false) {
     //   return null
@@ -474,30 +821,30 @@ class Html {
 
     const h = Config.Renderer.h
 
-    if (this.children.length || this.layout) {
-      let layout = this.layout
-      if (this.layout == null || this.layout === true) {
+    if (this.children.length || this._layout) {
+      let layout = this._layout
+      if (layout == null || layout === true) {
         layout = Layout.sorted // или брать из Config?
       }
-      if (this.text) {
+      if (_in.text) {
         if (this._dirty || !this.vnode) {
-          this.vnode = layout(this.html, deepClone(this.props), [...this.children, new Text(this.text)])
+          this.vnode = layout(this._html, deepClone(this.props), [...this.children, new Text(_in.text)])
         }
       }
       else {
         if (this._dirty || !this.vnode) {
-          this.vnode = layout(this.html, deepClone(this.props), [...this.children])
+          this.vnode = layout(this._html, deepClone(this.props), [...this.children])
         }
       }
     }
-    else if(this.text || this.props.value) {
+    else if(_in.text || this.props.value) {
       if (this._dirty || !this.vnode) {
-        this.vnode = h(this.html, deepClone(this.props), this.text ? [this.text] : null)
+        this.vnode = h(this._html, deepClone(this.props), _in.text ? [_in.text] : null)
       }
     }
     else if (o.renderIfEmpty !== false) {
       if (this._dirty || !this.vnode) {
-        this.vnode = h(this.html, deepClone(this.props))
+        this.vnode = h(this._html, deepClone(this.props))
       }
     }
 
@@ -563,7 +910,31 @@ class Html {
     // }
   }
 
+
+  // $set (name, value) {
+  //   const prevValue = this._internal[name]
+  //   const p = this._properties[name]
+  //   if (prevValue == value) {
+  //     return
+  //   }
+  //   this._internal[name] = value
+  //   p.set.call(this, value)
+  // }
+
+  prop (name, value) {
+    if (arguments.length == 1) {
+      // getter
+      return this._propsCache[name]
+    }
+    else {
+      // setter
+      return this.opt(name, value)
+    }
+  }
+
   opt(name, value, key) {
+
+    const classDesc = Config.getClassDescriptor(this.constructor)
 
     // GETTER
     if (arguments.length == 1) {
@@ -579,7 +950,20 @@ class Html {
           // }
         }
       }
-      return this.options[name]
+      if (this._batchQueue) {
+        while (this._batchQueue.length > 0) {
+          const p = this._batchQueue.shift()
+          p[0].call(this, p[1])
+        }
+      }
+
+      if (classDesc.properties[name]) {
+        return this[name]  
+      }
+      else if (classDesc.options[name]) {
+        return this.options[name]
+      }
+      return this._propsCache[name]// this._propsCache[name]// this[name]//._propsCache[name]//this.options[name]
     }
 
     // SETTER
@@ -605,10 +989,25 @@ class Html {
       name = keys[i]
       value = isObject ? values[name] : values
 
-      const oldValue = this.options[name]
+      // if (!(name in this.classProps) && !(name in this.properties)) {
+      //   console.warn(`[Html] Property not defined`, name, this.constructor)
+      // }
+
+      const oldValue = this._propsCache && this._propsCache[name] //this.options[name]
       const o = this.options
 
-      const desc = (o.options && o.options[name]) || (this.classOptions[name] || ComponentOptions[name])
+      // const desc = (o.options && o.options[name]) 
+      //   || this.classOptions[name] 
+      //   || ComponentOptions[name] 
+      //   || this.classDesc.properties[name] 
+      //   || this.properties[name]
+
+      const desc = (o.properties && o.properties[name]) || classDesc.properties[name] || Config.HTML_OPTIONS[name]
+
+      if (!desc) {
+        console.warn(`[Html] Property not defined`, name, this.constructor)
+        continue
+      }
 
       const isMutable = desc && desc.mutable === true // ignore value equal check
       const isClean = desc && desc.clean === true     // no dirty mark
@@ -645,10 +1044,18 @@ class Html {
         markDirty = true
       }
 
+
+      if (!this._propsCache) {
+        this._propsCache = {}
+      }
+
+      this._propsCache[name] = value
+
 //    console.log('opt', name, v)
 
 //    if (name[0] != '$' && name[name.length-1] != '!') {
       // FIXME заменить нормальным слиянием
+/*      
       if (value instanceof Source || value instanceof Source.Stream) {
         o[name] = value
       }
@@ -667,6 +1074,7 @@ class Html {
       else {
         o[name] = value
       }
+*/
     // }
     // else if (name[0] == '$') {
     //   name = name.substr(1)
@@ -675,35 +1083,54 @@ class Html {
     //   name = name.substr(0, name.length-1)
     // }
 
-      if (o.options && o.options[name]) {
-        const desc = o.options[name]
-        if (desc.set) {
-          desc.set.call(this, value, oldValue)
-        }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, value, oldValue)
-        }
+      if (desc.set) {
+        desc.set.call(this, value, oldValue)
       }
-      else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
-        const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
-        if (desc.set) {
-          desc.set.call(this, value, oldValue)
-        }
-        else if (desc.initOrSet) {
-          desc.initOrSet.call(this, value, oldValue)
-        }
-      }
+      // if (this.properties[name] && this.properties[name].set) {
+      //   const desc = this.properties[name]
+      //   if (desc.set) {
+      //     desc.set.call(this, value, oldValue)
+      //   }
+      // }
+      // else if (classDesc.properties[name] && classDesc.properties[name].set) {
+      //   const desc = classDesc.properties[name]
+      //   if (desc.set) {
+      //     desc.set.call(this, value, oldValue)
+      //   }
+      // }
+      // else if (o.options && o.options[name]) {
+      //   const desc = o.options[name]
+      //   if (desc.set) {
+      //     desc.set.call(this, value, oldValue)
+      //   }
+      //   else if (desc.initOrSet) {
+      //     desc.initOrSet.call(this, value, oldValue)
+      //   }
+      // }
+      // else if (this.classOptions[name]/* || this.constructor.OPTIONS[name]*/) {
+      //   const desc = this.classOptions[name]/* || this.constructor.OPTIONS[name]*/
+      //   if (desc.set) {
+      //     desc.set.call(this, value, oldValue)
+      //   }
+      //   else if (desc.initOrSet) {
+      //     desc.initOrSet.call(this, value, oldValue)
+      //   }
+      // }
       else if (name == 'text') {
         if (this.$content) {
           this.$content.opt('text', value)
         }
         else {
-          this.text = value != null ? String(value) : value
+          this._internal.text = value != null ? String(value) : value
         }
   //      this.options[name] = String(v)
       }
+      // else if (i == 'key') {
+      //   this._internal.key = o
+      //   this._internal.props.key = o
+      // }
       else if (name == 'html') {
-        this.html = value
+        this._html = value
       }
       else if (name == 'css') {
         if (value.length) {
@@ -872,6 +1299,11 @@ class Html {
     if (this.vnode && !this._dirty) {
       this.rerender()
     }
+
+    // if (this._propsCache && this._propsCache['$'+i]) {
+    //   this._propsCache['$'+i].forEach(p => comp.prop(p[0], p[1]))
+    //   delete this._propsCache['$'+i]
+    // }
 
     return comp
   }
@@ -1336,7 +1768,7 @@ class Html {
           if (s && !this['$'+i]) {
             this.addComponent(i, s)
           }
-          else if (s && this['$'+i]) {
+          else if (s && s !== true && this['$'+i]) {
             this['$'+i].opt(s, null) // !!!
           }
           else if (!s && this['$'+i]) {
@@ -1364,12 +1796,26 @@ class Html {
 
 
 
-  bind (v, i) {
+  bind (sources) {
+
+//    console.count('bind')
+
+    if (arguments.length == 2) {
+      sources = {}
+      sources[arguments[1]] = arguments[0]
+    }
+
+    let isJoined = false
+
+    for (let i in sources) {
+
+      let v = sources[i]
+
 
 //    console.log('bind', i, v)
 
     if (v == null) {
-      return
+      continue
     }
 
     if (this.sources[i]) {
@@ -1396,7 +1842,7 @@ class Html {
 
     if (v == null) {
       console.warn('Source '+i+' ignored')
-      return
+      continue
     }
 
     if (key != null) {
@@ -1423,12 +1869,11 @@ class Html {
     // если домен уже подключен, повторно не подключаем
     if (source == this.sources[i]) {
       console.warn('Try to bind same source '+i)
-      return
+      continue
     }
 
-
     // решаем, подключаться ли к домену
-    if (o.anyChanged || (o.join && o.join[i]) || o.allBound || o.allJoined || o[i+'Changed'] || o[i+'Bound'] || o[i+'Joined']) {
+    if (o.anyChanged || (o.join && o.join[i]) || o.allJoined || o[i+'Changed'] || o[i+'Joined']) {
       // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.observe(this, this.changed, i/*, o[i+'Effects']*/)
 
@@ -1446,11 +1891,12 @@ class Html {
         }
       }
 
-      if (o[i+'Bound'] || o[i+'Joined']) {
-        const unjoin = (o[i+'Bound'] || o[i+'Joined']).call(this, source)
+      if (o[i+'Joined']) {
+        const unjoin = o[i+'Joined'].call(this, source)
         unjoin && this.joints[i].push(unjoin)
       }
 
+      isJoined = true
     }
 
     if (this.sources[i]) {
@@ -1465,8 +1911,15 @@ class Html {
 
     this.sources[i] = source
 
-    this.children.forEach(child => {if (child.sources[i] == oldSource) child.bind(source, i)})
+    this.children.forEach(child => {
+      if (child.sources[i] == oldSource) {
+        child.bind(source, i)
+      }
+    })
 
+  }
+
+    return isJoined
 //    this.rebind(source.get(), i, source)
   }
 
@@ -1500,8 +1953,8 @@ class Html {
       }
 
       if (o[key+'Changed']) {
-        this.streams[key] = this.streams[key] || this.sources[key].$stream(key, this)
-        const dynOpts = o[key+'Changed'].call(this, v.data, this.streams[key], v.ids)
+//        this.streams[key] = this.streams[key] || this.sources[key].$stream(key, this)
+        const dynOpts = o[key+'Changed'].call(this, v.data, this.sources[key]/*this.streams[key]*/, key, v.ids)
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {
@@ -1516,7 +1969,7 @@ class Html {
           v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
         }
         // TODO здесь нужно проинициализировать потоки
-        const bindOpts = o.anyChanged.call(this, v, this.streams, this.sources)
+        const bindOpts = o.anyChanged.call(this, v, this.sources/*this.streams*/, this.sources)
         if (bindOpts) {
           this.opt(bindOpts, key)
           // for (let j in bindOpts) {
@@ -1705,7 +2158,7 @@ class Html {
     }
 
     delete this.children
-    delete this.layout
+    delete this._layout
 
     this._destroyed = true
 
@@ -1815,20 +2268,16 @@ class Html {
     return !!this._sourcesToUnjoin
   }
 
-
-
-  get components () {
-    return this.children ? this.children.filter(itm => itm.index == null) : []
-  }
-
-  get items () {
-    return this.children ? this.children.filter(itm => itm.index != null) : []
-  }
-
-  get domains () {
-    console.log('Using property domain is deprecated')
+  get scope () {
     return this.sources
   }
+
+
+
+  // get domains () {
+  //   console.log('Using property domain is deprecated')
+  //   return this.sources
+  // }
 
   walk (callback) {
     callback(this)

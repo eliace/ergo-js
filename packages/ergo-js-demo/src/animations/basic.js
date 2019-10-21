@@ -172,8 +172,8 @@ export default () => {
                   mix: { withShowHide }
                 },
                 dataId: 'items',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             }
         
@@ -219,8 +219,8 @@ export default () => {
                     mix: { withFLIP }
                 },
                 dataId: 'items',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             }
         }, {
@@ -283,8 +283,8 @@ export default () => {
                   }
                 },
                 dataId: 'items',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             }
         }, {
@@ -324,8 +324,8 @@ export default () => {
             $list: {
                 html: 'ul',
                 dataId: 'filteredList',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 },
                 height: 150,
                 defaultItem: {

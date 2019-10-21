@@ -18,7 +18,7 @@ export default () => {
     sources: {
       users: {}
     },
-    allBound: function ({data}) {
+    allJoined: function ({data}) {
 
       const loadPosts = data.$method('loadPosts', this, async () => {
 //        data.set('posts', [])
@@ -33,8 +33,8 @@ export default () => {
     },
     $list: {
       dataId: 'posts',
-      dataChanged: function (v, key) {
-        return {items: key}
+      dataChanged: function (v, s, k) {
+        return {items: s.$iterator(k)}
       },
       dataEntryId: (v) => v.id,
 //           binding: function (v, sources, key) {
@@ -66,7 +66,7 @@ export default () => {
             showComments: false
           }
         },
-        allBound: function ({data, page}) {
+        allJoined: function ({data, page}) {
 
           const loadComments = data.$method('loadComments', this, async () => {
             data.set('comments', await api.getComments(data.get('id')))
@@ -240,7 +240,7 @@ export default () => {
           }
         },
         $avatar: {
-          allBound: function ({users, user}) {
+          allJoined: function ({users, user}) {
 
           },
           as: Image,

@@ -10,11 +10,11 @@ class Icon extends Html {
     }
   }
 
-  options () {
+  properties () {
     return {
       text: {
-        initOrSet: function(v) {
-          this.opt('css', [v])
+        initOrSet: function(v, prev) {
+          this.opt('classes', {[v]: true, [prev]: false})
         }
       }
     }
@@ -22,7 +22,7 @@ class Icon extends Html {
 
 }
 
-
+/*
 class FaIcon extends Icon {
 
   config () {
@@ -51,5 +51,5 @@ class FaIcon extends Icon {
 }
 
 Icon.Fa = FaIcon
-
+*/
 export default Icon

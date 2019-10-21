@@ -117,9 +117,11 @@ export default () => {
       //   debugger
       //   this.opt('components', s.$stream(k))
       // },
-      dataChanged: Mutate.Components,
-      $box: previewOf(BoxExample, BoxCode),
-      $button: previewOf(ButtonExample, ButtonCode),
+      dataChanged: function (v, s, k) {
+        this.opt('components', s.$iterator(k))
+      },
+      $box: BoxExample,// previewOf(BoxExample, BoxCode),
+      $button: ButtonExample,//previewOf(ButtonExample, ButtonCode),
       $content: previewOf(ContentExample, ContentCode),
       $delete: previewOf(DeleteExample, DeleteCode),
       $icon: previewOf(IconExample, IconCode),

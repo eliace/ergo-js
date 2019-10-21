@@ -91,34 +91,6 @@ class Field extends Html {
     }
     options () {
         return {
-            control: {
-                initOrSet: function (v) {
-                    this.opt('components', {control: v})
-                }
-            },
-            help: {
-                initOrSet: function (v) {
-                    this.opt('components', {help: v})
-                }
-            },
-            label: {
-                initOrSet: function (v) {
-                    this.opt('components', {label: v !== false})
-                    this.$label.opt('text', v)
-                }
-            },
-            leftIcon: {
-                initOrSet: function (v) {
-                    this.$control.$wrapper.opt('classes', {'has-icons-left': true})
-                    this.$control.$wrapper.opt('components', {leftIcon: v})
-                }
-            },
-            rightIcon: {
-                initOrSet: function (v) {
-                    this.$control.$wrapper.opt('classes', {'has-icons-right': true})
-                    this.$control.$wrapper.opt('components', {rightIcon: v})
-                }
-            },
             defaultAddon: {
                 mix: function (v, mixer) {
                     mixer.merge({
@@ -126,13 +98,6 @@ class Field extends Html {
                             defaultItem: v
                         }
                     })
-                }
-            },
-            addons: {
-                initOrSet: function (v) {
-                    this.opt('classes', {'has-addons': true})
-                    this.opt('components', {control: false, addons: true})
-                    this.$addons.opt('items', v)
                 }
             },
             defaultGroupItem: {
@@ -143,9 +108,48 @@ class Field extends Html {
                         }
                     })
                 }
+            }
+        }
+    }
+    properties () {
+        return {
+            control: {
+                set: function (v) {
+                    this.opt('components', {control: v})
+                }
+            },
+            help: {
+                set: function (v) {
+                    this.opt('components', {help: v})
+                }
+            },
+            label: {
+                set: function (v) {
+                    this.opt('components', {label: v})
+//                    this.$label.opt('text', v)
+                }
+            },
+            leftIcon: {
+                set: function (v) {
+                    this.$control.$wrapper.opt('classes', {'has-icons-left': true})
+                    this.$control.$wrapper.opt('components', {leftIcon: v})
+                }
+            },
+            rightIcon: {
+                set: function (v) {
+                    this.$control.$wrapper.opt('classes', {'has-icons-right': true})
+                    this.$control.$wrapper.opt('components', {rightIcon: v})
+                }
+            },
+            addons: {
+                set: function (v) {
+                    this.opt('classes', {'has-addons': true})
+                    this.opt('components', {control: false, addons: true})
+                    this.$addons.opt('items', v)
+                }
             },
             group: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('classes', {'is-grouped': true})
                     this.opt('components', {control: false, group: true})
                     this.$group.opt('items', v)

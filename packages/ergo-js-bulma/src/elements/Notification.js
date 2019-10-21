@@ -13,10 +13,10 @@ class Notification extends Html {
       }
     }
   }
-  options () {
+  properties () {
     return {
       color: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('classes', {['is-'+v]: true})
         }
       }

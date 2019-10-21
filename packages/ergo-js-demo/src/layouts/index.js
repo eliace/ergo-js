@@ -65,16 +65,16 @@ export default () => {
           //   page.set('selected', this.options.text)
           // }
         },
-        dataChanged: function (v, s) {
-          this.opt('tabs', s)//d.$entry('tabs').$stream(k))
+        dataChanged: function (v, s, k) {
+          this.opt('tabs', s.$iterator(k))//d.$entry('tabs').$stream(k))
         }
 //        tabs: ['Basic']
       }
     },
     $content: {
       components: false,
-      pageChanged: function (v, src) {
-        this.opt('components', src)
+      pageChanged: function (v, s, k) {
+        this.opt('components', s.$iterator(k))
       },
       $basic: previewOf(BasicExample, BasicCode),
     }

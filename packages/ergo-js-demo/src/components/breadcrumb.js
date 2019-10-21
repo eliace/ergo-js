@@ -30,8 +30,8 @@ export default () => {
           last: false
         },
         dataId: 'list',
-        dataChanged: function (v, k) {
-          this.opt('items', k)
+        dataChanged: function (v, s, k) {
+          this.opt('items', s.$iterator(k))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -56,8 +56,8 @@ export default () => {
       },
       as: Breadcrumb,
       $content: {
-        dataChanged: function (v, $stream) {
-          this.opt('items', $stream.$substream('list')) // странное решение
+        dataChanged: function (v, s, k) {//$stream) {
+          this.opt('items', s.$entry('list').$iterator(k))//$stream.$substream('list')) // странное решение
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -66,7 +66,7 @@ export default () => {
         },
         $last: {
           dataChanged: function (v, s) {
-            this.opt('text', s.$props.current)
+            this.opt('text', s.current)
           }
         }
       }
@@ -76,13 +76,13 @@ export default () => {
       },
       as: Breadcrumb,
       $content: {
-        dataChanged: function (v, k) {
-          this.opt('items', k)
+        dataChanged: function (v, s, k) {
+          this.opt('items', s.$iterator(k))
         },
         defaultItem: {
-          dataChanged: function (v, k) {
+          dataChanged: function (v, s) {
             this.opt('text', v)
-            const isActive = k.__source.source.$lastOf() == v
+            const isActive = s.$source.$lastOf() == v
             this.opt('classes', {'is-active': isActive})
           }
         },

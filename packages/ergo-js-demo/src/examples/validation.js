@@ -93,8 +93,7 @@ export default () => {
                             text: 'Submit',
                             css: 'is-primary',
                             dataChanged: function (v, s) {
-                                const {isOk} = s.$props
-                                this.opt('disabled', !isOk)
+                                this.opt('disabled', !s.isOk)
                             }
                         }
                     }

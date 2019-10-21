@@ -834,7 +834,7 @@ export default () => {
       //     view.on({shuffleBtn: {type: 'event'}}, this)
       //   }]
       // },
-      allBound: function ({view}) {
+      allJoined: function ({view}) {
         view.$event('shuffleBtn', this)
 //        view.on({shuffleBtn: {type: 'event'}}, this)
       },

@@ -1,6 +1,7 @@
 import {deepClone, hashCode, defaultKeyResolver, createPropsProto} from './Utils'
 import Stream from './Stream'
 import Options from './Options'
+import Config from './Config'
 
 function initClassOpts (proto) {
   const chain = []
@@ -45,18 +46,23 @@ class Source {
     this.isNested = v instanceof Source
 //    this.options = o || {}
 
+//    console.count('source')
+
     // this.subscribers = []
     // this.effects = {}
     // this.events = {}
 
-    const proto = Object.getPrototypeOf(this)
+    const classDesc = Config.getSourceClassDescriptor(this.constructor)//classes.get(this.constructor)
 
-    //  собираем опции класса, если они еще не собраны
-    if (!proto.hasOwnProperty('classDefaults')) {
-      initClassOpts(proto)
-    }
 
-    let opts = new Options(this.classDefaults, o).build(/* */)
+    // const proto = Object.getPrototypeOf(this)
+
+    // //  собираем опции класса, если они еще не собраны
+    // if (!proto.hasOwnProperty('classDefaults')) {
+    //   initClassOpts(proto)
+    // }
+
+    let opts = new Options(/*this.classDefaults*/classDesc.config, o).build(/* */)
 
     // 1. Примешиваем опции
 
@@ -123,33 +129,49 @@ class Source {
           this._properties[i] = {...p}
         }
 
-        if (this._properties[i].watch) {
-          const name = i
-          const callback = this._properties[i].watch
-          this.subscribe({
-            when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
-            callback: (e) => callback.call(this, e.data[name], e.cache[name]), 
-            target: this,
-            channels: []
-          })
-        }
+        // if (this._properties[i].watch) {
+        //   const name = i
+        //   const callback = this._properties[i].watch
+        //   this.subscribe({
+        //     when: (e) => e.name == 'changed' && e.ids && (name in e.ids), 
+        //     callback: (e) => callback.call(this, e.data[name], e.cache[name]), 
+        //     target: this,
+        //     channels: []
+        //   })
+        // }
 
-        if (this._properties[i].type) {
-          Object.defineProperty(this, i, {
-            get: () => this.$entry(i),
-          })  
-        }
-        else {
-          Object.defineProperty(this, i, {
-            get: () => this.$get(i),
-            set: (v) => this.$set(i, v)
-          })  
+        if (!classDesc.properties[i]) {
+          console.count('defineProperty['+i+']')
+
+          if (this._properties[i].type) {
+            Object.defineProperty(this, i, {
+              get: () => this.$entry(i),
+            })
+          }
+          else {
+            Object.defineProperty(this, i, {
+              get: () => this.$get(i),
+              set: (v) => this.$set(i, v)
+            })  
+          }
         }
           
       }
 
     }
 
+    if (this.options.watch) {
+      for (let i in this.options.watch) {
+        const name = i
+        const callback = this.options.watch[i]
+        this.subscribe({
+          when: (e) => e.name == 'changed' && e.ids && (name in e.ids),
+          callback: (e) => callback.call(this, e.data[name], e.cache[name]), 
+          target: this,
+          channels: []
+        })
+      }
+    }
 
 
     if (this.options.init) {
@@ -163,6 +185,11 @@ class Source {
     // }
 //    this.effects = {}
 //    this.isArray = Array.isArray(k == null ? v)
+  }
+
+
+  properties () {
+    return {}
   }
 
 
@@ -914,8 +941,12 @@ class Source {
   }
 
 
+  $stream (name, target) {
+    return this.$iterator(name, target)
+  }
 
-  $stream(name, target) {
+
+  $iterator(name, target) {
     const p = this.$props
     if (this._propsProto) {
       const obj = Object.create(this._propsProto)
@@ -978,7 +1009,7 @@ class Source {
   //   return this._proxy
   // }
 
-  get source () {
+  get $source () {
     return this.src
   }
 

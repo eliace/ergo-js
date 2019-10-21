@@ -10,10 +10,10 @@ export default class Progress extends Html {
     }
   }
 
-  configOptions () {
+  properties () {
     return {
       max: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.props['max'] = v
         }
       }

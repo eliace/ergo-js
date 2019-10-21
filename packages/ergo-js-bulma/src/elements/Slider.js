@@ -15,15 +15,15 @@ export default class Slider extends Html {
             }
       }
     }
-    options () {
+    properties () {
         return {
             color: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('classes', {['is-'+v]: true})
                 }
             },
             value: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.sources.value.set(v)
                 }
             }

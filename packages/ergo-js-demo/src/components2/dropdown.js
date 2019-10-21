@@ -35,8 +35,8 @@ export default () => {
       as: DropdownSelect,
       width: 400,
       $dropdown: {
-        dataChanged: function (v, s) {
-          this.opt('items', s)
+        dataChanged: function (v, s, k) {
+          this.opt('items', s.$iterator(k))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -62,8 +62,8 @@ export default () => {
       color: 'info',
       placeholder: 'Country',
       $dropdown: {
-          dataChanged: function (v, s) {
-            this.opt('items', s)
+          dataChanged: function (v, s, k) {
+            this.opt('items', s.$iterator(k))
           },
           defaultItem: {
             dataChanged: function (v) {
@@ -79,8 +79,8 @@ export default () => {
         data: () => COUNTRIES,
       },
       $dropdown: {
-        dataChanged: function (v, s) {
-          this.opt('items', s)
+        dataChanged: function (v, s, k) {
+          this.opt('items', s.$iterator(k))
         },
         defaultItem: {
           dataChanged: function (v) {
@@ -111,8 +111,8 @@ export default () => {
       },
       $dropdown: {
         as: ListBox,
-        dataChanged: function (v, s) {
-          this.opt('items', s)
+        dataChanged: function (v, s, k) {
+          this.opt('items', s.$iterator(k))
         },
         defaultItem: {
           as: ListBox.Item,

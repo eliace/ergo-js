@@ -9,6 +9,7 @@ function logger () {
 }
 
 describe ('Html', () => {
+/*  
   it ('Should read/write class opt', () => {
 
     const html = new Html({
@@ -44,7 +45,7 @@ describe ('Html', () => {
     expect(html.opts.foo).to.equal('Hello')
 
   })
-
+*/
   it ('Should create component with function', () => {
 
     const html = new Html({
@@ -58,7 +59,7 @@ describe ('Html', () => {
       }
     })
 
-    expect(html.$foo.opts.text).to.equal('Foo')
+    expect(html.$foo.text).to.equal('Foo')
     expect(html.$foo.sources.data.get('x')).to.equal(10)
 
   })
@@ -76,7 +77,7 @@ describe ('Html', () => {
     })
 
     setTimeout(() => {
-      expect(html.$foo.opts.text).to.equal('Foo')
+      expect(html.$foo.text).to.equal('Foo')
       done()
     }, 1)
 

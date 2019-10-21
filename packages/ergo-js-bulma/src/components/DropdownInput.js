@@ -52,8 +52,8 @@ export default class DropdownInput extends Html {
                 styles: {
                     display: 'block'
                 },
-                listChanged: function (v, stream) {
-                    this.opt('items', stream)
+                listChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 },
                 defaultItem: {
                     as: DropdownItem,
@@ -70,10 +70,10 @@ export default class DropdownInput extends Html {
         }
     }
 
-    options () {
+    properties () {
         return {
             placeholder: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$input.opt('placeholder', v)
                 }
             }

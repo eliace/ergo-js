@@ -92,8 +92,8 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, stream) {
-        this.opt('components', stream)
+      dataChanged: function (v, s, k) {
+        this.opt('components', s.$iterator(k))
       },
       $tabs: previewOf(TabsExample, TabsCode),
       $breadcrumb: previewOf(BreadcrumbExample, BreadcrumbCode),

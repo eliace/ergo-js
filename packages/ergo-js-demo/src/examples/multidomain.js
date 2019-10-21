@@ -1,7 +1,31 @@
 import {Html, Source, Layout} from 'ergo-js-core'
-import {Layouts, Tabs, Button, Switch} from 'ergo-js-bulma'
+import {Layouts, Tabs, Button, Switch, getEl} from 'ergo-js-bulma'
 
 import {Mutate} from '../helpers'
+
+
+function withReactiveInputChecked (mixer) {
+  mixer.mix({
+    sources: {
+      value: (ctx) => ctx.value || ''
+    },
+    $input: {
+      onChange: function (e, {value}) {
+        value.$value = e.target.checked
+      },
+      valueChanged: function (v) {
+        if (this.el) {
+          this.el.checked = v
+        }
+        else {
+          this.opt('defaultValue', v)
+        }
+      },
+      dom: { getEl }  
+    }
+  })
+}
+
 
 
 class ValueInput extends Html {
@@ -148,6 +172,7 @@ export default () => {
       dataChanged: Mutate.Items,
       defaultItem: {
         as: Switch,
+        mix: { withReactiveInputChecked },
         dataChanged: function (v) {
           // this.opts.text = v
           // this.opts.key = v

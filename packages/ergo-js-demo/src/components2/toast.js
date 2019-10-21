@@ -34,8 +34,8 @@ export default () => {
                     this.opt('color', v)
                 }
             },
-            dataChanged: function (v, s) {
-                this.opt('addons', s)
+            dataChanged: function (v, s, k) {
+                this.opt('addons', s.$iterator(k))
             }
         }]
     }

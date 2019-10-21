@@ -19,15 +19,15 @@ export default class Fields extends Html {
             }
         }
     }
-    options () {
+    properties () {
         return {
             label: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('components', {label: v})
                 }
             },
             fields: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$body.opt('items', v)
                 }
             }

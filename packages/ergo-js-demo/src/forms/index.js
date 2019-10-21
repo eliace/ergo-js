@@ -64,8 +64,8 @@ export default () => {
     },
     $content: {
       components: false,
-      dataChanged: function (v, src) {
-        this.opt('components', src)
+      dataChanged: function (v, s, k) {
+        this.opt('components', s.$iterator(k))
       },
       $input: InputExample(),
       $textarea: TextareaExample(),

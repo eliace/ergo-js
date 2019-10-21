@@ -33,7 +33,7 @@ function wrapped (html, props, components, layout) {
       render: () => vnode
     }
     return (wrapper.layout || sorted)(
-      wrapper.html, 
+      wrapper._html, 
       deepClone({...wrapper.props, key: props.key}), 
       [fakeContent].concat(wrapper.children)
       ) // FIXME альтернатива wrapper.render(wrapped)

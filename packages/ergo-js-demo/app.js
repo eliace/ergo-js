@@ -183,6 +183,25 @@ const Actions = {
 //   }
 // }
 
+function plug (components, name) {
+  return components.filter((c) => c.options.slot == name)[0]
+}
+
+function AppLayout (html, props, components) {
+  const h = Config.Renderer.h
+  const menu = plug(components, 'menu')
+  const content = plug(components, 'content')
+  return h(html+'.app-layout', props, [
+    h('div.app-menu', {key: 'menu'}, menu && menu.render()),
+    h('div.app-content', {key: 'content'}, content && content.render())
+  ])
+}
+
+AppLayout.MENU = 'menu'
+AppLayout.CONTENT = 'content'
+
+
+
 
 const root = new Html({
   css: 'app',
@@ -327,20 +346,21 @@ const root = new Html({
 
   $main: {
     html: 'main',
-    styles: {
-      padding: '0.75rem'
-    },
+    // styles: {
+    //   padding: '0.75rem'
+    // },
     $content: {
-      layout: Layouts.Columns,
+      layout: AppLayout,//Layouts.Columns,
 //      dynamic: true,
 //      dynamic: {
 //      blockComponents: Custom.All,
       $mainMenu: {
         as: Menu,
+        slot: AppLayout.MENU,
         column: 'is-one-fifth',
         dataId: 'mainMenu',
-        dataChanged: function (v, stream) {
-          return {items: stream}
+        dataChanged: function (v, s, k) {
+          return {items: s.$iterator(k)}
         },
         defaultItem: {
           layout: Layout.passthru,
@@ -354,13 +374,13 @@ const root = new Html({
           $list: {
             as: Menu.List,
             dataId: 'items',
-            dataChanged: function (v, stream) {
-              return {items: stream}
+            dataChanged: function (v, s, k) {
+              this.opt('items', s.$iterator(k))
             },
             appChanged: function (v) {
               this.opt('key') // FIXME этот геттер используется для синхронизации с dataChanged
               this.items.forEach(itm => {
-                itm.opt('selected', v.current == itm.options.key)
+                itm.opt('selected', v.current == itm.key)
               })
             },
 //             binding: function (v, sources, key) {
@@ -397,7 +417,7 @@ const root = new Html({
               //   return {text: v.name, key: v.id}
               // },
               onClick: function(e, {app}) {
-                app.actions.setCurrent(this.options.key)
+                app.actions.setCurrent(this.key)
               }
             }
           }
@@ -427,10 +447,11 @@ const root = new Html({
 // //        selectionBinding: Custom.JsonText
 //       },
       $content: {
+        slot: AppLayout.CONTENT,
         column: 'is-four-fifths',
         components: false,
-        appChanged: function (v, stream) {
-          return {components: stream}
+        appChanged: function (v, s, k) {
+          return {components: s.$iterator(k)}
         },
         $elements: ElementsPage,
         $componentsPage: ComponentsPage,

@@ -73,7 +73,7 @@ export default class DropdownSelect extends Html {
               content: true
             },
             viewChanged: function (v, s) {
-              this.opt('components', {placeholder: s.$props.placeholder})
+              this.opt('components', {placeholder: s.placeholder})
             }
           },
         },
@@ -115,10 +115,10 @@ export default class DropdownSelect extends Html {
         }
       }
     }
-    options () {
+    properties () {
       return {
         active: {
-          initOrSet: function (v) {
+          set: function (v) {
             this.opt('classes', {'is-active': v})
           }
         }

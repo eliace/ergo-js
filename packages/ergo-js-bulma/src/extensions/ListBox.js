@@ -50,30 +50,30 @@ class Item extends Html {
             }
         }
     }
-    options () {
+    properties () {
         return {
             subtitle: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$content.opt('components', {subtitle: v})
                 }
             },
             image: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('components', {image: v})
                 }
             },
             icon: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('components', {icon: v})
                 }
             },
             check: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('components', {check: v})
                 }
             },
             switch: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.opt('components', {switch: v})
                 }
             }

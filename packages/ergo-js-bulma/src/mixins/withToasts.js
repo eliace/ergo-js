@@ -48,11 +48,11 @@ export default function withToasts (mixer) {
             sources: {
                 data: (ctx, o) => ctx.toasts.$entry('opened')
             },
-            dataChanged: function (v, s) {
-                this.opt('items', s)
+            dataChanged: function (v, s, k) {
+                this.opt('items', s.$iterator(k))
             },
-            css: 'toasts',
-            defaultItem: {
+            css: 'toasts',   
+            defaultItem: {                
                 as: Notification,
                 $closeBtn: {
                     onClick: function (e, {data}) {

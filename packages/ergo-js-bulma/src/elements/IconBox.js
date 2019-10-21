@@ -9,10 +9,10 @@ class Icon extends Html {
     }
   }
 
-  options () {
+  properties () {
     return {
       text: {
-        initOrSet: function (v) {
+        set: function (v) {
           const classes = {}
           v.split(' ').forEach(c => classes[c] = true)
           this.opt('classes', classes)
@@ -36,10 +36,20 @@ class IconBox extends Html {
     }
   }
 
-  options () {
+  // options () {
+  //   return {
+  //     icon: {
+  //       initOrSet: function (v) {
+  //         this.$content.opt('text', v)
+  //       }
+  //     }
+  //   }
+  // }
+
+  properties () {
     return {
       icon: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.opt('text', v)
         }
       }

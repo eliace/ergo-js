@@ -12,7 +12,7 @@ export const Mixins = {
         })
       },
       onMouseDown: function (e) {
-        this.sources.selection.select(this.options.key || this.options.text)
+        this.sources.selection.select(this.key || this.text)
       },
       selectionEvents: function (e) {
         const {selection} = this.sources
@@ -35,7 +35,7 @@ export const Mixins = {
       onMouseDown: function() {
   //        this.sources.selection.set()
   //        this.sources.selection.emit('set', this.options.key || this.options.text, this.options.onSelected)
-        this.sources.selection.wait([{name: 'selected'}]).emit('set', {data: this.options.key || this.options.text})
+        this.sources.selection.wait([{name: 'selected'}]).emit('set', {data: this.key || this.text})
   //        console.log(this.sources.selection.ns())
       },
       selectionEffects: function (event) {
@@ -108,8 +108,8 @@ export const Mutate = {
   Src: function (v) {
     return {src: v}
   },
-  Items: function (v, stream) {
-    return {items: stream}
+  Items: function (v, s, k) {
+    return {items: s.$iterator(k)}
   },
   Components: function (v, stream) {
     return {components: stream}
@@ -120,8 +120,8 @@ export const Mutate = {
   Key: function (v) {
     return {key: v}
   },
-  Tabs: function (v, stream) {
-    return {tabs: stream}
+  Tabs: function (v, s, k) {
+    return {tabs: s.$iterator(k)}
   }
 }
 

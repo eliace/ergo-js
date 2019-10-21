@@ -32,9 +32,9 @@ const WithIcon = function () {
         html: 'span'
       }
     },
-    options: {
+    properties: {
       icon: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.$icon.opt('icon', v)
         }
       }

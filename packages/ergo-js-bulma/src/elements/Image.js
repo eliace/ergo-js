@@ -12,20 +12,20 @@ class Image extends Html {
     }
   }
 
-  configOptions () {
+  properties () {
     return {
       src: {
-        initOrSet: function(v) {
+        set: function(v) {
           this.$content.opt('src', v)
         }
       },
       text: {
-        initOrSet: function(v) {
+        set: function(v) {
           this.$content.opt('src', v)
         }
       },
       rounded: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.opt('classes', {'is-rounded': v})
         }
       }

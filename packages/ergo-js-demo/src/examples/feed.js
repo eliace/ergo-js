@@ -143,8 +143,8 @@ export default () => {
             },
             $posts: {
                 dataId: 'posts',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 },
                 defaultItem: {
                     css: 'box',

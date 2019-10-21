@@ -54,8 +54,8 @@ class Cell extends Html {
             },
             layout: Layout.passthru,
             components: false,
-            viewJoined: function (data) {
-                service.addCell(data)
+            viewJoined: function (joint) {
+                service.addCell(joint)
             },
             viewChanged: function (v) {
                 this.opt('components', {
@@ -181,7 +181,6 @@ export default () => {
             text: 'Load',
             onClick: function (e, {data, isLoaded}) {
                 isLoaded.$value = true
-//                data.isLoaded = true
             }
         },
         $searchBtn: {
@@ -222,14 +221,14 @@ export default () => {
                     defaultItem: {
                         as: Cell,
                     },
-                    dataChanged: function (v, s) {
+                    dataChanged: function (v, s, k) {
 //                        console.count('update cells')
-                        this.opt('items', s)
+                        this.opt('items', s.$iterator(k))
                     }
                 },
                 dataId: 'hours',
-                dataChanged: function (v, s) {
-                    this.opt('items', s)
+                dataChanged: function (v, s, k) {
+                    this.opt('items', s.$iterator(k))
                 }
             }
         }

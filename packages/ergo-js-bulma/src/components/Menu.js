@@ -18,12 +18,11 @@ class MenuItem extends Html {
       }
     }
   }
-  configOptions () {
+  properties () {
     return {
       selected: {
-        initOrSet: function(v) {
-  //        console.log('set selected', this, v)
-          this.$content.opt('classes', {'is-active': !!v})//opt('classes', {'is-active': v})
+        set: function (v) {
+          this.$content.opt('classes', {'is-active': !!v})
         }
       }
     }

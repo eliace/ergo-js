@@ -28,15 +28,15 @@ class Fields extends Html {
       }
     }
   }
-  options () {
+  properties () {
     return {
       fields: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$body.opt('items', v)
         }
       },
       label: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('components', {label: v})
         }
       }  
@@ -67,7 +67,10 @@ export default () => {
 //    width: 500,
     items: [{
       as: Field,
-      label: 'Button',
+      label: {
+        text: 'Button',
+        css: 'has-text-danger'
+      },
       control: {
         as: Button,
         text: 'Press me',

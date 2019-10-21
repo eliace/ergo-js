@@ -11,10 +11,10 @@ class Item extends Html {
       }
     }
   }
-  options () {
+  properties () {
     return {
       active: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.opt('classes', {'is-current': !!v})
         }
       }
@@ -66,7 +66,7 @@ class Pagination extends Html {
                   }
                   list.push(v.max)
                 }
-                return list.map((v, i) => {return {key: i, text: v}})
+                return list.map((v, i) => {return {page: v, text: v}})
               }
             },
             actions: {
@@ -75,10 +75,10 @@ class Pagination extends Html {
 //                this.set('current', v)
               },
               next: function () {
-                this.set('current', Math.min(this.get('current')+1, this.get('max')))
+                this.$set('current', Math.min(this.$get('current')+1, this.$get('max')))
               },
               prev: function () {
-                this.set('current', Math.max(this.get('current')-1, this.get('min')))
+                this.$set('current', Math.max(this.$get('current')-1, this.$get('min')))
               }
             }
           })
@@ -94,7 +94,7 @@ class Pagination extends Html {
           __view.prev()
         },
         __viewChanged: function (v) {
-          this.opt('disabled', v.current == 0)
+          this.opt('disabled', v.current == v.min)
         }
       },
       $next: {
@@ -103,6 +103,9 @@ class Pagination extends Html {
         text: 'Next',
         onClick: function (e, {__view}) {
           __view.next()
+        },
+        __viewChanged: function (v) {
+          this.opt('disabled', v.current == v.max)
         }
       },
       $list: {
@@ -111,39 +114,39 @@ class Pagination extends Html {
         defaultItem: {
           as: Item,
           __viewChanged: function (v) {
-            this.opt('active', this.options.key == v.current)
+            this.opt('active', this.options.page == v.current)
           },
           onClick: function (e, {__view}) {
-            __view.select(this.options.key)
+            __view.select(this.options.page)
           }
         },
         itemFactory: function (opts, context) {
           return opts.text == '.' ? new Ellipsis() : new Item(opts, context)
         },
-        __viewChanged: function (v, $stream) {
-          this.opt('items', $stream.__source.pages)
+        __viewChanged: function (v, s) {
+          this.opt('items', s.pages)
         }
       }
     }
   }
 
-  options () {
+  properties () {
     return {
       min: {
-        initOrSet: function (v) {
-          this.sources.__view.set('min', v)
+        set: function (v) {
+          this.sources.__view.$set('min', v)
         },
         clean: true
       },
       max: {
-        initOrSet: function (v) {
-          this.sources.__view.set('max', v)
+        set: function (v) {
+          this.sources.__view.$set('max', v)
         },
         clean: true
       },
       current: {
-        initOrSet: function (v) {
-          this.sources.__view.set('current', v)
+        set: function (v) {
+          this.sources.__view.$set('current', v)
         },
         clean: true
       }

@@ -22,7 +22,7 @@ export default class Button extends Html {
     }
   }
 
-  options () {
+  properties () {
     return {
       selected: {
         set: function (v) {
@@ -30,12 +30,12 @@ export default class Button extends Html {
         }
       },
       color: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('classes', {['is-'+v]: true})
         }
       },
       icon: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('components', {icon: v, content: !!v})
         }
       }

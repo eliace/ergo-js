@@ -1,5 +1,5 @@
 import {Html} from 'ergo-js-core'
-import {Layouts, Button, Buttons, IconBox} from 'ergo-js-bulma'
+import {Layouts, Button, Buttons, IconBox, Box, Title} from 'ergo-js-bulma'
 
 import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'
@@ -75,4 +75,77 @@ export class PreviewAndCode extends Html {
   //     }
   //   }
   // }
+}
+
+
+export class ExampleBox extends Box {
+  config () {
+    return {
+      css: 'example',
+      $header: {
+        $title: {
+          as: Title,
+          css: 'is-6',
+          styles: { 
+            textTransform: 'uppercase',
+            color: '#ccc',
+            marginBottom: '1.5rem'
+          }
+        }
+      },
+      $description: {
+        styles: {
+          marginBottom: '1.5rem'
+        }
+      },
+      $content: {
+
+      },
+      $code: {
+        css: 'code-panel',
+        $content: {
+          html: 'pre',
+          $content: {
+            html: 'code',
+            css: 'language-javascript',
+          },
+          dom: { Highlight }
+        }
+      }
+    }
+  }
+  options () {
+    return {
+      example: {
+        mix: function (v, mixer) {
+          mixer.mix({
+            $content: v
+          })
+        }
+      },
+      description: {
+        mix: function (v, mixer) {
+          mixer.mix({
+            $description: {text: v}
+          })
+        }
+      },
+      code: {
+        mix: function (v, mixer) {
+          mixer.mix({
+            $code: {text: v}
+          })
+        }
+      },
+    }
+  }
+  properties () {
+    return {
+      title: {
+        set: function (v) {
+          this.$header.$title.opt('text', v)
+        }
+      }
+    }
+  }
 }

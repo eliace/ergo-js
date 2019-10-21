@@ -399,8 +399,8 @@ export default (projector) => {
       },
       dynamic: true,
       modalId: 'notifications',
-      modalChanged: function (v, key) {
-        this.opt('items', key)
+      modalChanged: function (v, s, k) {
+        this.opt('items', s.$iterator(k))
       },
       defaultItem: {
         css: 'collapse-item',

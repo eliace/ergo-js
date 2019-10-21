@@ -3,6 +3,7 @@ import {Layouts, Button, Box, Image, Modal, stopMouseDown, Input, Buttons, withD
 
 
 import imgUrl from '../img/Yosemite 3.jpg'
+import { ExampleBox } from '../extensions'
 
 
 
@@ -78,10 +79,10 @@ class BaseModal extends Html {
       }
     }
   }
-  options () {
+  properties () {
     return {
       active: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('classes', {'is-active': !!v})
         }
       }
@@ -177,144 +178,155 @@ export default () => {
     },
     layout: Layouts.Rows,
     mix: { withDialogs },
+    defaultItem: {
+      as: ExampleBox
+    },
     items: [{
-      text: 'Видимостью модала управляем с поможью css класса. Сам модал постоянно присутствует в DOM'
-    }, {
-      // внешнее управление, внутренний контекст
-      sources: {
-        view: () => {
-          return {}
-        },
-        data: () => {
-          return {url: imgUrl}
-        }
-      },
-      $button: {
-        as: Button,
-        text: 'Open Modal',
-        onClick: function (e, {view}) {
-          view.open()
-        }
-      },
-      $modal: {
+      title: 'Property toggle',
+      description: 'Видимостью модала управляем с поможью css класса. Сам модал постоянно присутствует в DOM',
+      example: {
+        // внешнее управление, внутренний контекст
         sources: {
-          view: (ctx, o) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
-        },
-        as: ImageModal,
-        active: false,
-        viewChanged: function (v) {
-          this.opt('active', v.opened)
-        }
-      }
-    }, {
-      text: 'Модал становится видимым при включении в список компонентов, т.е. когда модал не видно, его нет и в DOM'
-    }, {
-      // внешнее управление, внутренний контекст
-      sources: {
-        view: () => {
-          return new ModalModel({}) // взаимодействовать с компонентом, которого еще нет мы можем только через канал
-        },
-        data: () => {
-          return {url: imgUrl}
-        }
-      },
-      $button: {
-        as: Button,
-        text: 'Open Modal',
-        onClick: function (e, {view}) {
-          view.open()
-        }
-      },
-      $modal: {
-        sources: {
-          view: (ctx, o) => ctx.view // указываем, что используется внешняя модель
-        },
-        as: ImageModal
-      },
-      viewChanged: function (v) {
-        this.opt('components', {modal: v.opened})
-      },
-      components: {
-        modal: false // блокируем инициализацию
-      }
-    }, {
-      text: 'Диалог отличается от простого модала тем, что он должен вернуть ответ в контекст вызова. Для этого, например, можно воспользоваться методикой делегирования'
-    }, {
-      $button: {
-        as: Button,
-        text: 'Open Dialog',
-        onClick: function (e, {view, dialogs}) {
-          dialogs.open({
-            as: InputDialog,
-            sources: {
-              data: () => view.$get('dialogResult')
-            },
-            onOk: function (e, {data}) {
-              view.$set('dialogResult', data.$get())
-            }
-          })
-        }
-      },
-      $resultText: {
-        viewChanged: function (v) {
-          this.opt('text', v.dialogResult)
-        }
-      }
-    }, {
-      text: 'Сохранить контекст можно с помощью асинхронного action-а с эффектом ожидания. При закрытии диалога, эффект завершается и action возвращает результат в точку вызова'
-    }, {
-      sources: {
-        view: () => new Domain({}, {
-          properties: {
-            isOpened: {},
-            dialogResult: {},
-            dialogData: {}
+          view: () => {
+            return {}
           },
-          actions: {
-            ask: async function (input) {
-              this.dialogData = input
-              this.isOpened = true
-              const v = await this.effects.answer()
-              this.isOpened = false
-              return v
-            }
-          },
-          effects: {
-            answer: () => {}
-          },
-          events: {
-            answer: {method: true}
+          data: () => {
+            return {url: imgUrl}
           }
-        }),
-        resultText: () => 'Text to change'
-      },
-      $button: {
-        as: Button,
-        text: 'Open Dialog',
-        onClick: async function (e, {view, resultText}) {
-          resultText.$value = await view.ask(resultText.$value) || resultText.$value
+        },
+        $button: {
+          as: Button,
+          text: 'Open Modal',
+          onClick: function (e, {view}) {
+            view.open()
+          }
+        },
+        $modal: {
+          sources: {
+            view: (ctx, o) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
+          },
+          as: ImageModal,
+          active: false,
+          viewChanged: function (v) {
+            this.opt('active', v.opened)
+          }
         }
-      },
-      $dialog: {
+      }
+    }, {
+      title: 'Component toggle',
+      description: 'Модал становится видимым при включении в список компонентов, т.е. когда модал не видно, его нет и в DOM',
+      example: {
+        // внешнее управление, внутренний контекст
         sources: {
-          result: (ctx) => ctx.view,
-          data: (ctx) => ctx.view.dialogData || ''
+          view: () => {
+            return new ModalModel({}) // взаимодействовать с компонентом, которого еще нет мы можем только через канал
+          },
+          data: () => {
+            return {url: imgUrl}
+          }
         },
-        as: InputDialog,
-        onOk: function (e, {result, data}) {
-          result.answer(data.$value)
+        $button: {
+          as: Button,
+          text: 'Open Modal',
+          onClick: function (e, {view}) {
+            view.open()
+          }
         },
-        onCancel: function (e, {result}) {
-          result.answer()
+        $modal: {
+          sources: {
+            view: (ctx, o) => ctx.view // указываем, что используется внешняя модель
+          },
+          as: ImageModal
+        },
+        viewChanged: function (v) {
+          this.opt('components', {modal: v.opened})
+        },
+        components: {
+          modal: false // блокируем инициализацию
         }
-      },
-      $resultText: {
-        resultTextChanged: function (v) {
-          this.opt('text', v)
+      }
+    }, {
+      title: 'Dialog (dialogs channel)',
+      description: 'Диалог отличается от простого модала тем, что он должен вернуть ответ в контекст вызова. Для этого, например, можно воспользоваться методикой делегирования',
+      example: {
+        $button: {
+          as: Button,
+          text: 'Open Dialog',
+          onClick: function (e, {view, dialogs}) {
+            dialogs.open({
+              as: InputDialog,
+              sources: {
+                data: () => view.$get('dialogResult')
+              },
+              onOk: function (e, {data}) {
+                view.$set('dialogResult', data.$get())
+              }
+            })
+          }
+        },
+        $resultText: {
+          viewChanged: function (v) {
+            this.opt('text', v.dialogResult)
+          }
+        }  
+      }
+    }, {
+      title: 'Dialog (async action)',
+      description: 'Сохранить контекст можно с помощью асинхронного action-а с эффектом ожидания. При закрытии диалога, эффект завершается и action возвращает результат в точку вызова',
+      example: {
+        sources: {
+          view: () => new Domain({}, {
+            properties: {
+              isOpened: {},
+              dialogResult: {},
+              dialogData: {}
+            },
+            actions: {
+              ask: async function (input) {
+                this.dialogData = input
+                this.isOpened = true
+                const v = await this.effects.answer()
+                this.isOpened = false
+                return v
+              }
+            },
+            effects: {
+              answer: () => {}
+            },
+            events: {
+              answer: {method: true}
+            }
+          }),
+          resultText: () => 'Text to change'
+        },
+        $button: {
+          as: Button,
+          text: 'Open Dialog',
+          onClick: async function (e, {view, resultText}) {
+            resultText.$value = await view.ask(resultText.$value) || resultText.$value
+          }
+        },
+        $dialog: {
+          sources: {
+            result: (ctx) => ctx.view,
+            data: (ctx) => ctx.view.dialogData || ''
+          },
+          as: InputDialog,
+          onOk: function (e, {result, data}) {
+            result.answer(data.$value)
+          },
+          onCancel: function (e, {result}) {
+            result.answer()
+          }
+        },
+        $resultText: {
+          resultTextChanged: function (v) {
+            this.opt('text', v)
+          }
+        },
+        viewChanged: function (v) {
+          this.opt('components', {dialog: v.isOpened})
         }
-      },
-      viewChanged: function (v) {
-        this.opt('components', {dialog: v.isOpened})
       }
     }/*, {
       sources: {

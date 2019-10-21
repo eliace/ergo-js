@@ -89,25 +89,25 @@ class InputField extends Field {
     }
   }
 
-  configOptions () {
+  properties () {
     return {
       placeholder: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$control.$content.opt('placeholder', v)
         }
       },
       color: {
-        initOrSet: function (nextVal, prevVal) {
+        set: function (nextVal, prevVal) {
           toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       },
       size: {
-        initOrSet: function (nextVal, prevVal) {
+        set: function (nextVal, prevVal) {
           toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       },
-      style: {
-        initOrSet: function (nextVal, prevVal) {
+      kind: {
+        set: function (nextVal, prevVal) {
           toggleClass(this.$control.$content, 'is-'+nextVal, 'is-'+prevVal)
         }
       }
@@ -211,7 +211,7 @@ export default () => {
         as: Field.Input,
         width: 400,
         placeholder: 'Input text here...',
-        style: 'rounded'
+        kind: 'rounded'
       }]
     }, {
       $title: {

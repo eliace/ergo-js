@@ -32,15 +32,15 @@ export default class Card extends Html {
       }
     }
   }
-  options () {
+  properties () {
     return {
       image: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('components', {image: v})
         }
       },
       title: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$header.opt('text', v)
         }
       }

@@ -59,15 +59,15 @@ export default () => {
             this.opt('text', v)
           }
         },
-        tabsChanged: function (v, k) {
-          this.opt('tabs', k)
+        tabsChanged: function (v, s, k) {
+          this.opt('tabs', s.$iterator(k))
         }
       }
     },
     $content: {
       components: false,
-      pageChanged: function (v, s) {
-        this.opt('components', s)
+      pageChanged: function (v, s, k) {
+        this.opt('components', s.$iterator(k))
       },
       $domain: DomainExample,
       $multidomain: MultidomainExample,

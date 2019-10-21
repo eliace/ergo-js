@@ -9,10 +9,19 @@ class Tab extends Html {
       }
     }
   }
-  options () {
+  // options () {
+  //   return {
+  //     active: {
+  //       initOrSet: function (v) {
+  //         this.opt('classes', {'is-active': v})
+  //       }
+  //     }
+  //   }
+  // }
+  properties () {
     return {
       active: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.opt('classes', {'is-active': v})
         }
       }
@@ -47,7 +56,7 @@ class Tabs extends Html {
             this.opt('active', v.selected != null && v.selected == (this.opt('key') || this.opt('text')))
           },
           onClick: function (e, {__state}) {
-            __state.set('selected', (this.options.key || this.options.text))
+            __state.$set('selected', (this.key || this.text))
           }
         }
       }
@@ -56,27 +65,47 @@ class Tabs extends Html {
 
   options () {
     return {
+      // tabs: {
+      //   initOrSet: function (v) {
+      //     if (this.$list) {
+      //       this.$list.opt('items', v)
+      //     }
+      //   },
+      //   mutable: true
+      // },
+      defaultTab: {
+        init: function (v) {
+          this.$list.options.defaultItem.merge(v)
+        }
+      },
+      // selected: {
+      //   initOrSet: function (v) {
+      //     this.sources.__state.set('selected', v)
+      //   },
+      //   clean: true
+      // }
+    }
+  }
+
+  properties () {
+    return {
       tabs: {
-        initOrSet: function (v) {
+        set: function (v) {
           if (this.$list) {
             this.$list.opt('items', v)
           }
         },
         mutable: true
       },
-      defaultTab: {
-        init: function (v) {
-          this.$list.options.defaultItem.merge(v)
-        }
-      },
       selected: {
-        initOrSet: function (v) {
-          this.sources.__state.set('selected', v)
+        set: function (v) {
+          this.sources.__state.$set('selected', v)
         },
         clean: true
       }
     }
   }
+
 
 }
 

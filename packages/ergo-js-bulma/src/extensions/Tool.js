@@ -13,10 +13,10 @@ class Tool extends Field {
             }
         }
     }
-    options () {
+    properties () {
         return {
             text: {
-                initOrSet: function (v) {
+                set: function (v) {
                     this.$control.opt('text', v)
                 }
             }

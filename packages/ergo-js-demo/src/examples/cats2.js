@@ -1,30 +1,62 @@
 import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Tabs, Image, Carousel, Box} from 'ergo-js-bulma'
+import {Layouts, Tabs, Image, Carousel, Box, getEl} from 'ergo-js-bulma'
 
 import axios from 'axios'
 
 const api = {
-  cats: {
     getBreeds: function () {
       return axios.get('https://api.thecatapi.com/v1/breeds').then(response => response.data)
     },
     getImages: function (breedId) {
       return axios.get('https://api.thecatapi.com/v1/images/search?limit=5&breed_id='+breedId).then(response => response.data)
     }
-  },
-  dogs: {
-    getBreeds: function () {
-      return axios.get('https://dog.ceo/api/breeds/list/all').then(response => {
-        return Object.keys(response.data.message).sort().map(v => {return {id: v, name: v}})
-      })
+}
+
+
+function DataInput (mixer) {
+  mixer.mix({
+    scope: {
+      data: ctx => ctx.data,
     },
-    getImages: function (breedId) {
-      return axios.get(`https://dog.ceo/api/breed/${breedId}/images`).then(response => {
-        return response.data.message.map(v => {return {url: v}})
-      })
+    dom: { getEl },
+    onChange: function (e, {data}) {
+      data.$value = e.target.value
+    },
+    dataChanged: function (v) {
+      if (this.el) {
+        this.el.value = v
+      }
+      else {
+        this.opt('defaultValue', v)
+      }
+    }
+  })
+}
+
+
+
+class HtmlSelect extends Html {
+  config () {
+    return {
+      scope: {
+        options: ctx => ctx.options || []
+      },
+      mix: { DataInput },
+      html: 'select',
+      defaultItem: {
+        html: 'option',
+        optionsChanged: function (v) {
+          this.opt('text', v)
+          this.opt('value', v)
+        }
+      },
+      optionsChanged: function (v, s, k) {
+        this.opt('items', s.$iterator(k))
+      }
     }
   }
 }
+
 
 export default () => {
   return {
@@ -33,25 +65,29 @@ export default () => {
       $tabs: {
         as: Tabs,
         css: 'is-centered',
-        tabs: [{text: 'Breeds', selected: true}, 'Images/Search', 'Random image']
+        tabs: [{text: 'Breeds', active: true}, 'Images/Search', 'Random image']
       },
       $breedSelect: {
-        html: 'select',
+        scope: {
+          options: ctx => ctx.data.$entry('breeds'),
+          data: ctx => ctx.view.$entry('breedId')
+        },
+        as: HtmlSelect,
+//        html: 'select',
         defaultItem: {
-          html: 'option',
-          dataChanged: function (v) {
+          optionsChanged: function (v) {
             this.opt('text', v.name)
             this.opt('value', v.id)
-            this.opt('key', v.id)
+//            this.opt('key', v.id)
           }
         },
-        dataId: 'breeds',
-        dataChanged: function (v, k, s) {
-          this.opt('items', k)
-        },
-        viewChanged: function (v) {
-          this.opt('value', v.breedId)
-        },
+//        dataId: 'breeds',
+        // dataChanged: function (v, s, k) {
+        //   this.opt('items', s.$iterator(k))
+        // },
+        // viewChanged: function (v) {
+        //   this.opt('value', v.breedId)
+        // },
         onChange: function (e, {view}) {
           view.selectBreed(e.target.value)
         }
@@ -67,7 +103,7 @@ export default () => {
             height: '100%',
     //        height: 256,
             dataChanged: function (v, s) {
-              this.opt('images', s.__source.imageUrls)// s.source.get('imageUrls'))
+              this.opt('images', s.imageUrls)// s.source.get('imageUrls'))
             },
             $content: {
               styles: {
@@ -134,24 +170,34 @@ export default () => {
         // }
       }
     },
-    sources: {
-      view: new Domain({pet: 'cats'}),
+    scope: {
+      view: new Domain({}, {
+        properties: {
+          breedId: {}
+        }
+      }),
       data: new Domain({}, {
         properties: {
-          imageUrls: (v) => {
-            return v.images ? v.images.map(img => img.url) : []
-          }
+          imageUrls: {
+            calc: (v) => {
+              return v.images ? v.images.map(img => img.url) : []
+            }
+          },
+          breeds: {},
+          images: {}
         }
       })
     },
     allJoined: function ({view, data}) {
       view.watch(e => e.name == 'init', async () => {
-        data.set('breeds',  await api.cats.getBreeds())
+        data.breeds = await api.getBreeds()
       }, this)
       view.createAction('selectBreed', async (id) => {
-        view.set('breedId', id)
-        data.set('images', await api.cats.getImages(id))
-      })
+        view.breedId = id
+        data.images = await api.getImages(id)
+        // view.set('breedId', id)
+        // data.set('images', await api.cats.getImages(id))
+      }, this)
     }
   }
 }
