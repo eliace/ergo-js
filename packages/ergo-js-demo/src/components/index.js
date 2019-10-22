@@ -23,7 +23,7 @@ function previewOf (exampleCreator, code) {
   }
 }
 
-import ModalCode from 'raw-loader!./modal.js'//fs.readFileSync(__dirname+'/modal.js', 'utf-8')
+//import ModalCode from 'raw-loader!./modal.js'//fs.readFileSync(__dirname+'/modal.js', 'utf-8')
 import MenuCode from 'raw-loader!./menu'//fs.readFileSync(__dirname+'/menu.js', 'utf-8')
 const CardCode = ''//fs.readFileSync(__dirname+'/card.js', 'utf-8')
 const BreadcrumbCode = ''//fs.readFileSync(__dirname+'/breadcrumb.js', 'utf-8')
@@ -99,7 +99,7 @@ export default () => {
       $breadcrumb: previewOf(BreadcrumbExample, BreadcrumbCode),
       $card: previewOf(CardExample, CardCode),
       $menu: previewOf(MenuExample, MenuCode),
-      $modal: previewOf(ModalExample, ModalCode),
+      $modal: ModalExample,//previewOf(ModalExample, ModalCode),
       $navbar: previewOf(NavbarExample, NavbarCode),
       $pagination: previewOf(PaginationExample, PaginationCode),
     }

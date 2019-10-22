@@ -3,7 +3,7 @@ import {Layouts, Box, Title} from 'ergo-js-bulma'
 import { ExampleBox } from '../extensions'
 
 import box1 from './box1'
-import box1_text from 'raw-loader!./box1'
+import box1_text from '!raw-loader!./box1'
 
 export default () => {
   return {

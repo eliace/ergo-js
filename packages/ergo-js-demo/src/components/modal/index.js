@@ -1,166 +1,14 @@
 import {Html, Domain, Layout, Events, Source} from 'ergo-js-core'
 import {Layouts, Button, Box, Image, Modal, stopMouseDown, Input, Buttons, withDialogs} from 'ergo-js-bulma'
 
+import { InputDialog, ImageModal, ModalModel } from './common'
 
-import imgUrl from '../img/Yosemite 3.jpg'
-import { ExampleBox } from '../extensions'
-
-
-
-class ModalModel extends Domain {
-  config () {
-    return {
-      properties: {
-        opened: {}
-      },
-      actions: {
-        open: function () {
-          this.opened = true
-        },
-        close: function () {
-          this.opened = false
-        }
-      }
-    }
-  }
-}
+import imgUrl from '../../img/Yosemite 3.jpg'
+import { ExampleBox } from '../../extensions'
 
 
-class BaseModal extends Html {
-  config () {
-    return {
-      sources: {
-        //собственная модель
-        // view: () => new Domain({}, {
-        //   events: {
-        //     close: {channel: '*'},
-        //     open: {channel: '*'}
-        //   }
-        // }),
-
-        // внешняя модель
-        view: (ctx, o) => ctx.view || new ModalModel({})
-      },
-      join: {
-        view: {
-          BaseModal: function (joint) {
-            joint.createProperty('opened')
-            joint.createAction('open', () => {
-              joint.opened = true
-            })
-            joint.createAction('close', () => {
-              joint.opened = false
-            })
-          }
-        }
-      },
-      dom: { stopMouseDown },
-      // viewChanged: function (v) {
-      // },
-      css: 'modal',
-      $background: {
-        css: 'modal-background',
-        onMouseUp: function (e, {view}) {
-          view.close()
-        }
-      },
-      $content: {
-        css: 'modal-content',
-        onMouseDown: function (e) {
-          e.stopPropagation()
-        }
-      },
-      $close: {
-        html: 'button',
-        css: 'modal-close is-large',
-        onClick: function (e, {view}) {
-          view.close()
-        }
-      }
-    }
-  }
-  properties () {
-    return {
-      active: {
-        set: function (v) {
-          this.opt('classes', {'is-active': !!v})
-        }
-      }
-    }
-  }
-}
-
-
-
-class ImageModal extends BaseModal {
-  config () {
-    return {
-      sources: {
-        data: (ctx, o) => ctx.data
-      },
-      active: true,
-      $content: {
-        $image: {
-          as: Image,
-          dataChanged: function (v) {
-            this.opt('src', v.url)
-          }
-        }
-      }  
-    }
-  }
-}
-
-
-
-class InputDialog extends BaseModal {
-  config () {
-    return {
-      active: true,
-      sources: {
-        data: () => '',
-        view: () => new ModalModel({})
-      },
-      join: {
-        view: {
-          InputDialog: function (j) {
-            j.createEvent('ok', {channel: '*'})
-            j.createEvent('cancel', {channel: '*'})
-          }
-        }
-      },
-      $content: {
-        as: Box,
-        $input: {
-          as: Input,
-          dataChanged: function (v) {
-            this.opt('value', v)
-          },
-          onChange: function (e, {data}) {
-            data.$set(e.target.value)
-          }   
-        },
-        $buttons: {
-          as: Buttons,
-          $ok: {
-            text: 'OK',
-            onClick: function (e, {view}) {
-              view.ok()
-              view.close()
-            }
-          },
-          $cancel: {
-            text: 'Cancel',
-            onClick: function (e, {view}) {
-              view.cancel()
-              view.close()
-            }
-          }
-        }
-      }
-    }
-  }
-}
+import modal1 from './modal1'
+import modal1_code from '!raw-loader!./modal1'
 
 
 
@@ -184,34 +32,8 @@ export default () => {
     items: [{
       title: 'Property toggle',
       description: 'Видимостью модала управляем с поможью css класса. Сам модал постоянно присутствует в DOM',
-      example: {
-        // внешнее управление, внутренний контекст
-        sources: {
-          view: () => {
-            return {}
-          },
-          data: () => {
-            return {url: imgUrl}
-          }
-        },
-        $button: {
-          as: Button,
-          text: 'Open Modal',
-          onClick: function (e, {view}) {
-            view.open()
-          }
-        },
-        $modal: {
-          sources: {
-            view: (ctx, o) => ctx.view // переопределение канала view. если внутренняя модель была, то она теперь недоступна
-          },
-          as: ImageModal,
-          active: false,
-          viewChanged: function (v) {
-            this.opt('active', v.opened)
-          }
-        }
-      }
+      example: modal1,
+      code: modal1_code
     }, {
       title: 'Component toggle',
       description: 'Модал становится видимым при включении в список компонентов, т.е. когда модал не видно, его нет и в DOM',

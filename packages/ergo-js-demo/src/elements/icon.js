@@ -3,6 +3,8 @@ import {Layouts, IconBox, Action} from 'ergo-js-bulma'
 import {ICONS} from '../constants'
 import { ExampleBox } from '../extensions'
 
+import icon1 from './icon1'
+import icon1_code from '!raw-loader!./icon1'
 
 export default () => {
   return {
@@ -12,18 +14,8 @@ export default () => {
     },
     items: [{
       title: 'Font awesome',
-      example: {
-        defaultItem: {
-          as: IconBox,
-          css: 'is-action',
-          onClick: function (e, {toasts}) {
-            toasts.show({text: this.opt('tag')})
-          }
-        },
-        items: ICONS.map(i => {
-          return {icon: 'fas fa-'+i, tag: i}
-        })  
-      }
+      example: icon1,
+      code: icon1_code
     }]
   }
 }
