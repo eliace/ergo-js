@@ -325,9 +325,10 @@ class Html {
     if (sources) {
 //      for (let i in sources) {
     //        console.log('local', i)
-        isJoined |= !!this.bind(sources)//[i], i)
+        isJoined = !!this.bind(sources)//[i], i)
 //      }
-      if (opts.allJoined) {
+
+      if (opts.allJoined || (opts.join && opts.join['all'])) {
         for (let i in this.sources) {
           if (this.sources[i]._key) {
 //            this.sources[i]._key.push(i)
@@ -338,11 +339,17 @@ class Html {
           this.sources[i]._key = i
 //          }
         }
-        const unjoin = opts.allJoined.call(this, this.sources)
         if (!this.joints) {
-          this.joint = {}
+          this.joints = {}
         }
-        this.joints['all'] = [unjoin]
+        this.joints['all'] = [opts.allJoined].concat(opts.join && Object.values(opts.join['all'] || {}))
+          .map(j => j && j.call(this, this.sources))
+          .filter(j => j != null)
+        // const unjoin = opts.allJoined.call(this, this.sources)
+        // if (!this.joints) {
+        //   this.joint = {}
+        // }
+        // this.joints['all'] = [unjoin]
         for (let i in this.sources) {
           delete this.sources[i]._key
         }
@@ -459,101 +466,8 @@ class Html {
       }
 
       
-//       if (opts.properties && opts.properties[i] && opts.properties[i].set) {
-//         const desc = opts.properties[i]
-//         if (desc.set) {
-//           desc.set.call(this, opts[i])
-//         }
-//       }
-//       else if (this.classProps[i] && this.classProps[i].set) {
-//         const desc = this.classProps[i]
-//         if (desc.set) {
-//           desc.set.call(this, opts[i])
-//         }
-//       }
-//       else if (opts.options && opts.options[i]) {
-//         const desc = opts.options[i]
-//         if (desc.init) {
-//           desc.init.call(this, opts[i])
-//         }
-//         else if (desc.initOrSet) {
-//           desc.initOrSet.call(this, opts[i])
-//         }
-//       }
-//       else if (this.classOptions[i]) {
-//         const desc = this.classOptions[i]
-//         if (desc.init) {
-//           desc.init.call(this, opts[i])
-//         }
-//         else if (desc.initOrSet) {
-//           desc.initOrSet.call(this, opts[i])
-//         }
-//       }
-//       else if (i == 'css') {
-//         if (o.length) {
-//           this.props.className = classNames(this.props.className, o.join(' '))
-//         }
-//       }
-// //       else if (i == 'text') {
-// //         if (this.$content) {
-// //           this.$content.opt('text', o)
-// //         }
-// //         else {
-// // //          this.addComponent('content', {text: o})
-// //           this.text = o
-// //         }
-// //       }
-//       // else if (i == 'height') {
-//       //   this.props.style = this.props.style || {}
-//       //   this.props.style.height = (typeof o === 'string') ? o : o+'px'
-//       // }
-//       // else if (i == 'width') {
-//       //   this.props.style = this.props.style || {}
-//       //   this.props.style.width = (typeof o === 'string') ? o : o+'px'
-//       // }
-//       // else if (i == 'styles') {
-//       //   this.props.style = this.props.style || {}
-//       //   Object.assign(this.props.style, o)
-//       // }
-//       // else if (i == 'classes') {
-//       //   this.props.className = classNames(this.props.className, o)
-//       // }
-//       else if (Config.HTML_OPTIONS[i] === true) {
-//         this.props[i] = o
-//       }
-//       else if (Config.HTML_OPTIONS[i]) {
-//         this.props[Config.HTML_OPTIONS[i]] = o
-//       }
-//       else if (Config.HTML_EVENTS[i]) {
-//         this.props[Config.HTML_EVENTS[i]] =  (e) => o.call(this, e, this.sources)
-//       }
     }
 
-//     this._batchQueue = []
-
-//     for (let i in opts) {
-//       const o = opts[i]
-
-//       if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
-//         continue
-//       }
-
-//       const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
-
-//       if (!desc) {
-//         continue
-//       }
-
-//       this._batchQueue.push({
-//         key: i,
-//         value: o,
-//         next: () => {
-// //          if (this._batchQueue.length > 0) {
-//             this.opt(i, o) // обновляем следующий элемент
-// //          }
-//         }
-//       })
-//     }
 
 
     const batch = []
@@ -561,7 +475,10 @@ class Html {
     for (let i in opts) {
       const o = opts[i]
 
-      if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+
+      const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
+
+      if (!desc) {
         continue
       }
 
@@ -571,16 +488,21 @@ class Html {
 
       this._propsCache[i] = o
 
-      const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
-
-      if (!desc) {
-        continue
+      if (o instanceof Joint) {
+        const joint = o.join(this, i) // добавялем joint в подписчики source
+        opts[i] = null
+//        debugger
+        console.log('joint', i)
+        for (let ch in joint.channels) {
+          joint.source._change(this, joint.channels[ch])
+        } 
+//        this.sources[joint]
+//        isJoined = true
+        continue // связанные опции будут обновлены при init
       }
 
-      if (o instanceof Joint) {
-        o.join(this, i) // добавялем joint в подписчики source
-        opts[i] = null
-        continue // связанные опции будут обновлены при init
+      if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+        continue
       }
 
 
@@ -932,7 +854,7 @@ class Html {
     }
   }
 
-  opt(name, value, key) {
+  opt (name, value, key) {
 
     const classDesc = Config.getClassDescriptor(this.constructor)
 
@@ -967,6 +889,8 @@ class Html {
     }
 
     // SETTER
+    console.log('opt', name, value)
+
 
     let keys = [name]
     let values = value
@@ -1178,7 +1102,7 @@ class Html {
     return this
   }
 
-  addItem(value, i, key, extraSources) {
+  addItem (value, i, key, extraSources) {
 
     const o = this.options
 
@@ -1690,12 +1614,11 @@ class Html {
     else {
       this.destroyAllItems()
       for (let i = 0; i < value.length; i++) {
-        this.addItem(value[i], null, i)
+        this.addItem(value[i], i)
       }
     }
 
   }
-
 
 
   syncComponents (value, key) {
@@ -1814,7 +1737,7 @@ class Html {
 
 //    console.log('bind', i, v)
 
-    if (v == null) {
+    if (v === undefined) {
       continue
     }
 
@@ -1840,7 +1763,7 @@ class Html {
       v = this.sources[ref]
     }
 
-    if (v == null) {
+    if (v === undefined) {
       console.warn('Source '+i+' ignored')
       continue
     }

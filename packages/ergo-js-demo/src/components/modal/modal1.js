@@ -7,23 +7,20 @@ export default () => {
     return {
         scope: {
             view: () => {
-              return {}
+              return {opened: false}
             },
             data: () => {
               return {url: imgUrl}
             }
-          },
-          $button: {
+        },
+        $button: {
             as: Button,
             text: 'Open Modal',
             onClick: function (e, {view}) {
               view.open()
             }
-          },
-          $modal: {
-            scope: {
-              view: (ctx) => ctx.view // force use view channel of parent scope
-            },
+        },
+        $modal: {
             as: ImageModal,
             active: false,
             viewChanged: function (v) {

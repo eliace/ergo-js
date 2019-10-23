@@ -20,13 +20,15 @@ export default function withDialogs (mixer) {
         },
         $dialogs: {
             defaultItem: {
-                allJoined: function ({dialogs, view}) {
-                    view.on('close', () => {
-                        // FIXME
-                        const v = dialogs.components.$get()
-                        v.splice(this.index, 1)
-                        dialogs.components.$set(v)
-                    }, this)
+                join: {
+                    all: {Dialogs: function ({dialogs, view}) {
+                        view.on('close', () => {
+                            // FIXME
+                            const v = dialogs.components.$get()
+                            v.splice(this.index, 1)
+                            dialogs.components.$set(v)
+                        }, this)    
+                    }}
                 }
             },
             dialogsChanged: function (v, s) {

@@ -4,6 +4,7 @@
 // import './spec/Domain.spec'
 // import './spec/reconcile.spec'
 //import './spec/html/inheritance.spec'
-import './spec/html/properties.spec'
+//import './spec/html/properties.spec'
 //import './spec/html/calculated-items.spec'
 // import './spec/source/calculated-props.spec'
+import './spec/sandbox/scope.spec'

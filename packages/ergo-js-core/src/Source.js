@@ -1088,6 +1088,7 @@ class Source {
     return this.subscribers
       .filter(t => event.target == null || event.target == t.target)
       .filter(t => event.channel == '*' || t.channels.indexOf(channel) != -1)
+      .filter(s => s.name == '*' || s.name == event.name)
       .map(t => t.callback.call(t.target, event, t))
 
     // this.subscribers.forEach(t => {
@@ -1110,6 +1111,11 @@ class Source {
 
     this.emit('init', null, {target}, ch)
 
+    const data = this.$get()
+    this.emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
+  }
+
+  _change (target, ch) {
     const data = this.$get()
     this.emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
   }
@@ -1141,6 +1147,14 @@ class Source {
     return JSON.parse(JSON.stringify(this.$get()))
   }
 
+  $snapshot () {
+    const v = this.$get();
+    const p = {}
+    for (let i in this._properties) {
+      p[i] = this.$entry(i).$get()
+    }
+    return Object.assign(p, v)
+  }
 
 }
 

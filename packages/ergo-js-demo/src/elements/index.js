@@ -31,7 +31,7 @@ function previewOf (exampleCreator, code) {
 
 import BoxCode from 'raw-loader!./box'// = ''//fs.readFileSync(__dirname+'/box.js', 'utf-8')
 //import ButtonCode from 'raw-loader!./button'//fs.readFileSync(__dirname+'/button.js', 'utf-8')
-import ContentCode  from 'raw-loader!./content'//fs.readFileSync(__dirname+'/content.js', 'utf-8')
+//import ContentCode  from 'raw-loader!./content'//fs.readFileSync(__dirname+'/content.js', 'utf-8')
 import DeleteCode from 'raw-loader!./delete'//fs.readFileSync(__dirname+'/delete.js', 'utf-8')
 import IconCode from 'raw-loader!./icon'//fs.readFileSync(__dirname+'/icon.js', 'utf-8')
 import ImageCode from 'raw-loader!./image'//fs.readFileSync(__dirname+'/image.js', 'utf-8')
@@ -122,7 +122,7 @@ export default () => {
       },
       $box: BoxExample,// previewOf(BoxExample, BoxCode),
       $button: ButtonExample,//previewOf(ButtonExample, ButtonCode),
-      $content: previewOf(ContentExample, ContentCode),
+      $content: ContentExample,//previewOf(ContentExample, ContentCode),
       $delete: previewOf(DeleteExample, DeleteCode),
       $icon: IconExample,//previewOf(IconExample, IconCode),
       $image: previewOf(ImageExample, ImageCode),

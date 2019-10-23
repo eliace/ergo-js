@@ -18,14 +18,15 @@ export class Joint {
 
     callback (e, s) {
         const v = e.data
-        this.opt(s.key, s.property ? v[s.property] : s.format(v, s.source))
+        console.log('update joint', s.key, v)
+        this.opt(s.key, s.property ? v[s.property] : s.format(v, s.source, s.channels))
     }
 
     join (target, key) {
         this.key = key
         this.target = target
         this.source = target.sources[this.channels[0]]
-        this.source.subscribe(this)
+        return this.source.subscribe(this)
     }
 
     unjoin () {

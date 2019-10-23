@@ -97,7 +97,7 @@ export default () => {
       },
       $tabs: previewOf(TabsExample, TabsCode),
       $breadcrumb: previewOf(BreadcrumbExample, BreadcrumbCode),
-      $card: previewOf(CardExample, CardCode),
+      $card: CardExample,//previewOf(CardExample, CardCode),
       $menu: previewOf(MenuExample, MenuCode),
       $modal: ModalExample,//previewOf(ModalExample, ModalCode),
       $navbar: previewOf(NavbarExample, NavbarCode),
