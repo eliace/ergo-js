@@ -1,4 +1,4 @@
-import {Html, Layout, Domain} from '../../src'
+import {Html, Layout, Domain} from 'ergo-js-core'
 import {uuid, pluralize} from './utils'
 
 export default () => {
@@ -22,7 +22,7 @@ export default () => {
 
   return new Html({
     $body: {
-      sources: {
+      scope: {
         data: new Domain({
           filter: 'all',
           todos: [
@@ -31,6 +31,10 @@ export default () => {
           ]
         }, {
           properties: {
+            todos: {
+              type: Domain,
+            },
+            completed: {},
             allCompleted: {
               calc: (v) => v.todos.filter(todo => todo.completed).length == v.todos.length && v.todos.length > 0
             },
@@ -47,6 +51,14 @@ export default () => {
               calc: (v) => v.todos.filter(todo => todo.completed).length > 0
             },
             filteredTodos: {
+              key: v => v.id,
+              entryOfType: {
+                properties: {
+                  editing: {},
+                  completed: {},
+                  text: {},
+                }
+              },
               calc: (v) => {
                 if (v.filter == 'all') {
                   return v.todos
@@ -64,31 +76,38 @@ export default () => {
         app: {}
       },
       allJoined: function ({app, data}) {
-        app.$method('addTodo', this, (todo) => {
-          data.$entry('todos').$add({
+        app.createAction('addTodo', (todo) => {
+          data.todos.$add({
             id: uuid(),
             text: todo
           })
-        })
-        app.$method('deleteTodo', this, (id) => {
-          const todos = data.$entry('todos').get()
-          const idx = todos.findIndex(v => v.id == id)
-          data.$entry('todos').$remove(idx)
-        })
-        app.$method('completeAll', this, (complete) => {
-          data.$entry('todos').$each(todo => {
-            todo.set('completed', complete)
+        }, this)
+        app.createAction('deleteTodo', (id) => {
+          data.todos.$value = data.todos.$value.filter(todo => todo.id != id)
+          // const todos = [...data.todos.$value]
+          // const idx = todos.findIndex(v => v.id == id)
+          // todos.splice(idx, 1)
+          // data.todos.$value = todos
+          // todos.splice()
+          // const { todos } = data
+          // const idx = todos.$value.findIndex(v => v.id == id)
+          // todos.$remove(idx)
+        }, this)
+        app.createAction('completeAll', (complete) => {
+          data.todos.$each(todo => {
+            todo.completed = complete
           })
-        })
-        app.$method('deleteCompleted', this, () => {
-          const todos = data.$entry('todos').get()
-          const onlyActiveTodos = todos.filter(todo => !todo.completed)
-          data.$entry('todos').set(onlyActiveTodos)
-        })
+        }, this)
+        app.createAction('deleteCompleted', () => {
+          data.todos.$value = data.todos.$value.filter(todo => !todo.completed)
+          // const todos = data.$entry('todos').get()
+          // const onlyActiveTodos = todos.filter(todo => !todo.completed)
+          // data.$entry('todos').set(onlyActiveTodos)
+        }, this)
       },
       html: 'section',
       css: 'todoapp',
-      dataChanged: function (v, k) {
+      dataChanged: function (v) {
         this.opt('components', v)
       },
       $header: {
@@ -126,10 +145,10 @@ export default () => {
             type: 'checkbox',
             id: 'toggle-all',
             css: 'toggle-all',
-            dataChanged: function (v, k, data) {
-              this.opt('checked', data.get('allCompleted'))
+            dataChanged: function (v, s) {
+              this.opt('checked', s.allCompleted)// data.get('allCompleted'))
             },
-            onChange: function (e, {app}) {
+            onChange: function (e, {app}) {              
               app.completeAll(e.target.checked)
             }
           },
@@ -144,10 +163,10 @@ export default () => {
           css: 'todo-list',
           filter: 'all',
           dataId: 'filteredTodos',
-          dataEntryId: v => v.id,
-          dataChanged: function (v, k, s) {
-            console.count('sync todos')
-            this.opt('items', s.$stream(k))//data.entry(this.opt('filter')).asStream(k))
+//          dataEntryId: v => v.id,
+          dataChanged: function (v, s, k) {
+            console.log('sync todos', s)
+            this.opt('items', s.$iterator(k))//data.entry(this.opt('filter')).asStream(k))
           },
           defaultItem: {
             html: 'li',
@@ -167,7 +186,8 @@ export default () => {
                   this.opt('checked', v.completed)
                 },
                 onChange: function (e, {data}) {
-                  data.set('completed', e.target.checked)
+                  console.log(data)
+                  data.completed = e.target.checked
                 }
               },
               $content: {
@@ -176,7 +196,7 @@ export default () => {
                   this.opt('text', v.text)
                 },
                 onDoubleClick: function (e, {data}) {
-                  data.set('editing', true)
+                  data.editing = true
                 }
               },
               $destroy: {
@@ -191,23 +211,23 @@ export default () => {
               html: 'input',
               css: 'edit',
               dataJoined: function (data) {
-                data.$watch(e => e.name == 'changed' && e.ids && 'editing' in e.ids, this, () => {
+                data.watch(e => e.name == 'changed' && e.ids && 'editing' in e.ids, () => {
                   this.eff(AutoFocus)
-                })
+                }, this)
               },
               dataChanged: function (v) {
                 this.opt('defaultValue', v.text)
               },
               onBlur: function (e, {data}) {
-                data.set('editing', false)
+                data.editing = false
               },
               onKeyUp: function (e, {data}) {
                 if (e.key == 'Enter') {
-                  data.set('text', e.target.value)
-                  data.set('editing', false)
+                  data.text = e.target.value
+                  data.editing = false
                 }
                 else if (e.key == 'Escape') {
-                  data.set('editing', false)
+                  data.editing = false
                 }
               }
             }
@@ -245,17 +265,17 @@ export default () => {
               html: 'a'
             },
             dataChanged: function (v) {
-              console.log('FILTER', v)
+//              console.log('FILTER', v)
               this.opt('selected', v.filter == this.opt('key'))
             },
             options: {
               link: {
-                initOrSet: function (v) {
+                set: function (v) {
                   this.$content.opt('href', v)
                 }
               },
               selected: {
-                initOrSet: function (v) {
+                set: function (v) {
                   this.$content.opt('classes', {'selected': v})
                 }
               }

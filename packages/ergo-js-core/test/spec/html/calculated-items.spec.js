@@ -15,8 +15,8 @@ function x10list (initial) {
         sources: { 
             data: () => data.$entry('x10') 
         },
-        dataChanged (v, s) {
-            this.opt('items', s)
+        dataChanged (v, s, k) {
+            this.opt('items', s.$iterator(k))
         },
         defaultItem: {
             dataChanged: function (v) {
@@ -53,6 +53,18 @@ describe ('Calculated items', () => {
         expect(html.items.length).to.be.eq(0)
     })
 
+    it ('Should remove center items', () => {
+        const {data, html} = x10list([1,2,3,4,5])
+
+        data.$value = [1,2,4,5]
+
+        expect(html.items.length).to.be.eq(4)
+        expect(html.items[0].text).to.be.eq('10')
+        expect(html.items[1].text).to.be.eq('20')
+        expect(html.items[2].text).to.be.eq('40')
+        expect(html.items[3].text).to.be.eq('50')
+    })
+
     it ('Should update items', () => {
         const {data, html} = x10list([1,2,3])
 
@@ -77,8 +89,8 @@ describe ('Calculated items', () => {
             sources: { 
                 data: () => data.$entry('x10') 
             },
-            dataChanged (v, s) {
-                this.opt('items', s)
+            dataChanged (v, s, k) {
+                this.opt('items', s.$iterator(k))
             },
             defaultItem: {
                 dataChanged: function (v) {

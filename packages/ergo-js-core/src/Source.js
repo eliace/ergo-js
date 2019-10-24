@@ -656,9 +656,10 @@ class Source {
 
         if (Array.isArray(v)) {
           Object.keys(this.entries).forEach(i => {
-            if (i > k) {
-              this.entries[i-1] = this.entries[i]
-              this.entries[i-1].$id = i-1
+            const n = Number(i)
+            if (n > k) {
+              this.entries[n-1] = this.entries[i]
+              this.entries[n-1].$id = n-1
               delete this.entries[i]
 //              delete this.entries[i].cache // кэш надо глубже почистить
 //              delete this.entries[i]
@@ -921,6 +922,8 @@ class Source {
         }
       }
 
+//      console.log('update entries', nextEntries)
+      
       this.entries = nextEntries
     }
   }

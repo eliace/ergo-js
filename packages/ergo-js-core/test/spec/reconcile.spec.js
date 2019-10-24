@@ -22,8 +22,8 @@ function list (initial) {
     const data = new Source(initial)
     const html = new Html({
         sources: { data },
-        dataChanged (v, s) {
-            this.opt('items', s)
+        dataChanged (v, s, k) {
+            this.opt('items', s.$iterator(k))
         },
         defaultItem: {
             dataChanged: function (v) {
@@ -50,7 +50,7 @@ describe ('Reconcile', () => {
             const {data, html} = list([])
     
             data.$value = [1,2,3]
-    
+
             expect(html.items.length).to.be.eq(3)
             expect(html.items[0].text).to.be.eq('1')
             expect(html.items[1].text).to.be.eq('2')
@@ -64,7 +64,33 @@ describe ('Reconcile', () => {
     
             expect(html.items.length).to.be.eq(0)
         })
+
+        it ('Should remove center items', () => {
+            const {data, html} = list([1,2,3,4,5])
     
+            data.$value = [1,2,4,5]
+    
+            expect(html.items.length).to.be.eq(4)
+            expect(html.items[0].text).to.be.eq('1')
+            expect(html.items[1].text).to.be.eq('2')
+            expect(html.items[2].text).to.be.eq('4')
+            expect(html.items[3].text).to.be.eq('5')
+        })
+
+        it ('Should remove center items (self)', () => {
+            const arr = [1,2,3,4,5]
+            const {data, html} = list(arr)
+    
+            arr.splice(2, 1)
+            data.$value = arr
+    
+            expect(html.items.length).to.be.eq(4)
+            expect(html.items[0].text).to.be.eq('1')
+            expect(html.items[1].text).to.be.eq('2')
+            expect(html.items[2].text).to.be.eq('4')
+            expect(html.items[3].text).to.be.eq('5')
+        })
+        
         it ('Should add tail items', () => {
             const {data, html} = list([1,2])
     

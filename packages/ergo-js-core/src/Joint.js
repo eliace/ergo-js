@@ -18,7 +18,7 @@ export class Joint {
 
     callback (e, s) {
         const v = e.data
-        console.log('update joint', s.key, v)
+//        console.log('update joint', s.key, v)
         this.opt(s.key, s.property ? v[s.property] : s.format(v, s.source, s.channels))
     }
 
@@ -41,4 +41,11 @@ export class Joint {
 
 export function joint (channel, property) {
     return new Joint(null, null, null, channel, property)
+}
+
+export function $value (channel, format) {
+    return new Joint(null, null, null, channel, format || ((v, s, k) => v))
+}
+export function $iterator (channel, key) {
+    return new Joint(null, null, null, channel, (v, s, k) => {return s.$iterator(key || k)})
 }

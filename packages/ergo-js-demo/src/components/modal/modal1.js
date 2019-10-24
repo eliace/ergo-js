@@ -1,6 +1,5 @@
 import { ImageModal } from './common'
 import { Button } from 'ergo-js-bulma'
-
 import imgUrl from '../../img/Yosemite 3.jpg'
 
 export default () => {
@@ -17,7 +16,7 @@ export default () => {
             as: Button,
             text: 'Open Modal',
             onClick: function (e, {view}) {
-              view.open()
+              view.opened = true
             }
         },
         $modal: {

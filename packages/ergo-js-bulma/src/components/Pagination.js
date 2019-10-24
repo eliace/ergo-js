@@ -75,10 +75,12 @@ class Pagination extends Html {
 //                this.set('current', v)
               },
               next: function () {
-                this.$set('current', Math.min(this.$get('current')+1, this.$get('max')))
+                this.select( Math.min(this.current+1, this.max) )
+//                this.$set('current', Math.min(this.$get('current')+1, this.$get('max')))
               },
               prev: function () {
-                this.$set('current', Math.max(this.$get('current')-1, this.$get('min')))
+                this.select( Math.max(this.current-1, this.min) )
+//                this.$set('current', Math.max(this.$get('current')-1, this.$get('min')))
               }
             }
           })

@@ -5,6 +5,9 @@ export default () => {
     return {
         as: Card,
         width: 512,
+        styles: {
+            boxShadow: '2px 3px 8px #ddd'
+        },
         components: {
           image: true,
           header: false

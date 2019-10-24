@@ -1,8 +1,10 @@
 //import {createProjector} from 'maquette'
-import createApp from './js/app'
+import createApp from './src/app'
 import {Router} from 'director/build/director'
-import Context from '../src/react/Context'
-import {Config} from '../src'
+import { Config } from 'ergo-js-core'
+import { Context as ReactRenderer } from 'ergo-js-react'
+
+Config.use(ReactRenderer)
 
 //const projector = createProjector()
 

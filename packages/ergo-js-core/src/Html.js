@@ -476,7 +476,7 @@ class Html {
       const o = opts[i]
 
 
-      const desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
+      const desc = (opts.properties && opts.properties[i]) || (opts.options && opts.options[i] && opts.options[i].set && opts.options[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
 
       if (!desc) {
         continue
@@ -492,7 +492,7 @@ class Html {
         const joint = o.join(this, i) // добавялем joint в подписчики source
         opts[i] = null
 //        debugger
-        console.log('joint', i)
+//        console.log('joint', i)
         for (let ch in joint.channels) {
           joint.source._change(this, joint.channels[ch])
         } 
@@ -501,7 +501,7 @@ class Html {
         continue // связанные опции будут обновлены при init
       }
 
-      if ((opts.options && opts.options[i]) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+      if ((opts.options && opts.options[i] && !opts.options[i].set) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
         continue
       }
 
@@ -644,7 +644,7 @@ class Html {
   // Собственные свойства компонента
 
   get text () {
-    return this._propsCache.text
+    return this._propsCache.text != null ? String(this._propsCache.text) : null
   }
 
   get key () {
@@ -889,7 +889,7 @@ class Html {
     }
 
     // SETTER
-    console.log('opt', name, value)
+//    console.log('opt', name, value)
 
 
     let keys = [name]
@@ -926,7 +926,7 @@ class Html {
       //   || this.classDesc.properties[name] 
       //   || this.properties[name]
 
-      const desc = (o.properties && o.properties[name]) || classDesc.properties[name] || Config.HTML_OPTIONS[name]
+      const desc = (o.properties && o.properties[name]) || (o.options && o.options[name] && o.options[name].set && o.options[name]) || classDesc.properties[name] || Config.HTML_OPTIONS[name]
 
       if (!desc) {
         console.warn(`[Html] Property not defined`, name, this.constructor)
@@ -1514,6 +1514,7 @@ class Html {
 
       }
 
+      // console.log(this)
       // console.log(result)
       // console.log(prevByIds)
       // console.log(nextByIds)

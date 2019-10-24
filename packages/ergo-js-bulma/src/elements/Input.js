@@ -13,7 +13,7 @@ export class Input extends Html {
 export class Textarea extends Html {
   config () {
     return {
-      html: 'testarea',
+      html: 'textarea',
       css: 'textarea'
     }
   }

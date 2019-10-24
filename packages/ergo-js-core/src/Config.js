@@ -44,6 +44,11 @@ const Config = {
 
         if (proto.hasOwnProperty('options')) {
             desc.options = {...desc.options, ...proto.options()}
+            for (let i in desc.options) {
+                if (desc.options[i].set) {
+                    desc.propoperties[i] = desc.options[i]
+                }
+            }
         }
 
         if (proto.hasOwnProperty('rules')) {

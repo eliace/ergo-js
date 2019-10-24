@@ -9,6 +9,8 @@ import { ExampleBox } from '../../extensions'
 
 import modal1 from './modal1'
 import modal1_code from '!raw-loader!./modal1'
+import modal2 from './modal2'
+import modal2_code from '!raw-loader!./modal2'
 
 
 
@@ -37,36 +39,8 @@ export default () => {
     }, {
       title: 'Component toggle',
       description: 'Модал становится видимым при включении в список компонентов, т.е. когда модал не видно, его нет и в DOM',
-      example: {
-        // внешнее управление, внутренний контекст
-        sources: {
-          view: () => {
-            return new ModalModel({}) // взаимодействовать с компонентом, которого еще нет мы можем только через канал
-          },
-          data: () => {
-            return {url: imgUrl}
-          }
-        },
-        $button: {
-          as: Button,
-          text: 'Open Modal',
-          onClick: function (e, {view}) {
-            view.open()
-          }
-        },
-        $modal: {
-          sources: {
-            view: (ctx, o) => ctx.view // указываем, что используется внешняя модель
-          },
-          as: ImageModal
-        },
-        viewChanged: function (v) {
-          this.opt('components', {modal: v.opened})
-        },
-        components: {
-          modal: false // блокируем инициализацию
-        }
-      }
+      example: modal2,
+      code: modal2_code
     }, {
       title: 'Dialog (dialogs channel)',
       description: 'Диалог отличается от простого модала тем, что он должен вернуть ответ в контекст вызова. Для этого, например, можно воспользоваться методикой делегирования',
