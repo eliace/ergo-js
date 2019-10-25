@@ -7,7 +7,7 @@ export default () => {
         // внешнее управление, внутренний контекст
         scope: {
             view: () => {
-              return new ModalModel({}) // взаимодействовать с компонентом, которого еще нет мы можем только через канал
+              return new ModalModel({}) // забираем управление моделью в родительский компонент
             },
             data: () => {
               return {url: imgUrl}
@@ -21,7 +21,7 @@ export default () => {
             }
         },
         $modal: {
-            sources: {
+            scope: {
               view: (ctx, o) => ctx.view // указываем, что используется внешняя модель
             },
             as: ImageModal

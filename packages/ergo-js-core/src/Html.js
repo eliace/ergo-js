@@ -37,6 +37,7 @@ const ComponentOptions = {
   // управление отрисовкой
 //  text: true,
   as: true,
+  css: true,
 //  styles: true,
 //  classes: true,
 //  props: true,
@@ -71,7 +72,6 @@ const ComponentProperties = {
 
   // управление отрисовкой
   text: true,
-  css: true,
   styles: true,
   classes: true,
 //  props: true,
@@ -455,6 +455,11 @@ class Html {
       if (desc.init) {
         desc.init.call(this, opts[i])
       }
+      else if (i == 'css') {
+        if (o.length) {
+          this.props.className = classNames(this.props.className, o.join(' '))
+        }
+      }
       // else if (Config.HTML_OPTIONS[i] === true) {
       //   this.props[i] = o
       // }
@@ -475,8 +480,15 @@ class Html {
     for (let i in opts) {
       const o = opts[i]
 
+      let desc = (opts.properties && opts.properties[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]
 
-      const desc = (opts.properties && opts.properties[i]) || (opts.options && opts.options[i] && opts.options[i].set && opts.options[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
+      const opt = classDesc.options[i] || (opts.options && opts.options[i]) || Config.HTML_EVENTS[i]
+//      console.log(i, opt)
+      if (opt && opt.set) {
+        desc = opt
+      }
+
+//      const desc = (opts.properties && opts.properties[i]) || (opts.options && opts.options[i] && opts.options[i].set && opts.options[i]) || classDesc.properties[i] || Config.HTML_OPTIONS[i]// this.classProps[i]
 
       if (!desc) {
         continue
@@ -501,7 +513,7 @@ class Html {
         continue // связанные опции будут обновлены при init
       }
 
-      if ((opts.options && opts.options[i] && !opts.options[i].set) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
+      if (opt && !opt.set) {//(opts.options && opts.options[i] && !opts.options[i].set) || classDesc.options[i] || Config.HTML_EVENTS[i]) {
         continue
       }
 
@@ -859,7 +871,7 @@ class Html {
     const classDesc = Config.getClassDescriptor(this.constructor)
 
     // GETTER
-    if (arguments.length == 1) {
+    if (arguments.length == 1 && name && name.constructor != Object) {
       // get
       if (this._binding_chain) {
         while (this._binding_chain.length) {
@@ -926,10 +938,15 @@ class Html {
       //   || this.classDesc.properties[name] 
       //   || this.properties[name]
 
-      const desc = (o.properties && o.properties[name]) || (o.options && o.options[name] && o.options[name].set && o.options[name]) || classDesc.properties[name] || Config.HTML_OPTIONS[name]
+      let desc = (o.properties && o.properties[name]) || classDesc.properties[name] || Config.HTML_OPTIONS[name]
+
+      const opt = classDesc.options[name] || (o.options && o.options[name])
+      if (opt && opt.set) {
+        desc = opt
+      }
 
       if (!desc) {
-        console.warn(`[Html] Property not defined`, name, this.constructor)
+        console.warn(`[${this.constructor.name}] Property not defined`, name)
         continue
       }
 
@@ -974,6 +991,10 @@ class Html {
       }
 
       this._propsCache[name] = value
+
+
+//      console.log('set opt', name, value, desc)
+
 
 //    console.log('opt', name, v)
 

@@ -3,32 +3,32 @@ import Stream from './Stream'
 import Options from './Options'
 import Config from './Config'
 
-function initClassOpts (proto) {
-  const chain = []
-  const opts = []
+// function initClassOpts (proto) {
+//   const chain = []
+//   const opts = []
 
-  let cls = proto
+//   let cls = proto
 
-  while (cls && cls.constructor !== Object) {
-    // if (cls.config) {
-    //   console.log('defaults', cls, cls.config())
-    // }
-    chain.push(cls.config && cls.config())
-    cls = Object.getPrototypeOf(cls)
-  }
+//   while (cls && cls.constructor !== Object) {
+//     // if (cls.config) {
+//     //   console.log('defaults', cls, cls.config())
+//     // }
+//     chain.push(cls.config && cls.config())
+//     cls = Object.getPrototypeOf(cls)
+//   }
 
-  let classOpts = new Options()
+//   let classOpts = new Options()
 
-  for (let i = chain.length-1; i >= 0; i--) {
-    // добавляем только в том случае, когда опции не наследуются
-    if (chain[i] != chain[i+1]) {
-      classOpts.merge(chain[i])
-    }
-  }
+//   for (let i = chain.length-1; i >= 0; i--) {
+//     // добавляем только в том случае, когда опции не наследуются
+//     if (chain[i] != chain[i+1]) {
+//       classOpts.merge(chain[i])
+//     }
+//   }
 
-  proto.classDefaults = classOpts.build(/* TODO здесь должны быть правила слияния */)
+//   proto.classDefaults = classOpts.build(/* TODO здесь должны быть правила слияния */)
 
-}
+// }
 
 
 class Source {

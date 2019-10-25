@@ -1,5 +1,7 @@
-import {Domain, Layout, Context, Config} from 'ergo-js-core'
+import {Domain, Layout, Config} from 'ergo-js-core'
 import {createVNode, renderVNode} from './Renderer'
+import {ReactEvents} from './Events'
+import {ReactOptions} from './Options'
 
 const SVG_OPTIONS = {
   d: true,
@@ -157,5 +159,5 @@ export default (config) => {
   config.Renderer.effect = effect
   config.defaultLayout = Layout
   config.defaultSource = Domain
-  config.DEV = false
+//  config.DEV = false
 }

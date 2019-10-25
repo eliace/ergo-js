@@ -57,6 +57,11 @@ export default class Switch extends Html {
 //              this.sources.value.set(v)
               this.$input.opt('checked', !!v)
             }
+        },
+        color: {
+          set: function (v) {
+            this.$input.opt('classes', {['is-'+v]: true})
+          }
         }
       }
     }

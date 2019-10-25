@@ -44,11 +44,20 @@ const Config = {
 
         if (proto.hasOwnProperty('options')) {
             desc.options = {...desc.options, ...proto.options()}
-            for (let i in desc.options) {
-                if (desc.options[i].set) {
-                    desc.propoperties[i] = desc.options[i]
-                }
-            }
+            // const options = {...proto.options()}
+            // for (let i in options) {
+            //     if (options.set) {
+            //         desc.properties[i] = options[i]
+            //     }
+            //     else {
+            //         desc.options[i] = options[i]
+            //     }
+            // }
+            // for (let i in desc.options) {
+            //     if (desc.options[i].set) {
+            //         desc.properties[i] = desc.options[i]
+            //     }
+            // }
         }
 
         if (proto.hasOwnProperty('rules')) {
