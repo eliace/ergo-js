@@ -455,6 +455,9 @@ class Html {
       if (desc.init) {
         desc.init.call(this, opts[i])
       }
+      else if (desc.mix) {
+        //
+      }
       else if (i == 'css') {
         if (o.length) {
           this.props.className = classNames(this.props.className, o.join(' '))
@@ -1686,7 +1689,7 @@ class Html {
             console.log('restore component', i, s)
           }
           else if (s && this['$'+i]._internal.context[k] != entry) {
-            console.warn('Child context overriding', this['$'+i]._internal.context[k], entry) // TODO может иммет смысл контекс копировать при создании компонента
+            console.warn('Child context overriding', this['$'+i]._internal.context[k], entry) // TODO может иммет смысл контекст копировать при создании компонента
             this['$'+i]._internal.context = {...this['$'+i]._internal.context, [k]: entry}
             this['$'+i].context = this['$'+i]._internal.context
             this['$'+i].bind(entry, k)
@@ -1710,15 +1713,24 @@ class Html {
       for (let i in value) {
         if (o['$'+i]) {
           const s = value[i]
-          if (s && !this['$'+i]) {
+          const c = this['$'+i]
+          if (s && !c) {
             this.addComponent(i, s)
           }
-          else if (s && s !== true && this['$'+i]) {
-            this['$'+i].opt(s, null) // !!!
+          else if (s && c) {
+            if (s !== true) {
+              c.opt(s, null) // !!!
+            }
+            if (c._destroying) {
+              delete c._destroying
+              delete c._sourcesToUnjoin
+              c.tryInit()
+              console.log('restore component', i, s)  
+            }
           }
-          else if (!s && this['$'+i]) {
+          else if (!s && c) {
 //            debugger
-            this['$'+i].tryDestroy()
+            c.tryDestroy()
           }
         }
       }

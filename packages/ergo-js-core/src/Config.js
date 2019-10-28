@@ -16,7 +16,9 @@ function hasProperty (obj, i) {
 const Config = {
     HTML_OPTIONS: {},
     HTML_EVENTS: {},
-    Renderer: {},
+    Renderer: {
+        schedule: () => {}
+    },
     defaultSource: Source,
     use: function (plugin) {
         plugin(this)

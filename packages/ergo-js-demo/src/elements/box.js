@@ -5,6 +5,7 @@ import { ExampleBox } from '../extensions'
 import box1 from './box1'
 import box1_text from '!raw-loader!./box1'
 
+
 export default () => {
   return {
     layout: Layouts.Rows,

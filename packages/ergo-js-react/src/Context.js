@@ -1,7 +1,7 @@
 import {Domain, Layout, Config} from 'ergo-js-core'
 import {createVNode, renderVNode} from './Renderer'
-import {ReactEvents} from './Events'
-import {ReactOptions} from './Options'
+import {ReactEvents} from './events'
+import {ReactOptions} from './options'
 
 const SVG_OPTIONS = {
   d: true,
@@ -27,11 +27,12 @@ const HTML_OPTIONS = {
   enctype: true,
   href: true,
   id: true,
-  innerHTML: true,
+  innerHTML: 'dangerouslySetInnerHTML',
   method: true,
   name: true,
   placeholder: true,
   readOnly: true,
+  required: true,
   rel: true,
   rows: true,
   spellcheck: true,

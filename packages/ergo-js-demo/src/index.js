@@ -6,4 +6,6 @@ import FormsPage from './forms'
 import ExamplesPage from './examples'
 import LayoutsPage from './layouts'
 
+export * from './learn'
+
 export {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage}

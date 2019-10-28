@@ -76,6 +76,11 @@ class Item extends Html {
                 set: function (v) {
                     this.opt('components', {switch: v})
                 }
+            },
+            content: {
+                set: function (v) {
+                    this.opt('components', {content: v})
+                }
             }
         }
     }

@@ -15,7 +15,9 @@
     "webpack": "^4.41.2"
   },
   "dependencies": {
+    "@types/react": "^16.9.11",
     "classnames": "^2.2.6",
+    "create-react-class": "^15.6.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

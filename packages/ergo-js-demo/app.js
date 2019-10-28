@@ -1,7 +1,7 @@
 //import {createProjector} from 'maquette'
 import {Html, Domain, Layout, Config} from 'ergo-js-core'
 import {Layouts, Menu, Navbar, withPortalTarget, withModals, withToasts} from 'ergo-js-bulma'
-import {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage} from './src'
+import {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage, GettingStartedPage, OptionsPage, StructurePage, LayoutPage, DataFlowPage} from './src'
 import { Context as ReactRenderer } from 'ergo-js-react'
 
 Config.use(ReactRenderer)
@@ -282,6 +282,12 @@ const root = new Html({
     app.$prop('postsPage', null, v => v.current == 'posts')
     app.$prop('components2Page', null, v => v.current == 'components2')
 
+    app.$prop('learnStart', null, v => v.current == 'start')
+    app.$prop('learnOptions', null, v => v.current == 'options')
+    app.$prop('learnStructure', null, v => v.current == 'componentsAndItems')
+    app.$prop('learnLayout', null, v => v.current == 'layout')
+    app.$prop('learnDataFlow', null, v => v.current == 'dataFlow')
+
     // app.computed('posts', this, v => v.current == 'posts')
     // app.computed('elements', this, v => v.current == 'elements')
     // app.computed('componentsPage', this, v => v.current == 'components')
@@ -460,6 +466,11 @@ const root = new Html({
         $examplesPage: ExamplesPage,
         $layouts: LayoutsPage,
         $components2Page: Components2Page,
+        $learnStart: GettingStartedPage,
+        $learnOptions: OptionsPage,
+        $learnStructure: StructurePage,
+        $learnLayout: LayoutPage,
+        $learnDataFlow: DataFlowPage,
       }
     }
 //    }

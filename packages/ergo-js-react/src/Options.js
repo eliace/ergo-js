@@ -22,7 +22,7 @@ const SVG_OPTIONS = {
     enctype: true,
     href: true,
     id: true,
-    innerHTML: true,
+    innerHTML: 'dangerouslySetInnerHTML',
     method: true,
     name: true,
     placeholder: true,

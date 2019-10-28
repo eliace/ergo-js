@@ -1,4 +1,6 @@
-import {Layouts, Button, Field} from 'ergo-js-bulma'
+import {Layouts, Button, Field, Notification} from 'ergo-js-bulma'
+import {Domain} from 'ergo-js-core'
+import {withShowHide} from '../animations/effects'
 
 let counter = 1
 const COLORS = ['primary', 'link', 'info', 'success', 'warning', 'danger']
@@ -36,6 +38,36 @@ export default () => {
             },
             dataChanged: function (v, s, k) {
                 this.opt('addons', s.$iterator(k))
+            }
+        }, {
+            scope: {
+                view: () => new Domain({
+                    opened: false
+                })
+            },
+            $button: {
+                as: Button,
+                text: 'Open snackbar',
+                onClick: function (e, {view}) {
+                    view.$toggle('opened')
+                }
+            },
+            $snackbar: {
+                as: Notification,
+                text: 'Message',
+                css: 'snackbar is-info',
+                mix: {withShowHide},
+                $closeBtn: {
+                    onClick: function (e, {view}) {
+                        view.$set('opened', false)
+                    }
+                }
+            },
+            viewChanged: function (v) {
+                this.opt('components', {snackbar: v.opened})
+            },
+            components: {
+                snackbar: false
             }
         }]
     }

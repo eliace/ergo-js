@@ -310,3 +310,29 @@ main {
 //    background-color: #f8f8f8;
   }
 }
+
+
+.snackbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  width: 400px;
+  margin: 0px auto;
+  margin-left: -200px;
+  margin-bottom: 0.5rem;
+}
+
+.alert {
+  padding: 1.5rem;
+  background-color: #f0f0f0;
+  border-left: 6px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  @each $status, $col in $colors {
+    &.is-#{$status} {
+      border-color: nth($col, 1);
+      background-color: scale-color(nth($col, 1), $alpha: -90%);
+    }
+  }
+}

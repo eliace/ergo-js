@@ -23,6 +23,7 @@
     "parcel": "^1.12.4",
     "webpack": "^4.41.1"
   },
+  "typings": "src/index.d.ts",
   "dependencies": {
     "classnames": "^2.2.6"
   }

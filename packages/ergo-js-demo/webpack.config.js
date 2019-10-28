@@ -53,6 +53,22 @@ module.exports = {
                     presets: ['@babel/preset-env']
                 }
             }
+        }, {
+            test: /\.md$/,
+            use: [
+                {
+                    loader: "html-loader"
+                },
+                {
+                    loader: "highlight-loader"
+                },
+                {
+                    loader: "markdown-loader",
+                    options: {
+                        /* your options here */
+                    }
+                }
+            ]
         }]
     },
     plugins: [

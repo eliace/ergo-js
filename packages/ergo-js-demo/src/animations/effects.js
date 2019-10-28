@@ -105,6 +105,7 @@ function domShowAndHide (dom) {
     }, this)
 
     dom.watch(e => e.name == 'hide' && e.channel == 'cancel', () => {
+        console.log('cancel hide')
         const name = options.hide || 'fade'
         this.eff(el => {
             el.classList.remove(name+'-leave-active', name+'-leave', name+'-leave-to')
