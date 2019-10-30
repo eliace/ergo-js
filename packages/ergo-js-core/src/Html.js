@@ -1500,6 +1500,9 @@ class Html {
 
 //      if (prevIds.length > 0 && !prevIds[0].before2)
       let head = nextByIds.length == 0 ? prevByIds[0] : (nextByIds[0].prev || nextByIds[0])//||  prevByIds.length > 0 ? prevByIds[0] : nextByIds[0]
+      if (!head) {
+        debugger
+      }
       let current = head.before2 || head.before
       while (current) {
         head = current
@@ -1639,7 +1642,7 @@ class Html {
     else {
       this.destroyAllItems()
       for (let i = 0; i < value.length; i++) {
-        this.addItem(value[i], i)
+        this.addItem(value[i], null, i)
       }
     }
 
@@ -1669,14 +1672,14 @@ class Html {
       // if (data) {
       //   for (let i in data) {
 
-      const k = value.key
+      const ch = value.key
 
-      value.entries((entry, i, s) => {
+      value.entries((entry, idx, s, i) => {
 //                console.log(i, s)
 //        if (o['$'+i]) {
 //                  const s = data[i]
           if (s && !this['$'+i]) {
-            this.addComponent(i, {}, {[k]: entry})
+            this.addComponent(i, {}, {[ch]: entry})
             console.log('add component', i, s)
           }
           else if (s && this['$'+i]._destroying) {
@@ -1688,11 +1691,11 @@ class Html {
 //                  this.addComponent(i, s)
             console.log('restore component', i, s)
           }
-          else if (s && this['$'+i]._internal.context[k] != entry) {
-            console.warn('Child context overriding', this['$'+i]._internal.context[k], entry) // TODO может иммет смысл контекст копировать при создании компонента
-            this['$'+i]._internal.context = {...this['$'+i]._internal.context, [k]: entry}
+          else if (s && this['$'+i]._internal.context[ch] != entry) {
+            console.warn('Child context overriding', this['$'+i]._internal.context[ch], entry) // TODO может иммет смысл контекст копировать при создании компонента
+            this['$'+i]._internal.context = {...this['$'+i]._internal.context, [ch]: entry}
             this['$'+i].context = this['$'+i]._internal.context
-            this['$'+i].bind(entry, k)
+            this['$'+i].bind(entry, ch)
             this['$'+i].tryInit()
           }
           else if (!s && this['$'+i]) {

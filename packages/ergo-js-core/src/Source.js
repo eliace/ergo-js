@@ -894,6 +894,10 @@ class Source {
 
     if (Array.isArray(prevValue)) {
 
+      if (prevValue == nextValue) {
+        console.error('[Source] Can\'t calculate diff of mutable Array', nextValue)
+      }
+
       const prevByKey = {}
       for (let i = 0; i < prevValue.length; i++) {
         const key = (this.options.key || defaultKeyResolver)(prevValue[i])

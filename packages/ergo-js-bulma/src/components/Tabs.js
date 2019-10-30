@@ -18,7 +18,7 @@ class Tab extends Html {
   //     }
   //   }
   // }
-  properties () {
+  options () {
     return {
       active: {
         set: function (v) {

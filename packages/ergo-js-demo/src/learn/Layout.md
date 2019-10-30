@@ -10,14 +10,14 @@
 #### Simple (простая компоновка)
 Компоненты/элементы выстраиваются друг задругом в естественном порядке
 
-```
+```javascript
 new Html({
     layout: Layout.simple,
     components: {
         $title: {},
         $content: {}
     }
-})
+});
 ```
 
 <div class="alert is-warning">

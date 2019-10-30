@@ -248,15 +248,16 @@ class Stream {
       }
     }
     else {
-      const allProps = {...value, ...props}
+//      const allProps = {...value, ...props}
+      let i = 0
       for (let k in value) {
-        callback(this.src.$entry(k), k, value[k])
+        callback(this.src.$entry(k), i++, value[k], k)
       }
       for (let k in props) {
         // TODO возможно, правильнее при коллизии использовать property
         if (!(k in value)) {
           const entry = this.src.$entry(k)
-          callback(entry, k, entry.$get())
+          callback(entry, i++, entry.$get(), k)
         }
       }
     }
