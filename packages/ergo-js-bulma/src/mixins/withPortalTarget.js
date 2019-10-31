@@ -1,4 +1,4 @@
-import { Layout, Domain } from 'ergo-js-core'
+import { Layout, Domain, Config } from 'ergo-js-core'
 import { Collection } from '../utils'
 
 export default function withPortalTarget (mixer) {
@@ -35,7 +35,7 @@ export default function withPortalTarget (mixer) {
                   render: () => c.render('portal')
                 }
               })
-              return Layout.simple(html, props, components)
+              return Layout.simple(Config.Renderer.h, html, props, components)
             }
           }
         }

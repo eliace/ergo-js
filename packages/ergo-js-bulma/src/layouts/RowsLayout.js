@@ -1,12 +1,14 @@
 import {Config, defaultCompare} from 'ergo-js-core'
 //import {h} from 'maquette'
 
-function rowRender (comp, i) {
-  return Config.Renderer.h('div.row', {className: comp.options.row, key: i}, [comp.render()])
-}
+// function rowRender (comp, i) {
+//   return Config.Renderer.h('div.row', {className: comp.options.row, key: i}, [comp.render()])
+// }
 
-export default function (html, props, components) {
-  return Config.Renderer.h(html+'.rows', props, components.sort(defaultCompare).map(rowRender))
+export default function (h, html, props, components) {
+  return h(html+'.rows', props, components.sort(defaultCompare).map((comp, i) => {
+    return h('div.row', {className: comp.options.row, key: i}, [comp.render()])
+  }))
 }
 
 // export default class RowsLayout extends Layout {

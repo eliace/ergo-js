@@ -75,7 +75,7 @@ const Config = {
             if (!hasProperty(proto, i)) {
                 Object.defineProperty(proto, i, {
                     get: desc.properties[i].get || function () {
-                        return this._propsCache[i]
+                        return this._propsCache && this._propsCache[i]
                     },
                     set: desc.properties[i].set
                 })

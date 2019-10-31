@@ -765,12 +765,12 @@ class Html {
       }
       if (_in.text) {
         if (this._dirty || !this.vnode) {
-          this.vnode = layout(this._html, deepClone(this.props), [...this.children, new Text(_in.text)])
+          this.vnode = layout(h, this._html, deepClone(this.props), [...this.children, new Text(_in.text)])
         }
       }
       else {
         if (this._dirty || !this.vnode) {
-          this.vnode = layout(this._html, deepClone(this.props), [...this.children])
+          this.vnode = layout(h, this._html, deepClone(this.props), [...this.children])
         }
       }
     }
@@ -1914,7 +1914,12 @@ class Html {
 
       if (o[key+'Changed']) {
 //        this.streams[key] = this.streams[key] || this.sources[key].$stream(key, this)
-        const dynOpts = o[key+'Changed'].call(this, v.data, this.sources[key]/*this.streams[key]*/, key, v.ids)
+        if (this.sources[key]._keyIt) {
+          console.warn('[Html] try to change already changing object', key, this)
+        }
+        this.sources[key]._keyIt = key
+        const dynOpts = o[key+'Changed'].call(this, v.data, this.sources[key], key, v.ids)
+        this.sources[key]._keyIt = null
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {

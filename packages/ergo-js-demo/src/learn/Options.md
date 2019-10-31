@@ -31,28 +31,28 @@
 ### Настройка опций
 
 #### Класс
-
-    class MyComponent extends Html {
-        options () {
-            return {
-                labelText: {
-                    mix: function (v, mixer) {
-                        mixer.mix({
-                            $label: {
-                                text: v
-                            }
-                        })
-                    }
-                },
-                icon: {
-                    set: function (next, prev) {
-                        this.classes = {['icon-'+prev]: false, ['icon-'+next]: true}
-                    }
+```javascript
+class MyComponent extends Html {
+    options () {
+        return {
+            labelText: {
+                mix: function (v, mixer) {
+                    mixer.mix({
+                        $label: {
+                            text: v
+                        }
+                    })
+                }
+            },
+            icon: {
+                set: function (next, prev) {
+                    this.classes = {['icon-'+prev]: false, ['icon-'+next]: true}
                 }
             }
         }
     }
-
+}
+```
 #### Экземпляр
 
 ```javascript

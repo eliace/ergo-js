@@ -1,12 +1,14 @@
 import {Layout, defaultCompare, Config} from 'ergo-js-core'
 //import {h} from 'maquette'
 
-function columnRender (comp, i) {
-  return Config.Renderer.h('div.column', {className: comp.options.column, key: i}, [comp.render()])
-}
+// function columnRender (comp, i) {
+//   return Config.Renderer.h('div.column', {className: comp.options.column, key: i}, [comp.render()])
+// }
 
-export default function (html, props, components) {
-  return Config.Renderer.h(html+'.columns', props, components.sort(defaultCompare).map(columnRender))
+export default function (h, html, props, components) {
+  return h(html+'.columns', props, components.sort(defaultCompare).map((comp, i) => {
+    return h('div.column', {className: comp.options.column, key: i}, [comp.render()])
+  }))
 }
 
 

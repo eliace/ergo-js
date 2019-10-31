@@ -1,4 +1,4 @@
-import { Layout, deepClone } from 'ergo-js-core'
+import { Layout, deepClone, Config } from 'ergo-js-core'
 
 export default function withPortalSource (mixer) {
     mixer.merge({
@@ -24,7 +24,7 @@ export default function withPortalSource (mixer) {
                     const {html, props} = this._internal
                     const p = deepClone(props)
                     delete p.key // ключ не пригодится
-                    return Layout.sorted(html, p, this.children || [])
+                    return Layout.sorted(Config.Renderer.h, html, p, this.children || [])
                 }
             }
         },

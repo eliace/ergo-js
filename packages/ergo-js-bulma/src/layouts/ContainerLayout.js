@@ -1,8 +1,8 @@
 import {Layout, Config} from 'ergo-js-core'
 //import {h} from 'maquette'
 
-export default function (html, props, components) {
-  return Config.Renderer.h(html, props, [Layout.sorted('div.container', null, components)])
+export default function (h, html, props, components) {
+  return h(html, props, [Layout.sorted('div.container', null, components)])
 }
 
 

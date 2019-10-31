@@ -954,18 +954,30 @@ class Source {
 
 
   $iterator(name, target) {
-    const p = this.$props
-    if (this._propsProto) {
-      const obj = Object.create(this._propsProto)
-      obj.key = name
-      obj.__target = this
-      obj.__source = this
-      obj.target = target
-      return obj  
+    if (arguments.length == 0) {
+      name = this._keyIt
     }
-    else {
+    if (Config.DEV) {
+      if (name == null) {
+        console.error('[Source] iterator name not defined', this)
+      }
+    }
+    // const p = this.$props
+    // if (this._propsProto) {
+    //   const obj = Object.create(this._propsProto)
+    //   obj.key = name
+    //   obj.__target = this
+    //   obj.__source = this
+    //   obj.target = target
+    //   return obj  
+    // }
+    // else {
       return new Stream(this, null, name, target)
-    }
+    // }
+  }
+
+  $iterateAs (name, target) {
+    return this.$iterator(name, target)
   }
 
 

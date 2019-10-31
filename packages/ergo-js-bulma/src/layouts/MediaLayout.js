@@ -1,15 +1,15 @@
 import {Layout, defaultCompare, defaultRender, Config} from 'ergo-js-core'
 //import {h} from 'maquette'
 
-export default function (html, props, components) {
+export default function (h, html, props, components) {
   let left = components.filter(c => c.options.mediaLeft)
   let right = components.filter(c => c.options.mediaRight)
   let center = components.filter(c => !c.options.mediaRight && !c.options.mediaLeft).sort(defaultCompare)
 
-  return Config.Renderer.h(html+'.media', props, [
-    left.length > 0 && Layout.sorted('div.media-left', null, left),
-    Layout.sorted('div.media-content', null, center),
-    right.length > 0 && Layout.sorted('div.media-right', null, right)
+  return h(html+'.media', props, [
+    left.length > 0 && Layout.sorted(h, 'div.media-left', null, left),
+    Layout.sorted(h, 'div.media-content', null, center),
+    right.length > 0 && Layout.sorted(h, 'div.media-right', null, right)
   ])
 }
 

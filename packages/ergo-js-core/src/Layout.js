@@ -2,19 +2,19 @@
 import {defaultRender, defaultCompare, deepClone} from './Utils'
 import Config from './Config'
 
-function simple (html, props, components) {
-  return Config.Renderer.h(html, props, components && components.map(defaultRender))
+function simple (h, html, props, components) {
+  return h(html, props, components && components.map(defaultRender))
 }
 
-function sorted (html, props, components) {
-  return Config.Renderer.h(html, props, components && components.sort(defaultCompare).map(defaultRender))
+function sorted (h, html, props, components) {
+  return h(html, props, components && components.sort(defaultCompare).map(defaultRender))
 }
 
-function passthru (html, props, components) {
+function passthru (h, html, props, components) {
   return components.map(defaultRender)
 }
 
-function wrapped (html, props, components, layout) {
+function wrapped (h, html, props, components, layout) {
   let wrapper = null
   const wrapped = components.filter(c => {
     if (c.props.key == 'wrapper') {
@@ -25,7 +25,7 @@ function wrapped (html, props, components, layout) {
   })
 
   // react is sicking if void components contain empty children
-  const vnode = (layout || sorted)(html, props, wrapped.length ? wrapped : null)
+  const vnode = (layout || sorted)(h, html, props, wrapped.length ? wrapped : null)
 
   if (wrapper) {
     const fakeContent = {
@@ -33,6 +33,7 @@ function wrapped (html, props, components, layout) {
       render: () => vnode
     }
     return (wrapper.layout || sorted)(
+      h,
       wrapper._html, 
       deepClone({...wrapper.props, key: props.key}), 
       [fakeContent].concat(wrapper.children)

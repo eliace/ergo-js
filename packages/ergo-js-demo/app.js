@@ -187,8 +187,8 @@ function plug (components, name) {
   return components.filter((c) => c.options.slot == name)[0]
 }
 
-function AppLayout (html, props, components) {
-  const h = Config.Renderer.h
+function AppLayout (h, html, props, components) {
+//  const h = Config.Renderer.h
   const menu = plug(components, 'menu')
   const content = plug(components, 'content')
   return h(html+'.app-layout', props, [

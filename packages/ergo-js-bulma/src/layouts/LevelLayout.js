@@ -1,14 +1,16 @@
 import {Layout, defaultCompare, Config} from 'ergo-js-core'
 
-function itemRender (c) {
-  return Config.Renderer.h('div.level-item', {key: c.props.key}, [c.render()])
-}
+// function itemRender (c) {
+//   return Config.Renderer.h('div.level-item', {key: c.props.key}, [c.render()])
+// }
 
-function LevelLayout (html, props, components) {
-  const h = Config.Renderer.h
+function LevelLayout (h, html, props, components) {
+//  const h = Config.Renderer.h
   let left = components.filter(c => c.options.level == LevelLayout.LEFT)
   let right = components.filter(c => c.options.level == LevelLayout.RIGHT)
   let center = components.filter(c => c.options.level != LevelLayout.LEFT && c.options.level != LevelLayout.RIGHT)
+
+  const itemRender = (c) => h('div.level-item', {key: c.props.key}, [c.render()])
 
   if (left.length > 0) {
     left = h('div.level-left', {key: 'left'}, left.sort(defaultCompare).map(itemRender))
