@@ -24,6 +24,7 @@ const Config = {
         plugin(this)
     },
     classes: new Map(),
+    mixins: new Map(),
     getClassDescriptor: function (cls) {
         let desc = this.classes.get(cls)
         if (desc) {
@@ -39,6 +40,8 @@ const Config = {
         }
 
         desc = {...baseDesc, proto}
+
+        const mixins = this.mixins.get(cls)
 
         if (proto.hasOwnProperty('properties')) {
             desc.properties = {...desc.properties, ...proto.properties()}
@@ -68,7 +71,13 @@ const Config = {
 
         if (proto.hasOwnProperty('config')) {
             const opts = new Options(desc.config)
-            desc.config = opts.mix(proto.config()).build(desc.rules)// {...desc.options, ...proto.options()}
+            opts.mix(proto.config())
+
+            if (mixins) {
+                mixins.forEach(mixin => mixin(opts))
+            }
+
+            desc.config = opts.build(desc.rules)// {...desc.options, ...proto.options()}
         }
 
         for (let i in desc.properties) {
@@ -77,7 +86,9 @@ const Config = {
                     get: desc.properties[i].get || function () {
                         return this._propsCache && this._propsCache[i]
                     },
-                    set: desc.properties[i].set
+                    set: desc.properties[i].set || function (v) {
+                        this._propsCache && (this._propsCache = v)
+                    }
                 })
             }
         }
@@ -145,6 +156,19 @@ const Config = {
 
         this.classes.set(cls, desc)
         return desc        
+    },
+    mix: function (ctor, mixin) {
+        let mixins = this.mixins.get(ctor)
+        if (!mixins) {
+            mixins = []
+        }
+        if (typeof mixin != 'function') {
+            mixins.push((mixer) => mixer.mix(mixin))            
+        }
+        else {
+            mixins.push(mixin)
+        }
+        this.mixins.set(ctor, mixins)
     }
 }
 

@@ -1,5 +1,5 @@
 import { IconBox } from "ergo-js-bulma"
-import {ICONS} from '../constants'
+import {ICONS} from '../../constants'
 
 export default () => {
     return {
@@ -11,7 +11,7 @@ export default () => {
             }
         },
         items: ICONS.map(i => {
-            return {icon: 'fas fa-'+i, tag: i}
+            return {icon: 'fa-'+i, tag: i}
         })  
     }
 }

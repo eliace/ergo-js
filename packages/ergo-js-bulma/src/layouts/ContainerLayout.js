@@ -2,7 +2,7 @@ import {Layout, Config} from 'ergo-js-core'
 //import {h} from 'maquette'
 
 export default function (h, html, props, components) {
-  return h(html, props, [Layout.sorted('div.container', null, components)])
+  return h(html, props, [Layout.sorted(h, 'div.container', null, components)])
 }
 
 

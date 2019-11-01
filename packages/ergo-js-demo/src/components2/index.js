@@ -7,6 +7,7 @@ import ListExample from './list'
 import CarouselExample from './carousel'
 import LoaderExample from './loader'
 import OverlayExample from './overlay'
+import AlertExample from './alert'
 
 
 import {PreviewAndCode} from '../extensions'
@@ -41,8 +42,9 @@ export default () => {
       toast: v => v.selected == 'Toast',
       list: v => v.selected == 'List',
       carousel: v => v.selected == 'Carousel',
-      loader: v => v.selected == 'Loader',
+//      loader: v => v.selected == 'Loader',
       overlay: v => v.selected == 'Overlay',
+      alert: v => v.selected == 'Alert',
     }
   })
 
@@ -74,22 +76,24 @@ export default () => {
           {text: 'Toast'},
           {text: 'List'},
           {text: 'Carousel'},
-          {text: 'Loader'},
+//          {text: 'Loader'},
           {text: 'Overlay'},
+          {text: 'Alert'},
         ]
       }
     },
     $content: {
       components: false,
-      dataChanged: function (v, s, k) {
-        this.opt('components', s.$iterator(k))
+      dataChanged: function (v, s) {
+        this.opt('components', s.$iterator())
       },
       $dropdown: previewOf(DropdownExample, DropdownCode),
       $toast: previewOf(ToastExample, ToastCode),
       $list: previewOf(ListExample, ListCode),
       $carousel: previewOf(CarouselExample, CarouselCode),
-      $loader: previewOf(LoaderExample, LoaderCode),
+//      $loader: previewOf(LoaderExample, LoaderCode),
       $overlay: previewOf(OverlayExample, OverlayCode),
+      $alert: AlertExample,
     }
   }
 }

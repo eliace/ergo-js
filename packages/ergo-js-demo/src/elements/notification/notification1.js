@@ -1,12 +1,12 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, Notification, Delete} from 'ergo-js-bulma'
+import {Layouts, Notification} from 'ergo-js-bulma'
 
-import {LOREM_IPSUM} from '../constants'
+import {LOREM_IPSUM} from '../../constants'
 
 export default () => {
   return {
     layout: Layouts.Rows,
     items: [{
+      width: 600,
       defaultItem: {
         as: Notification,
         text: LOREM_IPSUM.slice(0, 140)

@@ -1,6 +1,5 @@
-import { Layouts, Field, Input } from 'ergo-js-bulma'
+import { Layouts, Field, Input, Button } from 'ergo-js-bulma'
 import { Domain, joint as bind } from 'ergo-js-core'
-import { Button } from '../../../ergo-js-bulma/src/elements'
 
 function check (v, rules = []) {
     return rules.map(rule => rule(v)).filter(r => r !== true)
@@ -32,7 +31,7 @@ export default () => {
                             mix: { Checkable },
                             rules: [
                                 (v) => !!v || 'Name should not be empty',
-                                (v) => v.length > 2 || 'Name should be more than 2 symbols'
+                                (v) => v.length > 4 || 'Name should be more than 4 symbols'
                             ]
                         },
                         isOk: {
@@ -73,6 +72,11 @@ export default () => {
                         this.opt('classes', {'is-danger': !!v})
                     },
                 },
+                $label: {
+                    invalidChanged: function (v) {
+                        this.opt('classes', {'has-text-danger': !!v})
+                    },
+                }
                 // dataChanged: function (v, s) {
                 //     this.opt('components', {help: s.$props.isValid})
                 // },

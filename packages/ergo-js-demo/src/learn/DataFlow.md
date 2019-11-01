@@ -32,10 +32,7 @@ new Html({
         // этот скоуп содержит и image, и description
         scope: {
             image: 'mountains.jpg'
-        },
-        html: 'img',
-        src: $value('image'),
-        alt: $value('description'),
+        }
     }
 });
 ```
@@ -78,8 +75,7 @@ class Image extends Html {
     config () {
         return {
             scope: {
-                image: (ctx) => ctx.image || '', // переменная скоупа может быть задана как функция инициализации
-                description: (ctx) => ctx.image || ''
+                image: (ctx) => ctx.image || '' // переменная скоупа может быть задана как функция инициализации
             }
         }
     }
@@ -131,7 +127,7 @@ new Html({
 * реактивная функция (`changed`) с именем переменной
 * реактивные значения, связанные с именем переменной
 * функции согласования (`joined`) с именем переменной
-* общая функция согласования `allJoined`
+* функция согласования скоупа `allJoined`
 
 #### Реактивная функция
 ```javascript

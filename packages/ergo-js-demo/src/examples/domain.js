@@ -1,4 +1,4 @@
-import {Html, Domain, Binder, bindDomain as Bind, Layout, joint as bind} from 'ergo-js-core'
+import {Html, Domain, Binder, bindDomain as Bind, Layout, joint as bind, Config} from 'ergo-js-core'
 import {Layouts, Tabs, Button} from 'ergo-js-bulma'
 
 import {Mutate} from '../helpers'
@@ -331,7 +331,7 @@ export default () => {
                   } 
                 }
               })
-              return Layout.simple(html, props, components)
+              return Layout.simple(Config.Renderer.h, html, props, components)
             }
           }
         },

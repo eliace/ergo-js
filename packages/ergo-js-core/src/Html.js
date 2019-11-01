@@ -670,6 +670,10 @@ class Html {
     console.error('getter not supported yet', 'classes')
   }
 
+  set classes (value) {
+    this.props['className'] = classNames(this.props['className'], value)
+  }
+
   get styles () {
     console.error('getter not supported yet', 'styles')
   }

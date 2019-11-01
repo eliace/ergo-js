@@ -1,0 +1,15 @@
+
+.alert {
+    padding: 1.5rem;
+    background-color: #f0f0f0;
+    border-left: 6px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  
+    @each $status, $col in $colors {
+      &.is-#{$status} {
+        border-color: nth($col, 1);
+        background-color: scale-color(nth($col, 1), $alpha: -90%);
+      }
+    }
+  }

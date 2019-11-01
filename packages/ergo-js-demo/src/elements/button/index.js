@@ -1,8 +1,5 @@
-import {Html, Text} from 'ergo-js-core'
-import {Layouts, Button, Buttons, IconBox, Action} from 'ergo-js-bulma'
-
-import {Mixins} from '../../helpers'
-import {ButtonWithIcon, ExampleBox} from '../../extensions'
+import {Layouts} from 'ergo-js-bulma'
+import {ExampleBox} from '../../extensions'
 
 import button1 from './button1'
 import button1_code from '!raw-loader!./button1'

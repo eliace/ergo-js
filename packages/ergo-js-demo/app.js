@@ -1,77 +1,19 @@
 //import {createProjector} from 'maquette'
 import {Html, Domain, Layout, Config} from 'ergo-js-core'
-import {Layouts, Menu, Navbar, withPortalTarget, withModals, withToasts} from 'ergo-js-bulma'
+import {Layouts, Menu, Navbar, withPortalTarget, withModals, withToasts, IconBox} from 'ergo-js-bulma'
 import {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage, GettingStartedPage, OptionsPage, StructurePage, LayoutPage, DataFlowPage} from './src'
 import { Context as ReactRenderer } from 'ergo-js-react'
 
 Config.use(ReactRenderer)
 
+Config.mix(IconBox.Icon, {
+  css: 'fas'
+})
+
 //import '@fortawesome/fontawesome-free/js/fontawesome'
 //import '@fortawesome/fontawesome-free/js/all'
 import './app.scss'
 
-//fontawesome.config = { autoReplaceSvg: false }
-
-// let perfCounter = 0
-// let perfAnalysis = null
-//
-// const projector = createProjector({
-//   performanceLogger(stage, event) {
-//     if (stage == 'renderStart') {
-//       perfCounter = new Date().getTime()
-//     }
-//     else if (stage == 'renderDone') {
-//       console.log('perf [render]', new Date().getTime() - perfCounter, event)
-//       if (perfAnalysis) {
-//         clearTimeout(perfAnalysis)
-//         perfAnalysis = 0
-//       }
-//       perfAnalysis = setTimeout(doAnalysis, 100)
-//     }
-//     else {
-// //      console.log(stage, event)
-//     }
-//
-//   }
-// })
-
-// function doAnalysis() {
-//   const stats = {
-//     components: 0,
-//     entries: 0,
-//     subscriptions: 0,
-//     hangingNodes: 0
-//   }
-//   root.walk(() => stats.components++)
-//
-//   for (let i in root.sources) {
-//     root.sources[i].walk(e => {
-//       stats.entries++
-//       stats.subscriptions += e.observers.length
-//       e.observers.forEach(obs => {
-//         if (!hasRoot(obs.target, root)) stats.hangingNodes++
-//       })
-//     })
-//   }
-//
-//   console.log(stats)
-// }
-
-
-// function hasRoot(c, root) {
-//   while (c != null) {
-//     if (c == root) {
-//       return true
-//     }
-//     c = c.parent
-//   }
-//   return false
-// }
-
-// const Bindings = {
-//   Text: function(v) {this.opt('text', v)},
-//   Classes: function(v) {this.opt('classes', v)}
-// }
 
 fetch('https://reqres.in/api/users/2')
   .then(response => response.json())
@@ -80,108 +22,6 @@ fetch('https://reqres.in/api/users/2')
 //    projector.scheduleRender()
   })
 
-// fetch('https://jsonplaceholder.typicode.com/posts')
-//   .then(response => response.json())
-//   .then(json => {
-// //    console.log(json)
-//     root.sources.data.set('posts', json)
-// //    projector.scheduleRender()
-//   })
-
-// fetch('https://jsonplaceholder.typicode.com/comments?postId=1')
-//   .then(response => response.json())
-//   .then(json => {
-//     console.log(json)
-// //    app.sources.state.set('user', json.data)
-//     projector.scheduleRender()
-//   })
-
-// fetch('https://jsonplaceholder.typicode.com/users')
-//   .then(response => response.json())
-//   .then(json => {
-//     console.log(json)
-// //    app.sources.state.set('posts', json)
-//     projector.scheduleRender()
-//   })
-
-// fetch('http://libgen.io/json.php?ids=1,2,3,4,5,6&fields=Title,Author,MD5')
-//   .then(response => response.json())
-//   .then(json => {
-// //    console.log(json)
-//     app.sources.state.set('books', json.results)
-//     projector.scheduleRender()
-//   })
-
-
-/*
-const Actions = {
-  selectMainMenu: (menuKey) => {
-//    console.log('selectMenu', menuKey)
-    app.sources.block.set('current', menuKey)
-
-//    const pages = ['posts', 'mainContent', 'countries', 'elements', 'componentsPage', 'elementsPage', 'animationsPage', 'formsPage', 'examplesPage']
-
-
-    const pageData = {
-      posts: menuKey == 'posts',
-      mainContent: menuKey == 'sources',
-      countries: menuKey == 'countries',
-      elements: menuKey == 'elements',
-      componentsPage: menuKey == 'components',
-      layoutsPage: menuKey == 'layouts',
-      animationsPage: menuKey == 'animations',
-      formsPage: menuKey == 'forms',
-      examplesPage: menuKey == 'examples'
-    }
-
-//    setTimeout(() => {
-      let t0 = new Date().getTime()
-      app.sources.block.mergeWith(pageData)
-      // if (menuKey == 'posts') {
-      //   app.sources.block.mergeWith({posts: true, mainContent: false, countries: false, elements: false, componentsPage: false, animationsPage: false})
-      // }
-      // else if (menuKey == 'sources') {
-      //   app.sources.block.mergeWith({posts: false, mainContent: true, countries: false, elements: false, componentsPage: false})
-      // }
-      // else if (menuKey == 'countries') {
-      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: true, elements: false, componentsPage: false})
-      // }
-      // else if (menuKey == 'elements') {
-      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: true, componentsPage: false})
-      // }
-      // else if (menuKey == 'components') {
-      //   app.sources.block.mergeWith({posts: false, mainContent: false, countries: false, elements: false, componentsPage: true})
-      // }
-      let t1 = new Date().getTime()
-      console.log(t1-t0)
-    //     projector.scheduleRender()
-    // }, 10)
-//    app.sources.selection.entry('current').set(menuKey)
-  }
-}
-*/
-
-// Events.on('mousedown', function () {
-//   if (root.sources.dropdown.get()) {
-//     root.sources.dropdown.set(false)
-// //    projector.scheduleRender()
-//   }
-// })
-
-
-// const renderer = {
-//   scheduled: false,
-//   scheduleRender: function () {
-//     console.log('scheduleRender')
-//     if (!this.scheduled) {
-//       requestAnimationFrame(() => {
-//         render(root.render(), document.body)
-//         this.scheduled = false
-//       })
-//     }
-//     this.scheduled = true
-//   }
-// }
 
 function plug (components, name) {
   return components.filter((c) => c.options.slot == name)[0]
@@ -231,7 +71,10 @@ const root = new Html({
           name: 'Layout'
         }, {
           id: 'dataFlow',
-          name: 'Data cascading'
+          name: 'Data distribution'
+        }, {
+          id: 'dataModel',
+          name: 'Data modeling'
         }]
       }, {
         name: 'Demo',

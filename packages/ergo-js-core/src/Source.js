@@ -913,6 +913,7 @@ class Source {
           if (prevByKey[key]) {
             nextEntries[i] = prevByKey[key]
             nextEntries[i].$id = i
+            nextEntries[i].$key = key
           }
 //        }
       }

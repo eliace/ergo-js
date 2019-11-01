@@ -2,31 +2,31 @@ import {Html, Text} from 'ergo-js-core'
 import {Layouts, Tabs, IconBox} from 'ergo-js-bulma'
 import {Mutate, compose} from '../helpers'
 
-function Selectable () {
-  return {
-    selectionChanged: function (v) {
-      return {selected: v == this.opt('key')}
-    },
-    onClick: function(e, {selection}) {
-      selection.set(this.opt('key'))
-    }
-  }
-}
+// function Selectable () {
+//   return {
+//     selectionChanged: function (v) {
+//       return {selected: v == this.opt('key')}
+//     },
+//     onClick: function(e, {selection}) {
+//       selection.set(this.opt('key'))
+//     }
+//   }
+// }
 
 
-const Fas = function () {
-  return  {
-    $content: {
-      classes: {'fas': true}
-    }
-  }
-}
-const WithIcon = function () {
+// const Fas = function () {
+//   return  {
+//     $content: {
+//       classes: {'fas': true}
+//     }
+//   }
+// }
+const withIcon = function () {
   return {
     $content: {
       $icon: {
         as: IconBox,
-        mixins: { Fas },
+//        mixins: { Fas },
       },
       $content: {
         html: 'span'
@@ -53,7 +53,7 @@ const TABS = [
 
 export default () => {
   return {
-    sources: {
+    scope: {
       tabs: ['Pictures', 'Music', 'Videos', 'Documents'],
       data: [
         {icon: 'fa-image', text: 'Pictures'},
@@ -68,7 +68,9 @@ export default () => {
     },
 //    layout: Layouts.Container,
     items: [{
-      tabsChanged: Mutate.Tabs,
+      tabsChanged: function (v, s) {
+        this.opt('tabs', s.$iterator())
+      },
       defaultTab: {
         tabsChanged: compose(Mutate.Text, Mutate.Key)
       }
@@ -82,7 +84,7 @@ export default () => {
       css: 'is-centered',
       dataChanged: Mutate.Tabs,
       defaultTab: {
-        mixins: [WithIcon],
+        mixins: {withIcon},
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -109,7 +111,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-boxed',
       defaultTab: {
-        mixins: [WithIcon],
+        mixins: {withIcon},
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -118,7 +120,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle',
       defaultTab: {
-        mixins: [WithIcon],
+        mixins: {withIcon},
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -127,7 +129,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle is-toggle-rounded',
       defaultTab: {
-        mixins: [WithIcon],
+        mixins: {withIcon},
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
@@ -136,7 +138,7 @@ export default () => {
       dataChanged: Mutate.Tabs,
       css: 'is-toggle is-fullwidth',
       defaultTab: {
-        mixins: [WithIcon],
+        mixins: {withIcon},
         dataChanged: function (v) {
           return {key: v.text, text: v.text, icon: v.icon}
         }
