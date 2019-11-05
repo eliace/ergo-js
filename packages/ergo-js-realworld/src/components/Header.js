@@ -1,4 +1,4 @@
-import {Html, Domain} from '../../src'
+import {Html, Domain} from 'ergo-js-core'
 import {Mutate} from '../utils'
 
 const IF = {
@@ -10,40 +10,31 @@ const IF = {
   }
 }
 
+
+
+
 export default () => {
   return {
-    sources: {
-      data: {
-        menu: {}
-      }
+    // SCOPE
+    scope: {
+      view: (ctx) => ctx.page
     },
-    // pageComputed: {
-    //   menu: v => {
-    //     return {
-    //       newArticle: !!v.user,
-    //       settings: !!v.user,
-    //       signIn: !v.user,
-    //       signUp: !v.user
-    //     }
-    //   }
-    // },
-//     pageChanged: function (v) {
-// //      console.log(v)
-//     },
-    pageEvents: function (e) {
-      const {page, data} = this.domain
-      if ((e.name == 'init' || e.name == 'changed')/* && e.ids && ('user' in e.ids)*/) {
-        const v = page.get()
-        data.set('menu', {
-          home: true,
-          newArticle: !!v.user,
-          settings: !!v.user,
-          signIn: !v.user,
-          signUp: !v.user,
-          profile: !!v.user
-        })
-      }
+    viewJoined: function (s) {
+      s.createProperty('menu', {
+        calc: (v) => {
+          const isAuth = !!v.user
+          return {
+            home: true,
+            newArticle: isAuth,
+            settings: isAuth,
+            signIn: !isAuth,
+            signUp: !isAuth,
+            profile: isAuth  
+          }
+        }
+      })
     },
+    // TEMPLATE
     html: 'nav',
     weight: -10,
     css: 'navbar navbar-light',
@@ -56,9 +47,14 @@ export default () => {
         text: 'conduit'
       },
       $nav: {
+        scope: {
+          view: ctx => ctx.view.$entry('menu')
+        },
         html: 'ul',
         css: 'nav navbar-nav pull-xs-right',
-//        pageId: 'menu',
+        viewChanged: function (v, s) {
+          this.opt('components', s)
+        },
         defaultComponent: {
           html: 'li',
           css: 'nav-item',
@@ -68,27 +64,31 @@ export default () => {
             href: '',
             $icon: {
               html: 'i',
-              render: IF.HasIonClass
+//              render: IF.HasIonClass
+            },
+            components: {
+              icon: false
             }
           },
           options: {
             icon: {
-              init: function (v) {
+              set: function (v) {
+                this.$content.opt('components', {icon: true})
                 this.$content.$icon.opt('classes', {['ion-'+v]: true})
               }
             },
             linkTo: {
-              initOrSet: function (v) {
+              set: function (v) {
                 this.$content.opt('href', v)
               }
             },
             active: {
-              initOrSet: function (v) {
+              set: function (v) {
                 this.$content.opt('classes', {'active': v})
               }
             }
           },
-          pageChanged: function (v) {
+          viewChanged: function (v) {
             this.opt('active', v.current == this.options.key)
           }
         },
@@ -122,15 +122,13 @@ export default () => {
         $profile: {
           key: 'profile',
 //          linkTo: '/#/profile'
-          pageChanged: function (v) {
+          viewChanged: function (v) {
             // console.log('data', this.domain.data.get())
             // this.opt('text', v.user.username)
             // this.opt('linkTo', '/#/@'+v.user.username)
             // this.opt('active', v.current == this.options.key && v.username == v.user.username)
           }
         },
-        dataId: 'menu',
-        dataChanged: Mutate.Components
       }
     }
   }

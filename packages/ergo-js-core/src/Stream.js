@@ -234,14 +234,34 @@ class Stream {
   //   return new Stream(this.src, d.slice(offset, offset+limit), this.key)
   // }
 
+  filter (filter) {
+    this._filter = filter
+    return this
+  }
+
+  map (map) {
+    this._filter = map
+    return this
+  }
+
+  each (callback) {
+    this.entries(callback)
+  }
+
   entries (callback) {
 
-    const value = this.src.$get()
+    let value = this.src.$get()
     const props = this.src._properties
     const opts = this.src.options
 
     if (Array.isArray(value)) {
       const keyOf = opts.key || this.idResolver || defaultKeyResolver
+      if (this._filter) {
+        value = value.filter(this._filter)
+      }
+      if (this._map) {
+        value = value.map(this._map)
+      }
       // обходим элементы массива в порядке индексов
       for (let i = 0; i < value.length; i++) {
         callback(this.src.$entry(i), i, value[i], keyOf(value[i]))
@@ -307,7 +327,7 @@ class Stream {
   // entry (key) {
   //   return this.src.$entry(key)
   // }
-
+/*
   $substream (key) {
     return this.__source.$entry(key).$stream(this.key)
   }
@@ -387,7 +407,7 @@ class Stream {
     const [n, c] = name.split(':')
     return this.__target.subscribe(n, callback, c || channel, this.target)
   }
-
+*/
   get $entries () {
     return this.__target.$entries
   }
@@ -407,9 +427,9 @@ class Stream {
   }
 
 
-  $remove () {
-    this.__source.$remove()
-  }
+  // $remove () {
+  //   this.__source.$remove()
+  // }
 
 }
 

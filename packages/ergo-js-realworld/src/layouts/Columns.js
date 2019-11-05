@@ -1,13 +1,11 @@
-import {Layout, defaultCompare, Config} from '../../src'
+import {Layout, defaultCompare, Config} from 'ergo-js-core'
 
 
-function colRender (c) {
-  return Config.Renderer.h('div', {className: c._internal.options.col}, [c.render()])
-}
-
-export default function (html, props, components) {
-  return Config.Renderer.h(html, props, [
-    Config.Renderer.h('div.row', {}, components.sort(defaultCompare).map(colRender))
+export default function (h, html, props, components) {
+  return h(html, props, [
+    h('div.row', {}, components.sort(defaultCompare).map(c => {
+      return h('div', {className: c._internal.options.col}, [c.render()])
+    }))
   ])
 }
 

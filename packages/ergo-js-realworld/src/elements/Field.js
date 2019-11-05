@@ -1,45 +1,48 @@
-import {Html, Layout, Source} from '../../src'
+import {Html, Layout, Source} from 'ergo-js-core'
+import {getEl} from '../utils'
 
 
 class Field extends Html {
-  static defaultOpts = {
-    html: 'fieldset',
-    css: 'form-group',
-    components: {
-      control: {
+  config () {
+    return {
+      html: 'fieldset',
+      css: 'form-group',
+      $control: {
         css: 'form-control'
       }
     }
   }
-  static OPTIONS = {
-    placeholder: {
-      initOrSet: function (v) {
-        this.$control.opt('placeholder', v)
-      }
-    },
-    type: {
-      initOrSet: function (v) {
-        this.$control.opt('type', v)
-      }
-    },
-    size: {
-      initOrSet: function (v) {
-        this.$control.opt('classes', {['form-control-'+v]: true})
-      }
-    },
-    rows: {
-      initOrSet: function (v) {
-        this.$control.opt('rows', v)
-      }
+  options () {
+    return {
+      placeholder: {
+        set: function (v) {
+          this.$control.opt('placeholder', v)
+        }
+      },
+      type: {
+        set: function (v) {
+          this.$control.opt('type', v)
+        }
+      },
+      size: {
+        set: function (v) {
+          this.$control.opt('classes', {['form-control-'+v]: true})
+        }
+      },
+      rows: {
+        set: function (v) {
+          this.$control.opt('rows', v)
+        }
+      }  
     }
   }
 }
 
 
 class TextAreaField extends Field {
-  static defaultOpts = {
-    components: {
-      control: {
+  config () {
+    return {
+      $control: {
         html: 'textarea'
       }
     }
@@ -47,16 +50,25 @@ class TextAreaField extends Field {
 }
 
 class InputField extends Field {
-  static defaultOpts = {
-    components: {
-      control: {
+  config () {
+    return {
+      scope: {
+        data: ctx => ctx.data || ''
+      },
+      $control: {
         html: 'input',
         type: 'text',
-        onInput: function (e) {
-          this.sources.data.set(e.target.value)
+        dom: { getEl },
+        onInput: function (e, {data}) {
+          data.$set(e.target.value)
         },
         dataChanged: function (v) {
-          this.opt('value', v)
+          if (this.el) {
+            this.el.value = v
+          }
+          else {
+            this.opt('defaultValue', v)
+          }
         }
       }
     }

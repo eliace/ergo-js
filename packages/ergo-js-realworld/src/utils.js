@@ -10,3 +10,7 @@ export const Mutate = {
     this.opt('components', s.$stream(k))
   }
 }
+
+export function getEl (el) {
+  this.el = el
+}

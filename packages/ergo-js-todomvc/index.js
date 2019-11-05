@@ -2,33 +2,24 @@
 import createApp from './src/app'
 import {Router} from 'director/build/director'
 import { Config } from 'ergo-js-core'
-import { Context as ReactRenderer } from 'ergo-js-react'
+import * as ReactAdapter from 'ergo-js-react'
 
-Config.use(ReactRenderer)
+Config.use(ReactAdapter.Context)
 
-//const projector = createProjector()
-
-const app = createApp()//projector)
+const app = createApp()
 
 const router = new Router({
   '/': () => {
-    app.$body.sources.data.set('filter', 'all')
+    app.scope.view.$set('filter', 'all')
   },
   '/active': () => {
-    app.$body.sources.data.set('filter', 'active')
+    app.scope.view.$set('filter', 'active')
   },
   '/completed': () => {
-    app.$body.sources.data.set('filter', 'completed')
+    app.scope.view.$set('filter', 'completed')
   }
 })
 
-// const render = () => {
-//   return app.render()
-// }
-
-// document.addEventListener('DOMContentLoaded', function () {
-//   projector.append(document.body, render);
-// });
 
 document.addEventListener('DOMContentLoaded', function () {
   Config.Renderer.append(app, document.getElementById('app'))
@@ -36,6 +27,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 router.init()
 
-//export default () => {
-//  return {projector}
-//}

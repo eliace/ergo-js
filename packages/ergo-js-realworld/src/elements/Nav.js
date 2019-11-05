@@ -1,4 +1,4 @@
-import {Html, Layout, Source} from '../../src'
+import {Html, Layout, Source} from 'ergo-js-core'
 
 class NavItem extends Html {
   config () {
@@ -15,12 +15,12 @@ class NavItem extends Html {
   options () {
     return {
       disabled: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.opt('classes', {'disabled': v})
         }
       },
       active: {
-        initOrSet: function (v) {
+        set: function (v) {
           this.$content.opt('classes', {'active': v})
         }
       }

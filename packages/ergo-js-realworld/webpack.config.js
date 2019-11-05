@@ -8,7 +8,7 @@ module.exports = {
         app: './index.js'
     },
     devServer: {
-         contentBase: './',
+         contentBase: './dist',
          hot: true,
          port: 1234
     },    
@@ -19,7 +19,7 @@ module.exports = {
                 'style-loader',
                 'css-loader'
             ]
-        }/*, {
+        }, {
             test: /\.(png|svg|jpg|gif)$/,
             use: [
                 'file-loader'
@@ -37,32 +37,26 @@ module.exports = {
                 'file-loader'
             ]
         }, {
-            enforce: 'pre',
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'eslint-loader',
-            options: {
-
-            }
-        }*/, {
             test: /\.js$/,
             exclude: /node_modules/,
             use: {
                 loader: 'babel-loader',
                 options: {
-                    presets: ['@babel/preset-env']
+                    presets: ['@babel/preset-env'],
+                    plugins: ['@babel/transform-runtime']
                 }
             }
         }]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './todomvc.html'
+            template: './realworld.html'
         })
     ],
     resolve: {
         alias: {
-            'ergo-js-core': path.resolve('../ergo-js-core')
+            'ergo-js-core': path.resolve('../ergo-js-core'),
+            'ergo-js-react': path.resolve('../ergo-js-react'),
         }
     }
 }

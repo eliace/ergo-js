@@ -1535,7 +1535,7 @@ class Html {
         }
         else if (current.after != current.after2) {
           let deleted = current.after
-          while (deleted && !deleted.after2 && !deleted.before2) {
+          while (deleted && !deleted.after2 && !deleted.before2 && !deleted.merged) {
             deleted.state = '-'
             result.push(deleted)
             deleted = deleted.after

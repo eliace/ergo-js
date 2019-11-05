@@ -97,14 +97,14 @@ function domShowAndHide (dom) {
         }
     }, this, {effect: ShowHideEffect})
 
-    dom.watch(e => e.name == 'show' && e.channel == 'cancel', () => {
+    dom.$watch(e => e.name == 'show' && e.channel == 'cancel', () => {
         const name = options.show || 'fade'
         this.eff(el => {
             el.classList.remove(name+'-enter-active', name+'-enter')
         })
     }, this)
 
-    dom.watch(e => e.name == 'hide' && e.channel == 'cancel', () => {
+    dom.$watch(e => e.name == 'hide' && e.channel == 'cancel', () => {
         console.log('cancel hide')
         const name = options.hide || 'fade'
         this.eff(el => {
@@ -116,10 +116,10 @@ function domShowAndHide (dom) {
     //     console.log(e)
     // }, this)
 
-    dom.watch(e => e.name == 'init', () => {
+    dom.$watch(e => e.name == 'init', () => {
         return show()
       }, this)
-    dom.watch(e => e.name == 'destroy', () => {
+    dom.$watch(e => e.name == 'destroy', () => {
         return hide()
       }, this)
 
@@ -157,7 +157,7 @@ class FLIPEffect extends Effect {
 
 function domFLIP (dom) {
 
-    dom.watch(e => e.name == 'flip' && e.channel == 'cancel', () => {
+    dom.$watch(e => e.name == 'flip' && e.channel == 'cancel', () => {
 //        this.el.style.transition = 'none'
         const name = 'flip-list'
         this.el.classList.remove(name+'-move')  

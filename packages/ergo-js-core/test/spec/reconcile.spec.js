@@ -142,6 +142,14 @@ describe ('Reconcile', () => {
             expect(sorted[3].text).to.be.eq('4')
             expect(sorted[4].text).to.be.eq('5')
         })
+
+        it ('Should move items', () => {
+            const {data, html} = list([1,3])
+
+            data.$value = [1,2,3]
+
+            expect(html.items.length).to.be.eq(3)
+        })
     
     })
 

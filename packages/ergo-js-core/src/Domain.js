@@ -98,7 +98,7 @@ class Domain extends Source {
       promise = Promise.all( result )
 
       if (event.effect) {
-        promise = new (event.effect)(event.name, promise, {event}, this)
+        promise = new (event.effect)(event.name, promise, {event, derived: promises}, this)
       }
 
 //      promise = (event.channel == CH_DEFAULT ? new Effect(event.name, promise, {event}, this) : promise)
@@ -107,7 +107,8 @@ class Domain extends Source {
           return this._reduce(v, event)
         },
         (err) => {
-          console.error(err)
+          console.error(err, event)
+          return err
 //          throw err
         })
 
@@ -129,7 +130,7 @@ class Domain extends Source {
   }
 
 
-  emit (name, data, options, channel='') {
+  $emit (name, data, options, channel='') {
     const event = (name instanceof Event) ? name : new Event(name, data, options, this, channel)
 
     const result = this.subscribers.filter(s => !!s.when)
@@ -158,16 +159,16 @@ class Domain extends Source {
       return promise
         .then((v) => {
           const nextEvent = v.filter(r => r instanceof Event).reduce((acc, v) => v, event)
-          return nextEvent == event ? this._put(event) : this.emit(nextEvent)
+          return nextEvent == event ? this._put(event) : this.$emit(nextEvent)
         }, (err) => {
-          return this.emit(event.name, err, {}, 'fail')
+          return this.$emit(event.name, err, {}, 'fail')
         })
 
 //      return effect
     }
     else if (result.length > 0) {
       const nextEvent = result.filter(r => r instanceof Event).reduce((acc, v) => v, event)
-      return nextEvent == event ? this._put(event) : this.emit(nextEvent)
+      return nextEvent == event ? this._put(event) : this.$emit(nextEvent)
     }
     else {
       return this._put(event)
@@ -191,12 +192,17 @@ class Domain extends Source {
 
   createEvent (name, options, channel) {
     const e = (...args) => {
-      return this.emit(name, args, options, channel)
+      return this.$emit(name, args, options, channel)
     }
     e.on = name//(evt) => evt.name == name && evt.channel == CH_DEFAULT
     e.done = name+':done'//(evt) => evt.name == name && evt.channel == 'done'
     e.fail = name+':fail'//(evt) => evt.name == name && evt.channel == 'fail'
-    e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
+//    e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
+    e.start = name+':start'//(evt) => evt.name == name && evt.channel == 'cancel'
+
+    e.cancel = (data, opts) => {
+      this.$emit(name, data, opts, 'cancel')
+    }
 
     this.actions[name] = e
     if (this[name]) {
@@ -240,16 +246,28 @@ class Domain extends Source {
     }
   }
 
+
+
+
   on (name, callback, target, channel) {
+    console.error('Method on is deprecated')
+  }
+
+  $on (name, callback, target, channel) {
     const [n, c] = name.split(':')
-    return this.subscribe(n, callback, c || channel, target)
+    return this.subscribe(n, callback, c || channel || this._key, target)
   }
 
   off (listener) {
     this.unsubscribe(listener)
   }
 
-  watch (when, callback, target) {
+  watch (...args) {
+    console.error('Method watch is deprecated')
+    this.$watch.apply(this, args)
+  }
+
+  $watch (when, callback, target) {
     this.subscribe({when, callback, target, channels: []})
     //    this.watchers.push({when, callback, channels: [].concat(channel)})
   }
@@ -261,6 +279,24 @@ class Domain extends Source {
     })
   }
 
+  $watchProp (propName, callback, target) {
+    if (propName instanceof Source) {
+      const src = propName
+      // FIXME нужно переделать на сравнение пути
+      return this.subscribe({
+        when: (e) => e.name == 'changed' && e.ids && src.$id in e.ids, 
+        callback, 
+        target, 
+        channels: []
+      })  
+    }
+    return this.subscribe({
+      when: (e) => e.name == 'changed' && e.ids && propName in e.ids, 
+      callback, 
+      target, 
+      channels: []
+    })
+  }
 
 
 
@@ -291,6 +327,9 @@ class Domain extends Source {
         const prop = this.options.entryOfType
         if (typeof prop === 'object') {
           e = new (prop.type || Domain)(this, {...prop}, k)
+        }
+        else if (prop === Boolean || prop === String || prop === Number || prop === Object || prop === Array) {
+          e = new Domain(this, null, k)
         }
         else {
           e = new prop(this, null, k)

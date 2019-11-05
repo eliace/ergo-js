@@ -2,7 +2,7 @@ import { Layout, Domain, Config } from 'ergo-js-core'
 import { Collection } from '../utils'
 
 export default function withPortalTarget (mixer) {
-    mixer.merge({
+    mixer.mix({
       sources: {
         portal: () => new Domain({
           components: []
@@ -22,7 +22,7 @@ export default function withPortalTarget (mixer) {
           top: 0
         },
         portalJoined: function (s) {
-          s.on('dirty', () => {
+          s.$on('dirty', () => {
             this.rerender()
           }, this)
         },

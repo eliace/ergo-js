@@ -1,12 +1,14 @@
-import {Html, Layout, Source} from '../../src'
+import {Html, Layout, Source} from 'ergo-js-core'
 
 export default class Tags extends Html {
-  static defaultOpts = {
-    html: 'ul',
-    css: 'tag-list',
-    defaultItem: {
-      html: 'li',
-      css: 'tag-pill tag-default'
+  config () {
+    return {
+      html: 'ul',
+      css: 'tag-list',
+      defaultItem: {
+        html: 'li',
+        css: 'tag-pill tag-default'
+      }  
     }
   }
 }

@@ -104,13 +104,14 @@ class Source {
     //   this.compute(this.$get())
     // }
 
-    if (this.options && this.options.changed) {
-      // FIXME костыль
-      this.$observe(this, (evt) => {
-        if (evt.name == 'changed' || evt.name == 'init') {
-          this.options.changed.call(this, evt)
-        }
-      })
+    if (opts.onChanged) {
+      this.subscribe('changed', opts.onChanged)
+      // // FIXME костыль
+      // this.$observe(this, (evt) => {
+      //   if (evt.name == 'changed' || evt.name == 'init') {
+      //     this.options.changed.call(this, evt)
+      //   }
+      // })
     }
 
     if (this.options && this.options.calc) {
@@ -118,14 +119,20 @@ class Source {
     }
 
     if (this.options.properties) {
+      if (!this._properties) {
+        this._properties = {}
+      }
       for (let i in this.options.properties) {
         const p = this.options.properties[i]
-        if (typeof p === 'function') {
-          this.$prop(i, null, p) // TODO это нужно убрать
+        if (p === Boolean || p === Number || p === String || p === Object || p === Array) {
+          this._properties[i] = {}
+        }
+        else if (typeof p === 'function') {
+//          this.$prop(i, null, p) // TODO это нужно убрать
           this._properties[i] = {calc: p}
         }
         else {
-          this.$prop(i, p.type, p.calc, p.idResolver)  // TODO это нужно убрать
+//          this.$prop(i, p.type, p.calc, p.idResolver)  // TODO это нужно убрать
           this._properties[i] = {...p}
         }
 
@@ -144,9 +151,16 @@ class Source {
           console.count('defineProperty['+i+']')
 
           if (this._properties[i].type) {
-            Object.defineProperty(this, i, {
-              get: () => this.$entry(i),
-            })
+            // if (this._properties[i].type instanceof Stream) {
+            //   Object.defineProperty(this, i, {
+            //     get: () => this.$entry(i).iterator(),
+            //   })  
+            // }
+            // else {
+              Object.defineProperty(this, i, {
+                get: () => this.$entry(i),
+              })  
+//            }
           }
           else {
             Object.defineProperty(this, i, {
@@ -237,10 +251,10 @@ class Source {
       }
 
       if (this.isCalc) {
-        if (this.cache == null) {
+        if (this.cache == null || this.options.memo === false) {
 //          console.log('calc', this.cache, this.$id)
           v = this.isNested ? this.src.$get() : this.src
-          v = this.options.calc.call(this, v, this.src.props)
+          v = this.options.calc.call(this, v, this.src)
         }
         else {
           v = this.cache
@@ -587,7 +601,7 @@ class Source {
           this.src._update('asc', 'update'/*event*/, {[this.$id]: true}, {[this.$id]: prevValue})
         }
 
-        this.emit('changed', nextValue, {ids, cache: prevValue, cause: event}, '*')
+        this.$emit('changed', nextValue, {ids, cache: prevValue, cause: event}, '*')
 
       // }
       // catch (err) {
@@ -604,7 +618,7 @@ class Source {
     throw new Error('Method entry not supported')
   }
 
-  $entry(k) {
+  $entry (k) {
     let e = this.entries[k]
     if (e == null) {
       if (this._properties && this._properties[k]) {
@@ -694,6 +708,17 @@ class Source {
     // this.targets.forEach(t => t.dataRemoved(v))
     // if (this.isNested)
   }
+
+
+  $removeIf (criteria) {
+    const v = this.$get()
+    if (Array.isArray(v)) {
+      const next = v.filter((itm, i) => !criteria(itm, i))
+      this.$set(next)
+    }
+    // TODO Object
+  }
+
 
   $find (itemOrFilter) {
     const filter = (typeof itemOrFilter == 'function') ? itemOrFilter : (v) => v == itemOrFilter
@@ -1101,7 +1126,13 @@ class Source {
   }
 
 
-  emit (name, data, options, channel) {
+  emit (...args) {
+    console.error('Method emit is deprecated. Use $emit')
+    return this.$emit.apply(this, args)
+  }
+
+
+  $emit (name, data, options, channel) {
 
     const event = (name.constructor == Object) ? name : {name, source: this, data, ...options, channel}
 
@@ -1129,19 +1160,19 @@ class Source {
     // else {
 //    }
 
-    this.emit('init', null, {target}, ch)
+    this.$emit('init', null, {target}, ch)
 
     const data = this.$get()
-    this.emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
+    this.$emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
   }
 
   _change (target, ch) {
     const data = this.$get()
-    this.emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
+    this.$emit('changed', data, {target, cause: 'init'}, ch)  //TODO нужно только в том случае, если в init не было изменений
   }
 
   _destroy (target, ch) {
-    this.emit('destroy', null, {target}, ch)
+    this.$emit('destroy', null, {target}, ch)
   }
 
 

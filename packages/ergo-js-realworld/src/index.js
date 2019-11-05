@@ -1,7 +1,7 @@
 //import {createProjector} from 'maquette'
-import {Html, Domain, Config} from '../src'
+import {Html, Domain} from 'ergo-js-core'
 import {Router} from 'director/build/director'
-import Context from '../src/react/Context'
+//import Context from '../src/react/Context'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -29,9 +29,11 @@ const LOG = (e) => {console.log(e)}
 //   projector.append(document.body, render);
 // });
 
-document.addEventListener('DOMContentLoaded', function () {
-  Config.Renderer.append(app, document.getElementById('app'))
-})
+// document.addEventListener('DOMContentLoaded', function () {
+//   Config.Renderer.append(app, document.getElementById('app'))
+// })
+
+
 
 
 const routes = {
@@ -114,7 +116,8 @@ const token = new Domain(localStorage.getItem('token'), {
 })
 
 
-const app = new Html({
+export function createApp(context={}) {
+return new Html({
   sources: {
     page,
     data,
@@ -133,16 +136,11 @@ const app = new Html({
   // $signIn: SignIn,
   $footer: Footer,
   components: false,
-  pageChanged: function (v, k, page) {
-    this.opt('components', page.$stream(k))
+  pageChanged: function (v, s) {
+    this.opt('components', s.$snapshot())
   },
-  allJoined: function ({page, token}) {
+  _allJoined: function ({page, token}) {
     const { setCurrent } = page.actions
-    // page.$watch('init', this, () => {
-    //   if (!page.get('user') && token.get()) {
-    //     return page.loadUser(token.get())
-    //   }
-    // })
     page.$effect({
       when: e => e.name == setCurrent.on,
       on: (e) => {
@@ -232,6 +230,8 @@ const app = new Html({
     }
   }
 })
+
+}
 
 _router.init()
 

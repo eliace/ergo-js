@@ -21,94 +21,114 @@ export default () => {
 
 
   return new Html({
-    $body: {
-      scope: {
-        data: new Domain({
-          filter: 'all',
-          todos: [
-            {id: 1, text: 'Taste JavaScript'},
-            {id: 2, text: 'Buy a unicorn'}
-          ]
-        }, {
-          properties: {
-            todos: {
-              type: Domain,
-            },
-            completed: {},
-            allCompleted: {
-              calc: (v) => v.todos.filter(todo => todo.completed).length == v.todos.length && v.todos.length > 0
-            },
-            leftCount: {
-              calc: (v) => v.todos.filter(todo => !todo.completed).length
-            },
-            main: {
-              calc: (v) => v.todos.length > 0
-            },
-            footer: {
-              calc: (v) => v.todos.length > 0
-            },
-            clearCompleted: {
-              calc: (v) => v.todos.filter(todo => todo.completed).length > 0
-            },
-            filteredTodos: {
-              key: v => v.id,
-              entryOfType: {
-                properties: {
-                  editing: {},
-                  completed: {},
-                  text: {},
-                }
-              },
-              calc: (v) => {
-                if (v.filter == 'all') {
-                  return v.todos
-                }
-                else if (v.filter == 'active') {
-                  return v.todos.filter(todo => !todo.completed)
-                }
-                else if (v.filter == 'completed') {
-                  return v.todos.filter(todo => todo.completed)
-                }
+    // Context
+    scope: {
+      data: new Domain({
+//        filter: 'all',
+        todos: [
+          {id: 1, text: 'Taste JavaScript'},
+          {id: 2, text: 'Buy a unicorn'}
+        ]
+      }, {
+        properties: {
+          todos: {
+            type: Domain,
+            entryOfType: {
+              properties: {
+                completed: Boolean
               }
             }
           }
-        }),
-        app: {}
-      },
-      allJoined: function ({app, data}) {
-        app.createAction('addTodo', (todo) => {
-          data.todos.$add({
-            id: uuid(),
-            text: todo
-          })
-        }, this)
-        app.createAction('deleteTodo', (id) => {
-          data.todos.$value = data.todos.$value.filter(todo => todo.id != id)
-          // const todos = [...data.todos.$value]
-          // const idx = todos.findIndex(v => v.id == id)
-          // todos.splice(idx, 1)
-          // data.todos.$value = todos
-          // todos.splice()
-          // const { todos } = data
-          // const idx = todos.$value.findIndex(v => v.id == id)
-          // todos.$remove(idx)
-        }, this)
-        app.createAction('completeAll', (complete) => {
-          data.todos.$each(todo => {
-            todo.completed = complete
-          })
-        }, this)
-        app.createAction('deleteCompleted', () => {
-          data.todos.$value = data.todos.$value.filter(todo => !todo.completed)
-          // const todos = data.$entry('todos').get()
-          // const onlyActiveTodos = todos.filter(todo => !todo.completed)
-          // data.$entry('todos').set(onlyActiveTodos)
-        }, this)
-      },
+        },
+        actions: {
+          addTodo: function (todo) {
+            if (todo.trim().length > 0) {
+              this.todos.$add({
+                id: uuid(),
+                text: todo
+              })
+            }
+          },
+          deleteCompleted: function () {
+            this.todos.$removeIf(todo => todo.completed)
+          },
+          deleteTodo: function (id) {
+            this.todos.$removeIf(todo => todo.id == id)
+          },
+          completeAll: function (complete) {
+            this.todos.$iterator().each(todo => {
+              todo.completed = complete
+            })
+          }
+        },
+        onChanged: function (e) {
+          console.log('todos changed')
+        }
+      }),
+      view: new Domain({
+        filter: 'all'
+      }, {
+        properties: {
+          filter: String,
+          filteredTodos: {
+            key: v => v.id,
+            type: Domain,
+            entryOfType: {
+              properties: {
+                editing: Boolean,
+                completed: Boolean,
+                text: String,
+                id: Number
+              }
+            },
+            calc: (v, s) => {
+              if (s.filter == 'all') {
+                return s.todos.filter(() => true)
+              }
+              else if (s.filter == 'active') {
+                return s.todos.filter(todo => !todo.completed)
+              }
+              else if (s.filter == 'completed') {
+                return s.todos.filter(todo => todo.completed)
+              }
+            }
+          },
+          leftCount: {
+            calc: (v, {todos}) => todos.filter(todo => !todo.completed).length
+          },
+          hasCompleted: {
+            calc: (v, {todos}) => todos.filter(todo => todo.completed).length > 0
+          },
+          allCompleted: {
+            calc: (v, {todos}) => todos.filter(todo => todo.completed).length == todos.length && todos.length > 0
+          },
+          hasTodos: {
+            calc: (v, {todos}) => todos.length > 0
+          }
+        }
+      })
+    },
+    allJoined: function ({view, data}) {
+      data.$watchProp('todos', (e) => {
+        view.$entry('todos')._update('asc')
+      })
+      view.createProperty('todos', {
+        calc: () => {
+          return data.todos.$value
+        }
+      })
+      view.$watchProp('filteredTodos', (e) => {
+        data._update('asc')
+      })
+
+    },
+
+    // Template
+    $body: {
       html: 'section',
       css: 'todoapp',
-      dataChanged: function (v) {
-        this.opt('components', v)
+      viewChanged: function (v, s) {
+        this.opt('components', {main: s.hasTodos, footer: s.hasTodos})
       },
       $header: {
         html: 'header',
@@ -122,11 +142,9 @@ export default () => {
           css: 'new-todo',
           placeholder: 'What needs to be done?',
           dom: { AutoFocus },
-          onKeyUp: function (e, {app}) {
+          onKeyUp: function (e, {data}) {
             if (e.key == 'Enter') {
-              if (e.target.value.trim().length > 0) {
-                app.addTodo(e.target.value)
-              }
+              data.addTodo(e.target.value)
               e.target.value = ''
             }
             else if (e.key == 'Escape') {
@@ -145,11 +163,11 @@ export default () => {
             type: 'checkbox',
             id: 'toggle-all',
             css: 'toggle-all',
-            dataChanged: function (v, s) {
-              this.opt('checked', s.allCompleted)// data.get('allCompleted'))
+            viewChanged: function (v, s) {
+              this.opt('checked', s.allCompleted)
             },
-            onChange: function (e, {app}) {              
-              app.completeAll(e.target.checked)
+            onChange: function (e, {data}) {              
+              data.completeAll(e.target.checked)
             }
           },
           $label: {
@@ -159,14 +177,14 @@ export default () => {
           }
         },
         $todoList: {
+          scope: {
+            data: (ctx) => ctx.view.$entry('filteredTodos'),
+            app: (ctx) => ctx.data
+          },
           html: 'ul',
           css: 'todo-list',
-          filter: 'all',
-          dataId: 'filteredTodos',
-//          dataEntryId: v => v.id,
-          dataChanged: function (v, s, k) {
-            console.log('sync todos', s)
-            this.opt('items', s.$iterator(k))//data.entry(this.opt('filter')).asStream(k))
+          dataChanged: function (v, s) {
+            this.opt('items', s.$iterator())
           },
           defaultItem: {
             html: 'li',
@@ -186,13 +204,12 @@ export default () => {
                   this.opt('checked', v.completed)
                 },
                 onChange: function (e, {data}) {
-                  console.log(data)
                   data.completed = e.target.checked
                 }
               },
               $content: {
                 html: 'label',
-                dataChanged: function (v, k) {
+                dataChanged: function (v) {
                   this.opt('text', v.text)
                 },
                 onDoubleClick: function (e, {data}) {
@@ -203,7 +220,7 @@ export default () => {
                 html: 'button',
                 css: 'destroy',
                 onClick: function (e, {data, app}) {
-                  app.deleteTodo(data.get('id'))
+                  app.deleteTodo(data.id)
                 }
               }
             },
@@ -211,8 +228,9 @@ export default () => {
               html: 'input',
               css: 'edit',
               dataJoined: function (data) {
-                data.watch(e => e.name == 'changed' && e.ids && 'editing' in e.ids, () => {
-                  this.eff(AutoFocus)
+                // слушаем changed, а не init, т.к. компонент всегда в dom-е
+                data.$watchProp('editing', () => {
+                    this.eff(AutoFocus)
                 }, this)
               },
               dataChanged: function (v) {
@@ -237,21 +255,23 @@ export default () => {
       $footer: {
         html: 'footer',
         css: 'footer',
-        dataChanged: function (v) {
-          this.opt('components', v)
+        viewChanged: function (v, s) {
+          this.opt('components', {clearCompleted: s.hasCompleted})
         },
         $todoCount: {
+          scope: {
+            view: (ctx) => ctx.view.$entry('leftCount')
+          },
           html: 'span',
           css: 'todo-count',
-          dataId: 'leftCount',
           $count: {
             html: 'strong',
             weight: -10,
-            dataChanged: function (v) {
+            viewChanged: function (v) {
               this.opt('text', v)
             }
           },
-          dataChanged: function (v) {
+          viewChanged: function (v) {
             this.opt('text', ' ' + pluralize(v, 'item') + ' left')
           }
 //          text: ' item left'
@@ -264,7 +284,7 @@ export default () => {
             $content: {
               html: 'a'
             },
-            dataChanged: function (v) {
+            viewChanged: function (v) {
 //              console.log('FILTER', v)
               this.opt('selected', v.filter == this.opt('key'))
             },
@@ -299,8 +319,8 @@ export default () => {
           html: 'button',
           css: 'clear-completed',
           text: 'Clear completed',
-          onClick: function (e, {app}) {
-            app.deleteCompleted()
+          onClick: function (e, {data}) {
+            data.deleteCompleted()
           }
         }
       }
