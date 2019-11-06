@@ -127,15 +127,15 @@ export default () => {
           },
           methods: {
             getAnswer: async function () {
-              const v = this.get()
+              const v = this.$get()
               if (v.question.indexOf('?') === -1) {
                 this.set('answer', 'Вопросы обычно заканчиваются вопросительным знаком. ;-)')
                 return
               }
 
-              this.set('answer', 'Думаю...')
+              this.$set('answer', 'Думаю...')
               const response = await api.getYesNo(v.question)
-              this.set('answer', _.capitalize(response.answer))
+              this.$set('answer', _.capitalize(response.answer))
             },
             debouncedGetAnswer: _.debounce(function () {
               this.getAnswer()
@@ -177,7 +177,7 @@ export default () => {
         $input: {
           html: 'input',
           onChange: function (e, {data}) {
-            data.set('question', e.target.value)//.updateQuestion(e.target.value)//.getAnswer()//.entry('question').set(e.target.value)
+            data.$set('question', e.target.value)//.updateQuestion(e.target.value)//.getAnswer()//.entry('question').set(e.target.value)
           }
         },
         $info: {
@@ -200,7 +200,7 @@ export default () => {
 //              policy: 'exclusive',
               when: (e, {ask}) => e.name == ask.init,
               callback: function () {
-                this.set('answer', 'Ожидаю, когда вы закончите печатать...')
+                this.$set('answer', 'Ожидаю, когда вы закончите печатать...')
                 return new Promise(function (resolve) {
                   setTimeout(() => resolve(), 500)
                 })
@@ -221,13 +221,13 @@ export default () => {
           },
           methods: {
             ask: function (question) {
-              this.set('answer', 'Думаю...')
+              this.$set('answer', 'Думаю...')
               return api.getYesNo(question)
                 .then(response => {
-                  this.set('answer', _.capitalize(response.answer))
+                  this.$set('answer', _.capitalize(response.answer))
                 })
                 .catch(err => {
-                  this.set('answer', 'Ошибка! Не могу связаться с API. ' + err)
+                  this.$set('answer', 'Ошибка! Не могу связаться с API. ' + err)
                 })
             }
           }
@@ -237,7 +237,7 @@ export default () => {
         $input: {
           html: 'input',
           onChange: function (e, {data}) {
-            data.set('question', e.target.value)
+            data.$set('question', e.target.value)
           },
           dataId: 'question',
           dataChanged: Mutate.Value
@@ -260,7 +260,7 @@ export default () => {
           },
           actions: {
             increment: function () {
-              this.set(this.get()+1)
+              this.$set(this.$get()+1)
             }
           }
         })
@@ -269,7 +269,7 @@ export default () => {
         as: Button,
         text: 'Increment',
         onClick: function (e, {data}) {
-          data.actions.increment()
+          data.increment()
         }
       },
       $text: {
@@ -314,7 +314,7 @@ export default () => {
           debugger
         },
         delegateJoined: function (delegate) {
-          delegate.on('dirty', () => {
+          delegate.$on('dirty', () => {
             this.rerender()
           })
         },
@@ -343,7 +343,7 @@ export default () => {
         $outer: {
           styles: {backgroundColor: 'blue', padding: '1rem'},
           delegateJoined: function (delegate) {
-            delegate.watch(e => e.name == 'init', () => {
+            delegate.$watch(e => e.name == 'init', () => {
               // отключаем рендерер по умолчанию и перенаправляем обновления
               this.renderers = {
                 '*': {
@@ -356,7 +356,7 @@ export default () => {
               }
               delegate.actions.addComponent(this)
             }, this)
-            delegate.watch(e => e.name == 'destroy', () => {
+            delegate.$watch(e => e.name == 'destroy', () => {
               delegate.actions.removeComponent(this)
               // включаем рендеринг по умолчанию
               this.renderers = null
@@ -368,7 +368,7 @@ export default () => {
               return {value: v}
             },
             onChange: function (e, {data}) {
-              data.set(e.target.value)
+              data.$set(e.target.value)
             }
           }  
         },

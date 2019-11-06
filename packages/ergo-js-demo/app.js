@@ -152,7 +152,7 @@ const root = new Html({
       $logo: {
         as: Navbar.Item,
         $content: {
-          text: 'Ergo JS',
+          text: 'Chorda',
           css: 'has-text-weight-semibold is-uppercase'
         }
       }

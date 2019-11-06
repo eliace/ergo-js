@@ -77,11 +77,30 @@ class Domain extends Source {
 
   _put (event) {
 
-    const result = this._channel(event.channel)
-      .filter(s => !event.options.target || event.options.target == s.target)
-      .filter(s => s.name == '*' || s.name == event.name)
-      .map(s => event.options.method ? s.callback.apply(s.target, event.data) : s.callback.call(s.target, event, s))
-      .filter(v => v !== undefined)
+    const result = []
+
+    for (let i = 0; i < this.subscribers.length; i++) {
+      const s = this.subscribers[i]
+      // channel test
+      if (event.channel == '*' || s.channels.indexOf(event.channel) != -1) {
+        // target test
+        if (!event.options.target || event.options.target == s.target) {
+          // name test
+          if (s.name == '*' || s.name == event.name) {
+            const r = event.options.method ? s.callback.apply(s.target, event.data) : s.callback.call(s.target, event, s)
+            if (r !== undefined) {
+              result.push(r)
+            }
+          }
+        }
+      }
+    }
+
+    // const result = this._channel(event.channel)
+    //   .filter(s => !event.options.target || event.options.target == s.target)
+    //   .filter(s => s.name == '*' || s.name == event.name)
+    //   .map(s => event.options.method ? s.callback.apply(s.target, event.data) : s.callback.call(s.target, event, s))
+    //   .filter(v => v !== undefined)
 
     const promises = result.filter(v => v.then && typeof v.then == 'function')
 

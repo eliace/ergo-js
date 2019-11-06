@@ -1,4 +1,4 @@
-import { Card, Image, Layouts } from 'ergo-js-bulma'
+import { Card, Image, Layouts } from 'chorda-bulma'
 import imgUrl from '../../img/Yosemite 3.jpg'
 
 export default () => {

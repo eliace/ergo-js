@@ -1,12 +1,12 @@
 #### Установка
 Загружаем пакеты
 
-    npm install ergo-js-core ergo-js-react
+    npm install chorda-core chorda-react
 
 #### Рендерер
 
-    import { Config } from 'ergo-js-core'
-    import { ReactRenderer } from 'ergo-js-react'
+    import { Config } from 'chorda-core'
+    import { ReactRenderer } from 'chorda-react'
 
     Config.use(ReactRenderer);
 

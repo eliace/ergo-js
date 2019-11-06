@@ -1002,7 +1002,7 @@ class Source {
     // }
   }
 
-  $iterateAs (name, target) {
+  $all (name, target) {
     return this.$iterator(name, target)
   }
 
@@ -1033,27 +1033,7 @@ class Source {
     return true
   }
 
-  // get $ () {
-  //   if (!this._proxy) {
-  //     this._proxy = new Proxy(this, {
-  //       set: function (target, property, value) {
-  //         target.entry(property).set(value)
-  //       },
-  //       get: function (target, property) {
-  //         if (target.entries[property]) {
-  //           return target.entry(property).get()
-  //         }
-  //         // if (this._properties && this._properties[property]) {
-  //         //   return this.entry(property).get()
-  //         // }
-  //         // return target.get(property)
-  //         return target.get(property) //target.entry(property).$
-  //       }
-  //     })
-  //   }
-  //   return this._proxy
-  // }
-
+  
   get $source () {
     return this.src
   }

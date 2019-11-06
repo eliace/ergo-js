@@ -44,7 +44,7 @@ class Effect {
         return err
       })
 
-    this.owner.emit(this.name, null, null, 'start')
+    this.owner.$emit(this.name, null, null, 'start')
 
 //    }
 
@@ -59,6 +59,7 @@ class Effect {
     // }
   }
 
+  // для событий с method = true сюда приходит data
   callback (e) {
     console.log('resolve effect', this, e)
 //    this.finalize(e.channel, e.data)
@@ -67,11 +68,13 @@ class Effect {
       if (this.resolver) {
         this.resolver(e)
       }
-      else if (this[e.channel+'Resolver']) {
-        this[e.channel+'Resolver'](e)
-      }
 
-      this.finalize(e.channel, e.data)
+      this.resolve(e)
+      // else if (this[e.channel+'Resolver']) {
+      //   this[e.channel+'Resolver'](e)
+      // }
+
+//      this.finalize(e.channel, e.data)
       // if (this.resolver) {
       //   this.resolver(e.data)
       //   return this.promise
@@ -124,7 +127,7 @@ class Effect {
         this.owner.unsubscribe(this.subscriber)
       }
 
-      this.owner.emit(this.name, value, {}, state)
+      this.owner.$emit(this.name, value, {}, state)
 
 
       if (state == 'done') {

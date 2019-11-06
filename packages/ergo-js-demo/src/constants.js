@@ -14,3 +14,16 @@ export const USERS = _users.results
 export const COUNTRIES = _countries
 
 export const YOSEMITE_TEXT = 'Yosemite National Park (/joʊˈsɛmɪti/ yoh-SEM-i-tee) is an American national park located in the western Sierra Nevada of Central California, bounded on the southeast by Sierra National Forest and on the northwest by Stanislaus National Forest.'
+
+export const DIRS = [{
+    path: '/User/123/Work/test.txt',
+    size: 243
+}, {
+    path: '/User/123/Work/README.md',
+    size: 1
+}, {
+    path: '/User/123/Database/log',
+    size: 875445
+}]
+
+

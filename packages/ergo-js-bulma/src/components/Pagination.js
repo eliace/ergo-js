@@ -132,7 +132,7 @@ class Pagination extends Html {
     }
   }
 
-  properties () {
+  options () {
     return {
       min: {
         set: function (v) {

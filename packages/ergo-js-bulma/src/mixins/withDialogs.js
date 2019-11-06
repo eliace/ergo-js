@@ -22,7 +22,7 @@ export default function withDialogs (mixer) {
             defaultItem: {
                 join: {
                     all: {Dialogs: function ({dialogs, view}) {
-                        view.on('close', () => {
+                        view.$on('close', () => {
                             // FIXME
                             const v = dialogs.components.$get()
                             v.splice(this.index, 1)

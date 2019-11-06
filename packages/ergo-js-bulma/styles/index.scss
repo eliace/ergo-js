@@ -50,6 +50,13 @@
       font-size: 0.8em;
     }
 
+    &__avatar {
+      font-size: 1.2em;
+      border-radius: 50%;
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+
     > .image {
       width: 2.5rem;
     }

@@ -244,11 +244,12 @@ class Stream {
     return this
   }
 
-  each (callback) {
-    this.entries(callback)
+  entries (callback) {
+    console.error('[Stream] Method entries deprecated. Use each')
+    this.each(callback)
   }
 
-  entries (callback) {
+  each (callback) {
 
     let value = this.src.$get()
     const props = this.src._properties
@@ -303,14 +304,14 @@ class Stream {
   //   return new Stream(this.src, this.data, k, this.idResolver)
   // }
 
-  snapshot () {
-    const v = this.src.$get();
-    const p = {}
-    for (let i in this.src._properties) {
-      p[i] = this.src.$entry(i).$get()
-    }
-    return Object.assign(p, v)
-  }
+  // snapshot () {
+  //   const v = this.src.$get();
+  //   const p = {}
+  //   for (let i in this.src._properties) {
+  //     p[i] = this.src.$entry(i).$get()
+  //   }
+  //   return Object.assign(p, v)
+  // }
 
   // $streams () {
   //   const e = {}
@@ -422,9 +423,9 @@ class Stream {
   //   return e
   // }
 
-  get $value () {
-    return this.__target.$get()
-  }
+  // get $value () {
+  //   return this.__target.$get()
+  // }
 
 
   // $remove () {

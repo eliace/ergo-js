@@ -1421,7 +1421,7 @@ class Html {
       // let isModified = false
       // let j = 0
 
-      value.entries((entry, idx, v, k) => {
+      value.each((entry, idx, v, k) => {
         nextIds.push({i: idx/*Number(idx)*/, k, entry})
 
         // const prev = prevIds[j++]
@@ -1678,7 +1678,7 @@ class Html {
 
       const ch = value.key
 
-      value.entries((entry, idx, s, i) => {
+      value.each((entry, idx, s, i) => {
 //                console.log(i, s)
 //        if (o['$'+i]) {
 //                  const s = data[i]
@@ -1750,12 +1750,13 @@ class Html {
   }
 
   destroyAllItems () {
-    for (let i = this.children.length-1; i >= 0; i--) {
-      let child = this.children[i]
-      if (child.index != null) {
-        child.tryDestroy()
-      }
-    }
+    this.items.forEach(item => item.tryDestroy())
+    // for (let i = this.children.length-1; i >= 0; i--) {
+    //   let child = this.children[i]
+    //   if (child.index != null) {
+    //     child.tryDestroy()
+    //   }
+    // }
   }
 
 
@@ -1838,7 +1839,6 @@ class Html {
 
     // решаем, подключаться ли к домену
     if (o.anyChanged || (o.join && o.join[i]) || o.allJoined || o[i+'Changed'] || o[i+'Joined']) {
-      // TODO возможно, с эффектами придется поступить так же - вспомогательная функция
       source.observe(this, this.changed, i/*, o[i+'Effects']*/)
 
       if (!this.joints) {
@@ -1846,6 +1846,8 @@ class Html {
       }
 
       this.joints[i] = []//source.$stream(i, this)
+
+      source._key = i
 
       if (o.join && o.join[i]) {
         const srcJoin = o.join[i]
@@ -1856,9 +1858,11 @@ class Html {
       }
 
       if (o[i+'Joined']) {
-        const unjoin = o[i+'Joined'].call(this, source)
+        const unjoin = o[i+'Joined'].call(this, source, i)
         unjoin && this.joints[i].push(unjoin)
       }
+
+      delete source._key
 
       isJoined = true
     }
@@ -1917,13 +1921,14 @@ class Html {
       }
 
       if (o[key+'Changed']) {
+        let oldKey = this.sources[key]._keyIt
 //        this.streams[key] = this.streams[key] || this.sources[key].$stream(key, this)
-        if (this.sources[key]._keyIt) {
+        if (oldKey && oldKey != key) {
           console.warn('[Html] try to change already changing object', key, this)
         }
         this.sources[key]._keyIt = key
         const dynOpts = o[key+'Changed'].call(this, v.data, this.sources[key], key, v.ids)
-        this.sources[key]._keyIt = null
+        this.sources[key]._keyIt = oldKey
         if (dynOpts) {
           this.opt(dynOpts, key)
           // for (let j in dynOpts) {
@@ -2128,6 +2133,7 @@ class Html {
 
     delete this.children
     delete this._layout
+    delete this.context
 
     this._destroyed = true
 

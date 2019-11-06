@@ -79,7 +79,9 @@ module.exports = {
     resolve: {
         alias: {
             'ergo-js-core': path.resolve('../ergo-js-core'),
-            'ergo-js-bulma': path.resolve('../ergo-js-bulma')
+            'ergo-js-bulma': path.resolve('../ergo-js-bulma'),
+            'chorda-core': path.resolve('../ergo-js-core'),
+            'chorda-bulma': path.resolve('../ergo-js-bulma')
         }
     }
 }

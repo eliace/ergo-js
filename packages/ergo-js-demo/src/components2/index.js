@@ -89,7 +89,7 @@ export default () => {
       },
       $dropdown: previewOf(DropdownExample, DropdownCode),
       $toast: previewOf(ToastExample, ToastCode),
-      $list: previewOf(ListExample, ListCode),
+      $list: ListExample,//previewOf(ListExample, ListCode),
       $carousel: previewOf(CarouselExample, CarouselCode),
 //      $loader: previewOf(LoaderExample, LoaderCode),
       $overlay: previewOf(OverlayExample, OverlayCode),

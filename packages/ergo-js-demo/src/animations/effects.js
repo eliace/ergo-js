@@ -3,7 +3,7 @@ import { Effect } from "ergo-js-core"
 export function domEffect (source) {
     source.effect = () => {
         return new Promise((resolve) => {
-            this.syncDom((el) => {resolve(el)})
+            this.eff((el) => {resolve(el)})
           })
     }
     // return () => {
@@ -14,7 +14,7 @@ export function domEffect (source) {
 function domTransition (source) {
     source.transition = () => {
         return new Promise(resolve => {
-            this.syncDom((el) => {
+            this.eff((el) => {
                 const f = () => {
                     el.removeEventListener('transitionend', f)
                     console.log('transitionend')
@@ -30,19 +30,28 @@ function domTransition (source) {
 }
 
 
+
+class CancelError extends Error {
+    constructor (msg) {
+      super(msg)
+      this.name = 'CancelError'
+    }
+}
+    
+
 export class ShowHideEffect extends Effect {
     constructor (name, promise, options, owner) {
         super(name, promise, {group: 'ShowHide', ...options}, owner)
     }
     resolveCollisions (collisions) {
         collisions.forEach(eff => {
-            eff.finalize('cancel')
+            eff.finalize('cancel', new CancelError())
         })
     }
 }
 
 
-function domShowAndHide (dom) {
+function domShowAndHide (dom, ch) {
 
     // withEffect.call(this)
     // withTransition.call(this)
@@ -116,10 +125,10 @@ function domShowAndHide (dom) {
     //     console.log(e)
     // }, this)
 
-    dom.$watch(e => e.name == 'init', () => {
+    dom.$watch(e => e.name == 'init' && e.channel == ch, () => {
         return show()
       }, this)
-    dom.$watch(e => e.name == 'destroy', () => {
+    dom.$watch(e => e.name == 'destroy' && e.channel == ch, () => {
         return hide()
       }, this)
 
