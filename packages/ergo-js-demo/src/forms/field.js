@@ -1,5 +1,5 @@
-import {Html, Text, Config, Layout} from 'ergo-js-core'
-import {Layouts, Button, IconBox, Input as InputBox, Field} from 'ergo-js-bulma'
+import {Html, Text, Config, Layout} from 'chorda-core'
+import {Layouts, Button, IconBox, Input as InputBox, Field} from 'chorda-bulma'
 
 import {ButtonWithIcon} from '../extensions'
 import {Mixins} from '../helpers'

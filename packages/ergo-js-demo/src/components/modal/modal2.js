@@ -1,5 +1,5 @@
 import { ImageModal, ModalModel } from './common'
-import { Button } from 'ergo-js-bulma'
+import { Button } from 'chorda-bulma'
 import imgUrl from '../../img/Yosemite 3.jpg'
 
 export default () => {

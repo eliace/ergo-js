@@ -1,4 +1,4 @@
-import {Layouts, Box} from 'ergo-js-bulma'
+import {Layouts, Box} from 'chorda-bulma'
 
 
 export default () => {

@@ -1,4 +1,4 @@
-import {Layout, Config} from 'ergo-js-core'
+import {Layout, Config} from 'chorda-core'
 //import {h} from 'maquette'
 
 export default function (h, html, props, components) {

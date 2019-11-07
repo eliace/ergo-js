@@ -1,5 +1,5 @@
-import {Html, Text, Events, Domain} from 'ergo-js-core'
-import {Layouts, Tabs, IconBox, Box, Button, Buttons, Notification} from 'ergo-js-bulma'
+import {Html, Text, Events, Domain} from 'chorda-core'
+import {Layouts, Tabs, IconBox, Box, Button, Buttons, Notification} from 'chorda-bulma'
 import { ShowAndHide } from '../effects'
 
 import 'animate.css'

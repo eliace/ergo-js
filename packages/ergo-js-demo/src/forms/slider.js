@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, Box, Slider} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Layouts, Box, Slider} from 'chorda-bulma'
 
 const COLORS = ['primary', 'link', 'info', 'success', 'warning', 'danger']
 

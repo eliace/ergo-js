@@ -1,4 +1,4 @@
-import {Config, defaultCompare} from 'ergo-js-core'
+import {Config, defaultCompare} from 'chorda-core'
 //import {h} from 'maquette'
 
 // function rowRender (comp, i) {

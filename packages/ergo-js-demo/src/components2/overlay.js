@@ -1,5 +1,5 @@
-import {Layouts, Box, Button, Card, Overlay, LoaderBox} from 'ergo-js-bulma'
-import { Html } from 'ergo-js-core'
+import {Layouts, Box, Button, Card, Overlay, LoaderBox} from 'chorda-bulma'
+import { Html } from 'chorda-core'
 import { LOREM_IPSUM, YOSEMITE_TEXT } from '../constants'
 
 import imageUrl from '../img/Yosemite 3.jpg'

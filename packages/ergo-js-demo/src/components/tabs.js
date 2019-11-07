@@ -1,5 +1,5 @@
-import {Html, Text} from 'ergo-js-core'
-import {Layouts, Tabs, IconBox} from 'ergo-js-bulma'
+import {Html, Text} from 'chorda-core'
+import {Layouts, Tabs, IconBox} from 'chorda-bulma'
 import {Mutate, compose} from '../helpers'
 
 // function Selectable () {

@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Tag, Layouts, IconBox} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Tag, Layouts, IconBox} from 'chorda-bulma'
 
 const Mixins = {
   LeftIcon: function () {

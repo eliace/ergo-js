@@ -2,25 +2,26 @@
 export default class Text {
 
   constructor(text, context) {
+    this.context = context
+    this.props = {}
+    this.dom = {props: this.props}
     if (typeof text === 'string') {
       this.options = {}
-      this.text = text
+      this.dom.text = text
     }
     else {
       this.options = text
-      this.text = text.text
+      this.dom.text = text.text
     }
-    this.props = {}
-    this.context = context
   }
 
   render() {
-    return this.text
+    return this.dom.text
   }
 
   opt(k, v) {
     if (k == 'text') {
-      this.text = v
+      this.dom.text = v
     }
   }
 

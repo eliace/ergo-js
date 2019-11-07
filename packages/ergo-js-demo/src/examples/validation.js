@@ -1,5 +1,5 @@
-import { Layouts, Field, Input, Button } from 'ergo-js-bulma'
-import { Domain, joint as bind } from 'ergo-js-core'
+import { Layouts, Field, Input, Button } from 'chorda-bulma'
+import { Domain, joint as bind } from 'chorda-core'
 
 function check (v, rules = []) {
     return rules.map(rule => rule(v)).filter(r => r !== true)

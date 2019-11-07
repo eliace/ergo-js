@@ -1,5 +1,5 @@
-import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Tabs} from 'ergo-js-bulma'
+import {Html, Domain} from 'chorda-core'
+import {Layouts, Tabs} from 'chorda-bulma'
 
 import DropdownExample from './dropdown'
 import ToastExample from './toast'

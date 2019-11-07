@@ -1,5 +1,5 @@
-import {Layouts, Button, Field, Notification} from 'ergo-js-bulma'
-import {Domain} from 'ergo-js-core'
+import {Layouts, Button, Field, Notification} from 'chorda-bulma'
+import {Domain} from 'chorda-core'
 import {withShowHide} from '../animations/effects'
 
 let counter = 1

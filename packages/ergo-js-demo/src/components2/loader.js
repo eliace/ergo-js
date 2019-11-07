@@ -1,4 +1,4 @@
-import { Layouts } from "ergo-js-bulma";
+import { Layouts } from "chorda-bulma";
 
 
 

@@ -1,5 +1,5 @@
-import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Tabs, Image, Carousel, Box, getEl} from 'ergo-js-bulma'
+import {Html, Domain} from 'chorda-core'
+import {Layouts, Tabs, Image, Carousel, Box, getEl} from 'chorda-bulma'
 
 import axios from 'axios'
 

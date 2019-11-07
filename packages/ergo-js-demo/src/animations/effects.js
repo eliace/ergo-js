@@ -1,4 +1,4 @@
-import { Effect } from "ergo-js-core"
+import { Effect } from "chorda-core"
 
 export function domEffect (source) {
     source.effect = () => {

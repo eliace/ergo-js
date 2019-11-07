@@ -1,4 +1,4 @@
-import {Html} from 'ergo-js-core'
+import {Html} from 'chorda-core'
 //import styles from 'bulma/css/bulma.css'
 
 class Section extends Html {

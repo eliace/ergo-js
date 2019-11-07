@@ -1,5 +1,5 @@
-import {Html, Source, Layout} from 'ergo-js-core'
-import {Layouts, Tabs, Button, Switch, getEl} from 'ergo-js-bulma'
+import {Html, Source, Layout} from 'chorda-core'
+import {Layouts, Tabs, Button, Switch, getEl} from 'chorda-bulma'
 
 import {Mutate} from '../helpers'
 

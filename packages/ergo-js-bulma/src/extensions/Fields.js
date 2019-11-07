@@ -1,4 +1,4 @@
-import { Html } from "ergo-js-core";
+import { Html } from "chorda-core";
 import Field from "../components/Field";
 
 export default class Fields extends Html {

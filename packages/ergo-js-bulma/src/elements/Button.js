@@ -1,4 +1,4 @@
-import {Html} from 'ergo-js-core'
+import {Html} from 'chorda-core'
 import IconBox from './IconBox'
 
 export default class Button extends Html {

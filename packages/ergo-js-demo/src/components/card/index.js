@@ -1,5 +1,5 @@
-import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Card, Image} from 'ergo-js-bulma'
+import {Html, Domain} from 'chorda-core'
+import {Layouts, Card, Image} from 'chorda-bulma'
 import { ExampleBox } from '../../extensions'
 
 import card1 from './card1'

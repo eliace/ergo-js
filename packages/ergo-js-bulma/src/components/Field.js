@@ -1,4 +1,4 @@
-import {Html, Layout} from 'ergo-js-core'
+import {Html, Layout} from 'chorda-core'
 import {IconBox} from '../elements'
 
 

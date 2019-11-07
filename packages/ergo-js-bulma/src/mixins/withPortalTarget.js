@@ -1,4 +1,4 @@
-import { Layout, Domain, Config } from 'ergo-js-core'
+import { Layout, Domain, Config } from 'chorda-core'
 import { Collection } from '../utils'
 
 export default function withPortalTarget (mixer) {
@@ -29,7 +29,7 @@ export default function withPortalTarget (mixer) {
         renderers: {
           '*': {
             render: function () {
-              const {html, props} = this._internal
+              const {html, props} = this.dom
               const components = this.sources.portal.components.$get().map(c => {
                 return {
                   render: () => c.render('portal')

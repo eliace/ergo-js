@@ -1,4 +1,4 @@
-import {Layouts} from 'ergo-js-bulma'
+import {Layouts} from 'chorda-bulma'
 import {ExampleBox} from '../../extensions'
 
 import button1 from './button1'

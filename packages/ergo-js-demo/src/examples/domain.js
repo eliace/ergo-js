@@ -1,5 +1,5 @@
-import {Html, Domain, Binder, bindDomain as Bind, Layout, joint as bind, Config} from 'ergo-js-core'
-import {Layouts, Tabs, Button} from 'ergo-js-bulma'
+import {Html, Domain, Binder, bindDomain as Bind, Layout, joint as bind, Config} from 'chorda-core'
+import {Layouts, Tabs, Button} from 'chorda-bulma'
 
 import {Mutate} from '../helpers'
 import _ from 'lodash'

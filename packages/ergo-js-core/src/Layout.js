@@ -17,14 +17,14 @@ function passthru (h, html, props, components) {
 function wrapped (h, html, props, components, layout) {
   let wrapper = null
   const wrapped = components.filter(c => {
-    if (c.props.key == 'wrapper') {
+    if (c.dom.props.key == 'wrapper') {
       wrapper = c
       return false
     }
     return true
   })
 
-  // react is sicking if void components contain empty children
+  // react sicks if void components contain empty children
   const vnode = (layout || sorted)(h, html, props, wrapped.length ? wrapped : null)
 
   if (wrapper) {
@@ -32,10 +32,10 @@ function wrapped (h, html, props, components, layout) {
       options: {},
       render: () => vnode
     }
-    return (wrapper.layout || sorted)(
+    return (wrapper.dom.layout || sorted)(
       h,
-      wrapper._html, 
-      deepClone({...wrapper.props, key: props.key}), 
+      wrapper.dom.html, 
+      deepClone({...wrapper.dom.props, key: props.key}), 
       [fakeContent].concat(wrapper.children)
       ) // FIXME альтернатива wrapper.render(wrapped)
   }

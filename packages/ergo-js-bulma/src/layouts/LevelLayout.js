@@ -1,4 +1,4 @@
-import {Layout, defaultCompare, Config} from 'ergo-js-core'
+import {Layout, defaultCompare, Config} from 'chorda-core'
 
 // function itemRender (c) {
 //   return Config.Renderer.h('div.level-item', {key: c.props.key}, [c.render()])

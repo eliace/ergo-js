@@ -1,4 +1,4 @@
-import {Html} from 'ergo-js-core'
+import {Html} from 'chorda-core'
 import {List} from '../elements'
 
 class MenuLabel extends Html {

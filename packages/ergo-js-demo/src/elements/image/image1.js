@@ -1,4 +1,4 @@
-import {Image} from 'ergo-js-bulma'
+import {Image} from 'chorda-bulma'
 
 import imgUrl_1 from '../../img/Yosemite.jpg'
 

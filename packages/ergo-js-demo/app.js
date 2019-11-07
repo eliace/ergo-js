@@ -1,8 +1,8 @@
 //import {createProjector} from 'maquette'
-import {Html, Domain, Layout, Config} from 'ergo-js-core'
-import {Layouts, Menu, Navbar, withPortalTarget, withModals, withToasts, IconBox} from 'ergo-js-bulma'
+import {Html, Domain, Layout, Config} from 'chorda-core'
+import {Layouts, Menu, Navbar, withPortalTarget, withModals, withToasts, IconBox} from 'chorda-bulma'
 import {ElementsPage, ComponentsPage, Components2Page, AnimationsPage, FormsPage, ExamplesPage, LayoutsPage, GettingStartedPage, OptionsPage, StructurePage, LayoutPage, DataFlowPage} from './src'
-import { Context as ReactRenderer } from 'ergo-js-react'
+import { Context as ReactRenderer } from 'chorda-react'
 
 Config.use(ReactRenderer)
 

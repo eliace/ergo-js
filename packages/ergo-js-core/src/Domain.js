@@ -10,6 +10,13 @@ import Event from './Event'
 // }
 
 
+// описание каналов
+// <default> - для методов
+// :start/:fail/:done/:cancel - для статусов
+// остальное для событий
+
+
+
 class Domain extends Source {
 
   // constructor (src, name) {
@@ -145,6 +152,7 @@ class Domain extends Source {
 
 
   publish (...args) {
+    console.error('[Domain] method publish is deprected. Use $emit instead')
     return this.emit.apply(this, args)
   }
 
@@ -203,6 +211,7 @@ class Domain extends Source {
 
 
   // хелперы
+
 
   createAction (name, callback, target, options) {
     this.subscribe(name, callback, undefined, target)
@@ -360,6 +369,11 @@ class Domain extends Source {
       this.entries[k] = e
     }
     return e
+  }
+
+
+  $effects () {
+    return this.subscribers.filter(s => s instanceof Effect)
   }
 
   // get events () {

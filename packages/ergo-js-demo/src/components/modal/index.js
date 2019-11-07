@@ -1,5 +1,5 @@
-import {Html, Domain, Layout, Events, Source} from 'ergo-js-core'
-import {Layouts, Button, Box, Image, Modal, stopMouseDown, Input, Buttons, withDialogs} from 'ergo-js-bulma'
+import {Html, Domain, Layout, Events, Source} from 'chorda-core'
+import {Layouts, Button, Box, Image, Modal, stopMouseDown, Input, Buttons, withDialogs} from 'chorda-bulma'
 
 import { InputDialog, ImageModal, ModalModel } from './common'
 

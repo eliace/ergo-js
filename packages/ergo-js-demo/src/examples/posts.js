@@ -1,5 +1,5 @@
-import {Html, Source} from 'ergo-js-core'
-import {Layouts, Content, Image} from 'ergo-js-bulma'
+import {Html, Source} from 'chorda-core'
+import {Layouts, Content, Image} from 'chorda-bulma'
 import {Mutate} from '../helpers'
 
 const api = {

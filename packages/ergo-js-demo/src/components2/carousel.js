@@ -1,5 +1,5 @@
-import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Image, Carousel} from 'ergo-js-bulma'
+import {Html, Domain} from 'chorda-core'
+import {Layouts, Image, Carousel} from 'chorda-bulma'
 
 import imgUrl_1 from '../img/Yosemite.jpg'
 import imgUrl_2 from '../img/Yosemite 3.jpg'

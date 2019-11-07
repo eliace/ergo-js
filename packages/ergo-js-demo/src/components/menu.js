@@ -1,5 +1,5 @@
-import {Html, Domain, Layout} from 'ergo-js-core'
-import {Layouts, Menu, List} from 'ergo-js-bulma'
+import {Html, Domain, Layout} from 'chorda-core'
+import {Layouts, Menu, List} from 'chorda-bulma'
 
 
 export default () => {

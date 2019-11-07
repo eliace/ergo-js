@@ -1,4 +1,4 @@
-import { Buttons } from 'ergo-js-bulma'
+import { Buttons } from 'chorda-bulma'
 
 function optSelected (mixer) {
     mixer.mix({

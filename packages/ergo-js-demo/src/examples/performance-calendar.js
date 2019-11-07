@@ -1,4 +1,4 @@
-import { Html, Layout, Domain } from 'ergo-js-core'
+import { Html, Layout, Domain } from 'chorda-core'
 import _ from 'lodash'
 //import './performance-calendar.scss'
 

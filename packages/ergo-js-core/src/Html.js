@@ -272,22 +272,34 @@ class Html {
     opts = preparedOpts.build(classDesc.rules)
 
 
-    this._html = opts.html || 'div'
-    this.children = []
+    // TODO этот набор удалить
+//    this._html = opts.html || 'div'
     this.props = opts.props || {}// {classes: {}, styles: {}}
-    this._layout = opts.layout
-    this.context = context || {}
+//    this._layout = opts.layout
     this.renderers = opts.renderers
-    this.dom = {}
 
+    this.context = context || {}
+    this.children = []
 
-    this._internal = {
-      html: this._html,
+    this.dom = {
+      renderer: Config.Renderer,
+      // renderer: {
+      //   h: Config.Renderer.h,
+      //   schedule: Config.Renderer.schedule
+      // },
+      layout: opts.layout,
       props: this.props,
-      children: this.children,
-      options: opts,
-      context: this.context
+      html: opts.html || 'div'
     }
+
+    // этот набор удалить
+    // this._internal = {
+    //   html: this._html,
+    //   props: this.props,
+    //   children: this.children,
+    //   options: opts,
+    //   context: this.context
+    // }
 
     // // прокси-хелпер для опций
     // this.opts = {__target: this}
@@ -550,12 +562,12 @@ class Html {
               content.opt('text', v)
             }
             else {
-              this._internal.text = v
+              this.dom.text = v
             }
           }, o])
         }
         else {
-          this._internal.text = o
+          this.dom.text = o
         }
       }
       else if (i == 'css') {
@@ -629,7 +641,7 @@ class Html {
     // параметры *Id, *Ref
 
       if (Config.DEV) {
-        this._internal.props._owner = this /*{
+        this.dom.props._owner = this /*{
           type: this.constructor.name
         }*/
       }
@@ -671,7 +683,7 @@ class Html {
   }
 
   set classes (value) {
-    this.props['className'] = classNames(this.props['className'], value)
+    this.dom.props['className'] = classNames(this.dom.props['className'], value)
   }
 
   get styles () {
@@ -695,7 +707,7 @@ class Html {
     if (this.children) {
       this.children.forEach(child => {
         if (child.index == null) {
-          c[child.props.key] = child
+          c[child.dom.props.key] = child
         }
       })
     }
@@ -730,12 +742,12 @@ class Html {
 
   render (channel='*') {
 
-    const renderers = this._internal.options.renderers
+    const renderers = this.options.renderers
 
     if (renderers && renderers[channel] && renderers[channel].render) {
-      this.vnode = renderers[channel].render.call(this)
-      delete this._dirty
-      return this.vnode  
+      this.dom.vnode = renderers[channel].render.call(this)
+      delete this.dom._dirty
+      return this.dom.vnode  
     }
 
     const o = this.options
@@ -751,7 +763,7 @@ class Html {
       // }
       return render
     }
-    const _in = this._internal
+    const _dom = this.dom
 
     // if (this.options.render === false) {
     //   return null
@@ -760,38 +772,39 @@ class Html {
     //   // }
     // }
 
-    const h = Config.Renderer.h
+    const h = _dom.renderer.h// Config.Renderer.h
 
-    if (this.children.length || this._layout) {
-      let layout = this._layout
+    let {html, props, text, layout} = this.dom
+
+    if (this.children.length || layout) {
       if (layout == null || layout === true) {
         layout = Layout.sorted // или брать из Config?
       }
-      if (_in.text) {
-        if (this._dirty || !this.vnode) {
-          this.vnode = layout(h, this._html, deepClone(this.props), [...this.children, new Text(_in.text)])
+      if (text) {
+        if (_dom._dirty || !_dom.vnode) {
+          _dom.vnode = layout(h, html, deepClone(props), [...this.children, new Text(text)])
         }
       }
       else {
-        if (this._dirty || !this.vnode) {
-          this.vnode = layout(h, this._html, deepClone(this.props), [...this.children])
+        if (_dom._dirty || !_dom.vnode) {
+          _dom.vnode = layout(h, html, deepClone(props), [...this.children])
         }
       }
     }
-    else if(_in.text || this.props.value) {
-      if (this._dirty || !this.vnode) {
-        this.vnode = h(this._html, deepClone(this.props), _in.text ? [_in.text] : null)
+    else if(text || props.value) {
+      if (_dom._dirty || !_dom.vnode) {
+        _dom.vnode = h(html, deepClone(props), text ? [text] : null)
       }
     }
     else if (o.renderIfEmpty !== false) {
-      if (this._dirty || !this.vnode) {
-        this.vnode = h(this._html, deepClone(this.props))
+      if (_dom._dirty || !_dom.vnode) {
+        _dom.vnode = h(html, deepClone(props))
       }
     }
 
-    delete this._dirty
+    delete _dom._dirty
 
-    return this.vnode
+    return _dom.vnode
   }
 
   // child(path) {
@@ -822,7 +835,7 @@ class Html {
   // }
 
   rerender() {
-    if (this._dirty || !this.vnode) {
+    if (this.dom._dirty || !this.dom.vnode) {
       return
     }
     if (this.options.onDirty) {
@@ -836,11 +849,11 @@ class Html {
     //   }
     //   return
     // }
-    if (!this._dirty && !Config.Renderer.scheduled) {
+    if (!this.dom._dirty && !Config.Renderer.scheduled) {
       Config.Renderer.schedule()
 //      this.context.projector.scheduleRender()
     }
-    this._dirty = true
+    this.dom._dirty = true
     if (this.parent) {
       this.parent.rerender()
     }
@@ -1073,7 +1086,7 @@ class Html {
           this.$content.opt('text', value)
         }
         else {
-          this._internal.text = value != null ? String(value) : value
+          this.dom.text = value != null ? String(value) : value
         }
   //      this.options[name] = String(v)
       }
@@ -1124,7 +1137,7 @@ class Html {
       }
     }
 
-    if (this.vnode && !this._dirty && markDirty) {
+    if (this.dom.vnode && !this.dom._dirty && markDirty) {
       this.rerender()
     }
     return this
@@ -1176,7 +1189,7 @@ class Html {
         }
       }
     }
-    item.props.key = item.options.key || key// 'item-'+i+'-'+Math.random().toString(16).slice(2)
+    item.dom.props.key = item.options.key || key// 'item-'+i+'-'+Math.random().toString(16).slice(2)
     item.index = i
     item.parent = this
 
@@ -1186,7 +1199,7 @@ class Html {
     //   item.bind(ctx[i], i)
     // }
 
-    if (this.vnode && !this._dirty) {
+    if (this.dom.vnode && !this.dom._dirty) {
       this.rerender()
     }
 
@@ -1243,12 +1256,12 @@ class Html {
     }
 
     this.children.push(comp)
-    comp.props.key = i
+    comp.dom.props.key = i
 //        comp.index = 0
     comp.parent = this
     this['$'+i] = comp
 
-    if (this.vnode && !this._dirty) {
+    if (this.dom.vnode && !this.dom._dirty) {
       this.rerender()
     }
 
@@ -1266,7 +1279,7 @@ class Html {
 
     if (typeof key === 'object') {
       child = key
-      key = child.props.key
+      key = child.dom.props.key
     }
     else {
       child = this['$'+key]
@@ -1281,7 +1294,7 @@ class Html {
       delete child.parent
 //      child.destroy()
 
-      if (this.vnode && !this._dirty) {
+      if (this.dom.vnode && !this.dom._dirty) {
         this.rerender()
       }
     }
@@ -1330,7 +1343,7 @@ class Html {
       delete child.parent
 //      child.destroy()
 
-      if (this.vnode && !this._dirty) {
+      if (this.dom.vnode && !this.dom._dirty) {
         this.rerender()
       }
     }
@@ -1415,7 +1428,7 @@ class Html {
 //      let update = []
 //      const entriesByKeys = {}
 
-      const prevIds = this.items.map(itm => {return {i: itm.index, k: itm.props.key, itm, entry: itm.sources[key]}})
+      const prevIds = this.items.map(itm => {return {i: itm.index, k: itm.dom.props.key, itm, entry: itm.sources[key]}})
       const nextIds = []
 
       // let isModified = false
@@ -1695,10 +1708,10 @@ class Html {
 //                  this.addComponent(i, s)
             console.log('restore component', i, s)
           }
-          else if (s && this['$'+i]._internal.context[ch] != entry) {
-            console.warn('Child context overriding', this['$'+i]._internal.context[ch], entry) // TODO может иммет смысл контекст копировать при создании компонента
-            this['$'+i]._internal.context = {...this['$'+i]._internal.context, [ch]: entry}
-            this['$'+i].context = this['$'+i]._internal.context
+          else if (s && this['$'+i].context[ch] != entry) {
+            console.warn('Child context overriding', this['$'+i].context[ch], entry) // TODO может иммет смысл контекст копировать при создании компонента
+            this['$'+i].context = {...this['$'+i].context, [ch]: entry}
+//            this['$'+i].context = this['$'+i].context
             this['$'+i].bind(entry, ch)
             this['$'+i].tryInit()
           }
@@ -1790,7 +1803,7 @@ class Html {
 
     let source = null
 
-    const o = this._internal.options
+    const o = this.options
 
     let key = o[i+'Id']
     let ref = o[i+'Ref']
@@ -1916,9 +1929,9 @@ class Html {
 
     if ((v.name == 'changed'/* || v.name == 'preinit'*/) && !this._destroying) {
 
-      if (!this.streams) {
-        this.streams = {}
-      }
+      // if (!this.streams) {
+      //   this.streams = {}
+      // }
 
       if (o[key+'Changed']) {
         let oldKey = this.sources[key]._keyIt
@@ -2008,7 +2021,7 @@ class Html {
 
 
   use (on) {
-    const _in = this._internal
+    const _in = this.dom
     if (!_in.uses) {
       _in.uses = []
     }
@@ -2037,7 +2050,7 @@ class Html {
       }
 
       // если элемент уже отрисован, то надо обновить компоновку
-      if (this.vnode && !this._dirty) {
+      if (_in.vnode && !_in._dirty) {
         this.rerender()
       }
     }
@@ -2054,7 +2067,7 @@ class Html {
 
 
   eff (callback) {
-    const _in = this._internal
+    const _in = this.dom
     if (!_in.uses) {
       this.use(callback)
     }
@@ -2261,8 +2274,8 @@ class Html {
 
   notify (name, event) {
 //    const handlerName = 'on'+name[0].toUpperCase() + name.substr(1)
-    if (this._internal.options[name]) {
-      return this._internal.options[name].call(this, event, this.sources)
+    if (this.options[name]) {
+      return this.options[name].call(this, event, this.sources)
     }
   }
 

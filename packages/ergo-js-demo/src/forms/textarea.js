@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, Box} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Layouts, Box} from 'chorda-bulma'
 
 
 

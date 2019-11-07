@@ -1,5 +1,5 @@
-import {Html, Source, Domain, Layout} from 'ergo-js-core'
-import { Layouts, Box, ListBox, Action, Field, Title, ButtonWithIcon, Fields, Tools, Image } from 'ergo-js-bulma'
+import {Html, Source, Domain, Layout} from 'chorda-core'
+import { Layouts, Box, ListBox, Action, Field, Title, ButtonWithIcon, Fields, Tools, Image } from 'chorda-bulma'
 import { USERS } from '../../constants'
 import { ExampleBox } from '../../extensions'
 

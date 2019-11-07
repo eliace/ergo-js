@@ -1,4 +1,4 @@
-import { List, Layouts } from 'ergo-js-bulma'
+import { List, Layouts } from 'chorda-bulma'
 
 const LIST = ['Coffee', 'Tea', 'Milk']
 

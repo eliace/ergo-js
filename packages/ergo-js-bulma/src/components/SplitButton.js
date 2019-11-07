@@ -1,4 +1,4 @@
-import {Html, Domain} from 'ergo-js-core'
+import {Html, Domain} from 'chorda-core'
 import {Button} from '../elements'
 import {ButtonWithIcon} from '../extensions'
 import {withDropdown} from '../mixins'

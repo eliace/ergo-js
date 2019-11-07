@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, IconBox, Action} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Layouts, IconBox, Action} from 'chorda-bulma'
 import {ICONS} from '../../constants'
 import { ExampleBox } from '../../extensions'
 

@@ -1,5 +1,5 @@
-import {Html, Domain, Layout} from 'ergo-js-core'
-import {Layouts, Pagination} from 'ergo-js-bulma'
+import {Html, Domain, Layout} from 'chorda-core'
+import {Layouts, Pagination} from 'chorda-bulma'
 
 
 

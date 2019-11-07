@@ -1,5 +1,5 @@
-import {Html, Layout} from 'ergo-js-core'
-import {Layouts, Check} from 'ergo-js-bulma'
+import {Html, Layout} from 'chorda-core'
+import {Layouts, Check} from 'chorda-bulma'
 
 
 class Radio extends Html {

@@ -1,4 +1,4 @@
-import { Domain, Layout, deepClone } from 'ergo-js-core'
+import { Domain, Layout, deepClone } from 'chorda-core'
 import { stopMouseDown, isVisible } from '../dom'
 import withPortalSource from './withPortalSource'
 

@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, Button, Buttons, IconBox, Box, Title, Card, Action} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Layouts, Button, Buttons, IconBox, Box, Title, Card, Action} from 'chorda-bulma'
 
 import Prism from 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'

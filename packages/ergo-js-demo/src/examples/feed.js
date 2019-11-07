@@ -1,4 +1,4 @@
-import { Domain } from 'ergo-js-core'
+import { Domain } from 'chorda-core'
 
 function fetchUserPosts(id) {
     return fetch(

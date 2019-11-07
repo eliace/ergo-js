@@ -1,4 +1,4 @@
-import {Domain, Layout, Config} from 'ergo-js-core'
+import {Domain, Layout, Config} from 'chorda-core'
 import {createVNode, renderVNode} from './Renderer'
 import {ReactEvents} from './events'
 import {ReactOptions} from './options'

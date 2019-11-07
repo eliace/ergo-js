@@ -1,5 +1,5 @@
-import {Html, Domain} from 'ergo-js-core'
-import {Layouts, Breadcrumb} from 'ergo-js-bulma'
+import {Html, Domain} from 'chorda-core'
+import {Layouts, Breadcrumb} from 'chorda-bulma'
 
 export default () => {
   return {

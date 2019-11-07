@@ -1,4 +1,4 @@
-import { IconBox } from "ergo-js-bulma"
+import { IconBox } from "chorda-bulma"
 import {ICONS} from '../../constants'
 
 export default () => {

@@ -1,4 +1,4 @@
-import {Html} from 'ergo-js-core'
+import {Html} from 'chorda-core'
 //import 'font-awesome/scss/font-awesome.scss'
 
 class Icon extends Html {

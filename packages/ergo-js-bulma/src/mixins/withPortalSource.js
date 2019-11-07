@@ -1,4 +1,4 @@
-import { Layout, deepClone, Config } from 'ergo-js-core'
+import { Layout, deepClone, Config } from 'chorda-core'
 
 export default function withPortalSource (mixer) {
     mixer.merge({
@@ -21,7 +21,7 @@ export default function withPortalSource (mixer) {
             },
             'portal': {
                 render: function () {
-                    const {html, props} = this._internal
+                    const {html, props} = this.dom
                     const p = deepClone(props)
                     delete p.key // ключ не пригодится
                     return Layout.sorted(Config.Renderer.h, html, p, this.children || [])

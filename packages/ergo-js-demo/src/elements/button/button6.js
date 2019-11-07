@@ -1,4 +1,4 @@
-import { Action } from 'ergo-js-bulma'
+import { Action } from 'chorda-bulma'
 
 export default () => {
     return {

@@ -1,4 +1,4 @@
-import { Buttons } from 'ergo-js-bulma'
+import { Buttons } from 'chorda-bulma'
 
 export default () => {
     return {

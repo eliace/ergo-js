@@ -1,4 +1,4 @@
-import { Html } from 'ergo-js-core'
+import { Html } from 'chorda-core'
 import { IconBox, Image as ImageBox, Switch, Check } from '../elements'
 
 class Item extends Html {

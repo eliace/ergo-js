@@ -1,5 +1,5 @@
-import {Html, Source} from 'ergo-js-core'
-import {Layouts, Table} from 'ergo-js-bulma'
+import {Html, Source} from 'chorda-core'
+import {Layouts, Table} from 'chorda-bulma'
 
 import {COUNTRIES} from '../constants'
 

@@ -1,5 +1,4 @@
 const path = require('path')
-const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -8,9 +7,9 @@ module.exports = {
         app: './src/index.js'
     },
     output: {
-        library: 'chorda-core',
+        library: 'chorda-react',
         libraryTarget: 'umd',
-        filename: 'chorda-core.js'    
+        filename: 'chorda-react.js'    
     },
     module: {
         rules: [{
@@ -25,7 +24,16 @@ module.exports = {
             }
         }]
     },
-    plugins: [
-        /*new CompressionPlugin()*/
-    ]
+    plugins: [],
+    resolve: {
+        alias: {
+            'chorda-core': path.resolve('../ergo-js-core/src')
+        }    
+    },
+    externals: {
+        'chorda-core': 'chorda-core',
+        'react': 'react',
+        'create-react-class': 'create-react-class',
+        'react-dom': 'react-dom'
+    }
 }

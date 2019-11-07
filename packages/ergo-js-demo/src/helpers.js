@@ -1,4 +1,4 @@
-import {IconBox} from 'ergo-js-bulma'
+import {IconBox} from 'chorda-bulma'
 
 
 export const Mixins = {

@@ -1,4 +1,4 @@
-import {Html, Text} from 'ergo-js-core'
+import {Html, Text} from 'chorda-core'
 
 
 export default () => {

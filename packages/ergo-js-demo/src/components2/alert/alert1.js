@@ -1,4 +1,4 @@
-import {Layouts, Alert} from 'ergo-js-bulma'
+import {Layouts, Alert} from 'chorda-bulma'
 
 import {LOREM_IPSUM} from '../../constants'
 

@@ -1,5 +1,5 @@
-import {Domain, Effect} from 'ergo-js-core'
-import {Layouts, Button, Buttons} from 'ergo-js-bulma'
+import {Domain, Effect} from 'chorda-core'
+import {Layouts, Button, Buttons} from 'chorda-bulma'
 
 import _ from 'lodash'
 import Velocity from 'velocity-animate/velocity'

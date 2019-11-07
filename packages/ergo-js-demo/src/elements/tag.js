@@ -1,5 +1,5 @@
-import {Html} from 'ergo-js-core'
-import {Layouts, Box, Tag, Delete, IconBox, Image as ImageBox} from 'ergo-js-bulma'
+import {Html} from 'chorda-core'
+import {Layouts, Box, Tag, Delete, IconBox, Image as ImageBox} from 'chorda-bulma'
 
 class Tags extends Html {
   config () {

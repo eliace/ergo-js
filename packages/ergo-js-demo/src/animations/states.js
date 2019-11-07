@@ -1,5 +1,5 @@
-import {Html, Domain, Text, Layout} from 'ergo-js-core'
-import {Layouts} from 'ergo-js-bulma'
+import {Html, Domain, Text, Layout} from 'chorda-core'
+import {Layouts} from 'chorda-bulma'
 
 import {Mutate, Mixins} from '../helpers'
 

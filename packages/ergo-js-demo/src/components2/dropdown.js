@@ -1,5 +1,5 @@
-import {Html, Source, Domain, Layout} from 'ergo-js-core'
-import {Layouts, Box, IconBox, Button, Input, DropdownSelect, SplitButton, List, withDropdown, DropdownInput, DropdownButton, ListBox} from 'ergo-js-bulma'
+import {Html, Source, Domain, Layout} from 'chorda-core'
+import {Layouts, Box, IconBox, Button, Input, DropdownSelect, SplitButton, List, withDropdown, DropdownInput, DropdownButton, ListBox} from 'chorda-bulma'
 
 import {ButtonWithIcon} from '../extensions'
 //import {Mutate, Dropdownable as withDropdown} from '../helpers'

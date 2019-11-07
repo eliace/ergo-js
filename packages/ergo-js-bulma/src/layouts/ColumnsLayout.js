@@ -1,4 +1,4 @@
-import {Layout, defaultCompare, Config} from 'ergo-js-core'
+import {Layout, defaultCompare, Config} from 'chorda-core'
 //import {h} from 'maquette'
 
 // function columnRender (comp, i) {

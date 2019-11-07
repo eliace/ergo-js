@@ -1,4 +1,4 @@
-import { Domain } from "ergo-js-core"
+import { Domain } from "chorda-core"
 import { Notification } from '../elements'
 import { delay, Collection } from '../utils'
 
