@@ -55,8 +55,8 @@ module.exports = {
     ],
     resolve: {
         alias: {
-            'ergo-js-core': path.resolve('../ergo-js-core'),
-            'ergo-js-react': path.resolve('../ergo-js-react'),
+            'chorda-core': path.resolve('../ergo-js-core/src'),
+            'chorda-react': path.resolve('../ergo-js-react/src'),
         }
     }
 }

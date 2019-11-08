@@ -1,4 +1,4 @@
-import {Html, Layout, Source} from 'ergo-js-core'
+import {Html, Layout, Source} from 'chorda-core'
 
 class NavItem extends Html {
   config () {

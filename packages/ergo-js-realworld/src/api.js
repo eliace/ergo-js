@@ -19,3 +19,13 @@ export function getUser (token) {
   return axios.get('https://conduit.productionready.io/api/user', {headers: {Authorization: 'Token '+token}})
     .then(response => response.data)
 }
+
+export function getComments (slug) {
+  return axios.get('https://conduit.productionready.io/api/articles/'+slug+'/comments')
+    .then(response => response.data)
+}
+
+export function getArticle (slug) {
+  return axios.get('https://conduit.productionready.io/api/articles/'+slug)
+    .then(response => response.data)
+}

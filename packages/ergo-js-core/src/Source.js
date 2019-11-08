@@ -614,8 +614,8 @@ class Source {
   }
 
 
-  entry () {
-    throw new Error('Method entry not supported')
+  $at (k) {
+    return this.$entry(k)
   }
 
   $entry (k) {
@@ -1002,8 +1002,8 @@ class Source {
     // }
   }
 
-  $all (name, target) {
-    return this.$iterator(name, target)
+  $all (...args) {
+    return this.$iterator.apply(this, args)
   }
 
 
@@ -1088,13 +1088,13 @@ class Source {
     this.subscribers = this.subscribers.filter(s => s.target != target)
   }
 
-  subscribe (name, callback, channels='', target=this) {
+  subscribe (name, callback, channels='', target) {
     let subscriber = null
     if (arguments.length == 1) {
       subscriber = arguments[0]
     }
     else {
-      subscriber = {name, callback, channels: [].concat(channels), target}
+      subscriber = {name, callback, channels: [].concat(channels), target: target || this}
     }
     this.subscribers.push(subscriber)
     return subscriber

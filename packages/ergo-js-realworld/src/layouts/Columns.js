@@ -1,10 +1,10 @@
-import {Layout, defaultCompare, Config} from 'ergo-js-core'
+import {Layout, defaultCompare, Config} from 'chorda-core'
 
 
 export default function (h, html, props, components) {
   return h(html, props, [
     h('div.row', {}, components.sort(defaultCompare).map(c => {
-      return h('div', {className: c._internal.options.col}, [c.render()])
+      return h('div', {className: c.options.col}, [c.render()])
     }))
   ])
 }

@@ -1,4 +1,4 @@
-import {Html, Layout, Source, Domain, Effect} from 'ergo-js-core'
+import {Html, Layout, Source, Domain, Effect} from 'chorda-core'
 import dayjs from 'dayjs'
 
 //import {getArticles, getTags} from '../effectors'
@@ -10,23 +10,23 @@ import ArticleItem from '../elements/ArticleItem'
 import Nav from '../elements/Nav'
 
 
-class CancelableEffect extends Effect {
-  constructor (name, promise, options, owner) {
-    super(name, promise, {...options, channels: ['cancel']}, owner)
-  }
+// class CancelableEffect extends Effect {
+//   constructor (name, promise, options, owner) {
+//     super(name, promise, {...options, channels: ['cancel']}, owner)
+//   }
 
-  cancelResolver (e) {
-    console.log('Canceling')
-    this.finalize('cancel')
-    this.reject('cancel')
-  }
+//   cancelResolver (e) {
+//     console.log('Canceling')
+//     this.finalize('cancel')
+//     this.reject('cancel')
+//   }
 
 
-  // resolveCollisions (collisions) {
-  //   console.log('cancel')
-  //   collisions.forEach(c => c.finalize('cancel'))
-  // }
-}
+//   // resolveCollisions (collisions) {
+//   //   console.log('cancel')
+//   //   collisions.forEach(c => c.finalize('cancel'))
+//   // }
+// }
 
 
 export default () => {
@@ -43,33 +43,36 @@ export default () => {
         properties: {
           feed: String,
           feedTabs: Array,
-          isLoadingArticles: Boolean
+          isLoadingArticles: Boolean,
+          isLoadingTags: Boolean
         }
       }),
-      data: function () {
-        return new Domain({
-          tags: [],
-          articles: []
-        }, {
-          actions: {
-            loadAllArticles: async function () {
-              this.$set('articles', [])
-              const v = await getAllArticles()
-              this.$set('articles', v.articles)
-            },
-            loadTags: async function () {
-              this.$set('tags', [])
-              const v = await getTags()
-              this.$set('tags', v.tags)
-            },
-            loadArticlesByTag: async function (tag) {
-              this.set('articles', [])
-              const v = await getArticlesByTag(tag)
-              this.set('articles', v.articles)
-            }
+      data: () => new Domain({
+        tags: [],
+        articles: []
+      }, {
+        properties: {
+          articles: Array,
+          tags: Array
+        },
+        actions: {
+          loadAllArticles: async function () {
+            this.articles = []
+            const v = await getAllArticles()
+            this.articles = v.articles
+          },
+          loadTags: async function () {
+            this.$set('tags', [])
+            const v = await getTags()
+            this.$set('tags', v.tags)
+          },
+          loadArticlesByTag: async function (tag) {
+            this.set('articles', [])
+            const v = await getArticlesByTag(tag)
+            this.set('articles', v.articles)
           }
-        })
-      }
+        }
+      })
     },
     allJoined: function ({view, data}) {
       const {loadAllArticles, loadTags, loadArticlesByTag} = data
@@ -80,7 +83,7 @@ export default () => {
           view.feedTabs = [view.feedTabs[0], {name: '#'+tag, id: tag}]
           loadArticlesByTag(tag)
         }
-      }, this)
+      })
       view.createAction('selectTab', (id) => {
         if (id != view.feed) {
           view.feed = id
@@ -88,78 +91,27 @@ export default () => {
 //          data.set('feedTabs', [data.$firstOf('feedTabs')])
           loadAllArticles()
         }
-      }, this)
+      })
 
       view.$on('init', () => {
         loadAllArticles()
         loadTags()
-      }, this)
-
-      const delay = view.createAction('delay', (t) => {
-        let cancel = null
-        const promise = new Promise((resolve, reject) => {
-          cancel = reject
-          setTimeout(() => {
-            resolve()
-          }, t)
-        })
-        return promise
-//        return new Effect('delay', promise, {cancel}, view)
-      }, this, {effect: CancelableEffect})
-
-      view.$watch(() => true, (e) => {
-        console.log(e)
       })
 
-      // function delay (t) {
-      //   const promise = new Promise((resolve, reject) => {
-      //     setTimeout(() => {
-      //       resolve()
-      //     }, t)
-      //   })
-      //   return new Effect('delay', promise)
-      // }
-
-      data.$on(loadAllArticles.start, async () => {
-        await delay(3000)
+      data.$on([loadAllArticles.start, loadArticlesByTag.start], () => {
         view.isLoadingArticles = true
-      }, this)
-      data.$on(loadAllArticles.done, () => {
-        delay.cancel()
-//        console.log(view.subscribers.filter(s => s instanceof Effect))
-//         view.subscribers.filter(s => s.name == 'delay' && s instanceof Effect).forEach(eff => {
-//           console.log('cancel', eff.options)
-//           if (eff.options.cancel) {
-//             eff.options.cancel('Cancel')
-//           }
-// //          eff.options.cancel()//.finalize('cancel')
-//         })
-        // view.$emit(delay.on, null, null, 'cancel')
-        // console.log(view.subscribers.filter(s => s instanceof Effect))
+      })
+      data.$on([loadAllArticles.done, loadArticlesByTag.done], () => {
         view.isLoadingArticles = false
-      }, this)
+      })
 
-      // data.$watch(e => (e.name == loadAllArticles.on || e.name == loadArticlesByTag.on) && e.channel == 'start', (e) => {
-      //   view.isLoadingArticles = true
-      // })
-      // data.$watch(e => (e.name == loadAllArticles.on || e.name == loadArticlesByTag.on) && e.channel == 'done', (e) => {
-      //   view.isLoadingArticles = false
-      // })
+      data.$on(loadTags.start, () => {
+        view.isLoadingTags = true
+      })
+      data.$on(loadTags.done, () => {
+        view.isLoadingTags = false
+      })
 
-
-
-      // data.$watch(e => e.name == loadAllArticles.on || e.name == loadArticlesByTag.on, this, e => {
-      //   page.set('loadingArticles', true)
-      // })
-      // data.$watch(e => e.name == loadAllArticles.done || e.name == loadArticlesByTag.done, this, e => {
-      //   page.set('loadingArticles', false)
-      // })
-      // data.$watch(loadTags.on, this, e => {
-      //   page.set('loadingTags', true)
-      // })
-      // data.$watch(loadTags.done, this, e => {
-      //   page.set('loadingTags', false)
-      // })
     },
     // TEMPLATE
     css: 'home-page',
@@ -187,14 +139,14 @@ export default () => {
           css: 'feed-toggle',
           $nav: {
             scope: {
-              data: ctx => ctx.view.$entry('feedTabs')
+              data: ctx => ctx.view.$at('feedTabs')
             },
             as: Nav,
             css: 'nav-pills outline-active',
 //            viewId: 'feedTabs',
 //            items: stream('data:feedTabs'),
             dataChanged: function (v, s) {
-              this.opt('items', s.$iterator())
+              this.opt('items', s.$all())
             },
             defaultItem: {
 //              active: value('data', (v) => v.feed == this.options.key),
@@ -213,18 +165,21 @@ export default () => {
           }
         },
         $articles: {
+          scope: {
+            data: ctx => ctx.data.$at('articles')
+          },
           // FIXME PassThrough Layout
-          dataId: 'articles',
+//          dataId: 'articles',
           dataChanged: function (v, s) {
-            this.opt('items', s.$iterator())
+            this.opt('items', s.$all())
           },
           defaultItem: {
             as: ArticleItem
           },
           viewChanged: function (v, s) {
-            this.opt('components', {loadingArticles: s.isLoadingArticles})
+            this.opt('components', {loading: s.isLoadingArticles})
           },
-          $loadingArticles: {
+          $loading: {
             css: 'article-preview',
             html: 'div',
             text: 'Loading...'
@@ -239,28 +194,33 @@ export default () => {
           text: 'Popular Tags'
         },
         $tags: {
+          scope: {
+            data: ctx => ctx.data.$at('tags')
+          },
           css: 'tag-list',
-          dataId: 'tags',
+//          dataId: 'tags',
           dataChanged: function (v, s) {
-            this.opt('items', s.$iterator())
+            this.opt('items', s.$all())
           },
           defaultItem: {
             html: 'a',
             css: 'tag-pill tag-default',
             href: '',
-            dataChanged: Mutate.Text,
+            dataChanged: function (v) {
+              this.opt('text', v)
+            },
             onClick: function (e, {view, data}) {
               e.preventDefault()
               view.selectTag(data.$value)
             }
           }
         },
-        $loadingTags: {
+        $loading: {
           html: 'span',
           text: 'Loading...'
         },
         viewChanged: function (v, s) {
-          this.opt('components', s)
+          this.opt('components', {loading: s.isLoadingTags})
         },
       }
     }

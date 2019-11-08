@@ -1,4 +1,4 @@
-import {Html, Domain} from 'ergo-js-core'
+import {Html, Domain} from 'chorda-core'
 import {Mutate} from '../utils'
 
 const IF = {

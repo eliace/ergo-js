@@ -35,8 +35,12 @@ class CellModel extends Domain {
                     this.searchResults = {options: null}
 
                     setTimeout(() => {
-                        this.isSearching = false
-                        this.searchResults = {options: Math.floor(Math.random() * 5)}
+                        this.$merge({
+                            isSearching: false,
+                            searchResults: {options: Math.floor(Math.random() * 5)}    
+                        })
+                        // this.isSearching = false
+                        // this.searchResults = {options: Math.floor(Math.random() * 5)}
                     }, randomMilliseconds())
                 }
             }
@@ -79,6 +83,7 @@ class Cell extends Html {
                     viewId: 'searchResults',
                     $content: {
                         viewChanged: function (v) {
+//                            console.count('upd results', v)
                             const options = v.options
                             return {
                                 classes: {

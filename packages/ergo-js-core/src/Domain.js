@@ -214,7 +214,7 @@ class Domain extends Source {
 
 
   createAction (name, callback, target, options) {
-    this.subscribe(name, callback, undefined, target)
+    this.subscribe(name, callback, undefined, target || this._owner)
     return this.createEvent(name, {method: true, effect: Effect, ...options})
   }
 
@@ -222,15 +222,29 @@ class Domain extends Source {
     const e = (...args) => {
       return this.$emit(name, args, options, channel)
     }
-    e.on = name//(evt) => evt.name == name && evt.channel == CH_DEFAULT
-    e.done = name+':done'//(evt) => evt.name == name && evt.channel == 'done'
-    e.fail = name+':fail'//(evt) => evt.name == name && evt.channel == 'fail'
-//    e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
-    e.start = name+':start'//(evt) => evt.name == name && evt.channel == 'cancel'
 
-    e.cancel = (data, opts) => {
-      this.$emit(name, data, opts, 'cancel')
-    }
+    e._name = name
+    e._channel = channel
+//    e.on = name//(evt) => evt.name == name && evt.channel == CH_DEFAULT
+//    e.done = name+':done'//(evt) => evt.name == name && evt.channel == 'done'
+//    e.fail = name+':fail'//(evt) => evt.name == name && evt.channel == 'fail'
+//    e.cancel = name+':cancel'//(evt) => evt.name == name && evt.channel == 'cancel'
+//    e.start = name+':start'//(evt) => evt.name == name && evt.channel == 'cancel'
+    e.start = () => {}
+    e.start._name = name
+    e.start._channel = 'start'
+
+    e.done = () => {}
+    e.done._name = name
+    e.done._channel = 'done'
+
+    e.fail = () => {}
+    e.fail._name = name
+    e.fail._channel = 'fail'
+
+    e.cancel = () => {}
+    e.cancel._name = name
+    e.cancel._channel = 'cancel'
 
     this.actions[name] = e
     if (this[name]) {
@@ -282,8 +296,17 @@ class Domain extends Source {
   }
 
   $on (name, callback, target, channel) {
-    const [n, c] = name.split(':')
-    return this.subscribe(n, callback, c || channel || this._key, target)
+    [].concat(name).forEach(n => {
+      let c = channel
+      if (typeof n === 'function') {
+        c = n._channel
+        n = n._name
+      }
+//      console.log(n, channel)
+      this.subscribe(n, callback, c || this._key, target || this._owner)
+    })
+//    const [n, c] = name.split(':')
+//    return this.subscribe(name, callback, c || channel || this._key, target || this._owner)
   }
 
   off (listener) {
@@ -296,7 +319,7 @@ class Domain extends Source {
   }
 
   $watch (when, callback, target) {
-    this.subscribe({when, callback, target, channels: []})
+    this.subscribe({when, callback, target: target || this._owner, channels: []})
     //    this.watchers.push({when, callback, channels: [].concat(channel)})
   }
 

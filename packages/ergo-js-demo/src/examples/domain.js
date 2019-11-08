@@ -322,7 +322,7 @@ export default () => {
           '*': {
             render: function () {
               const {delegate} = this.sources
-              const {html, props} = this._internal
+              const {html, props} = this.dom
               const components = delegate.get('components').map(c => {
                 // Renderable
                 return {

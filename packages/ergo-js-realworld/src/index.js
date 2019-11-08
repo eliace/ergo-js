@@ -1,5 +1,5 @@
 //import {createProjector} from 'maquette'
-import {Html, Domain} from 'ergo-js-core'
+import {Html, Domain} from 'chorda-core'
 import {Router} from 'director/build/director'
 //import Context from '../src/react/Context'
 
@@ -11,7 +11,7 @@ import Home from './pages/Home'
 // import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 // import Edit from './pages/Edit'
-// import Article from './pages/Article'
+import Article from './pages/Article'
 
 import {getUser} from './api'
 
@@ -44,8 +44,9 @@ const routes = {
   '/editor': function () {page.setCurrent('edit')},
   '/editor/:slug': function () {page.set('current', 'edit')},
   '/article/:slug': function (slug) {
-    page.set('slug', slug)
-    page.setCurrent('article')
+    page.slug = slug
+    page.current = 'article'
+//    page.setCurrent('article')
 //    data.loadArticle(slug)
 //    page.mergeWith({current: ''})
   },
@@ -78,6 +79,8 @@ const page = new Domain({
   current: null,
 }, {
   properties: {
+    current: String,
+    slug: String,
     home: v => v.current == 'home',
     signIn: v => v.current == 'signIn',
     signUp: v => v.current == 'signUp',
@@ -127,7 +130,7 @@ return new Html({
     token
   },
   $header: Header,
-  // $article: Article,
+  $article: Article,
   // $edit: Edit,
   $settings: Settings,
   // $profile: Profile,

@@ -27,7 +27,12 @@ const HTML_OPTIONS = {
   enctype: true,
   href: true,
   id: true,
-  innerHTML: 'dangerouslySetInnerHTML',
+  innerHTML: {
+    set: function (v) {
+      this.dom.props.dangerouslySetInnerHTML = {__html: v}
+    }
+  },
+//  innerHTML: 'dangerouslySetInnerHTML',
   method: true,
   name: true,
   placeholder: true,

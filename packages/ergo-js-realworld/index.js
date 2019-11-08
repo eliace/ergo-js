@@ -1,5 +1,5 @@
-import { Config } from 'ergo-js-core'
-import * as ReactRenderer from 'ergo-js-react'
+import { Config } from 'chorda-core'
+import * as ReactRenderer from 'chorda-react'
 import {createApp} from './src'
 
 Config.use(ReactRenderer.Context)

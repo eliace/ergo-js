@@ -1,4 +1,4 @@
-import {Html, Layout, Source} from 'ergo-js-core'
+import {Html, Layout, Source} from 'chorda-core'
 import dayjs from 'dayjs'
 import {Mutate} from '../utils'
 import Tags from './Tags'

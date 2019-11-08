@@ -349,7 +349,8 @@ class Html {
           }
 //          else {
           this.sources[i]._key = i
-//          }
+          this.sources[i]._owner = this
+  //          }
         }
         if (!this.joints) {
           this.joints = {}
@@ -364,6 +365,7 @@ class Html {
         // this.joints['all'] = [unjoin]
         for (let i in this.sources) {
           delete this.sources[i]._key
+          delete this.sources[i]._owner
         }
 
         isJoined = true
@@ -1414,7 +1416,7 @@ class Html {
       value = this.sources[key]
     }
     if (value instanceof Source) {
-      value = value.get()
+      value = value.$get()
     }
     if (value instanceof Source.Stream) {
 
@@ -1681,7 +1683,7 @@ class Html {
     }
 
     if (value instanceof Source) {
-      value = value.get()
+      value = value.$get()
     }
 
     if (value instanceof Source.Stream) {
@@ -1953,7 +1955,7 @@ class Html {
       if (o.anyChanged) {
         v = {}
         for (let i in this.sources) {
-          v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].get()
+          v[i] = /*this.sources[i].cache != null ? this.sources[i].cache :*/ this.sources[i].$get()
         }
         // TODO здесь нужно проинициализировать потоки
         const bindOpts = o.anyChanged.call(this, v, this.sources/*this.streams*/, this.sources)

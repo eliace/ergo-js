@@ -1,7 +1,6 @@
 import {Html, Layout, Source} from '../../src'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
-import PassThroughLayout from '../layouts/PassThrough'
 import Nav from '../elements/Nav'
 import ArticleItem from '../elements/ArticleItem'
 import {getArticles} from '../effectors'
@@ -117,7 +116,7 @@ export default () => {
         css: 'container',
         layout: ColumnsLayout,
         $content: {
-          layout: PassThroughLayout,
+          layout: Layout.passthru,
           col: 'col-xs-12 col-md-10 offset-md-1',
           $avatar: {
             html: 'img',

@@ -1,65 +1,66 @@
-import {Html, Layout, Source as Domain} from '../../src'
+import {Html, Layout, Domain} from 'chorda-core'
 import {Mutate} from '../utils'
 import ColumnsLayout from '../layouts/Columns'
-import PassThroughLayout from '../layouts/PassThrough'
 import ArticleMeta from '../components/ArticleMeta'
 import Tags from '../elements/Tags'
 import dayjs from 'dayjs'
-import {getComments} from '../effectors'
-
-
-
+import * as api from '../api'
 
 
 class Comment extends Html {
-  static defaultOpts = {
-    css: 'card',
-    $block: {
-      css: 'card-block',
-      $content: {
-        css: 'card-text',
-        dataChanged: function (v) {
-          this.opt('text', v.body)
-        }
-//        text: 'With supporting text below as a natural lead-in to additional content.'
-      }
-    },
-    $footer: {
-      css: 'card-footer',
-      $avatar: {
-        html: 'a',
-        href: '',
-        css: 'comment-author',
-        $img: {
-          html: 'img',
-          css: 'comment-author-img',
+  config () {
+    return {
+      scope: {
+        data: ctx => ctx.data
+      },
+      css: 'card',
+      $block: {
+        css: 'card-block',
+        $content: {
+          css: 'card-text',
           dataChanged: function (v) {
-            this.opt('src', v.author.image)
+            this.opt('text', v.body)
           }
-//          src: 'http://i.imgur.com/Qr71crq.jpg'
+  //        text: 'With supporting text below as a natural lead-in to additional content.'
         }
       },
-      $div: {
-        html: 'span',
-        innerHTML: '&nbsp;'
-      },
-      $author: {
-        html: 'a',
-        css: 'comment-author',
-        dataChanged: function (v) {
-          this.opt('text', v.author.username)
-          this.opt('href', '/#/@'+v.author.username)
+      $footer: {
+        css: 'card-footer',
+        $avatar: {
+          html: 'a',
+          href: '',
+          css: 'comment-author',
+          $img: {
+            html: 'img',
+            css: 'comment-author-img',
+            dataChanged: function (v) {
+              this.opt('src', v.author.image)
+            }
+  //          src: 'http://i.imgur.com/Qr71crq.jpg'
+          }
+        },
+        $div: {
+          html: 'span',
+          innerHTML: '&nbsp;'
+        },
+        $author: {
+          html: 'a',
+          css: 'comment-author',
+          dataChanged: function (v) {
+            this.opt('text', v.author.username)
+            this.opt('href', '/#/@'+v.author.username)
+          }
+  //        text: 'Jacob Schmidt'
+        },
+        $date: {
+          html: 'span',
+          css: 'date-posted',
+  //        text: 'Dec 29th'
+          dataChanged: function (v) {
+            this.opt('text', dayjs(v.createdAt).format('MMMM D, YYYY'))
+          }
         }
-//        text: 'Jacob Schmidt'
-      },
-      $date: {
-        html: 'span',
-        css: 'date-posted',
-//        text: 'Dec 29th'
-        dataChanged: function (v) {
-          this.opt('text', dayjs(v.createdAt).format('MMMM D, YYYY'))
-        }
-      }
+      }  
     }
   }
 }
@@ -67,32 +68,37 @@ class Comment extends Html {
 
 
 class EditableComment extends Html {
-  static defaultOpts = {
-    html: 'form',
-    css: 'card comment-form',
-    $block: {
-      css: 'card-block',
-      $control: {
-        html: 'textarea',
-        css: 'form-control',
-        placeholder: 'Write a comment...',
-        rows: 3
-      }
-    },
-    $footer: {
-      css: 'card-footer',
-      $avatar: {
-        html: 'img',
-        css: 'comment-author-img',
-        pageChanged: function (v) {
-          this.opt('src', v.user.image)
+  config () {
+    return {
+      scope: {
+        data: ctx.data
+      },
+      html: 'form',
+      css: 'card comment-form',
+      $block: {
+        css: 'card-block',
+        $control: {
+          html: 'textarea',
+          css: 'form-control',
+          placeholder: 'Write a comment...',
+          rows: 3
         }
       },
-      $postBtn: {
-        html: 'button',
-        css: 'btn btn-sm btn-primary',
-        text: 'Post Comment'
-      }
+      $footer: {
+        css: 'card-footer',
+        $avatar: {
+          html: 'img',
+          css: 'comment-author-img',
+          dataChanged: function (v) {
+            this.opt('src', v.user.image)
+          }
+        },
+        $postBtn: {
+          html: 'button',
+          css: 'btn btn-sm btn-primary',
+          text: 'Post Comment'
+        }
+      }  
     }
   }
 }
@@ -100,12 +106,30 @@ class EditableComment extends Html {
 
 
 
-
-
-
 export default () => {
   return {
-    dataId: 'article',
+    scope: {
+      page: (ctx) => ctx.page,
+      data: () => new Domain({
+        author: {}
+      }, {
+        properties: {
+          author: Object
+        },
+        actions: {
+          load: async function (slug) {
+            const v = await api.getArticle(slug)
+            this.$value = v.article    
+          }
+        }
+      })
+    },
+    allJoined: function ({data, page}) {
+      data.$on('init', () => {
+        data.load(page.slug)
+      })
+    },
+//    dataId: 'article',
     sourcesBound: function ({page, data}) {
 
       const loadComments = data.effect('loadComments', this, async () => {
@@ -133,8 +157,9 @@ export default () => {
         css: 'container',
         $title: {
           html: 'h1',
-          dataId: 'title',
-          dataChanged: Mutate.Text
+          dataChanged: function (v) {
+            this.opt('text', v.title)
+          }
         },
         $meta: {
           as: ArticleMeta
@@ -149,8 +174,9 @@ export default () => {
           css: 'col-md-12',
           $content: {
             html: 'p',
-            dataId: 'body',
-            dataChanged: Mutate.Text
+            dataChanged: function (v) {
+              this.opt('text', v.body)
+            }
 //            text: 'Web development technologies have evolved at an incredible clip over the past few years.'
           },
           $intro: {
@@ -160,15 +186,19 @@ export default () => {
           },
           $desc: {
             html: 'p',
-            dataId: 'description',
-            dataChanged: Mutate.Text
+            dataChanged: function (v) {
+              this.opt('text', v.description)
+            }
           },
           $tags: {
             as: Tags,
-            dataId: 'tagList',
-            dataChanged: Mutate.Items,
+            dataChanged: function (v, s) {
+              this.opt('items', s.$at('tagList').$all('data'))
+            },
             defaultItem: {
-              dataChanged: Mutate.Text,
+              dataChanged: function (v) {
+                this.opt('text', v)
+              },
               css: 'tag-outline',
             }
           }
@@ -191,10 +221,13 @@ export default () => {
             newComment: false
           },
           pageChanged: function (v, k) {
-            this.opt('$components', this.sources[k])
-          }, //Mutate.Components,
-          dataId: 'comments',
-          dataChanged: Mutate.Items,
+            this.opt('components', this.sources[k])
+          },
+          dataChanged: function (v, s) {
+            this.opt('items', s.$at('comments').$all('data'))
+          },
+          // dataId: 'comments',
+          // dataChanged: Mutate.Items,
           $newComment: {
             as: EditableComment
           },
